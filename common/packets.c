@@ -38,6 +38,21 @@
 
 #include "packets.h"
 
+/********************************************************************** 
+ The current packet functions don't handle signed values
+ correct. This will probably lead to problems when compiling
+ freeciv for a platform which has 64 bit ints. Also 16 and 8
+ bits values cannot be signed without using tricks (look in e.g
+ receive_packet_city_info() )
+
+  TODO to solve these problems:
+    1) create real signed integer functions
+    2) change the prototypes of the unsigned functions
+       to unsigned int instead of int
+    3) use the new signed functions where they are necessary
+***********************************************************************/
+
+
 /* A pack_iter is used to iterate through a packet, while ensuring that
  * we don't read off the end of the packet, by comparing (ptr-base) vs len.
  * Note that (ptr-base) gives the number of bytes read so far, and
@@ -58,19 +73,19 @@ static void pack_iter_init(struct pack_iter *piter, struct connection *pc);
 static void pack_iter_end(struct pack_iter *piter, struct connection *pc);
 static int  pack_iter_remaining(struct pack_iter *piter);
 
-/* put_int16 and put_string are non-static for meta.c */
+/* put_uint16 and put_string are non-static for meta.c */
 
-static unsigned char *put_int8(unsigned char *buffer, int val);
-static unsigned char *put_int32(unsigned char *buffer, int val);
+static unsigned char *put_uint8(unsigned char *buffer, int val);
+static unsigned char *put_uint32(unsigned char *buffer, int val);
 
 static unsigned char *put_bit_string(unsigned char *buffer, char *str);
 static unsigned char *put_city_map(unsigned char *buffer, char *str);
 static unsigned char *put_tech_list(unsigned char *buffer, int *techs);
 
 /* iget = iterator versions */
-static void iget_int8(struct pack_iter *piter, int *val);
-static void iget_int16(struct pack_iter *piter, int *val);
-static void iget_int32(struct pack_iter *piter, int *val);
+static void iget_uint8(struct pack_iter *piter, int *val);
+static void iget_uint16(struct pack_iter *piter, int *val);
+static void iget_uint32(struct pack_iter *piter, int *val);
 
 static void iget_string(struct pack_iter *piter, char *mystring, int navail);
 static void iget_bit_string(struct pack_iter *piter, char *str, int navail);
@@ -79,20 +94,20 @@ static void iget_tech_list(struct pack_iter *piter, int *techs);
 
 /* Use the above iget versions instead of the get versions below,
  * except in special cases --dwp */
-static unsigned char *get_int8(unsigned char *buffer, int *val);
-static unsigned char *get_int16(unsigned char *buffer, int *val);
-static unsigned char *get_int32(unsigned char *buffer, int *val);
+static unsigned char *get_uint8(unsigned char *buffer, int *val);
+static unsigned char *get_uint16(unsigned char *buffer, int *val);
+static unsigned char *get_uint32(unsigned char *buffer, int *val);
 
-static unsigned int swab_int16(unsigned int val);
-static unsigned int swab_int32(unsigned int val);
-static void swab_pint16(int *ptr);
-static void swab_pint32(int *ptr);
+static unsigned int swab_uint16(unsigned int val);
+static unsigned int swab_uint32(unsigned int val);
+static void swab_puint16(int *ptr);
+static void swab_puint32(int *ptr);
 
 
 /**************************************************************************
 Swap bytes on an integer considered as 16 bits
 **************************************************************************/
-static unsigned int swab_int16(unsigned int val)
+static unsigned int swab_uint16(unsigned int val)
 {
   return ((val & 0xFF) << 8) | ((val & 0xFF00) >> 8);
 }
@@ -100,7 +115,7 @@ static unsigned int swab_int16(unsigned int val)
 /**************************************************************************
 Swap bytes on an integer considered as 32 bits
 **************************************************************************/
-static unsigned int swab_int32(unsigned int val)
+static unsigned int swab_uint32(unsigned int val)
 {
   return ((val & 0xFF) << 24) | ((val & 0xFF00) << 8)
     | ((val & 0xFF0000) >> 8) | ((val & 0xFF000000) >> 24);
@@ -109,17 +124,17 @@ static unsigned int swab_int32(unsigned int val)
 /**************************************************************************
 Swap bytes on an pointed-to integer considered as 16 bits
 **************************************************************************/
-static void swab_pint16(int *ptr)
+static void swab_puint16(int *ptr)
 {
-  (*ptr) = swab_int16(*ptr);
+  (*ptr) = swab_uint16(*ptr);
 }
 
 /**************************************************************************
 Swap bytes on an pointed-to integer considered as 32 bits
 **************************************************************************/
-static void swab_pint32(int *ptr)
+static void swab_puint32(int *ptr)
 {
-  (*ptr) = swab_int32(*ptr);
+  (*ptr) = swab_uint32(*ptr);
 }
 
 /**************************************************************************
@@ -132,8 +147,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   if(pc->buffer.ndata<4)
     return NULL;           /* length and type not read */
 
-  get_int16(pc->buffer.data, &len);
-  get_int8(pc->buffer.data+2, &type);
+  get_uint16(pc->buffer.data, &len);
+  get_uint8(pc->buffer.data+2, &type);
 
   if(pc->first_packet) {
     /* the first packet better be short: */
@@ -149,9 +164,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   }
 
   if(pc->byte_swap) {
-    len = swab_int16(len);
+    len = swab_uint16(len);
     /* so the packet gets processed (removed etc) properly: */
-    put_int16(pc->buffer.data, len);
+    put_uint16(pc->buffer.data, len);
   }
 
   if(len > pc->buffer.ndata)
@@ -322,8 +337,8 @@ static void pack_iter_init(struct pack_iter *piter, struct connection *pc)
   
   piter->swap_bytes = pc->byte_swap;
   piter->ptr = piter->base = pc->buffer.data;
-  piter->ptr = get_int16(piter->ptr, &piter->len);
-  piter->ptr = get_int8(piter->ptr, &piter->type);
+  piter->ptr = get_uint16(piter->ptr, &piter->len);
+  piter->ptr = get_uint8(piter->ptr, &piter->type);
   piter->short_packet = (piter->len < 3);
   piter->bad_string = 0;
   piter->bad_bit_string = 0;
@@ -383,7 +398,7 @@ static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *get_int8(unsigned char *buffer, int *val)
+static unsigned char *get_uint8(unsigned char *buffer, int *val)
 {
   if(val) {
     *val=(*buffer);
@@ -394,7 +409,7 @@ static unsigned char *get_int8(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *put_int8(unsigned char *buffer, int val)
+static unsigned char *put_uint8(unsigned char *buffer, int val)
 {
   *buffer++=val&0xff;
   return buffer;
@@ -403,7 +418,7 @@ static unsigned char *put_int8(unsigned char *buffer, int val)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *get_int16(unsigned char *buffer, int *val)
+static unsigned char *get_uint16(unsigned char *buffer, int *val)
 {
   if(val) {
     unsigned short x;
@@ -417,7 +432,7 @@ static unsigned char *get_int16(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
-unsigned char *put_int16(unsigned char *buffer, int val)
+unsigned char *put_uint16(unsigned char *buffer, int val)
 {
   unsigned short x = htons(val);
   memcpy(buffer,&x,2);
@@ -428,7 +443,7 @@ unsigned char *put_int16(unsigned char *buffer, int val)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *get_int32(unsigned char *buffer, int *val)
+static unsigned char *get_uint32(unsigned char *buffer, int *val)
 {
   if(val) {
     unsigned long x;
@@ -442,7 +457,7 @@ static unsigned char *get_int32(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *put_int32(unsigned char *buffer, int val)
+static unsigned char *put_uint32(unsigned char *buffer, int val)
 {
   unsigned long x = htonl(val);
   memcpy(buffer,&x,4);
@@ -450,11 +465,11 @@ static unsigned char *put_int32(unsigned char *buffer, int val)
 }
 
 /**************************************************************************
-  Like get_int8, but using a pack_iter.
+  Like get_uint8, but using a pack_iter.
   Sets *val to zero for short packets.
   val can be NULL meaning just read past.
 **************************************************************************/
-static void iget_int8(struct pack_iter *piter, int *val)
+static void iget_uint8(struct pack_iter *piter, int *val)
 {
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
@@ -462,16 +477,16 @@ static void iget_int8(struct pack_iter *piter, int *val)
     if (val) *val = 0;
     return;
   }
-  piter->ptr = get_int8(piter->ptr, val);
+  piter->ptr = get_uint8(piter->ptr, val);
 }
 
 /**************************************************************************
-  Like get_int16, but using a pack_iter.
+  Like get_uint16, but using a pack_iter.
   Also does byte swapping if required.
   Sets *val to zero for short packets.
   val can be NULL meaning just read past.
 **************************************************************************/
-static void iget_int16(struct pack_iter *piter, int *val)
+static void iget_uint16(struct pack_iter *piter, int *val)
 {
   assert(piter);
   if (pack_iter_remaining(piter) < 2) {
@@ -479,19 +494,19 @@ static void iget_int16(struct pack_iter *piter, int *val)
     if (val) *val = 0;
     return;
   }
-  piter->ptr = get_int16(piter->ptr, val);
+  piter->ptr = get_uint16(piter->ptr, val);
   if (val && piter->swap_bytes) {
-    swab_pint16(val);
+    swab_puint16(val);
   }
 }
 
 /**************************************************************************
-  Like get_int32, but using a pack_iter.
+  Like get_uint32, but using a pack_iter.
   Also does byte swapping if required.
   Sets *val to zero for short packets.
   val can be NULL meaning just read past.
 **************************************************************************/
-static void iget_int32(struct pack_iter *piter, int *val)
+static void iget_uint32(struct pack_iter *piter, int *val)
 {
   assert(piter);
   if (pack_iter_remaining(piter) < 4) {
@@ -499,9 +514,9 @@ static void iget_int32(struct pack_iter *piter, int *val)
     if (val) *val = 0;
     return;
   }
-  piter->ptr = get_int32(piter->ptr, val);
+  piter->ptr = get_uint32(piter->ptr, val);
   if (val && piter->swap_bytes) {
-    swab_pint32(val);
+    swab_puint32(val);
   }
 }
 
@@ -658,7 +673,7 @@ static unsigned char *put_bit_string(unsigned char *buffer, char *str)
   The first byte tells us the number of bits in the bit string,
   the rest of the bytes are packed bits.  Writes bytes to str,
   as '0' and '1' characters, null terminated.
-  This could be made (slightly?) more efficient (not using iget_int8(),
+  This could be made (slightly?) more efficient (not using iget_uint8(),
   but directly mapipulating piter->ptr), but I couldn't be bothered
   trying to get everything (including short_packet) correct. --dwp
 **************************************************************************/
@@ -678,7 +693,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
     return;
   }
 
-  iget_int8(piter, &npack);
+  iget_uint8(piter, &npack);
   if (npack <= 0) {
     piter->bad_bit_string = (npack < 0);
     str[0] = '\0';
@@ -686,7 +701,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
   }
 
   for(i=0; i<npack ; )  {
-    iget_int8(piter, &data);
+    iget_uint8(piter, &data);
     for(b=0; b<8 && i<npack; b++,i++) {
       if (i < navail) {
 	if(data&(1<<b)) str[i]='1'; else str[i]='0';
@@ -714,7 +729,7 @@ static unsigned char *put_tech_list(unsigned char *buffer, int *techs)
   int i;
    
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    buffer = put_int8(buffer, techs[i]);
+    buffer = put_uint8(buffer, techs[i]);
     if (techs[i] == A_LAST)
       break;
   }
@@ -732,7 +747,7 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
   int i;
   
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    iget_int8(piter, &techs[i]);
+    iget_uint8(piter, &techs[i]);
     if (techs[i] == A_LAST)
       break;
   }
@@ -748,14 +763,14 @@ int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       struct packet_diplomacy_info *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, pt);
+  cptr=put_uint8(buffer+2, pt);
   
-  cptr=put_int32(cptr, packet->plrno0);
-  cptr=put_int32(cptr, packet->plrno1);
-  cptr=put_int32(cptr, packet->plrno_from);
-  cptr=put_int32(cptr, packet->clause_type);
-  cptr=put_int32(cptr, packet->value);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint32(cptr, packet->plrno0);
+  cptr=put_uint32(cptr, packet->plrno1);
+  cptr=put_uint32(cptr, packet->plrno_from);
+  cptr=put_uint32(cptr, packet->clause_type);
+  cptr=put_uint32(cptr, packet->value);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -772,11 +787,11 @@ receive_packet_diplomacy_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &preq->plrno0);
-  iget_int32(&iter, &preq->plrno1);
-  iget_int32(&iter, &preq->plrno_from);
-  iget_int32(&iter, &preq->clause_type);
-  iget_int32(&iter, &preq->value);
+  iget_uint32(&iter, &preq->plrno0);
+  iget_uint32(&iter, &preq->plrno1);
+  iget_uint32(&iter, &preq->plrno_from);
+  iget_uint32(&iter, &preq->clause_type);
+  iget_uint32(&iter, &preq->value);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -791,13 +806,13 @@ int send_packet_diplomat_action(struct connection *pc,
 				struct packet_diplomat_action *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_DIPLOMAT_ACTION);
+  cptr=put_uint8(buffer+2, PACKET_DIPLOMAT_ACTION);
   
-  cptr=put_int8(cptr, packet->action_type);
-  cptr=put_int16(cptr, packet->diplomat_id);
-  cptr=put_int16(cptr, packet->target_id);
-  cptr=put_int16(cptr, packet->value);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(cptr, packet->action_type);
+  cptr=put_uint16(cptr, packet->diplomat_id);
+  cptr=put_uint16(cptr, packet->target_id);
+  cptr=put_uint16(cptr, packet->value);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -814,10 +829,10 @@ receive_packet_diplomat_action(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &preq->action_type);
-  iget_int16(&iter, &preq->diplomat_id);
-  iget_int16(&iter, &preq->target_id);
-  iget_int16(&iter, &preq->value);
+  iget_uint8(&iter, &preq->action_type);
+  iget_uint16(&iter, &preq->diplomat_id);
+  iget_uint16(&iter, &preq->target_id);
+  iget_uint16(&iter, &preq->value);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -831,11 +846,11 @@ int send_packet_nuke_tile(struct connection *pc,
 			  struct packet_nuke_tile *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_NUKE_TILE);
+  cptr=put_uint8(buffer+2, PACKET_NUKE_TILE);
   
-  cptr=put_int8(cptr, packet->x);
-  cptr=put_int8(cptr, packet->y);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(cptr, packet->x);
+  cptr=put_uint8(cptr, packet->y);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -853,8 +868,8 @@ receive_packet_nuke_tile(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &preq->x);
-  iget_int8(&iter, &preq->y);
+  iget_uint8(&iter, &preq->x);
+  iget_uint8(&iter, &preq->y);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -869,14 +884,14 @@ int send_packet_unit_combat(struct connection *pc,
 			    struct packet_unit_combat *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_UNIT_COMBAT);
+  cptr=put_uint8(buffer+2, PACKET_UNIT_COMBAT);
   
-  cptr=put_int16(cptr, packet->attacker_unit_id);
-  cptr=put_int16(cptr, packet->defender_unit_id);
-  cptr=put_int8(cptr, packet->attacker_hp);
-  cptr=put_int8(cptr, packet->defender_hp);
-  cptr=put_int8(cptr, packet->make_winner_veteran);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint16(cptr, packet->attacker_unit_id);
+  cptr=put_uint16(cptr, packet->defender_unit_id);
+  cptr=put_uint8(cptr, packet->attacker_hp);
+  cptr=put_uint8(cptr, packet->defender_hp);
+  cptr=put_uint8(cptr, packet->make_winner_veteran);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -894,11 +909,11 @@ receive_packet_unit_combat(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &preq->attacker_unit_id);
-  iget_int16(&iter, &preq->defender_unit_id);
-  iget_int8(&iter, &preq->attacker_hp);
-  iget_int8(&iter, &preq->defender_hp);
-  iget_int8(&iter, &preq->make_winner_veteran);
+  iget_uint16(&iter, &preq->attacker_unit_id);
+  iget_uint16(&iter, &preq->defender_unit_id);
+  iget_uint8(&iter, &preq->attacker_hp);
+  iget_uint8(&iter, &preq->defender_hp);
+  iget_uint8(&iter, &preq->make_winner_veteran);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -914,13 +929,13 @@ int send_packet_unit_request(struct connection *pc,
 			     enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, req_type);
-  cptr=put_int16(cptr, packet->unit_id);
-  cptr=put_int16(cptr, packet->city_id);
-  cptr=put_int8(cptr, packet->x);
-  cptr=put_int8(cptr, packet->y);
+  cptr=put_uint8(buffer+2, req_type);
+  cptr=put_uint16(cptr, packet->unit_id);
+  cptr=put_uint16(cptr, packet->city_id);
+  cptr=put_uint8(cptr, packet->x);
+  cptr=put_uint8(cptr, packet->y);
   cptr=put_string(cptr, packet->name);
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -938,10 +953,10 @@ receive_packet_unit_request(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &preq->unit_id);
-  iget_int16(&iter, &preq->city_id);
-  iget_int8(&iter, &preq->x);
-  iget_int8(&iter, &preq->y);
+  iget_uint16(&iter, &preq->unit_id);
+  iget_uint16(&iter, &preq->city_id);
+  iget_uint8(&iter, &preq->x);
+  iget_uint8(&iter, &preq->y);
   iget_string(&iter, preq->name, sizeof(preq->name));
 
   pack_iter_end(&iter, pc);
@@ -959,13 +974,13 @@ int send_packet_player_request(struct connection *pc,
 			       enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, req_type);
-  cptr=put_int8(cptr, packet->tax);
-  cptr=put_int8(cptr, packet->luxury);
-  cptr=put_int8(cptr, packet->science);
-  cptr=put_int8(cptr, packet->government);
-  cptr=put_int8(cptr, packet->tech);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, req_type);
+  cptr=put_uint8(cptr, packet->tax);
+  cptr=put_uint8(cptr, packet->luxury);
+  cptr=put_uint8(cptr, packet->science);
+  cptr=put_uint8(cptr, packet->government);
+  cptr=put_uint8(cptr, packet->tech);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -983,11 +998,11 @@ receive_packet_player_request(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &preq->tax);
-  iget_int8(&iter, &preq->luxury);
-  iget_int8(&iter, &preq->science);
-  iget_int8(&iter, &preq->government);
-  iget_int8(&iter, &preq->tech);
+  iget_uint8(&iter, &preq->tax);
+  iget_uint8(&iter, &preq->luxury);
+  iget_uint8(&iter, &preq->science);
+  iget_uint8(&iter, &preq->government);
+  iget_uint8(&iter, &preq->tech);
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1003,16 +1018,16 @@ int send_packet_city_request(struct connection *pc,
 			     enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, req_type);
-  cptr=put_int16(cptr, packet->city_id);
-  cptr=put_int8(cptr, packet->build_id);
-  cptr=put_int8(cptr, packet->is_build_id_unit_id?1:0);
-  cptr=put_int8(cptr, packet->worker_x);
-  cptr=put_int8(cptr, packet->worker_y);
-  cptr=put_int8(cptr, packet->specialist_from);
-  cptr=put_int8(cptr, packet->specialist_to);
+  cptr=put_uint8(buffer+2, req_type);
+  cptr=put_uint16(cptr, packet->city_id);
+  cptr=put_uint8(cptr, packet->build_id);
+  cptr=put_uint8(cptr, packet->is_build_id_unit_id?1:0);
+  cptr=put_uint8(cptr, packet->worker_x);
+  cptr=put_uint8(cptr, packet->worker_y);
+  cptr=put_uint8(cptr, packet->specialist_from);
+  cptr=put_uint8(cptr, packet->specialist_to);
   cptr=put_string(cptr, packet->name);
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1030,13 +1045,13 @@ receive_packet_city_request(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &preq->city_id);
-  iget_int8(&iter, &preq->build_id);
-  iget_int8(&iter, &preq->is_build_id_unit_id);
-  iget_int8(&iter, &preq->worker_x);
-  iget_int8(&iter, &preq->worker_y);
-  iget_int8(&iter, &preq->specialist_from);
-  iget_int8(&iter, &preq->specialist_to);
+  iget_uint16(&iter, &preq->city_id);
+  iget_uint8(&iter, &preq->build_id);
+  iget_uint8(&iter, &preq->is_build_id_unit_id);
+  iget_uint8(&iter, &preq->worker_x);
+  iget_uint8(&iter, &preq->worker_y);
+  iget_uint8(&iter, &preq->specialist_from);
+  iget_uint8(&iter, &preq->specialist_to);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
@@ -1051,38 +1066,38 @@ receive_packet_city_request(struct connection *pc)
 int send_packet_player_info(struct connection *pc, struct packet_player_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_PLAYER_INFO);
-  cptr=put_int8(cptr, pinfo->playerno);
+  cptr=put_uint8(buffer+2, PACKET_PLAYER_INFO);
+  cptr=put_uint8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
-  cptr=put_int8(cptr, pinfo->is_male);
-  cptr=put_int8(cptr, pinfo->government);
-  cptr=put_int32(cptr, pinfo->embassy);
-  cptr=put_int8(cptr, pinfo->nation);
-  cptr=put_int8(cptr, pinfo->turn_done?1:0);
-  cptr=put_int16(cptr, pinfo->nturns_idle);
-  cptr=put_int8(cptr, pinfo->is_alive?1:0);
+  cptr=put_uint8(cptr, pinfo->is_male);
+  cptr=put_uint8(cptr, pinfo->government);
+  cptr=put_uint32(cptr, pinfo->embassy);
+  cptr=put_uint8(cptr, pinfo->nation);
+  cptr=put_uint8(cptr, pinfo->turn_done?1:0);
+  cptr=put_uint16(cptr, pinfo->nturns_idle);
+  cptr=put_uint8(cptr, pinfo->is_alive?1:0);
   
-  cptr=put_int32(cptr, pinfo->gold);
-  cptr=put_int8(cptr, pinfo->tax);
-  cptr=put_int8(cptr, pinfo->science);
-  cptr=put_int8(cptr, pinfo->luxury);
+  cptr=put_uint32(cptr, pinfo->gold);
+  cptr=put_uint8(cptr, pinfo->tax);
+  cptr=put_uint8(cptr, pinfo->science);
+  cptr=put_uint8(cptr, pinfo->luxury);
 
-  cptr=put_int32(cptr, pinfo->researched);
-  cptr=put_int32(cptr, pinfo->researchpoints);
-  cptr=put_int8(cptr, pinfo->researching);
+  cptr=put_uint32(cptr, pinfo->researched);
+  cptr=put_uint32(cptr, pinfo->researchpoints);
+  cptr=put_uint8(cptr, pinfo->researching);
   cptr=put_bit_string(cptr, (char*)pinfo->inventions);
-  cptr=put_int16(cptr, pinfo->future_tech);
+  cptr=put_uint16(cptr, pinfo->future_tech);
   
-  cptr=put_int8(cptr, pinfo->is_connected?1:0);
+  cptr=put_uint8(cptr, pinfo->is_connected?1:0);
   cptr=put_string(cptr, pinfo->addr);
-  cptr=put_int8(cptr, pinfo->revolution);
-  cptr=put_int8(cptr, pinfo->tech_goal);
-  cptr=put_int8(cptr, pinfo->ai?1:0);
+  cptr=put_uint8(cptr, pinfo->revolution);
+  cptr=put_uint8(cptr, pinfo->tech_goal);
+  cptr=put_uint8(cptr, pinfo->ai?1:0);
 
   /* if (pc && has_capability("clientcapabilities", pc->capability)) */
   cptr=put_string(cptr, pinfo->capability);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1100,32 +1115,32 @@ receive_packet_player_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter,  &pinfo->playerno);
+  iget_uint8(&iter,  &pinfo->playerno);
   iget_string(&iter, pinfo->name, sizeof(pinfo->name));
-  iget_int8(&iter,  &pinfo->is_male);
-  iget_int8(&iter,  &pinfo->government);
-  iget_int32(&iter,  &pinfo->embassy);
-  iget_int8(&iter,  &pinfo->nation);
-  iget_int8(&iter,  &pinfo->turn_done);
-  iget_int16(&iter,  &pinfo->nturns_idle);
-  iget_int8(&iter,  &pinfo->is_alive);
+  iget_uint8(&iter,  &pinfo->is_male);
+  iget_uint8(&iter,  &pinfo->government);
+  iget_uint32(&iter,  &pinfo->embassy);
+  iget_uint8(&iter,  &pinfo->nation);
+  iget_uint8(&iter,  &pinfo->turn_done);
+  iget_uint16(&iter,  &pinfo->nturns_idle);
+  iget_uint8(&iter,  &pinfo->is_alive);
   
-  iget_int32(&iter, &pinfo->gold);
-  iget_int8(&iter, &pinfo->tax);
-  iget_int8(&iter, &pinfo->science);
-  iget_int8(&iter, &pinfo->luxury);
+  iget_uint32(&iter, &pinfo->gold);
+  iget_uint8(&iter, &pinfo->tax);
+  iget_uint8(&iter, &pinfo->science);
+  iget_uint8(&iter, &pinfo->luxury);
 
-  iget_int32(&iter, &pinfo->researched); /* signed */
-  iget_int32(&iter, &pinfo->researchpoints);
-  iget_int8(&iter, &pinfo->researching);
+  iget_uint32(&iter, &pinfo->researched); /* signed */
+  iget_uint32(&iter, &pinfo->researchpoints);
+  iget_uint8(&iter, &pinfo->researching);
   iget_bit_string(&iter, (char*)pinfo->inventions, sizeof(pinfo->inventions));
-  iget_int16(&iter, &pinfo->future_tech);
+  iget_uint16(&iter, &pinfo->future_tech);
 
-  iget_int8(&iter, &pinfo->is_connected);
+  iget_uint8(&iter, &pinfo->is_connected);
   iget_string(&iter, pinfo->addr, sizeof(pinfo->addr));
-  iget_int8(&iter, &pinfo->revolution);
-  iget_int8(&iter, &pinfo->tech_goal);
-  iget_int8(&iter, &pinfo->ai);
+  iget_uint8(&iter, &pinfo->revolution);
+  iget_uint8(&iter, &pinfo->tech_goal);
+  iget_uint8(&iter, &pinfo->ai);
 
   /* if (has_capability("clientcapabilities", pc->capability)) */
   iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
@@ -1145,37 +1160,37 @@ int send_packet_game_info(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
   
-  cptr=put_int8(buffer+2, PACKET_GAME_INFO);
-  cptr=put_int16(cptr, pinfo->gold);
-  cptr=put_int32(cptr, pinfo->tech);
-  cptr=put_int8(cptr, pinfo->techlevel);
+  cptr=put_uint8(buffer+2, PACKET_GAME_INFO);
+  cptr=put_uint16(cptr, pinfo->gold);
+  cptr=put_uint32(cptr, pinfo->tech);
+  cptr=put_uint8(cptr, pinfo->techlevel);
 
-  cptr=put_int32(cptr, pinfo->skill_level);
-  cptr=put_int16(cptr, pinfo->timeout);
-  cptr=put_int32(cptr, pinfo->end_year);
-  cptr=put_int32(cptr, pinfo->year);
-  cptr=put_int8(cptr, pinfo->min_players);
-  cptr=put_int8(cptr, pinfo->max_players);
-  cptr=put_int8(cptr, pinfo->nplayers);
-  cptr=put_int8(cptr, pinfo->player_idx);
-  cptr=put_int32(cptr, pinfo->globalwarming);
-  cptr=put_int32(cptr, pinfo->heating);
-  cptr=put_int8(cptr, pinfo->cityfactor);
-  cptr=put_int8(cptr, pinfo->diplcost);
-  cptr=put_int8(cptr, pinfo->freecost);
-  cptr=put_int8(cptr, pinfo->conquercost);
-  cptr=put_int8(cptr, pinfo->unhappysize);
+  cptr=put_uint32(cptr, pinfo->skill_level);
+  cptr=put_uint16(cptr, pinfo->timeout);
+  cptr=put_uint32(cptr, pinfo->end_year);
+  cptr=put_uint32(cptr, pinfo->year);
+  cptr=put_uint8(cptr, pinfo->min_players);
+  cptr=put_uint8(cptr, pinfo->max_players);
+  cptr=put_uint8(cptr, pinfo->nplayers);
+  cptr=put_uint8(cptr, pinfo->player_idx);
+  cptr=put_uint32(cptr, pinfo->globalwarming);
+  cptr=put_uint32(cptr, pinfo->heating);
+  cptr=put_uint8(cptr, pinfo->cityfactor);
+  cptr=put_uint8(cptr, pinfo->diplcost);
+  cptr=put_uint8(cptr, pinfo->freecost);
+  cptr=put_uint8(cptr, pinfo->conquercost);
+  cptr=put_uint8(cptr, pinfo->unhappysize);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
-    cptr=put_int8(cptr, pinfo->global_advances[i]);
+    cptr=put_uint8(cptr, pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
-    cptr=put_int16(cptr, pinfo->global_wonders[i]);
-  cptr=put_int8(cptr, pinfo->techpenalty);
-  cptr=put_int8(cptr, pinfo->foodbox);
-  cptr=put_int8(cptr, pinfo->civstyle);
-  cptr=put_int8(cptr, pinfo->spacerace);
+    cptr=put_uint16(cptr, pinfo->global_wonders[i]);
+  cptr=put_uint8(cptr, pinfo->techpenalty);
+  cptr=put_uint8(cptr, pinfo->foodbox);
+  cptr=put_uint8(cptr, pinfo->civstyle);
+  cptr=put_uint8(cptr, pinfo->spacerace);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1192,33 +1207,33 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &pinfo->gold);
-  iget_int32(&iter, &pinfo->tech);
-  iget_int8(&iter, &pinfo->techlevel);
-  iget_int32(&iter, &pinfo->skill_level);
-  iget_int16(&iter, &pinfo->timeout);
-  iget_int32(&iter, &pinfo->end_year);
-  iget_int32(&iter, &pinfo->year);
-  iget_int8(&iter, &pinfo->min_players);
-  iget_int8(&iter, &pinfo->max_players);
-  iget_int8(&iter, &pinfo->nplayers);
-  iget_int8(&iter, &pinfo->player_idx);
-  iget_int32(&iter, &pinfo->globalwarming);
-  iget_int32(&iter, &pinfo->heating);
-  iget_int8(&iter, &pinfo->cityfactor);
-  iget_int8(&iter, &pinfo->diplcost);
-  iget_int8(&iter, &pinfo->freecost);
-  iget_int8(&iter, &pinfo->conquercost);
-  iget_int8(&iter, &pinfo->unhappysize);
+  iget_uint16(&iter, &pinfo->gold);
+  iget_uint32(&iter, &pinfo->tech);
+  iget_uint8(&iter, &pinfo->techlevel);
+  iget_uint32(&iter, &pinfo->skill_level);
+  iget_uint16(&iter, &pinfo->timeout);
+  iget_uint32(&iter, &pinfo->end_year);
+  iget_uint32(&iter, &pinfo->year);
+  iget_uint8(&iter, &pinfo->min_players);
+  iget_uint8(&iter, &pinfo->max_players);
+  iget_uint8(&iter, &pinfo->nplayers);
+  iget_uint8(&iter, &pinfo->player_idx);
+  iget_uint32(&iter, &pinfo->globalwarming);
+  iget_uint32(&iter, &pinfo->heating);
+  iget_uint8(&iter, &pinfo->cityfactor);
+  iget_uint8(&iter, &pinfo->diplcost);
+  iget_uint8(&iter, &pinfo->freecost);
+  iget_uint8(&iter, &pinfo->conquercost);
+  iget_uint8(&iter, &pinfo->unhappysize);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
-    iget_int8(&iter, &pinfo->global_advances[i]);
+    iget_uint8(&iter, &pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
-    iget_int16(&iter, &pinfo->global_wonders[i]);
-  iget_int8(&iter, &pinfo->techpenalty);
-  iget_int8(&iter, &pinfo->foodbox);
-  iget_int8(&iter, &pinfo->civstyle);
-  iget_int8(&iter, &pinfo->spacerace);
+    iget_uint16(&iter, &pinfo->global_wonders[i]);
+  iget_uint8(&iter, &pinfo->techpenalty);
+  iget_uint8(&iter, &pinfo->foodbox);
+  iget_uint8(&iter, &pinfo->civstyle);
+  iget_uint8(&iter, &pinfo->spacerace);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1233,11 +1248,11 @@ int send_packet_map_info(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
-  cptr=put_int8(buffer+2, PACKET_MAP_INFO);
-  cptr=put_int8(cptr, pinfo->xsize);
-  cptr=put_int8(cptr, pinfo->ysize);
-  cptr=put_int8(cptr, pinfo->is_earth?1:0);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_MAP_INFO);
+  cptr=put_uint8(cptr, pinfo->xsize);
+  cptr=put_uint8(cptr, pinfo->ysize);
+  cptr=put_uint8(cptr, pinfo->is_earth?1:0);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1253,9 +1268,9 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &pinfo->xsize);
-  iget_int8(&iter, &pinfo->ysize);
-  iget_int8(&iter, &pinfo->is_earth);
+  iget_uint8(&iter, &pinfo->xsize);
+  iget_uint8(&iter, &pinfo->ysize);
+  iget_uint8(&iter, &pinfo->is_earth);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1274,11 +1289,11 @@ receive_packet_tile_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->x);
-  iget_int8(&iter, &packet->y);
-  iget_int8(&iter, &packet->type);
-  iget_int16(&iter, &packet->special);
-  iget_int8(&iter, &packet->known);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
+  iget_uint8(&iter, &packet->type);
+  iget_uint16(&iter, &packet->special);
+  iget_uint8(&iter, &packet->known);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1294,8 +1309,8 @@ receive_packet_unittype_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->type);
-  iget_int8(&iter, &packet->action);
+  iget_uint8(&iter, &packet->type);
+  iget_uint8(&iter, &packet->action);
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1311,13 +1326,13 @@ int send_packet_tile_info(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
-  cptr=put_int8(buffer+2, PACKET_TILE_INFO);
-  cptr=put_int8(cptr, pinfo->x);
-  cptr=put_int8(cptr, pinfo->y);
-  cptr=put_int8(cptr, pinfo->type);
-  cptr=put_int16(cptr, pinfo->special);
-  cptr=put_int8(cptr, pinfo->known);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_TILE_INFO);
+  cptr=put_uint8(cptr, pinfo->x);
+  cptr=put_uint8(cptr, pinfo->y);
+  cptr=put_uint8(cptr, pinfo->type);
+  cptr=put_uint16(cptr, pinfo->special);
+  cptr=put_uint8(cptr, pinfo->known);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1329,9 +1344,9 @@ int send_packet_new_year(struct connection *pc, struct
 			 packet_new_year *request)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_NEW_YEAR);
-  cptr=put_int32(cptr, request->year);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
+  cptr=put_uint32(cptr, request->year);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -1341,10 +1356,10 @@ int send_packet_new_year(struct connection *pc, struct
 int send_packet_unittype_info(struct connection *pc, int type, int action)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_UNITTYPE_UPGRADE);
-  cptr=put_int8(cptr, type);
-  cptr=put_int8(cptr, action);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_UNITTYPE_UPGRADE);
+  cptr=put_uint8(cptr, type);
+  cptr=put_uint8(cptr, action);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -1367,8 +1382,8 @@ receive_packet_before_new_year(struct connection *pc)
 int send_packet_before_end_year(struct connection *pc)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_BEFORE_NEW_YEAR);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_BEFORE_NEW_YEAR);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -1381,28 +1396,28 @@ int send_packet_unit_info(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
 
-  cptr=put_int8(buffer+2, PACKET_UNIT_INFO);
-  cptr=put_int16(cptr, req->id);
+  cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
+  cptr=put_uint16(cptr, req->id);
   pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0);
-  cptr=put_int8(cptr, pack);
-  cptr=put_int8(cptr, req->x);
-  cptr=put_int8(cptr, req->y);
-  cptr=put_int16(cptr, req->homecity);
-  cptr=put_int8(cptr, req->type);
-  cptr=put_int8(cptr, req->movesleft);
-  cptr=put_int8(cptr, req->hp);
-  cptr=put_int8(cptr, req->upkeep);
-  cptr=put_int8(cptr, req->upkeep_food);
-  cptr=put_int8(cptr, req->upkeep_gold);
-  cptr=put_int8(cptr, req->unhappiness);
-  cptr=put_int8(cptr, req->activity);
-  cptr=put_int8(cptr, req->activity_count);
-  cptr=put_int8(cptr, req->goto_dest_x);
-  cptr=put_int8(cptr, req->goto_dest_y);
-  cptr=put_int16(cptr, req->activity_target);
-  if(req->fuel) cptr=put_int8(cptr, req->fuel);
+  cptr=put_uint8(cptr, pack);
+  cptr=put_uint8(cptr, req->x);
+  cptr=put_uint8(cptr, req->y);
+  cptr=put_uint16(cptr, req->homecity);
+  cptr=put_uint8(cptr, req->type);
+  cptr=put_uint8(cptr, req->movesleft);
+  cptr=put_uint8(cptr, req->hp);
+  cptr=put_uint8(cptr, req->upkeep);
+  cptr=put_uint8(cptr, req->upkeep_food);
+  cptr=put_uint8(cptr, req->upkeep_gold);
+  cptr=put_uint8(cptr, req->unhappiness);
+  cptr=put_uint8(cptr, req->activity);
+  cptr=put_uint8(cptr, req->activity_count);
+  cptr=put_uint8(cptr, req->goto_dest_x);
+  cptr=put_uint8(cptr, req->goto_dest_y);
+  cptr=put_uint16(cptr, req->activity_target);
+  if(req->fuel) cptr=put_uint8(cptr, req->fuel);
   
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -1413,36 +1428,36 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
-  cptr=put_int8(buffer+2, PACKET_CITY_INFO);
-  cptr=put_int16(cptr, req->id);
-  cptr=put_int8(cptr, req->owner);
-  cptr=put_int8(cptr, req->x);
-  cptr=put_int8(cptr, req->y);
+  cptr=put_uint8(buffer+2, PACKET_CITY_INFO);
+  cptr=put_uint16(cptr, req->id);
+  cptr=put_uint8(cptr, req->owner);
+  cptr=put_uint8(cptr, req->x);
+  cptr=put_uint8(cptr, req->y);
   cptr=put_string(cptr, req->name);
   
-  cptr=put_int8(cptr, req->size);
-  cptr=put_int8(cptr, req->ppl_happy);
-  cptr=put_int8(cptr, req->ppl_content);
-  cptr=put_int8(cptr, req->ppl_unhappy);
-  cptr=put_int8(cptr, req->ppl_elvis);
-  cptr=put_int8(cptr, req->ppl_scientist);
-  cptr=put_int8(cptr, req->ppl_taxman);
+  cptr=put_uint8(cptr, req->size);
+  cptr=put_uint8(cptr, req->ppl_happy);
+  cptr=put_uint8(cptr, req->ppl_content);
+  cptr=put_uint8(cptr, req->ppl_unhappy);
+  cptr=put_uint8(cptr, req->ppl_elvis);
+  cptr=put_uint8(cptr, req->ppl_scientist);
+  cptr=put_uint8(cptr, req->ppl_taxman);
 
-  cptr=put_int8(cptr, req->food_prod);
-  cptr=put_int8(cptr, req->food_surplus);
-  cptr=put_int16(cptr, req->shield_prod);
-  cptr=put_int16(cptr, req->shield_surplus);
-  cptr=put_int16(cptr, req->trade_prod);
-  cptr=put_int16(cptr, req->corruption);
+  cptr=put_uint8(cptr, req->food_prod);
+  cptr=put_uint8(cptr, req->food_surplus);
+  cptr=put_uint16(cptr, req->shield_prod);
+  cptr=put_uint16(cptr, req->shield_surplus);
+  cptr=put_uint16(cptr, req->trade_prod);
+  cptr=put_uint16(cptr, req->corruption);
 
-  cptr=put_int16(cptr, req->luxury_total);
-  cptr=put_int16(cptr, req->tax_total);
-  cptr=put_int16(cptr, req->science_total);
+  cptr=put_uint16(cptr, req->luxury_total);
+  cptr=put_uint16(cptr, req->tax_total);
+  cptr=put_uint16(cptr, req->science_total);
 
-  cptr=put_int16(cptr, req->food_stock);
-  cptr=put_int16(cptr, req->shield_stock);
-  cptr=put_int16(cptr, req->pollution);
-  cptr=put_int8(cptr, req->currently_building);
+  cptr=put_uint16(cptr, req->food_stock);
+  cptr=put_uint16(cptr, req->shield_stock);
+  cptr=put_uint16(cptr, req->pollution);
+  cptr=put_uint8(cptr, req->currently_building);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
@@ -1450,23 +1465,23 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   data|=req->was_happy?8:0;
   data|=req->airlift?16:0;
   data|=req->diplomat_investigate?32:0; /* gentler implementation -- Syela */
-  cptr=put_int8(cptr, data);
+  cptr=put_uint8(cptr, data);
 
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
 
   /* if(pc && has_capability("autoattack1", pc->capability)) */
   /* only 8 options allowed before need to extend protocol */
-  cptr=put_int8(cptr, req->city_options);
+  cptr=put_uint8(cptr, req->city_options);
   
   for(data=0;data<4;data++)  {
     if(req->trade[data])  {
-      cptr=put_int16(cptr, req->trade[data]);
-      cptr=put_int8(cptr,req->trade_value[data]);
+      cptr=put_uint16(cptr, req->trade[data]);
+      cptr=put_uint8(cptr,req->trade_value[data]);
     }
   }
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1484,39 +1499,39 @@ receive_packet_city_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &packet->id);
-  iget_int8(&iter, &packet->owner);
-  iget_int8(&iter, &packet->x);
-  iget_int8(&iter, &packet->y);
+  iget_uint16(&iter, &packet->id);
+  iget_uint8(&iter, &packet->owner);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
   iget_string(&iter, packet->name, sizeof(packet->name));
   
-  iget_int8(&iter, &packet->size);
-  iget_int8(&iter, &packet->ppl_happy);
-  iget_int8(&iter, &packet->ppl_content);
-  iget_int8(&iter, &packet->ppl_unhappy);
-  iget_int8(&iter, &packet->ppl_elvis);
-  iget_int8(&iter, &packet->ppl_scientist);
-  iget_int8(&iter, &packet->ppl_taxman);
+  iget_uint8(&iter, &packet->size);
+  iget_uint8(&iter, &packet->ppl_happy);
+  iget_uint8(&iter, &packet->ppl_content);
+  iget_uint8(&iter, &packet->ppl_unhappy);
+  iget_uint8(&iter, &packet->ppl_elvis);
+  iget_uint8(&iter, &packet->ppl_scientist);
+  iget_uint8(&iter, &packet->ppl_taxman);
   
-  iget_int8(&iter, &packet->food_prod);
-  iget_int8(&iter, &packet->food_surplus);
+  iget_uint8(&iter, &packet->food_prod);
+  iget_uint8(&iter, &packet->food_surplus);
   if(packet->food_surplus > 127) packet->food_surplus-=256;
-  iget_int16(&iter, &packet->shield_prod);
-  iget_int16(&iter, &packet->shield_surplus);
+  iget_uint16(&iter, &packet->shield_prod);
+  iget_uint16(&iter, &packet->shield_surplus);
   if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
-  iget_int16(&iter, &packet->trade_prod);
-  iget_int16(&iter, &packet->corruption);
+  iget_uint16(&iter, &packet->trade_prod);
+  iget_uint16(&iter, &packet->corruption);
 
-  iget_int16(&iter, &packet->luxury_total);
-  iget_int16(&iter, &packet->tax_total);
-  iget_int16(&iter, &packet->science_total);
+  iget_uint16(&iter, &packet->luxury_total);
+  iget_uint16(&iter, &packet->tax_total);
+  iget_uint16(&iter, &packet->science_total);
   
-  iget_int16(&iter, &packet->food_stock);
-  iget_int16(&iter, &packet->shield_stock);
-  iget_int16(&iter, &packet->pollution);
-  iget_int8(&iter, &packet->currently_building);
+  iget_uint16(&iter, &packet->food_stock);
+  iget_uint16(&iter, &packet->shield_stock);
+  iget_uint16(&iter, &packet->pollution);
+  iget_uint8(&iter, &packet->currently_building);
 
-  iget_int8(&iter, &data);
+  iget_uint8(&iter, &data);
   packet->is_building_unit = data&1;
   packet->did_buy = (data>>=1)&1;
   packet->did_sell = (data>>=1)&1;
@@ -1529,13 +1544,13 @@ receive_packet_city_info(struct connection *pc)
 		  sizeof(packet->improvements));
 
   /* if(has_capability("autoattack1", pc->capability)) */
-  iget_int8(&iter, &packet->city_options);
+  iget_uint8(&iter, &packet->city_options);
 
   for(data=0;data<4;data++)  {
     if (pack_iter_remaining(&iter) < 3)
       break;
-    iget_int16(&iter, &packet->trade[data]);
-    iget_int8(&iter, &packet->trade_value[data]);
+    iget_uint16(&iter, &packet->trade[data]);
+    iget_uint8(&iter, &packet->trade_value[data]);
   }
   for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
 
@@ -1557,29 +1572,29 @@ receive_packet_unit_info(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &packet->id);
-  iget_int8(&iter, &pack);
+  iget_uint16(&iter, &packet->id);
+  iget_uint8(&iter, &pack);
   packet->owner=pack&0x0f;
   packet->veteran=(pack&0x10)?1:0;
   packet->ai=(pack&0x20)?1:0;
   packet->paradropped=(pack&0x40)?1:0;
-  iget_int8(&iter, &packet->x);
-  iget_int8(&iter, &packet->y);
-  iget_int16(&iter, &packet->homecity);
-  iget_int8(&iter, &packet->type);
-  iget_int8(&iter, &packet->movesleft);
-  iget_int8(&iter, &packet->hp);
-  iget_int8(&iter, &packet->upkeep);
-  iget_int8(&iter, &packet->upkeep_food);
-  iget_int8(&iter, &packet->upkeep_gold);
-  iget_int8(&iter, &packet->unhappiness);
-  iget_int8(&iter, &packet->activity);
-  iget_int8(&iter, &packet->activity_count);
-  iget_int8(&iter, &packet->goto_dest_x);
-  iget_int8(&iter, &packet->goto_dest_y);
-  iget_int16(&iter, &packet->activity_target);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
+  iget_uint16(&iter, &packet->homecity);
+  iget_uint8(&iter, &packet->type);
+  iget_uint8(&iter, &packet->movesleft);
+  iget_uint8(&iter, &packet->hp);
+  iget_uint8(&iter, &packet->upkeep);
+  iget_uint8(&iter, &packet->upkeep_food);
+  iget_uint8(&iter, &packet->upkeep_gold);
+  iget_uint8(&iter, &packet->unhappiness);
+  iget_uint8(&iter, &packet->activity);
+  iget_uint8(&iter, &packet->activity_count);
+  iget_uint8(&iter, &packet->goto_dest_x);
+  iget_uint8(&iter, &packet->goto_dest_y);
+  iget_uint16(&iter, &packet->activity_target);
   if (pack_iter_remaining(&iter) >= 1) {
-    iget_int8(&iter, &packet->fuel);
+    iget_uint8(&iter, &packet->fuel);
   } else {
     packet->fuel=0;
   }
@@ -1601,7 +1616,7 @@ receive_packet_new_year(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &packet->year);
+  iget_uint32(&iter, &packet->year);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1617,11 +1632,11 @@ int send_packet_move_unit(struct connection *pc, struct
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
-  cptr=put_int8(buffer+2, PACKET_MOVE_UNIT);
-  cptr=put_int8(cptr, request->x);
-  cptr=put_int8(cptr, request->y);
-  cptr=put_int16(cptr, request->unid);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, PACKET_MOVE_UNIT);
+  cptr=put_uint8(cptr, request->x);
+  cptr=put_uint8(cptr, request->y);
+  cptr=put_uint16(cptr, request->unid);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1639,9 +1654,9 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->x);
-  iget_int8(&iter, &packet->y);
-  iget_int16(&iter, &packet->unid);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
+  iget_uint16(&iter, &packet->unid);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1655,14 +1670,14 @@ int send_packet_req_join_game(struct connection *pc, struct
 			      packet_req_join_game *request)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_REQUEST_JOIN_GAME);
+  cptr=put_uint8(buffer+2, PACKET_REQUEST_JOIN_GAME);
   cptr=put_string(cptr, request->short_name);
-  cptr=put_int32(cptr, request->major_version);
-  cptr=put_int32(cptr, request->minor_version);
-  cptr=put_int32(cptr, request->patch_version);
+  cptr=put_uint32(cptr, request->major_version);
+  cptr=put_uint32(cptr, request->minor_version);
+  cptr=put_uint32(cptr, request->patch_version);
   cptr=put_string(cptr, request->capability);
   cptr=put_string(cptr, request->name);
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1674,8 +1689,8 @@ int send_packet_join_game_reply(struct connection *pc, struct
 			        packet_join_game_reply *reply)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_JOIN_GAME_REPLY);
-  cptr=put_int32(cptr, reply->you_can_join);
+  cptr=put_uint8(buffer+2, PACKET_JOIN_GAME_REPLY);
+  cptr=put_uint32(cptr, reply->you_can_join);
   /* if other end is byte swapped, you_can_join should be 0,
      which is 0 even if bytes are swapped! --dwp */
   cptr=put_string(cptr, reply->message);
@@ -1683,9 +1698,9 @@ int send_packet_join_game_reply(struct connection *pc, struct
 
   /* so that old clients will understand the reply: */
   if(pc->byte_swap) {
-    put_int16(buffer, swab_int16(cptr-buffer));
+    put_uint16(buffer, swab_uint16(cptr-buffer));
   } else {
-    put_int16(buffer, cptr-buffer);
+    put_uint16(buffer, cptr-buffer);
   }
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1698,13 +1713,13 @@ int send_packet_generic_message(struct connection *pc, int type,
 				struct packet_generic_message *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, type);
-  cptr=put_int8(cptr, packet->x);
-  cptr=put_int8(cptr, packet->y);
-  cptr=put_int32(cptr, packet->event);
+  cptr=put_uint8(buffer+2, type);
+  cptr=put_uint8(cptr, packet->x);
+  cptr=put_uint8(cptr, packet->y);
+  cptr=put_uint32(cptr, packet->event);
 
   cptr=put_string(cptr, packet->message);
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1716,9 +1731,9 @@ int send_packet_generic_integer(struct connection *pc, int type,
 				struct packet_generic_integer *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, type);
-  cptr=put_int32(cptr, packet->value);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(buffer+2, type);
+  cptr=put_uint32(cptr, packet->value);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -1735,9 +1750,9 @@ receive_packet_req_join_game(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_string(&iter, packet->short_name, sizeof(packet->short_name));
-  iget_int32(&iter, &packet->major_version);
-  iget_int32(&iter, &packet->minor_version);
-  iget_int32(&iter, &packet->patch_version);
+  iget_uint32(&iter, &packet->major_version);
+  iget_uint32(&iter, &packet->minor_version);
+  iget_uint32(&iter, &packet->patch_version);
   iget_string(&iter, packet->capability, sizeof(packet->capability));
   if (pack_iter_remaining(&iter)) {
     iget_string(&iter, packet->name, sizeof(packet->name));
@@ -1762,7 +1777,7 @@ receive_packet_join_game_reply(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &packet->you_can_join);
+  iget_uint32(&iter, &packet->you_can_join);
   iget_string(&iter, packet->message, sizeof(packet->message));
   iget_string(&iter, packet->capability, sizeof(packet->capability));
 
@@ -1783,9 +1798,9 @@ receive_packet_generic_message(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->x);
-  iget_int8(&iter, &packet->y);
-  iget_int32(&iter, &packet->event);
+  iget_uint8(&iter, &packet->x);
+  iget_uint8(&iter, &packet->y);
+  iget_uint32(&iter, &packet->event);
   iget_string(&iter, packet->message, sizeof(packet->message));
   
   pack_iter_end(&iter, pc);
@@ -1805,7 +1820,7 @@ receive_packet_generic_integer(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &packet->value);
+  iget_uint32(&iter, &packet->value);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1819,11 +1834,11 @@ int send_packet_alloc_nation(struct connection *pc,
 			     struct packet_alloc_nation *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_ALLOC_NATION);
-  cptr=put_int32(cptr, packet->nation_no);
+  cptr=put_uint8(buffer+2, PACKET_ALLOC_NATION);
+  cptr=put_uint32(cptr, packet->nation_no);
   cptr=put_string(cptr, packet->name);
-  cptr=put_int8(cptr,packet->is_male);
-  put_int16(buffer, cptr-buffer);
+  cptr=put_uint8(cptr,packet->is_male);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1840,9 +1855,9 @@ receive_packet_alloc_nation(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &packet->nation_no);
+  iget_uint32(&iter, &packet->nation_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
-  iget_int8(&iter, &packet->is_male);
+  iget_uint8(&iter, &packet->is_male);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1857,12 +1872,12 @@ int send_packet_generic_values(struct connection *pc, int type,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   
-  cptr=put_int8(buffer+2, type);
-  cptr=put_int16(cptr, req->id);
-  cptr=put_int32(cptr, req->value1);
-  cptr=put_int32(cptr, req->value2);
+  cptr=put_uint8(buffer+2, type);
+  cptr=put_uint16(cptr, req->id);
+  cptr=put_uint32(cptr, req->value1);
+  cptr=put_uint32(cptr, req->value2);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1879,14 +1894,14 @@ receive_packet_generic_values(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &packet->id);
+  iget_uint16(&iter, &packet->id);
   if (pack_iter_remaining(&iter) >= 4) {
-    iget_int32(&iter, &packet->value1);
+    iget_uint32(&iter, &packet->value1);
   } else {
     packet->value1 = 0;
   }
   if (pack_iter_remaining(&iter) >= 4) {
-    iget_int32(&iter, &packet->value2);
+    iget_uint32(&iter, &packet->value2);
   } else {
     packet->value2 = 0;
   }
@@ -1904,29 +1919,29 @@ int send_packet_ruleset_control(struct connection *pc,
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   
-  cptr=put_int8(buffer+2, PACKET_RULESET_CONTROL);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_CONTROL);
   
-  cptr=put_int8(cptr, packet->aqueduct_size);
-  cptr=put_int8(cptr, packet->sewer_size);
+  cptr=put_uint8(cptr, packet->aqueduct_size);
+  cptr=put_uint8(cptr, packet->sewer_size);
   
-  cptr=put_int8(cptr, packet->rtech.get_bonus_tech);
-  cptr=put_int8(cptr, packet->rtech.cathedral_plus);
-  cptr=put_int8(cptr, packet->rtech.cathedral_minus);
-  cptr=put_int8(cptr, packet->rtech.colosseum_plus);
-  cptr=put_int8(cptr, packet->rtech.temple_plus);
+  cptr=put_uint8(cptr, packet->rtech.get_bonus_tech);
+  cptr=put_uint8(cptr, packet->rtech.cathedral_plus);
+  cptr=put_uint8(cptr, packet->rtech.cathedral_minus);
+  cptr=put_uint8(cptr, packet->rtech.colosseum_plus);
+  cptr=put_uint8(cptr, packet->rtech.temple_plus);
 
-  cptr=put_int8(cptr, packet->government_count);
-  cptr=put_int8(cptr, packet->default_government);
-  cptr=put_int8(cptr, packet->government_when_anarchy);
+  cptr=put_uint8(cptr, packet->government_count);
+  cptr=put_uint8(cptr, packet->default_government);
+  cptr=put_uint8(cptr, packet->government_when_anarchy);
   
-  cptr=put_int8(cptr, packet->num_unit_types);
-  cptr=put_int8(cptr, packet->num_tech_types);
+  cptr=put_uint8(cptr, packet->num_unit_types);
+  cptr=put_uint8(cptr, packet->num_tech_types);
  
-  cptr=put_int8(cptr, packet->nation_count);
+  cptr=put_uint8(cptr, packet->nation_count);
 
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1943,23 +1958,23 @@ receive_packet_ruleset_control(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->aqueduct_size);
-  iget_int8(&iter, &packet->sewer_size);
+  iget_uint8(&iter, &packet->aqueduct_size);
+  iget_uint8(&iter, &packet->sewer_size);
   
-  iget_int8(&iter, &packet->rtech.get_bonus_tech);
-  iget_int8(&iter, &packet->rtech.cathedral_plus);
-  iget_int8(&iter, &packet->rtech.cathedral_minus);
-  iget_int8(&iter, &packet->rtech.colosseum_plus);
-  iget_int8(&iter, &packet->rtech.temple_plus);
+  iget_uint8(&iter, &packet->rtech.get_bonus_tech);
+  iget_uint8(&iter, &packet->rtech.cathedral_plus);
+  iget_uint8(&iter, &packet->rtech.cathedral_minus);
+  iget_uint8(&iter, &packet->rtech.colosseum_plus);
+  iget_uint8(&iter, &packet->rtech.temple_plus);
   
-  iget_int8(&iter, &packet->government_count);
-  iget_int8(&iter, &packet->default_government);
-  iget_int8(&iter, &packet->government_when_anarchy);
+  iget_uint8(&iter, &packet->government_count);
+  iget_uint8(&iter, &packet->default_government);
+  iget_uint8(&iter, &packet->government_when_anarchy);
 
-  iget_int8(&iter, &packet->num_unit_types);
-  iget_int8(&iter, &packet->num_tech_types);
+  iget_uint8(&iter, &packet->num_unit_types);
+  iget_uint8(&iter, &packet->num_tech_types);
 
-  iget_int8(&iter, &packet->nation_count);
+  iget_uint8(&iter, &packet->nation_count);
 
   iget_tech_list(&iter, packet->rtech.partisan_req);
 
@@ -1975,41 +1990,41 @@ int send_packet_ruleset_unit(struct connection *pc,
 			     struct packet_ruleset_unit *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_UNIT);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_UNIT);
   
-  cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->move_type);
-  cptr=put_int16(cptr, packet->build_cost);
-  cptr=put_int8(cptr, packet->attack_strength);
-  cptr=put_int8(cptr, packet->defense_strength);
-  cptr=put_int8(cptr, packet->move_rate);
-  cptr=put_int8(cptr, packet->tech_requirement);
-  cptr=put_int8(cptr, packet->vision_range);
-  cptr=put_int8(cptr, packet->transport_capacity);
-  cptr=put_int8(cptr, packet->hp);
-  cptr=put_int8(cptr, packet->firepower);
-  cptr=put_int8(cptr, packet->obsoleted_by);
-  cptr=put_int8(cptr, packet->fuel);
-  cptr=put_int32(cptr, packet->flags);
-  cptr=put_int32(cptr, packet->roles);
-  cptr=put_int8(cptr, packet->happy_cost);   /* unit upkeep -- SKi */
-  cptr=put_int8(cptr, packet->shield_cost);
-  cptr=put_int8(cptr, packet->food_cost);
-  cptr=put_int8(cptr, packet->gold_cost);
+  cptr=put_uint8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->move_type);
+  cptr=put_uint16(cptr, packet->build_cost);
+  cptr=put_uint8(cptr, packet->attack_strength);
+  cptr=put_uint8(cptr, packet->defense_strength);
+  cptr=put_uint8(cptr, packet->move_rate);
+  cptr=put_uint8(cptr, packet->tech_requirement);
+  cptr=put_uint8(cptr, packet->vision_range);
+  cptr=put_uint8(cptr, packet->transport_capacity);
+  cptr=put_uint8(cptr, packet->hp);
+  cptr=put_uint8(cptr, packet->firepower);
+  cptr=put_uint8(cptr, packet->obsoleted_by);
+  cptr=put_uint8(cptr, packet->fuel);
+  cptr=put_uint32(cptr, packet->flags);
+  cptr=put_uint32(cptr, packet->roles);
+  cptr=put_uint8(cptr, packet->happy_cost);   /* unit upkeep -- SKi */
+  cptr=put_uint8(cptr, packet->shield_cost);
+  cptr=put_uint8(cptr, packet->food_cost);
+  cptr=put_uint8(cptr, packet->gold_cost);
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
   if(unit_flag(packet->id, F_PARATROOPERS)) {
-    cptr=put_int16(cptr, packet->paratroopers_range);
-    cptr=put_int8(cptr, packet->paratroopers_mr_req);
-    cptr=put_int8(cptr, packet->paratroopers_mr_sub);
+    cptr=put_uint16(cptr, packet->paratroopers_range);
+    cptr=put_uint8(cptr, packet->paratroopers_mr_req);
+    cptr=put_uint8(cptr, packet->paratroopers_mr_sub);
   }
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2027,33 +2042,33 @@ receive_packet_ruleset_unit(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->move_type);
-  iget_int16(&iter, &packet->build_cost);
-  iget_int8(&iter, &packet->attack_strength);
-  iget_int8(&iter, &packet->defense_strength);
-  iget_int8(&iter, &packet->move_rate);
-  iget_int8(&iter, &packet->tech_requirement);
-  iget_int8(&iter, &packet->vision_range);
-  iget_int8(&iter, &packet->transport_capacity);
-  iget_int8(&iter, &packet->hp);
-  iget_int8(&iter, &packet->firepower);
-  iget_int8(&iter, &packet->obsoleted_by);
+  iget_uint8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->move_type);
+  iget_uint16(&iter, &packet->build_cost);
+  iget_uint8(&iter, &packet->attack_strength);
+  iget_uint8(&iter, &packet->defense_strength);
+  iget_uint8(&iter, &packet->move_rate);
+  iget_uint8(&iter, &packet->tech_requirement);
+  iget_uint8(&iter, &packet->vision_range);
+  iget_uint8(&iter, &packet->transport_capacity);
+  iget_uint8(&iter, &packet->hp);
+  iget_uint8(&iter, &packet->firepower);
+  iget_uint8(&iter, &packet->obsoleted_by);
   if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
-  iget_int8(&iter, &packet->fuel);
-  iget_int32(&iter, &packet->flags);
-  iget_int32(&iter, &packet->roles);
-  iget_int8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
-  iget_int8(&iter, &packet->shield_cost);
-  iget_int8(&iter, &packet->food_cost);
-  iget_int8(&iter, &packet->gold_cost);
+  iget_uint8(&iter, &packet->fuel);
+  iget_uint32(&iter, &packet->flags);
+  iget_uint32(&iter, &packet->roles);
+  iget_uint8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
+  iget_uint8(&iter, &packet->shield_cost);
+  iget_uint8(&iter, &packet->food_cost);
+  iget_uint8(&iter, &packet->gold_cost);
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
   if(packet->flags & (1L<<F_PARATROOPERS)) {
-    iget_int16(&iter, &packet->paratroopers_range);
-    iget_int8(&iter, &packet->paratroopers_mr_req);
-    iget_int8(&iter, &packet->paratroopers_mr_sub);
+    iget_uint16(&iter, &packet->paratroopers_range);
+    iget_uint8(&iter, &packet->paratroopers_mr_req);
+    iget_uint8(&iter, &packet->paratroopers_mr_sub);
   } else {
     packet->paratroopers_range=0;
     packet->paratroopers_mr_req=0;
@@ -2081,19 +2096,19 @@ int send_packet_ruleset_tech(struct connection *pc,
 			     struct packet_ruleset_tech *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_TECH);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_TECH);
   
-  cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->req[0]);
-  cptr=put_int8(cptr, packet->req[1]);
-  cptr=put_int32(cptr, packet->flags);
+  cptr=put_uint8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->req[0]);
+  cptr=put_uint8(cptr, packet->req[1]);
+  cptr=put_uint32(cptr, packet->flags);
   cptr=put_string(cptr, packet->name);
   
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2111,10 +2126,10 @@ receive_packet_ruleset_tech(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->req[0]);
-  iget_int8(&iter, &packet->req[1]);
-  iget_int32(&iter, &packet->flags);
+  iget_uint8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->req[0]);
+  iget_uint8(&iter, &packet->req[1]);
+  iget_uint32(&iter, &packet->flags);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
@@ -2137,22 +2152,22 @@ int send_packet_ruleset_building(struct connection *pc,
 			     struct packet_ruleset_building *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_BUILDING);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_BUILDING);
   
-  cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->is_wonder);
-  cptr=put_int8(cptr, packet->tech_requirement);
-  cptr=put_int16(cptr, packet->build_cost);
-  cptr=put_int8(cptr, packet->shield_upkeep);
-  cptr=put_int8(cptr, packet->obsolete_by);
-  cptr=put_int8(cptr, packet->variant);
+  cptr=put_uint8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->is_wonder);
+  cptr=put_uint8(cptr, packet->tech_requirement);
+  cptr=put_uint16(cptr, packet->build_cost);
+  cptr=put_uint8(cptr, packet->shield_upkeep);
+  cptr=put_uint8(cptr, packet->obsolete_by);
+  cptr=put_uint8(cptr, packet->variant);
   cptr=put_string(cptr, packet->name);
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2170,13 +2185,13 @@ receive_packet_ruleset_building(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->is_wonder);
-  iget_int8(&iter, &packet->tech_requirement);
-  iget_int16(&iter, &packet->build_cost);
-  iget_int8(&iter, &packet->shield_upkeep);
-  iget_int8(&iter, &packet->obsolete_by);
-  iget_int8(&iter, &packet->variant);
+  iget_uint8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->is_wonder);
+  iget_uint8(&iter, &packet->tech_requirement);
+  iget_uint16(&iter, &packet->build_cost);
+  iget_uint8(&iter, &packet->shield_upkeep);
+  iget_uint8(&iter, &packet->obsolete_by);
+  iget_uint8(&iter, &packet->variant);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
@@ -2200,33 +2215,33 @@ int send_packet_ruleset_terrain(struct connection *pc,
 {
   int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_TERRAIN);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN);
 
-  cptr=put_int8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->id);
   cptr=put_string(cptr, packet->terrain_name);
-  cptr=put_int8(cptr, packet->movement_cost);
-  cptr=put_int8(cptr, packet->defense_bonus);
-  cptr=put_int8(cptr, packet->food);
-  cptr=put_int8(cptr, packet->shield);
-  cptr=put_int8(cptr, packet->trade);
+  cptr=put_uint8(cptr, packet->movement_cost);
+  cptr=put_uint8(cptr, packet->defense_bonus);
+  cptr=put_uint8(cptr, packet->food);
+  cptr=put_uint8(cptr, packet->shield);
+  cptr=put_uint8(cptr, packet->trade);
   cptr=put_string(cptr, packet->special_1_name);
-  cptr=put_int8(cptr, packet->food_special_1);
-  cptr=put_int8(cptr, packet->shield_special_1);
-  cptr=put_int8(cptr, packet->trade_special_1);
+  cptr=put_uint8(cptr, packet->food_special_1);
+  cptr=put_uint8(cptr, packet->shield_special_1);
+  cptr=put_uint8(cptr, packet->trade_special_1);
   cptr=put_string(cptr, packet->special_2_name);
-  cptr=put_int8(cptr, packet->food_special_2);
-  cptr=put_int8(cptr, packet->shield_special_2);
-  cptr=put_int8(cptr, packet->trade_special_2);
-  cptr=put_int8(cptr, packet->road_trade_incr);
-  cptr=put_int8(cptr, packet->road_time);
-  cptr=put_int8(cptr, packet->irrigation_result);
-  cptr=put_int8(cptr, packet->irrigation_food_incr);
-  cptr=put_int8(cptr, packet->irrigation_time);
-  cptr=put_int8(cptr, packet->mining_result);
-  cptr=put_int8(cptr, packet->mining_shield_incr);
-  cptr=put_int8(cptr, packet->mining_time);
-  cptr=put_int8(cptr, packet->transform_result);
-  cptr=put_int8(cptr, packet->transform_time);
+  cptr=put_uint8(cptr, packet->food_special_2);
+  cptr=put_uint8(cptr, packet->shield_special_2);
+  cptr=put_uint8(cptr, packet->trade_special_2);
+  cptr=put_uint8(cptr, packet->road_trade_incr);
+  cptr=put_uint8(cptr, packet->road_time);
+  cptr=put_uint8(cptr, packet->irrigation_result);
+  cptr=put_uint8(cptr, packet->irrigation_food_incr);
+  cptr=put_uint8(cptr, packet->irrigation_time);
+  cptr=put_uint8(cptr, packet->mining_result);
+  cptr=put_uint8(cptr, packet->mining_shield_incr);
+  cptr=put_uint8(cptr, packet->mining_time);
+  cptr=put_uint8(cptr, packet->transform_result);
+  cptr=put_uint8(cptr, packet->transform_time);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
   for(i=0; i<2; i++) {
@@ -2239,7 +2254,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
     cptr=put_string(cptr, packet->helptext);
   }
   
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2257,31 +2272,31 @@ receive_packet_ruleset_terrain(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->id);
   iget_string(&iter, packet->terrain_name, sizeof(packet->terrain_name));
-  iget_int8(&iter, &packet->movement_cost);
-  iget_int8(&iter, &packet->defense_bonus);
-  iget_int8(&iter, &packet->food);
-  iget_int8(&iter, &packet->shield);
-  iget_int8(&iter, &packet->trade);
+  iget_uint8(&iter, &packet->movement_cost);
+  iget_uint8(&iter, &packet->defense_bonus);
+  iget_uint8(&iter, &packet->food);
+  iget_uint8(&iter, &packet->shield);
+  iget_uint8(&iter, &packet->trade);
   iget_string(&iter, packet->special_1_name, sizeof(packet->special_1_name));
-  iget_int8(&iter, &packet->food_special_1);
-  iget_int8(&iter, &packet->shield_special_1);
-  iget_int8(&iter, &packet->trade_special_1);
+  iget_uint8(&iter, &packet->food_special_1);
+  iget_uint8(&iter, &packet->shield_special_1);
+  iget_uint8(&iter, &packet->trade_special_1);
   iget_string(&iter, packet->special_2_name, sizeof(packet->special_2_name));
-  iget_int8(&iter, &packet->food_special_2);
-  iget_int8(&iter, &packet->shield_special_2);
-  iget_int8(&iter, &packet->trade_special_2);
-  iget_int8(&iter, &packet->road_trade_incr);
-  iget_int8(&iter, &packet->road_time);
-  iget_int8(&iter, (int*)&packet->irrigation_result);
-  iget_int8(&iter, &packet->irrigation_food_incr);
-  iget_int8(&iter, &packet->irrigation_time);
-  iget_int8(&iter, (int*)&packet->mining_result);
-  iget_int8(&iter, &packet->mining_shield_incr);
-  iget_int8(&iter, &packet->mining_time);
-  iget_int8(&iter, (int*)&packet->transform_result);
-  iget_int8(&iter, &packet->transform_time);
+  iget_uint8(&iter, &packet->food_special_2);
+  iget_uint8(&iter, &packet->shield_special_2);
+  iget_uint8(&iter, &packet->trade_special_2);
+  iget_uint8(&iter, &packet->road_trade_incr);
+  iget_uint8(&iter, &packet->road_time);
+  iget_uint8(&iter, (int*)&packet->irrigation_result);
+  iget_uint8(&iter, &packet->irrigation_food_incr);
+  iget_uint8(&iter, &packet->irrigation_time);
+  iget_uint8(&iter, (int*)&packet->mining_result);
+  iget_uint8(&iter, &packet->mining_shield_incr);
+  iget_uint8(&iter, &packet->mining_time);
+  iget_uint8(&iter, (int*)&packet->transform_result);
+  iget_uint8(&iter, &packet->transform_time);
   
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
@@ -2312,27 +2327,27 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
 					struct terrain_misc *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
 
-  cptr=put_int8(cptr, packet->river_style);
-  cptr=put_int8(cptr, packet->may_road);
-  cptr=put_int8(cptr, packet->may_irrigate);
-  cptr=put_int8(cptr, packet->may_mine);
-  cptr=put_int8(cptr, packet->may_transform);
-  cptr=put_int8(cptr, packet->river_move_mode);
-  cptr=put_int16(cptr, packet->river_defense_bonus);
-  cptr=put_int16(cptr, packet->river_trade_incr);
-  cptr=put_int16(cptr, packet->fortress_defense_bonus);
-  cptr=put_int16(cptr, packet->road_superhighway_trade_bonus);
-  cptr=put_int16(cptr, packet->rail_food_bonus);
-  cptr=put_int16(cptr, packet->rail_shield_bonus);
-  cptr=put_int16(cptr, packet->rail_trade_bonus);
-  cptr=put_int16(cptr, packet->farmland_supermarket_food_bonus);
-  cptr=put_int16(cptr, packet->pollution_food_penalty);
-  cptr=put_int16(cptr, packet->pollution_shield_penalty);
-  cptr=put_int16(cptr, packet->pollution_trade_penalty);
+  cptr=put_uint8(cptr, packet->river_style);
+  cptr=put_uint8(cptr, packet->may_road);
+  cptr=put_uint8(cptr, packet->may_irrigate);
+  cptr=put_uint8(cptr, packet->may_mine);
+  cptr=put_uint8(cptr, packet->may_transform);
+  cptr=put_uint8(cptr, packet->river_move_mode);
+  cptr=put_uint16(cptr, packet->river_defense_bonus);
+  cptr=put_uint16(cptr, packet->river_trade_incr);
+  cptr=put_uint16(cptr, packet->fortress_defense_bonus);
+  cptr=put_uint16(cptr, packet->road_superhighway_trade_bonus);
+  cptr=put_uint16(cptr, packet->rail_food_bonus);
+  cptr=put_uint16(cptr, packet->rail_shield_bonus);
+  cptr=put_uint16(cptr, packet->rail_trade_bonus);
+  cptr=put_uint16(cptr, packet->farmland_supermarket_food_bonus);
+  cptr=put_uint16(cptr, packet->pollution_food_penalty);
+  cptr=put_uint16(cptr, packet->pollution_shield_penalty);
+  cptr=put_uint16(cptr, packet->pollution_trade_penalty);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2349,23 +2364,23 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, (int*)&packet->river_style);
-  iget_int8(&iter, &packet->may_road);
-  iget_int8(&iter, &packet->may_irrigate);
-  iget_int8(&iter, &packet->may_mine);
-  iget_int8(&iter, &packet->may_transform);
-  iget_int8(&iter, (int*)&packet->river_move_mode);
-  iget_int16(&iter, &packet->river_defense_bonus);
-  iget_int16(&iter, &packet->river_trade_incr);
-  iget_int16(&iter, &packet->fortress_defense_bonus);
-  iget_int16(&iter, &packet->road_superhighway_trade_bonus);
-  iget_int16(&iter, &packet->rail_food_bonus);
-  iget_int16(&iter, &packet->rail_shield_bonus);
-  iget_int16(&iter, &packet->rail_trade_bonus);
-  iget_int16(&iter, &packet->farmland_supermarket_food_bonus);
-  iget_int16(&iter, &packet->pollution_food_penalty);
-  iget_int16(&iter, &packet->pollution_shield_penalty);
-  iget_int16(&iter, &packet->pollution_trade_penalty);
+  iget_uint8(&iter, (int*)&packet->river_style);
+  iget_uint8(&iter, &packet->may_road);
+  iget_uint8(&iter, &packet->may_irrigate);
+  iget_uint8(&iter, &packet->may_mine);
+  iget_uint8(&iter, &packet->may_transform);
+  iget_uint8(&iter, (int*)&packet->river_move_mode);
+  iget_uint16(&iter, &packet->river_defense_bonus);
+  iget_uint16(&iter, &packet->river_trade_incr);
+  iget_uint16(&iter, &packet->fortress_defense_bonus);
+  iget_uint16(&iter, &packet->road_superhighway_trade_bonus);
+  iget_uint16(&iter, &packet->rail_food_bonus);
+  iget_uint16(&iter, &packet->rail_shield_bonus);
+  iget_uint16(&iter, &packet->rail_trade_bonus);
+  iget_uint16(&iter, &packet->farmland_supermarket_food_bonus);
+  iget_uint16(&iter, &packet->pollution_food_penalty);
+  iget_uint16(&iter, &packet->pollution_shield_penalty);
+  iget_uint16(&iter, &packet->pollution_trade_penalty);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2379,54 +2394,54 @@ int send_packet_ruleset_government(struct connection *pc,
 			     struct packet_ruleset_government *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_GOVERNMENT);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT);
   
-  cptr=put_int8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->id);
   
-  cptr=put_int8(cptr, packet->required_tech);
-  cptr=put_int8(cptr, packet->max_rate);
-  cptr=put_int8(cptr, packet->civil_war);
-  cptr=put_int8(cptr, packet->martial_law_max);
-  cptr=put_int8(cptr, packet->martial_law_per);
-  cptr=put_int8(cptr, packet->empire_size_mod);
-  cptr=put_int8(cptr, packet->rapture_size);
+  cptr=put_uint8(cptr, packet->required_tech);
+  cptr=put_uint8(cptr, packet->max_rate);
+  cptr=put_uint8(cptr, packet->civil_war);
+  cptr=put_uint8(cptr, packet->martial_law_max);
+  cptr=put_uint8(cptr, packet->martial_law_per);
+  cptr=put_uint8(cptr, packet->empire_size_mod);
+  cptr=put_uint8(cptr, packet->rapture_size);
   
-  cptr=put_int8(cptr, packet->unit_happy_cost_factor);
-  cptr=put_int8(cptr, packet->unit_shield_cost_factor);
-  cptr=put_int8(cptr, packet->unit_food_cost_factor);
-  cptr=put_int8(cptr, packet->unit_gold_cost_factor);
+  cptr=put_uint8(cptr, packet->unit_happy_cost_factor);
+  cptr=put_uint8(cptr, packet->unit_shield_cost_factor);
+  cptr=put_uint8(cptr, packet->unit_food_cost_factor);
+  cptr=put_uint8(cptr, packet->unit_gold_cost_factor);
   
-  cptr=put_int8(cptr, packet->free_happy);
-  cptr=put_int8(cptr, packet->free_shield);
-  cptr=put_int8(cptr, packet->free_food);
-  cptr=put_int8(cptr, packet->free_gold);
+  cptr=put_uint8(cptr, packet->free_happy);
+  cptr=put_uint8(cptr, packet->free_shield);
+  cptr=put_uint8(cptr, packet->free_food);
+  cptr=put_uint8(cptr, packet->free_gold);
 
-  cptr=put_int8(cptr, packet->trade_before_penalty);
-  cptr=put_int8(cptr, packet->shields_before_penalty);
-  cptr=put_int8(cptr, packet->food_before_penalty);
+  cptr=put_uint8(cptr, packet->trade_before_penalty);
+  cptr=put_uint8(cptr, packet->shields_before_penalty);
+  cptr=put_uint8(cptr, packet->food_before_penalty);
 
-  cptr=put_int8(cptr, packet->celeb_trade_before_penalty);
-  cptr=put_int8(cptr, packet->celeb_shields_before_penalty);
-  cptr=put_int8(cptr, packet->celeb_food_before_penalty);
+  cptr=put_uint8(cptr, packet->celeb_trade_before_penalty);
+  cptr=put_uint8(cptr, packet->celeb_shields_before_penalty);
+  cptr=put_uint8(cptr, packet->celeb_food_before_penalty);
 
-  cptr=put_int8(cptr, packet->trade_bonus);
-  cptr=put_int8(cptr, packet->shield_bonus);
-  cptr=put_int8(cptr, packet->food_bonus);
+  cptr=put_uint8(cptr, packet->trade_bonus);
+  cptr=put_uint8(cptr, packet->shield_bonus);
+  cptr=put_uint8(cptr, packet->food_bonus);
 
-  cptr=put_int8(cptr, packet->celeb_trade_bonus);
-  cptr=put_int8(cptr, packet->celeb_shield_bonus);
-  cptr=put_int8(cptr, packet->celeb_food_bonus);
+  cptr=put_uint8(cptr, packet->celeb_trade_bonus);
+  cptr=put_uint8(cptr, packet->celeb_shield_bonus);
+  cptr=put_uint8(cptr, packet->celeb_food_bonus);
 
-  cptr=put_int8(cptr, packet->corruption_level);
-  cptr=put_int8(cptr, packet->corruption_modifier);
-  cptr=put_int8(cptr, packet->fixed_corruption_distance);
-  cptr=put_int8(cptr, packet->corruption_distance_factor);
-  cptr=put_int8(cptr, packet->extra_corruption_distance);
+  cptr=put_uint8(cptr, packet->corruption_level);
+  cptr=put_uint8(cptr, packet->corruption_modifier);
+  cptr=put_uint8(cptr, packet->fixed_corruption_distance);
+  cptr=put_uint8(cptr, packet->corruption_distance_factor);
+  cptr=put_uint8(cptr, packet->extra_corruption_distance);
 
-  cptr=put_int8(cptr, packet->flags);
-  cptr=put_int8(cptr, packet->hints);
+  cptr=put_uint8(cptr, packet->flags);
+  cptr=put_uint8(cptr, packet->hints);
 
-  cptr=put_int8(cptr, packet->num_ruler_titles);
+  cptr=put_uint8(cptr, packet->num_ruler_titles);
 
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
@@ -2439,23 +2454,23 @@ int send_packet_ruleset_government(struct connection *pc,
   
   freelog(LOG_DEBUG, "send gov %s", packet->name);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 int send_packet_ruleset_government_ruler_title(struct connection *pc,
 			     struct packet_ruleset_government_ruler_title *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_GOVERNMENT_RULER_TITLE);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT_RULER_TITLE);
   
-  cptr=put_int8(cptr, packet->gov);
-  cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->nation);
+  cptr=put_uint8(cptr, packet->gov);
+  cptr=put_uint8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->nation);
 
   cptr=put_string(cptr, packet->male_title);
   cptr=put_string(cptr, packet->female_title);
   
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -2472,53 +2487,53 @@ receive_packet_ruleset_government(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->id);
   
-  iget_int8(&iter, &packet->required_tech);
-  iget_int8(&iter, &packet->max_rate);
-  iget_int8(&iter, &packet->civil_war);
-  iget_int8(&iter, &packet->martial_law_max);
-  iget_int8(&iter, &packet->martial_law_per);
-  iget_int8(&iter, &packet->empire_size_mod);
+  iget_uint8(&iter, &packet->required_tech);
+  iget_uint8(&iter, &packet->max_rate);
+  iget_uint8(&iter, &packet->civil_war);
+  iget_uint8(&iter, &packet->martial_law_max);
+  iget_uint8(&iter, &packet->martial_law_per);
+  iget_uint8(&iter, &packet->empire_size_mod);
   if(packet->empire_size_mod > 127) packet->empire_size_mod-=256;
-  iget_int8(&iter, &packet->rapture_size);
+  iget_uint8(&iter, &packet->rapture_size);
   
-  iget_int8(&iter, &packet->unit_happy_cost_factor);
-  iget_int8(&iter, &packet->unit_shield_cost_factor);
-  iget_int8(&iter, &packet->unit_food_cost_factor);
-  iget_int8(&iter, &packet->unit_gold_cost_factor);
+  iget_uint8(&iter, &packet->unit_happy_cost_factor);
+  iget_uint8(&iter, &packet->unit_shield_cost_factor);
+  iget_uint8(&iter, &packet->unit_food_cost_factor);
+  iget_uint8(&iter, &packet->unit_gold_cost_factor);
   
-  iget_int8(&iter, &packet->free_happy);
-  iget_int8(&iter, &packet->free_shield);
-  iget_int8(&iter, &packet->free_food);
-  iget_int8(&iter, &packet->free_gold);
+  iget_uint8(&iter, &packet->free_happy);
+  iget_uint8(&iter, &packet->free_shield);
+  iget_uint8(&iter, &packet->free_food);
+  iget_uint8(&iter, &packet->free_gold);
 
-  iget_int8(&iter, &packet->trade_before_penalty);
-  iget_int8(&iter, &packet->shields_before_penalty);
-  iget_int8(&iter, &packet->food_before_penalty);
+  iget_uint8(&iter, &packet->trade_before_penalty);
+  iget_uint8(&iter, &packet->shields_before_penalty);
+  iget_uint8(&iter, &packet->food_before_penalty);
 
-  iget_int8(&iter, &packet->celeb_trade_before_penalty);
-  iget_int8(&iter, &packet->celeb_shields_before_penalty);
-  iget_int8(&iter, &packet->celeb_food_before_penalty);
+  iget_uint8(&iter, &packet->celeb_trade_before_penalty);
+  iget_uint8(&iter, &packet->celeb_shields_before_penalty);
+  iget_uint8(&iter, &packet->celeb_food_before_penalty);
 
-  iget_int8(&iter, &packet->trade_bonus);
-  iget_int8(&iter, &packet->shield_bonus);
-  iget_int8(&iter, &packet->food_bonus);
+  iget_uint8(&iter, &packet->trade_bonus);
+  iget_uint8(&iter, &packet->shield_bonus);
+  iget_uint8(&iter, &packet->food_bonus);
 
-  iget_int8(&iter, &packet->celeb_trade_bonus);
-  iget_int8(&iter, &packet->celeb_shield_bonus);
-  iget_int8(&iter, &packet->celeb_food_bonus);
+  iget_uint8(&iter, &packet->celeb_trade_bonus);
+  iget_uint8(&iter, &packet->celeb_shield_bonus);
+  iget_uint8(&iter, &packet->celeb_food_bonus);
 
-  iget_int8(&iter, &packet->corruption_level);
-  iget_int8(&iter, &packet->corruption_modifier);
-  iget_int8(&iter, &packet->fixed_corruption_distance);
-  iget_int8(&iter, &packet->corruption_distance_factor);
-  iget_int8(&iter, &packet->extra_corruption_distance);
+  iget_uint8(&iter, &packet->corruption_level);
+  iget_uint8(&iter, &packet->corruption_modifier);
+  iget_uint8(&iter, &packet->fixed_corruption_distance);
+  iget_uint8(&iter, &packet->corruption_distance_factor);
+  iget_uint8(&iter, &packet->extra_corruption_distance);
 
-  iget_int8(&iter, &packet->flags);
-  iget_int8(&iter, &packet->hints);
+  iget_uint8(&iter, &packet->flags);
+  iget_uint8(&iter, &packet->hints);
 
-  iget_int8(&iter, &packet->num_ruler_titles);
+  iget_uint8(&iter, &packet->num_ruler_titles);
 
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
@@ -2547,9 +2562,9 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->gov);
-  iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->nation);
+  iget_uint8(&iter, &packet->gov);
+  iget_uint8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->nation);
 
   iget_string(&iter, packet->male_title, sizeof(packet->male_title));
   iget_string(&iter, packet->female_title, sizeof(packet->female_title));
@@ -2567,21 +2582,21 @@ int send_packet_ruleset_nation(struct connection *pc,
 {
   int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_RULESET_NATION);
+  cptr=put_uint8(buffer+2, PACKET_RULESET_NATION);
 
-  cptr=put_int8(cptr, packet->id);
+  cptr=put_uint8(cptr, packet->id);
 
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->name_plural);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
-  cptr=put_int8(cptr, packet->leader_count);
+  cptr=put_uint8(cptr, packet->leader_count);
   for( i=0; i<packet->leader_count; i++ ) {
     cptr=put_string(cptr, packet->leader_name[i]);
-    cptr=put_int8(cptr, packet->leader_sex[i]);
+    cptr=put_uint8(cptr, packet->leader_sex[i]);
   }
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2600,15 +2615,15 @@ receive_packet_ruleset_nation(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
+  iget_uint8(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->name_plural, sizeof(packet->name_plural));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
-  iget_int8(&iter, &packet->leader_count);
+  iget_uint8(&iter, &packet->leader_count);
   for( i=0; i<packet->leader_count; i++ ) {
     iget_string(&iter, packet->leader_name[i], sizeof(packet->leader_name[i]));
-    iget_int8(&iter, &packet->leader_sex[i]);
+    iget_uint8(&iter, &packet->leader_sex[i]);
   }
 
   pack_iter_end(&iter, pc);
@@ -2623,28 +2638,28 @@ int send_packet_spaceship_info(struct connection *pc,
 			       struct packet_spaceship_info *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_SPACESHIP_INFO);
+  cptr=put_uint8(buffer+2, PACKET_SPACESHIP_INFO);
   
-  cptr=put_int8(cptr, packet->player_num);
-  cptr=put_int8(cptr, packet->sship_state);
-  cptr=put_int8(cptr, packet->structurals);
-  cptr=put_int8(cptr, packet->components);
-  cptr=put_int8(cptr, packet->modules);
-  cptr=put_int8(cptr, packet->fuel);
-  cptr=put_int8(cptr, packet->propulsion);
-  cptr=put_int8(cptr, packet->habitation);
-  cptr=put_int8(cptr, packet->life_support);
-  cptr=put_int8(cptr, packet->solar_panels);
-  cptr=put_int16(cptr, packet->launch_year);
-  cptr=put_int8(cptr, (packet->population/1000));
-  cptr=put_int32(cptr, packet->mass);
-  cptr=put_int32(cptr, (int) (packet->support_rate*10000));
-  cptr=put_int32(cptr, (int) (packet->energy_rate*10000));
-  cptr=put_int32(cptr, (int) (packet->success_rate*10000));
-  cptr=put_int32(cptr, (int) (packet->travel_time*10000));
+  cptr=put_uint8(cptr, packet->player_num);
+  cptr=put_uint8(cptr, packet->sship_state);
+  cptr=put_uint8(cptr, packet->structurals);
+  cptr=put_uint8(cptr, packet->components);
+  cptr=put_uint8(cptr, packet->modules);
+  cptr=put_uint8(cptr, packet->fuel);
+  cptr=put_uint8(cptr, packet->propulsion);
+  cptr=put_uint8(cptr, packet->habitation);
+  cptr=put_uint8(cptr, packet->life_support);
+  cptr=put_uint8(cptr, packet->solar_panels);
+  cptr=put_uint16(cptr, packet->launch_year);
+  cptr=put_uint8(cptr, (packet->population/1000));
+  cptr=put_uint32(cptr, packet->mass);
+  cptr=put_uint32(cptr, (int) (packet->support_rate*10000));
+  cptr=put_uint32(cptr, (int) (packet->energy_rate*10000));
+  cptr=put_uint32(cptr, (int) (packet->success_rate*10000));
+  cptr=put_uint32(cptr, (int) (packet->travel_time*10000));
   cptr=put_bit_string(cptr, (char*)packet->structure);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -2661,31 +2676,31 @@ receive_packet_spaceship_info(struct connection *pc)
   
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->player_num);
-  iget_int8(&iter, &packet->sship_state);
-  iget_int8(&iter, &packet->structurals);
-  iget_int8(&iter, &packet->components);
-  iget_int8(&iter, &packet->modules);
-  iget_int8(&iter, &packet->fuel);
-  iget_int8(&iter, &packet->propulsion);
-  iget_int8(&iter, &packet->habitation);
-  iget_int8(&iter, &packet->life_support);
-  iget_int8(&iter, &packet->solar_panels);
-  iget_int16(&iter, &packet->launch_year);
+  iget_uint8(&iter, &packet->player_num);
+  iget_uint8(&iter, &packet->sship_state);
+  iget_uint8(&iter, &packet->structurals);
+  iget_uint8(&iter, &packet->components);
+  iget_uint8(&iter, &packet->modules);
+  iget_uint8(&iter, &packet->fuel);
+  iget_uint8(&iter, &packet->propulsion);
+  iget_uint8(&iter, &packet->habitation);
+  iget_uint8(&iter, &packet->life_support);
+  iget_uint8(&iter, &packet->solar_panels);
+  iget_uint16(&iter, &packet->launch_year);
   
   if(packet->launch_year > 32767) packet->launch_year-=65536;
   
-  iget_int8(&iter, &packet->population);
+  iget_uint8(&iter, &packet->population);
   packet->population *= 1000;
-  iget_int32(&iter, &packet->mass);
+  iget_uint32(&iter, &packet->mass);
   
-  iget_int32(&iter, &tmp);
+  iget_uint32(&iter, &tmp);
   packet->support_rate = tmp * 0.0001;
-  iget_int32(&iter, &tmp);
+  iget_uint32(&iter, &tmp);
   packet->energy_rate = tmp * 0.0001;
-  iget_int32(&iter, &tmp);
+  iget_uint32(&iter, &tmp);
   packet->success_rate = tmp * 0.0001;
-  iget_int32(&iter, &tmp);
+  iget_uint32(&iter, &tmp);
   packet->travel_time = tmp * 0.0001;
 
   iget_bit_string(&iter, (char*)packet->structure, sizeof(packet->structure));
@@ -2702,12 +2717,12 @@ int send_packet_spaceship_action(struct connection *pc,
 				 struct packet_spaceship_action *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_SPACESHIP_ACTION);
+  cptr=put_uint8(buffer+2, PACKET_SPACESHIP_ACTION);
   
-  cptr=put_int8(cptr, packet->action);
-  cptr=put_int8(cptr, packet->num);
+  cptr=put_uint8(cptr, packet->action);
+  cptr=put_uint8(cptr, packet->num);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -2723,8 +2738,8 @@ receive_packet_spaceship_action(struct connection *pc)
   
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->action);
-  iget_int8(&iter, &packet->num);
+  iget_uint8(&iter, &packet->action);
+  iget_uint8(&iter, &packet->num);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2738,12 +2753,12 @@ int send_packet_city_name_suggestion(struct connection *pc,
 				     struct packet_city_name_suggestion *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
+  cptr=put_uint8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
   
-  cptr=put_int16(cptr, packet->id);
+  cptr=put_uint16(cptr, packet->id);
   cptr=put_string(cptr, packet->name);
 
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
 
@@ -2759,7 +2774,7 @@ receive_packet_city_name_suggestion(struct connection *pc)
   
   pack_iter_init(&iter, pc);
 
-  iget_int16(&iter, &packet->id);
+  iget_uint16(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);
@@ -2774,7 +2789,7 @@ remove the packet from the buffer
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 {
   int len;
-  get_int16(buffer->data, &len);
+  get_uint16(buffer->data, &len);
   memcpy(buffer->data, buffer->data+len, buffer->ndata-len);
   buffer->ndata-=len;
 }

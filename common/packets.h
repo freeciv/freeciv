@@ -736,7 +736,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
 /* These two are non-static for meta.c; others are now static --dwp */
-unsigned char *put_int16(unsigned char *buffer, int val);
+unsigned char *put_uint16(unsigned char *buffer, int val);
 unsigned char *put_string(unsigned char *buffer, char *mystring);
 
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,

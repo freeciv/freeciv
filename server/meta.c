@@ -77,10 +77,10 @@ int send_to_metaserver(char *desc, char *info)
   if(sockfd==0)
     return 0;
 #endif
-  cptr=put_int16(buffer+2,  PACKET_UDP_PCKT);
+  cptr=put_uint16(buffer+2,  PACKET_UDP_PCKT);
   cptr=put_string(cptr, desc);
   cptr=put_string(cptr, info);
-  put_int16(buffer, cptr-buffer);
+  put_uint16(buffer, cptr-buffer);
 #ifdef GENERATING_MAC  /* mac networking */
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
