@@ -396,16 +396,18 @@ void refresh_city_dialog(struct city *pcity)
   city_dialog_update_tradelist(pdialog);
 
   if (city_owner(pcity) == game.player_ptr) {
+    int have_present_units =
+	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
+
     update_worklist_editor(pdialog->wl_editor);
     refresh_happiness_dialog(pdialog->pcity);
+
     gtk_widget_set_sensitive(pdialog->unit.activate_command,
-			     unit_list_size(&map_get_tile
-					    (pcity->x, pcity->y)->units)
-			     ? TRUE : FALSE);
+			     have_present_units);
     gtk_widget_set_sensitive(pdialog->unit.sentry_all_command,
-			     unit_list_size(&map_get_tile
-					    (pcity->x, pcity->y)->units)
-			     ? TRUE : FALSE);
+			     have_present_units);
+    gtk_widget_set_sensitive(pdialog->unit.show_units_command,
+			     have_present_units);
     gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
@@ -413,6 +415,7 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->overview.change_command, FALSE);
     gtk_widget_set_sensitive(pdialog->unit.activate_command, FALSE);
     gtk_widget_set_sensitive(pdialog->unit.sentry_all_command, FALSE);
+    gtk_widget_set_sensitive(pdialog->unit.show_units_command, FALSE);
   }
 }
 
