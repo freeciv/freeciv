@@ -3,8 +3,9 @@
 # ###########################################################
 # # German translations for freeciv package                 #
 # # German messages for freeciv.                            #
-# # Copyright (C) 1999-2002 Free Software Foundation, Inc.  #
+# # Copyright (C) 1999-2003 Free Software Foundation, Inc.  #
 # # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.      #
+# # Christian Knoke <chrisk@enter.de>, 2003.                #
 # ###########################################################
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -16,11 +17,9 @@
 # + ÄNDERUNGEN / ERGÄNZUNGEN / KORREKTUREN / MITARBEIT                  +
 # + Sollten Sie Rechtschreibfehler oder andere OFFENSICHTLICHE          +
 # + Fehler in der Übersetzung finden, senden Sie bitte einen mit        +
-# + 'diff -u' erstellten PATCH an den Koordinator,                      +
-# + Egbert Hinzen <egbert@hinzen-koeln.de>.                             +
-# + Sollten Ihnen "bessere" Übersetzungen einfallen, senden Sie         +
-# + bitte KEINEN PATCH, sondern mailen Sie Ihre Vorschläge als TEXT     +
-# + an die Adresse <freeciv.de@freelists.org>.                          +
+# + 'diff -u' erstellten PATCH; sollten Ihnen "bessere" Übersetzungen   +
+# + einfallen, senden Sie bitte KEINEN PATCH, sondern mailen Sie Ihre   +
+# + Vorschläge als TEXT. Die Adresse ist <freeciv.de@freelists.org>.    +                         +
 # + Wenn Sie an der Verbesserung der deutschen Übersetzung              +
 # + mitarbeiten möchten, abonnieren Sie doch unsere Mailingliste mit    +
 # + einer Email mit dem Subject: subscribe an:                          +
@@ -12333,8 +12332,9 @@ msgid ""
 "  freeciv-dev@freeciv.org"
 msgstr ""
 "Freeciv ist ein ursprünglich englisches Programm; die erste vollständige "
-"Übersetzung ins Deutsche stammt von Egbert Hinzen <egbert@hinzen-koeln.de>. "
-"Seit 1999 wird sie ständig aktualisiert und verbessert.\n"
+"Übersetzung ins Deutsche stammt von Egbert Hinzen. Seitdem wird sie "
+"ständig aktualisiert und verbessert. Derzeit wird die Übersetzung von "
+"Christian Knoke <chrisk@enter.de> koordiniert.\n"
 "\n"
 "Grundsätzlich erkennt Freeciv die für den Benutzer sinnvollste Sprache "
 "selbständig anhand der Systemeinstellungen. Diese Voreinstellung läßt sich "
