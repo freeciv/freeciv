@@ -17,6 +17,7 @@
 #include "city.h"
 #include "game.h"
 #include "government.h"
+#include "idex.h"
 #include "map.h"
 #include "rand.h"
 #include "shared.h"
@@ -181,37 +182,34 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
 
 /***************************************************************
  If the specified player owns the city with the specified id,
- return pointer to the city struct.  Else return 0.
- In the server we want to use find_city_by_id, which is fast due
- to the citycache, while in the client we just search the
- player's cities, rather than find_city_by_id which goes through
- all players.
+ return pointer to the city struct.  Else return NULL.
+ Now always uses fast idex_lookup_city.
 ***************************************************************/
 struct city *player_find_city_by_id(struct player *pplayer, int city_id)
 {
-  struct city *pcity;
+  struct city *pcity = idex_lookup_city(city_id);
   
-  if(is_server) {
-    pcity = find_city_by_id(city_id);
-    if(pcity && (pcity->owner==pplayer->player_no)) {
-      return pcity;
-    } else {
-      return 0;
-    }
+  if(pcity && (pcity->owner==pplayer->player_no)) {
+    return pcity;
   } else {
-    return city_list_find_id(&pplayer->cities, city_id);
+    return NULL;
   }
 }
 
 /***************************************************************
  If the specified player owns the unit with the specified id,
- return pointer to the unit struct.  Else return 0.
- Currently just a wrapper, but could be optimised similar to
- player_find_city_by_id().
+ return pointer to the unit struct.  Else return NULL.
+ Uses fast idex_lookup_city.
 ***************************************************************/
 struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id)
 {
-  return unit_list_find(&pplayer->units, unit_id);
+  struct unit *punit = idex_lookup_unit(unit_id);
+  
+  if(punit && (punit->owner==pplayer->player_no)) {
+    return punit;
+  } else {
+    return NULL;
+  }
 }
 
 /*************************************************************************

@@ -86,21 +86,6 @@ char *get_unit_name(Unit_Type_id id)
 /***************************************************************
 ...
 ***************************************************************/
-struct unit *find_unit_by_id(int id)
-{
-  int i;
-
-  for(i=0; i<game.nplayers; i++) {
-    struct unit *punit;
-    if((punit=unit_list_find(&game.players[i].units, id)))
-      return punit;
-  }
-  return 0;
-}
-
-/***************************************************************
-...
-***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
   int val;

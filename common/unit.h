@@ -245,8 +245,6 @@ int is_diplomat_action_available(struct unit *pdiplomat,
                                  enum diplomat_actions action,
                                  int destx, int desty);
 
-struct unit *find_unit_by_id(int id);
-
 char *get_unit_name(Unit_Type_id id);
 char *get_units_with_flag_string(int flag);
 

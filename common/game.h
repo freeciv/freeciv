@@ -144,6 +144,9 @@ void game_advance_year(void);
 int civ_population(struct player *pplayer);
 struct city *game_find_city_by_name(char *name);
 
+struct unit *find_unit_by_id(int id);
+struct city *find_city_by_id(int id);
+
 void game_remove_player(int plrno);
 void game_remove_all_players(void);
 void game_renumber_players(int plrno);

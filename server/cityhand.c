@@ -22,6 +22,7 @@
 #include "city.h"
 #include "events.h"
 #include "fcintl.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -139,7 +140,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity=fc_malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
-  add_city_to_cache(pcity);
+  idex_register_city(pcity);
   pcity->owner=pplayer->player_no;
   pcity->x=x;
   pcity->y=y;
@@ -851,7 +852,7 @@ void remove_city(struct city *pcity)
   x = pcity->x;
   y = pcity->y;
 
-  remove_city_from_cache(pcity->id);
+  /* idex_unregister_city() is called in game_remove_city() below */
 
   /* dealloc_id(pcity->id); We do NOT dealloc cityID's as the cities may still be
      alive in the client. As the number of romoved cities is small the leak is

@@ -21,6 +21,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "government.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -636,6 +637,27 @@ struct city *game_find_city_by_name(char *name)
 
 
 /**************************************************************************
+  Often used function to get a city pointer from a city ID.
+  City may be any city in the game.  This now always uses fast idex
+  method, instead of looking through all cities of all players.
+**************************************************************************/
+struct city *find_city_by_id(int id)
+{
+  return idex_lookup_city(id);
+}
+
+
+/**************************************************************************
+  Find unit out of all units in game: now uses fast idex method,
+  instead of looking through all units of all players.
+**************************************************************************/
+struct unit *find_unit_by_id(int id)
+{
+  return idex_lookup_unit(id);
+}
+
+
+/**************************************************************************
 If called from server use the wrapper void server_remove_unit(punit);
 **************************************************************************/
 void game_remove_unit(int unit_id)
@@ -663,6 +685,8 @@ void game_remove_unit(int unit_id)
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     unit_list_unlink(&game.players[punit->owner].units, punit);
     
+    idex_unregister_unit(punit);
+    
     free(punit);
     if(is_server)
       dealloc_id(unit_id);
@@ -685,6 +709,7 @@ void game_remove_city(struct city *pcity)
   }
   city_list_unlink(&game.players[pcity->owner].cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
+  idex_unregister_city(pcity);
   free(pcity);
 }
 
@@ -755,6 +780,7 @@ void game_init(void)
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
 
   map_init();
+  idex_init();
   
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);

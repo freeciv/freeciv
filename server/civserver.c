@@ -287,7 +287,6 @@ int main(int argc, char *argv[])
 
   init_our_capability();
   game_init();
-  initialize_city_cache();
 
   /* load a saved game */
   

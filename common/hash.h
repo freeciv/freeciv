@@ -29,6 +29,10 @@ typedef int (*hash_cmp_fn_t)(const void *, const void *);
 unsigned int hash_fval_string(const void *key, unsigned int num_buckets);
 int hash_fcmp_string(const void *key1, const void *key2);
 
+/* Appropriate for int values: */
+unsigned int hash_fval_int(const void *key, unsigned int num_buckets);
+int hash_fcmp_int(const void *key1, const void *key2);
+
 /* General functions: */
 struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp);
 struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,

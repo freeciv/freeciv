@@ -25,6 +25,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -171,16 +172,33 @@ void handle_city_info(struct packet_city_info *packet)
   int i, x, y, city_is_new;
   struct city *pcity;
 
-  pcity=city_list_find_id(&game.players[packet->owner].cities, packet->id);
+  pcity=find_city_by_id(packet->id);
+
+  if (pcity && (pcity->owner != packet->owner)) {
+    /* With current server, this shouldn't happen: when city changes
+     * owner it is re-created with a new id.  Unclear what to do here;
+     * try to cope...
+     */
+    freelog(LOG_NORMAL,
+	    "Got existing city id (%d %s) with wrong owner (%d %s, old %d %s)",
+	    packet->id, pcity->name, packet->owner,
+	    get_player(packet->owner)->name, pcity->owner,
+	    get_player(pcity->owner)->name);
+    client_remove_city(pcity);
+    pcity = 0;
+  }
 
   if(!pcity) {
     city_is_new=1;
     pcity=fc_malloc(sizeof(struct city));
+    pcity->id=packet->id;
+    idex_register_city(pcity);
   }
-  else
+  else {
     city_is_new=0;
+    assert(pcity->id == packet->id);
+  }
   
-  pcity->id=packet->id;
   pcity->owner=packet->owner;
   pcity->x=packet->x;
   pcity->y=packet->y;
@@ -485,12 +503,14 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
       else {
 	do_move_unit(punit, packet); /* nice to see where a unit is going */
+	/* shouldn't this stuff be a call to game_remove_unit() ??  --dwp */
 	unit_list_unlink(&game.players[packet->owner].units, punit);
 	unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
 	if(punit->homecity && (pcity=find_city_by_id(punit->homecity))) {
 	  unit_list_unlink(&pcity->units_supported, punit);
 	}
 	refresh_tile_mapcanvas(punit->x, punit->y, 1);
+	idex_unregister_unit(punit);
 	free(punit);
         return;
       }
@@ -565,6 +585,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit=fc_malloc(sizeof(struct unit));
     
     punit->id=packet->id;
+    idex_register_unit(punit);
+    
     punit->owner=packet->owner;
     punit->x=packet->x;
     punit->y=packet->y;

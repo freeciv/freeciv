@@ -21,7 +21,6 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
@@ -1021,77 +1020,7 @@ int city_rapture_grow(struct city *pcity)
 	  government_has_flag(g, G_RAPTURE_CITY_GROWTH));
 }
 
-/**************************************************************************/
-
-/* The find_city_by_id() code has returned from its trip to server land and
- * lives in common once again.  There are two ways find_city_by_id() works. 
- * If citycachesize!=0, it uses a fast (and potentially large, 256K) lookup
- * table to find the city.  If citycachesize==0, it uses a slow linear
- * searching method.  citycachesize is set by calling initialize_city_cache(),
- * which code that wants to use the fast method should do.  Currently the
- * server uses the cache, and the client doesn't.  */
-
-static struct city **citycache = NULL;
-static int citycachesize = 0;
-
-/**************************************************************************
-  Initialize the cache.  This enables the fast find_city_by_id() code.  Once
-  enabled, the cache has to be kept consistent by calling add_city_to_cache()
-  and remove_city_from_cache() as appropriate.
-**************************************************************************/
-void initialize_city_cache(void)
-{
-  int i;
-
-  if(citycache) free(citycache);
-  citycachesize=128;
-  citycache=fc_malloc(sizeof(*citycache) * citycachesize);
-  for(i=0;i<citycachesize;i++) citycache[i]=NULL;
-}
-
-/**************************************************************************
-  Double the size of the cache.  add_city_to_cache() calls this when needed.
-**************************************************************************/
-static void reallocate_cache(void)
-{
-  int i;
-
-  freelog(LOG_DEBUG,"Increasing max city id index from %d to %d",
-       citycachesize,citycachesize*2);
-  citycachesize*=2;
-  citycache=fc_realloc(citycache,sizeof(*citycache)*citycachesize);
-  for(i=citycachesize/2;i<citycachesize;i++)  citycache[i]=NULL;
-}
-
-/**************************************************************************
-  Add the city pointer to the lookup table.  If the calling program isn't
-  using the cache, it's still safe to call this function.
-**************************************************************************/
-void add_city_to_cache(struct city *pcity)
-{
-  if(!citycachesize) return;		/* Not using the cache, return */
-  if(pcity->id < citycachesize)  {
-    citycache[pcity->id]=pcity;
-  } else {
-    reallocate_cache();
-    add_city_to_cache(pcity);
-  }
-}
-
-/**************************************************************************
-  Remove the city pointer from the lookup table.  If the calling program isn't
-  using the cache, it's still safe to call this function.
-**************************************************************************/
-void remove_city_from_cache(int id)
-{
-  if(!citycachesize) return;		/* Not using the cache, return */
-  if(id >= citycachesize) {
-    freelog(LOG_FATAL, "Tried to delete bogus city id, %d",id);
-    exit(0);
-  }
-  citycache[id]=NULL;
-}
-
+#ifdef UNUSED
 /**************************************************************************
   The slow method for find_city_by_id(), searches though the city lists in
   linear time.  Used in the client, which doesn't need to lookup city IDs that
@@ -1108,23 +1037,7 @@ static struct city *find_city_by_id_list(int city_id)
 
   return 0;
 }
-
-/**************************************************************************
-  Often used function to get a city pointer from a city ID.  This uses either
-  a fast lookup table, or a slow list searching method.
-**************************************************************************/
-struct city *find_city_by_id(int id)
-{
-  /* This is sometimes called with id=unit.ai.charge, which is either
-   * a unit id or a city id; if its a unit id then that id won't be used
-   * for a city (?), so that is ok, except that it is possible that it
-   * might exceed citycachesize. --dwp
-   */
-  if(!citycachesize) return find_city_by_id_list(id);
-  if(id<0 || id>=citycachesize) return NULL;
-  return citycache[id];
-}
-
+#endif
 
 /**************************************************************************
 ...

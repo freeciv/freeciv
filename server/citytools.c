@@ -21,6 +21,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -1008,7 +1009,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   *pnewcity=*pcity;
 
   pnewcity->id=get_next_id_number();
-  add_city_to_cache(pnewcity);
+  idex_register_city(pnewcity);
 
   for (i = 0; i < B_LAST; i++) {
     if (is_wonder(i) && city_got_building(pnewcity, i))

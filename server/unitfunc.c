@@ -22,6 +22,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -1610,6 +1611,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
 
   punit->type=type;
   punit->id=get_next_id_number();
+  idex_register_unit(punit);
   punit->owner=pplayer->player_no;
   punit->x = map_adjust_x(x); /* was = x, caused segfaults -- Syela */
   punit->y=y;

@@ -314,12 +314,6 @@ struct city *city_list_find_name(struct city_list *This, char *name);
 
 int city_name_compare(const void *p1, const void *p2);
 
-/* citycache */
-struct city *find_city_by_id(int id);
-void initialize_city_cache(void);
-void add_city_to_cache(struct city *pcity);
-void remove_city_from_cache(int id);
-
 /* city free cost values depending on government: */
 int citygov_free_shield(struct city *pcity, struct government *gov);
 int citygov_free_happy(struct city *pcity, struct government *gov);

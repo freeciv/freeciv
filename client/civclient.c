@@ -29,6 +29,7 @@
 #include "capstr.h"
 #include "fcintl.h"
 #include "game.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -443,6 +444,7 @@ void set_client_state(enum client_states newstate)
       game_remove_all_players();
       set_unit_focus_no_center(0);
       clear_notify_window();
+      idex_init();		/* clear old data */
     }
     update_menus();
   }

@@ -1403,6 +1403,9 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
 
   memset(&virtualunit, 0, sizeof(struct unit));
   virtualunit.id = 0;
+  /* note virtual unit is not added to unit lists (eg pplayer->units),
+     so equivalently don't need to call idex_register_unit()  --dwp
+  */
   virtualunit.owner = pplayer->player_no;
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;

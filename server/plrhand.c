@@ -25,6 +25,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "idex.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -2108,7 +2109,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
  
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
-    add_city_to_cache(pcity);
+    idex_register_city(pcity);
     pcity->owner=plrno;
     pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     pcity->y=secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
@@ -2232,6 +2233,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit=fc_malloc(sizeof(struct unit));
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
     alloc_id(punit->id);
+    idex_register_unit(punit);
     punit->owner=plrno;
     punit->x=secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
     punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
@@ -2785,8 +2787,9 @@ void server_remove_player(struct player *pplayer)
       set_worker_city(pcity, x, y, C_TILE_EMPTY);
     }
     remove_city_from_minimap(x, y);
-/* same stupid problem as above, related to the citycache.  Thanks, Anders. */
-    remove_city_from_cache(pcity->id);
+    /* same stupid problem as above, related to the citycache.
+       Thanks, Anders. */
+    /* idex_unregister_city() will happen in game_remove_player() */
   city_list_iterate_end;
 
   game_remove_player(pplayer->player_no);

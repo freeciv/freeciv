@@ -181,6 +181,27 @@ int hash_fcmp_string(const void *vkey1, const void *vkey2)
 }
 
 /**************************************************************************
+  A supplied hash function where key is pointer to int.
+**************************************************************************/
+unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets)
+{
+  const unsigned int key = (unsigned int) *(const int*)vkey;
+  return (key * 107U) % num_buckets;
+}
+
+/**************************************************************************
+  A supplied function for comparison of pointers to unsigned ints:
+**************************************************************************/
+int hash_fcmp_int(const void *vkey1, const void *vkey2)
+{
+  const int key1 = *(const int*)vkey1;
+  const int key2 = *(const int*)vkey2;
+  /* avoid overflow issues: */
+  return (key1 < key2) ? -1 : (key1 > key2) ? 1 : 0;
+}
+
+
+/**************************************************************************
   Calculate a "reasonable" number of buckets for a given number
   of entries.  Use a power of 2 (not sure how important), with
   first power of 2 which is larger than num_entries, then extra
