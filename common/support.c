@@ -421,34 +421,3 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
   va_end(ap);
   return ret;
 }
-
-
-/***************************************************************
-...
-***************************************************************/
-void my_nonblock(int sockfd)
-{
-#ifdef NONBLOCKING_SOCKETS
-#ifdef HAVE_FCNTL
-  int f_set;
-
-  if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
-    fprintf(stderr, "fcntl F_GETFL failed: %s", mystrerror(errno));
-  }
-
-  f_set |= O_NONBLOCK;
-
-  if (fcntl(sockfd, F_SETFL, f_set) == -1) {
-    fprintf(stderr, "fcntl F_SETFL failed: %s", mystrerror(errno));
-  }
-#else
-#ifdef HAVE_IOCTL
-  long value=1;
-
-  if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
-    freelog(stderr, "ioctl failed: %s", mystrerror(errno));
-  }
-#endif
-#endif
-#endif
-}

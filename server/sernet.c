@@ -58,6 +58,7 @@
 #endif
 
 #include "log.h"
+#include "netintf.h"
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
@@ -149,8 +150,8 @@ int sniff_packets(void)
     tv.tv_sec=1;
     tv.tv_usec=0;
     
-    FD_ZERO(&readfs);
-    FD_ZERO(&exceptfs);
+    MY_FD_ZERO(&readfs);
+    MY_FD_ZERO(&exceptfs);
 #ifndef SOCKET_ZERO_ISNT_STDIN
     FD_SET(0, &readfs);	
 #endif

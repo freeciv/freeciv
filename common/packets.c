@@ -44,6 +44,7 @@
 #include "capability.h"
 #include "log.h"
 #include "mem.h"
+#include "netintf.h"
 #include "support.h"
 
 #include "packets.h"
@@ -3531,8 +3532,8 @@ static int write_socket_data(struct connection *pc,
     fd_set writefs, exceptfs;
     struct timeval tv;
 
-    FD_ZERO(&writefs);
-    FD_ZERO(&exceptfs);
+    MY_FD_ZERO(&writefs);
+    MY_FD_ZERO(&exceptfs);
     FD_SET(pc->sock, &writefs);
     FD_SET(pc->sock, &exceptfs);
 

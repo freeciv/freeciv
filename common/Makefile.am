@@ -39,6 +39,8 @@ libcivcommon_a_SOURCES = \
 		map.h		\
 		nation.c        \
 		nation.h        \
+		netintf.c	\
+		netintf.h	\
 		packets.c	\
 		packets.h	\
 		player.c	\

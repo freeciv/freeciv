@@ -17,7 +17,7 @@
 /********************************************************************** 
   Replacements for functions which are not available on all platforms.
   Where the functions are available natively, these are just wrappers.
-  See also mem.h, rand.h, and see support.c for more comments.
+  See also mem.h, netintf.h, rand.h, and see support.c for more comments.
 ***********************************************************************/
 
 #include <stdlib.h>		/* size_t */
@@ -46,11 +46,5 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));
 
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
-
-#ifndef FD_ZERO
-#define FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
-#endif
-
-void my_nonblock(int sockfd);
 
 #endif  /* FC__SUPPORT_H */
