@@ -1304,7 +1304,9 @@ enum goto_result do_unit_goto(struct unit *punit,
     if (find_air_first_destination(punit, &waypoint_x, &waypoint_y)) {
       /* this is a special case for air units who do not always want to move. */
       if (same_pos(waypoint_x, waypoint_y, punit->x, punit->y)) {
-	return GR_OUT_OF_MOVEPOINTS; /* out of fuel */
+	punit->done_moving = TRUE;
+	send_unit_info(NULL, punit);
+	return GR_WAITING; /* out of fuel */
       }
     } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "

@@ -23,7 +23,7 @@
 enum goto_result {
   GR_DIED,               /* pretty obvious that */ 
   GR_ARRIVED,            /* arrived to the destination */
-  GR_OUT_OF_MOVEPOINTS,  /* either no moves left or plane refueling */ 
+  GR_OUT_OF_MOVEPOINTS,  /* no moves left */ 
   GR_WAITING,            /* waiting due to danger, has moves */
   GR_FOUGHT,             /* was stopped due to fighting, has moves */
   GR_FAILED              /* failed for some other reason, has moves */
