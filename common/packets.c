@@ -3541,8 +3541,14 @@ static int write_socket_data(struct connection *pc,
 	  continue;
 	}
 #endif
-	buf->ndata -= start;
-	memmove(buf->data, buf->data+start, buf->ndata);
+	if (errno == EPIPE) {
+	  buf->ndata = 0;
+	}
+	else
+	{
+	  buf->ndata -= start;
+	  memmove(buf->data, buf->data+start, buf->ndata);
+	}
 	return -1;
       }
       start += nput;
