@@ -16700,7 +16700,7 @@ msgstr ""
 "hydroelektrárnou zvýší produkci o 75%, Výrobní podnik s Hydroelektrárnou "
 "zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, že je na "
 "(nebo hned vedle) kopci nebo řece."
 
@@ -16772,7 +16772,7 @@ msgstr ""
 "Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou el. zvýší "
 "produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. "
 
 #: data/default/buildings.ruleset:762 data/civ2/buildings.ruleset:700
@@ -16865,7 +16865,7 @@ msgstr ""
 "Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
 "zvýšení znečištění.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. "
 
 #: data/default/buildings.ruleset:927 data/civ2/buildings.ruleset:859
@@ -16961,7 +16961,7 @@ msgstr ""
 "Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou el. zvýší "
 "produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu, Jadernou el. nebo Solární elektrárnu. "
 
 #: data/default/buildings.ruleset:1106 data/civ2/buildings.ruleset:1034
@@ -17507,7 +17507,7 @@ msgstr ""
 "hydroelektrárnou zvýší produkci o 100%, Výrobní podnik s Hydroelektrárnou "
 "zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, že je na "
 "(nebo hned vedle) kopci nebo řece."
 
@@ -17532,7 +17532,7 @@ msgstr ""
 "jadernou elektrárnou zvýší produkci o 100%, Výrobní podnik s jadernou "
 "elektrárnou zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. "
 
 #: data/civ2/buildings.ruleset:847 data/civ1/buildings.ruleset:678
@@ -17550,7 +17550,7 @@ msgstr ""
 "s jadernou elektrárnou zvýší produkci o 150%. Vyšší produkce může způsobovat "
 "i vyššé míru znečistění.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
 "a Jadernou el. "
 
 #: data/civ2/buildings.ruleset:908 data/history/buildings.ruleset:923
@@ -17578,7 +17578,7 @@ msgstr ""
 "Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou el. zvýší "
 "produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elktrárnu - Hydroelektrárnu, (klasickou) "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu, Jadernou el. nebo Solární elektrárnu. "
 
 #: data/civ2/buildings.ruleset:1273 data/civ1/buildings.ruleset:958
