@@ -197,6 +197,7 @@ XtActionsRec Actions[] = {
   { "key-unit-clean-pollution", key_unit_clean_pollution },
   { "key-unit-auto", key_unit_auto },
   { "key-unit-pillage", key_unit_pillage },
+  { "key-unit-explore", key_unit_explore },
   { "key-unit-disband", key_unit_disband },
   { "key-unit-fortify", key_unit_fortify },
   { "key-unit-goto", key_unit_goto },
