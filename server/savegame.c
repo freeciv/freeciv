@@ -2176,6 +2176,13 @@ void game_load(struct section_file *file)
       player_load(&game.players[i], i, file); 
     }
 
+    cities_iterate(pcity) {
+      /* Update all city information.  This must come after all cities are
+       * loaded (in player_load) but before player (dumb) cities are loaded
+       * (in player_map_load). */
+      generic_city_refresh(pcity, FALSE, NULL);
+    } cities_iterate_end;
+
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */
     for(i=0; i<game.nplayers; i++) {
