@@ -24,7 +24,7 @@ cat-id-tbl.c
 charset.alias
 civclient
 civgame*.sav
-civgame*.sav.gz
+*.sav.gz
 civgame.log
 civserver
 config.cache
