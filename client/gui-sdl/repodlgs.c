@@ -142,7 +142,7 @@ void science_dialog_update(void)
   SDL_Color color = *get_game_colorRGB(COLOR_STD_WHITE);
   struct impr_type *pImpr;
   struct unit_type *pUnit;
-  int turs_to_advance, turns_to_next_tech, steps;
+  int turns_to_advance, turns_to_next_tech, steps;
   int curent_output = 0;
   div_t result;
 
@@ -175,13 +175,13 @@ void science_dialog_update(void)
 
   if (curent_output <= 0) {
     my_snprintf(cBuf, sizeof(cBuf),
-		_("Obecny ptencja³ naukowy : 0\nPrêdko¶æ badañ : "
-		  "zastój\nNastêpny prze³om technologiczny : nigdy"));
+		_("Current output : 0\nResearch speed : "
+		  "none\nNext's advance time : never"));
   } else {
     result = div(cost, curent_output);
-    turs_to_advance = result.quot;
+    turns_to_advance = result.quot;
     if (result.rem) {
-      turs_to_advance++;
+      turns_to_advance++;
     }
     result =
 	div(cost - game.player_ptr->research.bulbs_researched - 1,
@@ -191,16 +191,12 @@ void science_dialog_update(void)
       turns_to_next_tech++;
     }
     my_snprintf(cBuf, sizeof(cBuf),
-		_("Obecny ptencja³ naukowy : %d na turê\nPrêdko¶æ badañ "
-		  ": %d %s/wynalazek\nNastêpny prze³om technologiczny za "
+		_("Current output : %d per turn\nResearch speed "
+		  ": %d %s/advance\nNext advance in: "
 		  "%d %s"),
-		curent_output, turs_to_advance, liczebniki(turs_to_advance,
-							   _("tura"),
-							   _("tury"),
-							   _("tur")),
-		turns_to_next_tech, liczebniki(turns_to_next_tech,
-					       _("turê"), _("tury"),
-					       _("tur")));
+		curent_output, turns_to_advance,
+		PL_("turn", "turns", turns_to_advance),
+		turns_to_next_tech, PL_("turn", "turns", turns_to_next_tech));
   }
 
   pStr = create_str16_from_char(cBuf, 12);
@@ -315,7 +311,7 @@ void science_dialog_update(void)
   my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
 	      get_tech_name(game.player_ptr,
 			    game.player_ptr->ai.tech_goal), steps,
-	      liczebniki(steps, _("krok"), _("kroki"), _("kroków")));
+	      PL_("step", "steps", steps));
 
   pStr->text = convert_to_utf16(cBuf);
 
@@ -412,7 +408,7 @@ static int change_research(struct GUI *pWidget)
 
   pStr =
       create_str16_from_char(_
-			     ("Jakim wynalzakiem maj± zaj±æ siê nasi Naukowcy?"),
+			     ("What should we focus on now?"),
 			     12);
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -874,7 +870,7 @@ void popup_science_dialog(bool make_modal)
     return;
   }
 
-  pStr = create_str16_from_char("Nauka", 12);
+  pStr = create_str16_from_char(_("Science"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 400, 300, 0);
@@ -930,7 +926,7 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pBuf);
 
   /* ------ */
-  pStr = create_str16_from_char(_("Zamknij"), 12);
+  pStr = create_str16_from_char(_("Close"), 12);
 
   pBuf = create_icon_button(NULL, pStr, 0);
 
