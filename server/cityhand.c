@@ -427,8 +427,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     }
   }
   cost=city_buy_cost(pcity);
-   if (cost>pplayer->economic.gold)
-    return;
+  if ((!cost) || (cost>pplayer->economic.gold))
+   return;
 
   pplayer->economic.gold-=cost;
   if (pcity->shield_stock < total){
