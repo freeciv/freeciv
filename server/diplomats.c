@@ -1127,6 +1127,8 @@ static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cpl
 			   " %s."), unit_name(punit->type), pcity->name);
 
 	wipe_unit_safe(punit, &myiter);
+        pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
+        return FALSE;
       } else {
 	/* Attacking Spy/Diplomat dies. */
 
