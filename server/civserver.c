@@ -1691,16 +1691,17 @@ static void Mac_options(int *argc, char *argv[])
     DisposeDialog(optptr);/*get rid of the dialog after sorting out the options*/
   }
 }
-/*  --file	F 	implmented
-    --gamelog F implmented
+/*  --file	F 	implemented
+    --gamelog F implemented
     --help		not needed?
-    --log F		implmented
-    --meta		implmented
-    --port N	implmented
-    --read F	implmented
-    --server H	**not implmented***
-    --debug N	implmented
+    --log F		implemented
+    --meta		implemented
+    --port N	implemented
+    --read F	implemented
+    --server H	**not implemented***
+    --debug N	implemented
     --version	not needed?
+    --Metaserver A not implemented 
 */
 
 #endif

@@ -59,10 +59,11 @@ TEndpointInfo meta_info;
 EndpointRef meta_ep;
 InetAddress serv_addr;
 #else /* Unix network globals */
-extern char metaserver_addr[];
 static int			sockfd,n,in_size;
 static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
+
+extern char metaserver_addr[];
 
 int send_to_metaserver(char *desc, char *info)
 {
