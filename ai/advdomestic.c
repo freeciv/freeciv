@@ -528,7 +528,6 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
     want is a value between 1 and 100.
     if want is 0 this advisor doesn't want anything
 ***********************************************************************/
-
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
@@ -567,29 +566,25 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
   }
 
-  if (!(unit_flag(utid, F_CITIES))) {
-/* basically, copied from above and adjusted to handle city founders -- jjm */
-/* founder_want calculated in settlers.c, called from ai_manage_city */
+  /* basically, copied from above and adjusted to handle city founders -- jjm */
+  /* founder_want calculated in settlers.c, called from ai_manage_city */
+  utid = best_role_unit(pcity, F_CITIES);
 
-    utid = best_role_unit(pcity, F_CITIES);
+  if (est_food > utype_food_cost(get_unit_type(utid), g)) {
+    want = pcity->ai.founder_want;
 
-    if (est_food > utype_food_cost(get_unit_type(utid), g)) {
-      want = pcity->ai.founder_want;
-
-      if (want > choice->want) {
-	freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
-		pcity->name, pcity->x, pcity->y, want);
-	choice->want = want;
-	choice->type = CT_NONMIL;
-	ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
-      } else if (want < -choice->want) { /* need boats to colonize! */
-	choice->want = 0 - want;
-	choice->type = CT_NONMIL;
-	choice->choice = best_role_unit(pcity, F_CITIES); /* default */
-	ai_choose_ferryboat(pplayer, pcity, choice);
-      }
+    if (want > choice->want) {
+      freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
+	      pcity->name, pcity->x, pcity->y, want);
+      choice->want = want;
+      choice->type = CT_NONMIL;
+      ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
+    } else if (want < -choice->want) { /* need boats to colonize! */
+      choice->want = 0 - want;
+      choice->type = CT_NONMIL;
+      choice->choice = best_role_unit(pcity, F_CITIES); /* default */
+      ai_choose_ferryboat(pplayer, pcity, choice);
     }
-
   }
 
   unit_list_iterate(pplayer->units, punit)

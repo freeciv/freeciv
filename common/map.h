@@ -249,13 +249,19 @@ void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
 void change_terrain(int x, int y, enum tile_terrain_type type);
 void map_transform_tile(int x, int y);
-int can_reclaim_ocean(int x, int y);
-int can_channel_land(int x, int y);
 
 int map_build_road_time(int x, int y);
 int map_build_irrigation_time(int x, int y);
 int map_build_mine_time(int x, int y);
 int map_transform_time(int x, int y);
+int map_build_rail_time(int x, int y);
+int map_build_airbase_time(int x, int y);
+int map_build_fortress_time(int x, int y);
+int map_clean_pollution_time(int x, int y);
+int map_clean_fallout_time(int x, int y);
+
+int can_channel_land(int x, int y);
+int can_reclaim_ocean(int x, int y);
 
 extern struct civ_map map;
 

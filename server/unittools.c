@@ -840,28 +840,32 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_POLLUTION) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION) >= 3) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION)
+	>= map_clean_pollution_time(punit->x, punit->y)) {
       map_clear_special(punit->x, punit->y, S_POLLUTION);
       unit_activity_done = 1;
     }
   }
 
   if (activity==ACTIVITY_FALLOUT) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_FALLOUT) >= 3) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_FALLOUT)
+	>= map_clean_fallout_time(punit->x, punit->y)) {
       map_clear_special(punit->x, punit->y, S_FALLOUT);
       unit_activity_done = 1;
     }
   }
 
   if (activity==ACTIVITY_FORTRESS) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS) >= 3) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS)
+	>= map_build_fortress_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_FORTRESS);
       unit_activity_done = 1;
     }
   }
 
   if (activity==ACTIVITY_AIRBASE) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_AIRBASE) >= 3) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_AIRBASE)
+	>= map_build_airbase_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_AIRBASE);
       unit_activity_done = 1;
     }
@@ -887,7 +891,8 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_RAILROAD) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_RAILROAD) >= 3) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_RAILROAD)
+	>= map_build_rail_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_RAILROAD);
       unit_activity_done = 1;
     }

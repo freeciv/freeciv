@@ -410,7 +410,7 @@ static void ai_new_spend_gold(struct player *pplayer)
       if (!pcity->shield_stock) ;
       else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
                buycost >= 200) ; /* wait for more vans */
-      else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
+      else if (bestchoice.type && unit_flag(bestchoice.choice, F_CITIES) &&
           !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
          pcity->food_stock < city_granary_size(pcity->size-1))) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
@@ -530,7 +530,8 @@ void ai_manage_cities(struct player *pplayer)
     establish_city_distances(pplayer, pcity); /* in advmilitary for warmap */
 /* e_c_d doesn't even look at the seamap */
 /* determines downtown and distance_to_wondercity, which a_c_c_b will need */
-    contemplate_settling(pplayer, pcity); /* while we have the warmap handy */
+    contemplate_terrain_improvements(pcity);
+    contemplate_new_city(pcity); /* while we have the warmap handy */
 /* seacost may have been munged if we found a boat, but if we found a boat
 we don't rely on the seamap being current since we will recalculate. -- Syela */
 
@@ -621,33 +622,6 @@ int city_get_defenders(struct city *pcity)
   unit_list_iterate_end;
   return def;
 }
-
-#ifdef UNUSED
-/************************************************************************** 
-...
-**************************************************************************/
-int city_get_settlers(struct city *pcity)
-{
-  int set=0;
-  unit_list_iterate(pcity->units_supported, punit) {
-    if (unit_flag(punit->type, F_SETTLERS))
-      set++;
-  }
-  unit_list_iterate_end;
-  return set;
-}
-#endif
-
-#ifdef UNUSED
-/************************************************************************** 
-... (unused)
-**************************************************************************/
-int ai_in_initial_expand(struct player *pplayer)
-{
-  int expand_cities [3] = {3, 5, 7};
-  return (pplayer->score.cities < expand_cities[get_nation_by_plr(pplayer)->expand]);  
-}
-#endif
 
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
 {

@@ -26,7 +26,7 @@
    18 is too high
  */
 #define POLLUTION_WEIGHTING 14 /* tentative */
-#define WARMING_FACTOR 32 /* tentative */
+#define WARMING_FACTOR 50
 
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);

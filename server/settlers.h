@@ -32,7 +32,10 @@ void generate_minimap(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);
 void initialize_infrastructure_cache(struct city *pcity);
-void contemplate_settling(struct player *pplayer, struct city *pcity);
+
+void contemplate_terrain_improvements(struct city *pcity);
+void contemplate_new_city(struct city *pcity);
+
 struct unit *other_passengers(struct unit *punit);
 
 extern signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];

@@ -723,14 +723,6 @@ static void load_ruleset_units(struct section_file *file)
       }
     }
     free(slist);
-
-    /* For now, if F_CITIES flag, we require the F_SETTLERS flag. -- jjm */
-    if (unit_flag(i, F_CITIES) && !(unit_flag(i, F_SETTLERS))) {
-      freelog(LOG_FATAL,
-	      "for unit_type \"%s\": \"Cities\" flag without \"Settlers\" flag (%s)",
-	      u->name, filename);
-      exit(1);
-    }
   }
     
   /* roles */
