@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,6 +67,8 @@ static const char *tile_special_type_names[] =
   N_("Airbase"),
   N_("Fallout")
 };
+
+extern int is_server;
 
 /***************************************************************
   Return a (static) string with terrain name;
@@ -897,12 +900,14 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
 			     int x, int y, int x1, int y1, int maxcost)
 {
-  if (tile0->terrain == T_UNKNOWN || tile1->terrain == T_UNKNOWN) {
-    return maxcost;
-  } else if (tile0->terrain == T_OCEAN) {
-    return (tile1->city || tile1->terrain == T_OCEAN) ? -3 : maxcost;
+  assert(y >= 0 && y <= map.ysize);
+  assert(!is_server || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
+
+  if (tile0->terrain == T_OCEAN) {
+    return (tile1->city || tile1->terrain == T_OCEAN
+	    || tile1->terrain == T_UNKNOWN) ? -3 : maxcost;
   } else if (tile1->terrain == T_OCEAN) {
-    return (tile0->city) ? -3 : maxcost;
+    return (tile0->city || tile0->terrain == T_UNKNOWN) ? -3 : maxcost;
   } else {
     return tile_move_cost_ptrs(NULL, tile0, tile1, x, y, x1, y1);
   }
@@ -974,14 +979,16 @@ void initialize_move_costs(void)
     struct tile *tile0, *tile1;
     int x1, y1;
     tile0 = map_get_tile(x, y);
-    /* Note: it is smart to also calculate the move costs in invalid
-       directions here, as they will be set to MAXCOST. */
     for (dir = 0; dir < 8; dir++) {
       x1 = map_adjust_x(x + DIR_DX[dir]);
       y1 = y + DIR_DY[dir];
-      tile1 = map_get_tile(x1, y1);
-      tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
-						x1, y1, maxcost);
+      if (normalize_map_pos(&x1, &y1)) {
+	tile1 = map_get_tile(x1, y1);
+	tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+						  x1, y1, maxcost);
+      } else {
+	tile0->move_cost[dir] = maxcost;
+      }
     }
   } whole_map_iterate_end;
 }

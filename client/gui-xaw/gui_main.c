@@ -173,8 +173,6 @@ XFontStruct *main_font_struct;
 /* productions font GC                                */
 GC prod_font_gc;
 XFontStruct *prod_font_struct;
-/* For drawing goto lines */
-GC line_gc; 
 
 Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 Widget bottom_form;
@@ -448,13 +446,6 @@ void ui_main(int argc, char *argv[])
 				   NORMAL_TILE_WIDTH,
 				   NORMAL_TILE_HEIGHT,
 				   display_depth);
-
-  {
-    XGCValues line_values;
-    line_values.function = GXinvert;
-    line_gc = XCreateGC(display, map_canvas_store,
-			GCFunction, &line_values);
-  }
 
   for(i=0; i<num_units_below; i++)
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 

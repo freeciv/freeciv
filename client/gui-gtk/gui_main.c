@@ -102,7 +102,6 @@ GdkPixmap *	gray50, *gray25;
 GdkGC *		mask_fg_gc;
 GdkGC *		mask_bg_gc;
 GdkPixmap *	mask_bitmap;
-GdkGC *         line_gc;
 
 GdkFont *	main_font;
 GdkFont *	city_productions_font;
@@ -715,10 +714,6 @@ void ui_main(int argc, char **argv)
 
   single_tile_pixmap	      = gdk_pixmap_new(root_window, 
         			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
-
-  line_gc = gdk_gc_new(GTK_WIDGET(map_canvas)->window);
-  /* I am open to suggestion of a better function than invert */
-  gdk_gc_set_function(line_gc, GDK_INVERT);
 
   load_options();
 

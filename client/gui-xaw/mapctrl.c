@@ -322,15 +322,15 @@ static struct city *find_city_near_tile(int x, int y)
 **************************************************************************/
 void update_line(int window_x, int window_y)
 {
-  int x, y;
-
+  int x, y, old_x, old_y;
+ 
   if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
     x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
     y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
-
-    if (line_dest_x != x || line_dest_y != y) {
-      undraw_line();
+ 
+    get_line_dest(&old_x, &old_y);
+    if (old_x != x || old_y != y) {
       draw_line(x, y);
     }
   }
@@ -438,7 +438,7 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
      return;
 
   if(ev->button==Button1)
-    do_goto(xtile,ytile);
+    do_unit_goto(xtile,ytile);
   else if(ev->button==Button3)
     center_tile_mapcanvas(xtile, ytile);
 }

@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 
 #ifdef HAVE_UNISTD_H
@@ -112,8 +113,6 @@ extern GdkGC *		fill_tile_gc;
 extern GdkGC *		mask_fg_gc;
 extern GdkGC *		mask_bg_gc;
 
-extern GdkGC *          line_gc;
-
 extern GdkFont *	main_font;
 extern GdkFont *city_productions_font;
 
@@ -122,8 +121,7 @@ static void pixmap_put_overlay_tile(GdkPixmap *pixmap,
 static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
 				     int x, int y, struct Sprite *ssprite);
 static void show_city_descriptions(void);
-static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y,
-		     int map_src_x, int map_src_y, int dir, int first_draw);
+static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y, int dir);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -592,6 +590,8 @@ void center_tile_mapcanvas(int x, int y)
   update_map_canvas_scrollbars();
 
   refresh_overview_viewrect();
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+    create_line_at_mouse_pos();
 }
 
 /**************************************************************************
@@ -1213,15 +1213,27 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
     pixmap_put_black_tile(pm,x,y);
   }
 
-  if (abs_y0 >= 0 && abs_y0 < map.ysize && !citymode) {
-    int dir, first = 1;
-    for (dir = 0; dir < 8; dir++)
-      if (goto_map.drawn[abs_x0][abs_y0] & (1<<dir)) {
-	int x1 = x*NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	int y1 = y*NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-	put_line(pm, x1, y1, abs_x0, abs_y0, dir, first);
-	first = 0;
+  if (!citymode) {
+    /* put any goto lines on the tile. */
+    if (abs_y0 >= 0 && abs_y0 < map.ysize) {
+      int dir;
+      for (dir = 0; dir < 8; dir++) {
+	if (get_drawn(abs_x0, abs_y0, dir)) {
+	  put_line(map_canvas_store, abs_x0, abs_y0, dir);
+	}
       }
+    }
+
+    /* Some goto lines overlap onto the tile... */
+    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
+      int line_x = abs_x0 - 1;
+      int line_y = abs_y0;
+      if (normalize_map_pos(&line_x, &line_y)
+	  && get_drawn(line_x, line_y, 2)) {
+	/* it is really only one pixel in the top right corner */
+	put_line(map_canvas_store, line_x, line_y, 2);
+      }
+    }
   }
 }
 
@@ -1351,206 +1363,85 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   }
 }
 
-
 /**************************************************************************
-Put a line on a pixmap. This line goes from the center of a tile
-(canvas_src_x, canvas_src_y) to the border of the tile.
-Note that this means that if you want to draw a line from x1,y1->x2,y2 you
-must call this function twice; once to draw from the center of x1,y1 to the
-border of the tile, with a dir argument. And once from x2,y2 with a dir
-argument for the opposite direction. This is necessary to enable the
-refreshing of a single tile
-
-Since the line_gc that is used to draw the line has function GDK_INVERT,
-drawing a line once and then again will leave the map unchanged. Therefore
-this function is used both to draw and undraw lines.
-
-There are two issues that make this function somewhat complex:
-1) The center pixel should only be drawn once (or it could be inverted
-   twice). This is done by adjusting the line starting point depending on
-   if the line we are drawing is the first line to be drawn. (not strictly
-   correct; read on to 2))
-(in the following I am assuming a tile width of 30 (as trident); replace as
-neccesary This point is not a problem with tilesets with odd height/width,
-fx engels with height 45)
-2) Since the tile has width 30 we cannot put the center excactly "at the
-   center" of the tile (that would require the width to be an odd number).
-   So we put it at 15,15, with the effect that there is 15 pixels above and
-   14 underneath (and likewise horizontally). This has an unfortunent
-   consequence for the drawing in dirs 2 and 5 (as used in the DIR_DX and
-   DIR_DY arrays); since we want to draw the line to the very corner of the
-   tile the line vector will be (14,-15) and (-15,14) respectively, which
-   would look wrong when drawn. To make the lines look nice the starting
-   point of dir 2 is moved one pixel up, and the starting point of dir 5 is
-   moved one pixel left, so the vectors will be (14,-14) and (-14,14).
-   Also, because they are off-center the starting pixel is not drawn when
-   drawing one of these directions.
+...
 **************************************************************************/
-static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y,
-		     int map_src_x, int map_src_y, int dir, int first_draw)
+static void put_line(GdkDrawable *pm, int x, int y, int dir)
 {
-  int dir2;
-  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * NORMAL_TILE_WIDTH/2;
-  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * NORMAL_TILE_WIDTH/2;
-  int start_pixel = 1;
-  int has_only25 = 1;
-  int num_other = 0;
-  /* if they are not equal we cannot draw nicely */
-  int equal = NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT;
+  int canvas_src_x = map_canvas_adjust_x(x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+  int canvas_src_y = map_canvas_adjust_y(y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+  int canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
+  int canvas_dest_y = canvas_src_y + (NORMAL_TILE_HEIGHT * DIR_DY[dir])/2;
 
-  if (map_src_y == map.ysize)
-    abort();
+  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_CYAN]);
 
-  if (!first_draw) {
-    /* only draw the pixel at the src one time. */
-    for (dir2 = 0; dir2 < 8; dir2++) {
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
-	start_pixel = 0;
-	break;
-      }
-    }
-  }
-
-  if (equal) { /* bit of a mess but neccesary */
-    for (dir2 = 0; dir2 < 8; dir2++) {
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
-	if (dir2 != 2 && dir2 != 5) {
-	  has_only25 = 0;
-	  num_other++;
-	}
-      }
-    }
-    if (has_only25) {
-      if (dir == 2 || dir == 5)
-	start_pixel = 0;
-      else
-	start_pixel = 1;
-    } else if (dir == 2 || dir == 5)
-      start_pixel = first_draw && !(num_other == 1);
-
-    switch (dir) {
-    case 0:
-    case 1:
-    case 3:
-      break;
-    case 2:
-    case 4:
-      canvas_dest_x -= DIR_DX[dir];
-      break;
-    case 5:
-    case 6:
-      canvas_dest_y -= DIR_DY[dir];
-      break;
-    case 7:
-      canvas_dest_x -= DIR_DX[dir];
-      canvas_dest_y -= DIR_DY[dir];
-      break;
-    default:
-      abort();
-    }
-
-    if (dir == 2) {
-      if (start_pixel)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y);
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<1) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x+1, canvas_src_y);
-      canvas_src_y -= 1;
-    } else if (dir == 5) {
-      if (start_pixel)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y);
-      if (goto_map.drawn[map_src_x][map_src_y] & (1<<3) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x+1, canvas_src_y);
-      canvas_src_x -= 1;
-    } else {
-      if (!start_pixel) {
-	canvas_src_x += DIR_DX[dir];
-	canvas_src_y += DIR_DY[dir];
-      }
-      if (dir == 1 && goto_map.drawn[map_src_x][map_src_y] & (1<<2) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x, canvas_src_y-1);
-      if (dir == 3 && goto_map.drawn[map_src_x][map_src_y] & (1<<5) && !first_draw)
-	gdk_draw_point(pm, line_gc, canvas_src_x-1, canvas_src_y);
-    }
-  } else { /* !equal */
-    if (!start_pixel) {
-      canvas_src_x += DIR_DX[dir];
-      canvas_src_y += DIR_DY[dir];
-    }
-  }
-
-  freelog(LOG_DEBUG, "%i->%i; x0: %i; twidth %i\n",
-	  map_src_x, map_canvas_adjust_x(map_src_x),
-	  map_view_x0, map_canvas_store_twidth);
-  freelog(LOG_DEBUG, "%i,%i-> %i,%i : %i,%i -> %i,%i\n",
-	  map_src_x, map_src_y, map_src_x + DIR_DX[dir], map_src_y + DIR_DY[dir],
-	  canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
-
-  /* draw it (at last!!) */
-  gdk_draw_line(pm, line_gc, canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
+  gdk_draw_line(pm, civ_gc,
+		canvas_src_x, canvas_src_y,
+		canvas_dest_x, canvas_dest_y);
 }
 
 /**************************************************************************
-draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store
+...
 **************************************************************************/
-void draw_segment(int src_x, int src_y, int dest_x, int dest_y)
+void draw_segment(int src_x, int src_y, int dir)
 {
-  int map_start_x, map_start_y;
-  int dir, x, y;
+  int dest_x, dest_y;
 
-  for (dir = 0; dir < 8; dir++) {
-    x = map_adjust_x(src_x + DIR_DX[dir]);
-    y = src_y + DIR_DY[dir];
-    if (x == dest_x && y == dest_y) {
-      if (!(goto_map.drawn[src_x][src_y] & (1<<dir))) {
-	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-	if (tile_visible_mapcanvas(src_x, src_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	goto_map.drawn[src_x][src_y] |= (1<<dir);
+  dest_x = src_x + DIR_DX[dir];
+  dest_y = src_y + DIR_DY[dir];
 
-	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
-	if (tile_visible_mapcanvas(dest_x, dest_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
-      }
-      return;
-    }
+  assert(normalize_map_pos(&dest_x, &dest_y));
+
+  /* A previous line already marks the place */
+  if (get_drawn(src_x, src_y, dir)) {
+    increment_drawn(src_x, src_y, dir);
+    return;
   }
+
+  if (tile_visible_mapcanvas(src_x, src_y)) {
+    put_line(map_canvas_store, src_x, src_y, dir);
+    put_line(map_canvas->window, src_x, src_y, dir);
+  }
+  if (tile_visible_mapcanvas(dest_x, dest_y)) {
+    put_line(map_canvas_store, dest_x, dest_y, 7-dir);
+    put_line(map_canvas->window, dest_x, dest_y, 7-dir);
+  }
+
+  increment_drawn(src_x, src_y, dir);
 }
 
 /**************************************************************************
-remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store
+...
 **************************************************************************/
-void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
+void undraw_segment(int src_x, int src_y, int dir)
 {
-  int map_start_x, map_start_y;
-  int dir, x, y;
+  int dest_x = src_x + DIR_DX[dir];
+  int dest_y = src_y + DIR_DY[dir];
+  int drawn = get_drawn(src_x, src_y, dir);
 
-  for (dir = 0; dir < 8; dir++) {
-    x = map_adjust_x(src_x + DIR_DX[dir]);
-    y = src_y + DIR_DY[dir];
-    if (x == dest_x && y == dest_y) {
-      if (goto_map.drawn[src_x][src_y] & (1<<dir)) {
-	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-	if (tile_visible_mapcanvas(src_x, src_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
-	goto_map.drawn[src_x][src_y] &= ~(1<<dir);
+  assert(drawn > 0);
+  /* If we walk on a path twice it looks just like walking on it once. */
+  if (drawn > 1) {
+    decrement_drawn(src_x, src_y, dir);
+    return;
+  }
 
-	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
-	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
-	if (tile_visible_mapcanvas(dest_x, dest_y))
-	  put_line(map_canvas->window, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
-	goto_map.drawn[dest_x][dest_y] &= ~(1<<(7-dir));
-      }
-      return;
+  decrement_drawn(src_x, src_y, dir);
+  refresh_tile_mapcanvas(src_x, src_y, 1);
+  assert(normalize_map_pos(&dest_x, &dest_y));
+  refresh_tile_mapcanvas(dest_x, dest_y, 1);
+  if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
+    if (dir == 2) { /* Since the tle doesn't have a middle we draw an extra pixel
+		       on the adjacent tile when drawing in this direction. */
+      dest_x = src_x + 1;
+      dest_y = src_y;
+      assert(normalize_map_pos(&dest_x, &dest_y));
+      refresh_tile_mapcanvas(dest_x, dest_y, 1);
+    } else if (dir == 5) { /* the same */
+      dest_x = src_x;
+      dest_y = src_y + 1;
+      assert(normalize_map_pos(&dest_x, &dest_y));
+      refresh_tile_mapcanvas(dest_x, dest_y, 1);
     }
   }
 }

@@ -29,11 +29,11 @@ extern enum cursor_hover_state hover_state;
 extern int draw_goto_line;
 
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
+void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);
 void do_unit_connect(struct unit *punit, int x, int y);
 void do_unit_patrol_to(struct unit *punit, int x, int y);
-int do_goto(int xtile, int ytile);
 void do_map_click(int xtile, int ytile);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state);

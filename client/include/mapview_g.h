@@ -52,7 +52,7 @@ void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen);
 
-void undraw_segment(int src_x, int src_y, int dest_x, int dest_y);
-void draw_segment(int src_x, int src_y, int dest_x, int dest_y);
+void undraw_segment(int src_x, int src_y, int dir);
+void draw_segment(int src_x, int src_y, int dir);
 
 #endif  /* FC__MAPVIEW_G_H */

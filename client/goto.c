@@ -27,6 +27,30 @@
 
 #include "goto.h"
 
+static void undraw_line(void);
+
+/**************************************************************************
+Various stuff for the goto routes
+**************************************************************************/
+#define INITIAL_ARRAY_LENGTH 100
+int goto_array_length = INITIAL_ARRAY_LENGTH; /* allocated length */
+int goto_array_index = 0; /* points to where the next element should be inserted */
+struct map_position *goto_array = NULL;
+
+struct waypoint {
+  int x;
+  int y;
+  int goto_array_start; /* Here the first tile in the route from x,y exclusive
+			   x, y is/should be inserted. */
+};
+#define INITIAL_WAYPOINT_LENGTH 50
+struct waypoint *waypoint_list = NULL;
+int waypoint_list_length = INITIAL_WAYPOINT_LENGTH; /* allocated length */
+int waypoint_list_index = 0; /* points to where the next element should be inserted */
+
+int is_active = 0;
+
+
 struct client_goto_map goto_map;
 
 /* These are used for all GOTO's */
@@ -171,6 +195,12 @@ void init_client_goto(void)
   int x_itr;
   static int is_init = 0, old_xsize;
 
+  if (!goto_array) {
+    goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
+					    * sizeof(struct map_position));
+    waypoint_list = fc_malloc(INITIAL_WAYPOINT_LENGTH * sizeof(struct waypoint));
+  }
+
   if (is_init) {
     for (x_itr = 0; x_itr < old_xsize; x_itr++) {
       free(goto_map.move_cost[x_itr]);
@@ -192,13 +222,15 @@ void init_client_goto(void)
     goto_map.move_cost[x_itr] = fc_malloc(map.ysize * sizeof(short));
     goto_map.vector[x_itr] = fc_malloc(map.ysize * sizeof(char));
     goto_map.returned[x_itr] = fc_malloc(map.ysize * sizeof(char));
-    goto_map.drawn[x_itr] = fc_malloc(map.ysize * sizeof(char));
+    goto_map.drawn[x_itr] = fc_malloc(map.ysize * sizeof(char) * 4);
   }
   goto_map.unit_id = -1;
   goto_map.src_x = -1;
   goto_map.src_y = -1;
   whole_map_iterate(x, y) {
-    goto_map.drawn[x][y] = 0;
+    int dir;
+    for (dir=0; dir<4; dir++)
+      *(goto_map.drawn[x] + y * 4 + dir) = 0;
   } whole_map_iterate_end;
   initialize_move_costs();
 
@@ -246,8 +278,8 @@ Note that a tile currently have max 1 vector pointing to it, as opposed
 to marking all routes of the lowest cost as it is done in
 find_the_shortest_path().
 ***********************************************************************/
-void create_goto_map(struct unit *punit, int src_x, int src_y,
-		     enum goto_move_restriction restriction)
+static void create_goto_map(struct unit *punit, int src_x, int src_y,
+			    enum goto_move_restriction restriction)
 {
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int x, y, x1, y1, dir;
@@ -326,21 +358,19 @@ void create_goto_map(struct unit *punit, int src_x, int src_y,
 	if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y])
 	  continue; /* No need for all the calculations */
 
-	if (pdesttile->terrain == T_UNKNOWN)
+	if (pdesttile->terrain == T_UNKNOWN) {
 	  move_cost = 6; /* arbitrary */
-	else if (psrctile->move_cost[dir] != -3) /* is -3 if sea units can move between */
-	  continue;
-	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1))
-	  move_cost = 7;
-	else
-	  move_cost = 3;
-
-	if (pdesttile->terrain == T_UNKNOWN) /* arbitrary deterrent. */
-	  move_cost = 9;
-
-	if (is_non_allied_unit_tile(pdesttile, punit->owner)
-	    || is_non_allied_city_tile(pdesttile, punit->owner))
+	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)
+		   || is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  add_to_queue = 0;
+	  move_cost = 3;
+	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
+	  continue;
+	} else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) {
+	  move_cost = 7;
+	} else {
+	  move_cost = 3;
+	}
 
 	total_cost = move_cost + goto_map.move_cost[x][y];
 
@@ -392,122 +422,15 @@ void create_goto_map(struct unit *punit, int src_x, int src_y,
   } /* end while */
 }
 
-/********************************************************************** 
-...
-***********************************************************************/
-static void goto_map_backtrace(int dest_x, int dest_y)
-{
-  int dir, x, y;
 
-  if (dest_x == goto_map.src_x && dest_y == goto_map.src_y)
-    return; /* job well done */
-
-  assert(goto_map.vector[dest_x][dest_y]);
-
-  for (dir = 0; dir < 8; dir++) {
-    if (goto_map.vector[dest_x][dest_y] & (1<<dir)) {
-      x = map_adjust_x(dest_x + DIR_DX[dir]);
-      y = dest_y + DIR_DY[dir];
-      assert(y >= 0 && y < map.ysize);
-       /* note the order of calls; makes sure the positions are pushed
-	  onto the stack in the desired order. */
-      goto_map_backtrace(x, y);
-      goto_array_insert(dest_x, dest_y);
-      return;
-    }
-  }
-  /* If things are consistent we never get here */
-  abort();
-}
-
-int line_dest_x = -1;
-int line_dest_y = -1;
-/********************************************************************** 
-Puts a line to dest_x, dest_y on the map according to the current goto_map
-***********************************************************************/
-void draw_line(int dest_x, int dest_y)
-{
-  int dir, x, y;
-
-  if (!goto_map.vector[dest_x][dest_y])
-    return;
-
-  if (line_dest_x == -1) {
-    line_dest_x = dest_x;
-    line_dest_y = dest_y;
-  }
-
-  if (!has_capability("activity_patrol", aconnection.capability))
-    return;
-
-  if (dest_x == goto_map.src_x && dest_y == goto_map.src_y)
-    return; /* job well done */
-
-  for (dir = 0; dir < 8; dir++) {
-    if (goto_map.vector[dest_x][dest_y] & (1<<dir)) {
-      x = map_adjust_x(dest_x + DIR_DX[dir]);
-      y = dest_y + DIR_DY[dir];
-      assert(y >= 0 && y < map.ysize);
-      draw_segment(x, y, dest_x, dest_y);
-      draw_line(x, y); /* I like recursion! :) */
-      return;
-    }
-  }
-}
-
-/********************************************************************** 
-Like, removes the line drawn with draw_line().
-***********************************************************************/
-void undraw_line(void)
-{
-  int dir, x, y;
-
-  if (line_dest_x == goto_map.src_x && line_dest_y == goto_map.src_y) {
-    line_dest_x = -1;
-    return; /* job well done */
-  }
-  if (line_dest_x == -1)
-    return;
-
-  if (!has_capability("activity_patrol", aconnection.capability))
-    return;
-
-  assert(goto_map.vector[line_dest_x][line_dest_y]);
-
-  for (dir = 0; dir < 8; dir++) {
-    if (goto_map.vector[line_dest_x][line_dest_y] & (1<<dir)) {
-      x = map_adjust_x(line_dest_x + DIR_DX[dir]);
-      y = line_dest_y + DIR_DY[dir];
-      assert(y >= 0 && y < map.ysize);
-      undraw_segment(x, y, line_dest_x, line_dest_y);
-      line_dest_x = x;
-      line_dest_y = y;
-      undraw_line(); /* I like recursion! :) */
-      return;
-    }
-  }
-}
 
 /**************************************************************************
-Various stuff for the goto routes
-**************************************************************************/
-#define INITIAL_ARRAY_LENGTH 100
-int goto_array_length = INITIAL_ARRAY_LENGTH;
-int goto_array_index = 0; /* points to where the next element should be inserted */
-struct map_position *goto_array = NULL;
-
-void goto_array_clear(void)
-{
-  goto_array_index = 0;
-}
-
-/**************************************************************************
+Insert a point and draw the line on the map.
 Will extend the array if needed.
 **************************************************************************/
-void goto_array_insert(int x, int y)
+static void goto_array_insert(int x, int y)
 {
-  if (!goto_array)
-    goto_array = fc_malloc(INITIAL_ARRAY_LENGTH * sizeof(struct map_position));
+  int dir, old_x, old_y;
 
   /* too small; alloc a bigger one */
   if (goto_array_index == goto_array_length) {
@@ -516,6 +439,27 @@ void goto_array_insert(int x, int y)
       fc_realloc(goto_array, goto_array_length * sizeof(struct map_position));
   }
 
+  /* draw onto map */
+  if (goto_array_index == 0) {
+    old_x = waypoint_list[0].x;
+    old_y = waypoint_list[0].y;
+  } else {
+    old_x = goto_array[goto_array_index-1].x;
+    old_y = goto_array[goto_array_index-1].y;
+  }
+
+  for (dir=0; dir<8; dir++) {
+    int x1 = old_x + DIR_DX[dir];
+    int y1 = old_y + DIR_DY[dir];
+    if (normalize_map_pos(&x1, &y1)) {
+      if (x1 == x && y1 == y)
+	break; /* Now dir is set correctly. */
+    }
+  }
+  assert(dir != 8);
+  draw_segment(old_x, old_y, dir);
+
+  /* insert into array */
   goto_array[goto_array_index].x = x;
   goto_array[goto_array_index].y = y;
   goto_array_index++;
@@ -524,65 +468,385 @@ void goto_array_insert(int x, int y)
 /********************************************************************** 
 ...
 ***********************************************************************/
-int transfer_route_to_stack(int dest_x, int dest_y)
+static void insert_waypoint(int x, int y)
 {
-  if (goto_map.vector[dest_x][dest_y]) {
-    goto_map_backtrace(dest_x, dest_y);
-    return 1;
-  } else {
-    return 0;
+  struct waypoint *pwaypoint;
+
+  /* too small; alloc a bigger one */
+  if (waypoint_list_index == waypoint_list_length) {
+    waypoint_list_length *= 2;
+    waypoint_list =
+      fc_realloc(waypoint_list, waypoint_list_length * sizeof(struct waypoint));
   }
+
+  pwaypoint = &waypoint_list[waypoint_list_index];
+  pwaypoint->x = x;
+  pwaypoint->y = y;
+  pwaypoint->goto_array_start = goto_array_index;
+  waypoint_list_index++;
 }
 
 /********************************************************************** 
-For patrol; this function will have to be rewritten when waypoints are
-implemented.
+Inserts a waypoint at the end of the current goto line.
 ***********************************************************************/
-int transfer_route_to_stack_circular(int dest_x, int dest_y)
+void goto_add_waypoint(void)
 {
-  int index;
-  if (goto_map.vector[dest_x][dest_y]) {
-    goto_map_backtrace(dest_x, dest_y);
-    for (index = goto_array_index-2; index >= 0; index--)
-      goto_array_insert(goto_array[index].x, goto_array[index].y);
-    goto_array_insert(goto_map.src_x, goto_map.src_y);
-    return 1;
+  int x, y;
+  struct unit *punit = find_unit_by_id(goto_map.unit_id);
+  assert(is_active);
+  assert(punit && punit == get_unit_in_focus());
+  get_line_dest(&x, &y);
+  create_goto_map(punit, x, y, GOTO_MOVE_ANY);
+  insert_waypoint(x, y);
+}
+
+
+/********************************************************************** 
+Returns whether there were any waypoint popped (we don't remove the
+initial position)
+***********************************************************************/
+int goto_pop_waypoint(void)
+{
+  int dest_x, dest_y, new_way_x, new_way_y;
+  struct unit *punit = find_unit_by_id(goto_map.unit_id);
+  assert(is_active);
+  assert(punit && punit == get_unit_in_focus());
+
+  if (waypoint_list_index == 1)
+    return 0; /* we don't have any waypoint but the start pos. */
+  
+  new_way_x = waypoint_list[waypoint_list_index-2].x;
+  new_way_y = waypoint_list[waypoint_list_index-2].y;
+  get_line_dest(&dest_x, &dest_y); /* current dest. */
+
+  undraw_line(); /* line from deleted waypoint to current dest */
+  waypoint_list_index--; /* delete waypoint */
+  undraw_line(); /* line from next waypoint to deleted waypoint */
+  create_goto_map(punit, new_way_x, new_way_y, GOTO_MOVE_ANY);
+  draw_line(dest_x, dest_y); /* line from next waypoint to current dest */
+
+  return 1;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void enter_goto_state(struct unit *punit)
+{
+  assert(!is_active);
+  create_goto_map(punit, punit->x, punit->y, GOTO_MOVE_ANY);
+  goto_array_index = 0;
+  waypoint_list_index = 0;
+  insert_waypoint(punit->x, punit->y);
+  is_active = 1;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void exit_goto_state(void)
+{
+  if (!is_active)
+    return;
+
+  while (waypoint_list_index != 1 || goto_array_index != 0) {
+    undraw_line();
+    if (waypoint_list_index > 1)
+      waypoint_list_index--;
+  }
+
+  is_active = 0;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+int goto_is_active(void)
+{
+  return is_active;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void get_line_dest(int *x, int *y)
+{
+  assert(is_active);
+
+  if (goto_array_index) {
+    *x = goto_array[goto_array_index-1].x;
+    *y = goto_array[goto_array_index-1].y;
   } else {
-    return 0;
+    *x = goto_map.src_x;
+    *y = goto_map.src_y;
   }
 }
 
-/**************************************************************************
+
+
+/********************************************************************** 
+Every line segment has 2 ends; we only keep track of it at one end (the
+one from which dir i <4).
+This function returns pointer to the correct char.
+***********************************************************************/
+static unsigned char *get_drawn_char(int x, int y, int dir)
+{
+  int x1, y1;
+
+  assert(normalize_map_pos(&x, &y));
+
+  x1 = x + DIR_DX[dir];
+  y1 = y + DIR_DY[dir];
+  /* It makes no sense to draw a goto line to a non-existant tile. */
+  assert(normalize_map_pos(&x1, &y1));
+
+  if (dir >= 4) {
+    x = x1;
+    y = y1;
+    dir = 7 - dir;
+  }
+
+  return goto_map.drawn[x] + y*4 + dir;
+}
+
+/********************************************************************** 
 ...
-**************************************************************************/
-void goto_array_send(struct unit *punit)
+***********************************************************************/
+void increment_drawn(int x, int y, int dir)
+{
+  /* don't overflow unsigned char. */
+  assert(*get_drawn_char(x, y, dir) < 255);
+  *get_drawn_char(x, y, dir) += 1;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void decrement_drawn(int x, int y, int dir)
+{
+  assert(*get_drawn_char(x, y, dir) > 0);
+  *get_drawn_char(x, y, dir) -= 1;
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+int get_drawn(int x, int y, int dir)
+{
+  if ((y == 0 && dir <= 2)
+      || (y == map.ysize-1 && dir >= 5))
+    return 0;
+
+  return *get_drawn_char(x, y, dir);
+}
+
+
+/********************************************************************** 
+Pop one tile and undraw it from the map.
+Not many checks here.
+***********************************************************************/
+static void undraw_one(void)
+{
+  int line_x, line_y;
+  /* current line destination */
+  int dest_x = goto_array[goto_array_index-1].x;
+  int dest_y = goto_array[goto_array_index-1].y;
+  struct waypoint *pwaypoint = &waypoint_list[waypoint_list_index-1];
+  int found_direction = 0;
+  int dir;
+
+  /* find the new line destination */
+  if (goto_array_index > pwaypoint->goto_array_start + 1) {
+    line_x = goto_array[goto_array_index-2].x;
+    line_y = goto_array[goto_array_index-2].y;
+  } else {
+    line_x = pwaypoint->x;
+    line_y = pwaypoint->y;
+  }
+
+  /* undraw the line segment */
+  for (dir = 0; dir < 8; dir++) {
+    int x = map_adjust_x(line_x + DIR_DX[dir]);
+    int y = line_y + DIR_DY[dir];
+    if (normalize_map_pos(&x, &y)
+	&& x == dest_x && y == dest_y) {
+      undraw_segment(line_x, line_y, dir);
+      found_direction = 1;
+      break; /* not needed; for clarity. */
+    }
+  }
+  if (!found_direction)
+    abort();
+
+  assert(goto_array_index > 0);
+  goto_array_index--;
+}
+
+/********************************************************************** 
+Like, removes the line drawn with draw_line().
+If the route contains multiple waypoints we will delete down to the
+next one and then return.
+
+Works by recursively deleting one tile at a time from the route.
+***********************************************************************/
+static void undraw_line(void)
+{
+  struct waypoint *pwaypoint;
+
+  if (!is_active)
+    return;
+
+  if (!has_capability("activity_patrol", aconnection.capability))
+    return;
+
+  assert(waypoint_list_index);
+  pwaypoint = &waypoint_list[waypoint_list_index-1]; /* active source */
+
+  /* If we are down at a waypoint and we have two waypoints on top
+     of each other Just pop a waypoint. */
+  if (goto_array_index == pwaypoint->goto_array_start) {
+    return;
+  }
+
+  if (goto_array_index == 0)
+    return;
+
+  while (goto_array_index > pwaypoint->goto_array_start) {
+    undraw_one();
+  }
+}
+
+#define INITIAL_ROUTE_LENGTH 30
+struct map_position *route = NULL;
+int route_length = INITIAL_ROUTE_LENGTH;
+int route_index = 0;
+/********************************************************************** 
+Return what index the first element in the new route should be inserted.
+ie, we don't want to first undraw a lot of a route and then redraw it,
+so we find the common part.
+***********************************************************************/
+static int find_route(int x, int y)
+{
+  int last_x, last_y;
+  int dir, i;
+  int first_index;
+
+  if (route == NULL) {
+    route = fc_malloc(route_length * sizeof(struct map_position));
+  }
+
+  last_x = waypoint_list[waypoint_list_index-1].x;
+  last_y = waypoint_list[waypoint_list_index-1].y;
+
+  first_index = waypoint_list[waypoint_list_index-1].goto_array_start;
+
+  if (x == last_x && y == last_y)
+    return first_index;
+
+  /* Try to see of we can find this position in the goto array */
+  for (i = goto_array_index-1; i >= first_index; i--) {
+    if (x == goto_array[i].x && y == goto_array[i].y) {
+      return i+1; /* found common point */
+    }
+  }
+
+  for (dir = 0; dir < 8; dir++) {
+    if (goto_map.vector[x][y] & (1<<dir)) {
+      int new_x = x + DIR_DX[dir];
+      int new_y = y + DIR_DY[dir];
+      assert(normalize_map_pos(&new_x, &new_y));
+
+      /* expand array as neccesary */
+      if (route_index == route_length) {
+	route_length *= 2;
+	route = fc_realloc(route, route_length * sizeof(struct map_position));
+      }
+
+      route[route_index].x = x;
+      route[route_index].y = y;
+      route_index++;
+      return find_route(new_x, new_y); /* how about recoding freeciv in MosML? */
+    }
+  }
+  assert(0); /* should find direction... */
+  return -1; /* why can't the compiler figure out that create_goto_map()
+		will newer create a vector that leads to a pos without a
+		vector without that pos being the source? :P */
+}
+
+/********************************************************************** 
+Puts a line to dest_x, dest_y on the map according to the current
+goto_map.
+***********************************************************************/
+void draw_line(int dest_x, int dest_y)
+{
+  int start_index;
+
+  assert(is_active);
+
+  if (!goto_map.vector[dest_x][dest_y]) {
+    undraw_line();
+    return;
+  }
+
+  if (!has_capability("activity_patrol", aconnection.capability))
+    return;
+
+  /* puts the route into "route" */
+  start_index = find_route(dest_x, dest_y);
+
+  /* undraw the part of the route we cannot reuse. */
+  while (goto_array_index > start_index)
+    undraw_one();
+
+  while (route_index > 0) {
+    goto_array_insert(route[route_index-1].x, route[route_index-1].y);
+    route_index--;
+  }
+}
+
+
+
+/********************************************************************** 
+...
+***********************************************************************/
+void send_patrol_route(struct unit *punit)
+{
+  struct packet_goto_route p;
+  int i, j;
+  p.unit_id = punit->id;
+  p.length = goto_array_index * 2 + 1;
+  p.first_index = 0;
+  p.last_index = goto_array_index * 2;
+  p.pos = fc_malloc((p.length) * sizeof(struct map_position));
+  j = 0;
+  for (i = 0; i < goto_array_index; i++) {
+    p.pos[j++] = goto_array[i];
+  }
+  for (i = goto_array_index-2; i >= 0; i--) {
+    p.pos[j++] = goto_array[i];
+  }
+  p.pos[j].x = punit->x;
+  p.pos[j].y = punit->y;
+  send_packet_goto_route(&aconnection, &p, ROUTE_PATROL);
+  free(p.pos);
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void send_goto_route(struct unit *punit)
 {
   struct packet_goto_route p;
   int i;
-  int type;
   p.unit_id = punit->id;
   p.length = goto_array_index + 1;
   p.first_index = 0;
   p.last_index = goto_array_index;
-  /* This is freed by send_packet_goto_route() */
   p.pos = fc_malloc((p.length) * sizeof(struct map_position));
   for (i = 0; i < goto_array_index; i++) {
     p.pos[i] = goto_array[i];
   }
-
-  switch (hover_state) {
-  case HOVER_GOTO:
-    type = ROUTE_GOTO;
-    break;
-  case HOVER_PATROL:
-    type = ROUTE_PATROL;
-    break;
-  default:
-    type = 0;
-    abort();
-  }
-
-  send_packet_goto_route(&aconnection, &p, type);
+  send_packet_goto_route(&aconnection, &p, ROUTE_GOTO);
   free(p.pos);
-  goto_array_clear();
 }

@@ -19,26 +19,27 @@ struct client_goto_map {
   short **move_cost;
   char **vector;
   char **returned;
-  char **drawn;
+  unsigned char **drawn; /* Should not be modified directly. */
   int unit_id; /* The unit of the goto map */
   int src_x, src_y;
 };
 
 extern struct client_goto_map goto_map;
-extern int line_dest_x;
-extern int line_dest_y;
 
-void create_goto_map(struct unit *punit, int src_x, int src_y,
-		     enum goto_move_restriction restriction);
-int transfer_route_to_stack(int dest_x, int dest_y);
-int transfer_route_to_stack_circular(int dest_x, int dest_y);
 void init_client_goto(void);
+void enter_goto_state(struct unit *punit);
+void exit_goto_state(void);
+int goto_is_active(void);
+void get_line_dest(int *x, int *y);
+void goto_add_waypoint(void);
+int goto_pop_waypoint(void);
 
 void draw_line(int dest_x, int dest_y);
-void undraw_line(void);
+int get_drawn(int x, int y, int dir);
+void increment_drawn(int x, int y, int dir);
+void decrement_drawn(int x, int y, int dir);
 
-void goto_array_clear(void);
-void goto_array_insert(int x, int y);
-void goto_array_send(struct unit *punit);
+void send_patrol_route(struct unit *punit);
+void send_goto_route(struct unit *punit);
 
 #endif /* FC__GOTO_H */
