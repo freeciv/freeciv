@@ -467,8 +467,9 @@ int civ_score(struct player *pplayer)
 				      * pplayer->spaceship.success_rate);
   }
 
+  /* We used to count pplayer->score.happy here too, but this is too easily
+   * manipulated by players at the endyear. */
   return (total_player_citizens(pplayer)
-	  + pplayer->score.happy
 	  + pplayer->score.techs * 2
 	  + pplayer->score.wonders * 5
 	  + pplayer->score.spaceship);
