@@ -421,7 +421,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
                 }
               } adjc_iterate_end;
             }
-	    v += (amount + ai->threats.invasions - 1) * c; /* for wonder */
+	    v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
 	    if (capital && ai->threats.invasions) {
 	      v += amount; /* defend capital! */
 	    }
