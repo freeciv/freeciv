@@ -221,6 +221,8 @@ void save_command(char *arg)
     printf("Failed saving game as %s\n", arg);
   else
     printf("Game saved as %s\n", arg);
+
+  section_file_free(&file);
 }
 
 /**************************************************************************
