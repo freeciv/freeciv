@@ -960,8 +960,8 @@ static void caravan_destroy_callback(GtkWidget *w, gpointer data)
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)
 {
-  char buf[128];
-  bool can_establish, can_trade;
+  char buf[128], wonder[128];
+  bool can_establish, can_trade, can_wonder;
   
   my_snprintf(buf, sizeof(buf),
 	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
@@ -973,13 +973,23 @@ void popup_caravan_dialog(struct unit *punit,
   can_trade = can_cities_trade(phomecity, pdestcity);
   can_establish = can_trade
   		  && can_establish_trade_route(phomecity, pdestcity);
-  
+
+  if (unit_can_help_build_wonder(punit, pdestcity)) {
+    my_snprintf(wonder, sizeof(wonder), _("Help build _Wonder (%d remaining)"),
+	impr_build_shield_cost(pdestcity->currently_building)
+	- pdestcity->shield_stock);
+    can_wonder = TRUE;
+  } else {
+    my_snprintf(wonder, sizeof(wonder), _("Help build _Wonder"));
+    can_wonder = FALSE;
+  }
+
   caravan_dialog = popup_message_dialog(GTK_WINDOW(toplevel),
     _("Your Caravan Has Arrived"), 
     buf,
     (can_establish ? _("Establish _Traderoute") :
     _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
-    _("Help build _Wonder"),caravan_help_build_wonder_callback, NULL,
+    wonder,caravan_help_build_wonder_callback, NULL,
     _("_Keep moving"), NULL, NULL,
     NULL);
 
@@ -990,7 +1000,7 @@ void popup_caravan_dialog(struct unit *punit,
     message_dialog_button_set_sensitive(caravan_dialog, 0, FALSE);
   }
   
-  if (!unit_can_help_build_wonder(punit, pdestcity)) {
+  if (!can_wonder) {
     message_dialog_button_set_sensitive(caravan_dialog, 1, FALSE);
   }
 }
