@@ -40,6 +40,8 @@
 
 extern struct move_cost_map warmap;
 
+static int upgrade_would_strand(struct unit *punit, int upgrade_type);
+
 /******************************************************************************
  A spy (but not a diplomat) can poison a cities water supply.  There is 
  no protection from this other than a defending spy/diplomat.
@@ -622,38 +624,114 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
   diplomat_leave_city(pplayer, pdiplomat, pcity);
 }
 
+
 /***************************************************************************
-Restore adds move points/hitpoints and upgrade units if player
-have leonardo's workshop.
-Air units have to be on carriers or cities or they'll be wiped.
-Missiles will have to be on submarines or in citites or they'll be wiped
-choppers out of city will loose 1 hitpoint every turn.
-triremes will be wiped with 50% chance 
-if they're not close to land, and player  don't have lighthouse.
+ Return 1 if upgrading this unit could cause passengers to
+ get stranded at sea, due to transport capacity changes
+ caused by the upgrade.
+ Return 0 if ok to upgrade (as far as stranding goes).
+***************************************************************************/
+static int upgrade_would_strand(struct unit *punit, int upgrade_type)
+{
+  int old_cap, new_cap, tile_cap, tile_ncargo;
+  
+  if (!is_sailing_unit(punit))
+    return 0;
+  if (map_get_terrain(punit->x, punit->y) != T_OCEAN)
+    return 0;
+
+  /* With weird non-standard unit types, upgrading these could
+     cause air units to run out of fuel; too bad. */
+  if (unit_flag(punit->type, F_CARRIER) || unit_flag(punit->type,F_SUBMARINE))
+    return 0;
+
+  old_cap = get_transporter_capacity(punit);
+  new_cap = unit_types[upgrade_type].transport_capacity;
+
+  if (new_cap >= old_cap)
+    return 0;
+
+  tile_cap = 0;
+  tile_ncargo = 0;
+  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
+    if (is_sailing_unit(punit2) &&
+	get_transporter_capacity(punit2) > 0 &&
+	!(unit_flag(punit2->type, F_CARRIER)
+	  || unit_flag(punit2->type, F_SUBMARINE))) {
+      tile_cap += get_transporter_capacity(punit2);
+    } else if (is_ground_unit(punit2)) {
+      tile_ncargo++;
+    }
+  }
+  unit_list_iterate_end;
+
+  if (tile_ncargo <= tile_cap - old_cap + new_cap)
+    return 0;
+
+  printf("Can't upgrade %s at (%d,%d) because would strand passenger(s)\n",
+	 get_unit_type(punit->type)->name, punit->x, punit->y);
+  return 1;
+}
+
+/***************************************************************************
+Restore unit move points and hitpoints.
+Do Leonardo's Workshop upgrade if applicable.
+Now be careful not to strand units at sea with the Workshop. --dwp
+Adjust air units for fuel: air units lose fuel unless in a city
+or on a Carrier (or, for Missles, on a Submarine).  Air units
+which run out of fuel get wiped.
+Carriers and Submarines can now only supply fuel to a limited
+number of units each, equal to their transport_capacity. --dwp
+(Hitpoint adjustments include Helicopters out of cities, but
+that is handled within unit_restore_hitpoints().)
+Triremes will be wiped with 50% chance if they're not close to
+land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
   struct city *pcity;
   int leonardo=0;
+  int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
   struct unit_list list;
   struct unit *next_unit;
+  int upgrade_type, done;
 
   pcity=city_list_find_id(&pplayer->cities, 
 			  game.global_wonders[B_LEONARDO]);
-  if ((pcity && !wonder_obsolete(B_LEONARDO))) 
-    leonardo=1;
-  unit_list_iterate(pplayer->units, punit) {
-    if (leonardo && can_upgrade_unittype(pplayer, punit->type)!=-1) {
-      if (punit->hp==get_unit_type(punit->type)->hp) 
-	punit->hp = get_unit_type(can_upgrade_unittype(pplayer, punit->type))->hp;
-      notify_player(pplayer, "Game: Leonardo's workshop has upgraded %s to %s ",
-		    unit_types[punit->type].name, 
-		    unit_types[can_upgrade_unittype(pplayer, punit->type)].name);
-      punit->type = can_upgrade_unittype(pplayer, punit->type);
-      punit->veteran = 0;
-      leonardo = 0;
-    }
+  if (pcity && !wonder_obsolete(B_LEONARDO))
+    leonardo = 1;
 
+  /* get Leonardo out of the way first: */
+  if (leonardo) {
+    unit_list_iterate(pplayer->units, punit) {
+      if (leonardo &&
+	  (upgrade_type=can_upgrade_unittype(pplayer, punit->type))!=-1
+	  && !upgrade_would_strand(punit, upgrade_type)) {
+	if (punit->hp==get_unit_type(punit->type)->hp) 
+	  punit->hp = get_unit_type(upgrade_type)->hp;
+	notify_player(pplayer,
+		      "Game: Leonardo's workshop has upgraded %s to %s ",
+		      unit_types[punit->type].name, 
+		      unit_types[upgrade_type].name);
+	punit->type = upgrade_type;
+	punit->veteran = 0;
+	leonardo = 0;
+      }
+    }
+    unit_list_iterate_end;
+  }
+  
+  /* Temporarily use 'fuel' on Carriers and Subs to keep track
+     of numbers of supported Air Units:   --dwp */
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_flag(punit->type, F_CARRIER) || 
+	unit_flag(punit->type, F_SUBMARINE)) {
+      punit->fuel = get_unit_type(punit->type)->transport_capacity;
+    }
+  }
+  unit_list_iterate_end;
+  
+  unit_list_iterate(pplayer->units, punit) {
     unit_restore_hitpoints(pplayer, punit);
     unit_restore_movepoints(pplayer, punit);
     
@@ -662,13 +740,28 @@ void player_restore_units(struct player *pplayer)
       if(map_get_city(punit->x, punit->y))
 	punit->fuel=get_unit_type(punit->type)->fuel;
       else {
-	unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2)
-	  if (unit_flag(punit2->type,F_CARRIER))
-	    punit->fuel=get_unit_type(punit->type)->fuel;
-	  else if (unit_flag(punit->type, F_MISSILE) && 
-		   unit_flag(punit2->type, F_SUBMARINE))
-	    punit->fuel=get_unit_type(punit->type)->fuel;
-	unit_list_iterate_end;
+	done = 0;
+	if (unit_flag(punit->type, F_MISSILE)) {
+	  /* Want to preferentially refuel Missiles from Subs,
+	     to leave space on co-located Carriers for normal air units */
+	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
+	    if (!done && unit_flag(punit2->type,F_SUBMARINE) && punit2->fuel) {
+	      punit->fuel = get_unit_type(punit->type)->fuel;
+	      punit2->fuel--;
+	      done = 1;
+	    }
+	  unit_list_iterate_end;
+	}
+	if (!done) {
+	  /* Non-Missile or not refueled by Subs: use Carriers: */
+	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
+	    if (!done && unit_flag(punit2->type,F_CARRIER) && punit2->fuel) {
+	      punit->fuel = get_unit_type(punit->type)->fuel;
+	      punit2->fuel--;
+	      done = 1;
+	    }
+	  unit_list_iterate_end;
+	}
       }
       if(punit->fuel<=0) {
 	send_remove_unit(0, punit->id);
@@ -677,12 +770,14 @@ void player_restore_units(struct player *pplayer)
 			 unit_name(punit->type));
 	wipe_unit(0, punit);
       }
-    } else if (punit->type==U_TRIREME) {
-      struct city *pcity;
-      pcity=city_list_find_id(&pplayer->cities, 
-			    game.global_wonders[B_LIGHTHOUSE]);
-      if (!(pcity && !wonder_obsolete(B_LIGHTHOUSE))) { 
-	if (!is_coastline(punit->x, punit->y) && (myrand(100) >= 50)) {
+    } else if (punit->type==U_TRIREME && (lighthouse_effect!=1) &&
+	       !is_coastline(punit->x, punit->y)) {
+      if (lighthouse_effect == -1) {
+	pcity=city_list_find_id(&pplayer->cities, 
+				game.global_wonders[B_LIGHTHOUSE]);
+	lighthouse_effect = (pcity && !wonder_obsolete(B_LIGHTHOUSE));
+      }
+      if ((!lighthouse_effect) && (myrand(100) >= 50)) {
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			   "Game: Your Trireme has been lost on the high seas");
           transporter_cargo_to_unitlist(punit, &list);
@@ -703,8 +798,16 @@ void player_restore_units(struct player *pplayer)
           unit_list_iterate_end;
 /* only now can we proceed to */
 	  wipe_unit(pplayer, punit);
-	}
       }
+    }
+  }
+  unit_list_iterate_end;
+  
+  /* Clean up temporary use of 'fuel' on Carriers and Subs: */
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_flag(punit->type, F_CARRIER) || 
+	unit_flag(punit->type, F_SUBMARINE)) {
+      punit->fuel = 0;
     }
   }
   unit_list_iterate_end;
