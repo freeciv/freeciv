@@ -88,7 +88,7 @@ static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_nations(struct section_file *file);
 
-static void load_ruleset_game();
+static void load_ruleset_game(void);
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_units(struct conn_list *dest);

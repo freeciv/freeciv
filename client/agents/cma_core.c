@@ -1821,7 +1821,7 @@ static void city_remove(struct city *pcity)
 /****************************************************************************
  Callback for the agent interface.
 *****************************************************************************/
-static void new_turn()
+static void new_turn(void)
 {
   report_stats();
 }

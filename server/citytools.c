@@ -1132,6 +1132,7 @@ void create_city(struct player *pplayer, const int x, const int y,
   pcity->food_stock=0;
   pcity->shield_stock=0;
   pcity->trade_prod=0;
+  pcity->tile_trade = 0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit = TRUE;
   pcity->turn_founded = game.turn;

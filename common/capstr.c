@@ -85,7 +85,7 @@ const char * const our_capability = our_capability_internal;
 
 void init_our_capability(void)
 {
-  char *s;
+  const char *s;
 
   s = getenv("FREECIV_CAPS");
   if (!s) {

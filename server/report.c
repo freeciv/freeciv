@@ -1052,6 +1052,11 @@ void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
     freelog(LOG_ERROR, "Message truncated in page_conn_etype()!");
   }
   genmsg.event = event;
+
+  /* unused but at least initialized */
+  genmsg.x = -1;
+  genmsg.y = -1;
+  genmsg.event = -1;
   
   lsend_packet_generic_message(dest, PACKET_PAGE_MSG, &genmsg);
 }

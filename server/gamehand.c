@@ -230,6 +230,9 @@ void send_game_info(struct conn_list *dest)
   ginfo.spacerace = game.spacerace;
   ginfo.unhappysize = game.unhappysize;
   ginfo.angrycitizen = game.angrycitizen;
+  ginfo.diplcost = game.diplcost;
+  ginfo.freecost = game.freecost;
+  ginfo.conquercost = game.conquercost;
   ginfo.cityfactor = game.cityfactor;
   for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
     ginfo.global_advances[i] = game.global_advances[i];
@@ -237,9 +240,13 @@ void send_game_info(struct conn_list *dest)
     ginfo.global_wonders[i] = game.global_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.timeout != 0)
+  if (game.timeout != 0) {
     ginfo.seconds_to_turndone =
 	game.turn_start + game.timeout - time(NULL);
+  } else {
+    /* unused but at least initialized */
+    ginfo.seconds_to_turndone = -1;
+  }
 
   conn_list_iterate(*dest, pconn) {
     /* ? fixme: check for non-players: */

@@ -108,7 +108,7 @@ static bool my_play(const char *const tag, const char *const fullpath,
 /**************************************************************************
   Stop music
 **************************************************************************/
-static void my_stop()
+static void my_stop(void)
 {
   /* fade out over 2 sec */
   Mix_FadeOutMusic(2000);
@@ -119,7 +119,7 @@ static void my_stop()
   WARNING: If a channel is looping, it will NEVER exit! Always call
   music_stop() first!
 **************************************************************************/
-static void my_wait()
+static void my_wait(void)
 {
   while (Mix_Playing(-1) != 0) {
     SDL_Delay(100);
@@ -129,7 +129,7 @@ static void my_wait()
 /**************************************************************************
   Clean up.
 **************************************************************************/
-static void my_shutdown()
+static void my_shutdown(void)
 {
   int i;
 
