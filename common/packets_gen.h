@@ -109,11 +109,14 @@ struct packet_game_info {
   int tech;
   int researchcost;
   int skill_level;
-  int seconds_to_turndone;
+  int seconds_to_phasedone;
   int timeout;
   int turn;
+  int phase;
   int year;
   int end_year;
+  bool simultaneous_phases;
+  int num_phases;
   int min_players;
   int max_players;
   int nplayers;
@@ -317,7 +320,7 @@ struct packet_player_info {
   int city_style;
   Nation_Type_id nation;
   int team;
-  bool turn_done;
+  bool phase_done;
   int nturns_idle;
   bool is_alive;
   int reputation;
@@ -342,7 +345,7 @@ struct packet_player_info {
   int small_wonders[B_LAST];
 };
 
-struct packet_player_turn_done {
+struct packet_player_phase_done {
   char __dummy;			/* to avoid malloc(0); */
 };
 
@@ -645,12 +648,12 @@ struct packet_conn_pong {
   char __dummy;			/* to avoid malloc(0); */
 };
 
-struct packet_before_new_year {
+struct packet_end_phase {
   char __dummy;			/* to avoid malloc(0); */
 };
 
-struct packet_start_turn {
-  char __dummy;			/* to avoid malloc(0); */
+struct packet_start_phase {
+  int phase;
 };
 
 struct packet_new_year {
@@ -1041,7 +1044,7 @@ enum packet_type {
   PACKET_CITY_SABOTAGE_LIST,
   PACKET_PLAYER_REMOVE,
   PACKET_PLAYER_INFO,
-  PACKET_PLAYER_TURN_DONE,               /* 40 */
+  PACKET_PLAYER_PHASE_DONE,              /* 40 */
   PACKET_PLAYER_RATES,
   PACKET_PLAYER_CHANGE_GOVERNMENT = 43,
   PACKET_PLAYER_RESEARCH,
@@ -1089,8 +1092,8 @@ enum packet_type {
   PACKET_CONN_PING_INFO,
   PACKET_CONN_PING,
   PACKET_CONN_PONG,
-  PACKET_BEFORE_NEW_YEAR,                /* 90 */
-  PACKET_START_TURN,
+  PACKET_END_PHASE,                      /* 90 */
+  PACKET_START_PHASE,
   PACKET_NEW_YEAR,
   PACKET_SPACESHIP_LAUNCH,
   PACKET_SPACESHIP_PLACE,
@@ -1290,8 +1293,8 @@ void dlsend_packet_player_remove(struct conn_list *dest, int player_id);
 struct packet_player_info *receive_packet_player_info(struct connection *pc, enum packet_type type);
 int send_packet_player_info(struct connection *pc, const struct packet_player_info *packet);
 
-struct packet_player_turn_done *receive_packet_player_turn_done(struct connection *pc, enum packet_type type);
-int send_packet_player_turn_done(struct connection *pc);
+struct packet_player_phase_done *receive_packet_player_phase_done(struct connection *pc, enum packet_type type);
+int send_packet_player_phase_done(struct connection *pc);
 
 struct packet_player_rates *receive_packet_player_rates(struct connection *pc, enum packet_type type);
 int send_packet_player_rates(struct connection *pc, const struct packet_player_rates *packet);
@@ -1494,13 +1497,15 @@ int send_packet_conn_ping(struct connection *pc);
 struct packet_conn_pong *receive_packet_conn_pong(struct connection *pc, enum packet_type type);
 int send_packet_conn_pong(struct connection *pc);
 
-struct packet_before_new_year *receive_packet_before_new_year(struct connection *pc, enum packet_type type);
-int send_packet_before_new_year(struct connection *pc);
-void lsend_packet_before_new_year(struct conn_list *dest);
+struct packet_end_phase *receive_packet_end_phase(struct connection *pc, enum packet_type type);
+int send_packet_end_phase(struct connection *pc);
+void lsend_packet_end_phase(struct conn_list *dest);
 
-struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum packet_type type);
-int send_packet_start_turn(struct connection *pc);
-void lsend_packet_start_turn(struct conn_list *dest);
+struct packet_start_phase *receive_packet_start_phase(struct connection *pc, enum packet_type type);
+int send_packet_start_phase(struct connection *pc, const struct packet_start_phase *packet);
+void lsend_packet_start_phase(struct conn_list *dest, const struct packet_start_phase *packet);
+int dsend_packet_start_phase(struct connection *pc, int phase);
+void dlsend_packet_start_phase(struct conn_list *dest, int phase);
 
 struct packet_new_year *receive_packet_new_year(struct connection *pc, enum packet_type type);
 int send_packet_new_year(struct connection *pc, const struct packet_new_year *packet);

@@ -34,7 +34,7 @@ void handle_city_options_req(struct player *pplayer, int city_id, int value);
 void handle_city_refresh(struct player *pplayer, int city_id);
 void handle_city_incite_inq(struct connection *pc, int city_id);
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id);
-void handle_player_turn_done(struct player *pplayer);
+void handle_player_phase_done(struct player *pplayer);
 void handle_player_rates(struct player *pplayer, int tax, int luxury, int science);
 void handle_player_change_government(struct player *pplayer, int government);
 void handle_player_research(struct player *pplayer, int tech);

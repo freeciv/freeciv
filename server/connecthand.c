@@ -130,7 +130,7 @@ static void establish_new_connection(struct connection *pconn)
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
-      send_packet_start_turn(pconn);
+      dsend_packet_start_phase(pconn, game.phase);
     }
 
     gamelog(GAMELOG_PLAYER, pplayer);
@@ -162,7 +162,7 @@ static void establish_new_connection(struct connection *pconn)
     players_iterate(cplayer) {
       if (cplayer->is_alive
           && !cplayer->ai.control
-          && !cplayer->turn_done
+          && !cplayer->phase_done
           && cplayer != pconn->player) {  /* skip current player */
         notify_conn(dest, _("Turn-blocking game play: "
                             "waiting on %s to finish turn..."),

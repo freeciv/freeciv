@@ -208,6 +208,7 @@ type HP     		= UINT8
 type PERCENT  		= UINT8
 type GOLD		= UINT32
 type TURN		= SINT16
+type PHASE              = SINT16
 
 /****************************************************
 The remaining lines are the definition of the packets. These are
@@ -338,10 +339,14 @@ PACKET_GAME_INFO=15; is-info,sc
   UINT8 researchcost;
   UINT32 skill_level;
 
-  UINT32 seconds_to_turndone;
+  UINT32 seconds_to_phasedone;
   UINT32 timeout;
   TURN turn;
+  PHASE phase;
   YEAR year, end_year;
+
+  BOOL simultaneous_phases;
+  UINT32 num_phases;
 
   PLAYER min_players, max_players, nplayers, player_idx;
 
@@ -551,7 +556,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   UINT8 city_style;
   NATION nation;
   TEAM team;
-  BOOL turn_done;
+  BOOL phase_done;
   TURN nturns_idle;
   BOOL is_alive;
 
@@ -579,7 +584,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   UINT16 small_wonders[B_LAST]; diff
 end
 
-PACKET_PLAYER_TURN_DONE=40;cs
+PACKET_PLAYER_PHASE_DONE=40;cs
 end
 
 PACKET_PLAYER_RATES=41;cs,dsend
@@ -876,10 +881,12 @@ end
 
 /************** New turn packets **********************/
 
-PACKET_BEFORE_NEW_YEAR=90;sc,lsend
+PACKET_END_PHASE=90;sc,lsend
 end
 
-PACKET_START_TURN=91;sc,lsend
+# sent to everyone, not just the player whose phase it is
+PACKET_START_PHASE=91;sc,lsend,dsend
+  PHASE phase;
 end
 
 # send to each client whenever the turn has ended.

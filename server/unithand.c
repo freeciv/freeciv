@@ -560,7 +560,8 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
     return;
   }
 
-  if (!is_tiles_adjacent(punit->tile, ptile)) {
+  if (!is_tiles_adjacent(punit->tile, ptile)
+      || !is_player_phase(unit_owner(punit), game.phase)) {
     return;
   }
   (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
@@ -1672,7 +1673,8 @@ void handle_unit_orders(struct player *pplayer,
   }
 #endif
 
-  if (execute_orders(punit)) {
+  if (!is_player_phase(unit_owner(punit), game.phase)
+      || execute_orders(punit)) {
     /* Looks like the unit survived. */
     send_unit_info(NULL, punit);
   }

@@ -1083,7 +1083,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     (void) create_unit(pplayer, pcity->tile, pcity->currently_building,
 		       do_make_unit_veteran(pcity, pcity->currently_building),
-		       pcity->id, -1);
+		       pcity->id, 0);
 
     /* After we created the unit remove the citizen. This will also
        rearrange the worker to take into account the extra resources
@@ -1418,7 +1418,7 @@ static bool disband_city(struct city *pcity)
 
   (void) create_unit(pplayer, ptile, pcity->currently_building,
 		     do_make_unit_veteran(pcity, pcity->currently_building),
-		     pcity->id, -1);
+		     pcity->id, 0);
 
   /* Shift all the units supported by pcity (including the new unit)
    * to rcity.  transfer_city_units does not make sure no units are

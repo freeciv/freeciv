@@ -179,18 +179,16 @@ static const char *col_reputation(const struct player *player)
 *******************************************************************/
 static const char *col_state(const struct player *plr)
 {
-  if (plr->is_alive) {
-    if (plr->is_connected) {
-      if (plr->turn_done) {
-	return _("done");
-      } else {
-	return _("moving");
-      }
-    } else {
-      return "";
-    }
-  } else {
+  if (!plr->is_alive) {
     return _("R.I.P");
+  } else if (!plr->is_connected) {
+    return "";
+  } else if (!is_player_phase(plr, game.phase)) {
+    return _("waiting");
+  } else if (plr->phase_done) {
+    return _("done");
+  } else {
+    return _("moving");
   }
 }
 

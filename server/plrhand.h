@@ -95,6 +95,14 @@ struct player *shuffled_player(int i);
   }                                                                         \
 }
 
+#define phase_players_iterate(pplayer) \
+  shuffled_players_iterate(pplayer) { \
+    if (is_player_phase(pplayer, game.phase)) {
+
+#define phase_players_iterate_end		\
+    }						\
+  } shuffled_players_iterate_end
+
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 

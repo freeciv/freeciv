@@ -105,8 +105,8 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_city_name_suggestion_req *)packet)->unit_id);
     return TRUE;
 
-  case PACKET_PLAYER_TURN_DONE:
-    handle_player_turn_done(pplayer);
+  case PACKET_PLAYER_PHASE_DONE:
+    handle_player_phase_done(pplayer);
     return TRUE;
 
   case PACKET_PLAYER_RATES:

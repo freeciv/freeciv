@@ -377,10 +377,6 @@ int sniff_packets(void)
   if(year!=game.year) {
     if (server_state == RUN_GAME_STATE) year=game.year;
   }
-  if (game.timeout == 0) {
-    /* Just in case someone sets timeout we keep game.turn_start updated */
-    game.turn_start = time(NULL);
-  }
   
   while(TRUE) {
     con_prompt_on();		/* accepting new input */
@@ -503,9 +499,9 @@ int sniff_packets(void)
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
-      if(game.timeout != 0
-	&& (time(NULL)>game.turn_start + game.timeout)
-	&& (server_state == RUN_GAME_STATE)){
+      if (game.timeout != 0
+	&& time(NULL) > game.phase_start + game.timeout
+	&& server_state == RUN_GAME_STATE) {
 	con_prompt_off();
 	return 0;
       }
@@ -529,10 +525,6 @@ int sniff_packets(void)
 #endif /* SOCKET_ZERO_ISNT_STDIN */
 #endif /* !__VMS */
       }
-    }
-    if (game.timeout == 0) {
-      /* Just in case someone sets timeout we keep game.turn_start updated */
-      game.turn_start = time(NULL);
     }
 
     if(FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
@@ -678,7 +670,7 @@ int sniff_packets(void)
   }
   con_prompt_off();
 
-  if (game.timeout != 0 && (time(NULL) > game.turn_start + game.timeout)) {
+  if (game.timeout != 0 && time(NULL) > game.phase_start + game.timeout) {
     return 0;
   }
   return 1;

@@ -189,7 +189,7 @@ struct player {
   int target_government;
   Nation_Type_id nation;
   Team_Type_id team;
-  bool turn_done;
+  bool phase_done;
   int nturns_idle;
   bool is_alive;
   bool is_observer; /* is the player a global observer */ 

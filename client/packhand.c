@@ -345,7 +345,6 @@ void handle_game_state(int value)
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     refresh_overview_canvas();
-    player_set_unit_focus_status(game.player_ptr);
 
     update_info_label();	/* get initial population right */
     update_unit_focus();
@@ -759,7 +758,6 @@ void handle_new_year(int year, int turn)
   assert(game.turn == turn);
   update_info_label();
 
-  player_set_unit_focus_status(game.player_ptr);
   update_unit_focus();
   auto_center_on_focus_unit();
 
@@ -786,9 +784,11 @@ void handle_new_year(int year, int turn)
 }
 
 /**************************************************************************
-...
+  Called by the network code when an end-phase packet is received.  This
+  signifies the end of our phase (it's not sent for other player's
+  phases).
 **************************************************************************/
-void handle_before_new_year(void)
+void handle_end_phase(void)
 {
   clear_notify_window();
   /*
@@ -804,19 +804,28 @@ void handle_before_new_year(void)
 }
 
 /**************************************************************************
-...
+  Called by the network code when an start-phase packet is received.  This
+  may be the start of our phase or someone else's phase.
 **************************************************************************/
-void handle_start_turn(void)
+void handle_start_phase(int phase)
 {
-  agents_start_turn();
-  non_ai_unit_focus = FALSE;
+  game.phase = phase;
 
-  turn_done_sent = FALSE;
-  update_turn_done_button_state();
+  if (is_player_phase(game.player_ptr, phase)) {
+    agents_start_turn();
+    non_ai_unit_focus = FALSE;
 
-  if(game.player_ptr->ai.control && !ai_manual_turn_done) {
-    user_ended_turn();
+    turn_done_sent = FALSE;
+    update_turn_done_button_state();
+
+    if(game.player_ptr->ai.control && !ai_manual_turn_done) {
+      user_ended_turn();
+    }
+
+    player_set_unit_focus_status(game.player_ptr);
   }
+
+  update_info_label();
 }
 
 /**************************************************************************
@@ -972,6 +981,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           && punit->owner == game.player_idx
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
+	  && is_player_phase(game.player_ptr, game.phase)
           && (!get_unit_in_focus()
               /* only 1 wakeup focus per tile is useful */
               || !same_pos(packet_unit->tile, get_unit_in_focus()->tile))) {
@@ -1206,8 +1216,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
   }
 
-  if ((check_focus || get_unit_in_focus() == NULL) &&
-      !game.player_ptr->ai.control) {
+  if ((check_focus || get_unit_in_focus() == NULL)
+      && !game.player_ptr->ai.control
+      && is_player_phase(game.player_ptr, game.phase)) {
     update_unit_focus();
   }
 
@@ -1320,6 +1331,9 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.end_year=pinfo->end_year;
   game.year=pinfo->year;
   game.turn=pinfo->turn;
+  game.phase = pinfo->phase;
+  game.simultaneous_phases_now = pinfo->simultaneous_phases;
+  game.num_phases = pinfo->num_phases;
   game.min_players=pinfo->min_players;
   game.max_players=pinfo->max_players;
   game.nplayers=pinfo->nplayers;
@@ -1365,8 +1379,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   boot_help = (can_client_change_view()
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
-  if (game.timeout != 0 && pinfo->seconds_to_turndone != 0) {
-    set_seconds_to_turndone(pinfo->seconds_to_turndone);
+  if (game.timeout != 0 && pinfo->seconds_to_phasedone != 0) {
+    set_seconds_to_turndone(pinfo->seconds_to_phasedone);
   }
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
@@ -1512,10 +1526,11 @@ void handle_player_info(struct packet_player_info *pinfo)
     city_report_dialog_update();
   }
 
-  if (pplayer == game.player_ptr && pplayer->turn_done != pinfo->turn_done) {
+  if (pplayer == game.player_ptr
+      && pplayer->phase_done != pinfo->phase_done) {
     update_turn_done_button_state();
   }
-  pplayer->turn_done=pinfo->turn_done;
+  pplayer->phase_done = pinfo->phase_done;
 
   pplayer->nturns_idle=pinfo->nturns_idle;
   pplayer->is_alive=pinfo->is_alive;

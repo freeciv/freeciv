@@ -461,6 +461,9 @@ const char *get_info_label_text(void)
   add_line(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
+  if (!game.simultaneous_phases_now) {
+    add_line(_("Moving: %s"), get_player(game.phase)->name);
+  }
   RETURN;
 }
 

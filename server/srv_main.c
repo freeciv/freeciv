@@ -106,10 +106,7 @@
 #include "srv_main.h"
 
 
-static void after_game_advance_year(void);
-static void before_end_year(void);
 static void end_turn(void);
-static void ai_start_turn(void);
 static bool is_game_over(void);
 static void save_game_auto(void);
 static void generate_ai_players(void);
@@ -329,7 +326,7 @@ void send_all_info(struct conn_list *dest)
 **************************************************************************/
 static void do_reveal_effects(void)
 {
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     if (get_player_bonus(pplayer, EFT_REVEAL_CITIES) > 0) {
       players_iterate(other_player) {
 	city_list_iterate(other_player->cities, pcity) {
@@ -343,7 +340,7 @@ static void do_reveal_effects(void)
        * needed. */
       map_know_all(pplayer);
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 }
 
 /**************************************************************************
@@ -352,7 +349,7 @@ static void do_reveal_effects(void)
 **************************************************************************/
 static void do_have_embassies_effect(void)
 {
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     if (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0) {
       players_iterate(pother) {
 	/* Note this gives pplayer contact with pother, but doesn't give
@@ -361,7 +358,7 @@ static void do_have_embassies_effect(void)
 	make_contact(pplayer, pother, NULL);
       } players_iterate_end;
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 }
 
 /**************************************************************************
@@ -445,26 +442,16 @@ static void update_diplomatics(void)
 }
 
 /**************************************************************************
-  Send packet which tells clients that the server is starting its
-  "end year" calculations (and will be sending end-turn updates etc).
-  (This is referred to as "before new year" in packet and client code.)
+  Called at the start of each (new) phase to do AI activities.
 **************************************************************************/
-static void before_end_year(void)
+static void ai_start_phase(void)
 {
-  lsend_packet_before_new_year(game.est_connections);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void ai_start_turn(void)
-{
-  shuffled_players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     if (pplayer->ai.control) {
       ai_do_first_activities(pplayer);
       flush_packets();			/* AIs can be such spammers... */
     }
-  } shuffled_players_iterate_end;
+  } phase_players_iterate_end;
   kill_dying_players();
 }
 
@@ -476,6 +463,17 @@ Note: This does not give "time" to any player;
 static void begin_turn(bool is_new_turn)
 {
   freelog(LOG_DEBUG, "Begin turn");
+
+  /* Reset this each turn. */
+  if (is_new_turn) {
+    game.simultaneous_phases_now = game.simultaneous_phases_stored;
+  }
+  if (game.simultaneous_phases_now) {
+    game.num_phases = 1;
+  } else {
+    game.num_phases = game.nplayers;
+  }
+  send_game_info(game.game_connections);
 
   if (is_new_turn) {
     /* We build scores at the beginning and end of every turn.  We have to
@@ -496,9 +494,13 @@ static void begin_turn(bool is_new_turn)
     }
   }
 
-  if (is_new_turn) {
+  if (is_new_turn && game.simultaneous_phases_now) {
     freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
+  }
+
+  if (is_new_turn) {
+    game.phase = 0;
   }
 
   sanity_check();
@@ -514,7 +516,22 @@ static void begin_phase(bool is_new_phase)
 
   conn_list_do_buffer(game.game_connections);
 
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
+    pplayer->phase_done = FALSE;
+  } phase_players_iterate_end;
+
+  send_start_phase_to_clients();
+
+  if (is_new_phase) {
+    /* Unit "end of turn" activities - of course these actually go at
+     * the start of the turn! */
+    phase_players_iterate(pplayer) {
+      update_unit_activities(pplayer); /* major network traffic */
+      flush_packets();
+    } phase_players_iterate_end;
+  }
+
+  phase_players_iterate(pplayer) {
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
 	    pplayer->player_no, pplayer->name);
     /* human players also need this for building advice */
@@ -522,34 +539,35 @@ static void begin_phase(bool is_new_phase)
     if (!pplayer->ai.control) {
       ai_manage_buildings(pplayer); /* building advisor */
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     send_player_cities(pplayer);
-  } players_iterate_end;
+  } phase_players_iterate_end;
 
   flush_packets();  /* to curb major city spam */
   conn_list_do_unbuffer(game.game_connections);
 
-  shuffled_players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     update_revolution(pplayer);
-  } shuffled_players_iterate_end;
+  } phase_players_iterate_end;
 
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
-    players_iterate(pplayer) {
+    phase_players_iterate(pplayer) {
       if (pplayer->ai.control && !is_barbarian(pplayer)) {
 	ai_diplomacy_actions(pplayer);
       }
-    } players_iterate_end;
+    } phase_players_iterate_end;
 
     freelog(LOG_DEBUG, "Aistartturn");
-    ai_start_turn();
+    ai_start_phase();
   }
 
-  send_start_turn_to_clients();
-
   sanity_check();
+
+  game.phase_start = time(NULL);
+  send_game_info(NULL);
 }
 
 /**************************************************************************
@@ -566,20 +584,25 @@ static void end_phase(void)
    * following parts get wiped out before the user gets a chance to
    * see them.  --dwp
    */
-  before_end_year();
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
+    /* Unlike the start_phase packet we only send this one to the active
+     * player. */
+    lsend_packet_end_phase(pplayer->connections);
+  } phase_players_iterate_end;
+
+  phase_players_iterate(pplayer) {
     if (pplayer->research.researching == A_UNSET) {
       choose_random_tech(pplayer);
       update_tech(pplayer, 0);
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 
   /* Freeze sending of cities. */
   nocity_send = TRUE;
 
   /* AI end of turn activities */
   auto_settlers_init();
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     if (pplayer->ai.control) {
       ai_settler_init(pplayer);
     }
@@ -587,24 +610,24 @@ static void end_phase(void)
     if (pplayer->ai.control) {
       ai_do_last_activities(pplayer);
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 
   /* Refresh cities */
-  shuffled_players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
     pplayer->research.changed_from=-1;
     flush_packets();
-  } shuffled_players_iterate_end;
+  } phase_players_iterate_end;
 
   kill_dying_players();
 
   /* Unfreeze sending of cities. */
   nocity_send = FALSE;
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     send_player_cities(pplayer);
-  } players_iterate_end;
+  } phase_players_iterate_end;
   flush_packets();  /* to curb major city spam */
 
   do_reveal_effects();
@@ -646,12 +669,8 @@ static void end_turn(void)
   stdinhand_turn();
   send_player_turn_notifications(NULL);
 
-  freelog(LOG_DEBUG, "Turn ended.");
-  game.turn_start = time(NULL);
-
   freelog(LOG_DEBUG, "Gamenextyear");
   game_advance_year();
-  after_game_advance_year();
 
   freelog(LOG_DEBUG, "Updatetimeout");
   update_timeout();
@@ -666,19 +685,6 @@ static void end_turn(void)
 
   freelog(LOG_DEBUG, "Sendyeartoclients");
   send_year_to_clients(game.year);
-}
-
-/**************************************************************************
-  After game advance year stuff.
-**************************************************************************/
-static void after_game_advance_year(void)
-{
-  /* Unit end of turn activities */
-  shuffled_players_iterate(pplayer) {
-    update_unit_activities(pplayer); /* major network traffic */
-    flush_packets();
-    pplayer->turn_done = FALSE;
-  } shuffled_players_iterate_end;
 }
 
 /**************************************************************************
@@ -1011,19 +1017,23 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 void check_for_full_turn_done(void)
 {
   /* fixedlength is only applicable if we have a timeout set */
-  if (game.fixedlength && game.timeout != 0)
+  if (game.fixedlength && game.timeout != 0) {
     return;
+  }
 
-  players_iterate(pplayer) {
+  phase_players_iterate(pplayer) {
     if (game.turnblock) {
-      if (!pplayer->ai.control && pplayer->is_alive && !pplayer->turn_done)
+      if (!pplayer->ai.control && pplayer->is_alive
+	  && !pplayer->phase_done) {
         return;
+      }
     } else {
-      if(pplayer->is_connected && pplayer->is_alive && !pplayer->turn_done) {
+      if (pplayer->is_connected && pplayer->is_alive
+	  && !pplayer->phase_done) {
         return;
       }
     }
-  } players_iterate_end;
+  } phase_players_iterate_end;
 
   force_end_of_sniff = TRUE;
 }
@@ -1528,54 +1538,62 @@ static void main_loop(void)
      * loading a game we don't want to do these actions (like AI unit
      * movement and AI diplomacy). */
     begin_turn(is_new_turn);
-    begin_phase(is_new_turn);
-    is_new_turn = TRUE;
 
-    force_end_of_sniff = FALSE;
+    for (; game.phase < game.num_phases; game.phase++) {
+      freelog(LOG_DEBUG, "Starting phase %d/%d.", game.phase,
+	      game.num_phases);
+      begin_phase(is_new_turn);
+      is_new_turn = TRUE;
 
-    /* 
-     * This will thaw the reports and agents at the client.
-     */
-    lsend_packet_thaw_hint(game.game_connections);
+      force_end_of_sniff = FALSE;
 
-    /* Before sniff (human player activites), report time to now: */
-    freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
-	    read_timer_seconds(eot_timer));
+      /* 
+       * This will thaw the reports and agents at the client.
+       */
+      lsend_packet_thaw_hint(game.game_connections);
 
-    /* Do auto-saves just before starting sniff_packets(), so that
-     * autosave happens effectively "at the same time" as manual
-     * saves, from the point of view of restarting and AI players.
-     * Post-increment so we don't count the first loop.
-     */
-    if(save_counter >= game.save_nturns && game.save_nturns>0) {
-      save_counter=0;
-      save_game_auto();
+      /* Before sniff (human player activites), report time to now: */
+      freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
+	      read_timer_seconds(eot_timer));
+
+      /* Do auto-saves just before starting sniff_packets(), so that
+       * autosave happens effectively "at the same time" as manual
+       * saves, from the point of view of restarting and AI players.
+       * Post-increment so we don't count the first loop.
+       */
+      if (game.phase == 0) {
+	if (save_counter >= game.save_nturns && game.save_nturns > 0) {
+	  save_counter = 0;
+	  save_game_auto();
+	}
+	save_counter++;
+      }
+
+      freelog(LOG_DEBUG, "sniffingpackets");
+      check_for_full_turn_done(); /* HACK: don't wait during AI phases */
+      while (sniff_packets() == 1) {
+	/* nothing */
+      }
+
+      /* After sniff, re-zero the timer: (read-out above on next loop) */
+      clear_timer_start(eot_timer);
+
+      conn_list_do_buffer(game.game_connections);
+
+      sanity_check();
+
+      /* 
+       * This will freeze the reports and agents at the client.
+       */
+      lsend_packet_freeze_hint(game.game_connections);
+
+      end_phase();
+
+      conn_list_do_unbuffer(game.game_connections);
     }
-    save_counter++;
-    
-    freelog(LOG_DEBUG, "sniffingpackets");
-    while (sniff_packets() == 1) {
-      /* nothing */
-    }
-
-    /* After sniff, re-zero the timer: (read-out above on next loop) */
-    clear_timer_start(eot_timer);
-    
-    conn_list_do_buffer(game.game_connections);
-
-    sanity_check();
-
-    /* 
-     * This will freeze the reports and agents at the client.
-     */
-    lsend_packet_freeze_hint(game.game_connections);
-
-    end_phase();
     end_turn();
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
-
-    conn_list_do_unbuffer(game.game_connections);
 
     if (is_game_over()) {
       server_state=GAME_OVER_STATE;
@@ -1866,10 +1884,6 @@ main_start_players:
       ai_data_init(pplayer); /* Initialize this at last moment */
     } players_iterate_end;
   }
-  
-  /* We want to reset the timer as late as possible but before the info is
-   * sent to the clients */
-  game.turn_start = time(NULL);
 
   lsend_packet_freeze_hint(game.game_connections);
   send_all_info(game.game_connections);

@@ -183,6 +183,7 @@ void game_init(void)
   game.tech          = GAME_DEFAULT_TECHLEVEL;
   game.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
   game.timeout       = GAME_DEFAULT_TIMEOUT;
+  game.simultaneous_phases_stored = GAME_DEFAULT_SIMULTANEOUS_PHASES;
   game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
   game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
   game.timeoutinc    = GAME_DEFAULT_TIMEOUTINC;
@@ -524,6 +525,14 @@ to build the great library.
 int get_num_human_and_ai_players(void)
 {
   return game.nplayers-game.nbarbarians;
+}
+
+/**************************************************************************
+  Return TRUE if it is this player's phase.
+**************************************************************************/
+bool is_player_phase(const struct player *pplayer, int phase)
+{
+  return game.simultaneous_phases_now || pplayer->player_no == phase;
 }
 
 /***************************************************************

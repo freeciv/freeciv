@@ -75,10 +75,15 @@ struct civ_game {
   time_t last_ping;
   int pingtimeout;
   int pingtime;
-  time_t turn_start;
+  time_t phase_start;
   int end_year;
   int year;
   int turn;
+  /* The simultaneous_phases_now value indicates the phase mode currently in
+   * use.  The "stored" value is a value the player can change; it won't
+   * take effect until the next turn. */
+  bool simultaneous_phases_now, simultaneous_phases_stored;
+  int phase, num_phases;
   int researchcost; /* Multiplier on cost of new research */
   int diplcost, freecost, conquercost;
   int diplchance;
@@ -287,6 +292,7 @@ void translate_data_names(void);
 struct player *get_player(int player_id);
 bool is_valid_player_id(int player_id);
 int get_num_human_and_ai_players(void);
+bool is_player_phase(const struct player *pplayer, int phase);
 
 const char *population_to_text(int thousand_citizen);
 
@@ -437,6 +443,8 @@ extern bool is_server;
 #define GAME_MIN_TIMEOUT             0
 #endif
 #define GAME_MAX_TIMEOUT             8639999
+
+#define GAME_DEFAULT_SIMULTANEOUS_PHASES TRUE
 
 #define GAME_DEFAULT_TCPTIMEOUT      10
 #define GAME_MIN_TCPTIMEOUT          0

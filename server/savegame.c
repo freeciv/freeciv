@@ -3125,6 +3125,12 @@ void game_load(struct section_file *file)
     } else {
       game.turn = -2;
     }
+    game.simultaneous_phases_now
+      = secfile_lookup_bool_default(file, TRUE,
+				    "game.simultaneous_phases_now");
+    game.simultaneous_phases_stored
+      = secfile_lookup_bool_default(file, TRUE,
+				    "game.simultaneous_phases_stored");
 
     game.min_players   = secfile_lookup_int(file, "game.min_players");
     game.max_players   = secfile_lookup_int(file, "game.max_players");
@@ -3657,6 +3663,10 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.end_year, "game.end_year");
   secfile_insert_int(file, game.year, "game.year");
   secfile_insert_int(file, game.turn, "game.turn");
+  secfile_insert_bool(file, game.simultaneous_phases_now,
+		      "game.simultaneous_phases_now");
+  secfile_insert_bool(file, game.simultaneous_phases_stored,
+		      "game.simultaneous_phases_stored");
   secfile_insert_int(file, game.researchcost, "game.researchcost");
   secfile_insert_int(file, game.min_players, "game.min_players");
   secfile_insert_int(file, game.max_players, "game.max_players");

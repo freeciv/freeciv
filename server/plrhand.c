@@ -1463,7 +1463,7 @@ static void package_player_common(struct player *plr,
   packet->barbarian_type = plr->ai.barbarian_type;
   packet->reputation=plr->reputation;
 
-  packet->turn_done=plr->turn_done;
+  packet->phase_done = plr->phase_done;
   packet->nturns_idle=plr->nturns_idle;
 
   for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++) {
@@ -1962,7 +1962,8 @@ static struct player *split_player(struct player *pplayer)
   tech_type_iterate(i) {
     cplayer->research.inventions[i] = pplayer->research.inventions[i];
   } tech_type_iterate_end;
-  cplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
+  cplayer->phase_done = TRUE; /* Have other things to think
+				 about - paralysis */
   cplayer->embassy = 0;   /* all embassies destroyed */
 
   /* Do the ai */
@@ -2189,9 +2190,9 @@ void handle_player_attribute_block(struct player *pplayer)
 ...
 (Hmm, how should "turn done" work for multi-connected non-observer players?)
 **************************************************************************/
-void handle_player_turn_done(struct player *pplayer)
+void handle_player_phase_done(struct player *pplayer)
 {
-  pplayer->turn_done = TRUE;
+  pplayer->phase_done = TRUE;
 
   check_for_full_turn_done();
 

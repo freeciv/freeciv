@@ -430,7 +430,7 @@ void send_turn_done(void)
 
   attribute_flush();
 
-  send_packet_player_turn_done(&aconnection);
+  send_packet_player_phase_done(&aconnection);
 
   update_turn_done_button_state();
 }
@@ -680,12 +680,12 @@ double real_timer_callback(void)
   }
 
   if (game.player_ptr->is_connected && game.player_ptr->is_alive &&
-      !game.player_ptr->turn_done) {
+      !game.player_ptr->phase_done) {
     int is_waiting = 0, is_moving = 0;
 
     players_iterate(pplayer) {
       if (pplayer->is_alive && pplayer->is_connected) {
-	if (pplayer->turn_done) {
+	if (pplayer->phase_done) {
 	  is_waiting++;
 	} else {
 	  is_moving++;

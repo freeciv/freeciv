@@ -167,8 +167,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_PLAYER_INFO:
     return receive_packet_player_info(pc, type);
 
-  case PACKET_PLAYER_TURN_DONE:
-    return receive_packet_player_turn_done(pc, type);
+  case PACKET_PLAYER_PHASE_DONE:
+    return receive_packet_player_phase_done(pc, type);
 
   case PACKET_PLAYER_RATES:
     return receive_packet_player_rates(pc, type);
@@ -314,11 +314,11 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_CONN_PONG:
     return receive_packet_conn_pong(pc, type);
 
-  case PACKET_BEFORE_NEW_YEAR:
-    return receive_packet_before_new_year(pc, type);
+  case PACKET_END_PHASE:
+    return receive_packet_end_phase(pc, type);
 
-  case PACKET_START_TURN:
-    return receive_packet_start_turn(pc, type);
+  case PACKET_START_PHASE:
+    return receive_packet_start_phase(pc, type);
 
   case PACKET_NEW_YEAR:
     return receive_packet_new_year(pc, type);
@@ -524,8 +524,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_PLAYER_INFO:
     return "PACKET_PLAYER_INFO";
 
-  case PACKET_PLAYER_TURN_DONE:
-    return "PACKET_PLAYER_TURN_DONE";
+  case PACKET_PLAYER_PHASE_DONE:
+    return "PACKET_PLAYER_PHASE_DONE";
 
   case PACKET_PLAYER_RATES:
     return "PACKET_PLAYER_RATES";
@@ -671,11 +671,11 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_CONN_PONG:
     return "PACKET_CONN_PONG";
 
-  case PACKET_BEFORE_NEW_YEAR:
-    return "PACKET_BEFORE_NEW_YEAR";
+  case PACKET_END_PHASE:
+    return "PACKET_END_PHASE";
 
-  case PACKET_START_TURN:
-    return "PACKET_START_TURN";
+  case PACKET_START_PHASE:
+    return "PACKET_START_PHASE";
 
   case PACKET_NEW_YEAR:
     return "PACKET_NEW_YEAR";
@@ -3401,7 +3401,7 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
 
 #define cmp_packet_game_info_100 cmp_const
 
-BV_DEFINE(packet_game_info_100_fields, 31);
+BV_DEFINE(packet_game_info_100_fields, 34);
 
 static struct packet_game_info *receive_packet_game_info_100(struct connection *pc, enum packet_type type)
 {
@@ -3462,7 +3462,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint32(&din, &readin);
-      real_packet->seconds_to_turndone = readin;
+      real_packet->seconds_to_phasedone = readin;
     }
   }
   if (BV_ISSET(fields, 5)) {
@@ -3486,7 +3486,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_sint16(&din, &readin);
-      real_packet->year = readin;
+      real_packet->phase = readin;
     }
   }
   if (BV_ISSET(fields, 8)) {
@@ -3494,31 +3494,24 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_sint16(&din, &readin);
-      real_packet->end_year = readin;
+      real_packet->year = readin;
     }
   }
   if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->min_players = readin;
+      dio_get_sint16(&din, &readin);
+      real_packet->end_year = readin;
     }
   }
-  if (BV_ISSET(fields, 10)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->max_players = readin;
-    }
-  }
+  real_packet->simultaneous_phases = BV_ISSET(fields, 10);
   if (BV_ISSET(fields, 11)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->nplayers = readin;
+      dio_get_uint32(&din, &readin);
+      real_packet->num_phases = readin;
     }
   }
   if (BV_ISSET(fields, 12)) {
@@ -3526,31 +3519,31 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->player_idx = readin;
+      real_packet->min_players = readin;
     }
   }
   if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
-      dio_get_uint32(&din, &readin);
-      real_packet->globalwarming = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->max_players = readin;
     }
   }
   if (BV_ISSET(fields, 14)) {
     {
       int readin;
     
-      dio_get_uint32(&din, &readin);
-      real_packet->heating = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->nplayers = readin;
     }
   }
   if (BV_ISSET(fields, 15)) {
     {
       int readin;
     
-      dio_get_uint32(&din, &readin);
-      real_packet->warminglevel = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->player_idx = readin;
     }
   }
   if (BV_ISSET(fields, 16)) {
@@ -3558,7 +3551,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint32(&din, &readin);
-      real_packet->nuclearwinter = readin;
+      real_packet->globalwarming = readin;
     }
   }
   if (BV_ISSET(fields, 17)) {
@@ -3566,7 +3559,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint32(&din, &readin);
-      real_packet->cooling = readin;
+      real_packet->heating = readin;
     }
   }
   if (BV_ISSET(fields, 18)) {
@@ -3574,31 +3567,31 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint32(&din, &readin);
-      real_packet->coolinglevel = readin;
+      real_packet->warminglevel = readin;
     }
   }
   if (BV_ISSET(fields, 19)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->cityfactor = readin;
+      dio_get_uint32(&din, &readin);
+      real_packet->nuclearwinter = readin;
     }
   }
   if (BV_ISSET(fields, 20)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->diplcost = readin;
+      dio_get_uint32(&din, &readin);
+      real_packet->cooling = readin;
     }
   }
   if (BV_ISSET(fields, 21)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->freecost = readin;
+      dio_get_uint32(&din, &readin);
+      real_packet->coolinglevel = readin;
     }
   }
   if (BV_ISSET(fields, 22)) {
@@ -3606,7 +3599,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->conquercost = readin;
+      real_packet->cityfactor = readin;
     }
   }
   if (BV_ISSET(fields, 23)) {
@@ -3614,7 +3607,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->unhappysize = readin;
+      real_packet->diplcost = readin;
     }
   }
   if (BV_ISSET(fields, 24)) {
@@ -3622,7 +3615,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->angrycitizen = readin;
+      real_packet->freecost = readin;
     }
   }
   if (BV_ISSET(fields, 25)) {
@@ -3630,7 +3623,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->techpenalty = readin;
+      real_packet->conquercost = readin;
     }
   }
   if (BV_ISSET(fields, 26)) {
@@ -3638,7 +3631,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->foodbox = readin;
+      real_packet->unhappysize = readin;
     }
   }
   if (BV_ISSET(fields, 27)) {
@@ -3646,11 +3639,35 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
+      real_packet->angrycitizen = readin;
+    }
+  }
+  if (BV_ISSET(fields, 28)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->techpenalty = readin;
+    }
+  }
+  if (BV_ISSET(fields, 29)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->foodbox = readin;
+    }
+  }
+  if (BV_ISSET(fields, 30)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
       real_packet->diplomacy = readin;
     }
   }
-  real_packet->spacerace = BV_ISSET(fields, 28);
-  if (BV_ISSET(fields, 29)) {
+  real_packet->spacerace = BV_ISSET(fields, 31);
+  if (BV_ISSET(fields, 32)) {
     
     for (;;) {
       int i;
@@ -3671,7 +3688,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 33)) {
     
     for (;;) {
       int i;
@@ -3742,7 +3759,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->seconds_to_turndone != real_packet->seconds_to_turndone);
+  differ = (old->seconds_to_phasedone != real_packet->seconds_to_phasedone);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
@@ -3754,93 +3771,105 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-  differ = (old->year != real_packet->year);
+  differ = (old->phase != real_packet->phase);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
 
-  differ = (old->end_year != real_packet->end_year);
+  differ = (old->year != real_packet->year);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-  differ = (old->min_players != real_packet->min_players);
+  differ = (old->end_year != real_packet->end_year);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (old->max_players != real_packet->max_players);
+  differ = (old->simultaneous_phases != real_packet->simultaneous_phases);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(packet->simultaneous_phases) {BV_SET(fields, 10);}
 
-  differ = (old->nplayers != real_packet->nplayers);
+  differ = (old->num_phases != real_packet->num_phases);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
 
-  differ = (old->player_idx != real_packet->player_idx);
+  differ = (old->min_players != real_packet->min_players);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->globalwarming != real_packet->globalwarming);
+  differ = (old->max_players != real_packet->max_players);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (old->heating != real_packet->heating);
+  differ = (old->nplayers != real_packet->nplayers);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (old->warminglevel != real_packet->warminglevel);
+  differ = (old->player_idx != real_packet->player_idx);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (old->nuclearwinter != real_packet->nuclearwinter);
+  differ = (old->globalwarming != real_packet->globalwarming);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
-  differ = (old->cooling != real_packet->cooling);
+  differ = (old->heating != real_packet->heating);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 17);}
 
-  differ = (old->coolinglevel != real_packet->coolinglevel);
+  differ = (old->warminglevel != real_packet->warminglevel);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 18);}
 
-  differ = (old->cityfactor != real_packet->cityfactor);
+  differ = (old->nuclearwinter != real_packet->nuclearwinter);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
-  differ = (old->diplcost != real_packet->diplcost);
+  differ = (old->cooling != real_packet->cooling);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 20);}
 
-  differ = (old->freecost != real_packet->freecost);
+  differ = (old->coolinglevel != real_packet->coolinglevel);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 21);}
 
-  differ = (old->conquercost != real_packet->conquercost);
+  differ = (old->cityfactor != real_packet->cityfactor);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 22);}
 
-  differ = (old->unhappysize != real_packet->unhappysize);
+  differ = (old->diplcost != real_packet->diplcost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 23);}
 
-  differ = (old->angrycitizen != real_packet->angrycitizen);
+  differ = (old->freecost != real_packet->freecost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 24);}
 
-  differ = (old->techpenalty != real_packet->techpenalty);
+  differ = (old->conquercost != real_packet->conquercost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 25);}
 
-  differ = (old->foodbox != real_packet->foodbox);
+  differ = (old->unhappysize != real_packet->unhappysize);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 26);}
 
-  differ = (old->diplomacy != real_packet->diplomacy);
+  differ = (old->angrycitizen != real_packet->angrycitizen);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 27);}
 
+  differ = (old->techpenalty != real_packet->techpenalty);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
+  differ = (old->foodbox != real_packet->foodbox);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 29);}
+
+  differ = (old->diplomacy != real_packet->diplomacy);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 30);}
+
   differ = (old->spacerace != real_packet->spacerace);
   if(differ) {different++;}
-  if(packet->spacerace) {BV_SET(fields, 28);}
+  if(packet->spacerace) {BV_SET(fields, 31);}
 
 
     {
@@ -3856,7 +3885,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 32);}
 
 
     {
@@ -3872,7 +3901,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
+  if(differ) {BV_SET(fields, 33);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -3893,7 +3922,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint32(&dout, real_packet->skill_level);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint32(&dout, real_packet->seconds_to_turndone);
+    dio_put_uint32(&dout, real_packet->seconds_to_phasedone);
   }
   if (BV_ISSET(fields, 5)) {
     dio_put_uint32(&dout, real_packet->timeout);
@@ -3902,70 +3931,77 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_sint16(&dout, real_packet->turn);
   }
   if (BV_ISSET(fields, 7)) {
-    dio_put_sint16(&dout, real_packet->year);
+    dio_put_sint16(&dout, real_packet->phase);
   }
   if (BV_ISSET(fields, 8)) {
-    dio_put_sint16(&dout, real_packet->end_year);
+    dio_put_sint16(&dout, real_packet->year);
   }
   if (BV_ISSET(fields, 9)) {
-    dio_put_uint8(&dout, real_packet->min_players);
+    dio_put_sint16(&dout, real_packet->end_year);
   }
-  if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->max_players);
-  }
+  /* field 10 is folded into the header */
   if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->nplayers);
+    dio_put_uint32(&dout, real_packet->num_phases);
   }
   if (BV_ISSET(fields, 12)) {
-    dio_put_uint8(&dout, real_packet->player_idx);
+    dio_put_uint8(&dout, real_packet->min_players);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_uint32(&dout, real_packet->globalwarming);
+    dio_put_uint8(&dout, real_packet->max_players);
   }
   if (BV_ISSET(fields, 14)) {
-    dio_put_uint32(&dout, real_packet->heating);
+    dio_put_uint8(&dout, real_packet->nplayers);
   }
   if (BV_ISSET(fields, 15)) {
-    dio_put_uint32(&dout, real_packet->warminglevel);
+    dio_put_uint8(&dout, real_packet->player_idx);
   }
   if (BV_ISSET(fields, 16)) {
-    dio_put_uint32(&dout, real_packet->nuclearwinter);
+    dio_put_uint32(&dout, real_packet->globalwarming);
   }
   if (BV_ISSET(fields, 17)) {
-    dio_put_uint32(&dout, real_packet->cooling);
+    dio_put_uint32(&dout, real_packet->heating);
   }
   if (BV_ISSET(fields, 18)) {
-    dio_put_uint32(&dout, real_packet->coolinglevel);
+    dio_put_uint32(&dout, real_packet->warminglevel);
   }
   if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->cityfactor);
+    dio_put_uint32(&dout, real_packet->nuclearwinter);
   }
   if (BV_ISSET(fields, 20)) {
-    dio_put_uint8(&dout, real_packet->diplcost);
+    dio_put_uint32(&dout, real_packet->cooling);
   }
   if (BV_ISSET(fields, 21)) {
-    dio_put_uint8(&dout, real_packet->freecost);
+    dio_put_uint32(&dout, real_packet->coolinglevel);
   }
   if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->conquercost);
+    dio_put_uint8(&dout, real_packet->cityfactor);
   }
   if (BV_ISSET(fields, 23)) {
-    dio_put_uint8(&dout, real_packet->unhappysize);
+    dio_put_uint8(&dout, real_packet->diplcost);
   }
   if (BV_ISSET(fields, 24)) {
-    dio_put_uint8(&dout, real_packet->angrycitizen);
+    dio_put_uint8(&dout, real_packet->freecost);
   }
   if (BV_ISSET(fields, 25)) {
-    dio_put_uint8(&dout, real_packet->techpenalty);
+    dio_put_uint8(&dout, real_packet->conquercost);
   }
   if (BV_ISSET(fields, 26)) {
-    dio_put_uint8(&dout, real_packet->foodbox);
+    dio_put_uint8(&dout, real_packet->unhappysize);
   }
   if (BV_ISSET(fields, 27)) {
+    dio_put_uint8(&dout, real_packet->angrycitizen);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_put_uint8(&dout, real_packet->techpenalty);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_put_uint8(&dout, real_packet->foodbox);
+  }
+  if (BV_ISSET(fields, 30)) {
     dio_put_uint8(&dout, real_packet->diplomacy);
   }
-  /* field 28 is folded into the header */
-  if (BV_ISSET(fields, 29)) {
+  /* field 31 is folded into the header */
+  if (BV_ISSET(fields, 32)) {
   
     {
       int i;
@@ -3981,7 +4017,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       dio_put_uint8(&dout, 255);
     } 
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 33)) {
   
     {
       int i;
@@ -9370,7 +9406,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->team = readin;
     }
   }
-  real_packet->turn_done = BV_ISSET(fields, 10);
+  real_packet->phase_done = BV_ISSET(fields, 10);
   if (BV_ISSET(fields, 11)) {
     {
       int readin;
@@ -9617,9 +9653,9 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (old->turn_done != real_packet->turn_done);
+  differ = (old->phase_done != real_packet->phase_done);
   if(differ) {different++;}
-  if(packet->turn_done) {BV_SET(fields, 10);}
+  if(packet->phase_done) {BV_SET(fields, 10);}
 
   differ = (old->nturns_idle != real_packet->nturns_idle);
   if(differ) {different++;}
@@ -9936,24 +9972,24 @@ int send_packet_player_info(struct connection *pc, const struct packet_player_in
   }
 }
 
-static struct packet_player_turn_done *receive_packet_player_turn_done_100(struct connection *pc, enum packet_type type)
+static struct packet_player_phase_done *receive_packet_player_phase_done_100(struct connection *pc, enum packet_type type)
 {
-  RECEIVE_PACKET_START(packet_player_turn_done, real_packet);
+  RECEIVE_PACKET_START(packet_player_phase_done, real_packet);
 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_player_turn_done_100(struct connection *pc)
+static int send_packet_player_phase_done_100(struct connection *pc)
 {
-  SEND_PACKET_START(PACKET_PLAYER_TURN_DONE);
+  SEND_PACKET_START(PACKET_PLAYER_PHASE_DONE);
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_player_turn_done(struct connection *pc)
+static void ensure_valid_variant_packet_player_phase_done(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_PLAYER_TURN_DONE] != -1) {
+  if(pc->phs.variant[PACKET_PLAYER_PHASE_DONE] != -1) {
     return;
   }
 
@@ -9963,10 +9999,10 @@ static void ensure_valid_variant_packet_player_turn_done(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_PLAYER_TURN_DONE] = variant;
+  pc->phs.variant[PACKET_PLAYER_PHASE_DONE] = variant;
 }
 
-struct packet_player_turn_done *receive_packet_player_turn_done(struct connection *pc, enum packet_type type)
+struct packet_player_phase_done *receive_packet_player_phase_done(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -9976,17 +10012,17 @@ struct packet_player_turn_done *receive_packet_player_turn_done(struct connectio
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_player_turn_done at the client.");
+    freelog(LOG_ERROR, "Receiving packet_player_phase_done at the client.");
   }
-  ensure_valid_variant_packet_player_turn_done(pc);
+  ensure_valid_variant_packet_player_phase_done(pc);
 
-  switch(pc->phs.variant[PACKET_PLAYER_TURN_DONE]) {
-    case 100: return receive_packet_player_turn_done_100(pc, type);
+  switch(pc->phs.variant[PACKET_PLAYER_PHASE_DONE]) {
+    case 100: return receive_packet_player_phase_done_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_player_turn_done(struct connection *pc)
+int send_packet_player_phase_done(struct connection *pc)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -9996,12 +10032,12 @@ int send_packet_player_turn_done(struct connection *pc)
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_player_turn_done from the server.");
+    freelog(LOG_ERROR, "Sending packet_player_phase_done from the server.");
   }
-  ensure_valid_variant_packet_player_turn_done(pc);
+  ensure_valid_variant_packet_player_phase_done(pc);
 
-  switch(pc->phs.variant[PACKET_PLAYER_TURN_DONE]) {
-    case 100: return send_packet_player_turn_done_100(pc);
+  switch(pc->phs.variant[PACKET_PLAYER_PHASE_DONE]) {
+    case 100: return send_packet_player_phase_done_100(pc);
     default: die("unknown variant"); return -1;
   }
 }
@@ -19363,24 +19399,24 @@ int send_packet_conn_pong(struct connection *pc)
   }
 }
 
-static struct packet_before_new_year *receive_packet_before_new_year_100(struct connection *pc, enum packet_type type)
+static struct packet_end_phase *receive_packet_end_phase_100(struct connection *pc, enum packet_type type)
 {
-  RECEIVE_PACKET_START(packet_before_new_year, real_packet);
+  RECEIVE_PACKET_START(packet_end_phase, real_packet);
 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_before_new_year_100(struct connection *pc)
+static int send_packet_end_phase_100(struct connection *pc)
 {
-  SEND_PACKET_START(PACKET_BEFORE_NEW_YEAR);
+  SEND_PACKET_START(PACKET_END_PHASE);
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_before_new_year(struct connection *pc)
+static void ensure_valid_variant_packet_end_phase(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_BEFORE_NEW_YEAR] != -1) {
+  if(pc->phs.variant[PACKET_END_PHASE] != -1) {
     return;
   }
 
@@ -19390,10 +19426,10 @@ static void ensure_valid_variant_packet_before_new_year(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_BEFORE_NEW_YEAR] = variant;
+  pc->phs.variant[PACKET_END_PHASE] = variant;
 }
 
-struct packet_before_new_year *receive_packet_before_new_year(struct connection *pc, enum packet_type type)
+struct packet_end_phase *receive_packet_end_phase(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -19403,17 +19439,17 @@ struct packet_before_new_year *receive_packet_before_new_year(struct connection 
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_before_new_year at the server.");
+    freelog(LOG_ERROR, "Receiving packet_end_phase at the server.");
   }
-  ensure_valid_variant_packet_before_new_year(pc);
+  ensure_valid_variant_packet_end_phase(pc);
 
-  switch(pc->phs.variant[PACKET_BEFORE_NEW_YEAR]) {
-    case 100: return receive_packet_before_new_year_100(pc, type);
+  switch(pc->phs.variant[PACKET_END_PHASE]) {
+    case 100: return receive_packet_end_phase_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_before_new_year(struct connection *pc)
+int send_packet_end_phase(struct connection *pc)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -19423,41 +19459,124 @@ int send_packet_before_new_year(struct connection *pc)
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_before_new_year from the client.");
+    freelog(LOG_ERROR, "Sending packet_end_phase from the client.");
   }
-  ensure_valid_variant_packet_before_new_year(pc);
+  ensure_valid_variant_packet_end_phase(pc);
 
-  switch(pc->phs.variant[PACKET_BEFORE_NEW_YEAR]) {
-    case 100: return send_packet_before_new_year_100(pc);
+  switch(pc->phs.variant[PACKET_END_PHASE]) {
+    case 100: return send_packet_end_phase_100(pc);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_before_new_year(struct conn_list *dest)
+void lsend_packet_end_phase(struct conn_list *dest)
 {
   conn_list_iterate(dest, pconn) {
-    send_packet_before_new_year(pconn);
+    send_packet_end_phase(pconn);
   } conn_list_iterate_end;
 }
 
-static struct packet_start_turn *receive_packet_start_turn_100(struct connection *pc, enum packet_type type)
+#define hash_packet_start_phase_100 hash_const
+
+#define cmp_packet_start_phase_100 cmp_const
+
+BV_DEFINE(packet_start_phase_100_fields, 1);
+
+static struct packet_start_phase *receive_packet_start_phase_100(struct connection *pc, enum packet_type type)
 {
-  RECEIVE_PACKET_START(packet_start_turn, real_packet);
+  packet_start_phase_100_fields fields;
+  struct packet_start_phase *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_start_phase *clone;
+  RECEIVE_PACKET_START(packet_start_phase, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_start_phase_100, cmp_packet_start_phase_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->phase = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_start_turn_100(struct connection *pc)
+static int send_packet_start_phase_100(struct connection *pc, const struct packet_start_phase *packet)
 {
-  SEND_PACKET_START(PACKET_START_TURN);
+  const struct packet_start_phase *real_packet = packet;
+  packet_start_phase_100_fields fields;
+  struct packet_start_phase *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_START_PHASE];
+  int different = 0;
+  SEND_PACKET_START(PACKET_START_PHASE);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_start_phase_100, cmp_packet_start_phase_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->phase != real_packet->phase);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_sint16(&dout, real_packet->phase);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_start_turn(struct connection *pc)
+static void ensure_valid_variant_packet_start_phase(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_START_TURN] != -1) {
+  if(pc->phs.variant[PACKET_START_PHASE] != -1) {
     return;
   }
 
@@ -19467,10 +19586,10 @@ static void ensure_valid_variant_packet_start_turn(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_START_TURN] = variant;
+  pc->phs.variant[PACKET_START_PHASE] = variant;
 }
 
-struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum packet_type type)
+struct packet_start_phase *receive_packet_start_phase(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -19480,17 +19599,17 @@ struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum 
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_start_turn at the server.");
+    freelog(LOG_ERROR, "Receiving packet_start_phase at the server.");
   }
-  ensure_valid_variant_packet_start_turn(pc);
+  ensure_valid_variant_packet_start_phase(pc);
 
-  switch(pc->phs.variant[PACKET_START_TURN]) {
-    case 100: return receive_packet_start_turn_100(pc, type);
+  switch(pc->phs.variant[PACKET_START_PHASE]) {
+    case 100: return receive_packet_start_phase_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_start_turn(struct connection *pc)
+int send_packet_start_phase(struct connection *pc, const struct packet_start_phase *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -19500,21 +19619,39 @@ int send_packet_start_turn(struct connection *pc)
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_start_turn from the client.");
+    freelog(LOG_ERROR, "Sending packet_start_phase from the client.");
   }
-  ensure_valid_variant_packet_start_turn(pc);
+  ensure_valid_variant_packet_start_phase(pc);
 
-  switch(pc->phs.variant[PACKET_START_TURN]) {
-    case 100: return send_packet_start_turn_100(pc);
+  switch(pc->phs.variant[PACKET_START_PHASE]) {
+    case 100: return send_packet_start_phase_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_start_turn(struct conn_list *dest)
+void lsend_packet_start_phase(struct conn_list *dest, const struct packet_start_phase *packet)
 {
   conn_list_iterate(dest, pconn) {
-    send_packet_start_turn(pconn);
+    send_packet_start_phase(pconn, packet);
   } conn_list_iterate_end;
+}
+
+int dsend_packet_start_phase(struct connection *pc, int phase)
+{
+  struct packet_start_phase packet, *real_packet = &packet;
+
+  real_packet->phase = phase;
+  
+  return send_packet_start_phase(pc, real_packet);
+}
+
+void dlsend_packet_start_phase(struct conn_list *dest, int phase)
+{
+  struct packet_start_phase packet, *real_packet = &packet;
+
+  real_packet->phase = phase;
+  
+  lsend_packet_start_phase(dest, real_packet);
 }
 
 #define hash_packet_new_year_100 hash_const

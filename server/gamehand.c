@@ -135,7 +135,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
       return;
     }
 
-    (void) create_unit(pplayer, ptile, utype, FALSE, 0, -1);
+    (void) create_unit(pplayer, ptile, utype, FALSE, 0, 0);
   }
 }
 
@@ -248,14 +248,18 @@ void init_new_game(void)
       place_starting_unit(ptile, pplayer, game.start_units[i]);
     }
   } players_iterate_end;
+
+  shuffle_players();
 }
 
 /**************************************************************************
-...
+  This is called once at the start of each phase to alert the clients to
+  the new phase.  game.phase should be incremented before calling it.
 **************************************************************************/
-void send_start_turn_to_clients(void)
+void send_start_phase_to_clients(void)
 {
-  lsend_packet_start_turn(game.game_connections);
+  /* This function is so simple it could probably be dropped... */
+  dlsend_packet_start_phase(game.game_connections, game.phase);
 }
 
 /**************************************************************************
@@ -269,7 +273,6 @@ void send_year_to_clients(int year)
   
   for(i=0; i<game.nplayers; i++) {
     struct player *pplayer = &game.players[i];
-    pplayer->turn_done = FALSE;
     pplayer->nturns_idle++;
   }
 
@@ -314,6 +317,9 @@ void send_game_info(struct conn_list *dest)
   ginfo.end_year = game.end_year;
   ginfo.year = game.year;
   ginfo.turn = game.turn;
+  ginfo.phase = game.phase;
+  ginfo.simultaneous_phases = game.simultaneous_phases_now;
+  ginfo.num_phases = game.num_phases;
   ginfo.min_players = game.min_players;
   ginfo.max_players = game.max_players;
   ginfo.nplayers = game.nplayers;
@@ -340,11 +346,11 @@ void send_game_info(struct conn_list *dest)
   /* the following values are computed every
      time a packet_game_info packet is created */
   if (game.timeout != 0) {
-    ginfo.seconds_to_turndone =
-	game.turn_start + game.timeout - time(NULL);
+    ginfo.seconds_to_phasedone =
+	game.phase_start + game.timeout - time(NULL);
   } else {
     /* unused but at least initialized */
-    ginfo.seconds_to_turndone = -1;
+    ginfo.seconds_to_phasedone = -1;
   }
 
   conn_list_iterate(dest, pconn) {

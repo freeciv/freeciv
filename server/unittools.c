@@ -426,6 +426,11 @@ void player_restore_units(struct player *pplayer)
       wipe_unit(punit);
     } 
   } unit_list_iterate_safe_end;
+
+  /* Send all updates. */
+  unit_list_iterate(pplayer->units, punit) {
+    send_unit_info(NULL, punit);
+  } unit_list_iterate_end;
 }
 
 /****************************************************************************

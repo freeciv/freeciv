@@ -241,12 +241,13 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_conn_ping();
     return TRUE;
 
-  case PACKET_BEFORE_NEW_YEAR:
-    handle_before_new_year();
+  case PACKET_END_PHASE:
+    handle_end_phase();
     return TRUE;
 
-  case PACKET_START_TURN:
-    handle_start_turn();
+  case PACKET_START_PHASE:
+    handle_start_phase(
+      ((struct packet_start_phase *)packet)->phase);
     return TRUE;
 
   case PACKET_NEW_YEAR:

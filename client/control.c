@@ -305,6 +305,11 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   int best_dist = 99999;
   struct tile *ptile;
 
+  if (!is_player_phase(game.player_ptr, game.phase)) {
+    /* No focus unit wanted. */
+    return NULL;
+  }
+
   if (punit_focus)  {
     ptile = punit_focus->tile;
   } else {

@@ -130,7 +130,7 @@ static struct player *create_barbarian_player(bool land)
   barbarians->capital = FALSE;
   barbarians->economic.gold = 100;
 
-  barbarians->turn_done = TRUE;
+  barbarians->phase_done = TRUE;
 
   /* Do the ai */
   barbarians->ai.control = TRUE;

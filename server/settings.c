@@ -896,6 +896,17 @@ struct settings_s settings[] = {
 	     "\"timeoutincrease\" to have a dynamic timer."), NULL, 
 	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
+  /* This setting points to the "stored" value; changing it won't have
+   * an effect until the next synchronization point (i.e., the start of
+   * the next turn). */
+  GEN_BOOL("simultaneousphases", game.simultaneous_phases_stored,
+	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+	   N_("Whether to have simultaneous player phases."),
+	   N_("If true, all players' movement phases will occur "
+	      "simultaneously; if false then players will "
+	      "alternate movement."), NULL,
+	   GAME_DEFAULT_SIMULTANEOUS_PHASES)
+
   GEN_INT("nettimeout", game.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Seconds to let a client's network connection block"),

@@ -2689,7 +2689,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       pplayer->is_connected = FALSE;
       pplayer->is_observer = TRUE;
       pplayer->capital = TRUE;
-      pplayer->turn_done = TRUE;
+      pplayer->phase_done = TRUE;
       pplayer->embassy = 0;   /* no embassys */
       pplayer->is_alive = FALSE;
       pplayer->was_created = FALSE;
@@ -2780,7 +2780,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
-    send_packet_start_turn(pconn);
+    dsend_packet_start_phase(pconn, game.phase);
   }
 
   cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
@@ -2946,7 +2946,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
-    send_packet_start_turn(pconn);
+    dsend_packet_start_phase(pconn, game.phase);
     gamelog(GAMELOG_PLAYER, pplayer);
   }
 

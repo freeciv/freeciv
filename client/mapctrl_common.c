@@ -578,7 +578,7 @@ void update_turn_done_button_state()
   }
 
   new_state = (can_client_issue_orders()
-	       && !game.player_ptr->turn_done && !agents_busy()
+	       && !game.player_ptr->phase_done && !agents_busy()
 	       && !turn_done_sent);
   if (new_state == turn_done_state) {
     return;
