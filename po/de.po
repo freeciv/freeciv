@@ -1,11 +1,11 @@
 # $Id$
 #
-# ####################################################
-# German translations for freeciv package            #
-# German messages for freeciv.                       #
-# Copyright (C) 2002 Free Software Foundation, Inc.  #
-# Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002. #
-# ####################################################
+# ###########################################################
+# # German translations for freeciv package                 #
+# # German messages for freeciv.                            #
+# # Copyright (C) 1999-2002 Free Software Foundation, Inc.  #
+# # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.      #
+# ###########################################################
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.           +
