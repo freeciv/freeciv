@@ -918,49 +918,49 @@ void translate_data_names(void)
   for (i=0; i<game.num_tech_types; i++) {
     struct advance *this = &advances[i];
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
   }
   for (i=0; i<game.num_unit_types; i++) {
     struct unit_type *this = &unit_types[i];
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
   }
   for (i=0; i<B_LAST; i++) {
     struct improvement_type *this = &improvement_types[i];
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
   }
   for (i=T_FIRST; i<T_COUNT; i++) {
     struct tile_type *this = &tile_types[i];
     strcpy(this->terrain_name_orig, this->terrain_name);
-    strcpy(this->terrain_name, _(this->terrain_name_orig));
+    strcpy(this->terrain_name, Q_(this->terrain_name_orig));
     strcpy(this->special_1_name_orig, this->special_1_name);
-    strcpy(this->special_1_name, _(this->special_1_name_orig));
+    strcpy(this->special_1_name, Q_(this->special_1_name_orig));
     strcpy(this->special_2_name_orig, this->special_2_name);
-    strcpy(this->special_2_name, _(this->special_2_name_orig));
+    strcpy(this->special_2_name, Q_(this->special_2_name_orig));
   }
   for (i=0; i<game.government_count; i++) {
     struct government *this = &governments[i];
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
     for(j=0; j<this->num_ruler_titles; j++) {
       struct ruler_title *that = &this->ruler_titles[j];
       strcpy(that->male_title_orig, that->male_title);
-      strcpy(that->male_title, _(that->male_title_orig));
+      strcpy(that->male_title, Q_(that->male_title_orig));
       strcpy(that->female_title_orig, that->female_title);
-      strcpy(that->female_title, _(that->female_title_orig));
+      strcpy(that->female_title, Q_(that->female_title_orig));
     }
   }
   for (i=0; i<game.nation_count; i++) {
     struct nation_type *this = get_nation_by_idx(i);
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
     strcpy(this->name_plural_orig, this->name_plural);
-    strcpy(this->name_plural, _(this->name_plural_orig));
+    strcpy(this->name_plural, Q_(this->name_plural_orig));
   }
   for (i=0; i<game.styles_count; i++) {
     struct citystyle *this = &city_styles[i];
     strcpy(this->name_orig, this->name);
-    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name, Q_(this->name_orig));
   }
 }

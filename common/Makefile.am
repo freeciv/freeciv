@@ -19,6 +19,7 @@ libcivcommon_a_SOURCES = \
 		diptreaty.c	\
 		diptreaty.h	\
 		events.h	\
+		fcintl.c	\
 		fcintl.h	\
 		game.c		\
 		game.h		\

@@ -4885,7 +4885,7 @@ msgstr "Tundra"
 #: data/civ1/terrain.ruleset:205 data/civ1/terrain.ruleset:533
 #: data/civ2/terrain.ruleset:526 data/classic_terrain.ruleset:205
 #: data/classic_terrain.ruleset:533 data/default/terrain.ruleset:526
-msgid "Game Animals"
+msgid "?animals:Game"
 msgstr "Animais de Caça"
 
 #: data/civ2/terrain.ruleset:532 data/default/terrain.ruleset:532

@@ -28,14 +28,19 @@
 
 #define _(String) gettext(String)
 #define N_(String) String
+#define Q_(String) skip_intl_qualifier_prefix(gettext(String))
 
 #else
 
 #define _(String) (String)
 #define N_(String) String
+#define Q_(String) skip_intl_qualifier_prefix(String)
+
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
 
 #endif
+
+const char *skip_intl_qualifier_prefix(const char *str);
 
 #endif  /* FC__FCINTL_H */
