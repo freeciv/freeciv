@@ -10,6 +10,7 @@ AC_DEFUN(FC_GTK_CLIENT,
       [
         AM_PATH_GDK_IMLIB(1.9.2,
           [
+            client=gtk
             CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
             CLIENT_LIBS="$GDK_IMLIB_LIBS"
           ],
