@@ -236,7 +236,9 @@ static void enable_buttons(int player_index)
   EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_VISION),
 	       gives_shared_vision(game.player_ptr, pplayer));
 
-  if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
+  if (pplayer->is_alive 
+      && pplayer != game.player_ptr
+      && player_has_embassy(game.player_ptr, pplayer)) {
     if (pplayer->is_connected)
       EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_MEET), TRUE);
     else

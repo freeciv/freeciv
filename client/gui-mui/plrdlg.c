@@ -205,7 +205,9 @@ static void players_active(void)
     set(player_vision_button, MUIA_Disabled,
 	!gives_shared_vision(game.player_ptr, pplayer));
 
-    if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer))
+    if (pplayer->is_alive
+        && pplayer != game.player_ptr
+        && player_has_embassy(game.player_ptr, pplayer))
     {
       if (pplayer->is_connected)
 	set(player_meet_button, MUIA_Disabled, FALSE);

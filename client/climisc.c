@@ -343,6 +343,7 @@ Return a string indicating one nation's embassy status with another
 ***************************************************************************/
 char *get_embassy_status(struct player *me, struct player *them)
 {
+  if (me == them) return "-";
   if (player_has_embassy(me, them)) {
     if (player_has_embassy(them, me))
       return Q_("?embassy:Both");

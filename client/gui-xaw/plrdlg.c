@@ -299,7 +299,9 @@ void players_list_callback(Widget w, XtPointer client_data,
     XtSetSensitive(players_vision_command,
 		   gives_shared_vision(game.player_ptr, pplayer));
 
-    if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
+    if (pplayer->is_alive
+        && pplayer != game.player_ptr
+        && player_has_embassy(game.player_ptr, pplayer)) {
       if(pplayer->is_connected)
 	XtSetSensitive(players_meet_command, TRUE);
       else
