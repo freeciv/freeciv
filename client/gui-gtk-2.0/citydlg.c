@@ -70,6 +70,20 @@ struct city_dialog;
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
+struct unit_node {
+  GtkWidget *cmd;
+  GtkWidget *pix;
+};
+
+/* get 'struct unit_node' and related function */
+#define SPECVEC_TAG unit_node
+#define SPECVEC_TYPE struct unit_node
+#include "specvec.h"
+
+#define unit_node_vector_iterate(list, elt) \
+    TYPED_VECTOR_ITERATE(struct unit_node, list, elt)
+#define unit_node_vector_iterate_end  VECTOR_ITERATE_END
+
 enum { OVERVIEW_PAGE, WORKLIST_PAGE,
   HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
 };
@@ -84,11 +98,6 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
                                  * entry to misc_whichtab_label[] */
 
 static int citydialog_width, citydialog_height;
-
-struct unit_node {
-  GtkWidget *cmd;
-  GtkWidget *pix;
-};
 
 struct city_dialog {
   struct city *pcity;
@@ -115,11 +124,8 @@ struct city_dialog {
     GtkWidget *present_units_frame;
     GtkWidget *present_unit_table;
 
-    struct unit_node *supported_unit_nodes;
-    struct unit_node *present_unit_nodes;
-
-    int supported_unit_no;
-    int present_unit_no;
+    struct unit_node_vector supported_units;
+    struct unit_node_vector present_units;
 
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } overview;
@@ -625,8 +631,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw)));
   
   pdialog->overview.supported_unit_table = table;
-  pdialog->overview.supported_unit_nodes = NULL;
-  pdialog->overview.supported_unit_no = 0;
+  unit_node_vector_init(&pdialog->overview.supported_units);
 
 
   /* present units */
@@ -651,8 +656,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw)));
   
   pdialog->overview.present_unit_table = table;
-  pdialog->overview.present_unit_nodes = NULL;
-  pdialog->overview.present_unit_no = 0;
+  unit_node_vector_init(&pdialog->overview.present_units);
   
 
   /* start the right half of the page */
@@ -1509,83 +1513,89 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
   n = unit_list_size(units);
 
-  for (i=n; i<pdialog->overview.supported_unit_no; i++) {
-    gtk_widget_destroy(pdialog->overview.supported_unit_nodes[i].cmd);
-  }
+  i = 0;
+  unit_node_vector_iterate(&pdialog->overview.supported_units, elt) {
+    if (i++ >= n) {
+      gtk_widget_destroy(elt->cmd);
+    }
+  } unit_node_vector_iterate_end;
 
   gtk_table_resize(GTK_TABLE(pdialog->overview.supported_unit_table),
 		   1, MAX(n, 1));
 
-  pdialog->overview.supported_unit_nodes =
-      fc_realloc(pdialog->overview.supported_unit_nodes,
-		 n * sizeof(*pdialog->overview.supported_unit_nodes));
-  
-  for (i=pdialog->overview.supported_unit_no; i<n; i++) {
+  for (; i<n; i++) {
     int unit_height = (is_isometric) ?
 	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
     GtkWidget *cmd, *pix;
+    struct unit_node node;
 
     cmd = gtk_button_new();
-    pdialog->overview.supported_unit_nodes[i].cmd = cmd;
+    node.cmd = cmd;
 
     gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
     gtk_widget_add_events(cmd,
       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     
     pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, unit_height);
-    pdialog->overview.supported_unit_nodes[i].pix = pix;
+    node.pix = pix;
 
     gtk_container_add(GTK_CONTAINER(cmd), pix);
 
     gtk_table_attach_defaults(GTK_TABLE(pdialog->overview.supported_unit_table),
 			      cmd, i, i+1, 0, 1);
+    unit_node_vector_append(&pdialog->overview.supported_units, &node);
   }
 
   gtk_tooltips_disable(pdialog->tips);
 
   i=0;
   unit_list_iterate(*units, punit) {
-    GtkWidget *cmd, *pix;
+    struct unit_node *pnode;
     
-    cmd = pdialog->overview.supported_unit_nodes[i].cmd;
-    pix = pdialog->overview.supported_unit_nodes[i].pix;
+    pnode = unit_node_vector_get(&pdialog->overview.supported_units, i);
+    if (pnode) {
+      GtkWidget *cmd, *pix;
 
-    gtk_pixcomm_freeze(GTK_PIXCOMM(pix));
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
-    put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(pix));
-    gtk_pixcomm_thaw(GTK_PIXCOMM(pix));
+      cmd = pnode->cmd;
+      pix = pnode->pix;
 
-    g_signal_handlers_disconnect_matched(cmd,
-      G_SIGNAL_MATCH_FUNC,
-      0, 0, NULL, supported_unit_callback, NULL);
+      gtk_pixcomm_freeze(GTK_PIXCOMM(pix));
+      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
+      put_unit_gpixmap_city_overlays(punit, GTK_PIXCOMM(pix));
+      gtk_pixcomm_thaw(GTK_PIXCOMM(pix));
 
-    g_signal_handlers_disconnect_matched(cmd,
-      G_SIGNAL_MATCH_FUNC,
-      0, 0, NULL, supported_unit_middle_callback, NULL);
+      g_signal_handlers_disconnect_matched(cmd,
+	  G_SIGNAL_MATCH_FUNC,
+	  0, 0, NULL, supported_unit_callback, NULL);
 
-    gtk_tooltips_set_tip(pdialog->tips,
-      cmd, unit_description(punit), "");
+      g_signal_handlers_disconnect_matched(cmd,
+	  G_SIGNAL_MATCH_FUNC,
+	  0, 0, NULL, supported_unit_middle_callback, NULL);
 
-    g_signal_connect(cmd, "button_press_event",
-      G_CALLBACK(supported_unit_callback), GINT_TO_POINTER(punit->id));
+      gtk_tooltips_set_tip(pdialog->tips,
+	  cmd, unit_description(punit), "");
 
-    g_signal_connect(cmd, "button_release_event",
-      G_CALLBACK(supported_unit_middle_callback), GINT_TO_POINTER(punit->id));
+      g_signal_connect(cmd, "button_press_event",
+	  G_CALLBACK(supported_unit_callback),
+	  GINT_TO_POINTER(punit->id));
 
-    if (pdialog->pcity->owner != game.player_idx) {
-      gtk_widget_set_sensitive(cmd, FALSE);
-    } else {
-      gtk_widget_set_sensitive(cmd, TRUE);
+      g_signal_connect(cmd, "button_release_event",
+	  G_CALLBACK(supported_unit_middle_callback),
+	  GINT_TO_POINTER(punit->id));
+
+      if (pdialog->pcity->owner != game.player_idx) {
+	gtk_widget_set_sensitive(cmd, FALSE);
+      } else {
+	gtk_widget_set_sensitive(cmd, TRUE);
+      }
+
+      gtk_widget_show(pix);
+      gtk_widget_show(cmd);
     }
-
-    gtk_widget_show(pix);
-    gtk_widget_show(cmd);
     i++;
   } unit_list_iterate_end;
 
   gtk_tooltips_enable(pdialog->tips);
-
-  pdialog->overview.supported_unit_no = n;
 
 
   my_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
@@ -1609,78 +1619,84 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   n = unit_list_size(units);
 
-  for (i=n; i<pdialog->overview.present_unit_no; i++) {
-    gtk_widget_destroy(pdialog->overview.present_unit_nodes[i].cmd);
-  }
+  i = 0;
+  unit_node_vector_iterate(&pdialog->overview.present_units, elt) {
+    if (i++ >= n) {
+      gtk_widget_destroy(elt->cmd);
+    }
+  } unit_node_vector_iterate_end;
 
   gtk_table_resize(GTK_TABLE(pdialog->overview.present_unit_table),
 		   1, MAX(n, 1));
 
-  pdialog->overview.present_unit_nodes =
-      fc_realloc(pdialog->overview.present_unit_nodes,
-		 n * sizeof(*pdialog->overview.present_unit_nodes));
-  
-  for (i=pdialog->overview.present_unit_no; i<n; i++) {
+  for (; i<n; i++) {
     GtkWidget *cmd, *pix;
+    struct unit_node node;
 
     cmd = gtk_button_new();
-    pdialog->overview.present_unit_nodes[i].cmd = cmd;
+    node.cmd = cmd;
 
     gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
     gtk_widget_add_events(cmd,
       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     
     pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    pdialog->overview.present_unit_nodes[i].pix = pix;
+    node.pix = pix;
 
     gtk_container_add(GTK_CONTAINER(cmd), pix);
 
     gtk_table_attach_defaults(GTK_TABLE(pdialog->overview.present_unit_table),
 			      cmd, i, i+1, 0, 1);
+    unit_node_vector_append(&pdialog->overview.present_units, &node);
   }
 
   gtk_tooltips_disable(pdialog->tips);
 
   i=0;
   unit_list_iterate(*units, punit) {
-    GtkWidget *cmd, *pix;
+    struct unit_node *pnode;
     
-    cmd = pdialog->overview.present_unit_nodes[i].cmd;
-    pix = pdialog->overview.present_unit_nodes[i].pix;
+    pnode = unit_node_vector_get(&pdialog->overview.present_units, i);
+    if (pnode) {
+      GtkWidget *cmd, *pix;
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
+      cmd = pnode->cmd;
+      pix = pnode->pix;
 
-    g_signal_handlers_disconnect_matched(cmd,
-      G_SIGNAL_MATCH_FUNC,
-      0, 0, NULL, present_unit_callback, NULL);
+      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
 
-    g_signal_handlers_disconnect_matched(cmd,
-      G_SIGNAL_MATCH_FUNC,
-      0, 0, NULL, present_unit_middle_callback, NULL);
+      g_signal_handlers_disconnect_matched(cmd,
+	  G_SIGNAL_MATCH_FUNC,
+	  0, 0, NULL, present_unit_callback, NULL);
 
-    gtk_tooltips_set_tip(pdialog->tips,
-      cmd, unit_description(punit), "");
+      g_signal_handlers_disconnect_matched(cmd,
+	  G_SIGNAL_MATCH_FUNC,
+	  0, 0, NULL, present_unit_middle_callback, NULL);
 
-    g_signal_connect(cmd, "button_press_event",
-      G_CALLBACK(present_unit_callback), GINT_TO_POINTER(punit->id));
+      gtk_tooltips_set_tip(pdialog->tips,
+	  cmd, unit_description(punit), "");
 
-    g_signal_connect(cmd, "button_release_event",
-      G_CALLBACK(present_unit_middle_callback), GINT_TO_POINTER(punit->id));
+      g_signal_connect(cmd, "button_press_event",
+	  G_CALLBACK(present_unit_callback),
+	  GINT_TO_POINTER(punit->id));
 
-    if (pdialog->pcity->owner != game.player_idx) {
-      gtk_widget_set_sensitive(cmd, FALSE);
-    } else {
-      gtk_widget_set_sensitive(cmd, TRUE);
+      g_signal_connect(cmd, "button_release_event",
+	  G_CALLBACK(present_unit_middle_callback),
+	  GINT_TO_POINTER(punit->id));
+
+      if (pdialog->pcity->owner != game.player_idx) {
+	gtk_widget_set_sensitive(cmd, FALSE);
+      } else {
+	gtk_widget_set_sensitive(cmd, TRUE);
+      }
+
+      gtk_widget_show(pix);
+      gtk_widget_show(cmd);
     }
-
-    gtk_widget_show(pix);
-    gtk_widget_show(cmd);
     i++;
   } unit_list_iterate_end;
 
   gtk_tooltips_enable(pdialog->tips);
-
-  pdialog->overview.present_unit_no = n;
 
 
   my_snprintf(buf, sizeof(buf), _("Present units %d"), n);
@@ -2550,8 +2566,8 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   dialog_list_unlink(&dialog_list, pdialog);
 
-  free(pdialog->overview.supported_unit_nodes);
-  free(pdialog->overview.present_unit_nodes);
+  unit_node_vector_free(&pdialog->overview.supported_units);
+  unit_node_vector_free(&pdialog->overview.present_units);
 
   if (pdialog->buy_shell)
     gtk_widget_destroy(pdialog->buy_shell);
