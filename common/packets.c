@@ -27,11 +27,18 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
+
+#ifdef HAVE_SYS_SELECT_H
+#include <sys/select.h>
 #endif
 
 #include "capability.h"
@@ -3130,20 +3137,27 @@ void connection_do_unbuffer(struct connection *pc)
 static int write_socket_data(struct connection *pc,
 			     unsigned char *data, int len)
 {
-  int start;
-  int nput;
-  int nblock;
+  int start, nput, nblock;
 
   for (start=0; start<len;) {
 #ifdef HAVE_FCNTL_H
     fd_set writefs;
+    struct timeval tv;
+
+#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 
     /* this long-winded code is here to reproduce the old behaviour
        i.e. block on write  --vasc */
-    FD_ZERO(&writefs);
+    MY_FD_ZERO(&writefs);
     FD_SET(pc->sock, &writefs);
 
-    if (select(pc->sock+1, NULL, &writefs, NULL, NULL) == -1) {
+    tv.tv_sec = 5; tv.tv_usec = 0;
+
+    switch (select(pc->sock+1, NULL, &writefs, NULL, &tv)) { /* timeout */
+    case 0:
+      freelog(LOG_NORMAL, "timeout expired while waiting for write");
+      return -1;
+    case -1:
       freelog(LOG_DEBUG, "error while waiting for write: %s",mystrerror(errno));
       return -1;
     }
