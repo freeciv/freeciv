@@ -308,7 +308,7 @@ For lots more information about the client, the server, and the
 concepts and rules of the game, see the Freeciv manual, available
 at the web pages at:
 
-   http://www.freeciv.org/manual/main.html
+  http://www.freeciv.org/manual/main.html
 
 
 Ending the game:
@@ -439,27 +439,49 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain three mailing lists.  One is for users of Freeciv,
-one is for developers of Freeciv, and the last is to notify developers
-of changes to the Freeciv source code.
+We maintain 6 mailing lists:
 
-The lists are called "freeciv", "freeciv-dev", and "freeciv-cvs".
-They are all public lists.
+  freeciv          General discussion.
+  freeciv-announce Announcements of general interest.
+                   This is a "Read Only" list, with infrequent messages.
+                   In other words you can't mail this list, just read it.
+                   (Announcements sent to this are also sent to freeciv.)
+  freeciv-dev      Freeciv development.
+  freeciv-data     Freeciv data directory development.
+                   (Discussion of rulesets, tilesets, etc.)
+  freeciv-java     Freeciv Java client development.
+  freeciv-cvs      Notifications of changes to the CVS repository.
+                   This is a "Read Only" list, carrying automated messages.
+                   In other words you can't mail this list, just read it.
+
+All lists are open to the general public and everyone is welcome to join.
+
+To join (or leave) these lists follow these steps:
+
+  1. Email to <listar@freeciv.org>.
+  2. Leave subject blank.
+  3. In the body of the email put one of:
+      To join:
+        subscribe freeciv
+        subscribe freeciv-announce
+        subscribe freeciv-dev
+        subscribe freeciv-data
+        subscribe freeciv-java
+        subscribe freeciv-cvs
+      To leave:
+        unsubscribe freeciv
+        unsubscribe freeciv-announce
+        unsubscribe freeciv-dev
+        unsubscribe freeciv-data
+        unsubscribe freeciv-java
+        unsubscribe freeciv-cvs
 
 To send an email to the lists, address it to:
 
-    <freeciv@freeciv.org>        (For Freeciv users)
-
-or
-
-    <freeciv-dev@freeciv.org>    (For bug reports, and Freeciv developers)
-
-To subscribe, send mail to <listar@freeciv.org>, with the single word
-"subscribe", followed by the name of the list.  (Put this in the body
-of the email message, leaving the email subject line blank.)
-
-Example: To subscribe to the "freeciv" mailing list, send the line
-"subscribe freeciv" to <listar@freeciv.org>.
+  For freeciv, mail should be sent to <freeciv@freeciv.org>.
+  For freeciv-dev, mail should be sent to <freeciv-dev@freeciv.org>.
+  For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
+  For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
 
 
 New Releases:
