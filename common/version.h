@@ -28,7 +28,7 @@
 #define MINOR_VERSION		14
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION		1
+#define PATCH_VERSION		99
 #endif
 #ifndef VERSION_LABEL
 #define VERSION_LABEL		"-devel"
