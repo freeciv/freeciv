@@ -588,21 +588,33 @@ int unit_belligerence(struct unit *punit)
 
 int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
-  int v;
-
-  v = get_total_defense_power(punit, pdef) *
-      (punit->id != 0 ? pdef->hp : unit_type(pdef)->hp) *
-      unit_type(pdef)->firepower / 30;
-
-  return(v);
+  return (get_total_defense_power(punit, pdef) *
+	  (punit->id != 0 ? pdef->hp : unit_type(pdef)->hp) *
+	  unit_type(pdef)->firepower / POWER_DIVIDER);
 }
 
 int unit_vulnerability_virtual(struct unit *punit)
 {
-  int v;
-  v = unit_type(punit)->defense_strength *
-      (punit->veteran ? 15 : 10) * punit->hp / 30;
-  return(v * v);
+  int v = base_get_defense_power(punit) * punit->hp / POWER_DIVIDER;
+
+  return v * v;
+}
+
+/**************************************************************************
+  See get_virtual_defense_power for the arguments att_type, def_type,
+  x, y, fortified and veteran. If use_alternative_hp is FALSE the
+  (maximum) hps of the given unit type is used. If use_alternative_hp
+  is TRUE the given alternative_hp value is used.
+**************************************************************************/
+int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
+				int x, int y, bool fortified, bool veteran,
+				bool use_alternative_hp, int alternative_hp)
+{
+  int v = (get_virtual_defense_power(att_type, def_type, x, y, fortified,
+				     veteran) *
+	   (use_alternative_hp ? alternative_hp : unit_types[def_type].
+	    hp) * unit_types[def_type].firepower / POWER_DIVIDER);
+  return v * v;
 }
 
 int unit_vulnerability(struct unit *punit, struct unit *pdef)
@@ -790,14 +802,13 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 	continue;
       if (!can_unit_attack_unit_at_tile(aunit, pdef, pdef->x, pdef->y))
 	continue;
-      d =
-	  get_virtual_defense_power(aunit->type, pdef->type, pdef->x,
-				    pdef->y);
+      d = get_virtual_defense_power(aunit->type, pdef->type, pdef->x,
+				    pdef->y, FALSE, FALSE);
       if (d == 0)
 	return TRUE;		/* Thanks, Markus -- Syela */
       cur = unit_belligerence_primitive(aunit) *
 	  get_virtual_defense_power(punit->type, pdef->type, pdef->x,
-				    pdef->y) / d;
+				    pdef->y, FALSE, FALSE) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE))
 	return FALSE;
     }
@@ -1555,10 +1566,11 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 		    * SINGLE_MOVE) / m;
           if (c > 1) {
             n = ai_choose_defender_versus(acity, punit->type);
-            v = get_virtual_defense_power(punit->type, n, acity->x, acity->y) *
-                unit_types[n].hp * unit_types[n].firepower *
-                (do_make_unit_veteran(acity, n) ? 1.5 : 1.0) / 30;
-            if (v * v >= d) { d = v * v; b = unit_types[n].build_cost + 40; }
+	    v = unit_vulnerability_virtual2(punit->type, n, acity->x,
+					    acity->y, FALSE,
+					    do_make_unit_veteran(acity, n),
+					    FALSE, 0);
+            if (v >= d) { d = v; b = unit_types[n].build_cost + 40; }
           } /* let's hope this works! */
           if (!is_ground_unit(punit) && !is_heli_unit(punit) &&
               !TEST_BIT(acity->ai.invasion, 0)) b -= 40; /* boats can't conquer cities */

@@ -1276,7 +1276,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
       continue;
     if (unit_list_size(&ptile->units) > 0)
       continue;
-    value = get_simple_defense_power(u_type, x1, y1);
+    value = get_virtual_defense_power(U_LAST, u_type, x1, y1, FALSE, FALSE);
     value *= 10;
 
     if (ptile->continent != map_get_continent(pcity->x, pcity->y))

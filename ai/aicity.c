@@ -305,12 +305,10 @@ I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */
 static int ai_city_defender_value(struct city *pcity, Unit_Type_id a_type,
                                   Unit_Type_id d_type)
 {
-  int m;
-  m = get_virtual_defense_power(a_type, d_type, pcity->x, pcity->y);
-  if (do_make_unit_veteran(pcity, d_type)) m *= 1.5;
-  m *= unit_types[d_type].hp * unit_types[d_type].firepower;
-  m /= 30;
-  return (m * m);
+  return unit_vulnerability_virtual2(a_type, d_type, pcity->x,
+				     pcity->y, FALSE,
+				     do_make_unit_veteran(pcity, d_type),
+				     FALSE, 0);
 }
 #endif
 
@@ -632,7 +630,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
-      j = get_virtual_defense_power(v, i, pcity->x, pcity->y);
+      j = get_virtual_defense_power(v, i, pcity->x, pcity->y, FALSE, FALSE);
       if (j > best || (j == best && get_unit_type(i)->build_cost <=
                                get_unit_type(bestid)->build_cost)) {
         best = j;

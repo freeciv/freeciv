@@ -593,12 +593,7 @@ static void process_attacker_want(struct player *pplayer,
       } else if (real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE <= m) c = 1;
       else c = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE * q / m;
 
-      m = get_virtual_defense_power(i, n, x, y);
-      m *= unit_types[n].hp * unit_types[n].firepower;
-      if (vet) m *= 1.5;
-      m /= 30;
-      m *= m;
-      d = m;
+      d = unit_vulnerability_virtual2(i, n, x, y, FALSE, vet, FALSE, 0);
 
       if (unit_types[i].move_type == LAND_MOVING && acity &&
           c > (player_knows_improvement_tech(city_owner(acity),
@@ -733,12 +728,10 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       else c = real_map_distance(myunit->x, myunit->y, acity->x, acity->y) * SINGLE_MOVE / m;
 
       n = ai_choose_defender_versus(acity, v);
-      m = get_virtual_defense_power(v, n, x, y);
-      m *= unit_types[n].hp * unit_types[n].firepower;
-      if (do_make_unit_veteran(acity, n)) m *= 1.5;
-      m /= 30;
       if (c > 1) {
-        d = m * m;
+	d = unit_vulnerability_virtual2(v, n, x, y, FALSE,
+					do_make_unit_veteran(acity, n),
+					FALSE, 0);
         b = unit_types[n].build_cost + 40;
         vet = do_make_unit_veteran(acity, n);
       } else {
@@ -751,14 +744,10 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
 Yet, somehow, this line existed, and remained here for months, bugging the AI
 tech progression beyond all description.  Only when adding the override code
 did I realize the magnitude of my transgression.  How despicable. -- Syela */
-        m = get_virtual_defense_power(v, pdef->type, x, y);
-        if (pdef->veteran) m *= 1.5; /* with real defenders, this must be before * hp -- Syela */
-	m *= (myunit->id != 0 ? pdef->hp : unit_type(pdef)->hp) *
-	    unit_type(pdef)->firepower;
-/*        m /= (pdef->veteran ? 20 : 30);  -- led to rounding errors.  Duh! -- Syela */
-        m /= 30;
-        if (d < m * m) {
-          d = m * m;
+	m = unit_vulnerability_virtual2(v, pdef->type, x, y, FALSE,
+					pdef->veteran, myunit->id, pdef->hp);
+        if (d < m) {
+          d = m;
           b = unit_type(pdef)->build_cost + 40; 
           vet = pdef->veteran;
           n = pdef->type; /* and not before, or heinous things occur!! */
@@ -793,17 +782,9 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       c = ((dist + m - 1) / m);
 
       n = pdef->type;
-      m = get_virtual_defense_power(v, n, x, y);
-      if (pdef->veteran) m += m / 2;
-      if (pdef->activity == ACTIVITY_FORTIFIED) m += m / 2;
-/* attempting to recreate the rounding errors in get_total_defense_power -- Syela */
-
-      m *= (myunit->id != 0 ? pdef->hp : unit_types[n].hp) * unit_types[n].firepower;
-/* let this be the LAST discrepancy!  How horribly many there have been! -- Syela */
-/*     m /= (pdef->veteran ? 20 : 30);*/
-      m /= 30;
-      m *= m;
-      d = m;
+      d = unit_vulnerability_virtual2(v, n, x, y,
+				      pdef->activity == ACTIVITY_FORTIFIED,
+				      pdef->veteran, myunit->id, pdef->hp);
       vet = pdef->veteran;
     } /* end dealing with units */
 

@@ -266,27 +266,29 @@ int base_get_attack_power(Unit_Type_id type, bool veteran, int moves_left)
 }
 
 /**************************************************************************
-  returns the defense power, modified by terrain and veteran status
+  Returns the defense power, modified by veteran status.
+**************************************************************************/
+int base_get_defense_power(struct unit *punit)
+{
+  int power = unit_type(punit)->defense_strength * POWER_FACTOR;
+  if (punit->veteran) {
+    power = (power * 3) / 2;
+  }
+  return power;
+}
+
+/**************************************************************************
+  Returns the defense power, modified by terrain and veteran status.
 **************************************************************************/
 int get_defense_power(struct unit *punit)
 {
-  int power;
-  enum tile_terrain_type terra;
-  int db;
+  int db, power = base_get_defense_power(punit);
 
-  if (!punit || punit->type<0 || punit->type>=U_LAST
-      || punit->type>=game.num_unit_types)
-    abort();
-  power = unit_type(punit)->defense_strength * POWER_FACTOR;
-  if (punit->veteran) {
-    power *= 3;
-    power /= 2;
-  }
-  terra=map_get_terrain(punit->x, punit->y);
-  db = get_tile_type(terra)->defense_bonus;
-  if (map_has_special(punit->x, punit->y, S_RIVER))
+  db = get_tile_type(map_get_terrain(punit->x, punit->y))->defense_bonus;
+  if (map_has_special(punit->x, punit->y, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
-  power=(power*db)/10;
+  }
+  power = (power * db) / 10;
 
   return power;
 }
@@ -302,81 +304,95 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender)
   return attackpower;
 }
 
-/***************************************************************************
- Like get_virtual_defense_power, but don't include most of the modifications.
- (For calls which used to be g_v_d_p(U_HOWITZER,...))
- Specifically, include:
- unit def, terrain effect, fortress effect, ground unit in city effect
-***************************************************************************/
-int get_simple_defense_power(Unit_Type_id d_type, int x, int y)
+/**************************************************************************
+ Return an increased defensepower. Effects which increase the
+ defensepower are:
+  - unit type effects (horse vs pikemen for example)
+  - defender in a fortress
+  - fortified defender
+
+May be called with a non-existing att_type to avoid any unit type
+effects.
+**************************************************************************/
+static int defence_multiplication(Unit_Type_id att_type,
+				  Unit_Type_id def_type, int x, int y,
+				  int defensepower, bool fortified)
 {
-  int defensepower=unit_types[d_type].defense_strength;
   struct city *pcity = map_get_city(x, y);
-  enum tile_terrain_type t = map_get_terrain(x, y);
-  int db;
 
-  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
-/* I had this dorky bug where transports with mech inf aboard would go next
-to enemy ships thinking the mech inf would defend them adequately. -- Syela */
+  if (unit_type_exists(att_type)) {
+    if (unit_type_flag(def_type, F_PIKEMEN)
+	&& unit_type_flag(att_type, F_HORSE)) {
+      defensepower *= 2;
+    }
 
-  db = get_tile_type(t)->defense_bonus;
-  if (map_has_special(x, y, S_RIVER))
-    db += (db * terrain_control.river_defense_bonus) / 100;
-  defensepower *= db;
+    if (unit_type_flag(def_type, F_AEGIS) &&
+	(is_air_unittype(att_type) || is_heli_unittype(att_type))) {
+      defensepower *= 5;
+    }
 
-  if (map_has_special(x, y, S_FORTRESS) && !pcity)
-    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
-    defensepower*=1.5;
+    if (is_air_unittype(att_type) && pcity) {
+      if (city_got_building(pcity, B_SAM)) {
+	defensepower *= 2;
+      }
+      if (city_got_building(pcity, B_SDI)
+	  && unit_type_flag(att_type, F_MISSILE)) {
+	defensepower *= 2;
+      }
+    } else if (is_water_unit(att_type) && pcity) {
+      if (city_got_building(pcity, B_COASTAL)) {
+	defensepower *= 2;
+      }
+    }
+    if (!unit_type_flag(att_type, F_IGWALL)
+	&& (is_ground_unittype(att_type) || is_heli_unittype(att_type)
+	    || (improvement_variant(B_CITY) == 1
+		&& is_water_unit(att_type))) && pcity
+	&& city_got_citywalls(pcity)) {
+      defensepower *= 3;
+    }
+  }
+
+  if (map_has_special(x, y, S_FORTRESS) && !pcity) {
+    defensepower +=
+	(defensepower * terrain_control.fortress_defense_bonus) / 100;
+  }
+
+  if ((pcity || fortified) && is_ground_unittype(def_type)) {
+    defensepower = (defensepower * 3) / 2;
+  }
 
   return defensepower;
 }
 
 /**************************************************************************
-...
+ May be called with a non-existing att_type to avoid any effects which
+ depend on the attacker.
 **************************************************************************/
-int get_virtual_defense_power(Unit_Type_id a_type, Unit_Type_id d_type, int x, int y)
+int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
+			      int x, int y, bool fortified, bool veteran)
 {
-  int defensepower=unit_types[d_type].defense_strength;
-  enum unit_move_type m_type = unit_types[a_type].move_type;
-  struct city *pcity = map_get_city(x, y);
+  int defensepower = unit_types[def_type].defense_strength;
   enum tile_terrain_type t = map_get_terrain(x, y);
   int db;
 
-  if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
-/* I had this dorky bug where transports with mech inf aboard would go next
-to enemy ships thinking the mech inf would defend them adequately. -- Syela */
+  if (unit_types[def_type].move_type == LAND_MOVING && t == T_OCEAN) {
+    /* Ground units on ship doesn't defend. */
+    return 0;
+  }
 
   db = get_tile_type(t)->defense_bonus;
-  if (map_has_special(x, y, S_RIVER))
+  if (map_has_special(x, y, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
+  }
   defensepower *= db;
 
-  if (unit_type_flag(d_type, F_PIKEMEN) && unit_type_flag(a_type, F_HORSE)) 
-    defensepower*=2;
-  if (unit_type_flag(d_type, F_AEGIS) &&
-       (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=5;
-  if (m_type == AIR_MOVING && pcity) {
-    if (city_got_building(pcity, B_SAM))
-      defensepower*=2;
-    if (city_got_building(pcity, B_SDI) && unit_type_flag(a_type, F_MISSILE))
-      defensepower*=2;
-  } else if (m_type == SEA_MOVING && pcity) {
-    if (city_got_building(pcity, B_COASTAL))
-      defensepower*=2;
+  if (veteran) {
+    defensepower = (defensepower * 3) / 2;
   }
-  if (!unit_type_flag(a_type, F_IGWALL)
-      && (m_type == LAND_MOVING || m_type == HELI_MOVING
-	  || (improvement_variant(B_CITY)==1 && m_type == SEA_MOVING))
-      && pcity && city_got_citywalls(pcity)) {
-    defensepower*=3;
-  }
-  if (map_has_special(x, y, S_FORTRESS) && !pcity)
-    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
-    defensepower*=1.5;
 
-  return defensepower;
+  return defence_multiplication(att_type, def_type, x, y, defensepower,
+				fortified);
 }
 
 /***************************************************************************
@@ -386,33 +402,10 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 ***************************************************************************/
 int get_total_defense_power(struct unit *attacker, struct unit *defender)
 {
-  int defensepower=get_defense_power(defender);
-  if (unit_flag(defender, F_PIKEMEN) && unit_flag(attacker, F_HORSE)) 
-    defensepower*=2;
-  if (unit_flag(defender, F_AEGIS)
-      && (is_air_unit(attacker) || is_heli_unit(attacker)))
-    defensepower *= 5;
-  if (is_air_unit(attacker)) {
-    if (unit_behind_sam(defender))
-      defensepower*=2;
-    if (unit_behind_sdi(defender) && unit_flag(attacker, F_MISSILE))
-      defensepower*=2;
-  } else if (is_sailing_unit(attacker)) {
-    if (unit_behind_coastal(defender))
-      defensepower*=2;
-  }
-  if (!unit_really_ignores_citywalls(attacker)
-      && unit_behind_walls(defender)) 
-    defensepower*=3;
-  if (unit_on_fortress(defender) && 
-      !map_get_city(defender->x, defender->y)) 
-    defensepower*=2;
-  if ((defender->activity == ACTIVITY_FORTIFIED || 
-       map_get_city(defender->x, defender->y)) && 
-      is_ground_unit(defender))
-    defensepower*=1.5;
-
-  return defensepower;
+  return defence_multiplication(attacker->type, defender->type,
+				defender->x, defender->y,
+				get_defense_power(defender),
+				defender->activity == ACTIVITY_FORTIFIED);
 }
 
 /**************************************************************************

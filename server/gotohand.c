@@ -888,7 +888,7 @@ static int find_a_direction(struct unit *punit,
 			    const int dest_x, const int dest_y)
 {
 #define UNIT_DEFENSE(punit, x, y, defence_multiplier) \
-  ((get_simple_defense_power((punit)->type, (x), (y)) * \
+  ((get_virtual_defense_power(U_LAST, (punit)->type, (x), (y), FALSE, FALSE) *\
     (defence_multiplier)) / 2)
 
 #define UNIT_RATING(punit, x, y, defence_multiplier) \
