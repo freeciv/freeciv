@@ -1,6 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST =			\
+	BUGS.fr			\
 	HOWTOPLAY.fr		\
 	INSTALL.fr		\
-	README.fr
+	README.fr		\
+	README.cma.fr

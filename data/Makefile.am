@@ -9,7 +9,8 @@ pkgdata_DATA = \
 	trident_shields.tilespec	\
 	helpdata.txt	\
 	civ1.serv	\
-	civ2.serv
+	civ2.serv	\
+	history.serv
 
 EXTRA_DIST = $(pkgdata_DATA)
 

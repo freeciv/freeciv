@@ -31,8 +31,10 @@ EXTRA_DIST=	acconfig.old			\
 		amiga/amigaclient.c		\
 		amiga/amigaserver.c		\
 		amiga/config.h			\
+		amiga/declgate.h		\
 		amiga/gettext.c			\
 		amiga/libintl.h			\
+		amiga/myregargs.h		\
 		amiga/ReadMe			\
 		amiga/ReadMe.2Amigas		\
 		amiga/ReadMe.developer		\
@@ -79,3 +81,9 @@ EXTRA_DIST=	acconfig.old			\
 		vms/imlib_config.h_vms		\
 		vms/readme.vms			\
 		vms/vms_build.com
+
+src-check:
+	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
+
+.PHONY: src-check
+

@@ -13,8 +13,8 @@ ALL_BACKEND_X11_FILES=$(BACKEND_COMMON_FILES) be_x11_ximage.c
 ALL_BACKEND_SDL_FILES=$(BACKEND_COMMON_FILES) be_sdl.c
 ALL_OTHER_FILES=	\
 	back_end.h	\
-	common_types.h	\
 	common_types.c	\
+	common_types.h	\
 	widget_p.h	\
 	widget.h	\
 	widget_timeout.c	\
@@ -25,9 +25,11 @@ ALL_OTHER_FILES=	\
 	widget_list.c	\
 	widget_slider.c	\
 	text_renderer.c \
+	text_renderer.h	\
 	widget_core.c	\
 	widget_window.c \
-	theme_engine.c
+	theme_engine.c	\
+	theme_engine.h
 
 if FTWL_X11
 BACKEND_X11_FILES=$(ALL_BACKEND_X11_FILES)
