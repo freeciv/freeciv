@@ -44,6 +44,7 @@
 #include "unit.h"
 
 #include "gotohand.h"
+#include "maphand.h"
 #include "plrhand.h"
 #include "srv_main.h"
 #include "unithand.h"
@@ -107,6 +108,43 @@ static struct unit *search_best_target(struct player *pplayer,
     mv_cost = calculate_move_cost(punit, x, y);
     if (mv_cost > range) {
       freelog(LOG_DEBUG, "too far away: %d", mv_cost);
+      continue;
+    }
+
+    /*
+     * Make sure the player can see both the location and the unit at that
+     * location, before allowing an auto-attack.  Without this, units attack
+     * into locations they cannot see, and maybe submarines are made
+     * erroneously visible too.
+     *
+     * Note, cheating AI may attack units it cannot see unless it has
+     * H_TARGETS handicap, but currently AI never uses auto-attack.
+     */
+    if ((ai_handicap(pplayer, H_TARGETS)
+         && !map_get_known_and_seen(x, y, pplayer))
+	|| !player_can_see_unit_at_location(pplayer, enemy, x, y)) {
+      freelog(LOG_DEBUG, "can't see %s at (%d,%d)", unit_name(enemy->type),
+              x, y);
+      continue;
+    }
+
+    /*
+     * c_u_a_u_a_t() seems to assume that attacker is in an adjacent tile but I
+     * do not think it matters.
+     *
+     * On the other hand, we already checked everything that this function
+     * checks, except for missiles trying to attack air units, so perhaps we
+     * should just do that check here?  But doing a final sanity check to make
+     * sure our attacker can engage the enemy at all seems safest.
+     *
+     * Without this check, missiles are made useless for auto-attack as they
+     * get triggered by fighters and bombers and end up being wasted when they
+     * cannot engage.
+     */
+    if (!can_unit_attack_unit_at_tile(punit, enemy, x, y)) {
+      freelog(LOG_DEBUG, "%s at (%d,%d) cannot attack %s at (%d,%d)",
+	      unit_name(punit->type), punit->x, punit->y,
+	      unit_name(enemy->type), x, y);
       continue;
     }
 
