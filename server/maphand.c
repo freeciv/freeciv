@@ -435,7 +435,16 @@ static void increment_pending_seen(struct player *pplayer, int x, int y)
 static void decrement_pending_seen(struct player *pplayer, int x, int y)
 {
   struct player_tile *plr_tile = map_get_player_tile(x, y, pplayer);
-  assert(plr_tile->pending_seen != 0);
+  if (plr_tile->pending_seen == 0) {
+    /*
+     * WARNING: This used to be an assert. Changed for S1_14 only.
+     * 
+     * We got a core dump report here before release of 1.14.0 which 
+     * could not be traced and fixed, so we do this to be on the safe 
+     * side. This fix is not in cvs head. -- Per
+     */
+    return;
+  }
   plr_tile->pending_seen -= 1;
 }
 
