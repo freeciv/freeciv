@@ -552,7 +552,10 @@ int civ_score(struct player *pplayer)
     pplayer->score.population+=city_population(pcity);
     pplayer->score.cities++;
     pplayer->score.pollution+=pcity->pollution;
-    pplayer->score.techout+=(1+pcity->science_total);
+    pplayer->score.techout+=pcity->science_total;
+#ifdef CITIES_PROVIDE_RESEARCH
+    (pplayer->score.techout)++;
+#endif
     pplayer->score.bnp+=pcity->trade_prod;
     pplayer->score.mfg+=pcity->shield_surplus;
     if (city_got_building(pcity, B_UNIVERSITY)) 
