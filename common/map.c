@@ -1457,6 +1457,64 @@ const char *dir_get_name(enum direction8 dir)
 }
 
 /**************************************************************************
+  Returns the next direction clock-wise.
+**************************************************************************/
+enum direction8 dir_cw(enum direction8 dir)
+{
+  /* a switch statement is used so the ordering can be changed easily */
+  switch (dir) {
+  case DIR8_NORTH:
+    return DIR8_NORTHEAST;
+  case DIR8_NORTHEAST:
+    return DIR8_EAST;
+  case DIR8_EAST:
+    return DIR8_SOUTHEAST;
+  case DIR8_SOUTHEAST:
+    return DIR8_SOUTH;
+  case DIR8_SOUTH:
+    return DIR8_SOUTHWEST;
+  case DIR8_SOUTHWEST:
+    return DIR8_WEST;
+  case DIR8_WEST:
+    return DIR8_NORTHWEST;
+  case DIR8_NORTHWEST:
+    return DIR8_NORTH;
+  default:
+    assert(0);
+    return -1;
+  }
+}
+
+/**************************************************************************
+  Returns the next direction counter-clock-wise.
+**************************************************************************/
+enum direction8 dir_ccw(enum direction8 dir)
+{
+  /* a switch statement is used so the ordering can be changed easily */
+  switch (dir) {
+  case DIR8_NORTH:
+    return DIR8_NORTHWEST;
+  case DIR8_NORTHEAST:
+    return DIR8_NORTH;
+  case DIR8_EAST:
+    return DIR8_NORTHEAST;
+  case DIR8_SOUTHEAST:
+    return DIR8_EAST;
+  case DIR8_SOUTH:
+    return DIR8_SOUTHEAST;
+  case DIR8_SOUTHWEST:
+    return DIR8_SOUTH;
+  case DIR8_WEST:
+    return DIR8_SOUTHWEST;
+  case DIR8_NORTHWEST:
+    return DIR8_WEST;
+  default:
+    assert(0);
+    return -1;
+  }
+}
+
+/**************************************************************************
 Return true and sets dir to the direction of the step if (end_x,
 end_y) can be reached from (start_x, start_y) in one step. Return
 false otherwise (value of dir is unchanged in this case).

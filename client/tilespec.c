@@ -1266,9 +1266,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
     /* put coasts */
     for (i = 0; i < 4; i++) {
-      int array_index = ((ttype_near[DIR_CCW(dirs[i])] != T_OCEAN ? 1 : 0)
+      int array_index = ((ttype_near[dir_ccw(dirs[i])] != T_OCEAN ? 1 : 0)
 			 + (ttype_near[dirs[i]] != T_OCEAN ? 2 : 0)
-			 + (ttype_near[DIR_CW(dirs[i])] != T_OCEAN ? 4 : 0));
+			 + (ttype_near[dir_cw(dirs[i])] != T_OCEAN ? 4 : 0));
 
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
