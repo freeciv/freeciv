@@ -26,11 +26,16 @@
 
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "combat.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -124,7 +129,8 @@ static struct unit *search_best_target(struct player *pplayer,
   if((unit_type(enemy)->defense_strength) >
      unit_type(punit)->attack_strength*1.5) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: Auto-Attack: %s's %s found a too tough enemy (%s)",
+		     _("Game: Auto-Attack: %s's %s found a too "
+		       "tough enemy (%s)"),
 		     pcity->name, unit_name(punit->type),
 		     unit_name(enemy->type));
     punit->ai.control=0;
@@ -153,7 +159,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   if (debug) freelog(LOG_DEBUG, "launching attack");
   
   notify_player_ex(pplayer, enemy->x, enemy->y, E_NOEVENT,
-		   "Game: Auto-Attack: %s's %s attacking %s's %s",
+		   _("Game: Auto-Attack: %s's %s attacking %s's %s"),
 		   pcity->name, unit_name(punit->type),
 		   unit_owner(enemy)->name, unit_name(enemy->type));
   
