@@ -24,6 +24,7 @@
 #define _CanvasP_h
 
 #include <X11/CoreP.h>
+#include <X11/Xaw/SimpleP.h>
 
 #include "canvas.h"
 
@@ -33,7 +34,8 @@ typedef struct {
 
 
 typedef struct _PixlabelClassRec {
-  CoreClassPart	      core_class;
+  CoreClassPart       core_class;
+  SimpleClassPart     simple_class;
   CanvasClassPart     canvas_class;
 } CanvasClassRec;
 
@@ -51,8 +53,9 @@ typedef struct {
 } CanvasPart;
 
 typedef struct _CanvasRec {
-    CorePart		core;
-    CanvasPart	canvas;
+  CorePart    core;
+  SimplePart  simple;
+  CanvasPart  canvas;
 } CanvasRec;
 
 #endif /* _CanvasP_h */

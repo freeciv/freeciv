@@ -23,6 +23,7 @@
 
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
+#include <X11/Xaw/XawInit.h>
 
 #include <xstuff.h>
 #include <canvasp.h>
@@ -48,6 +49,7 @@ static XtResource resources[] = {
 static void CanvasRealize(Widget widget, XtValueMask *value_mask, 
 			  XSetWindowAttributes *attributes);
 static void Redisplay(Widget w, XEvent *event, Region region);
+static void ClassInitialize();
 static void Resize(Widget w);
 static void Destroy(Widget w);
 static Boolean SetValues(Widget current,
@@ -64,10 +66,10 @@ extern int display_depth;
 CanvasClassRec canvasClassRec = {
     {
     /* core_class fields	 */
-    /* superclass	  	 */ (WidgetClass) &widgetClassRec,
+    /* superclass	  	 */ (WidgetClass) &simpleClassRec,
     /* class_name	  	 */ "Canvas",
     /* widget_size	  	 */ sizeof(CanvasRec),
-    /* class_initialize   	 */ NULL,
+    /* class_initialize   	 */ ClassInitialize,
     /* class_part_initialize	 */ NULL,
     /* class_inited       	 */ False,
     /* initialize	  	 */ NULL,
@@ -97,6 +99,9 @@ CanvasClassRec canvasClassRec = {
     /* display_accelerator       */ XtInheritDisplayAccelerator,
     /* extension                 */ NULL
     },
+    {
+      XtInheritChangeSensitive            /* change_sensitive       */ 
+    },  /* SimpleClass fields initialization */
     {
       0 /* some stupid compilers barf on empty structures */
     },
@@ -178,6 +183,11 @@ static void Destroy(Widget w)
 {
   CanvasWidget	cw = (CanvasWidget)w;
   XFreePixmap(display, cw->canvas.pixmap);
+}
+
+static void ClassInitialize()
+{
+    XawInitializeWidgetSet();
 }
 
 
