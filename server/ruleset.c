@@ -115,8 +115,8 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
   if (dfilename)
     return dfilename;
 
-  freelog(LOG_VERBOSE, _("Trying to load file from default ruleset directory "
-      "instead."));
+  freelog(LOG_VERBOSE, "Trying to load file from default ruleset directory "
+	  "instead.");
   my_snprintf(filename, sizeof(filename), "default/%s.ruleset", whichset);
   dfilename = datafilename(filename);
   if (dfilename)

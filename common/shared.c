@@ -833,8 +833,8 @@ char *datafilename(const char *filename)
     }
   }
 
-  freelog(LOG_VERBOSE, _("Could not find readable file \"%s\" in data path."),
-	    filename);
+  freelog(LOG_VERBOSE, "Could not find readable file \"%s\" in data path.",
+	  filename);
 
   return NULL;
 }

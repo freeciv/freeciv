@@ -748,7 +748,7 @@ void ui_main(int argc, char **argv)
   has_resources = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
 					    "Freeciv*", NULL, G_TYPE_NONE);
   if (!has_resources) {
-    freelog(LOG_DEBUG, _("Using fallback resources - which is OK"));
+    freelog(LOG_DEBUG, "Using fallback resources - which is OK");
     gtk_rc_parse_string(fallback_resources);
   }
 

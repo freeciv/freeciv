@@ -193,7 +193,7 @@ static bool audio_play_tag(const char *tag, bool repeat)
   if (tagfile) {
     soundfile = secfile_lookup_str_default(tagfile, "-", "files.%s", tag);
     if (strcmp(soundfile, "-") == 0) {
-      freelog(LOG_VERBOSE, _("No sound file for tag %s (file %s)"), tag,
+      freelog(LOG_VERBOSE, "No sound file for tag %s (file %s)", tag,
 	      soundfile);
     } else {
       fullpath = datafilename(soundfile);
