@@ -10,13 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MAPGEN_H
-#define __MAPGEN_H
+#ifndef FC__MAPGEN_H
+#define FC__MAPGEN_H
 
 void map_fractal_generate(void);
 int is_water_adjacent(int x, int y);
 void flood_it(int loaded);
-void choose_start_positions(void);
+void create_start_positions(void);
 void adjust_terrain_param();
 
-#endif
+#endif  /* FC__MAPGEN_H */

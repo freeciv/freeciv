@@ -384,14 +384,12 @@ int main(int argc, char *argv[])
     game.max_players=game.nplayers;
 
     /* we don't want random start positions in a scenario which already
-       provides them. btw, this function is misnamed: it doesn't choose
-       start positions, which is done in init_new_game(), it generates
-       them -- Gudy */
+       provides them.  -- Gudy */
     if(game.scenario==1 || game.scenario==2)
       flood_it(1);
     else {
       flood_it(0);
-      choose_start_positions();
+      create_start_positions();
     }
   }
 

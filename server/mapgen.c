@@ -621,7 +621,7 @@ void flood_it(int loaded)
   to spread them out on the different islands.
 **************************************************************************/
 
-void choose_start_positions(void)
+void create_start_positions(void)
 {
   int nr=0;
   int dist=40;
