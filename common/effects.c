@@ -1263,7 +1263,7 @@ struct building_vector get_city_bonus_sources(const struct city *pcity,
 
   building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
     if (get_effect_value(TARGET_CITY, pplayer, pcity,
-			 B_LAST, NULL, *pbldg, effect_type) > 0) {
+			 B_LAST, NULL, *pbldg, effect_type) != 0) {
       building_vector_append(&sources, pbldg);
     }
   } building_vector_iterate_end;
