@@ -109,8 +109,9 @@ static void build_required_techs_helper(struct player *pplayer,
   BV_SET(pplayer->research.inventions[goal].required_techs, tech);
 
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
+    /* TRANS: Obscure ruleset error */
     freelog(LOG_FATAL, _("tech \"%s\": requires itself"),
-	    advances[goal].name);
+	    get_tech_name(pplayer, goal));
     assert(0);
     exit(EXIT_FAILURE);
   }

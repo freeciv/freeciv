@@ -750,7 +750,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       pplayer->ai.tech_want[tech_req] += desire;
       
       freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
-              pcity->name, advances[tech_req].name, desire,
+              pcity->name, get_tech_name(pplayer, tech_req), desire,
               tech_desire[unit_type]);
     }
   } simple_ai_unit_type_iterate_end;
@@ -923,7 +923,7 @@ static void process_attacker_want(struct city *pcity,
           pplayer->ai.tech_want[tech_req] += want;
           
           CITY_LOG(LOG_DEBUG, pcity, "wants %s to build %s to punish %s@(%d,%d)"
-                   " with desire %d", advances[tech_req].name, 
+                   " with desire %d", get_tech_name(pplayer, tech_req), 
                    unit_name(unit_type), (acity ? acity->name : "enemy"),
                    ptile, want);
 

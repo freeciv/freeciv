@@ -135,22 +135,22 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	     * can never possess it (the client should enforce this). */
 	    freelog(LOG_ERROR, "Treaty: The %s can't have tech %s",
                     get_nation_name_plural(pother->nation),
-                    advances[pclause->value].name);
+		    get_tech_name(pplayer, pclause->value));
 	    notify_player(pplayer,
                           _("Game: The %s can't accept %s."),
                           get_nation_name_plural(pother->nation),
-                          advances[pclause->value].name);
+			  get_tech_name(pplayer, pclause->value));
 	    return;
           }
 	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
 	    freelog(LOG_ERROR,
                     "The %s don't know tech %s, but try to give it to the %s.",
 		    get_nation_name_plural(pplayer->nation),
-		    advances[pclause->value].name,
+		    get_tech_name(pplayer, pclause->value),
 		    get_nation_name_plural(pother->nation));
 	    notify_player(pplayer,
 			  _("Game: You don't have tech %s, you can't accept treaty."),
-			  advances[pclause->value].name);
+			  get_tech_name(pplayer, pclause->value));
 	    return;
 	  }
 	  break;
@@ -351,7 +351,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  freelog(LOG_VERBOSE,
                   "The %s already know tech %s, that %s want to give them.",
 		  get_nation_name_plural(pdest->nation),
-		  advances[pclause->value].name,
+		  get_tech_name(pplayer, pclause->value),
 		  get_nation_name_plural(pgiver->nation));
           break;
         }

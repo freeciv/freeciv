@@ -629,8 +629,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 	}
       }
     } tech_type_iterate_end;
-    freelog (LOG_DEBUG, "steal-tech: random: targeted technology: %d (%s)",
-	     target, advances[target].name);
+    freelog(LOG_DEBUG, "steal-tech: random: targeted technology: %d (%s)",
+	    target, get_tech_name(pplayer, target));
   } else {
     /*
      * Told which technology to steal:
@@ -639,18 +639,18 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     if ((get_invention (pplayer, technology) != TECH_KNOWN) &&
 	(get_invention (cplayer, technology) == TECH_KNOWN)) {
 	target = technology;
-	freelog (LOG_DEBUG, "steal-tech: specified target technology: %d (%s)",
-	       target, advances[target].name);
+	freelog(LOG_DEBUG, "steal-tech: specified target technology: %d (%s)",
+		target, get_tech_name(pplayer, target));
     } else {
       notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("Game: Your %s could not find the %s technology"
 			 " to steal in %s."),
 		       unit_name(pdiplomat->type),
-		       advances[technology].name, pcity->name);
+		       get_tech_name(pplayer, technology), pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->tile);
       send_unit_info (pplayer, pdiplomat);
-      freelog (LOG_DEBUG, "steal-tech: target technology not found: %d (%s)",
-	       technology, advances[technology].name);
+      freelog(LOG_DEBUG, "steal-tech: target technology not found: %d (%s)",
+	      technology, get_tech_name(pplayer, technology));
       return;
     }
   }
@@ -686,21 +686,22 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_THEFT,
 		     _("Game: Your %s stole %s from %s."),
 		     unit_name(pdiplomat->type),
-		     advances[target].name, cplayer->name);
+		     get_tech_name(pplayer, target), cplayer->name);
     notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_THEFT,
 		     _("Game: %s's %s stole %s from %s."),
 		     pplayer->name, unit_name(pdiplomat->type),
-		     advances[target].name, pcity->name);
+		     get_tech_name(cplayer, target), pcity->name);
     notify_embassies(pplayer, cplayer,
 		     _("Game: The %s have stolen %s from the %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     advances[target].name,
+		     get_tech_name(cplayer, target),
 		     get_nation_name_plural(cplayer->nation));
     gamelog(GAMELOG_TECH, _("%s steals %s from the %s"),
-	    get_nation_name_plural(pplayer->nation), advances[target].name,
+	    get_nation_name_plural(pplayer->nation),
+	    get_tech_name(cplayer, target),
 	    get_nation_name_plural(cplayer->nation));
-    freelog (LOG_DEBUG, "steal-tech: stole %s",
-	     advances[target].name);
+    freelog(LOG_DEBUG, "steal-tech: stole %s",
+	    get_tech_name(cplayer, target));
   }
 
   /* Update stealing player's science progress and research fields */

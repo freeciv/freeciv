@@ -534,7 +534,8 @@ const char *get_bulb_tooltip(void)
 
   add(_("Shows your progress in researching "
 	"the current technology.\n%s: %d/%d."),
-      advances[game.player_ptr->research.researching].name,
+      get_tech_name(game.player_ptr,
+		    game.player_ptr->research.researching),
       game.player_ptr->research.bulbs_researched,
       total_bulbs_required(game.player_ptr));
   RETURN;

@@ -2325,8 +2325,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       freelog(LOG_DEBUG, "  tech_req    %2d/%s",
 	      b->tech_req,
 	      (b->tech_req == A_LAST) ?
-	      "Never" :
-	      advances[b->tech_req].name);
+	      "Never" : get_tech_name(game.player_ptr, b->tech_req));
       freelog(LOG_DEBUG, "  bldg_req    %2d/%s",
 	      b->bldg_req,
 	      (b->bldg_req == B_LAST) ?
@@ -2356,7 +2355,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       }
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
-		b->obsolete_by, advances[b->obsolete_by].name);
+		b->obsolete_by,
+		get_tech_name(game.player_ptr, b->obsolete_by));
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }

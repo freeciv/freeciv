@@ -220,7 +220,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   help_advances[tech] = TRUE;
 
   g_value_init(&value, G_TYPE_STRING);
-  g_value_set_static_string(&value, advances[tech].name);
+  g_value_set_static_string(&value, get_tech_name(game.player_ptr, tech));
   gtk_tree_store_set_value(tstore, &l, 0, &value);
   g_value_unset(&value);
 
@@ -256,7 +256,7 @@ static void help_tech_tree_activated_callback(GtkTreeView *view,
 
   gtk_tree_model_get_iter(GTK_TREE_MODEL(tstore), &it, path);
   gtk_tree_model_get(GTK_TREE_MODEL(tstore), &it, 2, &tech, -1);
-  select_help_item_string(advances[tech].name, HELP_TECH);
+  select_help_item_string(get_tech_name(game.player_ptr, tech), HELP_TECH);
 }
 
 /**************************************************************************
@@ -289,7 +289,8 @@ static void help_hyperlink_callback(GtkWidget *w)
   /* May be able to skip, or may need to modify, advances[A_NONE].name
      below, depending on which i18n is done elsewhere.
   */
-  if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
+  if (strcmp(s, _("(Never)")) != 0
+      && strcmp(s, _("None")) != 0
       && strcmp(s, advances[A_NONE].name) != 0)
     select_help_item_string(s, type);
 }
@@ -691,7 +692,8 @@ static void help_update_improvement(const struct help_item *pitem,
     if (imp->tech_req == A_LAST) {
       gtk_label_set_text(GTK_LABEL(help_ilabel[5]), _("(Never)"));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_ilabel[5]), advances[imp->tech_req].name);
+      gtk_label_set_text(GTK_LABEL(help_ilabel[5]),
+			 get_tech_name(game.player_ptr, imp->tech_req));
     }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
@@ -725,10 +727,12 @@ static void help_update_wonder(const struct help_item *pitem,
     if (imp->tech_req == A_LAST) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[3]), _("(Never)"));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[3]), advances[imp->tech_req].name);
+      gtk_label_set_text(GTK_LABEL(help_wlabel[3]),
+			 get_tech_name(game.player_ptr, imp->tech_req));
     }
     if (tech_exists(imp->obsolete_by)) {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), advances[imp->obsolete_by].name);
+      gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
+			 get_tech_name(game.player_ptr, imp->obsolete_by));
     } else {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]), _("(Never)"));
     }
@@ -778,7 +782,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     if(utype->tech_requirement==A_LAST) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), _("(Never)"));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), advances[utype->tech_requirement].name);
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
+			 get_tech_name(game.player_ptr,
+				       utype->tech_requirement));
     }
 /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
@@ -930,7 +936,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Allows"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advances[j].name, HELP_TECH);
+          w = help_slink_new(get_tech_name(game.player_ptr, j), HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           gtk_widget_show_all(hbox);
 	}
@@ -939,11 +945,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Allows"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advances[j].name, HELP_TECH);
+          w = help_slink_new(get_tech_name(game.player_ptr, j), HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(_("with"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advances[advances[j].req[1]].name, HELP_TECH);
+          w = help_slink_new(get_tech_name(game.player_ptr,
+					   advances[j].req[1]), HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(Q_("?techhelp:"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
@@ -955,11 +962,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
         w = gtk_label_new(_("Allows"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(advances[j].name, HELP_TECH);
+        w = help_slink_new(get_tech_name(game.player_ptr, j), HELP_TECH);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(_("with"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(advances[advances[j].req[0]].name, HELP_TECH);
+        w = help_slink_new(get_tech_name(game.player_ptr,
+					 advances[j].req[0]), HELP_TECH);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(Q_("?techhelp:"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);

@@ -151,19 +151,15 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  && tech_is_available(pplayer, i)
 	  && game.global_advances[i] >= mod) {
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
-	    _("Game: %s acquired from %s!"),
-	    advances[i].name,
-	    buf);
+			 _("Game: %s acquired from %s!"),
+			 get_tech_name(pplayer, i), buf);
 	gamelog(GAMELOG_TECH, _("%s discover %s (%s)"),
-	    get_nation_name_plural(pplayer->nation),
-	    advances[i].name,
-	    buf);
+		get_nation_name_plural(pplayer->nation),
+		get_tech_name(pplayer, i), buf);
 	notify_embassies(pplayer, NULL,
-	    _("Game: The %s have acquired %s"
-	      " from %s."),
-	    get_nation_name_plural(pplayer->nation),
-	    advances[i].name,
-	    buf);
+			 _("Game: The %s have acquired %s from %s."),
+			 get_nation_name_plural(pplayer->nation),
+			 get_tech_name(pplayer, i), buf);
 
 	do_free_cost(pplayer);
 	found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
@@ -296,7 +292,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
   if (was_first) {
     gamelog(GAMELOG_TECH, _("%s are first to learn %s"),
-	    get_nation_name_plural(plr->nation), advances[tech_found].name);
+	    get_nation_name_plural(plr->nation),
+	    get_tech_name(plr, tech_found));
     
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
@@ -305,7 +302,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	  (pcity = find_city_by_id(game.global_wonders[id]))) {
 	notify_player_ex(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Game: Discovery of %s OBSOLETES %s in %s!"), 
-	                 advances[tech_found].name, get_improvement_name(id),
+	                 get_tech_name(city_owner(pcity), tech_found),
+			 get_improvement_name(id),
 	                 pcity->name);
       }
     } impr_type_iterate_end;
@@ -316,7 +314,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Game: Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
-		       advances[tech_found].name, gov->name);
+		       get_tech_name(plr, tech_found), gov->name);
     }
   } government_iterate_end;
 
@@ -355,9 +353,9 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       notify_player_ex(plr, NULL, E_TECH_LEARNED,
 		       _("Game: Learned %s.  "
 			 "Our scientists focus on %s, goal is %s."),
-		       advances[tech_found].name,
-		       advances[plr->research.researching].name,
-		       advances[plr->ai.tech_goal].name);
+		       get_tech_name(plr, tech_found),
+		       get_tech_name(plr, plr->research.researching),
+		       get_tech_name(plr, plr->ai.tech_goal));
     } else {
       if (plr->ai.control || !was_discovery) {
         choose_random_tech(plr);
@@ -373,7 +371,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	notify_player_ex(plr, NULL, E_TECH_LEARNED,
 			 _("Game: Learned %s.  Scientists "
 			   "choose to research %s."),
-			 advances[tech_found].name,
+			 get_tech_name(plr, tech_found),
 			 get_tech_name(plr, plr->research.researching));
       } else if (plr->research.researching != A_UNSET) {
 	char buffer1[300];
@@ -390,7 +388,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	notify_player_ex(plr, NULL, E_TECH_LEARNED,
 			 _("Game: Learned %s.  Scientists "
 			   "do not know what to research next."),
-			 advances[tech_found].name);
+			 get_tech_name(plr, tech_found));
       }
     }
   } else if (tech_found == plr->research.researching && next_tech > A_NONE) {
@@ -468,13 +466,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
         notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
                          _("Game: Learned %s in cooperation with %s. "
                            "Scientists choose to research %s."),
-                         advances[tech_found].name, plr->name,
+                         get_tech_name(aplayer, tech_found), plr->name,
                          get_tech_name(plr, plr->research.researching));
       } else {
         notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
                          _("Game: Learned %s in cooperation with %s. "
                            "Scientists do not know what to research next."),
-                         advances[tech_found].name, plr->name);
+                         get_tech_name(aplayer, tech_found), plr->name);
       }
       found_new_tech(aplayer, tech_found, was_discovery, saving_bulbs,
                      plr->research.researching);
@@ -503,11 +501,11 @@ static void tech_researched(struct player* plr)
     notify_embassies(plr, NULL,
 		     _("Game: The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),
-		     advances[plr->research.researching].name);
+		     get_tech_name(plr, plr->research.researching));
 
     gamelog(GAMELOG_TECH, _("%s discover %s"),
 	    get_nation_name_plural(plr->nation),
-	    advances[plr->research.researching].name);
+	    get_tech_name(plr, plr->research.researching));
   } else {
     notify_embassies(plr, NULL,
 		     _("Game: The %s have researched Future Tech. %d."), 

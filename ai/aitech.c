@@ -159,7 +159,7 @@ static void ai_select_tech(struct player *pplayer,
     goal_values[i] /= steps;
     if (steps < 6) {
       freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
-	      advances[i].name, pplayer->ai.tech_want[i],
+	      get_tech_name(pplayer, i), pplayer->ai.tech_want[i],
 	      values[i], goal_values[i]);
     }
   } tech_type_iterate_end;
@@ -178,7 +178,7 @@ static void ai_select_tech(struct player *pplayer,
     }
   } tech_type_iterate_end;
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", 
-	  pplayer->name, advances[newtech].name, values[newtech], 
+	  pplayer->name, get_tech_name(pplayer, newtech), values[newtech], 
 	  pplayer->ai.tech_want[newtech]);
   if (choice) {
     choice->choice = newtech;
@@ -194,7 +194,8 @@ static void ai_select_tech(struct player *pplayer,
     freelog(LOG_DEBUG,
 	    "Goal->choice = %s, goal->want = %d, goal_value = %d, "
 	    "num_cities_nonzero = %d",
-	    advances[goal->choice].name, goal->want, goal_values[newgoal],
+	    get_tech_name(pplayer, goal->choice), goal->want,
+	    goal_values[newgoal],
 	    num_cities_nonzero);
   }
   return;
@@ -220,7 +221,7 @@ void ai_next_tech_goal(struct player *pplayer)
   if (goal_choice.choice != A_UNSET) {
     pplayer->ai.tech_goal = goal_choice.choice;
     freelog(LOG_DEBUG, "next_tech_goal for %s is set to %s",
-	    pplayer->name, advances[goal_choice.choice].name);
+	    pplayer->name, get_tech_name(pplayer, goal_choice.choice));
   }
 }
 
@@ -286,8 +287,9 @@ void ai_manage_tech(struct player *pplayer)
 	penalty + pplayer->research.bulbs_researched <=
 	total_bulbs_required(pplayer)) {
       freelog(LOG_DEBUG, "%s switching from %s to %s with penalty of %d.",
-	      pplayer->name, advances[pplayer->research.researching].name,
-	      advances[choice.choice].name, penalty);
+	      pplayer->name,
+	      get_tech_name(pplayer, pplayer->research.researching),
+	      get_tech_name(pplayer, choice.choice), penalty);
       choose_tech(pplayer, choice.choice);
     }
   }
@@ -297,8 +299,9 @@ void ai_manage_tech(struct player *pplayer)
    * is practically never used, see the comment for ai_next_tech_goal */
   if (goal.choice != pplayer->ai.tech_goal) {
     freelog(LOG_DEBUG, "%s change goal from %s (want=%d) to %s (want=%d)",
-	    pplayer->name, advances[pplayer->ai.tech_goal].name, 
-	    goal.current_want, advances[goal.choice].name, goal.want);
+	    pplayer->name, get_tech_name(pplayer, pplayer->ai.tech_goal), 
+	    goal.current_want, get_tech_name(pplayer, goal.choice),
+	    goal.want);
     choose_tech_goal(pplayer, goal.choice);
   }
 }
