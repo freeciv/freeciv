@@ -213,3 +213,20 @@ int find_tech_by_flag( int index, int flag )
   return A_LAST;
 }
 
+/**************************************************************************
+ Returns number of turns to complete an advance
+ (assuming current state of civilization)
+**************************************************************************/
+int tech_turns_to_advance(struct player *pplayer)
+{
+  double res = 0;
+
+  city_list_iterate(pplayer->cities, pcity)
+    res += pcity->science_total;
+  city_list_iterate_end;
+
+  if (res <= 0)
+    return 999;
+
+  return  ((research_time(pplayer) + res - 1) / res);
+}

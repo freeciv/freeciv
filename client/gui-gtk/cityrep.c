@@ -430,7 +430,6 @@ void create_city_report_dialog(int make_modal)
 
   report_title=get_report_title(_("City Advisor"));
   city_label = gtk_label_new(report_title);
-  free(report_title);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->vbox ),
         city_label, FALSE, FALSE, 0 );
@@ -1135,7 +1134,6 @@ void city_report_dialog_update(void)
 
     report_title=get_report_title(_("City Advisor"));
     gtk_set_label(city_label, report_title);
-    free(report_title);
 
     for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
     {

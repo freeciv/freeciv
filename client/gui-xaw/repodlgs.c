@@ -206,6 +206,7 @@ void create_science_dialog(int make_modal)
   int j, flag, num_list;
   size_t i;
   Dimension width;
+  char title_text[512], rate_text[128];
   char current_text[512];
   char goal_text[512];
   char *report_title;
@@ -251,6 +252,12 @@ void create_science_dialog(int make_modal)
 					 NULL);   
 
   report_title=get_report_title(_("Science Advisor"));
+  sz_strlcpy(title_text, report_title);
+  free(report_title);
+  my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
+	      tech_turns_to_advance(game.player_ptr));
+  sz_strlcat(title_text, rate_text);
+  report_title=create_centered_string(title_text);
   science_label = XtVaCreateManagedWidget("sciencelabel", 
 					  labelWidgetClass, 
 					  science_form,
@@ -482,9 +489,16 @@ void science_dialog_update(void)
     static char tech_list_names[A_LAST+1][200];
     int j, flag;
     size_t i;
+    char title_text[512], rate_text[128];
     char *report_title;
     
     report_title=get_report_title(_("Science Advisor"));
+    sz_strlcpy(title_text, report_title);
+    free(report_title);
+    my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
+		tech_turns_to_advance(game.player_ptr));
+    sz_strlcat(title_text, rate_text);
+    report_title=create_centered_string(title_text);
     xaw_set_label(science_label, report_title);
     free(report_title);
 

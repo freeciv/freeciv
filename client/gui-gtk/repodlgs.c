@@ -131,17 +131,18 @@ void update_report_dialogs(void)
 ****************************************************************/
 char *get_report_title(char *report_name)
 {
-  char buf[512];
-  
+  static char buf[512];
+
   my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
-	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->nation),
+	  get_ruler_title(game.player_ptr->government,
+			  game.player_ptr->is_male, game.player_ptr->nation),
 	  game.player_ptr->name,
 	  textyear(game.year));
 
-  return create_centered_string(buf);
+  return buf;
 }
 
 
@@ -174,6 +175,7 @@ void create_science_dialog(int make_modal)
   GtkWidget *frame, *hbox, *w;
   GtkAccelGroup *accel=gtk_accel_group_new();
   int i;
+  char text[512], rate[128];
 
   science_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(science_dialog_shell),"delete_event",
@@ -183,9 +185,11 @@ void create_science_dialog(int make_modal)
   gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science Report"));
 
   report_title=get_report_title(_("Science Advisor"));
-
-  science_label = gtk_label_new(report_title);
-  free(report_title);
+  sz_strlcpy(text, report_title);
+  my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
+	      tech_turns_to_advance(game.player_ptr));
+  sz_strlcat(text, rate);
+  science_label = gtk_label_new(text);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
         science_label, FALSE, FALSE, 0 );
@@ -276,15 +280,15 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     /* Following is to make the menu go back to the current research;
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
-  }
-  else {  
-      my_snprintf(text, sizeof(text), "%d/%d",
-	      game.player_ptr->research.researched, 
-	      research_time(game.player_ptr));
-      gtk_set_label(science_current_label,text);
-  
-      packet.tech=to;
-      send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
+  } else {
+    my_snprintf(text, sizeof(text), "%d/%d",
+		game.player_ptr->research.researched,
+		research_time(game.player_ptr));
+
+    gtk_set_label(science_current_label,text);
+    
+    packet.tech=to;
+    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
   }
 }
 
@@ -378,7 +382,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 void science_dialog_update(void)
 {
   if(science_dialog_shell) {
-  char text[512];
+  char text[512], rate[128];
   int i, j, hist;
   char *report_title;
   static char *row	[1];
@@ -387,8 +391,11 @@ void science_dialog_update(void)
 
   if(delay_report_update) return;
   report_title=get_report_title(_("Science Advisor"));
-  gtk_set_label(science_label, report_title);
-  free(report_title);
+  sz_strlcpy(text, report_title);
+  my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
+	      tech_turns_to_advance(game.player_ptr));
+  sz_strlcat(text, rate);
+  gtk_set_label(science_label, text);
 
   for (i=0; i<4; i++) {
     gtk_clist_freeze(GTK_CLIST(science_list[i]));
@@ -422,6 +429,7 @@ void science_dialog_update(void)
   my_snprintf(text, sizeof(text), "%d/%d",
 	      game.player_ptr->research.researched,
 	      research_time(game.player_ptr));
+
   gtk_set_label(science_current_label,text);
 
   /* collect all techs which are reachable in the next step
@@ -736,7 +744,6 @@ void trade_report_dialog_update(void)
     
     report_title=get_report_title(_("Trade Advisor"));
     gtk_set_label(trade_label, report_title);
-    free(report_title);
 
     gtk_clist_freeze(GTK_CLIST(trade_list));
     gtk_clist_clear(GTK_CLIST(trade_list));
@@ -841,7 +848,6 @@ void create_activeunits_report_dialog(int make_modal)
   activeunits_label = gtk_label_new(report_title);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label, FALSE, FALSE, 0 );
-  free(report_title);
 
   activeunits_list = gtk_clist_new_with_titles( AU_COL, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
@@ -1010,7 +1016,6 @@ void activeunits_report_dialog_update(void)
 
     report_title=get_report_title(_("Military Report"));
     gtk_set_label(activeunits_label, report_title);
-    free(report_title);
 
     gtk_clist_freeze(GTK_CLIST(activeunits_list));
     gtk_clist_clear(GTK_CLIST(activeunits_list));
