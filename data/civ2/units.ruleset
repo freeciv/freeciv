@@ -14,9 +14,6 @@ description="Civ2 unit_type data for Freeciv (approximate)"
 options="1.9"
 
 [veteran_system]
-; How many veteran levels?
-max_veteran_levels = 2
-
 ; What are the names of the levels?
 veteran_names = _("green"), _("veteran")
 

@@ -28,9 +28,6 @@ description="Default unit_type data for Freeciv"
 options="1.9"
 
 [veteran_system]
-; How many veteran levels?
-max_veteran_levels = 4
-
 ; What are the names of the levels?
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 
