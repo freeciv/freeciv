@@ -116,7 +116,9 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
   add_to_stack(orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
-  if (punit && punit->type == U_SETTLERS) maxcost >>= 1;
+  if (punit && unit_flag(punit->type, F_SETTLERS)
+      && get_unit_type(punit->type)->move_rate==3) maxcost >>= 1;
+  /* (?) was punit->type == U_SETTLERS -- dwp */
 
   do {
     get_from_warstack(warnodes, &x, &y);
