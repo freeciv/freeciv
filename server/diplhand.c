@@ -279,6 +279,12 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
       switch (pclause->type) {
       case CLAUSE_ADVANCE:
+        /* It is possible that two players open the diplomacy dialog
+         * and try to give us the same tech at the same time. This
+         * should be handled discreetly instead of giving a core dump. */
+        if (get_invention(pdest, pclause->value) == TECH_KNOWN) {
+          break;
+        }
 	notify_player_ex(pdest, -1, -1, E_TECH_GAIN,
 			 _("Game: You are taught the knowledge of %s."),
 			 get_tech_name(pdest, pclause->value));
