@@ -9,7 +9,6 @@ libguiclient_a_SOURCES = \
 	citydlg.c	\
 	citydlg.h	\
 	cityrep.c	\
-	climisc.c	\
 	clinet.c	\
 	clinet.h	\
 	colors.c	\

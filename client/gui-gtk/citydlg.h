@@ -13,6 +13,8 @@
 #ifndef __CITYDLG__H
 #define __CITYDLG__H
 
+#include <gtk/gtk.h>
+
 struct city_dialog;
 
 void activate_unit(struct unit *punit);

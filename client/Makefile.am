@@ -8,6 +8,7 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I$(srcdir)/@gui_sources@ 
 
 civclient_SOURCES = \
 	civclient.c	\
+	climisc.c	\
 	packhand.c
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a

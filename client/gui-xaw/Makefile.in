@@ -102,7 +102,6 @@ libguiclient_a_SOURCES = \
 	citydlg.c	\
 	citydlg.h	\
 	cityrep.c	\
-	climisc.c	\
 	clinet.c	\
 	clinet.h	\
 	colors.c	\
@@ -162,11 +161,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libguiclient_a_LIBADD = 
 libguiclient_a_OBJECTS =  canvas.o chatline.o citydlg.o cityrep.o \
-climisc.o clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o \
-gotodlg.o graphics.o gui_main.o gui_stuff.o helpdlg.o inputdlg.o \
-inteldlg.o mapctrl.o mapview.o menu.o messagedlg.o messagewin.o \
-optiondlg.o pixcomm.o plrdlg.o ratesdlg.o repodlgs.o resources.o \
-spaceshipdlg.o
+clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o gotodlg.o \
+graphics.o gui_main.o gui_stuff.o helpdlg.o inputdlg.o inteldlg.o \
+mapctrl.o mapview.o menu.o messagedlg.o messagewin.o optiondlg.o \
+pixcomm.o plrdlg.o ratesdlg.o repodlgs.o resources.o spaceshipdlg.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -179,13 +177,13 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP = --best
 DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
-.deps/cityrep.P .deps/climisc.P .deps/clinet.P .deps/colors.P \
-.deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P .deps/finddlg.P \
-.deps/gotodlg.P .deps/graphics.P .deps/gui_main.P .deps/gui_stuff.P \
-.deps/helpdlg.P .deps/inputdlg.P .deps/inteldlg.P .deps/mapctrl.P \
-.deps/mapview.P .deps/menu.P .deps/messagedlg.P .deps/messagewin.P \
-.deps/optiondlg.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
-.deps/repodlgs.P .deps/resources.P .deps/spaceshipdlg.P
+.deps/cityrep.P .deps/clinet.P .deps/colors.P .deps/connectdlg.P \
+.deps/dialogs.P .deps/diplodlg.P .deps/finddlg.P .deps/gotodlg.P \
+.deps/graphics.P .deps/gui_main.P .deps/gui_stuff.P .deps/helpdlg.P \
+.deps/inputdlg.P .deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P \
+.deps/menu.P .deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
+.deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P .deps/repodlgs.P \
+.deps/resources.P .deps/spaceshipdlg.P
 SOURCES = $(libguiclient_a_SOURCES)
 OBJECTS = $(libguiclient_a_OBJECTS)
 

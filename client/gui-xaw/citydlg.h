@@ -13,6 +13,9 @@
 #ifndef __CITYDLG__H
 #define __CITYDLG__H
 
+#include <X11/Intrinsic.h>
+#include <X11/StringDefs.h>
+
 struct city_dialog;
 
 void activate_unit(struct unit *punit);

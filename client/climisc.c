@@ -21,14 +21,13 @@ used throughout the client.
 #include <unistd.h>
 #include <sys/stat.h>
 
-#include <gtk/gtk.h>
-
 #include <game.h>
 #include <citydlg.h>
 #include <mapview.h>
 #include <climisc.h>
 #include <mapctrl.h>
 #include <map.h>
+#include <chatline.h>
 #include <log.h>
 #include <cityrep.h>
 
@@ -226,3 +225,4 @@ void climap_update_continents(int x, int y)
     ptile->continent = 0;
   }
 }
+
