@@ -109,11 +109,11 @@ struct settings_s {
   /* if the function is non-NULL the value should be modified through it.
      The function returns whether the change was legal. The char * is
      for returning an error message in the case of reject. */
-  int (*func_change)(int, char *);
+  int (*func_change)(int, char **);
   /* The same, just for string settings. The first char* is the new
      value as an argument, the second is for returning the error
      message. */
-  int (*func_change_s)(char *, char *);
+  int (*func_change_s)(char *, char **);
   enum sset_class sclass;
   enum sset_to_client to_client;
   int min_value, max_value, default_value;
@@ -138,7 +138,7 @@ struct settings_s {
   size_t sz_svalue;		/* max size we can write into svalue */
 };
 
-static int autotoggle(int value, char *reject_message);
+static int autotoggle(int value, char **reject_message);
 
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
 #define SETTING_IS_STRING(s) ((s)->value==NULL)
@@ -2512,7 +2512,7 @@ static void set_command(struct connection *caller, char *str)
     val = atoi(arg);
     if (val >= op->min_value && val <= op->max_value) {
       char *reject_message = NULL;
-      if (!settings[cmd].func_change || settings[cmd].func_change(val, reject_message)) {
+      if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {
 	*(op->value) = val;
 	cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
 		  settings[cmd].name, val);
@@ -2541,7 +2541,7 @@ static void set_command(struct connection *caller, char *str)
     if (strlen(arg)<op->sz_svalue) {
       char *reject_message = NULL;
       if (!settings[cmd].func_change_s
-	  || settings[cmd].func_change_s(arg, reject_message)) {
+	  || settings[cmd].func_change_s(arg, &reject_message)) {
 	strcpy(op->svalue, arg);
 	cmd_reply(CMD_SET, caller, C_OK,
 		  _("Option: %s has been set to \"%s\"."),
@@ -3171,7 +3171,7 @@ static void show_connections(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
-static int autotoggle(int value, char *reject_message)
+static int autotoggle(int value, char **reject_message)
 {
   if (value == 0)
     return 1;
