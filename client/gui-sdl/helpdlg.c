@@ -191,7 +191,7 @@ void popup_impr_info(Impr_Type_id impr)
   bool created, text = FALSE;
   int width = 0;
   struct impr_type *pImpr_type;
-  char *buffer = &long_buffer[0];
+  char buffer[64000];
   
   if(current_help_dlg != IMPR)
   {
@@ -403,12 +403,7 @@ void popup_impr_info(Impr_Type_id impr)
   start_x = (FRAME_WH + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + 20);
   
   buffer[0] = '\0';
-  if (is_wonder(impr))
-  {
-    helptext_wonder(buffer, impr, "");
-  } else {
-    helptext_improvement(buffer, impr, "");
-  }
+  helptext_building(buffer, sizeof(buffer), impr, NULL);
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, 12);

@@ -684,7 +684,7 @@ static void create_help_page(enum help_page_type type)
 static void help_update_improvement(const struct help_item *pitem,
 				    char *title, int which)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
   
   create_help_page(HELP_IMPROVEMENT);
   
@@ -709,7 +709,7 @@ static void help_update_improvement(const struct help_item *pitem,
   }
   gtk_widget_show(help_itable);
 
-  helptext_improvement(buf, which, pitem->text);
+  helptext_building(buf, sizeof(buf), which, pitem->text);
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -720,7 +720,7 @@ static void help_update_improvement(const struct help_item *pitem,
 static void help_update_wonder(const struct help_item *pitem,
 			       char *title, int which)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
 
   create_help_page(HELP_WONDER);
 
@@ -749,7 +749,7 @@ static void help_update_wonder(const struct help_item *pitem,
   }
   gtk_widget_show(help_wtable);
 
-  helptext_wonder(buf, which, pitem->text);
+  helptext_building(buf, sizeof(buf), which, pitem->text);
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }

@@ -605,7 +605,7 @@ static void create_help_page(enum help_page_type type)
 static void help_update_improvement(const struct help_item *pitem,
 				    char *title, int which)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
 
   create_help_page(HELP_IMPROVEMENT);
 
@@ -620,7 +620,7 @@ static void help_update_improvement(const struct help_item *pitem,
     UpdateTechButton(help_imprv_needs_button, imp->tech_req);
   }
 
-  helptext_improvement(buf, which, pitem->text);
+  helptext_building(buf, sizeof(buf), which, pitem->text);
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
 }
 
@@ -630,7 +630,7 @@ static void help_update_improvement(const struct help_item *pitem,
 static void help_update_wonder(const struct help_item *pitem,
 			       char *title, int which)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
 
   create_help_page(HELP_WONDER);
 
@@ -651,7 +651,7 @@ static void help_update_wonder(const struct help_item *pitem,
     set(help_wonder_obsolete_button, MUIA_Text_Contents, TECHTYPE_NONE);
   }
 
-  helptext_wonder(buf, which, pitem->text);
+  helptext_building(buf, sizeof(buf), which, pitem->text);
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
 }
 

@@ -494,62 +494,55 @@ const struct help_item *help_iter_next(void)
 *****************************************************************/
 
 /**************************************************************************
-  Write dynamic text for improvements (not wonders).  This includes
+  Write dynamic text for buildings (including wonders).  This includes
   the ruleset helptext as well as any automatically generated text.
 
   user_text, if non-NULL, will be appended to the text.
 **************************************************************************/
-void helptext_improvement(char *buf, Impr_Type_id which,
-			  const char *user_text)
+char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
+			const char *user_text)
 {
   struct impr_type *imp = &improvement_types[which];
   
   assert(buf);
   buf[0] = '\0';
-  if (imp->helptext[0] != '\0') {
-    sprintf(buf + strlen(buf), "%s  ", _(imp->helptext));
-  }
-  if (tech_exists(improvement_types[which].obsolete_by)) {
-    sprintf(buf + strlen(buf), "\n\n");
-    sprintf(buf + strlen(buf),
-	    _("The discovery of %s will make %s obsolete."),
-	    advances[improvement_types[which].obsolete_by].name,
-	    improvement_types[which].name);
-    sprintf(buf + strlen(buf), "  ");
-  }
-  if (user_text && user_text[0] != '\0') {
-    sprintf(buf+strlen(buf), "\n\n%s", user_text);
-  }
-  wordwrap_string(buf, 68);
-}
 
-/****************************************************************
-  Append misc dynamic text for wonders.
-*****************************************************************/
-void helptext_wonder(char *buf, int which,
-			    const char *user_text)
-{
-  struct impr_type *imp = &improvement_types[which];
-  
-  assert(buf&&user_text);
-  buf[0] = '\0';
-  if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
-    int u, t;
+  if (which == B_MANHATTEN && num_role_units(F_NUCLEAR) > 0) {
+    Unit_Type_id u;
+    Tech_Type_id t;
+
     u = get_role_unit(F_NUCLEAR, 0);
-    assert(u<game.num_unit_types);
+    assert(u < game.num_unit_types);
     t = get_unit_type(u)->tech_requirement;
-    assert(t<game.num_tech_types);
-    sprintf(buf+strlen(buf),
-	   _("Allows all players with knowledge of %s to build %s units.  "),
-	   advances[t].name, get_unit_type(u)->name);
+    assert(t < game.num_tech_types);
+
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
+		_("Allows all players with knowledge of %s "
+		  "to build %s units."),
+		advances[t].name, get_unit_type(u)->name);
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "  ");
   }
-  if (imp->helptext[0] != '\0') {
-    sprintf(buf + strlen(buf), "%s  ", _(imp->helptext));
+
+  if (imp->helptext && imp->helptext[0] != '\0') {
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
+		"%s  ", _(imp->helptext));
   }
-  if (strcmp(user_text, "")!=0) {
-    sprintf(buf+strlen(buf), "\n\n%s", user_text);
+
+  if (tech_exists(improvement_types[which].obsolete_by)) {
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "\n\n");
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
+		_("The discovery of %s will make %s obsolete."),
+		advances[improvement_types[which].obsolete_by].name,
+		improvement_types[which].name);
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "  ");
   }
+
+  if (user_text && user_text[0] != '\0') {
+    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "\n\n%s", user_text);
+  }
+
   wordwrap_string(buf, 68);
+  return buf;
 }
 
 /****************************************************************
