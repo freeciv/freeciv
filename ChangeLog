@@ -1,3 +1,264 @@
+on Tue Feb 23 13:47:59 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/client mapctrl.c freeciv/server unithand.c:
+
+The following patch handles in a more user-friendly way the case 
+where a caravan cannot establish a trade route with an enemy city. 
+At the moment, if this is not possible, the message appearing is 
+the meaningless "You can't attack there". This no longer appears
+and a more elaborate message is displayed. Also, the modification
+of the server function allows to display an appropriate message in 
+cases where the client `gives ok' but a traderoute cannot finally 
+be established.
+Patch written by Rizos Sakellariou <rizos@cs.rice.edu>
+
+on Tue Feb 23 09:07:35 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv/data helpdata.txt:
+
+Updated help to reflect ability to adjusting workers from the main map.
+
+on Sun Feb 21 18:30:06 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv/client Freeciv.h mapctrl.c mapctrl.h mapview.c
+	mapview.h packhand.c xmain.c freeciv/data Freeciv
+
+Added ability to adjust the location of city workers from the main map.  Use
+the 't' key to just display where the workers are, and use Shift-Button1 to
+adjust the workers just as you would in the city dialog.  The effects of your
+change are displayed on the main map when the city info update is received
+from the server.
+
+on Sun Feb 21 02:31:02 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/data/classic Makefile.am Makefile.in
+	freeciv/data/default Makefile.am Makefile.in:
+
+Added flags.xpm files to dis
+
+on Sat Feb 20 18:55:11 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/data helpdata.txt
+	freeciv/server unitfunc.c:
+
+Fixed up units gaining hit points, and movement, helicopter, and
+United Nations hit points effects.  Based on a patch by 
+Daniel Burrows <Daniel_Burrows@brown.edu>.  Tidied up the help
+pages to reflect code.  Now units only regain hitpoints if they
+have not moved, regardless of cities, Barracks etc (to match Civ2).
+The United Nations and helicopter effects apply whether or not
+a unit has moved.
+
+on Sat Feb 20 17:35:32 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/data/default tiles.xpm:
+
+Fixed an off-by-1-pixel mistake I introduced into default/tiles.xpm
+
+on Sat Feb 20 17:00:58 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/data/classic flags.xpm
+	freeciv/data/default flags.xpm:
+
+Added the extra flags.xpm files.
+
+on Sat Feb 20 17:00:19 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client graphics.c mapview.h
+	freeciv/data/classic tiles.xpm
+	freeciv/data/default tiles.xpm:
+
+Moved race flags to separate flags.xpm
+
+on Sat Feb 20 16:49:54 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client Freeciv.h cityrep.c civclient.c messagewin.c
+	optiondlg.c freeciv/data Freeciv:
+
+Added client option "Center when Popup city".  Affects whether 
+the map is also centered when a city dialog is popped up from 
+the Popup buttons for the City Report and Messages Window.
+This makes the centering behaviour of these two buttons consistent.
+
+on Sat Feb 20 16:43:16 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv configure configure.in:
+
+Adjusted where X_PRE_LIBS (usually -lSM -lICE) get placed in the 
+client link line.  Now they come just to the left of "-lXext -lX11".
+Hopefully this fixes problems with IRIX (reported by Dee Jay Randall 
+<randal@cs.uregina.ca>) and Cygwin (reported by Todd Goodman 
+<tsg1@earthlink.net>).
+
+on Fri Feb 19 21:13:19 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client helpdlg.c
+	freeciv/data helpdata.txt
+	freeciv/data/default buildings.ruleset:
+
+Fixed tech_required for Barracks III to match Civ2
+(now Mobile Warfare instead of Combustion); also 
+obsolete_by for Barracks II.  Based on a patch by 
+Greg Wooledge, but I made the help about obsolescence 
+dynamic so that its correct for Civ1 too.
+
+on Fri Feb 19 21:08:38 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client packhand.c:
+
+Fixed initial display of "0 People" when client re-connects 
+to a reloaded game.  Fixed by putti
+
+on Fri Feb 19 21:09:39 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/data/civ1 buildings.ruleset:
+
+Fixed tech_required for Space Module for Civ1 
+(Robotics, not Superconductors).
+
+on Fri Feb 19 14:24:54 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/server mapgen.c:
+
+little change asked for mapgen4 by 
+Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
+
+on Fri Feb 19 13:21:20 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/server unitfunc.c:
+
+Units finishing their turn in a barracks recover hitpoints 
+regarless of movement.
+Patch suggested by  David Pfitzner <dwp@mso.anu.edu.au>
+
+on Fri Feb 19 12:45:56 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/server unitfunc.c:
+
+Substitute  
+pcity=city_list_find_id(&pplayer->cities, game.global_wonders[B_UNITED]);
+if(pcity && !wonder_obsolete(B_UNITED))
+by if (player_owns_active_wonder(pplayer, B_UNITED))
+as suggested by David Pfitzner <dwp@mso.anu.edu.au>  
+
+substitute if(!punit && (is_heli_unit(punit))) by
+            (!map_get_city(punit->x,punit->y) && (is_heli_unit(punit))) 
+	    and remove the variable pcity.              
+
+on Fri Feb 19 03:54:08 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client Freeciv.h mapview.c mapview.h xmain.c
+	freeciv/data Freeciv:
+
+Fixed problem with layout of main window with 45x45 tiles
+(gap between left side information and map window), due to 
+larger pixmaps for the display of units below the current 
+unit.  Made the number of such units displayed depend on 
+the tile size.
+
+on Thu Feb 18 15:00:18 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/common city.c
+
+In the list of American city names, Tucson was incorrectly rendered as
+"Tuscon".
+Mystake spotted by "Andrew E. Schulman" <andrex@alw.nih.gov>
+
+on Wed Feb 17 19:36:17 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv/client cityrep.c:
+
+Change city report so it uses a list of city pointers instead of city IDs. 
+Got rid of some arrays that aren't necessary anymore in the creation of the
+city report.
+
+on Wed Feb 17 13:21:25 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv Imakefile Makefile.noimake
+	freeciv/client cityrep.c cityrep.h Makefile.am Makefile.in 
+	citydlg.c climisc.c menu.c optiondlg.c 
+	packhand.c repodlgs.c repodlgs.h:
+
+Split the repodlgs.c file into two files.  The second files is called
+cityrep.c and has the city report code in it.  Adjusted includes in other
+files to refer to cityrep.h if necessary.  Added cityrep.c and spacerace stuff
+to various makefiles.
+
+on Tue Feb 16 04:13:29 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv/server mapgen.c plrhand.c:
+
+Cleaned up some egcs warnings about ambiguous braces.
+
+on Tue Feb 16 03:44:04 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client Freeciv.h spaceshipdlg.c
+	freeciv/common packets.c
+	freeciv/data Freeciv
+	freeciv/server spacerace.c:
+
+Cosmetic fixes for spaceships launched/arriving in 
+BC years; bug reported by Massimo Campostrini.  
+There could still be some quirks.
+
+on Tue Feb 16 02:56:57 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/client Freeciv.h civclient.c packhand.c packhand.h
+	spaceshipdlg.c
+	freeciv/common spaceship.c spaceship.h Makefile.am Makefile.in
+	city.c game.c game.h packets.c packets.h player.c player.h shared.h
+	freeciv/data Freeciv helpdata.txt
+	freeciv/server spacerace.c spacerace.h Makefile.am Makefile.in
+	cityturn.c civserver.c gamehand.c plrhand.c plrhand.h unithand.c
+
+Improved spacerace, based partly on a patch by 
+Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>.
+New/changed features:
+- Travel time, success chance etc are implemented, based on
+reverse-engineered Civ1; you can now only launch a spaceship
+if it is "viable".
+- Only parts of the spacehip connnected to structurals count.
+- The protocol is such that the player could choose which
+type of module to build (like in Civ1), but currently the
+client makes this choice.  That is, fixing this further
+should require changes to the client only.
+- Better handling of spaceships arriving in the same turn.
+- An arrived spaceship adds to your final score.  But I
+don't know what the score bonus should be; for now, I
+chose an arbitrary bonus.
+- Capturing a player's capital stops that player's spaceship.
+- There is some help about spaceships and spaceship parts.
+The capability string now has "+spacerace2".
+there are still problems if you launch in BC years.
+
+on Tue Feb 16 02:44:12 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+	*freeciv/common shared.c:
+
+Reverted to cvs revision 1.8, since 1.9 was checked in by mistake, 
+and the 1.10 fix caused segfault if FREECIV_DATADIR is set.
+
+on Mon Feb 15 16:28:03 1999 by Trent Piepho <xyzzy@u.washington.edu>
+
+	*freeciv/common shared.c:
+
+Clean up a gcc warning about an assignment to a const string.
+
+on Mon Feb 15 14:55:59 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv ChangeLog:
+
+Last ChangeLog entry is now 
+on Sat Feb 13 16:36:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+
+on Mon Feb 15 03:10:07 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	*freeciv/common shared.c
+	freeciv/server unitfunc.c:
+
+fixing problem with city workers when city changes owner...
+patch written by Rizos Sakellariou <rizos@cs.rice.edu>
+
 on Sat Feb 13 16:36:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
 
 	*freeciv/data/default roads.xpm:
