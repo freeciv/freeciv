@@ -473,13 +473,16 @@ void set_client_state(enum client_states newstate)
 	client_game_free();
       }
       client_game_init();
-      set_client_page(PAGE_MAIN);
+      if (!aconnection.established) {
+	set_client_page(PAGE_MAIN);
+      } else {
+	set_client_page(PAGE_START);
+      }
     }
     update_menus();
   }
   if (!aconnection.established && client_state == CLIENT_PRE_GAME_STATE) {
     gui_server_connect();
-    set_client_page(PAGE_MAIN);
     if (auto_connect) {
       if (connect_error) {
 	freelog(LOG_NORMAL,
