@@ -867,7 +867,7 @@ gx, gy, v, x, y, v2, d, b);*/
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
     for (j = -11; j <= 11; j++) { /* hope this is far enough -- Syela */
       y = punit->y + j;
-      if (y < 0 || y > map.ysize) continue;
+      if (y < 0 || y >= map.ysize) continue;
       for (i = -11; i <= 11; i++) {
         x = map_adjust_x(punit->x + i);
         w = 0;
