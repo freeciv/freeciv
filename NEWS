@@ -2,18 +2,22 @@ Welcome to Freeciv 1.8! [FIXME]
 
 This is release [FIXME].
 
-Thanks again to all our developers, who continue to work so hard.
+With this release the Freeciv maintainership has changed again, 
+with David Pfitzner resigning and being replaced by Jeff Mallatt.
+We also farewell Martin Willemoes Hansen as webmaster, replaced
+by Paul Zastoupil.  Thanks again to all our developers, who continue 
+to work so hard.
 
-[Special items: FIXME]
-
-Those who are interested in seeing the detailed changes should check
-the ChangeLog file.
+This release includes lots of changes, outlined below.  Those who 
+are interested in seeing the detailed changes should check the 
+ChangeLog file.
 
 WHAT'S CHANGED SINCE 1.8.1:
 
  - Internationalization added.  Some aspects still need improvement,
    and in particular currently only works well if client and server 
-   both use the same language.
+   both use the same language.  Initial (partial) translations 
+   included are: de es fr hu pl pt pt_BR.
  - Improvements to "trident" tileset, and this set is now the default.
  - New ruleset support for NATIONS, and many new nations added --
    there are now 30 nations in the default nations file.  Also allow
