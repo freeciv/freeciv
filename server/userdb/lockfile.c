@@ -23,13 +23,12 @@
 #include <unistd.h>
 #endif
 
-#define HAS_FILE_LOCKING /* FIXME: use configure here! */
-#define HAS_FLOCK        /* FIXME: use configure here! */
+#define HAS_FILE_LOCKING
 
-#ifdef HAS_FLOCK /* FIXME: need a check for sys/file.h */
-/* #ifdef HAVE_SYS_FILE_H */
+#ifdef HAVE_FLOCK
+#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
-/* #endif */
+#endif
 #endif
 
 #ifdef HAVE_FCNTL_H
@@ -53,7 +52,7 @@ static FILE *fp;
 #endif
 
 /* the file descriptors are here. */
-#ifdef HAS_FLOCK
+#ifdef HAVE_FLOCK
   #define LOCK_CMD flock(fd, LOCK_EX|LOCK_NB)
   #define UNLOCK_CMD flock(fd, LOCK_UN)
 #else
@@ -74,7 +73,7 @@ bool create_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int i, fd;
-#ifndef HAS_FLOCK
+#ifndef HAVE_FLOCK
   struct flock fl = { F_WRLCK, SEEK_SET, 0, 0, 0 };
 
   fl.l_pid = getpid();
@@ -111,7 +110,7 @@ void remove_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int fd = fileno(fp);
-#ifndef HAS_FLOCK
+#ifndef HAVE_FLOCK
   struct flock fl = { F_UNLCK, SEEK_SET, 0, 0, 0 };
 
   fl.l_pid = getpid();
