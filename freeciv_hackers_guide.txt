@@ -370,6 +370,11 @@ Note that if all the code that operate on x and y values used macros, it
 would be very simple to convert these, to allow fx a flat world or a map
 structure like in civ2 for isometric view.
 
+Almost all functions expect that any passed map positions are normal
+(is_normal_map_pos returns true). Currently there is no known
+exception of this rule. To assert this the CHECK_MAP_POS macro should
+be used.
+
 =========================================================================
 Unknown tiles and Fog of War
 =========================================================================
