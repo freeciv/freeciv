@@ -104,9 +104,12 @@ extern GdkGC *		mask_bg_gc;
 
 extern GdkFont *	main_font;
 
-void pixmap_put_overlay_tile(GdkPixmap *pixmap, int x, int y, int tileno);
-void put_overlay_tile_gpixmap(GtkPixcomm *pixmap, int x, int y, int tileno);
-void show_city_names(void);
+
+static void pixmap_put_overlay_tile(GdkPixmap *pixmap,
+				    int x, int y, int tileno);
+static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
+				     int x, int y, int tileno);
+static void show_city_names(void);
 
 
 /* the intro picture is held in this pixmap, which is scaled to
@@ -884,7 +887,7 @@ void update_map_canvas_scrollbars_size(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void show_city_names(void)
+static void show_city_names(void)
 {
   int x, y;
   
@@ -1533,7 +1536,8 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_put_overlay_tile(GdkDrawable *pixmap, int x, int y, int tileno)
+static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+				    int x, int y, int tileno)
 {
   SPRITE *ssprite=get_tile_sprite(tileno);
       
@@ -1550,7 +1554,7 @@ void pixmap_put_overlay_tile(GdkDrawable *pixmap, int x, int y, int tileno)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y, int tileno)
+static void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y, int tileno)
 {
   SPRITE *ssprite=get_tile_sprite(tileno);
 

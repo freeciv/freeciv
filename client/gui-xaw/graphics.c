@@ -65,6 +65,11 @@ int RAIL_TILES;
 
 Cursor goto_cursor;
 
+static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
+static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
+				       int width, int height);
+
+
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -323,7 +328,7 @@ void load_cursors(void)
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
+static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 {
   struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
   mysprite->pixmap=mypixmap;
@@ -336,7 +341,7 @@ struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
+static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
 				int width, int height)
 {
   struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
@@ -351,7 +356,7 @@ struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
 
 
 
-
+#ifdef UNUSED
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -365,13 +370,14 @@ void dtor_sprite(struct Sprite *mysprite)
   free(mysprite);
 
 }
+#endif
 
 
 
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *load_xpmfile(char *filename)
+struct Sprite *load_xpmfile(const char *filename)
 {
   struct Sprite *mysprite;
   Pixmap mypixmap, mask_bitmap;
@@ -385,7 +391,7 @@ struct Sprite *load_xpmfile(char *filename)
 
 again:
   
-  if((err=XpmReadFileToPixmap(display, root_window, filename, &mypixmap, 
+  if((err=XpmReadFileToPixmap(display, root_window, (char*)filename, &mypixmap, 
 			      &mask_bitmap, &attributes))!=XpmSuccess) {
     if(err==XpmColorError || err==XpmColorFailed) {
       color_error();
@@ -408,6 +414,8 @@ again:
 
 /***************************************************************************
    Deletes a sprite.  These things can use a lot of memory.
+   
+   (How/why does this differ from dtor_sprite() ?  --dwp)
 ***************************************************************************/
 void free_sprite(struct Sprite *s)
 {

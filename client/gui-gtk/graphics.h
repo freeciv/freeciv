@@ -29,15 +29,8 @@ struct Sprite
 };
 
 
-SPRITE *	ctor_sprite		(GdkPixmap *mypixmap,
-					 int width, int height);
-SPRITE *	ctor_sprite_mask	(GdkPixmap *mypixmap, GdkPixmap *mask,
-					 int width, int height);
-
-SPRITE *	load_xpmfile		(char *filename);
+SPRITE *	load_xpmfile		(const char *filename);
 void		free_sprite		(SPRITE *s);
-
-void		dtor_sprite		(SPRITE *mysprite);
 
 SPRITE *	get_tile_sprite		(int tileno);
 void		load_tile_gfx		(void);

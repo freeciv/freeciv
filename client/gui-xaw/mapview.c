@@ -84,8 +84,8 @@ int num_units_below = MAX_NUM_UNITS_BELOW;
 
 extern int goto_state;
 
-void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno);
-void show_city_names(void);
+static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno);
+static void show_city_names(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -827,7 +827,7 @@ void update_map_canvas_scrollbars(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void show_city_names(void)
+static void show_city_names(void)
 {
   int x, y;
   
@@ -1399,7 +1399,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno)
+static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno)
 {
   struct Sprite *ssprite=get_tile_sprite(tileno);
       

@@ -552,7 +552,7 @@ char *user_username(void)
   The returned pointer points to static memory, so this function can
   only supply one filename at a time.
 ***************************************************************************/
-char *datafilename(char *filename)
+char *datafilename(const char *filename)
 {
   static int init = 0;
   static int num_dirs = 0;
@@ -666,7 +666,7 @@ char *datafilename(char *filename)
   As datafilename(), above, except die with an appropriate log
   message if we can't find the file in the datapath.
 ***************************************************************************/
-char *datafilename_required(char *filename)
+char *datafilename_required(const char *filename)
 {
   char *dname;
   

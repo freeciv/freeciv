@@ -52,8 +52,6 @@ extern int seconds_to_turndone;
 extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern char name[512];
-extern struct Sprite *intro_gfx_sprite;
-extern struct Sprite *radar_gfx_sprite;
 extern struct city *city_workers_display;
 
 /**************************************************************************

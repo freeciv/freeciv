@@ -21,7 +21,7 @@
 
 struct inputfile;		/* opaque */
 
-struct inputfile *inf_open(char *filename);
+struct inputfile *inf_open(const char *filename);
 void inf_close(struct inputfile *inf);
 int inf_at_eof(struct inputfile *inf);
 

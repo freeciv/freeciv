@@ -46,7 +46,6 @@
 
 #include "helpdlg.h"
 
-extern int UNIT_TILES;
 extern Widget toplevel, main_form;
 extern Display *display;
 extern Atom wm_delete_window;

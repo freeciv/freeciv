@@ -69,8 +69,8 @@ int wordwrap_string(char *s, int len);
 
 char *user_home_dir(void);
 char *user_username(void);
-char *datafilename(char *filename);
-char *datafilename_required(char *filename);
+char *datafilename(const char *filename);
+char *datafilename_required(const char *filename);
 
 void init_nls(void);
 void dont_run_as_root(const char *argv0, const char *fallback);

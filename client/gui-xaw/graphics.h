@@ -24,14 +24,8 @@ struct Sprite {
   int has_mask;
 };
 
-struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
-struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
-				int width, int height);
-
-struct Sprite *load_xpmfile(char *filename);
+struct Sprite *load_xpmfile(const char *filename);
 void free_sprite(struct Sprite *s);
-
-void dtor_sprite(struct Sprite *mysprite);
 
 struct Sprite *get_tile_sprite(int tileno);
 void load_tile_gfx_first(void);

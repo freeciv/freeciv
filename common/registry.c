@@ -152,6 +152,7 @@
 #include "inputfile.h"
 #include "log.h"
 #include "mem.h"
+#include "sbuffer.h"
 #include "shared.h"
 
 #include "registry.h"
@@ -217,14 +218,11 @@ struct hash_data {
 };
 
 static int hashfunc(char *name, int num_buckets);
-static int secfilehash_hashash(struct section_file *file);
 static void secfilehash_check(struct section_file *file);
 static struct hash_entry *secfilehash_lookup(struct section_file *file,
 					     char *key, int *hash_return);
 static void secfilehash_insert(struct section_file *file,
 			       char *key, struct entry *data);
-static void secfilehash_build(struct section_file *file);
-static void secfilehash_free(struct section_file *file);
 
 static char *minstrdup(struct sbuffer *sb, const char *str);
 static char *moutstr(char *str);
@@ -284,7 +282,7 @@ void section_file_free(struct section_file *file)
   you could do something like:
      section_file_lookup(&file, "foo.bar");  / * unused * /
 **************************************************************************/
-void section_file_check_unused(struct section_file *file, char *filename)
+void section_file_check_unused(struct section_file *file, const char *filename)
 {
   int any = 0;
 
@@ -337,7 +335,7 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_load(struct section_file *sf, char *filename)
+int section_file_load(struct section_file *sf, const char *filename)
 {
   struct inputfile *inf;
   struct section *psection = NULL;
@@ -508,7 +506,7 @@ int section_file_load(struct section_file *sf, char *filename)
  and then subsequent u1, u2, etc, in strict order with no omissions,
  and with all of the columns for all uN in the same order as for u0.
 **************************************************************************/
-int section_file_save(struct section_file *my_section_file, char *filename)
+int section_file_save(struct section_file *my_section_file, const char *filename)
 {
   FILE *fs;
 
@@ -972,7 +970,7 @@ static int hashfunc(char *name, int num_buckets)
 /**************************************************************************
  Return 0 if the section_file has not been setup for hashing.
 **************************************************************************/
-static int secfilehash_hashash(struct section_file *file)
+int secfilehash_hashash(struct section_file *file)
 {
   return (file->hashd!=NULL && file->hashd->table!=NULL
 	  && file->hashd->num_buckets!=0);
@@ -1057,7 +1055,7 @@ static void secfilehash_insert(struct section_file *file,
  Build a hash table for the file.  Note that the section_file should
  not be modified (except to free it) subsequently.
 **************************************************************************/
-static void secfilehash_build(struct section_file *file)
+void secfilehash_build(struct section_file *file)
 {
   struct hash_data *hashd;
   char buf[256];
@@ -1107,7 +1105,7 @@ static void secfilehash_build(struct section_file *file)
 /**************************************************************************
  Free the memory allocated for the hash table.
 **************************************************************************/
-static void secfilehash_free(struct section_file *file)
+void secfilehash_free(struct section_file *file)
 {
   secfilehash_check(file);
   free(file->hashd->table);

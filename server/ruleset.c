@@ -92,15 +92,24 @@ static char *openload_ruleset_file(struct section_file *file,
   capabilites specified are satisified.
 **************************************************************************/
 static char *check_ruleset_capabilities(struct section_file *file,
-					char *required, char *filename)
+					char *us_capstr, char *filename)
 {
   char *datafile_options;
   
   datafile_options = secfile_lookup_str(file, "datafile.options");
-  if (!has_capability(required, datafile_options)) {
-    freelog(LOG_FATAL, "Datafile capability problem for file %s", filename );
-    freelog(LOG_FATAL, "File capability: \"%s\", required: \"%s\"",
-	 datafile_options, required);
+  if (!has_capabilities(us_capstr, datafile_options)) {
+    freelog(LOG_FATAL, "Ruleset datafile appears incompatible");
+    freelog(LOG_FATAL, "file: \"%s\"", filename);
+    freelog(LOG_FATAL, "file options: %s", datafile_options);
+    freelog(LOG_FATAL, "supported options: %s", us_capstr);
+    exit(1);
+  }
+  if (!has_capabilities(datafile_options, us_capstr)) {
+    freelog(LOG_FATAL,
+	    "Ruleset datafile claims required option(s) which we don't support");
+    freelog(LOG_FATAL, "file: \"%s\"", filename);
+    freelog(LOG_FATAL, "file options: %s", datafile_options);
+    freelog(LOG_FATAL, "supported options: %s", us_capstr);
     exit(1);
   }
   return datafile_options;
@@ -233,7 +242,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
   int i, nval;
   
   filename = openload_ruleset_file(&file, ruleset_subdir, "techs");
-  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -312,7 +321,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   char *sval, **slist, **sec;
 
   filename = openload_ruleset_file(file, ruleset_subdir, "units");
-  datafile_options = check_ruleset_capabilities(file, "1.8.2a", filename);
+  datafile_options = check_ruleset_capabilities(file, "+1.8.2a", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -524,7 +533,7 @@ static void load_ruleset_buildings(char *ruleset_subdir)
   struct improvement_type *b;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "buildings");
-  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -598,7 +607,7 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   struct tile_type *t;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "terrain");
-  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* options */
@@ -743,7 +752,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
   char *c;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "governments");
-  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   game.government_count = secfile_lookup_int(&file, "governments.count");

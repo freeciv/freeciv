@@ -69,6 +69,11 @@ extern GdkGC *		mask_fg_gc;
 extern GdkGC *		mask_bg_gc;
 extern GdkBitmap *	mask_bitmap;
 
+static SPRITE *ctor_sprite(GdkPixmap *mypixmap,
+			   int width, int height);
+static SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
+				int width, int height);
+
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -300,7 +305,7 @@ void load_cursors(void)
 /***************************************************************************
 ...
 ***************************************************************************/
-SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
+static SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
 {
     SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
@@ -315,8 +320,8 @@ SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
 /***************************************************************************
 ...
 ***************************************************************************/
-SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask, 
-							int width, int height )
+static SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask, 
+				 int width, int height )
 {
     SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
@@ -332,7 +337,7 @@ SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask,
 
 
 
-
+#ifdef UNUSED
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -341,18 +346,19 @@ void dtor_sprite( SPRITE *mysprite )
     free_sprite( mysprite );
     return;
 }
+#endif
 
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *load_xpmfile(char *filename)
+struct Sprite *load_xpmfile(const char *filename)
 {
   GdkBitmap	*m;
   GdkImlibImage *im;
   SPRITE	*mysprite;
   int		 w, h;
 
-  if(!(im=gdk_imlib_load_image(filename))) {
+  if(!(im=gdk_imlib_load_image((char*)filename))) {
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
     exit(1);
   }

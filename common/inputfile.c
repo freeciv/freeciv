@@ -170,7 +170,7 @@ static void assert_sanity(struct inputfile *inf)
   Open the file, and return an allocated, initialized structure.
   Returns NULL if the file could not be opened.
 ***********************************************************************/
-struct inputfile *inf_open(char *filename)
+struct inputfile *inf_open(const char *filename)
 {
   struct inputfile *inf;
   FILE *fp;
