@@ -377,7 +377,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 
     if (!ferryboat) {
       UNIT_LOG(LOGLEVEL_GOTHERE, punit, "No boat found.");
-      if (is_at_coast(punit->x, punit->y)) {
+      if (is_ocean_near_tile(punit->x, punit->y)) {
         ai_set_ferry(punit, NULL);
       }
       return FALSE;
@@ -391,7 +391,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 
     if (!is_tiles_adjacent(punit->x, punit->y, ferryboat->x, ferryboat->y)
 	&& !same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)
-	&& !is_at_coast(punit->x, punit->y)) {
+	&& !is_ocean_near_tile(punit->x, punit->y)) {
       /* Go to the boat only if it cannot reach us or it's parked 
        * next to us.  Otherwise just wait (boats are normally faster) */
       /* TODO: agree on a rendez-vous point */
@@ -413,7 +413,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
     
     if (!same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)) {
       /* Didn't get to the boat */
-      if (is_at_coast(punit->x, punit->y)) {
+      if (is_ocean_near_tile(punit->x, punit->y)) {
         /* At least got to the coast, wave to the boats! */
         UNIT_LOG(LOGLEVEL_GOTHERE, punit, "asking a boat to come nearer");
         ai_set_ferry(punit, NULL);
@@ -435,7 +435,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
       /* If the location is not accessible directly from sea
        * or is defended and we are not marines, we will need a 
        * landing beach */
-      if (!is_at_coast(dest_x, dest_y)
+      if (!is_ocean_near_tile(dest_x, dest_y)
           ||((is_non_allied_city_tile(dest_tile, pplayer) 
               || is_non_allied_unit_tile(dest_tile, pplayer))
              && !unit_flag(punit, F_MARINES))) {
