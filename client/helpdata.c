@@ -277,7 +277,8 @@ void boot_help_texts(void)
 	  /* Add special Civ2-style river help text if it's supplied. */
 	  if (terrain_control.river_help_text) {
 	    pitem = new_help_item(HELP_TEXT);
-	    pitem->topic = mystrdup(_("  Rivers"));
+	    /* TRANS: preserve single space at beginning */
+	    pitem->topic = mystrdup(_(" Rivers"));
 	    strcpy(long_buffer, _(terrain_control.river_help_text));
 	    wordwrap_string(long_buffer, 68);
 	    pitem->text = mystrdup(long_buffer);
