@@ -1812,6 +1812,11 @@ void popdown_races_dialog(void)
   if(nations_wnd)
   {
     set(nations_wnd,MUIA_Window_Open,FALSE);
+
+		/* This close and frees the window, we use notify_close for this
+       because it does the job */
+		notify_close(&nations_wnd);
+		nations_wnd = NULL;
   }
 }
 
