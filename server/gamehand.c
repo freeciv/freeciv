@@ -95,7 +95,7 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
 ****************************************************************************/
 void init_new_game(void)
 {
-#define NO_START_POS -1
+  const int NO_START_POS = -1;
   int start_pos[game.nplayers];
   bool pos_used[map.num_start_positions];
   int i, num_used = 0;
