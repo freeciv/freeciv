@@ -73,6 +73,8 @@ struct Diplomacy_dialog {
   Object *plr1_thumb_sprite;
   Object *plr0_gold_integer;
   Object *plr1_gold_integer;
+  Object *plr0_vision_button;
+  Object *plr1_vision_button;
   Object *plr0_pacts_button;
   Object *plr0_pacts_menu;
 };
@@ -441,6 +443,23 @@ static void diplomacy_alliance(struct Diplomacy_data *data)
 }
 
 /****************************************************************
+ Callback for the vision button
+*****************************************************************/
+void diplomacy_vision(struct Diplomacy_data *data)
+{
+  struct Diplomacy_dialog *pdialog = data->pdialog;
+  struct packet_diplomacy_info pa;
+
+  pa.plrno0 = pdialog->treaty.plr0->player_no;
+  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.clause_type = CLAUSE_VISION;
+  pa.plrno_from = data->playerno;
+  pa.value = 0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
+
+/****************************************************************
  Creates the diplomacy dialog between two players
 *****************************************************************/
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
@@ -471,6 +490,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                       Child, plr0_gold_text = TextObject, End,
                       Child, pdialog->plr0_gold_integer = MakeInteger(NULL),
                       End,
+                  Child, pdialog->plr0_vision_button = MakeButton(_("Give shared vision")),
                   Child, pdialog->plr0_pacts_button = MakeButton(_("Pacts")),
                   Child, HVSpace,
                   End,
@@ -505,6 +525,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                       Child, plr1_gold_text = TextObject, End,
                       Child, pdialog->plr1_gold_integer = MakeInteger(NULL),
                       End,
+                  Child, pdialog->plr1_vision_button = MakeButton(_("Give shared vision")),
                   Child, HVSpace,
                   End,
               End,
@@ -637,6 +658,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
              get_ruler_title(plr1->government,plr1->is_male,plr1->nation),
              plr1->name);
 
+    if(!has_capability("shared_vision", aconnection.capability))
+    {
+      set(pdialog->plr0_vision_button, MUIA_Disabled, TRUE);
+      set(pdialog->plr1_vision_button, MUIA_Disabled, TRUE);
+    }
+
+    DoMethod(pdialog->plr0_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr0->player_no);
+    DoMethod(pdialog->plr1_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr1->player_no);
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest,TRUE,app,4,MUIM_CallHook, &civstandard_hook, diplomacy_close,pdialog);
     DoMethod(accept_treaty, MUIM_Notify, MUIA_Pressed,FALSE, app,4,MUIM_CallHook, &civstandard_hook, diplomacy_accept_treaty,pdialog);
     DoMethod(cancel_meeting, MUIM_Notify, MUIA_Pressed,FALSE, app,4,MUIM_CallHook, &civstandard_hook, diplomacy_close,pdialog);

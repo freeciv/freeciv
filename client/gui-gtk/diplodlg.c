@@ -779,8 +779,8 @@ void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
   struct player *pgiver;
 
   if (!has_capability("shared_vision", aconnection.capability)) {
-    append_output_window("clause not added as the server does not"
-			 "have the capability");
+    append_output_window(_("clause not added as the server does not"
+			 "have the capability"));
     return;
   }
 

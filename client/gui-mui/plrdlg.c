@@ -52,6 +52,7 @@ STATIC Object *player_close_button;
 STATIC Object *player_intelligence_button;
 STATIC Object *player_meet_button;
 STATIC Object *player_war_button;
+STATIC Object *player_vision_button;
 STATIC Object *player_spaceship_button;
 STATIC struct Hook player_players_disphook;
 
@@ -71,7 +72,6 @@ void request_diplomacy_init_meeting(int plrno0, int plrno1)
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
 			     &pa);
 }
-
 
 /******************************************************************
  Turn off updating of player dialog
@@ -102,7 +102,6 @@ void popup_players_dialog(void)
     set(player_wnd, MUIA_Window_Open, TRUE);
   }
 }
-
 
 /****************************************************************
  Display function for the players listview
@@ -170,6 +169,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     *array++ = get_nation_name(game.players[i].nation);
     *array++ = get_embassy_status(game.player_ptr, &game.players[i]);
     *array++ = dsbuf;
+    *array++ = get_vision_status(game.player_ptr, &game.players[i]);
     *array++ = repbuf;
     *array++ = statebuf;
     *array++ = (char*)player_addr_hack(&game.players[i]);  /* Fixme */
@@ -181,6 +181,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     *array++ = _("Nation");
     *array++ = _("Embassy");
     *array++ = _("Dipl.State");
+    *array++ = _("Vision");
     *array++ = _("Reputation");
     *array++ = _("State");
     *array++ = _("Host");
@@ -219,6 +220,11 @@ static void players_active(void)
 	   set(player_war_button, MUIA_Disabled, game.player_idx == playerno);
            break;
     }
+
+    if(game.player_ptr->gives_shared_vision & (1<<pplayer->player_no))
+      set(player_vision_button, MUIA_Disabled, FALSE);
+    else
+      set(player_vision_button, MUIA_Disabled, TRUE);
 
     if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer))
     {
@@ -283,17 +289,27 @@ static void players_war(void)
   LONG playerno;
   DoMethod(player_players_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &playerno);
 
-  if (playerno)
+  if(playerno)
   {
-    playerno -= 100;
+    struct packet_generic_integer pa;
+    pa.value = playerno - 100;
+    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT, &pa);
+  }
+}
 
-    if (player_has_embassy(game.player_ptr, &game.players[playerno]))
-    {
-      struct packet_generic_integer pa;
-      pa.value = playerno;
-      send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-				  &pa);
-    }
+/**************************************************************************
+ Callback for the vision button
+**************************************************************************/
+void players_vision(void)
+{
+  LONG playerno;
+  DoMethod(player_players_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &playerno);
+
+  if(playerno)
+  {
+    struct packet_generic_integer pa;
+    pa.value = playerno - 100;
+    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION, &pa);
   }
 }
 
@@ -325,7 +341,7 @@ void create_players_dialog(void)
 	MUIA_NListview_NList, NListObject,
 	    MUIA_NList_DisplayHook, &player_players_disphook,
 	    MUIA_NList_Title, TRUE,
-	    MUIA_NList_Format, ",,,,,,,",
+	    MUIA_NList_Format, ",,,,,,,,",
 	    End,
 	End,
 	Child, HGroup,
@@ -333,6 +349,7 @@ void create_players_dialog(void)
 	    Child, player_intelligence_button = MakeButton(_("_Intelligence")),
 	    Child, player_meet_button = MakeButton(_("_Meet")),
 	    Child, player_war_button = MakeButton(_("_Cancel Treaty")),
+            Child, player_vision_button = MakeButton(_("_Withdraw vision")),
 	    Child, player_spaceship_button = MakeButton(_("_Spaceship")),
 	    End,
 	End,
@@ -348,6 +365,7 @@ void create_players_dialog(void)
     DoMethod(player_intelligence_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_intelligence);
     DoMethod(player_meet_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_meet);
     DoMethod(player_war_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_war);
+    DoMethod(player_vision_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_vision);
     DoMethod(player_spaceship_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_spaceship);
     DoMethod(player_players_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, players_active);
     DoMethod(app, OM_ADDMEMBER, player_wnd);

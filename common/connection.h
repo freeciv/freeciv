@@ -13,6 +13,11 @@
 #ifndef FC__CONNECTION_H
 #define FC__CONNECTION_H
 
+#include <time.h>	/* time_t */
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+
 /**************************************************************************
   The connection struct and related stuff.
   Includes cmdlevel stuff, which is connection-based.
