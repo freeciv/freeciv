@@ -242,6 +242,7 @@ int unit_disband_shields(Unit_Type_id id);
 int unit_pop_value(Unit_Type_id id);
 
 const char *unit_name(Unit_Type_id id);
+const char *unit_name_orig(Unit_Type_id id);
 const char *unit_class_name(Unit_Class_id id);
 
 const char *get_unit_name(Unit_Type_id id);
@@ -256,7 +257,8 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
 int unit_upgrade_price(const struct player * const pplayer,
 		       const Unit_Type_id from, const Unit_Type_id to);
 
-Unit_Type_id find_unit_type_by_name(const char *s);
+Unit_Type_id find_unit_type_by_name(const char *name);
+Unit_Type_id find_unit_type_by_name_orig(const char *name_orig);
 
 enum unit_move_type unit_move_type_from_str(const char *s);
 Unit_Class_id unit_class_from_str(const char *s);

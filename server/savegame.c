@@ -645,16 +645,316 @@ static void worklist_load_old(struct section_file *file,
   }
 }
 
+/*
+ * Previously (with 1.14.1 and earlier) units had their type saved by ID.
+ * This meant any time a unit was added (unless it was added at the end)
+ * savegame compatability would be broken.  Sometime after 1.14.1 this
+ * method was changed so the type is saved by name.  However to preserve
+ * backwards compatability we have here a list of unit names from before
+ * the change was made.  When loading an old savegame (one that doesn't
+ * have the type string) we need to lookup the type into this array
+ * to get the "proper" type string.  And when saving a new savegame we
+ * insert the "old" type index into the array so that old servers can
+ * load the savegame.
+ *
+ * Note that this list includes the AWACS, which was not in 1.14.1.
+ */
+
+/* old (~1.14.1) unit order in default/civ2/history ruleset */
+static const char* old_default_unit_types[] = {
+  "Settlers",	"Engineers",	"Warriors",	"Phalanx",
+  "Archers",	"Legion",	"Pikemen",	"Musketeers",
+  "Fanatics",	"Partisan",	"Alpine Troops","Riflemen",
+  "Marines",	"Paratroopers",	"Mech. Inf.",	"Horsemen",
+  "Chariot",	"Elephants",	"Crusaders",	"Knights",
+  "Dragoons",	"Cavalry",	"Armor",	"Catapult",
+  "Cannon",	"Artillery",	"Howitzer",	"Fighter",
+  "Bomber",	"Helicopter",	"Stealth Fighter", "Stealth Bomber",
+  "Trireme",	"Caravel",	"Galleon",	"Frigate",
+  "Ironclad",	"Destroyer",	"Cruiser",	"AEGIS Cruiser",
+  "Battleship",	"Submarine",	"Carrier",	"Transport",
+  "Cruise Missile", "Nuclear",	"Diplomat",	"Spy",
+  "Caravan",	"Freight",	"Explorer",	"Barbarian Leader",
+  "AWACS"
+};
+
+/* old (~1.14.1) unit order in civ1 ruleset */
+static const char* old_civ1_unit_types[] = {
+  "Settlers",	"Engineers",	"Militia",	"Phalanx",
+  "Archers",	"Legion",	"Pikemen",	"Musketeers",
+  "Fanatics",	"Partisan",	"Alpine Troops","Riflemen",
+  "Marines",	"Paratroopers",	"Mech. Inf.",	"Cavalry",
+  "Chariot",	"Elephants",	"Crusaders",	"Knights",
+  "Dragoons",	"Civ2-Cavalry",	"Armor",	"Catapult",
+  "Cannon",	"Civ2-Artillery","Artillery",	"Fighter",
+  "Bomber",	"Helicopter",	"Stealth Fighter", "Stealth Bomber",
+  "Trireme",	"Sail",		"Galleon",	"Frigate",
+  "Ironclad",	"Destroyer",	"Cruiser",	"AEGIS Cruiser",
+  "Battleship",	"Submarine",	"Carrier",	"Transport",
+  "Cruise Missile", "Nuclear",	"Diplomat",	"Spy",
+  "Caravan",	"Freight",	"Explorer",	"Barbarian Leader"
+};
+
+/****************************************************************************
+  Nowadays unit types are saved by name, but old servers need the
+  unit_type_id.  This function tries to find the correct _old_ id for the
+  unit's type.  It is used when the unit is saved.
+****************************************************************************/
+static int old_type_id(struct unit* punit)
+{
+  const char** types;
+  int num_types, i;
+
+  if (strcmp(game.rulesetdir, "civ1") == 0) {
+    types = old_civ1_unit_types;
+    num_types = ARRAY_SIZE(old_civ1_unit_types);
+  } else {
+    types = old_default_unit_types;
+    num_types = ARRAY_SIZE(old_default_unit_types);
+  }
+
+  for (i = 0; i < num_types; i++) {
+    if (strcmp(unit_name_orig(punit->type), types[i]) == 0) {
+      return i;
+    }
+  }
+
+  /* It's a new unit. Savegame cannot be backward compatible so we can
+   * return anything */
+  return punit->type;
+}
+
+/****************************************************************************
+  Loads the units for the given player.
+****************************************************************************/
+static void load_player_units(struct player *plr, int plrno,
+			      struct section_file *file)
+{
+  int nunits, i, j;
+  enum unit_activity activity;
+  char *savefile_options = secfile_lookup_str(file, "savefile.options");
+
+  unit_list_init(&plr->units);
+  nunits = secfile_lookup_int(file, "player%d.nunits", plrno);
+  if (!plr->is_alive && nunits > 0) {
+    nunits = 0; /* Some old savegames may be buggy. */
+  }
+  
+  for (i = 0; i < nunits; i++) {
+    struct unit *punit;
+    struct city *pcity;
+    int nat_x, nat_y;
+    const char* type_name;
+    Unit_Type_id type;
+    
+    type_name = secfile_lookup_str_default(file, NULL, 
+                                           "player%d.u%d.type_by_name",
+					   plrno, i);
+    if (!type_name) {
+      /* before 1.15.0 unit types used to be saved by id. */
+      int t = secfile_lookup_int(file, "player%d.u%d.type",
+                             plrno, i);
+      if (t < 0) {
+        freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
+	        plrno, i, t);
+	exit(EXIT_FAILURE);
+      }
+
+      /* Different rulesets had different unit names. */
+      if (strcmp(game.rulesetdir, "civ1") == 0) {
+        if (t >= ARRAY_SIZE(old_civ1_unit_types)) {
+          freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
+	          plrno, i, t);
+	  exit(EXIT_FAILURE);
+	}
+	type_name = old_civ1_unit_types[t];
+      } else {
+        if (t >= ARRAY_SIZE(old_default_unit_types)) {
+	  freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
+	          plrno, i, t);
+	  exit(EXIT_FAILURE);
+	}
+	type_name = old_default_unit_types[t];
+      }
+    }
+    
+    type = find_unit_type_by_name_orig(type_name);
+    if (type == U_LAST) {
+      freelog(LOG_ERROR, _("Unknown unit type '%s' in player%d section"),
+              type_name, plrno);
+      exit(EXIT_FAILURE);
+    }
+    
+    punit = create_unit_virtual(plr, NULL, type,
+	secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i));
+    punit->id = secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
+    alloc_id(punit->id);
+    idex_register_unit(punit);
+
+    nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
+    nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
+    native_to_map_pos(&punit->x, &punit->y, nat_x, nat_y);
+
+    punit->foul
+      = secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
+				    plrno, i);
+    punit->homecity = secfile_lookup_int(file, "player%d.u%d.homecity",
+					 plrno, i);
+
+    if ((pcity = find_city_by_id(punit->homecity))) {
+      unit_list_insert(&pcity->units_supported, punit);
+    }
+    
+    punit->moves_left
+      = secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
+    punit->fuel = secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
+    activity = secfile_lookup_int(file, "player%d.u%d.activity", plrno, i);
+    if (activity == ACTIVITY_PATROL_UNUSED) {
+      /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
+       * client-side goto.  Now client-side goto is handled by setting
+       * a special flag, and units with orders generally have ACTIVITY_IDLE.
+       * Old orders are lost.  Old client-side goto units will still have
+       * ACTIVITY_GOTO and will goto the correct position via server goto.
+       * Old client-side patrol units lose their patrol routes and are put
+       * into idle mode. */
+      activity = ACTIVITY_IDLE;
+    }
+    set_unit_activity(punit, activity);
+
+    /* need to do this to assign/deassign settlers correctly -- Syela
+     *
+     * was punit->activity=secfile_lookup_int(file,
+     *                             "player%d.u%d.activity",plrno, i); */
+    punit->activity_count = secfile_lookup_int(file, 
+					       "player%d.u%d.activity_count",
+					       plrno, i);
+    punit->activity_target
+      = secfile_lookup_int_default(file, (int) S_NO_SPECIAL,
+				   "player%d.u%d.activity_target", plrno, i);
+
+    punit->connecting
+      = secfile_lookup_bool_default(file, FALSE,
+				    "player%d.u%d.connecting", plrno, i);
+    punit->done_moving = secfile_lookup_bool_default(file,
+	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
+
+    /* Load the goto information.  Older savegames will not have the
+     * "go" field, so we just load the goto destination by default. */
+    if (secfile_lookup_bool_default(file, TRUE,
+				    "player%d.u%d.go", plrno, i)) {
+      int nat_x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
+      int nat_y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
+      int map_x, map_y;
+
+      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      set_goto_dest(punit, map_x, map_y);
+    } else {
+      clear_goto_dest(punit);
+    }
+
+    punit->ai.control
+      = secfile_lookup_bool(file, "player%d.u%d.ai", plrno, i);
+    punit->hp = secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
+    
+    punit->ord_map
+      = secfile_lookup_int_default(file, 0,
+				   "player%d.u%d.ord_map", plrno, i);
+    punit->ord_city
+      = secfile_lookup_int_default(file, 0,
+				   "player%d.u%d.ord_city", plrno, i);
+    punit->moved
+      = secfile_lookup_bool_default(file, FALSE,
+				    "player%d.u%d.moved", plrno, i);
+    punit->paradropped
+      = secfile_lookup_bool_default(file, FALSE,
+				    "player%d.u%d.paradropped", plrno, i);
+    punit->transported_by
+      = secfile_lookup_int_default(file, -1, "player%d.u%d.transported_by",
+				   plrno, i);
+    /* Initialize upkeep values: these are hopefully initialized
+       elsewhere before use (specifically, in city_support(); but
+       fixme: check whether always correctly initialized?).
+       Below is mainly for units which don't have homecity --
+       otherwise these don't get initialized (and AI calculations
+       etc may use junk values).
+    */
+
+    /* load the unit orders */
+    if (has_capability("orders", savefile_options)) {
+      int len = secfile_lookup_int_default(file, 0,
+			"player%d.u%d.orders_length", plrno, i);
+      if (len > 0) {
+	char *orders_buf, *dir_buf;
+
+	punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
+	punit->orders.length = len;
+	punit->orders.index = secfile_lookup_int_default(file, 0,
+			"player%d.u%d.orders_index", plrno, i);
+	punit->orders.repeat = secfile_lookup_bool_default(file, FALSE,
+			"player%d.u%d.orders_repeat", plrno, i);
+	punit->orders.vigilant = secfile_lookup_bool_default(file, FALSE,
+			"player%d.u%d.orders_vigilant", plrno, i);
+
+	orders_buf = secfile_lookup_str_default(file, "",
+			"player%d.u%d.orders_list", plrno, i);
+	dir_buf = secfile_lookup_str_default(file, "",
+			"player%d.u%d.dir_list", plrno, i);
+	for (j = 0; j < len; j++) {
+	  if (orders_buf[j] == '\0' || dir_buf == '\0') {
+	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
+	    free_unit_orders(punit);
+	    break;
+	  }
+	  punit->orders.list[j].order = orders_buf[j] - 'a';
+	  punit->orders.list[j].dir = dir_buf[j] - 'a';
+	}
+	punit->has_orders = TRUE;
+      } else {
+	punit->has_orders = FALSE;
+	punit->orders.list = NULL;
+      }
+    } else {
+      /* Old-style goto routes get discarded. */
+    }
+
+    {
+      /* Sanity: set the map to known for all tiles within the vision
+       * range.
+       *
+       * FIXME: shouldn't this take into account modifiers like 
+       * watchtowers? */
+      int range = unit_type(punit)->vision_range;
+
+      square_iterate(punit->x, punit->y, range, x1, y1) {
+	map_set_known(x1, y1, plr);
+      } square_iterate_end;
+    }
+
+    /* allocate the unit's contribution to fog of war */
+    if (unit_profits_of_watchtower(punit)
+	&& map_has_special(punit->x, punit->y, S_FORTRESS)) {
+      unfog_area(unit_owner(punit), punit->x, punit->y,
+		 get_watchtower_vision(punit));
+    } else {
+      unfog_area(unit_owner(punit), punit->x, punit->y,
+		 unit_type(punit)->vision_range);
+    }
+
+    unit_list_insert_back(&plr->units, punit);
+
+    unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
+  }
+}
+
 /***************************************************************
 ...
 ***************************************************************/
 static void player_load(struct player *plr, int plrno,
 			struct section_file *file)
 {
-  int i, j, x, y, nunits, ncities, c_s;
+  int i, j, x, y, ncities, c_s;
   const char *p;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
-  enum unit_activity activity;
   struct ai_data *ai;
 
   server_player_init(plr, TRUE);
@@ -1105,158 +1405,7 @@ static void player_load(struct player *plr, int plrno,
     city_list_insert_back(&plr->cities, pcity);
   }
 
-  unit_list_init(&plr->units);
-  nunits=secfile_lookup_int(file, "player%d.nunits", plrno);
-  if (!plr->is_alive && nunits > 0) {
-    nunits = 0; /* Some old savegames may be buggy. */
-  }
-
-  for(i=0; i<nunits; i++) { /* read the units */
-    struct unit *punit;
-    struct city *pcity;
-    int nat_x, nat_y;
-
-    punit = create_unit_virtual(plr, NULL, 
-                  secfile_lookup_int(file, "player%d.u%d.type", plrno, i),
-                  secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i));
-    punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
-    alloc_id(punit->id);
-    idex_register_unit(punit);
-
-    nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
-    nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
-    native_to_map_pos(&punit->x, &punit->y, nat_x, nat_y);
-
-    punit->foul=secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
-					   plrno, i);
-    punit->homecity=secfile_lookup_int(file, "player%d.u%d.homecity",
-				       plrno, i);
-
-    if ((pcity = find_city_by_id(punit->homecity))) {
-      unit_list_insert(&pcity->units_supported, punit);
-    }
-    
-    punit->moves_left=secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
-    punit->fuel= secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
-    activity = secfile_lookup_int(file, "player%d.u%d.activity",plrno, i);
-    if (activity == ACTIVITY_PATROL_UNUSED) {
-      /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
-       * client-side goto.  Now client-side goto is handled by setting
-       * a special flag, and units with orders generally have ACTIVITY_IDLE.
-       * Old orders are lost.  Old client-side goto units will still have
-       * ACTIVITY_GOTO and will goto the correct position via server goto.
-       * Old client-side patrol units lose their patrol routes and are put
-       * into idle mode. */
-      activity = ACTIVITY_IDLE;
-    }
-    set_unit_activity(punit, activity);
-/* need to do this to assign/deassign settlers correctly -- Syela */
-/* was punit->activity=secfile_lookup_int(file, "player%d.u%d.activity",plrno, i); */
-    punit->activity_count=secfile_lookup_int(file, 
-					     "player%d.u%d.activity_count",
-					     plrno, i);
-    punit->activity_target =
-	secfile_lookup_int_default(file, (int) S_NO_SPECIAL,
-				   "player%d.u%d.activity_target", plrno, i);
-
-    punit->connecting=secfile_lookup_bool_default(file, FALSE,
-						"player%d.u%d.connecting",
-						plrno, i);
-    punit->done_moving = secfile_lookup_bool_default(file,
-	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
-    /* Load the goto information.  Older savegames will not have the
-     * "go" field, so we just load the goto destination by default. */
-    if (secfile_lookup_bool_default(file, TRUE,
-				    "player%d.u%d.go", plrno, i)) {
-      int nat_x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
-      int nat_y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
-      int map_x, map_y;
-
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
-      set_goto_dest(punit, map_x, map_y);
-    } else {
-      clear_goto_dest(punit);
-    }
-
-    punit->ai.control=secfile_lookup_bool(file, "player%d.u%d.ai", plrno,i);
-    punit->hp=secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
-    
-    punit->ord_map=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_map",
-					      plrno, i);
-    punit->ord_city=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_city",
-					       plrno, i);
-    punit->moved=secfile_lookup_bool_default(file, FALSE, "player%d.u%d.moved",
-					    plrno, i);
-    punit->paradropped=secfile_lookup_bool_default(file, FALSE, "player%d.u%d.paradropped",
-                                                  plrno, i);
-    punit->transported_by=secfile_lookup_int_default(file, -1, "player%d.u%d.transported_by",
-                                                  plrno, i);
-    /* Initialize upkeep values: these are hopefully initialized
-       elsewhere before use (specifically, in city_support(); but
-       fixme: check whether always correctly initialized?).
-       Below is mainly for units which don't have homecity --
-       otherwise these don't get initialized (and AI calculations
-       etc may use junk values).
-    */
-
-    /* load the unit orders */
-    if (has_capability("orders", savefile_options)) {
-      int len = secfile_lookup_int_default(file, 0,
-			"player%d.u%d.orders_length", plrno, i);
-      if (len > 0) {
-	char *orders_buf, *dir_buf;
-
-	punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
-	punit->orders.length = len;
-	punit->orders.index = secfile_lookup_int_default(file, 0,
-			"player%d.u%d.orders_index", plrno, i);
-	punit->orders.repeat = secfile_lookup_bool_default(file, FALSE,
-			"player%d.u%d.orders_repeat", plrno, i);
-	punit->orders.vigilant = secfile_lookup_bool_default(file, FALSE,
-			"player%d.u%d.orders_vigilant", plrno, i);
-
-	orders_buf = secfile_lookup_str_default(file, "",
-			"player%d.u%d.orders_list", plrno, i);
-	dir_buf = secfile_lookup_str_default(file, "",
-			"player%d.u%d.dir_list", plrno, i);
-	for (j = 0; j < len; j++) {
-	  if (orders_buf[j] == '\0' || dir_buf == '\0') {
-	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
-	    free_unit_orders(punit);
-	    break;
-	  }
-	  punit->orders.list[j].order = orders_buf[j] - 'a';
-	  punit->orders.list[j].dir = dir_buf[j] - 'a';
-	}
-	punit->has_orders = TRUE;
-      } else {
-	punit->has_orders = FALSE;
-	punit->orders.list = NULL;
-      }
-    } else {
-      /* Old-style goto routes get discarded. */
-    }
-
-    {
-      int range = unit_type(punit)->vision_range;
-      square_iterate(punit->x, punit->y, range, x1, y1) {
-	map_set_known(x1, y1, plr);
-      } square_iterate_end;
-    }
-
-    /* allocate the unit's contribution to fog of war */
-    if (unit_profits_of_watchtower(punit)
-	&& map_has_special(punit->x, punit->y, S_FORTRESS))
-      unfog_area(unit_owner(punit), punit->x, punit->y,
-		 get_watchtower_vision(punit));
-    else
-      unfog_area(unit_owner(punit), punit->x, punit->y,
-		 unit_type(punit)->vision_range);
-
-    unit_list_insert_back(&plr->units, punit);
-
-    unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
-  }
+  load_player_units(plr, plrno, file);
 
   if (section_file_lookup(file, "player%d.attribute_v2_block_length", plrno)) {
     int raw_length1, raw_length2, part_nr, parts;
@@ -1617,8 +1766,12 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",
 				plrno, i);
-    secfile_insert_int(file, punit->type, "player%d.u%d.type",
-				plrno, i);
+    /* .type is actually kept only for backward compatibility */
+    secfile_insert_int(file, old_type_id(punit), "player%d.u%d.type",
+		       plrno, i);
+    secfile_insert_str(file, unit_name_orig(punit->type),
+		       "player%d.u%d.type_by_name",
+		       plrno, i);
     secfile_insert_int(file, punit->activity, "player%d.u%d.activity",
 				plrno, i);
     secfile_insert_int(file, punit->activity_count, 

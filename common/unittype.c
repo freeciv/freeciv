@@ -230,13 +230,20 @@ int unit_pop_value(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the (translated) name of the unit type.
 **************************************************************************/
 const char *unit_name(Unit_Type_id id)
 {
   return (unit_types[id].name);
 }
 
+/**************************************************************************
+  Return the original (untranslated) name of the unit type.
+**************************************************************************/
+const char *unit_name_orig(Unit_Type_id id)
+{
+  return unit_types[id].name_orig;
+}
 /**************************************************************************
 ...
 **************************************************************************/
@@ -350,14 +357,32 @@ int unit_upgrade_price(const struct player *const pplayer,
 }
 
 /**************************************************************************
-Does a linear search of unit_types[].name
-Returns U_LAST if none match.
+  Returns the unit type that has the given (translated) name.
+  Returns U_LAST if none match.
 **************************************************************************/
-Unit_Type_id find_unit_type_by_name(const char *s)
+Unit_Type_id find_unit_type_by_name(const char *name)
 {
+  /* Does a linear search of unit_types[].name */
   unit_type_iterate(i) {
-    if (strcmp(unit_types[i].name, s)==0)
+    if (strcmp(unit_types[i].name, name) == 0) {
       return i;
+    }
+  } unit_type_iterate_end;
+
+  return U_LAST;
+}
+
+/**************************************************************************
+  Returns the unit type that has the given original (untranslated) name.
+  Returns U_LAST if none match.
+**************************************************************************/
+Unit_Type_id find_unit_type_by_name_orig(const char *name_orig)
+{
+  /* Does a linear search of unit_types[].name_orig. */
+  unit_type_iterate(i) {
+    if (mystrcasecmp(unit_types[i].name_orig, name_orig) == 0) {
+      return i;
+    }
   } unit_type_iterate_end;
 
   return U_LAST;
