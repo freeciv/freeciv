@@ -71,12 +71,12 @@ void handle_city_name_suggest_req(struct connection *pconn,
 void handle_city_change_specialist(struct player *pplayer, 
 				   struct packet_city_request *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
-  if(!pcity) 
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
+
+  if (!pcity) {
     return;
-  if(!player_owns_city(pplayer, pcity))  
-    return;
+  }
+
   if(preq->specialist_from==SP_ELVIS) {
     if(pcity->size<5) 
       return; 
@@ -118,12 +118,11 @@ void handle_city_change_specialist(struct player *pplayer,
 void handle_city_make_specialist(struct player *pplayer, 
 				 struct packet_city_request *preq)
 {
-  struct city *pcity;
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
 
-  pcity=find_city_by_id(preq->city_id);
-  if(!pcity) 
+  if (!pcity) {
     return;
-  if (!player_owns_city(pplayer, pcity))  return;
+  }
   if (is_city_center(preq->worker_x, preq->worker_y)) {
     auto_arrange_workers(pcity);
     sync_cities();
@@ -146,7 +145,7 @@ void handle_city_make_specialist(struct player *pplayer,
 void handle_city_make_worker(struct player *pplayer, 
 			     struct packet_city_request *preq)
 {
-  struct city *pcity;
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
 
   if (!is_valid_city_coords(preq->worker_x, preq->worker_y)) {
     freelog(LOG_ERROR, "invalid city coords %d,%d in package",
@@ -154,9 +153,9 @@ void handle_city_make_worker(struct player *pplayer,
     return;
   }
   
-  pcity = player_find_city_by_id(pplayer, preq->city_id);
-  if (!pcity)
+  if (!pcity) {
     return;
+  }
 
   if (is_city_center(preq->worker_x, preq->worker_y)) {
     auto_arrange_workers(pcity);
@@ -214,11 +213,11 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
 **************************************************************************/
 void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
-  if (!pcity || !player_owns_city(pplayer, pcity) 
-      || preq->build_id>=game.num_impr_types) 
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
+
+  if (!pcity || preq->build_id >= game.num_impr_types) {
     return;
+  }
   really_handle_city_sell(pplayer, pcity, preq->build_id);
 }
 
@@ -229,7 +228,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
   char *name;
   int cost, total;
-  if (!pcity || !player_owns_city(pplayer, pcity)) return;
+
+  assert(pcity && player_owns_city(pplayer, pcity));
  
   if (pcity->did_buy > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
@@ -301,13 +301,11 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 void handle_city_worklist(struct player *pplayer, struct packet_city_request *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
 
-  if (!pcity) 
+  if (!pcity) {
     return;
-  if (!player_owns_city(pplayer, pcity))  
-    return;
+  }
 
   copy_worklist(&pcity->worklist, &preq->worklist);
 
@@ -319,12 +317,11 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
 **************************************************************************/
 void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 {
-  struct city *pcity = find_city_by_id(preq->city_id);
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
 
-  if (!pcity) 
+  if (!pcity) {
     return;
-  if (!player_owns_city(pplayer, pcity))  
-    return;
+  }
 
   really_handle_city_buy(pplayer, pcity);
 }
@@ -335,12 +332,11 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq)
 {
   if (preq->value != 0) {
-    struct city *pcity = find_city_by_id(preq->value);
+    struct city *pcity = player_find_city_by_id(pplayer, preq->value);
 
-    if (!pcity) 
+    if (!pcity) {
       return;
-    if (!player_owns_city(pplayer, pcity))  
-      return;
+    }
 
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
@@ -355,15 +351,12 @@ void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *
 void handle_city_change(struct player *pplayer, 
 			struct packet_city_request *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
+
   if (!pcity) {
-    freelog(LOG_ERROR, "Pcity null in handle_city_change"
-	                " (%s, id = %d)!", pplayer->name, preq->city_id);
     return;
   }
-   if(!player_owns_city(pplayer, pcity))
-    return;
+
    if (preq->is_build_id_unit_id && !can_build_unit(pcity, preq->build_id))
      return;
    if (!preq->is_build_id_unit_id && !can_build_improvement(pcity, preq->build_id))
@@ -388,13 +381,11 @@ void handle_city_rename(struct player *pplayer,
 			struct packet_city_request *preq)
 {
   char *cp;
-  struct city *pcity;
-  
-  pcity = find_city_by_id(preq->city_id);
-  if (!pcity)
+  struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
+
+  if (!pcity) {
     return;
-  if (!player_owns_city(pplayer, pcity))
-    return;
+  }
 
   if((cp=get_sane_name(preq->name))) {
     /* more sanity tests! any existing city with that name? */
@@ -412,8 +403,12 @@ void handle_city_rename(struct player *pplayer,
 void handle_city_options(struct player *pplayer,
 				struct packet_generic_values *preq)
 {
-  struct city *pcity = find_city_by_id(preq->value1);
-  if (!pcity || pcity->owner != pplayer->player_no) return;
+  struct city *pcity = player_find_city_by_id(pplayer, preq->value1);
+
+  if (!pcity) {
+    return;
+  }
+
   pcity->city_options = preq->value2;
   /* We don't need to send the full city info, since no other properties
    * depend on the attack options. --dwp
