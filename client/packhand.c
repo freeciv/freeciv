@@ -1109,7 +1109,13 @@ void handle_map_info(struct packet_map_info *pinfo)
 
   map_allocate();
   init_client_goto();
-  
+
+  /* Set the scale of the overview map.  Note, since only the width is
+   * used to calculate the overview scale you can end up with a really
+   * tall or short overview if your map is unusually sized. */
+  OVERVIEW_TILE_WIDTH = (120 / map.xsize) + 1;
+  OVERVIEW_TILE_HEIGHT = OVERVIEW_TILE_WIDTH;
+
   set_overview_dimensions(map.xsize, map.ysize);
 }
 
