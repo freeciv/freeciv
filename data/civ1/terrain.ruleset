@@ -484,21 +484,21 @@ Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
 ")
 
-[terrain_river]
-terrain_name         = _("River")
-graphic              = "t_river"
+[terrain_unused_0]
+terrain_name         = "unused"
+graphic              = "-"
 graphic_alt	     = "-"
-movement_cost        = 1
-defense_bonus        = 15
-food                 = 2
+movement_cost        = 0
+defense_bonus        = 00
+food                 = 0
 shield               = 0
-trade                = 1
-special_1_name       = _("Resources")
-graphic_special_1    = "ts.river_resources"
+trade                = 0
+special_1_name       = "none"
+graphic_special_1    = "-"
 graphic_special_1a   = "-"
-food_special_1       = 2
-shield_special_1     = 1
-trade_special_1      = 1
+food_special_1       = 0
+shield_special_1     = 0
+trade_special_1      = 0
 special_2_name       = "none"
 graphic_special_2    = "-"
 graphic_special_2a   = "-"
@@ -507,22 +507,15 @@ shield_special_2     = 0
 trade_special_2      = 0
 road_trade_incr      = 0
 road_time            = 2
-irrigation_result    = "yes"
-irrigation_food_incr = 1
-irrigation_time      = 5
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
 mining_result        = "no"
 mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
-flags                = "Starter"
-helptext	     = _("\
-In addition to providing for fishing, Rivers make for excellent\
- lines of communications and trade.\
-\n\n\
-Roads and railroads can only be built on River squares if your\
- civilization has learned Bridge Building technology.\
-")
+helptext	     = ""
 
 [terrain_swamp]
 terrain_name         = _("Swamp")
