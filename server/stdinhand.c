@@ -1029,9 +1029,7 @@ enum command_id {
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
-#ifdef DEBUG
   CMD_EXPERIMENTAL,
-#endif
   CMD_CMDLEVEL,
   CMD_FIRSTLEVEL,
   CMD_TIMEOUT,
@@ -1272,7 +1270,6 @@ static const struct command commands[] = {
       "sets the default level for any new AI players to 'hard'.  With an "
       "argument, sets the skill level for that player only.")
   },
-#ifdef DEBUG
   {"experimental",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("experimental\n"
@@ -1284,7 +1281,6 @@ static const struct command commands[] = {
       "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
       "has no effect.")
   },
-#endif
   {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
    /* TRANS: translate text between <> only */
    N_("cmdlevel\n"
@@ -2628,14 +2624,7 @@ static enum command_id cmd_of_level(int level)
     case 3 : return CMD_EASY;
     case 5 : return CMD_NORMAL;
     case 7 : return CMD_HARD;
-    case 10 :
-#ifdef DEBUG
-      return CMD_EXPERIMENTAL;
-#else
-      freelog(LOG_NORMAL,
-	      _("Experimental AI isn't available; using hard instead."));
-      return CMD_HARD;
-#endif
+    case 10 : return CMD_EXPERIMENTAL;
   }
   assert(FALSE);
   return CMD_NORMAL; /* to satisfy compiler */
@@ -4014,11 +4003,9 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_HARD:
     set_ai_level(caller, arg, 7);
     break;
-#ifdef DEBUG
   case CMD_EXPERIMENTAL:
     set_ai_level(caller, arg, 10);
     break;
-#endif
   case CMD_QUIT:
     quit_game(caller);
     break;
@@ -4805,9 +4792,7 @@ static const int player_cmd[] = {
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
-#ifdef DEBUG
   CMD_EXPERIMENTAL,
-#endif
   CMD_REMOVE,
   CMD_TEAM,
   -1
