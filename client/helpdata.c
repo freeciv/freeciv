@@ -749,7 +749,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (strlen(buf) > 0) {
     sprintf(buf+strlen(buf), "\n");
   } 
-  if (utype->helptext[0] != '\0') {
+  if (utype->helptext && utype->helptext[0] != '\0') {
     sprintf(buf + strlen(buf), "%s\n\n", _(utype->helptext));
   }
   strcpy(buf+strlen(buf), user_text);
