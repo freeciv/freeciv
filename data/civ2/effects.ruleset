@@ -263,7 +263,7 @@ name	= "Food_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "Terrain", "Ocean", "City"
+      "Terrain", "Ocean", "Local"
       "Building", "Harbour", "City"
     }
 
@@ -394,7 +394,7 @@ name	= "Prod_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "Terrain", "Ocean", "City"
+      "Terrain", "Ocean", "Local"
       "Building", "Offshore Platform", "City"
     }
 
@@ -611,7 +611,7 @@ name	= "Trade_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Road", "City"
+      "Special", "Road", "Local"
       "Building", "Super Highways", "City"
     }
 
@@ -620,7 +620,7 @@ name	= "Food_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Farmland", "City"
+      "Special", "Farmland", "Local"
       "Building", "Supermarket", "City"
     }
 

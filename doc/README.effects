@@ -155,7 +155,8 @@ cumulative.  For many effects this is undesirable.
 
 
 .range may be one of: 
-             "None", "Local", "City", "Continent", "Player", "World"
+             "None", "Local", "Adjacent", "City", "Continent",
+             "Player", "World"
 .value	   = integral AMOUNT parameter for many effects
 	    (must be in the range -32767 to 32767)
 .survives  = 1 if effect survives destruction (wonders only)

@@ -33,6 +33,7 @@ enum req_source_type {
  * in requirements.c. */
 enum req_range {
   REQ_RANGE_LOCAL,
+  REQ_RANGE_ADJACENT,
   REQ_RANGE_CITY,
   REQ_RANGE_CONTINENT,
   REQ_RANGE_PLAYER,

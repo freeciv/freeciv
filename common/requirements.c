@@ -40,6 +40,7 @@ static const char *req_source_type_names[] = {
  * requirements.h.  Do not change these unless you know what you're doing! */
 static const char *req_range_names[REQ_RANGE_LAST] = {
   "Local",
+  "Adjacent",
   "City",
   "Continent",
   "Player",
@@ -220,6 +221,7 @@ struct requirement req_from_str(const char *type,
 				const char *value)
 {
   struct requirement req;
+  bool invalid = TRUE;
 
   req.source = req_source_from_str(type, value);
 
@@ -234,7 +236,7 @@ struct requirement req_from_str(const char *type,
     case REQ_BUILDING:
     case REQ_SPECIAL:
     case REQ_TERRAIN:
-      req.range = REQ_RANGE_CITY;
+      req.range = REQ_RANGE_LOCAL;
       break;
     case REQ_GOV:
     case REQ_TECH:
@@ -244,6 +246,31 @@ struct requirement req_from_str(const char *type,
   }
 
   req.survives = survives;
+
+  switch (req.source.type) {
+  case REQ_SPECIAL:
+  case REQ_TERRAIN:
+    invalid = (req.range != REQ_RANGE_LOCAL
+	       && req.range != REQ_RANGE_ADJACENT);
+    break;
+  case REQ_TECH:
+  case REQ_GOV:
+  case REQ_BUILDING:
+    /* FIXME: sanity checking */
+    invalid = FALSE;
+    break;
+  case REQ_NONE:
+    invalid = FALSE;
+    break;
+  case REQ_LAST:
+    break;
+  }
+  if (invalid) {
+    freelog(LOG_ERROR, "Invalid requirement %s | %s | %s | %s",
+	    type, range, survives ? "survives" : "", value);
+    exit(EXIT_FAILURE);
+  }
+
   return req;
 }
 
@@ -462,10 +489,72 @@ int count_buildings_in_range(enum target_type target,
       return 0;
     }
   case REQ_RANGE_LAST:
+  case REQ_RANGE_ADJACENT:
     break;
   }
   assert(0);
   return 0;
+}
+
+/****************************************************************************
+  Is there a source special within range of the target?
+****************************************************************************/
+static bool is_special_in_range(enum target_type target,
+				const struct tile *target_tile,
+				enum req_range range, bool survives,
+				enum tile_special_type special)
+
+{
+    /* The requirement is filled if the tile has the special. */
+  if (!target_tile) {
+    return FALSE;
+  }
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    return tile_has_special(target_tile, special);
+  case REQ_RANGE_ADJACENT:
+    return is_special_near_tile(target_tile, special);
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there a source tile within range of the target?
+****************************************************************************/
+static bool is_terrain_in_range(enum target_type target,
+				const struct tile *target_tile,
+				enum req_range range, bool survives,
+				Terrain_type_id terrain)
+{
+  if (!target_tile) {
+    return FALSE;
+  }
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has the terrain. */
+    return target_tile->terrain == terrain;
+  case REQ_RANGE_ADJACENT:
+    return is_terrain_near_tile(target_tile, terrain);
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
 }
 
 /****************************************************************************
@@ -511,13 +600,13 @@ bool is_req_active(enum target_type target,
 				     req->range, req->survives,
 				     req->source.value.building) > 0);
   case REQ_SPECIAL:
-    /* The requirement is filled if the tile has the special. */
-    return (target_tile
-	    && tile_has_special(target_tile, req->source.value.special));
+    return is_special_in_range(target, target_tile,
+			       req->range, req->survives,
+			       req->source.value.special);
   case REQ_TERRAIN:
-    /* The requirement is filled if the tile has the terrain. */
-    return (target_tile
-	    && (target_tile->terrain  == req->source.value.terrain));
+    return is_terrain_in_range(target, target_tile,
+			       req->range, req->survives,
+			       req->source.value.terrain);
   case REQ_LAST:
     break;
   }
