@@ -215,6 +215,16 @@ static void nation_free(Nation_Type_id nation)
     free(p->leaders);
     p->leaders = NULL;
   }
+  
+  if (p->class) {
+    free(p->class);
+    p->class = NULL;
+  }
+  
+  if (p->legend) {
+    free(p->legend);
+    p->legend = NULL;
+  }
 
   nation_city_names_free(p->city_names);
   p->city_names = NULL;
