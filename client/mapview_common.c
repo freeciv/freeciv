@@ -305,6 +305,50 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 }
 
 /****************************************************************************
+  Change the mapview origin, clip it, and update everything.
+****************************************************************************/
+static void set_mapview_origin(int map_x0, int map_y0)
+{
+  int nat_x0, nat_y0, xmin, xmax, ymin, ymax, xsize, ysize;
+
+  /* First wrap/clip the position.  Wrapping is done in native positions
+   * while clipping is done in scroll (native) positions. */
+  map_to_native_pos(&nat_x0, &nat_y0, map_x0, map_y0);
+  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+
+  if (topo_has_flag(TF_WRAPX)) {
+    nat_x0 = WRAP(nat_x0, map.xsize);
+  } else {
+    nat_x0 = CLIP(xmin, nat_x0, xmax - xsize);
+  }
+
+  if (topo_has_flag(TF_WRAPY)) {
+    nat_y0 = WRAP(nat_y0, map.ysize);
+  } else {
+    nat_y0 = CLIP(ymin, nat_y0, ymax - ysize);
+  }
+
+  native_to_map_pos(&map_x0, &map_y0, nat_x0, nat_y0);
+
+  /* Then update everything. */
+  if (mapview_canvas.map_x0 != map_x0 || mapview_canvas.map_y0 != map_y0) {
+    int map_center_x, map_center_y;
+
+    mapview_canvas.map_x0 = map_x0;
+    mapview_canvas.map_y0 = map_y0;
+
+    get_center_tile_mapcanvas(&map_center_x, &map_center_y);
+    center_tile_overviewcanvas(map_center_x, map_center_y);
+    update_map_canvas_visible();
+    update_map_canvas_scrollbars();
+    refresh_overview_viewrect();
+    if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+      create_line_at_mouse_pos();
+    }
+  }
+}
+
+/****************************************************************************
   Return the range of values that the mapview origin can take, in scroll
   positions.  Useful for scrollbars or when manually clipping the window.
 ****************************************************************************/
@@ -332,21 +376,10 @@ void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)
 ****************************************************************************/
 void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 {
-  int xmin, ymin, xmax, ymax, xsize, ysize, x0, y0;
+  int map_x0, map_y0;
 
-  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
-  native_to_map_pos(&x0, &y0, scroll_x, scroll_y);
-
-  x0 = CLIP(xmin, x0, xmax - xsize);
-  y0 = CLIP(ymin, y0, ymax - ysize);
-
-  if (x0 != mapview_canvas.map_x0 || y0 != mapview_canvas.map_y0) {
-    mapview_canvas.map_x0 = x0;
-    mapview_canvas.map_y0 = y0;
-
-    update_map_canvas_visible();
-    refresh_overview_viewrect();
-  }
+  native_to_map_pos(&map_x0, &map_y0, scroll_x, scroll_y);
+  set_mapview_origin(map_x0, map_y0);
 }
 
 /**************************************************************************
@@ -379,24 +412,7 @@ void center_tile_mapcanvas(int map_center_x, int map_center_y)
     map_y -= mapview_canvas.tile_height / 2;
   }
 
-  /* Wrap. */
-  map_x = map_adjust_x(map_x);
-
-  /* Clip. */
-  map_y = map_adjust_y(map_y);
-  map_y = MIN(map_y,
-	      map.ysize + EXTRA_BOTTOM_ROW - mapview_canvas.tile_height);
-
-  /* Now that we've determined the new origin, update everything. */
-  mapview_canvas.map_x0 = map_x;
-  mapview_canvas.map_y0 = map_y;
-  center_tile_overviewcanvas(map_center_x, map_center_y);
-  update_map_canvas_visible();
-  update_map_canvas_scrollbars();
-  refresh_overview_viewrect();
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
-    create_line_at_mouse_pos();
-  }
+  set_mapview_origin(map_x, map_y);
 }
 
 /**************************************************************************
