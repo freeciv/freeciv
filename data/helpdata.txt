@@ -489,7 +489,8 @@ Keyboard:\n\
   s: (s)entry unit\n\
   t: show (t)iles city is using  (mouse over or near city)\n\
   T: open (T)ax/Lux/Sci Rates dialog\n\
-  u: (u)nload boat\n\
+  u: (u)nload unit\n\
+  U: (U)nload all units from a boat\n\
   w: (w)ait until later in turn\n\
   W: (W)ake up other units on tile\n\
   x: auto-e(x)plore\n\
