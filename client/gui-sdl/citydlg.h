@@ -24,6 +24,7 @@
 
 #include "citydlg_g.h"
 
+void free_city_units_lists(void);
 void enable_city_dlg_widgets(void);
 void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest);
 SDL_Surface * get_scaled_city_map(struct city *pCity);

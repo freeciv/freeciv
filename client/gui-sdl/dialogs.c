@@ -385,6 +385,7 @@ static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
   popdown_unit_upgrade_dlg();
   /* enable city dlg */
   enable_city_dlg_widgets();
+  free_city_units_lists();
   request_unit_upgrade(pUnit);
   flush_dirty();
   return -1;
@@ -496,7 +497,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   
   pUnit_Upgrade_Dlg->pBeginWidgetList = pBuf;
   if(city) {
-    pWindow->size.x = Main.event.motion.x + UNIT_TILE_WIDTH;
+    pWindow->size.x = Main.event.motion.x;
     pWindow->size.y = Main.event.motion.y;
   } else {
     put_window_near_map_tile(pWindow,

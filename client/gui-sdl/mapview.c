@@ -860,10 +860,8 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
   pText = create_string16(NULL, 0, 10);
   pText->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pText->fgcol.r = 255;
-  pText->fgcol.g = 255;
-  pText->fgcol.b = 255;
-
+  pText->fgcol = *(get_game_colorRGB(COLOR_STD_WHITE));
+  
   if (SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE)
   {
     pText->render = 3;
@@ -894,6 +892,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     }
 
     if (togrow < 0) {
+      /* set RED */
       pText->fgcol.g = 0;
       pText->fgcol.b = 0;
     }
@@ -902,6 +901,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     pCity_Name = create_text_surf_from_str16(pText);
 
     if (togrow < 0) {
+      /* set white */
       pText->fgcol.g = 255;
       pText->fgcol.b = 255;
     }
@@ -909,9 +909,6 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 
   /* City Production */
   if (draw_city_productions && pCity->owner == game.player_idx) {
-    /*pText->style &= ~TTF_STYLE_BOLD; */
-    change_ptsize16(pText, 9);
-
     /* set text color */
     if (pCity->is_building_unit) {
       pText->fgcol.r = 255;
@@ -958,7 +955,9 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       my_snprintf(buffer , sizeof(buffer), "%d", pCity->size);
       copy_chars_to_string16(pText, buffer);
       pText->style |= TTF_STYLE_BOLD;
-      change_ptsize16(pText, 10);
+      pText->fgcol.r = 255;
+      pText->fgcol.g = 255;
+      pText->fgcol.b = 255;
       pText->bgcol = color_size;
       pCity_Size = create_text_surf_from_str16(pText);
 	    
@@ -978,6 +977,9 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     }
   
     clear_area.h += 2;
+    if (pCity_Name && pCity_Prod) {
+      clear_area.h += 1;
+    }
     
     if (pCity_Size)
     {
@@ -999,7 +1001,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
       /* solid citi size background */
       dst = clear_area;	    
-      SDL_FillRect(pDest, &dst ,
+      SDL_FillRect(pDest, &dst,
       		SDL_MapRGBA(pDest->format, color_bg.r, color_bg.g,
 					color_bg.b, color_bg.unused));
       /* solid text background */
@@ -1010,13 +1012,13 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 					
       /* blit city size number */
       SDL_SetAlpha(pCity_Size, 0x0, 0x0);
+      
       /* this isn't error */
       dst.x = clear_area.x + (pCity_Size->h - pCity_Size->w) / 2;
       dst.y = canvas_y + (clear_area.h - pCity_Size->h) / 2;
       SDL_BlitSurface(pCity_Size, NULL, pDest, &dst);
 
       /* Draw Frame */
-      
       /* Horizontal lines */
       putline(pDest, clear_area.x , clear_area.y - 1,
 			  clear_area.x + clear_area.w,
@@ -1025,6 +1027,13 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 			  clear_area.x + clear_area.w,
                           clear_area.y + clear_area.h, frame_color);
 
+      if (pCity_Name && pCity_Prod) {
+        putline(pDest, clear_area.x + 1 + pCity_Size->h,
+			clear_area.y + pCity_Name->h,
+			clear_area.x + clear_area.w,
+                        clear_area.y + pCity_Name->h, frame_color);
+      }
+
       /* vertical lines */
       putline(pDest, clear_area.x + clear_area.w, clear_area.y,
 			  clear_area.x + clear_area.w,
@@ -1032,6 +1041,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       putline(pDest, clear_area.x - 1, clear_area.y, clear_area.x - 1,
                           clear_area.y + clear_area.h, frame_color);
 			  
+
       putline(pDest, clear_area.x + 1 + pCity_Size->h, clear_area.y,
 			  clear_area.x + 1 + pCity_Size->h,
                           clear_area.y + clear_area.h, frame_color);
@@ -1042,7 +1052,11 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       SDL_SetAlpha(pCity_Name, 0x0, 0x0);
       dst.x = clear_area.x + pCity_Size->h + 2 +
 		(clear_area.w - (pCity_Size->h + 2) - pCity_Name->w) / 2;
-      dst.y = canvas_y;
+      if (pCity_Prod) {
+	dst.y = canvas_y;
+      } else {
+        dst.y = canvas_y + (clear_area.h - pCity_Name->h) / 2;
+      }
       SDL_BlitSurface(pCity_Name, NULL, pDest, &dst);
       canvas_y += pCity_Name->h;
     }
@@ -1052,7 +1066,11 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       SDL_SetAlpha(pCity_Prod, 0x0, 0x0);
       dst.x = clear_area.x + pCity_Size->h + 2 +
 		(clear_area.w - (pCity_Size->h + 2) - pCity_Prod->w) / 2;
-      dst.y = canvas_y;
+      if (pCity_Name) {
+	dst.y = canvas_y + 1;
+      } else {
+        dst.y = canvas_y + (clear_area.h - pCity_Prod->h) / 2;
+      }
       SDL_BlitSurface(pCity_Prod, NULL, pDest, &dst);
     } 
   }
@@ -1712,6 +1730,9 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
 {
   
@@ -2014,7 +2035,8 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
 
     /*** city size ***/
   /* Not fogged as it would be unreadable */
-  if (!(SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) &&
+  if ((!(SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE)
+       || (!draw_city_productions && !draw_city_names)) &&
 				     pCity && draw_cities) {
     if (pCity->size >= 10) {
       SDL_BlitSurface(GET_SURF(sprites.city.size_tens[pCity->size / 10]),
@@ -2036,7 +2058,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
     if (!pCity && unit_list_size(&(pTile->units)) > 1) {
       des.y -= HALF_NORMAL_TILE_HEIGHT;
       SDL_BlitSurface(GET_SURF(sprites.unit.stack), NULL, pBufSurface, &des);
-      des = dst;		
+      des = dst;
     }
   }
 
@@ -2096,8 +2118,9 @@ void real_blink_active_unit(void)
       area.x = canvas_x;
       area.y = canvas_y - HALF_NORMAL_TILE_HEIGHT;
       backup = area;
-      if (!reset_anim &&
-	  pUnit == pPrevUnit && pUnit->x == oldCol && pUnit->y == oldRow) {
+      if (!reset_anim
+	 && pUnit == pPrevUnit && pUnit->type == pPrevUnit->type
+         && pUnit->x == oldCol && pUnit->y == oldRow) {
         /* blit clear area */    
         SDL_BlitSurface(pBlinkSurfaceA, NULL, Main.map, &area);
 	area = backup;

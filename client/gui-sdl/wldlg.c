@@ -440,7 +440,7 @@ static int worklist_editor_targets_callback(struct GUI *pWidget)
       add_target_to_worklist(pWidget);
       break;
     default:
-    	abort();
+    	;/* do nothing */
     break;
   }
   return -1;
@@ -667,7 +667,7 @@ static int worklist_editor_item_callback(struct GUI *pWidget)
       swap_item_down_from_worklist(pWidget);
       break;
     default:
-    	abort();
+    	;/* do nothing */
     break;
   }
   return -1;
@@ -891,7 +891,7 @@ static int global_worklist_callback(struct GUI *pWidget)
       set_global_worklist(pWidget);
       break;
     default:
-    	abort();
+    	;/* do nothing */
     break;
   }
   return -1;
