@@ -64,8 +64,9 @@ static int sort_column=2;
 *******************************************************************/
 static void players_meet(int player_index)
 {
-  if (player_has_embassy(game.player_ptr,&game.players[player_index])) {
+  if (can_meet_with_player(&game.players[player_index])) {
     struct packet_diplomacy_info pa;
+
     pa.plrno0=game.player_idx;
     pa.plrno1=player_index;
     pa.plrno_from=pa.plrno0;
@@ -105,9 +106,9 @@ static void players_vision(int player_index)
 *******************************************************************/
 static void players_intel(int player_index)
 {
-  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+  if (can_intel_with_player(&game.players[player_index])) {
     popup_intel_dialog(&game.players[player_index]);
-  
+  } 
 }
 
 /******************************************************************

@@ -1182,6 +1182,8 @@ static void package_player_info(struct player *plr,
     for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = plr->diplstates[i].type;
       packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
+      packet->diplstates[i].contact_turns_left = 
+         plr->diplstates[i].contact_turns_left;
       packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
     }
   } else {
@@ -1207,12 +1209,15 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].type       = DS_NEUTRAL;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;
+      packet->diplstates[i].contact_turns_left = 0;
     }
     /* We always know the players relation to us */
     if (receiver) {
       int p_no = receiver->player_no;
       packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
       packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
+      packet->diplstates[i].contact_turns_left = 
+         plr->diplstates[i].contact_turns_left;
       packet->diplstates[p_no].has_reason_to_cancel =
 	plr->diplstates[p_no].has_reason_to_cancel;
     }
@@ -1310,7 +1315,7 @@ void server_remove_player(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  Update contact info.
 **************************************************************************/
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  int x, int y)
@@ -1319,39 +1324,48 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 
   if (pplayer1 == pplayer2
       || !pplayer1->is_alive || !pplayer2->is_alive
-      || is_barbarian(pplayer1) || is_barbarian(pplayer2)
-      || pplayer_get_diplstate(pplayer1, pplayer2)->type != DS_NO_CONTACT)
+      || is_barbarian(pplayer1) || is_barbarian(pplayer2)) {
     return;
+  }
 
-  /* FIXME: Always declairing war for the AI is a kludge until AI
+  /* FIXME: Always declaring war for the AI is a kludge until AI
      diplomacy is implemented. */
-  pplayer1->diplstates[player2].type
-    = pplayer2->diplstates[player1].type
-    = pplayer1->ai.control || pplayer2->ai.control ? DS_WAR : DS_NEUTRAL;
-  notify_player_ex(pplayer1, x, y,
-		   E_FIRST_CONTACT,
-		   _("Game: You have made contact with the %s, ruled by %s."),
-		   get_nation_name_plural(pplayer2->nation), pplayer2->name);
-  notify_player_ex(pplayer2, x, y,
-		   E_FIRST_CONTACT,
-		   _("Game: You have made contact with the %s, ruled by %s."),
-		   get_nation_name_plural(pplayer1->nation), pplayer1->name);
+  if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
+    pplayer1->diplstates[player2].type
+      = pplayer2->diplstates[player1].type
+      = pplayer1->ai.control || pplayer2->ai.control ? DS_WAR : DS_NEUTRAL;
+    notify_player_ex(pplayer1, x, y,
+		     E_FIRST_CONTACT,
+		     _("Game: You have made contact with the %s, ruled by %s."),
+		     get_nation_name_plural(pplayer2->nation), pplayer2->name);
+    notify_player_ex(pplayer2, x, y,
+		     E_FIRST_CONTACT,
+		     _("Game: You have made contact with the %s, ruled by %s."),
+		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
+    send_player_info(pplayer1, pplayer2);
+    send_player_info(pplayer2, pplayer1);
+  }
+  if (player_has_embassy(pplayer1, pplayer2)
+      || player_has_embassy(pplayer2, pplayer1)) {
+    return;
+  }
+  pplayer1->diplstates[player2].contact_turns_left = game.contactturns;
+  pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
   send_player_info(pplayer1, pplayer1);
-  send_player_info(pplayer1, pplayer2);
-  send_player_info(pplayer2, pplayer1);
   send_player_info(pplayer2, pplayer2);
 }
 
 /**************************************************************************
-...
+  Check if we make contact with anyone.
 **************************************************************************/
-void maybe_make_first_contact(int x, int y, struct player *pplayer)
+void maybe_make_contact(int x, int y, struct player *pplayer)
 {
   square_iterate(x, y, 1, x_itr, y_itr) {
     struct tile *ptile = map_get_tile(x_itr, y_itr);
     struct city *pcity = ptile->city;
-    if (pcity)
+    if (pcity) {
       make_contact(pplayer, city_owner(pcity), x, y);
+    }
     unit_list_iterate(ptile->units, punit) {
       make_contact(pplayer, unit_owner(punit), x, y);
     } unit_list_iterate_end;

@@ -1641,7 +1641,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
     unfog_area(pplayer, x, y, unit_type(punit)->vision_range);
 
   send_unit_info(NULL, punit);
-  maybe_make_first_contact(x, y, unit_owner(punit));
+  maybe_make_contact(x, y, unit_owner(punit));
   wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
@@ -2254,7 +2254,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     int srange = unit_type(punit)->vision_range;
     show_area(pplayer, dest_x, dest_y, srange);
-    maybe_make_first_contact(dest_x, dest_y, pplayer);
+    maybe_make_contact(dest_x, dest_y, pplayer);
     notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST_ATT,
                      _("Game: Your %s was killed by enemy units at the "
                        "paradrop destination."),
@@ -3020,7 +3020,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
   wakeup_neighbor_sentries(punit);
-  maybe_make_first_contact(dest_x, dest_y, unit_owner(punit));
+  maybe_make_contact(dest_x, dest_y, unit_owner(punit));
 
   conn_list_do_unbuffer(&pplayer->connections);
 

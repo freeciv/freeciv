@@ -348,7 +348,7 @@ void players_meet_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
-    if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
+    if (can_meet_with_player(&game.players[player_index])) {
       struct packet_diplomacy_info pa;
 
       pa.plrno0=game.player_idx;
@@ -376,8 +376,10 @@ void players_intel_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
-    if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+
+    if (can_intel_with_player(&game.players[player_index])) {
       popup_intel_dialog(&game.players[player_index]);
+    }
   }
 }
 

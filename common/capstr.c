@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
                    "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
-                   "+no_nation_selected"
+                   "+no_nation_selected +diplomacy"
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
  * "conn_info" is sending the conn_id field. To preserve compatability
@@ -115,6 +115,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "no_nation_selected" means that -1 (NO_NATION_SELECTED) is used for
  * players who have no assigned nation (rather than MAX_NUM_NATIONS).
+ *
+ * "diplomacy": changed requirements for diplomatic meetings
  */
 
 void init_our_capability(void)

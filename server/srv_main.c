@@ -380,6 +380,9 @@ static void update_diplomatics(void)
       pdiplstate->has_reason_to_cancel =
 	  MAX(pdiplstate->has_reason_to_cancel - 1, 0);
 
+      pdiplstate->contact_turns_left =
+	  MAX(pdiplstate->contact_turns_left - 1, 0);
+
       if(pdiplstate->type == DS_CEASEFIRE) {
 	switch(--pdiplstate->turns_left) {
 	case 1:

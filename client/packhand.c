@@ -1196,7 +1196,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 /**************************************************************************
 ...
 **************************************************************************/
-static void read_player_info_techs(struct player *pplayer,
+static bool read_player_info_techs(struct player *pplayer,
 				   unsigned char *inventions)
 {
   int i;
@@ -1216,6 +1216,7 @@ static void read_player_info_techs(struct player *pplayer,
     /* nothing yet */
   }
   update_research(pplayer);
+  return need_effect_update;
 }
 
 /**************************************************************************
@@ -1280,7 +1281,7 @@ static void choose_government(void)
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
-  bool poptechup;
+  bool poptechup = FALSE;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
 
@@ -1304,6 +1305,8 @@ void handle_player_info(struct packet_player_info *pinfo)
       pinfo->diplstates[i].type;
     pplayer->diplstates[i].turns_left =
       pinfo->diplstates[i].turns_left;
+    pplayer->diplstates[i].contact_turns_left =
+      pinfo->diplstates[i].contact_turns_left;
     pplayer->diplstates[i].has_reason_to_cancel =
       pinfo->diplstates[i].has_reason_to_cancel;
   }
@@ -1314,10 +1317,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   if (pplayer->is_connected
       || get_client_state() == CLIENT_GAME_RUNNING_STATE
       || get_client_state() == CLIENT_GAME_OVER_STATE) {
-    read_player_info_techs(pplayer, pinfo->inventions);
+    poptechup = poptechup || read_player_info_techs(pplayer, pinfo->inventions);
   }
 
-  poptechup = (pplayer->research.researching!=pinfo->researching);
+  poptechup = (pplayer->research.researching != pinfo->researching
+               || pplayer->ai.tech_goal != pinfo->tech_goal
+               || poptechup);
   pplayer->research.bulbs_researched = pinfo->bulbs_researched;
   pplayer->research.techs_researched = pinfo->techs_researched;
   pplayer->research.researching=pinfo->researching;

@@ -549,8 +549,7 @@ void handle_diplomacy_init(struct player *pplayer,
       return;
     }
 
-    if (player_has_embassy(plr0, plr1) && plr0->is_connected && 
-	plr0->is_alive && plr1->is_connected && plr1->is_alive) {
+    if (could_meet_with_player(plr0, plr1)) {
       struct Treaty *ptreaty;
 
       ptreaty=fc_malloc(sizeof(struct Treaty));

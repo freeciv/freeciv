@@ -633,6 +633,15 @@ static struct settings_s settings[] = {
 	  GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, 
 	  GAME_DEFAULT_CIVILWARSIZE)
 
+  GEN_INT("contactturns", game.contactturns, SSET_RULES_FLEXIBLE,
+	  SSET_TO_CLIENT,
+	  N_("Number of turns players may meet after contact"),
+	  N_("Players may meet for diplomacy this number of turns "
+	     "after their units have last met. Set this to zero "
+	     "to turn this feature off entirely."), NULL,
+	  GAME_MIN_CONTACTTURNS, GAME_MAX_CONTACTTURNS, 
+	  GAME_DEFAULT_CONTACTTURNS)
+
   GEN_BOOL("savepalace", game.savepalace, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
 	   N_("Rebuild palace if capital is conquered"),
 	   N_("If this is set to 1 when the capital is conquered, palace "

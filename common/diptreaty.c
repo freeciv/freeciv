@@ -28,6 +28,22 @@
 #define SPECLIST_TYPE struct Clause
 #include "speclist_c.h"
 
+/**************************************************************************
+  Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
+**************************************************************************/
+bool could_meet_with_player(struct player *pplayer, struct player *aplayer)
+{
+  return (pplayer->is_alive
+          && aplayer->is_alive
+          && pplayer != aplayer
+          && (player_has_embassy(aplayer, pplayer) 
+              || player_has_embassy(pplayer, aplayer)
+              || pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
+              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0)
+          && aplayer->is_connected
+          && pplayer->is_connected);
+}
+
 /****************************************************************
 ...
 *****************************************************************/

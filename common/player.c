@@ -84,6 +84,7 @@ void player_init(struct player *plr)
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = DS_NO_CONTACT;
     plr->diplstates[i].has_reason_to_cancel = 0;
+    plr->diplstates[i].contact_turns_left = 0;
   }
   plr->city_style=0;            /* should be first basic style */
   plr->ai.control=FALSE;
@@ -489,7 +490,7 @@ const char *reputation_text(const int rep)
 }
 
 /**************************************************************************
-Return a diplomatic state as a human-readable string
+  Return a diplomatic state as a human-readable string
 **************************************************************************/
 const char *diplstate_text(const enum diplstate_type type)
 {
@@ -500,11 +501,12 @@ const char *diplstate_text(const enum diplstate_type type)
     N_("?diplomatic_state:Cease-fire"),
     N_("?diplomatic_state:Peace"),
     N_("?diplomatic_state:Alliance"),
-    N_("?diplomatic_state:No Contact")
+    N_("?diplomatic_state:Never met")
   };
 
-  if (type < DS_LAST)
+  if (type < DS_LAST) {
     return Q_(ds_names[type]);
+  }
   die("Bad diplstate_type in diplstate_text: %d", type);
   return NULL;
 }

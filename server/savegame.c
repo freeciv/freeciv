@@ -37,6 +37,7 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplhand.h"
 #include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
@@ -700,6 +701,9 @@ static void player_load(struct player *plr, int plrno,
       secfile_lookup_int_default(file, 0,
 				 "player%d.diplstate%d.has_reason_to_cancel",
 				 plrno, i);
+    plr->diplstates[i].contact_turns_left = 
+      secfile_lookup_int_default(file, 0,
+			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
   /* We don't need this info, but savegames carry it anyway.
      To avoid getting "unused" warnings we touch the values like this. */
@@ -711,6 +715,8 @@ static void player_load(struct player *plr, int plrno,
     secfile_lookup_int_default(file, 0,
 			       "player%d.diplstate%d.has_reason_to_cancel",
 			       plrno, i);
+    secfile_lookup_int_default(file, 0,
+			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
   
   { /* spacerace */
@@ -1335,6 +1341,8 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.diplstate%d.turns_left", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
 		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
+    secfile_insert_int(file, plr->diplstates[i].contact_turns_left,
+		       "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
 
   {
@@ -1874,6 +1882,9 @@ void game_load(struct section_file *file)
     game.civilwarsize =
       secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
 				 "game.civilwarsize");
+    game.contactturns =
+      secfile_lookup_int_default(file, GAME_DEFAULT_CONTACTTURNS,
+				 "game.contactturns");
   
     if(has_capability("diplchance_percent", savefile_options)) {
       game.diplchance = secfile_lookup_int_default(file, game.diplchance,
@@ -2209,6 +2220,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.citymindist, "game.citymindist");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
+  secfile_insert_int(file, game.contactturns, "game.contactturns");
   secfile_insert_int(file, game.rapturedelay, "game.rapturedelay");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
   secfile_insert_int(file, game.freecost, "game.freecost");

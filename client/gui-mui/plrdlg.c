@@ -231,8 +231,9 @@ static void players_intelligence(void)
   {
     playerno -= 100;
 
-    if (player_has_embassy(game.player_ptr, &game.players[playerno]))
+    if (can_intel_with_player(&game.players[playerno])) {
       popup_intel_dialog(&game.players[playerno]);
+    }
   }
 }
 
@@ -248,10 +249,12 @@ static void players_meet(void)
   {
     playerno -= 100;
 
-    if (player_has_embassy(game.player_ptr, &game.players[playerno]))
-    {
+    if (can_meet_with_player(&game.players[playerno])) {
       request_diplomacy_init_meeting(game.player_idx, playerno);
-    } else append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
+    } else {
+      append_output_window(_("Game: You need an embassy to establish a "
+                             "diplomatic meeting."));
+    }
   }
 }
 

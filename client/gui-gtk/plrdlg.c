@@ -535,7 +535,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   row = GPOINTER_TO_INT(selection->data);
   player_index = LI_2_PI(row);
 
-  if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
+  if (can_meet_with_player(&game.players[player_index])) {
     struct packet_diplomacy_info pa;
   
     pa.plrno0=game.player_idx;
@@ -611,8 +611,9 @@ void players_intel_callback(GtkWidget *w, gpointer data)
   row = GPOINTER_TO_INT(selection->data);
   player_index = LI_2_PI(row);
 
-  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+  if (can_intel_with_player(&game.players[player_index])) {
     popup_intel_dialog(&game.players[player_index]);
+  }
 }
 
 /**************************************************************************

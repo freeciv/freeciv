@@ -32,6 +32,7 @@
 #endif
 
 #include "capstr.h"
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "idex.h"
@@ -839,10 +840,7 @@ bool can_client_issue_orders(void)
 **************************************************************************/
 bool can_meet_with_player(struct player *pplayer)
 {
-  return (pplayer->is_alive
-          && pplayer != game.player_ptr
-          && player_has_embassy(game.player_ptr, pplayer)
-          && pplayer->is_connected
+  return (could_meet_with_player(game.player_ptr, pplayer)
           && can_client_issue_orders());
 }
 

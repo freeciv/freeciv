@@ -912,11 +912,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   city_refresh(pcity);
 
   /* 
-   * maybe_make_first_contact have to be called before
+   * maybe_make_contact have to be called before
    * update_city_tile_status_map below since the diplomacy status can
    * influence if a tile is available.
    */
-  maybe_make_first_contact(pcity->x, pcity->y, ptaker);
+  maybe_make_contact(pcity->x, pcity->y, ptaker);
 
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     update_city_tile_status_map(pcity, x, y);
@@ -1117,7 +1117,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   notify_player_ex(pplayer, x, y, E_CITY_BUILD,
 		   _("Game: You have founded %s"), pcity->name);
-  maybe_make_first_contact(x, y, city_owner(pcity));
+  maybe_make_contact(x, y, city_owner(pcity));
 
   /* Catch fortress building, transforming into ocean, etc. */
   unit_list_iterate(map_get_tile(x, y)->units, punit) {

@@ -567,7 +567,7 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
     return;
   gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  if(player_has_embassy(game.player_ptr, &game.players[plrno])) {
+  if (can_meet_with_player(&game.players[plrno])) {
     struct packet_diplomacy_info pa;
   
     pa.plrno0=game.player_idx;
@@ -635,8 +635,9 @@ void players_intel_callback(GtkMenuItem *item, gpointer data)
     return;
   gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  if(player_has_embassy(game.player_ptr, &game.players[plrno]))
+  if (can_intel_with_player(&game.players[plrno])) {
     popup_intel_dialog(&game.players[plrno]);
+  }
 }
 
 /**************************************************************************

@@ -195,7 +195,9 @@ void client_change_all(cid x, cid y)
 ***************************************************************************/
 const char *get_embassy_status(struct player *me, struct player *them)
 {
-  if (me == them) {
+  if (me == them
+      || !them->is_alive
+      || !me->is_alive) {
     return "-";
   }
   if (player_has_embassy(me, them)) {
@@ -206,6 +208,9 @@ const char *get_embassy_status(struct player *me, struct player *them)
     }
   } else if (player_has_embassy(them, me)) {
     return Q_("?embassy:With Us");
+  } else if (me->diplstates[them->player_no].contact_turns_left > 0
+             || them->diplstates[me->player_no].contact_turns_left > 0) {
+    return Q_("?embassy:Contact");
   } else {
     return "";
   }
