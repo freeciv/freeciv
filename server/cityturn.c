@@ -679,7 +679,7 @@ int add_adjust_workers(struct city *pcity)
   iswork--; /* City center */
 
   if (iswork+city_specialists(pcity)>workers) {
-    freelog(LOG_ERROR, "Encountered an inconsistency in"
+    freelog(LOG_ERROR, "Encountered an inconsistency in "
 	    "add_adjust_workers() for city %s", pcity->name);
     return 0;
   }
