@@ -48,11 +48,12 @@
 extern struct advance advances[];
 extern struct player_race races[];
 
-#define RICHEST           0 
-#define ADVANCED          1
-#define MILITARY          2
-#define HAPPIEST          3
-#define LARGEST           4
+enum historian_type {
+        HISTORIAN_RICHEST=0, 
+        HISTORIAN_ADVANCED=1,
+        HISTORIAN_MILITARY=2,
+        HISTORIAN_HAPPIEST=3,
+        HISTORIAN_LARGEST=4};
 
 char *historian_message[]={
     "Herodot's report on the RICHEST Civilizations in the World.",
@@ -75,7 +76,7 @@ int secompare(const void *a, const void *b)
 
 char *greatness[]={"Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious", "Worthless", "Pathetic", "Useless","Useless","Useless","Useless","Useless","Useless"};
 
-void historian_generic(int which_news)
+void historian_generic(enum historian_type which_news)
 {
   int i,j=0;
   char buffer[4096];
@@ -85,21 +86,25 @@ void historian_generic(int which_news)
 
   for (i=0;i<game.nplayers;i++) {
 	 if (game.players[i].is_alive) {
-         switch(which_news)
-	      {
-         case RICHEST:size[j].value=game.players[i].economic.gold;
+         switch(which_news) {
+         case HISTORIAN_RICHEST:
+				size[j].value=game.players[i].economic.gold;
 				break;
-	      case ADVANCED:size[j].value=game.players[i].score.techs
+	      case HISTORIAN_ADVANCED:
+				size[j].value=game.players[i].score.techs
 								  +game.players[i].future_tech;
-             break;
-	      case MILITARY:size[j].value=game.players[i].score.units;
-				 break;
-         case HAPPIEST: size[j].value=
+            break;
+	      case HISTORIAN_MILITARY:
+				size[j].value=game.players[i].score.units;
+				break;
+         case HISTORIAN_HAPPIEST: 
+				size[j].value=
       ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
                /(1+total_player_citizens(&game.players[i]));
-		         break;
-	      case LARGEST:size[j].value=total_player_citizens(&game.players[i]);
-				   break;
+		      break;
+	      case HISTORIAN_LARGEST:
+				size[j].value=total_player_citizens(&game.players[i]);
+				break;
 	      }
          size[j].idx=i;
 			j++;
