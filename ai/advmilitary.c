@@ -240,7 +240,7 @@ static int assess_defense_igwall(struct city *pcity)
 }
 
 /************************************************************************** 
-Compute actual danger depending on move rate of enemy and its distance.
+  Compute actual danger depending on move rate of enemy and its distance.
 **************************************************************************/
 static int dangerfunct(int danger, int move_rate, int distance)
 {
@@ -253,7 +253,7 @@ static int dangerfunct(int danger, int move_rate, int distance)
   danger *= 2;
 
   /* Turns to reach us.. */
-  while (distance >= move_rate) {
+  while (distance >= move_rate && move_rate != 0) {
     danger /= 2;
     distance -= move_rate;
   }
