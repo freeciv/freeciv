@@ -462,16 +462,16 @@ extern struct terrain_misc terrain_control;
   } square_dxy_iterate_end;                                                   \
 }									       
 
-/* Iterate through all tiles adjacent to a tile */
-#define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \
+/* Iterate through all map positions adjacent to the given center map
+ * position, with normalization.  The order of positions is unspecified. */
+#define adjc_iterate(center_x, center_y, x_itr, y_itr)                        \
 {                                                                             \
-  square_iterate(RI_center_x, RI_center_y, 1, RI_x_itr, RI_y_itr) {           \
-    if (RI_x_itr == RI_center_x && RI_y_itr == RI_center_y) {                 \
-      continue;                                                               \
-    }
+  /* Written as a wrapper to adjc_dir_iterate since it's the cleanest and     \
+   * most efficient. */                                                       \
+  adjc_dir_iterate(center_x, center_y, x_itr, y_itr, ADJC_ITERATE_dir_itr) {
 
 #define adjc_iterate_end                                                      \
-  } square_iterate_end;                                                       \
+  } adjc_dir_iterate_end;                                                     \
 }
 
 /* Iterate through all tiles adjacent to a tile.  dir_itr is the
