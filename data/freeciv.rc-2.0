@@ -1,0 +1,35 @@
+style "city_label"
+{
+  font_name = "LucidaTypewriter Bold 10"
+}
+
+style "notify_label"
+{
+  font_name = "Console Bold 12"
+}
+
+style "spaceship_label"
+{
+  font_name = "Console Bold 12"
+}
+
+style "help_label"
+{
+  font_name = "Helvetica 11"
+
+  fg[PRELIGHT] = { 1.0, 0.0, 0.0 }
+  fg[ACTIVE] = { 1.0, 0.0, 0.0 }
+  fg[NORMAL] = { 1.0, 0.0, 0.0 }
+  fg[INSENSITIVE] = { 1.0, 0.0, 0.0 }
+}
+
+style "help_text"
+{
+  font_name = "Fixed 12"
+}
+
+widget	"Freeciv*.city label"		style	"city_label"
+widget	"Freeciv*.notify label"		style	"notify_label"
+widget	"Freeciv*.spaceship label"	style	"spaceship_label"
+widget	"Freeciv*.help label"		style	"help_label"
+widget	"Freeciv*.help text"		style	"help_text"
