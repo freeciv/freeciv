@@ -774,7 +774,12 @@ void save_game(char *orig_filename)
   struct section_file file;
   struct timer *timer_cpu, *timer_user;
 
-  sz_strlcpy(filename, orig_filename);
+  if (orig_filename != NULL && orig_filename[0] != '\0'){
+    sz_strlcpy(filename, orig_filename);
+  } else { /* If orig_filename is NULL or empty, use "civgame<year>m.sav" */
+    my_snprintf(filename, sizeof(filename),
+		"%s%dm.sav", game.save_name, game.year);
+  }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);

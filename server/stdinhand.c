@@ -1066,10 +1066,13 @@ static const struct command commands[] = {
   },
   {"save",	ALLOW_HACK,
    /* TRANS: translate text between <> only */
-   N_("save <file-name>"),
+   N_("save\n"
+      "save <file-name>"),
    N_("Save game to file."),
-   N_("Save the current game to a file.  To reload a savegame created "
-      "by 'save', start the server with the command-line argument:\n"
+   N_("Save the current game to file <file-name>.  If no file-name "
+      "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
+      "To reload a savegame created by 'save', start the server with "
+      "the command-line argument:\n"
       "    --file <filename>\n"
       "and use the 'start' command once players have reconnected.")
   },
