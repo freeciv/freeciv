@@ -31,7 +31,8 @@
 #include "mapgen.h"
 
 /* Wrapper for easy access.  It's a macro so it can be a lvalue. */
-#define hmap(x,y) (height_map[map_inx(x, y)])
+#define hmap(x, y) (height_map[map_inx(x, y)])
+#define rmap(x, y) (river_map[map_inx(x, y)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -310,12 +311,12 @@ static int adjacent_terrain_tiles4(int x, int y,
 *********************************************************************/
 static int river_test_blocked(int x, int y)
 {
-  if (river_map[y*map.xsize + x] & RS_BLOCKED)
+  if (rmap(x, y) & RS_BLOCKED)
     return 1;
 
   /* any un-blocked? */
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (!(river_map[(y1)*map.xsize + x1] & RS_BLOCKED))
+    if (!(rmap(x1, y1) & RS_BLOCKED))
       return 0;
   } cartesian_adjacent_iterate_end;
 
@@ -386,7 +387,7 @@ static int river_test_adjacent_swamp(int x, int y)
 *********************************************************************/
 static int river_test_height_map(int x, int y)
 {
-  return height_map[y*map.xsize + x];
+  return hmap(x, y);
 }
 
 /*********************************************************************
@@ -397,10 +398,10 @@ static void river_blockmark(int x, int y)
   freelog(LOG_DEBUG, "Blockmarking (%d, %d) and adjacent tiles.",
 	  x, y);
 
-  river_map[y*map.xsize + x] |= RS_BLOCKED;
+  rmap(x, y) |= RS_BLOCKED;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    river_map[y1*map.xsize + x1] |= RS_BLOCKED;
+    rmap(x1, y1) |= RS_BLOCKED;
   } cartesian_adjacent_iterate_end;
 }
 
@@ -527,7 +528,7 @@ static int make_river(int x, int y)
 
   while (1) {
     /* Mark the current tile as river. */
-    river_map[y*map.xsize + x] |= RS_RIVER;
+    rmap(x, y) |= RS_RIVER;
     freelog(LOG_DEBUG,
 	    "The tile at (%d, %d) has been marked as river in river_map.\n",
 	    x, y);
@@ -732,7 +733,7 @@ static void make_rivers(void)
       /* Try to make a river. If it is OK, apply it to the map. */
       if (make_river(x, y)) {
 	whole_map_iterate(x1, y1) {
-	  if (river_map[y1*map.xsize + x1] & RS_RIVER) {
+	  if (rmap(x1, y1) & RS_RIVER) {
 	    if (terrain_control.river_style == R_AS_TERRAIN) {
 	      map_set_terrain(x1, y1, T_RIVER); /* Civ1 river style. */
 	    } else if (terrain_control.river_style == R_AS_SPECIAL) {

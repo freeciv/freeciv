@@ -68,6 +68,8 @@ static const char *tile_special_type_names[] =
 
 extern int is_server;
 
+#define MAP_TILE(x,y)	(map.tiles + map_inx(x, y))
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -1158,7 +1160,7 @@ struct tile *map_get_tile(int x, int y)
 
   assert(is_real);
 
-  return map.tiles + map_inx(x, y);
+  return MAP_TILE(x, y);
 }
 
 /***************************************************************
@@ -1169,7 +1171,7 @@ signed short map_get_continent(int x, int y)
   if (!normalize_map_pos(&x, &y))
     return -1;
   else
-    return (map.tiles + x + y * map.xsize)->continent;
+    return MAP_TILE(x, y)->continent;
 }
 
 /***************************************************************
@@ -1179,7 +1181,7 @@ void map_set_continent(int x, int y, int val)
 {
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
-  (map.tiles + x + y * map.xsize)->continent = val;
+  MAP_TILE(x, y)->continent = val;
 }
 
 
@@ -1191,7 +1193,7 @@ enum tile_terrain_type map_get_terrain(int x, int y)
   if (!normalize_map_pos(&x, &y))
     return T_UNKNOWN;
   else
-    return (map.tiles + x + y * map.xsize)->terrain;
+    return MAP_TILE(x, y)->terrain;
 }
 
 /***************************************************************
@@ -1202,7 +1204,7 @@ enum tile_special_type map_get_special(int x, int y)
   if (!normalize_map_pos(&x, &y))
     return S_NO_SPECIAL;
   else
-    return (map.tiles + x + y * map.xsize)->special;
+    return MAP_TILE(x, y)->special;
 }
 
 /***************************************************************
@@ -1212,7 +1214,7 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 {
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
-  (map.tiles + x + y * map.xsize)->terrain = ter;
+  MAP_TILE(x, y)->terrain = ter;
 }
 
 /***************************************************************
@@ -1223,7 +1225,7 @@ void map_set_special(int x, int y, enum tile_special_type spe)
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
 
-  (map.tiles + x + y * map.xsize)->special |= spe;
+  MAP_TILE(x, y)->special |= spe;
 
   if (spe & (S_ROAD | S_RAILROAD))
     reset_move_costs(x, y);
@@ -1236,7 +1238,7 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 {
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
-  (map.tiles + x + y * map.xsize)->special &= ~spe;
+  MAP_TILE(x, y)->special &= ~spe;
 
   if (spe & (S_ROAD | S_RAILROAD))
     reset_move_costs(x, y);
@@ -1249,7 +1251,7 @@ struct city *map_get_city(int x, int y)
 {
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
-  return (map.tiles + x + y*map.xsize)->city;
+  return MAP_TILE(x, y)->city;
 }
 
 
@@ -1260,7 +1262,7 @@ void map_set_city(int x, int y, struct city *pcity)
 {
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
-  (map.tiles + x + y*map.xsize)->city=pcity;
+  MAP_TILE(x, y)->city = pcity;
 }
 
 
@@ -1272,7 +1274,7 @@ enum known_type tile_is_known(int x, int y)
   if (!normalize_map_pos(&x, &y))
     return TILE_UNKNOWN;
   else
-    return (enum known_type) ((map.tiles + x + y * map.xsize)->known);
+    return (enum known_type) (MAP_TILE(x, y)->known);
 }
 
 /***************************************************************
