@@ -49,7 +49,8 @@ options="1.9"
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = number of turns air units can fly before they crash. For
-;                 barbarians this is used as lifetime instead
+;                 barbarians this is used as lifetime instead. If this is zero,
+;                 the unit has unlimited fuel, despite flying.
 ; uk_*          = upkeep costs, these are used as base values in the game
 ;		  (NOTE: gold upkeep is still not implemented)
 ; flags         = special flag strings

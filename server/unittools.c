@@ -468,7 +468,8 @@ void player_restore_units(struct player *pplayer)
   
   /* 9) Check if there are air units without fuel */
   unit_list_iterate(pplayer->units, punit) {
-    if (is_air_unit(punit) && punit->fuel<=0) {
+    if (is_air_unit(punit) && punit->fuel <= 0
+        && unit_type(punit)->fuel > 0) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 		       _("Game: Your %s has run out of fuel."),
 		       unit_name(punit->type));

@@ -858,7 +858,7 @@ const char *unit_activity_text(struct unit *punit)
   switch(punit->activity) {
    case ACTIVITY_IDLE:
      moves_str = _("Moves");
-     if(is_air_unit(punit)) {
+     if (is_air_unit(punit) && unit_type(punit)->fuel > 0) {
        int rate,f;
        rate=unit_type(punit)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
