@@ -399,10 +399,27 @@ int section_file_load(struct section_file *sf, const char *filename)
       if (table_state) {
 	inf_die(inf, "new section during table");
       }
-      psection = sbuf_malloc(sb, sizeof(struct section));
-      psection->name = sbuf_strdup(sb, tok);
-      entry_list_init(&psection->entries);
-      section_list_insert_back(sf->sections, psection);
+      /* Check if we already have a section with this name.
+	 (Could ignore this and have a duplicate sections internally,
+	 but then secfile_get_secnames_prefix would return duplicates.)
+	 Duplicate section in input are likely to be useful for includes.
+	 This is slow if there are lots of sections; [cs]hould have a
+	 hash on section names.
+      */
+      psection = NULL;
+      section_list_iterate(*sf->sections, asection) {
+	if (strcmp(asection->name, tok)==0) {
+	  psection = asection;
+	  break;
+	}
+      }
+      section_list_iterate_end;
+      if (psection==NULL) {
+	psection = sbuf_malloc(sb, sizeof(struct section));
+	psection->name = sbuf_strdup(sb, tok);
+	entry_list_init(&psection->entries);
+	section_list_insert_back(sf->sections, psection);
+      }
       inf_token_required(inf, INF_TOK_EOL);
       continue;
     }
