@@ -836,7 +836,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 		     GTK_SIGNAL_FUNC(city_select_same_island_callback),
 		     NULL);
   if(!GTK_CLIST(city_list)->selection)
-    gtk_widget_set_sensitive(item,FALSE);
+    gtk_widget_set_sensitive(item, FALSE);
 
   /* Add a separator */
   gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());  
@@ -864,13 +864,13 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());  
 
   append_impr_or_unit_to_menu(menu, _("Supported Units"), FALSE, FALSE, 
-                              TRUE, FALSE, city_unit_supported, TRUE);
+                              TRUE, FALSE, city_unit_supported, FALSE);
 
   append_impr_or_unit_to_menu(menu, _("Units Present"), FALSE, FALSE, 
-                              TRUE, FALSE, city_unit_present, TRUE);
+                              TRUE, FALSE, city_unit_present, FALSE);
 
   append_impr_or_unit_to_menu(menu, _("Improvements in City"), FALSE, TRUE, 
-                              FALSE, TRUE, city_got_building, TRUE);
+                              FALSE, TRUE, city_got_building, FALSE);
 
   append_impr_or_unit_to_menu(menu, _("Available Improvements"), FALSE, TRUE,
 			      FALSE, FALSE, city_can_build_impr_or_unit,
