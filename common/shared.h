@@ -22,8 +22,8 @@
 /* different patch versions are compatible */
 #define MAJOR_VERSION  1
 #define MINOR_VERSION  7
-#define PATCH_VERSION  1
-#define VERSION_STRING "1.7.1"
+#define PATCH_VERSION  2
+#define VERSION_STRING "1.7.2"
 
 #endif /* HAVE_CONFIG_H */
 

@@ -7,7 +7,7 @@
 Freeciv*gotAppDefFile:                       True
 Freeciv*server:                              localhost
 Freeciv*port:                                5555
-Freeciv*version:                             1.7.1
+Freeciv*version:                             1.7.2
 Freeciv*logLevel:                            1
 
 !
