@@ -981,18 +981,17 @@ msgstr "Игра: В %s опасаются голода."
 
 #: server/cityturn.c:363
 msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr "Игра: ВНИМАНИЕ, у нас НЕ ХВТАТЕТ ДЕНЕГ."
+msgstr "Игра: ВНИМАНИЕ, у нас НЕ ХВАТАЕТ ДЕНЕГ."
 
 #: server/cityturn.c:443 server/cityturn.c:462
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
-msgstr ""
-"Игра: %s нуждается в %s (в процессе постройки) для дальнейшего развития."
+msgstr "Игра: Городу %s требуется %s (в процессе постройки) для дальнейшего развития."
 
 #: server/cityturn.c:448 server/cityturn.c:467
 #, c-format
 msgid "Game: %s needs %s to grow any further."
-msgstr "Игра: %s нуждается в %s для дальнейшего развития."
+msgstr "Игра: Городу %s требуется %s для дальнейшего развития."
 
 #: server/cityturn.c:516
 #, c-format
@@ -1012,7 +1011,7 @@ msgstr "%s потеряли %s (голод)"
 #: server/cityturn.c:560
 #, c-format
 msgid "Game: Famine causes population loss in %s."
-msgstr "Игра: Голод вызвал потерю населения в %s."
+msgstr "Игра: Голод вызвал потерю населения в городе %s."
 
 #: server/cityturn.c:646 server/cityturn.c:686
 #, c-format
@@ -1031,7 +1030,7 @@ msgstr ""
 #: server/cityturn.c:673 server/cityturn.c:730 server/cityturn.c:841
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
-msgstr "Игра: Производство %s модернизировано до %s в %s."
+msgstr "Игра: Производство %s модернизировано до %s в городе %s."
 
 #: server/cityturn.c:712
 #, c-format
@@ -1078,12 +1077,12 @@ msgstr "Игра: %s завершили строительство %s в %s."
 #: server/cityturn.c:962 server/cityturn.c:968
 #, c-format
 msgid "%s build %s in %s"
-msgstr "%s строят %s в %s."
+msgstr "%s строят %s в городе %s."
 
 #: server/cityturn.c:974
 #, c-format
 msgid "Game: %s has finished building %s."
-msgstr "Игра: %s построил %s."
+msgstr "Игра: В городе %s завершена постройка %s."
 
 #: server/cityturn.c:981
 #, c-format
@@ -2084,8 +2083,7 @@ msgid ""
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Игра: Новые надежды возникают по всей стране после того как об'явлено об "
-"открытии железных дорог.\n"
+"Игра: Новые надежды возникают по всей стране после того как объявлено об открытии железных дорог.\n"
 "      Рабочие неожиданно собираются и строят железные дороги во всех городах."
 
 #: server/maphand.c:190
@@ -5720,7 +5718,7 @@ msgstr "Игра: %s слишком велик, чтобы добавить %s."
 #: server/unithand.c:494 server/unithand.c:500
 #, c-format
 msgid "Game: %s needs %s to grow, so you cannot add %s."
-msgstr "Игра: %s нуждается в %s для роста, поэтому Вы не можете добавить %s."
+msgstr "Игра: Городу %s требуется %s для роста, поэтому Вы не можете добавить %s."
 
 #: server/unithand.c:509
 #, c-format
@@ -5775,7 +5773,7 @@ msgstr "Игра: Невозможно атаковать с моря."
 
 #: server/unithand.c:907 server/unittools.c:2194
 msgid "Game: Cannot attack unless you declare war first."
-msgstr "Игра: Невозможно атаковать пока не об'явлена война."
+msgstr "Игра: Невозможно атаковать пока не объявлена война."
 
 #: server/unithand.c:910
 #, c-format
