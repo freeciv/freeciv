@@ -399,6 +399,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
 {
   CHECK_UNIT(punit);
+  assert(punit->owner == pcity->owner);
+
   if (punit->homecity == 0 && !unit_has_role(punit->type, L_EXPLORER)) {
     /* This unit doesn't pay any upkeep while it doesn't have a homecity,
      * so it would be stupid to give it one. There can also be good reasons

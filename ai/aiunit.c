@@ -328,7 +328,7 @@ static struct city *wonder_on_continent(struct player *pplayer,
 
 /**************************************************************************
   Return whether we should stay and defend a square, usually a city. Will
-  protect allied cities temporarily.
+  protect allied cities temporarily in case of grave danger.
 
   FIXME: We should check for fortresses here.
 **************************************************************************/
@@ -336,30 +336,40 @@ static bool stay_and_defend(struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
   bool has_defense = FALSE;
-
-  CHECK_UNIT(punit);
+  int mydef;
+  int units = -2; /* WAG for grave danger threshold, seems to work */
 
   if (!pcity) {
     return FALSE;
   }
+  mydef = assess_defense_unit(pcity, punit, FALSE);
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef) {
-    if (assess_defense_unit(pcity, punit, FALSE) >= 0
+    if (assess_defense_unit(pcity, pdef, FALSE) >= mydef
 	&& pdef != punit
 	&& pdef->homecity == pcity->id) {
       has_defense = TRUE;
     }
+    units++;
   } unit_list_iterate_end;
  
   /* Guess I better stay / you can live at home now */
-  if (!has_defense && pcity->ai.danger > 0) {
-    /* change homecity to this city */
+  if (!has_defense && pcity->ai.danger > 0 && punit->owner == pcity->owner) {
+    /* Change homecity to this city */
     if (ai_unit_make_homecity(punit, pcity)) {
       /* Very important, or will not stay -- Syela */
       ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
       return TRUE;
-    }
+    } /* else city cannot upkeep us! */
   }
+
+  /* Treat grave danger anyway if danger is over threshold, which is the
+   * number of units currently in the city. */
+  if (pcity->ai.grave_danger > units) {
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    return TRUE;
+  }
+
   return FALSE;
 }
 
