@@ -668,18 +668,19 @@ void be_write_osda_to_file(struct osda *osda, const char *filename)
 void image_copy_full(struct image *src, struct image *dest,
 		     struct ct_rect *region)
 {
-  int x, y;
+  int y;
 
   for (y = 0; y < region->height; y++) {
-    for (x = 0; x < region->width; x++) {
-      unsigned char *psrc = IMAGE_GET_ADDRESS(src, x + region->x, 
-                                              y + region->y);
-      unsigned char *pdest = IMAGE_GET_ADDRESS(dest, x, y);
+    unsigned char *psrc = IMAGE_GET_ADDRESS(src, region->x, 
+					    y + region->y);
+    unsigned char *pdest = IMAGE_GET_ADDRESS(dest, 0, y);
 
-      IMAGE_CHECK(src, x + region->x, y + region->y);
-      IMAGE_CHECK(dest, x, y);
-      memcpy(pdest, psrc, 4);
-    }
+    IMAGE_CHECK(src, region->x, y + region->y);
+    IMAGE_CHECK(src, region->x + region->width + -1, y + region->y);
+    IMAGE_CHECK(dest, 0, y);
+    IMAGE_CHECK(dest, region->width - 1, y);
+
+    memcpy(pdest, psrc, 4 * region->width);
   }
 }
 
