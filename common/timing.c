@@ -180,7 +180,7 @@ struct timer *renew_timer(struct timer *t, enum timer_timetype type,
 			  enum timer_use use)
 {
   if (!t) {
-    t = fc_malloc(sizeof(struct timer));
+    t = (struct timer *)fc_malloc(sizeof(struct timer));
   }
   t->type = type;
   t->use = use;

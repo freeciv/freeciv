@@ -189,19 +189,19 @@ static void build_landarea_map_new(struct claim_map *pcmap)
   int nbytes;
 
   nbytes = map.xsize * map.ysize * sizeof(struct claim_cell);
-  pcmap->claims = fc_malloc(nbytes);
+  pcmap->claims = (struct claim_cell *)fc_malloc(nbytes);
   memset (pcmap->claims, 0, nbytes);
 
   nbytes  = game.nplayers * sizeof(int);
-  pcmap->player_landarea = fc_malloc(nbytes);
+  pcmap->player_landarea = (int *)fc_malloc(nbytes);
   memset (pcmap->player_landarea, 0, nbytes);
 
   nbytes  = game.nplayers * sizeof(int);
-  pcmap->player_owndarea = fc_malloc(nbytes);
+  pcmap->player_owndarea = (int *)fc_malloc(nbytes);
   memset (pcmap->player_owndarea, 0, nbytes);
 
   nbytes = 2 * map.xsize * map.ysize * sizeof(struct map_position);
-  pcmap->edges = fc_malloc(nbytes);
+  pcmap->edges = (struct map_position *)fc_malloc(nbytes);
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
@@ -1005,8 +1005,8 @@ void update_island_impr_effect(int oldmax, int maxcont)
 
   players_iterate(plr) {
     /* First do improvements with island-wide equiv_range. */
-    plr->island_improv=fc_realloc(plr->island_improv,
-				  (maxcont+1)*game.num_impr_types);
+    plr->island_improv=(Impr_Status *)fc_realloc(plr->island_improv,
+      	      	      	  (maxcont+1)*game.num_impr_types);
     for (i=oldmax+1;i<=maxcont;i++) {
       improvement_status_init(&plr->island_improv[i*game.num_impr_types]);
     }
@@ -1017,8 +1017,8 @@ void update_island_impr_effect(int oldmax, int maxcont)
         geff_vector_free(&plr->island_effects[i]);
       }
     }
-    plr->island_effects=fc_realloc(plr->island_effects,
-				   (maxcont+1)*sizeof(struct geff_vector));
+    plr->island_effects=(struct geff_vector *)fc_realloc(plr->island_effects,
+      	      	      	  (maxcont+1)*sizeof(struct geff_vector));
     for (i=oldmax+1; i<=maxcont; i++) {
       geff_vector_init(&plr->island_effects[i]);
     }

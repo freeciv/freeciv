@@ -163,7 +163,7 @@ struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 ***************************************************************/
 void alloc_nations(int num)
 {
-  nations = fc_calloc( num, sizeof(struct nation_type) );
+  nations = (struct nation_type *)fc_calloc(num, sizeof(struct nation_type));
 }
 
 void free_nations(int num)

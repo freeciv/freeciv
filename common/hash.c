@@ -282,7 +282,7 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
 
   freelog(LOG_DEBUG, "New hash table with %u buckets", nbuckets);
   
-  h = fc_malloc(sizeof(struct hash_table));
+  h = (struct hash_table *)fc_malloc(sizeof(struct hash_table));
   zero_htable(h);
 
   h->num_buckets = nbuckets;
@@ -290,7 +290,8 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
   h->fval = fval;
   h->fcmp = fcmp;
 
-  h->buckets = fc_malloc(h->num_buckets*sizeof(struct hash_bucket));
+  h->buckets = (struct hash_bucket *)
+      	       fc_malloc(h->num_buckets*sizeof(struct hash_bucket));
 
   for(i=0; i<h->num_buckets; i++) {
     zero_hbucket(&h->buckets[i]);
@@ -514,7 +515,7 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
       h->num_deleted--;
     }
     h->num_entries++;
-    bucket->used = 1;
+    bucket->used = BUCKET_USED;
   }
   bucket->key = key;
   bucket->data = data;
@@ -597,7 +598,7 @@ unsigned int hash_num_deleted(const struct hash_table *h)
 const void *hash_key_by_number(const struct hash_table *h,
 			       unsigned int entry_number)
 {
-  int bucket_nr, counter = 0;
+  unsigned int bucket_nr, counter = 0;
   assert(entry_number < h->num_entries);
 
   for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {

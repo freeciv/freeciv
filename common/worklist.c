@@ -26,7 +26,7 @@
 ****************************************************************/
 struct worklist *create_worklist(void)
 {
-  struct worklist *pwl = fc_malloc(sizeof(struct worklist));
+  struct worklist *pwl = (struct worklist *)fc_malloc(sizeof(struct worklist));
   init_worklist(pwl);
 
   return pwl;

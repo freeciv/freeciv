@@ -258,9 +258,9 @@ void set_ruler_title(struct government *gov, int nation,
   struct ruler_title *title;
 
   gov->num_ruler_titles++;
-  gov->ruler_titles
-    = fc_realloc(gov->ruler_titles,
-                 gov->num_ruler_titles*sizeof(struct ruler_title));
+  gov->ruler_titles =
+    (struct ruler_title *)fc_realloc(gov->ruler_titles,
+      gov->num_ruler_titles*sizeof(struct ruler_title));
   title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
 
   title->nation = nation;

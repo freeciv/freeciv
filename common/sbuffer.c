@@ -77,7 +77,7 @@ static void sbuf_expand(struct sbuffer *sb)
   assert(sb && (sb->size>0));
   
   prev_buffer = sb->buffer;
-  sb->buffer = fc_malloc(sb->size);
+  sb->buffer = (char *)fc_malloc(sb->size);
 
   /* store pointer to previous buffer: */
   *(char **)(sb->buffer) = (char*)prev_buffer;
@@ -116,7 +116,7 @@ struct sbuffer *sbuf_new_size(int size)
 
   assert(size>2*SBUF_ALIGN_SIZE);
 
-  sb = fc_malloc(sizeof(*sb));
+  sb = (struct sbuffer *)fc_malloc(sizeof(*sb));
   sb->size = size;
   sb->buffer = NULL;		/* so pointer to prev buffer is NULL */
 

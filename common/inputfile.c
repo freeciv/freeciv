@@ -212,7 +212,7 @@ struct inputfile *inf_open(const char *filename,
   if (!fp) {
     return NULL;
   }
-  inf = fc_malloc(sizeof(struct inputfile));
+  inf = (struct inputfile *)fc_malloc(sizeof(struct inputfile));
   init_zeros(inf);
   
   inf->filename = mystrdup(filename);

@@ -102,7 +102,8 @@ int log_parse_level_str(char *level_str)
     return -1;
   }
   logd_num_files = n;
-  logd_files = fc_malloc(n * sizeof(struct logd_fileinfo));
+  logd_files = (struct logd_fileinfo *)
+    fc_malloc(n * sizeof(struct logd_fileinfo));
   
   dup = mystrdup(c+2);
   tok = strtok(dup, ":");
