@@ -137,10 +137,11 @@ void create_meswin_dialog(void)
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(meswin_dialog_shell),
 	GTK_RESPONSE_CLOSE);
+  gtk_window_set_default_size(GTK_WINDOW(meswin_dialog_shell), 400, 250);
 
   scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
-                          GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+                          GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->vbox),
 		     scrolled, TRUE, TRUE, 0);
 
