@@ -96,8 +96,6 @@ enum known_type {
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
-extern struct tile_type tile_types[MAX_NUM_TERRAINS];
-
 /* General accessor functions. */
 struct tile_type *get_tile_type(Terrain_type_id type);
 Terrain_type_id get_terrain_by_name(const char * name);

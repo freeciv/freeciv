@@ -136,6 +136,7 @@ struct tile_type {
 
   char *helptext;
 };
+extern struct tile_type tile_types[MAX_NUM_TERRAINS];
 
 /* The direction8 gives the 8 possible directions.  These may be used in
  * a number of ways, for instance as an index into the DIR_DX/DIR_DY
