@@ -1,3 +1,323 @@
+Sat Oct  9 03:54:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/nations.ruleset: Add the Finnish nation, and
+	correct a spelling mistake for a Swedish city.  Patch submitted by
+	Mika Korhonen <mikak@ees2.oulu.fi>.  Also marked "Portuguese" for
+	i18n.
+
+Sat Oct  9 03:42:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/graphics.c, client/gui-gtk/helpdlg.c: Fix bug
+	that accessing help in gtk client, after connecting but before
+	game start, would exit client.  Bug (PR#142) reported by Idan
+	Sofer <sofer@ibm.net>; fix submitted by Reinier Post
+	<rp@win.tue.nl>.
+
+Thu Oct  7 22:15:50 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* client/gui-gtk/citydlg.c, client/gui-xaw/citydlg.c: Changing the
+	client Trade Popup window terminology from "Gold/Year" to
+	"Trade/Year".  "Gold" has other game meanings that aren't
+	appropriate to the continuing income from trade routes.
+
+Thu Oct  7 21:59:31 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ1/terrain.ruleset, common/Makefile.am,
+	common/Makefile.in, common/fcintl.c, common/fcintl.h,
+	common/game.c, data/civ2/terrain.ruleset,
+	data/classic/terrain.ruleset, data/default/terrain.ruleset,
+	po/de.po, po/es.po, po/fr.po, po/hu.po, po/pl.po, po/pt.po: Added
+	capability to qualify translatable strings.  Qualified strings are
+	prefixed by "?qualifier:", which is stripped by the new Q_()
+	macro, which, in turn, calls the new skip_intl_qualifier_prefix()
+	function to do the real work.  This also changes "Game Animals"
+	back to "Game".
+
+Thu Oct  7 19:59:01 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/advdomestic.c, ai/aicity.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/cityrep.c, client/gui-xaw/citydlg.c,
+	client/gui-xaw/cityrep.c, common/capstr.c, server/cityturn.c:
+	Committing foodbox patch.  Capability string updated to include
+	+foodbox.
+
+Thu Oct  7 19:31:36 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* data/default/nations.ruleset, data/engels/flags.spec,
+	data/engels/flags.xpm, data/trident/flags.spec,
+	data/trident/flags.xpm: Added Portuguese race.
+
+Mon Oct  4 13:36:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c, client/civclient.c, client/control.c,
+	client/tilespec.c, client/gui-gtk/diplodlg.c,
+	client/gui-xaw/colors.c, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/gui_main.c,
+	common/log.c, common/mem.c, common/shared.c, po/POTFILES.in,
+	server/cityhand.c, server/citytools.c, server/cityturn.c,
+	server/civserver.c, server/diplhand.c, server/gamelog.c,
+	server/handchat.c, server/maphand.c, server/meta.c,
+	server/plrhand.c, server/ruleset.c, server/spacerace.c,
+	server/stdinhand.c, server/unitfunc.c, server/unithand.c,
+	server/unittools.c: Marked a few more strings, and adjusted
+	others, in particular for more consistent capitalisation and
+	punctuation of messages.
+
+Mon Oct  4 11:32:26 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/clinet.c, client/control.c, ai/aicity.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/messagewin.c,
+	client/gui-xaw/chatline.c, client/gui-xaw/citydlg.c,
+	client/gui-xaw/cityrep.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/messagewin.c, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/repodlgs.c, common/log.c, common/map.c,
+	common/shared.c, common/unit.c, po/POTFILES.in, server/cityhand.c,
+	server/citytools.c, server/cityturn.c, server/civserver.c,
+	server/console.c, server/diplhand.c, server/handchat.c,
+	server/maphand.c, server/meta.c, server/plrhand.c,
+	server/spacerace.c, server/stdinhand.c, server/unitfunc.c,
+	server/unithand.c, server/unittools.c: Marked more strings for
+	translation, especially in common, server, ai.  (Parts will only
+	work well if server and client use same language.) Adjusted
+	treatment of "Game: " message prefix in add_notify_window() to try
+	to strip both untranslated and locally translated prefix.  In
+	set_title_topic() check for translated "About".  Changed some
+	cases where building and unit names (especially spy and diplomat)
+	were hardcoded in messages strings, to now use eg unit_name()
+	instead, for better support for modpacks.
+
+Sun Oct  3 09:41:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.mac.h: Update to config.mac.h, submitted by Andy Black
+	<ablack@bvsd.k12.co.us>.
+
+Sun Oct  3 08:52:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/dialogs.c, client/gui-xaw/dialogs.c,
+	server/plrhand.c: Fixed bug that clicking on rates icons after
+	connection but before game start could cause server crash (or at
+	least complaint, for recent servers).  Fixed in clients, and also
+	made server more defensive.  Fixes bug (PR#140) reported by Jerzy
+	Klek <qpkjeek@epk.ericsson.se>.
+
+Sun Oct  3 07:49:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/buildings.ruleset, data/civ1/techs.ruleset,
+	data/civ1/units.ruleset, data/civ2/buildings.ruleset,
+	data/civ2/techs.ruleset, data/civ2/units.ruleset,
+	data/default/buildings.ruleset, data/default/techs.ruleset,
+	data/default/units.ruleset: Some fixes and improvements to
+	helptext, suggested by Per Mathisen <permath@ifi.ntnu.no>.
+
+Sun Oct  3 07:19:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, client/gui-gtk/helpdlg.c,
+	client/gui-xaw/helpdlg.c, data/helpdata.txt, po/POTFILES.in:
+	Converted helpdata.txt to registry format, to allow i18n.
+
+Sun Oct  3 07:15:27 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aihand.c, ai/aitech.c, common/game.c, common/game.h,
+	common/government.h, data/civ1/governments.ruleset,
+	data/civ2/governments.ruleset, data/default/governments.ruleset,
+	server/ruleset.c: Added ai_goal and subgoal entries to governments
+	rulesets so can remove remains of G_ANARCHY etc, in
+	ai_manage_government() and get_government_tech() (without going
+	yet to full (unfixed, untested) government evaluation code).
+
+Sun Oct  3 07:13:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c: When writing repeated log messages, use prev_level
+	instead of level.
+
+Sat Oct  2 05:34:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/de.po: Updated de.po, by Manop Huber
+	<saphir@cs.tu-berlin.de>, submitted by Sebastian Feuerstack
+	<Sebastian@Feuerstack.de>.
+
+Sat Oct  2 05:29:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/dialogs.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/dialogs.c, common/city.h, common/game.c,
+	common/nation.c, data/Freeciv, data/default/cities.ruleset,
+	po/POTFILES.in, server/ruleset.c: Marked city style changes for
+	i18n, including names of styles.  Added bounds checking in
+	get_nation_city_style().  In load_ruleset_cities, changed order so
+	no need to malloc for replacements.
+
+Sat Oct  2 04:28:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/trident/roads.spec, data/trident/roads.xpm: Improved the
+	trident roads to be more like current engels tileset: each road
+	tile slightly different, to reduce repetition on map, rather than
+	having each tile based on exactly the same template.
+
+	Added narrower rails (like current engels tileset), which obscure
+	less terrain than original trident rails.  But they don't look
+	quite as nice as originals, so left originals in xpm as well, and
+	can change back by editing one number in trident/roads.spec.
+
+Sat Oct  2 04:12:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/capstr.c: Modified the capability string, because the
+	city style stuff made changes to the protocol.
+
+Fri Oct  1 16:06:48 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/gui_main.c: Fix a few oddities in dialog
+	positioning in the Xaw client.
+
+Fri Oct  1 15:09:48 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* README.graphics, README.rulesets, client/civclient.c,
+	client/packhand.c, client/packhand.h, client/tilespec.c,
+	client/tilespec.h, client/gui-gtk/dialogs.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/dialogs.c, common/city.c,
+	common/city.h, common/game.c, common/game.h, common/nation.c,
+	common/nation.h, common/packets.c, common/packets.h,
+	common/player.c, common/player.h, data/Freeciv,
+	data/default.tilespec, data/engels.tilespec,
+	data/default/Makefile.am, data/default/Makefile.in,
+	data/default/cities.ruleset, data/default/nations.ruleset,
+	data/engels/Makefile.am, data/engels/Makefile.in,
+	data/engels/cities.spec, data/engels/cities.xpm,
+	data/engels/tiles.spec, data/trident/Makefile.am,
+	data/trident/Makefile.in, data/trident/cities.spec,
+	data/trident/cities.xpm, data/trident/tiles.spec,
+	server/civserver.c, server/gamehand.c, server/plrhand.c,
+	server/ruleset.c, server/stdinhand.c: Patch to implement varying
+	city display styles, depending upon city size and civilization
+	advancement.  Patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.
+
+Thu Sep 30 14:25:09 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/government.c: Added sanity checks to
+	get_government_max_rate() and get_government_name().  Calls to
+	these before starting a game (hence, before loading government
+	ruleset) was causing core dumps.  Specifically addresses bug
+	report PR#138.  Bug reported by Matt Starnes <matt@mail.ltlb.com>.
+
+Thu Sep 30 13:10:25 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pt.po: Fixed bug in latest pt.po -- one translation did not
+	have consistent newlines.  Error message was: pt.po:1272: `msgid'
+	and `msgstr' entries do not both end with '\n'
+
+Thu Sep 30 12:38:32 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/repodlgs.c: Fixed bug where gtk+ client's
+	Military Report showed only Unit Type column.  Caused by
+	introduction of intl_slist() i18n mechanism.  Bug reported by Tony
+	Stuckey <stuckey@jaka.ece.uiuc.edu>
+
+Thu Sep 30 12:21:52 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po: *** empty log message ***
+
+Tue Sep 28 21:09:28 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/connectdlg.c, client/gui-gtk/graphics.c,
+	client/gui-xaw/graphics.c: A few, minor UI fixes.  Increased the
+	height of the gtk client's connect dialog, so the betatest message
+	is not clipped.  Used font metrics and sprite extents to determine
+	where to draw version text onto the overview initial graphic (both
+	clients).
+
+Tue Sep 28 19:38:35 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* README.graphics: Changed references to trident tileset into
+	engels tileset.
+
+Tue Sep 28 15:02:10 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+	data/classic_terrain.ruleset, data/default.tilespec,
+	data/engels.tilespec, data/intro.xpm, data/radar.xpm,
+	data/trident.tilespec, data/classic/.cvsignore,
+	data/classic/Makefile.am, data/classic/Makefile.in,
+	data/classic/terrain.ruleset, data/default/Makefile.am,
+	data/default/Makefile.in, data/default/flags.spec,
+	data/default/flags.xpm, data/default/roads.spec,
+	data/default/roads.xpm, data/default/small.spec,
+	data/default/small.xpm, data/default/space.spec,
+	data/default/space.xpm, data/default/tiles.spec,
+	data/default/tiles.xpm, data/default/treaty.spec,
+	data/default/treaty.xpm, data/default/units.spec,
+	data/default/units.xpm, data/engels/.cvsignore,
+	data/engels/Makefile.am, data/engels/Makefile.in,
+	data/engels/flags.spec, data/engels/flags.xpm,
+	data/engels/roads.spec, data/engels/roads.xpm,
+	data/engels/tiles.spec, data/engels/tiles.xpm,
+	data/engels/units.spec, data/engels/units.xpm,
+	data/misc/.cvsignore, data/misc/Makefile.am,
+	data/misc/Makefile.in, data/misc/intro.xpm, data/misc/radar.xpm,
+	data/misc/small.spec, data/misc/small.xpm, data/misc/space.spec,
+	data/misc/space.xpm, data/misc/treaty.spec, data/misc/treaty.xpm,
+	po/POTFILES.in, po/pt.po: Reorganized the data directory.  Added
+	the data/engels and data/misc directories.  Moved Engels tiles
+	files into data/engels, and all other image files into data/misc. 
+	Changed the default tileset to be the Trident tileset.  Moved
+	classic_terrain.ruleset to classic/terrain.ruleset.  Also, fixed
+	minor, unrelated bug in po/pt.po.
+
+Tue Sep 28 11:51:30 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po: Translated a couple of strings here and there.
+
+Mon Sep 27 14:58:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, client/gui-xaw/Freeciv.h,
+	common/version.h, data/Freeciv: Named cvs version as "1.8.4-devel"
+	(beta).
+
+Mon Sep 27 14:29:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, client/gui-xaw/Freeciv.h,
+	common/version.h, data/Freeciv: Update version number to 1.8.3
+	(beta).
+
+Mon Sep 27 14:24:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/de.po, po/es.po, po/fr.po, po/hu.po, po/pl.po, po/pt.po:
+	Updates to po files by "make dist": normalised vs freeciv.pot, and
+	it tried to do automatic ("fuzzy") updates; many of these look
+	disastrous, but it seems they don't get used by gettext until the
+	fuzzy tag is later removed by hand by translator.
+
+Mon Sep 27 13:21:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/control.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/menu.c, common/capstr.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/menu.c: Consolidated capability string to
+	"+1.9pre1", in preparation for final "+1.9" protocol; adjusted
+	code which previously checked particular capability tags.
+
+Mon Sep 27 13:19:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/options.c: When reading .civclientrc, sanity-check index
+	from "message_where_*" entries to avoid possible core dumps. 
+	Patch submitted by Corin Anderson <corin@the4cs.com>.
+
+Mon Sep 27 13:17:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/connectdlg.c, client/gui-xaw/Freeciv.h,
+	common/version.h, data/Freeciv, server/meta.c, server/meta.h:
+	Changed notices about "beta release" to say "beta version", so it
+	applies not just to point releases.  Moved a comment block from
+	meta.h to meta.c.
+
+Mon Sep 27 13:14:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ChangeLog: Interim ChangeLog update.
+
 Sun Sep 26 21:26:26 1999  Sebastian Bauer <sebauer@t-online.de>:
 
 	* common/packets.c: Renamed the _int* functions to _sint* and
