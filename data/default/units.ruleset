@@ -1763,7 +1763,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "GameLoss", "Unique", "Unbribable",
+flags         = "IgZOC", "NonMil", "Unique", "Unbribable",
                 "Undisbandable", "SuperSpy", "NoHome"
 roles         = "BarbarianLeader"
 helptext      = _("\
