@@ -683,6 +683,7 @@ struct unit *is_enemy_unit_on_tile(int x, int y, int owner)
 
 /**************************************************************************
 Teleport punit to city at cost specified.  Returns success.
+(If specified cost is <0, then teleportation costs all movement.)
                          - Kris Bubendorfer
 **************************************************************************/
 
@@ -692,7 +693,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     punit->x = pcity->x;
     punit->y = pcity->y;
-    if(punit->moves_left < mov_cost)
+    if((mov_cost < 0) || (punit->moves_left < mov_cost))
       punit->moves_left = 0;
     else
       punit->moves_left -= mov_cost;

@@ -594,6 +594,10 @@ int wants_to_be_bigger(struct city *pcity)
  * then the city is disbanded and not bougth, and we only need to evaluate the
  * units supported by the city, and not those actually present.
  * - Thue <thue.kristensen@get2net.dk>
+ *
+ * Interpretation of kill_outside changed to mean the radius outside
+ * of which supported units are killed.  If 0, all supported units not
+ * in the city are killed.  If -1, no supported units are killed.  --jjm
  */
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
@@ -646,20 +650,24 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 		       vunit->type, vunit->veteran, new_home_city->id,
 		       vunit->moves_left, vunit->hp);
 
-    }else if(!kill_outside){
-      
+    }else if((kill_outside < 0) ||
+	     ((kill_outside > 0) &&
+	      (real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside))) {
+
       freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
-	      unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
+	      unit_name(vunit->type), vunit->x, vunit->y,
+	      pvictim->name, pplayer->name);
       if (verbose) {
 	notify_player(pvictim,
 		      _("Game: Transfered %s at (%d, %d) from %s to %s."),
-		      unit_name(vunit->type), x, y,
+		      unit_name(vunit->type), vunit->x, vunit->y,
 		      pvictim->name, pplayer->name);
       }
       create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
 		       vunit->veteran, pcity->id, vunit->moves_left,
 		       vunit->hp);
       lighten_area(pplayer, vunit->x,vunit->y);
+
     }
     wipe_unit_spec_safe(0, vunit, NULL, 0);
   } unit_list_iterate_end;
@@ -938,7 +946,7 @@ void civil_war(struct player *pplayer)
 	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
 		      pnewcity->name,cplayer->name);
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
-	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0, 0);
+	transfer_city_units(cplayer, pplayer, pnewcity, pcity, -1, 0);
 	remove_city(pcity); /* don't forget this! */
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 

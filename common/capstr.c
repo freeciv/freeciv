@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.9 river_help_text +barbarians founders lesshappy \
-unit_connect add_to_size_limit +worklists"
+unit_connect add_to_size_limit +worklists spy_discretion"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
@@ -89,6 +89,8 @@ unit_connect add_to_size_limit +worklists"
    "add_to_size_limit" adds add_to_size_limit field to game structure.
 
    "worklists" is protocol extension for city build lists.
+
+   "spy_discretion" allows spy to do unspecified sabotage, like diplomats.
 */
 
 void init_our_capability(void)

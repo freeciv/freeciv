@@ -204,9 +204,9 @@ extern struct civ_game game;
 #define GAME_MIN_DIPLCOST            0
 #define GAME_MAX_DIPLCOST            100
 
-#define GAME_DEFAULT_DIPLCHANCE      3
+#define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1
-#define GAME_MAX_DIPLCHANCE          10
+#define GAME_MAX_DIPLCHANCE          99
 
 #define GAME_DEFAULT_FREECOST        0
 #define GAME_MIN_FREECOST            0

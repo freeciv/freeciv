@@ -81,7 +81,7 @@ Widget spy_advances_list, spy_advances_list_label;
 Widget spy_steal_command;
 
 int spy_tech_shell_is_modal;
-int advance_type[A_LAST];
+int advance_type[A_LAST+1];
 int steal_advance = 0;
 
 /******************************************************************/
@@ -90,7 +90,7 @@ Widget spy_improvements_list, spy_improvements_list_label;
 Widget spy_sabotage_command;
 
 int spy_sabotage_shell_is_modal;
-int improvement_type[B_LAST];
+int improvement_type[B_LAST+1];
 int sabotage_improvement = 0;
 
 /******************************************************************/
@@ -692,7 +692,7 @@ static int create_advances_list(struct player *pplayer,
   Dimension width1, width2; 
   int i, j;
 
-  static char *advances_can_steal[A_LAST]; 
+  static char *advances_can_steal[A_LAST+1]; 
 
   spy_tech_shell =
     I_T(XtVaCreatePopupShell("spystealtechpopup", 
@@ -746,6 +746,12 @@ static int create_advances_list(struct player *pplayer,
         advance_type[j++] = i;
       }
     }
+    if(has_capability("spy_discretion", aconnection.capability)) {
+    if(j > 0) {
+      advances_can_steal[j] = _("At Spy's Discretion");
+      advance_type[j++] = game.num_tech_types;
+    }
+    }
   }
 
   if(j == 0) j++;
@@ -773,7 +779,7 @@ static int create_improvements_list(struct player *pplayer,
   Dimension width1, width2; 
   int i, j;
 
-  static char *improvements_can_sabotage[B_LAST]; 
+  static char *improvements_can_sabotage[B_LAST+1]; 
   
   spy_sabotage_shell =
     I_T(XtVaCreatePopupShell("spysabotageimprovementspopup", 
@@ -827,7 +833,16 @@ static int create_improvements_list(struct player *pplayer,
       improvements_can_sabotage[j] = get_imp_name_ex(pcity, i);
       improvement_type[j++] = i;
     }  
-  
+
+  if(has_capability("spy_discretion", aconnection.capability)) {
+  if(j > 1) {
+    improvements_can_sabotage[j] = _("At Spy's Discretion");
+    improvement_type[j++] = B_LAST;
+  } else {
+    improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
+  }
+  }
+
   improvements_can_sabotage[j] = NULL;
   
   XtSetSensitive(spy_sabotage_command, FALSE);

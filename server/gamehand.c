@@ -43,7 +43,8 @@
 extern char metaserver_info_line[];
 extern char metaserver_addr[];
 
-#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace2 rulesets"
+#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace2 rulesets \
+diplchance_percent"
 
 /**************************************************************************
 ...
@@ -343,8 +344,20 @@ void game_load(struct section_file *file)
 
   game.scorelog = secfile_lookup_int_default(file, 0, "game.scorelog");
   
-  game.diplchance = secfile_lookup_int_default(file, game.diplchance,
-					       "game.diplchance");
+  if(has_capability("diplchance_percent", savefile_options)) {
+    game.diplchance = secfile_lookup_int_default(file, game.diplchance,
+						 "game.diplchance");
+  } else {
+    game.diplchance = secfile_lookup_int_default(file, 3, /* old default */
+						 "game.diplchance");
+    if (game.diplchance < 2) {
+      game.diplchance = GAME_MAX_DIPLCHANCE;
+    } else if (game.diplchance > 10) {
+      game.diplchance = GAME_MIN_DIPLCHANCE;
+    } else {
+      game.diplchance = 100 - (10 * (game.diplchance - 1));
+    }
+  }
   game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
 						 "game.aqueductloss");
   game.turnblock = secfile_lookup_int_default(file,game.turnblock,

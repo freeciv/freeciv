@@ -194,7 +194,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    break;
 	  }
 	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
-	  transfer_city_units(pdest, pgiver, pnewcity, pcity, 0, 1);
+	  transfer_city_units(pdest, pgiver, pnewcity, pcity, -1, 1);
 	  remove_city(pcity); /* don't forget this! */
 	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 	  

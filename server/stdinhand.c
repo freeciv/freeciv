@@ -484,12 +484,14 @@ static struct settings_s settings[] = {
   { "diplchance", &game.diplchance,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
-    N_("Chance (1 in N) for diplomat/spy contests"),
-    N_("A diplomat (or spy) acting against a city which has one or "
-       "more defending diplomats (or spies) has a one in diplchance "
-       "chance to defeat each such defender.  Also, the chance of a "
-       "spy returning from a successful mission is one in diplchance.  "
-       "(Diplomats never return.)") },
+    N_("Chance in diplomat/spy contests"),
+    N_("A Diplomat or Spy acting against a city which has one or more "
+       "defending Diplomats or Spies has a diplchance (percent) chance to "
+       "defeat each such defender.  Also, the chance of a Spy returning "
+       "from a successful mission is diplchance percent.  (Diplomats never "
+       "return.)  Also, a basic chance of success for Diplomats and Spies.  "
+       "Defending Spys are generally twice as capable as Diplomats, "
+       "veteran units 50% more capable than non-veteran ones.") },
 
   { "spacerace", &game.spacerace,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,

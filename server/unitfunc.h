@@ -17,18 +17,18 @@
 #include "unit.h"
 #include "gotohand.h"
 
-void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity);
+void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
+			  struct city *pcity);
+void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
+			  struct city *pcity);
 void spy_poison(struct player *pplayer, struct unit *pdiplomat, 
 		struct city *pcity);
-void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct unit *pvictim);
-int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
-			     struct unit *pdiplomat, struct city *pcity);
-void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
-			 struct city *pcity);
+void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
+		       struct unit *pvictim);
 void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, 
 		    struct unit *pvictim);
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity, int tech);
+		       struct city  *pcity, int technology);
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, 
 		     struct city *pcity);
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 
@@ -42,9 +42,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit);
 
 void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
 		 int make_veteran, int homecity_id, int moves_left);
-void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id 
-		      type, int make_veteran, int homecity_id, int moves_left
-		      , int hp);
+void create_unit_full(struct player *pplayer, int x, int y,
+		      Unit_Type_id type, int make_veteran, int homecity_id,
+		      int moves_left, int hp_left);
 void send_remove_unit(struct player *pplayer, int unit_id);
 void wipe_unit(struct player *dest, struct unit *punit);
 void wipe_unit_safe(struct player *dest, struct unit *punit,

@@ -182,7 +182,7 @@ struct city {
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   struct unit_list units_supported;
-  int steal;                  /* diplomats can only steal once */
+  int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */
   int did_buy, did_sell, is_updated;
   int turn_last_built;	      /* The last year in which something was built */

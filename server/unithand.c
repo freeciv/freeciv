@@ -216,131 +216,60 @@ void handle_diplomat_action(struct player *pplayer,
   struct unit *pdiplomat=unit_list_find(&pplayer->units, packet->diplomat_id);
   struct unit *pvictim=find_unit_by_id(packet->target_id);
   struct city *pcity=find_city_by_id(packet->target_id);
-  int x,y, move_cost;  
 
   if (!pdiplomat) return;
   if (!unit_flag(pdiplomat->type, F_DIPLOMAT)) 
     return;
 
-  if(pcity){
-    x = pcity->x;
-    y = pcity->y;
-  }else{
-    x = pvictim->x;
-    y = pvictim->y;
-  }
-  move_cost = tile_move_cost(pdiplomat,pdiplomat->x,pdiplomat->y, x, y);
-  
-  if(pdiplomat->moves_left >= move_cost ||
-     pdiplomat->moves_left >= unit_move_rate(pdiplomat)) {
-
+  if(pdiplomat->moves_left) {
     switch(packet->action_type) {
     case DIPLOMAT_BRIBE:
       if(pvictim && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
-					   pvictim->x, pvictim->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
+					   pvictim->x, pvictim->y)) {
 	diplomat_bribe(pplayer, pdiplomat, pvictim);
       }
       break;
     case SPY_SABOTAGE_UNIT:
       if(pvictim && diplomat_can_do_action(pdiplomat, SPY_SABOTAGE_UNIT,
-					   pvictim->x, pvictim->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
+					   pvictim->x, pvictim->y)) {
 	spy_sabotage_unit(pplayer, pdiplomat, pvictim);
       }
       break;
      case DIPLOMAT_SABOTAGE:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE, 
-					 pcity->x, pcity->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
-	diplomat_sabotage(pplayer, pdiplomat, pcity, packet->value);
+      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
+					 pcity->x, pcity->y)) {
+	/* packet value is improvement ID + 1 (or some special codes) */
+	diplomat_sabotage(pplayer, pdiplomat, pcity, packet->value - 1);
       }
       break;
     case SPY_POISON:
       if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
-					 pcity->x, pcity->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
+					 pcity->x, pcity->y)) {
 	spy_poison(pplayer, pdiplomat, pcity);
       }
       break;
     case DIPLOMAT_INVESTIGATE:
-
-      /* Note: this is free (no movement cost) for spies */
-      
-      if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE ,
-					 pcity->x, pcity->y)){
-	send_unit_info(pplayer, pdiplomat, 0);
+      if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE,
+					 pcity->x, pcity->y)) {
 	diplomat_investigate(pplayer, pdiplomat, pcity);
       }
       break;
     case DIPLOMAT_EMBASSY:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY, 
+      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY,
 					 pcity->x, pcity->y)) {
-	if(pdiplomat->foul){
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   _("Game: Your %s was executed in %s on suspicion"
-			     " of spying.  The %s welcome future diplomatic"
-			     " efforts providing the Ambassador is reputable."),
-			   unit_name(pdiplomat->type),
-			   pcity->name, get_nation_name_plural(pplayer->nation));
-	  
-	  notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y,
-			   E_DIPLOMATED,
-			   _("You executed a %s the %s had sent to establish"
-			     " an embassy in %s"),
-			   unit_name(pdiplomat->type),
-			   get_nation_name_plural(pplayer->nation),
-			   pcity->name);
-	  
-	  wipe_unit(0, pdiplomat);
-	  break;
-	}
-
-        if(is_barbarian(&game.players[pcity->owner])) {
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   _("Game: Your %s was executed in %s by primitive %s."),
-			   unit_name(pdiplomat->type),
-			   pcity->name, get_nation_name_plural(pplayer->nation));
-	  wipe_unit(0, pdiplomat);
-	  break;
-        }
-	
-	pplayer->embassy|=(1<<pcity->owner);
-	send_player_info(pplayer, pplayer);
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 _("Game: You have established an embassy in %s."),
-			 pcity->name);
-	
-	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y,
-			 E_DIPLOMATED, 
-			 _("Game: The %s have established an embassy in %s."),
-		         get_nation_name_plural(pplayer->nation), pcity->name);
-        gamelog(GAMELOG_EMBASSY,"%s establish an embassy in %s (%s) (%i,%i)\n",
-                get_nation_name_plural(pplayer->nation),
-                pcity->name,
-                get_nation_name(game.players[pcity->owner].nation),
-		pcity->x,pcity->y);
-
+	diplomat_embassy(pplayer, pdiplomat, pcity);
       }
-      wipe_unit(0, pdiplomat);
       break;
     case DIPLOMAT_INCITE:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE, 
-					 pcity->x, pcity->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
+      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
+					 pcity->x, pcity->y)) {
 	diplomat_incite(pplayer, pdiplomat, pcity);
       }
       break;
     case DIPLOMAT_STEAL:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL, 
-					 pcity->x, pcity->y)){
-	pdiplomat->moves_left -= move_cost;    
-	send_unit_info(pplayer, pdiplomat, 0);
+      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
+					 pcity->x, pcity->y)) {
+	/* packet value is technology ID (or some special codes) */
 	diplomat_get_tech(pplayer, pdiplomat, pcity, packet->value);
       }
       break;

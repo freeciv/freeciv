@@ -83,6 +83,9 @@ char *get_unit_name(Unit_Type_id id)
   return buffer;
 }
 
+/***************************************************************
+...
+***************************************************************/
 struct unit *find_unit_by_id(int id)
 {
   int i;
@@ -95,7 +98,9 @@ struct unit *find_unit_by_id(int id)
   return 0;
 }
 
-
+/***************************************************************
+...
+***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
   int val;
@@ -140,13 +145,10 @@ int diplomat_can_do_action(struct unit *pdiplomat,
   if(!is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty))
     return 0;
 
-  if(pdiplomat->moves_left >= unit_move_rate(pdiplomat))
-    return 1;   /* Hasn't moved yet this turn */
+  if(!pdiplomat->moves_left)
+    return 0;
 
-  if(pdiplomat->moves_left >= map_move_cost(pdiplomat, destx, desty))
-    return 1;
-
-  return 0;
+  return 1;
 }
 
 /**************************************************************************
@@ -165,12 +167,13 @@ int is_diplomat_action_available(struct unit *pdiplomat,
     if(pcity->owner!=pdiplomat->owner) {
       if(action==DIPLOMAT_SABOTAGE)
         return 1;
-
       if(action==DIPLOMAT_EMBASSY &&
 	 !player_has_embassy(&game.players[pdiplomat->owner], 
 			     &game.players[pcity->owner]))
 	return 1;
-      if(action==SPY_POISON && unit_flag(pdiplomat->type, F_SPY))
+      if(action==SPY_POISON &&
+	 pcity->size>1 &&
+	 unit_flag(pdiplomat->type, F_SPY))
         return 1;
       if(action==DIPLOMAT_INVESTIGATE)
         return 1;
@@ -181,11 +184,10 @@ int is_diplomat_action_available(struct unit *pdiplomat,
       if(action==DIPLOMAT_ANY_ACTION)
         return 1;
     }
-  }
-  else {
+  } else {
     struct tile *ptile=map_get_tile(destx, desty);
     if((action==SPY_SABOTAGE_UNIT || action==DIPLOMAT_ANY_ACTION) &&
-       unit_list_size(&ptile->units)>=1 &&
+       unit_list_size(&ptile->units)==1 &&
        unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
        unit_flag(pdiplomat->type, F_SPY))
       return 1;

@@ -75,7 +75,7 @@ GtkWidget *spy_advances_list, *spy_advances_list_label;
 GtkWidget *spy_steal_command;
 
 int spy_tech_shell_is_modal;
-int advance_type[A_LAST];
+int advance_type[A_LAST+1];
 int steal_advance = 0;
 
 /******************************************************************/
@@ -84,7 +84,7 @@ GtkWidget *spy_improvements_list;
 GtkWidget *spy_sabotage_command;
 
 int spy_sabotage_shell_is_modal;
-int improvement_type[B_LAST];
+int improvement_type[B_LAST+1];
 int sabotage_improvement = 0;
 
 /******************************************************************/
@@ -709,9 +709,9 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    for(i=A_FIRST; i<game.num_tech_types; i++) {
-      gchar *row[1];
+    gchar *row[1];
 
+    for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
 	 (get_invention(pplayer, i)==TECH_UNKNOWN || 
 	  get_invention(pplayer, i)==TECH_REACHABLE)) {
@@ -720,6 +720,14 @@ static int create_advances_list(struct player *pplayer,
 	gtk_clist_append(GTK_CLIST(spy_advances_list), row);
         advance_type[j++] = i;
       }
+    }
+
+    if(has_capability("spy_discretion", aconnection.capability)) {
+    if(j > 0) {
+      row[0] = _("At Spy's Discretion");
+      gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+      advance_type[j++] = game.num_tech_types;
+    }
     }
   }
 
@@ -749,6 +757,7 @@ static int create_improvements_list(struct player *pplayer,
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
+  gchar *row[1];
   static gchar *title_[1] = { N_("Select Improvement to Sabotage") };
   static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -797,18 +806,28 @@ static int create_improvements_list(struct player *pplayer,
   gtk_clist_freeze(GTK_CLIST(spy_improvements_list));
 
   j = 0;
+  row[0] = _("City Production");
+  gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
   improvement_type[j++] = -1;
 
   for(i=0; i<B_LAST; i++) {
-    gchar *row[1];
-
     if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
       row[0] = get_imp_name_ex(pcity, i);
-
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  
   }
+
+  if(has_capability("spy_discretion", aconnection.capability)) {
+  if(j > 1) {
+    row[0] = _("At Spy's Discretion");
+    gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+    improvement_type[j++] = B_LAST;
+  } else {
+    improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
+  }
+  }
+
   gtk_clist_thaw(GTK_CLIST(spy_improvements_list));
 
   gtk_widget_set_sensitive(spy_sabotage_command, FALSE);
