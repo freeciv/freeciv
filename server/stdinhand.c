@@ -640,7 +640,8 @@ static struct settings_s settings[] = {
 	  N_("If set to 0 (default), diplomacy is enabled for all.\n"
 	     "If set to 1, diplomacy is only allowed between human players.\n"
 	     "If set to 2, diplomacy is only allowed between AI players.\n"
-             "If set to 3, diplomacy is disabled for all.\n"
+             "If set to 3, diplomacy is restricted to teams.\n"
+             "If set to 4, diplomacy is disabled for all.\n"
              "You can always do diplomacy with players on your team."), NULL,
 	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
 

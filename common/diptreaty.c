@@ -37,7 +37,8 @@ bool diplomacy_possible(struct player *pplayer, struct player *aplayer)
 	   || (game.diplomacy == 2
 	       && pplayer->ai.control
 	       && aplayer->ai.control)
-	   || (pplayer->team != TEAM_NONE
+	   || (game.diplomacy == 3
+	       && pplayer->team != TEAM_NONE
 	       && pplayer->team == aplayer->team));
 }
 

@@ -350,7 +350,7 @@ extern bool is_server;
 
 #define GAME_DEFAULT_DIPLOMACY       0
 #define GAME_MIN_DIPLOMACY           0
-#define GAME_MAX_DIPLOMACY           3
+#define GAME_MAX_DIPLOMACY           4
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1
