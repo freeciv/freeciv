@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-update-alternatives --install /usr/games/civ civ /usr/games/civclient-xaw3d 20 \
-  --slave /usr/share/man/man6/civ.6.gz civ.6.gz /usr/share/man/man6/civclient-xaw3d.6.gz
-
-#DEBHELPER#

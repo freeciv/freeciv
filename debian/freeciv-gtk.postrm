@@ -1,5 +1,0 @@
-#!/bin/sh
-set -e
-update-alternatives --remove civ /usr/games/civclient-gtk
-
-#DEBHELPER#
