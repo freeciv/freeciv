@@ -905,6 +905,7 @@ static void setup_widgets(void)
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK
+                                   |GDK_BUTTON_RELEASE_MASK
                                    |GDK_KEY_PRESS_MASK
                                    |GDK_POINTER_MOTION_MASK);
 
@@ -930,6 +931,9 @@ static void setup_widgets(void)
 
   g_signal_connect(map_canvas, "button_press_event",
                    G_CALLBACK(butt_down_mapcanvas), NULL);
+
+  g_signal_connect(map_canvas, "button_release_event",
+                   G_CALLBACK(butt_release_mapcanvas), NULL);
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(keyboard_handler), NULL);

@@ -341,6 +341,9 @@ static void set_mapview_origin(int map_x0, int map_y0)
       create_line_at_mouse_pos();
     }
   }
+  if (rectangle_active) {
+    update_rect_at_mouse_pos();
+  }
 }
 
 /****************************************************************************
@@ -729,6 +732,33 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       }
     }
 
+    /** Area Selection hiliting **/
+    if (!citymode && map_get_tile(map_x, map_y)->hilite == HILITE_CITY) {
+      const enum color_std hilitecolor = COLOR_STD_YELLOW;
+
+      if (!draw_map_grid) { /* it would be overwritten below */
+        /* left side... */
+        gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+            canvas_x, canvas_y,
+            0, NORMAL_TILE_HEIGHT - 1);
+
+        /* top side... */
+        gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+            canvas_x, canvas_y,
+            NORMAL_TILE_WIDTH - 1, 0);
+      }
+
+      /* right side... */
+      gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+          canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
+          0, NORMAL_TILE_HEIGHT - 1);
+
+      /* bottom side... */
+      gui_put_line(pcanvas_store, hilitecolor, LINE_NORMAL,
+          canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
+          NORMAL_TILE_WIDTH - 1, 0);
+    }
+
     if (draw_map_grid && !citymode) {
       /* left side... */
       gui_put_line(pcanvas_store,
@@ -1062,7 +1092,6 @@ void update_map_canvas(int x, int y, int width, int height,
 	put_tile(map_x, map_y);
       }
     }
-
     /* Here we draw a rectangle that includes the updated tiles.  This
      * method can fail if the area wraps off one side of the screen and
      * back to the other. */

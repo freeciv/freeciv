@@ -25,5 +25,6 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname);
 void set_turn_done_button_state(bool state);
 
 void create_line_at_mouse_pos(void);
+void update_rect_at_mouse_pos(void);
 
 #endif  /* FC__MAPCTRL_G_H */

@@ -1474,6 +1474,9 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
 void key_cancel_action(void)
 {
   bool popped = FALSE;
+
+  cancel_tile_hiliting();
+
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
     if (draw_goto_line)
       popped = goto_pop_waypoint();

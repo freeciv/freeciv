@@ -21,6 +21,7 @@ struct unit;
 
 void key_city_workers(GtkWidget *w, GdkEventKey *ev);
 
+gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);

@@ -706,6 +706,7 @@ static void setup_widgets(void)
 
   gtk_widget_set_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK
+                                   |GDK_BUTTON_RELEASE_MASK
                                    |GDK_KEY_PRESS_MASK
                                    |GDK_POINTER_MOTION_MASK);
 
@@ -729,11 +730,11 @@ static void setup_widgets(void)
   gtk_signal_connect(GTK_OBJECT(map_canvas), "button_press_event",
                      GTK_SIGNAL_FUNC(butt_down_mapcanvas), NULL);
 
+  gtk_signal_connect(GTK_OBJECT(map_canvas), "button_release_event",
+                     GTK_SIGNAL_FUNC(butt_release_mapcanvas), NULL);
+
   gtk_signal_connect(GTK_OBJECT(toplevel), "key_press_event",
                      GTK_SIGNAL_FUNC(keyboard_handler), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(map_canvas), "button_press_event",
-                     GTK_SIGNAL_FUNC(butt_down_wakeup), NULL);
 
   /* *** The message window -- this is a detachable widget *** */
 

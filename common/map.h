@@ -47,6 +47,11 @@ struct goto_route {
   struct map_position *pos;
 };
 
+/* For client Area Selection */
+enum tile_hilite {
+  HILITE_NONE = 0, HILITE_CITY
+};
+
 struct tile {
   enum tile_terrain_type terrain;
   enum tile_special_type special;
@@ -60,6 +65,7 @@ struct tile {
   unsigned short continent;
   signed char move_cost[8]; /* don't know if this helps! */
   struct player *owner;     /* Player owning this tile, or NULL. */
+  enum tile_hilite hilite;  /* Area Selection. Client only. */
 };
 
 

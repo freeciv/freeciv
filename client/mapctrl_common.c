@@ -16,10 +16,13 @@
 #endif
 
 #include "combat.h"
+#include "fcintl.h"
 #include "log.h"
 #include "support.h"
 
 #include "agents.h"
+#include "chatline_common.h"
+#include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -30,14 +33,360 @@
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "options.h"
+#include "tilespec.h"
 
 #include "mapctrl_common.h"
+
+/* Selection Rectangle */
+static int rec_anchor_x, rec_anchor_y;  /* canvas coordinates for anchor */
+static int rec_canvas_map_x0, rec_canvas_map_y0; /* mapview centering */
+static int rec_corner_x, rec_corner_y;  /* corner to iterate from */
+static int rec_w, rec_h;                /* width, heigth in pixels */
+
+bool rbutton_down = FALSE;
+bool rectangle_active = FALSE;
+
+/* This changes the behaviour of left mouse
+   button in Area Selection mode. */
+bool tiles_hilited_cities = FALSE;
+
+/* The mapcanvas clipboard */
+static int clipboard = -1;
+static bool clipboard_is_unit;
 
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 
 static bool turn_done_state;
 static bool is_turn_done_state_valid = FALSE;
+
+/*************************************************************************/
+
+static void clipboard_send_production_packet(struct city *pcity);
+static void define_tiles_within_rectangle(void);
+
+/**************************************************************************
+ Called when Right Mouse Button is depressed. Record the canvas
+ coordinates of the center of the tile, which may be unreal. This
+ anchor is not the drawing start point, but is used to calculate
+ width, height. Also record the current mapview centering.
+**************************************************************************/
+void anchor_selection_rectangle(int canvas_x, int canvas_y)
+{
+  int tile_x, tile_y;
+
+  canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y);
+  map_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, tile_x, tile_y);
+  rec_anchor_x += NORMAL_TILE_WIDTH / 2;
+  rec_anchor_y += NORMAL_TILE_HEIGHT / 2;
+  rec_canvas_map_x0 = mapview_canvas.map_x0;
+  rec_canvas_map_y0 = mapview_canvas.map_y0;
+  rec_w = rec_h = 0;
+}
+
+/**************************************************************************
+ Iterate over the pixel boundaries of the rectangle and pick the tiles
+ whose center falls within. Axis pixel incrementation is half tile size to
+ accomodate tilesets with varying tile shapes and proportions of X/Y.
+
+ These operations are performed on the tiles:
+ -  Make tiles that contain owned cities hilited
+    on the map and hilited in the City List Window.
+
+ Later, I'll want to add unit hiliting for mass orders.       -ali
+**************************************************************************/
+static void define_tiles_within_rectangle(void)
+{
+  const int W = NORMAL_TILE_WIDTH,   half_W = W / 2;
+  const int H = NORMAL_TILE_HEIGHT,  half_H = H / 2;
+  const int segments_x = abs(rec_w / half_W);
+  const int segments_y = abs(rec_h / half_H);
+
+  /* Iteration direction */
+  const int inc_x = (rec_w > 0 ? half_W : -half_W);
+  const int inc_y = (rec_h > 0 ? half_H : -half_H);
+
+  int x, y, x2, y2, xx, yy, tile_x, tile_y;
+  bool is_real;
+  struct tile *ptile;
+  struct city *pcity;
+
+  y = rec_corner_y;
+  for (yy = 0; yy <= segments_y; yy++, y += inc_y) {
+    x = rec_corner_x;
+    for (xx = 0; xx <= segments_x; xx++, x += inc_x) {
+
+      /*  For diamond shaped tiles, every other row is indented.
+       */
+      if (yy % 2 ^ xx % 2)  continue;
+
+      is_real = canvas_to_map_pos(&tile_x, &tile_y, x, y);
+
+      if (!is_real) continue;
+
+      /*  "Half-tile" indentation must match, or we'll process
+       *  some tiles twice in the case of rectangular shape tiles.
+       */
+      map_to_canvas_pos(&x2, &y2, tile_x, tile_y);
+
+      if (yy % 2 && (rec_corner_x % W) ^ abs(x2 % W))  continue;
+
+      /*  Tile passed all tests; process it.
+       */
+      ptile = map_get_tile(tile_x, tile_y);
+      pcity = ptile->city;
+      if (pcity && pcity->owner == game.player_idx) {
+        ptile->hilite = HILITE_CITY;
+        tiles_hilited_cities = TRUE;
+      }
+    }
+  }
+
+  /* Hilite in City List Window */
+  if (tiles_hilited_cities) {
+    hilite_cities_from_canvas();      /* cityrep.c */
+  }
+}
+
+/**************************************************************************
+ Called when mouse pointer moves and rectangle is active.
+**************************************************************************/
+void update_selection_rectangle(int canvas_x, int canvas_y)
+{
+  const int W = NORMAL_TILE_WIDTH,    half_W = W / 2;
+  const int H = NORMAL_TILE_HEIGHT,   half_H = H / 2;
+  static int rec_tile_x = 9999, rec_tile_y = 9999;
+  int tile_x, tile_y, diff_x, diff_y;
+
+  canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y);
+
+  /*  Did mouse pointer move beyond the current tile's
+   *  boundaries? Avoid macros; tile may be unreal!
+   */
+  if (tile_x == rec_tile_x && tile_y == rec_tile_y) {
+    return;
+  }
+  rec_tile_x = tile_x;
+  rec_tile_y = tile_y;
+
+  /* Clear previous rectangle. */
+  dirty_all();
+  flush_dirty();
+
+  /*  Fix canvas coords to the center of the tile.
+   */
+  map_to_canvas_pos(&canvas_x, &canvas_y, tile_x, tile_y);
+  canvas_x += half_W;
+  canvas_y += half_H;
+
+  rec_w = rec_anchor_x - canvas_x;  /* width */
+  rec_h = rec_anchor_y - canvas_y;  /* height */
+
+  diff_x = rec_canvas_map_x0 - mapview_canvas.map_x0;
+  diff_y = rec_canvas_map_y0 - mapview_canvas.map_y0;
+
+  /*  Adjust width, height if mapview has recentered.
+   */
+  if (diff_x || diff_y) {
+
+    if (is_isometric) {
+      rec_w += (diff_x - diff_y) * half_W;
+      rec_h += (diff_x + diff_y) * half_H;
+
+      /* Iso wrapping */
+      if (abs(rec_w) > map.xsize * half_W / 2) {
+        int wx = map.xsize * half_W,  wy = map.xsize * half_H;
+        rec_w > 0 ? (rec_w -= wx, rec_h -= wy) : (rec_w += wx, rec_h += wy);
+      }
+
+    } else {
+      rec_w += diff_x * W;
+      rec_h += diff_y * H;
+
+      /* X wrapping */
+      if (abs(rec_w) > map.xsize * half_W) {
+        int wx = map.xsize * W;
+        rec_w > 0 ? (rec_w -= wx) : (rec_w += wx);
+      }
+    }
+  }
+
+  if (rec_w == 0 && rec_h == 0) {
+    rectangle_active = FALSE;
+    return;
+  }
+
+  /* It is currently drawn only to the screen, not backing store */
+  draw_selection_rectangle(canvas_x, canvas_y, rec_w, rec_h);
+  rec_corner_x = canvas_x;
+  rec_corner_y = canvas_y;
+}
+
+/**************************************************************************
+ Remove hiliting from all tiles, but not from rows in the City List window.
+**************************************************************************/
+void cancel_tile_hiliting(void)
+{
+  if (tiles_hilited_cities)  {
+    tiles_hilited_cities = FALSE;
+
+    whole_map_iterate(x, y) {
+      map_get_tile(x, y)->hilite = HILITE_NONE;
+    } whole_map_iterate_end;
+
+    update_map_canvas_visible();
+  }
+}
+
+/**************************************************************************
+ Action depends on whether the mouse pointer moved
+ a tile between press and release.
+**************************************************************************/
+void release_right_button(int canvas_x, int canvas_y)
+{
+  if (rectangle_active) {
+    define_tiles_within_rectangle();
+    update_map_canvas_visible();
+  } else {
+    recenter_button_pressed(canvas_x, canvas_y);
+  }
+  rectangle_active = FALSE;
+  rbutton_down = FALSE;
+}
+
+/**************************************************************************
+ Left Mouse Button in Area Selection mode.
+**************************************************************************/
+void toggle_tile_hilite(int tile_x, int tile_y)
+{
+  struct tile *ptile = map_get_tile(tile_x, tile_y);
+  struct city *pcity = ptile->city;
+
+  if (ptile->hilite == HILITE_CITY) {
+    assert(pcity);
+    toggle_city_hilite(pcity, FALSE); /* cityrep.c */
+    ptile->hilite = HILITE_NONE;
+  }
+  else if (pcity && pcity->owner == game.player_idx) {
+    ptile->hilite = HILITE_CITY;
+    tiles_hilited_cities = TRUE;
+    toggle_city_hilite(pcity, TRUE);
+  }
+  else  {
+    return;
+  }
+
+  refresh_tile_mapcanvas(tile_x, tile_y, TRUE);
+}
+
+/**************************************************************************
+ Shift-Left-Click on owned city or any visible unit to copy.
+**************************************************************************/
+void clipboard_copy_production(int tile_x, int tile_y)
+{
+  char msg[MAX_LEN_MSG];
+  struct tile *ptile = map_get_tile(tile_x, tile_y);
+  struct city *pcity = ptile->city;
+
+  if (pcity) {
+    if (pcity->owner != game.player_idx)  {
+      return;
+    }
+    clipboard = pcity->currently_building;
+    clipboard_is_unit = pcity->is_building_unit;
+  } else {
+    struct unit *punit = find_visible_unit(ptile);
+    if (!punit) {
+      return;
+    }
+    if (!can_player_build_unit_direct(game.player_ptr, punit->type))  {
+      my_snprintf(msg, sizeof(msg),
+      _("Game: You don't know how to build %s!"),
+        unit_types[punit->type].name);
+      append_output_window(msg);
+      return;
+    }
+    clipboard_is_unit = TRUE;
+    clipboard = punit->type;
+  }
+  upgrade_canvas_clipboard();
+
+  my_snprintf(msg, sizeof(msg), _("Game: Copy %s to clipboard."),
+    clipboard_is_unit ? unit_types[clipboard].name :
+    get_improvement_name(clipboard));
+  append_output_window(msg);
+}
+
+/**************************************************************************
+ If City tiles are hilited, paste into all those cities.
+ Otherwise paste into the one city under the mouse pointer.
+**************************************************************************/
+void clipboard_paste_production(struct city *pcity)
+{
+  if (!can_client_issue_orders()) {
+    return;
+  }
+  if (clipboard == -1) {
+    append_output_window(
+    _("Game: Clipboard is empty."));
+    return;
+  }
+  if (!tiles_hilited_cities) {
+    if (pcity && pcity->owner == game.player_idx) {
+      clipboard_send_production_packet(pcity);
+    }
+    return;
+  }
+  else {
+    connection_do_buffer(&aconnection);
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      if (map_get_tile(pcity->x, pcity->y)->hilite == HILITE_CITY) {
+        clipboard_send_production_packet(pcity);
+      }
+    } city_list_iterate_end;
+    connection_do_unbuffer(&aconnection);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void clipboard_send_production_packet(struct city *pcity)
+{
+  struct packet_city_request packet;
+  int cid = clipboard;
+
+  if (clipboard_is_unit)  {
+    cid += B_LAST;
+  }
+
+  if ((pcity->currently_building == clipboard
+    && pcity->is_building_unit == clipboard_is_unit)
+      || !city_can_build_impr_or_unit(pcity, cid))  {
+    return;
+  }
+
+  packet.city_id = pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
+  packet.build_id = clipboard;
+  packet.is_build_id_unit_id = clipboard_is_unit;
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+}
+
+/**************************************************************************
+ A newer technology may be available for units.
+ Also called from packhand.c.
+**************************************************************************/
+void upgrade_canvas_clipboard(void)
+{
+  if (clipboard_is_unit)  {
+    int u = can_upgrade_unittype(game.player_ptr, clipboard);
+    if (u != -1)  {
+      clipboard = u;
+    }
+  }
+}
 
 /**************************************************************************
  Return TRUE iff the turn done button is enabled.
@@ -93,8 +442,7 @@ void action_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Wakeup sentried units on the tile of the specified location.  Usually
-  this is done with SHIFT+left-click.
+  Wakeup sentried units on the tile of the specified location.
 **************************************************************************/
 void wakeup_button_pressed(int canvas_x, int canvas_y)
 {
@@ -108,8 +456,7 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Adjust the position of city workers from the mapview.  Usually this is
-  done with SHIFT+left-click.
+  Adjust the position of city workers from the mapview.
 **************************************************************************/
 void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {

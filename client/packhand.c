@@ -1527,6 +1527,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   
   update_players_dialog();
   update_worklist_report_dialog();
+  upgrade_canvas_clipboard();
 
   if (pplayer == game.player_ptr && can_client_change_view()) {
     update_info_label();

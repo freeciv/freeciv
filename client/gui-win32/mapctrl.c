@@ -407,3 +407,12 @@ void create_line_at_mouse_pos(void)
 {
         /* PORTME */
 }
+
+/**************************************************************************
+ The Area Selection rectangle. Called by center_tile_mapcanvas() and
+ when the mouse pointer moves.
+**************************************************************************/
+void update_rect_at_mouse_pos(void)
+{
+  /* PORTME */
+}

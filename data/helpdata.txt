@@ -431,12 +431,28 @@ name = _("Controls")
 text = _("\
 Mouse:\n\
 ======\n\
-  Left-click:  (on city):  Pop up city window\n\
-               (on unit):  Activate unit\n\
-  Center-click or\n\
-     Control-right-click:  Show tile info\n\
-  Right-click:             Center tile in view\n\
-  Shift-click:             Adjust city workers from main map\
+  Left-click:  (on city):    Pop up city window\n\
+               (on unit):    Activate unit\n\
+  Center-click:              Show tile info\n\
+  Right-click:               Center tile in view\n\
+\n\
+  Shift-Left-click: (on city or unit):   Copy production (GTK)\n\
+  Shift-Right-click: (on city):  Paste production into city (GTK)\n\
+\n\
+  Shift-Control-Left-click:  Adjust city workers from main map\n\
+  Control-Center-click:      Wake up sentried units\n\
+\n\
+  Right-click-and-drag:      Enter Area Selection mode (GTK)\n\
+\n\
+  In Area Selection mode:\n\
+  =======================\n\
+  Left-click:         Toggle tile highlighting\n\
+  Right-click:        Cancel Area Selection mode\n\
+\n\
+  Shift-Right-click:  Paste production into highlighted cities\n\
+\n\
+  The cities that become highlighted on the map,\n\
+  will also be highlighted in the City List window.\
 "), _("\
 Keyboard:\n\
 =========\n\

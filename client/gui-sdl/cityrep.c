@@ -1144,3 +1144,21 @@ void city_report_dialog_update_city(struct city *pCity)
     flush_dirty();
   }
 }
+
+/****************************************************************
+ After a selection rectangle is defined, make the cities that
+ are hilited on the canvas exclusively hilited in the
+ City List window.
+*****************************************************************/
+void hilite_cities_from_canvas(void)
+{
+  freelog(LOG_DEBUG, "hilite_cities_from_canvas : PORT ME");
+}
+
+/****************************************************************
+ Toggle a city's hilited status.
+*****************************************************************/
+void toggle_city_hilite(struct city *pcity, bool on_off)
+{
+  freelog(LOG_DEBUG, "toggle_city_hilite : PORT ME");
+}

@@ -110,3 +110,12 @@ void create_line_at_mouse_pos(void)
 {
   update_line(xget(main_map_area,MUIA_Map_MouseX),xget(main_map_area,MUIA_Map_MouseY));
 }
+
+/**************************************************************************
+ The Area Selection rectangle. Called by center_tile_mapcanvas() and
+ when the mouse pointer moves.
+**************************************************************************/
+void update_rect_at_mouse_pos(void)
+{
+  /* PORTME */
+}

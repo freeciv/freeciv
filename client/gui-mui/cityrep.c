@@ -477,3 +477,21 @@ void popup_city_report_dialog(bool make_modal)
     set(cityrep_wnd, MUIA_Window_Open, TRUE);
   }
 }
+
+/****************************************************************
+ After a selection rectangle is defined, make the cities that
+ are hilited on the canvas exclusively hilited in the
+ City List window.
+*****************************************************************/
+void hilite_cities_from_canvas(void)
+{
+  /* PORTME */
+}
+
+/****************************************************************
+ Toggle a city's hilited status.
+*****************************************************************/
+void toggle_city_hilite(struct city *pcity, bool on_off)
+{
+  /* PORTME */
+}

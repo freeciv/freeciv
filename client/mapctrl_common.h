@@ -17,6 +17,21 @@
 #include "map.h"		/* enum direction8 */
 #include "shared.h"		/* bool type */
 
+extern bool rbutton_down;
+extern bool rectangle_active;
+extern bool tiles_hilited_cities;
+
+void anchor_selection_rectangle(int canvas_x, int canvas_y);
+void update_selection_rectangle(int canvas_x, int canvas_y);
+
+void cancel_tile_hiliting(void);
+void toggle_tile_hilite(int tile_x, int tile_y);
+
+void clipboard_copy_production(int tile_x, int tile_y);
+void clipboard_paste_production(struct city *pcity);
+void upgrade_canvas_clipboard(void);
+
+void release_right_button(int canvas_x, int canvas_y);
 bool get_turn_done_button_state(void);
 void scroll_mapview(enum direction8 gui_dir);
 void action_button_pressed(int canvas_x, int canvas_y);

@@ -22,8 +22,8 @@ struct t_popup_pos {int xroot, yroot;};
 
 void key_city_workers(GtkWidget *w, GdkEventKey *ev);
 
+gint butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev);
-gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev);
 gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event);
 gint move_overviewcanvas(GtkWidget *widget, GdkEventButton *event);

@@ -77,7 +77,7 @@ void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
 
 void draw_segment(int src_x, int src_y, int dir);
-
+void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);
 void tileset_changed(void);
 
 #endif  /* FC__MAPVIEW_G_H */

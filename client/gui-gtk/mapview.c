@@ -1291,6 +1291,26 @@ void draw_segment(int src_x, int src_y, int dir)
 }
 
 /**************************************************************************
+ Area Selection
+**************************************************************************/
+void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
+{
+  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_YELLOW]);
+
+  /* gdk_draw_rectangle() must start top-left.. */
+  gdk_draw_line(map_canvas->window, civ_gc,
+            canvas_x, canvas_y, canvas_x + w, canvas_y);
+  gdk_draw_line(map_canvas->window, civ_gc,
+            canvas_x, canvas_y, canvas_x, canvas_y + h);
+  gdk_draw_line(map_canvas->window, civ_gc,
+            canvas_x, canvas_y + h, canvas_x + w, canvas_y + h);
+  gdk_draw_line(map_canvas->window, civ_gc,
+            canvas_x + w, canvas_y, canvas_x + w, canvas_y + h);
+
+  rectangle_active = TRUE;
+}
+
+/**************************************************************************
 Not used in isometric view.
 **************************************************************************/
 static void put_line(GdkDrawable *pm, int x, int y, int dir)
@@ -1463,7 +1483,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   struct unit *punit, *pfocus;
   enum tile_special_type special;
   int count, i = 0;
-  bool solid_bg, fog;
+  bool solid_bg, fog, tile_hilited;
   struct canvas_store canvas_store = {pm};
 
   if (!width || !(height || height_unit))
@@ -1487,6 +1507,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   punit = get_drawable_unit(x, y, citymode);
   pfocus = get_unit_in_focus();
   special = map_get_special(x, y);
+  tile_hilited = (map_get_tile(x,y)->hilite != HILITE_NONE);
 
   if (solid_bg) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
@@ -1574,8 +1595,44 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
       freelog(LOG_ERROR, "sprite is NULL");
   }
 
+  /*** Area Selection hiliting ***/
+  if (tile_hilited) {
+    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_YELLOW]);
+
+    if (draw & D_M_R) {
+      gdk_draw_line(pm, thin_line_gc,
+            canvas_x + NORMAL_TILE_WIDTH / 2,
+            canvas_y,
+            canvas_x + NORMAL_TILE_WIDTH - 1,
+            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
+    }
+    if (draw & D_M_L) {
+      gdk_draw_line(pm, thin_line_gc,
+            canvas_x,
+            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+            canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
+            canvas_y);
+    }
+    /* The lower lines do not quite reach the tile's bottom;
+     * they would be too obscured by overlapping tiles' terrain. */
+    if (draw & D_B_R) {
+      gdk_draw_line(pm, thin_line_gc,
+            canvas_x + NORMAL_TILE_WIDTH / 2,
+            canvas_y + NORMAL_TILE_HEIGHT - 3,
+            canvas_x + NORMAL_TILE_WIDTH - 1,
+            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1);
+    }
+    if (draw & D_B_L) {
+      gdk_draw_line(pm, thin_line_gc,
+            canvas_x,
+            canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+            canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
+            canvas_y + NORMAL_TILE_HEIGHT - 3);
+    }
+  }
+
   /*** Map grid ***/
-  if (draw_map_grid) {
+  if (draw_map_grid && !tile_hilited) {
     /* we draw the 2 lines on top of the tile; the buttom lines will be
        drawn by the tiles underneath. */
     if (draw & D_M_R) {

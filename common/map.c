@@ -215,6 +215,7 @@ static void tile_init(struct tile *ptile)
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
+  ptile->hilite   = HILITE_NONE; /* Area Selection. Client. */
 }
 
 /**************************************************************************

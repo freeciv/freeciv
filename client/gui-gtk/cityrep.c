@@ -182,6 +182,7 @@ void popup_city_report_dialog(bool make_modal)
     gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
   }
   gtk_window_show(GTK_WINDOW(city_dialog_shell));
+  hilite_cities_from_canvas();
 }
 
 /****************************************************************
@@ -1335,6 +1336,45 @@ void city_report_dialog_update_city(struct city *pcity)
   }
   else
     city_report_dialog_update();
+}
+
+/****************************************************************
+ After a selection rectangle is defined, make the cities that
+ are hilited on the canvas exclusively hilited in the
+ City List window.
+*****************************************************************/
+void hilite_cities_from_canvas(void)
+{
+  gint i;
+
+  if (!city_dialog_shell) return;
+
+  gtk_clist_unselect_all(GTK_CLIST(city_list));
+
+  for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
+  {
+    struct city *pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
+
+    if (map_get_tile(pcity->x, pcity->y)->hilite == HILITE_CITY) {
+      gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
+    }
+  }
+}
+
+/****************************************************************
+ Toggle a city's hilited status.
+*****************************************************************/
+void toggle_city_hilite(struct city *pcity, bool on_off)
+{
+  gint i;
+
+  if (!city_dialog_shell) return;
+
+  i = gtk_clist_find_row_from_data(GTK_CLIST(city_list), pcity);
+
+  on_off ?
+	gtk_clist_select_row(GTK_CLIST(city_list), i, 0):
+	gtk_clist_unselect_row(GTK_CLIST(city_list), i, 0);
 }
 
 /****************************************************************

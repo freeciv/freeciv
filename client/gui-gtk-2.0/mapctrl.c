@@ -167,29 +167,104 @@ void set_turn_done_button_state(bool state)
 }
 
 /**************************************************************************
-...
+ Handle 'Right Mouse Button released'.
+**************************************************************************/
+gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
+{
+  if(ev->button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
+    release_right_button(ev->x, ev->y);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+ Handle all mouse button press on canvas.
+ Future feature: User-configurable mouse clicks.
 **************************************************************************/
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
+  bool is_real;
+  struct city *pcity = NULL;
 
   if (!can_client_change_view()) {
     return TRUE;
   }
 
   gtk_widget_grab_focus(map_canvas);
-
-  if (ev->button == 1 && (ev->state & GDK_SHIFT_MASK)) {
-    adjust_workers_button_pressed(ev->x, ev->y);
-    wakeup_button_pressed(ev->x, ev->y);
-  } else if (ev->button == 1) {
-    action_button_pressed(ev->x, ev->y);
-  } else if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)
-	     && (ev->button == 2 || (ev->state & GDK_CONTROL_MASK))) {
-    popit(ev, xtile, ytile);
-  } else if (ev->button == 3) {
-    recenter_button_pressed(ev->x, ev->y);
+  is_real = canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y);
+  if (is_real) {
+    pcity = map_get_city(xtile, ytile);
   }
+
+  switch (ev->button) {
+
+  case 1: /* LEFT mouse button */
+
+    /* <SHIFT> + <CONTROL> + LMB : Adjust workers. */
+    if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)) {
+      adjust_workers_button_pressed(ev->x, ev->y);
+    }
+    /* <SHIFT> + LMB: Copy Production. */
+    else if(is_real && (ev->state & GDK_SHIFT_MASK)) {
+      clipboard_copy_production(xtile, ytile);
+    }
+    /* LMB in Area Selection mode. */
+    else if(tiles_hilited_cities) {
+      if (is_real) {
+        toggle_tile_hilite(xtile, ytile);
+      }
+    }
+    /* Plain LMB click. */
+    else {
+      if (is_real) {
+        action_button_pressed(ev->x, ev->y);
+      }
+    }
+    break;
+
+  case 2: /* MIDDLE mouse button */
+
+    /* <CONTROL> + MMB: Wake up sentries. */
+    if (ev->state & GDK_CONTROL_MASK) {
+      wakeup_button_pressed(ev->x, ev->y);
+    }
+    /* Plain Middle click. */
+    else if(is_real) {
+      popit(ev, xtile, ytile);
+    }
+    break;
+
+  case 3: /* RIGHT mouse button */
+
+    /* <SHIFT> + RMB: Paste Production. */
+    if(ev->state & GDK_SHIFT_MASK) {
+      clipboard_paste_production(pcity);
+      cancel_tile_hiliting();
+    }
+    /* Plain RMB click. */
+    else {
+      /*  A foolproof user will depress button on canvas,
+       *  release it on another widget, and return to canvas
+       *  to find rectangle still active.
+       */
+      if (rectangle_active) {
+        release_right_button(ev->x, ev->y);
+        return TRUE;
+      }
+      cancel_tile_hiliting();
+      if (hover_state == HOVER_NONE) {
+        anchor_selection_rectangle(ev->x, ev->y);
+        rbutton_down = TRUE; /* causes rectangle updates */
+      }
+    }
+    break;
+
+  default:
+    break;
+  }
+
 
   return TRUE;
 }
@@ -216,11 +291,29 @@ void create_line_at_mouse_pos(void)
 }
 
 /**************************************************************************
+ The Area Selection rectangle. Called by center_tile_mapcanvas() and
+ when the mouse pointer moves.
+**************************************************************************/
+void update_rect_at_mouse_pos(void)
+{
+  int canvas_x, canvas_y;
+
+  if (!rbutton_down) {
+    return;
+  }
+
+  /* Reading the mouse pos here saves event queueing. */
+  gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
+  update_selection_rectangle(canvas_x, canvas_y);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
   update_line(ev->x, ev->y);
+  update_rect_at_mouse_pos();
   return TRUE;
 }
 

@@ -166,6 +166,7 @@ void popup_city_report_dialog(bool make_modal)
   }
 
   gtk_window_present(GTK_WINDOW(city_dialog_shell));
+  hilite_cities_from_canvas();
 }
 
 /****************************************************************
@@ -1696,5 +1697,59 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
     gtk_widget_set_sensitive(city_center_command, TRUE);
     gtk_widget_set_sensitive(city_popup_command, TRUE);
     gtk_widget_set_sensitive(city_buy_command, can_client_issue_orders());
+  }
+}
+
+/****************************************************************
+ After a selection rectangle is defined, make the cities that
+ are hilited on the canvas exclusively hilited in the
+ City List window.
+*****************************************************************/
+void hilite_cities_from_canvas(void)
+{
+  ITree it;
+  GtkTreeModel *model;
+
+  if (!city_dialog_shell) return;
+
+  model = GTK_TREE_MODEL(city_model);
+
+  gtk_tree_selection_unselect_all(city_selection);
+
+  for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
+    struct city *pcity;
+    gpointer res;
+
+    itree_get(&it, 0, &res, -1);
+    pcity = res;
+
+    if (map_get_tile(pcity->x, pcity->y)->hilite == HILITE_CITY)  {
+      itree_select(city_selection, &it);
+    }
+  }
+}
+
+/****************************************************************
+ Toggle a city's hilited status.
+*****************************************************************/
+void toggle_city_hilite(struct city *pcity, bool on_off)
+{
+  ITree it;
+  GtkTreeModel *model;
+
+  if (!city_dialog_shell) return;
+
+  model = GTK_TREE_MODEL(city_model);
+
+  for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
+    gint id;
+    itree_get(&it, 1, &id, -1);
+
+    if (id == pcity->id) {
+      on_off ?
+        itree_select(city_selection, &it):
+        itree_unselect(city_selection, &it);
+      break;
+    }
   }
 }

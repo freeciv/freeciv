@@ -333,6 +333,14 @@ void draw_segment(int src_x, int src_y, int dir)
 }
 
 /**************************************************************************
+ Area Selection
+**************************************************************************/
+void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
   This function is called when the tileset is changed.
 **************************************************************************/
 void tileset_changed(void)

@@ -2304,3 +2304,12 @@ void create_line_at_mouse_pos(void)
   update_line(Main.event.motion.x, Main.event.motion.y);
   draw_goto_patrol_lines = TRUE;
 }
+
+/**************************************************************************
+ The Area Selection rectangle. Called by center_tile_mapcanvas() and
+ when the mouse pointer moves.
+**************************************************************************/
+void update_rect_at_mouse_pos(void)
+{
+  /* PORTME */
+}
