@@ -71,42 +71,6 @@
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
 
-#define TEST_ATTRIBUTES 0
-
-#if TEST_ATTRIBUTES
-static unsigned char foobar(int unit_id, int i)
-{
-  return (unit_id + i);
-}
-
-#define _SIZE 10000
-static void attach_test_attribute(int unit_id)
-{
-  unsigned char buffer[_SIZE];
-  int length, i;
-
-  length = attr_unit_get(ATTR_UNIT_DUMMY, unit_id, sizeof(buffer), buffer);
-  if (length > 0) {
-
-    freelog(LOG_NORMAL, "unit %d has an attribute of size %d", unit_id,
-	    length);
-    for (i = 0; i < length; i++) {
-      assert(buffer[i] == foobar(unit_id, i));
-    }
-    freelog(LOG_NORMAL, "  content is ok");
-  } else {
-    length = (rand() % (_SIZE - 1)) + 1;
-    for (i = 0; i < length; i++) {
-      buffer[i] = foobar(unit_id, i);
-    }
-    freelog(LOG_NORMAL, "attaching attribute of size %d to unit %d",
-	    length, unit_id);
-    attr_unit_set(ATTR_UNIT_DUMMY, unit_id, length, buffer);
-  }
-}
-#undef _SIZE
-#endif
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -881,10 +845,6 @@ void handle_unit_info(struct packet_unit_info *packet)
   repaint_unit = FALSE;
   repaint_city = FALSE;
   punit = player_find_unit_by_id(get_player(packet->owner), packet->id);
-
-#if TEST_ATTRIBUTES
-  attach_test_attribute(packet->id);
-#endif
 
   if(punit) {
     int dest_x,dest_y;
