@@ -1002,7 +1002,7 @@ int city_unhappy(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static int base_city_celebrating(struct city *pcity)
+int base_city_celebrating(struct city *pcity)
 {
   return (pcity->size >= get_gov_pcity(pcity)->rapture_size
 	  && pcity->was_happy);
