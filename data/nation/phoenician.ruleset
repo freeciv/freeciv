@@ -1,0 +1,38 @@
+[nation_phoenician]
+
+name=_("Phoenician")
+plural=_("?plural:Phoenicians")
+class=_("Historical")
+leader="Hiram", "Agenor", "Eshmunazar", "Kadmos", "Ithobaal",
+       "Abd'ashtart"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+           "Male"
+flag="f.phoenicia"
+flag_alt = "-"
+city_style = "Classical"
+ruler_titles = { "government",      "male_title",       "female_title"
+               }
+
+attack=1
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+init_techs=""
+
+tech_goals = "Alphabet", "Trade", "Seafaring", "Navigation"
+
+init_techs=""
+init_buildings=""
+wonder="Magellan's Expedition"
+government="Monarchy"
+civilwar_nations="turk", "carthaginian", "israeli"
+
+cities =
+  "Tyre", "Sidon", "Berytos", "Byblos", "Arados", "Batrun", 
+  "Tripoli", "Ugarit", "Baalbeck", "Arvad", "Joppa", "Kition",
+  "Leptis", "Oia", "Sebrata", "Massalia", "Carthago", "Gadir",
+  "Ebusos", "Hadrumetum", "Tipasa", "Siga", "Lixus", "Mogador",
+  "Nora", "Sulcis", "Tharros", "Malaca", "Sexi", "Utica", 
+  "Karalis", "Zili", "Tingis", "Onoba", "Icosium", "Hippo",
+  "Acholla", "Kossyra", "Abdera", "Solus", "Motye", "Gaulos",
+  "Melita", "Sulci", "Karteia", "Panormos", "Hippo Diarrhytos"

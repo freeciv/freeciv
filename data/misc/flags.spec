@@ -93,6 +93,7 @@ sprites =
 		"f.pakistan", "flags/pakistan"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
+		"f.phoenicia", "flags/phoenicia"
 		"f.poland", "flags/poland"
 		"f.portugal", "flags/portugal"
 		"f.quebec", "flags/quebec"

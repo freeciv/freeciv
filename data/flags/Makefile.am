@@ -74,6 +74,7 @@ pkgdata_DATA =				\
 		pakistan.png		\
 		peru.png		\
 		philippines.png		\
+		phoenicia.png		\
 		poland.png		\
 		portugal.png		\
 		quebec.png		\
