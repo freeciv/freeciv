@@ -262,7 +262,7 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 
   freelog(LOG_VERBOSE, "Can't upgrade %s at (%d,%d)"
 	  " because would strand passenger(s)",
-	  get_unit_type(punit->type)->name, punit->x, punit->y);
+	  unit_type(punit)->name, punit->x, punit->y);
   return 1;
 }
 
@@ -303,7 +303,7 @@ static void handle_leonardo(struct player *pplayer)
       notify_player(pplayer,
             _("Game: %s has upgraded %s to %s%s."),
             improvement_types[B_LEONARDO].name,
-            get_unit_type(punit->type)->name,
+            unit_type(punit)->name,
             get_unit_type(upgrade_type)->name,
             get_location_str_in(pplayer, punit->x, punit->y));
       punit->veteran = 0;
@@ -329,10 +329,9 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
   if (punit1->fuel != punit2->fuel)
     return punit1->fuel < punit2->fuel? punit1: punit2;
   
-  if (get_unit_type(punit1->type)->build_cost !=
-      get_unit_type(punit2->type)->build_cost)
-    return get_unit_type(punit1->type)->build_cost > 
-      get_unit_type(punit2->type)->build_cost? punit1: punit2;
+  if (unit_type(punit1)->build_cost != unit_type(punit2)->build_cost)
+    return unit_type(punit1)->build_cost >
+	unit_type(punit2)->build_cost ? punit1 : punit2;
   
   if (punit1->veteran != punit2->veteran)
     return punit1->veteran > punit2->veteran? punit1: punit2;
@@ -353,7 +352,7 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
     if ((unit_owner(punit) == pplayer) && is_air_unit(punit) && 
         (!missile || unit_flag(punit->type, F_MISSILE))) {
       /* We must check that it isn't already refuelled. */ 
-      if (punit->fuel < get_unit_type(punit->type)->fuel) { 
+      if (punit->fuel < unit_type(punit)->fuel) { 
         if (!best_unit) 
           best_unit=punit;
         else 
@@ -383,10 +382,10 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit->type, F_CARRIER)) {
       unit_list_insert(&carriers, punit);
-      punit->fuel = get_unit_type(punit->type)->transport_capacity;
+      punit->fuel = unit_type(punit)->transport_capacity;
     } else if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
       unit_list_insert(&missile_carriers, punit);
-      punit->fuel = get_unit_type(punit->type)->transport_capacity;
+      punit->fuel = unit_type(punit)->transport_capacity;
     }
   } unit_list_iterate_end;
 
@@ -399,7 +398,7 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
           pplayer, punit->x, punit->y, 1 /*missile */);
       if (!punit_to_refuel)
         break; /* Didn't find any */
-      punit_to_refuel->fuel = get_unit_type(punit_to_refuel->type)->fuel;
+      punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
       punit->fuel--;
     }
   } unit_list_iterate_end;
@@ -412,7 +411,7 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
           pplayer, punit->x, punit->y, 0 /* any */);
       if (!punit_to_refuel) 
         break;
-      punit_to_refuel->fuel = get_unit_type(punit_to_refuel->type)->fuel;
+      punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
       punit->fuel--;
     }
   } unit_list_iterate_end;			
@@ -518,7 +517,7 @@ void player_restore_units(struct player *pplayer)
       /* 7) Automatically refuel air units in cities and airbases */
       if (map_get_city(punit->x, punit->y) ||
          map_get_special(punit->x, punit->y)&S_AIRBASE)
-	punit->fuel=get_unit_type(punit->type)->fuel;
+	punit->fuel=unit_type(punit)->fuel;
     }
   } unit_list_iterate_end;
 
@@ -549,7 +548,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
   int was_lower;
 
-  was_lower=(punit->hp < get_unit_type(punit->type)->hp);
+  was_lower=(punit->hp < unit_type(punit)->hp);
 
   if(!punit->moved) {
     punit->hp+=hp_gain_coord(punit);
@@ -562,12 +561,12 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
     struct city *pcity = map_get_city(punit->x,punit->y);
     if(!pcity) {
       if(!(map_get_special(punit->x,punit->y) & S_AIRBASE))
-        punit->hp-=get_unit_type(punit->type)->hp/10;
+        punit->hp-=unit_type(punit)->hp/10;
     }
   }
 
-  if(punit->hp>=get_unit_type(punit->type)->hp) {
-    punit->hp=get_unit_type(punit->type)->hp;
+  if(punit->hp>=unit_type(punit)->hp) {
+    punit->hp=unit_type(punit)->hp;
     if(was_lower&&punit->activity==ACTIVITY_SENTRY)
       set_unit_activity(punit,ACTIVITY_IDLE);
   }
@@ -610,7 +609,7 @@ int hp_gain_coord(struct unit *punit)
   int hp;
   struct city *pcity;
   if (unit_on_fortress(punit))
-    hp=get_unit_type(punit->type)->hp/4;
+    hp=unit_type(punit)->hp/4;
   else
     hp=0;
   if((pcity=map_get_city(punit->x,punit->y))) {
@@ -619,10 +618,10 @@ int hp_gain_coord(struct unit *punit)
 	(city_got_building(pcity, B_AIRPORT) && is_air_unit(punit)) || 
 	(city_got_building(pcity, B_AIRPORT) && is_heli_unit(punit)) || 
 	(city_got_building(pcity, B_PORT) && is_sailing_unit(punit))) {
-      hp=get_unit_type(punit->type)->hp;
+      hp=unit_type(punit)->hp;
     }
     else
-      hp=get_unit_type(punit->type)->hp/3;
+      hp=unit_type(punit)->hp/3;
   }
   else if (!is_heli_unit(punit))
     hp++;
@@ -774,7 +773,7 @@ static void update_unit_activity(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
-  int mr = get_unit_type (punit->type)->move_rate;
+  int mr = unit_type(punit)->move_rate;
   int unit_activity_done = 0;
   int activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
@@ -832,7 +831,7 @@ static void update_unit_activity(struct unit *punit)
 			    punit2) {
 	    if (is_ground_unit(punit2)) {
 	      unfog_area(pplayer, punit2->x, punit2->y,
-			 get_unit_type(punit2->type)->vision_range);
+			 unit_type(punit2)->vision_range);
 	      fog_area(pplayer, punit2->x, punit2->y,
 		       get_watchtower_vision(punit2));
 	    }
@@ -861,7 +860,7 @@ static void update_unit_activity(struct unit *punit)
 	unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
 	  if (is_ground_unit(punit2)) {
 	    unfog_area(pplayer, punit2->x, punit2->y,
-		       get_unit_type(punit2->type)->vision_range);
+		       unit_type(punit2)->vision_range);
 	    fog_area(pplayer, punit2->x, punit2->y,
 		     get_watchtower_vision(punit2));
 	  }
@@ -897,7 +896,7 @@ static void update_unit_activity(struct unit *punit)
 	unit_list_iterate(ptile->units, punit) {
 	  if (is_ground_unit(punit)) {
 	    fog_area(pplayer, punit->x, punit->y,
-		     get_unit_type(punit->type)->vision_range);
+		     unit_type(punit)->vision_range);
 	    unfog_area(pplayer, punit->x, punit->y,
 		       get_watchtower_vision(punit));
 	  }
@@ -1578,9 +1577,9 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else
-    range = get_unit_type(punit->type)->vision_range;
+    range = unit_type(punit)->vision_range;
 
-  if (punit->hp==get_unit_type(punit->type)->hp) {
+  if (punit->hp==unit_type(punit)->hp) {
     punit->hp=get_unit_type(to_unit)->hp;
   }
 
@@ -1642,7 +1641,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->homecity=homecity_id;
 
   if(hp_left == -1)
-    punit->hp=get_unit_type(punit->type)->hp;
+    punit->hp=unit_type(punit)->hp;
   else
     punit->hp = hp_left;
   set_unit_activity(punit, ACTIVITY_IDLE);
@@ -1661,7 +1660,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   else
     punit->foul=0;
   
-  punit->fuel=get_unit_type(punit->type)->fuel;
+  punit->fuel=unit_type(punit)->fuel;
   punit->ai.control=0;
   punit->ai.ai_role = AIUNIT_NONE;
   punit->ai.ferryboat = 0;
@@ -1703,7 +1702,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
       && unit_profits_of_watchtower(punit))
     unfog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
   else
-    unfog_area(pplayer, x, y, get_unit_type(punit->type)->vision_range);
+    unfog_area(pplayer, x, y, unit_type(punit)->vision_range);
 
   send_unit_info(0, punit);
   maybe_make_first_contact(x, y, unit_owner(punit));
@@ -1814,12 +1813,12 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 	}
 	notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
 			 _("Game: %s lost when %s was lost."),
-			 get_unit_type(pcargo->type)->name,
-			 get_unit_type(punit->type)->name);
+			 unit_type(pcargo)->name,
+			 unit_type(punit)->name);
 	gamelog(GAMELOG_UNITL, "%s lose %s when %s lost", 
 		get_nation_name_plural(unit_owner(punit)->nation),
-		get_unit_type(pcargo->type)->name,
-		get_unit_type(punit->type)->name);
+		unit_type(pcargo)->name,
+		unit_type(punit)->name);
 	server_remove_unit(pcargo);
 	capacity++;
       }
@@ -1886,11 +1885,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
       unitcount == 1) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
 		     _("Game: %s lost to an attack by %s's %s%s."),
-		     get_unit_type(punit->type)->name, destroyer->name,
+		     unit_type(punit)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
     gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
 	    get_nation_name_plural(pplayer->nation),
-	    get_unit_type(punit->type)->name,
+	    unit_type(punit)->name,
 	    get_nation_name_plural(destroyer->nation));
 
     wipe_unit(punit);
@@ -1929,11 +1928,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 _("Game: %s lost to an attack"
 			   " from %s's %s."),
-			 get_unit_type(punit2->type)->name, destroyer->name,
+			 unit_type(punit2)->name, destroyer->name,
 			 unit_name(pkiller->type));
 	gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
 		get_nation_name_plural(unit_owner(punit2)->nation),
-		get_unit_type(punit2->type)->name,
+		unit_type(punit2)->name,
 		get_nation_name_plural(destroyer->nation));
 	wipe_unit_spec_safe(punit2, NULL, 0);
       }
@@ -2236,7 +2235,7 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
   }
 
   {
-    int range = get_unit_type(punit->type)->paratroopers_range;
+    int range = unit_type(punit)->paratroopers_range;
     int distance = real_map_distance(punit->x, punit->y, dest_x, dest_y);
     if (distance > range) {
       notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
@@ -2248,32 +2247,32 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
   }
 
   if (map_get_terrain(dest_x, dest_y) == T_OCEAN) {
-    int srange = get_unit_type(punit->type)->vision_range;
+    int srange = unit_type(punit)->vision_range;
     show_area(unit_owner(punit), dest_x, dest_y, srange);
 
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST,
 		     _("Game: Your %s paradropped into the ocean "
 		       "and was lost."),
-		     unit_types[punit->type].name);
+		     unit_type(punit)->name);
     server_remove_unit(punit);
     return 1;
   }
 
   if (is_non_allied_unit_tile
       (map_get_tile(dest_x, dest_y), unit_owner(punit))) {
-    int srange = get_unit_type(punit->type)->vision_range;
+    int srange = unit_type(punit)->vision_range;
     show_area(unit_owner(punit), dest_x, dest_y, srange);
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST_ATT,
 		     _("Game: Your %s was killed by enemy units at the "
 		       "paradrop destination."),
-		     unit_types[punit->type].name);
+		     unit_type(punit)->name);
     server_remove_unit(punit);
     return 1;
   }
 
   /* All ok */
   {
-    int move_cost = get_unit_type(punit->type)->paratroopers_mr_sub;
+    int move_cost = unit_type(punit)->paratroopers_mr_sub;
     punit->paradropped = 1;
     return move_unit(punit, dest_x, dest_y, 0, 0, move_cost);
   }
@@ -2728,14 +2727,14 @@ static void wakeup_neighbor_sentries(struct unit *punit)
   square_iterate(punit->x, punit->y, 3, x, y) {
     unit_list_iterate(map_get_tile(x, y)->units, penemy) {
       int range;
-      enum unit_move_type move_type = get_unit_type(penemy->type)->move_type;
+      enum unit_move_type move_type = unit_type(penemy)->move_type;
       enum tile_terrain_type terrain = map_get_terrain(x, y);
 
       if (map_get_tile(x, y)->special & S_FORTRESS
 	  && unit_profits_of_watchtower(penemy))
 	range = get_watchtower_vision(penemy);
       else
-	range = get_unit_type(penemy->type)->vision_range;
+	range = unit_type(penemy)->vision_range;
       
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
@@ -2950,13 +2949,13 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
-      unfog_area(pplayer, dest_x, dest_y, get_unit_type(pcargo->type)->vision_range);
+      unfog_area(pplayer, dest_x, dest_y, unit_type(pcargo)->vision_range);
       pcargo->x = dest_x;
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(0, pcargo, src_x, src_y, 1, 0);
-      fog_area(pplayer, src_x, src_y, get_unit_type(pcargo->type)->vision_range);
+      fog_area(pplayer, src_x, src_y, unit_type(pcargo)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
     unit_list_unlink_all(&cargo_units);
@@ -2974,7 +2973,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
     unfog_area(pplayer, dest_x, dest_y, get_watchtower_vision(punit));
   else
     unfog_area(pplayer, dest_x, dest_y,
-	       get_unit_type(punit->type)->vision_range);
+	       unit_type(punit)->vision_range);
 
   unit_list_unlink(&psrctile->units, punit);
   punit->x = dest_x;
@@ -3003,7 +3002,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
     fog_area(pplayer, src_x, src_y, get_watchtower_vision(punit));
   else
     fog_area(pplayer, src_x, src_y,
-	     get_unit_type(punit->type)->vision_range);
+	     unit_type(punit)->vision_range);
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
 
@@ -3030,7 +3029,7 @@ static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else
-    range = get_unit_type(punit->type)->vision_range;
+    range = unit_type(punit)->vision_range;
   
   square_iterate(punit->x, punit->y, range, x, y) {
     struct unit *penemy =
@@ -3167,7 +3166,7 @@ int can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
   } else if (reason == MR_ZOC) {
     notify_player_ex(unit_owner(punit), src_x, src_y, E_NOEVENT,
 		     _("Game: %s can only move into your own zone of control."),
-		     unit_types[punit->type].name);
+		     unit_type(punit)->name);
   }
   return 0;
 }
@@ -3177,7 +3176,7 @@ int can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
 **************************************************************************/
 int get_watchtower_vision(struct unit *punit)
 {
-  int base_vision = get_unit_type(punit->type)->vision_range;
+  int base_vision = unit_type(punit)->vision_range;
 
   assert(base_vision > 0);
   assert(game.watchtower_vision > 0);

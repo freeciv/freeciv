@@ -548,7 +548,7 @@ update_unit_info_label(struct unit *punit)
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
  
     my_snprintf(buffer, sizeof(buffer), "%s %s",
-            get_unit_type(punit->type)->name,
+            unit_type(punit)->name,
             (punit->veteran) ? _("(veteran)") : "" );
     /* FIXME */         
     my_snprintf(buffer2, sizeof(buffer2), "%s\n%s\n%s\n%s",buffer,

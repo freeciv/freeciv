@@ -221,7 +221,7 @@ static void check_units(void) {
       if (!can_unit_continue_current_activity(punit)) {
 	freelog(LOG_ERROR, "%s at %d,%d (%s) has activity %s, "
 		"which it can't continue!",
-		unit_types[punit->type].name,
+		unit_type(punit)->name,
 		x, y, map_get_tile_info_text(x, y),
 		get_activity_text(punit->activity));
       }

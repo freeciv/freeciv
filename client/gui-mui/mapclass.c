@@ -165,7 +165,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
       if ((punit = find_visible_unit(ptile)) && !pcity)
       {
 	char cn[64];
-	struct unit_type *ptype = get_unit_type(punit->type);
+	struct unit_type *ptype = unit_type(punit);
 	cn[0] = '\0';
 	if (punit->owner == game.player_idx)
 	{

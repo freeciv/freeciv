@@ -303,7 +303,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
       && unit_flag(punit->type, F_SETTLERS)
-      && get_unit_type(punit->type)->move_rate==3)
+      && unit_type(punit)->move_rate==3)
     maxcost /= 2;
   /* (?) was punit->type == U_SETTLERS -- dwp */
 
@@ -322,12 +322,12 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	    continue;
 	} else if (ptile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(map_get_terrain(x1, y1))->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_types[punit->type].move_rate);
+	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_type(punit)->move_rate);
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
 	  move_cost = (ptile->move_cost[dir] ? SINGLE_MOVE : 0);
         else if (punit)
-	  move_cost = MIN(ptile->move_cost[dir], unit_types[punit->type].move_rate);
+	  move_cost = MIN(ptile->move_cost[dir], unit_type(punit)->move_rate);
 	/* else c = ptile->move_cost[k]; 
 	   This led to a bad bug where a unit in a swamp was considered too far away */
         else { /* we have a city */
@@ -378,7 +378,7 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
 	  (pcity ? pcity->name : "NULL"),
-	  (punit ? unit_types[punit->type].name : "NULL"));
+	  (punit ? unit_type(punit)->name : "NULL"));
 
   if (punit) {
     if (pcity && pcity == warmap.warcity)
@@ -630,7 +630,7 @@ static int find_the_shortest_path(struct unit *punit,
   int igter, x, y, x1, y1, dir;
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
-  enum unit_move_type move_type = unit_types[punit->type].move_type;
+  enum unit_move_type move_type = unit_type(punit)->move_type;
   int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
@@ -703,11 +703,11 @@ static int find_the_shortest_path(struct unit *punit,
 	    move_cost = 3;
 	} else if (psrctile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
+	  move_cost = igter ? 1 : MIN(base_cost, unit_type(punit)->move_rate);
 	} else if (igter)
 	  move_cost = (psrctile->move_cost[dir] ? SINGLE_MOVE : 0);
 	else
-	  move_cost = MIN(psrctile->move_cost[dir], unit_types[punit->type].move_rate);
+	  move_cost = MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
 
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
@@ -812,11 +812,11 @@ static int find_the_shortest_path(struct unit *punit,
 	    warmap.seacost[x][y] < punit->moves_left
 	    && total_cost < maxcost
 	    && total_cost >= punit->moves_left - (get_transporter_capacity(punit) >
-			      unit_types[punit->type].attack_strength ? 3 : 2)
+			      unit_type(punit)->attack_strength ? 3 : 2)
 	    && enemies_at(punit, x1, y1)) {
-	  total_cost += unit_types[punit->type].move_rate;
+	  total_cost += unit_type(punit)->move_rate;
 	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
-		  unit_types[punit->type].name, punit->id,
+		  unit_type(punit)->name, punit->id,
 		  punit->x, punit->y, x1, y1,
 		  punit->goto_dest_x, punit->goto_dest_y);
 	}
@@ -1174,7 +1174,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
     } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
-	      pplayer->name, unit_types[punit->type].name,
+	      pplayer->name, unit_type(punit)->name,
 	      punit->x, punit->y, dest_x, dest_y);
       punit->activity = ACTIVITY_IDLE;
       punit->connecting = 0;
@@ -1193,7 +1193,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       dir = find_a_direction(punit, restriction, waypoint_x, waypoint_y);
       if (dir < 0) {
 	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
-		unit_types[punit->type].name, punit->id,
+		unit_type(punit)->name, punit->id,
 		punit->x, punit->y);
 	return;
       }
@@ -1242,7 +1242,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
   } else {
     freelog(LOG_VERBOSE, "Did not find the shortest path for "
 	    "%s's %s at (%d, %d) -> (%d, %d)",
-	    pplayer->name, unit_types[punit->type].name,
+	    pplayer->name, unit_type(punit)->name,
 	    punit->x, punit->y, dest_x, dest_y);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
@@ -1386,8 +1386,8 @@ static int find_air_first_destination(
   static struct refuel **been_there;
   static unsigned int *turn_index;
   struct refuel start, *pgoal;
-  unsigned int fullmoves = get_unit_type(punit->type)->move_rate/SINGLE_MOVE;
-  unsigned int fullfuel = get_unit_type(punit->type)->fuel;
+  unsigned int fullmoves = unit_type(punit)->move_rate/SINGLE_MOVE;
+  unsigned int fullfuel = unit_type(punit)->fuel;
 
   int reached_goal;
   int turns, start_turn;

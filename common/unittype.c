@@ -89,6 +89,14 @@ struct unit_type *get_unit_type(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
+struct unit_type *unit_type(struct unit *punit)
+{
+  return get_unit_type(punit->type);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 int is_ground_unittype(Unit_Type_id id)
 {
   return (unit_types[id].move_type == LAND_MOVING);

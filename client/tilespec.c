@@ -954,7 +954,7 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
     }
   }
 
-  *sprs++ = get_unit_type(punit->type)->sprite;
+  *sprs++ = unit_type(punit)->sprite;
 
   if(punit->activity!=ACTIVITY_IDLE) {
     struct Sprite *s = NULL;
@@ -1025,7 +1025,7 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
     *sprs++ = sprites.unit.patrol;
   }
 
-  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / get_unit_type(punit->type)->hp;
+  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / unit_type(punit)->hp;
   ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
   *sprs++ = sprites.unit.hp_bar[ihp];
 

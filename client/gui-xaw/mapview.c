@@ -308,7 +308,7 @@ void update_unit_info_label(struct unit *punit)
     struct city *pcity;
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
     my_snprintf(buffer, sizeof(buffer), "%s %s\n%s\n%s\n%s", 
-		get_unit_type(punit->type)->name,
+		unit_type(punit)->name,
 		(punit->veteran) ? _("(veteran)") : "",
 		(hover_unit==punit->id) ? 
 		_("Select destination") : unit_activity_text(punit), 

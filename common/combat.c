@@ -112,8 +112,8 @@ A unit's effective firepower depend on the situation.
 void get_modified_firepower(struct unit *attacker, struct unit *defender,
 			    int *att_fp, int *def_fp)
 {
-  *att_fp = get_unit_type(attacker->type)->firepower;
-  *def_fp = get_unit_type(defender->type)->firepower;
+  *att_fp = unit_type(attacker)->firepower;
+  *def_fp = unit_type(defender)->firepower;
 
   /* pearl harbour */
   if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
@@ -241,7 +241,7 @@ struct city *sdi_defense_close(struct player *owner, int x, int y)
 int get_attack_power(struct unit *punit)
 {
   int power;
-  power=get_unit_type(punit->type)->attack_strength*10;
+  power=unit_type(punit)->attack_strength*10;
   if (punit->veteran) {
     power *= 3;
     power /= 2;
@@ -264,7 +264,7 @@ int get_defense_power(struct unit *punit)
   if (!punit || punit->type<0 || punit->type>=U_LAST
       || punit->type>=game.num_unit_types)
     abort();
-  power=get_unit_type(punit->type)->defense_strength*10;
+  power=unit_type(punit)->defense_strength*10;
   if (punit->veteran) {
     power *= 3;
     power /= 2;
@@ -446,7 +446,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
     count++;
     if (unit_can_defend_here(defender)) {
       int change = 0;
-      int build_cost = get_unit_type(defender->type)->build_cost;
+      int build_cost = unit_type(defender)->build_cost;
 
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
@@ -495,7 +495,7 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
   int bestvalue = -1, unit_a, best_cost = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, attacker) {
-    int build_cost = get_unit_type(attacker->type)->build_cost;
+    int build_cost = unit_type(attacker)->build_cost;
 
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker)))
       return 0;

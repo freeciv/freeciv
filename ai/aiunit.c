@@ -138,7 +138,7 @@ static int has_defense(struct city *pcity)
 static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
-  m = unit_types[punit->type].move_rate;
+  m = unit_type(punit)->move_rate;
   if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
   if(is_sailing_unit(punit)) {
     struct player *pplayer = unit_owner(punit);
@@ -149,9 +149,9 @@ static int unit_move_turns(struct unit *punit, int x, int y)
     m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST) * SINGLE_MOVE;
   }
 
-  if (unit_types[punit->type].move_type == LAND_MOVING)
+  if (unit_type(punit)->move_type == LAND_MOVING)
     d = warmap.cost[x][y] / m;
-  else if (unit_types[punit->type].move_type == SEA_MOVING)
+  else if (unit_type(punit)->move_type == SEA_MOVING)
     d = warmap.seacost[x][y] / m;
   else d = real_map_distance(punit->x, punit->y, x, y) * SINGLE_MOVE / m;
   return(d);
@@ -196,7 +196,7 @@ int ai_manage_explorer(struct unit *punit)
       && map_get_tile(punit->x, punit->y)->special & S_FORTRESS)
     range =get_watchtower_vision(punit);
   else
-    range = get_unit_type(punit->type)->vision_range;
+    range = unit_type(punit)->vision_range;
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -346,7 +346,7 @@ int ai_manage_explorer(struct unit *punit)
 
   /* BEGIN PART FOUR: maybe go to another continent */
   freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
-	  pplayer->name, unit_types[punit->type].name, punit->x, punit->y);
+	  pplayer->name, unit_type(punit)->name, punit->x, punit->y);
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
   if (pplayer->ai.control && is_military_unit(punit)) {
     pcity = find_city_by_id(punit->homecity);
@@ -422,15 +422,15 @@ static int unit_belligerence_primitive(struct unit *punit)
 {
   int v;
   v = get_attack_power(punit) * punit->hp * 
-            get_unit_type(punit->type)->firepower / 30;
+            unit_type(punit)->firepower / 30;
   return(v);
 }
 
 int unit_belligerence_basic(struct unit *punit)
 {
   int v;
-  v = unit_types[punit->type].attack_strength * (punit->veteran ? 15 : 10) * 
-          punit->hp * get_unit_type(punit->type)->firepower / 30;
+  v = unit_type(punit)->attack_strength * (punit->veteran ? 15 : 10) * 
+          punit->hp * unit_type(punit)->firepower / 30;
   return(v);
 }
 
@@ -444,9 +444,9 @@ int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
   int v;
 
-  v = get_total_defense_power(punit, pdef) * 
-      (punit->id ? pdef->hp : unit_types[pdef->type].hp) * 
-           get_unit_type(pdef->type)->firepower / 30;
+  v = get_total_defense_power(punit, pdef) *
+      (punit->id ? pdef->hp : unit_type(pdef)->hp) *
+      unit_type(pdef)->firepower / 30;
 
   return(v);
 }
@@ -454,7 +454,7 @@ int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 int unit_vulnerability_virtual(struct unit *punit)
 {
   int v;
-  v = get_unit_type(punit->type)->defense_strength *
+  v = unit_type(punit)->defense_strength *
       (punit->veteran ? 15 : 10) * punit->hp / 30;
   return(v * v);
 }
@@ -521,7 +521,7 @@ static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *p
       val = (unit_belligerence_basic(aunit));
       if (val) {
 	val2 += val;
-	val3 += unit_types[aunit->type].build_cost;
+	val3 += unit_type(aunit)->build_cost;
       }
     }
     unit_list_iterate_end;
@@ -545,7 +545,7 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
       if (aunit == punit || aunit->owner != punit->owner)
 	continue;
       if (unit_belligerence_basic(aunit))
-	val += unit_types[aunit->type].build_cost;
+	val += unit_type(aunit)->build_cost;
     }
     unit_list_iterate_end;
   }
@@ -611,7 +611,7 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
   *dest_y = y;
   *dest_x = x;
   if (punit->unhappiness) best = 0 - 2 * MORT * TRADE_WEIGHTING; /* desperation */
-  f = unit_types[punit->type].build_cost;
+  f = unit_type(punit)->build_cost;
   c = 0; /* only dealing with adjacent victims here */
 
   if (get_transporter_capacity(punit)) {
@@ -636,16 +636,16 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
               unit_list_size(&(map_get_tile(punit->x, punit->y)->units)) < 2 &&
 	      get_total_attack_power(patt, punit)) { 
 	  freelog(LOG_DEBUG, "%s defending %s from %s's %s",
-		  get_unit_type(punit->type)->name,
+		  unit_type(punit)->name,
 		  map_get_city(x, y)->name,
-		  unit_owner(pdef)->name, get_unit_type(pdef->type)->name);
+		  unit_owner(pdef)->name, unit_type(pdef)->name);
         } else {
           a = reinforcements_value(punit, pdef->x, pdef->y);
           a += unit_belligerence_primitive(punit);
           a *= a;
-          b = unit_types[pdef->type].build_cost;
+          b = unit_type(pdef)->build_cost;
           if (map_get_city(x1, y1)) /* bonus restored 980804 -- Syela */
-            b = (b + 40) * punit->hp / unit_types[punit->type].hp;
+            b = (b + 40) * punit->hp / unit_type(punit)->hp;
 /* c is always equal to zero in this routine, and f is already known */
 /* arguable that I should use reinforcement_cost here?? -- Syela */
           if (a && is_my_turn(punit, pdef)) {
@@ -653,11 +653,11 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
 /* no need to amortize! */
             if (e > best && ai_fuzzy(pplayer,1)) {
 	      freelog(LOG_DEBUG, "Better than %d is %d (%s)",
-			    best, e, unit_types[pdef->type].name);
+			    best, e, unit_type(pdef)->name);
               best = e; *dest_y = y1; *dest_x = x1;
             } else {
 	      freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
-			    best, e, unit_types[pdef->type].name);
+			    best, e, unit_type(pdef)->name);
 	    }
           } /* end if we have non-zero belligerence */
         }
@@ -708,8 +708,8 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   
   if (aunit) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d) -> %s#%d@(%d,%d) [body=%d]",
-	    unit_types[punit->type].name, punit->id, punit->x, punit->y,
-	    unit_types[aunit->type].name, aunit->id, aunit->x, aunit->y,
+	    unit_type(punit)->name, punit->id, punit->x, punit->y,
+	    unit_type(aunit)->name, aunit->id, aunit->x, aunit->y,
 	    aunit->ai.bodyguard);
   }
 
@@ -763,7 +763,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 	if (map_get_special(x1, y1) & S_RIVER)
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
-            unit_types[punit->type].move_rate)
+            unit_type(punit)->move_rate)
 	  ok *= 8;
         ok += (6 * THRESHOLD - warmap.seacost[x1][y1]);
         if (ok > best) {
@@ -832,16 +832,16 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
           unit_types[d_type].attack_strength;
       d_val += j;
     }
-    d_val /= (unit_types[punit->type].move_rate / SINGLE_MOVE);
+    d_val /= (unit_type(punit)->move_rate / SINGLE_MOVE);
     if (unit_flag(punit->type, F_IGTER)) d_val /= 1.5;
     freelog(LOG_DEBUG,
 	    "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
-	    unit_types[punit->type].name, punit->x, punit->y, d_val,
+	    unit_type(punit)->name, punit->x, punit->y, d_val,
 	    (punit->hp * (punit->veteran ? 15 : 10)
-	     * unit_types[punit->type].defense_strength));
+	     * unit_type(punit)->defense_strength));
     ptile = map_get_tile(punit->x, punit->y);
     if (d_val >= punit->hp * (punit->veteran ? 15 : 10) *
-                unit_types[punit->type].defense_strength) {
+                unit_type(punit)->defense_strength) {
 /*      if (!unit_list_find(&pplayer->units, punit->ai.bodyguard))      Ugggggh */
       if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
         punit->ai.bodyguard = -1;
@@ -933,7 +933,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 
       if (ferryboat) {
 	freelog(LOG_DEBUG, "GOTHERE: %s#%d@(%d,%d)->(%d,%d)", 
-		unit_types[punit->type].name, punit->id,
+		unit_type(punit)->name, punit->id,
 		punit->x, punit->y, dest_x, dest_y);
       }
       set_unit_activity(punit, ACTIVITY_GOTO);
@@ -941,7 +941,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
       /* liable to bump into someone that will kill us.  Should avoid? */
     } else {
       freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
-		    unit_types[punit->type].name, punit->id,
+		    unit_type(punit)->name, punit->id,
 		    punit->x, punit->y, dest_x, dest_y);
     }
   }
@@ -990,8 +990,8 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
   unit_list_iterate(pplayer->units, buddy)
     if (!buddy->ai.bodyguard) continue;
     if (!goto_is_sane(punit, buddy->x, buddy->y, 1)) continue;
-    if (unit_types[buddy->type].move_rate > unit_types[punit->type].move_rate) continue;
-    if (unit_types[buddy->type].move_type != unit_types[punit->type].move_type) continue;
+    if (unit_type(buddy)->move_rate > unit_type(punit)->move_rate) continue;
+    if (unit_type(buddy)->move_type != unit_type(punit)->move_type) continue;
     d = unit_move_turns(punit, buddy->x, buddy->y);
     def = (u - unit_vulnerability_virtual(buddy))>>d;
     freelog(LOG_DEBUG, "(%d,%d)->(%d,%d), %d turns, def=%d",
@@ -1009,7 +1009,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
     if (def > val && ai_fuzzy(pplayer,1)) { *acity = mycity; val = def; }
   city_list_iterate_end;
   freelog(LOG_DEBUG, "%s@(%d,%d) looking for charge; %d/%d",
-	  unit_types[punit->type].name,
+	  unit_type(punit)->name,
 	  punit->x, punit->y, val, val * 100 / u);
   return((val * 100) / u);
 }
@@ -1042,8 +1042,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
         if (!unit_vulnerability_virtual(punit)) q = 0; /* thanks, JMT, Paul */
-        else q = (pcity->ai.danger * 2 - def * unit_types[punit->type].attack_strength /
-             unit_types[punit->type].defense_strength);
+        else q = (pcity->ai.danger * 2 - def * unit_type(punit)->attack_strength /
+             unit_type(punit)->defense_strength);
 /* this was a WAG, but it works, so now it's just good code! -- Syela */
         if (val > 0 || q > 0) { /* Guess I better stay */
           ;
@@ -1116,14 +1116,14 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
     punit->ai.ai_role = AIUNIT_ESCORT;
     punit->ai.charge = acity->id;
     freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
-		  unit_types[punit->type].name, punit->x, punit->y,
+		  unit_type(punit)->name, punit->x, punit->y,
 		  acity->name, acity->x, acity->y);
   } else if (aunit) {
     punit->ai.ai_role = AIUNIT_ESCORT;
     punit->ai.charge = aunit->id;
     freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
-		  unit_types[punit->type].name, punit->x, punit->y,
-		  unit_types[aunit->type].name, aunit->x, aunit->y);
+		  unit_type(punit)->name, punit->x, punit->y,
+		  unit_type(aunit)->name, aunit->x, aunit->y);
   } else if (unit_attack_desirability(punit->type) ||
       (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)))
      punit->ai.ai_role = AIUNIT_ATTACK;
@@ -1196,19 +1196,19 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
     if (aunit == punit) continue;
     if (aunit->activity == ACTIVITY_GOTO &&
        (pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
-      if (unit_types[aunit->type].attack_strength >
-        unit_types[aunit->type].transport_capacity) { /* attacker */
+      if (unit_type(aunit)->attack_strength >
+        unit_type(aunit)->transport_capacity) { /* attacker */
         a = unit_belligerence_basic(aunit);
         pcity->ai.a += a;
-        pcity->ai.f += unit_types[aunit->type].build_cost;
+        pcity->ai.f += unit_type(aunit)->build_cost;
       }
     }
 /* dealing with invasion stuff */
-    if (unit_types[aunit->type].attack_strength >
-      unit_types[aunit->type].transport_capacity) { /* attacker */
+    if (unit_type(aunit)->attack_strength >
+      unit_type(aunit)->transport_capacity) { /* attacker */
       if (aunit->activity == ACTIVITY_GOTO) invasion_funct(aunit, 1, 0,
          ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
-      invasion_funct(aunit, 0, unit_types[aunit->type].move_rate / SINGLE_MOVE,
+      invasion_funct(aunit, 0, unit_type(aunit)->move_rate / SINGLE_MOVE,
          ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
     } else if (aunit->ai.passenger &&
               !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
@@ -1226,18 +1226,18 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   *x = punit->x; *y = punit->y;
   ab = unit_belligerence_basic(punit);
   if (!ab) return(0); /* don't want to deal with SIGFPE's -- Syela */
-  m = unit_types[punit->type].move_rate;
+  m = unit_type(punit)->move_rate;
   if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
   maxd = MIN(6, m) * THRESHOLD + 1;
-  f = unit_types[punit->type].build_cost;
-  fprime = f * 2 * unit_types[punit->type].attack_strength /
-           (unit_types[punit->type].attack_strength +
-            unit_types[punit->type].defense_strength);
+  f = unit_type(punit)->build_cost;
+  fprime = f * 2 * unit_type(punit)->attack_strength /
+           (unit_type(punit)->attack_strength +
+            unit_type(punit)->defense_strength);
 
   generate_warmap(map_get_city(*x, *y), punit);
                              /* most flexible but costs milliseconds */
   freelog(LOG_DEBUG, "%s's %s at (%d, %d) has belligerence %d.",
-		pplayer->name, unit_types[punit->type].name,
+		pplayer->name, unit_type(punit)->name,
 		punit->x, punit->y, a);
 
   if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
@@ -1266,7 +1266,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
           (is_sailing_unit(punit) && warmap.seacost[acity->x][acity->y] < maxd))) {
           if ((pdef = get_defender(punit, acity->x, acity->y))) {
             d = unit_vulnerability(punit, pdef);
-            b = unit_types[pdef->type].build_cost + 40;
+            b = unit_type(pdef)->build_cost + 40;
           } else { d = 0; b = 40; }
 /* attempting to make empty cities less enticing. -- Syela */
           if (is_ground_unit(punit)) {
@@ -1348,8 +1348,8 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 	  if (punit->id && ferryboat && is_ground_unit(punit)) {
 	    freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
 		    " (sanity=%d, c=%d, e=%d, best=%d)",
-		    unit_types[punit->type].name, punit->x, punit->y,
-		    unit_types[ferryboat->type].name, bx, by,
+		    unit_type(punit)->name, punit->x, punit->y,
+		    unit_type(ferryboat)->name, bx, by,
 		    acity->name, acity->x, acity->y, sanity, c, e, best);
 	  }
 
@@ -1398,12 +1398,12 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
                 warmap.seacost[aunit->x][aunit->y] < maxd)))) {
           d = unit_vulnerability(punit, aunit);
 
-          b = unit_types[aunit->type].build_cost;
+          b = unit_type(aunit)->build_cost;
           if (is_ground_unit(punit)) n = warmap.cost[aunit->x][aunit->y];
           else if (is_sailing_unit(punit)) n = warmap.seacost[aunit->x][aunit->y];
           else n = real_map_distance(punit->x, punit->y, aunit->x, aunit->y) * 3;
           if (n > m) { /* if n <= m, it can't run away -- Syela */
-            n *= unit_types[aunit->type].move_rate;
+            n *= unit_type(aunit)->move_rate;
             if (unit_flag(aunit->type, F_IGTER)) n *= 3;
           }
           c = (n + m - 1) / m;
@@ -1432,7 +1432,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
   if (best && map_get_city(*x, *y) && !punit->id) {
     freelog(LOG_DEBUG,
 	    "%s's %s#%d at (%d, %d) targeting (%d, %d) [desire = %d/%d]",
-	    pplayer->name, unit_types[punit->type].name, punit->id,
+	    pplayer->name, unit_type(punit)->name, punit->id,
 	    punit->x, punit->y, *x, *y, best, bestb0);
     freelog(LOG_DEBUG, "A = %d, B = %d, C = %d, D = %d, F = %d, E = %d",
 	    aa, bb, cc, dd, f, best);
@@ -1532,7 +1532,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
         } /* else nothing to kill */
       } else { /* goto does NOT work for fast units */
 	freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
-		      pplayer->name, unit_types[punit->type].name,
+		      pplayer->name, unit_type(punit)->name,
 		      punit->x, punit->y, dest_x, dest_y); 
         handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
         punit = find_unit_by_id(id);
@@ -1617,7 +1617,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   struct city *pcity;
   struct unit *bodyguard;
   int id = punit->id;
-  int best = 4 * unit_types[punit->type].move_rate, x = punit->x, y = punit->y;
+  int best = 4 * unit_type(punit)->move_rate, x = punit->x, y = punit->y;
   int n = 0, p = 0;
 
   if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger))
@@ -1677,8 +1677,8 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   punit->goto_dest_x = punit->x;
   punit->goto_dest_y = punit->y;
 
-  if (unit_types[punit->type].attack_strength >
-      unit_types[punit->type].transport_capacity) {
+  if (unit_type(punit)->attack_strength >
+      unit_type(punit)->transport_capacity) {
     if (punit->moves_left) ai_manage_military(pplayer, punit);
     return;
   } /* AI used to build frigates to attack and then use them as ferries -- Syela */
@@ -1698,7 +1698,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     }
     if (is_sailing_unit(aunit) && map_get_terrain(aunit->x, aunit->y) == T_OCEAN) p++;
   unit_list_iterate_end;
-  if (best < 4 * unit_types[punit->type].move_rate) {
+  if (best < 4 * unit_type(punit)->move_rate) {
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
     set_unit_activity(punit, ACTIVITY_GOTO);
@@ -1921,7 +1921,7 @@ void ai_manage_units(struct player *pplayer)
 		unitids[index]);
 	continue;
       }
-      type_name = unit_types[punit->type].name;
+      type_name = unit_type(punit)->name;
 
       freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
 	      type_name, unitids[index], punit->x, punit->y);

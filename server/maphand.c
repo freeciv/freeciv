@@ -683,7 +683,7 @@ void remove_unit_sight_points(struct unit *punit)
       && unit_profits_of_watchtower(punit))
     fog_area(pplayer, x, y, get_watchtower_vision(punit));
   else
-    fog_area(pplayer, x, y, get_unit_type(punit->type)->vision_range);
+    fog_area(pplayer, x, y, unit_type(punit)->vision_range);
 }
 
 /**************************************************************************

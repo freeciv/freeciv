@@ -200,7 +200,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
   from_unit = punit->type;
   if((to_unit=can_upgrade_unittype(pplayer, punit->type)) == -1) {
     notify_player(pplayer, _("Game: Illegal package, can't upgrade %s (yet)."), 
-		  unit_types[punit->type].name);
+		  unit_type(punit)->name);
     return;
   }
   cost = unit_upgrade_price(pplayer, punit->type, to_unit);
@@ -372,9 +372,9 @@ void do_unit_disband_safe(struct city *pcity, struct unit *punit,
 			  struct genlist_iterator *iter)
 {
   if (pcity) {
-    pcity->shield_stock += (get_unit_type(punit->type)->build_cost/2);
+    pcity->shield_stock += (unit_type(punit)->build_cost/2);
     /* If we change production later at this turn. No penalty is added. */
-    pcity->disbanded_shields += (get_unit_type(punit->type)->build_cost/2);
+    pcity->disbanded_shields += (unit_type(punit)->build_cost/2);
 
     /* Note: Nowadays it's possible to disband unit in allied city and
      * your ally receives those shields. Should it be like this? Why not?
@@ -421,7 +421,7 @@ static void city_add_or_build_error(struct player *pplayer,
   /* Given that res came from test_unit_add_or_build_city, pcity will
      be non-null for all required status values. */
   struct city *pcity = map_get_city(punit->x, punit->y);
-  char *unit_name = get_unit_type(punit->type)->name;
+  char *unit_name = unit_type(punit)->name;
 
   switch (res) {
   case AB_NOT_BUILD_LOC:
@@ -502,7 +502,7 @@ static void city_add_or_build_error(struct player *pplayer,
 static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
-  char *unit_name = get_unit_type(punit->type)->name;
+  char *unit_name = unit_type(punit)->name;
 
   assert(unit_pop_value(punit->type) > 0);
   pcity->size += unit_pop_value(punit->type);
@@ -631,9 +631,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   int def_x = pdefender->x, def_y = pdefender->y;
   
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
-	  pplayer->name, unit_types[punit->type].name, 
+	  pplayer->name, unit_type(punit)->name, 
 	  unit_owner(pdefender)->name,
-	  unit_types[pdefender->type].name);
+	  unit_type(pdefender)->name);
 
   /* Sanity checks */
   if (pplayers_non_attack(unit_owner(punit), unit_owner(pdefender))) {
@@ -727,8 +727,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   if(punit==plooser) {
     /* The attacker lost */
     freelog(LOG_DEBUG, "Attacker lost: %s's %s against %s's %s.",
-	    pplayer->name, unit_types[punit->type].name,
-	    unit_owner(pdefender)->name, unit_types[pdefender->type].name);
+	    pplayer->name, unit_type(punit)->name,
+	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     notify_player_ex(unit_owner(pwinner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN,
@@ -752,8 +752,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   else {
     /* The defender lost, the attacker punit lives! */
     freelog(LOG_DEBUG, "Defender lost: %s's %s against %s's %s.",
-	    pplayer->name, unit_types[punit->type].name,
-	    unit_owner(pdefender)->name, unit_types[pdefender->type].name);
+	    pplayer->name, unit_type(punit)->name,
+	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     punit->moved=1; /* We moved */
 
@@ -937,7 +937,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
  	(dest_x != punit->goto_dest_x || dest_y != punit->goto_dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s aborted GOTO as there are units in the way."),
- 		       unit_types[punit->type].name);
+ 		       unit_type(punit)->name);
       return 0;
     }
  
@@ -959,7 +959,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     /* This should be part of can_unit_attack_tile(), but I think the AI
        depends on can_unit_attack_tile() not stopping it in the goto, so
        leave it here for now. */
-    if (get_unit_type(punit->type)->attack_strength == 0) {
+    if (unit_type(punit)->attack_strength == 0) {
       char message[MAX_LEN_NAME + 64];
       my_snprintf(message, sizeof(message),
 		  _("Game: A %s cannot attack other units."),
@@ -993,7 +993,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
  	!bodyguard->moves_left) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s doesn't want to leave its bodyguard."),
- 		       unit_types[punit->type].name);
+ 		       unit_type(punit)->name);
       return 0;
     }
   }
@@ -1001,12 +1001,12 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   /* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
   if (pplayer->ai.control &&
       punit->moves_left <= map_move_cost(punit, dest_x, dest_y) &&
-      unit_types[punit->type].move_rate > map_move_cost(punit, dest_x, dest_y) &&
+      unit_type(punit)->move_rate > map_move_cost(punit, dest_x, dest_y) &&
       enemies_at(punit, dest_x, dest_y) &&
       !enemies_at(punit, punit->x, punit->y)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
   		     _("Game: %s ending move early to stay out of trouble."),
-  		     unit_types[punit->type].name);
+  		     unit_type(punit)->name);
     return 0;
   }
 
@@ -1054,7 +1054,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 	success = handle_unit_move_request(bodyguard,
 					   dest_x, dest_y, igzoc, FALSE);
 	freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
-		unit_types[bodyguard->type].name, src_x, src_y,
+		unit_type(bodyguard)->name, src_x, src_y,
 		dest_x, dest_y, success);
 	handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
       }
@@ -1091,8 +1091,8 @@ void handle_unit_help_build_wonder(struct player *pplayer,
     return;
 
   /* we're there! */
-  pcity_dest->shield_stock += get_unit_type(punit->type)->build_cost;
-  pcity_dest->caravan_shields += get_unit_type(punit->type)->build_cost;
+  pcity_dest->shield_stock += unit_type(punit)->build_cost;
+  pcity_dest->caravan_shields += unit_type(punit)->build_cost;
 
   conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,

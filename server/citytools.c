@@ -237,7 +237,7 @@ int settler_eats(struct city *pcity)
   int eat = 0;
 
   unit_list_iterate(pcity->units_supported, this_unit) {
-    int food_cost = utype_food_cost(get_unit_type(this_unit->type), g);
+    int food_cost = utype_food_cost(unit_type(this_unit), g);
     adjust_city_free_cost(&free_food, &food_cost);
     if (food_cost > 0) {
       eat += food_cost;
@@ -910,7 +910,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
       && map_get_tile(x, y)->special & S_FORTRESS) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
       unfog_area(pplayer, punit->x, punit->y,
-		 get_unit_type(punit->type)->vision_range);
+		 unit_type(punit)->vision_range);
       fog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
     }
     unit_list_iterate_end;
@@ -1004,7 +1004,7 @@ void remove_city(struct city *pcity)
 	    notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
 			     _("Game: Moved %s out of disbanded city %s "
 			       "to avoid being landlocked."),
-			     get_unit_type(punit->type)->name, pcity->name);
+			     unit_type(punit)->name, pcity->name);
 	    goto OUT;
 	  }
 	}
@@ -1015,7 +1015,7 @@ void remove_city(struct city *pcity)
       notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
 		       _("Game: When %s was disbanded your %s could not "
 			 "get out, and it was therefore stranded."),
-		       get_unit_type(punit->type)->name, pcity->name);
+		       unit_type(punit)->name, pcity->name);
       wipe_unit(punit);
     }
     /* We just messed with the unit list. Avoid trouble by starting over.

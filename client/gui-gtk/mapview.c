@@ -539,7 +539,7 @@ void update_unit_info_label(struct unit *punit)
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
 
     my_snprintf(buffer, sizeof(buffer), "%s %s", 
-            get_unit_type(punit->type)->name,
+            unit_type(punit)->name,
             (punit->veteran) ? _("(veteran)") : "" );
     gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
 

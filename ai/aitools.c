@@ -201,7 +201,7 @@ int ai_assess_military_unhappiness(struct city *pcity,
   }
   
   unit_list_iterate(pcity->units_supported, punit) {
-    int happy_cost = utype_happy_cost(get_unit_type(punit->type), g);
+    int happy_cost = utype_happy_cost(unit_type(punit), g);
 
     if (happy_cost<=0)
       continue;
@@ -366,7 +366,7 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
     }
 
     unit_list_iterate (this_city->units_supported, this_unit) {
-      struct unit_type *ut = &unit_types[ this_unit->type ];
+      struct unit_type *ut = unit_type(this_unit);
       if (unit_being_aggressive (this_unit)) {
         if (free_happy) {
 	  --free_happy;

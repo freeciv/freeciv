@@ -19,6 +19,7 @@ struct player;
 struct city;
 struct government;
 struct Sprite;			/* opaque; client-gui specific */
+struct unit;
 
 typedef int Unit_Type_id;
 /*
@@ -182,6 +183,7 @@ extern struct unit_type unit_types[U_LAST];
 
 int unit_type_exists(Unit_Type_id id);
 struct unit_type *get_unit_type(Unit_Type_id id);
+struct unit_type *unit_type(struct unit *punit);
 
 int unit_flag(Unit_Type_id id, int flag);
 int unit_has_role(Unit_Type_id id, int role);

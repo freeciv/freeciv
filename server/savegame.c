@@ -1168,7 +1168,7 @@ static void player_load(struct player *plr, int plrno,
     }
 
     {
-      int range = get_unit_type(punit->type)->vision_range;
+      int range = unit_type(punit)->vision_range;
       square_iterate(punit->x, punit->y, range, x1, y1) {
 	map_set_known(x1, y1, plr);
       } square_iterate_end;
@@ -1181,7 +1181,7 @@ static void player_load(struct player *plr, int plrno,
 		 get_watchtower_vision(punit));
     else
       unfog_area(unit_owner(punit), punit->x, punit->y,
-		 get_unit_type(punit->type)->vision_range);
+		 unit_type(punit)->vision_range);
 
     unit_list_insert_back(&plr->units, punit);
 

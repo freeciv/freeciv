@@ -125,8 +125,9 @@ static void ai_manage_buildings(struct player *pplayer)
 /* this is a weird place to iterate a units list! */
   unit_list_iterate(pplayer->units, punit)
     if (is_sailing_unit(punit))
-      values[B_MAGELLAN] += unit_types[punit->type].build_cost * 2 * SINGLE_MOVE /
-                            unit_types[punit->type].move_rate;
+      values[B_MAGELLAN] +=
+	  unit_type(punit)->build_cost * 2 * SINGLE_MOVE /
+	  unit_type(punit)->move_rate;
   unit_list_iterate_end;
   values[B_MAGELLAN] *= 100 * SHIELD_WEIGHTING;
   values[B_MAGELLAN] /= (MORT * improvement_value(B_MAGELLAN));
@@ -363,7 +364,7 @@ static void ai_new_spend_gold(struct player *pplayer)
         did_upgrade = 0;
 	freelog(LOG_DEBUG, "%s wants %s, %s -> %s", pcity->name,
 		unit_types[bestchoice.choice].name, 
-		unit_types[punit->type].name,
+		unit_type(punit)->name,
 		(id>=0 ? unit_types[id].name : "-1"));
         if (id == bestchoice.choice && ai_fuzzy(pplayer,1)) {
 	  /* and I can simply upgrade a unit I already have */
@@ -374,7 +375,7 @@ static void ai_new_spend_gold(struct player *pplayer)
               pplayer->economic.gold -= cost;
               notify_player(pplayer,
 			    _("Game: %s upgraded to %s in %s for %d gold."),
-			    unit_types[punit->type].name, unit_types[id].name,
+			    unit_type(punit)->name, unit_types[id].name,
 			    pcity->name, cost);
 	      upgrade_unit(punit, id);
               send_player_info(pplayer, pplayer);
@@ -389,16 +390,17 @@ static void ai_new_spend_gold(struct player *pplayer)
 		 && is_on_unit_upgrade_path(bestchoice.choice, punit->type)))
 	    && ai_fuzzy(pplayer, 1)) {
           if (!did_upgrade) { /* might want to disband */
-            build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost/2);
+	    build =
+		pcity->shield_stock + (unit_type(punit)->build_cost / 2);
             total = get_unit_type(bestchoice.choice)->build_cost;
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||
                   (pplayer->economic.gold >= cost)) {
 	      freelog(LOG_VERBOSE, "%s disbanding %s in %s to help get %s",
-		   pplayer->name, unit_types[punit->type].name, pcity->name,
+		   pplayer->name, unit_type(punit)->name, pcity->name,
 		   unit_types[bestchoice.choice].name);
               notify_player(pplayer, _("Game: %s disbanded in %s."),
-			    unit_types[punit->type].name, pcity->name);
+			    unit_type(punit)->name, pcity->name);
 
               do_unit_disband_safe(pcity, punit, &myiter);
             }
@@ -505,7 +507,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 	upgrade_unit(punit, id);
         notify_player(pplayer,
 		      _("Game: %s upgraded to %s in %s for %d gold."),
-		      unit_types[punit->type].name, unit_types[id].name,
+		      unit_type(punit)->name, unit_types[id].name,
 		      pcity->name, cost);
         send_player_info(pplayer, pplayer);
       } /* end if upgrade */
@@ -701,15 +703,15 @@ int has_a_normal_defender(struct city *pcity)
 #if 0 /* pre-rulesets */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit) && is_ground_unit(punit) &&
-        unit_types[punit->type].hp > 10 && /* for when we don't get Feudalism */
+        unit_type(punit)->hp > 10 && /* for when we don't get Feudalism */
         can_build_unit(pcity, punit->type)) return 1;
   unit_list_iterate_end;
 #else
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit)
 	&& is_ground_unit(punit)
-	&& (unit_types[punit->type].attack_strength
-	    + 2*unit_types[punit->type].defense_strength) >= 9
+	&& (unit_type(punit)->attack_strength
+	    + 2*unit_type(punit)->defense_strength) >= 9
 	&& can_build_unit(pcity, punit->type)) {
       return 1;
     }
@@ -843,7 +845,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   } /* not as good as elvising all at once, but should be adequate */
 
   unit_list_iterate(pcity->units_supported, punit)
-    prodneed += utype_shield_cost(get_unit_type(punit->type), g);
+    prodneed += utype_shield_cost(unit_type(punit), g);
   unit_list_iterate_end;
   
   prodneed -= citygov_free_shield(pcity, g);
@@ -1033,7 +1035,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
        freelog(LOG_VERBOSE,
 	       "%s's %s is unhappy and causing unrest, disbanding it",
-	       pcity->name, unit_types[punit->type].name);
+	       pcity->name, unit_type(punit)->name);
        pack.unit_id = punit->id;
        /* in rare cases the _safe might be needed? --dwp */
        handle_unit_disband_safe(pplayer, &pack, &myiter);

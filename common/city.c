@@ -1739,7 +1739,7 @@ static void city_support(struct city *pcity)
   /* loop over units, subtracting appropriate amounts of food, shields,
    * gold etc -- SKi */
   unit_list_iterate(pcity->units_supported, this_unit) {
-    struct unit_type *ut = get_unit_type(this_unit->type);
+    struct unit_type *ut = unit_type(this_unit);
     int shield_cost = utype_shield_cost(ut, g);
     int happy_cost = utype_happy_cost(ut, g);
     int food_cost = utype_food_cost(ut, g);

@@ -308,7 +308,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 {
   int x, y;
   struct tile *psrctile, *pdesttile;
-  enum unit_move_type move_type = unit_types[punit->type].move_type;
+  enum unit_move_type move_type = unit_type(punit)->move_type;
   int move_cost, total_cost;
   int igter = unit_flag(punit->type, F_IGTER);
   int add_to_queue;
@@ -345,7 +345,9 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	    move_cost = SINGLE_MOVE;
 	} else if (psrctile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_types[punit->type].move_rate);
+	  move_cost =
+	      igter ? MOVE_COST_ROAD : MIN(base_cost,
+					   unit_type(punit)->move_rate);
 	  if (src_x != x || src_y != y) {
 	    /* Attempting to make a path through a sea transporter */
 	    move_cost += MOVE_COST_ROAD; /* Rather arbitrary deterrent */
@@ -353,7 +355,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	} else if (igter) {
 	  move_cost = (psrctile->move_cost[dir] ? MOVE_COST_ROAD : 0);
 	} else {
-	  move_cost = MIN(psrctile->move_cost[dir], unit_types[punit->type].move_rate);
+	  move_cost =
+	      MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
 	}
 
 	if (pdesttile->terrain == T_UNKNOWN) {

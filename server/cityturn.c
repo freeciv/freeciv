@@ -278,7 +278,7 @@ void auto_arrange_workers(struct city *pcity)
   prodneed -= citygov_free_shield(pcity, g);
 
   unit_list_iterate(pcity->units_supported, this_unit) {
-    int shield_cost = utype_shield_cost(get_unit_type(this_unit->type), g);
+    int shield_cost = utype_shield_cost(unit_type(this_unit), g);
     if (shield_cost > 0) {
       prodneed += shield_cost;
     }
@@ -569,8 +569,8 @@ static void city_populate(struct city *pcity)
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
     unit_list_iterate(pcity->units_supported, punit) {
-      if (get_unit_type(punit->type)->food_cost > 0) {
-	char *utname = get_unit_type(punit->type)->name;
+      if (unit_type(punit)->food_cost > 0) {
+	char *utname = unit_type(punit)->name;
 	wipe_unit_safe(punit, &myiter);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 
@@ -869,10 +869,10 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 
   while (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (utype_shield_cost(get_unit_type(punit->type), g)) {
+      if (utype_shield_cost(unit_type(punit), g)) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
-			 pcity->name, get_unit_type(punit->type)->name);
+			 pcity->name, unit_type(punit)->name);
 	wipe_unit_safe(punit, &myiter);
 	break;
       }

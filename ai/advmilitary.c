@@ -56,7 +56,7 @@ int assess_defense_quadratic(struct city *pcity)
 /* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     v = get_defense_power(punit) * punit->hp *
-        (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
+        (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
     if (is_ground_unit(punit)) v *= 1.5;
     v /= 30;
     if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
@@ -79,7 +79,7 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
 {
   int v;
   v = get_defense_power(punit) * punit->hp *
-      (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
+      (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
   if (is_ground_unit(punit)) v *= 1.5;
   v /= 30;
   v *= v;
@@ -166,7 +166,7 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   sailing = is_sailing_unit(punit);
   if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
 
-  ptype=get_unit_type(punit->type);
+  ptype = unit_type(punit);
 /* get_attack_power will be wrong if moves_left == 1 || == 2 */
   v = ptype->attack_strength * 10 * punit->hp * ptype->firepower;
   if (punit->veteran) v += v/2;
@@ -283,7 +283,7 @@ int assess_danger(struct city *pcity)
           virtualunit.hp = unit_types[utype].hp;
 /* yes, I know cloning all this code is bad form.  I don't really
 want to write a funct that takes nine ints by reference. -- Syela */
-          m = get_unit_type(funit->type)->move_rate;
+          m = unit_type(funit)->move_rate;
           v = assess_danger_unit(pcity, funit);
           dist = assess_distance(pcity, funit, m, boatid, boatdist, boatspeed);
           igwall = unit_really_ignores_citywalls(funit);
@@ -324,7 +324,7 @@ content to let it remain that way for now. -- Syela 980805 */
       city_list_iterate_end;
 
       unit_list_iterate(aplayer->units, punit)
-        m = get_unit_type(punit->type)->move_rate;
+        m = unit_type(punit)->move_rate;
         v = assess_danger_unit(pcity, punit);
         dist = assess_distance(pcity, punit, m, boatid, boatdist, boatspeed);
 	igwall = unit_really_ignores_citywalls(punit);
@@ -743,13 +743,13 @@ tech progression beyond all description.  Only when adding the override code
 did I realize the magnitude of my transgression.  How despicable. -- Syela */
         m = get_virtual_defense_power(v, pdef->type, x, y);
         if (pdef->veteran) m *= 1.5; /* with real defenders, this must be before * hp -- Syela */
-        m *= (myunit->id ? pdef->hp : unit_types[pdef->type].hp) *
-              unit_types[pdef->type].firepower;
+	m *= (myunit->id ? pdef->hp : unit_type(pdef)->hp) *
+	    unit_type(pdef)->firepower;
 /*        m /= (pdef->veteran ? 20 : 30);  -- led to rounding errors.  Duh! -- Syela */
         m /= 30;
         if (d < m * m) {
           d = m * m;
-          b = unit_types[pdef->type].build_cost + 40; 
+          b = unit_type(pdef)->build_cost + 40; 
           vet = pdef->veteran;
           n = pdef->type; /* and not before, or heinous things occur!! */
         }
@@ -765,7 +765,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     else {
       pdef = aunit; /* we KNOW this is the get_defender -- Syela */
 
-      m = unit_types[pdef->type].build_cost;
+      m = unit_type(pdef)->build_cost;
       b = m;
       sanity = 1;
 
@@ -773,7 +773,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
       else dist = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE;
       if (dist > m) {
-        dist *= unit_types[pdef->type].move_rate;
+        dist *= unit_type(pdef)->move_rate;
         if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
       }
       if (!dist) dist = 1;
@@ -839,7 +839,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
 	freelog(LOG_DEBUG, "%s (%d, %d), %s#%d -> %s (%d, %d)"
 		" [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]", 
 		pcity->name, pcity->x, pcity->y, unit_types[v].name,
-		myunit->id, unit_types[pdef->type].name,
+		myunit->id, unit_type(pdef)->name,
 		pdef->x, pdef->y, a, b, c, d, e, fstk, f);
     }
 #endif
@@ -1043,8 +1043,8 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   }
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (((get_unit_type(punit->type)->attack_strength * 4 >
-        get_unit_type(punit->type)->defense_strength * 5) ||
+    if (((unit_type(punit)->attack_strength * 4 >
+        unit_type(punit)->defense_strength * 5) ||
         unit_flag(punit->type, F_FIELDUNIT)) &&
         punit->activity != ACTIVITY_GOTO) /* very important clause, this -- Syela */
      myunit = punit;

@@ -41,9 +41,9 @@ int unit_move_rate(struct unit *punit)
   int val;
   struct player *pplayer = unit_owner(punit);
   
-  val = get_unit_type(punit->type)->move_rate;
+  val = unit_type(punit)->move_rate;
   if (!is_air_unit(punit) && !is_heli_unit(punit)) 
-    val = (val * punit->hp) / get_unit_type(punit->type)->hp;
+    val = (val * punit->hp) / unit_type(punit)->hp;
   if(is_sailing_unit(punit)) {
     if(player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
       val+=SINGLE_MOVE;
@@ -54,7 +54,7 @@ int unit_move_rate(struct unit *punit)
       val = 2 * SINGLE_MOVE;
   }
   if (val < SINGLE_MOVE
-      && get_unit_type(punit->type)->move_rate > 0) {
+      && unit_type(punit)->move_rate > 0) {
     val = SINGLE_MOVE;
   }
   return val;
@@ -256,7 +256,7 @@ int ground_unit_transporter_capacity(int x, int y, struct player *pplayer)
 **************************************************************************/
 int get_transporter_capacity(struct unit *punit)
 {
-  return unit_types[punit->type].transport_capacity;
+  return unit_type(punit)->transport_capacity;
 }
 
 /**************************************************************************
@@ -284,7 +284,7 @@ int is_air_units_transport(struct unit *punit)
 **************************************************************************/
 int is_sailing_unit(struct unit *punit)
 {
-  return (unit_types[punit->type].move_type == SEA_MOVING);
+  return (unit_type(punit)->move_type == SEA_MOVING);
 }
 
 /**************************************************************************
@@ -292,7 +292,7 @@ int is_sailing_unit(struct unit *punit)
 **************************************************************************/
 int is_air_unit(struct unit *punit)
 {
-  return (unit_types[punit->type].move_type == AIR_MOVING);
+  return (unit_type(punit)->move_type == AIR_MOVING);
 }
 
 /**************************************************************************
@@ -300,7 +300,7 @@ int is_air_unit(struct unit *punit)
 **************************************************************************/
 int is_heli_unit(struct unit *punit)
 {
-  return (unit_types[punit->type].move_type == HELI_MOVING);
+  return (unit_type(punit)->move_type == HELI_MOVING);
 }
 
 /**************************************************************************
@@ -308,7 +308,7 @@ int is_heli_unit(struct unit *punit)
 **************************************************************************/
 int is_ground_unit(struct unit *punit)
 {
-  return (unit_types[punit->type].move_type == LAND_MOVING);
+  return (unit_type(punit)->move_type == LAND_MOVING);
 }
 
 /**************************************************************************
@@ -388,7 +388,7 @@ int is_hiding_unit(struct unit *punit)
 ...
 **************************************************************************/
 int kills_citizen_after_attack(struct unit *punit) {
-  return (game.killcitizen >> ((int)unit_types[punit->type].move_type-1)) & 1;
+  return (game.killcitizen >> ((int)unit_type(punit)->move_type-1)) & 1;
 }
 
 /**************************************************************************
@@ -558,7 +558,7 @@ int can_unit_paradrop(struct unit *punit)
   if(punit->paradropped)
     return 0;
 
-  utype = get_unit_type(punit->type);
+  utype = unit_type(punit);
 
   if(punit->moves_left < utype->paratroopers_mr_req)
     return 0;
@@ -828,7 +828,7 @@ char *unit_description(struct unit *punit)
   pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
   my_snprintf(buffer, sizeof(buffer), "%s%s\n%s\n%s", 
-	  get_unit_type(punit->type)->name, 
+	  unit_type(punit)->name, 
 	  punit->veteran ? _(" (veteran)") : "",
 	  unit_activity_text(punit), 
 	  pcity ? pcity->name : "");
@@ -849,7 +849,7 @@ char *unit_activity_text(struct unit *punit)
      moves_str = _("Moves");
      if(is_air_unit(punit)) {
        int rate,f;
-       rate=get_unit_type(punit->type)->move_rate/SINGLE_MOVE;
+       rate=unit_type(punit)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
        if(punit->moves_left%SINGLE_MOVE) {
 	 if(punit->moves_left/SINGLE_MOVE>0) {
@@ -1352,7 +1352,7 @@ A unit is *not* aggressive if one or more of following is true:
 **************************************************************************/
 int unit_being_aggressive(struct unit *punit)
 {
-  if (get_unit_type(punit->type)->attack_strength==0)
+  if (unit_type(punit)->attack_strength==0)
     return 0;
   if (map_get_city(punit->x,punit->y))
     return 0;

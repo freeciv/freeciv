@@ -1336,7 +1336,7 @@ int unit_bribe_cost(struct unit *punit)
   int cost;
   struct city *capital;
   int dist;
-  int default_hp = get_unit_type(punit->type)->hp;
+  int default_hp = unit_type(punit)->hp;
 
   cost = unit_owner(punit)->economic.gold + 750;
   capital = find_palace(unit_owner(punit));
@@ -1348,7 +1348,7 @@ int unit_bribe_cost(struct unit *punit)
     dist=32;
   if (g->fixed_corruption_distance)
     dist = MIN(g->fixed_corruption_distance, dist);
-  cost=(cost/(dist+2))*(get_unit_type(punit->type)->build_cost/10);
+  cost=(cost/(dist+2))*(unit_type(punit)->build_cost/10);
   /* FIXME: This is a weird one - should be replaced */
   if (unit_flag(punit->type, F_CITIES)) 
     cost/=2;

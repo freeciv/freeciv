@@ -1746,7 +1746,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
   for(i=0; i<n; i++) {
     struct unit *punit=unit_list_get(&ptile->units, i);
-    struct unit_type *punittemp=get_unit_type(punit->type);
+    struct unit_type *punittemp=unit_type(punit);
     struct city *pcity;
 
     hbox = gtk_hbox_new(FALSE,10);

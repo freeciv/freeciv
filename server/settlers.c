@@ -891,7 +891,7 @@ static int unit_food_cost(struct unit *punit)
 static int unit_food_upkeep(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int upkeep = utype_food_cost(get_unit_type(punit->type),
+  int upkeep = utype_food_cost(unit_type(punit),
 			       get_gov_pplayer(pplayer));
   if (punit->id && !punit->homecity)
     upkeep = 0; /* thanks, Peter */
@@ -921,7 +921,7 @@ static int evaluate_city_building(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   int nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont              = map_get_continent(punit->x, punit->y);
-  int mv_rate            = unit_types[punit->type].move_rate;
+  int mv_rate            = unit_type(punit)->move_rate;
   int food_upkeep        = unit_food_upkeep(punit);
   int food_cost          = unit_food_cost(punit);
 
@@ -962,7 +962,7 @@ static int evaluate_city_building(struct unit *punit,
 	  mv_cost = 9999;
 	} else {
 	  mv_cost = warmap.seacost[x][y] * mv_rate /
-	    unit_types[(*ferryboat)->type].move_rate;
+	      unit_type(*ferryboat)->move_rate;
 	}
       } else if (!goto_is_sane(punit, x, y, 1) ||
 		 warmap.cost[x][y] > THRESHOLD * mv_rate) {
@@ -1025,7 +1025,7 @@ static int evaluate_city_building(struct unit *punit,
       if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
 	freelog(LOG_DEBUG,
 		"%s @(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
-		(punit->id ? unit_types[punit->type].name : mycity->name), 
+		(punit->id ? unit_type(punit)->name : mycity->name), 
 		punit->x, punit->y, x, y, b, newv, d);
       } else if (newv > best_newv) {
 	best_newv = newv;
@@ -1054,7 +1054,7 @@ static int evaluate_improvements(struct unit *punit,
   int in_use;			/* true if the target square is being used
 				   by one of our cities */
   int ucont           = map_get_continent(punit->x, punit->y);
-  int mv_rate         = unit_types[punit->type].move_rate;
+  int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */
   int best_oldv = 9999;		/* oldv of best target so far; compared if
@@ -1450,19 +1450,19 @@ static void assign_territory_player(struct player *pplayer)
 {
   int n = pplayer->player_no;
   unit_list_iterate(pplayer->units, punit)
-    if (unit_types[punit->type].attack_strength) {
+    if (unit_type(punit)->attack_strength) {
 /* I could argue that phalanxes aren't really a threat, but ... */
       if (is_sailing_unit(punit)) {
-        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / SINGLE_MOVE, 1);
+        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);
       } else if (is_ground_unit(punit)) {
-        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate /
+        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate /
              (unit_flag(punit->type, F_IGTER) ? 1 : 3), 0);
 /* I realize this is not the most accurate, but I don't want to iterate
 road networks 100 times/turn, and I can't justifiably abort when I encounter
 already assigned territory.  If anyone has a reasonable alternative that won't
 noticeably slow the game, feel free to replace this else{}  -- Syela */
       } else {
-        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / SINGLE_MOVE, 0);
+        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 0);
       } 
     }
   unit_list_iterate_end;
@@ -1527,8 +1527,8 @@ void contemplate_new_city(struct city *pcity)
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
   virtualunit.type = best_role_unit(pcity, F_CITIES);
-  virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
-  virtualunit.hp = unit_types[virtualunit.type].hp;  
+  virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
+  virtualunit.hp = unit_type(&virtualunit)->hp;
   want = evaluate_city_building(&virtualunit, &gx, &gy, &ferryboat);
   unit_list_iterate(pplayer->units, qpass) {
     /* We want a ferryboat with want 199 */
@@ -1560,8 +1560,8 @@ void contemplate_terrain_improvements(struct city *pcity)
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
   virtualunit.type = best_role_unit(pcity, F_SETTLERS);
-  virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
-  virtualunit.hp = unit_types[virtualunit.type].hp;  
+  virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
+  virtualunit.hp = unit_type(&virtualunit)->hp;  
   want = evaluate_improvements(&virtualunit, &best_act, &gx, &gy);
   unit_list_iterate(pplayer->units, qpass) {
     /* We want a ferryboat with want 199 */

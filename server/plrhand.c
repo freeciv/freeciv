@@ -267,7 +267,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 	  && is_ground_unit(punit)) {
 	unfog_area(plr, punit->x, punit->y, get_watchtower_vision(punit));
 	fog_area(plr, punit->x, punit->y,
-		 get_unit_type(punit->type)->vision_range);
+		 unit_type(punit)->vision_range);
       }
     }
     unit_list_iterate_end;

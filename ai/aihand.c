@@ -320,13 +320,13 @@ static void ai_manage_taxes(struct player *pplayer)
               if (unit_vulnerability_virtual(punit) <
                   unit_vulnerability_virtual(defender)) {
 		freelog(LOG_VERBOSE, "Disbanding %s in %s",
-			unit_types[punit->type].name, pcity->name);
+			unit_type(punit)->name, pcity->name);
                 pack.unit_id = punit->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
               } else {
 		freelog(LOG_VERBOSE, "Disbanding %s in %s",
-			unit_types[defender->type].name, pcity->name);
+			unit_type(defender)->name, pcity->name);
                 pack.unit_id = defender->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
@@ -339,7 +339,7 @@ static void ai_manage_taxes(struct player *pplayer)
             handle_unit_change_homecity(pplayer, &pack);
             city_refresh(pcity);
 	    freelog(LOG_VERBOSE, "Reassigning %s from %s to %s",
-		    unit_types[punit->type].name, pcity->name, incity->name);
+		    unit_type(punit)->name, pcity->name, incity->name);
           }
         } /* end if */
       unit_list_iterate_end;
@@ -348,7 +348,7 @@ static void ai_manage_taxes(struct player *pplayer)
           if (punit != defender && pcity->shield_surplus < 0) {
 	    /* the defender MUST NOT be disbanded! -- Syela */
 	    freelog(LOG_VERBOSE, "Disbanding %s's %s",
-		    pcity->name, unit_types[punit->type].name);
+		    pcity->name, unit_type(punit)->name);
             pack.unit_id = punit->id;
             handle_unit_disband_safe(pplayer, &pack, &myiter);
             city_refresh(pcity);

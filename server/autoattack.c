@@ -91,7 +91,7 @@ static struct unit *search_best_target(struct player *pplayer,
     freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
 
     if (!(pcity->city_options
-	  & 1<<(get_unit_type(enemy->type)->move_type-1+CITYO_ATT_LAND))) {
+	  & 1 << (unit_type(enemy)->move_type - 1 + CITYO_ATT_LAND))) {
       freelog(LOG_DEBUG, "wrong target type");
       continue;
     }
@@ -105,8 +105,7 @@ static struct unit *search_best_target(struct player *pplayer,
     /*
      *  perhaps there is a better algorithm in the ai-package -- fisch
      */
-    score = (get_unit_type(enemy->type)->defense_strength
-	     + (enemy->hp/2)
+    score = (unit_type(enemy)->defense_strength + (enemy->hp / 2)
 	     + (get_transporter_capacity(enemy) ? 1 : 0));
 
     if(best_enemy == NULL || score >= best_score) {
@@ -122,8 +121,8 @@ static struct unit *search_best_target(struct player *pplayer,
   freelog(LOG_DEBUG,"choosen target=%s (%d/%d)",
 	  get_unit_name(enemy->type), enemy->x,enemy->y);
 
-  if((get_unit_type(enemy->type)->defense_strength) >
-     get_unit_type(punit->type)->attack_strength*1.5) {
+  if((unit_type(enemy)->defense_strength) >
+     unit_type(punit)->attack_strength*1.5) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     "Game: Auto-Attack: %s's %s found a too tough enemy (%s)",
 		     pcity->name, unit_name(punit->type),
@@ -224,7 +223,7 @@ static void auto_attack_player(struct player *pplayer)
     if(punit->ai.control
        && is_military_unit(punit)
        && punit->activity == ACTIVITY_GOTO
-       && punit->moves_left == get_unit_type(punit->type)->move_rate) {
+       && punit->moves_left == unit_type(punit)->move_rate) {
       do_unit_goto(punit, GOTO_MOVE_ANY, 0);
     }
   }
