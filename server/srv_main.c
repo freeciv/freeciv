@@ -47,6 +47,7 @@
 #include "capability.h"
 #include "capstr.h"
 #include "city.h"
+#include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -728,6 +729,47 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   /* a NULL packet can be returned from receive_packet_goto_route() */
   if (!packet)
     return TRUE;
+
+  /* 
+   * Old pre-delta clients (before 2003-11-28) send a
+   * PACKET_LOGIN_REQUEST (type 0) to the server. We catch this and
+   * reply with an old reject packet. Since there is no struct for
+   * this old packet anymore we build it by hand.
+   */
+  if (type == 0) {
+    unsigned char buffer[4096];
+    struct data_out dout;
+
+    freelog(LOG_ERROR,
+	    _("Warning: rejecting old client %s"), conn_description(pconn));
+
+    dio_output_init(&dout, buffer, sizeof(buffer));
+    dio_put_uint16(&dout, 0);
+
+    /* 1 == PACKET_LOGIN_REPLY in the old client */
+    dio_put_uint8(&dout, 1);
+
+    dio_put_bool32(&dout, FALSE);
+    dio_put_string(&dout, _("Your client is too old. To use this server "
+			    "please upgrade your client to a CVS version "
+			    "later than 2003-11-28 or Freeciv 1.15.0 or "
+			    "later."));
+    dio_put_string(&dout, "");
+
+    {
+      size_t size = dio_output_used(&dout);
+      dio_output_rewind(&dout);
+      dio_put_uint16(&dout, size);
+
+      /* 
+       * Use send_connection_data instead of send_packet_data to avoid
+       * compression.
+       */
+      send_connection_data(pconn, buffer, size);
+    }
+
+    return FALSE;
+  }
 
   if (type == PACKET_SERVER_JOIN_REQ) {
     bool result =
