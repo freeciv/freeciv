@@ -1605,15 +1605,7 @@ void handle_player_info(struct packet_player_info *pinfo)
     } conn_list_iterate_end;
   }
 
-  if (has_capability("username_info", aconnection.capability)) {
-    sz_strlcpy(pplayer->username, pinfo->username);
-  } else {
-    conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->player == pplayer && !pconn->observer) {
-        sz_strlcpy(pplayer->username, pconn->username);
-      }
-    } conn_list_iterate_end;
-  }
+  sz_strlcpy(pplayer->username, pinfo->username);
 
   /* Just about any changes above require an update to the intelligence
    * dialog. */
