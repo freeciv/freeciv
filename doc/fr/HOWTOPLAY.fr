@@ -7,11 +7,9 @@ Si vous cherchez comment installer Freeciv, lisez le fichier INSTALL.fr
 Si vous cherchez comment lancer Freeciv, lisez le fichier README.fr
 
 Si vous n'avez jamais joué aux jeux Civilization, il sera plus facile de
-commencer par lire le "Freeciv Manual", disponible séparément aux
-endroits suivants :
+commencer par lire le "Freeciv Manual", disponible à :
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://www.freeciv.org/fr/manual/
 
 Si vous cherchez des idées pour jouer à Freeciv, continuez à lire !
 
@@ -164,7 +162,7 @@ Q : Y-a-t-il d'autres stratégies ?
 	Il y a un certain nombre de tutoriaux et de guides de stratégie
 disponibles sur les pages web de Freeciv :
 
-	 http://www.freeciv.org/tutorials/tutorials.phtml
+	 http://www.freeciv.org/fr/tutorials/
 
 L'aide en ligne de Freeciv décrit également une autre stratégie.
 
