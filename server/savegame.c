@@ -3004,6 +3004,11 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
   secfile_insert_int(file, game.allowed_city_names, "game.allowed_city_names");
 
+  /* old (1.14.1) servers need to have these server variables.  The values
+   * don't matter, though. */
+  secfile_insert_int(file, 2, "game.settlers");
+  secfile_insert_int(file, 1, "game.explorer");
+
   if (TRUE) {
     /* Now always save these, so the server options reflect the
      * actual values used at the start of the game.
