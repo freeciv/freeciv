@@ -106,7 +106,7 @@ static int greed(int missing_love)
   } else {
     /* Don't change the operation order here.
      * We do not want integer overflows */
-    return ((missing_love * MAX_AI_LOVE) / 1000) * 
+    return -((missing_love * MAX_AI_LOVE) / 1000) * 
            ((missing_love * MAX_AI_LOVE) / 1000) /
 	   50;
   }
