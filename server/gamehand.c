@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <stdio.h> /* for remove() */ 
 
+#include "capability.h"
 #include "events.h"
 #include "fcintl.h"
 #include "improvement.h"
@@ -34,15 +35,10 @@
 #include "unittools.h"
 
 #include "gamehand.h"
+#include "srv_main.h"
 
-#define NUMBER_OF_TRIES 500
-#ifndef __VMS
-#  define CHALLENGE_ROOT ".freeciv-tmp"
-#else /*VMS*/
-#  define CHALLENGE_ROOT "freeciv-tmp"
-#endif
+#define CHALLENGE_ROOT "challenge"
 
-static char challenge_filename[MAX_LEN_PATH];
 
 /****************************************************************************
   Initialize the game.id variable to a random string of characters.
@@ -413,74 +409,78 @@ int update_timeout(void)
 }
 
 /************************************************************************** 
-find a suitably random file that we can write too, and return it's name.
+  generate challenge filename for this connection, cannot fail.
 **************************************************************************/
-const char *create_challenge_filename(void)
+static void gen_challenge_filename(struct connection *pc)
 {
-  int i;
-  unsigned int tmp = 0;
+}
 
-  /* find a suitable file to place the challenge in, we'll remove the file
-   * once the challenge is  */
-#ifndef CHALLENGE_PATH
-  sz_strlcpy(challenge_filename, user_home_dir());
-  sz_strlcat(challenge_filename, "/");
-  sz_strlcat(challenge_filename, CHALLENGE_ROOT);
-#else
-  sz_strlcpy(challenge_filename, CHALLENGE_PATH);
-#endif
+/************************************************************************** 
+  get challenge filename for this connection.
+**************************************************************************/
+static const char *get_challenge_filename(struct connection *pc)
+{
+  static char filename[MAX_LEN_PATH];
 
-  for (i = 0; i < NUMBER_OF_TRIES; i++) {
-    char test_str[MAX_LEN_PATH];
+  my_snprintf(filename, sizeof(filename), "%s_%d_%d",
+      CHALLENGE_ROOT, srvarg.port, pc->id);
 
-    sz_strlcpy(test_str, challenge_filename);
-    tmp = time(NULL);
-    cat_snprintf(test_str, MAX_LEN_PATH, "-%d", tmp);
+  return filename;
+}
 
-    /* file doesn't exist but we can create one and write to it */
-    if (!is_reg_file_for_access(test_str, FALSE) &&
-        is_reg_file_for_access(test_str, TRUE)) {
-      cat_snprintf(challenge_filename, MAX_LEN_PATH, "-%d", tmp);
-      break;
-    } else {
-      die("we can't seem to write to the filesystem!");
-    }
+/************************************************************************** 
+  get challenge full filename for this connection.
+**************************************************************************/
+static const char *get_challenge_fullname(struct connection *pc)
+{
+  static char fullname[MAX_LEN_PATH];
+
+  interpret_tilde(fullname, sizeof(fullname), "~/.freeciv/");
+  sz_strlcat(fullname, get_challenge_filename(pc));
+
+  return fullname;
+}
+
+/************************************************************************** 
+  find a file that we can write too, and return it's name.
+**************************************************************************/
+const char *new_challenge_filename(struct connection *pc)
+{
+  if (!has_capability("new_hack", pc->capability)) {
+    return "";
   }
 
-  return challenge_filename;
+  gen_challenge_filename(pc);
+  return get_challenge_filename(pc);
 }
+
 
 /************************************************************************** 
 opens a file specified by the packet and compares the packet values with
 the file values. Sends an answer to the client once it's done.
 **************************************************************************/
-void handle_single_want_hack_req(struct connection *pc, int challenge)
+void handle_single_want_hack_req(struct connection *pc,
+    				 const struct packet_single_want_hack_req
+				 *packet)
 {
   struct section_file file;
-  int entropy = 0;
-  bool could_load = TRUE;
+  char *token = NULL;
   bool you_have_hack = FALSE;
 
-  if (is_reg_file_for_access(challenge_filename, FALSE)) {
-    if (section_file_load_nodup(&file, challenge_filename)) {
-      entropy = secfile_lookup_int_default(&file, 0, "challenge.entropy");
-      section_file_free(&file);
-    } else {
-      freelog(LOG_ERROR, "couldn't load temporary file: %s",
-              challenge_filename);
-      could_load = FALSE;
-    }
-
-    /* remove temp file */
-    if (remove(challenge_filename) != 0) {
-      freelog(LOG_ERROR, "couldn't remove temporary file: %s",
-              challenge_filename);
-    }
-  } else {
-    could_load = FALSE;
+  if (!has_capability("new_hack", pc->capability)) {
+    dsend_packet_single_want_hack_reply(pc, FALSE);
+    return ;
   }
 
-  you_have_hack = (could_load && entropy && entropy == challenge);
+  if (section_file_load_nodup(&file, get_challenge_fullname(pc))) {
+    token = secfile_lookup_str_default(&file, NULL, "challenge.token");
+    you_have_hack = (token && strcmp(token, packet->token) == 0);
+    section_file_free(&file);
+  }
+
+  if (!token) {
+    freelog(LOG_DEBUG, "Failed to read authentication token");
+  }
 
   if (you_have_hack) {
     pc->access_level = ALLOW_HACK;

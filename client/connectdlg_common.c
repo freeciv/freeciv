@@ -37,7 +37,9 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <sys/wait.h>
 #endif
 
+#include "capability.h"
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"
 #include "netintf.h"
 #include "rand.h"
@@ -67,6 +69,7 @@ static pid_t server_pid = - 1;
 char player_name[MAX_LEN_NAME];
 char *current_filename = NULL;
 
+static char challenge_fullname[MAX_LEN_PATH];
 static bool client_has_hack = FALSE;
 
 int internal_server_port;
@@ -369,33 +372,78 @@ bool client_start_server(void)
 #endif
 }
 
+/*************************************************************************
+  generate a random string.
+*************************************************************************/
+static void randomize_string(char *str, size_t n)
+{
+  const char chars[] =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  int i;
+
+  for (i = 0; i < n - 1; i++) {
+    str[i] = chars[myrand(sizeof(chars) - 1)];
+  }
+  str[i] = '\0';
+}
+
+/*************************************************************************
+  returns TRUE if a filename is safe (i.e. doesn't have path components).
+*************************************************************************/
+static bool is_filename_safe(const char *filename)
+{
+  const char *unsafe = "/\\";
+  const char *s;
+
+  for (s = filename; *s != '\0'; s++) {
+    if (strchr(unsafe, *s)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
 /**************************************************************** 
 if the client is capable of 'wanting hack', then the server will 
 send the client a filename in the packet_join_game_reply packet.
 
-this function creates the file with a suitably random number in it 
-and then sends the filename and number to the server. If the server 
-can open and read the number, then the client is given hack access.
+this function creates the file with a suitably random string in it 
+and then sends the string to the server. If the server can open
+and read the string, then the client is given hack access.
 *****************************************************************/ 
-void send_client_wants_hack(char * filename)
+void send_client_wants_hack(const char *filename)
 {
-  struct section_file file;
+  if (has_capability("new_hack", aconnection.capability)) {
+    if (filename[0] != '\0') {
+      struct packet_single_want_hack_req req;
+      struct section_file file;
 
-  /* find some entropy */ 
-  int entropy = myrand(MAX_UINT32) - time(NULL);
+      if (!is_filename_safe(filename)) {
+	return;
+      }
 
-  /* we don't want zero */ 
-  if (entropy == 0) {
-    entropy++;
+      /* get the full filename path */
+      interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
+	  "~/.freeciv/");
+      make_dir(challenge_fullname);
+
+      sz_strlcat(challenge_fullname, filename);
+
+      /* generate an authentication token */ 
+      randomize_string(req.token, sizeof(req.token));
+
+      section_file_init(&file);
+      secfile_insert_str(&file, req.token, "challenge.token");
+      if (!section_file_save(&file, challenge_fullname, 0)) {
+	freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
+	    challenge_fullname);
+      }
+      section_file_free(&file);
+
+      /* tell the server what we put into the file */ 
+      send_packet_single_want_hack_req(&aconnection, &req);
+    }
   }
-
-  section_file_init(&file);
-  secfile_insert_int(&file, entropy, "challenge.entropy");
-  section_file_save(&file, filename, 0);      
-  section_file_free(&file);
-
-  /* tell the server what we put into the file */ 
-  dsend_packet_single_want_hack_req(&aconnection, entropy);
 }
 
 /**************************************************************** 
@@ -403,6 +451,17 @@ handle response (by the server) if the client has got hack or not.
 *****************************************************************/ 
 void handle_single_want_hack_reply(bool you_have_hack)
 {
+  if (has_capability("new_hack", aconnection.capability)) {
+    /* remove challenge file */
+    if (challenge_fullname[0] != '\0') {
+      if (remove(challenge_fullname) == -1) {
+	freelog(LOG_ERROR, "Couldn't remove temporary file: %s",
+	    challenge_fullname);
+      }
+      challenge_fullname[0] = '\0';
+    }
+  }
+
   if (you_have_hack) {
     append_output_window(_("We have control of the server "
                          "(command access level hack)"));

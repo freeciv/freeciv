@@ -952,7 +952,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 
   if (type == PACKET_SINGLE_WANT_HACK_REQ) {
     handle_single_want_hack_req(pconn,
-               ((struct packet_single_want_hack_req *)packet)->challenge);
+		                (struct packet_single_want_hack_req *) packet);
     return TRUE;
   }
 
