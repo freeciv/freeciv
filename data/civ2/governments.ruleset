@@ -349,7 +349,7 @@ martial_law_per  = 0
 max_single_rate  = 80
 civil_war_chance = 40
 empire_size_mod  = -1
-rapture_size     = 5
+rapture_size     = 3
 
 unit_unhappy_factor = 1
 unit_shield_factor  = 1
@@ -396,7 +396,7 @@ martial_law_per  = 0
 max_single_rate  = 100
 civil_war_chance = 30
 empire_size_mod  = 0
-rapture_size     = 5
+rapture_size     = 3
 
 unit_unhappy_factor = 2
 unit_shield_factor  = 1
