@@ -2588,7 +2588,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   if (p->class[0] != '\0') {
     pl->class = mystrdup(p->class);
   } else {
-    pl->class = mystrdup("Other");
+    pl->class = mystrdup(N_("Other"));
   }
 
   if (p->legend[0] != '\0') {
