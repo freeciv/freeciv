@@ -512,9 +512,12 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
       int playerid2 = pplayer2->player_no;
       if (!(pplayer->really_gives_vision & (1<<playerid2)))
 	continue;
-      if (map_get_seen(abs_x, abs_y, playerid2) == 1 ||
-	  !map_get_known(abs_x, abs_y, pplayer2))
+
+      if (map_get_seen(abs_x, abs_y, playerid2) == 1
+	  || !map_get_known(abs_x, abs_y, pplayer2)) {
 	really_unfog_area(pplayer2, abs_x, abs_y);
+      }
+      reveal_pending_seen(pplayer2, abs_x, abs_y, 0);
     } players_iterate_end;
   } square_iterate_end;
 
@@ -753,8 +756,10 @@ void show_area(struct player *pplayer, int x, int y, int len)
 
     /* players (s)he gives shared vision */
     players_iterate(pplayer2) {
-      if (pplayer->really_gives_vision & (1<<pplayer2->player_no))
+      if (pplayer->really_gives_vision & (1<<pplayer2->player_no)) {
 	really_show_area(pplayer2, abs_x, abs_y);
+	reveal_pending_seen(pplayer2, abs_x, abs_y, 0);
+      }
     } players_iterate_end;
   } square_iterate_end;
 
