@@ -327,6 +327,11 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
 
+#define GAME_DEFAULT_COMPRESS_LEVEL 6    /* if we have compression */
+#define GAME_MIN_COMPRESS_LEVEL     0
+#define GAME_MAX_COMPRESS_LEVEL     9
+#define GAME_NO_COMPRESS_LEVEL      0
+
 #define GAME_DEFAULT_REPUTATION 1000
 #define GAME_MAX_REPUTATION 1000
 #define GAME_REPUTATION_INCR 2

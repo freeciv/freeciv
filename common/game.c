@@ -765,9 +765,9 @@ void game_init(void)
   sz_strlcpy(game.save_name, "civgame");
   game.save_nturns=10;
 #ifdef HAVE_LIBZ
-  game.save_compress_level=6;
+  game.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
 #else
-  game.save_compress_level=0;
+  game.save_compress_level = GAME_NO_COMPRESS_LEVEL;
 #endif
   game.randseed=GAME_DEFAULT_RANDSEED;
 

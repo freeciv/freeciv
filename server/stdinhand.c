@@ -622,9 +622,10 @@ static struct settings_s settings[] = {
   { "compress", &game.save_compress_level,
     SSET_META, SSET_SERVER_ONLY,
 #ifdef HAVE_LIBZ
-    0, 9, 6,
+    GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
+    GAME_DEFAULT_COMPRESS_LEVEL,
 #else
-    0, 0, 0,
+    GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL,
 #endif
     N_("Savegame compression level"),
     N_("If non-zero, saved games will be compressed using zlib (gzip format).  "
