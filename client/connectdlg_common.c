@@ -55,6 +55,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "chatline_common.h"
 #include "connectdlg_g.h"
 #include "connectdlg_common.h"
+#include "tilespec.h"
 
 #define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
 #define NUMBER_OF_TRIES 500
@@ -260,6 +261,21 @@ bool client_start_server(void)
                            "start one manually. Sorry..."));
     return FALSE;
   }
+
+  /* We set the topology to match the view.
+   *
+   * When a typical player launches a game, he wants the map orientation to
+   * match the tileset orientation.  So if you use an isometric tileset you
+   * get an iso-map and for a classic tileset you get a classic map.  In
+   * both cases the map wraps in the X direction by default.
+   *
+   * Setting the option here is a bit of a hack, but so long as the client
+   * has sufficient permissions to do so (it doesn't have HACK access yet) it
+   * is safe enough.  Note that if you load a savegame the topology will be
+   * set but then overwritten during the load. */
+  my_snprintf(buf, sizeof(buf), "/set topology %d",
+	      TF_WRAPX | (is_isometric ? TF_ISO : 0));
+  send_chat(buf);
 
   return TRUE;
 #else /* Can't do much without fork(). */
