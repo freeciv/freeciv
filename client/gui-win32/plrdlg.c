@@ -84,10 +84,12 @@ static void players_meet(int player_index)
 *******************************************************************/
 static void players_war(int player_index)
 {
-  struct packet_generic_integer pa;  
-  pa.value = player_index;
+  struct packet_generic_values packet;
+
+  packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
+  packet.id = player_index;
   send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-			      &pa);
+			      &packet);
 }
 
 /******************************************************************
@@ -95,10 +97,12 @@ static void players_war(int player_index)
 *******************************************************************/
 static void players_vision(int player_index)
 {
-  struct packet_generic_integer pa;  
-  pa.value = player_index;
-  send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
-			      &pa);
+  struct packet_generic_values packet;
+
+  packet.value1 = CLAUSE_VISION;
+  packet.id = player_index;
+  send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+			     &packet);
 }
 
 /******************************************************************

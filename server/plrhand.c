@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <stdarg.h>
 
+#include "diptreaty.h"
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
@@ -802,16 +803,19 @@ void check_player_government_rates(struct player *pplayer)
 }
 
 /**************************************************************************
-Handles a player cancelling a "pact" with another player.
+  Handles a player cancelling a "pact" with another player.
 **************************************************************************/
-void handle_player_cancel_pact(struct player *pplayer, int other_player)
+void handle_player_cancel_pact(struct player *pplayer,
+                               struct packet_generic_values *packet)
 {
   enum diplstate_type old_type;
   enum diplstate_type new_type;
   struct player *pplayer2;
   int reppenalty = 0;
   bool has_senate;
-    
+  int other_player = packet->id;
+  int clause = packet->value1;
+
   if (other_player < 0 || other_player >= game.nplayers) {
     return;
   }
@@ -821,13 +825,26 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   has_senate = government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
 
   /* can't break a pact with yourself */
-  if (pplayer == pplayer2)
+  if (pplayer == pplayer2) {
     return;
+  }
 
   /* can't break a pact with a team member */
   if (pplayer->team != TEAM_NONE && pplayer->team == pplayer2->team) {
     return;
   }
+
+  if (clause == CLAUSE_VISION) {
+    if (!gives_shared_vision(pplayer, pplayer2)) {
+      return;
+    }
+    remove_shared_vision(pplayer, pplayer2);
+    notify_player(pplayer2, _("%s no longer gives us shared vision!"),
+                pplayer->name);
+    return;
+  }
+
+  /* else, breaking a treaty */
 
   /* check what the new status will be, and what will happen to our
      reputation */

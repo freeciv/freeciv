@@ -18,6 +18,8 @@ struct player;
 struct packet_diplomacy_info;
 struct connection;
 
+void establish_embassy(struct player *pplayer, struct player *aplayer);
+
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
 
 void handle_diplomacy_cancel_meeting(struct player *pplayer, 

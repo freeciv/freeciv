@@ -77,7 +77,8 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
                    "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
-                   "+no_nation_selected +diplomacy +no_extra_tiles"
+                   "+no_nation_selected +diplomacy +no_extra_tiles" \
+                   "+diplomacy2"
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
  * "conn_info" is sending the conn_id field. To preserve compatability
@@ -120,6 +121,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "no_extra_tiles" means that the extra, unknown (NODRAW) tiles will not be
  * sent to clients (previously used to help with drawing the terrain).
+ *
+ * "diplomacy2": unified and simplified handling of diplomatic request
  */
 
 void init_our_capability(void)

@@ -1191,32 +1191,6 @@ enum known_type map_get_known2(int x, int y, struct player *pplayer)
   }
 }
 
-/***************************************************************
-...
-***************************************************************/
-void handle_player_remove_vision(struct player *pplayer,
-				 struct packet_generic_integer *packet)
-{
-  struct player *pplayer2;
-
-  if (packet->value < 0 || packet->value >= game.nplayers) {
-    return;
-  }
-  pplayer2 = get_player(packet->value);
-  if (pplayer == pplayer2 || !gives_shared_vision(pplayer, pplayer2)) {
-    return;
-  }
-
-  /* Do not allow team mates to backstab */
-  if (pplayer->team != TEAM_NONE && pplayer->team == pplayer2->team) {
-    return;
-  }
-
-  remove_shared_vision(pplayer, pplayer2);
-  notify_player(pplayer2, _("%s no longer gives us shared vision!"),
-		pplayer->name);
-}
-
 /*************************************************************************
 ...
 *************************************************************************/

@@ -268,9 +268,12 @@ static void players_war(void)
 
   if(playerno)
   {
-    struct packet_generic_integer pa;
-    pa.value = playerno - 100;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT, &pa);
+    struct packet_generic_values packet;
+
+    packet.id = playerno - 100;
+    packet.value1 = CLAUSE_CEASEFIRE;
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+                               &packet);
   }
 }
 
@@ -284,9 +287,12 @@ void players_vision(void)
 
   if(playerno)
   {
-    struct packet_generic_integer pa;
-    pa.value = playerno - 100;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION, &pa);
+    struct packet_generic_values packet;
+
+    packet.id = playerno - 100;
+    packet.value1 = CLAUSE_VISION;
+    send_packet_generic_values(&aconnection,
+                               PACKET_PLAYER_CANCEL_PACT, &packet);
   }
 }
 

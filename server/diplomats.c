@@ -26,6 +26,7 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplhand.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "plrhand.h"
@@ -45,7 +46,6 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 			     struct city *pcity);
 static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
 				 struct unit *victim_unit, struct city *victim_city);
-
 
 /******************************************************************************
   Poison a city's water supply.
@@ -276,11 +276,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   freelog (LOG_DEBUG, "embassy: succeeded");
 
-  /* Establish the embassy. */
-  pplayer->embassy |= (1 << pcity->owner);
-  send_player_info(pplayer, pplayer);
-  send_player_info(pplayer, cplayer);    /* update player dialog with embassy */
-  send_player_info(cplayer, pplayer);    /* INFO_EMBASSY level info */
+  establish_embassy(pplayer, cplayer);
 
   /* Notify everybody involved. */
   notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_EMBASSY,

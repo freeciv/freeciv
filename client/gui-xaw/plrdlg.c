@@ -393,10 +393,12 @@ void players_war_callback(Widget w, XtPointer client_data,
   
   ret=XawListShowCurrent(players_list);
   if(ret->list_index!=XAW_LIST_NONE) {
-    struct packet_generic_integer pa;    
-    pa.value=ret->list_index;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-				&pa);
+    struct packet_generic_values packet;
+
+    packet.id = ret->list_index;
+    packet.value1 = CLAUSE_CEASEFIRE /* can be any pact clause */
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+                               &packet);
   }
 }
 
@@ -410,10 +412,12 @@ void players_vision_callback(Widget w, XtPointer client_data,
   
   ret=XawListShowCurrent(players_list);
   if(ret->list_index!=XAW_LIST_NONE) {
-    struct packet_generic_integer pa;    
-    pa.value=ret->list_index;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
-				&pa);
+    struct packet_generic_values packet;
+
+    packet.id = ret->list_index;
+    packet.value1 = CLAUSE_VISION;
+    send_packet_generic_values(&aconnection, 
+                               PACKET_PLAYER_REMOVE_VISION, &packet);
   }
 }
 

@@ -323,10 +323,11 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_CITY_REFRESH:
   case PACKET_INCITE_INQ:
   case PACKET_CITY_NAME_SUGGEST_REQ:
-  case PACKET_PLAYER_CANCEL_PACT:
-  case PACKET_PLAYER_REMOVE_VISION:
     return receive_packet_generic_integer(pc);
-    
+
+  case PACKET_PLAYER_CANCEL_PACT:
+    return receive_packet_generic_values(pc);
+
   case PACKET_ALLOC_NATION:
     return receive_packet_alloc_nation(pc);
 

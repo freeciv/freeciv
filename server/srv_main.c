@@ -922,14 +922,10 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     handle_unit_paradrop_to(pplayer, (struct packet_unit_request *)packet);
     break;
   case PACKET_PLAYER_CANCEL_PACT:
-    handle_player_cancel_pact(pplayer,
-			      ((struct packet_generic_integer *)packet)->value);
+    handle_player_cancel_pact(pplayer, (struct packet_generic_values *)packet);
     break;
   case PACKET_UNIT_CONNECT:
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
-    break;
-  case PACKET_PLAYER_REMOVE_VISION:
-    handle_player_remove_vision(pplayer, (struct packet_generic_integer *)packet);
     break;
   case PACKET_GOTO_ROUTE:
     handle_goto_route(pplayer, (struct packet_goto_route *)packet);

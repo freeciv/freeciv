@@ -34,7 +34,8 @@ void handle_player_revolution(struct player *pplayer);
 void handle_player_rates(struct player *pplayer, 
 			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
-void handle_player_cancel_pact(struct player *pplayer, int other_player);
+void handle_player_cancel_pact(struct player *pplayer,
+                               struct packet_generic_values *packet);
 void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
 		  int y);
 void maybe_make_contact(int x, int y, struct player *pplayer);

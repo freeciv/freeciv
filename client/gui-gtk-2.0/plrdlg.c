@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "packets.h"
@@ -533,31 +534,26 @@ void update_players_dialog(void)
 }
 
 /**************************************************************************
-...
+  Callback for diplomatic meetings button. This button is enabled iff
+  we can meet with the other player.
 **************************************************************************/
 void players_meet_callback(GtkMenuItem *item, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
   gint plrno;
+  struct packet_diplomacy_info packet;
 
-  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
+  if (!gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     return;
+  }
   gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  if (can_meet_with_player(&game.players[plrno])) {
-    struct packet_diplomacy_info pa;
-  
-    pa.plrno0=game.player_idx;
-    pa.plrno1=plrno;
-    pa.plrno_from=pa.plrno0;
-    send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
-        		       &pa);
-  }
-  else {
-    append_output_window(_("Game: You need an embassy to "
-			   "establish a diplomatic meeting."));
-  }
+  packet.plrno0 = game.player_idx;
+  packet.plrno1 = plrno;
+  packet.plrno_from = packet.plrno0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
+                             &packet);
 }
 
 /**************************************************************************
@@ -569,14 +565,15 @@ void players_war_callback(GtkMenuItem *item, gpointer data)
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
-    struct packet_generic_integer pa;    
+    struct packet_generic_values packet;
     gint plrno;
 
     gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-    pa.value = plrno;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-				&pa);
+    packet.id = plrno;
+    packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+                               &packet);
   }
 }
 
@@ -589,14 +586,15 @@ void players_vision_callback(GtkMenuItem *item, gpointer data)
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
-    struct packet_generic_integer pa;    
+    struct packet_generic_values packet;
     gint plrno;
 
     gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-    pa.value = plrno;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
-				&pa);
+    packet.id = plrno;
+    packet.value1 = CLAUSE_VISION;
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+			       &packet);
   }
 }
 

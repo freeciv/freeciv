@@ -23,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -562,19 +563,20 @@ void players_war_callback(GtkWidget *w, gpointer data)
   if (!selection)
     return;
   else {
-    struct packet_generic_integer pa;    
+    struct packet_generic_values packet;
 
     row = GPOINTER_TO_INT(selection->data);
     player_index = LI_2_PI(row);
 
-    pa.value = player_index;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-				&pa);
+    packet.id = player_index;
+    packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+                               &packet);
   }
 }
 
 /**************************************************************************
-...
+  ...
 **************************************************************************/
 void players_vision_callback(GtkWidget *w, gpointer data)
 {
@@ -585,14 +587,15 @@ void players_vision_callback(GtkWidget *w, gpointer data)
   if (!selection)
     return;
   else {
-    struct packet_generic_integer pa;    
+    struct packet_generic_values packet;
 
     row = GPOINTER_TO_INT(selection->data);
     player_index = LI_2_PI(row);
 
-    pa.value = player_index;
-    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
-				&pa);
+    packet.id = player_index;
+    packet.value1 = CLAUSE_VISION;
+    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+			       &packet);
   }
 }
 
