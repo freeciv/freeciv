@@ -28,4 +28,10 @@ cities =
   "Foggia", "Bari", "Lecce", "Perugia", "Rimini", "Bolzano",
   "Chioggia", "Udine", "Bergamo", "Cremona", "Ferrara",
   "Prato", "Grosseto", "Latina", "Trani", "Lecce", "Salerno",
-  "Crotone"
+  "Crotone", "Firenze", "Bologna", "Torino", "La Spezia", "Pisa",
+  "Padova", "Cagliari", "Palermo", "Messina", "Teramo", "Ancona", 
+  "Sondrio", "Sassari", "Frascati", "Ostia", "Amalfi", "Grosseto", 
+  "Viterbo", "Benevento", "Aosta", "Campobasso", "Potenza", "Trieste", 
+  "Brindisi", "Legnano", "Parma", "Enna", "Catania", "Catanzaro", "Pavia",
+  "Asti", "Cuneo", "Massa", "Carrara", "Pordenone", "Civitavecchia", 
+  "Caserta"
