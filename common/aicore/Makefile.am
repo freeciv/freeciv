@@ -12,4 +12,6 @@ libaicore_a_SOURCES = 		\
 	pf_tools.c		\
 	pf_tools.h		\
 	cm.c	 		\
-	cm.h
+	cm.h			\
+	citymap.c		\
+	citymap.h
