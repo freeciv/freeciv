@@ -115,9 +115,12 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
   *att_fp = unit_type(attacker)->firepower;
   *def_fp = unit_type(defender)->firepower;
 
-  /* pearl harbour */
-  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
+  /* pearl harbour - defender's firepower is reduced to one, 
+   *                 attacker's is multiplied by two         */
+  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y)) {
+    *att_fp *= 2;
     *def_fp = 1;
+  }
   
   /* 
    * When attacked by fighters, helicopters have their firepower
