@@ -198,7 +198,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_widget_realize(pdialog->image_canvas);
 
   style=gtk_style_copy (GTK_WIDGET (pdialog->shell)->style);
+  gdk_font_unref (style->font);
   style->font=gdk_font_load (FIXED_12_BFONT);
+  gdk_font_ref (style->font);
 
   pdialog->info_label=gtk_label_new ("Population:       1234\n"
 				     "Support:           100 %\n"

@@ -577,7 +577,9 @@ void create_help_dialog(void)
 
 
   style = gtk_style_new();
+  gdk_font_unref (style->font);
   style->font = gdk_font_load( HELP_UNIT_FONT );
+  gdk_font_ref (style->font);
   style->fg[GTK_STATE_NORMAL] = *colors_standard[COLOR_STD_RED];
 
 
@@ -650,7 +652,9 @@ void create_help_dialog(void)
   gtk_box_pack_start( GTK_BOX( help_box ), help_text_scrolled, TRUE, TRUE, 0 );
 
   style = gtk_style_new();
+  gdk_font_unref (style->font);
   style->font = gdk_font_load( HELP_TEXT_FONT );
+  gdk_font_ref (style->font);
   gtk_widget_set_style( help_text, style );
   gtk_widget_realize( help_text );
 
@@ -678,6 +682,7 @@ void create_help_dialog(void)
   	  GTK_SIGNAL_FUNC( gtk_widget_destroy ), GTK_OBJECT( help_dialog_shell ) );
 
   gtk_widget_show_all( GTK_DIALOG(help_dialog_shell)->vbox );
+  gtk_widget_hide_all( help_box );
 
   create_help_page(HELP_TEXT);
   return;
