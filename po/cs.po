@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 17:29+0100\n"
+"PO-Revision-Date: 2005-01-30 18:37+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1575,7 +1575,7 @@ msgstr "Zapnutí nebo vypnutí ladění dané počítačově ovládané entity."
 
 #: server/commands.c:127
 msgid "Print AI debug information about given entity and turn continous debugging output for this entity on or off."
-msgstr ""
+msgstr "Psát ladící informace o počítačem řízeném hráči a přepnutí plynulého ladění dané entity do režimu zap nebo vyp."
 
 #: server/commands.c:131
 msgid "set <option-name> <value>"
@@ -1681,7 +1681,7 @@ msgstr "Převzít hráčovo místo ve hře."
 
 #: server/commands.c:188
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to take over a player. If you're not one of these, only the <player-name> argument is allowed"
-msgstr ""
+msgstr "Pouze konzole a spojení s příkazovou úrovní 'hack' mohou ostatní spojení donutit k převzetí hráče. Pokud nemáte ani jedno z toho, je povolen pouze argument <jméno-hráče>"
 
 #. TRANS: translate text between [] only
 #: server/commands.c:194
@@ -12116,7 +12116,7 @@ msgstr "_Zrušit dohodu"
 #: client/gui-gtk/plrdlg.c:206
 #: client/gui-mui/plrdlg.c:335
 msgid "_Withdraw vision"
-msgstr ""
+msgstr "_Zrušit nahlížení"
 
 #: client/gui-gtk-2.0/plrdlg.c:418
 #: client/gui-gtk/plrdlg.c:212
@@ -14955,7 +14955,7 @@ msgstr "Zrušit dohodu"
 #: client/gui-win32/plrdlg.c:360
 #: data/Freeciv.in:3261
 msgid "Withdraw vision"
-msgstr ""
+msgstr "Zrušit nahlížení"
 
 #: client/gui-win32/repodlgs.c:251
 msgid "Science Report"
@@ -15555,7 +15555,7 @@ msgstr "Diplomacie"
 #: data/Freeciv.in:474
 #: data/Freeciv.in:483
 msgid "Shared vision"
-msgstr ""
+msgstr "Sdílené nahlížení"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
@@ -15743,7 +15743,7 @@ msgstr "Dostupné cíle"
 
 #: data/Freeciv.in:2173
 msgid "Prepend"
-msgstr ""
+msgstr "Stav před"
 
 #: data/Freeciv.in:2209
 msgid "  Ok  "
