@@ -749,7 +749,7 @@ Connections can be classified as follows:  (first match applies)
 Style Guide
 ===========================================================================
 
-See README.coding_style in this directory.
+See CodingStyle in this directory.
 
 - If you send patches, use "diff -u" (or "diff -r -u").  For further
   information, see <http://www.freeciv.org/contribute.html>.  Also,

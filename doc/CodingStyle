@@ -168,11 +168,16 @@ int foo(struct city *pcity)
 - Use the postfix operator instead of the prefix operator when either will
   work.  That is, write "a++" instead of "++a".
 
-- Order include files consistently:  First state all system include
-  files with <> in alphabetic order, then all Freeciv include files
-  with "", sorted by directory (common, server, ...) and then by
-  alphabetic order, with a blank line between the sections.  This helps
-  to avoid adding unnecessary or duplicated include files.
+- Order include files consistently:  First include config.h (see below),
+  then state all system include files with <> in alphabetic order, then all
+  Freeciv include files with "", sorted by directory (common, server, ...)
+  and then by alphabetic order, with a blank line between the sections.  This
+  helps to avoid adding unnecessary or duplicated include files.
+
+  It is very important that '#include <config.h>' be included at the top of
+  every .c file (it need not be included from .h files).  Some definitions in
+  config.h will affect how the code is compiled, without which you can end
+  up with bad and untraceable memory bugs.
 
 - If you use a system specific feature, don't add #ifdef __CRAY__ or
   something like that.  Rather write a check for that feature for
