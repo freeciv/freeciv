@@ -8585,7 +8585,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
     {
       int i;
     
-      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
         dio_get_sint16(&din, (int *) &real_packet->love[i]);
       }
     }
@@ -8750,10 +8750,10 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
 
 
     {
-      differ = (MAX_NUM_PLAYERS != MAX_NUM_PLAYERS);
+      differ = (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS != MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
       if(!differ) {
         int i;
-        for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
           if (old->love[i] != real_packet->love[i]) {
             differ = TRUE;
             break;
@@ -8857,7 +8857,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
     {
       int i;
 
-      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
         dio_put_sint16(&dout, real_packet->love[i]);
       }
     } 
@@ -9008,7 +9008,7 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
     {
       int i;
     
-      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
         dio_get_sint16(&din, (int *) &real_packet->love[i]);
       }
     }
@@ -9169,10 +9169,10 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
 
 
     {
-      differ = (MAX_NUM_PLAYERS != MAX_NUM_PLAYERS);
+      differ = (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS != MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
       if(!differ) {
         int i;
-        for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
           if (old->love[i] != real_packet->love[i]) {
             differ = TRUE;
             break;
@@ -9273,7 +9273,7 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
     {
       int i;
 
-      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
         dio_put_sint16(&dout, real_packet->love[i]);
       }
     } 

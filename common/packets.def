@@ -558,7 +558,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   UINT8 barbarian_type;
   uint32(unsigned int) gives_shared_vision;
   BIT_STRING inventions[A_LAST+1];
-  SINT16 love[MAX_NUM_PLAYERS];
+  SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 end
 
 PACKET_PLAYER_TURN_DONE=40;cs
