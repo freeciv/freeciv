@@ -18,6 +18,7 @@
 struct city;
 struct Clause;
 struct player;
+struct player_spaceship;
 typedef int cid;
 typedef int wid;
 
@@ -107,4 +108,5 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
 int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
+char *get_spaceship_descr(struct player_spaceship *pship);
 #endif  /* FC__CLIMISC_H */

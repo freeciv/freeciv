@@ -224,15 +224,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   hbox=fcwin_hbox_new(pdialog->mainwin,FALSE);
   fcwin_box_add_generic(hbox,image_minsize,image_setsize,NULL,
 			NULL,TRUE,TRUE,3);
-  pdialog->info_label=fcwin_box_add_static(hbox,
-					   _("Population:       1234\n"
-					     "Support:           100 %\n"
-					     "Energy:            100 %\n"
-					     "Mass:            12345 tons\n"
-					     "Travel time:      1234 years\n"
-					     "Success prob.:     100 %\n"
-					     "Year of arrival:  1234 AD"),
-					   0,SS_LEFT,FALSE,FALSE,2);
+  pdialog->info_label =
+      fcwin_box_add_static(hbox, get_spaceship_descr(NULL), 0, SS_LEFT,
+			   FALSE, FALSE, 2);
   fcwin_box_add_box(vbox,hbox,TRUE,TRUE,5);
   hbox=fcwin_hbox_new(pdialog->mainwin,TRUE);
   fcwin_box_add_button(hbox,_("Close"),IDCANCEL,0,TRUE,TRUE,20);
@@ -251,40 +245,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 *****************************************************************/
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
-  char buf[512], arrival[16] = "-   ", travel_buf[100];
-  struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
-
-  if (pship->propulsion) {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-                _("Travel time:     %5.1f years"),
-                (float) (0.1 * ((int) (pship->travel_time * 10.0))));
-  } else {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-                "%s",
-                _("Travel time:        N/A     "));
-  }
-
-  if (pship->state == SSHIP_LAUNCHED) {
-    sz_strlcpy(arrival, textyear((int) (pship->launch_year
-                                        + (int) pship->travel_time)));
-  }
-  my_snprintf(buf, sizeof(buf),
-              _("Population:      %5d\n"
-                "Support:         %5d %%\n"
-                "Energy:          %5d %%\n"
-                "Mass:            %5d tons\n"
-                "%s\n"
-                "Success prob.:   %5d %%\n"
-                "Year of arrival: %8s"),
-              pship->population,
-              (int) (pship->support_rate * 100.0),
-              (int) (pship->energy_rate * 100.0),
-              pship->mass,
-              travel_buf,
-              (int) (pship->success_rate * 100.0),
-              arrival);
-  
-  SetWindowText(pdialog->info_label, buf);
+  SetWindowText(pdialog->info_label,
+		get_spaceship_descr(&pdialog->pplayer->spaceship));
 }
 
 /****************************************************************

@@ -250,40 +250,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 *****************************************************************/
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
-  char buf[512], arrival[16] = "-   ", travel_buf[100];
-  struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
-
-  if (pship->propulsion) {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		_("Travel time:     %5.1f years"),
-		(float) (0.1 * ((int) (pship->travel_time * 10.0))));
-  } else {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		"%s",
-		"Travel time:        N/A     ");
-  }
-
-  if (pship->state == SSHIP_LAUNCHED) {
-    sz_strlcpy(arrival, textyear((int) (pship->launch_year
-					+ (int) pship->travel_time)));
-  }
-  my_snprintf(buf, sizeof(buf),
-	      _("Population:      %5d\n"
-		"Support:         %5d %%\n"
-		"Energy:          %5d %%\n"
-		"Mass:            %5d tons\n"
-		"%s\n"
-		"Success prob.:   %5d %%\n"
-		"Year of arrival: %8s"),
-	      pship->population,
-	      (int) (pship->support_rate * 100.0),
-	      (int) (pship->energy_rate * 100.0),
-	      pship->mass,
-	      travel_buf,
-	      (int) (pship->success_rate * 100.0),
-	      arrival);
-
-  xaw_set_label(pdialog->info_label, buf);
+  xaw_set_label(pdialog->info_label,
+		get_spaceship_descr(&pdialog->pplayer->spaceship));
 }
 
 /****************************************************************

@@ -47,6 +47,7 @@ used throughout the client.
 #include "mapview_g.h"
 #include "tilespec.h"
 #include "civclient.h"
+#include "spaceship.h"
 
 #include "climisc.h"
 
@@ -1055,4 +1056,60 @@ void renumber_island_impr_effect(int old, int newnumber)
   /* If anything was changed, then we need to update the effects. */
   if (changed)
     update_all_effects();
+}
+
+/**************************************************************************
+  Returns a description of the given spaceship. The string doesn't
+  have to be freed. If pship is NULL returns a text with the same
+  format as the final one but with dummy values.
+**************************************************************************/
+char *get_spaceship_descr(struct player_spaceship *pship)
+{
+  static char buf[512];
+  char arrival[16], travel_buf[100], mass_buf[100];
+
+  if (!pship) {
+    return _("Population:       1234\n"
+	     "Support:           100 %\n"
+	     "Energy:            100 %\n"
+	     "Mass:            12345 tons\n"
+	     "Travel time:      1234 years\n"
+	     "Success prob.:     100 %\n"
+	     "Year of arrival:  1234 AD");
+  }
+
+  if (pship->propulsion) {
+    my_snprintf(travel_buf, sizeof(travel_buf),
+		_("Travel time:     %5.1f years"),
+		(float) (0.1 * ((int) (pship->travel_time * 10.0))));
+  } else {
+    my_snprintf(travel_buf, sizeof(travel_buf),
+		"%s", _("Travel time:        N/A     "));
+  }
+
+  if (pship->state == SSHIP_LAUNCHED) {
+    sz_strlcpy(arrival, textyear((int) (pship->launch_year
+					+ (int) pship->travel_time)));
+  } else {
+    sz_strlcpy(arrival, "-   ");
+  }
+
+  my_snprintf(mass_buf, sizeof(mass_buf),
+	      PL_("Mass:            %5d ton",
+		  "Mass:            %5d tons", pship->mass), pship->mass);
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Population:      %5d\n"
+		"Support:         %5d %%\n"
+		"Energy:          %5d %%\n"
+		"%s\n"
+		"%s\n"
+		"Success prob.:   %5d %%\n"
+		"Year of arrival: %8s"),
+	      pship->population,
+	      (int) (pship->support_rate * 100.0),
+	      (int) (pship->energy_rate * 100.0),
+	      mass_buf,
+	      travel_buf, (int) (pship->success_rate * 100.0), arrival);
+  return buf;
 }

@@ -43,6 +43,7 @@
 #include "repodlgs.h"
 #include "spaceship.h"
 #include "tilespec.h"
+#include "climisc.h"
 
 #include "spaceshipdlg.h"
 
@@ -195,13 +196,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_container_add(GTK_CONTAINER (frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
 
-  pdialog->info_label=gtk_label_new (_("Population:       1234\n"
-				     "Support:           100 %\n"
-				     "Energy:            100 %\n"
-				     "Mass:            12345 tons\n"
-				     "Travel time:      1234 years\n"
-				     "Success prob.:     100 %\n"
-				     "Year of arrival:  1234 AD"));
+  pdialog->info_label = gtk_label_new(get_spaceship_descr(NULL));
   gtk_label_set_justify (GTK_LABEL (pdialog->info_label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(pdialog->info_label), 0.0, 0.0);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
@@ -249,40 +244,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 *****************************************************************/
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
-  char buf[512], arrival[16] = "-   ", travel_buf[100];
-  struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
-
-  if (pship->propulsion) {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		_("Travel time:     %5.1f years"),
-		(float) (0.1 * ((int) (pship->travel_time * 10.0))));
-  } else {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		"%s",
-		_("Travel time:        N/A     "));
-  }
-
-  if (pship->state == SSHIP_LAUNCHED) {
-    sz_strlcpy(arrival, textyear((int) (pship->launch_year
-					+ (int) pship->travel_time)));
-  }
-  my_snprintf(buf, sizeof(buf),
-	      _("Population:      %5d\n"
-		"Support:         %5d %%\n"
-		"Energy:          %5d %%\n"
-		"Mass:            %5d tons\n"
-		"%s\n"
-		"Success prob.:   %5d %%\n"
-		"Year of arrival: %8s"),
-	      pship->population,
-	      (int) (pship->support_rate * 100.0),
-	      (int) (pship->energy_rate * 100.0),
-	      pship->mass,
-	      travel_buf,
-	      (int) (pship->success_rate * 100.0),
-	      arrival);
-
-  gtk_set_label(pdialog->info_label, buf);
+  gtk_set_label(pdialog->info_label,
+		get_spaceship_descr(&pdialog->pplayer->spaceship));
 }
 
 /****************************************************************
