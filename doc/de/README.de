@@ -1,5 +1,5 @@
 Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
-Stand: 		22.07.01
+Stand: 		12.04.02
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -8,14 +8,9 @@ Stand: 		22.07.01
 Willkommen bei Freeciv!
 
 Dieses Archiv enthält die aktuelle Freeciv Version (soweit sinnvoll)
-auch in deutscher Sprache. 8-)
+auch in deutscher Sprache.
 
-Allerdings enthält sie sicherlich noch Fehler und kann noch verbessert
-werden; vorallem die deutsche Dokumentation besteht zur Zeit nur aus der
-Übersetzung der Installationsanweisungen (../doc/INSTALL.de) und dieser
-Datei. 8-(
-
-Hinweis:	Die deutsche Online-Hilfe ist vollständig übersetzt 8-) und
+Hinweis:	Die deutsche Online-Hilfe ist vollständig übersetzt und
 		erkärt unter den entsprenden Stichworten vieles besser als
 		dieser Text.
 
@@ -26,9 +21,6 @@ Spieler eine wirkliche Herausforderung.
 Freeciv ist ein absolut eigenständiges Programm; Sie müssen kein
 Civilization besitzen, um es spielen zu können.
 
-Obwohl die Grafiken nicht so schön sind wie bei Civilization II, ist das
-Regelwerk fast vollständig. Unser Multiplayer und Netzwerkcode sind
-hervorragend.
 
 
 WWW:
@@ -50,7 +42,7 @@ COPYING.
 
 Kompilieren und Installieren
 ============================
-Bitte lesen Sie sorgfältig die Datei ../doc/INSTALL.de.
+Bitte lesen Sie sorgfältig die Datei ../doc/de/INSTALL.de.
 
 
 Ein neues Spiel beginnen
@@ -129,6 +121,9 @@ den Server mit der Option "-m" starten. Er "veröffentlicht" seine Existenz
 auf dem Metaserver, über den sich nun Spieler durch Auswahl der Metaserver-
 Registerkarte im Eröffnungsdialog einloggen können.
 
+HINWEIS:	Ein Firewall kann es unmöglich machen als Server für
+		Dritte zu fungieren.
+
 
 Hinweise zum Spiel
 ==================
@@ -182,16 +177,13 @@ schreiben. Beispiel:
 	schreiben Sie einfach "subscribe freeciv".
 
 Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich  mit der
-deutschen Übersetzung beschäftigt <freeciv.de@coollist.com>.
-Um diese Liste zu abonnieren, besuchen Sie bitte www.coollist.com. Der
-Listenname ist "freeciv.de".
-
-Hinweis: Nur Abonnenten können an diese Liste schreiben!
+deutschen Übersetzung beschäftigt <freeciv.de@freelists.org>.
+Sie können diese Liste über www.freelists.org abonnieren.
 
 
 Neue Versionen
 ==============
-Sie können etwa alle drei Monate mit einer neuen Version rechnen.
+Sie können etwa einmal im Jahr mit einer neuen Version rechnen.
 Kontrollieren Sie ab und zu unsere Webseite.
 
 
