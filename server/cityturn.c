@@ -973,10 +973,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		    _("Game: %s boosts research, "
 		      "you gain 2 immediate advances."),
 		    improvement_types[B_DARWIN].name);
-      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
       do_free_cost(pplayer);
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
       do_free_cost(pplayer);
+      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
       notify_player_ex(NULL, pcity->x, pcity->y, E_SPACESHIP,

@@ -2331,12 +2331,12 @@ static void hut_get_tech(struct unit *punit)
 				    " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);
 
+  do_free_cost(pplayer);
   if (!is_future_tech(new_tech)) {
     found_new_tech(pplayer, new_tech, FALSE, TRUE);
   } else {
     found_new_future_tech(pplayer);
   }
-  do_free_cost(pplayer);
 }
 
 /**************************************************************************
