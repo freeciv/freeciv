@@ -1225,12 +1225,19 @@ void introduce_game_to_player(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  This is used when a new player joins a game, before the game
+  has started.  If pconn is NULL, is an AI, else a client.
+  ...
 **************************************************************************/
 void accept_new_player(char *name, struct connection *pconn)
 {
   struct player *pplayer = &game.players[game.nplayers];
 
+  player_init(pplayer);
+  /* sometimes needed if players connect/disconnect to avoid
+   * inheriting stale AI status etc
+   */
+  
   strcpy(pplayer->name, name);
   pplayer->conn = pconn;
   pplayer->is_connected = (pconn!=NULL);
