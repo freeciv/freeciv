@@ -1282,7 +1282,9 @@ void city_popup_callback(GtkWidget *w, gpointer data)
     return;
 
   pcity = city_from_glist (current);
+  if (center_when_popup_city) {
     center_tile_mapcanvas(pcity->x, pcity->y);
+  }
 
   /* We have to copy the list as the popup_city_dialog destroys the data */
   for(; current; current = g_list_next(current))

@@ -457,7 +457,9 @@ static int cityrep_popup(void)
 
   if (pcity)
   {
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    if (center_when_popup_city) {
+      center_tile_mapcanvas(pcity->x, pcity->y);
+    }
     popup_city_dialog(pcity, 0);
   }
   return NULL;
