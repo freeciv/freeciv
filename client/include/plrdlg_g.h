@@ -13,6 +13,9 @@
 #ifndef FC__PLRDLG_G_H
 #define FC__PLRDLG_G_H
 
+void plrdlg_update_delay_on(void);
+void plrdlg_update_delay_off(void);
+
 void popup_players_dialog(void);
 void update_players_dialog(void);
 

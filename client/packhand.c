@@ -399,6 +399,9 @@ void handle_new_year(struct packet_new_year *ppacket)
   turn_gold_difference=game.player_ptr->economic.gold-last_turn_gold_amount;
   last_turn_gold_amount=game.player_ptr->economic.gold;
 
+  plrdlg_update_delay_off();
+  update_players_dialog();
+
   report_update_delay_off();
   update_report_dialogs();
 
@@ -421,6 +424,7 @@ void handle_new_year(struct packet_new_year *ppacket)
 void handle_before_new_year(void)
 {
   clear_notify_window();
+  plrdlg_update_delay_on();
   report_update_delay_on();
   meswin_update_delay_on();
 }

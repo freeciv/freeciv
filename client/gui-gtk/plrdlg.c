@@ -63,6 +63,25 @@ static void players_sship_callback(GtkWidget *w, gpointer data);
 
 #define NUM_COLOUMS 8
 
+static int delay_plrdlg_update=0;
+
+/******************************************************************
+ Turn off updating of player dialog
+*******************************************************************/
+void plrdlg_update_delay_on(void)
+{
+  delay_plrdlg_update=1;
+}
+
+/******************************************************************
+ Turn on updating of player dialog
+*******************************************************************/
+void plrdlg_update_delay_off(void)
+{
+  delay_plrdlg_update=0;
+}
+
+
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -173,7 +192,7 @@ void create_players_dialog(void)
 **************************************************************************/
 void update_players_dialog(void)
 {
-   if(players_dialog_shell) {
+   if(players_dialog_shell && !delay_plrdlg_update) {
     int i,j;
     char *row[NUM_COLOUMS];
     const struct player_diplstate *pds;

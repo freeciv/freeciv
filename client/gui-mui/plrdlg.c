@@ -50,6 +50,8 @@ STATIC Object *player_war_button;
 STATIC Object *player_spaceship_button;
 STATIC struct Hook player_players_disphook;
 
+static int delay_plrdlg_update=0;
+
 void create_players_dialog(void);
 
 /****************************************************************
@@ -65,6 +67,22 @@ void request_diplomacy_init_meeting(int plrno0, int plrno1)
 			     &pa);
 }
 
+
+/******************************************************************
+ Turn off updating of player dialog
+*******************************************************************/
+void plrdlg_update_delay_on(void)
+{
+  delay_plrdlg_update=1;
+}
+
+/******************************************************************
+ Turn on updating of player dialog
+*******************************************************************/
+void plrdlg_update_delay_off(void)
+{
+  delay_plrdlg_update=0;
+}
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
