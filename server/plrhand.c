@@ -944,7 +944,8 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   and specified (x,y) coords associated with the event.  Coords will only
   apply if game has started and the conn's player knows that tile (or
   pconn->player==NULL && pconn->observer).  If coords are not required,
-  caller should specify (x,y) = (-1,-1).  For generic event use E_NOEVENT.
+  caller should specify (x,y) = (-1,-1); otherwise make sure that the
+  coordinates have been normalized.  For generic event use E_NOEVENT.
   (But current clients do not use (x,y) data for E_NOEVENT events.)
 **************************************************************************/
 static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
@@ -956,12 +957,15 @@ static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
   genmsg.event = event;
 
   conn_list_iterate(*dest, pconn) {
-    if (is_real_tile(x, y) && server_state >= RUN_GAME_STATE
+    if (server_state >= RUN_GAME_STATE
+	&& (x != -1 || y != -1) /* special case, see above */
 	&& ((!pconn->player && pconn->observer)
 	    || (pconn->player && map_get_known(x, y, pconn->player)))) {
+      CHECK_MAP_POS(x, y);
       genmsg.x = x;
       genmsg.y = y;
     } else {
+      assert(server_state < RUN_GAME_STATE || !is_normal_map_pos(-1, -1));
       genmsg.x = -1;
       genmsg.y = -1;
     }
