@@ -59,6 +59,7 @@
 #include "tilespec.h"
 #include "wldlg_g.h"
 #include "attribute.h"
+#include "capability.h"
 
 #include "packhand.h"
 
@@ -620,7 +621,8 @@ void handle_new_year(struct packet_new_year *ppacket)
   /*
    * The turn was increased in handle_before_new_year()
    */
-  assert(game.turn == ppacket->turn);
+  assert(game.turn == ppacket->turn
+	 || !has_capability("turn", aconnection.capability));
   update_info_label();
 
   player_set_unit_focus_status(game.player_ptr);
@@ -670,7 +672,8 @@ void handle_before_new_year(void)
    * which is incorrect. If we get the authoritative information about
    * the game turn in handle_new_year() we will check it.
    */
-  game.turn++;
+  if (has_capability("turn", aconnection.capability))
+    game.turn++;
 }
 
 /**************************************************************************
