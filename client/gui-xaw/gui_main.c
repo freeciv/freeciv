@@ -265,6 +265,7 @@ XtActionsRec Actions[] = {
   { "diplo-dialog-returnkey", diplo_dialog_returnkey},
   { "city-dialog-returnkey",  city_dialog_returnkey},
   { "connect-dialog-returnkey",  connect_dialog_returnkey},
+  { "key-unit-connect", xaw_key_unit_connect },
   { "key-unit-irrigate", xaw_key_unit_irrigate },
   { "key-unit-road", xaw_key_unit_road },
   { "key-unit-mine", xaw_key_unit_mine },

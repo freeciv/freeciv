@@ -531,6 +531,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
     punit->paradropped=packet->paradropped;
+    punit->connecting=packet->connecting;
   }
   
   else {      /* create new unit */
@@ -556,6 +557,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->activity_target=packet->activity_target;
     punit->ai.control=packet->ai;
     punit->paradropped=packet->paradropped;
+    punit->connecting=packet->connecting;
     
     punit->activity_count=0;	/* never used in client/ or common/  --dwp */
     punit->bribe_cost=0;	/* done by handle_incite_cost() */

@@ -1138,6 +1138,7 @@ void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id type, i
   struct unit *punit;
   struct city *pcity;
   punit=fc_calloc(1,sizeof(struct unit));
+
   punit->type=type;
   punit->id=get_next_id_number();
   punit->owner=pplayer->player_no;
@@ -1203,6 +1204,9 @@ void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id type, i
 
   if( is_barbarian(pplayer) )
     punit->fuel = BARBARIAN_LIFE;
+
+  /* ditto for connecting units */
+  punit->connecting = 0;
 
   send_unit_info(0, punit, 0);
 }
@@ -1282,17 +1286,30 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
   int mr = get_unit_type (punit->type)->move_rate;
+  int unit_activity_done = 0;
+
+  int activity = punit->activity;
+
+  if (punit->connecting && !can_unit_do_activity(punit, activity)) {
+    punit->activity_count = 0;
+    do_unit_goto (pplayer, punit, get_activity_move_restriction(activity));
+  }
 
   punit->activity_count += mr/3;
 
-  if (punit->activity == ACTIVITY_EXPLORE) {
+  /* if connecting, automagically build prerequisities first */
+  if (punit->connecting && activity == ACTIVITY_RAILROAD && !(map_get_tile(punit->x, punit->y)->special & S_ROAD)) {
+    activity = ACTIVITY_ROAD;
+  }
+
+  if (activity == ACTIVITY_EXPLORE) {
     ai_manage_explorer(pplayer, punit);
     if (unit_list_find(&pplayer->units, id))
       handle_unit_activity_request(pplayer, punit, ACTIVITY_EXPLORE);
     else return;
   }
 
-  if(punit->activity==ACTIVITY_PILLAGE) {
+  if (activity==ACTIVITY_PILLAGE) {
     if (punit->activity_target == 0) {     /* case for old save files */
       if (punit->activity_count >= 1) {
 	int what =
@@ -1313,7 +1330,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
+	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(0, punit2, 0);
 	}
       unit_list_iterate_end;
@@ -1321,125 +1338,96 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     }
   }
 
-  if(punit->activity==ACTIVITY_POLLUTION) {
+  if (activity==ACTIVITY_POLLUTION) {
     if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION) >= 3) {
       map_clear_special(punit->x, punit->y, S_POLLUTION);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_POLLUTION) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_FORTRESS) {
+  if (activity==ACTIVITY_FORTRESS) {
     if (total_activity (punit->x, punit->y, ACTIVITY_FORTRESS) >= 3) {
       map_set_special(punit->x, punit->y, S_FORTRESS);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_FORTRESS) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_AIRBASE) {
+  if (activity==ACTIVITY_AIRBASE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_AIRBASE) >= 3) {
       map_set_special(punit->x, punit->y, S_AIRBASE);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_AIRBASE) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
   
-  if(punit->activity==ACTIVITY_IRRIGATE) {
+  if (activity==ACTIVITY_IRRIGATE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_IRRIGATE) >=
         map_build_irrigation_time(punit->x, punit->y)) {
       map_irrigate_tile(punit->x, punit->y);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_IRRIGATE) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_ROAD) {
-    if (total_activity (punit->x, punit->y, ACTIVITY_ROAD) >=
+  if (activity==ACTIVITY_ROAD) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_ROAD)
+	+ total_activity (punit->x, punit->y, ACTIVITY_RAILROAD) >=
         map_build_road_time(punit->x, punit->y)) {
       map_set_special(punit->x, punit->y, S_ROAD);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_ROAD) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_RAILROAD) {
+  if (activity==ACTIVITY_RAILROAD) {
     if (total_activity (punit->x, punit->y, ACTIVITY_RAILROAD) >= 3) {
       map_set_special(punit->x, punit->y, S_RAILROAD);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_RAILROAD) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
   
-  if(punit->activity==ACTIVITY_MINE) {
+  if (activity==ACTIVITY_MINE) {
     if (total_activity (punit->x, punit->y, ACTIVITY_MINE) >=
         map_build_mine_time(punit->x, punit->y)) {
       map_mine_tile(punit->x, punit->y);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_MINE) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_TRANSFORM) {
+  if (activity==ACTIVITY_TRANSFORM) {
     if (total_activity (punit->x, punit->y, ACTIVITY_TRANSFORM) >=
         map_transform_time(punit->x, punit->y)) {
       map_transform_tile(punit->x, punit->y);
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
-        if (punit2->activity == ACTIVITY_TRANSFORM) {
-          set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
-	}
-      unit_list_iterate_end;
+      unit_activity_done = 1;
     }
   }
 
-  if(punit->activity==ACTIVITY_GOTO) {
+  if (unit_activity_done) {
+    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+      if (punit2->activity == activity) {
+	if (punit2->connecting) {
+	  punit2->activity_count = 0;
+	  do_unit_goto(get_player (punit2->owner), punit2,
+		       get_activity_move_restriction(activity));
+	}
+	else {
+	  set_unit_activity(punit2, ACTIVITY_IDLE);
+	}
+	send_unit_info(0, punit2, 0);
+      }
+    unit_list_iterate_end;
+  }
+
+
+  if (activity==ACTIVITY_GOTO) {
     if (!punit->ai.control && (!is_military_unit(punit) ||
        punit->ai.passenger || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-      do_unit_goto(pplayer, punit);
+      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
     }
     return;
   }
   
-  if(punit->activity==ACTIVITY_IDLE && 
+  if (punit->activity==ACTIVITY_IDLE && 
      map_get_terrain(punit->x, punit->y)==T_OCEAN &&
      is_ground_unit(punit))
     set_unit_activity(punit, ACTIVITY_SENTRY);
@@ -1966,6 +1954,7 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.goto_dest_y=punit->goto_dest_y;
   info.activity_target=punit->activity_target;
   info.paradropped=punit->paradropped;
+  info.connecting=punit->connecting;
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)
@@ -2026,3 +2015,32 @@ char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix)
 {
   return get_location_str(pplayer, x, y, prefix, 1);
  }
+
+/**************************************************************************
+...
+**************************************************************************/
+enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity)
+{
+  enum goto_move_restriction restr;
+
+  switch (activity) {
+  case ACTIVITY_IRRIGATE:
+    restr = GOTO_MOVE_CARDINAL_ONLY;
+    break;
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_PILLAGE:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_AIRBASE:
+    restr = GOTO_MOVE_STRAIGHTEST;
+    break;
+  default:
+    restr = GOTO_MOVE_ANY;
+    break;
+  }
+
+  return (restr);
+}

@@ -1028,6 +1028,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_PARADROP_TO:
     handle_unit_paradrop_to(pplayer, (struct packet_unit_request *)packet);
     break;
+  case PACKET_UNIT_CONNECT:
+    handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
+    break;
   default:
     freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }

@@ -172,6 +172,10 @@ struct unit *punit_caravan;
 
 static Widget caravan_dialog;
 
+static int is_showing_unit_connect_dialog = FALSE;
+static int unit_to_use_to_connect;
+static int connect_unit_x;
+static int connect_unit_y;
 
 /****************************************************************
 ...
@@ -1317,6 +1321,86 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
   XtPopup (shell, XtGrabNone);
 }
 
+/****************************************************************
+common code for all buttons in unit connect dialog
+*****************************************************************/
+static void unit_connect_callback (Widget w, XtPointer client_data, 
+				   XtPointer call_data)
+{
+  struct unit *punit;
+  int activity = (int)client_data;
+
+  if (!is_showing_unit_connect_dialog) {
+    destroy_message_dialog(w);
+    return;
+  }
+
+  punit = find_unit_by_id(unit_to_use_to_connect);
+
+  if (punit) {
+    if (activity != ACTIVITY_IDLE) {
+      struct packet_unit_connect req;
+      req.activity_type = activity;
+      req.unit_id = punit->id;
+      req.dest_x = connect_unit_x;
+      req.dest_y = connect_unit_y;
+      send_packet_unit_connect(&aconnection, &req);
+    }
+    else {
+      update_unit_info_label(punit);
+    }
+  }
+
+  destroy_message_dialog(w);
+  is_showing_unit_connect_dialog = FALSE;
+}
+
+/****************************************************************
+popup dialog which prompts for activity type (unit connect)
+*****************************************************************/
+void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
+{
+  Widget shell, form, dlabel, button, prev;
+  int activity;
+
+  if (is_showing_unit_connect_dialog)
+    return;
+
+  is_showing_unit_connect_dialog = TRUE;
+  unit_to_use_to_connect = punit->id;
+  connect_unit_x = dest_x;
+  connect_unit_y = dest_y;
+
+  XtSetSensitive (toplevel, FALSE);
+
+  shell = I_T(XtCreatePopupShell("unitconnectdialog", transientShellWidgetClass,
+				 toplevel, NULL, 0));
+  form = XtVaCreateManagedWidget ("form", formWidgetClass, shell, NULL);
+  dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
+
+  prev = dlabel;
+  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
+    if (! can_unit_do_connect (punit, activity)) continue;
+
+    button =
+      XtVaCreateManagedWidget ("button", commandWidgetClass, form,
+			       XtNfromVert, prev,
+			       XtNlabel,
+			         (XtArgVal)(get_activity_text (activity)),
+			       NULL);
+    XtAddCallback (button, XtNcallback, unit_connect_callback, 
+		   (XtPointer)activity);
+    prev = button;
+  }
+  button =
+    I_L(XtVaCreateManagedWidget("closebutton", commandWidgetClass, form,
+				XtNfromVert, prev,
+				NULL));
+  XtAddCallback (button, XtNcallback, unit_connect_callback, ACTIVITY_IDLE);
+
+  xaw_set_relative_position (toplevel, shell, 10, 0);
+  XtPopup (shell, XtGrabNone);
+}
 
 /****************************************************************
   Parameters after named parameters should be in triplets:

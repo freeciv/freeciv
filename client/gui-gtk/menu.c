@@ -89,6 +89,7 @@ enum MenuID {
   MENU_ORDER_AIRBASE,
   MENU_ORDER_CITY,
   MENU_ORDER_ROAD,
+  MENU_ORDER_CONNECT,
   MENU_ORDER_POLLUTION,
   MENU_ORDER_FORTIFY,
   MENU_ORDER_SENTRY,
@@ -254,6 +255,10 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_ROAD:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), road_activity);
+    break;
+   case MENU_ORDER_CONNECT:
+    if(get_unit_in_focus())
+      request_unit_connect();
     break;
    case MENU_ORDER_POLLUTION:
     key_unit_clean_pollution();
@@ -490,7 +495,7 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_KINGDOM_TAX_RATE						      },
   { "/" N_("Kingdom") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/" N_("Kingdom") "/" N_("Find _City"),	"<shift>c",	kingdom_menu_callback,
+  { "/" N_("Kingdom") "/" N_("_Find City"),	"<control>f",	kingdom_menu_callback,
     MENU_KINGDOM_FIND_CITY							      },
   { "/" N_("Kingdom") "/sep2",		NULL,		NULL,
     0,					"<Separator>"			      },
@@ -550,6 +555,8 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_ORDER_AUTO_ATTACK						      },
   { "/" N_("Orders") "/" N_("Auto Explore"),	"x",		orders_menu_callback,
     MENU_ORDER_EXPLORE							      },
+  { "/" N_("Orders") "/" N_("Connect"),	        "<shift>c",	orders_menu_callback,
+    MENU_ORDER_CONNECT							      },
   { "/" N_("Orders") "/" N_("Go to"),		"g",		orders_menu_callback,
     MENU_ORDER_GOTO							      },
   { "/" N_("Orders") "/" N_("Go|Airlift to City"), "l",	orders_menu_callback,
@@ -849,6 +856,9 @@ void update_menus(void)
       menus_set_sensitive("<main>/Orders/Build Road",
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
+      menus_set_sensitive("<main>/Orders/Connect",
+			  can_unit_do_connect(punit, ACTIVITY_IDLE)
+			  && has_capability ("unit_connect", aconnection.capability));
       menus_set_sensitive("<main>/Orders/Clean Pollution",
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));

@@ -272,6 +272,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_UNIT_NUKE:
   case PACKET_UNIT_PARADROP_TO:
     return receive_packet_unit_request(pc);
+  case PACKET_UNIT_CONNECT:
+    return receive_packet_unit_connect(pc);
   case PACKET_UNITTYPE_UPGRADE:
     return receive_packet_unittype_info(pc);
   case PACKET_UNIT_COMBAT:
@@ -1090,7 +1092,45 @@ receive_packet_unit_request(struct connection *pc)
   return preq;
 }
 
+/*************************************************************************
+...
+**************************************************************************/
+int send_packet_unit_connect(struct connection *pc, 
+			     struct packet_unit_connect *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_uint8(buffer+2, PACKET_UNIT_CONNECT);
+  
+  cptr=put_uint8(cptr, packet->activity_type);
+  cptr=put_uint16(cptr, packet->unit_id);
+  cptr=put_uint16(cptr, packet->dest_x);
+  cptr=put_uint16(cptr, packet->dest_y);
+  put_uint16(buffer, cptr-buffer);
 
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_unit_connect *
+receive_packet_unit_connect(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_unit_connect *preq =
+    fc_malloc(sizeof(struct packet_unit_connect));
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint8(&iter, &preq->activity_type);
+  iget_uint16(&iter, &preq->unit_id);
+  iget_uint16(&iter, &preq->dest_x);
+  iget_uint16(&iter, &preq->dest_y);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return preq;
+}
 
 /*************************************************************************
 ...
@@ -1528,7 +1568,7 @@ int send_packet_unit_info(struct connection *pc,
 
   cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
-  pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0);
+  pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0)|(req->connecting?0x80:0);
   cptr=put_uint8(cptr, pack);
   cptr=put_uint8(cptr, req->x);
   cptr=put_uint8(cptr, req->y);
@@ -1708,6 +1748,7 @@ receive_packet_unit_info(struct connection *pc)
   packet->veteran=(pack&0x10)?1:0;
   packet->ai=(pack&0x20)?1:0;
   packet->paradropped=(pack&0x40)?1:0;
+  packet->connecting=(pack&0x80)?1:0;
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
   iget_uint16(&iter, &packet->homecity);

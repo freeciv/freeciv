@@ -54,7 +54,8 @@ enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE, 
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFY, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
   ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
-  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE
+  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, 
+  ACTIVITY_LAST   /* leave this one last */
 };
 
 enum unit_move_type {
@@ -108,6 +109,7 @@ struct unit {
      and city.units_supported; they are only used for save/reload */
   int moved;
   int paradropped;
+  int connecting;
 };
 
 /* Unit "special effects" flags:
@@ -251,6 +253,8 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity);
 
 int can_unit_paradropped(struct unit *punit);
 int can_unit_change_homecity(struct unit *punit);
+int can_unit_do_connect(struct unit *punit, enum unit_activity activity);
+char* get_activity_text (int activity);
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 int can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target);

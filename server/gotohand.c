@@ -52,6 +52,9 @@ static struct stack_element warstack[WARSTACK_DIM];
 static unsigned int warstacksize;
 static unsigned int warnodes;
 
+/**************************************************************************
+...
+**************************************************************************/
 static void add_to_stack(int x, int y)
 {
   unsigned int i = warstacksize & (WARSTACK_DIM-1);
@@ -60,6 +63,9 @@ static void add_to_stack(int x, int y)
   warstacksize++;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void get_from_warstack(unsigned int i, int *x, int *y)
 {
   assert(i<warstacksize && warstacksize-i<WARSTACK_DIM);
@@ -68,6 +74,9 @@ static void get_from_warstack(unsigned int i, int *x, int *y)
   *y = warstack[i].y;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 {
   int x;
@@ -92,6 +101,9 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
   }
 }  
 
+/**************************************************************************
+...
+**************************************************************************/
 void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which)
 { /* let generate_warmap interface to this function */
   int x, y, c, k, xx[3], yy[3], x1, y1, tm;
@@ -173,6 +185,9 @@ This led to a bad bug where a unit in a swamp was considered too far away */
   /* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
@@ -207,17 +222,51 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 }
 
 /* ....... end of old advmilitary.c, beginning of old gotohand.c. ..... */
+
+/**************************************************************************
+...
+**************************************************************************/
+static void dir_deltas(int x0, int y0, int x1, int y1,
+		       int *n, int *s, int *e, int *w)
+{
+  int dx;
+
+  if (y1 > y0) {
+    *n = 0;
+    *s = y1 - y0;
+  } else {
+    *n = y0 - y1;
+    *s = 0;
+  }
+
+  dx = x1 - x0;
+  if (dx > map.xsize/2) {
+    *e = 0;
+    *w = map.xsize - dx;
+  } else if (dx > 0) {
+    *e = dx;
+    *w = 0;
+  } else if (dx + (map.xsize/2) > 0) {
+    *e = 0;
+    *w = 0 - dx;
+  } else {
+    *e = map.xsize + dx;
+    *w = 0;
+  }
+
+  return;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static int dir_ok(int x0, int y0, int x1, int y1, int k)
 { /* The idea of this is to check less nodes in the wrong direction.
 These if's might cost some CPU but hopefully less overall. -- Syela */
-  int n = 0, s = 0, e = 0, w = 0, dx;
-  if (y1 > y0) s = y1 - y0;
-  else n = y0 - y1;
-  dx = x1 - x0;
-  if (dx > map.xsize/2) w = map.xsize - dx;
-  else if (dx > 0) e = dx;
-  else if (dx + (map.xsize/2) > 0) w = 0 - dx;
-  else e = map.xsize + dx;
+  int n, s, e, w;
+
+  dir_deltas(x0, y0, x1, y1, &n, &s, &e, &w);
+
   if (e == map.xsize / 2 || w == map.xsize / 2) { /* thanks, Massimo */
     if (k < 3 && s >= MAX(e, w)) return 0;
     if (k > 4 && n >= MAX(e, w)) return 0;
@@ -297,7 +346,6 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
    */
 }
 
-
 /**************************************************************************
   this WAS can_unit_move_to_tile with the notifys removed -- Syela 
   but is now a little more complicated to allow non-adjacent tiles
@@ -311,7 +359,7 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
   struct tile *ptile,*ptile2;
   struct city *pcity;
 
-  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
+  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO && !punit->connecting)
     return 0;
   
   if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
@@ -359,14 +407,18 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
     return 0;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int goto_tile_cost(struct player *pplayer, struct unit *punit,
-			  int x0, int y0, int x1, int y1, int m)
+			  int x0, int y0, int x1, int y1, int m,
+			  enum goto_move_restriction restriction)
 {
   int i;
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
     freelog(LOG_DEBUG, "Venturing into the unknown at (%d, %d).", x1, y1);
     /* return(3);   People seemed not to like this. -- Syela */
-    return(15); /* arbitrary deterrent. */
+    return((restriction == GOTO_MOVE_STRAIGHTEST) ? 3 : 15); /* arbitrary deterrent. */
   }
   if (get_defender(pplayer, punit, x1, y1)) {
      if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1))
@@ -386,6 +438,9 @@ static int goto_tile_cost(struct player *pplayer, struct unit *punit,
   return(MIN(m, unit_types[punit->type].move_rate));
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void init_gotomap(int orig_x, int orig_y)
 {
   int x;
@@ -408,6 +463,9 @@ static void init_gotomap(int orig_x, int orig_y)
   return;
 } 
 
+/**************************************************************************
+...
+**************************************************************************/
 static int dir_ect(int x0, int y0, int x1, int y1, int k)
 {
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -419,8 +477,37 @@ static int dir_ect(int x0, int y0, int x1, int y1, int k)
   return (1 - dir_ok(x, y, x1, y1, 7-k));
 }
 
+/**************************************************************************
+ Return "k" for straightest direction.
+**************************************************************************/
+static int dir_str(int x0, int y0, int x1, int y1, int *xx, int *yy)
+{
+  int n, s, e, w, dx, dy;
+  int bestk = 0;
+
+  dir_deltas(x0, y0, x1, y1, &n, &s, &e, &w);
+  dx = e - w;
+  dy = s - n;
+
+  if (dx == 0) {
+    bestk = (dy > 0) ? 6 : 1;
+  } else if (dy == 0) {
+    bestk = (dx > 0) ? 4 : 3;
+  } else if (dx > 0) {
+    bestk = (dy > 0) ? 7 : 2;
+  } else {
+    bestk = (dy > 0) ? 5 : 0;
+  }
+
+  return (bestk);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
-				  int dest_x, int dest_y)
+				  int dest_x, int dest_y,
+				  enum goto_move_restriction restriction)
 {
   char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
@@ -430,6 +517,7 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
   struct tile *tile0;
   enum unit_move_type which = unit_types[punit->type].move_type;
   int maxcost = 255;
+  int str = 0;
   unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
   struct unit *passenger; /* and I ride and I ride */
   
@@ -467,8 +555,12 @@ and independently I can worry about optimizing them. -- Syela */
     warnodes++; /* for debug purposes */
     tile0 = map_get_tile(x, y);
     map_calc_adjacent_xy(x, y, xx, yy);
+    if (restriction == GOTO_MOVE_STRAIGHTEST) {
+      str = dir_str(x, y, dest_x, dest_y, xx, yy);
+    }
     
     for (k = 0; k < 8; k++) {
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[k][1]) continue;
       x1 = xx[ii[k]];
       y1 = yy[jj[k]];
       if (which != SEA_MOVING) {
@@ -476,8 +568,11 @@ and independently I can worry about optimizing them. -- Syela */
         else if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
         else if (igter) c = (tile0->move_cost[k] ? 3 : 0); /* Reinier's fix -- Syela */
         else c = tile0->move_cost[k];
-        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c);
+        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c, restriction);
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
+	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (k == str)) {
+	  c /= 3;
+	}
         if (!c && !dir_ect(x, y, dest_x, dest_y, k)) c = 1;
         tm = warmap.cost[x][y] + c;
 #ifdef ACTUALLYTESTED
@@ -506,14 +601,17 @@ and independently I can worry about optimizing them. -- Syela */
           }
         }
       } else {
-        if (tile0->move_cost[k] != -3) c = maxcost;
+	if (tile0->move_cost[k] != -3) c = maxcost;
         else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) c = 7;
         else c = 3;
 /* I want to disable these totally but for some reason it bugs. -- Syela */
-        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c);
+        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c, restriction);
         if (x1 == dest_x && y1 == dest_y && passenger && c < 60 &&
             !is_my_zoc(passenger, x, y)) c = 60; /* passenger cannot disembark */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
+	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (k == str)) {
+	  c /= 3;
+	}
         tm = warmap.seacost[x][y] + c;
         if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
             (pplayer->ai.control) &&
@@ -560,6 +658,7 @@ and independently I can worry about optimizing them. -- Syela */
     map_calc_adjacent_xy(x, y, xx, yy);
 
     for (k = 0; k < 8; k++) {
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[k][1]) continue;
       x1 = xx[ii[k]];
       y1 = yy[jj[k]];
       if (local_vector[x][y] & (1<<k)) {
@@ -578,9 +677,14 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
   /* DONE! */
 }
 
-static int find_a_direction(struct unit *punit)
+/**************************************************************************
+...
+**************************************************************************/
+static int find_a_direction(struct unit *punit,
+			    enum goto_move_restriction restriction)
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
+  char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   struct tile *ptile, *adjtile;
@@ -594,6 +698,7 @@ static int find_a_direction(struct unit *punit)
   else passenger = 0;
 
   for (k = 0; k < 8; k++) {
+    if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && dir[k][1]) continue;
     if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
     else {
       if (is_ground_unit(punit))
@@ -682,11 +787,16 @@ static int find_a_direction(struct unit *punit)
   }
 
   do {
-    k = myrand(8);
+    do {
+      k = myrand(8);
+    } while ((restriction == GOTO_MOVE_CARDINAL_ONLY) && dir[k][1]);
   } while (d[k] < best);
   return(k);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni)
 {  
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -728,7 +838,8 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
 /**************************************************************************
 ...
 **************************************************************************/
-void do_unit_goto(struct player *pplayer, struct unit *punit)
+void do_unit_goto(struct player *pplayer, struct unit *punit,
+		  enum goto_move_restriction restriction)
 {
   int x, y, k;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -745,11 +856,10 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
   if (same_pos(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y) ||
       !goto_is_sane(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y, 0)) {
     punit->activity=ACTIVITY_IDLE;
+    punit->connecting = 0;
     send_unit_info(0, punit, 0);
     return;
   }
-
-  punit->activity = ACTIVITY_GOTO; /* adding this as a failsafe -- Syela */
 
   if(!punit->moves_left) {
     send_unit_info(0, punit, 0);
@@ -757,11 +867,12 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
   }
 
   if(find_the_shortest_path(pplayer, punit, 
-			    punit->goto_dest_x, punit->goto_dest_y)) {
+			    punit->goto_dest_x, punit->goto_dest_y,
+			    restriction)) {
 
     do {
       if(!punit->moves_left) return;
-      k = find_a_direction(punit);
+      k = find_a_direction(punit, restriction);
       if (k < 0) {
 	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
 		unit_types[punit->type].name, punit->id,
@@ -793,6 +904,12 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 	send_unit_info(0, punit, 0);
 	return; /* out of movepoints */
       }
+
+      /* single step connecting unit when it can do it's activity */
+      if (punit->connecting && can_unit_do_activity (punit, punit->activity))
+	return;
+
+
       freelog(LOG_DEBUG, "Moving on.");
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
   }
@@ -803,10 +920,25 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 	 punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y);
   }
 
+  /* ensure that the connecting unit will perform it's activity
+     on the destination file too. */
+  if (punit->connecting) {
+    int  tmp_moves_left = punit->moves_left;
+    int  can_do_it;
+
+    /* FIXME: can_unit_do_activity() takes into account moves_left.
+       We can't.  -- edheldil */
+    punit->moves_left = 1;
+    can_do_it = can_unit_do_activity (punit, punit->activity);
+    punit->moves_left = tmp_moves_left;
+
+    if (can_do_it) return;
+  }
+
   punit->activity=ACTIVITY_IDLE;
+  punit->connecting=0;
   send_unit_info(0, punit, 0);
 }
-
 
 /**************************************************************************
 Calculate and return cost (in terms of move points) for unit to move
@@ -846,5 +978,3 @@ int calculate_move_cost(struct player *pplayer, struct unit *punit,
   }
     
 }
-
-

@@ -808,6 +808,60 @@ int can_unit_do_auto(struct unit *punit)
 }
 
 /**************************************************************************
+Return whether the unit can connect with given activity (or with
+any activity if activity arg is set to ACTIVITY_IDLE)
+**************************************************************************/
+int can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
+{
+  struct player  *pplayer = get_player (punit->owner);
+
+  if (!unit_flag(punit->type, F_SETTLERS))
+    return 0;
+
+  if (activity == ACTIVITY_IDLE)   /* IDLE here means "any activity" */
+    return 1;
+
+  if (activity == ACTIVITY_ROAD 
+      || activity == ACTIVITY_IRRIGATE 
+      || (activity == ACTIVITY_RAILROAD
+	  && player_knows_techs_with_flag(pplayer, TF_RAILROAD))
+      || (activity == ACTIVITY_FORTRESS 
+	  && player_knows_techs_with_flag(pplayer, TF_FORTRESS)))
+  return 1;
+
+  return 0;
+}
+
+/**************************************************************************
+Return name of activity in static buffer
+**************************************************************************/
+
+char* get_activity_text (int activity)
+{
+  char *text;
+
+  switch (activity) {
+  case ACTIVITY_IDLE:      text = _("Idle"); break;
+  case ACTIVITY_POLLUTION: text = _("Pollution"); break;
+  case ACTIVITY_ROAD:      text = _("Road"); break;
+  case ACTIVITY_MINE:      text = _("Mine"); break;
+  case ACTIVITY_IRRIGATE:  text = _("Irrigation"); break;
+  case ACTIVITY_FORTIFY:   text = _("Fortify"); break;
+  case ACTIVITY_FORTRESS:  text = _("Fortress"); break;
+  case ACTIVITY_SENTRY:    text = _("Sentry"); break;
+  case ACTIVITY_RAILROAD:  text = _("Railroad"); break;
+  case ACTIVITY_PILLAGE:   text = _("Pillage"); break;
+  case ACTIVITY_GOTO:      text = _("Goto"); break;
+  case ACTIVITY_EXPLORE:   text = _("Explore"); break;
+  case ACTIVITY_TRANSFORM: text = _("Transform"); break;
+  case ACTIVITY_AIRBASE:   text = _("Airbase"); break;
+  default:                 text = _("Unknown"); break;
+  }
+
+  return text;
+}
+
+/**************************************************************************
 Return whether the unit can be paradropped.
 That is if the unit is in a friendly city or on an Airbase
 special, have enough movepoints left and have not paradropped
@@ -869,7 +923,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return (is_ground_unit(punit) || is_sailing_unit(punit));
 
   /* can't go directly from non-idle to non-idle activity */
-  if(punit->activity!=ACTIVITY_IDLE) return 0;
+  if(punit->activity!=ACTIVITY_IDLE && punit->activity != activity) return 0;
 
   switch(activity)  {
   case ACTIVITY_POLLUTION:
@@ -936,7 +990,11 @@ int can_unit_do_activity_targeted(struct unit *punit,
     /* if the tile has road, the terrain must be ok.. */
     return terrain_control.may_road &&
            unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-           (ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD) &&
+           ((ptile->special&S_ROAD) || (punit->connecting
+	    && (ptile->terrain!=T_OCEAN &&
+		((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER))
+		 || player_knows_techs_with_flag(pplayer, TF_BRIDGE)))))
+           && !(ptile->special&S_RAILROAD) &&
 	   player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   case ACTIVITY_PILLAGE:
@@ -975,6 +1033,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target=0;
+  punit->connecting = 0;
 }
 
 /**************************************************************************
@@ -986,6 +1045,7 @@ void set_unit_activity_targeted(struct unit *punit,
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target=new_target;
+  punit->connecting = 0;
 }
 
 /**************************************************************************
@@ -1075,37 +1135,26 @@ char *unit_activity_text(struct unit *punit)
      }
      return text;
    case ACTIVITY_POLLUTION:
-    return _("Pollution");
    case ACTIVITY_ROAD:
-    return _("Road");
    case ACTIVITY_RAILROAD:
-    return _("Railroad");
    case ACTIVITY_MINE: 
-    return _("Mine");
-    case ACTIVITY_IRRIGATE:
-    return _("Irrigation");
+   case ACTIVITY_IRRIGATE:
    case ACTIVITY_TRANSFORM:
-    return _("Transform");
    case ACTIVITY_FORTIFY:
-    return _("Fortify");
    case ACTIVITY_AIRBASE:
-    return _("Airbase");
    case ACTIVITY_FORTRESS:
-    return _("Fortress");
    case ACTIVITY_SENTRY:
-    return _("Sentry");
+   case ACTIVITY_GOTO:
+   case ACTIVITY_EXPLORE:
+     return get_activity_text (punit->activity);
    case ACTIVITY_PILLAGE:
      if(punit->activity_target == 0) {
-       return _("Pillage");
+       return get_activity_text (punit->activity);
      } else {
-       sprintf(text, "%s: %s", _("Pillage"),
+       sprintf(text, "%s: %s", get_activity_text (punit->activity),
 	       map_get_infrastructure_text(punit->activity_target));
        return (text);
      }
-   case ACTIVITY_GOTO:
-    return _("Goto");
-   case ACTIVITY_EXPLORE:
-    return _("Explore");
    default:
     freelog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
     exit(0);

@@ -1789,6 +1789,12 @@ Unit Type            Upgrade  In-Prog   Active   Shield     Food\")",
 "Freeciv*pillagedialog.*.button.width:		200",
 "Freeciv*pillagedialog.*.closebutton.width:	200",
 "Freeciv*pillagedialog.*.closebutton.label:	_(\"Cancel\")",
+"Freeciv*unitconnectdialog.title:		_(\"Connect\")",
+"Freeciv*unitconnectdialog.*.dlabel.borderWidth:	0",
+"Freeciv*unitconnectdialog.*.dlabel.label:	_(\"Choose unit activity:\")",
+"Freeciv*unitconnectdialog.*.button.width:	200",
+"Freeciv*unitconnectdialog.*.closebutton.width:	200",
+"Freeciv*unitconnectdialog.*.closebutton.label:	_(\"Cancel\")",
 "Freeciv*leftcolumnform.borderWidth:                1",
 "Freeciv*leftcolumnform.top:                        chainTop",
 "Freeciv*leftcolumnform.bottom:                     chainBottom",
@@ -2031,13 +2037,14 @@ Now.. Go give'em hell!\")",
 "Freeciv*inputlinetext.top:                       chainBottom",
 "Freeciv*inputlinetext.bottom:                    chainBottom",
 "Freeciv*mapcanvas.translations:\
+   Shift<Key>c:       key-unit-connect()    \\n\
    Ctrl<Key>g:        key-map-grid()        \\n\
    Shift<BtnDown>:    adjust-workers()      \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
    <Key>F3:           key-open-players()         \\n\
    <Key>F10:          key-open-messages()        \\n\
    Shift<Key>t:       key-open-rates()           \\n\
-   Shift<Key>c:       key-open-find-city()       \\n\
+   Ctrl<Key>f:        key-open-find-city()       \\n\
    Shift<Key>r:       key-ask-revolution()       \\n\
    <Key>F1:           key-open-city-report()     \\n\
    <Key>F2:           key-open-military-report() \\n\

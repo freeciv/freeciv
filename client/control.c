@@ -47,6 +47,9 @@ int nuke_state;
 /* set high, if the player has selected paradropping */
 int paradrop_state;
 
+/* set high if the player has selected connect */
+int connect_state;
+
 static struct unit *find_best_focus_candidate(void);
 
 /**************************************************************************
@@ -212,6 +215,21 @@ void request_unit_goto(void)
      
   if(punit) {
     goto_state=punit->id;
+    update_unit_info_label(punit);
+  }
+}
+
+/**************************************************************************
+prompt player for entering destination point for unit connect
+(e.g. connecting with roads)
+**************************************************************************/
+void request_unit_connect(void)
+{
+  struct unit *punit=get_unit_in_focus();
+     
+  if(punit && can_unit_do_connect (punit, ACTIVITY_IDLE)) {
+    goto_state=punit->id;
+    connect_state=1;
     update_unit_info_label(punit);
   }
 }
@@ -574,6 +592,7 @@ int do_goto(int xtile, int ytile)
     goto_state=0;
     nuke_state=0;
     paradrop_state=0;
+    connect_state=0;
 
     return 1;
   }
@@ -602,6 +621,15 @@ void do_map_click(int xtile, int ytile)
         goto_state=0;
         nuke_state=0;
         paradrop_state=0;
+        return;
+      }
+
+      if(connect_state) {
+        popup_unit_connect_dialog(punit, xtile, ytile);
+        goto_state=0;
+        nuke_state=0;
+        paradrop_state=0;
+        connect_state=0;
         return;
       }
 
@@ -767,6 +795,7 @@ void key_cancel_action(void)
     goto_state=0;
     nuke_state=0;
     paradrop_state=0;
+    connect_state = 0;
 
     update_unit_info_label(punit);
   }
@@ -808,6 +837,14 @@ void key_unit_airbase(void)
 void key_unit_goto(void)
 {
   request_unit_goto();
+}
+
+/**************************************************************************
+handle user pressing key for 'Connect' command
+**************************************************************************/
+void key_unit_connect(void)
+{
+  request_unit_connect();
 }
 
 /**************************************************************************

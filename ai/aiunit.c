@@ -139,7 +139,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       punit->goto_dest_x = dest_x;
       punit->goto_dest_y = dest_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(pplayer, punit);
+      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
       return; /* maybe have moves left but I want to return anyway. */
     }
   }
@@ -221,7 +221,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     punit->goto_dest_x = dest_x;
     punit->goto_dest_y = dest_y;
     set_unit_activity(punit, ACTIVITY_GOTO);
-    do_unit_goto(pplayer, punit);
+    do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
     return;
   }
 /* END PART THREE */
@@ -239,7 +239,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       else {
         punit->goto_dest_x = x;
         punit->goto_dest_y = y;
-        do_unit_goto(pplayer, punit);
+        do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
       }
     }
   }
@@ -559,7 +559,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     if (goto_is_sane(pplayer, punit, x, y, 1)) {
       punit->goto_dest_x = x;
       punit->goto_dest_y = y;
-      do_unit_goto(pplayer, punit);
+      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
     } else punit->ai.charge = 0; /* can't possibly get there to help */
   } else { /* I had these guys set to just fortify, which is so dumb. -- Syela */
     i = ai_military_findvictim(pplayer, punit, &x, &y);
@@ -692,7 +692,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         punit->goto_dest_x = bx;
         punit->goto_dest_y = by;
 	set_unit_activity(punit, ACTIVITY_GOTO);
-        do_unit_goto(pplayer,punit);
+        do_unit_goto(pplayer,punit, GOTO_MOVE_ANY);
         if (!unit_list_find(&pplayer->units, id)) return(-1); /* died */
       }
       ptile = map_get_tile(punit->x, punit->y);
@@ -721,7 +721,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
                 if (def) set_unit_activity(def, ACTIVITY_SENTRY);
               }
             unit_list_iterate_end; /* passengers are safely stowed away */
-            do_unit_goto(pplayer, ferryboat);
+            do_unit_goto(pplayer, ferryboat, GOTO_MOVE_ANY);
             set_unit_activity(punit, ACTIVITY_IDLE);
           } /* else wait, we can GOTO later. */
         }
@@ -769,7 +769,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		punit->x, punit->y, dest_x, dest_y);
       }
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(pplayer,punit);
+      do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
       /* liable to bump into someone that will kill us.  Should avoid? */
     } else {
       freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
@@ -976,7 +976,7 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
       punit->goto_dest_x=pcity->x;
       punit->goto_dest_y=pcity->y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(pplayer,punit);
+      do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
     }
   } else {
     handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
@@ -1309,7 +1309,8 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
         if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
 /* nothing to kill.  Adjacency is something for us to kill later. */
           if (is_sailing_unit(punit)) {
-            if (find_nearest_friendly_port(punit)) do_unit_goto(pplayer, punit);
+            if (find_nearest_friendly_port(punit))
+	      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
           } else {
             ai_manage_explorer(pplayer, punit); /* nothing else to do */
             /* you can still have some moves left here, but barbarians should
@@ -1455,10 +1456,12 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (p) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
-    if (punit->moves_left && n) do_unit_goto(pplayer, punit);
+    if (punit->moves_left && n)
+      do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
     else if (!n && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
-      if (find_nearest_friendly_port(punit)) do_unit_goto(pplayer, punit);
+      if (find_nearest_friendly_port(punit))
+	do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
       if (!unit_list_find(&pplayer->units, id)) return; /* oops! */
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit, 0); /* to get the crosshairs right -- Syela */
@@ -1510,7 +1513,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
     set_unit_activity(punit, ACTIVITY_GOTO);
-    do_unit_goto(pplayer,punit);
+    do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
     if ((punit = unit_list_find(&pplayer->units, id)))
       set_unit_activity(punit, ACTIVITY_IDLE);
     return;
@@ -1527,7 +1530,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_dest_x = pcity->x;
       punit->goto_dest_y = pcity->y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(pplayer,punit);
+      do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
       return;
     }
   }

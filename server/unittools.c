@@ -60,7 +60,7 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
   struct tile *ptile,*ptile2;
   int zoc;
 
-  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
+  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO && !punit->connecting)
     return 0;
   
   if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)

@@ -441,7 +441,7 @@ Keyboard:\n\
   a: (a)uto-settler  (settler units)\n\
   a: (a)uto-attack  (military units)\n\
   c: (c)enter view on unit\n\
-  C: open find (C)ity dialog\n\
+  C: unit (C)onnect (then left-click mouse to select destination)\n\
   b: (b)uild city  (settler units)\n\
   b: help (b)uild wonder  (caravan units)\n\
   D: (D)isband unit\n\
@@ -467,7 +467,7 @@ Keyboard:\n\
   t: show (t)iles city is using  (mouse over or near city)\n\
   T: open (t)ax/lux/sci rates dialog\n\
   x: auto-e(x)plore\n\
-"), _("\
+\n\
   1: move south-west                  F1: open City Report\n\
   2: move south                       F2: open Military Report\n\
   3: move south-east                  F3: open Players dialog\n\
@@ -478,9 +478,10 @@ Keyboard:\n\
   8: move north                       F8: open Top Five Cities\n\
   9: move north-east                 F11: open Demographics\n\
                                      F12: open Spaceship\n\
-  arrows: move unit\n\
-   space: unit stay put           control-g: grid lines on/off\n\
-     tab: focus on next unit         return: turn done\
+\n\
+  arrows: move unit            control-f: open (f)ind city dialog\n\
+   space: unit stay put        control-g: grid lines on/off\n\
+     tab: focus on next unit      return: turn done\
 ")
 
 [help_chatline]

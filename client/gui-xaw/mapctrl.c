@@ -474,6 +474,10 @@ void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc
 {
   key_unit_homecity();
 }
+void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_connect();
+}
 void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_unit_irrigate();

@@ -102,7 +102,8 @@ enum packet_type {
   PACKET_CITY_NAME_SUGGESTION,
   PACKET_RULESET_NATION,
   PACKET_UNIT_PARADROP_TO,
-  PACKET_RULESET_CITY
+  PACKET_RULESET_CITY,
+  PACKET_UNIT_CONNECT
 };
 
 enum report_type {
@@ -180,6 +181,17 @@ struct packet_unit_request
   int city_id;
   int x, y;
   char name[MAX_LEN_NAME];
+};
+
+/*********************************************************
+  unit connect
+*********************************************************/
+struct packet_unit_connect
+{
+  int activity_type;
+  int unit_id;
+  int dest_x;
+  int dest_y;
 };
 
 /*********************************************************
@@ -270,6 +282,7 @@ struct packet_unit_info {
   int goto_dest_x, goto_dest_y;
   int activity_target;
   int paradropped;
+  int connecting;
 };
 
 
@@ -777,6 +790,12 @@ int send_packet_unit_combat(struct connection *pc,
 			    struct packet_unit_combat *packet);
 struct packet_unit_combat *
 receive_packet_unit_combat(struct connection *pc);
+
+
+int send_packet_unit_connect(struct connection *pc, 
+			    struct packet_unit_connect *packet);
+struct packet_unit_connect *
+receive_packet_unit_connect(struct connection *pc);
 
 
 int send_packet_tile_info(struct connection *pc, 

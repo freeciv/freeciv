@@ -183,7 +183,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	        ptype->defense_strength, ptype->firepower, punit->hp, 
 	        ptype->hp, punit->veteran?" V":"", uc);
 
-        if(punit->activity==ACTIVITY_GOTO)  {
+        if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
 	  cross_head->x = punit->goto_dest_x;
 	  cross_head->y = punit->goto_dest_y;
 	  cross_head++;

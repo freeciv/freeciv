@@ -77,6 +77,7 @@ enum MenuID {
   
   MENU_ORDER_CITY,
   MENU_ORDER_ROAD,
+  MENU_ORDER_CONNECT,
   MENU_ORDER_IRRIGATE,
   MENU_ORDER_MINE,
   MENU_ORDER_TRANSFORM,
@@ -207,7 +208,7 @@ static struct MenuEntry game_menu_entries[]={
 static struct MenuEntry kingdom_menu_entries[]={
     { { N_("Tax Rates"), 0            },     "T", MENU_KINGDOM_RATES, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Find City"), 0            },     "C", MENU_KINGDOM_FIND_CITY, 0 },
+    { { N_("Find City"), 0            }, "ctl-f", MENU_KINGDOM_FIND_CITY, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Revolution"), 0           },     "R", MENU_KINGDOM_REVOLUTION, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
@@ -247,6 +248,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Auto Settler"), 0         },     "a", MENU_ORDER_AUTO_SETTLER, 0 },
     { { N_("Auto Attack"), 0          },     "a", MENU_ORDER_AUTO_ATTACK, 0 },
     { { N_("Auto Explore"), 0         },     "x", MENU_ORDER_EXPLORE, 0 },
+    { { N_("Connect"), 0              },     "C", MENU_ORDER_CONNECT, 0 },
     { { N_("Go to"), 0                },     "g", MENU_ORDER_GOTO, 0 },
     { { N_("Go/Airlift to City"), 0   },     "l", MENU_ORDER_GOTO_CITY, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -373,6 +375,9 @@ void update_menus(void)
       menu_entry_sensitive(orders_menu, MENU_ORDER_ROAD, 
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_CONNECT, 
+			   can_unit_do_connect(punit, ACTIVITY_IDLE)
+			   && has_capability ("unit_connect", aconnection.capability));
       menu_entry_sensitive(orders_menu, MENU_ORDER_IRRIGATE, 
 			   can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
       menu_entry_sensitive(orders_menu, MENU_ORDER_MINE, 
@@ -578,6 +583,10 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
    case MENU_ORDER_ROAD:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), road_activity);
+    break;
+   case MENU_ORDER_CONNECT:
+    if(get_unit_in_focus())
+      request_unit_connect();
     break;
    case MENU_ORDER_IRRIGATE:
     if(get_unit_in_focus())

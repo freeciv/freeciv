@@ -385,6 +385,7 @@ tiles = { "row", "column", "tag"
   9, 18, "unit.auto_attack",
          "unit.auto_settler"
   9, 19, "unit.stack"
+ 10, 18, "unit.connect"
  10, 19, "unit.auto_explore"
  11, 12, "unit.transform"
  11, 13, "unit.sentry"

@@ -66,7 +66,36 @@ void handle_unit_goto_tile(struct player *pplayer,
 
     send_unit_info(0, punit, 0);
       
-    do_unit_goto(pplayer, punit);  
+    do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);  
+  }
+}
+
+/**************************************************************************
+Handler for PACKET_UNIT_CONNECT request
+The unit is send on way and will build something (roads only for now)
+along the way
+**************************************************************************/
+void handle_unit_connect(struct player *pplayer, 
+		          struct packet_unit_connect *req)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
+    if (can_unit_do_connect (punit, req->activity_type)) {
+      punit->goto_dest_x=req->dest_x;
+      punit->goto_dest_y=req->dest_y;
+
+      set_unit_activity(punit, req->activity_type);
+      punit->connecting = 1;
+
+      send_unit_info(0, punit, 0);
+
+      /* avoid wasting first turn if unit cannot do the activity
+	 on the starting tile */
+      if (! can_unit_do_activity (punit, req->activity_type)) 
+	do_unit_goto (pplayer, punit,
+		      get_activity_move_restriction(req->activity_type));
+    }
   }
 }
 
@@ -920,7 +949,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
 		     unit_types[punit->type].name);
   } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
-    
+
     if((pcity=map_get_city(dest_x, dest_y))) {
       if (pcity->owner!=punit->owner &&  
 	  (is_air_unit(punit) || !is_military_unit(punit))) {

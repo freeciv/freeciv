@@ -15,6 +15,7 @@
 
 #include "packets.h"
 #include "unit.h"
+#include "gotohand.h"
 
 void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity);
 void spy_poison(struct player *pplayer, struct unit *pdiplomat, 
@@ -72,5 +73,7 @@ void make_partisans(struct city *pcity);
 
 char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
 char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);
+
+enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
 
 #endif  /* FC__UNITFUNC_H */

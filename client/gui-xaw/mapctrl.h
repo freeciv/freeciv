@@ -44,6 +44,7 @@ void xaw_key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
 void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc);

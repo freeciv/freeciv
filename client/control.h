@@ -18,6 +18,7 @@
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);
+void do_unit_connect(struct unit *punit, int x, int y);
 int do_goto(int xtile, int ytile);
 void do_map_click(int xtile, int ytile);
 
@@ -33,6 +34,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action);
 void request_unit_change_homecity(struct unit *punit);
 void request_unit_disband(struct unit *punit);
 void request_unit_goto(void);
+void request_unit_connect(void);
 void request_unit_move_done(void);
 void request_unit_nuke(struct unit *punit);
 void request_unit_paradrop(struct unit *punit);
@@ -64,6 +66,7 @@ void key_unit_explore(void);
 void key_unit_fortify(void);
 void key_unit_goto(void);
 void key_unit_homecity(void);
+void key_unit_connect(void);
 void key_unit_irrigate(void);
 void key_unit_mine(void);
 void key_unit_north_east(void);

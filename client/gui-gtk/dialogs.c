@@ -132,6 +132,10 @@ static GtkWidget *caravan_dialog;
 
 extern GtkStyle *notify_dialog_style;
 
+static int is_showing_unit_connect_dialog = FALSE;
+static int unit_to_use_to_connect;
+static int connect_unit_x;
+static int connect_unit_y;
 
 /****************************************************************
 ...
@@ -1310,6 +1314,103 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
   }
 }
 
+/****************************************************************
+handle buttons in unit connect dialog
+*****************************************************************/
+static void unit_connect_callback (GtkWidget *w, gpointer data)
+{
+  struct unit *punit;
+  int activity = (int)data;
+
+  if (!is_showing_unit_connect_dialog) {
+    destroy_message_dialog(w);
+    return;
+  }
+
+  punit = find_unit_by_id(unit_to_use_to_connect);
+
+  if (punit) {
+    if (activity != ACTIVITY_IDLE) {
+      struct packet_unit_connect req;
+      req.activity_type = activity;
+      req.unit_id = punit->id;
+      req.dest_x = connect_unit_x;
+      req.dest_y = connect_unit_y;
+      send_packet_unit_connect(&aconnection, &req);
+    }
+    else {
+      update_unit_info_label(punit);
+    }
+  }
+
+  destroy_message_dialog(w);
+  is_showing_unit_connect_dialog = FALSE;
+}
+
+/****************************************************************
+popup dialog which prompts for activity type (unit connect)
+*****************************************************************/
+void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
+{
+  GtkWidget *dshell, *button, *dlabel, *vbox;
+  int activity;
+
+  if (is_showing_unit_connect_dialog) 
+    return;
+
+  is_showing_unit_connect_dialog = TRUE;
+  unit_to_use_to_connect = punit->id;
+  connect_unit_x = dest_x;
+  connect_unit_y = dest_y;
+
+  gtk_widget_set_sensitive (toplevel, FALSE);
+
+  dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
+
+  gtk_signal_connect (
+    GTK_OBJECT (dshell),
+    "delete_event",
+    GTK_SIGNAL_FUNC (popup_mes_del_callback),
+    (gpointer)toplevel
+    );
+
+  gtk_window_set_title (GTK_WINDOW(dshell), _("Connect"));
+
+  vbox = gtk_vbox_new (0,TRUE);
+  gtk_container_add (GTK_CONTAINER (dshell), vbox);
+
+  gtk_container_border_width (GTK_CONTAINER (vbox), 5);
+
+  dlabel = gtk_label_new (_("Choose unit activity:"));
+  gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
+
+  gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)toplevel);
+
+  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
+    if (! can_unit_do_connect (punit, activity)) continue;
+
+    button = gtk_button_new_with_label (get_activity_text (activity));
+    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
+    gtk_signal_connect (
+      GTK_OBJECT (button),
+      "clicked",
+      GTK_SIGNAL_FUNC (unit_connect_callback),
+      (gpointer)activity
+      );
+  }
+  button = gtk_button_new_with_label (_("Cancel"));
+  gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
+  gtk_signal_connect (
+    GTK_OBJECT (button),
+    "clicked",
+    GTK_SIGNAL_FUNC (unit_connect_callback),
+    (gpointer)ACTIVITY_IDLE
+    );
+
+  gtk_widget_show_all (vbox);
+  gtk_widget_show (dshell);
+}
 
 /****************************************************************
 ...
