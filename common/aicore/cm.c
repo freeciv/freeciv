@@ -236,8 +236,7 @@ struct tile_stats {
  Returns the number of workers of the given result. The given result
  has to be a result for the given city.
 *****************************************************************************/
-static int count_worker(struct city *pcity,
-			const struct cm_result *const result)
+int cm_count_worker(const struct city *pcity, const struct cm_result *result)
 {
   int worker = 0;
 
@@ -350,7 +349,7 @@ static bool is_valid_result(const struct cm_parameter *const parameter,
  Print the current state of the given city via
  freelog(LOG_NORMAL,...).
 *****************************************************************************/
-static void print_city(struct city *pcity)
+void cm_print_city(const struct city *pcity)
 {
   freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
 	  pcity->name, pcity->id);
@@ -382,10 +381,10 @@ static void print_city(struct city *pcity)
  Print the given result via freelog(LOG_NORMAL,...). The given result
  has to be a result for the given city.
 *****************************************************************************/
-static void print_result(struct city *pcity,
-			 const struct cm_result *const result)
+void cm_print_result(const struct city *pcity,
+		     const struct cm_result *const result)
 {
-  int y, i, worker = count_worker(pcity, result);
+  int y, i, worker = cm_count_worker(pcity, result);
 
   freelog(LOG_NORMAL, "print_result(result=%p)", result);
   freelog(LOG_NORMAL,
@@ -460,7 +459,8 @@ static void print_combination(struct city *pcity,
  Copy the current production stats and happy status of the given city
  to the result.
 *****************************************************************************/
-static void copy_stats(struct city *pcity, struct cm_result *result)
+void cm_copy_result_from_city(const struct city *pcity,
+			      struct cm_result *result)
 {
   result->production[FOOD] = pcity->food_prod;
   result->production[SHIELD] = pcity->shield_prod + pcity->shield_waste;
@@ -574,7 +574,7 @@ static void update_cache2(struct city *pcity,
   }
 
   q = get_city_status(result->production[LUXURY],
-		      count_worker(pcity, result));
+		      cm_count_worker(pcity, result));
   if (!q->is_valid) {
     q->disorder = result->disorder;
     q->happy = result->happy;
@@ -611,7 +611,7 @@ static void clear_cache(void)
 static void real_fill_out_result(struct city *pcity,
 				 struct cm_result *result)
 {
-  int worker = count_worker(pcity, result);
+  int worker = cm_count_worker(pcity, result);
   struct city backup;
 
   freelog(LOG_DEBUG, "real_fill_out_result(city='%s'(%d))", pcity->name,
@@ -619,8 +619,8 @@ static void real_fill_out_result(struct city *pcity,
 
   /* Do checks */
   if (pcity->size != worker + get_num_specialists(result)) {
-    print_city(pcity);
-    print_result(pcity, result);
+    cm_print_city(pcity);
+    cm_print_result(pcity, result);
     assert(0);
   }
 
@@ -647,14 +647,14 @@ static void real_fill_out_result(struct city *pcity,
   /* Do a local recalculation of the city */
   generic_city_refresh(pcity, FALSE, NULL);
 
-  copy_stats(pcity, result);
+  cm_copy_result_from_city(pcity, result);
 
   /* Restore */
   memcpy(pcity, &backup, sizeof(struct city));
 
   freelog(LOG_DEBUG, "xyz: w=%d e=%d s=%d t=%d trade=%d "
 	  "sci=%d lux=%d tax=%d dis=%s happy=%s",
-	  count_worker(pcity, result), result->specialists[SP_ELVIS],
+	  cm_count_worker(pcity, result), result->specialists[SP_ELVIS],
 	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN],
 	  result->production[TRADE],
 	  result->production[SCIENCE],
@@ -1364,7 +1364,7 @@ static void optimize_final(struct city *pcity,
 	  freelog(LOG_NORMAL, "expected:");
 	  print_combination(pcity, current);
 	  freelog(LOG_NORMAL, "got:");
-	  print_result(pcity, &result);
+	  cm_print_result(pcity, &result);
 	  assert(0);
 	}
       }

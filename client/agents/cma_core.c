@@ -85,23 +85,6 @@ static struct {
   } city_map_checked_iterate_end;    \
 }
 
-/****************************************************************************
- Returns the number of workers of the given result. The given result
- has to be a result for the given city.
-*****************************************************************************/
-static int count_worker(struct city *pcity,
-			const struct cm_result *const result)
-{
-  int worker = 0;
-
-  my_city_map_iterate(pcity, x, y) {
-    if (result->worker_positions_used[x][y]) {
-      worker++;
-    }
-  } my_city_map_iterate_end;
-
-  return worker;
-}
 
 #define T(x) if (result1->x != result2->x) { \
 	freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, #x); \
@@ -148,119 +131,6 @@ static bool results_are_equal(struct city *pcity,
 
 #undef T
 
-/****************************************************************************
- Print the current state of the given city via
- freelog(LOG_NORMAL,...).
-*****************************************************************************/
-static void print_city(struct city *pcity)
-{
-  freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
-	  pcity->name, pcity->id);
-  freelog(LOG_NORMAL,
-	  "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
-	  pcity->size, pcity->specialists[SP_ELVIS],
-	  pcity->specialists[SP_SCIENTIST],
-	  pcity->specialists[SP_TAXMAN]);
-  freelog(LOG_NORMAL, "  workers at:");
-  my_city_map_iterate(pcity, x, y) {
-    if (pcity->city_map[x][y] == C_TILE_WORKER) {
-      freelog(LOG_NORMAL, "    (%2d,%2d)", x, y);
-    }
-  } my_city_map_iterate_end;
-
-  freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
-	  pcity->food_prod, pcity->food_surplus);
-  freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
-	  pcity->shield_prod + pcity->shield_waste, pcity->shield_prod);
-  freelog(LOG_NORMAL, "  trade   = %3d (%+3d)",
-	  pcity->trade_prod + pcity->corruption, pcity->trade_prod);
-
-  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
-	  city_gold_surplus(pcity));
-  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->luxury_total);
-  freelog(LOG_NORMAL, "  science = %3d", pcity->science_total);
-}
-
-/****************************************************************************
- Print the given result via freelog(LOG_NORMAL,...). The given result
- has to be a result for the given city.
-*****************************************************************************/
-static void print_result(struct city *pcity,
-			 const struct cm_result *const result)
-{
-  int y, i, worker = count_worker(pcity, result);
-
-  freelog(LOG_NORMAL, "print_result(result=%p)", result);
-  freelog(LOG_NORMAL,
-	  "print_result:  found_a_valid=%d disorder=%d happy=%d",
-	  result->found_a_valid, result->disorder, result->happy);
-#if UNUSED
-  freelog(LOG_NORMAL, "print_result:  workers at:");
-  my_city_map_iterate(pcity, x, y) {
-    if (result->worker_positions_used[x][y]) {
-      freelog(LOG_NORMAL, "print_result:    (%2d,%2d)", x, y);
-    }
-  } my_city_map_iterate_end;
-#endif
-
-  for (y = 0; y < CITY_MAP_SIZE; y++) {
-    char line[CITY_MAP_SIZE + 1];
-    int x;
-
-    line[CITY_MAP_SIZE] = 0;
-
-    for (x = 0; x < CITY_MAP_SIZE; x++) {
-      if (!is_valid_city_coords(x, y)) {
-	line[x] = '-';
-      } else if (is_city_center(x, y)) {
-	line[x] = 'c';
-      } else if (result->worker_positions_used[x][y]) {
-	line[x] = 'w';
-      } else {
-	line[x] = '.';
-      }
-    }
-    freelog(LOG_NORMAL, "print_result: %s", line);
-  }
-
-  freelog(LOG_NORMAL,
-	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
-	  worker, result->specialists[SP_ELVIS],
-	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN]);
-
-  for (i = 0; i < NUM_STATS; i++) {
-    freelog(LOG_NORMAL,
-	    "print_result:  %10s production=%d surplus=%d",
-	    cm_get_stat_name(i), result->production[i],
-	    result->surplus[i]);
-  }
-}
-
-/****************************************************************************
- Copy the current production stats and happy status of the given city
- to the result.
-*****************************************************************************/
-static void copy_stats(struct city *pcity, struct cm_result *result)
-{
-  result->production[FOOD] = pcity->food_prod;
-  result->production[SHIELD] = pcity->shield_prod + pcity->shield_waste;
-  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
-
-  result->surplus[FOOD] = pcity->food_surplus;
-  result->surplus[SHIELD] = pcity->shield_surplus;
-  result->surplus[TRADE] = pcity->trade_prod;
-
-  result->production[GOLD] = pcity->tax_total;
-  result->production[LUXURY] = pcity->luxury_total;
-  result->production[SCIENCE] = pcity->science_total;
-
-  result->surplus[GOLD] = city_gold_surplus(pcity);
-  result->surplus[LUXURY] = result->production[LUXURY];
-  result->surplus[SCIENCE] = result->production[SCIENCE];
-
-  result->disorder = city_unhappy(pcity);
-  result->happy = city_happy(pcity);
-}
 
 /****************************************************************************
  Copy the current city state (citizen assignment, production stats and
@@ -292,7 +162,7 @@ static void get_current_as_result(struct city *pcity,
 
   result->found_a_valid = TRUE;
 
-  copy_stats(pcity, result);
+  cm_copy_result_from_city(pcity, result);
 }
 
 /****************************************************************************
@@ -351,13 +221,13 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&aconnection);
 
   /* Do checks */
-  worker = count_worker(pcity, result);
+  worker = cm_count_worker(pcity, result);
   if (pcity->size !=
       (worker + result->specialists[SP_ELVIS]
        + result->specialists[SP_SCIENTIST]
        + result->specialists[SP_TAXMAN])) {
-    print_city(pcity);
-    print_result(pcity, result);
+    cm_print_city(pcity);
+    cm_print_result(pcity, result);
     assert(0);
   }
 
@@ -448,9 +318,9 @@ static bool apply_result_on_server(struct city *pcity,
 
     if (SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
       freelog(LOG_NORMAL, "expected");
-      print_result(pcity, result);
+      cm_print_result(pcity, result);
       freelog(LOG_NORMAL, "got");
-      print_result(pcity, &current_state);
+      cm_print_result(pcity, &current_state);
     }
   }
   return success;

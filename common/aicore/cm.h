@@ -89,4 +89,12 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 			    const struct cm_parameter *const p2);
 void cm_copy_parameter(struct cm_parameter *dest,
 		       const struct cm_parameter *const src);
+
+void cm_print_city(const struct city *pcity);
+void cm_print_result(const struct city *pcity,
+		     const struct cm_result *result);
+int cm_count_worker(const struct city * pcity,
+		    const struct cm_result *result);
+void cm_copy_result_from_city(const struct city *pcity,
+			      struct cm_result *result);
 #endif
