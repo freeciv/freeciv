@@ -230,6 +230,8 @@ static void supported_unit_activate_close_callback(GtkWidget * w,
 						   gpointer data);
 static void present_unit_activate_close_callback(GtkWidget * w,
 						 gpointer data);
+static void unit_load_callback(GtkWidget * w, gpointer data);
+static void unit_unload_callback(GtkWidget * w, gpointer data);
 static void unit_sentry_callback(GtkWidget * w, gpointer data);
 static void unit_fortify_callback(GtkWidget * w, gpointer data);
 static void unit_disband_callback(GtkWidget * w, gpointer data);
@@ -1944,6 +1946,27 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
+    item = gtk_menu_item_new_with_mnemonic(_("_Load unit"));
+    g_signal_connect(item, "activate",
+      G_CALLBACK(unit_load_callback),
+      GINT_TO_POINTER(punit->id));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+    if (!can_unit_load(punit, find_transporter_for_unit(punit, punit->tile))) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+
+    item = gtk_menu_item_new_with_mnemonic(_("_Unload unit"));
+    g_signal_connect(item, "activate",
+      G_CALLBACK(unit_unload_callback),
+      GINT_TO_POINTER(punit->id));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+    if (!can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+        || !can_unit_exist_at_tile(punit, punit->tile)) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+
     item = gtk_menu_item_new_with_mnemonic(_("_Sentry unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_sentry_callback),
@@ -1982,7 +2005,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       gtk_widget_set_sensitive(item, FALSE);
     }
 
-    item = gtk_menu_item_new_with_mnemonic(_("_Upgrade unit"));
+    item = gtk_menu_item_new_with_mnemonic(_("U_pgrade unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_upgrade_callback),
       GINT_TO_POINTER(punit->id));
@@ -2103,6 +2126,30 @@ static void present_unit_activate_close_callback(GtkWidget * w,
     if ((pcity = map_get_city(punit->tile)))
       if ((pdialog = get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void unit_load_callback(GtkWidget * w, gpointer data)
+{
+  struct unit *punit;
+
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
+    request_unit_load(punit, NULL);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void unit_unload_callback(GtkWidget * w, gpointer data)
+{
+  struct unit *punit;
+
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
+    request_unit_unload(punit);
   }
 }
 
