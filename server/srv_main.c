@@ -1380,8 +1380,6 @@ void accept_new_player(char *name, struct connection *pconn)
   }
 
   game.nplayers++;
-  if(server_state==PRE_GAME_STATE && game.max_players==game.nplayers)
-    server_state=SELECT_RACES_STATE;
 
   introduce_game_to_connection(pconn);
   send_server_info_to_metaserver(1,0);
@@ -1627,7 +1625,7 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  if(game.nplayers==game.max_players) {
+  if(game.nplayers >= game.max_players) {
     reject_new_player(_("Sorry, the game is full."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Maximum number of players reached."),
 	    pconn->name);    

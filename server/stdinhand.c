@@ -1595,7 +1595,7 @@ static void create_ai_player(struct connection *caller, char *arg)
     return;
   }
 
-  if (game.nplayers==game.max_players) 
+  if (game.nplayers >= game.max_players) 
   {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
 	      _("Can't add more players, server is full."));
