@@ -1255,6 +1255,7 @@ void init_nls(void)
   (void) bindtextdomain(PACKAGE, LOCALEDIR);
   (void) textdomain(PACKAGE);
 
+#ifndef WIN32_NATIVE  /* Some windows locales are buggy */
   /* Don't touch the defaults when LC_NUMERIC == "C".
      This is intended to cater to the common case where:
        1) The user is from North America. ;-)
@@ -1286,6 +1287,7 @@ void init_nls(void)
     grouping_sep = mystrdup(lc->thousands_sep);
     grouping_sep_len = strlen(grouping_sep);
   }
+#endif
 #endif
 }
 
