@@ -142,11 +142,11 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
 	opt = argv[*i];
 	if (strlen(opt)==0) {
 	  fprintf(stderr, _("Empty argument for \"%s\".\n"), option_name);
-	  exit(1);
+	  exit(EXIT_FAILURE);
 	}
       }	else {
 	fprintf(stderr, _("Missing argument for \"%s\".\n"), option_name);
-	exit(1);
+	exit(EXIT_FAILURE);
       }
     }
 
@@ -758,7 +758,7 @@ char *datafilename_required(const char *filename)
   } else {
     freelog(LOG_FATAL,
 		 _("The \"%s\" file is required ... aborting!"), filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 }
 
@@ -823,7 +823,7 @@ void dont_run_as_root(const char *argv0, const char *fallback)
 	    _("%s: Fatal error: you're trying to run me as superuser!\n"),
 	    (argv0 ? argv0 : fallback ? fallback : "freeciv"));
     fprintf(stderr, _("Use a non-privileged account instead.\n"));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 #endif
 }

@@ -122,7 +122,7 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
   Do initial section_file_load on a ruleset file.
   "subdir" = "default", "civ1", "custom", ...
   "whichset" = "techs", "units", "buildings", "terrain", ...
-  Calls exit(1) on failure.
+  Calls exit(EXIT_FAILURE) on failure.
   This no longer returns the full filename opened; used secfile_filename()
   if you want it.
 **************************************************************************/
@@ -136,7 +136,7 @@ static void openload_ruleset_file(struct section_file *file,
   if (!dfilename) {
     freelog(LOG_FATAL,
 	_("Could not find a readable \"%s\" ruleset file."), whichset);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* Need to save a copy of the filename for following message, since
@@ -146,7 +146,7 @@ static void openload_ruleset_file(struct section_file *file,
   
   if (!section_file_load(file,sfilename)) {
     freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), sfilename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 }
 
@@ -166,7 +166,7 @@ static char *check_ruleset_capabilities(struct section_file *file,
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), datafile_options);
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (!has_capabilities(datafile_options, us_capstr)) {
     freelog(LOG_FATAL, _("Ruleset datafile claims required option(s)"
@@ -174,7 +174,7 @@ static char *check_ruleset_capabilities(struct section_file *file,
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), datafile_options);
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return datafile_options;
 }
@@ -205,7 +205,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
 	   "for %s %s couldn't match tech \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
-	exit(1);
+	exit(EXIT_FAILURE);
       } else {
 	i = A_LAST;
       }
@@ -236,12 +236,12 @@ static void lookup_tech_list(struct section_file *file, char *prefix,
   if (nval==0) {
     freelog(LOG_FATAL, "Missing string vector %s.%s (%s)",
 	    prefix, entry, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (nval>MAX_NUM_TECH_LIST) {
     freelog(LOG_FATAL, "String vector %s.%s too long (%d, max %d) (%s)",
 	    prefix, entry, nval, MAX_NUM_TECH_LIST, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (nval==1 && strcmp(slist[0], "")==0) {
     free(slist);
@@ -253,12 +253,12 @@ static void lookup_tech_list(struct section_file *file, char *prefix,
     if (tech==A_LAST) {
       freelog(LOG_FATAL, "For %s %s (%d) couldn't match tech \"%s\" (%s)",
 	      prefix, entry, i, sval, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     if (!tech_exists(tech)) {
       freelog(LOG_FATAL, "For %s %s (%d) tech \"%s\" is removed (%s)",
 	      prefix, entry, i, sval, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     output[i] = tech;
     freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, tech);
@@ -291,7 +291,7 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
 	   "for %s %s couldn't match unit_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
-	exit(1);
+	exit(EXIT_FAILURE);
       } else {
 	i = -1;
       }
@@ -324,7 +324,7 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
 	   "for %s %s couldn't match impr_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
-	exit(1);
+	exit(EXIT_FAILURE);
       }
     }
   }
@@ -347,7 +347,7 @@ static int lookup_government(struct section_file *file, char *entry,
   if (gov==NULL) {
     freelog(LOG_FATAL, "for %s couldn't match government \"%s\" (%s)",
 	    entry, sval, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return gov->index;
 }
@@ -370,7 +370,7 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
     } else {
       freelog(LOG_FATAL, "Bad %s \"%s\" for %s (%s)",
 	      entry, sval, prefix, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
   }
   return ival;
@@ -447,13 +447,13 @@ static void load_tech_names(struct section_file *file)
   freelog(LOG_VERBOSE, "%d advances (including possibly unused)", num_techs);
   if(num_techs == 0) {
     freelog(LOG_FATAL, "No Advances?! (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if(num_techs + A_FIRST > A_LAST) {
     freelog(LOG_FATAL, "Too many advances (%d, max %d) (%s)",
 	    num_techs, A_LAST-A_FIRST, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* Initialize dummy tech A_NONE */
@@ -548,12 +548,12 @@ static void load_ruleset_techs(struct section_file *file)
       if (!tech_exists(a->req[0])) {
 	freelog(LOG_FATAL, "tech \"%s\": req1 leads to removed tech \"%s\" (%s)",
 	     a->name, advances[a->req[0]].name, filename);
-	exit(1);
+	exit(EXIT_FAILURE);
       } 
       if (!tech_exists(a->req[1])) {
 	freelog(LOG_FATAL, "tech \"%s\": req2 leads to removed tech \"%s\" (%s)",
 	     a->name, advances[a->req[1]].name, filename);
-	exit(1);
+	exit(EXIT_FAILURE);
       }
     }
   } 
@@ -581,12 +581,12 @@ static void load_unit_names(struct section_file *file)
   freelog(LOG_VERBOSE, "%d unit types (including possibly unused)", nval);
   if(nval == 0) {
     freelog(LOG_FATAL, "No units?! (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(nval > U_LAST) {
     freelog(LOG_FATAL, "Too many units (%d, max %d) (%s)",
 	    nval, U_LAST, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   game.num_unit_types = nval;
   for (i = 0; i < game.num_unit_types; i++ ) {
@@ -649,7 +649,7 @@ static void load_ruleset_units(struct section_file *file)
     if (ival==0) {
       freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %s (%s)",
 	   u->name, sval, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     u->move_type = ival;
     
@@ -686,7 +686,7 @@ static void load_ruleset_units(struct section_file *file)
 	      "must be at least 1.\nSet the unit's attack strength to 0 "
 	      "if you want it to not have any attack ability. (%s)",
 	      u->name, u->firepower, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
 
@@ -790,59 +790,59 @@ static void load_ruleset_units(struct section_file *file)
   /* Check some required flags and roles etc: */
   if(num_role_units(F_CITIES)==0) {
     freelog(LOG_FATAL, "No flag=cities units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(F_SETTLERS)==0) {
     freelog(LOG_FATAL, "No flag=settler units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_EXPLORER)==0) {
     freelog(LOG_FATAL, "No role=explorer units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_FERRYBOAT)==0) {
     freelog(LOG_FATAL, "No role=ferryboat units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_HUT)==0) {
     freelog(LOG_FATAL, "No role=hut units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_FIRSTBUILD)==0) {
     freelog(LOG_FATAL, "No role=firstbuild units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   u = &unit_types[get_role_unit(L_FIRSTBUILD,0)];
   if(u->tech_requirement!=A_NONE) {
     freelog(LOG_FATAL, "First role=firstbuild unit (%s) should have req None (%s)",
 	 u->name, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_BARBARIAN)==0) {
     freelog(LOG_FATAL, "No role=barbarian units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_BARBARIAN_LEADER)==0) {
     freelog(LOG_FATAL, "No role=barbarian leader units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_BARBARIAN_BUILD)==0) {
     freelog(LOG_FATAL, "No role=barbarian build units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_BARBARIAN_BOAT)==0) {
     freelog(LOG_FATAL, "No role=barbarian ship units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if(num_role_units(L_BARBARIAN_SEA)==0) {
     freelog(LOG_FATAL, "No role=sea raider barbarian units? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   u = &unit_types[get_role_unit(L_BARBARIAN_BOAT,0)];
   if(u->move_type != SEA_MOVING) {
     freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
             u->name, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* pre-calculate game.rtech.nav (tech for non-trireme ferryboat) */
@@ -888,17 +888,17 @@ static void load_building_names(struct section_file *file)
   freelog(LOG_VERBOSE, "%d improvement types (including possibly unused)", nval);
   if (nval == 0) {
     freelog(LOG_FATAL, "No improvements?! (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (nval > B_LAST) {
     freelog(LOG_FATAL, "Too many improvements (%d, max %d) (%s)",
 	    nval, B_LAST, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   /* FIXME: Remove this restriction when gen-impr implemented. */
   if (nval != B_LAST_ENUM) {
     freelog(LOG_FATAL, "Bad number of buildings %d (%s)", nval, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   /* REMOVE TO HERE when gen-impr implemented. */
   game.num_impr_types = nval;
@@ -1031,7 +1031,7 @@ static void load_ruleset_buildings(struct section_file *file)
     if (count>MAX_EFFECTS) {
       freelog(LOG_FATAL, "For %s maximum number of effects (%d) exceeded",
               b->name, MAX_EFFECTS);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
     b->effect = fc_malloc((count + 1) * sizeof(b->effect[0]));
@@ -1252,7 +1252,7 @@ static void load_terrain_names(struct section_file *file)
     {
       /* sometime this restriction should be removed */
       freelog(LOG_FATAL, "Bad number of terrains %d (%s)", nval, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
   for (i = T_FIRST; i < T_COUNT; i++) {
@@ -1422,14 +1422,14 @@ static void load_government_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, "government_", &nval);
   if (nval == 0) {
     freelog(LOG_FATAL, "No governments!? (%s)", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else if(nval > G_MAGIC) {
     /* upper limit is really about 255 for 8-bit id values, but
        use G_MAGIC elsewhere as a sanity check, and should be plenty
        big enough --dwp */
     freelog(LOG_FATAL, "Too many governments! (%d, max %d; %s)",
 	    nval, G_MAGIC, filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   game.government_count = nval;
   governments = fc_calloc(game.government_count, sizeof(struct government));
@@ -1578,7 +1578,7 @@ static void load_ruleset_governments(struct section_file *file)
       }
       if (flag == G_LAST_FLAG) {
         freelog(LOG_FATAL, "government %s has unknown flag %s", g->name, sval);
-        exit(1);
+        exit(EXIT_FAILURE);
       } else {
         g->flags |= (1<<flag);
       }
@@ -1599,7 +1599,7 @@ static void load_ruleset_governments(struct section_file *file)
       }
       if (hint == G_LAST_FLAG) {
         freelog(LOG_FATAL, "government %s has unknown hint %s", g->name, sval);
-        exit(1);
+        exit(EXIT_FAILURE);
       } else {
         g->hints |= (1<<hint);
       }
@@ -1652,18 +1652,18 @@ static void load_ruleset_governments(struct section_file *file)
 
     if (j >= MAX_NUM_TECH_LIST) {
       freelog(LOG_FATAL, "Too many ai tech_hints in %s", filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     hint->tech = find_tech_by_name(c);
     if (hint->tech == A_LAST) {
       freelog(LOG_FATAL, "Could not match tech %s for gov ai_tech_hint %d (%s)",
 	      c, j, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     if (!tech_exists(hint->tech)) {
       freelog(LOG_FATAL, "For gov ai_tech_hint %d, tech \"%s\" is removed (%s)",
 	      j, c, filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     hint->turns_factor =
       secfile_lookup_int(file, "governments.ai_tech_hints%d.turns_factor", j);
@@ -1770,7 +1770,7 @@ static void load_nation_names(struct section_file *file)
     freelog(LOG_FATAL,
 	    "There must be at least one nation defined; number is %d",
 	    game.playable_nation_count);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else if (game.playable_nation_count >= MAX_NUM_NATIONS) {
     freelog(LOG_ERROR,
 	    "There are too many nations; only using %d of %d available.",
@@ -1795,7 +1795,7 @@ static void load_nation_names(struct section_file *file)
 		"Nation %s (the %s) defined twice; "
 		"in section nation%d and section nation%d",
 		pl->name, pl->name_plural, j, i);
-        exit(1);
+        exit(EXIT_FAILURE);
       }
     }
   }
@@ -1834,7 +1834,7 @@ static void load_ruleset_nations(struct section_file *file)
       freelog(LOG_FATAL,
 	      "Nation %s: number of leaders is %d; at least one is required.",
 	      pl->name, dim);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     pl->leader_count = dim;
     for(j = 0; j < dim; j++) {
@@ -1849,7 +1849,7 @@ static void load_ruleset_nations(struct section_file *file)
     if( (bad_leader=check_leader_names(i)) ) {
         freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
 		pl->name, bad_leader);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     /* read leaders'sexes */
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader_sex", sec[i]);
@@ -1858,7 +1858,7 @@ static void load_ruleset_nations(struct section_file *file)
 	      "Nation %s: the leader sex count (%d) "
 	      "is not equal to the number of leaders (%d)",
               pl->name, dim, pl->leader_count);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     for (j = 0; j < dim; j++) {
       if (0 == mystrcasecmp(leaders[j], "Male")) {
@@ -1928,7 +1928,7 @@ static void load_ruleset_nations(struct section_file *file)
 	       "Nation %s: the default city style is not available "
 	       "from the beginning", pl->name);
 	/* Note that we can't use temp_name here. */
-	exit(1);
+	exit(EXIT_FAILURE);
       }
       freelog(LOG_ERROR,
 	      "Nation %s: city style %s is not available from beginning; "
@@ -1946,7 +1946,7 @@ static void load_ruleset_nations(struct section_file *file)
     if (dim != ADV_LAST) {
       freelog(LOG_FATAL, "Nation %s: number of advisors must be %d but is %d", 
 	      pl->name_plural, ADV_LAST, dim);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     for ( j=0; j<ADV_LAST; j++) 
       pl->advisors[j] = res[j];
@@ -2155,7 +2155,7 @@ static void load_ruleset_cities(struct section_file *file)
       if(city_styles[i].replaced_by == -1) {
         freelog(LOG_FATAL, "Style %s replacement %s not found",
                 city_styles[i].name, replacement);
-        exit(1);
+        exit(EXIT_FAILURE);
       }
     }
   }

@@ -363,7 +363,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	    update_radio_buttons(id);
 	  break;
 	case ID_RACESDLG_QUIT:
-	  exit(0);
+	  exit(EXIT_SUCCESS);
 	  break;
 	case ID_RACESDLG_DISCONNECT:
 	  popdown_races_dialog();

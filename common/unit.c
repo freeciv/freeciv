@@ -912,7 +912,7 @@ char *unit_activity_text(struct unit *punit)
    default:
     freelog(LOG_FATAL, "Unknown unit activity %d in unit_activity_text()",
 	    punit->activity);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return 0;
 }

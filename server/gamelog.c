@@ -62,7 +62,7 @@ void gamelog(int level, char *message, ...)
   if(!fs) {
     freelog(LOG_FATAL, _("Couldn't open gamelogfile \"%s\" for appending."), 
 	    gamelog_filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   va_start(args, message);

@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 
   if (showvers && !showhelp) {
     fprintf(stderr, "%s \n", freeciv_name_version());
-    exit(0);
+    exit(EXIT_SUCCESS);
   }
   con_write(C_VERSION, _("This is the server for %s"), freeciv_name_version());
   con_write(C_COMMENT, _("You can learn a lot about Freeciv at %s"),
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 #endif
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
-    exit(0);
+    exit(EXIT_SUCCESS);
   }
 
   /* have arguments, call the main server loop... */
@@ -182,17 +182,17 @@ static void Mac_options(int argc)
     storage =NewPtr(sizeof(DialogRecord));
     if (storage == 0)
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     ditl=Get1Resource('DITL',200);
     if ((ditl == 0)||(ResError()))
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     dlog=Get1Resource('DLOG',200);
     if ((dlog == 0)||(ResError()))
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     /*make the dialog*/
     optptr=GetNewDialog(200, storage, (WindowPtr)-1L);
@@ -200,18 +200,18 @@ static void Mac_options(int argc)
     err=SetDialogDefaultItem(optptr, 1);
     if (err != 0)
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     /*insert default highlight draw code?*/
     err=SetDialogCancelItem(optptr, 2);
     if (err != 0)
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     err=SetDialogTracksCursor(optptr, true);
     if (err != 0)
     {
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     GetDItem(optptr, 16/*normal radio button*/, &the_type, &the_handle, &the_rect);
     SetCtlValue((ControlHandle)the_handle, true);
@@ -227,7 +227,7 @@ static void Mac_options(int argc)
           done = true;
         break;
         case 2:
-          exit(0);
+          exit(EXIT_SUCCESS);
         break;
         case 13:
           GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);

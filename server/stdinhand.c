@@ -3032,7 +3032,7 @@ void quit_game(struct connection *caller)
 {
   cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
   close_connections_and_socket();
-  exit(0);
+  exit(EXIT_SUCCESS);
 }
 
 /**************************************************************************

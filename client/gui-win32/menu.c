@@ -539,7 +539,7 @@ void handle_menu(int code)
       disconnect_from_server();
       break;
     case IDM_GAME_QUIT:
-      exit(0);
+      exit(EXIT_SUCCESS);
       break;
     case IDM_KINGDOM_TAX:
       popup_rates_dialog();

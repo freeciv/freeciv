@@ -316,7 +316,7 @@ void server_autoconnect()
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
 	    server_host, server_port, player_name, buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   try_to_autoconnect();
 }

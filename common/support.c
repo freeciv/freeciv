@@ -337,7 +337,7 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       if (buf == NULL) {
 	fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
 		"replacement.", VSNP_BUF_SIZE);
-	exit(1);
+	exit(EXIT_FAILURE);
       }
     }
 #ifdef HAVE_VSNPRINTF

@@ -30,7 +30,7 @@
 
 /**********************************************************************
  Do whatever we should do when malloc fails.
- At the moment this just prints a log message and calls exit(1)
+ At the moment this just prints a log message and calls exit(EXIT_FAILURE)
 **********************************************************************/ 
 static void handle_alloc_failure(size_t size, const char *called_as,
 				 int line, const char *file)
@@ -40,7 +40,7 @@ static void handle_alloc_failure(size_t size, const char *called_as,
   /*
    * Do anything else here (cleanups? safe-save??)
    */
-  exit(1);
+  exit(EXIT_FAILURE);
 }
 
 /**********************************************************************

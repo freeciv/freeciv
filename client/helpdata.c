@@ -312,7 +312,7 @@ void boot_help_texts(void)
 	  }
 	} else {
 	  freelog(LOG_FATAL, "Bad current_type %d", current_type);
-	  exit(1);
+	  exit(EXIT_FAILURE);
 	}
 	genlist_sort(&category_nodes, help_item_compar);
 	help_list_iterate(category_nodes, ptmp) {

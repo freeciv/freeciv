@@ -239,7 +239,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
       if(!(fs=fopen(log_filename, "a"))) {
 	fprintf(stderr, _("Couldn't open logfile: %s for appending.\n"), 
 		log_filename);
-	exit(1);
+	exit(EXIT_FAILURE);
       }
     }
     else fs=stderr;

@@ -381,7 +381,7 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     freelog(LOG_ERROR, "Invalid tech_cost_style %d %d",
 	    game.rgame.tech_cost_style, tech_cost_style);
     assert(0);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* Research becomes more expensive. */
@@ -446,7 +446,7 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
   default:
     freelog(LOG_ERROR, "Invalid tech_leakage %d", game.rgame.tech_leakage);
     assert(0);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* If we have many players, tech cost may drop to 0.  */

@@ -134,10 +134,10 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -t, --tiles FILE\t"
 		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    exit(0);
+    exit(EXIT_SUCCESS);
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
-    exit(0);
+    exit(EXIT_SUCCESS);
    } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)) != NULL)
@@ -153,13 +153,13 @@ int main(int argc, char *argv[])
    else if ((option = get_option("--debug",argv,&i,argc)) != NULL) {
       loglevel=log_parse_level_str(option);
       if (loglevel==-1) {
-        exit(1);
+        exit(EXIT_FAILURE);
       }
    } else if ((option = get_option("--tiles",argv,&i,argc)) != NULL) {
       tile_set_name=option;
    } else { 
       fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
-      exit(1);
+      exit(EXIT_FAILURE);
    }
    i++;
   } /* of while */
@@ -546,7 +546,7 @@ void set_client_state(enum client_states newstate)
       if (connect_error) {
 	freelog(LOG_NORMAL,
 		_("There was an error while auto connecting; aborting."));
-	exit(1);
+	exit(EXIT_FAILURE);
       } else {
 	server_autoconnect();
       }

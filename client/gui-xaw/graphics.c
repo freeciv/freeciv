@@ -332,7 +332,7 @@ again:
       goto again;
     }
     freelog(LOG_FATAL, _("Failed reading XPM file: %s"), filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   mysprite=fc_malloc(sizeof(struct Sprite));

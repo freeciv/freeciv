@@ -115,7 +115,7 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i]))
     {
       print_usage(argv[0]);
-      exit(0);
+      exit(EXIT_SUCCESS);
     }
     i += 1;
   }

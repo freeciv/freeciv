@@ -83,7 +83,7 @@ sets dim to number of leaders.
 char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_leader_names")) {
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   *dim = nations[nation].leader_count;
   return nations[nation].leader_name;
@@ -145,7 +145,7 @@ struct nation_type *get_nation_by_plr(struct player *plr)
 {
   assert(plr);
   if (!bounds_check_nation_id(plr->nation, LOG_FATAL, "get_nation_by_plr")) {
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return &nations[plr->nation];
 }
@@ -153,7 +153,7 @@ struct nation_type *get_nation_by_plr(struct player *plr)
 struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_by_idx")) {
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return &nations[nation];
 }
@@ -186,7 +186,7 @@ Returns nation's city style
 int get_nation_city_style(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_city_style")) {
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return nations[nation].city_style;
 }

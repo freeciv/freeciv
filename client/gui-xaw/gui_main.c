@@ -240,7 +240,7 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i]))
     {
       print_usage(argv[0]);
-      exit(0);
+      exit(EXIT_SUCCESS);
     }
     i += 1;
   }
@@ -295,7 +295,7 @@ void ui_main(int argc, char *argv[])
     freelog(LOG_FATAL, _("No version number in resources."));
     freelog(LOG_FATAL, _("You probably have an old (circa V1.0)"
 			 " Freeciv resource file somewhere."));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* TODO: Use capabilities here instead of version numbers */
@@ -306,7 +306,7 @@ void ui_main(int argc, char *argv[])
 	    VERSION_STRING, appResources.version);
     freelog(LOG_FATAL, _("You might have an old Freeciv resourcefile"
 			 " in /usr/lib/X11/app-defaults"));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   if(!appResources.gotAppDefFile) {
@@ -322,7 +322,7 @@ void ui_main(int argc, char *argv[])
   
   if(display_color_type!=COLOR_DISPLAY) {
     freelog(LOG_FATAL, _("Only color displays are supported for now..."));
-    /*    exit(1); */
+    /*    exit(EXIT_FAILURE); */
   }
   
   icon_pixmap = XCreateBitmapFromData(display,
@@ -342,7 +342,7 @@ void ui_main(int argc, char *argv[])
     main_font_struct=XLoadQueryFont(display, city_names_font);
     if(main_font_struct==0) {
       freelog(LOG_FATAL, _("Failed loading font: %s"), city_names_font);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
     values.background = colors_standard[COLOR_STD_BLACK];
@@ -354,7 +354,7 @@ void ui_main(int argc, char *argv[])
     prod_font_struct=XLoadQueryFont(display, city_productions_font_name);
     if(prod_font_struct==0) {
       freelog(LOG_FATAL, _("Failed loading font: %s"), city_productions_font_name);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
     values.background = colors_standard[COLOR_STD_BLACK];
@@ -669,7 +669,7 @@ void setup_widgets(void)
 **************************************************************************/
 void main_quit_freeciv(void)
 { 
-  exit(0);
+  exit(EXIT_SUCCESS);
 }
 
 /**************************************************************************

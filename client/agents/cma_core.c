@@ -1656,7 +1656,7 @@ static void handle_city(struct city *pcity)
 #if (IS_DEVEL_VERSION || IS_BETA_VERSION)
     freelog(LOG_ERROR, "%s", packet.message);
     assert(0);
-    exit(1);
+    exit(EXIT_FAILURE);
 #endif
   }
 

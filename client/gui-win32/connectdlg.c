@@ -320,7 +320,7 @@ static int try_to_autoconnect()
             _("Failed to contact server \"%s\" at port "
               "%d as \"%s\" after %d attempts"),
             server_host, server_port, player_name, count);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
@@ -336,7 +336,7 @@ static int try_to_autoconnect()
             _("Error contacting server \"%s\" at port %d "
               "as \"%s\":\n %s\n"),
             server_host, server_port, player_name, errbuf);
-    exit(1);     
+    exit(EXIT_FAILURE);     
   }
 }
 
@@ -373,7 +373,7 @@ void server_autoconnect()
             _("Error contacting server \"%s\" at port %d "
               "as \"%s\":\n %s\n"),
             server_host, server_port, player_name, buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   printf("server_autoconnect\n");
   if (try_to_autoconnect()) {

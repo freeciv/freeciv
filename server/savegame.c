@@ -75,7 +75,7 @@
           freelog(LOG_FATAL, "Trying to write invalid"  \
 		  " map data: '%c' %d",                 \
 		  line[x], line[x]);                    \
-          exit(1);                                      \
+          exit(EXIT_FAILURE);                                      \
         }                                               \
       } else {                                          \
         /* skipped over in loading */                   \
@@ -182,7 +182,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 
   if (!pch || ch == '\0') {
     freelog(LOG_FATAL, "Unknown hex value: '%c' %d", ch, ch);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return (pch - hex_chars) << (halfbyte * 4);
 }
@@ -197,7 +197,7 @@ static int char2terrain(char ch)
 
   if (!pch || ch == '\0') {
     freelog(LOG_FATAL, "Unknown terrain type: '%c' %d", ch, ch);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return pch - terrain_chars;
 }

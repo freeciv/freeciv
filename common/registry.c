@@ -510,7 +510,7 @@ static int section_file_load_dup(struct section_file *sf,
   
   if (table_state) {
     freelog(LOG_FATAL, "finished file %s before end of table\n", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   inf_close(inf);
@@ -724,13 +724,13 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain a string",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   return pentry->svalue;
@@ -756,7 +756,7 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if(pentry->svalue) {
@@ -866,13 +866,13 @@ int secfile_lookup_int(struct section_file *my_section_file,
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   return pentry->ivalue;
@@ -900,7 +900,7 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
   if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return pentry->ivalue;
 }
@@ -927,7 +927,7 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s contains a '%s', but integer not string",
 	    secfile_filename(my_section_file), buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   return pentry->svalue;
@@ -1027,7 +1027,7 @@ section_file_insert_internal(struct section_file *my_section_file,
     freelog(LOG_FATAL,
 	    "Insertion fullpath \"%s\" missing '.' for sectionfile %s",
 	    fullpath, secfile_filename(my_section_file));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1,sizeof(sec_name)));
   sz_strlcpy(ent_name, pdelim+1);
@@ -1038,7 +1038,7 @@ section_file_insert_internal(struct section_file *my_section_file,
 	    "Insertion fullpath \"%s\" missing %s for sectionfile %s",
 	    fullpath, (strlen(sec_name)==0 ? "section" : "entry"),
 	    secfile_filename(my_section_file));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   /* Do a reverse search of sections, since we're most likely
@@ -1086,12 +1086,12 @@ static void secfilehash_check(struct section_file *file)
   if (!secfilehash_hashash(file)) {
     freelog(LOG_FATAL, "sectionfile %s hash operation before setup",
 	    secfile_filename(file));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (file->num_entries != file->hashd->num_entries_hashbuild) {
     freelog(LOG_FATAL, "sectionfile %s has more entries than when hash built",
 	    secfile_filename(file));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 }
 
@@ -1119,7 +1119,7 @@ static void secfilehash_insert(struct section_file *file,
     } else {
       freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
 	      key, secfile_filename(file));
-      exit(1);
+      exit(EXIT_FAILURE);
     }
   }
 }

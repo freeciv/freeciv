@@ -820,7 +820,7 @@ void handle_move_unit(struct packet_move_unit *packet)
 {
   /* this packet should never get sent to a client */
   assert(0);
-  exit(1);
+  exit(EXIT_FAILURE);
 }
 
 /**************************************************************************

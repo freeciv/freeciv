@@ -184,7 +184,7 @@ static void game_menu_callback(gpointer callback_data,
     disconnect_from_server();
     break;
   case MENU_GAME_QUIT:
-    exit(0);
+    exit(EXIT_SUCCESS);
     break;
   }
 }

@@ -526,7 +526,7 @@ static void inf_log(struct inputfile *inf, int loglevel,
 void inf_die(struct inputfile *inf, const char *message)
 {
   inf_log(inf, LOG_FATAL, message);
-  exit(1);
+  exit(EXIT_FAILURE);
 }
 
 void inf_warn(struct inputfile *inf, const char *message)

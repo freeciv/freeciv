@@ -144,7 +144,7 @@ static char *tilespec_fullname(const char *tileset_name)
 
   if (strcmp(tileset_name, tileset_default) == 0) {
     freelog(LOG_FATAL, _("No useable default tileset found, aborting!"));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
   free(fname);
@@ -168,7 +168,7 @@ static void check_tilespec_capabilities(struct section_file *file,
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), file_capstr);
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
     freelog(LOG_FATAL, _("%s file claims required option(s)"
@@ -176,7 +176,7 @@ static void check_tilespec_capabilities(struct section_file *file,
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), file_capstr);
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 }
 
@@ -203,7 +203,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
 
   freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
 	  gfx_filename);
-  exit(1);
+  exit(EXIT_FAILURE);
 }
 
 /**********************************************************************
@@ -222,7 +222,7 @@ void tilespec_read_toplevel(const char *tileset_name)
 
   if (!section_file_load(file, fname)) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), fname);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   check_tilespec_capabilities(file, "tilespec", TILESPEC_CAPSTR, fname);
 
@@ -287,7 +287,7 @@ void tilespec_read_toplevel(const char *tileset_name)
 					  "tilespec.files");
   if (num_spec_files == 0) {
     freelog(LOG_FATAL, "No tile files specified in \"%s\"", fname);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   for(i=0; i<num_spec_files; i++) {
@@ -321,7 +321,7 @@ static void tilespec_load_one(const char *spec_filename)
   freelog(LOG_DEBUG, "loading spec %s", spec_filename);
   if (!section_file_load(file, spec_filename)) {
     freelog(LOG_FATAL, _("Could not open \"%s\"."), spec_filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, spec_filename);
 
@@ -350,14 +350,14 @@ static void tilespec_load_one(const char *spec_filename)
   if(!big_sprite) {
     freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
 	    spec_filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
 
   gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
   if (num_grids==0) {
     freelog(LOG_FATAL, "spec %s has no grid_* sections", spec_filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   for(i=0; i<num_grids; i++) {
@@ -689,7 +689,7 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
   if (!sprite_hash) {
     freelog(LOG_FATAL, "attempt to lookup for %s %s before sprite_hash setup",
 	    what, name);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   sp = hash_lookup_data(sprite_hash, tag);

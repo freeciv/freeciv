@@ -338,7 +338,7 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
     if (mask & SIGBREAKF_CTRL_C)
     {
       printf("\n***Break\n");
-      exit(0);
+      exit(EXIT_SUCCESS);
     }
 
     if (mask & arexxmask)
@@ -363,7 +363,7 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
   else
   {
     printf("select failed %d\n",errno);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   return(sel);
 }

@@ -177,7 +177,7 @@ static void parse_options(int argc, char **argv)
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
-      exit(0);
+      exit(EXIT_SUCCESS);
     }
     i++;
   }
@@ -772,12 +772,12 @@ void ui_main(int argc, char **argv)
 
   if (!(main_font=gdk_font_load(city_names_font))) {
       freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
-      exit(1);
+      exit(EXIT_FAILURE);
   }
 
   if (!(city_productions_font = gdk_font_load(city_productions_font_name))) {
     freelog(LOG_FATAL, "failed loading font: %s", city_productions_font_name);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   fill_bg_gc = gdk_gc_new(root_window);

@@ -228,7 +228,7 @@ void init_layoutwindow()
   wndclass->lpszClassName=CLASSNAME;
   wndclass->lpszMenuName=(LPSTR)NULL;
   if (!RegisterClass(wndclass))
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 /**************************************************************************
 

@@ -81,7 +81,7 @@ void color_error(void)
   
   if(using_private_cmap) {
     freelog(LOG_FATAL, _("Private colormap ran out of entries -  exiting."));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   else {
     freelog(LOG_NORMAL,

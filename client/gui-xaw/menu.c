@@ -459,7 +459,7 @@ static void game_menu_callback(Widget w, XtPointer client_data,
     disconnect_from_server();
     break;
   case MENU_GAME_QUIT:
-    exit(0);
+    exit(EXIT_SUCCESS);
     break;
   }
 }

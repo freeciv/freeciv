@@ -1627,7 +1627,7 @@ static int mark_nation_as_used (int nation)
 {
   if(num_nations_avail <= 0) {/* no more unused nation */
       freelog(LOG_FATAL, _("Argh! ran out of nations!"));
-      exit(1);
+      exit(EXIT_FAILURE);
   }
 
    nations_used[nations_avail[num_nations_avail-1]]=nations_used[nation];
@@ -1795,7 +1795,7 @@ void srv_main(void)
     uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     if(!section_file_load_nodup(&file, srvarg.load_filename)) { 
       freelog(LOG_FATAL, _("Couldn't load savefile: %s"), srvarg.load_filename);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
     game_load(&file);
     section_file_check_unused(&file, srvarg.load_filename);

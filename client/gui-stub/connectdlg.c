@@ -38,7 +38,7 @@ void server_autoconnect()
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
 	    server_host, server_port, connect_name, buf);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   try_to_autoconnect();
 }
@@ -63,7 +63,7 @@ static int try_to_autoconnect()
 	    _("Failed to contact server \"%s\" at port "
 	      "%d as \"%s\" after %d attempts"),
 	    server_host, server_port, connect_name, count);
-    gtk_exit(1);
+    gtk_exit(EXIT_FAILURE);
   }
 
   switch (try_to_connect(connect_name, errbuf, sizeof(errbuf))) {

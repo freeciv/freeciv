@@ -120,7 +120,7 @@ void init_mapwindow()
   wndclass->lpszClassName="freecivmapwindow";
   wndclass->lpszMenuName=(LPSTR)NULL;
   if (!RegisterClass(wndclass))
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 /**************************************************************************

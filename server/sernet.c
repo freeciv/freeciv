@@ -372,7 +372,7 @@ int sniff_packets(void)
 	    send_server_info_to_metaserver(1,0);
 
 	    close_connections_and_socket();
-	    exit(0);
+	    exit(EXIT_SUCCESS);
 	  }
 	} else {
 	  last_noplayers = time(NULL);
@@ -522,7 +522,7 @@ int sniff_packets(void)
       
       if((didget=read(0, buf, BUF_SIZE))==-1) {
 	freelog(LOG_FATAL, "read from stdin failed");
-	exit(1);
+	exit(EXIT_FAILURE);
       }
 
       if(didget==0) {
@@ -728,7 +728,7 @@ int server_open_socket(void)
 
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   opt=1; 
@@ -744,12 +744,12 @@ int server_open_socket(void)
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   if(listen(sock, MAX_NUM_CONNECTIONS) == -1) {
     freelog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   close_socket_set_callback(close_socket_callback);

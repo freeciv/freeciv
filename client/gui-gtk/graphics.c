@@ -308,7 +308,7 @@ struct Sprite *load_gfxfile(const char *filename)
 
   if(!(im=gdk_imlib_load_image((char*)filename))) {
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   mysprite=fc_malloc(sizeof(struct Sprite));
@@ -317,7 +317,7 @@ struct Sprite *load_gfxfile(const char *filename)
 
   if(!gdk_imlib_render (im, w, h)) {
     freelog(LOG_FATAL, "failed render of sprite struct for %s", filename);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
   
   mysprite->pixmap    = gdk_imlib_move_image (im);

@@ -311,7 +311,7 @@ int attribute_get(int key, int id, int x, int y, int max_data_length,
           "submit a bug report to <freeciv-dev@freeciv.org>", 
           max_data_length, length);
 
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
   memcpy(data, (char *)pvalue + sizeof(int), length);
