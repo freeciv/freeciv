@@ -17,6 +17,8 @@
 #include "packets.h"
 #include "city.h"
 
+int unit_being_aggressive(struct unit *punit);
+
 int advisor_choose_build(struct city *pcity);  /* used by the AI */
 int city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */

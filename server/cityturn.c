@@ -53,7 +53,6 @@ static void citizen_happy_units(struct city *pcity, int unhap);
 static void citizen_happy_buildings(struct city *pcity);
 static void citizen_happy_wonders(struct city *pcity);
 static void unhappy_city_check(struct city *pcity);
-static int unit_being_aggressive(struct unit *punit);
 
 static void city_populate(struct city *pcity);
 static void city_settlersupport(struct city *pcity);
@@ -411,7 +410,7 @@ A unit is *not* aggressive if one or more of following is true:
 - inside a city
 - inside a fortress within 3 squares of a friendly city (new)
 **************************************************************************/
-static int unit_being_aggressive(struct unit *punit)
+int unit_being_aggressive(struct unit *punit)
 {
   if (get_unit_type(punit->type)->attack_strength==0)
     return 0;
@@ -567,6 +566,8 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
 
   *foodneed -= 2 * (*workers - 1 - e);
   *prodneed -= (*workers - 1 - e);
+
+  if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4) *foodneed += 1;
 
   city_map_iterate(x, y) {
     conflict[x][y] = -1 - minimap[map_adjust_x(pcity->x+x-2)][map_adjust_y(pcity->y+y-2)];
