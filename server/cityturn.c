@@ -580,6 +580,7 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
     if (can_build_improvement(pcity, i)
 	&& !building_has_effect(i, EFT_CAPITAL_CITY)) {
       change_build_target(pplayer, pcity, i, FALSE, E_IMP_AUTO);
+      return;
     }
   } impr_type_iterate_end;
 }
