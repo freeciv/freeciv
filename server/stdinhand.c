@@ -344,9 +344,9 @@ static struct settings_s settings[] = {
 	      "be separate"), NULL, 
 	   MAP_DEFAULT_SEPARATE_POLES)
 
-  GEN_BOOL("alltemperate", map.alltemperate,
-	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("All the map is temperate (no poles or equatorial regions)"),
+  GEN_BOOL("alltemperate", map.alltemperate, 
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
+	   N_("All the map is temperate"),
 	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
 	   NULL, MAP_DEFAULT_ALLTEMPERATE)
 
@@ -605,7 +605,7 @@ static struct settings_s settings[] = {
 
   GEN_INT("citymindist", game.citymindist,
 	  SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Minimum distance between cities (move distance)"),
+	  N_("Minimum distance between cities"),
 	  N_("When a player founds a new city, it is checked if there is "
 	     "no other city in citymindist distance. For example, if "
 	     "citymindist is 3, there have to be at least two empty "
@@ -700,14 +700,14 @@ static struct settings_s settings[] = {
   GEN_BOOL("happyborders", game.happyborders,
 	   SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL,
           SSET_TO_CLIENT,
-	  N_("Do units cause unhappiness inside our own borders?"),
+	   N_("Units inside borders cause no unhappiness"),
 	  N_("If this is set, units will not cause unhappiness when "
 	     "inside your own borders."), NULL,
 	     GAME_DEFAULT_HAPPYBORDERS)
 
   GEN_INT("diplomacy", game.diplomacy,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("The ability to do diplomacy with other players"),
+	  N_("Ability to do diplomacy with other players"),
 	  N_("If set to 0 (default), diplomacy is enabled for all.\n"
 	     "If set to 1, diplomacy is only allowed between human players.\n"
 	     "If set to 2, diplomacy is only allowed between AI players.\n"
@@ -814,7 +814,7 @@ static struct settings_s settings[] = {
 
   GEN_INT("contactturns", game.contactturns,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Number of turns players may meet after contact"),
+	  N_("Turns until player contact is lost"),
 	  N_("Players may meet for diplomacy this number of turns "
 	     "after their units have last met. Set this to zero "
 	     "to turn this feature off entirely."), NULL,
