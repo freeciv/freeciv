@@ -1156,15 +1156,23 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_MEETING) {
     packet->gold            = plr->economic.gold;
-    for (i = 0; i < game.num_tech_types; i++) {
+    for (i = A_NONE; i < game.num_tech_types; i++) {
       packet->inventions[i] = plr->research.inventions[i].state + '0';
     }
     packet->inventions[i]   = '\0';
     packet->government      = plr->government;
   } else {
     packet->gold            = 0;
-    for(i=0; i<game.num_tech_types; i++)
+    for (i = A_NONE; i < game.num_tech_types; i++) {
       packet->inventions[i] = '0';
+    }
+
+    /* 
+     * We have to inform the client that the other players also know
+     * A_NONE.
+     */
+    packet->inventions[A_NONE] =
+	plr->research.inventions[A_NONE].state + '0';
     packet->inventions[i]   = '\0';
 
     /* Ideally, we should check whether receiver really sees any cities owned
