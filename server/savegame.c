@@ -576,8 +576,7 @@ static void player_load(struct player *plr, int plrno,
 
   /* 1.15 and later versions store nations by name.  Try that first. */
   p = secfile_lookup_str_default(file, NULL, "player%d.nation", plrno);
-  if (!p)
-  {
+  if (!p) {
     /*
      * Otherwise read as a pre-1.15 savefile with numeric nation indexes.
      * This random-looking order is from the old nations/ruleset file.
@@ -590,12 +589,12 @@ static void player_load(struct player *plr, int plrno,
       "indian", "russian", "zulu", "french", "aztec", "chinese", "english",
       "mongol", "turk", "spanish", "persian", "arab", "carthaginian", "inca",
       "viking", "polish", "hungarian", "danish", "dutch", "swedish",
-      "japanese", "portuguese", "finnish", "sioux", "czech","australian",
+      "japanese", "portuguese", "finnish", "sioux", "czech", "australian",
       "welsh", "korean", "scottish", "israeli", "argentine", "canadian",
       "ukrainian", "lithuanian", "kenyan", "dunedain", "vietnamese", "thai",
       "mordor", "bavarian", "brazilian", "irish", "cornish", "italian",
       "filipino", "estonian", "latvian", "boer", "silesian", "singaporean",
-      "chilean", "catalan", "croatian", "slovenian", "serbian",
+      "chilean", "catalan", "croatian", "slovenian", "serbian", "barbarian",
     };
     p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
   }
