@@ -540,6 +540,7 @@ ui_main(int argc, char *argv[])
   RECT rc;
   MSG msg;
   freecivhinst=GetModuleHandle(NULL); /* There is no WinMain! */
+  bool quit = FALSE;
   init_layoutwindow();
   InitCommonControls();
   unitselect_init(freecivhinst);
@@ -563,13 +564,17 @@ ui_main(int argc, char *argv[])
 
   SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
 
-  while (1) {
+  while (!quit) {
     socket_timer(NULL, 0, 0, 0);
     while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
       if (!((msg.hwnd == root_window)
 	  && (TranslateAccelerator(root_window, freecivaccel, &msg)))) {
 	TranslateMessage(&msg);
 	DispatchMessage(&msg);   
+      } else {
+  	if ((msg.hwnd == root_window) && (msg.message == WM_QUIT)) {
+	  quit = TRUE;
+	}
       }
     }
   }
