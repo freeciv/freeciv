@@ -443,6 +443,24 @@ int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
 }
 
 /**************************************************************************
+  Buy the current production item in a given city.  Return the request ID.
+**************************************************************************/
+int city_buy_production(struct city *pcity)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+
+  /* Fill out unused fields. */
+  packet.build_id = -1;
+  packet.is_build_id_unit_id = FALSE;
+  packet.worker_x = packet.worker_y = -1;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+}
+
+/**************************************************************************
   Change a specialist in the given city.  Return the request ID.
 **************************************************************************/
 int city_change_specialist(struct city *pcity, enum specialist_type from,

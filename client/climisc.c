@@ -1135,8 +1135,8 @@ const char *unit_description(struct unit *punit)
 
 /**************************************************************************
   Called when the "Buy" button is pressed in the city report for every
-  selected city. Checks for coinage and sufficient founds or send the
-  PACKET_CITY_BUY if everything is ok.
+  selected city. Checks for coinage and sufficient funds or request the
+  purchase if everything is ok.
 **************************************************************************/
 void cityrep_buy(struct city *pcity)
 {
@@ -1153,10 +1153,7 @@ void cityrep_buy(struct city *pcity)
   }
 
   if (game.player_ptr->economic.gold >= value) {
-    struct packet_city_request packet;
-
-    packet.city_id = pcity->id;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+    city_buy_production(pcity);
   } else {
     char buf[512];
     const char *name;

@@ -1341,9 +1341,7 @@ static int cancel_buy_prod_city_dlg_callback(struct GUI *pButton)
 **************************************************************************/
 static int ok_buy_prod_city_dlg_callback(struct GUI *pButton)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pButton->data.city->id;
+  city_buy_production(pButton->data.city);
   
   if (pCityDlg)
   {
@@ -1362,8 +1360,6 @@ static int ok_buy_prod_city_dlg_callback(struct GUI *pButton)
     popdown_hurry_production_dialog();
   }
     
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-
   return -1;
 }
 

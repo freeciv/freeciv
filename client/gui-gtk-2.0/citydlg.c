@@ -2376,10 +2376,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      struct packet_city_request packet;
-
-      packet.city_id = pdialog->pcity->id;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+      city_buy_production(pdialog->pcity);
     }
     gtk_widget_destroy(shell);
   } else {

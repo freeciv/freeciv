@@ -947,13 +947,9 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 
 static void buy_callback_yes(HWND w, void * data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
- 
-  pdialog=(struct city_dialog *)data;
- 
-  packet.city_id=pdialog->pcity->id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+  struct city_dialog *pdialog = data;
+
+  city_buy_production(pdialog->pcity);
  
   destroy_message_dialog(w);
 }

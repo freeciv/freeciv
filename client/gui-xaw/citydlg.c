@@ -1932,13 +1932,9 @@ void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data)
 static void buy_callback_yes(Widget w, XtPointer client_data,
 			     XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = client_data;
 
-  pdialog=(struct city_dialog *)client_data;
-
-  packet.city_id=pdialog->pcity->id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+  city_buy_production(pdialog->pcity);
 
   destroy_message_dialog(w);
 }

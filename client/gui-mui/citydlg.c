@@ -271,16 +271,6 @@ struct city_dialog
   Object *sell_wnd;
 };
 
-/****************************************************************
- ...
-*****************************************************************/
-static void request_city_buy(struct city *pcity)
-{
-  struct packet_city_request packet;
-  packet.city_id = pcity->id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-}
-
 /* End GUI Independed */
 
 
@@ -701,7 +691,8 @@ static void city_close(struct city_dialog **ppdialog)
 static void city_buy_yes(struct popup_message_data *data)
 {
   struct city *pcity = (struct city *) data->data;
-  request_city_buy(pcity);
+
+  city_buy_production(pcity);
   destroy_message_dialog(data->wnd);
 }
 
