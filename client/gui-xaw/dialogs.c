@@ -55,6 +55,7 @@
 #include "mapview.h"
 #include "messagewin.h"	/* for popdown_meswin_dialog */
 #include "options.h"
+#include "packhand.h"
 #include "plrdlg.h"	/* for popdown_players_dialog */
 #include "repodlgs.h"	/* for popdown_xxx_dialog */
 #include "tilespec.h"
