@@ -16,6 +16,7 @@ artists = "
     Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
     Tomasz Wegrzanowski <maniek@beer.com> (more flags added)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
+    Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
 "
 
 [file]
@@ -98,4 +99,5 @@ tiles = { "row", "column", "tag"
   4,  9, "f.azerbaijan"
   4, 10, "f.boer"         ; old south african
   4, 11, "f.mordor"
+  4, 12, "f.bavarian"
 }

@@ -9,6 +9,7 @@ artists = "
     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
     Tomasz Wegrzanowski <maniek@beer.com> (bulgaria...boer)
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
+    Jeff Mallatt <jjm@codewell.com> (Bavarian)
 "
 
 [file]
@@ -91,4 +92,5 @@ tiles = { "row", "column", "tag"
   4,  9, "f.azerbaijan"
   4, 10, "f.boer"         ; old south african
   4, 11, "f.mordor"
+  4, 12, "f.bavarian"
 }
