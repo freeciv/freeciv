@@ -634,7 +634,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   if(repaint_unit)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
 
-  if(packet->select_it) {
+  if(packet->select_it && (punit->owner==game.player_idx)) {
     set_unit_focus_and_select(punit);
   } else {
     update_unit_focus(); 
