@@ -241,7 +241,9 @@ void ai_manage_taxes(struct player *pplayer)
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
   pplayer->economic.luxury = 0;
   city_list_iterate(pplayer->cities, pcity) 
-    auto_arrange_workers(pcity); /* I hate doing this but I need to stop the flipflop */
+    pcity->ppl_elvis = 0; pcity->ppl_taxman = 0; pcity->ppl_scientist = 0;
+    add_adjust_workers(pcity); /* less wasteful than auto_arrange, required */
+    city_refresh(pcity);
     sad += pcity->ppl_unhappy[4];
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
 /*    printf("%s has %d trade.\n", pcity->name, pcity->trade_prod); */
@@ -252,7 +254,6 @@ void ai_manage_taxes(struct player *pplayer)
 /*  printf("%s has %d trade.\n", pplayer->name, trade); */
   if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
-      auto_arrange_workers(pcity);
       if (ai_fix_unhappy(pcity))
         ai_scientists_taxmen(pcity);
     city_list_iterate_end;
@@ -353,9 +354,12 @@ void ai_manage_taxes(struct player *pplayer)
   pplayer->economic.science = 100 - pplayer->economic.tax - pplayer->economic.luxury;
 
   city_list_iterate(pplayer->cities, pcity) 
-    auto_arrange_workers(pcity);
+    pcity->ppl_elvis = 0;
+    add_adjust_workers(pcity);
+    city_refresh(pcity);
     if (ai_fix_unhappy(pcity))
       ai_scientists_taxmen(pcity);
+    send_city_info(city_owner(pcity), pcity, 1);
   city_list_iterate_end;
 }
 
