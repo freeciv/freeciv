@@ -1,6 +1,3 @@
-Use the shell script /usr/games/civ to start the FreeCiv client program.
-It automatically sets the path for FreeCiv's data directories.
-
 Freeciv does not work with replacement libraries for the Athena widget
 sets, such as Xaw3D and neXtaw.  (Debian packages xaw3dg and nextawg).
 
@@ -9,6 +6,9 @@ run with the original Xaw library even if you have the replacement
 libraries installed.
 
 Richard Braakman
+
+PS: now there is a separate binary package (freeciv-xaw3d) which runs under
+xaw3dg. You might want to try it.
 
 One of the authors, Peter Joachim Unold, said this about the xaw problem:
 

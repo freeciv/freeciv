@@ -1,3 +1,28 @@
+freeciv (1.7.2+cvs19990223) experimental; urgency=low
+
+  * New upstream release (CVS snapshot)
+
+ -- root <lalo@webcom.com>  Tue, 23 Feb 1999 14:18:10 -0500
+
+freeciv (1.7.2+cvs19990117) experimental; urgency=low
+
+  * New upstream release (CVS snapshot); highlights:
+  * Expanded tile system, selectable tiles
+  * Diagonal roads/railroads!
+  * Civil war (civilizations split if capital falls - defaults to off)
+  * Space race (no I don't know how it works, but defaults to off)
+
+ -- Lalo Martins <lalo@webcom.com>  Sun, 17 Jan 1999 10:23:21 -0500
+
+freeciv (1.7.2-4) unstable; urgency=low
+
+  * New package freeciv-xaw3d that is (guess what?) linked with xaw3d.
+  * Rewrote debian/rules (and others) to work with the new package and
+    use debhelper.
+  * Fixes #31907 (glitch in alternatives system when interfaced with xaw3d)
+
+ -- Lalo Martins <lalo@webcom.com>  Fri, 15 Jan 1999 13:36:23 -0200
+
 freeciv (1.7.2-3) frozen unstable; urgency=low
 
   * ...And once again, a postinst that doesn't work :-) Ignore -1 and -2

@@ -1,92 +1,133 @@
-#! /usr/bin/make -f
+#!/usr/bin/make -f
+# Made with the iad of dh_make, by Craig Small
+# Sample debian/rules that uses debhelper. GNU copyright 1997 by Joey Hess.
+# Also some stuff taken from debmake scripts, by Cristopt Lameter.
 
-DEBDIR = debian/tmp/DEBIAN
-BINDIR = debian/tmp/usr/games
-APPDIR = debian/tmp/usr/X11R6/lib/X11/app-defaults
-DOCDIR = debian/tmp/usr/doc/freeciv
-XAWDIR = debian/tmp/usr/lib/xaw-wrappers/conf
-MANDIR = debian/tmp/usr/man
-MENUDIR = debian/tmp/usr/lib/menu
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
 
-config.status:
-	$(checkdir)
-	./configure --datadir=/usr/share/games --prefix=/usr --bindir=/usr/games
+build: build-stamp
+build-stamp:
+	dh_testdir
 
-build: config.status
-	$(checkdir)
-	make CDEBUGFLAGS="-O2 -g -Wall"
-	touch build
+	# We can't build both at once because of the configure files...
+	if [ -f build-xaw3d ]; then debian/rules cleantop; fi
 
-clean:
-	$(checkdir)
-	-rm -f config.log config.cache config.status build
-# Assume that if the makefile doesn't exist, it was deleted by a previous
-# "make clean" so there's no need to repeat it.
-	-make clean
-# this assumption may lead to stray binaries and objects hanging around, so
-# we try to remove them by hand just in case.
+	./configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games
+	$(MAKE)
+
+	touch build-stamp
+
+build-xaw3d:
+	dh_testdir
+
+	# We can't build both at once because of the configure files...
+	if [ -f build-stamp ]; then debian/rules cleantop; fi
+
+	./configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw3d --disable-server
+	$(MAKE)
+
+	touch build-xaw3d
+
+clean: internal-clean
+	dh_testdir
+	dh_testroot
+	rm -f *-stamp
+	dh_clean
+
+internal-clean: cleantop
+	dh_testdir
+	rm -f install-stamp install-xaw3d
+
+cleantop:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp build-xaw3d
+
+	# Assume that if the makefile doesn't exist, it was deleted by a previous
+	# "make clean" so there's no need to repeat it.
+	-$(MAKE) distclean
+	# this assumption may lead to stray binaries and objects hanging around, so
+	# we try to remove them by hand just in case.
+	-rm -f config.log config.cache config.status
 	-rm -f */*.o
 	-rm -f */*.a
 	-rm -f server/civserver client/civclient
 	-rm -f debian/*~ Makefile Makefile.bak core */Makefile
-	-rm -rf debian/tmp* debian/files debian/substvars
 
+install: install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	# this can't be a regular dependency or we get an infinite loop
+	if [ ! -f build-stamp ]; then debian/rules build; fi
+	dh_installdirs -p freeciv
+
+	$(MAKE) DESTDIR=`pwd`/debian/tmp install
+
+	touch install-stamp
+
+install-xaw3d:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	# this can't be a regular dependency or we get an infinite loop
+	if [ ! -f build-xaw3d ]; then debian/rules build-xaw3d; fi
+	dh_installdirs -p freeciv-xaw3d
+
+	/usr/bin/install client/civclient debian/freeciv-xaw3d/usr/games/civclient-xaw3d
+
+	touch install-xaw3d
+
+# Build architecture-independent files here (ie none).
 binary-indep:
 
-binary-arch: checkroot build
-	$(checkdir)
-	-rm -rf debian/tmp*
-# debian/tmp
-	install -d ${DEBDIR}
-	install -p -m 755 debian/postinst ${DEBDIR}
-	install -p -m 755 debian/postrm ${DEBDIR}
-# binaries
-	make DESTDIR=`pwd`/debian/tmp install
-	strip --remove-section=.comment --remove-section=.note debian/tmp/usr/games/civclient
-	strip --remove-section=.comment --remove-section=.note debian/tmp/usr/games/civserver
-# xaw-wrappers config entry
-	install -d ${XAWDIR}
-	install -p -m 644 debian/xaw-wrappers ${XAWDIR}/freeciv
-# manpages
-	install -d ${MANDIR}/man6
-	# manpages? where were them?
-	install -p -m 644 debian/*.6 ${MANDIR}/man6
-	gzip -9 ${MANDIR}/man6/*.6
-# menu entry
-	install -d ${MENUDIR}
-	install -p -m 644 debian/menu ${MENUDIR}/freeciv
-# app-defaults
-	install -d ${APPDIR}
-	install -p -m 644 data/Freeciv ${APPDIR}
-# documentation
-	install -d ${DOCDIR}
-	install -p -m 644 debian/copyright ${DOCDIR}
-	install -p -m 644 debian/changelog ${DOCDIR}/changelog.Debian
-	gzip -9v ${DOCDIR}/changelog.Debian
-	install -p -m 644 ChangeLog ${DOCDIR}/changelog
-	gzip -9v ${DOCDIR}/changelog
-	install -p -m 644 README ${DOCDIR}
-	install -p -m 644 README.AI ${DOCDIR}
-	install -p -m 644 NEWS ${DOCDIR}
-	gzip -9v ${DOCDIR}/NEWS
-	install -p -m 644 AUTHORS ${DOCDIR}
-	install -p -m 644 HOWTOPLAY ${DOCDIR}
-	gzip -9v ${DOCDIR}/HOWTOPLAY
-	install -p -m 644 freeciv_hackers_guide.txt ${DOCDIR}
-	gzip -9v ${DOCDIR}/freeciv_hackers_guide.txt
-	install -p -m 644 debian/README.Debian ${DOCDIR}
-#
-	dpkg-shlibdeps client/civclient server/civserver
-	dpkg-gencontrol -isp -pfreeciv -Pdebian/tmp
-	dpkg --build debian/tmp ..
+# Build architecture-dependent files here.
+binary-arch: normal-deb-stamp xaw3d-deb-stamp
 
-define checkdir
-	test -f server/civserver.c -a -f debian/rules
-endef
+normal-deb-stamp: build install
+#	dh_testversion
+	dh_testdir
+	dh_testroot
+	dh_installdocs -pfreeciv
+	dh_installexamples -pfreeciv
+	dh_installmenu -pfreeciv
+	dh_installmanpages -pfreeciv
+	/usr/bin/install debian/xaw-wrappers debian/tmp/usr/lib/xaw-wrappers/conf/freeciv
+#	dh_undocumented -pfreeciv
+	dh_installchangelogs  -pfreeciv
+	dh_strip -pfreeciv
+	dh_compress -pfreeciv
+	dh_fixperms -pfreeciv
+	dh_suidregister -pfreeciv
+	dh_installdeb -pfreeciv
+	dh_shlibdeps -pfreeciv
+	dh_gencontrol -pfreeciv
+#	dh_makeshlibs -pfreeciv
+	dh_md5sums -pfreeciv
+	dh_builddeb -pfreeciv
+
+xaw3d-deb-stamp: build-xaw3d install-xaw3d
+#	dh_testversion
+	dh_testdir
+	dh_testroot
+	ln -fs freeciv debian/freeciv-xaw3d/usr/doc/freeciv-xaw3d
+	dh_installmenu -pfreeciv-xaw3d
+	ln -s civclient.6.gz debian/freeciv-xaw3d/usr/man/man6/civclient-xaw3d.6.gz
+#	dh_installchangelogs -pfreeciv-xaw3d
+	dh_strip -pfreeciv-xaw3d
+	dh_compress -pfreeciv-xaw3d
+	dh_fixperms -pfreeciv-xaw3d
+	dh_suidregister -pfreeciv-xaw3d
+	dh_installdeb -pfreeciv-xaw3d
+	dh_shlibdeps -pfreeciv-xaw3d
+	dh_gencontrol -pfreeciv-xaw3d
+	dh_md5sums -pfreeciv-xaw3d
+	dh_builddeb -pfreeciv-xaw3d
+
+source diff:                                                                  
+	@echo 'source and diff are obsolete - use dpkg-source -b' >&2 ; false
 
 binary: binary-indep binary-arch
-
-checkroot:
-	test root = "`whoami`"
-
-.PHONY: clean binary binary-arch binary-indep checkroot
+.PHONY: build clean binary-indep binary-arch binary

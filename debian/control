@@ -7,7 +7,7 @@ Standards-Version: 2.4.0.0
 Package: freeciv
 Architecture: any
 Depends: ${shlibs:Depends}
-Recommends: xaw-wrappers (>= 0.10)
+Recommends: xaw-wrappers (>= 0.25) | freeciv-xaw3d
 Description: A free Civilization clone for Unix and X.
  FreeCiv is a clone of Civilization, distributed under the GPL and
  implemented for X.  FreeCiv is a turn-based strategy game, in which
@@ -18,3 +18,16 @@ Description: A free Civilization clone for Unix and X.
  Xaw library and cannot work with replacements like xaw3d and nextaw.
  The xaw-wrappers package is necessary if you have such replacement
  libraries installed.
+
+Package: freeciv-xaw3d
+Architecture: any
+Depends: freeciv, xaw3dg (>=1.3-1), ${shlibs:Depends}
+Description: A free Civilization clone for Unix and X.
+ FreeCiv is a clone of Civilization, distributed under the GPL and
+ implemented for X.  FreeCiv is a turn-based strategy game, in which
+ each player becomes leader of a civilization, fighting to obtain
+ the ultimate goal: The extinction of all other civilizations.
+ .
+ This package contains only the civclient-xaw3d executable, which is
+ compiled to run with the xaw3d version of the Athena libraries. You still
+ need the freeciv package for the data files.
