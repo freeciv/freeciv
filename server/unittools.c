@@ -636,7 +636,7 @@ int road_bonus(int x, int y, int spc)
       unit_list_iterate_end;
     }
   }
-/* this gives road-bonus if NE, E, SE are all ocean and W is a road.  FIX? -- Syela */
+
   if (rd[0] && !rd[1] && !rd[3] && (!rd[2] || !rd[8]) &&
       (!te[2] || !te[4] || !te[7] || !te[6] || !te[5])) m++;
   if (rd[2] && !rd[1] && !rd[4] && (!rd[7] || !rd[10]) &&
@@ -662,7 +662,6 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
   if (ptile->terrain != T_OCEAN && (ptile->terrain != T_RIVER ||
       get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
       !(ptile->special&S_ROAD)) {
-if (ptile->special&S_ROAD) printf("BUG - road on road, %s:(%d, %d)\n", pcity->name, i, j);
     map_set_special(x, y, S_ROAD);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_ROAD);
@@ -678,11 +677,18 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       get_invention(pplayer, A_RAILROAD) == TECH_KNOWN &&
-      ptile->special&S_ROAD && !(ptile->special&S_RAILROAD)) {
-    map_set_special(x, y, S_RAILROAD);
-    m = city_tile_value(pcity, i, j, 0, 0);
-    map_clear_special(x, y, S_RAILROAD);
-    return(m);
+      !(ptile->special&S_RAILROAD)) {
+    if (ptile->special&S_ROAD) {
+      map_set_special(x, y, S_RAILROAD);
+      m = city_tile_value(pcity, i, j, 0, 0);
+      map_clear_special(x, y, S_RAILROAD);
+      return(m);
+    } else {
+      map_set_special(x, y, S_ROAD | S_RAILROAD);
+      m = city_tile_value(pcity, i, j, 0, 0);
+      map_clear_special(x, y, S_ROAD | S_RAILROAD);
+      return(m);
+    }
   } else return(0);
 /* bonuses for adjacent railroad tiles */
 }

@@ -1152,34 +1152,49 @@ gx, gy, v, x, y, v2, d, b);*/
 	  v=v2; gx=x; gy=y;
         }
 
-	v2 = ai_calc_road(pcity, pplayer, i, j);
-        if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
+        if (!(map_get_tile(x,y)->special&S_ROAD)) {
+  	  v2 = ai_calc_road(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
 /* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
-        d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
-        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-        if (b > 0) {    
-          a = amortize(b, d);
-          v2 = ((a * b) / (MAX(1, b - a)))>>6;
-        } else v2 = 0;
-        if (v2>v) {
+          d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
 /*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
 gx, gy, v, x, y, v2, d, b);*/
-	  t=ACTIVITY_ROAD;
-	  v=v2; gx=x; gy=y;
-        }
+	    t=ACTIVITY_ROAD;
+	    v=v2; gx=x; gy=y;
+          }
 
-	v2 = ai_calc_railroad(pcity, pplayer, i, j);
-        if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-        d = (3 * 3 + m - 1) / m + z;
-        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
-        if (b > 0) {    
-          a = amortize(b, d);
-          v2 = ((a * b) / (MAX(1, b - a)))>>6;
-        } else v2 = 0;
-        if (v2>v) {
-	  t=ACTIVITY_RAILROAD;
-	  v=v2; gx=x; gy=y;
-        }
+	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+          d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
+  	    t=ACTIVITY_ROAD;
+	    v=v2; gx=x; gy=y;
+          }
+        } else {
+	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+          if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+          d = (3 * 3 + m - 1) / m + z;
+          b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+          if (b > 0) {    
+            a = amortize(b, d);
+            v2 = ((a * b) / (MAX(1, b - a)))>>6;
+          } else v2 = 0;
+          if (v2>v) {
+  	    t=ACTIVITY_RAILROAD;
+	    v=v2; gx=x; gy=y;
+          }
+        } /* end else */
 
 	v2 = ai_calc_pollution(pcity, pplayer, i, j);
         d = (3 * 3 + z + m - 1) / m + z;
@@ -1197,6 +1212,7 @@ gx, gy, v, x, y, v2, d, b);*/
   city_list_iterate_end;
 
   v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
+  if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
 
   if (pplayer->ai.control) { /* don't want to make cities otherwise */
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
@@ -1216,18 +1232,17 @@ gx, gy, v, x, y, v2, d, b);*/
 /* without this, the computer will go 6-7 tiles from X to build a city at Y */
           d *= 2;
 /* and then build its NEXT city halfway between X and Y. -- Syela */
-          v2 = amortize(city_desirability(x, y, dist, pplayer), d);
+          z = city_desirability(x, y, dist, pplayer);
+          v2 = amortize(z, d);
           b = (food * FOOD_WEIGHTING) * MORT;
           v2 -= (b - amortize(b, d));
 /* deal with danger Real Soon Now! -- Syela */
 /* v2 is now the value over mort turns */
           v2 = (v2 * 100) / MORT / (40 + fu);
           if (v2 > v) {
-/*printf("City_des (%d, %d) = %d, v2 = %d, d = %d\n",
-x, y, city_desirability(x, y, dist, pplayer), v2, d);*/
+/*printf("City_des (%d, %d) = %d, v2 = %d, d = %d\n", x, y, z, v2, d);*/
             t = ACTIVITY_UNKNOWN; /* flag */
             v = v2; gx = x; gy = y;
-/* short-term opportunity cost is handled via w for city-building */
           }
         }
       }
