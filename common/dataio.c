@@ -582,7 +582,8 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 
   dio_get_uint16(din, &npack);
   if (npack >= max_dest_size) {
-      freelog(LOG_NORMAL, "Have size for %d, got %d",max_dest_size,npack);
+      freelog(LOG_NORMAL, "Have size for %lu, got %d",
+              (unsigned long)max_dest_size, npack);
     din->bad_bit_string = TRUE;
     dest[0] = '\0';
     return;

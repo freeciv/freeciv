@@ -172,8 +172,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	    struct data_out dout;
 
 	  freelog(COMPRESS_LOG_LEVEL,
-		  "COMPRESS: compressed %d bytes to %ld (level %d)",
-		  pc->compression.queue.size, compressed_size,
+		  "COMPRESS: compressed %lu bytes to %ld (level %d)",
+		  (unsigned long)pc->compression.queue.size, compressed_size,
 		  compression_level);
 	  stat_size_uncompressed += pc->compression.queue.size;
 	  stat_size_compressed += compressed_size;
@@ -201,8 +201,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	  }
 	} else {
 	  freelog(COMPRESS_LOG_LEVEL,
-		  "COMPRESS: would enlarging %d bytes to %ld; sending uncompressed",
-		  pc->compression.queue.size, compressed_size);
+		  "COMPRESS: would enlarging %lu bytes to %ld; sending uncompressed",
+		  (unsigned long)pc->compression.queue.size, compressed_size);
 	  send_connection_data(pc, pc->compression.queue.p,
 			       pc->compression.queue.size);
 	  stat_size_no_compression += pc->compression.queue.size;
