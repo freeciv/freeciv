@@ -375,7 +375,7 @@ void gamelog(int level, ...)
     if (pplayer) {
       my_snprintf(buf, sizeof(buf),
                   "<n1>%d</n1><n2>%d</n2><name>%s</name>"
-                  "<m>%s lose %s to the %s)</m>",
+                  "<m>%s lose %s to the %s</m>",
                   unit_owner(punit)->player_no, pplayer->player_no,
                   unit_name(punit->type),
                   get_nation_name_plural(unit_owner(punit)->nation),
