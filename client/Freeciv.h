@@ -1635,6 +1635,9 @@ Science: 25",
 "Freeciv*supportunitcanvas.borderWidth:                0",
 "Freeciv*supportunitcanvas.internalWidth:              0",
 "Freeciv*supportunitcanvas.internalHeight:             0",
+"Freeciv*supportunitcanvas.translations:  #override\\n\
+  <Btn2Down>:  set() \\n\
+  <Btn2Up>:    notify() unset()",
 "Freeciv*presentunitlabel.label: Units present:",
 "Freeciv*presentunitlabel.internalWidth:               0",
 "Freeciv*presentunitlabel.borderWidth:                 0",
@@ -1643,6 +1646,9 @@ Science: 25",
 "Freeciv*presentunitcanvas.borderWidth:              0",
 "Freeciv*presentunitcanvas.internalWidth:            0",
 "Freeciv*presentunitcanvas.internalHeight:           0",
+"Freeciv*presentunitcanvas.translations:  #override\\n\
+  <Btn2Down>:  set() \\n\
+  <Btn2Up>:    notify() unset()",
 "Freeciv*citymapcanvas.translations:\
 <BtnDown>: select-citymap()",
 "Freeciv*racespopup.title: What Race Will You Be?",

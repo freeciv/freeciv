@@ -811,10 +811,17 @@ void present_units_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   struct city_dialog *pdialog;
   Widget wd;
+  XEvent *e = (XEvent*)call_data;
   
   if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)) &&
      (pcity=map_get_city(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
+    
+    if(e->type==ButtonRelease && e->xbutton.button==2)  {
+      activate_unit((int)client_data);
+      close_city_dialog(pdialog);
+      return;
+    }
 
     wd=popup_message_dialog(pdialog->shell, 
 			    "presentunitsdialog", 
@@ -1127,10 +1134,16 @@ void support_units_callback(Widget w, XtPointer client_data,
   struct unit *punit;
   struct city *pcity;
   struct city_dialog *pdialog;
+  XEvent *e = (XEvent*)call_data;
   
   if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
     if((pcity=find_city_by_id(punit->homecity)))
-      if((pdialog=get_city_dialog(pcity)))
+      if((pdialog=get_city_dialog(pcity)))  {
+	if(e->type==ButtonRelease && e->xbutton.button==2)  {
+	  activate_unit((int)client_data);
+	  close_city_dialog(pdialog);
+	  return;
+	}
 	popup_message_dialog(pdialog->shell,
 			     "supportunitsdialog", 
 			     unit_description(punit),
@@ -1138,6 +1151,7 @@ void support_units_callback(Widget w, XtPointer client_data,
 			     supported_units_activate_close_callback, punit->id, /* act+c */
 			     present_units_disband_callback, punit->id,
 			     present_units_cancel_callback, 0, 0);
+      }
 }
 
 /****************************************************************
