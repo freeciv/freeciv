@@ -184,5 +184,5 @@ civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
 
 civclient_LDADD        = @gui_sources@/libguiclient.a \
 	@INTLLIBS@ ../common/aicore/libaicore.a \
-        ../common/libcivcommon.a agents/libagents.a \
+        ../common/libcivcommon.a agents/libagents.a ../common/aicore/libaicore.a \
 	@CLIENT_LIBS@ @SOUND_LIBS@
