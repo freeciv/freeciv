@@ -16,6 +16,7 @@
 extern int use_solid_color_behind_units;
 extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
+extern int do_combat_animation;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
 extern int auto_center_on_unit;

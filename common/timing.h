@@ -60,4 +60,7 @@ void clear_timer_start(struct timer *t);
 double read_timer_seconds(struct timer *t);
 double read_timer_seconds_free(struct timer *t);
 
+void usleep_since_timer_start(struct timer *t, long usec);
+void usleep_since_timer_start_free(struct timer *t, long usec);
+
 #endif  /* FC__TIMER_H */

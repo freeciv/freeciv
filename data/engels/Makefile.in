@@ -102,7 +102,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/engels
 
-pkgdata_DATA =  	cities.xpm		cities.spec		flags.xpm		flags.spec		roads.xpm		roads.spec		tiles.xpm		tiles.spec		units.xpm		units.spec
+pkgdata_DATA =  	cities.xpm		cities.spec		explosions.xpm		explosions.spec		flags.xpm		flags.spec		roads.xpm		roads.spec		tiles.xpm		tiles.spec		units.xpm		units.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)

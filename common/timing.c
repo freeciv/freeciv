@@ -54,6 +54,7 @@
 
 #include "log.h"
 #include "mem.h"
+#include "support.h"
 
 #include "timing.h"
 
@@ -372,3 +373,56 @@ double read_timer_seconds_free(struct timer *t)
   return val;
 }
 
+/********************************************************************** 
+  Sleeps until the given number of microseconds have elapsed since the
+  timer was started.  Leaves the timer running.
+  Must be called with an active, running user timer.
+  (If timer is broken or in wrong state, just sleep for entire interval.)
+***********************************************************************/
+void usleep_since_timer_start(struct timer *t, long usec)
+{
+#ifdef HAVE_GETTIMEOFDAY
+  int ret;
+  struct timeval tv_now;
+  long elapsed_usec;
+  long wait_usec;
+
+  assert(t);
+
+  ret = gettimeofday(&tv_now, 0);
+
+  if ((ret == -1) ||
+      (t->type != TIMER_USER) ||
+      (t->use != TIMER_ACTIVE) ||
+      (t->state != TIMER_STARTED)) {
+    myusleep(usec);
+    return;
+  }
+
+  elapsed_usec =
+    (tv_now.tv_sec - t->start.tv.tv_sec) * N_USEC_PER_SEC +
+    (tv_now.tv_usec - t->start.tv.tv_usec);
+  wait_usec = usec - elapsed_usec;
+
+  if (wait_usec > 0)
+    myusleep(wait_usec);
+#else
+  myusleep(usec);
+#endif
+}
+
+/********************************************************************** 
+  Sleep since timer started, then free it.
+  This is intended to be useful for a simple one-off sleeping, eg:
+  {
+      struct timer *t = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+      ...do stuff...
+      usleep_since_timer_start_free(t, 15000);
+      ...continue...
+  }
+***********************************************************************/
+void usleep_since_timer_start_free(struct timer *t, long usec)
+{
+  usleep_since_timer_start(t, usec);
+  free_timer(t);
+}

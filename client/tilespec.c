@@ -61,6 +61,8 @@ char *city_names_font;
 
 int flags_are_transparent=1;
 
+int num_tiles_explode_unit=0;
+
 
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
@@ -105,7 +107,7 @@ static struct section_file tag_sf;
 
 
 /***************************************************************************
-  Crop sprite for source and store in gloabl tile_sprites.
+  Crop sprite for source and store in global tile_sprites.
   Reallocates tile_sprites as required, using an athing to
   keep track.  (Note this is not as bad as it sounds: we
   are only reallocing the pointers to sprites, not the sprites
@@ -475,6 +477,17 @@ static void tilespec_lookup_sprite_tags(void)
       my_snprintf(buffer, sizeof(buffer), "explode.nuke_%d%d", i, j);
       SET_SPRITE(explode.nuke[i][j], buffer);
     }
+  }
+
+  num_tiles_explode_unit = 0;
+  while (section_file_lookup(&tag_sf, "explode.unit_%d", num_tiles_explode_unit))
+    num_tiles_explode_unit++;
+
+  sprites.explode.unit = fc_calloc(num_tiles_explode_unit, sizeof(struct Sprite *));
+
+  for (i = 0; i < num_tiles_explode_unit; i++) {
+    my_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
+    SET_SPRITE(explode.unit[i], buffer);
   }
 
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");

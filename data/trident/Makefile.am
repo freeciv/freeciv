@@ -7,6 +7,8 @@ pkgdata_DATA =          \
 	auto_ll.spec	\
 	cities.xpm	\
 	cities.spec	\
+	explosions.xpm	\
+	explosions.spec	\
 	flags.xpm	\
 	flags.spec	\
 	roads.xpm	\

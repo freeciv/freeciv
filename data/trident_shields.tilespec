@@ -40,6 +40,7 @@ files =
   "misc/space.spec",
   "misc/treaty.spec",
   "trident/cities.spec",
+  "trident/explosions.spec",
   "trident/auto_ll.spec",
   "misc/chiefs.spec",
   "misc/shields.spec"

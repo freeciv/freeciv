@@ -29,8 +29,11 @@
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
+#include "rand.h"
 #include "support.h"
+#include "timing.h"
 #include "unit.h"
+
 
 #include "civclient.h"
 #include "colors.h"
@@ -38,6 +41,7 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "mapview.h"
@@ -66,11 +70,7 @@ extern int city_workers_color;
 
 extern int seconds_to_turndone;
 
-extern int use_solid_color_behind_units;
 extern int flags_are_transparent;
-extern int ai_manual_turn_done;
-extern int draw_diagonal_roads;
-extern int draw_map_grid;
 
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -105,30 +105,69 @@ static void show_city_names(void);
 Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
+
 /**************************************************************************
 ...
 **************************************************************************/
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1)
 {
+  static struct timer *anim_timer = NULL; 
+  struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
+  int i;
+
   set_unit_focus_no_center(punit0);
   set_unit_focus_no_center(punit1);
   
-  do {
+  if (!do_combat_animation) {
+    punit0->hp = hp0;
+    punit1->hp = hp1;
     refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
     refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
-    myusleep(100);
 
-    if(punit0->hp>hp0)
+    return;
+  }
+
+  do {
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+    if (punit0->hp > hp0
+	&& myrand((punit0->hp - hp0) + (punit1->hp - hp1)) < punit0->hp - hp0)
       punit0->hp--;
-    if(punit1->hp>hp1)
+    else if (punit1->hp > hp1)
       punit1->hp--;
-  } while(punit0->hp>hp0 || punit1->hp>hp1);
-  
+    else
+      punit0->hp--;
+
+    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
+    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+
+    XSync(display, 0);
+    usleep_since_timer_start(anim_timer, 10000);
+
+  } while (punit0->hp > hp0 || punit1->hp > hp1);
+
+  for (i = 0; i < num_tiles_explode_unit; i++) {
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+    pixmap_put_tile(single_tile_pixmap, 0, 0,
+		    losing_unit->x, losing_unit->y, 0);
+    put_unit_pixmap(losing_unit, single_tile_pixmap, 0, 0);
+    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, sprites.explode.unit[i]);
+
+    XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
+	      0, 0,
+	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+	      map_canvas_adjust_x(losing_unit->x) * NORMAL_TILE_WIDTH,
+	      map_canvas_adjust_y(losing_unit->y) * NORMAL_TILE_HEIGHT );
+
+    XSync(display, 0);
+    usleep_since_timer_start(anim_timer, 20000);
+  }
+
   refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
   refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
 }
-
 
 
 /**************************************************************************

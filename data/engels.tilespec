@@ -39,4 +39,5 @@ files =
   "engels/roads.spec",
   "misc/space.spec",
   "misc/treaty.spec",
-  "engels/cities.spec"
+  "engels/cities.spec",
+  "engels/explosions.spec"

@@ -85,6 +85,7 @@ struct named_sprites {
   } road, rail;
   struct {
     struct Sprite *nuke[3][3];	         /* row, column, from top-left */
+    struct Sprite **unit;
   } explode;
   struct {
     struct Sprite
@@ -188,5 +189,7 @@ extern int SMALL_TILE_HEIGHT;
 extern char *city_names_font;
 
 extern int flags_are_transparent;
+
+extern int num_tiles_explode_unit;
 
 #endif  /* FC__TILESPEC_H */

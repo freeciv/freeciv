@@ -40,5 +40,6 @@ files =
   "misc/space.spec",
   "misc/treaty.spec",
   "engels/cities.spec",
+  "engels/explosions.spec",
   "misc/chiefs.spec",
   "misc/shields.spec"

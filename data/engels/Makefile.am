@@ -6,6 +6,8 @@ pkgdatadir = $(datadir)/@PACKAGE@/engels
 pkgdata_DATA =          \
 	cities.xpm	\
 	cities.spec	\
+	explosions.xpm	\
+	explosions.spec	\
 	flags.xpm	\
 	flags.spec	\
 	roads.xpm	\
