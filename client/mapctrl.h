@@ -73,6 +73,7 @@ void key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
+void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc);
 
 void city_new_name_return(Widget w, XEvent *event, String *params,
 			  Cardinal *num_params);

@@ -141,6 +141,8 @@ GC civ_gc;
 
 /* and this one is used for filling with the bg color */
 GC fill_bg_gc;
+GC fill_tile_gc;
+Pixmap gray50,gray25;
 
 /* overall font GC                                    */
 GC font_gc;
@@ -225,7 +227,8 @@ XtActionsRec Actions[] = {
   { "select-citymap", button_down_citymap},
   { "quit-freeciv", quit_freeciv},
   { "close-citydialog", close_city_dialog_action},
-  { "key-goto-dialog", popup_goto_dialog_action }
+  { "key-goto-dialog", popup_goto_dialog_action },
+  { "key-city-workers", key_city_workers }
 };
 
 int myerr(Display *p, XErrorEvent *e)
@@ -377,12 +380,22 @@ void x_main(int argc, char *argv[])
     values.background = 0;
     fill_bg_gc= XCreateGC(display, root_window, 
 			  GCForeground | GCBackground, &values);
+    values.fill_style=FillStippled;
+    fill_tile_gc= XCreateGC(display, root_window, 
+    			    GCForeground|GCBackground|GCFillStyle, &values);
+  }
+
+  {
+    unsigned char d1[]={0x03,0x0c,0x03,0x0c};
+    unsigned char d2[]={0x08,0x02,0x08,0x02};
+    gray50=XCreateBitmapFromData(display,root_window,d1,4,4);
+    gray25=XCreateBitmapFromData(display,root_window,d2,4,4);
   }
 
   load_tile_gfx();
-  load_intro_gfx(); 
 
   setup_widgets();
+  load_intro_gfx(); 
   
   XtSetKeyboardFocus(bottom_form, inputline_text);
   XtSetKeyboardFocus(below_menu_form, map_canvas);

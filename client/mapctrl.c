@@ -43,6 +43,11 @@
 #include <chatline.h>
 #include <menu.h>
 #include <graphics.h>
+#include <colors.h>
+
+extern Display	*display;
+extern GC fill_tile_gc;
+extern Pixmap gray50,gray25;
 
 extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -840,6 +845,47 @@ void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
   
   if((punit=get_unit_in_focus()))
     center_tile_mapcanvas(punit->x, punit->y);
+}
+
+/**************************************************************************
+  Draws the on the map the tiles the given city is using
+**************************************************************************/
+void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  int xtile, ytile;
+  int x,y;
+  XButtonEvent *ev=&event->xbutton;
+  struct city *pcity;
+  int i,j;
+  static int color=COLOR_STD_WHITE;
+  static enum city_tile_type last_t=-1;
+
+  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+    return;
+  
+  x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
+  xtile=map_adjust_x(map_view_x0+x); ytile=map_adjust_y(map_view_y0+y);
+
+  pcity=map_get_city(xtile, ytile);
+
+  if(!pcity || pcity->owner!=game.player_idx) return;
+
+  color = (color%3)+1;
+  XSetForeground(display,fill_tile_gc,colors_standard[color]);
+
+  city_map_iterate(i, j)  {
+    enum city_tile_type t=get_worker_city(pcity, i, j);
+    if(i==2 && j==2) continue;
+    if(t==C_TILE_EMPTY) {
+      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray25);
+    } else if(t==C_TILE_WORKER) {
+      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray50);
+    } else continue;
+    last_t=t;
+    XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
+		   (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
+		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+  }
 }
 
 /**************************************************************************
