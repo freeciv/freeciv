@@ -205,29 +205,9 @@ bestchoice.want); */
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
 
-  /* fallback to my [JB?] old ai, if functions haven't been implemented */
+/* fallbacks should never happen anymore, but probably could somehow. -- Syela */
 printf("Falling back - %s didn't want soldiers, settlers, or buildings.\n", pcity->name);
-
-  if (pcity->ai.ai_role == AICITY_NONE) { /* city ai role never changes */
-    if (!set && pcity->food_surplus >= 2 && ai_want_settlers(pplayer, map_get_continent(pcity->x, pcity->y))) {
-
-/* ai_want_settlers is almost always yes - this is really not good -- Syela */
-
-      if (def || ai_in_initial_expand(pplayer)) {
-	ai_city_build_settler(pcity); 
-	return;
-      }
-    }
-    if (!def) {
-      ai_city_build_defense(pcity); /* smarter now */
-      return;
-    }
-    if(!advisor_choose_build(pcity)) {
-      if (!ai_city_build_peaceful_unit(pcity))
-	ai_city_build_defense(pcity);
-      return;
-    }
-  }
+  
 }
 
 int ai_city_defender_value(struct city *pcity, int a_type, int d_type)            
