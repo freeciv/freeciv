@@ -701,6 +701,7 @@ void game_init(void)
   game.explorer    = GAME_DEFAULT_EXPLORER;
   game.dispersion  = GAME_DEFAULT_DISPERSION;
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
+  game.citymindist = GAME_DEFAULT_CITYMINDIST;
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
   game.angrycitizen= GAME_DEFAULT_ANGRYCITIZEN;

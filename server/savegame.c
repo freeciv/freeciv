@@ -1759,6 +1759,9 @@ void game_load(struct section_file *file)
       game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
     }
 
+    game.citymindist  = secfile_lookup_int_default(file,
+      GAME_DEFAULT_CITYMINDIST, "game.citymindist");
+
     if (has_capability("watchtower", savefile_options)) {
       game.watchtower_extra_vision =
 	  secfile_lookup_int(file, "game.watchtower_extra_vision");
@@ -2103,6 +2106,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
   secfile_insert_int(file, game.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
+  secfile_insert_int(file, game.citymindist, "game.citymindist");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
   secfile_insert_int(file, game.freecost, "game.freecost");

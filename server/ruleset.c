@@ -2136,12 +2136,18 @@ static void load_ruleset_game(char *ruleset_subdir)
   game.rgame.min_city_center_trade =
     secfile_lookup_int(&file, "civstyle.min_city_center_trade");
 
-  game.rgame.min_dist_bw_cities =
-    secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
-  if(game.rgame.min_dist_bw_cities<1) {
-    freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
-	    game.rgame.min_dist_bw_cities);
-    game.rgame.min_dist_bw_cities = 2;
+  /* if the server variable citymindist is set (!= 0) the ruleset
+     setting is overwritten by citymindist */
+  if (game.citymindist == 0) {
+    game.rgame.min_dist_bw_cities =
+	secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
+    if (game.rgame.min_dist_bw_cities < 1) {
+      freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
+	      game.rgame.min_dist_bw_cities);
+      game.rgame.min_dist_bw_cities = 2;
+    }
+  } else {
+    game.rgame.min_dist_bw_cities = game.citymindist;
   }
 
   game.rgame.init_vis_radius_sq =

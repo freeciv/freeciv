@@ -72,6 +72,7 @@ struct civ_game {
   int diplcost, freecost, conquercost;
   int diplchance;
   int cityfactor;
+  int citymindist;
   int civilwarsize;
   int min_players, max_players, nplayers;
   int aifill;
@@ -323,6 +324,10 @@ extern int is_server;
 #define GAME_DEFAULT_CITYFACTOR      14
 #define GAME_MIN_CITYFACTOR          6
 #define GAME_MAX_CITYFACTOR          100
+
+#define GAME_DEFAULT_CITYMINDIST     0
+#define GAME_MIN_CITYMINDIST         0 /* if 0, ruleset will overwrite this */
+#define GAME_MAX_CITYMINDIST         5
 
 #define GAME_DEFAULT_CIVILWARSIZE    10
 #define GAME_MIN_CIVILWARSIZE        6

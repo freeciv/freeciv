@@ -538,6 +538,16 @@ static struct settings_s settings[] = {
        "Democracy; for other governments the effect occurs at "
        "smaller numbers of cities.") },
 
+  { "citymindist", &game.citymindist, NULL, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST, GAME_DEFAULT_CITYMINDIST,
+    N_("Minimum distance between cities (move distance)"),
+    N_("When a player founds a new city, it is checked if there is no "
+       "other city in citymindist distance. For example, if citymindist "
+       "is 3, there have to be at least two empty fields between two cities "
+       "every direction. If it is set to 0 (default), it is overwritten by "
+       "the current ruleset when the game starts.") },
+
   { "razechance", &game.razechance, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
