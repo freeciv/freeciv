@@ -24,7 +24,6 @@
    happens anyway, so this restriction may be considered beneficial.
 */
 
-#include <stdio.h>
 #include <string.h>		/* for memcpy */
 
 #ifndef SPECVEC_TAG
