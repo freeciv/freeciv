@@ -38,8 +38,8 @@ bool placed_map_is_initialized(void)
 void create_placed_map(void)                               
 {                                                          
   assert(!placed_map_is_initialized());                              
-  placed_map = fc_malloc (sizeof(bool) * MAX_MAP_INDEX);   
-  INITIALIZE_ARRAY(placed_map, MAX_MAP_INDEX, FALSE );     
+  placed_map = fc_malloc (sizeof(bool) * MAP_INDEX_SIZE);   
+  INITIALIZE_ARRAY(placed_map, MAP_INDEX_SIZE, FALSE );     
 }
 
 /**************************************************************************** 
@@ -162,7 +162,7 @@ bool is_normal_nat_pos(int x, int y)
 
 /****************************************************************************
  * Apply a Gaussian difusion filtre on the map
- * the size of the map is MAX_MAP_INDEX and the map is indexed by 
+ * the size of the map is MAP_INDEX_SIZE and the map is indexed by 
  * native_pos_to_index function
  * if zeroes_at_edges is set, any unreal position on difusion has 0 value
  * if zeroes_at_edges in unset the unreal position are not counted.
@@ -172,7 +172,7 @@ bool is_normal_nat_pos(int x, int y)
   float weight[5] =  {0.35,  0.5 ,1 , 0.5, 0.35};
   float total_weight = 2.70;
   bool axe = TRUE;
-  int alt_int_map[MAX_MAP_INDEX];
+  int alt_int_map[MAP_INDEX_SIZE];
   int *target_map, *source_map;
 
   assert(int_map != NULL);

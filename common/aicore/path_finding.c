@@ -423,14 +423,14 @@ static struct pf_map *create_map(bool with_danger)
 {
   struct pf_map *pf_map = fc_calloc(1, sizeof(struct pf_map));
 
-  pf_map->lattice = fc_malloc(MAX_MAP_INDEX * sizeof(struct pf_node));
+  pf_map->lattice = fc_malloc(MAP_INDEX_SIZE * sizeof(struct pf_node));
   pf_map->queue = pq_create(INITIAL_QUEUE_SIZE);
-  pf_map->status = fc_calloc(MAX_MAP_INDEX, sizeof(*(pf_map->status)));
+  pf_map->status = fc_calloc(MAP_INDEX_SIZE, sizeof(*(pf_map->status)));
 
   if (with_danger) {
     /* Initialize stuff for dangerous positions.
      * Otherwise they stay NULL */
-    pf_map->d_lattice = fc_calloc(MAX_MAP_INDEX, sizeof(struct danger_node));
+    pf_map->d_lattice = fc_calloc(MAP_INDEX_SIZE, sizeof(struct danger_node));
     pf_map->danger_queue = pq_create(INITIAL_QUEUE_SIZE);
   }
 
@@ -491,7 +491,7 @@ void pf_destroy_map(struct pf_map *pf_map)
     int i;
 
     /* Need to clean up the dangling danger_sements */
-    for (i = 0; i < MAX_MAP_INDEX; i++) {
+    for (i = 0; i < MAP_INDEX_SIZE; i++) {
       if (pf_map->d_lattice[i].danger_segment) {
 	free(pf_map->d_lattice[i].danger_segment);
       }

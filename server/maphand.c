@@ -1016,8 +1016,8 @@ void show_map_to_all(void)
 ****************************************************************/
 void player_map_allocate(struct player *pplayer)
 {
-  pplayer->private_map =
-    fc_malloc(map.xsize*map.ysize*sizeof(struct player_tile));
+  pplayer->private_map
+    = fc_malloc(MAP_INDEX_SIZE * sizeof(*pplayer->private_map));
   whole_map_iterate(ptile) {
     player_tile_init(ptile, pplayer);
   } whole_map_iterate_end;

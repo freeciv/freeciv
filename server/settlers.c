@@ -137,7 +137,7 @@ void init_settlers(void)
   /* (Re)allocate map arrays.  Note that the server may run more than one
    * game so the realloc() is necessary. */
   territory = fc_realloc(territory,
-                         map.xsize * map.ysize * sizeof(*territory));
+                         MAP_INDEX_SIZE * sizeof(*territory));
 }
 
 /**************************************************************************
@@ -1420,7 +1420,7 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
 **************************************************************************/
 static void assign_territory(void)
 {
-  memset(territory, 0, map.xsize * map.ysize * sizeof(*territory));
+  memset(territory, 0, MAP_INDEX_SIZE * sizeof(*territory));
 
   players_iterate(pplayer) {
     assign_territory_player(pplayer);

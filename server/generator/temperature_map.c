@@ -80,7 +80,7 @@ void create_tmap(bool real)
     return;
   }
 
-  temperature_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
+  temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(ptile) {
   
      /* the base temperature is equal to base map_colatitude */
@@ -107,7 +107,7 @@ void create_tmap(bool real)
     adjust_int_map(temperature_map, MAX_COLATITUDE);
   }
   /* now simplify to 4 base values */ 
-  for (i = 0; i < MAX_MAP_INDEX; i++) {
+  for (i = 0; i < MAP_INDEX_SIZE; i++) {
     int t = temperature_map[i];
 
     if (t >= TROPICAL_LEVEL) {

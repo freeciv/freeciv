@@ -92,8 +92,7 @@ void init_client_goto(void)
     free_client_goto();
   }
 
-  goto_map.tiles = fc_malloc(map.xsize * map.ysize
-                             * sizeof(*goto_map.tiles));
+  goto_map.tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*goto_map.tiles));
   goto_map.parts = NULL;
   goto_map.num_parts = 0;
   goto_map.unit_id = -1;

@@ -72,9 +72,9 @@ void renormalize_hmap_poles(void)
 void make_random_hmap(int smooth)
 {
   int i = 0;
-  height_map = fc_malloc (sizeof(int) * MAX_MAP_INDEX);
+  height_map = fc_malloc(sizeof(int) * MAP_INDEX_SIZE);
 
-  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, myrand(1000 * smooth) );
+  INITIALIZE_ARRAY(height_map, MAP_INDEX_SIZE, myrand(1000 * smooth));
 
   for (; i < smooth; i++) {
     smooth_int_map(height_map, TRUE);
@@ -183,10 +183,10 @@ void make_pseudofractal1_hmap(int extra_div)
   /* edges are avoided more strongly as this increases */
   int avoidedge = (100 - map.landpercent) * step / 100 + step / 3; 
 
-  height_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
+  height_map = fc_malloc(sizeof(int) * MAP_INDEX_SIZE);
 
  /* initialize map */
-  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, 0);
+  INITIALIZE_ARRAY(height_map, MAP_INDEX_SIZE, 0);
 
   /* set initial points */
   for (xn = 0; xn < xdiv2; xn++) {

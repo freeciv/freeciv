@@ -319,7 +319,7 @@ void map_init_topology(bool set_sizes)
 
   if (!set_sizes) {
     /* Set map.size based on map.xsize and map.ysize. */
-    map.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
+    map.size = (float)(map_num_tiles()) / 1000.0 + 0.5;
   }
   
   /* sanity check for iso topologies*/
@@ -448,7 +448,7 @@ struct tile *index_to_tile(int index)
     return NULL;
   }
 
-  if (index >= 0 && index < MAX_MAP_INDEX) {
+  if (index >= 0 && index < MAP_INDEX_SIZE) {
     return map.tiles + index;
   } else {
     /* Unwrapped index coordinates are impossible, so the best we can do is
@@ -495,7 +495,7 @@ void map_allocate(void)
 	  map.tiles, map.xsize, map.ysize);
 
   assert(map.tiles == NULL);
-  map.tiles = fc_malloc(map.xsize * map.ysize * sizeof(struct tile));
+  map.tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*map.tiles));
   whole_map_iterate(ptile) {
     int index, nat_x, nat_y, map_x, map_y;
 
@@ -1601,18 +1601,18 @@ struct tile *rand_map_pos_filtered(void *data,
 {
   struct tile *ptile;
   int tries = 0;
-  const int max_tries = map.xsize * map.ysize / ACTIVITY_FACTOR;
+  const int max_tries = MAP_INDEX_SIZE / ACTIVITY_FACTOR;
 
   /* First do a few quick checks to find a spot.  The limit on number of
    * tries could use some tweaking. */
   do {
-    ptile = map.tiles + myrand(map.xsize * map.ysize);
+    ptile = map.tiles + myrand(MAP_INDEX_SIZE);
   } while (filter && !filter(ptile, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
    * Slow but reliable. */
   if (tries == max_tries) {
-    int count = 0, positions[map.xsize * map.ysize];
+    int count = 0, positions[MAP_INDEX_SIZE];
 
     whole_map_iterate(ptile) {
       if (filter(ptile, data)) {

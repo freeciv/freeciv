@@ -802,8 +802,6 @@ static void make_rivers(void)
   /* The number of river tiles that have been set. */
   int current_riverlength = 0;
 
-  int i; /* Loop variable. */
-
   /* Counts the number of iterations (should increase with 1 during
      every iteration of the main loop in this function).
      Is needed to stop a potentially infinite loop. */
@@ -812,7 +810,7 @@ static void make_rivers(void)
   create_placed_map(); /* needed bu rand_map_characteristic */
   set_all_ocean_tiles_placed();
 
-  river_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
+  river_map = fc_malloc(sizeof(*river_map) * MAP_INDEX_SIZE);
 
   /* The main loop in this function. */
   while (current_riverlength < desirable_riverlength
@@ -865,9 +863,7 @@ static void make_rivers(void)
 	    || iteration_counter == RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
-      for (i = 0; i < map.xsize * map.ysize; i++) {
-	river_map[i] = 0;
-      }
+      memset(river_map, 0, MAP_INDEX_SIZE * sizeof(*river_map));
 
       freelog(LOG_DEBUG,
 	      "Found a suitable starting tile for a river at (%d, %d)."
@@ -1468,7 +1464,7 @@ static bool create_island(int islemass, struct gen234_state *pstate)
   bool j;
   struct tile *ptile = native_pos_to_tile(map.xsize / 2, map.ysize / 2);
 
-  memset(height_map, '\0', sizeof(int) * map.xsize * map.ysize);
+  memset(height_map, '\0', MAP_INDEX_SIZE * sizeof(*height_map));
   hmap(native_pos_to_tile(map.xsize / 2, map.ysize / 2)) = 1;
   pstate->n = ptile->nat_y - 1;
   pstate->w = ptile->nat_x - 1;
@@ -1649,7 +1645,7 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
-  height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
+  height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
   create_placed_map(); /* land tiles which aren't placed yet */
   create_tmap(FALSE);
   

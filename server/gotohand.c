@@ -194,14 +194,14 @@ Reset the movecosts of the warmap.
 **************************************************************************/
 static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
 {
-  if (warmap.size != MAX_MAP_INDEX) {
+  if (warmap.size != MAP_INDEX_SIZE) {
     warmap.cost = fc_realloc(warmap.cost,
-			     MAX_MAP_INDEX * sizeof(*warmap.cost));
+			     MAP_INDEX_SIZE * sizeof(*warmap.cost));
     warmap.seacost = fc_realloc(warmap.seacost,
-				MAX_MAP_INDEX * sizeof(*warmap.seacost));
+				MAP_INDEX_SIZE * sizeof(*warmap.seacost));
     warmap.vector = fc_realloc(warmap.vector,
-			       MAX_MAP_INDEX * sizeof(*warmap.vector));
-    warmap.size = MAX_MAP_INDEX;
+			       MAP_INDEX_SIZE * sizeof(*warmap.vector));
+    warmap.size = MAP_INDEX_SIZE;
   }
 
   init_queue();
@@ -211,12 +211,12 @@ static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
   case HELI_MOVING:
   case AIR_MOVING:
     assert(sizeof(*warmap.cost) == sizeof(char));
-    memset(warmap.cost, MAXCOST, map.xsize * map.ysize);
+    memset(warmap.cost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
     WARMAP_COST(orig_tile) = 0;
     break;
   case SEA_MOVING:
     assert(sizeof(*warmap.seacost) == sizeof(char));
-    memset(warmap.seacost, MAXCOST, map.xsize * map.ysize);
+    memset(warmap.seacost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
     WARMAP_SEACOST(orig_tile) = 0;
     break;
   default:
@@ -572,7 +572,7 @@ static bool find_the_shortest_path(struct unit *punit,
   int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
-  dir_vector local_vector[MAX_MAP_INDEX];
+  dir_vector local_vector[MAP_INDEX_SIZE];
 #define LOCAL_VECTOR(ptile) local_vector[(ptile)->index]
   struct unit *pcargo;
   /* 
@@ -818,7 +818,7 @@ static bool find_the_shortest_path(struct unit *punit,
   /*** Succeeded. The vector at the destination indicates which way we get there.
      Now backtrack to remove all the blind paths ***/
   assert(sizeof(*warmap.vector) == sizeof(char));
-  memset(warmap.vector, 0, map.xsize * map.ysize);
+  memset(warmap.vector, 0, MAP_INDEX_SIZE * sizeof(char));
 
   init_queue();
   add_to_mapqueue(0, dest_tile);

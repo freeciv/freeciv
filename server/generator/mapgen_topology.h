@@ -19,7 +19,7 @@
 #define MAX_COLATITUDE 1000
 
 /* An estimate of the linear (1-dimensional) size of the map. */
-#define SQSIZE MAX(1, sqrt(map.xsize * map.ysize / 1000))
+#define SQSIZE MAX(1, sqrt(MAP_INDEX_SIZE / 1000))
 
 /* size safe Unit of colatitude */ 
 #define L_UNIT (MAX_COLATITUDE / (30 * SQSIZE) )

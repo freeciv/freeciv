@@ -2467,7 +2467,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 #define LARGE_PRIME 10007
 #define SMALL_PRIME 1009
       assert(count < SMALL_PRIME);
-      assert((int)(LARGE_PRIME * MAX_MAP_INDEX) > 0);
+      assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
       count = ((ptile->index
 		* LARGE_PRIME) % SMALL_PRIME) % count;
       ADD_SPRITE(draw->layer[l].base.p[count],

@@ -183,7 +183,7 @@ void create_start_positions(enum start_mode mode)
   struct tile *ptile;
   int k, sum;
   struct start_filter_data data;
-  int tile_value_aux[MAX_MAP_INDEX], tile_value[MAX_MAP_INDEX];
+  int tile_value_aux[MAP_INDEX_SIZE], tile_value[MAP_INDEX_SIZE];
   int min_goodies_per_player = 2000;
   int total_goodies = 0;
   /* this is factor is used to maximize land used in extreme little maps */

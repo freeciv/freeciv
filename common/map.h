@@ -229,14 +229,14 @@ Continent_id map_get_continent(const struct tile *ptile);
 void initialize_move_costs(void);
 void reset_move_costs(struct tile *ptile);
 
-/* Maximum value of index (for sanity checks and allocations) */
-#define MAX_MAP_INDEX (map.xsize * map.ysize)
+/* Number of index coordinates (for sanity checks and allocations) */
+#define MAP_INDEX_SIZE (map.xsize * map.ysize)
 
 #ifdef DEBUG
 #define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
 #define CHECK_NATIVE_POS(x, y) assert((x) >= 0 && (x) < map.xsize \
 				      && (y) >= 0 && (y) < map.ysize)
-#define CHECK_INDEX(index) assert((index) >= 0 && (index) < MAX_MAP_INDEX)
+#define CHECK_INDEX(index) assert((index) >= 0 && (index) < MAP_INDEX_SIZE)
 #else
 #define CHECK_MAP_POS(x,y) ((void)0)
 #define CHECK_NATIVE_POS(x, y) ((void)0)
@@ -568,7 +568,7 @@ extern struct terrain_misc terrain_control;
 #define whole_map_iterate(ptile)					    \
 {                                                                           \
   int _index; /* We use index positions for cache efficiency. */	    \
-  for (_index = 0; _index < MAX_MAP_INDEX; _index++) {			    \
+  for (_index = 0; _index < MAP_INDEX_SIZE; _index++) {			    \
     struct tile *ptile = map.tiles + _index;				    \
 
 #define whole_map_iterate_end                                               \

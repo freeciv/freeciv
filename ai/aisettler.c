@@ -441,8 +441,8 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
 **************************************************************************/
 void ai_settler_init(struct player *pplayer)
 {
-  cachemap = fc_realloc(cachemap, MAX_MAP_INDEX * sizeof(*cachemap));
-  memset(cachemap, -1, MAX_MAP_INDEX * sizeof(*cachemap));
+  cachemap = fc_realloc(cachemap, MAP_INDEX_SIZE * sizeof(*cachemap));
+  memset(cachemap, -1, MAP_INDEX_SIZE * sizeof(*cachemap));
 }
 
 /**************************************************************************

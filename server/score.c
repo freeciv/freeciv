@@ -145,9 +145,7 @@ static void build_landarea_map_new(struct claim_map *pcmap)
 {
   int nbytes;
 
-  nbytes = map.xsize * map.ysize * sizeof(struct claim_cell);
-  pcmap->claims = fc_malloc(nbytes);
-  memset(pcmap->claims, 0, nbytes);
+  pcmap->claims = fc_calloc(MAP_INDEX_SIZE, sizeof(*pcmap->claims));
 
   nbytes = game.nplayers * sizeof(int);
   pcmap->player_landarea = fc_malloc(nbytes);
@@ -157,7 +155,7 @@ static void build_landarea_map_new(struct claim_map *pcmap)
   pcmap->player_owndarea = fc_malloc(nbytes);
   memset(pcmap->player_owndarea, 0, nbytes);
 
-  nbytes = 2 * map.xsize * map.ysize * sizeof(*pcmap->edges);
+  nbytes = 2 * MAP_INDEX_SIZE * sizeof(*pcmap->edges);
   pcmap->edges = fc_malloc(nbytes);
 
   players_iterate(pplayer) {
@@ -244,7 +242,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
   struct tile **thisedge;
   struct tile **nextedge;
 
-  midedge = &pcmap->edges[map.xsize * map.ysize];
+  midedge = &pcmap->edges[MAP_INDEX_SIZE];
 
   for (accum = 1, turn = 1; accum > 0; turn++) {
     thisedge = ((turn & 0x1) == 1) ? pcmap->edges : midedge;
