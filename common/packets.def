@@ -1076,12 +1076,8 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
   UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
   UINT16 farmland_supermarket_food_bonus;# % added to food if farm/s-market
-  UINT16 pollution_food_penalty;        /* % subtr. from food if polluted */
-  UINT16 pollution_shield_penalty;      /* % subtr. from shield if polluted */
-  UINT16 pollution_trade_penalty;       /* % subtr. from trade if polluted */
-  UINT16 fallout_food_penalty;          /* % subtr. from food if fallout */
-  UINT16 fallout_shield_penalty;        /* % subtr. from shield if fallout */
-  UINT16 fallout_trade_penalty;         /* % subtr. from trade if fallout */
+  UINT8 pollution_tile_penalty[O_MAX]; /* % taken from output if polluted */
+  UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
 end
 
 PACKET_RULESET_NATION=102;sc,lsend

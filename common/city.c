@@ -620,11 +620,11 @@ static int base_get_shields_tile(const struct tile *ptile,
 
   if (contains_special(spec_t, S_POLLUTION)) {
     /* The shields here are icky */
-    s -= (s * terrain_control.pollution_shield_penalty) / 100;
+    s -= (s * terrain_control.pollution_tile_penalty[O_SHIELD]) / 100;
   }
 
   if (contains_special(spec_t, S_FALLOUT)) {
-    s -= (s * terrain_control.fallout_shield_penalty) / 100;
+    s -= (s * terrain_control.fallout_tile_penalty[O_SHIELD]) / 100;
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
@@ -725,11 +725,11 @@ static int base_get_trade_tile(const struct tile *ptile,
 
   if (contains_special(spec_t, S_POLLUTION)) {
     /* The trade here is dirty */
-    t -= (t * terrain_control.pollution_trade_penalty) / 100;
+    t -= (t * terrain_control.pollution_tile_penalty[O_TRADE]) / 100;
   }
 
   if (contains_special(spec_t, S_FALLOUT)) {
-    t -= (t * terrain_control.fallout_trade_penalty) / 100;
+    t -= (t * terrain_control.fallout_tile_penalty[O_TRADE]) / 100;
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
@@ -839,10 +839,10 @@ static int base_get_food_tile(const struct tile *ptile,
 
   if (contains_special(tile.special, S_POLLUTION)) {
     /* The food here is yucky */
-    f -= (f * terrain_control.pollution_food_penalty) / 100;
+    f -= (f * terrain_control.pollution_tile_penalty[O_FOOD]) / 100;
   }
   if (contains_special(tile.special, S_FALLOUT)) {
-    f -= (f * terrain_control.fallout_food_penalty) / 100;
+    f -= (f * terrain_control.fallout_tile_penalty[O_FOOD]) / 100;
   }
 
   if (pcity && is_city_center(city_x, city_y)) {

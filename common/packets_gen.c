@@ -23090,7 +23090,7 @@ void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet
 
 #define cmp_packet_ruleset_terrain_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_terrain_control_100_fields, 20);
+BV_DEFINE(packet_ruleset_terrain_control_100_fields, 16);
 
 static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control_100(struct connection *pc, enum packet_type type)
 {
@@ -23201,51 +23201,33 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
     }
   }
   if (BV_ISSET(fields, 14)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
-      dio_get_uint16(&din, &readin);
-      real_packet->pollution_food_penalty = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->pollution_tile_penalty[i] = readin;
+    }
+      }
     }
   }
   if (BV_ISSET(fields, 15)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
-      dio_get_uint16(&din, &readin);
-      real_packet->pollution_shield_penalty = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->fallout_tile_penalty[i] = readin;
     }
-  }
-  if (BV_ISSET(fields, 16)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->pollution_trade_penalty = readin;
-    }
-  }
-  if (BV_ISSET(fields, 17)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->fallout_food_penalty = readin;
-    }
-  }
-  if (BV_ISSET(fields, 18)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->fallout_shield_penalty = readin;
-    }
-  }
-  if (BV_ISSET(fields, 19)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->fallout_trade_penalty = readin;
+      }
     }
   }
 
@@ -23350,29 +23332,37 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (old->pollution_food_penalty != real_packet->pollution_food_penalty);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->pollution_tile_penalty[i] != real_packet->pollution_tile_penalty[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (old->pollution_shield_penalty != real_packet->pollution_shield_penalty);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->fallout_tile_penalty[i] != real_packet->fallout_tile_penalty[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
-
-  differ = (old->pollution_trade_penalty != real_packet->pollution_trade_penalty);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
-
-  differ = (old->fallout_food_penalty != real_packet->fallout_food_penalty);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
-
-  differ = (old->fallout_shield_penalty != real_packet->fallout_shield_penalty);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
-  differ = (old->fallout_trade_penalty != real_packet->fallout_trade_penalty);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -23422,22 +23412,24 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
     dio_put_uint16(&dout, real_packet->farmland_supermarket_food_bonus);
   }
   if (BV_ISSET(fields, 14)) {
-    dio_put_uint16(&dout, real_packet->pollution_food_penalty);
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_uint8(&dout, real_packet->pollution_tile_penalty[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 15)) {
-    dio_put_uint16(&dout, real_packet->pollution_shield_penalty);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_put_uint16(&dout, real_packet->pollution_trade_penalty);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_put_uint16(&dout, real_packet->fallout_food_penalty);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_put_uint16(&dout, real_packet->fallout_shield_penalty);
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_put_uint16(&dout, real_packet->fallout_trade_penalty);
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_uint8(&dout, real_packet->fallout_tile_penalty[i]);
+      }
+    } 
   }
 
 

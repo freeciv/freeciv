@@ -1559,21 +1559,17 @@ static void load_ruleset_terrain(struct section_file *file)
     terrain_control.rail_tile_bonus[o] =
       secfile_lookup_int_default(file, 0, "parameters.rail_%s_bonus",
 				 get_output_identifier(o));
+    terrain_control.pollution_tile_penalty[o]
+      = secfile_lookup_int_default(file, 50,
+				   "parameters.pollution_%s_penalty",
+				   get_output_identifier(o));
+    terrain_control.fallout_tile_penalty[o]
+      = secfile_lookup_int_default(file, 50,
+				   "parameters.fallout_%s_penalty",
+				   get_output_identifier(o));
   } output_type_iterate_end;
   terrain_control.farmland_supermarket_food_bonus =
     secfile_lookup_int_default(file, 50, "parameters.farmland_supermarket_food_bonus");
-  terrain_control.pollution_food_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.pollution_food_penalty");
-  terrain_control.pollution_shield_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.pollution_shield_penalty");
-  terrain_control.pollution_trade_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.pollution_trade_penalty");
-  terrain_control.fallout_food_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.fallout_food_penalty");
-  terrain_control.fallout_shield_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.fallout_shield_penalty");
-  terrain_control.fallout_trade_penalty =
-    secfile_lookup_int_default(file, 50, "parameters.fallout_trade_penalty");
 
   sec = secfile_get_secnames_prefix(file, "terrain_", &nval);
 

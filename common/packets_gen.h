@@ -818,12 +818,8 @@ struct packet_ruleset_terrain_control {
   int road_superhighway_trade_bonus;
   int rail_tile_bonus[O_MAX];
   int farmland_supermarket_food_bonus;
-  int pollution_food_penalty;
-  int pollution_shield_penalty;
-  int pollution_trade_penalty;
-  int fallout_food_penalty;
-  int fallout_shield_penalty;
-  int fallout_trade_penalty;
+  int pollution_tile_penalty[O_MAX];
+  int fallout_tile_penalty[O_MAX];
 };
 
 struct packet_ruleset_nation {
