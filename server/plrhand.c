@@ -614,7 +614,7 @@ void update_player_aliveness(struct player *pplayer)
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
       notify_player_ex(0, 0,0, E_DESTROYED, "Game: The %s are no more!", 
-		    races[pplayer->race].name);
+		       get_race_name_plural(pplayer->race));
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
     }
