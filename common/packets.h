@@ -965,12 +965,12 @@ int send_packet_alloc_nation(struct connection *pc,
 struct packet_alloc_nation *receive_packet_alloc_nation(struct connection *pc);
 
 
-int send_packet_generic_message(struct connection *pc, int type,
+int send_packet_generic_message(struct connection *pc, enum packet_type type,
 				const struct packet_generic_message *packet);
 struct packet_generic_message *receive_packet_generic_message(struct 
 							      connection *pc);
 
-int send_packet_generic_integer(struct connection *pc, int type,
+int send_packet_generic_integer(struct connection *pc, enum packet_type type,
 				const struct packet_generic_integer *packet);
 struct packet_generic_integer *receive_packet_generic_integer(struct 
 							      connection *pc);
@@ -1059,7 +1059,7 @@ int send_packet_ruleset_game(struct connection *pc,
 struct packet_ruleset_game *
 receive_packet_ruleset_game(struct connection *pc);
 
-int send_packet_generic_values(struct connection *pc, int type,
+int send_packet_generic_values(struct connection *pc, enum packet_type type,
 			       const struct packet_generic_values *req);
 struct packet_generic_values *
 receive_packet_generic_values(struct connection *pc);
@@ -1084,7 +1084,7 @@ int send_packet_sabotage_list(struct connection *pc,
 struct packet_sabotage_list *
 receive_packet_sabotage_list(struct connection *pc);
 
-void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presult);
+void *get_packet_from_connection(struct connection *pc, enum packet_type *ptype, bool *presult);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 int send_packet_goto_route(struct connection *pc,
@@ -1102,7 +1102,7 @@ void send_attribute_block(const struct player *pplayer,
 void generic_handle_attribute_chunk(struct player *pplayer,
 				    struct packet_attribute_chunk *chunk);
 
-int send_packet_generic_empty(struct connection *pc, int type);
+int send_packet_generic_empty(struct connection *pc, enum packet_type type);
 struct packet_generic_empty *
 receive_packet_generic_empty(struct connection *pc);
 

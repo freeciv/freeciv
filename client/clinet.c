@@ -316,7 +316,7 @@ void input_from_server(int fd)
   assert(fd == aconnection.sock);
 
   if (read_from_connection(&aconnection, FALSE) >= 0) {
-    int type;
+    enum packet_type type;
     bool result;
     char *packet;
 
@@ -352,7 +352,7 @@ void input_from_server_till_request_got_processed(int fd,
 
   while (TRUE) {
     if (read_from_connection(&aconnection, TRUE) >= 0) {
-      int type;
+      enum packet_type type;
       bool result;
       char *packet;
 

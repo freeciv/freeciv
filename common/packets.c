@@ -243,9 +243,12 @@ presult indicates if there is more packets in the cache. We return result
 instead of just testing if the returning package is NULL as we sometimes
 return a NULL packet even if everything is OK (receive_packet_goto_route).
 **************************************************************************/
-void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presult)
+void *get_packet_from_connection(struct connection *pc,
+				 enum packet_type *ptype, bool * presult)
 {
-  int len, type;
+  int len;
+  enum packet_type type;
+
   *presult = FALSE;
 
   if (!pc->used)
@@ -255,7 +258,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presul
     return NULL;           /* length and type not read */
 
   get_uint16(pc->buffer->data, &len);
-  get_uint8(pc->buffer->data+2, &type);
+  get_uint8(pc->buffer->data + 2, (int *) &type);
 
   if(pc->first_packet) {
     /* the first packet better be short: */
@@ -2279,7 +2282,7 @@ receive_packet_generic_empty(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_generic_empty(struct connection *pc, int type)
+int send_packet_generic_empty(struct connection *pc, enum packet_type type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
@@ -2748,7 +2751,7 @@ int send_packet_join_game_reply(struct connection *pc,
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_generic_message(struct connection *pc, int type,
+int send_packet_generic_message(struct connection *pc, enum packet_type type,
 				const struct packet_generic_message *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -2774,7 +2777,7 @@ int send_packet_generic_message(struct connection *pc, int type,
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_generic_integer(struct connection *pc, int type,
+int send_packet_generic_integer(struct connection *pc, enum packet_type type,
 				const struct packet_generic_integer *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -2934,7 +2937,7 @@ receive_packet_alloc_nation(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_generic_values(struct connection *pc, int type,
+int send_packet_generic_values(struct connection *pc, enum packet_type type,
 			       const struct packet_generic_values *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;

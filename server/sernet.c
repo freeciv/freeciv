@@ -543,7 +543,7 @@ int sniff_packets(void)
 	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {
 	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
 	    char *packet;
-	    int type;
+	    enum packet_type type;
 	    bool result;
 
 	    while (TRUE) {
