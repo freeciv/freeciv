@@ -2853,7 +2853,7 @@ msgstr "特別な資源は、基本地形型を向上させます。値は 1000 に対する量です。"
 
 #: server/stdinhand.c:314
 msgid "Amount of huts (minor tribe villages)"
-msgstr "小屋(小数部族の村)の量"
+msgstr "小屋(少数部族の村)の量"
 
 #: server/stdinhand.c:323
 msgid "Minimum number of players"
@@ -4558,7 +4558,7 @@ msgstr "範囲外の値です (最小値: %d, 最大値: %d)"
 
 #: server/stdinhand.c:2771
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr "文字列の値が長すぎません。使用法: set <オプション> <値>"
+msgstr "文字列の値が長すぎます。使用法: set <オプション> <値>"
 
 #: server/stdinhand.c:2781
 #, c-format
@@ -4766,7 +4766,7 @@ msgstr "ヘルプ引数 '%s' は省略しすぎです。"
 #: server/stdinhand.c:3460
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr "ヘルプへ引数 '%s' は理解できません。"
+msgstr "ヘルプ引数 '%s' は理解できません。"
 
 #: server/stdinhand.c:3518
 #, c-format
@@ -8941,7 +8941,7 @@ msgstr "食料/資源/交易: %s"
 #: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:144
 #: client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
-msgstr "小数部族の村"
+msgstr "少数部族の村"
 
 #: client/gui-gtk-2.0/mapctrl.c:111 client/gui-gtk/mapctrl.c:106
 #: client/gui-mui/mapclass.c:112 client/gui-win32/mapctrl.c:149
@@ -13309,7 +13309,7 @@ msgstr ""
 "\n"
 "- 地上部隊だけが ZOC の影響を受けます。\n"
 "\n"
-"- 非地上部隊も ZOC を課すことができます。敵の占領している土地として扱かうから"
+"- 非地上部隊も ZOC を課すことができます。敵の占領している土地として扱うから"
 "です。しかし、 ZOC を課すことができるのは、非地上部隊が地上にいる時だけです。"
 "従って、事実上(都市にいる場合以外では)海上部隊は ZOC を課すことができません。"
 "また海上を渡っている航空部隊(ヘリコプターを含む)は ZOC を課しません。\n"
