@@ -187,7 +187,7 @@ struct impr_type {
   enum effect_range equiv_range;
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
-  Tech_Type_id obsolete_by;		/* A_NONE = never obsolete */
+  Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
   bool is_wonder;
   int build_cost;
   int upkeep;

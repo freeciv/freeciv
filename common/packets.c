@@ -2121,7 +2121,15 @@ int send_packet_ruleset_building(struct connection *pc,
   dio_put_uint8(&dout, packet->equiv_range);
   dio_put_uint8_vec8(&dout, packet->equiv_dupl, B_LAST);
   dio_put_uint8_vec8(&dout, packet->equiv_repl, B_LAST);
-  dio_put_uint8(&dout, packet->obsolete_by);
+  if (has_capability("obsolete_last", pc->capability)) {
+    dio_put_uint8(&dout, packet->obsolete_by);
+  } else {
+    if (!tech_exists(packet->obsolete_by)) {
+      dio_put_uint8(&dout, A_NONE);
+    } else {
+      dio_put_uint8(&dout, packet->obsolete_by);
+    }
+  }
   dio_put_bool8(&dout, packet->is_wonder);
   dio_put_uint16(&dout, packet->build_cost);
   dio_put_uint8(&dout, packet->upkeep);
@@ -2181,6 +2189,10 @@ receive_packet_ruleset_building(struct connection *pc)
   dio_get_uint8_vec8(&din, &packet->equiv_dupl, B_LAST);
   dio_get_uint8_vec8(&din, &packet->equiv_repl, B_LAST);
   dio_get_uint8(&din, &packet->obsolete_by);
+  if (!has_capability("obsolete_last", pc->capability)
+      && packet->obsolete_by == A_NONE) {
+    packet->obsolete_by = A_LAST;
+  }
   dio_get_bool8(&din, &packet->is_wonder);
   dio_get_uint16(&din, &packet->build_cost);
   dio_get_uint8(&din, &packet->upkeep);

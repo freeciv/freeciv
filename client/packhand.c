@@ -1885,8 +1885,12 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	freelog(LOG_DEBUG, "    %2d/%s",
 		b->equiv_repl[inx], improvement_types[b->equiv_repl[inx]].name);
       }
-      freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
-	      b->obsolete_by, advances[b->obsolete_by].name);
+      if (tech_exists(b->obsolete_by)) {
+	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
+		b->obsolete_by, advances[b->obsolete_by].name);
+      } else {
+	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
+      }
       freelog(LOG_DEBUG, "  is_wonder   %2d", b->is_wonder);
       freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);

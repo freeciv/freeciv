@@ -817,8 +817,12 @@ static void help_update_wonder(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_req].name);
     }
-    xaw_set_label(help_wonder_obsolete_data,
-		  advances[imp->obsolete_by].name);
+    if (tech_exists(imp->obsolete_by)) {
+      xaw_set_label(help_wonder_obsolete_data,
+		    advances[imp->obsolete_by].name);
+    } else {
+      xaw_set_label(help_wonder_obsolete_data, _("(Never)"));
+    }
     create_tech_tree(help_tech_tree, 0, imp->tech_req, 3);
   }
   else {

@@ -306,8 +306,9 @@ int improvement_variant(Impr_Type_id id)
 **************************************************************************/
 bool improvement_obsolete(struct player *pplayer, Impr_Type_id id) 
 {
-  if (improvement_types[id].obsolete_by==A_NONE) 
+  if (!tech_exists(improvement_types[id].obsolete_by)) {
     return FALSE;
+  }
 
   if (improvement_types[id].is_wonder) {
     /* a wonder is obsolette, as soon as *any* player researched the
@@ -386,10 +387,8 @@ bool improvement_redundant(struct player *pplayer,struct city *pcity,
 ...
 **************************************************************************/
 bool wonder_obsolete(Impr_Type_id id)
-{ 
-  if (improvement_types[id].obsolete_by==A_NONE)
-    return FALSE;
-  return (game.global_advances[improvement_types[id].obsolete_by] != 0);
+{
+  return improvement_obsolete(NULL, id);
 }
 
 /**************************************************************************

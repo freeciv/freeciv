@@ -513,7 +513,12 @@ static void help_update_wonder(const struct help_item *pitem,
     } else {
       SetWindowText(help_ilabel[3], advances[imp->tech_req].name);
     }
-    SetWindowText(help_ilabel[5], advances[imp->obsolete_by].name);
+    if (tech_exists(imp->obsolete_by)) {
+      SetWindowText(help_ilabel[5], advances[imp->obsolete_by].name);
+    } else {
+      SetWindowText(help_ilabel[5], _("(Never)"));
+    }
+
     /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {

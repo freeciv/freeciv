@@ -1022,8 +1022,14 @@ static void load_ruleset_buildings(struct section_file *file)
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
 				 FALSE, filename, b->name);
-    if ((b->obsolete_by == A_LAST) || !tech_exists(b->obsolete_by)) {
-      b->obsolete_by = A_NONE;
+    if (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by)) {
+      /* 
+       * The ruleset can specify "None" for a never-obsoleted
+       * improvement.  Currently this means A_NONE, which is an
+       * unnecessary special-case.  We use A_LAST to flag a
+       * never-obsoleted improvement in the code instead.
+       */
+      b->obsolete_by = A_LAST;
     }
 
     b->is_wonder = secfile_lookup_bool(file, "%s.is_wonder", sec[i]);
@@ -1219,11 +1225,12 @@ static void load_ruleset_buildings(struct section_file *file)
 		b->name, advances[b->tech_req].name, filename);
 	b->tech_req = A_LAST;
       }
-      if (!tech_exists(b->obsolete_by)) {
+      if (b->obsolete_by != A_LAST
+	  && (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by))) {
 	freelog(LOG_ERROR,
 		"improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
 		b->name, advances[b->obsolete_by].name, filename);
-	b->obsolete_by = A_NONE;
+	b->obsolete_by = A_LAST;
       }
       for (j = 0; b->effect[j].type != EFT_LAST; j++) {
 	if (!tech_exists(b->effect[j].cond_adv)) {
