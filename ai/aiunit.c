@@ -449,6 +449,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
   unit_list_iterate(map_get_tile(x,y)->units, pdef)
     if (pdef->activity == ACTIVITY_FORTIFY && !map_get_city(x,y)) weakest = 2000000000;
   unit_list_iterate_end;
+  if (punit->unhappiness) weakest = 2000000000; /* desperation */
 
 /* stolen from gotohand.c */
   if((xx[2]=x+1)==map.xsize) xx[2]=0;
@@ -552,7 +553,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
   }
 
 /* here follows the old code */
-if (ai_military_findtarget(pplayer,punit))
+if (ai_military_findtarget(pplayer,punit) || punit->unhappiness)
    {
    punit->ai.ai_role=AIUNIT_ATTACK;
    }
