@@ -598,5 +598,9 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       best->overseas = TRUE;
       best->virt_boat = (ferry->id == 0);
     }
+
+    if (ferry->id == 0) {
+      destroy_unit_virtual(ferry);
+    }
   }
 }
