@@ -1,14 +1,66 @@
 =======================
-Welcome to Freeciv 1.10
+Welcome to Freeciv 1.11
 =======================
 
-This is release 1.10.0.
+This is release 1.11.0.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.10.0:
+
+ - Internationalization extended.  Still needs improvement.
+   Current localizations: de en_GB es fr hu ja nl no pl pt pt_BR ru.
+ - Added full Fog of War.  Controlled by "fogofwar" server option.
+ - Added explicit Diplomatic States between civilizations: war, neutral,
+   no-contact, cease-fire peace and alliance.
+ - Allow terrain changes to/from land/ocean.  Default ruleset allows
+   Engineers to Transform Swamp to Ocean and Ocean to Swamp.  Also
+   allows Forest to be Mined into Swamp.
+ - Increased maximum number of players to 30.
+ - Fortifying now takes a turn to complete (like Civ1/2).
+ - Added correct Civ2 style of Apollo wonder (shows entire map, rather
+   than just cities).  Selected by "civstyle" server option.
+ - Added Civ2 rule that firepower is reduced to 1 for both the defender
+   and the attacker when a ship bombards a land unit.
+ - When changing current research, if user changes back to what was being
+   researched, the penalty is not applied (you keep all your bulbs).
+ - Added pop-up of more details when clicking on info box in GTK+ client.
+ - Improved the global warming danger indicator.
+ - Added warning of incipient city growth.
+ - The server "remove <player>" command is no longer available after the
+   game has started.
+ - Added "fixedlength" server option to make all turns exactly "timeout"
+   duration.
+ - The "timeout" time may be much longer (up to a day).
+ - Added goto for air units.  If destination is beyond range, they will
+   stop in cities/airfields/etc. to get there.
+ - May now select a unit by clicking on the unit pile display on the left.
+ - Diplomats/Spies moving by goto now do pop-up the Diplomat/Spy command
+   dialog when they reach a city.
+ - Improved goto algorithm and implementation.
+ - Help dialog displays which buildings an advance will obsolete.
+ - Optionally show city food/shields/trade productions on main map.
+ - Added server option "autotoggle", which toggles AI status on and off
+   as players connect and disconnect.
+ - Allow Hoover Dam to be built anywhere, to conform to Civ2.
+ - Show turns per advance in Science Advisor dialog.
+ - Improved map and unit movement drawing code.
+ - Added "End Turn when done moving" local option.
+ - City production penalties now applied more correctly.
+ - Added Sentry and Fortify to Present Units' City Dialog pop-up.
+ - More nations added.
+ - Added a resource file for the GTK+ client.
+ - Improved network code for more reliable connections.
+ - Split nations.ruleset into individual <nation>.ruleset files.
+ - Extended registry file format to allow including files and overriding
+   entries.
+ - Added --with-xaw and --enable-client=xaw3d options to ./configure
+   script.
+ - Lots of bug fixes and code cleanups.
 
 WHAT'S CHANGED SINCE 1.9.0:
 
