@@ -580,15 +580,21 @@ static struct settings_s settings[] = {
        "specified letters.  This only affects future connections, and "
        "existing connections are unchanged.  "
        "The characters and their meanings are:\n"
-       "    N = New players (only applies pre-game)\n"
-       "    H = Human players (pre-existing)\n"
-       "    A = AI players\n"
-       "    D = Dead players\n"
-       "    B = Barbarian players\n"
-       "Note that the first description from the _bottom_ which matches a "
-       "player is the one which applies, thus 'D' does not include Barbarians, "
-       "'A' does not include dead AI players, and so on.  The case of the "
-       "characters is not significant."),
+       "    N   = New players (only applies pre-game)\n"
+       "    H,h = Human players (pre-existing)\n"
+       "    A,a = AI players\n"
+       "    d   = Dead players\n"
+       "    b   = Barbarian players\n"
+       "The first description from the _bottom_ which matches a "
+       "player is the one which applies.  Thus 'd' does not include Barbarians, "
+       "'a' does not include dead AI players, and so on.  Upper case letters "
+       "apply before the game has started, lower case letters afterwards.\n"
+       "If a letter of followed immediately by the single character '*', "
+       "then multiple connections are allowed for that player type.  The "
+       "character '+' is the same, but only one \"controlling\" connection "
+       "is allowed -- other connections will be \"observers\".  "
+       "Multiple connections and observer connections are currently "
+       "EXPERIMENTAL and may not work properly."),
     game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT,
     sizeof(game.allow_connect) },
 
@@ -2325,21 +2331,43 @@ static void show_command(struct connection *caller, char *str)
 #undef OPTION_NAME_SPACE
 }
 
+/******************************************************************
+  Which characters are allowed within option names: (for 'set')
+******************************************************************/
+static int is_ok_opt_name_char(char c)
+{
+  return isalnum(c);
+}
+
+/******************************************************************
+  Which characters are allowed within option values: (for 'set')
+******************************************************************/
+static int is_ok_opt_value_char(char c)
+{
+  return (c == '-') || (c == '*') || (c == '+') || isalnum(c);
+}
+
+/******************************************************************
+  ...
+******************************************************************/
 static void set_command(struct connection *caller, char *str) 
 {
   char command[MAX_LEN_CMD+1], arg[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int val, cmd;
   struct settings_s *op;
 
-  for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
+  for(cptr_s=str; *cptr_s && !is_ok_opt_name_char(*cptr_s); cptr_s++);
 
-  for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for(cptr_d=command;
+      *cptr_s && is_ok_opt_name_char(*cptr_s);
+      cptr_s++, cptr_d++) {
     *cptr_d=*cptr_s;
+  }
   *cptr_d='\0';
   
-  for(; *cptr_s && (*cptr_s != '-' && !isalnum(*cptr_s)); cptr_s++);
+  for(; *cptr_s && !is_ok_opt_value_char(*cptr_s); cptr_s++);
 
-  for(cptr_d=arg; *cptr_s && (*cptr_s == '-' || isalnum(*cptr_s)); cptr_s++ , cptr_d++)
+  for(cptr_d=arg; *cptr_s && is_ok_opt_value_char(*cptr_s); cptr_s++ , cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 

@@ -1565,6 +1565,7 @@ static void handle_request_join_game(struct connection *pconn,
   struct player *pplayer;
   char msg[MAX_LEN_MSG];
   char orig_name[MAX_LEN_NAME];
+  const char *allow;		/* pointer into game.allow_connect */
   
   sz_strlcpy(orig_name, req->name);
   remove_leading_trailing_spaces(req->name);
@@ -1631,91 +1632,96 @@ static void handle_request_join_game(struct connection *pconn,
 
   if( (pplayer=find_player_by_name(req->name)) || 
       (pplayer=find_player_by_user(req->name))     ) {
-    if(conn_list_size(&pplayer->connections)==0) {
-      if(is_barbarian(pplayer)) {
-	if(!(strchr(game.allow_connect, 'B')
-	     || strchr(game.allow_connect, 'b'))) {
-	  reject_new_player(_("Sorry, no observation of barbarians "
-			      "this game."), pconn);
-	  freelog(LOG_NORMAL,
-		  _("%s was rejected: No observation of barbarians."),
-		  pconn->name);
-	  close_connection(pconn);
-	  return;
-	}
-      } else if(!pplayer->is_alive) {
-	if(!(strchr(game.allow_connect, 'D')
-	      || strchr(game.allow_connect, 'd'))) {
-	  reject_new_player(_("Sorry, no observation of dead players "
-			      "this game."), pconn);
-	  freelog(LOG_NORMAL,
-		  _("%s was rejected: No observation of dead players."),
-		  pconn->name);
-	  close_connection(pconn);
-	  return;
-	}
-      } else if(pplayer->ai.control) {
-	if(!(strchr(game.allow_connect, 'A')
-	     || strchr(game.allow_connect, 'a'))) {
-	  reject_new_player(_("Sorry, no observation of AI players "
-			      "this game."), pconn);
-	  freelog(LOG_NORMAL,
-		  _("%s was rejected: No observation of AI players."),
-		  pconn->name);
-	  close_connection(pconn);
-	  return;
-	}
-      } else {
-	if(!(strchr(game.allow_connect, 'H')
-	     || strchr(game.allow_connect, 'h'))) {
-	  reject_new_player(_("Sorry, no reconnections to human-mode players "
-			      "this game."), pconn);
-	  freelog(LOG_NORMAL,
-		  _("%s was rejected: No reconnection to human players."),
-		  pconn->name);
-	  close_connection(pconn);
-	  return;
-	}
+    if(is_barbarian(pplayer)) {
+      if(!(allow = strchr(game.allow_connect, 'b'))) {
+	reject_new_player(_("Sorry, no observation of barbarians "
+			    "this game."), pconn);
+	freelog(LOG_NORMAL,
+		_("%s was rejected: No observation of barbarians."),
+		pconn->name);
+	close_connection(pconn);
+	return;
       }
-
-      associate_player_connection(pplayer, pconn);
-      join_game_accept(pconn, 1);
-      introduce_game_to_connection(pconn);
-      if(server_state==RUN_GAME_STATE) {
-        send_rulesets(&pconn->self);
-	send_all_info(&pconn->self);
-        send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
-	send_player_info(NULL,NULL);
+    } else if(!pplayer->is_alive) {
+      if(!(allow = strchr(game.allow_connect, 'd'))) {
+	reject_new_player(_("Sorry, no observation of dead players "
+			    "this game."), pconn);
+	freelog(LOG_NORMAL,
+		_("%s was rejected: No observation of dead players."),
+		pconn->name);
+	close_connection(pconn);
+	return;
       }
-      if (game.auto_ai_toggle && pplayer->ai.control) {
-	toggle_ai_player_direct(NULL, pplayer);
+    } else if(pplayer->ai.control) {
+      if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'A' : 'a')))) {
+	reject_new_player(_("Sorry, no observation of AI players "
+			    "this game."), pconn);
+	freelog(LOG_NORMAL,
+		_("%s was rejected: No observation of AI players."),
+		pconn->name);
+	close_connection(pconn);
+	return;
       }
-      return;
+    } else {
+      if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'H' : 'h')))) {
+	reject_new_player(_("Sorry, no reconnections to human-mode players "
+			    "this game."), pconn);
+	freelog(LOG_NORMAL,
+		_("%s was rejected: No reconnection to human players."),
+		pconn->name);
+	close_connection(pconn);
+	return;
+      }
     }
 
-    /* The player exists but is already connected. */
-    if(server_state==PRE_GAME_STATE) {
-      /* Duplicate names cause problems even in PRE_GAME_STATE
-       * because they are used to identify players for various
-       * server commands. --dwp
-       */
-      reject_new_player(_("Sorry, someone else already has that name."),
-			pconn);
-      freelog(LOG_NORMAL, _("%s was rejected: Name %s already used."),
-	      pconn->name, req->name);
-      close_connection(pconn);
+    allow++;
+    if (conn_list_size(&pplayer->connections) > 0
+	&& !(*allow == '*' || *allow == '+')) {
+
+      /* The player exists but is already connected and multiple
+       * connections not permitted. */
       
-      return;
+      if(game.is_new_game && server_state==PRE_GAME_STATE) {
+	/* Duplicate names cause problems even in PRE_GAME_STATE
+	 * because they are used to identify players for various
+	 * server commands. --dwp
+	 */
+	reject_new_player(_("Sorry, someone else already has that name."),
+			  pconn);
+	freelog(LOG_NORMAL, _("%s was rejected: Name %s already used."),
+		pconn->name, req->name);
+	close_connection(pconn);
+      
+	return;
+      }
+      else {
+	my_snprintf(msg, sizeof(msg), _("Sorry, %s is already connected."), 
+		    pplayer->name);
+	reject_new_player(msg, pconn);
+	freelog(LOG_NORMAL, _("%s was rejected: %s already connected."),
+		pconn->name, pplayer->name);
+	close_connection(pconn);
+	return;
+      }
     }
-    else {
-      my_snprintf(msg, sizeof(msg), _("Sorry, %s is already connected."), 
-		  pplayer->name);
-      reject_new_player(msg, pconn);
-      freelog(LOG_NORMAL, _("%s was rejected: %s already connected."),
-	      pconn->name, pplayer->name);
-      close_connection(pconn);
-      return;
+
+    /* The player exists and not connected or multi-conn allowed: */
+    if (pplayer->is_connected && (*allow != '*')) {
+      pconn->observer = 1;
     }
+    associate_player_connection(pplayer, pconn);
+    join_game_accept(pconn, 1);
+    introduce_game_to_connection(pconn);
+    if(server_state==RUN_GAME_STATE) {
+      send_rulesets(&pconn->self);
+      send_all_info(&pconn->self);
+      send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
+      send_player_info(NULL,NULL);
+    }
+    if (game.auto_ai_toggle && pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+    return;
   }
 
   /* unknown name */
@@ -1738,8 +1744,7 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  if(!(strchr(game.allow_connect, 'N')
-       || strchr(game.allow_connect, 'n'))) {
+  if(!(allow = strchr(game.allow_connect, 'N'))) {
     reject_new_player(_("Sorry, no new players this game."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: No connections as new player."),
 	    pconn->name);

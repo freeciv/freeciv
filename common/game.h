@@ -339,7 +339,7 @@ extern struct civ_game game;
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */
 
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
-#define GAME_DEFAULT_ALLOW_CONNECT   "NHAD"
+#define GAME_DEFAULT_ALLOW_CONNECT   "NHAhad"
 
 #define GAME_DEFAULT_COMPRESS_LEVEL 6    /* if we have compression */
 #define GAME_MIN_COMPRESS_LEVEL     0
