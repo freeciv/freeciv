@@ -14,6 +14,8 @@
 #ifndef FC__BE_24_H
 #define FC__BE_24_H
 
+#include "common_types.h"
+
 #define ENABLE_IMAGE_ACCESS_CHECK	0
 
 /* Internal 32bpp format. */

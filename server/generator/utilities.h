@@ -13,6 +13,10 @@
 #ifndef FC__UTILITIES_H
 #define FC__UTILITIES_H
 
+#include "shared.h"		/* bool type */
+
+struct tile;
+
 /* Provide a block to convert from native to map coordinates.  For instance
  *   do_in_map_pos(mx, my, xn, yn) {
  *     map_set_terrain(mx, my, T_OCEAN);

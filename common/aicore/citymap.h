@@ -15,6 +15,11 @@
 
 #include "fcintl.h"
 
+#include "shared.h"		/* bool type */
+
+struct tile;
+struct player;
+
 void citymap_turn_init(struct player *pplayer);
 void citymap_reserve_city_spot(struct tile *ptile, int id);
 void citymap_free_city_spot(struct tile *ptile, int id);

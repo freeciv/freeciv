@@ -19,6 +19,7 @@
 #include "shared.h"		/* bool type */
 
 #include "fc_types.h"
+#include "improvement.h"
 
 /* 
  * This file and aidata.c contains global data structures for the AI

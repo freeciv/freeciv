@@ -14,6 +14,7 @@
 #include "common_types.h"
 
 struct tr_string_data;
+struct osda;
 
 void tr_init(void);
 void tr_draw_string(struct osda *target,

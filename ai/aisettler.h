@@ -13,6 +13,13 @@
 #ifndef FC__AISETTLER_H
 #define FC__AISETTLER_H
 
+#include "city.h"
+#include "shared.h"		/* bool type */
+
+struct player;
+struct tile;
+struct ai_data;
+
 struct citytile {
   int food, shield, trade, reserved;
 };

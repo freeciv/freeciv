@@ -15,6 +15,7 @@
 #define FC__THEME_ENGINE_H
 
 #include "common_types.h"
+#include "widget.h"
 
 struct section_file;
 struct keybinding_list;

@@ -11,6 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+struct tile;
+struct unit;
+struct city;
+
 const char *mapview_get_terrain_tooltip_text(struct tile *ptile);
 const char *mapview_get_unit_action_tooltip(struct unit *punit,
 					    const char *action,

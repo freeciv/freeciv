@@ -13,6 +13,9 @@
 #ifndef FC__TEMPERATURE_MAP_H
 #define FC__TEMPERATURE_MAP_H
 
+#include "shared.h"		/* bool type */
+
+struct tile;
 
 /*
  *  temperature_map[] stores the temperature of each tile

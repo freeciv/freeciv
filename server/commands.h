@@ -11,6 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#include "connection.h"		/* for enum cmdlevel_id */
+
 /**************************************************************************
   Commands - can be recognised by unique prefix
 **************************************************************************/

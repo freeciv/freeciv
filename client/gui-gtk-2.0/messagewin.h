@@ -13,6 +13,8 @@
 #ifndef FC__MESSAGEWIN_H
 #define FC__MESSAGEWIN_H
 
+#include <gtk/gtk.h>
+
 #include "messagewin_g.h"
 
 GtkWidget *create_meswin_area(void);
