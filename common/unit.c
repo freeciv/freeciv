@@ -599,6 +599,38 @@ int can_unit_build_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+int can_unit_add_to_city(struct unit *punit)
+{
+  struct city *pcity;
+
+  if(!unit_flag(punit->type, F_SETTLERS))
+    return 0;
+  if(!punit->moves_left)
+    return 0;
+
+  pcity = map_get_city(punit->x, punit->y);
+
+  if(!pcity)
+    return 0;
+  if(pcity->size>8)
+    return 0;
+
+  if(improvement_exists(B_AQUEDUCT)
+     && !city_got_building(pcity, B_AQUEDUCT) 
+     && pcity->size >= game.aqueduct_size)
+    return 0;
+  
+  if(improvement_exists(B_SEWER)
+     && !city_got_building(pcity, B_SEWER)
+     && pcity->size >= game.sewer_size)
+    return 0;
+
+  return 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 int can_unit_change_homecity(struct unit *punit)
 {
   struct city *pcity=map_get_city(punit->x, punit->y);

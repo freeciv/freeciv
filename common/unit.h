@@ -270,6 +270,7 @@ int is_heli_unit(struct unit *punit);
 int is_ground_unit(struct unit *punit);
 int is_ground_unittype(enum unit_type_id id);
 int can_unit_build_city(struct unit *punit);
+int can_unit_add_to_city(struct unit *punit);
 
 struct unit_type *get_unit_type(enum unit_type_id id);
 char *unit_activity_text(struct unit *punit);

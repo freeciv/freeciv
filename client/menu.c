@@ -264,7 +264,8 @@ void update_menus()
 			    && !unit_flag(punit->type, F_SETTLERS)));
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_CITY, 
-			   can_unit_build_city(punit));
+			   (can_unit_build_city(punit) ||
+			    can_unit_add_to_city(punit)));
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTRESS, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
       menu_entry_sensitive(orders_menu, MENU_ORDER_ROAD, 
@@ -297,6 +298,13 @@ void update_menus()
 			   unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_TRADE_ROUTE,
 			   unit_can_est_traderoute_here(punit));
+
+      if (unit_flag(punit->type, F_SETTLERS)
+	  && map_get_city(punit->x, punit->y)) {
+	menu_entry_rename(orders_menu, MENU_ORDER_CITY, "Add to City         b");
+      } else {
+	menu_entry_rename(orders_menu, MENU_ORDER_CITY, "Build City          b");
+      }
 
       switch(map_get_tile(punit->x, punit->y)->terrain) {
       case T_ARCTIC:

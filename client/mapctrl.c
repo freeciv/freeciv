@@ -143,31 +143,15 @@ void wakeup_sentried_units(int x, int y)
 }
 
 /**************************************************************************
-...
+Player pressed 'b' or otherwise instructed unit to build or add to city.
+If the unit can build a city, we popup the appropriate dialog.
+Otherwise, we just send a packet to the server.
+If this action is not appropriate, the server will respond
+with an appropriate message.  (This is to avoid duplicating
+all the server checks and messages here.)
 **************************************************************************/
 void request_unit_build_city(struct unit *punit)
 {
-  struct city *pcity;
-
-  if (punit->moves_left == 0)	{
-      append_output_window("Game: Sir, this unit has no move left to build a city.");
-      return;
-	}
-
-  if((pcity=map_get_city(punit->x, punit->y))) {
-    if (pcity->size>8) {
-      append_output_window("Game: Sir, the city is already big.");
-      return;
-    }
-    else {
-     struct packet_unit_request req;
-     req.unit_id=punit->id;
-     req.name[0]='\0';
-     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
-     return;
-    }
-  }
-  
   if(can_unit_build_city(punit)) {
     input_dialog_create(toplevel, "shellnewcityname", 
 			"What should we call our new city?",
@@ -175,8 +159,13 @@ void request_unit_build_city(struct unit *punit)
 			name_new_city_callback, (XtPointer)punit->id,
 			name_new_city_callback, (XtPointer)0);
   }
-  else 
-    append_output_window("Game: Sir, we can't build a city here.");
+  else {
+    struct packet_unit_request req;
+    req.unit_id=punit->id;
+    req.name[0]='\0';
+    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+    return;
+  }
 }
 
 /**************************************************************************

@@ -346,60 +346,84 @@ void handle_unit_disband(struct player *pplayer,
 void handle_unit_build_city(struct player *pplayer, 
 			    struct packet_unit_request *req)
 {
-  struct unit *punit;
+  struct unit *punit = unit_list_find(&pplayer->units, req->unit_id);
+  char *unit_name = get_unit_type(punit->type)->name;
+  struct city *pcity = map_get_city(punit->x, punit->y);
   char *name;
-  struct city *pcity;
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
-    if (!unit_flag(punit->type, F_SETTLERS)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		    "Game: You need a settler to build a city.");
-      return;
-    }  
+  
+  if(!punit)
+    return;
+  
+  if (!unit_flag(punit->type, F_SETTLERS)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     "Game: Only Settlers or Engineers can build or add to a city.");
+    return;
+  }  
 
-    if(!punit->moves_left)  {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                       "Game: Settler has no moves left to build city.");
-      return;
-    }
+  if(!punit->moves_left)  {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     "Game: %s unit has no moves left to %s city.",
+		     unit_name, (pcity?"add to":"build"));
+    return;
+  }
     
-    if ((pcity=map_get_city(punit->x, punit->y))) {
-      if (pcity->size>8) {
+  if (pcity) {
+    if (can_unit_add_to_city(punit)) {
+      pcity->size++;
+      if (!add_adjust_workers(pcity))
+	auto_arrange_workers(pcity);
+      wipe_unit(0, punit);
+      send_city_info(pplayer, pcity, 0);
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		       "Game: %s added to aid %s in growing", 
+		       unit_name, pcity->name);
+    } else {
+      if(improvement_exists(B_AQUEDUCT)
+	 && !city_got_building(pcity, B_AQUEDUCT) 
+	 && pcity->size >= game.aqueduct_size) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		    "Game: Your settlers doesn't feel comfortable here.");
-	return;
+			 "Game: %s needs %s to grow, so you cannot add %s.",
+			 pcity->name, get_improvement_name(B_AQUEDUCT),
+			 unit_name);
+      }
+      else if(improvement_exists(B_SEWER)
+	      && !city_got_building(pcity, B_SEWER)
+	      && pcity->size >= game.sewer_size) {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+			 "Game: %s needs %s to grow, so you cannot add %s.",
+			 pcity->name, get_improvement_name(B_SEWER),
+			 unit_name);
       }
       else {
-	pcity->size++;
-	  if (!add_adjust_workers(pcity))
-	    auto_arrange_workers(pcity);
-        wipe_unit(0, punit);
-	send_city_info(pplayer, pcity, 0);
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		      "Game: Settlers added to aid %s in growing", 
-		      pcity->name);
-	return;
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+			 "Game: %s is too big to add %s.",
+			 pcity->name, unit_name);
       }
     }
+    return;
+  }
     
-    if(can_unit_build_city(punit)) {
-      if(!(name=get_sane_name(req->name))) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		      "Game: Let's not build a city with such a stupid name.");
-	return;
-      }
-
-      send_remove_unit(0, req->unit_id);
-      map_set_special(punit->x, punit->y, S_ROAD);
-      if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
-	map_set_special(punit->x, punit->y, S_RAILROAD);
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-      create_city(pplayer, punit->x, punit->y, name);
-      game_remove_unit(req->unit_id);
-    } else
+  if(!can_unit_build_city(punit)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		    "Game: Can't place city here.");
+      return;
   }
+      
+  if(!(name=get_sane_name(req->name))) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+		     "Game: Let's not build a city with such a stupid name.");
+    return;
+  }
+
+  send_remove_unit(0, req->unit_id);
+  map_set_special(punit->x, punit->y, S_ROAD);
+  if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
+    map_set_special(punit->x, punit->y, S_RAILROAD);
+  send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+  create_city(pplayer, punit->x, punit->y, name);
+  game_remove_unit(req->unit_id);
 }
+
 /**************************************************************************
 ...
 **************************************************************************/

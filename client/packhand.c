@@ -241,8 +241,13 @@ void handle_city_info(struct packet_city_info *packet)
       (!game.player_ptr->ai.control || ai_popup_windows)) 
     popup_city_dialog(pcity, 0);
   
-  if(!city_is_new && pcity->owner==game.player_idx)
+  if(!city_is_new && pcity->owner==game.player_idx) {
+    struct unit *punit = get_unit_in_focus();
+    if (punit && (punit->x == pcity->x) && (punit->y == pcity->y)) {
+      update_menus();
+    }
     refresh_city_dialog(pcity);
+  }
 
   if(DEBUG && city_is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
