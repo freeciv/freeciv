@@ -939,3 +939,12 @@ See CodingStyle in this directory.
   A suggested "diff_ignore" file is included in the Freeciv distribution.
 
 ===========================================================================
+Internationalization (I18N)
+===========================================================================
+
+Messages and text in general which are shown in the GUI should be
+translated by using the "_()" macro. In addition freelog(LOG_NORMAL,
+...) messages should be translated. The other loglevels (LOG_FATAL,
+LOG_ERROR,LOG_VERBOSE, LOG_DEBUG) should NOT be translated.
+
+===========================================================================
