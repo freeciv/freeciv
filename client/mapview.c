@@ -903,12 +903,13 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
 		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
-  else {
+  else if(!flags_are_transparent) {	/* observe transparency here, too! */
     mysprite=get_tile_sprite(game.players[pcity->owner].race+FLAG_TILES);
     XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
 	      mysprite->width, mysprite->height, 
 	      xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
-  }
+  } else
+	  pixmap_put_overlay_tile(pm,xtile,ytile,game.players[pcity->owner].race+FLAG_TILES);
   
   pixmap_put_overlay_tile(pm, xtile, ytile, CITY_TILE+
 			  city_got_citywalls(pcity));
@@ -1125,23 +1126,25 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
     return;
   }
 
-  if((pcity=map_get_city(abs_x0, abs_y0)) &&
-     (citymode || !punit || punit->x!=abs_x0 || punit->y!=abs_y0 ||
-      unit_list_size(&ptile->units)==0)) {
-      put_city_pixmap(pcity, pm, x, y);
-      return;
+  if(!flags_are_transparent) {  /* non-transparent flags-> just draw city or unit.*/
+    if((pcity=map_get_city(abs_x0, abs_y0)) &&
+       (citymode || !punit || punit->x!=abs_x0 || punit->y!=abs_y0 ||
+	unit_list_size(&ptile->units)==0)) {
+	put_city_pixmap(pcity, pm, x, y);
+	return;
+    }
+
+    if(!flags_are_transparent)
+      if((n=unit_list_size(&ptile->units))>0)
+	if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
+	  if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
+	    put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
+	    if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
+	    return;
+	  }
+        }
   }
-  
-  if(!flags_are_transparent)
-    if((n=unit_list_size(&ptile->units))>0)
-      if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
-	if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
-	  put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
-	  if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
-	  return;
-	}
-      }
-  
+    
   ttype=map_get_terrain(abs_x0, abs_y0);
 
   ttype_north=map_get_terrain(abs_x0, abs_y0-1);
@@ -1302,7 +1305,12 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       pixmap_put_overlay_tile(pm, x, y, tileno);
   }
 
-  if(flags_are_transparent)
+  if(flags_are_transparent) { /* cities, too! */
+    if((pcity=map_get_city(abs_x0, abs_y0))) {
+      put_city_pixmap(pcity, pm, x, y);
+      if(punit!=unit_list_get(&ptile->units,0))	/* only draw active unit in cities. */
+	return;
+    }
     if((n=unit_list_size(&ptile->units))>0)
       if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
 	if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
@@ -1310,7 +1318,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 	  if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
 	}
       }
-
+  }  
 }
 
 
