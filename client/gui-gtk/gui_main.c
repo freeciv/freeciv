@@ -1080,6 +1080,8 @@ static void set_wait_for_writable_socket(struct connection *pc,
 {
   static int previous_state = 0;
 
+  assert(pc == &aconnection);
+
   if (previous_state == socket_writable)
     return;
 

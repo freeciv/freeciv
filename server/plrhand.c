@@ -1802,8 +1802,7 @@ void handle_player_attribute_chunk(struct player *pplayer,
 /**************************************************************************
  The client request an attribute block.
 **************************************************************************/
-void handle_player_attribute_block(struct player *pplayer,
-				   struct packet_player_request *packet)
+void handle_player_attribute_block(struct player *pplayer)
 {
   send_attribute_block(pplayer, pplayer->current_conn);
 }

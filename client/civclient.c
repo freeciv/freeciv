@@ -226,7 +226,7 @@ void handle_packet_input(char *packet, int type)
     break;
 
    case PACKET_MOVE_UNIT:
-    handle_move_unit((struct packet_move_unit *)packet);
+    handle_move_unit();
     break;
     
   case PACKET_TILE_INFO:

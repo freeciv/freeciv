@@ -852,9 +852,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type)
 				  packet);
     break;
   case PACKET_PLAYER_ATTRIBUTE_BLOCK:
-    handle_player_attribute_block(pplayer,
-				  (struct packet_player_request *)
-				  packet);
+    handle_player_attribute_block(pplayer);
     break;
 
   default:

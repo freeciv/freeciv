@@ -69,8 +69,7 @@ void handle_player_worklist(struct player *pplayer,
                             struct packet_player_request *preq);
 void handle_player_attribute_chunk(struct player *pplayer,
 				   struct packet_attribute_chunk *preq);
-void handle_player_attribute_block(struct player *pplayer,
-				   struct packet_player_request *packet);
+void handle_player_attribute_block(struct player *pplayer);
 void found_new_tech(struct player *plr, int tech_found, char was_discovery, 
 		    char saving_bulbs);
 void found_new_future_tech(struct player *pplayer);

@@ -543,7 +543,7 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
  Returns true if the costs for the given technology will stay constant
  during the game. False otherwise.
 **************************************************************************/
-int tech_has_fixed_cost(Tech_Type_id tech)
+int techs_have_fixed_costs()
 {
   return ((game.rgame.tech_cost_style == 1
 	   || game.rgame.tech_cost_style == 2)

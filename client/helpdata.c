@@ -743,7 +743,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
 	      total_bulbs_required_for_goal(game.player_ptr, i));
     }
-    if (!tech_has_fixed_cost(i)) {
+    if (!techs_have_fixed_costs()) {
       sprintf(buf + strlen(buf),
 	      _(" This number may vary depending on what "
 		"other players will research.\n"));

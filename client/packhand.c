@@ -816,7 +816,7 @@ void handle_page_msg(struct packet_generic_message *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_move_unit(struct packet_move_unit *packet)
+void handle_move_unit()
 {
   /* this packet should never get sent to a client */
   assert(0);
@@ -2329,6 +2329,7 @@ void handle_processing_finished(void)
 void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size)
 {
+  assert(pc == &aconnection);
   freelog(LOG_DEBUG, "incoming packet={type=%d, size=%d}", packet_type,
 	  size);
 }
@@ -2340,6 +2341,7 @@ void notify_about_outgoing_packet(struct connection *pc,
 				  int packet_type, int size,
 				  int request_id)
 {
+  assert(pc == &aconnection);
   freelog(LOG_DEBUG, "outgoing packet={type=%d, size=%d, request_id=%d}",
 	  packet_type, size, request_id);
 

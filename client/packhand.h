@@ -34,7 +34,7 @@ void handle_city_options(struct packet_generic_values *preq);
 
 void handle_spaceship_info(struct packet_spaceship_info *packet);
 
-void handle_move_unit(struct packet_move_unit *packet);
+void handle_move_unit(void);
 void handle_new_year(struct packet_new_year *ppacket);
 void handle_city_info(struct packet_city_info *packet);
 void handle_short_city(struct packet_short_city *packet);

@@ -311,6 +311,8 @@ static int read_from_connection(struct connection *pc, int block)
 **************************************************************************/
 void input_from_server(int fid)
 {
+  assert(fid == aconnection.sock);
+
   if (read_from_connection(&aconnection, 0) >= 0) {
     int type, result;
     char *packet;
@@ -338,6 +340,7 @@ void input_from_server_till_request_got_processed(int fd,
 						  int expected_request_id)
 {
   assert(expected_request_id);
+  assert(fd == aconnection.sock);
 
   freelog(LOG_DEBUG,
 	  "input_from_server_till_request_got_processed("

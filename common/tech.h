@@ -104,7 +104,7 @@ int tech_turns_to_advance(struct player *pplayer);
 
 int total_bulbs_required(struct player *pplayer);
 int base_total_bulbs_required(struct player *pplayer,Tech_Type_id tech);
-int tech_has_fixed_cost(Tech_Type_id tech);
+int techs_have_fixed_costs(void);
 
 int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal);
 int total_bulbs_required_for_goal(struct player *pplayer, Tech_Type_id goal);
