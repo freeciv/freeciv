@@ -5950,7 +5950,7 @@ msgstr "Utracono po³±czenie z serwerem!"
 
 #: client/clinet.c:155 client/clinet.c:557
 msgid "Failed looking up host"
-msgstr "Onalezienie komputera nie powiod³o siê"
+msgstr "Odnalezienie komputera nie powiod³o siê"
 
 #: client/clinet.c:234
 msgid "Disconnecting from server."
@@ -16328,7 +16328,7 @@ msgstr "Miniaturyzacja"
 #: data/default/techs.ruleset:368 data/civ2/techs.ruleset:361
 #: data/civ1/techs.ruleset:361 data/history/techs.ruleset:368
 msgid "Mobile Warfare"
-msgstr "Mobile Warfare XXX?"
+msgstr "Wojna b³yskawiczna"
 
 #: data/default/techs.ruleset:380 data/civ2/techs.ruleset:373
 #: data/civ1/techs.ruleset:373 data/history/techs.ruleset:380
@@ -16754,7 +16754,7 @@ msgstr "Tundra"
 #: data/civ1/terrain.ruleset:225 data/civ1/terrain.ruleset:553
 #: data/history/terrain.ruleset:554
 msgid "?animals:Game"
-msgstr "£osie"
+msgstr "?animals:£osie"
 
 #: data/default/terrain.ruleset:560 data/civ2/terrain.ruleset:560
 #: data/history/terrain.ruleset:560
@@ -17459,7 +17459,7 @@ msgstr "Jankeski"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr "Jankesi"
+msgstr "?plural:Amerykanie"
 
 #: data/nation/american.ruleset:12 data/nation/scottish.ruleset:14
 msgid "Speaker"
@@ -17475,7 +17475,7 @@ msgstr "Arabski"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "Arabowie"
+msgstr "?plural:Arabowie"
 
 #: data/nation/arab.ruleset:12
 msgid "Caliph"
