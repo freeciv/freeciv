@@ -133,7 +133,7 @@ static bool results_are_equal(struct city *pcity,
 static void get_current_as_result(struct city *pcity,
 				  struct cm_result *result)
 {
-  int worker = 0;
+  int worker = 0, specialist = 0;
 
   memset(result->worker_positions_used, 0,
 	 sizeof(result->worker_positions_used));
@@ -148,11 +148,10 @@ static void get_current_as_result(struct city *pcity,
 
   specialist_type_iterate(sp) {
     result->specialists[sp] = pcity->specialists[sp];
+    specialist += pcity->specialists[sp];
   } specialist_type_iterate_end;
 
-  assert(worker + result->specialists[SP_ELVIS]
-	 + result->specialists[SP_SCIENTIST]
-	 + result->specialists[SP_TAXMAN] == pcity->size);
+  assert(worker + specialist == pcity->size);
 
   result->found_a_valid = TRUE;
 
@@ -195,7 +194,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 static bool apply_result_on_server(struct city *pcity,
 				   const struct cm_result *const result)
 {
-  int first_request_id = 0, last_request_id = 0, i, sp, worker;
+  int first_request_id = 0, last_request_id = 0, i, sp;
   struct cm_result current_state;
   bool success;
 
@@ -215,11 +214,8 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&aconnection);
 
   /* Do checks */
-  worker = cm_count_worker(pcity, result);
-  if (pcity->size !=
-      (worker + result->specialists[SP_ELVIS]
-       + result->specialists[SP_SCIENTIST]
-       + result->specialists[SP_TAXMAN])) {
+  if (pcity->size != (cm_count_worker(pcity, result)
+		      + cm_count_specialist(pcity, result))) {
     cm_print_city(pcity);
     cm_print_result(pcity, result);
     assert(0);

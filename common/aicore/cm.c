@@ -250,6 +250,22 @@ int cm_count_worker(const struct city *pcity, const struct cm_result *result)
 }
 
 /****************************************************************************
+  Returns the number of specialists of the given result.  The given result
+  has to be a result for the given city.
+*****************************************************************************/
+int cm_count_specialist(const struct city *pcity,
+			const struct cm_result *result)
+{
+  int specialist = 0;
+
+  specialist_type_iterate(sp) {
+    specialist += result->specialists[sp];
+  } specialist_type_iterate_end;
+
+  return specialist;
+}
+
+/****************************************************************************
  Returns the number of valid combinations which use the given number
  of fields/tiles.
 *****************************************************************************/

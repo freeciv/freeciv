@@ -89,6 +89,8 @@ void cm_print_result(const struct city *pcity,
 		     const struct cm_result *result);
 int cm_count_worker(const struct city * pcity,
 		    const struct cm_result *result);
+int cm_count_specialist(const struct city *pcity,
+			const struct cm_result *result);
 void cm_copy_result_from_city(const struct city *pcity,
 			      struct cm_result *result);
 #endif
