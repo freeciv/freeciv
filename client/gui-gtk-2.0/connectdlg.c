@@ -237,7 +237,7 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(update), "clicked",
 			GTK_SIGNAL_FUNC(meta_update_callback), (gpointer)list);
 
-  gtk_widget_grab_focus(iname);
+  gtk_window_set_focus(GTK_WINDOW(dialog), iname);
 
   gtk_signal_connect(GTK_OBJECT(iname), "activate",
         	      GTK_SIGNAL_FUNC(connect_callback), NULL);
