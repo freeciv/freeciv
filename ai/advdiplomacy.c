@@ -718,6 +718,10 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
      * Gravitate towards zero. */
     pplayer->ai.love[aplayer->player_no] -= 
        (pplayer->ai.love[aplayer->player_no] * ai->diplomacy.love_coeff / 100);
+       
+    /* ai love should always be in range [-100..100] */
+    pplayer->ai.love[aplayer->player_no] = 
+      MAX(-100, MIN(100, pplayer->ai.love[aplayer->player_no]));
   } players_iterate_end;
 
   /* Stop war against a dead player */

@@ -590,28 +590,28 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 **************************************************************************/
 const char *love_text(const int love)
 {
-  if (love <= -81) {
+  if (love <= -95) {
     return Q_("?attitude:Genocidal");
-  } else if (love >= -80 && love <= -61) {
+  } else if (love >= -94 && love <= -71) {
     return Q_("?attitude:Belligerent");
-  } else if (love >= -60 && love <= -41) {
+  } else if (love >= -70 && love <= -51) {
     return Q_("?attitude:Hostile");
-  } else if (love >= -40 && love <= -21) {
+  } else if (love >= -50 && love <= -25) {
     return Q_("?attitude:Uncooperative");
-  } else if (love >= -20 && love <= -6) {
+  } else if (love >= -24 && love <= -11) {
     return Q_("?attitude:Uneasy");
-  } else if (love >= -5 && love <= 5) {
+  } else if (love >= -10 && love <= 10) {
     return Q_("?attitude:Neutral");
-  } else if (love >= 6 && love <= 20) {
+  } else if (love >= 11 && love <= 24) {
     return Q_("?attitude:Respectful");
-  } else if (love >= 21 && love <= 40) {
+  } else if (love >= 25 && love <= 50) {
     return Q_("?attitude:Helpful");
-  } else if (love >= 41 && love <= 60) {
+  } else if (love >= 51 && love <= 70) {
     return Q_("?attitude:Enthusiastic");
-  } else if (love >= 61 && love <= 80) {
+  } else if (love >= 71 && love <= 94) {
     return Q_("?attitude:Admiring");
   } else {
-    assert(love >= 81);
+    assert(love >= 95);
     return Q_("?attitude:Worshipful");
   }
 }

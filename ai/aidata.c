@@ -361,7 +361,7 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.strategy = WIN_OPEN;
   ai->diplomacy.timer = 0;
   ai->diplomacy.countdown = 0;
-  ai->diplomacy.love_coeff = 5; /* 5% */
+  ai->diplomacy.love_coeff = 4; /* 4% */
   ai->diplomacy.love_incr = 4;
   ai->diplomacy.req_love_for_peace = 8;
   ai->diplomacy.req_love_for_alliance = 16;
