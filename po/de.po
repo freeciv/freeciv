@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-26 09:45+0100\n"
+"POT-Creation-Date: 2004-11-28 17:59+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -8494,11 +8494,10 @@ msgstr "* Die Küstenlinie dieses Geländetyps ist unsicher."
 msgid "* This terrain is unsafe for units to travel on."
 msgstr "* Bewegung auf diesem Geländetyp ist unsicher."
 
-# ? Ist das richtig?
 #: client/helpdata.c:1111
 #, c-format
-msgid "* Only naval units can travel on oceanic terrains."
-msgstr "* Nur See-Einheiten können sich auf dem Ozean bewegen."
+msgid "* Land units cannot travel on oceanic terrains."
+msgstr "* Landeinheiten können sich nicht auf dem Ozean bewegen."
 
 #: client/helpdata.c:1157
 #, c-format
