@@ -509,7 +509,7 @@ void flood_it(int loaded)
 	isles++;
       }
  
-  ai_init_island_info(isles); 
+/* fnord -- Syela */
 
   if (loaded)                 /* only make the continents if loaded game*/
     return;
