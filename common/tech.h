@@ -38,6 +38,7 @@ enum tech_type_id {
 #define TECH_UNKNOWN 0
 #define TECH_KNOWN 1
 #define TECH_REACHABLE 2
+#define TECH_MARKED 3
 
 struct advance {
   char *name;
