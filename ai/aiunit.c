@@ -860,7 +860,7 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
-  int id, x, y, boatid = 0, bx = 0, by = 0, i, j;
+  int id, x, y, boatid = 0, bx = 0, by = 0, j;
   struct unit *ferryboat;
   struct unit *def;
   struct city *dcity;
@@ -966,20 +966,17 @@ bodyguards, and not interfere with those that don't have bodyguards nearby -- Sy
 /* The case where the bodyguard has moves left and could meet us en route is not
 handled properly.  There should be a way to do it with dir_ok but I'm tired now. -- Syela */
       if (punit->ai.bodyguard < 0) { 
-       for (i = punit->x - 1; i <= punit->x + 1; i++) {
-          for (j = punit->y - 1; j <= punit->y + 1; j++) {
-            if (i == punit->x && j == punit->y) continue; /* I'm being lazy -- Syela */
-            unit_list_iterate(map_get_tile(i, j)->units, aunit)
-              if (aunit->ai.charge == punit->id) {
-		freelog(LOG_DEBUG,
-			"Bodyguard at (%d, %d) is adjacent to (%d, %d)",
-			i, j, punit->x, punit->y);
-                if (aunit->moves_left) return(0);
-                else return handle_unit_move_request(punit, i, j, FALSE, FALSE);
-              }
-            unit_list_iterate_end;
-          } /* end j */
-        } /* end i */
+	adjc_iterate(punit->x, punit->y, i, j) {
+	  unit_list_iterate(map_get_tile(i, j)->units, aunit) {
+	    if (aunit->ai.charge == punit->id) {
+	      freelog(LOG_DEBUG,
+		      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
+		      i, j, punit->x, punit->y);
+	      if (aunit->moves_left) return(0);
+	      else return handle_unit_move_request(punit, i, j, FALSE, FALSE);
+	    }
+	  } unit_list_iterate_end;
+        } square_iterate_end;
       } /* end if */
 /* end 'short leash' subroutine */
 
