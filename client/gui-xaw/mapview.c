@@ -74,7 +74,7 @@ This function is almost identical between all GUI's.
 static int get_canvas_xy(int map_x, int map_y, int *canvas_x,
 			 int *canvas_y)
 {
-  int width, height;
+  Dimension width, height;
 
   XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
 
