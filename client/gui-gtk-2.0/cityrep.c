@@ -558,8 +558,8 @@ static void cityrep_cell_data_func(GtkTreeViewColumn *col,
 /****************************************************************
 ...
 *****************************************************************/
-gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
-		       gpointer data)
+static gint cityrep_sort_func(GtkTreeModel *model,
+			      GtkTreeIter *a, GtkTreeIter *b, gpointer data)
 {
   struct city_report_spec *sp;
   GValue                   value = { 0, };
@@ -1234,7 +1234,7 @@ static void create_select_menu(GtkWidget *item)
 /****************************************************************
 ...
 *****************************************************************/
-bool city_building_impr_or_unit(struct city *pcity, cid cid)
+static bool city_building_impr_or_unit(struct city *pcity, cid cid)
 {
   return (cid == cid_encode_from_city(pcity));
 }

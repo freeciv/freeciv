@@ -40,7 +40,9 @@ static void gtk_pixcomm_class_init (GtkPixcommClass *klass);
 static void gtk_pixcomm_init       (GtkPixcomm *pixcomm);
 static gint gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *event);
 static void gtk_pixcomm_destroy    (GtkObject *object);
+#if 0
 static void build_insensitive_pixbuf (GtkPixcomm *pixcomm);
+#endif
 
 static GtkMiscClass *parent_class;
 
@@ -275,8 +277,10 @@ gtk_pixcomm_thaw(GtkPixcomm *p)
   }
 }
 
+#if 0
 static void
 build_insensitive_pixbuf(GtkPixcomm *pixcomm)
 {
   /* gdk_pixbuf_composite_color_simple() */
 }
+#endif

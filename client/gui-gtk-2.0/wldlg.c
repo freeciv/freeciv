@@ -304,7 +304,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   struct worklist_editor *peditor;
   GtkWidget *action_area;
   GtkWidget *button, *scrolled, *dialog_hbox, *hbox, *vbox, *frame;
-  GtkAccelGroup *accel = gtk_accel_group_new();
+  /* GtkAccelGroup *accel = gtk_accel_group_new(); */
 
   static char **wl_clist_titles = NULL;
   char *wl_titles[] = { N_("Type"),

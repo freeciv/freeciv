@@ -686,9 +686,9 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   GtkWidget *shell;
 
   switch (response_id) {
-    default:	gtk_widget_destroy(economy_dialog_shell);	return;
     case 1:
-    case 2:
+    case 2:     break;
+    default:	gtk_widget_destroy(economy_dialog_shell);	return;
   }
 
   /* sell obsolete and sell all. */
@@ -970,9 +970,9 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
   gint       res;
 
   switch (response_id) {
-    default:	gtk_widget_destroy(activeunits_dialog_shell);	return;
+    case 1:     break;
     case 2:	activeunits_report_dialog_update();		return;
-    case 1:
+    default:	gtk_widget_destroy(activeunits_dialog_shell);	return;
   }
 
   /* upgrade command. */
