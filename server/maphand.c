@@ -105,33 +105,24 @@ dest can be NULL meaning all players
 **************************************************************************/
 void send_all_known_tiles(struct player *dest)
 {
-   int o;
+  int o;
  
-   for(o=0; o<game.nplayers; o++)           /* dests */
-      {
-      if(!dest || &game.players[o]==dest) 
-         {
-         int x, y;
-         struct player *pplayer=&game.players[o];
+  for(o=0; o<game.nplayers; o++)           /* dests */
+    if(!dest || &game.players[o]==dest) {
+      int x, y;
+      struct player *pplayer=&game.players[o];
       
-         connection_do_buffer(pplayer->conn);
-         for(y=0; y<map.ysize; y++)
-             {
-             for(x=0; x<map.xsize; x++)
-                {
-	             if(map_get_known(x, y, pplayer)) 
-	                {
-	                map_clear_known(x, y, pplayer);
-	                light_square(pplayer, x, y, 0);
-	                }
-                connection_do_unbuffer(pplayer->conn);
-                }
-         }
-      }
-   }
-
-exit(0);
+      connection_do_buffer(pplayer->conn);
+      for(y=0; y<map.ysize; y++)
+        for(x=0; x<map.xsize; x++)
+          if(map_get_known(x, y, pplayer)) {
+            map_clear_known(x, y, pplayer);
+            light_square(pplayer, x, y, 0);
+          }
+      connection_do_unbuffer(pplayer->conn);
+    }
 }
+
 /**************************************************************************
 dest can be NULL meaning all players
 if(dest==NULL) only_send_tile_info_to_client_that_know_the_tile()
