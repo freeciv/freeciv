@@ -13,16 +13,15 @@
 #ifndef FC__PACKETS_H
 #define FC__PACKETS_H
 
+#include "connection.h"		/* struct connection, MAX_LEN_* */
 #include "map.h"
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
 #include "worklist.h"
 
-#define MAX_LEN_PACKET    4096
 #define MAX_LEN_USERNAME    10	     /* see below */
 #define MAX_LEN_MSG       1536
-#define MAX_LEN_CAPSTR     512
 
 /* Note that MAX_LEN_USERNAME cannot be expanded, because it
    is used for the name in the first packet sent by the client,
@@ -791,16 +790,6 @@ struct packet_city_name_suggestion {
   char name[MAX_LEN_NAME];
 };
 
-/*********************************************************
-this is where the data is first collected, whenever it
-arrives to the client/server.
-*********************************************************/
-struct socket_packet_buffer {
-  int ndata;
-  int do_buffer_sends;
-  unsigned char data[10*MAX_LEN_PACKET];
-};
-
 struct packet_sabotage_list
 {
   int diplomat_id;
@@ -808,31 +797,6 @@ struct packet_sabotage_list
   char improvements[B_LAST+1];
 };
 
-
-typedef	void	CLOSE_FUN	(struct connection *pc);
-
-
-struct connection {
-  int sock, used;
-  int first_packet;		/* check byte order on first packet */
-  int byte_swap;		/* connection uses non-network byte order */
-  char *player; 
-  struct socket_packet_buffer buffer;
-  struct socket_packet_buffer send_buffer;
-  char addr[MAX_LEN_ADDR];
-  char capability[MAX_LEN_CAPSTR];
-  /* "capability" gives the capability string of the executable (be it
-   * a client or server) at the other end of the connection.
-   */
-  enum cmdlevel_id access_level;
-  /* Used in the server, "access_level" stores the access granted
-   * to the client corresponding to this connection.
-   */
-};
-
-
-int read_socket_data(int sock, struct socket_packet_buffer *buffer);
-int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
@@ -1032,9 +996,5 @@ receive_packet_sabotage_list(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
-void close_socket_set_callback(CLOSE_FUN *fun);
-void flush_connection_send_buffer(struct connection *pc);
-void connection_do_buffer(struct connection *pc);
-void connection_do_unbuffer(struct connection *pc);
 
 #endif  /* FC__PACKETS_H */

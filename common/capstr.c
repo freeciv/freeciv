@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdlib.h>		/* getenv() */
 
-#include "packets.h"		/* MAX_LEN_CAPSTR */
+#include "connection.h"		/* MAX_LEN_CAPSTR */
 #include "support.h"
 
 #include "capstr.h"

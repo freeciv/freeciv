@@ -13,7 +13,9 @@
 #ifndef FC__STDINHAND_H
 #define FC__STDINHAND_H
 
-#include "player.h"		/* struct player; enum cmdlevel_id */
+#include "connection.h"		/* enum cmdlevel_id */
+
+struct player;
 
 #define SERVER_COMMAND_PREFIX '/'
   /* the character to mark chatlines as server commands */

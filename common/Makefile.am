@@ -16,6 +16,8 @@ libcivcommon_a_SOURCES = \
 		capstr.h	\
 		city.c		\
 		city.h		\
+		connection.c	\
+		connection.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		events.h	\

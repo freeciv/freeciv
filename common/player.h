@@ -120,23 +120,6 @@ struct player_diplstate {
   int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
 };
 
-/**************************************************************************
-  command access levels for client-side use; at present, they are
-  only used for server commands typed at the client chatline
- **************************************************************************/
-enum cmdlevel_id {    /* access levels for users to issue commands        */
-  ALLOW_NONE = 0,     /* user may issue no commands at all                */
-  ALLOW_INFO,         /* user may issue informational commands            */
-  ALLOW_CTRL,         /* user may issue commands that affect game & users */
-  ALLOW_HACK,         /* user may issue *all* commands - dangerous!       */
-
-  ALLOW_NUM,          /* the number of levels                             */
-  ALLOW_UNRECOGNIZED  /* used as a failure return code                    */
-};
-/*  the set command is a special case:                                    */
-/*    - ALLOW_CTRL is required for SSET_TO_CLIENT options                 */
-/*    - ALLOW_HACK is required for SSET_TO_SERVER options                 */
-
 /***************************************************************************
   On the distinction between nations(formerly races), players, and users,
   see freeciv_hackers_guide.txt
@@ -219,9 +202,6 @@ int players_allied(const int player, const int player2);
 int pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
 int players_non_attack(const int player, const int player2);
-
-const char *cmdlevel_name(enum cmdlevel_id lvl);
-enum cmdlevel_id cmdlevel_named(const char *token);
 
 int is_barbarian(const struct player *pplayer);
 

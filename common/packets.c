@@ -19,17 +19,7 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
-#include <errno.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -37,14 +27,9 @@
 #include <arpa/inet.h>
 #endif
 
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
-#endif
-
 #include "capability.h"
 #include "log.h"
 #include "mem.h"
-#include "netintf.h"
 #include "support.h"
 
 #include "packets.h"
@@ -361,6 +346,17 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     remove_packet_from_buffer(&pc->buffer);
     return NULL;
   };
+}
+
+/**************************************************************************
+  Remove the packet from the buffer
+**************************************************************************/
+void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
+{
+  int len;
+  get_uint16(buffer->data, &len);
+  memcpy(buffer->data, buffer->data+len, buffer->ndata-len);
+  buffer->ndata-=len;
 }
 
 /**************************************************************************
@@ -3637,187 +3633,3 @@ receive_packet_sabotage_list(struct connection *pc)
 }
 
 
-/**************************************************************************
-remove the packet from the buffer
-**************************************************************************/
-void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
-{
-  int len;
-  get_uint16(buffer->data, &len);
-  memcpy(buffer->data, buffer->data+len, buffer->ndata-len);
-  buffer->ndata-=len;
-}
-
-/********************************************************************
-...
-********************************************************************/
-void connection_do_buffer(struct connection *pc)
-{
-  if(pc)
-    pc->send_buffer.do_buffer_sends++;
-}
-
-/********************************************************************
-...
-********************************************************************/
-void connection_do_unbuffer(struct connection *pc)
-{
-  if(pc) {
-    pc->send_buffer.do_buffer_sends--;
-    if(pc->send_buffer.do_buffer_sends==0)
-      flush_connection_send_buffer(pc);
-  }
-}
-
-
-/********************************************************************
-...
-********************************************************************/
-static CLOSE_FUN *	close_callback;
-
-void close_socket_set_callback(CLOSE_FUN *fun)
-{
-  close_callback = fun;
-}
-
-
-/********************************************************************
-  write wrapper function -vasc
-********************************************************************/
-static int write_socket_data(struct connection *pc,
-			     struct socket_packet_buffer *buf)
-{
-  int start, nput, nblock;
-
-  for (start=0; start<buf->ndata;) {
-    fd_set writefs, exceptfs;
-    struct timeval tv;
-
-    MY_FD_ZERO(&writefs);
-    MY_FD_ZERO(&exceptfs);
-    FD_SET(pc->sock, &writefs);
-    FD_SET(pc->sock, &exceptfs);
-
-    tv.tv_sec = 2; tv.tv_usec = 0;
-
-    if (select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
-      buf->ndata -= start;
-      memmove(buf->data, buf->data+start, buf->ndata);
-      return -1;
-    }
-
-    if (FD_ISSET(pc->sock, &exceptfs)) {
-      if (close_callback) {
-	(*close_callback)(pc);
-      }
-      return -1;
-    }
-
-    if (FD_ISSET(pc->sock, &writefs)) {
-      nblock=MIN(buf->ndata-start, 4096);
-      if((nput=write(pc->sock, (const char *)buf->data+start, nblock)) == -1) {
-#ifdef NONBLOCKING_SOCKETS
-	if (errno == EWOULDBLOCK || errno == EAGAIN) {
-	  continue;
-	}
-#endif
-	if (close_callback) {
-	  (*close_callback)(pc);
-	}
-	return -1;
-      }
-      start += nput;
-    }
-  }
-
-  buf->ndata=0;
-  return 0;
-}
-
-
-/********************************************************************
-  flush'em
-********************************************************************/
-void flush_connection_send_buffer(struct connection *pc)
-{
-  if(pc) {
-    if(pc->send_buffer.ndata) {
-      write_socket_data(pc, &pc->send_buffer);
-    }
-  }
-}
-
-/********************************************************************
-...
-********************************************************************/
-static int add_connection_data(struct connection *pc, unsigned char *data,
-			       int len)
-{
-  if (pc) {
-    if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
-      memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
-      pc->send_buffer.ndata+=len;
-      return 1;
-    }
-    return 0;
-  }
-  return 1;
-}
-
-/********************************************************************
-  write data to socket
-********************************************************************/
-int send_connection_data(struct connection *pc, unsigned char *data, int len)
-{
-  if(pc) {
-    if(pc->send_buffer.do_buffer_sends) {
-      if (!add_connection_data(pc, data, len)) {
-	flush_connection_send_buffer(pc);
-	if (!add_connection_data(pc, data, len)) {
-	  freelog(LOG_DEBUG, "send buffer filled, packet discarded");
-	}
-      }
-    }
-    else {
-      flush_connection_send_buffer(pc);
-      if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_DEBUG, "send buffer filled, packet discarded");
-      }
-      flush_connection_send_buffer(pc);
-    }
-  }
-  return 0;
-}
-
-
-
-/********************************************************************
-read data from socket, and check if a packet is ready
-
-returns: -1  an error occured - you should close the socket
-          >0 : #bytes read 
-********************************************************************/
-int read_socket_data(int sock, struct socket_packet_buffer *buffer)
-{
-  int didget;
-
-  didget=read(sock, (char *)(buffer->data+buffer->ndata), 
-	      MAX_LEN_PACKET-buffer->ndata);
-
-  if (didget > 0) {
-    buffer->ndata+=didget;
-    freelog(LOG_DEBUG, "didget:%d", didget);
-    return didget;
-  }
-  else if (didget == 0) {
-    freelog(LOG_DEBUG, "EOF on socket read");
-    return -1;
-  }
-#ifdef NONBLOCKING_SOCKETS
-  else if (errno == EWOULDBLOCK || errno == EAGAIN) {
-    freelog(LOG_DEBUG, "EGAIN on socket read");
-    return 0;
-  }
-#endif
-  return -1;
-}

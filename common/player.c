@@ -14,7 +14,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -379,37 +378,6 @@ int ai_fuzzy(struct player *pplayer, int normal_decision)
   if (!pplayer->ai.control || !pplayer->ai.fuzzy) return normal_decision;
   if (myrand(1000) >= pplayer->ai.fuzzy) return normal_decision;
   return !normal_decision;
-}
-
-/**************************************************************************
-Command access levels for client-side use; at present, they are 
-only used to control access to server commands typed at the client chatline.
-**************************************************************************/
-static const char *levelnames[] = {
-  "none",
-  "info",
-  "ctrl",
-  "hack"
-};
-
-const char *cmdlevel_name(enum cmdlevel_id lvl)
-{
-  assert (lvl >= 0 && lvl < ALLOW_NUM);
-  return levelnames[lvl];
-}
-
-enum cmdlevel_id cmdlevel_named(const char *token)
-{
-  enum cmdlevel_id i;
-  int len = strlen(token);
-
-  for (i = 0; i < ALLOW_NUM; ++i) {
-    if (strncmp(levelnames[i], token, len) == 0) {
-      return i;
-    }
-  }
-
-  return ALLOW_UNRECOGNIZED;
 }
 
 /**************************************************************************
