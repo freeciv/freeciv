@@ -360,6 +360,27 @@ When the maximum number of players have connected, the server auto-starts.
 The maximum number of players can be set with the 'maxplayers' option.
 
 
+Native Language Support
+=======================
+
+Freeciv supports several local languages.
+
+You may choose which local language to use by specifying a "locale".
+Each locale has a standard name (e.g., 'de' for German).  If you have
+installed Freeciv, you may choose a locale by setting the environment
+variable LANG to that locale's standard name before running civserver
+and civclient.
+
+For example, assuming you wish to use the German localization, you
+would do:
+
+  export LANG; LANG=de   (in the Bourne shell (sh)),
+or
+  setenv LANG de         (in the C shell (csh)).
+
+(You could do this in your .profile or .login file.)
+
+
 Log messages:
 =============
 

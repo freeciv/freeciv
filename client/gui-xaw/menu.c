@@ -126,6 +126,7 @@ enum MenuID {
   MENU_HELP_ABOUT,
   MENU_HELP_CONNECTING,
   MENU_HELP_CHATLINE,
+  MENU_HELP_LANGUAGES,
 
   MENU_SEPARATOR_LINE
 };
@@ -273,6 +274,7 @@ static struct MenuEntry reports_menu_entries[]={
 };
 
 static struct MenuEntry help_menu_entries[]={
+    { { N_("Help Languages"), 0       },      "", MENU_HELP_LANGUAGES, 0 },
     { { N_("Help Connecting"), 0      },      "", MENU_HELP_CONNECTING, 0 },
     { { N_("Help Controls"), 0        },      "", MENU_HELP_CONTROLS, 0 },
     { { N_("Help Chatline"), 0        },      "", MENU_HELP_CHATLINE, 0 },
@@ -717,6 +719,9 @@ static void help_menu_callback(Widget w, XtPointer client_data,
   size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
+  case MENU_HELP_LANGUAGES:
+    popup_help_dialog_string(HELP_LANGUAGES_ITEM);
+    break;
   case MENU_HELP_CONNECTING:
     popup_help_dialog_string(HELP_CONNECTING_ITEM);
     break;

@@ -130,7 +130,8 @@ enum MenuID {
   MENU_HELP_COPYING,
   MENU_HELP_ABOUT,
   MENU_HELP_CONNECTING,
-  MENU_HELP_CHATLINE
+  MENU_HELP_CHATLINE,
+  MENU_HELP_LANGUAGES
 };
 
 
@@ -366,6 +367,9 @@ static void help_menu_callback(gpointer callback_data,
 			       guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
+  case MENU_HELP_LANGUAGES:
+    popup_help_dialog_string(HELP_LANGUAGES_ITEM);
+    break;
   case MENU_HELP_CONNECTING:
     popup_help_dialog_string(HELP_CONNECTING_ITEM);
     break;
@@ -594,6 +598,8 @@ static GtkItemFactoryEntry menu_items[]	=
     0,					"<LastBranch>"			      },
   { "/" N_("Help") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
+  { "/" N_("Help") "/" N_("Help Languages"),	NULL,		help_menu_callback,
+    MENU_HELP_LANGUAGES							      },
   { "/" N_("Help") "/" N_("Help Connecting"),	NULL,		help_menu_callback,
     MENU_HELP_CONNECTING						      },
   { "/" N_("Help") "/" N_("Help Controls"),	NULL,		help_menu_callback,

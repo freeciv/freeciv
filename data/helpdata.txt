@@ -63,7 +63,7 @@ For more information about submitting bug reports see the file BUGS \
 in the Freeciv distribution.  For more information in general, \
 visit the Freeciv website, at:\
 "), "\
-  http://www.freeciv.org\
+  http://www.freeciv.org/\
 "
 
 [help_copying]         
@@ -375,6 +375,27 @@ SUCH DAMAGES.\
                          ------------------\
 "
 
+[help_languages]
+name = _("Languages")
+text = _("\
+Freeciv supports several local languages.  See the Native \
+Language Support section of the README file for instructions \
+on how to use one of these languages.\
+\n\n\
+If you would like to add a localization (translation) for your \
+language, please see the instructions at:\
+\n\n\
+  http://www.freeciv.org/l10n.phtml\
+\n\n\
+(Check here first to see if a localization is already in progress \
+for your language.)\
+\n\n\
+You are also welcome to send any questions to the freeciv-dev \
+mailing list:\
+\n\n\
+  freeciv-dev@freeciv.org\
+")
+
 [help_connecting]
 name = _("Connecting")
 text = _("\
@@ -616,7 +637,7 @@ well, especially in the beginning of the game.  But to improve, \
 you need to study the various units and advances, and PRACTICE, \
 PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't \
 played a similar game before, try consulting the Freeciv WWW \
-pages at http://www.freeciv.org\n\
+pages at http://www.freeciv.org/\n\
 You'll find more tips for playing, and details of how to contact \
 other players.\
 "), _("\

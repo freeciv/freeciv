@@ -23,6 +23,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type);
 void popdown_help_dialog(void);
 
 #define HELP_PLAYING_ITEM "Strategy and tactics"
+#define HELP_LANGUAGES_ITEM "Languages"
 #define HELP_CONNECTING_ITEM "Connecting"
 #define HELP_CHATLINE_ITEM "Chatline"
 #define HELP_CONTROLS_ITEM "Controls"

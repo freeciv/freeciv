@@ -335,6 +335,7 @@ MAKE_ITEM("Science Report...", MENU_REPORT_SCIENCE, "F6", NM_COMMANDSTRING),
   MAKE_ITEM("Spaceship", MENU_REPORT_SPACESHIP, "F10", NM_COMMANDSTRING),
 
   MAKE_TITLE("Help", MENU_HELP),
+  MAKE_SIMPLEITEM("Languages", MENU_HELP_LANGUAGES),
   MAKE_SIMPLEITEM("Connecting", MENU_HELP_CONNECTING),
   MAKE_SIMPLEITEM("Controls", MENU_HELP_CONTROLS),
   MAKE_SIMPLEITEM("Chatline", MENU_HELP_CHATLINE),
@@ -665,6 +666,9 @@ static void control_callback(ULONG * value)
       break;
     case MENU_HELP_CHATLINE:
       popup_help_dialog_string(HELP_CHATLINE_ITEM);
+      break;
+    case MENU_HELP_LANGUAGES:
+      popup_help_dialog_string(HELP_LANGUAGES_ITEM);
       break;
     }
   }
