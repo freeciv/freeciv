@@ -32,6 +32,7 @@ void boot_help_texts(void);
 #define HELP_WONDERS_ITEM "Wonders of the World"
 #define HELP_GOVERNMENT_ITEM "Government"
 #define HELP_HAPPINESS_ITEM "Happiness"
+#define HELP_SPACE_RACE_ITEM "Space Race"
 #define HELP_COPYING_ITEM "Copying"
 #define HELP_ABOUT_ITEM "About"
 

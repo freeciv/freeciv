@@ -776,11 +776,14 @@ This improvement has not been implemented.
 ---
 # Space Component
 Space Components can be differentiated into Propulsion and Fuel
-Components. Each pair of them reduces your space-ship's travel
-time. You can build up to 8 pairs.
+Components.  Each pair of them reduces your spaceship's travel
+time.  You can build up to 8 pairs.
+
+Before you can build any spaceship parts, the Apollo Program wonder
+must have been built by any player.
 ---
 # Space Module
-Space Modules are the most expensive parts of space-ships.  There
+Space Modules are the most expensive parts of spaceships.  There
 are three different types of Space Module:
 
 - Habitation Module: provides living space for 10,000 people.
@@ -792,11 +795,17 @@ are three different types of Space Module:
   Modules.
 
 You can build up to 4 Space Modules of each kind.
+
+Before you can build any spaceship parts, the Apollo Program wonder
+must have been built by any player.
 ---
 # Space Structural
-Space Structurals form the base of your space-ship. All other
-space-ship parts need to be connected to Structurals in order to
+Space Structurals form the base of your spaceship.  All other
+spaceship parts need to be connected to Structurals in order to
 function. You can build up to 32 Space Structurals.
+
+Before you can build any spaceship parts, the Apollo Program wonder
+must have been built by any player.
 ---
 # Stock Exchange
 Together with a Marketplace and a Bank, a Stock Exchange boosts
@@ -1837,7 +1846,6 @@ TIP 2: Scientific advancement requires high levels of trade, which
        you at an advantage.
 ---
 # Civil War
-
 Civil war is devastating to any empire, and is triggered by
 the loss of your capital (palace).  Up to half of your cities
 will rebel and declare allegiance to a new (AI) leader, who
@@ -2033,32 +2041,35 @@ a city can either create unhappiness or create contentment (see
 Government for details).
 ---
 #Space Race
-The Space Race is you second option to win a game, besides
-eliminating all other civilization. If you manage to get a
-space-ship safely to Alpha Centauti, the game is over and you have
-won.
+The Space Race is a second option to win the game, besides 
+eliminating all other civilizations.  If your spaceship arrives
+first at Alpha Centauri, the game is over and you have won.
+(However it is possible for this option to be off as a server 
+option.)
 
-To enable you to build space-ship parts, the Apollo Program wonder
-must have been build by any player.  You also need specific
+Before you can build spaceship parts, the Apollo Program wonder
+must have been built by any player.  You also need specific
 technologies to build the different spaceship parts: see the
 help texts for Space Structural, Space Component, and Space Module,
-under City Improvements.
+under City Improvements.  (If there are no help texts for these 
+items, it probably means the spacerace server option is off for 
+your game.)
 
-When you have started building your space-ship, you can see it with
-the "Space-Ship" command in the Report menu. To see space-ships of
+When you have started building your spaceship, you can see it with
+the "Spaceship" command in the Report menu.  To see spaceships of
 other players, select the player in the Players dialog and click
-"Space-ship".
+"Spaceship".
 
 If the success probability is below 100%, some fraction of the
 people on board may not survive the journey.  This reduces the
 score bonus from the spaceship, but it still counts as a win.
 
-If the capital of a civilization is captured, a space-ship that has
+If the capital of a civilization is captured, a spaceship that has
 been launched will be lost, so defend your capital well!
 
-TIP: If an enemy civilization has launched a space-ship, try to
-     quickly build a light space-ship with many propulsion units
-     that will arrive earlier. The only other option is to capture
+TIP: If an enemy civilization has launched a spaceship, try to
+     quickly build a light spaceship with many propulsion units
+     that will arrive earlier.  The only other option is to capture
      their capital.
 ---
 %% This is for XEmacs.  It sets up the indentation.

@@ -2470,7 +2470,7 @@ Freeciv*playersmeetcommand.bottom:         chainBottom
 Freeciv*playersmeetcommand.left:           chainLeft
 Freeciv*playersmeetcommand.right:          chainLeft
 
-Freeciv*playerssshipcommand.label:          Space Ship
+Freeciv*playerssshipcommand.label:          Spaceship
 Freeciv*playerssshipcommand.fromHoriz:      playersmeetcommand
 Freeciv*playerssshipcommand.fromVert:       playerslist
 Freeciv*playerssshipcommand.top:            chainBottom
