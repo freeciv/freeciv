@@ -1154,7 +1154,8 @@ static void cmdlevel_command(struct player *caller, char *str)
   for(; *cptr_s && !isalnum(*cptr_s); cptr_s++);
 
   /* copy the name into arg_name[] */
-  for(cptr_d=arg_name; *cptr_s && (*cptr_s == '-' || isalnum(*cptr_s));
+  for(cptr_d=arg_name;
+      *cptr_s && (*cptr_s == '-' || *cptr_s == ' ' || isalnum(*cptr_s));
       cptr_s++ , cptr_d++) {
     *cptr_d=*cptr_s;
   }
