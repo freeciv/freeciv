@@ -128,7 +128,7 @@ static void historian_generic(enum historian_type which_news)
 		 get_nation_name_plural(game.players[size[i].idx].nation));
   }
   free(size);
-  which_historian=myrand(sizeof(historian_name)/sizeof(historian_name[0]));
+  which_historian = myrand(ARRAY_SIZE(historian_name));
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[which_historian]));
   page_conn_etype(&game.game_connections, _("Historian Publishes!"),
@@ -901,20 +901,15 @@ void report_demographics(struct connection *pconn)
 
   anyrows = FALSE;
   selcols = DEM_NONE;
-  for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
-    {
-      if (strchr (game.demography, keytable[inx].key))
-	{
-	  if (keytable[inx].flag == DEM_ROW)
-	    {
-	      anyrows = TRUE;
-	    }
-	  else
-	    {
-	      selcols |= keytable[inx].flag;
-	    }
-	}
+  for (inx = 0; inx < ARRAY_SIZE(keytable); inx++) {
+    if (strchr(game.demography, keytable[inx].key)) {
+      if (keytable[inx].flag == DEM_ROW) {
+	anyrows = TRUE;
+      } else {
+	selcols |= keytable[inx].flag;
+      }
     }
+  }
 
   if (pplayer == NULL || !pplayer->is_alive || !anyrows
       || (selcols == DEM_NONE)) {
@@ -928,7 +923,7 @@ void report_demographics(struct connection *pconn)
 	       get_government_name (pplayer->government),
 	       get_nation_name_plural (pplayer->nation));
 
-  for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
+  for (inx = 0; inx < ARRAY_SIZE(keytable); inx++)
     {
       if ((strchr (game.demography, keytable[inx].key)) &&
 	  (keytable[inx].flag == DEM_ROW))

@@ -685,10 +685,8 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
     B_COASTAL,
     B_OFFSHORE
   };
-  #define coastal_improvements_count \
-    (sizeof(coastal_improvements)/sizeof(coastal_improvements[0]))
 
-
+#define coastal_improvements_count ARRAY_SIZE(coastal_improvements)
 
   adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);

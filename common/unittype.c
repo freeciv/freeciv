@@ -25,6 +25,7 @@
 #include "player.h"
 #include "support.h"
 #include "tech.h"
+#include "shared.h" /* ARRAY_SIZE */
 
 #include "unittype.h"
 
@@ -326,7 +327,7 @@ enum unit_move_type unit_move_type_from_str(char *s)
   enum unit_move_type i;
 
   /* a compile-time check would be nicer, but this will do: */
-  assert(sizeof(move_type_names)/sizeof(char*)==AIR_MOVING-LAND_MOVING+1);
+  assert(ARRAY_SIZE(move_type_names) == (AIR_MOVING - LAND_MOVING + 1));
 
   for(i=LAND_MOVING; i<=AIR_MOVING; i++) {
     if (mystrcasecmp(move_type_names[i-LAND_MOVING], s)==0) {
@@ -344,7 +345,7 @@ Unit_Class_id unit_class_from_str(char *s)
 {
   Unit_Class_id i;
 
-  assert(sizeof(unit_class_names)/sizeof(unit_class_names[0])==UCL_LAST);
+  assert(ARRAY_SIZE(unit_class_names) == UCL_LAST);
 
   for (i = 0; i < UCL_LAST; i++) {
     if (mystrcasecmp(unit_class_names[i], s)==0) {
@@ -362,7 +363,7 @@ enum unit_flag_id unit_flag_from_str(char *s)
 {
   enum unit_flag_id i;
 
-  assert(sizeof(flag_names)/sizeof(char*)==F_LAST);
+  assert(ARRAY_SIZE(flag_names) == F_LAST);
   
   for(i=0; i<F_LAST; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {
@@ -380,7 +381,7 @@ enum unit_role_id unit_role_from_str(char *s)
 {
   enum unit_role_id i;
 
-  assert(sizeof(role_names)/sizeof(char*)==L_LAST-L_FIRST);
+  assert(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST));
   
   for(i=L_FIRST; i<L_LAST; i++) {
     if (mystrcasecmp(role_names[i-L_FIRST], s)==0) {

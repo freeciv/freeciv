@@ -831,7 +831,7 @@ static const char *translate_menu_path(const char *path, int remove_uline)
 *****************************************************************/
 void setup_menus(GtkWidget *window, GtkWidget **menubar)
 {
-  const int nmenu_items = sizeof(menu_items)/sizeof(menu_items[0]);
+  const int nmenu_items = ARRAY_SIZE(menu_items);
   GtkAccelGroup *accel;
   int i;
 

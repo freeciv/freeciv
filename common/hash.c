@@ -95,6 +95,7 @@
 
 #include "log.h"
 #include "mem.h"
+#include "shared.h" /* ARRAY_SIZE */
 
 #include "hash.h"
 
@@ -233,7 +234,7 @@ static const unsigned long ht_sizes[] =
   12582917,  25165843,  50331653,   100663319,    201326611, 
   402653189, 805306457, 1610612741, 3221225473ul, 4294967291ul
 };
-#define NSIZES (sizeof(ht_sizes)/sizeof(ht_sizes[0]))
+#define NSIZES ARRAY_SIZE(ht_sizes)
 
 /**************************************************************************
   Calculate a "reasonable" number of buckets for a given number of

@@ -209,9 +209,9 @@ static void my_add_menu_accelerator(char *item,int cmd)
   ACCEL newaccel;
    
   if (!accelcount) {
-    
-    for(;accelcount<sizeof(numpadaccel)/sizeof(ACCEL);accelcount++)
-      menuaccel[accelcount]=numpadaccel[accelcount];
+    for (; accelcount < ARRAY_SIZE(numpadaccel); accelcount++) {
+      menuaccel[accelcount] = numpadaccel[accelcount];
+    }
   }
  
   tab=strchr(item,'\t');

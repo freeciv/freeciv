@@ -17,6 +17,7 @@
 #include "map.h"
 #include "support.h"
 #include "tech.h"
+#include "shared.h" /* ARRAY_SIZE */
 
 #include "improvement.h"
 
@@ -126,7 +127,7 @@ Eff_Range_id effect_range_from_str(char *str)
 {
   Eff_Range_id ret_id;
 
-  assert(sizeof(effect_range_names)/sizeof(effect_range_names[0])==EFR_LAST);
+  assert(ARRAY_SIZE(effect_range_names) == EFR_LAST);
 
   for (ret_id = 0; ret_id < EFR_LAST; ret_id++) {
     if (0 == mystrcasecmp(effect_range_names[ret_id], str)) {
@@ -142,7 +143,7 @@ Eff_Range_id effect_range_from_str(char *str)
 **************************************************************************/
 const char *effect_range_name(Eff_Range_id id)
 {
-  assert(sizeof(effect_range_names)/sizeof(effect_range_names[0])==EFR_LAST);
+  assert(ARRAY_SIZE(effect_range_names) == EFR_LAST);
 
   if (id < EFR_LAST) {
     return effect_range_names[id];
@@ -159,7 +160,7 @@ Eff_Type_id effect_type_from_str(char *str)
 {
   Eff_Type_id ret_id;
 
-  assert(sizeof(effect_type_names)/sizeof(effect_type_names[0])==EFT_LAST);
+  assert(ARRAY_SIZE(effect_type_names) == EFT_LAST);
 
   for (ret_id = 0; ret_id < EFT_LAST; ret_id++) {
     if (0 == mystrcasecmp(effect_type_names[ret_id], str)) {
@@ -175,7 +176,7 @@ Eff_Type_id effect_type_from_str(char *str)
 **************************************************************************/
 const char *effect_type_name(Eff_Type_id id)
 {
-  assert(sizeof(effect_type_names)/sizeof(effect_type_names[0])==EFT_LAST);
+  assert(ARRAY_SIZE(effect_type_names) == EFT_LAST);
 
   if (id < EFT_LAST) {
     return effect_type_names[id];

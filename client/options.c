@@ -189,7 +189,7 @@ void init_messages_where(void)
   for(i=0; i<E_LAST; i++) {
     messages_where[i] = MW_OUTPUT | MW_MESSAGES;
   }
-  for(i=0; i<sizeof(out_only)/sizeof(int); i++) {
+  for (i = 0; i < ARRAY_SIZE(out_only); i++) {
     messages_where[out_only[i]] = MW_OUTPUT;
   }
   

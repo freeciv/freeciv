@@ -643,8 +643,9 @@ activeunits_report_dialog_update(void)
     SetWindowText(GetDlgItem(activeunits_dlg,ID_MILITARY_TOP),report_title);
     lv=GetDlgItem(activeunits_dlg,ID_MILITARY_LIST);
     ListView_DeleteAllItems(lv);
-    for(i=0;i<(sizeof(row)/sizeof(row[0]));i++)
+    for (i = 0; i < ARRAY_SIZE(row); i++) {
       row[i] = buf[i];
+    }
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {

@@ -809,7 +809,7 @@ const char *m_pre_description(enum m_pre_result result)
     N_("too long"),
     N_("non-match")
   };
-  assert(result >= 0 && result < sizeof(descriptions)/sizeof(descriptions[0]));
+  assert(result >= 0 && result < ARRAY_SIZE(descriptions));
   return descriptions[result];
 }
 

@@ -151,7 +151,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
   
   /* Flags: */
-  for(j=0; j<sizeof(tech_flag_desc)/sizeof(tech_flag_desc[0]); j++) {
+  for (j = 0; j < ARRAY_SIZE(tech_flag_desc); j++) {
     if (tech_flag(itech, j)) {
       strcpy(buf, "special: ");
       sz_strlcat(buf, _(tech_flag_desc[j]));

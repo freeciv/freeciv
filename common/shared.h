@@ -57,6 +57,8 @@
 /* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
 
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+
 char *create_centered_string(char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);

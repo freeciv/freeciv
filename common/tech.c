@@ -18,6 +18,7 @@
 #include "game.h"
 #include "player.h"
 #include "support.h"
+#include "shared.h" /* ARRAY_SIZE */
 
 #include "tech.h"
 
@@ -190,7 +191,7 @@ enum tech_flag_id tech_flag_from_str(char *s)
 {
   enum tech_flag_id i;
 
-  assert(sizeof(flag_names)/sizeof(char*)==TF_LAST);
+  assert(ARRAY_SIZE(flag_names) == TF_LAST);
   
   for(i=0; i<TF_LAST; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {

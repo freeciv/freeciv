@@ -808,7 +808,7 @@ static struct settings_s settings[] = {
     NULL, NULL }
 };
 
-#define SETTINGS_NUM ((sizeof(settings)/sizeof(settings[0]))-1)
+#define SETTINGS_NUM (ARRAY_SIZE(settings)-1)
 
 /********************************************************************
 Returns whether the specified server setting (option) can currently

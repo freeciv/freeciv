@@ -1034,8 +1034,9 @@ void activeunits_report_dialog_update(void)
     gtk_clist_freeze(GTK_CLIST(activeunits_list));
     gtk_clist_clear(GTK_CLIST(activeunits_list));
 
-    for(i=0;i<(sizeof(row)/sizeof(row[0]));i++)
+    for (i = 0; i < ARRAY_SIZE(row); i++) {
       row[i] = buf[i];
+    }
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {

@@ -260,9 +260,7 @@ enum tile_special_type get_special_by_name(char * name)
   int inx;
   enum tile_special_type st = 1;
 
-  for (inx = 0;
-       inx < sizeof(tile_special_type_names)/sizeof(tile_special_type_names[0]);
-       inx++) {
+  for (inx = 0; inx < ARRAY_SIZE(tile_special_type_names); inx++) {
     if (0 == strcmp(name, tile_special_type_names[inx])) {
       return st;
     }
@@ -279,9 +277,7 @@ const char *get_special_name(enum tile_special_type type)
 {
   int inx;
 
-  for (inx = 0;
-       inx < sizeof(tile_special_type_names)/sizeof(tile_special_type_names[0]);
-       inx++) {
+  for (inx = 0; inx < ARRAY_SIZE(tile_special_type_names); inx++) {
     if (type & 0x1) {
       return tile_special_type_names[inx];
     }

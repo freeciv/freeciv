@@ -78,7 +78,7 @@ enum government_flag_id government_flag_from_str(const char *s)
 {
   enum government_flag_id i;
 
-  assert(sizeof(flag_names)/sizeof(char*)==G_LAST_FLAG);
+  assert(ARRAY_SIZE(flag_names) == G_LAST_FLAG);
   
   for(i=G_FIRST_FLAG; i<G_LAST_FLAG; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {
@@ -106,7 +106,7 @@ enum government_hint_id government_hint_from_str(const char *s)
 {
   enum government_hint_id i;
 
-  assert(sizeof(hint_names)/sizeof(char*)==G_LAST_HINT);
+  assert(ARRAY_SIZE(hint_names) == G_LAST_HINT);
   
   for(i=G_FIRST_HINT; i<G_LAST_HINT; i++) {
     if (mystrcasecmp(hint_names[i], s)==0) {
