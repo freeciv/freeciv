@@ -3528,19 +3528,19 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
 static void set_cityopt_values(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
-  int i, state;
+  int i;
 
   pdialog->misc.block_signal = 1;
   for (i = 0; i < NUM_CITY_OPTS; i++) {
-    state = (pcity->city_options & (1 << i));
-    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(pdialog->misc.city_opts[i]),
-                                state);
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
+				(pdialog->misc.city_opts[i]),
+				is_city_option_set(pcity, i));
   }
 
-  if (pcity->city_options & (1 << CITYO_NEW_EINSTEIN)) {
+  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
                                 (pdialog->misc.new_citizens_radio[1]), TRUE);
-  } else if (pcity->city_options & (1 << CITYO_NEW_TAXMAN)) {
+  } else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
                                 (pdialog->misc.new_citizens_radio[2]), TRUE);
   } else {

@@ -2664,7 +2664,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
 {
   struct city_dialog *pdialog = (struct city_dialog *)client_data;
   struct city *pcity = pdialog->pcity;
-  int i, state;
+  int i;
 
   if(cityopt_shell) {
     XtDestroyWidget(cityopt_shell);
@@ -2672,13 +2672,13 @@ void cityopt_callback(Widget w, XtPointer client_data,
   cityopt_shell=create_cityopt_dialog(pcity->name);
   /* Doing this here makes the "No"'s centered consistently */
   for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
-    state = (pcity->city_options & (1<<i));
+    bool state = is_city_option_set(pcity, i);
     XtVaSetValues(cityopt_toggles[i], XtNstate, state,
 		  XtNlabel, state?_("Yes"):_("No"), NULL);
   }
-  if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
+  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     newcitizen_index = 1;
-  } else if (pcity->city_options & (1<<CITYO_NEW_TAXMAN)) {
+  } else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
     newcitizen_index = 2;
   } else {
     newcitizen_index = 0;

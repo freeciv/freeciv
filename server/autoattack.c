@@ -95,8 +95,8 @@ static struct unit *search_best_target(struct player *pplayer,
     enemy = get_defender(punit, x, y);
     freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
 
-    if (!(pcity->city_options
-	  & 1 << (unit_type(enemy)->move_type - 1 + CITYO_ATT_LAND))) {
+    if (!is_city_option_set(pcity, unit_type(enemy)->move_type - 1 +
+			    CITYO_ATT_LAND)) {
       freelog(LOG_DEBUG, "wrong target type");
       continue;
     }
@@ -211,7 +211,7 @@ static void auto_attack_player(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     /* fasten things up -- fisch */
-    if ((pcity->city_options & CITYOPT_AUTOATTACK_BITS)
+    if ((pcity->city_options & CITYOPT_AUTOATTACK_BITS) != 0
 	&& !pcity->anarchy) {
       auto_attack_city(pplayer, pcity);
     }

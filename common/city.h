@@ -443,4 +443,6 @@ int get_temple_power(struct city *pcity);
 int get_cathedral_power(struct city *pcity);
 int get_colosseum_power(struct city *pcity);
 
+/* misc */
+bool is_city_option_set(struct city *pcity, enum city_options option);
 #endif  /* FC__CITY_H */

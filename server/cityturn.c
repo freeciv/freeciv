@@ -534,9 +534,10 @@ void city_increase_size(struct city *pcity)
     }
   } city_map_iterate_end;
   if (((pcity->food_surplus >= 2) || !have_square)  &&  pcity->size >= 5  &&
-      (pcity->city_options & ((1<<CITYO_NEW_EINSTEIN) | (1<<CITYO_NEW_TAXMAN)))){
+      (is_city_option_set(pcity, CITYO_NEW_EINSTEIN) || 
+       is_city_option_set(pcity, CITYO_NEW_TAXMAN))) {
 
-    if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
+    if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
       pcity->ppl_scientist++;
     } else { /* now pcity->city_options & (1<<CITYO_NEW_TAXMAN) is true */
       pcity->ppl_taxman++;
@@ -1015,8 +1016,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     int pop_cost = unit_pop_value(pcity->currently_building);
 
     /* Should we disband the city? -- Massimo */
-    if (pcity->size == pop_cost &&
-	(pcity->city_options & (1 << CITYO_DISBAND))) {
+    if (pcity->size == pop_cost && is_city_option_set(pcity, CITYO_DISBAND)) {
       return !disband_city(pcity);
     }
 

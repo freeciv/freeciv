@@ -2258,18 +2258,18 @@ static void close_city_dialog(struct city_dialog *pdialog)
 static void open_cityopt_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
-  int i, state, newcitizen_index;
+  int i, newcitizen_index;
 
   for (i = 0; i < NUM_CITYOPT_TOGGLES; i++)
   {
-    state = (pcity->city_options & (1 << i));
-    set(pdialog->cityopt_checks[i], MUIA_Selected, state);
+    set(pdialog->cityopt_checks[i], MUIA_Selected,
+	is_city_option_set(pcity, i));
   }
-  if (pcity->city_options & (1 << CITYO_NEW_EINSTEIN))
+  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN))
   {
     newcitizen_index = 1;
   }
-  else if (pcity->city_options & (1 << CITYO_NEW_TAXMAN))
+  else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN))
   {
     newcitizen_index = 2;
   }

@@ -2195,7 +2195,7 @@ LONG APIENTRY CitydlgConfigWndProc(HWND hWnd,
 
 void cityopt_callback(struct city_dialog *pdialog)
 {
-  int i,state;
+  int i;
   int ncitizen_idx;
   struct city *pcity = pdialog->pcity;     
   if (pdialog->cityopt_dialog)
@@ -2209,13 +2209,12 @@ void cityopt_callback(struct city_dialog *pdialog)
 				 pdialog);
   
   for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
-    state = (pcity->city_options & (1<<i));
-    CheckDlgButton(pdialog->cityopt_dialog,i+ID_CITYOPT_TOGGLE,
-		   state?BST_CHECKED:BST_UNCHECKED);
+    CheckDlgButton(pdialog->cityopt_dialog, i + ID_CITYOPT_TOGGLE,
+		   is_city_option_set(pcity, i) ? BST_CHECKED : BST_UNCHECKED);
   }
-  if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
+  if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     ncitizen_idx = 1;
-  } else if (pcity->city_options & (1<<CITYO_NEW_TAXMAN)) {
+  } else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
     ncitizen_idx = 2;
   } else {
     ncitizen_idx = 0; 
