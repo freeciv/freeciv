@@ -720,6 +720,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
 void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
+  int sanity = punit->id;
 
   CHECK_UNIT(punit);
 
@@ -785,7 +786,6 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     if (punit->ai.passenger > 0) {
       int bossid = punit->ai.passenger;    /* Loop prevention */
       struct unit *boss = find_unit_by_id(punit->ai.passenger);
-      int id = punit->id;                  /* To check if survived */
 
       assert(boss != NULL);
 
@@ -799,7 +799,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 		unit_type(boss)->name, boss->id);
       ai_manage_unit(pplayer, boss);
     
-      if (!find_unit_by_id(id) || punit->moves_left <= 0) {
+      if (!find_unit_by_id(sanity) || punit->moves_left <= 0) {
         return;
       }
       if (find_unit_by_id(bossid)) {
@@ -856,7 +856,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Passing control of ferry to explorer code");
   (void) ai_manage_explorer(punit);
 
-  if (punit->moves_left > 0) {
+  if (find_unit_by_id(sanity) && punit->moves_left > 0) {
     struct city *pcity = find_nearest_safe_city(punit);
     if (pcity) {
       punit->goto_tile = pcity->tile;

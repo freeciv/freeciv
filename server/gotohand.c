@@ -1416,33 +1416,6 @@ enum goto_result do_unit_goto(struct unit *punit,
 }
 
 /**************************************************************************
-Calculate and return cost (in terms of move points) for unit to move
-to specified destination.
-Currently only used in autoattack.c
-**************************************************************************/
-int calculate_move_cost(struct unit *punit, struct tile *dest_tile)
-{
-  /* perhaps we should do some caching -- fisch */
-
-  if (is_air_unit(punit) || is_heli_unit(punit)) {
-    /* The warmap only really knows about land and sea
-       units, so for these we just assume cost = distance.
-       (times 3 for road factor).
-       (Could be wrong if there are things in the way.)
-    */
-    return SINGLE_MOVE * real_map_distance(punit->tile, dest_tile);
-  }
-
-  generate_warmap(NULL, punit);
-
-  if (is_sailing_unit(punit))
-    return WARMAP_SEACOST(dest_tile);
-  else /* ground unit */
-    return WARMAP_COST(dest_tile);
-}
-
-
-/**************************************************************************
  Returns true if the airspace at given map position _looks_ safe to
  the given player. The airspace is unsafe if the player believes
  there is an enemy unit on it. This is tricky, since we have to

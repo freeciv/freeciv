@@ -645,6 +645,13 @@ struct settings_s settings[] = {
 	  GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, 
 	  GAME_DEFAULT_OCCUPYCHANCE)
 
+  GEN_BOOL("autoattack", game.autoattack, SSET_RULES_FLEXIBLE, SSET_MILITARY,
+         SSET_SITUATIONAL, SSET_TO_CLIENT,
+         N_("Turn on/off server-side autoattack"),
+         N_("If set to on, units with move left will automatically "
+            "consider attacking enemy units that move adjacent to them."), 
+         NULL, GAME_DEFAULT_AUTOATTACK)
+
   GEN_INT("killcitizen", game.killcitizen,
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Reduce city population after attack"),

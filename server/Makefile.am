@@ -16,8 +16,6 @@ civserver_SOURCES = \
 libcivserver_a_SOURCES = \
 		airgoto.c	\
 		airgoto.h	\
-		autoattack.c	\
-		autoattack.h	\
 		barbarian.c	\
 		barbarian.h	\
 		cityhand.c	\

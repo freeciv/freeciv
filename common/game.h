@@ -95,6 +95,7 @@ struct civ_game {
   int onsetbarbarian;
   int nbarbarians;
   int occupychance;
+  bool autoattack;
   int unhappysize;
   bool angrycitizen;
   char *startmessage;
@@ -469,6 +470,8 @@ extern bool is_server;
 #define GAME_DEFAULT_OCCUPYCHANCE    0
 #define GAME_MIN_OCCUPYCHANCE        0
 #define GAME_MAX_OCCUPYCHANCE        100
+
+#define GAME_DEFAULT_AUTOATTACK      FALSE
 
 #define GAME_DEFAULT_RULESETDIR      "default"
 

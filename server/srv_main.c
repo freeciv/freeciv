@@ -68,7 +68,6 @@
 #include "timing.h"
 #include "version.h"
 
-#include "autoattack.h"
 #include "barbarian.h"
 #include "cityhand.h"
 #include "citytools.h"
@@ -602,9 +601,6 @@ static void end_phase(void)
 
   do_reveal_effects();
   do_have_embassies_effect();
-
-  freelog(LOG_DEBUG, "Auto-Attack phase");
-  auto_attack();
 }
 
 /**************************************************************************

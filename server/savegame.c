@@ -3203,6 +3203,9 @@ void game_load(struct section_file *file)
 			     1.10.0 */
     game.occupychance = secfile_lookup_int_default(file, game.occupychance,
 						   "game.occupychance");
+    game.autoattack = secfile_lookup_bool_default(file,
+						  GAME_DEFAULT_AUTOATTACK,
+                                                  "game.autoattack");
     game.seed = secfile_lookup_int_default(file, game.seed,
 					   "game.randseed");
     game.allowed_city_names =
@@ -3659,6 +3662,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
   secfile_insert_int(file, game.revolution_length, "game.revolen");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
+  secfile_insert_bool(file, game.autoattack, "game.autoattack");
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_int(file, game.borders, "game.borders");
   secfile_insert_bool(file, game.happyborders, "game.happyborders");
