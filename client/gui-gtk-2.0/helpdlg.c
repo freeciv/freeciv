@@ -413,6 +413,8 @@ static void create_help_dialog(void)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(help_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(help_dialog_shell),
 	GTK_RESPONSE_CLOSE);
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
