@@ -2127,7 +2127,7 @@ static void player_map_load(struct player *plr, int plrno,
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
     whole_map_iterate(x, y) {
       if (map_is_known_and_seen(x, y, plr)) {
-	update_tile_knowledge(plr, x, y);
+	update_player_tile_knowledge(plr, x, y);
 	reality_check_city(plr, x, y);
 	if (map_get_city(x, y)) {
 	  update_dumb_city(plr, map_get_city(x, y));
@@ -2143,7 +2143,7 @@ static void player_map_load(struct player *plr, int plrno,
       if (map_is_known(x, y, plr)) {
 	struct city *pcity = map_get_city(x, y);
 	update_player_tile_last_seen(plr, x, y);
-	update_tile_knowledge(plr, x, y);
+	update_player_tile_knowledge(plr, x, y);
 	if (pcity)
 	  update_dumb_city(plr, pcity);
       }

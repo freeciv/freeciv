@@ -379,7 +379,7 @@ static void try_summon_barbarians(void)
   if (map_has_special(xu, yu, S_HUT)) {
     /* remove the hut in place of uprising */
     map_clear_special(xu, yu, S_HUT);
-    send_tile_info(NULL, xu, yu);
+    update_tile_knowledge(xu, yu);
   }
 
   if (!is_ocean(map_get_terrain(xu,yu))) {

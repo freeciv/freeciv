@@ -205,7 +205,7 @@ void global_warming(int effect)
     if (new != T_NONE && old != new) {
       effect--;
       change_terrain(x, y, new);
-      send_tile_info(NULL, x, y);
+      update_tile_knowledge(x, y);
       unit_list_iterate(map_get_tile(x, y)->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -246,7 +246,7 @@ void nuclear_winter(int effect)
     if (new != T_NONE && old != new) {
       effect--;
       change_terrain(x, y, new);
-      send_tile_info(NULL, x, y);
+      update_tile_knowledge(x, y);
       unit_list_iterate(map_get_tile(x, y)->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -295,7 +295,7 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
   
   city_list_iterate(pplayer->cities, pcity) {
     map_set_special(pcity->x, pcity->y, S_RAILROAD);
-    send_tile_info(NULL, pcity->x, pcity->y);
+    update_tile_knowledge(pcity->x, pcity->y);
   }
   city_list_iterate_end;
 
@@ -422,8 +422,11 @@ void send_all_known_tiles(struct conn_list *dest)
 
 /**************************************************************************
   Send tile information to all the clients in dest which know and see
-  the tile.  Also updates player knowledge.  If dest is NULL, sends to
-  all clients (game.game_connections) which know and see tile.
+  the tile. If dest is NULL, sends to all clients (game.game_connections)
+  which know and see tile.
+
+  Note that this function does not update the playermap.  For that call
+  update_tile_knowledge().
 **************************************************************************/
 void send_tile_info(struct conn_list *dest, int x, int y)
 {
@@ -453,9 +456,6 @@ void send_tile_info(struct conn_list *dest, int x, int y)
       info.type = ptile->terrain;
       info.special = ptile->special;
       info.continent = ptile->continent;
-      if (pplayer) {
-	update_tile_knowledge(pplayer,x,y);
-      }
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(x, y, pplayer)
 	       && map_get_seen(x, y, pplayer) == 0) {
@@ -507,7 +507,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     if (map_get_seen(x, y, pplayer) != 0) {
       /* Known and seen. */
       /* Visible; update info. */
-      update_tile_knowledge(pplayer,x,y);
+      update_player_tile_knowledge(pplayer,x,y);
       info.known = TILE_KNOWN;
     } else {
       /* Known but not seen. */
@@ -841,7 +841,7 @@ static void really_show_area(struct player *pplayer, int x, int y)
     map_set_known(x, y, pplayer);
 
     /* as the tile may be fogged send_tile_info won't always do this for us */
-    update_tile_knowledge(pplayer, x, y);
+    update_player_tile_knowledge(pplayer, x, y);
     update_player_tile_last_seen(pplayer, x, y);
 
     send_tile_info_always(pplayer, &pplayer->connections, x, y);
@@ -1071,16 +1071,53 @@ struct player_tile *map_get_player_tile(int x, int y, struct player *pplayer)
   return pplayer->private_map + map_pos_to_index(x, y);
 }
 
-/***************************************************************
-...
-***************************************************************/
-void update_tile_knowledge(struct player *pplayer, int x, int y)
+/****************************************************************************
+  Give pplayer the correct knowledge about tile; return TRUE iff
+  knowledge changed.
+
+  Note that unlike update_tile_knowledge, this function will not send any
+  packets to the client.  Callers may want to call send_tile_info() if this
+  function returns TRUE.
+****************************************************************************/
+bool update_player_tile_knowledge(struct player *pplayer, int x, int y)
 {
   struct tile *ptile = map_get_tile(x, y);
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
 
-  plrtile->terrain = ptile->terrain;
-  plrtile->special = ptile->special;
+  if (plrtile->terrain != ptile->terrain
+      || plrtile->special != ptile->special) {
+    plrtile->terrain = ptile->terrain;
+    plrtile->special = ptile->special;
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/****************************************************************************
+  Update playermap knowledge for everybody who sees the tile, and send a
+  packet to everyone whose info is changed.
+
+  Note this only checks for changing of the terrain or special for the
+  tile, since these are the only values held in the playermap.
+****************************************************************************/
+void update_tile_knowledge(int x, int y)
+{
+  /* Players */
+  players_iterate(pplayer) {
+    if (map_is_known_and_seen(x, y, pplayer)) {
+      if (update_player_tile_knowledge(pplayer, x, y)) {
+        send_tile_info(&pplayer->connections, x, y);
+      }
+    }
+  } players_iterate_end;
+
+  /* Global observers */
+  conn_list_iterate(game.game_connections, pconn) {
+    struct player *pplayer = pconn->player;
+    if (!pplayer && pconn->observer) {
+      send_tile_info(&pconn->self, x , y);
+    }
+  } conn_list_iterate_end;
 }
 
 /***************************************************************
@@ -1582,6 +1619,9 @@ static void map_update_borders_recalculate_position(int x, int y)
 
       if (new_owner != map_get_owner(xp, yp)) {
 	map_set_owner(xp, yp, new_owner);
+	/* Note we call send_tile_info, not update_tile_knowledge here.
+	 * Borders information is sent to everyone who has seen the tile
+	 * before; it's not stored in the playermap. */
 	send_tile_info(NULL, xp, yp);
 	tile_update_owner(xp, yp);
       }

@@ -634,7 +634,7 @@ static void update_unit_activity(struct unit *punit)
 
 	if (what != S_NO_SPECIAL) {
 	  map_clear_special(punit->x, punit->y, what);
-	  send_tile_info(NULL, punit->x, punit->y);
+	  update_tile_knowledge(punit->x, punit->y);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
 	}
 
@@ -667,7 +667,7 @@ static void update_unit_activity(struct unit *punit)
 	  send_unit_info(NULL, punit2);
 	}
       } unit_list_iterate_end;
-      send_tile_info(NULL, punit->x, punit->y);
+      update_tile_knowledge(punit->x, punit->y);
       
       /* If a watchtower has been pillaged, reduce sight to normal */
       if (what_pillaged == S_FORTRESS
@@ -778,7 +778,7 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (unit_activity_done) {
-    send_tile_info(NULL, punit->x, punit->y);
+    update_tile_knowledge(punit->x, punit->y);
     unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit2->activity == activity) {
 	bool alive = TRUE;
@@ -2083,12 +2083,12 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!map_has_special(x, y, S_POLLUTION)) {
 	map_set_special(x, y, S_POLLUTION);
-	send_tile_info(NULL, x, y);
+	update_tile_knowledge(x, y);
       }
     } else {
       if (!map_has_special(x, y, S_FALLOUT)) {
 	map_set_special(x, y, S_FALLOUT);
-	send_tile_info(NULL, x, y);
+	update_tile_knowledge(x, y);
       }
     }
   }
@@ -2388,7 +2388,7 @@ static bool unit_enter_hut(struct unit *punit)
   }
 
   map_clear_special(punit->x, punit->y, S_HUT);
-  send_tile_info(NULL, punit->x, punit->y);
+  update_tile_knowledge(punit->x, punit->y);
 
   if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,

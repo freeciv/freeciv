@@ -1136,7 +1136,7 @@ static void check_pollution(struct city *pcity)
       if (!terrain_has_flag(map_get_terrain(mx, my), TER_NO_POLLUTION)
 	  && !map_has_special(mx, my, S_POLLUTION)) {
 	map_set_special(mx, my, S_POLLUTION);
-	send_tile_info(NULL, mx, my);
+	update_tile_knowledge(mx, my);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
 			 E_POLLUTION, _("Game: Pollution near %s."),
 			 pcity->name);

@@ -86,7 +86,8 @@ void show_map_to_all(void);
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
 struct player_tile *map_get_player_tile(int x, int y, struct player *pplayer);
-void update_tile_knowledge(struct player *pplayer,int x, int y);
+bool update_player_tile_knowledge(struct player *pplayer,int x, int y);
+void update_tile_knowledge(int x, int y);
 void update_player_tile_last_seen(struct player *pplayer, int x, int y);
 
 void give_shared_vision(struct player *pfrom, struct player *pto);

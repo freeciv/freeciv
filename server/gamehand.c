@@ -76,7 +76,7 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
    * tile (with the hut) earlier: */
   if (map_has_special(x, y, S_HUT)) {
     map_clear_special(x, y, S_HUT);
-    send_tile_info(NULL, x, y);
+    update_tile_knowledge(x, y);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",
 	    pplayer->name);
   }

@@ -868,7 +868,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		    " the city with railroads."),
 		  pcity->name);
     map_set_special(pcity->x, pcity->y, S_RAILROAD);
-    send_tile_info(NULL, pcity->x, pcity->y);
+    update_tile_knowledge(pcity->x, pcity->y);
   }
 
   map_fog_pseudo_city_area(pgiver, pcity->x, pcity->y);
@@ -903,9 +903,16 @@ void create_city(struct player *pplayer, const int x, const int y,
 
   if (terrain_control.may_road) {
     map_set_special(x, y, S_ROAD);
-    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
+    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
       map_set_special(x, y, S_RAILROAD);
+      update_tile_knowledge(x, y);
+    }
   }
+
+  /* It is possible that update_tile_knowledge() already sent tile information
+   * to some players, but we don't want to make any special handling for
+   * those cases.  The network code may prevent asecond packet from being
+   * sent anyway. */
   send_tile_info(NULL, x, y);
 
   pcity = create_city_virtual(pplayer, x, y, name);
@@ -970,7 +977,7 @@ void create_city(struct player *pplayer, const int x, const int y,
     unit_list_iterate_end;
   }
   map_clear_special(x, y, S_FORTRESS);
-  send_tile_info(NULL, x, y);
+  update_tile_knowledge(x, y);
 
   reset_move_costs(x, y);
 /* I stupidly thought that setting S_ROAD took care of this, but of course
