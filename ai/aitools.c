@@ -72,9 +72,10 @@ struct unit *create_unit_virtual(struct player *pplayer, int x, int y,
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;
   punit->paradropped = FALSE;
-  if (is_barbarian(pplayer))
+  if (is_barbarian(pplayer)) {
     punit->fuel = BARBARIAN_LIFE;
-  /* AI.control is robably always true... */
+  }
+  /* AI.control is probably always true... */
   punit->ai.control = FALSE;
   punit->ai.ai_role = AIUNIT_NONE;
   punit->ai.ferryboat = 0;

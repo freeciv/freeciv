@@ -625,15 +625,19 @@ static struct city *wonder_on_continent(struct player *pplayer, int cont)
 }
 
 /**************************************************************************
-Returns whether we stayed in the (eventual) city on the square to defend it.
+  Return whether we should stay and defend a square, usually a city. Will
+  protect allied cities temporarily.
+
+  FIXME: We should check for fortresses here.
 **************************************************************************/
-static bool stay_and_defend_city(struct unit *punit)
+static bool stay_and_defend(struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
   bool has_defense = FALSE;
 
-  if (!pcity) return FALSE;
-  if (pcity->owner != punit->owner) return FALSE;
+  if (!pcity) {
+    return FALSE;
+  }
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef) {
     if (assess_defense_unit(pcity, punit, FALSE) >= 0
@@ -752,13 +756,15 @@ static int stack_attack_value(int x, int y)
 }
 
 /*************************************************************************
-  Mark an invasion threat of punit in the surrounding cities. The
+  Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
   center of the area is either the unit itself (dest == FALSE) or the
   destiniation of the current goto (dest == TRUE). The invasion threat
   is marked in pcity->ai.invasion via ORing the "which" argument (to
   tell attack from sea apart from ground unit attacks). Note that
   "which" should only have one bit set.
+
+  If dest == TRUE then a valid goto is presumed.
 **************************************************************************/
 static void invasion_funct(struct unit *punit, bool dest, int radius,
 			   int which)
@@ -1506,7 +1512,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   }
 
   /* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
-  if (stay_and_defend_city(punit)) {
+  if (stay_and_defend(punit)) {
     UNIT_LOG(LOG_DEBUG, punit, "stays to defend city");
     return;
   }
@@ -1616,10 +1622,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, i
 p_a_w isn't called, and we end up not wanting ironclads and therefore never
 learning steam engine, even though ironclads would be very useful. -- Syela */
 
-  /* this is horrible, but I need to do something like this somewhere. 
-     -- Syela */
+  /*** Part 1: Calculate targets ***/
+  /* This horrible piece of code attempts to calculate the attractiveness of
+   * enemy cities as targets for our units, by checking how many units are
+   * going towards it or are near it already.
+   */
+
+  /* First calculate in nearby units */
   players_iterate(aplayer) {
-    /* AI will try to conquer only enemy cities. -- Nb */
     if (!pplayers_at_war(pplayer, aplayer)) {
       continue;
     }
@@ -1630,7 +1640,9 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
     } city_list_iterate_end;
   } players_iterate_end;
 
-  unit_list_iterate(pplayer->units, aunit)
+  /* Second, calculate in units on their way there, and mark targets for
+   * invasion */
+  unit_list_iterate(pplayer->units, aunit) {
     if (aunit == punit) continue;
     if (aunit->activity == ACTIVITY_GOTO &&
        (pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
@@ -1653,13 +1665,14 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
       if (aunit->activity == ACTIVITY_GOTO) invasion_funct(aunit, TRUE, 1, 1);
       invasion_funct(aunit, FALSE, 2, 1);
     }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 /* end horrible initialization subroutine */
         
   pcity = map_get_city(punit->x, punit->y);
 
-  if (pcity && (punit->id == 0 || pcity->id == punit->homecity))
+  if (pcity && (punit->id == 0 || pcity->id == punit->homecity)) {
     unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
+  }
 
   *x = punit->x; *y = punit->y;
   ab = unit_belligerence_basic(punit);
@@ -1963,7 +1976,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
       return; /* we died */
     }
 
-    if (stay_and_defend_city(punit)) {
+    if (stay_and_defend(punit)) {
       /* This city needs defending, don't go outside! */
       UNIT_LOG(LOG_DEBUG, punit, "stayed to defend %s", 
                map_get_city(punit->x, punit->y)->name);

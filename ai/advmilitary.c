@@ -1168,19 +1168,20 @@ static bool port_is_within(struct player *pplayer, int distance)
 }
 
 /*********************************************************************
- * Before building a military unit, AI builds a barracks/port/airport
- * NB: It is assumed this function isn't called in an emergency 
- * situation, when we need a defender _now_.
- *
- * TODO: something more sophisticated, like estimating future demand
- * for military units, considering Sun Tzu instead.
- ********************************************************************/
+  Before building a military unit, AI builds a barracks/port/airport
+  NB: It is assumed this function isn't called in an emergency 
+  situation, when we need a defender _now_.
+ 
+  TODO: something more sophisticated, like estimating future demand
+  for military units, considering Sun Tzu instead.
+*********************************************************************/
 static void adjust_ai_unit_choice(struct city *pcity, 
-				      struct ai_choice *choice)
+                                  struct ai_choice *choice)
 {
   enum unit_move_type move_type;
   struct player *pplayer = city_owner(pcity);
 
+  /* Sanity */
   if (!is_unit_choice_type(choice->choice)) return;
   if (unit_type_flag(choice->choice, F_NONMIL)) return;
   if (do_make_unit_veteran(pcity, choice->choice)) return;
@@ -1220,6 +1221,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
     break;
   default:
     freelog(LOG_ERROR, "Unknown move_type in adjust_ai_unit_choice");
+    assert(FALSE);
   }
 }
 

@@ -802,8 +802,7 @@ void ai_eval_buildings(struct city *pcity)
         values[id]-= improvement_upkeep(pcity, id) * t;
         values[id] = (values[id] <= 0 
           ? 0 : (values[id] * SHIELD_WEIGHTING * 100) / MORT);
-      }
-      else {
+      } else {
         /* bias against wonders when total production is small */
         values[id] *= (tprod < 50 ? 100/(50-tprod): 100);
       }
@@ -811,9 +810,9 @@ void ai_eval_buildings(struct city *pcity)
       /* handle H_PROD here? -- Syela */
       j = improvement_value(id);
       pcity->ai.building_want[id] = values[id] / j;
-    }
-    else 
+    } else {
       pcity->ai.building_want[id] = -values[id];
+    }
 
     if (values[id] != 0) 
       freelog(LOG_DEBUG, "ai_eval_buildings: %s wants %s with desire %d.",
