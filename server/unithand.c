@@ -719,20 +719,13 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   /* Adjust attackers moves_left _after_ unit_versus_unit() so that
    * the movement attack modifier is correct! --dwp
    *
-   * And for greater Civ2 compatibility (and ship balance issues), ships
-   * use a different algorithm.  Recompute a new total MP based on the HP
-   * the ship has left after being damaged, and subtract out all of the MP
-   * that had been used so far this turn (plus the points used in the attack
-   * itself). -GJW
+   * For greater Civ2 compatibility (and game balance issues), we recompute 
+   * the new total MP based on the HP the unit has left after being damaged, 
+   * and subtract the MPs that had been used before the combat (plus the 
+   * points used in the attack itself, for the attacker). -GJW, Glip
    */
-  if (is_sailing_unit(punit)) {
-    punit->moves_left = unit_move_rate(punit) - moves_used - SINGLE_MOVE;
-  } else {
-    punit->moves_left -= SINGLE_MOVE;
-  }
-  if (is_sailing_unit(pdefender)) {
-    pdefender->moves_left = unit_move_rate(pdefender) - def_moves_used;
-  }
+  punit->moves_left = unit_move_rate(punit) - moves_used - SINGLE_MOVE;
+  pdefender->moves_left = unit_move_rate(pdefender) - def_moves_used;
   
   if (punit->moves_left < 0) {
     punit->moves_left = 0;
