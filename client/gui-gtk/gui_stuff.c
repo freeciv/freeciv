@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "mem.h"
 
+#include "options.h"
 #include "gui_main.h"
 
 #include "gui_stuff.h"
@@ -94,6 +95,7 @@ GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
   GtkWidget *button;
   GtkWidget *accel_label;
   guint accel_key;
+  GdkModifierType accel_mod;
 
   button = gtk_button_new ();
 
@@ -104,9 +106,12 @@ GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
 				NULL);
   accel_key = gtk_label_parse_uline (GTK_LABEL (accel_label), label);
 
+  accel_mod = meta_accelerators ? GDK_MOD1_MASK : 0;
+
   if ((accel_key != GDK_VoidSymbol) && accel)
     gtk_widget_add_accelerator (button, "clicked", accel,
-				accel_key, GDK_MOD1_MASK, GTK_ACCEL_LOCKED);
+				accel_key, accel_mod, GTK_ACCEL_LOCKED);
+
   return button;
 }
 

@@ -48,6 +48,7 @@ int draw_diagonal_roads=1;
 int center_when_popup_city=1;
 int concise_city_production=0;
 int auto_turn_done=0;
+int meta_accelerators = 1;
 
 #define GEN_OPTION(name, desc, type) { #name, desc, type, &name, NULL }
 #define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL }
@@ -67,6 +68,7 @@ client_option options[] = {
   GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city"), COT_BOOL),
   GEN_OPTION(concise_city_production,	N_("Concise City Production"), COT_BOOL),
   GEN_OPTION(auto_turn_done, 		N_("End Turn when done moving"), COT_BOOL),
+  GEN_OPTION(meta_accelerators, 	N_("Use Alt/Meta for accelerators (GTK only)"), COT_BOOL),
   GEN_OPTION_TERMINATOR
 };
 

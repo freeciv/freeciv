@@ -29,6 +29,7 @@ extern int draw_diagonal_roads;
 extern int center_when_popup_city;
 extern int concise_city_production;
 extern int auto_turn_done;
+extern int meta_accelerators;
 
 enum client_option_type {
   COT_BOOL,

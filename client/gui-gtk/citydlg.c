@@ -503,7 +503,8 @@ static gint keyboard_handler(GtkWidget * widget, GdkEventKey * event,
   int page;
 
   for (page = 0; page < NUM_PAGES - 1; page++) {
-    if (event->keyval == notebook_tab_accels[page]) {
+    if ((event->keyval == notebook_tab_accels[page]) &&
+	(!meta_accelerators || (event->state & GDK_MOD1_MASK))) {
       gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook), page);
       return TRUE;
     }
