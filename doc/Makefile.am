@@ -6,6 +6,7 @@ EXTRA_DIST =		\
 	HOWTOPLAY.de	\
 	HOWTOPLAY.fr	\
 	HOWTOPLAY.it	\
+	HOWTOPLAY.ja	\
 	HOWTOPLAY.sv	\
 	INSTALL.de	\
 	INSTALL.debian.de \
