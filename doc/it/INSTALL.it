@@ -1,5 +1,5 @@
-Questo file si basa sulla versione cvs-1.31 di INSTALL.
-This file based on cvs-1.31's INSTALL.
+Questo file si basa sulla versione cvs-1.35 di INSTALL.
+This file based on cvs-1.35's INSTALL.
 
 ========================
 COME INSTALLARE Freeciv:
@@ -13,7 +13,7 @@ COME INSTALLARE Freeciv:
 Questo file spiega come compilare ed installare Freeciv.
 
 Ci sono versioni tradotte del file INSTALL nella directory ./doc, chiamate
-INSTALL.<lingua> (per esempio questo file: INSTALL.it).
+<lingua>/INSTALL.<lingua> (per esempio questo file: it/INSTALL.it).
 
 
 0. Prerequisiti:
@@ -64,6 +64,22 @@ Freeciv ha i seguenti prerequisiti per l'installazione.
 
    L' output deve contenere la scritta GNU make.
 
+La versione CVS ha dei prerequisiti addizionali. Una versione distribuita
+contiene i file generati.                           
+ 
+ - I programmi della versione 0.10.38 o successive di GNU gettext.
+
+   In particolare il programma xgettext e' necessario per creare i file
+   *.gmo che non sono inclusi nel CVS.
+                                         
+ - La versione 2.13 o successive di GNU autoconf.
+ 
+   Autoconf e' necessario per creare configure a partire da configure.in.
+ 
+ - La versione 1.4 o successive di GNU automake.
+ 
+   Automake e' necessario per creare i vari Makefile.in dai file Makefile.am. 
+                                           
 
 1. Prerequisiti per il Client:
 ==============================
@@ -193,8 +209,23 @@ Se dovete installarle, perche' non previste nel sistema, installatele nel
 seguente ordine: Glib, Gtk+, Imlib.
 
 
-2. Generazione del Makefile:
-============================
+
+2a. Generazione del Makefile per le versioni CVS:
+====================================================
+
+Questo passo e' necessario solo per le versioni scaricate dal CVS.
+
+Per creare il file makefile basta scrivere:
+
+ % ./autogen.sh
+
+Questo creera' lo script configure e lo eseguira'. Tutti i parametri
+di autogen.sh sono passati a configure. Leggi la sezione successiva al
+riguardo di quali parametri possono essere passati a configure.
+
+
+2b. Generazione del Makefile per le versioni rilasciate:
+===========================================================
 
 Prima di compilare Freeciv, dovete generare il Makefile permettendo cosi'
 la personalizzazione del processo di compilazione a seconda della composizione
@@ -414,7 +445,6 @@ Lo script configure controlla se hai la libreria readline installata
 correttamente. In questo caso impostera' automaticamente i makefile in modo
 che readline sia compilata nel server. Altrimenti semplicemente configurera'
 silenziosamente senza il supporto per readline.
-E' necessaria readline versione >= 4.2.
 Puoi forzare configure ad includere readline o morire provando passando a
 configure l'opzione --with-readline:
 
@@ -428,13 +458,6 @@ linking e le aggiungera'.
 Lo script configure mostrera' un messaggio di warning se deve aggiungere
 librerie in piu' per far funzionare readline. Questo dovrebbe essere innocuo,
 e' solo inteso come una nota per le persone che distribuiscono readline. :)
-
-E' possibile far funzionare Freeciv con versioni di readline precedenti
-alla 4.2 (ma non con la 4.2). Per farlo si deve sostituire
-"rl_filename_completion_function" con "filename_completion_function" e
-"rl_completion_matches" con "completion_matches" in configure.in e
-server/stdinhand.c e rimuovere l'attibuto const dal primo argomento di
-server/stdinhand.c:freeciv_completion(). Poi eseguire autoconf e ricompilare.
 
 
 7. Note di Reinier per l'installazione su Solaris:
@@ -563,7 +586,7 @@ pacchetti:
  Requisiti comuni:
    gcc
    libc6-dev
-   libreadline4-dev >= 4.2 (opzionale, vedere la sezione su readline)
+   libreadline4-dev
    zlib1g-dev
    xlib6g-dev
 
@@ -587,6 +610,66 @@ non ne avete bisogno) bisogna anche installare imlib-dev per avere la macro
 AM_PATH_GDK_IMLIB. E' un bug della debian che questa macro non sia presente
 in gdk-imlib-dev e sara' auspicabilmente aggiustato in future versioni della
 debian.
+
+
+11. Compilare freeciv nativo per Windows (win32)
+===================================================
+
+Prerequisiti: un ambiete unix con gcc e binutils per windows (mingw32)
+per il client win32 nativo: libz e libpng
+(da ftp://ftp.freeciv.org/pub/freeciv/requirements)
+Puoi usare i makefile gcc standard ma devi modificare le variabili CC
+e RANLIB appropriatamente.
+
+Autoconf e annessi:
+Se compili dalla versione CVS, devi anche sostituire ./configure con
+./autogen.sh nelle istruzioni che troverai piu' sotto.
+Troverete probabilmente delle difficolta' con i percorsi (specialmente
+con localedir) se farete uso di Autoconf 2.52.
+E' quindi preferibile usare la versione 2.13.
+
+Configurare i file sorgente:
+-------------------------------
+
+1. Con le utility cygwin:
+Avrete bisogno dei pacchetti mingw e w32api.
+
+export CC="gcc -mno-cygwin"
+./configure --with-included-gettext --prefix=.
+
+2. Compilare con un vero Unix (Cross Compilation):
+Sostituite X con il numero che avete scelto al momento in cui avete 
+installato il cross-compilatore.
+
+export CC=iX86-mingw32-gcc
+export AR=iX86-mingw32-ar
+export RANLIB=i386-mingw32-ranlib
+./configure --host=iX86-mingw32 --build=$(./config.guess) --with-included-gettext
+--enable-client=win32 --prefix=.
+
+Compilare e installare:
+--------------------------
+
+make
+make DESTDIR=percorso_assoluto_in_cui_installare bindir=./install
+
+percorso_assoluto_in_cui_installare deve essere il percorso in cui volete installare
+freeciv. Deve essere un percorso assoluto e deve terminare con uno /.
+
+Ora e' il momento di ripulire le cose.
+Fate cd nella directory di installazione, poi controllate se gli eseguibili hanno il
+suffisso .exe e se lo desiderate, effettuate lo strip del codice oggetto.
+
+Vi suggeriamo di spostare la directory data:
+
+mv share/freeciv data
+
+Il passo finale e' quello di convertire la grafica nel formato png. Usate il programma
+di grafica da voi preferito per effettuare la conversione. Potete usare ad esempio 
+ImageMagick assieme a pngquant. Ma cio' che e' veramente importante e che controlliate
+il risultato. Controllate ogni file. Il canale alpha (la trasparenza) spesso sparisce
+magicamente. Al momento purtroppo non ci sono script affidabili per la trasformazione.
+
 
 ===========================================================================
 Note per la traduzione in Italiano:
