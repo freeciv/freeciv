@@ -77,6 +77,7 @@ int trade_dialog_shell_is_modal;
 void create_activeunits_report_dialog(int make_modal);
 void activeunits_close_callback(GtkWidget *widget, gpointer data);
 void activeunits_upgrade_callback(GtkWidget *widget, gpointer data);
+void activeunits_refresh_callback(GtkWidget *widget, gpointer data);
 void activeunits_list_callback(GtkWidget *w, gint row, gint column);
 void activeunits_list_ucallback(GtkWidget *w, gint row, gint column);
 int activeunits_type[U_LAST];
@@ -720,6 +721,8 @@ void trade_report_dialog_update(void)
  
 ****************************************************************/
 
+#define AU_COL 6
+
 /****************************************************************
 ...
 ****************************************************************/
@@ -744,9 +747,11 @@ void popup_activeunits_report_dialog(int make_modal)
 *****************************************************************/
 void create_activeunits_report_dialog(int make_modal)
 {
-  GtkWidget *close_command;
+  GtkWidget *close_command, *refresh_command;
   char *report_title;
-  gchar *titles [3] =	{ "Unit Type", "U", "Total" };
+  gchar *titles [AU_COL] =
+	{ "Unit Type", "U", "In-Prog", "Active", "Shield", "Food" };
+  int cols;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
@@ -755,28 +760,29 @@ void create_activeunits_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(activeunits_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),"Active units Report");
+  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),"Military Report");
 
-  report_title=get_report_title("Active Units");
+  report_title=get_report_title("Military Report");
   activeunits_label = gtk_label_new(report_title);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label, FALSE, FALSE, 0 );
   free(report_title);
 
-
-  activeunits_list = gtk_clist_new_with_titles( 3, titles );
+  cols = sizeof(titles)/sizeof(titles[0]);
+  activeunits_list = gtk_clist_new_with_titles( cols, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
-
-  for ( i = 0; i < 3; i++ )
-	gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
-
-  gtk_clist_set_column_justification (GTK_CLIST(activeunits_list),
-		2, GTK_JUSTIFY_RIGHT);
+  for ( i = 0; i < cols; i++ ) {
+    gtk_clist_set_column_auto_resize(GTK_CLIST(activeunits_list),i,TRUE);
+    if (i > 1) {
+      gtk_clist_set_column_justification (GTK_CLIST(activeunits_list),
+					  i, GTK_JUSTIFY_RIGHT);
+    }
+  }
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_list, TRUE, TRUE, 0 );
 
-  activeunits_label2 = gtk_label_new("Total Cost:");
+  activeunits_label2 = gtk_label_new("Totals: ...");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label2, FALSE, FALSE, 0 );
 
@@ -792,6 +798,11 @@ void create_activeunits_report_dialog(int make_modal)
         upgrade_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( upgrade_command, GTK_CAN_DEFAULT );
 
+  refresh_command = gtk_button_new_with_label("Refresh");
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
+        refresh_command, TRUE, TRUE, 0 );
+  GTK_WIDGET_SET_FLAGS( refresh_command, GTK_CAN_DEFAULT );
+
   gtk_signal_connect(GTK_OBJECT(activeunits_list), "select_row",
 	GTK_SIGNAL_FUNC(activeunits_list_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(activeunits_list), "unselect_row",
@@ -800,6 +811,8 @@ void create_activeunits_report_dialog(int make_modal)
 	GTK_SIGNAL_FUNC(activeunits_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(upgrade_command), "clicked",
 	GTK_SIGNAL_FUNC(activeunits_upgrade_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(refresh_command), "clicked",
+	GTK_SIGNAL_FUNC(activeunits_refresh_callback), NULL);
 
   gtk_widget_show_all( GTK_DIALOG(activeunits_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(activeunits_dialog_shell)->action_area );
@@ -815,7 +828,8 @@ void create_activeunits_report_dialog(int make_modal)
 *****************************************************************/
 void activeunits_list_callback(GtkWidget *w, gint row, gint column)
 {
-  if (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) 
+  if ((unit_type_exists(activeunits_type[row])) &&
+      (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1))
     gtk_widget_set_sensitive(upgrade_command, TRUE);
 }
 
@@ -860,11 +874,19 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   row = (gint)selection->data;
 
   ut1 = activeunits_type[row];
-  puts(unit_types[ut1].name);
-  
+  if (!(unit_type_exists (ut1)))
+    return;
+  /* puts(unit_types[ut1].name); */
+
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
-  
-  sprintf(buf, "upgrade as many %s to %s as possible for %d gold each?\nTreasury contains %d gold.", unit_types[ut1].name, unit_types[ut2].name, unit_upgrade_price(game.player_ptr, ut1, ut2), game.player_ptr->economic.gold);
+
+  sprintf(buf,
+	  "Upgrade as many %s to %s as possible for %d gold each?\n"
+	    "Treasury contains %d gold.",
+	  unit_types[ut1].name, unit_types[ut2].name,
+	  unit_upgrade_price(game.player_ptr, ut1, ut2),
+	  game.player_ptr->economic.gold);
+
   popup_message_dialog(toplevel, /*"upgradedialog"*/"Upgrade Obsolete Units", buf,
         	       "Yes", upgrade_callback_yes, (gpointer)(activeunits_type[row]),
         	       "No", upgrade_callback_no, 0, 0);
@@ -885,54 +907,94 @@ void activeunits_close_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
+void activeunits_refresh_callback(GtkWidget *w, gpointer data)
+{
+  activeunits_report_dialog_update();
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void activeunits_report_dialog_update(void)
 {
+  struct repoinfo {
+    int active_count;
+    int upkeep_shield;
+    int upkeep_food;
+    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int building_count;
+  };
+  if(delay_report_update) return;
   if(activeunits_dialog_shell) {
-    int    i, k, total;
-    int    unit_count[U_LAST];
+    int    i, k, can;
+    struct repoinfo unitarray[U_LAST];
+    struct repoinfo unittotals;
     char  *report_title;
     char   activeunits_total[100];
-    gchar *row	[3];
-    char   buf0	[64];
-    char   buf2	[64];
-    
-  if(delay_report_update) return;
-    report_title=get_report_title("Active Units");
+    gchar *row[AU_COL];
+    char   buf[AU_COL][64];
+
+    report_title=get_report_title("Military Report");
     gtk_set_label(activeunits_label, report_title);
     free(report_title);
 
     gtk_clist_freeze(GTK_CLIST(activeunits_list));
     gtk_clist_clear(GTK_CLIST(activeunits_list));
 
-    row[0] = buf0;
-    row[2] = buf2;
+    for(i=0;i<(sizeof(row)/sizeof(row[0]));i++)
+      row[i] = buf[i];
 
-    for (i=0;i <game.num_unit_types;i++) 
-      unit_count[i]=0;
-    unit_list_iterate(game.player_ptr->units, punit) 
-      unit_count[punit->type]++;
+    memset(unitarray, '\0', sizeof(unitarray));
+    unit_list_iterate(game.player_ptr->units, punit) {
+      (unitarray[punit->type].active_count)++;
+      if (punit->homecity) {
+	unitarray[punit->type].upkeep_shield += punit->upkeep;
+	unitarray[punit->type].upkeep_food += punit->upkeep_food;
+      }
+    }
     unit_list_iterate_end;
+    city_list_iterate(game.player_ptr->cities,pcity) {
+      if (pcity->is_building_unit &&
+	  (unit_type_exists (pcity->currently_building)))
+	(unitarray[pcity->currently_building].building_count)++;
+    }
+    city_list_iterate_end;
+
     k = 0;
-    total = 0;
+    memset(&unittotals, '\0', sizeof(unittotals));
     for (i=0;i<game.num_unit_types;i++) {
-      if (unit_count[i] > 0) {
-        sprintf( buf0, "%-27s", unit_name(i) );
-	row[1] = can_upgrade_unittype(game.player_ptr, i) != -1 ? "*": "-";
-        sprintf( buf2, "%5d", unit_count[i] );
+      if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
+	can = (can_upgrade_unittype(game.player_ptr, i) != -1);
+        sprintf( buf[0], "%-27s", unit_name(i) );
+	sprintf( buf[1], "%c", can ? '*': '-');
+        sprintf( buf[2], "%9d", unitarray[i].building_count );
+        sprintf( buf[3], "%9d", unitarray[i].active_count );
+        sprintf( buf[4], "%9d", unitarray[i].upkeep_shield );
+        sprintf( buf[5], "%9d", unitarray[i].upkeep_food );
 
 	gtk_clist_append( GTK_CLIST( activeunits_list ), row );
 
-	activeunits_type[k]=i;
+	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
-	total+=unit_count[i];
+	unittotals.active_count += unitarray[i].active_count;
+	unittotals.upkeep_shield += unitarray[i].upkeep_shield;
+	unittotals.upkeep_food += unitarray[i].upkeep_food;
+	unittotals.building_count += unitarray[i].building_count;
       }
     }
 
-    sprintf(activeunits_total, "Total units:%21d",total); 
-
+    /* horrible kluge, but I can't get gtk_label_set_justify() to work --jjm */
+    sprintf(activeunits_total,
+	    "Totals:                     %s%9d%s%9d%s%9d%s%9d",
+	    "        ", unittotals.building_count,
+	    " ", unittotals.active_count,
+	    " ", unittotals.upkeep_shield,
+	    " ", unittotals.upkeep_food);
     gtk_set_label(activeunits_label2, activeunits_total); 
 
     gtk_widget_show_all(activeunits_list);
     gtk_clist_thaw(GTK_CLIST(activeunits_list));
+
+    activeunits_list_ucallback(NULL, 0, 0);
   }
 }

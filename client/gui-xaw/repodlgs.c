@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
 #include <assert.h>
@@ -94,6 +95,8 @@ void create_activeunits_report_dialog(int make_modal);
 void activeunits_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 void activeunits_upgrade_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data);
+void activeunits_refresh_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 void activeunits_list_callback(Widget w, XtPointer client_data, 
                            XtPointer call_data);
@@ -855,7 +858,7 @@ void popup_activeunits_report_dialog(int make_modal)
 void create_activeunits_report_dialog(int make_modal)
 {
   Widget activeunits_form;
-  Widget close_command;
+  Widget close_command, refresh_command;
   char *report_title;
   
   activeunits_dialog_shell = XtVaCreatePopupShell("reportactiveunitspopup", 
@@ -870,7 +873,7 @@ void create_activeunits_report_dialog(int make_modal)
 					 activeunits_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title("Active Units");
+  report_title=get_report_title("Military Report");
   activeunits_label = XtVaCreateManagedWidget("reportactiveunitslabel", 
 				       labelWidgetClass, 
 				       activeunits_form,
@@ -893,7 +896,7 @@ void create_activeunits_report_dialog(int make_modal)
 				       labelWidgetClass, 
 				       activeunits_form,
                                        XtNlabel, 
-				       "Total Cost:", 
+				       "Totals: ...", 
 				       NULL);
 
   close_command = XtVaCreateManagedWidget("reportactiveunitsclosecommand", 
@@ -906,9 +909,17 @@ void create_activeunits_report_dialog(int make_modal)
 					  activeunits_form,
 					  XtNsensitive, False,
 					  NULL);
+
+  refresh_command = XtVaCreateManagedWidget("reportactiveunitsrefreshcommand", 
+					  commandWidgetClass,
+					  activeunits_form,
+					  NULL);
+
   XtAddCallback(activeunits_list, XtNcallback, activeunits_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, activeunits_close_callback, NULL);
   XtAddCallback(upgrade_command, XtNcallback, activeunits_upgrade_callback, NULL);
+  XtAddCallback(refresh_command, XtNcallback, activeunits_refresh_callback, NULL);
+
   XtRealizeWidget(activeunits_dialog_shell);
 
   if(!make_modal)  {
@@ -928,15 +939,18 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data)
 {
   XawListReturnStruct *ret;
-  ret=XawListShowCurrent(activeunits_list);
+  int inx;
+  int may_upgrade;
 
-  if(ret->list_index!=XAW_LIST_NONE) {
-    if (can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]) != -1) {
-      XtSetSensitive(upgrade_command, TRUE);
-      return;
-    }
-  }
-  XtSetSensitive(upgrade_command, FALSE);
+  ret = XawListShowCurrent (activeunits_list);
+  inx = ret->list_index;
+
+  may_upgrade =
+    ((inx != XAW_LIST_NONE) &&
+     (unit_type_exists (activeunits_type[inx])) &&
+     (can_upgrade_unittype (game.player_ptr, activeunits_type[inx]) != -1));
+
+  XtSetSensitive (upgrade_command, may_upgrade);
 }
 
 /****************************************************************
@@ -973,13 +987,24 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     ut1 = activeunits_type[ret->list_index];
+    if (!(unit_type_exists (ut1))) {
+      return;
+    }
     /* puts(unit_types[ut1].name); */
-    
-    ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]);
-    
-    sprintf(buf, "upgrade as many %s to %s as possible for %d gold each?\nTreasury contains %d gold.", unit_types[ut1].name, unit_types[ut2].name, unit_upgrade_price(game.player_ptr, ut1, ut2), game.player_ptr->economic.gold);
+
+    ut2 = can_upgrade_unittype(game.player_ptr,
+			       activeunits_type[ret->list_index]);
+
+    sprintf(buf,
+	    "Upgrade as many %s to %s as possible for %d gold each?\n"
+	      "Treasury contains %d gold.",
+	    unit_types[ut1].name, unit_types[ut2].name,
+	    unit_upgrade_price(game.player_ptr, ut1, ut2),
+	    game.player_ptr->economic.gold);
+
     popup_message_dialog(toplevel, "upgradedialog", buf,
-			 upgrade_callback_yes, (XtPointer)(activeunits_type[ret->list_index]),
+			 upgrade_callback_yes,
+			 (XtPointer)(activeunits_type[ret->list_index]),
 			 upgrade_callback_no, 0, 0);
   }
 }
@@ -1000,6 +1025,15 @@ void activeunits_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
+void activeunits_refresh_callback(Widget w, XtPointer client_data, 
+				  XtPointer call_data)
+{
+  activeunits_report_dialog_update();
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void close_activeunits_dialog_action(Widget w, XEvent *event, 
 			       String *argv, Cardinal *argc)
 {
@@ -1011,33 +1045,66 @@ void close_activeunits_dialog_action(Widget w, XEvent *event,
 *****************************************************************/
 void activeunits_report_dialog_update(void)
 {
+  struct repoinfo {
+    int active_count;
+    int upkeep_shield;
+    int upkeep_food;
+    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int building_count;
+  };
   if(delay_report_update) return;
   if(activeunits_dialog_shell) {
-    int i, k, total;
+    int i, k;
     Dimension width; 
     static char *activeunits_list_names_ptrs[U_LAST+1];
     static char activeunits_list_names[U_LAST][200];
-    int unit_count[U_LAST];
+    struct repoinfo unitarray[U_LAST];
+    struct repoinfo unittotals;
     char *report_title;
     char activeunits_total[100];
     
-    report_title=get_report_title("Active Units");
+    report_title=get_report_title("Military Report");
     xaw_set_label(activeunits_label, report_title);
     free(report_title);
-    for (i=0;i <game.num_unit_types;i++) 
-      unit_count[i]=0;
-    unit_list_iterate(game.player_ptr->units, punit) 
-      unit_count[punit->type]++;
+
+    memset(unitarray, '\0', sizeof(unitarray));
+    unit_list_iterate(game.player_ptr->units, punit) {
+      (unitarray[punit->type].active_count)++;
+      if (punit->homecity) {
+	unitarray[punit->type].upkeep_shield += punit->upkeep;
+	unitarray[punit->type].upkeep_food += punit->upkeep_food;
+      }
+    }
     unit_list_iterate_end;
+    city_list_iterate(game.player_ptr->cities,pcity) {
+      if (pcity->is_building_unit &&
+	  (unit_type_exists (pcity->currently_building)))
+	(unitarray[pcity->currently_building].building_count)++;
+    }
+    city_list_iterate_end;
+
     k = 0;
-    total = 0;
+    memset(&unittotals, '\0', sizeof(unittotals));
     for (i=0;i<game.num_unit_types;i++) {
-      if (unit_count[i] > 0) {
-	sprintf(activeunits_list_names[k], "%-27s%c%5d", unit_name(i), can_upgrade_unittype(game.player_ptr, i) != -1 ? '*': '-', unit_count[i]);
+      if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
+	sprintf
+	  (
+	   activeunits_list_names[k],
+	   "%-27s%c%9d%9d%9d%9d",
+	   unit_name(i),
+	   can_upgrade_unittype(game.player_ptr, i) != -1 ? '*': '-',
+	   unitarray[i].building_count,
+	   unitarray[i].active_count,
+	   unitarray[i].upkeep_shield,
+	   unitarray[i].upkeep_food
+	  );
 	activeunits_list_names_ptrs[k]=activeunits_list_names[k];
-	activeunits_type[k]=i;
+	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
-	total+=unit_count[i];
+	unittotals.active_count += unitarray[i].active_count;
+	unittotals.upkeep_shield += unitarray[i].upkeep_shield;
+	unittotals.upkeep_food += unitarray[i].upkeep_food;
+	unittotals.building_count += unitarray[i].building_count;
       }
     }
     if (k==0) {
@@ -1046,18 +1113,20 @@ void activeunits_report_dialog_update(void)
       k=1;
     }
 
-    sprintf(activeunits_total, "Total units:%21d",total); 
-
+    sprintf(activeunits_total,
+	    "Totals:                     %9d%9d%9d%9d",
+	    unittotals.building_count, unittotals.active_count,
+	    unittotals.upkeep_shield, unittotals.upkeep_food);
     xaw_set_label(activeunits_label2, activeunits_total); 
+
     activeunits_list_names_ptrs[k]=0;
-    
     XawListChange(activeunits_list, activeunits_list_names_ptrs, 0, 0, 1);
 
     XtVaGetValues(activeunits_list, XtNwidth, &width, NULL);
     XtVaSetValues(activeunits_list_label, XtNwidth, width, NULL); 
-
     XtVaSetValues(activeunits_label2, XtNwidth, width, NULL); 
-
     XtVaSetValues(activeunits_label, XtNwidth, width, NULL); 
+
+    activeunits_list_callback(NULL, NULL, NULL);
   }
 }

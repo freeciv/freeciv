@@ -559,7 +559,7 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_REPORT_SCIENCE							      },
   { "/Reports/Trade Report",		"F5",		reports_menu_callback,
     MENU_REPORT_TRADE							      },
-  { "/Reports/Active Units",		"F2",		reports_menu_callback,
+  { "/Reports/Military Report",		"F2",		reports_menu_callback,
     MENU_REPORT_ACTIVE_UNITS						      },
   { "/Reports/sep1",			NULL,		NULL,
     0,					"<Separator>"			      },

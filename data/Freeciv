@@ -1866,7 +1866,7 @@ Freeciv*reporttradesellallcommand.right:       chainLeft
 ! Active units report dialog
 !
 !
-Freeciv*reportactiveunitspopup.title:              Active Units Report
+Freeciv*reportactiveunitspopup.title:              Military Report
 Freeciv*reportactiveunitspopup.allowShellResize:   True
 
 Freeciv*reportactiveunitsform.resizable:           true
@@ -1893,7 +1893,8 @@ Freeciv*reportactiveunitslistlabel.bottom:             chainTop
 Freeciv*reportactiveunitslistlabel.left:               chainLeft
 Freeciv*reportactiveunitslistlabel.right:              chainRight
 Freeciv*reportactiveunitslistlabel.fromVert:           reportactiveunitslabel
-Freeciv*reportactiveunitslistlabel.label:Unit Type                  U Total
+Freeciv*reportactiveunitslistlabel.label: \
+Unit Type            Upgrade  In-Prog   Active   Shield     Food
 Freeciv*reportactiveunitslist.fromVert:            reportactiveunitslistlabel
 Freeciv*reportactiveunitslist.forceColumns:        true
 Freeciv*reportactiveunitslist.defaultColumns:      1
@@ -1927,6 +1928,14 @@ Freeciv*reportactiveunitsupgradecommand.top:         chainBottom
 Freeciv*reportactiveunitsupgradecommand.bottom:      chainBottom
 Freeciv*reportactiveunitsupgradecommand.left:        chainLeft
 Freeciv*reportactiveunitsupgradecommand.right:       chainLeft
+
+Freeciv*reportactiveunitsrefreshcommand.label:       Refresh
+Freeciv*reportactiveunitsrefreshcommand.fromVert:    reportactiveunitslabel2
+Freeciv*reportactiveunitsrefreshcommand.fromHoriz:   reportactiveunitsupgradecommand
+Freeciv*reportactiveunitsrefreshcommand.top:         chainBottom
+Freeciv*reportactiveunitsrefreshcommand.bottom:      chainBottom
+Freeciv*reportactiveunitsrefreshcommand.left:        chainLeft
+Freeciv*reportactiveunitsrefreshcommand.right:       chainLeft
 
 
 !
