@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -666,7 +667,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
 /**************************************************************************
 ...
 **************************************************************************/
-int  add_adjust_workers(struct city *pcity)
+int add_adjust_workers(struct city *pcity)
 {
   int workers=pcity->size;
   int iswork=0;
@@ -674,16 +675,22 @@ int  add_adjust_workers(struct city *pcity)
   int foodneed;
   int prodneed = 0;
   int x,y;
+
   city_map_iterate(x, y) 
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
       iswork++;
-  
-  iswork--;
-  if (iswork+city_specialists(pcity)>workers)
+  iswork--; /* City center */
+
+  if (iswork+city_specialists(pcity)>workers) {
+    freelog(LOG_ERROR, "Encountered an inconsistency in"
+	    "add_adjust_workers() for city %s", pcity->name);
     return 0;
+  }
+
   if (iswork+city_specialists(pcity)==workers)
     return 1;
-  toplace=workers-(iswork+city_specialists(pcity));
+
+  toplace = workers-(iswork+city_specialists(pcity));
   foodneed = -pcity->food_surplus;
   prodneed = -pcity->shield_surplus;
 
@@ -1450,36 +1457,134 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-1) check for enemy units on citymap tiles
-2) withdraw workers from such tiles
-3) mark citymap tiles accordingly empty/unavailable  
+x,y is in citymap coords.
+The new status of the tile is both set and returned.
 **************************************************************************/
-void city_check_workers(struct player *pplayer, struct city *pcity)
+static enum city_tile_type city_tile_status(struct city *pcity, int x, int y)
+{
+  struct tile *ptile = map_get_tile(pcity->x + x - CITY_MAP_SIZE/2,
+				    pcity->y + y - CITY_MAP_SIZE/2);
+  int is_enemy_at_tile = 0;
+
+  unit_list_iterate(ptile->units, punit) {
+    if (players_at_war(pcity->owner, punit->owner)) {
+      is_enemy_at_tile = 1;
+    }
+  } unit_list_iterate_end;
+
+  if (is_enemy_at_tile) {
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+      set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+      add_adjust_workers(pcity); /* will place the displaced */
+      city_refresh(pcity); /* may be unnecessary; can't hurt */
+      return C_TILE_UNAVAILABLE;
+    } else {
+      set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+      return C_TILE_UNAVAILABLE;
+    }
+  }
+
+  if (get_worker_city(pcity, x, y) == C_TILE_UNAVAILABLE)
+    set_worker_city(pcity, x, y, C_TILE_EMPTY); /* assume available */
+  if (get_worker_city(pcity, x, y) != C_TILE_WORKER
+      && !can_place_worker_here(pcity, x, y))
+    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE); /* prove otherwise */
+  return get_worker_city(pcity, x, y);
+}
+
+/**************************************************************************
+1) check for enemy units on citymap tiles.
+2) withdraw workers from such tiles.
+3) mark citymap tiles accordingly empty/unavailable.
+4) update adjacent cities with the change if told to do so.
+
+Return whether any changes occured. (For determining whether to send city
+info to the client fx.)
+**************************************************************************/
+int city_check_workers(struct city *pcity, int update_adjacent_cities)
 {
   int x, y;
-  
+
+  /* make a before image of the city */
+  enum city_tile_type city_map_old[CITY_MAP_SIZE][CITY_MAP_SIZE];
   city_map_iterate(x, y) {
-    struct tile *ptile=map_get_tile(pcity->x+x-2, pcity->y+y-2);
-    
-    if(unit_list_size(&ptile->units)>0) {
-      struct unit *punit=unit_list_get(&ptile->units, 0);
-      if (players_at_war(pplayer->player_no, punit->owner)) {
-	if (get_worker_city(pcity, x, y)==C_TILE_WORKER) {
-/*	  pcity->ppl_elvis++; -- this is really not polite -- Syela */
-  	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
-          add_adjust_workers(pcity); /* will place the displaced */
-          city_refresh(pcity); /* may be unnecessary; can't hurt */
-        } else
-	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
-	continue;
+    city_map_old[x][y] = pcity->city_map[x][y];
+  }
+
+  city_map_iterate(x, y) {
+    city_tile_status(pcity, x, y);
+  }
+
+  /* Moving all those workers affects neightbor cities. Update them. */
+  if (update_adjacent_cities) {
+    struct city_list changed;
+    city_list_init(&changed);
+
+    city_map_iterate(x, y) {
+      if ((city_map_old[x][y] == C_TILE_WORKER
+	   && pcity->city_map[x][y] != C_TILE_WORKER)
+	  ||
+	  (pcity->city_map[x][y] == C_TILE_WORKER
+	   && city_map_old[x][y] != C_TILE_WORKER)
+	  ) {
+	int x2, y2;
+
+	/* Find the current tile. */
+	int center_x = pcity->x + x - CITY_MAP_SIZE/2;
+	int center_y = pcity->y + y - CITY_MAP_SIZE/2;
+	assert(normalize_map_pos(&center_x, &center_y));
+
+	/* Find all cities who have the tile in range. */
+	map_city_radius_iterate(center_x, center_y, x1, y1) {
+	  struct city *pcity2 = map_get_city(x1, y1);
+	  if (pcity2 == pcity)
+	    pcity2 = NULL;
+
+	  if (pcity2) {
+	    /* Update the city's citymap. */
+	    city_map_iterate(x2, y2) {
+	      int real_x = x2 + pcity2->x - CITY_MAP_SIZE/2;
+	      int real_y = y2 + pcity2->y - CITY_MAP_SIZE/2;
+	      if (normalize_map_pos(&real_x, &real_y)) {
+		if (real_x == center_x && real_y == center_y) {
+		  /* ok, we found the internal x, y coords.
+		     now change the map. */
+		  city_tile_status(pcity2, x2, y2);
+		}
+	      }
+	    }
+	  }
+
+	  /* Check if we already included it in the list to be send. */
+	  if (pcity2) {
+	    city_list_iterate(changed, pcity3) {
+	      if (pcity2 == pcity3)
+		pcity2 = NULL;
+	    } city_list_iterate_end;
+	  }
+	  /* insert it. */
+	  if (pcity2) {
+	    city_list_insert(&changed, pcity2);
+	  }
+	} map_city_radius_iterate_end;
       }
     }
-    if(get_worker_city(pcity, x, y)==C_TILE_UNAVAILABLE)
-      set_worker_city(pcity, x, y, C_TILE_EMPTY);
-    if(get_worker_city(pcity, x, y)!=C_TILE_WORKER &&
-       !can_place_worker_here(pcity, x, y))
-      set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+
+    /* OK, we have the list of changed cities, send them */
+    city_list_iterate(changed, pcity2) {
+      send_city_info(city_owner(pcity2), pcity2);
+    } city_list_iterate_end;
+
+    city_list_unlink_all(&changed);
   }
+
+  /* lastly check if something has changed in this city,
+     for the return value. */
+  city_map_iterate(x, y) {
+    if (city_map_old[x][y] != pcity->city_map[x][y])
+      return 1;
+  }
+  return 0;
 }
 
 /**************************************************************************
@@ -1594,7 +1699,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
   struct government *g = get_gov_pcity(pcity);
   int got_tech = 0;
 
-  city_check_workers(pplayer, pcity);
+  city_check_workers(pcity, 0);
   city_refresh(pcity);
 
   /* the AI often has widespread disorder when the Gardens or Oracle

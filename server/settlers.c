@@ -127,8 +127,6 @@ int amortize(int benefit, int delay)
 **************************************************************************/
 void generate_minimap(void)
 {
-  int x_itr, y_itr;
-
   memset(minimap, 0, sizeof(minimap));
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
@@ -191,8 +189,6 @@ void add_city_to_minimap(int x, int y)
 **************************************************************************/
 void locally_zero_minimap(int x, int y)
 {
-  int x_itr, y_itr;
-
   map_city_radius_iterate(x, y, x_itr, y_itr) {
     if (minimap[x_itr][y_itr] > 0) minimap[x_itr][y_itr] = 0;
   } map_city_radius_iterate_end;

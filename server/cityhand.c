@@ -237,7 +237,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
     }
   }
 
-  city_check_workers(pplayer, pcity);
+  city_check_workers(pcity, 0); /* Done below in send_adjacent_cities(). */
   auto_arrange_workers(pcity); /* forces a worker onto (2,2), thus the above */
 
   city_refresh(pcity);
@@ -733,35 +733,14 @@ void send_player_cities(struct player *pplayer)
 **************************************************************************/
 static void send_adjacent_cities(struct city *pcity)
 {
-  int x1,x2,y1,y2;
-  int i;
-
-  x1=pcity->x-4; x2=pcity->x+4; y1=pcity->y-4; y2=pcity->y+4;
-  x1=map_adjust_x(x1); x2=map_adjust_x(x2);
-  y1=map_adjust_y(y1); y2=map_adjust_y(y2);
-  if(x1>x2)  {
-    for (i=0;i<game.nplayers;i++) {
-      city_list_iterate(game.players[i].cities, pcity2)
-	if(pcity2!=pcity)
-	  if((pcity2->x <= x2 || pcity2->x >= x1) && 
-	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
-	    city_check_workers(city_owner(pcity2),pcity2);
-	    send_city_info(city_owner(pcity2), pcity2);
-	  }
-      city_list_iterate_end;
+  int x, y;
+  square_iterate(pcity->x, pcity->y, CITY_MAP_SIZE-1, x, y) {
+    struct city *pcity2 = map_get_city(x, y);
+    if (pcity2 && pcity2 != pcity) {
+      city_check_workers(pcity2, 1);
+      send_city_info(city_owner(pcity2), pcity2);
     }
-  } else {
-    for (i=0;i<game.nplayers;i++) {
-      city_list_iterate(game.players[i].cities, pcity2)
-	if(pcity2!=pcity)
-	  if((pcity2->x <= x2 && pcity2->x >= x1) && 
-	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
-	    city_check_workers(city_owner(pcity2),pcity2);
-	    send_city_info(city_owner(pcity2), pcity2);
-	  }
-      city_list_iterate_end;
-    }
-  }
+  } square_iterate_end;
 }
 
 /**************************************************************************

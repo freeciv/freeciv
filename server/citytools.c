@@ -1107,7 +1107,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   }
 
   reestablish_city_trade_routes(pnewcity); 
-  city_check_workers(pplayer ,pnewcity);
+  city_check_workers(pnewcity, 1);
   update_map_with_city_workers(pnewcity);
   city_refresh(pnewcity);
   initialize_infrastructure_cache(pnewcity);

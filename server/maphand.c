@@ -276,8 +276,6 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest)
 {
-  int x, y;
-
   buffer_shared_vision(pdest);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     give_tile_info_from_player_to_player(pfrom, pdest, x, y);
@@ -595,8 +593,6 @@ There doesn't have to be a city.
 **************************************************************************/
 void map_unfog_pseudo_city_area(struct player *pplayer, int x, int y)
 {
-  int x_itr, y_itr;
-
   freelog(LOG_DEBUG, "Unfogging city area at %i,%i", x, y);
 
   buffer_shared_vision(pplayer);
@@ -625,8 +621,6 @@ There doesn't have to be a city.
 **************************************************************************/
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y)
 {
-  int x_itr, y_itr;
-
   freelog(LOG_DEBUG, "Fogging city area at %i,%i", x, y);
 
   buffer_shared_vision(pplayer);

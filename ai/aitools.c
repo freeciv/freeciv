@@ -274,8 +274,8 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
      
     /* the 4 lines that follow are copied from ai_manage_city -
        we don't need the sell_obsolete_buildings */
-    city_check_workers (pplayer, &tmp_city);
-    auto_arrange_workers (&tmp_city);
+    city_check_workers(&tmp_city, 0);
+    auto_arrange_workers(&tmp_city);
     if (ai_fix_unhappy (&tmp_city))
        ai_scientists_taxmen (&tmp_city);
 

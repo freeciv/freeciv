@@ -26,7 +26,7 @@ void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 int  add_adjust_workers(struct city *pcity);   /* will add workers */
-void city_check_workers(struct player *pplayer, struct city *pcity);
+int city_check_workers(struct city *pcity, int send_changed_adjacent_cities);
 
 /**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 

@@ -810,7 +810,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 **************************************************************************/
 static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
-  city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
+  city_check_workers(pcity, 0); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
@@ -1011,7 +1011,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 	city_list_insert(&minilist, acity);
     }
   }
-  city_check_workers(pplayer, pcity);
+  city_check_workers(pcity, 0);
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
@@ -1038,7 +1038,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 
   city_list_iterate(minilist, acity)
     city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
-    city_check_workers(pplayer, acity);
+    city_check_workers(acity, 0);
     add_adjust_workers(acity);
     city_refresh(acity);
     if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))

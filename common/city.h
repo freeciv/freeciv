@@ -98,6 +98,7 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
 
 #define map_city_radius_iterate(city_x, city_y, x_itr, y_itr) \
 { \
+  int x_itr, y_itr; \
   int MCMI_x, MCMI_y; \
   for (MCMI_x=0; MCMI_x<CITY_MAP_SIZE; MCMI_x++) { \
     for (MCMI_y=0; MCMI_y<CITY_MAP_SIZE; MCMI_y++) { \

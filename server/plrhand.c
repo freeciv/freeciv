@@ -28,6 +28,7 @@
 #include "support.h"
 #include "tech.h"
 
+#include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
@@ -624,6 +625,28 @@ void check_player_government_rates(struct player *pplayer)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void refresh_players_cities_if_player2_near(struct player *pplayer,
+						   struct player *pplayer2)
+{
+  city_list_iterate(pplayer->cities, pcity) {
+    struct unit *refresh_because_of = NULL;
+    map_city_radius_iterate(pcity->x, pcity->y, x, y) {
+      unit_list_iterate(map_get_tile(x, y)->units, penemy) {
+	if (unit_owner(penemy) == pplayer2)
+	  refresh_because_of = penemy;
+      } unit_list_iterate_end;
+    } map_city_radius_iterate_end;
+
+    if (refresh_because_of) {
+      city_check_workers(pcity, 1);
+      send_city_info(city_owner(pcity), pcity);
+    }
+  } city_list_iterate_end;
+}
+
+/**************************************************************************
 Handles a player cancelling a "pact" with another player.
 **************************************************************************/
 void handle_player_cancel_pact(struct player *pplayer, int other_player)
@@ -732,6 +755,10 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
       free(resolve_list);
     }
   }
+
+  /* Refresh all cities which have a unit of the other side within city range. */
+  refresh_players_cities_if_player2_near(pplayer, pplayer2);
+  refresh_players_cities_if_player2_near(pplayer2, pplayer);
 
   notify_player(pplayer,
 		_("Game: The diplomatic state between the %s and the %s is now %s."),

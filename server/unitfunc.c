@@ -1913,6 +1913,16 @@ void create_unit_full(struct player *pplayer, int x, int y,
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
   maybe_make_first_contact(x, y, punit->owner);
+
+  /* The unit may have changed the available tiles in nearby cities. */
+  map_city_radius_iterate(x, y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+    if (pcity && pcity->owner != punit->owner) {
+      if (city_check_workers(pcity, 1)) {
+	send_city_info(city_owner(pcity), pcity);
+      }
+    }
+  } map_city_radius_iterate_end;
 }
 
 /**************************************************************************
@@ -2745,6 +2755,7 @@ static void server_remove_unit(struct unit *punit)
   struct packet_generic_integer packet;
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *phomecity = find_city_by_id(punit->homecity);
+  int punit_x = punit->x, punit_y = punit->y;
 
   remove_unit_sight_points(punit);
 
@@ -2762,6 +2773,16 @@ static void server_remove_unit(struct unit *punit)
 			       &packet);
 
   game_remove_unit(punit->id);  
+
+  /* This unit may have blocked tiles of adjacent cities. Update them. */
+  map_city_radius_iterate(punit_x, punit_y, x, y) {
+    struct city *pcity2 = map_get_city(x, y);
+    if (pcity2 && pcity2->owner != punit->owner) {
+      if (city_check_workers(pcity2, 1)) {
+	send_city_info(city_owner(pcity2), pcity2);
+      }
+    }
+  } map_city_radius_iterate_end;
 
   if (phomecity) {
     city_refresh(phomecity);
@@ -3416,7 +3437,8 @@ Does: 1) updates  the units homecity and the city it enters/leaves (the
          cities happiness varies). This also takes into account if the
 	 unit enters/leaves a fortress.
       2) handles any huts at the units destination.
-      3) awakes any sentried units on neightborin tiles
+      3) awakes any sentried units on neightboring tiles.
+      4) updates adjacent cities' unavailable tiles.
 
 FIXME: Sometimes it is not neccesary to send cities because the goverment
        doesn't care if a unit is away or not.
@@ -3490,6 +3512,41 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
       send_city_info(pplayer, homecity);
     }
   }
+
+
+  /* The unit block different tiles of adjacent enemy cities before and
+     after. Update the relevant cities, without sending their info twice
+     if possible... If the city is in the range of both the source and
+     the destination we only update it when checking at the destination. */
+
+  /* First check cities near the source. */
+  map_city_radius_iterate(src_x, src_y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+
+    int is_near_destination = 0;
+    map_city_radius_iterate(dest_x, dest_y, x2, y2) {
+      struct city *pcity2 = map_get_city(x2, y2);
+      if (pcity == pcity2)
+	is_near_destination = 1;
+    } map_city_radius_iterate_end;
+
+    if (pcity && pcity->owner != punit->owner
+	&& !is_near_destination) {
+      if (city_check_workers(pcity, 1)) {
+	send_city_info(city_owner(pcity), pcity);
+      }
+    }
+  } map_city_radius_iterate_end;
+
+  /* Then check cities near the destination. */
+  map_city_radius_iterate(dest_x, dest_y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+    if (pcity && pcity->owner != punit->owner) {
+      if (city_check_workers(pcity, 1)) {
+	send_city_info(city_owner(pcity), pcity);
+      }
+    }
+  } map_city_radius_iterate_end;
 }
 
 /**************************************************************************
