@@ -339,7 +339,6 @@ static void ai_spend_gold(struct player *pplayer)
            && (pcity->shield_prod == 0 || !ai->threats.invasions))
           || unit_has_role(punit->type, L_EXPLORER))
           && pcity->id == punit->homecity
-          && pcity->ai.danger == 0 
           && pcity->ai.urgency == 0
           && is_ground_unit(punit)) {
         struct packet_unit_request packet;
