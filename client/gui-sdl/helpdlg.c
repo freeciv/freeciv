@@ -773,7 +773,7 @@ void popup_unit_info(Unit_Type_id type_id)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if(pUnit->obsoleted_by==-1) {
+  if (pUnit->obsoleted_by == U_NOT_OBSOLETED) {
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, _("None"), 12, 0);
     pBuf->ID = ID_LABEL;  

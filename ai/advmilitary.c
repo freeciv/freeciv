@@ -821,7 +821,7 @@ static void process_attacker_want(struct city *pcity,
     if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
         && tech_req != A_LAST
         && (tech_dist > 0 
-            || unit_types[unit_type].obsoleted_by == -1
+            || unit_types[unit_type].obsoleted_by == U_NOT_OBSOLETED
             || !can_build_unit_direct(pcity, 
                                       unit_types[unit_type].obsoleted_by))
         && unit_types[unit_type].attack_strength > 0 /* or we'll get SIGFPE */

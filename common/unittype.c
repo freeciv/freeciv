@@ -325,7 +325,7 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
 
   if (!can_player_build_unit_direct(pplayer, id))
     return -1;
-  while ((id = unit_types[id].obsoleted_by) != -1) {
+  while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(pplayer, id)) {
       best_upgrade = id;
     }
@@ -504,7 +504,7 @@ bool can_player_build_unit(struct player *p, Unit_Type_id id)
 {  
   if (!can_player_build_unit_direct(p, id))
     return FALSE;
-  while ((id = unit_types[id].obsoleted_by) != -1) {
+  while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
     }
@@ -523,7 +523,7 @@ bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
   if (unit_type_flag(id, F_NOBUILD)) {
     return FALSE;
   }
-  while ((id = unit_types[id].obsoleted_by) != -1) {
+  while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
     }

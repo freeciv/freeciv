@@ -195,6 +195,7 @@ struct unit_type {
   int transport_capacity;
   int hp;
   int firepower;
+#define U_NOT_OBSOLETED ((Unit_Type_id)(-1))
   int obsoleted_by;
   int fuel;
 

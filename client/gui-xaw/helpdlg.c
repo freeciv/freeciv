@@ -845,7 +845,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 		    advances[utype->tech_requirement].name);
     }
     create_tech_tree(help_tech_tree, 0, utype->tech_requirement, 3);
-    if(utype->obsoleted_by==-1) {
+    if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,

@@ -781,7 +781,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), advances[utype->tech_requirement].name);
     }
 /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
-    if(utype->obsoleted_by==-1) {
+    if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), _("None"));
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), get_unit_type(utype->obsoleted_by)->name);

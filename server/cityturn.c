@@ -796,7 +796,7 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
   if (!can_build_unit_direct(pcity, check)) {
     return -1;
   }
-  while ((check = unit_types[check].obsoleted_by) != -1) {
+  while ((check = unit_types[check].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_build_unit_direct(pcity, check)) {
       latest_ok = check;
     }

@@ -688,7 +688,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
     UpdateTechButton(help_unit_needs_button, utype->tech_requirement);
 
-    if (utype->obsoleted_by == -1)
+    if (utype->obsoleted_by == U_NOT_OBSOLETED)
       text = _("None");
     else
       text = get_unit_type(utype->obsoleted_by)->name;
