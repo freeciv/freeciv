@@ -420,6 +420,7 @@ static struct settings_s settings[] = {
     "    - Civ2 allows the player to pick which improvement to pillage.\n"
     "    - In Civ2, cities cannot be built next to each other.\n"
     "    - In Civ2, overflight of a hut causes it to disappear.\n"
+    "    - In Civ2, cities on mountains produce some food.\n"
     "  See also README.rulesets and the techs, units, buildings and terrain\n"
     "  options.") },
 

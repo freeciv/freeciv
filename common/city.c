@@ -687,6 +687,9 @@ int get_food_tile(int x, int y, struct city *pcity)
   if (spec_t & S_RAILROAD)
     f+=(f*terrain_control.rail_food_bonus)/100;
 
+  if (game.civstyle==2 && tile_t==T_MOUNTAINS && x==2 && y==2)
+    f++;
+
   if (f)
     f += (celeb ? g->celeb_food_bonus : g->food_bonus);
   if (before_penalty && f > before_penalty) 
