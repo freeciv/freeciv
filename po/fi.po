@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
-"PO-Revision-Date: 2003-10-07 19:47+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-12 19:53+0200\n"
+"PO-Revision-Date: 2003-11-12 19:55+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:263
@@ -414,7 +414,7 @@ msgstr "Muokkaa"
 msgid "Patrol"
 msgstr "Partioi"
 
-#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1801
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
 #: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
@@ -2472,9 +2472,8 @@ msgid "Please choose a non-blank name."
 msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
+msgstr "Ole hyvä ja valitse kelvollinen nimi."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -5418,7 +5417,7 @@ msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Peli: Ylilentosi pelottaa alkukantaista heimoa; he hajaantuvat kauhuissaan."
 
-#: server/unittools.c:3118
+#: server/unittools.c:3096
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6988,7 +6987,7 @@ msgstr ""
 "     Tuotanto valmis: %s"
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:145
 msgid "Cleared output window."
 msgstr "Tulostusikkuna tyhjennetty."
 
@@ -7239,90 +7238,90 @@ msgstr "- onnellinen"
 msgid "blocked"
 msgstr "estynyt"
 
-#: client/gui-gtk-2.0/citydlg.c:1683
+#: client/gui-gtk-2.0/citydlg.c:1684
 #, c-format
 msgid "Supported units %d"
 msgstr "Ylläpidettyjä yksiköitä %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1777
+#: client/gui-gtk-2.0/citydlg.c:1779
 #, c-format
 msgid "Present units %d"
 msgstr "Paikallaolevia yksiköitä %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:1803 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk-2.0/citydlg.c:1806 client/gui-gtk/citydlg.c:2300
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Kauppakumppanilta %s saadaan %d kauppaa.\n"
 
-#: client/gui-gtk-2.0/citydlg.c:1810 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:1812 client/gui-gtk/citydlg.c:2306
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1421
 msgid "No trade routes exist."
 msgstr "Ei vakituisia kauppareittejä."
 
-#: client/gui-gtk-2.0/citydlg.c:1813
+#: client/gui-gtk-2.0/citydlg.c:1815
 #, c-format
 msgid "Total trade from trade route %d"
 msgstr "Kauppareitin %d anti kaikkiaan"
 
-#: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
+#: client/gui-gtk-2.0/citydlg.c:1932 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "Keskitä"
 
-#: client/gui-gtk-2.0/citydlg.c:1936 client/gui-gtk-2.0/citydlg.c:1988
+#: client/gui-gtk-2.0/citydlg.c:1938 client/gui-gtk-2.0/citydlg.c:1990
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
 msgstr "_Aktivoi yksikkö"
 
-#: client/gui-gtk-2.0/citydlg.c:1942 client/gui-gtk-2.0/citydlg.c:1994
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-2.0/citydlg.c:1996
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
 msgstr "Aktivoi yksikkö, _sulje ikkuna"
 
-#: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-2.0/citydlg.c:2022
+#: client/gui-gtk-2.0/citydlg.c:1950 client/gui-gtk-2.0/citydlg.c:2024
 #: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1675 client/gui-win32/citydlg.c:1707
 msgid "_Disband unit"
 msgstr "Lakkauta"
 
 # Sini: We need to decide whether sentry means 'vartioi' or 'leiriydy' and use one.
-#: client/gui-gtk-2.0/citydlg.c:2000 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1703
 msgid "_Sentry unit"
 msgstr "Leiriydy"
 
-#: client/gui-gtk-2.0/citydlg.c:2011 client/gui-gtk/citydlg.c:2517
+#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1705
 msgid "_Fortify unit"
 msgstr "Linnoittaudu"
 
-#: client/gui-gtk-2.0/citydlg.c:2028 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2520
 #: client/gui-win32/citydlg.c:1709
 msgid "Make new _homecity"
 msgstr "Tee tästä uusi kotikaupunki"
 
-#: client/gui-gtk-2.0/citydlg.c:2038 client/gui-gtk/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2040 client/gui-gtk/citydlg.c:2522
 #: client/gui-win32/citydlg.c:1711
 msgid "_Upgrade unit"
 msgstr "Ajanmukaista yksikkö"
 
-#: client/gui-gtk-2.0/citydlg.c:2229 client/gui-gtk/citydlg.c:2695
+#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk/citydlg.c:2695
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1621
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Valitan: %s ei voi nyt tulla ajanmukaistetuksi."
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
@@ -7330,7 +7329,7 @@ msgstr "Valitan: %s ei voi nyt tulla ajanmukaistetuksi."
 msgid "Upgrade Unit!"
 msgstr "Ajanmukaista!"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
 #: client/gui-xaw/citydlg.c:2120
 #, c-format
@@ -7341,7 +7340,7 @@ msgstr ""
 "Ajanmukaista %s yksiköksi %s hintaan %d ?\n"
 "Valtion kassassa on %d."
 
-#: client/gui-gtk-2.0/citydlg.c:2250 client/gui-gtk-2.0/repodlgs.c:1007
+#: client/gui-gtk-2.0/citydlg.c:2252 client/gui-gtk-2.0/repodlgs.c:1007
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/repodlgs.c:905
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/repodlgs.c:586
@@ -7349,7 +7348,7 @@ msgstr ""
 msgid "Upgrade Obsolete Units"
 msgstr "Ajanmukaista vanhentuneet yksiköt"
 
-#: client/gui-gtk-2.0/citydlg.c:2265 client/gui-gtk/citydlg.c:2716
+#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1884 client/gui-win32/citydlg.c:1641
 #: client/gui-xaw/citydlg.c:2130
 #, c-format
@@ -7360,7 +7359,7 @@ msgstr ""
 "Ajanmukaistaminen %s -> %s maksaa %d.\n"
 "Valtion kassassa on %d."
 
-#: client/gui-gtk-2.0/citydlg.c:2417 client/gui-gtk/citydlg.c:2900
+#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1046 client/gui-win32/citydlg.c:1034
 #: client/gui-xaw/citydlg.c:2050
 #, c-format
@@ -7371,7 +7370,7 @@ msgstr ""
 "Ostetaanko %s hintaan %d ?\n"
 "Valtion kassassa on %d ."
 
-#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk-2.0/citydlg.c:2436
+#: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2438
 #: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/citydlg.c:1059
 #: client/gui-win32/citydlg.c:1037 client/gui-win32/citydlg.c:1046
@@ -7379,7 +7378,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Ostetaan!"
 
-#: client/gui-gtk-2.0/citydlg.c:2433 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk-2.0/citydlg.c:2435 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1056 client/gui-win32/citydlg.c:1043
 #: client/gui-xaw/citydlg.c:2059
 #, c-format
@@ -7390,25 +7389,25 @@ msgstr ""
 "%s maksaa %d .\n"
 "Kassan pohjalla on vain %d ."
 
-#: client/gui-gtk-2.0/citydlg.c:2466 client/gui-gtk/citydlg.c:3167
+#: client/gui-gtk-2.0/citydlg.c:2468 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1084 client/gui-win32/citydlg.c:1092
 #: client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Myydäänkö %s hintaan %d ?"
 
-#: client/gui-gtk-2.0/citydlg.c:2470 client/gui-gtk/citydlg.c:3171
+#: client/gui-gtk-2.0/citydlg.c:2472 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1089 client/gui-win32/citydlg.c:1097
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Myydään pois!"
 
-#: client/gui-gtk-2.0/citydlg.c:2548 client/gui-gtk/citydlg.c:3329
+#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3329
 #: client/gui-win32/citydlg.c:1356 data/Freeciv:524
 msgid "Rename City"
 msgstr "Nimeä kaupunki uudelleen"
 
-#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3331
+#: client/gui-gtk-2.0/citydlg.c:2552 client/gui-gtk/citydlg.c:3331
 #: client/gui-win32/citydlg.c:1357 client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "Mikä annetaan kaupungin uudeksi nimeksi?"
