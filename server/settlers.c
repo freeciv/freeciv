@@ -1528,14 +1528,18 @@ void contemplate_terrain_improvements(struct city *pcity)
   want = evaluate_improvements(virtualunit, &best_act, &gx, &gy);
   free(virtualunit);
 
-  /* modify our desire based on available statistics to prevent
+  /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in
    * the ruleset */
   want /= MAX(1, ai->stats.workers[ptile->continent]
-                 / MAX(1, ai->stats.cities[ptile->continent]));
+                 / ai->stats.cities[ptile->continent]);
+  want -= MIN(ai->stats.workers[ptile->continent], want);
 
-  CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d)",
-	   unit_name(unit_type), want, get_activity_text(best_act), gx, gy);
+  CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
+           "we have %d workers and %d cities on the continent",
+	   unit_name(unit_type), want, get_activity_text(best_act), gx, gy,
+           ai->stats.workers[ptile->continent], 
+           ai->stats.cities[ptile->continent]);
   assert(want >= 0);
   pcity->ai.settler_want = want;
 }
