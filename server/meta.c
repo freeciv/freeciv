@@ -61,7 +61,7 @@ int send_to_metaserver(char *desc, char *info)
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac alternate networking */
   struct TUnitData xmit;
   OSStatus err;
-  xmit.udata.maxlen = MAX_PACKET_SIZE;
+  xmit.udata.maxlen = MAX_LEN_PACKET;
   xmit.udata.buf=buffer;
 #else  
   if(sockfd==0)
