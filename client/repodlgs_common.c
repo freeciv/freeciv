@@ -267,21 +267,21 @@ void handle_options_settable(struct packet_options_settable *packet)
   settable_options[i].category = packet->category;
 
   switch (packet->type) {
-  case 0:
+  case SSET_BOOL:
     settable_options[i].val = packet->val;
     settable_options[i].min = FALSE;
     settable_options[i].max = TRUE;
     settable_options[i].strval = NULL;
     settable_options[i].default_strval = NULL;
     break;
-  case 1:
+  case SSET_INT:
     settable_options[i].val = packet->val;
     settable_options[i].min = packet->min;
     settable_options[i].max = packet->max;
     settable_options[i].strval = NULL;
     settable_options[i].default_strval = NULL;
     break;
-  case 2:
+  case SSET_STRING:
     settable_options[i].strval = mystrdup(packet->strval);
     settable_options[i].default_strval = mystrdup(packet->default_strval);
     break;

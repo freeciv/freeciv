@@ -151,13 +151,6 @@ char *sset_category_names[]= { N_("Geological"),
 			       N_("Internal"),
 			       N_("Networking") };
 
-/*
- * The type of the setting.
- */
-enum sset_type {
-  SSET_BOOL, SSET_INT, SSET_STRING
-};
-
 #define SSET_MAX_LEN  16             /* max setting name length (plus nul) */
 #define TOKEN_DELIMITERS " \t\n,"
 

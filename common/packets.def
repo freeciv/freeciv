@@ -172,6 +172,7 @@ type AUTH_TYPE		= uint8(enum authentication_type)
 type IMPR_RANGE		= uint8(enum impr_range)
 type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
+type SSET_TYPE		= uint8(enum sset_type)
 
 # typedefs for IDs
 type PLAYER 		= UINT8
@@ -1261,7 +1262,7 @@ PACKET_OPTIONS_SETTABLE=113;sc
   STRING name[MAX_LEN_NAME];
   STRING short_help[MAX_LEN_PACKET];
   STRING extra_help[MAX_LEN_PACKET];
-  UINT8  type;					/* 0:bool, 1:int, 2:string */
+  SSET_TYPE type;
 
   SINT32 val;					/* value for bool or int */
   SINT32 default_val;				/* default for bool or int */

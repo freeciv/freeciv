@@ -1005,7 +1005,7 @@ struct packet_options_settable {
   char name[MAX_LEN_NAME];
   char short_help[MAX_LEN_PACKET];
   char extra_help[MAX_LEN_PACKET];
-  int type;
+  enum sset_type type;
   int val;
   int default_val;
   int min;

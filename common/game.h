@@ -246,6 +246,11 @@ struct lvldat {
   int advspeed;
 };
 
+/* Server setting types.  Changing these will break network compatability. */
+enum sset_type {
+  SSET_BOOL, SSET_INT, SSET_STRING
+};
+
 void game_init(void);
 void game_free(void);
 void ruleset_data_free(void);
