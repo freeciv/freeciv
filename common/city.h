@@ -267,8 +267,8 @@ struct city {
     bool happy, unhappy;
 
     /* The color is an index into the city_colors array in mapview_common */
-#define DEFAULT_CITY_COLOR 0
-    int color;
+    bool colored;
+    int color_index;
   } client;
 
   int steal;		      /* diplomats steal once; for spies, gets harder */
