@@ -47,7 +47,7 @@ tiles = { "row", "column", "tag"
   2,  1, "u.crusaders"
   2,  2, "u.dragoons"
   2,  3, "u.cavalry"
-  2,  4, "u.armor"
+;  2,  4, "u.armor"
   2,  5, "u.catapult"
   2,  6, "u.cannon"
   2,  7, "u.artillery"
@@ -75,18 +75,18 @@ tiles = { "row", "column", "tag"
 
   5,  0, "u.nuclear"
   5,  1, "u.diplomat"
-  5,  2, "u.spy"
+;  5,  2, "u.spy"
   5,  3, "u.caravan"
   5,  4, "u.freight"
 ;  5,  5,
-;  5,  6,
+  5,  6, "u.armor"
 ;  5,  7,
 ;  5,  8,
 
 ;  6,  0,
   6,  1, "u.explorer"
   6,  2, "u.barbarian_leader"
-;  6,  3,
+  6,  3, "u.spy"
 ;  6,  4,
 ;  6,  5,
 ;  6,  6,
