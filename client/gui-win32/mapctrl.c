@@ -286,6 +286,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       DestroyWindow(popit_popup);
       popit_popup=NULL;
     }
+    SetFocus(root_window);
     break;
   case WM_MOUSEMOVE:
     if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
