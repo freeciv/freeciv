@@ -2066,6 +2066,8 @@ void set_overview_dimensions(int width, int height)
 
 /**************************************************************************
   Called if the map in the GUI is resized.
+
+  Returns TRUE iff the canvas was redrawn.
 **************************************************************************/
 bool map_canvas_resized(int width, int height)
 {
@@ -2076,7 +2078,7 @@ bool map_canvas_resized(int width, int height)
   int tile_height = (height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
   int full_width = tile_width * NORMAL_TILE_WIDTH;
   int full_height = tile_height * NORMAL_TILE_HEIGHT;
-  bool tile_size_changed, size_changed;
+  bool tile_size_changed, size_changed, redrawn = FALSE;
 
   /* Resized */
 
@@ -2109,6 +2111,7 @@ bool map_canvas_resized(int width, int height)
     if (tile_size_changed) {
       update_map_canvas_visible();
       refresh_overview_canvas();
+      redrawn = TRUE;
     }
 
     /* If the width/height has changed, update the scrollbars even if
@@ -2119,7 +2122,7 @@ bool map_canvas_resized(int width, int height)
     }
   }
 
-  return TRUE;
+  return redrawn;
 }
 
 /**************************************************************************
