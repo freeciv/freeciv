@@ -1220,7 +1220,7 @@ static int start_callback(struct GUI *pStart_Button)
   sz_strlcpy(packet.name, pStr);
   FREE(pStr);
 
-  if (!get_sane_name(packet.name)) {
+  if (!is_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));
     pSellected_Widget = pStart_Button;
     set_wstate(pStart_Button, WS_SELLECTED);
@@ -2002,4 +2002,13 @@ void popdown_races_dialog(void)
 void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
   /* TODO? */
+}
+
+/**************************************************************************
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+**************************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  /* PORTME */
 }

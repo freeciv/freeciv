@@ -531,8 +531,8 @@ void ui_main(int argc, char *argv[])
 			   "to distribute copies of "
 			   "it under certain conditions;"));
   set_output_window_text(_(" See the \"Copying\" item on the Help"
-			   " menu."))
-  set_output_window_text(_("Now.. Go give'em hell!"))
+			   " menu."));
+  set_output_window_text(_("Now.. Go give'em hell!"));
   
 
 

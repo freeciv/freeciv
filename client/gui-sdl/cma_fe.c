@@ -44,6 +44,8 @@
 
 #define BUFFER_SIZE             64
 
+struct cma_dialog;
+
 #define SPECLIST_TAG cma_dialog
 #define SPECLIST_TYPE struct cma_dialog
 #include "speclist.h"
