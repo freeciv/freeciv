@@ -854,33 +854,25 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   }
 
   if (type == PACKET_SERVER_JOIN_REQ) {
-    bool result =
-	handle_login_request(pconn,
-			     (struct packet_server_join_req *) packet);
-    free(packet);
-    return result;
+    return handle_login_request(pconn,
+				(struct packet_server_join_req *) packet);
   }
 
   /* May be received on a non-established connection. */
   if (type == PACKET_AUTHENTICATION_REPLY) {
-    bool result =
-	handle_authentication_reply(pconn,
-				    ((struct packet_authentication_reply *)
-				     packet)->password);
-    free(packet);
-    return result;
+    return handle_authentication_reply(pconn,
+				((struct packet_authentication_reply *)
+				 packet)->password);
   }
 
   if (type == PACKET_CONN_PONG) {
     handle_conn_pong(pconn);
-    free(packet);
     return TRUE;
   }
 
   if (!pconn->established) {
     freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
 	    conn_description(pconn));
-    free(packet);
     return TRUE;
   }
   
@@ -888,7 +880,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   if (type == PACKET_CHAT_MSG_REQ) {
     handle_chat_msg_req(pconn,
 			((struct packet_chat_msg_req *) packet)->message);
-    free(packet);
     return TRUE;
   }
 
@@ -909,7 +900,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     /* don't support these yet */
     freelog(LOG_ERROR, "Received packet from non-player connection %s",
  	    conn_description(pconn));
-    free(packet);
     return TRUE;
   }
 
@@ -926,7 +916,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
       freelog(LOG_ERROR, "got a packet of type %d "
 	                 "outside RUN_GAME_STATE", type);
     }
-    free(packet);
     return TRUE;
   }
 
@@ -936,7 +925,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
      && !(type == PACKET_REPORT_REQ || type == PACKET_CONN_PONG)) {
     freelog(LOG_ERROR, _("Got a packet of type %d from a "
 			 "dead or observer player"), type);
-    free(packet);
     return TRUE;
   }
   
@@ -952,7 +940,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     kill_dying_players();
   }
 
-  free(packet);
   pplayer->current_conn = NULL;
   return TRUE;
 }

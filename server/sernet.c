@@ -614,7 +614,10 @@ int sniff_packets(void)
 					 pconn->server.
 					 last_request_id_seen);
 		command_ok = handle_packet_input(pconn, packet, type);
-		packet = NULL;
+		if (packet) {
+		  free(packet);
+		  packet = NULL;
+		}
 
 		finish_processing_request(pconn);
 		connection_do_unbuffer(pconn);
