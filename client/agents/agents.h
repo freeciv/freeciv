@@ -36,8 +36,8 @@ struct agent {
   int level;
 
   void (*turn_start_notify) (void);
-  void (*city_callbacks[CB_LAST]) (struct city *);
-  void (*unit_callbacks[CB_LAST]) (struct unit *);
+  void (*city_callbacks[CB_LAST]) (int);
+  void (*unit_callbacks[CB_LAST]) (int);
 };
 
 void agents_init(void);

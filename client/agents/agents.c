@@ -41,7 +41,7 @@ struct call {
   struct my_agent *agent;
   enum oct { OCT_NEW_TURN, OCT_UNIT, OCT_CITY } type;
   enum callback_type cb_type;
-  void *arg;
+  int arg;
 };
 
 #define SPECLIST_TAG call
@@ -118,7 +118,7 @@ void register_agent(const struct agent *agent)
 ***********************************************************************/
 static void enqueue_call(struct my_agent *agent,
 			 enum oct type,
-			 enum callback_type cb_type, void *arg)
+			 enum callback_type cb_type, int arg)
 {
   struct call *pcall2;
 
@@ -192,11 +192,9 @@ static void execute_call(const struct call *call)
   if (call->type == OCT_NEW_TURN) {
     call->agent->agent.turn_start_notify();
   } else if (call->type == OCT_UNIT) {
-    call->agent->agent.unit_callbacks[call->
-				      cb_type] ((struct unit *) call->arg);
+    call->agent->agent.unit_callbacks[call->cb_type] (call->arg);
   } else if (call->type == OCT_CITY) {
-    call->agent->agent.city_callbacks[call->
-				      cb_type] ((struct city *) call->arg);
+    call->agent->agent.city_callbacks[call->cb_type] (call->arg);
   } else {
     assert(0);
   }
@@ -414,7 +412,7 @@ void agents_new_turn(void)
       continue;
     }
     if (agent->agent.turn_start_notify) {
-      enqueue_call(agent, OCT_NEW_TURN, CB_LAST, NULL);
+      enqueue_call(agent, OCT_NEW_TURN, CB_LAST, 0);
     }
   }
   /*
@@ -447,7 +445,7 @@ void agents_unit_changed(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit);
+      enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
     }
   }
   call_handle_methods();
@@ -473,7 +471,7 @@ void agents_unit_new(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_UNIT, CB_NEW, punit);
+      enqueue_call(agent, OCT_UNIT, CB_NEW, punit->id);
     }
   }
 
@@ -500,7 +498,7 @@ void agents_unit_remove(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_UNIT, CB_REMOVE, punit);
+      enqueue_call(agent, OCT_UNIT, CB_REMOVE, punit->id);
     }
   }
 
@@ -525,7 +523,7 @@ void agents_city_changed(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity);
+      enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
     }
   }
   call_handle_methods();
@@ -551,7 +549,7 @@ void agents_city_new(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_CITY, CB_NEW, pcity);
+      enqueue_call(agent, OCT_CITY, CB_NEW, pcity->id);
     }
   }
 
@@ -578,7 +576,7 @@ void agents_city_remove(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_CITY, CB_REMOVE, pcity);
+      enqueue_call(agent, OCT_CITY, CB_REMOVE, pcity->id);
     }
   }
 
@@ -632,7 +630,7 @@ void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
   assert(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
-  enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit);
+  enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
   call_handle_methods();
 }
 
@@ -645,7 +643,7 @@ void cause_a_city_changed_for_agent(char *name_of_calling_agent,
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
   assert(agent->agent.city_callbacks[CB_CHANGE] != NULL);
-  enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity);
+  enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
   call_handle_methods();
 }
 

@@ -61,9 +61,9 @@ static bool preset_list_has_been_initialized = FALSE;
  Is called if the game removes a city. It will clear the 
  "fe parameter" attribute to reduce the size of the savegame.   
 *****************************************************************************/
-static void city_remove(struct city *pcity)
+static void city_remove(int city_id)
 {
-  attr_city_set(ATTR_CITY_CMAFE_PARAMETER, pcity->id, 0, NULL);
+  attr_city_set(ATTR_CITY_CMAFE_PARAMETER, city_id, 0, NULL);
 }
 
 /**************************************************************************

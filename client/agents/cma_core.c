@@ -1044,6 +1044,13 @@ static void report_stats(void)
 #endif
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
+static void release_city(int city_id)
+{
+  attr_city_set(ATTR_CITY_CMA_PARAMETER, city_id, 0, NULL);
+}
 
 /****************************************************************************
                            algorithmic functions
@@ -1799,18 +1806,22 @@ static void handle_city(struct city *pcity)
 /****************************************************************************
  Callback for the agent interface.
 *****************************************************************************/
-static void city_changed(struct city *pcity)
+static void city_changed(int city_id)
 {
-  clear_caches(pcity);
-  handle_city(pcity);
+  struct city *pcity = find_city_by_id(city_id);
+
+  if (pcity) {
+    clear_caches(pcity);
+    handle_city(pcity);
+  }
 }
 
 /****************************************************************************
  Callback for the agent interface.
 *****************************************************************************/
-static void city_remove(struct city *pcity)
+static void city_remove(int city_id)
 {
-  cma_release_city(pcity);
+  release_city(city_id);
 }
 
 /****************************************************************************
@@ -1916,7 +1927,7 @@ void cma_put_city_under_agent(struct city *pcity,
 *****************************************************************************/
 void cma_release_city(struct city *pcity)
 {
-  attr_city_set(ATTR_CITY_CMA_PARAMETER, pcity->id, 0, NULL);
+  release_city(pcity->id);
 }
 
 /****************************************************************************
