@@ -60,6 +60,10 @@ void secfile_insert_str_comment(struct section_file *my_section_file,
 				char *sval, const char *const comment,
 				const char *path, ...)
                                 fc__attribute((format (printf, 4, 5)));
+void secfile_insert_str_vec(struct section_file *my_section_file, 
+			    const char **values, int dim,
+			    const char *path, ...)
+                            fc__attribute((format (printf, 4, 5)));
 
 bool section_file_lookup(struct section_file *my_section_file, 
 			const char *path, ...)

@@ -174,13 +174,16 @@
 #define SPECVEC_TAG astring
 #include "specvec.h"
 
-/* An 'entry' is a single value, either a string or integer;
- * Whether string or int is determined by whether svalue is NULL.
+/* An 'entry' is a string, integer or string vector;
+ * Whether it is string or int or string vector is determined by whether
+ * svalue/vec_values is NULL.
  */
 struct entry {
   char *name;			/* name, not including section prefix */
   int  ivalue;			/* value if integer */
   char *svalue;			/* value if string (in sbuffer) */
+  char **vec_values;		/* string vector values */
+  int dim;			/* vector's size */
   int  used;			/* number of times entry looked up */
   char *comment;                /* comment, may be NULL */
 };
@@ -634,6 +637,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 
   struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
+  int i;
 
   if (!fs)
     return FALSE;
@@ -745,11 +749,19 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 	if(!pentry) break;
       }
       if(!pentry) break;
-
-      if(pentry->svalue)
+      
+      if (pentry->vec_values) {
+        fz_fprintf(fs, "%s=\"%s\"", pentry->name,
+	           moutstr(pentry->vec_values[0]));
+	for (i = 1; i < pentry->dim; i++) {
+	  fz_fprintf(fs, ", \"%s\"", moutstr(pentry->vec_values[i]));
+	}
+      } else if (pentry->svalue) {
 	fz_fprintf(fs, "%s=\"%s\"", pentry->name, moutstr(pentry->svalue));
-      else
+      } else {
 	fz_fprintf(fs, "%s=%d", pentry->name, pentry->ivalue);
+      }
+      
       if (pentry->comment) {
 	fz_fprintf(fs, "  # %s\n", pentry->comment);
       } else {
@@ -852,6 +864,8 @@ void secfile_insert_int(struct section_file *my_section_file,
 
   pentry->ivalue=val;
   pentry->svalue = NULL;
+  pentry->vec_values = NULL;
+  pentry->dim = 0;
   pentry->comment = NULL;
 }
 
@@ -874,6 +888,8 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
 
   pentry->ivalue = val;
   pentry->svalue = NULL;
+  pentry->vec_values = NULL;
+  pentry->dim = 0;
   pentry->comment = sbuf_strdup(my_section_file->sb, comment);
 }
 
@@ -901,6 +917,8 @@ void secfile_insert_bool(struct section_file *my_section_file,
 
   pentry->ivalue = val ? 1 : 0;
   pentry->svalue = NULL;
+  pentry->vec_values = NULL;
+  pentry->dim = 0;
   pentry->comment = NULL;
 }
 
@@ -920,6 +938,8 @@ void secfile_insert_str(struct section_file *my_section_file,
 
   pentry = section_file_insert_internal(my_section_file, buf);
   pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
+  pentry->vec_values = NULL;
+  pentry->dim = 0;
   pentry->comment = NULL;
 }
 
@@ -940,7 +960,45 @@ void secfile_insert_str_comment(struct section_file *my_section_file,
 
   pentry = section_file_insert_internal(my_section_file, buf);
   pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
+  pentry->vec_values = NULL;
+  pentry->dim = 0;
   pentry->comment = sbuf_strdup(my_section_file->sb, comment);
+}
+
+/**************************************************************************
+  Insert string vector into section_file. It will be writen out as:
+    name = "value1", "value2", "value3"
+  The vector must have at least one element in it.
+
+  This function is little tricky, because values inserted here can't
+  be immediately recovered by secfile_lookup_str_vec. Luckily we never use
+  section_file for both reading and writing.
+**************************************************************************/
+void secfile_insert_str_vec(struct section_file *my_section_file,
+			    const char **values, int dim,
+			    const char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  int i;
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  assert(dim > 0);
+  
+  pentry = section_file_insert_internal(my_section_file, buf);
+  pentry->dim = dim;
+  pentry->vec_values = sbuf_malloc(my_section_file->sb,
+                                   sizeof(char*) * dim);
+  for (i = 0; i < dim; i++) {
+    pentry->vec_values[i] = sbuf_strdup(my_section_file->sb, values[i]);
+  }
+				 
+  pentry->svalue = NULL;
+  pentry->comment = NULL;
 }
 
 /**************************************************************************
