@@ -92,10 +92,24 @@ static void swap_map_positions(struct map_position *a,
 }
 
 /****************************************************************************
+  Get the start position for the given player.
+****************************************************************************/
+static struct map_position get_start_position(struct player *pplayer,
+					      int *start_pos)
+{
+  if (map.fixed_start_positions) {
+    return map.start_positions[start_pos[pplayer->player_no]];
+  } else {
+    return map.start_positions[pplayer->player_no];
+  }
+}
+
+/****************************************************************************
   Initialize a new game: place the players' units onto the map, etc.
 ****************************************************************************/
 void init_new_game(void)
 {
+  Nation_Type_id start_pos[MAX_NUM_PLAYERS];
   init_game_id();
 
   /* Shuffle starting positions around so that they match up with the
@@ -122,7 +136,6 @@ void init_new_game(void)
     const int npos = map.num_start_positions;
     int nrem = npos, player_no;
     bool *pos_used = fc_calloc(map.num_start_positions, sizeof(*pos_used));
-    Nation_Type_id start_pos[MAX_NUM_PLAYERS];
 
     /* Match nation 0 to starting position 0, and so on.  This needs an
      * explicit for loop to guarantee the proper ordering. */
@@ -158,18 +171,15 @@ void init_new_game(void)
       }
     } players_iterate_end;
 
-    /* Finally reorder the starting positions to match. */
-    players_iterate(pplayer) {
-      swap_map_positions(&map.start_positions[start_pos[pplayer->player_no]],
-			 &map.start_positions[pplayer->player_no]);
-    } players_iterate_end;
+    /* The starting positions are now stored in the start_pos array, and
+     * may be accessed via the get_start_position function. */
 
     free(pos_used);
   }
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
-    struct map_position pos = map.start_positions[pplayer->player_no];
+    struct map_position pos = get_start_position(pplayer, start_pos);
 
     /* Place the first unit. */
     assert(game.settlers > 0);
@@ -178,8 +188,8 @@ void init_new_game(void)
 
   /* Place all other units. */
   players_iterate(pplayer) {
-    struct map_position p = map.start_positions[pplayer->player_no];
     int i, x, y;
+    struct map_position p = get_start_position(pplayer, start_pos);
 
     for (i = 1; i < (game.settlers + game.explorer); i++) {
       do {
