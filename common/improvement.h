@@ -113,9 +113,10 @@ Impr_Type_id find_improvement_by_name(const char *s);
 Impr_Type_id find_improvement_by_name_orig(const char *s);
 
 /* player related improvement and unit functions */
-bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id);
-bool can_player_build_improvement(struct player *p, Impr_Type_id id);
-bool can_player_eventually_build_improvement(struct player *p,
+bool can_player_build_improvement_direct(const struct player *p,
+					 Impr_Type_id id);
+bool can_player_build_improvement(const struct player *p, Impr_Type_id id);
+bool can_player_eventually_build_improvement(const struct player *p,
 					     Impr_Type_id id);
 
 /* Iterates over all improvements. Creates a new variable names m_i

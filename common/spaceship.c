@@ -113,7 +113,7 @@ void spaceship_init(struct player_spaceship *ship)
 /**********************************************************************
 Count the number of structurals placed; that is, in ship->structure[]
 **********************************************************************/
-int num_spaceship_structurals_placed(struct player_spaceship *ship)
+int num_spaceship_structurals_placed(const struct player_spaceship *ship)
 {
   int i, num = 0;
   for(i=0; i<NUM_SS_STRUCTURALS; i++) {

@@ -114,6 +114,6 @@ extern const struct sship_part_info components_info[NUM_SS_COMPONENTS];
 extern const struct sship_part_info modules_info[NUM_SS_MODULES];
 
 void spaceship_init(struct player_spaceship *ship);
-int num_spaceship_structurals_placed(struct player_spaceship *ship);
+int num_spaceship_structurals_placed(const struct player_spaceship *ship);
 
 #endif /* FC__SPACESHIP_H */

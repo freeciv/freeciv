@@ -280,7 +280,8 @@ bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id)
    Whether player can build given building somewhere, ignoring whether it
    is obsolete.
 **************************************************************************/
-bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id)
+bool can_player_build_improvement_direct(const struct player *p,
+					 Impr_Type_id id)
 {
   struct impr_type *impr;
   bool space_part = FALSE;
@@ -337,7 +338,7 @@ bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id)
   returns TRUE if building is available with current tech OR will be
   available with future tech.  Returns FALSE if building is obsolete.
 **************************************************************************/
-bool can_player_build_improvement(struct player *p, Impr_Type_id id)
+bool can_player_build_improvement(const struct player *p, Impr_Type_id id)
 {
   if (!can_player_build_improvement_direct(p, id)) {
     return FALSE;
@@ -353,7 +354,8 @@ bool can_player_build_improvement(struct player *p, Impr_Type_id id)
   returns TRUE if building is available with current tech OR will be
   available with future tech.  Returns FALSE if building is obsolete.
 **************************************************************************/
-bool can_player_eventually_build_improvement(struct player *p, Impr_Type_id id)
+bool can_player_eventually_build_improvement(const struct player *p,
+					     Impr_Type_id id)
 {
   if (!improvement_exists(id)) {
     return FALSE;

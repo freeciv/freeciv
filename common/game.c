@@ -67,7 +67,7 @@ struct player_score {
 /**************************************************************************
 Count the # of thousand citizen in a civilisation.
 **************************************************************************/
-int civ_population(struct player *pplayer)
+int civ_population(const struct player *pplayer)
 {
   int ppl=0;
   city_list_iterate(pplayer->cities, pcity)
