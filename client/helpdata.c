@@ -498,31 +498,6 @@ const struct help_item *help_iter_next(void)
 *****************************************************************/
 
 /****************************************************************
-  Write text about cathedral techs: used by both
-  Cathedrals proper and Mich's Chapel Wonder.
-  Returns new end-of-string ptr.
-*****************************************************************/
-static void helptext_cathedral_techs(char *buf)
-{
-  int t;
-
-  assert(buf);
-  buf[0] = '\0';
-  t=game.rtech.cathedral_minus;
-  if(tech_exists(t)) {
-    sprintf(buf, _("The discovery of %s will reduce this by 1.  "),
-	    advances[t].name);
-    buf += strlen(buf);
-  }
-  t=game.rtech.cathedral_plus;
-  if(tech_exists(t)) {
-    sprintf(buf, _("The discovery of %s will increase this by 1.  "),
-	   advances[t].name);
-    buf += strlen(buf);
-  }
-}
-
-/****************************************************************
   Write misc dynamic text for improvements (not wonders).
   user_text is written after some extra, and before others.
 *****************************************************************/
@@ -550,18 +525,6 @@ void helptext_improvement(char *buf, int which, const char *user_text)
   }
   if (imp->helptext) {
     sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
-  }
-  if(which==B_CATHEDRAL) {
-    helptext_cathedral_techs(buf+strlen(buf));
-  }
-  if(which==B_COLOSSEUM) {
-    int t=game.rtech.colosseum_plus;
-    if(tech_exists(t)) {
-      int n = strlen(buf);
-      if(n && buf[n-1] == '\n') buf[n-1] = ' ';
-      sprintf(buf+n, _("The discovery of %s will increase this by 1.  "),
-	     advances[t].name);
-    }
   }
   if(which==B_BARRACKS
      && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
@@ -608,10 +571,6 @@ void helptext_wonder(char *buf, int which,
   }
   if (imp->helptext) {
     sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
-  }
-  if(which==B_MICHELANGELO) {
-    if (improvement_variant(B_MICHELANGELO)==0)
-      helptext_cathedral_techs(buf+strlen(buf));
   }
   if (strcmp(user_text, "")!=0) {
     sprintf(buf+strlen(buf), "\n\n%s", user_text);
