@@ -1153,7 +1153,8 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Kingdom/_Tax Rates",
-			can_client_issue_orders());
+			game.rgame.changable_tax
+                        && can_client_issue_orders());
     menus_set_sensitive("<main>/_Kingdom/_Worklists",
 			can_client_issue_orders());
     menus_set_sensitive("<main>/_Kingdom/_Government",

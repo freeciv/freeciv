@@ -72,23 +72,24 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
     return;
   }
 
-  if(from==SP_ELVIS) {
-    if(pcity->size<5) 
-      return; 
-
-    if(pcity->ppl_elvis == 0)
-      return;
-    pcity->ppl_elvis--;
-  } else if(from==SP_TAXMAN) {
-    if (pcity->ppl_taxman == 0)
-      return;
-    pcity->ppl_taxman--;
-  } else if (from==SP_SCIENTIST) {
-    if (pcity->ppl_scientist == 0)
-      return;
-    pcity->ppl_scientist--;
-  } else {
+  if ((to == SP_ELVIS && pcity->size < game.rgame.min_size_elvis)
+      || (to == SP_TAXMAN && pcity->size < game.rgame.min_size_taxman)
+      || (to == SP_SCIENTIST && pcity->size < game.rgame.min_size_scientist)
+      || (from == SP_ELVIS && pcity->ppl_elvis == 0)
+      || (from == SP_TAXMAN && pcity->ppl_taxman == 0)
+      || (from == SP_SCIENTIST && pcity->ppl_scientist == 0)
+      || (to != SP_ELVIS && to != SP_TAXMAN && to != SP_SCIENTIST)
+      || (from != SP_ELVIS && from != SP_TAXMAN && from != SP_SCIENTIST)) {
+    freelog(LOG_ERROR, "Error in specialist change request from client.");
     return;
+  }
+
+  if (from == SP_ELVIS) {
+    pcity->ppl_elvis--;
+  } else if (from == SP_TAXMAN) {
+    pcity->ppl_taxman--;
+  } else if (from == SP_SCIENTIST) {
+    pcity->ppl_scientist--;
   }
   switch (to) {
   case SP_TAXMAN:

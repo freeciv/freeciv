@@ -186,6 +186,16 @@ struct civ_game {
 
   /* values from game.ruleset */
   struct {
+    int min_size_elvis;
+    int min_size_taxman;
+    int min_size_scientist;
+    int base_elvis;
+    int base_scientist;
+    int base_taxman;
+    bool changable_tax;
+    int forced_science; /* only relevant if !changable_tax */
+    int forced_luxury;
+    int forced_gold;
     int min_city_center_food;
     int min_city_center_shield;
     int min_city_center_trade;

@@ -11,6 +11,26 @@
 description="Cities data for Freeciv"
 options="1.9"
 
+; Configure the effect of specialists. Each specialist contributes
+; the given amount of its special kind of value (luxury for elvis,
+; research for scientist and gold for taxman). You can set
+; changable_tax to zero to disallow players setting the taxrate
+; for themselves. In this case, the values in the forced_ fields
+; apply instead, modified by government restrictions. The min_size
+; fields restrict setting specialists to this type before the
+; the city is of a certain size.
+[specialist]
+base_elvis = 2
+base_scientist = 3
+base_taxman = 3
+changable_tax = 1
+;forced_science = 0
+;forced_luxury = 100
+;forced_gold = 0
+min_size_elvis = 0
+min_size_taxman = 5
+min_size_scientist = 5
+
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.
 

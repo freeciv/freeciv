@@ -2670,6 +2670,16 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
+  game.rgame.min_size_elvis = packet->min_size_elvis;
+  game.rgame.min_size_taxman = packet->min_size_taxman;
+  game.rgame.min_size_scientist = packet->min_size_scientist;
+  game.rgame.base_elvis = packet->base_elvis;
+  game.rgame.base_scientist = packet->base_scientist;
+  game.rgame.base_taxman = packet->base_taxman;
+  game.rgame.changable_tax = packet->changable_tax;
+  game.rgame.forced_science = packet->forced_science;
+  game.rgame.forced_luxury = packet->forced_luxury;
+  game.rgame.forced_gold = packet->forced_gold;
   game.rgame.min_city_center_food = packet->min_city_center_food;
   game.rgame.min_city_center_shield = packet->min_city_center_shield;
   game.rgame.min_city_center_trade = packet->min_city_center_trade;

@@ -1721,26 +1721,25 @@ static void set_tax_income(struct city *pcity)
 {
   int sci, tax, lux, rate = pcity->trade_prod;
   int sci_rest, tax_rest, lux_rest;
-  int sci_rate = city_owner(pcity)->economic.science;
-  int lux_rate = city_owner(pcity)->economic.luxury;
-  int tax_rate = 100 - sci_rate - lux_rate;
-  
-  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
-    if (sci_rate > 50) {
-      sci_rate = 50;
-      tax_rate = 100 - sci_rate - lux_rate;
-    }
-  }
+  struct player *pplayer = city_owner(pcity);
+  int sci_rate, lux_rate, tax_rate;
 
+  if (game.rgame.changable_tax) {
+    sci_rate = pplayer->economic.science;
+    lux_rate = pplayer->economic.luxury;
+    tax_rate = 100 - sci_rate - lux_rate;
+  } else {
+    sci_rate = game.rgame.forced_science;
+    lux_rate = game.rgame.forced_luxury;
+    tax_rate = game.rgame.forced_gold;
+  }
+  
   /* ANARCHY */
   if (get_gov_pcity(pcity)->index == game.government_when_anarchy) {
     sci_rate = 0;
     lux_rate = 100;
     tax_rate = 100 - sci_rate - lux_rate;
   }
-
-  freelog(LOG_DEBUG, "trade_prod=%d, rates=(sci=%d%%, tax=%d%%, lux=%d%%)",
-	  pcity->trade_prod, sci_rate, tax_rate, lux_rate);
 
   /* 
    * Distribution of the trade among science, tax and luxury via a
@@ -1765,10 +1764,6 @@ static void set_tax_income(struct city *pcity)
 
   rate -= (sci + tax + lux);  
 
-  freelog(LOG_DEBUG,
-	  "  int parts (%d, %d, %d), rest (%d, %d, %d), remaing trade %d",
-	  sci, tax, lux, sci_rest, tax_rest, lux_rest, rate);
-  
   while (rate > 0) {
     if (sci_rest > lux_rest && sci_rest > tax_rest) {
       sci++;
@@ -1822,16 +1817,14 @@ static void set_tax_income(struct city *pcity)
 
   assert(sci + tax + lux == pcity->trade_prod);
 
-  freelog(LOG_DEBUG, "  result (%d, %d, %d)", sci, tax, lux);
-
   pcity->science_total = sci;
   pcity->tax_total = tax;
   pcity->luxury_total = lux;
 
-  pcity->luxury_total += (pcity->ppl_elvis * 2);
-  pcity->science_total += (pcity->ppl_scientist * 3);
-  pcity->tax_total +=
-      (pcity->ppl_taxman * 3) + get_city_tithes_bonus(pcity);
+  pcity->luxury_total += (pcity->ppl_elvis * game.rgame.base_elvis);
+  pcity->science_total += (pcity->ppl_scientist * game.rgame.base_scientist);
+  pcity->tax_total += (pcity->ppl_taxman * game.rgame.base_taxman) 
+                       + get_city_tithes_bonus(pcity);
 }
 
 /**************************************************************************

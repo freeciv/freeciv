@@ -2493,6 +2493,34 @@ static void load_ruleset_cities(struct section_file *file)
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
 
+  /* Specialist options */
+
+  game.rgame.min_size_elvis = 
+    secfile_lookup_int_default(file, 0, "specialist.min_size_elvis");
+  game.rgame.min_size_taxman = 
+    secfile_lookup_int_default(file, 5, "specialist.min_size_taxman");
+  game.rgame.min_size_scientist = 
+    secfile_lookup_int_default(file, 5, "specialist.min_size_scientist");
+  game.rgame.base_elvis = 
+    secfile_lookup_int_default(file, 2, "specialist.base_elvis");
+  game.rgame.base_scientist = 
+    secfile_lookup_int_default(file, 3, "specialist.base_scientist");
+  game.rgame.base_taxman = 
+    secfile_lookup_int_default(file, 3, "specialist.base_taxman");
+  game.rgame.changable_tax = 
+    secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
+  game.rgame.forced_science = 
+    secfile_lookup_int_default(file, 0, "specialist.forced_science");
+  game.rgame.forced_luxury = 
+    secfile_lookup_int_default(file, 100, "specialist.forced_luxury");
+  game.rgame.forced_gold = 
+    secfile_lookup_int_default(file, 0, "specialist.forced_gold");
+  if (game.rgame.forced_science + game.rgame.forced_luxury
+      + game.rgame.forced_gold != 100) {
+    freelog(LOG_FATAL, "Forced taxes do not add up in ruleset!");
+    exit(EXIT_FAILURE);
+  }
+
   /* City Parameters */
 
   game.add_to_size_limit =
@@ -3061,6 +3089,16 @@ static void send_ruleset_game(struct conn_list *dest)
   int i;
   struct packet_ruleset_game misc_p;
 
+  misc_p.min_size_elvis = game.rgame.min_size_elvis;
+  misc_p.min_size_taxman = game.rgame.min_size_taxman;
+  misc_p.min_size_scientist = game.rgame.min_size_scientist;
+  misc_p.base_elvis = game.rgame.base_elvis;
+  misc_p.base_scientist = game.rgame.base_scientist;
+  misc_p.base_taxman = game.rgame.base_taxman;
+  misc_p.changable_tax = game.rgame.changable_tax;
+  misc_p.forced_science = game.rgame.forced_science;
+  misc_p.forced_luxury = game.rgame.forced_luxury;
+  misc_p.forced_gold = game.rgame.forced_gold;
   misc_p.min_city_center_food = game.rgame.min_city_center_food;
   misc_p.min_city_center_shield = game.rgame.min_city_center_shield;
   misc_p.min_city_center_trade = game.rgame.min_city_center_trade;

@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
                    "+starter +union +iso_maps +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
-                   "+want_hack invasions bombard +killstack2"
+                   "+want_hack invasions bombard +killstack2 spec"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -115,6 +115,8 @@ const char * const our_capability = our_capability_internal;
  * it's a boolean.
  *
  * "bombard" means units support the bombard ability.
+ * 
+ * "spec" is configurable specialists
  */
 
 void init_our_capability(void)
