@@ -14,5 +14,6 @@
 #define __MESSAGEDLG_H
 
 void popup_messageopt_dialog();
+void popup_messagefilter_dialog(void);
 
 #endif

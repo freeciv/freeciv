@@ -949,6 +949,25 @@ Freeciv*messageoptokcommand.fromVert:       messageoptcdlabel
 
 
 !
+! The message filter dialog
+!
+Freeciv*messagefilterpopup.title:	Message Filter
+
+Freeciv*messagefilterpopup*Label.background:  lightblue
+Freeciv*messagefilterpopup*Label.borderWidth: 0
+Freeciv*messagefilterpopup*Toggle.background: cyan
+Freeciv*messagefilterpopup*Toggle.shapeStyle: ShapeOval
+Freeciv*messagefilterpopup*Toggle.internalHeight: 0
+
+Freeciv*messagefiltercol1.fromVert:  messagefilterlabel
+Freeciv*messagefiltercol2.fromVert:  messagefilterlabel
+Freeciv*messagefiltercol2.fromHoriz: messagefiltercol1
+
+Freeciv*messagefilterlabel.label:     Message Types to Display
+Freeciv*messagefilterokcommand.label: Close
+Freeciv*messagefilterokcommand.fromVert: messagefiltercol1
+
+!
 ! The rates selection dialog
 !
 Freeciv*ratespopup.title:              Rates

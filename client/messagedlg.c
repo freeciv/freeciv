@@ -41,6 +41,37 @@ extern Display	*display;
 
 extern int message_values[E_LAST];
 
+int message_filter[E_LAST]={
+  1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1};
+
+static char *message_text[E_LAST]={
+  "Low Funds                ", 		/* E_LOW_ON_FUNDS */
+  "Pollution                ",
+  "Global Warming           ",
+  "Civil Disorder           ",
+  "City Celebrating         ",
+  "City Normal              ",
+  "City Growth              ",
+  "City Needs Aqueducts     ",
+  "Famine in City           ",
+  "City Captured/Destroyed  ",
+  "Building Unavialable Item",
+  "Wonder Started           ",
+  "Wonder Finished          ",
+  "Improvement Built        ",
+  "New Improvement Selected ",
+  "Forced Improvment Sale   ",
+  "Production Upgraded      ",
+  "Unit Built               ",
+  "Unit Destroyed           ",
+  "Unit Wins Battle         ",
+  "Collapse to Anarchy      ",
+  "Diplomat Actions         ",
+  "Tech from Great Library  ",
+  "Player Destroyed         "};
+
 
 /******************************************************************/
 Widget messageopt_dialog_shell;
@@ -150,4 +181,109 @@ void messageopt_ok_command_callback(Widget w, XtPointer client_data,
   message_values[E_POLLUTION]=b;
   XtVaGetValues(messageopt_cd_toggle, XtNstate, &b, NULL);
   message_values[E_CITY_DISORDER]=b;
+}
+
+/*************************************************************************/
+Widget create_messagefilter_dialog(void);
+void messagefilter_ok_command_callback(Widget w, XtPointer client_data, 
+			               XtPointer call_data);
+static Widget messagefilter_toggles[E_LAST];
+
+/**************************************************************************
+... 
+**************************************************************************/
+void popup_messagefilter_dialog(void)
+{
+  Widget shell;
+
+  shell=create_messagefilter_dialog();
+  
+  xaw_set_relative_position(toplevel, shell, 25, 0);
+  XtPopup(shell, XtGrabNone);
+  XtSetSensitive(main_form, FALSE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+Widget create_messagefilter_dialog(void)
+{
+  Widget shell,form,title,close,col1,col2;
+  Widget label,last_label=0;
+  Widget toggle;
+  int i;
+  
+  shell = XtCreatePopupShell("messagefilterpopup",
+			     transientShellWidgetClass,
+			     toplevel, NULL, 0);
+
+  form = XtVaCreateManagedWidget("messagefilterform", 
+				 formWidgetClass, 
+				 shell, NULL);   
+
+  title = XtVaCreateManagedWidget("messagefilterlabel",
+  				  labelWidgetClass,
+				  form, NULL);
+
+  col1 = XtVaCreateManagedWidget("messagefiltercol1",
+  				 formWidgetClass,
+				 form, NULL);
+
+  col2 = XtVaCreateManagedWidget("messagefiltercol2",
+  				 formWidgetClass,
+				 form, NULL);
+
+  for(i=0;i<E_LAST;i++)  {
+    int top_line = (!i || i==E_LAST/2);
+    label = XtVaCreateManagedWidget("label",
+				    labelWidgetClass,
+				    i<E_LAST/2?col1:col2,
+				    XtNlabel, message_text[i],
+				    top_line?NULL:XtNfromVert, last_label,
+				    NULL);
+    toggle = XtVaCreateManagedWidget("toggle",
+    				     toggleWidgetClass,
+				     i<E_LAST/2?col1:col2,
+				     XtNlabel, message_filter[i]?"Yes":"No ",
+				     XtNstate, message_filter[i],
+				     XtNfromHoriz, label,
+				     top_line?NULL:XtNfromVert, last_label,
+				     NULL);
+    XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
+
+    messagefilter_toggles[i]=toggle;
+    last_label=label; 
+  }
+
+  close = XtVaCreateManagedWidget("messagefilterokcommand",
+  				  commandWidgetClass,
+				  form,
+				  NULL);
+  XtAddCallback(close, XtNcallback, messagefilter_ok_command_callback, 
+                (XtPointer)shell);
+  
+  XtRealizeWidget(shell);
+
+  xaw_horiz_center(title);
+
+  return shell;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void messagefilter_ok_command_callback(Widget w, XtPointer client_data, 
+			               XtPointer call_data)
+{
+  int i;
+  Boolean b;
+  
+  XtSetSensitive(main_form, TRUE);
+
+  for(i=0;i<E_LAST;i++)  {
+    XtVaGetValues(messagefilter_toggles[i], XtNstate, &b, NULL);
+    message_filter[i]=b;
+  }
+
+  XtDestroyWidget((Widget)client_data);
 }

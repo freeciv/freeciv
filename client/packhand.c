@@ -18,6 +18,7 @@
 #include <civclient.h>
 #include <graphics.h>
 #include <menu.h>
+#include <events.h>
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -29,6 +30,7 @@ extern int wakeup_focus;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
+extern int message_filter[E_LAST];
 
 
 /**************************************************************************
@@ -258,8 +260,14 @@ void handle_before_new_year()
 **************************************************************************/
 void handle_chat_msg(struct packet_generic_message *packet)
 {
+  if(packet->event >= E_LAST)  {
+    flog(LOG_NORMAL,"Unknown event type %d!\n", packet->event);
+  } else if(packet->event > E_NOEVENT)  {
+    if(message_filter[packet->event]) add_notify_window(packet);
+    else return;
+  }
+
   append_output_window(packet->message);
-  if (packet->event > -1) add_notify_window(packet);
 }
  
 /**************************************************************************
