@@ -599,6 +599,41 @@ void be_draw_sprite(struct osda *target,
 }
 
 /*************************************************************************
+  Perform 
+     dest_alpha = (dest_alpha * src_alpha)/256
+*************************************************************************/
+void be_multiply_alphas(struct Sprite *dest_sprite,
+			const struct Sprite *src_sprite,
+			const struct ct_point *src_pos)
+{
+  const struct image *src = src_sprite->image;
+  struct image *dest = dest_sprite->image;
+
+  struct ct_point real_src_pos = *src_pos, real_dest_pos = { 0, 0 };
+  struct ct_size real_size = { dest->width, dest->height };
+
+  clip_two_regions(dest_sprite->image, src, &real_size, &real_dest_pos,
+		   &real_src_pos);
+  {
+    int x, y;
+
+    for (y = 0; y < real_size.height; y++) {
+      for (x = 0; x < real_size.width; x++) {
+	unsigned char *psrc = IMAGE_GET_ADDRESS(src, x + real_src_pos.x,
+						y + real_src_pos.y);
+	unsigned char *pdest =
+	    IMAGE_GET_ADDRESS(dest, x + real_dest_pos.x,
+			      y + real_dest_pos.y);
+
+	IMAGE_CHECK(src, x + real_src_pos.x, y + real_src_pos.y);
+	IMAGE_CHECK(dest, x + real_dest_pos.x, y + real_dest_pos.y);
+	pdest[3] = (psrc[3] * pdest[3]) / 256;
+      }
+    }
+  }
+}
+
+/*************************************************************************
   Write an image buffer to file.
 *************************************************************************/
 void be_write_osda_to_file(struct osda *osda, const char *filename)

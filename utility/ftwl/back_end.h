@@ -119,6 +119,9 @@ void be_draw_sprite(struct osda *target,
 		    const struct ct_size *size,
 		    const struct ct_point *dest_pos,
 		    const struct ct_point *src_pos);
+void be_multiply_alphas(struct Sprite *dest_sprite,
+			const struct Sprite *src_sprite,
+			const struct ct_point *src_pos);
 void be_copy_osda_to_osda(struct osda *dest,
 			  struct osda *src,
 			  const struct ct_size *size,

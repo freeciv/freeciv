@@ -116,10 +116,14 @@ struct Sprite *crop_sprite(struct Sprite *source,
 			   struct Sprite *mask, int mask_offset_x,
 			   int mask_offset_y)
 {
+  struct Sprite *result = be_crop_sprite(source, x, y, width, height);
+
   if (mask) {
-    freelog(LOG_ERROR, "mask isn't supported in crop_sprite");
+    struct ct_point pos = { mask_offset_x, mask_offset_y };
+
+    be_multiply_alphas(result, mask, &pos);
   }
-  return be_crop_sprite(source, x, y, width, height);
+  return result;
 }
 
 /**************************************************************************
