@@ -108,20 +108,11 @@ void ai_do_first_activities(struct player *pplayer)
 
 void ai_do_last_activities(struct player *pplayer)
 {
-#ifdef CHRONO
-  int sec, usec;
-  struct timeval tv;
-  gettimeofday(&tv, 0);
-  sec = tv.tv_sec; usec = tv.tv_usec;
-#endif
-  ai_manage_units(pplayer); /* very useful to include this! -- Syela */
+/*  ai_manage_units(pplayer);  very useful to include this! -- Syela */
+/* I finally realized how stupid it was to call manage_units in update_player_ac
+instead of right before it.  Managing units before end-turn reset now. -- Syela */
   calculate_tech_turns(pplayer); /* has to be here thanks to the above */
   ai_manage_cities(pplayer);
-#ifdef CHRONO
-  gettimeofday(&tv, 0);
-  printf("%s's cities consumed %d microseconds.\n", pplayer->name,
-      (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
-#endif
 /* manage cities will establish our tech_wants. */
 /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
 /* printf("Managing %s's taxes.\n", pplayer->name); */
@@ -132,11 +123,6 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_tech(pplayer); 
   ai_after_work(pplayer);
 /* printf("Done with %s.\n", pplayer->name); */
-#ifdef CHRONO
-  gettimeofday(&tv, 0);
-  printf("%s's last_activities consumed %d microseconds.\n", pplayer->name,
-      (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
-#endif
 }
 
 /**************************************************************************
@@ -236,6 +222,7 @@ void ai_manage_taxes(struct player *pplayer)
   int waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  int cities = 0;
   struct packet_unit_request pack;
   struct city *incity; /* stay a while, until the night is over */
   struct unit *visitor; /* stay a while, stay forever */
@@ -244,6 +231,7 @@ void ai_manage_taxes(struct player *pplayer)
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
   pplayer->economic.luxury = 0;
   city_list_iterate(pplayer->cities, pcity) 
+    cities++;
     pcity->ppl_elvis = 0; pcity->ppl_taxman = 0; pcity->ppl_scientist = 0;
     add_adjust_workers(pcity); /* less wasteful than auto_arrange, required */
     city_refresh(pcity);
@@ -254,7 +242,6 @@ void ai_manage_taxes(struct player *pplayer)
       if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
   city_list_iterate_end;
 
-/*  printf("%s has %d trade.\n", pplayer->name, trade); */
   if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
       if (ai_fix_unhappy(pcity))
@@ -313,7 +300,7 @@ void ai_manage_taxes(struct player *pplayer)
     }
     for (i = 0; i <= 10; i++) {
       m = ((n * 100 - pcity->trade_prod * city_tax_bonus(pcity) * i + 1999) / 2000);
-      elvises[i] += waste[m];
+      if (m >= 0) elvises[i] += waste[m];
     }
   city_list_iterate_end;
     
@@ -330,16 +317,15 @@ void ai_manage_taxes(struct player *pplayer)
   m = n; /* storing the lux we really need */
   pplayer->economic.luxury = n * 10; /* temporary */
 
-  if (pplayer->research.researching==A_NONE) {
-    n = 0;
-  } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*    n = ((expense - gnow) * 20 + trade) / trade / 2;   My goof-up.  -- Syela */
-    n = ((expense - gnow) * 20 + (trade<<1) - 1) / (trade<<1);
+  n = ((expense - gnow + cities) * 20 + (trade<<1) - 1) / (trade<<1);
 /* was failing to upkeep buildings during love-in; found, fixed. -- Syela */
-    if (n < 0) n = 0;
-    while (n > 10 - (pplayer->economic.luxury / 10)) n--;
-  } /* in two pieces so we can hhjj below our gold_reserve but not below expense */
+  if (n < 0) n = 0;
+  while (n > 10 - (pplayer->economic.luxury / 10)) n--;
+
+/*printf("%s has %d trade and %d expense.  Min lux = %d, tax = %d\n",
+pplayer->name, trade, expense, m, n);*/
 
   /* want to max the hhjj */
   for (i = m; i <= 10 - n; i++) if (hhjj[i] > hhjj[m]) m = i;
@@ -350,7 +336,7 @@ void ai_manage_taxes(struct player *pplayer)
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*  n = ((ai_gold_reserve(pplayer) - gnow - expense) ... I hate typos. -- Syela */
-    n = ((ai_gold_reserve(pplayer) - gnow + expense) * 20 + (trade<<1) - 1) / (trade<<1);
+    n = ((ai_gold_reserve(pplayer) - gnow + expense + cities) * 20 + (trade<<1) - 1) / (trade<<1);
 /* same bug here as above, caused us not to afford city walls we needed. -- Syela */
     if (n < 0) n = 0; /* shouldn't allow 0 tax? */
     while (n > 10 - (pplayer->economic.luxury / 10)) n--;
