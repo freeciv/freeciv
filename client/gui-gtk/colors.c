@@ -17,6 +17,7 @@
 #include <gdk_imlib.h>
 
 #include "log.h"
+#include "mem.h"
 
 #include "gui_main.h"
 
