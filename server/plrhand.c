@@ -65,7 +65,7 @@ void historian_richest()
     size[i].value=game.players[i].economic.gold;
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i],  
@@ -89,7 +89,7 @@ void historian_advanced()
     size[i].value=game.players[i].score.techs+game.players[i].future_tech;
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
@@ -113,7 +113,7 @@ void historian_military()
     size[i].value=game.players[i].score.units;
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
@@ -139,7 +139,7 @@ void historian_happiest()
       /(1+total_player_citizens(&game.players[i]));
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
@@ -162,7 +162,7 @@ void historian_largest()
     size[i].value=total_player_citizens(&game.players[i]);
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
@@ -200,7 +200,7 @@ void top_five_cities(struct player *pplayer)
       if ((pcity->size+nr_wonders(pcity)*5)>size[4].value) {
 	size[4].value=pcity->size+nr_wonders(pcity)*5;
 	size[4].idx=pcity->id;
-	qsort(size, 5, sizeof(struct player_score_entry), secompare);
+	qsort(size, 5, sizeof(struct player_score_entry), (void *)secompare);
       }
     }
     city_list_iterate_end;
@@ -428,7 +428,7 @@ void show_ending()
     size[i].value=civ_score(&game.players[i]);
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s scored %d points\n",i+1, greatness[i],  

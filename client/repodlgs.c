@@ -925,8 +925,8 @@ void city_report_dialog_update(void)
        the city info strings (in city_list_names) start with the
         city name.
     */
-    qsort(city_list_names_ptrs,i,sizeof(char *),string_ptr_compare);
-    qsort(cities_in_list,i,sizeof(int),city_name_compare);
+    qsort(city_list_names_ptrs,i,sizeof(char *),(void *)string_ptr_compare);
+    qsort(cities_in_list,i,sizeof(int),(void *)city_name_compare);
 
     XawListChange(city_list, city_list_names_ptrs, 0, 0, 1);
 
