@@ -471,8 +471,8 @@ static int assess_danger(struct city *pcity)
 	  vulnerability /= 2;
 	} else {
 	  (void) ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				    (vulnerability * move_rate /
-				     (dist * 2)));
+				    vulnerability * move_rate /
+				    MAX(dist * 2, 1));
 	}
       }
 
@@ -483,11 +483,11 @@ static int assess_danger(struct city *pcity)
       vulnerability *= vulnerability; /* positive feedback */
 
       if (!igwall) {
-        danger[1] += vulnerability * move_rate / dist; /* walls */
+        danger[1] += vulnerability * move_rate / MAX(dist, 1); /* walls */
       } else if (is_sailing_unit(funit)) {
-        danger[2] += vulnerability * move_rate / dist; /* coastal */
+        danger[2] += vulnerability * move_rate / MAX(dist, 1); /* coastal */
       } else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) {
-        danger[3] += vulnerability * move_rate / dist; /* SAM */
+        danger[3] += vulnerability * move_rate / MAX(dist, 1); /* SAM */
       }
       if (unit_flag(funit, F_MISSILE)) {
         /* SDI */
