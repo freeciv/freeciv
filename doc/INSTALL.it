@@ -1,5 +1,5 @@
-Questo file si basa sulla versione cvs-1.20 di INSTALL.
-This file based on cvs-1.20's INSTALL.
+Questo file si basa sulla versione cvs-1.30 di INSTALL.
+This file based on cvs-1.30's INSTALL.
 
 ========================
 COME INSTALLARE Freeciv:
@@ -10,15 +10,14 @@ COME INSTALLARE Freeciv:
        * al termine del documento                           *
        ******************************************************
 
-Questo file spiega come compilare ed installare Freeciv in vari sistemi
-operativi. (Al momento, non state tradotte le sezioni 5 e 6 relative
-all'installazione su Solaris per mancanza di tempo e interesse.
-Verranno tradotte appena possibile. Ndt)
+Questo file spiega come compilare ed installare Freeciv.
 
+Ci sono versioni tradotte del file INSTALL nella directory ./doc, chiamate
+INSTALL.<lingua> (per esempio questo file: INSTALL.it).
 
 
 0. Prerequisiti:
-=================
+================
 
 Freeciv ha i seguenti prerequisiti per l'installazione.
 
@@ -46,6 +45,8 @@ Freeciv ha i seguenti prerequisiti per l'installazione.
    Le versioni instabili e le CVS snapshot non funzionano senza gcc,
    a meno che non usiate l'opzione "--disable-cvs-deps" con il configure.
    Ulteriori informazioni nelle sezioni successive.
+   Nota che ci sono state segnalazioni che gcc con -O3 ha compilato Freeciv
+   male. Nessun problema e' stato segnalato con -O2.
 
  - Un programma "make"
 
@@ -65,13 +66,14 @@ Freeciv ha i seguenti prerequisiti per l'installazione.
 
 
 1. Prerequisiti per il Client:
-=================================
+==============================
 
 Il client puo' apparire in due diverse forme: una utilizzando
 l' "Athena widget library" ("Xaw"), l'altra usando le "Gtk+ widget
 library".  Le due modalita' hanno differenti prerequisiti e sono
 spiegate separatamente. Il vostro sistema deve soddisfare per lo meno
 una dei due elenchi di prerequisiti.
+C'e' anche un client amiga nativo.
 
 Da notare che alcuni sistemi hanno pacchetti separati per la versione
 "runtime" delle librerie e per la versione di sviluppo. (per compilare
@@ -82,7 +84,7 @@ di sviluppo (development) installate correttamente.
 
 
 1a. Prerequisiti per il client Xaw:
-=====================================
+===================================
 
  - X-Windows.
 
@@ -145,7 +147,7 @@ di sviluppo (development) installate correttamente.
 
 
 1b. Prerequisiti per il client Gtk+:
-======================================
+====================================
 
  - Librerie di utility "Glib".
 
@@ -157,7 +159,7 @@ di sviluppo (development) installate correttamente.
    Se il configure di Freeciv vi informa che non sono installate, le potete
    ottenere al seguente link:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.6.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
 
  - Librerie "Gtk+".
 
@@ -170,7 +172,7 @@ di sviluppo (development) installate correttamente.
 
    In mancanza di cio' le potete ottenere al seguente link:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.6.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
 
  - Librerie "Imlib".
 
@@ -181,7 +183,7 @@ di sviluppo (development) installate correttamente.
 
    Le potete ottenere al seguente link:
 
-     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.7.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.10.tar.gz
 
    (La documentazione delle Imlib parlano di ulteriori dipendenze, non
    indispensabili, che permettono funzionalita' aggiuntive. Tali funzionalita'
@@ -361,97 +363,8 @@ in /data/Freeciv nella vostra "app-defaults" directory. (Normalmente e'
 /usr/lib/X11/app-defaults).
 
 
-5. Reinier's Solaris Installation Notes:  (Non tradotte)
-========================================================
-
-Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
-version of make in /usr/ccs/bin/make, and its own compiler (to be purchased
-separately) which, if you have it, is available in /opt/SUNWspro/bin.
-Solaris does not provide the XPM library, which is required for the Xaw
-client; it doesn't provide any of the stuff required for imlib, gdk and gtk,
-either, which is required to build the GTK+ client.  However, with some
-patience, everything can be compiled without problems.
-
-For information on how to install XPM on Solaris, see the next section.
-
-Many Solaris installations also have MIT X (usually, in /usr/X11), GNU make,
-the gcc compiler, and the XPM library installed somewhere.  The standard
-command "./configure && make" may not be able to find your XPM library and
-it is likely to confuse the different versions.
-
-Make sure your environment variables, especially $PATH and $LD_LIBRARY_PATH,
-and the ./configure options do not point to an inconsistent set of software,
-and compiling will be fine.
-
-A simple recipe to compile with Sun X, Sun make and Sun cc, assuming the xpm
-libraries are on their own in the nonstandard location /path/to/xpm:
-
-  % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
-  % unsetenv LD_LIBRARY_PATH
-  % ./configure --with-xpm-prefix=/path/to/xpm
-                --disable-cvs-deps --with-included-gettext
-  % make
-
-The "--disable-cvs-deps" prevents ./configure from creating Makefiles
-specific to GNU make.  The symptoms of this happening are:
-
-  make: Fatal error in reader:
-        Makefile, line 214: = missing from replacement macro reference
-  make: Fatal error: Command failed for target `all-recursive'
-
-Alternatively, you can set up your $PATH and ./configure to use only GNU
-tools.  Furthermore, Freeciv is known to compile with MIT X, and with
-certain combinations of GNU and Sun tools.  The exact recipes depend on your
-local installation.
-
-
-6. Reinier's libXpm Solaris Installation Notes: (Non tradotte)
-==============================================================
-
-When I was root on my Solaris system, I *still* didn't want to install
-third-party software as root.  It's bad practice.
-
-Unfortunately, the libXpm installation procedure assumes installation
-in /usr/openwin, which is owned by root.  But it's not all that hard to
-get around that.
-
-Caveats:
-
- - Make sure /usr/ucb/install is in your $PATH before /usr/bin/install,
-   otherwise 'make install' will break with strange error messages.
-
- - The destination you want to install to can be specified with $DESTDIR;
-   however, installation will actually take place in $DESTDIR/$OPENWINDIR,
-   so the additional $OPENWINDIR subdir must be stripped afterwards
-   (changing the value of $OPENWINHOME doesn't work).
-
-The Procedure:
-
- - Get the source from somewhere, untar it, cd into the source directory,
-   and issue:
-
-     % setenv MYXPMDEST /usr/local   # or wherever you want to install it
-     % xmkmf; make Makefiles includes depend; make
-     % setenv PATH /usr/local/bin:/usr/ucb:$PATH
-     % make DESTDIR=$MYXPMDEST install
-     % make DESTDIR=$MYXPMDEST install.man
-     % cd $MYXPMDEST; mv ./$OPENWINHOME/* .; rm -rf ./$OPENWINHOME
-
-   (If you use sh, bash, ksh, zsh, etc., the "setenv"s above should be:
-     % MYXPMDEST=/usr/local; export MYXPMDEST
-     % PATH=/usr/local/bin:/usr/ucb:$PATH
-   .)
-
- - You can now configure Freeciv with
-
-     % ./configure --with-xpm-prefix=$MYXPMDEST
-
-   which will add the proper -I/-L/-R options to the compile and link
-   commands.
-
-
-7. Native Language Support (NLS):
-===========================================
+5. Native Language Support (NLS):
+=================================
 
 Freeciv utilizza il sistema "gettext" per il "Native Language Support".
 (Sistema che permette di creare programmi in versione multilingua; se
@@ -468,7 +381,7 @@ ci possono essere modi per aggirare l'ostacolo; puoi provare con:
       % make
 
 2. Se desiderate il "Native Language Support", provate la versione di gettext
-   inclusa con Freeciv indicando il parametro "--with-included-gettext" nel
+   inclusa con Freeciv indicando il parametro "--with-included-gettext" del
    comando ./configure:
 
       % ./configure --with-included-gettext
@@ -477,8 +390,203 @@ ci possono essere modi per aggirare l'ostacolo; puoi provare con:
 3. In ultimo provate ad installare l'ultima versione di GNU gettext.
    La potete ottenere al seguente link:
 
-      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
+      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.38.tar.gz
 
+
+6. Supporto per readline:
+=========================
+
+Freeciv ha un supporto opzionale per la libreria readline.
+
+Il supporto per readline e' cio' che fa si' che la line di comando si comporti
+in modo intelligente, rendendo possibile:
+ - Usare il tasto backspace.
+ - Usare il cursore per muoversi avanti ed indietro sulla linea che hai
+   scritto.
+ - Usare TAB per completare i comandi e gli argomenti dei comandi. Cioe'
+   quando premi tab il server completa per te la parola se c'e' solo una
+   possibile scelta.
+ - Usare freecia su e giu per scorrere la lista dei comandi immessi in
+   precedenza.
+ - ecc.
+
+Lo script configure controlla se hai la libreria readline installata
+correttamente. In questo caso impostera' automaticamente i makefile in modo
+che readline sia compilata nel server. Altrimenti semplicemente configurera'
+silenziosamente senza il supporto per readline.
+E' necessaria readline versione >= 4.2.
+Puoi forzare configure ad includere readline o morire provando passando a
+configure l'opzione --with-readline:
+
+ % ./configure --with-readline
+
+Alcune distribuzioni di linux (e forse di altri sistemi operativi) hanno
+readline versione 4 installata non correttamente, quindi readline non e'
+impostata per dichiarare le proprie dipendenze dinamiche. In questo caso
+configure provera' ad indovinare di quali librerie in piu' deve fare il
+linking e le aggiungera'.
+Lo script configure mostrera' un messaggio di warning se deve aggiungere
+librerie in piu' per far funzionare readline. Questo dovrebbe essere innocuo,
+e' solo inteso come una nota per le persone che distribuiscono readline. :)
+
+E' possibile far funzionare Freeciv con versioni di readline precedenti
+alla 4.2 (ma non con la 4.2). Per farlo si deve sostituire
+"rl_filename_completion_function" con "filename_completion_function" e
+"rl_completion_matches" con "completion_matches" in configure.in e
+server/stdinhand.c e rimuovere l'attibuto const dal primo argomento di
+server/stdinhand.c:freeciv_completion(). Poi eseguire autoconf e ricompilare.
+
+
+7. Note di Reinier per l'installazione su Solaris:
+==================================================
+
+Solaris (2.5 e superiore) ha la propria versione di X in /usr/openwin, la
+propria versione di make in /usr/ccs/bin/make e il proprio compilatore (da
+comprare separatamente) che, se presente, e' disponibile in /opt/SUNWspro/bin.
+Solaris non dispone della libreria XPM, che e' necessaria per il client Xaw;
+non dispone neanche di nulla di cio' che e' richiesto per imlib, gdk e gtk,
+necessari per compilare il client GTK+.  Comunque, con un po' di pazienza, si
+puo' compilare tutto senza problemi.
+
+Per informazioni su come installare XPM su Solaris, vedere la sezione
+successiva.
+
+Molte installazioni di Solaris hanno anche X MIT (in genere in /usr/X11), make
+GNU, il compilatore gcc e la libreria XPM installati da qualche parte.
+Il comando standard "./configure && make" puo' non essere in grado di trovare
+la vostra libreria XPM e probabilmente confondera' le diverse versioni.
+
+Accertatevi che le variabili d'ambiente, soprattutto $PATH e $LD_LIBRARY_PATH,
+e le opzioni di ./configure non puntino ad un insieme di programmi
+inconsistente e la compilazione andra' a buon fine.
+
+Un modo semplice per compilare con X Sun, make Sun e cc Sun, supponendo che le
+librerie xpm siano gia' nella posizione non standard /percorso/di/xpm:
+
+  % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
+  % unsetenv LD_LIBRARY_PATH
+  % ./configure --with-xpm-prefix=/path/to/xpm
+                --disable-cvs-deps --with-included-gettext
+  % make
+
+L'argomento "--disable-cvs-deps" impedisce a ./configure di creare dei
+Makefile specifici per make GNU.  I sintomi che questo sta avvenendo sono:
+
+  make: Fatal error in reader:
+        Makefile, line 214: = missing from replacement macro reference
+  make: Fatal error: Command failed for target `all-recursive'
+
+Altrimenti si puo' impostare il $PATH e far usare a ./configure solo i tool
+GNU.  Inoltre Freeciv puo' essere compilato con X MIT e con alcune
+combinazioni di tool GNU e Sun.  Il modo esatto dipende dalla vostra
+particolare installazione.
+
+
+8. Note di Reinier per l'installazione di libXpm su Solaris:
+============================================================
+
+Quando ero root sul mio sistema Solaris, non volevo *lo stesso* installare
+programmi di terze parti come root.  E' una cattiva abitudine.
+
+Sfortunatamente la procedura di installazione di libXpm presuppone
+un'installazione in /usr/openwin, che e di proprieta' del root.  Ma non e' poi
+cosi' difficile aggirare questo ostacolo.
+
+Avvertimenti:
+
+ - assicurarsi che /usr/ucb/install sia nel $PATH prima di /usr/bin/install,
+   altrimenti 'make install' si interrompera' con strani messaggi d'errore;
+
+ - la destinazione in cui si vuole installare puo' essere scelta con $DESTDIR;
+   comunque l'installazione avverra' in effetti in $DESTDIR/$OPENWINDIR,
+   quindi la sottodirectory aggiuntiva $OPENWINDIR deve essere eliminata in
+   seguito (cambiare il valore di $OPENWINHOME non funziona).
+
+La Procedura:
+
+ - dopo aver ottenuto i sorgenti da qualche parte, scompattarli, entrare nella
+   directory ed eseguire:
+
+     % setenv DESTINAZIONEPERXPM /usr/local   # o dove la si vuole installare
+     % xmkmf; make Makefiles includes depend; make
+     % setenv PATH /usr/local/bin:/usr/ucb:$PATH
+     % make DESTDIR=$DESTINAZIONEPERXPM install
+     % make DESTDIR=$DESTINAZIONEPERXPM install.man
+     % cd $DESTINAZIONEPERXPM; mv ./$OPENWINHOME/* .; rm -rf ./$OPENWINHOME
+
+   (se si usa sh, bash, ksh, zsh, ecc., i "setenv" sopra dovrebbero essere:
+     % DESTINAZIONEPERXPM=/usr/local; export DESTINAZIONEPERXPM
+     % PATH=/usr/local/bin:/usr/ucb:$PATH
+   );
+
+ - ora si puo' configurare Freeciv con:
+
+     % ./configure --with-xpm-prefix=$DESTINAZIONEPERXPM
+
+   che aggiungera' le opzioni -I/-L/-R appropiate ai comandi di compilazione e
+   link.
+
+
+9. Note su Mac OS X e Darwin:
+=============================
+
+La versione di GCC della Apple usa dei file di intestazione precompilati che
+non supportano le macro vararg (una estensione GCC).  Questo fa si' che GCC
+fallisca la compilazione di Freeciv, perche' il compilatore e' per il resto
+(per lo piu') indistinguibile dal GCC classico.  Quindi invece del solito:
+
+  % ./configure <...>
+
+si dovrebbe usare o:
+
+ shell Bourne:
+   $ CC="gcc -no-cpp-precomp" ./configure <...>
+
+oppure:
+
+ shell C:
+   % env CC="gcc -no-cpp-precomp" ./configure <...>
+
+a seconda che si usi una shell variante Bourne o C (se in dubbio, basta
+provarli entrambi e vedere quale dei due funziona).
+
+Si puo' sostituire <...> con qualsiasi argomento aggiuntivo si voglia passare
+a configure.
+
+
+10. Note su Debian GNU/Linux:
+=============================
+
+Per compilare Freeciv su un sistema debian c'e' bisogno dei seguenti
+pacchetti:
+
+ Requisiti comuni:
+   gcc
+   libc6-dev
+   libreadline4-dev >= 4.2 (opzionale, vedere la sezione su readline)
+   zlib1g-dev
+   xlib6g-dev
+
+ Per il client gtk:
+   gdk-imlib-dev
+   libglib1.2-dev
+   libgtk1.2-dev
+   imlib-progs
+
+ Per il client xaw:
+   xaw3dg-dev
+   libxpm4-dev
+
+Se si vuole compilare il client xaw, si dovrebbe passare a configure
+l'argomento --with-xaw3d, cioe':
+
+  % ./configure --with-xaw3d
+
+Se c'e' bisogno di eseguire aclocal (se non sapete cosa sia aclocal, allora
+non ne avete bisogno) bisogna anche installare imlib-dev per avere la macro
+AM_PATH_GDK_IMLIB. E' un bug della debian che questa macro non sia presente
+in gdk-imlib-dev e sara' auspicabilmente aggiustato in future versioni della
+debian.
 
 ===========================================================================
 Note per la traduzione in Italiano:
@@ -492,9 +600,9 @@ slug-freeciv@siena.linux.it
 
 o consultate l'indirizzo web:
 
-http://freeciv.siena.linux.it
+http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================
 
-** END **
+** FINE **

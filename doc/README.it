@@ -1,8 +1,8 @@
-Questo file si basa sulla versione cvs-1.37 di README.
-This file based on cvs-1.37's README.
+Questo file si basa sulla versione cvs-1.38 di README.
+This file based on cvs-1.38's README.
 
 =====================
-Freeciv Versione 1.11
+Freeciv Versione 1.12
 =====================
 
        ******************************************************
@@ -12,8 +12,8 @@ Freeciv Versione 1.11
 
 Benvenuto in  Freeciv!
 
-Questo pacchetto contiene Freeciv, un clone libero di Civilization pregettato
-per Unix.
+Questo pacchetto contiene Freeciv, un clone libero di Civilization progettato
+principalmente per X sotto Unix.
 Supporta la modalita' multiplayer in locale o su una rete, e una IA
 (Intelligenza Artificiale) che da' del filo da torcere a molti giocatori.
 
@@ -25,9 +25,9 @@ le partite con una montagna di parametri.
 Freeciv e' stato creato in modo del tutto indipendente da Civilization; non
 siete obbligati a possedere Civilization per giocare a Freeciv.
 
-In effetti la grafica non e' curata come quella di  Civilization II, ma le
-regole sono molto complete e il codice per il multiplayer e il gioco in rete e'
-eccellente.
+Anche se non abbiamo ancora il sopporto per il suono ed i giocatori IA non
+possono ancora negoziare, le regole sono molto complete ed il nostro codice
+per il multiplayer ed il gioco in rete e' eccellente.
 
 (Questo file e' la traduzione in italiano del'originale. Per eventuali errori e
 correzioni scrivete a: slug-freeciv@siena.linux.it Ndt)
@@ -157,18 +157,27 @@ Client:
   Un'altra opzione del client che potreste voler provare e' '--tiles',
   che puo' essere usata per scegliere diversi "tileset" (cioe' differenti
   temi per il terreno della mappa, le unita' e cosi' via). La distribuzione
-  include 2 tileset principali, "trident" e "engels", e due variantis,
-  "trident_shields" e "engels_shields". In questa versione "trident" e'
-  quello predefinito (mentre in alcune versioni precedenti era "engels").
-  I due tilest principali hanno stili grafici abbastanza diversi; potreste
-  preferire l'uno o l'altro.  Le varianti "_shields" usano una bandiera
-  "a scudo", che e' piu' piccola. Le componenti di "trident" sono piu' piccole,
-  quindi potrebbero essere piu' adatte usate la bassa risoluzione. Ma provatele
-  entrambe e decidete voi.Per usare il tileset engels eseguite il client cosi':
 
-  |  % civclient --tiles engels
+  include 3 tileset principali:
+  - hires: grafica isometrica come quella in civ2 (non supportata dal client
+    xaw).
+  - trident: grafica in stile civ1 con quadranti 30x30.
+  - engels: grafica in stile civ1 con quadranti 45x45.
+  I tileset trident ed engels hanno delle varianti chiamate "trident_shields"
+  ed "engels_shields".
+  In questa versione il tileset hires e' quello predefinito nei client gtk e
+  amiga, mentre il client xaw ha il trident come predefinito (in alcune
+  versioni precedenti era engels).
+  I tileset hanno stili grafici abbastanza diversi; potreste preferire l'uno o
+  l'altro.  Le varianti "_shields" usano una bandiera "a scudo", che e' piu'
+  piccola. Le componenti di "trident" sono piu' piccole, quindi potrebbero
+  essere piu' adatte usate la bassa risoluzione. Ma provatele entrambe e
+  decidete voi -- p.e. per usare il tileset trident eseguite il client con:
+
+  |  % civclient --tiles trident
 
   Altri tilesets potrebbero essere disponibili sul sito ftp.
+
 
   I client possono essere autorizzati a invocare comandi del server. Per
   permettere che usino solo comandi informativi, scrivete al prompt del server:
@@ -357,14 +366,6 @@ che il giocatore usi lo stesso nome che aveva prima, se vuole essere ammesso.
 Il gioco puo' quindi essere riavviato con il comando 'start', come al solito.
 
 
-Autoavvio del Server:
-=====================
-
-Quando il massimo numero di giocatori si e' connesso, il server si avvia in
-automatico. Il massimo numero di giocatori ammessi puo' essere impostato con
-l'opzione 'maxplayers'.
-
-
 Supporto per lingue locali:
 ===========================
 
@@ -502,9 +503,9 @@ Per mandare una e-mail alle liste indirizzatela a:
 Nuove versioni:
 ===============
 
-Rilasciamo una nuova release stabile di Freeciv ogni tre mesi circa.
-Controllate il sito di Freeciv di tanto in tanto per vedere se c'e' una nuova
-versione!!
+Speriamo di rilasciare una nuova versione stabile di Freeciv ogni quattro mesi
+circa.  Controllate il sito di Freeciv di tanto in tanto per vedere se c'e'
+una nuova versione!!
 
 
 E per finire:
@@ -527,7 +528,7 @@ slug-freeciv@siena.linux.it
 
 o consultate l'indirizzo web:
 
-http://freeciv.siena.linux.it
+http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================

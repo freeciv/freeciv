@@ -1,5 +1,5 @@
-Questo file si basa sulla versione cvs-1.9 di HOWTOPLAY.
-This file based on cvs-1.9's HOWTOPLAY.
+Questo file si basa sulla versione cvs-1.10 di HOWTOPLAY.
+This file based on cvs-1.10's HOWTOPLAY.
 
 ======================
 Come giocare a Freeciv
@@ -70,10 +70,10 @@ piu' velocemente vinci. Dopo che hai costruito tante citta' quante il tuo
 angolo di mondo puo' contenerne, usa i coloni per costruire strade e
 irrigazioni.
 
-(Nota: se la produzione di cibo in una citta' scende a +1 perche' mantiene
-troppi coloni, e non puoi riorganizzare la popolazione per aumentarla, allora
-inizia a costruire un tempio. A meno che non prendi contatto con un altro
-giocatore, non ti preoccupare di costruire gia' unita' militari.)
+(Nota: se il surplus di cibo in una citta' scende a +1 perche' mantiene troppi
+coloni, e non puoi riorganizzare la popolazione per aumentarla, allora inizia
+a costruire un tempio. A meno che non prendi contatto con un altro giocatore,
+non ti preoccupare di costruire gia' unita' militari.)
 
         Per tutto questo tempo hai ricercato nuove tecnologie il piu'
 velocemente possibile. Cio' su cui devi puntare per prima e' la "Repubblica",
@@ -195,10 +195,10 @@ considerarne una di 100x100.
 D. Cos'e' questa opzione "generator"?
 
         Questa opzione modifica il processo di creazione della mappa; se
-giochi alcune volte a Freeciv senza questa impostazione, sicuramente sentirai
-(o farai personalmente esperienza) degli orrori di una piccola isola. La
-Sindrome della Piccola Isola (in inglese TIS, Tiny Island Syndrome, Ndt) puo'
-rendere le persone folli. Per impedire cio' i nostri amati e premurosi
+giochi alcune volte a Freeciv senza cambiare questa impostazione, sicuramente
+sentirai (o farai personalmente esperienza) degli orrori di una piccola isola.
+La Sindrome della Piccola Isola (in inglese TIS, Tiny Island Syndrome, Ndt)
+puo' rendere le persone folli. Per impedire cio' i nostri amati e premurosi
 programmatori hanno installato l'opzione generator. Quando e' impostato ad 1,
 da' la mappa normale con isole di dimensioni diverse (e a volte ingiuste). Ma
 quando e' impostata a 2, 3 o 4, genera isole delle stesse dimensioni (a volte
@@ -245,9 +245,9 @@ Cercala nella guida in linea. Mostra le tecnologie di cui hai bisogno prima.
 In alternativa puoi scaricare il grafico "techtree" di David Pfitzner da
         http://msowww.anu.edu.au/~dwp/freeciv/
 
-
-        Oppure puoi leggere il sorgente in common/tech.c che elenca tutte le
-tecnologie e quali tecnologie sono necessarie per ottenerle.
+        Oppure puoi leggere l'insieme di regole per le tecnologie nel file
+'data/default/techs.ruleset' che elenca tutte le tecnologie e quali tecnologie
+sono necessarie per ottenerle.
 
 
 D. Quali sono le unita' militari piu' utili?
@@ -278,7 +278,7 @@ slug-freeciv@siena.linux.it
 
 o consultate l'indirizzo web:
 
-http://freeciv.siena.linux.it
+http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================
