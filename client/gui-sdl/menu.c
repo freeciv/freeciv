@@ -64,7 +64,8 @@ static struct GUI *pOrder_Mine_Button;
 static struct GUI *pOrder_Irrigation_Button;
 static struct GUI *pOrder_Road_Button;
 static struct GUI *pOrder_Transform_Button;
-
+static struct GUI *pOrder_Trade_Button;
+  
 #define local_show(ID)                                                \
   clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID ), \
 	      WF_HIDDEN)
@@ -645,6 +646,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_r;
+  pOrder_Trade_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_TRADEROUTE, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
@@ -823,6 +825,7 @@ void update_menus(void)
     pUnit = get_unit_in_focus();
 
     if (pUnit && !pUnit->ai.control) {
+      struct city *pHomecity;
       int time;
       struct tile *pTile = map_get_tile(pUnit->x, pUnit->y);
       enum tile_terrain_type terrain = pTile->terrain;
@@ -877,11 +880,29 @@ void update_menus(void)
       } else {
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
       }
-
-      if (unit_can_est_traderoute_here(pUnit)) {
-	local_show(ID_UNIT_ORDER_TRADEROUTE);
+      
+	/* unit_can_est_traderoute_here(pUnit) */
+      if (pTile->city && unit_flag(pUnit, F_TRADE_ROUTE)
+        && (pHomecity = find_city_by_id(pUnit->homecity))
+	&& can_cities_trade(pHomecity, pTile->city)) {
+	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pTile->city);
+	
+        if (can_establish_trade_route(pHomecity, pTile->city)) {
+          my_snprintf(cBuf, sizeof(cBuf),
+      		_("Form Traderoute with %s ( %d R&G + %d trade ) (R)"),
+      		pHomecity->name, revenue,
+      			trade_between_cities(pHomecity, pTile->city));
+	} else {
+          revenue = (revenue + 2) / 3;
+          my_snprintf(cBuf, sizeof(cBuf),
+		_("Trade with %s ( %d R&G bonus ) (R)"), pHomecity->name, revenue);
+        }
+	
+	FREE(pOrder_Trade_Button->string16->text);
+	pOrder_Trade_Button->string16->text = convert_to_utf16(cBuf);
+	clear_wflag(pOrder_Trade_Button, WF_HIDDEN);
       } else {
-	local_hide(ID_UNIT_ORDER_TRADEROUTE);
+	set_wflag(pOrder_Trade_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
@@ -899,7 +920,15 @@ void update_menus(void)
 	  pOrder_Irrigation_Button->string16->text = convert_to_utf16(cBuf);
 	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
 	  break;
-	  
+	case T_SWAMP:
+	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
+			_("Irrigate to"),
+			tile_types[tile_types[terrain].irrigation_result
+				].terrain_name
+			," (I)", time , PL_("turn", "turns", time));
+	  pOrder_Irrigation_Button->string16->text = convert_to_utf16(cBuf);
+	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
+	  break;
 	  /* set Irrigation Icon */
 	default:
 	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
@@ -909,12 +938,11 @@ void update_menus(void)
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
 	  break;
 	}
-
-	/*show( ID_UNIT_ORDER_MINE ); */
+	
 	clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
 	
       } else {
-	local_hide(ID_UNIT_ORDER_IRRIGATE);
+	set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
@@ -1019,7 +1047,8 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (can_unit_change_homecity(pUnit) && pTile->city->id != pUnit->homecity) {
+      if (pTile->city && can_unit_change_homecity(pUnit)
+	&& pTile->city->id != pUnit->homecity) {
 	local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
 	local_hide(ID_UNIT_ORDER_HOMECITY);
