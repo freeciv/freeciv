@@ -5,6 +5,7 @@ EXTRA_DIST =			\
 	BUGS			\
 	CodingStyle		\
 	HACKING			\
+	INSTALL.Cygwin		\
 	HOWTOPLAY		\
 	PEOPLE			\
 	README.AI		\
