@@ -273,6 +273,8 @@ static void ai_manage_taxes(struct player *pplayer)
       if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
   city_list_iterate_end;
 
+  pplayer->ai.est_upkeep = expense;
+
   if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
       if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))

@@ -370,7 +370,8 @@ static void ai_new_spend_gold(struct player *pplayer)
                   pcity->shield_stock + pcity->shield_surplus, 0);
       }
 #endif
-      else if (pplayer->economic.gold >= buycost && (!frugal || bestchoice.want > 200)) {
+      else if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost
+	      && (!frugal || bestchoice.want > 200)) {
 	if (ai_fuzzy(pplayer,1) || (pcity->ai.grave_danger
 				    && !assess_defense(pcity))) {
 	  really_handle_city_buy(pplayer, pcity); /* adequately tested now */
@@ -384,7 +385,7 @@ static void ai_new_spend_gold(struct player *pplayer)
         if (bestchoice.type && !unit_flag(bestchoice.choice, F_NONMIL)) {
           if (pcity->ai.grave_danger && !assess_defense(pcity)) { /* oh dear */
             try_to_sell_stuff(pplayer, pcity);
-            if (pplayer->economic.gold >= buycost) /* Phew! */
+            if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost)
               really_handle_city_buy(pplayer, pcity);
 /* don't need to waste gold here, but may as well spend our production */
             else pcity->currently_building = ai_choose_defender_limited(pcity,

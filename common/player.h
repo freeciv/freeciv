@@ -85,6 +85,7 @@ struct player_ai {
   int tech_goal;
   int prev_gold;
   int maxbuycost;
+  int est_upkeep; /* estimated upkeep of buildings in cities */
   int tech_want[A_LAST+1];
   int tech_turns[A_LAST+1]; /* saves zillions of calculations! */
   int handicap;			/* sum of enum handicap_type */
