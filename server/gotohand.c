@@ -167,8 +167,6 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   int x, y, move_cost, dir, x1, y1;
   int orig_x, orig_y;
   int igter;
-  static const int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  static const int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   struct tile *ptile;
   struct player *pplayer;
@@ -206,8 +204,8 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
     warnodes++;
     ptile = map_get_tile(x, y);
     for (dir = 0; dir < 8; dir++) {
-      x1 = x + ii[dir];
-      y1 = y + jj[dir];
+      x1 = x + DIR_DX[dir];
+      y1 = y + DIR_DY[dir];
       if (!normalize_map_pos(&x1, &y1))
 	continue;
 
@@ -345,7 +343,7 @@ static void init_gotomap(int orig_x, int orig_y, enum unit_move_type move_type)
 /**************************************************************************
 Returns false if you are going the in opposite direction of the destination.
 The 3 directions most opposite the one to the target is considered wrong.
-"dir" is the direction you get if you use x = ii[dir], y = jj[dir]
+"dir" is the direction you get if you use x = DIR_DX[dir], y = DIR_DY[dir]
 **************************************************************************/
 static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
 {
@@ -396,7 +394,7 @@ static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
 
 /**************************************************************************
 Return the direction that takes us most directly to dest_x,dest_y.
-The direction is a value for use in ii[] and jj[] arrays.
+The direction is a value for use in DIR_DX[] and DIR_DY[] arrays.
 
 FIXME: This is a bit crude; this only gives one correct path, but sometimes
        there can be more than one straight path (fx going NW then W is the
@@ -464,15 +462,13 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
     return 0;
 
   {
-    static const int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-    static const int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
     int dir;
     int x, y;
     int owner = punit->owner;
 
     for (dir = 0; dir < 8; dir++) {
-      x = map_adjust_x(src_x + ii[dir]);
-      y = map_adjust_y(src_y + jj[dir]);
+      x = map_adjust_x(src_x + DIR_DX[dir]);
+      y = map_adjust_y(src_y + DIR_DY[dir]);
 
       if (!dir_ok(dest_x, dest_y, punit->goto_dest_x, punit->goto_dest_y, dir))
 	continue;
@@ -546,8 +542,6 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 				  enum goto_move_restriction restriction)
 {
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
-  static const int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  static const int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int igter, x, y, x1, y1, dir;
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
@@ -605,8 +599,8 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
       /* if the direction is N, S, E or W d[dir][1] is the /0 character... */
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1]) continue;
 
-      x1 = x + ii[dir];
-      y1 = y + jj[dir];
+      x1 = x + DIR_DX[dir];
+      y1 = y + DIR_DY[dir];
       if (!normalize_map_pos(&x1, &y1))
 	continue;
       
@@ -827,8 +821,8 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 	continue;
 
       if (local_vector[x][y] & (1<<dir)) {
-	x1 = x + ii[dir];
-	y1 = y + jj[dir];
+	x1 = x + DIR_DX[dir];
+	y1 = y + DIR_DY[dir];
 	if (!normalize_map_pos(&x1, &y1))
 	  continue;
 
@@ -850,7 +844,7 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 /**************************************************************************
 This is used to choose among the valid directions marked on the warmap by
 the find_the_shortest_path() function.
-Returns a direction as used in ii[] and jj[] arrays, or -1 if none could be
+Returns a direction as used in DIR_DX[] and DIR_DY[] arrays, or -1 if none could be
 found.
 
 This function does not check for loops, which we currently rely on
@@ -864,8 +858,6 @@ static int find_a_direction(struct unit *punit,
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
   char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
-  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   struct tile *ptile, *adjtile;
   int nearland;
   struct city *pcity;
@@ -881,8 +873,8 @@ static int find_a_direction(struct unit *punit,
   for (k = 0; k < 8; k++) {
     if (warmap.vector[punit->x][punit->y]&(1<<k)
 	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY && dir[k][1])) {
-      x = map_adjust_x(punit->x + ii[k]);
-      y = map_adjust_y(punit->y + jj[k]);
+      x = map_adjust_x(punit->x + DIR_DX[k]);
+      y = map_adjust_y(punit->y + DIR_DY[k]);
       if (x == dest_x && y == dest_y)
 	return k;
     }
@@ -896,7 +888,7 @@ static int find_a_direction(struct unit *punit,
         c = map_get_tile(punit->x, punit->y)->move_cost[k];
       else c = 3;
       if (unit_flag(punit->type, F_IGTER) && c) c = 1;
-      x = map_adjust_x(punit->x + ii[k]); y = map_adjust_y(punit->y + jj[k]);
+      x = map_adjust_x(punit->x + DIR_DX[k]); y = map_adjust_y(punit->y + DIR_DY[k]);
       if (passenger) {
 	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
 		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
@@ -934,7 +926,7 @@ static int find_a_direction(struct unit *punit,
       nearland = 0;
       if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) nearland++;
       for (n = 0; n < 8; n++) {
-        adjtile = map_get_tile(x + ii[n], y + jj[n]);
+        adjtile = map_get_tile(x + DIR_DX[n], y + DIR_DY[n]);
         if (adjtile->terrain != T_OCEAN) nearland++;
         if (!((adjtile->known)&(1u<<punit->owner))) {
           if (punit->moves_left <= c) d[k] -= (d[k]/16); /* Avoid the unknown */
@@ -957,7 +949,7 @@ static int find_a_direction(struct unit *punit,
         else if (punit->moves_left == 6) {
           for (n = 0; n < 8; n++) {
             if ((warmap.vector[x][y]&(1<<n))) {
-              if (is_coastline(x + ii[n], y + jj[n])) nearland++;
+              if (is_coastline(x + DIR_DX[n], y + DIR_DY[n])) nearland++;
             }
           }
           if (!nearland) d[k] = 1;
@@ -991,8 +983,6 @@ Basic checks as to whether a GOTO is possible.
 **************************************************************************/
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni)
 {  
-  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int k, possible = 0;
   if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) && 
@@ -1001,7 +991,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
       if (ground_unit_transporter_capacity(x, y, pplayer->player_no) > 0) {
         for (k = 0; k < 8; k++) {
           if (map_get_continent(punit->x, punit->y) ==
-              map_get_continent(x + ii[k], y + jj[k]))
+              map_get_continent(x + DIR_DX[k], y + DIR_DY[k]))
             possible++;
         }
       }
@@ -1011,7 +1001,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
          possible++;
       else {
         for (k = 0; k < 8; k++) {
-          if (map_get_continent(punit->x + ii[k], punit->y + jj[k]) ==
+          if (map_get_continent(punit->x + DIR_DX[k], punit->y + DIR_DY[k]) ==
               map_get_continent(x, y))
             possible++;
         }
@@ -1043,8 +1033,6 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
 		  enum goto_move_restriction restriction)
 {
   int x, y, dir;
-  static const int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  static const int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
   struct unit *penemy = NULL;
@@ -1094,8 +1082,8 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
       }
 
       freelog(LOG_DEBUG, "Going %s", d[dir]);
-      x = map_adjust_x(punit->x + ii[dir]);
-      y = punit->y + jj[dir]; /* no need to adjust this */
+      x = map_adjust_x(punit->x + DIR_DX[dir]);
+      y = punit->y + DIR_DY[dir]; /* no need to adjust this */
       penemy = is_enemy_unit_tile(map_get_tile(x, y), punit->owner);
 
       if (!punit->moves_left)
@@ -1533,8 +1521,6 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
  TRYFULL:
   freelog(LOG_DEBUG, "didn't work. Lets try full");
   {
-    static const int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-    static const int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
     int x1, y1, dir;
     struct unit *penemy;
 
@@ -1548,8 +1534,8 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
       warnodes++;
 
       for (dir = 0; dir < 8; dir++) {
-	y1 = y + jj[dir];
-	x1 = x + ii[dir];
+	x1 = x + DIR_DX[dir];
+	y1 = y + DIR_DY[dir];
 	if (!normalize_map_pos(&x1, &y1))
 	  continue;
 	if (warmap.cost[x1][y1] <= warmap.cost[x][y])

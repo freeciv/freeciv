@@ -182,9 +182,6 @@ void reset_move_costs(int x, int y);
 #define map_inx(x,y) \
   ((x)+(y)*map.xsize)
 
-void map_calc_adjacent_xy(int x, int y, int *xx, int *yy);
-void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy);
-
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
@@ -329,6 +326,21 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
+/*
+using
+x1 = x + DIR_DX[dir];
+y1 = y + DIR_DX[dir];
+will give you the tile as shown below.
+-------
+|0|1|2|
+|-+-+-|
+|3| |4|
+|-+-+-|
+|5|6|7|
+-------
+ */
+static const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+static const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

@@ -62,8 +62,6 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
 static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 {
   /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
-  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int ax, ay, k;
   int owner=myunit->owner;
 
@@ -76,8 +74,8 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
     return 0;
 
   for (k = 0; k < 8; k++) {
-    ax = map_adjust_x(myunit->x + ii[k]);
-    ay = map_adjust_y(myunit->y + jj[k]);
+    ax = map_adjust_x(myunit->x + DIR_DX[k]);
+    ay = map_adjust_y(myunit->y + DIR_DY[k]);
     
     if (map_get_terrain(ax,ay)!=T_OCEAN
 	&& is_non_allied_unit_tile(map_get_tile(ax,ay),owner))
@@ -201,15 +199,22 @@ int unit_move_turns(struct unit *punit, int x, int y)
 **************************************************************************/
 static int tile_is_accessible(struct unit *punit, int x, int y)
 {
-  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-  int k;
+  int dir, x1, y1;
   
   if (unit_really_ignores_zoc(punit))  return 1;
   if (is_my_zoc(punit, x, y))          return 1;
-  for (k = 0; k < 8; k++)
-    if (map_get_terrain(x+ii[k], y+jj[k]) != T_OCEAN
-	&& is_my_zoc(punit, x + ii[k], y + jj[k]))  return 1;
+
+  for (dir = 0; dir < 8; dir++) {
+    x1 = x + DIR_DX[dir];
+    y1 = y + DIR_DY[dir];
+    if (!normalize_map_pos(&x1, &y1))
+      continue;
+
+    if (map_get_terrain(x1, y1) != T_OCEAN
+	&& is_my_zoc(punit, x1, y1))
+      return 1;
+  }
+
   return 0;
 }
  
@@ -562,6 +567,9 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
 }
 #endif
 
+/*************************************************************************
+...
+**************************************************************************/
 static int is_my_turn(struct unit *punit, struct unit *pdef)
 {
   int val = unit_belligerence_primitive(punit), i, j, cur, d;
@@ -592,15 +600,13 @@ explore. It prefers tiles in the following order:
 3. Enemy units weaker than the unit
 4. Land barbarians also like unfrastructure tiles (for later pillage)
 If none of the following is there, nothing is chosen.
-**************************************************************************/
 
-/* work of Syela - mostly to fix the ZOC/goto strangeness */
+work of Syela - mostly to fix the ZOC/goto strangeness
+**************************************************************************/
 static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
 				  int *dest_x, int *dest_y)
 {
-  int xx[3], yy[3], x, y, x1, y1, k;
-  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int x, y, x1, y1, k;
   int best = 0, a, b, c, d, e, f;
   struct unit *pdef;
   struct unit *patt;
@@ -619,11 +625,12 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
     unit_list_iterate_end;
   } /* ferryboats do not attack.  no. -- Syela */
 
-  map_calc_adjacent_xy(x, y, xx, yy);
-
   for (k = 0; k < 8; k++) {
-    x1 = xx[ii[k]];
-    y1 = yy[jj[k]];
+    x1 = x + DIR_DX[k];
+    y1 = y + DIR_DY[k];
+    if (!normalize_map_pos(&x1, &y1))
+      continue;
+
     pdef = get_defender(pplayer, punit, x1, y1);
     if (pdef) {
       patt = get_attacker(pplayer, punit, x1, y1);
@@ -693,6 +700,9 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
   return(best);
 }
 
+/*************************************************************************
+...
+**************************************************************************/
 static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 {
   struct unit *aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
@@ -732,32 +742,36 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     aunit->ai.bodyguard = id;
 }
 
+/*************************************************************************
+...
+**************************************************************************/
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
-  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
-  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-  int i, j, k, l, ok, t, fu, best = 0;
+  int x1, y1, dir, l, ok, t, fu, best = 0;
 
-  for (k = 0; k < 8; k++) {
-    i = map_adjust_x(dest_x + ii[k]);
-    j = map_adjust_y(dest_y + jj[k]);
+  for (dir = 0; dir < 8; dir++) {
+    x1 = dest_x + DIR_DX[dir];
+    y1 = dest_y + DIR_DY[dir];
+    if (!normalize_map_pos(&x1, &y1))
+      continue;
+
     ok = 0; fu = 0;
-    t = map_get_terrain(i, j);
-    if (warmap.seacost[i][j] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
+    t = map_get_terrain(x1, y1);
+    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
       for (l = 0; l < 8 && !ok; l++) {
-        if (map_get_terrain(i + ii[l], j + jj[l]) == T_OCEAN) {
+        if (map_get_terrain(x1 + DIR_DX[l], y1 + DIR_DY[l]) == T_OCEAN) {
           fu++;
-          if (is_my_zoc(punit, i + ii[l], j + jj[l])) ok++;
+          if (is_my_zoc(punit, x1 + DIR_DX[l], y1 + DIR_DY[l])) ok++;
         }
       }
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
-	if (map_get_special(i, j) & S_RIVER)
+	if (map_get_special(x1, y1) & S_RIVER)
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * 3 <
             unit_types[punit->type].move_rate) ok *= 8;
-        ok += (6 * THRESHOLD - warmap.seacost[i][j]);
-        if (ok > best) { best = ok; *x = i; *y = j; }
+        ok += (6 * THRESHOLD - warmap.seacost[x1][y1]);
+        if (ok > best) { best = ok; *x = x1; *y = y1; }
       }
     }
   }
@@ -770,7 +784,6 @@ find_beachhead() works only when city is not further that 1 tile from
 the sea. But Sea Raiders might want to attack cities inland.
 So this finds the nearest land tile on the same continent as the city.
 **************************************************************************/
-
 static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y)
 {
   int i, j;
@@ -795,7 +808,6 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 /**************************************************************************
 ...
 **************************************************************************/
-
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
@@ -944,6 +956,9 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
   return(-1); /* died */
 }
 
+/*************************************************************************
+...
+**************************************************************************/
 int unit_can_defend(int type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
@@ -967,6 +982,9 @@ int old_unit_can_defend(int type)
 }
 #endif
 
+/*************************************************************************
+...
+**************************************************************************/
 int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **aunit, struct city **acity)
 {
   int d, def, val = 0, u;
@@ -1142,6 +1160,9 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
   }
 }
 
+/*************************************************************************
+...
+**************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
   int a=0, b, c, d, e, m, n, v, i, f, a0, b0, ab, g;
@@ -1452,7 +1473,6 @@ This seems to do the attack. First find victim on the neighbouring tiles.
 If no enemies nearby find_something_to_kill() anywhere else. If there is
 nothing to kill, sailing units go home, others explore.
 **************************************************************************/
-
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
   int dest_x, dest_y; 
@@ -1704,7 +1724,6 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 /**************************************************************************
 decides what to do with a military unit.
 **************************************************************************/
-
 void ai_manage_military(struct player *pplayer,struct unit *punit)
 {
   int id;
@@ -1780,7 +1799,6 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   they are not in cities, and they are far from any enemy units. It is to 
   remove barbarians that do not engage into any activity for a long time.
 **************************************************************************/
-
 static int unit_can_be_retired(struct unit *punit)
 {
   int x, y, x1;
@@ -1811,7 +1829,6 @@ static int unit_can_be_retired(struct unit *punit)
  manage one unit
  Careful: punit may have been destroyed upon return from this routine!
 **************************************************************************/
-
 static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
   /* retire useless barbarian units here, before calling the management
@@ -1866,7 +1883,6 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)
 **************************************************************************/
-
 void ai_manage_units(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
@@ -2141,7 +2157,6 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 Barbarian leader tries to stack with other barbarian units, and if it's
 not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
-
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
 {
   int con = map_get_continent(leader->x, leader->y), i, x, y, dx, dy,

@@ -877,37 +877,6 @@ void map_transform_tile(int x, int y)
 }
 
 /***************************************************************
-  (x,y) are map coords, assumed to be already adjusted;
-  we calculate elements of xx[3], yy[3] for adjusted
-  coordinates of adjacent tiles, offsets [0]=-1, [1]=0, [2]=+1
-  Here we adjust yy[] values to stay inside [0,map.ysize-1]
-***************************************************************/
-void map_calc_adjacent_xy(int x, int y, int *xx, int *yy)
-{
-  if((xx[2]=x+1)==map.xsize) xx[2]=0;
-  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-  xx[1] = x;
-  if ((yy[0]=y-1)==-1) yy[0] = 0;
-  if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-  yy[1] = y;
-}
-
-/***************************************************************
-  Like map_calc_adjacent_xy(), except don't adjust the yy[] values.
-  Note that if y is out of range, then map_get_tile(x,y) returns
-  &void_tile, hence the _void in the name of this function.
-***************************************************************/
-void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy)
-{
-  if((xx[2]=x+1)==map.xsize) xx[2]=0;
-  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-  xx[1] = x;
-  yy[0] = y - 1;
-  yy[1] = y;
-  yy[2] = y + 1;
-}
-
-/***************************************************************
   The basic cost to move punit from tile t1 to tile t2.
   That is, tile_move_cost(), with pre-calculated tile pointers;
   the tiles are assumed to be adjacent, and the (x,y)
@@ -1000,26 +969,23 @@ static void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
 ***************************************************************/
 void reset_move_costs(int x, int y)
 {
-  int k, x1, y1, xx[3], yy[3];
-  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int dir, x1, y1;
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
  
   x = map_adjust_x(x);
   tile0 = map_get_tile(x, y);
-  map_calc_adjacent_xy_void(x, y, xx, yy);
   debug_log_move_costs("Resetting move costs for", x, y, tile0);
 
-  for (k = 0; k < 8; k++) {
-    x1 = xx[ii[k]];
-    y1 = yy[jj[k]];
+  for (dir = 0; dir < 8; dir++) {
+    x1 = map_adjust_x(x + DIR_DX[dir]);
+    y1 = y + DIR_DY[dir];
     tile1 = map_get_tile(x1, y1);
-    tile0->move_cost[k] = tile_move_cost_ai(tile0, tile1, x, y,
-					    x1, y1, maxcost);
+    tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+					      x1, y1, maxcost);
     /* reverse: not at all obfuscated now --dwp */
     /* this might muck with void_tile, but who cares? */
-    tile1->move_cost[7 - k] = tile_move_cost_ai(tile1, tile0, x1, y1,
+    tile1->move_cost[7 - dir] = tile_move_cost_ai(tile1, tile0, x1, y1,
 						x, y, maxcost);
   }
   debug_log_move_costs("Reset move costs for", x, y, tile0);
@@ -1032,25 +998,22 @@ void reset_move_costs(int x, int y)
 ***************************************************************/
 void initialize_move_costs(void)
 {
-  int x, y, x1, y1, k, xx[3], yy[3];
-  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int x, y, x1, y1, dir;
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
-  for (k = 0; k < 8; k++) {
-    void_tile.move_cost[k] = maxcost;
+  for (dir = 0; dir < 8; dir++) {
+    void_tile.move_cost[dir] = maxcost;
   }
 
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       tile0 = map_get_tile(x, y);
-      map_calc_adjacent_xy_void(x, y, xx, yy);
-      for (k = 0; k < 8; k++) {
-	x1 = xx[ii[k]];
-	y1 = yy[jj[k]];
+      for (dir = 0; dir < 8; dir++) {
+        x1 = map_adjust_x(x + DIR_DX[dir]);
+        y1 = y + DIR_DY[dir];
         tile1 = map_get_tile(x1, y1);
-        tile0->move_cost[k] = tile_move_cost_ai(tile0, tile1, x, y,
+        tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
 						x1, y1, maxcost);
       }
     }
