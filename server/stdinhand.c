@@ -217,7 +217,7 @@ static void check_vote(struct voting *vote)
       && num_voters > 0
       && (vote->full_turn == TRUE
           || (vote->yes > num_voters / 2)
-          || (vote->no >= num_voters / 2))) {
+          || (vote->no >= (num_voters + 1) / 2))) {
     /* Yep, resolve this one */
     vote->vote_no = -1;
     vote->full_turn = FALSE;
