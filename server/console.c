@@ -76,11 +76,13 @@ static void con_update_prompt(void)
 }
 
 /************************************************************************
-Initialize logging via console.
+  Initialize logging via console.
 ************************************************************************/
 void con_log_init(const char *log_filename, int log_level)
 {
-  log_init(log_filename, log_level, (log_filename ? NULL : con_handle_log));
+  bool has_file = (log_filename && strlen(log_filename) > 0);
+
+  log_init(log_filename, log_level, has_file ? NULL : con_handle_log);
   logdebug_suppress_warning;
 }
 

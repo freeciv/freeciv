@@ -44,7 +44,11 @@ struct player_score_entry {
 void gamelog_init(char *filename)
 {
   gamelog_level = GAMELOG_FULL;
-  gamelog_filename = filename;
+  if (filename && strlen(filename) > 0) {
+    gamelog_filename = filename;
+  } else {
+    gamelog_filename = NULL;
+  }
 }
 
 /**************************************************************************
