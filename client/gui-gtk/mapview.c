@@ -712,7 +712,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 
   switch (ltype) {
   case LINE_NORMAL:
-    gc = civ_gc;
+    gc = thin_line_gc;
     break;
   case LINE_BORDER:
     gc = border_line_gc;
@@ -1091,56 +1091,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
   }
 
-  /*** Map grid ***/
-  if (draw_map_grid && !tile_hilited) {
-    /* we draw the 2 lines on top of the tile; the buttom lines will be
-       drawn by the tiles underneath. */
-    if (draw & D_M_R) {
-      gdk_gc_set_foreground(thin_line_gc,
-			    colors_standard[get_grid_color
-					    (x, y, x, y - 1)]);
-      gdk_draw_line(pm, thin_line_gc,
-		    canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
-		    canvas_x + NORMAL_TILE_WIDTH,
-		    canvas_y + NORMAL_TILE_HEIGHT / 2);
-    }
-
-    if (draw & D_M_L) {
-      gdk_gc_set_foreground(thin_line_gc,
-			    colors_standard[get_grid_color
-					    (x, y, x - 1, y)]);
-      gdk_draw_line(pm, thin_line_gc,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
-		    canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y);
-    }
-  }
-
-  /* National borders */
-  tile_draw_borders_iso(&canvas_store, x, y, canvas_x, canvas_y, draw);
-
-  if (draw_coastline && !draw_terrain) {
-    enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
-    int x1, y1;
-    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_OCEAN]);
-    x1 = x; y1 = y-1;
-    if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_R && (is_ocean(t1) ^ is_ocean(t2))) {
-	gdk_draw_line(pm, thin_line_gc,
-		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
-		      canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
-      }
-    }
-    x1 = x-1; y1 = y;
-    if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_L && (is_ocean(t1) ^ is_ocean(t2))) {
-	gdk_draw_line(pm, thin_line_gc,
-		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
-		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
-      }
-    }
-  }
+  /*** Grid (map grid, borders, coastline, etc.) ***/
+  tile_draw_grid_iso(&canvas_store, x, y, canvas_x, canvas_y, draw);
 
   /*** City and various terrain improvements ***/
   if (pcity && draw_cities) {

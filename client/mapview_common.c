@@ -1001,14 +1001,43 @@ static void put_tile(int map_x, int map_y)
   }
 }
 
+/****************************************************************************
+   Draw the map grid around the given map tile at the given canvas position
+   in isometric view.
+****************************************************************************/
+static void tile_draw_map_grid_iso(struct canvas *pcanvas,
+				   int map_x, int map_y,
+				   int canvas_x, int canvas_y,
+				   enum draw_type draw)
+{
+  if (!draw_map_grid
+      || map_get_tile(map_x, map_y)->client.hilite != HILITE_NONE) {
+    return;
+  }
+
+  /* we draw the 2 lines on top of the tile; the buttom lines will be
+   * drawn by the tiles underneath. */
+  if (draw & D_M_R) {
+    canvas_put_line(pcanvas, get_grid_color(map_x, map_y, map_x, map_y - 1),
+		    LINE_NORMAL, canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
+		    NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+  }
+
+  if (draw & D_M_L) {
+    canvas_put_line(pcanvas, get_grid_color(map_x, map_y, map_x - 1, map_y),
+		    LINE_NORMAL, canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
+		    NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
+  }
+}
+
 /**************************************************************************
    Draw the borders of the given map tile at the given canvas position
    in isometric view.
 **************************************************************************/
-void tile_draw_borders_iso(struct canvas *pcanvas,
-			   int map_x, int map_y,
-			   int canvas_x, int canvas_y,
-			   enum draw_type draw)
+static void tile_draw_borders_iso(struct canvas *pcanvas,
+				  int map_x, int map_y,
+				  int canvas_x, int canvas_y,
+				  enum draw_type draw)
 {
   struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
   int x1, y1;
@@ -1048,6 +1077,53 @@ void tile_draw_borders_iso(struct canvas *pcanvas,
 		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
     }
   }
+}
+
+/****************************************************************************
+   Draw the coastline of the given map tile at the given canvas position
+   in isometric view.
+****************************************************************************/
+static void tile_draw_coastline_iso(struct canvas *pcanvas,
+				    int map_x, int map_y,
+				    int canvas_x, int canvas_y,
+				    enum draw_type draw)
+{
+  enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
+  int adjc_x, adjc_y;
+
+  if (!draw_coastline || draw_terrain || t1 == T_UNKNOWN) {
+    return;
+  }
+
+  if ((draw & D_M_R) && MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR8_NORTH)) {
+    t2 = map_get_terrain(adjc_x, adjc_y);
+    if (t2 != T_UNKNOWN	&& (is_ocean(t1) ^ is_ocean(t2))) {
+      canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
+		      canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y,
+		      NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+    }
+  }
+
+  if ((draw & D_M_L) && MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR8_WEST)) {
+    t2 = map_get_terrain(adjc_x, adjc_y);
+    if (t2 != T_UNKNOWN	&& (is_ocean(t1) ^ is_ocean(t2))) {
+      canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2,
+		      NORMAL_TILE_WIDTH / 2, -NORMAL_TILE_HEIGHT / 2);
+    }
+  }
+}
+
+/****************************************************************************
+   Draw the grid lines of the given map tile at the given canvas position
+   in isometric view.  (This include the map grid, borders, and coastline).
+****************************************************************************/
+void tile_draw_grid_iso(struct canvas *pcanvas, int map_x, int map_y,
+			int canvas_x, int canvas_y, enum draw_type draw)
+{
+  tile_draw_map_grid_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_borders_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
+  tile_draw_coastline_iso(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
 }
 
 /**************************************************************************
