@@ -655,9 +655,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Continent where the city is - important for caravans */
   int continent = map_get_continent(pcity->x, pcity->y);
 
-  choice->choice = 0;
-  choice->want   = 0;
-  choice->type   = CT_NONE;
+  init_choice(choice);
 
   /* Find out desire for settlers */
 

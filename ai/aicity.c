@@ -145,9 +145,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice bestchoice, curchoice;
 
-  bestchoice.choice = A_NONE;      
-  bestchoice.want   = 0;
-  bestchoice.type   = CT_NONE;
+  init_choice(&bestchoice);
 
   if( is_barbarian(pplayer) ) {    /* always build best attack unit */
     Unit_Type_id i, iunit, bestunit = -1;
@@ -299,9 +297,8 @@ static void ai_new_spend_gold(struct player *pplayer)
     if (reserve > pplayer->economic.gold)
       break;
 
-    bestchoice.want = 0;
-    bestchoice.type = CT_NONE;
-    bestchoice.choice = 0;
+    init_choice(&bestchoice);
+
     city_list_iterate(pplayer->cities, acity)
       if (acity->anarchy != 0) continue;
       if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer, TRUE)) {

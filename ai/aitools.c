@@ -96,6 +96,16 @@ int ai_gold_reserve(struct player *pplayer)
 }
 
 /**************************************************************************
+  Sets the values of the choice to initial values.
+**************************************************************************/
+void init_choice(struct ai_choice *choice)
+{
+  choice->choice = A_NONE;
+  choice->want = 0;
+  choice->type = CT_NONE;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void adjust_choice(int value, struct ai_choice *choice)

@@ -946,9 +946,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   struct unit virtualunit;
   struct city *acity = 0;
   struct unit *aunit = 0;
-  choice->choice = 0;
-  choice->want   = 0;
-  choice->type   = CT_NONE;
+
+  init_choice(choice);
 
 /* TODO: recognize units that can DEFEND_HOME but are in the field. -- Syela */
 
