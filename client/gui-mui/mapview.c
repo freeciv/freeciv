@@ -78,6 +78,21 @@ int get_map_y_visible(void)
   return xget(main_map_area, MUIA_Map_VertVisible);
 }
 
+/***********************************************************************
+  This function can be used by mapview_common code to determine the
+  location and dimensions of the mapview canvas.
+***********************************************************************/
+void get_mapview_dimensions(int *map_view_topleft_map_x,
+			    int *map_view_topleft_map_y,
+			    int *map_view_pixel_width,
+			    int *map_view_pixel_height)
+{
+  *map_view_topleft_map_x = xget(main_map_area, MUIA_Map_HorizFirst);
+  *map_view_topleft_map_y = xget(main_map_area, MUIA_Map_VertFirst);
+  *map_view_pixel_width = _mwidth(main_map_area);	/* !! */
+  *map_view_pixel_height = _mheight(main_map_area);	/* !! */
+}
+
 /**************************************************************************
  This function is called to decrease a unit's HP smoothly in battle
  when combat_animation is turned on.

@@ -121,6 +121,21 @@ static SPRITE *scaled_intro_sprite = NULL;
 static GtkObject *map_hadj, *map_vadj;
 
 
+/***********************************************************************
+  This function can be used by mapview_common code to determine the
+  location and dimensions of the mapview canvas.
+***********************************************************************/
+void get_mapview_dimensions(int *map_view_topleft_map_x,
+			    int *map_view_topleft_map_y,
+			    int *map_view_pixel_width,
+			    int *map_view_pixel_height)
+{
+  *map_view_topleft_map_x = map_view_x0;
+  *map_view_topleft_map_y = map_view_y0;
+  gdk_window_get_size(map_canvas->window,
+		      map_view_pixel_width, map_view_pixel_height);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/

@@ -63,6 +63,24 @@ static void put_line(Pixmap pm, int x, int y, int dir);
 Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
+
+/***********************************************************************
+  This function can be used by mapview_common code to determine the
+  location and dimensions of the mapview canvas.
+***********************************************************************/
+void get_mapview_dimensions(int *map_view_topleft_map_x,
+			    int *map_view_topleft_map_y,
+			    int *map_view_pixel_width,
+			    int *map_view_pixel_height)
+{
+  *map_view_topleft_map_x = map_view_x0;
+  *map_view_topleft_map_y = map_view_y0;
+  XtVaGetValues(map_canvas,
+		XtNwidth, map_view_pixel_width,
+		XtNheight, map_view_pixel_height,
+		NULL);
+}
+
 /**************************************************************************
 Finds the pixel coordinates of a tile.  Beside setting the results in
 canvas_x,canvas_y it returns whether the tile is inside the visible map.

@@ -19,6 +19,11 @@
 struct unit;
 struct city;
 
+void get_mapview_dimensions(int *map_view_topleft_map_x,
+			    int *map_view_topleft_map_y,
+			    int *map_view_pixel_width,
+			    int *map_view_pixel_height);
+
 bool tile_visible_mapcanvas(int x, int y);
 bool tile_visible_and_not_on_border_mapcanvas(int x, int y);
 
