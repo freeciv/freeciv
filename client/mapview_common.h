@@ -296,7 +296,7 @@ void queue_mapview_update(enum update_type update);
 void queue_mapview_tile_update(struct tile *ptile);
 void queue_mapview_unit_update(struct unit *punit);
 void queue_mapview_city_update(struct city *pcity);
-void unqueue_mapview_updates(void);
+void unqueue_mapview_updates(bool write_to_screen);
 
 void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y);

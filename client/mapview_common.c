@@ -597,7 +597,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-    unqueue_mapview_updates();
+    unqueue_mapview_updates(TRUE);
 
     do {
       mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
@@ -1358,11 +1358,16 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   canvas_x += (NORMAL_TILE_WIDTH - width) / 2;
   canvas_y += (NORMAL_TILE_HEIGHT - height) / 2;
 
+  /* Make sure everything is flushed and synced before proceeding.  First
+   * we update everything to the store, but don't write this to screen.
+   * Then add the nuke graphic to the store.  Finally flush everything to
+   * the screen and wait 1 second. */
+  unqueue_mapview_updates(FALSE);
+
   canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y, mysprite);
   dirty_rect(canvas_x, canvas_y, width, height);
 
-  /* Make sure everything is flushed and synced before proceeding. */
-  unqueue_mapview_updates();
+  flush_dirty();
   gui_flush();
 
   myusleep(1000000);
@@ -1948,7 +1953,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   set_units_in_combat(punit0, punit1);
 
-  unqueue_mapview_updates();
+  unqueue_mapview_updates(TRUE);
   while (punit0->hp > hp0 || punit1->hp > hp1) {
     const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
@@ -2022,9 +2027,6 @@ void move_unit_map_canvas(struct unit *punit,
     return;
   }
 
-  /* Go ahead and start the timer. */
-  anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
   if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
@@ -2037,7 +2039,6 @@ void move_unit_map_canvas(struct unit *punit,
     return;
   }
 
-  unqueue_mapview_updates();
   if (tile_visible_mapcanvas(src_tile)
       || tile_visible_mapcanvas(dest_tile)) {
     int start_x, start_y;
@@ -2053,9 +2054,11 @@ void move_unit_map_canvas(struct unit *punit,
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
 
-    /* Flush before we start animating. */
-    flush_dirty();
-    gui_flush();
+    /* Bring the backing store up to date, but don't flush. */
+    unqueue_mapview_updates(FALSE);
+
+    /* Start the timer (AFTER the unqueue above). */
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
     do {
       int new_x, new_y;
@@ -2236,7 +2239,7 @@ struct tile_list *tile_updates = NULL;
 static void queue_callback(void *data)
 {
   callback_queued = FALSE;
-  unqueue_mapview_updates();
+  unqueue_mapview_updates(TRUE);
 }
 
 /****************************************************************************
@@ -2319,7 +2322,7 @@ void queue_mapview_city_update(struct city *pcity)
 /**************************************************************************
   See comment for queue_mapview_update().
 **************************************************************************/
-void unqueue_mapview_updates(void)
+void unqueue_mapview_updates(bool write_to_screen)
 {
   freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
 	  needed_updates);
@@ -2412,8 +2415,10 @@ void unqueue_mapview_updates(void)
   }
   needed_updates = UPDATE_NONE;
 
-  flush_dirty();
-  flush_dirty_overview();
+  if (write_to_screen) {
+    flush_dirty();
+    flush_dirty_overview();
+  }
 }
 
 /**************************************************************************
