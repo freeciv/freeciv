@@ -745,7 +745,8 @@ static int server_accept_connection(int sockfd)
       pconn->server.authentication_tries = 0;
       pconn->server.authentication_stop = 0;
       pconn->server.status = AS_NOT_ESTABLISHED;
-      pconn->server.ping_timers = malloc(sizeof(*pconn->server.ping_timers));
+      pconn->server.ping_timers =
+	  fc_malloc(sizeof(*pconn->server.ping_timers));
       timer_list_init(pconn->server.ping_timers);
       pconn->ping_time = -1.0;
       pconn->incoming_packet_notify = NULL;

@@ -526,7 +526,7 @@ void city_report_dialog_update(void)
 				  n_alloc*sizeof(*cities_in_list));
       city_list_text = fc_realloc(city_list_text, n_alloc*sizeof(char*));
       for(j=n_prev; j<n_alloc; j++) {
-	city_list_text[j] = malloc(MAX_LEN_CITY_TEXT);
+	city_list_text[j] = fc_malloc(MAX_LEN_CITY_TEXT);
       }
     }
        

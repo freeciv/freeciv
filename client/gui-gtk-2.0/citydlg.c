@@ -1525,8 +1525,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 		   1, MAX(n, 1));
 
   pdialog->overview.supported_unit_nodes =
-    realloc(pdialog->overview.supported_unit_nodes,
-	    n * sizeof(*pdialog->overview.supported_unit_nodes));
+      fc_realloc(pdialog->overview.supported_unit_nodes,
+		 n * sizeof(*pdialog->overview.supported_unit_nodes));
   
   for (i=pdialog->overview.supported_unit_no; i<n; i++) {
     int unit_height = (is_isometric) ?
@@ -1625,8 +1625,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 		   1, MAX(n, 1));
 
   pdialog->overview.present_unit_nodes =
-    realloc(pdialog->overview.present_unit_nodes,
-	    n * sizeof(*pdialog->overview.present_unit_nodes));
+      fc_realloc(pdialog->overview.present_unit_nodes,
+		 n * sizeof(*pdialog->overview.present_unit_nodes));
   
   for (i=pdialog->overview.present_unit_no; i<n; i++) {
     GtkWidget *cmd, *pix;

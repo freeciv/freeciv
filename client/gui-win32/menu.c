@@ -233,8 +233,8 @@ static void my_add_menu_accelerator(char *item,int cmd)
   plus++;
   tab++;
   /* fkeys */
-  if ((*plus=='F')&&(isdigit(plus[1]))) {
-    if (isdigit(plus[2]))
+  if ((*plus == 'F') && (my_isdigit(plus[1]))) {
+    if (my_isdigit(plus[2]))
       newaccel.key=VK_F10+(plus[2]-'0');
     else
       newaccel.key=VK_F1+(plus[1]-'1');
