@@ -149,6 +149,22 @@ void lsend_packet_login_reply(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_authentication_request(struct conn_list *dest,
+                          const struct packet_authentication_request *request)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_authentication_request(pconn, request);
+  conn_list_iterate_end;
+}
+
+void lsend_packet_authentication_reply(struct conn_list *dest,
+                              const struct packet_authentication_reply *reply)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_authentication_reply(pconn, reply);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_alloc_nation(struct conn_list *dest, 
 			     const struct packet_alloc_nation *packet)
 {

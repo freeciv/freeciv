@@ -18,10 +18,17 @@
 struct connection;
 struct conn_list;
 struct packet_login_request;
+struct packet_authentication_reply;
 struct player;
+struct user;
 
 bool handle_login_request(struct connection *pconn,
                           struct packet_login_request *req);
+
+void unfail_authentication(struct connection *pconn);
+
+bool handle_authentication_reply(struct connection *pconn,
+                                 struct packet_authentication_reply *packet);
 
 void lost_connection_to_client(struct connection *pconn);
 

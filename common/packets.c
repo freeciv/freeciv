@@ -277,6 +277,12 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_LOGIN_REPLY:
     return receive_packet_login_reply(pc);
 
+  case PACKET_AUTHENTICATION_REQUEST:
+   return receive_packet_authentication_request(pc);
+
+  case PACKET_AUTHENTICATION_REPLY:
+   return receive_packet_authentication_reply(pc);
+
   case PACKET_SERVER_SHUTDOWN:
     return receive_packet_generic_message(pc);
 
@@ -1691,6 +1697,60 @@ struct packet_login_reply *receive_packet_login_reply(struct connection *pc)
   } else {
     packet->conn_id = 0;
   }
+
+  RECEIVE_PACKET_END(packet);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_authentication_request(struct connection *pc,
+                           const struct packet_authentication_request *request)
+{
+  SEND_PACKET_START(PACKET_AUTHENTICATION_REQUEST);
+
+  dio_put_uint16(&dout, request->type);
+  dio_put_string(&dout, request->message);
+
+  SEND_PACKET_END;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_authentication_request *
+                   receive_packet_authentication_request(struct connection *pc)
+{
+  RECEIVE_PACKET_START(packet_authentication_request, packet);
+
+  dio_get_uint16(&din, (int *)&packet->type);
+  dio_get_string(&din, packet->message, sizeof(packet->message));
+
+  RECEIVE_PACKET_END(packet);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_authentication_reply(struct connection *pc,
+                               const struct packet_authentication_reply *reply)
+{
+  SEND_PACKET_START(PACKET_AUTHENTICATION_REPLY);
+
+  dio_put_string(&dout, reply->password);
+
+  SEND_PACKET_END;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_authentication_reply *
+                    receive_packet_authentication_reply(struct connection *pc)
+{
+  RECEIVE_PACKET_START(packet_authentication_reply, packet);
+
+  dio_get_string(&din, packet->password, sizeof(packet->password));
 
   RECEIVE_PACKET_END(packet);
 }

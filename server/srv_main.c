@@ -708,6 +708,22 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     return result;
   }
 
+  /* we simply ignore the packet if authentication is not enabled */
+#ifdef AUTHENTICATION_ENABLED
+  if (type == PACKET_AUTHENTICATION_REPLY) {
+    bool result = handle_authentication_reply(pconn,
+                                (struct packet_authentication_reply *) packet);
+    free(packet);
+    return result;
+  } 
+#endif
+
+  if (type == PACKET_CONN_PONG) {
+    handle_conn_pong(pconn);
+    free(packet);
+    return TRUE;
+  }
+
   if (!pconn->established) {
     freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
 	    conn_description(pconn));
@@ -715,12 +731,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
   
-  if (type == PACKET_CONN_PONG) {
-    handle_conn_pong(pconn);
-    free(packet);
-    return TRUE;
-  }
-
   /* valid packets from established connections but non-players */
   if (type == PACKET_CHAT_MSG) {
     handle_chat_msg(pconn, (struct packet_generic_message *)packet);

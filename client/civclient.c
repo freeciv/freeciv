@@ -82,6 +82,7 @@ char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char server_host[512] = "\0";
 char user_name[512] = "\0";
+char password[MAX_LEN_NAME] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
@@ -255,6 +256,11 @@ void handle_packet_input(void *packet, int type)
   switch(type) {
   case PACKET_LOGIN_REPLY:
     handle_login_reply((struct packet_login_reply *)packet);
+    break;
+
+  case PACKET_AUTHENTICATION_REQUEST:
+    handle_authentication_request((struct packet_authentication_request *)
+                                  packet);
     break;
 
   case PACKET_SERVER_SHUTDOWN:
@@ -695,6 +701,7 @@ void set_client_state(enum client_states newstate)
     update_menus();
   }
   if (client_state == CLIENT_PRE_GAME_STATE) {
+    gui_server_connect();
     if (auto_connect) {
       if (connect_error) {
 	freelog(LOG_NORMAL,
@@ -704,9 +711,7 @@ void set_client_state(enum client_states newstate)
 	server_autoconnect();
 	auto_connect = FALSE;	/* don't try this again */
       }
-    } else {
-      gui_server_connect();
-    }
+    } 
   }
   update_turn_done_button_state();
   update_conn_list_dialog();

@@ -58,6 +58,15 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
   see doc/HACKING
 ***************************************************************************/
 
+/* where the connection is in the authentication process */
+enum auth_status {
+  AS_NOT_ESTABLISHED = 0,
+  AS_FAILED,
+  AS_REQUESTING_NEW_PASS,
+  AS_REQUESTING_OLD_PASS,
+  AS_ESTABLISHED
+};
+
 /* get 'struct conn_list' and related functions: */
 /* do this with forward definition of struct connection, so that
  * connection struct can contain a struct conn_list */
@@ -105,6 +114,7 @@ struct connection {
   
   struct conn_list self;	/* list with this connection as single element */
   char username[MAX_LEN_NAME];
+  char password[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
   /* "capability" gives the capability string of the executable (be it
@@ -160,6 +170,16 @@ struct connection {
      * but weren't PACKET_CONN_PONGed yet? 
      */
     struct timer_list *ping_timers;
+   
+    /* Holds number of tries for authentication from client. */
+    int authentication_tries;
+
+    /* the time that the server will reply after receiving an auth reply.
+     * this is used to throttle the connection. */
+    time_t authentication_stop;
+
+    /* used to follow where the connection is in the authentication process */
+    enum auth_status status;
   } server;
 
   /*

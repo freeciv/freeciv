@@ -51,6 +51,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "clinet.h"		/* aconnection */
+#include "connectdlg_g.h"
 #include "control.h"
 #include "dialogs_g.h"
 #include "goto.h"               /* client_goto_init() */
@@ -110,6 +111,7 @@ void handle_login_reply(struct packet_login_reply *packet)
   char *s_capability = aconnection.capability;
 
   sz_strlcpy(aconnection.capability, packet->capability);
+  close_connection_dialog();
 
   if (packet->you_can_login) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
@@ -124,6 +126,7 @@ void handle_login_reply(struct packet_login_reply *packet)
     if (auto_connect) {
       freelog(LOG_NORMAL, "%s", msg);
     }
+    gui_server_connect();
   }
   if (strcmp(s_capability, our_capability) == 0) {
     return;

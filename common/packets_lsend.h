@@ -48,6 +48,10 @@ void lsend_packet_login_request(struct conn_list *dest,
 			      const struct packet_login_request *request);
 void lsend_packet_login_reply(struct conn_list *dest, 
                             const struct packet_login_reply *reply);
+void lsend_packet_authentication_request(struct conn_list *dest,
+                          const struct packet_authentication_request *request);
+void lsend_packet_authentication_reply(struct conn_list *dest,
+                              const struct packet_authentication_reply *reply);
 void lsend_packet_alloc_nation(struct conn_list *dest, 
 			     const struct packet_alloc_nation *packet);
 void lsend_packet_generic_message(struct conn_list *dest, enum packet_type type,

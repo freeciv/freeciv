@@ -15,6 +15,7 @@
 
 #include "game.h"		/* enum client_states */
 #include "packets.h"		/* enum report_type */
+#include "shared.h"		/* MAX_LEN_NAME */
 
 /*
  * Every TIMER_INTERVAL milliseconds real_timer_callback is
@@ -44,6 +45,7 @@ extern char sound_plugin_name[512];
 extern char sound_set_name[512];
 extern char server_host[512];
 extern char user_name[512];
+extern char password[MAX_LEN_NAME];
 extern char metaserver[512];
 extern int  server_port;
 extern bool auto_connect;

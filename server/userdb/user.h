@@ -1,5 +1,5 @@
-/********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+/**********************************************************************
+ Freeciv - Copyright (C) 2003 - M.C. Kaufman
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,17 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CONNECTDLG_G_H
-#define FC__CONNECTDLG_G_H
+#ifndef FC__USER_H
+#define FC__USER_H
 
-struct packet_authentication_request;
+#include "shared.h"
 
-void close_connection_dialog(void);
+struct user {
+  char name[MAX_LEN_NAME];
+  char password[MAX_LEN_NAME];
 
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet);
+  /* add more fields here as warranted */
+};
 
-void gui_server_connect(void);
-void server_autoconnect(void);
-
-#endif  /* FC__CONNECTDLG_G_H */
+#endif /* FC__USER_H */

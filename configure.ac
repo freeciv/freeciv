@@ -42,6 +42,8 @@ AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 
 AM_MAINTAINER_MODE
 
+FC_CHECK_AUTH
+
 dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE(server,
 [  --disable-server        do not compile the server],
@@ -710,6 +712,7 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-win32/Makefile 
 	  client/gui-stub/Makefile 
 	  server/Makefile 
+	  server/userdb/Makefile
 	  intl/Makefile
 	  po/Makefile.in
 	  doc/Makefile

@@ -78,7 +78,7 @@ const char * const our_capability = our_capability_internal;
                    "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
-                   "+diplomacy2 +citizens_style +root_tech"
+                   "+diplomacy2 +citizens_style +root_tech auth"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -110,7 +110,7 @@ const char * const our_capability = our_capability_internal;
  *
  * "fastfocus" removes the server from client unit focus.
  *
- * +continent": the server gives the client continent information
+ * "continent": the server gives the client continent information
  *
  * "small_dipl" makes the player diplomacy data in the player packet
  * smaller, by sending 8-bit instead of 32-bit values.
@@ -129,6 +129,8 @@ const char * const our_capability = our_capability_internal;
  * multi style citizens icons.
  *
  * "root_tech" restricts who can acquire technology
+ *
+ * "auth": client can authenticate and server has the ability to.
  */
 
 void init_our_capability(void)

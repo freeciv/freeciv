@@ -128,6 +128,8 @@ enum packet_type {
   PACKET_FREEZE_HINT,
   PACKET_THAW_HINT,
   PACKET_PING_INFO,
+  PACKET_AUTHENTICATION_REQUEST,
+  PACKET_AUTHENTICATION_REPLY,
   PACKET_LAST  /* leave this last */
 };
 
@@ -154,6 +156,13 @@ enum unit_info_use {
   UNIT_INFO_IDENTITY,
   UNIT_INFO_CITY_SUPPORTED,
   UNIT_INFO_CITY_PRESENT
+};
+
+enum authentication_type {
+  AUTH_LOGIN_FIRST,   /* request a password for a returning user */
+  AUTH_NEWUSER_FIRST, /* request a password for a new user */
+  AUTH_LOGIN_RETRY,   /* inform the client to try a different password */
+  AUTH_NEWUSER_RETRY, /* inform the client to try a different [new] password */
 };
 
 /*********************************************************
@@ -411,6 +420,22 @@ struct packet_login_reply {
   char message[MAX_LEN_MSG];
   char capability[MAX_LEN_CAPSTR];
   int conn_id;			/* clients conn id as known in server */
+};
+
+/*********************************************************
+ the server requests a password from the client
+*********************************************************/
+struct packet_authentication_request {
+  enum authentication_type type;
+  char message[MAX_LEN_MSG]; /* explain to the client if there's a problem */
+};
+
+/*********************************************************
+ ... and the client replies. this could be a generic packet, but
+ we might want to add things like encryption in the near future.
+*********************************************************/
+struct packet_authentication_reply {
+  char password[MAX_LEN_NAME];
 };
 
 /*********************************************************
@@ -997,6 +1022,16 @@ struct packet_login_request *receive_packet_login_request(struct
 int send_packet_login_reply(struct connection *pc, 
                             const struct packet_login_reply *reply);
 struct packet_login_reply *receive_packet_login_reply(struct connection *pc);
+
+struct packet_authentication_request *
+                  receive_packet_authentication_request(struct connection *pc);
+int send_packet_authentication_request(struct connection *pc,
+                          const struct packet_authentication_request *request);
+
+int send_packet_authentication_reply(struct connection *pc,
+                              const struct packet_authentication_reply *reply);
+struct packet_authentication_reply * 
+                    receive_packet_authentication_reply(struct connection *pc);
 
 int send_packet_alloc_nation(struct connection *pc, 
 			     const struct packet_alloc_nation *packet);

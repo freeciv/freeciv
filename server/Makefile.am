@@ -1,8 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS=	userdb
+
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
-INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore
+INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I./userdb
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -71,5 +73,6 @@ libcivserver_a_SOURCES = \
 		unittools.h
 
 
-civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a
-civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a $(SERVER_LIBS)
+civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a $(USER_DB_DEP)
+civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a ../common/aicore/libaicore.a $(USER_DB_LIB) $(SERVER_LIBS)
+

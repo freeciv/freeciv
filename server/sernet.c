@@ -435,6 +435,17 @@ int sniff_packets(void)
       game.last_ping = time(NULL);
     }
 
+    /* if we've waited long enough after a failure, respond to the client */
+    for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+      struct connection *pconn = &connections[i];
+
+      if (pconn->server.status == AS_FAILED
+          && pconn->server.authentication_stop > 0
+          && time(NULL) >= pconn->server.authentication_stop) {
+        unfail_authentication(pconn);
+      }
+    }
+
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
       (void) send_server_info_to_metaserver(FALSE, FALSE);
@@ -725,6 +736,9 @@ static int server_accept_connection(int sockfd)
       pconn->notify_of_writable_data = NULL;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
+      pconn->server.authentication_tries = 0;
+      pconn->server.authentication_stop = 0;
+      pconn->server.status = AS_NOT_ESTABLISHED;
       pconn->server.ping_timers = malloc(sizeof(*pconn->server.ping_timers));
       timer_list_init(pconn->server.ping_timers);
       pconn->ping_time = -1.0;

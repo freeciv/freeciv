@@ -441,6 +441,10 @@ void load_general_options(void)
   if (!section_file_load(&sf, name))
     return;  
 
+  /* a "secret" option for the lazy. TODO: make this saveable */
+  sz_strlcpy(password, 
+             secfile_lookup_str_default(&sf, "", "%s.password", prefix));
+
   for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:

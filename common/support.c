@@ -541,6 +541,14 @@ bool my_isspace(char c)
 /**********************************************************************
   Wrapper function to work around broken libc implementations.
 ***********************************************************************/
+bool my_isupper(char c)
+{
+  return isupper((int) c) != 0;
+}
+
+/**********************************************************************
+  Wrapper function to work around broken libc implementations.
+***********************************************************************/
 char my_toupper(char c)
 {
   return (char) toupper((int) c);

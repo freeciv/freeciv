@@ -62,6 +62,7 @@ bool my_isalpha(char c);
 bool my_isdigit(char c);
 bool my_isprint(char c);
 bool my_isspace(char c);
+bool my_isupper(char c);
 char my_toupper(char c);
 char my_tolower(char c);
 

@@ -70,10 +70,14 @@ Freeciv*connectdialog*translations:	#override \
 Freeciv*connectdialog.*.cheadline.label: _("Freeciv Server Selection")
 Freeciv*connectdialog.*.cheadline.width: 300
 
-Freeciv*connectdialog.*.cnamel.label: _("Name")
-Freeciv*connectdialog.*.cnamel.fromVert: cheadline
+Freeciv*connectdialog.*.cmsgl.label: _("")
+Freeciv*connectdialog.*.cmsgl.fromVert: cheadline
+Freeciv*connectdialog.*.cmsgl.resizable: True
 
-Freeciv*connectdialog.*.cnamei.fromVert: cheadline
+Freeciv*connectdialog.*.cnamel.label: _("Name")
+Freeciv*connectdialog.*.cnamel.fromVert: cmsgl
+
+Freeciv*connectdialog.*.cnamei.fromVert: cmsgl
 Freeciv*connectdialog.*.cnamei.fromHoriz: cnamel
 Freeciv*connectdialog.*.cnamei.*.editType: edit
 Freeciv*connectdialog.*.cnamei.width: 256

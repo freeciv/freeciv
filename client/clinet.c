@@ -67,6 +67,7 @@
 #include "chatline_g.h"
 #include "civclient.h"
 #include "climisc.h"
+#include "connectdlg_g.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "mapview_common.h"	/* unqueue_mapview_update */
@@ -98,6 +99,7 @@ static void close_socket_nomessage(struct connection *pc)
 
   remove_net_input();
   popdown_races_dialog(); 
+  close_connection_dialog();
 
   reports_force_thaw();
   
