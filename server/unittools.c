@@ -2366,14 +2366,18 @@ static bool unit_enter_hut(struct unit *punit)
 }
 
 /**************************************************************************
-Assigns units on ptrans' tile to ptrans if they should be. This is done by
-setting their transported_by fields to the id of ptrans.
-Checks a zillion things, some from situations that should never happen.
-First drop all previously assigned units that do not fit on the transport.
-If on land maybe pick up some extra units (decided by take_from_land variable)
+  Assigns units on ptrans' tile to ptrans if they should be. This is done 
+  by setting their transported_by fields to the id of ptrans.
 
-This function is getting a bit larger and ugly. Perhaps it would be nicer
-if it was recursive!?
+  Checks a zillion things, some from situations that should never happen.
+  First drop all previously assigned units that do not fit on the 
+  transport.
+
+  If on land maybe pick up some extra units (decided by take_from_land 
+  variable)
+
+  This function is getting a bit larger and ugly. Perhaps it would be nicer
+  if it was recursive!?
 
 FIXME: If in the open (not city), and leaving with only those units that are
        already assigned to us would strand some units try to reassign the
@@ -2805,20 +2809,23 @@ static void check_unit_activity(struct unit *punit)
       && punit->activity != ACTIVITY_SENTRY
       && punit->activity != ACTIVITY_EXPLORE
       && punit->activity != ACTIVITY_PATROL
-      && !punit->connecting)
+      && !punit->connecting) {
     set_unit_activity(punit, ACTIVITY_IDLE);
+  }
 }
 
 /**************************************************************************
-Moves a unit. No checks whatsoever! This is meant as a practical function
-for other functions, like do_airline, which do the checking themselves.
-If you move a unit you should always use this function, as it also sets the
-transported_by unit field correctly.
-take_from_land is only relevant if you have set transport_units.
-Note that the src and dest need not be adjacent.
+  Moves a unit. No checks whatsoever! This is meant as a practical 
+  function for other functions, like do_airline, which do the checking 
+  themselves.
+
+  If you move a unit you should always use this function, as it also sets 
+  the transported_by unit field correctly. take_from_land is only relevant 
+  if you have set transport_units. Note that the src and dest need not be 
+  adjacent.
 **************************************************************************/
 bool move_unit(struct unit *punit, int dest_x, int dest_y,
-	      bool transport_units, bool take_from_land, int move_cost)
+               bool transport_units, bool take_from_land, int move_cost)
 {
   int src_x = punit->x;
   int src_y = punit->y;
@@ -2852,13 +2859,15 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   /* A ground unit cannot hold units on an ocean tile */
   if (transport_units
       && is_ground_unit(punit)
-      && is_ocean(pdesttile->terrain))
+      && is_ocean(pdesttile->terrain)) {
     transport_units = FALSE;
+  }
 
   /* Make sure we don't accidentally insert units into a transporters list */
   unit_list_iterate(pdesttile->units, pcargo) { 
-    if (pcargo->transported_by == punit->id)
+    if (pcargo->transported_by == punit->id) {
       pcargo->transported_by = -1;
+    }
   } unit_list_iterate_end;
 
   /* Transporting units. We first make a list of the units to be moved and
@@ -2905,13 +2914,14 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
      client moves the unit, and both areas are visible during the
      move */
 
-  /* Enhace vision if unit steps into a fortress */
+  /* Enhance vision if unit steps into a fortress */
   if (unit_profits_of_watchtower(punit)
-      && tile_has_special(pdesttile, S_FORTRESS))
+      && tile_has_special(pdesttile, S_FORTRESS)) {
     unfog_area(pplayer, dest_x, dest_y, get_watchtower_vision(punit));
-  else
+  } else {
     unfog_area(pplayer, dest_x, dest_y,
 	       unit_type(punit)->vision_range);
+  }
 
   unit_list_unlink(&psrctile->units, punit);
   punit->x = dest_x;
@@ -2952,11 +2962,12 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   reveal_hidden_units(pplayer, dest_x, dest_y);
 
   if (unit_profits_of_watchtower(punit)
-      && tile_has_special(psrctile, S_FORTRESS))
+      && tile_has_special(psrctile, S_FORTRESS)) {
     fog_area(pplayer, src_x, src_y, get_watchtower_vision(punit));
-  else
+  } else {
     fog_area(pplayer, src_x, src_y,
 	     unit_type(punit)->vision_range);
+  }
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
   wakeup_neighbor_sentries(punit);
@@ -2964,17 +2975,18 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_unbuffer(&pplayer->connections);
 
-  if (map_has_special(dest_x, dest_y, S_HUT))
+  if (map_has_special(dest_x, dest_y, S_HUT)) {
     return unit_enter_hut(punit);
-  else
+  } else {
     return TRUE;
+  }
 }
 
 /**************************************************************************
-Maybe cancel the patrol as there is an enemy near.
+  Maybe cancel the patrol as there is an enemy near.
 
-If you modify the wakeup range you should change it in
-wakeup_neighbor_sentries() too.
+  If you modify the wakeup range you should change it in
+  wakeup_neighbor_sentries() too.
 **************************************************************************/
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
