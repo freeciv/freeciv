@@ -533,9 +533,9 @@ dnl (if fcntl or ioctl exists)
 AC_CHECK_FUNC(fcntl,
               [AC_DEFINE(HAVE_FCNTL)
                AC_DEFINE(NONBLOCKING_SOCKETS)],
-               AC_CHECK_FUNC(ioctl, 
+               [AC_CHECK_FUNC(ioctl, 
                              [AC_DEFINE(HAVE_IOCTL)
-                              AC_DEFINE(NONBLOCKING_SOCKETS)]))
+                              AC_DEFINE(NONBLOCKING_SOCKETS)])])
 
 dnl Checks if SIGPIPE is usable
 AC_MSG_CHECKING([for SIGPIPE])
