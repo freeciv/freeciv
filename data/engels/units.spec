@@ -9,9 +9,12 @@ options = "+spec2"
 artists = "
     Ralph Engels <rengels@hydra.informatik.uni-ulm.de>
 
-  Graphics for Paratroopers, Elephant, Crusaders and Fanatic
+  Graphics for Paratroopers, Crusaders and Fanatic
   are from trident tileset (re-scaled); trident tileset is by:
     Tatu Rissanen <tatu.rissanen@hut.fi>
+
+  Elephants are from ancients modpack, by: 
+    Bobby D. Bryant <bdbryant@mail.utexas.edu>
 
   A small number of other units are essentially the same as 
   original Freeciv units by:
