@@ -180,6 +180,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.established = TRUE;
     aconnection.id = conn_id;
     agents_game_joined();
+    update_menus();
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);

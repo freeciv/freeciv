@@ -78,6 +78,7 @@
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "mapview_common.h"	/* unqueue_mapview_update */
+#include "menu_g.h"
 #include "messagewin_g.h"
 #include "options.h"
 #include "packhand.h"
@@ -106,6 +107,7 @@ static void close_socket_nomessage(struct connection *pc)
   
   set_client_state(CLIENT_PRE_GAME_STATE);
   agents_disconnect();
+  update_menus();
   client_remove_all_cli_conn();
 }
 
