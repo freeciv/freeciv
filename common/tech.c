@@ -570,37 +570,50 @@ bool is_future_tech(Tech_Type_id tech)
   return tech == A_FUTURE;
 }
 
+#define SPECVEC_TAG string
+#define SPECVEC_TYPE char *
+#include "specvec.h"
+
 /**************************************************************************
  Return the name of the given tech. You don't have to free the return
  pointer.
 **************************************************************************/
 const char *get_tech_name(const struct player *pplayer, Tech_Type_id tech)
 {
-  static char buffer[200];
+  static struct string_vector future;
+  int i;
 
+  /* We don't return a static buffer because that would break anything that
+   * needed to work with more than one name at a time. */
   switch (tech) {
   case A_NOINFO:
-    my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
-    break;
+    /* TRANS: "Unknown" tech */
+    return _("(Unknown)");
   case A_UNSET:
-    my_snprintf(buffer, sizeof(buffer), _("None"));
-    break;
+    /* TRANS: "None" tech */
+    return _("None");
   case A_FUTURE:
-    my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-		pplayer->future_tech + 1);
-    break;
+    for (i = future.size; i < pplayer->future_tech; i++) {
+      string_vector_append(&future, NULL);
+    }
+    if (!future.p[pplayer->future_tech - 1]) {
+      char buffer[1024];
+
+      my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
+		  pplayer->future_tech + 1);
+      future.p[pplayer->future_tech - 1] = mystrdup(buffer);
+    }
+    return future.p[pplayer->future_tech - 1];
   default:
     /* Includes A_NONE */
     if (!tech_exists(tech)) {
       assert(0);
-      my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
+      /* TRANS: "Unknown" tech */
+      return _("(Unknown)");
     } else {
-      my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
+      return advances[tech].name;
     }
-    break;
   }
-
-  return buffer;
 }
 
 /**************************************************************************
