@@ -63,6 +63,52 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 static bool update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y);
 
+/****************************************************************************
+  Freeze the workers (citizens on tiles) for the city.  They will not be
+  auto-arranged until unfreeze_workers is called.
+
+  Long explanation:
+
+  Historically auto_arrange_workers was called every time a city changed.
+  If the city grew or shrunk, a new tile became available or was removed,
+  the function would be called.  However in at least one place this breaks.
+  In some operations (like transfer_city) multiple things may change and
+  the city is not left in a sane state in between.  Calling
+  auto_arrange_workers after each change means it's called with an "insane"
+  city.  This can lead at best to a failed sanity check with a wasted call,
+  or at worse to a more major bug.  The solution is freeze_workers and
+  thaw_workers.
+
+  Call freeze_workers to freeze the auto-arranging of citizens.  So long as
+  the freeze is in place no arrangement will be done for this city.  Any
+  call to auto_arrange_workers will just queue up an arrangement for later.
+  Later when thaw_workers is called, the freeze is removed and the
+  auto-arrange will be done if there is any arrangement pending.
+
+  Freezing may safely be done more than once.
+
+  It is thus always safe to call freeze and thaw around any set of city
+  actions.  However this is unlikely to be needed in very many places.
+****************************************************************************/
+static void freeze_workers(struct city *pcity)
+{
+  pcity->server.workers_frozen++;
+}
+
+/****************************************************************************
+  Thaw (unfreeze) the workers (citizens on tiles) for the city.  The workers
+  will be auto-arranged if there is an arrangement pending.  See explanation
+  in freeze_workers().
+****************************************************************************/
+static void thaw_workers(struct city *pcity)
+{
+  pcity->server.workers_frozen--;
+  assert(pcity->server.workers_frozen >= 0);
+  if (pcity->server.workers_frozen == 0 && pcity->server.needs_arrange) {
+    auto_arrange_workers(pcity);
+  }
+}
+
 /****************************************************************
 Returns the priority of the city name at the given position,
 using its own internal algorithm.  Lower priority values are
@@ -743,6 +789,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   assert(pgiver != ptaker);
 
+  freeze_workers(pcity);
+
   unit_list_init(&old_city_units);
   unit_list_iterate(pcity->units_supported, punit) {
     unit_list_insert(&old_city_units, punit);
@@ -834,6 +882,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     update_city_tile_status_map(pcity, ptile);
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
+  thaw_workers(pcity);
   if (raze)
     raze_city(pcity);
 

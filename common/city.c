@@ -2451,6 +2451,9 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->rapture = 0;
   pcity->city_options = CITYOPT_DEFAULT;
 
+  pcity->server.workers_frozen = 0;
+  pcity->server.needs_arrange = FALSE;
+
   pcity->ai.trade_want = 1; /* we always want some */
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
   pcity->ai.danger = 0;

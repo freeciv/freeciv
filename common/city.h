@@ -294,7 +294,15 @@ struct city {
 
   /* server variable. indicates if the city map is synced with the client. */
   bool synced;
-    
+  struct {
+    /* If > 0, workers will not be rearranged until they are unfrozen. */
+    int workers_frozen;
+
+    /* If set, workers need to be arranged when the city is unfrozen.  Only
+     * set inside auto_arrange_workers. */
+    bool needs_arrange;
+  } server;
+
   int turn_founded;		/* In which turn was the city founded? */
 
   /* info for dipl/spy investigation -- used only in client */
