@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <gtk/gtk.h>
 
+#include "combat.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -52,7 +53,7 @@ int city_workers_color=COLOR_STD_WHITE;
 /**************************************************************************
 ...
 **************************************************************************/
-static gint popit_button_release(GtkWidget *w, GdkEventButton *event)
+static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 {
   gtk_grab_remove(w);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
@@ -170,6 +171,23 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
+        struct unit *apunit;
+        
+        /* calculate chance to win */
+        if ((apunit = get_unit_in_focus())) {
+          /* chance to win when active unit is attacking the selected unit */
+          int att_chance = unit_win_chance(apunit, punit) * 100;
+
+          /* chance to win when selected unit is attacking the active unit */
+          int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
+
+          my_snprintf(s, sizeof(s), _("Chance to win: A:%d%% D:%d%%"),
+               att_chance, def_chance);
+          gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+                                         "GtkLabel::label", s, NULL);
+          count++;
+        }
+
         my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, 
@@ -190,9 +208,9 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     for (i = 0; cross_list[i].x >= 0; i++) {
       put_cross_overlay_tile(cross_list[i].x, cross_list[i].y);
     }
-    gtk_signal_connect(GTK_OBJECT(p),"destroy",
-		       GTK_SIGNAL_FUNC(popupinfo_popdown_callback),
-		       cross_list);
+    g_signal_connect(p, "destroy",
+		     G_CALLBACK(popupinfo_popdown_callback),
+		     cross_list);
 
     /* displace popup so as not to obscure it by the mouse cursor */
     popx= event->x_root + 16;
@@ -205,8 +223,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 		     NULL, NULL, event->time);
     gtk_grab_add(p);
 
-    gtk_signal_connect_after(GTK_OBJECT(p), "button_release_event",
-                             GTK_SIGNAL_FUNC(popit_button_release), NULL);
+    g_signal_connect_after(p, "button_release_event",
+                           G_CALLBACK(popit_button_release), NULL);
   }
 }
 
@@ -266,25 +284,6 @@ void set_turn_done_button_state(bool state)
 
 
 /**************************************************************************
-(RP:) wake up my own sentried units on the tile that was clicked
-**************************************************************************/
-gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  int xtile, ytile;
-
-  /* when you get a <SHIFT>+<LMB> pow! */
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE
-      || !(ev->state & GDK_SHIFT_MASK)) {
-    return TRUE;
-  }
-
-  get_map_xy(ev->x, ev->y, &xtile, &ytile);
-
-  wakeup_sentried_units(xtile, ytile);
-  return TRUE;
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
@@ -294,21 +293,21 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   if(get_client_state() != CLIENT_GAME_RUNNING_STATE)
     return TRUE;
   
-  if ((ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
-    adjust_workers(w, ev);
-    return TRUE;
-  }
+  gtk_widget_grab_focus(map_canvas);
 
   get_map_xy(ev->x, ev->y, &xtile, &ytile);
 
-  if (ev->button == 1) {
+  if ((ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
+    adjust_workers(w, ev);
+    wakeup_sentried_units(xtile, ytile);
+  } else if (ev->button == 1) {
     do_map_click(xtile, ytile);
-    gtk_widget_grab_focus(turn_done_button);
   } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
     popit(ev, xtile, ytile);
   } else if (ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
   }
+
   return TRUE;
 }
 

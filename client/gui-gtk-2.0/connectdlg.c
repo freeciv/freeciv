@@ -380,8 +380,7 @@ static int try_to_autoconnect(gpointer data)
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
 	    server_host, server_port, player_name, errbuf);
-    gtk_exit(EXIT_FAILURE);
-    exit(EXIT_FAILURE);			/* Suppresses a gcc warning */
+    exit(EXIT_FAILURE);
   }
 }
 
@@ -410,7 +409,7 @@ void server_autoconnect()
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
 	    server_host, server_port, player_name, buf);
-    gtk_exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
   }
   if (try_to_autoconnect(NULL)) {
     gtk_timeout_add(AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);

@@ -205,7 +205,7 @@ static void kingdom_menu_callback(gpointer callback_data,
     popup_find_dialog();
     break;
   case MENU_KINGDOM_WORKLISTS:
-    popup_worklists_report(game.player_ptr);
+    popup_worklists_report();
     break;
   case MENU_KINGDOM_REVOLUTION:
     popup_revolution_dialog();
@@ -547,8 +547,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Game") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Game") "/sep1",				NULL,
-	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Local Options"),		NULL,
 	game_menu_callback,	MENU_GAME_OPTIONS					},
   { "/" N_("Game") "/" N_("Messa_ge Options"),		NULL,
@@ -777,6 +775,7 @@ static GtkItemFactoryEntry menu_items[]	=
 };
 
 
+#ifdef ENABLE_NLS
 /****************************************************************
   gettext-translates each "/" delimited component of menu path,
   puts them back together, and returns as a static string.
@@ -805,11 +804,12 @@ static char *menu_path_tok(char *path)
 
   return NULL;
 }
+#endif
 
 /****************************************************************
 ...
 *****************************************************************/
-static const char *translate_menu_path(const char *path, int remove_uline)
+static const char *translate_menu_path(const char *path, bool remove_uline)
 {
 #ifndef ENABLE_NLS
   static char res[100];
@@ -876,8 +876,9 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
   item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",toplevel_accel);
   gtk_accel_group_lock(toplevel_accel);
    
-  for(i=0; i<nmenu_items; i++) {
-    menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path, 0));
+  for (i = 0; i < nmenu_items; i++) {
+    menu_items[i].path =
+      mystrdup(translate_menu_path(menu_items[i].path, FALSE));
   }
   
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
@@ -895,16 +896,14 @@ static void menus_set_sensitive(const char *path, int sensitive)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
 	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
   }
 
-  if(GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
   gtk_widget_set_sensitive(item, sensitive);
 }
 
@@ -915,16 +914,14 @@ static void menus_set_active(const char *path, int active)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
 
-  if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
+  if (!(item = gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR,
 	    "Can't set active for non-existent menu %s.", path);
     return;
   }
 
-  if (GTK_IS_MENU(item))
-    item = gtk_menu_get_attach_widget(GTK_MENU(item));
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), active);
 }
 
@@ -936,15 +933,12 @@ static void menus_set_shown(const char *path, int shown)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
     return;
   }
-
-  if(GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
 
   if(shown)
     gtk_widget_show(item);
@@ -960,15 +954,12 @@ static void menus_rename(const char *path, char *s)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if(!(item=gtk_item_factory_get_item(item_factory, path))) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
     return;
   }
-
-  if (GTK_IS_MENU(item))
-    item=gtk_menu_get_attach_widget(GTK_MENU(item));
 
   gtk_label_set_text_with_mnemonic(GTK_LABEL(GTK_BIN(item)->child), s);
 }

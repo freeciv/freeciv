@@ -10,14 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include <gtk/gtk.h>
 #include "gtkpixcomm.h"
@@ -393,7 +394,7 @@ static void create_help_dialog(void)
   GtkWidget *button;
   GtkWidget *text;
   int	     i, j;
-  GtkCellRenderer   *renderer;
+  GtkCellRenderer   *rend;
   GtkTreeViewColumn *col;
   GArray            *array;
   GtkTreeStore      *store;
@@ -405,13 +406,15 @@ static void create_help_dialog(void)
   help_dialog_shell = gtk_dialog_new_with_buttons(_("Freeciv Help Browser"),
   	NULL,
 	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
 	GTK_STOCK_GO_BACK,
 	1,
 	GTK_STOCK_GO_FORWARD,
 	2,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(help_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(help_dialog_shell),
 	GTK_RESPONSE_CLOSE);
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
@@ -465,14 +468,14 @@ static void create_help_dialog(void)
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
 
-  renderer = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer, "text",0,NULL);
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_view), col);
 
   help_view_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_sw),
   			  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(help_view_sw, 230, -1);
+  gtk_widget_set_size_request(help_view_sw, 230, -1);
   gtk_container_add(GTK_CONTAINER(help_view_sw), help_view);
   gtk_widget_show(help_view);
   gtk_box_pack_start(GTK_BOX(hbox), help_view_sw, FALSE, FALSE, 0);
@@ -480,7 +483,7 @@ static void create_help_dialog(void)
 
   help_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(hbox), help_frame, TRUE, TRUE, 0);
-  gtk_widget_set_usize(help_frame, 480, 350);
+  gtk_widget_set_size_request(help_frame, 480, 350);
   gtk_widget_show(help_frame);
 
   help_box = gtk_vbox_new(FALSE, 5);
@@ -601,19 +604,26 @@ static void create_help_dialog(void)
   g_signal_connect(help_tree, "row_activated",
 		   G_CALLBACK(help_tech_tree_activated_callback), NULL);
 
-  renderer = gtk_cell_renderer_text_new();
-  g_object_set(renderer, "weight", "bold", NULL);
 
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 0, "background_gdk", 3, NULL);
+  col = gtk_tree_view_column_new();
+
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "weight", "bold", NULL);
+  gtk_tree_view_column_pack_start(col, rend, TRUE);
+  gtk_tree_view_column_set_attributes(col, rend,
+				      "text", 0,
+				      "background_gdk", 3,
+				      NULL);
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "weight", "bold", "xalign", 1.0, NULL);
+  gtk_tree_view_column_pack_start(col, rend, FALSE);
+  gtk_tree_view_column_set_attributes(col, rend,
+				      "text", 1,
+				      "background_gdk", 3,
+				      NULL);
+
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
 
-  renderer = gtk_cell_renderer_text_new();
-  g_object_set(renderer, "weight", "bold", "xalign", 1.0, NULL);
-
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 1, "background_gdk", 3, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
 
   help_tree_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_sw),
@@ -706,7 +716,11 @@ static void help_update_wonder(const struct help_item *pitem,
     } else {
       gtk_set_label(help_wlabel[3], advances[imp->tech_req].name);
     }
-    gtk_set_label(help_wlabel[5], advances[imp->obsolete_by].name);
+    if (tech_exists(imp->obsolete_by)) {
+      gtk_set_label(help_wlabel[5], advances[imp->obsolete_by].name);
+    } else {
+      gtk_set_label(help_wlabel[5], _("(Never)"));
+    }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -896,7 +910,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
 
-    for(j=0; j<game.num_tech_types; ++j) {
+    for (j = 0; j < game.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE) {
           hbox = gtk_hbox_new(FALSE, 0);
@@ -1096,7 +1110,9 @@ static void help_update_dialog(const struct help_item *pitem)
 
   /* figure out what kind of item is required for pitem ingo */
 
-  for(top=pitem->topic; *top==' '; ++top);
+  for (top = pitem->topic; *top == ' '; top++) {
+    /* nothing */
+  }
 
   help_box_hide();
   gtk_text_buffer_set_text(help_text, "", -1);

@@ -66,6 +66,7 @@ static GtkWidget  *races_leader;
 static GList      *races_leader_list;
 static GtkWidget  *races_sex[2];
 static GtkWidget  *races_city_style_list;
+static GtkTextBuffer *races_text;
 
 /******************************************************************/
 static GtkWidget  *spy_tech_shell;
@@ -155,6 +156,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_misc_set_alignment(GTK_MISC(headline_label), 0.0, 0.0);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   label = gtk_label_new(lines);
@@ -519,6 +522,8 @@ static void create_advances_list(struct player *pplayer,
   gtk_container_add(GTK_CONTAINER(vbox), label);
   
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -672,6 +677,8 @@ static void create_improvements_list(struct player *pplayer,
   gtk_container_add(GTK_CONTAINER(vbox), label);
   
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -1103,10 +1110,10 @@ void popup_government_dialog(void)
       "modal", TRUE,
       NULL);
 
-    gtk_signal_connect(
-      GTK_OBJECT(dshell),
+    g_signal_connect(
+      dshell,
       "delete_event",
-      GTK_SIGNAL_FUNC(gtk_true),
+      G_CALLBACK(gtk_true),
       GINT_TO_POINTER(toplevel)
     );
 
@@ -1115,7 +1122,7 @@ void popup_government_dialog(void)
 
     vbox = gtk_vbutton_box_new();
     gtk_container_add(GTK_CONTAINER(dlabel), vbox);
-    gtk_container_border_width(GTK_CONTAINER(vbox), 5);
+    gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
 
     for (i = 0; i < game.government_count; i++) {
       struct government *g = &governments[i];
@@ -1476,6 +1483,7 @@ static void unit_select_callback(GtkWidget *w, int id)
   struct unit *punit = player_find_unit_by_id(game.player_ptr, id);
 
   if (punit) {
+    request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }
 

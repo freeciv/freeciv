@@ -301,6 +301,31 @@ static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
+static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
+{
+  switch (arg) {
+    case GTK_DIR_TAB_FORWARD:
+    case GTK_DIR_TAB_BACKWARD:
+      
+      if (!GTK_WIDGET_CAN_FOCUS(w)) {
+	return FALSE;
+      }
+
+      if (!gtk_widget_is_focus(w)) {
+	gtk_widget_grab_focus(w);
+	return TRUE;
+      }
+      break;
+
+    default:
+      break;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   /* inputline history code */
@@ -332,11 +357,18 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
     if (data)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
-
-    if (keypress)
-      g_signal_stop_emission_by_name(w, "key_press_event");
-
     return keypress;
+  }
+
+  if (ev->keyval == GDK_Page_Up) {
+    g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, -1, FALSE);
+    return TRUE;
+  }
+  if (ev->keyval == GDK_Page_Down) {
+    g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, 1, FALSE);
+    return TRUE;
   }
 
   if (is_isometric && !client_is_observer()) {
@@ -469,7 +501,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     }
   }
 
-  g_signal_stop_emission_by_name(w, "key_press_event");
   return TRUE;
 }
 
@@ -544,7 +575,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget *box, *ebox, *hbox, *vbox;
+  GtkWidget *box, *ebox, *hbox, *vbox, *align;
   GtkWidget *avbox, *ahbox;
   GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
   GtkStyle *style;
@@ -575,13 +606,16 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(vbox), ahbox);
   avbox = detached_widget_fill(ahbox);
 
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_box_pack_start(GTK_BOX(avbox), align, TRUE, TRUE, 0);
+
   overview_canvas = gtk_drawing_area_new();
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			       | GDK_BUTTON_PRESS_MASK);
 
   gtk_widget_set_size_request(overview_canvas, 160, 100);
-  gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(align), overview_canvas);
 
   g_signal_connect(overview_canvas, "expose_event",
         	   G_CALLBACK(overview_canvas_expose), NULL);
@@ -621,7 +655,7 @@ static void setup_widgets(void)
   
   gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
 
-  table = gtk_table_new(3, 10, FALSE);
+  table = gtk_table_new(3, 10, TRUE);
   gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
   gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
   gtk_box_pack_start(GTK_BOX(box), table, TRUE, FALSE, 0);
@@ -742,6 +776,7 @@ static void setup_widgets(void)
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
   map_canvas = gtk_drawing_area_new();
+  GTK_WIDGET_SET_FLAGS(map_canvas, GTK_CAN_FOCUS);
   
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
@@ -780,9 +815,6 @@ static void setup_widgets(void)
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(keyboard_handler), NULL);
-
-  g_signal_connect(map_canvas, "button_press_event",
-                   G_CALLBACK(butt_down_wakeup), NULL);
 
   /* *** The message window -- this is a detachable widget *** */
 
@@ -895,6 +927,7 @@ void ui_main(int argc, char **argv)
   GdkBitmap *icon_bitmap;
   PangoLanguage *lang;
   const gchar *home;
+  guint sig;
 
   parse_options(argc, argv);
 
@@ -925,6 +958,13 @@ void ui_main(int argc, char **argv)
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
+
+  /* Disable GTK+ cursor key focus movement */
+  sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
+  g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
+				       0, 0, 0, 0);
+  g_signal_connect(toplevel, "focus", G_CALLBACK(toplevel_focus), NULL);
+
 
   display_color_type = get_visual();
   init_color_system();

@@ -1,6 +1,6 @@
 style "city_label"
 {
-  font_name = "Monospace Bold 9"
+  font_name = "Monospace 8"
 }
 
 style "notify_label"

@@ -39,22 +39,18 @@
 #include "spaceshipdlg.h"
 #include "colors.h"
 #include "graphics.h"
-#include "log.h"
 
 #include "plrdlg.h"
 
 static GtkWidget *players_dialog_shell;
 static GtkWidget *players_list;
 static GtkTreeSelection *players_selection;
-static GtkWidget *players_menu;
 static GtkWidget *players_int_command;
 static GtkWidget *players_meet_command;
 static GtkWidget *players_war_command;
 static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 static GtkListStore *store;
-
-static GdkPixbuf *flags[MAX_NUM_NATIONS];
 
 static void create_players_dialog(void);
 static void players_meet_callback(GtkMenuItem *item, gpointer data);
@@ -96,43 +92,12 @@ void popdown_players_dialog(void)
 static void players_destroy_callback(GtkObject *object, gpointer data)
 {
   players_dialog_shell = NULL;
-
-  if (players_menu) {
-    gtk_widget_destroy(GTK_WIDGET(players_menu));
-  }
-  players_menu = NULL;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean button_press(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  gtk_menu_popup(GTK_MENU(players_menu),
-    NULL, NULL, NULL, NULL, ev->button, ev->time);
-  return FALSE;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static gboolean key_press(GtkWidget *w, GdkEventKey *ev, gpointer data)
-{
-  switch (ev->keyval) {
-  case GDK_KP_Space:
-  case GDK_space:
-    gtk_menu_popup(GTK_MENU(players_menu),
-      NULL, NULL, NULL, NULL, 0, ev->time);
-
-  default:
-    return FALSE;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void selection_callback(GtkTreeSelection *selection, gpointer data)
+static void update_players_menu(void)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -144,10 +109,11 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
     gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
     plr = &game.players[plrno];
   
-    if (plr->spaceship.state != SSHIP_NONE)
+    if (plr->spaceship.state != SSHIP_NONE) {
       gtk_widget_set_sensitive(players_sship_command, TRUE);
-    else
+    } else {
       gtk_widget_set_sensitive(players_sship_command, FALSE);
+    }
 
     switch (pplayer_get_diplstate(game.player_ptr, get_player(plrno))->type) {
     case DS_WAR:
@@ -177,9 +143,17 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
+static void selection_callback(GtkTreeSelection *selection, gpointer data)
+{
+  update_players_menu();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles[NUM_COLUMNS] = {
+  static char *titles[NUM_COLUMNS] = {
     N_("Name"),
     N_("Flag"),
     N_("Nation"),
@@ -212,24 +186,10 @@ void create_players_dialog(void)
     G_TYPE_INT
   };
 
-  static GtkStateType base[] = {
-    COLOR_STD_BLACK,
-    COLOR_STD_OCEAN,
-    COLOR_STD_BLACK,
-    COLOR_STD_OCEAN,
-    COLOR_STD_BLACK
-  };
-  static GtkStateType text[] = {
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE,
-    COLOR_STD_WHITE
-  };
-
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
-  GtkWidget *sep;
+  GtkWidget *sep, *sw;
+  GtkWidget *menubar, *menu, *item;
 
   model_types[1] = GDK_TYPE_PIXBUF;
   model_types[COLOR_COLUMN] = GDK_TYPE_COLOR;
@@ -241,6 +201,8 @@ void create_players_dialog(void)
     0,
     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
     NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(players_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
 
   g_signal_connect(players_dialog_shell, "destroy",
     G_CALLBACK(players_destroy_callback), NULL);
@@ -255,13 +217,6 @@ void create_players_dialog(void)
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",
         G_CALLBACK(selection_callback), NULL);
-
-  for (i = 0; i < ARRAY_SIZE(base); i++) {
-    gtk_widget_modify_base(players_list, i, colors_standard[base[i]]);
-  }
-  for (i = 0; i < ARRAY_SIZE(text); i++) {
-    gtk_widget_modify_text(players_list, i, colors_standard[text[i]]);
-  }
 
   for (i = 0; i < NUM_COLUMNS; i++) {
     GtkCellRenderer *renderer;
@@ -293,38 +248,52 @@ void create_players_dialog(void)
 
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(players_list), DEF_SORT_COLUMN);
 
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(players_dialog_shell)->vbox),
-    players_list);
-  gtk_widget_show_all(players_list);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+		                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+  gtk_widget_set_size_request(sw, -1, 200);
+  gtk_container_add(GTK_CONTAINER(sw), players_list);
 
-  players_menu = gtk_menu_new();
-  gtk_menu_set_accel_group(GTK_MENU(players_menu), accel);
+  menubar = gtk_menu_bar_new();
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), menubar,
+		     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), sw,
+		     TRUE, TRUE, 0);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Player"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+  gtk_menu_set_accel_group(GTK_MENU(menu), accel);
 
   players_int_command = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
   gtk_widget_set_sensitive(players_int_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_int_command);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_int_command);
 
   sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 
   players_meet_command = gtk_menu_item_new_with_mnemonic(_("_Meet"));
   gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_meet_command);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_meet_command);
 
   players_war_command = gtk_menu_item_new_with_mnemonic(_("_Cancel Treaty"));
   gtk_widget_set_sensitive(players_war_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_war_command);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_war_command);
 
   players_vision_command=gtk_menu_item_new_with_mnemonic(_("_Withdraw vision"));
   gtk_widget_set_sensitive(players_vision_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_vision_command);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_vision_command);
 
   sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 
   players_sship_command = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
   gtk_widget_set_sensitive(players_sship_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_sship_command);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_sship_command);
 
   gtk_widget_add_accelerator(players_int_command,
     "activate", accel, GDK_I, 0, GTK_ACCEL_VISIBLE);
@@ -338,14 +307,7 @@ void create_players_dialog(void)
     "activate", accel, GDK_S, 0, GTK_ACCEL_VISIBLE);
 
   gtk_window_add_accel_group(GTK_WINDOW(players_dialog_shell), accel);
-
-  gtk_widget_show_all(players_menu);
-
-  g_signal_connect(players_list, "button_press_event",
-    G_CALLBACK(button_press), NULL);
-  g_signal_connect(players_list, "key_press_event",
-    G_CALLBACK(key_press), NULL);
-
+  gtk_widget_show_all(GTK_DIALOG(players_dialog_shell)->vbox);
 
   g_signal_connect(players_meet_command, "activate",
     G_CALLBACK(players_meet_callback), NULL);
@@ -374,42 +336,38 @@ void create_players_dialog(void)
 /* 
  * Builds the flag pixmap.
  */
-static void build_flag(Nation_Type_id nation)
+static GdkPixbuf *get_flag(struct nation_type *nation)
 {
-  if (!flags[nation]) {
-    int x0, y0, x1, y1, w, h;
-    GdkPixbuf *scaled;
-    SPRITE *flag;
+  int x0, y0, x1, y1, w, h;
+  GdkPixbuf *im;
+  SPRITE *flag;
 
-    if (!(flag = get_nation_by_idx(nation)->flag_sprite)) {
-      return;
-    }
+  flag = nation->flag_sprite;
 
-    /* calculate the bounding box ... */
-    sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
+  /* calculate the bounding box ... */
+  sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
 
-    assert(x0 != -1);
-    assert(y0 != -1);
-    assert(x1 != -1);
-    assert(y1 != -1);
+  assert(x0 != -1);
+  assert(y0 != -1);
+  assert(x1 != -1);
+  assert(y1 != -1);
 
-    w = (x1 - x0) + 1;
-    h = (y1 - y0) + 1;
+  w = (x1 - x0) + 1;
+  h = (y1 - y0) + 1;
 
-    /* if the flag is smaller then 5 x 5, something is wrong */
-    assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
+  /* if the flag is smaller then 5 x 5, something is wrong */
+  assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
 
-    /* croping */
-    scaled = gdk_pixbuf_get_from_drawable(NULL,
-      flag->pixmap,
-      gdk_colormap_get_system(),
-      x0, y0,
-      0, 0,
-      w, h);
+  /* croping */
+  im = gdk_pixbuf_get_from_drawable(NULL,
+				    flag->pixmap,
+				    gdk_colormap_get_system(),
+				    x0, y0,
+				    0, 0,
+				    w, h);
 
-    /* and finaly store the scaled flag pixbuf in the static flags array */
-    flags[nation] = scaled;
-  }
+  /* and finaly store the scaled flag pixbuf in the static flags array */
+  return im;
 }
 
 
@@ -424,6 +382,7 @@ static void build_row(GtkTreeIter *it, int i)
   const struct player_diplstate *pds;
   gint idle;
   struct player *plr = get_player(i);
+  GdkPixbuf *flag;
   GdkColor *state_col;
   GValue value = { 0, };
 
@@ -493,10 +452,9 @@ static void build_row(GtkTreeIter *it, int i)
     -1);
 
    /* set flag. */
-   build_flag(plr->nation);
-   if (flags[plr->nation]) {
-     gtk_list_store_set(store, it, 1, flags[plr->nation], -1);
-   }
+   flag = get_flag(get_nation_by_plr(plr));
+   gtk_list_store_set(store, it, 1, flag, -1);
+   g_object_unref(flag);
 
    /* now add some eye candy ... */
    switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
@@ -507,7 +465,7 @@ static void build_row(GtkTreeIter *it, int i)
      state_col = colors_standard[COLOR_STD_GROUND];
      break;
    default:
-     state_col = colors_standard[COLOR_STD_WHITE];
+     state_col = colors_standard[COLOR_STD_BLACK];
    }
    gtk_list_store_set(store, it, COLOR_COLUMN, state_col, -1);
 }
@@ -569,6 +527,8 @@ void update_players_dialog(void)
         build_row(&iter, i);
       }
     }
+
+    update_players_menu();
   }
 }
 
