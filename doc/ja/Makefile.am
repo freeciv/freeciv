@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST =			\
-	ja/BUGS.ja		\
-	ja/HOWTOPLAY.ja		\
-	ja/NEWS.ja		\
-	ja/README.ja		\
-	ja/README.cma.ja	\
-	ja/README_Japanese.ja
+	BUGS.ja			\
+	HOWTOPLAY.ja		\
+	NEWS.ja			\
+	README.ja		\
+	README.cma.ja		\
+	README_Japanese.ja
 

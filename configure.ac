@@ -691,6 +691,12 @@ AC_CONFIG_FILES([Makefile
 	  intl/Makefile
 	  po/Makefile.in
 	  doc/Makefile
+	  doc/de/Makefile
+	  doc/fr/Makefile
+	  doc/it/Makefile
+	  doc/ja/Makefile
+	  doc/nl/Makefile
+	  doc/sv/Makefile
 	  undep.sh])
 AC_CONFIG_COMMANDS([default],[[ chmod +x undep.sh ; ./undep.sh ]],[[]])
 AC_OUTPUT
