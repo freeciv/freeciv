@@ -298,10 +298,10 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check for Barbarian response. */
   if (is_barbarian (cplayer)) {
-    notify_player_ex (pplayer, pcity->x, pcity->y, E_NOEVENT,
+    notify_player_ex( pplayer, pcity->x, pcity->y, E_NOEVENT,
 		      _("Game: Your %s was executed in %s by primitive %s."),
 		      unit_name (pdiplomat->type),
-		      pcity->name, get_nation_name_plural (pplayer->nation));
+		      pcity->name, get_nation_name_plural (cplayer->nation));
     wipe_unit (pdiplomat);
     return;
   }
