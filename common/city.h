@@ -58,8 +58,9 @@ enum city_options {
 /* for new city: default auto-attack options all on, others off: */
 #define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
 
-/* Diameter of the workable city area. Must be unequal.
-   Some places in the code hardcodes this number (yet). */
+/* Diameter of the workable city area. Must be an odd number.
+   Some places in the code hardcodes this number, fx 
+   city_map_iterate_outwards_indices */
 #define CITY_MAP_SIZE 5
 
 /* Number of tiles a city can use */
@@ -75,7 +76,7 @@ enum city_options {
 /*
  * Size of the biggest possible city.
  *
-* The constant may be changed since it isn't externally visible.
+ * The constant may be changed since it isn't externally visible.
  */
 #define MAX_CITY_SIZE					100
 
@@ -120,7 +121,7 @@ extern int city_map_iterate_outwards_indices[CITY_TILES][2];
  * the city is given as a map position (x0,y0). cx and cy will be
  * elements of [0,CITY_MAP_SIZE). mx and my will form the map position
  * (mx,my).
-*/
+ */
 #define city_map_checked_iterate(x0, y0, cx, cy, mx, my) {     \
   city_map_iterate_outwards(cx, cy) {                          \
     int mx, my;                                                \
@@ -131,30 +132,14 @@ extern int city_map_iterate_outwards_indices[CITY_TILES][2];
   } city_map_iterate_outwards_end    \
 }
 
-/* Iterate a city radius: (dx,dy) centered on (0,0) */
-#define city_radius_iterate(dx, dy) \
-  for (dy = -(int)(CITY_MAP_SIZE/2); dy<(int)(CITY_MAP_SIZE/2); dy++) \
-    for (dx = -(int)(CITY_MAP_SIZE/2); dx<(int)(CITY_MAP_SIZE/2); dx++) \
-      if (! ((dx == -(int)(CITY_MAP_SIZE/2) || dx == (int)(CITY_MAP_SIZE/2)) && \
-	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
-
-
-#define map_city_radius_iterate(city_x, city_y, x_itr, y_itr)     \
+/* Does the same thing as city_map_checked_iterate, but keeps the city
+ * coordinates hidden. */
+#define map_city_radius_iterate(city_x, city_y, map_x, map_y)     \
 {                                                                 \
-  int x_itr, y_itr;                                               \
-  int MCMI_x, MCMI_y;                                             \
-  for (MCMI_x = 0; MCMI_x < CITY_MAP_SIZE; MCMI_x++) {            \
-    for (MCMI_y = 0; MCMI_y < CITY_MAP_SIZE; MCMI_y++) {          \
-      if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1))         \
-	     && (MCMI_y == 0 || MCMI_y == (CITY_MAP_SIZE-1))) ) { \
-	if(!base_city_map_to_map(&x_itr, &y_itr, city_x,    \
-				       city_y, MCMI_x, MCMI_y))   \
-	  continue;
+  city_map_checked_iterate(city_x, city_y, _cx, _cy, map_x, map_y) { 
 
 #define map_city_radius_iterate_end                               \
-      }                                                           \
-    }                                                             \
-  }                                                               \
+  } city_map_checked_iterate_end;                                 \
 }
 
 
