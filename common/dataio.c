@@ -59,18 +59,7 @@ static const int city_map_index[20] = {
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *put_conv(unsigned char *dst, const char *src)
-{
-  size_t len = strlen(src) + 1;
-
-  memcpy(dst, src, len);
-  return dst + len;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static DIO_PUT_CONV_FUN put_conv_callback = put_conv;
+static DIO_PUT_CONV_FUN put_conv_callback = NULL;
 
 /**************************************************************************
 ...
@@ -329,7 +318,17 @@ void dio_put_memory(struct data_out *dout, const void *value, size_t size)
 **************************************************************************/
 void dio_put_string(struct data_out *dout, const char *value)
 {
-  dio_put_memory(dout, value, strlen(value) + 1);
+  if (put_conv_callback) {
+    size_t length;
+    unsigned char *buffer;
+
+    if ((buffer = (*put_conv_callback) (value, &length))) {
+      dio_put_memory(dout, buffer, length + 1);
+      free(buffer);
+    }
+  } else {
+    dio_put_memory(dout, value, strlen(value) + 1);
+  }
 }
 
 /**************************************************************************
