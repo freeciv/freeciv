@@ -555,7 +555,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     }
   }
   
-  if(pplayer==game.player_ptr && pplayer->revolution==0 && 
+  if(pplayer==game.player_ptr && 
+     (pplayer->revolution < 1 || pplayer->revolution > 5) && 
      pplayer->government==G_ANARCHY &&
      (!game.player_ptr->ai.control || ai_popup_windows))
     popup_government_dialog();
