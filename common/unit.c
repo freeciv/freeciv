@@ -66,7 +66,7 @@ struct unit_type unit_types[U_LAST]={
   {"Submarine", 25, SEA_MOVING,   60,  F_FIELDUNIT|F_SUBMARINE, 10,  2,  3*3, A_COMBUSTION,  2,  8, 30, 1, -1, 0},
   {"Carrier",   6,  SEA_MOVING,  160,  F_FIELDUNIT|F_CARRIER,  1, 9,  5*3, A_ADVANCED,    2,  8, 40, 2, -1, 0},
   {"Transport", 26, SEA_MOVING,   50,  0,  0,  3,  5*3, A_INDUSTRIALIZATION,   2,  8, 30, 1, -1, 0},
-  {"Cruise Mis.",30,AIR_MOVING,   60,  F_FIELDUNIT | F_MISSILE | F_ONEATTACK, 18,  0,  12*3, A_ROCKETRY,  1, 0, 10, 3, -1, 1},
+  {"Cruise Missile",30,AIR_MOVING,   60,  F_FIELDUNIT | F_MISSILE | F_ONEATTACK, 18,  0,  12*3, A_ROCKETRY,  1, 0, 10, 3, -1, 1},
   {"Nuclear",   20, AIR_MOVING,  160,  F_FIELDUNIT | F_ONEATTACK | F_MISSILE, 99,  0, 16*3, A_ROCKETRY,     1,  0, 10, 1, -1, 1},
   {"Diplomat",  11, LAND_MOVING,  30,  F_DIPLOMAT | F_IGZOC | F_NONMIL,  0,  0,  2*3, A_WRITING,  1,  0, 10, 1, U_SPY, 0},
   {"Spy",       41, LAND_MOVING,  30,  F_DIPLOMAT | F_IGZOC | F_NONMIL,  0,  0,  3*3, A_ESPIONAGE,1,  0, 10, 1, -1, 0},
