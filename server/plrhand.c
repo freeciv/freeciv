@@ -47,9 +47,6 @@
 
 #include "plrhand.h"
 
-extern struct advance advances[];
-extern struct player_race races[];
-
 enum historian_type {
         HISTORIAN_RICHEST=0, 
         HISTORIAN_ADVANCED=1,

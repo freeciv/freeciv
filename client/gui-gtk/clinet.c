@@ -50,6 +50,7 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "dialogs.h"           /* popdown_races_dialog() */
 #include "gui_main.h"
 #include "packhand.h"
 
@@ -57,8 +58,10 @@
 
 struct connection aconnection;
 
-extern int errno;
 extern gint gdk_input_id;
+
+extern int errno;		/* See discussion in server/sernet.c  --dwp */
+
 
 void get_net_input(gpointer data, gint fid, GdkInputCondition condition);
 

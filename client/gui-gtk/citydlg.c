@@ -273,7 +273,8 @@ void popdown_all_city_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
+static gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev,
+				   gpointer data)
 {
   city_dialog_update_map((struct city_dialog *)data);
   return TRUE;
@@ -282,7 +283,8 @@ gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint city_dialog_delete_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
+static gint city_dialog_delete_callback(GtkWidget *w, GdkEvent *ev,
+					gpointer data)
 {
   close_city_dialog((struct city_dialog *)data);
   return FALSE;
@@ -610,13 +612,15 @@ void show_units_callback(GtkWidget *w, gpointer data)
     popup_unit_select_dialog(ptile);
 }
 
+#ifdef UNUSED
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_ok_callback(GtkWidget *w, gpointer data)
+static void present_units_ok_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
+#endif
 
 /****************************************************************
 ...
@@ -632,7 +636,7 @@ void activate_unit(struct unit *punit)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_activate_callback(GtkWidget *w, gpointer data)
+static void present_units_activate_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
@@ -644,7 +648,7 @@ void present_units_activate_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_activate_close_callback(GtkWidget *w, gpointer data)
+static void present_units_activate_close_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -663,7 +667,7 @@ void present_units_activate_close_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void supported_units_activate_close_callback(GtkWidget *w, gpointer data)
+static void supported_units_activate_close_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -682,7 +686,7 @@ void supported_units_activate_close_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_disband_callback(GtkWidget *w, gpointer data)
+static void present_units_disband_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
@@ -695,7 +699,7 @@ void present_units_disband_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_homecity_callback(GtkWidget *w, gpointer data)
+static void present_units_homecity_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
   
@@ -708,7 +712,7 @@ void present_units_homecity_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_cancel_callback(GtkWidget *w, gpointer data)
+static void present_units_cancel_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -794,7 +798,7 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void rename_city_callback(GtkWidget *w, gpointer data)
+static void rename_city_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -829,7 +833,7 @@ void rename_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_message_dialog_callback(GtkWidget *w, gpointer data)
+static void trade_message_dialog_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -1126,7 +1130,8 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-gint support_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
+				   gpointer data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -1423,7 +1428,7 @@ gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void buy_callback_yes(GtkWidget *w, gpointer data)
+static void buy_callback_yes(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1441,7 +1446,7 @@ void buy_callback_yes(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void buy_callback_no(GtkWidget *w, gpointer data)
+static void buy_callback_no(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -1564,7 +1569,7 @@ void upgrade_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_to_callback(GtkWidget *w, gpointer data)
+static void change_to_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   GList *selection;
@@ -1590,7 +1595,7 @@ void change_to_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_no_callback(GtkWidget *w, gpointer data)
+static void change_no_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   
@@ -1603,7 +1608,7 @@ void change_no_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_help_callback(GtkWidget *w, gpointer data)
+static void change_help_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   GList *selection;
@@ -1633,7 +1638,7 @@ void change_help_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-gint change_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
+static gint change_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   struct city_dialog *pdialog;
   
@@ -1743,7 +1748,7 @@ void change_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void sell_callback_yes(GtkWidget *w, gpointer data)
+static void sell_callback_yes(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1762,7 +1767,7 @@ void sell_callback_yes(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void sell_callback_no(GtkWidget *w, gpointer data)
+static void sell_callback_no(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }

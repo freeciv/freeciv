@@ -54,6 +54,6 @@ extern int NORMAL_TILE_HEIGHT;
 void load_intro_gfx(void);
 void load_cursors(void);
 
-void free_intro_radar_sprites();
+void free_intro_radar_sprites(void);
 
 #endif  /* FC__GRAPHICS_G_H */

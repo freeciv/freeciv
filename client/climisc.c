@@ -173,7 +173,7 @@ void climap_init_continents(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void climap_renumber_continent(int x, int y, int new)
+static void climap_renumber_continent(int x, int y, int new)
 {
   int i, j, old;
 

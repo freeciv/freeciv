@@ -215,8 +215,8 @@ void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 /****************************************************************
 ...
 *****************************************************************/
-int fill_diplomacy_tech_menu(Widget popupmenu, 
-			     struct player *plr0, struct player *plr1)
+static int fill_diplomacy_tech_menu(Widget popupmenu, 
+				    struct player *plr0, struct player *plr1)
 {
   int i, flag;
   
@@ -243,8 +243,8 @@ cities visible to requesting player.
 
                             - Kris Bubendorfer
 *****************************************************************/
-int fill_diplomacy_city_menu(Widget popupmenu, 
-			      struct player *plr0, struct player *plr1)
+static int fill_diplomacy_city_menu(Widget popupmenu, 
+				    struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(&plr0->cities);
   struct city **city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
@@ -820,7 +820,7 @@ struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 /*****************************************************************
 ...
 *****************************************************************/
-struct Diplomacy_dialog *find_diplomacy_by_input(Widget w)
+static struct Diplomacy_dialog *find_diplomacy_by_input(Widget w)
 {
   struct genlist_iterator myiter;
   

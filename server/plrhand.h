@@ -47,9 +47,7 @@ void handle_player_tech_goal(struct player *pplayer,
                             struct packet_player_request *preq);
 void researchprogress(int plr);
 int update_tech(struct player *plr, int bulbs);
-void set_invention(struct player *plr, int tech, int value);
 void init_tech(struct player *plr, int tech);
-void update_research(struct player *plr); 
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);

@@ -23,4 +23,27 @@ void quit_civ(Widget w, XtPointer client_data, XtPointer call_data);
 void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void remove_net_callback(void);
 
+/**************************************************************************/
+/* FIXME */
+
+/* The following function is in helpdlg.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_help_dialog_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
+
+/* The following function is in plrdlg.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_players_dialog_action(Widget w, XEvent *event, 
+				 String *argv, Cardinal *argc);
+
+/* The following function is in messagewin.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_meswin_dialog_action(Widget w, XEvent *event, 
+				String *argv, Cardinal *argc);
+
+/* The following function is in cityrep.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_city_report_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
+
 #endif  /* FC__GUI_MAIN_H */

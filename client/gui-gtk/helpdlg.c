@@ -112,18 +112,20 @@ void help_update_dialog(struct help_item *pitem);
 void create_help_page(enum help_page_type type);
 
 
+#ifdef UNUSED
 /****************************************************************
 ...
 *****************************************************************/
-struct help_item *find_help_item_position(int pos)
+static struct help_item *find_help_item_position(int pos)
 {
   return genlist_get(&help_nodes, pos);
 }
+#endif /* UNUSED */
 
 /****************************************************************
 ...
 *****************************************************************/
-void set_title_topic(char *topic)
+static void set_title_topic(char *topic)
 {
   if(!strcmp(topic, "Freeciv") || !strcmp(topic, "About"))
     gtk_frame_set_label(GTK_FRAME(help_frame), FREECIV_NAME_VERSION);
@@ -427,8 +429,8 @@ void popup_help_dialog_string(char *item)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_tech_tree(GtkCTree *ctree, int tech, int levels,
-				GtkCTreeNode *parent)
+static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
+			     GtkCTreeNode *parent)
 {
   GtkCTreeNode *l;
   gchar        *text[1];
@@ -478,7 +480,7 @@ void create_tech_tree(GtkCTree *ctree, int tech, int levels,
 /**************************************************************************
 ...
 **************************************************************************/
-void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
+static void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
 {
   char *s;
 
@@ -488,7 +490,7 @@ void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
     select_help_item_string(s, type);
 }
 
-GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
+static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 {
   GtkWidget *button;
 
@@ -501,7 +503,7 @@ GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   return button;
 }
 
-GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
+static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
 {
   GtkWidget *button;
 
@@ -512,8 +514,8 @@ GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
   return button;
 }
 
-void selected_topic(GtkCList *clist, gint row, gint column,
-							GdkEventButton *event)
+static void selected_topic(GtkCList *clist, gint row, gint column,
+			   GdkEventButton *event)
 {
   struct help_item *p = NULL;
 
@@ -728,7 +730,8 @@ static void help_cathedral_techs_append(char *buf)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_improvement(struct help_item *pitem, char *title, int which)
+static void help_update_improvement(struct help_item *pitem, char *title,
+				    int which)
 {
   char *buf = &long_buffer[0];
   int t;
@@ -812,7 +815,7 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_wonder(struct help_item *pitem, char *title, int which)
+static void help_update_wonder(struct help_item *pitem, char *title, int which)
 {
   char *buf = &long_buffer[0];
   
@@ -864,7 +867,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_unit_type(struct help_item *pitem, char *title, int i)
+static void help_update_unit_type(struct help_item *pitem, char *title, int i)
 {
   char *buf = &long_buffer[0];
   
@@ -1019,7 +1022,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_tech(struct help_item *pitem, char *title, int i)
+static void help_update_tech(struct help_item *pitem, char *title, int i)
 {
   int j;
   GtkWidget *w, *hbox;
@@ -1180,13 +1183,10 @@ void help_update_dialog(struct help_item *pitem)
 
 
 
-
-
-
 /**************************************************************************
 ...
 **************************************************************************/
-void select_help_item(int item)
+static void select_help_item(int item)
 {
   gtk_clist_moveto(GTK_CLIST (help_clist), item, 0, 0, 0);
   gtk_clist_select_row(GTK_CLIST (help_clist), item, 0);

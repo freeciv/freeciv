@@ -82,8 +82,8 @@ extern int draw_map_grid;
 /**************************************************************************
 ...
 **************************************************************************/
-void name_new_city_callback(Widget w, XtPointer client_data, 
-			   XtPointer call_data)
+static void name_new_city_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data)
 {
   size_t unit_id;
   
@@ -756,7 +756,7 @@ void key_unit_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
 /**************************************************************************
 ...
 **************************************************************************/
-void popit(int xin, int yin, int xtile, int ytile)
+static void popit(int xin, int yin, int xtile, int ytile)
 {
   Position x, y;
   char s[512];

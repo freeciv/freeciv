@@ -38,6 +38,7 @@
 
 #include "chatline.h"
 #include "citydlg.h"
+#include "gui_main.h"		/* FIXME; only for misplaced proto */
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -677,7 +678,7 @@ void city_close_callback(Widget w, XtPointer client_data,
 ...
 *****************************************************************/
 void close_city_report_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc)
+				     String *argv, Cardinal *argc)
 {
   city_close_callback(w, NULL, NULL);
 }

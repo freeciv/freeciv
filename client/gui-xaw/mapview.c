@@ -571,7 +571,7 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_overview_tile_foreground_color(int x, int y)
+static void set_overview_tile_foreground_color(int x, int y)
 {
   struct tile *ptile=map_get_tile(x, y);
   struct unit *punit;

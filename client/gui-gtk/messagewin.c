@@ -35,7 +35,6 @@
 #include "meswindlg.h"
 
 extern GtkWidget *toplevel;
-extern struct player_race races[];
 
 GtkWidget *meswin_dialog_shell;
 GtkWidget *meswin_list;
@@ -100,7 +99,7 @@ void popup_meswin_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void meswin_visited_item (gint n)
+static void meswin_visited_item (gint n)
 {
   gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
 						meswin_visited_style);
@@ -109,7 +108,7 @@ void meswin_visited_item (gint n)
 /****************************************************************
 ...
 *****************************************************************/
-void meswin_not_visited_item (gint n)
+static void meswin_not_visited_item (gint n)
 {
   gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
 						meswin_not_visited_style);

@@ -582,8 +582,8 @@ void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy)
   May also be used with punit==NULL, in which case punit
   tests are not done (for unit-independent results).
 ***************************************************************/
-int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
-			struct tile *t2, int x1, int y1, int x2, int y2)
+static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
+			       struct tile *t2, int x1, int y1, int x2, int y2)
 {
   if (punit && !is_ground_unit(punit))
     return 3;
@@ -611,8 +611,8 @@ int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
   return -3, else if either is ocean return maxcost.
   Otherwise, return normal cost (unit-independent).
 ***************************************************************/
-int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
-		      int x, int y, int x1, int y1, int maxcost)
+static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
+			     int x, int y, int x1, int y1, int maxcost)
 {
   if (tile0->terrain == T_UNKNOWN || tile1->terrain == T_UNKNOWN) {
     return maxcost;

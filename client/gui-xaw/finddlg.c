@@ -33,7 +33,6 @@
 #include "finddlg.h"
 
 extern Widget toplevel, main_form;
-extern struct player_race races[];
 
 Widget find_dialog_shell;
 Widget find_form;
@@ -171,7 +170,7 @@ void update_find_dialog(Widget find_list)
 /**************************************************************************
 ...
 **************************************************************************/
-void popdown_find_dialog(void)
+static void popdown_find_dialog(void)
 {
   int i;
   

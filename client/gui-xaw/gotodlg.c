@@ -39,10 +39,7 @@
 
 #include "gotodlg.h"
 
-void send_unit_info(struct unit *punit);
-
 extern Widget toplevel, main_form;
-extern struct player_race races[];
 
 Widget goto_dialog_shell;
 Widget goto_form;
@@ -177,7 +174,7 @@ void popup_goto_dialog(void)
   XtVaSetValues(goto_viewport, XtNforceBars, True, NULL);
 }
 
-struct city *get_selected_city(void)
+static struct city *get_selected_city(void)
 {
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(goto_list);
@@ -232,7 +229,7 @@ void update_goto_dialog(Widget goto_list)
 /**************************************************************************
 ...
 **************************************************************************/
-void popdown_goto_dialog(void)
+static void popdown_goto_dialog(void)
 {
   int i;
   

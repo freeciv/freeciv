@@ -60,9 +60,9 @@ void rates_changed_callback(GtkAdjustment *adj);
 /**************************************************************************
 ...
 **************************************************************************/
-void rates_set_values(int tax, int no_tax_scroll, 
-		      int lux, int no_lux_scroll,
-		      int sci, int no_sci_scroll)
+static void rates_set_values(int tax, int no_tax_scroll, 
+			     int lux, int no_lux_scroll,
+			     int sci, int no_sci_scroll)
 {
   char buf[16];
   int tax_lock, lux_lock, sci_lock;
@@ -193,7 +193,7 @@ void rates_changed_callback(GtkAdjustment *adj)
 /**************************************************************************
 ...
 **************************************************************************/
-void rates_ok_command_callback(GtkWidget *widget, gpointer data)
+static void rates_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   struct packet_player_request packet;
   
@@ -210,7 +210,7 @@ void rates_ok_command_callback(GtkWidget *widget, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
+static void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
 {
   gtk_widget_set_sensitive(toplevel, TRUE);
   gtk_widget_destroy(rates_dialog_shell);
@@ -221,7 +221,7 @@ void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ... 
 *****************************************************************/
-void create_rates_dialog( void )
+static void create_rates_dialog(void)
 {
   GtkWidget	*frame, *hbox;
 
@@ -372,7 +372,7 @@ GtkWidget *option_dialog_shell;
 /**************************************************************************
 ...
 **************************************************************************/
-void option_ok_command_callback(GtkWidget *widget, gpointer data)
+static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   client_option *o;
 
@@ -388,7 +388,7 @@ void option_ok_command_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ... 
 *****************************************************************/
-void create_option_dialog(void)
+static void create_option_dialog(void)
 {
   GtkWidget *button;
   GtkAccelGroup *accel=gtk_accel_group_new();

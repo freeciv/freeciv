@@ -40,6 +40,6 @@ enum Display_color_type	get_visual		(void);
 void			init_color_system	(void);
 void			color_error		(void);
 
-GdkColor *colors_standard		[COLOR_STD_LAST];
+extern GdkColor *colors_standard[COLOR_STD_LAST];
 
 #endif  /* FC__COLORS_H */

@@ -71,7 +71,7 @@ extern GtkWidget *turn_done_button;
 /**************************************************************************
 ...
 **************************************************************************/
-void name_new_city_callback(GtkWidget *w, gpointer data)
+static void name_new_city_callback(GtkWidget *w, gpointer data)
 {
   size_t unit_id;
   
@@ -751,7 +751,7 @@ popit_button_release(GtkWidget *w, GdkEventButton *event)
 /**************************************************************************
 ...
 **************************************************************************/
-void popit(GdkEventButton *event, int xtile, int ytile)
+static void popit(GdkEventButton *event, int xtile, int ytile)
 {
   GtkWidget *p, *b;
   char s[512];

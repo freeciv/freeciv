@@ -1176,7 +1176,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   Calculate the total amount of activity performed by all units on a tile
   for a given task.
 **************************************************************************/
-int total_activity (int x, int y, enum unit_activity act)
+static int total_activity (int x, int y, enum unit_activity act)
 {
   struct tile *ptile;
   int total = 0;

@@ -106,7 +106,7 @@ void load_intro_gfx( void )
 /***************************************************************************
 return newly allocated sprite cropped from source
 ***************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
+static struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y,
 			   int width, int height)
 {

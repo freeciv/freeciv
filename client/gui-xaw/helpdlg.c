@@ -41,6 +41,7 @@
 #include "climisc.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"		/* FIXME; only for misplaced proto */
 #include "gui_stuff.h"
 
 #include "helpdlg.h"
@@ -122,13 +123,13 @@ char long_buffer[64000];
 #define TREE_NODE_REMOVED_TECH_BG "magenta"
 
 
-struct help_item *find_help_item_position(int pos)
+static struct help_item *find_help_item_position(int pos)
 {
   return genlist_get(&help_nodes, pos);
 }
 
 
-void set_title_topic(struct help_item *pitem)
+static void set_title_topic(struct help_item *pitem)
 {
   if(!strcmp(pitem->topic, "Freeciv") || 
      !strcmp(pitem->topic, "About"))
@@ -495,7 +496,7 @@ void create_help_dialog(void)
 }
 
 
-void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
+static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 {
   Widget l;
   int type;
@@ -843,7 +844,8 @@ static void help_cathedral_techs_append(char *buf)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_improvement(struct help_item *pitem, char *title, int which)
+static void help_update_improvement(struct help_item *pitem, char *title,
+				    int which)
 {
   char *buf = &long_buffer[0];
   int t;
@@ -926,7 +928,7 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_wonder(struct help_item *pitem, char *title, int which)
+static void help_update_wonder(struct help_item *pitem, char *title, int which)
 {
   char *buf = &long_buffer[0];
   
@@ -978,7 +980,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_unit_type(struct help_item *pitem, char *title, int i)
+static void help_update_unit_type(struct help_item *pitem, char *title, int i)
 {
   char *buf = &long_buffer[0];
   
@@ -1119,7 +1121,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_tech(struct help_item *pitem, char *title, int i)
+static void help_update_tech(struct help_item *pitem, char *title, int i)
 {
   char buf[4096];
   int j;
@@ -1182,7 +1184,7 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-void help_update_dialog(struct help_item *pitem)
+static void help_update_dialog(struct help_item *pitem)
 {
   int i;
   char *top;
@@ -1226,7 +1228,7 @@ void help_update_dialog(struct help_item *pitem)
 /**************************************************************************
 ...
 **************************************************************************/
-int help_tree_destroy_children(Widget w)
+static int help_tree_destroy_children(Widget w)
 {
   Widget *children=0;
   Cardinal cnt;

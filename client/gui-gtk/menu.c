@@ -126,8 +126,8 @@ enum MenuID {
 /****************************************************************
 ...
 *****************************************************************/
-void game_menu_callback(gpointer callback_data, guint callback_action,
-			GtkWidget *widget)
+static void game_menu_callback(gpointer callback_data,
+			       guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
   case MENU_GAME_OPTIONS:
@@ -170,8 +170,8 @@ void game_menu_callback(gpointer callback_data, guint callback_action,
 /****************************************************************
 ...
 *****************************************************************/
-void kingdom_menu_callback(gpointer callback_data, guint callback_action,
-			GtkWidget *widget)
+static void kingdom_menu_callback(gpointer callback_data,
+				  guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
   case MENU_KINGDOM_TAX_RATE:
@@ -190,8 +190,8 @@ void kingdom_menu_callback(gpointer callback_data, guint callback_action,
 /****************************************************************
 ...
 *****************************************************************/
-void view_menu_callback(gpointer callback_data, guint callback_action,
-			GtkWidget *widget)
+static void view_menu_callback(gpointer callback_data, guint callback_action,
+			       GtkWidget *widget)
 {
   switch(callback_action) {
   case MENU_VIEW_SHOW_MAP_GRID:
@@ -207,8 +207,8 @@ void view_menu_callback(gpointer callback_data, guint callback_action,
 /****************************************************************
 ...
 *****************************************************************/
-void orders_menu_callback(gpointer callback_data, guint callback_action,
-			  GtkWidget *widget)
+static void orders_menu_callback(gpointer callback_data,
+				 guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
    case MENU_ORDER_AUTO_SETTLER:
@@ -314,8 +314,8 @@ void orders_menu_callback(gpointer callback_data, guint callback_action,
 /****************************************************************
 ...
 *****************************************************************/
-void reports_menu_callback(gpointer callback_data, guint callback_action,
-			   GtkWidget *widget)
+static void reports_menu_callback(gpointer callback_data,
+				  guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
    case MENU_REPORT_CITY:
@@ -349,8 +349,8 @@ void reports_menu_callback(gpointer callback_data, guint callback_action,
 /****************************************************************
 ...
 *****************************************************************/
-void help_menu_callback(gpointer callback_data, guint callback_action,
-			GtkWidget *widget)
+static void help_menu_callback(gpointer callback_data,
+			       guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
   case MENU_HELP_CONNECTING:
@@ -627,7 +627,7 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
 /****************************************************************
 ...
 *****************************************************************/
-void menus_set_sensitive(char *path, int sensitive)
+static void menus_set_sensitive(char *path, int sensitive)
 {
   GtkWidget *item;
   
@@ -642,10 +642,11 @@ void menus_set_sensitive(char *path, int sensitive)
   gtk_widget_set_sensitive(item, sensitive);
 }
 
+#ifdef UNUSED 
 /****************************************************************
 ...
 *****************************************************************/
-void menus_set_shown(char *path, int shown)
+static void menus_set_shown(char *path, int shown)
 {
   GtkWidget *item;
   
@@ -662,11 +663,12 @@ void menus_set_shown(char *path, int shown)
   else
     gtk_widget_hide(item);
 }
+#endif /* UNUSED */
 
 /****************************************************************
 ...
 *****************************************************************/
-void menus_rename(char *path, char *s)
+static void menus_rename(char *path, char *s)
 {
   GtkWidget *item;
   

@@ -27,7 +27,6 @@
 #include "finddlg.h"
 
 extern GtkWidget *toplevel;
-extern struct player_race races[];
 
 GtkWidget *find_dialog_shell;
 GtkWidget *find_label;
@@ -149,7 +148,7 @@ void update_find_dialog(GtkWidget *find_list)
 /**************************************************************************
 ...
 **************************************************************************/
-void popdown_find_dialog(void)
+static void popdown_find_dialog(void)
 {
   gtk_widget_destroy(find_dialog_shell);
   gtk_widget_set_sensitive(toplevel, TRUE);

@@ -29,7 +29,6 @@
 
 extern GtkWidget *toplevel;
 extern struct connection aconnection;
-extern struct advance advances[];
 
 /******************************************************************/
 GtkWidget *intel_dialog_shell;

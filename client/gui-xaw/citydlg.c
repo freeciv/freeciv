@@ -307,8 +307,8 @@ void popdown_all_city_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-void city_map_canvas_expose(Widget w, XEvent *event, Region exposed, 
-			    void *client_data)
+static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed, 
+				   void *client_data)
 {
   struct city_dialog *pdialog;
   
@@ -715,14 +715,16 @@ void show_units_callback(Widget w, XtPointer client_data,
 }
 
 
+#ifdef UNUSED
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_ok_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data)
+static void present_units_ok_callback(Widget w, XtPointer client_data, 
+				      XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
+#endif
 
 
 /****************************************************************
@@ -740,8 +742,8 @@ void activate_unit(struct unit *punit)
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_activate_callback(Widget w, XtPointer client_data, 
-				     XtPointer call_data)
+static void present_units_activate_callback(Widget w, XtPointer client_data, 
+					    XtPointer call_data)
 {
   struct unit *punit;
 
@@ -754,8 +756,9 @@ void present_units_activate_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_activate_close_callback(Widget w, XtPointer client_data, 
-					   XtPointer call_data)
+static void present_units_activate_close_callback(Widget w,
+						  XtPointer client_data, 
+						  XtPointer call_data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -774,8 +777,9 @@ void present_units_activate_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void supported_units_activate_close_callback(Widget w, XtPointer client_data, 
-					     XtPointer call_data)
+static void supported_units_activate_close_callback(Widget w,
+						    XtPointer client_data, 
+						    XtPointer call_data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -796,8 +800,8 @@ void supported_units_activate_close_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_disband_callback(Widget w, XtPointer client_data, 
-				    XtPointer call_data)
+static void present_units_disband_callback(Widget w, XtPointer client_data, 
+					   XtPointer call_data)
 {
   struct unit *punit;
 
@@ -811,8 +815,8 @@ void present_units_disband_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_homecity_callback(Widget w, XtPointer client_data, 
-				     XtPointer call_data)
+static void present_units_homecity_callback(Widget w, XtPointer client_data, 
+					    XtPointer call_data)
 {
   struct unit *punit;
   
@@ -826,8 +830,8 @@ void present_units_homecity_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void present_units_cancel_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data)
+static void present_units_cancel_callback(Widget w, XtPointer client_data, 
+					  XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
@@ -874,8 +878,8 @@ void present_units_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void rename_city_callback(Widget w, XtPointer client_data, 
-			  XtPointer call_data)
+static void rename_city_callback(Widget w, XtPointer client_data, 
+				 XtPointer call_data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -913,8 +917,8 @@ void rename_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_message_dialog_callback(Widget w, XtPointer client_data, 
-				   XtPointer call_data)
+static void trade_message_dialog_callback(Widget w, XtPointer client_data, 
+					  XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
@@ -1166,8 +1170,8 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void support_units_callback(Widget w, XtPointer client_data, 
-			      XtPointer call_data)
+static void support_units_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data)
 {
   struct unit *punit;
   struct city *pcity;
@@ -1438,7 +1442,8 @@ void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void buy_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
+static void buy_callback_yes(Widget w, XtPointer client_data,
+			     XtPointer call_data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1456,7 +1461,8 @@ void buy_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void buy_callback_no(Widget w, XtPointer client_data, XtPointer call_data)
+static void buy_callback_no(Widget w, XtPointer client_data,
+			    XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
@@ -1574,7 +1580,8 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_to_callback(Widget w, XtPointer client_data, XtPointer call_data)
+static void change_to_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data)
 {
   struct city_dialog *pdialog;
   XawListReturnStruct *ret;
@@ -1602,7 +1609,8 @@ void change_to_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_no_callback(Widget w, XtPointer client_data, XtPointer call_data)
+static void change_no_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data)
 {
   struct city_dialog *pdialog;
   
@@ -1615,7 +1623,8 @@ void change_no_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void change_help_callback(Widget w, XtPointer client_data, XtPointer call_data)
+static void change_help_callback(Widget w, XtPointer client_data,
+				 XtPointer call_data)
 {
   struct city_dialog *pdialog;
   XawListReturnStruct *ret;
@@ -1751,7 +1760,8 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void sell_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
+static void sell_callback_yes(Widget w, XtPointer client_data,
+			      XtPointer call_data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;
@@ -1770,11 +1780,11 @@ void sell_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************
 ...
 *****************************************************************/
-void sell_callback_no(Widget w, XtPointer client_data, XtPointer call_data)
+static void sell_callback_no(Widget w, XtPointer client_data,
+			     XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
-
 
 
 /****************************************************************

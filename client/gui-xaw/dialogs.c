@@ -133,8 +133,8 @@ static Widget caravan_dialog;
 /****************************************************************
 ...
 *****************************************************************/
-void notify_command_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void notify_command_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
 {
   XtDestroyWidget(XtParent(XtParent(w)));
   XtSetSensitive(toplevel, TRUE);
@@ -191,14 +191,15 @@ void popup_notify_dialog(char *headline, char *lines)
 ...
 *****************************************************************/
 
+/* surely this should use genlists??  --dwp */
 struct widget_list {
   Widget w;
   int x,y;
   struct widget_list *next;
 };
-struct widget_list *notify_goto_widget_list = NULL;
+static struct widget_list *notify_goto_widget_list = NULL;
 
-void notify_goto_widget_remove(Widget w)
+static void notify_goto_widget_remove(Widget w)
 {
   struct widget_list *cur, *tmp;
   cur=notify_goto_widget_list;
@@ -217,7 +218,8 @@ void notify_goto_widget_remove(Widget w)
     free(tmp);
   }
 }
-void notify_goto_find_widget(Widget w, int *x, int *y)
+
+static void notify_goto_find_widget(Widget w, int *x, int *y)
 {
   struct widget_list *cur;
   *x=0;
@@ -229,8 +231,7 @@ void notify_goto_find_widget(Widget w, int *x, int *y)
   }
 }
 
-
-void notify_goto_add_widget_coords(Widget w, int  x, int y)
+static void notify_goto_add_widget_coords(Widget w, int  x, int y)
 {
   struct widget_list *newwidget;
   newwidget = fc_malloc(sizeof(struct widget_list));
@@ -241,7 +242,7 @@ void notify_goto_add_widget_coords(Widget w, int  x, int y)
   notify_goto_widget_list = newwidget;
 }
 
-void notify_goto_command_callback(Widget w, XtPointer client_data, 
+static void notify_goto_command_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
   int x,y;
@@ -253,7 +254,7 @@ void notify_goto_command_callback(Widget w, XtPointer client_data,
   XtSetSensitive(toplevel, TRUE);
 }
 
-void notify_no_goto_command_callback(Widget w, XtPointer client_data, 
+static void notify_no_goto_command_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
   notify_goto_widget_remove(w);
@@ -325,8 +326,8 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_bribe_yes_callback(Widget w, XtPointer client_data, 
-				 XtPointer call_data)
+static void diplomat_bribe_yes_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data)
 {
   struct packet_diplomat_action req;
 
@@ -342,8 +343,8 @@ void diplomat_bribe_yes_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_bribe_no_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data)
+static void diplomat_bribe_no_callback(Widget w, XtPointer client_data, 
+				       XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
@@ -351,8 +352,8 @@ void diplomat_bribe_no_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...  Ask the server how much the bribe is
 *****************************************************************/
-void diplomat_bribe_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void diplomat_bribe_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
 {
   struct packet_generic_integer packet;
 
@@ -390,8 +391,8 @@ void popup_bribe_dialog(struct unit *punit)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_sabotage_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data)
+static void diplomat_sabotage_callback(Widget w, XtPointer client_data, 
+				       XtPointer call_data)
 {
   destroy_message_dialog(w);
   
@@ -412,8 +413,8 @@ void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_embassy_callback(Widget w, XtPointer client_data, 
-			       XtPointer call_data)
+static void diplomat_embassy_callback(Widget w, XtPointer client_data, 
+				      XtPointer call_data)
 {
  
   destroy_message_dialog(w);
@@ -433,8 +434,8 @@ void diplomat_embassy_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_investigate_callback(Widget w, XtPointer client_data, 
-			       XtPointer call_data)
+static void diplomat_investigate_callback(Widget w, XtPointer client_data, 
+					  XtPointer call_data)
 {
  
   destroy_message_dialog(w);
@@ -454,8 +455,8 @@ void diplomat_investigate_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
-			       XtPointer call_data)
+static void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
+				       XtPointer call_data)
 {
 
   struct packet_diplomat_action req;
@@ -472,8 +473,8 @@ void spy_sabotage_unit_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_poison_callback(Widget w, XtPointer client_data, 
-			       XtPointer call_data)
+static void spy_poison_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data)
 {
   
   destroy_message_dialog(w);
@@ -494,8 +495,8 @@ void spy_poison_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_steal_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void diplomat_steal_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
 {
   destroy_message_dialog(w);
   
@@ -516,8 +517,8 @@ void diplomat_steal_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_close_tech_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data)
+static void spy_close_tech_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
 {
 
   if(spy_tech_shell_is_modal)
@@ -529,8 +530,8 @@ void spy_close_tech_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_close_sabotage_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data)
+static void spy_close_sabotage_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data)
 {
 
   if(spy_sabotage_shell_is_modal)
@@ -542,8 +543,8 @@ void spy_close_sabotage_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_select_tech_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_select_tech_callback(Widget w, XtPointer client_data, 
+				     XtPointer call_data)
 {
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(spy_advances_list);
@@ -559,8 +560,8 @@ void spy_select_tech_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_select_improvement_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_select_improvement_callback(Widget w, XtPointer client_data, 
+					    XtPointer call_data)
 {
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(spy_improvements_list);
@@ -576,8 +577,8 @@ void spy_select_improvement_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_steal_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_steal_callback(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
 {  
   XtDestroyWidget(spy_tech_shell);
   spy_tech_shell = 0l;
@@ -603,8 +604,8 @@ void spy_steal_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_callback(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_sabotage_callback(Widget w, XtPointer client_data, 
+				  XtPointer call_data)
 {  
   XtDestroyWidget(spy_sabotage_shell);
   spy_sabotage_shell = 0l;
@@ -630,8 +631,8 @@ void spy_sabotage_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-
-int create_advances_list(struct player *pplayer, struct player *pvictim, int make_modal)
+static int create_advances_list(struct player *pplayer,
+				struct player *pvictim, int make_modal)
 {  
   Widget spy_tech_form;
   Widget close_command;
@@ -714,8 +715,8 @@ int create_advances_list(struct player *pplayer, struct player *pvictim, int mak
 /****************************************************************
 ...
 *****************************************************************/
-
-int create_improvements_list(struct player *pplayer, struct city *pcity, int make_modal)
+static int create_improvements_list(struct player *pplayer,
+				    struct city *pcity, int make_modal)
 {  
   Widget spy_sabotage_form;
   Widget close_command;
@@ -791,8 +792,8 @@ int create_improvements_list(struct player *pplayer, struct city *pcity, int mak
 /****************************************************************
 ...
 *****************************************************************/
-void spy_steal_popup(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_steal_popup(Widget w, XtPointer client_data, 
+			    XtPointer call_data)
 {
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   struct player *pvictim = NULL;
@@ -826,8 +827,8 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_popup(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void spy_sabotage_popup(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
 {
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   
@@ -853,8 +854,8 @@ void spy_sabotage_popup(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_incite_yes_callback(Widget w, XtPointer client_data, 
-				 XtPointer call_data)
+static void diplomat_incite_yes_callback(Widget w, XtPointer client_data, 
+					 XtPointer call_data)
 {
   struct packet_diplomat_action req;
 
@@ -870,8 +871,8 @@ void diplomat_incite_yes_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_incite_no_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data)
+static void diplomat_incite_no_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data)
 {
   destroy_message_dialog(w);
 }
@@ -880,8 +881,8 @@ void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...  Ask the server how much the revolt is going to cost us
 *****************************************************************/
-void diplomat_incite_callback(Widget w, XtPointer client_data, 
-			      XtPointer call_data)
+static void diplomat_incite_callback(Widget w, XtPointer client_data, 
+				     XtPointer call_data)
 {
   struct city *pcity;
   struct packet_generic_integer packet;
@@ -922,7 +923,7 @@ void popup_incite_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
+static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 {
   destroy_message_dialog(w);
 }
@@ -1018,8 +1019,8 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_establish_trade_callback(Widget w, XtPointer client_data, 
-				      XtPointer call_data)
+static void caravan_establish_trade_callback(Widget w, XtPointer client_data, 
+					     XtPointer call_data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -1036,8 +1037,8 @@ void caravan_establish_trade_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_help_build_wonder_callback(Widget w, XtPointer client_data, 
-					XtPointer call_data)
+static void caravan_help_build_wonder_callback(Widget w, XtPointer client_data, 
+					       XtPointer call_data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -1054,8 +1055,8 @@ void caravan_help_build_wonder_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_keep_moving_callback(Widget w, XtPointer client_data, 
-				  XtPointer call_data)
+static void caravan_keep_moving_callback(Widget w, XtPointer client_data, 
+					 XtPointer call_data)
 {
 #if 0   /* Now don't want to move at all in this case --dwp */
   struct unit *punit;
@@ -1110,8 +1111,8 @@ void popup_caravan_dialog(struct unit *punit,
 /****************************************************************
 ...
 *****************************************************************/
-void government_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data)
+static void government_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data)
 {
   struct packet_player_request packet;
 
@@ -1159,8 +1160,8 @@ void popup_government_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void revolution_callback_yes(Widget w, XtPointer client_data, 
-			     XtPointer call_data)
+static void revolution_callback_yes(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
 {
   struct packet_player_request packet;
 
@@ -1172,8 +1173,8 @@ void revolution_callback_yes(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void revolution_callback_no(Widget w, XtPointer client_data, 
-			    XtPointer call_data)
+static void revolution_callback_no(Widget w, XtPointer client_data, 
+				   XtPointer call_data)
 {
   destroy_message_dialog(w);
 }

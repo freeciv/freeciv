@@ -236,7 +236,8 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
 }
 
-int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
+#ifdef GRAVEDANGERWORKS
+static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 {
   int m;
   m = get_virtual_defense_power(a_type, d_type, pcity->x, pcity->y);
@@ -245,6 +246,7 @@ int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
   m /= 30;
   return (m * m);
 }
+#endif
 
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
@@ -699,6 +701,7 @@ int ai_choose_defender(struct city *pcity)
   return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, 0));
 }
 
+#ifdef UNUSED
 /************************************************************************** 
 ...
 **************************************************************************/
@@ -709,6 +712,7 @@ void adjust_build_choice(struct player *pplayer, struct ai_choice *cur,
   leader_adjust_build_choice(pplayer, cur, advisor);
   copy_if_better_choice(cur, best);
 }
+#endif /* UNUSED */
 
 /**************************************************************************
 ... 

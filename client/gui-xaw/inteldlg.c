@@ -37,7 +37,6 @@
 extern Widget toplevel, main_form;
 extern struct connection aconnection;
 extern Display	*display;
-extern struct advance advances[];
 
 /******************************************************************/
 Widget intel_dialog_shell;

@@ -63,25 +63,16 @@ extern SPRITE *		radar_gfx_sprite;
 
 
 
-
-
-
 extern char	server_host	[];
 extern char	name		[];
 extern int	server_port;
 extern char *	tile_set_dir;
 
 extern enum client_states	client_state;
-extern int			use_solid_color_behind_units;
-extern int			sound_bell_at_new_turn;
-extern int			smooth_move_units;
-extern int			flags_are_transparent;
 
 extern int			seconds_to_turndone;
 
 extern int			last_turn_gold_amount;
-extern int			turn_gold_difference;
-extern int			ai_manual_turn_done;
 extern int			did_advance_tech_this_turn;
 
 
@@ -151,10 +142,15 @@ enum Display_color_type		display_color_type;
 
 extern int	num_units_below;
 
-gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
-gint timer_callback(gpointer data);
-void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
-void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
+#ifdef UNUSED  /* used in commented-out code */
+static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
+#endif
+
+static gint timer_callback(gpointer data);
+static void child_detached(GtkHandleBox *handle_box, GtkWidget *widget,
+			   gpointer user_data);
+static void output_detached(GtkHandleBox *handle_box, GtkWidget *widget,
+			    gpointer user_data);
 
 
 /**************************************************************************
@@ -197,7 +193,7 @@ static void check_arg(const char *str, const char *optname, const char *argv0)
 /**************************************************************************
 ...
 **************************************************************************/
-void parse_options(int *argc, char **argv[])
+static void parse_options(int *argc, char **argv[])
 {
   char *logfile=NULL;
   int loglevel;
@@ -382,7 +378,7 @@ void parse_options(int *argc, char **argv[])
 /**************************************************************************
 ...
 **************************************************************************/
-gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
+static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 {
     if (GTK_WIDGET_HAS_FOCUS(inputline))
 	return FALSE;
@@ -433,7 +429,7 @@ gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 /**************************************************************************
 ...
 **************************************************************************/
-void setup_widgets(void)
+static void setup_widgets(void)
 {
   GtkWidget	      *vbox;
   GtkWidget	      *hbox;
@@ -723,7 +719,8 @@ void setup_widgets(void)
  * but I don't think it makes the whole thing slowlier if it's
  * done each time.
  */
-void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
+static void child_detached(GtkHandleBox *handle_box, GtkWidget *widget,
+			   gpointer user_data)
 {
   gtk_widget_queue_resize(GTK_WIDGET(user_data));
 }
@@ -732,7 +729,8 @@ void child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_d
  * so the gutter of the paned is correctly positionned when the
  * output/chat window is detached
  */
-void output_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
+static void output_detached(GtkHandleBox *handle_box, GtkWidget *widget,
+		     gpointer user_data)
 {
   gtk_paned_set_position(GTK_PANED(user_data), -1);
 }
@@ -870,6 +868,7 @@ void remove_net_input(void)
   gdk_input_remove(gdk_input_id);
 }
 
+#ifdef UNUSED  /* used in show_info_popup() below */
 /**************************************************************************
 ...
 **************************************************************************/
@@ -881,11 +880,13 @@ show_info_button_release(GtkWidget *w, GdkEventButton *event)
   gtk_widget_destroy(w);
   return FALSE;
 }
+#endif /* UNUSED */
 
+#ifdef UNUSED  /* used in commented-out code */
 /**************************************************************************
 ...
 **************************************************************************/
-gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
+static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 {
   if(ev->button==1) {
     GtkWidget *p;
@@ -923,6 +924,7 @@ gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
   }
   return TRUE;
 }
+#endif /* UNUSED */
 
 
 
@@ -955,7 +957,7 @@ void end_turn_callback(GtkWidget *widget, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-gint timer_callback(gpointer data)
+static gint timer_callback(gpointer data)
 {
   static int flip;
   

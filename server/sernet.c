@@ -57,12 +57,16 @@ TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else
 static int sock;
-extern int errno;
 extern int port;
+extern int errno;
+/* Is it necessary for us to declare errno on any platform?
+   It should already be declared in errno.h (included above),
+   and may really be a macro or some other magic.  If it is
+   necessary, we should do some configure magic and only
+   declare it when necessary.  --dwp
+*/
 #endif
 extern int force_end_of_sniff;
-
-extern enum server_states server_state;
 
 
 /*****************************************************************************/

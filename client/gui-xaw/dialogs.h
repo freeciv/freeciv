@@ -25,7 +25,6 @@ void destroy_message_dialog(Widget button);
 void popup_about_dialog(void);
 void races_dialog_returnkey(Widget w, XEvent *event, String *params,
 			    Cardinal *num_params);
-void popup_unit_select_dialog(struct tile *ptile);
 
 enum help_type_dialog {HELP_COPYING_DIALOG, HELP_KEYS_DIALOG};
 

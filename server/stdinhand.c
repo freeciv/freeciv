@@ -958,7 +958,7 @@ static void remove_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void rename_player(struct player *caller, char *arg)
+static void rename_player(struct player *caller, char *arg)
 {
   cmd_reply(CMD_RENAME, caller, C_FAIL,
 	"Sorry, the 'rename' command is not implemented yet.");
@@ -967,7 +967,7 @@ void rename_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void read_command(struct player *caller, char *arg)
+static void read_command(struct player *caller, char *arg)
 {
   cmd_reply(CMD_READ, caller, C_FAIL,
 	"Sorry, the 'read' command is not implemented yet.");
@@ -976,7 +976,7 @@ void read_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void write_command(struct player *caller, char *arg)
+static void write_command(struct player *caller, char *arg)
 {
   cmd_reply(CMD_WRITE, caller, C_FAIL,
 	"Sorry, the 'write' command is not implemented yet.");
@@ -1014,7 +1014,7 @@ static int set_cmdlevel(struct player *caller, struct player *pplayer,
 /**************************************************************************
  Change command level for individual player, or all, or new.
 **************************************************************************/
-void cmdlevel_command(struct player *caller, char *str)
+static void cmdlevel_command(struct player *caller, char *str)
 {
   char arg_level[MAX_CMD_LEN+1]; /* info, ctrl etc */
   char arg_name[MAX_CMD_LEN+1];	 /* a player name, or "new" */

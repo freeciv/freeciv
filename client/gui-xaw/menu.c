@@ -397,7 +397,8 @@ void update_menus(void)
 /****************************************************************
 ...
 *****************************************************************/
-void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+static void game_menu_callback(Widget w, XtPointer client_data,
+			       XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
@@ -450,7 +451,8 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 /****************************************************************
 ...
 *****************************************************************/
-void view_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+static void view_menu_callback(Widget w, XtPointer client_data,
+			       XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
@@ -468,7 +470,8 @@ void view_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 /****************************************************************
 ...
 *****************************************************************/
-void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+static void orders_menu_callback(Widget w, XtPointer client_data,
+				 XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
@@ -576,7 +579,8 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 /****************************************************************
 ...
 *****************************************************************/
-void reports_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+static void reports_menu_callback(Widget w, XtPointer client_data,
+				  XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 
@@ -612,7 +616,8 @@ void reports_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
 /****************************************************************
 ...
 *****************************************************************/
-void help_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+static void help_menu_callback(Widget w, XtPointer client_data,
+			       XtPointer garbage)
 {
   size_t pane_num = (size_t)client_data;
 

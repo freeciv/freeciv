@@ -56,7 +56,7 @@ void input_dialog_destroy(GtkWidget *button)
 /****************************************************************
 ...
 *****************************************************************/
-gint input_dialog_del_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
+static gint input_dialog_del_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   gtk_widget_set_sensitive((GtkWidget *)data, TRUE);
   return FALSE;

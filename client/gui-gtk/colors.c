@@ -52,7 +52,7 @@ extern GtkWidget *toplevel;
 /*************************************************************
 ...
 *************************************************************/
-void alloc_standard_colors (void)
+static void alloc_standard_colors (void)
 {
   GdkColormap *cmap;
   int i;

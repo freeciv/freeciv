@@ -47,7 +47,6 @@
 #include "packhand.h"
 
 extern int seconds_to_turndone;
-extern int turn_gold_difference;
 extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern char name[512];
@@ -716,7 +715,8 @@ Do things one at a time; the server will send us an updated
 spaceship_info packet, and we'll be back here to do anything
 which is left.
 **************************************************************************/
-int spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship)
+static int spaceship_autoplace(struct player *pplayer,
+			       struct player_spaceship *ship)
 {
   struct packet_spaceship_action packet;
   int i;

@@ -128,34 +128,12 @@ static XrmOptionDescRec cmd_options[] = {
 /* { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }*/
 };
 
-extern int sound_bell_at_new_turn;
-extern int turn_gold_difference;
-extern int ai_manual_turn_done;
+static void timer_callback(caddr_t client_data, XtIntervalId *id);
+static void show_info_popup(Widget w, XEvent *event, String *argv,
+			    Cardinal *argc);
+static void quit_freeciv(Widget w, XEvent *event, String *argv,
+			 Cardinal *argc);
 
-void timer_callback(caddr_t client_data, XtIntervalId *id);
-void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc);
-void quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc);
-
-/**************************************************************************/
-/* The following function is in helpdlg.c, but currently there is no
- * good place to put this prototype --dwp  */
-void close_help_dialog_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc);
-
-/* The following function is in plrdlg.c, but currently there is no
- * good place to put this prototype --dwp  */
-void close_players_dialog_action(Widget w, XEvent *event, 
-				 String *argv, Cardinal *argc);
-
-/* The following function is in messagewin.c, but currently there is no
- * good place to put this prototype --dwp  */
-void close_meswin_dialog_action(Widget w, XEvent *event, 
-				String *argv, Cardinal *argc);
-
-/* The following function is in cityrep.c, but currently there is no
- * good place to put this prototype --dwp  */
-void close_city_report_action(Widget w, XEvent *event, 
-			      String *argv, Cardinal *argc);
 /**************************************************************************/
 
 struct game_data {
@@ -284,13 +262,14 @@ XtActionsRec Actions[] = {
   { "close-cityreport", close_city_report_action }
 };
 
-int myerr(Display *p, XErrorEvent *e)
+#ifdef UNUSED
+/* This is used below in ui_main(), in commented out code. */
+static int myerr(Display *p, XErrorEvent *e)
 {
   puts("error");
   return 0;
 }
-
-
+#endif
 
 /**************************************************************************
 ...
@@ -716,7 +695,8 @@ void remove_net_input(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void quit_freeciv(Widget w, XEvent *event, String *argv,
+			 Cardinal *argc)
 {
   exit(0);
 }
@@ -724,7 +704,8 @@ void quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc)
 /**************************************************************************
 ...
 **************************************************************************/
-void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void show_info_popup(Widget w, XEvent *event, String *argv,
+			    Cardinal *argc)
 {
   XButtonEvent *ev=&event->xbutton;
 
@@ -803,7 +784,7 @@ void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /**************************************************************************
 ...
 **************************************************************************/
-void timer_callback(caddr_t client_data, XtIntervalId *id)
+static void timer_callback(caddr_t client_data, XtIntervalId *id)
 {
   static int flip;
   

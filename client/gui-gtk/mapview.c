@@ -598,7 +598,7 @@ gint overview_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 /**************************************************************************
 ...
 **************************************************************************/
-void set_overview_tile_foreground_color(int x, int y)
+static void set_overview_tile_foreground_color(int x, int y)
 {
   struct tile *ptile=map_get_tile(x, y);
   struct unit *punit;

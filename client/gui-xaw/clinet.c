@@ -49,6 +49,7 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "dialogs.h"		/* popdown_races_dialog() */
 #include "gui_main.h"
 #include "packhand.h"
 
@@ -58,9 +59,11 @@ extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 
 struct connection aconnection;
 
-extern int errno;
 extern XtInputId x_input_id;
 extern XtAppContext app_context;
+
+extern int errno;		/* See discussion in server/sernet.c  --dwp */
+
 
 /**************************************************************************
 ...
@@ -162,9 +165,6 @@ void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
     set_client_state(CLIENT_PRE_GAME_STATE);
   }
 }
-
-
-
 
 
 /**************************************************************************

@@ -100,9 +100,9 @@ void load_intro_gfx(void)
 /***************************************************************************
 return newly allocated sprite cropped from source
 ***************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y,
-			   int width, int height)
+static struct Sprite *crop_sprite(struct Sprite *source,
+				  int x, int y,
+				  int width, int height)
 {
   GC plane_gc;
   Pixmap mypixmap, mask;

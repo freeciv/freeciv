@@ -29,6 +29,7 @@
 #include "chatline.h"
 #include "clinet.h"
 #include "diplodlg.h"
+#include "gui_main.h"		/* FIXME; only for misplaced proto */
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
@@ -38,8 +39,6 @@
 extern Widget toplevel, main_form;
 extern Display *display;
 extern Atom wm_delete_window;
-
-extern struct player_race races[];
 
 Widget players_dialog_shell;
 Widget players_form;

@@ -738,7 +738,7 @@ int find_highest_used_id(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void do_apollo_program(void)
+static void do_apollo_program(void)
 {
   int cityid;
   int i;
@@ -760,7 +760,7 @@ void do_apollo_program(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_pollution(void)
+static void update_pollution(void)
 {
   int x,y,count=0;
   
@@ -918,7 +918,7 @@ void start_game(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_report_request(struct player *pplayer, enum report_type type)
+static void handle_report_request(struct player *pplayer, enum report_type type)
 {
   switch(type) {
    case REPORT_WONDERS_OF_THE_WORLD:
@@ -1256,7 +1256,7 @@ static void send_select_race(struct player *pplayer)
  'rejoin' is whether this is a new player, or re-connection.
  Prints a log message, and notifies other players.
 **************************************************************************/
-void join_game_accept(struct player *pplayer, int rejoin)
+static void join_game_accept(struct player *pplayer, int rejoin)
 {
   struct packet_join_game_reply packet;
   int i;
@@ -1282,7 +1282,7 @@ void join_game_accept(struct player *pplayer, int rejoin)
 /**************************************************************************
  Introduce player to server, and notify of other players.
 **************************************************************************/
-void introduce_game_to_player(struct player *pplayer)
+static void introduce_game_to_player(struct player *pplayer)
 {
   char hostname[512];
   struct player *cplayer;
@@ -1376,8 +1376,7 @@ void accept_new_player(char *name, struct connection *pconn)
 /**************************************************************************
 ...
 **************************************************************************/
-
-void reject_new_player(char *msg, struct connection *pconn)
+static void reject_new_player(char *msg, struct connection *pconn)
 {
   struct packet_join_game_reply packet;
   

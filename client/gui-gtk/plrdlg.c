@@ -32,7 +32,6 @@
 
 extern GdkWindow *root_window;
 extern GtkWidget *toplevel;
-extern struct player_race races[];
 
 GtkWidget *players_dialog_shell;
 GtkWidget *players_list;

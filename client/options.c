@@ -139,7 +139,7 @@ void init_messages_where(void)
 /****************************************************************
 ...								
 *****************************************************************/
-FILE *open_option_file(char *mode)
+static FILE *open_option_file(char *mode)
 {
   char name_buffer[256];
   char output_buffer[256];

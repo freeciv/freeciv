@@ -91,7 +91,7 @@ void color_error(void)
 /*************************************************************
 ...
 *************************************************************/
-void alloc_standard_colors(void)
+static void alloc_standard_colors(void)
 {
   int i;
 

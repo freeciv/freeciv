@@ -23,6 +23,7 @@ struct unit;
 struct city;
 
 Pixmap get_thumb_pixmap(int onoff);
+Pixmap get_citizen_pixmap(int frame);
 
 void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile);
 
@@ -48,9 +49,5 @@ void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,
 			     XtPointer percent_ptr);
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_ptr);
-
-Pixmap get_thumb_pixmap(int onoff);
-Pixmap get_citizen_pixmap(int frame);
-void timer_callback(caddr_t client_data, XtIntervalId *id);
 
 #endif  /* FC__MAPVIEW_H */

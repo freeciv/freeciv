@@ -14,7 +14,6 @@
 #define FC__MAPGEN_H
 
 void map_fractal_generate(void);
-int is_water_adjacent(int x, int y);
 void flood_it(int loaded);
 void create_start_positions(void);
 void adjust_terrain_param(void);

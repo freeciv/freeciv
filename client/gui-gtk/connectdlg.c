@@ -49,7 +49,7 @@ void meta_update_callback(GtkWidget *w, gpointer data);
 /**************************************************************************
 ...
 **************************************************************************/
-void connect_callback(GtkWidget *w, gpointer data)
+static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
 
@@ -104,7 +104,7 @@ void meta_list_callback(GtkWidget *w, gint row, gint column)
 /**************************************************************************
 ...
 **************************************************************************/
-gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
+static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   gtk_main_quit();
   return FALSE;

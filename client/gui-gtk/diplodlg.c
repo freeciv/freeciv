@@ -185,8 +185,8 @@ void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 /****************************************************************
 ...
 *****************************************************************/
-int fill_diplomacy_tech_menu(GtkWidget *popupmenu, 
-			     struct player *plr0, struct player *plr1)
+static int fill_diplomacy_tech_menu(GtkWidget *popupmenu, 
+				    struct player *plr0, struct player *plr1)
 {
   int i, flag;
 
@@ -217,8 +217,8 @@ cities visible to requesting player.
 			    - Kris Bubendorfer
 *****************************************************************/
 /* FIXME - this one should be sorted -vasco */
-int fill_diplomacy_city_menu(GtkWidget *popupmenu, 
-			     struct player *plr0, struct player *plr1)
+static int fill_diplomacy_city_menu(GtkWidget *popupmenu, 
+				    struct player *plr0, struct player *plr1)
 {
   int flag=0;
 
@@ -745,7 +745,7 @@ struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 /*****************************************************************
 ...
 *****************************************************************/
-struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
+static struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
 {
   struct genlist_iterator myiter;
   

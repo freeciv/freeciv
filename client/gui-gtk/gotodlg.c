@@ -33,10 +33,7 @@
 
 #include "gotodlg.h"
 
-void send_unit_info(struct unit *punit);
-
 extern GtkWidget *toplevel;
-extern struct player_race races[];
 
 GtkWidget *goto_dialog_shell;
 GtkWidget *goto_label;
@@ -150,7 +147,7 @@ void popup_goto_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *get_selected_city(void)
+static struct city *get_selected_city(void)
 {
   GList *selection;
   gchar *string;
@@ -203,7 +200,7 @@ void update_goto_dialog(GtkWidget *goto_list)
 /**************************************************************************
 ...
 **************************************************************************/
-void popdown_goto_dialog(void)
+static void popdown_goto_dialog(void)
 {
   gtk_widget_destroy(goto_dialog_shell);
   gtk_widget_set_sensitive(toplevel, TRUE);

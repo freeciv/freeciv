@@ -152,8 +152,9 @@ void popdown_spaceship_dialog(struct player *pplayer)
 /****************************************************************
 ...
 *****************************************************************/
-gint spaceship_image_canvas_expose(GtkWidget *widget, GdkEventExpose *ev,
-				   gpointer data)
+static gint spaceship_image_canvas_expose(GtkWidget *widget,
+					  GdkEventExpose *ev,
+					  gpointer data)
 {
   struct spaceship_dialog *pdialog;
   
@@ -374,13 +375,15 @@ void close_spaceship_dialog(struct spaceship_dialog *pdialog)
   free(pdialog);
 }
 
+#ifdef UNUSED
 /****************************************************************
 ...
 *****************************************************************/
-void spaceship_dialog_returnkey(GtkWidget *w, gpointer data)
+static void spaceship_dialog_returnkey(GtkWidget *w, gpointer data)
 {
   close_spaceship_dialog_action(w->parent->parent, 0);
 }
+#endif /* UNUSED */
 
 /****************************************************************
 ...

@@ -165,8 +165,8 @@ void popdown_spaceship_dialog(struct player *pplayer)
 /****************************************************************
 ...
 *****************************************************************/
-void spaceship_image_canvas_expose(Widget w, XEvent *event, Region exposed, 
-				   void *client_data)
+static void spaceship_image_canvas_expose(Widget w, XEvent *event,
+					  Region exposed, void *client_data)
 {
   struct spaceship_dialog *pdialog;
   

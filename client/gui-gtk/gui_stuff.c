@@ -118,7 +118,7 @@ void gtk_clear_pixmap(GtkWidget *w)
 /**************************************************************************
 ...
 **************************************************************************/
-void gtk_destroyed_pixmap (gpointer data)
+static void gtk_destroyed_pixmap (gpointer data)
 {
   gdk_pixmap_unref ((GdkPixmap *)data);
 }

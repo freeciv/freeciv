@@ -941,17 +941,18 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void upgrade_callback_yes(Widget w, XtPointer client_data, 
+static void upgrade_callback_yes(Widget w, XtPointer client_data, 
                                  XtPointer call_data)
 {
-  send_packet_unittype_info(&aconnection, (size_t)client_data, PACKET_UNITTYPE_UPGRADE);
+  send_packet_unittype_info(&aconnection, (size_t)client_data,
+			    PACKET_UNITTYPE_UPGRADE);
   destroy_message_dialog(w);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void upgrade_callback_no(Widget w, XtPointer client_data, 
+static void upgrade_callback_no(Widget w, XtPointer client_data, 
                                 XtPointer call_data)
 {
   destroy_message_dialog(w);

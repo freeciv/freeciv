@@ -103,7 +103,7 @@ extern GtkStyle *notify_dialog_style;
 /****************************************************************
 ...
 *****************************************************************/
-void notify_command_callback(GtkWidget *w, GtkWidget *t)
+static void notify_command_callback(GtkWidget *w, GtkWidget *t)
 {
   gtk_widget_destroy( t );
   gtk_widget_set_sensitive( toplevel, TRUE );
@@ -183,14 +183,15 @@ void popup_notify_dialog(char *headline, char *lines)
 ...
 *****************************************************************/
 
+/* surely this should use genlists??  --dwp */
 struct widget_list {
   GtkWidget *w;
   int x,y;
   struct widget_list *next;
 };
-struct widget_list *notify_goto_widget_list = NULL;
+static struct widget_list *notify_goto_widget_list = NULL;
 
-void notify_goto_widget_remove(GtkWidget *w)
+static void notify_goto_widget_remove(GtkWidget *w)
 {
   struct widget_list *cur, *tmp;
   cur=notify_goto_widget_list;
@@ -209,7 +210,8 @@ void notify_goto_widget_remove(GtkWidget *w)
     free(tmp);
   }
 }
-void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
+
+static void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
 {
   struct widget_list *cur;
   *x=0;
@@ -221,8 +223,7 @@ void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
   }
 }
 
-
-void notify_goto_add_widget_coords(GtkWidget *w, int  x, int y)
+static void notify_goto_add_widget_coords(GtkWidget *w, int  x, int y)
 {
   struct widget_list *newwidget;
   newwidget = fc_malloc(sizeof(struct widget_list));
@@ -233,7 +234,7 @@ void notify_goto_add_widget_coords(GtkWidget *w, int  x, int y)
   notify_goto_widget_list = newwidget;
 }
 
-void notify_goto_command_callback(GtkWidget *w, gpointer data)
+static void notify_goto_command_callback(GtkWidget *w, gpointer data)
 {
   int x,y;
   notify_goto_find_widget(w, &x, &y);
@@ -244,14 +245,15 @@ void notify_goto_command_callback(GtkWidget *w, gpointer data)
   gtk_widget_set_sensitive(toplevel, TRUE);
 }
 
-void notify_no_goto_command_callback(GtkWidget *w, gpointer data)
+static void notify_no_goto_command_callback(GtkWidget *w, gpointer data)
 {
   notify_goto_widget_remove(w);
   gtk_widget_destroy(w->parent->parent->parent);
   gtk_widget_set_sensitive(toplevel, TRUE);
 }
 
-gint notify_deleted_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
+static gint notify_deleted_callback(GtkWidget *widget, GdkEvent *event,
+				    gpointer data)
 {
   notify_goto_widget_remove(widget);
   gtk_widget_set_sensitive(toplevel, TRUE);
@@ -307,7 +309,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
+static void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
 {
   struct packet_diplomat_action req;
 
@@ -323,7 +325,7 @@ void diplomat_bribe_yes_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_bribe_no_callback(GtkWidget *w, gpointer data)
+static void diplomat_bribe_no_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -333,7 +335,7 @@ void diplomat_bribe_no_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...  Ask the server how much the bribe is
 *****************************************************************/
-void diplomat_bribe_callback(GtkWidget *w, gpointer data)
+static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
   struct packet_generic_integer packet;
 
@@ -372,7 +374,7 @@ void popup_bribe_dialog(struct unit *punit)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
+static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
   
@@ -392,7 +394,7 @@ void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_investigate_callback(GtkWidget *w, gpointer data)
+static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
  
   destroy_message_dialog(w);
@@ -412,7 +414,7 @@ void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
+static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
 
   struct packet_diplomat_action req;
@@ -429,7 +431,7 @@ void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_embassy_callback(GtkWidget *w, gpointer data)
+static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
  
   destroy_message_dialog(w);
@@ -450,7 +452,7 @@ void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_poison_callback(GtkWidget *w, gpointer data)
+static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
 
   destroy_message_dialog(w);
@@ -471,7 +473,7 @@ void spy_poison_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_steal_callback(GtkWidget *w, gpointer data)
+static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
   
@@ -492,7 +494,7 @@ void diplomat_steal_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_close_tech_callback(GtkWidget *w, gpointer data)
+static void spy_close_tech_callback(GtkWidget *w, gpointer data)
 {
 
   if(spy_tech_shell_is_modal)
@@ -504,7 +506,7 @@ void spy_close_tech_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
+static void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
 {
 
   if(spy_sabotage_shell_is_modal)
@@ -516,7 +518,7 @@ void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_select_tech_callback(GtkWidget *w, gint row, gint column)
+static void spy_select_tech_callback(GtkWidget *w, gint row, gint column)
 {
   if (advance_type[row] != -1){
     steal_advance = advance_type[row];
@@ -528,7 +530,7 @@ void spy_select_tech_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_uselect_tech_callback(GtkWidget *w, gint row, gint column)
+static void spy_uselect_tech_callback(GtkWidget *w, gint row, gint column)
 {
   gtk_widget_set_sensitive(spy_steal_command, FALSE);
 }
@@ -536,7 +538,8 @@ void spy_uselect_tech_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_select_improvement_callback(GtkWidget *w, gint row, gint column)
+static void spy_select_improvement_callback(GtkWidget *w, gint row,
+					    gint column)
 {
   sabotage_improvement = improvement_type[row];
   gtk_widget_set_sensitive(spy_sabotage_command, TRUE);
@@ -545,7 +548,8 @@ void spy_select_improvement_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_uselect_improvement_callback(GtkWidget *w, gint row, gint column)
+static void spy_uselect_improvement_callback(GtkWidget *w, gint row,
+					     gint column)
 {
   gtk_widget_set_sensitive(spy_sabotage_command, FALSE);
 }
@@ -553,7 +557,7 @@ void spy_uselect_improvement_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_steal_callback(GtkWidget *w, gpointer data)
+static void spy_steal_callback(GtkWidget *w, gpointer data)
 {  
   gtk_widget_destroy(spy_tech_shell);
   spy_tech_shell = 0l;
@@ -579,7 +583,7 @@ void spy_steal_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_callback(GtkWidget *w, gpointer data)
+static void spy_sabotage_callback(GtkWidget *w, gpointer data)
 {  
   gtk_widget_destroy(spy_sabotage_shell);
   spy_sabotage_shell = 0l;
@@ -605,8 +609,8 @@ void spy_sabotage_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-
-int create_advances_list(struct player *pplayer, struct player *pvictim, int make_modal)
+static int create_advances_list(struct player *pplayer,
+				struct player *pvictim, int make_modal)
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
@@ -691,8 +695,8 @@ int create_advances_list(struct player *pplayer, struct player *pvictim, int mak
 /****************************************************************
 ...
 *****************************************************************/
-
-int create_improvements_list(struct player *pplayer, struct city *pcity, int make_modal)
+static int create_improvements_list(struct player *pplayer,
+				    struct city *pcity, int make_modal)
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
@@ -765,7 +769,7 @@ int create_improvements_list(struct player *pplayer, struct city *pcity, int mak
 /****************************************************************
 ...
 *****************************************************************/
-void spy_steal_popup(GtkWidget *w, gpointer data)
+static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   struct player *pvictim = NULL;
@@ -792,7 +796,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 /****************************************************************
 ...
 *****************************************************************/
-void spy_sabotage_popup(GtkWidget *w, gpointer data)
+static void spy_sabotage_popup(GtkWidget *w, gpointer data)
 {
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   
@@ -811,7 +815,7 @@ void spy_sabotage_popup(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
+static void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
 {
   struct packet_diplomat_action req;
 
@@ -827,7 +831,7 @@ void diplomat_incite_yes_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_incite_no_callback(GtkWidget *w, gpointer data)
+static void diplomat_incite_no_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -837,7 +841,7 @@ void diplomat_incite_no_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...  Ask the server how much the revolt is going to cost us
 *****************************************************************/
-void diplomat_incite_callback(GtkWidget *w, gpointer data)
+static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 {
   struct city *pcity;
   struct packet_generic_integer packet;
@@ -879,11 +883,10 @@ void popup_incite_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-void diplomat_cancel_callback(GtkWidget *w, gpointer data)
+static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
-
 
 
 /****************************************************************
@@ -975,7 +978,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
+static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -992,7 +995,7 @@ void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
+static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
   struct packet_unit_request req;
   req.unit_id=caravan_unit_id;
@@ -1009,7 +1012,7 @@ void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
+static void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
 {
 #if 0   /* Now don't want to move at all in this case --dwp */
   struct unit *punit;
@@ -1073,7 +1076,7 @@ void popup_caravan_dialog(struct unit *punit,
 /****************************************************************
 ...
 *****************************************************************/
-void government_callback(GtkWidget *w, gpointer data)
+static void government_callback(GtkWidget *w, gpointer data)
 {
   struct packet_player_request packet;
 
@@ -1135,7 +1138,7 @@ void popup_government_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void revolution_callback_yes(GtkWidget *w, gpointer data)
+static void revolution_callback_yes(GtkWidget *w, gpointer data)
 {
   struct packet_player_request packet;
 
@@ -1147,7 +1150,7 @@ void revolution_callback_yes(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void revolution_callback_no(GtkWidget *w, gpointer data)
+static void revolution_callback_no(GtkWidget *w, gpointer data)
 {
   destroy_message_dialog(w);
 }
@@ -1172,7 +1175,8 @@ void popup_revolution_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
+static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
+				   gpointer data)
 {
   gtk_widget_set_sensitive( (GtkWidget *)data, TRUE );
   return FALSE;
@@ -1265,7 +1269,7 @@ void destroy_message_dialog(GtkWidget *button)
 /**************************************************************************
 ...
 **************************************************************************/
-void unit_select_all_callback(GtkWidget *w, gpointer data)
+static void unit_select_all_callback(GtkWidget *w, gpointer data)
 {
   int i;
 
@@ -1286,7 +1290,7 @@ void unit_select_all_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void unit_select_callback(GtkWidget *w, struct unit *punit)
+static void unit_select_callback(GtkWidget *w, struct unit *punit)
 {
   if(punit) {
     request_new_unit_activity(punit, ACTIVITY_IDLE);
