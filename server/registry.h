@@ -75,6 +75,10 @@ struct section_entry *section_file_lookup_internal(struct section_file
 struct section_entry *section_file_insert_internal(struct section_file 
 						   *my_section_file, 
 						   char *fullpath);
+void alloc_strbuffer(void);
+char *strbufferdup(const char *str);
+void *strbuffermalloc(int size);
+void dealloc_strbuffer(void);
 
 #endif
 

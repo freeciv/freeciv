@@ -65,10 +65,7 @@ static void secfilehash_insert(struct section_file *file,
 			       char *key, struct section_entry *data);
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
-
-void alloc_strbuffer();
-char *strbufferdup(const char *str);
-void dealloc_strbuffer();
+static char *minstrdup(char *str);
 
 /**************************************************************************
 ...
@@ -88,8 +85,6 @@ void section_file_free(struct section_file *file)
 {
   struct genlist_iterator myiter;
 
-  dealloc_strbuffer();
-
   genlist_iterator_init(&myiter, &file->section_list, 0);
   for(; ITERATOR_PTR(myiter); ) {
     struct genlist_iterator myiter2;
@@ -100,19 +95,17 @@ void section_file_free(struct section_file *file)
       struct section_entry *pentry=
 	(struct section_entry *)ITERATOR_PTR(myiter2);
       ITERATOR_NEXT(myiter2);
-      free(pentry->svalue);
       genlist_unlink(&psection->entry_list, pentry);
-      free(pentry);
     }
 
     ITERATOR_NEXT(myiter);
-    free(psection->name);
     genlist_unlink(&file->section_list, psection);
-    free(psection);
   }
   if(secfilehash_hashash(file)) {
     secfilehash_free(file);
   }
+
+  dealloc_strbuffer();
 }
 
 
@@ -156,8 +149,8 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
       *cptr='\0';
 
-      psection=(struct section *)malloc(sizeof(struct section));
-      psection->name=mystrdup(buffer+1);
+      psection=(struct section *)strbuffermalloc(sizeof(struct section));
+      psection->name=strbufferdup(buffer+1);
       genlist_init(&psection->entry_list);
       genlist_insert(&my_section_file->section_list, psection, -1);
 
@@ -216,12 +209,12 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       }
 
       
-      pentry=(struct section_entry *)malloc(sizeof(struct section_entry));
+      pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
       pentry->name=strbufferdup(pname);
       
-      if(pvalue)
+      if(pvalue)  {
 	pentry->svalue=minstrdup(pvalue);
-      else {
+      } else {
 	pentry->ivalue=ival;
 	pentry->svalue=0;
       }
@@ -350,7 +343,7 @@ void secfile_insert_str(struct section_file *my_section_file,
   va_end(ap);
 
   pentry=section_file_insert_internal(my_section_file, buf);
-  pentry->svalue=mystrdup(sval);
+  pentry->svalue=strbufferdup(sval);
 }
 
 
@@ -539,8 +532,8 @@ struct section_entry *section_file_insert_internal(struct section_file
 	  return (struct section_entry *)ITERATOR_PTR(myiter2);
       }
 
-      pentry=(struct section_entry *)malloc(sizeof(struct section_entry));
-      pentry->name=mystrdup(ent_name);
+      pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
+      pentry->name=strbufferdup(ent_name);
       genlist_insert(&((struct section *)
 			    ITERATOR_PTR(myiter))->entry_list, pentry, -1);
 
@@ -549,13 +542,13 @@ struct section_entry *section_file_insert_internal(struct section_file
     }
 
 
-  psection=(struct section *)malloc(sizeof(struct section));
-  psection->name=mystrdup(sec_name);
+  psection=(struct section *)strbuffermalloc(sizeof(struct section));
+  psection->name=strbufferdup(sec_name);
   genlist_init(&psection->entry_list);
   genlist_insert(&my_section_file->section_list, psection, -1);
   
-  pentry=(struct section_entry *)malloc(sizeof(struct section_entry));
-  pentry->name=mystrdup(ent_name);
+  pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
+  pentry->name=strbufferdup(ent_name);
   genlist_insert(&psection->entry_list, pentry, -1);
 
   return pentry;
@@ -734,7 +727,7 @@ static int strbufferoffset=65536;
 /**************************************************************************
  Allocate a 64k buffer for strings
 **************************************************************************/
-void alloc_strbuffer()
+void alloc_strbuffer(void)
 {
   char *newbuf;
 
@@ -768,9 +761,26 @@ char *strbufferdup(const char *str)
 }
 
 /**************************************************************************
+ Allocate size bytes from the string buffer, like malloc() but much
+ faster.  Note that size must be < 64k!  strbuffer is for little
+ allocations that get freed all at once.
+**************************************************************************/
+void *strbuffermalloc(int len)
+{
+  char *p;
+
+  if(len > (65536 - strbufferoffset))  {
+    alloc_strbuffer();
+  }
+  p=strbuffer+strbufferoffset;
+  strbufferoffset+=len;
+  return p;
+}
+
+/**************************************************************************
  De-allocate all the string buffers
 **************************************************************************/
-void dealloc_strbuffer()
+void dealloc_strbuffer(void)
 {
   char *next;
 
@@ -779,4 +789,35 @@ void dealloc_strbuffer()
     free(strbuffer);
     strbuffer=next;
   } while(next);
+  strbufferoffset=65536;
 }
+
+/***************************************************************
+ Copies a string and does \n -> newline translation
+***************************************************************/
+static char *minstrdup(char *str)
+{
+  char *dest=strbuffermalloc(strlen(str)+1);
+  char *d2=dest;
+  if(dest) {
+    while (*str) {
+      if (*str=='\\') {
+	str++;
+	if (*str=='\\') {
+	  *dest++='\\';
+	  str++;
+	} else if (*str=='n') {
+	  *dest++='\n';
+	  str++;
+	}
+      } else {
+	*dest++=*str++;
+      }
+
+    }
+
+    *dest='\0';
+  }
+  return d2;
+}
+
