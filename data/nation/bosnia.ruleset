@@ -12,7 +12,7 @@ leader_sex="Male", "Male", "Male", "Male",
            "Male","Male", "Male",
            "Male", "Male", "Male"
 flag="f.bosnia"
-flag_alt = "-"
+flag_alt = "f.unknown"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
