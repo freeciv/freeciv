@@ -234,7 +234,7 @@ void update_players_dialog(void)
       /* text for state */
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
-	  if(game.players[i].turn_done)
+	  if(game.players[i].phase_done)
 	    sz_strlcpy(statebuf, _("done"));
 	  else
 	    sz_strlcpy(statebuf, _("moving"));
