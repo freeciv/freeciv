@@ -5,8 +5,8 @@ find $1 -name "*.c" \
  | sort \
  | grep -v intl \
  | while read line; do 
-    (!(grep '^#include.*<stdarg.h>' $line >/dev/null \
-     && ! grep 'va_list' $line >/dev/null)) \
-    || echo "$line";
+    (grep "va_list" $line >/dev/null \
+     && ! grep "^#include.*<stdarg.h>" $line >/dev/null \
+     && echo "$line")
 done
 echo
