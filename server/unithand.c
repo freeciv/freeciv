@@ -148,6 +148,7 @@ void handle_incite_inq(struct player *pplayer,
 
   if(pcity)  {
     city_incite_cost(pcity);
+    if(pplayer->player_no == pcity->original) pcity->incite_revolt_cost/=2;
     req.id=packet->value;
     req.value1=pcity->incite_revolt_cost;
     send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
@@ -1040,10 +1041,7 @@ void handle_unit_auto_request(struct player *pplayer,
 void handle_unit_activity_request(struct player *pplayer, struct unit *punit, 
 				  enum unit_activity new_activity)
 {
-  if((punit->moves_left>0 || punit->activity==ACTIVITY_GOTO ||
-      new_activity==ACTIVITY_EXPLORE || /* for update_player_ac to work */
-      punit->activity==ACTIVITY_EXPLORE) &&
-     can_unit_do_activity(punit, new_activity)) {
+  if(can_unit_do_activity(punit, new_activity)) {
     punit->activity=new_activity;
     punit->activity_count=0;
     send_unit_info(0, punit, 0);

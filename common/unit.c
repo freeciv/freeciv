@@ -521,87 +521,68 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
   if (activity == ACTIVITY_EXPLORE) /* added 980803 by Syela */
     return (is_ground_unit(punit) || is_sailing_unit(punit));
 
-  if(punit->activity==ACTIVITY_IDLE) {
-    if(activity==ACTIVITY_FORTIFY) { 
-      return (is_ground_unit(punit) && !unit_flag(punit->type, F_SETTLERS));
-    }
-    if(activity==ACTIVITY_SENTRY)
-      return 1;
+  /* can't go directly from non-idle to non-idle activity */
+  if(punit->activity!=ACTIVITY_IDLE) return 0;
 
-    if(activity==ACTIVITY_PILLAGE) {
-      if (is_ground_unit(punit))
-        if((ptile->special&S_ROAD) || (ptile->special&S_RAILROAD) ||
-	   (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE))
-	   if(!is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y))
-	     return 1;
-       return 0;
-    }
+  switch(activity)  {
+  case ACTIVITY_POLLUTION:
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           (ptile->special&S_POLLUTION) &&
+	   !is_unit_activity_on_tile(ACTIVITY_POLLUTION, punit->x, punit->y);
 
-    if(activity==ACTIVITY_FORTRESS) {
-      if(unit_flag(punit->type, F_SETTLERS) && get_invention(pplayer, A_CONSTRUCTION)== TECH_KNOWN)
-        if(!(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN)
-          if(!is_unit_activity_on_tile(ACTIVITY_FORTRESS, punit->x, punit->y))
-            return 1;
-      return 0;
-    }
-    
-    if(activity==ACTIVITY_POLLUTION) {
-      if (unit_flag(punit->type, F_SETTLERS))
-	if(ptile->special&S_POLLUTION)
-	  if(!is_unit_activity_on_tile(ACTIVITY_POLLUTION, punit->x, punit->y))
-	    return 1;
-      return 0;
-    }
-    
-    if(activity==ACTIVITY_IRRIGATE) {
-      if(unit_flag(punit->type, F_SETTLERS))
-	if((ptile->terrain==type->irrigation_result &&
-	    !(ptile->special&S_IRRIGATION) && 
-	    is_water_adjacent_to_tile(punit->x, punit->y)) ||
-	   (ptile->terrain!=type->irrigation_result &&
-	    type->irrigation_result!=T_LAST))
-	  if(!is_unit_activity_on_tile(ACTIVITY_IRRIGATE, punit->x, punit->y))
-	    return 1;
-      return 0;
-    }
-    
-    if(activity==ACTIVITY_ROAD) {
-      if(unit_flag(punit->type, F_SETTLERS) && ptile->terrain!=T_OCEAN && 
-	 (ptile->terrain!=T_RIVER || 
-	  get_invention(pplayer, A_BRIDGE)==TECH_KNOWN)) {
-	if(!(ptile->special&S_ROAD))
-	  if(!is_unit_activity_on_tile(ACTIVITY_ROAD, punit->x, punit->y))
-	    return 1;
-      }
-      return 0;
-    }
-    
-    if(activity==ACTIVITY_RAILROAD) {
-      if(unit_flag(punit->type, F_SETTLERS) && ptile->terrain!=T_OCEAN && 
-	 (ptile->terrain!=T_RIVER || 
-	  get_invention(&game.players[punit->owner], A_BRIDGE)==TECH_KNOWN)) {
-	if((ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD)) {
-	  if(get_invention(&game.players[punit->owner], A_RAILROAD)==
-	     TECH_KNOWN && 
-	     !is_unit_activity_on_tile(ACTIVITY_RAILROAD, punit->x, punit->y))
-	    return 1;
-	}
-      }
-      return 0;
-    }
+  case ACTIVITY_ROAD:
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
+	   (ptile->terrain!=T_RIVER || 
+	    get_invention(pplayer, A_BRIDGE)==TECH_KNOWN) &&
+	   !is_unit_activity_on_tile(ACTIVITY_ROAD, punit->x, punit->y);
 
-    if(activity==ACTIVITY_MINE) {
-      if(unit_flag(punit->type, F_SETTLERS))
-	if(type->mining_result!=T_LAST && !(ptile->special&S_MINE))
-	  if(!is_unit_activity_on_tile(ACTIVITY_MINE, punit->x, punit->y))
-	    return 1;
-      return 0;
-    }
+  case ACTIVITY_MINE:
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           type->mining_result!=T_LAST && !(ptile->special&S_MINE) &&
+	   !is_unit_activity_on_tile(ACTIVITY_MINE, punit->x, punit->y);
 
+  case ACTIVITY_IRRIGATE:
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           !is_unit_activity_on_tile(ACTIVITY_IRRIGATE, punit->x, punit->y) &&
+	   !(ptile->special&S_IRRIGATION) &&
+	   ( (ptile->terrain==type->irrigation_result && 
+	      is_water_adjacent_to_tile(punit->x, punit->y)) ||
+	     (ptile->terrain!=type->irrigation_result &&
+	      type->irrigation_result!=T_LAST));
+
+  case ACTIVITY_FORTIFY:
+    return is_ground_unit(punit) && punit->moves_left &&
+           !unit_flag(punit->type, F_SETTLERS);
+
+  case ACTIVITY_FORTRESS:
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           get_invention(pplayer, A_CONSTRUCTION) == TECH_KNOWN &&
+	   !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN &&
+	   !is_unit_activity_on_tile(ACTIVITY_FORTRESS, punit->x, punit->y);
+
+  case ACTIVITY_SENTRY:
+    return 1;
+
+  case ACTIVITY_RAILROAD:
+    /* if the tile has road, the terrain must be ok.. */
+    return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
+           (ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD) &&
+	   get_invention(&game.players[punit->owner], A_RAILROAD)==TECH_KNOWN &&
+	   !is_unit_activity_on_tile(ACTIVITY_RAILROAD, punit->x, punit->y);
+
+  case ACTIVITY_PILLAGE:
+    return is_ground_unit(punit) && punit->moves_left &&
+           ((ptile->special&S_ROAD) || (ptile->special&S_RAILROAD) ||
+	    (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE)) &&
+	   !is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y);
+
+  default:
+    flog(LOG_NORMAL,"Unknown activity %d\n",activity);
+    return 0;
   }
-  
-  return 0;
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
