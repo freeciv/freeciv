@@ -639,13 +639,13 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     "User-Agent: Freeciv/%s %s %s\r\n"
     "Connection: close\r\n"
     "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
-    "Content-Length: %d\r\n"
+    "Content-Length: %lu\r\n"
     "\r\n"
     "client_cap=%s\r\n",
     urlpath,
     metaname, metaport,
     VERSION_STRING, client_string, machine_string,
-    strlen("client_cap=")+strlen(capstr),
+    (unsigned long) (strlen("client_cap=") + strlen(capstr)),
     capstr);
 
   f = my_querysocket(s, str, strlen(str));
