@@ -178,7 +178,7 @@ void ui_main(int argc, char *argv[])
   struct ct_size res;
   struct ct_size size;
 
-  init_character_encodings(NULL);
+  init_character_encodings("ISO-8859-1");
 
   if (!auto_connect) {
     die("Connection dialog not yet implemented. Start client using "
