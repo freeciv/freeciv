@@ -1876,6 +1876,8 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 			   int which)
 {
   int x, y;
+  struct player *pplayer = unit_owner(punit);
+  struct ai_data *ai = ai_data_get(pplayer);
 
   CHECK_UNIT(punit);
 
@@ -1890,7 +1892,8 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
   square_iterate(x, y, radius, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
 
-    if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))
+    if (pcity
+        && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
 	&& (pcity->ai.invasion & which) != which
 	&& (dest || !has_defense(pcity))) {
       pcity->ai.invasion |= which;
@@ -1909,6 +1912,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                            int *x, int *y)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   /* basic attack */
   int attack_value = unit_att_rating(punit);
   /* Enemy defence rating */
@@ -1966,7 +1970,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   /* First calculate in nearby units */
   players_iterate(aplayer) {
-    if (!pplayers_at_war(pplayer, aplayer)) {
+    if (!HOSTILE_PLAYER(pplayer, ai, aplayer)) {
       continue;
     }
     city_list_iterate(aplayer->cities, acity) {
@@ -2055,7 +2059,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   players_iterate(aplayer) {
-    if (!pplayers_at_war(pplayer, aplayer)) { 
+    if (!HOSTILE_PLAYER(pplayer, ai, aplayer)) {
       /* Not an enemy */
       continue;
     }
@@ -2448,6 +2452,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   struct city *pcity;
   struct packet_unit_request req;
   int tradeval, best_city = -1, best=0;
+  struct ai_data *ai = ai_data_get(pplayer);
 
   CHECK_UNIT(punit);
 
@@ -2475,7 +2480,9 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
        /* A caravan without a home?  Kinda strange, but it might happen.  */
        pcity=player_find_city_by_id(pplayer, punit->homecity);
        players_iterate(aplayer) {
-         if (pplayers_at_war(pplayer, aplayer)) continue;
+         if (HOSTILE_PLAYER(pplayer, ai, aplayer)) {
+           continue;
+         }
          city_list_iterate(pplayer->cities,pdest) {
            if (pcity
 	       && can_cities_trade(pcity, pdest)

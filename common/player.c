@@ -597,6 +597,23 @@ bool pplayers_allied(const struct player *pplayer,
 }
 
 /***************************************************************
+  Returns true iff players are allied or at peace.
+***************************************************************/
+bool pplayers_in_peace(const struct player *pplayer,
+                       const struct player *pplayer2)
+{
+  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+
+  if (pplayer == pplayer2) {
+    return TRUE;
+  }
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
+    return FALSE;
+  }
+  return (ds == DS_PEACE || ds == DS_ALLIANCE);
+}
+
+/***************************************************************
   Returns true iff players have peace or cease-fire.
 ***************************************************************/
 bool pplayers_non_attack(const struct player *pplayer,

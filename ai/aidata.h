@@ -27,10 +27,27 @@ struct unit;
  * start of every turn. 
  */
 
+enum winning_strategy {
+  WIN_OPEN,     /* still undetermined */
+  WIN_WAR,      /* we have no other choice than to crush all opposition */
+  WIN_SPACE,    /* we will race for space, peace very important */
+  WIN_CAPITAL   /* we cannot win unless we take war_target's capital */
+};
+
 struct ai_dip_intel {
-  bool is_allied_with_enemy;
-  bool at_war_with_ally;
-  bool is_allied_with_ally;
+  /* Remember one example of each for text spam purposes. */
+  struct player *is_allied_with_enemy;
+  struct player *at_war_with_ally;
+  struct player *is_allied_with_ally;
+
+  char spam;      /* timer to avoid spamming a player with chat */
+  int distance;   /* average distance to that player's cities */
+  char ally_patience; /* we EXPECT our allies to help us! */
+  int love;       /* basic player <-> player relation */
+  char asked_about_peace;     /* don't ask again */
+  char asked_about_alliance;  /* don't nag! */
+  char asked_about_ceasefire; /* don't ... you get the point */
+  char warned_about_space;
 };
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
@@ -38,7 +55,18 @@ struct ai_data {
   /* AI diplomacy and opinions on other players */
   struct {
     int acceptable_reputation;
-    struct ai_dip_intel player_intel[MAX_NUM_PLAYERS];
+    struct ai_dip_intel player_intel[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    enum winning_strategy strategy;
+    int timer; /* pursue our goals with some stubbornness, in turns */
+    int countdown;          /* countdown to we actually declare war */
+    struct player *target;    /* Concentrate on this player */
+    char love_coeff;          /* Reduce love with this % each turn */
+    char love_incr;           /* Modify love with this fixed amount */
+    int req_love_for_peace;
+    int req_love_for_alliance;
+    int req_love_for_ceasefire;
+    struct player *alliance_leader; /* Who is leading our alliance */
+    struct player *spacerace_leader; /* who is leading the space pack */
   } diplomacy;
 
   /* Long-term threats, not to be confused with short-term danger */
@@ -95,6 +123,7 @@ struct ai_data {
   } goal;
 };
 
+void ai_data_init(struct player *pplayer);
 void ai_data_turn_init(struct player *pplayer);
 void ai_data_turn_done(struct player *pplayer);
 

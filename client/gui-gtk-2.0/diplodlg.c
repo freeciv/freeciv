@@ -173,6 +173,10 @@ popup the dialog 10% inside the main-window
 static void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 {
   struct Diplomacy_dialog *pdialog;
+
+  if (game.player_ptr->ai.control) {
+    return; /* Don't show if we are AI controlled. */
+  }
   
   if (!(pdialog = find_diplomacy_dialog(plr0, plr1))) {
     pdialog = create_diplomacy_dialog(plr0, plr1);

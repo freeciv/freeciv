@@ -102,6 +102,7 @@ enum event_type {
   E_WONDER_STARTED,
   E_WONDER_STOPPED,
   E_WONDER_WILL_BE_BUILT,
+  E_DIPLOMACY,
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in client/options.c using GEN_EV and to

@@ -283,6 +283,7 @@ static struct {
   GEN_EV(N_("Wonder: Started"),                       E_WONDER_STARTED),
   GEN_EV(N_("Wonder: Stopped"),                       E_WONDER_STOPPED),
   GEN_EV(N_("Wonder: Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
+  GEN_EV(N_("Diplomatic Message"),                    E_DIPLOMACY),
   GEN_EV_TERMINATOR
 };
 

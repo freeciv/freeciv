@@ -40,8 +40,8 @@ bool could_meet_with_player(struct player *pplayer, struct player *aplayer)
               || player_has_embassy(pplayer, aplayer)
               || pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
               || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0)
-          && aplayer->is_connected
-          && pplayer->is_connected);
+          && (aplayer->is_connected || aplayer->ai.control)
+          && (pplayer->is_connected || pplayer->ai.control));
 }
 
 /**************************************************************************

@@ -18,18 +18,22 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "aisupport.h"
 #include "city.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "rand.h"
 #include "unit.h"
 
 #include "citytools.h"
+#include "diplhand.h"
 #include "maphand.h"
 #include "settlers.h"
 #include "unittools.h"
 
+#include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aihand.h"
@@ -60,6 +64,8 @@ void ai_data_turn_init(struct player *pplayer)
   bool can_build_antiair =  can_player_build_improvement(pplayer, B_SAM);
   bool can_build_antinuke = can_player_build_improvement(pplayer, B_SDI);
   bool can_build_antimissile = can_player_build_improvement(pplayer, B_SDI);
+  int ally_strength = -1;
+  struct player *ally_strongest = NULL;
 
   /*** Threats ***/
 
@@ -208,6 +214,10 @@ void ai_data_turn_init(struct player *pplayer)
 
   /*** Diplomacy ***/
 
+  if (pplayer->ai.control && !is_barbarian(pplayer)) {
+    ai_diplomacy_calculate(pplayer, ai);
+  }
+
   /* Question: What can we accept as the reputation of a player before
    * we start taking action to prevent us from being suckered?
    * Answer: Very little. */
@@ -218,32 +228,45 @@ void ai_data_turn_init(struct player *pplayer)
   /* Set per-player variables. We must set all players, since players 
    * can be created during a turn, and we don't want those to have 
    * invalid values. */
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     struct player *aplayer = get_player(i);
 
-    ai->diplomacy.player_intel[i].is_allied_with_enemy = FALSE;
-    ai->diplomacy.player_intel[i].at_war_with_ally = FALSE;
-    ai->diplomacy.player_intel[i].is_allied_with_ally = FALSE;
+    ai->diplomacy.player_intel[i].is_allied_with_enemy = NULL;
+    ai->diplomacy.player_intel[i].at_war_with_ally = NULL;
+    ai->diplomacy.player_intel[i].is_allied_with_ally = NULL;
+
+    /* Determine who is the leader of our alliance. That is,
+     * whoever has the more cities. */
+    if (pplayers_allied(pplayer, aplayer)
+        && city_list_size(&aplayer->cities) > ally_strength) {
+      ally_strength = city_list_size(&aplayer->cities);
+      ally_strongest = aplayer;
+    }
 
     players_iterate(check_pl) {
-      if (check_pl == pplayer || check_pl == aplayer
+      if (check_pl == pplayer
+          || check_pl == aplayer
           || !check_pl->is_alive) {
         continue;
       }
       if (pplayers_allied(aplayer, check_pl)
-          && pplayers_at_war(pplayer, check_pl)) {
-       ai->diplomacy.player_intel[i].is_allied_with_enemy = TRUE;
+          && pplayer_get_diplstate(pplayer, check_pl)->type == DS_WAR) {
+       ai->diplomacy.player_intel[i].is_allied_with_enemy = check_pl;
       }
       if (pplayers_allied(pplayer, check_pl)
-          && pplayers_at_war(aplayer, check_pl)) {
-        ai->diplomacy.player_intel[i].at_war_with_ally = TRUE;
+          && pplayer_get_diplstate(aplayer, check_pl)->type == DS_WAR) {
+        ai->diplomacy.player_intel[i].at_war_with_ally = check_pl;
       }
       if (pplayers_allied(aplayer, check_pl)
           && pplayers_allied(pplayer, check_pl)) {
-        ai->diplomacy.player_intel[i].is_allied_with_ally = TRUE;
+        ai->diplomacy.player_intel[i].is_allied_with_ally = check_pl;
       }
     } players_iterate_end;
   }
+  if (ally_strongest != ai->diplomacy.alliance_leader) {
+    ai->diplomacy.alliance_leader = ally_strongest;
+  }
+  ai->diplomacy.spacerace_leader = player_leading_spacerace();
 
   /*** Priorities ***/
 
@@ -304,9 +327,32 @@ struct ai_data *ai_data_get(struct player *pplayer)
 void ai_data_init(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
+  int i;
 
   ai->govt_reeval = 0;
   ai->government_want = fc_calloc(game.government_count + 1, sizeof(int));
+
+  ai->diplomacy.target = NULL;
+  ai->diplomacy.strategy = WIN_OPEN;
+  ai->diplomacy.timer = 0;
+  ai->diplomacy.countdown = 0;
+  ai->diplomacy.love_coeff = 5; /* 5% */
+  ai->diplomacy.love_incr = 4;
+  ai->diplomacy.req_love_for_peace = 8;
+  ai->diplomacy.req_love_for_alliance = 8;
+  ai->diplomacy.req_love_for_ceasefire = 0;
+  ai->diplomacy.alliance_leader = pplayer;
+
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    ai->diplomacy.player_intel[i].spam = i; /* pseudorandom */
+    ai->diplomacy.player_intel[i].distance = 1;
+    ai->diplomacy.player_intel[i].ally_patience = 0;
+    ai->diplomacy.player_intel[i].love = 1;
+    ai->diplomacy.player_intel[i].asked_about_peace = 0;
+    ai->diplomacy.player_intel[i].asked_about_alliance = 0;
+    ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
+    ai->diplomacy.player_intel[i].warned_about_space = 0;
+  }
 }
 
 /**************************************************************************

@@ -265,6 +265,8 @@ bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
 bool pplayers_allied(const struct player *pplayer,
 		    const struct player *pplayer2);
+bool pplayers_in_peace(const struct player *pplayer,
+                    const struct player *pplayer2);
 bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
 

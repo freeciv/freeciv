@@ -167,7 +167,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       return;
     }
     incite_cost = city_incite_cost(pplayer, acity);
-    if (pplayers_at_war(pplayer, city_owner(acity))
+    if (HOSTILE_PLAYER(pplayer, ai, city_owner(acity))
         && !city_got_building(acity, B_PALACE)
         && !government_has_flag(get_gov_pplayer(city_owner(acity)),
                                 G_UNBRIBABLE)
@@ -436,6 +436,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 {
   struct packet_diplomat_action packet;
   int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
+  struct ai_data *ai = ai_data_get(pplayer);
 
   simple_unit_overlap_path_iterator(punit, pos) {
     struct tile *ptile = map_get_tile(pos.x, pos.y);
@@ -450,7 +451,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     }
 
     if (!pvictim
-        || !pplayers_at_war(pplayer, unit_owner(pvictim))
+        || !HOSTILE_PLAYER(pplayer, ai, unit_owner(pvictim))
         || unit_list_size(&ptile->units) > 1
         || map_get_city(pos.x, pos.y)
         || government_has_flag(get_gov_pplayer(unit_owner(pvictim)),

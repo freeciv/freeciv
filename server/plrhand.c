@@ -1378,6 +1378,7 @@ void server_player_init(struct player *pplayer, bool initmap)
     player_map_allocate(pplayer);
   }
   player_init(pplayer);
+  ai_data_init(pplayer);
 }
 
 /********************************************************************** 
@@ -1433,12 +1434,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   pplayer1->diplstates[player2].contact_turns_left = game.contactturns;
   pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
 
-  /* FIXME: Always declaring war for the AI is a kludge until AI
-     diplomacy is implemented. */
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
     pplayer1->diplstates[player2].type
       = pplayer2->diplstates[player1].type
-      = pplayer1->ai.control || pplayer2->ai.control ? DS_WAR : DS_NEUTRAL;
+      = DS_NEUTRAL;
     notify_player_ex(pplayer1, x, y,
 		     E_FIRST_CONTACT,
 		     _("Game: You have made contact with the %s, ruled by %s."),
@@ -1596,10 +1595,10 @@ static struct player *split_player(struct player *pplayer)
    * but for now AI players are always at war.
    */
   players_iterate(other_player) {
-    cplayer->diplstates[other_player->player_no].type = DS_WAR;
+    cplayer->diplstates[other_player->player_no].type = DS_NEUTRAL;
     cplayer->diplstates[other_player->player_no].has_reason_to_cancel = 0;
     cplayer->diplstates[other_player->player_no].turns_left = 0;
-    other_player->diplstates[cplayer->player_no].type = DS_WAR;
+    other_player->diplstates[cplayer->player_no].type = DS_NEUTRAL;
     other_player->diplstates[cplayer->player_no].has_reason_to_cancel = 0;
     other_player->diplstates[cplayer->player_no].turns_left = 0;
     

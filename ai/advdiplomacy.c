@@ -1,0 +1,1093 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 2003 - The Freeciv Team
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "aisupport.h"
+#include "city.h"
+#include "diptreaty.h"
+#include "events.h"
+#include "fcintl.h"
+#include "game.h"
+#include "log.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "rand.h"
+#include "nation.h"
+#include "shared.h"
+#include "spaceship.h"
+#include "support.h"
+#include "tech.h"
+
+#include "citytools.h"
+#include "diplhand.h"
+#include "plrhand.h"
+#include "maphand.h"
+#include "settlers.h"  /* amortize */
+
+#include "aidata.h"
+#include "aitools.h"
+#include "advmilitary.h"
+
+#include "advdiplomacy.h"
+
+/*
+
+  "When a lobsterman leaves a trap out in the sea and can't get
+  to it for a while, he will find the remains of many lobsters,
+  but only one survivor. You might think that the survivor of the 
+  lobster-battles would be the biggest lobster, but actually it 
+  will always be the SECOND-SMALLEST. That's because when there 
+  are a bunch of lobsters in the tank, they always gang up on the 
+  biggest one first, until there are only two left, and then the 
+  bigger one wins."
+  (Anecdote by banjo@actrix.com)
+
+Although the AIs are not this flawlessly deterministic in choosing their
+enemies (they respect alliances and try to preserve treaties among other
+things), this is the basic premise. Gang up on the biggest threat and
+bring it down. Don't be too afraid to ally up with the others and don't
+worry about our own safety. If everyone think the same way, there'll be
+safety in numbers :-) If not, well, at least it makes a good show.
+
+*/
+
+#define LOG_DIPL LOG_DEBUG
+#define LOG_DIPL2 LOG_DEBUG
+
+/* one hundred thousand */
+#define BIG_NUMBER 100000
+
+/* turn this off when we don't want functions to message players */
+static bool diplomacy_verbose = TRUE;
+
+/**********************************************************************
+  Send a diplomatic message. Use this instead of notify directly
+  because we may want to highligh/present these messages differently
+  in the future.
+***********************************************************************/
+#define notify(pplayer, text, ...)                                     \
+  if (diplomacy_verbose) {                                             \
+    notify_player_ex(pplayer, -1, -1, E_DIPLOMACY, text, __VA_ARGS__); \
+  }
+#define TALK(x) "*" #x "(AI)* "
+
+/********************************************************************** 
+  This is your typical human reaction. Convert lack of love into 
+  lust for gold.
+***********************************************************************/
+static int greed(int missing_love)
+#define NUM_BANDS 6
+{
+  int band_incr[NUM_BANDS] = {5, 5, 10, 20, 30};
+  int band_rate[NUM_BANDS+1] = {10, 25, 50, 100, 250, 500};
+  int greed = 0;
+  int i = 0;
+  int n_love = -missing_love;
+
+  while(i < NUM_BANDS && n_love > 0) {
+    int band_love = MIN(band_incr[i], n_love);
+
+    greed += band_love * band_rate[i];
+    n_love -= band_incr[i];
+    i++;
+  }
+
+  if (n_love > 0) {
+    greed += n_love * band_rate[NUM_BANDS];
+  }
+  return (-greed);
+}
+#undef NUM_BANDS
+
+/********************************************************************** 
+  How much is a tech worth to player measured in gold
+***********************************************************************/
+static int ai_goldequiv_tech(struct player *pplayer, Tech_Type_id tech)
+{
+  int worth;
+
+  if (get_invention(pplayer, tech) == TECH_KNOWN) {
+    return 0;
+  }
+  worth = total_bulbs_required_for_goal(pplayer, tech) * 3;
+  worth += pplayer->ai.tech_want[tech] / 3;
+  if (get_invention(pplayer, tech) == TECH_REACHABLE) {
+    worth /= 2;
+  }
+  return worth;
+}
+
+/********************************************************************** 
+  Evaluate gold worth of a single clause in a treaty. Note that it
+  sometimes matter a great deal who is giving what to whom, and
+  sometimes (such as with treaties) it does not matter at all.
+***********************************************************************/
+static int ai_goldequiv_clause(struct player *pplayer, 
+                               struct player *aplayer,
+                               struct Clause *pclause,
+                               struct ai_data *ai,
+                               bool verbose)
+{
+  int worth = 0; /* worth for pplayer of what aplayer gives */
+  bool give = (pplayer == pclause->from);
+  int receiver, giver;
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  diplomacy_verbose = verbose;
+
+  giver = pclause->from->player_no;
+  if (give) {
+    receiver = aplayer->player_no;
+  } else {
+    receiver = pplayer->player_no;
+  }
+
+  switch (pclause->type) {
+  case CLAUSE_ADVANCE:
+    if (give) {
+      worth -= ai_goldequiv_tech(aplayer, pclause->value);
+    } else if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
+      worth += ai_goldequiv_tech(pplayer, pclause->value);
+    }
+
+    /* Share and expect being shared brotherly between allies */
+    if (pplayers_allied(pplayer, aplayer)) {
+      worth = 0;
+      break;
+    }
+
+    /* Do not bother wanting a tech that we already have. */
+    if (!give && get_invention(pplayer, pclause->value) == TECH_KNOWN) {
+      break;
+    }
+
+    /* Calculate in tech leak to our opponents, guess 50% chance */
+    players_iterate(eplayer) {
+      if (eplayer == aplayer
+          || eplayer == pplayer
+          || !eplayer->is_alive
+          || get_invention(eplayer, pclause->value) == TECH_KNOWN) {
+        continue;
+      }
+      if (give && pplayers_allied(aplayer, eplayer)) {
+        if (is_player_dangerous(pplayer, eplayer)) {
+          /* Don't risk it falling into enemy hands */
+          worth = -BIG_NUMBER;
+          break;
+        }
+        worth -= ai_goldequiv_tech(eplayer, pclause->value) / 2;
+      } else if (!give && pplayers_allied(pplayer, eplayer)) {
+        /* We can enrichen our side with this tech */
+        worth += ai_goldequiv_tech(eplayer, pclause->value) / 4;
+      }
+    } players_iterate_end;
+  break;
+
+  case CLAUSE_ALLIANCE:
+  case CLAUSE_PEACE:
+  case CLAUSE_CEASEFIRE:
+    /* This guy is at war with our alliance and we're not alliance
+     * leader. */
+    if (pplayer != ai->diplomacy.alliance_leader
+        && pplayers_at_war(aplayer, ai->diplomacy.alliance_leader)) {
+      notify(aplayer, _(TALK(%s) "%s leads our alliance. You must contact "
+             "and make peace with him first."), pplayer->name, 
+             ai->diplomacy.alliance_leader->name);
+      worth = -BIG_NUMBER;
+      break;
+    }
+
+    /* And this guy is allied to one of our enemies. Only accept
+     * ceasefire. */
+    if (adip->is_allied_with_enemy
+        && pclause->type != CLAUSE_CEASEFIRE) {
+      notify(aplayer, _(TALK(%s) "First break alliance with %s, %s"),
+             pplayer->name, adip->is_allied_with_enemy->name,
+             aplayer->name);
+      worth = -BIG_NUMBER;
+      break;
+    }
+
+    /* Check if we can trust this guy. If we want to blast off to space,
+     * we don't care, though. */
+    if (ai->diplomacy.acceptable_reputation > aplayer->reputation
+        && ai->diplomacy.strategy != WIN_SPACE) {
+      notify(aplayer, _(TALK(%s) "Begone scroundel, we all know that"
+             " you cannot be trusted!"), pplayer->name);
+      worth = -BIG_NUMBER;
+      break;
+    }
+
+    /* Reduce treaty level?? */
+    {
+      enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
+
+      if ((pclause->type == CLAUSE_PEACE && ds > DS_PEACE)
+          || (pclause->type == CLAUSE_CEASEFIRE && ds > DS_CEASEFIRE)) {
+        notify(aplayer, _(TALK(%s) "I will not let you go that easy, %s."),
+               pplayer->name, aplayer->name);
+        worth = -BIG_NUMBER;
+        break;
+      }
+    }
+
+    /* Let's all hold hands in one happy family! */
+    if (adip->is_allied_with_ally) {
+      worth = 0;
+      break;
+    }
+
+    /* If this lucky fella got a ceasefire with da boss, then
+     * let him live. */
+    if (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
+        == DS_CEASEFIRE && pclause->type == CLAUSE_CEASEFIRE) {
+        notify(aplayer, _(TALK(%s) "%s recommended that I give you a ceasefire."
+               " This is your lucky day."), pplayer->name,
+               ai->diplomacy.alliance_leader->name);
+        if (ai->diplomacy.target == aplayer) {
+          /* Damn, we lost our target, too! Stupid boss! */
+          ai->diplomacy.target = NULL;
+          ai->diplomacy.timer = 0;
+          ai->diplomacy.countdown = 0;
+        }
+        worth = 0;
+        break;
+    }
+
+    /* Breaking treaties give us penalties on future diplomacy, so
+     * avoid flip-flopping treaty/war with our chosen enemy. */
+    if (aplayer == ai->diplomacy.target) {
+      worth = -BIG_NUMBER;
+      break;
+    }
+
+    /* Steps of the ladder */
+    if (pclause->type == CLAUSE_PEACE) {
+      if (!pplayers_non_attack(pplayer, aplayer)) {
+        notify(aplayer, _(TALK(%s) "Let us first cease hostilies, %s"),
+               pplayer->name, aplayer->name);
+        worth = -BIG_NUMBER;
+      } else {
+        worth = greed(adip->love - ai->diplomacy.req_love_for_peace);
+      }
+    } else if (pclause->type == CLAUSE_ALLIANCE) {
+      if (!pplayers_in_peace(pplayer, aplayer)) {
+        notify(aplayer, _(TALK(%s) "Let us first make peace, %s"),
+               pplayer->name, aplayer->name);
+        worth = -BIG_NUMBER;
+      } else {
+        worth = greed(adip->love - ai->diplomacy.req_love_for_alliance);
+      }
+    } else {
+      worth = greed(adip->love - ai->diplomacy.req_love_for_ceasefire);
+    }
+  break;
+
+  case CLAUSE_GOLD:
+    if (give) {
+      worth -= pclause->value;
+    } else {
+      worth += pclause->value;
+    }
+    break;
+
+  case CLAUSE_SEAMAP:
+    if (!give || pplayers_allied(pplayer, aplayer)) {
+      /* Useless to us - we're omniscient! And allies get it for free! */
+      worth = 0;
+    } else {
+      /* Very silly algorithm 1: Sea map more worth if enemy has more
+         cities. Reasoning is he has more use of seamap for settling
+         new areas the more cities he has already. */
+      worth -= 25 * city_list_size(&aplayer->cities);
+    }
+    break;
+
+  case CLAUSE_MAP:
+    if (!give || pplayers_allied(pplayer, aplayer)) {
+      /* Useless to us - we're omniscient! And allies get it for free! */
+      worth = 0;
+    } else {
+      /* Very silly algorithm 2: Land map more worth the more cities
+         we have, since we expose all of these to the enemy. */
+      worth -= 75 * city_list_size(&pplayer->cities);
+      /* Inflate numbers if not peace */
+      if (!pplayers_in_peace(pplayer, aplayer)) {
+        worth *= 3;
+      }
+    }
+    break;
+
+  case CLAUSE_CITY: {
+    struct city *offer = city_list_find_id(&(pclause->from)->cities, 
+                                           pclause->value);
+
+    if (!offer || offer->owner != giver) {
+      /* City destroyed or taken during negotiations */
+      notify(aplayer, _(TALK(%s) "You don't have the offered city!"),
+             pplayer->name);
+      worth = 0;
+    } else if (give) {
+      /* AI must be crazy to trade away its cities */
+      worth -= city_gold_worth(offer);
+      if (city_got_building(offer, B_PALACE)) {
+        worth = -BIG_NUMBER; /* Never! Ever! */
+      } else {
+        worth *= 15;
+      }
+      if (aplayer->player_no == offer->original) {
+        /* Let them buy back their own city cheaper. */
+        worth /= 2;
+      }
+    } else {
+      worth = city_gold_worth(offer);      
+    }
+    break;
+  }
+
+  case CLAUSE_VISION:
+    if (give) {
+      if (pplayers_allied(pplayer, aplayer)) {
+        worth = 0;
+      } else {
+        /* so out of the question */
+        worth = -BIG_NUMBER;
+      }
+    } else {
+      worth = 0; /* We are omniscient, so... */
+    }
+    break;
+  default:
+    die("Unknown clause type in advdiplomacy.c");
+    break;
+  } /* end of switch */
+
+  diplomacy_verbose = TRUE;
+  return worth;
+}
+
+/********************************************************************** 
+  pplayer is AI player, aplayer is the other player involved, treaty
+  is the treaty being considered. It is all a question about money :-)
+***********************************************************************/
+void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
+                        struct Treaty *ptreaty)
+{
+  struct packet_diplomacy_info packet;
+  int total_balance = 0;
+  bool has_treaty = FALSE;
+  bool only_gifts = TRUE;
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  assert(!is_barbarian(pplayer));
+
+  packet.plrno0 = pplayer->player_no;
+  packet.plrno1 = aplayer->player_no;
+  packet.plrno_from = pplayer->player_no;
+
+  /* Evaluate clauses */
+  clause_list_iterate(ptreaty->clauses, pclause) {
+    total_balance += ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
+    if (is_pact_clause(pclause->type)) {
+      has_treaty = TRUE;
+    }
+    if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
+        && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
+        && (pclause->type != CLAUSE_ADVANCE 
+            || pclause->value == pplayer->ai.tech_goal
+            || pclause->value == pplayer->research.researching
+            || is_tech_a_req_for_goal(pplayer, pclause->value, 
+                                      pplayer->ai.tech_goal))) {
+      /* We accept the above list of clauses as gifts, even if we are
+       * at war. We do not accept tech or cities since these can be used
+       * against us, unless we know that we want this tech anyway. */
+      only_gifts = FALSE;
+    }
+  } clause_list_iterate_end;
+
+  /* If we are at war, and no peace is offered, then no deal, unless
+   * it is just gifts, in which case we gratefully accept. */
+  if (pplayers_at_war(pplayer, aplayer) && !has_treaty && !only_gifts) {
+    return;
+  }
+
+  /* Accept if balance is good */
+  if (total_balance >= 0) {
+    handle_diplomacy_accept_treaty(pplayer, &packet);
+  }
+}
+
+/********************************************************************** 
+  Comments to player from AI on clauses being agreed on. Does not
+  alter any state.
+***********************************************************************/
+static void ai_treaty_react(struct player *pplayer,
+                            struct player *aplayer,
+                            struct Clause *pclause)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  switch (pclause->type) {
+    case CLAUSE_ALLIANCE:
+      if (adip->is_allied_with_ally) {
+        notify(aplayer, _(TALK(%s) "Welcome into our alliance %s!"),
+               pplayer->name, aplayer->name);
+      } else {
+        notify(aplayer, _(TALK(%s) "Yes, may we forever stand united, %s"),
+               pplayer->name, aplayer->name);
+      }
+      break;
+    case CLAUSE_PEACE:
+      notify(aplayer, _(TALK(%s) "Yes, peace in our time!"),
+             pplayer->name);
+      break;
+    case CLAUSE_CEASEFIRE:
+      notify(aplayer, _(TALK(%s) "Agreed. No more hostilities, %s"),
+             pplayer->name, aplayer->name);
+      break;
+    default:
+      break;
+  }
+}
+
+/********************************************************************** 
+  This function is called when a treaty has been concluded, to deal
+  with followup issues like comments and relationship (love) changes.
+
+  pplayer is AI player, aplayer is the other player involved, ptreaty
+  is the treaty accepted.
+***********************************************************************/
+void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
+                        struct Treaty *ptreaty)
+{
+  int total_balance = 0;
+  bool gift = TRUE;
+  struct ai_data *ai = ai_data_get(pplayer);
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  /* Evaluate clauses */
+  clause_list_iterate(ptreaty->clauses, pclause) {
+    int balance = ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
+
+    total_balance += balance;
+    gift = (gift && (balance >= 0));
+    ai_treaty_react(pplayer, aplayer, pclause);
+  } clause_list_iterate_end;
+
+  /* Rather arbitrary algorithm to increase our love for a player if
+   * he or she offers us gifts. It is only a gift if _all_ the clauses
+   * are beneficial to us. */
+  if (total_balance > 0 && gift) {
+    int i = total_balance / (city_list_size(&pplayer->cities) * 50) + 1;
+
+    i = MIN(i, ai->diplomacy.love_incr * 150);
+    adip->love += i;
+    freelog(LOG_DIPL2, "%s's gift to %s increased love by %d",
+            aplayer->name, pplayer->name, i);
+  }
+}
+
+/********************************************************************** 
+  Calculate our desire to go to war against aplayer.
+***********************************************************************/
+static int ai_war_desire(struct player *pplayer, struct player *aplayer,
+                         struct ai_data *ai)
+{
+  int kill_desire;
+  struct player_spaceship *ship = &aplayer->spaceship;
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  /* Number of cities is a player's base potential. */
+  kill_desire = city_list_size(&aplayer->cities);
+
+  /* Count settlers in production for us, indicating our expansionism,
+   * while counting all enemy settlers as (worst case) indicators of
+   * enemy expansionism */
+  city_list_iterate(pplayer->cities, pcity) {
+    if (pcity->is_building_unit 
+        && unit_type_flag(pcity->currently_building, F_CITIES)) {
+      kill_desire -= 1;
+    }
+  } city_list_iterate_end;
+  unit_list_iterate(aplayer->units, punit) { 
+    if (unit_flag(punit, F_CITIES)) {
+      kill_desire += 1;
+    }
+  } unit_list_iterate_end;
+
+  /* Count big cities as twice the threat */
+  city_list_iterate(aplayer->cities, pcity) {
+    kill_desire += pcity->size > 8 ? 1 : 0;
+  } city_list_iterate_end;
+
+  /* Tech lead is worrisome */
+  kill_desire += MAX(aplayer->research.techs_researched -
+                     pplayer->research.techs_researched, 0);
+
+  /* Spacerace loss we will not allow! */
+  if (ship->state >= SSHIP_STARTED) {
+    /* add potential */
+    kill_desire += city_list_size(&aplayer->cities);
+  }
+  if (ai->diplomacy.spacerace_leader == aplayer) {
+    ai->diplomacy.strategy = WIN_CAPITAL;
+    return BIG_NUMBER; /* do NOT amortize this number! */
+  }
+
+  /* Modify by which treaties we would have to break, and what
+   * excuses we have to do so. FIXME: We only consider immediate
+   * allies, but we might trigger a wider chain reaction. */
+  players_iterate(eplayer) {
+    bool cancel_excuse = 
+            pplayer->diplstates[eplayer->player_no].has_reason_to_cancel;
+    enum diplstate_type ds = pplayer_get_diplstate(pplayer, eplayer)->type;
+
+    if (eplayer == pplayer || !eplayer->is_alive) {
+      continue;
+    }
+
+    /* Remember: pplayers_allied() returns true when aplayer == eplayer */
+    if (!cancel_excuse && pplayers_allied(aplayer, eplayer)) {
+      if (ds == DS_CEASEFIRE) {
+        kill_desire -= kill_desire / 10; /* 10% off */
+      } else if (ds == DS_NEUTRAL) {
+        kill_desire -= kill_desire / 7; /* 15% off */
+      } else if (ds == DS_PEACE) {
+        kill_desire -= kill_desire / 5; /* 20% off */
+      } else if (ds == DS_ALLIANCE) {
+        kill_desire -= kill_desire / 3; /* 33% off here, more later */
+      }
+    }
+  } players_iterate_end;
+
+  /* Modify by hatred */
+  if (adip->love < 0) {
+    kill_desire += kill_desire / 100 * adip->love;
+  }
+
+  /* Amortize by distance */
+  return amortize(kill_desire, adip->distance);
+}
+
+/********************************************************************** 
+  Suggest a treaty from pplayer to aplayer
+***********************************************************************/
+static void ai_diplomacy_suggest(struct player *pplayer, 
+                                 struct player *aplayer,
+                                 enum clause_type what,
+                                 int value)
+{
+  struct packet_diplomacy_info packet;
+
+  if (!could_meet_with_player(pplayer, aplayer)) {
+    freelog(LOG_DIPL2, "%s tries to do diplomacy to %s without contact",
+            pplayer->name, aplayer->name);
+    return;
+  }
+
+  packet.plrno_from = pplayer->player_no;
+  packet.plrno0 = pplayer->player_no;
+  packet.plrno1 = aplayer->player_no;
+  packet.clause_type = what;
+  packet.value = value;
+
+  handle_diplomacy_init(pplayer, &packet);
+  handle_diplomacy_create_clause(pplayer, &packet);
+}
+
+/********************************************************************** 
+  Calculate our diplomatic predispositions here. Don't do anything.
+
+  Only ever called for AI players and never for barbarians.
+***********************************************************************/
+void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
+{
+  int war_desire[MAX_NUM_PLAYERS];
+  int best_desire = 0;
+  struct player *target = NULL;
+
+  memset(war_desire, 0, sizeof(war_desire));
+
+  assert(pplayer->ai.control);
+  if (!pplayer->is_alive) {
+    return; /* duh */
+  }
+
+  /* Time to make love. If we've been wronged, hold off that love
+   * for a while. Also, cool our head each turn with love_coeff. */
+  players_iterate(aplayer) {
+    int a = aplayer->player_no;
+    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[a];
+
+    if (pplayer == aplayer || !aplayer->is_alive) {
+      continue;
+    }
+    adip->love -= pplayer->diplstates[a].has_reason_to_cancel;
+    if ((pplayers_non_attack(pplayer, aplayer) 
+         || pplayers_allied(pplayer, aplayer))
+        && !pplayer->diplstates[a].has_reason_to_cancel
+        && !adip->is_allied_with_enemy
+        && !adip->at_war_with_ally
+        && adip->ally_patience >= 0) {
+      adip->love += ai->diplomacy.love_incr;
+      freelog(LOG_DEBUG, "(%s ai diplo) Increased love for %s (now %d)",
+              pplayer->name, aplayer->name, adip->love);
+    } else if (pplayer->diplstates[aplayer->player_no].type == DS_WAR) {
+      adip->love -= ai->diplomacy.love_incr;
+      freelog(LOG_DEBUG, "(%s ai diplo) Reduced love for %s (now %d) ",
+              pplayer->name, aplayer->name, adip->love);
+    } else if (pplayer->diplstates[a].has_reason_to_cancel) {
+      /* Provoked in time of peace */
+      if (adip->love > 0) {
+        freelog(LOG_DEBUG, "(%s ai diplo) Provoked by %s! Love halved (was %d)",
+                pplayer->name, aplayer->name, adip->love);
+        adip->love /= 2;
+      }
+      adip->love -= ai->diplomacy.love_incr;
+    }
+    /* Massage our numbers to keep love and its opposite on the ground. 
+     * Gravitate towards zero. */
+    adip->love -= (adip->love * ai->diplomacy.love_coeff / 100);
+  } players_iterate_end;
+
+  /* Stop war against a dead player */
+  if (ai->diplomacy.target && !ai->diplomacy.target->is_alive) {
+    freelog(LOG_DIPL2, "(%s ai diplo) Target player %s is dead! Victory!",
+            pplayer->name, ai->diplomacy.target->name);
+    ai->diplomacy.timer = 0;
+    ai->diplomacy.countdown = 0;
+    ai->diplomacy.target = NULL;
+    if (ai->diplomacy.strategy == WIN_CAPITAL) {
+      ai->diplomacy.strategy = WIN_OPEN;
+    }
+  }
+
+  /* Can we win by space race? */
+  if (ai->diplomacy.spacerace_leader == pplayer) {
+    freelog(LOG_DIPL2, "%s going for space race victory!", pplayer->name);
+    ai->diplomacy.strategy = WIN_SPACE; /* Yes! */
+  } else {
+    if (ai->diplomacy.strategy == WIN_SPACE) {
+       ai->diplomacy.strategy = WIN_OPEN;
+    }
+  }
+
+  /* Ensure that we don't prematurely end an ongoing war */
+  if (ai->diplomacy.timer-- > 0) {
+    return;
+  }
+
+  /* Calculate average distances to other players' empires. */
+  players_iterate(aplayer) {
+    ai->diplomacy.player_intel[aplayer->player_no].distance = 
+          player_distance_to_player(pplayer, aplayer);
+  } players_iterate_end;
+
+  /* Calculate our desires, and find desired war target */
+  players_iterate(aplayer) {
+    enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
+    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+    /* We don't hate ourselves, those we don't know and those we're
+     * allied to or team members. Defer judgement on alliance members
+     * we're not (yet) allied to to the alliance leader. Always respect
+     * ceasefires the boss has signed. */
+    if (aplayer == pplayer
+        || !aplayer->is_alive
+        || ds == DS_NO_CONTACT
+        || (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team)
+        || ds == DS_ALLIANCE
+        || (pplayer != ai->diplomacy.alliance_leader 
+            && adip->is_allied_with_ally)
+        || (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
+            == DS_CEASEFIRE)) {
+      continue;
+    }
+    war_desire[aplayer->player_no] = ai_war_desire(pplayer, aplayer, ai);
+
+    /* We don't want war if we can win through the space race. */
+    if (ai->diplomacy.strategy == WIN_SPACE && !adip->at_war_with_ally) {
+      continue;    
+    }
+
+    /* Strongly prefer players we are at war with already. */
+    if (pplayers_non_attack(pplayer, aplayer)) {
+      war_desire[aplayer->player_no] /= 2;
+    }
+    freelog(LOG_DEBUG, "(%s ai diplo) Against %s we have war desire "
+            "%d ", pplayer->name, aplayer->name,
+            war_desire[aplayer->player_no]);
+
+    /* Find best target */
+    if (war_desire[aplayer->player_no] > best_desire) {
+      target = aplayer;
+      best_desire = war_desire[aplayer->player_no];
+    }
+  } players_iterate_end;
+
+  if (!target) {
+    freelog(LOG_DEBUG, "(%s ai diplo) Found no target.", pplayer->name);
+    ai->diplomacy.target = NULL;
+    return;
+  }
+
+  /* Switch to target */
+  if (target != ai->diplomacy.target) {
+    freelog(LOG_DIPL, "(%s ai diplo) Setting target to %s",
+            pplayer->name, target->name);
+    ai->diplomacy.target = target;
+    ai->diplomacy.timer = myrand(6) + 6; /* Don't reevaluate too often. */
+    if (ai->diplomacy.strategy == WIN_CAPITAL) {
+      ai->diplomacy.countdown = 1; /* Quickly!! */
+    } else if (pplayer->diplstates[target->player_no].has_reason_to_cancel > 1) {
+      /* Turns until we lose our casus bellum, exploit that. */
+      ai->diplomacy.countdown = 
+                    pplayer->diplstates[target->player_no].has_reason_to_cancel
+                    - 1;
+    } else {
+      ai->diplomacy.countdown = 6; /* Take the time we need - WAG */
+    }
+    players_iterate(aplayer) {
+      ai->diplomacy.player_intel[aplayer->player_no].ally_patience = 0;
+    } players_iterate_end;
+  }
+}
+
+/********************************************************************** 
+  Offer techs to other player and ask for techs we need.
+***********************************************************************/
+static void ai_share_techs(struct player *pplayer,
+                           struct player *aplayer)
+{
+  int index;
+
+  for (index = A_FIRST; index < game.num_tech_types; index++) {
+    if ((get_invention(pplayer, index) != TECH_KNOWN)
+        && (get_invention(aplayer, index) == TECH_KNOWN)) {
+      ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
+    } else if ((get_invention(pplayer, index) == TECH_KNOWN)
+        && (get_invention(aplayer, index) != TECH_KNOWN)) {
+      ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
+    }
+  }
+  if (!gives_shared_vision(pplayer, aplayer)) {
+    ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_VISION, 0);
+  }
+  if (!gives_shared_vision(aplayer, pplayer)) {
+    ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_VISION, 0);
+  }
+}
+
+/********************************************************************** 
+  Go to war.
+***********************************************************************/
+static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
+                         struct player *target)
+{
+  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[target->player_no];
+  struct packet_generic_values packet;
+
+  packet.id = target->player_no;
+  packet.value1 = CLAUSE_LAST; /* will take us straight to war */
+  if (gives_shared_vision(pplayer, target)) {
+    remove_shared_vision(pplayer, target);
+  }
+  handle_player_cancel_pact(pplayer, &packet);
+  /* Continue war at least in this arbitrary number of turns to show 
+   * some spine */
+  ai->diplomacy.timer = myrand(4) + 3;
+  if (adip->love < 0) {
+    ai->diplomacy.timer -= adip->love / 10;
+  } else {
+    adip->love = -1; /* We DO NOT love our enemies! AIs are heatens! */
+  }
+  assert(!gives_shared_vision(pplayer, target));
+}
+
+/********************************************************************** 
+  Do diplomatic actions. Must be called only after calculate function
+  above has been run for _all_ AI players.
+
+  Only ever called for AI players and never for barbarians.
+***********************************************************************/
+void ai_diplomacy_actions(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+  struct player *target = ai->diplomacy.target;
+
+  assert(pplayer->ai.control);
+  if (!pplayer->is_alive) {
+    return;
+  }
+
+  /*** If we are greviously insulted, go to war immediately. ***/
+
+  players_iterate(aplayer) {
+    if (ai->diplomacy.acceptable_reputation > aplayer->reputation
+        && ai->diplomacy.player_intel[aplayer->player_no].love < 0
+        && pplayer->diplstates[aplayer->player_no].has_reason_to_cancel >= 2) {
+      freelog(LOG_DIPL2, "(%s ai diplo) Declaring war on %s in revenge",
+              pplayer->name, target->name);
+      notify(target, _(TALK(%s) "I will NOT accept such behaviour! This "
+             "means WAR!"), pplayer->name);
+      ai_go_to_war(pplayer, ai, aplayer);
+    }
+  } players_iterate_end;
+
+  /*** Stop other players from winning by space race ***/
+
+  if (ai->diplomacy.strategy != WIN_SPACE) {
+    players_iterate(aplayer) {
+      struct ai_dip_intel *adip =
+                         &ai->diplomacy.player_intel[aplayer->player_no];
+      struct player_spaceship *ship = &aplayer->spaceship;
+
+      if (!aplayer->is_alive || aplayer == pplayer
+          || (pplayer->team != TEAM_NONE && aplayer->team == pplayer->team)
+          || ship->state == SSHIP_NONE) {
+        continue;
+      }
+      /* A spaceship victory is always one single player's or team's victory */
+      if (aplayer->spaceship.state == SSHIP_LAUNCHED
+          && ai->diplomacy.spacerace_leader == aplayer
+          && pplayers_allied(pplayer, aplayer)) {
+        struct packet_generic_values packet;
+
+        packet.id = aplayer->player_no;
+        packet.value1 = CLAUSE_ALLIANCE;
+        notify(aplayer, _(TALK(%s) "Your attempt to conquer space for "
+               "yourself alone betray your true intentions, and I "
+               "will have no more of our alliance!"), pplayer->name);
+        handle_player_cancel_pact(pplayer, &packet);
+        if (gives_shared_vision(pplayer, aplayer)) {
+          remove_shared_vision(pplayer, aplayer);
+        }
+        adip->love = -(BIG_NUMBER); /* Never forgive this */
+      } else if (ship->state == SSHIP_STARTED && !adip->warned_about_space) {
+        adip->warned_about_space = 10 + myrand(6);
+        notify(aplayer, _(TALK(%s) "Your attempt to unilaterally "
+               "dominate outer space is highly offensive."), pplayer->name);
+        notify(aplayer, _(TALK(%s) "If you do not stop constructing your "
+               "spaceship, I may be forced to take action!"), pplayer->name);
+      }
+      if (aplayer->spaceship.state == SSHIP_LAUNCHED
+          && aplayer == ai->diplomacy.spacerace_leader) {
+        /* This means war!!! */
+        ai->diplomacy.timer = 0; /* Force reevaluation next turn */
+      }
+    } players_iterate_end;
+  }
+
+  /*** Declare war - against target ***/
+
+  if (target && !pplayers_at_war(pplayer, target)
+      && ai->diplomacy.countdown-- <= 0) {
+    assert(!pplayers_allied(target, pplayer));
+    if (pplayer->diplstates[target->player_no].has_reason_to_cancel > 0) {
+      /* We have good reason */
+      notify(target, _(TALK(%s) "Your despicable actions will not go "
+             "unpunished!"), pplayer->name);
+    } if (ai->diplomacy.player_intel[target->player_no].love < 0) {
+      /* We have a reason of sorts from way back. */
+      notify(target, _(TALK(%s) "Finally I get around to you! Did "
+             "you really think you could get away with your crimes?"),
+             pplayer->name);
+    } else {
+      /* We have no legimitate reason... So what? */
+      notify(target, _(TALK(%s) "Peace in ... some other time"),
+             pplayer->name);
+    }
+    ai_go_to_war(pplayer, ai, target);
+  }
+
+  /*** Declare war - against enemies of allies ***/
+
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+    if (aplayer->is_alive
+        && adip->at_war_with_ally
+        && !adip->is_allied_with_ally
+        && !pplayers_at_war(pplayer, aplayer)) {
+      notify(aplayer, _(TALK(%s) "Your aggression against my allies was your "
+             "your last mistake!"), pplayer->name);
+      ai_go_to_war(pplayer, ai, aplayer);
+    }
+  } players_iterate_end;
+
+  /*** Opportunism, Inc. Try to make peace with everyone else ***/
+
+  players_iterate(aplayer) {
+    enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
+    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+    struct Clause clause;
+    struct packet_generic_values packet;
+
+    /* Meaningless values, but rather not have them unset. */
+    clause.from = pplayer;
+    clause.value = 0;
+
+    /* Remove shared vision if we are at war (ie someone else declared
+     * war on us, or it happened through alliance). */
+    if (pplayers_at_war(pplayer, aplayer)
+        && gives_shared_vision(pplayer, aplayer)) {
+      remove_shared_vision(pplayer, aplayer);
+    }
+
+    /* No peace to enemies of our allies... or pointless peace. */
+    if (is_barbarian(aplayer)
+        || aplayer == pplayer
+        || aplayer == target     /* no mercy */
+        || !aplayer->is_alive
+        || !could_meet_with_player(pplayer, aplayer)
+        || adip->at_war_with_ally) {
+      continue;
+    }
+
+    /* Spam control */
+    adip->asked_about_peace = MAX(adip->asked_about_peace - 1, 0);
+    adip->asked_about_alliance = MAX(adip->asked_about_alliance - 1, 0);
+    adip->asked_about_ceasefire = MAX(adip->asked_about_ceasefire - 1, 0);
+    adip->warned_about_space = MAX(adip->warned_about_space - 1, 0);
+    adip->spam = MAX(adip->spam - 1, 0);
+    if (adip->spam > 0) {
+      /* Don't spam */
+      continue;
+    }
+
+    /* Canvass support from existing friends for our war, and try to
+     * make friends with enemies. Then we wait some turns until next time
+     * we spam them with our gibbering chatter. */
+    if (!aplayer->ai.control) {
+      if (!pplayers_allied(pplayer, aplayer)) {
+        adip->spam = myrand(4) + 3; /* Bugger allies often. */
+      } else {
+        adip->spam = myrand(8) + 6; /* Others are less important. */
+      }
+    }
+
+    switch (ds) {
+    case DS_ALLIANCE:
+      if ((pplayer->team != TEAM_NONE && aplayer->team == pplayer->team)
+          || (target && (!pplayers_at_war(pplayer, target)
+              || pplayers_at_war(aplayer, target)))) {
+        /* Share techs only with team mates and _reliable_ allies.
+         * This means, if we have a target, then unless we are still
+         * in countdown mode, we _except_ our allies to be at war
+         * with our target too! */
+        ai_share_techs(pplayer, aplayer);
+        adip->ally_patience = 0;
+        break;
+      } else if (!target) {
+        adip->ally_patience = 0;
+        break;
+      }
+      if (target && pplayer->ai.control) {
+        freelog(LOG_DIPL2, "%s: Ally %s not at war with enemy %s "
+                "(patience %d, %s %s)", pplayer->name, aplayer->name, 
+                target->name, adip->ally_patience, adip->at_war_with_ally
+                ? "war_with_ally" : "", adip->is_allied_with_ally ? 
+                "allied_with_ally" : "");
+
+      }
+      switch (adip->ally_patience--) {
+        case 0:
+          notify(aplayer, _(TALK(%s) "Greetings our most trustworthy "
+                 "ally, we call upon you to destroy our enemy, %s"), 
+                 pplayer->name, target->name);
+          break;
+        case -1:
+          notify(aplayer, _(TALK(%s) "Greetings ally, I see you have not yet "
+                 "made war with our enemy, %s. Why do I need to remind "
+                 "you of your promises?"), pplayer->name, target->name);
+          break;
+        case -2:
+          notify(aplayer, _(TALK(%s) "Dishonoured one, we made a pact of "
+                 "alliance, and yet you remain at peace with our mortal "
+                 "enemy, %s! This is unacceptable, our alliance is no "
+                 "more!"), pplayer->name, target->name);
+          freelog(LOG_DIPL2, "(%s ai diplo) breaking useless alliance with %s",
+                  pplayer->name, aplayer->name);
+          packet.id = aplayer->player_no;
+          packet.value1 = CLAUSE_ALLIANCE;
+          handle_player_cancel_pact(pplayer, &packet); /* to peace */
+          if (adip->love > 0) {
+            adip->love /= 4;
+          }
+          if (gives_shared_vision(pplayer, aplayer)) {
+            remove_shared_vision(pplayer, aplayer);
+          }
+          assert(!gives_shared_vision(pplayer, aplayer));
+          break;
+      }
+      break;
+
+    case DS_PEACE:
+      clause.type = CLAUSE_ALLIANCE;
+      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+          || (adip->asked_about_alliance > 0 && !aplayer->ai.control)
+          || !target) {
+        /* Note that we don't ever ask for alliance unless we have a target */
+        break; 
+      }
+      ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
+      adip->asked_about_alliance = !aplayer->ai.control ? 13 : 0;
+      notify(aplayer, _(TALK(%s) "Greetings friend, may we suggest "
+             "a joint campaign against %s?"), pplayer->name, target->name);
+      break;
+
+    case DS_CEASEFIRE:
+    case DS_NEUTRAL:
+      clause.type = CLAUSE_PEACE;
+      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+          || (adip->asked_about_peace > 0 && !aplayer->ai.control)
+          || !target) {
+        /* Note that we don't ever ask for peace unless we have a target */
+        break; /* never */
+      }
+      ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
+      adip->asked_about_peace = !aplayer->ai.control ? 12 : 0;
+      notify(aplayer, _(TALK(%s) "Greetings neighbour, may we suggest "
+             "a joint campaign against %s?"), pplayer->name, target->name);
+      break;
+
+    case DS_NO_CONTACT: /* but we do have embassy! weird. */
+    case DS_WAR:
+      clause.type = CLAUSE_CEASEFIRE;
+      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+          || (adip->asked_about_ceasefire > 0 && !aplayer->ai.control)
+          || !target) {
+        break; /* Fight until the end! */
+      }
+      ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
+      adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
+      notify(aplayer, _(TALK(%s) "%s is threatening us both, may we "
+             " suggest a cessation of hostilities?"), pplayer->name,
+             target->name);
+      break;
+    default:
+      die("Unknown pact type");
+      break;
+    }
+  } players_iterate_end;
+}

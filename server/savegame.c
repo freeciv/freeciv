@@ -700,7 +700,7 @@ static void player_load(struct player *plr, int plrno,
 
   plr->reputation=secfile_lookup_int_default(file, GAME_DEFAULT_REPUTATION,
 					     "player%d.reputation", plrno);
-  for(i=0; i<game.nplayers; i++) {
+  for (i=0; i < game.nplayers; i++) {
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);

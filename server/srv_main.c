@@ -92,6 +92,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+#include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"
@@ -471,9 +472,15 @@ static void begin_turn(void)
     send_player_cities(pplayer);
   } players_iterate_end;
 
-  flush_packets();			/* to curb major city spam */
-
+  flush_packets();  /* to curb major city spam */
   conn_list_do_unbuffer(&game.game_connections);
+
+  /* Try to avoid hiding events under a diplomacy dialog */
+  players_iterate(pplayer) {
+    if (pplayer->ai.control && !is_barbarian(pplayer)) {
+      ai_diplomacy_actions(pplayer);
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************

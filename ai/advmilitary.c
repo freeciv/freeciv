@@ -31,6 +31,7 @@
 
 #include "aiair.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aidiplomat.h"
 #include "aihand.h"
 #include "ailog.h"
@@ -919,6 +920,7 @@ This function
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
 				struct unit *myunit, struct ai_choice *choice)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   /* Our attack rating (with reinforcements) */
   int attack;
   /* Benefit from fighting the target */
@@ -1005,7 +1007,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       move_rate *= 3;
     }
     
-    if (!pplayers_at_war(pplayer, city_owner(acity))) {
+    if (!HOSTILE_PLAYER(pplayer, ai, city_owner(acity))) {
       /* Not a valid target */
       return;
     }

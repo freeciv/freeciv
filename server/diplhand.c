@@ -37,6 +37,8 @@
 #include "settlers.h"
 #include "unittools.h"
 
+#include "advdiplomacy.h"
+
 #include "diplhand.h"
 
 #define SPECLIST_TAG treaty
@@ -325,6 +327,13 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       }
     } clause_list_iterate_end;
 
+    if (plr0->ai.control) {
+      ai_treaty_accepted(plr0, plr1, ptreaty);
+    }
+    if (plr1->ai.control) {
+      ai_treaty_accepted(plr1, plr0, ptreaty);
+    }
+
     clause_list_iterate(ptreaty->clauses, pclause) {
       pgiver = pclause->from;
       pdest = (plr0==pgiver) ? plr1 : plr0;
@@ -335,6 +344,11 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
          * and try to give us the same tech at the same time. This
          * should be handled discreetly instead of giving a core dump. */
         if (get_invention(pdest, pclause->value) == TECH_KNOWN) {
+	  freelog(LOG_VERBOSE,
+                  "The %s already know tech %s, that %s want to give them.",
+		  get_nation_name_plural(pdest->nation),
+		  advances[pclause->value].name,
+		  get_nation_name_plural(pgiver->nation));
           break;
         }
 	notify_player_ex(pdest, -1, -1, E_TECH_GAIN,
@@ -446,7 +460,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       }
 
     } clause_list_iterate_end;
-  cleanup:      
+  cleanup:
     treaty_list_unlink(&treaties, ptreaty);
     free(ptreaty);
     send_player_info(plr0, NULL);
@@ -488,9 +502,14 @@ void handle_diplomacy_remove_clause(struct player *pplayer,
 				 PACKET_DIPLOMACY_REMOVE_CLAUSE, packet);
       lsend_packet_diplomacy_info(&plr1->connections, 
 				 PACKET_DIPLOMACY_REMOVE_CLAUSE, packet);
+      if (plr0->ai.control) {
+        ai_treaty_evaluate(plr0, plr1, ptreaty);
+      }
+      if (plr1->ai.control) {
+        ai_treaty_evaluate(plr1, plr0, ptreaty);
+      }
     }
   }
-
 }
 
 /**************************************************************************
@@ -531,6 +550,12 @@ void handle_diplomacy_create_clause(struct player *pplayer,
       lsend_packet_diplomacy_info(&plr1->connections, 
 				 PACKET_DIPLOMACY_CREATE_CLAUSE, 
 				 packet);
+      if (plr0->ai.control) {
+        ai_treaty_evaluate(plr0, plr1, ptreaty);
+      }
+      if (plr1->ai.control) {
+        ai_treaty_evaluate(plr1, plr0, ptreaty);
+      }
     }
   }
 }
@@ -599,10 +624,11 @@ void handle_diplomacy_init(struct player *pplayer,
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
 
+  assert(plr0 != plr1);
+
   if (!find_treaty(plr0, plr1)) {
-    if (plr0->ai.control || plr1->ai.control) {
-      notify_player(plr0, _("AI controlled players cannot participate in "
-			    "diplomatic meetings."));
+    if (is_barbarian(plr0) || is_barbarian(plr1)) {
+      notify_player(plr0, _("Your diplomatic envoy was decapitated!"));
       return;
     }
 
@@ -644,6 +670,7 @@ void send_diplomatic_meetings(struct connection *dest)
     return;
   }
   players_iterate(other_player) {
+
     if ( (ptreaty=find_treaty(pplayer, other_player))) {
       struct packet_diplomacy_info packet;
       
