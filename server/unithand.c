@@ -774,16 +774,21 @@ static int hut_get_barbarians(struct unit *punit)
 		     _("Game: An abandoned village is here."));
   }
   else {
-    /* save coords in case unit dies */
+    /* save coords and type in case unit dies */
     int punit_x = punit->x;
     int punit_y = punit->y;
-    
+    Unit_Type_id type = punit->type;
+
     ok = unleash_barbarians(pplayer, punit_x, punit_y);
-    
-    notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
-		     ok ?
-		     _("Game: You have unleashed a horde of barbarians!") :
-		     _("Game: Your unit has been killed by barbarians."));
+
+    if (ok) {
+      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+		       _("Game: You have unleashed a horde of barbarians!"));
+    } else {
+      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+		       _("Game: Your %s has been killed by barbarians!"),
+		       unit_name(type));
+    }
   }
   return ok;
 }
