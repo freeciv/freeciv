@@ -716,9 +716,11 @@ int do_airline(struct unit *punit, int x, int y)
   city1->airlift=0;
   city2->airlift=0;
   punit->moves_left = 0;
+  unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
   punit->x = x;
   punit->y = y;
   send_unit_info(&game.players[punit->owner], punit, 0);
+  unit_list_insert(&map_get_tile(x, y)->units, punit);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		   "Game: unit transported succesfully.");
   return 1;
