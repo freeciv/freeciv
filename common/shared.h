@@ -83,6 +83,10 @@ typedef unsigned int fc_bool;
 #endif
 #define CLIP(lower,this,upper) \
     ((this)<(lower)?(lower):(this)>(upper)?(upper):(this))
+#define WRAP(value, range)                                                  \
+    ((value) < 0                                                            \
+     ? ((value) % (range) != 0 ? (value) % (range) + (range) : 0)           \
+     : ((value) >= (range) ? (value) % (range) : (value)))
 
 #define BOOL_VAL(x) ((x)!=0)
 

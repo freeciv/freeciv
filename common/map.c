@@ -1339,19 +1339,37 @@ bool is_normal_map_pos(int x, int y)
 
 /**************************************************************************
   If the position is real, it will be normalized and TRUE will be returned.
-  If the position is unreal, it will be wrapped and FALSE will be returned.
+  If the position is unreal, it will be left unchanged and FALSE will be
+  returned.
 
   Note, we need to leave x and y with sane values even in the unreal case.
   Some callers may for instance call nearest_real_pos on these values.
 **************************************************************************/
 bool normalize_map_pos(int *x, int *y)
 {
-  while (*x < 0)
-    *x += map.xsize;
-  while (*x >= map.xsize)
-    *x -= map.xsize;
+  int nat_x, nat_y;
 
-  return (0 <= *y && *y < map.ysize);
+  /* Normalization is best done in native coordinatees. */
+  map_to_native_pos(&nat_x, &nat_y, *x, *y);
+
+  /* If the position is out of range in a non-wrapping direction, it is
+   * unreal. */
+  if (!((topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
+	&& (topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
+    return FALSE;
+  }
+
+  /* Wrap in X and Y directions, as needed. */
+  if (topo_has_flag(TF_WRAPX)) {
+    nat_x = WRAP(nat_x, map.xsize);
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    nat_y = WRAP(nat_y, map.ysize);
+  }
+
+  /* Now transform things back to map coordinates. */
+  native_to_map_pos(x, y, nat_x, nat_y);
+  return TRUE;
 }
 
 /**************************************************************************
