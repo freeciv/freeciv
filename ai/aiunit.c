@@ -88,6 +88,67 @@ static int unit_vulnerability(struct unit *punit, struct unit *pdef);
 Unit_Type_id simple_ai_types[U_LAST];
 
 /**************************************************************************
+  Move defenders around with airports. Since this expends all our 
+  movement, a valid question is - why don't we do this on turn end?
+  That's because we want to avoid emergency actions to protect the city
+  during the turn if that isn't necessary.
+**************************************************************************/
+static void ai_airlift(struct player *pplayer)
+{
+  struct city *most_needed;
+  int comparison;
+  struct city *least_needed;
+  struct unit *transported;
+
+  do {
+    most_needed = NULL;
+    comparison = 0;
+    least_needed = NULL;
+    transported = NULL;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      if (pcity->ai.urgency > comparison && pcity->airlift) {
+        comparison = pcity->ai.urgency;
+        most_needed = pcity;
+      }
+    } city_list_iterate_end;
+    if (!most_needed) {
+      comparison = 0;
+      city_list_iterate(pplayer->cities, pcity) {
+        if (pcity->ai.danger > comparison && pcity->airlift) {
+          comparison = pcity->ai.danger;
+          most_needed = pcity;
+        }
+      } city_list_iterate_end;
+    }
+    if (!most_needed) {
+      return;
+    }
+    comparison = 0;
+    unit_list_iterate(pplayer->units, punit) {
+      struct tile *ptile = map_get_tile(punit->x, punit->y);
+
+      if (ptile->city && ptile->city->ai.urgency == 0
+          && ptile->city->ai.danger - DEFENCE_POWER(punit) < comparison
+          && unit_can_airlift_to(punit, most_needed)
+          && DEFENCE_POWER(punit) > 2
+          && (punit->ai.ai_role == AIUNIT_NONE
+              || punit->ai.ai_role == AIUNIT_DEFEND_HOME)
+          && IS_ATTACKER(punit)) {
+        comparison = ptile->city->ai.danger;
+        transported = punit;
+      }
+    } unit_list_iterate_end;
+    if (!transported) {
+      return;
+    }
+    UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s", 
+             most_needed->name);
+    do_airline(transported, most_needed);
+  } while (TRUE);
+}
+
+/**************************************************************************
   Similar to is_my_zoc(), but with some changes:
   - destination (x0,y0) need not be adjacent?
   - don't care about some directions?
@@ -2663,6 +2724,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 void ai_manage_units(struct player *pplayer) 
 {
+  ai_airlift(pplayer);
   unit_list_iterate_safe(pplayer->units, punit) {
     ai_manage_unit(pplayer, punit);
   } unit_list_iterate_safe_end;

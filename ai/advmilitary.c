@@ -432,12 +432,6 @@ static int assess_danger(struct city *pcity)
     if (unit_flag(punit, F_PIKEMEN)) pikemen = TRUE;
   } unit_list_iterate_end;
 
-  /* Add some default danger to protect palace, but don't do this
-   * early game. */
-  if (city_got_building(pcity, B_PALACE)) {
-    danger[0] += pcity->size - 1;
-  }
-
   players_iterate(aplayer) {
     int boatspeed;
     int boatid, boatdist;
@@ -1297,11 +1291,12 @@ static void adjust_ai_unit_choice(struct city *pcity,
     break;
   case HELI_MOVING:
   case AIR_MOVING:
-    /* Should we build airports by default?  */
-    /*    if (player_knows_improvement_tech(pplayer, B_AIRPORT)) {
-	  choice->choice = B_AIRPORT;
-	  choice->type = CT_BUILDING;
-	  } */
+    if (player_knows_improvement_tech(pplayer, B_AIRPORT)
+        && pcity->shield_surplus > improvement_value(B_AIRPORT) / 10) {
+      /* Only build this if we have really high production */
+      choice->choice = B_AIRPORT;
+      choice->type = CT_BUILDING;
+    }
     break;
   default:
     freelog(LOG_ERROR, "Unknown move_type in adjust_ai_unit_choice");
