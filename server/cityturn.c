@@ -52,7 +52,6 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
-#include "aitools.h"		/* for ai_advisor_choose_building/ai_choice */
 
 #include "cityturn.h"
 
@@ -559,18 +558,28 @@ static void city_populate(struct city *pcity)
 void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   Impr_Type_id id = -1;
+  int val = 0;
+
+  /* See what AI has to say */
+  impr_type_iterate(i) {
+    if (pcity->ai.building_want[i] > val
+        && can_build_improvement(pcity, i)) {
+      val = pcity->ai.building_want[i];
+      id = i;
+    }
+  } impr_type_iterate_end;
+  if (id >= 0 && id < B_LAST) {
+    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
+    return;
+  }
 
   /* Build something random, undecided. */
   impr_type_iterate(i) {
     if (can_build_improvement(pcity, i)
 	&& !building_has_effect(i, EFT_CAPITAL_CITY)) {
-      id = i;
-      break;
+      change_build_target(pplayer, pcity, i, FALSE, E_IMP_AUTO);
     }
   } impr_type_iterate_end;
-  if (id >= 0 && id < B_LAST) {
-    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
-  }
 }
 
 /**************************************************************************

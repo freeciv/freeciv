@@ -506,7 +506,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 /************************************************************************** 
   Prime pcity->ai.building_want[]
 **************************************************************************/
-static void ai_manage_buildings(struct player *pplayer)
+void ai_manage_buildings(struct player *pplayer)
 /* TODO:  RECALC_SPEED should be configurable to ai difficulty. -kauf  */
 #define RECALC_SPEED 5
 {

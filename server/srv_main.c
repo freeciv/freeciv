@@ -96,6 +96,7 @@
 
 #include "advdiplomacy.h"
 #include "advmilitary.h"
+#include "aicity.h"
 #include "aidata.h"
 #include "aihand.h"
 #include "aisettler.h"
@@ -515,6 +516,7 @@ static void begin_phase(bool is_new_phase)
 	    pplayer->player_no, pplayer->name);
     /* human players also need this for building advice */
     ai_data_turn_init(pplayer);
+    ai_manage_buildings(pplayer);
   } players_iterate_end;
 
   players_iterate(pplayer) {
