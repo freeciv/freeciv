@@ -311,7 +311,7 @@ Engineers are similar to Workers, but they work twice as fast and\
  are beyond the capabilities of Workers.\
 \n\n\
 TIP 1:  Upgrade Workers to Engineers when possible, as Engineers\
- require the same resources as ordinary Settlers.\
+ require the same resources as ordinary Workers.\
 \n\n\
 TIP 2:  If you manage to build Leonardo's Workshop, research\
  Explosives before the Workshop becomes obsolete.  This way,\
