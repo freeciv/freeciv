@@ -202,7 +202,7 @@ void server_open_udp(void)
    */
   if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
     freelog(LOG_ERROR, "Metaserver: can't open datagram socket: %s",
-	    mystrerror(errno));
+	    mystrerror());
     metaserver_failed();
     return;
   }
@@ -219,14 +219,14 @@ void server_open_udp(void)
 
   /* set source IP */
   if (bind(sockfd, &bind_addr.sockaddr, sizeof(bind_addr)) == -1) {
-    freelog(LOG_ERROR, "Metaserver: bind failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "Metaserver: bind failed: %s", mystrerror());
     metaserver_failed();
     return;
   }
 
   /* no, this is not weird, see man connect(2) --vasc */
   if (connect(sockfd, &meta_addr.sockaddr, sizeof(meta_addr))==-1) {
-    freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror());
     metaserver_failed();
     return;
   }

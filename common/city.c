@@ -2024,6 +2024,7 @@ static void citizen_happy_wonders(struct city *pcity)
     pcity->ppl_content[4]++;
     bonus--;
   }
+
   if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
     pcity->ppl_content[4] += pcity->ppl_unhappy[4] + pcity->ppl_angry[4];
     pcity->ppl_unhappy[4] = 0;

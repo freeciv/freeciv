@@ -99,7 +99,7 @@ void my_init_network(void)
   WSADATA wsa;
 
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
-    freelog(LOG_ERROR, "no usable WINSOCK.DLL: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "no usable WINSOCK.DLL: %s", mystrerror());
   }
 #endif
 
@@ -129,20 +129,20 @@ void my_nonblock(int sockfd)
   int f_set;
 
   if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
-    freelog(LOG_ERROR, "fcntl F_GETFL failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "fcntl F_GETFL failed: %s", mystrerror());
   }
 
   f_set |= O_NONBLOCK;
 
   if (fcntl(sockfd, F_SETFL, f_set) == -1) {
-    freelog(LOG_ERROR, "fcntl F_SETFL failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "fcntl F_SETFL failed: %s", mystrerror());
   }
 #else
 #ifdef HAVE_IOCTL
   long value=1;
 
   if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
-    freelog(LOG_ERROR, "ioctl failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "ioctl failed: %s", mystrerror());
   }
 #endif
 #endif

@@ -184,13 +184,13 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
   }
   
   if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
+    (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     return -1;
   }
 
   if (connect(aconnection.sock, &server_addr.sockaddr,
       sizeof(server_addr)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
+    (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     my_closesocket(aconnection.sock);
     aconnection.sock = -1;
 #ifdef WIN32_NATIVE
@@ -287,7 +287,7 @@ static int read_from_connection(struct connection *pc, bool block)
       }
 
       freelog(LOG_NORMAL, "error in select() return=%d errno=%d (%s)",
-	      n, errno, mystrerror(errno));
+	      n, errno, mystrerror());
       return -1;
     }
 
@@ -555,12 +555,12 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   }
   
   if((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+    (void) mystrlcpy(errbuf, mystrerror(), n_errbuf);
     return NULL;
   }
   
   if(connect(s, &addr.sockaddr, sizeof (addr)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+    (void) mystrlcpy(errbuf, mystrerror(), n_errbuf);
     my_closesocket(s);
     return NULL;
   }
@@ -674,13 +674,13 @@ int begin_lanserver_scan(void)
 
   /* Create a socket for broadcasting to servers. */
   if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "socket failed: %s", mystrerror());
     return 0;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
   }
 
   /* Set the UDP Multicast group IP address. */
@@ -694,13 +694,13 @@ int begin_lanserver_scan(void)
   ttl = SERVER_LAN_TTL;
   if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
                  sizeof(ttl))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return 0;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return 0;
   }
 
@@ -711,7 +711,7 @@ int begin_lanserver_scan(void)
 
   if (sendto(sock, buffer, size, 0, &addr.sockaddr,
       sizeof(addr)) < 0) {
-    freelog(LOG_ERROR, "sendto failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "sendto failed: %s", mystrerror());
     return 0;
   } else {
     freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
@@ -721,7 +721,7 @@ int begin_lanserver_scan(void)
 
   /* Create a socket for listening for server packets. */
   if ((socklan = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "socket failed: %s", mystrerror());
     return 0;
   }
 
@@ -729,7 +729,7 @@ int begin_lanserver_scan(void)
 
   if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
   }
                                                                                
   memset(&addr, 0, sizeof(addr));
@@ -738,7 +738,7 @@ int begin_lanserver_scan(void)
   addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
 
   if (bind(socklan, &addr.sockaddr, sizeof(addr)) < 0) {
-    freelog(LOG_ERROR, "bind failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "bind failed: %s", mystrerror());
     return 0;
   }
 
@@ -746,7 +746,7 @@ int begin_lanserver_scan(void)
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
   if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP, 
                  (const char*)&mreq, sizeof(mreq)) < 0) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return 0;
   }
 
@@ -789,7 +789,7 @@ struct server_list *get_lan_server_list(void) {
   tv.tv_usec = 0;
 
   if (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
-    freelog(LOG_ERROR, "select failed: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "select failed: %s", mystrerror());
   }
 
   if (!FD_ISSET(socklan, &readfs)) {

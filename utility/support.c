@@ -134,15 +134,29 @@ int mystrncasecmp(const char *str0, const char *str1, size_t n)
 /***************************************************************
   Return a string which describes a given error (errno-style.)
 ***************************************************************/
-const char *mystrerror(int errnum)
+const char *mystrerror(void)
 {
-#if defined(HAVE_STRERROR)
-  return strerror(errnum);
+#ifdef WIN32_NATIVE
+  static char buf[256];
+  long int error;
+
+  error = GetLastError();
+  if (!FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		     NULL, error, 0, buf, sizeof(buf), NULL)) {
+    my_snprintf(buf, sizeof(buf),
+		_("error %ld (failed FormatMessage)"), error);
+  }
+  return buf;
+#else
+#ifdef HAVE_STRERROR
+  return strerror(errno);
 #else
   static char buf[64];
+
   my_snprintf(buf, sizeof(buf),
-	      _("error %d (compiled without strerror)"), errnum);
+	      _("error %d (compiled without strerror)"), errno);
   return buf;
+#endif
 #endif
 }
 
