@@ -671,11 +671,11 @@ void tilespec_setup_government(int id)
 ***********************************************************************/
 void tilespec_setup_nation_flag(int id)
 {
-  struct nation_type *this = get_nation_by_idx(id);
+  struct nation_type *this_nation = get_nation_by_idx(id);
 
-  this->flag_sprite = lookup_sprite_tag_alt(this->flag_graphic_str, 
-					    this->flag_graphic_alt,
-					    1, "nation", this->name);
+  this_nation->flag_sprite = lookup_sprite_tag_alt(this_nation->flag_graphic_str, 
+					    this_nation->flag_graphic_alt,
+					    1, "nation", this_nation->name);
 
   /* should probably do something if NULL, eg generic default? */
 }

@@ -192,7 +192,7 @@ static int new_continent_num(void)
   number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
   known land tiles with the same previous continent ('old').
 **************************************************************************/
-static void climap_renumber_continent(int x, int y, int new)
+static void climap_renumber_continent(int x, int y, int newnumber)
 {
   int i, j, old;
 
@@ -206,14 +206,14 @@ static void climap_renumber_continent(int x, int y, int new)
   assert(map_get_terrain(x,y) != T_OCEAN);
   assert(old>0 && old<=max_cont_used);
   
-  map_set_continent(x,y,new);
+  map_set_continent(x,y,newnumber);
   for(i=x-1; i<=x+1; i++) {
     for(j=y-1; j<=y+1; j++) {
       if(!(i==x && j==y) && j>=0 && j<map.ysize
 	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
 	 && map_get_terrain(i,j)!=T_OCEAN
 	 && map_get_continent(i,j)==old) {
-	climap_renumber_continent(i,j,new);
+	climap_renumber_continent(i,j,newnumber);
       }
     }
   }

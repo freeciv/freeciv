@@ -720,25 +720,25 @@ static int city_opt_ok(struct city_dialog **ppdialog)
   if (pcity)
   {
     struct packet_generic_values packet;
-    int i, new, newcitizen_index = xget(pdialog->cityopt_cycle, MUIA_Cycle_Active);
+    int i, new_options, newcitizen_index = xget(pdialog->cityopt_cycle, MUIA_Cycle_Active);
 
-    new = 0;
+    new_options = 0;
     for (i = 0; i < NUM_CITYOPT_TOGGLES; i++)
     {
       if (xget(pdialog->cityopt_checks[i], MUIA_Selected))
-	new |= (1 << i);
+	new_options |= (1 << i);
     }
     if (newcitizen_index == 1)
     {
-      new |= (1 << CITYO_NEW_EINSTEIN);
+      new_options |= (1 << CITYO_NEW_EINSTEIN);
     }
     else if (newcitizen_index == 2)
     {
-      new |= (1 << CITYO_NEW_TAXMAN);
+      new_options |= (1 << CITYO_NEW_TAXMAN);
     }
 
     packet.value1 = pcity->id;
-    packet.value2 = new;
+    packet.value2 = new_options;
     send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
 			       &packet);
   }

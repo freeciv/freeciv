@@ -35,7 +35,7 @@
 
 #include "gtkpixcomm.h"
 
-static void gtk_pixcomm_class_init (GtkPixcommClass *klass);
+static void gtk_pixcomm_class_init (GtkPixcommClass *cclass);
 static void gtk_pixcomm_init       (GtkPixcomm *pixcomm);
 static gint gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *event);
 static void gtk_pixcomm_destroy    (GtkObject *object);
@@ -69,13 +69,13 @@ gtk_pixcomm_get_type (void)
 }
 
 static void
-gtk_pixcomm_class_init (GtkPixcommClass *class)
+gtk_pixcomm_class_init (GtkPixcommClass *cclass)
 {
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
-  object_class = (GtkObjectClass*) class;
-  widget_class = (GtkWidgetClass*) class;
+  object_class = (GtkObjectClass*) cclass;
+  widget_class = (GtkWidgetClass*) cclass;
   parent_class = gtk_type_class (GTK_TYPE_MISC);
 
   object_class->destroy = gtk_pixcomm_destroy;

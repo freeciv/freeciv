@@ -2246,19 +2246,19 @@ void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
 
   if (pcity) {
     struct packet_generic_values packet;
-    int i, new;
+    int i, new_options;
     
-    new = 0;
+    new_options = 0;
     for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {
-      if (GTK_TOGGLE_BUTTON(cityopt_toggles[i])->active) new |= (1<<i);
+      if (GTK_TOGGLE_BUTTON(cityopt_toggles[i])->active) new_options |= (1<<i);
     }
     if (ncitizen_idx == 1) {
-      new |= (1<<CITYO_NEW_EINSTEIN);
+      new_options |= (1<<CITYO_NEW_EINSTEIN);
     } else if (ncitizen_idx == 2) {
-      new |= (1<<CITYO_NEW_TAXMAN);
+      new_options |= (1<<CITYO_NEW_TAXMAN);
     }
     packet.value1 = cityopt_city_id;
-    packet.value2 = new;
+    packet.value2 = new_options;
     send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
 			      &packet);
   }
