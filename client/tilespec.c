@@ -737,13 +737,14 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
 static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
 {
   struct Sprite **save_sprs=sprs;
-
+  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  
   if(!use_solid_color_behind_units) {
     /* will be the first sprite if flags_are_transparent == FALSE */
     *sprs++ = get_city_nation_flag_sprite(pcity);
   } else *sprs++ = NULL;
   
-  if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
+  if(genlist_size(&(ptile->units.list)) > 0)
     *sprs++ = get_city_occupied_sprite(pcity);
 
   *sprs++ = get_city_sprite(pcity);
@@ -751,16 +752,22 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
   if(city_got_citywalls(pcity))
     *sprs++ = get_city_wall_sprite(pcity);
 
-  if(pcity->size>=10)
-    *sprs++ = sprites.city.size_tens[pcity->size/10];
-
-  *sprs++ = sprites.city.size[pcity->size%10];
-
   if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
     *sprs++ = sprites.tx.pollution;
 
   if(city_unhappy(pcity))
     *sprs++ = sprites.city.disorder;
+
+  if(ptile->known==TILE_KNOWN_FOGGED)
+    *sprs++ = sprites.tx.fog;
+
+  /* Put the size sprites last, so that they are not obscured
+   * (and because they can be hard to read if fogged).
+   */
+  if(pcity->size>=10)
+    *sprs++ = sprites.city.size_tens[pcity->size/10];
+
+  *sprs++ = sprites.city.size[pcity->size%10];
 
   return sprs - save_sprs;
 }
