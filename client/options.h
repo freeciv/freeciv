@@ -34,7 +34,7 @@ extern bool smooth_move_units;
 extern int smooth_move_unit_steps;
 extern bool do_combat_animation;
 extern bool ai_popup_windows;
-/* extern bool ai_manual_turn_done; */
+extern bool ai_manual_turn_done;
 extern bool auto_center_on_unit;
 extern bool auto_center_on_combat;
 extern bool wakeup_focus;
