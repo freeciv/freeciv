@@ -4788,6 +4788,7 @@ static const int player_cmd[] = {
   CMD_EXPERIMENTAL,
 #endif
   CMD_REMOVE,
+  CMD_TEAM,
   -1
 };
 
