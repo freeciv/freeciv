@@ -483,3 +483,14 @@ void precalc_tech_data()
     advances[tech].num_reqs = precalc_tech_data_helper(tech, counted);
   }
 }
+
+/**************************************************************************
+ Returns true if the costs for the given technology will stay constant
+ during the game. False otherwise.
+**************************************************************************/
+int tech_has_fixed_cost(Tech_Type_id tech)
+{
+  return ((game.rgame.tech_cost_style == 1
+	   || game.rgame.tech_cost_style == 2)
+	  && game.rgame.tech_leakage == 0);
+}

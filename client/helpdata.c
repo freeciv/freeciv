@@ -728,6 +728,30 @@ void helptext_tech(char *buf, int i, const char *user_text)
   assert(buf&&user_text);
   strcpy(buf, user_text);
 
+  if (get_invention(game.player_ptr, i) != TECH_KNOWN) {
+    if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
+      sprintf(buf + strlen(buf),
+	      _("If we would now start with %s we would need %d bulbs."),
+	      advances[i].name,
+	      base_total_bulbs_required(game.player_ptr, i));
+    } else {
+      sprintf(buf + strlen(buf),
+	      _("To reach %s we need to obtain %d other "
+		"technologies first. The whole project "
+		"will require %d bulbs to complete."),
+	      advances[i].name,
+	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
+	      total_bulbs_required_for_goal(game.player_ptr, i));
+    }
+    if (!tech_has_fixed_cost(i)) {
+      sprintf(buf + strlen(buf),
+	      _(" This number may vary depending on what "
+		"other players will research.\n"));
+    } else {
+      sprintf(buf + strlen(buf), "\n");
+    }
+  }
+
   for(gov=0; gov<game.government_count; gov++) {
     struct government *g = get_government(gov);
     if (g->required_tech == i) {
