@@ -3074,7 +3074,7 @@ void handle_stdin_input(struct connection *caller, char *str)
      * newline in str when it comes from the server command line
      */
     notify_player(NULL, "%s: '%s %s'",
-      caller ? caller->name : "(server prompt)", command, arg);
+      caller ? caller->name : _("(server prompt)"), command, arg);
   }
 
   switch(cmd) {
