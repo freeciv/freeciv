@@ -798,6 +798,12 @@ static void process_attacker_want(struct city *pcity,
       
       /* Take into account reinforcements strength */
       if (acity) attack += acity->ai.attack;
+
+      if (attack == 0) {
+       /* Yes, it can happen that a military unit has attack=1,
+        * for example militia with HP=1 (in civ1 ruleset). */ 
+	continue;
+      }
       
       attack *= attack;
 
