@@ -629,7 +629,7 @@ static int ai_rampage_want(struct unit *punit, struct tile *ptile)
 
         /* No need to amortize, our operation takes one turn. */
 	UNIT_LOG(LOG_DEBUG, punit, "Rampage: Desire %d to kill %s(%d,%d)",
-		 desire, unit_name(pdef->type), pdef->tile);
+		 desire, unit_name(pdef->type), TILE_XY(pdef->tile));
 
         return MAX(0, desire);
       }
@@ -1164,7 +1164,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 
   if (pcity) {
     UNIT_LOG(LOG_DEBUG, punit, "go home to %s(%d,%d)",
-             pcity->name, pcity->tile); 
+             pcity->name, TILE_XY(pcity->tile)); 
     if (same_pos(punit->tile, pcity->tile)) {
       UNIT_LOG(LOG_DEBUG, punit, "go home successful; role AI_NONE");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
@@ -1596,7 +1596,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
                  unit_type(ferryboat)->name, best_tile->x, best_tile->y,
-                 acity->name, acity->tile, 
+                 acity->name, TILE_XY(acity->tile), 
                  go_by_boat, move_time, want, best);
       }
       
@@ -1961,9 +1961,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
        to protect city from attack (and be opportunistic too)*/
     if (ai_military_rampage(punit, RAMPAGE_ANYTHING, 
                             RAMPAGE_FREE_CITY_OR_BETTER)) {
-      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "recovering hit points.",
-	       pplayer->name, unit_type(punit)->name, punit->id,
-	       punit->tile->x, punit->tile->y);
+      UNIT_LOG(LOGLEVEL_RECOVERY, punit, "recovering hit points.");
     } else {
       return; /* we died heroically defending our city */
     }

@@ -407,7 +407,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     struct unit *ferryboat = NULL;
 
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "will have to go to (%d,%d) by boat",
-             dest_tile);
+             TILE_XY(dest_tile));
 
     if (!is_ocean_near_tile(punit->tile)) {
       struct pf_path *path_to_ferry = NULL;
@@ -421,7 +421,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 
       ferryboat = find_unit_by_id(boatid);
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "found boat[%d](%d,%d), going there", 
-	       boatid, ferryboat->tile);
+	       boatid, TILE_XY(ferryboat->tile));
       /* The path can be amphibious so we will stop at the coast.  
        * It might not lead _onto_ the boat. */
       if (!ai_unit_execute_path(punit, path_to_ferry)) { 
@@ -448,7 +448,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     /* Ok, a boat found, try boarding it */
     ferryboat = find_unit_by_id(boatid);
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "found a nearby boat[%d](%d,%d)",
-	     ferryboat->id, ferryboat->tile);
+	     ferryboat->id, TILE_XY(ferryboat->tile));
     /* Setting ferry now in hope it won't run away even 
      * if we can't board it right now */
     aiferry_psngr_meet_boat(punit, ferryboat);
@@ -462,7 +462,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       /* FIXME: this is probably a serious bug, but we just skip past
        * it and continue. */
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "couldn't board boat[%d](%d,%d)",
-	       ferryboat->id, ferryboat->tile);
+	       ferryboat->id, TILE_XY(ferryboat->tile));
       return FALSE;
     }
 
@@ -481,7 +481,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, 
 	       "got boat[%d](moves left: %d), going (%d,%d)",
-               ferryboat->id, ferryboat->moves_left, dest_tile);
+               ferryboat->id, ferryboat->moves_left, TILE_XY(dest_tile));
       aiferry_psngr_meet_boat(punit, ferryboat);
 
       /* If the location is not accessible directly from sea
@@ -496,7 +496,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
           return FALSE;
         }
         UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, 
-                 "Found beachhead (%d,%d)", beach_tile);
+                 "Found beachhead (%d,%d)", TILE_XY(beach_tile));
       } else {
 	beach_tile = dest_tile;
       }
@@ -592,7 +592,7 @@ static bool aiferry_findcargo(struct unit *pferry)
 	      || aunit->ai.ferryboat == pferry->id)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, 
                  "Found a potential cargo %s[%d](%d,%d), going there",
-                 unit_type(aunit)->name, aunit->id, aunit->tile);
+                 unit_type(aunit)->name, aunit->id, TILE_XY(aunit->tile));
 	pferry->goto_tile = aunit->tile;
         /* Exchange phone numbers */
         aiferry_psngr_meet_boat(aunit, pferry);
@@ -665,7 +665,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
                                       pcity->is_building_unit, TRUE);
 
       UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
-               pcity->name, pcity->tile);
+               pcity->name, TILE_XY(pcity->tile));
 
       if (pos.turn > turns && pcity->is_building_unit
           && unit_has_role(pcity->currently_building, L_FERRYBOAT)) {

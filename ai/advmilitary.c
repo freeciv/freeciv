@@ -922,7 +922,7 @@ static void process_attacker_want(struct city *pcity,
           CITY_LOG(LOG_DEBUG, pcity, "wants %s to build %s to punish %s@(%d,%d)"
                    " with desire %d", get_tech_name(pplayer, tech_req), 
                    unit_name(unit_type), (acity ? acity->name : "enemy"),
-                   ptile, want);
+                   TILE_XY(ptile), want);
 
         } else if (want > best_choice->want) {
           if (can_build_unit(pcity, unit_type)) {

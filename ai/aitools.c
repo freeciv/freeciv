@@ -192,7 +192,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
-               dest_tile, danger, my_def);
+               TILE_XY(dest_tile), danger, my_def);
       punit->ai.bodyguard = BODYGUARD_WANTED;
     } else {
       punit->ai.bodyguard = BODYGUARD_NONE;

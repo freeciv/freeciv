@@ -1136,7 +1136,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     if (result.result > best_impr) {
       if (map_get_city(result.tile)) {
         UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 
-                 map_get_city(result.tile), TILE_XY(result.tile));
+                 map_get_city(result.tile)->name, TILE_XY(result.tile));
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
                  TILE_XY(result.tile));
