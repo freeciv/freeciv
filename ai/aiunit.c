@@ -226,9 +226,6 @@ bool ai_manage_explorer(struct unit *punit)
    * Non-Barbarian Ground units ONLY.
    */
 
-  /* CPU-expensive but worth it -- Syela */
-  generate_warmap(map_get_city(x, y), punit);
-  
   if (!is_barbarian(pplayer)
       && is_ground_unit(punit)) {
     /* Maximal acceptable _number_ of moves to the target */
@@ -238,6 +235,9 @@ bool ai_manage_explorer(struct unit *punit)
     /* Desired destination */
     int best_x = -1, best_y = -1;
 
+    /* CPU-expensive but worth it -- Syela */
+    generate_warmap(map_get_city(x, y), punit);
+  
     /* We're iterating outward so that with two tiles with the same movecost
      * the nearest is used. */
     iterate_outward(x, y, maxmoves, x1, y1) {
@@ -293,7 +293,7 @@ bool ai_manage_explorer(struct unit *punit)
    */
   
   while (punit->moves_left > 0) {
-    /* Best (highest) number of unknown tiles adjectent (in vision range) */
+    /* Best (highest) number of unknown tiles adjacent (in vision range) */
     int most_unknown = 0;
     /* Desired destination */
     int best_x = -1, best_y = -1;
