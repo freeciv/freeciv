@@ -314,13 +314,12 @@ static void switch_city_callback(GtkWidget * w, gpointer data);
 *****************************************************************/
 static void init_citydlg_dimensions(void)
 {
+  canvas_width = get_citydlg_canvas_width();
+  canvas_height = get_citydlg_canvas_height();
+
   if (is_isometric) {
-    canvas_width = 4 * NORMAL_TILE_WIDTH;
-    canvas_height = 4 * NORMAL_TILE_HEIGHT;
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT));
   } else {
-    canvas_width = 5 * NORMAL_TILE_WIDTH;
-    canvas_height = 5 * NORMAL_TILE_HEIGHT;
     MAX_UNIT_ROWS = (int) (100 / (UNIT_TILE_HEIGHT + 6));
   }
 }

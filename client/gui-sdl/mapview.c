@@ -2044,8 +2044,8 @@ SDL_Surface *create_city_map(struct city *pCity)
   Sint16 x0 = 3 * NORMAL_TILE_WIDTH / 2;
   Sint16 y0 = -NORMAL_TILE_HEIGHT / 2;
   SDL_Surface *pTile = NULL;
-  SDL_Surface *pDest = create_surf(4 * NORMAL_TILE_WIDTH,
-				   4 * NORMAL_TILE_HEIGHT,
+  SDL_Surface *pDest = create_surf(get_citydlg_canvas_width(),
+				   get_citydlg_canvas_height(),
 				   SDL_SWSURFACE);
   real_col -= 2;
   real_row -= 2;

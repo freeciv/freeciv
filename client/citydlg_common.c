@@ -26,6 +26,30 @@
 #include "tilespec.h"		/* for is_isometric */
 
 /**************************************************************************
+  Return the width of the city dialog canvas.
+**************************************************************************/
+int get_citydlg_canvas_width(void)
+{
+  if (is_isometric) {
+    return 4 * NORMAL_TILE_WIDTH;
+  } else {
+    return 5 * NORMAL_TILE_WIDTH;
+  }
+}
+
+/**************************************************************************
+  Return the height of the city dialog canvas.
+**************************************************************************/
+int get_citydlg_canvas_height(void)
+{
+  if (is_isometric) {
+    return 4 * NORMAL_TILE_HEIGHT;
+  } else {
+    return 5 * NORMAL_TILE_HEIGHT;
+  }
+}
+
+/**************************************************************************
 This converts a city coordinate position to citymap canvas coordinates
 (either isometric or overhead).  It should be in cityview.c instead.
 **************************************************************************/

@@ -610,8 +610,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    "exposeProc", (XtArgVal)city_map_canvas_expose,
 			    "exposeProcData", (XtArgVal)pdialog,
 			    XtNfromHoriz, (XtArgVal)pdialog->left_form,
-			    XtNwidth, NORMAL_TILE_WIDTH*5,
-			    XtNheight, NORMAL_TILE_HEIGHT*5,
+			    XtNwidth, get_citydlg_canvas_width(),
+			    XtNheight, get_citydlg_canvas_height(),
 			    NULL);
 
 

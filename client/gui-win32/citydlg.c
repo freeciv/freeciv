@@ -2007,13 +2007,8 @@ static void initialize_city_dialogs(void)
   assert(!city_dialogs_have_been_initialised);
 
   genlist_init(&dialog_list);
-  if (is_isometric) {
-      city_map_width=4*NORMAL_TILE_WIDTH;
-      city_map_height=4*NORMAL_TILE_HEIGHT;
-    } else {
-      city_map_width=5*NORMAL_TILE_WIDTH;
-      city_map_height=5*NORMAL_TILE_HEIGHT;
-    }
+  city_map_width = get_citydlg_canvas_width();
+  city_map_height = get_citydlg_canvas_height();
   city_dialogs_have_been_initialised=1;
 }
 
@@ -2102,13 +2097,10 @@ void citydlg_tileset_change(void)
   struct genlist_iterator myiter;
   if (!city_dialogs_have_been_initialised)
     initialize_city_dialogs();
-  if (is_isometric) {
-    city_map_width = 4 * NORMAL_TILE_WIDTH;
-    city_map_height = 4 * NORMAL_TILE_HEIGHT;
-  } else {
-    city_map_width = 5 * NORMAL_TILE_WIDTH;
-    city_map_height = 5 * NORMAL_TILE_HEIGHT;
-  }
+
+  city_map_width = get_citydlg_canvas_width();
+  city_map_height = get_citydlg_canvas_height();
+
   genlist_iterator_init(&myiter, &dialog_list, 0);
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     HDC hdc;
