@@ -30,6 +30,10 @@ if SDL
 SDL_FILES=audio_sdl.c audio_sdl.h
 endif
 
+if WINMM
+WINMM_FILES=audio_winmm.c audio_winmm.h
+endif
+
 EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/autogroupclass.h         \
 		gui-mui/chatline.c               \
@@ -113,7 +117,7 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl -I$(srcdir)/agen
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
-civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) \
+civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	attribute.h	\
 	attribute.c	\
 	citydlg_common.c \

@@ -34,6 +34,10 @@
 #include "audio_sdl.h"
 #endif
 
+#ifdef AUDIO_WINMM
+#include "audio_winmm.h"
+#endif
+
 #include "audio.h"
 
 #define MAX_NUM_PLUGINS        3
@@ -110,6 +114,9 @@ void audio_init()
 #ifdef SDL
   audio_sdl_init();
 #endif
+#ifdef WINMM
+  audio_winmm_init();
+#endif
 }
 
 /**************************************************************************
@@ -158,7 +165,8 @@ void audio_real_init(const char *const spec_name,
     return;
   }
 
-  if (!audio_select_plugin("esd") && !audio_select_plugin("sdl")) {
+  if (!audio_select_plugin("esd") && !audio_select_plugin("sdl")
+      && !audio_select_plugin("winmm")) {
     freelog(LOG_NORMAL,
 	    _("No real audio subsystem managed to initialize!"));
     freelog(LOG_NORMAL,
