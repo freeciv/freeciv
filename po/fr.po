@@ -2512,9 +2512,8 @@ msgid "Please choose a non-blank name."
 msgstr "Veuillez choisir un nom non vide"
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Veuillez choisir un nom non vide"
+msgstr "Veuillez choisir un nom autorisé."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -6333,7 +6332,7 @@ msgstr ""
 #: client/helpdata.c:798
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
-" Ce nombre peut varier selon les recherches faites par les autresjoueurs.\n"
+" Ce nombre peut varier selon les recherches faites par les autres joueurs.\n"
 
 #: client/helpdata.c:808
 #, c-format
