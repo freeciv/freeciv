@@ -14,11 +14,11 @@
 civclient \- The client for the Freeciv game
 .SH SYNOPSIS
 .B civclient \
-[ -a|--autoconnect ] [ -d|--debug \fIlevel\fP ] [ -h|--help ] \
-[ -l|--log \fIlogfile\fP ] [ -m|--meta \fIserver\fP ] \
-[ -n|--name \fIname\fP ] [ -p|--port \fIport\fP ] \
-[ -P|--Plugin \fIplugin\fP ] [ -s|--server \fIserver\fP ] \
-[ -S|--Sound \fItags\fP ] [ -t|--tiles \fItiles\fP ] [ -v|--version ]
+[ \-a|\-\-autoconnect ] [ \-d|\-\-debug \fIlevel\fP ] [ \-h|\-\-help ] \
+[ \-l|\-\-log \fIlogfile\fP ] [ \-m|\-\-meta \fIserver\fP ] \
+[ \-n|\-\-name \fIname\fP ] [ \-p|\-\-port \fIport\fP ] \
+[ \-P|\-\-Plugin \fIplugin\fP ] [ \-s|\-\-server \fIserver\fP ] \
+[ \-S|\-\-Sound \fItags\fP ] [ \-t|\-\-tiles \fItiles\fP ] [ \-v|\-\-version ]
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -45,60 +45,60 @@ as well as the documentation which is part of the Freeciv distribution.
 .I civclient
 accepts all of the standard X Toolkit command line options along with the
 additional options listed below. Those may not be combined; that is,
-"civclient -np caesar 5556" will not work, instead you would need to enter
-"civclient -n caesar -p 5556". All options have a short form (single
+"civclient \-np caesar 5556" will not work, instead you would need to enter
+"civclient \-n caesar \-p 5556". All options have a short form (single
 hyphen and single letter) and a long form (double hyphen and a complete word);
 their effects are identical.
 .TP
-.BI "-a, --autoconnect"
+.BI "\-a, \-\-autoconnect"
 Skips the connect dialog, automatically inserts the default values. This is
 quite convenient when all has been set up properly.
 .TP
-.BI "-d, --debug"
+.BI "\-d, \-\-debug"
 Sets the debug log level (0 to 3) of information to be logged. Use the
-.I -l
+.I \-l
 option to send the logging to a file.
 .TP
-.BI "-h, --help"
+.BI "\-h, \-\-help"
 Prints a short summary of the options.
 .TP
-.BI "-l, --log"
+.BI "\-l, \-\-log"
 Specifies the file to be used as a logfile for logging. Use the
-.I -d
+.I \-d
 option to set the amount of loggin.
 .TP
-.BI "-m, --meta"
+.BI "\-m, \-\-meta"
 Connect to the given metaserver, a place where Freeciv servers can publish their
 presence. Freeciv clients consult the metaserver to offer users a selection of
 games to join.
 .TP
-.BI "-n, --name"
+.BI "\-n, \-\-name"
 Specifies the name to play under. This option is critical when reconnecting to
 a game. Please note that you might need to quote your playername.
 .TP
-.BI "-p, --port"
+.BI "\-p, \-\-port"
 Specifies the server port to connect to. By default this is 5555, if in doubt
 ask the server administrator.
 .TP
-.BI "-P, --Plugin"
+.BI "\-P, \-\-Plugin"
 Specifies to use one of [none, esd, sdl] for sound output.
 .TP
-.BI "-s, --server"
+.BI "\-s, \-\-server"
 The game server to connect to. This server might easily run on the same machine
 as the client.
 .TP
-.BI "-S, --Sound"
+.BI "\-S, \-\-Sound"
 Specifies where to read the sound tags from.
 .TP
-.BI "-t, --tiles"
+.BI "\-t, \-\-tiles"
 Indicates a tilespec to be used for tiles within the game.
 .TP
-.BI "-v, --version"
+.BI "\-v, \-\-version"
 Prints the version number.
 .SH "EXAMPLES"
-civclient --name "King Richard" --server io.daimi.aau.dk
+civclient \-\-name "King Richard" \-\-server io.daimi.aau.dk
 
-civclient -a -t trident
+civclient \-a \-t trident
 .SH FILES
 .TP
 .BI ~/.civclientrc

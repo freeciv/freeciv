@@ -14,12 +14,12 @@
 civserver \- The server for the Freeciv game
 .SH SYNOPSIS
 .B civserver \
-[ -b|--bind \fIaddress\fP ] [ -d|--debug \fIlevel\fP ] \
-[ -f|--file \fIsavegame\fP ] [ -g|--gamelog \fIgamelog\fP ] [ -h|--help ] \
-[ -i|--info \fIinfo\fP ] [ -l|--log \fIlogfile\fP ] [ -m|--meta ] \
-[ -M|--Metaserver \fIserver\fP ] [ -p|--port \fIport\fP ] \
-[ -q|--quitidle \fIseconds\fP ] [ -e|--exit-on-end ] \
-[ -r|--read \fIfile\fP ] [ -v|--version ]
+[ \-b|\-\-bind \fIaddress\fP ] [ \-d|\-\-debug \fIlevel\fP ] \
+[ \-f|\-\-file \fIsavegame\fP ] [ \-g|\-\-gamelog \fIgamelog\fP ] [ \-h|\-\-help ] \
+[ \-i|\-\-info \fIinfo\fP ] [ \-l|\-\-log \fIlogfile\fP ] [ \-m|\-\-meta ] \
+[ \-M|\-\-Metaserver \fIserver\fP ] [ \-p|\-\-port \fIport\fP ] \
+[ \-q|\-\-quitidle \fIseconds\fP ] [ \-e|\-\-exit\-on\-end ] \
+[ \-r|\-\-read \fIfile\fP ] [ \-v|\-\-version ]
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -44,70 +44,70 @@ http://www.freeciv.org/
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
 The following options are accepted on the command line of the server. They may
-not be combined; that is, "civserver -fp savegame.sav 555" will not work,
-instead you would need to enter "civserver -f savegame.sav -p 555". All options
+not be combined; that is, "civserver \-fp savegame.sav 555" will not work,
+instead you would need to enter "civserver \-f savegame.sav \-p 555". All options
 have a short form (single hyphen and single letter) and a long form (double
 hyphen and a complete word); their effects are identical.
 .TP
-.BI "-b, --bind"
+.BI "\-b, \-\-bind"
 Sets the address on which the server will listen for clients.
 .TP
-.BI "-d, --debug"
+.BI "\-d, \-\-debug"
 Sets the amount of debugging information to be logged in the file named by the
-.I -l
+.I \-l
 option. The number should be 0 for fatal errors only, 1 for fatal and normal
 messages, 2 for fatal, normal, and debugging messages, or 3 for very verbose
 output.
 .TP
-.BI "-f, --file"
+.BI "\-f, \-\-file"
 Loads a saved game into the server before initialization, instead of starting a
 new game. This is for reloading saved games, or for loading scenarios.
 .TP
-.BI "-g, --gamelog"
+.BI "\-g, \-\-gamelog"
 Defines a log file to be produced during processing. This is a game progress
 log of game-related events recording the activities of the players.
 .TP
-.BI "-h, --help"
+.BI "\-h, \-\-help"
 Prints out a description of the command line options and exits.
 .TP
-.BI "-i, --info"
+.BI "\-i, \-\-info"
 Extra info to be sent to the metaserver.
 .TP
-.BI "-l, --log"
+.BI "\-l, \-\-log"
 Defines a log file to be produced during processing. Use the
-.I -d
+.I \-d
 option to set how much is logged.
 .TP
-.BI "-m, --meta"
+.BI "\-m, \-\-meta"
 Directs the server to communicate with a metaserver, a place where Freeciv
 servers can publish their presence. Freeciv clients consult the metaserver to
 offer users a selection of games to join.
 .TP
-.BI "-M, --Metaserver"
+.BI "\-M, \-\-Metaserver"
 Sets the metaserver address.
 .TP
-.BI "-p, --port"
+.BI "\-p, \-\-port"
 Specifies the TCP port number to which clients will connect; players must know
 this number to be able to connect if they are not to use the default of 5555
 decimal. You may need to use this if 5555 is not available for your use on your
 system.
 .TP
-.BI "-q, --quitidle"
+.BI "\-q, \-\-quitidle"
 Quit if no players present for the given number of seconds.
 .TP
-.BI "-e, --exit-on-end"
+.BI "\-e, \-\-exit\-on\-end"
 When a game ends, exit instead of restarting.
 .TP
-.BI "-r, --read"
+.BI "\-r, \-\-read"
 Specifies a file of server commands which the server will automatically read and
 process, as if you had typed them in at the server's prompt.
 .TP
-.BI "-v, --version"
+.BI "\-v, \-\-version"
 Causes the server to display its version number and exit.
 .SH EXAMPLES
-civserver --file oldgame.sav --port 2244
+civserver \-\-file oldgame.sav \-\-port 2244
 
-civserver -g gamelog -l logfile -r script -f oldgame.sav.gz
+civserver \-g gamelog \-l logfile \-r script \-f oldgame.sav.gz
 .SH COMMANDS
 You may enter commands into the server at any time, either before or during the
 running of a game. 
