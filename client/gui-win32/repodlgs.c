@@ -636,9 +636,9 @@ popup_activeunits_report_dialog(bool make_modal)
     {
       HWND lv;
       LV_COLUMN lvc;
-      const char *headers[]={N_("Unit Type"),N_("U"),
-			     N_("In-Prog"),N_("Active"),
-			     N_("Shield"),N_("Food"),NULL};
+      char *headers[] = {N_("Unit Type"), N_("U"),
+			 N_("In-Prog"), N_("Active"),
+			 N_("Shield"), N_("Food"), NULL};
       int i;
       struct fcwin_box *vbox;
       struct fcwin_box *hbox;

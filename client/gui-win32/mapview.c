@@ -710,19 +710,6 @@ void map_handle_vscroll(int pos)
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
-static void pixmap_put_black_tile_iso(HDC hdc,
-                                      int canvas_x, int canvas_y,
-                                      int offset_x, int offset_y,
-                                      int width, int height)
-{
-  draw_sprite_part(sprites.black_tile,hdc,canvas_x+offset_x,canvas_y+offset_y,
-		   width,height,
-		   offset_x,offset_x);
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
 static void pixmap_put_overlay_tile_draw(HDC hdc,
                                          int canvas_x, int canvas_y,
                                          struct Sprite *ssprite,
