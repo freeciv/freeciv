@@ -1495,7 +1495,7 @@ struct unit *create_unit(struct player *pplayer, int x, int y,
                          int homecity_id, int moves_left)
 {
   return create_unit_full(pplayer, x, y, type, veteran_level, homecity_id, 
-                          moves_left, -1);
+                          moves_left, -1, NULL);
 }
 
 /**************************************************************************
@@ -1504,7 +1504,8 @@ struct unit *create_unit(struct player *pplayer, int x, int y,
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
 			      Unit_Type_id type, int veteran_level, 
-                              int homecity_id, int moves_left, int hp_left)
+                              int homecity_id, int moves_left, int hp_left,
+			      struct unit *ptrans)
 {
   struct unit *punit = create_unit_virtual(pplayer, NULL, type, veteran_level);
   struct city *pcity;
@@ -1532,6 +1533,11 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   if (moves_left >= 0) {
     /* Override default full MP */
     punit->moves_left = MIN(moves_left, unit_move_rate(punit));
+  }
+
+  if (ptrans) {
+    /* Set transporter for unit. */
+    punit->transported_by = ptrans->id;
   }
 
   /* Assume that if moves_left < 0 then the unit is "fresh",

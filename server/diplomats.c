@@ -452,7 +452,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   (void) create_unit_full(pplayer, pvictim->x, pvictim->y,
 			  pvictim->type, pvictim->veteran,
 			  pdiplomat->homecity, pvictim->moves_left,
-			  pvictim->hp);
+			  pvictim->hp, NULL);
 
   /* Check if the unit gained veteran level */
   vet = maybe_make_veteran(pdiplomat);

@@ -391,7 +391,7 @@ static void try_summon_barbarians(void)
     (void) create_unit(barbarians, xu, yu,
 		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
   } else {                   /* sea raiders - their units will be veteran */
-    struct unit *punit, *ptrans;
+    struct unit *ptrans;
 
     barbarians = create_barbarian_player(FALSE);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
@@ -399,13 +399,13 @@ static void try_summon_barbarians(void)
     cap = get_transporter_capacity(unit_list_get(&map_get_tile(xu, yu)->units, 0));
     for (i = 0; i < cap-1; i++) {
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
-      punit = create_unit(barbarians, xu, yu, unit, 0, 0, -1);
-      punit->transported_by = ptrans->id;
+      (void) create_unit_full(barbarians, xu, yu, unit, 0, 0, -1, -1,
+			      ptrans);
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
     }
-    punit = create_unit(barbarians, xu, yu,
-			get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
-    punit->transported_by = ptrans->id;
+    (void) create_unit_full(barbarians, xu, yu,
+			    get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0,
+			    -1, -1, ptrans);
   }
 
   unit_list_iterate(map_get_tile(x, y)->units, punit2) {

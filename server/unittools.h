@@ -55,8 +55,9 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool has_to_pay);
 struct unit *create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
 			 int veteran_level, int homecity_id, int moves_left);
 struct unit *create_unit_full(struct player *pplayer, int x, int y,
-			      Unit_Type_id type, int veteran_level, int homecity_id,
-			      int moves_left, int hp_left);
+			      Unit_Type_id type, int veteran_level,
+			      int homecity_id, int moves_left, int hp_left,
+			      struct unit *ptrans);
 void wipe_unit(struct unit *punit);
 void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo);
 void kill_unit(struct unit *pkiller, struct unit *punit);
