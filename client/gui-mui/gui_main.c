@@ -45,6 +45,7 @@
 #include <proto/usergroup.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "version.h"
@@ -68,13 +69,16 @@
 #include "ratesdlg.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
+#include "support.h"
 #include "tilespec.h"
+#include "wldlg.h"
 
 /* Amiga Client Stuff */
 #include "muistuff.h"
 #include "overviewclass.h"
 #include "mapclass.h"
 #include "objecttreeclass.h"
+#include "worklistclass.h"
 
 void popup_option_dialog(void);	/* gamedlg.c */
 
@@ -225,6 +229,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Tax Rate...", MENU_KINGDOM_TAX_RATE, "SHIFT T", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Find City...", MENU_KINGDOM_FIND_CITY, "CTRL F", NM_COMMANDSTRING),
+  MAKE_ITEM("Worklists...", MENU_KINGDOM_WORKLISTS, "SHIFT L", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("REVOLUTION...", MENU_KINGDOM_REVOLUTION, "SHIFT R", NM_COMMANDSTRING),
 
@@ -328,8 +333,7 @@ static void inputline_return(void)	/* from chatline.c */
 
   if (*theinput)
   {
-    strncpy(apacket.message, theinput, MAX_LEN_MSG - MAX_LEN_USERNAME);
-    apacket.message[MAX_LEN_MSG - MAX_LEN_USERNAME] = '\0';
+    mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
     contents = TRUE;
   }
@@ -449,6 +453,10 @@ static void control_callback(ULONG * value)
     case MENU_KINGDOM_FIND_CITY:
       popup_find_dialog();
       break;
+    case MENU_KINGDOM_WORKLISTS:
+      popup_worklists_dialog(game.player_ptr);
+      break;
+
     case MENU_KINGDOM_REVOLUTION:
       popup_revolution_dialog();
       break;
@@ -753,6 +761,7 @@ static void free_classes(void)
   delete_map_class();
   delete_overview_class();
   delete_objecttree_class();
+  delete_worklist_class();
 }
 
 /****************************************************************
@@ -763,7 +772,8 @@ static int init_classes(void)
   if (create_overview_class())
     if (create_map_class())
       if (create_objecttree_class())
-	return TRUE;
+        if (create_worklist_class())
+	  return TRUE;
   return FALSE;
 }
 

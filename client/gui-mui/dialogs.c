@@ -38,7 +38,7 @@
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
-
+#include "mapview.h"
 
 /* MUI Stuff */
 #include "muistuff.h"

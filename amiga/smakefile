@@ -4,10 +4,11 @@ DESTDIR = Development:Projects/freeciv
 CCFLAGS = ANSI IDLEN=40 NOLINK MATH=IEEE MCCONS COMMENTNEST DATA=far NOSTKCHK IGNORE=51,63
 
 COMMONOBJS = common/astring.o common/capability.o common/capstr.o common/city.o common/diptreaty.o \
-             common/fcintl.o common/game.o common/genlist.o common/government.o common/inputfile.o \
-             common/log.o common/map.o common/nation.o common/packets.o common/player.o \
-             common/mem.o common/rand.o common/registry.o common/sbuffer.o common/shared.o \
-             common/spaceship.o common/support.o common/tech.o common/timing.o common/unit.o
+ common/fcintl.o common/game.o common/genlist.o common/government.o common/inputfile.o \
+ common/log.o common/map.o common/nation.o common/packets.o common/player.o \
+ common/mem.o common/rand.o common/registry.o common/sbuffer.o common/shared.o \
+ common/spaceship.o common/support.o common/tech.o common/timing.o common/unit.o \
+ common/worklist.o
 COMMONDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common
 
 AIOBJS = ai/advattitude.o ai/advdomestic.o ai/advforeign.o \
@@ -30,7 +31,8 @@ CLIENTGUIOBJS1 = client/gui-mui/chatline.o client/gui-mui/citydlg.o client/gui-m
                  client/gui-mui/colors.o client/gui-mui/connectdlg.o client/gui-mui/dialogs.o client/gui-mui/diplodlg.o client/gui-mui/finddlg.o client/gui-mui/gamedlgs.o \
                  client/gui-mui/gotodlg.o client/gui-mui/helpdlg.o
 CLIENTGUIOBJS2 = client/gui-mui/inteldlg.o client/gui-mui/mapctrl.o client/gui-mui/mapview.o client/gui-mui/messagedlg.o \
-                 client/gui-mui/messagewin.o client/gui-mui/plrdlg.o client/gui-mui/repodlgs.o client/gui-mui/spaceshipdlg.o client/gui-mui/objecttreeclass.o
+                 client/gui-mui/messagewin.o client/gui-mui/plrdlg.o client/gui-mui/repodlgs.o client/gui-mui/spaceshipdlg.o \
+                 client/gui-mui/wldlg.o client/gui-mui/objecttreeclass.o client/gui-mui/worklistclass.o
 CLIENTGUIOBJS  = ${CLIENTGUIOBJS1} ${CLIENTGUIOBJS2}
 CLIENTGUIDIRS  = IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include IDIR=${FREECIV_DIR}client
 
@@ -178,6 +180,9 @@ common/timing.o: ${FREECIV_DIR}common/timing.c
 common/unit.o: ${FREECIV_DIR}common/unit.c
   sc ${FREECIV_DIR}common/unit.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
+common/worklist.o: ${FREECIV_DIR}common/worklist.c
+  sc ${FREECIV_DIR}common/worklist.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
 # Server Files
 
 server/amigaserver.o: amigaserver.c
@@ -260,7 +265,7 @@ server/unittools.o: ${FREECIV_DIR}server/unittools.c
 civclient: common/libcivcommon.lib client/amigaclient.o _main.o ${CLIENTOBJS} ${CLIENTGUIOBJS}
   sc link with <<
 FROM client/amigaclient.o _main.o ${CLIENTOBJS} ${CLIENTGUIOBJS}
-LIB common/libcivcommon.lib # client/gui-mui/libguiclient.lib
+LIB sc:lib/debug.lib common/libcivcommon.lib # client/gui-mui/libguiclient.lib
 TO civclient
 NOICONS
 <
@@ -375,10 +380,14 @@ client/gui-mui/repodlgs.o: ${CGP}repodlgs.c
 client/gui-mui/spaceshipdlg.o: ${CGP}spaceshipdlg.c
   sc ${CGP}spaceshipdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
 
+client/gui-mui/wldlg.o: ${CGP}wldlg.c
+  sc ${CGP}wldlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
 client/gui-mui/objecttreeclass.o: ${CGP}objecttreeclass.c
   sc ${CGP}objecttreeclass.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
 
-
+client/gui-mui/worklistclass.o: ${CGP}worklistclass.c
+  sc ${CGP}worklistclass.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
 
 _main.o: _main.c
   sc _main.c OBJNAME=$@

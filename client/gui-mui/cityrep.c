@@ -31,13 +31,14 @@
 #include "unit.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
-#include "climisc.h"
+#include "support.h"
 
 #include "cityrep.h"
 

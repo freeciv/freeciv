@@ -46,8 +46,10 @@
 #include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "support.h"
 #include "repodlgs.h"
 #include "tilespec.h"
+#include "wldlg.h"
 
 #include "citydlg.h"
 
@@ -55,6 +57,7 @@
 
 #include "muistuff.h"
 #include "mapclass.h"
+#include "worklistclass.h"
 
 IMPORT Object *app;
 
@@ -93,6 +96,7 @@ struct city_dialog
   struct Hook imprv_disphook;
   Object *imprv_listview;
   Object *sell_button;
+  Object *worklist_button;
 
   Object *present_group;
   Object *present2_group;
@@ -120,6 +124,8 @@ struct city_dialog
   Object *cityopt_wnd;
   Object *cityopt_cycle;
   Object *cityopt_checks[NUM_CITYOPT_TOGGLES];
+
+  Object *worklist_wnd;
 };
 
 extern struct connection aconnection;
@@ -303,6 +309,7 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->buy_button, MUIA_Disabled, TRUE);
 	set(pdialog->sell_button, MUIA_Disabled, TRUE);
 	set(pdialog->change_button, MUIA_Disabled, TRUE);
+	set(pdialog->worklist_button, MUIA_Disabled, TRUE);
 	set(pdialog->rename_button, MUIA_Disabled, TRUE);
 	set(pdialog->activateunits_button, MUIA_Disabled, TRUE);
 	set(pdialog->unitlist_button, MUIA_Disabled, TRUE);
@@ -741,12 +748,14 @@ static int city_trade(struct city_dialog **ppdialog)
 {
   int i;
   int x = 0, total = 0;
-  char buf[512], *bptr = buf;
+  char buf[512], *bptr=buf;
   struct city_dialog *pdialog = *ppdialog;
+  int nleft = sizeof(buf);
 
-  sprintf(buf, "These trade routes have been established with %s:\n",
-	  pdialog->pcity->name);
-  bptr += strlen(bptr);
+  my_snprintf(buf, sizeof(buf),
+	     "These trade routes have been established with %s:\n",
+	     pdialog->pcity->name);
+  bptr = end_of_strn(bptr, &nleft);
 
   for (i = 0; i < 4; i++)
   {
@@ -757,21 +766,21 @@ static int city_trade(struct city_dialog **ppdialog)
       total += pdialog->pcity->trade_value[i];
       if ((pcity = find_city_by_id(pdialog->pcity->trade[i])))
       {
-	sprintf(bptr, "%s: %2d Trade/Turn\n", pcity->name, pdialog->pcity->trade_value[i]);
-	bptr += strlen(bptr);
+	my_snprintf(bptr, nleft, "%s: %2d Trade/Turn\n", pcity->name, pdialog->pcity->trade_value[i]);
+	bptr = end_of_strn(bptr, &nleft);
       }
       else
       {
-	sprintf(bptr, "%s: %2d Trade/Turn\n", "Unknown", pdialog->pcity->trade_value[i]);
-	bptr += strlen(bptr);
+	my_snprintf(bptr, nleft, "%s: %2d Trade/Turn\n", "Unknown", pdialog->pcity->trade_value[i]);
+	bptr = end_of_strn(bptr, &nleft);
       }
     }
   }
 
   if (!x)
-    sprintf(bptr, "No trade routes exist.\n");
+    mystrlcpy(bptr, "No trade routes exist.\n",nleft);
   else
-    sprintf(bptr, "\nTotal trade %d Trade/Turn\n", total);
+    my_snprintf(bptr, nleft, "\nTotal trade %d Trade/Turn\n", total);
 
   popup_message_dialog(pdialog->wnd, "Trade Routes", buf,
 		       "_Done", message_close, 0,
@@ -887,6 +896,67 @@ static int city_change(struct city_dialog **ppdialog)
 
   set(pdialog->prod_wnd, MUIA_Window_Open, TRUE);
   return NULL;
+}
+
+/****************************************************************
+  Commit the changes to the worklist for the city.
+*****************************************************************/
+void commit_city_worklist(struct worklist *pwl, void *data)
+{
+  struct packet_city_request packet;
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  int i, id, is_unit;
+
+  /* Update the worklist.  But, remember -- the first element of the 
+     worklist is actually just the current build target; don't send it
+     to the server as part of the worklist. */
+  packet.city_id=pdialog->pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.is_valid = 1;
+  packet.worklist.name[0] = '\0';
+  for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
+    packet.worklist.ids[i] = pwl->ids[i+1];
+  }
+    
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+
+  /* Additionally, if the first element in the worklist changed, then
+     send a change build target packet. */
+  worklist_peek(pwl, &id, &is_unit);
+
+  if (id != pdialog->pcity->currently_building || 
+      is_unit != pdialog->pcity->is_building_unit) {
+    /* Change the current target */
+    packet.build_id = id;
+    packet.is_build_id_unit_id = is_unit;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  }
+  pdialog->worklist_wnd = NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void cancel_city_worklist(void *data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  pdialog->worklist_wnd = NULL;
+}
+
+
+/****************************************************************
+  Display the city's worklist.
+*****************************************************************/
+void city_worklist(struct city_dialog **ppdialog)
+{
+  struct city_dialog *pdialog = *ppdialog;
+
+  if (!pdialog->worklist_wnd)
+  {
+    pdialog->worklist_wnd = popup_worklist(pdialog->pcity->worklist,
+    		pdialog->pcity, (void *)pdialog,
+    		commit_city_worklist, cancel_city_worklist);
+  }
 }
 
 /**************************************************************************
@@ -1017,7 +1087,7 @@ static int city_sell(struct city_dialog **ppdialog)
     if (is_wonder(i))
       return 0;
 
-    sprintf(buf, "Sell %s for %d gold?", get_imp_name_ex(pdialog->pcity, i),
+    my_snprintf(buf, sizeof(buf), "Sell %s for %d gold?", get_imp_name_ex(pdialog->pcity, i),
 	    improvement_value(i));
 
     pdialog->sell_id = i;
@@ -1164,7 +1234,10 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			MUIA_NList_Title, TRUE,
 			End,
 		    End,
-		Child, pdialog->sell_button = MakeButton("_Sell"),
+		Child, HGroup,
+		    Child, pdialog->sell_button = MakeButton("_Sell"),
+		    Child, pdialog->worklist_button = MakeButton("_Worklist"),
+		    End,
 		End,
 	    End,
 	Child, pdialog->supported_group = HGroupV,
@@ -1219,34 +1292,34 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     MUIA_Window_Title, "Freeciv - Cityoptions",
     MUIA_Window_ID, 'ID',
     WindowContents, VGroup,
-    Child, HGroup,
-    Child, HSpace(0),
-    Child, ColGroup(2),
-    Child, MakeLabel("_New specialists are"),
-    Child, pdialog->cityopt_cycle = MakeCycle("_New specialists are", newcitizen_labels),
+	Child, HGroup,
+	    Child, HSpace(0),
+	    Child, ColGroup(2),
+		Child, MakeLabel("_New specialists are"),
+		Child, pdialog->cityopt_cycle = MakeCycle("_New specialists are", newcitizen_labels),
 
-    Child, MakeLabel("_Disband if build settler at size 1"),
-    Child, pdialog->cityopt_checks[4] = MakeCheck("_Disband if build settler at size 1", FALSE),
+		Child, MakeLabel("_Disband if build settler at size 1"),
+		Child, pdialog->cityopt_checks[4] = MakeCheck("_Disband if build settler at size 1", FALSE),
 
-    Child, MakeLabel("Auto-attack vs _land units"),
-    Child, pdialog->cityopt_checks[0] = MakeCheck("Auto-attack vs _land units", FALSE),
+		Child, MakeLabel("Auto-attack vs _land units"),
+		Child, pdialog->cityopt_checks[0] = MakeCheck("Auto-attack vs _land units", FALSE),
 
-    Child, MakeLabel("Auto-attack vs _sea units"),
-    Child, pdialog->cityopt_checks[1] = MakeCheck("Auto-attack vs _sea units", FALSE),
+		Child, MakeLabel("Auto-attack vs _sea units"),
+		Child, pdialog->cityopt_checks[1] = MakeCheck("Auto-attack vs _sea units", FALSE),
 
-    Child, MakeLabel("Auto-attack vs _air units"),
-    Child, pdialog->cityopt_checks[3] = MakeCheck("Auto-attack vs _air units", FALSE),
+		Child, MakeLabel("Auto-attack vs _air units"),
+		Child, pdialog->cityopt_checks[3] = MakeCheck("Auto-attack vs _air units", FALSE),
 
-    Child, MakeLabel("Auto-attack vs _helicopters"),
-    Child, pdialog->cityopt_checks[2] = MakeCheck("Auto-attack vs _helicopters", FALSE),
-    End,
-    Child, HSpace(0),
-    End,
-    Child, HGroup,
-    Child, cityopt_ok_button = MakeButton("_Ok"),
-    Child, cityopt_cancel_button = MakeButton("_Cancel"),
-    End,
-    End,
+		Child, MakeLabel("Auto-attack vs _helicopters"),
+		Child, pdialog->cityopt_checks[2] = MakeCheck("Auto-attack vs _helicopters", FALSE),
+		End,
+	    Child, HSpace(0),
+	    End,
+	Child, HGroup,
+	    Child, cityopt_ok_button = MakeButton("_Ok"),
+	    Child, cityopt_cancel_button = MakeButton("_Cancel"),
+	    End,
+	End,
     End;
 
   if (pdialog->wnd && pdialog->prod_wnd && pdialog->cityopt_wnd)
@@ -1264,6 +1337,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &standart_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_change, pdialog);
+    DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_worklist, pdialog);
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_buy, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_sell, pdialog);
 
@@ -1321,9 +1395,9 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf3[128];
-  char buf[32], buf2[64];
+  char buf[32], buf2[64], buf3[128];
   struct city *pcity = pdialog->pcity;
+  int turns;
 
   int max_shield;
   int shield;
@@ -1333,18 +1407,21 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 
   if (pcity->is_building_unit)
   {
-    sprintf(buf, "%d/%d", pcity->shield_stock, get_unit_type(pcity->currently_building)->build_cost);
-    sprintf(buf2, "%s", get_unit_type(pcity->currently_building)->name);
-
+    turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
     shield = pcity->shield_stock;
     max_shield = get_unit_type(pcity->currently_building)->build_cost;
+
+    my_snprintf(buf, sizeof(buf),
+ 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+ 		shield,max_shield,turns);
+    sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   }
   else
   {
     if (pcity->currently_building == B_CAPITAL)
     {
       /* Capitalization is special, you can't buy it or finish making it */
-      sprintf(buf, "%d/XXX", pcity->shield_stock);
+      my_snprintf(buf, sizeof(buf),"%d/XXX", pcity->shield_stock);
       set(pdialog->buy_button, MUIA_Disabled, TRUE);
 
       shield = 0;
@@ -1352,16 +1429,27 @@ void city_dialog_update_building(struct city_dialog *pdialog)
     }
     else
     {
-      sprintf(buf, "%d/%d", pcity->shield_stock,
-	      get_improvement_type(pcity->currently_building)->build_cost);
-
+      turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
       shield = pcity->shield_stock;
       max_shield = get_improvement_type(pcity->currently_building)->build_cost;
+
+      my_snprintf(buf, sizeof(buf),
+		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  shield,max_shield, turns);
+
     }
-    sprintf(buf2, "%s", get_imp_name_ex(pcity, pcity->currently_building));
+
+    sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }
 
-  sprintf(buf3, "%s (%s)", buf2, buf);
+  if (!worklist_is_empty(pcity->worklist))
+  {
+    my_snprintf(buf3, sizeof(buf3), "%s (%s) (worklist)", buf, buf2);
+  } else
+  {
+    my_snprintf(buf3, sizeof(buf3), "%s (%s)", buf, buf2);
+  }
+
   DoMethod(pdialog->prod_gauge, MUIM_MyGauge_SetGauge, shield, max_shield, buf3);
 }
 
