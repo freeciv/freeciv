@@ -1074,7 +1074,7 @@ static void player_load(struct player *plr, int plrno,
 	break;
       freelog(LOG_DEBUG, "quoted_length=%lu quoted=%lu current=%lu",
 	      (unsigned long) quoted_length,
-	      (unsigend long) strlen(quoted),
+	      (unsigned long) strlen(quoted),
 	      (unsigned long) strlen(current));
       assert(strlen(quoted) + strlen(current) <= quoted_length);
       strcat(quoted, current);
