@@ -1045,6 +1045,9 @@ void send_player_info(struct player *src, struct player *dest)
              strcpy(info.addr, game.players[i].addr);
 	     info.revolution=game.players[i].revolution;
 	     info.ai=game.players[i].ai.control;
+	     if(game.players[i].conn)
+	       strcpy(info.capability,game.players[i].conn->capability);
+	     
              send_packet_player_info(game.players[o].conn, &info);
 	   }
 }

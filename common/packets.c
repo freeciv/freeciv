@@ -17,6 +17,7 @@
 
 #include <packets.h>
 #include <log.h>
+#include <capability.h>
 
 char our_capability[MSG_SIZE];
 
@@ -658,6 +659,10 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(cptr, pinfo->revolution);
   cptr=put_int8(cptr, pinfo->tech_goal);
   cptr=put_int8(cptr, pinfo->ai?1:0);
+  if (pc && has_capability("clientcapabilities", pc->capability)) {
+    cptr=put_string(cptr, pinfo->capability);
+  }
+
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -705,6 +710,11 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->tech_goal);
   cptr=get_int8(cptr, &pinfo->ai);
 
+  if (has_capability("clientcapabilities", pc->capability)) 
+    cptr=get_string(cptr, pinfo->capability);
+  else 
+    pinfo->capability[0] = '\0';
+  
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
 }
@@ -753,6 +763,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->techpenalty);
   cptr=put_int8(cptr, pinfo->foodbox);
   cptr=put_int8(cptr, pinfo->civstyle);
+
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);

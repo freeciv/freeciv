@@ -581,6 +581,18 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
 
+  
+  if(!pplayer->conn){
+    /* It is only the client that does this */
+
+    pplayer->conn = (struct connection *)malloc(sizeof(struct connection));
+    pplayer->conn->sock = 0;
+    pplayer->conn->used = 0;
+    pplayer->conn->player = NULL;
+  }
+
+  strcpy(pplayer->conn->capability, pinfo->capability);
+  
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE && pplayer==game.player_ptr) {
     strcpy(name, pplayer->name);
     if(poptechup) {

@@ -348,6 +348,7 @@ struct packet_player_info {
   char addr[MAX_LENGTH_ADDRESS];
   int revolution;
   int ai;
+  char capability[MSG_SIZE];
 };
 
 

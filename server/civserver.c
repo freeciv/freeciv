@@ -1227,6 +1227,7 @@ void handle_request_join_game(struct connection *pconn,
       if(server_state==RUN_GAME_STATE) {
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
+       send_player_info(NULL,NULL);
       }
 
       return;
