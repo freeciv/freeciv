@@ -22,6 +22,7 @@
 
 #include "fcintl.h"
 #include "game.h"
+#include "log.h"
 #include "player.h"
 #include "shared.h" /* ARRAY_SIZE */
 #include "support.h"
@@ -104,6 +105,12 @@ static void build_required_techs_helper(struct player *pplayer,
   /* Mark the tech as required for the goal */
   pplayer->research.inventions[goal].required_techs[tech / 8] |=
       (1 << (tech % 8));
+
+  if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
+    freelog(LOG_FATAL, _("tech \"%s\": requires itself"),
+	    advances[goal].name);
+    exit(EXIT_FAILURE);
+  }
 
   build_required_techs_helper(pplayer, advances[tech].req[0], goal);
   build_required_techs_helper(pplayer, advances[tech].req[1], goal);
