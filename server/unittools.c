@@ -1635,6 +1635,8 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 {
   int x = punit->x;
   int y = punit->y;
+  struct player *pplayer = unit_owner(punit);
+  struct unit_type *ptype = unit_type(punit);
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
@@ -1657,7 +1659,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
       && is_ocean(map_get_terrain(x, y))
       && !map_get_city(x, y)) {
     struct city *pcity = NULL;
-    int capacity = ground_unit_transporter_capacity(x, y, unit_owner(punit));
+    int capacity = ground_unit_transporter_capacity(x, y, pplayer);
 
     /* Get rid of excess standard units. */
     if (capacity < 0) {
@@ -1682,20 +1684,20 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 	    pcity = find_closest_owned_city(unit_owner(pcargo),
 					    pcargo->x, pcargo->y, TRUE, NULL);
 	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-	      notify_player_ex(unit_owner(punit), x, y, E_NOEVENT,
+	      notify_player_ex(pplayer, x, y, E_NOEVENT,
 			       _("Game: %s escaped the destruction of %s, and "
 				 "fled to %s."), unit_type(pcargo)->name,
-			       unit_type(punit)->name, pcity->name);
+			       ptype->name, pcity->name);
 	    }
 	  }
 	  if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
-	    notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
+	    notify_player_ex(pplayer, x, y, E_UNIT_LOST,
 			     _("Game: %s lost when %s was lost."),
 			     unit_type(pcargo)->name,
-			     unit_type(punit)->name);
+			     ptype->name);
 	    gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
-		    get_nation_name_plural(unit_owner(punit)->nation),
-		    unit_type(pcargo)->name, unit_type(punit)->name);
+		    get_nation_name_plural(pplayer->nation),
+		    unit_type(pcargo)->name, ptype->name);
 	    server_remove_unit(pcargo);
 	  }
 	  if (++capacity >= 0) {
