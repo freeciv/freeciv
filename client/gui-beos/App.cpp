@@ -3,6 +3,10 @@
 	Copyright 1996-1997 Be Do Have. All Rights Reserved.
 */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <Alert.h>
 #include <support/Debug.h>
 
@@ -12,7 +16,6 @@
 extern "C" {
 #include "civclient.h"
 #include "clinet.h"
-#include "config.h"
 #include "fcintl.h"
 #include "game.h"
 #include "helpdata.h"

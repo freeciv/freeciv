@@ -77,6 +77,9 @@ if ($data =~ m!(/\*.*?\*/)!s) {	  # non-greedy multiline comment
 }
 
 # packets.h should include packet_l.h
+print OUT_C "\#ifdef HAVE_CONFIG_H\n";
+print OUT_C "#include <config.h>\n";
+print OUT_C "#endif\n\n";
 print OUT_C "\#include \"packets.h\"\n\n";
 
 # Find each send_packet_* prototype:

@@ -1,5 +1,9 @@
 /* mapctrl.c -- PLACEHOLDER */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 
 #include "mapctrl_g.h"

@@ -15,6 +15,10 @@
   This file was auto-generated, by create_lsend.pl (must be run manually)
 **********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "packets.h"
 
 void lsend_packet_diplomacy_info(struct conn_list *dest, enum packet_type pt,

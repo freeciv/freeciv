@@ -5,6 +5,10 @@
 	LATER REFINEMENT:  BScrollView parenting BTextView
 */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <support/Debug.h>
 #include "OutputView.hpp"
 #include "Defs.hpp"

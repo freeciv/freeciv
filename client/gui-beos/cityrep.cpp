@@ -1,5 +1,9 @@
 /* cityrep.cpp */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <Message.h>
 #include "Defs.hpp"
 #include "MainWindow.hpp"

@@ -30,6 +30,10 @@ sbuffer: ("string buffer")
   are handled there; makes liberal use of assert().
 ***************************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <assert.h>
 #include <string.h>
 

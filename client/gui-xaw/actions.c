@@ -12,6 +12,10 @@
 
 ***********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "game.h"
 
 #include "chatline.h"

@@ -15,6 +15,10 @@
    Functions for handling the nations and teams.
 ***********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -26,7 +30,6 @@
 #include "player.h"
 #include "support.h"
 #include "tech.h"
-#include "config.h"
 #include "fcintl.h"
 
 #include "nation.h"

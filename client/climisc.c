@@ -15,6 +15,7 @@
 This module contains various general - mostly highlevel - functions
 used throughout the client.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

@@ -3,6 +3,10 @@
 	Copyright (c) 1997 Be Do Have Software. All rights reserved.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <support/Debug.h>
 

@@ -11,6 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "colors.hpp"
 
 rgb_color colors_standard[COLOR_STD_LAST] = {

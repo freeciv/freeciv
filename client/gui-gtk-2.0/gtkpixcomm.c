@@ -33,6 +33,10 @@
  * that we no longer need to insert it inside a GtkEventBox. -vasc
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "gui_main.h"
 #include "gtkpixcomm.h"
 

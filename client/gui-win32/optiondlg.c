@@ -9,10 +9,12 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/        
+***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif   
+#endif
+
 #include <stdio.h>
 #include <windows.h>
 #include <windowsx.h>

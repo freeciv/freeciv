@@ -1,6 +1,10 @@
 /* citydlg.cpp */
 // Multiple city dialogs can be active at once -- one dialog per city
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <Message.h>
 #include "Defs.hpp"
 #include "MainWindow.hpp"
