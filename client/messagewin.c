@@ -35,9 +35,10 @@
 #include <events.h>
 #include <dialogs.h>
 #include <mapview.h>
+#include <map.h>
+#include <citydlg.h>
 
-extern Widget toplevel, main_form;
-extern struct player_race races[];
+extern Widget toplevel;
 extern int ai_popup_windows;
 
 Widget meswin_dialog_shell;
@@ -45,18 +46,18 @@ Widget meswin_form;
 Widget meswin_label;
 Widget meswin_list;
 Widget meswin_close_command;
-Widget meswin_int_command;
-Widget meswin_meet_command;
+Widget meswin_goto_command;
+Widget meswin_popcity_command;
 
 void create_meswin_dialog(void);
 void meswin_button_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data);
-void meswin_meet_callback(Widget w, XtPointer client_data, 
-			   XtPointer call_data);
-void meswin_intel_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
 void meswin_list_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data);
+void meswin_goto_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data);
+void meswin_popcity_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data);
 
 
 /****************************************************************
@@ -101,11 +102,17 @@ void create_meswin_dialog(void)
 						  meswin_form,
 						  NULL);
 
-  meswin_int_command = XtVaCreateManagedWidget("meswingotocommand", 
+  meswin_goto_command = XtVaCreateManagedWidget("meswingotocommand", 
 						commandWidgetClass,
 						meswin_form,
                                                 XtNsensitive, False,
 						NULL);
+
+  meswin_popcity_command = XtVaCreateManagedWidget("meswinpopcitycommand", 
+						   commandWidgetClass,
+						   meswin_form,
+						   XtNsensitive, False,
+						   NULL);
 
   XtAddCallback(meswin_list, XtNcallback, meswin_list_callback, 
 		NULL);
@@ -113,7 +120,10 @@ void create_meswin_dialog(void)
   XtAddCallback(meswin_close_command, XtNcallback, meswin_button_callback, 
 		NULL);
 
-  XtAddCallback(meswin_int_command, XtNcallback, meswin_intel_callback, 
+  XtAddCallback(meswin_goto_command, XtNcallback, meswin_goto_callback, 
+		NULL);
+  
+  XtAddCallback(meswin_popcity_command, XtNcallback, meswin_popcity_callback, 
 		NULL);
   
   update_meswin_dialog();
@@ -142,6 +152,10 @@ void clear_notify_window()
   string_ptrs[0]=0;
   messages_total = 0;
   update_meswin_dialog();
+  if(meswin_dialog_shell) {
+    XtSetSensitive(meswin_goto_command, FALSE);
+    XtSetSensitive(meswin_popcity_command, FALSE);
+  }
 }
 
 /**************************************************************************
@@ -208,17 +222,25 @@ void meswin_list_callback(Widget w, XtPointer client_data,
 			   XtPointer call_data)
 {
   XawListReturnStruct *ret;
+  int location_ok = 0;
+  int city_ok = 0;
 
   ret=XawListShowCurrent(meswin_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    if (xpos[ret->list_index] || ypos[ret->list_index]) 
-      XtSetSensitive(meswin_int_command, TRUE);
-    else
-      XtSetSensitive(meswin_int_command, FALSE);
-    return;
+    struct city *pcity;
+    int x, y;
+    x = xpos[ret->list_index];
+    y = ypos[ret->list_index];
+    location_ok = (x || y);
+    /* Note: bad luck if tile (x=0,y=0) has a message, but can't
+     * easily fix this without making the protocol incompatibile --dwp
+     */
+    city_ok = (location_ok && (pcity=map_get_city(x,y))
+	       && (pcity->owner == game.player_idx));
   }    
-  XtSetSensitive(meswin_int_command, FALSE);
+  XtSetSensitive(meswin_goto_command, location_ok?True:False);
+  XtSetSensitive(meswin_popcity_command, city_ok?True:False);
 }
 
 
@@ -235,7 +257,7 @@ void meswin_button_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-void meswin_intel_callback(Widget w, XtPointer client_data, 
+void meswin_goto_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
   XawListReturnStruct *ret;
@@ -245,4 +267,28 @@ void meswin_intel_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE && (xpos[ret->list_index] != 0 || ypos[ret->list_index]!=0))
     center_tile_mapcanvas(xpos[ret->list_index], ypos[ret->list_index]);
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void meswin_popcity_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  XawListReturnStruct *ret;
+  struct city *pcity;
+  int x, y;
+  
+  ret=XawListShowCurrent(meswin_list);
+  if(ret->list_index!=XAW_LIST_NONE) {
+    x = xpos[ret->list_index];
+    y = ypos[ret->list_index];
+    if((x || y) && (pcity=map_get_city(x,y))
+       && (pcity->owner == game.player_idx)) {
+      /* should we move the map? */
+      /* center_tile_mapcanvas(x,y); */
+      popup_city_dialog(pcity, 0);
+    }
+  }
+}
+
 

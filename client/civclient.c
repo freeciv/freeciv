@@ -280,6 +280,7 @@ void set_client_state(enum client_states newstate)
     if(client_state==CLIENT_PRE_GAME_STATE) {
       game_remove_all_players();
       set_unit_focus_no_center(0); /* thanks, David -- Syela */
+      clear_notify_window();
 /*      XtUnmapWidget(toplevel);
       XtMapWidget(toplevel);*/
     }
