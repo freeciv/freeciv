@@ -280,6 +280,7 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 
 char *get_multicast_group(void);
 void interpret_tilde(char* buf, size_t buf_size, const char* filename);
+char *interpret_tilde_alloc(const char* filename);
 
 bool make_dir(const char *pathname);
 bool path_is_absolute(const char *filename);
