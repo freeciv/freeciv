@@ -232,6 +232,14 @@ enum known_type tile_is_known(int x, int y);
 int check_coords(int *x, int *y);
 int is_real_tile(int x, int y);
 int is_normal_map_pos(int x, int y);
+/*
+ * A "border position" is any one that has adjacent positions that are
+ * not normal/proper.
+ */
+#define IS_BORDER_MAP_POS(x, y)              \
+  ((y) == 0 || (x) == 0 ||                   \
+   (y) == map.ysize-1 || (x) == map.xsize-1)
+
 int normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
 
@@ -403,10 +411,7 @@ extern struct tile_type tile_types[T_LAST];
   int MACRO_center_x = (center_x);                                            \
   int MACRO_center_y = (center_y);                                            \
   assert(is_normal_map_pos(MACRO_center_x, MACRO_center_y));                  \
-  MACRO_border = (MACRO_center_y == 0                                         \
-                  || MACRO_center_x == 0                                      \
-                  || MACRO_center_y == map.ysize-1                            \
-                  || MACRO_center_x == map.xsize-1);                          \
+  MACRO_border = IS_BORDER_MAP_POS(MACRO_center_x, MACRO_center_y);           \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
     DIRSTEP(x_itr, y_itr, dir_itr);                                           \
     x_itr += MACRO_center_x;                                                  \
