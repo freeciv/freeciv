@@ -91,7 +91,8 @@ EXTRA_DIST=	acconfig.old			\
 		vms/freeciv_h.vms		\
 		vms/imlib_config.h_vms		\
 		vms/readme.vms			\
-		vms/vms_build.com
+		vms/vms_build.com		\
+		freeciv.spec.in
 
 noinst_HEADERS= version.in
 

@@ -16,7 +16,8 @@ dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
 m4_include(version.in)
 
-VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
+VERSION_WITHOUT_LABEL=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}
+VERSION=${VERSION_WITHOUT_LABEL}${VERSION_LABEL}
 
 dnl Similar to following are already done by AM_INIT_AUTOMAKE:
 dnl (but different in terms of producing quoted vs bare strings)
@@ -409,6 +410,8 @@ AC_SUBST(CLIENT_LIBS)
 AC_SUBST(CLIENT_LDFLAGS)
 AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
+AC_SUBST(VERSION_WITHOUT_LABEL)
+AC_SUBST(VERSION_LABEL)
 AM_CONDITIONAL(ESD, test "x$ESD" = "xyes")
 AM_CONDITIONAL(SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(ALSA, test "x$ALSA" = "xyes")
@@ -662,7 +665,8 @@ AC_CONFIG_FILES([Makefile
 	  doc/ja/Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
-	  undep.sh])
+	  undep.sh
+	  freeciv.spec])
 AC_CONFIG_FILES([civ], [chmod +x civ])
 AC_CONFIG_FILES([ser], [chmod +x ser])
 AC_CONFIG_COMMANDS([default],[[ chmod +x undep.sh ; ./undep.sh ]],[[]])
