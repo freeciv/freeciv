@@ -26,6 +26,8 @@ libcivcommon_a_SOURCES = \
 		dataio.h	\
 		diptreaty.c	\
 		diptreaty.h	\
+		effects.c	\
+		effects.h	\
 		events.h	\
 		fcintl.c	\
 		fcintl.h	\

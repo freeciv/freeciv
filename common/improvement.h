@@ -19,6 +19,7 @@
 #include "tech.h"		/* Tech_Type_id */
 #include "terrain.h"		/* enum tile_terrain_type etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
+#include "effects.h"
 
 struct player;
 
@@ -77,95 +78,6 @@ enum impr_range {
   IR_LAST      /* keep this last */
 };
 
-/* Range of effects (used in equiv_range and effect.range fields)
- * These must correspond to effect_range_names[] in improvement.c. */
-enum effect_range {
-  EFR_NONE,
-  EFR_BUILDING,
-  EFR_CITY,
-  EFR_ISLAND,
-  EFR_PLAYER,
-  EFR_WORLD,
-  EFR_LAST	/* keep this last */
-};
-
-/* Type of effects. (Used in effect.type field)
- * These must correspond to effect_type_names[] in improvement.c. */
-enum effect_type {
-  EFT_ADV_PARASITE,
-  EFT_AIRLIFT,
-  EFT_ANY_GOVERNMENT,
-  EFT_BARB_ATTACK,
-  EFT_BARB_DEFEND,
-  EFT_CAPITAL_CITY,
-  EFT_CAPITAL_EXISTS,
-  EFT_ENABLE_NUKE,
-  EFT_ENABLE_SPACE,
-  EFT_ENEMY_PEACEFUL,
-  EFT_FOOD_ADD_TILE,
-  EFT_FOOD_BONUS,
-  EFT_FOOD_INC_TILE,
-  EFT_FOOD_PER_TILE,
-  EFT_GIVE_IMM_ADV,
-  EFT_GROWTH_FOOD,
-  EFT_HAVE_EMBASSIES,
-  EFT_IMPROVE_REP,
-  EFT_LUXURY_BONUS,
-  EFT_LUXURY_PCT,
-  EFT_MAKE_CONTENT,
-  EFT_MAKE_CONTENT_MIL,
-  EFT_MAKE_CONTENT_PCT,
-  EFT_MAKE_HAPPY,
-  EFT_MAY_DECLARE_WAR,
-  EFT_NO_ANARCHY,
-  EFT_NO_SINK_DEEP,
-  EFT_NUKE_PROOF,
-  EFT_POLLU_ADJ,
-  EFT_POLLU_ADJ_POP,
-  EFT_POLLU_ADJ_PROD,
-  EFT_POLLU_SET,
-  EFT_POLLU_SET_POP,
-  EFT_POLLU_SET_PROD,
-  EFT_PROD_ADD_TILE,
-  EFT_PROD_BONUS,
-  EFT_PROD_INC_TILE,
-  EFT_PROD_PER_TILE,
-  EFT_PROD_TO_GOLD,
-  EFT_REDUCE_CORRUPT,
-  EFT_REDUCE_WASTE,
-  EFT_REVEAL_CITIES,
-  EFT_REVEAL_MAP,
-  EFT_REVOLT_DIST,
-  EFT_SCIENCE_BONUS,
-  EFT_SCIENCE_PCT,
-  EFT_SIZE_UNLIMIT,
-  EFT_SLOW_NUKE_WINTER,
-  EFT_SLOW_GLOBAL_WARM,
-  EFT_SPACE_PART,
-  EFT_SPY_RESISTANT,
-  EFT_TAX_BONUS,
-  EFT_TAX_PCT,
-  EFT_TRADE_ADD_TILE,
-  EFT_TRADE_BONUS,
-  EFT_TRADE_INC_TILE,
-  EFT_TRADE_PER_TILE,
-  EFT_TRADE_ROUTE_PCT,
-  EFT_UNIT_DEFEND,
-  EFT_UNIT_MOVE,
-  EFT_UNIT_NO_LOSE_POP,
-  EFT_UNIT_RECOVER,
-  EFT_UNIT_REPAIR,
-  EFT_UNIT_VET_COMBAT,
-  EFT_UNIT_VETERAN,
-  EFT_UPGRADE_UNITS,
-  EFT_UPGRADE_ONE_STEP,
-  EFT_UPGRADE_ONE_LEAP,
-  EFT_UPGRADE_ALL_STEP,
-  EFT_UPGRADE_ALL_LEAP,
-  EFT_UPKEEP_FREE,
-  EFT_LAST	/* keep this last */
-};
-
 /* An effect conferred by an improvement. */
 struct impr_effect {
   enum effect_type type;
@@ -184,7 +96,7 @@ struct impr_effect {
 /* Maximum number of effects per improvement 
  * (this should not be more than the number of bits in the Eff_Status type) */
 #define MAX_EFFECTS 16
-
+  
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
   char name[MAX_LEN_NAME];
@@ -217,12 +129,6 @@ extern struct impr_type improvement_types[B_LAST];
 /* impr range id/string converters */
 enum impr_range impr_range_from_str(const char *str);
 const char *impr_range_name(enum impr_range id);
-
-/* improvement effect functions */
-enum effect_range effect_range_from_str(const char *str);
-const char *effect_range_name(enum effect_range id);
-enum effect_type effect_type_from_str(const char *str);
-const char *effect_type_name(enum effect_type id);
 
 /* improvement functions */
 void improvements_free(void);
