@@ -918,6 +918,7 @@ static void load_ruleset_buildings(struct section_file *file)
       }
     }
     b->terr_gate[k] = T_LAST;
+    free(list);
 
     list = secfile_lookup_str_vec(file, &count, "%s.spec_gate", sec[i]);
     b->spec_gate = fc_malloc((count + 1) * sizeof(b->spec_gate[0]));
@@ -933,6 +934,7 @@ static void load_ruleset_buildings(struct section_file *file)
       }
     }
     b->spec_gate[k] = S_NO_SPECIAL;
+    free(list);
 
     item = secfile_lookup_str(file, "%s.equiv_range", sec[i]);
     b->equiv_range = effect_range_from_str(item);
@@ -957,6 +959,7 @@ static void load_ruleset_buildings(struct section_file *file)
       }
     }
     b->equiv_dupl[k] = B_LAST;
+    free(list);
 
     list = secfile_lookup_str_vec(file, &count, "%s.equiv_repl", sec[i]);
     b->equiv_repl = fc_malloc((count + 1) * sizeof(b->equiv_repl[0]));
@@ -972,6 +975,7 @@ static void load_ruleset_buildings(struct section_file *file)
       }
     }
     b->equiv_repl[k] = B_LAST;
+    free(list);
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
 				 0, filename, b->name);
