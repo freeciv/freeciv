@@ -132,8 +132,8 @@ static void get_city_table_header(char *text[], int n)
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
-            NEG_VAL(spec->width), _(spec->title1),
-	    NEG_VAL(spec->width), _(spec->title2));
+	    NEG_VAL(spec->width), spec->title1 ? _(spec->title1) : "",
+	    NEG_VAL(spec->width), spec->title2 ? _(spec->title2) : "");
   }
 }
 

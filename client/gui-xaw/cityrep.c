@@ -147,7 +147,8 @@ static char *get_city_table_header(void)
 	cat_snprintf(text, sizeof(text), "%*s", spec->space, " ");
 
       cat_snprintf(text, sizeof(text), "%*s", spec->width,
-		   (j ? _(spec->title2) : _(spec->title1)));
+		   (j ? (spec->title2 ? _(spec->title2) : "")
+		    : (spec->title1 ? _(spec->title1) : "")));
     }
     if (j==0) sz_strlcat(text, "\n");
   }
