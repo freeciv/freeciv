@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 14:11+0200\n"
-"PO-Revision-Date: 2004-07-14 17:06+0200\n"
+"PO-Revision-Date: 2004-07-14 12:52-0400\n"
 "Last-Translator: Jelle Pelfrene <jelle.pelfrene@student.kuleuven.ac.be>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2889,7 +2889,7 @@ msgstr ""
 #: server/savegame.c:758 server/savegame.c:766 server/savegame.c:773
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
-msgstr "Verkeerde player%d.u%d.type waarde (%d%"
+msgstr "Verkeerde player%d.u%d.type waarde (%d)"
 
 #: server/savegame.c:783
 #, c-format
