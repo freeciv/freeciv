@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/@PACKAGE@/flags
 
 pkgdata_DATA =				\
+		afghanistan.png		\
 		arab.png		\
 		argentina.png		\
 		armenia.png		\
@@ -29,6 +30,7 @@ pkgdata_DATA =				\
 		egypt.png		\
 		england.png		\
 		estonia.png		\
+		ethiopia.png		\
 		europe.png		\
 		finland.png		\
 		france.png		\

@@ -99,6 +99,8 @@ options="1.9"
 *include "nation/croatian.ruleset"
 *include "nation/slovenian.ruleset"
 *include "nation/serbian.ruleset"
+*include "nation/ethiopian.ruleset"
+*include "nation/afghani.ruleset"
 
 ;
 ; barbarians MUST go last

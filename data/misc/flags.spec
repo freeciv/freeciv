@@ -21,6 +21,7 @@ artists = "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.afghanistan", "flags/afghanistan"
 		"f.arab", "flags/arab"			; Saudi Arabia
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
@@ -46,6 +47,7 @@ sprites =
 		"f.egypt", "flags/egypt"
 		"f.england", "flags/england"
 		"f.estonia", "flags/estonia"
+		"f.ethiopia", "flags/ethiopia"
 		"f.europe", "flags/europe"
 		"f.finland", "flags/finland"
 		"f.france", "flags/france"

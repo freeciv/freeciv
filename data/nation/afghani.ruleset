@@ -1,0 +1,33 @@
+[nation_afghani]
+
+name=_("Afghani")
+plural=_("?plural:Afghanis")
+class=_("Modern")
+leader="Kanishka", "Mahmud Ghazni", "Timour-i-Lang", "Ahmad Shah",
+  "Zahir Shah", "Daoud Khan"
+leader_sex="Male", "Male", "Male", "Male",
+  "Male", "Male"
+flag="f.afghanistan"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Democracy",       _("Prime Minister"),    _("Prime Minister")
+               }
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+init_techs=""
+tech_goals = "Iron Working", "Horseback Riding", "Trade", "Monarchy"
+wonder="Marco Polo's Embassy"
+government="Monarchy"
+
+cities =
+  "Kabul", "Herat", "Ghazni", "Mazar-i-Sharif", "Merv", "Jalalabad",
+  "Peshawar", "Kandahar", "Quetta", "Sistan", "Kunduz", "Baghlan",
+  "Maimana", "Gardes", "Andkhui", "Feyzabad", "Charikar", "Farah",
+  "Deshu", "Kang", "Girishk", "Sar-i-Pol", "Taloqan", "Ab Gach",
+  "Qalat", "Qal'eh-ye Now", "Sheberghan", "Kholm", "Samangan",
+  "Mahmud-e Raqi", "Asadabad", "Maydanshahr"

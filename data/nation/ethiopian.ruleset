@@ -1,0 +1,33 @@
+[nation_ethiopian]
+
+name=_("Ethiopian")
+plural=_("?plural:Ethiopians")
+class=_("Modern")
+leader="Zara Yakob", "Menelik II", "Haile Selassies", "Zoskales", "Gedara",
+   "Lalibela", "Yekuno Amlak", "Tewodros II"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+  "Male", "Male", "Male"
+flag="f.ethiopia"
+flag_alt = "f.italy"
+city_style = "Classical"
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Monarchy",       _("Emporer"),    _("Emporer")
+               }
+
+attack=1
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+init_techs=""
+tech_goals = "Monarchy", "Pottery", "Ceremonial Burial", "Mysticism",
+             "Trade"
+wonder="Hanging Gardens"
+government="Monarchy"
+
+cities =
+  "Addis Abeba", "Dire Dawa", "Gonder", "Nazret", "Harer", "Mek'ele",
+  "Jima", "Dese", "Bahir Dar (river)", "Jijiga", "Gambela", "Werder",
+  "Moyale", "Dolo Odo", "Weldiya", "Kelem", "Awasa", "Debre Mark'os",
+  "Nek'ernte", "Asosa", "Gore", "Goba", "Asela", "Arba Minch'",
+  "Debre Zevit", "Geladi", "Imi", "Degeh Bur"
