@@ -766,8 +766,10 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
       (city_turns_to_build(pcity,pcity->currently_building,0) <= 1)) {
     notify_conn_ex(dest, pcity->x, pcity->y,
 		   E_CITY_WONDER_WILL_BE_BUILT,
-		   _("Game: Notice: Wonder %s in %s will be finished next turn"), 
-		   get_improvement_name(pcity->currently_building), pcity->name);
+		   _("Game: Notice: Wonder %s in %s will be finished"
+		     " next turn."), 
+		   get_improvement_name(pcity->currently_building),
+		   pcity->name);
   }
  
   if (pcity->food_surplus > 0) {
