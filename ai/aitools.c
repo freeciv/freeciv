@@ -149,6 +149,17 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   struct unit *charge = find_unit_by_id(punit->ai.charge);
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
 
+  /* Free our ferry */
+  if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
+    struct unit *ferryboat = find_unit_by_id(punit->ai.ferryboat);
+
+    punit->ai.ferryboat = 0;
+    if (ferryboat && ferryboat->ai.passenger == punit->id) {
+      /* Do not free somebody else's ferry... */
+      ferryboat->ai.passenger = 0;
+    }
+  }
+
   if (punit->activity == ACTIVITY_GOTO) {
     /* It would indicate we're going somewhere otherwise */
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
