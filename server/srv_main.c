@@ -1792,7 +1792,7 @@ static void main_loop(void)
 }
 
 /**************************************************************************
-Server initialization.
+  Server initialization.
 **************************************************************************/
 void srv_main(void)
 {
@@ -1810,13 +1810,6 @@ void srv_main(void)
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL, _("Starting new log"));
   
-#ifdef GENERATING_MAC	/* mac beta notice */
-  con_puts(C_COMMENT, "");
-  con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
-  con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");
-  con_puts(C_COMMENT, "for new versions of this project and information about it.");
-  con_puts(C_COMMENT, "");
-#endif
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");
   con_puts(C_COMMENT, beta_message());
