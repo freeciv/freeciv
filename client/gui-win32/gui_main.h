@@ -121,8 +121,6 @@ extern HFONT font_12courier;
 extern HFONT font_12arial;
 extern int map_win_x;
 extern int map_win_y;
-extern int map_win_width;
-extern int map_win_height;
 extern HWND root_window;
 extern void do_mainwin_layout(void);
 extern int overview_win_x;

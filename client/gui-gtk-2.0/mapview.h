@@ -57,5 +57,7 @@ void update_map_canvas_scrollbars_size(void);
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0
 #define map_view_y0 mapview_canvas.map_y0
+#define map_canvas_store_twidth mapview_canvas.tile_width
+#define map_canvas_store_theight mapview_canvas.tile_height
 
 #endif  /* FC__MAPVIEW_H */

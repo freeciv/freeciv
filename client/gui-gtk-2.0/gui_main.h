@@ -35,8 +35,6 @@ extern GdkPixmap *      gray25;
 extern GdkPixmap *      black50;
 extern GdkPixmap *      mask_bitmap;
 extern GdkPixmap *      map_canvas_store;
-extern int              map_canvas_store_twidth;
-extern int              map_canvas_store_theight;
 extern GdkPixmap *      overview_canvas_store;
 extern int              overview_canvas_store_width;
 extern int              overview_canvas_store_height;

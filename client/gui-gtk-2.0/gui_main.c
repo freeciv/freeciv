@@ -74,8 +74,6 @@ GtkWidget *map_horizontal_scrollbar;
 GtkWidget *map_vertical_scrollbar;
 GdkPixmap *map_canvas_store;            /* this pixmap acts as a backing store 
                                          * for the map_canvas widget */
-int map_canvas_store_twidth = 1;
-int map_canvas_store_theight = 1;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 

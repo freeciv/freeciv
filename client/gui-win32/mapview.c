@@ -60,8 +60,6 @@ static HBITMAP single_tile_pixmap;
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 
 extern void do_mainwin_layout();
-int map_view_width;
-int map_view_height;
 
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);

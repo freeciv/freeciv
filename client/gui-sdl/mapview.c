@@ -322,10 +322,9 @@ int correction_map_pos(int *pCol, int *pRow)
 **************************************************************************/
 void center_tile_mapcanvas(int col, int row)
 {
-  int ww = (Main.screen->w - 1) / NORMAL_TILE_WIDTH + 1;
-  int hh = (Main.screen->h - 1) / NORMAL_TILE_HEIGHT + 1;
-	
-  base_center_tile_mapcanvas(col, row, &map_view_x0, &map_view_y0, ww, hh);
+  base_center_tile_mapcanvas(col, row, &map_view_x0, &map_view_y0,
+			     mapview_canvas.tile_width,
+			     mapview_canvas.tile_height);
   
   update_map_canvas_visible();
   refresh_overview_viewrect();
@@ -1174,8 +1173,8 @@ void refresh_overview_viewrect(void)
     map_area.h = 100;
     /* The x's and y's are in overview coordinates. */
 
-    map_w = (Main.gui->w + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
-    map_h = (Main.gui->h + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
+    map_w = mapview_canvas.tile_width;
+    map_h = mapview_canvas.tile_height;
     
 #if 0
     get_map_xy(0, 0, &Wx, &Wy);	/* take from Main Map */

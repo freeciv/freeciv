@@ -75,8 +75,6 @@ int main_win_width;
 int main_win_height;
 int map_win_x;
 int map_win_y;
-int map_win_width;
-int map_win_height;
 int taxinfoline_y;
 int indicator_y;
 int overview_win_x;

@@ -664,6 +664,11 @@ void ui_main(int argc, char *argv[])
 
   tilespec_load_tiles();
 
+  mapview_canvas.tile_width = (mapview_canvas.width - 1)
+	  / NORMAL_TILE_WIDTH + 1;
+  mapview_canvas.tile_height = (mapview_canvas.height - 1)
+	  / NORMAL_TILE_HEIGHT + 1;
+
   load_cursors();
   tilespec_setup_theme();
   

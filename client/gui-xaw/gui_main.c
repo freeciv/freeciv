@@ -192,7 +192,6 @@ Window root_window;
 
 /* this pixmap acts as a backing store for the map_canvas widget */
 Pixmap map_canvas_store = 0;
-int map_canvas_store_twidth, map_canvas_store_theight;
 
 /* this pixmap acts as a backing store for the overview_canvas widget */
 Pixmap overview_canvas_store;

@@ -33,8 +33,6 @@ extern Pixmap       gray50;
 extern Pixmap       gray25;
 extern Pixmap       single_tile_pixmap;
 extern Pixmap       map_canvas_store;
-extern int          map_canvas_store_twidth;
-extern int          map_canvas_store_theight;
 extern Pixmap       overview_canvas_store;
 extern int          overview_canvas_store_width;
 extern int          overview_canvas_store_height;

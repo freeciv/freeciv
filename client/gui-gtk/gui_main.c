@@ -74,8 +74,6 @@ GtkWidget *map_horizontal_scrollbar;
 GtkWidget *map_vertical_scrollbar;
 GdkPixmap *map_canvas_store;            /* this pixmap acts as a backing store 
                                          * for the map_canvas widget */
-int map_canvas_store_twidth = 1;
-int map_canvas_store_theight = 1;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 
@@ -914,6 +912,9 @@ void ui_main(int argc, char **argv)
 
   timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
+  /* Start with a 1x1 window (GTK doesn't like 0x0). */
+  map_canvas_store_twidth = 1;
+  map_canvas_store_theight = 1;
   map_canvas_store = gdk_pixmap_new(root_window,
                                  map_canvas_store_twidth * NORMAL_TILE_WIDTH,
                                  map_canvas_store_theight * NORMAL_TILE_HEIGHT,

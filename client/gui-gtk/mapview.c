@@ -695,6 +695,9 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 
   gdk_window_get_size(w->window, &width, &height);
 
+  mapview_canvas.width = width;
+  mapview_canvas.height = height;
+
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
 

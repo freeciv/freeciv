@@ -831,6 +831,13 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 			"Setting resolution to: %d x %d %d bpp"),
 	  __FILE__, __LINE__, iWidth, iHeight, iDepth);
 
+  mapview_canvas.width = iWidth;
+  mapview_canvas.height = iHeight;
+  if (NORMAL_TILE_WIDTH > 0) {
+    mapview_canvas.tile_width = (iWidth - 1) / NORMAL_TILE_WIDTH + 1;
+    mapview_canvas.tile_height = (iHeight - 1) / NORMAL_TILE_HEIGHT + 1;
+  }
+
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);
   

@@ -585,6 +585,10 @@ void map_canvas_resize(void)
     XFreePixmap(display, map_canvas_store);
 
   XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
+
+  mapview_canvas.width = width;
+  mapview_canvas.height = height;
+
   map_canvas_store_twidth=((width-1)/NORMAL_TILE_WIDTH)+1;
   map_canvas_store_theight=((height-1)/NORMAL_TILE_HEIGHT)+1;
 

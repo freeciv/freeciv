@@ -55,5 +55,7 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0
 #define map_view_y0 mapview_canvas.map_y0
+#define map_canvas_store_twidth mapview_canvas.tile_width
+#define map_canvas_store_theight mapview_canvas.tile_height
 
 #endif  /* FC__MAPVIEW_H */

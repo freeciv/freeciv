@@ -24,10 +24,8 @@ struct canvas_store;		/* opaque type, real type is gui-dep */
 
 struct canvas {
   int map_x0, map_y0;
-#if 0 /* These values are still in the GUI. */
-  int width, height;
-  int tile_width, tile_height;
-#endif
+  int width, height;		/* Size in pixels. */
+  int tile_width, tile_height;	/* Size in tiles. Rounded up. */
   struct canvas_store *store;
 };
 
