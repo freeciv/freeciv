@@ -3847,21 +3847,14 @@ static bool take_command(struct connection *caller, char *str, bool check)
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
   
   /* check syntax */
-  if (ntokens == 0) {
-    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
-              _("Usage: take [connection-name] <player-name>"));
-    return FALSE;
-  } 
-  
-  if (!caller && ntokens != 2) {
-    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
-              _("Usage: take [connection-name] <player-name>"));
-    goto end;
-  } 
-  
-  if (ntokens == 2 && (caller && caller->access_level != ALLOW_HACK)) {
-     cmd_reply(CMD_TAKE, caller, C_SYNTAX, 
-              _("Usage: take <player-name>"));
+  if (!caller || (caller && caller->access_level == ALLOW_HACK)) {
+    if (ntokens != 2) {
+      cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+                _("Usage: take <connection-name> <player-name>"));
+      goto end;
+    }
+  } else if (ntokens != 1) {
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage: take <player-name>"));
     goto end;
   } 
   
