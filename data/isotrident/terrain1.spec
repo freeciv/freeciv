@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "hires/terrain1"
+gfx = "isotrident/terrain1"
 
 [grid_main]
 
@@ -110,6 +110,7 @@ tiles = { "row", "column","tag"
  12, 8, "r.rail_nw"
 
 ;add-ons
+ 2, 7, "tx.oil_mine" 
  4, 7, "tx.farmland"
  3, 7, "tx.irrigation"
  5, 7, "tx.mine"

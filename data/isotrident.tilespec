@@ -5,7 +5,7 @@
 options = "+tilespec2"
 
 ; A simple name for the tileset specified by this file:
-name = "HiRes"
+name = "MacroIsoTrident"
 
 ; TODO: add more overall information fields on tiles, 
 ; eg, description, authors, colors, etc.
@@ -37,14 +37,13 @@ minimap_intro_file = "misc/radar"
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files = 
-  "hires/terrain1.spec",
-  "hires/terrain2.spec",
-  "hires/tiles.spec",
-  "misc/small.spec",
-  "hires/units.spec",
-  "trident/flags.spec",
+  "isotrident/terrain1.spec",
+  "isotrident/terrain2.spec",
+  "isotrident/tiles.spec",
+  "isotrident/small.spec",
+  "isotrident/units.spec",
+  "isotrident/flags.spec",
   "misc/space.spec",
   "misc/treaty.spec",
-  "hires/cities.spec",
-  "hires/icons.spec",
-  "hires/nuke.spec"
+  "isotrident/nuke.spec",
+  "isotrident/cities.spec"

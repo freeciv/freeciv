@@ -152,26 +152,22 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with 3 main tilesets:
-  - hires: An isometric tileset like the one in civ 2. (not supported
-    by the xaw client.)
+  distribution comes with 2 main tilesets:
+  - isotrident: An isometric tileset similar in shape to the one in civ 2. 
+    (not yet supported by the xaw client.)
   - trident: a civ1-style tileset with 30x30 tiles.
-  - engels: a civ1-style tileset with 45x45 tiles.
-  The trident and engels tilesets have variants called "trident_shields"
-  and "engels_shields".
-  In this release the hires tileset is the default in the gtk and amiga
-  clients, while the xaw client has trident as default. (in some previous
-  releases the engels tileset was the default).
-  The tilesets have quite different graphic styles; you may find
-  you prefer one over the other.  The "_shields" variants use a shield-
-  shaped flag, which is smaller and may be less obscured.  The trident
-  tiles are smaller, so may be better if you have a small display.  But
-  try them both and decide for yourself -- to use fx the trident tileset
+    The trident tileset has a variant called "trident_shields".
+
+  In this release the isotrident tileset is the default in the gtk, amiga,
+  and win32 clients, while the xaw client has trident as default. 
+  The "_shields" variants use a shield-shaped flag, which is smaller and 
+  may be less obscured. 
+  try them both and decide for yourself -- to use the trident tileset
   start the client with:
 
   |  % civclient --tiles trident
 
-  Other tilesets may be available from the ftp site.
+  Other tilesets are available from the ftp and websites.
 
 
   Clients can be authorized to issue server commands.  To allow them

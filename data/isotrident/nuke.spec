@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "hires/nuke"
+gfx = "isotrident/nuke"
 
 [grid_main]
 

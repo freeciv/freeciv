@@ -127,7 +127,7 @@ static char *tilespec_fullname(const char *tileset_name)
   char *fname, *dname;
 
   if (isometric_view_supported()) {
-    tileset_default = "hires";    /* Do not i18n! --dwp */
+    tileset_default = "isotrident"; /* Do not i18n! --dwp */
   } else {
     tileset_default = "trident";    /* Do not i18n! --dwp */
   }

@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "hires/terrain2"
+gfx = "isotrident/terrain2"
 
 [grid_main]
 
