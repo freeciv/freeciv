@@ -872,7 +872,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     punit->moved = TRUE;	/* We moved */
-    if (vet) {
+    if (vet && !unit_flag(punit, F_MISSILE)) {
       notify_player_ex(unit_owner(pwinner), punit->x, punit->y,
 		       E_UNIT_WIN_ATT,
 		       _("Game: Your attacking %s succeeded"
