@@ -856,6 +856,8 @@ void gui_server_connect(void)
   aifill = gtk_spin_button_new(adj, 1, 0);
   gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(aifill), 
                                     GTK_UPDATE_IF_VALID);
+  /* Default to aifill 5. */
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(aifill), 5);
   gtk_box_pack_start(GTK_BOX(hbox), aifill, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 12);
