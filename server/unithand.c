@@ -488,6 +488,11 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 "Game: This unit has no moves left.");
         return 0;
+      } else if (pplayer->ai.control && punit->activity == ACTIVITY_GOTO) {
+/* DO NOT Auto-attack.  Findvictim routine will decide if we should. */
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 "Game: Aborting GOTO for AI attack procedures.");
+        return 0;
       } else {
 	handle_unit_attack_request(pplayer, punit, pdefender);
         return 1;
@@ -633,7 +638,7 @@ void handle_unit_establish_trade(struct player *pplayer,
 **************************************************************************/
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
-  int i;
+  int i, x, y;
   int coins;
   struct city *pc2;
   struct player *cplayer;
@@ -690,6 +695,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     city_list_insert(&pplayer->cities, pnewcity);
     
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+
     if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&
        (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
        (!(map_get_special(pcity->x,pcity->y)&S_RAILROAD))) {
@@ -697,7 +703,21 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
       send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
     }
+
     raze_city(pnewcity);
+
+    if (pplayer->ai.control) { /* let there be light! */
+      for (y=0;y<5;y++) {
+        for (x=0;x<5;x++) {
+          if ((x==0 || x==4) && (y==0 || y==4))
+            continue;
+          light_square(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
+        }
+      }
+    }
+
+/* maybe should auto_arr or otherwise reset ->worked? -- Syela */
+
     city_refresh(pnewcity);
     send_city_info(0, pnewcity, 0);
     send_player_info(pplayer, pplayer);
