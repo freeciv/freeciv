@@ -31,7 +31,7 @@
 #include "mapgen.h"
 
 /* Wrapper for easy access.  It's a macro so it can be a lvalue. */
-#define hmap(x,y) (height_map[(y) * map.xsize + map_adjust_x(x)])
+#define hmap(x,y) (height_map[map_inx(x, y)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -1333,38 +1333,42 @@ static void mapgenerator1(void)
 }
 
 /**************************************************************************
-  smooth_map should be viewed  as a  corrosion function on the map, it levels
-  out the differences in the heightmap.
+  smooth_map should be viewed as a corrosion function on the map, it
+  levels out the differences in the heightmap.
 **************************************************************************/
 static void smooth_map(void)
 {
-  int mx,my,px,py;
-  int a;
+  /* We make a new height map and then copy it back over the old one.
+   * Care must be taken so that the new height map uses the exact same
+   * storage structure as the real one - it must be the same size and
+   * use the same indexing. The advantage of the new array is there's
+   * no feedback from overwriting in-use values.
+   */
+  int *new_hmap = fc_malloc(sizeof(int) * map.xsize * map.ysize);
   
   whole_map_iterate(x, y) {
-    my = map_adjust_y(y - 1);
-    py = map_adjust_y(y + 1);
-    mx = map_adjust_x(x - 1);
-    px = map_adjust_x(x + 1);
-    a = hmap(x, y) * 2;
+    /* double-count this tile */
+    int height_sum = hmap(x, y) * 2;
 
-    a += hmap(px, my);
-    a += hmap(mx, my);
-    a += hmap(mx, py);
-    a += hmap(px, py);
+    /* weight of counted tiles */
+    int counter = 2;
 
-    a += hmap(x, my);
-    a += hmap(mx, y);
+    adjc_iterate(x, y, x2, y2) {
+      /* count adjacent tile once */
+      height_sum += hmap(x2, y2);
+      counter++;
+    } adjc_iterate_end;
 
-    a += hmap(x, py);
-    a += hmap(px, y);
+    /* random factor: -30..30 */
+    height_sum += myrand(61) - 30;
 
-    a += myrand(60);
-    a -= 30;
-    if (a < 0)
-      a = 0;
-    hmap(x, y) = a / 10;
+    if (height_sum < 0)
+      height_sum = 0;
+    new_hmap[map_inx(x, y)] = height_sum / counter;
   } whole_map_iterate_end;
+
+  memcpy(height_map, new_hmap, sizeof(int) * map.xsize * map.ysize);
+  free(new_hmap);
 }
 
 /**************************************************************************
