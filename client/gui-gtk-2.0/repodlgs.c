@@ -638,12 +638,16 @@ void create_economy_report_dialog(bool make_modal)
     G_TYPE_INT,
     G_TYPE_INT
   };
-  GtkWidget *view, *sw;
+  GtkWidget *view, *sw, *align;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
   gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(economy_dialog_shell, _("Economy"));
+
+  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
+  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), align,
+      TRUE, TRUE, 0);
 
   economy_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
@@ -652,10 +656,11 @@ void create_economy_report_dialog(bool make_modal)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(align), sw);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(economy_store));
   g_object_unref(economy_store);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   economy_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   g_signal_connect(economy_selection, "changed",
 		   G_CALLBACK(economy_selection_callback), NULL);
@@ -934,12 +939,16 @@ void create_activeunits_report_dialog(bool make_modal)
     G_TYPE_INT,
     G_TYPE_BOOLEAN
   };
-  GtkWidget *view, *sw;
+  GtkWidget *view, *sw, *align;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   gui_dialog_new(&activeunits_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(activeunits_dialog_shell, _("Units"));
+
+  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
+  gtk_box_pack_start(GTK_BOX(activeunits_dialog_shell->vbox), align,
+      TRUE, TRUE, 0);
 
   activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
@@ -948,11 +957,11 @@ void create_activeunits_report_dialog(bool make_modal)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(activeunits_dialog_shell->vbox),
-	sw, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(align), sw);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
   g_object_unref(activeunits_store);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   activeunits_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   g_signal_connect(activeunits_selection, "changed",
 	G_CALLBACK(activeunits_selection_callback), NULL);
