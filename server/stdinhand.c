@@ -137,9 +137,9 @@ static PlayerNameStatus test_player_name(char* name)
       return PNameEmpty;
   } else if (len > MAX_LEN_NAME-1) {
       return PNameTooLong;
-  } else if (strcasecmp(name, ANON_PLAYER_NAME) == 0) {
+  } else if (mystrcasecmp(name, ANON_PLAYER_NAME) == 0) {
       return PNameIllegal;
-  } else if (strcasecmp(name, OBSERVER_NAME) == 0) {
+  } else if (mystrcasecmp(name, OBSERVER_NAME) == 0) {
       return PNameIllegal;
   }
 
