@@ -212,8 +212,6 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
   been moved to (x, y) which is a valid, safe coordinate, and that our
   bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
   elsewhere.
-
-  FIXME: packetify requests too
 **************************************************************************/
 static void ai_unit_bodyguard_move(int unitid, int x, int y)
 {

@@ -66,7 +66,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit);
 static struct unit *ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
-static bool unit_can_defend(Unit_Type_id type);
+static bool unit_role_defender(Unit_Type_id type);
 
 /*
  * Cached values. Updated by update_simple_ai_types.
@@ -594,13 +594,17 @@ int build_cost_balanced(Unit_Type_id type)
 
 
 /**************************************************************************
-...
+  Return first city that contains a wonder being built on the given
+  continent.
 **************************************************************************/
 static struct city *wonder_on_continent(struct player *pplayer, int cont)
 {
   city_list_iterate(pplayer->cities, pcity) 
-    if (!(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == cont)
+    if (!(pcity->is_building_unit) 
+        && is_wonder(pcity->currently_building)
+        && map_get_continent(pcity->x, pcity->y) == cont) {
       return pcity;
+  }
   city_list_iterate_end;
   return NULL;
 }
@@ -633,7 +637,7 @@ static bool stay_and_defend(struct unit *punit)
     /* change homecity to this city */
     if (ai_unit_make_homecity(punit, pcity)) {
       /* Very important, or will not stay -- Syela */
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
       return TRUE;
     }
   }
@@ -864,7 +868,8 @@ static int reinforcements_value(struct unit *punit, int x, int y)
 }
 
 /*************************************************************************
-  TODO: We should maybe include allied units in the calculations - Per
+  Is there another unit which really should be doing this attack? Checks
+  all adjacent tiles and the tile we stand on for such units.
 **************************************************************************/
 static bool is_my_turn(struct unit *punit, struct unit *pdef)
 {
@@ -1083,7 +1088,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     ai_unit_new_role(punit, AIUNIT_NONE, -1 , -1);
     return;
   }
-  
+
   if (aunit) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d) to meet charge %s#%d@(%d,%d)[body=%d]",
 	    unit_type(punit)->name, punit->id, punit->x, punit->y,
@@ -1262,13 +1267,13 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 	      <= 0) {
 	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
-            unit_list_iterate(ptile->units, mypass)
+            unit_list_iterate(ptile->units, mypass) {
               if (mypass->ai.ferryboat == ferryboat->id) {
                 set_unit_activity(mypass, ACTIVITY_SENTRY);
                 def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
                 if (def) set_unit_activity(def, ACTIVITY_SENTRY);
               }
-            unit_list_iterate_end; /* passengers are safely stowed away */
+            } unit_list_iterate_end; /* passengers are safely stowed away */
 	    if (!ai_unit_goto(ferryboat, dest_x, dest_y)) {
 	      return -1;	/* died */
 	    }
@@ -1337,11 +1342,13 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 }
 
 /*************************************************************************
-...
+  Does the unit with the id given have the flag L_DEFEND_GOOD?
 **************************************************************************/
-static bool unit_can_defend(Unit_Type_id type)
+static bool unit_role_defender(Unit_Type_id type)
 {
-  if (unit_types[type].move_type != LAND_MOVING) return FALSE; /* temporary kluge */
+  if (unit_types[type].move_type != LAND_MOVING) {
+    return FALSE; /* temporary kluge */
+  }
   return (unit_has_role(type, L_DEFEND_GOOD));
 }
 
@@ -1465,13 +1472,14 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
     acity = find_city_by_id(punit->ai.charge);
 
-    /* another crazy duct-tape sanity check to ensure we don't do something stupid */
+    /* Check if city we are on our way to rescue is still in danger,
+     * or unit we should protect is still alive */
     if ((aunit && aunit->ai.bodyguard != BODYGUARD_NONE 
          && unit_vulnerability_virtual(punit) >
          unit_vulnerability_virtual(aunit)) ||
          (acity && acity->owner == punit->owner && acity->ai.urgency != 0 &&
           acity->ai.danger > assess_defense_quadratic(acity))) {
-      punit->ai.ai_role = AIUNIT_ESCORT; /* do not use ai_unit_new_role() */
+      assert(punit->ai.ai_role == AIUNIT_ESCORT);
       return;
     } else {
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
@@ -1480,15 +1488,14 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   /* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
   if (stay_and_defend(punit)) {
-    UNIT_LOG(LOG_DEBUG, punit, "stays to defend city");
+    UNIT_LOG(LOG_DEBUG, punit, "stays to defend %s",
+             map_get_city(punit->x, punit->y)->name);
     return;
   }
 
-  if (q > 0) {
-    if (pcity->ai.urgency != 0) {
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
-      return;
-    }
+  if (q > 0 && pcity->ai.urgency > 0) {
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    return;
   }
 
 /* I'm not 100% sure this is the absolute best place for this... -- Syela */
@@ -1502,36 +1509,31 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   }
 
   val = 0; acity = NULL; aunit = NULL;
-  if (unit_can_defend(punit->type)) {
-
-/* This is a defending unit that doesn't need to stay put. 
-It needs to defend something, but not necessarily where it's at.
-Therefore, it will consider becoming a bodyguard. -- Syela */
-
+  if (unit_role_defender(punit->type)) {
+    /* 
+     * This is a defending unit that doesn't need to stay put.
+     * It needs to defend something, but not necessarily where it's at.
+     * Therefore, it will consider becoming a bodyguard. -- Syela 
+     */
     val = look_for_charge(pplayer, punit, &aunit, &acity);
-
   }
-  if (q > val && ai_fuzzy(pplayer, TRUE)) {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
+  if (q > val) {
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return;
   }
   /* this is bad; riflemen might rather attack if val is low -- Syela */
   if (acity) {
     ai_unit_new_role(punit, AIUNIT_ESCORT, acity->x, acity->y);
     punit->ai.charge = acity->id;
-    freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
-		  unit_type(punit)->name, punit->x, punit->y,
-		  acity->name, acity->x, acity->y);
+    BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
   } else if (aunit) {
     ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->x, aunit->y);
     punit->ai.charge = aunit->id;
-    freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
-		  unit_type(punit)->name, punit->x, punit->y,
-		  unit_type(aunit)->name, aunit->x, aunit->y);
+    BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
   } else if (ai_unit_attack_desirability(punit->type) != 0 ||
-      (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)))
+      (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y))) {
      ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
-  else {
+  } else {
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1); /* for default */
   }
 }
@@ -2157,7 +2159,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     return;
   }
 
-/* ok, not carrying anyone, even the ferryman */
+  /* ok, not carrying anyone, even the ferryman */
   punit->ai.passenger = 0;
   UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
   set_unit_activity(punit, ACTIVITY_IDLE);

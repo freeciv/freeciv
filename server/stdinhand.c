@@ -1627,15 +1627,15 @@ static int handicap_of_skill_level(int level)
   int h[11] = { -1,
 		H_NONE,
 		H_NONE,
-		H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
+ /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE,
 		H_NONE,
-		H_RATES | H_TARGETS | H_HUTS | H_DIPLOMAT,
+ /* medium */	H_RATES | H_TARGETS | H_HUTS | H_DIPLOMAT,
+		H_NONE,
+ /* hard */	H_NONE,
 		H_NONE,
 		H_NONE,
-		H_NONE,
-		H_NONE,
-		H_EXPERIMENTAL,
+ /* testing */	H_EXPERIMENTAL,
 		};
   
   assert(level>0 && level<=10);
