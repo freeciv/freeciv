@@ -1,12 +1,12 @@
 # Swedish translation for Freeciv
-# Copyright (C) 2000, 2001, 2002 Erik Sigra
+# Copyright (C) 2000-2003 Erik Sigra
 # Erik Sigra <freeciv@home.se>, <sigra@home.se>.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.39-1.14-5\n"
-"POT-Creation-Date: 2003-01-29 22:49+0100\n"
-"PO-Revision-Date: 2003-01-29 22:53+0100\n"
+"Project-Id-Version: 0.39-1.14-6\n"
+"POT-Creation-Date: 2003-03-09 14:07+0100\n"
+"PO-Revision-Date: 2003-03-09 14:29+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -232,87 +232,122 @@ msgstr "?diplomatic_state:förbund"
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:ingen förbindelse"
 
-#: common/shared.c:162
+#: common/shared.c:172
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Tomt argument för \"%s\".\n"
 
-#: common/shared.c:166
+#: common/shared.c:176
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Saknat argument för \"%s\".\n"
 
-#: common/shared.c:413
+#: common/shared.c:423
 #, c-format
 msgid "%d BC"
 msgstr "%d f. Kr."
 
-#: common/shared.c:415
+#: common/shared.c:425
 #, c-format
 msgid "%d AD"
 msgstr "%d e. Kr."
 
-#: common/shared.c:760
+#: common/shared.c:770
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH är satt men tom; använder standardsökvägen i stället."
 
-#: common/shared.c:864
+#: common/shared.c:874
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Kunde inte läsa datakatalogen %s: %s."
 
-#: common/shared.c:994
+#: common/shared.c:1004
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Datasökvägen kan sättas med omgivningsvariabeln FREECIV_PATH."
 
-#: common/shared.c:996
+#: common/shared.c:1006
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Den nuvarande datasökvägen är \"%s\"."
 
-#: common/shared.c:998
+#: common/shared.c:1008
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Filen \"%s\" krävs ... avbryter!"
 
-#: common/shared.c:1115
+#: common/shared.c:1125
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Dödligt fel: du försöker köra mig som användare med fullständiga "
 "rättigheter!\n"
 
-#: common/shared.c:1117
+#: common/shared.c:1127
 msgid "Use a non-privileged account instead.\n"
 msgstr "Använd ett konto med begränsade rättigheter i stället.\n"
 
-#: common/shared.c:1133
+#: common/shared.c:1143
 msgid "exact match"
 msgstr "exakt träff"
 
-#: common/shared.c:1134
+#: common/shared.c:1144
 msgid "only match"
 msgstr "enda träff"
 
-#: common/shared.c:1135
+#: common/shared.c:1145
 msgid "ambiguous"
 msgstr "flertydigt"
 
-#: common/shared.c:1136
+#: common/shared.c:1146
 msgid "empty"
 msgstr "tom"
 
-#: common/shared.c:1137
+#: common/shared.c:1147
 msgid "too long"
 msgstr "för lång"
 
-#: common/shared.c:1138
+#: common/shared.c:1148
 msgid "non-match"
 msgstr "icketräff"
 
-#: common/shared.c:1201
+#: common/shared.c:1211
 msgid "'Cause civilization should be free!"
 msgstr "Ty civilization bör vara fritt!"
+
+#: common/shared.c:1251
+#, c-format
+msgid ""
+"String conversion from %s not possible.  You may\n"
+"want to set your local encoding manually by setting\n"
+"the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
+msgstr ""
+"Strängomvandling från %s är omöjlig. Man kan ställa in\n"
+"sin lokala kodning för hand genom att sätta\n"
+"omgivningsvariabeln $FREECIV_LOCAL_ENCODING.\n"
+"Fortsätter ändå..."
+
+#: common/shared.c:1277
+#, c-format
+msgid ""
+"The string '%s' is not valid: %s. Ruleset files must\n"
+"be encoded as %s; you can change this by setting\n"
+"$FREECIV_DATA_ENCODING."
+msgstr ""
+"Strängen \"%s\" är ogiltig: %s. Regeluppsättningsfiler\n"
+"måste kodas som %s; man kan ändra detta genom att\n"
+"sätta omgivningsvariabeln $FREECIV_DATA_ENCODING."
+
+#: common/shared.c:1335
+msgid ""
+"You are running Freeciv without using iconv.  Unless\n"
+"you are using the latin1 character set, some characters\n"
+"may not be displayed properly.  You can download iconv\n"
+"at http://gnu.org/."
+msgstr ""
+"Du kör Freeciv utan att använda iconv. Såvida du inte\n"
+"använder teckenuppsättningen latin1 kan det förekomma\n"
+"att visa tecken inte visas rätt. Man kan hämta iconv\n"
+"hos http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
@@ -766,12 +801,12 @@ msgstr "%s förlorar %s (hungersnöd)"
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spel: Hungersnöd orsakade befolkningsminskning i %s."
 
-#: server/cityturn.c:681 server/cityturn.c:721
+#: server/cityturn.c:686 server/cityturn.c:726
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spel: %s kan inte bygga %s från arbetslistan. Tar bort..."
 
-#: server/cityturn.c:700 server/cityturn.c:741
+#: server/cityturn.c:705 server/cityturn.c:746
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -780,12 +815,12 @@ msgstr ""
 "Spel: %s kan inte bygga %s från arbetslistan; en nödvändig teknologi är ännu "
 "inte tillgänglig. Skjuter upp..."
 
-#: server/cityturn.c:708 server/cityturn.c:765 server/cityturn.c:868
+#: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:873
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Byggandet av %s ersätts med %s i %s."
 
-#: server/cityturn.c:747
+#: server/cityturn.c:752
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -794,7 +829,7 @@ msgstr ""
 "Spel: %s kan inte bygga %s från arbetslistan; behöver %s först.  Skjuter "
 "upp..."
 
-#: server/cityturn.c:756
+#: server/cityturn.c:761
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -802,119 +837,119 @@ msgstr ""
 "Spel: %s kan inte bygga %s från arbetslistan; Anledning okänd!  Skjuter "
 "upp..."
 
-#: server/cityturn.c:790
+#: server/cityturn.c:795
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %ss arbetslista tog slut."
 
-#: server/cityturn.c:887
+#: server/cityturn.c:892
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan inte underhålla %s, enhet upplöst."
 
-#: server/cityturn.c:917
+#: server/cityturn.c:922
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s bygger %s, som inte längre är tillgängligt."
 
-#: server/cityturn.c:954
+#: server/cityturn.c:959
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: %s ha färdigställt %s i %s."
 
-#: server/cityturn.c:958 server/cityturn.c:964
+#: server/cityturn.c:963 server/cityturn.c:969
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s bygger %s i %s"
 
-#: server/cityturn.c:970
+#: server/cityturn.c:975
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s har färdigställt %s."
 
-#: server/cityturn.c:977
+#: server/cityturn.c:982
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s ökar forskningen, vi får genast 2 framsteg."
 
-#: server/cityturn.c:993
+#: server/cityturn.c:998
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spel: %s erhöllo %s och %s från %s."
 
-#: server/cityturn.c:1000
+#: server/cityturn.c:1005
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: %s ha börjat bygga ett rymdskepp!"
 
-#: server/cityturn.c:1043
+#: server/cityturn.c:1048
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan ej bygga %s än."
 
-#: server/cityturn.c:1070
+#: server/cityturn.c:1075
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s har färdigställt %s."
 
-#: server/cityturn.c:1074
+#: server/cityturn.c:1079
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s bygger %s i %s (%i,%i)"
 
-#: server/cityturn.c:1113
+#: server/cityturn.c:1118
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Vi ha ej råd att underhålla %s i %s, byggnaden såld!"
 
-#: server/cityturn.c:1149
+#: server/cityturn.c:1154
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Förorening nära %s."
 
-#: server/cityturn.c:1279
+#: server/cityturn.c:1284
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: Vi Älska Vår %s-Dagen firad i %s."
 
-#: server/cityturn.c:1287
+#: server/cityturn.c:1292
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: Vi älska %sen-dag inställd i %s."
 
-#: server/cityturn.c:1319
+#: server/cityturn.c:1324
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Upplopp stör friden i %s."
 
-#: server/cityturn.c:1322
+#: server/cityturn.c:1327
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: UPPLOPP FORTSÄTTER ATT STÖRA FRIDEN i %s."
 
-#: server/cityturn.c:1328
+#: server/cityturn.c:1333
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Friden är återställd i %s."
 
-#: server/cityturn.c:1337
+#: server/cityturn.c:1342
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spel: Medborgarna ha störtat vår regering (%s). Vårt land är i vild ofrid."
 
-#: server/cityturn.c:1361
+#: server/cityturn.c:1366
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spel: %s kan inte färdigställa %s än. Vi kunna ej överge vår enda stad."
 
-#: server/cityturn.c:1378
+#: server/cityturn.c:1383
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s upplöstes till %s."
 
-#: server/cityturn.c:1380
+#: server/cityturn.c:1385
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) upplöstes till %s av %s"
@@ -1079,82 +1114,82 @@ msgstr "Spel: %s styr inte längre %s! Avtalet träder inte i kraft!"
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Spel: %s ha ej den utlovade mängden guld! Avtalet träder inte i kraft!"
 
-#: server/diplhand.c:283
+#: server/diplhand.c:289
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Spel: Vi blir undervisade om %s."
 
-#: server/diplhand.c:287
+#: server/diplhand.c:293
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Spel: %s erhöllo %s från %s."
 
-#: server/diplhand.c:292
+#: server/diplhand.c:298
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s erhöllo %s (avtal) från %s."
 
-#: server/diplhand.c:302
+#: server/diplhand.c:308
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Spel: Vi får %d guld."
 
-#: server/diplhand.c:308
+#: server/diplhand.c:314
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Spel: Vi motta %s världskarta."
 
-#: server/diplhand.c:313
+#: server/diplhand.c:319
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Spel: Vi motta %s sjökort."
 
-#: server/diplhand.c:328
+#: server/diplhand.c:334
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Spel: Vi motta staden %s från %s."
 
-#: server/diplhand.c:332
+#: server/diplhand.c:338
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Spel: Vi ge staden %s till %s."
 
-#: server/diplhand.c:344 server/diplhand.c:347
+#: server/diplhand.c:350 server/diplhand.c:353
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Spel: Vi kommer överens om vapenstillestånd med %s."
 
-#: server/diplhand.c:356 server/diplhand.c:359
+#: server/diplhand.c:362 server/diplhand.c:365
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Spel: Vi kommer överens om ett fredsfördrag med %s."
 
-#: server/diplhand.c:368 server/diplhand.c:371
+#: server/diplhand.c:374 server/diplhand.c:377
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Spel: Vi kommer överens om ett förbund med %s."
 
-#: server/diplhand.c:379
+#: server/diplhand.c:385
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Spel: Vi ge delad anblick till %s."
 
-#: server/diplhand.c:382
+#: server/diplhand.c:388
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Spel: %s ge oss delad anblick."
 
-#: server/diplhand.c:483
+#: server/diplhand.c:489
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Spel: %s ha ställt in mötet!"
 
-#: server/diplhand.c:489
+#: server/diplhand.c:495
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Spel: Mötet med %s är inställt."
 
-#: server/diplhand.c:532
+#: server/diplhand.c:538
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr "Datorstyrda spelare kan inte delta i diplomatiska möten."
 
@@ -8170,7 +8205,7 @@ msgstr "Kvinna"
 #: client/gui-gtk-2.0/dialogs.c:2007 client/gui-gtk/dialogs.c:2029
 #: client/gui-win32/dialogs.c:500
 msgid "Select your city style"
-msgstr "Välj vår stadsstil"
+msgstr "Välj vårt stadsutseende"
 
 #: client/gui-gtk-2.0/dialogs.c:2029 client/gui-gtk-2.0/menu.c:572
 #: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
@@ -8191,7 +8226,7 @@ msgstr "Du måste välja ett kön."
 #: client/gui-gtk-2.0/dialogs.c:2240 client/gui-gtk/dialogs.c:2297
 #: client/gui-xaw/dialogs.c:2354
 msgid "You must select your city style."
-msgstr "Du måste välja en stadsstil."
+msgstr "Du måste välja ett stadsutseende."
 
 #: client/gui-gtk-2.0/dialogs.c:2253 client/gui-gtk/dialogs.c:2310
 #: client/gui-mui/dialogs.c:1637 client/gui-win32/dialogs.c:328
@@ -11858,7 +11893,7 @@ msgstr "Man   "
 
 #: data/Freeciv:3065
 msgid "Select city style:"
-msgstr "Välj stadsstil:"
+msgstr "Välj stadsutseende:"
 
 #: data/Freeciv:3076
 msgid " Ok "
@@ -11960,6 +11995,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39-1.14-6; 2003-03-09\n"
+"  Rättelser och uppdateringar.\n"
 "Version 0.39-1.14-5; 2003-01-29\n"
 "  Rättelse.\n"
 "Version 0.39-1.14-4; 2002-12-17\n"
@@ -13498,8 +13535,8 @@ msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
 msgstr ""
-" - Enheter använder endast 1/3 drag när de förflyttar sig från en ruta till "
-"en angränsande ruta, om båda rutorna ha väg."
+" - Enheter använda endast 1/3 drag när de förflytta sig från en ruta till en "
+"angränsande ruta om båda rutorna ha väg."
 
 #: data/helpdata.txt:1154
 msgid ""
@@ -14396,8 +14433,8 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Gör att så tillverkningen i en stad inte orsakar några föroreningar alls. "
-"Ökar även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i "
+"Gör att tillverkningen i en stad inte orsakar några föroreningar alls. Ökar "
+"även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i "
 "staden: en fabrik och ett kärnkraftverk ger tillsammans 75% "
 "tillverkningsbonus, och en fabrik, en tillverkningsanläggning och ett "
 "kärnkraftverk ger tillsammans 150% tillverkningsbonus.\n"
@@ -15014,8 +15051,8 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Gör att så tillverkningen i en stad inte orsakar några föroreningar alls. "
-"Ökar även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i "
+"Gör att tillverkningen i en stad inte orsakar några föroreningar alls. Ökar "
+"även sköldtillverkningen i en fabrik eller en tillverkningsanläggning i "
 "staden: en fabrik och ett kärnkraftverk ger tillsammans 75% "
 "tillverkningsbonus, och en fabrik, en tillverkningsanläggning och ett "
 "kärnkraftverk ger tillsammans 150% tillverkningsbonus.\n"
@@ -16629,10 +16666,11 @@ msgstr ""
 "\n"
 "Bosättare och ingenjörer kunna arbeta tillsammans för att minska "
 "tidsåtgången för långvariga projekt. Om två eller fler bosättare och/eller "
-"ingejörer arbetar med samma uppgift i samma ruta, läggs deras ansträngingar "
+"ingejörer arbeta med samma uppgift i samma ruta, läggs deras ansträngingar "
 "samman varje omgång tills uppgiften är slutförd. Var dock försiktig med att "
-"utse för många arbetare till en uppgift; överflödigt arbete kan förslösas, "
-"och en grupp bosättare, ingenjörer är mycket sårbar för fientilga angrepp."
+"tilldela alltför många arbetare till en uppgift; överflödigt arbete kan "
+"förslösas, och en grupp bosättarenheter är mycket sårbar för fientilga "
+"angrepp."
 
 #: data/default/units.ruleset:183 data/civ2/units.ruleset:114
 #: data/civ1/units.ruleset:121 data/history/units.ruleset:183
@@ -16654,13 +16692,12 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
-"Ingenjörer liknar bosättare, men de arbetar dubbelt så fort och förflyttar "
-"sig dubbelt så fort. Ingenjörer kunna även utföra större "
-"landskapsförändringar (till exempel omvandling av tundra till öken) vilket "
-"är utöver bosättarnas förmåga.\n"
+"Ingenjörer likna bosättare men de arbeta och förflytta sig dubbelt så fort. "
+"Ingenjörer kunna även utföra större landskapsförändringar (till exempel "
+"omvandling av tundra till öken) vilket är utöver bosättarnas förmåga.\n"
 "\n"
 "HÄNVISNING 1:  Ersätt bosättare med ingenjörer vid tillfälle eftersom "
-"ingenjörer förbrukar lika mycket tillgångar som bosättare men arbetar mycket "
+"ingenjörer förbruka lika mycket tillgångar som bosättare men arbeta mycket "
 "bättre.\n"
 "\n"
 "HÄNVISNING 2:  Om man lyckas färdigställa Leonardos verkstad försöker man "
@@ -17136,7 +17173,7 @@ msgstr "godsvagn"
 #: data/default/units.ruleset:1689 data/civ2/units.ruleset:1626
 #: data/history/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "Godsvagnen ersätter karavanen, och rör sig dubbelt så fort."
+msgstr "Godsvagnen ersätter karavanen och rör sig dubbelt så fort."
 
 #: data/default/units.ruleset:1694 data/civ2/units.ruleset:1631
 #: data/civ1/units.ruleset:1558 data/history/units.ruleset:1694
@@ -17197,10 +17234,11 @@ msgstr ""
 "\n"
 "Bosättare och ingenjörer kunna arbeta tillsammans för att minska "
 "tidsåtgången för långvariga projekt. Om två eller fler bosättare och/eller "
-"ingejörer arbetar med samma uppgift i samma ruta, läggs deras ansträngingar "
+"ingejörer arbeta med samma uppgift i samma ruta, läggs deras ansträngingar "
 "samman varje omgång tills uppgiften är slutförd. Var dock försiktig med att "
-"utse för många arbetare till en uppgift; överflödigt arbete kan förslösas, "
-"och en grupp bosättare, ingenjörer är mycket sårbar för fientilga angrepp."
+"tilldela för många arbetare till en uppgift; överflödigt arbete kan "
+"förslösas, och en grupp bosättarenheter är mycket sårbar för fientilga "
+"angrepp."
 
 #: data/civ1/units.ruleset:149
 msgid "Militia"
@@ -17238,11 +17276,11 @@ msgstr ""
 "HÄNVISNING 1: Att atombomba hav ger inget radioatktivt nedfall och är det "
 "verkningsfullaste (men dyra) sättet att sänka fientliga skepp.\n"
 "\n"
-"HÄNVISNING 2: I ett läge där man har fått starkt fäste i en fiendes land, "
-"men inte kan inta städerna, samlar man i förväg några ingenjörer intill "
-"staden så att de äro redo att börja rensa det radioaktiva nedfallet i samma "
-"omgång som det sprids. Då minskar man sannolikheten för atomvinter "
-"betydligt. Miljövänliga kärnvapen!"
+"HÄNVISNING 2: I ett läge där man har fått starkt fäste i en fiendes land men "
+"inte kan inta städerna, samlar man i förväg några ingenjörer intill staden "
+"så att de äro redo att börja rensa det radioaktiva nedfallet i samma omgång "
+"som det sprids. Då minskar man sannolikheten för atomvinter betydligt. "
+"Miljövänliga kärnvapen!"
 
 #: data/civ1/units.ruleset:1612
 msgid ""
