@@ -124,6 +124,7 @@ int assess_danger(struct city *pcity)
   struct player *aplayer, *pplayer;
   int pikemen = 0;
   int urgency = 0;
+  int igwall;
 
   pplayer = &game.players[pcity->owner];
   con = map_get_continent(pcity->x, pcity->y); /* Not using because of boats */
@@ -141,12 +142,14 @@ int assess_danger(struct city *pcity)
       aplayer = &game.players[i];
 /* should I treat empty enemy cities as danger? */
       unit_list_iterate(aplayer->units, punit)
+        igwall = 0;
         v = get_unit_type(punit->type)->attack_strength * 10;
         if (punit->veteran) v *= 1.5;
 /* get_attack_power will be wrong if moves_left == 1 || == 2 */
         v *= punit->hp * get_unit_type(punit->type)->firepower;
-        if (city_got_citywalls(pcity) && (unit_ignores_citywalls(punit) ||
-            (!is_heli_unit(punit) && !is_ground_unit(punit)))) v *= 3;
+        if (unit_ignores_citywalls(punit) || 
+            (!is_heli_unit(punit) && !is_ground_unit(punit))) igwall++;
+        if (city_got_citywalls(pcity) && igwall) v *= 3;
 
         dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
         if (unit_flag(punit->type, F_IGTER)) dist /= 3;
@@ -173,7 +176,7 @@ int assess_danger(struct city *pcity)
         v /= 30; /* rescaling factor to stop the overflow nonsense */
         v *= v;
 
-        danger2 += v * m / dist;
+        if (!igwall) danger2 += v * m / dist;
         if (dist * dist < m * 3) danger += v * m / 3; /* knights can't attack more than twice */
         else danger += v * m * m / dist / dist;
       unit_list_iterate_end;
