@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-23 13:29-0500\n"
-"PO-Revision-Date: 2005-02-23 14:23+0300\n"
+"POT-Creation-Date: 2005-03-01 15:00-0500\n"
+"PO-Revision-Date: 2005-03-01 15:34-0500\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3600,71 +3600,71 @@ msgstr ""
 "Число начальных позиций (%d) меньше чем max_players (%d), уменьшаем "
 "max_players."
 
-#: server/savegame.c:923 server/savegame.c:929 server/savegame.c:935
+#: server/savegame.c:922 server/savegame.c:928 server/savegame.c:934
 #, c-format
 msgid "Wrong unit type id value (%d)"
 msgstr "Неправильный идентификатор типа соединения (%d)"
 
-#: server/savegame.c:969
+#: server/savegame.c:968
 #, c-format
 msgid "Wrong improvement type id value (%d)"
 msgstr "Неправильный идентификатор типа здания (%d)"
 
-#: server/savegame.c:1068
+#: server/savegame.c:1067
 #, c-format
 msgid "Wrong tech type id value (%d)"
 msgstr "Неправильный идентификатор типа технологии (%d)"
 
-#: server/savegame.c:1150
+#: server/savegame.c:1149
 #, c-format
 msgid "Unknown technology (%s)"
 msgstr "Неизвестная технология (%s)"
 
-#: server/savegame.c:1226 server/savegame.c:1232 server/savegame.c:1238
+#: server/savegame.c:1225 server/savegame.c:1231 server/savegame.c:1237
 #, c-format
 msgid "Wrong government type id value (%d)"
 msgstr "Неправильный идентификатор типа формы правления (%d)"
 
-#: server/savegame.c:1290
+#: server/savegame.c:1289
 #, c-format
 msgid "Unknown unit type '%s' in worklist"
 msgstr "Неизвестный тип соединения '%s' в рабочем списке"
 
-#: server/savegame.c:1305
+#: server/savegame.c:1304
 #, c-format
 msgid "Unknown improvement type '%s' in worklist"
 msgstr "Неизвестный тип здания '%s' в рабочем списке"
 
-#: server/savegame.c:1394
+#: server/savegame.c:1393
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
 msgstr "Неправильное значение player%d.u%d.type (%d)"
 
-#: server/savegame.c:1404
+#: server/savegame.c:1403
 #, c-format
 msgid "Unknown unit type '%s' in player%d section"
 msgstr "Неизвестный тип соединения '%s' в части игрока %d"
 
-#: server/savegame.c:1526
+#: server/savegame.c:1525
 msgid "Savegame error: invalid unit orders."
 msgstr "Ошибка сохранения игры: неверные приказы для соединений."
 
-#: server/savegame.c:1646
+#: server/savegame.c:1645
 #, c-format
 msgid "Nation %s (used by %s) isn't available."
 msgstr "Народ %s (управляемый  %s) не доступен."
 
-#: server/savegame.c:1678
+#: server/savegame.c:1677
 #, c-format
 msgid "Unsupported government found (%s)"
 msgstr "Найдена неподдерживаемая форма правления (%s)"
 
-#: server/savegame.c:1713
+#: server/savegame.c:1712
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Найден неподдерживаемый стиль города у игрока %d. Изменено на %s"
 
-#: server/savegame.c:1887
+#: server/savegame.c:1886
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -3673,18 +3673,18 @@ msgstr ""
 "Обнаружена неверная структура альянса: союз между игроками %s и %s сокращен "
 "до мирного договора."
 
-#: server/savegame.c:3075
+#: server/savegame.c:3074
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Сохранённая игра слишком старая, нужна по крайней мере версия 1.9.0."
 
-#: server/savegame.c:3270
+#: server/savegame.c:3269
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Сохранённая игра использует \"классический\" набор рельефа, который больше "
 "не поддерживается."
 
-#: server/savegame.c:3279
+#: server/savegame.c:3278
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3741,19 +3741,7 @@ msgstr "Ситуационный"
 msgid "Rare"
 msgstr "Редкий"
 
-#: server/settings.c:56
-msgid ""
-"notradesize must be always smaller than fulltradesize; keeping old value."
-msgstr ""
-"notradesize всегда меньше, чем fulltradesize; оставляем старое значение."
-
-#: server/settings.c:70
-msgid ""
-"fulltradesize must be always bigger than notradesize; keeping old value."
-msgstr ""
-"fulltradesize всегда больше, чем notradesize; оставляем старое значение."
-
-#: server/settings.c:126
+#: server/settings.c:98
 msgid ""
 "Allowed take string contains invalid\n"
 "characters.  Try \"help allowtake\"."
@@ -3761,7 +3749,7 @@ msgstr ""
 "Строка разрешенных перехватов соединений содержит неправильные\n"
 "символы. Попробуйте \"help allowtake\"."
 
-#: server/settings.c:160
+#: server/settings.c:132
 msgid ""
 "Starting units string contains invalid\n"
 "characters.  Try \"help startunits\"."
@@ -3769,7 +3757,7 @@ msgstr ""
 "Строка начальных соединений содержит неправильные\n"
 "символы. Попробуйте \"help startunits\"."
 
-#: server/settings.c:166
+#: server/settings.c:138
 msgid ""
 "Starting units string does not contain\n"
 "at least one city founder.  Try \n"
@@ -3779,16 +3767,16 @@ msgstr ""
 "ни одного создателя городов. Попробуйте\n"
 "\"help startunits\"."
 
-#: server/settings.c:182
+#: server/settings.c:154
 msgid "Number of players is higher than requested value; Keeping old value."
 msgstr ""
 "Число игроков выше, чем запрашиваемое значение; Оставлаяем старое значение."
 
-#: server/settings.c:228
+#: server/settings.c:200
 msgid "Map size (in thousands of tiles)"
 msgstr "Размер карты (тысяч квадратов)"
 
-#: server/settings.c:229
+#: server/settings.c:201
 msgid ""
 "This value is used to determine the map dimensions.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
@@ -3798,12 +3786,12 @@ msgstr ""
 "  size = 4 нормальная карта из 4,000 квадратов (значение по умолчанию)\n"
 "  size = 20 громадная карта из 20,000 квадратов"
 
-#: server/settings.c:235
+#: server/settings.c:207
 msgid "Map topology index"
 msgstr "Индекс топологии карты"
 
 #. TRANS: do not edit the ugly ASCII art
-#: server/settings.c:237
+#: server/settings.c:209
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -3872,11 +3860,11 @@ msgstr ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 
-#: server/settings.c:279
+#: server/settings.c:251
 msgid "Method used to generate map"
 msgstr "Метод используемый для генерации карты"
 
-#: server/settings.c:280
+#: server/settings.c:252
 msgid ""
 "0 = Scenario map - no generator;\n"
 "1 = Fully random height generator;              [4]\n"
@@ -3897,11 +3885,11 @@ msgstr ""
 "\" указывает на значение по выбору генератора. См. также справку по "
 "\"startpos\"."
 
-#: server/settings.c:293
+#: server/settings.c:265
 msgid "Method used to choose start positions"
 msgstr "Метод используемый для выбора начальных позиций"
 
-#: server/settings.c:294
+#: server/settings.c:266
 msgid ""
 "0 = Generator's choice.  Selecting this setting means\n"
 "    the default value will be picked based on the generator\n"
@@ -3923,36 +3911,36 @@ msgstr ""
 "Комментарий: генераторы пытаются создать подходящее число континентов в "
 "зависимоти от выбора начальной позиции и числа игроков."
 
-#: server/settings.c:307
+#: server/settings.c:279
 msgid "Presence of 1x1 islands"
 msgstr "Наличие островов 1 на 1"
 
-#: server/settings.c:308
+#: server/settings.c:280
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr "0 = нет островов 1 на 1; 1 = есть острова 1 на 1"
 
-#: server/settings.c:313
+#: server/settings.c:285
 msgid "Whether the poles are separate continents"
 msgstr "Являются ли полюса отдельными континентами"
 
-#: server/settings.c:314
+#: server/settings.c:286
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
 msgstr ""
 "0 = континенты могут быть соединены с полюсами; 1 = полюса обычно отдельны"
 
-#: server/settings.c:320
+#: server/settings.c:292
 msgid "All the map is temperate"
 msgstr "Вся карта имеет умеренный климат"
 
-#: server/settings.c:321
+#: server/settings.c:293
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
 msgstr "0 = обычная планета земного типа; 1 = везде умеренный климат "
 
-#: server/settings.c:326
+#: server/settings.c:298
 msgid "Average temperature of the planet"
 msgstr "Средняя температура планеты"
 
-#: server/settings.c:327
+#: server/settings.c:299
 msgid ""
 "Small values will give a cold map, while larger values will give a hotter "
 "map.\n"
@@ -3985,21 +3973,21 @@ msgstr ""
 "\n"
 "0 значит очень холодная планета с большими полярными зонами и без тропиков"
 
-#: server/settings.c:344
+#: server/settings.c:316
 msgid "Percentage of the map that is land"
 msgstr "Процент от карты, который будет сушей"
 
-#: server/settings.c:345
+#: server/settings.c:317
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
 msgstr "Эта опция устанавливает приблизителный процент суши на карте."
 
-#: server/settings.c:351
+#: server/settings.c:323
 msgid "Amount of hills/mountains"
 msgstr "Количество холмов и гор"
 
-#: server/settings.c:352
+#: server/settings.c:324
 msgid ""
 "Small values give flat maps, while higher values give a steeper map with "
 "more hills and mountains."
@@ -4007,11 +3995,11 @@ msgstr ""
 "Меньшие значения дают равнинную карту, тогда как высокие значения дают карту "
 "с большим количеством холмов и гор."
 
-#: server/settings.c:358
+#: server/settings.c:330
 msgid "Amount of water on lands"
 msgstr "Количество воды на суше"
 
-#: server/settings.c:359
+#: server/settings.c:331
 msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
@@ -4020,11 +4008,11 @@ msgstr ""
 "значения дают более влажную карту с большим количеством болот, джунглей и "
 "рек."
 
-#: server/settings.c:366
+#: server/settings.c:338
 msgid "Map generation random seed"
 msgstr "Случайное зерно для генерации карты"
 
-#: server/settings.c:367
+#: server/settings.c:339
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time to give a random map. This setting is "
@@ -4034,11 +4022,11 @@ msgstr ""
 "по умолчанию) зерно будет выбрано в зависимости от времени, чтобы создать "
 "случайную карту. Данная опция обычно используется только для отладки игры."
 
-#: server/settings.c:380
+#: server/settings.c:352
 msgid "Game random seed"
 msgstr "Случайное зерно в игре"
 
-#: server/settings.c:381
+#: server/settings.c:353
 msgid ""
 "For zero (the default) a seed will be chosen based on the time. This setting "
 "is usually only of interest while debugging the game"
@@ -4046,11 +4034,11 @@ msgstr ""
 "Для ноля (значение по умолчанию) зерно будет выбрано в зависимости от "
 "времени. Данная опция обычно используется только для отладки игры."
 
-#: server/settings.c:388
+#: server/settings.c:360
 msgid "Amount of \"special\" resource squares"
 msgstr "Количество квадратов со \"специальными\" ресурсами"
 
-#: server/settings.c:389
+#: server/settings.c:361
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
@@ -4058,11 +4046,11 @@ msgstr ""
 "Специальные ресурсы улучшают основной тип рельефа, на котором они находятся. "
 "Шкала переменных сервера - количество частей на тысячу."
 
-#: server/settings.c:396
+#: server/settings.c:368
 msgid "Amount of huts (minor tribe villages)"
 msgstr "Количество хижин (небольших селений)"
 
-#: server/settings.c:397
+#: server/settings.c:369
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
@@ -4071,11 +4059,11 @@ msgstr ""
 "всей карте. Хижины - это небольшие племенные деревни, которые могут быть  "
 "исследованы соединениями."
 
-#: server/settings.c:410
+#: server/settings.c:382
 msgid "Minimum number of players"
 msgstr "Минимальное число игроков"
 
-#: server/settings.c:411
+#: server/settings.c:383
 msgid ""
 "There must be at least this many players (connected human players or AI "
 "players) before the game can start."
@@ -4083,11 +4071,11 @@ msgstr ""
 "Должно быть хотя бы столько игроков (подключенных и компьютерных) прежде чем "
 "игра может начаться."
 
-#: server/settings.c:418
+#: server/settings.c:390
 msgid "Maximum number of players"
 msgstr "Максимальное число игроков"
 
-#: server/settings.c:419
+#: server/settings.c:391
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -4097,11 +4085,11 @@ msgstr ""
 "игре. Когда такое число игроков подключено до начала игры, новым игрокам "
 "будет отказано при попытке подключиться."
 
-#: server/settings.c:427
+#: server/settings.c:399
 msgid "Total number of players (including AI players)"
 msgstr "Общее число игроков (Включая компьютерных игроков)"
 
-#: server/settings.c:428
+#: server/settings.c:400
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
@@ -4111,11 +4099,11 @@ msgstr ""
 "дополнительные компьютерные игроки будут созданы пока количество игроков не "
 "достигнет этого числа."
 
-#: server/settings.c:441
+#: server/settings.c:413
 msgid "List of players' initial units"
 msgstr "Список начальных соединений игрока"
 
-#: server/settings.c:442
+#: server/settings.c:414
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -4143,27 +4131,27 @@ msgstr ""
 "    a   = Быстрое атакующее соединение (например, Всадники)\n"
 "    A   = Сильное атакующее соединение (например, Каптапульта)\n"
 
-#: server/settings.c:459
+#: server/settings.c:431
 msgid "Area where initial units are located"
 msgstr "Место, где начальные соединения будут находится"
 
-#: server/settings.c:460
+#: server/settings.c:432
 msgid "This is the radius within which the initial units are dispersed."
 msgstr "Это радиус, в пределах которого будут разбросаны начальные соединения."
 
-#: server/settings.c:466
+#: server/settings.c:438
 msgid "Starting gold per player"
 msgstr "Стартовое количество золота на игрока"
 
-#: server/settings.c:467
+#: server/settings.c:439
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "В начале игры каждый игрок получает указанное количество золота."
 
-#: server/settings.c:473
+#: server/settings.c:445
 msgid "Number of initial techs per player"
 msgstr "Начальное число технологий на каждого игрока"
 
-#: server/settings.c:474
+#: server/settings.c:446
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -4176,11 +4164,11 @@ msgstr ""
 "переменной для уровня технологий означает, что следующая технология будет "
 "стоить дороже."
 
-#: server/settings.c:483
+#: server/settings.c:455
 msgid "Points required to gain a new tech"
 msgstr "Очки, необходимые для нового открытия"
 
-#: server/settings.c:484
+#: server/settings.c:456
 msgid ""
 "This affects how quickly players can research new technology. Doubling its "
 "value will make all technologies take twice as long to research."
@@ -4188,11 +4176,11 @@ msgstr ""
 "Это влияет на то как быстро игроки могут исследовать новые технологии. Если "
 "вы удвоите это значение, научные исследования будут занимать вдвое дольше."
 
-#: server/settings.c:492
+#: server/settings.c:464
 msgid "Percentage penalty when changing tech"
 msgstr "Процент потери при изменении технологии"
 
-#: server/settings.c:493
+#: server/settings.c:465
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
@@ -4202,11 +4190,11 @@ msgstr ""
 "число исследовательских очков, Вы теряете такой процент этих очков. Это "
 "правило не действует, если Вы только что получили технологию в этот ход."
 
-#: server/settings.c:502
+#: server/settings.c:474
 msgid "Penalty when getting tech from treaty"
 msgstr "Процент потери при получении технологии по договору"
 
-#: server/settings.c:503
+#: server/settings.c:475
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
 "points equal to this percentage of the cost to research a new technology. "
@@ -4216,11 +4204,11 @@ msgstr ""
 "равное этому проценту от стоимости новой технологии. В результате у Вас "
 "может оказаться отрицательное число очков."
 
-#: server/settings.c:511
+#: server/settings.c:483
 msgid "Penalty when getting tech from conquering"
 msgstr "Процент потери при получении технологии в результате завоеваний"
 
-#: server/settings.c:512
+#: server/settings.c:484
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. "
@@ -4230,11 +4218,11 @@ msgstr ""
 "количество очков, равное этому проценту от стоимости новой технологии. В "
 "результате у Вас может оказаться отрицательное число очков."
 
-#: server/settings.c:521
+#: server/settings.c:493
 msgid "Penalty when getting a free tech"
 msgstr "Процент потери при получении технологии даром"
 
-#: server/settings.c:522
+#: server/settings.c:494
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
@@ -4246,11 +4234,11 @@ msgstr ""
 "теряете количество очков, равное этому проценту от стоимости новой "
 "технологии. В результате у Вас может оказаться отрицательное число очков."
 
-#: server/settings.c:533
+#: server/settings.c:505
 msgid "Food required for a city to grow"
 msgstr "Количество пищи необходимое городу для роста"
 
-#: server/settings.c:534
+#: server/settings.c:506
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -4260,11 +4248,11 @@ msgstr ""
 "оно умножается на другую величину, которая берется из набора правил и "
 "зависит от размера города."
 
-#: server/settings.c:542
+#: server/settings.c:514
 msgid "Percentage food lost when need aqueduct"
 msgstr "Количество пищи, теряемой когда нужен акведук"
 
-#: server/settings.c:543
+#: server/settings.c:515
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
@@ -4274,11 +4262,11 @@ msgstr ""
 "Канализация, он теряет такой процент запаса еды (или половину этого если "
 "есть амбар)."
 
-#: server/settings.c:552
+#: server/settings.c:530
 msgid "Minimum city size to get full trade"
 msgstr "Минимальный размер города для получения полной торговли"
 
-#: server/settings.c:553
+#: server/settings.c:531
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
@@ -4291,11 +4279,11 @@ msgstr ""
 "штрафа, кроме обычной коррупции), когда размер города равен fulltradesize. "
 "Смотрите также notradesize."
 
-#: server/settings.c:563
+#: server/settings.c:541
 msgid "Maximum size of a city without trade"
 msgstr "Максимальный размер города без торговли"
 
-#: server/settings.c:564
+#: server/settings.c:542
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -4306,11 +4294,11 @@ msgstr ""
 "размера, достигая максимума для городов, чей размер fulltradesize или выше. "
 "Смотрите также fulltradesize."
 
-#: server/settings.c:574
+#: server/settings.c:551
 msgid "City size before people become unhappy"
 msgstr "Размер города прежде, чем люди становятся несчастны"
 
-#: server/settings.c:575
+#: server/settings.c:552
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy. See also cityfactor."
@@ -4318,11 +4306,11 @@ msgstr ""
 "До других изменений, первые unhappysize граждан в городе создаются "
 "нейтральными, а все последующие несчастными. Смотрите также cityfactor."
 
-#: server/settings.c:583
+#: server/settings.c:560
 msgid "Number of cities for higher unhappiness"
 msgstr "Число городов для более высокого несчастья"
 
-#: server/settings.c:584
+#: server/settings.c:561
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
 "extra citizen is unhappy before other adjustments; see also unhappysize. "
@@ -4334,11 +4322,11 @@ msgstr ""
 "см. также unhappysize. Это предполагает демократию, для других форм "
 "правления эффект происходит раньше."
 
-#: server/settings.c:593
+#: server/settings.c:570
 msgid "Minimum distance between cities"
 msgstr "Минимальное расстояние между городами"
 
-#: server/settings.c:594
+#: server/settings.c:571
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
 "citymindist distance. For example, if citymindist is 3, there have to be at "
@@ -4350,11 +4338,11 @@ msgstr ""
 "любыми двумя городами должно быть минимум два квадрата. Если это число равно "
 "0 (значение по умолчанию), то оно определяется текущим набором правил."
 
-#: server/settings.c:605
+#: server/settings.c:582
 msgid "Number of turns between rapture effect"
 msgstr "Число ходов между Бумовыми эффектами"
 
-#: server/settings.c:606
+#: server/settings.c:583
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
@@ -4362,11 +4350,11 @@ msgstr ""
 "Устанавливает число ходов между бумовым ростом города. Если установлено в n, "
 "город вырастет после пребывания в состоянии праздника в течение n+1 ходов."
 
-#: server/settings.c:615
+#: server/settings.c:592
 msgid "Chance for conquered building destruction"
 msgstr "Вероятность уничтожения здания при захвате города"
 
-#: server/settings.c:616
+#: server/settings.c:593
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
@@ -4374,11 +4362,11 @@ msgstr ""
 "Когда игрок захватывает город, каждое здание имеет такой процент вероятности "
 "уничтожения."
 
-#: server/settings.c:622
+#: server/settings.c:599
 msgid "Chance of moving into tile after attack"
 msgstr "Вероятность движения вперед после атаки"
 
-#: server/settings.c:623
+#: server/settings.c:600
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -4391,11 +4379,11 @@ msgstr ""
 "двигаются вперед после атаки, если они победили и на этом месте нет войск "
 "противника. Если установлено между 0 и 100, означает вероятность продвижения."
 
-#: server/settings.c:634
+#: server/settings.c:611
 msgid "Turn on/off server-side autoattack"
 msgstr "Включить/выключить авто-атаку на сервере"
 
-#: server/settings.c:635
+#: server/settings.c:612
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -4404,11 +4392,11 @@ msgstr ""
 "автоматически расссматривать возможность атаки соединений противника, "
 "двигающихся рядом с ними."
 
-#: server/settings.c:641
+#: server/settings.c:618
 msgid "Reduce city population after attack"
 msgstr "Уменьшить население города после атаки"
 
-#: server/settings.c:642
+#: server/settings.c:619
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -4424,11 +4412,11 @@ msgstr ""
 "  4 = вертолёт\n"
 "  8 = воздушный"
 
-#: server/settings.c:654
+#: server/settings.c:631
 msgid "Range of vision for units in a fortress"
 msgstr "Предел зрения для соединений в крепости"
 
-#: server/settings.c:655
+#: server/settings.c:632
 msgid ""
 "If set to 1, it has no effect. If 2 or larger, the vision range of a unit "
 "inside a fortress is set to this value, if the necessary invention has been "
@@ -4440,11 +4428,11 @@ msgstr ""
 "необходимое изобретение уже было сделано. Это изобретение определяется "
 "флагом 'Watchtower' в наборе правил технологий. Смотрите также wtowerevision."
 
-#: server/settings.c:666
+#: server/settings.c:643
 msgid "Extra vision range for units in a fortress"
 msgstr "Увеличенный предел зрения для соединений в крепости"
 
-#: server/settings.c:667
+#: server/settings.c:644
 msgid ""
 "If set to 0, it has no effect. If larger than 0, the vision range of a unit "
 "is raised by this value, if the unit is inside a fortress and the invention "
@@ -4457,11 +4445,11 @@ msgstr ""
 "изобретение уже было сделано. Это изобретение определяется флагом "
 "'Watchtower' в наборе правил технологий. Смотрите также wtowervision."
 
-#: server/settings.c:679
+#: server/settings.c:656
 msgid "National borders radius"
 msgstr "Радиус государственных границ"
 
-#: server/settings.c:680
+#: server/settings.c:657
 msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
@@ -4472,11 +4460,11 @@ msgstr ""
 "отношении морских квадратов и квадратов вблизи городов более, чем одной "
 "страны."
 
-#: server/settings.c:690
+#: server/settings.c:667
 msgid "Units inside borders cause no unhappiness"
 msgstr "Соединения внутри границ не вызывают недовольства"
 
-#: server/settings.c:691
+#: server/settings.c:668
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
@@ -4484,11 +4472,11 @@ msgstr ""
 "Если установлено, соединения не вызывают недовольства, когда они внутри "
 "ваших границ."
 
-#: server/settings.c:697
+#: server/settings.c:674
 msgid "Ability to do diplomacy with other players"
 msgstr "Возможность дипломатических отношений с другими игроками"
 
-#: server/settings.c:698
+#: server/settings.c:675
 msgid ""
 "0 = default; diplomacy is enabled for everyone.\n"
 "1 = diplomacy is only allowed between human players.\n"
@@ -4502,11 +4490,11 @@ msgstr ""
 "3 = дипломатия ограничена командами.\n"
 "4 = дипломатия запрещена для всех."
 
-#: server/settings.c:707
+#: server/settings.c:684
 msgid "Allowed city names"
 msgstr "Разрешенные названия городов"
 
-#: server/settings.c:708
+#: server/settings.c:685
 msgid ""
 "0 = There are no restrictions: players can have multiple cities with the "
 "same names.\n"
@@ -4533,11 +4521,11 @@ msgstr ""
 "умолчанию городов другого народа, если только они не в его собственном "
 "списке по умолчанию."
 
-#: server/settings.c:736
+#: server/settings.c:713
 msgid "Barbarian appearance frequency"
 msgstr "Частота появления варваров"
 
-#: server/settings.c:737
+#: server/settings.c:714
 msgid ""
 "0 = no barbarians \n"
 "1 = barbarians only in huts \n"
@@ -4551,19 +4539,19 @@ msgstr ""
 "3 = частые вторжения варваров \n"
 "4 = орды варваров"
 
-#: server/settings.c:747
+#: server/settings.c:724
 msgid "Barbarian onset year"
 msgstr "Год начала нападений варваров"
 
-#: server/settings.c:748
+#: server/settings.c:725
 msgid "Barbarians will not appear before this year."
 msgstr "Варвары не начнут нападать до этого года."
 
-#: server/settings.c:754
+#: server/settings.c:731
 msgid "Length in turns of revolution"
 msgstr "Количество ходов в состоянии революции"
 
-#: server/settings.c:755
+#: server/settings.c:732
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
@@ -4572,11 +4560,11 @@ msgstr ""
 "Если значение параметра - 0, то его длительность будет случайным числом от 1 "
 "до 6 ходов."
 
-#: server/settings.c:764
+#: server/settings.c:741
 msgid "Whether to enable fog of war"
 msgstr "Включать ли туман войны"
 
-#: server/settings.c:765
+#: server/settings.c:742
 msgid ""
 "If this is set to 1, only those units and cities within the vision range of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -4586,11 +4574,11 @@ msgstr ""
 "расстояние зрения от Ваших городов и соединений будут показаны Вам. Вы не "
 "увидите новые города или изменения рельефа на ненаблюдаемых квадратах."
 
-#: server/settings.c:773
+#: server/settings.c:750
 msgid "Chance in diplomat/spy contests"
 msgstr "Шансы в дипломатической/шпионской борьбе"
 
-#: server/settings.c:775
+#: server/settings.c:752
 #, no-c-format
 msgid ""
 "A diplomatic unit acting against a city which has one or more defending "
@@ -4609,20 +4597,20 @@ msgstr ""
 "Защищающиеся шпионы вдвое сильнее дипломатов, ветераны 50% сильнее чем не-"
 "ветераны."
 
-#: server/settings.c:788
+#: server/settings.c:765
 msgid "Whether to allow space race"
 msgstr "Допускать ли гонку за космосом"
 
-#: server/settings.c:789
+#: server/settings.c:766
 msgid "If this option is set to 1, players can build spaceships."
 msgstr ""
 "Если данная опция установлена в 1, игроки могут строить космические корабли."
 
-#: server/settings.c:795
+#: server/settings.c:772
 msgid "Minimum number of cities for civil war"
 msgstr "Минимальное число городов для гражданской войны"
 
-#: server/settings.c:796
+#: server/settings.c:773
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -4632,11 +4620,11 @@ msgstr ""
 "столица игрока захвачена. Если эта настройка установлена в максимальное "
 "значение, гражданские войны отключены совсем."
 
-#: server/settings.c:805
+#: server/settings.c:782
 msgid "Turns until player contact is lost"
 msgstr "Число ходов до потери контакта между игроками"
 
-#: server/settings.c:806
+#: server/settings.c:783
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even if they do not have an embassy. If set to zero then players "
@@ -4646,11 +4634,11 @@ msgstr ""
 "ходов после последней встречи их соединений. Если установлено в ноль, игроки "
 "не могут встретится, если у них нет посольства."
 
-#: server/settings.c:816
+#: server/settings.c:793
 msgid "Rebuild palace if capital is conquered"
 msgstr "Построить новый дворец, если столица захвачена врагом"
 
-#: server/settings.c:817
+#: server/settings.c:794
 msgid ""
 "If this is set to 1, then when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -4662,11 +4650,11 @@ msgstr ""
 "что это не зависит от того, выполнены ли технологические требования для "
 "постройки Дворца."
 
-#: server/settings.c:827
+#: server/settings.c:804
 msgid "Whether to use natural city names"
 msgstr "Использовать ли \"естественные\" имена"
 
-#: server/settings.c:828
+#: server/settings.c:805
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
@@ -4674,11 +4662,11 @@ msgstr ""
 "Если включено, имена городов будут определены, основываясь на окружающем "
 "рельефе."
 
-#: server/settings.c:841
+#: server/settings.c:818
 msgid "Players that users are allowed to take"
 msgstr "Игроки, место которых может занять пользователь"
 
-#: server/settings.c:842
+#: server/settings.c:819
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -4742,11 +4730,11 @@ msgstr ""
 "4 = контроль запрещён, наблюдение разрешено;\n"
 "\n"
 
-#: server/settings.c:877
+#: server/settings.c:854
 msgid "Whether AI-status toggles with connection"
 msgstr "Переключается ли компьютерный статус с подключением"
 
-#: server/settings.c:878
+#: server/settings.c:855
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -4754,19 +4742,19 @@ msgstr ""
 "Если установлено в 1, компьютерный контроль выключается когда игрок "
 "подключается, и наоборот."
 
-#: server/settings.c:884
+#: server/settings.c:861
 msgid "Year the game ends"
 msgstr "Год завершения игры"
 
-#: server/settings.c:885
+#: server/settings.c:862
 msgid "The game will end at the end of the given year."
 msgstr "Игра закончится в конце заданного года"
 
-#: server/settings.c:890
+#: server/settings.c:867
 msgid "Maximum seconds per turn"
 msgstr "Макс. количество секунд на ход"
 
-#: server/settings.c:891
+#: server/settings.c:868
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -4779,23 +4767,23 @@ msgstr ""
 "Используйте вместе с командой \"timeoutincrease\", если Вам нужен "
 "динамический таймер."
 
-#: server/settings.c:904
+#: server/settings.c:881
 msgid "Whether to have simultaneous player phases."
 msgstr "Иметь ли одновременные фазы игроков"
 
-#: server/settings.c:905
+#: server/settings.c:882
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false "
 "then players will alternate movement."
 msgstr ""
-"Если включено, игроки совершают свои ходы одновременно; если выключено, "
-"то поочередно."
+"Если включено, игроки совершают свои ходы одновременно; если выключено, то "
+"поочередно."
 
-#: server/settings.c:912
+#: server/settings.c:889
 msgid "Seconds to let a client's network connection block"
 msgstr "Секунд для разрешения блокировки подключения клинета."
 
-#: server/settings.c:913
+#: server/settings.c:890
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -4805,11 +4793,11 @@ msgstr ""
 "подключение закрывается. Ноль означает, что подключение не закрывается (на "
 "самом деле рано или поздно оно все равно отключится автоматически)."
 
-#: server/settings.c:922
+#: server/settings.c:899
 msgid "Max seconds for network buffers to drain"
 msgstr "Макс. секунд до освобождения сетевых буферов"
 
-#: server/settings.c:923
+#: server/settings.c:900
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -4819,30 +4807,30 @@ msgstr ""
 "сетевых клиентов не разблокируются. Ноль означает, что сервер не будет ждать "
 "вообще."
 
-#: server/settings.c:931
+#: server/settings.c:908
 msgid "Seconds between PINGs"
 msgstr "Количество секунд между ПИНГами"
 
-#: server/settings.c:932
+#: server/settings.c:909
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
 msgstr "Civserver пошлет каждому клиенту запрос ПИНГ через заданное время."
 
-#: server/settings.c:939
+#: server/settings.c:916
 msgid "Time to cut a client"
 msgstr "Время обрыва связи с клиентом"
 
-#: server/settings.c:940
+#: server/settings.c:917
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr "Если клиент не ответит на ПИНГ за это время, он будет отключен."
 
-#: server/settings.c:946
+#: server/settings.c:923
 msgid "Turn-blocking game play mode"
 msgstr "Режим блокировки игры по ходам"
 
-#: server/settings.c:947
+#: server/settings.c:924
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -4850,11 +4838,11 @@ msgstr ""
 "Если установлено в 1, следующий ход не наступает пока все игроки не "
 "закончили свой ход, включая отключенных игроков."
 
-#: server/settings.c:954
+#: server/settings.c:931
 msgid "Fixed-length turns play mode"
 msgstr "Режим ходов фиксированной длины"
 
-#: server/settings.c:955
+#: server/settings.c:932
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, even if all players have clicked on \"Turn Done\"."
@@ -4862,11 +4850,11 @@ msgstr ""
 "Если установлено в 1, ход не закончится пока время не истекло, вне "
 "зависимости от того нажали ли все игроки на \"Конец хода\"."
 
-#: server/settings.c:962
+#: server/settings.c:939
 msgid "What is in the Demographics report"
 msgstr "Что есть в демографическом отчете"
 
-#: server/settings.c:963
+#: server/settings.c:940
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -4907,11 +4895,11 @@ msgstr ""
 "Порядок символов не важен, но различие между большими и маленькими "
 "существенно."
 
-#: server/settings.c:987
+#: server/settings.c:964
 msgid "Turns per auto-save"
 msgstr "Ходов до автосохранения"
 
-#: server/settings.c:988
+#: server/settings.c:965
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
@@ -4919,11 +4907,11 @@ msgstr ""
 "Игра будет автоматически сохранена каждые saveturns ходов. Ноль значит "
 "никогда не авто-сохранять."
 
-#: server/settings.c:998 server/settings.c:1009
+#: server/settings.c:975 server/settings.c:986
 msgid "Savegame compression level"
 msgstr "Уровень компрессии сохранённых игр"
 
-#: server/settings.c:999 server/settings.c:1010
+#: server/settings.c:976 server/settings.c:987
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
@@ -4933,11 +4921,11 @@ msgstr ""
 "Большие числа дачт лучшую компрессию, но занимают дольше. Если максимум "
 "равен нулю, сервер не был скомпилирован, чтобы использовать zlib."
 
-#: server/settings.c:1021
+#: server/settings.c:998
 msgid "Auto-save name prefix"
 msgstr "Префикс имен авто-сохранения"
 
-#: server/settings.c:1022
+#: server/settings.c:999
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
 "setting sets the <prefix> part."
@@ -4945,11 +4933,11 @@ msgstr ""
 "Автоматически сохранённые игры будут иметь имя \"<префикс><год>.sav\". Эта "
 "настройка устанваливает <префикс>."
 
-#: server/settings.c:1029
+#: server/settings.c:1006
 msgid "Whether to log player statistics"
 msgstr "Записывать ли в журнал статистику игроков"
 
-#: server/settings.c:1030
+#: server/settings.c:1007
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn. These statistics can be used to create power graphs after "
@@ -4959,11 +4947,11 @@ msgstr ""
 "log\" каждый ход. Эта статистика может быть использована для создания "
 "графиков силы после игры."
 
-#: server/settings.c:1037
+#: server/settings.c:1014
 msgid "Detail level for logging game events"
 msgstr "Уровень деталей при регистрации игровых событий"
 
-#: server/settings.c:1038
+#: server/settings.c:1015
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option). Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
@@ -5137,97 +5125,97 @@ msgstr ""
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Получил пакет типа %d от мертвого игрока или наблюдателя"
 
-#: server/srv_main.c:1073
+#: server/srv_main.c:1088
 msgid "Please choose a non-blank name."
 msgstr "Выберите непустое имя."
 
-#: server/srv_main.c:1082
+#: server/srv_main.c:1097
 msgid "That nation is already in use."
 msgstr "Этот народ уже используется."
 
-#: server/srv_main.c:1099
+#: server/srv_main.c:1114
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Другой игрок назвавший себя '%s' уже присоединился к игре. Пожалуйста "
 "выберите другое имя."
 
-#: server/srv_main.c:1118
+#: server/srv_main.c:1133
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Выберите имя, содержащее только ASCII символы."
 
-#: server/srv_main.c:1138
+#: server/srv_main.c:1153
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Пытаюсь создать новый народ вне SELECT_RACES_STATE!"
 
-#: server/srv_main.c:1163
+#: server/srv_main.c:1178
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s - %s правитель %s."
 
-#: server/srv_main.c:1191
+#: server/srv_main.c:1206
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Не осталось стран: Убираем игрока %s."
 
-#: server/srv_main.c:1194
+#: server/srv_main.c:1209
 msgid "Sorry, there are no nations left."
 msgstr "Извините, Вы не можете играть. Не осталось стран."
 
-#: server/srv_main.c:1341
+#: server/srv_main.c:1356
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Не хватает стран. Компьютерный игрок %s не создан."
 
-#: server/srv_main.c:1376
+#: server/srv_main.c:1391
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Количество стран меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1383
+#: server/srv_main.c:1398
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Максимальное число игроков меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1412 server/srv_main.c:1415
+#: server/srv_main.c:1427 server/srv_main.c:1430
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s был добавлен как %s уровень игрока, управляемого компьютером."
 
-#: server/srv_main.c:1422
+#: server/srv_main.c:1437
 #, c-format
 msgid "Error creating new AI player: %s\n"
 msgstr "Ошибка создания нового компьютерного игрока: %s\n"
 
-#: server/srv_main.c:1483
+#: server/srv_main.c:1498
 #, c-format
 msgid "Player %d"
 msgstr "Игрок %d"
 
-#: server/srv_main.c:1501
+#: server/srv_main.c:1516
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "Компьютер контролирует народ, именуюмый %s, их лидер - %s."
 
-#: server/srv_main.c:1507
+#: server/srv_main.c:1522
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s правит народом %s."
 
-#: server/srv_main.c:1650
+#: server/srv_main.c:1665
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Посылаем информацию на метасервер [%s]"
 
-#: server/srv_main.c:1673
+#: server/srv_main.c:1688
 msgid "The game is over..."
 msgstr "Игра закончена..."
 
-#: server/srv_main.c:1709
+#: server/srv_main.c:1724
 msgid "Now accepting new client connections."
 msgstr "Принимаются подключения новых клиентов."
 
-#: server/srv_main.c:1796
+#: server/srv_main.c:1811
 msgid "Last player has disconnected: will need to restart."
 msgstr "Последний игрок отключился: необходим перезапуск."
 
@@ -5245,7 +5233,7 @@ msgstr "Голосование \"%s\" не удалось: %d против, %d за, %d воздержалось."
 msgid "(ambiguous)"
 msgstr "(двусмысленно)"
 
-#: server/stdinhand.c:357 client/citydlg_common.c:431 client/packhand.c:1193
+#: server/stdinhand.c:357 client/citydlg_common.c:440 client/packhand.c:1193
 msgid "(unknown)"
 msgstr "(неизвестно)"
 
@@ -6954,16 +6942,16 @@ msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
 msgstr ""
 "Ошибка во время кэширования сэмпла <%d>: confirm value != samples[].id\n"
 
-#: client/citydlg_common.c:225
+#: client/citydlg_common.c:234
 msgid "?filler:XXX/XXX XXX turns"
 msgstr "?filler:XXX/XXX XXX ходов"
 
-#: client/citydlg_common.c:240
+#: client/citydlg_common.c:249
 #, c-format
 msgid "%3d gold per turn"
 msgstr "%3d золота за ход"
 
-#: client/citydlg_common.c:250
+#: client/citydlg_common.c:259
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
@@ -6971,7 +6959,7 @@ msgstr[0] "%3d ход"
 msgstr[1] "%3d хода"
 msgstr[2] "%3d ходов"
 
-#: client/citydlg_common.c:254 client/citydlg_common.c:384
+#: client/citydlg_common.c:263 client/citydlg_common.c:393
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
 #: client/gui-gtk-2.0/citydlg.c:1451 client/gui-gtk/citydlg.c:1713
 #: client/gui-mui/citydlg.c:105 client/gui-mui/citydlg.c:140
@@ -6979,22 +6967,22 @@ msgstr[2] "%3d ходов"
 msgid "never"
 msgstr "никогда"
 
-#: client/citydlg_common.c:258
+#: client/citydlg_common.c:267
 #, c-format
 msgid "%3d/%3d:%s"
 msgstr "%3d/%3d:%s"
 
-#: client/citydlg_common.c:260
+#: client/citydlg_common.c:269
 #, c-format
 msgid "%3d/%3d %s"
 msgstr "%3d/%3d %s"
 
-#: client/citydlg_common.c:281
+#: client/citydlg_common.c:290
 #, c-format
 msgid "%s (XX) %d/turn"
 msgstr "%s (XX) %d/ход"
 
-#: client/citydlg_common.c:299
+#: client/citydlg_common.c:308
 #, c-format
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
@@ -7002,74 +6990,74 @@ msgstr[0] "%s (%d) %d ход"
 msgstr[1] "%s (%d) %d хода"
 msgstr[2] "%s (%d) %d ходов"
 
-#: client/citydlg_common.c:350 client/citydlg_common.c:363
+#: client/citydlg_common.c:359 client/citydlg_common.c:372
 #: client/gui-mui/citydlg.c:608 client/gui-mui/worklistclass.c:113
 msgid "Obsolete"
 msgstr "Устарело"
 
-#: client/citydlg_common.c:352 client/citydlg_common.c:360
+#: client/citydlg_common.c:361 client/citydlg_common.c:369
 #: client/gui-mui/citydlg.c:606 client/gui-mui/worklistclass.c:111
 msgid "Built"
 msgstr "Построено"
 
-#: client/citydlg_common.c:354
+#: client/citydlg_common.c:363
 msgid "Great Wonder"
 msgstr "Великое чудо"
 
-#: client/citydlg_common.c:358
+#: client/citydlg_common.c:367
 msgid "Small Wonder"
 msgstr "Небольшое чудо"
 
-#: client/citydlg_common.c:377
+#: client/citydlg_common.c:386
 #, c-format
 msgid "%d/turn"
 msgstr "%d/ход"
 
-#: client/citydlg_common.c:406
+#: client/citydlg_common.c:415
 #, c-format
 msgid "%+4d : Citizens\n"
 msgstr "%+4d : Граждане\n"
 
-#: client/citydlg_common.c:415
+#: client/citydlg_common.c:424
 #, c-format
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Налоги от торговли\n"
 
-#: client/citydlg_common.c:433
+#: client/citydlg_common.c:442
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Торговые пути с %s\n"
 
-#: client/citydlg_common.c:442
+#: client/citydlg_common.c:451
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Зданий, десятки\n"
 
-#: client/citydlg_common.c:462
+#: client/citydlg_common.c:471
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr "%+4d : Бонус от %s (%+d%%)\n"
 
-#: client/citydlg_common.c:473
+#: client/citydlg_common.c:482
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr "%+4d : Потери\n"
 
-#: client/citydlg_common.c:479
+#: client/citydlg_common.c:488
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr "%+4d : Беспорядки\n"
 
-#: client/citydlg_common.c:485
+#: client/citydlg_common.c:494
 #, c-format
 msgid "%+4d : Used\n"
 msgstr "%+4d : Использовано\n"
 
-#: client/citydlg_common.c:490
+#: client/citydlg_common.c:499
 msgid "==== : Adds up to\n"
 msgstr "==== : Добавить до\n"
 
-#: client/citydlg_common.c:492
+#: client/citydlg_common.c:501
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Всего в остатке"
@@ -7648,11 +7636,11 @@ msgstr "Невозможно подключиться к серверу."
 msgid "We probably couldn't start it from here."
 msgstr "Возможно, мы не сможем стартовать отсюда."
 
-#: client/connectdlg_common.c:462
+#: client/connectdlg_common.c:465
 msgid "We have control of the server (command access level hack)"
 msgstr "У Вас есть доступ к настройкам сервера (командная строка)"
 
-#: client/connectdlg_common.c:467
+#: client/connectdlg_common.c:470
 msgid "We can't take control of server, attempting to kill it."
 msgstr "У Вас нет доступа к настройкам сервера, пробуем закрыть сервер."
 
@@ -8206,6 +8194,9 @@ msgid ""
 "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 "\n"
 msgstr ""
+"Максимальный уровень, который Вы можете установить для науки, золота, "
+"роскоши - это %d%%.\n"
+"\n"
 
 #: client/helpdata.c:1197
 #, c-format
@@ -8213,6 +8204,8 @@ msgid ""
 "Has unlimited science/gold/luxuries rates.\n"
 "\n"
 msgstr ""
+"Нет ограничений на значения уровня науки/золота/роскоши.\n"
+"\n"
 
 #: client/helpdata.c:1200
 #, c-format
@@ -8220,6 +8213,8 @@ msgid ""
 "Chance of civil war is %d%% if you lose your capital.\n"
 "\n"
 msgstr ""
+"В случае потери Вашей столицы, вероятность начала гражданской войны равна %d%%.\n"
+"\n"
 
 #: client/helpdata.c:1204
 #, c-format
@@ -8227,6 +8222,7 @@ msgid ""
 "The first unhappy citizen in each city due to civilization size will appear "
 "when you have %d cities."
 msgstr ""
+"Первый несчастный житель в каждом городе, в связи с размером цивилизации, появится, когда у вас будет %d городов."
 
 #: client/helpdata.c:1208
 #, c-format
@@ -8234,6 +8230,7 @@ msgid ""
 "  Every %d cities after this will result in one more unhappy citizen in each "
 "city."
 msgstr ""
+"  Каждые %d города/ов после этого приведут к увеличению числа несчастных в каждом городе еще на единицу."
 
 #: client/helpdata.c:1213
 #, c-format
@@ -8241,6 +8238,7 @@ msgid ""
 "One unhappy citizen in each city due to civilization size will appear when "
 "you have %d cities."
 msgstr ""
+"Один несчастный житель в каждом городе, в связи с размером цивилизации, появится, когда у вас будет %d городов."
 
 #: client/helpdata.c:1218
 #, c-format
@@ -8249,6 +8247,9 @@ msgid ""
 "\n"
 "Features:\n"
 msgstr ""
+"\n"
+"\n"
+"Особенности:\n"
 
 #: client/helpdata.c:1221
 #, c-format
@@ -8256,6 +8257,8 @@ msgid ""
 "* You may impose martial law.  Each military unit inside a city, up to a "
 "maximum of %d, will force %d unhappy citizens to become content.\n"
 msgstr ""
+"* Вы можете ввести военное положение. Каждое военное соединение в городе (максимум %d) "
+"заставит %d несчастных жителей стать нейтральными.\n"
 
 #: client/helpdata.c:1228
 #, c-format
@@ -8269,6 +8272,7 @@ msgid ""
 "* Each of your cities will avoid as much unhappiness caused by units as its "
 "city size.\n"
 msgstr ""
+"* Каждый из Ваших городов избежит создаваемого соединениями несчастья, в размере равном размеру города.\n"
 
 #: client/helpdata.c:1236
 #, c-format
@@ -8276,6 +8280,8 @@ msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
+"* Каждый из Ваших городов избежит недовольства в размере %d, которое было бы вызвано "
+"соединениями.\n"
 
 #: client/helpdata.c:1244
 #, c-format
@@ -8283,37 +8289,42 @@ msgid ""
 "* Each of your cities will avoid paying for as much %s upkeep as their city "
 "size.\n"
 msgstr ""
+"* Каждый из Ваших городов избежит платы за содержание числа %s соединений, равному "
+"размеру города.\n" 
 
 #: client/helpdata.c:1249
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr ""
+"* Каждый из Ваших городов избежит платы за содержание %d %s соединений.\n"
 
 #: client/helpdata.c:1256
 #, c-format
 msgid "* Military units cause %d times normal unhappiness.\n"
-msgstr "* Военные соединения могут %d раз вызывать недовольство.\n"
+msgstr "* Военные соединения вызывают недовольство в %d раз больше обычного.\n"
 
 #: client/helpdata.c:1265
 #, c-format
 msgid "* You pay normal %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Вы платите %s (как обычно) за содержание Ваших соединений.\n"
 
 #: client/helpdata.c:1269
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Вы платите %d раз по %s за содержание Ваших соединений.\n"
 
 #: client/helpdata.c:1274
 #, c-format
 msgid "* You do not pay %s upkeep for any of your units.\n"
-msgstr ""
+msgstr "* Вы не платите %s за содержание ни одного из Ваших соединений.\n"
 
 #: client/helpdata.c:1283
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 msgstr ""
+"* Каждый рабочий квадрат, который даёт больше чем %d %s будет оштрафован на -"
+"1 единицу.\n"
 
 #: client/helpdata.c:1288
 #, c-format
@@ -8321,6 +8332,8 @@ msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "not celebrating.\n"
 msgstr ""
+"* Каждый рабочий квадрат, который даёт больше чем %d %s будет оштрафован на -"
+"1 единицу, когда не празднуют.\n"
 
 #: client/helpdata.c:1298
 #, c-format
@@ -8328,11 +8341,14 @@ msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "celebrating.\n"
 msgstr ""
+"* Каждый рабочий квадрат, который даёт больше чем %d %s будет оштрафован на -"
+"1 единицу, когда празднуют.\n"
 
 #: client/helpdata.c:1307
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
 msgstr ""
+"* Каждый рабочий квадрат с как минимум 1 %s даст дополнительно %d %s.\n"
 
 #: client/helpdata.c:1312
 #, c-format
@@ -8340,6 +8356,8 @@ msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when not "
 "celebrating.\n"
 msgstr ""
+"* Каждый рабочий квадрат с как минимум 1 %s даст дополнительно %d %s когда "
+"не празднуют.\n"
 
 #: client/helpdata.c:1322
 #, c-format
@@ -8347,11 +8365,13 @@ msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
 "celebrating.\n"
 msgstr ""
+"* Каждый рабочий квадрат с как минимум 1 %s даст дополнительно %d %s когда "
+"празднуют.\n"
 
 #: client/helpdata.c:1330
 #, c-format
 msgid "* %s production will suffer waste.\n"
-msgstr ""
+msgstr "* Произвоство %s страдает от растрат.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -8359,6 +8379,9 @@ msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
 "least size %d before they can grown in this manner.\n"
 msgstr ""
+"* Вы можете увеличивать Ваши города посредством празднований.  Ваши города "
+"должны иметь размер как минимум %d, прежде чем они смогут увеличиться данным "
+"способом.\n"
 
 #: client/helpdata.c:1342
 #, c-format
@@ -8372,16 +8395,18 @@ msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
 msgstr ""
+"* Форма правления станет анархией, если в любом городе гражданские "
+"беспорядки продолжаются более 2 ходов.\n"
 
 #: client/helpdata.c:1352
 #, c-format
 msgid "* Your units and cities cannot be bribed or incited.\n"
-msgstr ""
+msgstr "* Ваши соединения и города нельзя подкупать или подстрекать.\n"
 
 #: client/helpdata.c:1358
 #, c-format
 msgid "* Partisans appear when cities are taken by the enemy.  "
-msgstr ""
+msgstr "* Партизаны появляются, когда города захватываются противником."
 
 #: client/helpdata.c:1362 client/helpdata.c:1371
 #, c-format
@@ -8391,7 +8416,7 @@ msgstr "Требуется технология %s."
 #: client/helpdata.c:1377
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Не надо платить за содержание фанатиков.\n"
 
 #: client/helpdata.c:1381
 #, c-format
@@ -8399,6 +8424,8 @@ msgid ""
 "* Has a senate that may throw the government into anarchy if war is declared "
 "while reputation is low.\n"
 msgstr ""
+"* Имеет сенат, который может привести государство к анархии, если война объявлена, "
+"когда репутация слишком низка.\n"
 
 #: client/helpdata.c:1386
 #, c-format
@@ -8411,11 +8438,13 @@ msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
+"* Здания, которые обычно помогают против несчастности граждан, вместо этого приносят "
+"золото.\n"
 
 #: client/helpdata.c:1394
 #, c-format
 msgid "* Research costs doubled.\n"
-msgstr ""
+msgstr "* Стоимость исследований удвоена.\n"
 
 #: client/helpdata.c:1401
 #, c-format
@@ -8448,7 +8477,7 @@ msgstr "Копируем %s в буфер обмена."
 msgid "Clipboard is empty."
 msgstr "Буфер обмена пуст."
 
-#: client/mapview_common.c:850
+#: client/mapview_common.c:882
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -8481,6 +8510,8 @@ msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
+"Это имя пользователя по умолчанию, которое будет использоваться в диалоге "
+"подключения или в командной строке с параметром -a"
 
 #: client/options.c:96
 msgid "Server"
@@ -8491,6 +8522,8 @@ msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
+"Это сервер по умолчанию, который будет использоваться в диалоге подключения "
+"или в командной строке с параметром -a"
 
 #: client/options.c:102
 msgid "Server port"
@@ -8501,6 +8534,8 @@ msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
+"Это порт сервера по умолчанию, который будет использоваться в диалоге "
+"подключения или в командной строке с параметром -a"
 
 #: client/options.c:108 client/gui-gtk/connectdlg.c:469
 #: client/gui-mui/connectdlg.c:178 client/gui-win32/connectdlg.c:912
@@ -8514,6 +8549,8 @@ msgid ""
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
+"Метасервер - это сервер, к которому клиент подключается, чтобы узнать об играх, "
+"ведущихся на Интернете. Меняйте это значение, только если Вы знаете, что делаете."
 
 #: client/options.c:115
 msgid "Soundset"
@@ -8524,6 +8561,8 @@ msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
+"Это набор звуков, который будет использоваться. Поменять эту настройку можно "
+"и через командную строку, используя параметр -S."
 
 #: client/options.c:121
 msgid "Sound plugin"
@@ -8535,6 +8574,9 @@ msgid ""
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
+"Если у Вас есть проблемы со звуком, попробуйте поменять звуковой модуль. "
+"Новый модуль будет работать только после рестарта Freeciv. Поменять эту "
+"настройку можно и через командную строку, используя параметр -P."
 
 #: client/options.c:127
 msgid "Tileset"
@@ -8545,6 +8587,8 @@ msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
 msgstr ""
+"Меняя данную настройку, Вы меняете активный набор графики. Поменять эту "
+"настройку можно и через командную строку, используя параметр -t."
 
 #: client/options.c:135
 msgid "Solid unit background color"
@@ -8555,6 +8599,8 @@ msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
+"Установить данную настройку означает, что соединения на карте будут "
+"нарисованы с сплошным цветом на заднем плане взамен флага за заднем плане."
 
 #: client/options.c:140
 msgid "Sound bell at new turn"
@@ -8566,6 +8612,8 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
+"Включите эту настройку, чтобы специальное событие \"звонок\" генерировалось в начале "
+"каждого хода. Вы можете настроить поведение \"звонка\" в настройках сообщений."
 
 #: client/options.c:147
 msgid "Unit movement animation time (milliseconds)"
@@ -8576,6 +8624,8 @@ msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
+"Эта настройка контролирует, сколько времени занимает анимация при движении соединения "
+"на карте. Если значение равно 0, анимация будет совсем выключена."
 
 #: client/options.c:153
 msgid "Mapview recentering time (milliseconds)"
@@ -8587,6 +8637,9 @@ msgid ""
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
+"Когда карта центрируется на новом месте, она гладко прокручивается в направлении "
+"нового центра. Эта настройка контролирует длительность этого процесса. Если значение "
+"равно 0, то центрирование будет происходить без прокрутки."
 
 #: client/options.c:159
 msgid "Show combat animation"
@@ -8609,6 +8662,8 @@ msgid ""
 "If this option is disabled, then you will not have to press the turn done "
 "button manually when watching an AI player."
 msgstr ""
+"Если данная настройка выключена, тогда Вам не нужно вручную нажимать кнопку "
+"ход сделан, когда Вы наблюдаете за компьютерными игроками."
 
 #: client/options.c:168
 msgid "Auto Center on Units"
@@ -8619,6 +8674,8 @@ msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
+"Установите данную настройку чтобы активное соединение автоматически "
+"центрировалось когда фокус соединения меняется."
 
 #: client/options.c:172
 msgid "Auto Center on Combat"
@@ -8630,6 +8687,9 @@ msgid ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
+"Установите данную настройку чтобы любая битва автоматически центрировалась. "
+"Выключение данной настройки увеличит скорость между ходами, но это может "
+"означать, что Вы полностью пропустите битву."
 
 #: client/options.c:178
 msgid "Focus on Awakened Units"
@@ -8638,6 +8698,8 @@ msgstr "Фокус на проснувшихся соединениях"
 #: client/options.c:179
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
+"Установите данную настройку чтобы только что пробужденные соединения "
+"автоматически фокусировались."
 
 #: client/options.c:182
 msgid "Center map when Popup city"
@@ -8648,6 +8710,8 @@ msgid ""
 "If this option is set then when a city dialog is popped up, the city will be "
 "centered automatically."
 msgstr ""
+"Если данная настройка установлена, то когда открыт диалог города, данный "
+"город центрируется автоматически."
 
 #: client/options.c:186
 msgid "Concise City Production"
@@ -8658,6 +8722,8 @@ msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
+"Установите данную настройку чтобы сделать городское производство (которое "
+"показывается в диалоге города) было более компактным."
 
 #: client/options.c:190
 msgid "End Turn when done moving"
@@ -8668,6 +8734,8 @@ msgid ""
 "If this option is set then when all your units are done moving the turn will "
 "be ended for you automatically."
 msgstr ""
+"Если данная настройка включена, то когда все Ваши соединения закончат "
+"свои передвижения, Ваш ход будет закончен автоматически."
 
 #: client/options.c:195
 msgid "Prompt for city names"
@@ -8678,6 +8746,8 @@ msgid ""
 "If this option is disabled then city names will be chosen for you "
 "automatically by the server."
 msgstr ""
+"Если данная настройка выключена, тогда имена городов будут автоматически "
+"выбираться для Вас сервером."
 
 #: client/options.c:199
 msgid "Pop up city dialog for new cities"
@@ -8688,6 +8758,8 @@ msgid ""
 "If this option is set then a newly-founded city will havce its city dialog "
 "popped up automatically."
 msgstr ""
+"Если данная настройка включена, то в только что созданных городах "
+"автоматически будет открываться диалог города."
 
 #: client/options.c:278
 msgid "City: Building Unavailable Item"
@@ -9644,16 +9716,16 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Чудеса: "
 
-#: client/tilespec.c:337
+#: client/tilespec.c:364
 msgid "No usable default tileset found, aborting!"
 msgstr "Не найдено ни одного набора рельефа, прерываем выполнение!"
 
-#: client/tilespec.c:340
+#: client/tilespec.c:367
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "Пробуем \"%s\" набор квадратов."
 
-#: client/tilespec.c:357
+#: client/tilespec.c:384
 #, c-format
 msgid ""
 "%s file appears incompatible:\n"
@@ -9666,7 +9738,7 @@ msgstr ""
 "опции файла: %s\n"
 "поддерживаемые опции: %s"
 
-#: client/tilespec.c:365
+#: client/tilespec.c:392
 #, c-format
 msgid ""
 "%s file claims required option(s) which we don't support:\n"
@@ -9679,29 +9751,29 @@ msgstr ""
 "опции файла: %s\n"
 "поддерживаемые опции: %s"
 
-#: client/tilespec.c:579 client/tilespec.c:612 client/tilespec.c:781
+#: client/tilespec.c:606 client/tilespec.c:639 client/tilespec.c:808
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Невозможно открыть \"%s\"."
 
-#: client/tilespec.c:593
+#: client/tilespec.c:620
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Невозможно загрузить gfx файл для spec файла %s"
 
-#: client/tilespec.c:755
+#: client/tilespec.c:782
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Не удалось найти поддерживаемое расширение файла gfx для %s"
 
-#: client/tilespec.c:811
+#: client/tilespec.c:838
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Клиент не поддерживает изометрический набор полей. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:819
+#: client/tilespec.c:846
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -9709,11 +9781,11 @@ msgstr ""
 "Клиент не поддерживает набор полей с видом сверху. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:874
+#: client/tilespec.c:901
 msgid "Invalid darkness style set in tileset."
 msgstr "Неправильный стиль темноты установлен в наборе полей."
 
-#: client/tilespec.c:1024
+#: client/tilespec.c:1051
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
@@ -9722,28 +9794,28 @@ msgstr ""
 "Ошибка в %s, слое %d: невозможно иметь высокий рельеф или\n"
 "сдвиг спрайта, если используется клеточный метод исображения."
 
-#: client/tilespec.c:1199
+#: client/tilespec.c:1226
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "Нет изображения для специалиста %s."
 
-#: client/tilespec.c:1231
+#: client/tilespec.c:1258
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "Нет изображения для жителя %s."
 
-#: client/tilespec.c:1590
+#: client/tilespec.c:1677
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Нет графического тэга %s или %s для %s %s"
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:1691
+#: client/tilespec.c:1778
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Отсутствует базовый тэг для \"%s1\"."
 
-#: client/tilespec.c:3323
+#: client/tilespec.c:3614
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Невозможно загрузить gfx файл %s для файла %s"
@@ -9761,8 +9833,7 @@ msgstr ""
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
-msgstr ""
-"Губернатор запутался, разбираясь с %s. Взгляните сами."
+msgstr "Губернатор запутался, разбираясь с %s. Взгляните сами."
 
 #: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:546
 #: client/gui-gtk-2.0/cityrep.c:565 client/gui-gtk/cityrep.c:463
@@ -10827,26 +10898,26 @@ msgstr "_Мужской"
 msgid "_City Styles:"
 msgstr "_Стили городов:"
 
-#: client/gui-gtk-2.0/dialogs.c:1778
+#: client/gui-gtk-2.0/dialogs.c:1775
 msgid "L_egend"
 msgstr "_Легенда"
 
-#: client/gui-gtk-2.0/dialogs.c:2105 client/gui-gtk/dialogs.c:2293
+#: client/gui-gtk-2.0/dialogs.c:2102 client/gui-gtk/dialogs.c:2293
 #: client/gui-xaw/dialogs.c:2145
 msgid "You must select a nation."
 msgstr "Вы должны выбрать народ."
 
-#: client/gui-gtk-2.0/dialogs.c:2110 client/gui-gtk/dialogs.c:2298
+#: client/gui-gtk-2.0/dialogs.c:2107 client/gui-gtk/dialogs.c:2298
 #: client/gui-xaw/dialogs.c:2150
 msgid "You must select your sex."
 msgstr "Вы должны указать свой пол."
 
-#: client/gui-gtk-2.0/dialogs.c:2115 client/gui-gtk/dialogs.c:2303
+#: client/gui-gtk-2.0/dialogs.c:2112 client/gui-gtk/dialogs.c:2303
 #: client/gui-xaw/dialogs.c:2155
 msgid "You must select your city style."
 msgstr "Вы должны выбрать стиль Ваших городов."
 
-#: client/gui-gtk-2.0/dialogs.c:2124 client/gui-gtk/dialogs.c:2311
+#: client/gui-gtk-2.0/dialogs.c:2121 client/gui-gtk/dialogs.c:2311
 #: client/gui-mui/dialogs.c:1519 client/gui-win32/dialogs.c:338
 #: client/gui-xaw/dialogs.c:2163
 msgid "You must type a legal name."
@@ -10992,8 +11063,9 @@ msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
-"Если эта настройка включена, команда \"Идти к\" может быть выполнена при нажатии "
-"левой кнопкой мыши и перетаскивании мышью (при нажатой кнопке) на другой квадрат."
+"Если эта настройка включена, команда \"Идти к\" может быть выполнена при "
+"нажатии левой кнопкой мыши и перетаскивании мышью (при нажатой кнопке) на "
+"другой квадрат."
 
 #: client/gui-gtk-2.0/gui_main.c:155
 msgid "Keep dialogs on top"
@@ -11004,8 +11076,9 @@ msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
-"Если эта настройка включена, окна диалога всегда будут находится перед главным окном Freeciv. "
-"Отключение этой настройки не действует в полноэкранном режиме."
+"Если эта настройка включена, окна диалога всегда будут находится перед "
+"главным окном Freeciv. Выключение этой настройки не действует в "
+"полноэкранном режиме."
 
 #: client/gui-gtk-2.0/gui_main.c:160
 msgid "Show worklist task icons"
@@ -11016,6 +11089,8 @@ msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
+"Выключение этой настройки выключит изображение иконок соединений и зданий в рабочем "
+"списке и вкладке \"производство\" в городском диалоге."
 
 #: client/gui-gtk-2.0/gui_main.c:165
 msgid "Enable status report tabs"
@@ -11026,6 +11101,8 @@ msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
+"Если данная настройка включена, то отчёты будут открываться в отдельных "
+"вкладках, а не в появляющихся окнах."
 
 #: client/gui-gtk-2.0/gui_main.c:171 client/gui-win32/gui_main.c:104
 msgid "Better fog-of-war drawing"
@@ -11036,31 +11113,34 @@ msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
+"Если эта настройка включена, тогда используется лучший метод прорисовки "
+"дыма войны. Это не медленнее по скорости, но расходуется в два раза больше "
+"памяти."
 
-#: client/gui-gtk-2.0/gui_main.c:535 client/gui-gtk-2.0/gui_main.c:1106
+#: client/gui-gtk-2.0/gui_main.c:535 client/gui-gtk-2.0/gui_main.c:1102
 #: client/gui-gtk/gui_main.c:412 client/gui-gtk/gui_main.c:884
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:891 client/gui-gtk-2.0/gui_main.c:905
+#: client/gui-gtk-2.0/gui_main.c:887 client/gui-gtk-2.0/gui_main.c:901
 #: client/gui-gtk/gui_main.c:705 client/gui-win32/gui_main.c:440
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Ход сделан"
 
-#: client/gui-gtk-2.0/gui_main.c:905
+#: client/gui-gtk-2.0/gui_main.c:901
 msgid "Shift+Return"
 msgstr "Комбинация Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:937
+#: client/gui-gtk-2.0/gui_main.c:933
 msgid "_Map"
 msgstr "_Карта"
 
-#: client/gui-gtk-2.0/gui_main.c:1011
+#: client/gui-gtk-2.0/gui_main.c:1007
 msgid "_Chat"
 msgstr "_Общение"
 
-#: client/gui-gtk-2.0/gui_main.c:1027 client/gui-gtk/gui_main.c:810
+#: client/gui-gtk-2.0/gui_main.c:1023 client/gui-gtk/gui_main.c:810
 #: client/gui-mui/gui_main.c:1044 client/gui-win32/gui_main.c:496
 #: data/Freeciv.in:2836
 msgid ""
@@ -11073,16 +11153,16 @@ msgstr ""
 "при определённых условиях; смотрите пункт \"Копирование\" в меню Справка\n"
 "А теперь... Отправьте их всех в ад!"
 
-#: client/gui-gtk-2.0/gui_main.c:1276 client/gui-mui/citydlg.c:1556
+#: client/gui-gtk-2.0/gui_main.c:1272 client/gui-mui/citydlg.c:1556
 msgid "Name:"
 msgstr "Имя:"
 
-#: client/gui-gtk-2.0/gui_main.c:1283 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1279 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1057
 msgid "Host:"
 msgstr "Хост:"
 
-#: client/gui-gtk-2.0/gui_main.c:1418 client/gui-gtk/gui_main.c:1118
+#: client/gui-gtk-2.0/gui_main.c:1414 client/gui-gtk/gui_main.c:1118
 #: client/gui-xaw/gui_main.c:731
 #, c-format
 msgid ""
@@ -11102,7 +11182,7 @@ msgstr ""
 "Изучаем %s: %d/%d\n"
 "Правление: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:1540
+#: client/gui-gtk-2.0/gui_main.c:1536
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
@@ -11441,12 +11521,12 @@ msgstr "_Технологии"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Иностранная разведка: %s Империя"
 
-#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-gtk/mapctrl.c:173
+#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-gtk/mapctrl.c:173
 #: client/gui-win32/mapctrl.c:353
 msgid "Build New City"
 msgstr "Построить новый город"
 
-#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-gtk/mapctrl.c:174
+#: client/gui-gtk-2.0/mapctrl.c:196 client/gui-gtk/mapctrl.c:174
 #: client/gui-mui/mapctrl.c:80 client/gui-win32/mapctrl.c:354
 #: client/gui-xaw/mapctrl.c:91
 msgid "What should we call our new city?"
@@ -11458,7 +11538,7 @@ msgstr ""
 "Показывает Ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы "
 "их переключить."
 
-#: client/gui-gtk-2.0/mapview.c:924 client/gui-win32/mapview.c:749
+#: client/gui-gtk-2.0/mapview.c:924 client/gui-win32/mapview.c:750
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 "Улучшенная прорисовка дыма войны работает только в режиме truecolor. "
@@ -13394,7 +13474,7 @@ msgstr "Исследуется: %s(%d/%d)"
 msgid "Capital: %s"
 msgstr "Столица: %s"
 
-#: client/gui-gtk/mapview.c:118 client/gui-win32/mapview.c:266
+#: client/gui-gtk/mapview.c:118 client/gui-win32/mapview.c:267
 #, c-format
 msgid ""
 "Population: %s\n"
