@@ -972,6 +972,9 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 /**************************************************************************
   Send information about player src, or all players if src is NULL,
   to specified clients dest (dest may not be NULL).
+
+  Note: package_player_info contains incomplete info if it has NULL as a
+        dest arg and and info is < INFO_EMBASSY.
 **************************************************************************/
 void send_player_info_c(struct player *src, struct conn_list *dest)
 {
@@ -1051,6 +1054,9 @@ static void package_player_common(struct player *plr,
 
 /**************************************************************************
  Package player info dependant on info_level.
+
+ Note: if reciever is NULL and info < INFO_EMBASSY the info related to the
+       receiving player are not set correctly.
 **************************************************************************/
 static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
@@ -1097,6 +1103,14 @@ static void package_player_info(struct player *plr,
       packet->revolution    = 1;
     else
       packet->revolution    = 0;
+
+    packet->embassy = plr->embassy;
+    packet->gives_shared_vision = plr->gives_shared_vision;
+    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+      packet->diplstates[i].type       = plr->diplstates[i].type;
+      packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
+      packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
+    }
   } else {
     packet->tax             = 0;
     packet->science         = 0;
@@ -1106,20 +1120,7 @@ static void package_player_info(struct player *plr,
     packet->researching     = A_NONE;
     packet->future_tech     = 0;
     packet->revolution      = 0;
-  }
 
-  if (info_level >= INFO_FULL) {
-    packet->embassy=plr->embassy;
-    packet->gives_shared_vision = plr->gives_shared_vision;
-    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
-      packet->diplstates[i].type       = plr->diplstates[i].type;
-      packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
-      packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
-    }
-    packet->tech_goal       = plr->ai.tech_goal;
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-      copy_worklist(&packet->worklists[i], &plr->worklists[i]);
-  } else {
     if (!receiver || !player_has_embassy(plr, receiver))
       packet->embassy  = 0;
     else
@@ -1128,11 +1129,27 @@ static void package_player_info(struct player *plr,
       packet->gives_shared_vision = 0;
     else
       packet->gives_shared_vision = 1 << receiver->player_no;
+
     for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = DS_NEUTRAL;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;
     }
+    /* We always know the players relation to us */
+    if (receiver) {
+      int p_no = receiver->player_no;
+      packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
+      packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
+      packet->diplstates[p_no].has_reason_to_cancel =
+	plr->diplstates[p_no].has_reason_to_cancel;
+    }
+  }
+
+  if (info_level >= INFO_FULL) {
+    packet->tech_goal       = plr->ai.tech_goal;
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+      copy_worklist(&packet->worklists[i], &plr->worklists[i]);
+  } else {
     packet->tech_goal       = A_NONE;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++)
       init_worklist(&packet->worklists[i]);
