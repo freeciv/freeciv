@@ -197,6 +197,42 @@ const char *effect_type_name(Eff_Type_id id)
 }
 
 /**************************************************************************
+  Frees the memory associated with this improvement.
+**************************************************************************/
+void improvement_free(Impr_Type_id id)
+{
+  struct impr_type *p = get_improvement_type(id);
+
+  free(p->terr_gate);
+  p->terr_gate = NULL;
+
+  free(p->spec_gate);
+  p->spec_gate = NULL;
+
+  free(p->equiv_dupl);
+  p->equiv_dupl = NULL;
+
+  free(p->equiv_repl);
+  p->equiv_repl = NULL;
+
+  free(p->effect);
+  p->effect = NULL;
+
+  free(p->helptext);
+  p->helptext = NULL;
+}
+
+/***************************************************************
+ Frees the memory associated with all improvements.
+***************************************************************/
+void improvements_free()
+{
+  impr_type_iterate(impr) {
+    improvement_free(impr);
+  } impr_type_iterate_end;
+}
+
+/**************************************************************************
 Returns 1 if the improvement_type "exists" in this game, 0 otherwise.
 An improvement_type doesn't exist if one of:
 - id is out of range;
@@ -379,11 +415,17 @@ bool is_wonder_useful(Impr_Type_id id)
 /**************************************************************************
  Clears a list of improvements - sets them all to I_NONE
 **************************************************************************/
-void improvement_status_init(Impr_Status *improvements)
+void improvement_status_init(Impr_Status * improvements, size_t elements)
 {
-  impr_type_iterate(i) {
+  /* 
+   * Since this function is called with elements!=game.num_impr_types
+   * impr_type_iterate can't used here.
+   */
+  Impr_Type_id i;
+
+  for (i = 0; i < elements; i++) {
     improvements[i] = I_NONE;
-  } impr_type_iterate_end;
+  }
 }
 
 /**************************************************************************

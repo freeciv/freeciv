@@ -271,6 +271,8 @@ struct eff_global *append_geff(struct geff_vector *x);
 
 /* improvement functions */
 
+void improvement_free(Impr_Type_id id);
+void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
 bool improvement_exists(Impr_Type_id id);
 int improvement_value(Impr_Type_id id);
@@ -283,7 +285,7 @@ bool improvement_redundant(struct player *pplayer,struct city *pcity,
 bool wonder_obsolete(Impr_Type_id id);
 bool is_wonder_useful(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(char *s);
-void improvement_status_init(Impr_Status *improvements);
+void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */
 

@@ -186,5 +186,8 @@ bool can_change_to_government(struct player *pplayer, int government);
 
 void set_ruler_title(struct government *gov, int nation, 
                      char *male, char *female);
+void governments_alloc(int num);
+void government_free(struct government *gov);
+void governments_free(void);
 
 #endif  /* FC__GOVERNMENT_H */

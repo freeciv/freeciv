@@ -103,7 +103,7 @@ void player_init(struct player *plr)
   plr->really_gives_vision = 0;
 
   /* Initialise list of improvements with Player-wide equiv_range */
-  improvement_status_init(plr->improvements);
+  improvement_status_init(plr->improvements, ARRAY_SIZE(plr->improvements));
   /* Initialise vector of effects with player range. */
   geff_vector_init(&plr->effects);
 
@@ -134,7 +134,8 @@ void player_init_island_imprs(struct player *plr, int numcont)
     plr->island_improv=fc_calloc((numcont+1)*game.num_impr_types,
 				 sizeof(Impr_Status));
     for (i=0; i<=numcont; i++) {
-      improvement_status_init(&plr->island_improv[i*game.num_impr_types]);
+      improvement_status_init(&plr->island_improv[i * game.num_impr_types],
+			      game.num_impr_types);
     }
 
     /* Initialise lists of island-range effects. */

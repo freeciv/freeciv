@@ -222,6 +222,9 @@ struct lvldat {
 };
 
 void game_init(void);
+void game_free(void);
+void ruleset_data_free(void);
+
 int game_next_year(int);
 void game_advance_year(void);
 

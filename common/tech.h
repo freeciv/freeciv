@@ -115,6 +115,9 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech);
 
 void precalc_tech_data(void);
 
+void tech_free(Tech_Type_id tech);
+void techs_free(void);
+
 extern struct advance advances[];
 
 #endif  /* FC__TECH_H */

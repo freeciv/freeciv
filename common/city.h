@@ -453,6 +453,8 @@ int get_city_science_bonus(struct city *pcity);
 
 /* misc */
 bool is_city_option_set(struct city *pcity, enum city_options option);
+void city_styles_alloc(int num);
+void city_styles_free(void);
 
 /*
  * Iterates over all improvements which are built in the given city.

@@ -1463,8 +1463,7 @@ static void load_government_names(struct section_file *file)
 	    nval, G_MAGIC, filename);
     exit(EXIT_FAILURE);
   }
-  game.government_count = nval;
-  governments = fc_calloc(game.government_count, sizeof(struct government));
+  governments_alloc(nval);
 
   /* first fill in government names so find_government_by_name will work -SKi */
   for(i = 0; i < game.government_count; i++) {
@@ -1811,7 +1810,7 @@ static void load_nation_names(struct section_file *file)
 	    MAX_NUM_NATIONS - 1, game.playable_nation_count);
     game.playable_nation_count = MAX_NUM_NATIONS - 1;
   }
-  alloc_nations(game.nation_count);
+  nations_alloc(game.nation_count);
 
   for( i=0; i<game.nation_count; i++) {
     char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
@@ -2217,8 +2216,7 @@ static void load_citystyle_names(struct section_file *file)
 
   /* The sections: */
   styles = secfile_get_secnames_prefix(file, "citystyle_", &nval);
-  game.styles_count = nval;
-  city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
+  city_styles_alloc(nval);
 
   /* Get names, so can lookup for replacements: */
   for (i = 0; i < game.styles_count; i++) {
@@ -2790,13 +2788,4 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_cities(dest);
 
   conn_list_do_unbuffer(dest);
-}
-
-/**************************************************************************
-  Deallocate and clean up. For use when freeciv quits, or in case we
-  later want to be able to reload rulesets.
-**************************************************************************/
-void free_rulesets()
-{
-  /* placeholder function for now */
 }

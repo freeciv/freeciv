@@ -836,7 +836,8 @@ static void player_load(struct player *plr, int plrno,
 
     /* Initialise list of improvements with City- and Building-wide
        equiv_ranges */
-    improvement_status_init(pcity->improvements);
+    improvement_status_init(pcity->improvements,
+			    ARRAY_SIZE(pcity->improvements));
 
     /* Initialise city's vector of improvement effects. */
     ceff_vector_init(&pcity->effects);
@@ -1938,7 +1939,8 @@ void game_load(struct section_file *file)
 
   if (!game.is_new_game) { /* If new game, this is done in srv_main.c */
     /* Initialise lists of improvements with World and Island equiv_ranges */
-    improvement_status_init(game.improvements);
+    improvement_status_init(game.improvements,
+			    ARRAY_SIZE(game.improvements));
 
     /* Blank vector of effects with world-wide range. */
     geff_vector_free(&game.effects);

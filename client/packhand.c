@@ -424,7 +424,8 @@ void handle_city_info(struct packet_city_info *packet)
     init_worklist(&pcity->worklist);
 
     /* Initialise list of improvements with city/building wide equiv_range. */
-    improvement_status_init(pcity->improvements);
+    improvement_status_init(pcity->improvements,
+			    ARRAY_SIZE(pcity->improvements));
 
     /* Initialise city's vector of improvement effects. */
     ceff_vector_init(&pcity->effects);
@@ -602,7 +603,8 @@ void handle_short_city(struct packet_short_city *packet)
 
   if (city_is_new) {
     /* Initialise list of improvements with city/building wide equiv_range. */
-    improvement_status_init(pcity->improvements);
+    improvement_status_init(pcity->improvements,
+			    ARRAY_SIZE(pcity->improvements));
 
     /* Initialise city's vector of improvement effects. */
     ceff_vector_init(&pcity->effects);
@@ -1105,7 +1107,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    improvement_status_init(game.improvements);
+    improvement_status_init(game.improvements,
+			    ARRAY_SIZE(game.improvements));
 
     /* Free vector of effects with a worldwide range. */
     geff_vector_free(&game.effects);
@@ -1660,14 +1663,10 @@ void handle_select_nation(struct packet_nations_used *packet)
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
-  
-  for(i=0; i<game.government_count; i++) {
-    free(get_government(i)->ruler_titles);
-    free(get_government(i)->helptext);
-  }
-  free(governments);
-  governments = NULL;
-      
+
+  tilespec_free_city_tiles(game.styles_count);
+  ruleset_data_free();
+
   game.aqueduct_size = packet->aqueduct_size;
   game.sewer_size = packet->sewer_size;
   game.add_to_size_limit = packet->add_to_size_limit;
@@ -1684,7 +1683,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
     freelog(LOG_DEBUG, "techl %d: %d", i, game.rtech.partisan_req[i]);
   }
 
-  game.government_count = packet->government_count;
   game.government_when_anarchy = packet->government_when_anarchy;
   game.default_government = packet->default_government;
 
@@ -1692,21 +1690,12 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.num_impr_types = packet->num_impr_types;
   game.num_tech_types = packet->num_tech_types;
 
-  governments = fc_calloc(game.government_count, sizeof(struct government));
-  for(i=0; i<game.government_count; i++) {
-    get_government(i)->ruler_titles = NULL;
-    get_government(i)->helptext = NULL;
-  }
+  governments_alloc(packet->government_count);
 
-  free_nations(game.nation_count);
-  game.nation_count = packet->nation_count;
-  alloc_nations(game.nation_count);
+  nations_alloc(packet->nation_count);
   game.playable_nation_count = packet->playable_nation_count;
 
-  tilespec_free_city_tiles(game.styles_count);
-  free(city_styles);
-  game.styles_count = packet->style_count;
-  city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
+  city_styles_alloc(packet->style_count);
   tilespec_alloc_city_tiles(game.styles_count);
 }
 
@@ -1755,7 +1744,6 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->paratroopers_mr_req = p->paratroopers_mr_req;
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;
 
-  free(u->helptext);
   u->helptext = p->helptext;	/* pointer assignment */
 
   tilespec_setup_unit_type(p->id);
@@ -1782,7 +1770,6 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
   
-  free(a->helptext);
   a->helptext = p->helptext;	/* pointer assignment */
 }
 
@@ -1804,24 +1791,18 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->name, p->name);
   b->tech_req = p->tech_req;
   b->bldg_req = p->bldg_req;
-  free(b->terr_gate);
   b->terr_gate = p->terr_gate;		/* pointer assignment */
-  free(b->spec_gate);
   b->spec_gate = p->spec_gate;		/* pointer assignment */
   b->equiv_range = p->equiv_range;
-  free(b->equiv_dupl);
   b->equiv_dupl = p->equiv_dupl;	/* pointer assignment */
-  free(b->equiv_repl);
   b->equiv_repl = p->equiv_repl;	/* pointer assignment */
   b->obsolete_by = p->obsolete_by;
   b->is_wonder = p->is_wonder;
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
-  free(b->effect);
   b->effect = p->effect;		/* pointer assignment */
   b->variant = p->variant;	/* FIXME: remove when gen-impr obsoletes */
-  free(b->helptext);
   b->helptext = p->helptext;		/* pointer assignment */
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
@@ -2092,7 +2073,6 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->transform_result = p->transform_result;
   t->transform_time = p->transform_time;
   
-  free(t->helptext);
   t->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_tile_type(p->id);

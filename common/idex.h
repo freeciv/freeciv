@@ -22,6 +22,7 @@ struct city;
 struct unit;
 
 void idex_init(void);
+void idex_free(void);
 
 void idex_register_city(struct city *pcity);
 void idex_register_unit(struct unit *punit);

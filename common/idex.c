@@ -28,6 +28,7 @@
    unless IDEX_DIE set.
 ***************************************************************************/
 
+#include <assert.h>
 #include <stdlib.h>
 
 #include "city.h"
@@ -50,20 +51,26 @@ static struct hash_table *idex_unit_hash = NULL;
 
 /**************************************************************************
    Initialize.  Should call this at the start before use.
-   May also call later, to re-initialize (eg, client disconnects).
 ***************************************************************************/
 void idex_init(void)
 {
-  if (idex_city_hash) {
-    hash_free(idex_city_hash);
-    idex_city_hash = NULL;
-  }
-  if (idex_unit_hash) {
-    hash_free(idex_unit_hash);
-    idex_unit_hash = NULL;
-  }
+  assert(idex_city_hash == NULL);
+  assert(idex_unit_hash == NULL);
+
   idex_city_hash = hash_new(hash_fval_int, hash_fcmp_int);
   idex_unit_hash = hash_new(hash_fval_int, hash_fcmp_int);
+}
+
+/**************************************************************************
+   Free the hashs.
+***************************************************************************/
+void idex_free(void)
+{
+  hash_free(idex_city_hash);
+  idex_city_hash = NULL;
+
+  hash_free(idex_unit_hash);
+  idex_unit_hash = NULL;
 }
 
 /**************************************************************************

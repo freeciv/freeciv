@@ -561,3 +561,24 @@ Unit_Type_id best_role_unit(struct city *pcity, int role)
   }
   return U_LAST;
 }
+
+/**************************************************************************
+  Frees the memory associated with this unit type.
+**************************************************************************/
+void unit_type_free(Unit_Type_id id)
+{
+  struct unit_type *p = get_unit_type(id);
+
+  free(p->helptext);
+  p->helptext = NULL;
+}
+
+/***************************************************************
+ Frees the memory associated with all unit types.
+***************************************************************/
+void unit_types_free(void)
+{
+  unit_type_iterate(i) {
+    unit_type_free(i);
+  } unit_type_iterate_end;
+}

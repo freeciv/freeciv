@@ -205,21 +205,36 @@ void map_init(void)
 /**************************************************************************
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
-  Uses fc_realloc, in case map was allocated before (eg, in client);
-  should have called map_init() (via game_init()) before this,
-  so map.tiles will be 0 on first call.
 **************************************************************************/
 void map_allocate(void)
 {
   freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
 	  map.tiles, map.xsize, map.ysize);
-  
-  map.tiles = fc_realloc(map.tiles, map.xsize*map.ysize*sizeof(struct tile));
+
+  assert(map.tiles == NULL);
+  map.tiles = fc_malloc(map.xsize * map.ysize * sizeof(struct tile));
   whole_map_iterate(x, y) {
     tile_init(map_get_tile(x, y));
   } whole_map_iterate_end;
 }
 
+/***************************************************************
+  Frees the allocated memory of the map.
+***************************************************************/
+void map_free(void)
+{
+  if (map.tiles) {
+    /* it is possible that map_init was called but not map_allocate */
+
+    whole_map_iterate(x, y) {
+      tile_free(map_get_tile(x, y));
+    }
+    whole_map_iterate_end;
+
+    free(map.tiles);
+    map.tiles = NULL;
+  }
+}
 
 /***************************************************************
 ...
@@ -1139,6 +1154,14 @@ void tile_init(struct tile *ptile)
 /***************************************************************
 ...
 ***************************************************************/
+void tile_free(struct tile *ptile)
+{
+  unit_list_unlink_all(&ptile->units);
+}
+
+/***************************************************************
+...
+***************************************************************/
 struct tile *map_get_tile(int x, int y)
 {
   return MAP_TILE(x, y);
@@ -1480,4 +1503,27 @@ bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 
   map_distance_vector(&diff_x, &diff_y, start_x, start_y, end_x, end_y);
   return (diff_x == 0) || (diff_y == 0);
+}
+
+/**************************************************************************
+  Free memory which is associated with this terrain type.
+**************************************************************************/
+void tile_type_free(enum tile_terrain_type type)
+{
+  struct tile_type *p = get_tile_type(type);
+
+  free(p->helptext);
+  p->helptext = NULL;
+}
+
+/**************************************************************************
+  Free memory which is associated with terrain types.
+**************************************************************************/
+void tile_types_free(void)
+{
+  enum tile_terrain_type i;
+
+  for (i = T_FIRST; i < T_COUNT; i++) {
+    tile_type_free(i);
+  }
 }

@@ -162,35 +162,55 @@ struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 /***************************************************************
  Allocate space for the given number of nations.
 ***************************************************************/
-void alloc_nations(int num)
+void nations_alloc(int num)
 {
   nations = (struct nation_type *)fc_calloc(num, sizeof(struct nation_type));
+  game.nation_count = num;
 }
 
 /***************************************************************
  De-allocate the currently allocated nations.
 ***************************************************************/
-void free_nations(int num)
+void nations_free()
 {
-  int i, j;
+  Nation_Type_id nation;
 
-  if(!nations) return;
-  for( i = 0; i < num; i++) {
-    for( j = 0; j < nations[i].leader_count; j++) {
-      free( nations[i].leader_name[j] );
-    }
-    if (nations[i].city_names) {
-      /* Unfortunately, this monstrosity of a loop is necessary given the 
-	 setup of city_names.  But that setup does make things simpler
-	 elsewhere. */
-      for (j = 0; nations[i].city_names[j].name; j++) {
-	free(nations[i].city_names[j].name);
-      }
-      free(nations[i].city_names);
-    }
+  if (!nations) {
+    return;
   }
+
+  for (nation = 0; nation < game.nation_count; nation++) {
+    nation_free(nation);
+  }
+
   free(nations);
   nations = NULL;
+  game.nation_count = 0;
+}
+
+/***************************************************************
+ De-allocate resources associated with the given nation.
+***************************************************************/
+void nation_free(Nation_Type_id nation)
+{
+  int i;
+  struct nation_type *p = get_nation_by_idx(nation);
+
+  for (i = 0; i < p->leader_count; i++) {
+    free(p->leader_name[i]);
+  }
+
+  if (p->city_names) {
+    /* 
+     * Unfortunately, this monstrosity of a loop is necessary given
+     * the setup of city_names.  But that setup does make things
+     * simpler elsewhere.
+     */
+    for (i = 0; p->city_names[i].name; i++) {
+      free(p->city_names[i].name);
+    }
+    free(p->city_names);
+  }
 }
 
 /***************************************************************

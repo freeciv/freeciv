@@ -557,3 +557,31 @@ bool techs_have_fixed_costs()
 	   || game.rgame.tech_cost_style == 2)
 	  && game.rgame.tech_leakage == 0);
 }
+
+/***************************************************************
+ De-allocate resources associated with the given tech.
+***************************************************************/
+void tech_free(Tech_Type_id tech)
+{
+  struct advance *p = &advances[tech];
+
+  free(p->helptext);
+  p->helptext = NULL;
+
+  if (p->bonus_message) {
+    free(p->bonus_message);
+    p->bonus_message = NULL;
+  }
+}
+
+/***************************************************************
+ De-allocate resources of all techs.
+***************************************************************/
+void techs_free(void)
+{
+  Tech_Type_id i;
+
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    tech_free(i);
+  }
+}

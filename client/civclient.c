@@ -582,10 +582,10 @@ void set_client_state(enum client_states newstate)
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
       client_remove_all_cli_conn();
-      game_remove_all_players();
       set_unit_focus_no_center(NULL);
       clear_notify_window();
-      idex_init();		/* clear old data */
+      game_free();
+      game_init();
     }
     update_menus();
   }

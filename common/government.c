@@ -267,3 +267,39 @@ void set_ruler_title(struct government *gov, int nation,
   sz_strlcpy(title->male_title, male);
   sz_strlcpy(title->female_title, female);
 }
+
+/***************************************************************
+ Allocate space for the given number of governments.
+***************************************************************/
+void governments_alloc(int num)
+{
+  governments = fc_calloc(num, sizeof(struct government));
+  game.government_count = num;
+}
+
+/***************************************************************
+ De-allocate resources associated with the given government.
+***************************************************************/
+void government_free(struct government *gov)
+{
+  free(gov->ruler_titles);
+  gov->ruler_titles = NULL;
+
+  free(gov->helptext);
+  gov->helptext = NULL;
+}
+
+/***************************************************************
+ De-allocate the currently allocated governments.
+***************************************************************/
+void governments_free(void)
+{
+  int i;
+
+  for (i = 0; i < game.government_count; i++) {
+    government_free(get_government(i));
+  }
+  free(governments);
+  governments = NULL;
+  game.government_count = 0;
+}

@@ -22,6 +22,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "support.h"
 
 #include "city.h"
@@ -2229,4 +2230,23 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
 bool is_city_option_set(struct city *pcity, enum city_options option)
 {
   return TEST_BIT(pcity->city_options, option);
+}
+
+/**************************************************************************
+ Allocate memory for this amount of city styles.
+**************************************************************************/
+void city_styles_alloc(int num)
+{
+  city_styles = fc_calloc(num, sizeof(struct citystyle));
+  game.styles_count = num;
+}
+
+/**************************************************************************
+ De-allocate the memory used by the city styles.
+**************************************************************************/
+void city_styles_free(void)
+{
+  free(city_styles);
+  city_styles = NULL;
+  game.styles_count = 0;
 }

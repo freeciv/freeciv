@@ -1034,7 +1034,8 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   init_worklist(&pcity->worklist);
 
   /* Initialise list of improvements with City- and Building-wide equiv_range */
-  improvement_status_init(pcity->improvements);
+  improvement_status_init(pcity->improvements,
+			  ARRAY_SIZE(pcity->improvements));
 
   /* Initialise city's vector of improvement effects. */
   ceff_vector_init(&pcity->effects);

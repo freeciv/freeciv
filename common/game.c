@@ -738,14 +738,14 @@ void game_init(void)
   game.load_options.load_starts = TRUE;
   game.load_options.load_private_map = TRUE;
   game.load_options.load_settings = TRUE;
-  
+    
   map_init();
   idex_init();
   
   conn_list_init(&game.all_connections);
   conn_list_init(&game.est_connections);
   conn_list_init(&game.game_connections);
-  
+
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
@@ -756,6 +756,36 @@ void game_init(void)
   game.player_idx=0;
   game.player_ptr=&game.players[0];
   terrain_control.river_help_text = NULL;
+}
+
+/***************************************************************
+  Frees all memory of the game.
+***************************************************************/
+void game_free(void)
+{
+  geff_vector_free(&game.effects);
+  ceff_vector_free(&game.destroyed_effects);
+  conn_list_unlink_all(&game.all_connections);
+  conn_list_unlink_all(&game.est_connections);
+  conn_list_unlink_all(&game.game_connections);
+  game_remove_all_players();
+  map_free();
+  idex_free();
+  ruleset_data_free();
+}
+
+/***************************************************************
+ Frees all memory which in objects which are read from a ruleset.
+***************************************************************/
+void ruleset_data_free()
+{
+  techs_free();
+  governments_free();
+  nations_free();
+  unit_types_free();
+  improvements_free();
+  city_styles_free();
+  tile_types_free();
 }
 
 /***************************************************************
@@ -847,6 +877,7 @@ void game_remove_all_players(void)
   } players_iterate_end;
 
   game.nplayers=0;
+  game.nbarbarians=0;
 }
 
 
@@ -1007,7 +1038,8 @@ void update_island_impr_effect(int oldmax, int maxcont)
     plr->island_improv=(Impr_Status *)fc_realloc(plr->island_improv,
       	      	      	  (maxcont+1)*game.num_impr_types);
     for (i=oldmax+1;i<=maxcont;i++) {
-      improvement_status_init(&plr->island_improv[i*game.num_impr_types]);
+      improvement_status_init(&plr->island_improv[i * game.num_impr_types],
+			      game.num_impr_types);
     }
 
     /* Next, do the island-wide effects. */
