@@ -685,7 +685,7 @@ int handle_unit_enter_hut(struct unit *punit)
 		       "Game: An abandoned village is here.");
     else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: Your unit has been cowardly slaughtered by a band of barbarians");
+		       "Game: Your unit has been slaughtered by a band of cowardly barbarians");
       wipe_unit(pplayer, punit);
       ok = 0;
     }
