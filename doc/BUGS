@@ -17,6 +17,11 @@ KNOWN BUGS:
  - In the XAW/XAW3d client, the -t options for the tileset to use
    sometimes does not work. In this case, use --tiles instead.
 
+ - The display of units in the field left below the turn done button 
+   is a little bit buggy. The AI can move units without an update of 
+   the field. So you see 3-4 units on the field on the left side but 
+   only 1 is there. See issue PR#2625 for more info.
+
  - Your CMA settings are only sent to the server when you press
    turn done, and therefore changes you make to CMA in the same
    turn as you save a game will be lost.
