@@ -193,12 +193,12 @@ void update_research(struct player *pplayer)
 {
   enum tech_flag_id flag;
 
-  /* This assert does not work. Triggered by AI players in new
-   * games. */
-  /* assert(get_invention(pplayer, A_NONE) == TECH_KNOWN); */
-
   tech_type_iterate(i) {
-    if (!tech_is_available(pplayer, i)) {
+    if (i == A_NONE) {
+      /* This is set when the game starts, but not everybody finds out
+       * right away. */
+      set_invention(pplayer, i, TECH_KNOWN);
+    } else if (!tech_is_available(pplayer, i)) {
       set_invention(pplayer, i, TECH_UNKNOWN);
     } else {
       if (get_invention(pplayer, i) == TECH_REACHABLE) {
