@@ -1055,7 +1055,7 @@ Fri Oct 16 12:49:50 1998  David Pfitzner <dwp@mso.anu.edu.au>:
  	"removed", eg in the data tables or by set_civ_style().  Replaced
  	some existing bounds-check code by calls to these functions.
 	
-Fri Oct 16 12:22:10 1998  not sure
+Fri Oct 16 12:22:10 1998  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* client/inteldlg.c: Fixed bug where if a player is up to Future
  	Tech, that player's intelligence report regarding other players
@@ -1331,12 +1331,11 @@ Wed Sep 23 19:24:40 1998  Trent Piepho <xyzzy@u.washington.edu>
  	order to load the unit pixmaps before creating the client widgets,
  	so they can be sized correctly based on the pixmap size.
 	
-Wed Sep 23 19:21:35 1998  not sure
+Wed Sep 23 19:21:35 1998  Trent Piepho <xyzzy@u.washington.edu>
 
-	* data/Freeciv, client/Freeciv.h: xyzzy@u.washington.edy Removed
- 	hardcoded sizes for the unit pixmap buttons.  Also changed the
- 	font used in the city report, which makes the report somewhat
- 	smaller.
+	* data/Freeciv, client/Freeciv.h: Removed hardcoded sizes for the
+ 	unit pixmap buttons.  Also changed the font used in the city
+ 	report, which makes the report somewhat smaller.
 	
 Tue Sep 22 16:22:24 1998  Trent Piepho <xyzzy@u.washington.edu>
 
