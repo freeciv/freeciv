@@ -289,21 +289,16 @@ const char *concat_tile_activity_text(struct tile *ptile)
   int activity_total[ACTIVITY_LAST];
   int activity_units[ACTIVITY_LAST];
   int num_activities = 0;
-  int remains, turns, i, mr, au;
+  int remains, turns, i;
   INIT;
 
   memset(activity_total, 0, sizeof(activity_total));
   memset(activity_units, 0, sizeof(activity_units));
 
   unit_list_iterate(ptile->units, punit) {
-    mr = get_unit_type(punit->type)->move_rate;
-    au = (mr > 0) ? mr / SINGLE_MOVE : 1;
     activity_total[punit->activity] += punit->activity_count;
-    if (punit->moves_left > 0) {
-      /* current turn */
-      activity_total[punit->activity] += au;
-    }
-    activity_units[punit->activity] += au;
+    activity_total[punit->activity] += get_activity_rate_this_turn(punit);
+    activity_units[punit->activity] += get_activity_rate(punit);
   } unit_list_iterate_end;
 
   for (i = 0; i < ACTIVITY_LAST; i++) {

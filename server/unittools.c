@@ -578,7 +578,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
     /*  We don't need the activity_count for the above */
-    punit->activity_count += get_settler_speed(punit);
+    punit->activity_count += get_activity_rate_this_turn(punit);
 
     /* settler may become veteran when doing something useful */
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
