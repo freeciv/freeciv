@@ -509,17 +509,16 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
           weakest = v; dest = yy[j] * map.xsize + xx[i];
          } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
              unit_types[pdef->type].name);   */
-      } else { /* no pdef */
-        pcity = map_get_city(xx[i], yy[j]);
-        if (pcity) {
-          if (pcity->owner != pplayer->player_no) { /* free goodies */
-            weakest = -1; dest = yy[j] * map.xsize + xx[i];
-          }
+      }
+    } else { /* no pdef */
+      pcity = map_get_city(xx[i], yy[j]);
+      if (pcity) {
+        if (pcity->owner != pplayer->player_no) { /* free goodies */
+          weakest = -1; dest = yy[j] * map.xsize + xx[i];
         }
       }
     }
   }
-
   return(dest);
 }
  
@@ -546,6 +545,7 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
 
 int unit_defensiveness(struct unit *punit)
 {
+/* assert get_attack_power(punit); */
   return get_defense_power(punit) * punit->hp / get_attack_power(punit) /
             get_unit_type(punit->type)->move_rate;
 }
