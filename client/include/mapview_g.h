@@ -39,10 +39,7 @@ void prepare_show_city_descriptions(void);
 
 void put_one_tile_iso(struct canvas *pcanvas,
 		      int map_x, int map_y,
-		      int canvas_x, int canvas_y,
-		      int offset_x, int offset_y, int offset_y_unit,
-		      int width, int height, int height_unit,
-		      enum draw_type draw, bool citymode);
+		      int canvas_x, int canvas_y, bool citymode);
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y, struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height);

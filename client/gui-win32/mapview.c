@@ -66,10 +66,7 @@ void put_one_tile_full(HDC hdc, int x, int y,
 			      int canvas_x, int canvas_y, int citymode);
 static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int canvas_x, int canvas_y,
-                                int citymode,
-                                int offset_x, int offset_y, int offset_y_unit,
-                                int width, int height, int height_unit,
-                                enum draw_type draw);
+                                int citymode);
 static void draw_rates(HDC hdc);
 
 
@@ -759,10 +756,7 @@ Only used for isometric view.
 void put_one_tile_full(HDC hdc, int x, int y,
                        int canvas_x, int canvas_y, int citymode)
 {
-  pixmap_put_tile_iso(hdc, x, y, canvas_x, canvas_y, citymode,
-                      0, 0, 0,
-                      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, UNIT_TILE_HEIGHT,
-                      D_FULL);
+  pixmap_put_tile_iso(hdc, x, y, canvas_x, canvas_y, citymode);
 }
 
 /**************************************************************************
@@ -771,9 +765,7 @@ void put_one_tile_full(HDC hdc, int x, int y,
 void put_one_tile_iso(struct canvas *pcanvas,
 		      int map_x, int map_y,
 		      int canvas_x, int canvas_y,
-		      int offset_x, int offset_y, int offset_y_unit,
-		      int width, int height, int height_unit,
-		      enum draw_type draw, bool citymode)
+		      bool citymode)
 {
   HDC hdc;
   HBITMAP old = NULL; /*Remove warning*/
@@ -786,10 +778,7 @@ void put_one_tile_iso(struct canvas *pcanvas,
     hdc = pcanvas->hdc;
   }
   pixmap_put_tile_iso(hdc, map_x, map_y,
-		      canvas_x, canvas_y, 0,
-		      offset_x, offset_y, offset_y_unit,
-		      width, height, height_unit,
-		      draw);
+		      canvas_x, canvas_y, 0);
   if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
@@ -930,10 +919,7 @@ Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int canvas_x, int canvas_y,
-                                int citymode,
-                                int offset_x, int offset_y, int offset_y_unit,
-                                int width, int height, int height_unit,
-                                enum draw_type draw)
+                                int citymode)
 {
   struct drawn_sprite tile_sprs[80];
   struct canvas canvas_store={hdc,NULL};
@@ -941,15 +927,12 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   bool fog, solid_bg, is_real;
   enum color_std bg_color;
 
-  if (!width || !(height || height_unit))
-    return;
-
   count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
 				 x, y, citymode);
 
   if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(hdc, canvas_x, canvas_y,
-                              offset_x, offset_y, width, height);
+			      0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     return;
   }
   is_real = normalize_map_pos(&x, &y);
@@ -982,21 +965,20 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
       switch (tile_sprs[i].style) {
       case DRAW_NORMAL:
 	pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
-				offset_x, offset_y, width, height,
+				0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       case DRAW_FULL:
 	pixmap_put_drawn_sprite(hdc,
 				canvas_x, canvas_y - NORMAL_TILE_HEIGHT / 2,
 				&tile_sprs[i],
-				offset_x, offset_y_unit, width, height_unit,
+				0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       }
     case DRAWN_GRID:
       /*** Grid (map grid, borders, coastline, etc.) ***/
-      tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y,
-		     draw, citymode);
+      tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, citymode);
     }
   }
 }

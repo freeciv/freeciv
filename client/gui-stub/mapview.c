@@ -213,9 +213,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 void put_one_tile_iso(struct canvas *pcanvas,
 		      int map_x, int map_y,
 		      int canvas_x, int canvas_y,
-		      int offset_x, int offset_y, int offset_y_unit,
-		      int width, int height, int height_unit,
-		      enum draw_type draw, bool citymode)
+		      bool citymode)
 {
   /* PORTME */
 }

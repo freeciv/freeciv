@@ -174,10 +174,7 @@ void city_dialog_redraw_map(struct city *pcity,
     if (is_isometric) {
       put_one_tile_iso(pcanvas, map_x, map_y,
 		       canvas_x, canvas_y,
-		       0, 0, 0,
-		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		       UNIT_TILE_HEIGHT,
-		       D_FULL, TRUE);
+		       TRUE);
     } else {
       put_one_tile(pcanvas, map_x, map_y,
 		   canvas_x, canvas_y, TRUE);

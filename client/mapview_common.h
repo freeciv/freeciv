@@ -42,91 +42,6 @@ struct overview {
 extern struct mapview_canvas mapview_canvas;
 extern struct overview overview;
 
-/* 
- * When drawing a tile (currently only in isometric mode), there are
- * 5 relevant bits: top, middle, bottom, left, and right.  A drawing area
- * is comprised of an OR-ing of these.  Note that if you must have a vertical
- * (D_T, D_M, D_B) and horizontal (D_L, D_R) element to get any actual
- * area.  There are therefore six parts to the tile:
- *
- *
- * Left:D_L Right:D_R
- *
- * -----------------
- * |       |       |
- * | D_T_L | D_T_R |  Top, above the actual tile : D_T
- * |       |       |
- * -----------------
- * |       |       |
- * | D_M_L | D_M_R |  Middle, upper half of the actual tile : D_M
- * |       |       |
- * -----------------
- * |       |       |
- * | D_B_L | D_B_R |  Bottom, lower half of the actual tile : D_B
- * |       |       |
- * -----------------
- *
- * The figure above shows the six drawing areas.  The tile itself
- * occupies the bottom four rectangles (if it is isometric it will
- * actually fill only half of each rectangle).  But the sprites for
- * the tile may extend up above it an additional NORMAL_TILE_HEIGHT/2
- * pixels.  To get the Painter's Algorithm (objects are then painted
- * from back-to-front) to work, sometimes we only draw some of these
- * rectangles.  For instance, in isometric view after drawing D_B_L
- * for one tile we have to draw D_M_R for the tile just down-left from
- * it, then D_T_L for the tile below it.
- *
- * This concept only applies to the isometric drawing code.  Non-isometric
- * code may pass around a draw_type variable but it's generally ignored.
- *
- * These values are used as a mask; see enum draw_type.
- */
-enum draw_part {
-  D_T = 1, /* Draw top. */
-  D_M = 2, /* Draw middle. */
-  D_B = 4, /* Draw bottom. */
-  D_L = 8, /* Draw left. */
-  D_R = 16 /* Draw right. */
-};
-
-/* 
- * As explained above, when drawing a tile we will sometimes only draw
- * parts of the tile.  This is an enumeration of which sets of
- * rectangles can be used together in isometric view.  If
- * non-isometric view were to use a similar system it would have a
- * smaller set of rectangles.
- *
- * Format (regexp): D_[TMB]+_[LR]+.
- *
- * Note that each of these sets of rectangles must itelf make up a
- * larger rectangle.  There are 18 such rectangles (C(3, 1) * C(4, 2)).
- * However not all of these rectangles are necessarily used.  The other
- * 14 possible bit combinations are not rectangles - 11 of them have no
- * area (D___, D__[LR]+, and D_[TMB]+_), and 3 of them are divided
- * (D_TB_[LR]+).
- */
-enum draw_type {
-  D_T_L = D_T | D_L,
-  D_T_R = D_T | D_R,
-  D_M_L = D_M | D_L,
-  D_M_R = D_M | D_R,
-  D_B_L = D_B | D_L,
-  D_B_R = D_B | D_R,
-  D_TM_L = D_T | D_M | D_L,
-  D_TM_R = D_T | D_M | D_R,
-  D_MB_L = D_M | D_B | D_L,
-  D_MB_R = D_M | D_B | D_R,
-  D_TMB_L = D_T | D_M | D_B | D_L,
-  D_TMB_R = D_T | D_M | D_B | D_R,
-  D_T_LR = D_T | D_L | D_R,
-  D_M_LR = D_M | D_L | D_R,
-  D_B_LR = D_B | D_L | D_R,
-  D_TM_LR = D_T | D_M | D_L | D_R,
-  D_MB_LR = D_M | D_B | D_L | D_R,
-  D_TMB_LR = D_T | D_M | D_B | D_L | D_R
-};
-#define D_FULL D_TMB_LR
-
 #define BORDER_WIDTH 2
 #define GOTO_WIDTH 2
 
@@ -155,7 +70,7 @@ enum update_type {
  * iso-view iteration is at
  * http://rt.freeciv.org/Ticket/Attachment/51374/37363/isogrid.png.
  */
-#define gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) \
+#define gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y)	    \
 {									    \
   int _gui_x0 = (gui_x0), _gui_y0 = (gui_y0);				    \
   int _width = (width), _height = (height);				    \
@@ -175,7 +90,6 @@ enum update_type {
     int GRI_x1 = DIVIDE(_gui_x0 + _width + W - 1, W);			    \
     int GRI_y1 = DIVIDE(_gui_y0 + _height + H - 1, H);			    \
     int GRI_itr, GRI_x_itr, GRI_y_itr, map_x, map_y;			    \
-    enum draw_type draw;						    \
     int count;								    \
 									    \
     if (is_isometric) {							    \
@@ -193,28 +107,9 @@ enum update_type {
 	if ((GRI_x_itr + GRI_y_itr) % 2 != 0) {				    \
 	  continue;							    \
 	}								    \
-	draw = 0;							    \
-	if (GRI_x_itr > GRI_x0) {					    \
-	  draw |= D_L;							    \
-	}								    \
-	if (GRI_x_itr < GRI_x1 - 1) {					    \
-	  draw |= D_R;							    \
-	}								    \
-	if (GRI_y_itr > GRI_y0 && GRI_y_itr < GRI_y1 - 1) {		    \
-	  draw |= D_M;							    \
-	}								    \
-	if (GRI_y_itr > GRI_y0 + 1) {					    \
-	  draw |= D_T;							    \
-	}								    \
-	if (GRI_y_itr < GRI_y1 - 2) {					    \
-	  draw |= D_B;							    \
-	}								    \
-	assert((draw & (D_L | D_R)) && (draw & (D_T | D_M | D_B)));	    \
-	assert((draw & D_M) || !((draw & D_T) && (draw & D_B)));	    \
 	map_x = (GRI_x_itr + GRI_y_itr) / 2;				    \
 	map_y = (GRI_y_itr - GRI_x_itr) / 2;				    \
       } else {								    \
-	draw = D_FULL;							    \
 	map_x = GRI_x_itr;						    \
 	map_y = GRI_y_itr;						    \
       }
@@ -268,8 +163,7 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y);
 void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
 void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
-		    int canvas_x, int canvas_y,
-		    enum draw_type draw, bool citymode);
+		    int canvas_x, int canvas_y, bool citymode);
 
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);

@@ -901,7 +901,7 @@ void toggle_city_color(struct city *pcity)
   positions must be translated so it's drawn in the right location.
 ****************************************************************************/
 static bool get_tile_boundaries(enum direction8 dir,
-				int inset, int width, enum draw_type draw,
+				int inset, int width,
 				int *start_x, int *start_y,
 				int *end_x, int *end_y)
 {
@@ -946,11 +946,6 @@ static bool get_tile_boundaries(enum direction8 dir,
    * adjustment and the overlap adjustment are both 1.
    */
 
-  if (!(draw & D_B) && !(draw & D_M)) {
-    /* Nothing drawable. */
-    return FALSE;
-  }
-
   if (is_isometric) {
     switch (dir) {
     case DIR8_NORTH:
@@ -959,48 +954,48 @@ static bool get_tile_boundaries(enum direction8 dir,
       *end_x = W - HW / 2 - inset;
       *start_y = HH / 2 + inset + width;
       *end_y = (H - HH) / 2 + width;
-      return (draw & D_M_R) == D_M_R;
+      return TRUE;
     case DIR8_SOUTH:
       /* Bottom left. */
       *start_x = (W - HW) / 2;
       *end_x = HW / 2 + inset;
       *start_y = H - HH / 2 - inset - overlap;
       *end_y = (H + HH) / 2 - overlap;
-      return (draw & D_B_L) == D_B_L && (inset + overlap) > 0;
+      return inset + overlap > 0;
     case DIR8_EAST:
       /* Bottom right. */
       *start_x = W - HW / 2 - inset;
       *end_x = (W + HW) / 2;
       *start_y = (H + HH) / 2 - overlap;
       *end_y = H - HH / 2 - inset - overlap;
-      return (draw & D_B_R) == D_B_R && (inset + overlap) > 0;
+      return inset + overlap > 0;
     case DIR8_WEST:
       /* Top left. */
       *start_x = HW / 2 + inset;
       *end_x = (W - HW) / 2;
       *start_y = (H - HH) / 2 + width;
       *end_y = HH / 2 + inset + width;
-      return (draw & D_M_L) == D_M_L;
+      return TRUE;
     case DIR8_NORTHEAST:
       *start_x = *end_x = W - HW / 2 - inset - overlap;
-      *start_y = (draw & D_M_R) == D_M_R ? ((H - HH) / 2) : H / 2;
-      *end_y = (draw & D_B_R) == D_B_R ? ((H + HH) / 2) : H / 2;
-      return HH > 0 && (draw & D_R);
+      *start_y = (H - HH) / 2;
+      *end_y = (H + HH) / 2;
+      return HH > 0;
     case DIR8_SOUTHEAST:
-      *start_x = (draw & D_B_R) == D_B_R ? ((W + HW) / 2) : W / 2;
-      *end_x = (draw & D_B_L) == D_B_L ? ((W - HW) / 2) : W / 2;
+      *start_x = (W + HW) / 2;
+      *end_x = (W - HW) / 2;
       *start_y = *end_y = H - HH / 2 - inset - overlap;
-      return HW > 0 && (draw & D_B);
+      return HW > 0;
     case DIR8_SOUTHWEST:
       *start_x = *end_x = HW / 2 + inset + width;
-      *start_y = (draw & D_B_L) == D_B_L ? ((H + HH) / 2) : H / 2;
-      *end_y = (draw & D_M_L) == D_M_L ? ((H - HH) / 2) : H / 2;
-      return HH > 0 && (draw & D_L);
+      *start_y = (H + HH) / 2;
+      *end_y = (H - HH) / 2;
+      return HH > 0;
     case DIR8_NORTHWEST:
-      *start_x = (draw & D_M_L) == D_M_L ? ((W - HW) / 2) : W / 2;
-      *end_x = (draw & D_M_R) == D_M_R ? ((W + HW) / 2) : W / 2;
+      *start_x = (W - HW) / 2;
+      *end_x = (W + HW) / 2;
       *start_y = *end_y = HH / 2 + inset + width;
-      return HW > 0 && (draw & D_M);
+      return HW > 0;
     }
   } else {
     switch (dir) {
@@ -1058,7 +1053,7 @@ void put_red_frame_tile(struct canvas *pcanvas,
      * top of everything else, we don't have to worry about overlapping
      * tiles covering them up even in iso-view.  (See comments in
      * city_dialog_redraw_map and tile_draw_borders.) */
-    if (get_tile_boundaries(dir, 1, 1, D_FULL,
+    if (get_tile_boundaries(dir, 1, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
       canvas_put_line(pcanvas, COLOR_STD_RED, LINE_NORMAL,
 		      canvas_x + start_x, canvas_y + start_y,
@@ -1102,8 +1097,7 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
 **************************************************************************/
 static void tile_draw_borders(struct canvas *pcanvas,
 			      int map_x, int map_y,
-			      int canvas_x, int canvas_y,
-			      enum draw_type draw)
+			      int canvas_x, int canvas_y)
 {
   struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
   int start_x, start_y, end_x, end_y;
@@ -1123,7 +1117,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
       if ((dir == DIR8_WEST || dir == DIR8_NORTHWEST
 	   || dir == DIR8_NORTH || dir == DIR8_SOUTHWEST)
-	  && get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
+	  && get_tile_boundaries(dir, 0, BORDER_WIDTH,
 				  &start_x, &start_y, &end_x, &end_y)
 	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
 	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
@@ -1145,7 +1139,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
       return;
     }
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
-      if (get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
+      if (get_tile_boundaries(dir, 0, BORDER_WIDTH,
 			      &start_x, &start_y, &end_x, &end_y)
 	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
 	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
@@ -1189,8 +1183,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 	break;
       case DRAWN_GRID:
 	/*** Grid (map grid, borders, coastline, etc.) ***/
-	tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y,
-		       D_FULL, citymode);
+	tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
 	break;
       }
     }
@@ -1224,8 +1217,7 @@ static void put_tile(int map_x, int map_y)
 ****************************************************************************/
 static void tile_draw_map_grid(struct canvas *pcanvas,
 			       int map_x, int map_y,
-			       int canvas_x, int canvas_y,
-			       enum draw_type draw)
+			       int canvas_x, int canvas_y)
 {
   enum direction8 dir;
 
@@ -1236,7 +1228,7 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
   for (dir = 0; dir < 8; dir++) {
     int start_x, start_y, end_x, end_y, dx, dy;
 
-    if (get_tile_boundaries(dir, 0, 1, draw,
+    if (get_tile_boundaries(dir, 0, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
       DIRSTEP(dx, dy, dir);
       canvas_put_line(pcanvas,
@@ -1255,8 +1247,7 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
 ****************************************************************************/
 static void tile_draw_coastline(struct canvas *pcanvas,
 				int map_x, int map_y,
-				int canvas_x, int canvas_y,
-				enum draw_type draw)
+				int canvas_x, int canvas_y)
 {
   enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
 
@@ -1267,7 +1258,7 @@ static void tile_draw_coastline(struct canvas *pcanvas,
   adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
     int start_x, start_y, end_x, end_y;
 
-    if (get_tile_boundaries(dir, 0, 1, draw,
+    if (get_tile_boundaries(dir, 0, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
       t2 = map_get_terrain(adjc_x, adjc_y);
       if (t2 != T_UNKNOWN && (is_ocean(t1) ^ is_ocean(t2))) {
@@ -1285,8 +1276,7 @@ static void tile_draw_coastline(struct canvas *pcanvas,
 ****************************************************************************/
 static void tile_draw_selection(struct canvas *pcanvas,
 				int map_x, int map_y,
-				int canvas_x, int canvas_y,
-				enum draw_type draw, bool citymode)
+				int canvas_x, int canvas_y, bool citymode)
 {
   const int inset = (is_isometric ? 0 : 1);
   enum direction8 dir;
@@ -1304,7 +1294,7 @@ static void tile_draw_selection(struct canvas *pcanvas,
      * In iso-view the inset doesn't work perfectly (see comments about
      * this elsewhere) so we draw without an inset.  This may cover up the
      * map grid if it is drawn. */
-    if (get_tile_boundaries(dir, inset, 1, draw,
+    if (get_tile_boundaries(dir, inset, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
       if (map_get_tile(map_x, map_y)->client.hilite == HILITE_CITY
 	  || (is_isometric
@@ -1325,13 +1315,12 @@ static void tile_draw_selection(struct canvas *pcanvas,
 ****************************************************************************/
 void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
 			int canvas_x, int canvas_y,
-		    enum draw_type draw, bool citymode)
+		    bool citymode)
 {
-  tile_draw_map_grid(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
-  tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
-  tile_draw_coastline(pcanvas, map_x, map_y, canvas_x, canvas_y, draw);
-  tile_draw_selection(pcanvas, map_x, map_y, canvas_x, canvas_y,
-		      draw, citymode);
+  tile_draw_map_grid(pcanvas, map_x, map_y, canvas_x, canvas_y);
+  tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y);
+  tile_draw_coastline(pcanvas, map_x, map_y, canvas_x, canvas_y);
+  tile_draw_selection(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
 }
 
 /**************************************************************************
@@ -1339,62 +1328,21 @@ void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
   The coordinates have not been normalized, and are not guaranteed to be
   real (we have to draw unreal tiles too).
 **************************************************************************/
-static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
+static void put_tile_iso(int map_x, int map_y)
 {
   int canvas_x, canvas_y;
 
   if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
-    int height, width, height_unit;
-    int offset_x, offset_y, offset_y_unit;
-
-    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d), draw %x",
-	    map_x, map_y, canvas_x, canvas_y, draw);
-
-    if ((draw & D_L) && (draw & D_R)) {
-      width = NORMAL_TILE_WIDTH;
-    } else {
-      width = NORMAL_TILE_WIDTH / 2;
-    }
-
-    if (draw & D_L) {
-      offset_x = 0;
-    } else {
-      offset_x = NORMAL_TILE_WIDTH / 2;
-    }
-
-    height = 0;
-    if (draw & D_M) {
-      height += NORMAL_TILE_HEIGHT / 2;
-    }
-    if (draw & D_B) {
-      height += NORMAL_TILE_HEIGHT / 2;
-    }
-
-    height_unit = height;
-    if (draw & D_T) {
-      height_unit += NORMAL_TILE_HEIGHT / 2;
-    }
-
-    offset_y = (draw & D_M) ? 0 : NORMAL_TILE_HEIGHT / 2;
-
-    if (draw & D_T) {
-      offset_y_unit = 0;
-    } else if (draw & D_M) {
-      offset_y_unit = NORMAL_TILE_HEIGHT / 2;
-    } else {
-      offset_y_unit = NORMAL_TILE_HEIGHT;
-    }
+    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
+	    map_x, map_y, canvas_x, canvas_y);
 
     if (normalize_map_pos(&map_x, &map_y)) {
       put_one_tile_iso(mapview_canvas.store,
 		       map_x, map_y, canvas_x, canvas_y,
-		       offset_x, offset_y, offset_y_unit,
-		       width, height, height_unit,
-		       draw, FALSE);
+		       FALSE);
     } else {
-      canvas_put_sprite(mapview_canvas.store, canvas_x, canvas_y,
-			sprites.black_tile,
-			offset_x, offset_y, width, height);
+      canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
+			     sprites.black_tile);
     }
   }
 }
@@ -1458,12 +1406,12 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   /* FIXME: we don't have to draw black (unknown) tiles since they're already
    * cleared. */
   if (is_isometric) {
-    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
-      put_tile_iso(map_x, map_y, draw);
+    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
+      put_tile_iso(map_x, map_y);
     } gui_rect_iterate_end;
   } else {
     /* not isometric */
-    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
       /*
        * We don't normalize until later because we want to draw
        * black tiles for unreal positions.
@@ -1480,9 +1428,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * from adjacent tiles (if they're close enough). */
   gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
 		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
-		   map_x, map_y, draw) {
-    if (((draw & D_B) || (draw & D_M))
-	&& normalize_map_pos(&map_x, &map_y)) {
+		   map_x, map_y) {
+    if (normalize_map_pos(&map_x, &map_y)) {
       adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
 	if (is_drawn_line(map_x, map_y, dir)) {
 	  draw_segment(map_x, map_y, dir);
@@ -1492,9 +1439,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   } gui_rect_iterate_end;
 
   /* Draw citymap overlays on top. */
-  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
-    if (((draw & D_B) || (draw & D_M))
-	&& normalize_map_pos(&map_x, &map_y)) {
+  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
+    if (normalize_map_pos(&map_x, &map_y)) {
       struct city *pcity = find_city_near_tile(map_x, map_y);
       int city_x, city_y, canvas_x2, canvas_y2;
 
@@ -1604,7 +1550,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
 		   mapview_canvas.gui_y0 + canvas_y - dy,
 		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
-		   map_x, map_y, draw) {
+		   map_x, map_y) {
     int canvas_x, canvas_y;
     struct city *pcity;
 
