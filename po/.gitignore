@@ -4,5 +4,6 @@
 /freeciv.pot
 /stamp-cat-id
 /cat-id-tbl.c
+/ja.po
 /*.mo
 /*.gmo
