@@ -1873,10 +1873,14 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 
   if(cma_is_city_under_agent(pdialog->pcity, NULL)) {
     gtk_widget_set_sensitive(pdialog->overview.map_canvas, FALSE);
-    gtk_widget_set_sensitive(pdialog->happiness.map_canvas, FALSE);
+    if (pdialog->happiness.map_canvas) {
+      gtk_widget_set_sensitive(pdialog->happiness.map_canvas, FALSE);
+    }
   } else {
     gtk_widget_set_sensitive(pdialog->overview.map_canvas, TRUE);
-    gtk_widget_set_sensitive(pdialog->happiness.map_canvas, TRUE);
+    if (pdialog->happiness.map_canvas) {
+      gtk_widget_set_sensitive(pdialog->happiness.map_canvas, TRUE);
+    }
   }
 }
 
