@@ -77,8 +77,8 @@ void load_intro_gfx(void)
   int w;
   char s[64];
 
-  intro_gfx_sprite=load_xpmfile(datafilename("intro.xpm"));
-  radar_gfx_sprite=load_xpmfile(datafilename("radar.xpm"));
+  intro_gfx_sprite=load_xpmfile(datafilename_required("intro.xpm"));
+  radar_gfx_sprite=load_xpmfile(datafilename_required("radar.xpm"));
 
   w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
 	
@@ -386,11 +386,7 @@ again:
       color_error();
       goto again;
     }
-    
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
-    freelog(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
-	getenv("FREECIV_DATADIR") ? getenv("FREECIV_DATADIR") : "");
-    freelog(LOG_FATAL, "Check if you got read permissions to the file");
     exit(1);
   }
 

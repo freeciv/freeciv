@@ -82,8 +82,8 @@ void load_intro_gfx( void )
     int  w;
     char s	[64];
 
-    intro_gfx_sprite = load_xpmfile( datafilename( "intro.xpm" ) );
-    radar_gfx_sprite = load_xpmfile( datafilename( "radar.xpm" ) );
+    intro_gfx_sprite = load_xpmfile( datafilename_required( "intro.xpm" ) );
+    radar_gfx_sprite = load_xpmfile( datafilename_required( "radar.xpm" ) );
 
     w = gdk_string_width(main_font, WORD_VERSION);
 
@@ -349,9 +349,6 @@ struct Sprite *load_xpmfile(char *filename)
 
   if(!(im=gdk_imlib_load_image(filename))) {
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
-    freelog(LOG_FATAL, "The environment variable FREECIV_DATADIR is '%s'",
-        getenv("FREECIV_DATADIR") ? getenv("FREECIV_DATADIR") : "");
-    freelog(LOG_FATAL, "Check if you got read permissions to the file");
     exit(1);
   }
 

@@ -14,14 +14,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 
 #include <shared.h>
 #include <mem.h>
+#include <log.h>
 
-#ifndef FREECIV_DATADIR
-#define FREECIV_DATADIR "data"
+#define BASE_DATA_PATH ".:data:~/.freeciv"
+
+#ifdef FREECIV_DATADIR       /* the configured installation directory */
+#define DEFAULT_DATA_PATH BASE_DATA_PATH ":" FREECIV_DATADIR
+#else
+#define DEFAULT_DATA_PATH BASE_DATA_PATH
 #endif
-
 
 /* Random Number Generator variables */
 RANDOM_TYPE RandomState[56];
@@ -335,30 +340,222 @@ void save_restore_random(void)
    mode = mode+1 % 2;
 }
 
+/***************************************************************************
+  Returns 's' incremented to first non-space character.
+***************************************************************************/
+char *remove_leading_spaces(char *s)
+{
+  assert(s!=NULL);
+  while(*s && isspace(*s)) {
+    s++;
+  }
+  return s;
+}
 
 /***************************************************************************
-Prepend the data directory to the filename to get the
-relative path to a file in the data directory.
-Use environment variable and check that its sane.
-(Used to be in client/climisc.c)
-The returned pointer points to static memory, so this can
-only supply one filename at a time.
+  Terminates string pointed to by 's' to remove traling spaces;
+  Note 's' must point to writeable memory!
+***************************************************************************/
+void remove_trailing_spaces(char *s)
+{
+  char *t;
+  
+  assert(s!=NULL);
+  t = s + strlen(s) -1;
+  while(t>=s && isspace(*t)) {
+    *t = '\0';
+    t--;
+  }
+}
+
+/***************************************************************************
+  As remove_trailing_spaces(), for specified char.
+***************************************************************************/
+void remove_trailing_char(char *s, char trailing)
+{
+  char *t;
+  
+  assert(s!=NULL);
+  t = s + strlen(s) -1;
+  while(t>=s && (*t) == trailing) {
+    *t = '\0';
+    t--;
+  }
+}
+
+/***************************************************************************
+  Returns string which gives users home dir, as specified by $HOME.
+  Gets value once, and then caches result.
+  If $HOME is not set, give a log message and returns NULL.
+  Note the caller should not mess with the returned pointer or
+  the string pointed to.
+***************************************************************************/
+char *user_home_dir(void)
+{
+  static int init = 0;
+  static char *home_dir = NULL;
+  
+  if (!init) {
+    char *env = getenv("HOME");
+    if (env) {
+      home_dir = mystrdup(env);	        /* never free()d */
+      freelog(LOG_DEBUG, "HOME is %s", home_dir);
+    } else {
+      freelog(LOG_NORMAL, "Could not find home directory (HOME is not set)");
+      home_dir = NULL;
+    }
+    init = 1;
+  }
+  return home_dir;
+}
+
+/***************************************************************************
+  Returns a filename to access the specified file from a data directory;
+  The file may be in any of the directories in the data path, which is
+  specified internally or may be set as the environment variable
+  $FREECIV_PATH.  (A colon-separated list of directories.)
+  (For backward compatability the directory specified by $FREECIV_DATADIR
+  (if any) is prepended to this path.  (Is this desirable?))
+  '~' at the start of a component (provided followed by '/' or '\0')
+  is expanded as $HOME.
+
+  If the specified 'filename' is NULL, the returned string contains
+  the effective data path.  (But this should probably only be used
+  for debug output.)
+  
+  Returns NULL if the specified filename cannot be found in any of the
+  data directories.  (A file is considered "found" if it can be read-opened.)
+  The returned pointer points to static memory, so this function can
+  only supply one filename at a time.
 ***************************************************************************/
 char *datafilename(char *filename)
 {
-  static char* datadir=0;
-  static char  realfile[512];
-  if(!datadir) {
-    if((datadir = getenv("FREECIV_DATADIR"))) {
-      int i;
-      for(i=strlen(datadir)-1; i>=0 && isspace((int)datadir[i]); i--)
-	datadir[i] = '\0';
-      if(datadir[i] == '/')
-	datadir[i] = '\0';
+  static int init = 0;
+  static int num_dirs = 0;
+  static char **dirs = NULL;
+  static char *realfile = NULL;
+  static int n_alloc_realfile = 0;
+  int i;
+
+  if (!init) {
+    char *tok;
+    char *path = getenv("FREECIV_PATH");
+    char *data = getenv("FREECIV_DATADIR");
+    if (!path) {
+      path = DEFAULT_DATA_PATH;
+    }
+    if (data) {
+      char *tmp = fc_malloc(strlen(data) + strlen(path) + 2);
+      sprintf(tmp, "%s:%s", data, path);
+      path = tmp;
     } else {
-      datadir = FREECIV_DATADIR; /* correct if not 'data' is the default */
-    };
-  };
-  sprintf(realfile,"%s/%s",datadir,filename);
-  return(realfile);
+      path = mystrdup(path);	/* something we can strtok */
+    }
+    
+    tok = strtok(path, ":");
+    do {
+      int i;			/* strlen(tok), or -1 as flag */
+      
+      tok = remove_leading_spaces(tok);
+      remove_trailing_spaces(tok);
+      if (strcmp(tok, "/")!=0) {
+	remove_trailing_char(tok, '/');
+      }
+      
+      i = strlen(tok);
+      if (tok[0] == '~') {
+	if (i>1 && tok[1] != '/') {
+	  freelog(LOG_NORMAL, "For \"%s\" in data path cannot expand '~'"
+		              " except as '~/'; ignoring", tok);
+	  i = 0;   /* skip this one */
+	} else {
+	  char *home = user_home_dir();
+	  if (!home) {
+	    freelog(LOG_DEBUG, "No HOME, skipping data path component %s", tok);
+	    i = 0;
+	  } else {
+	    char *tmp = fc_malloc(strlen(home) + i);    /* +1 -1 */
+	    sprintf(tmp, "%s%s", home, tok+1);
+	    tok = tmp;
+	    i = -1;		/* flag to free tok below */
+	  }
+	}
+      }
+      if (i != 0) {
+	/* We could check whether the directory exists and
+	 * is readable etc?  Don't currently. */
+	num_dirs++;
+	dirs = fc_realloc(dirs, num_dirs*sizeof(char*));
+	dirs[num_dirs-1] = mystrdup(tok);
+	freelog(LOG_DEBUG, "Data path component (%d): %s", num_dirs-1, tok);
+	if (i == -1) {
+	  free(tok);
+	}
+      }
+
+      tok = strtok(NULL, ":");
+    } while(tok != NULL);
+
+    free(path);
+    init = 1;
+  }
+
+  if (filename == NULL) {
+    int len = 1;		/* in case num_dirs==0 */
+    for(i=0; i<num_dirs; i++) {
+      len += strlen(dirs[i]) + 1; /* ':' or '\0' */
+    }
+    if (len > n_alloc_realfile) {
+      realfile = fc_realloc(realfile, len);
+      n_alloc_realfile = len;
+    }
+    realfile[0] = '\0';
+    for(i=0; i<num_dirs; i++) {
+      strcat(realfile, dirs[i]);
+      if(i != num_dirs-1) {
+	strcat(realfile, ":");
+      }
+    }
+    return realfile;
+  }
+  
+  for(i=0; i<num_dirs; i++) {
+    FILE *fp;			/* see if we can open the file */
+    int len = strlen(dirs[i]) + strlen(filename) + 2;
+    
+    if (len > n_alloc_realfile) {
+      realfile = fc_realloc(realfile, len);
+      n_alloc_realfile = len;
+    } 
+    sprintf(realfile,"%s/%s", dirs[i], filename);
+    fp = fopen(realfile, "r");
+    if (fp) {
+      fclose(fp);
+      return realfile;
+    }
+  }
+  return NULL;
+}
+
+/***************************************************************************
+  As datafilename(), above, except die with an appropriate log
+  message if we can't find the file in the datapath.
+***************************************************************************/
+char *datafilename_required(char *filename)
+{
+  char *dname;
+  
+  assert(filename!=NULL);
+  dname = datafilename(filename);
+
+  if (dname) {
+    return dname;
+  } else {
+    freelog(LOG_FATAL, "Could not find readable file \"%s\" in data path",
+	    filename);
+    freelog(LOG_FATAL, "The data path may be set via"
+	               " the environment variable FREECIV_PATH");
+    freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
+    exit(1);
+  }
 }

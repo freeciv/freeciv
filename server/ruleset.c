@@ -58,7 +58,15 @@ static char *openload_ruleset_file(struct section_file *file,
 
   sprintf(filename, "%s/%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename);
-  if(!section_file_load(file,dfilename)) {
+  if (!dfilename) {
+    freelog(LOG_FATAL, "Could not find readable ruleset file \"%s\""
+	               " in data path", filename);
+    freelog(LOG_FATAL, "The data path may be set via"
+	               " the environment variable FREECIV_PATH");
+    freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
+    exit(1);
+  }
+  if (!section_file_load(file,dfilename)) {
     freelog(LOG_FATAL, "Could not load ruleset file %s", dfilename);
     exit(1);
   }

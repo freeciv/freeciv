@@ -112,11 +112,18 @@ char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
 int mystrcasecmp(char *str0, char *str1);
 char *mystrerror(int errnum);
+int string_ptr_compare(const void *first, const void *second);
+
 RANDOM_TYPE myrand(int size);
 void mysrand(RANDOM_TYPE seed);
-int string_ptr_compare(const void *first, const void *second);
 void save_restore_random(void);
 
-char *datafilename(char *filename);    /* used to be in client/climisc */
+char *remove_leading_spaces(char *s);
+void remove_trailing_spaces(char *s);
+void remove_trailing_char(char *s, char trailing);
+
+char *user_home_dir(void);
+char *datafilename(char *filename);
+char *datafilename_required(char *filename);
 
 #endif

@@ -162,6 +162,7 @@ void boot_help_texts(void)
   static int booted=0;
   
   FILE *fs;
+  char *dfname;
   char buf[512], *p;
   char expect[32], name[MAX_LENGTH_NAME+2];
   char seen[MAX_LAST], *pname;
@@ -192,8 +193,18 @@ void boot_help_texts(void)
     freelog(LOG_DEBUG, "Rebooting help texts");
   }    
   
-  fs=fopen(datafilename("helpdata.txt"), "r");
-  if(fs==NULL) {
+  dfname = datafilename("helpdata.txt");
+  if (dfname == NULL) {
+    freelog(LOG_NORMAL, "Could not find readable helpdata.txt in data path");
+    freelog(LOG_NORMAL, "The data path may be set via"
+	                " the environment variable FREECIV_PATH");
+    freelog(LOG_NORMAL, "Current data path is: \"%s\"", datafilename(NULL));
+    freelog(LOG_NORMAL, "Did not read help texts");
+    return;
+  }
+  fs = fopen(dfname, "r");
+  if (fs == NULL) {
+    /* this is now unlikely to happen */
     freelog(LOG_NORMAL, "failed reading help-texts");
     return;
   }
