@@ -1,4 +1,4 @@
-Original: CVS-1.1
+Original: CVS-1.2
 Translator: SAWADA Katsuya <ama@petmail.net>
 
 
@@ -65,157 +65,144 @@ Berlin の要求を満たすことができません。管理を戻しています。" というメッ
 市を解放」をクリックして下さい。
 
 
-  Advanced Usage
-==================
+  高度な使用法
+================
 
-There is not much experience using the CMA yet, but some common
-remarks may be helpful. Usually the goal(s) of your cities depend on
-the phase your game is in, whether you want to spread widely, grow
-quickly, research advanced techs or wage war. You may want to set up a
-high factor for science to research, or a high shields factor to
-produce units. The highest factor available is 25, that means: if the
-shields factor is set to 25, and other to 1, the CMA prefers a single
-shield over 25 gold (or trade also). This is pretty much because money
-can buy units too. That also means that the CMA is indifferent about
-producing gold, science, luxury, and food; but when you wage war, you
-usually prefer gold or luxury. So it's probably a good idea to set a
-second (or even third) preference for the city's output, e.g. gold
-factor 5. That still prefers 1 shield over 5 gold (and 1 gold over 5
-food or anything else).
+CMA 利用の経験はまだそれほどありませんが、幾つかの共通の発言が役に立つ
+かもしれません。普通、都市のゴールはゲームのどの段階にいるかによります。
+あなたの望む物は、幅広い展開、素早い拡大、進んだ科学の研究、戦争の遂行
+かもしれません。研究が行ないたくて科学の因子を高く設定したり、部隊の製
+作が行ないたくてシールドの因子を高く設定することを望むかもしれません。
+利用可能な最も高い因子は 25です。つまり: シールドの因子を25に、他を1に
+設定したら、 CMA は金25よりシールド1を選びます(交易25でも同様です)。こ
+れはとんでもないことです。お金でも部隊を買えるからです。同様に、 CMA 
+は 金、科学、贅沢、食料の生産についても差別はしません。従って都市出力
+に対する二番目(三番目)を例えば金の因子5に設定することは恐らくよいアイ
+ディアです。これでもまだ、金5よりシールド1を(そして食料5やそれ以外より
+金1を)選びます。
 
-Constraints aren't useful in all cases. If you want a high income,
-it's probably better to set the gold factor to 25, than to set a
-minimal surplus of 5 or so. Because a big city can make more gold than
-a small one, you'd end up setting a different surplus for each city.
+制約は全ての場合で有益なわけではありません。もし高い収入を望むなら、最
+小黒字を5などに設定するより金の因子を25に設定したほうが恐らく望ましい
+です。大きな都市は小さな都市より金を作ることができるので、各都市に対し
+て異なる黒字を設定する必要があるからです。
 
-However, if the shields surplus of a city is below zero, it cannot
-support all of its units any more. You will lose some of the units the
-city supports. If the food surplus is negative, the city will starve
-and eventually (when the granary is empty) shrink. This may be
-intended, but if the city supports any settlers, you will lose them
-before the city shrinks. Constraints can also have a warning function.
+都市のシールド黒字をゼロ以下にしたら、もう一部の部隊を援助できません。
+あなたは都市が援助していた部隊を失なうでしょう。また、もし食料黒字を負
+にしたら、都市は飢え、最後には(穀物庫が空になった時に)縮小するでしょう。
+もしこれが目的とすることだったとしても、その都市が開拓者を援助していた
+ら都市が縮む前に開拓者を失います。制約もまた注意が必要な機能です。
 
-Which constraints can be fulfilled depends widely on the global
-science, tax, and luxury rates. E.g. a gold surplus >= 0 is easier to
-fulfill with a higher tax rate than a lower one. You should always
-consider to change these rates, when you going to change the CMA
-settings for the most of your cities.
+どの制約が満たされるかは、全体の科学、税、贅沢の割合に幅広く依存します。
+例えば金黒字 >= 0 は低い税率より高い税率で満し易いです。都市のほとんど
+で CMA 設定を変更しようとする時は、常にこの率の変更を考慮すべきです。
 
-Hint: To avoid acidentally releasing your cities, when you change the
-rates, it is best to do so from within the tax dialog rather than from
-the rates display in the main window.
+ヒント: CMA から都市が解放される事故を防ぐためには、率の変更を行なう時
+に、メインウィンドウ内に表示されている部分から変更を行なうのではなく、
+税ダイアログ内部から行なうのがベストです。
 
 
-  Drawbacks
-=============
+  欠点
+========
 
-The CMA is a very powerful tool, which not only releases you from the
-micromanagement of your cities, but gives you more performance than
-you have ever seen (well, for most players).
+CMA はとても強力な道具です。都市の細かい管理からあなたを解放するだけで
+なく、これまで見たこともない(ええ、ほとんどのプレイヤーが)パフォーマン
+スをあなたに与えます。
 
-There are some drawbacks, though. Once you've switched on the CMA, it
-grabs any good tile it can get. So you encounter very hard times
-trying to manage a city nearby a CMA-controlled one. This is true for
-the city window and the main map worker's interface as well. If you
-want to have CMA-controlled and "handmade" cities, they probably
-should be on different islands.
+しかし幾つか欠点があります。一旦 CMA へ切り替えたら、取得できる限りの
+良いタイルを CMA が確保します。従って、 CMA 管理都市の近くの都市を扱う
+のは非常に難しくなります。これは都市ウィンドウや、メインマップの作業者
+インターフェースでも同様です。もしあなたが CMA 管理都市と「手動」都市
+の両方を持ちたいなら、それらは別々の島でやるべきです。
 
-There are several situations where the CMA can't fulfill the
-requirements just temporarely, e.g. when you move a ship from one city
-to another, or when an enemy walks through your country. The CMA
-passes back control in these cases, and you have to reenable it
-manually. A general approach to prevent this might be, to set the
-minimal surpluses as low as possible (-20). Of course you must be
-careful with the food and shield surplusses.
+CMA が一時的に要求を満たすことができない場合があります。例えば、ある都
+市から他の都市へ船を動かす時、敵があなたの領土を横切る時などです。CMA 
+はこれらの場合に制御を戻し、あなたはその都市をまた手動で有効にしなけれ
+ばなりません。これを避ける一般的なやり方は、最小黒字をできるだけ低くす
+る(-20)ことです。もちろん、あなたは食料黒字とシールド黒字に注意しなけ
+ればなりません。
 
-While the CMA does a really good job for a single city, no tile will
-ever be released for the good of another city. Also, the CMA'd cities
-are computed in a more random order; the results may depend on it and
-change, when a recalculation is done (when tax changes e.g.). So, no
-guarantee is given that the overall results are always optimal.
+CMA が一つの都市に対して本当によい仕事を行なっている間、他の都市に対し
+て解放されるタイルはありません。また、 CMA 下の都市はランダムな順序で
+計算されます。即ち、結果はランダムな順序と再計算が行なわれた時(税の変
+更など)の変更に左右されます。従って、全体的な結果が常に最適になるとい
+う保証はありません。
 
 
-  Settings file
-=================
+  設定ファイル
+================
 
-The client allows the user to load and save preset parameters for the
-agent. Choosing "Save Settings" from the "Game" menu will not only
-save your general options and message options, but it will save any
-changes you made to you CMA presets as well.
+エージェントのプリセットパラメータをロード、セーブできます。「ゲーム」
+メニューから「設定を保存」を選ぶと、全体オプションやメッセージオプショ
+ンを保存するだけでなく、CMAプリセットも保存します。
 
-The format for the options file (usually ~/.civclientrc) is as follows
-(in case you which to change these presets manually, i.e. with a text
-editor).
+オプションファイル(普通は ~/.civclientrc)のフォーマットは以下の通りで
+す(手動でプリセットを変更する場合)。
 
-Under the heading [cma], is a "number_of_presets". This should be set
-to the number of presets that are present in the options file. If you
-manually add or remove a preset, you need to change this number as
-appropriate.
+[cma] ヘッダの下に、"number_of_presets" があります。これはオプションファ
+イルにあるプリセットの数です。もし手動でプリセットを追加/削除するなら、
+この数を適切に変更する必要があります。
 
-After this, is an array that houses the presets. Here is the header:
+この後はプリセットを含む配列です。ヘッダはこのようになっています:
 
 preset={ "name","minsurp0","factor0","minsurp1","factor1","minsurp2",
 "factor2","minsurp3","factor3","minsurp4","factor4","minsurp5",
 "factor5","reqhappy","factortarget","happyfactor"
 
-so the order of the preset should be as follows: 
+従って、プリセットの順は以下の通りでなければなりません:
 
-name of preset, minimal surplus 0, factor 0, ... , 
-require city to be happy, what the target should be [0,1], 
-the happiness factor
+プリセットの名前, 最小黒字0, 因子0, ... ,
+都市が幸福を要求, [0,1]の何か, 幸福因子
 
-Currently there are 6 surpluses and factors. They are:
-0 = food, 1 = production, 2 = trade, 3 = gold, 4 = luxury,
-5 = science
+現在、6つの黒字と因子があります:
+0 = 食料, 1 = 生産, 2 = 交易, 3 = 金, 4 = 贅沢, 5 = 科学
 
-Also currently, "factortarget" is not changeable within the client,
-see "client/agents/citizen_management.h" for more information.
+また、現在 "factortarget" はクライアント内では変更できません。詳しくは 
+"client/agents/cma_core.h" を見て下さい。
 
-The array should be terminated with a '}'.
+配列は '}' で終わらなければなりません。
 
-Here are 21 presets you can use if you can't come up with some on 
-your own:
+以下は、いいアイディアを思い浮かばない時のための 21個のプリセットです。
 
-"Max food",0,10,0,1,0,1,0,1,0,1,0,1,0,0,1
-"Max production",0,1,0,10,0,1,0,1,0,1,0,1,0,0,1
-"Max trade",0,1,0,1,0,10,0,1,0,1,0,1,0,0,1
-"Max tax",0,1,0,1,0,1,0,10,0,1,0,1,0,0,1
-"Max luxury",0,1,0,1,0,1,0,1,0,10,0,1,0,0,1
-"Max science",0,1,0,1,0,1,0,1,0,1,0,10,0,0,1
-"+2 food",2,1,0,1,0,1,0,1,0,1,0,1,0,0,1
-"+2 production",0,1,2,1,0,1,0,1,0,1,0,1,0,0,1
-"+2 trade",0,1,0,1,2,1,0,1,0,1,0,1,0,0,1
-"+2 gold",0,1,0,1,0,1,2,1,0,1,0,1,0,0,1
-"+2 luxury",0,1,0,1,0,1,0,1,2,1,0,1,0,0,1
-"+2 science",0,1,0,1,0,1,0,1,0,1,2,1,0,0,1
-"Max food no gold limit",0,10,0,1,0,1,-20,1,0,1,0,1,0,0,1
-"Max production no gold limit",0,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"Max trade no gold limit",0,1,0,1,0,10,-20,1,0,1,0,1,0,0,1
-"Max gold no gold limit",0,1,0,1,0,1,-20,10,0,1,0,1,0,0,1
-"Max luxury no gold limit",0,1,0,1,0,1,-20,1,0,10,0,1,0,0,1
-"Max science no gold limit",0,1,0,1,0,1,-20,1,0,1,0,10,0,0,1
-"Max food+prod. no gold limit",0,10,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"Max food+prod.+trade",0,10,0,10,0,10,0,1,0,1,0,1,0,0,1
-"Max all",0,1,0,1,0,1,0,1,0,1,0,1,0,0,1
+"食料最大",0,10,0,1,0,1,0,1,0,1,0,1,0,0,1
+"生産最大",0,1,0,10,0,1,0,1,0,1,0,1,0,0,1
+"交易最大",0,1,0,1,0,10,0,1,0,1,0,1,0,0,1
+"税最大",0,1,0,1,0,1,0,10,0,1,0,1,0,0,1
+"贅沢最大",0,1,0,1,0,1,0,1,0,10,0,1,0,0,1
+"科学最大",0,1,0,1,0,1,0,1,0,1,0,10,0,0,1
+"+2食料",2,1,0,1,0,1,0,1,0,1,0,1,0,0,1
+"+2生産",0,1,2,1,0,1,0,1,0,1,0,1,0,0,1
+"+2交易",0,1,0,1,2,1,0,1,0,1,0,1,0,0,1
+"+2金",0,1,0,1,0,1,2,1,0,1,0,1,0,0,1
+"+2贅沢",0,1,0,1,0,1,0,1,2,1,0,1,0,0,1
+"+2科学",0,1,0,1,0,1,0,1,0,1,2,1,0,0,1
+"食料最大,金制限なし",0,10,0,1,0,1,-20,1,0,1,0,1,0,0,1
+"生産最大,金制限なし",0,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"交易最大,金制限なし",0,1,0,1,0,10,-20,1,0,1,0,1,0,0,1
+"金最大,金制限なし",0,1,0,1,0,1,-20,10,0,1,0,1,0,0,1
+"贅沢最大,金制限なし",0,1,0,1,0,1,-20,1,0,10,0,1,0,0,1
+"科学最大,金制限なし",0,1,0,1,0,1,-20,1,0,1,0,10,0,0,1
+"食料+生産最大,金制限なし",0,10,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"食料+生産+交易最大",0,10,0,10,0,10,0,1,0,1,0,1,0,0,1
+"全て最大",0,1,0,1,0,1,0,1,0,1,0,1,0,0,1
 
-here are 6 more that have been added as an afterthought:
+以下の6つは、あとで思いついて追加したものです:
 
-"+1 food, max prod. no gold limit",1,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+2 food, max prod. no gold limit",2,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+3 food, max prod. no gold limit",3,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+4 food, max prod. no gold limit",4,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+5 food, max prod. no gold limit",5,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
-"+6 food, max prod. no gold limit",6,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+1食料,生産最大,金制限なし",1,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+2食料,生産最大,金制限なし",2,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+3食料,生産最大,金制限なし",3,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+4食料,生産最大,金制限なし",4,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+5食料,生産最大,金制限なし",5,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
+"+6食料,生産最大,金制限なし",6,1,0,10,0,1,-20,1,0,1,0,1,0,0,1
 
-and even more, some with multiple goals:
+さらに、複数ゴールのプリセットを幾つか:
 
-"research at any cost",0,1,0,5,-20,1,-20,1,-20,1,-20,25,0,0,1
-"celebration and growing",1,1,0,25,-20,1,-20,12,-20,1,-20,1,1,0,1
+"どんなコストでも研究",0,1,0,5,-20,1,-20,1,-20,1,-20,25,0,0,1
+"祝典と拡大",1,1,0,25,-20,1,-20,12,-20,1,-20,1,1,0,1
 "grow at any cost",1,25,0,5,-20,1,-20,1,-20,1,-20,5,0,0,1
-"research and some shields",0,1,0,8,0,1,-3,1,0,1,0,25,0,0,1
-"shields and a bit money",0,1,0,25,0,1,-3,3,0,1,0,1,0,0,1
-"many shields and some money",0,1,0,25,0,1,0,9,0,1,0,1,0,0,1
-"shields and some research",0,1,0,25,0,1,-2,1,0,1,0,8,0,0,1
-"celebrate and grow at once",1,1,0,25,-20,1,-20,1,-20,1,-20,8,1,0,1
+"研究とシールド幾らか",0,1,0,8,0,1,-3,1,0,1,0,25,0,0,1
+"シールドと金少し",0,1,0,25,0,1,-3,3,0,1,0,1,0,0,1
+"シールド沢山と金幾らか",0,1,0,25,0,1,0,9,0,1,0,1,0,0,1
+"シールドと研究幾らか",0,1,0,25,0,1,-2,1,0,1,0,8,0,0,1
+"祝典と同時に成長",1,1,0,25,-20,1,-20,1,-20,1,-20,8,1,0,1
 
-Last updated: 9 Jan 2002
+最終更新日: 2002年1月9日
