@@ -49,6 +49,7 @@
 extern struct move_cost_map warmap;
 
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader);
+static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
 
 int unit_move_turns(struct unit *punit, int x, int y)
 {
@@ -1698,11 +1699,11 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit,
 
   if ((unit_flag(punit->type, F_DIPLOMAT))
       || (unit_flag(punit->type, F_SPY))) {
-    return;
+    ai_manage_diplomat(pplayer, punit);
     /* the right test if the unit is in a city and 
        there is no other diplomat it musn't move.
        This unit is a bodyguard against enemy diplomats.
-       Rigth now I don't know how to use bodyguards! (17/12/98) (--NB)
+       Right now I don't know how to use bodyguards! (17/12/98) (--NB)
     */
   }
   else if (unit_flag(punit->type, F_SETTLERS)
@@ -1823,6 +1824,137 @@ int is_ai_simple_military(int type)
     && !unit_flag(type, F_MISSILE)
     && !unit_flag(type, F_SUBMARINE) /* not caught by capacity for civ1 */
     && !(get_unit_type(type)->transport_capacity >= 8);
+}
+
+/*
+ * If we are the only diplomat in a city, defend against enemy actions.
+ * The passive defense is set by game.diplchance.  The active defense is
+ * to bribe units which end their move nearby.
+ * Our next trick is to look for enemy units and cities on our continent.
+ * If we find a city, we look first to establish an embassy.  The
+ * information gained this way is assumed to be more useful than anything
+ * else we could do.  Making this come true is for future code.  -AJS
+ */
+static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
+{
+  int i, x, y, bribe, handicap, has_emb, continent, dist, rmd, oic;
+  struct packet_unit_request req;
+  struct packet_diplomat_action dact;
+  struct city *pcity, *ctarget;
+  struct tile *ptile;
+  struct unit *ptres;
+  struct player *aplayer;
+
+  if (pdiplomat->activity != ACTIVITY_IDLE)
+    handle_unit_activity_request(pplayer, pdiplomat, ACTIVITY_IDLE);
+
+  pcity = map_get_city(pdiplomat->x, pdiplomat->y);
+
+  if (pcity && count_diplomats_on_tile(pdiplomat->x, pdiplomat->y) == 1) {
+    /* We're the only diplomat in a city.  Defend it. */
+    if (pdiplomat->homecity != pcity->id) {
+      /* this may be superfluous, but I like it.  -AJS */
+      req.unit_id=pdiplomat->id;
+      req.city_id=pcity->id;
+      req.name[0]='\0';
+      handle_unit_change_homecity(pplayer, &req);
+    }
+    /*
+     * We may want this to be a city_map_iterate, or a warmap distance
+     * check, but this will suffice for now.  -AJS
+     */
+    for (x=-1; x<= 1; x++) {
+      for (y=-1; y<= 1; y++) {
+	if (x == 0 && y == 0) continue;
+	if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
+				pcity->x+x, pcity->y+y)) {
+	  /* A lone trespasser! Seize him! -AJS */
+	  ptile=map_get_tile(pcity->x+x, pcity->y+y);
+	  ptres = unit_list_get(&ptile->units, 0);
+	  bribe=unit_bribe_cost (ptres);
+	  if ( bribe < (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
+	    dact.diplomat_id=pdiplomat->id;
+	    dact.target_id=ptres->id;
+	    dact.action_type=DIPLOMAT_BRIBE;
+	    handle_diplomat_action(pplayer, &dact);
+	  }
+	}
+      }
+    }
+  } else {
+    /*
+     *  We're wandering in the desert, or there is more than one diplomat
+     *  here.  Go elsewhere.
+     *  First, we look for an embassy, to steal a tech, or for a city to
+     *  subvert.  Then we look for a city of our own without a defending
+     *  diplomat.  This may not prove to work so very well, but it's
+     *  possible otherwise that all diplomats we ever produce are home
+     *  guard, and that's kind of silly.  -AJS, 20000130
+     */
+    ctarget=0;
+    ptres=0;
+    dist=MAX(map.xsize, map.ysize);
+    continent=map_get_continent(pdiplomat->x, pdiplomat->y);
+    handicap = ai_handicap(pplayer, H_TARGETS);
+    for( i = 0; i < game.nplayers; i++) {
+      aplayer = &game.players[i];
+      if (aplayer == pplayer) continue;
+      /* sneaky way of avoiding foul diplomat capture  -AJS */
+      has_emb=player_has_embassy(pplayer, aplayer) || pdiplomat->foul;
+      city_list_iterate(aplayer->cities, acity)
+	if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
+	if (continent != map_get_continent(acity->x, acity->y)) continue;
+	city_incite_cost(acity);
+	/* figure our incite cost */
+	oic = acity->incite_revolt_cost;
+	if (pplayer->player_no == acity->original) oic = oic / 2;
+	rmd=real_map_distance(pdiplomat->x, pdiplomat->y, acity->x, acity->y);
+	if (!ctarget || (dist > rmd)) {
+	  if (!has_emb || !acity->steal || (oic < 
+               pplayer->economic.gold - pplayer->ai.est_upkeep)) {
+	    /* We have the closest enemy city so far on the same continent */
+	    ctarget = acity;
+	    dist = rmd;
+	  }
+	}
+      city_list_iterate_end;
+    }
+    if (!ctarget) {
+      /* No enemy cities are useful.  Check our own. -AJS */
+      city_list_iterate(aplayer->cities, acy)
+	if (!count_diplomats_on_tile(acy->x, acy->y)) {
+	  ctarget=acy;
+	  dist=real_map_distance(pdiplomat->x, pdiplomat->y, acy->x, acy->y);
+	  /* keep dist's integrity, and we can use it later. -AJS */
+	}
+      city_list_iterate_end;
+    }
+    if (ctarget) {
+      /* Otherwise, we just kinda sit here.  -AJS */
+      if ((dist == 1) && (pplayer->player_no != ctarget->owner)) {
+	dact.diplomat_id=pdiplomat->id;
+	dact.target_id=ctarget->id;
+	if (!pdiplomat->foul && diplomat_can_do_action(pdiplomat,
+	     DIPLOMAT_EMBASSY, ctarget->x, ctarget->y)) {
+	    dact.action_type=DIPLOMAT_EMBASSY;
+	    handle_diplomat_action(pplayer, &dact);
+	} else if (!ctarget->steal && diplomat_can_do_action(pdiplomat,
+		    DIPLOMAT_STEAL, ctarget->x, ctarget->y)) {
+	    dact.action_type=DIPLOMAT_STEAL;
+	    handle_diplomat_action(pplayer, &dact);
+	} else if (diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
+		   ctarget->x, ctarget->y)) {
+	    dact.action_type=DIPLOMAT_INCITE;
+	    handle_diplomat_action(pplayer, &dact);
+	}
+      }
+      pdiplomat->goto_dest_x=ctarget->x;
+      pdiplomat->goto_dest_y=ctarget->y;
+      set_unit_activity(pdiplomat, ACTIVITY_GOTO);
+      do_unit_goto(pplayer, pdiplomat, GOTO_MOVE_ANY);
+    }
+  }
+  return;
 }
 
 /*************************************************************************

@@ -271,15 +271,17 @@ int unit_bribe_cost(struct unit *punit)
 }
 
 /**************************************************************************
- return whether or not there is a diplomat on this square
+ return number of diplomats on this square.  AJS 20000130
 **************************************************************************/
-int diplomat_on_tile(int x, int y)
+int count_diplomats_on_tile(int x, int y)
 {
+  int count = 0;
+
   unit_list_iterate(map_get_tile(x, y)->units, punit)
     if (unit_flag(punit->type, F_DIPLOMAT))
-      return 1;
+      count++;
   unit_list_iterate_end;
-  return 0;
+  return count;
 }
 
 /**************************************************************************

@@ -25,7 +25,7 @@ int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int unit_bribe_cost(struct unit *punit);
-int diplomat_on_tile(int x, int y);
+int count_diplomats_on_tile(int x, int y);
 int hp_gain_coord(struct unit *punit);
 int rate_unit_d(struct unit *punit, struct unit *against);
 int rate_unit_a(struct unit *punit, struct unit *against);
