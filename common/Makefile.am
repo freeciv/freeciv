@@ -18,6 +18,7 @@ libcivcommon_a_SOURCES = \
 		city.h		\
 		connection.c	\
 		connection.h	\
+		create_lsend.pl	\
 		diptreaty.c	\
 		diptreaty.h	\
 		events.h	\
@@ -47,6 +48,8 @@ libcivcommon_a_SOURCES = \
 		netintf.h	\
 		packets.c	\
 		packets.h	\
+		packets_lsend.c	\
+		packets_lsend.h	\
 		player.c	\
 		player.h	\
 		mem.c           \

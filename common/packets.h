@@ -891,7 +891,8 @@ int send_packet_city_info(struct connection *pc,struct packet_city_info *req);
 struct packet_city_info *receive_packet_city_info(struct connection *pc);
 
 int send_packet_city_request(struct connection *pc, 
-			     struct packet_city_request *packet, enum packet_type);
+			     struct packet_city_request *packet,
+			     enum packet_type req_type);
 struct packet_city_request *
 receive_packet_city_request(struct connection *pc);
 
@@ -909,7 +910,8 @@ int send_packet_unit_request(struct connection *pc,
 			     enum packet_type req_type);
 
 int send_packet_before_new_year(struct connection *pc);
-struct packet_before_new_year *receive_packet_before_new_year(struct connection *pc);
+struct packet_before_new_year *
+receive_packet_before_new_year(struct connection *pc);
 
 int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
@@ -967,8 +969,6 @@ int send_packet_ruleset_game(struct connection *pc,
 struct packet_ruleset_game *
 receive_packet_ruleset_game(struct connection *pc);
 
-int send_packet_before_end_year(struct connection *pc);
-
 int send_packet_generic_values(struct connection *pc, int type,
 			       struct packet_generic_values *req);
 struct packet_generic_values *
@@ -996,5 +996,7 @@ receive_packet_sabotage_list(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
+
+#include "packets_lsend.h"		/* lsend_packet_* functions */
 
 #endif  /* FC__PACKETS_H */

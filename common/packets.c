@@ -1930,7 +1930,12 @@ receive_packet_before_new_year(struct connection *pc)
   return packet;
 }
 
-int send_packet_before_end_year(struct connection *pc)
+/**************************************************************************
+...
+(Used to be called send_packet_before_end_year; changed for consistency
+-- referred to as "before new year" in more places.)
+**************************************************************************/
+int send_packet_before_new_year(struct connection *pc)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_BEFORE_NEW_YEAR);

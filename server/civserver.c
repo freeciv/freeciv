@@ -802,14 +802,13 @@ static void update_diplomatics(void)
 }
 
 /**************************************************************************
-...
+  Send packet which tells clients that the server is starting its
+  "end year" calculations (and will be sending end-turn updates etc).
+  (This is referred to as "before new year" in packet and client code.)
 **************************************************************************/
 static void before_end_year(void)
 {
-  int i;
-  for (i=0; i<game.nplayers; i++) {
-    send_packet_before_end_year(game.players[i].conn);
-  }
+  lsend_packet_before_new_year(&game.est_connections);
 }
 
 /**************************************************************************
