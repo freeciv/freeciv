@@ -20,8 +20,22 @@ Allthough we do not yet have sound support, and the computer players
 can't yet negotiate, the rules are very complete, and our multiplayer
 and networking code is excellent.
 
-There may be a localized version of this file in the ./doc directory,
-named README.<locale> (e.g., README.de).
+
+Translations:
+=============
+
+You may find a translated version of this file, as well as of other parts
+of the Freeciv documentation, in the following places:
+
+	Dutch			./doc/nl
+	French			./doc/fr
+	German			./doc/de
+	Italian			./doc/it
+	Japanese		./doc/ja
+	Swedish			./doc/sv
+
+Even if there is no translation for your language, the game itself may be
+support it. Please see "Native Language Support" below.
 
 
 Web site:
