@@ -721,7 +721,6 @@ static void player_load(struct player *plr, int plrno,
     struct city *pcity;
     
     pcity=fc_malloc(sizeof(struct city));
-    pcity->ai.ai_role = AICITY_NONE;
     pcity->ai.trade_want = TRADE_WEIGHTING;
     memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
     pcity->ai.workremain = 1; /* there's always work to be done! */

@@ -1030,7 +1030,6 @@ void create_city(struct player *pplayer, const int x, const int y,
 
   pcity->city_options = CITYOPT_DEFAULT;
   
-  pcity->ai.ai_role = AICITY_NONE;
   pcity->ai.trade_want = TRADE_WEIGHTING; 
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
   pcity->ai.workremain = 1; /* there's always work to be done! */

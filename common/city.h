@@ -180,7 +180,6 @@ struct ai_choice {
 
 struct ai_city {
   int workremain;
-  int ai_role;
 
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST];    /* not sure these will always be < 256 */
