@@ -166,17 +166,21 @@ bool is_diplomat_action_available(struct unit *pdiplomat,
     struct tile *ptile = map_get_tile(destx, desty);
     struct unit *punit;
 
-    if ((action==SPY_SABOTAGE_UNIT || action==DIPLOMAT_ANY_ACTION) &&
-	unit_list_size(&ptile->units)==1 &&
-	unit_flag(pdiplomat, F_SPY)) {
+    if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION) 
+        && unit_list_size(&ptile->units) == 1
+        && unit_flag(pdiplomat, F_SPY)) {
       punit = unit_list_get(&ptile->units, 0);
-      return pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit));
+      if (pplayers_at_war(unit_owner(pdiplomat), unit_owner(punit))) {
+        return TRUE;
+      }
     }
 
-    if ((action==DIPLOMAT_BRIBE || action==DIPLOMAT_ANY_ACTION) &&
-	unit_list_size(&ptile->units)==1) {
+    if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
+        && unit_list_size(&ptile->units) == 1) {
       punit = unit_list_get(&ptile->units, 0);
-      return !pplayers_allied(unit_owner(punit), unit_owner(pdiplomat));
+      if (!pplayers_allied(unit_owner(punit), unit_owner(pdiplomat))) {
+        return TRUE;
+      }
     }
   }
   return FALSE;
