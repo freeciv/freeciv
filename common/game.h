@@ -156,6 +156,8 @@ struct civ_game {
   int playable_nation_count;
   int styles_count;
 
+  int terrain_count;
+
   int watchtower_extra_vision;
   int watchtower_vision;
   int allowed_city_names;

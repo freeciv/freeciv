@@ -1240,6 +1240,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 nation_count;
   UINT8 playable_nation_count;
   UINT8 style_count;
+  UINT8 terrain_count;
   UINT8 borders;
   BOOL happyborders;
   BOOL slow_invasions;

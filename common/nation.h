@@ -57,7 +57,7 @@ typedef int ternary;
 struct city_name {
   char* name;
   ternary river;
-  ternary terrain[T_COUNT];	
+  ternary terrain[MAX_NUM_TERRAINS];	
 };
 
 struct leader {

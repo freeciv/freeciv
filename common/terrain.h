@@ -73,11 +73,11 @@ enum tile_terrain_type {
 
 /* The first terrain value and number of base terrains.  This is used in
  * loops.  T_COUNT may eventually be turned into a variable. */
-#define T_FIRST (T_ARCTIC)
-#define T_COUNT (T_TUNDRA + 1)
+#define T_FIRST 0
+#define T_COUNT (game.terrain_count)
 
 /* A hard limit on the number of terrains; useful for static arrays. */
-#define MAX_NUM_TERRAINS (T_COUNT)
+#define MAX_NUM_TERRAINS MAX_NUM_ITEMS
 
 /* Must match with terrain_flag_from_str in terrain.c. */
 enum terrain_flag_id {

@@ -1508,12 +1508,13 @@ static void load_terrain_names(struct section_file *file)
   /* terrain names */
 
   sec = secfile_get_secnames_prefix(file, "terrain_", &nval);
-  if (nval != (T_COUNT - T_FIRST))
-    {
-      /* sometime this restriction should be removed */
-      freelog(LOG_FATAL, "Bad number of terrains %d (%s)", nval, filename);
-      exit(EXIT_FAILURE);
-    }
+  if (nval == 0) {
+    /* TRANS: Obscure ruleset error.  "%s" is a filename. */
+    freelog(LOG_FATAL, _("Ruleset doesn't have any terrains (%s)"),
+	    filename);
+    exit(EXIT_FAILURE);
+  }
+  game.terrain_count = nval;
 
   terrain_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
@@ -1999,6 +2000,7 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.nation_count = game.nation_count;
   packet.playable_nation_count = game.playable_nation_count;
   packet.style_count = game.styles_count;
+  packet.terrain_count = game.terrain_count;
 
   for(i = 0; i < MAX_NUM_TEAMS; i++) {
     sz_strlcpy(packet.team_name[i], team_get_by_id(i)->name);

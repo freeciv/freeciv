@@ -2190,6 +2190,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   city_styles_alloc(packet->style_count);
   tilespec_alloc_city_tiles(game.styles_count);
 
+  game.terrain_count = packet->terrain_count;
+
   for(i = 0; i < MAX_NUM_TEAMS; i++) {
     mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
               MAX_LEN_NAME);

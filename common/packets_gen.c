@@ -25482,7 +25482,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 23);
+BV_DEFINE(packet_ruleset_control_100_fields, 24);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -25658,12 +25658,20 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
+      real_packet->terrain_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 20)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
       real_packet->borders = readin;
     }
   }
-  real_packet->happyborders = BV_ISSET(fields, 20);
-  real_packet->slow_invasions = BV_ISSET(fields, 21);
-  if (BV_ISSET(fields, 22)) {
+  real_packet->happyborders = BV_ISSET(fields, 21);
+  real_packet->slow_invasions = BV_ISSET(fields, 22);
+  if (BV_ISSET(fields, 23)) {
     
     {
       int i;
@@ -25795,17 +25803,21 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 18);}
 
-  differ = (old->borders != real_packet->borders);
+  differ = (old->terrain_count != real_packet->terrain_count);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
+  differ = (old->borders != real_packet->borders);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 20);}
+
   differ = (old->happyborders != real_packet->happyborders);
   if(differ) {different++;}
-  if(packet->happyborders) {BV_SET(fields, 20);}
+  if(packet->happyborders) {BV_SET(fields, 21);}
 
   differ = (old->slow_invasions != real_packet->slow_invasions);
   if(differ) {different++;}
-  if(packet->slow_invasions) {BV_SET(fields, 21);}
+  if(packet->slow_invasions) {BV_SET(fields, 22);}
 
 
     {
@@ -25821,7 +25833,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 23);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -25887,11 +25899,14 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->style_count);
   }
   if (BV_ISSET(fields, 19)) {
+    dio_put_uint8(&dout, real_packet->terrain_count);
+  }
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint8(&dout, real_packet->borders);
   }
-  /* field 20 is folded into the header */
   /* field 21 is folded into the header */
-  if (BV_ISSET(fields, 22)) {
+  /* field 22 is folded into the header */
+  if (BV_ISSET(fields, 23)) {
   
     {
       int i;

@@ -979,6 +979,7 @@ struct packet_ruleset_control {
   int nation_count;
   int playable_nation_count;
   int style_count;
+  int terrain_count;
   int borders;
   bool happyborders;
   bool slow_invasions;
