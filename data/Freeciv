@@ -49,9 +49,13 @@
 *connectdialog.*.cconnectc.label: Connect
 *connectdialog.*.cconnectc.fromVert: cportl
 
+*connectdialog.*.cmetac.label: Metaserver
+*connectdialog.*.cmetac.fromVert: cportl
+*connectdialog.*.cmetac.fromHoriz: cconnectc
+
 *connectdialog.*.cquitc.label: Quit
 *connectdialog.*.cquitc.fromVert: cportl
-*connectdialog.*.cquitc.fromHoriz: cconnectc
+*connectdialog.*.cquitc.fromHoriz: cmetac
 
 *connectdialog.*.cconnectc.background: blue
 *connectdialog.*.cconnectc.foreground: white
@@ -68,6 +72,45 @@ August 5 at http://www.freeciv.org
 *connectdialog.*.cbetaline.foreground: red
 *connectdialog.*.cbetaline.width: 300
 
+
+!
+! Metaserver dialog
+!
+*metadialog.title: Metaserver List
+*metadialog.allowShellResize: True
+
+*metadialog.*.legend.label: Server Name                         Port  Version Status Players Comment
+*metadialog.*.legend.justify:		  Left
+*metadialog.*.legend.left:		  ChainLeft
+*metadialog.*.legend.right:		  ChainLeft
+*metadialog.*.legend.top:		  ChainTop
+*metadialog.*.legend.bottom:		  ChainTop
+*metadialog.*.legend.resizable:		  True
+
+*metadialog.*.metalist.forceColumns:      True
+*metadialog.*.metalist.defaultColumns:    1
+*metadialog.*.metalist.verticalList:      True
+*metadialog.*.metalist.left:              ChainLeft
+*metadialog.*.metalist.right:             ChainRight
+*metadialog.*.metalist.top:		  ChainTop
+*metadialog.*.metalist.bottom:		  ChainBottom
+*metadialog.*.metalist.fromVert:	  legend
+*metadialog.*.metalist.resizable:         True
+
+*metadialog.*.update.label:		  Update
+*metadialog.*.update.left:		  ChainLeft
+*metadialog.*.update.right:		  ChainLeft
+*metadialog.*.update.top:		  ChainBottom
+*metadialog.*.update.bottom:		  ChainBottom
+*metadialog.*.update.fromVert:		  metalist
+
+*metadialog.*.closecommand.label:	  Close
+*metadialog.*.closecommand.left:	  ChainLeft
+*metadialog.*.closecommand.right:	  ChainLeft
+*metadialog.*.closecommand.top:		  ChainBottom
+*metadialog.*.closecommand.bottom:	  ChainBottom
+*metadialog.*.closecommand.fromVert:      metalist
+*metadialog.*.closecommand.fromHoriz:	  update
 
 
 !

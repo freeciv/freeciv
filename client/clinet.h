@@ -25,6 +25,7 @@ void get_net_input(XtPointer client_data, int *fid, XtInputId *id);
 void close_server_connection(void);
 int client_open_connection(char *host, int port);
 void connection_gethostbyaddr(struct connection *pconn, char *desthost);
+int get_meta_list(char *server, char **list, char *errbuf);
 
 extern struct connection aconnection;
 #endif

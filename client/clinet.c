@@ -98,6 +98,7 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   
   if(connect(aconnection.sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
     strcpy(errbuf, strerror(errno));
+    close(aconnection.sock);
     return -1;
   }
 
@@ -163,3 +164,70 @@ void close_server_connection(void)
   close(aconnection.sock);
 }
 
+
+/**************************************************************************
+  Get the list of servers from the metaserver
+**************************************************************************/
+int get_meta_list(char *server, char **list, char *errbuf)
+{
+  struct sockaddr_in addr;
+  struct hostent *ph;
+  int s;
+  FILE *f;
+  char str[512],*p;
+  char line[256];
+  char *name,*port,*version,*status,*players,*metastring;
+
+  if ((ph = gethostbyname(server)) == NULL) {
+    strcpy(errbuf, "Failed looking up host");
+    return -1;
+  } else {
+    addr.sin_family = ph->h_addrtype;
+    memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
+  }
+  
+  addr.sin_port = htons(80);
+  
+  if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
+    strcpy(errbuf, strerror(errno));
+    return -1;
+  }
+  
+  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
+    strcpy(errbuf, strerror(errno));
+    close(s);
+    return -1;
+  }
+
+  f=fdopen(s,"r+");
+  fputs("GET /~lancelot/freeciv.html\r\n\r\n",f); fflush(f);
+
+#define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
+#define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
+#define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
+
+  while( fgets(str,512,f)!=NULL)  {
+    if(!strncmp(str,"<TR BGCOLOR",11))  {
+      p=strstr(str,"<a"); if(p==NULL) continue;
+      p=strchr(p,'>');    if(p==NULL) continue;
+      name=++p;
+      p=strstr(p,"</a>"); if(p==NULL) continue;
+      *p++='\0';
+
+      GET_FIELD(port);
+      GET_FIELD(version);
+      GET_FIELD(status);
+      GET_FIELD(players);
+      GET_FIELD(metastring);
+
+      sprintf(line,"%-35s %-5s %-7s %-9s %2s   %s",
+              name,port,version,status,players,metastring);
+      if(*list) free(*list);
+      *list=malloc(strlen(line)+1); strcpy(*list,line); list++;
+    }
+  }
+  fclose(f);
+  *list=NULL;
+
+  return 0;
+}
