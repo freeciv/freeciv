@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include <log.h>
 
@@ -36,10 +37,13 @@ void log_set_level(int level)
 /**************************************************************************/
 int flog(int level, char *message, ...)
 {
+  static char bufbuf[2][512];
+  static int whichbuf=0;
+  static int repeated=0;
+  static int mask=1;
 
   if(level<=log_level) {
     va_list args;
-    char buf[512];
     FILE *fs;
 
     if(log_filename) {
@@ -52,8 +56,21 @@ int flog(int level, char *message, ...)
     else fs=stderr;
 
     va_start(args, message);
-    vsprintf(buf, message, args);
-    fprintf(fs, "%d: %s\n", level, buf);
+    vsprintf(bufbuf[whichbuf], message, args);
+    if(0==strncmp(bufbuf[0],bufbuf[1],511)){
+      repeated++;
+      if(repeated&mask){
+	fprintf(fs, "%d: message repeated %d times\n", level, mask );
+	mask<<=1;if(mask<=0) mask=1;
+      }
+    }else{
+      if(repeated>0){
+	fprintf(fs, "%d: message repeated %d times\n", level, repeated-mask/2 );	
+	repeated=0; mask=1;
+      }
+      fprintf(fs, "%d: %s\n", level, bufbuf[whichbuf]);
+    }
+    whichbuf= (whichbuf+1)&1;
     fflush(fs);
     if(log_filename)
       fclose(fs);
