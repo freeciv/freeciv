@@ -169,7 +169,7 @@ msgstr "ikke treff"
 
 #: common/shared.c:700
 msgid "'Cause civilization should be free!"
-msgstr "Frdi sivilisasjoner bør være frie!"
+msgstr "Fordi sivilisasjoner bør være frie!"
 
 #: common/support.c:112
 #, c-format
@@ -445,11 +445,9 @@ msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spill: Hungersnød fryktet i %s, %s tapt!"
 
 #: server/cityturn.c:988 server/cityturn.c:1028
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr ""
-"Spill: %s kan ikke bygge %s fra arbeidslisten; har ikke tilstrekkelig "
-"teknologi.  Utsetter..."
+msgstr "Spill: %s kan ikke bygge %s fra arbeidslisten.  Sletter fra liste..."
 
 #: server/cityturn.c:1007 server/cityturn.c:1047
 #, c-format
@@ -534,7 +532,7 @@ msgstr ""
 #: server/cityturn.c:1520
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Spill: %ss fødselsdag feiret i %s."
+msgstr "Spill: Din fødselsdag feires i %2$s."
 
 #: server/cityturn.c:1528
 #, c-format
@@ -9010,9 +9008,8 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Gir alle sjøenheter et ekstra bevegelsespoeng"
 
 #: data/civ1/buildings.ruleset:834
-#, fuzzy
 msgid "Double effects of Cathedrals."
-msgstr "Reduserer effekten av katedraler.\n"
+msgstr "Dobler effekten av katedraler."
 
 #: data/civ1/buildings.ruleset:877
 #, c-format
@@ -9129,7 +9126,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:241 data/civ2/techs.ruleset:367
 #: data/default/governments.ruleset:242 data/default/techs.ruleset:367
 msgid "Monarchy"
-msgstr "Monarki"
+msgstr "monarki"
 
 #: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:281
 #: data/default/governments.ruleset:282
@@ -9754,39 +9751,32 @@ msgid "?plural:Canadians"
 msgstr "?plural:kanadierne"
 
 #: data/default/nations.ruleset:1398
-#, fuzzy
 msgid "Ukrainian"
-msgstr "karthagensk"
+msgstr "ukrainsk"
 
 #: data/default/nations.ruleset:1399
-#, fuzzy
 msgid "?plural:Ukrainians"
-msgstr "?plural:karthagenerne"
+msgstr "?plural:ukrainerne"
 
 #: data/default/nations.ruleset:1406
-#, fuzzy
 msgid "Hetman"
-msgstr "tysk"
+msgstr "Hetmann"
 
 #: data/default/nations.ruleset:1429
-#, fuzzy
 msgid "Lithuanian"
-msgstr "karthagensk"
+msgstr "litausk"
 
 #: data/default/nations.ruleset:1430
-#, fuzzy
 msgid "?plural:Lithuanians"
-msgstr "?plural:karthagenerne"
+msgstr "?plural:litauere"
 
 #: data/default/nations.ruleset:1437
-#, fuzzy
 msgid "Great Duke"
-msgstr "store"
+msgstr "Storfyrste"
 
 #: data/default/nations.ruleset:1437
-#, fuzzy
 msgid "Great Duchess"
-msgstr "Store Høvding"
+msgstr "Storfyrstinne"
 
 #: data/default/nations.ruleset:1462
 msgid "Olympic"
