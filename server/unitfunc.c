@@ -409,7 +409,52 @@ void maybe_make_veteran(struct unit *punit)
 **************************************************************************/
 void unit_versus_unit(struct unit *attacker, struct unit *defender)
 {
+  int attackpower=get_total_attack_power(attacker,defender);
+  int defensepower=get_total_defense_power(attacker,defender);
+
+  log(LOG_DEBUG, "attack:%d, defense:%d\n", attackpower, defensepower);
+  if (!attackpower) {
+      attacker->hp=0; 
+  } else if (!defensepower) {
+      defender->hp=0;
+  }
+  while (attacker->hp>0 && defender->hp>0) {
+    if (myrand(attackpower+defensepower)>= defensepower) {
+      defender->hp=defender->hp-get_unit_type(attacker->type)->firepower;
+    } else {
+      if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
+	attacker->hp=attacker->hp-1;              /* pearl harbour */
+      else
+	attacker->hp=attacker->hp-get_unit_type(defender->type)->firepower;
+    }
+  }
+  if (attacker->hp<0) attacker->hp=0;
+  if (defender->hp<0) defender->hp=0;
+
+  if (attacker->hp)
+    maybe_make_veteran(attacker); 
+  else if (defender->hp)
+    maybe_make_veteran(defender);
+}
+
+/***************************************************************************
+ return the modified attack power of a unit.  Currently they aren't any
+ modifications...
+***************************************************************************/
+int get_total_attack_power(struct unit *attacker, struct unit *defender)
+{
   int attackpower=get_attack_power(attacker);
+
+  return attackpower;
+}
+
+/***************************************************************************
+ return the modified defense power of a unit.
+ An veteran aegis cruiser in a mountain city with SAM and SDI defense 
+ being attacked by a missile gets defense 288.
+***************************************************************************/
+int get_total_defense_power(struct unit *attacker, struct unit *defender)
+{
   int defensepower=get_defense_power(defender);
   if (unit_flag(defender->type, F_PIKEMEN) && unit_flag(attacker->type, F_HORSE)) 
     defensepower*=2;
@@ -434,28 +479,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
        map_get_city(defender->x, defender->y)) && 
       is_ground_unit(defender))
     defensepower*=1.5;
-  log(LOG_DEBUG, "attack:%d, defense:%d\n", attackpower, defensepower);
-  while (attacker->hp>0 && defender->hp>0) {
-    if (!attackpower) {
-      attacker->hp= 0; 
-    } else if (!defensepower) {
-      defender->hp= 0;
-    } else if (myrand(attackpower+defensepower)>= defensepower) {
-      defender->hp=defender->hp-get_unit_type(attacker->type)->firepower;
-    } else {
-      if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
-	attacker->hp=attacker->hp-1;              /* pearl harbour */
-      else
-	attacker->hp=attacker->hp-get_unit_type(defender->type)->firepower;
-    }
-  }
-  if (attacker->hp<0) attacker->hp=0;
-  if (defender->hp<0) defender->hp=0;
 
-  if (attacker->hp)
-    maybe_make_veteran(attacker); 
-  else if (defender->hp)
-    maybe_make_veteran(defender);
+  return defensepower;
 }
 
 /**************************************************************************

@@ -40,6 +40,8 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend);
 
 void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
+int get_total_attack_power(struct unit *attacker, struct unit *defender);
+int get_total_defense_power(struct unit *attacker, struct unit *defender);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void do_nuke_tile(int x, int y);
 void do_nuclear_explosion(int x, int y);
