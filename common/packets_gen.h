@@ -728,10 +728,15 @@ struct packet_ruleset_game {
   int default_specialist;
   int num_specialist_types;
   int bonus_array_size;
+  int req_array_size;
   char specialist_name[SP_MAX][MAX_LEN_NAME];
   char specialist_short_name[SP_MAX][MAX_LEN_NAME];
   int specialist_min_size[SP_MAX];
   int specialist_bonus[SP_MAX * O_MAX];
+  int specialist_req_type[SP_MAX * MAX_NUM_REQS];
+  int specialist_req_range[SP_MAX * MAX_NUM_REQS];
+  int specialist_req_value[SP_MAX * MAX_NUM_REQS];
+  bool specialist_req_survives[SP_MAX * MAX_NUM_REQS];
   bool changable_tax;
   int forced_science;
   int forced_luxury;

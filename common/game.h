@@ -190,8 +190,9 @@ struct civ_game {
     struct specialist {
       char name[MAX_LEN_NAME];
       char short_name[MAX_LEN_NAME];
-      int min_size;
       int bonus[O_MAX];
+      int min_size;
+      struct requirement req[MAX_NUM_REQS];
     } specialists[SP_MAX];
 #define SP_COUNT game.rgame.num_specialist_types
 #define DEFAULT_SPECIALIST game.rgame.default_specialist

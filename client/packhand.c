@@ -2545,6 +2545,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.default_specialist = packet->default_specialist;
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;
+    int j;
 
     sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
     sz_strlcpy(game.rgame.specialists[sp].short_name,
@@ -2553,6 +2554,16 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     output_type_iterate(o) {
       bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
     } output_type_iterate_end;
+
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      int index = sp * MAX_NUM_REQS + j;
+
+      game.rgame.specialists[sp].req[j]
+	= req_from_values(packet->specialist_req_type[index],
+			  packet->specialist_req_range[index],
+			  packet->specialist_req_survives[index],
+			  packet->specialist_req_value[index]);
+    }
   } specialist_type_iterate_end;
   tilespec_setup_specialist_types();
 

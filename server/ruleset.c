@@ -2373,6 +2373,7 @@ static void load_ruleset_cities(struct section_file *file)
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i], *short_name;
     int *bonus = game.rgame.specialists[i].bonus;
+    int j;
 
     sz_strlcpy(game.rgame.specialists[i].name, name);
     short_name
@@ -2390,6 +2391,32 @@ static void load_ruleset_cities(struct section_file *file)
     if (game.rgame.specialists[i].min_size == 0
 	&& game.rgame.default_specialist == -1) {
       game.rgame.default_specialist = i;
+    }
+
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      const char *type
+	= secfile_lookup_str_default(file, NULL, "specialist.%s_req%d.type",
+				     name, j);
+      const char *range
+	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.range",
+				     name, j);
+      bool survives
+	= secfile_lookup_bool_default(file, FALSE,
+				      "specialist.%s_req%d.survives",
+				      name, j);
+      const char *value
+	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.value",
+				     name, j);
+      struct requirement req = req_from_str(type, range, survives, value);
+
+      if (req.type == REQ_LAST) {
+	freelog(LOG_ERROR,
+		"Specialist %s has unknown req: \"%s\" \"%s\" \"%s\" %d (%s)",
+		name, type, range, value, survives, filename);
+	req.type = REQ_NONE;
+      }
+
+      game.rgame.specialists[i].req[j] = req;
     }
   }
   if (game.rgame.default_specialist == -1) {
@@ -2961,9 +2988,11 @@ static void send_ruleset_game(struct conn_list *dest)
 
   misc_p.num_specialist_types = SP_COUNT;
   misc_p.bonus_array_size = SP_COUNT * O_COUNT;
+  misc_p.req_array_size = SP_COUNT * MAX_NUM_REQS;
   misc_p.default_specialist = DEFAULT_SPECIALIST;
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;
+    int j;
 
     sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
     sz_strlcpy(misc_p.specialist_short_name[sp],
@@ -2973,6 +3002,16 @@ static void send_ruleset_game(struct conn_list *dest)
     output_type_iterate(o) {
       misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
     } output_type_iterate_end;
+
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      int index = sp * MAX_NUM_REQS + j;
+
+      req_get_values(&game.rgame.specialists[sp].req[j],
+		     &misc_p.specialist_req_type[index],
+		     &misc_p.specialist_req_range[index],
+		     &misc_p.specialist_req_survives[index],
+		     &misc_p.specialist_req_value[index]);
+    }
   } specialist_type_iterate_end;
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;

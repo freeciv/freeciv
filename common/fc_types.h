@@ -40,5 +40,6 @@ struct tile;
 struct unit;
 
 #define SP_MAX 20
+#define MAX_NUM_REQS 2
 
 #endif /* FC__FC_TYPES_H */
