@@ -1347,6 +1347,7 @@ static int handle_request_join_game(struct connection *pconn,
       send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
+      send_packet_generic_empty(pconn, PACKET_START_TURN);
     }
     if (game.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
