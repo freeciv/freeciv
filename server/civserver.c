@@ -132,6 +132,9 @@ int main(int argc, char *argv[])
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
+    } else if ((option = get_option_malloc("--Serverid", argv, &inx, argc))) {
+      sz_strlcpy(srvarg.serverid, option);
+      free(option);
     } else if ((option = get_option_malloc("--saves", argv, &inx, argc))) {
       srvarg.saves_pathname = option; /* Never freed. */
     } else if (is_option("--version", argv[inx]))
@@ -189,6 +192,8 @@ int main(int argc, char *argv[])
 		      "When a game ends, exit instead of restarting\n"));
     fc_fprintf(stderr,
 	       _("  -s, --saves DIR\tSave games to directory DIR\n"));
+    fc_fprintf(stderr,
+	       _("  -S, --Serverid ID\tSets the server id to ID\n"));
     fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);

@@ -647,6 +647,16 @@ static bool metaserver_command(struct connection *caller, char *arg,
   return TRUE;
 }
 
+/**************************************************************************
+ Returns the serverid 
+**************************************************************************/
+static bool show_serverid(struct connection *caller, char *arg)
+{
+  cmd_reply(CMD_SRVID, caller, C_COMMENT, _("Server id: %s"), srvarg.serverid);
+
+  return TRUE;
+}
+
 /***************************************************************
  This could be in common/player if the client ever gets
  told the ai player skill levels.
@@ -3379,6 +3389,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return metaserver_command(caller, arg, check);
   case CMD_HELP:
     return show_help(caller, arg);
+  case CMD_SRVID:
+    return show_serverid(caller, arg);
   case CMD_LIST:
     return show_list(caller, arg);
   case CMD_AITOGGLE:
