@@ -1306,7 +1306,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->unhappy = pdcity->unhappy;
 
   if (pcity && player_has_traderoute_with_city(pplayer, pcity)) {
-    packet->tile_trade = pcity->tile_trade;
+    packet->tile_trade = pcity->citizen_base[O_TRADE];
   } else {
     packet->tile_trade = 0;
   }
@@ -1548,8 +1548,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->surplus[o] = pcity->surplus[o];
     packet->waste[o] = pcity->waste[o];
     packet->prod[o] = pcity->prod[o];
+    packet->citizen_base[o] = pcity->citizen_base[o];
   } output_type_iterate_end;
-  packet->tile_trade = pcity->tile_trade;
 
   packet->food_stock=pcity->food_stock;
   packet->shield_stock=pcity->shield_stock;

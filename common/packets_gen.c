@@ -5220,11 +5220,18 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     }
   }
   if (BV_ISSET(fields, 13)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
       dio_get_sint16(&din, &readin);
-      real_packet->tile_trade = readin;
+      real_packet->citizen_base[i] = readin;
+    }
+      }
     }
   }
   if (BV_ISSET(fields, 14)) {
@@ -5563,7 +5570,19 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->tile_trade != real_packet->tile_trade);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->citizen_base[i] != real_packet->citizen_base[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
@@ -5802,7 +5821,14 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     } 
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_sint16(&dout, real_packet->tile_trade);
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_sint16(&dout, real_packet->citizen_base[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 14)) {
     dio_put_uint16(&dout, real_packet->food_stock);

@@ -178,7 +178,7 @@ struct packet_city_info {
   int surplus[O_MAX];
   int waste[O_MAX];
   int prod[O_MAX];
-  int tile_trade;
+  int citizen_base[O_MAX];
   int food_stock;
   int shield_stock;
   int trade[NUM_TRADEROUTES];

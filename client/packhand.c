@@ -460,8 +460,8 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->surplus[o] = packet->surplus[o];
     pcity->waste[o] = packet->waste[o];
     pcity->prod[o] = packet->prod[o];
+    pcity->citizen_base[o] = packet->citizen_base[o];
   } output_type_iterate_end;
-  pcity->tile_trade=packet->tile_trade;
 
   pcity->food_stock=packet->food_stock;
   pcity->shield_stock=packet->shield_stock;
@@ -692,7 +692,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
-  pcity->tile_trade = packet->tile_trade;
+
+  /* HACK: special case for trade routes */
+  pcity->citizen_base[O_TRADE] = packet->tile_trade;
 
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */

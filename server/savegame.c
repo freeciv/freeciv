@@ -1971,7 +1971,6 @@ static void player_load(struct player *plr, int plrno,
     pcity->shield_stock = secfile_lookup_int(file,
 					     "player%d.c%d.shield_stock", 
 					     plrno, i);
-    pcity->tile_trade = pcity->surplus[O_TRADE] = 0;
     pcity->anarchy = secfile_lookup_int(file, "player%d.c%d.anarchy",
 					plrno, i);
     pcity->rapture = secfile_lookup_int_default(file, 0,

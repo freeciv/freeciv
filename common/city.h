@@ -240,9 +240,7 @@ struct city {
   int surplus[O_MAX]; /* Final surplus in each category. */
   int waste[O_MAX]; /* Waste/corruption in each category. */
   int prod[O_MAX]; /* Production is total minus waste. */
-
-  /* tile_trade is a special case for trade routes. */
-  int tile_trade;
+  int citizen_base[O_MAX]; /* Base production from citizens. */
 
   /* Cached values for CPU savings. */
   int bonus[O_MAX];

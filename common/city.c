@@ -1008,7 +1008,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
   int bonus = 0;
 
   if (pc1 && pc2) {
-    bonus = (pc1->tile_trade + pc2->tile_trade + 4) / 8;
+    bonus = (pc1->citizen_base[O_TRADE]
+	     + pc2->citizen_base[O_TRADE] + 4) / 8;
 
     /* Double if on different continents. */
     if (map_get_continent(pc1->tile) != map_get_continent(pc2->tile)) {
@@ -1732,6 +1733,10 @@ static inline void set_tax_income(struct city *pcity)
   pcity->prod[O_SCIENCE] += output[O_SCIENCE];
   pcity->prod[O_GOLD] += output[O_GOLD];
 
+  pcity->citizen_base[O_LUXURY] = output[O_LUXURY];
+  pcity->citizen_base[O_SCIENCE] = output[O_SCIENCE];
+  pcity->citizen_base[O_GOLD] = output[O_GOLD];
+
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
 }
 
@@ -2019,8 +2024,11 @@ static inline void set_food_trade_shields(struct city *pcity)
   pcity->prod[O_FOOD] = output[O_FOOD];
   pcity->prod[O_SHIELD] = output[O_SHIELD];
   pcity->surplus[O_TRADE] = output[O_TRADE];
-  
-  pcity->tile_trade = pcity->surplus[O_TRADE];
+
+  pcity->citizen_base[O_FOOD] = pcity->prod[O_FOOD];
+  pcity->citizen_base[O_SHIELD] = pcity->prod[O_SHIELD];
+  pcity->citizen_base[O_TRADE] = pcity->surplus[O_TRADE];
+
   pcity->surplus[O_FOOD] = pcity->prod[O_FOOD] - pcity->size * 2;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
@@ -2176,7 +2184,7 @@ void generic_city_refresh(struct city *pcity,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit))
 {
-  int prev_tile_trade = pcity->tile_trade;
+  int prev_tile_trade = pcity->citizen_base[O_TRADE];
 
   set_food_trade_shields(pcity);
   citizen_happy_size(pcity);
@@ -2190,7 +2198,8 @@ void generic_city_refresh(struct city *pcity,
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
 
-  if (refresh_trade_route_cities && pcity->tile_trade != prev_tile_trade) {
+  if (refresh_trade_route_cities
+      && pcity->citizen_base[O_TRADE] != prev_tile_trade) {
     int i;
 
     for (i = 0; i < NUM_TRADEROUTES; i++) {
@@ -2462,8 +2471,6 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   }
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
-  pcity->surplus[O_TRADE] = 0;
-  pcity->tile_trade = 0;
   pcity->original = pplayer->player_no;
 
   /* Initialise improvements list */
@@ -2515,7 +2522,10 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->ai.attack = 0;
   pcity->ai.next_recalc = 0;
 
+  memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
   memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
+  memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
+  memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
   output_type_iterate(o) {
     pcity->bonus[o] = 100;
   } output_type_iterate_end;
