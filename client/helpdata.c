@@ -532,16 +532,15 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
   imp = &improvement_types[which];
   
   if (imp->helptext && imp->helptext[0] != '\0') {
-    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		"%s\n\n", _(imp->helptext));
+    cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
   }
 
   if (tech_exists(improvement_types[which].obsolete_by)) {
-    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		_("* The discovery of %s will make %s obsolete.\n"),
-		get_tech_name(game.player_ptr,
-			improvement_types[which].obsolete_by),
-		improvement_types[which].name);
+    cat_snprintf(buf, bufsz,
+		 _("* The discovery of %s will make %s obsolete.\n"),
+		 get_tech_name(game.player_ptr,
+			       improvement_types[which].obsolete_by),
+		 improvement_types[which].name);
   }
 
   if (building_has_effect(which, EFT_ENABLE_NUKE)
@@ -554,11 +553,11 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
     t = get_unit_type(u)->tech_requirement;
     assert(t < game.num_tech_types);
 
-    my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		_("* Allows all players with knowledge of %s "
-		  "to build %s units.\n"),
-		get_tech_name(game.player_ptr, t), get_unit_type(u)->name);
-    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "  ");
+    cat_snprintf(buf, bufsz,
+		 _("* Allows all players with knowledge of %s "
+		   "to build %s units.\n"),
+		 get_tech_name(game.player_ptr, t), get_unit_type(u)->name);
+    cat_snprintf(buf, bufsz, "  ");
   }
 
   impr_type_iterate(impr) {
@@ -570,9 +569,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 
 #define req_append(s)							    \
       (req_buf[0] != '\0'						    \
-       ? my_snprintf(req_buf + strlen(req_buf),				    \
-		     sizeof(req_buf) - strlen(req_buf),			    \
-		     ", %s", (s))					    \
+       ? cat_snprintf(req_buf, sizeof(req_buf),	", %s", (s))		    \
        : sz_strlcpy(req_buf, (s)))
 
       if (b->tech_req != A_NONE) {
@@ -588,11 +585,10 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 #undef req_append
 
       if (req_buf[0] != '\0') {
-	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		    _("* Allows %s (with %s).\n"), b->name, req_buf);
+	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"), b->name,
+		     req_buf);
       } else {
-	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		    _("* Allows %s.\n"), b->name);
+	cat_snprintf(buf, bufsz, _("* Allows %s.\n"), b->name);
       }
     }
   } impr_type_iterate_end;
@@ -602,18 +598,16 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 
     if (u->impr_requirement == which) {
       if (u->tech_requirement != A_LAST) {
-	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		    _("* Allows %s (with %s).\n"), u->name,
-		    get_tech_name(game.player_ptr, u->tech_requirement));
+	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"), u->name,
+		     get_tech_name(game.player_ptr, u->tech_requirement));
       } else {
-	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
-		    _("* Allows %s.\n"), u->name);
+	cat_snprintf(buf, bufsz, _("* Allows %s.\n"), u->name);
       }
     }
   } unit_type_iterate_end;
 
   if (user_text && user_text[0] != '\0') {
-    my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "\n\n%s", user_text);
+    cat_snprintf(buf, bufsz, "\n\n%s", user_text);
   }
 
   wordwrap_string(buf, 68);
@@ -646,9 +640,9 @@ static int techs_with_flag_string(enum tech_flag_id flag,
     const char *name = get_tech_name(NULL, tech_id);
 
     if (buf[0] == '\0') {
-      my_snprintf(buf, bufsz, "%s", name);
+      cat_snprintf(buf, bufsz, "%s", name);
     } else {
-      my_snprintf(buf + strlen(buf), bufsz - strlen(buf), ", %s", name);
+      cat_snprintf(buf, bufsz, ", %s", name);
     }
     count++;
   } techs_with_flag_iterate_end;

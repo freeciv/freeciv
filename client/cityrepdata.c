@@ -155,11 +155,10 @@ static const char *cr_entry_attack(const struct city *pcity,
   buf[0] = '\0';
   for (i = 0; i < 3; i++) {
     if (attack_best[i] >= 0) {
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  "%s%d", (i > 0) ? "/" : "", attack_best[i]);
+      cat_snprintf(buf, sizeof(buf), "%s%d", (i > 0) ? "/" : "",
+		   attack_best[i]);
     } else {
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  "%s-", (i > 0) ? "/" : "");
+      cat_snprintf(buf, sizeof(buf), "%s-", (i > 0) ? "/" : "");
     }
   }
 
@@ -188,11 +187,10 @@ static const char *cr_entry_defense(const struct city *pcity,
   buf[0] = '\0';
   for (i = 0; i < 3; i++) {
     if (defense_best[i] >= 0) {
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  "%s%d", (i > 0) ? "/" : "", defense_best[i]);
+      cat_snprintf(buf, sizeof(buf), "%s%d", (i > 0) ? "/" : "",
+		   defense_best[i]);
     } else {
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  "%s-", (i > 0) ? "/" : "");
+      cat_snprintf(buf, sizeof(buf), "%s-", (i > 0) ? "/" : "");
     }
   }
 

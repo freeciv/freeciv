@@ -2041,17 +2041,15 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
       } else {
 	my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
       }
-      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		  _("Trade with %s gives %d trade.\n"),
+      cat_snprintf(buf, sizeof(buf), _("Trade with %s gives %d trade.\n"),
 		  cityname, pdialog->pcity->trade_value[i]);
     }
   }
   if (!x) {
-    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		_("No trade routes exist."));
+    cat_snprintf(buf, sizeof(buf), _("No trade routes exist."));
   } else {
-    my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		_("Total trade from trade routes: %d"), total);
+    cat_snprintf(buf, sizeof(buf), _("Total trade from trade routes: %d"),
+		 total);
   }
   settext(pdialog->trade_text,buf);
 }

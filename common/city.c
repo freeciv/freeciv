@@ -2426,15 +2426,14 @@ Specialist_type_id best_specialist(Output_type_id otype,
 **************************************************************************/
 const char *specialists_string(const int *specialists)
 {
-  size_t len = 0;
   static char buf[5 * SP_MAX];
 
-  specialist_type_iterate(sp) {
-    char *separator = (len == 0) ? "" : "/";
+  buf[0] = '\0';
 
-    my_snprintf(buf + len, sizeof(buf) - len,
-		"%s%d", separator, specialists[sp]);
-    len += strlen(buf + len);
+  specialist_type_iterate(sp) {
+    char *separator = (buf[0] == '\0') ? "" : "/";
+
+    cat_snprintf(buf, sizeof(buf), "%s%d", separator, specialists[sp]);
   } specialist_type_iterate_end;
 
   return buf;
