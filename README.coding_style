@@ -1,0 +1,196 @@
+===========================================================================
+ Freeciv Style Guide
+===========================================================================
+
+If you want to hack Freeciv, and want your patches to be accepted, it
+helps to follow some simple style rules. Yes, some of these are a bit 
+nit-picky, but wars are fought over the silliest things...
+
+- Use K&R indentation style with indentation 2 (if in doubt, use
+  "indent -kr -i2").  However, do not re-indent areas of code you are
+  not modifying or creating.
+
+- Set lines to 80 columns. Lines should not wrap, ever.
+
+- An empty line should be placed between two separate blocks of code.
+
+- Spaces should go before and after operators, and after commas:
+
+int a,b,c;   /* bad */
+int i, j, k; /* good */
+
+if(foo<=bar) {   /* all bad */
+  c=a+b;
+}
+
+if(foo <= bar) { /* good */
+  c = a + b;
+}
+
+================================
+ Comments
+================================
+
+- Don't use C++-style comments (i.e., // comments).
+
+- Every function should have a comment header. It should be above the 
+  function's implementation, not the prototype:
+
+/*************************************************************************
+ the description of the function should be here
+ any information is helpful, such as who calls this function, etc.
+ do _not_ introduce a new function without some sort of comment.
+*************************************************************************/
+int the_function_starts_here(int value) 
+{
+  ...
+}
+
+- One line comments. Comments should be indented correctly and 
+  placed above the code being commented upon:
+
+  int x;
+
+  /* I am a single line comment */
+  x = 3;
+
+- Multiline comments. Asterisks should be placed in front of the 
+  comment line like so:
+
+  /* I am a multiline
+   * comment, blah 
+   * blah blah */
+
+- Comments in declarations. If you need to comment a declared variable,
+  it should be as such:
+
+  struct foo {
+    int bar;                    /* bar is used for ....
+                                 * in ..... way */
+    int blah;                   /* blah is used for .... */
+  };
+
+- Comments in conditionals. If you need a comment to show program flow,
+  it should be below the if or else:
+
+  if(is_barbarian(pplayer)) {
+    x++;
+  } else {
+    /* If not barbarian, ... */
+    x--;
+  }
+
+- Comments to translators are stored before the N_(), _() or Q_() marked
+  string, and are preceded by "TRANS:".  These comments are copied to the
+  translators file.  Use them whenever you think the translators may need
+  some more information:
+
+    /* TRANS: Don't translate "commandname". */
+    printf(_("commandname <arg> [-o <optarg>]"));
+
+================================
+ Declaring variables
+================================
+
+- Variables can be initialized as soon as they're declared:
+
+int foo(struct unit *punit)
+{
+  int x = punit->x;
+  int foo = x;
+  char *blah;
+
+  ...
+}
+
+- After variables are declared, there should be an empty line before the
+  rest of the function body.
+
+- Merging declarations. Variables do not have to be declared one per line;
+  however, they should only be grouped by similar function.
+
+int foo(struct city *pcity)
+{
+  int i, j, k;
+  int total, cost;
+  int build = pcity->shield_stock;
+}
+
+================================
+ Bracing
+================================
+
+- Function braces should begin and end in the first column:
+
+int foo()
+{
+  return 0;
+}
+
+ and not:
+
+int foo() {
+  return 0;
+}
+
+- Extra braces on iterates. Note that the *_iterate_end; should be placed 
+  on the same line as the end brace:
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    kill(punit);
+  } unit_list_iterate_end;
+
+- In switch statements, braces should only be placed where needed, i.e. to
+  protect local variables.
+
+- In general, [unnecessary] braces should be applied after conditionals:
+
+  if(x == 3) {
+    return;
+  }
+
+ and 
+
+  if(x == 3) {
+    return 1;
+  } else {
+    return 0;
+  }
+
+================================
+ Other stuff
+================================
+
+- If an empty block is needed you should put an explanatory comment in
+  an empty block (i.e. {}):
+
+  while(*i++) {
+    /* nothing */
+  }
+
+- Order include files consistently:  First state all system include
+  files with <> in alphabetic order, then all Freeciv include files
+  with "", sorted by directory (common, server, ...) and then by
+  alphabetic order, with a blank line between the sections.  This helps
+  to avoid adding unnecessary or duplicated include files.
+
+- If you use a system specific feature, don't add #ifdef __CRAY__ or
+  something like that.  Rather write a check for that feature for
+  configure.in, and use a meaningful macro name in the source.
+
+- Always prototype global functions in the appropriate header file.
+  Local functions should always be declared as static.
+
+- If you send patches, use "diff -u" (or "diff -r -u").  For further
+  information, see <http://www.freeciv.org/contribute.html>.  Also,
+  name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
+  but "freeciv.diff" is not).
+
+- When doing a "diff" for a patch, be sure to exclude unnecessary files
+  by using the "-X" argument to "diff".  E.g.:
+
+    % diff -ruN -Xdiff_ignore freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
+
+  A suggested "diff_ignore" file is included in the Freeciv distribution.
+
+===========================================================================
