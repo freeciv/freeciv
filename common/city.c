@@ -2613,5 +2613,6 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
 **************************************************************************/
 void remove_city_virtual(struct city *pcity)
 {
+  unit_list_unlink_all(&pcity->units_supported);
   free(pcity);
 }
