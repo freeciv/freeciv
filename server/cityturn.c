@@ -184,6 +184,8 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
 
+  cm_init_parameter(&cmp);
+
   /* HACK: make sure everything is up-to-date before continuing.  This may
    * result in recursive calls to auto_arrange_workers, but it's better
    * to have these calls here than while we're reassigning workers (when
@@ -198,7 +200,6 @@ void auto_arrange_workers(struct city *pcity)
   cmp.require_happy = FALSE;
   cmp.allow_disorder = FALSE;
   cmp.allow_specialists = TRUE;
-  cmp.factor_target = FT_SURPLUS;
 
   /* We used to look at pplayer->ai.xxx_priority to determine the values
    * to be used here.  However that doesn't work at all because those values
@@ -234,18 +235,8 @@ void auto_arrange_workers(struct city *pcity)
       cm_query_result(pcity, &cmp, &cmr);
 
       if (!cmr.found_a_valid) {
-	/* 
-	 * If we can't get a resonable result force a disorder.
-	 */
-	cmp.allow_disorder = TRUE;
-	cmp.allow_specialists = FALSE;
-	cmp.minimal_surplus[FOOD] = -FC_INFINITY;
-	cmp.minimal_surplus[SHIELD] = -FC_INFINITY;
-	cmp.minimal_surplus[TRADE] = -FC_INFINITY;
-	cmp.minimal_surplus[GOLD] = -FC_INFINITY;
-	cmp.minimal_surplus[LUXURY] = -FC_INFINITY;
-	cmp.minimal_surplus[SCIENCE] = -FC_INFINITY;
-
+	/* Emergency management.  Get _some_ result. */
+        cm_init_emergency_parameter(&cmp);
 	cm_query_result(pcity, &cmp, &cmr);
       }
     } else {
@@ -262,13 +253,7 @@ void auto_arrange_workers(struct city *pcity)
 
       if (!cmr.found_a_valid) {
 	CITY_LOG(LOG_DEBUG, pcity, "emergency management");
-	cmp.minimal_surplus[FOOD] = -FC_INFINITY;
-	cmp.minimal_surplus[SHIELD] = -FC_INFINITY;
-	cmp.minimal_surplus[LUXURY] = -FC_INFINITY;
-	cmp.minimal_surplus[SCIENCE] = -FC_INFINITY;
-	cmp.allow_disorder = TRUE;
-	cmp.allow_specialists = FALSE;
-
+        cm_init_emergency_parameter(&cmp);
 	cm_query_result(pcity, &cmp, &cmr);
       }
     }

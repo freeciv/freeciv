@@ -665,7 +665,6 @@ static void calc_fitness(struct city *pcity,
   *minor_fitness = 0;
 
   for (i = 0; i < NUM_STATS; i++) {
-    assert(parameter->factor_target == FT_SURPLUS);
     *major_fitness += result->surplus[i] * parameter->factor[i];
     *minor_fitness += result->surplus[i];
   }
@@ -1519,9 +1518,6 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
   if (p1->allow_specialists != p2->allow_specialists) {
     return FALSE;
   }
-  if (p1->factor_target != p2->factor_target) {
-    return FALSE;
-  }
   if (p1->happy_factor != p2->happy_factor) {
     return FALSE;
   }
@@ -1536,4 +1532,41 @@ void cm_copy_parameter(struct cm_parameter *dest,
 		       const struct cm_parameter *const src)
 {
   memcpy(dest, src, sizeof(struct cm_parameter));
+}
+
+/**************************************************************************
+  Initialize the parameter to sane default values.
+**************************************************************************/
+void cm_init_parameter(struct cm_parameter *dest)
+{
+  enum cm_stat stat;
+
+  for (stat = 0; stat < NUM_STATS; stat++) {
+    dest->minimal_surplus[stat] = 0;
+    dest->factor[stat] = 1;
+  }
+
+  dest->happy_factor = 1;
+  dest->require_happy = FALSE;
+  dest->allow_disorder = FALSE;
+  dest->allow_specialists = TRUE;
+}
+
+/**************************************************************************
+  Initialize the parameter to sane default values that will always produce
+  a result.
+**************************************************************************/
+void cm_init_emergency_parameter(struct cm_parameter *dest)
+{
+  enum cm_stat stat;
+
+  for (stat = 0; stat < NUM_STATS; stat++) {
+    dest->minimal_surplus[stat] = -FC_INFINITY;
+    dest->factor[stat] = 1;
+  }
+
+  dest->happy_factor = 1;
+  dest->require_happy = FALSE;
+  dest->allow_disorder = TRUE;
+  dest->allow_specialists = TRUE;
 }

@@ -153,11 +153,10 @@ static void ai_manage_taxes(struct player *pplayer)
       pplayer->economic.science -= 10;
     }
 
-    memset(&cmp, 0, sizeof(struct cm_parameter));
+    cm_init_parameter(&cmp);
     cmp.require_happy = TRUE;    /* note this one */
     cmp.allow_disorder = FALSE;
     cmp.allow_specialists = TRUE;
-    cmp.factor_target = FT_SURPLUS;
     cmp.factor[FOOD] = 20;
     cmp.minimal_surplus[GOLD] = -FC_INFINITY;
 

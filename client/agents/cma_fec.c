@@ -114,22 +114,10 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cm_parameter *dest)
     cm_copy_parameter(dest, &parameter);
     cmafec_set_fe_parameter(pcity, dest);
   } else {
+    /* Create a dummy parameter to return. */
+    cm_init_parameter(dest);
     if (!cma_get_parameter(ATTR_CITY_CMAFE_PARAMETER, pcity->id, dest)) {
-
-      /* We haven't seen this city previously; create a new dummy parameter. */
-      int i;
-
-      for (i = 0; i < NUM_STATS; i++) {
-        dest->minimal_surplus[i] = 0;
-        dest->factor[i] = 1;
-      }
-
-      dest->happy_factor = 1;
-      dest->require_happy = FALSE;
-      dest->allow_disorder = FALSE;
-      dest->allow_specialists = TRUE;
-      dest->factor_target = FT_SURPLUS;
-
+      /* We haven't seen this city before; store the dummy. */
       cmafec_set_fe_parameter(pcity, dest);
     }
   }

@@ -23,16 +23,11 @@
  * The plan defines a minimal surplus. The module will try to get the
  * required surplus. If there are citizens free after allocation of
  * the minimal surplus these citizens will get arranged to maximize
- * the sum over base*factor. The base depends upon the factor_target.
+ * the weighted sum over the surplus of each type.
  */
 
 #include "city.h"		/* CITY_MAP_SIZE */
 #include "shared.h"		/* bool type */
-
-enum factor_target {
-  FT_SURPLUS,			/* will use the surplus as base */
-  FT_EXTRA			/* will use (minimal_surplus-surplus) as base */
-};
 
 enum cm_stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
 
@@ -42,8 +37,6 @@ struct cm_parameter {
   bool require_happy;
   bool allow_disorder;
   bool allow_specialists;
-
-  enum factor_target factor_target;
 
   int factor[NUM_STATS];
   int happy_factor;
@@ -88,6 +81,8 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 			    const struct cm_parameter *const p2);
 void cm_copy_parameter(struct cm_parameter *dest,
 		       const struct cm_parameter *const src);
+void cm_init_parameter(struct cm_parameter *dest);
+void cm_init_emergency_parameter(struct cm_parameter *dest);
 
 void cm_print_city(const struct city *pcity);
 void cm_print_result(const struct city *pcity,

@@ -710,7 +710,6 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
     param.minimal_surplus[i] = (int) (pdialog->minimal_surplus[i]->value);
     param.factor[i] = (int) (pdialog->factor[i]->value);
   }
-  param.factor_target = FT_SURPLUS;
   param.require_happy =
       (GTK_TOGGLE_BUTTON(pdialog->happy_button)->active ? 1 : 0);
   param.happy_factor = (int) (pdialog->factor[NUM_STATS]->value);

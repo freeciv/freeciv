@@ -640,8 +640,6 @@ static void load_cma_preset(struct section_file *file, int inx)
   }
   parameter.require_happy =
       secfile_lookup_bool_default(file, FALSE, "cma.preset%d.reqhappy", inx);
-  parameter.factor_target =
-      secfile_lookup_int_default(file, 0, "cma.preset%d.factortarget", inx);
   parameter.happy_factor =
       secfile_lookup_int_default(file, 0, "cma.preset%d.happyfactor", inx);
   parameter.allow_disorder = FALSE;
@@ -668,8 +666,6 @@ static void save_cma_preset(struct section_file *file, char *name,
   }
   secfile_insert_bool(file, pparam->require_happy,
 		      "cma.preset%d.reqhappy", inx);
-  secfile_insert_int(file, pparam->factor_target,
-		     "cma.preset%d.factortarget", inx);
   secfile_insert_int(file, pparam->happy_factor,
 		     "cma.preset%d.happyfactor", inx);
 }

@@ -604,7 +604,6 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
   parameter.happy_factor = factors[NUM_STATS];
-  parameter.factor_target = FT_SURPLUS;
 
   cmafec_set_fe_parameter(current_city, &parameter);
 
@@ -663,7 +662,6 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
   parameter.happy_factor = factors[NUM_STATS];
-  parameter.factor_target = FT_SURPLUS;
 
   cmafec_set_fe_parameter(current_city, &parameter);
 
@@ -754,7 +752,6 @@ static void new_preset_callback(Widget w, XtPointer save_preset,
 
     parameter.happy_factor = factors[NUM_STATS];
     parameter.require_happy = celebrate_setting;
-    parameter.factor_target = FT_SURPLUS;
 
     cmafec_preset_add(input_dialog_get_input(w), &parameter);
 
@@ -786,7 +783,6 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   XtVaGetValues(celebrate_toggle, XtNstate, &parameter.require_happy, NULL);
   parameter.happy_factor = factors[NUM_STATS];
-  parameter.factor_target = FT_SURPLUS;
 
   cmafec_set_fe_parameter(current_city, &parameter);
 

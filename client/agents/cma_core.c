@@ -68,7 +68,7 @@
 #define SHOW_APPLY_RESULT_ON_SERVER_ERRORS              FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define SAVED_PARAMETER_SIZE				29
+#define SAVED_PARAMETER_SIZE				28
 
 /*
  * Misc statistic to analyze performance.
@@ -550,7 +550,11 @@ bool cma_is_city_under_agent(struct city *pcity,
 }
 
 /**************************************************************************
- ...
+  Get the parameter.
+
+  Don't bother to cm_init_parameter, since we set all the fields anyway.
+  But leave the comment here so we can find this place when searching
+  for all the creators of a parameter.
 **************************************************************************/
 bool cma_get_parameter(enum attr_city attr, int city_id,
 		       struct cm_parameter *parameter)
@@ -577,7 +581,6 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   }
 
   dio_get_sint16(&din, &parameter->happy_factor);
-  dio_get_uint8(&din, (int *) &parameter->factor_target);
   dio_get_bool8(&din, &parameter->require_happy);
   /* These options are only for server-AI use. */
   parameter->allow_disorder = FALSE;
@@ -606,7 +609,6 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   }
 
   dio_put_sint16(&dout, parameter->happy_factor);
-  dio_put_uint8(&dout, (int) parameter->factor_target);
   dio_put_bool8(&dout, parameter->require_happy);
 
   assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);

@@ -1154,7 +1154,6 @@ static void city_cma_changed(struct city_dialog **ppdialog)
     param.minimal_surplus[i] = (int)xget(pdialog->minimal_surplus_slider[i],MUIA_Numeric_Value);
     param.factor[i] = (int)xget(pdialog->factor_slider[i],MUIA_Numeric_Value);
   }
-  param.factor_target = FT_SURPLUS;
   param.require_happy = xget(pdialog->celebrate_check, MUIA_Selected);
   param.happy_factor = xget(pdialog->factor_slider[6],MUIA_Numeric_Value);
 
