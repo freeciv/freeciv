@@ -926,10 +926,8 @@ enum command_id {
   CMD_RULESOUT,
 
   /* undocumented */
-  CMD_LOG,
   CMD_RFCSTYLE,
   CMD_FREESTYLE,
-  CMD_CRASH,
 
   /* pseudo-commands: */
   CMD_NUM,		/* the number of commands - for iterations */
@@ -1179,13 +1177,6 @@ static const struct command commands[] = {
       "information about all the advances (technologies).  This can be used "
       "by the 'techtree' utility program to produce a graph of the advances.")
   },
-  {"log",	ALLOW_HACK,
-   /* TRANS: translate text between <> only */
-   N_("log <message>"),
-   N_("Generate a log message."),
-   N_("Generates a 'log message' with level 1.  "
-      "This is mostly useful for debugging the logging system.")
-  },
   {"rfcstyle",	ALLOW_HACK,
    "rfcstyle",
    N_("Change server output style to 'RFC-style'."), NULL
@@ -1193,11 +1184,6 @@ static const struct command commands[] = {
   {"freestyle",	ALLOW_HACK,
    "freestyle",
    N_("Change server output style to normal style."), NULL
-  },
-  {"crash",	ALLOW_HACK,
-   "crash",
-   N_("Abort the server and generate a 'core' file."),
-   N_("This is mostly useful for debugging purposes.")
   }
 };
 
@@ -2523,14 +2509,6 @@ static void set_ai_level(struct connection *caller, char *name, int level)
   }
 }
 
-static void crash_and_burn(struct connection *caller)
-{
-  cmd_reply(CMD_CRASH, caller, C_GENFAIL, _("Crashing and burning."));
-  /* Who is General Failure and why is he crashing and
-     burning my computer? :) -- Per */
-   assert(0);
-}
-
 /******************************************************************
 Print a summary of the settings and their values.
 Note that most values are at most 4 digits, except seeds,
@@ -2979,11 +2957,6 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_CREATE:
     create_ai_player(caller,arg);
-    break;
-  case CMD_CRASH:
-    crash_and_burn(caller);
-  case CMD_LOG:		/* undocumented */
-    freelog(LOG_NORMAL, "%s", arg);
     break;
   case CMD_EASY:
     set_ai_level(caller, arg, 3);
