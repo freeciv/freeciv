@@ -27,7 +27,6 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "log.h"
 #include "chatline.h"
 #include "citydlg.h"
 #include "clinet.h"
