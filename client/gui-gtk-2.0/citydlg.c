@@ -75,7 +75,7 @@ struct city_dialog;
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
+enum { OVERVIEW_PAGE, WORKLIST_PAGE,
   HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
 };
 
@@ -84,7 +84,7 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
 #define NUM_INFO_FIELDS 11      /* number of fields in city_info */
-#define NUM_PAGES 8             /* the number of pages in city dialog notebook 
+#define NUM_PAGES 7             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
 
@@ -115,7 +115,6 @@ struct city_dialog {
     GtkWidget *improvement_list;
     GtkWidget *buy_command;
     GtkWidget *change_command;
-    GtkWidget *sell_command;
 
     GtkWidget *supported_units_frame;
     GtkWidget *supported_unit_table;
@@ -162,9 +161,6 @@ struct city_dialog {
   Impr_Type_id sell_id;
 
   int cwidth;
-
-  /* This is used only to avoid too many refreshes. */
-  int last_improvlist_seen[B_LAST];
 
   bool is_modal;
 };
@@ -251,12 +247,11 @@ static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
 
 static void buy_callback(GtkWidget * w, gpointer data);
 
-static void sell_callback(GtkWidget * w, gpointer data);
+static void sell_callback(Impr_Type_id id, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
-static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
-				      GdkEventButton * event,
-				      gpointer data);
 
+static void impr_callback(GtkTreeView *view, GtkTreePath *path,
+			  GtkTreeViewColumn *col, gpointer data);
 static void switch_page_callback(GtkNotebook * notebook,
 				 GtkNotebookPage * page, gint page_num,
 				 gpointer data);
@@ -390,7 +385,6 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
 			     have_present_units);
-    gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
     gtk_widget_set_sensitive(pdialog->overview.change_command,
 			     can_client_issue_orders());
   } else {
@@ -560,12 +554,9 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
 static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *top, *vbox, *page, *align;
-  GtkWidget *frame, *table, *label, *sw;
-
-  static char *improvement_title[] = { N_("City improvements"),
-    N_("Upkeep")
-  };
-  static bool improvement_title_done;
+  GtkWidget *frame, *table, *label, *sw, *view;
+  GtkCellRenderer *rend;
+  GtkListStore *store;
 
   char *tab_title = _("_Overview");
 
@@ -581,7 +572,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   top = gtk_hbox_new(FALSE, 6);
   gtk_box_pack_start(GTK_BOX(page), top, TRUE, TRUE, 0);
 
-  frame = gtk_frame_new(_("City info"));
+  frame = gtk_frame_new(_("Info"));
   gtk_box_pack_start(GTK_BOX(top), frame, FALSE, FALSE, 0);
 
   table = create_city_info_table(pdialog->overview.info_label);
@@ -662,51 +653,45 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   
 
   /* start the right half of the page */
-  vbox = gtk_vbox_new(FALSE, 0);	/* the right half */
+  vbox = gtk_vbox_new(FALSE, 4);	/* the right half */
   gtk_box_pack_start(GTK_BOX(top), vbox, TRUE, TRUE, 0);
 
-  /* city improvements */
+  /* improvements */
+  store = gtk_list_store_new(4, G_TYPE_INT, GDK_TYPE_PIXBUF, G_TYPE_STRING,
+			     G_TYPE_INT);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+  pdialog->overview.improvement_list = view;
+
+  rend = gtk_cell_renderer_pixbuf_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+      rend, "pixbuf", 1, NULL);
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+      rend, "text", 2, NULL);
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "xalign", 1.0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+      rend, "text", 3, NULL);
+
+  g_signal_connect(view, "row_activated",
+		   G_CALLBACK(impr_callback), pdialog);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", view,
+		       "label", _("_Improvements:"),
+		       "xalign", 0.0, "yalign", 0.5, NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  intl_slist(ARRAY_SIZE(improvement_title), improvement_title,
-             &improvement_title_done);
-
-  pdialog->overview.improvement_list =
-      gtk_clist_new_with_titles(2, improvement_title);
-  gtk_clist_column_titles_passive(GTK_CLIST
-				  (pdialog->overview.improvement_list));
-  gtk_clist_set_column_justification(GTK_CLIST
-				     (pdialog->overview.improvement_list),
-				     1, GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_auto_resize(GTK_CLIST
-				   (pdialog->overview.improvement_list), 0,
-				   TRUE);
-  gtk_clist_set_column_auto_resize(GTK_CLIST
-				   (pdialog->overview.improvement_list), 1,
-				   TRUE);
-  gtk_container_add(GTK_CONTAINER(sw),
-		    pdialog->overview.improvement_list);
-  gtk_clist_column_titles_show(GTK_CLIST
-			       (pdialog->overview.improvement_list));
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->overview.improvement_list),
-		     "select_row",
-		     GTK_SIGNAL_FUNC(select_impr_list_callback), pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->overview.improvement_list),
-		     "unselect_row",
-		     GTK_SIGNAL_FUNC(select_impr_list_callback), pdialog);
-
-  /* and the sell button */
-  pdialog->overview.sell_command = gtk_button_new_with_label(_("Sell"));
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->overview.sell_command,
-		     FALSE, FALSE, 0);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->overview.sell_command), "clicked",
-		     GTK_SIGNAL_FUNC(sell_callback), pdialog);
+  gtk_container_add(GTK_CONTAINER(sw), view);
 
   /* in terms of structural flow, should be put these above? */
   gtk_signal_connect(GTK_OBJECT(pdialog->overview.map_canvas),
@@ -902,9 +887,8 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   };
 
   static char *misc_whichtab_label[NUM_PAGES] = {
-    N_("City Overview page"),
-    N_("Units page"),
-    N_("Worklist page"),
+    N_("Overview page"),
+    N_("Production page"),
     N_("Happiness page"),
     N_("CMA page"),
     N_("Trade Routes page"),
@@ -1217,10 +1201,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   dialog_list_insert(&dialog_list, pdialog);
 
-  impr_type_iterate(i) {
-    pdialog->last_improvlist_seen[i] = 0;
-  } impr_type_iterate_end;
-
   refresh_city_dialog(pdialog->pcity);
 
   /* need to do this every time a new dialog is opened. */
@@ -1516,8 +1496,6 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command,
 			   can_client_issue_orders() && !pcity->did_buy);
-  gtk_widget_set_sensitive(pdialog->overview.sell_command,
-			   can_client_issue_orders() && !pcity->did_sell);
 			
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
@@ -1555,67 +1533,49 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_improvement_list(struct city_dialog
-						*pdialog)
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int changed, total, item, cids_used;
+  int total, item, cids_used;
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
-  char buf[100];
+  GtkTreeModel *model;
+  GtkListStore *store;
 
-  /* Test if the list improvements of pcity has changed */
-  changed = 0;
-  impr_type_iterate(i) {
-    if (pdialog->pcity->improvements[i] !=
-	pdialog->last_improvlist_seen[i]) {
-      changed = 1;
-      break;
-    }
-  } impr_type_iterate_end;
-
-  if (!changed) {
-    gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
-    return;
-  }
-
-  /* Update pdialog->last_improvlist_seen */
-  impr_type_iterate(i) {
-    pdialog->last_improvlist_seen[i] = pdialog->pcity->improvements[i];
-  } impr_type_iterate_end;
-
+  model =
+    gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
+  store = GTK_LIST_STORE(model);
+  
   cids_used = collect_cids5(cids, pdialog->pcity);
   name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
 
-  gtk_clist_freeze(GTK_CLIST(pdialog->overview.improvement_list));
-  gtk_clist_clear(GTK_CLIST(pdialog->overview.improvement_list));
+  gtk_list_store_clear(store);  
 
   total = 0;
   for (item = 0; item < cids_used; item++) {
-    char *strings[2];
-    int row, id = cid_id(items[item].cid);
-
-    strings[0] = items[item].descr;
-    strings[1] = buf;
-
+    GtkTreeIter it;
+    int id, upkeep;
+    GdkPixbuf *pix;
+    struct impr_type *impr;
+   
+    id = cid_id(items[item].cid);
+    impr = get_improvement_type(id);
     /* This takes effects (like Adam Smith's) into account. */
-    my_snprintf(buf, sizeof(buf), "%d",
-		improvement_upkeep(pdialog->pcity, id));
+    upkeep = improvement_upkeep(pdialog->pcity, id);
 
-    row = gtk_clist_append(GTK_CLIST(pdialog->overview.improvement_list),
-			   strings);
-    gtk_clist_set_row_data(GTK_CLIST(pdialog->overview.improvement_list),
-			   row, GINT_TO_POINTER(id));
+    pix = gdk_pixbuf_new_from_sprite(impr->sprite);
+    
+    gtk_list_store_append(store, &it);
+    gtk_list_store_set(store, &it,
+	0, id,
+	1, pix,
+	2, items[item].descr,
+	3, upkeep,
+	-1);
 
-    total += improvement_upkeep(pdialog->pcity, id);
+    g_object_unref(pix);
+
+    total += upkeep;
   }
-  gtk_clist_thaw(GTK_CLIST(pdialog->overview.improvement_list));
-
-  my_snprintf(buf, sizeof(buf), _("Upkeep (Total: %d)"), total);
-  gtk_clist_set_column_title(GTK_CLIST(pdialog->overview.improvement_list),
-			     1, buf);
-
-  gtk_button_set_label(GTK_BUTTON(pdialog->overview.sell_command), _("Sell"));
-  gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
 }
 
 /****************************************************************
@@ -2648,20 +2608,15 @@ static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void sell_callback(GtkWidget * w, gpointer data)
+static void sell_callback(Impr_Type_id id, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  GList *selection;
-  int id;
   GtkWidget *shl;
-
-  selection = GTK_CLIST(pdialog->overview.improvement_list)->selection;
-  if (!selection)
+  
+  if (!can_client_issue_orders() || pdialog->pcity->did_sell) {
     return;
-
-  id = GPOINTER_TO_INT(gtk_clist_get_row_data
-		       (GTK_CLIST(pdialog->overview.improvement_list),
-			GPOINTER_TO_INT(selection->data)));
+  }
+  
   assert(city_got_building(pdialog->pcity, id));
   if (is_wonder(id))
     return;
@@ -2709,32 +2664,27 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
 /****************************************************************
  this is here because it's closely related to the sell stuff
 *****************************************************************/
-static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
-				      GdkEventButton * event,
-				      gpointer data)
+static void impr_callback(GtkTreeView *view, GtkTreePath *path,
+			  GtkTreeViewColumn *col, gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  GList *selection =
-      GTK_CLIST(pdialog->overview.improvement_list)->selection;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  GdkModifierType mask;
+  int id;
 
-  if (!selection || pdialog->pcity->did_buy || pdialog->pcity->did_sell ||
-      pdialog->pcity->owner != game.player_idx) {
-    gtk_button_set_label(GTK_BUTTON(pdialog->overview.sell_command), _("Sell"));
-    gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
+  model = gtk_tree_view_get_model(view);
+
+  if (!gtk_tree_model_get_iter(model, &it, path)) {
+    return;
+  }
+
+  gtk_tree_model_get(model, &it, 0, &id, -1);
+  gdk_window_get_pointer(NULL, NULL, NULL, &mask);
+
+  if (!(mask & GDK_CONTROL_MASK)) {
+    sell_callback(id, data);
   } else {
-    int id = GPOINTER_TO_INT(gtk_clist_get_row_data
-			     (GTK_CLIST(pdialog->overview.improvement_list),
-			      GPOINTER_TO_INT(selection->data)));
-    assert(city_got_building(pdialog->pcity, id));
-
-    if (!is_wonder(id)) {
-      char buf[64];
-      my_snprintf(buf, sizeof(buf), _("Sell (worth %d gold)"),
-		  improvement_value(id));
-      gtk_button_set_label(GTK_BUTTON(pdialog->overview.sell_command), buf);
-      gtk_widget_set_sensitive(pdialog->overview.sell_command,
-			       can_client_issue_orders());
-    }
+    popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
   }
 }
 
@@ -3111,5 +3061,4 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
   refresh_city_dialog(pdialog->pcity);
-  select_impr_list_callback(NULL, 0, 0, NULL, pdialog); /* unselects clist */
 }
