@@ -49,7 +49,7 @@ Freeciv*Canvas.background: Black
 Freeciv*Pixcomm.foreground: Black
 Freeciv*Pixcomm.background: White
 
-! The pixcomm widget doesn't look good with 3d borders
+! The pixcomm widget does not look good with 3d borders
 Freeciv*Pixcomm.shadowWidth: 0
 
 !
@@ -1941,12 +1941,12 @@ Freeciv*reportactiveunitsrefreshcommand.right:       chainLeft
 !
 ! menus
 !
-Freeciv*gamemenu.label:                 Game
-Freeciv*kingdommenu.label:              Kingdom
-Freeciv*viewmenu.label:                 View
-Freeciv*ordersmenu.label:               Orders
-Freeciv*reportsmenu.label:              Reports
-Freeciv*helpmenu.label:                 Help
+Freeciv*gamemenu.label:                 _("Game")
+Freeciv*kingdommenu.label:              _("Kingdom")
+Freeciv*viewmenu.label:                 _("View")
+Freeciv*ordersmenu.label:               _("Orders")
+Freeciv*reportsmenu.label:              _("Reports")
+Freeciv*helpmenu.label:                 _("Help")
 Freeciv*gamemenu.background:            Blue
 Freeciv*gamemenu.foreground:            White
 Freeciv*kingdommenu.background:         Blue
@@ -2614,7 +2614,7 @@ Freeciv*mapcanvas.translations:\
    Shift<BtnDown>:    adjust-workers()      \n\
    <BtnDown>:         select-mapcanvas()    \n\
    <Key>F3:           key-open-players()         \n\
-   <Key>F4:           key-open-messages()        \n\
+   <Key>F10:          key-open-messages()        \n\
    Shift<Key>t:       key-open-rates()           \n\
    Shift<Key>c:       key-open-find-city()       \n\
    Shift<Key>r:       key-ask-revolution()       \n\
@@ -2658,7 +2658,6 @@ Freeciv*mapcanvas.translations:\
    <Key>w:            key-unit-wait()       \n\
    <Key>space:        key-unit-done()       \n\
    <Key>b:            key-unit-build-city() \n\
-   <Key>e:            key-end-turn()        \n\
    <Key>Return:       key-end-turn()        \n\
    <Key>KP_Enter:     key-end-turn()        \n\
    <Key>h:            key-unit-homecity()   \n\

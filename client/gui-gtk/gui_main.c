@@ -276,7 +276,6 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_5:
     case GDK_KP_5:		focus_to_next_unit();		break;
 
-    case GDK_e:			key_end_turn();			break;
     case GDK_Return:		key_end_turn();			break;
     case GDK_KP_Enter:		key_end_turn();			break;
 

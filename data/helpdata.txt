@@ -393,7 +393,6 @@ Keyboard:
   b: (b)uild city  (settler units)
   b: help (b)uild wonder  (caravan units)
   D: (D)isband unit
-  e: turn don(e)
   f: (f)ortify unit  (military units)
   f: build (f)ortress on tile  (settler units)
   g: unit (g)oto  (then left-click mouse to select destination)

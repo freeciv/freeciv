@@ -1504,12 +1504,12 @@ Unit Type            Upgrade  In-Prog   Active   Shield     Food",
 "Freeciv*reportactiveunitsrefreshcommand.bottom:      chainBottom",
 "Freeciv*reportactiveunitsrefreshcommand.left:        chainLeft",
 "Freeciv*reportactiveunitsrefreshcommand.right:       chainLeft",
-"Freeciv*gamemenu.label:                 Game",
-"Freeciv*kingdommenu.label:              Kingdom",
-"Freeciv*viewmenu.label:                 View",
-"Freeciv*ordersmenu.label:               Orders",
-"Freeciv*reportsmenu.label:              Reports",
-"Freeciv*helpmenu.label:                 Help",
+"Freeciv*gamemenu.label:                 _(\"Game\")",
+"Freeciv*kingdommenu.label:              _(\"Kingdom\")",
+"Freeciv*viewmenu.label:                 _(\"View\")",
+"Freeciv*ordersmenu.label:               _(\"Orders\")",
+"Freeciv*reportsmenu.label:              _(\"Reports\")",
+"Freeciv*helpmenu.label:                 _(\"Help\")",
 "Freeciv*gamemenu.background:            Blue",
 "Freeciv*gamemenu.foreground:            White",
 "Freeciv*kingdommenu.background:         Blue",
@@ -2023,7 +2023,7 @@ Now.. Go give'em hell!",
    Shift<BtnDown>:    adjust-workers()      \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
    <Key>F3:           key-open-players()         \\n\
-   <Key>F4:           key-open-messages()        \\n\
+   <Key>F10:          key-open-messages()        \\n\
    Shift<Key>t:       key-open-rates()           \\n\
    Shift<Key>c:       key-open-find-city()       \\n\
    Shift<Key>r:       key-ask-revolution()       \\n\
@@ -2067,7 +2067,6 @@ Now.. Go give'em hell!",
    <Key>w:            key-unit-wait()       \\n\
    <Key>space:        key-unit-done()       \\n\
    <Key>b:            key-unit-build-city() \\n\
-   <Key>e:            key-end-turn()        \\n\
    <Key>Return:       key-end-turn()        \\n\
    <Key>KP_Enter:     key-end-turn()        \\n\
    <Key>h:            key-unit-homecity()   \\n\

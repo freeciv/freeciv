@@ -3,4 +3,5 @@
 server/civserver.c
 client/civclient.c
 client/gui-gtk/menu.c
+client/gui-xaw/menu.c
 data/Freeciv
