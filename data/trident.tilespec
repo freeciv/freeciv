@@ -59,11 +59,13 @@ files =
 is_blended = 0
 is_layered = 0
 match_type = 1
+mine_sprite = "tx.oil_mine"
 
 [terrain_desert]
 is_blended = 0
 is_layered = 0
 match_type = 2
+mine_sprite = "tx.oil_mine"
 
 [terrain_forest]
 is_blended = 0
@@ -79,6 +81,7 @@ match_type = 3
 is_blended = 0
 is_layered = 0
 match_type = 4
+mine_sprite = "tx.mine"
 
 [terrain_jungle]
 is_blended = 0
@@ -89,6 +92,7 @@ match_type = 5
 is_blended = 0
 is_layered = 0
 match_type = 6
+mine_sprite = "tx.mine"
 
 ; ocean has special handling
 [terrain_ocean]

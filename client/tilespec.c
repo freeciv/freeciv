@@ -695,6 +695,8 @@ void tilespec_read_toplevel(const char *tileset_name)
 					   terrains[i]);
     terr->match_type = secfile_lookup_int(file, "%s.match_type",
 					  terrains[i]);
+    terr->mine_tag = secfile_lookup_str_default(file, NULL, "%s.mine_sprite",
+						terrains[i]);
 
     if (terr->is_layered && terr->match_type == 0) {
       freelog(LOG_FATAL, "%s is layered but has no matching type set.",
@@ -1007,8 +1009,6 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(user.attention, "user.attention");
 
   SET_SPRITE(tx.fallout,    "tx.fallout");
-  SET_SPRITE(tx.mine,       "tx.mine");
-  SET_SPRITE_ALT(tx.oil_mine, "tx.oil_mine", "tx.mine");
   SET_SPRITE(tx.pollution,  "tx.pollution");
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
@@ -1220,6 +1220,12 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
       draw->special[i] = NULL;
     }
     /* should probably do something if NULL, eg generic default? */
+  }
+
+  if (draw->mine_tag) {
+    draw->mine = load_sprite(draw->mine_tag);
+  } else {
+    draw->mine = NULL;
   }
 
   sprites.terrain[terrain] = draw;
@@ -2017,18 +2023,10 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
     if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
       ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
     }
-   
-    if (contains_special(tspecial, S_MINE) && draw_mines
-	&& (ttype == T_HILLS || ttype == T_MOUNTAINS)) {
-      /* Oil mines come later. */
-      ADD_SPRITE_SIMPLE(sprites.tx.mine);
-    }
-    
-    if (contains_special(tspecial, S_MINE) && draw_mines
-	&& ttype != T_HILLS && ttype != T_MOUNTAINS) {
-      /* Must be Glacier or Dessert. The mine sprite looks better on top
-       * of special. */
-      ADD_SPRITE_SIMPLE(sprites.tx.oil_mine);
+
+    if (draw_mines && contains_special(tspecial, S_MINE)
+	&& sprites.terrain[ttype]->mine) {
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
     }
     
     if (contains_special(tspecial, S_HUT) && draw_specials) {
@@ -2206,11 +2204,9 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
       ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
   }
 
-  if(contains_special(tspecial, S_MINE) && draw_mines) {
-    if(ttype==T_HILLS || ttype==T_MOUNTAINS)
-      ADD_SPRITE_SIMPLE(sprites.tx.mine);
-    else /* desert */
-      ADD_SPRITE_SIMPLE(sprites.tx.oil_mine);
+  if (draw_mines && contains_special(tspecial, S_MINE)
+      && sprites.terrain[ttype]->mine) {
+    ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
   }
 
   if(contains_special(tspecial, S_HUT) && draw_specials) {

@@ -97,6 +97,7 @@ enum direction4 {
 
 struct terrain_drawing_data {
   char *name;
+  char *mine_tag;
 
   bool is_blended;
   bool is_layered;
@@ -105,6 +106,7 @@ struct terrain_drawing_data {
   struct Sprite *base;
   struct Sprite *blend[NUM_DIRECTION_NSEW];
   struct Sprite *special[2];
+  struct Sprite *mine;
 };
 
 struct named_sprites {
@@ -200,8 +202,6 @@ struct named_sprites {
     struct Sprite
       *farmland[NUM_DIRECTION_NSEW],
       *irrigation[NUM_DIRECTION_NSEW],
-      *mine,
-      *oil_mine,
       *pollution,
       *village,
       *fortress,
