@@ -47,7 +47,7 @@
 
 
 /**************************************************************************
-...
+FIXME: Calculate the attractiveness of attacking.
 **************************************************************************/
 static struct unit *search_best_target(struct player *pplayer,
 				       struct city *pcity, struct unit *punit)
@@ -56,8 +56,6 @@ static struct unit *search_best_target(struct player *pplayer,
   struct unit *enemy, *best_enemy = NULL;
   int score, best_score = 0;
   int mv_cost, range;
-  int x,y,i,j;
-  int debug=0;
 
   /* if a 'F_ONEATTACK' unit,
      range is larger, because they are not going to return this turn anyways
@@ -70,67 +68,58 @@ static struct unit *search_best_target(struct player *pplayer,
   /* attack the next to city */ 
   range = range<4 ? 3 : range;
   
-  if (debug) {
-    freelog(LOG_DEBUG, "doing autoattack for %s (%d/%d) in %s,"
-	 " range %d(%d), city_options %d",
-	 unit_name(punit->type), punit->x, punit->y, pcity->name,
-	 range, punit->moves_left, pcity->city_options);
-  }
+  freelog(LOG_DEBUG, "doing autoattack for %s (%d/%d) in %s,"
+	  " range %d(%d), city_options %d",
+	  unit_name(punit->type), punit->x, punit->y, pcity->name,
+	  range, punit->moves_left, pcity->city_options);
   
-  for(i=-range;i<=range;i++) {
-    x = map_adjust_x(punit->x+i);
-    for(j=-range;j<=range;j++) {
-      y = punit->y + j;		/* no adjust; map_get_tile will use void_tile */
+  square_iterate(punit->x, punit->y, range, x, y) {
+    if (x == punit->x && y == punit->y)
+      continue;
 
-      if (i==0 && j==0) continue;
-      /* we wont wanna do it for the city itself - fisch */
-      
-      if (map_get_city(x, y)) continue;
-      /* don't attack enemy cities (or our own ;-) --dwp */
-      
-      targets = &(map_get_tile(x, y)->units);
-      if (unit_list_size(targets) == 0) continue;
-      if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no))
-	continue;
-      
-      if (debug) freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);
-      enemy = get_defender(pplayer, punit, x, y);
-      if (debug) freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
-      
-      if (!(pcity->city_options
-	    & 1<<(get_unit_type(enemy->type)->move_type-1+CITYO_ATT_LAND))) {
-	if (debug) freelog(LOG_DEBUG, "wrong target type");
-	continue;
-      }
-   
-      mv_cost = calculate_move_cost(punit, x, y);
-      if (mv_cost > range) {
-        if(debug) freelog(LOG_DEBUG, "too far away: %d", mv_cost);
-        continue;
-      }
-      
-      /*
-       *  perhaps there is a better algorithm in the ai-package -- fisch
-       */
-      score = (get_unit_type(enemy->type)->defense_strength
-	       + (enemy->hp/2)
-	       + (get_transporter_capacity(enemy) ? 1 : 0));
-      
-      if(best_enemy == NULL || score >= best_score) {
-	best_score = score;
-	best_enemy = enemy;
-      }
+    if (map_get_city(x, y)) continue;
+    /* don't attack enemy cities (or our own ;-) --dwp */
+
+    targets = &(map_get_tile(x, y)->units);
+    if (unit_list_size(targets) == 0) continue;
+    if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no))
+      continue;
+
+    freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);
+    enemy = get_defender(pplayer, punit, x, y);
+    freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
+
+    if (!(pcity->city_options
+	  & 1<<(get_unit_type(enemy->type)->move_type-1+CITYO_ATT_LAND))) {
+      freelog(LOG_DEBUG, "wrong target type");
+      continue;
     }
-  }
-  
+
+    mv_cost = calculate_move_cost(punit, x, y);
+    if (mv_cost > range) {
+      freelog(LOG_DEBUG, "too far away: %d", mv_cost);
+      continue;
+    }
+
+    /*
+     *  perhaps there is a better algorithm in the ai-package -- fisch
+     */
+    score = (get_unit_type(enemy->type)->defense_strength
+	     + (enemy->hp/2)
+	     + (get_transporter_capacity(enemy) ? 1 : 0));
+
+    if(best_enemy == NULL || score >= best_score) {
+      best_score = score;
+      best_enemy = enemy;
+    }
+  } square_iterate_end;
+
   if(best_enemy == NULL) return NULL;
 
   enemy = best_enemy;
   
-  if(debug) {
-    freelog(LOG_DEBUG,"choosen target=%s (%d/%d)",
-	 get_unit_name(enemy->type), enemy->x,enemy->y);
-  }
+  freelog(LOG_DEBUG,"choosen target=%s (%d/%d)",
+	  get_unit_name(enemy->type), enemy->x,enemy->y);
 
   if((get_unit_type(enemy->type)->defense_strength) >
      get_unit_type(punit->type)->attack_strength*1.5) {
