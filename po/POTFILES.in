@@ -2,6 +2,7 @@
 # (Filenames relative to top-level directory.)
 common/city.c
 common/connection.c
+common/effects.c
 common/map.c
 common/packets.c
 common/player.c
@@ -10,8 +11,11 @@ common/unit.c
 common/unittype.c
 common/version.c
 common/aicore/cm.c
+utility/fciconv.c
+utility/inputfile.c
 utility/log.c
 utility/mem.c
+utility/registry.c
 utility/shared.c
 utility/support.c
 ai/aicity.c
@@ -57,10 +61,12 @@ client/connectdlg_common.c
 client/control.c
 client/helpdata.c
 client/mapctrl_common.c
+client/mapview_common.c
 client/messagewin_common.c
 client/options.c
 client/packhand.c
 client/plrdlg_common.c
+client/repodlgs_common.c
 client/text.c
 client/tilespec.c
 client/agents/cma_core.c
@@ -142,6 +148,7 @@ client/gui-mui/worklistclass.c
 client/gui-win32/chatline.c
 client/gui-win32/citydlg.c
 client/gui-win32/cityrep.c
+client/gui-win32/cma_fe.c
 client/gui-win32/connectdlg.c
 client/gui-win32/dialogs.c
 client/gui-win32/diplodlg.c
@@ -186,6 +193,7 @@ client/gui-xaw/plrdlg.c
 client/gui-xaw/ratesdlg.c
 client/gui-xaw/repodlgs.c
 client/gui-xaw/wldlg.c
+manual/civmanual.c
 data/Freeciv.in
 data/helpdata.txt
 data/default/buildings.ruleset
