@@ -308,9 +308,8 @@ void update_menus(void)
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
 
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY, 
-			   (can_unit_build_city(punit) ||
-			    can_unit_add_to_city(punit)));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY,
+			   can_unit_add_or_build_city(punit));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_ROAD, 
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));

@@ -304,9 +304,7 @@ static void orders_menu_callback(gpointer callback_data,
       struct unit *punit = get_unit_in_focus();
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
-      if (can_unit_build_city(punit)
-	  || (unit_flag(punit->type, F_CITIES)
-	      && map_get_city(punit->x, punit->y))) {
+      if (can_unit_add_or_build_city(punit)) {
 	key_unit_build_city();
       } else {
 	key_unit_build_wonder();
@@ -1000,10 +998,8 @@ void update_menus(void)
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
       menus_set_sensitive("<main>/_Orders/_Build City",
-			  (can_unit_build_city(punit) ||
-                           (unit_flag(punit->type, F_CITIES)
-			    && map_get_city(punit->x, punit->y)) ||
-                           unit_can_help_build_wonder_here(punit)));
+			  can_unit_add_or_build_city(punit) ||
+			  unit_can_help_build_wonder_here(punit));
       menus_set_sensitive("<main>/_Orders/Build _Road",
                           (can_unit_do_activity(punit, ACTIVITY_ROAD) ||
                            can_unit_do_activity(punit, ACTIVITY_RAILROAD) ||

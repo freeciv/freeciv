@@ -52,6 +52,13 @@
 
 #include "unithand.h"
 
+static void city_add_or_build_error(struct player *pplayer,
+				    struct unit *punit,
+				    enum add_build_city_result res);
+static void city_add_unit(struct player *pplayer, struct unit *punit);
+static void city_build(struct player *pplayer, struct unit *punit,
+		       char *name);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -402,104 +409,141 @@ void handle_unit_disband(struct player *pplayer,
 }
 
 /**************************************************************************
+ This function assumes that there is a valid city at punit->(x,y) for
+ certain values of test_add_build_or_city.  It should only be called
+ after a call to unit_add_build_city_result, which does the
+ consistency checking.
+**************************************************************************/
+static void city_add_or_build_error(struct player *pplayer,
+				    struct unit *punit,
+				    enum add_build_city_result res)
+{
+  /* Given that res came from test_unit_add_or_build_city, pcity will
+     be non-null for all required status values. */
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  char *unit_name = get_unit_type(punit->type)->name;
+
+  switch (res) {
+  case AB_NOT_BUILD_LOC:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Can't place city here."));
+    break;
+  case AB_NOT_ADDABLE_UNIT:
+    {
+      char *us = get_units_with_flag_string(F_CITIES);
+      if (us) {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 _("Game: Only %s can build or add to a city."),
+			 us);
+	free(us);
+      } else {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 _("Game: Can't build or add to a city."));
+      }
+    }
+    break;
+  case AB_NO_MOVES_ADD:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s unit has no moves left to add to %s."),
+		     unit_name, pcity->name);
+    break;
+  case AB_NO_MOVES_BUILD:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s unit has no moves left to build city."),
+		     unit_name);
+    break;
+  case AB_TOO_BIG:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s is too big to add %s."),
+		     pcity->name, unit_name);
+    break;
+  case AB_NO_AQUEDUCT:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s needs %s to grow, so you cannot add %s."),
+		     pcity->name, get_improvement_name(B_AQUEDUCT),
+		     unit_name);
+    break;
+  case AB_NO_SEWER:
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: %s needs %s to grow, so you cannot add %s."),
+		     pcity->name, get_improvement_name(B_SEWER),
+		     unit_name);
+    break;
+  default:
+    /* Shouldn't happen */
+    freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
+	    unit_name, pcity->name);
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Can't add %s to %s."),
+		     unit_name, pcity->name);
+    break;
+  }
+}
+
+/**************************************************************************
+ This function assumes that there is a valid city at punit->(x,y) It
+ should only be called after a call to a function like
+ test_unit_add_or_build_city, which does the checking.
+**************************************************************************/
+static void city_add_unit(struct player *pplayer, struct unit *punit)
+{
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  char *unit_name = get_unit_type(punit->type)->name;
+
+  pcity->size++;
+  if (!add_adjust_workers(pcity)) {
+    auto_arrange_workers(pcity);
+    sync_cities();
+  }
+  wipe_unit(punit);
+  send_city_info(0, pcity);
+  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		   _("Game: %s added to aid %s in growing."),
+		   unit_name, pcity->name);
+}
+
+/**************************************************************************
+ This function assumes a certain level of consistency checking: There
+ is no city under punit->(x,y), and that location is a valid one on
+ which to build a city. It should only be called after a call to a
+ function like test_unit_add_or_build_city, which does the checking.
+**************************************************************************/
+static void city_build(struct player *pplayer, struct unit *punit,
+		       char *name)
+{
+  char *city_name = get_sane_name(name);
+
+  if (!city_name) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Let's not build a city with "
+		       "such a stupid name."));
+    return;
+  }
+  create_city(pplayer, punit->x, punit->y, city_name);
+  wipe_unit(punit);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_build_city(struct player *pplayer, 
+void handle_unit_build_city(struct player *pplayer,
 			    struct packet_unit_request *req)
 {
   struct unit *punit;
-  char *unit_name;
-  struct city *pcity;
-  char *name;
-  
-  punit = player_find_unit_by_id(pplayer, req->unit_id) ;
-  if(!punit)
-    return;
-  
-  unit_name = get_unit_type(punit->type)->name;
-  pcity = map_get_city(punit->x, punit->y);
-  
-  if (!unit_flag(punit->type, F_CITIES)) {
-    char *us = get_units_with_flag_string(F_CITIES);
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: Only %s can build or add to a city."), us);
-    free(us);
-    return;
-  }  
+  enum add_build_city_result res;
 
-  if(!punit->moves_left)  {
-    if (pcity) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: %s unit has no moves left to add to %s."),
-		       unit_name, pcity->name);
-    } else {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: %s unit has no moves left to build city."),
-		       unit_name);
-    }
+  punit = player_find_unit_by_id(pplayer, req->unit_id);
+  if (!punit)
     return;
-  }
-    
-  if (pcity) {
-    if (can_unit_add_to_city(punit)) {
-      pcity->size++;
-      if (!add_adjust_workers(pcity)) {
-	auto_arrange_workers(pcity);
-	sync_cities();
-      }
-      wipe_unit(punit);
-      send_city_info(0, pcity);
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       _("Game: %s added to aid %s in growing."), 
-		       unit_name, pcity->name);
-    } else {
-      if(pcity->size >= game.add_to_size_limit) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 _("Game: %s is too big to add %s."),
-			 pcity->name, unit_name);
-      }
-      else if(improvement_exists(B_AQUEDUCT)
-	 && !city_got_building(pcity, B_AQUEDUCT) 
-	 && pcity->size >= game.aqueduct_size) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 _("Game: %s needs %s to grow, so you cannot add %s."),
-			 pcity->name, get_improvement_name(B_AQUEDUCT),
-			 unit_name);
-      }
-      else if(improvement_exists(B_SEWER)
-	      && !city_got_building(pcity, B_SEWER)
-	      && pcity->size >= game.sewer_size) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 _("Game: %s needs %s to grow, so you cannot add %s."),
-			 pcity->name, get_improvement_name(B_SEWER),
-			 unit_name);
-      }
-      else {
-	/* this shouldn't happen? */
-	freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
-		unit_name, pcity->name);
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 _("Game: cannot add %s to %s."),
-			 unit_name, pcity->name);
-      }
-    }
-    return;
-  }
-    
-  if(!can_unit_build_city(punit)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Can't place city here."));
-      return;
-  }
-      
-  if(!(name=get_sane_name(req->name))) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		     _("Game: Let's not build a city with such a stupid name."));
-    return;
-  }
 
-  create_city(pplayer, punit->x, punit->y, name);
-  wipe_unit(punit);
+  res = test_unit_add_or_build_city(punit);
+
+  if (res == AB_BUILD_OK)
+    city_build(pplayer, punit, req->name);
+  else if (res == AB_ADD_OK)
+    city_add_unit(pplayer, punit);
+  else
+    city_add_or_build_error(pplayer, punit, res);
 }
 
 /**************************************************************************

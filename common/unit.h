@@ -66,6 +66,27 @@ enum move_reason {
   MR_OTHER, MR_INVALID_TYPE_FOR_CITY_TAKE_OVER, MR_NO_WAR, MR_ZOC
 };
 
+enum add_build_city_result {
+  AB_BUILD_OK,			/* Unit OK to build city */
+  AB_ADD_OK,			/* Unit OK to add to city */
+  AB_NOT_BUILD_LOC,		/* City is not allowed to be built at
+				   this location */
+  AB_NOT_ADDABLE_UNIT,		/* Unit is not one that can be added
+				   to cities */
+  AB_NO_MOVES_BUILD,		/* Unit does not have moves left to
+				   build a city */
+  AB_NO_MOVES_ADD,		/* Unit does not have moves left to
+				   add to city */
+  AB_NOT_OWNER,			/* Owner of unit is not owner of
+				   city */
+  AB_TOO_BIG,			/* City is too big to be added to */
+  AB_NO_AQUEDUCT,		/* Adding takes city past limit for
+				   aquaduct but city has no
+				   aquaduct */
+  AB_NO_SEWER			/* Adding takes city past limit for
+				   sewer but city has no sewer */
+};
+
 struct unit_ai {
   int control; /* 0: not automated    1: automated */
   enum ai_unit_task ai_role;
@@ -185,8 +206,10 @@ int is_sailing_unit(struct unit *punit);
 int is_air_unit(struct unit *punit);
 int is_heli_unit(struct unit *punit);
 int is_ground_unit(struct unit *punit);
-int can_unit_build_city(struct unit *punit);
-int can_unit_add_to_city(struct unit *punit);
+int can_unit_add_to_city (struct unit *punit);
+int can_unit_build_city (struct unit *punit);
+int can_unit_add_or_build_city (struct unit *punit);
+enum add_build_city_result test_unit_add_or_build_city(struct unit *punit);
 int kills_citizen_after_attack(struct unit *punit);
 
 char *unit_activity_text(struct unit *punit);

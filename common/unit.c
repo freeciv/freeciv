@@ -388,21 +388,6 @@ int is_hiding_unit(struct unit *punit)
   return 0;
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-int can_unit_build_city(struct unit *punit)
-{
-  if(!unit_flag(punit->type, F_CITIES))
-    return 0;
-
-  if(!punit->moves_left)
-    return 0;
-
-  return city_can_be_built_here(punit->x, punit->y);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -415,33 +400,64 @@ int kills_citizen_after_attack(struct unit *punit) {
 **************************************************************************/
 int can_unit_add_to_city(struct unit *punit)
 {
+  return (test_unit_add_or_build_city(punit) == AB_ADD_OK);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int can_unit_build_city(struct unit *punit)
+{
+  return (test_unit_add_or_build_city(punit) == AB_BUILD_OK);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int can_unit_add_or_build_city(struct unit *punit)
+{
+  enum add_build_city_result r = test_unit_add_or_build_city(punit);
+  return (r == AB_BUILD_OK || r == AB_ADD_OK);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
+{
   struct city *pcity;
-
-  if(!unit_flag(punit->type, F_CITIES))
-    return 0;
-  if(!punit->moves_left)
-    return 0;
-
   pcity = map_get_city(punit->x, punit->y);
 
-  if(!pcity)
-    return 0;
-  if(pcity->size >= game.add_to_size_limit)
-    return 0;
-  if(pcity->owner != punit->owner)
-    return 0;
+  if (!unit_flag(punit->type, F_CITIES))
+    return AB_NOT_ADDABLE_UNIT;
+  if (!punit->moves_left) {
+    if (!pcity)
+      return AB_NO_MOVES_BUILD;
+    else
+      return AB_NO_MOVES_ADD;
+  }
+  if (!pcity) {
+    if (city_can_be_built_here(punit->x, punit->y))
+      return AB_BUILD_OK;
+    else
+      return AB_NOT_BUILD_LOC;
+  }
+  if (pcity->size >= game.add_to_size_limit)
+    return AB_TOO_BIG;
+  if (pcity->owner != punit->owner)
+    return AB_NOT_OWNER;
 
-  if(improvement_exists(B_AQUEDUCT)
-     && !city_got_building(pcity, B_AQUEDUCT) 
-     && pcity->size >= game.aqueduct_size)
-    return 0;
-  
-  if(improvement_exists(B_SEWER)
-     && !city_got_building(pcity, B_SEWER)
-     && pcity->size >= game.sewer_size)
-    return 0;
+  if (improvement_exists(B_AQUEDUCT)
+      && !city_got_building(pcity, B_AQUEDUCT)
+      && pcity->size >= game.aqueduct_size)
+    return AB_NO_AQUEDUCT;
 
-  return 1;
+  if (improvement_exists(B_SEWER)
+      && !city_got_building(pcity, B_SEWER)
+      && pcity->size >= game.sewer_size)
+    return AB_NO_SEWER;
+
+  return AB_ADD_OK;
 }
 
 /**************************************************************************
