@@ -50,6 +50,9 @@ The info string should look like this:
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
@@ -178,6 +181,7 @@ void server_open_udp(void)
 {
   char *metaname = srvarg.metaserver_addr;
   int metaport;
+  struct sockaddr_in bind_addr;
   
   /*
    * Fill in the structure "meta_addr" with the address of the
@@ -208,6 +212,21 @@ void server_open_udp(void)
    * Bind any local address for us and
    * associate datagram socket with server.
    */
+  if (!net_lookup_service(srvarg.bind_addr, 0,
+			  (struct sockaddr *) &bind_addr,
+			  sizeof(bind_addr))) {
+    freelog(LOG_ERROR, _("Metaserver: bad address: [%s:%d]."),
+	    srvarg.bind_addr, 0);
+    metaserver_failed();
+  }
+
+  /* set source IP */
+  if (bind(sockfd, (struct sockaddr *) &bind_addr, sizeof(bind_addr)) == -1) {
+    freelog(LOG_ERROR, "Metaserver: bind failed: %s", mystrerror(errno));
+    metaserver_failed();
+    return;
+  }
+
   /* no, this is not weird, see man connect(2) --vasc */
   if (connect(sockfd, (struct sockaddr *) &meta_addr, sizeof(meta_addr))==-1) {
     freelog(LOG_ERROR, "Metaserver: connect failed: %s", mystrerror(errno));

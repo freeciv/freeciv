@@ -176,6 +176,11 @@ bool net_lookup_service(const char *name,int port,struct sockaddr *sa,int len)
   sock->sin_family = AF_INET;
   sock->sin_port = htons(port);
 
+  if (!name) {
+    sock->sin_addr.s_addr = htonl(INADDR_ANY);
+    return TRUE;
+  }
+
 #ifdef HAVE_INET_ATON
   if (inet_aton(name, &sock->sin_addr) != 0) {
     return TRUE;

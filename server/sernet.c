@@ -784,10 +784,13 @@ int server_open_socket(void)
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
   }
 
-  memset(&src, 0, sizeof(src));
-  src.sin_family = AF_INET;
-  src.sin_addr.s_addr = htonl(INADDR_ANY);
-  src.sin_port = htons(srvarg.port);
+  if (!net_lookup_service
+      (srvarg.bind_addr, srvarg.port, (struct sockaddr *) &src,
+       sizeof(src))) {
+    freelog(LOG_ERROR, _("Server: bad address: [%s:%d]."),
+	    srvarg.bind_addr, srvarg.port);
+    exit(EXIT_FAILURE);
+  }
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));

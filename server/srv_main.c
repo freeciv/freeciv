@@ -162,6 +162,7 @@ void srv_init(void)
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
   srvarg.metaserver_port = DEFAULT_META_SERVER_PORT;
 
+  srvarg.bind_addr = NULL;
   srvarg.port = DEFAULT_SOCK_PORT;
 
   srvarg.loglevel = LOG_NORMAL;

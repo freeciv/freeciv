@@ -25,6 +25,8 @@ struct server_arguments {
   char metaserver_info_line[256];
   char metaserver_addr[256];
   unsigned short int metaserver_port;
+  /* address this server is to listen on (NULL => INADDR_ANY) */
+  char *bind_addr;
   /* this server's listen port */
   int port;
   /* the log level */

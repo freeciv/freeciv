@@ -89,6 +89,8 @@ int main(int argc, char *argv[])
 	showhelp = TRUE;
 	break;
       }
+    } else if ((option = get_option("--bind", argv, &inx, argc))) {
+      srvarg.bind_addr = option;
     } else if ((option = get_option("--read", argv, &inx, argc)))
       srvarg.script_filename = option;
     else if ((option = get_option("--quitidle", argv, &inx, argc))) {
@@ -125,6 +127,7 @@ int main(int argc, char *argv[])
 
   if (showhelp) {
     fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
 		      " or 4:file1,min,max:...)\n"));
