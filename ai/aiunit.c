@@ -2112,6 +2112,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
     if (!ctarget && aplayer) {
       /* No enemy cities are useful.  Check our own. -AJS */
       city_list_iterate(aplayer->cities, acy)
+	if (continent != map_get_continent(acy->x, acy->y)) continue;
 	if (!count_diplomats_on_tile(acy->x, acy->y)) {
 	  ctarget=acy;
 	  dist=real_map_distance(pdiplomat->x, pdiplomat->y, acy->x, acy->y);
