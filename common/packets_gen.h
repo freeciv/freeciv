@@ -979,7 +979,8 @@ struct packet_ruleset_control {
 };
 
 struct packet_single_want_hack_req {
-  int challenge;
+  int old_token;
+  char token[MAX_LEN_NAME];
 };
 
 struct packet_single_want_hack_reply {
@@ -1600,7 +1601,6 @@ void lsend_packet_ruleset_control(struct conn_list *dest, const struct packet_ru
 
 struct packet_single_want_hack_req *receive_packet_single_want_hack_req(struct connection *pc, enum packet_type type);
 int send_packet_single_want_hack_req(struct connection *pc, const struct packet_single_want_hack_req *packet);
-int dsend_packet_single_want_hack_req(struct connection *pc, int challenge);
 
 struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(struct connection *pc, enum packet_type type);
 int send_packet_single_want_hack_reply(struct connection *pc, const struct packet_single_want_hack_reply *packet);

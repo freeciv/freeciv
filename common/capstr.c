@@ -87,7 +87,7 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-#define CAPABILITY "+2.0 conn_ping_info username_info"
+#define CAPABILITY "+2.0 conn_ping_info username_info new_hack"
 
 void init_our_capability(void)
 {

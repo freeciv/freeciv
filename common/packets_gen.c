@@ -26461,12 +26461,7 @@ static struct packet_single_want_hack_req *receive_packet_single_want_hack_req_1
   }
 
   if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint32(&din, &readin);
-      real_packet->challenge = readin;
-    }
+    dio_get_string(&din, real_packet->token, sizeof(real_packet->token));
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -26502,7 +26497,7 @@ static int send_packet_single_want_hack_req_100(struct connection *pc, const str
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->challenge != real_packet->challenge);
+  differ = (strcmp(old->token, real_packet->token) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
@@ -26513,7 +26508,103 @@ static int send_packet_single_want_hack_req_100(struct connection *pc, const str
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint32(&dout, real_packet->challenge);
+    dio_put_string(&dout, real_packet->token);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_single_want_hack_req_101 hash_const
+
+#define cmp_packet_single_want_hack_req_101 cmp_const
+
+BV_DEFINE(packet_single_want_hack_req_101_fields, 1);
+
+static struct packet_single_want_hack_req *receive_packet_single_want_hack_req_101(struct connection *pc, enum packet_type type)
+{
+  packet_single_want_hack_req_101_fields fields;
+  struct packet_single_want_hack_req *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_single_want_hack_req *clone;
+  RECEIVE_PACKET_START(packet_single_want_hack_req, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_single_want_hack_req_101, cmp_packet_single_want_hack_req_101);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->old_token = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_single_want_hack_req_101(struct connection *pc, const struct packet_single_want_hack_req *packet)
+{
+  const struct packet_single_want_hack_req *real_packet = packet;
+  packet_single_want_hack_req_101_fields fields;
+  struct packet_single_want_hack_req *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_SINGLE_WANT_HACK_REQ];
+  int different = 0;
+  SEND_PACKET_START(PACKET_SINGLE_WANT_HACK_REQ);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_single_want_hack_req_101, cmp_packet_single_want_hack_req_101);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->old_token != real_packet->old_token);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint32(&dout, real_packet->old_token);
   }
 
 
@@ -26537,8 +26628,10 @@ static void ensure_valid_variant_packet_single_want_hack_req(struct connection *
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("new_hack", pc->capability) && has_capability("new_hack", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("new_hack", pc->capability) && has_capability("new_hack", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -26561,6 +26654,7 @@ struct packet_single_want_hack_req *receive_packet_single_want_hack_req(struct c
 
   switch(pc->phs.variant[PACKET_SINGLE_WANT_HACK_REQ]) {
     case 100: return receive_packet_single_want_hack_req_100(pc, type);
+    case 101: return receive_packet_single_want_hack_req_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -26581,17 +26675,9 @@ int send_packet_single_want_hack_req(struct connection *pc, const struct packet_
 
   switch(pc->phs.variant[PACKET_SINGLE_WANT_HACK_REQ]) {
     case 100: return send_packet_single_want_hack_req_100(pc, packet);
+    case 101: return send_packet_single_want_hack_req_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
-}
-
-int dsend_packet_single_want_hack_req(struct connection *pc, int challenge)
-{
-  struct packet_single_want_hack_req packet, *real_packet = &packet;
-
-  real_packet->challenge = challenge;
-  
-  return send_packet_single_want_hack_req(pc, real_packet);
 }
 
 #define hash_packet_single_want_hack_reply_100 hash_const

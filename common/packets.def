@@ -1252,8 +1252,9 @@ end
 /*********************************************************
  Below are the packets that control single-player mode.  
 *********************************************************/
-PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle,dsend
- UINT32 challenge;
+PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle
+ UINT32 old_token; remove-cap(new_hack)
+ STRING token[MAX_LEN_NAME]; add-cap(new_hack)
 end
 
 PACKET_SINGLE_WANT_HACK_REPLY=109;sc,dsend
