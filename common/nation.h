@@ -108,8 +108,10 @@ struct team {
 };
 
 Nation_Type_id find_nation_by_name(const char *name);
+Nation_Type_id find_nation_by_name_orig(const char *name);
 const char *get_nation_name(Nation_Type_id nation);
 const char *get_nation_name_plural(Nation_Type_id nation);
+const char *get_nation_name_orig(Nation_Type_id nation);
 struct leader *get_nation_leaders(Nation_Type_id nation, int *dim);
 bool get_nation_leader_sex(Nation_Type_id nation, const char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);

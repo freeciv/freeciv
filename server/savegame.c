@@ -598,7 +598,7 @@ static void player_load(struct player *plr, int plrno,
     };
     p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
   }
-  plr->nation = find_nation_by_name(p);
+  plr->nation = find_nation_by_name_orig(p);
 
   /* not all players have teams */
   if (section_file_lookup(file, "player%d.team", plrno)) {
@@ -1283,7 +1283,7 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
-  secfile_insert_str(file, get_nation_name(plr->nation),
+  secfile_insert_str(file, get_nation_name_orig(plr->nation),
 		     "player%d.nation", plrno);
   /* 1.15 and later won't use the race field, they key on the nation string */
   secfile_insert_int(file, plr->nation, "player%d.race", plrno);

@@ -58,7 +58,7 @@ static bool bounds_check_nation_id(Nation_Type_id nid, int loglevel,
 }
 
 /***************************************************************
-...
+Find nation by (translated) name
 ***************************************************************/
 Nation_Type_id find_nation_by_name(const char *name)
 {
@@ -72,7 +72,21 @@ Nation_Type_id find_nation_by_name(const char *name)
 }
 
 /***************************************************************
-Returns name of the nation
+Find nation by (untranslated) original name
+***************************************************************/
+Nation_Type_id find_nation_by_name_orig(const char *name)
+{
+  int i;
+
+  for(i=0; i<game.nation_count; i++)
+     if(mystrcasecmp(name, get_nation_name_orig (i)) == 0)
+	return i;
+
+  return -1;
+}
+
+/***************************************************************
+Returns (translated) name of the nation
 ***************************************************************/
 const char *get_nation_name(Nation_Type_id nation)
 {
@@ -80,6 +94,17 @@ const char *get_nation_name(Nation_Type_id nation)
     return "";
   }
   return nations[nation].name;
+}
+
+/***************************************************************
+Returns (untranslated) original name of the nation
+***************************************************************/
+const char *get_nation_name_orig(Nation_Type_id nation)
+{
+  if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name_orig")) {
+    return "";
+  }
+  return nations[nation].name_orig;
 }
 
 /***************************************************************
