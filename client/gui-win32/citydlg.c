@@ -416,9 +416,10 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
 void city_dialog_update_storage(struct city_dialog *pdialog)   
 {
   char buf[512];
-  struct city *pcity=pdialog->pcity;
+  struct city *pcity = pdialog->pcity;
+
   my_snprintf(buf, sizeof(buf), _("Granary: %3d/%-3d"), pcity->food_stock,
-          game.foodbox*(pcity->size+1));   
+	      city_granary_size(pcity->size));   
   SetWindowText(pdialog->storage_area[0],buf);
   SetWindowText(pdialog->storage_area[1],buf);
 }
