@@ -551,6 +551,7 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   static struct timer *time_since_last_send = NULL;
   char desc[4096], info[4096];
   int i;
+  int num_nonbarbarians;
 
   if (reset_timer && time_since_last_send)
   {
@@ -567,6 +568,12 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   }
   if (time_since_last_send == NULL) {
     time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
+  }
+
+  for (num_nonbarbarians=0, i=0; i<game.nplayers; ++i) {
+    if (!is_barbarian(&game.players[i])) {
+      ++num_nonbarbarians;
+    }
   }
 
   /* build description block */
@@ -589,14 +596,14 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   }
   cat_snprintf(desc, sizeof(desc), "%s\n",metaserver_servername);
   cat_snprintf(desc, sizeof(desc), "%d\n", port);
-  cat_snprintf(desc, sizeof(desc), "%d\n", game.nplayers);
+  cat_snprintf(desc, sizeof(desc), "%d\n", num_nonbarbarians);
   cat_snprintf(desc, sizeof(desc), "%s", metaserver_info_line);
-    
+
   /* now build the info block */
   info[0]='\0';
   cat_snprintf(info, sizeof(info),
 	  "Players:%d  Min players:%d  Max players:%d\n",
-	  game.nplayers, game.min_players, game.max_players);
+	  num_nonbarbarians,  game.min_players, game.max_players);
   cat_snprintf(info, sizeof(info),
 	  "Timeout:%d  Year: %s\n",
 	  game.timeout, textyear(game.year));
@@ -607,8 +614,10 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   cat_snprintf(info, sizeof(info),
 	       "----------------------------------------\n");
   for(i=0; i<game.nplayers; ++i) {
-    cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", 
+    if (!is_barbarian(&game.players[i])) {
+      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", 
 		 i, game.players[i].name, game.players[i].addr);
+    }
   }
 
   clear_timer_start(time_since_last_send);
@@ -1448,6 +1457,15 @@ static void handle_request_join_game(struct connection *pconn,
   if( (pplayer=find_player_by_name(req->name)) || 
       (pplayer=find_player_by_user(req->name))     ) {
     if(!pplayer->conn) {
+      if(is_barbarian(pplayer)) {
+        reject_new_player(_("Sorry, you can't observe a barbarian."), pconn);
+        freelog(LOG_NORMAL,
+		_("No observation of barbarians - %s was rejected."),
+		req->name);
+        close_connection(pconn);
+        return;
+      }
+
       pplayer->conn=pconn;
       pplayer->is_connected=1;
       sz_strlcpy(pplayer->addr, pconn->addr); 
