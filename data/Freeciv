@@ -1259,20 +1259,22 @@ Freeciv*messageoptpopup*Toggle.label: Yes
 
 Freeciv*messageopttitle.label:  _("Where to Display Messages")
 Freeciv*messageoptexpl.label:  _("\
-Out = Output window, Mes = Messages window, Pop = Popup individual window")
+Out = Output window, Mes = Messages window,\nPop = Popup individual window")
 Freeciv*messageoptexpl.fromVert:  messageopttitle
 
-Freeciv*messageoptcol1.fromVert:  messageoptexpl
-Freeciv*messageoptcol2.fromVert:  messageoptexpl
-Freeciv*messageoptcol2.fromHoriz: messageoptcol1
+Freeciv*messageoptscroll.fromVert:  messageoptexpl
+Freeciv*messageoptscroll.height:  600
+Freeciv*messageoptscroll.useRight:  True
+Freeciv*messageoptscroll.allowVert:  True
 
 Freeciv*messageoptspacehead.label: \ 
-Freeciv*messageoptcolhead.label: _("Out: Mes: Pop:")
+! TRANS: the space prepending "Out" is necessary
+Freeciv*messageoptcolhead.label: _(" Out Mes Pop")
 
 Freeciv*messageoptokcommand.label:     _("Ok")
-Freeciv*messageoptokcommand.fromVert:  messageoptcol1
+Freeciv*messageoptokcommand.fromVert:  messageoptscroll
 Freeciv*messageoptcancelcommand.label: _("Cancel")
-Freeciv*messageoptcancelcommand.fromVert:  messageoptcol1
+Freeciv*messageoptcancelcommand.fromVert:  messageoptscroll
 Freeciv*messageoptcancelcommand.fromHoriz: messageoptokcommand
 
 !

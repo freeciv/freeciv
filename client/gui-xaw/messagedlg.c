@@ -27,6 +27,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Toggle.h>     
+#include <X11/Xaw/Viewport.h>     
 
 #include "events.h"
 #include "fcintl.h"
@@ -34,6 +35,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 
 #include "clinet.h"
 #include "gui_main.h"
@@ -82,88 +84,80 @@ void popup_messageopt_dialog(void)
 **************************************************************************/
 Widget create_messageopt_dialog(void)
 {
-  Widget shell,form,title,explanation,ok,cancel,col[2];
-  Widget colhead[2], space_head[2];
+  Widget shell, form, title, scrolled, explanation, ok, cancel, col;
+  Widget colhead, space_head;
   Widget label[E_LAST];
-  Widget longest_label[2] = { 0, 0 };
-  Widget toggle=0;
-  int i, j, len, longest_len = 0;
+  Widget longest_label = 0;
+  Widget toggle = 0;
+  int i, longest_len = 0;
+  Dimension width;
   
-  shell = I_T(XtCreatePopupShell("messageoptpopup",
-				 transientShellWidgetClass,
+  shell = I_T(XtCreatePopupShell("messageoptpopup", transientShellWidgetClass,
 				 toplevel, NULL, 0));
 
-  form = XtVaCreateManagedWidget("messageoptform", 
-				 formWidgetClass, 
+  form = XtVaCreateManagedWidget("messageoptform", formWidgetClass, 
 				 shell, NULL);   
 
-  title = I_L(XtVaCreateManagedWidget("messageopttitle",
-				      labelWidgetClass,
+  title = I_L(XtVaCreateManagedWidget("messageopttitle", labelWidgetClass,
 				      form, NULL));
 
-  explanation = I_L(XtVaCreateManagedWidget("messageoptexpl",
-					    labelWidgetClass,
+  explanation = I_L(XtVaCreateManagedWidget("messageoptexpl", labelWidgetClass,
 					    form, NULL));
 
-  col[0] = XtVaCreateManagedWidget("messageoptcol1",
-  				 formWidgetClass,
-				 form, NULL);
+  scrolled = XtVaCreateManagedWidget("messageoptscroll", viewportWidgetClass, 
+                                     form, NULL);
 
-  col[1] = XtVaCreateManagedWidget("messageoptcol2",
-  				 formWidgetClass,
-				 form, NULL);
+  col = XtVaCreateManagedWidget("messageoptcol", formWidgetClass, 
+                                scrolled, NULL);
 
-  for(i=0; i<2; i++) {
-    /* space_head labels are "empty" labels in column heading which are
-     * used so that we can arrange the constraints without loops.
-     * They essentially act as vertical filler.
-     */
-    space_head[i] = XtVaCreateManagedWidget("messageoptspacehead",
-					    labelWidgetClass,
-					    col[i], NULL);
+  /* space_head labels are "empty" labels in column heading which are
+   * used so that we can arrange the constraints without loops.
+   * They essentially act as vertical filler.
+   */
+  space_head = XtVaCreateManagedWidget("messageoptspacehead", labelWidgetClass,
+                                       col, NULL);
   
-    colhead[i] = I_L(XtVaCreateManagedWidget("messageoptcolhead",
-					     labelWidgetClass,
-					     col[i], NULL));
-  }
+  colhead = I_L(XtVaCreateManagedWidget("messageoptcolhead", labelWidgetClass,
+                                        col, NULL));
 
-  for(i=0;i<E_LAST;i++)  {
-    int top_line = (!i || i==E_LAST/2);
-    int icol = (i>=E_LAST/2);
+  for(i = 0; i < E_LAST; i++)  {
     const char *text = get_message_text(sorted_events[i]);
-    label[i] = XtVaCreateManagedWidget("label",
-				       labelWidgetClass,
-				       col[icol],
-				       XtNlabel, text,
-				       XtNfromVert,
-				       top_line?space_head[icol]:label[i-1],
+    int len = strlen(text);
+
+    label[i] = XtVaCreateManagedWidget("label", labelWidgetClass, col,
+				       XtNlabel, text, XtNfromVert,
+				       (i == 0) ? space_head : label[i - 1],
 				       NULL);
-    len = strlen(text);
-    if (top_line || len > longest_len) {
+
+    if (len > longest_len) {
       longest_len = len;
-      longest_label[icol] = label[i];
+      longest_label = label[i];
     }
+
+    /* 
+     * The addition of a scrollbar screws things up. There must be a
+     * better way to do this.
+     */
+    XtVaGetValues(label[i], XtNwidth, &width, NULL);
+    XtVaSetValues(label[i], XtNwidth, width + 15, NULL);
   }
 
-  /* Align the column headings: */
-  for(i=0; i<2; i++) {
-    XtVaSetValues(colhead[i], XtNfromHoriz, longest_label[i], NULL);
-  }
+  XtVaGetValues(longest_label, XtNwidth, &width, NULL);
+  XtVaSetValues(space_head, XtNwidth, width + 15, NULL);
+  XtVaSetValues(colhead, XtNfromHoriz, space_head, NULL);
 
-  for(i=0;i<E_LAST;i++)  {
-    int top_line = (!i || i==E_LAST/2);
-    int icol = (i>=E_LAST/2);
-    Widget vert = top_line?space_head[icol]:label[i-1];
-    for(j=0; j<NUM_MW; j++) {
-      toggle = XtVaCreateManagedWidget("toggle",
-				       toggleWidgetClass,
-				       col[icol],
+  for (i = 0; i < E_LAST; i++) {
+    int j;
+
+    for (j = 0; j < NUM_MW; j++) {
+      toggle = XtVaCreateManagedWidget("toggle", toggleWidgetClass, col,
 				       XtNfromHoriz,
-				       (j==0?longest_label[icol]:toggle),
-				       XtNfromVert, vert,
+				       (j == 0 ? space_head : toggle),
+				       XtNfromVert,
+				       (i == 0) ? space_head : label[i - 1],
 				       NULL);
       XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
-      messageopt_toggles[sorted_events[i]][j]=toggle;
+      messageopt_toggles[sorted_events[i]][j] = toggle;
     }
   }
 
