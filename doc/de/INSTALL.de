@@ -3,7 +3,7 @@ Die Installation von Freeciv
 ============================
 
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
-Stand: 09.07.01
+Stand: 05.06.02
 
 0. Voraussetzungen:
 ===================
@@ -59,6 +59,24 @@ sollte man es einfach ausprobieren.
    Die Ausgabe von make sollte dann irgendwo die Zeichenkette "GNU Make"
    enthalten.
 
+Ein CVS-Abzug hat zusätzliche Vorraussetzungen; Release-Versionen beinhalten
+die generierten Dateien bereits.
+
+ - Die Programme aus dem Packet GNU gettext mit der Versionsnummer >= 0.10.38
+
+   Speziell das Programm xgettext wird benötigt, um die *.gmo-Dateien für
+   die Übersetzungen zu erzeugen, die im CVS-Baum nicht enthalten sind.
+
+ - GNU autoconf in der Version >= 2.13
+
+   Dies wird benötigt, um das Konfigurationsskipt "configure" aus 
+   "configure.in" zu erzeugen.
+
+ - GNU automake in der Version >= 1.4
+
+   Automake wird benötigt, um die verschiedenen  "Makefile.in's aus den
+   "Makefile.am"'s zu erzeugen.
+
 1. Voraussetzungen der Clients:
 ===============================
 
@@ -69,7 +87,7 @@ die weiter unten eingegangen wird. Das System sollte mindestens eine
 der beiden Listen erfüllen (es sei denn, man will auf dem Rechner nur
 einen Server für ein Freeciv-Spiel bereitstellen).
 
-Außerdem existiert ein nativer Client für den Amiga
+Außerdem existiert ein nativer Client für den Amiga.
 
 ACHTUNG: Einige Distributionen/Systeme besitzen getrennte Pakete für
 die eigentlichen Libraries und die zur Programmentwicklung nötigen
@@ -109,8 +127,8 @@ RedHat Linux und SuSE Linux).
    Es gibt noch andere Varianten von Xaw, z.B. Nextaw. Freeciv arbeitet
    nicht mit diesen zusammen, aber es sollte möglich sein, Freeciv für
    diese Bibliotheken wie für Xaw3d zu verändern. Eine andere
-   Möglichkeit wäre die Verwendung von "xaw_wrappers", obwohl dies wohl
-   weit über die eigentliche Verwendung des Skriptes geht.
+   Möglichkeit wäre die Verwendung von "xaw_wrappers"; Eine Anleitung dafür
+   würde aber den Rahmen dieser Datei bei weitem sprengen.
    
  - Die "Xpm" Library
  
@@ -123,22 +141,28 @@ RedHat Linux und SuSE Linux).
    mitzuteilen, wo sich die "lib" und "include"-Verzeichnisse von Xpm
    befinden.
   
-   Hinweise zu Problemen mit der libXpm unter Solaris bzw. dem
-   Installieren der libXpm als nicht-root gibts gegen Ende der Datei in
-   "Reinier's libXpm Solaris Installation Notes"
-  
    Sollte Xpm nicht vorhanden sein, kann man Xpm von hier bekommen:
    
      ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
+ 
+   Dieses Packet kann wie jedes andere auch installiert werden. Falls es
+   nicht in ein Standardverzeichnis (wie /usr/lib oder /usr/local/lib o.ä.)
+   installiert werden kann, muß beim Aufruf von configure die option
+   --with-xpm-prefix benutzt werden.
+ 
+   Hinweise zu Problemen mit der libXpm unter Solaris bzw. dem
+   Installieren der libXpm als nicht-root gibts gegen Ende der Datei in
+   "Reinier's libXpm Solaris Installation Notes"
+  
    
 1b. Anforderungen des GTK+-Clients:
 ===================================
 
  - Die "Glib" Library
  
-   "Glib" stellt Funktionen für Gdk und Gtk+, wie z.B. hash-Tabellen,
-   verkettete Listen usw. zur Verfügung.
+   "Glib" stellt nocht-grafische Funktionen für Gdk und Gtk+, wie z.B. 
+   hash-Tabellen, verkettete Listen usw. zur Verfügung.
    
    Freeciv benötigt die Glib mit der Version >=1.2.1
    
@@ -150,25 +174,25 @@ RedHat Linux und SuSE Linux).
    wahrscheinlich, daß gtk+ auch nicht vorhanden ist. gtk+ liegt an
    gleicher Stelle auf oben genanntem Server)
    
- - Die Gtk+ Widget Library
+ - Die "Gtk+" Widget Library
    
    Gtk+ wurde für The Gimp entworfen und entwickelt. Seitdem hat es
    sich Popularität als ein einfach zu programmierendes, freies
    Toolkit erworben. Zu Gtk+ gehört auch Gdk, das grundlegende
    Zeichen-Funktionen, Fenster, Clipping usw. zur Verfügung stellt.
    
-   Freeciv benötigt Gtk+ mit der Version >=1.2.1
+   Freeciv benötigt Gtk+ mit der Version >=1.2.5
    
    Sollte Gtk+ nicht vorhanden sein, bekommt man es hier:
    	
      ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
      
- - Die Imlib Library
+ - Die "Imlib" Library
  
    Imlib ist eine Library für den Umgang mit Bitmaps. Sie wird
-   außerdem beim Gnome Projekt benutzt.
+   außerdem beim GNOME Projekt benutzt.
    
-   Freeciv benötigt die Imlib in einer Version >=1.9.2
+   Freeciv benötigt die "Imlib" in einer Version >=1.9.2
    
    Falls configure sagt, daß Imlib nicht vorhanden ist, bekommt man es
    hier:
@@ -184,6 +208,22 @@ eingehalten werden: Glib, Gtk+, Imlib
 
 2. Generierung des Makefiles:
 =============================
+
+2a. Generierung für CVS-Versionen:
+==================================
+
+Dieser Schritt wird nur bei CVS-Versionen benötigt:
+
+Um das Makefile zu erzeugen, einfach
+
+ % ./autogen.sh
+
+tippen. Dieser Befehl erzeugt "configure" und ruft startet es. Alle Parameter
+von autogen.sh werden an configure weitergereicht. Welche Parameter an
+configure übergeben werden können, findet sich im nächsten Abschnitt.
+
+2b. Generierung für Release-Versionen:
+======================================
 
 Bevor Freeciv compiliert werden kann, muß ein sog. Makefile erstellt
 werden. Dieses wird automatisch erzeugt und geht auf die auf dem System
@@ -235,14 +275,14 @@ oder
 Falls man einen "core dump" verfolgen möchte, sollte man "-g" in seine
 CFLAGS mit aufnehmen.
 
-Bei der Installation von Freeciv werden die Dateien nach /usr/local
-installiert. Sollten Sie einen anderen Ort als /usr/local vorziehen, so
-können sie diesen mit übergeben:
+Bei der (späteren) Installation von Freeciv werden die Dateien nach
+/usr/local installiert. Sollten Sie einen anderen Ort als /usr/local
+vorziehen, so können sie diesen mit übergeben:
   
  % ./configure --prefix=/opt/freeciv
 
-Sollte configure nicht durchlaufen und abbrechen, sollte man die
-folgenden Schritte durchführen:
+Sollte configure nicht durchlaufen und abbrechen, sollten folgende Schritte
+durchgeführt werden:
 
   - Erfüllt das System die im Abschnitt 1 gestellten Anforderungen?
   
@@ -343,8 +383,8 @@ Beispiele:
 Wie oben schon erwähnt muß Freeciv installiert sein, um andere Sprachen
 als Englisch benutzen zu können. Näheres in README und README.de
 
-Wenn man den Xaw-Client benutzt, sollte man die Datei data/Freeciv in
-das app-defaults Verzeichnis kopieren. (Normalerweise in
+Wenn man den Xaw-Client benutzt und root-rechte besitzt, sollte man die Datei
+data/Freeciv in das app-defaults Verzeichnis kopieren. (Normalerweise in
 /usr/lib/X11/app-defaults)
 
 5. NLS (Unterstützung der Landessprache)
@@ -383,7 +423,7 @@ ausprobieren:
 3. Schließlich können sie noch versuchen, die neueste Version von GNU
    gettext zu installieren. Sie können diese Version hier downloaden:
 
-     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.38.tar.gz
+     ftp://ftp.gnu.org/gnu/gettext/gettext-0.10.38.tar.gz
 
 6. Unterstützung von Readline
 =============================
@@ -403,7 +443,6 @@ Mit der Unterstützung der Readline-Library wird es im Server möglich
 Das configure-skript prüft automatisch, ob readline installiert ist. Wenn ja,
 wird readline automatisch in den Server eincompiliert, wenn nicht, wird der
 Server ohne weitere Kommentare ohne readline compiliert.
-Die benötigte Version von readline ist >=4.2
 Sie können configure dazu "zwingen", readline zu benutzen, indem sie configure
 die Option "--with-readline" mitgeben:
 
@@ -419,15 +458,6 @@ benutzen musste, damit readline funktioniert. Diese Warnung sollte harmlos sein,
 sie ist nur als Erinnerung für die Leute gedacht, die für die Installation von
 readline verantwortlich sind, sprich Admins oder Paketersteller der
 Distributionen.
-
-Es ist aber auch möglich, Freeciv mit readline der Version < 4.2, (aber nicht
-mit 4.2) zum Laufen zu bekommen. Dazu muß in configure.in und in
-server/stdinhand.c "rl_filename_completion_function" mit
-"filename_completion_function" und "rl_completion_matches" mit
-"completion_matches" ersetzt werden, sowie das "const" vor dem 1. Argument von
-server/stdinhand.c:freeciv_completion() entfernt werden. Danach autoconf
-aufrufen und Freeciv neu übersetzen.
- 
 
 7. Reiniers Hinweise zur Installation unter Solaris
 ===================================================
@@ -563,7 +593,7 @@ Pakete:
   Allgemein:
     gcc
     libc6-dev
-    libreadline4-dev >= 4.2 (optional, see readline section)
+    libreadline4-dev
     zlib1g-dev
     xlib6g-dev
  
@@ -587,3 +617,4 @@ was aclocal macht, benötigt man es auch nicht), wird auch imlib-dev benötigt,
 um das Makro AM_PATH_GDK_IMLIB zu bekommen. Dies ist ein Fehler in Debian,
 das dieses Makro nicht in gdk-imlib-dev definiert ist und wird hoffentlich in
 zukünftigen Debian-Releases gefixt.
+
