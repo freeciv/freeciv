@@ -59,6 +59,7 @@ void map_set_city_value(int x, int y, int val);
 int is_free_work_tile(struct player *pplayer, int x, int y);
 
 struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y);
+struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y);
 void ai_update_player_island_info(struct player *pplayer);
 void ai_calculate_city_value(int isle);
 
