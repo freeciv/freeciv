@@ -143,6 +143,28 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_Type_id tech)
   return worth;
 }
 
+/************************************************************************
+  Avoid giving pplayer's vision to non-allied player through aplayer 
+  (shared vision is transitive).
+************************************************************************/
+static bool shared_vision_is_safe(struct player* pplayer,
+                                  struct player* aplayer)
+{
+  players_iterate(eplayer) {
+    if (eplayer == pplayer || eplayer == aplayer) {
+      continue;
+    }
+    if (gives_shared_vision(aplayer, eplayer)) {
+      enum diplstate_type ds = pplayer_get_diplstate(pplayer, eplayer)->type;
+
+      if (ds != DS_NO_CONTACT && ds != DS_ALLIANCE) {
+        return FALSE;
+      }
+    }
+  } players_iterate_end;
+  return TRUE;
+}
+
 /********************************************************************** 
   Evaluate gold worth of a single clause in a treaty. Note that it
   sometimes matter a great deal who is giving what to whom, and
@@ -173,6 +195,9 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
     /* Share and expect being shared brotherly between allies */
     if (pplayers_allied(pplayer, aplayer)) {
+      worth /= 2;
+    }
+    if (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team) {
       worth = 0;
       break;
     }
@@ -373,13 +398,31 @@ static int ai_goldequiv_clause(struct player *pplayer,
   case CLAUSE_VISION:
     if (give) {
       if (pplayers_allied(pplayer, aplayer)) {
-        worth = 0;
+        if (!shared_vision_is_safe(pplayer, aplayer)) {
+          notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
+	                    "is too dangerous to me"),
+                 pplayer->name);	  
+	  worth = -BIG_NUMBER;
+	} else {
+          worth = 0;
+	}
       } else {
         /* so out of the question */
         worth = -BIG_NUMBER;
       }
     } else {
       worth = 0; /* We are omniscient, so... */
+    }
+    break;
+  case CLAUSE_EMBASSY:
+    if (!give) {
+      if (pplayers_in_peace(pplayer, aplayer)) {
+        worth = 0;
+      } else {
+        worth = -BIG_NUMBER; /* No. */
+      }
+    } else {
+      worth = 0; /* We don't need no stinkin' embassy, do we? */
     }
     break;
   default:
@@ -774,27 +817,37 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
 }
 
 /********************************************************************** 
-  Offer techs to other player and ask for techs we need.
+  Offer techs and stuff to other player and ask for techs we need.
 ***********************************************************************/
-static void ai_share_techs(struct player *pplayer,
-                           struct player *aplayer)
+static void ai_share(struct player *pplayer, struct player *aplayer)
 {
   int index;
 
-  for (index = A_FIRST; index < game.num_tech_types; index++) {
-    if ((get_invention(pplayer, index) != TECH_KNOWN)
-        && (get_invention(aplayer, index) == TECH_KNOWN)) {
-      ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
-    } else if ((get_invention(pplayer, index) == TECH_KNOWN)
-        && (get_invention(aplayer, index) != TECH_KNOWN)) {
-      ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
+  /* Only share techs with team mates */
+  if (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team) {
+    for (index = A_FIRST; index < game.num_tech_types; index++) {
+      if ((get_invention(pplayer, index) != TECH_KNOWN)
+          && (get_invention(aplayer, index) == TECH_KNOWN)) {
+       ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
+      } else if ((get_invention(pplayer, index) == TECH_KNOWN)
+          && (get_invention(aplayer, index) != TECH_KNOWN)) {
+        ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
+      }
     }
   }
-  if (!gives_shared_vision(pplayer, aplayer)) {
+  if (!gives_shared_vision(pplayer, aplayer) && 
+      shared_vision_is_safe(pplayer, aplayer)) {
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_VISION, 0);
   }
-  if (!gives_shared_vision(aplayer, pplayer)) {
+  if (!gives_shared_vision(aplayer, pplayer) &&
+      shared_vision_is_safe(aplayer, pplayer)) {
     ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_VISION, 0);
+  }
+  if (!player_has_embassy(pplayer, aplayer)) {
+    ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_EMBASSY, 0);
+  }
+  if (!player_has_embassy(aplayer, pplayer)) {
+    ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
   }
 }
 
@@ -950,9 +1003,8 @@ void ai_diplomacy_actions(struct player *pplayer)
     clause.from = pplayer;
     clause.value = 0;
 
-    /* Remove shared vision if we are at war (ie someone else declared
-     * war on us, or it happened through alliance). */
-    if (pplayers_at_war(pplayer, aplayer)
+    /* Remove shared vision if we are not allied. */
+    if (!pplayers_allied(pplayer, aplayer)
         && gives_shared_vision(pplayer, aplayer)) {
       remove_shared_vision(pplayer, aplayer);
     }
@@ -991,7 +1043,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 
     switch (ds) {
     case DS_TEAM:
-      ai_share_techs(pplayer, aplayer);
+      ai_share(pplayer, aplayer);
       break;
     case DS_ALLIANCE:
       if ((pplayer->team != TEAM_NONE && aplayer->team == pplayer->team)
@@ -1001,7 +1053,7 @@ void ai_diplomacy_actions(struct player *pplayer)
          * This means, if we have a target, then unless we are still
          * in countdown mode, we _except_ our allies to be at war
          * with our target too! */
-        ai_share_techs(pplayer, aplayer);
+        ai_share(pplayer, aplayer);
         adip->ally_patience = 0;
         break;
       } else if (!target) {
