@@ -12,14 +12,13 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-09 19:31-0500\n"
-"PO-Revision-Date: 2004-11-27 15:45+0100\n"
+"PO-Revision-Date: 2004-12-11 20:15+0100\n"
 "Last-Translator: Dušan Hokův <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -2282,9 +2281,7 @@ msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
-msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: server/diplhand.c:251 server/diplhand.c:255
 #, c-format
@@ -3309,9 +3306,7 @@ msgstr ""
 #: server/report.c:1094
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
-msgid_plural "%2d: The %s %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: server/report.c:1102
 msgid "Progress Scores:"
@@ -6298,9 +6293,7 @@ msgstr "Hra: %s ztracena při útoku %s %s%s."
 #: server/unittools.c:1738
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: server/unittools.c:1753
 #, c-format
@@ -8513,9 +8506,7 @@ msgstr "Naše území"
 #: client/text.c:169
 #, c-format
 msgid "%s territory (%d turn ceasefire)"
-msgid_plural "%s territory (%d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #. * ?nation adjectives.
@@ -8538,9 +8529,7 @@ msgstr "Město: %s (%s)"
 #: client/text.c:200
 #, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
-msgid_plural "City: %s (%s, %d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -8579,9 +8568,7 @@ msgstr "Jednotka: %s(%s%s)"
 #: client/text.c:260
 #, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
-msgid_plural "Unit: %s (%s, %d turn ceasefire)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
@@ -8649,9 +8636,7 @@ msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
 #: client/text.c:439
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
-msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
 #, c-format
@@ -8733,9 +8718,7 @@ msgstr ""
 #: client/text.c:609
 #, c-format
 msgid "Mass:            %5d ton"
-msgid_plural "Mass:            %5d tons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:614
@@ -10300,9 +10283,7 @@ msgstr "žádné maximum, "
 #: client/gui-mui/citydlg.c:2254 client/gui-win32/happiness.c:258
 #, c-format
 msgid "%d unit maximum, "
-msgid_plural "%d units maximum, "
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:303 client/gui-gtk/happiness.c:309
 #: client/gui-mui/citydlg.c:2258 client/gui-win32/happiness.c:262
@@ -13473,11 +13454,9 @@ msgstr ""
 msgid ""
 "%s\n"
 "(%d turn/advance)"
-msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
@@ -13504,9 +13483,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:1144
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
-msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:728
 #: client/gui-xaw/repodlgs.c:1152
@@ -14470,7 +14447,6 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv je pod licencí GPL, která je zde: "
 
 #: data/helpdata.txt:382
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -14601,7 +14577,6 @@ msgstr ""
 "  Města vybraná na mapě, budou označena i v seznamu měst."
 
 #: data/helpdata.txt:456
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -14746,7 +14721,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:528
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -20474,7 +20448,6 @@ msgid "?plural:Belgians"
 msgstr "?plural:Belgičané"
 
 #: data/nation/belgian.ruleset:6
-#, fuzzy
 msgid ""
 "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is "
 "mainly characterized by its movement from a unified state to a federal one. "
