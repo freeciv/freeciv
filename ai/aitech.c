@@ -38,7 +38,7 @@
 **************************************************************************/
 static Tech_Type_id get_wonder_tech(struct player *plr)
 {
-  int building = get_nation_by_plr(plr)->goals.wonder;
+  Impr_Type_id building = get_nation_by_plr(plr)->goals.wonder;
   
   if (improvement_exists(building)
       && game.global_wonders[building] == 0

@@ -573,7 +573,7 @@ static void city_populate(struct city *pcity)
 void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
-  int id=-1;
+  Impr_Type_id id = -1;
   int want=0;
 
   init_choice(&choice);
@@ -677,7 +677,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	target = new_target;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      int new_target = improvement_upgrades_to(pcity, target);
+      Impr_Type_id new_target = improvement_upgrades_to(pcity, target);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {

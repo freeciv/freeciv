@@ -636,8 +636,9 @@ void ai_eval_buildings(struct city *pcity)
         && pplayer->spaceship.structurals < NUM_SS_STRUCTURALS)
         values[id] = -80;
       break;
-
-      /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
+    default:
+      /* ignored: AIRPORT, PALACE, and POLICE and the rest. -- Syela*/
+      break;
     } /* end switch */
   } impr_type_iterate_end;
 
@@ -804,8 +805,10 @@ void ai_eval_buildings(struct city *pcity)
     case B_MAGELLAN:
       values[id] = values[B_CAPITAL] + 4; /* trump coinage and defenses */
       break;
-    /* also, MAGELLAN is special cased in ai_manage_buildings() */
-    /* ignoring MANHATTAN and STATUE */
+    default:
+	/* also, MAGELLAN is special cased in ai_manage_buildings() */
+	/* ignoring MANHATTAN and STATUE */
+      break;
     } /* end switch */
   } impr_type_iterate_end;
 

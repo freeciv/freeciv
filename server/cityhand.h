@@ -20,7 +20,8 @@ struct conn_list;
 
 #include "hand_gen.h"
 
-void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id);
+void really_handle_city_sell(struct player *pplayer, struct city *pcity,
+			     Impr_Type_id id);
 void really_handle_city_buy(struct player *pplayer, struct city *pcity);
 
 #endif  /* FC__CITYHAND_H */

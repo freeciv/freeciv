@@ -31,7 +31,7 @@
 #define WARMING_FACTOR 50
 
 bool city_got_barracks(struct city *pcity);
-bool can_sell_building(struct city *pcity, int id);
+bool can_sell_building(struct city *pcity, Impr_Type_id id);
 struct city *find_city_wonder(Impr_Type_id id);
 int build_points_left(struct city *pcity);
 bool is_worked_here(int x, int y);
@@ -39,7 +39,7 @@ int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int settler_eats(struct city *pcity);
 bool is_building_other_wonder(struct city *pc);
-bool built_elsewhere(struct city *pc, int wonder);
+bool built_elsewhere(struct city *pc, Impr_Type_id wonder);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_shield_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
@@ -78,8 +78,9 @@ void remove_city(struct city *pcity);
 void establish_trade_route(struct city *pc1, struct city *pc2);
 void remove_trade_route(struct city *pc1, struct city *pc2);
 
-void do_sell_building(struct player *pplayer, struct city *pcity, int id);
-void building_lost(struct city *pcity, int id);
+void do_sell_building(struct player *pplayer, struct city *pcity,
+		      Impr_Type_id id);
+void building_lost(struct city *pcity, Impr_Type_id id);
 void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, enum event_type event);
 

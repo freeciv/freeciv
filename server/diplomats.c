@@ -865,7 +865,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   - The saboteur may be captured and executed, or escape to its home town.
 **************************************************************************/
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
-		       struct city *pcity, int improvement)
+		       struct city *pcity, Impr_Type_id improvement)
 {
   struct player *cplayer;
   int count, which, target;

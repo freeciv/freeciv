@@ -37,7 +37,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, 
 		     struct city *pcity);
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city *pcity, int improvement);
+		       struct city *pcity, Impr_Type_id improvement);
 
 int count_diplomats_on_tile(int x, int y);
 int unit_bribe_cost(struct unit *punit);

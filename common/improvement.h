@@ -23,11 +23,6 @@
 
 struct player;
 
-
-/* Improvement types.
- * improvement types are loaded from the buildings.ruleset file.) */
-typedef int Impr_Type_id;
-
 /* Improvement status (for cities' lists of improvements)
  * An enum or bitfield would be neater here, but we use a typedef for
  * a) less memory usage and b) compatibility with old behaviour */
@@ -59,6 +54,9 @@ enum improvement_type_id {
   B_UNITED, B_WOMENS,
   B_CAPITAL, B_LAST_ENUM
 };
+typedef enum improvement_type_id Impr_Type_id;
+#else
+typedef int Impr_Type_id;
 #endif
 
 /* B_LAST is a value which is guaranteed to be larger than all

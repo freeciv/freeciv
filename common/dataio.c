@@ -787,7 +787,7 @@ void dio_get_effect(struct data_in *din, struct impr_effect *peffect)
   dio_get_uint8(din, (int *) &(peffect->range));
   dio_get_sint16(din, &peffect->amount);
   dio_get_uint8(din, &peffect->survives);
-  dio_get_uint8(din, &peffect->cond_bldg);
+  dio_get_uint8(din, (int *) &peffect->cond_bldg);
   dio_get_uint8(din, &peffect->cond_gov);
   dio_get_uint8(din, &peffect->cond_adv);
   dio_get_uint8(din, (int *) &(peffect->cond_eff));

@@ -327,7 +327,7 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, const char *pref
 				     const char *filename, const char *description)
 {
   char *sval;
-  int id;
+  Impr_Type_id id;
 
   if (required) {
     sval = secfile_lookup_str(file, "%s.%s", prefix, entry);

@@ -394,10 +394,10 @@ bool city_got_barracks(struct city *pcity)
 	  city_got_building(pcity, B_BARRACKS3));
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-bool can_sell_building(struct city *pcity, int id)
+/****************************************************************************
+  Return TRUE iff the city can sell the given improvement.
+****************************************************************************/
+bool can_sell_building(struct city *pcity, Impr_Type_id id)
 {
   return (city_got_building(pcity, id) ? !is_wonder(id) : FALSE);
 }
@@ -564,16 +564,21 @@ bool is_building_other_wonder(struct city *pc)
   return FALSE;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-bool built_elsewhere(struct city *pc, int wonder)
+/****************************************************************************
+  Return TRUE iff the given wonder has been built somewhere other than in
+  the given city.
+****************************************************************************/
+bool built_elsewhere(struct city *pc, Impr_Type_id wonder)
 {
   struct player *pplayer = city_owner(pc);
-  city_list_iterate(pplayer->cities, pcity) 
-    if ((pc != pcity) && !(pcity->is_building_unit) && pcity->currently_building == wonder)
+
+  city_list_iterate(pplayer->cities, pcity) {
+    if (pc != pcity && !pcity->is_building_unit
+	&& pcity->currently_building == wonder) {
       return TRUE;
-  city_list_iterate_end;
+    }
+  } city_list_iterate_end;
+
   return FALSE;
 }
 
@@ -1872,10 +1877,14 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void do_sell_building(struct player *pplayer, struct city *pcity, int id)
+/****************************************************************************
+  Sell the improvement from the city, and give the player the owner.  Not
+  all buildings can be sold.
+
+  I guess the player should always be the city owner?
+****************************************************************************/
+void do_sell_building(struct player *pplayer, struct city *pcity,
+		      Impr_Type_id id)
 {
   if (!is_wonder(id)) {
     pplayer->economic.gold += improvement_value(id);
@@ -1883,17 +1892,18 @@ void do_sell_building(struct player *pplayer, struct city *pcity, int id)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void building_lost(struct city *pcity, int id)
+/****************************************************************************
+  Destroy the improvement in the city straight-out.  Note that this is
+  different from selling a building.
+****************************************************************************/
+void building_lost(struct city *pcity, Impr_Type_id id)
 {
   struct player *owner = city_owner(pcity);
 
   city_remove_improvement(pcity,id);
-  if (id == B_PALACE &&
-      ((owner->spaceship.state == SSHIP_STARTED) ||
-       (owner->spaceship.state == SSHIP_LAUNCHED))) {
+  if (id == B_PALACE
+      && (owner->spaceship.state == SSHIP_STARTED
+	  || owner->spaceship.state == SSHIP_LAUNCHED)) {
     spaceship_lost(owner);
   }
 }
