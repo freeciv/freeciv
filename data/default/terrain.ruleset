@@ -600,48 +600,6 @@ Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
 ")
 
-[terrain_unused_0]
-terrain_name         = "unused"
-graphic              = "-"
-graphic_alt	     = "-"
-identifier	     = "r"
-movement_cost        = 0
-defense_bonus        = 00
-food                 = 0
-shield               = 0
-trade                = 0
-special_1_name       = "none"
-graphic_special_1    = "-"
-graphic_special_1a   = "-"
-food_special_1       = 0
-shield_special_1     = 0
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
-road_trade_incr      = 0
-road_time            = 0
-irrigation_result    = "no"
-irrigation_food_incr = 0
-irrigation_time      = 0
-mining_result        = "no"
-mining_shield_incr   = 0
-mining_time          = 0
-transform_result     = "no"
-transform_time       = 0
-rail_time            = 0
-airbase_time         = 0
-fortress_time        = 0
-clean_pollution_time = 0
-clean_fallout_time   = 0
-warmer_wetter_result = "no"
-warmer_drier_result  = "no"
-cooler_wetter_result = "no"
-cooler_drier_result  = "no"
-
 [terrain_swamp]
 terrain_name         = _("Swamp")
 graphic              = "swamp"
