@@ -2180,7 +2180,8 @@ static void set_command(struct player *caller, char *str)
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-	_("Value out of range.  Usage: set <option> <value>."));
+		_("Value out of range (minimum: %d, maximum: %d)."),
+		op->min_value, op->max_value);
     }
   } else {
     if (strlen(arg)<op->sz_svalue) {
