@@ -182,7 +182,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       adjust_workers_button_pressed(LOWORD(lParam), HIWORD(lParam));
       wakeup_button_pressed(LOWORD(lParam), HIWORD(lParam));
     } else if (wParam & MK_CONTROL
-	       && (ptile = canvas_pos_to_tile(LOWORLD(lParam),
+	       && (ptile = canvas_pos_to_tile(LOWORD(lParam),
 					      HIWORD(lParam)))) {
       popit(LOWORD(lParam),HIWORD(lParam),ptile);
     } else {
@@ -191,7 +191,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     break;
   case WM_MBUTTONDOWN:
     if (can_client_change_view()
-        && (ptile = canvas_pos_to_tile(LOWORLD(lParam),
+        && (ptile = canvas_pos_to_tile(LOWORD(lParam),
 					      HIWORD(lParam)))) {
       popit(LOWORD(lParam), HIWORD(lParam), ptile);
     }
@@ -199,7 +199,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   case WM_RBUTTONDOWN:
     if (can_client_change_view()) {
       if (wParam&MK_CONTROL) {
-        if ((ptile = canvas_pos_to_tile(LOWORLD(lParam), HIWORD(lParam)))) {
+        if ((ptile = canvas_pos_to_tile(LOWORD(lParam), HIWORD(lParam)))) {
           popit(LOWORD(lParam), HIWORD(lParam), ptile);
         }
       } else {
