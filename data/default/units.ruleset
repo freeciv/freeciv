@@ -1295,7 +1295,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = ""
+roles         = "DefendGood"
 
 [unit_aegis_cruiser]
 name          = _("AEGIS Cruiser")
@@ -1323,7 +1323,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "AEGIS"
-roles         = ""
+roles         = "DefendGood"
 
 [unit_battleship]
 name          = _("Battleship")
