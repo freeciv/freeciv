@@ -25,6 +25,7 @@ extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
+extern int wakeup_focus;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -299,14 +300,13 @@ void handle_unit_info(struct packet_unit_info *packet)
   
   if(punit) {
     if(punit->activity!=packet->activity) { /* change activity */
-      punit->activity=packet->activity;
-  
-      repaint_unit=1;
-
-      if((punit->owner==game.player_idx) && (punit->activity==ACTIVITY_IDLE)) {
+      if(wakeup_focus && (punit->owner==game.player_idx)
+                      && (punit->activity==ACTIVITY_SENTRY)) {
         set_unit_focus(punit);
         /* RP: focus on (each) activated unit (e.g. when unloading a ship) */
       }
+
+      punit->activity=packet->activity;
 
       /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
       update_unit_pix_label(punit);

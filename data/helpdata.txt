@@ -338,18 +338,19 @@ Left-click:                                  b: (B)uild City
                                              g: Unit (G)oto
 Center-click:                                h: Change (H)omecity
              Show tile info                  i: (I)rrigate
-	                                     l: Go/air(l)ift city
+                                             l: Go/air(l)ift city
 %% I still don't understand this here!!         ^^^^^^^^^^^^^^^^^
                                              m: (M)ine
-                                             p: clean (p)ollution
-					     P: (P)illage
+Right-click:                                 p: clean (p)ollution
+             Center tile in view             P: (P)illage
                                              r: Build (r)oad
-Right-click:                                 s: (S)entry
-             Center tile in view             u: (U)nload
-                                             w: (W)ait
-					     x: Auto e(x)plore
-					 space: Stay put
+                                             s: (S)entry
+                                             u: (U)nload
+Shift-click:                                 w: (W)ait
+             Wake up sentried units on tile  W: (W)akeup sentried units
+                                         space: Stay put
                                         return: Turn done
+ 
 ---
 #Strategy and tactics
 While every game is different, there's a basic strategy which most 

@@ -950,10 +950,21 @@ Freeciv.iconName: Freeciv
 *optionautocentertoggle.internalHeight: 0
 *optionautocentertoggle.background:     cyan
 
+*optionwakeupfocuslabel.label:         Focus on Awakened Units\ \ \ \ 
+*optionwakeupfocuslabel.borderWidth:   0
+*optionwakeupfocuslabel.background:    lightblue
+*optionwakeupfocuslabel.fromVert:      optionautocentertoggle
+
+*optionwakeupfocustoggle.label:          Yes
+*optionwakeupfocustoggle.fromVert:       optionautocentertoggle
+*optionwakeupfocustoggle.fromHoriz:      optionwakeupfocuslabel
+*optionwakeupfocustoggle.internalHeight: 0
+*optionwakeupfocustoggle.background:     cyan
+
 *optionokcommand.label:          Close
 *optionokcommand.foreground:     white
 *optionokcommand.background:     blue
-*optionokcommand.fromVert:       optionautocenterlabel
+*optionokcommand.fromVert:       optionwakeupfocuslabel
 
 !
 ! The messageopts dialog
