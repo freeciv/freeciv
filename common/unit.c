@@ -53,7 +53,10 @@ int unit_move_rate(struct unit *punit)
     if (val < 2 * SINGLE_MOVE)
       val = 2 * SINGLE_MOVE;
   }
-  if (val < SINGLE_MOVE) val = SINGLE_MOVE;
+  if (val < SINGLE_MOVE
+      && get_unit_type(punit->type)->move_rate > 0) {
+    val = SINGLE_MOVE;
+  }
   return val;
 }
 

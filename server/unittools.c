@@ -939,8 +939,10 @@ static void update_unit_activity(struct unit *punit)
 
   /* to allow a settler to begin a task with no moves left
      without it counting toward the time to finish */
-  if (punit->moves_left){
-    punit->activity_count += mr/3;
+  if (punit->moves_left) {
+    punit->activity_count += mr/SINGLE_MOVE;
+  } else if (mr == 0) {
+    punit->activity_count += 1;
   }
 
   unit_restore_movepoints(pplayer, punit);
