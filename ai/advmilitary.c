@@ -976,7 +976,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct tile *ptile;
   /* Our transport */
   struct unit *ferryboat = NULL;
-  /* Out target */
+  /* Our target */
   struct city *acity;
   /* Defender of the target city/tile */
   struct unit *pdef; 
@@ -1172,7 +1172,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
   Impr_Type_id id;
 
   /* Sanity */
-  if (!is_unit_choice_type(choice->choice)) return;
+  if (!is_unit_choice_type(choice->type)) return;
   if (unit_type_flag(choice->choice, F_NONMIL)) return;
   if (do_make_unit_veteran(pcity, choice->choice)) return;
 
