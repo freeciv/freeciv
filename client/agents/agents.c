@@ -639,9 +639,7 @@ bool agents_busy(void)
 {
   int i;
 
-  assert(initialized);
-
-  if (call_list_size(&agents.calls) > 0 || frozen_level > 0
+  if (!initialized || call_list_size(&agents.calls) > 0 || frozen_level > 0
       || currently_running) {
     return TRUE;
   }
