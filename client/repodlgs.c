@@ -1014,10 +1014,13 @@ void city_report_dialog_update_city(struct city *pcity)
       int n;
       String *list;
       Dimension w;
+      char new_city_line[200];
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
       if(strncmp(pcity->name,list[i],strlen(pcity->name))) break;
-      get_city_text(pcity,list[i]);
+      get_city_text(pcity,new_city_line);
+      if(strcmp(new_city_line, list[i])==0) return; /* no change */
+      strcpy(list[i], new_city_line);
 
       /* It seems really inefficient to regenerate the whole list just to
          change one line.  It's also annoying to have to set the size
