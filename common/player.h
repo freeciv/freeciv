@@ -53,7 +53,7 @@ enum handicap_type {
   H_HUTS = 128,       /* Doesn't know which unseen tiles have huts on them */
   H_FOG = 256,        /* Can't see through fog of war */
   H_NOPLANES = 512,   /* Doesn't build air units */
-  H_MAP = 1024        /* Only knows map_get_known tiles */
+  H_MAP = 1024        /* Only knows map_is_known tiles */
 };
 
 struct player_economic {

@@ -1031,7 +1031,7 @@ void reports_force_thaw(void)
 /*************************************************************************
 ...
 *************************************************************************/
-enum known_type map_get_known2(int x, int y, struct player *pplayer)
+enum known_type map_get_known(int x, int y, struct player *pplayer)
 {
   assert(pplayer == game.player_ptr);
   return tile_get_known(x, y);

@@ -272,7 +272,7 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
                             int x, int y)
 {
-  return ((map_get_known2(x, y, pplayer) == TILE_KNOWN)
+  return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
          && !(map_get_city(x, y) && !pplayers_allied(unit_owner(punit), pplayer))
          && player_can_see_unit_at_location(pplayer, punit, x, y));
 }
