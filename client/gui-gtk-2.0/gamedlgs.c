@@ -367,12 +367,11 @@ static GtkWidget *option_dialog_shell;
 **************************************************************************/
 static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 {
-  client_option *o;
   const char *dp;
   bool b;
-  int i;
+  int val;
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       b = *(o->p_bool_value);
@@ -382,10 +381,10 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
       }
       break;
     case COT_INT:
-      i = *(o->p_int_value);
+      val = *(o->p_int_value);
       dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
       sscanf(dp, "%d", o->p_int_value);
-      if (i != *(o->p_int_value) && o->change_callback) {
+      if (val != *(o->p_int_value) && o->change_callback) {
 	(o->change_callback)(o);
       }
       break;
@@ -406,7 +405,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
       }
       break;
     }
-  }
+  } client_options_iterate_end;
 
   if (map_scrollbars) {
     gtk_widget_show(map_horizontal_scrollbar);
@@ -426,7 +425,6 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 static void create_option_dialog(void)
 {
   GtkWidget *label, *table;
-  client_option *o;
   int i;
 
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
@@ -449,15 +447,12 @@ static void create_option_dialog(void)
 		   G_CALLBACK(option_ok_command_callback), NULL);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
 
-  for (o = options, i = 0; o->name; o++, i++) {
-    /* nothing */
-  }
-
-  table = gtk_table_new(i, 2, FALSE);
+  table = gtk_table_new(num_options, 2, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
 		     table, FALSE, FALSE, 0);
 
-  for (o = options, i = 0; o->name; o++, i++) {
+  i = 0;
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
@@ -500,7 +495,8 @@ static void create_option_dialog(void)
 		       0, 0);
       break;
     }
-  }
+    i++;
+  } client_options_iterate_end;
 
   gtk_widget_show_all( GTK_DIALOG( option_dialog_shell )->vbox );
 }
@@ -510,14 +506,13 @@ static void create_option_dialog(void)
 *****************************************************************/
 void popup_option_dialog(void)
 {
-  client_option *o;
   char valstr[64];
 
   if (!option_dialog_shell) {
     create_option_dialog();
   }
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(o->p_gui_data),
@@ -546,7 +541,7 @@ void popup_option_dialog(void)
       }
       break;
     }
-  }
+  } client_options_iterate_end;
 
   gtk_widget_show(option_dialog_shell);
 }

@@ -85,6 +85,21 @@ extern client_option *options;
                                     { #oname, desc, COT_STR, \
                                       NULL, NULL, oname, sizeof(oname), \
                                       callback, str_defaults, NULL }
+
+extern int num_options;
+
+#define client_options_iterate(o)                                           \
+{                                                                           \
+  int _i;                                                                   \
+  for (_i = 0; _i < num_options; _i++) {                                    \
+    client_option *o = options + _i;                                        \
+    {
+
+#define client_options_iterate_end                                          \
+    }                                                                       \
+  }                                                                         \
+}
+
 /* GUI-specific options declared in gui-xxx but handled by common code. */
 extern const int num_gui_options;
 extern client_option gui_options[];

@@ -113,7 +113,7 @@ static client_option common_options[] = {
 #undef GEN_BOOL_OPTION
 #undef GEN_STR_OPTION
 
-static int num_options;
+int num_options;
 client_option *options;
 
 /** View Options: **/

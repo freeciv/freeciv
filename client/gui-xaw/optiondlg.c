@@ -64,12 +64,11 @@ void option_cancel_command_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void popup_option_dialog(void)
 {
-  client_option *o;
   char valstr[64];
 
   create_option_dialog();
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       XtVaSetValues((Widget) o->p_gui_data, XtNstate, *(o->p_bool_value),
@@ -85,7 +84,7 @@ void popup_option_dialog(void)
 		    o->p_string_value, NULL);
       break;
     }
-  }
+  } client_options_iterate_end;
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -115,7 +114,6 @@ void create_option_dialog(void)
   Widget option_form, option_label;
   Widget option_ok_command, option_cancel_command;
   Widget prev_widget, longest_label = 0;
-  client_option *o;
   size_t longest_len = 0;
   
   option_dialog_shell =
@@ -131,7 +129,7 @@ void create_option_dialog(void)
 				option_form, NULL));
 
   prev_widget = option_label; /* init the prev-Widget */
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     const char *descr = _(o->description);
     size_t len = strlen(descr);
 
@@ -150,9 +148,9 @@ void create_option_dialog(void)
       longest_len = len;
       longest_label = prev_widget;
     }
-  }
+  } client_options_iterate_end;
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     /* 
      * At the start of the loop o->p_gui_data will contain the widget
      * which is above the label widget which is associated with this
@@ -213,7 +211,7 @@ void create_option_dialog(void)
 
     /* store the final widget */
     o->p_gui_data = (void *) prev_widget;
-  }
+  } client_options_iterate_end;
 
   option_ok_command =
     I_L(XtVaCreateManagedWidget("optionokcommand", commandWidgetClass,
@@ -255,11 +253,10 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data)
 {
   Boolean b;
-  int i;
-  client_option *o;
+  int val;
   XtPointer dp;
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       b = *(o->p_bool_value);
@@ -269,10 +266,10 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
       }
       break;
     case COT_INT:
-      i = *(o->p_int_value);
+      val = *(o->p_int_value);
       XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
       sscanf(dp, "%d", o->p_int_value);
-      if (i != *(o->p_int_value) && o->change_callback) {
+      if (val != *(o->p_int_value) && o->change_callback) {
 	(o->change_callback)(o);
       }
       break;
@@ -288,7 +285,7 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
       }
       break;
     }
-  }
+  } client_options_iterate_end;
 
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(option_dialog_shell);

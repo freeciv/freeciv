@@ -46,12 +46,11 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
     break;
   case WM_COMMAND:
     if (LOWORD(wParam)==IDOK) {
-      client_option *o;
       char dp[512];
       bool b;
-      int i;
+      int val;
       
-      for (o = options; o->name; o++) {
+      client_options_iterate(o) {
 	switch (o->type) {
 	case COT_BOOL:
 	  b = *(o->p_bool_value);
@@ -61,10 +60,10 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  }
 	  break;
 	case COT_INT:
-	  i = *(o->p_int_value);
+	  val = *(o->p_int_value);
 	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
 	  sscanf(dp, "%d", o->p_int_value);
-	  if (i != *(o->p_int_value) && o->change_callback) {
+	  if (val != *(o->p_int_value) && o->change_callback) {
 	    (o->change_callback)(o);
 	  }
 	  break;
@@ -82,7 +81,7 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  }
 	  break;
 	}
-      }
+      } client_options_iterate_end;
       DestroyWindow(dlg);
     }
     break;
@@ -100,7 +99,6 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  client_option *o; 
   struct fcwin_box *hbox;
   struct fcwin_box *vbox_labels;
   struct fcwin_box *vbox;
@@ -115,7 +113,7 @@ static void create_option_dialog(void)
   hbox=fcwin_hbox_new(option_dialog,FALSE);
   vbox=fcwin_vbox_new(option_dialog,TRUE);
   vbox_labels=fcwin_vbox_new(option_dialog,TRUE);
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       fcwin_box_add_static(vbox_labels,_(o->description),
@@ -156,7 +154,7 @@ static void create_option_dialog(void)
 	break;
       }
     } 
-  }
+  } client_options_iterate_end;
   fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,0);
   fcwin_box_add_box(hbox,vbox,TRUE,TRUE,0);
   vbox=fcwin_vbox_new(option_dialog,FALSE);
@@ -170,13 +168,12 @@ static void create_option_dialog(void)
 *****************************************************************/
 void popup_option_dialog(void)
 {
-  client_option *o;
   char valstr[64];
 
   if (!option_dialog)
     create_option_dialog();
 
-  for (o = options; o->name; o++) {
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       Button_SetCheck((HWND)(o->p_gui_data),
@@ -203,7 +200,7 @@ void popup_option_dialog(void)
       SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
       break;
     }
-  }
+  } client_options_iterate_end;
   fcwin_redo_layout(option_dialog);
   ShowWindow(option_dialog,SW_SHOWNORMAL);
 }
