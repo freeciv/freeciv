@@ -150,7 +150,7 @@ static bool startunits_callback(const char *value, const char **error_string)
       have_founder = TRUE;
       continue;
     }
-    if (strchr("cwxksfdDaA", value[i])) {
+    if (strchr("cwxksdDaA", value[i])) {
       continue;
     }
 
@@ -434,7 +434,6 @@ struct settings_s settings[] = {
 		"    x   = Explorer (eg., Explorer)\n"
 		"    k   = Gameloss (eg., King)\n"
 		"    s   = Diplomat (eg., Diplomat)\n"
-		"    f   = Ferryboat (eg., Trireme)\n"
 		"    d   = Ok defense unit (eg., Warriors)\n"
 		"    D   = Good defense unit (eg., Phalanx)\n"
 		"    a   = Fast attack unit (eg., Horsemen)\n"
