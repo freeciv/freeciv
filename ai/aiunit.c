@@ -146,11 +146,14 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
         for (a = -1; a <= 1; a++)
           for (b = -1; b <= 1; b++)
             if (!map_get_known(x + a, y + b, pplayer)) cur++;
-        cur -= warmap.cost[x][y];
-        if (cur > best || (cur == best && myrand(2))) {
-          dest_x = map_adjust_x(x + i);
-          dest_y = y + j;
-          best = cur;
+        if (cur) {
+          cur += 24; /* whatever you like, could be 255 */
+          cur -= warmap.cost[x][y];
+          if (cur > best || (cur == best && myrand(2))) {
+            dest_x = map_adjust_x(x);
+            dest_y = y;
+            best = cur;
+          }
         }
       }
     }
