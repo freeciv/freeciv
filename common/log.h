@@ -102,7 +102,7 @@ static int logdebug_check(const char *file, int line)
 #endif  /* DEBUG */
 #else
 /* non-GCC: */
-static void freelog(int level, char *message, ...)
+static void freelog(int level, const char *message, ...)
 {
   int log_this; 
 #ifdef DEBUG
