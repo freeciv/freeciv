@@ -14,7 +14,7 @@ artists = "
 [file]
 gfx = "trident/roads"
 
-[grid_main]
+[grid_roads]
 
 x_top_left = 0
 y_top_left = 0
@@ -24,7 +24,6 @@ dy = 30
 tiles = { "row", "column", "tag"
 
   0,  0, "r.road_isolated"
-  2,  0, "r.rail_isolated"
 
 ; Cardinal roads, connections north, south, east, west:
 
@@ -61,6 +60,18 @@ tiles = { "row", "column", "tag"
   1, 13, "r.d_road_n1s1e0w1"
   1, 14, "r.d_road_n0s1e1w1"
   1, 15, "r.d_road_n1s1e1w1"
+}
+
+[grid_rails]
+
+x_top_left = 0
+y_top_left = 60	  ; Change to 0 for original trident rails, 60 for dwp-style
+dx = 30
+dy = 30
+
+tiles = { "row", "column", "tag"
+
+  2,  0, "r.rail_isolated"
 
 ; Cardinal rails, connections north, south, east, west:
 
