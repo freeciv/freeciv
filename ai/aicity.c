@@ -272,19 +272,20 @@ static void adjust_building_want_by_effects(struct city *pcity,
             /* TODO */
             break;
 	  case EFT_NO_UNHAPPY:
-            v += (pcity->specialists[SP_ELVIS] + pcity->ppl_unhappy[0]) * 3;
+            v += (pcity->specialists[SP_ELVIS] + pcity->ppl_unhappy[4]) * 20;
             break;
 	  case EFT_FORCE_CONTENT:
 	    if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-	      v += (pcity->ppl_unhappy[0] + pcity->specialists[SP_ELVIS]) * 3;
+	      v += (pcity->ppl_unhappy[4] + pcity->specialists[SP_ELVIS]) * 20;
 	      v += 5 * c;
 	    }
 	    break;
 	  case EFT_MAKE_CONTENT_MIL_PER:
 	  case EFT_MAKE_CONTENT:
 	    if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-	      v += pcity->ppl_unhappy[0] * amount;
-	      v += amount * c;
+              v += MIN(pcity->ppl_unhappy[4] + pcity->specialists[SP_ELVIS],
+                       amount) * 20;
+              v += MIN(amount, 5) * c;
 	    }
 	    break;
 	  case EFT_MAKE_CONTENT_MIL:
@@ -305,7 +306,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  case EFT_AIRLIFT:
             /* FIXME: We need some smart algorithm here. The below is 
              * totally braindead. */
-	    v += c + MIN(ai->stats.units[UCL_LAND], 20);
+	    v += c + MIN(ai->stats.units[UCL_LAND], 13);
 	    break;
 	  case EFT_ANY_GOVERNMENT:
 	    if (!can_change_to_government(pplayer, ai->goal.govt.idx)) {
@@ -351,10 +352,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    amount = 20; /* really big city */
 	    /* there not being a break here is deliberate, mind you */
 	  case EFT_SIZE_ADJ: 
-	    if (city_can_grow_to(pcity, pcity->size + 1)) {
-	      v += pcity->food_surplus * ai->food_priority * amount / 10;
+            if (!city_can_grow_to(pcity, pcity->size + 1)) {
+	      v += pcity->food_surplus * ai->food_priority * amount;
+              if (pcity->size == game.aqueduct_size) {
+                v += 30 * pcity->food_surplus;
+              }
 	    }
-	    v += c * amount / game.aqueduct_size;
+	    v += c * amount * 4 / game.aqueduct_size;
 	    break;
 	  case EFT_SS_STRUCTURAL:
 	  case EFT_SS_COMPONENT:
@@ -405,23 +409,24 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 	  case EFT_SEA_DEFEND:
 	    if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	      v += amount * 10; /* make AI slow */
+	      v += amount; /* make AI slow */
 	    }
             if (is_ocean(map_get_terrain(pcity->x, pcity->y))) {
               v += ai->threats.ocean[-map_get_continent(pcity->x, pcity->y)]
-                   ? amount * 8 : amount;
+                   ? amount/5 : amount/20;
             } else {
               adjc_iterate(pcity->x, pcity->y, x2, y2) {
                 if (is_ocean(map_get_terrain(x2, y2))) {
                   if (ai->threats.ocean[-map_get_continent(x2, y2)]) {
-                    v += 8 * amount;
+                    v += amount/5;
+		    break;
                   }
                 }
               } adjc_iterate_end;
             }
 	    v += (amount + ai->threats.invasions - 1) * c; /* for wonder */
 	    if (capital && ai->threats.invasions) {
-	      v += amount * 10; /* defend capital! */
+	      v += amount; /* defend capital! */
 	    }
 	    break;
 	  case EFT_AIR_DEFEND:
@@ -429,12 +434,12 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	      v += amount * 15; /* make AI slow */
 	    }
 	    v += (ai->threats.air && ai->threats.continent[ptile->continent]) 
-	      ? amount * 5 + amount * c : c;
+	      ? amount/10 * 5 + amount/10 * c : c;
 	    break;
 	  case EFT_MISSILE_DEFEND:
 	    if (ai->threats.missile
 		&& (ai->threats.continent[ptile->continent] || capital)) {
-	      v += amount * 5 + (amount - 1) * c;
+	      v += amount/10 * 5 + (amount/10 - 1) * c;
 	    }
 	    break;
 	  case EFT_LAND_DEFEND:
@@ -445,7 +450,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 		|| capital
 		|| (ai->threats.invasions
 		  && is_water_adjacent_to_tile(pcity->x, pcity->y))) {
-	      v += !ai->threats.igwall ? 15 + (capital * amount * 5) : 10;
+	      v += !ai->threats.igwall ? 15 + (capital * amount / 10) : 10;
 	    }
 	    v += (1 + ai->threats.invasions + !ai->threats.igwall) * c;
 	    break;
