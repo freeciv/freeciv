@@ -135,7 +135,7 @@ static char *cr_entry_food(struct city *pcity)
   static char buf[32];
   sprintf(buf,"%d/%d",
 	 pcity->food_stock,
-	 pcity->size * game.foodbox);
+	 (pcity->size+1) * game.foodbox);
   return buf;
 }
 
