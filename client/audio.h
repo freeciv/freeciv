@@ -42,6 +42,6 @@ void audio_play_sound(const char *const tag, char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag);
 
 bool audio_select_plugin(const char *const name);
-const char *const audio_get_all_plugin_names(void);
+const char *audio_get_all_plugin_names(void);
 
 #endif				/* FC__AUDIO_H */

@@ -106,14 +106,14 @@ extern view_option view_options[];
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
 extern int sorted_events[];	        /* [E_LAST], sorted by the
 					   translated message text */
-const char *const get_message_text(enum event_type event);
+const char *get_message_text(enum event_type event);
 
 void init_messages_where(void);
 
 void load_general_options(void);
 void load_ruleset_specific_options(void);
 void save_options(void);
-const char *const get_sound_tag_for_event(enum event_type event);
+const char *get_sound_tag_for_event(enum event_type event);
 bool is_city_event(enum event_type event);
 
 #endif  /* FC__OPTIONS_H */

@@ -386,7 +386,7 @@ void audio_shutdown()
   Returns a string which list all available plugins. You don't have to
   free the string.
 **************************************************************************/
-const char *const audio_get_all_plugin_names()
+const char *audio_get_all_plugin_names()
 {
   static char buffer[100];
   int i;

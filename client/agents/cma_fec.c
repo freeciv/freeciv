@@ -186,7 +186,7 @@ char *cmafec_preset_get_descr(int index)
 /**************************************************************************
  Returns the indexed preset's parameter.
 **************************************************************************/
-const struct cma_parameter *const cmafec_preset_get_parameter(int index)
+const struct cma_parameter *cmafec_preset_get_parameter(int index)
 {
   struct cma_preset *ppreset;
 
@@ -225,7 +225,7 @@ int cmafec_preset_num(void)
 /**************************************************************************
 ...
 **************************************************************************/
-const char *const cmafec_get_short_descr_of_city(struct city *pcity)
+const char *cmafec_get_short_descr_of_city(struct city *pcity)
 {
   struct cma_parameter parameter;
 
@@ -240,8 +240,8 @@ const char *const cmafec_get_short_descr_of_city(struct city *pcity)
  Returns the description of the matching preset or "custom" if no
  preset could be found.
 **************************************************************************/
-const char *const cmafec_get_short_descr(const struct cma_parameter *const
-					 parameter)
+const char *cmafec_get_short_descr(const struct cma_parameter *const
+				   parameter)
 {
   int index = cmafec_preset_get_index_of_parameter(parameter);
 
@@ -255,8 +255,7 @@ const char *const cmafec_get_short_descr(const struct cma_parameter *const
 /**************************************************************************
 ...
 **************************************************************************/
-static const char *const get_city_growth_string(struct city *pcity,
-						int surplus)
+static const char *get_city_growth_string(struct city *pcity, int surplus)
 {
   int stock, cost, turns;
   static char buffer[50];
@@ -290,8 +289,7 @@ static const char *const get_city_growth_string(struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-static const char *const get_prod_complete_string(struct city *pcity,
-						  int surplus)
+static const char *get_prod_complete_string(struct city *pcity, int surplus)
 {
   int stock, cost, turns;
   static char buffer[50];
@@ -334,11 +332,10 @@ static const char *const get_prod_complete_string(struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-const char *const cmafec_get_result_descr(struct city *pcity,
-					  const struct cma_result *const
-					  result,
-					  const struct cma_parameter *const
-					  parameter)
+const char *cmafec_get_result_descr(struct city *pcity,
+				    const struct cma_result *const result,
+				    const struct cma_parameter *const
+				    parameter)
 {
   int j;
   char buf[RESULT_COLUMNS][BUFFER_SIZE];

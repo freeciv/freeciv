@@ -283,7 +283,7 @@ static void load_global_worklist(struct section_file *file, char *path,
 /**************************************************************************
   Returns the translated description of the given event.
 **************************************************************************/
-const char *const get_message_text(enum event_type event)
+const char *get_message_text(enum event_type event)
 {
   assert(event >= 0 && event < E_LAST);
 
@@ -637,7 +637,7 @@ static void save_cma_preset(struct section_file *file, char *name,
 /****************************************************************
 ... 
 *****************************************************************/
-const char *const get_sound_tag_for_event(enum event_type event)
+const char *get_sound_tag_for_event(enum event_type event)
 {
   if (event == E_NOEVENT) {
     return NULL;
