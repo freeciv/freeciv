@@ -2784,7 +2784,7 @@ static void cut_comment(char *str)
   for (i = 0; i < strlen(str); i++) {
     if (str[i] == '"' && !in_single_quotes) {
       in_double_quotes = !in_double_quotes;
-    } else if (str[i] == '\'' && in_double_quotes) {
+    } else if (str[i] == '\'' && !in_double_quotes) {
       in_single_quotes = !in_single_quotes;
     } else if (str[i] == '#' && !(in_single_quotes || in_double_quotes)
 	       && (i == 0 || str[i - 1] != '\\')) {
