@@ -94,7 +94,7 @@ struct player_score_entry {
   int value;
 };
 
-int secompare1(const void *a, const void *b)
+static int secompare1(const void *a, const void *b)
 {
   return (((struct player_score_entry *)b)->value-((struct player_score_entry *)a)->value);
 }

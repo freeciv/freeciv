@@ -113,7 +113,7 @@ struct settings_s {
 #define SETTING_IS_INT(s) ((s)->value!=NULL)
 #define SETTING_IS_STRING(s) ((s)->value==NULL)
 
-struct settings_s settings[] = {
+static struct settings_s settings[] = {
 
   /* These should be grouped by sclass */
   
@@ -477,7 +477,7 @@ struct settings_s settings[] = {
 Returns whether the specified server setting (option) can currently
 be changed.  Does not indicate whether it can be changed by clients or not.
 *********************************************************************/
-int sset_is_changeable(int idx)
+static int sset_is_changeable(int idx)
 {
   struct settings_s *op = &settings[idx];
 
@@ -510,7 +510,7 @@ int sset_is_changeable(int idx)
 Returns whether the specified server setting (option) should be
 sent to the client.
 *********************************************************************/
-int sset_is_to_client(int idx)
+static int sset_is_to_client(int idx)
 {
   return (settings[idx].to_client == SSET_TO_CLIENT);
 }
@@ -524,7 +524,7 @@ typedef enum {
 /**************************************************************************
 ...
 **************************************************************************/
-PlayerNameStatus test_player_name(char* name)
+static PlayerNameStatus test_player_name(char* name)
 {
   int len = strlen(name);
 
@@ -742,7 +742,7 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
 /**************************************************************************
 ...
 **************************************************************************/
-void meta_command(struct player *caller, char *arg)
+static void meta_command(struct player *caller, char *arg)
 {
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
@@ -760,7 +760,7 @@ void meta_command(struct player *caller, char *arg)
  This could be in common/player if the client ever gets
  told the ai player skill levels.
 ***************************************************************/
-const char *name_of_skill_level(int level)
+static const char *name_of_skill_level(int level)
 {
   const char *nm[11] = { "UNUSED", "UNKNOWN", "UNKNOWN", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
@@ -773,7 +773,7 @@ const char *name_of_skill_level(int level)
 /***************************************************************
 ...
 ***************************************************************/
-int handicap_of_skill_level(int level)
+static int handicap_of_skill_level(int level)
 {
   int h[11] = { -1, 
 		H_NONE, 
@@ -796,7 +796,7 @@ int handicap_of_skill_level(int level)
 Return the AI fuzziness (0 to 1000) corresponding to a given skill
 level (1 to 10).  See ai_fuzzy() in common/player.c
 **************************************************************************/
-int fuzzy_of_skill_level(int level)
+static int fuzzy_of_skill_level(int level)
 {
   int f[11] = { -1, 0, 0, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
   
@@ -809,7 +809,7 @@ Return the AI expansion tendency, a percentage factor to value new cities,
 compared to defaults.  0 means _never_ build new cities, > 100 means to
 (over?)value them even more than the default (already expansionistic) AI.
 **************************************************************************/
-int expansionism_of_skill_level(int level)
+static int expansionism_of_skill_level(int level)
 {
   int x[11] = { -1, 100, 100, 30/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
   
@@ -821,7 +821,7 @@ int expansionism_of_skill_level(int level)
 For command "save foo";
 Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
-void save_command(struct player *caller, char *arg)
+static void save_command(struct player *caller, char *arg)
 {
   if (server_state==SELECT_RACES_STATE) {
     cmd_reply(CMD_SAVE, caller, C_SYNTAX,
@@ -834,7 +834,7 @@ void save_command(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void toggle_ai_player(struct player *caller, char *arg)
+static void toggle_ai_player(struct player *caller, char *arg)
 {
   struct player *pplayer;
 
@@ -877,7 +877,7 @@ void toggle_ai_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_ai_player(struct player *caller, char *arg)
+static void create_ai_player(struct player *caller, char *arg)
 {
   struct player *pplayer;
   PlayerNameStatus PNameStatus;
@@ -935,7 +935,7 @@ void create_ai_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void remove_player(struct player *caller, char *arg)
+static void remove_player(struct player *caller, char *arg)
 {
   struct player *pplayer;
 
@@ -1145,7 +1145,7 @@ void cmdlevel_command(struct player *caller, char *str)
 Find option index by name. Return index (>=0) on success, -1 if no
 suitable options were found, -2 if several matches were found.
 **************************************************************************/
-int lookup_option(char *find)
+static int lookup_option(char *find)
 {
   int i, lastmatch = -1;
     
@@ -1167,7 +1167,7 @@ int lookup_option(char *find)
 /**************************************************************************
  ...
 **************************************************************************/
-void explain_option(struct player *caller, char *str)
+static void explain_option(struct player *caller, char *str)
 {
   char command[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
   int cmd,i;
@@ -1353,7 +1353,7 @@ void set_ai_level(struct player *caller, char *name, int level)
   }
 }
 
-void crash_and_burn(struct player *caller)
+static void crash_and_burn(struct player *caller)
 {
   cmd_reply(CMD_CRASH, caller, C_GENFAIL, "Crashing and burning.");
   /* Who is General Failure and why is he crashing and
@@ -1366,7 +1366,7 @@ Print a summary of the settings and their values.
 Note that most values are at most 4 digits, except seeds,
 which we let overflow their columns.  (And endyear may have '-'.)
 ******************************************************************/
-void show_command(struct player *caller, char *str)
+static void show_command(struct player *caller, char *str)
 {
   char buf[MAX_CMD_LEN+1];  /* length is not checked ... - rp */
   char command[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
@@ -1444,7 +1444,7 @@ void show_command(struct player *caller, char *str)
 #undef OPTION_NAME_SPACE
 }
 
-void set_command(struct player *caller, char *str) 
+static void set_command(struct player *caller, char *str) 
 {
   char command[MAX_CMD_LEN+1], arg[MAX_CMD_LEN+1], *cptr_s, *cptr_d;
   int val, cmd;

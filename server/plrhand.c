@@ -71,14 +71,14 @@ struct player_score_entry {
   int value;
 };
 
-int secompare(const void *a, const void *b)
+static int secompare(const void *a, const void *b)
 {
   return (((struct player_score_entry *)b)->value-((struct player_score_entry *)a)->value);
 }
 
 char *greatness[]={"Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious", "Worthless", "Pathetic", "Useless","Useless","Useless","Useless","Useless","Useless"};
 
-void historian_generic(enum historian_type which_news)
+static void historian_generic(enum historian_type which_news)
 {
   int i,j=0;
   char buffer[4096];
@@ -125,7 +125,7 @@ void historian_generic(enum historian_type which_news)
 
 }
 
-int nr_wonders(struct city *pcity)
+static int nr_wonders(struct city *pcity)
 {
   int i;
   int res=0;
@@ -193,12 +193,13 @@ void wonders_of_the_world(struct player *pplayer)
   }
   page_player(pplayer, "Wonders of the World", buffer);
 }
-int rank_calc_research(struct player *pplayer)
+
+static int rank_calc_research(struct player *pplayer)
 {
   return (pplayer->score.techout*100)/(1+research_time(pplayer));
 }
 
-int rank_research(struct player *pplayer)
+static int rank_research(struct player *pplayer)
 {
   int basis=rank_calc_research(pplayer);
   int place=1;
@@ -210,7 +211,7 @@ int rank_research(struct player *pplayer)
   return place;
 }
 
-int rank_calc_literacy(struct player *pplayer)
+static int rank_calc_literacy(struct player *pplayer)
 {
   int pop = civ_population(pplayer);
 
@@ -223,7 +224,7 @@ int rank_calc_literacy(struct player *pplayer)
   }
 }
 
-int rank_literacy(struct player *pplayer)
+static int rank_literacy(struct player *pplayer)
 {
   int basis=rank_calc_literacy(pplayer);
   int place=1;
@@ -235,7 +236,7 @@ int rank_literacy(struct player *pplayer)
   return place;
 }
 
-int rank_production(struct player *pplayer)
+static int rank_production(struct player *pplayer)
 {
   int basis=pplayer->score.mfg;
   int place=1;
@@ -247,7 +248,7 @@ int rank_production(struct player *pplayer)
   return place;
 }
 
-int rank_economics(struct player *pplayer)
+static int rank_economics(struct player *pplayer)
 {
   int basis=pplayer->score.bnp;
   int place=1;
@@ -259,7 +260,7 @@ int rank_economics(struct player *pplayer)
   return place;
 }
 
-int rank_pollution(struct player *pplayer)
+static int rank_pollution(struct player *pplayer)
 {
   int basis=pplayer->score.pollution;
   int place=1;
@@ -271,12 +272,12 @@ int rank_pollution(struct player *pplayer)
   return place;
 }
 
-int rank_calc_mil_service(struct player *pplayer)
+static int rank_calc_mil_service(struct player *pplayer)
 {
  return (pplayer->score.units*50000)/(100+civ_population(pplayer)/100);
 }
 
-int rank_mil_service(struct player *pplayer)
+static int rank_mil_service(struct player *pplayer)
 {
   int basis=rank_calc_mil_service(pplayer);
   int place=1;
@@ -288,7 +289,7 @@ int rank_mil_service(struct player *pplayer)
   return place;
 }
 
-char *number_to_string(int x)
+static char *number_to_string(int x)
 {
   static char buf[4];
   buf[3]=0;
@@ -340,8 +341,9 @@ void demographics_report(struct player *pplayer)
 }
 
 /* create a log file of the civilizations so you can see what was happening */
-void log_civ_score(void)
-{ /* never shall we fail to define void functions as void!! -- Syela */
+/* never shall we fail to define void functions as void!! -- Syela */
+static void log_civ_score(void)
+{ 
   int i,j,fom; /* fom == figure-of-merit */
   static FILE *fp = NULL;
 
@@ -476,7 +478,7 @@ void show_ending(void)
 ...
 **************************************************************************/
 
-void great_library(struct player *pplayer)
+static void great_library(struct player *pplayer)
 {
   int i;
   if (wonder_obsolete(B_GREAT)) 
@@ -520,7 +522,7 @@ Count down if the player are in a revolution, notify him when revolution
 has ended.
 **************************************************************************/
 
-void update_revolution(struct player *pplayer)
+static void update_revolution(struct player *pplayer)
 {
   if(pplayer->revolution) 
     pplayer->revolution--;

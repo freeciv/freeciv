@@ -38,7 +38,7 @@
     type = 1 means unit, type = 0 means building
 ***********************************************************************/
 
-int ai_best_tile_value(struct city *pcity)
+static int ai_best_tile_value(struct city *pcity)
 {
   int x, y, bx, by, food, best, cur;
 
@@ -63,7 +63,7 @@ int ai_best_tile_value(struct city *pcity)
   return 0;
 }
 
-int building_value(int max, struct city *pcity, int val)
+static int building_value(int max, struct city *pcity, int val)
 {
   int i, j = 0;
   int elvis = pcity->ppl_elvis;
@@ -93,7 +93,7 @@ int building_value(int max, struct city *pcity, int val)
   return(j);
 }
 
-int ocean_workers(struct city *pcity)
+static int ocean_workers(struct city *pcity)
 {
   int x, y, i = 0;
   city_map_iterate(x, y) {
@@ -106,7 +106,7 @@ often everyone was stuck farming grassland. */
   return(i/2);
 }
 
-int railroad_trade(struct city *pcity)
+static int railroad_trade(struct city *pcity)
 {
   int x, y, i = 0; 
   city_map_iterate(x, y) {
@@ -117,7 +117,7 @@ int railroad_trade(struct city *pcity)
   return(i); 
 }
 
-int farmland_food(struct city *pcity)
+static int farmland_food(struct city *pcity)
 {
   int x, y, i = 0; 
   city_map_iterate(x, y) {
@@ -128,7 +128,8 @@ int farmland_food(struct city *pcity)
   return(i); 
 }
 
-int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_type_id id)
+static int pollution_cost(struct player *pplayer, struct city *pcity,
+			  enum improvement_type_id id)
 {
   int p, mod = 0, poppul = 0, a, b, c, x, y, tmp = 0;
   p = 0;

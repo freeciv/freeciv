@@ -38,7 +38,7 @@
 /**************************************************************************
 .. calculate next government wish.
 **************************************************************************/
-int get_government_tech(struct player *plr)
+static int get_government_tech(struct player *plr)
 {
   int government = get_race(plr)->goals.government;
   if (can_change_to_government(plr, government))
@@ -69,7 +69,7 @@ int get_government_tech(struct player *plr)
   return 0; /* to make compiler happy */
 }
 
-int get_wonder_tech(struct player *plr)
+static int get_wonder_tech(struct player *plr)
 {
   int building;
   int tech=0; /* make compiler happy */
@@ -82,8 +82,8 @@ int get_wonder_tech(struct player *plr)
   return tech;
 }
 
-void ai_next_tech_goal_default(struct player *pplayer, 
-			       struct ai_choice *choice)
+static void ai_next_tech_goal_default(struct player *pplayer, 
+				      struct ai_choice *choice)
 {
   struct player_race *prace;
   int bestdist = A_LAST + 1;
@@ -123,7 +123,7 @@ void ai_next_tech_goal_default(struct player *pplayer,
   }
 }
 
-void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur, 
+static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur, 
 			       struct ai_choice *best, int advisor)
 {
   if (cur->want) {
@@ -134,7 +134,7 @@ void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
 
 /* Syela-code starts here ................................. */
 
-void find_prerequisites(struct player *pplayer, int i, int *prereq)
+static void find_prerequisites(struct player *pplayer, int i, int *prereq)
 {
   /* add tech_want[i] / j to all subtechs */
   int t1,t2;
@@ -149,7 +149,8 @@ void find_prerequisites(struct player *pplayer, int i, int *prereq)
         find_prerequisites(pplayer, t2, prereq);
 }
 
-void ai_select_tech(struct player *pplayer, struct ai_choice *choice, struct ai_choice *gol)
+static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
+			   struct ai_choice *gol)
 {
   int i, j, k;
   int values[A_LAST];
@@ -223,7 +224,7 @@ to be doing; it just looks strange. -- Syela */
   return;
 }
 
-void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
+static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
   ai_select_tech(pplayer, 0, choice);
 }

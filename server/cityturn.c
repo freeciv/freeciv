@@ -77,7 +77,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity);
 /**************************************************************************
 calculate the incomes according to the taxrates and # of specialists.
 **************************************************************************/
-void set_tax_income(struct city *pcity)
+static void set_tax_income(struct city *pcity)
 {
   int sci = 0, tax = 0, lux = 0, rate;
   pcity->science_total = 0;
@@ -116,7 +116,7 @@ void set_tax_income(struct city *pcity)
 /**************************************************************************
 Modify the incomes according to various buildings. 
 **************************************************************************/
-void add_buildings_effect(struct city *pcity)
+static void add_buildings_effect(struct city *pcity)
 {
   int tax_bonus, science_bonus;
   int shield_bonus;
@@ -135,7 +135,7 @@ void add_buildings_effect(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void happy_copy(struct city *pcity, int i)
+static void happy_copy(struct city *pcity, int i)
 {  
   pcity->ppl_unhappy[i+1]=pcity->ppl_unhappy[i];
   pcity->ppl_content[i+1]=pcity->ppl_content[i];
@@ -145,7 +145,7 @@ void happy_copy(struct city *pcity, int i)
 /**************************************************************************
 ...
 **************************************************************************/
-void citizen_happy_size(struct city *pcity)
+static void citizen_happy_size(struct city *pcity)
 {
   int citizens, tmp;
   tmp = content_citizens(&game.players[pcity->owner]);
@@ -160,7 +160,7 @@ void citizen_happy_size(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void citizen_happy_luxury(struct city *pcity)
+static void citizen_happy_luxury(struct city *pcity)
 {
   int x=pcity->luxury_total;
   happy_copy(pcity, 0);
@@ -186,7 +186,7 @@ void citizen_happy_luxury(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void citizen_happy_units(struct city *pcity, int unhap)
+static void citizen_happy_units(struct city *pcity, int unhap)
 {
   int step;         
 
@@ -221,7 +221,7 @@ void citizen_happy_units(struct city *pcity, int unhap)
 /**************************************************************************
 ...
 **************************************************************************/
-void citizen_happy_buildings(struct city *pcity)
+static void citizen_happy_buildings(struct city *pcity)
 {
   int faces=0;
   happy_copy(pcity, 1);
@@ -258,7 +258,7 @@ void citizen_happy_buildings(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void citizen_happy_wonders(struct city *pcity)
+static void citizen_happy_wonders(struct city *pcity)
 {
   int bonus=0;
   happy_copy(pcity, 3);
@@ -293,7 +293,7 @@ void citizen_happy_wonders(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void unhappy_city_check(struct city *pcity)
+static void unhappy_city_check(struct city *pcity)
 {
   if (city_unhappy(pcity)) {
     pcity->food_surplus=MIN(0, pcity->food_surplus);
@@ -306,7 +306,7 @@ void unhappy_city_check(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_pollution(struct city *pcity)
+static void set_pollution(struct city *pcity)
 {
   int mod=0;
   int poppul=0;
@@ -334,7 +334,7 @@ void set_pollution(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_food_trade_shields(struct city *pcity)
+static void set_food_trade_shields(struct city *pcity)
 {
   int i;
   int x,y;
@@ -398,7 +398,7 @@ void global_city_refresh(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_settlersupport(struct city *pcity)
+static void city_settlersupport(struct city *pcity)
 {
   unit_list_iterate(pcity->units_supported, punit) {
     if (unit_flag(punit->type, F_SETTLERS)) {
@@ -440,7 +440,7 @@ int unit_being_aggressive(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_support(struct city *pcity)
+static void city_support(struct city *pcity)
 { 
   int milunits=0;
   int city_units=0;
@@ -747,7 +747,7 @@ void city_auto_remove_worker(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_increase_size(struct city *pcity)
+static void city_increase_size(struct city *pcity)
 {
   int has_granary = city_got_effect(pcity, B_GRANARY);
   
@@ -823,7 +823,7 @@ void city_increase_size(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_reduce_size(struct city *pcity)
+static void city_reduce_size(struct city *pcity)
 {
   pcity->size--;
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
@@ -839,7 +839,7 @@ void city_reduce_size(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_populate(struct city *pcity)
+static void city_populate(struct city *pcity)
 {
   pcity->food_stock+=pcity->food_surplus;
   if(pcity->food_stock >= pcity->size*game.foodbox) 
@@ -908,7 +908,7 @@ int advisor_choose_build(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void obsolete_building_test(struct city *pcity, int b1, int b2)
+static void obsolete_building_test(struct city *pcity, int b1, int b2)
 { 
   if (pcity->currently_building==b1 && 
       can_build_improvement(pcity, b2))
@@ -918,7 +918,7 @@ void obsolete_building_test(struct city *pcity, int b1, int b2)
 /**************************************************************************
 ...
 **************************************************************************/
-void upgrade_building_prod(struct city *pcity)
+static void upgrade_building_prod(struct city *pcity)
 {
   obsolete_building_test(pcity, B_BARRACKS,B_BARRACKS3);
   obsolete_building_test(pcity, B_BARRACKS,B_BARRACKS2);
@@ -928,7 +928,7 @@ void upgrade_building_prod(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void upgrade_unit_prod(struct city *pcity)
+static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer=&game.players[pcity->owner];
   int id = pcity->currently_building;
@@ -1100,7 +1100,7 @@ return 1;
 /**************************************************************************
 ...
 **************************************************************************/
-void pay_for_buildings(struct player *pplayer, struct city *pcity)
+static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   int i;
   for (i=0;i<B_LAST;i++) 
@@ -1164,7 +1164,7 @@ void city_check_workers(struct player *pplayer, struct city *pcity)
 /**************************************************************************
  Add some Pollution if we have waste
 **************************************************************************/
-void check_pollution(struct city *pcity)
+static void check_pollution(struct city *pcity)
 {
   int x,y;
   int k=100;
@@ -1190,7 +1190,7 @@ void check_pollution(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void sanity_check_city(struct city *pcity)
+static void sanity_check_city(struct city *pcity)
 {
   int size=pcity->size;
   int x,y;

@@ -75,7 +75,7 @@ void update_research(struct player *plr)
   we mark nodes visited so we won't count them more than once, this function
   isn't to be called direct, use tech_goal_turns instead.
 **************************************************************************/
-int tech_goal_turns_rec(struct player *plr, int goal)
+static int tech_goal_turns_rec(struct player *plr, int goal)
 {
   if (goal == A_NONE || !tech_exists(goal) ||
       get_invention(plr, goal) == TECH_KNOWN || 
@@ -102,7 +102,7 @@ int tech_goal_turns(struct player *plr, int goal)
 /**************************************************************************
 ...don't use this function directly, call get_next_tech instead.
 **************************************************************************/
-int get_next_tech_rec(struct player *plr, int goal)
+static int get_next_tech_rec(struct player *plr, int goal)
 {
   int sub_goal;
   if (!tech_exists(goal) || get_invention(plr, goal) == TECH_KNOWN)

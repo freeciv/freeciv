@@ -16,31 +16,22 @@
 #include "game.h"
 #include "packets.h"
 
-
 struct connection;
 struct unit;
 
-void handle_alloc_race(int player_no, struct packet_alloc_race *packet);
 void handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_player(struct connection *pconn);
-void handle_request_join_game(struct connection *pconn, 
-			      struct packet_req_join_game *request);
-void handle_turn_done(int player_no);
 void accept_new_player(char *name, struct connection *pconn);
 int check_for_full_turn_done(void);
 int send_server_info_to_metaserver(int do_send);
 void start_game(void);
-void send_select_race(struct player *pplayer);
 void save_game(char *filename);
-void save_game_auto(void);
+void pick_ai_player_name(enum race_type race, char *newname);
+
 void dealloc_id(int id);
 int is_id_allocated(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
-void generate_ai_players(void);
-void pick_ai_player_name(enum race_type race, char *newname);
-int mark_race_as_used(int race);
-void announce_ai_player(struct player *pplayer);
 
 extern enum server_states server_state;
 extern int nocity_send;

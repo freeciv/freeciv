@@ -28,8 +28,8 @@
 #include "maphand.h"
 
 
-char terrain_chars[]="adfghjm prst";
-char dec2hex[]="0123456789abcdef";
+static char terrain_chars[] = "adfghjm prst";
+static char dec2hex[] = "0123456789abcdef";
 
 
 /**************************************************************************

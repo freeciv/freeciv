@@ -87,7 +87,7 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
   return(0);
 }
 
-int assess_defense_backend(struct city *pcity, int igwall)
+static int assess_defense_backend(struct city *pcity, int igwall)
 { /* Most of the time we don't need/want positive feedback. -- Syela */
   int def;
   def = 0;
@@ -105,12 +105,12 @@ int assess_defense(struct city *pcity)
   return(assess_defense_backend(pcity, 0));
 }
 
-int assess_defense_igwall(struct city *pcity)
+static int assess_defense_igwall(struct city *pcity)
 {
   return(assess_defense_backend(pcity, 1));
 }
 
-int dangerfunct(int v, int m, int dist)
+static int dangerfunct(int v, int m, int dist)
 {
 #ifdef OLDCODE
   if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
@@ -139,7 +139,7 @@ int dangerfunct(int v, int m, int dist)
 #endif
 }
 
-int assess_danger_unit(struct city *pcity, struct unit *punit)
+static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
   int v = get_unit_type(punit->type)->attack_strength * 10;
   if (punit->veteran) v *= 1.5;
@@ -153,8 +153,8 @@ int assess_danger_unit(struct city *pcity, struct unit *punit)
   return(v);
 }
 
-int assess_distance(struct city *pcity, struct unit *punit, int m,
-                    int boatid, int boatdist, int boatspeed)
+static int assess_distance(struct city *pcity, struct unit *punit, int m,
+			   int boatid, int boatdist, int boatspeed)
 {
   int x, y, dist;
   if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = 3;
@@ -409,8 +409,8 @@ int unit_desirability(int i, int def)
   return(cur);  
 }
 
-void process_defender_want(struct player *pplayer, struct city *pcity, int danger,
-                           struct ai_choice *choice)
+static void process_defender_want(struct player *pplayer, struct city *pcity,
+				  int danger, struct ai_choice *choice)
 {
   int i, j, k, l, m, n;
   int best= 0;
@@ -471,7 +471,8 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
   return;
 }
 
-void process_attacker_want(struct player *pplayer, struct city *pcity, int b, int n,
+static void process_attacker_want(struct player *pplayer,
+			    struct city *pcity, int b, int n,
                             int vet, int x, int y, int unhap, int *e0, int *v,
                             int bx, int by, int boatspeed, int needferry)
 { 
@@ -584,8 +585,8 @@ it some more variables for it to meddle with -- Syela */
   }
 }
 
-void kill_something_with(struct player *pplayer, struct city *pcity, 
-                         struct unit *myunit, struct ai_choice *choice)
+static void kill_something_with(struct player *pplayer, struct city *pcity, 
+				struct unit *myunit, struct ai_choice *choice)
 {
   int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
   int m, n, vet, dist, v, a0, b0, fprime;
@@ -823,7 +824,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
   } 
 }
 
-int port_is_within(struct player *pplayer, int d)
+static int port_is_within(struct player *pplayer, int d)
 {
   city_list_iterate(pplayer->cities, pcity)
     if (city_got_building(pcity, B_PORT) &&

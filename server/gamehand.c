@@ -184,7 +184,7 @@ void send_game_info(struct player *dest)
  Assign values to ord_city and ord_map for each unit, so the
  values can be saved.
 ***************************************************************/
-void calc_unit_ordering(void)
+static void calc_unit_ordering(void)
 {
   int i, j, x, y;
   
@@ -215,7 +215,7 @@ void calc_unit_ordering(void)
  For each city and tile, sort unit lists according to
  ord_city and ord_map values.
 ***************************************************************/
-void apply_unit_ordering(void)
+static void apply_unit_ordering(void)
 {
   int i, x, y;
   

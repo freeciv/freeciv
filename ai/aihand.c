@@ -93,11 +93,11 @@ So first in step 4 will we introduce attacking AI. (if it ever gets that far)
 -- I don't know who wrote this, but I've gone a different direction -- Syela
  */
 
-void ai_before_work(struct player *pplayer);
-void ai_manage_taxes(struct player *pplayer); 
-void ai_manage_government(struct player *pplayer);
-void ai_manage_diplomacy(struct player *pplayer);
-void ai_after_work(struct player *pplayer);
+static void ai_before_work(struct player *pplayer);
+static void ai_manage_taxes(struct player *pplayer); 
+static void ai_manage_government(struct player *pplayer);
+static void ai_manage_diplomacy(struct player *pplayer);
+static void ai_after_work(struct player *pplayer);
 
 
 /**************************************************************************
@@ -133,7 +133,7 @@ instead of right before it.  Managing units before end-turn reset now. -- Syela 
  update advisors/structures
 **************************************************************************/
   
-void ai_before_work(struct player *pplayer)
+static void ai_before_work(struct player *pplayer)
 {
   ; /* all instances of fnord and references thereto have been deleted. -- Syela */
 }
@@ -143,7 +143,7 @@ void ai_before_work(struct player *pplayer)
  Trade tech and stuff, this one will probably be blank for a long time.
 **************************************************************************/
 
-void ai_manage_diplomacy(struct player *pplayer)
+static void ai_manage_diplomacy(struct player *pplayer)
 {
 
 }
@@ -152,7 +152,7 @@ void ai_manage_diplomacy(struct player *pplayer)
  well am not sure what will happend here yet, maybe some more analysis
 **************************************************************************/
 
-void ai_after_work(struct player *pplayer)
+static void ai_after_work(struct player *pplayer)
 {
 
 }
@@ -161,7 +161,7 @@ void ai_after_work(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-
+#ifdef UNUSED
 int ai_calc_city_buy(struct city *pcity)
 {
   int val;
@@ -176,6 +176,7 @@ int ai_calc_city_buy(struct city *pcity)
     return val;
   }
 }
+#endif /* UNUSED */
 
 /**************************************************************************
 .. Spend money
@@ -213,15 +214,15 @@ void ai_spend_gold(struct player *pplayer, int gold)
     pplayer->economic.gold -= gold;
   }
 }
-#endif 
+#endif /* UNUSED */
 
 
 /**************************************************************************
 .. Set tax/science/luxury rates. Tax Rates > 40 indicates a crisis.
+ total rewrite by Syela 
 **************************************************************************/
-
-void ai_manage_taxes(struct player *pplayer) 
-{ /* total rewrite by Syela */
+static void ai_manage_taxes(struct player *pplayer) 
+{
   int gnow = pplayer->economic.gold;
   int sad = 0, trade = 0, m, n, i, expense = 0, tot;
   int waste[40]; /* waste with N elvises */
@@ -441,8 +442,7 @@ void ai_manage_taxes(struct player *pplayer)
 /**************************************************************************
  change the government form, if it can and there is a good reason
 **************************************************************************/
-
-void ai_manage_government(struct player *pplayer)
+static void ai_manage_government(struct player *pplayer)
 {
   int government = get_race(pplayer)->goals.government;
   government = G_REPUBLIC; /* need to be REPUBLIC+ to love */

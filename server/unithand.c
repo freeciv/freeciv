@@ -711,8 +711,9 @@ int handle_unit_enter_hut(struct unit *punit)
 
 /*****************************************************************
   Will wake up any neighboring enemy sentry units
-  *****************************************************************/
-void wakeup_neighbor_sentries(struct player *pplayer,int cent_x,int cent_y)
+*****************************************************************/
+static void wakeup_neighbor_sentries(struct player *pplayer,
+				     int cent_x, int cent_y)
 {
   int x,y;
 /*  struct unit *punit; The unit_list_iterate defines punit locally. -- Syela */

@@ -673,7 +673,7 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
  *                                - Kris Bubendorfer 
  */
 
-struct player *split_player(struct player *pplayer)
+static struct player *split_player(struct player *pplayer)
 {
   int races_used[R_LAST], i, num_races_avail=R_LAST, pick;
   int newplayer = game.nplayers;

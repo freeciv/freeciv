@@ -38,8 +38,9 @@
 #include "settlers.h"
 
 extern struct move_cost_map warmap;
+
 signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-unsigned short int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+static unsigned short int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
 
 /**************************************************************************
@@ -57,7 +58,7 @@ const char *get_a_name(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-int ai_do_build_city(struct player *pplayer, struct unit *punit)
+static int ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
   int x,y;
   struct packet_unit_request req;
@@ -431,6 +432,7 @@ int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int 
   return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
 }
 
+#ifdef UNUSED
 int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 {
   x=map_adjust_x(x);
@@ -463,6 +465,7 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
   unit_list_iterate_end;
   return 0;
 }
+#endif
 
 /* all of the benefit and ai_calc routines rewritten by Syela */
 /* to conform with city_tile_value and related calculations elsewhere */
@@ -481,7 +484,7 @@ int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
   return(m);
 }
 
-int is_wet(struct player *pplayer, int x, int y)
+static int is_wet(struct player *pplayer, int x, int y)
 {
   if (!map_get_known(x, y, pplayer) && !pplayer->ai.control) return 0;
   if (map_get_terrain(x,y) == T_OCEAN || map_get_terrain(x,y) == T_RIVER ||
@@ -572,7 +575,7 @@ int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
-int road_bonus(int x, int y, int spc)
+static int road_bonus(int x, int y, int spc)
 {
   int m = 0, k;
   int rd[12], te[12];
@@ -1260,7 +1263,7 @@ void auto_settlers_player(struct player *pplayer)
 #endif
 }
 
-void assign_settlers_player(struct player *pplayer)
+static void assign_settlers_player(struct player *pplayer)
 {
   short i = 1<<pplayer->player_no;
   struct tile *ptile;
@@ -1280,7 +1283,7 @@ void assign_settlers_player(struct player *pplayer)
   unit_list_iterate_end;
 }
 
-void assign_settlers(void)
+static void assign_settlers(void)
 {
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
@@ -1292,7 +1295,7 @@ void assign_settlers(void)
   }
 }
 
-void assign_region(int x, int y, int n, int d, int s)
+static void assign_region(int x, int y, int n, int d, int s)
 {
   int i, j;
   for (j = MAX(0, y - d); j <= MIN(map.ysize - 1, y + d); j++) {
@@ -1303,7 +1306,7 @@ void assign_region(int x, int y, int n, int d, int s)
   }
 }
 
-void assign_territory_player(struct player *pplayer)
+static void assign_territory_player(struct player *pplayer)
 {
   int n = pplayer->player_no;
   unit_list_iterate(pplayer->units, punit)
@@ -1328,7 +1331,7 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
   city_list_iterate_end;
 }
 
-void assign_territory(void)
+static void assign_territory(void)
 { /* this funct is supposed to keep settlers out of enemy territory -- Syela */
   int i, x, y;
   for (x = 0; x < map.xsize; x++)

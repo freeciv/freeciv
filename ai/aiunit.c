@@ -76,7 +76,7 @@ int unit_move_turns(struct unit *punit, int x, int y)
 /**************************************************************************
   is there any hope of reaching this tile without violating ZOC? 
 **************************************************************************/
-int tile_is_accessible(struct unit *punit, int x, int y)
+static int tile_is_accessible(struct unit *punit, int x, int y)
 {
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
@@ -244,7 +244,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *wonder_on_continent(struct player *pplayer, int cont)
+static struct city *wonder_on_continent(struct player *pplayer, int cont)
 {
   city_list_iterate(pplayer->cities, pcity) 
     if (!(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == cont)
@@ -253,7 +253,8 @@ struct city *wonder_on_continent(struct player *pplayer, int cont)
   return NULL;
 }
 
-int should_unit_change_homecity(struct player *pplayer, struct unit *punit)
+static int should_unit_change_homecity(struct player *pplayer,
+				       struct unit *punit)
 {
   int val;
   struct city *pcity;
@@ -288,7 +289,7 @@ int should_unit_change_homecity(struct player *pplayer, struct unit *punit)
   return(0);
 }
 
-int unit_belligerence_primitive(struct unit *punit)
+static int unit_belligerence_primitive(struct unit *punit)
 {
   int v;
   v = get_attack_power(punit) * punit->hp * 
@@ -335,7 +336,7 @@ int unit_vulnerability(struct unit *punit, struct unit *pdef)
   return (v * v);
 }
 
-int stack_attack_value(int x, int y)
+static int stack_attack_value(int x, int y)
 {
   int val = 0;
   struct tile *ptile = map_get_tile(x, y);
@@ -345,7 +346,7 @@ int stack_attack_value(int x, int y)
   return(val);
 }
 
-void invasion_funct(struct unit *punit, int dest, int n, int which)
+static void invasion_funct(struct unit *punit, int dest, int n, int which)
 { 
   int i, j;
   struct city *pcity;
@@ -363,7 +364,7 @@ void invasion_funct(struct unit *punit, int dest, int n, int which)
   }
 }
 
-int reinforcements_value(struct unit *punit, int x, int y)
+static int reinforcements_value(struct unit *punit, int x, int y)
 { /* this is still pretty dopey but better than the original -- Syela */
   int val = 0, i, j;
   struct tile *ptile;
@@ -380,7 +381,7 @@ int reinforcements_value(struct unit *punit, int x, int y)
   return(val);
 }
 
-int reinforcements_cost(struct unit *punit, int x, int y)
+static int reinforcements_cost(struct unit *punit, int x, int y)
 { /* I might rather have one function which does this and the above -- Syela */
   int val = 0, i, j;
   struct tile *ptile;
@@ -398,7 +399,7 @@ int reinforcements_cost(struct unit *punit, int x, int y)
   return(val);
 }
 
-int is_my_turn(struct unit *punit, struct unit *pdef)
+static int is_my_turn(struct unit *punit, struct unit *pdef)
 {
   int val = unit_belligerence_primitive(punit), i, j, cur, d;
   struct tile *ptile;
@@ -420,8 +421,10 @@ int is_my_turn(struct unit *punit, struct unit *pdef)
   return(1);
 }
 
-int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest_x, int *dest_y)
-{ /* work of Syela - mostly to fix the ZOC/goto strangeness */
+/* work of Syela - mostly to fix the ZOC/goto strangeness */
+static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
+				  int *dest_x, int *dest_y)
+{
   int xx[3], yy[3], x, y, x1, y1, k;
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
@@ -511,7 +514,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
   return(best);
 }
 
-void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
+static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 {
   struct unit *aunit = unit_list_find(&pplayer->units, punit->ai.charge);
   struct city *acity = find_city_by_id(punit->ai.charge);
@@ -580,7 +583,8 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
   return(best);
 }
 
-int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, int dest_y)
+static int ai_military_gothere(struct player *pplayer, struct unit *punit,
+			       int dest_x, int dest_y)
 {
   int id, x, y, boatid = 0, bx, by, i, j;
   struct unit *ferryboat;
@@ -1195,7 +1199,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
   return(best);
 }
 
-int find_nearest_friendly_port(struct unit *punit)
+static int find_nearest_friendly_port(struct unit *punit)
 {
   struct player *pplayer = get_player(punit->owner);
   int best = 6 * THRESHOLD + 1, cur;
@@ -1309,7 +1313,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 }
 
-void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
+static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 { /* It's about 12 feet square and has a capacity of almost 1000 pounds.
      It is well constructed of teak, and looks seaworthy. */
   struct city *pcity;

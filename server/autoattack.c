@@ -53,8 +53,8 @@
 extern struct player *shuffled[MAX_PLAYERS];    /* civserver.c */
 
 
-struct unit *search_best_target(struct player *pplayer, struct city *pcity,
-                                struct unit *punit)
+static struct unit *search_best_target(struct player *pplayer,
+				       struct city *pcity, struct unit *punit)
 {
   struct unit_list *targets;
   struct unit *enemy, *best_enemy = NULL;
@@ -149,8 +149,8 @@ struct unit *search_best_target(struct player *pplayer, struct city *pcity,
   return enemy;
 }
 
-void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
-			   struct unit *punit)
+static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
+				  struct unit *punit)
 {
   int id = punit->id;
   struct unit *enemy;
@@ -195,7 +195,7 @@ void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   return;			/* or maybe: do you want to play again? */
 }
 
-void auto_attack_city(struct player *pplayer, struct city *pcity)
+static void auto_attack_city(struct player *pplayer, struct city *pcity)
 {
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
     if (punit->ai.control
@@ -207,7 +207,7 @@ void auto_attack_city(struct player *pplayer, struct city *pcity)
   unit_list_iterate_end;
 }
 
-void auto_attack_player(struct player *pplayer)
+static void auto_attack_player(struct player *pplayer)
 {
   freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
 

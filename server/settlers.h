@@ -26,7 +26,6 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
 const char *get_a_name(struct player *pplayer);
 int amortize(int b, int d);
-void generate_minimap(void);
 int city_desirability(struct player *pplayer, int x, int y);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 

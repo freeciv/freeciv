@@ -45,14 +45,12 @@
 
 #include "aicity.h"
 
-int ai_fix_unhappy(struct city *pcity);
-void ai_manage_city(struct player *pplayer, struct city *);
-void ai_scientists_taxmen(struct city *pcity);
+static void ai_manage_city(struct player *pplayer, struct city *pcity);
 
+#ifdef UNUSED
 /************************************************************************** 
 ...
 **************************************************************************/
-
 void ai_do_build_unit(struct city *pcity, int unit_type)
 {
   pcity->is_building_unit = 1;
@@ -67,7 +65,6 @@ void ai_city_build_defense(struct city *pcity)
 /************************************************************************** 
 ...
 **************************************************************************/
-
 void ai_city_build_settler(struct city *pcity)
 {
   ai_do_build_unit(pcity, best_role_unit(pcity, F_SETTLERS));
@@ -76,7 +73,6 @@ void ai_city_build_settler(struct city *pcity)
 /************************************************************************** 
 ...
 **************************************************************************/
-
 int ai_city_build_peaceful_unit(struct city *pcity)
 {
   int i;
@@ -95,8 +91,9 @@ int ai_city_build_peaceful_unit(struct city *pcity)
   }
   return 0;
 }
+#endif /* UNUSED */
 
-void ai_manage_buildings(struct player *pplayer)
+static void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
   int i, j, values[B_LAST], leon = 0, palace = 0, corr = 0;
   memset(values, 0, sizeof(values));
@@ -167,7 +164,7 @@ void ai_manage_buildings(struct player *pplayer)
 ... change the build order.
 **************************************************************************/
 
-void ai_city_choose_build(struct player *pplayer, struct city *pcity)
+static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice bestchoice, curchoice;
 
@@ -239,7 +236,7 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
 }
 
-int ai_city_defender_value(struct city *pcity, int a_type, int d_type)            
+int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 {
   int m;
   m = get_virtual_defense_power(a_type, d_type, pcity->x, pcity->y);
@@ -249,7 +246,7 @@ int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
   return (m * m);
 }
 
-void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
+static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   int id;
   for (id = 0; id < B_LAST; id++) {
@@ -261,7 +258,7 @@ void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   }
 }
 
-void ai_new_spend_gold(struct player *pplayer)
+static void ai_new_spend_gold(struct player *pplayer)
 {
   int buycost, id, cost, frugal = 0, trireme=0;
   int total, build, did_upgrade;
@@ -500,7 +497,8 @@ int city_get_buildings(struct city *pcity)
 ... find a good (bad) tile to remove
 **************************************************************************/
 
-int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
+static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
+			    int foodneed, int prodneed)
 {
   int a, b;
   a = city_tile_value(pcity, x, y,
@@ -516,7 +514,7 @@ int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by, int foodn
 ...
 **************************************************************************/
 
-int is_defender_unit(int unit_type) 
+static int is_defender_unit(int unit_type) 
 {
   return unit_has_role(unit_type, L_DEFEND_GOOD)
       || unit_has_role(unit_type, L_DEFEND_OK);
@@ -580,8 +578,9 @@ void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_c
   ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT,  choice->want);
 }
 
-int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
-{ /* don't ask me why this is in aicity, I can't even remember -- Syela */
+/* don't ask me why this is in aicity, I can't even remember -- Syela */
+static int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
+{ 
   int i;
   int best = 0;
   int bestid = 0;
@@ -704,7 +703,7 @@ int ai_choose_defender(struct city *pcity)
 ...
 **************************************************************************/
 void adjust_build_choice(struct player *pplayer, struct ai_choice *cur, 
-                               struct ai_choice *best, int advisor)
+			 struct ai_choice *best, int advisor)
 {
   island_adjust_build_choice(pplayer, cur, advisor);
   leader_adjust_build_choice(pplayer, cur, advisor);
@@ -715,7 +714,7 @@ void adjust_build_choice(struct player *pplayer, struct ai_choice *cur,
 ... 
 **************************************************************************/
 
-int building_unwanted(struct player *plr, int i)
+static int building_unwanted(struct player *plr, int i)
 {
   if (plr->research.researching != A_NONE)
     return 0;
@@ -726,7 +725,7 @@ int building_unwanted(struct player *plr, int i)
 ...
 **************************************************************************/
 
-void ai_sell_obsolete_buildings(struct city *pcity)
+static void ai_sell_obsolete_buildings(struct city *pcity)
 {
   int i;
   struct player *pplayer = city_owner(pcity);
@@ -748,8 +747,7 @@ void ai_sell_obsolete_buildings(struct city *pcity)
 /**************************************************************************
  cities, build order and worker allocation stuff here..
 **************************************************************************/
-
-void ai_manage_city(struct player *pplayer, struct city *pcity)
+static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);
@@ -763,7 +761,7 @@ void ai_manage_city(struct player *pplayer, struct city *pcity)
 ...
 **************************************************************************/
 
-int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
+static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   int x,y, foodneed, prodneed, gov;
   int luxneed, pwr, e;
@@ -842,16 +840,7 @@ int ai_make_elvis(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-
-int free_tiles(struct city *pcity)
-{
-  return 1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void make_elvises(struct city *pcity)
+static void make_elvises(struct city *pcity)
 {
   int xp, yp, elviscost;
   pcity->ppl_elvis += (pcity->ppl_taxman + pcity->ppl_scientist);
@@ -879,7 +868,7 @@ void make_elvises(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void make_taxmen(struct city *pcity)
+static void make_taxmen(struct city *pcity)
 {
   while (!city_unhappy(pcity) && pcity->ppl_elvis) {
     pcity->ppl_taxman++;
@@ -897,7 +886,7 @@ void make_taxmen(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void make_scientists(struct city *pcity)
+static void make_scientists(struct city *pcity)
 {
   make_taxmen(pcity); /* reuse the code */
   pcity->ppl_scientist = pcity->ppl_taxman;

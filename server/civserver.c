@@ -82,18 +82,24 @@
 #endif
 #endif
 
-void end_game(void);
-void before_end_year(void); /* main() belongs at the bottom of files!! -- Syela */
-int end_turn(void);
-void start_new_game(void);
-void init_new_game(void);
-void send_game_state(struct player *dest, int state);
-int find_highest_used_id(void);
-void send_all_info(struct player *dest);
-void shuffle_players(void);
-void ai_start_turn(void);
-int is_game_over(void);
-void read_init_script(char *script_filename);
+/* main() belongs at the bottom of files!! -- Syela */
+static void before_end_year(void);
+static int end_turn(void);
+static void send_all_info(struct player *dest);
+static void shuffle_players(void);
+static void ai_start_turn(void);
+static int is_game_over(void);
+static void read_init_script(char *script_filename);
+static void save_game_auto(void);
+static void generate_ai_players(void);
+static int mark_race_as_used(int race);
+static void announce_ai_player(struct player *pplayer);
+
+static void handle_alloc_race(int player_no, struct packet_alloc_race *packet);
+static void handle_request_join_game(struct connection *pconn, 
+				     struct packet_req_join_game *request);
+static void handle_turn_done(int player_no);
+static void send_select_race(struct player *pplayer);
 
 extern struct connection connections[];
 
@@ -601,7 +607,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-int is_game_over(void)
+static int is_game_over(void)
 {
   int alive = 0;
   int i;
@@ -617,7 +623,7 @@ int is_game_over(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void read_init_script(char *script_filename)
+static void read_init_script(char *script_filename)
 {
   FILE *script_file;
   char buffer[512];
@@ -698,7 +704,7 @@ int send_server_info_to_metaserver(int do_send)
 /**************************************************************************
 dest can be NULL meaning all players
 **************************************************************************/
-void send_all_info(struct player *dest)
+static void send_all_info(struct player *dest)
 {
   send_rulesets(dest);
   send_game_info(dest);
@@ -708,6 +714,7 @@ void send_all_info(struct player *dest)
   send_all_known_tiles(dest);
 }
 
+#ifdef UNUSED
 /**************************************************************************
 ...
 **************************************************************************/
@@ -728,6 +735,9 @@ int find_highest_used_id(void)
   }
   return max_id;
 }
+#endif /* UNUSED */
+
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -783,7 +793,7 @@ void update_pollution(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void before_end_year(void)
+static void before_end_year(void)
 {
   int i;
   for (i=0; i<game.nplayers; i++) {
@@ -794,7 +804,7 @@ void before_end_year(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void shuffle_players(void)
+static void shuffle_players(void)
 {
   int i, pos;
   struct player *tmpplr;
@@ -812,7 +822,7 @@ void shuffle_players(void)
   }
 }
 
-void ai_start_turn(void)
+static void ai_start_turn(void)
 {
   int i;
 
@@ -825,7 +835,7 @@ void ai_start_turn(void)
   }
 }
 
-int end_turn(void)
+static int end_turn(void)
 {
   int i;
   
@@ -858,14 +868,6 @@ int end_turn(void)
 
 
 /**************************************************************************
-...
-**************************************************************************/
-
-void end_game(void)
-{
-}
-
-/**************************************************************************
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
 **************************************************************************/
@@ -887,7 +889,7 @@ void save_game(char *filename)
 /**************************************************************************
 Save game with autosave filename, and call gamelog_save().
 **************************************************************************/
-void save_game_auto(void)
+static void save_game_auto(void)
 {
   char filename[512];
 
@@ -1183,7 +1185,7 @@ int check_for_full_turn_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_turn_done(int player_no)
+static void handle_turn_done(int player_no)
 {
   game.players[player_no].turn_done=1;
   
@@ -1195,7 +1197,7 @@ void handle_turn_done(int player_no)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
+static void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
 {
   int i;
   struct packet_generic_integer retpacket;
@@ -1236,7 +1238,7 @@ void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_select_race(struct player *pplayer)
+static void send_select_race(struct player *pplayer)
 {
   int i;
   struct packet_generic_integer genint;
@@ -1391,9 +1393,8 @@ void reject_new_player(char *msg, struct connection *pconn)
 /**************************************************************************
 ...
 **************************************************************************/
-
-void handle_request_join_game(struct connection *pconn, 
-			      struct packet_req_join_game *req)
+static void handle_request_join_game(struct connection *pconn, 
+				     struct packet_req_join_game *req)
 {
   struct player *pplayer;
   char msg[MSG_SIZE];
@@ -1539,7 +1540,7 @@ generate_ai_players() - Selects a race for players created with server's
    and appropriate name for each.
 **************************************************************************/
 
-void generate_ai_players(void)
+static void generate_ai_players(void)
 {
   int i,player,race;
   char player_name[MAX_LENGTH_NAME];
@@ -1618,7 +1619,7 @@ void pick_ai_player_name (enum race_type race, char *newname)
  so that the process of determining which races are available to AI players
  is more efficient.
 *************************************************************************/
-int mark_race_as_used (int race) {
+static int mark_race_as_used (int race) {
 
   if(num_races_avail <= 0) {/* no more unused races */
       freelog(LOG_FATAL, "Argh! ran out of races!");
@@ -1635,7 +1636,7 @@ int mark_race_as_used (int race) {
 /*************************************************************************
 ...
 *************************************************************************/
-void announce_ai_player (struct player *pplayer) {
+static void announce_ai_player (struct player *pplayer) {
    int i;
 
    freelog(LOG_NORMAL, "AI is controlling the %s ruled by %s",

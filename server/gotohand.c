@@ -36,7 +36,8 @@ struct move_cost_map warmap;
    
 struct stack_element {
   unsigned char x, y;
-} warstack[WARSTACK_DIM];
+};
+static struct stack_element warstack[WARSTACK_DIM];
 
 /* This wastes ~20K of memory and should really be fixed but I'm lazy  -- Syela
  *
@@ -46,8 +47,8 @@ struct stack_element {
  * smaller costs.  --dwp
  */
 
-unsigned int warstacksize;
-unsigned int warnodes;
+static unsigned int warstacksize;
+static unsigned int warnodes;
 
 static void add_to_stack(int x, int y)
 {
@@ -65,7 +66,7 @@ static void get_from_warstack(unsigned int i, int *x, int *y)
   *y = warstack[i].y;
 }
 
-void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
+static void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 {
   int x, y;
   for (x = 0; x < map.xsize; x++) 
@@ -190,7 +191,7 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 }
 
 /* ....... end of old advmilitary.c, beginning of old gotohand.c. ..... */
-int dir_ok(int x0, int y0, int x1, int y1, int k)
+static int dir_ok(int x0, int y0, int x1, int y1, int k)
 { /* The idea of this is to check less nodes in the wrong direction.
 These if's might cost some CPU but hopefully less overall. -- Syela */
   int n = 0, s = 0, e = 0, w = 0, dx;
@@ -245,7 +246,7 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
   
   Note this function only makes sense for ground units.
 **************************************************************************/
-int could_be_my_zoc(struct unit *myunit, int x0, int y0)
+static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 {
   /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -342,7 +343,8 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
     return 0;
 }
 
-int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, int x1, int y1, int m)
+static int goto_tile_cost(struct player *pplayer, struct unit *punit,
+			  int x0, int y0, int x1, int y1, int m)
 {
   int i;
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
@@ -368,7 +370,7 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
   return(MIN(m, unit_types[punit->type].move_rate));
 }
 
-void init_gotomap(int orig_x, int orig_y)
+static void init_gotomap(int orig_x, int orig_y)
 {
   int x, y;
   for (x = 0; x < map.xsize; x++) {
@@ -383,7 +385,7 @@ void init_gotomap(int orig_x, int orig_y)
   return;
 } 
 
-int dir_ect(int x0, int y0, int x1, int y1, int k)
+static int dir_ect(int x0, int y0, int x1, int y1, int k)
 {
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
@@ -394,8 +396,8 @@ int dir_ect(int x0, int y0, int x1, int y1, int k)
   return (1 - dir_ok(x, y, x1, y1, 7-k));
 }
 
-int find_the_shortest_path(struct player *pplayer, struct unit *punit,
-                           int dest_x, int dest_y)
+static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
+				  int dest_x, int dest_y)
 {
   char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
@@ -553,7 +555,7 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
   /* DONE! */
 }
 
-int find_a_direction(struct unit *punit)
+static int find_a_direction(struct unit *punit)
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };

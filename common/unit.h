@@ -267,6 +267,7 @@ int is_sailing_unit(struct unit *punit);
 int is_air_unit(struct unit *punit);
 int is_air_unittype(enum unit_type_id id);
 int is_heli_unit(struct unit *punit);
+int is_heli_unittype(enum unit_type_id id);
 int is_ground_unit(struct unit *punit);
 int is_ground_unittype(enum unit_type_id id);
 int can_unit_build_city(struct unit *punit);

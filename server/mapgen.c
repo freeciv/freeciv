@@ -27,18 +27,18 @@
 
 #define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
 
-void make_huts(int number);
-void add_specials(int prob);
-void mapgenerator1(void);
-void mapgenerator2(void);
-void mapgenerator3(void);
-void mapgenerator4(void);
-void smooth_map(void);
-void adjust_map(int minval);
+static void make_huts(int number);
+static void add_specials(int prob);
+static void mapgenerator1(void);
+static void mapgenerator2(void);
+static void mapgenerator3(void);
+static void mapgenerator4(void);
+static void smooth_map(void);
+static void adjust_map(int minval);
 
-int *height_map;
-int maxval=0;
-int forests=0;
+static int *height_map;
+static int maxval=0;
+static int forests=0;
 
 struct isledata {
   int x,y;                        /* upper left corner of the islands */
@@ -53,7 +53,7 @@ static struct isledata islands[MAP_NCONT];
  Just a wrapper function off the height_map, returns the height at x,y
 **************************************************************************/
 
-int full_map(int x, int y)
+static int full_map(int x, int y)
 {
   return height_map[y*map.xsize+x];
 }
@@ -65,7 +65,7 @@ int full_map(int x, int y)
   hills and mountains (and vice versa).
 **************************************************************************/
 
-void make_mountains(int thill)
+static void make_mountains(int thill)
 {
   int x,y;
   int mount;
@@ -97,7 +97,7 @@ void make_mountains(int thill)
  add arctic and tundra squares in the arctic zone. 
  (that is the top 10%, and low 10% of the map)
 **************************************************************************/
-void make_polar(void)
+static void make_polar(void)
 {
   int y,x;
 
@@ -130,7 +130,7 @@ void make_polar(void)
   more if desert wants to grow in the y direction, so we end up with 
   "wide" deserts. 
 **************************************************************************/
-void make_desert(int x, int y, int height, int diff) 
+static void make_desert(int x, int y, int height, int diff) 
 {
   if (abs(full_map(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
@@ -147,7 +147,7 @@ void make_desert(int x, int y, int height, int diff)
   enough forest has been planted. diff is again the block function.
   if we're close to equator it will with 50% chance generate jungle instead
 **************************************************************************/
-void make_forest(int x, int y, int height, int diff)
+static void make_forest(int x, int y, int height, int diff)
 {
   if (x==0 || x==map.xsize-1 ||y==0 || y==map.ysize-1)
     return;
@@ -171,7 +171,7 @@ void make_forest(int x, int y, int height, int diff)
   makeforest calls make_forest with random grassland locations until there
   has been made enough forests. (the map.forestsize value controls this) 
 **************************************************************************/
-void make_forests(void)
+static void make_forests(void)
 {
   int x,y;
   int forestsize=25;
@@ -198,7 +198,7 @@ void make_forests(void)
   and with 50% chance each of it's neighbour squares will be converted to
   swamp aswell
 **************************************************************************/
-void make_swamps(void)
+static void make_swamps(void)
 {
   int x,y,i;
   int forever=0;
@@ -228,7 +228,7 @@ void make_swamps(void)
   we choose a random coordinate in the equator zone and if it's a grassland
   square we call make_desert with this coordinate, we try this 1000 times
 **************************************************************************/
-void make_deserts(void)
+static void make_deserts(void)
 {
   int x,y,i,j;
   i=map.deserts;
@@ -249,7 +249,7 @@ void make_deserts(void)
  with a bit of chance, if it fails to reach the ocean it rolls back.
 **************************************************************************/
 
-int make_river(int x,int y) 
+static int make_river(int x,int y) 
 {
   int mini=10000;
   int mp;
@@ -315,7 +315,7 @@ int make_river(int x,int y)
   to stop this potentially never ending loop a miss counts as a river of 
   length one 
 **************************************************************************/
-void make_rivers(void)
+static void make_rivers(void)
 {
   int x,y,i;
   i=0;
@@ -334,7 +334,7 @@ void make_rivers(void)
   make_plains converts 50% of the remaining grassland to plains, this should
   maybe be lowered to 30% or done in batches, like the swamps?
 **************************************************************************/
-void make_plains(void)
+static void make_plains(void)
 {
   int x,y;
   for (y=0;y<map.ysize;y++)
@@ -349,7 +349,7 @@ void make_plains(void)
   So this procedure converts the second line and the second last line to
   ocean, and 50% of the 3rd and 3rd last line to ocean. 
 **************************************************************************/
-void make_passable(void)
+static void make_passable(void)
 {
   int x;
   
@@ -369,7 +369,7 @@ void make_passable(void)
  so we put in a hill here and there, where it gets too 'clean' 
 **************************************************************************/
 
-void make_fair(void)
+static void make_fair(void)
 {
   int x,y;
   for (y=2;y<map.ysize-3;y++) 
@@ -393,7 +393,7 @@ void make_fair(void)
   1) with map.landpercent it generates a ocean/grassland map 
   2) it then calls the above functions to generate the different terrains
 **************************************************************************/
-void make_land(void)
+static void make_land(void)
 {
   int x, y;
   int tres=(maxval*map.landpercent)/100;
@@ -463,7 +463,7 @@ static void remove_tiny_islands(void)
  a basic floodfill used to give every square a continent number, so we later
  on can ask which continent a given square belongs to.
 **************************************************************************/
-void flood_fill(int x, int y, int nr)
+static void flood_fill(int x, int y, int nr)
 {
   if (x==-1) x=map.xsize-1;
   if (x==map.xsize) x=0;
@@ -779,6 +779,7 @@ void adjust_terrain_param(void)
 /**************************************************************************
   this next block is only for debug purposes and could be removed
 **************************************************************************/
+#ifdef UNUSED
 char terrai_chars[] = {'a','D', 'F', 'g', 'h', 'j', 'M', '.', 'p', 'R', 's','T', 'U' };
 
 void print_map(void)
@@ -815,13 +816,14 @@ void print_imap(void)
     puts("");
   }
 }
+#endif /* UNUSED */
 
 /**************************************************************************
   since the generated map will always have a positive number as minimum height
   i reduce the height so the lowest height is zero, this makes calculations
   easier
 **************************************************************************/
-void adjust_map(int minval)
+static void adjust_map(int minval)
 {
   int x,y;
   for (y=0;y<map.ysize;y++) {
@@ -834,7 +836,7 @@ void adjust_map(int minval)
 /**************************************************************************
   mapgenerator1, highlevel function, that calls all the previous functions
 **************************************************************************/
-void mapgenerator1(void)
+static void mapgenerator1(void)
 {
   int x,y, i;
   int minval=5000000;
@@ -877,7 +879,7 @@ void mapgenerator1(void)
   out the differences in the heightmap.
 **************************************************************************/
 
-void smooth_map(void)
+static void smooth_map(void)
 {
   int x,y;
   int mx,my,px,py;
@@ -914,7 +916,7 @@ void smooth_map(void)
   this function spreads out huts on the map, a position can be used for a
   hut if there isn't another hut close and if it's not on the ocean.
 **************************************************************************/
-void make_huts(int number)
+static void make_huts(int number)
 {
   int x,y,l;
   int count=0;
@@ -935,7 +937,7 @@ void make_huts(int number)
   }
 }
 
-void add_specials(int prob)
+static void add_specials(int prob)
 {
   int x,y;
   for (y=1;y<map.ysize-1;y++)
@@ -956,7 +958,7 @@ void add_specials(int prob)
 static int isleindex, n, e, s, w;
 static long int totalmass; /* better a global than a duplicate formula */
 
-int is_cold(int x, int y){
+static int is_cold(int x, int y){
   return ( y * 5 < map.ysize || y * 5 > map.ysize * 4 );
 }
 
@@ -1240,7 +1242,7 @@ static void initworld(void)
 /**************************************************************************
   island base map generators
 **************************************************************************/
-void mapgenerator2(void)
+static void mapgenerator2(void)
 {
   int i;
   int spares= 1; 
@@ -1283,7 +1285,7 @@ void mapgenerator2(void)
 
 /* On popular demand, this tries to mimick the generator 3 */
 /* as best as possible */
-void mapgenerator3(void)
+static void mapgenerator3(void)
 {
   int spares= 1;
   int j=0;
@@ -1361,7 +1363,7 @@ void mapgenerator3(void)
 
 }
 
-void mapgenerator4(void)
+static void mapgenerator4(void)
 {
   int bigweight=70;
   int spares= 1;

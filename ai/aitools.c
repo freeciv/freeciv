@@ -33,10 +33,12 @@
 
 #include "aitools.h"
 
+/* dist_nearest_enemy_* are no longer ever used.  This is
+   dist_nearest_enemy_city, respaced so I can read it and therefore
+   debug it into something useful. -- Syela
+*/
 struct city *dist_nearest_city(struct player *pplayer, int x, int y)
-{ /* dist_nearest_enemy_* are no longer ever used.  This is
-dist_nearest_enemy_city, respaced so I can read it and therefore
-debug it into something useful. -- Syela */
+{ 
   struct player *pplay;
   struct city *pc=NULL;
   int i;

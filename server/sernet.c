@@ -56,7 +56,7 @@ struct connection connections[MAX_CONNECTIONS];
 TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else
-int sock;
+static int sock;
 extern int errno;
 extern int port;
 #endif

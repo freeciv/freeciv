@@ -14,8 +14,9 @@
 #ifndef FC__CITYTURN_H
 #define FC__CITYTURN_H
 
-#include "packets.h"
-#include "city.h"
+struct city;
+struct player;
+struct unit;
 
 int unit_being_aggressive(struct unit *punit);
 
@@ -28,7 +29,7 @@ void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 int  add_adjust_workers(struct city *pcity);   /* will add workers */
 void city_check_workers(struct player *pplayer, struct city *pcity);
 
-/**** This part isn't meant to be used ****/
+/**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 
 void city_auto_remove_worker(struct city *pcity); 
 void update_city_activities(struct player *pplayer);
