@@ -1175,7 +1175,7 @@ static void fillislandrivers(int coast, long int *bucket)
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
       if ( ( i*3>k*2 
-	     || is_special_type_close(x,y,S_RIVER)
+	     || count_special_near_tile(x, y, S_RIVER) > 0
 	     || myrand(100)<50 
 	     )
 	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {

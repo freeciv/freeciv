@@ -213,7 +213,6 @@ int is_hut_close(int x, int y);
 int is_starter_close(int x, int y, int nr, int dist); 
 int is_good_tile(int x, int y);
 int is_special_close(int x, int y);
-int is_special_type_close(int x, int y, enum tile_special_type spe);
 int is_sea_usable(int x, int y);
 int get_tile_food_base(struct tile * ptile);
 int get_tile_shield_base(struct tile * ptile);
