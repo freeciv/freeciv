@@ -3,6 +3,10 @@ TODO:
  - goto should be looked at, unit with moves left after goto is not active 
    anylonger.
 
+1.5.4 
+- Small, very basic ai has been included. It needs a lot of work. Any
+volunteers? 
+
 1.5.3
 - Highlevel genlist iterators for unitlist and citylist iterating
   has been introduced. 
