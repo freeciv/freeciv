@@ -413,7 +413,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     }
     break;
   case CLAUSE_EMBASSY:
-    if (!give) {
+    if (give) {
       if (pplayers_in_peace(pplayer, aplayer)) {
         worth = 0;
       } else {
