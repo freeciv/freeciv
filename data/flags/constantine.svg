@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1"
+   x="0.00000000"
+   y="0.00000000"
+   width="1062.98853"
+   height="744.094482"
+   id="svg378"
+   sodipodi:version="0.34"
+   sodipodi:docname="/home/nmav/byz-early.svg"
+   sodipodi:docbase="/home/nmav">
+  <sodipodi:namedview
+     id="base" />
+  <defs
+     id="defs380" />
+  <rect
+     width="1062.98999"
+     height="744.094421"
+     x="-1062.98999"
+     y="-708.660950"
+     transform="matrix(-1.000000,0.000000,0.000000,-1.000000,-7.629395e-4,35.43352)"
+     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0247pt;fill-opacity:1;"
+     id="rect149" />
+  <rect
+     width="598.700827"
+     height="122.87466"
+     x="77.171054"
+     y="-593.758155"
+     style="font-size:12;fill:#0000ff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     id="rect2206"
+     transform="matrix(-3.301614e-3,0.999995,-1,2.377719e-4,0,0)" />
+  <text
+     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="52.413038"
+     y="20.3531773"
+     id="text2207"
+     transform="scale(12.51816,12.86886)"
+     sodipodi:linespacing="100%"
+     xml:space="default">
+    <tspan
+       x="52.4130363"
+       y="20.353178"
+       sodipodi:role="line"
+       id="tspan2213"
+       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+  </text>
+  <text
+     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="52.3810403"
+     y="46.3235688"
+     id="text2221"
+     transform="scale(12.51816,12.86886)"
+     sodipodi:linespacing="100%"
+     xml:space="default">
+    <tspan
+       x="52.3810387"
+       y="46.3235703"
+       sodipodi:role="line"
+       id="tspan2222"
+       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+  </text>
+  <text
+     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="-30.9465799"
+     y="20.353185"
+     id="text2233"
+     transform="scale(-12.51816,12.86886)"
+     sodipodi:linespacing="100%"
+     xml:space="default">
+    <tspan
+       x="-30.946579"
+       y="20.3531857"
+       sodipodi:role="line"
+       id="tspan2234"
+       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+  </text>
+  <text
+     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="-30.9785776"
+     y="46.3235688"
+     id="text2236"
+     transform="scale(-12.51816,12.86886)"
+     sodipodi:linespacing="100%"
+     xml:space="default">
+    <tspan
+       x="-30.9785767"
+       y="46.3235703"
+       sodipodi:role="line"
+       id="tspan2237"
+       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+  </text>
+  <rect
+     width="598.700827"
+     height="122.87466"
+     x="231.641476"
+     y="313.202155"
+     style="font-size:12;fill:#0000ff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     id="rect684"
+     transform="matrix(0.999995,3.301614e-3,2.377719e-4,1,0,0)" />
+</svg>

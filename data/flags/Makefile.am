@@ -19,12 +19,14 @@ flag_files =				\
 		bosnia.png		\
 		brasil.png		\
 		bulgaria.png		\
+		byzantium.png		\
 		canada.png		\
 		catalan.png		\
 		cheyenne.png		\
 		chile.png		\
 		china.png		\
 		columbia.png		\
+		constantine.png		\
 		cornwall.png		\
 		croatia.png		\
 		cuba.png		\
@@ -122,12 +124,14 @@ shield_files =					\
 		bosnia-shield.png		\
 		brasil-shield.png		\
 		bulgaria-shield.png		\
+		byzantium-shield.png		\
 		canada-shield.png		\
 		catalan-shield.png		\
 		cheyenne-shield.png		\
 		chile-shield.png		\
 		china-shield.png		\
 		columbia-shield.png		\
+		constantine-shield.png		\
 		cornwall-shield.png		\
 		croatia-shield.png		\
 		cuba-shield.png			\
@@ -218,6 +222,7 @@ svg_files = 				\
 		australia.svg		\
 		austria.svg		\
 		azerbaijan.svg		\
+		constantine.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
 		belgium.svg		\
@@ -225,6 +230,7 @@ svg_files = 				\
 		bosnia.svg		\
 		brasil.svg		\
 		bulgaria.svg		\
+		byzantium.svg		\
 		canada.svg		\
 		catalan.svg		\
 		cheyenne.svg		\
