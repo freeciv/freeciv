@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-08 14:09+0100\n"
+"PO-Revision-Date: 2005-01-09 10:46+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1419,9 +1419,8 @@ msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
 
 #: server/civserver.c:189
-#, fuzzy
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "GOAD ID aktivovaného serveru"
+msgstr "  -S, --Serverid ID\tNastaví server id na ID\n"
 
 #: server/civserver.c:190
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -4767,9 +4766,9 @@ msgid "Metaserver patches string set to '%s'."
 msgstr "Patches string metaserveru nastaven na '%s'."
 
 #: server/stdinhand.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
-msgstr "Topic string metaserveru nastaven na '%s', nebude se posílat metaserveru."
+msgstr "Patches string metaserveru nastaven na '%s', nebude se posílat metaserveru."
 
 #: server/stdinhand.c:608
 #, c-format
@@ -4787,9 +4786,9 @@ msgid "Metaserver message string set to '%s'."
 msgstr "Message string metaserveru nastaven na '%s'."
 
 #: server/stdinhand.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
-msgstr "Topic string metaserveru nastaven na '%s', nebude se posílat metaserveru."
+msgstr "Zprávový string metaserveru nastaven na '%s', nebude se posílat metaserveru."
 
 #: server/stdinhand.c:652
 #, c-format
@@ -6940,9 +6939,8 @@ msgid "The parties create an alliance"
 msgstr "Jednající vytvořili alianci"
 
 #: client/climisc.c:282
-#, fuzzy
 msgid "The parties resume the research pool"
-msgstr "Hra: Zahájili jste společný výzkum s %s."
+msgstr "Byl obnoven společný výzkum"
 
 #: client/climisc.c:285
 #, c-format
@@ -7555,9 +7553,9 @@ msgid "* Pollution cannot be generated on this terrain."
 msgstr ""
 
 #: client/helpdata.c:1098
-#, fuzzy, c-format
+#, c-format
 msgid "* You cannot build cities on this terrain."
-msgstr "* Může stavět doly.\n"
+msgstr "* Na tomto terénu nemůžete stavět města."
 
 #: client/helpdata.c:1104
 #, c-format
@@ -8244,9 +8242,8 @@ msgid "Ping"
 msgstr "Ping"
 
 #: client/repodlgs_common.c:316
-#, fuzzy
 msgid "You cannot sell improvements."
-msgstr "Hra: %s nemůžete uplatit!"
+msgstr "Nemůžete prodat vylepšení."
 
 #: client/repodlgs_common.c:332
 #, c-format
@@ -8260,24 +8257,23 @@ msgstr "Nelze vytvořit spojení."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:354
-#, fuzzy
 msgid "You cannot disband units."
-msgstr "Hra: %s nemůžete uplatit!"
+msgstr "Nemůžete rozpustit jednotky."
 
 #: client/repodlgs_common.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be disbanded."
-msgstr "%s nemůže být převzat."
+msgstr "%s nemůže být rozpuštěn."
 
 #: client/repodlgs_common.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Disbanded %d %s."
-msgstr "Hra: Rozpuštěn náš %s."
+msgstr "Rozpuštěn náš %d %s."
 
 #: client/repodlgs_common.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be disbanded."
-msgstr "Nelze vytvořit spojení."
+msgstr "Žádný %s nebyl rozpuštěn."
 
 #: client/text.c:137
 msgid "?nation:Neutral"
@@ -8557,21 +8553,21 @@ msgstr "Populace:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:597
-#, fuzzy, c-format
+#, c-format
 msgid "Support:         %5d %%"
-msgstr "Populace:      %5d"
+msgstr "Podpora:       %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "Energy:          %5d %%"
-msgstr "Populace:      %5d"
+msgstr "Energie:        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "Mass:            %5d ton"
-msgstr "Přeneseno bajtů: %d"
+msgstr "Hmotnost:      %5d tun"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:610
@@ -8592,9 +8588,9 @@ msgstr "Přeneseno bajtů: %d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:622
-#, fuzzy, c-format
+#, c-format
 msgid "Year of arrival: %8s"
-msgstr "%-8s %-10s %-20s %-20s %-20s\n"
+msgstr "Rok doletu: %8s"
 
 #: client/text.c:640
 msgid "?timeout:off"
@@ -9185,9 +9181,9 @@ msgid "No trade routes exist."
 msgstr "Neexistují žádné obchodní cesty."
 
 #: client/gui-gtk-2.0/citydlg.c:1760
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Celkem obchod z obchodních cest: %d"
+msgstr "Celkem obchod z obchodní cesty %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1878
 #: client/gui-gtk-2.0/cityrep.c:796
@@ -9459,36 +9455,30 @@ msgstr "Obrátit výběr"
 
 #: client/gui-gtk-2.0/cityrep.c:1394
 #: client/gui-gtk/cityrep.c:900
-#, fuzzy
 msgid "Building Units"
-msgstr "Pozemní jednotky"
+msgstr "Stavba jednotek"
 
 #: client/gui-gtk-2.0/cityrep.c:1400
 #: client/gui-gtk/cityrep.c:894
-#, fuzzy
 msgid "Building Improvements"
-msgstr "Dostupná vylepšení"
+msgstr "Stavba vylepšení"
 
 #: client/gui-gtk-2.0/cityrep.c:1406
 #: client/gui-gtk/cityrep.c:906
-#, fuzzy
 msgid "Building Wonders"
-msgstr "Divy světa"
+msgstr "Stavba divů světa"
 
 #: client/gui-gtk-2.0/cityrep.c:1418
-#, fuzzy
 msgid "Building Unit"
-msgstr "Jednotka: Prodána"
+msgstr "Staví se jednotka"
 
 #: client/gui-gtk-2.0/cityrep.c:1422
-#, fuzzy
 msgid "Building Improvement"
-msgstr "Vylepšení: Koupeno"
+msgstr "Staví se vylepšení"
 
 #: client/gui-gtk-2.0/cityrep.c:1426
-#, fuzzy
 msgid "Building Wonder"
-msgstr "s %d divem\n"
+msgstr "Staví se div světa"
 
 #: client/gui-gtk-2.0/cityrep.c:1434
 #: client/gui-gtk/cityrep.c:877
@@ -9605,9 +9595,8 @@ msgstr "Ovládat _město"
 #: client/gui-gtk-2.0/cma_fe.c:325
 #: client/gui-gtk/cma_fe.c:306
 #: client/gui-mui/citydlg.c:1631
-#, fuzzy
 msgid "_Release city"
-msgstr "Uvolnit město"
+msgstr "_Uvolnit město"
 
 #: client/gui-gtk-2.0/cma_fe.c:470
 #: client/gui-gtk/cma_fe.c:472
@@ -9827,9 +9816,8 @@ msgstr "Nemůžete vyvolat převrat ve městě %s!"
 #: client/gui-gtk/dialogs.c:944
 #: client/gui-mui/dialogs.c:485
 #: client/gui-win32/dialogs.c:1469
-#, fuzzy
 msgid "City can't be incited!"
-msgstr "BuildRoot nemůže být \"/\": %s\n"
+msgstr "Město nemůže být rozvráceno!"
 
 #: client/gui-gtk-2.0/dialogs.c:751
 #: client/gui-gtk/dialogs.c:949
@@ -9987,17 +9975,15 @@ msgstr "Pane, špion očekává Vaše rozkazy"
 #: client/gui-gtk/dialogs.c:1084
 #: client/gui-mui/dialogs.c:865
 #: client/gui-win32/dialogs.c:1581
-#, fuzzy
 msgid "_Bribe Enemy Unit"
-msgstr "Uplatit nepřátelskou jednotku"
+msgstr "_Uplatit nepřátelskou jednotku"
 
 #: client/gui-gtk-2.0/dialogs.c:898
 #: client/gui-gtk/dialogs.c:1085
 #: client/gui-mui/dialogs.c:873
 #: client/gui-win32/dialogs.c:1582
-#, fuzzy
 msgid "_Sabotage Enemy Unit"
-msgstr "Sabotáž nepřátelské jednotky"
+msgstr "_Sabotáž nepřátelské jednotky"
 
 #: client/gui-gtk-2.0/dialogs.c:967
 #: client/gui-gtk/dialogs.c:1141
@@ -10354,18 +10340,16 @@ msgid "Keep dialogs on top"
 msgstr "Nechat dialogy navrchu"
 
 #: client/gui-gtk-2.0/gui_main.c:141
-#, fuzzy
 msgid "Show worklist task icons"
-msgstr "Zobrazovat v menu _ikony"
+msgstr "Zobrazovat ikony v seznamu prací"
 
 #: client/gui-gtk-2.0/gui_main.c:142
 msgid "Fullscreen Mode"
 msgstr "Fullscreen mód"
 
 #: client/gui-gtk-2.0/gui_main.c:143
-#, fuzzy
 msgid "Enable status report tabs"
-msgstr "Zobrazit/skrýt stavovou lištu."
+msgstr "Povolit záložky s hlášením stavu"
 
 #: client/gui-gtk-2.0/gui_main.c:145
 msgid "Solid unit icon background color in city dialog"
@@ -10373,9 +10357,8 @@ msgstr "Neprůhledná barva pozadí jednotky v dialogu města"
 
 #: client/gui-gtk-2.0/gui_main.c:147
 #: client/gui-win32/gui_main.c:99
-#, fuzzy
 msgid "Better fog-of-war drawing"
-msgstr "Používat clonu války"
+msgstr "Lepší vykreslování clony války"
 
 #: client/gui-gtk-2.0/gui_main.c:487
 #: client/gui-gtk-2.0/gui_main.c:1074
@@ -10498,9 +10481,9 @@ msgstr "Styly bez obsahu"
 #: client/gui-gtk/happiness.c:251
 #: client/gui-mui/citydlg.c:2224
 #: client/gui-win32/happiness.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "%d additional unhappy citizens."
-msgstr "Noví obyvatelé jsou"
+msgstr "%d dalších nespokojených obyvatel."
 
 #: client/gui-gtk-2.0/happiness.c:261
 #: client/gui-gtk/happiness.c:267
@@ -10520,9 +10503,8 @@ msgstr "Jednotek: "
 #: client/gui-gtk/happiness.c:299
 #: client/gui-mui/citydlg.c:2248
 #: client/gui-win32/happiness.c:252
-#, fuzzy
 msgid "Martial law in effect ("
-msgstr "Platné úrovně oprávnění:"
+msgstr "Stanné právo v efektu ("
 
 #: client/gui-gtk-2.0/happiness.c:297
 #: client/gui-gtk/happiness.c:303
@@ -10535,9 +10517,9 @@ msgstr "žádné maximum, "
 #: client/gui-gtk/happiness.c:305
 #: client/gui-mui/citydlg.c:2254
 #: client/gui-win32/happiness.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit maximum, "
-msgstr "Maximální jednotka přenosu"
+msgstr "%d jednotka max., "
 
 #: client/gui-gtk-2.0/happiness.c:303
 #: client/gui-gtk/happiness.c:309
@@ -11240,9 +11222,8 @@ msgstr "Jednotka: Prodána"
 #: client/gui-mui/gui_main.c:236
 #: client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:157
-#, fuzzy
 msgid "Fog of War"
-msgstr "Občanská válka"
+msgstr "Clona války"
 
 #: client/gui-gtk-2.0/menu.c:735
 #: client/gui-gtk/menu.c:684
@@ -11422,9 +11403,8 @@ msgstr "Na_ložit"
 
 #: client/gui-gtk-2.0/menu.c:772
 #: client/gui-gtk/menu.c:719
-#, fuzzy
 msgid "_Unload Transporter"
-msgstr "Vyložit transportér"
+msgstr "_Vyložit transportér"
 
 #: client/gui-gtk-2.0/menu.c:774
 #: client/gui-win32/menu.c:373
@@ -11490,17 +11470,15 @@ msgid "_Go to"
 msgstr "Přesunout se (_G)"
 
 #: client/gui-gtk-2.0/menu.c:794
-#, fuzzy
 msgid "Go\\/Airlift to City"
-msgstr "Přesun/Letecký most do města"
+msgstr "Přesun\\/Letecký most do města"
 
 #: client/gui-gtk-2.0/menu.c:796
 #: client/gui-gtk/menu.c:745
 #: client/gui-win32/menu.c:386
 #: client/gui-xaw/menu.c:201
-#, fuzzy
 msgid "Return to nearest city"
-msgstr "Přesun/Letecký most do města"
+msgstr "Návrat do nejbližšího města"
 
 #: client/gui-gtk-2.0/menu.c:800
 #: client/gui-mui/gui_main.c:268
@@ -11750,16 +11728,14 @@ msgstr "_Vylepšení města"
 #: client/gui-gtk-2.0/menu.c:864
 #: client/gui-gtk/menu.c:813
 #: client/gui-win32/menu.c:423
-#, fuzzy
 msgid "Com_bat"
-msgstr "EXAMPLE.COM"
+msgstr "_Boj"
 
 #: client/gui-gtk-2.0/menu.c:866
 #: client/gui-gtk/menu.c:815
 #: client/gui-win32/menu.c:424
-#, fuzzy
 msgid "_ZOC"
-msgstr "ZK"
+msgstr "_ZK"
 
 #: client/gui-gtk-2.0/menu.c:868
 #: client/gui-gtk/menu.c:817
@@ -11782,9 +11758,8 @@ msgstr "_Divy světa"
 #: client/gui-gtk-2.0/menu.c:876
 #: client/gui-gtk/menu.c:825
 #: client/gui-win32/menu.c:429
-#, fuzzy
 msgid "Happin_ess"
-msgstr "ESS Solo 1"
+msgstr "Spokoj_enost"
 
 #: client/gui-gtk-2.0/menu.c:878
 #: client/gui-gtk/menu.c:827
@@ -11849,9 +11824,8 @@ msgstr "Stavět Žele_znici"
 
 #: client/gui-gtk-2.0/menu.c:1382
 #: client/gui-gtk/menu.c:1229
-#, fuzzy
 msgid "Bu_ild Farmland"
-msgstr "* Může stavět farmy.\n"
+msgstr "Postav_it farmu"
 
 #: client/gui-gtk-2.0/menu.c:1401
 #: client/gui-gtk/menu.c:1247
@@ -15626,9 +15600,8 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: data/Freeciv.in:1291
-#, fuzzy
 msgid "Where to Display Messages"
-msgstr "Nástroj pro zobrazování chybových zpráv aRts"
+msgstr "Kde zobrazovat zprávy"
 
 #: data/Freeciv.in:1292
 msgid ""
@@ -15696,9 +15669,8 @@ msgid "Make new citizens into:     "
 msgstr "Vložit jako nový &soubor"
 
 #: data/Freeciv.in:1547
-#, fuzzy
 msgid "Disband if build settler at size 1:"
-msgstr "Zrušit, pokud se staví osadníci při velikosti 1"
+msgstr "Rozpustit, pokud se staví osadníci při velikosti 1:"
 
 #: data/Freeciv.in:1553
 msgid "Auto-attack vs land units:         "
@@ -15789,9 +15761,8 @@ msgid "Incite a Revolt"
 msgstr "Podnítit revoluci"
 
 #: data/Freeciv.in:2334
-#, fuzzy
 msgid "Investigate City (free)"
-msgstr "Java SDK zdarma"
+msgstr "Prozkoumat město (zdarma)"
 
 #: data/Freeciv.in:2338
 msgid "Poison City"
@@ -20904,14 +20875,12 @@ msgid "?plural:Columbians"
 msgstr "?plural:Kolumbijci"
 
 #: data/nation/cornish.ruleset:3
-#, fuzzy
 msgid "Cornish"
-msgstr "Kornsky"
+msgstr "Kornský"
 
 #: data/nation/cornish.ruleset:4
-#, fuzzy
 msgid "?plural:Cornish"
-msgstr "?plural:Afgánský"
+msgstr "?plural:Korňané"
 
 #: data/nation/cornish.ruleset:6
 msgid "Cornwall is a region in the extreme southwest of England, traditionally the home of the legendary King Arthur."
@@ -21046,14 +21015,12 @@ msgid "England was unified by Alfred the Great of Wessex in the late 9th century
 msgstr ""
 
 #: data/nation/english.ruleset:19
-#, fuzzy
 msgid "Lord Protector"
-msgstr "Dark Lord"
+msgstr "Lord Protektor"
 
 #: data/nation/english.ruleset:19
-#, fuzzy
 msgid "Lady Protector"
-msgstr "Lady Jane"
+msgstr "Lady Protektor"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -21740,14 +21707,12 @@ msgid "?plural:Taiwanese"
 msgstr "?plural:Thajvanci"
 
 #: data/nation/thai.ruleset:3
-#, fuzzy
 msgid "Thai"
-msgstr "Thajské"
+msgstr "Thajský"
 
 #: data/nation/thai.ruleset:4
-#, fuzzy
 msgid "?plural:Thai"
-msgstr "Thajsky (Nefunkční)"
+msgstr "?plural:Thajové"
 
 #: data/nation/thai.ruleset:6
 msgid "The Thai kingdom was the only country in Southeast Asia to preserve its independence throught the colonial era of the 18th and 19th centuries AD."
