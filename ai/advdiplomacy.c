@@ -117,16 +117,21 @@ static int greed(int missing_love)
 ***********************************************************************/
 static int ai_goldequiv_tech(struct player *pplayer, Tech_Type_id tech)
 {
-  int worth;
+  int bulbs, tech_want, worth;
+  struct ai_data *ai = ai_data_get(pplayer);
 
   if (get_invention(pplayer, tech) == TECH_KNOWN) {
     return 0;
   }
-  worth = total_bulbs_required_for_goal(pplayer, tech) * 3;
-  worth += pplayer->ai.tech_want[tech] / 3;
+  bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
+  tech_want = pplayer->ai.tech_want[tech] / 3;
+  worth = bulbs + tech_want;
   if (get_invention(pplayer, tech) == TECH_REACHABLE) {
     worth /= 2;
   }
+  PLAYER_LOG(LOG_DEBUG, pplayer, ai, "eval tech %s to %d (bulbs=%d, "
+             "tech_want=%d)", get_tech_name(pplayer, tech), worth, bulbs, 
+             tech_want);
   return worth;
 }
 
@@ -162,8 +167,8 @@ static bool shared_vision_is_safe(struct player* pplayer,
 static bool ai_players_can_agree_on_ceasefire(struct player* player1,
                                               struct player* player2)
 {
-  struct ai_data *ai1;
-  ai1 = ai_data_get(player1);
+  struct ai_data *ai1 = ai_data_get(player1);
+
   return (ai1->diplomacy.target != player2 && 
           (player1 == ai1->diplomacy.alliance_leader ||
            !pplayers_at_war(player2, ai1->diplomacy.alliance_leader)) &&
@@ -424,8 +429,9 @@ static int ai_goldequiv_clause(struct player *pplayer,
         worth /= 2;
       }
     } else {
-      worth = city_gold_worth(offer);      
+      worth = city_gold_worth(offer);
     }
+    PLAYER_LOG(LOG_DEBUG, pplayer, ai, "worth of %s is %d", offer->name, worth);
     break;
   }
 
