@@ -269,8 +269,9 @@ void mapctrl_btn_mapcanvas(XEvent *event)
     do_map_click(x, y);
   else if (ev->button==Button2||ev->state&ControlMask)
     popit(ev->x, ev->y, x, y);
-  else
+  else if (ev->button == Button3) {
     center_tile_mapcanvas(x, y);
+  }
 }
 
 /**************************************************************************

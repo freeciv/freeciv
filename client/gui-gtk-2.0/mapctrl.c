@@ -303,7 +303,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     gtk_widget_grab_focus(turn_done_button);
   } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
     popit(ev, xtile, ytile);
-  } else {
+  } else if (ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
   }
   return TRUE;
