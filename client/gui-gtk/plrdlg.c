@@ -569,7 +569,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   if (can_meet_with_player(&game.players[player_index])) {
     dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
   } else {
-    append_output_window(_("Game: You need an embassy to "
+    append_output_window(_("You need an embassy to "
 			   "establish a diplomatic meeting."));
   }
 }

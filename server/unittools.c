@@ -3129,7 +3129,7 @@ bool execute_orders(struct unit *punit)
 	/* Build failed. */
 	cancel_orders(punit, " orders canceled; failed to build city");
 	notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
-			 _("Game: Orders for %s aborted because building "
+			 _("Orders for %s aborted because building "
 			   "of city failed."), unit_name(punit->type));
 	return TRUE;
       } else {
