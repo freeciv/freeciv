@@ -32,7 +32,7 @@
 
 #include "aidata.h"
 
-static struct ai_data aidata[MAX_NUM_PLAYERS * MAX_NUM_BARBARIANS];
+static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 /**************************************************************************
   Make and cache lots of calculations needed for other functions, notably:
