@@ -25,11 +25,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit);
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
 			    struct ai_choice *choice);
 
-int ai_evaluate_government(struct player *pplayer, struct government *g);
 int ai_evaluate_tile_for_attack(struct unit *punit,
                                 int dest_x, int dest_y);
-int find_something_to_bomb(struct unit *punit, int x, int y);
-bool find_nearest_airbase(int x, int y, struct unit *punit,
-			  int *xref, int *yref);
 
 #endif /* FC__AIAIR_H */

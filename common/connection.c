@@ -249,7 +249,7 @@ void flush_connection_send_buffer_all(struct connection *pc)
 /**************************************************************************
   flush'em
 **************************************************************************/
-void flush_connection_send_buffer_packets(struct connection *pc)
+static void flush_connection_send_buffer_packets(struct connection *pc)
 {
   if(pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
     write_socket_data(pc, pc->send_buffer, MAX_LEN_PACKET-1);

@@ -20,9 +20,6 @@ struct sbuffer;			/* opaque type */
 /* get a new initialized sbuffer: (uses default buffer size) */
 struct sbuffer *sbuf_new(void);
 
-/* as sbuf_new, specifying buffer size: */
-struct sbuffer *sbuf_new_size(size_t size);
-
 /* malloc and strdup: */
 void *sbuf_malloc(struct sbuffer *sb, size_t size);
 char *sbuf_strdup(struct sbuffer *sb, const char *str);

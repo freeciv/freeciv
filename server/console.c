@@ -36,6 +36,8 @@ static bool console_prompt_is_showing = FALSE;
 static bool console_rfcstyle = FALSE;
 #ifdef HAVE_LIBREADLINE
 static bool readline_received_enter = TRUE;
+#else
+static int con_dump(enum rfc_status rfc_status, const char *message, ...);
 #endif
 
 /************************************************************************
@@ -82,10 +84,11 @@ void con_log_init(const char *log_filename, int log_level)
   logdebug_suppress_warning;
 }
 
+#ifndef HAVE_LIBREADLINE
 /************************************************************************
 Write to console without line-break, don't print prompt.
 ************************************************************************/
-int con_dump(enum rfc_status rfc_status, const char *message, ...)
+static int con_dump(enum rfc_status rfc_status, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
@@ -105,6 +108,7 @@ int con_dump(enum rfc_status rfc_status, const char *message, ...)
   console_prompt_is_showing = FALSE;
   return (int) strlen(buf);
 }
+#endif
 
 /************************************************************************
 Write to console and add line-break, and show prompt if required.

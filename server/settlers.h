@@ -19,8 +19,6 @@ struct player;
 struct unit;
 struct city;
 
-void auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x,
-			  int y);
 void auto_settlers(void);
 int find_boat(struct player *pplayer, int *x, int *y, int cap);
 

@@ -561,7 +561,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
    the same results as (hp>10) for the default set, and does
    _something_ for other sets.  This should be revisited.  --dwp
 **************************************************************************/
-bool has_a_normal_defender(struct city *pcity)
+static bool has_a_normal_defender(struct city *pcity)
 {
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (is_military_unit(punit)
@@ -578,8 +578,8 @@ bool has_a_normal_defender(struct city *pcity)
 /************************************************************************** 
   ...
 **************************************************************************/
-Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
-                                        enum unit_move_type which)
+static Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
+					       enum unit_move_type which)
 {
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;

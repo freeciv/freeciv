@@ -34,8 +34,6 @@ bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
-int hp_gain_coord(struct unit *punit);
-
 
 /* various */
 void advance_unit_focus(struct unit *punit);

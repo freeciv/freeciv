@@ -58,6 +58,12 @@ static void city_add_or_build_error(struct player *pplayer,
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name);
+static void handle_unit_activity_request_targeted(struct unit *punit,
+						  enum unit_activity
+						  new_activity,
+						  enum tile_special_type
+						  new_target,
+						  bool select_unit);
 
 /**************************************************************************
 ...
@@ -381,8 +387,8 @@ void handle_unit_change_homecity(struct player *pplayer,
   NOTE: AI calls do_unit_disband_safe directly, but player calls
   of course handle_unit_disband_safe
 **************************************************************************/
-void do_unit_disband_safe(struct city *pcity, struct unit *punit,
-			  struct genlist_iterator *iter)
+static void do_unit_disband_safe(struct city *pcity, struct unit *punit,
+				 struct genlist_iterator *iter)
 {
   if (pcity) {
     pcity->shield_stock += (unit_type(punit)->build_cost/2);
@@ -1261,10 +1267,12 @@ void handle_unit_activity_request(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_activity_request_targeted(struct unit *punit,
-					   enum unit_activity new_activity,
-					   enum tile_special_type new_target,
-					   bool select_unit)
+static void handle_unit_activity_request_targeted(struct unit *punit,
+						  enum unit_activity
+						  new_activity,
+						  enum tile_special_type
+						  new_target,
+						  bool select_unit)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;

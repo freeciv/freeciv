@@ -26,7 +26,6 @@ struct inputfile;		/* opaque */
 
 typedef char *(*datafilename_fn_t)(const char *filename);
 
-const char *inf_filename(struct inputfile *inf);
 struct inputfile *inf_from_file(const char *filename,
 				datafilename_fn_t datafn);
 struct inputfile *inf_from_stream(fz_FILE * stream,
@@ -51,6 +50,5 @@ const char *inf_token_required(struct inputfile *inf, enum inf_token_type type);
 int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type);
 
 void inf_die(struct inputfile *inf, const char *message);
-void inf_warn(struct inputfile *inf, const char *message);
 
 #endif  /* FC__INPUTFILE_H */

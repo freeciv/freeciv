@@ -55,6 +55,10 @@ static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level);
+static void tech_researched(struct player* plr);
+static int choose_goal_tech(struct player *plr);
+static enum plr_info_level player_info_level(struct player *plr,
+					     struct player *receiver);
 
 /**************************************************************************
 ...
@@ -371,7 +375,7 @@ void found_new_future_tech(struct player *pplayer)
 /**************************************************************************
 Player has researched a new technology
 **************************************************************************/
-void tech_researched(struct player* plr)
+static void tech_researched(struct player* plr)
 {
   /* plr will be notified when new tech is chosen */
 
@@ -420,7 +424,7 @@ void update_tech(struct player *plr, int bulbs)
 /**************************************************************************
 ...
 **************************************************************************/
-int choose_goal_tech(struct player *plr)
+static int choose_goal_tech(struct player *plr)
 {
   int sub_goal;
 
@@ -1236,8 +1240,8 @@ static void package_player_info(struct player *plr,
 /**************************************************************************
   ...
 **************************************************************************/
-enum plr_info_level player_info_level(struct player *plr,
-                                      struct player *receiver)
+static enum plr_info_level player_info_level(struct player *plr,
+					     struct player *receiver)
 {
   if (plr == receiver)
     return INFO_FULL;
@@ -1519,7 +1523,7 @@ research etc.  Players are both thrown into anarchy and gold is
 split between both players.
                                - Kris Bubendorfer 
 ***********************************************************************/
-struct player *split_player(struct player *pplayer)
+static struct player *split_player(struct player *pplayer)
 {
   int *nations_used, i, num_nations_avail=game.playable_nation_count, pick;
   int newplayer = game.nplayers;

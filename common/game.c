@@ -759,6 +759,19 @@ void game_init(void)
 }
 
 /***************************************************************
+...
+***************************************************************/
+static void game_remove_all_players(void)
+{
+  players_iterate(pplayer) {
+    game_remove_player(pplayer);
+  } players_iterate_end;
+
+  game.nplayers=0;
+  game.nbarbarians=0;
+}
+
+/***************************************************************
   Frees all memory of the game.
 ***************************************************************/
 void game_free(void)
@@ -862,21 +875,6 @@ void game_advance_year(void)
   game.year = game_next_year(game.year);
   game.turn++;
 }
-
-
-/***************************************************************
-...
-***************************************************************/
-void game_remove_all_players(void)
-{
-  players_iterate(pplayer) {
-    game_remove_player(pplayer);
-  } players_iterate_end;
-
-  game.nplayers=0;
-  game.nbarbarians=0;
-}
-
 
 /***************************************************************
 ...

@@ -200,6 +200,29 @@ void map_init(void)
   map.have_huts             = FALSE;
 }
 
+/***************************************************************
+...
+***************************************************************/
+static void tile_init(struct tile *ptile)
+{
+  ptile->terrain  = T_UNKNOWN;
+  ptile->special  = S_NO_SPECIAL;
+  ptile->known    = 0;
+  ptile->sent     = 0;
+  ptile->city     = NULL;
+  unit_list_init(&ptile->units);
+  ptile->worked   = NULL; /* pointer to city working tile */
+  ptile->assigned = 0; /* bitvector */
+}
+
+/***************************************************************
+...
+***************************************************************/
+static void tile_free(struct tile *ptile)
+{
+  unit_list_unlink_all(&ptile->units);
+}
+
 /**************************************************************************
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
@@ -1137,29 +1160,6 @@ bool is_tiles_adjacent(int x0, int y0, int x1, int y1)
 /***************************************************************
 ...
 ***************************************************************/
-void tile_init(struct tile *ptile)
-{
-  ptile->terrain  = T_UNKNOWN;
-  ptile->special  = S_NO_SPECIAL;
-  ptile->known    = 0;
-  ptile->sent     = 0;
-  ptile->city     = NULL;
-  unit_list_init(&ptile->units);
-  ptile->worked   = NULL; /* pointer to city working tile */
-  ptile->assigned = 0; /* bitvector */
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_free(struct tile *ptile)
-{
-  unit_list_unlink_all(&ptile->units);
-}
-
-/***************************************************************
-...
-***************************************************************/
 struct tile *map_get_tile(int x, int y)
 {
   return MAP_TILE(x, y);
@@ -1564,7 +1564,7 @@ bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 /**************************************************************************
   Free memory which is associated with this terrain type.
 **************************************************************************/
-void tile_type_free(enum tile_terrain_type type)
+static void tile_type_free(enum tile_terrain_type type)
 {
   struct tile_type *p = get_tile_type(type);
 

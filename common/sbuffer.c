@@ -106,17 +106,9 @@ static void sbuf_align(struct sbuffer *sb)
 }
 
 /**************************************************************************
-  Get a new initialized sbuffer, using default buffer size: 
-**************************************************************************/
-struct sbuffer *sbuf_new(void)
-{
-  return sbuf_new_size(SBUF_DEFAULT_SIZE);
-}
-
-/**************************************************************************
   Get a new initialized sbuffer, specifying buffer size:
 **************************************************************************/
-struct sbuffer *sbuf_new_size(size_t size)
+static struct sbuffer *sbuf_new_size(size_t size)
 {
   struct sbuffer *sb;
 
@@ -130,6 +122,14 @@ struct sbuffer *sbuf_new_size(size_t size)
   sbuf_expand(sb);
 
   return sb;
+}
+
+/**************************************************************************
+  Get a new initialized sbuffer, using default buffer size: 
+**************************************************************************/
+struct sbuffer *sbuf_new(void)
+{
+  return sbuf_new_size(SBUF_DEFAULT_SIZE);
 }
 
 /**************************************************************************

@@ -59,7 +59,8 @@ char *minimap_intro_filename;
 struct named_sprites sprites;
 char current_tile_set_name[512];
 
-const int DIR4_TO_DIR8[4] = {DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST};
+static const int DIR4_TO_DIR8[4] =
+    { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
 int NORMAL_TILE_WIDTH;
 int NORMAL_TILE_HEIGHT;

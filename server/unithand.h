@@ -35,8 +35,6 @@ void handle_unit_disband(struct player *pplayer,
 void handle_unit_disband_safe(struct player *pplayer, 
 			      struct packet_unit_request *req,
 			      struct genlist_iterator *iter);
-void do_unit_disband_safe(struct city *pcity, struct unit *punit,
-			  struct genlist_iterator *iter); /* AI uses this directly */
 void handle_unit_build_city(struct player *pplayer, 
 			    struct packet_unit_request *req);
 void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
@@ -50,10 +48,6 @@ void handle_unit_auto_request(struct player *pplayer,
 			      struct packet_unit_request *req);
 void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity);
-void handle_unit_activity_request_targeted(struct unit *punit,
-					   enum unit_activity new_activity,
-					   enum tile_special_type new_target,
-					   bool select_unit);
 void handle_unit_unload_request(struct player *pplayer, 
 				struct packet_unit_request *req);
 void handle_unit_nuke(struct player *pplayer, 

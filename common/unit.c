@@ -357,7 +357,7 @@ bool is_diplomat_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-bool is_ground_threat(struct player *pplayer, struct unit *punit)
+static bool is_ground_threat(struct player *pplayer, struct unit *punit)
 {
   return (pplayers_at_war(pplayer, unit_owner(punit))
 	  && (unit_flag(punit, F_DIPLOMAT)
@@ -1215,7 +1215,8 @@ bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
 /**************************************************************************
 ...
 **************************************************************************/
-bool zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
+static bool zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2,
+			    int y2)
 {
   return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
 				   x1, y1, x2, y2);

@@ -140,7 +140,6 @@ char * get_option(const char *option_name,char **argv,int *i,int argc);
 bool is_option(const char *option_name,char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset);
-const char *general_int_to_text(int nr, int decade_exponent);
 const char *int_to_text(int nr);
 const char *population_to_text(int thousand_citizen);
 
@@ -150,10 +149,7 @@ int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);
 
 char *skip_leading_spaces(char *s);
-void remove_leading_spaces(char *s);
-void remove_trailing_spaces(char *s);
 void remove_leading_trailing_spaces(char *s);
-void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
 
 bool check_strlen(const char *str, size_t len, const char *errmsg);

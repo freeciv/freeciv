@@ -167,7 +167,7 @@ double unit_win_chance(struct unit *attacker, struct unit *defender)
 /**************************************************************************
   a wrapper that returns whether or not a unit ignores citywalls
 **************************************************************************/
-bool unit_ignores_citywalls(struct unit *punit)
+static bool unit_ignores_citywalls(struct unit *punit)
 {
   return (unit_flag(punit, F_IGWALL));
 }

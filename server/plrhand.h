@@ -72,13 +72,11 @@ void handle_player_attribute_block(struct player *pplayer);
 void found_new_tech(struct player *plr, int tech_found, bool was_discovery, 
 		    bool saving_bulbs);
 void found_new_future_tech(struct player *pplayer);
-void tech_researched(struct player* plr);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech);
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);
-int choose_goal_tech(struct player *plr);
 void get_a_tech(struct player *pplayer, struct player *target);
 
 void send_player_turn_notifications(struct conn_list *dest);
@@ -97,9 +95,5 @@ struct player *shuffled_player(int i);
 
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
-struct player *split_player(struct player *pplayer);
-
-enum plr_info_level player_info_level(struct player *plr,
-                                      struct player *receiver);
 
 #endif  /* FC__PLRHAND_H */

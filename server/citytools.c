@@ -59,6 +59,9 @@ static char *search_for_city_name(int x, int y, struct city_name *city_names,
 				  struct player *pplayer);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
+static void remove_trade_route(struct city *pc1, struct city *pc2);
+static bool update_city_tile_status(struct city *pcity, int city_x,
+				    int city_y);
 
 struct city_name *misc_city_names;
 
@@ -1714,7 +1717,7 @@ void reality_check_city(struct player *pplayer,int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void remove_trade_route(struct city *pc1, struct city *pc2)
+static void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
@@ -2003,7 +2006,8 @@ client.
 
 Returns TRUE iff a tile got available.
 **************************************************************************/
-bool update_city_tile_status(struct city *pcity, int city_x, int city_y)
+static bool update_city_tile_status(struct city *pcity, int city_x,
+				    int city_y)
 {
   enum city_tile_type current;
   bool is_available;

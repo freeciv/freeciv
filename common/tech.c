@@ -559,7 +559,7 @@ bool techs_have_fixed_costs()
 /***************************************************************
  De-allocate resources associated with the given tech.
 ***************************************************************/
-void tech_free(Tech_Type_id tech)
+static void tech_free(Tech_Type_id tech)
 {
   struct advance *p = &advances[tech];
 

@@ -32,6 +32,5 @@ struct player;
 bool unleash_barbarians(int x, int y);
 void summon_barbarians(void);
 bool is_land_barbarian(struct player *pplayer);
-bool is_sea_barbarian(struct player *pplayer);
 
 #endif  /* FC__BARBARIAN_H */

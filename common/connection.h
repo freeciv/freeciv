@@ -186,7 +186,6 @@ void close_socket_set_callback(CLOSE_FUN fun);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 void flush_connection_send_buffer_all(struct connection *pc);
-void flush_connection_send_buffer_packets(struct connection *pc);
 void send_connection_data(struct connection *pc, const unsigned char *data,
 			  int len);
 

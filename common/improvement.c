@@ -203,7 +203,7 @@ const char *effect_type_name(enum effect_type id)
 /**************************************************************************
   Frees the memory associated with this improvement.
 **************************************************************************/
-void improvement_free(Impr_Type_id id)
+static void improvement_free(Impr_Type_id id)
 {
   struct impr_type *p = get_improvement_type(id);
 
@@ -482,7 +482,7 @@ bool could_player_eventually_build_improvement(struct player *p,
 /**************************************************************************
 ...
 **************************************************************************/
-bool could_player_build_improvement(struct player *p, Impr_Type_id id)
+static bool could_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!could_player_eventually_build_improvement(p, id))
     return FALSE;

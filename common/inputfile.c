@@ -140,6 +140,7 @@ static tok_tab[INF_TOK_LAST] =
 };
 
 static bool read_a_line(struct inputfile *inf);
+static void inf_warn(struct inputfile *inf, const char *message);
 
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'
@@ -202,7 +203,7 @@ static void assert_sanity(struct inputfile *inf)
   Return the filename the inputfile was loaded as, or "(anonymous)"
   if this inputfile was loaded from a stream rather than from a file.
 **************************************************************************/
-const char *inf_filename(struct inputfile *inf)
+static const char *inf_filename(struct inputfile *inf)
 {
   if (inf->filename) {
     return inf->filename;
@@ -565,7 +566,7 @@ void inf_die(struct inputfile *inf, const char *message)
   die(message);
 }
 
-void inf_warn(struct inputfile *inf, const char *message)
+static void inf_warn(struct inputfile *inf, const char *message)
 {
   inf_log(inf, LOG_NORMAL, message);
 }

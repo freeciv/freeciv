@@ -51,6 +51,9 @@
 
 #define LOG_DIPLOMAT LOG_DEBUG
 
+static struct city *find_city_to_diplomat(struct player *pplayer, int x,
+					  int y, bool foul);
+
 /******************************************************************************
   Number of improvements that can be sabotaged in pcity.
 ******************************************************************************/
@@ -298,8 +301,8 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
 
   Requires an initialized warmap!
 **************************************************************************/
-struct city *find_city_to_diplomat(struct player *pplayer, int x, int y, 
-                                   bool foul)
+static struct city *find_city_to_diplomat(struct player *pplayer, int x,
+					  int y, bool foul)
 {
   bool has_embassy;
   int incite_cost = 0; /* incite cost */

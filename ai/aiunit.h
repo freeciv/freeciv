@@ -54,13 +54,10 @@ int build_cost_balanced(Unit_Type_id type);
 int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
 				     int moves_left, int hp);
 int unit_belligerence_basic(struct unit *punit);
-int unit_belligerence(struct unit *punit);
-int unit_vulnerability_basic(struct unit *punit, struct unit *pdef);
 int unit_vulnerability_virtual(struct unit *punit);
 int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
 				int x, int y, bool fortified, bool veteran,
 				bool use_alternative_hp, int alternative_hp);
-int unit_vulnerability(struct unit *punit, struct unit *pdef);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 int military_amortize(int value, int delay, int build_cost);
 

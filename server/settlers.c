@@ -730,8 +730,8 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 /**************************************************************************
   simply puts the settler unit into goto
 **************************************************************************/
-void auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x,
-			  int y)
+static void auto_settler_do_goto(struct player *pplayer, struct unit *punit,
+				 int x, int y)
 {
   CHECK_MAP_POS(x, y);
   punit->goto_dest_x = x;

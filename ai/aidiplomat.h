@@ -19,8 +19,6 @@
 struct player;
 struct unit;
 
-struct city *find_city_to_diplomat(struct player *pplayer, int x, int y,
-                                   bool foul);
 void ai_manage_diplomat(struct player *pplayer, struct unit *punit);
 void ai_choose_diplomat_defensive(struct player *pplayer,
                                   struct city *pcity,

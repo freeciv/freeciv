@@ -70,6 +70,7 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
+static int hp_gain_coord(struct unit *punit);
 
 /**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 
@@ -613,7 +614,7 @@ void update_unit_activities(struct player *pplayer)
   ports    will regen navalunits completely
   fortify will add a little extra.
 ***************************************************************************/
-int hp_gain_coord(struct unit *punit)
+static int hp_gain_coord(struct unit *punit)
 {
   int hp;
   struct city *pcity;

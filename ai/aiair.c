@@ -39,8 +39,8 @@
  * TODO: Special handicaps for planes running out of fuel
  *       IMO should be less restrictive than general H_MAP, H_FOG
  *************************************************************************/
-bool find_nearest_airbase(int x, int y, struct unit *punit, 
-                          int *xref, int *yref)
+static bool find_nearest_airbase(int x, int y, struct unit *punit, 
+				 int *xref, int *yref)
 {
   struct player *pplayer = unit_owner(punit);
   int moves_left = punit->moves_left / SINGLE_MOVE;
@@ -168,7 +168,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
  * TODO: make separate handicaps for air units seeing targets
  *       IMO should be more restrictive than general H_MAP, H_FOG
  *********************************************************************/
-int find_something_to_bomb(struct unit *punit, int x, int y)
+static int find_something_to_bomb(struct unit *punit, int x, int y)
 {
   struct player *pplayer = unit_owner(punit);
   int max_dist = punit->moves_left / SINGLE_MOVE;

@@ -239,7 +239,6 @@ int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
 Unit_Type_id best_role_unit(struct city *pcity, int role);
 
-void unit_type_free(Unit_Type_id id);
 void unit_types_free(void);
 
 #define unit_type_iterate(m_i)                                                \

@@ -278,7 +278,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
   works for numbers >= zero.) The actually number used for the
   formatting is: nr*10^decade_exponent
 ***************************************************************/
-const char *general_int_to_text(int nr, int decade_exponent)
+static const char *general_int_to_text(int nr, int decade_exponent)
 {
   static char buf[64]; /* Note that we'll be filling this in right to left. */
   char *grp = grouping;
@@ -458,7 +458,7 @@ char *skip_leading_spaces(char *s)
   Removes leading spaces in string pointed to by 's'.
   Note 's' must point to writeable memory!
 ***************************************************************************/
-void remove_leading_spaces(char *s)
+static void remove_leading_spaces(char *s)
 {
   char *t;
   
@@ -476,7 +476,7 @@ void remove_leading_spaces(char *s)
   Terminates string pointed to by 's' to remove traling spaces;
   Note 's' must point to writeable memory!
 ***************************************************************************/
-void remove_trailing_spaces(char *s)
+static void remove_trailing_spaces(char *s)
 {
   char *t;
   size_t len;
@@ -508,7 +508,7 @@ void remove_leading_trailing_spaces(char *s)
 /***************************************************************************
   As remove_trailing_spaces(), for specified char.
 ***************************************************************************/
-void remove_trailing_char(char *s, char trailing)
+static void remove_trailing_char(char *s, char trailing)
 {
   char *t;
   

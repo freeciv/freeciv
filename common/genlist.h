@@ -100,8 +100,6 @@ void *genlist_get(struct genlist *pgenlist, int idx);
 void genlist_init(struct genlist *pgenlist);
 void genlist_unlink_all(struct genlist *pgenlist);
 void genlist_insert(struct genlist *pgenlist, void *data, int pos);
-struct genlist_link *
-find_genlist_position(struct genlist *pgenlist, int pos);
 void genlist_unlink(struct genlist *pgenlist, void *punlink);
 
 void genlist_sort(struct genlist *pgenlist,

@@ -569,7 +569,7 @@ Unit_Type_id best_role_unit(struct city *pcity, int role)
 /**************************************************************************
   Frees the memory associated with this unit type.
 **************************************************************************/
-void unit_type_free(Unit_Type_id id)
+static void unit_type_free(Unit_Type_id id)
 {
   struct unit_type *p = get_unit_type(id);
 

@@ -469,7 +469,7 @@ void city_reduce_size(struct city *pcity, int pop_loss)
 /**************************************************************************
 Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
-void city_increase_size(struct city *pcity)
+static void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
   bool have_square;

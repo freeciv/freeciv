@@ -74,7 +74,6 @@ void create_city(struct player *pplayer, const int x, const int y,
 void remove_city(struct city *pcity);
 
 int establish_trade_route(struct city *pc1, struct city *pc2);
-void remove_trade_route(struct city *pc1, struct city *pc2);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 void building_lost(struct city *pcity, int id);
@@ -91,7 +90,6 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y);
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y);
 void server_set_worker_city(struct city *pcity, int city_x, int city_y);
 bool update_city_tile_status_map(struct city *pcity, int map_x, int map_y);
-bool update_city_tile_status(struct city *pcity, int city_x, int city_y);
 void sync_cities(void);
 bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
 void check_city_workers(struct player *pplayer);

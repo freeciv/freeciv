@@ -251,7 +251,6 @@ struct eff_city *append_ceff(struct ceff_vector *x);
 struct eff_global *append_geff(struct geff_vector *x);
 
 /* improvement functions */
-void improvement_free(Impr_Type_id id);
 void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
 bool improvement_exists(Impr_Type_id id);
@@ -273,7 +272,6 @@ void improvement_status_init(Impr_Status * improvements, size_t elements);
 /* player related improvement and unit functions */
 bool could_player_eventually_build_improvement(struct player *p, 
                                                Impr_Type_id id);
-bool could_player_build_improvement(struct player *p, Impr_Type_id id);
 bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 
 /* city related improvement functions */

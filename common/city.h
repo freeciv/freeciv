@@ -346,7 +346,6 @@ bool city_rapture_grow(struct city *pcity);
 
 bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id); 
 int improvement_upkeep(struct city *pcity, Impr_Type_id i); 
-bool could_build_improvement(struct city *pcity, Impr_Type_id id);
 bool can_build_improvement(struct city *pcity, Impr_Type_id id);
 bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
 bool can_build_unit(struct city *pcity, Unit_Type_id id);
@@ -377,9 +376,6 @@ int get_food_tile(int x, int y);    /* food   on spot */
 
 bool is_valid_city_coords(const int city_x, const int city_y);
 bool is_city_center(int city_x, int city_y);
-bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			 int city_center_x, int city_center_y, int map_x,
-			 int map_y);
 bool map_to_city_map(int *city_map_x, int *city_map_y,
 		    const struct city *const pcity, int map_x, int map_y);
 
@@ -428,7 +424,6 @@ int city_name_compare(const void *p1, const void *p2);
 int citygov_free_shield(struct city *pcity, struct government *gov);
 int citygov_free_happy(struct city *pcity, struct government *gov);
 int citygov_free_food(struct city *pcity, struct government *gov);
-int citygov_free_gold(struct city *pcity, struct government *gov);
 
 /* city style functions */
 int get_city_style(struct city *pcity);

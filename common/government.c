@@ -285,7 +285,7 @@ void governments_alloc(int num)
 /***************************************************************
  De-allocate resources associated with the given government.
 ***************************************************************/
-void government_free(struct government *gov)
+static void government_free(struct government *gov)
 {
   free(gov->ruler_titles);
   gov->ruler_titles = NULL;

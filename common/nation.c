@@ -178,6 +178,22 @@ void nations_alloc(int num)
 }
 
 /***************************************************************
+ De-allocate resources associated with the given nation.
+***************************************************************/
+static void nation_free(Nation_Type_id nation)
+{
+  int i;
+  struct nation_type *p = get_nation_by_idx(nation);
+
+  for (i = 0; i < p->leader_count; i++) {
+    free(p->leader_name[i]);
+  }
+
+  nation_city_names_free(p->city_names);
+  p->city_names = NULL;
+}
+
+/***************************************************************
  De-allocate the currently allocated nations.
 ***************************************************************/
 void nations_free()
@@ -195,22 +211,6 @@ void nations_free()
   free(nations);
   nations = NULL;
   game.nation_count = 0;
-}
-
-/***************************************************************
- De-allocate resources associated with the given nation.
-***************************************************************/
-void nation_free(Nation_Type_id nation)
-{
-  int i;
-  struct nation_type *p = get_nation_by_idx(nation);
-
-  for (i = 0; i < p->leader_count; i++) {
-    free(p->leader_name[i]);
-  }
-
-  nation_city_names_free(p->city_names);
-  p->city_names = NULL;
 }
 
 /***************************************************************

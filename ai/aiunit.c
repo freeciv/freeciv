@@ -69,6 +69,7 @@ static struct unit *ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_role_defender(Unit_Type_id type);
+static int unit_vulnerability(struct unit *punit, struct unit *pdef);
 
 /*
  * Cached values. Updated by update_simple_ai_types.
@@ -675,7 +676,7 @@ int unit_belligerence_basic(struct unit *punit)
 /********************************************************************** 
   ...
 ***********************************************************************/
-int unit_belligerence(struct unit *punit)
+static int unit_belligerence(struct unit *punit)
 {
   int v = unit_belligerence_basic(punit);
   return(v * v);
@@ -684,7 +685,7 @@ int unit_belligerence(struct unit *punit)
 /********************************************************************** 
   ...
 ***********************************************************************/
-int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
+static int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
   return (get_total_defense_power(punit, pdef) *
 	  (punit->id != 0 ? pdef->hp : unit_type(pdef)->hp) *
@@ -721,7 +722,7 @@ int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
 /********************************************************************** 
   ...
 ***********************************************************************/
-int unit_vulnerability(struct unit *punit, struct unit *pdef)
+static int unit_vulnerability(struct unit *punit, struct unit *pdef)
 {
   int v = unit_vulnerability_basic(punit, pdef);
   return (v * v);

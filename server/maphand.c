@@ -54,6 +54,8 @@ static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
 static void shared_vision_change_seen(int x, int y, struct player *pplayer, int change);
 static int map_get_seen(int x, int y, struct player *pplayer);
+static void map_change_own_seen(int x, int y, struct player *pplayer,
+				int change);
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -825,7 +827,7 @@ void map_change_seen(int x, int y, struct player *pplayer, int change)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_own_seen(int x, int y, struct player *pplayer)
+static int map_get_own_seen(int x, int y, struct player *pplayer)
 {
   int own_seen = map_get_player_tile(x, y, pplayer)->own_seen;
   if (own_seen != 0)
@@ -836,7 +838,8 @@ int map_get_own_seen(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-void map_change_own_seen(int x, int y, struct player *pplayer, int change)
+static void map_change_own_seen(int x, int y, struct player *pplayer,
+				int change)
 {
   map_get_player_tile(x, y, pplayer)->own_seen += change;
 }

@@ -39,6 +39,7 @@
 
 #include "advmilitary.h"
 
+static int assess_danger(struct city *pcity);
 
 /********************************************************************** 
 This function should assign a value to choice and want, where want is a value
@@ -402,7 +403,7 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
 
   Generates a warmap around pcity.
 ***********************************************************************/
-int assess_danger(struct city *pcity)
+static int assess_danger(struct city *pcity)
 {
   int i;
   int danger[5];

@@ -105,7 +105,7 @@ static void send_ruleset_game(struct conn_list *dest);
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
-char *valid_ruleset_filename(const char *subdir, const char *whichset)
+static char *valid_ruleset_filename(const char *subdir, const char *whichset)
 {
   char filename[512], *dfilename;
 

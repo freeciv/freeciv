@@ -33,6 +33,9 @@
 
 #include "report.h"
 
+static void page_conn_etype(struct conn_list *dest, const char *caption,
+			    const char *headline, const char *lines,
+			    int event);
 enum historian_type {
         HISTORIAN_RICHEST=0, 
         HISTORIAN_ADVANCED=1,
@@ -1122,8 +1125,9 @@ event == E_BROADCAST_REPORT: message can safely be ignored by clients
                    watching AI players with ai_popup_windows off.  For
                    example: Herodot's report... and similar messages.
 **************************************************************************/
-void page_conn_etype(struct conn_list *dest, const char *caption,
-		     const char *headline, const char *lines, int event) 
+static void page_conn_etype(struct conn_list *dest, const char *caption,
+			    const char *headline, const char *lines,
+			    int event)
 {
   size_t len;
   struct packet_generic_message genmsg;

@@ -241,7 +241,6 @@ struct unit *find_unit_by_id(int id);
 struct city *find_city_by_id(int id);
 
 void game_remove_player(struct player *pplayer);
-void game_remove_all_players(void);
 void game_renumber_players(int plrno);
 
 void game_remove_unit(struct unit *punit);

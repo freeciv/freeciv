@@ -102,9 +102,9 @@ bool is_city_center(int city_x, int city_y)
 Finds the city map coordinate for a given map position and a city
 center. Returns whether the map position is inside of the city map.
 **************************************************************************/
-bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-			 int city_center_x, int city_center_y,
-			 int map_x, int map_y)
+static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
+				 int city_center_x, int city_center_y,
+				 int map_x, int map_y)
 {
   assert(is_real_tile(map_x, map_y));
   city_map_checked_iterate(city_center_x, city_center_y, cx, cy, mx, my) {
@@ -367,7 +367,7 @@ bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
  owner has the required tech, but if all other pre reqs are fulfiled? 
  modularized so the AI can choose the tech it wants -- Syela 
 **************************************************************************/
-bool could_build_improvement(struct city *pcity, Impr_Type_id id)
+static bool could_build_improvement(struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
 
@@ -1120,7 +1120,7 @@ int citygov_free_food(struct city *pcity, struct government *gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int citygov_free_gold(struct city *pcity, struct government *gov)
+static int citygov_free_gold(struct city *pcity, struct government *gov)
 {
   if (gov->free_gold == G_CITY_SIZE_FREE) {
     return pcity->size;
