@@ -30,7 +30,7 @@
 
 #include "attribute.h"
 
-#include "cm_core.h"
+#include "cm.h"
 
 /*
  * Called once per client start.

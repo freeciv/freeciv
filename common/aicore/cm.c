@@ -30,7 +30,7 @@
 #include "support.h"
 #include "timing.h"
 
-#include "cm_core.h"
+#include "cm.h"
 
 /*
  * Terms used

@@ -5,5 +5,5 @@ noinst_LIBRARIES = libaicore.a
 INCLUDES = -I.. -I$(top_srcdir)/common -I../../intl
 
 libaicore_a_SOURCES = 		\
-	cm_core.c 		\
-	cm_core.h
+	cm.c	 		\
+	cm.h
