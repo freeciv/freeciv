@@ -1051,7 +1051,7 @@ void accept_new_player(char *name, struct connection *pconn)
   char hostname[512];
 
   packet.you_can_join=1;
-  strcpy(packet.capability, CAPABILITY);
+  strcpy(packet.capability, our_capability);
 
   strcpy(game.players[game.nplayers].name, name);
   game.players[game.nplayers].conn=pconn;
@@ -1118,6 +1118,8 @@ void handle_request_join_game(struct connection *pconn,
       req->major_version, req->minor_version, req->patch_version);
   flog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
        our_capability);
+  strcpy(pconn->capability, req->capability);
+  
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
     sprintf(msg, "The server is missing a capability that this client needs.\n"
