@@ -1483,6 +1483,16 @@ static void unit_connect_callback (GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+...
+*****************************************************************/
+static gint unit_connect_del_callback(GtkWidget *widget, GdkEvent *event,
+				      gpointer data)
+{
+  unit_connect_callback((GtkWidget *)data, (gpointer)ACTIVITY_IDLE);
+  return FALSE;
+}
+
+/****************************************************************
 popup dialog which prompts for activity type (unit connect)
 *****************************************************************/
 void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
@@ -1502,13 +1512,6 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
 
   dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-
-  gtk_signal_connect (
-    GTK_OBJECT (dshell),
-    "delete_event",
-    GTK_SIGNAL_FUNC (popup_mes_del_callback),
-    (gpointer)toplevel
-    );
 
   gtk_window_set_title (GTK_WINDOW(dshell), _("Connect"));
 
@@ -1542,6 +1545,13 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
     GTK_SIGNAL_FUNC (unit_connect_callback),
     (gpointer)ACTIVITY_IDLE
     );
+
+  gtk_signal_connect (
+    GTK_OBJECT (dshell),
+    "delete_event",
+    GTK_SIGNAL_FUNC (unit_connect_del_callback),
+    (gpointer)button
+  );
 
   gtk_widget_show_all (vbox);
   gtk_widget_show (dshell);
