@@ -1346,7 +1346,8 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
             ai_manage_explorer(pplayer, punit); /* nothing else to do */
             /* you can still have some moves left here, but barbarians should
                not sit helplessly, but advance towards nearest known enemy city */
-            if( punit->moves_left && is_barbarian(pplayer) ) {
+	    punit = find_unit_by_id(id);   /* unit might die while exploring */
+            if( punit && punit->moves_left && is_barbarian(pplayer) ) {
               struct city *pc;
               int fx, fy;
               freelog(LOG_DEBUG,"Barbarians looking for target");
