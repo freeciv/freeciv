@@ -490,9 +490,15 @@ int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
 
 static int is_wet(struct player *pplayer, int x, int y)
 {
-  if (!map_get_known(x, y, pplayer) && !pplayer->ai.control) return 0;
-  if (map_get_terrain(x,y) == T_OCEAN || map_get_terrain(x,y) == T_RIVER ||
-      map_get_special(x,y)&S_RIVER || map_get_special(x,y)&S_IRRIGATION) return 1;
+  enum tile_terrain_type t;
+  enum tile_special_type s;
+
+  if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return 0;
+
+  t=map_get_terrain(x,y);
+  if (t == T_OCEAN || t == T_RIVER) return 1;
+  s=map_get_special(x,y);
+  if ((s & S_RIVER) || (s & S_IRRIGATION)) return 1;
   return 0;
 }
 
