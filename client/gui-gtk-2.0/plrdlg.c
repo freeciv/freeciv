@@ -45,236 +45,352 @@
 
 static GtkWidget *players_dialog_shell;
 static GtkWidget *players_list;
+static GtkTreeSelection *players_selection;
+static GtkWidget *players_menu;
 static GtkWidget *players_close_command;
 static GtkWidget *players_int_command;
 static GtkWidget *players_meet_command;
 static GtkWidget *players_war_command;
 static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
+static GtkListStore *store;
 
 /* the sortable columns need two indexes */
-static int listindex_to_playerindex[MAX_NUM_PLAYERS];
 static int playerindex_to_listindex[MAX_NUM_PLAYERS];
 
-/* a simple macro that makes an often used construct look readable */
-#define LI_2_PI(no) *(int*)(gtk_clist_get_row_data(GTK_CLIST(players_list), no))
-
-static SPRITE *flags[MAX_NUM_PLAYERS];
+static GdkPixbuf *flags[MAX_NUM_PLAYERS];
 
 static void create_players_dialog(void);
-static void players_button_callback(GtkWidget *w, gpointer data);
-static void players_meet_callback(GtkWidget *w, gpointer data);
-static void players_war_callback(GtkWidget *w, gpointer data);
-static void players_vision_callback(GtkWidget *w, gpointer data);
-static void players_intel_callback(GtkWidget *w, gpointer data);
-static void players_list_callback(GtkWidget *w, gint row, gint column);
-static void players_list_ucallback(GtkWidget *w, gint row, gint column);
-static void players_sship_callback(GtkWidget *w, gpointer data);
+static void players_meet_callback(GtkMenuItem *item, gpointer data);
+static void players_war_callback(GtkMenuItem *item, gpointer data);
+static void players_vision_callback(GtkMenuItem *item, gpointer data);
+static void players_intel_callback(GtkMenuItem *item, gpointer data);
+static void players_sship_callback(GtkMenuItem *item, gpointer data);
 
 #define NUM_COLUMNS 12    /* number of columns in total */
 #define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
+#define PLRNO_COLUMN 13   /* plrno column */
 
-/****************************************************************
+/**************************************************************************
 popup the dialog 10% inside the main-window 
-*****************************************************************/
+**************************************************************************/
 void popup_players_dialog(void)
 {
   if(!players_dialog_shell){
     create_players_dialog();
-    gtk_set_relative_position(toplevel, players_dialog_shell, 25, 25);
-
-    gtk_widget_show(players_dialog_shell);
+    gtk_window_set_position(GTK_WINDOW(players_dialog_shell),GTK_WIN_POS_MOUSE);
   }
+  gtk_window_present(GTK_WINDOW(players_dialog_shell));
 }
 
-/*
- * Sort plrs by column...
- */
-static void sort_players_callback(GtkButton *button, gpointer *data)
-{
-  int sort_column = GPOINTER_TO_INT(data);
-  int i;
-
-  /* first - sort the clist */
-  if (sort_column == GTK_CLIST(players_list)->sort_column) {
-    if (GTK_CLIST(players_list)->sort_type == GTK_SORT_ASCENDING) {
-      gtk_clist_set_sort_type(GTK_CLIST(players_list), GTK_SORT_DESCENDING);
-    } else {
-      gtk_clist_set_sort_type(GTK_CLIST(players_list), GTK_SORT_ASCENDING);
-    }
-  } else {
-    gtk_clist_set_sort_type(GTK_CLIST(players_list), GTK_SORT_ASCENDING);
-    gtk_clist_set_sort_column(GTK_CLIST(players_list), sort_column);
-  }
-  gtk_clist_sort( GTK_CLIST(players_list));
-
-  /* second - update the index */
-  for (i=0; i<GTK_CLIST(players_list)->rows; i++) {
-     playerindex_to_listindex[LI_2_PI(i)]=i;
-  }  
-}
-
-
-/****************************************************************
+/**************************************************************************
 ...
-*****************************************************************/
+**************************************************************************/
+static void players_destroy_callback(GtkObject *object, gpointer data)
+{
+  players_dialog_shell = NULL;
+
+  if (players_menu) {
+    gtk_widget_destroy(GTK_WIDGET(players_menu));
+  }
+  players_menu = NULL;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static gboolean button_press(GtkWidget *w, GdkEventButton *ev, gpointer data)
+{
+  if (ev->button != 1) {
+    gtk_menu_popup(GTK_MENU(players_menu),
+      NULL, NULL, NULL, NULL, ev->button, ev->time);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static gboolean key_press(GtkWidget *w, GdkEventKey *ev, gpointer data)
+{
+  switch (ev->keyval) {
+  case GDK_KP_Space:
+  case GDK_space:
+    gtk_menu_popup(GTK_MENU(players_menu),
+      NULL, NULL, NULL, NULL, 0, ev->time);
+    return TRUE;
+
+  default:
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void selection_callback(GtkTreeSelection *selection, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    struct player *plr;
+    gint plrno;
+
+    gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
+    plr = &game.players[plrno];
+  
+    if (plr->spaceship.state != SSHIP_NONE)
+      gtk_widget_set_sensitive(players_sship_command, TRUE);
+    else
+      gtk_widget_set_sensitive(players_sship_command, FALSE);
+
+    switch (pplayer_get_diplstate(game.player_ptr, get_player(plrno))->type) {
+    case DS_WAR:
+    case DS_NO_CONTACT:
+      gtk_widget_set_sensitive(players_war_command, FALSE);
+      break;
+    default:
+      gtk_widget_set_sensitive(players_war_command, (game.player_idx != plrno));
+    }
+
+    gtk_widget_set_sensitive(players_vision_command,
+      gives_shared_vision(game.player_ptr, plr));
+
+    if (plr->is_alive
+        && plr != game.player_ptr
+        && player_has_embassy(game.player_ptr, plr)) {
+      gtk_widget_set_sensitive(players_meet_command, plr->is_connected);
+      gtk_widget_set_sensitive(players_int_command, TRUE);
+      return;
+    }
+  }
+
+  gtk_widget_set_sensitive(players_meet_command, FALSE);
+  gtk_widget_set_sensitive(players_int_command, FALSE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles_[NUM_COLUMNS] =
-      { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("Ai"),
-    N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
-    N_("State"), N_("Host"), N_("Idle")
+  static gchar *titles_[NUM_COLUMNS] = {
+    N_("Name"),
+    N_("Flag"),
+    N_("Nation"),
+    N_("Team"),
+    N_("AI"),
+    N_("Embassy"),
+    N_("Dipl.State"),
+    N_("Vision"),
+    N_("Reputation"),
+    N_("State"),
+    N_("Host"),
+    N_("Idle Turns")
   };
+
+  static GType model_types[NUM_COLUMNS+2] = {
+    G_TYPE_STRING,
+    G_TYPE_NONE,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_BOOLEAN,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_STRING,
+    G_TYPE_INT,
+    G_TYPE_NONE,
+    G_TYPE_INT
+  };
+
   static gchar **titles;
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
+  GtkTreeModel *model;
+  GtkWidget *sep;
+
+  model_types[1] = GDK_TYPE_PIXBUF;
+  model_types[12] = GDK_TYPE_COLOR;
 
   /* initialises the indexes, necessary for update_players_dialog */
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     playerindex_to_listindex[i] = -1;
-    listindex_to_playerindex[i] = -1;
   }
 
   if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
 
   players_dialog_shell = gtk_dialog_new();
-  gtk_box_set_homogeneous(GTK_BOX
-			  (GTK_DIALOG(players_dialog_shell)->action_area),
-			  0);
-  gtk_signal_connect( GTK_OBJECT(players_dialog_shell),"delete_event",
-        GTK_SIGNAL_FUNC(players_button_callback),NULL);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(players_dialog_shell));
-
   gtk_window_set_title(GTK_WINDOW(players_dialog_shell), _("Players"));
 
-  players_list=gtk_clist_new_with_titles(NUM_COLUMNS, titles);
+  g_signal_connect(players_dialog_shell, "destroy",
+    G_CALLBACK(players_destroy_callback), NULL);
+  g_signal_connect_swapped(players_dialog_shell, "response",
+    G_CALLBACK(gtk_widget_destroy), GTK_OBJECT(players_dialog_shell));
 
-  for(i=0; i<NUM_COLUMNS; i++)
-    gtk_clist_set_column_auto_resize (GTK_CLIST (players_list), i, TRUE);
+  store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox),
-	players_list, TRUE, TRUE, 0);
+  model = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
 
-  players_close_command=gtk_accelbutton_new(_("C_lose"), accel);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_close_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_close_command, GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(players_close_command);
+  players_list = gtk_tree_view_new_with_model(model);
 
-  players_int_command=gtk_accelbutton_new(_("_Intelligence"), accel);
-  gtk_widget_set_sensitive(players_int_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_int_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_int_command, GTK_CAN_DEFAULT);
+  players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
+  g_signal_connect(players_selection, "changed",
+        G_CALLBACK(selection_callback), NULL);
 
-  players_meet_command=gtk_accelbutton_new(_("_Meet"), accel);
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_meet_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_meet_command, GTK_CAN_DEFAULT);
+  gtk_widget_modify_base(players_list,
+    GTK_STATE_NORMAL, colors_standard[COLOR_STD_BLACK]);
 
-  players_war_command=gtk_accelbutton_new(_("_Cancel Treaty"), accel);
-  gtk_widget_set_sensitive(players_war_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_war_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_war_command, GTK_CAN_DEFAULT);
-
-  players_vision_command=gtk_accelbutton_new(_("_Withdraw vision"), accel);
-  gtk_widget_set_sensitive(players_vision_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_vision_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_vision_command, GTK_CAN_DEFAULT);
-
-  players_sship_command=gtk_accelbutton_new(_("_Spaceship"), accel);
-  gtk_widget_set_sensitive(players_sship_command, FALSE);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
-	players_sship_command, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(players_sship_command, GTK_CAN_DEFAULT);
-
-  gtk_signal_connect(GTK_OBJECT(players_list), "select_row",
-		GTK_SIGNAL_FUNC(players_list_callback), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(players_list), "unselect_row",
-		GTK_SIGNAL_FUNC(players_list_ucallback), NULL);
-  
-  gtk_signal_connect(GTK_OBJECT(players_close_command), "clicked",
-		GTK_SIGNAL_FUNC(players_button_callback), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(players_meet_command), "clicked",
-		GTK_SIGNAL_FUNC(players_meet_callback), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(players_war_command), "clicked",
-		GTK_SIGNAL_FUNC(players_war_callback), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(players_vision_command), "clicked",
-		GTK_SIGNAL_FUNC(players_vision_callback), NULL);
-
-  gtk_signal_connect(GTK_OBJECT(players_int_command), "clicked",
-		GTK_SIGNAL_FUNC(players_intel_callback), NULL);
-  
-  gtk_signal_connect(GTK_OBJECT(players_sship_command), "clicked",
-		GTK_SIGNAL_FUNC(players_sship_callback), NULL);
-
-  gtk_widget_show_all(GTK_DIALOG(players_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(players_dialog_shell)->action_area);
-
-  gtk_widget_add_accelerator(players_close_command, "clicked",
-	accel, GDK_Escape, 0, 0);
-
-  /* default sort column is nation name */
-  gtk_clist_set_sort_column(GTK_CLIST(players_list), DEF_SORT_COLUMN);
-
-  /* all colums but flag column are clickable */
   for (i = 0; i < NUM_COLUMNS; i++) {
-    if (i != 1) {
-      gtk_signal_connect(GTK_OBJECT
-			 (GTK_CLIST(players_list)->column[i].button),
-			 "clicked", GTK_SIGNAL_FUNC(sort_players_callback),
-			 GINT_TO_POINTER(i));
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *col;
+
+    if (model_types[i] == GDK_TYPE_PIXBUF) {
+      renderer = gtk_cell_renderer_pixbuf_new();
+
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+        "pixbuf", i, NULL);
+    } else if (model_types[i] == G_TYPE_BOOLEAN) {
+      renderer = gtk_cell_renderer_toggle_new();
+
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+        "active", i, NULL);
+      gtk_tree_view_column_set_sort_column_id(col, i);
+    } else {
+      renderer = gtk_cell_renderer_text_new();
+      g_object_set(renderer,
+      	"background-gdk", colors_standard[COLOR_STD_BLACK],
+	"weight", "bold",
+	NULL);
+
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+        "text", i, "foreground-gdk", NUM_COLUMNS, NULL);
+      gtk_tree_view_column_set_sort_column_id(col, i);
     }
+
+    if (i == DEF_SORT_COLUMN) {
+      gtk_tree_view_column_set_sort_indicator(col, TRUE);
+    }
+
+    gtk_tree_view_append_column(GTK_TREE_VIEW(players_list), col);
   }
 
-  gtk_clist_clear(GTK_CLIST(players_list));
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(players_dialog_shell)->vbox),
+    players_list);
+  gtk_widget_show_all(players_list);
+
+  players_close_command=gtk_dialog_add_button(GTK_DIALOG(players_dialog_shell),
+    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gtk_button_set_relief(GTK_BUTTON(players_close_command), GTK_RELIEF_NONE);
+
+  players_menu = gtk_menu_new();
+  gtk_menu_set_accel_group(GTK_MENU(players_menu), accel);
+
+  players_int_command = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
+  gtk_widget_set_sensitive(players_int_command, FALSE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_int_command);
+
+  sep = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), sep);
+
+  players_meet_command = gtk_menu_item_new_with_mnemonic(_("_Meet"));
+  gtk_widget_set_sensitive(players_meet_command, FALSE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_meet_command);
+
+  players_war_command = gtk_menu_item_new_with_mnemonic(_("_Cancel Treaty"));
+  gtk_widget_set_sensitive(players_war_command, FALSE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_war_command);
+
+  players_vision_command=gtk_menu_item_new_with_mnemonic(_("_Withdraw vision"));
+  gtk_widget_set_sensitive(players_vision_command, FALSE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_vision_command);
+
+  sep = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), sep);
+
+  players_sship_command = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
+  gtk_widget_set_sensitive(players_sship_command, FALSE);
+  gtk_menu_shell_append(GTK_MENU_SHELL(players_menu), players_sship_command);
+
+  gtk_widget_add_accelerator(players_int_command,
+    "activate", accel, GDK_I, 0, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(players_meet_command,
+    "activate", accel, GDK_M, 0, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(players_war_command,
+    "activate", accel, GDK_C, 0, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(players_vision_command,
+    "activate", accel, GDK_W, 0, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(players_sship_command,
+    "activate", accel, GDK_S, 0, GTK_ACCEL_VISIBLE);
+
+  gtk_window_add_accel_group(GTK_WINDOW(players_dialog_shell), accel);
+
+  gtk_widget_show_all(players_menu);
+
+  g_signal_connect(players_list, "button_press_event",
+    G_CALLBACK(button_press), NULL);
+  g_signal_connect(players_list, "key_press_event",
+    G_CALLBACK(key_press), NULL);
+
+
+  g_signal_connect(players_meet_command, "activate",
+    G_CALLBACK(players_meet_callback), NULL);
+  g_signal_connect(players_war_command, "activate",
+    G_CALLBACK(players_war_callback), NULL);
+  g_signal_connect(players_vision_command, "activate",
+    G_CALLBACK(players_vision_callback), NULL);
+  g_signal_connect(players_int_command, "activate",
+    G_CALLBACK(players_intel_callback), NULL);
+  g_signal_connect(players_sship_command, "activate",
+    G_CALLBACK(players_sship_callback), NULL);
+
+  gtk_list_store_clear(store);
   update_players_dialog();
 
-  /* don't resize the state column */
-  gtk_clist_set_column_auto_resize(GTK_CLIST(players_list), 8, FALSE);
+  gtk_dialog_set_default_response(GTK_DIALOG(players_dialog_shell),
+    GTK_RESPONSE_CLOSE);
 }
 
 /* 
  * Builds the text for the cells of a row in the player report. If
- * update is 1, only the changable entries are build.
+ * update is TRUE, only the changable entries are build.
  */
-static void build_row(char **row, int i, int update)
+static void build_row(GtkTreeIter *it, int i, bool update)
 {
-  static char namebuf[MAX_LEN_NAME], flagbuf[1], aibuf[2], dsbuf[32],
-      repbuf[32], statebuf[32], idlebuf[32];
+  static char dsbuf[32], idlebuf[32];
   const struct player_diplstate *pds;
+  GValue value = { 0, };
+
+  g_value_init(&value, G_TYPE_STRING);
 
   /* we assume that neither name, team nor the nation of a player changes */
-  if (update == 0) {
+  if (!update) {
     /* the playername */
-    my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
-    row[0] = namebuf;
+    g_value_set_static_string(&value, game.players[i].name);
+    gtk_list_store_set_value(store, it, 0, &value);
 
-    /* since flag is a pixmap, this can be empty */
-    flagbuf[0] = '\0';
-    row[1] = flagbuf;
+    /* the playerid */
+    gtk_list_store_set(store, it, PLRNO_COLUMN, i, -1);
 
     /* the nation */
-    row[2] = (char *) get_nation_name(game.players[i].nation);
+    g_value_set_static_string(&value, get_nation_name(game.players[i].nation));
+    gtk_list_store_set_value(store, it, 2, &value);
 
     /* the team */
     if (game.players[i].team != TEAM_NONE) {
-      row[3] = (char *) team_get_by_id(game.players[i].team)->name;
+      g_value_set_static_string(&value,
+        team_get_by_id(game.players[i].team)->name);
     } else {
-      row[3] = (char *) "";
+      g_value_set_static_string(&value, "");
     }
+    gtk_list_store_set_value(store, it, 3, &value);
   }
-
-  /* text for name, plus AI marker */
-  aibuf[0] = (game.players[i].ai.control ? '*' : '\0');
-  aibuf[1] = '\0';
 
   /* text for diplstate type and turns -- not applicable if this is me */
   if (i == game.player_idx) {
@@ -293,16 +409,17 @@ static void build_row(char **row, int i, int update)
   if (game.players[i].is_alive) {
     if (game.players[i].is_connected) {
       if (game.players[i].turn_done) {
-	sz_strlcpy(statebuf, _("done"));
+      	g_value_set_static_string(&value, _("done"));
       } else {
-	sz_strlcpy(statebuf, _("moving"));
+      	g_value_set_static_string(&value, _("moving"));
       }
     } else {
-      statebuf[0] = '\0';
+      g_value_set_static_string(&value, "");
     }
   } else {
-    sz_strlcpy(statebuf, _("R.I.P"));
+    g_value_set_static_string(&value, _("R.I.P"));
   }
+  gtk_list_store_set_value(store, it, 9, &value);
 
   /* text for idleness */
   if (game.players[i].nturns_idle > 3) {
@@ -315,18 +432,24 @@ static void build_row(char **row, int i, int update)
   }
 
   /* text for reputation */
-  my_snprintf(repbuf, sizeof(repbuf),
-	      reputation_text(game.players[i].reputation));
+  g_value_set_static_string(&value,reputation_text(game.players[i].reputation));
+  gtk_list_store_set_value(store, it, 8, &value);
 
   /* assemble the whole lot */
-  row[4] = aibuf;
-  row[5] = get_embassy_status(game.player_ptr, &game.players[i]);
-  row[6] = dsbuf;
-  row[7] = get_vision_status(game.player_ptr, &game.players[i]);
-  row[8] = repbuf;
-  row[9] = statebuf;
-  row[10] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
-  row[11] = idlebuf;
+  g_value_set_static_string(&value,
+    get_embassy_status(game.player_ptr, &game.players[i]));
+  gtk_list_store_set_value(store, it, 5, &value);
+
+  g_value_set_static_string(&value,
+    get_vision_status(game.player_ptr, &game.players[i]));
+  gtk_list_store_set_value(store, it, 7, &value);
+
+  gtk_list_store_set(store, it,
+     4, game.players[i].ai.control,
+     6, dsbuf,
+    10, player_addr_hack(&game.players[i]),   /* Fixme */
+    11, (game.players[i].nturns_idle > 3) ? (game.players[i].nturns_idle - 1):0,
+    -1);
 }
 
 #define MIN_DIMENSION 5
@@ -334,14 +457,15 @@ static void build_row(char **row, int i, int update)
 /* 
  * Builds the flag pixmap.
  */
-static void build_flag(int playerindex)
+static void build_flag(int plrno)
 {
-  int start_x, start_y, end_x, end_y, flag_h, flag_w, newflag_h, newflag_w;
-  SPRITE *flag, *croped, *scaled;
+  int start_x, start_y, end_x, end_y, flag_h, flag_w;
+  SPRITE *flag;
+  GdkPixbuf *scaled;
 
-  flag = get_nation_by_plr(&game.players[playerindex])->flag_sprite;
+  flag = get_nation_by_plr(&game.players[plrno])->flag_sprite;
   if (!flag) {
-    flags[playerindex] = NULL;
+    flags[plrno] = NULL;
     return;
   }
 
@@ -358,24 +482,17 @@ static void build_flag(int playerindex)
 
   /* if the flag is smaller then 5 x 5, something is wrong */
   assert(flag_w >= MIN_DIMENSION && flag_h >= MIN_DIMENSION);
-  
+
   /* croping */
-  croped = crop_sprite(flag, start_x, start_y, flag_w, flag_h);
+  scaled = gdk_pixbuf_get_from_drawable(NULL,
+    flag->pixmap,
+    gdk_colormap_get_system(),
+    start_x, start_y,
+    0, 0,
+    flag_w, flag_h);
 
-  /* scaling */
-  newflag_h = GTK_CLIST(players_list)->row_height;
-  newflag_w = ((double) newflag_h / flag_h) * flag_w;
-
-  freelog(LOG_DEBUG, "%dx%d %dx%d %dx%d", flag->width,
-	  flag->height, flag_w, flag_h, newflag_w, newflag_h);
-
-  scaled = sprite_scale(croped, newflag_w, newflag_h);
-  free_sprite(croped);
-
-  sprite_draw_black_border(scaled);
-
-  /* and finaly store the scaled flagsprite in the static flags array */
-  flags[playerindex] = scaled;
+  /* and finaly store the scaled flag pixbuf in the static flags array */
+  flags[plrno] = scaled;
 }
 
 
@@ -386,47 +503,47 @@ void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
     GdkColor *state_col;
-    char *row_texts[NUM_COLUMNS];
-    int i, j, row, sort_needed = 0;
-
-    gtk_clist_freeze(GTK_CLIST(players_list));
+    int i, row;
+    GtkTreeIter it;
+    GtkTreePath *path;
 
     for (i = 0; i < game.nplayers; i++) {
       /* skip barbarians */
       if (is_barbarian(&game.players[i])) {
 	continue;
       }
+
       row = playerindex_to_listindex[i];
+
       if (row == -1) {
 	/* 
 	 * A nation is not in the player report yet. This happens when
 	 * the report is just opened and after a split.
 	 */
-	row = GTK_CLIST(players_list)->rows;
-	build_row(row_texts, i, 0);
-	gtk_clist_append(GTK_CLIST(players_list), row_texts);
-	gtk_clist_set_row_data(GTK_CLIST(players_list), row,
-			       &(listindex_to_playerindex[row]));
+      	gtk_list_store_append(store, &it);
+
+      	path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &it);
+	row = gtk_tree_path_get_indices(path)[0];
+	playerindex_to_listindex[i] = row;
+	gtk_tree_path_free(path);
+
+      	build_row(&it, i, FALSE);
 
 	build_flag(i);
 	if (flags[i]) {
-	  gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1,
-			       flags[i]->pixmap, flags[i]->mask);
+      	  gtk_list_store_set(store, &it, 1, flags[i], -1);
 	}
-
-	listindex_to_playerindex[row] = i;
-	playerindex_to_listindex[i] = row;
-	sort_needed = 1;
       } else {
-	build_row(row_texts, i, 1);
 	/* 
 	 * The nation already had a row in the player report. In that
 	 * case we just update the row. 
 	 */
-	for (j = 4; j < NUM_COLUMNS; j++) {
-	  gtk_clist_set_text(GTK_CLIST(players_list), row, j,
-			     row_texts[j]);
-	}
+      	path = gtk_tree_path_new();
+	gtk_tree_path_append_index(path, row);
+      	gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &it, path);
+	gtk_tree_path_free(path);
+
+      	build_row(&it, i, TRUE);
       }
 
       /* now add some eye candy ... */
@@ -438,102 +555,32 @@ void update_players_dialog(void)
 	state_col = colors_standard[COLOR_STD_GROUND];
 	break;
       default:
-	state_col = colors_standard[COLOR_STD_BLACK];
+	state_col = colors_standard[COLOR_STD_WHITE];
       }
-      gtk_clist_set_foreground(GTK_CLIST(players_list), row, state_col);
+
+      gtk_list_store_set(store, &it, 12, state_col, -1);
     }
-
-    if (sort_needed) {
-      /* when new nations appear in the report, we have to sort it */
-      gtk_clist_sort(GTK_CLIST(players_list));
-      /* second - update the index */
-      for (i = 0; i < GTK_CLIST(players_list)->rows; i++) {
-	playerindex_to_listindex[LI_2_PI(i)] = i;
-      }
-    }
-
-    gtk_clist_thaw(GTK_CLIST(players_list));
-    gtk_widget_show_all(players_list);
   }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void players_list_callback(GtkWidget * w, gint row, gint column)
+void players_meet_callback(GtkMenuItem *item, gpointer data)
 {
-  int player_index = LI_2_PI(row);
-  struct player *pplayer = &game.players[player_index];
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint plrno;
 
-  if (pplayer->spaceship.state != SSHIP_NONE)
-    gtk_widget_set_sensitive(players_sship_command, TRUE);
-  else
-    gtk_widget_set_sensitive(players_sship_command, FALSE);
-
-  switch (pplayer_get_diplstate
-	  (game.player_ptr, get_player(player_index))->type) {
-  case DS_WAR:
-  case DS_NO_CONTACT:
-    gtk_widget_set_sensitive(players_war_command, FALSE);
-    break;
-  default:
-    gtk_widget_set_sensitive(players_war_command,
-			     game.player_idx != player_index);
-  }
-
-  gtk_widget_set_sensitive(players_vision_command,
-			   gives_shared_vision(game.player_ptr, pplayer));
-
-  if (pplayer->is_alive 
-      && pplayer != game.player_ptr
-      && player_has_embassy(game.player_ptr, pplayer)) {
-    if (pplayer->is_connected)
-      gtk_widget_set_sensitive(players_meet_command, TRUE);
-    else
-      gtk_widget_set_sensitive(players_meet_command, FALSE);
-    gtk_widget_set_sensitive(players_int_command, TRUE);
+  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
     return;
-  }
+  gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_widget_set_sensitive(players_int_command, FALSE);
-}
-
-void players_list_ucallback(GtkWidget *w, gint row, gint column)
-{
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_widget_set_sensitive(players_int_command, FALSE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void players_button_callback(GtkWidget *w, gpointer data)
-{
-  gtk_widget_destroy(players_dialog_shell);
-  players_dialog_shell = NULL;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void players_meet_callback(GtkWidget *w, gpointer data)
-{
-  GList *selection;
-  gint row;
-  int player_index;
-
-  if(!(selection=GTK_CLIST(players_list)->selection))
-    return;
-
-  row = GPOINTER_TO_INT(selection->data);
-  player_index = LI_2_PI(row);
-
-  if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
+  if(player_has_embassy(game.player_ptr, &game.players[plrno])) {
     struct packet_diplomacy_info pa;
   
     pa.plrno0=game.player_idx;
-    pa.plrno1=player_index;
+    pa.plrno1=plrno;
     pa.plrno_from=pa.plrno0;
     send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
         		       &pa);
@@ -547,21 +594,18 @@ void players_meet_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void players_war_callback(GtkWidget *w, gpointer data)
+void players_war_callback(GtkMenuItem *item, gpointer data)
 {
-  GList *selection = GTK_CLIST(players_list)->selection;
-  gint row;
-  int player_index;
+  GtkTreeModel *model;
+  GtkTreeIter it;
 
-  if (!selection)
-    return;
-  else {
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     struct packet_generic_integer pa;    
+    gint plrno;
 
-    row = GPOINTER_TO_INT(selection->data);
-    player_index = LI_2_PI(row);
+    gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-    pa.value = player_index;
+    pa.value = plrno;
     send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
 				&pa);
   }
@@ -570,21 +614,18 @@ void players_war_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void players_vision_callback(GtkWidget *w, gpointer data)
+void players_vision_callback(GtkMenuItem *item, gpointer data)
 {
-  GList *selection = GTK_CLIST(players_list)->selection;
-  gint row;
-  int player_index;
+  GtkTreeModel *model;
+  GtkTreeIter it;
 
-  if (!selection)
-    return;
-  else {
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     struct packet_generic_integer pa;    
+    gint plrno;
 
-    row = GPOINTER_TO_INT(selection->data);
-    player_index = LI_2_PI(row);
+    gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-    pa.value = player_index;
+    pa.value = plrno;
     send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
 				&pa);
   }
@@ -593,36 +634,32 @@ void players_vision_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void players_intel_callback(GtkWidget *w, gpointer data)
+void players_intel_callback(GtkMenuItem *item, gpointer data)
 {
-  GList *selection;
-  gint row;
-  int player_index;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint plrno;
 
-  if(!(selection=GTK_CLIST(players_list)->selection))
-      return;
+  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
+    return;
+  gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  row = GPOINTER_TO_INT(selection->data);
-  player_index = LI_2_PI(row);
-
-  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
-    popup_intel_dialog(&game.players[player_index]);
+  if(player_has_embassy(game.player_ptr, &game.players[plrno]))
+    popup_intel_dialog(&game.players[plrno]);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void players_sship_callback(GtkWidget *w, gpointer data)
+void players_sship_callback(GtkMenuItem *item, gpointer data)
 {
-  GList *selection;
-  gint row;
-  int player_index;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint plrno;
 
-  if(!(selection=GTK_CLIST(players_list)->selection))
-      return;
+  if (!gtk_tree_selection_get_selected(players_selection, &model, &it))
+    return;
+  gtk_tree_model_get(model, &it, PLRNO_COLUMN, &plrno, -1);
 
-  row = GPOINTER_TO_INT(selection->data);
-  player_index = LI_2_PI(row);
-
-  popup_spaceship_dialog(&game.players[player_index]);
+  popup_spaceship_dialog(&game.players[plrno]);
 }
