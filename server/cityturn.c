@@ -461,8 +461,9 @@ static void city_increase_size(struct city *pcity)
 		       pcity->name);
     }
     /* Granary can only hold so much */
-    new_food = (city_granary_size(pcity->size) * (100 - game.aqueductloss)
-		* savings_pct) / (100 * 100);
+    new_food = (city_granary_size(pcity->size)
+		* (100 * 100 - game.aqueductloss * (100 - savings_pct))
+		/ (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
