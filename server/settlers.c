@@ -1557,27 +1557,24 @@ want!
 void contemplate_new_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  struct unit virtualunit;
+  struct unit *virtualunit;
   int want;
   int gx = 0, gy = 0;
   struct unit *ferryboat = NULL; /* dummy */
+  Unit_Type_id unit_type = best_role_unit(pcity, F_CITIES); 
 
-  memset(&virtualunit, 0, sizeof(struct unit));
-  virtualunit.id = 0;
-  /* note virtual unit is not added to unit lists (eg pplayer->units),
-     so equivalently don't need to call idex_register_unit()  --dwp
-  */
-  virtualunit.owner = pplayer->player_no;
-  virtualunit.x = pcity->x;
-  virtualunit.y = pcity->y;
-  virtualunit.type = best_role_unit(pcity, F_CITIES);
-  if (virtualunit.type == U_LAST) {
+  if (unit_type == U_LAST) {
     freelog(LOG_DEBUG, "No F_CITIES role unit available");
     return;
   }
-  virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
-  virtualunit.hp = unit_type(&virtualunit)->hp;
-  want = evaluate_city_building(&virtualunit, &gx, &gy, &ferryboat);
+
+  /* Create a localized "virtual" unit to do operations with. */
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, FALSE);
+  virtualunit->x = pcity->x;
+  virtualunit->y = pcity->y;
+  want = evaluate_city_building(virtualunit, &gx, &gy, &ferryboat);
+  free(virtualunit);
+
   unit_list_iterate(pplayer->units, qpass) {
     /* We want a ferryboat with want 199 */
     if (qpass->ai.ferryboat == pcity->id)
@@ -1598,26 +1595,26 @@ want!
 void contemplate_terrain_improvements(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  struct unit virtualunit;
+  struct unit *virtualunit;
   int want;
   int gx, gy; /* dummies */
   enum unit_activity best_act;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct ai_data *ai = ai_data_get(pplayer);
+  Unit_Type_id unit_type = best_role_unit(pcity, F_SETTLERS);
 
-  memset(&virtualunit, 0, sizeof(struct unit));
-  virtualunit.id = 0;
-  virtualunit.owner = pplayer->player_no;
-  virtualunit.x = pcity->x;
-  virtualunit.y = pcity->y;
-  virtualunit.type = best_role_unit(pcity, F_SETTLERS);
-  if (virtualunit.type == U_LAST) {
+  if (unit_type == U_LAST) {
     freelog(LOG_DEBUG, "No F_SETTLERS role unit available");
     return;
   }
-  virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
-  virtualunit.hp = unit_type(&virtualunit)->hp;  
-  want = evaluate_improvements(&virtualunit, &best_act, &gx, &gy);
+
+  /* Create a localized "virtual" unit to do operations with. */
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, FALSE);
+  virtualunit->x = pcity->x;
+  virtualunit->y = pcity->y;
+  want = evaluate_improvements(virtualunit, &best_act, &gx, &gy);
+  free(virtualunit);
+
 /* FIXME: AI does not ship F_SETTLERS around, only F_CITIES - Per */
 #ifdef AI_SMART
   unit_list_iterate(pplayer->units, qpass) {
