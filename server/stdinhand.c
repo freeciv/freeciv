@@ -4058,8 +4058,8 @@ void handle_stdin_input(struct connection *caller, char *str)
     timeout_command(caller, allargs);
     break;
   case CMD_START_GAME:
-    if (server_state==PRE_GAME_STATE) {
-
+    switch (server_state) {
+    case PRE_GAME_STATE:
       /* Sanity check scenario */
       if (game.is_new_game) {
 	if (map.fixed_start_positions
@@ -4087,23 +4087,39 @@ void handle_stdin_input(struct connection *caller, char *str)
 
       /* check min_players */
       if (game.nplayers < game.min_players) {
-        cmd_reply(cmd,caller, C_FAIL,
+        cmd_reply(cmd, caller, C_FAIL,
 		  _("Not enough players, game will not start."));
-        break;
+      } else {
+	start_game();
       }
-
-      start_game();
-    } else {
-      cmd_reply(cmd,caller, C_FAIL,
+      break;
+    case GAME_OVER_STATE:
+      /* TRANS: given when /start is invoked during gameover. */
+      cmd_reply(cmd, caller, C_FAIL,
+		_("Cannot start the game: the game is waiting for all clients "
+                  "to disconnect."));
+      break;
+    case SELECT_RACES_STATE:
+      /* TRANS: given when /start is invoked during nation selection. */
+      cmd_reply(cmd, caller, C_FAIL,
+		_("Cannot start the game: it has already been started."));
+      break;
+    case RUN_GAME_STATE:
+      /* TRANS: given when /start is invoked while the game is running. */
+      cmd_reply(cmd, caller, C_FAIL,
 		_("Cannot start the game: it is already running."));
+      break;
     }
     break;
   case CMD_END_GAME:
-    if (server_state==RUN_GAME_STATE) {
+    if (server_state == RUN_GAME_STATE) {
       server_state = GAME_OVER_STATE;
       force_end_of_sniff = TRUE;
+      cmd_reply(cmd, caller, C_OK,
+		_("Ending the game. The server will restart once all clients "
+                  "have disconnected."));
     } else {
-      cmd_reply(cmd,caller, C_FAIL,
+      cmd_reply(cmd, caller, C_FAIL,
 		_("Cannot end the game: no game running."));
     }
     break;
