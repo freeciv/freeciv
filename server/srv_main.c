@@ -1632,7 +1632,7 @@ static void handle_request_join_game(struct connection *pconn,
 
   /* unknown name */
 
-  if(server_state!=PRE_GAME_STATE) {
+  if (server_state != PRE_GAME_STATE || !game.is_new_game) {
     reject_new_player(_("Sorry, the game is already running."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Game running and unknown name %s."),
 	    pconn->name, req->name);
