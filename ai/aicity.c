@@ -39,6 +39,7 @@
 #include <advdomestic.h>
 #include <gotohand.h>
 #include <settlers.h>
+#include <unittools.h>
 
 int ai_fix_unhappy(struct city *pcity);
 void ai_manage_city(struct player *pplayer, struct city *);
@@ -219,7 +220,15 @@ bestchoice.want); */
 
 /* fallbacks should never happen anymore, but probably could somehow. -- Syela */
 printf("Falling back - %s didn't want soldiers, settlers, or buildings.\n", pcity->name);
-  
+  if (can_build_improvement(pcity, B_BARRACKS)) {
+    pcity->currently_building = B_BARRACKS;
+    pcity->is_building_unit = 0;
+  } else {
+    pcity->currently_building = U_SETTLERS; /* yes, this could be truly bad */
+    pcity->is_building_unit = 1;
+  }
+/* I think fallbacks only happen with techlevel 0, and even then are rare.
+I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
 }
 
 int ai_city_defender_value(struct city *pcity, int a_type, int d_type)            
@@ -322,19 +331,25 @@ unit_types[punit->type].name, unit_types[id].name); */
           pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         pcity->shield_stock * 3 < buycost) ; /* too expensive */
-      else if (bestchoice.type == 3 && pcity->size == 1 && pcity->ai.grave_danger &&
-              pcity->ai.danger > (assess_defense(pcity) +
-  ai_city_defender_value(pcity, pcity->ai.grave_danger->type, bestchoice.choice)) * 2 &&
+#ifdef GRAVEDANGERWORKS
+      else if (bestchoice.type == 3 && pcity->size == 1 &&
+        pcity->ai.grave_danger > (assess_defense_quadratic(pcity) +
+  ai_city_defender_value(pcity, U_LEGION, bestchoice.choice)) * 2 &&
                pcity->food_stock + pcity->food_surplus < 10) { /* We're DOOMED */
-printf("%s is DOOMED!  Yielding to %s's %s.\n", pcity->name,
-game.players[pcity->ai.grave_danger->owner].name, 
-unit_types[pcity->ai.grave_danger->type].name);
+printf("%s is DOOMED!\n", pcity->name);
          try_to_sell_stuff(pplayer, pcity); /* and don't buy stuff */
          pcity->currently_building = ai_choose_defender_limited(pcity,
                   pcity->shield_stock + pcity->shield_surplus, 0);
       }
+#endif
       else if (pplayer->economic.gold >= buycost && (!frugal || bestchoice.want > 200)) {
-        really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+        if (bestchoice.type == 3 && buycost > 4 * build_points_left(pcity)) {
+          if (pcity->ai.grave_danger) { /* buy something affordable, dammit */
+            pcity->currently_building = ai_choose_defender_limited(pcity,
+              (pcity->shield_stock + 40), 0);
+            really_handle_city_buy(pplayer, pcity);
+          } /* else we don't really need to spend our money right now */
+        } else really_handle_city_buy(pplayer, pcity); /* adequately tested now */
       } else if (bestchoice.type || !is_wonder(bestchoice.choice)) {
 /*        printf("%s wants %s but can't afford to buy it (%d < %d).\n",
 pcity->name, (bestchoice.type ? unit_name(bestchoice.choice) :
@@ -351,9 +366,11 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
 /* possibly upgrade units here */
         } /* end panic subroutine */
         if (!bestchoice.type) switch (bestchoice.choice) {
+          case B_AQUEDUCT:
+            if (city_happy(pcity)) break;
+        /* PASS THROUGH */
           case B_CITY: /* add other things worth raising taxes for here! -- Syela */
           case B_TEMPLE:
-          case B_AQUEDUCT:
           case B_COASTAL:
           case B_SAM:
           case B_SDI:
@@ -435,11 +452,14 @@ int city_get_buildings(struct city *pcity)
 
 int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
 {
-  foodneed += MAX(get_food_tile(x, y, pcity), get_food_tile(bx, by, pcity));
-  prodneed += MAX(get_shields_tile(x, y, pcity), get_shields_tile(bx, by, pcity));
-
-  return(better_tile(pcity, bx, by, x, y, foodneed, prodneed));
-/* backwards on purpose, because we're looking for the worst tile */
+  int a, b;
+  a = city_tile_value(pcity, x, y,
+      foodneed + get_food_tile(x, y, pcity),
+      prodneed + get_shields_tile(x, y, pcity));
+  b = city_tile_value(pcity, bx, by,
+      foodneed + get_food_tile(bx, by, pcity),
+      prodneed + get_shields_tile(bx, by, pcity));
+  return (a < b);
 }
 
 /************************************************************************** 
@@ -724,8 +744,10 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   if (*xp == 0 && *yp == 0) return 0;
   foodneed += get_food_tile(*xp, *yp, pcity);
   prodneed += get_shields_tile(*xp, *yp, pcity);
-  foodneed -= (e - 1) * 2; /* forgetting these two lines */
-  prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
+  if (e > 1) {
+    foodneed -= (e - 1) * 2; /* forgetting these two lines */
+    prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
+  }
   if (foodneed > pcity->food_stock) {
 /*    printf("No elvis_pos in %s - would create famine.\n", pcity->name); */
     return 0; /* Bad time to Elvis */
@@ -857,7 +879,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   struct packet_unit_request pack;
   int i, j;
    
-printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod)\n", pcity->name,
+printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod):", pcity->name,
 pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
   city_list_iterate(pplayer->cities, acity)
@@ -878,6 +900,9 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity))
     ai_scientists_taxmen(pcity);
+  if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
+      pcity->food_stock + pcity->food_surplus < 0) printf("Unresolved.\n");
+  else printf("Resolved.\n");
 /*printf("Rearranging workers in %s\n", pcity->name);*/
 
   unit_list_iterate(pcity->units_supported, punit)
