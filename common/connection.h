@@ -51,7 +51,7 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 
 /***************************************************************************
   On the distinction between nations(formerly races), players, and users,
-  see freeciv_hackers_guide.txt
+  see doc/HACKING
 ***************************************************************************/
 
 /* get 'struct conn_list' and related functions: */

@@ -366,7 +366,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
   Send the tile information, as viewed by pplayer, to all specified
   connections.   The tile info is sent even if pplayer doesn't see or
   know the tile (setting appropriate info.known), as required for
-  client drawing requirements in some cases (see freeciv_hackers_guide.txt).
+  client drawing requirements in some cases (see doc/HACKING).
   Also updates pplayer knowledge if known and seen, else used old.
   pplayer==NULL means send "real" data, for observers
 **************************************************************************/

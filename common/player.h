@@ -150,7 +150,7 @@ struct player_diplstate {
 
 /***************************************************************************
   On the distinction between nations(formerly races), players, and users,
-  see freeciv_hackers_guide.txt
+  see doc/HACKING
 ***************************************************************************/
 
 struct player {
