@@ -886,12 +886,14 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
   }
   while (attacker->hp>0 && defender->hp>0) {
     if (myrand(attackpower+defensepower)>= defensepower) {
-      defender->hp=defender->hp-get_unit_type(attacker->type)->firepower;
+      defender->hp -= get_unit_type(attacker->type)->firepower
+	* game.firepower_factor;
     } else {
       if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
-	attacker->hp=attacker->hp-1;              /* pearl harbour */
+	attacker->hp -= game.firepower_factor;      /* pearl harbour */
       else
-	attacker->hp=attacker->hp-get_unit_type(defender->type)->firepower;
+	attacker->hp -= get_unit_type(defender->type)->firepower
+	  * game.firepower_factor;
     }
   }
   if (attacker->hp<0) attacker->hp=0;
@@ -1612,7 +1614,7 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.veteran=punit->veteran;
   info.type=punit->type;
   info.movesleft=punit->moves_left;
-  info.hp=punit->hp;
+  info.hp=punit->hp / game.firepower_factor;
   info.activity=punit->activity;
   info.activity_count=punit->activity_count;
   info.unhappiness=punit->unhappiness;

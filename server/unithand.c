@@ -491,8 +491,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     
   combat.attacker_unit_id=punit->id;
   combat.defender_unit_id=pdefender->id;
-  combat.attacker_hp=punit->hp;
-  combat.defender_hp=pdefender->hp;
+  combat.attacker_hp=punit->hp / game.firepower_factor;
+  combat.defender_hp=pdefender->hp / game.firepower_factor;
   combat.make_winner_veteran=pwinner->veteran?1:0;
   
   for(o=0; o<game.nplayers; o++)

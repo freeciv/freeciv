@@ -86,6 +86,7 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int spacerace;
+  int firepower_factor;		/* See README.rulesets */
   struct {
     int get_bonus_tech;		/* eg Philosophy */
     int boat_fast;		/* eg Nuclear Power */
