@@ -348,7 +348,7 @@ void clipboard_paste_production(struct city *pcity)
   else {
     connection_do_buffer(&aconnection);
     city_list_iterate(game.player_ptr->cities, pcity) {
-      if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY) {
+      if (is_city_hilited(pcity)) {
         clipboard_send_production_packet(pcity);
       }
     } city_list_iterate_end;

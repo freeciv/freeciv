@@ -45,6 +45,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "mapctrl.h"    /* is_city_hilited() */
 #include "optiondlg.h"
 #include "repodlgs.h"
 
@@ -1355,7 +1356,7 @@ void hilite_cities_from_canvas(void)
   {
     struct city *pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
 
-    if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY) {
+    if (is_city_hilited(pcity)) {
       gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
     }
   }

@@ -59,4 +59,7 @@ bool get_chance_to_win(int *att_chance, int *def_chance,
 
 extern struct city *city_workers_display;
 
-#endif /* FC__MAPVIEW_COMMON_H */
+#define is_city_hilited(pcity)                                              \
+  (map_get_tile((pcity)->x, (pcity)->y)->client.hilite == HILITE_CITY)      \
+
+#endif /* FC__MAPCTRL_COMMON_H */

@@ -39,6 +39,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "mapctrl.h"    /* is_city_hilited() */
 #include "mapview_common.h"
 #include "optiondlg.h"
 #include "options.h"
@@ -1697,7 +1698,7 @@ void hilite_cities_from_canvas(void)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY)  {
+    if (is_city_hilited(pcity))  {
       itree_select(city_selection, &it);
     }
   }
