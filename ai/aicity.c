@@ -103,10 +103,19 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 /**************************************************************************
   Calculates city want from some input values.
 **************************************************************************/
-static inline int city_want(struct city *acity, struct ai_data *ai,
-                            int food, int shields, int sci, int lux, int tax)
+static inline int city_want(struct player *pplayer, struct city *acity, 
+                            struct ai_data *ai)
 {
-  int want = 0;
+  int want = 0, food, trade, shields, lux, sci, tax;
+
+  get_food_trade_shields(acity, &food, &trade, &shields);
+  trade -= city_corruption(acity, trade);
+  shields -= city_waste(acity, shields);
+  get_tax_income(pplayer, trade, &sci, &lux, &tax);
+
+  built_impr_iterate(acity, i) {
+    tax -= improvement_upkeep(acity, i);
+  } built_impr_iterate_end;
 
   want += food * ai->food_priority;
   if (shields != 0) {
@@ -114,17 +123,18 @@ static inline int city_want(struct city *acity, struct ai_data *ai,
             * ai->shield_priority;
     want -= city_pollution(acity, shields) * ai->pollution_priority;
   }
-  if (lux != 0) {
+  if (lux > 0) {
     want += ((lux * get_city_luxury_bonus(acity)) / 100)
             * ai->luxury_priority;
   }
-  if (sci != 0) {
+  if (sci > 0) {
     want += ((sci * get_city_science_bonus(acity)) / 100)
             * ai->science_priority;
   }
-  want += ((city_gold_surplus(acity, tax) 
-          * get_city_tax_bonus(acity)) / 100)
-          * ai->gold_priority;
+  if (tax > 0) {
+    tax *= get_city_tax_bonus(acity) / 100;
+  }
+  want += tax * ai->gold_priority;
 
   return want;
 }
@@ -144,30 +154,22 @@ static int base_want(struct player *pplayer, struct city *pcity,
     return 0; /* Nothing to calculate here. */
   }
 
-  /* First calculate current worth */
-  city_range_iterate(pcity, pplayer->cities, ai->impr_range[id], acity) {
-    int food, trade, shields, lux, sci, tax;
-
-    get_food_trade_shields(acity, &food, &trade, &shields);
-    get_tax_income(pplayer, trade, &sci, &lux, &tax);
-    acity->ai.worth = city_want(acity, ai, food, shields, sci, lux, tax);
-  } city_range_iterate_end;
-
   /* Add the improvement */
   city_add_improvement(pcity, id);
+  if (is_wonder(id)) {
+    game.global_wonders[id] = pcity->id;
+  }
 
   /* Stir, then compare notes */
   city_range_iterate(pcity, pplayer->cities, ai->impr_range[id], acity) {
-    int food, trade, shields, lux, sci, tax;
-
-    get_food_trade_shields(acity, &food, &trade, &shields);
-    get_tax_income(pplayer, trade, &sci, &lux, &tax);
-    final_want += city_want(acity, ai, food, shields, sci, lux, tax)
-                  - acity->ai.worth;
+    final_want += city_want(pplayer, acity, ai) - acity->ai.worth;
   } city_range_iterate_end;
 
   /* Restore */
   city_remove_improvement(pcity, id);
+  if (is_wonder(id)) {
+    game.global_wonders[id] = 0;
+  }
 
   /* Ensure that we didn't inadvertantly move our palace */
   if (find_palace(pplayer) != capital) {
@@ -508,6 +510,13 @@ static void ai_manage_buildings(struct player *pplayer)
 /* TODO:  RECALC_SPEED should be configurable to ai difficulty. -kauf  */
 #define RECALC_SPEED 5
 {
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  /* First find current worth of cities and cache this. */
+  city_list_iterate(pplayer->cities, acity) {
+    acity->ai.worth = city_want(pplayer, acity, ai);
+  } city_list_iterate_end;
+
   impr_type_iterate(id) {
     if (!can_player_build_improvement(pplayer, id)
         || improvement_obsolete(pplayer, id)) {
