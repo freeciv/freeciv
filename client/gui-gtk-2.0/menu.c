@@ -669,7 +669,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Government") "/" N_("_Find City"),		"<shift>f",
 	government_menu_callback,	MENU_GOVERNMENT_FIND_CITY			},
-  { "/" N_("Government") "/" N_("_Worklists"),		"<shift>w",
+  { "/" N_("Government") "/" N_("_Worklists"),		"<control>w",
 	government_menu_callback,	MENU_GOVERNMENT_WORKLISTS			},
   { "/" N_("Government") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
