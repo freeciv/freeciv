@@ -70,6 +70,8 @@ libguiclient_a_SOURCES = \
 	messagewin.c	\
 	messagewin.h	\
 	optiondlg.h	\
+	pages.c		\
+	pages.h		\
 	plrdlg.c	\
 	plrdlg.h	\
 	ratesdlg.h	\
