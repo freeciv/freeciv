@@ -1227,6 +1227,116 @@ static void unitsel_ready_all(struct tile **pptile)
 }
 
 /****************************************************************
+...
+*****************************************************************/
+__saveds __asm ULONG unitsel_group_layout(register __a0 struct Hook *h, register __a2 Object *obj, register __a1 struct MUI_LayoutMsg *lm)
+{
+  LONG vert_spacing = 4;
+  LONG horiz_spacing = 4;
+
+  switch (lm->lm_Type)
+  {
+    case  MUILM_MINMAX:
+          {
+	    /*
+	     ** MinMax calculation function. When this is called,
+	     ** the children of your group have already been asked
+	     ** about their min/max dimension so you can use their
+	     ** dimensions to calculate yours.
+	     **
+	     ** In this example, we make our minimum size twice as
+	     ** big as the biggest child in our group.
+	     */
+
+            Object *cstate = (Object *)lm->lm_Children->mlh_Head;
+	    Object *child;
+
+	    WORD maxminwidth  = 0;
+	    WORD maxminheight = 0;
+
+	    /* find out biggest widths & heights of our children */
+
+	    while (child = NextObject(&cstate))
+	    {
+	      if (maxminwidth <MUI_MAXMAX && _minwidth (child) > maxminwidth ) maxminwidth  = _minwidth (child);
+	      if (maxminheight<MUI_MAXMAX && _minheight(child) > maxminheight) maxminheight = _minheight(child);
+            }
+
+	    /* set the result fields in the message */
+
+	    lm->lm_MinMax.MinWidth  = 2*maxminwidth+horiz_spacing;
+	    lm->lm_MinMax.MinHeight = 2*maxminheight+vert_spacing;
+	    lm->lm_MinMax.DefWidth  = 4*maxminwidth+3*horiz_spacing;
+	    lm->lm_MinMax.DefHeight = 4*maxminheight+3*vert_spacing;
+	    lm->lm_MinMax.MaxWidth  = MUI_MAXMAX;
+	    lm->lm_MinMax.MaxHeight = MUI_MAXMAX;
+
+	    return(0);
+	  }
+
+	  case  MUILM_LAYOUT:
+		{
+		  /*
+		  ** Layout function. Here, we have to call MUI_Layout() for each
+		  ** our children. MUI wants us to place them in a rectangle
+		  ** defined by (0,0,lm->lm_Layout.Width-1,lm->lm_Layout.Height-1)
+		  ** You are free to put the children anywhere in this rectangle.
+		  **
+		  ** If you are a virtual group, you may also extend
+		  ** the given dimensions and place your children anywhere. Be sure
+		  ** to return the dimensions you need in lm->lm_Layout.Width and
+		  ** lm->lm_Layout.Height in this case.
+		  **
+		  ** Return TRUE if everything went ok, FALSE on error.
+		  ** Note: Errors during layout are not easy to handle for MUI.
+		  **       Better avoid them!
+		  */
+
+		  Object *cstate = (Object *)lm->lm_Children->mlh_Head;
+		  Object *child;
+		  LONG l = 0;
+		  LONG t = 0;
+		  LONG maxwidth = 0;
+		  LONG height = 0;
+		  BOOL first = TRUE;
+
+		  while (child = NextObject(&cstate))
+		  {
+		    LONG mw = _minwidth (child);
+		    LONG mh = _minheight(child);
+
+		    if (!first)
+		    {
+		      if (t + mh + vert_spacing > lm->lm_Layout.Height)
+		      {
+		      	if (t > height) height = t;
+			l += maxwidth + horiz_spacing;
+			t = 0;
+			maxwidth = 0;
+		      } else t += vert_spacing;
+		    } else first = FALSE;
+
+		    if (mw > maxwidth) maxwidth = mw;
+
+		    if (!MUI_Layout(child,l,t,mw,mh,0))
+		      return FALSE;
+
+		    t += mh;
+		  }
+
+		  l += maxwidth;
+
+		  if(lm->lm_Layout.Width < l) lm->lm_Layout.Width = l;
+		  if(lm->lm_Layout.Height < height) lm->lm_Layout.Height = height;
+
+		  return TRUE;
+                }
+  }
+  return MUILM_UNKNOWN;
+}
+
+
+/****************************************************************
 popup the unit selection dialog
 *****************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
@@ -1241,7 +1351,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     Object *close_button;
 
     unitsel_wnd = WindowObject,
-      MUIA_Window_Title, "Select Unit",
+      MUIA_Window_Title, "Freeciv - Select an unit",
       WindowContents, window_group = VGroup,
         Child, button_group = HGroup,
           Child, close_button = MakeButton("_Close"),
@@ -1277,7 +1387,12 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     if(n)
     {
-      unit_group = VGroupV, End;
+      static struct Hook layout_hook = { {0,0}, unitsel_group_layout, NULL, NULL };
+
+      unit_group = VGroupV,
+        VirtualFrame,
+        MUIA_Group_LayoutHook, &layout_hook,
+        End;
 
       for(i=0;i<n;i++)
       {
@@ -1299,6 +1414,7 @@ void popup_unit_select_dialog(struct tile *ptile)
             MUIA_InputMode, MUIV_InputMode_RelVerify,
             MUIA_Unit_Unit,punit,
             MUIA_Disabled, !can_unit_do_activity(punit, ACTIVITY_IDLE),
+            MUIA_CycleChain,1,
             End,
           Child, TextObject,
             MUIA_Font, MUIV_Font_Tiny,
