@@ -851,20 +851,29 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
   } 
 }
 
+/********************************************************************** 
+Checks if there is a port or a ship being build within d distance.
+***********************************************************************/
 static int port_is_within(struct player *pplayer, int d)
 {
   city_list_iterate(pplayer->cities, pcity)
-    if (city_got_building(pcity, B_PORT) &&
-        warmap.seacost[pcity->x][pcity->y] <= d) return 1;
-    if (!pcity->is_building_unit && pcity->currently_building == B_PORT &&
-        pcity->shield_stock >= improvement_value(B_PORT) &&
-        warmap.seacost[pcity->x][pcity->y] <= d) return 1;
-    if (!player_knows_improvement_tech(pplayer, B_PORT) &&
-        pcity->is_building_unit &&
-        is_water_unit(pcity->currently_building) &&
-        unit_types[pcity->currently_building].attack_strength >
-        unit_types[pcity->currently_building].transport_capacity) return 1;
+    if (warmap.seacost[pcity->x][pcity->y] <= d) {
+      if (city_got_building(pcity, B_PORT))
+	return 1;
+
+      if (!pcity->is_building_unit && pcity->currently_building == B_PORT
+	  && pcity->shield_stock >= improvement_value(B_PORT))
+	return 1;
+
+      if (!player_knows_improvement_tech(pplayer, B_PORT)
+	  && pcity->is_building_unit
+	  && is_water_unit(pcity->currently_building)
+	  && unit_types[pcity->currently_building].attack_strength >
+	  unit_types[pcity->currently_building].transport_capacity)
+	return 1;
+    }
   city_list_iterate_end;
+
   return 0;
 }
 
@@ -874,7 +883,6 @@ static int port_is_within(struct player *pplayer, int d)
     if want is 0 this advisor doesn't want anything
     type = 1 means unit, type = 0 means building
 ***********************************************************************/
-
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice)
 {
