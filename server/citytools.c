@@ -40,6 +40,7 @@
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "spacerace.h"

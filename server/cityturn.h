@@ -21,9 +21,6 @@ struct player;
 struct unit;
 struct conn_list;
 
-#define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
-void real_sanity_check_city(struct city *pcity, const char *file, int line);
-
 void city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 

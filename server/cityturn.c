@@ -39,6 +39,7 @@
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 #include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
@@ -139,25 +140,6 @@ void remove_obsolete_buildings(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     remove_obsolete_buildings_city(pcity, FALSE);
   } city_list_iterate_end;
-}
-
-/**************************************************************************
-  Hard check that the numbers of city workers/specialists add up.
-**************************************************************************/
-void real_sanity_check_city(struct city *pcity, const char *file, int line)
-{
-  int worker = 0;
-
-  city_map_iterate(x, y) {
-    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      worker++;
-    }
-  } city_map_iterate_end;
-  if (worker + city_specialists(pcity) != pcity->size + 1) {
-    die("%s is illegal (size%d w%d e%d t%d s%d) in %s line %d",
-        pcity->name, pcity->size, worker, pcity->ppl_elvis,
-        pcity->ppl_taxman, pcity->ppl_scientist, file, line);
-  }
 }
 
 /**************************************************************************

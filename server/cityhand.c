@@ -35,6 +35,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 
 #include "cityhand.h"
 
