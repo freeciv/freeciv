@@ -3033,13 +3033,19 @@ bool execute_orders(struct unit *punit)
 	 * next turn. */
 	freelog(LOG_DEBUG, "  orders move failed (out of MP).");
 	if (unit_has_orders(punit)) {
-	  /* FIXME: If this was the last move, the orders will already have
-	   * been freed.  This is a problem, but very hard to fix.  The
-	   * way things work now the orders have to be freed before the
-	   * last move is done for things like caravan popups to work (see
-	   * free_unit_orders above).  So we can't wait until here to
-	   * free the orders without extensive changes elsewhere. */
 	  punit->orders.index--;
+	} else {
+	  /* FIXME: If this was the last move, the orders will already have
+	   * been freed, so we have to add them back on.  This is quite a
+	   * hack; one problem is that the no-orders unit has probably
+	   * already had its unit info sent out to the client. */
+	  punit->has_orders = TRUE;
+	  punit->orders.length = 1;
+	  punit->orders.index = 0;
+	  punit->orders.repeat = FALSE;
+	  punit->orders.vigilant = FALSE;
+	  punit->orders.list = fc_malloc(sizeof(order));
+	  punit->orders.list[0] = order;
 	}
 	send_unit_info(NULL, punit);
 	return TRUE;
