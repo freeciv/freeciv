@@ -60,8 +60,6 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int canvas_x, int canvas_y,
 					 struct Sprite *ssprite,
-					 int offset_x, int offset_y,
-					 int width, int height,
 					 bool fog);
 static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				int canvas_x, int canvas_y,
@@ -625,8 +623,9 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite)
 {
-  if (!ssprite)
+  if (!ssprite) {
     return;
+  }
       
   gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
   gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
@@ -740,15 +739,14 @@ Only used for isometric view.
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int canvas_x, int canvas_y,
 					 struct Sprite *ssprite,
-					 int offset_x, int offset_y,
-					 int width, int height,
 					 bool fog)
 {
-  if (!ssprite || !width || !height)
+  if (!ssprite) {
     return;
+  }
 
   pixmap_put_sprite(pixmap, canvas_x, canvas_y, ssprite,
-		    offset_x, offset_y, width, height);
+		    0, 0, ssprite->width, ssprite->height);
 
   /* I imagine this could be done more efficiently. Some pixels We first
      draw from the sprite, and then draw black afterwards. It would be much
@@ -761,9 +759,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
     gdk_gc_set_stipple(fill_tile_gc, black50);
 
     gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, ssprite->width-offset_x)),
-		       MIN(height, MAX(0, ssprite->height-offset_y)));
+		       canvas_x, canvas_y, ssprite->width, ssprite->height);
     gdk_gc_set_clip_mask(fill_tile_gc, NULL);
   }
 }
@@ -901,16 +897,12 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 static void pixmap_put_drawn_sprite(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct drawn_sprite *pdsprite,
-				    int offset_x, int offset_y,
-				    int width, int height,
 				    bool fog)
 {
   int ox = pdsprite->offset_x, oy = pdsprite->offset_y;
 
   pixmap_put_overlay_tile_draw(pixmap, canvas_x + ox, canvas_y + oy,
 			       pdsprite->sprite,
-			       offset_x - ox, offset_y - oy,
-			       width, height,
 			       fog);
 }
 
@@ -994,14 +986,12 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
       switch (tile_sprs[i].style) {
       case DRAW_NORMAL:
 	pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
-				0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       case DRAW_FULL:
 	pixmap_put_drawn_sprite(pm, canvas_x,
 				canvas_y - NORMAL_TILE_HEIGHT / 2,
 				&tile_sprs[i],
-				0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       }

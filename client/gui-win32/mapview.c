@@ -731,8 +731,6 @@ Only used for isometric view.
 static void pixmap_put_overlay_tile_draw(HDC hdc,
                                          int canvas_x, int canvas_y,
                                          struct Sprite *ssprite,
-                                         int offset_x, int offset_y,
-                                         int width, int height,
                                          bool fog)
 {
   if (!ssprite || !width || !height)
@@ -806,9 +804,8 @@ void canvas_put_sprite(struct canvas *pcanvas,
   } else {
     hdc = pcanvas->hdc;
   }
-  pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
-			       sprite, offset_x, offset_y,
-			       width, height, 0);
+  draw_sprite_part(sprite, hdx, canvas_x, canvas_y,
+		   sprite->width, sprite->height, 0, 0, sprite);
   if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
@@ -901,19 +898,13 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 static void pixmap_put_drawn_sprite(HDC hdc,
                                     int canvas_x, int canvas_y,
                                     struct drawn_sprite *pdsprite,
-                                    int offset_x, int offset_y,
-                                    int width, int height,
                                     bool fog)
 {
-   
   int ox = pdsprite->offset_x, oy = pdsprite->offset_y;
   
   
   pixmap_put_overlay_tile_draw(hdc, canvas_x + ox, canvas_y + oy,
-                               pdsprite->sprite,
-                               offset_x - ox, offset_y - oy,
-                               width, height,
-                               fog);
+                               pdsprite->sprite, fog);
   
 }
 
@@ -968,14 +959,12 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
       switch (tile_sprs[i].style) {
       case DRAW_NORMAL:
 	pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
-				0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       case DRAW_FULL:
 	pixmap_put_drawn_sprite(hdc,
 				canvas_x, canvas_y - NORMAL_TILE_HEIGHT / 2,
 				&tile_sprs[i],
-				0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 				fog && tile_sprs[i].foggable);
 	break;
       }
