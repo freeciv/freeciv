@@ -17,6 +17,8 @@ enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
                     AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE};
 
+#define MORT 24
+
 void ai_manage_units(struct player *pplayer); 
 int ai_want_settlers(struct player *pplayer, int cont);
 
@@ -33,6 +35,7 @@ void find_something_to_kill(struct player *pplayer, struct unit *punit,
 int get_cities_on_island(struct player *pplayer, int cont);
 int get_settlers_on_island(struct player *pplayer, int cont);
 const char *get_a_name(struct player *pplayer);
-
-
+int amortize(int b, int d);
+void generate_minimap(struct player *pplayer);
+int city_desirability(int x, int y, int dist, struct player *pplayer);
 #endif
