@@ -302,6 +302,7 @@ struct sw_widget *sw_button_create_bounded(struct sw_widget *parent,
     }
   }
   assert(0);
+  return NULL;
 }
 
 /*************************************************************************

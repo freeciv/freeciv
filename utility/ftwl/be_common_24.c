@@ -63,6 +63,7 @@ static unsigned char get_mask(enum be_draw_type draw_type)
     return MASK_ALPHA;
   } else {
     assert(0);
+    return MASK_OPAQUE;
   }
 }
 

@@ -89,4 +89,5 @@ struct sw_widget *sw_label_create_text_bounded(struct sw_widget *parent,
     }
   }
   assert(0);
+  return NULL;
 }

@@ -253,6 +253,7 @@ struct sw_widget *sw_edit_create_bounded(struct sw_widget *parent,
     }
   }
   assert(0);
+  return NULL;
 }
 
 /*************************************************************************

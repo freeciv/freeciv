@@ -256,6 +256,7 @@ struct ct_string *te_read_string(struct section_file *file,
     transform = CTS_TRANSFORM_UPPER;
   } else {
     assert(0);
+    transform = CTS_TRANSFORM_NONE;
   }
   return ct_string_create(font, size, color, background, text, anti_alias,
 			  outline_width, outline_color, transform);
