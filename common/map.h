@@ -368,7 +368,7 @@ extern struct tile_type tile_types[T_LAST];
 {                                                                             \
   int ARG_x_itr, ARG_y_itr;                                                   \
   int MACRO_max_dx = map.xsize/2;                                             \
-  int MACRO_min_dx = -(MACRO_max_dx - (map.xsize%2 ? 0 : 1));                 \
+  int MACRO_min_dx = -MACRO_max_dx - 1 + (map.xsize % 2);                     \
   int MACRO_xcycle = TRUE;                                                    \
   int MACRO_positive = FALSE;                                                 \
   int MACRO_dxy = 0, MACRO_do_xy;                                             \
