@@ -2,4 +2,5 @@
 
 
 EXTRA_DIST = \
+	INSTALL.de \
 	README.de
