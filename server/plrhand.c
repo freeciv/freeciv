@@ -1236,12 +1236,14 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {
-/* sorry, I have to change this to make ->worked work -- Syela */
-        if (*p++=='1') set_worker_city(pcity, x, y, C_TILE_WORKER);
-        else set_worker_city(pcity, x, y, C_TILE_EMPTY);
+	/* sorry, I have to change this to make ->worked work -- Syela */
+        if (*p=='0')      set_worker_city(pcity, x, y, C_TILE_EMPTY);
+	else if (*p=='1') set_worker_city(pcity, x, y, C_TILE_WORKER);
+	else              set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+        p++;
       }
     }
-/* was	pcity->city_map[x][y]=(*p++=='1') ? C_TILE_WORKER : C_TILE_EMPTY; */
+    /* was pcity->city_map[x][y]=(*p++=='1') ? C_TILE_WORKER : C_TILE_EMPTY; */
 
     p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
     
@@ -1464,12 +1466,17 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 		       "player%d.c%d.options", plrno, i);
     
     j=0;
-    for(y=0; y<CITY_MAP_SIZE; y++)
-      for(x=0; x<CITY_MAP_SIZE; x++)
-	buf[j++]=(get_worker_city(pcity, x, y)==C_TILE_WORKER) ? '1' : '0';
+    for(y=0; y<CITY_MAP_SIZE; y++) {
+      for(x=0; x<CITY_MAP_SIZE; x++) {
+	switch (get_worker_city(pcity, x, y)) {
+	  case C_TILE_EMPTY:       buf[j++] = '0'; break;
+	  case C_TILE_WORKER:      buf[j++] = '1'; break;
+	  case C_TILE_UNAVAILABLE: buf[j++] = '2'; break;
+	}
+      }
+    }
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.workers", plrno, i);
-  
 
     secfile_insert_int(file, pcity->is_building_unit, 
 		       "player%d.c%d.is_building_unit", plrno, i);
