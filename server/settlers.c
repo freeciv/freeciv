@@ -1050,8 +1050,11 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 	    gx, gy, best_newv);
   }
   save_newv = best_newv;
-  
-  boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
+
+  if (pplayer->ai.control)
+    boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
+  else
+    boatid = 0;
   ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid);
   if (ferryboat)
     really_generate_warmap(mycity, ferryboat, SEA_MOVING);
