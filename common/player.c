@@ -717,8 +717,8 @@ bool pplayers_non_attack(const struct player *pplayer,
 /**************************************************************************
   Return TRUE if players are in the same team
 **************************************************************************/
-bool pplayers_in_the_same_team(const struct player *pplayer1,
-                               const struct player *pplayer2)
+bool players_in_same_team(const struct player *pplayer1,
+                          const struct player *pplayer2)
 {
   if (pplayer1->team == TEAM_NONE) {
     return FALSE;

@@ -1148,19 +1148,9 @@ repeat_break_treaty:
   /* Check fall-out of a war declaration. */
   players_iterate(other) {
     if (other->is_alive && other != pplayer && other != pplayer2
-        && !pplayers_in_the_same_team(pplayer, pplayer2)
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && pplayers_allied(pplayer, other)) {
-      /* If an ally declares war on another ally, break off your alliance
-       * to the aggressor. This prevents in-alliance wars, which are not
-       * permitted. */
-      notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
-                       _("Game: %s has attacked your ally %s! "
-                         "You cancel your alliance to the aggressor."),
-                       pplayer->name, pplayer2->name);
-      other->diplstates[pplayer->player_no].has_reason_to_cancel = 1;
-      handle_diplomacy_cancel_pact(other, pplayer->player_no,
-                                   CLAUSE_ALLIANCE);
+
     }
   } players_iterate_end;
 }
