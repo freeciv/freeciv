@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-29 17:05-0500\n"
+"POT-Creation-Date: 2005-03-30 14:49-0500\n"
 "PO-Revision-Date: 2005-03-01 15:34-0500\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -3672,35 +3672,35 @@ msgstr ""
 
 #: server/settings.c:29
 msgid "Geological"
-msgstr "Геологический"
+msgstr "Геологические"
 
 #: server/settings.c:30
 msgid "Ecological"
-msgstr "Экологический"
+msgstr "Экологические"
 
 #: server/settings.c:31
 msgid "Sociological"
-msgstr "Социологический"
+msgstr "Социологические"
 
 #: server/settings.c:32
 msgid "Economic"
-msgstr "Экономический"
+msgstr "Экономические"
 
 #: server/settings.c:33
 msgid "Military"
-msgstr "Военный"
+msgstr "Военные"
 
 #: server/settings.c:34
 msgid "Scientific"
-msgstr "Научный"
+msgstr "Научные"
 
 #: server/settings.c:35
 msgid "Internal"
-msgstr "Внутренний"
+msgstr "Внутренние"
 
 #: server/settings.c:36
 msgid "Networking"
-msgstr "Сетевой"
+msgstr "Сетевые"
 
 #: server/settings.c:40 client/gui-gtk-2.0/dialogs.c:1660
 msgid "All"
@@ -3708,15 +3708,15 @@ msgstr "Все"
 
 #: server/settings.c:41
 msgid "Vital"
-msgstr "Живой"
+msgstr "Ключевые"
 
 #: server/settings.c:42
 msgid "Situational"
-msgstr "Ситуационный"
+msgstr "Ситуационные"
 
 #: server/settings.c:43
 msgid "Rare"
-msgstr "Редкий"
+msgstr "Редкие"
 
 #: server/settings.c:98
 msgid ""
@@ -9733,29 +9733,29 @@ msgstr ""
 "опции файла: %s\n"
 "поддерживаемые опции: %s"
 
-#: client/tilespec.c:929 client/tilespec.c:963 client/tilespec.c:1147
+#: client/tilespec.c:931 client/tilespec.c:965 client/tilespec.c:1149
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Невозможно открыть \"%s\"."
 
-#: client/tilespec.c:943
+#: client/tilespec.c:945
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Невозможно загрузить gfx файл для spec файла %s"
 
-#: client/tilespec.c:1119
+#: client/tilespec.c:1121
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Не удалось найти поддерживаемое расширение файла gfx для %s"
 
-#: client/tilespec.c:1179
+#: client/tilespec.c:1183
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Клиент не поддерживает изометрический набор полей. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:1187
+#: client/tilespec.c:1191
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -9763,11 +9763,11 @@ msgstr ""
 "Клиент не поддерживает набор полей с видом сверху. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:1247
+#: client/tilespec.c:1251
 msgid "Invalid darkness style set in tileset."
 msgstr "Неправильный стиль темноты установлен в наборе полей."
 
-#: client/tilespec.c:1402
+#: client/tilespec.c:1406
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
@@ -9776,33 +9776,33 @@ msgstr ""
 "Ошибка в %s, слое %d: невозможно иметь высокий рельеф или\n"
 "сдвиг спрайта, если используется клеточный метод исображения."
 
-#: client/tilespec.c:1552
+#: client/tilespec.c:1554
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Невозможно загрузить gfx файл %s для файла %s"
 
-#: client/tilespec.c:1667
+#: client/tilespec.c:1669
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "Нет изображения для специалиста %s."
 
-#: client/tilespec.c:1699
+#: client/tilespec.c:1701
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "Нет изображения для жителя %s."
 
-#: client/tilespec.c:2204
+#: client/tilespec.c:2206
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Нет графического тэга %s или %s для %s %s"
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:2305
+#: client/tilespec.c:2307
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Отсутствует базовый тэг для \"%s1\"."
 
-#: client/tilespec.c:3579
+#: client/tilespec.c:3583
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -14085,9 +14085,10 @@ msgid ""
 "of an ordered dither.  If there is no hardware support for alpha blending, "
 "this is much slower."
 msgstr ""
-"Когда эта настройка включена, альфа-смешивание будет использовано при визуализации, "
-"вместо порядкового сглаживания изображения. Если ваше оборудование не поддерживает "
-"альфа-смешивание, то использование этой настройки сильно замедляет игру."
+"Когда эта настройка включена, альфа-смешивание будет использовано при "
+"визуализации, вместо порядкового сглаживания изображения. Если ваше "
+"оборудование не поддерживает альфа-смешивание, то использование этой "
+"настройки сильно замедляет игру."
 
 #: client/gui-win32/helpdlg.c:770
 msgid "Obsoletes "
@@ -21169,7 +21170,7 @@ msgstr "Древние"
 #: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
 #: data/nation/turk.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5
-msgid "Mediaval"
+msgid "Medieval"
 msgstr "Средневековые"
 
 #: data/nation/arab.ruleset:6
