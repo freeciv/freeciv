@@ -215,7 +215,7 @@ void handle_city_info(struct packet_city_info *packet)
       (!game.player_ptr->ai.control || ai_popup_windows)) 
     popup_city_dialog(pcity, 0);
   
-  if(!city_is_new)
+  if(!city_is_new && pcity->owner==game.player_idx)
     refresh_city_dialog(pcity);
 }
 
@@ -240,6 +240,8 @@ void handle_new_year(struct packet_new_year *ppacket)
 
   turn_gold_difference=game.player_ptr->economic.gold-last_turn_gold_amount;
   last_turn_gold_amount=game.player_ptr->economic.gold;
+
+  report_update_delay_off();
   update_report_dialogs();
 
   if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
@@ -248,6 +250,7 @@ void handle_new_year(struct packet_new_year *ppacket)
 void handle_before_new_year()
 {
   clear_notify_window();
+  report_update_delay_on();
 }
 
 /**************************************************************************
@@ -308,7 +311,8 @@ void handle_unit_info(struct packet_unit_info *packet)
 
       punit->activity=packet->activity;
 
-      refresh_unit_city_dialogs(punit);
+      if(punit->owner==game.player_idx) 
+        refresh_unit_city_dialogs(punit);
       /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
       update_unit_pix_label(punit);
       update_unit_focus(); */
@@ -329,7 +333,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->homecity=packet->homecity;
       if((pcity=game_find_city_by_id(punit->homecity))) {
 	unit_list_insert(&pcity->units_supported, punit);
-	refresh_city_dialog(pcity);
+	repaint_city=1;
       }
     }
 
@@ -359,10 +363,16 @@ void handle_unit_info(struct packet_unit_info *packet)
         return;
       }
       if(pcity)
-	refresh_city_dialog(pcity);
+        if(pcity->id == punit->homecity)
+	  repaint_city=1;
+	else
+	  refresh_city_dialog(pcity);
       
       if((pcity=map_get_city(punit->x, punit->y)))
-	refresh_city_dialog(pcity);
+        if(pcity->id == punit->homecity)
+	  repaint_city=1;
+	else
+	  refresh_city_dialog(pcity);
       
       repaint_unit=0;
     }
