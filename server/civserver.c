@@ -359,7 +359,8 @@ int main(int argc, char *argv[])
   if(!rand_init)
     mysrand(game.randseed);
 
-  generate_ai_players();
+  if(is_new_game)
+    generate_ai_players();
    
   /* if we have a tile map, and map.generator==0, call map_fractal_generate
      anyway, to make the specials and huts */
