@@ -287,8 +287,11 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
 			     int x, int y)
 {
+  /* Don't show non-allied units that are in transports.  This is logical
+   * because allied transports can also contain our units.  Shared vision
+   * isn't taken into account. */
   if (punit->transported_by != -1 && unit_owner(punit) != pplayer
-      && !gives_shared_vision(unit_owner(punit), pplayer)) {
+      && !pplayers_allied(pplayer, unit_owner(pplayer))) {
     return FALSE;
   }
 
