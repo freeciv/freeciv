@@ -775,9 +775,18 @@ const char *name_of_skill_level(int level)
 ***************************************************************/
 int handicap_of_skill_level(int level)
 {
-  int h[11] = { -1, 0, 0, H_RATES+H_TARGETS+H_HUTS,
-		0, H_RATES+H_TARGETS+H_HUTS, 0, 0,
-		0, 0, 0 };
+  int h[11] = { -1, 
+		H_NONE, 
+		H_NONE, 
+		H_RATES & H_TARGETS & H_HUTS,
+		H_NONE, 
+		H_RATES & H_TARGETS & H_HUTS, 
+		H_NONE, 
+		H_NONE, 
+		H_NONE, 
+		H_NONE, 
+		H_NONE, 
+		};
   
   assert(level>0 && level<=10);
   return h[level];
