@@ -72,6 +72,7 @@ bool dialogs_on_top = TRUE;
 bool ask_city_name = TRUE;
 bool popup_new_cities = TRUE;
 bool keyboardless_goto = TRUE;
+bool show_task_icons = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;

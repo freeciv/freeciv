@@ -858,6 +858,11 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 
       gtk_tree_view_insert_column_with_data_func(view,
 	  i, titles[i], rend, cell_render_func, ppcity, NULL);
+      col = gtk_tree_view_get_column(view, i);
+
+      if (!show_task_icons) {
+	g_object_set(col, "visible", FALSE, NULL);
+      }
     } else {
       gint pos = i-1;
 
@@ -877,7 +882,9 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 	*pcol = col;
       }
     }
-    g_object_set(rend, "height", UNIT_TILE_HEIGHT, NULL);
+    if (show_task_icons) {
+      g_object_set(rend, "height", UNIT_TILE_HEIGHT, NULL);
+    }
   }
 }
 

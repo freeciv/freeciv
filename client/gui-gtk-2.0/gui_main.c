@@ -124,10 +124,11 @@ GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
 client_option gui_options[] = {
-  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators")),
-  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars")),
-  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto")),
-  GEN_BOOL_OPTION(dialogs_on_top, N_("Keep dialogs on top")),
+  GEN_BOOL_OPTION(meta_accelerators,	N_("Use Alt/Meta for accelerators")),
+  GEN_BOOL_OPTION(map_scrollbars,	N_("Show Map Scrollbars")),
+  GEN_BOOL_OPTION(keyboardless_goto,	N_("Keyboardless goto")),
+  GEN_BOOL_OPTION(dialogs_on_top,	N_("Keep dialogs on top")),
+  GEN_BOOL_OPTION(show_task_icons,	N_("Show worklist task icons")),
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

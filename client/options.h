@@ -46,6 +46,7 @@ extern bool ask_city_name;
 extern bool popup_new_cities;
 extern bool update_city_text_in_refresh_tile;
 extern bool keyboardless_goto;
+extern bool show_task_icons;
 
 enum client_option_type {
   COT_BOOL,
