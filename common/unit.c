@@ -1552,7 +1552,7 @@ enum unit_upgrade_result test_unit_upgrade(struct unit *punit, bool is_free)
 
   if (!is_free) {
     cost = unit_upgrade_price(pplayer, punit->type, to_unittype);
-    if (!pplayer->economic.gold < cost) {
+    if (pplayer->economic.gold < cost) {
       return UR_NO_MONEY;
     }
 
@@ -1584,21 +1584,21 @@ enum unit_upgrade_result test_unit_upgrade(struct unit *punit, bool is_free)
 enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 					       struct unit *punit)
 {
+  struct player *pplayer = unit_owner(punit);
   enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
   int upgrade_cost;
   Unit_Type_id from_unittype = punit->type;
-  Unit_Type_id to_unittype = can_upgrade_unittype(game.player_ptr,
+  Unit_Type_id to_unittype = can_upgrade_unittype(pplayer,
 						  punit->type);
 
   switch (result) {
   case UR_OK:
-    upgrade_cost = unit_upgrade_price(game.player_ptr,
-				      from_unittype, to_unittype);
+    upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     /* This message is targeted toward the GUI callers. */
     my_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
 			      "Treasury contains %d gold."),
 		unit_types[from_unittype].name, unit_types[to_unittype].name,
-		upgrade_cost, game.player_ptr->economic.gold);
+		upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NO_UNITTYPE:
     my_snprintf(buf, bufsz,
@@ -1606,13 +1606,12 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 		unit_types[from_unittype].name);
     break;
   case UR_NO_MONEY:
-    upgrade_cost = unit_upgrade_price(game.player_ptr,
-				      from_unittype, to_unittype);
+    upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     my_snprintf(buf, bufsz,
 		_("Upgrading %s to %s costs %d gold.\n"
 		  "Treasury contains %d gold."),
 		unit_types[from_unittype].name, unit_types[to_unittype].name,
-		upgrade_cost, game.player_ptr->economic.gold);
+		upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NOT_IN_CITY:
   case UR_NOT_CITY_OWNER:

@@ -2215,7 +2215,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+  if (get_unit_upgrade_info(buf, sizeof(buf), punit) != UR_OK) {
     shell = gtk_message_dialog_new(NULL, 0,
 				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
