@@ -309,11 +309,15 @@ static void map_startpos_load(struct section_file *file)
 				   map.num_start_positions
 				   * sizeof(*map.start_positions));
   for (i = 0; i < map.num_start_positions; i++) {
+    int nat_x, nat_y;
     char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
 					      i);
 
-    map.start_positions[i].x = secfile_lookup_int(file, "map.r%dsx", i);
-    map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
+    nat_x = secfile_lookup_int(file, "map.r%dsx", i);
+    nat_y = secfile_lookup_int(file, "map.r%dsy", i);
+
+    native_to_map_pos(&map.start_positions[i].x, &map.start_positions[i].y,
+		      nat_x, nat_y);
 
     if (nation) {
       /* This will fall back to NO_NATION_SELECTED if the string doesn't
@@ -480,8 +484,11 @@ static void map_save(struct section_file *file)
   secfile_insert_bool(file, game.save_options.save_starts, "game.save_starts");
   if (game.save_options.save_starts) {
     for (i=0; i<map.num_start_positions; i++) {
-      secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
-      secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
+      do_in_native_pos(nat_x, nat_y,
+		       map.start_positions[i].x, map.start_positions[i].y) {
+	secfile_insert_int(file, nat_x, "map.r%dsx", i);
+	secfile_insert_int(file, nat_y, "map.r%dsy", i);
+      } do_in_native_pos_end;
 
       if (map.start_positions[i].nation != NO_NATION_SELECTED) {
 	const char *nation = get_nation_name(map.start_positions[i].nation);
@@ -915,10 +922,12 @@ static void player_load(struct player *plr, int plrno,
 
   for (i = 0; i < ncities; i++) { /* read the cities */
     struct city *pcity;
+    int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
+    int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
+    int map_x, map_y;
 
-    pcity = create_city_virtual(plr,
-                      secfile_lookup_int(file, "player%d.c%d.x", plrno, i),
-                      secfile_lookup_int(file, "player%d.c%d.y", plrno, i),
+    native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+    pcity = create_city_virtual(plr, map_x, map_y,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
@@ -1102,6 +1111,7 @@ static void player_load(struct player *plr, int plrno,
   for(i=0; i<nunits; i++) { /* read the units */
     struct unit *punit;
     struct city *pcity;
+    int nat_x, nat_y;
 
     punit = create_unit_virtual(plr, NULL, 
                   secfile_lookup_int(file, "player%d.u%d.type", plrno, i),
@@ -1109,8 +1119,10 @@ static void player_load(struct player *plr, int plrno,
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
     alloc_id(punit->id);
     idex_register_unit(punit);
-    punit->x=secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
-    punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
+
+    nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
+    nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
+    native_to_map_pos(&punit->x, &punit->y, nat_x, nat_y);
 
     punit->foul=secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
 					   plrno, i);
@@ -1153,9 +1165,12 @@ static void player_load(struct player *plr, int plrno,
      * "go" field, so we just load the goto destination by default. */
     if (secfile_lookup_bool_default(file, TRUE,
 				    "player%d.u%d.go", plrno, i)) {
-      int x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
-      int y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
-      set_goto_dest(punit, x, y);
+      int nat_x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
+      int nat_y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
+      int map_x, map_y;
+
+      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      set_goto_dest(punit, map_x, map_y);
     } else {
       clear_goto_dest(punit);
     }
@@ -1297,7 +1312,7 @@ The private map for fog of war
 static void player_map_load(struct player *plr, int plrno,
 			    struct section_file *file)
 {
-  int x,y,i;
+  int i;
 
   if (!plr->is_alive)
     whole_map_iterate(x, y) {
@@ -1363,10 +1378,13 @@ static void player_map_load(struct player *plr, int plrno,
       struct dumb_city *pdcity;
       i = secfile_lookup_int(file, "player%d.total_ncities", plrno);
       for (j = 0; j < i; j++) {
+	int nat_x, nat_y, map_x, map_y;
+
 	pdcity = fc_malloc(sizeof(struct dumb_city));
 	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
-	x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
-	y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
+	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
+	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
+	native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    
@@ -1377,7 +1395,7 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
-	map_get_player_tile(x, y, plr)->city = pdcity;
+	map_get_player_tile(map_x, map_y, plr)->city = pdcity;
 	alloc_id(pdcity->id);
       }
     }
@@ -1585,8 +1603,10 @@ static void player_save(struct player *plr, int plrno,
   unit_list_iterate(plr->units, punit) {
     i++;
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
-    secfile_insert_int(file, punit->x, "player%d.u%d.x", plrno, i);
-    secfile_insert_int(file, punit->y, "player%d.u%d.y", plrno, i);
+    do_in_native_pos(nat_x, nat_y, punit->x, punit->y) {
+      secfile_insert_int(file, nat_x, "player%d.u%d.x", plrno, i);
+      secfile_insert_int(file, nat_y, "player%d.u%d.y", plrno, i);
+    } do_in_native_pos_end;
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
 				plrno, i);
     secfile_insert_bool(file, punit->foul, "player%d.u%d.foul", 
@@ -1616,10 +1636,11 @@ static void player_save(struct player *plr, int plrno,
 
     if (is_goto_dest_set(punit)) {
       secfile_insert_bool(file, TRUE, "player%d.u%d.go", plrno, i);
-      secfile_insert_int(file, goto_dest_x(punit),
-			 "player%d.u%d.goto_x", plrno, i);
-      secfile_insert_int(file, goto_dest_y(punit), "player%d.u%d.goto_y",
-			 plrno, i);
+      do_in_native_pos(nat_x, nat_y,
+		       goto_dest_x(punit), goto_dest_y(punit)) {
+	secfile_insert_int(file, nat_x, "player%d.u%d.goto_x", plrno, i);
+	secfile_insert_int(file, nat_y, "player%d.u%d.goto_y", plrno, i);
+      } do_in_native_pos_end;
     } else {
       secfile_insert_bool(file, FALSE, "player%d.u%d.go", plrno, i);
       /* for compatility with older servers */
@@ -1680,8 +1701,10 @@ static void player_save(struct player *plr, int plrno,
 
     i++;
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
-    secfile_insert_int(file, pcity->x, "player%d.c%d.x", plrno, i);
-    secfile_insert_int(file, pcity->y, "player%d.c%d.y", plrno, i);
+    do_in_native_pos(nat_x, nat_y, pcity->x, pcity->y) {
+      secfile_insert_int(file, nat_x, "player%d.c%d.x", plrno, i);
+      secfile_insert_int(file, nat_y, "player%d.c%d.y", plrno, i);
+    } do_in_native_pos_end;
     secfile_insert_str(file, pcity->name, "player%d.c%d.name", plrno, i);
     secfile_insert_int(file, pcity->original, "player%d.c%d.original", 
 		       plrno, i);
@@ -1811,8 +1834,10 @@ static void player_save(struct player *plr, int plrno,
 	if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
 	  secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno,
 			     i);
-	  secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
-	  secfile_insert_int(file, y, "player%d.dc%d.y", plrno, i);
+	  do_in_native_pos(nat_x, nat_y, x, y) {
+	    secfile_insert_int(file, nat_x, "player%d.dc%d.x", plrno, i);
+	    secfile_insert_int(file, nat_y, "player%d.dc%d.y", plrno, i);
+	  } do_in_native_pos_end;
 	  secfile_insert_str(file, pdcity->name, "player%d.dc%d.name",
 			     plrno, i);
 	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
