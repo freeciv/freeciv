@@ -102,26 +102,22 @@ enum city_options {
 }
 
 /* Iterate a city map, from the center (the city) outwards */
+extern struct iter_index {
+  int dx, dy, dist;
+} *city_map_iterate_outwards_indices;
 
-extern int city_map_iterate_outwards_indices[CITY_TILES][2];
+/* Iterate a city map, from the center (the city) outwards.
+ * (city_x, city_y) will be the city coordinates. */
+#define city_map_iterate_outwards(city_x, city_y)			    \
+{									    \
+  int city_x, city_y, _index;						    \
+									    \
+  for (_index = 0; _index < CITY_TILES; _index++) {			    \
+    city_x = city_map_iterate_outwards_indices[_index].dx + CITY_MAP_RADIUS;\
+    city_y = city_map_iterate_outwards_indices[_index].dy + CITY_MAP_RADIUS;
 
-/* Iterate a city map, from the center (the city) outwards. x and y
-   will be elements of [0, CITY_MAP_SIZE). */
-#define city_map_iterate_outwards(x, y) {                                      \
-  int x, y;                                                                    \
-  int city_map_iterate_outwards_index;                                         \
-  for                                                                          \
-  (                                                                            \
-    city_map_iterate_outwards_index = 0;                                       \
-    city_map_iterate_outwards_index < CITY_TILES;                              \
-    city_map_iterate_outwards_index++                                          \
-  )                                                                            \
-  {                                                                            \
-    x = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][0]; \
-    y = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][1];
-
-#define city_map_iterate_outwards_end                                          \
-  }                                                                            \
+#define city_map_iterate_outwards_end                                       \
+  }                                                                         \
 }
 
 /*
@@ -396,6 +392,7 @@ bool base_city_map_to_map(int *map_x, int *map_y, int city_center_x,
 			 int city_map_y);
 bool city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
 		    int city_map_x, int city_map_y);
+void generate_city_map_indices(void);
 
 /* shield on spot */
 int city_get_shields_tile(int city_x, int city_y, struct city *pcity);

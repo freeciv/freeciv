@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "fcintl.h"
@@ -52,20 +53,7 @@ static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
 				      bool asmiths);
 
 /* Iterate a city map, from the center (the city) outwards */
-
-int city_map_iterate_outwards_indices[CITY_TILES][2] =
-{
-  { 2, 2 },
-
-  { 1, 2 }, { 2, 1 }, { 3, 2 }, { 2, 3 },
-  { 1, 3 }, { 1, 1 }, { 3, 1 }, { 3, 3 },
-
-  { 0, 2 }, { 2, 0 }, { 4, 2 }, { 2, 4 },
-  { 0, 3 }, { 0, 1 },
-  { 1, 0 }, { 3, 0 },
-  { 4, 1 }, { 4, 3 },
-  { 3, 4 }, { 1, 4 }
-};
+struct iter_index *city_map_iterate_outwards_indices;
 
 struct citystyle *city_styles = NULL;
 
@@ -165,6 +153,84 @@ bool city_map_to_map(int *map_x, int *map_y,
 {
   return base_city_map_to_map(map_x, map_y,
 			      pcity->x, pcity->y, city_map_x, city_map_y);
+}
+
+/**************************************************************************
+  Compare two integer values, as required by qsort.
+***************************************************************************/
+static int cmp(int v1, int v2)
+{
+  if (v1 == v2) {
+    return 0;
+  } else if (v1 > v2) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+/**************************************************************************
+  Compare two iter_index values from the city_map_iterate_outward_indices.
+
+  This function will be passed to qsort().  It should never return zero,
+  or the sort order will be left up to qsort and will be undefined.  This
+  would mean that server execution would not be reproducable.
+***************************************************************************/
+static int compare_index(const void *a, const void *b)
+{
+  const struct iter_index *index1 = a, *index2 = b;
+  int value;
+
+  value = cmp(index1->dist, index2->dist);
+  if (value != 0) {
+    return value;
+  }
+
+  value = cmp(index1->dx, index2->dx);
+  if (value != 0) {
+    return value;
+  }
+
+  value = cmp(index1->dy, index2->dy);
+  assert(value != 0);
+  return value;
+}
+
+/**************************************************************************
+  Fill the iterate_outwards_indices array.  This may depend on topology and
+  ruleset settings.
+***************************************************************************/
+void generate_city_map_indices(void)
+{
+  int i = 0, dx, dy;
+  struct iter_index *array = city_map_iterate_outwards_indices;
+
+  /* Realloc is used because this function may be called multiple times. */
+  array = fc_realloc(array, CITY_TILES * sizeof(*array));
+
+  for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
+    for (dy = -CITY_MAP_RADIUS; dy <= CITY_MAP_RADIUS; dy++) {
+      if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
+	array[i].dx = dx;
+	array[i].dy = dy;
+	array[i].dist = dx * dx + dy * dy;
+	i++;
+      }
+    }
+  }
+  assert(i == CITY_TILES);
+
+  qsort(array, CITY_TILES, sizeof(*array), compare_index);
+
+#ifdef DEBUG
+  for (i = 0; i < CITY_TILES; i++) {
+    freelog(LOG_DEBUG, "%2d : (%2d,%2d) : %d", i,
+	    array[i].dx + CITY_MAP_RADIUS, array[i].dy + CITY_MAP_RADIUS,
+	    array[i].dist);
+  }
+#endif
+
+  city_map_iterate_outwards_indices = array;
 }
 
 /**************************************************************************
