@@ -423,7 +423,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button0), "clicked",
 		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
 		     (gpointer)pdialog);
-  if (plr0->gives_shared_vision & (1<<plr1->player_no))
+  if (gives_shared_vision(plr0, plr1))
     gtk_widget_set_sensitive(pdialog->dip_vision_button0, FALSE);
 
   pdialog->dip_vision_button1=gtk_button_new_with_label(_("Give shared vision"));
@@ -432,7 +432,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button1), "clicked",
 		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
 		     (gpointer)pdialog);
-  if (plr1->gives_shared_vision & (1<<plr0->player_no))
+  if (gives_shared_vision(plr1, plr0))
     gtk_widget_set_sensitive(pdialog->dip_vision_button1, FALSE);
 
   /* Start of pact button insertion */

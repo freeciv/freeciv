@@ -303,8 +303,7 @@ void players_list_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(players_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    int player_index = list_index_to_player_index[ret->list_index];
-    struct player *pplayer = &game.players[player_index];
+    struct player *pplayer = get_player(list_index_to_player_index[ret->list_index]);
 
     if(pplayer->spaceship.state != SSHIP_NONE)
       XtSetSensitive(players_sship_command, TRUE);
@@ -312,18 +311,13 @@ void players_list_callback(Widget w, XtPointer client_data,
       XtSetSensitive(players_sship_command, FALSE);
 
     if(pplayer->is_alive) {
-      if (pplayers_at_war(game.player_ptr, get_player(player_index)) ||
-	  game.player_idx == player_index)
-	XtSetSensitive(players_war_command, FALSE);
-      else
-	XtSetSensitive(players_war_command, TRUE);
+      XtSetSensitive(players_war_command,
+		     !pplayers_at_war(game.player_ptr, pplayer)
+		     && game.player_ptr != pplayer);
     }
 
-    if (game.player_ptr->gives_shared_vision & (1<<player_index)) {
-      XtSetSensitive(players_vision_command, TRUE);
-    } else {
-      XtSetSensitive(players_vision_command, FALSE);
-    }
+    XtSetSensitive(players_vision_command,
+		   gives_shared_vision(game.player_ptr, pplayer));
 
     if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
       if(pplayer->is_connected)

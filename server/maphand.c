@@ -1096,7 +1096,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 {
   int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
   if (pfrom == pto) return;
-  if (pfrom->gives_shared_vision & (1<<pto->player_no)) {
+  if (gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Trying to give shared vision from %s to %s, "
 	    "but that vision is already given!",
 	    pfrom->name, pto->name);
@@ -1149,7 +1149,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 {
   int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
   assert(pfrom != pto);
-  if (!(pfrom->gives_shared_vision & (1<<pto->player_no))) {
+  if (!gives_shared_vision(pfrom, pto)) {
     freelog(LOG_ERROR, "Tried removing the shared vision from %s to %s, "
 	    "but it did not exist in the first place!",
 	    pfrom->name, pto->name);
@@ -1200,7 +1200,7 @@ void handle_player_remove_vision(struct player *pplayer,
   struct player *pplayer2 = get_player(packet->value);
   if (pplayer == pplayer2) return;
   if (!pplayer2->is_alive) return;
-  if (!(pplayer->gives_shared_vision & (1<<packet->value))) return;
+  if (!gives_shared_vision(pplayer, pplayer2)) return;
 
   remove_shared_vision(pplayer, pplayer2);
   notify_player(pplayer2, _("%s no longer gives us shared vision!"),

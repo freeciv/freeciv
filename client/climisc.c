@@ -380,12 +380,12 @@ Return a string indicating one nation's shaed vision status with another
 ***************************************************************************/
 char *get_vision_status(struct player *me, struct player *them)
 {
-  if (me->gives_shared_vision & (1<<them->player_no)) {
-    if (them->gives_shared_vision & (1<<me->player_no))
+  if (gives_shared_vision(me, them)) {
+    if (gives_shared_vision(them, me))
       return Q_("?vision:Both");
     else
       return Q_("?vision:To Them");
-  } else if (them->gives_shared_vision & (1<<me->player_no))
+  } else if (gives_shared_vision(them, me))
     return Q_("?vision:To Us");
   else
     return "";

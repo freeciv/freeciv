@@ -243,6 +243,8 @@ bool pplayers_non_attack(const struct player *pplayer,
 
 bool is_barbarian(const struct player *pplayer);
 
+bool gives_shared_vision(struct player *me, struct player *them);
+
 #define players_iterate(PI_player)                                            \
 {                                                                             \
   struct player *PI_player;                                                   \

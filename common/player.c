@@ -584,3 +584,11 @@ bool is_barbarian(const struct player *pplayer)
 {
   return pplayer->ai.barbarian_type != NOT_A_BARBARIAN;
 }
+
+/**************************************************************************
+  Return TRUE iff the player me gives shared vision to player them.
+**************************************************************************/
+bool gives_shared_vision(struct player *me, struct player *them)
+{
+  return TEST_BIT(me->gives_shared_vision, them->player_no);
+}

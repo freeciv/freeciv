@@ -1298,7 +1298,7 @@ static void player_save(struct player *plr, int plrno,
     char vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS+1];
 
     for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-      vision[i] = plr->gives_shared_vision & (1 << i) ? '1' : '0';
+      vision[i] = gives_shared_vision(plr, get_player(i)) ? '1' : '0';
     vision[i] = '\0';
     secfile_insert_str(file, vision, "player%d.gives_shared_vision", plrno);
   }

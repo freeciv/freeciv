@@ -194,7 +194,7 @@ static void update_player_aliveness(struct player *pplayer)
                 get_nation_name(pplayer->nation));
       }
       players_iterate(pplayer2) {
-	if (pplayer->gives_shared_vision & (1<<pplayer2->player_no))
+	if (gives_shared_vision(pplayer, pplayer2))
 	  remove_shared_vision(pplayer, pplayer2);
       } players_iterate_end;
 
@@ -1167,7 +1167,7 @@ static void package_player_info(struct player *plr,
       packet->embassy  = 0;
     else
       packet->embassy  = 1 << receiver->player_no;
-    if (!receiver || !(plr->gives_shared_vision & (1<<receiver->player_no)))
+    if (!receiver || !gives_shared_vision(plr, receiver))
       packet->gives_shared_vision = 0;
     else
       packet->gives_shared_vision = 1 << receiver->player_no;

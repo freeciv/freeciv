@@ -221,10 +221,8 @@ static void players_active(void)
            break;
     }
 
-    if(game.player_ptr->gives_shared_vision & (1<<pplayer->player_no))
-      set(player_vision_button, MUIA_Disabled, FALSE);
-    else
-      set(player_vision_button, MUIA_Disabled, TRUE);
+    set(player_vision_button, MUIA_Disabled,
+	!gives_shared_vision(game.player_ptr, pplayer));
 
     if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer))
     {

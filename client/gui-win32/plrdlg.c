@@ -252,10 +252,9 @@ static void enable_buttons(int player_index)
   default:
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_WAR),TRUE);
   }
-  if (game.player_ptr->gives_shared_vision & (1 << pplayer->player_no))
-    EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_VISION), TRUE);
-  else
-    EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_VISION), FALSE);
+  
+  EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_VISION),
+	       gives_shared_vision(game.player_ptr, pplayer));
 
   if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
     if (pplayer->is_connected)

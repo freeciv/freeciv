@@ -483,7 +483,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				commandWidgetClass, 
 				pdialog->dip_form0,
 				NULL));
-  if (plr0->gives_shared_vision & (1<<plr1->player_no))
+  if (gives_shared_vision(plr0, plr1))
     XtSetSensitive(pdialog->dip_vision_button0, FALSE);
 
   pdialog->dip_vision_button1 =
@@ -491,7 +491,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				commandWidgetClass, 
 				pdialog->dip_form1,
 				NULL));
-  if (plr1->gives_shared_vision & (1<<plr0->player_no))
+  if (gives_shared_vision(plr1, plr0))
     XtSetSensitive(pdialog->dip_vision_button1, FALSE);
 
   XtAddCallback(pdialog->dip_vision_button0, XtNcallback, 

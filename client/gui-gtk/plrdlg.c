@@ -493,10 +493,8 @@ void players_list_callback(GtkWidget * w, gint row, gint column)
 			     game.player_idx != player_index);
   }
 
-  if (game.player_ptr->gives_shared_vision & (1 << pplayer->player_no))
-    gtk_widget_set_sensitive(players_vision_command, TRUE);
-  else
-    gtk_widget_set_sensitive(players_vision_command, FALSE);
+  gtk_widget_set_sensitive(players_vision_command,
+			   gives_shared_vision(game.player_ptr, pplayer));
 
   if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
     if (pplayer->is_connected)
