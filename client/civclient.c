@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
    } else if (is_option("--version",argv[i])) {
-    fprintf(stderr, "%s\n", freeciv_name_version());
+    fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
     exit(0);
    } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */
