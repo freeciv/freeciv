@@ -13,6 +13,8 @@ libcivutility_a_SOURCES = \
 		astring.h       \
 		capability.c	\
 		capability.h	\
+		fciconv.c	\
+		fciconv.h	\
 		distribute.c	\
 		distribute.h	\
 		fcintl.c	\

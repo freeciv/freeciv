@@ -37,6 +37,7 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -261,6 +262,7 @@ static Boolean toplevel_work_proc(XtPointer client_data)
 **************************************************************************/
 void ui_init(void)
 {
+  init_character_encodings(NULL);
 }
 
 /**************************************************************************

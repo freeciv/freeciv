@@ -1,0 +1,277 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 2003-2004 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <assert.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+
+#ifdef HAVE_ICONV
+#include <iconv.h>
+#endif
+
+#ifdef HAVE_LANGINFO_CODESET
+#include <langinfo.h>
+#endif
+
+#include "fciconv.h"
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "support.h"
+
+static bool is_init = FALSE;
+static char convert_buffer[4096];
+
+#ifdef HAVE_ICONV
+static char *local_encoding, *data_encoding, *internal_encoding;
+#endif
+
+/***************************************************************************
+  Must be called during the initialization phase of server and client to
+  initialize the character encodings to be used.
+***************************************************************************/
+void init_character_encodings(char *my_internal_encoding)
+{
+#ifdef HAVE_ICONV
+  /* Set the data encoding - first check $FREECIV_DATA_ENCODING,
+   * then fall back to the default. */
+  data_encoding = getenv("FREECIV_DATA_ENCODING");
+  if (!data_encoding) {
+    /* Currently the rulesets are in latin1 (ISO-8859-1). */
+    data_encoding = DEFAULT_DATA_ENCODING;
+  }
+
+  /* Set the local encoding - first check $FREECIV_LOCAL_ENCODING,
+   * then ask the system. */
+  local_encoding = getenv("FREECIV_LOCAL_ENCODING");
+  if (!local_encoding) {
+#ifdef HAVE_LIBCHARSET
+    local_encoding = locale_charset();
+#else
+#ifdef HAVE_LANGINFO_CODESET
+    local_encoding = nl_langinfo(CODESET);
+#else
+    local_encoding = "";
+#endif
+#endif
+    if (mystrcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
+	|| mystrcasecmp(local_encoding, "ASCII") == 0
+	|| mystrcasecmp(local_encoding, "US-ASCII") == 0) {
+      /* HACK: use latin1 instead of ascii in typical cases when the
+       * encoding is unconfigured. */
+      local_encoding = "ISO-8859-1";
+    }
+  }
+
+  /* Set the internal encoding - first check $FREECIV_INTERNAL_ENCODING,
+   * then check the passed-in default value, then fall back to the local
+   * encoding. */
+  internal_encoding = getenv("FREECIV_INTERNAL_ENCODING");
+  if (!internal_encoding) {
+    internal_encoding = my_internal_encoding;
+
+    if (!internal_encoding) {
+      internal_encoding = local_encoding;
+    }
+  }
+
+#ifdef ENABLE_NLS
+  bind_textdomain_codeset(PACKAGE, internal_encoding);
+#endif
+
+#ifdef DEBUG
+  /* FIXME: Remove this output when this code has stabilized. */
+  fprintf(stderr, "Encodings: Data=%s, Local=%s, Internal=%s\n",
+	     data_encoding, local_encoding, internal_encoding);
+#endif
+
+#else
+   /* freelog may not work at this point. */
+  fprintf(stderr,
+	     _("You are running Freeciv without using iconv.  Unless\n"
+	       "you are using the latin1 character set, some characters\n"
+	       "may not be displayed properly.  You can download iconv\n"
+	       "at http://gnu.org/.\n"));
+#endif
+
+  is_init = TRUE;
+}
+
+const char *get_data_encoding(void)
+{
+  assert(is_init);
+  return data_encoding;
+}
+
+const char *get_local_encoding(void)
+{
+  assert(is_init);
+  return local_encoding;
+}
+
+const char *get_internal_encoding(void)
+{
+  assert(is_init);
+  return internal_encoding;
+}
+
+/***************************************************************************
+  Convert the text.  Both 'from' and 'to' must be 8-bit charsets.  The
+  result will be put into the buf buffer unless it is NULL, in which case it
+  will be allocated on demand.
+***************************************************************************/
+static char *convert_string(const char *text,
+			    const char *from,
+			    const char *to,
+			    char *buf, size_t bufsz)
+{
+#ifdef HAVE_ICONV
+  iconv_t cd = iconv_open(to, from);
+  size_t from_len = strlen(text) + 1, to_len;
+  bool alloc = (buf == NULL);
+
+  assert(is_init && from != NULL && to != NULL);
+  assert(text != NULL);
+
+  if (cd == (iconv_t) (-1)) {
+    freelog(LOG_ERROR,
+	    _("Could not convert text from %s to %s: %s"),
+	    from, to, strerror(errno));
+    /* The best we can do? */
+    if (alloc) {
+      return mystrdup(text);
+    } else {
+      my_snprintf(buf, bufsz, "%s", text);
+      return buf;
+    }
+  }
+
+  if (alloc) {
+    to_len = from_len;
+  } else {
+    to_len = bufsz;
+  }
+
+  do {
+    size_t flen = from_len, tlen = to_len, res;
+    const char *mytext = text;
+    char *myresult;
+
+    if (alloc) {
+      buf = fc_malloc(to_len);
+    }
+
+    myresult = buf;
+
+    /* Since we may do multiple translations, we may need to reset iconv
+     * in between. */
+    iconv(cd, NULL, NULL, NULL, NULL);
+
+    res = iconv(cd, (char**)&mytext, &flen, &myresult, &tlen);
+    if (res == (size_t) (-1)) {
+      if (errno != E2BIG) {
+	/* Invalid input. */
+	freelog(LOG_ERROR, "Invalid string conversion from %s to %s.",
+		from, to);
+	iconv_close(cd);
+	if (alloc) {
+	  free(buf);
+	  return mystrdup(text); /* The best we can do? */
+	} else {
+	  my_snprintf(buf, bufsz, "%s", text);
+	  return buf;
+	}
+      }
+    } else {
+      /* Success. */
+      iconv_close(cd);
+
+      /* There may be wasted space here, but there's nothing we can do
+       * about it. */
+      return buf;
+    }
+
+    if (alloc) {
+      /* Not enough space; try again. */
+      buf[to_len - 1] = 0;
+      freelog(LOG_VERBOSE, "   Result was '%s'.", buf);
+
+      free(buf);
+      to_len *= 2;
+    }
+  } while (alloc);
+
+  return buf;
+#else /* HAVE_ICONV */
+  if (buf) {
+    strncpy(buf, text, bufsz);
+    buf[bufsz - 1] = '\0';
+  } else {
+    return mystrdup(text);
+  }
+#endif /* HAVE_ICONV */
+}
+
+#define CONV_FUNC_MALLOC(src, dst)                                          \
+char *src ## _to_ ## dst ## _string_malloc(const char *text)                \
+{                                                                           \
+  return convert_string(text, (src ## _encoding),			    \
+			(dst ## _encoding), NULL, 0);                       \
+}
+
+#define CONV_FUNC_BUFFER(src, dst)                                          \
+char *src ## _to_ ## dst ## _string_buffer(const char *text,                \
+					   char *buf, size_t bufsz)         \
+{                                                                           \
+  return convert_string(text, (src ## _encoding),			    \
+                        (dst ## _encoding), buf, bufsz);                    \
+}
+
+#define CONV_FUNC_STATIC(src, dst)                                          \
+char *src ## _to_ ## dst ## _string_static(const char *text)                \
+{                                                                           \
+  (src ## _to_ ## dst ## _string_buffer)(text,                              \
+					convert_buffer,                     \
+					sizeof(convert_buffer));            \
+  return convert_buffer;                                                    \
+}
+
+CONV_FUNC_MALLOC(data, internal)
+CONV_FUNC_MALLOC(internal, data)
+
+static CONV_FUNC_BUFFER(internal, local)
+static CONV_FUNC_STATIC(internal, local)
+
+/***************************************************************************
+  Do a printf in the currently bound codeset.
+***************************************************************************/
+void fc_fprintf(FILE *stream, const char *format, ...)
+{
+  va_list ap;
+  char string[4096];
+  const char *output;
+
+  va_start(ap, format);
+  my_vsnprintf(string, sizeof(string), format, ap);
+  va_end(ap);
+
+  output = internal_to_local_string_static(string);
+
+  fputs(output, stream);
+  fflush(stream);
+}

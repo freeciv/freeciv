@@ -31,6 +31,7 @@
 #include <unistd.h>
 #endif
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -803,6 +804,7 @@ static void setup_widgets(void)
 **************************************************************************/
 void ui_init(void)
 {
+  init_character_encodings(NULL);
 }
 
 /**************************************************************************

@@ -66,22 +66,6 @@ static const char *get_display_encoding(void)
 }
 
 /**************************************************************************
-  Return the local charset encoding (which will be passed to iconv).
-**************************************************************************/
-static const char *get_local_encoding(void)
-{
-#ifdef HAVE_LIBCHARSET
-  return locale_charset();
-#else
-#  ifdef HAVE_LANGINFO_CODESET
-  return nl_langinfo(CODESET);
-#  else
-  return "";
-#  endif
-#endif
-}
-
-/**************************************************************************
   Convert string from local encoding (8 bit char) to
   display encoding (16 bit unicode) and resut put in pToUniString.
   if pToUniString == NULL then resulting string will be allocate automaticaly.
@@ -94,7 +78,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
 {
   /* Start Parametrs */
   const char *pTocode = get_display_encoding();
-  const char *pFromcode = get_local_encoding();
+  const char *pFromcode = INTERNAL_ENCODING;
   const char *pStart = pFromString;
   size_t length = strlen(pFromString) + 1;
 
@@ -175,7 +159,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
 {
   /* Start Parametrs */
   const char *pFromcode = get_display_encoding();
-  const char *pTocode = get_local_encoding();
+  const char *pTocode = INTERNAL_ENCODING;
   const char *pStart = (char *) pFromUniString;
   size_t ulength = (unistrlen(pFromUniString) + 1) * 2;
 

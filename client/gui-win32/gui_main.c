@@ -21,6 +21,7 @@
 #include <commctrl.h>
 #include <richedit.h>
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -529,6 +530,7 @@ void popdown_all_game_dialogs(void)
 **************************************************************************/
 void ui_init(void)
 {
+  init_character_encodings(NULL);
 }
 
 /**************************************************************************

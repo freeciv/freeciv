@@ -21,7 +21,9 @@
 #include <time.h>
 
 #include "capstr.h"
+#include "dataio.h"
 #include "diptreaty.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "idex.h"
@@ -91,6 +93,61 @@ bool waiting_for_end_turn = FALSE;
  */
 bool turn_done_sent = FALSE;
 
+/**************************************************************************
+  Convert a text string from the internal to the data encoding, when it
+  is written to the network.
+**************************************************************************/
+static unsigned char *put_conv(const char *src, size_t *length)
+{
+  char *out = internal_to_data_string_malloc(src);
+
+  if (out) {
+    *length = strlen(out);
+    return out;
+  } else {
+    *length = 0;
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Convert a text string from the data to the internal encoding when it is
+  first read from the network.  Returns FALSE if the destination isn't
+  large enough or the source was bad.
+**************************************************************************/
+static bool get_conv(char *dst, size_t ndst,
+		     const unsigned char *src, size_t nsrc)
+{
+  char *out = data_to_internal_string_malloc(src);
+  bool ret = TRUE;
+  size_t len;
+
+  if (!out) {
+    dst[0] = '\0';
+    return FALSE;
+  }
+
+  len = strlen(out);
+  if (ndst > 0 && len >= ndst) {
+    ret = FALSE;
+    len = ndst - 1;
+  }
+
+  memcpy(dst, out, len);
+  dst[len] = '\0';
+  free(out);
+
+  return ret;
+}
+
+/**************************************************************************
+  Set up charsets for the client.
+**************************************************************************/
+static void charsets_init(void)
+{
+  dio_set_put_conv_callback(put_conv);
+  dio_set_get_conv_callback(get_conv);
+}
 
 /**************************************************************************
 ...
@@ -203,6 +260,7 @@ int main(int argc, char *argv[])
   conn_list_init(&game.game_connections);
 
   ui_init();
+  charsets_init();
   my_init_network();
   chatline_common_init();
   init_messages_where();

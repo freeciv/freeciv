@@ -49,6 +49,7 @@
 #include "city.h"
 #include "dataio.h"
 #include "events.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -199,6 +200,9 @@ void srv_init(void)
 
   /* mark as initialized */
   has_been_srv_init = TRUE;
+
+  /* init character encodings. */
+  init_character_encodings(DEFAULT_DATA_ENCODING);
 
   /* done */
   return;

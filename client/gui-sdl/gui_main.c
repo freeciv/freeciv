@@ -698,6 +698,8 @@ void ui_init(void)
   SDL_Surface *pBgd, *pTmp;
   Uint32 iSDL_Flags;
 
+  init_character_encodings(INTERNAL_ENCODING);
+
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
   

@@ -260,12 +260,12 @@ static int get_lanservers(gpointer data)
       GtkTreeIter it;
       int i;
 
-      row[0] = ntoh_str(pserver->name);
-      row[1] = ntoh_str(pserver->port);
-      row[2] = ntoh_str(pserver->version);
-      row[3] = g_strdup(_(pserver->status));
-      row[4] = ntoh_str(pserver->players);
-      row[5] = ntoh_str(pserver->metastring);
+      row[0] = pserver->name;
+      row[1] = pserver->port;
+      row[2] = pserver->version;
+      row[3] = _(pserver->status);
+      row[4] = pserver->players;
+      row[5] = pserver->metastring;
 
       gtk_list_store_append(storelan, &it);
       gtk_list_store_set(storelan, &it,
@@ -1129,12 +1129,12 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     GtkTreeIter it;
     int i;
 
-    row[0] = ntoh_str(pserver->name);
-    row[1] = ntoh_str(pserver->port);
-    row[2] = ntoh_str(pserver->version);
-    row[3] = g_strdup(_(pserver->status));
-    row[4] = ntoh_str(pserver->players);
-    row[5] = ntoh_str(pserver->metastring);
+    row[0] = pserver->name;
+    row[1] = pserver->port;
+    row[2] = pserver->version;
+    row[3] = _(pserver->status);
+    row[4] = pserver->players;
+    row[5] = pserver->metastring;
 
     gtk_list_store_append(storemeta, &it);
     gtk_list_store_set(storemeta, &it,
