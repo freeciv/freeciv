@@ -63,4 +63,4 @@ debian/rules binary
 
 echo
 echo "Done, you can now install your newly-compiled snapshot. It is at:"
-ls -l "../freeciv_$snapversion_`dpkg --print-architecture`.deb"
+ls -l "../freeciv_${snapversion}_`dpkg --print-architecture`.deb"

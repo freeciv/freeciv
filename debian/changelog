@@ -1,3 +1,40 @@
+freeciv (1.7.2-3) frozen unstable; urgency=low
+
+  * ...And once again, a postinst that doesn't work :-) Ignore -1 and -2
+
+ -- Lalo Martins <lalo@webcom.com>  Sun, 27 Dec 1998 00:38:46 -0600
+
+freeciv (1.7.2-2) frozen unstable; urgency=low
+
+  * Fixed lots of glitches in debianization of the new status quo:
+    + We no longer need the "civ" script because we now set datadir in
+      configure
+    + Made "civ" into an alternative, to cope with future binary packages
+      freeciv-xaw3d and freeciv-gtk
+    + The menu entry for the client does not point to "civ" anymore but to
+      "civclient"; changed the label to state that it's the "(traditional
+      Athena version)"
+    + Manually stripping binaries till I get around to rewrite debian/rules
+      for debhelper
+  * Notice: 1.7.2-1 wouldn't work at all, if you have it you need to upgrade
+
+ -- Lalo Martins <lalo@webcom.com>  Sat, 26 Dec 1998 16:35:57 -0600
+
+freeciv (1.7.2-1) frozen unstable; urgency=low
+
+  * Changed /usr/bin/update-xaw-wrappers in postinst to
+    /usr/sbin/update-xaw-wrappers (fixes #24108). Going to frozen because
+    this bug keeps FreeCiv from working with xaw-wrappers at all
+  * New upstream release
+
+ -- Lalo Martins <lalo@webcom.com>  Sat, 26 Dec 1998 11:56:10 -0600
+
+freeciv (1.7.1+cvs19981126) experimental; urgency=low
+
+  * New upstream release (CVS snapshot)
+
+ -- Lalo Martins <lalo@webcom.com>  Thu, 26 Nov 1998 01:05:04 -0600
+
 freeciv (1.7.1-1) unstable; urgency=low
 
   * New upstream release

@@ -2,7 +2,6 @@
 
 DEBDIR = debian/tmp/DEBIAN
 BINDIR = debian/tmp/usr/games
-LIBDIR = debian/tmp/usr/lib/games/freeciv
 APPDIR = debian/tmp/usr/X11R6/lib/X11/app-defaults
 DOCDIR = debian/tmp/usr/doc/freeciv
 XAWDIR = debian/tmp/usr/lib/xaw-wrappers/conf
@@ -11,7 +10,7 @@ MENUDIR = debian/tmp/usr/lib/menu
 
 config.status:
 	$(checkdir)
-	./configure
+	./configure --datadir=/usr/share/games --prefix=/usr --bindir=/usr/games
 
 build: config.status
 	$(checkdir)
@@ -42,27 +41,20 @@ binary-arch: checkroot build
 	install -p -m 755 debian/postinst ${DEBDIR}
 	install -p -m 755 debian/postrm ${DEBDIR}
 # binaries
-	install -d ${BINDIR}
-	install -p -m 755 debian/civ ${BINDIR}
-	install -p -s -m 755 client/civclient ${BINDIR}
-	install -p -s -m 755 server/civserver ${BINDIR}
+	make DESTDIR=`pwd`/debian/tmp install
+	strip --remove-section=.comment --remove-section=.note debian/tmp/usr/games/civclient
+	strip --remove-section=.comment --remove-section=.note debian/tmp/usr/games/civserver
 # xaw-wrappers config entry
 	install -d ${XAWDIR}
 	install -p -m 644 debian/xaw-wrappers ${XAWDIR}/freeciv
 # manpages
 	install -d ${MANDIR}/man6
 	# manpages? where were them?
-	#install -p -m 644 man6/*.6 ${MANDIR}/man6
 	install -p -m 644 debian/*.6 ${MANDIR}/man6
-	install -p -m 644 debian/civ.man ${MANDIR}/man6/civ.6
 	gzip -9 ${MANDIR}/man6/*.6
 # menu entry
 	install -d ${MENUDIR}
 	install -p -m 644 debian/menu ${MENUDIR}/freeciv
-# data
-	install -d ${LIBDIR}/data
-	install -p -m 644 data/*.xpm ${LIBDIR}/data
-	install -p -m 644 data/*.txt ${LIBDIR}/data  
 # app-defaults
 	install -d ${APPDIR}
 	install -p -m 644 data/Freeciv ${APPDIR}
