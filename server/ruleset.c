@@ -440,6 +440,7 @@ static void load_tech_names(struct section_file *file)
     name_strlcpy(a->name, name);
     a++;
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -530,6 +531,7 @@ static void load_ruleset_techs(struct section_file *file)
      to allow more bonus techs -- sb */  
   game.rtech.get_bonus_tech = find_tech_by_flag(0,TF_BONUS_TECH);
 
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -562,6 +564,7 @@ static void load_unit_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     name_strlcpy(unit_types[i].name, name);
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -727,7 +730,6 @@ static void load_ruleset_units(struct section_file *file)
     }
     free(slist);
   }
-  free(sec);
 
   lookup_tech_list(file, "u_specials", "partisan_req",
 		   game.rtech.partisan_req, filename);
@@ -835,6 +837,7 @@ static void load_ruleset_units(struct section_file *file)
     freelog(LOG_DEBUG, "partisan tech is %s", advances[j].name);
   }
   
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -875,6 +878,7 @@ static void load_building_names(struct section_file *file)
     name_strlcpy(improvement_types[i].name, name);
     improvement_types[i].name_orig[0] = 0;
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -1184,6 +1188,7 @@ static void load_ruleset_buildings(struct section_file *file)
   game.rtech.temple_plus =
     lookup_tech(file, "b_special", "temple_plus", 0, filename, NULL);
 
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -1216,6 +1221,7 @@ static void load_terrain_names(struct section_file *file)
       tile_types[i].terrain_name[0] = 0;
     }
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -1356,10 +1362,9 @@ static void load_ruleset_terrain(struct section_file *file)
       t->helptext = lookup_helptext(file, sec[i]);
     }
 
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
-
-  return;
 }
 
 /**************************************************************************
@@ -1394,6 +1399,7 @@ static void load_government_names(struct section_file *file)
     name_strlcpy(governments[i].name, name);
     governments[i].index = i;
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -1631,6 +1637,7 @@ static void load_ruleset_governments(struct section_file *file)
     ai_gov_tech_hints[j].tech = A_LAST;
   }
 
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -1749,6 +1756,7 @@ static void load_nation_names(struct section_file *file)
       }
     }
   }
+  free(sec);
 }
 
 /**************************************************************************
@@ -1979,7 +1987,6 @@ static void load_ruleset_nations(struct section_file *file)
     }
     if(cities) free(cities);
   }
-  free(sec);
 
   /* read miscellaneous city names */
 
@@ -1996,6 +2003,7 @@ static void load_ruleset_nations(struct section_file *file)
 
   if (cities) free(cities);
 
+  free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -2020,6 +2028,7 @@ static void load_citystyle_names(struct section_file *file)
     char *style_name = secfile_lookup_str(file, "%s.name", styles[i]);
     name_strlcpy(city_styles[i].name, style_name);
   }
+  free(styles);
 }
 
 /**************************************************************************
