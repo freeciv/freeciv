@@ -1051,7 +1051,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
 	pcity->city_map[x_itr][y_itr] = C_TILE_UNAVAILABLE;
     }
   }
-	
+
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
   auto_arrange_workers(pcity);
 

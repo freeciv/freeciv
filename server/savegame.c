@@ -1756,6 +1756,7 @@ static void check_city(struct city *pcity)
 	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
 	freelog(LOG_DEBUG, "unavailable tile marked as empty!");
       }
+      break;
     case C_TILE_WORKER:
       if (!res) {
 	int map_x, map_y;

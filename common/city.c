@@ -96,10 +96,9 @@ void set_worker_city(struct city *pcity, int x, int y,
 {
   struct tile *ptile=map_get_tile(pcity->x+x-2, pcity->y+y-2);
   if (pcity->city_map[x][y] == C_TILE_WORKER)
-    ptile->worked = NULL;
-  pcity->city_map[x][y]=type;
-/* this function is called far less than is_worked here */
-/* and these two ifs are a lot less CPU load then the iterates! */
+    if (ptile->worked == pcity)
+      ptile->worked = NULL;
+  pcity->city_map[x][y] = type;
   if (type == C_TILE_WORKER)
     ptile->worked = pcity;
 }
