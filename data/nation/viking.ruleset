@@ -2,11 +2,14 @@
 
 name=_("Viking")
 plural=_("?plural:Vikings")
-leader="Erik the Bloodaxe", "Harald"
-leader_sex="Male", "Male"
+leader="Erik Blodøks", "Harald Hårfagre", "Gro Harlem Brundtland", "Haakon VII"
+leader_sex="Male", "Male", "Female", "Male"
 flag="f.norway"
 flag_alt = "f.denmark"  ; Now used by Danish
 city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=2
 expand=2
@@ -30,6 +33,15 @@ cities =
  "Lillehammer", "Lillestrøm", "Strømmen", "Fredrikborg", "Halden", "Karmøy",
  "Kragerø", "Fauske", "Bodø", "Andenes", "Stokkmarknes", "Svolvær",
  "Sortland", "Moss", "Honningsvåg", "Hammerfest", "Ås", "Os", "Tynset",
- "Longyearbyen"
+ "Longyearbyen", "Mandal",
 
+; Eg skal ikkje gløyme kvelden, det var ein augustikveld,
+; Vårherre heldt fest for folket i Fjaler prestegjeld,
+;  - Bergens stift, som det heitte, - Ytre Sunnfjord provsti.
+; Gud unne oss alle nåden når timen vår er forbi.
+;
+; Jakob Sande 1954
+; added to Freeciv by Gaute Strokkenes RCNUWC 96-98
+; for sentimental reasons.
 
+ "Fjaler"
