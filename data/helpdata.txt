@@ -626,7 +626,7 @@ Diplomat units are very useful here, and WILL pay off later.\
 \n\n\
   - What your tax, luxury and research rates are currently set to.\
 \n\n\
-  - Treaty are often broken, so don't neglect defence...\
+  - Treaties are often broken, so don't neglect defence...\
 \n\n\
   - Some wonders can be made obsolete by the development of \
 certain advances.\
