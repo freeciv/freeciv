@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
-"POT-Creation-Date: 2003-02-03 23:35-0800\n"
-"PO-Revision-Date: 2003-02-04 02:46-0800\n"
+"POT-Creation-Date: 2003-02-07 05:02-0800\n"
+"PO-Revision-Date: 2003-02-04 03:14-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgid "Mine"
 msgstr "»ñ¸»"
 
 #: common/map.c:59 common/unit.c:545 server/report.c:115
-#: client/cityrepdata.c:475
+#: client/cityrepdata.c:483
 msgid "Pollution"
 msgstr "¸ø³²"
 
@@ -171,7 +171,7 @@ msgstr "Èô¹Ô¾ì"
 msgid "Fallout"
 msgstr "»à¤Î³¥"
 
-#: common/packets.c:3171
+#: common/packets.c:3186
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -385,8 +385,8 @@ msgstr "ÊÑ¹¹"
 msgid "Patrol"
 msgstr "¥Ñ¥È¥í¡¼¥ë"
 
-#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2289
-#: client/gui-gtk/citydlg.c:2301 client/gui-mui/citydlg.c:2115
+#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2292
+#: client/gui-gtk/citydlg.c:2304 client/gui-mui/citydlg.c:2119
 #: client/gui-win32/citydlg.c:1381 client/gui-xaw/citydlg.c:1430
 msgid "Unknown"
 msgstr "ÉÔÌÀ"
@@ -484,12 +484,12 @@ msgstr ""
 "Freeciv %s ¤Ï %s ¤Ë\n"
 "%s ¤Ç¸ø³«¤µ¤ì¤ëÍ½Äê¤Ç¤¹¡£"
 
-#: ai/aicity.c:232 server/citytools.c:1835
+#: ai/aicity.c:232 server/citytools.c:1838
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ë·ú¤Æ¤ë¤Î¤òÃæÃÇ¤·¤Ş¤·¤¿¡£"
 
-#: ai/aicity.c:241 server/citytools.c:1877
+#: ai/aicity.c:241 server/citytools.c:1880
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ë·ú¤Æ»Ï¤á¤Ş¤·¤¿¡£"
@@ -629,7 +629,7 @@ msgstr ""
 "Game: %s ¤Î»ÔÌ±¤Ï¡¢¤¢¤Ê¤¿¤Îµ»½Ñ¤ò³À´Ö¸«¡¢¶ÃØ³¤·¤Ş¤·¤¿¡£\n"
 "      Ï«Æ¯¼Ô¤Ï¼«È¯Åª¤Ë½¸¤Ş¤ê¡¢ÅÔ»Ô¤ËÅ´Æ»¤ò°ú¤­¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:955 server/citytools.c:1137
+#: server/citytools.c:955 server/citytools.c:1138
 #, c-format
 msgid "%s lose %s (%i,%i)"
 msgstr "%s¤Ï%s (%i,%i)¤ò¼º¤¤¤Ş¤¹¡£"
@@ -639,91 +639,91 @@ msgstr "%s¤Ï%s (%i,%i)¤ò¼º¤¤¤Ş¤¹¡£"
 msgid "%s (%i, %i) founded by the %s"
 msgstr "%4$s¤Ë¤è¤Ã¤Æ%1$s (%2$i, %3$i)¤¬ºî¤é¤ì¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1116
+#: server/citytools.c:1117
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Game: %s¤òºî¤ê¤Ş¤·¤¿¡£"
 
 # yasu
-#: server/citytools.c:1163
+#: server/citytools.c:1164
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Game: %s¤Îµ¢Â°¤ò%s¤ËÊÑ¤¨¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1194
+#: server/citytools.c:1195
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 "Game: Î¦ÃÏ¤ÇÆ°¤±¤Ê¤¯¤Ê¤ë¤³¤È¤òÈò¤±¤ë¤¿¤á¤Ë¡¢²ò»¶¤·¤¿ÅÔ»Ô%2$s¤Î³°¤Ë%1$s¤ò°ÜÆ°"
 "¤·¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1205
+#: server/citytools.c:1206
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr "Game: %s¤¬²ò»¶¤·¤¿»ş¡¢%s¤Ï³°¤Ë½Ğ¤ë¤³¤È¤¬¤Ç¤­¤Ê¤«¤Ã¤¿¤¿¤áºÂ¾Ì¤·¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1308
+#: server/citytools.c:1309
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Game: %s¤ò´°Á´¤ËÇË²õ¤·¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1310
+#: server/citytools.c:1311
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Game: %s ¤Ï %s ¤Ë¤è¤Ã¤ÆÇË²õ¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1312
+#: server/citytools.c:1313
 #, c-format
 msgid "%s (%s) (%i,%i) destroyed by %s"
 msgstr "%s (%s) (%i,%i) ¤Ï %s ¤Ë¤è¤Ã¤ÆÇË²õ¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1330
+#: server/citytools.c:1331
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Game: %s ¤òÀ©°µ¤·¡¢¶â %d ¤òÎ¬Ã¥¤·¤Ş¤·¤¿!"
 
-#: server/citytools.c:1334
+#: server/citytools.c:1335
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Game: %s ¤Ï %s ¤òÀ©°µ¤·¡¢¶â %d ¤òÎ¬Ã¥¤·¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1337
+#: server/citytools.c:1338
 #, c-format
 msgid "%s (%s) (%i,%i) conquered by %s"
 msgstr "%5$s¤Ë¤è¤Ã¤Æ%1$s (%2$s) (%3$i,%4$i)¤ÏÀ©°µ¤µ¤ì¤Ş¤·¤¿"
 
-#: server/citytools.c:1342
+#: server/citytools.c:1343
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Game: %s¤ò²òÊü¤·¤Ş¤·¤¿¡£¶â %d ¤òÎ¬Ã¥¤·¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1347
+#: server/citytools.c:1348
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Game: %s ¤Ï %s ¤ò²òÊü¤·¡¢¶â %d ¤¬ÅÔ»Ô¤«¤éÎ¬Ã¥¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1350
+#: server/citytools.c:1351
 #, c-format
 msgid "%s (%s) (%i,%i) liberated by %s"
 msgstr "%5$s¤Ë¤è¤Ã¤Æ%1$s (%2$s) (%3$i,%4$i)¤Ï²òÊü¤µ¤ì¤Ş¤·¤¿"
 
-#: server/citytools.c:1856
+#: server/citytools.c:1859
 msgid " from the worklist"
 msgstr "ºî¶È¥ê¥¹¥È¤«¤é"
 
-#: server/citytools.c:1866
+#: server/citytools.c:1869
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Game: %s¤Ç%s¤ò%sºî¤ê»Ï¤á¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:1870
+#: server/citytools.c:1873
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Game: %2$s¤ò%1$s¤Çºî¤ê»Ï¤á¤Ş¤·¤¿¡£"
 
-#: server/citytools.c:2119
+#: server/citytools.c:2122
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Game: (º£¤ÏÎ¦ÃÏ¤Ç°Ï¤Ş¤ì¤Æ¤¤¤ë)%2$s¤Î%1$s¤ò%3$d¤ÇÇä¤ê¤Ş¤¹¡£"
@@ -1818,14 +1818,14 @@ msgid "Tax"
 msgstr "ÀÇ"
 
 #: server/plrhand.c:661 client/gui-gtk-2.0/gamedlgs.c:266
-#: client/gui-gtk/gamedlgs.c:264 client/gui-mui/citydlg.c:1682
+#: client/gui-gtk/gamedlgs.c:264 client/gui-mui/citydlg.c:1685
 #: client/gui-win32/ratesdlg.c:322
 msgid "Luxury"
 msgstr "ìÔÂô"
 
 #: server/plrhand.c:663 client/gui-gtk-2.0/gamedlgs.c:286
 #: client/gui-gtk-2.0/repodlgs.c:139 client/gui-gtk/gamedlgs.c:284
-#: client/gui-gtk/repodlgs.c:153 client/gui-mui/citydlg.c:1686
+#: client/gui-gtk/repodlgs.c:153 client/gui-mui/citydlg.c:1689
 #: client/gui-mui/repodlgs.c:281 client/gui-win32/ratesdlg.c:328
 #: client/gui-win32/repodlgs.c:98 client/gui-xaw/menu.c:203
 #: client/gui-xaw/repodlgs.c:257 client/gui-xaw/repodlgs.c:498
@@ -2045,7 +2045,7 @@ msgstr "¸¦µæ¥¹¥Ô¡¼¥É"
 msgid "Literacy"
 msgstr "ÆÉ¤ß½ñ¤­"
 
-#: server/report.c:112 client/gui-mui/citydlg.c:1529
+#: server/report.c:112 client/gui-mui/citydlg.c:1532
 msgid "Production"
 msgstr "À¸»ºÊª"
 
@@ -2265,7 +2265,7 @@ msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 "¥ë¡¼¥ë¥»¥Ã¥È¡¦¥Ç¡¼¥¿¥Õ¥¡¥¤¥ë¤Ï¡¢¥µ¥İ¡¼¥È¤·¤Æ¤¤¤Ê¤¤É¬¿Ü¥ª¥×¥·¥ç¥ó¤òÍ×µá¤·¤Ş¤¹:"
 
-#: server/ruleset.c:2765
+#: server/ruleset.c:2788
 msgid "Loading rulesets"
 msgstr "¥ë¡¼¥ë¥»¥Ã¥È¤ò¥í¡¼¥É¤·¤Æ¤¤¤Ş¤¹"
 
@@ -2297,18 +2297,18 @@ msgstr ""
 "¥¹¥¿¡¼¥È¤Î¿Í¿ô(%d)¤¬ºÇÂç¥×¥ì¡¼¥ä¡¼(%d)¤è¤ê¾¯¤Ê¤¤¤Ç¤¹¡¢ºÇÂç¥×¥ì¡¼¥ä¡¼¤òºï¸º"
 "Ãæ¡£"
 
-#: server/savegame.c:1769
+#: server/savegame.c:1770
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "savegame ¤Ï¸Å²á¤®¤Ş¤¹¡£1.9.0 °Ê¾å¤¬É¬Í×¤Ç¤¹¡£"
 
-#: server/savegame.c:1933
+#: server/savegame.c:1934
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "savegame ¤Ï¤â¤¦¥µ¥İ¡¼¥È¤µ¤ì¤Æ¤¤¤Ê¤¤ classic terrain ¥ë¡¼¥ë¥»¥Ã¥È¤ò»È¤Ã¤Æ¤¤¤Ş"
 "¤¹¡£"
 
-#: server/savegame.c:1942
+#: server/savegame.c:1943
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3797,7 +3797,7 @@ msgstr "team <¥×¥ì¥¤¥ä¡¼> [¥Á¡¼¥à]"
 
 #: server/stdinhand.c:1083
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "¥×¥ì¥¤¥ä¡¼¤Î½êÂ°¥Á¡¼¥à¤òÊÑ¹¹¡¢ÄÉ²Ã¡¢ºï½ü¤¹¤ë¡£"
 
 #: server/stdinhand.c:1084
 msgid ""
@@ -3806,6 +3806,11 @@ msgid ""
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
 msgstr ""
+"¥×¥ì¥¤¥ä¡¼¤ò¥Á¡¼¥à¤Î¥á¥ó¥Ğ¤È¤·¤ÆÀßÄê¤·¤Ş¤¹¡£¥Á¡¼¥à¤¬»ØÄê¤µ¤ì¤Ê¤±¤ì¤Ğ¡¢¥×¥ì¥¤"
+"¥ä¡¼¤Ï½êÂ°¥Á¡¼¥à¤Ê¤·¤Ë¤Ê¤ê¤Ş¤¹¡£Ì¾Á°¤Ë¶õÇò¤ò´Ş¤à»ş¤Ï \"\" ¤ò»È¤Ã¤Æ²¼¤µ¤¤¡£"
+"¥Á¡¼¥à¤ÏºÇ½é¤«¤éÆ±ÌÁ¤òÁÈ¤ó¤Ç¤¤¤ë¥×¥ì¥¤¥ä¡¼¤Î¥°¥ë¡¼¥×¤Ç¡¢»ë³¦¡¦Âç»È´Û¤ò¶¦Í­¤·"
+"¤Ş¤¹¡£¥Á¡¼¥à¤Î¥×¥ì¥¤¥ä¡¼¤Ï¡¢¥×¥ì¥¤¥ä¡¼¤ÎÊ¿¶ÑÆÀÅÀ¤Ç·è¤Ş¤ë¥Á¡¼¥à¤Î¾¡Íø¤òÌÜ»Ø¤·"
+"¤Æ°ì½ï¤ËÀï¤¤¤Ş¤¹¡£"
 
 #: server/stdinhand.c:1091
 msgid "fix <option-name>"
@@ -4182,7 +4187,7 @@ msgstr "¥µ¡¼¥Ğ¤Î½ĞÎÏ¤ò¡¢'RFC-style' ¤ÈÄÌ¾ï¤Î·Á¼°¤È¤ÇÀÚ¤êÂØ¤¨¤Ş¤¹¡£"
 msgid "(ambiguous)"
 msgstr "(¤¢¤¤¤Ş¤¤)"
 
-#: server/stdinhand.c:1377 client/packhand.c:1040
+#: server/stdinhand.c:1377 client/packhand.c:1059
 msgid "(unknown)"
 msgstr "(ÉÔÌÀ)"
 
@@ -4575,7 +4580,7 @@ msgstr "ÉÔÌÀ¤Ê°ú¿ô¤Ç¤¹¡£»ÈÍÑË¡: team <¥×¥ì¥¤¥ä¡¼> [¥Á¡¼¥à]"
 #: server/stdinhand.c:2714
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "¥×¥ì¥¤¥ä¡¼ %s ¤Ï¥Á¡¼¥à¤Ê¤·¤Ë¤Ê¤ê¤Ş¤·¤¿¡£"
 
 #: server/stdinhand.c:2720
 msgid "Bad team name."
@@ -4584,7 +4589,7 @@ msgstr "¥Á¡¼¥àÌ¾¤ÏÉÔÀµ¤Ç¤¹¡£"
 #: server/stdinhand.c:2724
 #, c-format
 msgid "Player %s set to team %s."
-msgstr ""
+msgstr "¥×¥ì¥¤¥ä¡¼ %s ¤Ï¡¢¥Á¡¼¥à %s ¤Ë²Ã¤¨¤Ş¤·¤¿¡£"
 
 #: server/stdinhand.c:2762
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -4922,206 +4927,206 @@ msgid ""
 msgstr ""
 "ÀÜÂ³µö²ÄÀßÄêÊ¸»úÎó¤ËÌµ¸ú¤ÊÊ¸»ú¤¬´Ş¤Ş¤ì¤Æ¤¤¤Ş¤¹¡£\"help allowconnect\"»²¾È¡£"
 
-#: server/unithand.c:168
+#: server/unithand.c:167
 #, c-format
 msgid "Game: Illegal packet, can't upgrade %s (yet)."
 msgstr "Game: ÉÔÀµ¤Ê¥Ñ¥±¥Ã¥È, %s¤Ø¤Ï(¤Ş¤À)¥¢¥Ã¥×¥°¥ì¡¼¥É¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:200
+#: server/unithand.c:199
 #, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
 msgstr "Game: %1$d¤Î%2$s¤ò%4$d¤Ç%3$s¤Ø¥¢¥Ã¥×¥°¥ì¡¼¥É¤·¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:206
+#: server/unithand.c:205
 msgid "Game: No units could be upgraded."
 msgstr "Game: ¥¢¥Ã¥×¥°¥ì¡¼¥É¤µ¤ì¤ëÉôÂâ¤¬¤¤¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:228
+#: server/unithand.c:227
 msgid "Game: Illegal move, unit not in city!"
 msgstr "Game: ÉÔÀµ¤Ê°ÜÆ°¡¢ÉôÂâ¤ÏÅÔ»ÔÆâ¤Ë¤¤¤Ê¤¤!"
 
-#: server/unithand.c:233
+#: server/unithand.c:232
 #, c-format
 msgid "Game: Illegal package, can't upgrade %s (yet)."
 msgstr "Game: ÉÔÀµ¤Ê¥Ñ¥Ã¥±¡¼¥¸, %s¤Ø¤Ï(¤Ş¤À)¥¢¥Ã¥×¥°¥ì¡¼¥É¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:239
+#: server/unithand.c:238
 #, c-format
 msgid "Game: Insufficient funds, upgrade costs %d."
 msgstr "Game: »ñ¶âÉÔÂ­¡¢¥¢¥Ã¥×¥°¥ì¡¼¥ÉÈñÍÑ %d¡£"
 
-#: server/unithand.c:246
+#: server/unithand.c:245
 #, c-format
 msgid "Game: %s upgraded to %s for %d gold."
 msgstr "Game: %1$s¤ò¶â%3$d¤Ç%2$s¤Ø¿··¿¤Ë¤·¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:464
+#: server/unithand.c:463
 msgid "Game: Can't place city here."
 msgstr "Game: ¤³¤³¤ËÅÔ»Ô¤ÏÇÛÃÖ¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:471
+#: server/unithand.c:470
 #, c-format
 msgid "Game: Only %s can build a city."
 msgstr "Game: %s¤À¤±¤¬ÅÔ»Ô¤òºî¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£"
 
-#: server/unithand.c:476
+#: server/unithand.c:475
 msgid "Game: Can't build a city."
 msgstr "Game: ÅÔ»Ô¤òºî¤ì¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:485
+#: server/unithand.c:484
 #, c-format
 msgid "Game: Only %s can add to a city."
 msgstr "Game: %s¤À¤±¤¬ÅÔ»Ô¤Ë²Ã¤ï¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£"
 
-#: server/unithand.c:490
+#: server/unithand.c:489
 msgid "Game: Can't add to a city."
 msgstr "Game: ÅÔ»Ô¤Ë²Ã¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:496
+#: server/unithand.c:495
 #, c-format
 msgid "Game: %s unit has no moves left to add to %s."
 msgstr "Game: %sÉôÂâ¤Ï%s¤Ø²Ã¤ï¤ë¤¿¤á¤Î°ÜÆ°ÎÏ¤¬»Ä¤Ã¤Æ¤¤¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:501
+#: server/unithand.c:500
 #, c-format
 msgid "Game: %s unit has no moves left to build city."
 msgstr "Game: %s ÉôÂâ¤ÏÅÔ»Ô¤ò·ú¤Æ¤ë¤Î¤Ë½½Ê¬¤Ê°ÜÆ°ÎÏ¤¬»Ä¤Ã¤Æ¤¤¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:506
+#: server/unithand.c:505
 #, c-format
 msgid "Game: %s is too big to add %s."
 msgstr "Game: %s¤ÏÂç¤­²á¤®¤Æ%s¤Ï²Ã¤ï¤ì¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:511 server/unithand.c:517
+#: server/unithand.c:510 server/unithand.c:516
 #, c-format
 msgid "Game: %s needs %s to grow, so you cannot add %s."
 msgstr "Game: %s¤¬Âç¤­¤¯¤Ê¤ë¤¿¤á¤Ë¤Ï%s¤¬É¬Í×¤Ç¤¹¡£%s¤Ï²Ã¤ï¤ì¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:526
+#: server/unithand.c:525
 #, c-format
 msgid "Game: Can't add %s to %s."
 msgstr "Game: %s¤ò%s¤Ø²Ã¤¨¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:548
+#: server/unithand.c:547
 #, c-format
 msgid "Game: %s added to aid %s in growing."
 msgstr "Game: %s¤Ï%s¤Î³ÈÂç¤ò½õ¤±¤ë¤¿¤á¤Ë²Ã¤ï¤ê¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:563
+#: server/unithand.c:562
 msgid "Game: Let's not build a city with such a stupid name."
 msgstr "Game: ¤½¤Î¤è¤¦¤ÊÌ¾Á°¤ÎÅÔ»Ô¤Ï·úÃÛ¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:704
+#: server/unithand.c:699
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "Game: ¤¢¤Ê¤¿¤Î³Ë¥ß¥µ¥¤¥ë¤Ï SDI ËÉ±Ò¥·¥¹¥Æ¥à¤Ë¤è¤Ã¤Æ·â¤ÁÍî¤È¤µ¤ì¤Ş¤·¤¿¡£¤¢¤¡¡£"
 
-#: server/unithand.c:707
+#: server/unithand.c:702
 #, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Game: %s ¤Ø¤Î³Ë¹¶·â¤Ï SDI ËÉ±Ò¥·¥¹¥Æ¥à¤Ë¤è¤Ã¤ÆÈò¤±¤é¤ì¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:808
+#: server/unithand.c:803
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Game: %2$s%1$s¤Ï¡¢%3$s¤Î%4$s¤«¤é¤Î¹¶·â¤òÀÚ¤êÈ´¤±¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:817
+#: server/unithand.c:812
 #, c-format
 msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Game: %1$s¤Ï%4$s%2$s¤Î%3$s¤ò¹¶·â¤·¡¢¼ºÇÔ¤·¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:834
+#: server/unithand.c:829
 #, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Game: %1$s¤Ï%4$s%2$s¤Î%3$s¤ò¹¶·â¤·¡¢À®¸ù¤·¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:885
+#: server/unithand.c:880
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr "Game: ¤Ş¤º¥×¥ì¥¤¥ä¡¼¡¦¥À¥¤¥¢¥í¥°(F3)¤Ç¾òÌó¤òÇË´ş¤·¤Æ²¼¤µ¤¤¡£"
 
-#: server/unithand.c:908
+#: server/unithand.c:903
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Game: %s¤À¤±¤¬³¤¤«¤é¹¶·â¤Ç¤­¤Ş¤¹¡£"
 
-#: server/unithand.c:913
+#: server/unithand.c:908
 msgid "Game: Cannot attack from sea."
 msgstr "Game: ³¤¤«¤é¹¶·â¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:918 server/unittools.c:2208
+#: server/unithand.c:913 server/unittools.c:2194
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Game: ÀïÁè¤òÀë¸À¤·¤Ê¤±¤ì¤Ğ¹¶·â¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:921
+#: server/unithand.c:916
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Game: %s¤Ï¤¢¤Ê¤¿¤Î¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë¤Ø¤À¤±°ÜÆ°¤Ç¤­¤Ş¤¹¡£"
 
-#: server/unithand.c:1005
+#: server/unithand.c:1000
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "Game: ÉôÂâ¤¬³°¸ò¹Ô°Ù¤ò¹Ô¤Ê¤¦¤Ë¤ÏÃÏ¾å¤Ë¤¤¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1007
+#: server/unithand.c:1002
 msgid "Game: No diplomat action possible."
 msgstr "Game: ³°¸ò¹Ô°Ù¤ò¹Ô¤Ê¤¨¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1017
+#: server/unithand.c:1012
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr "Game: %3$s¤ÈÀïÆ®¤ò¹Ô¤Ê¤Ã¤Æ¤¤¤Ê¤¤¤Î¤Ç¡¢ÅÔ»Ô%2$s¤Î%1$s¤ò¹¶·â¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1028
+#: server/unithand.c:1023
 msgid "Game: You can't attack there."
 msgstr "Game: ¤½¤³¤Ø¹¶·â¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1034
+#: server/unithand.c:1029
 msgid "Game: This unit has no moves left."
 msgstr "Game: ¤³¤ÎÉôÂâ¤Ï¤â¤¦°ÜÆ°¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1044
+#: server/unithand.c:1039
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Game: Æ»¤ò¤Õ¤µ¤¤¤Ç¤¤¤ëÉôÂâ¤¬¤¤¤ë¤Î¤Ç¡¢%s¤Ï°ÜÆ°¤òÃæÃÇ¤·¤Ş¤·¤¿¡£"
 
-#: server/unithand.c:1058
+#: server/unithand.c:1053
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Game: %s¤ËÂĞ¤·¤ÆÀïÁè¤¬Àë¸À¤µ¤ì¤Æ¤¤¤Ê¤¤¤Î¤Ç¡¢¹¶·â¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1069
+#: server/unithand.c:1064
 msgid "Game: Only ground troops can take over a city."
 msgstr "Game: ÃÏ¾å¤Î·³Ââ¤À¤±¤¬ÅÔ»Ô¤òÀêÎÎ¤Ç¤­¤Ş¤¹¡£"
 
-#: server/unithand.c:1076
+#: server/unithand.c:1071
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Game: %s¤ËÂĞ¤·¤ÆÀïÁè¤¬Àë¸À¤µ¤ì¤Æ¤¤¤Ê¤¤¤Î¤Ç¡¢ÅÔ»Ô¤òÀêÎÎ¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unithand.c:1126
+#: server/unithand.c:1121
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Game: %1$s¤Ï%3$s¤Î%2$s·úÃÛ¤ò¼êÅÁ¤¤¤Ş¤·¤¿(»Ä¤ê %4$d)¡£"
 
-#: server/unithand.c:1168
+#: server/unithand.c:1163
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Game: »ÄÇ°¤Ê¤¬¤é¡¢%s¤Ï¤³¤³¤Ë¸ò°×Ï©¤ò³ÎÎ©¤Ç¤­¤Ş¤»¤ó!"
 
-#: server/unithand.c:1174
+#: server/unithand.c:1169
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      %s¤È%s´Ö¤Ë¤Ï¸ò°×Ï©¤¬´û¤ËÂ¸ºß¤·¤Ş¤¹!"
 
-#: server/unithand.c:1181 server/unithand.c:1188
+#: server/unithand.c:1176 server/unithand.c:1183
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
 msgstr "      ÅÔ»Ô%s¤Ë¤Ï´û¤Ë %d¤Î¸ò°×Ï©¤¬¤¢¤ê¤Ş¤¹!"
 
 # ama, clefs
-#: server/unithand.c:1199
+#: server/unithand.c:1194
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -5198,188 +5203,188 @@ msgstr "Game: (%2$d, %3$d)¤Ç³¤¤«¤éÎ¦ÃÏ¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò¥É¥Ã¥¯¤ËÆş¤ì¤Ş¤·¤¿¡£"
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr "Game: (%2$d, %3$d)¤Ç³¤¤«¤éÎ¦ÃÏ¤ØÊÑ¹¹¤·¤¿¤¿¤á%1$s¤ò²ò»¶¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:1131
+#: server/unittools.c:1118
 #, c-format
 msgid " at %s"
 msgstr "%s¤ÎÃæ¤Ë¤¤¤ë"
 
-#: server/unittools.c:1133
+#: server/unittools.c:1120
 #, c-format
 msgid " in %s"
 msgstr "%s¤Î"
 
-#: server/unittools.c:1140
+#: server/unittools.c:1127
 #, c-format
 msgid " outside %s"
 msgstr "%s¤Î³°¤Ë¤¤¤ë"
 
-#: server/unittools.c:1143
+#: server/unittools.c:1130
 #, c-format
 msgid " near %s"
 msgstr "%s¤Î¶á¤¯¤Ë¤¤¤ë"
 
-#: server/unittools.c:1347
+#: server/unittools.c:1334
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Game: (%2$d, %3$d)¤Ç%1$s¤ò²ò»¶¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:1371
+#: server/unittools.c:1358
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Game: %s¤ò(%d, %d)¤«¤é%s¤Ø¥Æ¥ì¥İ¡¼¥È¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:1770
+#: server/unittools.c:1757
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Game: %2$s¤ò¼º¤Ã¤¿»ş¤Ë%1$s¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:1773
+#: server/unittools.c:1760
 #, c-format
 msgid "%s lose %s when %s lost"
 msgstr "%1$s¤Ï%3$s¤ò¼º¤Ã¤¿»ş¤Ë%2$s¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
 # ama, clefs
-#: server/unittools.c:1821
+#: server/unittools.c:1808
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Game: ¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤Î»ØÆ³¼Ô¤¬Êá¤¨¤é¤ì¡¢¿ÈÂå¶â%d¤¬»ÙÊ§¤ï¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:1841
+#: server/unittools.c:1828
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Game: %2$s¤Î%3$s¤Ë¤è¤ë¹¶·â¤Ç%4$s%1$s¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
 # clefs
-#: server/unittools.c:1844 server/unittools.c:1888
+#: server/unittools.c:1831 server/unittools.c:1875
 #, c-format
 msgid "%s lose %s to the %s"
 msgstr "%1$s¤Ï%3$s¤Ë¤è¤ë¹¶·â¤Ç%2$s¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
 # Game: You lost 2 units to an attack from Lluis Company's ¥Á¥ã¥ê¥ª¥Ã¥È Fukuoka¤Î³°¤Ë¤¤¤ë.
-#: server/unittools.c:1869
+#: server/unittools.c:1856
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Game: %4$s%2$s¤Î%3$s¤«¤é¤Î¹¶·â¤Ç%1$dÉôÂâ¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
 # ¼Í¼ê lost to an attack from Lluis Companys's ¥Á¥ã¥ê¥ª¥Ã¥È.
-#: server/unittools.c:1884
+#: server/unittools.c:1871
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Game: %2$s¤Î%3$s¤«¤é¤Î¹¶·â¤Ç%1$s¤ò¼º¤¤¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2063
+#: server/unittools.c:2049
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Game: %s¤Ï%s¤Ë¤è¤Ã¤Æ³Ë¹¶·â¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2065 server/unittools.c:2081
+#: server/unittools.c:2051 server/unittools.c:2067
 msgid "yourself"
 msgstr "¤¢¤Ê¤¿¼«¿È"
 
-#: server/unittools.c:2069
+#: server/unittools.c:2055
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Game: %s¤Î%s¤Ï³Ë¹¶·â¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2079
+#: server/unittools.c:2065
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Game: %s¤Ï%s¤Ë¤è¤Ã¤Æ³Ë¹¶·â¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2086
+#: server/unittools.c:2072
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Game: %s¤ò³Ë¹¶·â¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2123
+#: server/unittools.c:2109
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Game: %s¤Ï³Ë¤òÇúÈ¯¤µ¤»¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2161
+#: server/unittools.c:2147
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Game: %s¤Ï¼óÈø¤è¤¯Í¢Á÷¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2185
+#: server/unittools.c:2171
 msgid "Game: This unit type can not be paradropped."
 msgstr "Game: ¤³¤ÎÉôÂâ¤Î¥¿¥¤¥×¤ÏÍî²¼»±¹ß²¼¤µ¤»¤é¤ì¤Ş¤»¤ó¡£"
 
-#: server/unittools.c:2194
+#: server/unittools.c:2180
 msgid "Game: The destination location is not known."
 msgstr "Game: ÌÜÅªÃÏ¤ÏÃÎ¤é¤ì¤Æ¤¤¤Ş¤»¤ó¡£"
 
-#: server/unittools.c:2200
+#: server/unittools.c:2186
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Game: ³¤¤Ø¤ÏÍî²¼»±¹ß²¼¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: server/unittools.c:2217
+#: server/unittools.c:2203
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Game: ÌÜÅª¤Ø¤Îµ÷Î¥(%i)¤Ï¡¢ÉôÂâ¤Î¹ÔÆ°ÈÏ°Ï(%i)¤ò±Û¤¨¤Æ¤¤¤Ş¤¹¡£"
 
-#: server/unittools.c:2229
+#: server/unittools.c:2215
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Game: %s¤Ï³¤¤ËÍî²¼»±¹ß²¼¤·¾ÃÌÇ¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2241 server/unittools.c:2253
+#: server/unittools.c:2227 server/unittools.c:2239
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Game: %s¤ÏÍî²¼»±¹ß²¼ÌÜÉ¸¤ÎÅ¨ÉôÂâ¤Ë¤è¤Ã¤Æ»¦¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2276
+#: server/unittools.c:2262
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Game: ¶â%d¤ò¸«¤Ä¤±¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2302
+#: server/unittools.c:2288
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Game: %s¤ò¸ÅÂå¤ÎÃÎ¼±¤Î´¬Êª¤ÎÃæ¤«¤é¸«¤Ä¤±¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2304
+#: server/unittools.c:2290
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s¤Ï%s¤òÈ¯¸«¤·¤Ş¤·¤¿(¾®²°)"
 
-#: server/unittools.c:2306
+#: server/unittools.c:2292
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Game: %s¤Ï¸ÅÂå¤ÎÃÎ¼±¤Î´¬Êª¤«¤é%s¤òÆÀ¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2326
+#: server/unittools.c:2312
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Game: Í§¹¥Åª¤ÊÉôÂâ¤¬²Ã¤ï¤ê¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2343
+#: server/unittools.c:2329
 msgid "Game: An abandoned village is here."
 msgstr "Game: ÇÑµõ¤ÎÂ¼¤¬¤¢¤ê¤Ş¤¹¡£"
 
-#: server/unittools.c:2355
+#: server/unittools.c:2341
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Game: ¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤ÎÂç·²¤ò²òÊü¤·¤Æ¤·¤Ş¤¤¤Ş¤·¤¿!"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2344
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Game: %s ¤Ï¥Ğ¡¼¥Ğ¥ê¥¢¥ó¤Ë¤è¤Ã¤Æ»¦¤µ¤ì¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2374
+#: server/unittools.c:2360
 msgid "Game: You found a friendly city."
 msgstr "Game: Í§¹¥Åª¤ÊÅÔ»Ô¤ò¸«¤Ä¤±¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2379
+#: server/unittools.c:2365
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Game: Í§¹¥Åª¤ÊÊüÏ²¼Ô¤¬¤¢¤Ê¤¿¤Ë´¶ÌÃ¤·¡¢ÉôÂâ¤Ë²Ã¤ï¤ê¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:2404
+#: server/unittools.c:2390
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Game: Èô¹ÔÊªÂÎ¤ò¸«¤ÆÉôÂ²¤Ï¶Ã¤­¡¢Æ¨Áö¤·¤Ş¤·¤¿¡£"
 
-#: server/unittools.c:3055
+#: server/unittools.c:3041
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5507,9 +5512,9 @@ msgstr[0] "%3d ¥¿¡¼¥ó"
 
 #: client/citydlg_common.c:158 client/citydlg_common.c:276
 #: client/agents/cma_fec.c:264 client/agents/cma_fec.c:298
-#: client/gui-gtk-2.0/citydlg.c:1710 client/gui-gtk/citydlg.c:1727
+#: client/gui-gtk-2.0/citydlg.c:1711 client/gui-gtk/citydlg.c:1728
 #: client/gui-mui/citydlg.c:108 client/gui-mui/citydlg.c:143
-#: client/gui-mui/citydlg.c:1901
+#: client/gui-mui/citydlg.c:1904
 msgid "never"
 msgstr "¤Ê¤·"
 
@@ -5534,17 +5539,17 @@ msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d ¥¿¡¼¥ó"
 
-#: client/citydlg_common.c:250 client/gui-mui/citydlg.c:670
+#: client/citydlg_common.c:250 client/gui-mui/citydlg.c:671
 #: client/gui-mui/worklistclass.c:114
 msgid "Wonder"
 msgstr "ÉÔ»×µÄ"
 
-#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:672
+#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:673
 #: client/gui-mui/worklistclass.c:111
 msgid "Built"
 msgstr "·úÃÛ"
 
-#: client/citydlg_common.c:255 client/gui-mui/citydlg.c:674
+#: client/citydlg_common.c:255 client/gui-mui/citydlg.c:675
 #: client/gui-mui/worklistclass.c:113
 msgid "Obsolete"
 msgstr "¸Å¤¤"
@@ -5554,165 +5559,165 @@ msgstr "¸Å¤¤"
 msgid "%d/turn"
 msgstr "%d/¥¿¡¼¥ó"
 
-#: client/cityrepdata.c:71
+#: client/cityrepdata.c:72
 msgid "?city_state:Rapture"
 msgstr "´¿´î"
 
-#: client/cityrepdata.c:72
+#: client/cityrepdata.c:73
 msgid "?city_state:Disorder"
 msgstr "º®Íğ"
 
-#: client/cityrepdata.c:73
+#: client/cityrepdata.c:74
 msgid "?city_state:Peace"
 msgstr "Ê¿ÏÂ"
 
-#: client/cityrepdata.c:355
+#: client/cityrepdata.c:356
 msgid "(worklist)"
 msgstr "(ºî¶È¥ê¥¹¥È)"
 
-#: client/cityrepdata.c:413
+#: client/cityrepdata.c:421
 msgid "?city:Name"
 msgstr "?city:Ì¾Á°"
 
-#: client/cityrepdata.c:413
+#: client/cityrepdata.c:421
 msgid "City Name"
 msgstr "ÅÔ»ÔÌ¾"
 
-#: client/cityrepdata.c:415
+#: client/cityrepdata.c:423
 msgid "?size:Sz"
 msgstr "?size:Âç"
 
-#: client/cityrepdata.c:415
+#: client/cityrepdata.c:423
 msgid "Size"
 msgstr "ÅÔ»Ô¤ÎÂç¤­¤µ"
 
-#: client/cityrepdata.c:417 client/gui-gtk-2.0/plrdlg.c:189
+#: client/cityrepdata.c:425 client/gui-gtk-2.0/plrdlg.c:189
 #: client/gui-gtk/plrdlg.c:138 client/gui-mui/plrdlg.c:172
 #: client/gui-win32/plrdlg.c:350
 msgid "State"
 msgstr "¾õÂÖ"
 
-#: client/cityrepdata.c:417
+#: client/cityrepdata.c:425
 msgid "Rapture/Peace/Disorder"
 msgstr "´¿´î/Ê¿ÏÂ/º®Íğ"
 
-#: client/cityrepdata.c:419
+#: client/cityrepdata.c:427
 msgid "Concise *=Rapture, X=Disorder"
 msgstr "´ÊÎ¬É½¼¨ *=´¿´î, X=º®Íğ"
 
-#: client/cityrepdata.c:421 client/gui-mui/citydlg.c:1435
+#: client/cityrepdata.c:429 client/gui-mui/citydlg.c:1438
 #: client/gui-xaw/citydlg.c:2529
 msgid "Workers"
 msgstr "Ï«Æ¯¼Ô"
 
-#: client/cityrepdata.c:422
+#: client/cityrepdata.c:430
 msgid "?happy/content/unhappy/angry:H/C/U/A"
 msgstr "?happy/content/unhappy/angry:¹¬/Éá/ÉÔ/ÅÜ"
 
-#: client/cityrepdata.c:423
+#: client/cityrepdata.c:431
 msgid "Workers: Happy, Content, Unhappy, Angry"
 msgstr "Ï«Æ¯¼Ô: ¹¬Ê¡, ÉáÄÌ, ÉÔ¹¬, ÅÜ¤ê"
 
-#: client/cityrepdata.c:425
+#: client/cityrepdata.c:433
 msgid "?Happy workers:H"
 msgstr "?Happy workers:¹¬"
 
-#: client/cityrepdata.c:425
+#: client/cityrepdata.c:433
 msgid "Workers: Happy"
 msgstr "Ï«Æ¯¼Ô: ¹¬Ê¡"
 
-#: client/cityrepdata.c:427
+#: client/cityrepdata.c:435
 msgid "?Content workers:C"
 msgstr "?Content workers:Éá"
 
-#: client/cityrepdata.c:427
+#: client/cityrepdata.c:435
 msgid "Workers: Content"
 msgstr "Ï«Æ¯¼Ô: ÉáÄÌ"
 
-#: client/cityrepdata.c:429
+#: client/cityrepdata.c:437
 msgid "?Unhappy workers:U"
 msgstr "?Unhappy workers:ÉÔ"
 
-#: client/cityrepdata.c:429
+#: client/cityrepdata.c:437
 msgid "Workers: Unhappy"
 msgstr "Ï«Æ¯¼Ô: ÉÔ¹¬"
 
-#: client/cityrepdata.c:431
+#: client/cityrepdata.c:439
 msgid "?Angry workers:A"
 msgstr "?Angry workers:ÅÜ"
 
-#: client/cityrepdata.c:431
+#: client/cityrepdata.c:439
 msgid "Workers: Angry"
 msgstr "Ï«Æ¯¼Ô: ÅÜ¤ê"
 
-#: client/cityrepdata.c:433
+#: client/cityrepdata.c:441
 msgid "Special"
 msgstr "ÀìÌç²È"
 
-#: client/cityrepdata.c:434
+#: client/cityrepdata.c:442
 msgid "?entertainers/scientists/taxmen:E/S/T"
 msgstr "?entertainers/scientists/taxmen:·İ/²Ê/ÀÇ"
 
-#: client/cityrepdata.c:435
+#: client/cityrepdata.c:443
 msgid "Entertainers, Scientists, Taxmen"
 msgstr "·İ¿Í, ²Ê³Ø¼Ô, Ä§ÀÇ¼Ô"
 
-#: client/cityrepdata.c:437
+#: client/cityrepdata.c:445
 msgid "?Entertainers:E"
 msgstr "?Entertainers:·İ"
 
-#: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:1274
-#: client/gui-gtk/citydlg.c:1282
+#: client/cityrepdata.c:445 client/gui-gtk-2.0/citydlg.c:1275
+#: client/gui-gtk/citydlg.c:1283
 msgid "Entertainers"
 msgstr "·İ¿Í"
 
-#: client/cityrepdata.c:439
+#: client/cityrepdata.c:447
 msgid "?Scientists:S"
 msgstr "?Scientists:²Ê"
 
-#: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:1275
-#: client/gui-gtk/citydlg.c:1283 client/gui-mui/citydlg.c:1436
+#: client/cityrepdata.c:447 client/gui-gtk-2.0/citydlg.c:1276
+#: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1439
 #: client/gui-win32/citydlg.c:2178 client/gui-xaw/citydlg.c:2529
 msgid "Scientists"
 msgstr "²Ê³Ø¼Ô"
 
-#: client/cityrepdata.c:441
+#: client/cityrepdata.c:449
 msgid "?Taxmen:T"
 msgstr "?Taxmen:ÀÇ"
 
-#: client/cityrepdata.c:441 client/gui-gtk-2.0/citydlg.c:1276
-#: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1437
+#: client/cityrepdata.c:449 client/gui-gtk-2.0/citydlg.c:1277
+#: client/gui-gtk/citydlg.c:1285 client/gui-mui/citydlg.c:1440
 #: client/gui-win32/citydlg.c:2180 client/gui-xaw/citydlg.c:2529
 msgid "Taxmen"
 msgstr "Ä§ÀÇ¼Ô"
 
-#: client/cityrepdata.c:443 client/cityrepdata.c:445
+#: client/cityrepdata.c:451 client/cityrepdata.c:453
 msgid "Best"
 msgstr ""
 
-#: client/cityrepdata.c:443
+#: client/cityrepdata.c:451
 #, fuzzy
 msgid "attack"
 msgstr "¹¶·âÎÏ"
 
-#: client/cityrepdata.c:444
+#: client/cityrepdata.c:452
 msgid "Best attacking units"
 msgstr ""
 
-#: client/cityrepdata.c:445
+#: client/cityrepdata.c:453
 #, fuzzy
 msgid "defense"
 msgstr "ËÉ¸æÎÏ"
 
-#: client/cityrepdata.c:446
+#: client/cityrepdata.c:454
 msgid "Best defending units"
 msgstr ""
 
-#: client/cityrepdata.c:447 client/cityrepdata.c:449
+#: client/cityrepdata.c:455 client/cityrepdata.c:457
 #: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:637
 #: client/gui-gtk-2.0/repodlgs.c:868 client/gui-gtk/cityrep.c:560
 #: client/gui-gtk/menu.c:638 client/gui-gtk/repodlgs.c:829
-#: client/gui-mui/citydlg.c:1441 client/gui-mui/gui_main.c:228
+#: client/gui-mui/citydlg.c:1444 client/gui-mui/gui_main.c:228
 #: client/gui-win32/menu.c:314 client/gui-win32/repodlgs.c:618
 #: client/gui-win32/repodlgs.c:699 client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:145 client/gui-xaw/menu.c:200
@@ -5721,165 +5726,174 @@ msgstr ""
 msgid "Units"
 msgstr "ÉôÂâ"
 
-#: client/cityrepdata.c:447
+#: client/cityrepdata.c:455
 msgid "?Supported (units):Sup"
 msgstr "?Supported (units):»Ù±ç"
 
-#: client/cityrepdata.c:448
+#: client/cityrepdata.c:456
 msgid "Number of units supported"
 msgstr "ÉôÂâ¤Î¿ô: »Ù±ç"
 
-#: client/cityrepdata.c:449
+#: client/cityrepdata.c:457
 msgid "?Present (units):Prs"
 msgstr "?Present (units):Â¸ºß"
 
-#: client/cityrepdata.c:450
+#: client/cityrepdata.c:458
 msgid "Number of units present"
 msgstr "ÉôÂâ¤Î¿ô: Â¸ºß"
 
-#: client/cityrepdata.c:452
+#: client/cityrepdata.c:460
 msgid "Surplus"
 msgstr "¹õ»ú"
 
-#: client/cityrepdata.c:452
+#: client/cityrepdata.c:460
 msgid "?food/prod/trade:F/P/T"
 msgstr "?food/prod/trade:¿©/À¸/¸ò"
 
-#: client/cityrepdata.c:453
+#: client/cityrepdata.c:461
 msgid "Surplus: Food, Production, Trade"
 msgstr "¹õ»ú: ¿©ÎÁ, À¸»ºÊª, ¸ò°×"
 
-#: client/cityrepdata.c:455
+#: client/cityrepdata.c:463
 msgid "?Food surplus:F+"
 msgstr "?Food surplus:¿©+"
 
-#: client/cityrepdata.c:455
+#: client/cityrepdata.c:463
 msgid "Surplus: Food"
 msgstr "¹õ»ú: ¿©ÎÁ"
 
-#: client/cityrepdata.c:457
+#: client/cityrepdata.c:465
 msgid "?Production surplus:P+"
 msgstr "?Production surplus:À¸+"
 
-#: client/cityrepdata.c:458
+#: client/cityrepdata.c:466
 msgid "Surplus: Production"
 msgstr "¹õ»ú: À¸»ºÊª"
 
-#: client/cityrepdata.c:459
+#: client/cityrepdata.c:467
 msgid "?Trade surplus:T+"
 msgstr "?Trade surplus:¸ò+"
 
-#: client/cityrepdata.c:459
+#: client/cityrepdata.c:467
 msgid "Surplus: Trade"
 msgstr "¹õ»ú: ¸ò°×"
 
-#: client/cityrepdata.c:461 client/gui-gtk-2.0/repodlgs.c:582
+#: client/cityrepdata.c:469 client/gui-gtk-2.0/repodlgs.c:582
 #: client/gui-gtk/repodlgs.c:587 client/gui-win32/repodlgs.c:315
 #: client/gui-xaw/menu.c:202 client/gui-xaw/repodlgs.c:639
 #: client/gui-xaw/repodlgs.c:788 data/Freeciv:1765
 msgid "Economy"
 msgstr "·ĞºÑ"
 
-#: client/cityrepdata.c:461
+#: client/cityrepdata.c:469
 msgid "?gold/lux/sci:G/L/S"
 msgstr "?gold/lux/sci:¶â/ìÔ/²Ê"
 
-#: client/cityrepdata.c:462
+#: client/cityrepdata.c:470
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "·ĞºÑ: ¶â, ìÔÂô, ²Ê³Ø"
 
-#: client/cityrepdata.c:464
+#: client/cityrepdata.c:472
 msgid "?Gold:G"
 msgstr "?Gold:¶â"
 
-#: client/cityrepdata.c:464
+#: client/cityrepdata.c:472
 msgid "Economy: Gold"
 msgstr "·ĞºÑ: ¶â"
 
-#: client/cityrepdata.c:466
+#: client/cityrepdata.c:474
 msgid "?Luxury:L"
 msgstr "?Luxury:ìÔ"
 
-#: client/cityrepdata.c:466
+#: client/cityrepdata.c:474
 msgid "Economy: Luxury"
 msgstr "·ĞºÑ: ìÔÂô"
 
-#: client/cityrepdata.c:468
+#: client/cityrepdata.c:476
 msgid "?Science:S"
 msgstr "?Science:²Ê"
 
-#: client/cityrepdata.c:468
+#: client/cityrepdata.c:476
 msgid "Economy: Science"
 msgstr "·ĞºÑ: ²Ê³Ø"
 
-#: client/cityrepdata.c:470
+#: client/cityrepdata.c:478
 msgid "?trade_routes:n"
 msgstr "?trade_routes:¸ò"
 
-#: client/cityrepdata.c:470
+#: client/cityrepdata.c:478
 msgid "?trade_routes:T"
 msgstr "?trade_routes:°×"
 
-#: client/cityrepdata.c:471
+#: client/cityrepdata.c:479
 msgid "Number of Trade Routes"
 msgstr "¸ò°×Ï©¤Î¿ô"
 
-#: client/cityrepdata.c:473 client/gui-gtk-2.0/repodlgs.c:849
-#: client/gui-gtk/repodlgs.c:817 client/gui-mui/citydlg.c:1666
+#: client/cityrepdata.c:481 client/gui-gtk-2.0/repodlgs.c:849
+#: client/gui-gtk/repodlgs.c:817 client/gui-mui/citydlg.c:1669
 #: client/gui-mui/repodlgs.c:717 client/gui-win32/repodlgs.c:694
 msgid "Food"
 msgstr "¿©ÎÁ"
 
-#: client/cityrepdata.c:473
+#: client/cityrepdata.c:481
 msgid "Stock"
 msgstr "È÷Ãß"
 
-#: client/cityrepdata.c:473
+#: client/cityrepdata.c:481
 msgid "Food Stock"
 msgstr "¿©ÎÁÈ÷Ãß"
 
-#: client/cityrepdata.c:475
+#: client/cityrepdata.c:483
 msgid "?pollution:Pol"
 msgstr "?pollution:¸ø"
 
-#: client/cityrepdata.c:477
+#: client/cityrepdata.c:485
 msgid "Grow"
-msgstr ""
+msgstr "³ÈÂç"
 
-#: client/cityrepdata.c:477 client/gui-gtk-2.0/citydlg.c:2995
-#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2954
+#: client/cityrepdata.c:485 client/gui-gtk-2.0/citydlg.c:2998
+#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:320 client/gui-win32/citydlg.c:1200
 #: client/gui-win32/wldlg.c:682
 msgid "Turns"
 msgstr "¥¿¡¼¥ó"
 
-#: client/cityrepdata.c:477
+#: client/cityrepdata.c:485
 msgid "Turns until growth/famine"
-msgstr ""
+msgstr "³ÈÂç/µ²ñ¼¤Ş¤Ç¤Î¥¿¡¼¥ó"
 
-#: client/cityrepdata.c:479
+#: client/cityrepdata.c:487
 msgid "?corruption:Cor"
 msgstr "?corruption:±ø"
 
-#: client/cityrepdata.c:479
+#: client/cityrepdata.c:487
 msgid "Corruption"
 msgstr "±ø¿¦"
 
-#: client/cityrepdata.c:481 client/gui-gtk-2.0/cityrep.c:1088
+#: client/cityrepdata.c:489
+msgid "?waste:Was"
+msgstr ""
+
+#: client/cityrepdata.c:489
+#, fuzzy
+msgid "Waste"
+msgstr "ÂÔµ¡"
+
+#: client/cityrepdata.c:490 client/gui-gtk-2.0/cityrep.c:1088
 #: client/gui-gtk-2.0/cityrep.c:1232 client/gui-gtk/cityrep.c:566
-#: client/gui-gtk/cityrep.c:941 client/gui-mui/citydlg.c:1444
+#: client/gui-gtk/cityrep.c:941 client/gui-mui/citydlg.c:1447
 msgid "CMA"
 msgstr "CMA"
 
-#: client/cityrepdata.c:481
+#: client/cityrepdata.c:490
 msgid "City Management Agent"
 msgstr "ÅÔ»Ô´ÉÍı¥¨¡¼¥¸¥§¥ó¥È"
 
-#: client/cityrepdata.c:483 client/cityrepdata.c:484
+#: client/cityrepdata.c:492 client/cityrepdata.c:493
 msgid "Currently Building"
 msgstr "ºîÀ®Ãæ"
 
-#: client/cityrepdata.c:483
+#: client/cityrepdata.c:492
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(¿Ê¹Ô,ÌÜÉ¸,É¬Í×¥¿¡¼¥ó,¹ØÆş¶â³Û)"
 
@@ -5930,11 +5944,11 @@ msgstr ""
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Ç§¼±¤Ç¤­¤Ê¤¤¥ª¥×¥·¥ç¥ó: \"%s\"\n"
 
-#: client/civclient.c:659
+#: client/civclient.c:654
 msgid "Game started."
 msgstr "¥²¡¼¥à¤¬»Ï¤Ş¤ê¤Ş¤·¤¿¡£"
 
-#: client/civclient.c:682
+#: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
 msgstr "¼«Æ°ÀÜÂ³Ãæ¤Ë¥¨¥é¡¼¤¬µ¯¤³¤ê¤Ş¤·¤¿¡£ÃæÃÇ¤·¤Æ¤¤¤Ş¤¹¡£"
 
@@ -6146,33 +6160,33 @@ msgstr "Ìµ¸ú¤Ê¥á¥¿¥µ¡¼¥Ğ URL ¤Ç¤¹¡£ `http://' ¤Ç»Ï¤á¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£"
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ìµ¸ú¤Ê $http_proxy ÃÍ¤Ç¤¹¡£Ê¬³ä¤Ë»È¤¦ `/' ¤ò¸«¤Ä¤±¤é¤ì¤Ş¤»¤ó¡£"
 
-#: client/control.c:611
+#: client/control.c:607
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Game: Í¢Á÷ÉôÂâ¤À¤±¤¬¹ß¤í¤»¤Ş¤¹¡£"
 
-#: client/control.c:805
+#: client/control.c:778
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr "Game: ³«Âó¼ÔÉôÂâ¤ÈÅÔ»Ô¤Ë½êÂ°¤¹¤ë·³»öÉôÂâ¤À¤±¤¬¼«Æ°¥â¡¼¥É¤Ë¤Ç¤­¤Ş¤¹¡£"
 
-#: client/control.c:838
+#: client/control.c:811
 msgid "Game: Only nuclear units can do this."
 msgstr "Game: ³ËÊ¼´ïÉôÂâ¤À¤±¤¬¤³¤ì¤ò¹Ô¤Ê¤¨¤Ş¤¹¡£"
 
-#: client/control.c:855
+#: client/control.c:828
 msgid "Game: Only paratrooper units can do this."
 msgstr "Game: Íî²¼»±Ê¼ÉôÂâ¤À¤±¤¬¤³¤ì¤ò¹Ô¤Ê¤¨¤Ş¤¹¡£"
 
-#: client/control.c:1260
+#: client/control.c:1233
 msgid "Game: Too far for this unit."
 msgstr "Game: ¤³¤ÎÉôÂâ¤«¤é±ó¤¹¤®¤Ş¤¹¡£"
 
-#: client/control.c:1326 client/control.c:1375
+#: client/control.c:1299 client/control.c:1348
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Game: ÌÜÅªÃÏ¤Ş¤Ç¤Î·ĞÏ©¤òÃµ¤»¤Ş¤»¤ó¡£"
 
-#: client/control.c:1366
+#: client/control.c:1339
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Game: ¤´¤á¤ó¤Ê¤µ¤¤¡£¶õ·³¤Î¥Ñ¥È¥í¡¼¥ë¤Ï¤Ş¤À¼ÂÁõ¤·¤Æ¤¤¤Ş¤»¤ó¡£"
 
@@ -6975,33 +6989,33 @@ msgstr "¥¯¥é¥¤¥¢¥ó¥È¤Îµ¡Ç½: %s"
 msgid "Server capability string: %s"
 msgstr "¥µ¡¼¥Ğ¤Îµ¡Ç½: %s"
 
-#: client/packhand.c:698
+#: client/packhand.c:699
 #, c-format
 msgid "Start of turn %d"
 msgstr "¥¿¡¼¥ó%d ¤Î³«»Ï"
 
-#: client/packhand.c:769
+#: client/packhand.c:770
 msgid "Popup Request"
 msgstr "¥İ¥Ã¥×¥¢¥Ã¥×Í×µá"
 
-#: client/packhand.c:1256
+#: client/packhand.c:1272
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI ¥â¡¼¥É¤Ï%s¤Ç¤¹¡£"
 
-#: client/packhand.c:1257
+#: client/packhand.c:1273
 msgid "ON"
 msgstr "¥ª¥ó"
 
-#: client/packhand.c:1257
+#: client/packhand.c:1273
 msgid "OFF"
 msgstr "¥ª¥Õ"
 
-#: client/packhand.c:1267
+#: client/packhand.c:1283
 msgid "Game: Revolution finished"
 msgstr "Game: ³×Ì¿¤¬½ªÎ»¤·¤Ş¤·¤¿"
 
-#: client/packhand.c:2188
+#: client/packhand.c:2212
 #, fuzzy
 msgid "Other"
 msgstr "½½·î"
@@ -7106,15 +7120,15 @@ msgid "custom"
 msgstr "¼«ºß"
 
 #: client/agents/cma_fec.c:284 client/agents/cma_fec.c:327
-#: client/gui-gtk-2.0/citydlg.c:1715 client/gui-gtk/citydlg.c:1732
+#: client/gui-gtk-2.0/citydlg.c:1716 client/gui-gtk/citydlg.c:1733
 #: client/gui-mui/citydlg.c:128 client/gui-mui/citydlg.c:172
-#: client/gui-mui/citydlg.c:1905
+#: client/gui-mui/citydlg.c:1908
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d ¥¿¡¼¥ó"
 
-#: client/agents/cma_fec.c:367 client/gui-mui/citydlg.c:2225
+#: client/agents/cma_fec.c:367 client/gui-mui/citydlg.c:2229
 msgid " happy"
 msgstr " ¹¬Ê¡"
 
@@ -7145,7 +7159,7 @@ msgid "Cleared output window."
 msgstr "½ĞÎÏ¥¦¥£¥ó¥É¥¦¤ò¾Ãµî¤·¤Ş¤·¤¿¡£"
 
 #: client/gui-gtk-2.0/citydlg.c:566 client/gui-gtk/citydlg.c:580
-#: client/gui-mui/citydlg.c:1394 client/gui-mui/citydlg.c:1631
+#: client/gui-mui/citydlg.c:1395 client/gui-mui/citydlg.c:1634
 msgid "Food:"
 msgstr "¿©ÎÁ:"
 
@@ -7154,376 +7168,379 @@ msgid "Prod:"
 msgstr "À¸»º:"
 
 #: client/gui-gtk-2.0/citydlg.c:568 client/gui-gtk/citydlg.c:582
-#: client/gui-mui/citydlg.c:1398 client/gui-mui/citydlg.c:1643
+#: client/gui-mui/citydlg.c:1399 client/gui-mui/citydlg.c:1646
 msgid "Trade:"
 msgstr "¸ò°×:"
 
 #: client/gui-gtk-2.0/citydlg.c:569 client/gui-gtk/citydlg.c:583
-#: client/gui-mui/citydlg.c:1678 data/default/terrain.ruleset:376
-#: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
-#: data/history/terrain.ruleset:376
-msgid "Gold"
-msgstr "¶â"
+#: client/gui-mui/citydlg.c:1402 client/gui-mui/citydlg.c:1637
+msgid "Gold:"
+msgstr "¶â:"
 
 #: client/gui-gtk-2.0/citydlg.c:570 client/gui-gtk/citydlg.c:584
-#: client/gui-mui/citydlg.c:1403 client/gui-mui/citydlg.c:1640
+#: client/gui-mui/citydlg.c:1404 client/gui-mui/citydlg.c:1643
 #: client/gui-mui/gamedlgs.c:221
 msgid "Luxury:"
 msgstr "ìÔÂô:"
 
 #: client/gui-gtk-2.0/citydlg.c:571 client/gui-gtk/citydlg.c:585
-#: client/gui-mui/citydlg.c:1405 client/gui-mui/citydlg.c:1646
+#: client/gui-mui/citydlg.c:1406 client/gui-mui/citydlg.c:1649
 #: client/gui-mui/gamedlgs.c:228
 msgid "Science:"
 msgstr "²Ê³Ø:"
 
 #: client/gui-gtk-2.0/citydlg.c:572 client/gui-gtk/citydlg.c:586
-#: client/gui-mui/citydlg.c:1408
+#: client/gui-mui/citydlg.c:1409
 msgid "Granary:"
 msgstr "¹òÊª¸Ë:"
 
 #: client/gui-gtk-2.0/citydlg.c:573 client/gui-gtk/citydlg.c:587
-#: client/gui-mui/citydlg.c:1410
+#: client/gui-mui/citydlg.c:1411
 msgid "Change in:"
 msgstr "Áı¸º"
 
 #: client/gui-gtk-2.0/citydlg.c:574 client/gui-gtk/citydlg.c:588
-#: client/gui-mui/citydlg.c:1413
+#: client/gui-mui/citydlg.c:1414
 msgid "Corruption:"
 msgstr "±ø¿¦:"
 
 #: client/gui-gtk-2.0/citydlg.c:575 client/gui-gtk/citydlg.c:589
-#: client/gui-mui/citydlg.c:1415
+#, fuzzy
+msgid "Waste: "
+msgstr "Game: "
+
+#: client/gui-gtk-2.0/citydlg.c:576 client/gui-gtk/citydlg.c:590
+#: client/gui-mui/citydlg.c:1418
 msgid "Pollution:"
 msgstr "¸ø³²:"
 
-#: client/gui-gtk-2.0/citydlg.c:635 client/gui-gtk/citydlg.c:634
+#: client/gui-gtk-2.0/citydlg.c:636 client/gui-gtk/citydlg.c:635
 msgid "City improvements"
 msgstr "ÅÔ»Ô·úÂ¤Êª"
 
-#: client/gui-gtk-2.0/citydlg.c:636 client/gui-gtk/citydlg.c:635
-#: client/gui-mui/citydlg.c:729 client/gui-win32/citydlg.c:930
+#: client/gui-gtk-2.0/citydlg.c:637 client/gui-gtk/citydlg.c:636
+#: client/gui-mui/citydlg.c:730 client/gui-win32/citydlg.c:930
 msgid "Upkeep"
 msgstr "°İ»ı"
 
-#: client/gui-gtk-2.0/citydlg.c:640 client/gui-gtk/citydlg.c:638
+#: client/gui-gtk-2.0/citydlg.c:641 client/gui-gtk/citydlg.c:639
 msgid "City _Overview"
 msgstr "³µ´Ñ(_O)"
 
-#: client/gui-gtk-2.0/citydlg.c:662 client/gui-gtk/citydlg.c:662
+#: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk/citydlg.c:663
 #: client/gui-win32/citydlg.c:836
 msgid "City info"
 msgstr "ÅÔ»Ô¾ğÊó"
 
-#: client/gui-gtk-2.0/citydlg.c:668 client/gui-gtk/citydlg.c:668
+#: client/gui-gtk-2.0/citydlg.c:669 client/gui-gtk/citydlg.c:669
 #: client/gui-win32/citydlg.c:855
 msgid "City map"
 msgstr "ÅÔ»ÔÃÏ¿Ş"
 
-#: client/gui-gtk-2.0/citydlg.c:844 client/gui-gtk/citydlg.c:852
+#: client/gui-gtk-2.0/citydlg.c:845 client/gui-gtk/citydlg.c:853
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d ¥¿¡¼¥ó"
 
-#: client/gui-gtk-2.0/citydlg.c:846 client/gui-gtk-2.0/cityrep.c:648
-#: client/gui-gtk/citydlg.c:855 client/gui-gtk/cityrep.c:649
-#: client/gui-mui/citydlg.c:1535 client/gui-mui/cityrep.c:392
+#: client/gui-gtk-2.0/citydlg.c:847 client/gui-gtk-2.0/cityrep.c:648
+#: client/gui-gtk/citydlg.c:856 client/gui-gtk/cityrep.c:649
+#: client/gui-mui/citydlg.c:1538 client/gui-mui/cityrep.c:392
 msgid "_Buy"
 msgstr "Çã¤¦(_B)"
 
-#: client/gui-gtk-2.0/citydlg.c:850
+#: client/gui-gtk-2.0/citydlg.c:851
 msgid "Chang_e"
 msgstr "ÊÑ¹¹(_E)"
 
-#: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk-2.0/citydlg.c:1979
-#: client/gui-gtk-2.0/citydlg.c:3252 client/gui-gtk/citydlg.c:902
-#: client/gui-gtk/citydlg.c:2000 client/gui-gtk/citydlg.c:3217
+#: client/gui-gtk-2.0/citydlg.c:893 client/gui-gtk-2.0/citydlg.c:1982
+#: client/gui-gtk-2.0/citydlg.c:3255 client/gui-gtk/citydlg.c:903
+#: client/gui-gtk/citydlg.c:2003 client/gui-gtk/citydlg.c:3220
 #: client/gui-win32/citydlg.c:860
 msgid "Sell"
 msgstr "Çä¤ë"
 
-#: client/gui-gtk-2.0/citydlg.c:921 client/gui-gtk-2.0/menu.c:719
-#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/citydlg.c:935
+#: client/gui-gtk-2.0/citydlg.c:922 client/gui-gtk-2.0/menu.c:719
+#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/citydlg.c:936
 #: client/gui-gtk/menu.c:720 client/gui-gtk/menu.c:763
 #: client/gui-win32/menu.c:356 client/gui-win32/menu.c:375
 msgid "_Units"
 msgstr "ÉôÂâ(_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:963 client/gui-gtk/citydlg.c:977
+#: client/gui-gtk-2.0/citydlg.c:964 client/gui-gtk/citydlg.c:978
 #: client/gui-win32/citydlg.c:880
 msgid "Supported units"
 msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ"
 
-#: client/gui-gtk-2.0/citydlg.c:967 client/gui-gtk/citydlg.c:981
-#: client/gui-mui/citydlg.c:1515 client/gui-mui/citydlg.c:1563
+#: client/gui-gtk-2.0/citydlg.c:968 client/gui-gtk/citydlg.c:982
+#: client/gui-mui/citydlg.c:1518 client/gui-mui/citydlg.c:1566
 #: client/gui-win32/citydlg.c:886
 msgid "Units present"
 msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ"
 
-#: client/gui-gtk-2.0/citydlg.c:1108 client/gui-gtk/citydlg.c:1111
+#: client/gui-gtk-2.0/citydlg.c:1109 client/gui-gtk/citydlg.c:1112
 msgid "Acti_vate present units"
 msgstr "ÅÔ»Ô¤ÎÉôÂâ¤òµ¯¤³¤¹(_V)"
 
-#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk/citydlg.c:1117
+#: client/gui-gtk-2.0/citydlg.c:1115 client/gui-gtk/citydlg.c:1118
 msgid "_Sentry idle units"
 msgstr "¼ê¶õ¤­ÉôÂâ¤ò¸«Ä¥¤êÈÖ¤Ø(_S)"
 
-#: client/gui-gtk-2.0/citydlg.c:1120 client/gui-gtk/citydlg.c:1123
+#: client/gui-gtk-2.0/citydlg.c:1121 client/gui-gtk/citydlg.c:1124
 msgid "_List present units"
 msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ¤ò¥ê¥¹¥È(_L)"
 
-#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk/citydlg.c:1148
+#: client/gui-gtk-2.0/citydlg.c:1146 client/gui-gtk/citydlg.c:1149
 msgid "_Worklist"
 msgstr "ºî¶È¥ê¥¹¥È(_W)"
 
-#: client/gui-gtk-2.0/citydlg.c:1168 client/gui-gtk/citydlg.c:1171
+#: client/gui-gtk-2.0/citydlg.c:1169 client/gui-gtk/citydlg.c:1172
 msgid "_Happiness"
 msgstr "¹¬Ê¡(_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:1217 client/gui-gtk/citydlg.c:1225
+#: client/gui-gtk-2.0/citydlg.c:1218 client/gui-gtk/citydlg.c:1226
 msgid "CM_A"
 msgstr "CM_A"
 
-#: client/gui-gtk-2.0/citydlg.c:1239 client/gui-gtk/citydlg.c:1247
+#: client/gui-gtk-2.0/citydlg.c:1240 client/gui-gtk/citydlg.c:1248
 msgid "_Trade Routes"
 msgstr "¸ò°×Ï©(_T)"
 
-#: client/gui-gtk-2.0/citydlg.c:1249 client/gui-gtk/citydlg.c:1257
+#: client/gui-gtk-2.0/citydlg.c:1250 client/gui-gtk/citydlg.c:1258
 msgid "Established trade routes"
 msgstr "³ÎÎ©ºÑ¤ß¸ò°×Ï©"
 
-#: client/gui-gtk-2.0/citydlg.c:1271 client/gui-gtk/citydlg.c:1279
+#: client/gui-gtk-2.0/citydlg.c:1272 client/gui-gtk/citydlg.c:1280
 msgid "_Misc. Settings"
 msgstr "¤½¤ÎÂ¾(_M)"
 
-#: client/gui-gtk-2.0/citydlg.c:1280 client/gui-gtk/citydlg.c:1288
-#: client/gui-mui/citydlg.c:1716 client/gui-mui/citydlg.c:1717
+#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1289
+#: client/gui-mui/citydlg.c:1719 client/gui-mui/citydlg.c:1720
 msgid "Land units"
 msgstr "ÃÏ¾åÉôÂâ"
 
-#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1289
-#: client/gui-mui/citydlg.c:1719 client/gui-mui/citydlg.c:1720
+#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1290
+#: client/gui-mui/citydlg.c:1722 client/gui-mui/citydlg.c:1723
 msgid "Sea units"
 msgstr "³¤¾åÉôÂâ"
 
-#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1290
-#: client/gui-mui/citydlg.c:1722 client/gui-mui/citydlg.c:1723
+#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1291
+#: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
 msgid "Helicopters"
 msgstr "¥Ø¥ê¥³¥×¥¿¡¼"
 
-#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1291
-#: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
+#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1292
+#: client/gui-mui/citydlg.c:1728 client/gui-mui/citydlg.c:1729
 msgid "Air units"
 msgstr "¶õÃæÉôÂâ"
 
-#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1292
+#: client/gui-gtk-2.0/citydlg.c:1285 client/gui-gtk/citydlg.c:1293
 #: client/gui-win32/citydlg.c:2183
 msgid "Disband if build settler at size 1"
 msgstr "Âç¤­¤µ1¤Î»ş¤Ë³«Âó¼Ô¤òºî¤Ã¤¿¤é²ò»¶"
 
-#: client/gui-gtk-2.0/citydlg.c:1288 client/gui-gtk/citydlg.c:1296
-#: client/gui-mui/citydlg.c:1448
+#: client/gui-gtk-2.0/citydlg.c:1289 client/gui-gtk/citydlg.c:1297
+#: client/gui-mui/citydlg.c:1451
 msgid "City Overview page"
 msgstr "³µ´Ñ¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1289 client/gui-gtk/citydlg.c:1297
-#: client/gui-mui/citydlg.c:1449
+#: client/gui-gtk-2.0/citydlg.c:1290 client/gui-gtk/citydlg.c:1298
+#: client/gui-mui/citydlg.c:1452
 msgid "Units page"
 msgstr "ÉôÂâ¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1290 client/gui-gtk/citydlg.c:1298
-#: client/gui-mui/citydlg.c:1450
+#: client/gui-gtk-2.0/citydlg.c:1291 client/gui-gtk/citydlg.c:1299
+#: client/gui-mui/citydlg.c:1453
 msgid "Worklist page"
 msgstr "ºî¶È¥ê¥¹¥È¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1291 client/gui-gtk/citydlg.c:1299
-#: client/gui-mui/citydlg.c:1451
+#: client/gui-gtk-2.0/citydlg.c:1292 client/gui-gtk/citydlg.c:1300
+#: client/gui-mui/citydlg.c:1454
 msgid "Happiness page"
 msgstr "¹¬Ê¡¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1292 client/gui-gtk/citydlg.c:1300
-#: client/gui-mui/citydlg.c:1452
+#: client/gui-gtk-2.0/citydlg.c:1293 client/gui-gtk/citydlg.c:1301
+#: client/gui-mui/citydlg.c:1455
 msgid "CMA page"
 msgstr "CMA¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1293 client/gui-gtk/citydlg.c:1301
-#: client/gui-mui/citydlg.c:1453
+#: client/gui-gtk-2.0/citydlg.c:1294 client/gui-gtk/citydlg.c:1302
+#: client/gui-mui/citydlg.c:1456
 msgid "Trade Routes page"
 msgstr "¸ò°×Ï©¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1294 client/gui-gtk/citydlg.c:1302
-#: client/gui-mui/citydlg.c:1454
+#: client/gui-gtk-2.0/citydlg.c:1295 client/gui-gtk/citydlg.c:1303
+#: client/gui-mui/citydlg.c:1457
 msgid "This Misc. Settings page"
 msgstr "¤½¤ÎÂ¾¥Ú¡¼¥¸(¤³¤ì)"
 
-#: client/gui-gtk-2.0/citydlg.c:1295 client/gui-gtk/citydlg.c:1303
-#: client/gui-mui/citydlg.c:1455
+#: client/gui-gtk-2.0/citydlg.c:1296 client/gui-gtk/citydlg.c:1304
+#: client/gui-mui/citydlg.c:1458
 msgid "Last active page"
 msgstr "ºÇ¸å¤Ë¸«¤¿¥Ú¡¼¥¸"
 
-#: client/gui-gtk-2.0/citydlg.c:1313 client/gui-gtk/citydlg.c:1321
+#: client/gui-gtk-2.0/citydlg.c:1314 client/gui-gtk/citydlg.c:1322
 msgid "City options"
 msgstr "ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
 
-#: client/gui-gtk-2.0/citydlg.c:1322 client/gui-gtk/citydlg.c:1330
-#: client/gui-mui/citydlg.c:1714
+#: client/gui-gtk-2.0/citydlg.c:1323 client/gui-gtk/citydlg.c:1331
+#: client/gui-mui/citydlg.c:1717
 msgid "Auto attack vs"
 msgstr "¼«Æ°¹¶·â¤ÎÁê¼ê"
 
-#: client/gui-gtk-2.0/citydlg.c:1360 client/gui-gtk/citydlg.c:1367
-#: client/gui-mui/citydlg.c:1712 client/gui-win32/citydlg.c:2175
+#: client/gui-gtk-2.0/citydlg.c:1361 client/gui-gtk/citydlg.c:1368
+#: client/gui-mui/citydlg.c:1715 client/gui-win32/citydlg.c:2175
 msgid "New citizens are"
 msgstr "¿·¤·¤¤»ÔÌ±¤Ï"
 
-#: client/gui-gtk-2.0/citydlg.c:1381 client/gui-gtk/citydlg.c:1387
+#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk/citydlg.c:1388
 msgid "City name"
 msgstr "ÅÔ»ÔÌ¾"
 
-#: client/gui-gtk-2.0/citydlg.c:1387 client/gui-gtk-2.0/wldlg.c:221
-#: client/gui-gtk/citydlg.c:1393 client/gui-gtk/wldlg.c:223
+#: client/gui-gtk-2.0/citydlg.c:1388 client/gui-gtk-2.0/wldlg.c:221
+#: client/gui-gtk/citydlg.c:1394 client/gui-gtk/wldlg.c:223
 #: client/gui-win32/citydlg.c:894 client/gui-win32/wldlg.c:309
 #: data/Freeciv:1942 data/Freeciv:2964
 msgid "Rename"
 msgstr "²şÌ¾"
 
-#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk/citydlg.c:1405
-#: client/gui-mui/citydlg.c:1737
+#: client/gui-gtk-2.0/citydlg.c:1398 client/gui-gtk/citydlg.c:1406
+#: client/gui-mui/citydlg.c:1740
 msgid "Next time open"
 msgstr "¼¡²óÉ½¼¨"
 
-#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk/citydlg.c:1566
+#: client/gui-gtk-2.0/citydlg.c:1560 client/gui-gtk/citydlg.c:1567
 msgid "_Prev city"
 msgstr "Á°¤ÎÅÔ»Ô¤Ø(_P)"
 
-#: client/gui-gtk-2.0/citydlg.c:1564 client/gui-gtk/citydlg.c:1574
+#: client/gui-gtk-2.0/citydlg.c:1565 client/gui-gtk/citydlg.c:1575
 msgid "_Next city"
 msgstr "¼¡¤ÎÅÔ»Ô¤Ø(_N)"
 
-#: client/gui-gtk-2.0/citydlg.c:1616 client/gui-gtk/citydlg.c:1634
+#: client/gui-gtk-2.0/citydlg.c:1617 client/gui-gtk/citydlg.c:1635
 #: client/gui-xaw/citydlg.c:1812
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s »ÔÌ±"
 
-#: client/gui-gtk-2.0/citydlg.c:1621 client/gui-gtk/citydlg.c:1639
-#: client/gui-mui/citydlg.c:2140
+#: client/gui-gtk-2.0/citydlg.c:1622 client/gui-gtk/citydlg.c:1640
+#: client/gui-mui/citydlg.c:2144
 msgid " - DISORDER"
 msgstr " - º®Íğ"
 
-#: client/gui-gtk-2.0/citydlg.c:1623 client/gui-gtk/citydlg.c:1641
-#: client/gui-mui/citydlg.c:2142
+#: client/gui-gtk-2.0/citydlg.c:1624 client/gui-gtk/citydlg.c:1642
+#: client/gui-mui/citydlg.c:2146
 msgid " - celebrating"
 msgstr " - ½ËÅµ"
 
-#: client/gui-gtk-2.0/citydlg.c:1625 client/gui-gtk/citydlg.c:1643
-#: client/gui-mui/citydlg.c:2144
+#: client/gui-gtk-2.0/citydlg.c:1626 client/gui-gtk/citydlg.c:1644
+#: client/gui-mui/citydlg.c:2148
 msgid " - happy"
 msgstr " - ¹¬Ê¡"
 
 # clefs
-#: client/gui-gtk-2.0/citydlg.c:1708 client/gui-gtk/citydlg.c:1725
-#: client/gui-mui/citydlg.c:1899
+#: client/gui-gtk-2.0/citydlg.c:1709 client/gui-gtk/citydlg.c:1726
+#: client/gui-mui/citydlg.c:1902
 msgid "blocked"
 msgstr "³ÈÂçÉÔÇ½"
 
-#: client/gui-gtk-2.0/citydlg.c:1910 client/gui-gtk/citydlg.c:1929
+#: client/gui-gtk-2.0/citydlg.c:1913 client/gui-gtk/citydlg.c:1932
 msgid " (worklist)"
 msgstr " (ºî¶È¥ê¥¹¥È)"
 
-#: client/gui-gtk-2.0/citydlg.c:1975 client/gui-gtk/citydlg.c:1995
+#: client/gui-gtk-2.0/citydlg.c:1978 client/gui-gtk/citydlg.c:1998
 #: client/gui-win32/citydlg.c:278
 #, c-format
 msgid "Upkeep (Total: %d)"
 msgstr "°İ»ı(·×: %d)"
 
-#: client/gui-gtk-2.0/citydlg.c:2121
+#: client/gui-gtk-2.0/citydlg.c:2124
 #, c-format
 msgid "Supported units: %d"
 msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2260
+#: client/gui-gtk-2.0/citydlg.c:2263
 #, c-format
 msgid "Present units: %d"
 msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2289 client/gui-gtk/citydlg.c:2301
-#: client/gui-mui/citydlg.c:2115 client/gui-win32/citydlg.c:1381
+#: client/gui-gtk-2.0/citydlg.c:2292 client/gui-gtk/citydlg.c:2304
+#: client/gui-mui/citydlg.c:2119 client/gui-win32/citydlg.c:1381
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2292 client/gui-gtk/citydlg.c:2304
-#: client/gui-mui/citydlg.c:2118 client/gui-win32/citydlg.c:1384
+#: client/gui-gtk-2.0/citydlg.c:2295 client/gui-gtk/citydlg.c:2307
+#: client/gui-mui/citydlg.c:2122 client/gui-win32/citydlg.c:1384
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "%s¤È¤Î¸ò°×¤Ï¡¢¸ò°×%d¤Ç¤¹¡£\n"
 
-#: client/gui-gtk-2.0/citydlg.c:2298 client/gui-gtk/citydlg.c:2310
-#: client/gui-mui/citydlg.c:2124 client/gui-win32/citydlg.c:1390
+#: client/gui-gtk-2.0/citydlg.c:2301 client/gui-gtk/citydlg.c:2313
+#: client/gui-mui/citydlg.c:2128 client/gui-win32/citydlg.c:1390
 msgid "No trade routes exist."
 msgstr "¸ò°×Ï©¤ÏÂ¸ºß¤·¤Ş¤»¤ó¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2301 client/gui-gtk/citydlg.c:2313
-#: client/gui-mui/citydlg.c:2127 client/gui-win32/citydlg.c:1393
+#: client/gui-gtk-2.0/citydlg.c:2304 client/gui-gtk/citydlg.c:2316
+#: client/gui-mui/citydlg.c:2131 client/gui-win32/citydlg.c:1393
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "¸ò°×Ï©¤Ë¤è¤ë¹ç·×¸ò°×: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2503 client/gui-gtk-2.0/citydlg.c:2555
-#: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2505
+#: client/gui-gtk-2.0/citydlg.c:2506 client/gui-gtk-2.0/citydlg.c:2558
+#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2508
 #: client/gui-win32/citydlg.c:1627 client/gui-win32/citydlg.c:1655
 msgid "_Activate unit"
 msgstr "ÉôÂâ¤òµ¯¤³¤¹(_A)"
 
-#: client/gui-gtk-2.0/citydlg.c:2509 client/gui-gtk-2.0/citydlg.c:2561
-#: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2506
+#: client/gui-gtk-2.0/citydlg.c:2512 client/gui-gtk-2.0/citydlg.c:2564
+#: client/gui-gtk/citydlg.c:2477 client/gui-gtk/citydlg.c:2509
 #: client/gui-win32/citydlg.c:1629 client/gui-win32/citydlg.c:1657
 msgid "Activate unit, _close dialog"
 msgstr "ÉôÂâ¤òµ¯¤³¤·¡¢ÊÄ¤¸¤ë(_C)"
 
-#: client/gui-gtk-2.0/citydlg.c:2515 client/gui-gtk-2.0/citydlg.c:2589
-#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2511
+#: client/gui-gtk-2.0/citydlg.c:2518 client/gui-gtk-2.0/citydlg.c:2592
+#: client/gui-gtk/citydlg.c:2479 client/gui-gtk/citydlg.c:2514
 #: client/gui-win32/citydlg.c:1631 client/gui-win32/citydlg.c:1663
 msgid "_Disband unit"
 msgstr "ÉôÂâ²ò»¶(_D)"
 
-#: client/gui-gtk-2.0/citydlg.c:2567 client/gui-gtk/citydlg.c:2508
+#: client/gui-gtk-2.0/citydlg.c:2570 client/gui-gtk/citydlg.c:2511
 #: client/gui-win32/citydlg.c:1659
 msgid "_Sentry unit"
 msgstr "¸«Ä¥¤êÈÖ(_S)"
 
 # yasu
-#: client/gui-gtk-2.0/citydlg.c:2578 client/gui-gtk/citydlg.c:2510
+#: client/gui-gtk-2.0/citydlg.c:2581 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1661
 msgid "_Fortify unit"
 msgstr "ËÉ¸æ»ÑÀª(_F)"
 
-#: client/gui-gtk-2.0/citydlg.c:2595 client/gui-gtk/citydlg.c:2513
+#: client/gui-gtk-2.0/citydlg.c:2598 client/gui-gtk/citydlg.c:2516
 #: client/gui-win32/citydlg.c:1665
 msgid "Make new _homecity"
 msgstr "½»¿Í¤Ë¤¹¤ë(_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:2605 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2608 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1667
 msgid "_Upgrade unit"
 msgstr "¿··¿¤Ë¤¹¤ë(_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:2779 client/gui-gtk/citydlg.c:2688
+#: client/gui-gtk-2.0/citydlg.c:2782 client/gui-gtk/citydlg.c:2691
 #: client/gui-mui/dialogs.c:1865 client/gui-win32/citydlg.c:1577
 #: client/gui-xaw/citydlg.c:2056
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "¤¹¤ß¤Ş¤»¤ó¡£%s¤ò¿··¿¤Ë¤Ç¤­¤Ş¤»¤ó¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2781 client/gui-gtk-2.0/citydlg.c:2812
-#: client/gui-gtk/citydlg.c:2690 client/gui-gtk/citydlg.c:2713
+#: client/gui-gtk-2.0/citydlg.c:2784 client/gui-gtk-2.0/citydlg.c:2815
+#: client/gui-gtk/citydlg.c:2693 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1866 client/gui-mui/dialogs.c:1890
 #: client/gui-win32/citydlg.c:1578 client/gui-win32/citydlg.c:1602
 #: data/Freeciv:2419
 msgid "Upgrade Unit!"
 msgstr "¿··¿¤Ë¤¹¤ë"
 
-#: client/gui-gtk-2.0/citydlg.c:2792 client/gui-gtk/citydlg.c:2697
+#: client/gui-gtk-2.0/citydlg.c:2795 client/gui-gtk/citydlg.c:2700
 #: client/gui-mui/dialogs.c:1875 client/gui-win32/citydlg.c:1585
 #: client/gui-xaw/citydlg.c:2065
 #, c-format
@@ -7534,8 +7551,8 @@ msgstr ""
 "%s¤ò%s¤Ø¶â%d¤Ç¿··¿¤Ë¤·¤Ş¤¹¤«?\n"
 "¸½ºß¤Î»ñ¶â¤Ï%d¤Ç¤¹¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2796 client/gui-gtk-2.0/repodlgs.c:1011
-#: client/gui-gtk/citydlg.c:2702 client/gui-gtk/repodlgs.c:942
+#: client/gui-gtk-2.0/citydlg.c:2799 client/gui-gtk-2.0/repodlgs.c:1011
+#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/repodlgs.c:942
 #: client/gui-mui/dialogs.c:1879 client/gui-mui/repodlgs.c:773
 #: client/gui-win32/citydlg.c:1590 client/gui-win32/repodlgs.c:579
 #: data/Freeciv:2408
@@ -7543,7 +7560,7 @@ msgid "Upgrade Obsolete Units"
 msgstr "µì·¿ÉôÂâ¤ò¿··¿¤Ë¤¹¤ë"
 
 # ama, clefs
-#: client/gui-gtk-2.0/citydlg.c:2807 client/gui-gtk/citydlg.c:2709
+#: client/gui-gtk-2.0/citydlg.c:2810 client/gui-gtk/citydlg.c:2712
 #: client/gui-mui/dialogs.c:1885 client/gui-win32/citydlg.c:1597
 #: client/gui-xaw/citydlg.c:2075
 #, c-format
@@ -7554,8 +7571,8 @@ msgstr ""
 "%1$s¤ò%2$s¤Ø¿··¿¤Ë¤¹¤ë¤Ë¤Ï¶â%3$d¤¬É¬Í×¤Ç¤¹¡£\n"
 "¸½ºß¤Î»ñ¶â¤Ï%4$d¤Ç¤¹¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2961 client/gui-gtk/citydlg.c:2900
-#: client/gui-mui/citydlg.c:1034 client/gui-win32/citydlg.c:1003
+#: client/gui-gtk-2.0/citydlg.c:2964 client/gui-gtk/citydlg.c:2903
+#: client/gui-mui/citydlg.c:1035 client/gui-win32/citydlg.c:1003
 #: client/gui-xaw/citydlg.c:1995
 #, c-format
 msgid ""
@@ -7565,16 +7582,16 @@ msgstr ""
 "%s¤ò¶â%d¤ÇÇã¤¤¤Ş¤¹¤«?\n"
 "¸½ºß¤Î»ñ¶â¤Ï%d¤Ç¤¹¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2963 client/gui-gtk-2.0/citydlg.c:2980
-#: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
-#: client/gui-mui/citydlg.c:1037 client/gui-mui/citydlg.c:1047
+#: client/gui-gtk-2.0/citydlg.c:2966 client/gui-gtk-2.0/citydlg.c:2983
+#: client/gui-gtk/citydlg.c:2907 client/gui-gtk/citydlg.c:2917
+#: client/gui-mui/citydlg.c:1038 client/gui-mui/citydlg.c:1048
 #: client/gui-win32/citydlg.c:1006 client/gui-win32/citydlg.c:1015
 #: data/Freeciv:2155 data/Freeciv:2185
 msgid "Buy It!"
 msgstr "Çã¤¦!"
 
-#: client/gui-gtk-2.0/citydlg.c:2977 client/gui-gtk/citydlg.c:2910
-#: client/gui-mui/citydlg.c:1044 client/gui-win32/citydlg.c:1012
+#: client/gui-gtk-2.0/citydlg.c:2980 client/gui-gtk/citydlg.c:2913
+#: client/gui-mui/citydlg.c:1045 client/gui-win32/citydlg.c:1012
 #: client/gui-xaw/citydlg.c:2004
 #, c-format
 msgid ""
@@ -7584,59 +7601,59 @@ msgstr ""
 "%s¤ÎÈñÍÑ¤Ï¶â%d¤Ç¤¹¡£\n"
 "¸½ºß¤Î»ñ¶â¤Ï%d¤Ç¤¹¡£"
 
-#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/wldlg.c:309
-#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2954
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/wldlg.c:309
+#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:311 client/gui-gtk/wldlg.c:317
-#: client/gui-mui/citydlg.c:699 client/gui-mui/citydlg.c:728
+#: client/gui-mui/citydlg.c:700 client/gui-mui/citydlg.c:729
 #: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1191
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Type"
 msgstr "¥¿¥¤¥×"
 
-#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/wldlg.c:310
-#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2954
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/wldlg.c:310
+#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
-#: client/gui-mui/citydlg.c:700 client/gui-mui/worklistclass.c:238
+#: client/gui-mui/citydlg.c:701 client/gui-mui/worklistclass.c:238
 #: client/gui-win32/citydlg.c:1194 client/gui-win32/wldlg.c:674
 #: client/gui-win32/wldlg.c:680
 msgid "Info"
 msgstr "¾ğÊó"
 
-#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/repodlgs.c:566
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/repodlgs.c:566
 #: client/gui-gtk-2.0/wldlg.c:311 client/gui-gtk-2.0/wldlg.c:317
-#: client/gui-gtk/citydlg.c:2954 client/gui-gtk/repodlgs.c:575
+#: client/gui-gtk/citydlg.c:2957 client/gui-gtk/repodlgs.c:575
 #: client/gui-gtk/wldlg.c:313 client/gui-gtk/wldlg.c:319
-#: client/gui-mui/citydlg.c:702 client/gui-mui/repodlgs.c:479
+#: client/gui-mui/citydlg.c:703 client/gui-mui/repodlgs.c:479
 #: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1198
 #: client/gui-win32/repodlgs.c:474 client/gui-win32/wldlg.c:675
 #: client/gui-win32/wldlg.c:681
 msgid "Cost"
 msgstr "·ĞÈñ"
 
-#: client/gui-gtk-2.0/citydlg.c:3006 client/gui-gtk/citydlg.c:2976
+#: client/gui-gtk-2.0/citydlg.c:3009 client/gui-gtk/citydlg.c:2979
 #: client/gui-win32/citydlg.c:1170 data/Freeciv:2014
 msgid "Change Production"
 msgstr "À¸»ºÊª¤ÎÊÑ¹¹"
 
-#: client/gui-gtk-2.0/citydlg.c:3187 client/gui-gtk/citydlg.c:3167
-#: client/gui-mui/citydlg.c:1072 client/gui-win32/citydlg.c:1061
+#: client/gui-gtk-2.0/citydlg.c:3190 client/gui-gtk/citydlg.c:3170
+#: client/gui-mui/citydlg.c:1073 client/gui-win32/citydlg.c:1061
 #: client/gui-xaw/citydlg.c:2432
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "¶â%2$d¤Ç%1$s¤òÇä¤ê¤Ş¤¹¤«?"
 
-#: client/gui-gtk-2.0/citydlg.c:3191 client/gui-gtk/citydlg.c:3171
-#: client/gui-mui/citydlg.c:1077 client/gui-win32/citydlg.c:1066
+#: client/gui-gtk-2.0/citydlg.c:3194 client/gui-gtk/citydlg.c:3174
+#: client/gui-mui/citydlg.c:1078 client/gui-win32/citydlg.c:1066
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Çä¤ë"
 
-#: client/gui-gtk-2.0/citydlg.c:3192 client/gui-gtk-2.0/cma_fe.c:575
-#: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2906
-#: client/gui-gtk/citydlg.c:3173 client/gui-gtk/cma_fe.c:569
+#: client/gui-gtk-2.0/citydlg.c:3195 client/gui-gtk-2.0/cma_fe.c:575
+#: client/gui-gtk/citydlg.c:2707 client/gui-gtk/citydlg.c:2909
+#: client/gui-gtk/citydlg.c:3176 client/gui-gtk/cma_fe.c:569
 #: client/gui-gtk/dialogs.c:417 client/gui-gtk/dialogs.c:983
-#: client/gui-gtk/dialogs.c:1283 client/gui-mui/citydlg.c:1038
-#: client/gui-mui/citydlg.c:1078 client/gui-mui/dialogs.c:515
+#: client/gui-gtk/dialogs.c:1283 client/gui-mui/citydlg.c:1039
+#: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:515
 #: client/gui-mui/dialogs.c:1162 client/gui-mui/dialogs.c:1880
 #: client/gui-mui/repodlgs.c:774 client/gui-win32/citydlg.c:1007
 #: client/gui-win32/citydlg.c:1066 client/gui-win32/citydlg.c:1591
@@ -7645,12 +7662,12 @@ msgstr "Çä¤ë"
 msgid "_Yes"
 msgstr "¤Ï¤¤(_Y)"
 
-#: client/gui-gtk-2.0/citydlg.c:3193 client/gui-gtk-2.0/cma_fe.c:577
-#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2907
-#: client/gui-gtk/citydlg.c:3174 client/gui-gtk/cma_fe.c:572
+#: client/gui-gtk-2.0/citydlg.c:3196 client/gui-gtk-2.0/cma_fe.c:577
+#: client/gui-gtk/citydlg.c:2708 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk/citydlg.c:3177 client/gui-gtk/cma_fe.c:572
 #: client/gui-gtk/dialogs.c:418 client/gui-gtk/dialogs.c:984
-#: client/gui-gtk/dialogs.c:1284 client/gui-mui/citydlg.c:1039
-#: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:516
+#: client/gui-gtk/dialogs.c:1284 client/gui-mui/citydlg.c:1040
+#: client/gui-mui/citydlg.c:1080 client/gui-mui/dialogs.c:516
 #: client/gui-mui/dialogs.c:1163 client/gui-mui/dialogs.c:1881
 #: client/gui-mui/repodlgs.c:775 client/gui-win32/citydlg.c:1008
 #: client/gui-win32/citydlg.c:1067 client/gui-win32/citydlg.c:1593
@@ -7659,17 +7676,17 @@ msgstr "¤Ï¤¤(_Y)"
 msgid "_No"
 msgstr "¤¤¤¤¤¨(_N)"
 
-#: client/gui-gtk-2.0/citydlg.c:3262 client/gui-gtk/citydlg.c:3227
+#: client/gui-gtk-2.0/citydlg.c:3265 client/gui-gtk/citydlg.c:3230
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "Çä¤ë(¶â%d)"
 
-#: client/gui-gtk-2.0/citydlg.c:3363 client/gui-gtk/citydlg.c:3330
+#: client/gui-gtk-2.0/citydlg.c:3366 client/gui-gtk/citydlg.c:3333
 #: client/gui-win32/citydlg.c:1325 data/Freeciv:524
 msgid "Rename City"
 msgstr "ÅÔ»ÔÌ¾¤ÎÊÑ¹¹"
 
-#: client/gui-gtk-2.0/citydlg.c:3365 client/gui-gtk/citydlg.c:3332
+#: client/gui-gtk-2.0/citydlg.c:3368 client/gui-gtk/citydlg.c:3335
 #: client/gui-win32/citydlg.c:1326 client/gui-xaw/citydlg.c:1387
 msgid "What should we rename the city to?"
 msgstr "¿·¤·¤¤ÅÔ»ÔÌ¾¤ò²¿¤ÈÌ¾¤Å¤±¤Ş¤¹¤«?"
@@ -7791,7 +7808,7 @@ msgid "Same Island"
 msgstr "Æ±¤¸Åç"
 
 #: client/gui-gtk-2.0/cityrep.c:1203 client/gui-gtk/cityrep.c:920
-#: client/gui-mui/citydlg.c:1522 client/gui-mui/citydlg.c:1561
+#: client/gui-mui/citydlg.c:1525 client/gui-mui/citydlg.c:1564
 #: client/gui-win32/cityrep.c:471
 msgid "Supported Units"
 msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ"
@@ -7841,24 +7858,24 @@ msgid "Delete preset"
 msgstr "¥×¥ê¥»¥Ã¥Èºï½ü"
 
 #: client/gui-gtk-2.0/cma_fe.c:198 client/gui-gtk/cma_fe.c:209
-#: client/gui-gtk/repodlgs.c:716 client/gui-mui/citydlg.c:1624
+#: client/gui-gtk/repodlgs.c:716 client/gui-mui/citydlg.c:1627
 #: client/gui-mui/repodlgs.c:534 client/gui-win32/repodlgs.c:388
 #: client/gui-xaw/repodlgs.c:769
 msgid "Results"
 msgstr "·ë²Ì"
 
 #: client/gui-gtk-2.0/cma_fe.c:212 client/gui-gtk/cma_fe.c:223
-#: client/gui-mui/citydlg.c:1663
+#: client/gui-mui/citydlg.c:1666
 msgid "Minimal Surplus"
 msgstr "ºÇ¾®¹õ»ú"
 
 #: client/gui-gtk-2.0/cma_fe.c:215 client/gui-gtk/cma_fe.c:226
-#: client/gui-mui/citydlg.c:1664
+#: client/gui-mui/citydlg.c:1667
 msgid "Factor"
 msgstr "°ø»Ò"
 
 #: client/gui-gtk-2.0/cma_fe.c:250 client/gui-gtk/cma_fe.c:261
-#: client/gui-mui/citydlg.c:1690 client/gui-mui/citydlg.c:1691
+#: client/gui-mui/citydlg.c:1693 client/gui-mui/citydlg.c:1694
 msgid "Celebrate"
 msgstr "½ËÅµ"
 
@@ -7871,7 +7888,7 @@ msgid "Control c_ity"
 msgstr "ÅÔ»Ô¤ò´ÉÍı(_I)"
 
 #: client/gui-gtk-2.0/cma_fe.c:299 client/gui-gtk/cma_fe.c:310
-#: client/gui-mui/citydlg.c:1700
+#: client/gui-mui/citydlg.c:1703
 msgid "_Release city"
 msgstr "ÅÔ»Ô¤ò²òÊü(_R)"
 
@@ -7923,7 +7940,7 @@ msgid "Freeciv Server Selection"
 msgstr "Freeciv ¥µ¡¼¥ĞÁªÂò"
 
 #: client/gui-gtk-2.0/connectdlg.c:184 client/gui-gtk/connectdlg.c:162
-#: client/gui-mui/citydlg.c:1626 client/gui-win32/connectdlg.c:389
+#: client/gui-mui/citydlg.c:1629 client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Ì¾Á°:"
 
@@ -8239,10 +8256,10 @@ msgid "_Keep moving"
 msgstr "¤Ê¤Ë¤â¤·¤Ê¤¤(_K)"
 
 #: client/gui-gtk-2.0/dialogs.c:951 client/gui-gtk-2.0/dialogs.c:976
-#: client/gui-gtk-2.0/dialogs.c:1008 client/gui-gtk/citydlg.c:2477
-#: client/gui-gtk/citydlg.c:2516 client/gui-gtk/dialogs.c:1060
+#: client/gui-gtk-2.0/dialogs.c:1008 client/gui-gtk/citydlg.c:2480
+#: client/gui-gtk/citydlg.c:2519 client/gui-gtk/dialogs.c:1060
 #: client/gui-gtk/dialogs.c:1086 client/gui-gtk/dialogs.c:1119
-#: client/gui-gtk/gotodlg.c:126 client/gui-mui/citydlg.c:1321
+#: client/gui-gtk/gotodlg.c:126 client/gui-mui/citydlg.c:1322
 #: client/gui-mui/cityrep.c:306 client/gui-mui/dialogs.c:343
 #: client/gui-mui/dialogs.c:440 client/gui-mui/dialogs.c:840
 #: client/gui-mui/dialogs.c:907 client/gui-mui/dialogs.c:942
@@ -8663,12 +8680,12 @@ msgstr "ÅÔ»Ô"
 msgid "Show _All Cities"
 msgstr "Á´¤Æ¤ÎÅÔ»Ô"
 
-#: client/gui-gtk-2.0/gui_main.c:499 client/gui-gtk-2.0/gui_main.c:995
-#: client/gui-gtk/gui_main.c:410 client/gui-gtk/gui_main.c:871
+#: client/gui-gtk-2.0/gui_main.c:451 client/gui-gtk-2.0/gui_main.c:947
+#: client/gui-gtk/gui_main.c:362 client/gui-gtk/gui_main.c:823
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:772 client/gui-gtk/gui_main.c:694
+#: client/gui-gtk-2.0/gui_main.c:724 client/gui-gtk/gui_main.c:646
 #: client/gui-win32/gui_main.c:390 data/Freeciv:2553
 msgid "Turn Done"
 msgstr "¥¿¡¼¥ó½ªÎ»"
@@ -8676,8 +8693,8 @@ msgstr "¥¿¡¼¥ó½ªÎ»"
 # ama, clefs
 # was "¤µ¤¡¡¢ÃÏ¹ö¤ØÍî¤Á¤í!"
 # ÊÑ¹¹¤Ë¤ÏÄñ¹³´¶¤¬¤¢¤ê¤Ş¤¹¤¬¡Ä
-#: client/gui-gtk-2.0/gui_main.c:889 client/gui-gtk/gui_main.c:798
-#: client/gui-mui/gui_main.c:1025 client/gui-win32/gui_main.c:441
+#: client/gui-gtk-2.0/gui_main.c:841 client/gui-gtk/gui_main.c:750
+#: client/gui-mui/gui_main.c:1020 client/gui-win32/gui_main.c:441
 #: data/Freeciv:2744
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -8688,7 +8705,7 @@ msgstr ""
 "¤òÇÛÉÛ¤¹¤ë¤³¤È¤ò´¿·Ş¤·¤Ş¤¹¡£¥Ø¥ë¥×¥á¥Ë¥å¡¼¤Î\"Ãøºî¸¢\"¤Î¹àÌÜ¤ò¸«¤Æ²¼¤µ¤¤¡£\n"
 "¡Ä¤µ¤¡¡¢¥³¥Æ¥ó¥Ñ¥ó¤Ë¤·¤Æ¤ä¤ì!"
 
-#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk/gui_main.c:1105
+#: client/gui-gtk-2.0/gui_main.c:1154 client/gui-gtk/gui_main.c:1057
 #: client/gui-xaw/gui_main.c:694
 #, c-format
 msgid ""
@@ -8709,26 +8726,26 @@ msgstr ""
 "À¯¼£ÂÎÀ©: %s"
 
 #: client/gui-gtk-2.0/happiness.c:103 client/gui-gtk/happiness.c:116
-#: client/gui-mui/citydlg.c:1443 client/gui-mui/citydlg.c:1580
+#: client/gui-mui/citydlg.c:1446 client/gui-mui/citydlg.c:1583
 #: client/gui-win32/citydlg.c:779 client/gui-win32/happiness.c:92
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:1277
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:1284
 msgid "Happiness"
 msgstr "¹¬Ê¡"
 
 #: client/gui-gtk-2.0/happiness.c:234 client/gui-gtk/happiness.c:247
-#: client/gui-mui/citydlg.c:2293 client/gui-win32/happiness.c:195
+#: client/gui-mui/citydlg.c:2297 client/gui-win32/happiness.c:195
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities.\n"
 msgstr "ÅÔ»Ô: ¹ç·×%1$d, %3$d¤Î¤·¤­¤¤ÃÍ¤ò±Û¤¨¤ë%2$dÅÔ»Ô¡£\n"
 
 #: client/gui-gtk-2.0/happiness.c:238 client/gui-gtk/happiness.c:251
-#: client/gui-mui/citydlg.c:2297 client/gui-win32/happiness.c:199
+#: client/gui-mui/citydlg.c:2301 client/gui-win32/happiness.c:199
 #, c-format
 msgid "%d content before penalty with "
 msgstr "%dÉáÄÌ»ÔÌ±¤¬"
 
 #: client/gui-gtk-2.0/happiness.c:240 client/gui-gtk/happiness.c:253
-#: client/gui-mui/citydlg.c:2299 client/gui-win32/happiness.c:201
+#: client/gui-mui/citydlg.c:2303 client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d additional unhappy citizens."
 msgstr "%dÄÉ²ÃÉÔ¹¬»ÔÌ±¤Î¥Ú¥Ê¥ë¥Æ¥£¤òÈï¤ëÁ°¤Ë¤¤¤Ş¤¹¡£"
@@ -8740,7 +8757,7 @@ msgid "Luxury: %d total."
 msgstr "ìÔÂô: ¹ç·× %d"
 
 #: client/gui-gtk-2.0/happiness.c:274 client/gui-gtk/happiness.c:287
-#: client/gui-mui/citydlg.c:2315 client/gui-win32/happiness.c:236
+#: client/gui-mui/citydlg.c:2319 client/gui-win32/happiness.c:236
 msgid "Buildings: "
 msgstr "·úÂ¤Êª: "
 
@@ -8752,10 +8769,10 @@ msgstr "·úÂ¤Êª: "
 #: client/gui-gtk/happiness.c:308 client/gui-gtk/happiness.c:329
 #: client/gui-gtk/happiness.c:400 client/gui-gtk/happiness.c:407
 #: client/gui-gtk/happiness.c:420 client/gui-gtk/happiness.c:427
-#: client/gui-mui/citydlg.c:2322 client/gui-mui/citydlg.c:2329
-#: client/gui-mui/citydlg.c:2336 client/gui-mui/citydlg.c:2357
-#: client/gui-mui/citydlg.c:2406 client/gui-mui/citydlg.c:2413
-#: client/gui-mui/citydlg.c:2426 client/gui-mui/citydlg.c:2433
+#: client/gui-mui/citydlg.c:2326 client/gui-mui/citydlg.c:2333
+#: client/gui-mui/citydlg.c:2340 client/gui-mui/citydlg.c:2361
+#: client/gui-mui/citydlg.c:2410 client/gui-mui/citydlg.c:2417
+#: client/gui-mui/citydlg.c:2430 client/gui-mui/citydlg.c:2437
 #: client/gui-win32/happiness.c:243 client/gui-win32/happiness.c:250
 #: client/gui-win32/happiness.c:257 client/gui-win32/happiness.c:278
 #: client/gui-win32/happiness.c:348 client/gui-win32/happiness.c:355
@@ -8765,7 +8782,7 @@ msgstr " "
 
 #: client/gui-gtk-2.0/happiness.c:301 client/gui-gtk-2.0/happiness.c:400
 #: client/gui-gtk/happiness.c:314 client/gui-gtk/happiness.c:413
-#: client/gui-mui/citydlg.c:2342 client/gui-mui/citydlg.c:2419
+#: client/gui-mui/citydlg.c:2346 client/gui-mui/citydlg.c:2423
 #: client/gui-win32/happiness.c:263 client/gui-win32/happiness.c:361
 msgid ""
 "\n"
@@ -8775,52 +8792,52 @@ msgstr ""
 "              "
 
 #: client/gui-gtk-2.0/happiness.c:309 client/gui-gtk/happiness.c:322
-#: client/gui-mui/citydlg.c:2350 client/gui-win32/happiness.c:271
+#: client/gui-mui/citydlg.c:2354 client/gui-win32/happiness.c:271
 msgid "("
 msgstr "("
 
 #: client/gui-gtk-2.0/happiness.c:313 client/gui-gtk/happiness.c:326
-#: client/gui-mui/citydlg.c:2354 client/gui-win32/happiness.c:275
+#: client/gui-mui/citydlg.c:2358 client/gui-win32/happiness.c:275
 msgid ")"
 msgstr ")"
 
 #: client/gui-gtk-2.0/happiness.c:321 client/gui-gtk-2.0/happiness.c:419
 #: client/gui-gtk/happiness.c:334 client/gui-gtk/happiness.c:432
-#: client/gui-mui/citydlg.c:2362 client/gui-mui/citydlg.c:2438
+#: client/gui-mui/citydlg.c:2366 client/gui-mui/citydlg.c:2442
 #: client/gui-win32/happiness.c:283 client/gui-win32/happiness.c:380
 msgid "None. "
 msgstr "¤Ê¤·"
 
 #: client/gui-gtk-2.0/happiness.c:340 client/gui-gtk/happiness.c:353
-#: client/gui-mui/citydlg.c:2372 client/gui-win32/happiness.c:302
+#: client/gui-mui/citydlg.c:2376 client/gui-win32/happiness.c:302
 msgid "Units: "
 msgstr "ÉôÂâ: "
 
 #: client/gui-gtk-2.0/happiness.c:344 client/gui-gtk/happiness.c:357
-#: client/gui-mui/citydlg.c:2376 client/gui-win32/happiness.c:306
+#: client/gui-mui/citydlg.c:2380 client/gui-win32/happiness.c:306
 msgid "Martial law in effect ("
 msgstr "Àï»şË¡¤¬Í­¸ú("
 
 #: client/gui-gtk-2.0/happiness.c:348 client/gui-gtk/happiness.c:361
-#: client/gui-mui/citydlg.c:2380 client/gui-win32/happiness.c:310
+#: client/gui-mui/citydlg.c:2384 client/gui-win32/happiness.c:310
 msgid "no maximum, "
 msgstr "¸ÂÅÙ¤Ê¤·,"
 
 #: client/gui-gtk-2.0/happiness.c:350 client/gui-gtk/happiness.c:363
-#: client/gui-mui/citydlg.c:2382 client/gui-win32/happiness.c:312
+#: client/gui-mui/citydlg.c:2386 client/gui-win32/happiness.c:312
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
 msgstr[0] "ºÇÂç%dÉôÂâ"
 
 #: client/gui-gtk-2.0/happiness.c:354 client/gui-gtk/happiness.c:367
-#: client/gui-mui/citydlg.c:2386 client/gui-win32/happiness.c:316
+#: client/gui-mui/citydlg.c:2390 client/gui-win32/happiness.c:316
 #, c-format
 msgid "%d per unit). "
 msgstr "ÉôÂâ¤Ë¤Ä¤­%d)"
 
 #: client/gui-gtk-2.0/happiness.c:358 client/gui-gtk/happiness.c:371
-#: client/gui-mui/citydlg.c:2389 client/gui-win32/happiness.c:320
+#: client/gui-mui/citydlg.c:2393 client/gui-win32/happiness.c:320
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Àï¾ì¤Î·³»öÉôÂâ¤ÏÉÔ¹¬¤Î¸¶°ø¤Ë¤Ê¤ë¤«¤â¤·¤ì¤Ş¤»¤ó¡£"
 
@@ -8830,7 +8847,7 @@ msgid "Military units have no happiness effect. "
 msgstr "·³»öÉôÂâ¤Ï¹¬Ê¡¤Ë±Æ¶Á¤òÍ¿¤¨¤Ş¤»¤ó¡£"
 
 #: client/gui-gtk-2.0/happiness.c:380 client/gui-gtk/happiness.c:393
-#: client/gui-mui/citydlg.c:2399 client/gui-win32/happiness.c:341
+#: client/gui-mui/citydlg.c:2403 client/gui-win32/happiness.c:341
 msgid "Wonders: "
 msgstr "ÉÔ»×µÄ: "
 
@@ -9685,8 +9702,8 @@ msgstr "¿Í¸ıÅı·×(_D)"
 msgid "S_paceship"
 msgstr "±§ÃèÁ¥(_P)"
 
-#: client/gui-gtk-2.0/menu.c:740 client/gui-gtk/citydlg.c:3018
-#: client/gui-gtk/menu.c:741 client/gui-mui/citydlg.c:1320
+#: client/gui-gtk-2.0/menu.c:740 client/gui-gtk/citydlg.c:3021
+#: client/gui-gtk/menu.c:741 client/gui-mui/citydlg.c:1321
 #: client/gui-win32/menu.c:367
 msgid "_Help"
 msgstr "¥Ø¥ë¥×(_H)"
@@ -10094,7 +10111,7 @@ msgid "Active"
 msgstr "³èÌöÃæ"
 
 #: client/gui-gtk-2.0/repodlgs.c:848 client/gui-gtk/repodlgs.c:817
-#: client/gui-mui/citydlg.c:1670 client/gui-mui/repodlgs.c:716
+#: client/gui-mui/citydlg.c:1673 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:694
 msgid "Shield"
 msgstr "¥·¡¼¥ë¥É"
@@ -10211,54 +10228,54 @@ msgid "empty worklist"
 msgstr "¶õ¤Îºî¶È¥ê¥¹¥È"
 
 #: client/gui-gtk-2.0/wldlg.c:1350 client/gui-gtk/wldlg.c:1351
-#: client/gui-mui/citydlg.c:1442 client/gui-mui/worklistclass.c:159
+#: client/gui-mui/citydlg.c:1445 client/gui-mui/worklistclass.c:159
 #: client/gui-win32/citydlg.c:778 client/gui-win32/wldlg.c:950
 #: client/gui-win32/wldlg.c:996 data/Freeciv:2978
 msgid "Worklist"
 msgstr "ºî¶È¥ê¥¹¥È"
 
-#: client/gui-gtk/citydlg.c:750 client/gui-gtk/citydlg.c:806
-#: client/gui-gtk/citydlg.c:1029 client/gui-gtk/citydlg.c:1088
+#: client/gui-gtk/citydlg.c:751 client/gui-gtk/citydlg.c:807
+#: client/gui-gtk/citydlg.c:1030 client/gui-gtk/citydlg.c:1089
 msgid "<"
 msgstr "<"
 
-#: client/gui-gtk/citydlg.c:756 client/gui-gtk/citydlg.c:812
-#: client/gui-gtk/citydlg.c:1034 client/gui-gtk/citydlg.c:1092
+#: client/gui-gtk/citydlg.c:757 client/gui-gtk/citydlg.c:813
+#: client/gui-gtk/citydlg.c:1035 client/gui-gtk/citydlg.c:1093
 msgid ">"
 msgstr ">"
 
-#: client/gui-gtk/citydlg.c:860 client/gui-gtk/citydlg.c:3002
-#: client/gui-mui/citydlg.c:1698
+#: client/gui-gtk/citydlg.c:861 client/gui-gtk/citydlg.c:3005
+#: client/gui-mui/citydlg.c:1701
 msgid "_Change"
 msgstr "ÊÑ¹¹(_C)"
 
-#: client/gui-gtk/citydlg.c:1493 client/gui-gtk/citydlg.c:1501
+#: client/gui-gtk/citydlg.c:1494 client/gui-gtk/citydlg.c:1502
 #, c-format
 msgid "City of %s"
 msgstr "%s¤ÎÅÔ»Ô"
 
-#: client/gui-gtk/citydlg.c:1559
+#: client/gui-gtk/citydlg.c:1560
 msgid "Close dialog"
 msgstr "ÊÄ¤¸¤ë"
 
-#: client/gui-gtk/citydlg.c:2142
+#: client/gui-gtk/citydlg.c:2145
 #, c-format
 msgid "Supported units (%d)"
 msgstr "±ç½õ¤µ¤ì¤Æ¤¤¤ëÉôÂâ (%d)"
 
-#: client/gui-gtk/citydlg.c:2274
+#: client/gui-gtk/citydlg.c:2277
 #, c-format
 msgid "Present units (%d)"
 msgstr "ÅÔ»Ô¤Ë¤¤¤ëÉôÂâ (%d)"
 
-#: client/gui-gtk/citydlg.c:2471 client/gui-gtk/citydlg.c:2503
+#: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2506
 #: client/gui-win32/citydlg.c:1625 client/gui-win32/citydlg.c:1653
 #: data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
 msgstr "ÉôÂâ¥³¥Ş¥ó¥É"
 
-#: client/gui-gtk/citydlg.c:2692 client/gui-gtk/citydlg.c:2715
-#: client/gui-gtk/citydlg.c:2916 client/gui-gtk/dialogs.c:425
+#: client/gui-gtk/citydlg.c:2695 client/gui-gtk/citydlg.c:2718
+#: client/gui-gtk/citydlg.c:2919 client/gui-gtk/dialogs.c:425
 #: client/gui-gtk/dialogs.c:976 client/gui-gtk/dialogs.c:992
 #: client/gui-mui/dialogs.c:238 client/gui-mui/dialogs.c:508
 #: client/gui-mui/dialogs.c:524 client/gui-win32/citydlg.c:1016
@@ -10269,7 +10286,7 @@ msgstr "ÉôÂâ¥³¥Ş¥ó¥É"
 msgid "Darn"
 msgstr "¤¬¤Ã¤«¤ê"
 
-#: client/gui-gtk/citydlg.c:3010
+#: client/gui-gtk/citydlg.c:3013
 msgid "Ca_ncel"
 msgstr "¼è¤ê¾Ã¤·(_N)"
 
@@ -10425,7 +10442,7 @@ msgstr ""
 "¥á¥Ã¥»¡¼¥¸¤ò¤É¤Î¥¦¥£¥ó¥É¥¦¤ËÉ½¼¨¤·¤Ş¤¹¤«?\n"
 "½Ğ:½ĞÎÏ  ¥á:¥á¥Ã¥»¡¼¥¸  ¥İ:¸Ä¡¹¤Ë¥İ¥Ã¥×¥¢¥Ã¥×"
 
-#: client/gui-gtk/messagewin.c:154 client/gui-mui/citydlg.c:1748
+#: client/gui-gtk/messagewin.c:154 client/gui-mui/citydlg.c:1751
 #: client/gui-mui/cityrep.c:389 client/gui-mui/dialogs.c:137
 #: client/gui-mui/dialogs.c:184 client/gui-mui/dialogs.c:1483
 #: client/gui-mui/messagewin.c:208 client/gui-mui/plrdlg.c:322
@@ -10504,128 +10521,135 @@ msgid "Cleared output window.\n"
 msgstr "½ĞÎÏ¥¦¥£¥ó¥É¥¦¤ò¾Ãµî¤·¤Ş¤·¤¿¡£\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:618 client/gui-mui/worklistclass.c:213
+#: client/gui-mui/citydlg.c:619 client/gui-mui/worklistclass.c:213
 msgid "u8Unitsn"
 msgstr "u8ÉôÂân"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:625 client/gui-mui/worklistclass.c:221
+#: client/gui-mui/citydlg.c:626 client/gui-mui/worklistclass.c:221
 msgid "u8Improvementsn"
 msgstr "u8·úÂ¤Êªn"
 
-#: client/gui-mui/citydlg.c:701
+#: client/gui-mui/citydlg.c:702
 msgid "Rounds"
 msgstr "¥é¥¦¥ó¥É"
 
-#: client/gui-mui/citydlg.c:1048 client/gui-mui/dialogs.c:1867
+#: client/gui-mui/citydlg.c:1049 client/gui-mui/dialogs.c:1867
 #: client/gui-mui/dialogs.c:1891
 msgid "_Darn"
 msgstr "¤¬¤Ã¤«¤ê(_D)"
 
-#: client/gui-mui/citydlg.c:1306
+#: client/gui-mui/citydlg.c:1307
 msgid "Freeciv - Cityproduction"
 msgstr "Freeciv - ÅÔ»ÔÀ¸»ºÊª"
 
-#: client/gui-mui/citydlg.c:1319 client/gui-mui/citydlg.c:1536
+#: client/gui-mui/citydlg.c:1320 client/gui-mui/citydlg.c:1539
 #: client/gui-mui/cityrep.c:393
 msgid "Chan_ge"
 msgstr "ÊÑ¹¹(_G)"
 
-#: client/gui-mui/citydlg.c:1396
+#: client/gui-mui/citydlg.c:1397
 msgid "Shields"
 msgstr "¥·¡¼¥ë¥É:"
 
-#: client/gui-mui/citydlg.c:1401 client/gui-mui/citydlg.c:1634
-msgid "Gold:"
-msgstr "¶â:"
+#: client/gui-mui/citydlg.c:1416
+#, fuzzy
+msgid "Waste:"
+msgstr "ÂÔµ¡"
 
-#: client/gui-mui/citydlg.c:1440 client/gui-win32/citydlg.c:778
+#: client/gui-mui/citydlg.c:1443 client/gui-win32/citydlg.c:778
 msgid "City Overview"
 msgstr "³µ´Ñ"
 
-#: client/gui-mui/citydlg.c:1445 client/gui-win32/citydlg.c:780
+#: client/gui-mui/citydlg.c:1448 client/gui-win32/citydlg.c:780
 #: data/Freeciv:2166
 msgid "Trade Routes"
 msgstr "¸ò°×Ï©"
 
-#: client/gui-mui/citydlg.c:1446 client/gui-win32/citydlg.c:781
+#: client/gui-mui/citydlg.c:1449 client/gui-win32/citydlg.c:781
 msgid "Misc. Settings"
 msgstr "¤½¤ÎÂ¾"
 
-#: client/gui-mui/citydlg.c:1476
+#: client/gui-mui/citydlg.c:1479
 msgid "Freeciv - Cityview"
 msgstr "Freeciv - ÅÔ»Ô¥Ó¥å¡¼"
 
-#: client/gui-mui/citydlg.c:1503
+#: client/gui-mui/citydlg.c:1506
 msgid "City Output"
 msgstr "ÅÔ»Ô¥ª¥×¥·¥ç¥ó"
 
-#: client/gui-mui/citydlg.c:1508
+#: client/gui-mui/citydlg.c:1511
 msgid "Citymap"
 msgstr "ÅÔ»ÔÃÏ¿Ş"
 
-#: client/gui-mui/citydlg.c:1539 data/helpdata.txt:772
+#: client/gui-mui/citydlg.c:1542 data/helpdata.txt:772
 msgid "City Improvements"
 msgstr "ÅÔ»Ô·úÂ¤Êª"
 
-#: client/gui-mui/citydlg.c:1548
+#: client/gui-mui/citydlg.c:1551
 msgid "_Sell"
 msgstr "Çä¤ë(_S)"
 
-#: client/gui-mui/citydlg.c:1619
+#: client/gui-mui/citydlg.c:1622
 msgid "_Add preset"
 msgstr "¥×¥ê¥»¥Ã¥ÈÄÉ²Ã(_A)"
 
-#: client/gui-mui/citydlg.c:1620
+#: client/gui-mui/citydlg.c:1623
 msgid "_Delete preset"
 msgstr "¥×¥ê¥»¥Ã¥Èºï½ü(_D)"
 
-#: client/gui-mui/citydlg.c:1637
+#: client/gui-mui/citydlg.c:1640
 msgid "Production:"
 msgstr "À¸»ºÊª"
 
-#: client/gui-mui/citydlg.c:1651
+#: client/gui-mui/citydlg.c:1654
 msgid "People (W/E/S/T):"
 msgstr "»ÔÌ± (Ï«/·İ/²Ê/ÀÇ):"
 
-#: client/gui-mui/citydlg.c:1654
+#: client/gui-mui/citydlg.c:1657
 msgid "City grows:"
 msgstr "ÅÔ»Ô³ÈÂç:"
 
-#: client/gui-mui/citydlg.c:1657
+#: client/gui-mui/citydlg.c:1660
 msgid "Production completed:"
 msgstr "À¸»ºÊª´°Î»:"
 
-#: client/gui-mui/citydlg.c:1674 data/Freeciv:2966
+#: client/gui-mui/citydlg.c:1677 data/Freeciv:2966
 #: data/default/techs.ruleset:733 data/civ2/techs.ruleset:553
 #: data/civ1/techs.ruleset:553 data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "¸ò°×"
 
-#: client/gui-mui/citydlg.c:1699
+#: client/gui-mui/citydlg.c:1681 data/default/terrain.ruleset:376
+#: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
+#: data/history/terrain.ruleset:376
+msgid "Gold"
+msgstr "¶â"
+
+#: client/gui-mui/citydlg.c:1702
 msgid "C_hange permanent"
 msgstr "¹±µ×Åª¤ËÊÑ¹¹(_H)"
 
-#: client/gui-mui/citydlg.c:1730 client/gui-mui/citydlg.c:1731
+#: client/gui-mui/citydlg.c:1733 client/gui-mui/citydlg.c:1734
 msgid "_Disband if build settler at size 1"
 msgstr "Âç¤­¤µ1¤Î»ş¤Ë³«Âó¼Ô¤òºî¤Ã¤¿¤é²ò»¶(_D)"
 
-#: client/gui-mui/citydlg.c:1851
+#: client/gui-mui/citydlg.c:1854
 #, c-format
 msgid "%s (%s) (worklist)"
 msgstr "%s (%s) (ºî¶È¥ê¥¹¥È)"
 
-#: client/gui-mui/citydlg.c:2150
+#: client/gui-mui/citydlg.c:2154
 #, c-format
 msgid "%s citizens%s"
 msgstr "%s »ÔÌ±%s"
 
-#: client/gui-mui/citydlg.c:2154
+#: client/gui-mui/citydlg.c:2158
 #, c-format
 msgid "%s - %s citizens%s"
 msgstr "%s - %s »ÔÌ±%s"
 
-#: client/gui-mui/citydlg.c:2305
+#: client/gui-mui/citydlg.c:2309
 #, c-format
 msgid "Luxury: %d total (maximum %d usable). "
 msgstr "ìÔÂô: ¹ç·× %d (ºÇÂç %d)"
@@ -10914,31 +10938,31 @@ msgstr "Ãæ¿´¤Ø"
 msgid "Order"
 msgstr "Ì¿Îá"
 
-#: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1275
-#: client/gui-mui/mapclass.c:1653 client/gui-win32/menu.c:950
+#: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1270
+#: client/gui-mui/mapclass.c:1653 client/gui-win32/menu.c:952
 #: client/gui-xaw/menu.c:154
 msgid "Build City"
 msgstr "ÅÔ»Ô¤òºî¤ë"
 
-#: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1318
-#: client/gui-mui/mapclass.c:1657 client/gui-win32/menu.c:986
+#: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1313
+#: client/gui-mui/mapclass.c:1657 client/gui-win32/menu.c:988
 #: client/gui-xaw/menu.c:156
 msgid "Build Road"
 msgstr "Æ»Ï©¤òºî¤ë"
 
-#: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1300
-#: client/gui-mui/mapclass.c:1707 client/gui-win32/menu.c:909
+#: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1295
+#: client/gui-mui/mapclass.c:1707 client/gui-win32/menu.c:911
 #: client/gui-xaw/menu.c:161
 msgid "Build Mine"
 msgstr "»ñ¸»²½¤¹¤ë"
 
-#: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1291
-#: client/gui-mui/mapclass.c:1700 client/gui-win32/menu.c:908
+#: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1286
+#: client/gui-mui/mapclass.c:1700 client/gui-win32/menu.c:910
 #: client/gui-xaw/menu.c:158
 msgid "Build Irrigation"
 msgstr "ŞõŞô¤ò¹Ô¤Ê¤¦"
 
-#: client/gui-mui/gui_main.c:239 client/gui-win32/menu.c:910
+#: client/gui-mui/gui_main.c:239 client/gui-win32/menu.c:912
 #: client/gui-xaw/menu.c:163
 msgid "Transform Terrain"
 msgstr "ÃÏ·Á¤òÊÑ¤¨¤ë"
@@ -10953,8 +10977,8 @@ msgstr "Í×ºÉ¤òÃÛ¤¯"
 msgid "Build Airbase"
 msgstr "Èô¹Ô¾ì¤òºî¤ë"
 
-#: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1244
-#: client/gui-mui/mapclass.c:1665 client/gui-win32/menu.c:977
+#: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1239
+#: client/gui-mui/mapclass.c:1665 client/gui-win32/menu.c:979
 #: client/gui-xaw/menu.c:167
 msgid "Clean Pollution"
 msgstr "±øÀ÷¤ò¤­¤ì¤¤¤Ë¤¹¤ë"
@@ -11058,15 +11082,15 @@ msgstr "¿Í¸ıÅı·×"
 msgid "Spaceship"
 msgstr "±§ÃèÁ¥"
 
-#: client/gui-mui/gui_main.c:886
+#: client/gui-mui/gui_main.c:881
 msgid "Freeciv Client"
 msgstr "Freeciv ¥¯¥é¥¤¥¢¥ó¥È"
 
-#: client/gui-mui/gui_main.c:890
+#: client/gui-mui/gui_main.c:885
 msgid "Client for Freeciv"
 msgstr "Freeciv ¤Î¥¯¥é¥¤¥¢¥ó¥È"
 
-#: client/gui-mui/gui_main.c:915
+#: client/gui-mui/gui_main.c:910
 msgid ""
 "Turn\n"
 "Done"
@@ -11074,38 +11098,38 @@ msgstr ""
 "¥¿¡¼¥ó\n"
 "½ªÎ»"
 
-#: client/gui-mui/gui_main.c:1220 client/gui-win32/menu.c:901
+#: client/gui-mui/gui_main.c:1215 client/gui-win32/menu.c:903
 #: client/gui-xaw/menu.c:160 client/gui-xaw/menu.c:162
 #, c-format
 msgid "Change to %s"
 msgstr "%s¤ËÊÑ¤¨¤ë"
 
-#: client/gui-mui/gui_main.c:1239 client/gui-mui/mapclass.c:1681
-#: client/gui-win32/menu.c:975 client/gui-xaw/menu.c:168
+#: client/gui-mui/gui_main.c:1234 client/gui-mui/mapclass.c:1681
+#: client/gui-win32/menu.c:977 client/gui-xaw/menu.c:168
 msgid "Paradrop"
 msgstr "Íî²¼»±¹ß²¼"
 
-#: client/gui-mui/gui_main.c:1271 client/gui-mui/mapclass.c:1655
-#: client/gui-win32/menu.c:946 client/gui-xaw/menu.c:155
+#: client/gui-mui/gui_main.c:1266 client/gui-mui/mapclass.c:1655
+#: client/gui-win32/menu.c:948 client/gui-xaw/menu.c:155
 msgid "Add to City"
 msgstr "ÅÔ»Ô¤Ë²Ã¤¨¤ë"
 
-#: client/gui-mui/gui_main.c:1287 client/gui-mui/mapclass.c:1697
-#: client/gui-win32/menu.c:962 client/gui-xaw/menu.c:159
+#: client/gui-mui/gui_main.c:1282 client/gui-mui/mapclass.c:1697
+#: client/gui-win32/menu.c:964 client/gui-xaw/menu.c:159
 msgid "Build Farmland"
 msgstr "ÇÀÃÏ¤òºî¤ë"
 
-#: client/gui-mui/gui_main.c:1309 client/gui-mui/mapclass.c:1714
+#: client/gui-mui/gui_main.c:1304 client/gui-mui/mapclass.c:1714
 msgid "Transform terrain"
 msgstr "ÃÏ·Á¤òÊÑ¤¨¤ë"
 
-#: client/gui-mui/gui_main.c:1314 client/gui-mui/mapclass.c:1659
-#: client/gui-win32/menu.c:983 client/gui-xaw/menu.c:157
+#: client/gui-mui/gui_main.c:1309 client/gui-mui/mapclass.c:1659
+#: client/gui-win32/menu.c:985 client/gui-xaw/menu.c:157
 msgid "Build Railroad"
 msgstr "Å´Æ»¤òºî¤ë"
 
 # clefs
-#: client/gui-mui/gui_main.c:1427
+#: client/gui-mui/gui_main.c:1422
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -11635,7 +11659,7 @@ msgstr "ÀÇÎ¨"
 msgid "Transf_orm to Hills"
 msgstr "µÖ¤ËÊÑ¤¨¤ë(_O)"
 
-#: client/gui-win32/menu.c:902 client/gui-xaw/menu.c:164
+#: client/gui-win32/menu.c:904 client/gui-xaw/menu.c:164
 #, c-format
 msgid "Transform to %s"
 msgstr "%s¤ËÊÑ¤¨¤ë"
@@ -11914,7 +11938,7 @@ msgstr "ZOC"
 msgid "Government"
 msgstr "À¯¼£ÂÎÀ©"
 
-#: client/gui-xaw/menu.c:229 data/helpdata.txt:1350
+#: client/gui-xaw/menu.c:229 data/helpdata.txt:1357
 msgid "Space Race"
 msgstr "±§Ãè³«È¯¶¥Áè"
 
@@ -13717,6 +13741,20 @@ msgstr ""
 "¤ò¸º¤é¤·¤Ş¤¹¡£"
 
 #: data/helpdata.txt:1231
+#, fuzzy
+msgid ""
+"Waste is the loss of shields due to inefficiency and greed. Under most forms "
+"of government, the farther away from the capital a city is, the more shields "
+"will be lost to waste.  (If you do not have a capital, your cities will "
+"suffer extremely high levels of waste.)  A Courthouse will reduce the level "
+"of waste in a city. Waste can result in your cities not building anything."
+msgstr ""
+"±ø¿¦¤È¤Ï¡¢Èó¸úÎ¨¤äìÅÍß¤¬¸¶°ø¤È¤Ê¤Ã¤Æµ¯¤³¤ë¸ò°×¤ÎÂ»¼º¤Î¤³¤È¤Ç¤¹¡£¤Û¤È¤ó¤É¤Î·Á"
+"¼°¤ÎÀ¯ÉÜ¤Ç¡¢¼óÅÔ¤«¤éÅÔ»Ô¤¬±ó¤¯¤Ê¤ë¤Û¤É±ø¿¦¤Ë¤è¤ë¸ò°×¤ÎÂ»¼º¤¬Áı¤¨¤Ş¤¹¡£(¤â¤·¼ó"
+"ÅÔ¤¬¤Ê¤±¤ì¤Ğ¡¢Á´¤Æ¤ÎÅÔ»Ô¤Ë¤Ò¤É¤¤±ø¿¦¤¬¤Ï¤Ó¤³¤ë¤Ç¤·¤ç¤¦¡£) ºÛÈ½½ê¤ÏÅÔ»Ô¤Î±ø¿¦"
+"¤ò¸º¤é¤·¤Ş¤¹¡£"
+
+#: data/helpdata.txt:1238
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -13727,7 +13765,7 @@ msgstr ""
 "¤ó¤ÎÍ¾²Ë¤òÍ¿¤¨¤Ê¤¤¸Â¤êÆñ¤·¤¤¤Ç¤¹¡£Â¾¤ÎÊ¸ÌÀ¤òÀ¬Éş¤¹¤ë¤Ä¤â¤ê¤Ê¤é¡¢Â¾¤Î¹¥ÀïÅª¤Ê"
 "À¯¼£ÂÎÀ©¤Ë¤·¤¿¤Û¤¦¤¬¤¤¤¤¤«¤â¤·¤ì¤Ş¤»¤ó¡£"
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1244
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13738,12 +13776,12 @@ msgstr ""
 "¤ä¤·¤ä¤¹¤¤¤Ç¤¹¡£¤Ç¤­¤ë¤À¤±Áá¤¯¶¦ÏÂÀ©¤ËÀÚ¤êÊÑ¤¨¤ë¤³¤È¤ò¹Í¤¨¤Æ²¼¤µ¤¤¡£¥²¡¼¥à¤Î"
 "Áá¤¤ÃÊ³¬¤Ç¿Ê¤ó¤À²Ê³Ø¤òÆÀ¤ë¤È¡¢¤½¤ì¤À¤±Í­Íø¤Ë¤Ê¤ë¤Î¤Ç¤¹¡£"
 
-#: data/helpdata.txt:1246
+#: data/helpdata.txt:1253
 msgid " Civil War"
 msgstr " ÆâÀï"
 
 # ama, clefs
-#: data/helpdata.txt:1247
+#: data/helpdata.txt:1254
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13755,14 +13793,14 @@ msgstr ""
 "Æ³¼Ô¤Ï¹ñ¸Ë¤ÎÈ¾Ê¬¤òÎ¬Ã¥¤·¡¢Á´¤Æ¤Î²Ê³Ø¤ÎÈ¯Å¸¤ò¤½¤Î¤Ş¤ŞÊİ»ı¤·¤Ş¤¹¡£"
 
 # clefs
-#: data/helpdata.txt:1253
+#: data/helpdata.txt:1260
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "ÆâÀï¤Ï1¥¿¡¼¥ó¤Î¤ß¤Ç¡¢¤½¤Î¸å¤ÏÌµÀ¯ÉÜ¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£"
 
 # ama, clefs
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1263
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13773,7 +13811,7 @@ msgstr ""
 "¤«¤Ã¤Æ¤¤¤¿¤é¡¢¤ª¤½¤é¤¯À¿¼Â¤Ê¤Ş¤Ş¤Ç¤¹¡£½ËÅµ¤ò¹Ô¤Ê¤Ã¤Æ¤¤¤ëÅÔ»Ô¤ÏÆâÀï¤òµ¯¤³¤ê¤Å"
 "¤é¤¯¡¢µÕ¤Ëº®Íğ¾õÂÖ¤ÎÅÔ»Ô¤ÏÆâÀï¤òµ¯¤³¤ê¤ä¤¹¤¯¤·¤Ş¤¹¡£"
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1269
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13783,7 +13821,7 @@ msgstr ""
 "¤Ï¡¢ÀìÀ©Åª¤Ê¤â¤Î¤ËÈæ¤ÙË½Æ°¤Îµ¯¤³¤ë²ÄÇ½À­¤¬¤Ï¤ë¤«¤Ë¾¯¤Ê¤¯¤Ê¤ê¤Ş¤¹¡£"
 
 # ama, clefs
-#: data/helpdata.txt:1266
+#: data/helpdata.txt:1273
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13795,7 +13833,7 @@ msgstr ""
 "¥Ğ¡¦¥ª¥×¥·¥ç¥ó¤Ç¡¢ 6 °Ê¾å¤Î¿ô¤ËÊÑ¹¹¤µ¤ì¤Æ¤¤¤ë¤«¤â¤·¤ì¤Ş¤»¤ó¡£"
 
 # yasu
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1285
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13809,7 +13847,7 @@ msgstr ""
 "¤ËÁı¤¨¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1292
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13823,7 +13861,7 @@ msgstr ""
 "µ¯¤­¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1292
+#: data/helpdata.txt:1299
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13836,7 +13874,7 @@ msgstr ""
 "¤Ş¤¹¡£½ËÅµ¤Î¸ú²Ì¤ÏÀ¯¼£ÂÎÀ©¤Ë¤è¤Ã¤ÆÍÍ¡¹¤Ç¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1299
+#: data/helpdata.txt:1306
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13846,7 +13884,7 @@ msgstr ""
 "»º¤·¤Æ¤¤¤ëÅÚÃÏ¤ÎÄÌ¾ï¤ÎÀ¸»ºÀ©¸Â¤ò¼õ¤±¤Ş¤»¤ó¡£"
 
 # yasu
-#: data/helpdata.txt:1303
+#: data/helpdata.txt:1310
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13857,7 +13895,7 @@ msgstr ""
 "¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1307
+#: data/helpdata.txt:1314
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -13867,7 +13905,7 @@ msgstr ""
 "¤òËş¤¿¤µ¤Ê¤¯¤Ê¤ë¤Ş¤Ç¡¢³Æ¥¿¡¼¥óËè¤Ë¿Í¸ı¤¬1Áı¤¨¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1312
+#: data/helpdata.txt:1319
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -13884,7 +13922,7 @@ msgstr ""
 "¤³¤È¤¬¤¢¤ê¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1329
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -13903,7 +13941,7 @@ msgstr ""
 "¤â¤¢¤ê¤Ş¤¹(Å¬ÀÚ¤Ê¾Ï¤Ë¾ÜºÙ¤¬¤¢¤ê¤Ş¤¹)¡£"
 
 # yasu
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1339
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -13928,7 +13966,7 @@ msgstr ""
 "¤¹¡£)¤Î·úÀß¡¢¤Ş¤¿¤Ï¸ò°×¤ò¤è¤êìÔÂô¤Ë»È¤¦¤³¤È¤Ë¤è¤ê²ò¾Ã¤µ¤ì¤Ş¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1351
+#: data/helpdata.txt:1358
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -13940,7 +13978,7 @@ msgstr ""
 "¤·¡¢¥µ¡¼¥Ğ¡¦¥ª¥·¥ç¥ó¤È¤·¤Æ¤³¤Î¥ª¥×¥·¥ç¥ó¤¬Ìµ¸ú¤Ë¤Ê¤Ã¤Æ¤¤¤ë²ÄÇ½À­¤â¤¢¤ê¤Ş¤¹¡£)"
 
 # yasu, clefs
-#: data/helpdata.txt:1357
+#: data/helpdata.txt:1364
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -13956,7 +13994,7 @@ msgstr ""
 "¤¬Ìµ¸ú¤Ë¤Ê¤Ã¤Æ¤¤¤ë¤È¤¤¤¦¤³¤È¤Ç¤·¤ç¤¦¡£)"
 
 # yasu
-#: data/helpdata.txt:1365
+#: data/helpdata.txt:1372
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -13967,7 +14005,7 @@ msgstr ""
 "¥ê¥Ã¥¯¤·¤Æ¤¯¤À¤µ¤¤¡£"
 
 # yasu
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1377
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -13978,7 +14016,7 @@ msgstr ""
 "¤Ş¤¹¡£"
 
 # yasu, clefs
-#: data/helpdata.txt:1374
+#: data/helpdata.txt:1381
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -13987,7 +14025,7 @@ msgstr ""
 "¤ë¤³¤È¤¬Âç»ö¤Ç¤¹¡£"
 
 # yasu
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1384
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -14136,11 +14174,11 @@ msgid "Courthouse"
 msgstr "ºÛÈ½½ê"
 
 #: data/default/buildings.ruleset:408 data/civ2/buildings.ruleset:337
-#: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
+#, fuzzy
 msgid ""
-"Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
-"makes 1 unhappy citizen content.  Also halves the effective distance to the "
-"capital, for the purpose of calculating revolt cost."
+"Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
+"Courthouse makes 1 unhappy citizen content.  Also halves the effective "
+"distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
 "ÅÔ»Ô¤Ç¤Î±ø¿¦¤ò 50% ¸º¤é¤·¤Ş¤¹¡£È¿Íğ¥³¥¹¥È¤ò·×»»¤¹¤ë¤¿¤á¤Ë»È¤ï¤ì¤ë¼óÅÔ¤«¤é¤Îµ÷"
 "Î¥¤Ë¤è¤ë±Æ¶Á¤òÈ¾¸º¤·¤Ş¤¹¡£Ì±¼çÀ©²¼¤Ç¤Ï¡¢ÉÔ¹¬»ÔÌ± 1¤ò¼ıÍÆ¤·¤Ş¤¹¡£"
@@ -14639,7 +14677,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1327 data/civ2/buildings.ruleset:1179
 #: data/civ1/buildings.ruleset:1186 data/history/buildings.ruleset:1200
 msgid "A.Smith's Trading Co."
-msgstr "¥¢¥À¥à¡¦¥¹¥ß¥¹¤ÎËÇ°×²ñ¼Ò"
+msgstr "A.¥¹¥ß¥¹¤ÎËÇ°×²ñ¼Ò"
 
 # ama, clefs
 # was "Á´¤Æ¤ÎÅÔ»Ô¤Ç¡¢ÅÔ»Ô·úÂ¤Êª¤Î°İ»ıÈñ1¤ò¤Ê¤¯¤·¤Ş¤¹¡£"
@@ -14849,7 +14887,7 @@ msgstr "¥Ş¥ó¥Ï¥Ã¥¿¥ó·×²è"
 #: data/default/buildings.ruleset:1800 data/civ2/buildings.ruleset:1615
 #: data/civ1/buildings.ruleset:1630 data/history/buildings.ruleset:1639
 msgid "Marco Polo's Embassy"
-msgstr "¥Ş¥ë¥³¡¦¥İ¡¼¥í¤ÎÂç»È´Û"
+msgstr "¥Ş¥ë¥³¥İ¡¼¥í¤ÎÂç»È´Û"
 
 #: data/default/buildings.ruleset:1821 data/civ2/buildings.ruleset:1634
 #: data/civ1/buildings.ruleset:1649 data/history/buildings.ruleset:1658
@@ -15123,6 +15161,15 @@ msgstr ""
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
 msgstr "»ÔÌ±¤ò³Ú¤·¤Ş¤»¡¢ÉÔ¹¬»ÔÌ±3¤òËşÂ­¤µ¤»¤Ş¤¹¡£"
 
+#: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
+msgid ""
+"Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
+"makes 1 unhappy citizen content.  Also halves the effective distance to the "
+"capital, for the purpose of calculating revolt cost."
+msgstr ""
+"ÅÔ»Ô¤Ç¤Î±ø¿¦¤ò 50% ¸º¤é¤·¤Ş¤¹¡£È¿Íğ¥³¥¹¥È¤ò·×»»¤¹¤ë¤¿¤á¤Ë»È¤ï¤ì¤ë¼óÅÔ¤«¤é¤Îµ÷"
+"Î¥¤Ë¤è¤ë±Æ¶Á¤òÈ¾¸º¤·¤Ş¤¹¡£Ì±¼çÀ©²¼¤Ç¤Ï¡¢ÉÔ¹¬»ÔÌ± 1¤ò¼ıÍÆ¤·¤Ş¤¹¡£"
+
 #: data/civ1/buildings.ruleset:888
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
@@ -15230,282 +15277,123 @@ msgstr "¥â¥À¥ó"
 msgid "PostModern"
 msgstr "¥İ¥¹¥È¥â¥À¥ó"
 
-#: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
-#: data/civ1/governments.ruleset:103 data/history/governments.ruleset:102
+#: data/default/governments.ruleset:111 data/civ2/governments.ruleset:110
+#: data/civ1/governments.ruleset:112 data/history/governments.ruleset:111
 msgid "Anarchy"
 msgstr "ÌµÀ¯ÉÜ¾õÂÖ"
 
-#: data/default/governments.ruleset:143 data/civ2/governments.ruleset:142
-#: data/civ1/governments.ruleset:144 data/history/governments.ruleset:143
+#: data/default/governments.ruleset:158 data/civ2/governments.ruleset:157
+#: data/civ1/governments.ruleset:159 data/history/governments.ruleset:158
 msgid "Mr."
 msgstr "Mr."
 
-#: data/default/governments.ruleset:144 data/civ2/governments.ruleset:143
-#: data/civ1/governments.ruleset:145 data/history/governments.ruleset:144
+#: data/default/governments.ruleset:159 data/civ2/governments.ruleset:158
+#: data/civ1/governments.ruleset:160 data/history/governments.ruleset:159
 msgid "Ms."
 msgstr "Ms."
 
-# yasu
-#: data/default/governments.ruleset:146 data/civ2/governments.ruleset:145
-#: data/civ1/governments.ruleset:147 data/history/governments.ruleset:146
+#: data/default/governments.ruleset:161
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
 "possible, rather than paying taxes or conducting research.\n"
 "\n"
-"Anarchy offers slightly less corruption than Despotism, but slightly more "
-"unhappiness.\n"
-"\n"
-"Settlers consume 1 food per turn under Anarchy.  Squares which would "
-"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
-"penalty (e.g., an irrigated grassland square which would normally yield 3 "
-"food only yields 2 food while you are in Anarchy). (This penalty is removed "
-"if the city is celebrating; see Happiness.)\n"
-"\n"
-"Under Anarchy, each of your cities can support a number of military units "
-"equal to its size without paying shields for upkeep. (Additional units "
-"require 1 production shield each.)\n"
-"\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
-"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
-"act content, and will not cause disorder.)"
+"Anarchy offers slightly less corruption than Despotism,\\ "
 msgstr ""
-"ÌµÀ¯ÉÜ¾õÂÖ¤ÏÇ§¼±¤Ç¤­¤ëÀ¯ÉÜ¤¬¤Ê¤¤¾õÂÖ¤Ç¤¹¡£»ÔÌ±¤ÏÁÈ¿¥²½¤µ¤ì¤ºÈóÀ¸»ºÅª¤Ç¡¢ÀÇ¤ò"
-"Ê§¤Ã¤¿¤ê¸¦µæ¤¹¤ë¤è¤ê¤â¤Ç¤­¤ë¤À¤±Áá¤¯¼«Ê¬¤Î¼ıÆş¤ò»È¤Ã¤Æ¤·¤Ş¤¤¤Ş¤¹¡£\n"
-"\n"
-"ÌµÀ¯ÉÜ¾õÂÖ¤ÏÀìÀ©À¯¼£¤è¤ê¤ä¤ä±ø¿¦¤Ï¾¯¤Ê¤¤¤Ç¤¹¤¬¡¢¤ä¤äÉÔ¹¬¤Ê¾õÂÖ¤ò¤â¤¿¤é¤·¤Ş"
-"¤¹¡£\n"
-"\n"
-"³«Âó¼Ô¤Ï1¥¿¡¼¥óËè¤Ë1¿©Êª¥İ¥¤¥ó¥È¤ò¾ÃÈñ¤·¤Ş¤¹¡£ÃÏ·Á¤äÅÚÃÏ²şÎÉ¤Ë¤è¤ê3¥İ¥¤¥ó¥È°Ê"
-"¾å¤Î¿©ÎÁ¤Ş¤¿¤Ï(¹©¶È)À¸»º¤Ş¤¿¤Ï¸ò°×¤ò¤â¤¿¤é¤¹ÅÚÃÏ¤Ï¡¢¤½¤Î¥İ¥¤¥ó¥È¤¬1¥İ¥¤¥ó¥È¸º"
-"¤ê¤Ş¤¹¡£(Îã¤¨¤Ğ¡¢ÉáÄÌ¤Ï¿©ÎÁ¤ò3¥İ¥¤¥ó¥ÈÀ¸»º¤¹¤ëŞõŞô¤µ¤ì¤¿Áğ¸¶¤Ï¡¢ÌµÀ¯ÉÜ¾õÂÖ¤Ç"
-"¤Ï2¥İ¥¤¥ó¥È¤·¤«À¸»º¤·¤Ş¤»¤ó¡£)(¤³¤Î¥Ú¥Ê¥ë¥Æ¥£¡¼¤ÏÅÔ»Ô¤¬½ËÅµ¤·¤Æ¤¤¤ë¤È¤Ê¤¯¤Ê¤ê"
-"¤Ş¤¹: ¹¬Ê¡»²¾È)\n"
-"\n"
-"ÌµÀ¯ÉÜ¾õÂÖ¤Ç¤Ï¡¢ÅÔ»Ô¤ÎÂç¤­¤µ¤ÈÆ±¤¸¿ô¤Î·³Ââ¤¬¡¢°İ»ı¤Î¤¿¤á¤Î¹©¶ÈÀ¸»º¥İ¥¤¥ó¥È¤ò"
-"»ÙÊ§¤¦¤³¤È¤Ê¤¯»Ù±ç¤ò¼õ¤±¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£»Ä¤ê¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1¹©¶ÈÀ¸»º¥İ"
-"¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
-"\n"
-"ÌµÀ¯ÉÜ¾õÂÖ²¼¤ÇÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³Ââ³Æ¡¹¤Ë¤Ä¤­1¿Í¤Î»Ô"
-"Ì±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éËşÂ­¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£(¤Ş¤¿¤Ï¡¢¾¯¤Ê¤¯¤È¤â¡¢ËşÂ­¤Ê¾õÂÖ¤Î¤Õ¤ê"
-"¤ò¤¹¤ë¤è¤¦¤Ë¤Ê¤ê¡¢º®Íğ¤òµ¯¤³¤µ¤Ê¤¤¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£)"
 
-#: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
-#: data/civ1/governments.ruleset:174 data/history/governments.ruleset:173
+#: data/default/governments.ruleset:188 data/civ2/governments.ruleset:187
+#: data/civ1/governments.ruleset:189 data/history/governments.ruleset:188
 msgid "Despotism"
 msgstr "ÀìÀ©À¯¼£"
 
-#: data/default/governments.ruleset:213 data/civ2/governments.ruleset:212
-#: data/civ1/governments.ruleset:214 data/history/governments.ruleset:213
+#: data/default/governments.ruleset:234 data/civ2/governments.ruleset:233
+#: data/civ1/governments.ruleset:235 data/history/governments.ruleset:234
 #: data/nation/chinese.ruleset:16
 msgid "Emperor"
 msgstr "¹ÄÄë"
 
-#: data/default/governments.ruleset:214 data/civ2/governments.ruleset:213
-#: data/civ1/governments.ruleset:215 data/history/governments.ruleset:214
+#: data/default/governments.ruleset:235 data/civ2/governments.ruleset:234
+#: data/civ1/governments.ruleset:236 data/history/governments.ruleset:235
 msgid "Empress"
 msgstr "½÷²¦"
 
-# yasu
-#: data/default/governments.ruleset:216 data/civ2/governments.ruleset:215
-#: data/history/governments.ruleset:216
+#: data/default/governments.ruleset:237
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
 "\n"
-"Despotism suffers the highest level of corruption of all forms of "
-"government.\n"
-"\n"
-"Settlers consume 1 food per turn under Despotism.  Squares which would "
-"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
-"penalty (e.g., an irrigated grassland square which would normally yield 3 "
-"food only yields 2 food while you are under Despotic rule).  (This penalty "
-"is removed if the city is celebrating; see Happiness.)\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 60%.\n"
-"\n"
-"Under Despotism, each of your cities can support a number of military units "
-"equal to its size without paying shields for upkeep.  (Additional units "
-"require 1 production shield each.)\n"
-"\n"
-"You may impose martial law under Despotism: each military unit inside a city "
-"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
-"act content, and will not cause disorder.)"
+"Despotism suffers the highest level of corruption of all\\ "
 msgstr ""
-"ÀìÀ©À¯¼£¤ÏÀäÂĞÅª·¯¼ç¤Î»ÙÇÛ¤Ç¤¹¡£ÅÔ»Ô¤Î»ÙÇÛ¤Ï¼ç¤ËÀï»şË¡¤Ç°İ»ı¤·¤Ş¤¹¡£\n"
-"\n"
-"ÀìÀ©À¯¼£¤Ï¤¹¤Ù¤Æ¤ÎÀ¯¼£ÂÎÀ©¤Î¤¦¤Á¤ÇºÇ¤â±ø¿¦¤Î¥ì¥Ù¥ë¤¬¹â¤¤¤Ç¤¹¡£\n"
-"\n"
-"³«Âó¼Ô¤Ï¥¿¡¼¥ó¤´¤È¤Ë1¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£ÃÏ·Á¤äÅÚÃÏ²şÎÉ¤Ë±ş¤¸¤Æ3ÉôÂâ"
-"°Ê¾å¤Î¿©ÎÁ¡¢(¹©¶È)À¸»º¡¢¸ò°×¤òÀ¸¤ß½Ğ¤¹ÅÚÃÏ¤Ï¤½¤ÎÀ¸¤ß½Ğ¤¹¥İ¥¤¥ó¥È¤¬1¸º¤ê¤Ş¤¹¡£"
-"(Îã¤¨¤Ğ¡¢ÉáÄÌ¤Ï¿©ÎÁ¤ò3¥İ¥¤¥ó¥È¤òÀ¸»º¤¹¤ëŞõŞô¤µ¤ì¤¿Áğ¸¶¤Ï¡¢ÀìÀ©À¯¼£¤Ç¤Ï2¥İ¥¤¥ó"
-"¥È¤·¤«À¸»º¤·¤Ş¤»¤ó¡£)(¤³¤Î¥Ú¥Ê¥ë¥Æ¥£¡¼¤ÏÅÔ»Ô¤¬½ËÅµ¤ò¤·¤Æ¤¤¤ë¤È¤Ê¤¯¤Ê¤ê¤Ş¤¹: "
-"¹¬Ê¡»²¾È)\n"
-"\n"
-"ÀÇ¡¢ìÔÂô¡¢²Ê³Ø¤ÎÈæÎ¨¤Ï¤É¤ì¤â60%¤è¤ê¹â¤¯ÀßÄê¤Ç¤­¤Ş¤»¤ó¡£\n"
-"\n"
-"ÀìÀ©À¯¼£²¼¤Ç¤Ï¡¢ÅÔ»Ô¤ÎÂç¤­¤µ¤ÈÆ±¤¸¿ô¤Î·³Ââ¤¬¡¢°İ»ı¤Î¤¿¤á¤Î(¹©¶È)À¸»º¥İ¥¤¥ó¥È"
-"¤ò»ÙÊ§¤¦¤³¤È¤Ê¤¯»Ù±ç¤ò¼õ¤±¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£»Ä¤ê¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1¹©¶ÈÀ¸»º"
-"¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
-"\n"
-"ÀìÀ©À¯¼£²¼¤ÇÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³»ö¥æ¥Ë¥Ã¥È³Æ¡¹¤Ë¤Ä¤­1"
-"¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éÉáÄÌ¤Î¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£(¤Ş¤¿¤Ï¡¢¾¯¤Ê¤¯¤È¤â¡¢ËşÂ­¤Ê¾õÂÖ"
-"¤Î¤Õ¤ê¤ò¤¹¤ë¤è¤¦¤Ë¤Ê¤ê¡¢º®Íğ¤òµ¯¤³¤µ¤Ê¤¤¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£)"
 
-#: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
-#: data/civ1/governments.ruleset:243 data/history/governments.ruleset:244
+#: data/default/governments.ruleset:265 data/civ2/governments.ruleset:264
+#: data/civ1/governments.ruleset:264 data/history/governments.ruleset:265
 #: data/default/techs.ruleset:483 data/civ2/techs.ruleset:367
 #: data/civ1/techs.ruleset:367 data/history/techs.ruleset:374
 msgid "Monarchy"
 msgstr "·¯¼çÀ©"
 
-#: data/default/governments.ruleset:284 data/civ2/governments.ruleset:283
-#: data/civ1/governments.ruleset:283 data/history/governments.ruleset:284
+#: data/default/governments.ruleset:311 data/civ2/governments.ruleset:310
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:311
 #: data/nation/croatian.ruleset:23 data/nation/dunedain.ruleset:20
 #: data/nation/polish.ruleset:18 data/nation/serbian.ruleset:20
 #: data/nation/spanish.ruleset:20
 msgid "King"
 msgstr "²¦"
 
-#: data/default/governments.ruleset:285 data/civ2/governments.ruleset:284
-#: data/civ1/governments.ruleset:284 data/history/governments.ruleset:285
+#: data/default/governments.ruleset:312 data/civ2/governments.ruleset:311
+#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:312
 #: data/nation/croatian.ruleset:23 data/nation/dunedain.ruleset:20
 #: data/nation/polish.ruleset:18 data/nation/serbian.ruleset:20
 #: data/nation/spanish.ruleset:20
 msgid "Queen"
 msgstr "½÷²¦"
 
-# yasu, ama
-#: data/default/governments.ruleset:287 data/civ2/governments.ruleset:286
-#: data/history/governments.ruleset:287
+#: data/default/governments.ruleset:314
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
 "\n"
-"Monarchy suffers the same small amount of corruption that the Republic "
-"does.\n"
-"\n"
-"Settlers consume 1 food per turn under Monarchy.\n"
-"\n"
-"If a city governed by a Monarchy is celebrating, it will receive a bonus of "
-"1 trade in each square which already produces at least 1 trade.  See "
-"Happiness for details.\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 70%.\n"
-"\n"
-"Under Monarchy, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"Monarchy suffers the same small amount of corruption that\\ "
 msgstr ""
-"·¯¼çÀ©²¼¤Ç¤Ï¡¢À¤½±¤Î²¦¤â¤·¤¯¤Ï²¦½÷¤¬Ì¾ÌÜ¾å¤ÎÆ¬¼ó¤È¤·¤Æ¼£¤á¤Ş¤¹¡£\n"
-"\n"
-"·¯¼çÀ©¤Ï¡¢¶¦ÏÂÀ©¤ÈÆ±¤¸¾®¤µ¤Ê±ø¿¦¤òÈï¤ê¤Ş¤¹¡£\n"
-"\n"
-"³«Âó¼Ô¤Ï¡¢·¯¼çÀ©²¼¤Ç¤Ï¥¿¡¼¥ó¤´¤È¤Ë¿©ÎÁ 1 ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
-"\n"
-"·¯¼çÀ©¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ï¡¢´û¤Ë1°Ê¾å¤Î¸ò°×¤¬¤¢¤ëÅÚÃÏËè¤Ë1¥İ¥¤¥ó¥È¤Î¸ò°×¥İ¥¤¥ó¥È"
-"¤¬ÄÉ²Ã¤µ¤ì¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡¤ò»²¾È¡£\n"
-"\n"
-"ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï70%¤Ç¤¹¡£\n"
-"\n"
-"·¯¼çÀ©²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤ÎÂç¤­¤µ¤Ë´Ø·¸¤Ê¤¯3¤Ä¤Î·³Ââ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ıÈñ¤È¤·"
-"¤Æ¤Î(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥ó¤Ë¤Ä¤­1"
-"(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
-"\n"
-"·¯¼çÀ©²¼¤ÇÀ©¸Â¤µ¤ì¤¿Àï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³Ââ(ºÇÂç3¤Ä¤Ş"
-"¤Ç)³Æ¡¹¤Ë¤Ä¤­°ì¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éËşÂ­¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£"
 
-#: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/default/governments.ruleset:341 data/civ2/governments.ruleset:340
+#: data/civ1/governments.ruleset:338 data/history/governments.ruleset:341
 #: data/default/techs.ruleset:179 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
 msgstr "¶¦»º¼çµÁ"
 
 # yasu
-#: data/default/governments.ruleset:354 data/default/governments.ruleset:355
-#: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
-#: data/history/governments.ruleset:354 data/history/governments.ruleset:355
+#: data/default/governments.ruleset:387 data/default/governments.ruleset:388
+#: data/civ2/governments.ruleset:386 data/civ2/governments.ruleset:387
+#: data/civ1/governments.ruleset:384 data/civ1/governments.ruleset:385
+#: data/history/governments.ruleset:387 data/history/governments.ruleset:388
 msgid "Comrade"
 msgstr "Æ±»Ö"
 
-# yasu
-#: data/default/governments.ruleset:357 data/civ2/governments.ruleset:356
-#: data/history/governments.ruleset:357
+#: data/default/governments.ruleset:390
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
 "gives a balance between military and commercial styles of government.\n"
 "\n"
-"Under Communism, corruption does not vary by distance from the capital; all "
-"cities (including the capital) have a modest amount of corruption.  In "
-"addition, Communist cities more than 10 squares away from the capital are "
-"considered to be only 10 squares away when computing the cost of inciting a "
-"revolt (see Units, Diplomat).\n"
-"\n"
-"Settlers consume 2 food per turn under Communism.\n"
-"\n"
-"If a city governed by Communism is celebrating, it will receive a bonus of 1 "
-"trade in each square which already produces at least 1 trade.  See Happiness "
-"for details.\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 80%.\n"
-"\n"
-"Diplomats and Spies created under Communism are always veterans.\n"
-"\n"
-"Under Communism, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You impose limited but efficient martial law under Communism.  Each military "
-"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
-"content."
+"Under Communism, corruption does not vary by distance from\\ "
 msgstr ""
-"¶¦»º¼çµÁÀ¯¸¢¤Ï¤¹¤Ù¤Æ¤Î¹ñÌ±¤ÎÊ¿Åù¤ò´ğÁÃ¤Ë¤·¤Æ¤¤¤Ş¤¹¡£¤¹¤Ù¤Æ¤ÎÀ¸»º¤Ï»ÔÌ±¸Ä¿Í¤Ç"
-"¤Ï¤Ê¤¯¹ñ¤Ë´óÍ¿¤·¤Ş¤¹¡£¶¦»º¼çµÁ¤ÏÀ¯ÉÜ¤Î·³¹ñ¼çµÁ¤È¾¦¶È¼çµÁ¤Î¥Ğ¥é¥ó¥¹¤ò¤â¤¿¤é¤·"
-"¤Ş¤¹¡£\n"
-"\n"
-"¶¦»º¼çµÁ¤Ç¤Ï±ø¿¦¤Ï¡¢ÅÔ»Ô¤«¤é¤Îµ÷Î¥¤Ë¤è¤Ã¤Æ¤ÏÊÑ¤ï¤ê¤Ş¤»¤ó¡£Á´¤Æ¤ÎÅÔ»Ô(¼óÅÔ¤â´Ş"
-"¤à)¤ÇÃæÅùÅÙ¤Î±ø¿¦¤¬¤¢¤ê¤Ş¤¹¡£¤µ¤é¤Ë¡¢³×Ì¿¤òµ¯¤³¤¹¥³¥¹¥È¤ò·×»»¤¹¤ë¾ì¹ç¡¢¼óÅÔ¤è"
-"¤ê11¥Ş¥¹°Ê¾å±ó¤¤ÅÔ»Ô¤Ç¤â10¥Ş¥¹¤·¤«Î¥¤ì¤Æ¤¤¤Ê¤¤¤È¤ß¤Ê¤µ¤ì¤Ş¤¹¡£ÉôÂâ¡¢³°¸ò»²"
-"¾È¡£\n"
-"\n"
-"³«Âó¼Ô¤Ï¡¢¥¿¡¼¥óËè¤Ë2¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
-"\n"
-"¶¦»º¼çµÁ²¼¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ï¡¢´û¤Ë1¥İ¥¤¥ó¥È°Ê¾å¤Î¸ò°×À¸»º¤ò¹Ô¤Ã¤Æ¤¤¤ë¥Ş¥¹¤Ï¹¹¤Ë"
-"1¥İ¥¤¥ó¥ÈÀ¸»º¤¬Áı¤¨¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡»²¾È¡£\n"
-"\n"
-"ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï80%¤Ç¤¹¡£\n"
-"\n"
-"ºî¤é¤ì¤ë³°¸ò´±¤È¥¹¥Ñ¥¤¤Ï¾ï¤Ë¥Ù¥Æ¥é¥ó¤Ç¤¹¡£\n"
-"\n"
-"¶¦»º¼çµÁ²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤Î3¤Ä¤Î·³»öÉôÂâ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ıÈñ¤È¤·¤Æ¤Î(¹©¶È)"
-"À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1(¹©¶È)À¸»º¥İ"
-"¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
-"\n"
-"¶¦»º¼çµÁ²¼¤Ç¤ÏÀ©¸Â¤µ¤ì¤Æ¤¤¤ë¤¬¸ú²ÌÅª¤ÊÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë"
-"¤¤¤ë·³»öÉôÂâ(ºÇÂç3¤Ä¤Ş¤Ç)³Æ¡¹¤Ë¤Ä¤­2¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éÉáÄÌ¤Î¾õÂÖ¤Ë¤Ê¤ê"
-"¤Ş¤¹¡£"
 
-#: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/default/governments.ruleset:425 data/civ2/governments.ruleset:510
+#: data/civ1/governments.ruleset:419 data/history/governments.ruleset:424
 msgid "Republic"
 msgstr "¶¦ÏÂÀ©"
 
-#: data/default/governments.ruleset:431 data/default/governments.ruleset:432
-#: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
-#: data/history/governments.ruleset:431 data/history/governments.ruleset:432
+#: data/default/governments.ruleset:471 data/default/governments.ruleset:472
+#: data/civ2/governments.ruleset:556 data/civ2/governments.ruleset:557
+#: data/civ1/governments.ruleset:465 data/civ1/governments.ruleset:466
+#: data/history/governments.ruleset:470 data/history/governments.ruleset:471
 msgid "Consul"
 msgstr "ÎÎ»ö"
 
 # yasu, ama
-#: data/default/governments.ruleset:434 data/civ2/governments.ruleset:513
-#: data/history/governments.ruleset:434
+#: data/default/governments.ruleset:474
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15562,17 +15450,17 @@ msgstr ""
 "ÅÔ»Ô¤Î»ÔÌ±¤Ï¡¢¹¶·âÅª¤ÊÉôÂâ¤ÎÆâ 1ÉôÂâ¤·¤«¼«Ê¬¤ÎÅÔ»Ô¤ËÂ°¤¹¤³¤È¤òµö¤·¤Ş¤»¤ó¡£¤½"
 "¤ì°Ê¾å¤Î¹¶·âÅª¤ÊÉôÂâ¤ÎÄÉ²Ã¤Ï¡¢1ÉôÂâ¤Ë¤Ä¤­»ÔÌ±1¤¬ÉÔ¹¬¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£"
 
-#: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/default/governments.ruleset:511 data/civ2/governments.ruleset:597
+#: data/civ1/governments.ruleset:503 data/history/governments.ruleset:510
 #: data/default/techs.ruleset:219 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
 msgstr "Ì±¼çÀ©"
 
-#: data/default/governments.ruleset:512 data/default/governments.ruleset:513
-#: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
-#: data/history/governments.ruleset:512 data/history/governments.ruleset:513
+#: data/default/governments.ruleset:558 data/default/governments.ruleset:559
+#: data/civ2/governments.ruleset:644 data/civ2/governments.ruleset:645
+#: data/civ1/governments.ruleset:549 data/civ1/governments.ruleset:550
+#: data/history/governments.ruleset:557 data/history/governments.ruleset:558
 #: data/nation/brazilian.ruleset:19 data/nation/catalan.ruleset:19
 #: data/nation/chilean.ruleset:21 data/nation/croatian.ruleset:24
 #: data/nation/croatian.ruleset:25 data/nation/finnish.ruleset:18
@@ -15582,14 +15470,418 @@ msgstr "Ì±¼çÀ©"
 msgid "President"
 msgstr "ÂçÅıÎÎ"
 
-# ama, yasu, clefs
-#: data/default/governments.ruleset:515 data/civ2/governments.ruleset:594
-#: data/history/governments.ruleset:515
+#: data/default/governments.ruleset:561
+msgid ""
+"Under Democracy, citizens govern directly by voting on issues. Democracy "
+"offers the highest possible level of trade, but also offers the most "
+"potential for unhappiness.  There is no corruption during Democracy, but "
+"citizens become very upset during\\ "
+msgstr ""
+
+#: data/civ2/governments.ruleset:160
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption  and waste than Despotism, but\\ "
+msgstr ""
+
+#: data/civ2/governments.ruleset:236
+msgid ""
+"Under Despotism, you are the absolute ruler of your people.  Your control "
+"over your citizens is maintained largely by martial law.\n"
+"\n"
+"Despotism suffers the highest level of corruption and waste of all\\ "
+msgstr ""
+
+#: data/civ2/governments.ruleset:313 data/history/governments.ruleset:314
+msgid ""
+"Under Monarchy, a king or queen serves as a hereditary figurehead for your "
+"government.\n"
+"\n"
+"Monarchy suffers the same small amount of corruption and waste that\\ "
+msgstr ""
+
+#: data/civ2/governments.ruleset:389 data/history/governments.ruleset:390
+msgid ""
+"A Communist government is based on the ideal that all people are equal.  All "
+"goods are owned by the state, rather than by private citizens.  Communism "
+"gives a balance between military and commercial styles of government.\n"
+"\n"
+"Under Communism, corruption and waste does not vary by distance from\\ "
+msgstr ""
+
+#: data/civ2/governments.ruleset:423 data/default/techs.ruleset:299
+#: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
+#: data/history/techs.ruleset:236
+msgid "Fundamentalism"
+msgstr "¸¶Íı¼çµÁ"
+
+# clefs
+#: data/civ2/governments.ruleset:470
+msgid "High Priest"
+msgstr "»ØÆ³¼Ô"
+
+#: data/civ2/governments.ruleset:471
+msgid "High Priestess"
+msgstr "»ØÆ³¼Ô"
+
+# clefs
+#: data/civ2/governments.ruleset:473
+#, fuzzy
+msgid ""
+"Fundamentalism is a form of government organized around a central set of "
+"beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+"for actions and reactions of both the rulers and the people.\n"
+"\n"
+"In a fundamentalist society, the people and the rulers are entirely devoted "
+"to their beliefs, and are usually willing to die to preserve them.\n"
+"\n"
+"Under Fundamentalism, your cities can support up to 10 military units "
+"without paying shields for upkeep. (Additional units require 1 production "
+"shield each. Fanatics units need no upkeep.\n"
+"\n"
+"Settlers consume 2 food per turn under Fundamentalism.\n"
+"\n"
+"If a city governed by Fundamentalism is celebrating, it will receive a bonus "
+"of 1 trade in each square which already produces at least 1 trade.  See "
+"Happiness for details.\n"
+"\n"
+"The maximum rate you can set for science, tax or luxuries is 80%.\n"
+"\n"
+"The maximum effective rate for science is 50%, the surplus is used for "
+"collecting tax, and furthermore the science production is halved.\n"
+"\n"
+"Cities under Fundamentalism suffer a small amount of corruption and waste.\n"
+"\n"
+"Improvement that normally convert unhappy citizens to content citizens, "
+"produces `tithes' (gold) equivalent to the number of people they would "
+"convert, and require no maintenance."
+msgstr ""
+"¸¶Íı¼çµÁ¤Ï¡¢²¿¤é¤«¤Î¿®¶Ä¤ò³Ë¤È¤·¤Æ·ÁÀ®¤µ¤ì¤ëÀ¯¼£·ÁÂÖ¤Ç¤¹¡£¤½¤Î¿®¶Ä¡½¡½ÂçÄñ¤Ï"
+"½¡¶µÅª¤Ê¿®¶Ä¡½¡½¤Ï¡¢»ØÆ³¼Ô¤ÈÌ±½°¤ÎÁĞÊı¤Ë¸·³Ê¤Ê¹ÔÆ°µ¬ÈÏ¤ò·ÁÀ®¤·¤Ş¤¹¡£\n"
+"\n"
+"¸¶Íı¼çµÁ²¼¤Î¼Ò²ñ¤Ç¤Ï¡¢Ì±½°¡¦»ØÆ³¼Ô¶¦¤ËÁ´¤Æ¤ò¿®¶Ä¤ËÊû¤²¤Æ¤ª¤ê¡¢¿®¶Ä¤ò¼é¤ë¤¿¤á"
+"¤Ê¤é´î¤ó¤ÇÌ¿¤òÅê¤²½Ğ¤¹¤Î¤¬ÉáÄÌ¤Ç¤¹¡£\n"
+"\n"
+"¸¶Íı¼çµÁ²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤ÎÂç¤­¤µ¤Ë´Ø·¸¤Ê¤¯10ÉôÂâ¤Î·³Ââ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ı"
+"Èñ¤È¤·¤Æ¤Î(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥ó¤Ë"
+"¤Ä¤­1(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£Ç®¶¸Ê¼¤Ï°İ»ıÈñÍÑ¤ò°ìÀÚÉ¬Í×¤È¤·¤Ş¤»¤ó¡£\n"
+"\n"
+"³«Âó¼Ô¤Ï¥¿¡¼¥óËè¤Ë2¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
+"\n"
+"¸¶Íı¼çµÁ²¼¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ç¤Ï¡¢´û¤Ë1¥İ¥¤¥ó¥È°Ê¾å¤Î¸ò°×À¸»º¤ò¹Ô¤Ã¤Æ¤¤¤ë¥Ş¥¹¤Ï¹¹"
+"¤Ë1¥İ¥¤¥ó¥ÈÀ¸»º¤¬Áı¤¨¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡»²¾È¡£\n"
+"\n"
+"ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï80%¤Ç¤¹¡£\n"
+"\n"
+"¤¿¤À¤·¡¢²Ê³ØÈæÎ¨¤Î¼Â¼Á¾å¤Î¾å¸Â¤Ï50%¤Ç¤¢¤ê¡¢¤½¤ì°Ê¾å¤ò³ä¤ê¿¶¤Ã¤¿¾ì¹ç¤ÏÍ¾¾ê¤ÏÄ§"
+"ÀÇ¤Ë½¼¤Æ¤é¤ì¤Ş¤¹¡£¤µ¤é¤Ë¡¢²Ê³Ø¤Î¸ş¾åÂ®ÅÙ¤ÏÈ¾Ê¬¤Ë¸º¤é¤µ¤ì¤Ş¤¹¡£\n"
+"\n"
+"¸¶Íı¼çµÁ²¼¤ÎÅÔ»Ô¤Ç¤Ï¼ã´³¤Î±ø¿¦¤¬¸«¤é¤ì¤Ş¤¹¡£\n"
+"\n"
+"ÄÌ¾ïÉÔ¹¬¤Ê»ÔÌ±¤òËşÂ­¤µ¤»¤ë¤Î¤ËÍÑ¤¤¤é¤ì¤ëÅÔ»Ô»ÜÀß¤Ï¡¢¤½¤Î»ÜÀß¤¬ËşÂ­¤µ¤»¤¿¤Ï¤º"
+"¤Î¿Í¸ıÃ±°Ì¤ÈÆ±¤¸³Û¤Î¡Ö½½Ê¬¤Î°ìÀÇ¡×(¸½¶â)¤ò»º¤ß½Ğ¤·¤Ş¤¹¡£°İ»ıÈñ¤ÏÉ¬Í×¤È¤·¤Ş¤»"
+"¤ó¡£"
+
+# yasu, ama
+#: data/civ2/governments.ruleset:559 data/history/governments.ruleset:473
+#, fuzzy
+msgid ""
+"Under a Republican government, citizens hold an election to select a "
+"representative who will govern them; since elected leaders must remain "
+"popular to remain in control, citizens are given a greater degree of "
+"freedom.  Citizens under the Republic become unhappy easily, but the self-"
+"sufficiency of your citizens allows high levels of trade.\n"
+"\n"
+"Cities under the Republic suffer a small amount of corruption and waste.\n"
+"\n"
+"Settlers consume 2 food per turn under the Republic.  Squares with at least "
+"1 trade resource get a trade bonus of 1 under the Republic.\n"
+"\n"
+"Republican cities which are celebrating grow at a rate of 1 citizen per "
+"turn; see Happiness for details.\n"
+"\n"
+"The maximum rate you can set for science, tax or luxuries is 80%.\n"
+"\n"
+"Under the Republic, military units require 1 production shield each for "
+"upkeep.  In addition the following units are considered aggressive units:\n"
+"\n"
+"- units with an attack strength greater than 0 which are not inside a city "
+"or inside a fortress within 3 squares of a friendly city\n"
+"\n"
+"- air units (including missiles and helicopters, but not fighters) with an "
+"attack strength greater than 0, regardless of their location\n"
+"\n"
+"The citizens of a city will tolerate 1 aggressive unit; subsequent units "
+"will generate 1 unhappy citizen each."
+msgstr ""
+"¶¦ÏÂÀ©¤Ç¤Ï¡¢¹ñ¤ò»ÙÇÛ¤¹¤ëÂåÉ½¼Ô¤òÁªµó¤ÇÁª½Ğ¤·¤Ş¤¹¡£Áª½Ğ¤µ¤ì¤¿»ØÆ³¼Ô¤ÏÀ¯¸¢¤ò°İ"
+"»ı¤¹¤ë¤¿¤á¤Ë¤ÏÌ±½°¤Î¿Íµ¤¤òÊİ¤¿¤Í¤Ğ¤Ê¤é¤Ê¤¤¤Î¤Ç¡¢»ÔÌ±¤Ï¤è¤ê¹â¤¤ÄøÅÙ¤Î¼«Í³¤ò·Ğ"
+"¸³¤·¡¢À¸»ºÀ­¤¬¾å¤¬¤ê¤Ş¤¹¡£»ÔÌ±¤ÏÍÆ°×¤ËÉÔ¹¬¤Ë¤Ê¤ê¤Ş¤¹¤¬¡¢¤½¤ÎÀ¸»ºÀ­¤Î¤¿¤á¸ò°×"
+"¤Î¥ì¥Ù¥ë¤Ï¹â¤¯¤Ê¤ê¤Ş¤¹¡£\n"
+"\n"
+"¶¦ÏÂÀ©¤ÎÅÔ»Ô¤Ç¤Ï¼ã´³¤Î±ø¿¦¤¬¸«¤é¤ì¤Ş¤¹¡£\n"
+"\n"
+"³«Âó¼Ô¤Ï¥¿¡¼¥óËè¤Ë2¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£¾¯¤Ê¤¯¤È¤â1¥İ¥¤¥ó¥È¤Î¸ò°×¤¬¤¢"
+"¤ëÅÚÃÏ¤Ï¤â¤¦1¥İ¥¤¥ó¥È¸ò°×¤¬Áı¤¨¤Ş¤¹¡£\n"
+"\n"
+"½ËÅµ¤¬¹Ô¤Ê¤ï¤ì¤Æ¤¤¤ë¶¦ÏÂ¹ñ¤ÎÅÔ»Ô¤Ï¡¢1¥¿¡¼¥óËè¤Ë1¿Í¸ı¤¬Áı¤¨¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ"
+"¤Ï¹¬Ê¡¤ò»²¾È¡£\n"
+"\n"
+"ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï80%¤Ç¤¹¡£\n"
+"\n"
+"¶¦ÏÂ¹ñ²¼¤Ç¤Ï·³Ââ¤Ï°İ»ıÈñ¤È¤·¤Æ(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤¬1É¬Í×¤Ç¤¹¡£¤½¤ì¤Ë²Ã¤¨¡¢²¼µ­"
+"¤ÎÉôÂâ¤¬¹¶·âÅª¤ÊÉôÂâ¤È¤ß¤Ê¤µ¤ì¤Ş¤¹:\n"
+"\n"
+"- ¹¶·âÎÏ¤¬0¤Ç¤Ê¤¯¡¢ÅÔ»ÔÆâ¤Ë¤¤¤Ê¤¤¤«¡¢Í§¹¥ÅÔ»Ô¤è¤ê3¥Ş¥¹°ÊÆâ¤ÎÍ×ºÉÆâ¤Ë¤¤¤Ê¤¤Éô"
+"Ââ\n"
+"\n"
+"- °ÌÃÖ¤Ë¤Ï´Ø·¸¤Ê¤¯¡¢¹¶·âÎÏ¤¬0¤è¤êÂç¤­¤¤¶õ·³(¥ß¥µ¥¤¥ë¤È¥Ø¥ê¥³¥×¥¿¡¼¤ò´Ş¤à¤¬Àï"
+"Æ®µ¡¤Ï´Ş¤Ş¤Ê¤¤)\n"
+"\n"
+"ÅÔ»Ô¤Î»ÔÌ±¤Ï¡¢¹¶·âÅª¤ÊÉôÂâ¤ÎÆâ 1ÉôÂâ¤·¤«¼«Ê¬¤ÎÅÔ»Ô¤ËÂ°¤¹¤³¤È¤òµö¤·¤Ş¤»¤ó¡£¤½"
+"¤ì°Ê¾å¤Î¹¶·âÅª¤ÊÉôÂâ¤ÎÄÉ²Ã¤Ï¡¢1ÉôÂâ¤Ë¤Ä¤­»ÔÌ±1¤¬ÉÔ¹¬¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£"
+
+#: data/civ2/governments.ruleset:647
+msgid ""
+"Under Democracy, citizens govern directly by voting on issues. Democracy "
+"offers the highest possible level of trade, but also offers the most "
+"potential for unhappiness.  There is no corruption or waste during "
+"Democracy, but citizens become very upset during\\ "
+msgstr ""
+
+# yasu
+#: data/civ1/governments.ruleset:162
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption than Despotism, but slightly more "
+"unhappiness.\n"
+"\n"
+"Settlers consume 1 food per turn under Anarchy.  Squares which would "
+"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
+"penalty (e.g., an irrigated grassland square which would normally yield 3 "
+"food only yields 2 food while you are in Anarchy). (This penalty is removed "
+"if the city is celebrating; see Happiness.)\n"
+"\n"
+"Under Anarchy, each of your cities can support a number of military units "
+"equal to its size without paying shields for upkeep. (Additional units "
+"require 1 production shield each.)\n"
+"\n"
+"You may impose martial law under Anarchy: each military unit inside a city "
+"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
+"act content, and will not cause disorder.)"
+msgstr ""
+"ÌµÀ¯ÉÜ¾õÂÖ¤ÏÇ§¼±¤Ç¤­¤ëÀ¯ÉÜ¤¬¤Ê¤¤¾õÂÖ¤Ç¤¹¡£»ÔÌ±¤ÏÁÈ¿¥²½¤µ¤ì¤ºÈóÀ¸»ºÅª¤Ç¡¢ÀÇ¤ò"
+"Ê§¤Ã¤¿¤ê¸¦µæ¤¹¤ë¤è¤ê¤â¤Ç¤­¤ë¤À¤±Áá¤¯¼«Ê¬¤Î¼ıÆş¤ò»È¤Ã¤Æ¤·¤Ş¤¤¤Ş¤¹¡£\n"
+"\n"
+"ÌµÀ¯ÉÜ¾õÂÖ¤ÏÀìÀ©À¯¼£¤è¤ê¤ä¤ä±ø¿¦¤Ï¾¯¤Ê¤¤¤Ç¤¹¤¬¡¢¤ä¤äÉÔ¹¬¤Ê¾õÂÖ¤ò¤â¤¿¤é¤·¤Ş"
+"¤¹¡£\n"
+"\n"
+"³«Âó¼Ô¤Ï1¥¿¡¼¥óËè¤Ë1¿©Êª¥İ¥¤¥ó¥È¤ò¾ÃÈñ¤·¤Ş¤¹¡£ÃÏ·Á¤äÅÚÃÏ²şÎÉ¤Ë¤è¤ê3¥İ¥¤¥ó¥È°Ê"
+"¾å¤Î¿©ÎÁ¤Ş¤¿¤Ï(¹©¶È)À¸»º¤Ş¤¿¤Ï¸ò°×¤ò¤â¤¿¤é¤¹ÅÚÃÏ¤Ï¡¢¤½¤Î¥İ¥¤¥ó¥È¤¬1¥İ¥¤¥ó¥È¸º"
+"¤ê¤Ş¤¹¡£(Îã¤¨¤Ğ¡¢ÉáÄÌ¤Ï¿©ÎÁ¤ò3¥İ¥¤¥ó¥ÈÀ¸»º¤¹¤ëŞõŞô¤µ¤ì¤¿Áğ¸¶¤Ï¡¢ÌµÀ¯ÉÜ¾õÂÖ¤Ç"
+"¤Ï2¥İ¥¤¥ó¥È¤·¤«À¸»º¤·¤Ş¤»¤ó¡£)(¤³¤Î¥Ú¥Ê¥ë¥Æ¥£¡¼¤ÏÅÔ»Ô¤¬½ËÅµ¤·¤Æ¤¤¤ë¤È¤Ê¤¯¤Ê¤ê"
+"¤Ş¤¹: ¹¬Ê¡»²¾È)\n"
+"\n"
+"ÌµÀ¯ÉÜ¾õÂÖ¤Ç¤Ï¡¢ÅÔ»Ô¤ÎÂç¤­¤µ¤ÈÆ±¤¸¿ô¤Î·³Ââ¤¬¡¢°İ»ı¤Î¤¿¤á¤Î¹©¶ÈÀ¸»º¥İ¥¤¥ó¥È¤ò"
+"»ÙÊ§¤¦¤³¤È¤Ê¤¯»Ù±ç¤ò¼õ¤±¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£»Ä¤ê¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1¹©¶ÈÀ¸»º¥İ"
+"¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
+"\n"
+"ÌµÀ¯ÉÜ¾õÂÖ²¼¤ÇÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³Ââ³Æ¡¹¤Ë¤Ä¤­1¿Í¤Î»Ô"
+"Ì±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éËşÂ­¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£(¤Ş¤¿¤Ï¡¢¾¯¤Ê¤¯¤È¤â¡¢ËşÂ­¤Ê¾õÂÖ¤Î¤Õ¤ê"
+"¤ò¤¹¤ë¤è¤¦¤Ë¤Ê¤ê¡¢º®Íğ¤òµ¯¤³¤µ¤Ê¤¤¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£)"
+
+#: data/civ1/governments.ruleset:238
+msgid ""
+"Under Despotism, you are the absolute ruler of your people.  Your control "
+"over your citizens is maintained largely by martial law.\n"
+"\n"
+"Despotism suffers the highest level of corruption of all forms of "
+"government.\n"
+"\n"
+"Settlers consume 1 food per turn under Despotism.  Squares which would "
+"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
+"penalty (e.g., an irrigated grassland square which would normally yield 3 "
+"food only yields 2 food while you are under Despotic rule).  (This penalty "
+"is removed if the city is celebrating; see Happiness.)\n"
+"\n"
+"Under Despotism, each of your cities can support a number of military units "
+"equal to its size without paying shields for upkeep.  (Additional units "
+"require 1 production shield each.)\n"
+"\n"
+"You may impose martial law under Despotism: each military unit inside a city "
+"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
+"act content, and will not cause disorder.)"
+msgstr ""
+
+#: data/civ1/governments.ruleset:313
+msgid ""
+"Under Monarchy, a king or queen serves as a hereditary figurehead for your "
+"government.\n"
+"\n"
+"Monarchy suffers the same small amount of corruption that the Republic "
+"does.\n"
+"\n"
+"Settlers consume 1 food per turn under Monarchy.\n"
+"\n"
+"If a city governed by a Monarchy is celebrating, it will receive a bonus of "
+"1 trade in each square which already produces at least 1 trade.  See "
+"Happiness for details.\n"
+"\n"
+"Under Monarchy, your cities can support up to 3 military units without "
+"paying shields for upkeep.  (Additional units require 1 production shield "
+"each.)\n"
+"\n"
+"You may impose limited martial law under Monarchy: each military unit in a "
+"city, up to a maximum of 3, will keep one unhappy citizen content."
+msgstr ""
+
+#: data/civ1/governments.ruleset:387
+msgid ""
+"A Communist government is based on the ideal that all people are equal.  All "
+"goods are owned by the state, rather than by private citizens.  Communism "
+"gives a balance between military and commercial styles of government.\n"
+"\n"
+"Under Communism, corruption does not vary by distance from the capital; all "
+"cities (including the capital) have a modest amount of corruption.  In "
+"addition, Communist cities more than 10 squares away from the capital are "
+"considered to be only 10 squares away when computing the cost of inciting a "
+"revolt (see Units, Diplomat).\n"
+"\n"
+"Settlers consume 2 food per turn under Communism.\n"
+"\n"
+"If a city governed by Communism is celebrating, it will receive a bonus of 1 "
+"trade in each square which already produces at least 1 trade.  See Happiness "
+"for details.\n"
+"\n"
+"Diplomats and Spies created under Communism are always veterans.\n"
+"\n"
+"Under Communism, your cities can support up to 3 military units without "
+"paying shields for upkeep.  (Additional units require 1 production shield "
+"each.)\n"
+"\n"
+"You impose limited but efficient martial law under Communism.  Each military "
+"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
+"content."
+msgstr ""
+
+#: data/civ1/governments.ruleset:468
+msgid ""
+"Under a Republican government, citizens hold an election to select a "
+"representative who will govern them; since elected leaders must remain "
+"popular to remain in control, citizens are given a greater degree of "
+"freedom.  Citizens under the Republic become unhappy easily, but the self-"
+"sufficiency of your citizens allows high levels of trade.\n"
+"\n"
+"Cities under the Republic suffer a small amount of corruption.\n"
+"\n"
+"Settlers consume 2 food per turn under the Republic.  Squares with at least "
+"1 trade resource get a trade bonus of 1 under the Republic.\n"
+"\n"
+"Republican cities which are celebrating grow at a rate of 1 citizen per "
+"turn; see Happiness for details.\n"
+"\n"
+"Under the Republic, military units require 1 production shield each for "
+"upkeep.  In addition the following units are considered aggressive units:\n"
+"\n"
+"- units with an attack strength greater than 0 which are not inside a city "
+"or inside a fortress within 3 squares of a friendly city\n"
+"\n"
+"- air units (including missiles and helicopters) with an attack strength "
+"greater than 0, regardless of their location\n"
+"\n"
+"The citizens of a city will tolerate 1 aggressive unit; subsequent units "
+"will generate 1 unhappy citizen each."
+msgstr ""
+
+# ama, yasu
+#: data/civ1/governments.ruleset:552
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars.\n"
+"\n"
+"Settlers consume 2 food per turn under Democracy.  Squares with at least 1 "
+"trade resource get a trade bonus of 1 under Democracy.\n"
+"\n"
+"Democratic cities which are celebrating grow at a rate of 1 citizen per "
+"turn; see Happiness for details.\n"
+"\n"
+"Under Democracy, military units require 1 production shield each for "
+"upkeep.  In addition the following units generate unhappiness:\n"
+"\n"
+"- Units with an attack strength greater than 0 which are not inside a city, "
+"or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
+"citizens.\n"
+"\n"
+"- Air units with an attack strength greater than 0 which are inside a city "
+"generate only 1 unhappy citizen.\n"
+"\n"
+"If a city remains in disorder more than 2 turns under Democratic rule, the "
+"citizens will spontaneously revolt and plunge your civilization into "
+"Anarchy.\n"
+"\n"
+"Because (happy) citizens of Democracy believe strongly in the government, "
+"their loyalty is unswerving.  Military units of Democratic civilizations "
+"cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
+"Diplomats and Spies."
+msgstr ""
+"Ì±¼çÀ©²¼¤Ç¤Ï¡¢»ÔÌ±¤¬Ä¾ÀÜÅêÉ¼¤Ë¤è¤Ã¤ÆÌäÂê¤ò·è¤á¤Ş¤¹¡£¸ò°×¤ÏºÇÂç¤Ë¤Ê¤ê¤Ş¤¹¤¬¡¢"
+"ÉÔ¹¬¤â°ú¤­µ¯¤³¤·°×¤¯¤Ê¤ê¤Ş¤¹¡£±ø¿¦¤Ï¤Ê¤¯¤Ê¤ê¤Ş¤¹¤¬¡¢»ÔÌ±¤ÏÀïÁè¤òÈó¾ï¤Ëµ¤¤Ë¤¹"
+"¤ë¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£\n"
+"\n"
+"Ì±¼çÀ©²¼¤Ç¤Ï³«Âó¼Ô¤Ï¥¿¡¼¥ó¤´¤È¤Ë¿©ÎÁ2¤ò¾ÃÈñ¤·¡¢¸ò°×»ñ¸»¤¬1°Ê¾å¤¢¤ëÅÚÃÏ¤Ç¤Ï"
+"¥Ü¡¼¥Ê¥¹¤È¤·¤Æ¤µ¤é¤Ë¸ò°×»ñ¸»1¤òÆÀ¤Ş¤¹¡£\n"
+"\n"
+"½ËÅµ¤Î¹Ô¤Ê¤ï¤ì¤Æ¤¤¤ëÌ±¼çÀ©¤ÎÅÔ»Ô¤Ï¡¢¥¿¡¼¥ó¤´¤È¤Ë»ÔÌ±1¤Î³ä¹ç¤ÇÁı¤¨¤Ş¤¹¡£¾Ü¤·¤¯"
+"¤Ï¹¬Ê¡¤Î¹à¤ò¸«¤Æ²¼¤µ¤¤¡£\n"
+"\n"
+"Ì±¼çÀ©²¼¤Ç¤Ï¡¢ÀïÆ®ÉôÂâ¤Î°İ»ı¤Ë(¹©¶È)À¸»ºÊª1¤¬É¬Í×¤Ç¤¹¡£¤µ¤é¤Ë°Ê²¼¤ÎÉôÂâ¤ÏÉÔ¹¬"
+"»ÔÌ±¤ò°ú¤­µ¯¤³¤·¤Ş¤¹:\n"
+"\n"
+"- ¹¶·âÎÏ¤¬1°Ê¾å¤ÎÉôÂâ¤¬ÅÔ»ÔÆâ¤«¡¢Í§¹¥Åª¤ÊÅÔ»Ô¤ÎÈÏ°Ï3°ÊÆâ¤ÎÍ×ºÉ¤Ë¤¤¤Ê¤¤¤Ê¤é¡¢"
+"ÉÔ¹¬»ÔÌ±2¤¬À¸¤ß½Ğ¤µ¤ì¤Ş¤¹¡£\n"
+"\n"
+"- ¹¶·âÎÏ¤¬1°Ê¾å¤Î¹Ò¶õÉôÂâ¤¬ÅÔ»ÔÆâ¤Ë¤¤¤ë¤Ê¤é¡¢ÉÔ¹¬»ÔÌ±1¤¬À¸¤ß½Ğ¤µ¤ì¤Ş¤¹¡£\n"
+"\n"
+"Ì±¼çÀ©²¼¤ÇÅÔ»Ô¤¬2¥¿¡¼¥ó°Ê¾åº®Íğ¤·¤¿¤Ş¤Ş¤Ê¤é»ÔÌ±¤Ï¾¡¼ê¤Ë³×Ì¿¤òµ¯¤³¤·¡¢Ê¸ÌÀ¤ÏÌµ"
+"À¯ÉÜ¾õÂÖ¤ØÆÍÆş¤·¤Ş¤¹¡£\n"
+"\n"
+"Ì±¼çÀ©¤Î(¹¬Ê¡¤Ê)»ÔÌ±¤ÏÀ¯ÉÜ¤ò¶¯¤¯¿®¤¸¤Æ¤¤¤ë¤Î¤Ç¡¢¤½¤ÎÃéÀ¿¿´¤ÏÊÑ¤ï¤ê¤Ş¤»¤ó¡£Ì±"
+"¼çÀ©À¯ÉÜ¤Î·³Ââ¤ÏÇã¼ı¤µ¤ì¤Ş¤»¤ó¡£Å¨³°¸ò´±¤ä¥¹¥Ñ¥¤¤ÏÅÔ»Ô¤ÎÈ¿Íğ¤ÎÀúÆ°¤Ï¤Ç¤­¤Ş¤»"
+"¤ó¡£"
+
+#: data/history/governments.ruleset:161
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption and waste than Despotism,\\ "
+msgstr ""
+
+#: data/history/governments.ruleset:237
+msgid ""
+"Under Despotism, you are the absolute ruler of your people.  Your control "
+"over your citizens is maintained largely by martial law.\n"
+"\n"
+"Despotism suffers the highest level of corruption and waste of all \\ "
+msgstr ""
+
+# ama, yasu, clefs
+#: data/history/governments.ruleset:560
+#, fuzzy
+msgid ""
+"Under Democracy, citizens govern directly by voting on issues. Democracy "
+"offers the highest possible level of trade, but also offers the most "
+"potential for unhappiness.  There is no corruption or waste during "
+"Democracy, but citizens become very upset during wars.\n"
 "\n"
 "Settlers consume 2 food per turn under Democracy.  Squares with at least 1 "
 "trade resource get a trade bonus of 1 under Democracy.\n"
@@ -15639,239 +15931,6 @@ msgstr ""
 "\n"
 "- ¹¶·âÎÏ¤¬1°Ê¾å¤Î¹Ò¶õÉôÂâ¤¬ÅÔ»ÔÆâ¤Ë¤¤¤ë¤Ê¤é¡¢ÉÔ¹¬»ÔÌ±1¤¬À¸¤ß½Ğ¤µ¤ì¤Ş¤¹¡£ÀïÆ®"
 "µ¡¤ÏÉÔ¹¬»ÔÌ±¤òºî¤ê¤Ş¤»¤ó¡£\n"
-"\n"
-"Ì±¼çÀ©²¼¤ÇÅÔ»Ô¤¬2¥¿¡¼¥ó°Ê¾åº®Íğ¤·¤¿¤Ş¤Ş¤Ê¤é»ÔÌ±¤Ï¾¡¼ê¤Ë³×Ì¿¤òµ¯¤³¤·¡¢Ê¸ÌÀ¤ÏÌµ"
-"À¯ÉÜ¾õÂÖ¤ØÆÍÆş¤·¤Ş¤¹¡£\n"
-"\n"
-"Ì±¼çÀ©¤Î(¹¬Ê¡¤Ê)»ÔÌ±¤ÏÀ¯ÉÜ¤ò¶¯¤¯¿®¤¸¤Æ¤¤¤ë¤Î¤Ç¡¢¤½¤ÎÃéÀ¿¿´¤ÏÊÑ¤ï¤ê¤Ş¤»¤ó¡£Ì±"
-"¼çÀ©À¯ÉÜ¤Î·³Ââ¤ÏÇã¼ı¤µ¤ì¤Ş¤»¤ó¡£Å¨³°¸ò´±¤ä¥¹¥Ñ¥¤¤ÏÅÔ»Ô¤ÎÈ¿Íğ¤ÎÀúÆ°¤Ï¤Ç¤­¤Ş¤»"
-"¤ó¡£"
-
-#: data/civ2/governments.ruleset:390 data/default/techs.ruleset:299
-#: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
-#: data/history/techs.ruleset:236
-msgid "Fundamentalism"
-msgstr "¸¶Íı¼çµÁ"
-
-# clefs
-#: data/civ2/governments.ruleset:431
-msgid "High Priest"
-msgstr "»ØÆ³¼Ô"
-
-#: data/civ2/governments.ruleset:432
-msgid "High Priestess"
-msgstr "»ØÆ³¼Ô"
-
-# clefs
-#: data/civ2/governments.ruleset:434
-msgid ""
-"Fundamentalism is a form of government organized around a central set of "
-"beliefs. The beliefs, usually religious in nature, form a rigid guideline "
-"for actions and reactions of both the rulers and the people.\n"
-"\n"
-"In a fundamentalist society, the people and the rulers are entirely devoted "
-"to their beliefs, and are usually willing to die to preserve them.\n"
-"\n"
-"Under Fundamentalism, your cities can support up to 10 military units "
-"without paying shields for upkeep. (Additional units require 1 production "
-"shield each. Fanatics units need no upkeep.\n"
-"\n"
-"Settlers consume 2 food per turn under Fundamentalism.\n"
-"\n"
-"If a city governed by Fundamentalism is celebrating, it will receive a bonus "
-"of 1 trade in each square which already produces at least 1 trade.  See "
-"Happiness for details.\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 80%.\n"
-"\n"
-"The maximum effective rate for science is 50%, the surplus is used for "
-"collecting tax, and furthermore the science production is halved.\n"
-"\n"
-"Cities under Fundamentalism suffer a small amount of corruption.\n"
-"\n"
-"Improvement that normally convert unhappy citizens to content citizens, "
-"produces `tithes' (gold) equivalent to the number of people they would "
-"convert, and require no maintenance."
-msgstr ""
-"¸¶Íı¼çµÁ¤Ï¡¢²¿¤é¤«¤Î¿®¶Ä¤ò³Ë¤È¤·¤Æ·ÁÀ®¤µ¤ì¤ëÀ¯¼£·ÁÂÖ¤Ç¤¹¡£¤½¤Î¿®¶Ä¡½¡½ÂçÄñ¤Ï"
-"½¡¶µÅª¤Ê¿®¶Ä¡½¡½¤Ï¡¢»ØÆ³¼Ô¤ÈÌ±½°¤ÎÁĞÊı¤Ë¸·³Ê¤Ê¹ÔÆ°µ¬ÈÏ¤ò·ÁÀ®¤·¤Ş¤¹¡£\n"
-"\n"
-"¸¶Íı¼çµÁ²¼¤Î¼Ò²ñ¤Ç¤Ï¡¢Ì±½°¡¦»ØÆ³¼Ô¶¦¤ËÁ´¤Æ¤ò¿®¶Ä¤ËÊû¤²¤Æ¤ª¤ê¡¢¿®¶Ä¤ò¼é¤ë¤¿¤á"
-"¤Ê¤é´î¤ó¤ÇÌ¿¤òÅê¤²½Ğ¤¹¤Î¤¬ÉáÄÌ¤Ç¤¹¡£\n"
-"\n"
-"¸¶Íı¼çµÁ²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤ÎÂç¤­¤µ¤Ë´Ø·¸¤Ê¤¯10ÉôÂâ¤Î·³Ââ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ı"
-"Èñ¤È¤·¤Æ¤Î(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥ó¤Ë"
-"¤Ä¤­1(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£Ç®¶¸Ê¼¤Ï°İ»ıÈñÍÑ¤ò°ìÀÚÉ¬Í×¤È¤·¤Ş¤»¤ó¡£\n"
-"\n"
-"³«Âó¼Ô¤Ï¥¿¡¼¥óËè¤Ë2¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
-"\n"
-"¸¶Íı¼çµÁ²¼¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ç¤Ï¡¢´û¤Ë1¥İ¥¤¥ó¥È°Ê¾å¤Î¸ò°×À¸»º¤ò¹Ô¤Ã¤Æ¤¤¤ë¥Ş¥¹¤Ï¹¹"
-"¤Ë1¥İ¥¤¥ó¥ÈÀ¸»º¤¬Áı¤¨¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡»²¾È¡£\n"
-"\n"
-"ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï80%¤Ç¤¹¡£\n"
-"\n"
-"¤¿¤À¤·¡¢²Ê³ØÈæÎ¨¤Î¼Â¼Á¾å¤Î¾å¸Â¤Ï50%¤Ç¤¢¤ê¡¢¤½¤ì°Ê¾å¤ò³ä¤ê¿¶¤Ã¤¿¾ì¹ç¤ÏÍ¾¾ê¤ÏÄ§"
-"ÀÇ¤Ë½¼¤Æ¤é¤ì¤Ş¤¹¡£¤µ¤é¤Ë¡¢²Ê³Ø¤Î¸ş¾åÂ®ÅÙ¤ÏÈ¾Ê¬¤Ë¸º¤é¤µ¤ì¤Ş¤¹¡£\n"
-"\n"
-"¸¶Íı¼çµÁ²¼¤ÎÅÔ»Ô¤Ç¤Ï¼ã´³¤Î±ø¿¦¤¬¸«¤é¤ì¤Ş¤¹¡£\n"
-"\n"
-"ÄÌ¾ïÉÔ¹¬¤Ê»ÔÌ±¤òËşÂ­¤µ¤»¤ë¤Î¤ËÍÑ¤¤¤é¤ì¤ëÅÔ»Ô»ÜÀß¤Ï¡¢¤½¤Î»ÜÀß¤¬ËşÂ­¤µ¤»¤¿¤Ï¤º"
-"¤Î¿Í¸ıÃ±°Ì¤ÈÆ±¤¸³Û¤Î¡Ö½½Ê¬¤Î°ìÀÇ¡×(¸½¶â)¤ò»º¤ß½Ğ¤·¤Ş¤¹¡£°İ»ıÈñ¤ÏÉ¬Í×¤È¤·¤Ş¤»"
-"¤ó¡£"
-
-#: data/civ1/governments.ruleset:217
-msgid ""
-"Under Despotism, you are the absolute ruler of your people.  Your control "
-"over your citizens is maintained largely by martial law.\n"
-"\n"
-"Despotism suffers the highest level of corruption of all forms of "
-"government.\n"
-"\n"
-"Settlers consume 1 food per turn under Despotism.  Squares which would "
-"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
-"penalty (e.g., an irrigated grassland square which would normally yield 3 "
-"food only yields 2 food while you are under Despotic rule).  (This penalty "
-"is removed if the city is celebrating; see Happiness.)\n"
-"\n"
-"Under Despotism, each of your cities can support a number of military units "
-"equal to its size without paying shields for upkeep.  (Additional units "
-"require 1 production shield each.)\n"
-"\n"
-"You may impose martial law under Despotism: each military unit inside a city "
-"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
-"act content, and will not cause disorder.)"
-msgstr ""
-
-#: data/civ1/governments.ruleset:286
-msgid ""
-"Under Monarchy, a king or queen serves as a hereditary figurehead for your "
-"government.\n"
-"\n"
-"Monarchy suffers the same small amount of corruption that the Republic "
-"does.\n"
-"\n"
-"Settlers consume 1 food per turn under Monarchy.\n"
-"\n"
-"If a city governed by a Monarchy is celebrating, it will receive a bonus of "
-"1 trade in each square which already produces at least 1 trade.  See "
-"Happiness for details.\n"
-"\n"
-"Under Monarchy, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
-msgstr ""
-
-#: data/civ1/governments.ruleset:354
-msgid ""
-"A Communist government is based on the ideal that all people are equal.  All "
-"goods are owned by the state, rather than by private citizens.  Communism "
-"gives a balance between military and commercial styles of government.\n"
-"\n"
-"Under Communism, corruption does not vary by distance from the capital; all "
-"cities (including the capital) have a modest amount of corruption.  In "
-"addition, Communist cities more than 10 squares away from the capital are "
-"considered to be only 10 squares away when computing the cost of inciting a "
-"revolt (see Units, Diplomat).\n"
-"\n"
-"Settlers consume 2 food per turn under Communism.\n"
-"\n"
-"If a city governed by Communism is celebrating, it will receive a bonus of 1 "
-"trade in each square which already produces at least 1 trade.  See Happiness "
-"for details.\n"
-"\n"
-"Diplomats and Spies created under Communism are always veterans.\n"
-"\n"
-"Under Communism, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You impose limited but efficient martial law under Communism.  Each military "
-"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
-"content."
-msgstr ""
-
-#: data/civ1/governments.ruleset:429
-msgid ""
-"Under a Republican government, citizens hold an election to select a "
-"representative who will govern them; since elected leaders must remain "
-"popular to remain in control, citizens are given a greater degree of "
-"freedom.  Citizens under the Republic become unhappy easily, but the self-"
-"sufficiency of your citizens allows high levels of trade.\n"
-"\n"
-"Cities under the Republic suffer a small amount of corruption.\n"
-"\n"
-"Settlers consume 2 food per turn under the Republic.  Squares with at least "
-"1 trade resource get a trade bonus of 1 under the Republic.\n"
-"\n"
-"Republican cities which are celebrating grow at a rate of 1 citizen per "
-"turn; see Happiness for details.\n"
-"\n"
-"Under the Republic, military units require 1 production shield each for "
-"upkeep.  In addition the following units are considered aggressive units:\n"
-"\n"
-"- units with an attack strength greater than 0 which are not inside a city "
-"or inside a fortress within 3 squares of a friendly city\n"
-"\n"
-"- air units (including missiles and helicopters) with an attack strength "
-"greater than 0, regardless of their location\n"
-"\n"
-"The citizens of a city will tolerate 1 aggressive unit; subsequent units "
-"will generate 1 unhappy citizen each."
-msgstr ""
-
-# ama, yasu
-#: data/civ1/governments.ruleset:507
-msgid ""
-"Under Democracy, citizens govern directly by voting on issues. Democracy "
-"offers the highest possible level of trade, but also offers the most "
-"potential for unhappiness.  There is no corruption during Democracy, but "
-"citizens become very upset during wars.\n"
-"\n"
-"Settlers consume 2 food per turn under Democracy.  Squares with at least 1 "
-"trade resource get a trade bonus of 1 under Democracy.\n"
-"\n"
-"Democratic cities which are celebrating grow at a rate of 1 citizen per "
-"turn; see Happiness for details.\n"
-"\n"
-"Under Democracy, military units require 1 production shield each for "
-"upkeep.  In addition the following units generate unhappiness:\n"
-"\n"
-"- Units with an attack strength greater than 0 which are not inside a city, "
-"or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
-"citizens.\n"
-"\n"
-"- Air units with an attack strength greater than 0 which are inside a city "
-"generate only 1 unhappy citizen.\n"
-"\n"
-"If a city remains in disorder more than 2 turns under Democratic rule, the "
-"citizens will spontaneously revolt and plunge your civilization into "
-"Anarchy.\n"
-"\n"
-"Because (happy) citizens of Democracy believe strongly in the government, "
-"their loyalty is unswerving.  Military units of Democratic civilizations "
-"cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
-"Diplomats and Spies."
-msgstr ""
-"Ì±¼çÀ©²¼¤Ç¤Ï¡¢»ÔÌ±¤¬Ä¾ÀÜÅêÉ¼¤Ë¤è¤Ã¤ÆÌäÂê¤ò·è¤á¤Ş¤¹¡£¸ò°×¤ÏºÇÂç¤Ë¤Ê¤ê¤Ş¤¹¤¬¡¢"
-"ÉÔ¹¬¤â°ú¤­µ¯¤³¤·°×¤¯¤Ê¤ê¤Ş¤¹¡£±ø¿¦¤Ï¤Ê¤¯¤Ê¤ê¤Ş¤¹¤¬¡¢»ÔÌ±¤ÏÀïÁè¤òÈó¾ï¤Ëµ¤¤Ë¤¹"
-"¤ë¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£\n"
-"\n"
-"Ì±¼çÀ©²¼¤Ç¤Ï³«Âó¼Ô¤Ï¥¿¡¼¥ó¤´¤È¤Ë¿©ÎÁ2¤ò¾ÃÈñ¤·¡¢¸ò°×»ñ¸»¤¬1°Ê¾å¤¢¤ëÅÚÃÏ¤Ç¤Ï"
-"¥Ü¡¼¥Ê¥¹¤È¤·¤Æ¤µ¤é¤Ë¸ò°×»ñ¸»1¤òÆÀ¤Ş¤¹¡£\n"
-"\n"
-"½ËÅµ¤Î¹Ô¤Ê¤ï¤ì¤Æ¤¤¤ëÌ±¼çÀ©¤ÎÅÔ»Ô¤Ï¡¢¥¿¡¼¥ó¤´¤È¤Ë»ÔÌ±1¤Î³ä¹ç¤ÇÁı¤¨¤Ş¤¹¡£¾Ü¤·¤¯"
-"¤Ï¹¬Ê¡¤Î¹à¤ò¸«¤Æ²¼¤µ¤¤¡£\n"
-"\n"
-"Ì±¼çÀ©²¼¤Ç¤Ï¡¢ÀïÆ®ÉôÂâ¤Î°İ»ı¤Ë(¹©¶È)À¸»ºÊª1¤¬É¬Í×¤Ç¤¹¡£¤µ¤é¤Ë°Ê²¼¤ÎÉôÂâ¤ÏÉÔ¹¬"
-"»ÔÌ±¤ò°ú¤­µ¯¤³¤·¤Ş¤¹:\n"
-"\n"
-"- ¹¶·âÎÏ¤¬1°Ê¾å¤ÎÉôÂâ¤¬ÅÔ»ÔÆâ¤«¡¢Í§¹¥Åª¤ÊÅÔ»Ô¤ÎÈÏ°Ï3°ÊÆâ¤ÎÍ×ºÉ¤Ë¤¤¤Ê¤¤¤Ê¤é¡¢"
-"ÉÔ¹¬»ÔÌ±2¤¬À¸¤ß½Ğ¤µ¤ì¤Ş¤¹¡£\n"
-"\n"
-"- ¹¶·âÎÏ¤¬1°Ê¾å¤Î¹Ò¶õÉôÂâ¤¬ÅÔ»ÔÆâ¤Ë¤¤¤ë¤Ê¤é¡¢ÉÔ¹¬»ÔÌ±1¤¬À¸¤ß½Ğ¤µ¤ì¤Ş¤¹¡£\n"
 "\n"
 "Ì±¼çÀ©²¼¤ÇÅÔ»Ô¤¬2¥¿¡¼¥ó°Ê¾åº®Íğ¤·¤¿¤Ş¤Ş¤Ê¤é»ÔÌ±¤Ï¾¡¼ê¤Ë³×Ì¿¤òµ¯¤³¤·¡¢Ê¸ÌÀ¤ÏÌµ"
 "À¯ÉÜ¾õÂÖ¤ØÆÍÆş¤·¤Ş¤¹¡£\n"
@@ -16557,7 +16616,8 @@ msgstr "¥¢¥¶¥é¥·"
 msgid ""
 "Arctic squares are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
-msgstr "¶ËÃÏ¤ÏÀ¤³¦¤ÎºÇËÌÉô¤ÈºÇÆîÉô¤Ë¤Î¤ßÂ¸ºß¤·¤Ş¤¹¡£¤È¤Æ¤â´¨¤¤¤Î¤ÇÆ¯¤¯¤Î¤¬ÂçÊÑ¤Ç¤¹¡£"
+msgstr ""
+"¶ËÃÏ¤ÏÀ¤³¦¤ÎºÇËÌÉô¤ÈºÇÆîÉô¤Ë¤Î¤ßÂ¸ºß¤·¤Ş¤¹¡£¤È¤Æ¤â´¨¤¤¤Î¤ÇÆ¯¤¯¤Î¤¬ÂçÊÑ¤Ç¤¹¡£"
 
 #: data/civ1/terrain.ruleset:442
 msgid "Horses"
@@ -18303,6 +18363,148 @@ msgid ""
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
 
+# yasu
+#~ msgid ""
+#~ "Under Despotism, you are the absolute ruler of your people.  Your control "
+#~ "over your citizens is maintained largely by martial law.\n"
+#~ "\n"
+#~ "Despotism suffers the highest level of corruption of all forms of "
+#~ "government.\n"
+#~ "\n"
+#~ "Settlers consume 1 food per turn under Despotism.  Squares which would "
+#~ "normally yield more than 2 units of food, shields or trade suffer a 1-"
+#~ "unit penalty (e.g., an irrigated grassland square which would normally "
+#~ "yield 3 food only yields 2 food while you are under Despotic rule).  "
+#~ "(This penalty is removed if the city is celebrating; see Happiness.)\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 60%.\n"
+#~ "\n"
+#~ "Under Despotism, each of your cities can support a number of military "
+#~ "units equal to its size without paying shields for upkeep.  (Additional "
+#~ "units require 1 production shield each.)\n"
+#~ "\n"
+#~ "You may impose martial law under Despotism: each military unit inside a "
+#~ "city will keep one unhappy citizen content.  (Or at least, unhappy "
+#~ "citizens will act content, and will not cause disorder.)"
+#~ msgstr ""
+#~ "ÀìÀ©À¯¼£¤ÏÀäÂĞÅª·¯¼ç¤Î»ÙÇÛ¤Ç¤¹¡£ÅÔ»Ô¤Î»ÙÇÛ¤Ï¼ç¤ËÀï»şË¡¤Ç°İ»ı¤·¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "ÀìÀ©À¯¼£¤Ï¤¹¤Ù¤Æ¤ÎÀ¯¼£ÂÎÀ©¤Î¤¦¤Á¤ÇºÇ¤â±ø¿¦¤Î¥ì¥Ù¥ë¤¬¹â¤¤¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "³«Âó¼Ô¤Ï¥¿¡¼¥ó¤´¤È¤Ë1¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£ÃÏ·Á¤äÅÚÃÏ²şÎÉ¤Ë±ş¤¸¤Æ3Éô"
+#~ "Ââ°Ê¾å¤Î¿©ÎÁ¡¢(¹©¶È)À¸»º¡¢¸ò°×¤òÀ¸¤ß½Ğ¤¹ÅÚÃÏ¤Ï¤½¤ÎÀ¸¤ß½Ğ¤¹¥İ¥¤¥ó¥È¤¬1¸º¤ê"
+#~ "¤Ş¤¹¡£(Îã¤¨¤Ğ¡¢ÉáÄÌ¤Ï¿©ÎÁ¤ò3¥İ¥¤¥ó¥È¤òÀ¸»º¤¹¤ëŞõŞô¤µ¤ì¤¿Áğ¸¶¤Ï¡¢ÀìÀ©À¯¼£¤Ç"
+#~ "¤Ï2¥İ¥¤¥ó¥È¤·¤«À¸»º¤·¤Ş¤»¤ó¡£)(¤³¤Î¥Ú¥Ê¥ë¥Æ¥£¡¼¤ÏÅÔ»Ô¤¬½ËÅµ¤ò¤·¤Æ¤¤¤ë¤È¤Ê"
+#~ "¤¯¤Ê¤ê¤Ş¤¹: ¹¬Ê¡»²¾È)\n"
+#~ "\n"
+#~ "ÀÇ¡¢ìÔÂô¡¢²Ê³Ø¤ÎÈæÎ¨¤Ï¤É¤ì¤â60%¤è¤ê¹â¤¯ÀßÄê¤Ç¤­¤Ş¤»¤ó¡£\n"
+#~ "\n"
+#~ "ÀìÀ©À¯¼£²¼¤Ç¤Ï¡¢ÅÔ»Ô¤ÎÂç¤­¤µ¤ÈÆ±¤¸¿ô¤Î·³Ââ¤¬¡¢°İ»ı¤Î¤¿¤á¤Î(¹©¶È)À¸»º¥İ¥¤¥ó"
+#~ "¥È¤ò»ÙÊ§¤¦¤³¤È¤Ê¤¯»Ù±ç¤ò¼õ¤±¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£»Ä¤ê¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1¹©¶È"
+#~ "À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "ÀìÀ©À¯¼£²¼¤ÇÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³»ö¥æ¥Ë¥Ã¥È³Æ¡¹¤Ë¤Ä"
+#~ "¤­1¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éÉáÄÌ¤Î¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£(¤Ş¤¿¤Ï¡¢¾¯¤Ê¤¯¤È¤â¡¢ËşÂ­"
+#~ "¤Ê¾õÂÖ¤Î¤Õ¤ê¤ò¤¹¤ë¤è¤¦¤Ë¤Ê¤ê¡¢º®Íğ¤òµ¯¤³¤µ¤Ê¤¤¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£)"
+
+# yasu, ama
+#~ msgid ""
+#~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
+#~ "your government.\n"
+#~ "\n"
+#~ "Monarchy suffers the same small amount of corruption that the Republic "
+#~ "does.\n"
+#~ "\n"
+#~ "Settlers consume 1 food per turn under Monarchy.\n"
+#~ "\n"
+#~ "If a city governed by a Monarchy is celebrating, it will receive a bonus "
+#~ "of 1 trade in each square which already produces at least 1 trade.  See "
+#~ "Happiness for details.\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 70%.\n"
+#~ "\n"
+#~ "Under Monarchy, your cities can support up to 3 military units without "
+#~ "paying shields for upkeep.  (Additional units require 1 production shield "
+#~ "each.)\n"
+#~ "\n"
+#~ "You may impose limited martial law under Monarchy: each military unit in "
+#~ "a city, up to a maximum of 3, will keep one unhappy citizen content."
+#~ msgstr ""
+#~ "·¯¼çÀ©²¼¤Ç¤Ï¡¢À¤½±¤Î²¦¤â¤·¤¯¤Ï²¦½÷¤¬Ì¾ÌÜ¾å¤ÎÆ¬¼ó¤È¤·¤Æ¼£¤á¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "·¯¼çÀ©¤Ï¡¢¶¦ÏÂÀ©¤ÈÆ±¤¸¾®¤µ¤Ê±ø¿¦¤òÈï¤ê¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "³«Âó¼Ô¤Ï¡¢·¯¼çÀ©²¼¤Ç¤Ï¥¿¡¼¥ó¤´¤È¤Ë¿©ÎÁ 1 ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "·¯¼çÀ©¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ï¡¢´û¤Ë1°Ê¾å¤Î¸ò°×¤¬¤¢¤ëÅÚÃÏËè¤Ë1¥İ¥¤¥ó¥È¤Î¸ò°×¥İ¥¤¥ó"
+#~ "¥È¤¬ÄÉ²Ã¤µ¤ì¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡¤ò»²¾È¡£\n"
+#~ "\n"
+#~ "ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï70%¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "·¯¼çÀ©²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤ÎÂç¤­¤µ¤Ë´Ø·¸¤Ê¤¯3¤Ä¤Î·³Ââ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ıÈñ"
+#~ "¤È¤·¤Æ¤Î(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥ó"
+#~ "¤Ë¤Ä¤­1(¹©¶È)À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "·¯¼çÀ©²¼¤ÇÀ©¸Â¤µ¤ì¤¿Àï»şË¡¤ò²İ¤¹¤ë¤³¤È¤â¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ¤Ë¤¤¤ë·³Ââ(ºÇÂç3¤Ä"
+#~ "¤Ş¤Ç)³Æ¡¹¤Ë¤Ä¤­°ì¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éËşÂ­¤Ê¾õÂÖ¤Ë¤Ê¤ê¤Ş¤¹¡£"
+
+# yasu
+#~ msgid ""
+#~ "A Communist government is based on the ideal that all people are equal.  "
+#~ "All goods are owned by the state, rather than by private citizens.  "
+#~ "Communism gives a balance between military and commercial styles of "
+#~ "government.\n"
+#~ "\n"
+#~ "Under Communism, corruption does not vary by distance from the capital; "
+#~ "all cities (including the capital) have a modest amount of corruption.  "
+#~ "In addition, Communist cities more than 10 squares away from the capital "
+#~ "are considered to be only 10 squares away when computing the cost of "
+#~ "inciting a revolt (see Units, Diplomat).\n"
+#~ "\n"
+#~ "Settlers consume 2 food per turn under Communism.\n"
+#~ "\n"
+#~ "If a city governed by Communism is celebrating, it will receive a bonus "
+#~ "of 1 trade in each square which already produces at least 1 trade.  See "
+#~ "Happiness for details.\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
+#~ "\n"
+#~ "Diplomats and Spies created under Communism are always veterans.\n"
+#~ "\n"
+#~ "Under Communism, your cities can support up to 3 military units without "
+#~ "paying shields for upkeep.  (Additional units require 1 production shield "
+#~ "each.)\n"
+#~ "\n"
+#~ "You impose limited but efficient martial law under Communism.  Each "
+#~ "military unit inside a city, up to a maximum of 3, will keep 2 unhappy "
+#~ "citizens content."
+#~ msgstr ""
+#~ "¶¦»º¼çµÁÀ¯¸¢¤Ï¤¹¤Ù¤Æ¤Î¹ñÌ±¤ÎÊ¿Åù¤ò´ğÁÃ¤Ë¤·¤Æ¤¤¤Ş¤¹¡£¤¹¤Ù¤Æ¤ÎÀ¸»º¤Ï»ÔÌ±¸Ä¿Í"
+#~ "¤Ç¤Ï¤Ê¤¯¹ñ¤Ë´óÍ¿¤·¤Ş¤¹¡£¶¦»º¼çµÁ¤ÏÀ¯ÉÜ¤Î·³¹ñ¼çµÁ¤È¾¦¶È¼çµÁ¤Î¥Ğ¥é¥ó¥¹¤ò¤â¤¿"
+#~ "¤é¤·¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "¶¦»º¼çµÁ¤Ç¤Ï±ø¿¦¤Ï¡¢ÅÔ»Ô¤«¤é¤Îµ÷Î¥¤Ë¤è¤Ã¤Æ¤ÏÊÑ¤ï¤ê¤Ş¤»¤ó¡£Á´¤Æ¤ÎÅÔ»Ô(¼óÅÔ"
+#~ "¤â´Ş¤à)¤ÇÃæÅùÅÙ¤Î±ø¿¦¤¬¤¢¤ê¤Ş¤¹¡£¤µ¤é¤Ë¡¢³×Ì¿¤òµ¯¤³¤¹¥³¥¹¥È¤ò·×»»¤¹¤ë¾ì"
+#~ "¹ç¡¢¼óÅÔ¤è¤ê11¥Ş¥¹°Ê¾å±ó¤¤ÅÔ»Ô¤Ç¤â10¥Ş¥¹¤·¤«Î¥¤ì¤Æ¤¤¤Ê¤¤¤È¤ß¤Ê¤µ¤ì¤Ş¤¹¡£Éô"
+#~ "Ââ¡¢³°¸ò»²¾È¡£\n"
+#~ "\n"
+#~ "³«Âó¼Ô¤Ï¡¢¥¿¡¼¥óËè¤Ë2¥İ¥¤¥ó¥È¤Î¿©ÎÁ¤ò¾ÃÈñ¤·¤Ş¤¹¡£\n"
+#~ "\n"
+#~ "¶¦»º¼çµÁ²¼¤Ç½ËÅµÃæ¤ÎÅÔ»Ô¤Ï¡¢´û¤Ë1¥İ¥¤¥ó¥È°Ê¾å¤Î¸ò°×À¸»º¤ò¹Ô¤Ã¤Æ¤¤¤ë¥Ş¥¹¤Ï"
+#~ "¹¹¤Ë1¥İ¥¤¥ó¥ÈÀ¸»º¤¬Áı¤¨¤Ş¤¹¡£¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï¹¬Ê¡»²¾È¡£\n"
+#~ "\n"
+#~ "ÀÇ¡¦ìÔÂô¡¦²Ê³ØÈæÎ¨¤Î¾å¸Â¤Ï80%¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "ºî¤é¤ì¤ë³°¸ò´±¤È¥¹¥Ñ¥¤¤Ï¾ï¤Ë¥Ù¥Æ¥é¥ó¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "¶¦»º¼çµÁ²¼¤Ç¤Ï³ÆÅÔ»Ô¤ÏÅÔ»Ô¤Î3¤Ä¤Î·³»öÉôÂâ¤ò¥µ¥İ¡¼¥È¤Ç¤­¡¢°İ»ıÈñ¤È¤·¤Æ¤Î(¹©"
+#~ "¶È)À¸»º¥İ¥¤¥ó¥È¤òÊ§¤¦É¬Í×¤â¤¢¤ê¤Ş¤»¤ó¡£¤½¤ì°Ê¾å¤ÎÉôÂâ¤Ï1¥¿¡¼¥óËè¤Ë1(¹©¶È)"
+#~ "À¸»º¥İ¥¤¥ó¥È¤¬É¬Í×¤Ç¤¹¡£\n"
+#~ "\n"
+#~ "¶¦»º¼çµÁ²¼¤Ç¤ÏÀ©¸Â¤µ¤ì¤Æ¤¤¤ë¤¬¸ú²ÌÅª¤ÊÀï»şË¡¤ò²İ¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£ÅÔ»ÔÆâ"
+#~ "¤Ë¤¤¤ë·³»öÉôÂâ(ºÇÂç3¤Ä¤Ş¤Ç)³Æ¡¹¤Ë¤Ä¤­2¿Í¤Î»ÔÌ±¤¬ÉÔ¹¬¤Ê¾õÂÖ¤«¤éÉáÄÌ¤Î¾õÂÖ¤Ë"
+#~ "¤Ê¤ê¤Ş¤¹¡£"
+
 #~ msgid ""
 #~ " - If the defender is an AEGIS Cruiser defending against airborne units "
 #~ "(including missiles and Helicopters), the defense is quintupled."
@@ -18423,6 +18625,3 @@ msgstr ""
 
 #~ msgid "Argh! ran out of nations!"
 #~ msgstr "¤¢¤¡! Ì±Â²¤¬¿Ô¤­¤¿!"
-
-#~ msgid "Game: "
-#~ msgstr "Game: "
