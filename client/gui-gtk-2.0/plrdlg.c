@@ -599,7 +599,7 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
   GtkTreeModel *model;
   GtkTreeIter it;
 
-  if (!gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
     gint plrno;
 
     gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
