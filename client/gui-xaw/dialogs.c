@@ -217,10 +217,11 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 			  XtNlabel, lines,
 			  NULL);   
 
-  notify_command = XtVaCreateManagedWidget("notifycommand", 
-					   commandWidgetClass,
-					   notify_form,
-					   NULL);
+  notify_command =
+    I_L(XtVaCreateManagedWidget("notifycommand", 
+				commandWidgetClass,
+				notify_form,
+				NULL));
 
   XtVaGetValues(notify_label, XtNwidth, &width, NULL);
   XtVaGetValues(notify_headline, XtNwidth, &width2, NULL);
@@ -342,15 +343,17 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 			  XtNlabel, lines,
 			  NULL);   
 
-  notify_command = XtVaCreateManagedWidget("notifycommand", 
-					   commandWidgetClass,
-					   notify_form,
-					   NULL);
+  notify_command =
+    I_L(XtVaCreateManagedWidget("notifycommand", 
+				commandWidgetClass,
+				notify_form,
+				NULL));
 
-  notify_goto_command = XtVaCreateManagedWidget("notifygotocommand", 
-					   commandWidgetClass,
-					   notify_form,
-					   NULL);
+  notify_goto_command =
+    I_L(XtVaCreateManagedWidget("notifygotocommand", 
+				commandWidgetClass,
+				notify_form,
+				NULL));
   
   XtVaGetValues(notify_label, XtNwidth, &width, NULL);
   XtVaGetValues(notify_headline, XtNwidth, &width2, NULL);
