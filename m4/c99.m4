@@ -4,7 +4,7 @@
 #
 #  #define PRINTF(msg, ...) (printf(msg, __VA_ARGS__)
 #
-AC_DEFUN(FC_VARIADIC_MACROS,
+AC_DEFUN([FC_VARIADIC_MACROS],
 [
   dnl Check for variadic macros
   AC_CACHE_CHECK([for C99 variadic macros],
@@ -27,7 +27,7 @@ AC_DEFUN(FC_VARIADIC_MACROS,
 #
 #   char concat_str[strlen(s1) + strlen(s2) + 1];
 #
-AC_DEFUN(FC_VARIABLE_ARRAYS,
+AC_DEFUN([FC_VARIABLE_ARRAYS],
 [
   dnl Check for variable arrays
   AC_CACHE_CHECK([for C99 variable arrays],

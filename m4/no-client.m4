@@ -6,7 +6,7 @@
 # message including $2.  If this wasn't the specified client, it will do
 # nothing and configure should continue...
 
-AC_DEFUN(FC_NO_CLIENT,
+AC_DEFUN([FC_NO_CLIENT],
 [
   if test "$client" = "$1"; then
     AC_MSG_ERROR([specified client '$1' not configurable ($2)])

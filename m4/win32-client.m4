@@ -3,7 +3,7 @@
 # FC_WIN32_CLIENT
 # Test for Win32 and needed libraries for gui-win32
 
-AC_DEFUN(FC_WIN32_CLIENT,
+AC_DEFUN([FC_WIN32_CLIENT],
 [
   if test "$client" = "win32" || test "$client" = "yes" ; then
     if test "$MINGW32" = "yes"; then

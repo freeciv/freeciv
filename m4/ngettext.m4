@@ -5,7 +5,7 @@ dnl means "doesn't dump core", as some versions (for exmaple the
 dnl version which comes with glibc 2.2.5 is broken, gettext 
 dnl version 0.10.38 however is ok).
 
-AC_DEFUN(FC_CHECK_NGETTEXT_RUNTIME,
+AC_DEFUN([FC_CHECK_NGETTEXT_RUNTIME],
 [
 templibs="$LIBS"
 LIBS="$1 $LIBS"

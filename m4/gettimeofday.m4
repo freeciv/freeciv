@@ -4,7 +4,7 @@ dnl This tests whether gettimeofday works at runtime.  Here, "works"
 dnl means: time doesn't go backward and time doesn't jump forward by
 dnl a huge amount. It seems that glibc 2.3.1 is broken in this respect.
 
-AC_DEFUN(FC_CHECK_GETTIMEOFDAY_RUNTIME,
+AC_DEFUN([FC_CHECK_GETTIMEOFDAY_RUNTIME],
 [
 templibs="$LIBS"
 LIBS="$1 $LIBS"

@@ -7,7 +7,7 @@ dnl against wrong ncurses library.  Compiles with LIBS modified
 dnl to included -lreadline and parameter EXTRA-LIBS.
 dnl Should already have checked that header and library exist.
 dnl
-AC_DEFUN(FC_CHECK_READLINE_RUNTIME,
+AC_DEFUN([FC_CHECK_READLINE_RUNTIME],
 [AC_MSG_CHECKING(whether readline works at runtime)
 templibs="$LIBS"
 LIBS="-lreadline $1 $LIBS"

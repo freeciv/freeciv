@@ -3,7 +3,7 @@
 dnl FC_SDL_CLIENT
 dnl Test for SDL and needed libraries for gui-sdl
 
-AC_DEFUN(FC_SDL_CLIENT,
+AC_DEFUN([FC_SDL_CLIENT],
 [
   if test "$client" = sdl || test "$client" = yes ; then
     AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])

@@ -3,7 +3,7 @@
 # FC_GTK_CLIENT
 # Test for GTK+-1.2 libraries needed for gui-gtk
 
-AC_DEFUN(FC_GTK_CLIENT,
+AC_DEFUN([FC_GTK_CLIENT],
 [
   if test "$client" = gtk || test "$client" = yes ; then
     AM_PATH_GTK(1.2.5,
