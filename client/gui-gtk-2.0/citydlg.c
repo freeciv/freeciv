@@ -380,7 +380,8 @@ void refresh_city_dialog(struct city *pcity)
 			     can_client_issue_orders() &&
 			     have_present_units);
     gtk_widget_set_sensitive(pdialog->overview.buy_command,
-			     city_buy_cost(pdialog->pcity) > 0);
+			     city_buy_cost(pdialog->pcity) > 0 &&
+			     can_client_issue_orders());
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
@@ -2258,6 +2259,10 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
   struct city *pcity = pdialog->pcity;
   int citnum;
 
+  if (!can_client_issue_orders()) {
+    return FALSE;
+  }
+
   if (ev->x > (pcity->size - 1) * pdialog->cwidth + SMALL_TILE_WIDTH)
     return FALSE;		/* no citizen that far to the right */
 
@@ -2274,6 +2279,10 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev)
 {
   struct city *pcity = NULL;;
+
+  if (!can_client_issue_orders()) {
+    return FALSE;
+  }
 
   dialog_list_iterate(dialog_list, pdialog) {
 #ifdef DEBUG
@@ -2375,6 +2384,10 @@ static void sell_callback(Impr_Type_id id, gpointer data)
   struct city_dialog *pdialog = (struct city_dialog *) data;
   GtkWidget *shl;
   
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if (pdialog->pcity->did_buy || pdialog->pcity->did_sell ||
       pdialog->pcity->owner != game.player_idx) {
     return;

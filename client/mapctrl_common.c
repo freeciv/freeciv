@@ -427,7 +427,8 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
       canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y) &&
       !same_pos(keyboardless_goto_start_x,
                 keyboardless_goto_start_y,
-                tile_x, tile_y)) {
+                tile_x, tile_y) &&
+      can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;
     request_unit_goto();
   }
