@@ -48,7 +48,6 @@
 #include <helpdlg.h>
 #include <graphics.h>
 #include <optiondlg.h>		/* for toggle_callback */
-#include <clinet.h>		/* server_has_autoattack */
 #include <cityrep.h>
 
 extern Display	*display;
@@ -222,8 +221,7 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->show_units_command,
                    unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
 		   ?True:False);
-    XtSetSensitive(pdialog->cityopt_command,
-		   server_has_autoattack?True:False);
+    XtSetSensitive(pdialog->cityopt_command, True);
   }
   if(pcity->owner == game.player_idx)  {
     city_report_dialog_update_city(pcity);

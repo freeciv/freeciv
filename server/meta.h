@@ -28,7 +28,7 @@ The info string should look like this:
 #define	METASERVER_PORT	12245
 #define	METASERVER_ADDR	"platinum.daimi.aau.dk"
 #define METASERVER_UPDATE_INTERVAL 3*60
-#if MINOR_VERSION < 7
+#if IS_BETA_VERSION
 #  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.8: beware"
 #else
 #  define DEFAULT_META_SERVER_INFO_STRING "(default)"

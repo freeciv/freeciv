@@ -265,7 +265,6 @@ void update_menus()
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_ATTACK, 
 			   (can_unit_do_auto(punit)
-			    && server_has_autoattack
 			    && !unit_flag(punit->type, F_SETTLERS)));
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_CITY, 

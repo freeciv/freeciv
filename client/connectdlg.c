@@ -80,7 +80,7 @@ int gui_server_connect(void)
   metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL);
   quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL); 
 
-  if (MINOR_VERSION < 7)
+  if (IS_BETA_VERSION)
     label2=XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL);
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);

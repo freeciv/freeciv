@@ -242,8 +242,8 @@ int main(int argc, char *argv[])
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
   printf(FREECIV_NAME_VERSION " server\n");
-#if MINOR_VERSION < 7
-  printf("Freeciv 1.7 will be released on August 5 from http://www.freeciv.org\n");
+#if IS_BETA_VERSION
+  printf("Freeciv 1.8 will be released second week of march  at http://www.freeciv.org\n");
 #endif
   fflush(stdout);
 

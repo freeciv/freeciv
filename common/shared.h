@@ -24,10 +24,11 @@
 #define MINOR_VERSION  7
 #define PATCH_VERSION  2
 #define VERSION_STRING "1.7.2"
+#define IS_BETA_VERSION 1 
 
 #endif /* HAVE_CONFIG_H */
 
-#if MINOR_VERSION < 7
+#if IS_BETA_VERSION
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING" (beta release)"
 #define WORD_VERSION "betatest version"
 #else
@@ -70,8 +71,7 @@
  */
 
 /* The default string is really simple */
-/* rulesets: server sends client data on techs,unit_types,buildings */
-#define CAPABILITY "+1.7 clientcapabilities tradecities +spacerace2 +rulesets autoattack1 cityopt"
+#define CAPABILITY "+1.8pre1"
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

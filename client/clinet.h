@@ -30,7 +30,4 @@ int get_meta_list(char *server, char **list, char *errbuf);
 extern struct connection aconnection;
 /* this is the client's connection to the server */
 
-extern int server_has_autoattack;
-/* cache whether the server knows about autoattack (from capability string) */
-
 #endif

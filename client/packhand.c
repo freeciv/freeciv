@@ -54,7 +54,6 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   char *s_capability = aconnection.capability;
 
   strcpy(s_capability, packet->capability);
-  server_has_autoattack = has_capability("autoattack1", s_capability);
 
   if (packet->you_can_join) {
     freelog(LOG_DEBUG, "join game accept:%s", packet->message);

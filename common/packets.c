@@ -662,8 +662,8 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(cptr, pinfo->science);
   cptr=put_int8(cptr, pinfo->luxury);
 
-  cptr=put_int16(cptr, pinfo->researched);
-  cptr=put_int16(cptr, pinfo->researchpoints);
+  cptr=put_int32(cptr, pinfo->researched);
+  cptr=put_int32(cptr, pinfo->researchpoints);
   cptr=put_int8(cptr, pinfo->researching);
   cptr=put_bit_string(cptr, (char*)pinfo->inventions);
   cptr=put_int16(cptr, pinfo->future_tech);
@@ -674,9 +674,8 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(cptr, pinfo->tech_goal);
   cptr=put_int8(cptr, pinfo->ai?1:0);
 
-  if (pc && has_capability("clientcapabilities", pc->capability)) {
-    cptr=put_string(cptr, pinfo->capability);
-  }
+  /* if (pc && has_capability("clientcapabilities", pc->capability)) */
+  cptr=put_string(cptr, pinfo->capability);
 
   put_int16(buffer, cptr-buffer);
 
@@ -712,9 +711,8 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->science);
   cptr=get_int8(cptr, &pinfo->luxury);
 
-  cptr=get_int16(cptr, &pinfo->researched);
-  if(pinfo->researched > 32767) pinfo->researched-=65536;
-  cptr=get_int16(cptr, &pinfo->researchpoints);
+  cptr=get_int32(cptr, &pinfo->researched); /* signed */
+  cptr=get_int32(cptr, &pinfo->researchpoints);
   cptr=get_int8(cptr, &pinfo->researching);
   cptr=get_bit_string(cptr, (char*)pinfo->inventions);
   cptr=get_int16(cptr, &pinfo->future_tech);
@@ -725,10 +723,8 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->tech_goal);
   cptr=get_int8(cptr, &pinfo->ai);
 
-  if (has_capability("clientcapabilities", pc->capability)) 
-    cptr=get_string(cptr, pinfo->capability);
-  else 
-    pinfo->capability[0] = '\0';
+  /* if (has_capability("clientcapabilities", pc->capability)) */
+  cptr=get_string(cptr, pinfo->capability);
   
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
@@ -1072,10 +1068,9 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
 
-  if(pc && has_capability("autoattack1", pc->capability)) {
-    /* only 8 options allowed before need to extend protocol */
-    cptr=put_int8(cptr, req->city_options);
-  }
+  /* if(pc && has_capability("autoattack1", pc->capability)) */
+  /* only 8 options allowed before need to extend protocol */
+  cptr=put_int8(cptr, req->city_options);
   
   for(data=0;data<4;data++)  {
     if(req->trade[data])  {
@@ -1145,9 +1140,8 @@ recieve_packet_city_info(struct connection *pc)
   cptr=get_city_map(cptr, (char*)packet->city_map);
   cptr=get_bit_string(cptr, (char*)packet->improvements);
 
-  if(has_capability("autoattack1", pc->capability)) {
-    cptr=get_int8(cptr, &packet->city_options);
-  }
+  /* if(has_capability("autoattack1", pc->capability)) */
+  cptr=get_int8(cptr, &packet->city_options);
 
   for(data=0;data<4;data++)  {
     if(pc->buffer.data+length-cptr < 3)  break;

@@ -274,7 +274,6 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   char buf[512], *pheadlinem;
   struct Diplomacy_dialog *pdialog;
   Dimension width, height, maxwidth;
-  int tradecities = FALSE;
   Widget popupmenu;
   Widget entry;
   XtTranslations textfieldtranslations;
@@ -382,13 +381,6 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   /* Start of trade city code - Kris Bubendorfer */
 
-  
-  if(has_capability("tradecities", aconnection.capability) 
-     && has_capability("tradecities", plr0->conn->capability) 
-     && has_capability("tradecities", plr1->conn->capability))
-    tradecities = TRUE;
-
-     
   pdialog->dip_city_menubutton0=XtVaCreateManagedWidget("dipcitymenubutton0", 
 							menuButtonWidgetClass,
 							pdialog->dip_form0,
@@ -400,7 +392,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
   
   fill_diplomacy_city_menu(popupmenu, plr0, plr1);
-  XtSetSensitive(pdialog->dip_city_menubutton0, tradecities);
+  XtSetSensitive(pdialog->dip_city_menubutton0, TRUE);
   
   
   pdialog->dip_city_menubutton1=XtVaCreateManagedWidget("dipcitymenubutton1", 
@@ -413,7 +405,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 NULL);
   
   fill_diplomacy_city_menu(popupmenu, plr1, plr0);
-  XtSetSensitive(pdialog->dip_city_menubutton1, tradecities);  
+  XtSetSensitive(pdialog->dip_city_menubutton1, TRUE);  
   
   /* End of trade city code */
   
