@@ -305,6 +305,7 @@ int find_ferry(struct unit *punit, int cap, struct pf_path **path)
       
       unit_list_iterate(ptile->units, aunit) {
         if (is_ground_units_transport(aunit)
+            && aunit->owner == punit->owner
             && (aunit->ai.passenger == FERRY_AVAILABLE
                 || aunit->ai.passenger == punit->id)) {
           /* Turns for the unit to get to rendezvous pnt */
@@ -334,6 +335,29 @@ int find_ferry(struct unit *punit, int cap, struct pf_path **path)
   return best_id;
 }
 
+/****************************************************************************
+  Find a boat within one move from us (i.e. a one we can board).
+
+  FIXME: Actually check the capacity.
+****************************************************************************/
+static int find_ferry_nearby(struct unit *punit, int cap)
+{
+  UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked find_ferry_nearby for a boat");
+
+  square_iterate(punit->x, punit->y, 1, x, y) {
+    unit_list_iterate(map_get_tile(x, y)->units, aunit) {
+      if (is_ground_units_transport(aunit)
+	  && aunit->owner == punit->owner
+          && (aunit->ai.passenger == FERRY_AVAILABLE
+              || aunit->ai.passenger == punit->id)) {
+	  return aunit->id;
+       }
+    } unit_list_iterate_end;
+  } square_iterate_end;
+
+  return 0;
+}
+
 #define LOGLEVEL_GOTHERE LOG_DEBUG
 /****************************************************************************
   This is ferry-enabled goto.  Should not normally be used for non-ferried 
@@ -351,7 +375,6 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
                 int dest_x, int dest_y)
 {
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
-  struct pf_path *path_to_ferry = NULL;
 
   CHECK_UNIT(punit);
 
@@ -364,42 +387,28 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
   ai_gothere_bodyguard(punit, dest_x, dest_y);
 
-  /* If we can, we will walk, take boat only if necessary */
-  if (punit->transported_by > 0 
-      || !goto_is_sane(punit, dest_x, dest_y, TRUE)) {
-    int boatid = punit->transported_by;
+  if (punit->transported_by <= 0 
+      && !goto_is_sane(punit, dest_x, dest_y, TRUE)) {
+    /* We are not on a boat and we cannot walk */
+    int boatid;
     struct unit *ferryboat = NULL;
 
     UNIT_LOG(LOGLEVEL_GOTHERE, punit, "will have to go to (%d,%d) by boat",
              dest_x, dest_y);
 
-    if (boatid <= 0) {
+    if (!is_ocean_near_tile(punit->x, punit->y)) {
+      struct pf_path *path_to_ferry = NULL;
+      
       boatid = find_ferry(punit, 2, &path_to_ferry);
-    } 
-    ferryboat = find_unit_by_id(boatid);
-
-    if (!ferryboat) {
-      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "No boat found.");
-      if (is_ocean_near_tile(punit->x, punit->y)) {
-        ai_set_ferry(punit, NULL);
+      if (boatid <= 0) {
+        UNIT_LOG(LOGLEVEL_GOTHERE, punit, 
+		 "in ai_gothere cannot find any boats.");
+        return FALSE;
       }
-      return FALSE;
-    } else {
-      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Found boat at (%d,%d)",
-               ferryboat->x, ferryboat->y);
-    }
 
-    ai_set_ferry(punit, ferryboat);
-    ai_set_passenger(ferryboat, punit);
-
-    if (!is_tiles_adjacent(punit->x, punit->y, ferryboat->x, ferryboat->y)
-	&& !same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)
-	&& !is_ocean_near_tile(punit->x, punit->y)) {
-      /* Go to the boat only if it cannot reach us or it's parked 
-       * next to us.  Otherwise just wait (boats are normally faster) */
-      /* TODO: agree on a rendez-vous point */
-      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "going to boat[%d](%d,%d).", boatid,
-               ferryboat->x, ferryboat->y);
+      ferryboat = find_unit_by_id(boatid);
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "found boat[%d](%d,%d), going there", 
+	       boatid, ferryboat->x, ferryboat->y);
       /* The path can be amphibious so we will stop at the coast.  
        * It might not lead _onto_ the boat. */
       if (!ai_unit_execute_path(punit, path_to_ferry)) { 
@@ -407,22 +416,49 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 	pf_destroy_path(path_to_ferry);
         return FALSE;
       }
+      pf_destroy_path(path_to_ferry);
     }
-    pf_destroy_path(path_to_ferry);
+
+    if (!is_ocean_near_tile(punit->x, punit->y)) {
+      /* Still haven't reached the coast */
+      return FALSE;
+    }
+
+    /* We are on the coast, look around for a boat */
+    boatid = find_ferry_nearby(punit, 2);
+    if (boatid <= 0) {
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "requesting a boat.");
+      ai_set_ferry(punit, NULL);
+      return FALSE;
+    }
+
+    /* Ok, a boat found, try boarding it */
+    ferryboat = find_unit_by_id(boatid);
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "found a nearby boat[%d](%d,%d)",
+	     ferryboat->id, ferryboat->x, ferryboat->y);
+    /* Setting ferry now in hope it won't run away even 
+     * if we can't board it right now */
+    ai_set_ferry(punit, ferryboat);
+    ai_set_passenger(ferryboat, punit);
 
     if (is_tiles_adjacent(punit->x, punit->y, ferryboat->x, ferryboat->y)) {
       (void) ai_unit_move(punit, ferryboat->x, ferryboat->y);
     }
-    
+
     if (!same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)) {
-      /* Didn't get to the boat */
-      if (is_ocean_near_tile(punit->x, punit->y)) {
-        /* At least got to the coast, wave to the boats! */
-        UNIT_LOG(LOGLEVEL_GOTHERE, punit, "asking a boat to come nearer");
-        ai_set_ferry(punit, NULL);
-      }
+      /* Something prevented us from boarding */
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "couldn't board boat[%d](%d,%d)",
+	       ferryboat->id, ferryboat->x, ferryboat->y);
       return FALSE;
     }
+
+    handle_unit_load(pplayer, punit->id, ferryboat->id);
+    assert(punit->transported_by > 0);
+  }
+
+  if (punit->transported_by > 0) {
+    /* We are on a boat, ride it! */
+    struct unit *ferryboat = find_unit_by_id(punit->transported_by);
 
     /* Check if we are the passenger-in-charge */
     if (ferryboat->ai.passenger <= 0
@@ -430,9 +466,9 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
       int beach_x, beach_y;     /* Destination for the boat */
       struct tile *dest_tile = map_get_tile(dest_x, dest_y);
 
-      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "got boat[%d], going (%d,%d)",
-               ferryboat->id, dest_x, dest_y);
-      handle_unit_load(pplayer, punit->id, ferryboat->id);
+      UNIT_LOG(LOGLEVEL_GOTHERE, punit, 
+	       "got boat[%d](moves left: %d), going (%d,%d)",
+               ferryboat->id, ferryboat->moves_left, dest_x, dest_y);
       ai_set_passenger(ferryboat, punit);
 
       /* If the location is not accessible directly from sea
@@ -453,7 +489,6 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
         beach_y = dest_y;
       }
 
-      UNIT_LOG(LOGLEVEL_GOTHERE, punit, "All aboard!");
       set_goto_dest(ferryboat, beach_x, beach_y);
       set_goto_dest(punit, dest_x, dest_y);
       /* Grab bodyguard */

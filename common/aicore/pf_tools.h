@@ -26,6 +26,8 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 enum tile_behavior no_fights_or_unknown(int x, int y, 
                                         enum known_type known,
                                         struct pf_parameter *param);
+enum tile_behavior no_fights(int x, int y, enum known_type known,
+			     struct pf_parameter *param);
 
 #define pf_iterator(map, position) {                       \
   struct pf_position position;                             \

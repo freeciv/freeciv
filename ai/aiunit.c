@@ -2273,9 +2273,9 @@ static bool ai_ferry_findcargo(struct unit *punit)
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is looking for cargo.");
 
   pft_fill_unit_overlap_param(&parameter, punit);
-  /* We are looking for our units, no need to look into the unknown */
-  parameter.get_TB = no_fights_or_unknown;
-  parameter.omniscience = FALSE;
+  /* If we have omniscience, we use it, since paths to some places
+   * might be "blocked" by unknown.  We don't want to fight though */
+  parameter.get_TB = no_fights;
   
   map = pf_create_map(&parameter);
   while (pf_next(map)) {
@@ -2285,7 +2285,8 @@ static bool ai_ferry_findcargo(struct unit *punit)
     
     unit_list_iterate(map_get_tile(pos.x, pos.y)->units, aunit) {
       if (punit->owner == aunit->owner 
-	  && aunit->ai.ferryboat == FERRY_WANTED) {
+	  && (aunit->ai.ferryboat == FERRY_WANTED
+	      || aunit->ai.ferryboat == punit->id)) {
         UNIT_LOG(LOGLEVEL_FERRY, punit, 
                  "Found a potential cargo %s[%d](%d,%d), going there",
                  unit_type(aunit)->name, aunit->id, aunit->x, aunit->y);
@@ -2446,7 +2447,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       if (!psngr 
 	  || real_map_distance(punit->x, punit->y, psngr->x, psngr->y) > 1) {
 	UNIT_LOG(LOGLEVEL_FERRY, punit, 
-		 "lost passenger-in-charge[%d], resetting",
+		 "recorded passenger[%d] is not on board, checking for others",
 		 punit->ai.passenger);
 	punit->ai.passenger = 0;
       }

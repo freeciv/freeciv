@@ -401,15 +401,16 @@ void ai_data_init(struct player *pplayer)
 **************************************************************************/
 void ai_set_ferry(struct unit *punit, struct unit *ferry)
 {
-  if (!ferry && punit->ai.ferryboat != FERRY_WANTED) {
+  /* First delete unit from the list of passengers and release its ferry */
+  ai_clear_ferry(punit);
+
+  if (!ferry) {
     struct ai_data *ai = ai_data_get(unit_owner(punit));
 
-    UNIT_LOG(LOG_DEBUG, punit, "want a boat.");
+    UNIT_LOG(LOG_DEBUG, punit, "requests a boat.");
     ai->stats.passengers++;
     punit->ai.ferryboat = FERRY_WANTED;
-  } else if (ferry) {
-    /* Make sure we delete punit from the list of potential passengers */
-    ai_clear_ferry(punit);
+  } else {
     punit->ai.ferryboat = ferry->id;
   }
 }
@@ -428,8 +429,11 @@ void ai_clear_ferry(struct unit *punit)
     struct unit *ferry = find_unit_by_id(punit->ai.ferryboat);
     
     if (ferry && ferry->ai.passenger == punit->id) {
+      struct ai_data *ai = ai_data_get(unit_owner(punit));
+
       /* punit doesn't want us anymore */
-      ferry->ai.passenger = FERRY_NONE;
+      ferry->ai.passenger = FERRY_AVAILABLE;
+      ai->stats.available_boats++;
     }
   }
 

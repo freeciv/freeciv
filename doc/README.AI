@@ -12,6 +12,7 @@ Want calculations
 Amortize
 Estimation of profit from a military operation
 Selecting military units
+Ferry system
 Diplomacy
 Difficulty levels
 Things that needs to be fixed
@@ -219,6 +220,15 @@ find a new one.
 When a boat has a passenger, it's a different story.  The boat doesn't
 do any calculations, instead one of the passengers is given full
 control and it is the passenger who drives the boat.
+
+Here are the main data fields used by the system.
+Value of ai.ferry in the passenger unit is:
+  FERRY_NONE : means that the unit has no need of a ferry
+  FERRY_WANTED : means that the unit wants a ferry
+  >0 : id of it's ferry
+Value of ai.passenger in the ferry unit can be either of:
+  FERRY_AVAILABLE : means that the unit is a ferry and is available
+  >0 : id of it's passenger
 
 When boat-building code stabilizes, it can be seen how many free boats
 there are, on average, per PP.  If there are more boats than PPs, it

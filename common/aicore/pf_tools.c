@@ -379,6 +379,22 @@ enum tile_behavior no_fights_or_unknown(int x, int y,
   return TB_NORMAL;
 }
 
+/********************************************************************** 
+  PF callback to prohibit attacking anyone.
+***********************************************************************/
+enum tile_behavior no_fights(int x, int y, enum known_type known,
+			     struct pf_parameter *param)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  if (is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_city_tile(ptile, param->owner)) {
+    /* Can't attack */
+    return TB_IGNORE;
+  }
+  return TB_NORMAL;
+}
+
 
 /* =====================  Postion Dangerous Callbacks ================ */
 
@@ -538,8 +554,6 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->unit_flags = unit_type(punit)->flags;
 
   parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
-
-
 }
 
 /**********************************************************************
