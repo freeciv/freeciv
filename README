@@ -42,6 +42,7 @@ Server:
   s         - start game
   meta S    - set the metastring to S
   ai <name> - set player <NAME> to be an ai player
+  create P  - create an AI player, with name P. Startup only
 
   Now use the 'set' command to set the various variables for the game. 
   You can get a list of the variables with the 'show' command.
@@ -67,13 +68,13 @@ Client:
   % civclient -server io
 
 Computer Player:
-   For each computer player that you wish to have, you must start a client
-   as if you were going to play multiple games. The person then issues the
-   command with the <ai> command like this:
-   > ai HumanKiller
-   Once the person running the client starts the game, and after the player
-   races has been picked, the clients that are AI controlled by the server
-   can be closed, as the server will now run that player.
+   For each computer player that you wish to have, you have two choices.
+   The simplist is to type "create (playername)" on the server. Please note,
+   you will still need at least one player connected to start a game. The
+   second choice is to start one or more additional clients, and to to type
+   "ai (playername)" once the game has started. If you use the second method 
+   to create an AI player, once the game has started, you can close the
+   extra client screens.
 
 Server:
   When everybody has joined (use the (l)ist command to see who's in), the
