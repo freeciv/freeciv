@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = civclient
-INCLUDES = -I$(srcdir)/../common -I.
+INCLUDES = -I$(srcdir)/../common -I. $(X_CFLAGS)
 
 BUILT_SOURCES = Freeciv.h
 
@@ -12,7 +12,7 @@ Freeciv.h: $(srcdir)/../data/Freeciv
 	$(srcdir)/ad2c $(srcdir)/../data/Freeciv >> Freeciv.h
 
 civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
-civclient_LDADD        = ../common/libcivcommon.a
+civclient_LDADD        = ../common/libcivcommon.a  $(X_PRE_LIBS) $(X_LIBS) $(X_EXTRA_LIBS)
 
 civclient_SOURCES = \
 		cityicon.ico freeciv.ico ad2c \
