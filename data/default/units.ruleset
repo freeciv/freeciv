@@ -1068,7 +1068,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Fighter"
+flags         = "Partial_Invis", "Fighter"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1100,7 +1100,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "Partial_Invis", "FieldUnit", "OneAttack"
 roles         = ""
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
