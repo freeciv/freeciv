@@ -240,7 +240,7 @@ cities visible to requesting player.
 
                             - Kris Bubendorfer
 *****************************************************************/
-void fill_diplomacy_city_menu(Widget popupmenu, 
+int fill_diplomacy_city_menu(Widget popupmenu, 
 			      struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(&plr0->cities);
@@ -262,6 +262,7 @@ void fill_diplomacy_city_menu(Widget popupmenu,
     XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback, 
 		  (XtPointer)(plr0->player_no*100000+plr1->player_no*10000+city_list_ptrs[j]->id)); 
   }
+  return i;
 }
 
 
@@ -390,9 +391,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 pdialog->dip_city_menubutton0, 
 				 NULL);
   
-  
-  fill_diplomacy_city_menu(popupmenu, plr0, plr1);
-  XtSetSensitive(pdialog->dip_city_menubutton0, TRUE);
+  XtSetSensitive(pdialog->dip_city_menubutton0, 
+		 fill_diplomacy_city_menu(popupmenu, plr0, plr1));
   
   
   pdialog->dip_city_menubutton1=XtVaCreateManagedWidget("dipcitymenubutton1", 
@@ -404,8 +404,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 pdialog->dip_city_menubutton1, 
 				 NULL);
   
-  fill_diplomacy_city_menu(popupmenu, plr1, plr0);
-  XtSetSensitive(pdialog->dip_city_menubutton1, TRUE);  
+  XtSetSensitive(pdialog->dip_city_menubutton1, 
+		 fill_diplomacy_city_menu(popupmenu, plr1, plr0));  
   
   /* End of trade city code */
   
