@@ -830,7 +830,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 		     TRUE, TRUE, 0);
 
   pdialog->overview.change_command =
-      gtk_accelbutton_new(_("_Change"), pdialog->accel);
+      gtk_accelbutton_new(_("C_hange"), pdialog->accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.change_command,
 		     TRUE, TRUE, 0);
 
@@ -1081,7 +1081,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, TRUE, 0);
 
   pdialog->unit.activate_command =
-      gtk_accelbutton_new(_("_Activate present units"), pdialog->accel);
+      gtk_accelbutton_new(_("Acti_vate present units"), pdialog->accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->unit.activate_command, FALSE,
 		     TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->unit.activate_command, GTK_CAN_DEFAULT);
@@ -1205,7 +1205,7 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  pdialog->cma_editor = create_cma_dialog(pdialog->pcity);
+  pdialog->cma_editor = create_cma_dialog(pdialog->pcity, pdialog->accel);
   gtk_box_pack_start(GTK_BOX(page), pdialog->cma_editor->shell, TRUE, TRUE, 0);
 
   gtk_widget_show(page);

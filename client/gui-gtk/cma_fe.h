@@ -38,14 +38,13 @@ struct cma_dialog {
   GtkWidget *change_command;
   GtkWidget *perm_command;
   GtkWidget *release_command;
-  GtkAccelGroup *accel;
   GtkAdjustment *minimal_surplus[NUM_STATS];
   GtkWidget *happy_button;
   GtkAdjustment *factor[NUM_STATS + 1];
   int id;			/* needed to pass a preset_index */
 };
 
-struct cma_dialog *create_cma_dialog(struct city *pcity);
+struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel);
 void close_cma_dialog(struct city *pcity);
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh);
 

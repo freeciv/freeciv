@@ -56,7 +56,6 @@ static int cma_dialog_list_has_been_initialised;
 static int allow_refreshes = 1;
 
 static struct cma_dialog *get_cma_dialog(struct city *pcity);
-struct cma_dialog *create_cma_dialog(struct city *pcity);
 
 static void update_cma_preset_list(struct cma_dialog *pdialog);
 
@@ -128,7 +127,7 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 /**************************************************************************
  instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
-struct cma_dialog *create_cma_dialog(struct city *pcity)
+struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 {
   struct cma_dialog *pdialog;
   struct cma_parameter param;
@@ -141,7 +140,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   cmafec_get_fe_parameter(pcity, &param);
   pdialog = fc_malloc(sizeof(struct cma_dialog));
   pdialog->pcity = pcity;
-  pdialog->accel = gtk_accel_group_new();
   pdialog->shell = gtk_vbox_new(FALSE, 0);
 
   if (!preset_title) {
@@ -179,16 +177,14 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  pdialog->add_preset_command = gtk_accelbutton_new(_("_Add preset"),
-						    pdialog->accel);
+  pdialog->add_preset_command = gtk_button_new_with_label(_("Add preset"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->add_preset_command,
 		     TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->add_preset_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->add_preset_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_add_preset_callback), pdialog);
 
-  pdialog->del_preset_command = gtk_accelbutton_new(_("_Delete preset"),
-						    pdialog->accel);
+  pdialog->del_preset_command = gtk_button_new_with_label(_("Delete preset"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->del_preset_command,
 		     TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->del_preset_command, GTK_CAN_DEFAULT);
@@ -290,23 +286,20 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  pdialog->change_command =
-      gtk_accelbutton_new(_("_Change"), pdialog->accel);
+  pdialog->change_command = gtk_accelbutton_new(_("Apply onc_e"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->change_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->change_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->change_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_change_to_callback), pdialog);
 
-  pdialog->perm_command = gtk_accelbutton_new(_("C_hange permanent"),
-					      pdialog->accel);
+  pdialog->perm_command = gtk_accelbutton_new(_("_Control city"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->perm_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->perm_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->perm_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_change_permanent_to_callback),
 		     pdialog);
 
-  pdialog->release_command = gtk_accelbutton_new(_("_Release city"),
-						 pdialog->accel);
+  pdialog->release_command = gtk_accelbutton_new(_("_Release city"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->release_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->release_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->release_command), "clicked",
