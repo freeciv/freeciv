@@ -2013,31 +2013,28 @@ void create_races_dialog(void)
 
   races_ok_command =
     I_L(XtVaCreateManagedWidget("racesokcommand",
-			    commandWidgetClass,
-			    races_action_form,
-			    NULL));
+				commandWidgetClass,
+				races_action_form,
+				NULL));
 
-  /* if(has_capability("dconn_in_sel_nat", aconnection.capability)) */
-  {
-    races_disconnect_command =
-      I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
-			      commandWidgetClass,
-			      races_action_form,
-			      XtNfromHoriz, races_ok_command,
-			      NULL));
+  races_disconnect_command =
+    I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
+				commandWidgetClass,
+				races_action_form,
+				XtNfromHoriz, races_ok_command,
+				NULL));
 
-    races_quit_command =
-      I_L(XtVaCreateManagedWidget("racesquitcommand",
-			      commandWidgetClass,
-			      races_action_form,
-			      XtNfromHoriz, races_disconnect_command,
-			      NULL));
+  races_quit_command =
+    I_L(XtVaCreateManagedWidget("racesquitcommand",
+				commandWidgetClass,
+				races_action_form,
+				XtNfromHoriz, races_disconnect_command,
+				NULL));
 
-    XtAddCallback(races_disconnect_command, XtNcallback,
-		  races_disconnect_command_callback, NULL);
-    XtAddCallback(races_quit_command, XtNcallback,
-		  races_quit_command_callback, NULL);
-  }
+  XtAddCallback(races_disconnect_command, XtNcallback,
+		races_disconnect_command_callback, NULL);
+  XtAddCallback(races_quit_command, XtNcallback,
+		races_quit_command_callback, NULL);
 
 
   for(i=0; i<game.playable_nation_count; i++) {

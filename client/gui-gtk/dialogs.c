@@ -1974,12 +1974,12 @@ void create_races_dialog(void)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
 	races_ok_command, TRUE, TRUE, 0 );
 
-  races_disc_command = gtk_button_new_with_label( "Disconnect" );
+  races_disc_command = gtk_button_new_with_label( _("Disconnect") );
   GTK_WIDGET_SET_FLAGS( races_disc_command, GTK_CAN_DEFAULT );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
 		      races_disc_command, TRUE, TRUE, 0 );
 
-  races_quit_command = gtk_button_new_with_label( "Quit" );
+  races_quit_command = gtk_button_new_with_label( _("Quit") );
   GTK_WIDGET_SET_FLAGS( races_quit_command, GTK_CAN_DEFAULT );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
 		      races_quit_command, TRUE, TRUE, 0 );
