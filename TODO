@@ -1,0 +1,23 @@
+THINGS TO DO
+============
+
+Freeciv is quite mature, and we think its already a great game,
+but there are always things to add or improve.  This file lists 
+some new features which are being worked on, or are planned, or 
+desired.  (See also the file BUGS, for some known deficiencies.)
+
+TODO:
+
+- Internationalization (that is, multi-language support).
+- Make the government types configurable via rulesets.
+- Make the existing rulesets more flexible, especially for
+  City Improvements and Wonders.
+- Make the races/tribes/leaders/city-names configurable.
+- Allow alliances between players.
+- City Plans and other client improvements.
+- Ports to Win32 and Mac are being worked on.
+
+Information on other projects, and the Freeciv development 
+"roadmap", are available at the Freeciv website:
+
+            <http://www.freeciv.org>

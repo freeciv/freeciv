@@ -1,0 +1,94 @@
+BUGS
+====
+
+Freeciv 1.8.x is a "stable" release and is considered bug-free enough 
+for everyday use.  However if you do find a bug, we would really like to 
+know, so that we can fix it.  This file lists known bugs in this release, 
+and gives information about reporting new bugs.
+
+KNOWN BUGS:
+===========
+
+ - The easy AI is not easy enough for novice players.  If the AI is 
+   beating you up early in the game, try setting the "generator" server 
+   option to 2 or 3.  That is, in the server, before starting a game,
+   type:  set generator 2
+   or:    set generator 3
+
+ - The hard AI is not hard enough for very experienced players, and 
+   still does some stupid things.
+
+ - If you scroll to the bottom of the map, sometimes the bottom row
+   of squares is not fully visible.  As a work-around, try adjusting
+   the size of the client window.
+
+ - There may be some cases when the "red squares" in the city dialog
+   are not quite right.
+
+ - Units on goto can attack enemy units and cities unintentionally.
+
+REPORTING A BUG:
+================
+
+Here's what to do:
+
+ - Check that it is not one of the known bugs listed above!  :-)
+
+ - Check the Freeciv website, to ensure you're playing the latest
+   version.  (We may have already fixed the problem).
+
+   In particular, you might like to try a development snapshot,
+   from our CVS repository.  You can FTP them from:
+        <http://www.freeciv.org/latest.html>
+
+ - Check the Freeciv FAQ on the Freeciv website to see if we've
+   published a way to work around your bug.
+
+ - Check the Freeciv Bug Tracking System at:
+        <http://www.freeciv.org/cgi-bin/bugs>
+   to see if the bug has already been reported.
+
+ - Submit a bug report!  
+
+   You can submit a bug report either by sending email to 
+   <bugs@cvs.freeciv.org>, or via the web at
+   <http://www.freeciv.org/cgi-bin/bugs>.
+
+   Or, if you want to send the Freeciv developers some comments 
+   but don't want to lodge a bug report, you can sent email to 
+   <freeciv-dev@freeciv.org>, the Freeciv developer's mailing list.
+
+   What to include in your bug report:
+
+   - Describe the problem, including any messages that were displayed.
+
+   - Tell us the name and version of:
+
+       - The Operating System you're using.  You may find the
+         "uname -a" command useful.
+
+       - The version number of Freeciv.
+
+       - If you are using the Gtk+ client, the versions numbers
+         (if you know them) of your Gtk+, glib, and imlib libraries.
+
+       - If you are using the Xaw client, the version numbers (if you
+         know them) of the X libraries, the Xpm library, and the Xaw 
+         library, and particularly whether it is standard Xaw, or a 
+	 variant such as Xaw3d, Xaw95, or Nextaw.
+
+       - If you're compiling from source code, the name
+         and version number of the compiler.
+
+       - If you're installing from a binary package, the name of
+         the package, the distribution it's for, and where you
+         got it from.
+
+   - If Freeciv "dumps core", then we may ask you to use a debugger to
+   give us a "stack trace".  You'll need the "core" file for this, so
+   please hold onto it for a while.
+
+
+For more information, as always, see the Freeciv website:
+
+            <http://www.freeciv.org>

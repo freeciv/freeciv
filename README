@@ -401,48 +401,8 @@ Bugs:
 =====
 
 Found a bug?  We really want to hear from you so we can fix it.
-Here's what to do:
-
- - Check the Freeciv website, to ensure you're playing the latest
-   version.  (We may have already fixed the problem).
-
-   In particular, you might like to try a development snapshot,
-   from our CVS repository.  You can FTP them from:
-
-     http://www.freeciv.org/latest.html
-
- - Check the Freeciv FAQ on the Freeciv website to see if we've
-   published a way to work around your bug.
-
- - Send us an email!
-
-   - Address the email to "freeciv-dev", the Freeciv developer's
-   mailing list, as described below.
-
-   - Describe the problem, including any messages that were displayed.
-
-   - Tell us the name and version of:
-
-       - The Operating System you're using.  You may find the
-         "uname -a" command useful.
-
-       - The version number of Freeciv.
-
-       - If you know them, the version numbers of the X libraries, and
-         the Xpm library, and the Xaw library (and particularly 
-         whether it is standard Xaw, or a variant such as Xaw3d,
-         Xaw95, or Nextaw).
-
-       - If you're compiling from source code, the name
-         and version number of the compiler.
-
-       - If you're installing from a binary package, the name of
-         the package, the distribution it's for, and where you
-         got it from.
-
-   - If Freeciv "dumps core", then we may ask you to use a debugger to
-   give us a "stack trace".  You'll need the "core" file for this, so
-   please hold onto it for a while.
+See the file BUGS, for a list of known bugs in this release, and 
+information about reporting new bugs.
 
 
 Mailing lists:

@@ -20,5 +20,5 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) common $(SSUBDIRS) $(CSUBDIRS)
 
-EXTRA_DIST=	HOWTOPLAY README.AI README.rulesets \
+EXTRA_DIST=	BUGS HOWTOPLAY README.AI README.rulesets \
 		civ ser freeciv_hackers_guide.txt
