@@ -42,7 +42,6 @@ static GtkWidget *intel_dialog_shell;
 
 
 static void intel_create_dialog(struct player *p);
-static void intel_close_command_callback(GtkWidget *w, gpointer data);
 
 /****************************************************************
 ... 
@@ -51,10 +50,9 @@ void popup_intel_dialog(struct player *p)
 {
   if(!intel_dialog_shell) {
     intel_create_dialog(p);
-    gtk_set_relative_position(toplevel, intel_dialog_shell, 25, 25);
-    gtk_widget_show(intel_dialog_shell);
-    gtk_widget_set_sensitive(top_vbox, FALSE);
   }
+
+  gtk_window_present(GTK_WINDOW(intel_dialog_shell));
 }
 
 
@@ -64,23 +62,30 @@ void popup_intel_dialog(struct player *p)
 *****************************************************************/
 void intel_create_dialog(struct player *p)
 {
-  GtkWidget *label, *hbox, *list, *close, *vbox, *scrolled;
+  GtkWidget *label, *hbox, *vbox, *sw, *view;
+  GtkListStore *store;
+  GtkCellRenderer *rend;
+  GtkTreeViewColumn *col;
+
   char buf[64];
   struct city *pcity;
 
-  static char *tech_list_names_ptrs[A_LAST+1];
-  static char tech_list_names[A_LAST+1][200];
-  int i, j;
+  int i;
   
-  
-  intel_dialog_shell=gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(intel_dialog_shell), "delete_event",
-        GTK_SIGNAL_FUNC(intel_close_command_callback), NULL);
+  intel_dialog_shell =
+    gtk_dialog_new_with_buttons(_("Foreign Intelligence Report"),
+      GTK_WINDOW(toplevel),
+      0,
+      GTK_STOCK_CLOSE,
+      GTK_RESPONSE_CLOSE,
+      NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(intel_dialog_shell),
+        GTK_RESPONSE_CLOSE);
 
-  gtk_window_set_title(GTK_WINDOW(intel_dialog_shell),
-	_("Foreign Intelligence Report"));
-
-  gtk_container_border_width(GTK_CONTAINER(intel_dialog_shell), 5);
+  g_signal_connect(intel_dialog_shell, "response",
+                   G_CALLBACK(gtk_widget_destroy), NULL);
+  g_signal_connect(intel_dialog_shell, "destroy",
+                   G_CALLBACK(gtk_widget_destroyed), &intel_dialog_shell);
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Information for the %s Empire"), 
@@ -141,62 +146,48 @@ void intel_create_dialog(struct player *p)
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 
-  list=gtk_clist_new(1);
-  gtk_clist_set_column_width(GTK_CLIST(list), 0,
-			     GTK_CLIST(list)->clist_window_width);
-  scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), list);
+  store = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
 
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(scrolled, 420, 300);
-
-  gtk_clist_freeze(GTK_CLIST(list));
-
-  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
+  for(i=A_FIRST; i<game.num_tech_types; i++)
     if(get_invention(p, i)==TECH_KNOWN) {
-      if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-	sz_strlcpy(tech_list_names[j], advances[i].name);
-      } else {
-	my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
-		    "%s*", advances[i].name);
-      }
-      tech_list_names_ptrs[j]=tech_list_names[j];
-      j++;
-    }
-  tech_list_names_ptrs[j]=NULL;
-  
-  for (i=0; i<j; i++)
-    gtk_clist_append(GTK_CLIST(list), &tech_list_names_ptrs[i]);
-  
-  gtk_clist_sort(GTK_CLIST(list));
-  gtk_clist_thaw(GTK_CLIST(list));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
-	scrolled, TRUE, FALSE, 2);
+      GtkTreeIter it;
+      GValue v = { 0, };
 
-  close=gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->action_area),
-	close, TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(close,GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(close);
-  
-  gtk_signal_connect(GTK_OBJECT(close), "clicked",
-	GTK_SIGNAL_FUNC(intel_close_command_callback), NULL);
+      gtk_list_store_append(store, &it);
+
+      g_value_init(&v, G_TYPE_STRING);
+      g_value_set_static_string(&v, advances[i].name);
+      gtk_list_store_set_value(store, &it, 1, &v);
+      g_value_unset(&v);
+
+      gtk_list_store_set(store, &it,
+        0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
+        -1);
+    }
+
+  view=gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+  rend = gtk_cell_renderer_toggle_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
+    "active", 0, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend,
+    "text", 1, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
+  sw=gtk_scrolled_window_new(NULL,NULL);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_usize(sw, -1, 300);
+
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
+	sw, TRUE, FALSE, 2);
 
   gtk_widget_show_all(GTK_DIALOG(intel_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(intel_dialog_shell)->action_area);
-}
-
-
-
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void intel_close_command_callback(GtkWidget *w, gpointer data)
-{ 
-  gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(intel_dialog_shell);
-  intel_dialog_shell=NULL;
 }
