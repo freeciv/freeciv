@@ -526,7 +526,7 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
   }
 
   connection_do_unbuffer(&aconnection);
-  disable_cityrep_update_till(last_request_id);
+  reports_freeze_till(last_request_id);
 }
 
 /**************************************************************************
