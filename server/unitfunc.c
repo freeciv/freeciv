@@ -108,7 +108,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                       "Game: %s diplomat stole Future Tech. %d in %s.", 
                       pplayer->name, pplayer->future_tech, city->name);
       return;
-    }
+    } else
+	  return;
   if (city->steal) {
     notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
 		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", city->name);
