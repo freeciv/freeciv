@@ -819,8 +819,9 @@ void city_report_dialog_update(void)
     static char city_list_names[MAX_CITIES_SHOWN][200];
     struct genlist_iterator myiter;
     char *report_title;
-    char happytext[512];
-    char statetext[512];
+    char happytext[32];
+    char statetext[32];
+    char foodtext[32];
     report_title=get_report_title("City Advisor");
     xaw_set_label(city_label, report_title);
     free(report_title);
@@ -860,10 +861,15 @@ void city_report_dialog_update(void)
 	       pcity->shield_surplus, 
 	       pcity->trade_prod);
 
-       sprintf(city_list_names[i], "%-15s %-16s%-12s%s", 
+       sprintf(foodtext,"(%d/%d)",
+               pcity->food_stock,
+	       pcity->size * game.foodbox);
+
+       sprintf(city_list_names[i], "%-15s %-16s%-12s%-9s%s", 
 	       pcity->name,
 	       happytext,
 	       statetext,
+	       foodtext,
 	       impro);
        city_list_names_ptrs[i]=city_list_names[i];
        cities_in_list[i]=pcity->id;
