@@ -2984,7 +2984,7 @@ transported_by unit field correctly.
 take_from_land is only relevant if you have set transport_units.
 Note that the src and dest need not be adjacent.
 **************************************************************************/
-int move_unit(struct unit *punit, const int dest_x, const int dest_y,
+int move_unit(struct unit *punit, int dest_x, int dest_y,
 	      int transport_units, int take_from_land, int move_cost)
 {
   int src_x = punit->x;
@@ -2993,6 +2993,11 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
   struct player *pplayer = get_player(playerid);
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
+
+  if (!is_real_tile(dest_x, dest_y)) {
+    freelog(LOG_ERROR, "Trying to move to non-adjusted tile pos. Trying to adjust...");
+    assert(normalize_map_pos(&dest_x, &dest_y));
+  }
 
   conn_list_do_buffer(&pplayer->connections);
 

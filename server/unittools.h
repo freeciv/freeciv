@@ -97,7 +97,7 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y);
 int do_airline(struct unit *punit, int dest_x, int dest_y);
 int do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
-int move_unit(struct unit *punit, const int dest_x, const int dest_y,
+int move_unit(struct unit *punit, int dest_x, int dest_y,
 	      int transport_units, int take_from_land, int move_cost);
 void goto_route_execute(struct unit *punit);
 
