@@ -96,9 +96,13 @@ Syntax:
      remove-cap: don't transfer this field if the given capability is
      available at runtime.
 
-     dsend: request the creation of a dsend_packet_* function.
+     dsend: request the creation of a dsend_packet_* function.  This is
+     similar to a send function but instead of taking a packet struct
+     as a parameter, it takes the fields of the packet as parameters.
 
-     lsend: request the creation of a lsend_packet_* function.
+     lsend: request the creation of a lsend_packet_* function.  This
+     function sends to list of connections instead of just one 
+     connection, which is the case for the other send functions.
 
      cs: a packet which is sent from the client to the server
 
@@ -361,7 +365,7 @@ end
 
 /************** Chat/event packets **********************/
 
-PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend
+PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend,dsend
   STRING message[MAX_LEN_MSG];
   COORD x, y;
   EVENT event;
