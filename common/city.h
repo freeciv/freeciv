@@ -229,7 +229,8 @@ struct city {
   /* the productions */
   int surplus[O_MAX]; /* Final surplus in each category. */
   int waste[O_MAX]; /* Waste/corruption in each category. */
-  int prod[O_MAX]; /* Production is total minus waste. */
+  int unhappy_penalty[O_MAX]; /* Penalty from unhappy cities. */
+  int prod[O_MAX]; /* Production is total minus waste and penalty. */
   int citizen_base[O_MAX]; /* Base production from citizens. */
   int usage[O_MAX]; /* Amount of each resource being used. */
 
@@ -354,6 +355,7 @@ static inline bool is_free_worked_tile(int city_x, int city_y);
 
 const char *get_output_identifier(Output_type_id output);
 const char *get_output_name(Output_type_id output);
+enum effect_type get_output_bonus_effect(Output_type_id otype);
 
 /* properties */
 
@@ -510,6 +512,8 @@ void city_styles_free(void);
 void get_citizen_output(const struct city *pcity, int *output);
 void add_tax_income(const struct player *pplayer, int *output);
 int get_city_tithes_bonus(const struct city *pcity);
+int city_pollution_types(const struct city *pcity, int shield_total,
+			 int *pollu_prod, int *pollu_pop, int *pollu_mod);
 int city_pollution(const struct city *pcity, int shield_total);
 
 /*

@@ -390,6 +390,122 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 }
 
 /**************************************************************************
+  Return text describing the production output.
+**************************************************************************/
+void get_city_dialog_output_text(const struct city *pcity,
+				 Output_type_id otype,
+				 char *buf, size_t bufsz)
+{
+  int total = 0;
+  enum effect_type eft = get_output_bonus_effect(otype);
+  int tax[O_COUNT];
+
+  buf[0] = '\0';
+
+  cat_snprintf(buf, bufsz,
+	       _("%+4d : Citizens\n"), pcity->citizen_base[otype]);
+  total += pcity->citizen_base[otype];
+
+  /* Hack to get around the ugliness of add_tax_income. */
+  memset(tax, 0, O_COUNT * sizeof(*tax));
+  tax[O_TRADE] = pcity->prod[O_TRADE];
+  add_tax_income(city_owner(pcity), tax);
+  tax[O_TRADE] = 0;
+  if (tax[otype] != 0) {
+    cat_snprintf(buf, bufsz, _("%+4d : Taxed from trade\n"), tax[otype]);
+    total += tax[otype];
+  }
+
+  /* Special cases for "bonus" production.  See set_city_production in
+   * city.c. */
+  if (otype == O_TRADE) {
+    int routes = 0, i;
+
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      routes += pcity->trade_value[i];
+    }
+    if (routes != 0) {
+      cat_snprintf(buf, bufsz, _("%+4d : Trade routes\n"), routes);
+      total += routes;
+    }
+  } else if (otype == O_GOLD) {
+    int tithes = get_city_tithes_bonus(pcity);
+
+    if (tithes != 0) {
+      cat_snprintf(buf, bufsz, _("%+4d : Building tithes\n"), tithes);
+      total += tithes;
+    }
+  }
+
+  if (eft != EFT_LAST) {
+    int base = total, bonus = 100;
+    struct effect_source_vector sources;
+
+    (void) get_city_bonus_sources(&sources, pcity, eft);
+
+    effect_source_vector_iterate(&sources, s) {
+      int new_total;
+
+      bonus += s->effect_value;
+      new_total = bonus * base / 100;
+      cat_snprintf(buf, bufsz,
+		   _("%+4d : Bonus from %s (%+d%%)\n"),
+		   (new_total - total), get_improvement_name(s->building),
+		   s->effect_value);
+      total = new_total;
+    } effect_source_vector_iterate_end;
+    effect_source_vector_free(&sources);
+  }
+
+  if (pcity->waste[otype] != 0) {
+    cat_snprintf(buf, bufsz,
+		 _("%+4d : Waste\n"), -pcity->waste[otype]);
+    total -= pcity->waste[otype];
+  }
+
+  if (pcity->unhappy_penalty[otype] != 0) {
+    cat_snprintf(buf, bufsz,
+		 _("%+4d : Disorder\n"), -pcity->unhappy_penalty[otype]);
+    total -= pcity->unhappy_penalty[otype];
+  }
+
+  if (pcity->usage[otype] > 0) {
+    cat_snprintf(buf, bufsz,
+		 _("%+4d : Used\n"), -pcity->usage[otype]);
+    total -= pcity->usage[otype];
+  }
+
+  cat_snprintf(buf, bufsz,
+	       _("==== : Adds up to\n"));
+  cat_snprintf(buf, bufsz,
+	       _("%4d : Total surplus"), pcity->surplus[otype]);
+}
+
+/**************************************************************************
+  Return text describing the pollution output.
+**************************************************************************/
+void get_city_dialog_pollution_text(const struct city *pcity,
+				    char *buf, size_t bufsz)
+{
+  int pollu, prod, pop, mod;
+
+  pollu = city_pollution_types(pcity, pcity->prod[O_SHIELD],
+			       &prod, &pop, &mod);
+  buf[0] = '\0';
+
+  cat_snprintf(buf, bufsz,
+	       "%+4d : Pollution from shields\n", prod);
+  cat_snprintf(buf, bufsz,
+	       "%+4d : Pollution from citizens\n", pop);
+  cat_snprintf(buf, bufsz,
+	       "%+4d : Pollution modifier\n", mod);
+  cat_snprintf(buf, bufsz,
+	       "==== : Adds up to\n");
+  cat_snprintf(buf, bufsz,
+	       "%4d : Total surplus", pollu);
+}
+
+/**************************************************************************
   Provide a list of all citizens in the city, in order.  "index"
   should be the happiness index (currently [0..4]; 4 = final
   happiness).  "citizens" should be an array large enough to hold all

@@ -1536,6 +1536,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   output_type_iterate(o) {
     packet->surplus[o] = pcity->surplus[o];
     packet->waste[o] = pcity->waste[o];
+    packet->unhappy_penalty[o] = pcity->unhappy_penalty[o];
     packet->prod[o] = pcity->prod[o];
     packet->citizen_base[o] = pcity->citizen_base[o];
     packet->usage[o] = pcity->usage[o];

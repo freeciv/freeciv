@@ -177,6 +177,7 @@ struct packet_city_info {
   int specialists[SP_MAX];
   int surplus[O_MAX];
   int waste[O_MAX];
+  int unhappy_penalty[O_MAX];
   int prod[O_MAX];
   int citizen_base[O_MAX];
   int usage[O_MAX];

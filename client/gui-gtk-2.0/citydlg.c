@@ -128,6 +128,7 @@ struct city_dialog {
     struct unit_node_vector supported_units;
     struct unit_node_vector present_units;
 
+    GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } overview;
  
@@ -141,6 +142,7 @@ struct city_dialog {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *widget;
+    GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } happiness;
 
@@ -186,7 +188,9 @@ static struct city_dialog *get_city_dialog(struct city *pcity);
 static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
 				 struct city_dialog *pdialog);
 
-static GtkWidget *create_city_info_table(GtkWidget **info_label);
+static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
+    					 GtkWidget **info_ebox,
+					 GtkWidget **info_label);
 static void create_and_append_overview_page(struct city_dialog *pdialog);
 static void create_and_append_worklist_page(struct city_dialog *pdialog);
 static void create_and_append_happiness_page(struct city_dialog *pdialog);
@@ -199,7 +203,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
-static void city_dialog_update_information(GtkWidget **info_label,
+static void city_dialog_update_information(GtkWidget **info_ebox,
+					   GtkWidget **info_label,
                                            struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
@@ -360,7 +365,8 @@ void refresh_city_dialog(struct city *pcity)
 
   city_dialog_update_title(pdialog);
   city_dialog_update_citizens(pdialog);
-  city_dialog_update_information(pdialog->overview.info_label, pdialog);
+  city_dialog_update_information(pdialog->overview.info_ebox,
+				 pdialog->overview.info_label, pdialog);
   city_dialog_update_map(pdialog);
   city_dialog_update_building(pdialog);
   city_dialog_update_improvement_list(pdialog);
@@ -375,7 +381,8 @@ void refresh_city_dialog(struct city *pcity)
 
     refresh_worklist(pdialog->production.worklist);
 
-    city_dialog_update_information(pdialog->happiness.info_label, pdialog);
+    city_dialog_update_information(pdialog->happiness.info_ebox,
+				   pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
 
     refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
@@ -485,14 +492,93 @@ static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
   return FALSE;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
+					 gpointer data)
+{
+  gtk_grab_remove(w);
+  gdk_pointer_ungrab(GDK_CURRENT_TIME);
+  gtk_widget_destroy(w);
+  return FALSE;
+}
+
+enum { FIELD_FOOD, FIELD_SHIELD, FIELD_TRADE, FIELD_GOLD, FIELD_LUXURY,
+       FIELD_SCIENCE, FIELD_GRANARY, FIELD_GROWTH, FIELD_CORRUPTION,
+       FIELD_WASTE, FIELD_POLLUTION 
+};
+
+/****************************************************************
+...
+*****************************************************************/
+static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
+    				gpointer data)
+{
+  struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
+
+  if (ev->button == 1) {
+    GtkWidget *p, *label;
+    char buf[1024];
+    
+    switch (GPOINTER_TO_UINT(data)) {
+    case FIELD_FOOD:
+      get_city_dialog_output_text(pdialog->pcity, O_FOOD, buf, sizeof(buf));
+      break;
+    case FIELD_SHIELD:
+      get_city_dialog_output_text(pdialog->pcity, O_SHIELD,
+				  buf, sizeof(buf));
+      break;
+    case FIELD_TRADE:
+      get_city_dialog_output_text(pdialog->pcity, O_TRADE, buf, sizeof(buf));
+      break;
+    case FIELD_GOLD:
+      get_city_dialog_output_text(pdialog->pcity, O_GOLD, buf, sizeof(buf));
+      break;
+    case FIELD_SCIENCE:
+      get_city_dialog_output_text(pdialog->pcity, O_SCIENCE,
+				  buf, sizeof(buf));
+      break;
+    case FIELD_LUXURY:
+      get_city_dialog_output_text(pdialog->pcity, O_LUXURY,
+				  buf, sizeof(buf));
+      break;
+    case FIELD_POLLUTION:
+      get_city_dialog_pollution_text(pdialog->pcity, buf, sizeof(buf));
+      break;
+    default:
+      return TRUE;
+    }
+    
+    p = gtk_window_new(GTK_WINDOW_POPUP);
+    gtk_widget_set_name(p, "Freeciv");
+    gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
+
+    label = gtk_label_new(buf);
+    gtk_widget_set_name(label, "city info label");
+    gtk_container_add(GTK_CONTAINER(p), label);
+    gtk_widget_show_all(p);
+
+    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+		     NULL, NULL, ev->time);
+    gtk_grab_add(p);
+
+    g_signal_connect_after(p, "button_release_event",
+                           G_CALLBACK(show_info_button_release), NULL);
+  }
+  return TRUE;
+}
 /****************************************************************
  used once in the overview page and once in the happiness page
  **info_label points to the info_label in the respective struct
 ****************************************************************/
-static GtkWidget *create_city_info_table(GtkWidget **info_label)
+static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
+    					 GtkWidget **info_ebox,
+					 GtkWidget **info_label)
 {
   int i;
-  GtkWidget *hbox, *table, *label;
+  GtkWidget *hbox, *table, *label, *ebox;
 
   static const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
@@ -526,12 +612,20 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, 0,
 		     0, 0);
 
+    ebox = gtk_event_box_new();
+    g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
+    g_signal_connect(ebox, "button_press_event",
+	G_CALLBACK(show_info_popup), GUINT_TO_POINTER(i));
+    info_ebox[i] = ebox;
+
     label = gtk_label_new("");
     info_label[i] = label;
     gtk_widget_set_name(label, "city label");	/* ditto */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
-    gtk_table_attach(GTK_TABLE(table), label, 1, 2, i, i + 1, GTK_FILL, 0,
+    gtk_container_add(GTK_CONTAINER(ebox), label);
+
+    gtk_table_attach(GTK_TABLE(table), ebox, 1, 2, i, i + 1, GTK_FILL, 0,
 		     0, 0);
   }
 
@@ -580,7 +674,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   frame = gtk_frame_new(_("Info"));
   gtk_box_pack_start(GTK_BOX(top), frame, FALSE, FALSE, 0);
 
-  table = create_city_info_table(pdialog->overview.info_label);
+  table = create_city_info_table(pdialog,
+  				 pdialog->overview.info_ebox,
+				 pdialog->overview.info_label);
   gtk_container_add(GTK_CONTAINER(frame), table);
 
   frame = gtk_frame_new(_("City map"));
@@ -867,7 +963,9 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   align = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_container_add(GTK_CONTAINER(vbox), align);
   
-  table = create_city_info_table(pdialog->happiness.info_label);
+  table = create_city_info_table(pdialog,
+				 pdialog->happiness.info_ebox,
+				 pdialog->happiness.info_label);
   gtk_container_add(GTK_CONTAINER(align), table);
 
   gtk_widget_show_all(page);
@@ -1074,6 +1172,9 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 				  new_dialog_def_page);
   }
 }
+
+
+
 
 /****************************************************************
 ...
@@ -1306,7 +1407,8 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_information(GtkWidget **info_label,
+static void city_dialog_update_information(GtkWidget **info_ebox,
+					   GtkWidget **info_label,
                                            struct city_dialog *pdialog)
 {
   int i, style;

@@ -271,7 +271,7 @@ const char *get_output_name(Output_type_id output)
 /**************************************************************************
   Return the effect for the production bonus for this output type.
 **************************************************************************/
-static inline enum effect_type get_output_bonus_effect(Output_type_id otype)
+inline enum effect_type get_output_bonus_effect(Output_type_id otype)
 {
   switch (otype) {
   case O_SHIELD:
@@ -1949,39 +1949,64 @@ static inline void citizen_happy_wonders(struct city *pcity)
 static inline void unhappy_city_check(struct city *pcity)
 {
   if (city_unhappy(pcity)) {
-    pcity->prod[O_FOOD] = MIN(pcity->usage[O_FOOD], pcity->prod[O_FOOD]);
-    pcity->prod[O_SHIELD] = MIN(pcity->usage[O_SHIELD], pcity->prod[O_SHIELD]);
-    pcity->prod[O_GOLD] = 0;
-    pcity->prod[O_SCIENCE] = 0;
+    pcity->unhappy_penalty[O_FOOD]
+      = MAX(pcity->prod[O_FOOD] - pcity->usage[O_FOOD], 0);
+    pcity->unhappy_penalty[O_SHIELD]
+      = MAX(pcity->prod[O_SHIELD] - pcity->usage[O_SHIELD], 0);
+    pcity->unhappy_penalty[O_GOLD] = pcity->prod[O_GOLD];
+    pcity->unhappy_penalty[O_SCIENCE] = pcity->prod[O_SCIENCE];
     /* Trade and luxury are unaffected. */
+
+    output_type_iterate(o) {
+      pcity->prod[o] -= pcity->unhappy_penalty[o];
+    } output_type_iterate_end;
+  } else {
+    memset(pcity->unhappy_penalty, 0,
+ 	   O_COUNT * sizeof(*pcity->unhappy_penalty));
   }
 }
 
 /**************************************************************************
+  Calculate the pollution from production and population in the city.
+**************************************************************************/
+int city_pollution_types(const struct city *pcity, int shield_total,
+			 int *pollu_prod, int *pollu_pop, int *pollu_mod)
+{
+  struct player *pplayer = city_owner(pcity);
+  int prod, pop, mod;
+
+  /* Add one one pollution per shield, multipled by the bonus. */
+  prod = 100 + get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
+  prod = shield_total * MAX(prod, 0) / 100;
+
+  /* Add one 1/4 pollution per citizen per tech, multiplied by the bonus. */
+  pop = 100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT);
+  pop = (pcity->size
+	 * num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)
+	 * MAX(pop, 0)) / (4 * 100);
+
+  /* Then there's a base -20 pollution. */
+  mod = -20;
+
+  if (pollu_prod) {
+    *pollu_prod = prod;
+  }
+  if (pollu_pop) {
+    *pollu_pop = pop;
+  }
+  if (pollu_mod) {
+    *pollu_mod = mod;
+  }
+  return MAX(prod + pop + mod, 0);
+}
+
+/**************************************************************************
   Calculate pollution for the city.  The shield_total must be passed in
-  (most callers will want to pass pcity->prod[O_SHIELD]).
+  (most callers will want to pass pcity->shield_prod).
 **************************************************************************/
 int city_pollution(const struct city *pcity, int shield_total)
 {
-  struct player *pplayer = city_owner(pcity);
-  int mod, pollution;
-
-  /* Add one one pollution per shield, multipled by the bonus. */
-  mod = 100 + get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
-  mod = MAX(0, mod);
-  pollution = shield_total * mod / 100;
-
-  /* Add one 1/4 pollution per citizen per tech, multiplied by the bonus. */
-  mod = 100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT);
-  mod = MAX(0, mod);
-  pollution += (pcity->size
-		* num_known_tech_with_flag(pplayer,
-					   TF_POPULATION_POLLUTION_INC)
-		* mod) / (4 * 100);
-
-  pollution = MAX(0, pollution - 20);
-
-  return pollution;
+  return city_pollution_types(pcity, shield_total, NULL, NULL, NULL);
 }
 
 /**************************************************************************
@@ -2477,6 +2502,8 @@ struct city *create_city_virtual(const struct player *pplayer,
 
   memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
   memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
+  memset(pcity->unhappy_penalty, 0,
+	 O_COUNT * sizeof(*pcity->unhappy_penalty));
   memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
   memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
   output_type_iterate(o) {

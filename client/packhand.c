@@ -449,6 +449,7 @@ void handle_city_info(struct packet_city_info *packet)
   output_type_iterate(o) {
     pcity->surplus[o] = packet->surplus[o];
     pcity->waste[o] = packet->waste[o];
+    pcity->unhappy_penalty[o] = packet->unhappy_penalty[o];
     pcity->prod[o] = packet->prod[o];
     pcity->citizen_base[o] = packet->citizen_base[o];
     pcity->usage[o] = packet->usage[o];

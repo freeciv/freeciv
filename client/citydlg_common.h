@@ -56,6 +56,12 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 				    bool is_unit, struct city *pcity);
 
+void get_city_dialog_output_text(const struct city *pcity,
+				 Output_type_id otype,
+				 char *buffer, size_t bufsz);
+void get_city_dialog_pollution_text(const struct city *pcity,
+				    char *buffer, size_t bufsz);
+
 void get_city_citizen_types(struct city *pcity, int index,
 			    struct citizen_type *citizens);
 void city_rotate_specialist(struct city *pcity, int citizen_index);
