@@ -198,6 +198,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_REMOVE_PLAYER:  
   case PACKET_CITY_REFRESH:
   case PACKET_INCITE_INQ:
+  case PACKET_CITY_NAME_SUGGEST_REQ:
     return receive_packet_generic_integer(pc);
     
   case PACKET_ALLOC_RACE:
@@ -289,6 +290,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 
   case PACKET_SPACESHIP_ACTION:
     return receive_packet_spaceship_action(pc);
+    
+  case PACKET_CITY_NAME_SUGGESTION:
+    return receive_packet_city_name_suggestion(pc);
 
   default:
     freelog(LOG_NORMAL, "unknown packet type received");
@@ -2515,6 +2519,42 @@ receive_packet_spaceship_action(struct connection *pc)
 
   iget_int8(&iter, &packet->action);
   iget_int8(&iter, &packet->num);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_city_name_suggestion(struct connection *pc,
+				     struct packet_city_name_suggestion *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
+  
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_string(cptr, packet->name);
+
+  put_int16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_city_name_suggestion *
+receive_packet_city_name_suggestion(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_city_name_suggestion *packet=
+    fc_malloc(sizeof(struct packet_city_name_suggestion));
+  
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->id);
+  iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

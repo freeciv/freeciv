@@ -38,6 +38,7 @@
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
+#include "mapctrl_g.h"		/* popup_newcity_dialog() */
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "messagewin_g.h"
@@ -1302,4 +1303,19 @@ void handle_city_options(struct packet_generic_values *preq)
   
   if (!pcity || pcity->owner != game.player_idx) return;
   pcity->city_options = preq->value2;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
+{
+  struct unit *punit;
+  
+  punit = unit_list_find(&game.player_ptr->units, packet->id);
+  if (punit) {
+    popup_newcity_dialog(punit, packet->name);
+    return;
+  }
+  /* maybe unit died; ignore */
 }

@@ -278,6 +278,10 @@ void handle_packet_input(char *packet, int type)
     handle_spaceship_info((struct packet_spaceship_info *)packet);
     break;
     
+  case PACKET_CITY_NAME_SUGGESTION:
+    handle_city_name_suggestion((struct packet_city_name_suggestion *)packet);
+    break;
+    
   default:
     freelog(LOG_FATAL, "Received unknown packet from server!");
     exit(1);

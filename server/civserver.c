@@ -842,6 +842,17 @@ static void handle_report_request(struct player *pplayer, enum report_type type)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void handle_city_name_suggest_req(struct player *pplayer,
+				  struct packet_generic_integer *packet)
+{
+  struct packet_city_name_suggestion reply;
+  reply.id = packet->value;
+  strcpy(reply.name, city_name_suggestion(pplayer));
+  send_packet_city_name_suggestion(pplayer->conn, &reply);
+}
 
 /**************************************************************************
 ...
@@ -1021,6 +1032,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_UNIT_NUKE:
     handle_unit_nuke(pplayer, (struct packet_unit_request *)packet);
+    break;
+  case PACKET_CITY_NAME_SUGGEST_REQ:
+    handle_city_name_suggest_req(pplayer,
+				 (struct packet_generic_integer *)packet);
     break;
   default:
     freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);

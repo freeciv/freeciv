@@ -97,7 +97,9 @@ enum packet_type {
   PACKET_RULESET_TERRAIN_CONTROL,
   PACKET_RULESET_GOVERNMENT,
   PACKET_RULESET_GOVERNMENT_RULER_TITLE,
-  PACKET_RULESET_CONTROL
+  PACKET_RULESET_CONTROL,
+  PACKET_CITY_NAME_SUGGEST_REQ,
+  PACKET_CITY_NAME_SUGGESTION
 };
 
 enum report_type {
@@ -642,6 +644,22 @@ struct packet_generic_values {
 };
 
 /*********************************************************
+  For city name suggestions, client sends unit id of unit
+  building the city.  The server does not use the id, but
+  sends it back to the client so   that the client knows
+  what to do with the suggestion when it arrives back.
+  (This is for the reply; the request is sent as a generic
+  integer packet with the id value.)
+  (Currently, for city renaming, default is existing name;
+  if wanted to suggest a new name, could do the same thing
+  sending the city id as id, and only client needs to change.)
+*********************************************************/
+struct packet_city_name_suggestion {
+  int id;
+  char name[MAX_LEN_NAME];
+};
+
+/*********************************************************
 this is where the data is first collected, whenever it
 arrives to the client/server.
 *********************************************************/
@@ -839,6 +857,11 @@ int send_packet_spaceship_action(struct connection *pc,
 				 struct packet_spaceship_action *packet);
 struct packet_spaceship_action *
 receive_packet_spaceship_action(struct connection *pc);
+
+int send_packet_city_name_suggestion(struct connection *pc,
+				     struct packet_city_name_suggestion *packet);
+struct packet_city_name_suggestion *
+receive_packet_city_name_suggestion(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);

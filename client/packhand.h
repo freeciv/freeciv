@@ -42,5 +42,6 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
 void handle_ruleset_terrain_control(struct terrain_misc *packet);
 void handle_ruleset_government(struct packet_ruleset_government *packet);
 void handle_ruleset_government_ruler_title(struct packet_ruleset_government_ruler_title *packet);
+void handle_city_name_suggestion(struct packet_city_name_suggestion *packet);
 
 #endif /* FC__PACKHAND_H */

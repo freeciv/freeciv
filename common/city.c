@@ -664,6 +664,8 @@ char *city_name_suggestion(struct player *pplayer)
   static int n_misc=0;
   static char tempname[100];
 
+  freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
+  
   if (!n_misc) {
     for (i=0; misc_city_names[i]; i++) {}
     n_misc = i;

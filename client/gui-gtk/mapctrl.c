@@ -78,7 +78,7 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(toplevel, /*"shellnewcityname"*/"Build New City",
 			"What should we call our new city?",
-			city_name_suggestion(game.player_ptr),
+			suggestname,
 			name_new_city_callback, (gpointer)punit->id,
 			name_new_city_callback, (gpointer)0);
 }
