@@ -60,7 +60,7 @@ struct Map_Click
 
 #define MUIM_Map_Refresh                (0x7878787)
 #define MUIM_Map_DrawMushroom           (0x7878789)
-#define MUIM_Map_ShowCityDescriptions   (0x7878790)
+#define MUIM_Map_ShowCityDesc           (0x7878790)
 #define MUIM_Map_PutCityWorkers         (0x7878791)
 #define MUIM_Map_PutCrossTile           (0x7878792)
 #define MUIM_Map_ExplodeUnit            (0x7878793)
@@ -72,7 +72,7 @@ struct MUIP_Map_Refresh         {ULONG MethodID; LONG x; LONG y; LONG width; LON
 struct MUIP_Map_DrawUnitAnimationFrame {ULONG MethodID; struct unit *punit; bool first_frame; bool last_frame;
 			       int old_canvas_x; int old_canvas_y; int new_canvas_x; int new_canvas_y; };
 struct MUIP_Map_DrawMushroom    {ULONG MethodID; LONG abs_x0; LONG abs_y0;};
-struct MUIP_Map_ShowCityDescriptions {ULONG MethodID;};
+struct MUIP_Map_ShowCityDesc    {ULONG MethodID; struct city *pcity; int canvas_x; int canvas_y;};
 struct MUIP_Map_PutCityWorkers  {ULONG MethodID; struct city *pcity; LONG color;};
 struct MUIP_Map_PutCrossTile    {ULONG MethodID; LONG abs_x0; LONG abs_y0;};
 struct MUIP_Map_ExplodeUnit     {ULONG MethodID; struct unit *punit;};

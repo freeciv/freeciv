@@ -268,6 +268,8 @@ struct Map_Data
   struct unit *punit;		/* Drawing (2) */
   LONG old_horiz_first;		/* Drawing (3) */
   LONG old_vert_first;		/* Drawing (3) */
+  struct city *pcity;		/* Drawing (4) */
+  int canvas_x, canvas_y;	/* Drawing (4) */
   struct unit *explode_unit; /* Drawing (5) */
   LONG mushroom_x0; /* Mushroom(6) */
   LONG mushroom_y0; /* Mushroom(6) */
@@ -436,106 +438,76 @@ struct Command_Node *Map_InsertCommand(struct Command_List *list, STRPTR name, U
 }
 
 /**************************************************************************
-  FIXME: this function is now a part of the GUI interface.  It has
-  been renamed to show_city_desc().  See Map_Priv_showCityDescriptions().
+
 **************************************************************************/
-static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
+static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
 {
-  static char buffer[512];
+  int canvas_x, canvas_y;
+  int x,y,pix;
   struct city *pcity;
-  struct RastPort *rp = _rp(o);
-  if ((pcity = map_get_city(x, y))) {
-    int canvas_x, canvas_y;
-    int w, pix_x, pix_y;
 
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    pix_y = _mtop(o) + canvas_y + NORMAL_TILE_HEIGHT - 2 + rp->TxBaseline;
-    if (draw_city_names) {
-      w = TextLength(rp, pcity->name, strlen(pcity->name));
-      pix_x = _mleft(o) + canvas_x + NORMAL_TILE_WIDTH/2 - w/2;
-
-      SetAPen(rp, data->black_pen);
-      Move(rp, pix_x, pix_y);
-      Text(rp, pcity->name, strlen(pcity->name));
-      SetAPen(rp, data->white_pen);
-      Move(rp, pix_x - 1, pix_y - 1);
-      Text(rp, pcity->name, strlen(pcity->name));
-      pix_y += rp->TxHeight + 2;
-    }
-
-    if (draw_city_productions && (pcity->owner==game.player_idx)) {
-      get_city_mapview_production(pcity, buffer, sizeof(buffer));
-
-      w = TextLength(rp, buffer, strlen(buffer));
-      pix_x = _mleft(o) + canvas_x + NORMAL_TILE_WIDTH/2 - w/2;
-
-      SetAPen(rp, data->black_pen);
-      Move(rp, pix_x, pix_y);
-      Text(rp, buffer, strlen(buffer));
-      SetAPen(rp, data->white_pen);
-      Move(rp, pix_x - 1, pix_y - 1);
-      Text(rp, buffer, strlen(buffer));
-    }
-  }
-}
-
-/**************************************************************************
-  FIXME: this function has gone away; show_desc_at_tile is now used
-  exclusively instead.  But some of the font work here will have to
-  be moved or rethought.
-**************************************************************************/
-static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
-{
+  struct TextFont *org_font;
   struct TextFont *new_font;
   struct RastPort *rp;
 
-  if (!draw_city_names && !draw_city_productions)
-    return;
+  static char buffer[512], buffer2[32];
+  enum color_std color;
 
-  if((new_font = _font(o)))
-  {
-    APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
-    struct TextFont *org_font;
-    int map_view_x0 = data->horiz_first;
-    int map_view_y0 = data->vert_first;
-    int map_canvas_store_twidth = xget(o, MUIA_Map_HorizVisible);
-    int map_canvas_store_theight = xget(o, MUIA_Map_VertVisible);
+  APTR cliphandle;
 
-    rp = _rp(o);
 
-    GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
-    SetFont(rp, new_font);
+  if (!(new_font = _font(o))) return;
 
-    if (is_isometric ) {
-      int x, y;
-      int w, h;
+  cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
-      for (h = -1; h<map_canvas_store_theight*2; h++) {
-        int x_base = map_view_x0 + h/2 + (h != -1 ? h%2 : 0);
-        int y_base = map_view_y0 + h/2 + (h == -1 ? -1 : 0);
-        for (w=0; w<=map_canvas_store_twidth; w++) {
-	  x = (x_base + w);
-	  y = y_base - w;
-	  if (normalize_map_pos(&x, &y)) {
-	    show_desc_at_tile(o, data, x, y);
-	  }
-        }
-      }
-    } else { /* is_isometric */
-      int x1, y1;
-      for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
-        for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
-          int x = map_view_x0 + x1;
-	  int y = map_view_y0 + y1;
-	  if (normalize_map_pos(&x, &y)) {
-	    show_desc_at_tile(o, data, x, y);
-	  }
-        }
-      }
+  canvas_x = data->canvas_x;
+  canvas_y = data->canvas_y;
+  pcity = data->pcity;
+
+  rp = _rp(o);
+
+  canvas_x += NORMAL_TILE_WIDTH / 2;
+  canvas_y += NORMAL_TILE_HEIGHT;
+
+  GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
+  SetFont(rp, new_font);
+
+  y = canvas_y + new_font->tf_Baseline;
+
+  if (draw_city_names) {
+    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				     buffer2, sizeof(buffer2), &color);
+
+    pix = TextLength(rp,buffer,strlen(buffer));
+
+    if (draw_city_growth && pcity->owner == game.player_idx) {
+      pix += TextLength(rp,buffer2,strlen(buffer2));
     }
-    SetFont(rp, org_font);
-    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+
+    x = canvas_x - pix / 2;
+    SetAPen(rp,data->white_pen);
+    Move(rp, _mleft(o) + x, _mtop(o) + y);
+    Text(rp, buffer, strlen(buffer));
+
+    if (draw_city_growth && pcity->owner == game.player_idx)
+	Text(rp, buffer2, strlen(buffer2));
+
+    y += 2 + new_font->tf_YSize;
   }
+
+
+  if (draw_city_productions && (pcity->owner==game.player_idx)) {
+    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+
+    x = canvas_x - TextLength(rp,buffer,strlen(buffer))/2;
+    SetAPen(rp,data->white_pen);
+    Move(rp,_mleft(o) + x, _mtop(o) + y);
+    Text(rp,buffer,strlen(buffer));
+  }
+
+  SetFont(rp, org_font);
+
+  MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
 }
 
 static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
@@ -579,7 +551,7 @@ static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
     MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
 			data->unit_layer->rp, 0, 0, w, h, 0xc0);
 
-    put_unit_tile(data->unit_layer->rp, punit, ox, oy);
+    put_unit_tile(data->unit_layer->rp, punit, ox - ((diff_x<0)?diff_x:0), oy - ((diff_y<0)?diff_y:0));
 
     MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
 			    _rp(o), _mleft(o) + this_x, _mtop(o) + this_y, w, h, 0xc0);
@@ -1029,7 +1001,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     {
       if (data->update == 4) /* show city desc */
       {
-      	Map_Priv_ShowCityDescriptions(o,data);
+      	Map_Priv_ShowCityDesc(o,data);
       	return 0;
       }
 
@@ -1288,8 +1260,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 		   * draw black tiles for unreal positions.
 		   */
 		  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
-		    put_tile(data->map_layer->rp, map_x, map_y, canvas_x,
-			     canvas_y, 0);
+		    put_tile(data->map_layer->rp, map_x, map_y, canvas_x, canvas_y, 0);
 		  }
 		}
 	      }
@@ -1447,7 +1418,6 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
         if (blit_all) {
           BltBitMapRastPort(data->map_bitmap,0,0,_rp(o),_mleft(o),_mtop(o),_mwidth(o),_mheight(o),0xc0);
-	  Map_Priv_ShowCityDescriptions(o, data);
         } else
 	if (write_to_screen) {
 	  LONG pix_width = width * get_normal_tile_width();
@@ -1474,6 +1444,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  }
 	}
       }
+
+      if (!(msg->flags & MADF_DRAWUPDATE)) show_city_descriptions();
     }
 
     data->update = 0;
@@ -1882,10 +1854,14 @@ static ULONG Map_DrawUnitAnimationFrame(struct IClass * cl, Object * o, struct M
   return 0;
 }
 
-static ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*/)
+static ULONG Map_ShowCityDesc(struct IClass * cl, Object * o, struct MUIP_Map_ShowCityDesc *msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 4;
+  data->pcity = msg->pcity;
+  data->canvas_x = msg->canvas_x;
+  data->canvas_y = msg->canvas_y;
+
   MUI_Redraw(o, MADF_DRAWUPDATE);
   return 0;
 }
@@ -1962,7 +1938,7 @@ DISPATCHERPROTO(Map_Dispatcher)
 
     case MUIM_Map_Refresh: return Map_Refresh(cl, obj, (struct MUIP_Map_Refresh *) msg);
     case MUIM_Map_DrawUnitAnimationFrame: return Map_DrawUnitAnimationFrame(cl, obj, (struct MUIP_Map_DrawUnitAnimationFrame *)msg);
-    case MUIM_Map_ShowCityDescriptions: return Map_ShowCityDescriptions(cl, obj/*, msg*/);
+    case MUIM_Map_ShowCityDesc: return Map_ShowCityDesc(cl, obj, (APTR)msg);
     case MUIM_Map_PutCityWorkers: return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
     case MUIM_Map_PutCrossTile:
 // implement me

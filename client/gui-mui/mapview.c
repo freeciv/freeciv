@@ -442,13 +442,7 @@ void refresh_overview_viewrect(void)
 **************************************************************************/
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
-  static char buffer[512], buffer2[32];
-  enum color_std color;
-
-  get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
-				     buffer2, sizeof(buffer2), &color);
-
-	printf("show_city_desc() %s %s %d %d\n",buffer,buffer2, canvas_x, canvas_y);
+	DoMethod(main_map_area, MUIM_Map_ShowCityDesc, pcity, canvas_x, canvas_y);
 }
 
 /**************************************************************************
