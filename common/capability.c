@@ -25,7 +25,7 @@
  * Double note: You can't call strtok recursively, so I have to put my
  * own grokking in here.
  */
-int has_capability(char *cap, char *capstr)
+int has_capability(const char *cap, const char *capstr)
 {
   char *capstr_, *token, *next;
   int res=0, finished=0;
@@ -62,7 +62,7 @@ int has_capability(char *cap, char *capstr)
 /* This routine returns true if all the mandatory capabilities in
  * us appear in them.  Note that we copy us, because strtok modifies it.
  */
-int has_capabilities(char *us, char *them)
+int has_capabilities(const char *us, const char *them)
 {
   char *us_, *token;
   int res=1;

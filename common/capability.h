@@ -11,10 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef CAPABILITY_H
-#define CAPABILITY_H
+#ifndef FC__CAPABILITY_H
+#define FC__CAPABILITY_H
 
-int has_capability(char *cap, char *capstr);
-int has_capabilities(char *us, char *them);
+int has_capability(const char *cap, const char *capstr);
+int has_capabilities(const char *us, const char *them);
 
 #endif
