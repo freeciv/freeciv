@@ -1476,7 +1476,7 @@ fi
 
 
 
-ALL_LINGUAS="de en_GB es fr hu no pl pt pt_BR ru"
+ALL_LINGUAS="de en_GB es fr hu nl no pl pt pt_BR ru"
 echo $ac_n "checking for POSIXized ISC""... $ac_c" 1>&6
 echo "configure:1482: checking for POSIXized ISC" >&5
 if test -d /etc/conf/kconfig.d &&
