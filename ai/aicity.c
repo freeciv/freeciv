@@ -360,7 +360,7 @@ static void ai_spend_gold(struct player *pplayer)
    * learn how to ferry explorers to new land. */
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-    unit_list_iterate(ptile->units, punit) {
+    unit_list_iterate_safe(ptile->units, punit) {
       if (unit_has_role(punit->type, L_EXPLORER)
           && pcity->id == punit->homecity
           && pcity->ai.urgency == 0) {
@@ -368,7 +368,7 @@ static void ai_spend_gold(struct player *pplayer)
                  unit_name(punit->type));
 	handle_unit_disband(pplayer,punit->id);
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   } city_list_iterate_end;
   
   do {
@@ -683,7 +683,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     goto cleanup;
   }
 
-  unit_list_iterate(pcity->units_supported, punit) {
+  unit_list_iterate_safe(pcity->units_supported, punit) {
     if (city_unhappy(pcity)
         && punit->unhappiness != 0
         && punit->ai.passenger == 0) {
@@ -691,7 +691,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
       handle_unit_disband(pplayer, punit->id);
       city_refresh(pcity);
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 
   if (CITY_EMERGENCY(pcity)) {
     freelog(LOG_EMERGENCY, "Emergency in %s remains unresolved", 
