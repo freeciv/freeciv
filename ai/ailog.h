@@ -30,8 +30,6 @@ struct city;
 
 void CITY_LOG(int level, struct city *pcity, const char *msg, ...);
 void UNIT_LOG(int level, struct unit *punit, const char *msg, ...);
-void GOTO_LOG(int level, struct unit *punit, enum goto_result result,
-              const char *msg, ...);
 void BODYGUARD_LOG(int level, struct unit *punit, const char *msg);
 
 #endif  /* FC__AILOG_H */

@@ -102,44 +102,6 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
 }
 
 /**************************************************************************
-  Log goto message if the goto fails. They will appear like this
-    2: a's Explorer[105] on GOTO (3,25)->(5,23) failed : exploring territory
-**************************************************************************/
-void GOTO_LOG(int level, struct unit *punit, enum goto_result result, 
-              const char *msg, ...)
-{
-  int minlevel = MIN(LOGLEVEL_GOTO, level);
-
-  if (minlevel <= fc_log_level && (result == GR_FAILED || result == GR_FOUGHT)) {
-    char buffer[500];
-    char buffer2[500];
-    va_list ap;
-    int gx, gy;
-
-    if (is_goto_dest_set(punit)) {
-      gx = goto_dest_x(punit);
-      gy = goto_dest_y(punit);
-    } else {
-      gx = gy = -1;
-    }
-
-    my_snprintf(buffer, sizeof(buffer),
-                "%s's %s[%d] on GOTO (%d,%d)->(%d,%d) %s : ",
-                unit_owner(punit)->name, unit_type(punit)->name,
-                punit->id, punit->x, punit->y,
-		gx, gy,
-               (result == GR_FAILED) ? "failed" : "fought");
-
-    va_start(ap, msg);
-    my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
-    va_end(ap);
-
-    cat_snprintf(buffer, sizeof(buffer), buffer2);
-    freelog(minlevel, buffer);
-  }
-}
-
-/**************************************************************************
   Log message for bodyguards. They will appear like this
     2: ai4's bodyguard Mech. Inf.[485] (38,22){Riflemen:574@37,23} was ...
   note that these messages are likely to wrap if long.
