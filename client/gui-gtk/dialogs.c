@@ -1535,7 +1535,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
 								char *text, ...)
 {
   va_list args;
-  GtkWidget *dshell, *button0=NULL, *button, *dlabel, *vbox;
+  GtkWidget *dshell, *button, *dlabel, *vbox;
   GtkAccelGroup *accel = gtk_accel_group_new();
   void (*fcb)(GtkWidget *, gpointer);
   gpointer data;
