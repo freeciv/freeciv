@@ -364,8 +364,9 @@ static bool stay_and_defend(struct unit *punit)
   }
 
   /* Treat grave danger anyway if danger is over threshold, which is the
-   * number of units currently in the city. */
-  if (pcity->ai.grave_danger > units) {
+   * number of units currently in the city.  However, to avoid AI panics
+   * (this is common when enemy is huge), add a ceiling. */
+  if (pcity->ai.grave_danger > units && units <= 2) {
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return TRUE;
   }
@@ -1066,6 +1067,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   }
 
   if (pcity && q > 0 && pcity->ai.urgency > 0) {
+    UNIT_LOG(LOG_DEBUG, punit, "decides to camp at home in %s", pcity->name);
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return;
   }
@@ -1112,6 +1114,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     val = look_for_charge(pplayer, punit, &aunit, &acity);
   }
   if (pcity && q > val) {
+    UNIT_LOG(LOG_DEBUG, punit, "decided not to go anywhere, sits in %s",
+             pcity->name);
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
     return;
   }
@@ -1128,6 +1132,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
       (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y))) {
      ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
   } else {
+    UNIT_LOG(LOG_DEBUG, punit, "nothing to do, sit where we are");
     ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1); /* for default */
   }
 }
