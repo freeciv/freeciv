@@ -81,10 +81,9 @@ unit_factor = 1
 total_factor = 100
 
 [combat_rules]
-;If this is set to 1, all units in the same tile of a killed unit will
-;be killed (unless they are on a fortress, airbase or city). This is the
-;freeciv default.
-;If this options is set to 0, units are killed one by one,
-;except by nuclear weapons, of course.
+;If killstack is set to 1, each time a defender unit lost in combat, and is
+;not inside a city, fortress or airbase, all units in the same tile are
+;destroyed along with the defender. This is the freeciv default.
+;If this options is set to 0, only the defender unit is destroyed.
 killstack               = 1
 

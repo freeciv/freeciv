@@ -662,7 +662,6 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
 
 /**************************************************************************
   Is it a city/fortress/air base or will the whole stack die in an attack
-  TODO: use new killstack thing
 **************************************************************************/
 bool is_stack_vulnerable(int x, int y)
 {
