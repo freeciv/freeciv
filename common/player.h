@@ -52,7 +52,7 @@ enum handicap_type {
   H_RATES=256, /* can't set its rates beyond government limits */
   H_TARGETS=512, /* can't target anything it doesn't know exists */
   H_HUTS=1024, /* doesn't know which unseen tiles have huts on them */
-  H_FOG=2048, /* can't see through fog of war */
+  H_FOG=2048 /* can't see through fog of war */
 };
 
 struct player_economic {
