@@ -36,7 +36,8 @@
 /**************************************************************************
  * Looks for nearest airbase for punit.
  * Returns 0 if not found.
- * TODO: Special handicaps for planes running out of fuel
+ * TODO: 1. Use proper refuel_iterate, like in ai_find_strategic_airbase
+ *       2. Special handicaps for planes running out of fuel
  *       IMO should be less restrictive than general H_MAP, H_FOG
  *************************************************************************/
 static bool find_nearest_airbase(int x, int y, struct unit *punit, 
@@ -278,7 +279,11 @@ static bool ai_find_strategic_airbase(struct unit *punit,
  ***********************************************************************/
 void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 {
-  enum goto_result result = GR_FAILED;
+  int dest_x = punit->x, dest_y = punit->y;
+  /* Loop prevention */
+  int moves = punit->moves_left;
+  int id = punit->id;
+
 
   CHECK_UNIT(punit);
 
@@ -296,14 +301,13 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 				 goto_dest_x(punit), goto_dest_y(punit),
 				 pplayer) >= 0) {
       /* It's an ok GOTO, just go there */
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      ai_unit_gothere(punit);
     } else if (find_nearest_airbase(punit->x, punit->y, punit, 
 			     &refuel_x, &refuel_y)) {
       /* Go refuelling */
       set_goto_dest(punit, refuel_x, refuel_y);
       freelog(LOG_DEBUG, "Sent %s to refuel", unit_type(punit)->name);
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      ai_unit_gothere(punit);
     } else {
       if (punit->fuel == 1) {
 	freelog(LOG_DEBUG, "Oops, %s is fallin outta sky", 
@@ -312,58 +316,46 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       return;
     }
 
-    /* Check if we got there okay */
-    if (result != GR_ARRIVED) {
-      freelog(LOG_DEBUG, "Something happened to our unit along the way");
-      /* TODO: some rescuing, but not running into dead-loop */
-    }
+  } else if (punit->fuel == unit_type(punit)->fuel) {
+    /* We only leave a refuel point when we are on full fuel */
 
-  } else if (punit->fuel == unit_type(punit)->fuel
-	     && find_something_to_bomb(punit, punit->x, punit->y) > 0) {
-
-    /* Found target, coordinates are in punit's goto_dest.
-     * TODO: separate attacking into a function, check for the best 
-     * tile to attack from */
-    assert(is_goto_dest_set(punit));
-    set_unit_activity(punit, ACTIVITY_GOTO);
-    if (!ai_unit_gothere(punit)) {
-      return; /* died */
-    }
-    /* goto would be aborted: "Aborting GOTO for AI attack procedures"
-     * now actually need to attack */
-
-    /* We could use ai_military_findvictim here, but I don't trust it... */
-    set_unit_activity(punit, ACTIVITY_IDLE);
-    if (is_tiles_adjacent(punit->x, punit->y,
-			  goto_dest_x(punit), goto_dest_y(punit))) {
-      int id = punit->id;
-      (void) handle_unit_move_request(punit, goto_dest_x(punit),
-				      goto_dest_y(punit), TRUE, FALSE);
-      if ((punit = find_unit_by_id(id)) != NULL && punit->moves_left > 0) {
-	/* Fly home now */
-	ai_manage_airunit(pplayer, punit);
+    if (find_something_to_bomb(punit, punit->x, punit->y) > 0) {
+      /* Found target, coordinates are in punit's goto_dest.
+       * TODO: separate attacking into a function, check for the best 
+       * tile to attack from */
+      assert(is_goto_dest_set(punit));
+      if (!ai_unit_gothere(punit)) {
+        return; /* died */
       }
-    } else {
-      /* Ooops.  Now better come back home */
-      ai_manage_airunit(pplayer, punit);
-    }
 
-  } else {
-    int dest_x= punit->x, dest_y = punit->y;
-    
-    if (ai_find_strategic_airbase(punit, &dest_x, &dest_y)) {
+      /* goto would be aborted: "Aborting GOTO for AI attack procedures"
+       * now actually need to attack */
+      /* We could use ai_military_findvictim here, but I don't trust it... */
+      set_unit_activity(punit, ACTIVITY_IDLE);
+      if (is_tiles_adjacent(punit->x, punit->y,
+                            goto_dest_x(punit), goto_dest_y(punit))) {
+        (void) handle_unit_move_request(punit, goto_dest_x(punit),
+                                        goto_dest_y(punit), TRUE, FALSE);
+      }
+    } else if (ai_find_strategic_airbase(punit, &dest_x, &dest_y)) {
       freelog(LOG_DEBUG, "%s will fly to (%i, %i) (%s) to fight there",
               unit_type(punit)->name, dest_x, dest_y, 
               (map_get_city(dest_x, dest_y) ? 
                map_get_city(dest_x, dest_y)->name : ""));
       set_goto_dest(punit, dest_x, dest_y);
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      ai_unit_gothere(punit);
     } else {
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_type(punit)->name);
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
+  }
+
+  if ((punit = find_unit_by_id(id)) != NULL && punit->moves_left > 0
+      && punit->moves_left != moves) {
+    /* We have moved this turn, might have ended up stuck out in the fields
+     * so, as a safety measure, let's manage again */
+    ai_manage_airunit(pplayer, punit);
   }
 
 }
