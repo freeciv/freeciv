@@ -31,11 +31,9 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
 
-EXTRA_DIST=	acconfig.old			\
-		autogen.sh 			\
+EXTRA_DIST=	autogen.sh 			\
 		config.mac.h			\
 		configure.ac			\
-		configure.in			\
 		diff_ignore			\
 		amiga/Freeciv.start		\
 		amiga/amigaclient.c		\
