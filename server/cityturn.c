@@ -258,7 +258,7 @@ void auto_arrange_workers(struct city *pcity)
 
 	if (!cmr.found_a_valid) {
 	  /* Should never happen. */
-	  CITY_LOG(LOG_ERROR, pcity, "emergency management");
+	  CITY_LOG(LOG_DEBUG, pcity, "emergency management");
 	  cm_init_emergency_parameter(&cmp);
 	  cm_query_result(pcity, &cmp, &cmr);
 	}
@@ -290,7 +290,7 @@ void auto_arrange_workers(struct city *pcity)
 
 	if (!cmr.found_a_valid) {
 	  /* Should never happen. */
-	  CITY_LOG(LOG_ERROR, pcity, "emergency management");
+	  CITY_LOG(LOG_DEBUG, pcity, "emergency management");
 	  cm_init_emergency_parameter(&cmp);
 	  cm_query_result(pcity, &cmp, &cmr);
 	}
