@@ -799,8 +799,8 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   }
     
   hdc=GetDC(pdialog->mainwindow);
-  pdialog->map_bmp=CreateCompatibleBitmap(hdc,5*NORMAL_TILE_WIDTH,
-					  5*NORMAL_TILE_HEIGHT);
+  pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
+					    city_map_height);
   pdialog->citizen_bmp=CreateCompatibleBitmap(hdc,
 					      NUM_CITIZENS_SHOWN*
 					      SMALL_TILE_WIDTH,
@@ -2105,6 +2105,35 @@ popdown_all_city_dialogs(void)
     CityDlgClose(genlist_get(&dialog_list,0));
   }
   popdown_cityopt_dialog();     
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void citydlg_tileset_change(void)
+{
+  
+  struct genlist_iterator myiter;
+  if (!city_dialogs_have_been_initialised)
+    initialize_city_dialogs();
+  if (is_isometric) {
+    city_map_width = 4 * NORMAL_TILE_WIDTH;
+    city_map_height = 4 * NORMAL_TILE_HEIGHT;
+  } else {
+    city_map_width = 5 * NORMAL_TILE_WIDTH;
+    city_map_height = 5 * NORMAL_TILE_HEIGHT;
+  }
+  genlist_iterator_init(&myiter, &dialog_list, 0);
+  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+    HDC hdc;
+    struct city_dialog *pdialog = (struct city_dialog *)ITERATOR_PTR(myiter);
+    DeleteObject(pdialog->map_bmp);
+    hdc = GetDC(pdialog->mainwindow);
+    pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
+					      city_map_height);
+    ReleaseDC(pdialog->mainwindow, hdc);
+    refresh_city_dialog(pdialog->pcity);
+  }
 }
 
 /**************************************************************************

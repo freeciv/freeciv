@@ -14,6 +14,8 @@
 #define FC__CITYDLG_H
 
 #include "citydlg_g.h"
+void citydlg_tileset_change(void);
+
 #define ID_CITY_BUY 65
 #define ID_CITY_CHANGE 66
 #define ID_CITY_SELL 67
