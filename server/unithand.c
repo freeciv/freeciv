@@ -279,7 +279,7 @@ void handle_diplomat_action(struct player *pplayer,
   if (!unit_flag(pdiplomat, F_DIPLOMAT)) 
     return;
 
-  if(pdiplomat->moves_left) {
+  if(pdiplomat->moves_left > 0) {
     switch(packet->action_type) {
     case DIPLOMAT_BRIBE:
       if(pvictim && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,

@@ -781,7 +781,7 @@ static void update_unit_activity(struct unit *punit)
 
   /* to allow a settler to begin a task with no moves left
      without it counting toward the time to finish */
-  if (punit->moves_left) {
+  if (punit->moves_left > 0) {
     punit->activity_count += mr/SINGLE_MOVE;
   } else if (mr == 0) {
     punit->activity_count += 1;
@@ -3132,7 +3132,7 @@ enum goto_result goto_route_execute(struct unit *punit)
       return GR_FOUGHT;
     }
 
-    if (!res && punit->moves_left) {
+    if (!res && punit->moves_left > 0) {
       freelog(LOG_DEBUG, "move idling\n");
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
       return GR_FAILED;

@@ -1245,7 +1245,7 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
       } /* need to zero pass & ferryboat at some point. */
     }
     if (goto_is_sane(punit, gx, gy, TRUE)
-	&& punit->moves_left
+	&& punit->moves_left > 0
 	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, punit->x, punit->y,
@@ -1346,7 +1346,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 
   /* If we are at the destination then do the activity. */
   if (punit->ai.control
-      && punit->moves_left
+      && punit->moves_left > 0
       && punit->activity == ACTIVITY_IDLE) {
     if (same_pos(gx, gy, punit->x, punit->y)) {
       if (best_act == ACTIVITY_UNKNOWN) {
@@ -1407,7 +1407,7 @@ static void auto_settlers_player(struct player *pplayer)
 	      pplayer->name, punit->x, punit->y); 
       if(punit->activity == ACTIVITY_SENTRY)
 	set_unit_activity(punit, ACTIVITY_IDLE);
-      if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
+      if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0)
         set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_IDLE)
 	auto_settler_findwork(pplayer, punit);

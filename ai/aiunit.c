@@ -235,7 +235,7 @@ int ai_manage_explorer(struct unit *punit)
       if (!player_find_unit_by_id(pplayer, id))
 	return 0; /* died */
 
-      if (punit->moves_left) {
+      if (punit->moves_left > 0) {
 	if (punit->x == best_x && punit->y == best_y) {
 	  return ai_manage_explorer(punit);
 	} else {
@@ -253,7 +253,7 @@ int ai_manage_explorer(struct unit *punit)
 
   /* BEGIN PART TWO: Move into unexplored territory */
   /* move the unit as long as moving will unveil unknown territory */
-  while (punit->moves_left) {
+  while (punit->moves_left > 0) {
     int most_unknown = 0;
     int unknown;
 
@@ -292,7 +292,7 @@ int ai_manage_explorer(struct unit *punit)
     }
   }
 
-  if (!punit->moves_left) return 1;
+  if (punit->moves_left == 0) return 1;
 
   /* BEGIN PART THREE: Go towards unexplored territory */
   /* no adjacent squares help us to explore - really slow part follows */
@@ -332,7 +332,7 @@ int ai_manage_explorer(struct unit *punit)
       punit->goto_dest_y = best_y;
       handle_unit_activity_request(punit, ACTIVITY_GOTO);
       do_unit_goto(punit, GOTO_MOVE_ANY, 0);
-      if (punit->moves_left) {
+      if (punit->moves_left > 0) {
 	if (punit->x != best_x || punit->y != best_y) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
 	  return 1; /* Something wrong; what to do but return? */
@@ -917,7 +917,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         }
       } 
     }
-    if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left &&
+    if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0 &&
        (!ferryboat || 
        (real_map_distance(punit->x, punit->y, dest_x, dest_y) < 3 &&
        (!punit->ai.bodyguard || unit_list_find(&(map_get_tile(punit->x,
@@ -942,7 +942,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 	      freelog(LOG_DEBUG,
 		      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
 		      i, j, punit->x, punit->y);
-	      if (aunit->moves_left) return(0);
+	      if (aunit->moves_left > 0) return(0);
 	      else return handle_unit_move_request(punit, i, j, FALSE, FALSE);
 	    }
 	  } unit_list_iterate_end;
@@ -1515,7 +1515,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
             /* you can still have some moves left here, but barbarians should
                not sit helplessly, but advance towards nearest known enemy city */
 	    punit = find_unit_by_id(id);   /* unit might die while exploring */
-            if( punit && punit->moves_left && is_barbarian(pplayer) ) {
+            if( punit && punit->moves_left > 0 && is_barbarian(pplayer) ) {
               struct city *pc;
               int fx, fy;
               freelog(LOG_DEBUG,"Barbarians looking for target");
@@ -1539,7 +1539,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
 /* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
           if ((went = ai_military_gothere(pplayer, punit, dest_x, dest_y))) {
 	    if (went > 0) {
-	      flag = punit->moves_left;
+	      flag = punit->moves_left > 0;
 	    } else {
 	      punit = NULL;
 	    }
@@ -1551,7 +1551,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
 		      punit->x, punit->y, dest_x, dest_y); 
         handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
         punit = find_unit_by_id(id);
-        if (punit) flag = punit->moves_left; else flag = 0;
+        if (punit) flag = punit->moves_left > 0; else flag = 0;
       }
       if (punit)
          if (stay_and_defend_city(punit)) return;
@@ -1575,7 +1575,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
     if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) &&
 	build_points_left(pcity) > (pcity->shield_surplus*2)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
-        if (!punit->moves_left) return;
+        if (punit->moves_left == 0) return;
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
         handle_unit_activity_request(punit, ACTIVITY_IDLE);
       } else {
@@ -1608,7 +1608,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
        pcity=player_find_city_by_id(pplayer, best_city);
        if (pcity) {
          if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
-           if (!punit->moves_left) return;
+           if (punit->moves_left == 0) return;
            auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
          } else {
            req.unit_id = punit->id;
@@ -1661,7 +1661,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (p) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
-    if (punit->moves_left && n)
+    if (punit->moves_left > 0 && n)
       do_unit_goto(punit, GOTO_MOVE_ANY, 0);
     else if (!n && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
@@ -1695,7 +1695,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   if (unit_type(punit)->attack_strength >
       unit_type(punit)->transport_capacity) {
-    if (punit->moves_left) ai_manage_military(pplayer, punit);
+    if (punit->moves_left > 0) ai_manage_military(pplayer, punit);
     return;
   } /* AI used to build frigates to attack and then use them as ferries -- Syela */
 
@@ -1726,7 +1726,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
 /* do cool stuff here */
 
-  if (!punit->moves_left) return;  
+  if (punit->moves_left == 0) return;  
   pcity = find_city_by_id(punit->homecity);
   if (pcity) {
     if (!ai_handicap(pplayer, H_TARGETS) ||
@@ -1808,7 +1808,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
         punit->activity != ACTIVITY_GOTO)
       handle_unit_activity_request(punit, ACTIVITY_IDLE); 
 
-    if (punit->moves_left) {
+    if (punit->moves_left > 0) {
       if (unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
           punit->ai.ferryboat))
         handle_unit_activity_request(punit, ACTIVITY_SENTRY);
@@ -1875,7 +1875,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else if (unit_flag(punit, F_SETTLERS)
 	     ||unit_flag(punit, F_CITIES)) {
-    if (!punit->moves_left) return; /* can't do anything with no moves */
+    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
     return;
   } else if (unit_flag(punit, F_CARAVAN)) {
@@ -1888,11 +1888,11 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_ferryboat(pplayer, punit);
     return;
   } else if (is_military_unit(punit)) {
-    if (!punit->moves_left) return; /* can't do anything with no moves */
+    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_military(pplayer,punit); 
     return;
   } else {
-    if (!punit->moves_left) return; /* can't do anything with no moves */
+    if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_explorer(punit); /* what else could this be? -- Syela */
     return;
   }

@@ -1285,7 +1285,7 @@ enum goto_result do_unit_goto(struct unit *punit,
     }
   }
 
-  if(!punit->moves_left) {
+  if(punit->moves_left == 0) {
     send_unit_info(NULL, punit);
     return GR_OUT_OF_MOVEPOINTS;
   }
@@ -1314,7 +1314,7 @@ enum goto_result do_unit_goto(struct unit *punit,
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
       int last_tile, is_real;
 
-      if (!punit->moves_left) {
+      if (punit->moves_left == 0) {
 	return GR_OUT_OF_MOVEPOINTS;
       }
 
@@ -1331,13 +1331,13 @@ enum goto_result do_unit_goto(struct unit *punit,
       assert(is_real);
 
       penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
-      assert(punit->moves_left);
+      assert(punit->moves_left > 0);
       last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
 
       if (!handle_unit_move_request(punit, x, y, FALSE,
 				    !(last_tile && trigger_special_ability))) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
-	if (punit->moves_left) {
+	if (punit->moves_left > 0) {
 	  punit->activity=ACTIVITY_IDLE;
 	  send_unit_info(NULL, punit);
 	  return GR_FAILED;

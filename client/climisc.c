@@ -570,7 +570,7 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
     mr = get_unit_type(punit->type)->move_rate;
     au = mr ? mr / SINGLE_MOVE : 1;
     activity_total[punit->activity] += punit->activity_count;
-    if (punit->moves_left) {
+    if (punit->moves_left > 0) {
       /* current turn */
       activity_total[punit->activity] += au;
     }

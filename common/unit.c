@@ -84,7 +84,7 @@ int diplomat_can_do_action(struct unit *pdiplomat,
      && !same_pos(pdiplomat->x, pdiplomat->y, destx, desty))
     return FALSE;
 
-  if(!pdiplomat->moves_left)
+  if(pdiplomat->moves_left == 0)
     return FALSE;
 
   return TRUE;
@@ -160,7 +160,7 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity)
 {
   struct city *city1;
 
-  if(!punit->moves_left)
+  if(punit->moves_left == 0)
     return FALSE;
   if(!(city1=map_get_city(punit->x, punit->y))) 
     return FALSE;
@@ -430,7 +430,7 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
   if (!pcity) {
     if (!is_build)
       return AB_NOT_BUILD_UNIT;
-    if (!punit->moves_left)
+    if (punit->moves_left == 0)
       return AB_NO_MOVES_BUILD;
     if (!city_can_be_built_here(punit->x, punit->y))
       return AB_NOT_BUILD_LOC;
@@ -441,7 +441,7 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
 
   if (!is_add)
     return AB_NOT_ADDABLE_UNIT;
-  if (!punit->moves_left)
+  if (punit->moves_left == 0)
     return AB_NO_MOVES_ADD;
 
   assert(unit_pop_value(punit->type) > 0);

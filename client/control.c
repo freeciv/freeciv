@@ -242,7 +242,7 @@ static struct unit *find_best_focus_candidate(void)
   unit_list_iterate(game.player_ptr->units, punit) {
     if(punit!=punit_focus) {
       if(punit->focus_status==FOCUS_AVAIL && punit->activity==ACTIVITY_IDLE &&
-	 punit->moves_left && !punit->ai.control) {
+	 punit->moves_left > 0 && !punit->ai.control) {
         int d;
 	d=sq_map_distance(punit->x, punit->y, x, y);
 	if(d<best_dist) {
@@ -792,7 +792,7 @@ void request_unit_nuke(struct unit *punit)
     append_output_window(_("Game: Only nuclear units can do this."));
     return;
   }
-  if(!(punit->moves_left))
+  if(punit->moves_left == 0)
     do_unit_nuke(punit);
   else {
     set_hover_state(punit, HOVER_NUKE);
