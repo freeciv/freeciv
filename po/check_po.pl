@@ -28,7 +28,9 @@
 #
 # Reads stdin (or filename args, via <>), writes any problems to stdout.
 #
-# Version: 0.40     (2000-02-04)
+# Modified by Davide Pagnin nightmare@freeciv.it to support plural forms
+#
+# Version: 0.41     (2002-06-06)
 
 use strict;
 use vars qw($opt_c $opt_n $opt_p $opt_w $opt_W $opt_x $opt_e);
@@ -359,12 +361,7 @@ while(<>) {
         $state = S_DOING_MSGSTR;
         next LINE;
     }
-    if ( m(^msgstr\[0\] \"(.*)\"$) ) {
-        @amsgstr = ($1);
-        $state = S_DOING_MSGSTR;
-        next LINE;
-    }
-    if ( m(^msgstr\[1\] \"(.*)\"$) ) {
+    if ( m(^msgstr\[[0-2]\] \"(.*)\"$) ) {
         @amsgstr = ($1);
         $state = S_DOING_MSGSTR;
         next LINE;
