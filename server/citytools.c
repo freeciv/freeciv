@@ -1098,7 +1098,9 @@ void remove_city(struct city *pcity)
   unit_list_iterate(pcity->units_supported, punit) {
     struct city *new_home_city = map_get_city(punit->x, punit->y);
     x = punit->x; y = punit->y;
-    if (new_home_city && new_home_city != pcity) {
+    if (new_home_city
+	&& new_home_city != pcity
+	&& city_owner(new_home_city) == pplayer) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       freelog(LOG_VERBOSE, "Changed homecity of %s in %s",
