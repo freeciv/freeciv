@@ -2020,8 +2020,8 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
 
   if (activity == ACTIVITY_EXPLORE) {
-    ai_manage_explorer(pplayer, punit);
-    if (player_find_unit_by_id(pplayer, id))
+    int more_to_explore = ai_manage_explorer(pplayer, punit);
+    if (more_to_explore && player_find_unit_by_id(pplayer, id))
       handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
     else return;
   }

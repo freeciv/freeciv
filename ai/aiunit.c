@@ -112,11 +112,11 @@ static int tile_is_accessible(struct unit *punit, int x, int y)
 }
  
 /**************************************************************************
-... do something sensible with the unit...
+Explores unknown territory, finds huts.
+Returns whether there is any more territory to be explored.
 **************************************************************************/
-
-void ai_manage_explorer(struct player *pplayer, struct unit *punit)
-{ /* this is smarter than the old one, but much slower too. -- Syela */
+int ai_manage_explorer(struct player *pplayer, struct unit *punit)
+{
   int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best, lmt, cur, a, b;
   int ok, ct = punit->moves_left + 3;
   struct city *pcity;
@@ -162,7 +162,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       punit->goto_dest_y = dest_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
       do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
-      return; /* maybe have moves left but I want to return anyway. */
+      return 1; /* maybe have moves left but I want to return anyway. */
     }
   }
 
@@ -208,11 +208,11 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     } /* end i */
     if (best) {
       handle_unit_move_request(pplayer, punit, dest_x, dest_y, FALSE);
-      if(!player_find_unit_by_id(pplayer, id)) return; /* died */
+      if(!player_find_unit_by_id(pplayer, id)) return 0; /* died */
     }
     ct--; /* trying to avoid loops */
   }
-  if (!punit->moves_left) return;
+  if (!punit->moves_left) return 1;
 /* END PART TWO */
 
 /* BEGIN PART THREE: Go towards unexplored territory */
@@ -247,7 +247,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     punit->goto_dest_y = dest_y;
     set_unit_activity(punit, ACTIVITY_GOTO);
     do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
-    return;
+    return 1;
   }
 /* END PART THREE */
 
@@ -268,6 +268,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       }
     }
   }
+  return 0;
 }
 
 /**************************************************************************

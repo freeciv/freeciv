@@ -1288,9 +1288,9 @@ static void handle_unit_activity_dependencies(struct unit *punit,
   case ACTIVITY_EXPLORE:
     if (punit->moves_left > 0) {
       int id = punit->id;
-      ai_manage_explorer(unit_owner(punit), punit);
+      int more_to_explore = ai_manage_explorer(unit_owner(punit), punit);
       /* ai_manage_explorer sets the activity to idle, so we reset it */
-      if ((punit = find_unit_by_id(id))) {
+      if (more_to_explore && (punit = find_unit_by_id(id))) {
 	set_unit_activity(punit, ACTIVITY_EXPLORE);
 	send_unit_info(0, punit);
       }

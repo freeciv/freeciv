@@ -28,7 +28,7 @@ void ai_manage_units(struct player *pplayer);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
-void ai_manage_explorer(struct player *pplayer,struct unit *punit);
+int ai_manage_explorer(struct player *pplayer,struct unit *punit);
 void ai_manage_military(struct player *pplayer,struct unit *punit);
 void ai_military_findjob(struct player *pplayer,struct unit *punit);
 void ai_military_gohome(struct player *pplayer,struct unit *punit);
