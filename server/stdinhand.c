@@ -68,7 +68,9 @@ extern int force_end_of_sniff;
 static void cut_player_connection(struct player *caller, char *playername);
 static void quit_game(struct player *caller);
 static void show_help(struct player *caller, char *arg);
+static void show_list(struct player *caller, char *arg);
 static void show_players(struct player *caller);
+static void show_connections(struct player *caller);
 static void set_ai_level(struct player *caller, char *name, int level);
 
 static char horiz_line[] =
@@ -862,8 +864,12 @@ static struct command commands[] = {
   },
 
   {"list",	ALLOW_INFO,
-   "list",
-   N_("Show a list of players.")
+   "list\n"
+   "list players\n"
+   "list connections",
+   N_("Show a list of players or connections."),
+   N_("Show a list of players, or a list of connections to the server.  "
+      "The argument may be abbreviated, and defaults to 'players' if absent.")
   },
   {"quit",	ALLOW_HACK,
    "quit",
@@ -2473,7 +2479,7 @@ void handle_stdin_input(struct player *caller, char *str)
     show_help(caller, arg);
     break;
   case CMD_LIST:
-    show_players(caller);
+    show_list(caller, arg);
     break;
   case CMD_AITOGGLE:
     toggle_ai_player(caller,arg);
@@ -2916,6 +2922,31 @@ static void show_help(struct player *caller, char *arg)
 }
 
 /**************************************************************************
+  Show list of players or connections.  If more argument types are
+  added, especially if become non-unique with first letter, should
+  use m_pre matching code.
+**************************************************************************/
+static void show_list(struct player *caller, char *arg)
+{
+  if (arg) {
+    arg = skip_leading_spaces(arg);
+    remove_trailing_spaces(arg);
+  }
+  if (!arg || strlen(arg) == 0
+      || mystrncasecmp(arg, "players", strlen(arg))==0) {
+    show_players(caller);
+  }
+  else if(mystrncasecmp(arg, "connections", strlen(arg))==0) {
+    show_connections(caller);
+  }
+  else {
+    cmd_reply(CMD_LIST, caller, C_SYNTAX,
+	      _("Bad list argument: '%s'.  Try '%shelp list'."),
+	      arg, (caller?"/":""));
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void show_players(struct player *caller)
@@ -2978,6 +3009,28 @@ static void show_players(struct player *caller)
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
+
+/**************************************************************************
+  List connections; initially mainly for debugging
+**************************************************************************/
+static void show_connections(struct player *caller)
+{
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of connections to server:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  if (conn_list_size(&game.all_connections) == 0) {
+    cmd_reply(CMD_LIST, caller, C_WARNING, _("<no connections>"));
+  }
+  else {
+    conn_list_iterate(game.all_connections, pconn) {
+      cmd_reply(CMD_LIST, caller, C_COMMENT,
+		"%s", conn_description(pconn));
+    }
+    conn_list_iterate_end;
+  }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
 
 #ifdef HAVE_LIBREADLINE
 /********************* RL completion functions ***************************/
@@ -3153,6 +3206,36 @@ static char *help_generator(char *text, int state)
     name = helparg_accessor(list_index);
     list_index++;
     
+    if (mystrncasecmp (name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+/**************************************************************************
+...
+  (This should use a table...)
+**************************************************************************/
+static char *list_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen (text);
+  }
+
+  /* Return the next name which partially matches from the helpargs list. */
+  while (list_index < 2) {
+    name = (list_index ? "players" : "connections");
+    list_index++;
+
     if (mystrncasecmp (name, text, len) == 0)
       return mystrdup(name);
   }
@@ -3354,6 +3437,14 @@ static int is_help(int start)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static int is_list(int start)
+{
+  return contains_str_before_start(start, commands[CMD_LIST].name, 0);
+}
+
+/**************************************************************************
 Attempt to complete on the contents of TEXT.  START and END bound the
 region of rl_line_buffer that contains the word to complete.  TEXT is
 the word to complete.  We can use the entire contents of rl_line_buffer
@@ -3370,6 +3461,8 @@ char **freeciv_completion(char *text, int start, int end)
     matches = completion_matches(text, command_generator);
   } else if (is_rulesout(start)) {
     matches = completion_matches(text, rulesout_generator);
+  } else if (is_list(start)) {
+    matches = completion_matches(text, list_generator);
   } else if (is_cmdlevel(start)) { /* before is_player! */
     matches = completion_matches(text, cmdlevel_generator);
   } else if (is_player(start)) {

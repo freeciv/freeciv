@@ -120,5 +120,7 @@ struct connection *find_conn_by_name_prefix(const char *name,
 					    enum m_pre_result *result);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
+
+const char *conn_description(const struct connection *pconn);
   
 #endif  /* FC__CONNECTION_H */

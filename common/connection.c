@@ -32,6 +32,7 @@
 #include <sys/select.h>
 #endif
 
+#include "fcintl.h"
 #include "game.h"		/* game.all_connections */
 #include "log.h"
 #include "mem.h"
@@ -339,3 +340,38 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
   buf->do_buffer_sends = 0;
   return buf;
 }
+
+/**************************************************************************
+  Return pointer to static string containing a description for this
+  connection, based on pconn->name, pconn->addr, and (if applicable)
+  pconn->player->name.  (Also pconn->established and pconn->observer.)
+
+  Note that if pconn is client's aconnection (connection to server),
+  pconn->name and pconn->addr contain empty string, and pconn->player
+  is NULL: in this case returns empty string, which is usually ok because
+  client needs no description for conn to server.
+**************************************************************************/
+const char *conn_description(const struct connection *pconn)
+{
+  static char buffer[MAX_LEN_NAME*2 + MAX_LEN_ADDR + 128];
+
+  buffer[0] = '\0';
+
+  if (*pconn->name) {
+    my_snprintf(buffer, sizeof(buffer), _("%s from %s"),
+		pconn->name, pconn->addr); 
+  }
+  if (!pconn->established) {
+    sz_strlcat(buffer, _(" (connection incomplete)"));
+    return buffer;
+  }
+  if (pconn->player) {
+    cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
+		 pconn->player->name);
+  }
+  if (pconn->observer) {
+    sz_strlcat(buffer, _(" (observer)"));
+  }
+  return buffer;
+}
+  
