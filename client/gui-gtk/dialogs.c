@@ -2122,16 +2122,18 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-static void races_name_callback( GtkWidget *w, gpointer data )
+static void races_name_callback(GtkWidget * w, gpointer data)
 {
-  char *lead;
-  int nat;
+  Nation_Type_id nation = races_buttons_get_current();
+  const char *leader =
+      gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry));
 
-  nat = races_buttons_get_current();
-  lead = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry)); 
-  selected_sex = get_nation_leader_sex(nat, lead);
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
-                              races_sex_toggles[selected_sex?0:1]), TRUE);
+  if (check_nation_leader_name(nation, leader)) {
+    selected_sex = get_nation_leader_sex(nation, leader);
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
+				(races_sex_toggles[selected_sex ? 0 : 1]),
+				TRUE);
+  }
 }
 
 /**************************************************************************
