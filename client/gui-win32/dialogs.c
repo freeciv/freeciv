@@ -241,6 +241,9 @@ popup_notify_dialog(char *caption, char *headline, char *lines)
       (HMENU)ID_NOTIFY_MSG,freecivhinst,NULL); 
       fcwin_box_add_win(vbox,edit,TRUE,TRUE,5);
       buf=convertnl2crnl(lines);
+      SendMessage(GetDlgItem(dlg,ID_NOTIFY_MSG),
+		  WM_SETFONT,(WPARAM) font_12courier, MAKELPARAM(TRUE,0)); 
+
       SetWindowText(GetDlgItem(dlg,ID_NOTIFY_MSG),buf);
       fcwin_box_add_button(vbox,_("Close"),ID_NOTIFY_CLOSE,WS_VISIBLE,
 			   FALSE,FALSE,5);

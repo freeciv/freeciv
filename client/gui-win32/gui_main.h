@@ -116,6 +116,9 @@
 
 #ifndef RC_INVOKED
 #include "gui_main_g.h"
+extern HFONT font_8courier;
+extern HFONT font_12courier;
+extern HFONT font_12arial;
 extern int map_win_x;
 extern int map_win_y;
 extern int map_win_width;
