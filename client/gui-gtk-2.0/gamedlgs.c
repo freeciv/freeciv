@@ -194,27 +194,27 @@ static void rates_changed_callback(GtkAdjustment *adj)
 /**************************************************************************
 ...
 **************************************************************************/
-static void rates_ok_command_callback(GtkWidget *widget, gpointer data)
+static void rates_command_callback(GtkWidget *w, gint response_id)
 {
-  struct packet_player_request packet;
+  if (response_id == GTK_RESPONSE_ACCEPT) {
+    struct packet_player_request packet;
   
-  gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(rates_dialog_shell);
 
-  packet.tax=rates_tax_value;
-  packet.science=rates_sci_value;
-  packet.luxury=rates_lux_value;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+    packet.tax=rates_tax_value;
+    packet.science=rates_sci_value;
+    packet.luxury=rates_lux_value;
+    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+  }
+  gtk_widget_destroy(rates_dialog_shell);
 }
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
+static void rates_destroy_callback(GtkWidget *widget, gpointer data)
 {
-  gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(rates_dialog_shell);
+  rates_dialog_shell = NULL;
 }
 
 
@@ -222,27 +222,29 @@ static void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ... 
 *****************************************************************/
-static void create_rates_dialog(void)
+static GtkWidget *create_rates_dialog(void)
 {
+  GtkWidget     *shell;
   GtkWidget	*frame, *hbox;
 
   GtkWidget	*scale;
-  GtkWidget	*button;
-  GtkAccelGroup *accel=gtk_accel_group_new();
   
-  rates_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(rates_dialog_shell),"delete_event",
-      GTK_SIGNAL_FUNC(deleted_callback),NULL );
-  gtk_window_set_position (GTK_WINDOW(rates_dialog_shell), GTK_WIN_POS_MOUSE);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(rates_dialog_shell));
-
-  gtk_window_set_title( GTK_WINDOW( rates_dialog_shell ), _("Select tax, luxury and science rates") );
+  shell = gtk_dialog_new_with_buttons(_("Select tax, luxury and science rates"),
+  	GTK_WINDOW(toplevel),
+	0,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_ACCEPT,
+	GTK_STOCK_CANCEL,
+	GTK_RESPONSE_REJECT,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
   rates_gov_label = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), rates_gov_label, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), rates_gov_label, TRUE, TRUE, 5 );
 
   frame = gtk_frame_new( _("Tax") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
@@ -262,7 +264,7 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_toggle, TRUE, TRUE, 0 );
 
   frame = gtk_frame_new( _("Luxury") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
@@ -282,7 +284,7 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_toggle, TRUE, TRUE, 0 );
 
   frame = gtk_frame_new( _("Science") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
@@ -302,24 +304,13 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_sci_toggle, TRUE, TRUE, 0 );
 
 
+  g_signal_connect(shell, "response",
+		   G_CALLBACK(rates_command_callback), NULL);
+  g_signal_connect(shell, "destroy",
+		   G_CALLBACK(rates_destroy_callback), NULL);
 
-  button = gtk_button_new_with_label( _("Ok") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( button );
-  gtk_signal_connect(GTK_OBJECT(button),"clicked",
-      GTK_SIGNAL_FUNC(rates_ok_command_callback), NULL);
-  gtk_widget_add_accelerator(button, "clicked",
-    accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
-
-  button = gtk_button_new_with_label( _("Cancel") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
-  gtk_signal_connect(GTK_OBJECT(button),"clicked",
-      GTK_SIGNAL_FUNC(rates_cancel_command_callback), NULL);
-
-  gtk_widget_show_all( GTK_DIALOG( rates_dialog_shell )->vbox );
-  gtk_widget_show_all( GTK_DIALOG( rates_dialog_shell )->action_area );
+  gtk_widget_show_all( GTK_DIALOG( shell )->vbox );
+  gtk_widget_show_all( GTK_DIALOG( shell )->action_area );
 
   rates_tax_value=-1;
   rates_lux_value=-1;
@@ -340,7 +331,7 @@ static void create_rates_dialog(void)
   rates_set_values( game.player_ptr->economic.tax, 0,
         	    game.player_ptr->economic.luxury, 0,
         	    game.player_ptr->economic.science, 0 );
-  return;
+  return shell;
 }
 
 
@@ -351,17 +342,17 @@ static void create_rates_dialog(void)
 *****************************************************************/
 void popup_rates_dialog(void)
 {
-    char buf[64];
+  char buf[64];
 
-    gtk_widget_set_sensitive(top_vbox, FALSE );
-    create_rates_dialog();
+  if (!rates_dialog_shell)
+    rates_dialog_shell = create_rates_dialog();
 
-    my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-	get_government_name(game.player_ptr->government),
-	get_government_max_rate(game.player_ptr->government));
-    gtk_set_label(rates_gov_label, buf);
-   
-    gtk_widget_show( rates_dialog_shell );
+  my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
+      get_government_name(game.player_ptr->government),
+      get_government_max_rate(game.player_ptr->government));
+  gtk_set_label(rates_gov_label, buf);
+  
+  gtk_window_present(GTK_WINDOW(rates_dialog_shell));
 }
 
 /**************************************************************************

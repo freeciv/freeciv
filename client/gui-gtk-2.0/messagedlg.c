@@ -51,7 +51,7 @@ void popup_messageopt_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-GtkWidget *create_messageopt_dialog(void)
+static GtkWidget *create_messageopt_dialog(void)
 {
   GtkWidget *shell, *form, *explanation;
   int n, i, j;
