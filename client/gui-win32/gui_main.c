@@ -499,7 +499,7 @@ static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTim
 /**************************************************************************
   This pops down every dialog
 **************************************************************************/
-void popdown_everything(void)
+void popdown_all_game_dialogs(void)
 {
   RECT rc;
   fcwin_close_all_childs(root_window);
