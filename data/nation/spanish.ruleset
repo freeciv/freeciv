@@ -2,13 +2,18 @@
 
 name=_("Spanish")
 plural=_("?plural:Spanish")
-leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
-leader_sex="Male", "Female", "Male", "Female", "Male"
+leader="Viriato", "Recaredo I", "Alfonso X", "Fernando V", "Isabel I",
+       "Carlos I", "Felipe II", "Carlos III", "Franco", "Mortadelo"
+leader_sex="Male", "Male", "Male", "Male", "Female",
+           "Male", "Male", "Male", "Male", "Male"
 flag="f.spain"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+ruler_titles = { "government",     "male_title",        "female_title"
+                 "Despotism",      _("Caudillo"),       _("Caudilla")
+                 "Fundamentalism", _("Cardinal"),       _("Cardinal")
+                 "Monarchy",       _("King"),           _("Queen")
+                 "Democracy",      _("Prime Minister"), _("Prime Minister")
                }
 
 attack=1
@@ -21,11 +26,38 @@ wonder="Magellan's Expedition"
 government="Democracy"
 
 cities =
- "Madrid", "Toledo", "León", "Salamanca",
- "Vigo", "La Coruña", "Oviedo", "Bilbao", "Valladolid",
- "San Sebastián", "Vitoria", "Zaragoza",
- "Barcelona", "Valencia", "Palma", "Alcudia",
- "Tenerife", "Santander", "Sevilla", "Granada", "Málaga",
- "Jerez", "Alicante", "Córdoba", "Cádiz"
-
-
+  "Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Zaragoza",
+  "Pamplona", "Oviedo", "Valladolid", "Toledo", "Santander", "Granada",
+  "León", "Córdoba", "San Sebastián", "Segovia", "Gerona", "La Coruña",
+  "Murcia", "Málaga", "Cádiz", "Tarragona", "Vitoria", "Burgos", "Palma",
+  "Castellón de la Plana", "Palencia", "Huelva", "Zamora", "Badajoz",
+  "Jaén", "Teruel", "Lugo", "Ciudad Real", "Alicante", "Almería",
+  "Soria", "Logroño", "Pontevedra", "Orense", "Guadalajara", "Cuenca",
+  "Santa Cruz de Tenerife", "Huesca", "Avila", "Albacete", "Lérida",
+  "Salamanca", "Cáceres", "Las Palmas de Gran Canaria", "Reus",
+  "Linares", "Sabadell", "Baracaldo", "Calahorra", "Manacor",
+  "Calatrava", "Getafe", "Alcudia", "Laredo", "Albarracín", "Rentería",
+  "Almazán", "Durango", "Barbastro", "Ciudad Rodrigo", "El Ferrol",
+  "Jerez de la Frontera", "Algeciras", "Estela", "Alcalá de Henares",
+  "Ponferrada", "Calatayud", "Monforte", "Elche", "Orihuela", "Mérida",
+  "Trujillo", "Vigo", "Alcoy", "Tarrasa", "Astorga", "Manresa",
+  "Torrelavega", "Mataró", "Puertollano", "Plasencia", "Santurce",
+  "Cartagena", "Ibiza", "Mahón", "Badalona", "Gijón", "Aranjuez",
+  "Almadén", "Urgel", "Bailén", "Ampurias", "Navalcarnero", "Güímar",
+  "Carmona", "Betanzos", "La Laguna", "Hijar", "Baltanás", "Villena",
+  "Valdepeñas", "Vergara", "Tolosa", "Sigüenza", "Cangas", "Morella",
+  "Vitigudino", "Marchena", "Armuña", "Tornelloso", "Arzúa", "Belorado",
+  "Jaca", "Castrojeriz", "Alméniz", "Cervera", "Cifuentes", "Garafía",
+  "Sequeroa", "Alarcón", "Segorbe", "Almudévar", "Salvatierra", "Sarnón",
+  "Barbate", "Albañiz", "Gandía", "Lerma", "Villaviciosa", "Játiva",
+  "Calamocha", "Orotava", "Labastida", "Mogán", "Figueras", "Orcera",
+  "Alcaudete", "Alcira", "Zumárraga", "Tudela", "Montalbán", "Reinosa",
+  "Navalmoral de la mata", "Monreal", "Mazarrón", "Lepe", "Montefrío",
+  "Utrera", "Alcañiz", "Villalba", "Jaraíz", "Vélez", "Almuñécar",
+  "Brunete", "Talavera", "Cardona", "Amposta", "Sacedón", "Marbella",
+  "Vejer de la frontera", "Guadix", "Azpeitía", "Ubeda", "Caspe",
+  "Torquemada", "Lorca", "Benidorm", "Tortosa", "Motril", "Lucena",
+  "Berga", "Monzón", "Agüimes", "Fregenal", "Aguilar", "Antequera",
+  "Tineo", "Sedano", "Lebrija", "Calatañazor", "Azuaga", "Vilches",
+  "Alcántara", "Fraga", "Benavente", "Mondragón", "Calanda", "Daroca",
+  "Valverde", "Belmonte", "Simancas", "Coria", "Requena", "Aranda"
