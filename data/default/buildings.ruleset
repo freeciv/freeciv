@@ -580,8 +580,8 @@ effect		=
     { "name", "value", "equiv", "req_type", "req"
       "Prod_Bonus", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Mfg. Plant"
+; Changed to a flat -50% for 2.0 to match what the docs say
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
@@ -734,8 +734,8 @@ effect		=
     { "name", "value", "equiv", "req_type", "req"
       "Prod_Bonus", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", -25, "Janitors", "Building", "Mfg. Plant"
+; Changed to a flat -50% for 2.0 to match what the docs say
+      "Pollu_Prod_Pct", -50, "Janitors"
     }
 sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
@@ -1654,8 +1654,8 @@ effect		=
     { "name", "range", "value", "equiv", "req_type", "req"
       "Prod_Bonus", "Player", 25, "Generators", "Building", "Factory"
       "Prod_Bonus", "Player", 25, "Generators", "Building", "Mfg. Plant"
-      "Pollu_Prod_Pct", "Player", -25, "Janitors", "Building", "Factory"
-      "Pollu_Prod_Pct", "Player", -25, "Janitors", "Building", "Mfg. Plant"
+; Changed to a flat -50% for 2.0 to match what the docs say
+      "Pollu_Prod_Pct", "Player", -50, "Janitors"
     }
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
