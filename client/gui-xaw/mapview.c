@@ -47,6 +47,7 @@ extern Window root_window;
 extern Widget map_canvas, map_form, info_command, turn_done_button;
 extern Widget map_vertical_scrollbar, map_horizontal_scrollbar;
 extern Widget overview_canvas, main_form, left_column_form;
+extern Widget menu_form, below_menu_form, bottom_form;
 extern Widget econ_label[10];
 extern Widget bulb_label, sun_label, government_label, timeout_label;
 extern Widget unit_info_label;
@@ -156,12 +157,16 @@ void blink_active_unit(void)
 **************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
-  Dimension h;
+  Dimension h, w;
 
   XtVaSetValues(overview_canvas, XtNwidth, 2*x, XtNheight, 2*y, NULL);
 
   XtVaGetValues(left_column_form, XtNheight, &h, NULL);
   XtVaSetValues(map_form, XtNheight, h, NULL);
+
+  XtVaGetValues(below_menu_form, XtNwidth, &w, NULL);
+  XtVaSetValues(menu_form, XtNwidth, w, NULL);
+  XtVaSetValues(bottom_form, XtNwidth, w, NULL);
 
   overview_canvas_store_width=2*x;
   overview_canvas_store_height=2*y;

@@ -519,13 +519,8 @@ void ui_main(int argc, char *argv[])
 				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
 				 display_depth);
 
-  overview_canvas_store_width=2*80;
-  overview_canvas_store_height=2*50;
-
-  overview_canvas_store=XCreatePixmap(display, XtWindow(overview_canvas), 
-				      overview_canvas_store_width,
-				      overview_canvas_store_height, 
-				      display_depth);
+  overview_canvas_store=0;
+  set_overview_dimensions(80, 50);
 
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
   XFillRectangle(display, overview_canvas_store, fill_bg_gc, 0, 0, 
