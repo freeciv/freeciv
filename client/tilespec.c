@@ -1624,34 +1624,40 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       /* Draw road corners underneath rails. */
       sprs = fill_road_corner_sprites(sprs, tspecial, tspecial_near);
 
+      /* Draw roads underneath rails. */
+      if (contains_special(tspecial, S_ROAD)) {
+	bool found = FALSE;
+
+	for (dir = 0; dir < 8; dir++) {
+	  if (contains_special(tspecial_near[dir], S_ROAD)) {
+	    found = TRUE;
+	    /* Only draw a road if there's no rail there. */
+	    if (!(contains_special(tspecial, S_RAILROAD)
+		  && contains_special(tspecial_near[dir], S_RAILROAD))) {
+	      *sprs++ = sprites.road.dir[dir];
+	    }
+	  }
+	}
+
+	if (!found && !pcity && !contains_special(tspecial, S_RAILROAD)) {
+	  *sprs++ = sprites.road.isolated;
+	}
+      }
+
+      /* Draw rails over roads. */
       if (contains_special(tspecial, S_RAILROAD)) {
-      	bool found = FALSE;
+	bool found = FALSE;
 
 	for (dir = 0; dir < 8; dir++) {
 	  if (contains_special(tspecial_near[dir], S_RAILROAD)) {
 	    *sprs++ = sprites.rail.dir[dir];
 	    found = TRUE;
-	  } else if (contains_special(tspecial_near[dir], S_ROAD)) {
-	    *sprs++ = sprites.road.dir[dir];
-	    found = TRUE;
 	  }
 	}
 
-	if (!found && !pcity)
+	if (!found && !pcity) {
 	  *sprs++ = sprites.rail.isolated;
-
-      } else if (contains_special(tspecial, S_ROAD)) {
-	bool found = FALSE;
-
-	for (dir = 0; dir < 8; dir++) {
-	  if (contains_special(tspecial_near[dir], S_ROAD)) {
-	    *sprs++ = sprites.road.dir[dir];
-	    found = TRUE;
-	  }
 	}
-
-	if (!found && !pcity)
-	  *sprs++ = sprites.road.isolated;
       }
 
       /* Draw rail corners over roads. */
