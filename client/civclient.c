@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
   ui_main(argc, argv);
 
   /* termination */
-
+  attribute_flush();
   my_shutdown_network();
 
   return 0;
