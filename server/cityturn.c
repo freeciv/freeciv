@@ -743,23 +743,26 @@ void city_auto_remove_worker(struct city *pcity)
 **************************************************************************/
 void city_increase_size(struct city *pcity)
 {
-  if (city_got_building(pcity, B_GRANARY) || city_affected_by_wonder(pcity, B_PYRAMIDS)) { 
-    pcity->food_stock=(pcity->size+1)*(game.foodbox/2);
-  }
-  else
-    pcity->food_stock=0;
   if (!city_got_building(pcity, B_AQUEDUCT) && pcity->size>=8) {/* need aqueduct */
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
 	  "Game: %s needs Aqueducts to grow any further", pcity->name);
+    pcity->food_stock = pcity->size * game.foodbox; /* Granary can only hold so much */
     return;
   }
 
   if (!city_got_building(pcity, B_SEWER) && pcity->size>=12) {/* need sewer */
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-	  "Game: %s needs Sewer system to grow any further", pcity->name);
+      "Game: %s needs Sewer system to grow any further", pcity->name);
+    pcity->food_stock = pcity->size * game.foodbox; /* Granary can only hold so much */
     return;
   }
 
+  if (city_got_building(pcity, B_GRANARY) || 
+      city_affected_by_wonder(pcity, B_PYRAMIDS))
+    pcity->food_stock = (pcity->size + 1) * (game.foodbox / 2);
+  else
+    pcity->food_stock = 0;
+  
   pcity->size++;
   if (!add_adjust_workers(pcity))
     auto_arrange_workers(pcity);
