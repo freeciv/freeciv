@@ -6,7 +6,7 @@
 dnl AM_PATH_IMLIB([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for IMLIB, and define IMLIB_CFLAGS and IMLIB_LIBS
 dnl
-AC_DEFUN(AM_PATH_IMLIB,
+AC_DEFUN([AM_PATH_IMLIB],
 [dnl 
 dnl Get the cflags and libraries from the imlib-config script
 dnl
@@ -164,7 +164,7 @@ int main ()
 ])
 
 # Check for gdk-imlib
-AC_DEFUN(AM_PATH_GDK_IMLIB,
+AC_DEFUN([AM_PATH_GDK_IMLIB],
 [dnl 
 dnl Get the cflags and libraries from the imlib-config script
 dnl
