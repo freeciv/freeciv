@@ -1984,7 +1984,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
 
       if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
           || !can_unit_attack_tile(punit, dest_x, dest_y)
-          || !(could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
+          || (could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
         UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
