@@ -900,6 +900,14 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   }
 
   city_refresh(pcity);
+
+  /* 
+   * maybe_make_first_contact have to be called before
+   * update_city_tile_status_map below since the diplomacy status can
+   * influence if a tile is available.
+   */
+  maybe_make_first_contact(pcity->x, pcity->y, ptaker);
+
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     update_city_tile_status_map(pcity, x, y);
   } map_city_radius_iterate_end;
@@ -937,7 +945,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   }
 
   map_fog_pseudo_city_area(pgiver, pcity->x, pcity->y);
-  maybe_make_first_contact(pcity->x, pcity->y, ptaker);
 
   gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
 	  get_nation_name_plural(pgiver->nation), pcity->name, pcity->x,
