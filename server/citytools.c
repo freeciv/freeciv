@@ -1348,14 +1348,17 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 void refresh_dumb_city(struct city *pcity)
 {
   players_iterate(pplayer) {
-    /* This loop includes the city owner, just for consistency. */
     if (map_get_known_and_seen(pcity->x, pcity->y, pplayer)
 	|| player_has_traderoute_with_city(pplayer, pcity)) {
       if (update_dumb_city(pplayer, pcity)) {
 	struct packet_short_city sc_pack;
 
-	package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
-	lsend_packet_short_city(&pplayer->connections, &sc_pack);
+	if (city_owner(pcity) != pplayer) {
+	  /* Don't send the short_city information to someone who can see the
+	   * city's internals.  Doing so would really confuse the client. */
+	  package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
+	  lsend_packet_short_city(&pplayer->connections, &sc_pack);
+	}
       }
     }
   } players_iterate_end;
