@@ -44,6 +44,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "support.h"
 
 #include "shared.h"
 
@@ -398,6 +399,58 @@ int wordwrap_string(char *s, int len)
     }
   }
   return num_lines;
+}
+
+/***************************************************************************
+  Returns pointer to '\0' at end of string 'str', and decrements
+  *nleft by the length of 'str'.  This is intended to be useful to
+  allow strcat-ing without traversing the whole string each time,
+  while still keeping track of the buffer length.
+  Eg:
+     char buf[128];
+     int n = sizeof(buf);
+     char *p = buf;
+
+     my_snprintf(p, n, "foo%p", p);
+     p = end_of_strn(p, &n);
+     mystrlcpy(p, "yyy", n);
+***************************************************************************/
+char *end_of_strn(char *str, int *nleft)
+{
+  int len = strlen(str);
+  *nleft -= len;
+  assert((*nleft)>0);		/* space for the terminating nul */
+  return str + len;
+}
+
+/********************************************************************** 
+ cat_snprintf is like a combination of my_snprintf and mystrlcat;
+ it does snprintf to the end of an existing string.
+ 
+ Like mystrlcat, n is the total length available for str, including
+ existing contents and trailing nul.  If there is no extra room
+ available in str, does not change the string. 
+
+ Also like mystrlcat, returns the final length that str would have
+ had without truncation.  Ie, if return is >= n, truncation occured.
+**********************************************************************/ 
+int cat_snprintf(char *str, size_t n, const char *format, ...)
+{
+  size_t len;
+  int ret;
+  va_list ap;
+
+  assert(format);
+  assert(str);
+  assert(n>0);
+  
+  len = strlen(str);
+  assert(len < n);
+  
+  va_start(ap, format);
+  ret = my_vsnprintf(str+len, n-len, format, ap);
+  va_end(ap);
+  return ret + len;
 }
 
 /***************************************************************************

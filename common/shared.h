@@ -13,6 +13,10 @@
 #ifndef FC__SHARED_H
 #define FC__SHARED_H
 
+#include <stdlib.h>		/* size_t */
+
+#include "attribute.h"
+
 /* Note: the capability string is now in capstr.c --dwp */
 /* Version stuff is now in version.h --dwp */
 
@@ -64,6 +68,10 @@ char *skip_leading_spaces(char *s);
 void remove_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
+
+char *end_of_strn(char *str, int *nleft);
+int cat_snprintf(char *str, size_t n, const char *format, ...)
+     fc__attribute((format (printf, 3, 4)));
 
 char *user_home_dir(void);
 char *user_username(void);
