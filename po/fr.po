@@ -327,7 +327,7 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #: client/gui-gtk/repodlgs.c:343 client/gui-gtk/repodlgs.c:351
 #: client/gui-gtk/repodlgs.c:456 common/tech.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "Future Tech. %d"
 msgstr "Recherche de la Techno. Future %d"
 
@@ -5349,9 +5349,8 @@ msgid "CMA"
 msgstr "AGU"
 
 #: client/cityrepdata.c:230
-#, fuzzy
 msgid "City Management Agent"
-msgstr "Agent de gestion urbaine"
+msgstr "Agent de Gestion Urbaine"
 
 #: client/cityrepdata.c:232 client/cityrepdata.c:233
 msgid "Currently Building"
@@ -6367,9 +6366,8 @@ msgstr[0] "%d tour"
 msgstr[1] "%d tours"
 
 #: client/agents/cma_fec.c:362
-#, fuzzy
 msgid " happy"
-msgstr " - contents"
+msgstr " heureux"
 
 #: client/agents/cma_fec.c:373
 #, c-format
@@ -7146,9 +7144,8 @@ msgid "Results"
 msgstr "Résultats"
 
 #: client/gui-gtk/cma_fe.c:219
-#, fuzzy
 msgid "Minimal Surplus"
-msgstr "Surplus"
+msgstr "Surplus minimal"
 
 #: client/gui-gtk/cma_fe.c:222
 msgid "Factor"
@@ -7159,14 +7156,12 @@ msgid "Celebrate"
 msgstr "Célébrer"
 
 #: client/gui-gtk/cma_fe.c:300
-#, fuzzy
 msgid "C_hange permanent"
-msgstr "C_hange"
+msgstr "C_hangement permanent"
 
 #: client/gui-gtk/cma_fe.c:308
-#, fuzzy
 msgid "_Release city"
-msgstr "Choisissez une ville"
+msgstr "Libére_r la ville"
 
 #: client/gui-gtk/cma_fe.c:395
 msgid "For information on:"
@@ -7842,9 +7837,9 @@ msgid "Cities: %d total, %d over threshold of %d cities.\n"
 msgstr "Villes : %d au total, %d au-dessus du seuil de %d villes.\n"
 
 #: client/gui-gtk/happiness.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "%d content before penalty with "
-msgstr "%d content avant une pénalité de "
+msgstr "%d heureux avant une pénalité de "
 
 #: client/gui-gtk/happiness.c:255
 #, c-format
