@@ -66,6 +66,8 @@ struct Diplomacy_dialog {
   GtkWidget *dip_pact_menu;
   GtkWidget *dip_vision_button0;
   GtkWidget *dip_vision_button1;
+  GtkWidget *dip_embassy_button0;
+  GtkWidget *dip_embassy_button1;
 
   GtkWidget *dip_label;
   GtkWidget *dip_clauselabel;
@@ -108,6 +110,7 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static gint diplomacy_dialog_mbutton_callback(GtkWidget *w, GdkEvent *event);
@@ -454,6 +457,28 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   if (gives_shared_vision(plr1, plr0))
     gtk_widget_set_sensitive(pdialog->dip_vision_button1, FALSE);
 
+  pdialog->dip_embassy_button0 = gtk_button_new_with_label(_("Give embassy"));
+  gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0),
+		     pdialog->dip_embassy_button0,
+		     FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(pdialog->dip_embassy_button0), "clicked",
+                     GTK_SIGNAL_FUNC(diplomacy_dialog_embassy_callback),
+		     (gpointer)pdialog);
+  if (player_has_embassy(plr1, plr0)) {
+    gtk_widget_set_sensitive(pdialog->dip_embassy_button0, FALSE);
+  }
+
+  pdialog->dip_embassy_button1 = gtk_button_new_with_label(_("Give embassy"));
+  gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox1),
+		     pdialog->dip_embassy_button1,
+		     FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(pdialog->dip_embassy_button1), "clicked",
+                     GTK_SIGNAL_FUNC(diplomacy_dialog_embassy_callback),
+		     (gpointer)pdialog);
+  if (player_has_embassy(plr0, plr1)) {
+    gtk_widget_set_sensitive(pdialog->dip_embassy_button1, FALSE);
+  }
+
   /* Start of pact button insertion */
 
   pdialog->dip_pact_menu=gtk_menu_new();
@@ -787,6 +812,19 @@ static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
 					   0);
 }
 
+/****************************************************************
+  Called whenever give embassy button is clicked
+*****************************************************************/
+static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
+{
+  struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;    
+  struct player *pgiver = (w == pdialog->dip_embassy_button0) ?
+      pdialog->treaty.plr0 : pdialog->treaty.plr1;
+  dsend_packet_diplomacy_create_clause_req(&aconnection,
+					   pdialog->treaty.plr1->player_no,
+					   pgiver->player_no, CLAUSE_EMBASSY,
+					   0);
+}
 
 /****************************************************************
 ...
