@@ -213,7 +213,8 @@ int assess_danger(struct city *pcity)
   for(i=0; i<game.nplayers; i++) {
     if (i != pcity->owner) {
       aplayer = &game.players[i];
-      boatspeed = (get_invention(aplayer, A_NAVIGATION) == TECH_KNOWN ? 12 : 6);
+      boatspeed = (get_invention(aplayer, game.rtech.nav)
+		   == TECH_KNOWN ? 12 : 6);
       boatid = find_boat(aplayer, &x, &y, 0);
       if (boatid) boatdist = warmap.seacost[x][y];
       else boatdist = -1;
@@ -588,7 +589,7 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
 
   ferryboat = unit_list_find(&pplayer->units, boatid);
   if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
-  else boatspeed = (get_invention(pplayer, A_NAVIGATION) != TECH_KNOWN ? 6 : 12);
+  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 

@@ -260,7 +260,8 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 
   if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
-  else if (get_invention(pplayer, A_THEOLOGY) != TECH_KNOWN)
+  else if (tech_exists(game.rtech.cathedral_plus) &&
+	   get_invention(pplayer, game.rtech.cathedral_plus) != TECH_KNOWN)
     values[B_CATHEDRAL] = building_value(4, pcity, val) - building_value(3, pcity, val);
 
 /* old wall code depended on danger, was a CPU hog and didn't really work anyway */
@@ -279,7 +280,8 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 
   if (could_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
-  else if (get_invention(pplayer, A_ELECTRICITY) != TECH_KNOWN)
+  else if (tech_exists(game.rtech.colosseum_plus) &&
+	   get_invention(pplayer, game.rtech.colosseum_plus) != TECH_KNOWN)
     values[B_COLOSSEUM] = building_value(4, pcity, val) - building_value(3, pcity, val);
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {

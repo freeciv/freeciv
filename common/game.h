@@ -86,6 +86,15 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int spacerace;
+  struct {
+    int get_bonus_tech;		/* eg Philosophy */
+    int boat_fast;		/* eg Nuclear Power */
+    int cathedral_plus;		/* eg Theology */
+    int cathedral_minus;	/* eg Communism */
+    int colosseum_plus;		/* eg Electricity */
+    int nav;			/* AI convenience: tech_req for first
+				   non-trireme ferryboat */
+  } rtech;
 };
 
 struct lvldat {

@@ -657,7 +657,8 @@ int update_tech(struct player *plr, int bulbs)
   plr->got_tech=1;
   plr->research.researchpoints++;
   old=plr->research.researching;
-  if (old==A_PHILOSOPHY && !game.global_advances[A_PHILOSOPHY]) 
+  if (old==game.rtech.get_bonus_tech &&
+      !game.global_advances[game.rtech.get_bonus_tech]) 
     philohack=1;
   if (!game.global_advances[plr->research.researching]) 
     origtech = "(first)";

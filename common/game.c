@@ -374,6 +374,12 @@ void game_init(void)
   /* these will later have defaults, be adjustable, etc, via rulesets: */
   game.aqueduct_size = 8;
   game.sewer_size = 12;
+  game.rtech.get_bonus_tech  = A_PHILOSOPHY;
+  game.rtech.boat_fast       = A_POWER;
+  game.rtech.cathedral_plus  = A_THEOLOGY;
+  game.rtech.cathedral_minus = A_COMMUNISM;
+  game.rtech.colosseum_plus  = A_ELECTRICITY;
+  game.rtech.nav             = A_NAVIGATION;
   
   map_init();
   

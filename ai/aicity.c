@@ -136,8 +136,10 @@ void ai_manage_buildings(struct player *pplayer)
     }
   } /* tired of researching pottery when we need to learn Republic!! -- Syela */
 
-  if (!game.global_advances[A_PHILOSOPHY])
-    pplayer->ai.tech_want[A_PHILOSOPHY] *= 2; /* this probably isn't right -- Syela */
+  /* was A_PHILOSOPHY: */
+  if (!game.global_advances[game.rtech.get_bonus_tech])
+    pplayer->ai.tech_want[game.rtech.get_bonus_tech] *= 2;
+      /* this probably isn't right -- Syela */
 
   city_list_iterate(pplayer->cities, pcity)
     pcity->ai.building_want[B_MAGELLAN] = values[B_MAGELLAN];

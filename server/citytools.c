@@ -126,9 +126,9 @@ int get_cathedral_power(struct city *pcity)
 {
   struct player *p=&game.players[pcity->owner];
   int power = 3;
-  if (get_invention(p, A_COMMUNISM) == TECH_KNOWN)
+  if (get_invention(p, game.rtech.cathedral_minus/*A_COMMUNISM*/) == TECH_KNOWN)
    power--;
-  if (get_invention(p, A_THEOLOGY) == TECH_KNOWN)
+  if (get_invention(p, game.rtech.cathedral_plus/*A_THEOLOGY*/) == TECH_KNOWN)
    power++;
   return power;
 }
@@ -140,7 +140,7 @@ int get_colosseum_power(struct city *pcity)
 {
   int power = 3;
   struct player *p=&game.players[pcity->owner];
-  if (get_invention(p, A_ELECTRICITY) == TECH_KNOWN)
+  if (get_invention(p, game.rtech.colosseum_plus/*A_ELECTRICITY*/) == TECH_KNOWN)
    power++;
   return power;
 }

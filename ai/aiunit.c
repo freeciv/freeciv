@@ -52,7 +52,8 @@ int unit_move_turns(struct unit *punit, int x, int y)
       m += 3;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
       m += 6;
-    if (get_invention(pplayer, A_POWER) == TECH_KNOWN)
+    /* A_POWER in default ruleset: */
+    if (get_invention(pplayer, game.rtech.boat_fast) == TECH_KNOWN)
       m += 3;
   }   
 
@@ -963,7 +964,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
                        ferryboat, SEA_MOVING);
 
   if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
-  else boatspeed = (get_invention(pplayer, A_NAVIGATION) != TECH_KNOWN ? 6 : 12);
+  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 
   if (is_ground_unit(punit) && !punit->id &&
       is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) harborcity++;

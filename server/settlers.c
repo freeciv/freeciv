@@ -705,7 +705,7 @@ struct unit *other_passengers(struct unit *punit)
 int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
-  int nav_known       = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
+  int nav_known       = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont           = map_get_continent(punit->x, punit->y);
   int mv_rate         = unit_types[punit->type].move_rate;
   int player_num      = pplayer->player_no;
