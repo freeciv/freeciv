@@ -65,12 +65,9 @@ contains the generated files.
    Especial the xgettext program is required to create the *.gmo
    files which aren't included in the CVS tree.
 
- - GNU autoconf version 2.13
+ - GNU autoconf version 2.13 or better
 
    Autoconf is required to create configure from configure.in. 
-
-   Please sent every feedback (good or bad) on using a version other
-   then 2.13 to <freeciv-dev@freeciv.org>.
 
  - GNU automake version 1.4 or better
 
