@@ -798,14 +798,13 @@ static void transporter_cargo_move_to_tile(struct unit_list *units, int x, int y
 int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y, int igzoc)
 {
-  int unit_id, transport_units = 1, ok;
+  struct tile *pdesttile = map_get_tile(dest_x, dest_y);
+  struct tile *psrctile = map_get_tile(punit->x, punit->y);
   struct unit *pdefender = get_defender(pplayer, punit, dest_x, dest_y);
-  struct unit *ferryboat, *bodyguard, *passenger;
-  struct unit_list cargolist;
-  struct city *pcity;
+  struct city *pcity = pdesttile->city;
 
   /* barbarians shouldn't enter huts */
-  if(is_barbarian(pplayer) && (map_get_tile(dest_x, dest_y)->special&S_HUT)) {
+  if (is_barbarian(pplayer) && pdesttile->special&S_HUT) {
     return 0;
   }
 
@@ -813,13 +812,12 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   if (same_pos(punit->x, punit->y, dest_x, dest_y))
     return 0;
  
-  unit_id = punit->id;
   if (do_airline(punit, dest_x, dest_y))
     return 1;
 
   if (unit_flag(punit->type, F_CARAVAN)
-      && (pcity = map_get_city(dest_x, dest_y))
-      && (pcity->owner != punit->owner)
+      && pcity
+      && pcity->owner != punit->owner
       && punit->homecity) {
     struct packet_unit_request req;
     req.unit_id = punit->id;
@@ -827,7 +825,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     req.name[0] = '\0';
     return handle_unit_establish_trade(pplayer, &req);
   }
-  
+
   if (is_diplomat_unit(punit)
       && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
     struct packet_diplomat_action packet;
@@ -851,135 +849,146 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return 0;
   }
 
-  if(pdefender && pdefender->owner!=punit->owner) {
-    if(can_unit_attack_tile(punit,dest_x , dest_y)) {
-      if(punit->moves_left<=0)  {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: This unit has no moves left."));
-        return 0;
-      } else if (pplayer->ai.control && punit->activity == ACTIVITY_GOTO) {
-/* DO NOT Auto-attack.  Findvictim routine will decide if we should. */
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: Aborting GOTO for AI attack procedures."));
-        return 0;
-      } else {
-        if (pplayer->ai.control && punit->ai.passenger) {
-/* still trying to track down this weird bug.  I can't find anything in
-my own code that seems responsible, so I'm guessing that recycling ids
-is the source of the problem.  Hopefully we won't abort() now. -- Syela */
-          passenger = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-              punit->ai.passenger);
-          if (passenger) {
-/* removed what seemed like a very bad abort() -- JMC/jjm */
-            if (!get_transporter_capacity(punit)) {
-	      freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
-		      unit_name(punit->type), punit->id, punit->x, punit->y,
-		      unit_name(passenger->type), passenger->id);
-	    }
-          }
-        }
-        if (get_unit_type(punit->type)->attack_strength == 0) {
-          char message[MAX_LEN_NAME + 64];
-          my_snprintf(message, sizeof(message),
-		      _("Game: A %s cannot attack other units."),
-		      unit_name(punit->type));
-          notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                           message);
-          return 0;
-        }
-	handle_unit_attack_request(pplayer, punit, pdefender);
-        return 1;
-      };
-    } else {
+  /*** Try to attack if there is an enemy unit on the target tile ***/
+  if (pdefender && pdefender->owner!=punit->owner) {
+    if (!can_unit_attack_tile(punit, dest_x , dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: You can't attack there."));
+  		       _("Game: You can't attack there."));
       return 0;
-    };
-  } else if (pplayer->ai.control &&
-	     punit->ai.bodyguard > 0 &&
-	     (bodyguard =
-	      unit_list_find(&map_get_tile(punit->x, punit->y)->units,
-			     punit->ai.bodyguard)) &&
-	     !bodyguard->moves_left) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: %s doesn't want to leave its bodyguard."),
-		     unit_types[punit->type].name);
-  } else if (pplayer->ai.control && punit->moves_left <=
-             map_move_cost(punit, dest_x, dest_y) &&
-             unit_types[punit->type].move_rate >
-             map_move_cost(punit, dest_x, dest_y) &&
-             enemies_at(punit, dest_x, dest_y) &&
-             !enemies_at(punit, punit->x, punit->y)) {
-/* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: %s ending move early to stay out of trouble."),
-		     unit_types[punit->type].name);
-  } else if(can_unit_move_to_tile(punit, dest_x, dest_y, igzoc) &&
-	    try_move_unit(punit, dest_x, dest_y)) {
-    int src_x, src_y;
+    }
+ 
+    if (punit->moves_left<=0)  {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+ 		       _("Game: This unit has no moves left."));
+      return 0;
+    }
 
-    if((pcity=map_get_city(dest_x, dest_y))) {
-      if (pcity->owner!=punit->owner &&  
-	  (is_air_unit(punit) || !is_military_unit(punit))) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: Only ground troops can take over a city."));
-	return 0;
+    /* DO NOT Auto-attack.  Findvictim routine will decide if we should. */
+    if (pplayer->ai.control && punit->activity == ACTIVITY_GOTO) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+ 		       _("Game: Aborting GOTO for AI attack procedures."));
+      return 0;
+    }
+ 
+    if (punit->activity == ACTIVITY_GOTO &&
+ 	(dest_x != punit->goto_dest_x || dest_y != punit->goto_dest_y)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+ 		       _("Game: %s aborted goto as there was units in the way"),
+ 		       unit_types[punit->type].name);
+      return 0;
+    }
+ 
+    /* This is for debuging only, and seems to be obsolete as the error message
+       never appears */
+    if (pplayer->ai.control && punit->ai.passenger) {
+      struct unit *passenger;
+      passenger = unit_list_find(&psrctile->units, punit->ai.passenger);
+      if (passenger) {
+ 	/* removed what seemed like a very bad abort() -- JMC/jjm */
+ 	if (!get_transporter_capacity(punit)) {
+ 	  freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
+ 		  unit_name(punit->type), punit->id, punit->x, punit->y,
+ 		  unit_name(passenger->type), passenger->id);
+ 	}
       }
     }
 
-    if(!player_find_unit_by_id(pplayer, unit_id))
-      return 0; /* diplomat or caravan action killed unit */
+    handle_unit_attack_request(pplayer, punit, pdefender);
+    return 1;
+  } /* End attack case */
+ 
+  {
+    struct unit *bodyguard;
+    if (pplayer->ai.control &&
+ 	punit->ai.bodyguard > 0 &&
+ 	(bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard)) &&
+ 	!bodyguard->moves_left) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+ 		       _("Game: %s doesn't want to leave its bodyguard."),
+ 		       unit_types[punit->type].name);
+      return 0;
+    }
+  }
+ 
+  /* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
+  if (pplayer->ai.control &&
+      punit->moves_left <= map_move_cost(punit, dest_x, dest_y) &&
+      unit_types[punit->type].move_rate > map_move_cost(punit, dest_x, dest_y) &&
+      enemies_at(punit, dest_x, dest_y) &&
+      !enemies_at(punit, punit->x, punit->y)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+  		     _("Game: %s ending move early to stay out of trouble."),
+  		     unit_types[punit->type].name);
+    return 0;
+  }
 
-    /******* ok now move the unit *******/
+  /* If there is a city it is empty.
+     If not it would have been caught in the attack case. */
+  if (pcity &&
+      pcity->owner!=punit->owner && 
+      (is_air_unit(punit) || !is_military_unit(punit))) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Only ground troops can take over a city."));
+    return 0;
+  }
+
+  /******* ok now move the unit *******/
+  if(can_unit_move_to_tile(punit, dest_x, dest_y, igzoc) &&
+     try_move_unit(punit, dest_x, dest_y)) {
+    int src_x, src_y, ok;
+    struct unit_list cargolist;
+    int transport_units = 1;
+ 
     connection_do_buffer(pplayer->conn);
 
     src_x = punit->x; src_y = punit->y;
 
     if (punit->ai.ferryboat) {
-      ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
-                  punit->ai.ferryboat);
+      struct unit *ferryboat;
+      ferryboat = unit_list_find(&psrctile->units, punit->ai.ferryboat);
       if (ferryboat) {
 	freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
-		      punit->id, punit->ai.ferryboat);
+		punit->id, punit->ai.ferryboat);
         ferryboat->ai.passenger = 0;
         punit->ai.ferryboat = 0;
       }
-    } /* just clearing that up */
-
-    if ((punit->activity == ACTIVITY_GOTO) &&
-       get_defender(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y) &&
-       (map_get_tile(punit->x,punit->y)->terrain != T_OCEAN)) {
-        /* we should not take units with us -- fisch */
-        transport_units = 0;
     }
 
-    unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
+    /* A transporter should not take units with it when on an attack goto -- fisch */
+    if ((punit->activity == ACTIVITY_GOTO) &&
+	get_defender(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y) &&
+	psrctile->terrain != T_OCEAN) {
+      transport_units = 0;
+    }
+
+    unit_list_unlink(&psrctile->units, punit);
     if (get_transporter_capacity(punit) && transport_units) {
       transporter_cargo_to_unitlist(punit, &cargolist);
 
       unit_list_iterate(cargolist, pcarried) { 
-	pcarried->x=dest_x;
-	pcarried->y=dest_y;
+	pcarried->x = dest_x;
+	pcarried->y = dest_y;
 	send_unit_info_to_onlookers(0, pcarried,src_x,src_y);
 	handle_unit_move_consequences(pcarried, src_x, src_y, dest_x, dest_y, 0);
       }
       unit_list_iterate_end;
     }
 
-    if ((punit->moves_left-=map_move_cost(punit, dest_x, dest_y))<0)
-      punit->moves_left=0;
+    punit->moves_left -= map_move_cost(punit, dest_x, dest_y);
+    if (punit->moves_left < 0)
+      punit->moves_left = 0;
 
     punit->x = dest_x;
     punit->y = dest_y;
 
-    /*set activity to sentry if boarding a ship*/
+    /* set activity to sentry if boarding a ship */
     if (is_ground_unit(punit) &&
-	map_get_terrain(punit->x, punit->y) == T_OCEAN &&
+	pdesttile->terrain == T_OCEAN &&
 	!(pplayer->ai.control)) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
 
-    unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
+    unit_list_insert(&pdesttile->units, punit);
 
     if (get_transporter_capacity(punit) && transport_units) {
       transporter_cargo_move_to_tile(&cargolist, punit->x, punit->y);
@@ -987,6 +996,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     }
 
     /***** ok entered new tile *****/
+
+    punit->moved = 1;
 
     send_unit_info_to_onlookers(0, punit, src_x, src_y);
     ok = handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y, 1);
@@ -997,30 +1008,26 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       return 1;
 
     /* bodyguard code */
-    if(pplayer->ai.control &&
-       player_find_unit_by_id(pplayer, unit_id)) {
-      if (punit->ai.bodyguard > 0) {
-        bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
-				   punit->ai.bodyguard);
-        if (bodyguard) {
-	  int success;
-          handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
-	  /* may be fortifying, have to FIX this eventually -- Syela */
-	  success = handle_unit_move_request(pplayer, bodyguard,
-					     dest_x, dest_y, igzoc);
-	  freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
-		  unit_types[bodyguard->type].name, src_x, src_y,
-		  dest_x, dest_y, success);
-          handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
-        }
+    if(pplayer->ai.control && punit->ai.bodyguard > 0) {
+      struct unit *bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard);
+      if (bodyguard) {
+	int success;
+	/* FIXME: it is stupid to set to ACTIVITY_IDLE if the unit is
+	   ACTIVITY_FORTIFIED and the unit has no chance of moving anyway */
+	handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
+	success = handle_unit_move_request(pplayer, bodyguard,
+					   dest_x, dest_y, igzoc);
+	freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
+		unit_types[bodyguard->type].name, src_x, src_y,
+		dest_x, dest_y, success);
+	handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
       }
     }
 
-    punit->moved=1;
-
     return 1;
+  } else { /* Move failed */
+    return 0;
   }
-  return 0;
 }
 
 /**************************************************************************
