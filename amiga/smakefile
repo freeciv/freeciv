@@ -123,6 +123,7 @@ CLIENTGUIOBJS = ${OBJDIR}client/gui-mui/chatline.o ${OBJDIR}client/gui-mui/cityd
  ${OBJDIR}client/gui-mui/objecttreeclass.o \
  ${OBJDIR}client/gui-mui/overviewclass.o \
  ${OBJDIR}client/gui-mui/scrollbuttonclass.o \
+ ${OBJDIR}client/gui-mui/transparentstringclass.o \
  ${OBJDIR}client/gui-mui/worklistclass.o
 CLIENTGUIDIRS  = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}common ${INC}${FREECIV_DIR}client/include \
  ${INC}${FREECIV_DIR}client
@@ -553,6 +554,9 @@ ${OBJDIR}client/gui-mui/overviewclass.o: ${CGP}overviewclass.c
 
 ${OBJDIR}client/gui-mui/scrollbuttonclass.o: ${CGP}scrollbuttonclass.c
   ${CC} ${CCFLAGS} ${CGP}scrollbuttonclass.c ${CLIENTGUIDIRS} ${TO}$@
+
+${OBJDIR}client/gui-mui/transparentstringclass.o: ${CGP}transparentstringclass.c
+  ${CC} ${CCFLAGS} ${CGP}transparentstringclass.c ${CLIENTGUIDIRS} ${TO}$@
 
 ${OBJDIR}client/gui-mui/worklistclass.o: ${CGP}worklistclass.c
   ${CC} ${CCFLAGS} ${CGP}worklistclass.c ${CLIENTGUIDIRS} ${TO}$@

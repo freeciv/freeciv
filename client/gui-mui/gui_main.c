@@ -91,6 +91,7 @@
 #include "objecttreeclass.h"
 #include "overviewclass.h"
 #include "scrollbuttonclass.h"
+#include "transparentstringclass.h"
 #include "worklistclass.h"
 
 void popup_option_dialog(void);	/* gamedlg.c */
@@ -828,14 +829,15 @@ static int init_timer(void)
 *****************************************************************/
 static void free_classes(void)
 {
+  delete_transparentstring_class();
+  delete_autogroup_class();
+  delete_colortext_class();
+  delete_historystring_class();
+  delete_scrollbutton_class();
+  delete_worklist_class();
+  delete_objecttree_class();
   delete_map_class();
   delete_overview_class();
-  delete_objecttree_class();
-  delete_worklist_class();
-  delete_scrollbutton_class();
-  delete_historystring_class();
-  delete_colortext_class();
-  delete_autogroup_class();
 }
 
 /****************************************************************
@@ -850,8 +852,9 @@ static int init_classes(void)
           if (create_scrollbutton_class())
 	    if (create_historystring_class())
 	      if (create_colortext_class())
-	        if (create_autogroup_class())
-		  return TRUE;
+		if (create_autogroup_class())
+		  if (create_transparentstring_class())
+		    return TRUE;
   return FALSE;
 }
 

@@ -60,6 +60,7 @@
 #include "autogroupclass.h"
 #include "muistuff.h"
 #include "mapclass.h"
+#include "transparentstringclass.h"
 #include "worklistclass.h"
 
 IMPORT Object *app;
@@ -87,7 +88,7 @@ struct city_dialog
   Object *citizen_right_space;
   Object *citizen2_group;
 
-  Object *name_string;
+  Object *name_transparentstring;
   Object *title_text;
   Object *food_text;
   Object *shield_text;
@@ -727,7 +728,7 @@ static void city_rename(struct city_dialog **ppdialog)
 
   packet.city_id=pdialog->pcity->id;
   packet.worklist.name[0] = '\0';
-  sz_strlcpy(packet.name, (char*)xget(pdialog->name_string, MUIA_String_Contents));
+  sz_strlcpy(packet.name, (char*)xget(pdialog->name_transparentstring, MUIA_TransparentString_Contents));
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
 }
 
@@ -1239,11 +1240,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   {
     prev_button = MakeButton("_<");
     next_button = MakeButton("_>");
-    pdialog->name_string = StringObject,
-	MUIA_String_Format, MUIV_String_Format_Center,
+    pdialog->name_transparentstring = TransparentStringObject,
 	MUIA_CycleChain,1,
 	End;
-  } else prev_button = next_button = pdialog->name_string = NULL;
+  } else prev_button = next_button = pdialog->name_transparentstring = NULL;
 
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, _("Freeciv - Cityview"),
@@ -1254,7 +1254,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	    prev_button?Child:TAG_IGNORE, prev_button,
 	    Child, VGroup,
 		MUIA_Weight, 200,
-		pdialog->name_string ? Child:TAG_IGNORE, pdialog->name_string,
+		pdialog->name_transparentstring ? Child:TAG_IGNORE, pdialog->name_transparentstring,
 		Child, pdialog->title_text = TextObject,
 		    MUIA_Text_PreParse, "\33c",
 		    End,
@@ -1416,9 +1416,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
       DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_browse, pdialog, 1);
     }
 
-    if (pdialog->name_string)
+    if (pdialog->name_transparentstring)
     {
-      DoMethod(pdialog->name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
+      DoMethod(pdialog->name_transparentstring, MUIM_Notify, MUIA_TransparentString_Acknowledge, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
     }
 
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
@@ -1724,9 +1724,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
 *****************************************************************/
 static void city_dialog_update_title(struct city_dialog *pdialog)
 {
-  if (pdialog->name_string)
+  if (pdialog->name_transparentstring)
   {
-    set(pdialog->name_string,MUIA_String_Contents, pdialog->pcity->name);
+    set(pdialog->name_transparentstring,MUIA_TransparentString_Contents, pdialog->pcity->name);
     settextf(pdialog->title_text, _("%s citizens"), int_to_text(city_population(pdialog->pcity)));
   } else
   {
