@@ -52,6 +52,7 @@ int tech_goal_turns(struct player *plr, int goal);
 int get_next_tech(struct player *plr, int goal);
 
 int tech_exists(enum tech_type_id id);
+enum tech_type_id find_tech_by_name(char *s);
 
 extern struct advance advances[];
 

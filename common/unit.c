@@ -807,3 +807,18 @@ int unit_type_exists(enum unit_type_id id)
   else 
     return unit_types[id].tech_requirement!=A_LAST;
 }
+
+/**************************************************************************
+Does a linear search of unit_types[].name
+Returns U_LAST if none match.
+**************************************************************************/
+enum unit_type_id find_unit_type_by_name(char *s)
+{
+  int i;
+
+  for( i=0; i<U_LAST; i++ ) {
+    if (strcmp(unit_types[i].name, s)==0)
+      return i;
+  }
+  return U_LAST;
+}

@@ -404,6 +404,21 @@ int improvement_exists(enum improvement_type_id id)
 }
 
 /**************************************************************************
+Does a linear search of improvement_types[].name
+Returns B_LAST if none match.
+**************************************************************************/
+enum improvement_type_id find_improvement_by_name(char *s)
+{
+  int i;
+
+  for( i=0; i<B_LAST; i++ ) {
+    if (strcmp(improvement_types[i].name, s)==0)
+      return i;
+  }
+  return B_LAST;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 

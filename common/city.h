@@ -179,6 +179,7 @@ struct improvement_type *get_improvement_type(enum improvement_type_id id);
 int wonder_obsolete(enum improvement_type_id id);
 int is_wonder(enum improvement_type_id id);
 int improvement_exists(enum improvement_type_id id);
+enum improvement_type_id find_improvement_by_name(char *s);
 
 /* city related improvement and unit functions */
 

@@ -234,3 +234,18 @@ int tech_exists(enum tech_type_id id)
   else 
     return advances[id].req[0]!=A_LAST && advances[id].req[1]!=A_LAST;
 }
+
+/**************************************************************************
+Does a linear search of advances[].name
+Returns A_LAST if none match.
+**************************************************************************/
+enum tech_type_id find_tech_by_name(char *s)
+{
+  int i;
+
+  for( i=0; i<A_LAST; i++ ) {
+    if (strcmp(advances[i].name, s)==0)
+      return i;
+  }
+  return A_LAST;
+}
