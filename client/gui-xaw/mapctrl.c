@@ -103,8 +103,8 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(toplevel, "shellnewcityname",
     _("What should we call our new city?"), suggestname,
-    (void*)name_new_city_callback, (XtPointer)punit->id,
-    (void*)name_new_city_callback, (XtPointer)0);
+    name_new_city_callback, (XtPointer)punit->id,
+    name_new_city_callback, (XtPointer)0);
 }
 
 /**************************************************************************

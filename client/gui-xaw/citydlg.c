@@ -1420,8 +1420,8 @@ void rename_callback(Widget w, XtPointer client_data, XtPointer call_data)
 		      "shellrenamecity", 
 		      _("What should we rename the city to?"),
 		      pdialog->pcity->name,
-		      (void*)rename_city_callback, (XtPointer)pdialog,
-		      (void*)rename_city_callback, (XtPointer)0);
+		      rename_city_callback, (XtPointer)pdialog,
+		      rename_city_callback, (XtPointer)0);
 }
 
 /****************************************************************

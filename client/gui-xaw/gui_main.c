@@ -137,7 +137,7 @@ static XrmOptionDescRec cmd_options[] = {
 static void end_turn_callback(Widget w, XtPointer client_data,
 			      XtPointer call_data);
 
-static void timer_callback(caddr_t client_data, XtIntervalId *id);
+static void timer_callback(XtPointer client_data, XtIntervalId *id);
 
 /**************************************************************************/
 
@@ -795,7 +795,7 @@ void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /**************************************************************************
 ...
 **************************************************************************/
-void timer_callback(caddr_t client_data, XtIntervalId *id)
+void timer_callback(XtPointer client_data, XtIntervalId *id)
 {
   static int flip;
   

@@ -70,8 +70,10 @@ void inputdlg_key_ok(Widget w)
 *****************************************************************/
 Widget input_dialog_create(Widget parent, char *dialogname, 
 			   char *text, char *postinputtest,
-			   void *ok_callback, XtPointer ok_cli_data, 
-			   void *cancel_callback, XtPointer cancel_cli_data)
+			   XtCallbackProc ok_callback,
+			   XtPointer ok_cli_data, 
+			   XtCallbackProc cancel_callback,
+			   XtPointer cancel_cli_data)
 {
   Widget shell, form, label, input, ok, cancel;
 

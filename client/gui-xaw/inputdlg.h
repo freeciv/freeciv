@@ -19,8 +19,10 @@
 
 Widget input_dialog_create(Widget parent, char *dialogname, 
 			   char *text, char *postinputtest,
-			   void *ok_callback, XtPointer ok_cli_data, 
-			   void *cancel_callback, XtPointer cancel_cli_data);
+			   XtCallbackProc ok_callback,
+			   XtPointer ok_cli_data, 
+			   XtCallbackProc cancel_callback,
+			   XtPointer cancel_cli_data);
 
 void input_dialog_destroy(Widget button);
 char *input_dialog_get_input(Widget button);

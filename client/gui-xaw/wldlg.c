@@ -615,9 +615,9 @@ void rename_worklist_callback(Widget w, XtPointer client_data,
 		      "renameworklist",
 		      _("What should the new name be?"),
 		      pdialog->pplr->worklists[pdialog->wl_idx].name,
-		      (void *)rename_worklist_sub_callback,
+		      rename_worklist_sub_callback,
 		      (XtPointer)pdialog,
-		      (void *)rename_worklist_sub_callback,
+		      rename_worklist_sub_callback,
 		      (XtPointer)NULL);
 }
 
