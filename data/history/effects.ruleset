@@ -248,7 +248,7 @@ reqs	=
 
 [effect_granary]
 name	= "Growth_Food"
-value	= 1
+value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Granary", "City"
@@ -889,7 +889,7 @@ reqs	=
 
 [effect_pyramids]
 name	= "Growth_Food"
-value	= 1
+value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Pyramids", "Player"

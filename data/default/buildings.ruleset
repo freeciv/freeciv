@@ -1770,7 +1770,9 @@ effect		=
 sound		= "w_pyramids"
 sound_alt	= "w_generic"
 helptext	= _("\
-Counts as having a Granary in every city.\
+The amount of stored food lost when one of your cities grows or shrinks\
+ is reduced by 25%.  This helps a city to grow faster and more easily\
+ withstand famine.  Cumulative with Granary.\
 ")
 
 [building_seti_program]

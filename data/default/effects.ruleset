@@ -956,7 +956,7 @@ reqs	=
 
 [effect_pyramids]
 name	= "Growth_Food"
-value	= 50
+value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Pyramids", "Player"
