@@ -2859,9 +2859,6 @@ Does: 1) updates  the units homecity and the city it enters/leaves (the
       3) awakes any sentried units on neightborin tiles
 Returns: if the unit survived (it can die in the hut)
 
-send_unit_info should be called AFTER this function so that the little
-angry faces on units gets updated. send_unit_info will detect
-
 FIXME: Sometimes it is not neccesary to send cities because the goverment
        doesn't care if a unit is away or not.
 **************************************************************************/
