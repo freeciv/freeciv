@@ -267,7 +267,10 @@ static void orders_menu_callback(gpointer callback_data,
       request_unit_connect();
     break;
    case MENU_ORDER_POLLUTION:
-    key_unit_pollution();
+    if(can_unit_paradropped(get_unit_in_focus()))
+      key_unit_paradrop();
+    else
+      key_unit_pollution();
     break;
    case MENU_ORDER_HOMECITY:
     if(get_unit_in_focus())
