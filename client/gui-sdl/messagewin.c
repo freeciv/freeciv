@@ -32,7 +32,7 @@
 
 #include "events.h"
 #include "fcintl.h"
-/*#include "log.h"*/
+
 #include "game.h"
 #include "map.h"
 

@@ -52,7 +52,6 @@ extern char *pDataPath;
 
 extern Uint32 widget_info_cunter;
 
-/*static SDL_Surface *pScreen_Info_Backup = NULL;*/
 static SDL_Rect *pInfo_Area = NULL;
 
 
@@ -114,14 +113,6 @@ static size_t chainlen(const struct UniChar *pChain);
 static void del_chain(struct UniChar *pChain);
 static struct UniChar *text2chain(const Uint16 * pInText);
 static Uint16 *chain2text(const struct UniChar *pInChain, size_t len);
-#if 0
-static int write_chain(SDL_Surface * destination,
-		       Sint16 start_x, Sint16 start_y,
-		       const struct UniChar *pBeginChain,
-		       const struct UniChar *pActivChain,
-		       size_t chainlength, TTF_Font * pFont,
-		       int iStyle, SDL_Color * pForecol);
-#endif
 		       
 static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
 				    Uint16 * pWidth, Uint16 * pHigh);
@@ -459,7 +450,6 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     ID = pWidget->ID;
     redraw_vert(pWidget , Main.gui);
     flush_rect(pWidget->size);
-    /*set_wstate( pWidget , WS_SELLECTED ); */
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -471,7 +461,6 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     ID = pWidget->ID;
     redraw_horiz(pWidget , Main.gui);
     flush_rect(pWidget->size);
-    /*set_wstate( pWidget , WS_SELLECTED ); */
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -655,11 +644,11 @@ void draw_widget_info_label(void)
   SDL_Color color;
 
   struct GUI *pWidget = pSellected_Widget;
-/*
-  if (pWidget != pSellected_Widget) {
-    return 0;
+
+  if (!pWidget) {
+    return;
   }
-*/
+
   pInfo_Area = MALLOC(sizeof(SDL_Rect));
 
   /*pWidget->string16->render = 3;*/
@@ -691,11 +680,7 @@ void draw_widget_info_label(void)
 
   pInfo_Area->w = pBcgd->w + 2;
   pInfo_Area->h = pBcgd->h + 2;
-
-  /* create backup of screen 
-  pScreen_Info_Backup = crop_rect_from_surface(Main.gui, pInfo_Area);
-  SDL_SetAlpha(pScreen_Info_Backup, 0x0, 0x0);
-  */
+  
   /* draw theme and text */
   dest = *pInfo_Area;
   dest.x += 1;
@@ -726,14 +711,16 @@ void draw_widget_info_label(void)
 
 
   /*flush_rect(*pInfo_Area);*/
-  refresh_rect(*pInfo_Area);
+  if (correct_rect_region(pInfo_Area)) {
+    SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
+				    pInfo_Area->w, pInfo_Area->h);
+  }
 
   FREESURFACE(pText);
   FREESURFACE(pBcgd);
 
   return;
 }
-
 
 
 /**************************************************************************
@@ -800,10 +787,6 @@ void del_widget_pointer_from_gui_list(struct GUI *pGUI)
   if (pGUI == pBeginWidgetList && pBeginWidgetList->next) {
     pBeginWidgetList = pBeginWidgetList->next;
   }
-#if 0
-  if (pGUI == pEndWidgetList)
-    pEndWidgetList = pEndWidgetList->prev;
-#endif
 
   if (pGUI->prev && pGUI->next) {
     pGUI->prev->next = pGUI->next;
@@ -845,11 +828,6 @@ void move_widget_to_front_of_gui_list(struct GUI *pGUI)
   if (!pGUI || pGUI == pBeginWidgetList) {
     return;
   }
-#if 0
-  if (pGUI == pEndWidgetList) {
-    pEndWidgetList = pEndWidgetList->prev;
-  }
-#endif
 
   /* pGUI->prev allways exist because we don't do this to pBeginWidgetList */
   if (pGUI->next) {
@@ -924,7 +902,7 @@ Uint16 redraw_group(const struct GUI *pBeginGroupWidgetList,
       }
 
       if (add_to_update) {
-	add_refresh_rect(pTmpWidget->size);
+	sdl_dirty_rect(pTmpWidget->size);
       }
 
       count++;
@@ -950,7 +928,7 @@ void set_new_group_start_pos(const struct GUI *pBeginGroupWidgetList,
 {
   struct GUI *pTmpWidget = (struct GUI *) pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
 
     pTmpWidget->size.x += Xrel;
     pTmpWidget->size.y += Yrel;
@@ -973,7 +951,7 @@ void move_group_to_front_of_gui_list(struct GUI *pBeginGroupWidgetList,
 {
   struct GUI *pTmpWidget = pEndGroupWidgetList;
 
-  while (TRUE) {
+  while (pTmpWidget) {
     move_widget_to_front_of_gui_list(pTmpWidget);
 
     if (pTmpWidget == pBeginGroupWidgetList) {
@@ -1023,14 +1001,11 @@ void set_group_state(struct GUI *pBeginGroupWidgetList,
 		     struct GUI *pEndGroupWidgetList, enum WState state)
 {
   struct GUI *pTmpWidget = pEndGroupWidgetList;
-
   while (pTmpWidget) {
     set_wstate(pTmpWidget, state);
-
     if (pTmpWidget == pBeginGroupWidgetList) {
       break;
     }
-
     pTmpWidget = pTmpWidget->prev;
   }
 }
@@ -1135,7 +1110,7 @@ void popdown_window_group_dialog(struct GUI *pBeginGroupWidgetList,
 		    pEndGroupWidgetList->size.x,
 		    pEndGroupWidgetList->size.y);
 
-    add_refresh_rect(pEndGroupWidgetList->size);
+    sdl_dirty_rect(pEndGroupWidgetList->size);
 
     del_group(pBeginGroupWidgetList, pEndGroupWidgetList);
   }
@@ -1243,7 +1218,7 @@ static void redraw_scrolled_widget_list(struct GUI *pBeginActiveWidgetLIST,
 
   while (count) {
     redraw_label(pBuf, Main.gui);
-    add_refresh_rect(pBuf->size);
+    sdl_dirty_rect(pBuf->size);
     pBuf = pBuf->prev;
     count--;
   }
@@ -1284,7 +1259,7 @@ struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
 
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
 
 	if (pVscrollBarWidget->size.y + step >
 	    pVscroll->max - pVscrollBarWidget->size.h) {
@@ -1308,7 +1283,7 @@ struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	/* redraw scroolbar */
 	refresh_widget_background(pVscrollBarWidget, Main.gui);
 	redraw_vert(pVscrollBarWidget , Main.gui );
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
       }
 
       flush_dirty();
@@ -1344,7 +1319,7 @@ struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	blit_entire_src(pVscrollBarWidget->gfx, Main.gui,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
 
         if (((pVscrollBarWidget->size.y - step) < pVscroll->min)) {
 	  pVscrollBarWidget->size.y = pVscroll->min;
@@ -1364,7 +1339,7 @@ struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	/* redraw scroolbar */
 	refresh_widget_background(pVscrollBarWidget, Main.gui);
 	redraw_vert(pVscrollBarWidget , Main.gui);
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
       }
 
       flush_dirty();
@@ -1418,7 +1393,7 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	blit_entire_src(pVscrollBarWidget->gfx, Main.gui,
 			pVscrollBarWidget->size.x,
 			pVscrollBarWidget->size.y);
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
 
 
 	if ((pVscrollBarWidget->size.y + Main.event.motion.yrel) >
@@ -1470,7 +1445,7 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 	/* redraw scroolbar */
 	refresh_widget_background(pVscrollBarWidget, Main.gui);
 	redraw_vert(pVscrollBarWidget, Main.gui);
-	add_refresh_rect(pVscrollBarWidget->size);
+	sdl_dirty_rect(pVscrollBarWidget->size);
 
 	flush_dirty();
       }				/* if (count) */
@@ -2270,7 +2245,6 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
   int i;
   Uint16 *pOutText = NULL;
 
-  /*len = chainlen( pInChain ); */
   if (!(len && pInChain)) {
     return pOutText;
   }
@@ -3380,11 +3354,9 @@ int move_window(struct GUI *pWindow , SDL_Surface *pDest)
         draw_frame_of_window_from_array(pWindow, pPixelArray , Main.screen);
       }
 
-
       pRect_tab[0] = pWindow->size;
       correct_rect_region(&pRect_tab[0]);
-      /*add_refresh_rect(pWindow->size);*/
-      
+            
       pWindow->size.x += Main.event.motion.xrel;
       pWindow->size.y += Main.event.motion.yrel;
 
@@ -3393,11 +3365,9 @@ int move_window(struct GUI *pWindow , SDL_Surface *pDest)
 
       pRect_tab[1] = pWindow->size;
       correct_rect_region(&pRect_tab[1]);
-      /*add_refresh_rect(pWindow->size);*/
-      
+            
       SDL_UpdateRects(Main.screen, 2, pRect_tab);
-      /*flush_dirty();*/
-
+      
       break;
     }				/* switch */
   }				/* while */
@@ -3598,11 +3568,7 @@ struct GUI *create_iconlabel(SDL_Surface * pIcon, SDL_String16 * pText,
 			     Uint32 flags)
 {
   struct GUI *pILabel = NULL;
-/*
-  if (!pIcon && !pText) {
-    return NULL;
-  }
-*/
+
   pILabel = MALLOC(sizeof(struct GUI));
 
   pILabel->theme = pIcon;

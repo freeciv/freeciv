@@ -69,14 +69,13 @@ static int popup_join_game_callback(struct GUI *pWidget);
 static int connect_callback(struct GUI *pWidget)
 {
   char errbuf[512];
-  /*struct GUI *pTmp = NULL; */
 
   if (connect_to_server(player_name, server_host, server_port,
 			errbuf, sizeof(errbuf)) != -1) {
 			  
     /* clear dlg area */			  
     SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
-    add_refresh_rect(*((SDL_Rect *)pWidget->data));
+    sdl_dirty_rect(*((SDL_Rect *)pWidget->data));
     FREE(pWidget->data);
 			  
     /* destroy connect dlg. widgets */
@@ -172,22 +171,13 @@ static int sellect_meta_severs_callback(struct GUI *pWidget)
 **************************************************************************/
 static int up_meta_severs_callback(struct GUI *pButton)
 {
-  struct GUI *pBegin = up_scroll_widget_list(pButton->prev,
-			pMeta_Severs->pScroll,
-			pMeta_Severs->pActiveWidgetList,
-			pMeta_Severs->pBeginActiveWidgetList,
-			pMeta_Severs->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pMeta_Severs->pActiveWidgetList = pBegin;
-  }
+  down_advanced_dlg(pMeta_Severs, pButton->prev);
   
   unsellect_widget_action();
   pSellected_Widget = pButton;
   set_wstate(pButton, WS_SELLECTED);
   redraw_tibutton(pButton);
   flush_rect(pButton->size);
-
   return -1;
 }
 
@@ -196,22 +186,13 @@ static int up_meta_severs_callback(struct GUI *pButton)
 **************************************************************************/
 static int down_meta_severs_callback(struct GUI *pButton)
 {
-  struct GUI *pBegin = down_scroll_widget_list(pButton->next,
-			pMeta_Severs->pScroll,
-			pMeta_Severs->pActiveWidgetList,
-			pMeta_Severs->pBeginActiveWidgetList,
-			pMeta_Severs->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pMeta_Severs->pActiveWidgetList = pBegin;
-  }
-
+  down_advanced_dlg(pMeta_Severs, pButton->next);
+  
   unsellect_widget_action();
   pSellected_Widget = pButton;
   set_wstate(pButton, WS_SELLECTED);
   redraw_tibutton(pButton);
   flush_rect(pButton->size);
-
   return -1;
 }
 
@@ -220,23 +201,13 @@ static int down_meta_severs_callback(struct GUI *pButton)
 **************************************************************************/
 static int vscroll_meta_severs_callback(struct GUI *pVscrollBar)
 {
-
-  struct GUI *pBegin = vertic_scroll_widget_list(pVscrollBar,
-			pMeta_Severs->pScroll,
-			pMeta_Severs->pActiveWidgetList,
-			pMeta_Severs->pBeginActiveWidgetList,
-			pMeta_Severs->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pMeta_Severs->pActiveWidgetList = pBegin;
-  }
-  
+  vscroll_advanced_dlg(pMeta_Severs, pVscrollBar);
+    
   unsellect_widget_action();
   set_wstate(pVscrollBar, WS_SELLECTED);
   pSellected_Widget = pVscrollBar;
   redraw_vert(pVscrollBar, Main.screen);
   flush_rect(pVscrollBar->size);
-
   return -1;
 }
 
@@ -538,7 +509,7 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
 }
 
 /*
-  This function is one big tmp solution and should be full redrawed !!
+  This function is one big tmp solution and should be full rewriten !!
 */
 static int popup_join_game_callback(struct GUI *pWidget)
 {
@@ -552,13 +523,12 @@ static int popup_join_game_callback(struct GUI *pWidget)
   SDL_Surface *pLogo, *pTmp;
   SDL_Rect *area = MALLOC(sizeof(SDL_Rect));
   
-  int start_x;			/* = 215; */
-  int start_y;
+  int start_x, start_y;
 
   int start_button_y;
-  int start_button_connect_x;	/* = 165; */
-  int start_button_meta_x;	/* = 270; */
-  int start_button_cancel_x;	/* = 415; */
+  int start_button_connect_x;
+  int start_button_meta_x;
+  int start_button_cancel_x;
   
   if(pWidget) {
     /* popdown start buttons */  
@@ -703,9 +673,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
 static int quit_callback(struct GUI *pWidget)
 {
   struct GUI *pEnd = pWidget->next->next->next->next;
-    
-  /*SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);*/
-  
+      
   FREE(pWidget->data);
   
   del_group_of_widgets_from_gui_list(pWidget,pEnd);
@@ -719,7 +687,7 @@ static int popup_option_callback(struct GUI *pWidget)
     
   SDL_FillRect(Main.gui, (SDL_Rect *)pWidget->data, 0x0);
   
-  flush_rect( *((SDL_Rect *)pWidget->data));
+  flush_rect(*((SDL_Rect *)pWidget->data));
   FREE(pWidget->data);
   
   del_group_of_widgets_from_gui_list(pWidget->prev,pEnd);
@@ -843,53 +811,6 @@ void gui_server_connect(void)
   flush_dirty();
   
 }
-
-#if 0
-/**************************************************************************
-  Make an attempt to autoconnect to the server.  
-**************************************************************************/
-static Uint32 try_to_autoconnect(Uint32 interval, void *parm)
-{
-  char errbuf[512];
-  static int count = 0;
-  static int warning_shown = 0;
-
-  count++;
-
-  if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
-    freelog(LOG_FATAL,
-	    _("Failed to contact server \"%s\" at port "
-	      "%d as \"%s\" after %d attempts"),
-	    server_host, server_port, player_name, count);
-
-    exit(EXIT_FAILURE);
-  }
-
-  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
-  case 0:			/* Success! 
-				   if (autoconnect_timer_id)
-				   SDL_RemoveTimer(autoconnect_timer_id); */
-    return 0;			/*  Tells GTK not to call this
-				   function again */
-  case ECONNREFUSED:		/* Server not available (yet) */
-    if (!warning_shown) {
-      freelog(LOG_NORMAL, _("Connection to server refused. "
-			    "Please start the server."));
-      append_output_window(_("Connection to server refused. "
-			     "Please start the server."));
-      warning_shown = 1;
-    }
-    return interval;		/*  Tells GTK to keep calling this function */
-  default:			/* All other errors are fatal */
-    freelog(LOG_FATAL,
-	    _("Error contacting server \"%s\" at port %d "
-	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, errbuf);
-    exit(EXIT_FAILURE);		/* Suppresses a gcc warning */
-  }
-  return interval;
-}
-#endif
 
 /**************************************************************************
   Make an attempt to autoconnect to the server.  

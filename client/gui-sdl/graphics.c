@@ -25,10 +25,8 @@
 #include <config.h>
 #endif
 
-/*#include <stdio.h>*/
 #include <stdlib.h>
 #include <string.h>
-/*#include <ctype.h>*/
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -70,11 +68,9 @@
 #include "patrol_cursor.xbm"
 #include "patrol_cursor_mask.xbm"
 
-struct Sdl Main;
+struct canvas_store Main;
 
 static SDL_Surface *pIntro_gfx = NULL;
-/*static SDL_Surface *pLogo_gfx = NULL;*/
-/*static SDL_Surface *pCity_gfx = NULL;*/
 static char *pIntro_gfx_path = NULL;
 static char *pLogo_gfx_path = NULL;
 static char *pCity_gfx_path = NULL;
@@ -752,6 +748,8 @@ void init_sdl(int iFlags)
   Main.text = NULL;
   Main.rects_count = 0;
 
+  mapview_canvas.store = &Main;
+
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
   } else {
@@ -1418,57 +1416,6 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 }
 
 /**************************************************************************
-  update rectangle (0,0,0,0) -> fullscreen
-**************************************************************************/
-void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
-{
-  SDL_Rect dest = { x, y, w, h };
-  if ( !x && !y &&
-    (!w || w == Main.screen->w ) && ( !h || h == Main.screen->h ))
-  {  
-    return refresh_fullscreen();
-  }
-  if (correct_rect_region(&dest))
-    SDL_UpdateRect(Main.screen, dest.x, dest.y, dest.w, dest.h);
-  return;
-}
-
-
-
-/**************************************************************************
-  ...
-**************************************************************************/
-__inline__ void refresh_rect(SDL_Rect Rect)
-{
-  if (correct_rect_region(&Rect))
-    SDL_UpdateRect(Main.screen, Rect.x, Rect.y, Rect.w, Rect.h);
-}
-
-/**************************************************************************
-  update fullscreen
-**************************************************************************/
-__inline__ void refresh_fullscreen(void)
-{
-  Main.rects_count = 0;
-  /*SDL_UpdateRect(Main.screen, 0, 0, 0, 0);*/
-  SDL_Flip( Main.screen );	
-}
-
-/**************************************************************************
-  draw all update regions
-**************************************************************************/
-void refresh_rects(void)
-{
-  if (!Main.rects_count) return;
-  if (Main.rects_count == RECT_LIMIT) {
-    refresh_fullscreen();
-  } else {
-    SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
-    Main.rects_count = 0;
-  }
-}
-
-/**************************************************************************
   ...
 **************************************************************************/
 int correct_rect_region(SDL_Rect * pRect)
@@ -1503,27 +1450,6 @@ int correct_rect_region(SDL_Rect * pRect)
   }
 
   return 1;
-}
-
-/**************************************************************************
-  add update region/rect
-**************************************************************************/
-__inline__ void add_refresh_rect(SDL_Rect Rect)
-{
-  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
-    Main.rects[Main.rects_count++] = Rect;
-  }
-}
-
-/**************************************************************************
-  add update region/rect
-**************************************************************************/
-__inline__ void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
-{
-  SDL_Rect Rect = { x, y, w, h };
-  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
-    Main.rects[Main.rects_count++] = Rect;
-  }
 }
 
 /**************************************************************************
@@ -1727,12 +1653,6 @@ SDL_Surface *get_intro_gfx(void)
 **************************************************************************/
 SDL_Surface *get_logo_gfx(void)
 {
-/*
-  if(!pLogo_gfx) {
-   pLogo_gfx = IMG_Load(pLogo_gfx_path);
-  }
-  return pLogo_gfx;
-*/
   return IMG_Load(pLogo_gfx_path);
 }
 
@@ -1741,12 +1661,6 @@ SDL_Surface *get_logo_gfx(void)
 **************************************************************************/
 SDL_Surface *get_city_gfx(void)
 {
-/*
-  if(!pCity_gfx) {
-   pCity_gfx = IMG_Load(pCity_gfx_path);
-  }
-  return pCity_gfx;
-*/
   return IMG_Load(pCity_gfx_path);
 }
 

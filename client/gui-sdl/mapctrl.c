@@ -71,9 +71,8 @@
 struct city *city_workers_display = NULL;
 
 /* New City Dialog */
-static struct GUI *pBeginNewCityWidgetList;
-static struct GUI *pEndNewCityWidgetList;
-
+static struct SMALL_DLG *pNewCity_Dlg = NULL;
+  
 #define MINI_MAP_W		196
 #define MINI_MAP_H		106
 
@@ -90,7 +89,7 @@ static struct GUI *pEndNewCityWidgetList;
 static int find_city_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  refresh_rect(pButton->size);
+  flush_rect(pButton->size);
   popup_find_dialog();
   return -1;
 }
@@ -101,7 +100,7 @@ static int find_city_callback(struct GUI *pButton)
 static int end_turn_callback(struct GUI *pButton)
 {
   redraw_ibutton(pButton);
-  refresh_rect(pButton->size);
+  flush_rect(pButton->size);
   key_end_turn();
   return -1;
 }
@@ -112,7 +111,7 @@ static int end_turn_callback(struct GUI *pButton)
 static int revolution_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  refresh_rect(pButton->size);
+  flush_rect(pButton->size);
   popup_revolution_dialog();
   return -1;
 }
@@ -123,7 +122,7 @@ static int revolution_callback(struct GUI *pButton)
 static int research_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  refresh_rect(pButton->size);
+  flush_rect(pButton->size);
   popup_science_dialog(TRUE);
   return -1;
 }
@@ -134,7 +133,7 @@ static int research_callback(struct GUI *pButton)
 static int economy_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  refresh_rect(pButton->size);
+  flush_rect(pButton->size);
   popup_taxrate_dialog();
   return -1;
 }
@@ -161,12 +160,12 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
     SDL_Rect src, window_area;
     
     /* clear area under old map window */
-    SDL_FillRect(Main.gui, &pBuf->size , 0x0 );
+    SDL_FillRect(Main.gui, &pBuf->size , 0x0);
     
     /* new button direction */
     SDL_BlitSurface(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
 
-    add_refresh_rect(pBuf->size);
+    sdl_dirty_rect(pBuf->size);
 
     SDL_Client_Flags &= ~CF_UNIT_INFO_SHOW;
 
@@ -220,7 +219,7 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
 
     set_new_units_window_pos(pBuf);
 
-    add_refresh_rect(pBuf->size);
+    sdl_dirty_rect(pBuf->size);
     
     redraw_unit_info_label(pFocus, pBuf);
   }
@@ -256,7 +255,7 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     SDL_Surface *pBuf_Surf;
     SDL_Rect src, map_area = pMap->size;
 
-    add_refresh_rect(pMap->size);
+    sdl_dirty_rect(pMap->size);
     
     /* make new map icon */
     SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
@@ -264,7 +263,7 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     SDL_Client_Flags &= ~CF_MINI_MAP_SHOW;
     
     /* clear area under old map window */
-    SDL_FillRect(Main.gui, &map_area , 0x0 );
+    SDL_FillRect(Main.gui, &map_area , 0x0);
         
     pMap->size.w = HIDDEN_MINI_MAP_W;
 
@@ -312,7 +311,7 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     set_new_mini_map_window_pos(pMap);
     
     refresh_overview_viewrect();
-    add_refresh_rect(pMap->size);
+    sdl_dirty_rect(pMap->size);
   }
 
   if (pFocus) {
@@ -320,7 +319,6 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
   }
 
   flush_dirty();
-  
   return -1;
 }
 
@@ -332,16 +330,17 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
 static int newcity_ok_callback(struct GUI *pOk_Button)
 {
   struct packet_unit_request req;
-  char *input = convert_to_chars(pBeginNewCityWidgetList->string16->text);
+  char *input =
+	  convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
 
   req.unit_id = ((struct unit *)pOk_Button->data)->id;
   sz_strlcpy(req.name, input);
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
   FREE(input);
 
-  popdown_window_group_dialog(pBeginNewCityWidgetList,
-			      pEndNewCityWidgetList, Main.gui);
-  pEndNewCityWidgetList = NULL;
+  popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
+			      pNewCity_Dlg->pEndWidgetList, Main.gui);
+  FREE(pNewCity_Dlg);
   flush_dirty();
   return -1;
 }
@@ -351,9 +350,9 @@ static int newcity_ok_callback(struct GUI *pOk_Button)
 **************************************************************************/
 static int newcity_cancel_callback(struct GUI *pCancel_Button)
 {
-  popdown_window_group_dialog(pBeginNewCityWidgetList,
-			      pEndNewCityWidgetList, Main.gui);
-  pEndNewCityWidgetList = NULL;
+  popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
+			      pNewCity_Dlg->pEndWidgetList, Main.gui);
+  FREE(pNewCity_Dlg);
   flush_dirty();
   return -1;
 }
@@ -363,7 +362,8 @@ static int newcity_cancel_callback(struct GUI *pCancel_Button)
 **************************************************************************/
 static int move_new_city_dlg_callback(struct GUI *pWindow)
 {
-  if (move_window_group_dialog(pBeginNewCityWidgetList, pWindow, Main.gui)) {
+  if (move_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
+						    pWindow, Main.gui)) {
     flush_rect(pWindow->size);
   }
   return -1;
@@ -462,9 +462,9 @@ void set_new_mini_map_window_pos(struct GUI *pMiniMap_Window)
 **************************************************************************/
 void Init_MapView(void)
 {
-  SDL_Rect area = { FRAME_WH + 30, FRAME_WH ,
+  SDL_Rect area = {FRAME_WH + 30, FRAME_WH ,
 		    UNITS_W - 30 - DOUBLE_FRAME_WH,
-    		    UNITS_H - DOUBLE_FRAME_WH };
+    		    UNITS_H - DOUBLE_FRAME_WH};
   SDL_Surface *pIcon_theme = NULL;
 		    
   /* =================== Units Window ======================= */
@@ -474,11 +474,8 @@ void Init_MapView(void)
   pBuf->size.x = Main.screen->w - UNITS_W;
   pBuf->size.y = Main.screen->h - UNITS_H;
   
-  /*resize_window(pBuf, NULL, NULL, UNITS_W, UNITS_H);
-  FREESURFACE(pBuf->gfx);*/
-  
-  pIcon_theme = create_surf( UNITS_W , UNITS_H , SDL_SWSURFACE );
-  pBuf->theme = SDL_DisplayFormatAlpha( pIcon_theme );
+  pIcon_theme = create_surf(UNITS_W , UNITS_H , SDL_SWSURFACE);
+  pBuf->theme = SDL_DisplayFormatAlpha(pIcon_theme);
   FREESURFACE(pIcon_theme);
      
   draw_frame(pBuf->theme, 0, 0, pBuf->size.w, pBuf->size.h);
@@ -486,7 +483,7 @@ void Init_MapView(void)
   pIcon_theme = ResizeSurface(pTheme->Block, 30,
 					pBuf->size.h - DOUBLE_FRAME_WH, 1);
   
-  blit_entire_src( pIcon_theme , pBuf->theme , FRAME_WH , FRAME_WH );
+  blit_entire_src(pIcon_theme , pBuf->theme , FRAME_WH , FRAME_WH);
   FREESURFACE(pIcon_theme);
   
   SDL_FillRect( pBuf->theme , &area ,
@@ -505,7 +502,7 @@ void Init_MapView(void)
   add_to_gui_list(ID_UNITS_WINDOW, pBuf);
 
   /* economy button */
-  pBuf = create_icon2( create_surf( 15 , 22, SDL_SWSURFACE ),
+  pBuf = create_icon2( create_surf( 15 , 20, SDL_SWSURFACE ),
 					  WF_FREE_GFX | WF_FREE_THEME);
 
   /*pBuf->size.w = 19;
@@ -577,8 +574,8 @@ void Init_MapView(void)
   pBuf->size.x = 0;
   pBuf->size.y = Main.gui->h - MINI_MAP_H;
   
-  pIcon_theme = create_surf( MINI_MAP_W , MINI_MAP_H , SDL_SWSURFACE );
-  pBuf->theme = SDL_DisplayFormatAlpha( pIcon_theme );
+  pIcon_theme = create_surf(MINI_MAP_W , MINI_MAP_H , SDL_SWSURFACE);
+  pBuf->theme = SDL_DisplayFormatAlpha(pIcon_theme);
   FREESURFACE(pIcon_theme);
      
   draw_frame(pBuf->theme, 0, 0, pBuf->size.w, pBuf->size.h);
@@ -586,11 +583,11 @@ void Init_MapView(void)
   pIcon_theme = ResizeSurface(pTheme->Block, 30,
 					pBuf->size.h - DOUBLE_FRAME_WH, 1);
   
-  blit_entire_src( pIcon_theme , pBuf->theme ,
-			pBuf->size.w - FRAME_WH - pIcon_theme->w, FRAME_WH );
+  blit_entire_src(pIcon_theme , pBuf->theme ,
+			pBuf->size.w - FRAME_WH - pIcon_theme->w, FRAME_WH);
   FREESURFACE(pIcon_theme);  
   
-  SDL_SetAlpha(pBuf->theme , 0x0 , 0x0);
+  SDL_SetAlpha( pBuf->theme , 0x0 , 0x0 );
   
   add_to_gui_list(ID_MINI_MAP_WINDOW, pBuf);
 
@@ -685,9 +682,10 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
 {
   int col, row;
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
-
+  }
+  
 #if 0
   if (ev->button == 1 && (ev->state & GDK_SHIFT_MASK)) {
     adjust_workers(w, ev);
@@ -781,21 +779,30 @@ int map_event_handler(SDL_keysym Key)
 
 /* ============================== Native =============================== */
 
+  
 /**************************************************************************
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.
 **************************************************************************/
 void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
 {
+  SDL_Surface *pLogo;
   struct SDL_String16 *pStr = NULL;
   struct GUI *pLabel = NULL;
   struct GUI *pWindow = NULL;
   struct GUI *pCancel_Button = NULL;
+  struct GUI *pOK_Button;
   struct GUI *pEdit;
 
+  if(pNewCity_Dlg) {
+    return;
+  }
+  
+  pNewCity_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+    
   /* create ok button */
-  SDL_Surface *pLogo = ZoomSurface(pTheme->OK_Icon, 0.7, 0.7, 1);
-  struct GUI *pOK_Button =
+  pLogo = ZoomSurface(pTheme->OK_Icon, 0.7, 0.7, 1);
+  pOK_Button =
     create_themeicon_button_from_chars(pLogo, _("OK"), 10, WF_FREE_GFX);
   SDL_SetColorKey(pLogo, SDL_SRCCOLORKEY, get_first_pixel(pLogo));
 
@@ -890,16 +897,16 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   set_wstate(pWindow, WS_NORMAL);
 
   /* add widgets to main list */
-  pEndNewCityWidgetList = pWindow;
+  pNewCity_Dlg->pEndWidgetList = pWindow;
   add_to_gui_list(ID_NEWCITY_NAME_WINDOW, pWindow);
   add_to_gui_list(ID_NEWCITY_NAME_LABEL, pLabel);
   add_to_gui_list(ID_NEWCITY_NAME_CANCEL_BUTTON, pCancel_Button);
   add_to_gui_list(ID_NEWCITY_NAME_OK_BUTTON, pOK_Button);
   add_to_gui_list(ID_NEWCITY_NAME_EDIT, pEdit);
-  pBeginNewCityWidgetList = pEdit;
+  pNewCity_Dlg->pBeginWidgetList = pEdit;
 
   /* redraw */
-  redraw_group(pBeginNewCityWidgetList, pEndNewCityWidgetList, Main.gui,0);
+  redraw_group(pEdit, pWindow, Main.gui,0);
 
   flush_rect(pWindow->size);
 }
@@ -909,11 +916,12 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
 **************************************************************************/
 void popdown_newcity_dialog(void)
 {
-
-  popdown_window_group_dialog(pBeginNewCityWidgetList,
-			      pEndNewCityWidgetList, Main.gui);
-  pEndNewCityWidgetList = NULL;
-  flush_dirty();
+  if(pNewCity_Dlg) {
+    popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
+			      pNewCity_Dlg->pEndWidgetList, Main.gui);
+    FREE(pNewCity_Dlg);
+    flush_dirty();
+  }
 }
 
 /**************************************************************************

@@ -36,7 +36,7 @@ struct Sprite {
 #define GET_SURF(s)	fc__extension((SDL_Surface *)s)
 #define GET_SPRI(s)	fc__extension((struct Sprite *)s)
 
-struct Sdl {
+struct canvas_store {
   int rects_count;		/* update rect. list counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
   SDL_Surface *screen;		/* main screen buffer */
@@ -76,13 +76,6 @@ int set_video_mode(int iWidth, int iHeight, int iFlags);
 Uint16 **get_list_modes(Uint32 flags);
 
 /* Rect */
-void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h);
-extern __inline__ void refresh_rect(SDL_Rect Rect);
-extern __inline__ void refresh_fullscreen(void);
-
-void refresh_rects(void);
-extern __inline__ void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h);
-extern __inline__ void add_refresh_rect(SDL_Rect Rect);
 int correct_rect_region(SDL_Rect *pRect);
 int detect_rect_colisions(SDL_Rect *pMaster, SDL_Rect *pSlave);
 int cmp_rect(SDL_Rect *pMaster, SDL_Rect *pSlave);
@@ -108,17 +101,17 @@ void draw_intro_gfx(void);
 SDL_Surface *make_flag_surface_smaler(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 
-#define create_surf( w, h, f) \
+#define create_surf(w, h, f) \
 	create_surf_with_format(Main.screen->format , w , h, f)
 
 #define crop_rect_from_screen(rect) \
 		crop_rect_from_surface(Main.screen, &rect)
 
 /* free surface with check and clear pointer */
-#define FREESURFACE( ptr )		\
+#define FREESURFACE(ptr)		\
 do {					\
   if (ptr) {				\
-    SDL_FreeSurface( ptr );		\
+    SDL_FreeSurface(ptr);		\
     ptr = NULL;			\
   }					\
 } while(0)
@@ -126,7 +119,7 @@ do {					\
 /*
  *  lock surface
  */
-#define lock_surf( pSurf )	\
+#define lock_surf(pSurf)	\
 do {				\
   if (SDL_MUSTLOCK(pSurf)) {	\
     SDL_LockSurface(pSurf);	\
@@ -137,7 +130,7 @@ do {				\
 /*
  *   unlock surface
  */
-#define unlock_surf( pSurf )		\
+#define unlock_surf(pSurf)		\
 do {					\
     if (SDL_MUSTLOCK(pSurf)) {		\
 	SDL_UnlockSurface(pSurf);	\
@@ -154,7 +147,7 @@ do {					\
  */
 #define unlock_screen()	unlock_surf(Main.screen)
 
-#define putpixel( pSurface, x, y, pixel )				  \
+#define putpixel(pSurface, x, y, pixel)					  \
 do {									  \
     Uint8 *buf_ptr = ((Uint8 *)pSurface->pixels + (y * pSurface->pitch)); \
     switch(pSurface->format->BytesPerPixel) {				  \

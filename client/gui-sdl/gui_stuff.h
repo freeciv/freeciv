@@ -302,7 +302,7 @@ void togle_checkbox(struct GUI *pCBox);
 bool get_checkbox_state(struct GUI *pCBox);
 int redraw_textcheckbox(struct GUI *pCBox, SDL_Surface *pDest);
 
-#define set_wstate(pWidget, state )		\
+#define set_wstate(pWidget, state)		\
 do {						\
   pWidget->state_types_flags &= ~STATE_MASK;	\
   pWidget->state_types_flags |= state;		\
@@ -314,7 +314,7 @@ do {						\
   pWidget->state_types_flags |= type;		\
 } while(0)
 
-#define set_wflag(pWidget, flag )	\
+#define set_wflag(pWidget, flag)	\
 	(pWidget)->state_types_flags |= ((flag) & FLAG_MASK)
 
 #define clear_wflag(pWidget, flag)	\
@@ -370,7 +370,7 @@ do {								\
 	move_widget_to_front_of_gui_list(       \
           get_widget_pointer_form_main_list(ID))
 
-#define del_group( pBeginGroupWidgetList, pEndGroupWidgetList )		\
+#define del_group(pBeginGroupWidgetList, pEndGroupWidgetList)		\
 do {									\
   del_group_of_widgets_from_gui_list(pBeginGroupWidgetList,		\
 					   pEndGroupWidgetList);	\

@@ -121,7 +121,7 @@ static int work_lists_callback(struct GUI *pWidget)
 static int change_mode_callback(struct GUI *pWidget)
 {
 
-  char __buf[50] = "";
+  char cBuf[50] = "";
   int mode;
   Uint32 tmp_flags = Main.screen->flags;
   struct GUI *pWindow =
@@ -165,16 +165,16 @@ static int change_mode_callback(struct GUI *pWidget)
 
   /* change setting label */
   if (Main.screen->flags & SDL_FULLSCREEN) {
-    my_snprintf(__buf, sizeof(__buf), _("Current Setup\nFullscreen %dx%d"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
 	    Main.gui->w, Main.gui->h);
   } else {
-    my_snprintf(__buf, sizeof(__buf), _("Current Setup\n%dx%d"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\n%dx%d"),
 	    Main.gui->w, Main.gui->h);
   }
 
   FREE(pBeginMainOptionsWidgetList->prev->string16->text);
   pBeginMainOptionsWidgetList->prev->string16->text =
-      convert_to_utf16(__buf);
+      convert_to_utf16(cBuf);
 
 
   /* move units window to botton-right corrner */
@@ -266,14 +266,14 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
     
     if (!pModes_Rect[i+1] && pTmp->prev)
     {
-      add_refresh_rect(pTmp->size);
+      sdl_dirty_rect(pTmp->size);
       if (get_checkbox_state(pWidget)) {
         set_wstate(pTmp->prev, WS_DISABLED);
       } else {
         set_wstate(pTmp->prev, WS_NORMAL);
       }
       redraw_ibutton(pTmp->prev);
-      add_refresh_rect(pTmp->prev->size);
+      sdl_dirty_rect(pTmp->prev->size);
       flush_dirty();
     } else {
       flush_rect(pTmp->size);
@@ -301,7 +301,7 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 static int video_callback(struct GUI *pWidget)
 {
   int i = 0;
-  char __buf[50] = "";
+  char cBuf[50] = "";
   Uint16 len = 0;
   Sint16 xxx;	/* tmp */
   SDL_Rect **pModes_Rect = NULL;
@@ -324,14 +324,14 @@ static int video_callback(struct GUI *pWidget)
 
   /* create setting label */
   if (Main.screen->flags & SDL_FULLSCREEN) {
-    sprintf(__buf, _("Current Setup\nFullscreen %dx%d"),
+    my_snprintf(cBuf, sizeof(cBuf),_("Current Setup\nFullscreen %dx%d"),
 	    Main.screen->w, Main.screen->h);
   } else {
-    sprintf(__buf, _("Current Setup\n%dx%d"), Main.screen->w,
+    my_snprintf(cBuf, sizeof(cBuf),_("Current Setup\n%dx%d"), Main.screen->w,
 	    Main.screen->h);
   }
 
-  pTmpGui = create_iconlabel(NULL, create_str16_from_char(__buf, 10), 0);
+  pTmpGui = create_iconlabel(NULL, create_str16_from_char(cBuf, 10), 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -351,13 +351,9 @@ static int video_callback(struct GUI *pWidget)
 			(150, 30, SDL_SWSURFACE, NULL),
 			create_str16_from_char(_("Fullscreen Mode"),
 					       10), 150, 30, 0);
-
-  /*pTmpGui->string16->style |= (TTF_STYLE_BOLD | SF_CENTER_RIGHT);*/
+  
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   /*pTmpGui->string16->style &= ~SF_CENTER;*/
-  /* pTmpGui->string16->forecol.r = 255;
-     pTmpGui->string16->forecol.g = 255;
-     pTmpGui->string16->forecol.b = 255; */
 
 
   xxx = pTmpGui->size.x = pWindow->size.x +
@@ -437,7 +433,6 @@ static int video_callback(struct GUI *pWidget)
     pTmpGui->size.x = pTmpGui->next->size.x;
     pTmpGui->size.y = pTmpGui->next->size.y + pTmpGui->next->size.h + 10;
   }
-
 
   FREE(pModes);
 
@@ -575,7 +570,7 @@ static int auto_turn_done_callback(struct GUI *pWidget)
 static int local_setting_callback(struct GUI *pWidget)
 {
   struct GUI *pTmpGui = NULL, *pWindow = pEndOptionsWidgetList;
-  char __buf[3];
+  char cBuf[3];
 
   /* clear flag */
   SDL_Client_Flags &= ~CF_OPTION_MAIN;
@@ -599,7 +594,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'sound befor new turn' label */
   pTmpGui = create_iconlabel_from_chars(NULL,
-			_("Sound bell at new turn"), 10, 0);
+			_("Sound befor new turn"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;
@@ -642,8 +637,8 @@ static int local_setting_callback(struct GUI *pWidget)
   /* 'smooth unit move steps' */
 
   /* edit */
-  sprintf(__buf, "%d", smooth_move_unit_steps);
-  pTmpGui = create_edit_from_chars(NULL, __buf, 11, 25,
+  my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_steps);
+  pTmpGui = create_edit_from_chars(NULL, cBuf, 11, 25,
 					  WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = smooth_move_unit_steps_callback;
@@ -917,19 +912,19 @@ static int draw_city_productions_callback(struct GUI *pWidget)
 static int draw_terrain_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
-  add_refresh_rect( pWidget->size );
+  sdl_dirty_rect(pWidget->size);
   draw_terrain ^= 1;
   /* check draw_coastline checkbox state */
-  if ( get_wstate( pWidget->prev->prev ) == WS_NORMAL )
+  if (get_wstate(pWidget->prev->prev) == WS_NORMAL)
   {
-    set_wstate( pWidget->prev->prev , WS_DISABLED );
+    set_wstate(pWidget->prev->prev , WS_DISABLED);
   }
   else
   {
-    set_wstate( pWidget->prev->prev , WS_NORMAL );
+    set_wstate(pWidget->prev->prev , WS_NORMAL);
   }
   redraw_icon(pWidget->prev->prev);
-  add_refresh_rect(pWidget->prev->prev->size);
+  sdl_dirty_rect(pWidget->prev->prev->size);
   flush_dirty();
   return -1;
 }
@@ -962,7 +957,7 @@ static int draw_specials_callback(struct GUI *pWidget)
 static int draw_pollution_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
-  refresh_rect(pWidget->size);
+  flush_rect(pWidget->size);
   draw_pollution ^= 1;
   return -1;
 }
@@ -1520,14 +1515,14 @@ static int disconnect_callback(struct GUI *pWidget)
     /* hide buton */
     area = pOptions_Button->size;
     SDL_BlitSurface(pOptions_Button->gfx, NULL, Main.gui, &area);
-    add_refresh_rect(pOptions_Button->size);
+    sdl_dirty_rect(pOptions_Button->size);
     
 #if 0
     /* hide "waiting for game start" label */
     pOptions_Button = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
     area = pOptions_Button->size;
     SDL_BlitSurface(pOptions_Button->gfx, NULL, Main.gui, &area);
-    add_refresh_rect(pOptions_Button->size);
+    sdl_dirty_rect(pOptions_Button->size);
 #endif    
       
     flush_dirty();
@@ -1553,7 +1548,7 @@ static int back_callback(struct GUI *pWidget)
     if(aconnection.established) {
       set_wstate(pOptions_Button, WS_NORMAL);
       redraw_icon(pOptions_Button);
-      add_refresh_rect(pOptions_Button->size);
+      sdl_dirty_rect(pOptions_Button->size);
       update_menus();
       flush_dirty();
     } else {
@@ -1712,7 +1707,6 @@ void popup_optiondlg(void)
 
   /* seting witdth and stat x */
   do {
-
     pTmp_GUI->size.w = longest;
     pTmp_GUI->size.x = start_x + (w - pTmp_GUI->size.w) / 2;
 

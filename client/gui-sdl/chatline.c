@@ -56,8 +56,9 @@
 #define PTSIZE_LOG_FONT 10
 
 static struct GUI *pInput_Edit = NULL;
+  
 /**************************************************************************
-  ...
+  Sent msg/command from imput dlg to server
 **************************************************************************/
 static int inputline_return_callback(struct GUI *pWidget)
 {
@@ -86,7 +87,7 @@ static int inputline_return_callback(struct GUI *pWidget)
 
 
 /**************************************************************************
-  ...
+  Create imput line dlg.
 **************************************************************************/
 void Init_Input_Edit(void)
 {
@@ -109,6 +110,14 @@ void Init_Input_Edit(void)
 
  /* ======================================================= */
 
+
+/**************************************************************************
+  This function is main chat/command client input.
+  Current this code have One big problem:
+  When you start type msg/command you block main event loop.
+  you block net event, animation event , etc.
+  Fix this problem is my next todo.
+**************************************************************************/
 void popup_input_line(void)
 {
   SDL_Rect dst = { pInput_Edit->size.x, pInput_Edit->size.y, 0, 0};
@@ -127,6 +136,9 @@ void popup_input_line(void)
   }
 }
 
+/**************************************************************************
+  This function is call after resize main screen to new size
+**************************************************************************/
 void new_input_line_position(void)
 {
   pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
@@ -134,8 +146,8 @@ void new_input_line_position(void)
 }
 
 /**************************************************************************
-  Appends the string to the chat output window.  The string should be
-  inserted on its own line, although it will have no newline.
+  Appends the string to the chat output window.
+  Curretn it is wraper to message subsystem.
 **************************************************************************/
 void real_append_output_window(const char *astring)
 {

@@ -34,6 +34,6 @@ enum SDLClient_std_color {
 };
 
 SDL_Color *get_game_colorRGB(Uint32 color_offset);
-Uint32 get_game_color(Uint32 color_offset);
+Uint32 get_game_color(Uint32 color_offset, SDL_Surface *pDest);
 
-#endif				/* FC__COLORS_H */
+#endif	/* FC__COLORS_H */

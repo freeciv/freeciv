@@ -47,7 +47,7 @@
 #define CF_CIV3_CITY_TEXT_STYLE		0x10000
 #define CF_DRAW_MAP_DITHER		0x20000
 
-extern struct Sdl Main;
+extern struct canvas_store Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 

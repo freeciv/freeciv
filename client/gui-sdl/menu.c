@@ -236,7 +236,7 @@ static Uint16 redraw_order_widgets(void)
 
       refresh_widget_background(pTmpWidget , Main.gui );
       real_redraw_icon(pTmpWidget, Main.gui);
-      add_refresh_rect(pTmpWidget->size);
+      sdl_dirty_rect(pTmpWidget->size);
       count++;
     }
 
@@ -711,7 +711,7 @@ void undraw_order_widgets(void)
       SDL_BlitSurface(pTmpWidget->gfx, NULL, Main.gui, &dest);
       SDL_SetAlpha(pTmpWidget->gfx, SDL_SRCALPHA, 255);
       
-      add_refresh_rect(pTmpWidget->size);
+      sdl_dirty_rect(pTmpWidget->size);
 
     }
 

@@ -43,7 +43,6 @@
 #define FONT_WITH_PATH "theme/tahoma.ttf"
 
 extern char *pDataPath;
-extern struct Sdl Main;
 
 /* =================================================== */
 
@@ -57,7 +56,6 @@ static struct TTF_Font_Chain {
 static unsigned int Sizeof_Font_TAB;
 
 static TTF_Font *load_font(Uint16 ptsize);
-/*static void unload_font(Uint16 ptsize);*/
 
 static SDL_Surface *create_str16_surf(SDL_String16 * pString);
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString);
@@ -143,26 +141,6 @@ SDL_String16 *create_string16(Uint16 * pInTextString, Uint16 ptsize)
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_String16 *clone_string16(SDL_String16 * pString16)
-{
-  SDL_String16 *str16 = NULL;
-
-#if 0
-  if (load_font(pString16->ptsize) == NULL) {
-    fprintf(stderr, "Error in clone_string16: Aborting ...\n");
-    return NULL;
-  }
-#endif
-
-  str16 = MALLOC(sizeof(SDL_String16));
-  memcpy(str16, pString16, sizeof(SDL_String16));
-  str16->text = unistrclon(pString16->text);
-  return str16;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
 		 SDL_String16 * pString)
 {
@@ -235,7 +213,6 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
   case 2:
     pText = TTF_RenderUNICODE_Blended(pString->font,
 				      pString->text, pString->forecol);
-    SDL_SetAlpha(pText, SDL_SRCALPHA, 255);
     break;
   
   case 3:
@@ -251,10 +228,6 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 	  pText->w);
 
 
-  /*FREESURFACE( pTmp );
-
-     END:
-   */
   if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pString->font, TTF_STYLE_NORMAL);
   }
@@ -308,7 +281,6 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
       pNew = pText;
       pText = SDL_ConvertSurface(pNew, pTmp[0]->format, pTmp[0]->flags);
       FREESURFACE(pNew);
-
       SDL_FillRect(pText, NULL, color);
     }
     break;
@@ -317,7 +289,6 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
       pNew = pText;
       pText = SDL_ConvertSurface(pNew, pTmp[0]->format, pTmp[0]->flags);
       FREESURFACE(pNew);
-
       SDL_FillRect(pText, NULL,
       	SDL_MapRGBA(pText->format,
 	      pString->backcol.r,pString->backcol.g,
@@ -415,7 +386,6 @@ static TTF_Font *load_font(Uint16 ptsize)
 
   /* fint existing font and return pointer to him */
   if (Sizeof_Font_TAB) {
-    /*for( i=0; i<Sizeof_Font_TAB; i++){ */
     while (Font_TAB_TMP) {
       if (Font_TAB_TMP->ptsize == ptsize) {
 	Font_TAB_TMP->count++;
@@ -477,8 +447,7 @@ void unload_font(Uint16 ptsize)
 
   if (Sizeof_Font_TAB == 0) {
     freelog(LOG_ERROR,
-	    _
-	    ("Error in unload_font2: Trying unload from empty Font ARRAY"));
+	 _("Error in unload_font2: Trying unload from empty Font ARRAY"));
     return;
   }
 

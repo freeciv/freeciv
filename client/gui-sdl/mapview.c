@@ -176,7 +176,7 @@ void gui_map_put_tile_iso(int map_x, int map_y,
     draw_map_cell(Main.map, canvas_x, canvas_y,
 		  (Uint16)map_x, (Uint16)map_y, 0);
   } else {
-    SDL_Rect dest;
+    static SDL_Rect dest;
 
     dest.x = canvas_x + offset_x;
     dest.y = canvas_y + offset_y;
@@ -195,64 +195,74 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 /**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_put_sprite(canvas_t *pCanvas, int canvas_x, int canvas_y,
+void gui_put_sprite(struct canvas_store *pCanvas_store,
+		    int canvas_x, int canvas_y,
 		    struct Sprite *sprite,
 		    int offset_x, int offset_y, int width, int height)
 {
-  SDL_Surface *pSurf = pCanvas ? pCanvas : Main.map;
-
-  /* FIXME: handle partial-sprite draws. */
-  assert(pCanvas == NULL);
-  blit_entire_src(GET_SURF(sprite), pSurf, canvas_x, canvas_y);
+  /* if you made partial-sprite draws, then you must do decommpres
+     procedure on surface commpresed with RLE and this slow down
+     drawing */
+  SDL_Rect src = {offset_x,offset_y,width,height};
+  SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
+  SDL_BlitSurface(GET_SURF(sprite), &src, pCanvas_store->map, &dst);
 }
 
 /**************************************************************************
   Flush the given part of the buffer(s) to the screen.
 **************************************************************************/
-void flush_mapcanvas( int canvas_x , int canvas_y ,
-		     int pixel_width , int pixel_height )
+void flush_mapcanvas(int canvas_x , int canvas_y ,
+		     int pixel_width , int pixel_height)
 {
   SDL_Rect src, dst = {canvas_x, canvas_y, pixel_width, pixel_height};
-  
-  src = dst;
-  
-  SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
-  
-  dst = src;
-  SDL_BlitSurface(Main.text, &src, Main.screen, &dst);
-  
-  dst = src;
-  SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
-  
-  /* flush main buffer to framebuffer */
-  refresh_screen( canvas_x, canvas_y,
-      (Uint16)pixel_width, (Uint16)pixel_height );
+
+  if (correct_rect_region(&dst)) {  
+    src = dst;
+    SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
+    dst = src;
+    SDL_BlitSurface(Main.text, &src, Main.screen, &dst);
+    dst = src;
+    SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
+    /* flush main buffer to framebuffer */
+    SDL_UpdateRect(Main.screen, dst.x, dst.y, dst.w, dst.h);  
+  }
 }
 
-void flush_rect( SDL_Rect rect )
+void flush_rect(SDL_Rect rect)
 {
-  SDL_Rect dst = rect;
-    
-  SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
-  
-  dst = rect;
-  SDL_BlitSurface(Main.text, &rect, Main.screen, &dst);
-  
-  dst = rect;
-  SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
-  
-  /* flush main buffer to framebuffer */
-  refresh_rect( rect );
-
+  static SDL_Rect dst;
+  if (correct_rect_region(&rect)) {
+    dst = rect;
+    SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
+    dst = rect;
+    SDL_BlitSurface(Main.text, &rect, Main.screen, &dst);
+    dst = rect;
+    SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
+    /* flush main buffer to framebuffer */
+    SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
+  }
 }
 
 /**************************************************************************
   Save Flush area used by "end" flush.
 **************************************************************************/
-void dirty_rect( int canvas_x , int canvas_y ,
-		     int pixel_width , int pixel_height )
+void dirty_rect(int canvas_x , int canvas_y ,
+		     int pixel_width , int pixel_height)
 {
-  add_refresh_region( canvas_x , canvas_y , pixel_width , pixel_height );
+  SDL_Rect Rect = {canvas_x, canvas_y, pixel_width, pixel_height};
+  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
+    Main.rects[Main.rects_count++] = Rect;
+  }
+}
+
+/**************************************************************************
+  Save Flush rect used by "end" flush.
+**************************************************************************/
+void sdl_dirty_rect(SDL_Rect Rect)
+{
+  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
+    Main.rects[Main.rects_count++] = Rect;
+  }
 }
 
 /**************************************************************************
@@ -271,19 +281,17 @@ void flush_dirty(void)
 {
   static int i;
       
-  if( !Main.rects_count ) return;
+  if(!Main.rects_count) {
+    return;
+  }
     
   if(Main.rects_count >= RECT_LIMIT) {
-    struct timer *ttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
     SDL_BlitSurface(Main.map, NULL, Main.screen, NULL);
     SDL_BlitSurface(Main.text, NULL, Main.screen, NULL);
     SDL_BlitSurface(Main.gui, NULL, Main.screen, NULL);
-    refresh_fullscreen();
-    freelog(LOG_NORMAL, "flush_dirty_all = %fms\n",
-	  1000.0 * read_timer_seconds_free(ttt));
+    SDL_Flip(Main.screen);
   } else {
     static SDL_Rect dst;
-    
     for(i = 0; i<Main.rects_count; i++) {
       dst = Main.rects[i];
       SDL_BlitSurface(Main.map, &Main.rects[i], Main.screen, &dst);
@@ -292,10 +300,9 @@ void flush_dirty(void)
       dst = Main.rects[i];
       SDL_BlitSurface(Main.gui, &Main.rects[i], Main.screen, &dst);
     }
-    
-    refresh_rects();
-
+    SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
   }
+  Main.rects_count = 0;
 }
 
 /* ======================================================== */
@@ -409,12 +416,12 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pBuf->theme = GET_SURF(sprites.warming[sol]);
   redraw_label(pBuf, Main.gui);
-  add_refresh_rect(pBuf->size);
+  sdl_dirty_rect(pBuf->size);
   
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   pBuf->theme = GET_SURF(sprites.cooling[flake]);
   redraw_label(pBuf, Main.gui);
-  add_refresh_rect(pBuf->size);
+  sdl_dirty_rect(pBuf->size);
   
   putframe(Main.gui, pBuf->size.x - pBuf->size.w - 1,
 	   pBuf->size.y - 1,
@@ -525,7 +532,7 @@ void update_info_label(void)
   /* blit text to screen */  
   blit_entire_src(pTmp, Main.gui , area.x + 5, area.y + 2);
   
-  add_refresh_rect(area);
+  sdl_dirty_rect(area);
   
   FREESURFACE(pTmp);
 
@@ -709,16 +716,11 @@ void update_unit_info_label(struct unit *pUnit)
 
   pBuf = get_widget_pointer_form_main_list(ID_UNITS_WINDOW);
   
-  /*if ( pUnit )
-  {*/
       
-    /* draw unit info window */
-    redraw_unit_info_label(pUnit, pBuf);
+  /* draw unit info window */
+  redraw_unit_info_label(pUnit, pBuf);
 
-    add_refresh_rect(pBuf->size);
-  /*} else {
-    toggle_unit_info_window_callback(pBuf);
-  }*/
+  sdl_dirty_rect(pBuf->size);
   
   if (pUnit) {
     if (hover_unit != pUnit->id)
@@ -1886,7 +1888,7 @@ void draw_unit_animation_frame(struct unit *punit,
   {
     /* Clear old sprite. */
     SDL_BlitSurface(pMap_Copy, NULL, Main.map, &src);
-    add_refresh_rect(src);
+    sdl_dirty_rect(src);
   }
   
   /* Draw the new sprite. */
@@ -1898,7 +1900,7 @@ void draw_unit_animation_frame(struct unit *punit,
   dest.y -= (NORMAL_TILE_HEIGHT >> 1);
   
   SDL_BlitSurface(pUnit_Surf, NULL, Main.map, &dest);
-  add_refresh_rect(dest);
+  sdl_dirty_rect(dest);
 
   /* Write to screen. */
   
@@ -2466,8 +2468,8 @@ void tmp_map_surfaces_init(void)
   pBlinkSurfaceB =
       create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 		  SDL_SWSURFACE);
-/*  SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
-   SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY, 0x0);
+  SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
+/*   SDL_SetColorKey(pBlinkSurfaceB , SDL_SRCCOLORKEY, 0x0);*/
    
   get_new_view_rectsize();
 

@@ -23,16 +23,7 @@
 #include <config.h>
 #endif
 
-/*#include <stdio.h>*/
-
 #include <SDL/SDL.h>
-/*#include <SDL/SDL_ttf.h>*/
-
-
-/*#include "gui_mem.h"*/
-
-/*#include "gui_main.h"*/
-#include "log.h"
 
 #include "colors.h"
 
@@ -81,7 +72,6 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
 **************************************************************************/
 void init_color_system(void)
 {
-  freelog(LOG_DEBUG, "init_color_system : PORT ME");
 }
 
 /**************************************************************************
@@ -99,9 +89,9 @@ SDL_Color *get_game_colorRGB(Uint32 color_offset)
 /**************************************************************************
   ...
 **************************************************************************/
-Uint32 get_game_color(Uint32 color_offset)
+Uint32 get_game_color(Uint32 color_offset , SDL_Surface *pDest)
 {
   SDL_Color *pColor = get_game_colorRGB(color_offset);
-  return SDL_MapRGBA(SDL_GetVideoSurface()->format, pColor->r, pColor->g,
+  return SDL_MapRGBA(pDest->format, pColor->r, pColor->g,
 		     pColor->b, pColor->unused);
 }

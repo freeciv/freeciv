@@ -64,7 +64,6 @@
 
 static SDL_Surface *pNone_Tech_Icon;
 
-
 /* ============================================================= */
 
 void setup_auxiliary_tech_icons(void)
@@ -75,16 +74,16 @@ void setup_auxiliary_tech_icons(void)
   /* create "None" icon */
   pNone_Tech_Icon = create_surf( 50 , 50 , SDL_SWSURFACE );
   SDL_FillRect(pNone_Tech_Icon, NULL,
-	  SDL_MapRGB(pNone_Tech_Icon->format, 255 , 255 , 255 ));
+	  SDL_MapRGB(pNone_Tech_Icon->format, 255 , 255 , 255));
   putframe(pNone_Tech_Icon, 0 , 0,
-	  pNone_Tech_Icon->w - 1, pNone_Tech_Icon->h - 1 , 0x0 );
+	  pNone_Tech_Icon->w - 1, pNone_Tech_Icon->h - 1 , 0x0);
   
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
   
   pSurf = create_text_surf_from_str16(pStr);
     
   blit_entire_src(pSurf, pNone_Tech_Icon ,
-	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2 );
+	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2);
     
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -95,7 +94,7 @@ void free_auxiliary_tech_icons(void)
   FREESURFACE(pNone_Tech_Icon);
 }
 
-SDL_Surface * create_sellect_tech_icon( SDL_String16 *pStr, int tech_id )
+SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 {
   char cBuf[128], *pTmp = NULL;
   struct impr_type *pImpr = NULL;
@@ -105,7 +104,7 @@ SDL_Surface * create_sellect_tech_icon( SDL_String16 *pStr, int tech_id )
   SDL_Rect src, dst;
   int w, h;
   
-  pSurf = create_surf( 100 , 200 , SDL_SWSURFACE );
+  pSurf = create_surf(100 , 200 , SDL_SWSURFACE);
   pText = SDL_DisplayFormatAlpha(pSurf);
   FREESURFACE(pSurf);
   pSurf = pText;
@@ -304,14 +303,10 @@ void popup_activeunits_report_dialog(bool make_modal)
 }
 
 /*************************************************************************/
-static struct GUI *pBeginScienceDlg;
-static struct GUI *pEndScienceDlg = NULL;
+static struct SMALL_DLG *pScienceDlg = NULL;
 
-static struct GUI *pBeginChangeTechDlg;
-static struct GUI *pBeginActiveChangeTechDlg;
-static struct GUI *pEndChangeTechDlg = NULL;
-struct ScrollBar *pChangeTechScroll = NULL;
-
+static struct ADVANCED_DLG *pChangeTechDlg = NULL;
+  
 /**************************************************************************
   Update the science report.
 **************************************************************************/
@@ -329,8 +324,9 @@ void science_dialog_update(void)
   int turns_to_advance, turns_to_next_tech, steps;
   int curent_output = 0;
   div_t result;
-
+  struct GUI *pWindow = pScienceDlg->pEndWidgetList;
   color.unused = 128;
+  
 #if 0
   if (pEndScienceDlg->gfx) {
     dest.x = pEndScienceDlg->size.x;
@@ -339,24 +335,23 @@ void science_dialog_update(void)
   }
 #endif
 
-  pEndScienceDlg->prev->theme =
+  pWindow->prev->theme =
     GET_SURF(advances[game.player_ptr->research.researching].sprite);
   
   if ( game.player_ptr->ai.tech_goal != A_UNSET )
   {
-    pEndScienceDlg->prev->prev->theme =
+    pWindow->prev->prev->theme =
       GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
   } else {
     /* add "None" icon */
-    pEndScienceDlg->prev->prev->theme = pNone_Tech_Icon;
+    pWindow->prev->prev->theme = pNone_Tech_Icon;
   }
   
-  redraw_group(pBeginScienceDlg, pEndScienceDlg, Main.gui,0);
+  redraw_group(pScienceDlg->pBeginWidgetList, pWindow, Main.gui,0);
   
-  putframe(Main.gui, pEndScienceDlg->size.x, pEndScienceDlg->size.y,
-	  pEndScienceDlg->size.x + pEndScienceDlg->size.w - 1,
-		  pEndScienceDlg->size.y + pEndScienceDlg->size.h - 1,
-								  0xffffffff);
+  putframe(Main.gui, pWindow->size.x, pWindow->size.y,
+	  	pWindow->size.x + pWindow->size.w - 1,
+		  	pWindow->size.y + pWindow->size.h - 1, 0xffffffff);
   
   /* ------------------------------------- */
 
@@ -391,16 +386,15 @@ void science_dialog_update(void)
   }
 
   pStr = create_str16_from_char(cBuf, 12);
-/*  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);*/
-  pStr->style |= (SF_CENTER);
+  pStr->style |= SF_CENTER;
   pStr->forecol = color;
   
   pSurf = create_text_surf_from_str16(pStr);
   
   FREE(pStr->text);
 
-  dest.x = pEndScienceDlg->size.x + (pEndScienceDlg->size.w - pSurf->w) / 2;
-  dest.y = pEndScienceDlg->size.y + WINDOW_TILE_HIGH + 2;
+  dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
+  dest.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
   SDL_BlitSurface(pSurf, NULL, Main.gui, &dest);
 
   dest.y += pSurf->h + 2;
@@ -408,7 +402,7 @@ void science_dialog_update(void)
 
 
   /* ------------------------------------- */
-  dest.x = pEndScienceDlg->prev->size.x;
+  dest.x = pWindow->prev->size.x;
 
   putline(Main.gui, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
 
@@ -425,8 +419,7 @@ void science_dialog_update(void)
   pSurf = create_text_surf_from_str16(pStr);
   FREE(pStr->text);
 
-  dest.x =
-      pEndScienceDlg->prev->size.x + pEndScienceDlg->prev->size.w + 10;
+  dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
   SDL_BlitSurface(pSurf, NULL, Main.gui, &dest);
 
   dest.y += pSurf->h;
@@ -471,8 +464,7 @@ void science_dialog_update(void)
   /* ----------------------- */
 
   dest.y += dest.h + 4;
-  dest.x =
-      pEndScienceDlg->prev->size.x + pEndScienceDlg->prev->size.w + 10;
+  dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
 
   impr_type_iterate(imp)
       pImpr = get_improvement_type(imp);
@@ -493,9 +485,8 @@ void science_dialog_update(void)
   
   /* -------------------------------- */
   /* draw separator line */
-  dest.x = pEndScienceDlg->prev->size.x;
-  dest.y =
-      pEndScienceDlg->prev->size.y + pEndScienceDlg->prev->size.h + 20;
+  dest.x = pWindow->prev->size.x;
+  dest.y = pWindow->prev->size.y + pWindow->prev->size.h + 20;
 
   putline(Main.gui, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
   dest.y += 10;
@@ -516,8 +507,7 @@ void science_dialog_update(void)
     pSurf = create_text_surf_from_str16(pStr);
     FREE(pStr->text);
 
-    dest.x =
-      pEndScienceDlg->prev->size.x + pEndScienceDlg->prev->size.w + 10;
+    dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
     SDL_BlitSurface(pSurf, NULL, Main.gui, &dest);
 
     dest.y += pSurf->h + 4;
@@ -544,7 +534,7 @@ void science_dialog_update(void)
   }
   
   /* -------------------------------- */
-  flush_rect(pEndScienceDlg->size);
+  flush_rect(pWindow->size);
 
   FREESTRING16(pStr);
 }
@@ -554,10 +544,12 @@ void science_dialog_update(void)
 **************************************************************************/
 static int popdown_science_dialog(struct GUI *pButton)
 {
-
-  popdown_window_group_dialog(pBeginScienceDlg, pEndScienceDlg, Main.gui);
-  pEndScienceDlg = NULL;
-  flush_dirty();
+  if(pScienceDlg) {
+    popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
+				  pScienceDlg->pEndWidgetList, Main.gui);
+    FREE(pScienceDlg);
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -571,9 +563,9 @@ static int change_research_callback(struct GUI *pWidget)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_RESEARCH);
 
-  popdown_window_group_dialog(pBeginChangeTechDlg,
-					pEndChangeTechDlg,Main.gui);
-  pEndChangeTechDlg = NULL;
+  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
+				pChangeTechDlg->pEndWidgetList,Main.gui);
+  FREE(pChangeTechDlg);
   flush_dirty();
   return -1;
 }
@@ -583,9 +575,9 @@ static int change_research_callback(struct GUI *pWidget)
 **************************************************************************/
 static int exit_change_research_callback(struct GUI *pWidget)
 {
-  popdown_window_group_dialog(pBeginChangeTechDlg, 
-  				pEndChangeTechDlg, Main.gui);
-  pEndChangeTechDlg = NULL;
+  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
+  				pChangeTechDlg->pEndWidgetList, Main.gui);
+  FREE(pChangeTechDlg);
   flush_dirty();
   return -1;
 }
@@ -599,17 +591,19 @@ static int change_research(struct GUI *pWidget)
   struct GUI *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  
   int i, count = 0, w = 0, h;
 
   redraw_icon2(pWidget);
-  refresh_rect(pWidget->size);
+  flush_rect(pWidget->size);
 
+  
+  pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  
   pStr = create_str16_from_char(_("What should we focus on now?"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 40, 30, 0);
-  pEndChangeTechDlg = pWindow;
+  pChangeTechDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, WS_NORMAL);
 
@@ -640,7 +634,7 @@ static int change_research(struct GUI *pWidget)
 	continue;
       }
       
-      pSurf = create_sellect_tech_icon( pStr, i );
+      pSurf = create_sellect_tech_icon(pStr, i);
       pBuf =
 	  create_icon2(pSurf, WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
@@ -652,9 +646,9 @@ static int change_research(struct GUI *pWidget)
     }
   }
 
-  pBeginChangeTechDlg = pBuf;
+  pChangeTechDlg->pBeginWidgetList = pBuf;
 
-  if ( count > 10 )
+  if (count > 10)
   {
     i = 6;
     if (count > 12)
@@ -664,13 +658,13 @@ static int change_research(struct GUI *pWidget)
   }
   else
   {
-    if ( count > 8 )
+    if (count > 8)
     {
       i = 5;
     }
     else
     {
-      if ( count > 6 )
+      if (count > 6)
       {
         i = 4;
       }
@@ -700,10 +694,6 @@ static int change_research(struct GUI *pWidget)
   
   /* alloca window theme and win background buffer */
   pSurf = get_logo_gfx();
-#if 0
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-#endif
   resize_window(pWindow, pSurf, NULL, w, h);
   FREESURFACE(pSurf);
 
@@ -730,13 +720,13 @@ static int change_research(struct GUI *pWidget)
       pBuf->size.y += pBuf->size.h - 2;
     }
 
-    if (pBuf == pBeginChangeTechDlg) {
+    if (pBuf == pChangeTechDlg->pBeginWidgetList) {
       break;
     }
     pBuf = pBuf->prev;
   }
 
-  redraw_group(pBeginChangeTechDlg, pWindow, Main.gui,0);
+  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, Main.gui,0);
 
   flush_rect(pWindow->size);
 
@@ -754,13 +744,12 @@ static int change_research_goal_callback(struct GUI *pWidget)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_TECH_GOAL);
 
-  popdown_window_group_dialog(pBeginChangeTechDlg, pEndChangeTechDlg,Main.gui);
-  pEndChangeTechDlg = NULL;
-
-  if (pChangeTechScroll) {
-    FREE(pChangeTechScroll);
-  }
+  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
+				  pChangeTechDlg->pEndWidgetList, Main.gui);
+  FREE(pChangeTechDlg->pScroll);
+  FREE(pChangeTechDlg);
   flush_dirty();
+  
   /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
   science_dialog_update();
@@ -772,17 +761,8 @@ static int change_research_goal_callback(struct GUI *pWidget)
 **************************************************************************/
 static int change_research_goal_up_callback(struct GUI *pWidget)
 {
-  struct GUI *pBegin = up_scroll_widget_list(NULL,
-				pChangeTechScroll,
-				pBeginActiveChangeTechDlg,
-				pBeginChangeTechDlg->next->next,
-				pEndChangeTechDlg->prev);
-
-
-  if (pBegin) {
-    pBeginActiveChangeTechDlg = pBegin;
-  }
-
+  up_advanced_dlg(pChangeTechDlg, NULL);
+  
   unsellect_widget_action();
   pSellected_Widget = pWidget;
   set_wstate(pWidget, WS_SELLECTED);
@@ -796,17 +776,8 @@ static int change_research_goal_up_callback(struct GUI *pWidget)
 **************************************************************************/
 static int change_research_goal_down_callback(struct GUI *pWidget)
 {
-  struct GUI *pBegin = down_scroll_widget_list(NULL,
-				pChangeTechScroll,
-				pBeginActiveChangeTechDlg,
-				pBeginChangeTechDlg->next->next,
-				pEndChangeTechDlg->prev);
-
-
-  if (pBegin) {
-    pBeginActiveChangeTechDlg = pBegin;
-  }
-
+  down_advanced_dlg(pChangeTechDlg, NULL);
+  
   unsellect_widget_action();
   pSellected_Widget = pWidget;
   set_wstate(pWidget, WS_SELLECTED);
@@ -817,12 +788,10 @@ static int change_research_goal_down_callback(struct GUI *pWidget)
 
 static int popdown_change_goal(struct GUI *pWidget)
 {
-  popdown_window_group_dialog(pBeginChangeTechDlg, pEndChangeTechDlg,Main.gui);
-  pEndChangeTechDlg = NULL;
-
-  if (pChangeTechScroll) {
-    FREE(pChangeTechScroll);
-  }
+  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
+				  pChangeTechDlg->pEndWidgetList, Main.gui);
+  FREE(pChangeTechDlg->pScroll);
+  FREE(pChangeTechDlg);
   flush_dirty();
   return -1;
 }
@@ -840,11 +809,13 @@ static int change_research_goal(struct GUI *pWidget)
   redraw_icon2(pWidget);
   flush_rect(pWidget->size);
 
+  pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  
   pStr = create_str16_from_char(_("Sellect target :"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 40, 30, 0);
-  pEndChangeTechDlg = pWindow;
+  pChangeTechDlg->pEndWidgetList = pWindow;
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   set_wstate(pWindow, WS_NORMAL);
   w = MAX(w, pWindow->size.w);
@@ -897,7 +868,7 @@ static int change_research_goal(struct GUI *pWidget)
     }
   }
 
-  pBeginChangeTechDlg = pBuf;
+  pChangeTechDlg->pBeginActiveWidgetList = pBuf;
 
   w += 10;
 
@@ -943,13 +914,13 @@ static int change_research_goal(struct GUI *pWidget)
 
     add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_DOWN_BUTTON, pBuf);
 
-    pBeginChangeTechDlg = pBuf;
+    
 
-    pChangeTechScroll = MALLOC(sizeof(struct ScrollBar));
-    pChangeTechScroll->active = max;
-    pChangeTechScroll->count = count;
-    pChangeTechScroll->min = h;
-    pChangeTechScroll->max = pBuf->size.y;
+    pChangeTechDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+    pChangeTechDlg->pScroll->active = max;
+    pChangeTechDlg->pScroll->count = count;
+    pChangeTechDlg->pScroll->min = h;
+    pChangeTechDlg->pScroll->max = pBuf->size.y;
   } else {
     pWindow->size.x = pWidget->size.x;
     pWindow->size.y = (Main.screen->h - h) / 2;
@@ -961,20 +932,24 @@ static int change_research_goal(struct GUI *pWidget)
     max = count;
     h = WINDOW_TILE_HIGH + 1;
   }
+  
+  pChangeTechDlg->pBeginWidgetList = pBuf;
+  
   /* exit button */
-  pBuf = pEndChangeTechDlg->prev;
+  pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
   pBuf->size.y = pWindow->size.y;
   pBuf = pBuf->prev;
   
-  pBeginActiveChangeTechDlg = pBuf;
+  pChangeTechDlg->pEndActiveWidgetList = pBuf;
+  pChangeTechDlg->pActiveWidgetList = pBuf;
   pBuf->size.x = pWindow->size.x + FRAME_WH;
   pBuf->size.y = pWindow->size.y + h;
   pBuf->size.w = w;
   pBuf = pBuf->prev;
 
   h = 2;
-  while (1) {
+  while (pBuf) {
     pBuf->size.x = pBuf->next->size.x;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
     pBuf->size.w = w;
@@ -994,9 +969,9 @@ static int change_research_goal(struct GUI *pWidget)
   set_wstate(pWidget, WS_NORMAL);
   pSellected_Widget = NULL;
 
-  redraw_icon2(pWidget);
+  //redraw_icon2(pWidget);
 
-  redraw_group(pBeginChangeTechDlg, pEndChangeTechDlg, Main.gui,0);
+  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, Main.gui,0);
 
   putframe(Main.gui, pWindow->size.x, pWindow->size.y,
 	  pWindow->size.x + pWindow->size.w - 1,
@@ -1016,15 +991,17 @@ void popup_science_dialog(bool make_modal)
   SDL_String16 *pStr;
   SDL_Surface *pLogo;
 
-  if (pEndScienceDlg) {
+  if (pScienceDlg) {
     return;
   }
 
+  pScienceDlg = MALLOC(sizeof(struct SMALL_DLG));
+    
   pStr = create_str16_from_char(_("Science"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 400, 225, 0);
-  pEndScienceDlg = pWindow;
+  pScienceDlg->pEndWidgetList = pWindow;
 
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   
@@ -1076,14 +1053,13 @@ void popup_science_dialog(bool make_modal)
 
   /* ------ */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon ,
+  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1) ,
   			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
   SDL_SetColorKey( pBuf->theme ,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
   
-  //w += pBuf->size.w + 10;
   pBuf->action = popdown_science_dialog;
   set_wstate(pBuf, WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1096,7 +1072,7 @@ void popup_science_dialog(bool make_modal)
 
   /* ======================== */
 
-  pBeginScienceDlg = pBuf;
+  pScienceDlg->pBeginWidgetList = pBuf;
 
   science_dialog_update();
 }

@@ -59,7 +59,7 @@ static void dither_north8(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -95,7 +95,7 @@ static void dither_north16(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -135,7 +135,7 @@ static void dither_north24(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -168,7 +168,7 @@ static void dither_north32(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -219,7 +219,7 @@ static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint8 *pMask_Pixel = (Uint8 *) pMask->pixels + h;
   Uint8 *pDest_Pixel = (Uint8 *) pDest->pixels + h;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -237,7 +237,7 @@ static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -259,7 +259,7 @@ static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint16 *pMask_Pixel = (Uint16 *) pMask->pixels + h;
   Uint16 *pDest_Pixel = (Uint16 *) pDest->pixels + h;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -277,7 +277,7 @@ static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -303,7 +303,7 @@ static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
   pMask_Pixel = (Uint8 *) pMask->pixels + h;
   pDest_Pixel = (Uint8 *) pDest->pixels + h;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -321,7 +321,7 @@ static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -343,7 +343,7 @@ static void dither_south32(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint32 *pMask_Pixel = (Uint32 *) pMask->pixels + h;
   Uint32 *pDest_Pixel = (Uint32 *) pDest->pixels + h;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -361,7 +361,7 @@ static void dither_south32(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -413,7 +413,7 @@ static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint8 *pMask_Pixel = (Uint8 *) pMask->pixels + h + step;
   Uint8 *pDest_Pixel = (Uint8 *) pDest->pixels + h + step;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -431,7 +431,7 @@ static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h > NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -453,7 +453,7 @@ static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint16 *pMask_Pixel = (Uint16 *) pMask->pixels + h + step;
   Uint16 *pDest_Pixel = (Uint16 *) pDest->pixels + h + step;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -471,7 +471,7 @@ static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -497,7 +497,7 @@ static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
   pMask_Pixel = (Uint8 *) pMask->pixels + h + step;
   pDest_Pixel = (Uint8 *) pDest->pixels + h + step;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -515,7 +515,7 @@ static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -537,7 +537,7 @@ static void dither_east32(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint32 *pMask_Pixel = (Uint32 *) pMask->pixels + h + step;
   Uint32 *pDest_Pixel = (Uint32 *) pDest->pixels + h + step;
 
-  h &= 0;
+  h = 0;
 
   while (TRUE) {
 
@@ -555,7 +555,7 @@ static void dither_east32(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -622,7 +622,7 @@ static void dither_west8(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h >= NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -660,7 +660,7 @@ static void dither_west16(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h > NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -700,7 +700,7 @@ static void dither_west24(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h > NORMAL_TILE_HEIGHT / 2) {
 	break;
@@ -738,7 +738,7 @@ static void dither_west32(SDL_Surface * pDither, SDL_Surface * pMask,
       pDither_Pixel += step;
       pDest_Pixel += step;
 
-      w &= 0;
+      w = 0;
 
       if (++h > NORMAL_TILE_HEIGHT / 2) {
 	break;

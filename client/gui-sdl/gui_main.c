@@ -121,8 +121,6 @@ static SDL_TimerID autoconnect_timer_id;
 
 #ifdef THREADS
 static SDL_Thread *pThread = NULL;
-/*static SDL_mutex *pNetLock = NULL;
-static SDL_cond *pNetWait = NULL;*/
 static SDL_sem *pNetLock = NULL;
 #endif
 
@@ -213,10 +211,6 @@ static void gui_main_loop(void)
   char schot[32];
   
 #ifdef THREADS
-#if 0  
-  pNetLock = SDL_CreateMutex();
-  pNetWait = SDL_CreateCond();
-#endif  
   pNetLock = SDL_CreateSemaphore(0);
 #endif
   
@@ -247,7 +241,6 @@ static void gui_main_loop(void)
 	case NET:
           input_from_server(net_socket);
 #ifdef THREADS    
-          /*SDL_CondSignal(pNetWait);*/
           SDL_SemPost(pNetLock);
 #endif
 	break;
@@ -397,16 +390,8 @@ static void gui_main_loop(void)
   }
   
 #ifdef THREADS
-#if 1
   SDL_DestroySemaphore(pNetLock);
   pNetLock = NULL;
-#else  
-  SDL_DestroyMutex(pNetLock);
-  pNetLock = NULL;
-  
-  SDL_DestroyCond(pNetWait);
-  pNetWait = NULL;
-#endif  
 #endif  
   /*del_main_list();*/
 }
@@ -468,13 +453,8 @@ static int socket_thread(void *socket)
 	
 	SDL_PushEvent(pNet_User_Event);
 	
-#if 0	
-	SDL_LockMutex(pNetLock);
-        SDL_CondWait(pNetWait, pNetLock);
-	SDL_UnlockMutex(pNetLock);
-#else	
 	SDL_SemWait(pNetLock);
-#endif	
+
       }
     }
   } /* while */
@@ -733,10 +713,8 @@ void ui_main(int argc, char *argv[])
   flush_dirty();
 
 #ifdef TIMERS
-
   game_timer_id = SDL_AddTimer(UNITS_TIMER_INTERVAL,
 					  game_timer_callback , NULL );
-
 #endif
 
 
@@ -800,7 +778,6 @@ void remove_net_input(void)
   net_socket = (-1);
   freelog(LOG_DEBUG, "Connection DOWN... ");
   pAnim_User_Event->user.code = EVENT_ERROR;
-  
 #ifdef THREADS  
     SDL_WaitThread(pThread, NULL);
 #endif
