@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-27 14:03-0400\n"
+"POT-Creation-Date: 2004-10-27 15:09-0400\n"
 "PO-Revision-Date: 2004-10-18 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -11906,6 +11906,10 @@ msgstr "_Начать новую игру"
 msgid "Start _Scenario Game"
 msgstr "Начать _игру по сценарию"
 
+#: client/gui-gtk-2.0/pages.c:197
+msgid "_Load Saved Game"
+msgstr "_Загрузить сохранённую игру"
+
 #: client/gui-gtk-2.0/pages.c:206
 msgid "C_onnect to Network Game"
 msgstr "_Подключиться к сетевой игре"
@@ -11952,15 +11956,15 @@ msgstr "_Локальная сеть"
 
 #: client/gui-gtk-2.0/pages.c:742
 msgid "_Host:"
-msgstr "Сервер:"
+msgstr "_Сервер:"
 
 #: client/gui-gtk-2.0/pages.c:759
 msgid "_Port:"
-msgstr "Порт:"
+msgstr "П_орт:"
 
 #: client/gui-gtk-2.0/pages.c:776
 msgid "_Login:"
-msgstr "Логин:"
+msgstr "Ло_гин:"
 
 #: client/gui-gtk-2.0/pages.c:794
 msgid "Pass_word:"
@@ -11980,7 +11984,7 @@ msgstr "_Уровень компьютерного противника (AI):"
 
 #: client/gui-gtk-2.0/pages.c:967
 msgid "More Game _Options..."
-msgstr "_Настройки игры..."
+msgstr "Н_астройки игры..."
 
 #: client/gui-gtk-2.0/pages.c:1032 client/gui-gtk-2.0/pages.c:1531
 msgid "_Start"
@@ -11993,6 +11997,10 @@ msgstr "Выберите сохранённую игру, которую Вы хотите загрузить"
 #: client/gui-gtk-2.0/pages.c:1171
 msgid "Choose Saved Game to _Load:"
 msgstr "_Выберите игру, которую Вы хотите загрузить:"
+
+#: client/gui-gtk-2.0/pages.c:1191 client/gui-gtk-2.0/pages.c:1759
+msgid "_Browse..."
+msgstr "_Обзор..."
 
 #: client/gui-gtk-2.0/pages.c:1238
 msgid "Choose a Scenario"
@@ -12026,10 +12034,6 @@ msgstr "Выберите место для сохранения"
 #: client/gui-gtk-2.0/pages.c:1756
 msgid "Save Game"
 msgstr "Сохранить игру"
-
-#: client/gui-gtk-2.0/pages.c:1759
-msgid "_Browse..."
-msgstr "_Обзор..."
 
 #: client/gui-gtk-2.0/pages.c:1797
 msgid "Saved _Games:"
@@ -22505,9 +22509,6 @@ msgstr ""
 
 #~ msgid "_Start New Game"
 #~ msgstr "_Начать новую игру"
-
-#~ msgid "_Load Saved Game"
-#~ msgstr "_Загрузить сохранённую игру"
 
 #~ msgid "_Connect to Network Game"
 #~ msgstr "_Подключиться к сетевой игре"
