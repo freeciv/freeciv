@@ -784,6 +784,31 @@ static GtkItemFactoryEntry menu_items[]	=
 
   Path should include underscores like in the menu itself.
 *****************************************************************/
+static char *menu_path_tok(char *path)
+{
+  bool escaped = FALSE;
+
+  while (*path) {
+    if (escaped) {
+      escaped = FALSE;
+    } else {
+      if (*path == '\\') {
+        escaped = TRUE;
+      } else if (*path == '/') {
+        *path = '\0';
+        return path;
+      }
+    }
+
+    path++;
+  }
+
+  return NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static const char *translate_menu_path(const char *path, int remove_uline)
 {
 #ifndef ENABLE_NLS
@@ -791,22 +816,24 @@ static const char *translate_menu_path(const char *path, int remove_uline)
   strcpy(res, path);
 #else
   static struct astring in, out, tmp;   /* these are never free'd */
-  char *tok, *s, *trn, *t;
+  char *tok, *next, *trn, *t;
   int len;
   char *res;
 
-  /* copy to in so can modify with strtok: */
+  /* copy to in so can modify with menu_path_tok: */
   astr_minsize(&in, strlen(path)+1);
   strcpy(in.str, path);
   astr_minsize(&out, 1);
   out.str[0] = '\0';
   freelog(LOG_DEBUG, "trans: %s", in.str);
 
-  s = in.str;
-  while ((tok=strtok(s, "/"))) {
+  tok = in.str;
+  do {
+    next = menu_path_tok(tok);
+
     len = strlen(tok);
     freelog(LOG_DEBUG, "tok \"%s\", len %d", tok, len);
-    if (len && tok[0] == '<' && tok[len-1] == '>') {
+    if (len == 0 || (tok[0] == '<' && tok[len-1] == '>')) {
       t = tok;
     } else {
       trn = _(tok);
@@ -819,8 +846,8 @@ static const char *translate_menu_path(const char *path, int remove_uline)
     astr_minsize(&out, out.n + len);
     strcat(out.str, t);
     freelog(LOG_DEBUG, "t \"%s\", len %d, out \"%s\"", t, len, out.str);
-    s = NULL;
-  }
+    tok = next+1;
+  } while (next);
   res = out.str;
 #endif
 
