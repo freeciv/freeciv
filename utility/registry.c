@@ -512,6 +512,9 @@ static bool section_file_read_dup(struct section_file *sf,
 	{ 	/* expand columns: */
 	  int j, n_prev;
 	  n_prev = astring_vector_size(&columns);
+	  for (j = i + 1; j < n_prev; j++) {
+	    astr_free(&columns.p[j]);
+	  }
 	  astring_vector_reserve(&columns, i + 1);
 	  for (j = n_prev; j < i + 1; j++) {
 	    astr_init(&columns.p[j]);
