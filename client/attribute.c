@@ -247,7 +247,6 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
 	  "data_length=%d, data=%p)", key, id, x, y, data_length, data);
 
   assert(attribute_hash != NULL);
-  assert(data_length >= 0);
 
   pkey = fc_malloc(sizeof(struct attr_key));
   pkey->key = key;
