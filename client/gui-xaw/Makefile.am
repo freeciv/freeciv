@@ -71,6 +71,8 @@ libguiclient_a_SOURCES = \
 	messagewin.h	\
 	optiondlg.c	\
 	optiondlg.h	\
+	pages.c		\
+	pages.h		\
 	pixcomm.c	\
 	pixcomm.h	\
 	pixcommp.h	\
