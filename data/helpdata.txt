@@ -1445,6 +1445,41 @@ the Battleship has twice as many hit points.  The Battleship should
 expect to lose about 30% of its hit points during the fight... after
 which it will still have 2 movement points left.
 ---
+#Zones of Control
+Zones of Control, abbreviated as ZOC, is a game concept which 
+prevents you moving freely in zones controlled (or partially
+controlled) by enemy forces.
+
+The general rule is that a land unit which is adjacent to an enemy 
+occupied square cannot move directly to another square which is 
+also adjacent to an enemy occupied square.  Here an enemy occupied 
+square means an enemy city, or an enemy unit on a land square.
+Adjacency means any of the eight squares surrounding a unit.
+
+In the following special cases ZOC does not apply:
+- A unit moving directly into or out of a city.
+- A unit moving onto a square occupied by a friendly unit.
+- A unit type which explicitly ignores ZOC, eg Diplomats.
+
+Note:
+- Only land units are restricted by ZOC.
+- Non-land units can impose ZOC (that is, count as enemy occupied 
+  squares), but only if they are on a land square.  So effectively
+  sea units cannot impose ZOC, and air units (including helicopters)
+  do not impose ZOC if they are over sea squares.
+- ZOC does not restrict unit attacks, only movement.
+
+TIP: You can infiltrate enemy zones by first moving in a Diplomat
+(or some other unit which ignores ZOC), and then moving regular
+units onto the square now occupied by the Diplomat.  By repeating
+this process (and optionally leaving some units behind to keep 
+squares occupied), you can make a path through enemy territory.
+
+The following Freeciv ZOC effects differ from some similar games:
+- Enemy cities with no units in them impose ZOC.
+- Land units moving from boats at sea onto land are subject to ZOC.
+These cases will probably be changed in a future version of Freeciv.
+---
 %% Terrain help by Greg Wooledge <wooledge@kellnet.com>.  First
 %% draft 1998-07-18.
 %% It would probably be better to have some client-side code to
