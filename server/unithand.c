@@ -591,9 +591,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
    */
   if (is_sailing_unit (punit)) {
     int moves_used = unit_move_rate (&old_punit) - old_punit.moves_left;
-    punit->moves_left = unit_move_rate (punit) - moves_used - 3;
+    punit->moves_left = unit_move_rate (punit) - moves_used - SINGLE_MOVE;
   } else {
-    punit->moves_left-=3;
+    punit->moves_left -= SINGLE_MOVE;
   }
   if(punit->moves_left<0)
     punit->moves_left=0;
@@ -1053,7 +1053,6 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     how_to_declare_war(pplayer);
     return 0;
   }
-
 
 
   {

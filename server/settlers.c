@@ -131,22 +131,16 @@ void generate_minimap(void)
 **************************************************************************/
 void remove_city_from_minimap(int x, int y)
 {
-  int i, j, n, xx;
-
   freelog(LOG_DEBUG, "Removing (%d, %d) from minimap.", x, y);
-  for (j = -4; j <= 4; j++) {
-    if (y+j < 0 || y+j >= map.ysize) continue;
-    for (i = -4; i <= 4; i++) {
-      xx = map_adjust_x(x+i);
-      n = i * i + j * j;
-      if (n <= 5) {
-        if (minimap[xx][y+j] < 0) minimap[xx][y+j]++;
-        else minimap[xx][y+j] = 0;
-      } else if (n <= 20) {
-        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
-      }
+  square_iterate(x, y, 4, x1, y1) {
+    int dist = sq_map_distance(x, y, x1, y1);
+    if (dist <= 5) {
+      if (minimap[x1][y1] < 0) minimap[x1][y1]++;
+      else minimap[x1][y1] = 0;
+    } else if (dist <= 20) {
+      if (minimap[x1][y1] > 0) minimap[x1][y1] = 0;
     }
-  }
+  } square_iterate_end;
 }    
 
 /**************************************************************************
@@ -154,35 +148,17 @@ void remove_city_from_minimap(int x, int y)
 **************************************************************************/
 void add_city_to_minimap(int x, int y)
 {
-  int i, j, n, xx;
-  
   freelog(LOG_DEBUG, "Adding (%d, %d) to minimap.", x, y);
-  for (j = -4; j <= 4; j++) {
-    if (y+j < 0 || y+j >= map.ysize) continue;
-    for (i = -4; i <= 4; i++) {
-      xx = map_adjust_x(x+i);
-      n = i * i + j * j;
-      if (n <= 5) {
-        if (minimap[xx][y+j] < 0) minimap[xx][y+j]--;
-        else minimap[xx][y+j] = -1;
-      } else if (n <= 20) {
-        if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
-      }
+  square_iterate(x, y, 4, x1, y1) {
+    int dist = sq_map_distance(x, y, x1, y1);
+    if (dist <= 5) {
+      if (minimap[x1][y1] < 0) minimap[x1][y1]--;
+      else minimap[x1][y1] = -1;
+    } else if (dist <= 20) {
+      if (minimap[x1][y1] > 0) minimap[x1][y1] = 0;
     }
-  }
-}    
-
-#ifdef UNUSED
-/**************************************************************************
-... (unused)
-**************************************************************************/
-void locally_zero_minimap(int x, int y)
-{
-  map_city_radius_iterate(x, y, x_itr, y_itr) {
-    if (minimap[x_itr][y_itr] > 0) minimap[x_itr][y_itr] = 0;
-  } map_city_radius_iterate_end;
+  } square_iterate_end;
 }
-#endif
 
 /**************************************************************************
 this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela
@@ -240,9 +216,14 @@ static int city_desirability(struct player *pplayer, int x, int y)
   memset(road, 0, sizeof(road));
 
   city_map_iterate(i, j) {
-    if ((minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)] >= 0 && !pcity) ||
-       (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
-      ptile = map_get_tile(x+i-2, y+j-2);
+    int map_x = x + i - CITY_MAP_SIZE/2;
+    int map_y = y + j - CITY_MAP_SIZE/2;
+    if (!normalize_map_pos(&map_x, &map_y))
+      continue;
+
+    if ((minimap[map_x][map_y] >= 0 && !pcity) ||
+	(pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
+      ptile = map_get_tile(map_x, map_y);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
       food[i][j] = (get_tile_food_base(ptile) - 2) * MORT;
@@ -250,7 +231,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
       if (ptype->irrigation_result == ptile->terrain && con2 == con) {
         if (ptile->special&S_IRRIGATION || (i == 2 && j == 2))
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr;
-        else if (is_water_adjacent_to_tile(x+i-2, y+j-2) &&
+        else if (is_water_adjacent_to_tile(map_x, map_y) &&
                  ptile->terrain != T_HILLS)
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr - 9; /* KLUGE */
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
@@ -442,7 +423,8 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
 static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 {
   int x, y, m;
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  x = pcity->x + i - CITY_MAP_SIZE/2;
+  y = pcity->y + j - CITY_MAP_SIZE/2;
   if (!normalize_map_pos(&x, &y))
     return -1;
   if (!(map_get_special(x, y) & S_POLLUTION)) return(-1);
@@ -460,7 +442,8 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 			   int i, int j, int best)
 {
   int x, y, m;
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  x = pcity->x + i - CITY_MAP_SIZE/2;
+  y = pcity->y + j - CITY_MAP_SIZE/2;
   if (!normalize_map_pos(&x, &y))
     return -1;
   if (!(map_get_special(x, y) & S_FALLOUT)) return(-1);
@@ -495,7 +478,9 @@ static int is_wet(struct player *pplayer, int x, int y)
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
-  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  int m;
+  int x = pcity->x + i - CITY_MAP_SIZE/2;
+  int y = pcity->y + j - CITY_MAP_SIZE/2;
   enum tile_terrain_type t;
   struct tile_type *type;
   int s;
@@ -545,7 +530,9 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 static int ai_calc_mine(struct city *pcity, int i, int j)
 {
-  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  int m;
+  int x = pcity->x + i - CITY_MAP_SIZE/2;
+  int y = pcity->y + j - CITY_MAP_SIZE/2;
   struct tile *ptile;
   if (!normalize_map_pos(&x, &y))
     return -1;
@@ -583,7 +570,9 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
 **************************************************************************/
 static int ai_calc_transform(struct city *pcity, int i, int j)
 {
-  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  int m;
+  int x = pcity->x + i - CITY_MAP_SIZE/2;
+  int y = pcity->y + j - CITY_MAP_SIZE/2;
   enum tile_terrain_type t;
   struct tile_type *type;
   int s;
@@ -673,9 +662,10 @@ static int road_bonus(int x, int y, int spc)
 static int ai_calc_road(struct city *pcity, struct player *pplayer,
 			int i, int j)
 {
-  int x, y, m;
+  int m;
   struct tile *ptile;
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  int x = pcity->x + i - CITY_MAP_SIZE/2;
+  int y = pcity->y + j - CITY_MAP_SIZE/2;
   if (!normalize_map_pos(&x, &y))
     return -1;
   ptile = map_get_tile(x, y);
@@ -696,11 +686,12 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
 static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
-  int x, y, m;
+  int m;
   struct tile *ptile;
   enum tile_special_type spe_sav;
   
-  x = pcity->x + i - 2; y = pcity->y + j - 2;
+  int x = pcity->x + i - CITY_MAP_SIZE/2;
+  int y = pcity->y + j - CITY_MAP_SIZE/2;
   if (!normalize_map_pos(&x, &y))
     return -1;
   ptile = map_get_tile(x, y);
@@ -1401,13 +1392,10 @@ static void assign_settlers(void)
 
 static void assign_region(int x, int y, int player_no, int distance, int s)
 {
-  int i, j;
-  for (j = MAX(0, y - distance); j <= MIN(map.ysize - 1, y + distance); j++) {
-    for (i = x - distance; i <= x + distance; i++) {
-      if (!s || is_terrain_near_tile(i, j, T_OCEAN))
-        territory[map_adjust_x(i)][j] &= (1<<player_no);
-    }
-  }
+  square_iterate(x, y, distance, x1, y1) {
+    if (!s || is_terrain_near_tile(x1, y1, T_OCEAN))
+      territory[x1][y1] &= (1<<player_no);
+  } square_iterate_end;
 }
 
 /**************************************************************************
@@ -1420,7 +1408,7 @@ static void assign_territory_player(struct player *pplayer)
     if (unit_types[punit->type].attack_strength) {
 /* I could argue that phalanxes aren't really a threat, but ... */
       if (is_sailing_unit(punit)) {
-        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / 3, 1);
+        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / SINGLE_MOVE, 1);
       } else if (is_ground_unit(punit)) {
         assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate /
              (unit_flag(punit->type, F_IGTER) ? 1 : 3), 0);
@@ -1429,7 +1417,7 @@ road networks 100 times/turn, and I can't justifiably abort when I encounter
 already assigned territory.  If anyone has a reasonable alternative that won't
 noticeably slow the game, feel free to replace this else{}  -- Syela */
       } else {
-        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / 3, 0);
+        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / SINGLE_MOVE, 0);
       } 
     }
   unit_list_iterate_end;
