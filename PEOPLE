@@ -69,7 +69,7 @@ contributions to the Freeciv project.
      Dmitriy Genzel <udgenzel@mcs.drexel.edu> (patch)
      Jed Davis <jldavis@cs.oberlin.edu> (patch)
      Karl-Ingo Friese <kif@informatik.uni-hannover.de> (patches)
-     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz> (patch)
+     Stepan Roh <src@srnet.cz> (patch)
      Karen Yeats <kayeats@burns.dyndns.org> (mapgen deserts)
      Rutger Nijlunsing <rutger@null.net> (patch)
      Mika Korhonen <mikak@ees2.oulu.fi> (patch)
@@ -463,7 +463,7 @@ contributions to the Freeciv project.
      Erik Sigra <freeciv@home.se>
      Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>
      Mark Savage <marksbg@crosswinds.net>
-     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz>
+     Stepan Roh <src@srnet.cz>
      Andy Black <ablack@bvsd.k12.co.us>
      Richard Atkins <rja@pcug.org.au>
      Chris Snow <chris@baldric.uwo.ca>
@@ -540,7 +540,7 @@ contributions to the Freeciv project.
      Erwan Deriaz <deriaz@eleves.bretagne.ens-cachan.fr> (1.10.0)
      David Scheid <david.scheid@compaq.com> (1.10.0)
      Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de> (1.10.0)
-     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz> (1.10.0)
+     Stepan Roh <src@srnet.cz> (1.10.0)
 
      David R. Relyea <relyea@slac.stanford.edu> (1.9.0)
      Pascal Andoux <pascal@yalbinet.com> (1.9.0)
@@ -690,7 +690,7 @@ contributions to the Freeciv project.
      Alexander Mai <st002279@hrzpub.tu-darmstadt.de> (OS/2)
      Dmitry V.Vasiliev <qnx@qnx.org.ru> (QNX)
      Mathias Hasselmann <mathias.hasselmann@gmx.de> (Red Hat)
-     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz> (Slackware)
+     Stepan Roh <src@srnet.cz> (Slackware)
      Bryan Blackburn <blb@pobox.com> (Solaris)
      Pascal Bleser <guru@linuxbe.org> (Suse)
      Andreas Kemnade <akemnade@t-online.de> (Windows)
