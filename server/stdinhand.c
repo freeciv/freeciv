@@ -195,7 +195,6 @@ void meta_command(char *arg)
   send_server_info_to_metaserver(1);
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -343,6 +342,33 @@ void report_server_options(struct player *pplayer)
   
 }
 
+void set_ai_level(char *arg, int level)
+{
+  struct player *pplayer=find_player_by_name(arg);
+  char *nm[11] = { "NONE", "NONE", "NONE", "easy", "NONE",
+                 "normal", "NONE", "hard", "NONE", "NONE", "NONE" };
+  int h[11] = { 0, 0, 0, H_RATES+H_TARGETS+H_HUTS, 0,
+                H_RATES+H_TARGETS+H_HUTS, 0, 0, 0, 0, 0 };
+  int i;
+
+  if (pplayer) {
+    if (pplayer->ai.control) {
+      pplayer->ai.handicap = h[level];
+      printf("%s is now %s.\n", pplayer->name, nm[level]);
+    } else {
+      printf("%s is not controlled by the AI.\n", pplayer->name);
+    }
+  } else {
+    for (i = 0; i < game.nplayers; i++) {
+      pplayer = get_player(i);
+      if (pplayer->ai.control) {
+        pplayer->ai.handicap = h[level];
+        printf("%s is now %s.\n", pplayer->name, nm[level]);
+      }
+    }
+  }
+}
+
 void crash_and_burn(void)
 {
   printf("Crashing and burning.\n");
@@ -435,6 +461,12 @@ void handle_stdin_input(char *str)
     create_ai_player(arg);
   else if (!strcmp("crash", command))
     crash_and_burn();
+/*  else if (!strcmp("easy", command))
+    set_ai_level(arg, 3);               not fair to tease people like this -- Syela */
+  else if (!strcmp("normal", command))
+    set_ai_level(arg, 5);
+  else if (!strcmp("hard", command))
+    set_ai_level(arg, 7);
   else if(!strcmp("q", command))
     quit_game();
   else if(!strcmp("c", command))
@@ -526,6 +558,12 @@ void show_help(void)
   puts("meta T   - Set meta-server infoline to T");
   puts("ai P     - toggles AI on player");
   puts("create P - creates an AI player");
+/*  puts("easy P   - AI player will be easy");
+  puts("easy     - All AI players will be easy"); */
+  puts("normal P - AI player will be normal");
+  puts("normal   - All AI players will be normal");
+  puts("hard P   - AI player will be hard");
+  puts("hard     - All AI players will be hard");
   if(server_state==PRE_GAME_STATE) {
     puts("set      - set options");
     puts("s        - start game");
