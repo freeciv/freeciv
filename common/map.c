@@ -1404,17 +1404,34 @@ const char *dir_get_name(enum direction8 dir)
 }
 
 /**************************************************************************
+Return true and sets dir to the direction of the step if (end_x,
+end_y) can be reached from (start_x, start_y) in one step. Return
+false otherwise (value of dir is unchanged in this case).
+**************************************************************************/
+int base_get_direction_for_step(int start_x, int start_y, int end_x,
+				int end_y, int *dir)
+{
+  adjc_dir_iterate(start_x, start_y, x1, y1, dir2) {
+    if (x1 == end_x && y1 == end_y) {
+      *dir = dir2;
+      return 1;
+    }
+  } adjc_dir_iterate_end;
+
+  return 0;
+}
+
+/**************************************************************************
 Return the direction which is needed for a step on the map from
-(start_x,start_y) to (end_x,end_y).
+(start_x, start_y) to (end_x, end_y).
 **************************************************************************/
 int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
 {
-  assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
+  int dir;
 
-  adjc_dir_iterate(start_x, start_y, x1, y1, dir) {
-    if (x1 == end_x && y1 == end_y)
-      return dir;
-  } adjc_dir_iterate_end;
+  if (base_get_direction_for_step(start_x, start_y, end_x, end_y, &dir)) {
+    return dir;
+  }
 
   assert(0);
   return -1;
