@@ -274,6 +274,16 @@ static int get_meta_list(char *errbuf, int n_errbuf)
 }
 
 /**************************************************************************
+  this function frees the list of LAN servers on timeout destruction. 
+**************************************************************************/
+static void get_lan_destroy(gpointer data)
+{
+  finish_lanserver_scan();
+  num_lanservers_timer = 0;
+  lan_timer = 0;
+}
+
+/**************************************************************************
   this function updates the list of LAN servers every 100 ms for 5 seconds. 
 **************************************************************************/
 static gboolean get_lan_list(gpointer data)
@@ -303,12 +313,10 @@ static gboolean get_lan_list(gpointer data)
 
   num_lanservers_timer++;
   if (num_lanservers_timer == 50) {
-    finish_lanserver_scan();
-    num_lanservers_timer = 0;
-    lan_timer = 0;
     return FALSE;
+  } else {
+    return TRUE;
   }
-  return TRUE;
 }
 
 /**************************************************************************
@@ -322,11 +330,12 @@ static void update_network_lists(void)
     append_output_window(errbuf);
   }
 
-  if (num_lanservers_timer == 0) { 
+  if (lan_timer == 0) { 
     gtk_list_store_clear(lan_store);
 
     if (begin_lanserver_scan()) {
-      lan_timer = g_timeout_add(100, get_lan_list, NULL);
+      lan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
+	  get_lan_list, NULL, get_lan_destroy);
     }
   }
 }
@@ -1490,7 +1499,6 @@ void set_client_page(enum client_pages page)
   case PAGE_NETWORK:
     if (lan_timer != 0) {
       g_source_remove(lan_timer);
-      lan_timer = 0;
     }
     break;
   case PAGE_GAME:
