@@ -25,8 +25,8 @@ The extinction of all other civilizations.
             Peter Joachim Unold  - pjunold@daimi.aau.dk
 
   Present administrator:
-            Mitch Davis          - mjd@alphalink.com.au
-%%            James Blackwell      - innocent@mercury.merconline.com
+             David Pfitzner       -dwp@mso.anu.edu.au 
+             Nicolas Brunel       -brunel@ham.esil.univ-mrs.fr
 
 If you find any bugs, then please send us a bug report.  You can
 either email the present administrator (listed above), or the
@@ -1381,6 +1381,14 @@ and mines, and clean up pollution.  Upkeep for Settlers is in food
 rather than production, and a Setter can die if its supporting city
 runs out of food.
 %% In Civ2, Settlers may require both food and shields for upkeep.
+
+Settlers and Engineers may work together to decrease the amount of
+time required for long projects.  If two or more Settlers and/or
+Engineers are both working on the same task in the same square,
+their efforts will be added together each turn until the task is
+finished.  Be careful not to dedicate too many workers to one task,
+though; excess effort can be wasted, and a group of Settlers and/or
+Engineers is highly vulnerable to enemy attacks.
 ---
 # Spy
 A Spy is a full time professional and as such is much more
