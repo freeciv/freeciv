@@ -2037,7 +2037,7 @@ Freeciv*morearrowlabel.borderWidth:                0
 Freeciv*morearrowlabel.internalWidth:              0
 Freeciv*morearrowlabel.internalHeight:             0
 Freeciv*morearrowlabel.fromVert:                   unitpixcanvas
-Freeciv*morearrowlabel.fromHoriz:                  unitbelowcanvas3
+!Freeciv*morearrowlabel.fromHoriz:                  unitbelowcanvas3
 Freeciv*morearrowlabel.top:                        chainTop
 Freeciv*morearrowlabel.bottom:                     chainTop
 Freeciv*morearrowlabel.left:                       chainLeft

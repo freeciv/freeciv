@@ -67,6 +67,8 @@ extern char server_host[];
 extern int  server_port;
 extern char *tile_set_dir;
 
+extern int num_units_below;
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -168,9 +170,9 @@ Widget turn_done_button;
 Widget info_command, bulb_label, sun_label, government_label, timeout_label;
 Widget unit_info_label;
 Widget unit_pix_canvas;
-Widget unit_below_canvas[4];
+Widget unit_below_canvas[MAX_NUM_UNITS_BELOW];
 Widget main_vpane;
-Pixmap unit_below_pixmap[4];
+Pixmap unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 Widget more_arrow_label;
 Window root_window;
 
@@ -392,6 +394,11 @@ void x_main(int argc, char *argv[])
 
   load_tile_gfx();
 
+  /* 135 below is rough value (could be more intelligent) --dwp */
+  num_units_below = 135/(int)NORMAL_TILE_WIDTH;
+  num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
+  num_units_below = MAX(num_units_below,1);
+  
   setup_widgets();
   load_intro_gfx(); 
   
@@ -447,7 +454,7 @@ void x_main(int argc, char *argv[])
 				   display_depth);
 
 
-  for(i=0; i<4; i++)
+  for(i=0; i<num_units_below; i++)
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 
 				       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
 				       display_depth);  
@@ -592,35 +599,24 @@ void setup_widgets(void)
 					   XtNheight, NORMAL_TILE_HEIGHT,
 					   NULL);
 
-  unit_below_canvas[0] = XtVaCreateManagedWidget("unitbelowcanvas0",
-					        pixcommWidgetClass,
-						left_column_form, 
-						XtNwidth, NORMAL_TILE_WIDTH,
-						XtNheight, NORMAL_TILE_HEIGHT,
-						NULL);
-  unit_below_canvas[1] = XtVaCreateManagedWidget("unitbelowcanvas1",
-					        pixcommWidgetClass,
-						left_column_form, 
-						XtNwidth, NORMAL_TILE_WIDTH,
-						XtNheight, NORMAL_TILE_HEIGHT,
-						NULL);
-  unit_below_canvas[2] = XtVaCreateManagedWidget("unitbelowcanvas2",
-					        pixcommWidgetClass,
-						left_column_form, 
-						XtNwidth, NORMAL_TILE_WIDTH,
-						XtNheight, NORMAL_TILE_HEIGHT,
-						NULL);
-  unit_below_canvas[3] = XtVaCreateManagedWidget("unitbelowcanvas3",
-					        pixcommWidgetClass,
-						left_column_form, 
-						XtNwidth, NORMAL_TILE_WIDTH,
-						XtNheight, NORMAL_TILE_HEIGHT,
-						NULL);
+  for(i=0; i<num_units_below; i++) {
+    char unit_below_name[32] = "\0";
+    sprintf(unit_below_name, "unitbelowcanvas%ld", i);
+    unit_below_canvas[i] = XtVaCreateManagedWidget(unit_below_name,
+						   pixcommWidgetClass,
+						   left_column_form, 
+						   XtNwidth, NORMAL_TILE_WIDTH,
+						   XtNheight, NORMAL_TILE_HEIGHT,
+						   NULL);
+  }
 
-  more_arrow_label = XtVaCreateManagedWidget("morearrowlabel", 
-					     labelWidgetClass, 
-					     left_column_form,
-					     NULL);
+  more_arrow_label =
+    XtVaCreateManagedWidget("morearrowlabel", 
+			    labelWidgetClass,
+			    left_column_form,
+			    XtNfromHoriz,
+			    (XtArgVal)unit_below_canvas[num_units_below-1],
+			    NULL);
 
   map_vertical_scrollbar = XtVaCreateManagedWidget("mapvertiscrbar", 
 						   scrollbarWidgetClass, 

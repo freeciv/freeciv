@@ -51,11 +51,10 @@ extern Widget overview_canvas, main_form, left_column_form;
 extern Widget econ_label[10];
 extern Widget bulb_label, sun_label, government_label, timeout_label;
 extern Widget unit_info_label;
-extern Widget unit_pix_canvas, unit_below_canvas[4];
+extern Widget unit_pix_canvas, unit_below_canvas[MAX_NUM_UNITS_BELOW];
 extern Widget more_arrow_label;
 extern int display_depth;
 extern Pixmap single_tile_pixmap;
-/*extern Pixmap unit_below_pixmap[4];*/
 
 extern int seconds_to_turndone;
 
@@ -77,6 +76,9 @@ int map_view_x0, map_view_y0;
 
 /* used by map_canvas expose func */ 
 int force_full_repaint;
+
+/* adjusted depending on tile size: */
+int num_units_below = MAX_NUM_UNITS_BELOW;
 
 extern int goto_state;
 
@@ -284,7 +286,7 @@ void update_unit_pix_label(struct unit *punit)
   /* what initialises these statics? */
   static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
   static int utemplate = U_LAST;
-  static int unit_ids[4];
+  static int unit_ids[MAX_NUM_UNITS_BELOW];
   static int showing_arrow=0;
   struct genlist_iterator myiter;
   
@@ -300,7 +302,7 @@ void update_unit_pix_label(struct unit *punit)
     genlist_iterator_init(&myiter, 
 			  &(map_get_tile(punit->x, punit->y)->units.list), 0);
     
-    for(i=0; i<4 && ITERATOR_PTR(myiter); i++) {
+    for(i=0; i<num_units_below && ITERATOR_PTR(myiter); i++) {
       int id;
       id=ITERATOR_PTR(myiter) ? ((struct unit *)ITERATOR_PTR(myiter))->id : 0;
       if(id==punit->id) {
@@ -328,7 +330,7 @@ void update_unit_pix_label(struct unit *punit)
     }
 
     
-    for(; i<4; i++) {
+    for(; i<num_units_below; i++) {
       XawPixcommClear(unit_below_canvas[i]);
       unit_ids[i]=0;
     }
@@ -352,7 +354,7 @@ void update_unit_pix_label(struct unit *punit)
     XawPixcommClear(unit_pix_canvas);
     utemplate=U_LAST;
     uactivity=ACTIVITY_UNKNOWN;
-    for(i=0; i<4; i++) {
+    for(i=0; i<num_units_below; i++) {
       XawPixcommClear(unit_below_canvas[i]);
       unit_ids[i]=0;
     }

@@ -18,6 +18,9 @@
 struct unit;
 struct city;
 
+/* don't change this unless you also put more entries in data/Freeciv */
+#define MAX_NUM_UNITS_BELOW 4
+
 #define CORNER_TILES     0
 
 #define NUKE_TILE0        1*20+17
