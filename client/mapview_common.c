@@ -1291,8 +1291,18 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 **************************************************************************/
 static void center_tile_overviewcanvas(int map_x, int map_y)
 {
-  /* Currently we just center the overview canvas around the tile. */
-  map_overview_x0 = map_adjust_x(map_x - map.xsize / 2);
+  /* The overview coordinates are equivalent to native coordinates. */
+  map_to_native_pos(&map_x, &map_y, map_x, map_y);
+
+  /* NOTE: this embeds the map wrapping in the overview code.  This is
+   * basically necessary for the overview to be efficiently updated.  See
+   * refresh_overview_viewrect(). */
+  if (topo_has_flag(TF_WRAPX)) {
+    map_overview_x0 = WRAP(map_x - map.xsize / 2, map.xsize);
+  } else {
+    map_overview_x0 = 0;
+  }
+  /* TODO: Y-wrapping of overview */
 }
 
 /**************************************************************************
@@ -1301,8 +1311,20 @@ static void center_tile_overviewcanvas(int map_x, int map_y)
 void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y)
 {
-  *overview_x = OVERVIEW_TILE_WIDTH * map_adjust_x(map_x - map_overview_x0);
-  *overview_y = OVERVIEW_TILE_HEIGHT * map_y;
+  int gui_x, gui_y;
+
+  /* The map position may not be normal, for instance when the mapview
+   * origin is not a normal position.
+   *
+   * NOTE: this embeds the map wrapping in the overview code. */
+  map_to_native_pos(&gui_x, &gui_y, map_x, map_y);
+  gui_x -= map_overview_x0;
+  if (topo_has_flag(TF_WRAPX)) {
+    gui_x = WRAP(gui_x, map.xsize);
+  }
+  /* TODO: Y-wrapping of overview */
+  *overview_x = OVERVIEW_TILE_WIDTH * gui_x;
+  *overview_y = OVERVIEW_TILE_HEIGHT * gui_y;
 }
 
 /**************************************************************************
@@ -1311,8 +1333,15 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y)
 {
-  *map_x = map_adjust_x(overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0);
-  *map_y = overview_y / OVERVIEW_TILE_HEIGHT;
+  int nat_x = overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0;
+  int nat_y = overview_y / OVERVIEW_TILE_HEIGHT;
+  /* TODO: Y-wrapping of overview */
+
+  native_to_map_pos(map_x, map_y, nat_x, nat_y);
+  if (!normalize_map_pos(map_x, map_y)) {
+    /* All positions on the overview should be valid. */
+    assert(FALSE);
+  }
 }
 
 /**************************************************************************
@@ -1366,10 +1395,11 @@ void get_mapview_corners(int x[4], int y[4])
 void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
 			      int map_x, int map_y)
 {
-  /* Base overview positions are just like map positions, but scaled to
+  /* Base overview positions are just like native positions, but scaled to
    * the overview tile dimensions. */
-  *base_overview_x = map_x * OVERVIEW_TILE_WIDTH;
-  *base_overview_y = map_y * OVERVIEW_TILE_HEIGHT;
+  map_to_native_pos(base_overview_x, base_overview_y, map_x, map_y);
+  *base_overview_x *= OVERVIEW_TILE_WIDTH;
+  *base_overview_y *= OVERVIEW_TILE_HEIGHT;
 }
 
 /**************************************************************************
