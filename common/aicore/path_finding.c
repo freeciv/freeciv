@@ -997,7 +997,7 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
   path->length = d_node->step + 1;
 
   for (i = d_node->step; i >= 0; i--) {
-    bool old_waited;
+    bool old_waited = FALSE;
 
     /* 1: Deal with waiting */
     if (!d_node->is_dangerous) {
