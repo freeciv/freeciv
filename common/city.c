@@ -491,9 +491,8 @@ int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
       !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
     return 0;
   
-  /* A hydro dam and the Hoover dam wonder have some fun terrain 
-     requirements. */
-  if ((id == B_HYDRO || id == B_HOOVER)
+  /* A hydro dam has some fun terrain requirements. */
+  if ((id == B_HYDRO)
       && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
       && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
       && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
