@@ -64,6 +64,10 @@ static int science_dialog_shell_is_modal;
 static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
+enum {
+  ECONOMY_SELL_OBSOLETE = 1, ECONOMY_SELL_ALL
+};
+
 static void create_economy_report_dialog(bool make_modal);
 static void economy_command_callback(GtkWidget *w, gint response_id);
 static void economy_selection_callback(GtkTreeSelection *selection,
@@ -667,14 +671,14 @@ void create_economy_report_dialog(bool make_modal)
 	economy_label2, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC(economy_label2), 5, 5);
 
-  sellobsolete_command = gtk_button_new_with_mnemonic(_("Sell Obsolete"));
+  sellobsolete_command = gtk_button_new_with_mnemonic(_("Sell _Obsolete"));
   gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
-			       sellobsolete_command, 1);
+			       sellobsolete_command, ECONOMY_SELL_OBSOLETE);
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
 
-  sellall_command = gtk_button_new_with_mnemonic(_("Sell All"));
+  sellall_command = gtk_button_new_with_mnemonic(_("Sell _All"));
   gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
-			       sellall_command, 2);
+			       sellall_command, ECONOMY_SELL_ALL);
   gtk_widget_set_sensitive(sellall_command, FALSE);
 
   gtk_dialog_add_button(GTK_DIALOG(economy_dialog_shell),
@@ -734,10 +738,9 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   gint row;
   GtkWidget *shell;
 
-  switch (response_id) {
-    case 1:
-    case 2:     break;
-    default:	gtk_widget_destroy(economy_dialog_shell);	return;
+  if (response_id != ECONOMY_SELL_OBSOLETE && response_id != ECONOMY_SELL_ALL) {
+    gtk_widget_destroy(economy_dialog_shell);
+    return;
   }
 
   /* sell obsolete and sell all. */
@@ -746,9 +749,26 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   i = economy_row_type[row].type;
 
   if (is_impr == TRUE) {
+    if (response_id == ECONOMY_SELL_ALL) {
+      shell = gtk_message_dialog_new(
+	  GTK_WINDOW(economy_dialog_shell),
+	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+	  _("Do you really wish to sell your %s?\n"),
+	  get_improvement_name(i));
+      gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
+
+      if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+	gtk_widget_destroy(shell);
+      } else {
+	gtk_widget_destroy(shell);
+	return;
+      }
+    }
+
     city_list_iterate(game.player_ptr->cities, pcity) {
       if (!pcity->did_sell && city_got_building(pcity, i ) &&
-	  (response_id == 2 ||
+	  (response_id == ECONOMY_SELL_ALL ||
 	   improvement_obsolete(game.player_ptr, i) ||
 	   wonder_replacement(pcity, i) )) {
 	count++; 
@@ -778,7 +798,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
  	 * up-to-dates ones. And they are also all obsolete at the same
  	 * time so if the user want to sell them off, he can use the
 	 * sell all button */
- 	if (punit->type == i && response_id == 2) {
+ 	if (punit->type == i && response_id == ECONOMY_SELL_ALL) {
 	  count++;
  	  request_unit_disband(punit);
  	}
