@@ -113,7 +113,6 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
-  case PACKET_PLAYER_LAUNCH_SPACESHIP:
     return recieve_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -153,7 +152,13 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return recieve_packet_ruleset_unit(pc);
   case PACKET_RULESET_BUILDING:
     return recieve_packet_ruleset_building(pc);
-    
+
+  case PACKET_SPACESHIP_INFO:
+    return recieve_packet_spaceship_info(pc);
+
+  case PACKET_SPACESHIP_ACTION:
+    return recieve_packet_spaceship_action(pc);
+
   default:
     freelog(LOG_NORMAL, "unknown packet type received");
     remove_packet_from_buffer(&pc->buffer);
@@ -673,14 +678,6 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
     cptr=put_string(cptr, pinfo->capability);
   }
 
-  if (pc && has_capability("spacerace", pc->capability)) {
-    cptr=put_int8(cptr, pinfo->structurals);
-    cptr=put_int8(cptr, pinfo->components);
-    cptr=put_int8(cptr, pinfo->modules);
-    cptr=put_int8(cptr, pinfo->sship_state);
-    cptr=put_int16(cptr, pinfo->arrival_year);
-  }
-  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -733,20 +730,6 @@ recieve_packet_player_info(struct connection *pc)
   else 
     pinfo->capability[0] = '\0';
   
-  if (has_capability("spacerace", pc->capability)) {
-    cptr=get_int8(cptr, &pinfo->structurals);
-    cptr=get_int8(cptr, &pinfo->components);
-    cptr=get_int8(cptr, &pinfo->modules);
-    cptr=get_int8(cptr, &pinfo->sship_state);
-    cptr=get_int16(cptr, &pinfo->arrival_year);
-  } else {
-    pinfo->structurals = 0;
-    pinfo->components = 0;
-    pinfo->modules = 0;
-    pinfo->sship_state = SSHIP_NONE;
-    pinfo->arrival_year = 9999;
-  }
-      
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
 }
@@ -794,10 +777,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->techpenalty);
   cptr=put_int8(cptr, pinfo->foodbox);
   cptr=put_int8(cptr, pinfo->civstyle);
-  
-  if (pc && has_capability("spacerace", pc->capability)) {
-    cptr=put_int8(cptr, pinfo->spacerace);
-  }
+  cptr=put_int8(cptr, pinfo->spacerace);
 
   cptr=put_int8(cptr, pinfo->aqueduct_size);
   cptr=put_int8(cptr, pinfo->sewer_size);
@@ -854,11 +834,7 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->techpenalty);
   cptr=get_int8(cptr, &pinfo->foodbox);
   cptr=get_int8(cptr, &pinfo->civstyle);
-  if (has_capability("spacerace", pc->capability)) {
-    cptr=get_int8(cptr, &pinfo->spacerace);
-  } else {
-    pinfo->spacerace = 0;
-  }
+  cptr=get_int8(cptr, &pinfo->spacerace);
 
   cptr=get_int8(cptr, &pinfo->aqueduct_size);
   cptr=get_int8(cptr, &pinfo->sewer_size);
@@ -1667,6 +1643,120 @@ recieve_packet_ruleset_building(struct connection *pc)
   cptr=get_int8(cptr, &packet->obsolete_by);
   cptr=get_int8(cptr, &packet->variant);
   cptr=get_string(cptr, packet->name);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_spaceship_info(struct connection *pc,
+			       struct packet_spaceship_info *packet)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int8(buffer+2, PACKET_SPACESHIP_INFO);
+  
+  cptr=put_int8(cptr, packet->player_num);
+  cptr=put_int8(cptr, packet->sship_state);
+  cptr=put_int8(cptr, packet->structurals);
+  cptr=put_int8(cptr, packet->components);
+  cptr=put_int8(cptr, packet->modules);
+  cptr=put_int8(cptr, packet->fuel);
+  cptr=put_int8(cptr, packet->propulsion);
+  cptr=put_int8(cptr, packet->habitation);
+  cptr=put_int8(cptr, packet->life_support);
+  cptr=put_int8(cptr, packet->solar_panels);
+  cptr=put_int16(cptr, packet->launch_year);
+  cptr=put_int8(cptr, (packet->population/1000));
+  cptr=put_int32(cptr, packet->mass);
+  cptr=put_int32(cptr, (int) (packet->support_rate*10000));
+  cptr=put_int32(cptr, (int) (packet->energy_rate*10000));
+  cptr=put_int32(cptr, (int) (packet->success_rate*10000));
+  cptr=put_int32(cptr, (int) (packet->travel_time*10000));
+  cptr=put_bit_string(cptr, (char*)packet->structure);
+
+  put_int16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_spaceship_info *
+recieve_packet_spaceship_info(struct connection *pc)
+{
+  int tmp;
+  unsigned char *cptr;
+  struct packet_spaceship_info *packet=
+    malloc(sizeof(struct packet_spaceship_info));
+  
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int8(cptr, NULL);
+
+  cptr=get_int8(cptr, &packet->player_num);
+  cptr=get_int8(cptr, &packet->sship_state);
+  cptr=get_int8(cptr, &packet->structurals);
+  cptr=get_int8(cptr, &packet->components);
+  cptr=get_int8(cptr, &packet->modules);
+  cptr=get_int8(cptr, &packet->fuel);
+  cptr=get_int8(cptr, &packet->propulsion);
+  cptr=get_int8(cptr, &packet->habitation);
+  cptr=get_int8(cptr, &packet->life_support);
+  cptr=get_int8(cptr, &packet->solar_panels);
+  cptr=get_int16(cptr, &packet->launch_year);
+  cptr=get_int8(cptr, &packet->population);
+  packet->population *= 1000;
+  cptr=get_int32(cptr, &packet->mass);
+  
+  cptr=get_int32(cptr, &tmp);
+  packet->support_rate = tmp * 0.0001;
+  cptr=get_int32(cptr, &tmp);
+  packet->energy_rate = tmp * 0.0001;
+  cptr=get_int32(cptr, &tmp);
+  packet->success_rate = tmp * 0.0001;
+  cptr=get_int32(cptr, &tmp);
+  packet->travel_time = tmp * 0.0001;
+
+  cptr=get_bit_string(cptr, (char*)packet->structure);
+  
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_spaceship_action(struct connection *pc,
+				 struct packet_spaceship_action *packet)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int8(buffer+2, PACKET_SPACESHIP_ACTION);
+  
+  cptr=put_int8(cptr, packet->action);
+  cptr=put_int8(cptr, packet->num);
+
+  put_int16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_spaceship_action *
+recieve_packet_spaceship_action(struct connection *pc)
+{
+  unsigned char *cptr;
+  struct packet_spaceship_action *packet=
+    malloc(sizeof(struct packet_spaceship_action));
+  
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int8(cptr, NULL);
+
+  cptr=get_int8(cptr, &packet->action);
+  cptr=get_int8(cptr, &packet->num);
 
   remove_packet_from_buffer(&pc->buffer);
 

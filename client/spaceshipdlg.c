@@ -44,6 +44,7 @@
 #include <repodlgs.h>
 #include <helpdlg.h>
 #include <graphics.h>
+#include <spaceship.h>
 
 extern int SPACE_TILES;
 extern GC civ_gc, fill_bg_gc;
@@ -52,75 +53,6 @@ extern Display *display;
 extern Widget toplevel, main_form;
 extern int display_depth;
 extern struct connection aconnection;
-
-const int structurals_pos[NUM_SS_STRUCTURALS][2] = {
-  {19, 13},
-  {19, 15},
-  {19, 11},
-  {19, 17},
-  {19,  9},
-  {19, 19},
-  {17,  9},
-  {17, 19},
-  {21, 11},
-  {21, 17},
-  {15,  9},
-  {15, 19},
-  {23, 11},
-  {23, 17},
-  {13,  9},
-  {13, 19},
-  {11,  9},
-  {11, 19},
-  { 9,  9},
-  { 9, 19},
-  { 7,  9},
-  { 7, 19},
-  {19,  7},
-  {19, 21},
-  {19,  5},
-  {19, 23},
-  {21,  5},
-  {21, 23},
-  {23,  5},
-  {23, 23},
-  { 5,  9},
-  { 5, 19}
-};
-
-const int modules_pos[NUM_SS_MODULES][2] = {
-  {16, 12},
-  {16, 16},
-  {14, 6},
-  {12, 16},
-  {12, 12},
-  {14, 22},
-  { 8, 12},
-  { 8, 16},
-  { 6,  6},
-  { 4, 16},
-  { 4, 12},
-  { 6, 22}
-};
-
-const int components_pos[NUM_SS_COMPONENTS][2] = {
-  {21, 13},
-  {24, 13},
-  {21, 15},
-  {24, 15},
-  {21,  9},
-  {24,  9},
-  {21, 19},
-  {24, 19},
-  {21,  7},
-  {24,  7},
-  {21, 21},
-  {24, 21},
-  {21,  3},
-  {24,  3},
-  {21, 25},
-  {24, 25}
-};
 
 struct spaceship_dialog {
   struct player *pplayer;
@@ -182,15 +114,10 @@ void refresh_spaceship_dialog(struct player *pplayer)
 
   pship=&(pdialog->pplayer->spaceship);
 
-  /* FIXME only if enough thrust etc.  (Falk)
-   * Temporary hack by dwp.
-   */
   if(game.spacerace
      && pplayer->player_no == game.player_idx
      && pship->state == SSHIP_STARTED
-     && pship->structurals >= 4
-     && pship->components >= 2
-     && pship->modules >= 3 ) {
+     && pship->success_rate > 0) {
     XtSetSensitive(pdialog->launch_command, TRUE);
   } else {
     XtSetSensitive(pdialog->launch_command, FALSE);
@@ -328,36 +255,57 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 *****************************************************************/
 void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 {
-  char buf[512];
+  char buf[512], arrival[16] = "    -";
   struct player_spaceship *pship=&(pdialog->pplayer->spaceship);
 
-  sprintf(buf, "Structurals:     %4d\n"
-	       "Components:      %4d\n"
-	       "Modules:         %4d\n"
-	       "Year of arrival: %4d",
-	  pship->structurals,
-	  pship->components,
-	  pship->modules,
-	  pship->arrival_year);
+  if (pship->state == SSHIP_LAUNCHED) {
+    sprintf(arrival, " %d", (int) (pship->launch_year
+				   + (int) pship->travel_time));
+  }
+  sprintf(buf,
+	  "Population:      %5d\n"
+	  "Support:         %5d %%\n"
+	  "Energy:          %5d %%\n"
+	  "Mass:            %5d tons\n"
+	  "Travel time:     %5.1f years\n"
+	  "Success prob.:   %5d %%\n"
+	  "Year of arrival: %s",
+	  pship->population,
+	  (int) (pship->support_rate * 100.0),
+	  (int) (pship->energy_rate * 100.0),
+	  pship->mass,
+	  (float) (0.1 * ((int) (pship->travel_time * 10.0))),
+	  (int) (pship->success_rate * 100.0),
+	  arrival);
 
   xaw_set_label(pdialog->info_label, buf);
 }
 
 /****************************************************************
 ...
+Should also check connectedness, and show non-connected
+parts differently.
 *****************************************************************/
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
-  int i;  
+  int i, j, k, x, y;  
   struct Sprite *sprite=get_tile_sprite(SPACE_TILES);
+  struct player_spaceship *ship = &pdialog->pplayer->spaceship;
 
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
   XFillRectangle(display, XtWindow(pdialog->image_canvas), fill_bg_gc, 0, 0,
 		 sprite->width * 7, sprite->height * 7);
 
-  for (i = 0; i < pdialog->pplayer->spaceship.modules; i++) {
-    int x = modules_pos[i][0] * sprite->width  / 4 - sprite->width / 2,
-        y = modules_pos[i][1] * sprite->height / 4 - sprite->height / 2;
+  for (i=0; i < NUM_SS_MODULES; i++) {
+    j = i/3;
+    k = i%3;
+    if ((k==0 && j >= ship->habitation)
+	|| (k==1 && j >= ship->life_support)
+	|| (k==2 && j >= ship->solar_panels)) {
+      continue;
+    }
+    x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
+    y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
 
     sprite = get_tile_sprite(SPACE_TILES + 2 - i % 3);
     XSetClipOrigin(display, civ_gc, x, y);
@@ -369,9 +317,15 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     XSetClipMask(display,civ_gc,None);
   }
 
-  for (i = 0; i < pdialog->pplayer->spaceship.components; i++) {
-    int x = components_pos[i][0] * sprite->width  / 4 - sprite->width / 2,
-        y = components_pos[i][1] * sprite->height / 4 - sprite->height / 2;
+  for (i=0; i < NUM_SS_COMPONENTS; i++) {
+    j = i/2;
+    k = i%2;
+    if ((k==0 && j >= ship->fuel)
+	|| (k==1 && j >= ship->propulsion)) {
+      continue;
+    }
+    x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
+    y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
 
     sprite = get_tile_sprite(SPACE_TILES + 4 + i % 2);
 
@@ -386,9 +340,11 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 
   sprite = get_tile_sprite(SPACE_TILES + 3);
 
-  for (i = 0; i < pdialog->pplayer->spaceship.structurals; i++) {
-    int x = structurals_pos[i][0] * sprite->width  / 4 - sprite->width / 2,
-        y = structurals_pos[i][1] * sprite->height / 4 - sprite->height / 2;
+  for (i=0; i < NUM_SS_STRUCTURALS; i++) {
+    if (!ship->structure[i])
+      continue;
+    x = structurals_info[i].x * sprite->width  / 4 - sprite->width / 2;
+    y = structurals_info[i].y * sprite->height / 4 - sprite->height / 2;
 
     XSetClipOrigin(display, civ_gc, x, y);
     XSetClipMask(display, civ_gc, sprite->mask);
@@ -450,8 +406,10 @@ void spaceship_close_callback(Widget w, XtPointer client_data, XtPointer call_da
 *****************************************************************/
 void spaceship_launch_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  struct packet_player_request packet;
-	
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_LAUNCH_SPACESHIP);
-  close_spaceship_dialog((struct spaceship_dialog *)client_data);
+  struct packet_spaceship_action packet;
+
+  packet.action = SSHIP_ACT_LAUNCH;
+  packet.num = 0;
+  send_packet_spaceship_action(&aconnection, &packet);
+  /* close_spaceship_dialog((struct spaceship_dialog *)client_data); */
 }

@@ -9,4 +9,6 @@ void handle_incite_cost(struct packet_generic_values *packet);
 
 void handle_city_options(struct packet_generic_values *preq);
 
+void handle_spaceship_info(struct packet_spaceship_info *packet);
+
 #endif

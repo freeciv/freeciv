@@ -245,6 +245,10 @@ void handle_packet_input(char *packet, int type)
     handle_city_options((struct packet_generic_values *)packet);
     break;
     
+  case PACKET_SPACESHIP_INFO:
+    handle_spaceship_info((struct packet_spaceship_info *)packet);
+    break;
+    
   default:
     freelog(LOG_FATAL, "Received unknown packet from server!");
     exit(1);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <packets.h>
 #include <climisc.h>
@@ -24,6 +25,8 @@
 #include <clinet.h>		/* aconnection */
 #include <capability.h>
 #include <helpdlg.h>		/* boot_help_texts */
+#include <spaceship.h>
+#include <spaceshipdlg.h>
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -624,13 +627,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
 
-  pplayer->spaceship.structurals=pinfo->structurals;
-  pplayer->spaceship.components=pinfo->components;
-  pplayer->spaceship.modules=pinfo->modules;
-  pplayer->spaceship.state=pinfo->sship_state;
-  pplayer->spaceship.arrival_year=pinfo->arrival_year;
-
-  
   if(!pplayer->conn){
     /* It is only the client that does this */
 
@@ -681,6 +677,179 @@ void handle_player_info(struct packet_player_info *pinfo)
        !game.player_ptr->turn_done)
       enable_turn_done_button();
     update_info_label();
+  }
+}
+
+/**************************************************************************
+Ideally the client should let the player choose which type of
+modules and components to build, and (possibly) where to extend
+structurals.  The protocol now makes this possible, but the
+client is not yet that good (would require GUI improvements)
+so currently the client choices stuff automatically if there
+is anything unplaced.
+
+This function makes a choice (sends spaceship_action) and
+returns 1 if we placed something, else 0.
+
+Do things one at a time; the server will send us an updated
+spaceship_info packet, and we'll be back here to do anything
+which is left.
+**************************************************************************/
+int spaceship_autoplace(struct player_spaceship *ship)
+{
+  struct packet_spaceship_action packet;
+  int i;
+  
+  if (ship->modules > (ship->habitation + ship->life_support
+		       + ship->solar_panels)) {
+    if (ship->habitation==0) {
+      packet.action = SSHIP_ACT_PLACE_HABITATION;
+      packet.num = ship->habitation + 1;
+    } else if (ship->life_support==0) {
+      packet.action = SSHIP_ACT_PLACE_LIFE_SUPPORT;
+      packet.num = ship->life_support + 1;
+    } else if (ship->solar_panels==0) {
+      packet.action = SSHIP_ACT_PLACE_SOLAR_PANELS;
+      packet.num = ship->solar_panels + 1;
+    } else if (ship->life_support < ship->habitation) {
+      packet.action = SSHIP_ACT_PLACE_LIFE_SUPPORT;
+      packet.num = ship->life_support + 1;
+    } else if (ship->solar_panels < (ship->habitation + ship->life_support)/2) {
+      packet.action = SSHIP_ACT_PLACE_SOLAR_PANELS;
+      packet.num = ship->solar_panels + 1;
+    } else {
+      packet.action = SSHIP_ACT_PLACE_HABITATION;
+      packet.num = ship->habitation + 1;
+    }
+    send_packet_spaceship_action(&aconnection, &packet);
+    return 1;
+  }
+  if (ship->components > ship->fuel + ship->propulsion) {
+    if (ship->fuel <= ship->propulsion) {
+      packet.action = SSHIP_ACT_PLACE_FUEL;
+      packet.num = ship->fuel + 1;
+    } else {
+      packet.action = SSHIP_ACT_PLACE_PROPULSION;
+      packet.num = ship->propulsion + 1;
+    }
+    send_packet_spaceship_action(&aconnection, &packet);
+    return 1;
+  }
+  if (ship->structurals > num_spaceship_structurals_placed(ship)) {
+    /* Want to choose which structurals are most important.
+       Else we first want to connect one of each type of module,
+       then all placed components, pairwise, then any remaining
+       modules, or else finally in numerical order.
+    */
+    int req = -1;
+    
+    if (!ship->structure[0]) {
+      /* if we don't have the first structural, place that! */
+      packet.action = SSHIP_ACT_PLACE_STRUCTURAL;
+      packet.num = 0;
+      send_packet_spaceship_action(&aconnection, &packet);
+      return 1;
+    }
+    
+    if (ship->habitation >= 1
+	&& !ship->structure[modules_info[0].required]) {
+      req = modules_info[0].required;
+    } else if (ship->life_support >= 1
+	       && !ship->structure[modules_info[1].required]) {
+      req = modules_info[1].required;
+    } else if (ship->solar_panels >= 1
+	       && !ship->structure[modules_info[2].required]) {
+      req = modules_info[2].required;
+    } else {
+      int i;
+      for(i=0; i<NUM_SS_COMPONENTS; i++) {
+	if ((i%2==0 && ship->fuel > (i/2))
+	    || (i%2==1 && ship->propulsion > (i/2))) {
+	  if (!ship->structure[components_info[i].required]) {
+	    req = components_info[i].required;
+	    break;
+	  }
+	}
+      }
+    }
+    if (req == -1) {
+      for(i=0; i<NUM_SS_MODULES; i++) {
+	if ((i%3==0 && ship->habitation > (i/3))
+	    || (i%3==1 && ship->life_support > (i/3))
+	    || (i%3==2 && ship->solar_panels > (i/3))) {
+	  if (!ship->structure[modules_info[i].required]) {
+	    req = modules_info[i].required;
+	    break;
+	  }
+	}
+      }
+    }
+    if (req == -1) {
+      for(i=0; i<NUM_SS_STRUCTURALS; i++) {
+	if (!ship->structure[i]) {
+	  req = i;
+	  break;
+	}
+      }
+    }
+    /* sanity: */
+    assert(req!=-1);
+    assert(!ship->structure[req]);
+    
+    /* Now we want to find a structural we can build which leads to req.
+       This loop should bottom out, because everything leads back to s0,
+       and we made sure above that we do s0 first.
+     */
+    while(!ship->structure[structurals_info[req].required]) {
+      req = structurals_info[req].required;
+    }
+    packet.action = SSHIP_ACT_PLACE_STRUCTURAL;
+    packet.num = req;
+    send_packet_spaceship_action(&aconnection, &packet);
+    return 1;
+  }
+  return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_spaceship_info(struct packet_spaceship_info *p)
+{
+  int i;
+  struct player *pplayer=&game.players[p->player_num];
+  struct player_spaceship *ship = &pplayer->spaceship;
+  
+  ship->state        = p->sship_state;
+  ship->structurals  = p->structurals;
+  ship->components   = p->components;
+  ship->modules      = p->modules;
+  ship->fuel         = p->fuel;
+  ship->fuel         = p->fuel;
+  ship->propulsion   = p->propulsion;
+  ship->habitation   = p->habitation;
+  ship->life_support = p->life_support;
+  ship->solar_panels = p->solar_panels;
+  ship->launch_year  = p->launch_year;
+  ship->population   = p->population;
+  ship->mass         = p->mass;
+  ship->support_rate = p->support_rate;
+  ship->energy_rate  = p->energy_rate;
+  ship->success_rate = p->success_rate;
+  ship->travel_time  = p->travel_time;
+  
+  for(i=0; i<NUM_SS_STRUCTURALS; i++) {
+    ship->structure[i] = p->structure[i]-'0';
+  }
+
+  if (pplayer != game.player_ptr) {
+    refresh_spaceship_dialog(pplayer);
+    return;
+  }
+  update_menus();
+
+  if (!spaceship_autoplace(ship)) {
+    refresh_spaceship_dialog(pplayer);
   }
 }
 

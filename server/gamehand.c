@@ -39,7 +39,7 @@ extern RANDOM_TYPE RandomState[];
 extern int iRandJ, iRandK, iRandX; 
 extern int rand_init;
 
-#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace rulesets"
+#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace2 rulesets"
 
 /**************************************************************************
 ...
@@ -326,8 +326,8 @@ int game_load(struct section_file *file)
 	   secfile_lookup_str(file, "game.ruleset.buildings"));
   }
 
-  if (has_capability("spacerace", savefile_options))
-    game.spacerace = secfile_lookup_int(file, "game.spacerace");
+  game.spacerace = secfile_lookup_int_default(file, game.spacerace,
+					      "game.spacerace");
 
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE 

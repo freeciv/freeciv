@@ -37,6 +37,7 @@
 #include <advdomestic.h>
 #include <log.h>
 #include <gamelog.h>
+#include <spacerace.h>
 
 extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
@@ -1025,7 +1026,9 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 			 get_race_name_plural(pplayer->race));
 	pplayer->spaceship.state = SSHIP_STARTED;
       }
-      if (!space_part) {
+      if (space_part) {
+	send_spaceship_info(pplayer, 0);
+      } else {
 	city_refresh(pcity);
 	/* printf("Trying advisor_choose_build.\n"); */
 	advisor_choose_build(pcity);

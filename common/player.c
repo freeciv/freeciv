@@ -266,10 +266,7 @@ void player_init(struct player *plr)
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
-  plr->spaceship.structurals = 0;
-  plr->spaceship.components = 0;
-  plr->spaceship.modules = 0;
-  plr->spaceship.arrival_year = 9999;
+  spaceship_init(&plr->spaceship);
 }
 
 /***************************************************************

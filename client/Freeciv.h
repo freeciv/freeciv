@@ -1024,10 +1024,13 @@ Out = Output window, Mes = Messages window, Pop = Popup individual window ",
 "Freeciv*spaceshipimagecanvas.left:        chainLeft",
 "Freeciv*spaceshipimagecanvas.right:       chainLeft",
 "Freeciv*spaceshipinfolabel.label: \
-Structurals:      111\\n\
-Components:       111\\n\
-Modules:          111\\n\
-Year of arrival: 5000",
+Population:       1234\\n\
+Support:           100 %\\n\
+Energy:            100 %\\n\
+Mass:            12345 tons\\n\
+Travel time:      1234 years\\n\
+Success prob.:     100 %\\n\
+Year of arrival:  1234",
 "Freeciv*spaceshipinfolabel.fromVert:        spaceshipimagecanvas",
 "Freeciv*spaceshipclosecommand.label:       Close",
 "Freeciv*spaceshipclosecommand.fromVert:    spaceshipinfolabel",

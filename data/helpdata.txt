@@ -769,6 +769,30 @@ non-nuclear missiles.
 # Solar Plant
 This improvement has not been implemented.
 ---
+# Space Component
+Space Components can be differentiated into Propulsion and Fuel
+Components. Each pair of them reduces your space-ship's travel
+time. You can build up to 8 pairs.
+---
+# Space Module
+Space Modules are the most expensive parts of space-ships.  There
+are three different types of Space Module:
+
+- Habitation Module: provides living space for 10,000 people.
+
+- Life Support Module: provides food and water for the population of
+  one Habitation Module.
+
+- Solar Panels: provides the energy needed for any two of the other
+  Modules.
+
+You can build up to 4 Space Modules of each kind.
+---
+# Space Structural
+Space Structurals form the base of your space-ship. All other 
+space-ship parts need to be connected to Structurals in order to
+function. You can build up to 32 Space Structurals.
+---
 # Stock Exchange
 Together with a Marketplace and a Bank, a Stock Exchange boosts
 tax and luxury production in a city by 150%.
@@ -2000,7 +2024,35 @@ details).
 Under certain forms of government, the presence of military units in
 a city can either create unhappiness or create contentment (see
 Government for details).
+---
+#Space Race
+The Space Race is you second option to win a game, besides
+eliminating all other civilization. If you manage to get a
+space-ship safely to Alpha Centauti, the game is over and you have
+won.
 
+To enable you to build space-ship parts, the Apollo Program wonder
+must have been build by any player.  You also need specific
+technologies to build the different spaceship parts: see the
+help texts for Space Structural, Space Component, and Space Module,
+under City Improvements.
+
+When you have started building your space-ship, you can see it with
+the "Space-Ship" command in the Report menu. To see space-ships of
+other players, select the player in the Players dialog and click
+"Space-ship".
+
+If the success probability is below 100%, some fraction of the
+people on board may not survive the journey.  This reduces the
+score bonus from the spaceship, but it still counts as a win.
+
+If the capital of a civilization is captured, a space-ship that has
+been launched will be lost, so defend your capital well!
+
+TIP: If an enemy civilization has launched a space-ship, try to
+     quickly build a light space-ship with many propulsion units
+     that will arrive earlier. The only other option is to capture
+     their capital.
 ---
 %% This is for XEmacs.  It sets up the indentation.
 %% The paragraph-separate thing isn't working right.  Can someone

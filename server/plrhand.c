@@ -42,6 +42,7 @@
 #include <capability.h>
 #include <gamelog.h>
 #include <log.h>
+#include <spacerace.h>
 
 extern struct advance advances[];
 extern struct player_race races[];
@@ -587,20 +588,6 @@ void update_revolution(struct player *pplayer)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-
-void update_spaceship(struct player *pplayer)
-{
-  if(pplayer->spaceship.state == SSHIP_LAUNCHED
-     && game.year >= pplayer->spaceship.arrival_year) {
-    server_state = GAME_OVER_STATE;
-    notify_player(0, "Game: The %s spaceship has arrived on Alpha Centauri.",
-		  races[pplayer->race].name);
-  }
-}
-
-/**************************************************************************
 Main update loop, for each player at end of turn.
 **************************************************************************/
 
@@ -610,7 +597,6 @@ void update_player_activities(struct player *pplayer)
     ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
   }
   notify_player(pplayer, "Year: %s", textyear(game.year));
-  update_spaceship(pplayer);
   great_library(pplayer);
   update_revolution(pplayer);
   player_restore_units(pplayer);
@@ -940,24 +926,6 @@ void handle_player_revolution(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_launch_spaceship(struct player *pplayer)
-{
-  if (pplayer->spaceship.state != SSHIP_STARTED)
-    return;
-  
-  pplayer->spaceship.state = SSHIP_LAUNCHED;
-  
-  notify_player(0, "Game: The %s have launched a spaceship! It is estimated to "
-		"arrive on Alpha Centauri in %d.",
-		races[pplayer->race].name, game.year + 15);
-
-  pplayer->spaceship.arrival_year = game.year + 15;
-  send_player_info(pplayer, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 
 void notify_player_ex(struct player *pplayer, int x, int y, int event, char *format, ...) 
 {
@@ -1081,11 +1049,6 @@ void send_player_info(struct player *src, struct player *dest)
 	     info.ai=game.players[i].ai.control;
 	     if(game.players[i].conn)
 	       strcpy(info.capability,game.players[i].conn->capability);
-	     info.structurals=game.players[i].spaceship.structurals;
-	     info.components=game.players[i].spaceship.components;
-	     info.modules=game.players[i].spaceship.modules;
-	     info.sship_state=game.players[i].spaceship.state;
-	     info.arrival_year=game.players[i].spaceship.arrival_year;
 	     
              send_packet_player_info(game.players[o].conn, &info);
 	   }
@@ -1155,16 +1118,58 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   update_research(plr);
     
   if (has_capability("spacerace", savefile_options)) {
-    plr->spaceship.structurals =
-      secfile_lookup_int(file, "player%d.spaceship.structurals", plrno);
-    plr->spaceship.components =
-      secfile_lookup_int(file, "player%d.spaceship.components", plrno);
-    plr->spaceship.modules =
-      secfile_lookup_int(file, "player%d.spaceship.modules", plrno);
-    plr->spaceship.arrival_year =
-      secfile_lookup_int(file, "player%d.spaceship.arrival_year", plrno);
-    plr->spaceship.state =
-      secfile_lookup_int(file, "player%d.spaceship.state", plrno);
+    struct player_spaceship *ship = &plr->spaceship;
+    char prefix[32];
+    int arrival_year;
+    
+    sprintf(prefix, "player%d.spaceship", plrno);
+    spaceship_init(ship);
+    arrival_year = secfile_lookup_int(file, "%s.arrival_year", prefix);
+    ship->structurals = secfile_lookup_int(file, "%s.structurals", prefix);
+    ship->components = secfile_lookup_int(file, "%s.components", prefix);
+    ship->modules = secfile_lookup_int(file, "%s.modules", prefix);
+    ship->state = secfile_lookup_int(file, "%s.state", prefix);
+    if (ship->state >= SSHIP_LAUNCHED) {
+      ship->launch_year = (arrival_year - 15);
+    }
+    /* auto-assign to individual parts: */
+    ship->habitation = (ship->modules + 2)/3;
+    ship->life_support = (ship->modules + 1)/3;
+    ship->solar_panels = ship->modules/3;
+    ship->fuel = (ship->components + 1)/2;
+    ship->propulsion = ship->components/2;
+    for(i=0; i<ship->structurals; i++) {
+      ship->structure[i] = 1;
+    }
+    spaceship_calc_derived(ship);
+  }
+  else if(has_capability("spacerace2", savefile_options)) {
+    struct player_spaceship *ship = &plr->spaceship;
+    char prefix[32];
+    char *st;
+    
+    sprintf(prefix, "player%d.spaceship", plrno);
+    spaceship_init(ship);
+    ship->state = secfile_lookup_int(file, "%s.state", prefix);
+
+    if (ship->state != SSHIP_NONE) {
+      ship->structurals = secfile_lookup_int(file, "%s.structurals", prefix);
+      ship->components = secfile_lookup_int(file, "%s.components", prefix);
+      ship->modules = secfile_lookup_int(file, "%s.modules", prefix);
+      ship->fuel = secfile_lookup_int(file, "%s.fuel", prefix);
+      ship->propulsion = secfile_lookup_int(file, "%s.propulsion", prefix);
+      ship->habitation = secfile_lookup_int(file, "%s.habitation", prefix);
+      ship->life_support = secfile_lookup_int(file, "%s.life_support", prefix);
+      ship->solar_panels = secfile_lookup_int(file, "%s.solar_panels", prefix);
+      st = secfile_lookup_str(file, "%s.structure", prefix);
+      for(i=0; i<NUM_SS_STRUCTURALS && *st; i++, st++) {
+	ship->structure[i] = ((*st) == '1');
+      }
+      if (ship->state >= SSHIP_LAUNCHED) {
+	ship->launch_year = secfile_lookup_int(file, "%s.launch_year", prefix);
+      }
+      spaceship_calc_derived(ship);
+    }
   }
 
   city_list_init(&plr->cities);
@@ -1332,6 +1337,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   int i;
   char invs[A_LAST+1];
   struct genlist_iterator myiter;
+  struct player_spaceship *ship = &plr->spaceship;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_int(file, plr->race, "player%d.race", plrno);
@@ -1365,17 +1371,33 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   invs[i]='\0';
   secfile_insert_str(file, invs, "player%d.invs", plrno);
   
-  secfile_insert_int(file, plr->spaceship.structurals,
-		     "player%d.spaceship.structurals", plrno);
-  secfile_insert_int(file, plr->spaceship.components,
-		     "player%d.spaceship.components", plrno);
-  secfile_insert_int(file, plr->spaceship.modules,
-		     "player%d.spaceship.modules", plrno);
-  secfile_insert_int(file, plr->spaceship.arrival_year,
-		     "player%d.spaceship.arrival_year", plrno);
-  secfile_insert_int(file, plr->spaceship.state,
-		     "player%d.spaceship.state", plrno);
+  secfile_insert_int(file, ship->state, "player%d.spaceship.state", plrno);
 
+  if (ship->state != SSHIP_NONE) {
+    char prefix[32];
+    char st[NUM_SS_STRUCTURALS+1];
+    int i;
+    
+    sprintf(prefix, "player%d.spaceship", plrno);
+
+    secfile_insert_int(file, ship->structurals, "%s.structurals", prefix);
+    secfile_insert_int(file, ship->components, "%s.components", prefix);
+    secfile_insert_int(file, ship->modules, "%s.modules", prefix);
+    secfile_insert_int(file, ship->fuel, "%s.fuel", prefix);
+    secfile_insert_int(file, ship->propulsion, "%s.propulsion", prefix);
+    secfile_insert_int(file, ship->habitation, "%s.habitation", prefix);
+    secfile_insert_int(file, ship->life_support, "%s.life_support", prefix);
+    secfile_insert_int(file, ship->solar_panels, "%s.solar_panels", prefix);
+    
+    for(i=0; i<NUM_SS_STRUCTURALS; i++) {
+      st[i] = (ship->structure[i]) ? '1' : '0';
+    }
+    st[i] = '\0';
+    secfile_insert_str(file, st, "%s.structure", prefix);
+    if (ship->state >= SSHIP_LAUNCHED) {
+      secfile_insert_int(file, ship->launch_year, "%s.launch_year", prefix);
+    }
+  }
 
   secfile_insert_int(file, unit_list_size(&plr->units), "player%d.nunits", 
 		     plrno);

@@ -61,6 +61,7 @@
 #include <events.h>
 #include <ruleset.h>
 #include <autoattack.h>
+#include <spacerace.h>
 
 void show_ending();
 void end_game();
@@ -436,6 +437,7 @@ empty get to refresh and defend themselves.  How totally stupid. */
     end_turn();
 /* printf("Gamenextyear\n"); */
     game_next_year();
+    check_spaceship_arrivals();
 /* printf("Sendplayerinfo\n"); */
     send_player_info(0, 0);
 /* printf("Sendgameinfo\n"); */
@@ -573,6 +575,7 @@ void send_all_info(struct player *dest)
   send_game_info(dest);
   send_map_info(dest);
   send_player_info(0, dest);
+  send_spaceship_info(0, dest);
   send_all_known_tiles(dest);
 }
 
@@ -987,8 +990,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_CITY_OPTIONS:
     handle_city_options(pplayer, (struct packet_generic_values *)packet);
     break;
-  case PACKET_PLAYER_LAUNCH_SPACESHIP:
-    handle_player_launch_spaceship(pplayer);
+  case PACKET_SPACESHIP_ACTION:
+    handle_spaceship_action(pplayer, (struct packet_spaceship_action *)packet);
     break;
   default:
     freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);

@@ -36,6 +36,8 @@
 #include <aitools.h>
 #include <settlers.h>
 #include <gamelog.h>
+#include <spacerace.h>
+
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
@@ -989,8 +991,15 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     pcity->size--;
 
     /* If a capital is captured, then spark off a civil war 
-       - Kris Bubendorfer*/
+       - Kris Bubendorfer
+       Also check spaceships --dwp
+    */
 
+    if(city_got_building(pcity, B_PALACE)
+       && cplayer->spaceship.state == SSHIP_LAUNCHED) {
+      spaceship_lost(cplayer);
+    }
+       
     if(city_got_building(pcity, B_PALACE) 
        && city_list_size(&cplayer->cities) >= game.civilwarsize 
        && game.nplayers < R_LAST 

@@ -830,7 +830,7 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
       return 0;
     } else {
       struct player *p=city_owner(pcity);
-      if (p->spaceship.state == SSHIP_LAUNCHED)
+      if (p->spaceship.state >= SSHIP_LAUNCHED)
 	return 0;
       if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
 	return 0;

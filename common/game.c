@@ -20,6 +20,7 @@
 #include <city.h>
 #include <shared.h>
 #include <log.h>
+#include <spaceship.h>
 
 #ifndef DEBUG
 #define DEBUG 0
@@ -46,6 +47,7 @@ struct player_score {
   int literacy;
   int bnp;
   int mfg;
+  int spaceship;
 };
 
 
@@ -91,6 +93,7 @@ int civ_score(struct player *pplayer)
   pplayer->score.bnp=0;                         /* done */
   pplayer->score.mfg=0;                         /* done */
   pplayer->score.literacy=0;
+  pplayer->score.spaceship=0;
   city_list_iterate(pplayer->cities, pcity) {
     pplayer->score.happy+=pcity->ppl_happy[4];
     pplayer->score.content+=pcity->ppl_content[4];
@@ -124,7 +127,19 @@ int civ_score(struct player *pplayer)
 	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
   }
-  return (total_player_citizens(pplayer)+pplayer->score.happy+pplayer->score.techs*2+pplayer->score.wonders*5);
+
+  /* How much should a spaceship be worth??
+     This gives 100 points per 10,000 citizens.  --dwp
+  */
+  if (pplayer->spaceship.state == SSHIP_ARRIVED) {
+    pplayer->score.spaceship += (int)(100 * pplayer->spaceship.habitation
+				      * pplayer->spaceship.success_rate);
+  }
+  return (total_player_citizens(pplayer)
+	  +pplayer->score.happy
+	  +pplayer->score.techs*2
+	  +pplayer->score.wonders*5
+	  +pplayer->score.spaceship);
 }
 
 /**************************************************************************

@@ -14,6 +14,7 @@
 #define __PACKETS_H
 
 #include "player.h"
+#include "spaceship.h"
 
 #define MAX_PACKET_SIZE   4096
 #define NAME_SIZE           10
@@ -80,11 +81,12 @@ enum packet_type {
   PACKET_INCITE_INQ,
   PACKET_INCITE_COST,
   PACKET_UNIT_UPGRADE,
-  PACKET_PLAYER_LAUNCH_SPACESHIP,
   PACKET_RULESET_TECH,
   PACKET_RULESET_UNIT,
   PACKET_RULESET_BUILDING,
-  PACKET_CITY_OPTIONS
+  PACKET_CITY_OPTIONS,
+  PACKET_SPACESHIP_INFO,
+  PACKET_SPACESHIP_ACTION
 };
 
 enum report_type {
@@ -94,6 +96,16 @@ enum report_type {
   REPORT_SERVER_OPTIONS,   /* for backward-compatibility with old servers */
   REPORT_SERVER_OPTIONS1,
   REPORT_SERVER_OPTIONS2
+};
+
+enum spaceship_action_type {
+  SSHIP_ACT_LAUNCH,
+  SSHIP_ACT_PLACE_STRUCTURAL,
+  SSHIP_ACT_PLACE_FUEL,
+  SSHIP_ACT_PLACE_PROPULSION,
+  SSHIP_ACT_PLACE_HABITATION,
+  SSHIP_ACT_PLACE_LIFE_SUPPORT,
+  SSHIP_ACT_PLACE_SOLAR_PANELS
 };
 
 /*********************************************************
@@ -355,12 +367,48 @@ struct packet_player_info {
   int revolution;
   int ai;
   char capability[MSG_SIZE];
+};
+
+/*********************************************************
+The server tells the client all about a spaceship:
+*********************************************************/
+struct packet_spaceship_info {
+  int player_num;
+  int sship_state;
   int structurals;
   int components;
   int modules;
-  int sship_state;
-  int arrival_year;
+  char structure[NUM_SS_STRUCTURALS+1];
+  int fuel;
+  int propulsion;
+  int habitation;
+  int life_support;
+  int solar_panels;
+  int launch_year;
+  int population;
+  int mass;
+  float support_rate;
+  float energy_rate;
+  float success_rate;
+  float travel_time;
 };
+
+/*********************************************************
+Client does something to a spaceship:
+*********************************************************/
+struct packet_spaceship_action {
+  int action;
+  int num;
+  /* meaning of num:
+     SSHIP_ACT_LAUNCH:  ignored
+     _PLACE_STRUCTURAL: index to sship->structure[]
+     others: new value for sship->fuel etc; should be just
+     one more than current value of ship->fuel etc
+     (used to avoid possible problems if we send duplicate
+     packets when client auto-builds?)
+   */
+};
+
 
 /*********************************************************
 Specify all the fields of a struct unit_type
@@ -621,6 +669,16 @@ int send_packet_generic_values(struct connection *pc, int type,
 			       struct packet_generic_values *req);
 struct packet_generic_values *
 recieve_packet_generic_values(struct connection *pc);
+
+int send_packet_spaceship_info(struct connection *pc,
+			       struct packet_spaceship_info *packet);
+struct packet_spaceship_info *
+recieve_packet_spaceship_info(struct connection *pc);
+
+int send_packet_spaceship_action(struct connection *pc,
+				 struct packet_spaceship_action *packet);
+struct packet_spaceship_action *
+recieve_packet_spaceship_action(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);

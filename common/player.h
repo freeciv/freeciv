@@ -16,6 +16,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "city.h"
+#include "spaceship.h"
 
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
@@ -99,6 +100,7 @@ struct player_score {
   int literacy;
   int bnp;
   int mfg;
+  int spaceship;
 };
 
 struct player_ai {
@@ -113,14 +115,6 @@ struct player_ai {
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
-};
-
-struct player_spaceship {
-  int structurals;
-  int components;
-  int modules;
-  int arrival_year;
-  enum {SSHIP_NONE, SSHIP_STARTED, SSHIP_LAUNCHED} state;
 };
 
 struct player {

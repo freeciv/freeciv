@@ -27,6 +27,8 @@ libcivcommon_a_SOURCES = \
 		player.h	\
 		shared.c	\
 		shared.h	\
+		spaceship.c	\
+		spaceship.h	\
 		tech.c		\
 		tech.h		\
 		unit.c		\
