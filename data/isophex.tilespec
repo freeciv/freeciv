@@ -33,6 +33,9 @@ flag_offset_y = 11
 unit_offset_x = 21
 unit_offset_y = 13
 
+; offset the citybar text by this amount (from the city tile origin)
+citybar_offset_y = 20
+
 ; Hex data.
 is_hex = 1
 is_isometric = 0

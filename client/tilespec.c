@@ -158,6 +158,8 @@ struct tileset {
   int flag_offset_x, flag_offset_y;
   int unit_offset_x, unit_offset_y;
 
+  int citybar_offset_y;
+
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
   int num_valid_tileset_dirs, num_cardinal_tileset_dirs;
@@ -283,6 +285,15 @@ int tileset_full_tile_height(struct tileset *t)
 int tileset_small_sprite_width(struct tileset *t)
 {
   return t->small_sprite_width;
+}
+
+/****************************************************************************
+  Return the offset from the origin of the city tile at which to place the
+  citybar text.
+****************************************************************************/
+int tileset_citybar_offset_y(struct tileset *t)
+{
+  return t->citybar_offset_y;
 }
 
 /****************************************************************************
@@ -1031,6 +1042,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 						"tilespec.unit_offset_x");
   t->unit_offset_y = secfile_lookup_int_default(file, 0,
 						"tilespec.unit_offset_y");
+
+  t->citybar_offset_y
+    = secfile_lookup_int_default(file, NORMAL_TILE_HEIGHT,
+				 "tilespec.citybar_offset_y");
 
   t->city_names_font_size
     = secfile_lookup_int_default(file, 10, "tilespec.city_names_font_size");

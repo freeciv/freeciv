@@ -22,6 +22,9 @@ is_isometric = 0
 flag_offset_x = 0
 flag_offset_y = 2
 
+; offset the citybar text by this amount (from the city tile origin)
+citybar_offset_y = 27
+
 ; Do not blend hills and mountains together.
 is_mountainous = 0
 

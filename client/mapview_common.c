@@ -41,11 +41,6 @@ struct view mapview;
 struct overview overview;
 bool can_slide = TRUE;
 
-/* Arbitrary estimated maximums for width and height of a city description
- * text.  Eventually this may be determined dynamically. */
-#define MAX_CITY_DESC_WIDTH 128
-#define MAX_CITY_DESC_HEIGHT 32
-
 /*
  * Set to TRUE if the backing store is more recent than the version
  * drawn into overview.window.
@@ -1244,7 +1239,7 @@ static void show_city_desc(struct canvas *pcanvas,
   *width = *height = 0;
 
   canvas_x += NORMAL_TILE_WIDTH / 2;
-  canvas_y += NORMAL_TILE_HEIGHT;
+  canvas_y += tileset_citybar_offset_y(tileset);
 
   if (draw_city_names) {
     get_city_mapview_name_and_growth(pcity, name, sizeof(name),
@@ -1296,6 +1291,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 			    int width, int height)
 {
   const int dx = max_desc_width - NORMAL_TILE_WIDTH, dy = max_desc_height;
+  const int offset_y = tileset_citybar_offset_y(tileset);
 
   if (!draw_city_names && !draw_city_productions) {
     return;
@@ -1321,7 +1317,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    */
   gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
 		   mapview.gui_y0 + canvas_y - dy,
-		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
+		   width + dx, height + dy - offset_y,
 		   ptile, pedge, pcorner, gui_x, gui_y) {
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
