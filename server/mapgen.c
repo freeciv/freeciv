@@ -1434,6 +1434,33 @@ static int is_cold(int x, int y){
 }
 
 /**************************************************************************
+Returns a random position in the rectangle denoted by the given state.
+**************************************************************************/
+static void get_random_map_position_from_state(int *x, int *y,
+					       const struct gen234_state
+					       *const pstate)
+{
+  int is_real;
+
+  *x = pstate->w;
+  *y = pstate->n;
+
+  is_real = normalize_map_pos(x, y);
+  assert(is_real);
+
+  assert((pstate->e - pstate->w) > 0);
+  assert((pstate->e - pstate->w) < map.xsize);
+  assert((pstate->s - pstate->n) > 0);
+  assert((pstate->s - pstate->n) < map.ysize);
+
+  *x += myrand(pstate->e - pstate->w);
+  *y += myrand(pstate->s - pstate->n);
+
+  is_real = normalize_map_pos(x, y);
+  assert(is_real);
+}
+
+/**************************************************************************
   fill an island with up four types of terrains, rivers have extra code
 **************************************************************************/
 static void fill_island(int coast, long int *bucket,
@@ -1462,8 +1489,8 @@ static void fill_island(int coast, long int *bucket,
     i= 0;
 
   while (i && failsafe--) {
-    x = myrand(pstate->e - pstate->w) + pstate->w;
-    y = myrand(pstate->s - pstate->n) + pstate->n;
+    get_random_map_position_from_state(&x, &y, pstate);
+
     if (map_get_continent(x, y) == pstate->isleindex &&
 	map_get_terrain(x, y) == T_GRASSLAND) {
 
@@ -1516,8 +1543,7 @@ static void fill_island_rivers(int coast, long int *bucket,
   if(failsafe<0){ failsafe= -failsafe; }
 
   while (i && failsafe--) {
-    x = myrand(pstate->e - pstate->w) + pstate->w;
-    y = myrand(pstate->s - pstate->n) + pstate->n;
+    get_random_map_position_from_state(&x, &y, pstate);
     if (map_get_continent(x, y) == pstate->isleindex &&
 	map_get_terrain(x, y) == T_GRASSLAND) {
 
@@ -1622,8 +1648,7 @@ static int create_island(int islemass, struct gen234_state *pstate)
   pstate->e = x + 2;
   i = islemass - 1;
   while (i && tries-->0) {
-    x = myrand(pstate->e - pstate->w) + pstate->w;
-    y = myrand(pstate->s - pstate->n) + pstate->n;
+    get_random_map_position_from_state(&x, &y, pstate);
     if ((!hmap(x, y)) && (
 		hmap(x+1, y) || hmap(x-1, y) ||
 		hmap(x, y+1) || hmap(x, y-1) )) {
