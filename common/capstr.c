@@ -68,10 +68,12 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9pre1"
+#define CAPABILITY "+1.9pre2"
 
 /* "+1.9pre1" is testing consolidated capability string before
    finalize protocol to "+1.9".
+
+   "+1.9pre2" contains protocol changes for city styles.
 */
 
 void init_our_capability(void)
