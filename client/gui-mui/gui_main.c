@@ -265,7 +265,7 @@ static struct NewMenu MenuData[] =
   MAKE_SEPERATOR,
   MAKE_ITEM("Disband Unit", MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
   MAKE_ITEM("Help Build Wonder", MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
-  MAKE_ITEM("Make Trade Route", MENU_ORDER_TRADEROUTE, "SHIFT R", NM_COMMANDSTRING),
+  MAKE_ITEM("Make Trade Route", MENU_ORDER_TRADEROUTE, "SHIFT M", NM_COMMANDSTRING),
   MAKE_ITEM("Explode Nuclear", MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Wait", MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
@@ -897,6 +897,7 @@ static int init_gui(void)
     DoMethod(main_chatline_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, inputline_return);
     DoMethod(main_turndone_button, MUIM_Notify, MUIA_Pressed, FALSE, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, END_TURN);
 
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "rcommand q", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MENU_GAME_QUIT);
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 4", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_WEST);
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 6", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_EAST);
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 8", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_NORTH);

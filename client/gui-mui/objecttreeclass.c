@@ -64,7 +64,7 @@ STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
 }
 
 /* Ugly hack! */
-struct ObjectTree_Node *root_node;
+//struct ObjectTree_Node *root_node;
 
 LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
 {
@@ -214,6 +214,8 @@ __asm __saveds ULONG ObjectTree_Group_Layout(register __a0 struct Hook *h, regis
 		  LONG max_right=0;
 		  LONG max_bottom=0;
 
+		  struct ObjectTree_Node *root_node = ((struct ObjectTree_Data*)INST_DATA(CL_ObjectTree->mcc_Class,obj))->first_node;
+
 		  ObjectTree_Layout(root_node, 0,0);
 
 		  while ((child = (Object*)NextObject(&cstate)))
@@ -290,7 +292,7 @@ STATIC APTR ObjectTree_AddNode(struct IClass *cl, Object *o, struct MUIP_ObjectT
   if (!msg->parent)
   {
     if (data->first_node) return NULL;
-    data->first_node = root_node = CreateObjectPooled(data->pool,msg->object);
+    data->first_node = CreateObjectPooled(data->pool,msg->object);
     if (data->first_node) DoMethod(o, OM_ADDMEMBER, data->first_node->object);
     return data->first_node;
   } else
@@ -310,7 +312,7 @@ STATIC VOID ObjectTree_Clear(struct IClass * cl, Object * o, Msg msg)
 {
   struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
   ObjectTree_Clear_Group(data->pool,o,data->first_node);
-  root_node = data->first_node = NULL;
+  data->first_node = NULL;
 }
 
 STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)

@@ -10,7 +10,7 @@ Introduction
 ~~~~~~~~~~~~
 This is a native compile of Freeciv. It also has an own client which is
 using MUI. That means you don't need to have ixemul.library or a XServer.
-Actually the client is not completly ready yet, but most things should
+Actually the client is not completely ready yet, but most things should
 work.
 
 Requirements
@@ -22,8 +22,8 @@ Requirements
  - TCP/IP Stack
  - guigfx.library (needs render.library version 30 itself)
 
-Note, some that some combinations of the picture.datatype and ilbm.datatype
-doesn't work correctly.
+Note, that some combinations of the picture.datatype and ilbm.datatype don't
+work correctly.
 Following combinations seem to work:
   picture.datatype 43.764 (CGFX) and ilbm.datatype 44.19 (by Stephan Rupprecht)
   picture.datatype 43.33 (P96; also works on AGA) and ilbm.datatype 44.19
@@ -57,7 +57,7 @@ this eighter with help of the Workbench or from the Shell (Freeciv
 allocates hopefully enough stack itself so you needn't set a high
 stack value). After the client has been loaded you can connect to the
 server.
-Alternativly you can start the server and the client with the provided
+Alternatively you can start the server and the client with the provided
 Freeciv.start shell scripts. Before it loads the server and client it
 opens a filerequester where you can choose whether to load an old game
 or start a new game.

@@ -1762,13 +1762,14 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 
 	  Object *entry;
 	  if (pcity)
+	  if (pcity->owner == game.player_idx)
 	  {
 	    Map_MakeContextItem(menu_title, "Popup City", PACK_CITY_USERDATA(pcity, CITY_POPUP));
 	    need_barlabel = TRUE;
-	  }
-	  else
+	  } else
 	  {
 	    if (punit)
+	    if (punit->owner == game.player_idx)
 	    {
 	      struct Command_List list;
 	      NewList((struct List *) &list);
@@ -2076,6 +2077,7 @@ struct CityMap_Data
   struct Map_Click click;	/* Clicked Tile on the Map */
 
   ULONG red_color;
+  ULONG black_color;
 };
 
 
@@ -2142,6 +2144,7 @@ STATIC ULONG CityMap_Setup(struct IClass * cl, Object * o, Msg msg)
 
   cm = _screen(o)->ViewPort.ColorMap;
   data->red_color = ObtainBestPenA(cm, 0xffffffff, 0, 0, NULL);
+  data->black_color = ObtainBestPenA(cm, 0, 0, 0, NULL);
 
   MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS);
 
@@ -2157,6 +2160,7 @@ STATIC ULONG CityMap_Cleanup(struct IClass * cl, Object * o, Msg msg)
   MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS);
 
   ReleasePen(cm, data->red_color);
+  ReleasePen(cm, data->black_color);
 
   DoSuperMethodA(cl, o, msg);
   return 0;
@@ -2228,9 +2232,13 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	}
 	else
 	{
-/*
-	  pixmap_put_black_tile(pdialog->map_canvas->window, x, y);
-*/
+	  LONG x1 = _mleft(o) + x * get_normal_tile_width();
+	  LONG y1 = _mtop(o) + y * get_normal_tile_height();
+	  LONG x2 = x1 + get_normal_tile_width() - 1;
+	  LONG y2 = y1 + get_normal_tile_height() - 1;
+
+	  SetAPen(rp, data->black_color);
+	  RectFill(rp, x1, y1, x2, y2);
 	}
       }
     }

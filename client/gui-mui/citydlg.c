@@ -1175,18 +1175,24 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->imprv_disphook.h_Entry = (HOOKFUNC) city_imprv_display;
   pdialog->imprv_disphook.h_Data = pdialog;
 
+  if (pcity->owner == game.player_idx)
+  {
+    prev_button = MakeButton("_<");
+    next_button = MakeButton("_>");
+  } else prev_button = next_button = NULL;
+
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityview",
     MUIA_Window_ID, 'CITY',
     WindowContents, VGroup,
 	Child, HGroup,
 	Child, HVSpace,
-	Child, prev_button = MakeButton("_<"),
+	prev_button?Child:TAG_IGNORE, prev_button,
 	Child, pdialog->title_text = TextObject,
 	    MUIA_Weight, 200,
 	    MUIA_Text_PreParse, "\33c",
 	    End,
-	Child, next_button = MakeButton("_>"),
+	next_button?Child:TAG_IGNORE, next_button,
 	Child, HVSpace,
 	End,
     Child, pdialog->citizen_group = HGroup,
@@ -1329,16 +1335,20 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   if (pdialog->wnd && pdialog->prod_wnd && pdialog->cityopt_wnd)
   {
-    set(next_button, MUIA_Weight, 0);
-    set(prev_button, MUIA_Weight, 0);
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
     DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
     DoMethod(pdialog->trade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_trade, pdialog);
     DoMethod(pdialog->configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_configure, pdialog);
     DoMethod(pdialog->unitlist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_unitlist, pdialog);
     DoMethod(pdialog->activateunits_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_activate_units, pdialog);
-    DoMethod(prev_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 0);
-    DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 1);
+
+    if (prev_button && next_button)
+    {
+      set(next_button, MUIA_Weight, 0);
+      set(prev_button, MUIA_Weight, 0);
+      DoMethod(prev_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 0);
+      DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 1);
+    }
 
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &standart_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_change, pdialog);
