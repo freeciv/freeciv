@@ -161,6 +161,11 @@ char *default_american_city_names[] = {
   "Salt Lake City", "San Diego", "Phoenix", "Kansas City", "Indianapolis",
   "Orlando", "Milwaukee", "Honolulu", "Boise", "Las Vegas", "Springfield",
   "Nashville", "Hartford", "Charlotte", "El Paso", "Anchorage",
+  "Spokane", "Tacoma", "Fort Worth", "Austin", "Sacramento", "Oklahoma City",
+  "St. Paul", "Jacksonville", "Sioux Falls", "Madison", "Lubbock",
+  "Amarillo", "Omaha", "Baton Rouge", "Little Rock", "Tuscon",
+  "Erie", "Flint",  "Trenton", "Newark", "Arlington", "Richmond", "Reno",
+  "Santa Fe", "Tulsa", "Anapolis", "Dover", "Akron", "Urbana-Champaign", 
   (char *)0
 };
 
