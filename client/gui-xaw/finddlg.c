@@ -33,6 +33,7 @@
 #include "player.h"
 
 #include "mapview.h"
+#include "gui_stuff.h"
 
 #include "finddlg.h"
 
@@ -83,19 +84,17 @@ void popup_find_dialog(void)
 
   XtSetSensitive(main_form, FALSE);
   
-  find_dialog_shell = XtCreatePopupShell("finddialog", 
-					 transientShellWidgetClass,
-					 toplevel, NULL, 0);
+  find_dialog_shell =
+    I_T(XtCreatePopupShell("finddialog", transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   find_form = XtVaCreateManagedWidget("findform", 
 				      formWidgetClass, 
 				      find_dialog_shell, NULL);
 
   
-  find_label = XtVaCreateManagedWidget("findlabel", 
-				       labelWidgetClass, 
-				       find_form,
-				       NULL);
+  find_label = I_L(XtVaCreateManagedWidget("findlabel", labelWidgetClass, 
+					   find_form, NULL));
 
   find_viewport = XtVaCreateManagedWidget("findviewport", 
 				      viewportWidgetClass, 
@@ -110,15 +109,13 @@ void popup_find_dialog(void)
 				      (XtArgVal)dummy_city_list,
 				      NULL);
   
-  find_center_command = XtVaCreateManagedWidget("findcentercommand", 
-						commandWidgetClass,
-						find_form,
-						NULL);
+  find_center_command =
+    I_L(XtVaCreateManagedWidget("findcentercommand", commandWidgetClass,
+				find_form, NULL));
 
-  find_cancel_command = XtVaCreateManagedWidget("findcancelcommand", 
-						commandWidgetClass,
-						find_form,
-						NULL);
+  find_cancel_command =
+    I_L(XtVaCreateManagedWidget("findcancelcommand", commandWidgetClass,
+				find_form, NULL));
 
   XtAddCallback(find_list, XtNcallback, find_list_callback, NULL);
   XtAddCallback(find_center_command, XtNcallback, 

@@ -348,3 +348,34 @@ Widget xaw_intl_icon_name(Widget w)
   return w;
 }
 
+/**************************************************************************
+  As above, for widget String contents.
+**************************************************************************/
+Widget xaw_intl_string(Widget w)
+{
+  String str;
+
+  XtVaGetValues(w, XtNstring, &str, NULL);
+
+  if (has_intl_marking(str))
+    XtVaSetValues(w, XtNstring, (XtArgVal)convert_intl_marking(str), NULL);
+  return w;
+}
+
+/**************************************************************************
+  As label_width above, for widget String contents.
+**************************************************************************/
+Widget xaw_intl_string_width(Widget w)
+{
+  String str;
+  Dimension width;
+
+  XtVaGetValues(w, XtNstring, &str, XtNwidth, &width, NULL);
+
+  if (has_intl_marking(str))
+    XtVaSetValues(w, XtNstring, (XtArgVal)convert_intl_marking(str),
+		  XtNwidth, width, NULL);
+  return w;
+}
+
+

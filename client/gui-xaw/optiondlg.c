@@ -29,6 +29,7 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -68,7 +69,7 @@ void popup_option_dialog(void)
 
   for (o=options; o->name; ++o) {
     XtVaSetValues((Widget) o->p_gui_data, XtNstate, *(o->p_value), 
-                XtNlabel, *(o->p_value) ? "Yes" : "No", NULL);
+                XtNlabel, *(o->p_value) ? _("Yes") : _("No"), NULL);
   }
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
@@ -89,23 +90,23 @@ void create_option_dialog(void)
   client_option *o;
   char res_name[255];  /* is this big enough? */
   
-  option_dialog_shell = XtCreatePopupShell("optionpopup", 
-					  transientShellWidgetClass,
-					  toplevel, NULL, 0);
+  option_dialog_shell =
+    I_T(XtCreatePopupShell("optionpopup", transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   option_form = XtVaCreateManagedWidget("optionform", 
 				        formWidgetClass, 
 				        option_dialog_shell, NULL);   
 
-  option_label = XtVaCreateManagedWidget("optionlabel", 
-					 labelWidgetClass, 
-					 option_form, NULL);   
+  option_label =
+    I_L(XtVaCreateManagedWidget("optionlabel", labelWidgetClass, 
+				option_form, NULL));
   
   for (o=options; o->name; ++o) {
     strcpy (res_name, "option_");
     strcat (res_name, o->name);
     strcat (res_name, "_label");
-    XtVaCreateManagedWidget(res_name, labelWidgetClass, option_form, NULL);
+    I_L(XtVaCreateManagedWidget(res_name, labelWidgetClass, option_form, NULL));
 
     strcpy (res_name, "option_");
     strcat (res_name, o->name);
@@ -115,14 +116,14 @@ void create_option_dialog(void)
     XtAddCallback((Widget) o->p_gui_data, XtNcallback, toggle_callback, NULL);
   }
 
-  option_ok_command = XtVaCreateManagedWidget("optionokcommand", 
-					      commandWidgetClass,
-					      option_form,
-					      NULL);
-  option_cancel_command = XtVaCreateManagedWidget("optioncancelcommand", 
-						  commandWidgetClass,
-						  option_form,
-						  NULL);
+  option_ok_command =
+    I_L(XtVaCreateManagedWidget("optionokcommand", commandWidgetClass,
+				option_form, NULL));
+  
+  option_cancel_command =
+    I_L(XtVaCreateManagedWidget("optioncancelcommand", commandWidgetClass,
+				option_form, NULL));
+	
   XtAddCallback(option_ok_command, XtNcallback, 
 		option_ok_command_callback, NULL);
   XtAddCallback(option_cancel_command, XtNcallback, 
@@ -143,7 +144,7 @@ void toggle_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Boolean b;
 
   XtVaGetValues(w, XtNstate, &b, NULL);
-  XtVaSetValues(w, XtNlabel, b ? "Yes" : "No", NULL);
+  XtVaSetValues(w, XtNlabel, b ? _("Yes") : _("No"), NULL);
 }
 
 /**************************************************************************

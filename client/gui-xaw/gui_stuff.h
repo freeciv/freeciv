@@ -28,10 +28,14 @@ Widget xaw_intl_label(Widget w);
 Widget xaw_intl_label_width(Widget w);
 Widget xaw_intl_title(Widget w);
 Widget xaw_intl_icon_name(Widget w);
+Widget xaw_intl_string(Widget w);
+Widget xaw_intl_string_width(Widget w);
 
 #define I_L(w)  xaw_intl_label(w)
 #define I_LW(w) xaw_intl_label_width(w)
 #define I_T(w)  xaw_intl_title(w)
 #define I_IN(w) xaw_intl_icon_name(w)
+#define I_S(w)  xaw_intl_string(w)
+#define I_SW(w) xaw_intl_string_width(w)
 
 #endif  /* FC__GUI_STUFF_H */

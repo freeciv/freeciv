@@ -71,7 +71,7 @@ void popup_messageopt_dialog(void)
       state = messages_where[i] & (1<<j);
       XtVaSetValues(messageopt_toggles[i][j],
 		    XtNstate, state,
-		    XtNlabel, state?"Yes":"No", NULL);
+		    XtNlabel, state? _("Yes") : _("No"), NULL);
     }
   }
   
@@ -91,21 +91,21 @@ Widget create_messageopt_dialog(void)
   Widget toggle=0;
   int i, j;
   
-  shell = XtCreatePopupShell("messageoptpopup",
-			     transientShellWidgetClass,
-			     toplevel, NULL, 0);
+  shell = I_T(XtCreatePopupShell("messageoptpopup",
+				 transientShellWidgetClass,
+				 toplevel, NULL, 0));
 
   form = XtVaCreateManagedWidget("messageoptform", 
 				 formWidgetClass, 
 				 shell, NULL);   
 
-  title = XtVaCreateManagedWidget("messageopttitle",
-  				  labelWidgetClass,
-				  form, NULL);
+  title = I_L(XtVaCreateManagedWidget("messageopttitle",
+				      labelWidgetClass,
+				      form, NULL));
 
-  explanation = XtVaCreateManagedWidget("messageoptexpl",
-  				  labelWidgetClass,
-				  form, NULL);
+  explanation = I_L(XtVaCreateManagedWidget("messageoptexpl",
+					    labelWidgetClass,
+					    form, NULL));
 
   col1 = XtVaCreateManagedWidget("messageoptcol1",
   				 formWidgetClass,
@@ -115,13 +115,13 @@ Widget create_messageopt_dialog(void)
   				 formWidgetClass,
 				 form, NULL);
   
-  colhead1 = XtVaCreateManagedWidget("messageoptcolhead",
-				     labelWidgetClass,
-				     col1, NULL);
+  colhead1 = I_L(XtVaCreateManagedWidget("messageoptcolhead",
+					 labelWidgetClass,
+					 col1, NULL));
 
-  colhead2 = XtVaCreateManagedWidget("messageoptcolhead",
-				     labelWidgetClass,
-				     col2, NULL);
+  colhead2 = I_L(XtVaCreateManagedWidget("messageoptcolhead",
+					 labelWidgetClass,
+					 col2, NULL));
 
   for(i=0;i<E_LAST;i++)  {
     int top_line = (!i || i==E_LAST/2);
@@ -148,14 +148,14 @@ Widget create_messageopt_dialog(void)
     last_label=label; 
   }
 
-  ok = XtVaCreateManagedWidget("messageoptokcommand",
-			       commandWidgetClass,
-			       form,
-			       NULL);
-  cancel = XtVaCreateManagedWidget("messageoptcancelcommand",
+  ok = I_L(XtVaCreateManagedWidget("messageoptokcommand",
 				   commandWidgetClass,
-				   form,
-				   NULL);
+				   form, NULL));
+  
+  cancel = I_L(XtVaCreateManagedWidget("messageoptcancelcommand",
+				       commandWidgetClass,
+				       form, NULL));
+	       
   XtAddCallback(ok, XtNcallback, messageopt_ok_command_callback, 
                 (XtPointer)shell);
   XtAddCallback(cancel, XtNcallback, messageopt_cancel_command_callback, 

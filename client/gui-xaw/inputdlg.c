@@ -24,7 +24,10 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 
+#include "fcintl.h"
+
 #include "gui_stuff.h"
+
 #include "inputdlg.h"
 
 /****************************************************************
@@ -77,13 +80,14 @@ Widget input_dialog_create(Widget parent, char *dialogname,
   
   XtSetSensitive(parent, FALSE);
   
-  shell=XtCreatePopupShell(dialogname, transientShellWidgetClass,
-			   parent, NULL, 0);
+  I_T(shell=XtCreatePopupShell(dialogname, transientShellWidgetClass,
+			       parent, NULL, 0));
   
   form=XtVaCreateManagedWidget("iform", formWidgetClass, shell, NULL);
 
+  /* Caller should i18n the text passed in as desired */
   label=XtVaCreateManagedWidget("ilabel", labelWidgetClass, form, 
-				XtNlabel, (XtArgVal)text, NULL);   
+				    XtNlabel, (XtArgVal)text, NULL);   
 
   input=XtVaCreateManagedWidget("iinput",
 				asciiTextWidgetClass,
@@ -96,14 +100,14 @@ Widget input_dialog_create(Widget parent, char *dialogname,
   ok=XtVaCreateManagedWidget("iokcommand", 
 			     commandWidgetClass,
 			     form,
-			     XtNlabel, (XtArgVal)"Ok",
+			     XtNlabel, (XtArgVal)_("Ok"),
 			     XtNfromVert, input,
 			     NULL);
 
   cancel=XtVaCreateManagedWidget("icancelcommand", 
 				 commandWidgetClass,
 				 form,
-				 XtNlabel, (XtArgVal)"Cancel",
+				 XtNlabel, (XtArgVal)_("Cancel"),
 				 XtNfromVert, input,
 				 XtNfromHoriz, ok,
 				 NULL);

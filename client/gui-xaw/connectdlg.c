@@ -184,10 +184,11 @@ void create_meta_dialog(void)
 
   form=XtVaCreateManagedWidget("metaform", formWidgetClass, shell, NULL);
 
-  label=XtVaCreateManagedWidget("legend", labelWidgetClass, form, NULL);
+  I_L(label=XtVaCreateManagedWidget("legend", labelWidgetClass, form, NULL));
   list=XtVaCreateManagedWidget("metalist", listWidgetClass, form, NULL);
   update=XtVaCreateManagedWidget("update", commandWidgetClass, form, NULL);
-  close=XtVaCreateManagedWidget("closecommand", commandWidgetClass, form, NULL);
+  I_L(close=XtVaCreateManagedWidget("closecommand", commandWidgetClass,
+				    form, NULL));
 
   if(!update_meta_dialog(list))  {
     XtDestroyWidget(shell);

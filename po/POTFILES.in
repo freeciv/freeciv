@@ -27,8 +27,17 @@ client/gui-gtk/messagewin.c
 client/gui-gtk/plrdlg.c
 client/gui-gtk/repodlgs.c
 client/gui-gtk/spaceshipdlg.c
+client/gui-xaw/citydlg.c
+client/gui-xaw/dialogs.c
+client/gui-xaw/diplodlg.c
+client/gui-xaw/inputdlg.c
+client/gui-xaw/mapctrl.c
 client/gui-xaw/menu.c
 client/gui-xaw/messagedlg.c
+client/gui-xaw/optiondlg.c
+client/gui-xaw/ratesdlg.c
+client/gui-xaw/repodlgs.c
+client/gui-xaw/spaceshipdlg.c
 data/Freeciv
 data/default/techs.ruleset
 data/civ2/techs.ruleset

@@ -83,17 +83,18 @@ void popup_players_dialog(void)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  players_dialog_shell = XtCreatePopupShell("playerspopup", 
-					  topLevelShellWidgetClass,
-					  toplevel, NULL, 0);
+  players_dialog_shell =
+    I_IN(I_T(XtCreatePopupShell("playerspopup", 
+				topLevelShellWidgetClass,
+				toplevel, NULL, 0)));
 
   players_form = XtVaCreateManagedWidget("playersform", 
 				       formWidgetClass, 
 				       players_dialog_shell, NULL);
 
-  players_label=XtVaCreateManagedWidget("playerslabel", 
+  players_label = I_L(XtVaCreateManagedWidget("playerslabel", 
 					labelWidgetClass, 
-					players_form, NULL);   
+					players_form, NULL));   
 
    
   players_list = XtVaCreateManagedWidget("playerslist", 
@@ -101,28 +102,27 @@ void create_players_dialog(void)
 					 players_form, 
 					 NULL);
 
-  players_close_command = XtVaCreateManagedWidget("playersclosecommand", 
-						  commandWidgetClass,
-						  players_form,
-						  NULL);
+  players_close_command =
+    I_L(XtVaCreateManagedWidget("playersclosecommand", commandWidgetClass,
+				players_form, NULL));
 
-  players_int_command = XtVaCreateManagedWidget("playersintcommand", 
-						commandWidgetClass,
-						players_form,
-                                                XtNsensitive, False,
-						NULL);
+  players_int_command =
+    I_L(XtVaCreateManagedWidget("playersintcommand", commandWidgetClass,
+				players_form,
+				XtNsensitive, False,
+				NULL));
 
-  players_meet_command = XtVaCreateManagedWidget("playersmeetcommand", 
-						 commandWidgetClass,
-						 players_form,
-						 XtNsensitive, False,
-						 NULL);
+  players_meet_command =
+    I_L(XtVaCreateManagedWidget("playersmeetcommand", commandWidgetClass,
+				players_form,
+				XtNsensitive, False,
+				NULL));
 
-  players_sship_command = XtVaCreateManagedWidget("playerssshipcommand",
-						  commandWidgetClass,
-						  players_form,
-						  XtNsensitive, False,
-						  NULL);
+  players_sship_command =
+    I_L(XtVaCreateManagedWidget("playerssshipcommand", commandWidgetClass,
+				players_form,
+				XtNsensitive, False,
+				NULL));
 
   XtAddCallback(players_list, XtNcallback, players_list_callback, 
 		NULL);

@@ -28,6 +28,7 @@
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Toggle.h>     
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -110,17 +111,16 @@ void create_rates_dialog(void)
   Widget rates_ok_command, rates_cancel_command;
   
 
-  rates_dialog_shell = XtCreatePopupShell("ratespopup", 
-					  transientShellWidgetClass,
-					  toplevel, NULL, 0);
+  rates_dialog_shell =
+    I_T(XtCreatePopupShell("ratespopup", transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   rates_form = XtVaCreateManagedWidget("ratesform", 
 				       formWidgetClass, 
 				       rates_dialog_shell, NULL);   
 
-  XtVaCreateManagedWidget("rateslabel", 
-			  labelWidgetClass, 
-			  rates_form, NULL);   
+  I_L(XtVaCreateManagedWidget("rateslabel", labelWidgetClass, 
+			      rates_form, NULL));   
 
   rates_gov_label = XtVaCreateManagedWidget("ratesgovlabel",
 					    labelWidgetClass,
@@ -135,10 +135,10 @@ void create_rates_dialog(void)
 					     rates_form,
 					     NULL);
 
-  rates_tax_toggle = XtVaCreateManagedWidget("ratestaxtoggle", 
-					     toggleWidgetClass, 
-					     rates_form,
-					     NULL);
+  rates_tax_toggle = I_L(XtVaCreateManagedWidget("ratestaxtoggle", 
+						 toggleWidgetClass, 
+						 rates_form,
+						 NULL));
     
   rates_lux_label = XtVaCreateManagedWidget("ratesluxlabel", 
 					    labelWidgetClass, 
@@ -149,10 +149,10 @@ void create_rates_dialog(void)
 					     rates_form,
 					     NULL);
 
-  rates_lux_toggle = XtVaCreateManagedWidget("ratesluxtoggle", 
-					     toggleWidgetClass, 
-					     rates_form,
-					     NULL);
+  rates_lux_toggle = I_L(XtVaCreateManagedWidget("ratesluxtoggle", 
+						 toggleWidgetClass, 
+						 rates_form,
+						 NULL));
   
   rates_sci_label = XtVaCreateManagedWidget("ratesscilabel", 
 					    labelWidgetClass, 
@@ -163,20 +163,20 @@ void create_rates_dialog(void)
 					     rates_form,
 					     NULL);
   
-  rates_sci_toggle = XtVaCreateManagedWidget("ratesscitoggle", 
-					     toggleWidgetClass, 
-					     rates_form,
-					     NULL);
+  rates_sci_toggle = I_L(XtVaCreateManagedWidget("ratesscitoggle", 
+						 toggleWidgetClass, 
+						 rates_form,
+						 NULL));
   
-  rates_ok_command = XtVaCreateManagedWidget("ratesokcommand", 
-					     commandWidgetClass,
-					     rates_form,
-					     NULL);
-
-  rates_cancel_command = XtVaCreateManagedWidget("ratescancelcommand", 
+  rates_ok_command = I_L(XtVaCreateManagedWidget("ratesokcommand", 
 						 commandWidgetClass,
 						 rates_form,
-						 NULL);
+						 NULL));
+
+  rates_cancel_command = I_L(XtVaCreateManagedWidget("ratescancelcommand", 
+						     commandWidgetClass,
+						     rates_form,
+						     NULL));
 
   XtAddCallback(rates_ok_command, XtNcallback, 
 		rates_ok_command_callback, NULL);
@@ -303,7 +303,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
   
   if(tax!=rates_tax_value) {
-    sprintf(buf, "Tax: %d%%", tax);
+    sprintf(buf, _("Tax: %d%%"), tax);
     xaw_set_label(rates_tax_label, buf);
     if(!no_tax_scroll)
       XawScrollbarSetThumb(rates_tax_scroll, (tax/10)*1/11.0f, 1/11.0f);
@@ -311,7 +311,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(lux!=rates_lux_value) {
-    sprintf(buf, "Luxury: %d%%", lux);
+    sprintf(buf, _("Luxury: %d%%"), lux);
     xaw_set_label(rates_lux_label, buf);
     if(!no_lux_scroll)
       XawScrollbarSetThumb(rates_lux_scroll, (lux/10)*1/11.0f, 1/11.0f);
@@ -319,7 +319,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(sci!=rates_sci_value) {
-    sprintf(buf, "Science: %d%%", sci);
+    sprintf(buf, _("Science: %d%%"), sci);
     xaw_set_label(rates_sci_label, buf);
     if(!no_sci_scroll)
       XawScrollbarSetThumb(rates_sci_scroll, (sci/10)*1/11.0f, 1/11.0f);

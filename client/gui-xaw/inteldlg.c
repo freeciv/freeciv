@@ -82,9 +82,9 @@ void intel_create_dialog(struct player *p)
   int i, j;
   
   
-  intel_dialog_shell = XtCreatePopupShell("intelpopup", 
-					  transientShellWidgetClass,
-					  toplevel, NULL, 0);
+  I_T(intel_dialog_shell = XtCreatePopupShell("intelpopup", 
+					      transientShellWidgetClass,
+					      toplevel, NULL, 0));
 
   form = XtVaCreateManagedWidget("intelform", 
 				 formWidgetClass, 
@@ -184,9 +184,9 @@ void intel_create_dialog(struct player *p)
 			  XtNlist, tech_list_names_ptrs,
 			  NULL);
   
-  close = XtVaCreateManagedWidget("intelclosecommand", 
-				  commandWidgetClass,
-				  form, NULL);
+  I_L(close = XtVaCreateManagedWidget("intelclosecommand", 
+				      commandWidgetClass,
+				      form, NULL));
   
   XtAddCallback(close, XtNcallback, intel_close_command_callback, NULL);
   XtRealizeWidget(intel_dialog_shell);

@@ -35,6 +35,7 @@
 #include "canvas.h"
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "map.h"
@@ -466,24 +467,24 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
   pdialog->buy_command=
-    XtVaCreateManagedWidget("citybuycommand", 
+    I_L(XtVaCreateManagedWidget("citybuycommand", 
 			    commandWidgetClass,
 			    pdialog->sub_form,
 			    XtNfromVert, 
 			    pdialog->building_label,
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->progress_label,
-			    NULL);
+			    NULL));
 
   pdialog->change_command=
-    XtVaCreateManagedWidget("citychangecommand", 
+    I_L(XtVaCreateManagedWidget("citychangecommand", 
 			    commandWidgetClass,
 			    pdialog->sub_form,
 			    XtNfromVert, 
 			    pdialog->building_label,
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->buy_command,
-			    NULL);
+			    NULL));
  
   pdialog->improvement_viewport=
     XtVaCreateManagedWidget("cityimprovview", 
@@ -507,23 +508,23 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
   pdialog->sell_command=
-    XtVaCreateManagedWidget("citysellcommand", 
+    I_L(XtVaCreateManagedWidget("citysellcommand", 
 			    commandWidgetClass,
 			    pdialog->sub_form,
 			    XtNfromVert, 
 			    pdialog->improvement_viewport,
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->map_canvas,
-			    NULL);
+			    NULL));
 
 
   pdialog->support_unit_label=
-    XtVaCreateManagedWidget("supportunitlabel",
+    I_L(XtVaCreateManagedWidget("supportunitlabel",
 			    labelWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, 
 			    pdialog->sub_form,
-			    NULL);
+			    NULL));
 
   first_support=
     XtVaCreateManagedWidget("supportunitcanvas",
@@ -535,12 +536,12 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
   pdialog->present_unit_label=
-    XtVaCreateManagedWidget("presentunitlabel",
+    I_L(XtVaCreateManagedWidget("presentunitlabel",
 			    labelWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, 
 			    first_support,
-			    NULL);
+			    NULL));
 
   first_present=
     XtVaCreateManagedWidget("presentunitcanvas",
@@ -761,56 +762,56 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   XtVaSetValues(pdialog->shell, XtNiconPixmap, icon_pixmap, NULL);
 
   pdialog->close_command=
-    XtVaCreateManagedWidget("cityclosecommand", 
+    I_L(XtVaCreateManagedWidget("cityclosecommand", 
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, 
 			    pdialog->present_unit_pixcomms[0],
-			    NULL);
+			    NULL));
 
   pdialog->rename_command=
-    XtVaCreateManagedWidget("cityrenamecommand", 
+    I_L(XtVaCreateManagedWidget("cityrenamecommand", 
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, 
 			    pdialog->present_unit_pixcomms[0],
 			    XtNfromHoriz,
 			    pdialog->close_command,
-			    NULL);
+			    NULL));
 
   pdialog->trade_command=
-    XtVaCreateManagedWidget("citytradecommand", 
+    I_L(XtVaCreateManagedWidget("citytradecommand", 
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, 
 			    pdialog->present_unit_pixcomms[0],
 			    XtNfromHoriz,
 			    pdialog->rename_command,
-			    NULL);
+			    NULL));
 
   pdialog->activate_command=
-    XtVaCreateManagedWidget("cityactivatecommand",
+    I_L(XtVaCreateManagedWidget("cityactivatecommand",
     			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->present_unit_pixcomms[0],
 			    XtNfromHoriz, pdialog->trade_command,
-			    NULL);
+			    NULL));
 
   pdialog->show_units_command=
-    XtVaCreateManagedWidget("cityshowunitscommand",
+    I_L(XtVaCreateManagedWidget("cityshowunitscommand",
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->present_unit_pixcomms[0],
 			    XtNfromHoriz, pdialog->activate_command,
-			    NULL);
+			    NULL));
 
   pdialog->cityopt_command=
-    XtVaCreateManagedWidget("cityoptionscommand",
+    I_L(XtVaCreateManagedWidget("cityoptionscommand",
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->present_unit_pixcomms[0],
 			    XtNfromHoriz, pdialog->show_units_command,
-			    NULL);
+			    NULL));
 
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
 		(XtPointer)pdialog);
@@ -1110,12 +1111,12 @@ void present_units_callback(Widget w, XtPointer client_data,
     wd=popup_message_dialog(pdialog->shell, 
 			    "presentunitsdialog", 
 			    unit_description(punit),
-			    present_units_activate_callback, punit->id,
-			    present_units_activate_close_callback, punit->id,
-			    present_units_disband_callback, punit->id,
-			    present_units_homecity_callback, punit->id,
-			    upgrade_callback, punit->id,
-			    present_units_cancel_callback, 0, 
+			    present_units_activate_callback, punit->id, 1,
+			    present_units_activate_close_callback, punit->id, 1,
+			    present_units_disband_callback, punit->id, 1,
+			    present_units_homecity_callback, punit->id, 1,
+			    upgrade_callback, punit->id, 1,
+			    present_units_cancel_callback, 0, 0, 
 			    NULL);
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
       XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
@@ -1156,7 +1157,7 @@ void rename_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   input_dialog_create(pdialog->shell, 
 		      "shellrenamecity", 
-		      "What should we rename the city to?",
+		      _("What should we rename the city to?"),
 		      pdialog->pcity->name,
 		      (void*)rename_city_callback, (XtPointer)pdialog,
 		      (void*)rename_city_callback, (XtPointer)0);
@@ -1183,7 +1184,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   pdialog=(struct city_dialog *)client_data;
 
-  sprintf(buf, "These trade routes have been established with %s:\n",
+  sprintf(buf, _("These trade routes have been established with %s:\n"),
 	  pdialog->pcity->name);
   bptr += strlen(bptr);
   
@@ -1193,25 +1194,25 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-       sprintf(bptr, "%32s: %2d Gold/Year\n",
+       sprintf(bptr, _("%32s: %2d Gold/Year\n"),
                pcity->name, pdialog->pcity->trade_value[i]);
        bptr += strlen(bptr);
       } else {	
-       sprintf(bptr, "%32s: %2d Gold/Year\n","Unknown",
+       sprintf(bptr, _("%32s: %2d Gold/Year\n"), _("Unknown"),
                pdialog->pcity->trade_value[i]);
        bptr += strlen(bptr);
       }
     }
   if (!x)
-    sprintf(bptr, "No trade routes exist.\n");
+    sprintf(bptr, _("No trade routes exist.\n"));
   else
-    sprintf(bptr, "\nTotal trade %d Gold/Year\n",total);
+    sprintf(bptr, _("\nTotal trade %d Gold/Year\n"), total);
   
   popup_message_dialog(pdialog->shell, 
 		       "citytradedialog", 
 		       buf, 
-		       trade_message_dialog_callback, 0,
-		       0);
+		       trade_message_dialog_callback, 0, 0,
+		       NULL);
 }
 
 
@@ -1224,7 +1225,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
 
   sprintf(buf,
-	  "Pollution:    %3d",
+	  _("Pollution:    %3d"),
 	   pcity->pollution);
 
   xaw_set_label(pdialog->pollution_label, buf);
@@ -1241,7 +1242,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   
   sprintf(buf,
-	  "Granary: %c%3d/%-3d",
+	  _("Granary: %c%3d/%-3d"),
 	  (city_got_effect(pcity, B_GRANARY) ? '*' : ' '),
 	  pcity->food_stock,
 	  game.foodbox*pcity->size);
@@ -1263,7 +1264,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   if(pcity->is_building_unit) {
     sprintf(buf, "%3d/%3d", pcity->shield_stock, 
 	    get_unit_type(pcity->currently_building)->build_cost);
-    sprintf(buf2, "%s", get_unit_type(pcity->currently_building)->name);
+    strcpy(buf2, get_unit_type(pcity->currently_building)->name);
   }
   else {
     if(pcity->currently_building==B_CAPITAL)  {
@@ -1274,8 +1275,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
       sprintf(buf, "%3d/%3d", pcity->shield_stock, 
 	      get_improvement_type(pcity->currently_building)->build_cost);
     }
-    sprintf(buf2, "%s", 
-	    get_imp_name_ex(pcity, pcity->currently_building));
+    strcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }
     
   xaw_set_label(pdialog->building_label, buf2);
@@ -1293,9 +1293,9 @@ void city_dialog_update_production(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   
   sprintf(buf,
-	  "Food:  %3d (%+-4d)\n"
+	  _("Food:  %3d (%+-4d)\n"
 	  "Prod:  %3d (%+-4d)\n"
-	  "Trade: %3d (%+-4d)",
+	  "Trade: %3d (%+-4d)"),
 	  pcity->food_prod, pcity->food_surplus,
 	  pcity->shield_prod, pcity->shield_surplus,
 	  pcity->trade_prod+pcity->corruption, pcity->trade_prod);
@@ -1311,9 +1311,9 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   
   sprintf(buf,
-	  "Gold:  %3d (%+-4d)\n"
+	  _("Gold:  %3d (%+-4d)\n"
 	  "Lux:   %3d\n"
-	  "Sci:   %3d",
+	  "Sci:   %3d"),
 	  pcity->tax_total, city_gold_surplus(pcity),
 	  pcity->luxury_total,
 	  pcity->science_total);
@@ -1467,10 +1467,12 @@ static void support_units_callback(Widget w, XtPointer client_data,
 	popup_message_dialog(pdialog->shell,
 			     "supportunitsdialog", 
 			     unit_description(punit),
-			     supported_units_activate_callback, punit->id,
-			     supported_units_activate_close_callback, punit->id, /* act+c */
-			     present_units_disband_callback, punit->id,
-			     present_units_cancel_callback, 0, 0);
+			     supported_units_activate_callback, punit->id, 1,
+			     supported_units_activate_close_callback,
+			                                     punit->id, 1,
+			     present_units_disband_callback, punit->id, 1,
+			     present_units_cancel_callback, 0, 0,
+			     NULL);
       }
 }
 
@@ -1627,7 +1629,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   String now;
   
-  sprintf(buf, "%s - %s citizens",
+  sprintf(buf, _("%s - %s citizens"),
 	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
@@ -1811,17 +1813,19 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   value=city_buy_cost(pdialog->pcity);
  
   if(game.player_ptr->economic.gold>=value) {
-    sprintf(buf, "Buy %s for %d gold?\nTreasury contains %d gold.", 
+    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
-			 buy_callback_yes, pdialog,
-			 buy_callback_no, 0, 0);
+			 buy_callback_yes, pdialog, 0,
+			 buy_callback_no, 0, 0,
+			 NULL);
   }
   else {
-    sprintf(buf, "%s costs %d gold.\nTreasury contains %d gold.", 
+    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
-			 buy_callback_no, 0, 0);
+			 buy_callback_no, 0, 0,
+			 NULL);
   }
   
 }
@@ -1868,29 +1872,29 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
     if ( ut2 == -1 ) {
       /* this shouldn't generally happen, but it is conceivable */
-      sprintf(buf, "Sorry: cannot upgrade %s.", unit_types[ut1].name);
+      sprintf(buf, _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
       popup_message_dialog(toplevel, "upgradenodialog", buf,
-                           unitupgrade_callback_no, 0,
+                           unitupgrade_callback_no, 0, 0,
                            NULL);
     } else {
       value=unit_upgrade_price(game.player_ptr, ut1, ut2);
 
       if(game.player_ptr->economic.gold>=value) {
-        sprintf(buf, "Upgrade %s to %s for %d gold?\n"
-		"Treasury contains %d gold.",
+        sprintf(buf, _("Upgrade %s to %s for %d gold?\n"
+		       "Treasury contains %d gold."),
 		unit_types[ut1].name, unit_types[ut2].name,
 		value, game.player_ptr->economic.gold);
         popup_message_dialog(toplevel, "upgradedialog", buf,
-                             unitupgrade_callback_yes, (XtPointer)(punit->id),
-                             unitupgrade_callback_no, 0,
+                             unitupgrade_callback_yes, (XtPointer)(punit->id), 0,
+                             unitupgrade_callback_no, 0, 0,
                              NULL);
       } else {
-        sprintf(buf, "Upgrading %s to %s costs %d gold.\n"
-		"Treasury contains %d gold.",
+        sprintf(buf, _("Upgrading %s to %s costs %d gold.\n"
+		       "Treasury contains %d gold."),
 		unit_types[ut1].name, unit_types[ut2].name,
 		value, game.player_ptr->economic.gold);
         popup_message_dialog(toplevel, "upgradenodialog", buf,
-                             unitupgrade_callback_no, 0,
+                             unitupgrade_callback_no, 0, 0,
                              NULL);
       }
     }
@@ -2003,13 +2007,13 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   pdialog=(struct city_dialog *)client_data;
   
-  cshell=XtCreatePopupShell("changedialog", transientShellWidgetClass,
-			    pdialog->shell, NULL, 0);
+  I_T(cshell=XtCreatePopupShell("changedialog", transientShellWidgetClass,
+				pdialog->shell, NULL, 0));
   
   cform=XtVaCreateManagedWidget("dform", formWidgetClass, cshell, NULL);
   
-  clabel=XtVaCreateManagedWidget("dlabel", labelWidgetClass, cform, 
-				 NULL);   
+  I_L(clabel=XtVaCreateManagedWidget("dlabel", labelWidgetClass, cform,
+				     NULL));
 
   cview=XtVaCreateManagedWidget("dview", viewportWidgetClass,
 				cform,
@@ -2027,30 +2031,30 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 					       NULL);
 
   
-  button_change=XtVaCreateManagedWidget("buttonchange",
+  button_change = I_L(XtVaCreateManagedWidget("buttonchange",
 					commandWidgetClass,
 					cform,
 					XtNfromVert, 
 					cview,
-					NULL);
+					NULL));
 
-  button_cancel=XtVaCreateManagedWidget("buttoncancel",
+  button_cancel = I_L(XtVaCreateManagedWidget("buttoncancel",
 				    commandWidgetClass,
 				    cform,
 				    XtNfromVert, 
 				    cview,
 				    XtNfromHoriz,
 				    button_change,
-				    NULL);
+				    NULL));
 
-  button_help = XtVaCreateManagedWidget("buttonhelp",
+  button_help = I_L(XtVaCreateManagedWidget("buttonhelp",
 				    commandWidgetClass,
 				    cform,
 				    XtNfromVert, 
 				    cview,
 				    XtNfromHoriz,
 				    button_cancel,
-				    NULL);
+				    NULL));
 
   XtAddCallback(button_change, XtNcallback, 
 		change_to_callback, (XtPointer)pdialog);
@@ -2151,13 +2155,14 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	    return;
 	  
 	  pdialog->sell_id=i;
-	  sprintf(buf, "Sell %s for %d gold?", 
+	  sprintf(buf, _("Sell %s for %d gold?"), 
 		  get_imp_name_ex(pdialog->pcity, i),
 		  improvement_value(i));
 
 	  popup_message_dialog(pdialog->shell, "selldialog", buf,
-			       sell_callback_yes, pdialog,
-			       sell_callback_no, pdialog, 0);
+			       sell_callback_yes, pdialog, 0,
+			       sell_callback_no, pdialog, 0,
+			       NULL);
 	  
 	  return;
 	}
@@ -2294,9 +2299,9 @@ Widget create_cityopt_dialog(char *city_name)
   Widget shell, form, label, ok, cancel;
   int i;
 
-  shell = XtCreatePopupShell("cityoptpopup",
-			     transientShellWidgetClass,
-			     toplevel, NULL, 0);
+  shell = I_T(XtCreatePopupShell("cityoptpopup",
+				 transientShellWidgetClass,
+				 toplevel, NULL, 0));
   form = XtVaCreateManagedWidget("cityoptform", 
 				 formWidgetClass, 
 				 shell, NULL);
@@ -2304,9 +2309,9 @@ Widget create_cityopt_dialog(char *city_name)
 				  form, XtNlabel, city_name, NULL);
 
 
-  XtVaCreateManagedWidget("cityoptnewcitlabel",
-			  labelWidgetClass, 
-			  form, NULL);
+  I_L(XtVaCreateManagedWidget("cityoptnewcitlabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_triggle = XtVaCreateManagedWidget("cityoptnewcittriggle", 
 					    toggleWidgetClass, 
 					    form, NULL);
@@ -2318,44 +2323,48 @@ Widget create_cityopt_dialog(char *city_name)
      - helicopters (special case air) at bottom
   */
 
-  XtVaCreateManagedWidget("cityoptdisbandlabel",
-			  labelWidgetClass, 
-			  form, NULL);
+  I_L(XtVaCreateManagedWidget("cityoptdisbandlabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_toggles[4] = XtVaCreateManagedWidget("cityoptdisbandtoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
 
-  XtVaCreateManagedWidget("cityoptvlandlabel", 
-			  labelWidgetClass, 
-			  form, NULL);
+  I_L(XtVaCreateManagedWidget("cityoptvlandlabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_toggles[0] = XtVaCreateManagedWidget("cityoptvlandtoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
-  XtVaCreateManagedWidget("cityoptvsealabel", 
-			  labelWidgetClass, 
-			  form, NULL);
+  
+  I_L(XtVaCreateManagedWidget("cityoptvsealabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_toggles[1] = XtVaCreateManagedWidget("cityoptvseatoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
-  XtVaCreateManagedWidget("cityoptvairlabel", 
-			  labelWidgetClass, 
-			  form, NULL);
+  
+  I_L(XtVaCreateManagedWidget("cityoptvairlabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_toggles[3] = XtVaCreateManagedWidget("cityoptvairtoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
-  XtVaCreateManagedWidget("cityoptvhelilabel", 
-			  labelWidgetClass, 
-			  form, NULL);
+  
+  I_L(XtVaCreateManagedWidget("cityoptvhelilabel", labelWidgetClass, 
+			      form, NULL));
+  
   cityopt_toggles[2] = XtVaCreateManagedWidget("cityoptvhelitoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
 
-  ok = XtVaCreateManagedWidget("cityoptokcommand", 
-			       commandWidgetClass,
-			       form, NULL);
-  cancel = XtVaCreateManagedWidget("cityoptcancelcommand", 
+  ok = I_L(XtVaCreateManagedWidget("cityoptokcommand",
 				   commandWidgetClass,
-				   form, NULL);
+				   form, NULL));
+  
+  cancel = I_L(XtVaCreateManagedWidget("cityoptcancelcommand",
+				       commandWidgetClass,
+				       form, NULL));
 
   XtAddCallback(ok, XtNcallback, cityopt_ok_command_callback, 
                 (XtPointer)shell);

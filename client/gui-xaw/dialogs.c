@@ -32,8 +32,10 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -402,17 +404,20 @@ void popup_bribe_dialog(struct unit *punit)
   char buf[128];
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    sprintf(buf, "Bribe unit for %d gold?\nTreasury contains %d gold.", 
+    sprintf(buf, _("Bribe unit for %d gold?\n"
+		   "Treasury contains %d gold."), 
 	    punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, "diplomatbribedialog", buf,
-			 diplomat_bribe_yes_callback, 0,
-			 diplomat_bribe_no_callback, 0, 0);
+			 diplomat_bribe_yes_callback, 0, 0,
+			 diplomat_bribe_no_callback, 0, 0,
+			 NULL);
   } else {
-    sprintf(buf, "Bribing the unit costs %d gold.\nTreasury contains %d gold.", 
+    sprintf(buf, _("Bribing the unit costs %d gold.\n"
+		   "Treasury contains %d gold."), 
 	    punit->bribe_cost, game.player_ptr->economic.gold);
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
-			 diplomat_bribe_no_callback, 0, 
-			 0);
+			 diplomat_bribe_no_callback, 0, 0,
+			 NULL);
   }
 }
 
@@ -612,7 +617,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   spy_tech_shell = 0l;
   
   if(!steal_advance){
-    printf("Bug in spy steal tech code\n");
+    freelog(LOG_NORMAL, "Bug in spy steal tech code");
     return;
   }
   
@@ -639,7 +644,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   spy_sabotage_shell = 0l;
   
   if(!sabotage_improvement){
-    printf("Bug in spy sabotage code\n");
+    freelog(LOG_NORMAL, "Bug in spy sabotage code");
     return;
   }
   
@@ -668,39 +673,36 @@ static int create_advances_list(struct player *pplayer,
   int i, j;
 
   static char *advances_can_steal[A_LAST]; 
-  
-  spy_tech_shell = XtVaCreatePopupShell("spystealtechpopup", 
-					make_modal ? 
-					transientShellWidgetClass :
-					topLevelShellWidgetClass,
-					toplevel, 
-					0);  
+
+  spy_tech_shell =
+    I_T(XtVaCreatePopupShell("spystealtechpopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));  
   
   spy_tech_form = XtVaCreateManagedWidget("spystealtechform", 
 					     formWidgetClass,
 					     spy_tech_shell,
 					     NULL);   
 
-  spy_advances_list_label = XtVaCreateManagedWidget("spystealtechlistlabel", 
-						    labelWidgetClass, 
-						    spy_tech_form,
-						    NULL);
+  spy_advances_list_label =
+    I_L(XtVaCreateManagedWidget("spystealtechlistlabel", labelWidgetClass, 
+				spy_tech_form, NULL));
 
   spy_advances_list = XtVaCreateManagedWidget("spystealtechlist", 
 					      listWidgetClass,
 					      spy_tech_form,
 					      NULL);
 
-  close_command = XtVaCreateManagedWidget("spystealtechclosecommand", 
-					  commandWidgetClass,
-					  spy_tech_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("spystealtechclosecommand", commandWidgetClass,
+				spy_tech_form, NULL));
   
-  spy_steal_command = XtVaCreateManagedWidget("spystealtechcommand", 
-					    commandWidgetClass,
-					    spy_tech_form,
-					    XtNsensitive, False,
-					    NULL);
+  spy_steal_command =
+    I_L(XtVaCreateManagedWidget("spystealtechcommand", commandWidgetClass,
+				spy_tech_form,
+				XtNsensitive, False,
+				NULL));
   
 
   XtAddCallback(spy_advances_list, XtNcallback, spy_select_tech_callback, NULL);
@@ -753,38 +755,40 @@ static int create_improvements_list(struct player *pplayer,
 
   static char *improvements_can_sabotage[B_LAST]; 
   
-  spy_sabotage_shell = XtVaCreatePopupShell("spysabotageimprovementspopup", 
-					make_modal ? 
-					transientShellWidgetClass :
-					topLevelShellWidgetClass,
-					toplevel, 
-					0);  
+  spy_sabotage_shell =
+    I_T(XtVaCreatePopupShell("spysabotageimprovementspopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));  
   
   spy_sabotage_form = XtVaCreateManagedWidget("spysabotageimprovementsform", 
 					     formWidgetClass,
 					     spy_sabotage_shell,
 					     NULL);   
 
-  spy_improvements_list_label = XtVaCreateManagedWidget("spysabotageimprovementslistlabel", 
-						    labelWidgetClass, 
-						    spy_sabotage_form,
-						    NULL);
+  spy_improvements_list_label =
+    I_L(XtVaCreateManagedWidget("spysabotageimprovementslistlabel", 
+				labelWidgetClass, 
+				spy_sabotage_form,
+				NULL));
 
   spy_improvements_list = XtVaCreateManagedWidget("spysabotageimprovementslist", 
 					      listWidgetClass,
 					      spy_sabotage_form,
 					      NULL);
 
-  close_command = XtVaCreateManagedWidget("spysabotageimprovementsclosecommand", 
-					  commandWidgetClass,
-					  spy_sabotage_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("spysabotageimprovementsclosecommand", 
+				commandWidgetClass,
+				spy_sabotage_form,
+				NULL));
   
-  spy_sabotage_command = XtVaCreateManagedWidget("spysabotageimprovementscommand", 
-						 commandWidgetClass,
-						 spy_sabotage_form,
-						 XtNsensitive, False,
-						 NULL);
+  spy_sabotage_command =
+    I_L(XtVaCreateManagedWidget("spysabotageimprovementscommand", 
+				commandWidgetClass,
+				spy_sabotage_form,
+				XtNsensitive, False,
+				NULL));
   
 
   XtAddCallback(spy_improvements_list, XtNcallback, spy_select_improvement_callback, NULL);
@@ -932,18 +936,21 @@ void popup_incite_dialog(struct city *pcity)
   char buf[128];
 
   if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
-   sprintf(buf, "Incite a revolt for %d gold?\nTreasury contains %d gold.", 
+   sprintf(buf, _("Incite a revolt for %d gold?\n"
+		  "Treasury contains %d gold."), 
 	   pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
-			diplomat_incite_yes_callback, 0,
-			diplomat_incite_no_callback, 0, 0);
+			diplomat_incite_yes_callback, 0, 0,
+			diplomat_incite_no_callback, 0, 0,
+			NULL);
   } else {
-   sprintf(buf, "Inciting a revolt costs %d gold.\nTreasury contains %d gold.", 
-	      pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+   sprintf(buf, _("Inciting a revolt costs %d gold.\n"
+		  "Treasury contains %d gold."), 
+	   pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
-			diplomat_incite_no_callback, 0, 
-			0);
+			diplomat_incite_no_callback, 0, 0,
+			NULL);
   }
 }
 
@@ -976,14 +983,14 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     diplomat_target_id=pcity->id;
     if(!unit_flag(punit->type, F_SPY)){
       shl=popup_message_dialog(toplevel, "diplomatdialog", 
-			       "Sir, the diplomat is waiting for your command",
-			       diplomat_embassy_callback, 0,
-			       diplomat_investigate_callback, 0,
-			       diplomat_sabotage_callback, 0,
-			       diplomat_steal_callback, 0,
-			       diplomat_incite_callback, 0,
-			       diplomat_cancel_callback, 0,
-			       0);
+		       _("Sir, the diplomat is waiting for your command"),
+			       diplomat_embassy_callback, 0, 1,
+			       diplomat_investigate_callback, 0, 1,
+			       diplomat_sabotage_callback, 0, 1,
+			       diplomat_steal_callback, 0, 1,
+			       diplomat_incite_callback, 0, 1,
+			       diplomat_cancel_callback, 0, 0,
+			       NULL);
       
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
@@ -997,15 +1004,15 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
     }else{
       shl=popup_message_dialog(toplevel, "spydialog", 
-			       "Sir, the spy is waiting for your command",
-			       diplomat_embassy_callback, 0,
-			       diplomat_investigate_callback, 0,
-			       spy_poison_callback,0,
-			       spy_sabotage_popup, 0,
-			       spy_steal_popup, 0,
-			       diplomat_incite_callback, 0,
-			       diplomat_cancel_callback, 0,
-			       0);
+			       _("Sir, the spy is waiting for your command"),
+			       diplomat_embassy_callback, 0,  1,
+			       diplomat_investigate_callback, 0, 1,
+			       spy_poison_callback,0, 1,
+			       spy_sabotage_popup, 0, 1,
+			       spy_steal_popup, 0, 1,
+			       diplomat_incite_callback, 0, 1,
+			       diplomat_cancel_callback, 0, 0,
+			       NULL);
       
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
@@ -1022,18 +1029,20 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     }
   }else{ 
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
-      /* Spy/Diplomat acting against a unit */ 
+      /* Spy/Diplomat acting against a unit */
+      
+      char *message = (!unit_flag(punit->type, F_SPY))?
+	_("Sir, the diplomat is waiting for your command"):
+	_("Sir, the spy is waiting for your command");
       
       diplomat_target_id=ptunit->id;
 
-      shl=popup_message_dialog(toplevel, "spybribedialog", 
-      			       (!unit_flag(punit->type, F_SPY))?
-			       "Sir, the diplomat is waiting for your command":
-			       "Sir, the spy is waiting for your command",
-			       diplomat_bribe_callback, 0,
-			       spy_sabotage_unit_callback, 0,
-			       diplomat_cancel_callback, 0,
-			       0);
+      shl=popup_message_dialog(toplevel, "spybribedialog",
+			       message,
+			       diplomat_bribe_callback, 0, 0,
+			       spy_sabotage_unit_callback, 0, 0,
+			       diplomat_cancel_callback, 0, 0,
+			       NULL);
 	
       if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
@@ -1115,7 +1124,7 @@ void popup_caravan_dialog(struct unit *punit,
 {
   char buf[128];
   
-  sprintf(buf, "Your caravan from %s reaches the city of %s.\nWhat now?",
+  sprintf(buf, _("Your caravan from %s reaches the city of %s.\nWhat now?"),
 	  phomecity->name, pdestcity->name);
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
@@ -1123,10 +1132,10 @@ void popup_caravan_dialog(struct unit *punit,
   
   caravan_dialog=popup_message_dialog(toplevel, "caravandialog", 
 			   buf,
-			   caravan_establish_trade_callback, 0,
-			   caravan_help_build_wonder_callback, 0,
-			   caravan_keep_moving_callback, 0,
-			   0);
+			   caravan_establish_trade_callback, 0, 0,
+			   caravan_help_build_wonder_callback, 0, 0,
+			   caravan_keep_moving_callback, 0, 0,
+			   NULL);
   
   if(!can_establish_trade_route(phomecity, pdestcity))
     XtSetSensitive(XtNameToWidget(caravan_dialog, "*button0"), FALSE);
@@ -1167,10 +1176,10 @@ void popup_government_dialog(void)
 
   XtSetSensitive(toplevel, FALSE);
 
-  shell = XtCreatePopupShell("governmentdialog", transientShellWidgetClass,
-			     toplevel, NULL, 0);
+  shell = I_T(XtCreatePopupShell("governmentdialog", transientShellWidgetClass,
+				 toplevel, NULL, 0));
   form = XtVaCreateManagedWidget("form", formWidgetClass, shell, NULL);
-  dlabel = XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL);
+  dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
   for (i=0; i < game.government_count; ++i) {
@@ -1220,10 +1229,10 @@ static void revolution_callback_no(Widget w, XtPointer client_data,
 void popup_revolution_dialog(void)
 {
   popup_message_dialog(toplevel, "revolutiondialog", 
-		       "You say you wanna revolution?",
-		       revolution_callback_yes, 0,
-		       revolution_callback_no, 0, 
-		       0);
+		       _("You say you wanna revolution?"),
+		       revolution_callback_yes, 0, 0,
+		       revolution_callback_no, 0, 0,
+		       NULL);
 }
 
 
@@ -1267,10 +1276,10 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
   XtSetSensitive (toplevel, FALSE);
 
-  shell = XtCreatePopupShell ("pillagedialog", transientShellWidgetClass,
-			      toplevel, NULL, 0);
+  shell = I_T(XtCreatePopupShell("pillagedialog", transientShellWidgetClass,
+				 toplevel, NULL, 0));
   form = XtVaCreateManagedWidget ("form", formWidgetClass, shell, NULL);
-  dlabel = XtVaCreateManagedWidget ("dlabel", labelWidgetClass, form, NULL);
+  dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
   while (may_pillage) {
@@ -1286,9 +1295,9 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
     may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
   }
   button =
-    XtVaCreateManagedWidget ("closebutton", commandWidgetClass, form,
-			     XtNfromVert, prev,
-			     NULL);
+    I_L(XtVaCreateManagedWidget("closebutton", commandWidgetClass, form,
+				XtNfromVert, prev,
+				NULL));
   XtAddCallback (button, XtNcallback, pillage_callback, NULL);
 
   xaw_set_relative_position (toplevel, shell, 10, 0);
@@ -1297,7 +1306,8 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
 
 /****************************************************************
-...
+  Parameters after named parameters should be in triplets:
+  - callback, callback_data, fixed_width 
 *****************************************************************/
 Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
 {
@@ -1308,15 +1318,16 @@ Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
   void (*fcb)(Widget, XtPointer, XtPointer);
   XtPointer client_data;
   char button_name[512];
-  int i;
+  int i, fixed_width;
 
   XtSetSensitive(parent, FALSE);
   
-  dshell=XtCreatePopupShell(dialogname, transientShellWidgetClass,
-			    parent, NULL, 0);
+  I_T(dshell=XtCreatePopupShell(dialogname, transientShellWidgetClass,
+				parent, NULL, 0));
   
   dform=XtVaCreateManagedWidget("dform", formWidgetClass, dshell, NULL);
-  
+
+  /* caller should i18n text as desired */
   XtVaCreateManagedWidget("dlabel", labelWidgetClass, dform, 
 			  XtNlabel, (XtArgVal)text,
 			  NULL);   
@@ -1326,10 +1337,16 @@ Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
   
   while((fcb=va_arg(args, void *))) {
     client_data=va_arg(args, XtPointer);
+    fixed_width=va_arg(args, int);
     sprintf(button_name, "button%d", i++);
     
     button=XtVaCreateManagedWidget(button_name, commandWidgetClass, 
 				   dform, NULL);
+    if (fixed_width) {
+      I_LW(button);
+    } else {
+      I_L(button);
+    }
     XtAddCallback(button, XtNcallback, fcb, client_data);
   }
   
@@ -1391,9 +1408,10 @@ void popup_unit_select_dialog(struct tile *ptile)
 
   XtSetSensitive(main_form, FALSE);
 
-  unit_select_dialog_shell = XtCreatePopupShell("unitselectdialogshell", 
-						transientShellWidgetClass,
-						toplevel, NULL, 0);
+  unit_select_dialog_shell =
+    I_T(XtCreatePopupShell("unitselectdialogshell", 
+			   transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   unit_select_form = XtVaCreateManagedWidget("unitselectform", 
 					     formWidgetClass, 
@@ -1471,18 +1489,19 @@ void popup_unit_select_dialog(struct tile *ptile)
 
   unit_select_no=i;
 
+  unit_select_close_command =
+    I_L(XtVaCreateManagedWidget("unitselectclosecommand", 
+				commandWidgetClass,
+				unit_select_form,
+				XtNfromVert, firstcolumn,
+				NULL));
 
-  unit_select_close_command=XtVaCreateManagedWidget("unitselectclosecommand", 
-						    commandWidgetClass,
-						    unit_select_form,
-						    XtNfromVert, firstcolumn,
-						    NULL);
-
-  unit_select_all_command=XtVaCreateManagedWidget("unitselectallcommand", 
-						  commandWidgetClass,
-						  unit_select_form,
-						  XtNfromVert, firstcolumn,
-						  NULL);
+  unit_select_all_command =
+    I_L(XtVaCreateManagedWidget("unitselectallcommand", 
+				commandWidgetClass,
+				unit_select_form,
+				XtNfromVert, firstcolumn,
+				NULL));
 
   XtAddCallback(unit_select_close_command, XtNcallback, unit_select_callback, NULL);
   XtAddCallback(unit_select_all_command, XtNcallback, unit_select_all_callback, NULL);
@@ -1594,17 +1613,17 @@ void create_races_dialog(void)
   maxracelen = MIN(maxracelen, MAX_LEN_NAME-1);
   sprintf(maxracename, "%*s", maxracelen+2, "W");
 
-  races_dialog_shell = XtCreatePopupShell("racespopup", 
+  races_dialog_shell = I_T(XtCreatePopupShell("racespopup", 
 					  transientShellWidgetClass,
-					  toplevel, NULL, 0);
+					  toplevel, NULL, 0));
 
   races_form = XtVaCreateManagedWidget("racesform", 
 				       formWidgetClass, 
 				       races_dialog_shell, NULL);   
 
-  races_label = XtVaCreateManagedWidget("raceslabel", 
+  races_label = I_L(XtVaCreateManagedWidget("raceslabel", 
 				       labelWidgetClass, 
-				       races_form, NULL);  
+				       races_form, NULL));  
 
   races_toggles_form = XtVaCreateManagedWidget("racestogglesform", 
 					       formWidgetClass, 
@@ -1690,17 +1709,17 @@ void create_races_dialog(void)
   races_leader_pick_popupmenu = 0;
 
   races_leader_pick_menubutton =
-    XtVaCreateManagedWidget("racesleaderpickmenubutton",
+    I_L(XtVaCreateManagedWidget("racesleaderpickmenubutton",
 			    menuButtonWidgetClass,
 			    races_leader_form,
 			    XtNfromHoriz, races_leader,
-			    NULL);
+			    NULL));
 
-  races_sex_label = XtVaCreateManagedWidget("racessexlabel", 
+  races_sex_label = I_L(XtVaCreateManagedWidget("racessexlabel", 
 				            labelWidgetClass, 
 				            races_form, 
 					    XtNfromVert, races_leader_form, 
-					    NULL);  
+					    NULL));  
 
   races_sex_form = XtVaCreateManagedWidget("racessexform", 
 					   formWidgetClass, 
@@ -1708,19 +1727,21 @@ void create_races_dialog(void)
 					   XtNfromVert, races_sex_label, 
 					   NULL);   
 
-  races_sex_toggles[0]=XtVaCreateManagedWidget("racessextoggle0", 
-					       toggleWidgetClass, 
-					       races_sex_form,
-					       NULL);
+  races_sex_toggles[0] =
+    I_L(XtVaCreateManagedWidget("racessextoggle0", 
+				toggleWidgetClass, 
+				races_sex_form,
+				NULL));
 
-  races_sex_toggles[1]=XtVaCreateManagedWidget("racessextoggle1",
-					       toggleWidgetClass, 
-					       races_sex_form,
-					       XtNfromHoriz, 
-					       (XtArgVal)races_sex_toggles[0],
-					       XtNradioGroup, 
-					       races_sex_toggles[0], 
-					       NULL);
+  races_sex_toggles[1] =
+    I_L(XtVaCreateManagedWidget("racessextoggle1",
+				toggleWidgetClass, 
+				races_sex_form,
+				XtNfromHoriz, 
+				(XtArgVal)races_sex_toggles[0],
+				XtNradioGroup, 
+				races_sex_toggles[0], 
+				NULL));
 
   races_action_form = XtVaCreateManagedWidget("racesactionform",
 					      formWidgetClass,
@@ -1729,25 +1750,25 @@ void create_races_dialog(void)
 					      NULL);
 
   races_ok_command =
-    XtVaCreateManagedWidget("racesokcommand",
+    I_L(XtVaCreateManagedWidget("racesokcommand",
 			    commandWidgetClass,
 			    races_action_form,
-			    NULL);
+			    NULL));
 
   if(has_capability("dconn_in_sel_nat", aconnection.capability)) {
     races_disconnect_command =
-      XtVaCreateManagedWidget("racesdisconnectcommand",
+      I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
 			      commandWidgetClass,
 			      races_action_form,
 			      XtNfromHoriz, races_ok_command,
-			      NULL);
+			      NULL));
 
     races_quit_command =
-      XtVaCreateManagedWidget("racesquitcommand",
+      I_L(XtVaCreateManagedWidget("racesquitcommand",
 			      commandWidgetClass,
 			      races_action_form,
 			      XtNfromHoriz, races_disconnect_command,
-			      NULL);
+			      NULL));
 
     XtAddCallback(races_disconnect_command, XtNcallback,
 		  races_disconnect_command_callback, NULL);

@@ -33,6 +33,7 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "map.h"
@@ -223,16 +224,12 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   
   pdialog->close_command=
-    XtVaCreateManagedWidget("spaceshipclosecommand", 
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    NULL);
+    I_L(XtVaCreateManagedWidget("spaceshipclosecommand", commandWidgetClass,
+				pdialog->main_form, NULL));
 
   pdialog->launch_command=
-    XtVaCreateManagedWidget("spaceshiplaunchcommand", 
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    NULL);
+    I_L(XtVaCreateManagedWidget("spaceshiplaunchcommand", commandWidgetClass,
+				pdialog->main_form, NULL));
 
   XtAddCallback(pdialog->launch_command, XtNcallback, spaceship_launch_callback,
 		(XtPointer)pdialog);
@@ -271,13 +268,13 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 				    + (int) pship->travel_time)));
   }
   sprintf(buf,
-	  "Population:      %5d\n"
+	  _("Population:      %5d\n"
 	  "Support:         %5d %%\n"
 	  "Energy:          %5d %%\n"
 	  "Mass:            %5d tons\n"
 	  "Travel time:     %5.1f years\n"
 	  "Success prob.:   %5d %%\n"
-	  "Year of arrival: %8s",
+	  "Year of arrival: %8s"),
 	  pship->population,
 	  (int) (pship->support_rate * 100.0),
 	  (int) (pship->energy_rate * 100.0),

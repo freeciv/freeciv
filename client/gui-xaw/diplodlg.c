@@ -34,6 +34,7 @@
 #include <X11/Xaw/Viewport.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "government.h"
@@ -294,9 +295,9 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
   init_treaty(&pdialog->treaty, plr0, plr1);
   
-  pdialog->dip_dialog_shell = XtCreatePopupShell("dippopupshell", 
-						 topLevelShellWidgetClass,
-						 toplevel, NULL, 0);
+  pdialog->dip_dialog_shell =
+    I_T(XtCreatePopupShell("dippopupshell", topLevelShellWidgetClass,
+			   toplevel, NULL, 0));
 
   pdialog->dip_form = XtVaCreateManagedWidget("dipform", 
 					      formWidgetClass, 
@@ -338,10 +339,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 NULL);   
 
   
-  pdialog->dip_map_menubutton0=XtVaCreateManagedWidget("dipmapmenubutton0", 
-						       menuButtonWidgetClass, 
-						       pdialog->dip_form0, 
-						       NULL);
+  pdialog->dip_map_menubutton0 =
+    I_L(XtVaCreateManagedWidget("dipmapmenubutton0", 
+				menuButtonWidgetClass, 
+				pdialog->dip_form0, 
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_map_menubutton0, 
@@ -352,10 +354,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   entry=XtVaCreateManagedWidget("Sea-map", smeBSBObjectClass, popupmenu, NULL);
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback, (XtPointer)pdialog);
   
-  pdialog->dip_map_menubutton1=XtVaCreateManagedWidget("dipmapmenubutton1", 
-						       menuButtonWidgetClass, 
-						       pdialog->dip_form1, 
-						       NULL);
+  pdialog->dip_map_menubutton1 =
+    I_L(XtVaCreateManagedWidget("dipmapmenubutton1", 
+				menuButtonWidgetClass, 
+				pdialog->dip_form1, 
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_map_menubutton1, 
@@ -366,10 +369,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback, (XtPointer)pdialog);
   
 
-  pdialog->dip_tech_menubutton0=XtVaCreateManagedWidget("diptechmenubutton0", 
-							menuButtonWidgetClass,
-							pdialog->dip_form0,
-							NULL);
+  pdialog->dip_tech_menubutton0 =
+    I_L(XtVaCreateManagedWidget("diptechmenubutton0", 
+				menuButtonWidgetClass,
+				pdialog->dip_form0,
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_tech_menubutton0, 
@@ -379,10 +383,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     XtSetSensitive(pdialog->dip_tech_menubutton0, FALSE);
   
   
-  pdialog->dip_tech_menubutton1=XtVaCreateManagedWidget("diptechmenubutton1", 
-							menuButtonWidgetClass,
-							pdialog->dip_form1,
-							NULL);
+  pdialog->dip_tech_menubutton1 =
+    I_L(XtVaCreateManagedWidget("diptechmenubutton1", 
+				menuButtonWidgetClass,
+				pdialog->dip_form1,
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_tech_menubutton1, 
@@ -392,10 +397,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   /* Start of trade city code - Kris Bubendorfer */
 
-  pdialog->dip_city_menubutton0=XtVaCreateManagedWidget("dipcitymenubutton0", 
-							menuButtonWidgetClass,
-							pdialog->dip_form0,
-							NULL);
+  pdialog->dip_city_menubutton0 =
+    I_L(XtVaCreateManagedWidget("dipcitymenubutton0", 
+				menuButtonWidgetClass,
+				pdialog->dip_form0,
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_city_menubutton0, 
@@ -405,10 +411,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 		 fill_diplomacy_city_menu(popupmenu, plr0, plr1));
   
   
-  pdialog->dip_city_menubutton1=XtVaCreateManagedWidget("dipcitymenubutton1", 
-							menuButtonWidgetClass,
-							pdialog->dip_form1,
-							NULL);
+  pdialog->dip_city_menubutton1 =
+    I_L(XtVaCreateManagedWidget("dipcitymenubutton1", 
+				menuButtonWidgetClass,
+				pdialog->dip_form1,
+				NULL));
   popupmenu=XtVaCreatePopupShell("menu", 
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_city_menubutton1, 
@@ -429,14 +436,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   pdialog->dip_form1,
 						   NULL);
   
-  sprintf(buf, "Gold(max %d)", plr0->economic.gold);
+  sprintf(buf, _("Gold(max %d)"), plr0->economic.gold);
   pdialog->dip_gold_label0=XtVaCreateManagedWidget("dipgoldlabel0", 
 						   labelWidgetClass,
 						   pdialog->dip_form0,
 						   XtNlabel, buf,
 						   NULL);
 
-  sprintf(buf, "Gold(max %d)", plr1->economic.gold);
+  sprintf(buf, _("Gold(max %d)"), plr1->economic.gold);
   pdialog->dip_gold_label1=XtVaCreateManagedWidget("dipgoldlabel1", 
 						   labelWidgetClass,
 						   pdialog->dip_form1,
@@ -459,10 +466,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 XtNlabel, pheadlinem,
 						 NULL);
   
-  pdialog->dip_clauselabel=XtVaCreateManagedWidget("dipclauselabel",
-						   labelWidgetClass, 
-						   pdialog->dip_formm, 
-						   NULL);   
+  pdialog->dip_clauselabel =
+    I_L(XtVaCreateManagedWidget("dipclauselabel",
+				labelWidgetClass, 
+				pdialog->dip_formm, 
+				NULL));   
   
   pdialog->dip_view =  XtVaCreateManagedWidget("dipview",
 					       viewportWidgetClass, 
@@ -481,7 +489,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaSetValues(pdialog->dip_view, XtNwidth, width, NULL); 
   XtVaSetValues(pdialog->dip_clauselist, XtNwidth, width, NULL); 
 
-  sprintf(buf, "%s view:", get_nation_name(plr0->nation));
+  sprintf(buf, _("%s view:"), get_nation_name(plr0->nation));
   pdialog->dip_acceptlabel0=XtVaCreateManagedWidget("dipacceptlabel0",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -492,7 +500,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    pdialog->dip_formm, 
 						    XtNbitmap, get_thumb_pixmap(0),
 						    NULL);
-  sprintf(buf, "%s view:", get_nation_name(plr1->nation));
+  sprintf(buf, _("%s view:"), get_nation_name(plr1->nation));
   pdialog->dip_acceptlabel1=XtVaCreateManagedWidget("dipacceptlabel1",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -504,21 +512,23 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    NULL);
 
   
-  pdialog->dip_erase_clause_command=XtVaCreateManagedWidget("diperaseclausecommand", 
-							     commandWidgetClass, 
-							     pdialog->dip_main_form, 
-							     NULL);
+  pdialog->dip_erase_clause_command =
+    I_L(XtVaCreateManagedWidget("diperaseclausecommand",
+				commandWidgetClass, 
+				pdialog->dip_main_form, 
+				NULL));
   
-  pdialog->dip_accept_command = XtVaCreateManagedWidget("dipacceptcommand", 
-							commandWidgetClass, 
-							pdialog->dip_form,
-							NULL);
+  pdialog->dip_accept_command =
+    I_L(XtVaCreateManagedWidget("dipacceptcommand", 
+				commandWidgetClass, 
+				pdialog->dip_form,
+				NULL));
 
-
-  pdialog->dip_close_command = XtVaCreateManagedWidget("dipclosecommand", 
-						       commandWidgetClass,
-						       pdialog->dip_form,
-						       NULL);
+  pdialog->dip_close_command =
+    I_L(XtVaCreateManagedWidget("dipclosecommand", 
+				commandWidgetClass,
+				pdialog->dip_form,
+				NULL));
 
   XtAddCallback(pdialog->dip_close_command, XtNcallback, 
 		diplomacy_dialog_close_callback, (XtPointer)pdialog);

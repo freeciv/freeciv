@@ -184,9 +184,10 @@ static void create_help_dialog(void)
   topic_list[i]=0;
 
   
-  help_dialog_shell = XtCreatePopupShell("helpdialog", 
-					 topLevelShellWidgetClass,
-					 toplevel, NULL, 0);
+  help_dialog_shell =
+    I_T(XtCreatePopupShell("helpdialog", 
+			   topLevelShellWidgetClass,
+			   toplevel, NULL, 0));
 
   help_form = XtVaCreateManagedWidget("helpform", 
 				      formWidgetClass, 
@@ -217,11 +218,9 @@ static void create_help_dialog(void)
 				     NULL);
   
     
-  
-  help_close_command = XtVaCreateManagedWidget("helpclosecommand", 
-					       commandWidgetClass,
-					       help_form,
-					       NULL);
+  help_close_command =
+    I_L(XtVaCreateManagedWidget("helpclosecommand", commandWidgetClass,
+				help_form, NULL));
 
   XtAddCallback(help_close_command, XtNcallback, 
 		help_close_command_callback, NULL);
@@ -588,12 +587,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_movement_defense =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_movement_defense",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_movement_defense_data =
       XtVaCreateManagedWidget
       (
@@ -603,12 +602,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_food_shield_trade =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_food_shield_trade",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_food_shield_trade_data =
       XtVaCreateManagedWidget
       (
@@ -648,12 +647,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_road_result_time =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_road_result_time",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_road_result_time_data =
       XtVaCreateManagedWidget
       (
@@ -663,12 +662,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_irrigation_result_time =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_irrigation_result_time",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_irrigation_result_time_data =
       XtVaCreateManagedWidget
       (
@@ -678,12 +677,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_mining_result_time =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_mining_result_time",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_mining_result_time_data =
       XtVaCreateManagedWidget
       (
@@ -693,12 +692,12 @@ static void create_help_page(enum help_page_type type)
        NULL);
 
     help_terrain_transform_result_time =
-      XtVaCreateManagedWidget
+      I_L(XtVaCreateManagedWidget
       (
        "help_terrain_transform_result_time",
        labelWidgetClass,
        help_right_form,
-       NULL);
+       NULL));
     help_terrain_transform_result_time_data =
       XtVaCreateManagedWidget
       (

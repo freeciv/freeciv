@@ -123,17 +123,17 @@ void popup_meswin_dialog(void)
 *****************************************************************/
 void create_meswin_dialog(void)
 {
-  meswin_dialog_shell = XtCreatePopupShell("meswinpopup", 
-					  topLevelShellWidgetClass,
-					  toplevel, NULL, 0);
+  meswin_dialog_shell =
+    I_IN(I_T(XtCreatePopupShell("meswinpopup", topLevelShellWidgetClass,
+				toplevel, NULL, 0)));
 
   meswin_form = XtVaCreateManagedWidget("meswinform", 
 				       formWidgetClass, 
 				       meswin_dialog_shell, NULL);
 
-  meswin_label=XtVaCreateManagedWidget("meswinlabel", 
-					labelWidgetClass, 
-					meswin_form, NULL);   
+  meswin_label =
+    I_L(XtVaCreateManagedWidget("meswinlabel", labelWidgetClass, 
+				meswin_form, NULL));
   
   meswin_viewport = XtVaCreateManagedWidget("meswinviewport", 
 					    viewportWidgetClass, 
@@ -147,22 +147,21 @@ void create_meswin_dialog(void)
 					(XtArgVal)dummy_message_list,
 					NULL);
 					 
-  meswin_close_command = XtVaCreateManagedWidget("meswinclosecommand", 
-						  commandWidgetClass,
-						  meswin_form,
-						  NULL);
+  meswin_close_command =
+    I_L(XtVaCreateManagedWidget("meswinclosecommand", commandWidgetClass,
+				meswin_form, NULL));
 
-  meswin_goto_command = XtVaCreateManagedWidget("meswingotocommand", 
-						commandWidgetClass,
-						meswin_form,
-                                                XtNsensitive, False,
-						NULL);
+  meswin_goto_command =
+    I_L(XtVaCreateManagedWidget("meswingotocommand", commandWidgetClass,
+				meswin_form,
+				XtNsensitive, False,
+				NULL));
 
-  meswin_popcity_command = XtVaCreateManagedWidget("meswinpopcitycommand", 
-						   commandWidgetClass,
-						   meswin_form,
-						   XtNsensitive, False,
-						   NULL);
+  meswin_popcity_command =
+    I_L(XtVaCreateManagedWidget("meswinpopcitycommand", commandWidgetClass,
+				meswin_form,
+				XtNsensitive, False,
+				NULL));
 
   XtAddCallback(meswin_list, XtNcallback, meswin_list_callback, 
 		NULL);

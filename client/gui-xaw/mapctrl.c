@@ -32,6 +32,7 @@
 #include <X11/Xaw/SmeLine.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -98,7 +99,7 @@ static void name_new_city_callback(Widget w, XtPointer client_data,
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(toplevel, "shellnewcityname",
-    "What should we call our new city?", suggestname,
+    _("What should we call our new city?"), suggestname,
     (void*)name_new_city_callback, (XtPointer)punit->id,
     (void*)name_new_city_callback, (XtPointer)0);
 }

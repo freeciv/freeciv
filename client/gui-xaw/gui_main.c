@@ -53,6 +53,7 @@
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
+#include "gui_stuff.h"		/* I_SW() */
 #include "helpdata.h"		/* boot_help_texts() */
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -709,10 +710,10 @@ void setup_widgets(void)
 
 
 
-  outputwindow_text= XtVaCreateManagedWidget("outputwindowtext", 
-					     asciiTextWidgetClass, 
-					     bottom_form,
-					     NULL);
+  outputwindow_text= I_SW(XtVaCreateManagedWidget("outputwindowtext", 
+						  asciiTextWidgetClass, 
+						  bottom_form,
+						  NULL));
 
 
   inputline_text= XtVaCreateManagedWidget("inputlinetext", 

@@ -39,6 +39,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h" /* get_unit_in_focus */
+#include "gui_stuff.h"
 #include "mapctrl.h"
 #include "mapview.h"
 
@@ -110,18 +111,17 @@ void popup_goto_dialog(void)
   
   XtSetSensitive(main_form, FALSE);
   
-  goto_dialog_shell = XtCreatePopupShell("gotodialog", 
-					 transientShellWidgetClass,
-					 toplevel, NULL, 0);
+  goto_dialog_shell =
+    I_T(XtCreatePopupShell("gotodialog", transientShellWidgetClass,
+			   toplevel, NULL, 0));
 
   goto_form = XtVaCreateManagedWidget("gotoform", 
 				      formWidgetClass, 
 				      goto_dialog_shell, NULL);
 
-  goto_label = XtVaCreateManagedWidget("gotolabel", 
-				       labelWidgetClass, 
-				       goto_form,
-				       NULL);
+  goto_label =
+    I_L(XtVaCreateManagedWidget("gotolabel", labelWidgetClass, 
+				goto_form, NULL));
 
   goto_viewport = XtVaCreateManagedWidget("gotoviewport", 
 				      viewportWidgetClass, 
@@ -135,27 +135,24 @@ void popup_goto_dialog(void)
 				      (XtArgVal)dummy_city_list,
 				      NULL);
 
-  goto_center_command = XtVaCreateManagedWidget("gotocentercommand", 
-						commandWidgetClass,
-						goto_form,
-						NULL);
+  goto_center_command =
+    I_L(XtVaCreateManagedWidget("gotocentercommand", commandWidgetClass,
+				goto_form, NULL));
 
-  goto_airlift_command = XtVaCreateManagedWidget("gotoairliftcommand", 
-						 commandWidgetClass,
-						 goto_form,
-						 NULL);
+  goto_airlift_command =
+    I_L(XtVaCreateManagedWidget("gotoairliftcommand", commandWidgetClass,
+				goto_form, NULL));
 
-  goto_all_toggle = XtVaCreateManagedWidget("gotoalltoggle",
-  					    toggleWidgetClass,
-					    goto_form,
-					    XtNstate, no_player_cities,
-					    XtNsensitive, !no_player_cities,
-					    NULL);
+  goto_all_toggle =
+    I_L(XtVaCreateManagedWidget("gotoalltoggle", toggleWidgetClass,
+				goto_form,
+				XtNstate, no_player_cities,
+				XtNsensitive, !no_player_cities,
+				NULL));
 
-  goto_cancel_command = XtVaCreateManagedWidget("gotocancelcommand", 
-						commandWidgetClass,
-						goto_form,
-						NULL);
+  goto_cancel_command =
+    I_L(XtVaCreateManagedWidget("gotocancelcommand", commandWidgetClass,
+				goto_form, NULL));
 
   XtAddCallback(goto_list, XtNcallback, goto_list_callback, NULL);
   XtAddCallback(goto_center_command, XtNcallback, 

@@ -35,6 +35,7 @@
 #include <X11/Xaw/Toggle.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -151,11 +152,12 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
   
-  sprintf(buf, "%s\n%s of the %s\n%s %s: %s",
+  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
-	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->nation),
+	  get_ruler_title(game.player_ptr->government,
+			  game.player_ptr->is_male, game.player_ptr->nation),
 	  game.player_ptr->name,
 	  textyear(game.year));
 
@@ -232,12 +234,11 @@ void create_science_dialog(int make_modal)
   num_list = j;
   /* printf("science list num: %d\n", num_list); */
   
-  science_dialog_shell = XtVaCreatePopupShell("sciencepopup", 
-					      make_modal ? 
-					      transientShellWidgetClass :
-					      topLevelShellWidgetClass,
-					      toplevel, 
-					      0);
+  science_dialog_shell =
+    I_T(XtVaCreatePopupShell("sciencepopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));
 
   science_form = XtVaCreateManagedWidget("scienceform", 
 					 formWidgetClass,
@@ -266,21 +267,20 @@ void create_science_dialog(int make_modal)
 					       XtNlabel, goal_text,
 					       NULL);
 
-  science_change_menu_button = XtVaCreateManagedWidget(
-				       "sciencechangemenubutton", 
-				       menuButtonWidgetClass,
-				       science_form,
-				       NULL);
+  science_change_menu_button =
+    I_L(XtVaCreateManagedWidget("sciencechangemenubutton", 
+				menuButtonWidgetClass,
+				science_form, NULL));
 
-  science_goal_menu_button = XtVaCreateManagedWidget("sciencegoalmenubutton", 
-						     menuButtonWidgetClass,
-				                     science_form,
-						     NULL);
+  science_goal_menu_button =
+    I_L(XtVaCreateManagedWidget("sciencegoalmenubutton", 
+				menuButtonWidgetClass,
+				science_form, NULL));
 
-  science_help_note = XtVaCreateManagedWidget("sciencehelpnote", 
-					      labelWidgetClass,
-					      science_form,
-					      NULL);
+  science_help_note =
+    I_L(XtVaCreateManagedWidget("sciencehelpnote",
+				labelWidgetClass,
+				science_form, NULL));
   
   science_help_toggle = XtVaCreateManagedWidget("sciencehelptoggle", 
 						toggleWidgetClass, 
@@ -293,10 +293,10 @@ void create_science_dialog(int make_modal)
 					 XtNlist, tech_list_names_ptrs,
 					 NULL);
 
-  close_command = XtVaCreateManagedWidget("scienceclosecommand", 
-					  commandWidgetClass,
-					  science_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("scienceclosecommand", 
+				commandWidgetClass,
+				science_form, NULL));
   
   
   popupmenu=XtVaCreatePopupShell("menu", 
@@ -600,59 +600,55 @@ void create_trade_report_dialog(int make_modal)
   Widget close_command;
   char *report_title;
   
-  trade_dialog_shell = XtVaCreatePopupShell("reporttradepopup", 
-					      make_modal ? 
-					      transientShellWidgetClass :
-					      topLevelShellWidgetClass,
-					      toplevel, 
-					      0);
+  trade_dialog_shell =
+    I_T(XtVaCreatePopupShell("reporttradepopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));
 
   trade_form = XtVaCreateManagedWidget("reporttradeform", 
 					 formWidgetClass,
 					 trade_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title("Trade Advisor");
+  report_title=get_report_title(_("Trade Advisor"));
   trade_label = XtVaCreateManagedWidget("reporttradelabel", 
 				       labelWidgetClass, 
 				       trade_form,
-				       XtNlabel, 
-				       report_title,
+				       XtNlabel, report_title,
 				       NULL);
   free(report_title);
 
-  trade_list_label = XtVaCreateManagedWidget("reporttradelistlabel", 
-				       labelWidgetClass, 
-				       trade_form,
-				       NULL);
+  trade_list_label =
+    I_L(XtVaCreateManagedWidget("reporttradelistlabel", labelWidgetClass, 
+				trade_form, NULL));
   
-  trade_list = XtVaCreateManagedWidget("reporttradelist", 
-				      listWidgetClass,
-				      trade_form,
-				      NULL);
+  trade_list
+    = XtVaCreateManagedWidget("reporttradelist", listWidgetClass,
+			      trade_form, NULL);
 
-  trade_label2 = XtVaCreateManagedWidget("reporttradelabel2", 
-				       labelWidgetClass, 
-				       trade_form,					 			      XtNlabel, 
-				       "Total Cost:", 
-				       NULL);
+  trade_label2
+    = XtVaCreateManagedWidget("reporttradelabel2", labelWidgetClass, 
+			      trade_form, NULL);
 
-  close_command = XtVaCreateManagedWidget("reporttradeclosecommand", 
-					  commandWidgetClass,
-					  trade_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("reporttradeclosecommand", commandWidgetClass,
+				trade_form, NULL));
 
-  sellobsolete_command = XtVaCreateManagedWidget("reporttradesellobsoletecommand", 
-					         commandWidgetClass,
-					         trade_form,
-					         XtNsensitive, False,
-					         NULL);
+  sellobsolete_command =
+    I_L(XtVaCreateManagedWidget("reporttradesellobsoletecommand", 
+				commandWidgetClass,
+				trade_form,
+				XtNsensitive, False,
+				NULL));
 
-  sellall_command  = XtVaCreateManagedWidget("reporttradesellallcommand", 
-					     commandWidgetClass,
-					     trade_form,
-					     XtNsensitive, False,
-					     NULL);
+  sellall_command  =
+    I_L(XtVaCreateManagedWidget("reporttradesellallcommand", 
+				commandWidgetClass,
+				trade_form,
+				XtNsensitive, False,
+				NULL));
+	
   XtAddCallback(trade_list, XtNcallback, trade_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, trade_close_callback, NULL);
   XtAddCallback(sellobsolete_command, XtNcallback, trade_selloff_callback, (XtPointer)0);
@@ -865,31 +861,30 @@ void create_activeunits_report_dialog(int make_modal)
   Widget close_command, refresh_command;
   char *report_title;
   
-  activeunits_dialog_shell = XtVaCreatePopupShell("reportactiveunitspopup", 
-					      make_modal ? 
-					      transientShellWidgetClass :
-					      topLevelShellWidgetClass,
-					      toplevel, 
-					      0);
+  activeunits_dialog_shell =
+    I_T(XtVaCreatePopupShell("reportactiveunitspopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));
 
   activeunits_form = XtVaCreateManagedWidget("reportactiveunitsform", 
 					 formWidgetClass,
 					 activeunits_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title("Military Report");
+  report_title=get_report_title(_("Military Report"));
   activeunits_label = XtVaCreateManagedWidget("reportactiveunitslabel", 
 				       labelWidgetClass, 
 				       activeunits_form,
-				       XtNlabel, 
-				       report_title,
+				       XtNlabel, report_title,
 				       NULL);
   free(report_title);
 
-  activeunits_list_label = XtVaCreateManagedWidget("reportactiveunitslistlabel", 
-				       labelWidgetClass, 
-				       activeunits_form,
-				       NULL);
+  activeunits_list_label =
+    I_L(XtVaCreateManagedWidget("reportactiveunitslistlabel", 
+				labelWidgetClass, 
+				activeunits_form,
+				NULL));
   
   activeunits_list = XtVaCreateManagedWidget("reportactiveunitslist", 
 				      listWidgetClass,
@@ -903,21 +898,24 @@ void create_activeunits_report_dialog(int make_modal)
 				       "Totals: ...", 
 				       NULL);
 
-  close_command = XtVaCreateManagedWidget("reportactiveunitsclosecommand", 
-					  commandWidgetClass,
-					  activeunits_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("reportactiveunitsclosecommand", 
+				commandWidgetClass,
+				activeunits_form,
+				NULL));
 
-  upgrade_command = XtVaCreateManagedWidget("reportactiveunitsupgradecommand", 
-					  commandWidgetClass,
-					  activeunits_form,
-					  XtNsensitive, False,
-					  NULL);
+  upgrade_command =
+    I_L(XtVaCreateManagedWidget("reportactiveunitsupgradecommand", 
+				commandWidgetClass,
+				activeunits_form,
+				XtNsensitive, False,
+				NULL));
 
-  refresh_command = XtVaCreateManagedWidget("reportactiveunitsrefreshcommand", 
-					  commandWidgetClass,
-					  activeunits_form,
-					  NULL);
+  refresh_command =
+    I_L(XtVaCreateManagedWidget("reportactiveunitsrefreshcommand", 
+				commandWidgetClass,
+				activeunits_form,
+				NULL));
 
   XtAddCallback(activeunits_list, XtNcallback, activeunits_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, activeunits_close_callback, NULL);
@@ -1000,16 +998,17 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 			       activeunits_type[ret->list_index]);
 
     sprintf(buf,
-	    "Upgrade as many %s to %s as possible for %d gold each?\n"
-	      "Treasury contains %d gold.",
+	    _("Upgrade as many %s to %s as possible for %d gold each?\n"
+	      "Treasury contains %d gold."),
 	    unit_types[ut1].name, unit_types[ut2].name,
 	    unit_upgrade_price(game.player_ptr, ut1, ut2),
 	    game.player_ptr->economic.gold);
 
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 upgrade_callback_yes,
-			 (XtPointer)(activeunits_type[ret->list_index]),
-			 upgrade_callback_no, 0, 0);
+			 (XtPointer)(activeunits_type[ret->list_index]), 0,
+			 upgrade_callback_no, 0, 0,
+			 NULL);
   }
 }
 

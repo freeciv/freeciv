@@ -426,12 +426,11 @@ void create_city_report_dialog(int make_modal)
   Widget close_command;
   char *report_title;
   
-  city_dialog_shell = XtVaCreatePopupShell("reportcitypopup", 
-					   make_modal ? 
-					   transientShellWidgetClass :
-					   topLevelShellWidgetClass,
-					   toplevel, 
-					   0);
+  city_dialog_shell =
+    I_T(XtVaCreatePopupShell("reportcitypopup", 
+			     (make_modal ? transientShellWidgetClass :
+			      topLevelShellWidgetClass),
+			     toplevel, 0));
 
   city_form = XtVaCreateManagedWidget("reportcityform", 
 				      formWidgetClass,
@@ -464,47 +463,43 @@ void create_city_report_dialog(int make_modal)
 				      (XtArgVal)dummy_city_list,
 				      NULL);
 
-  close_command = XtVaCreateManagedWidget("reportcityclosecommand", 
-					  commandWidgetClass,
-					  city_form,
-					  NULL);
+  close_command =
+    I_L(XtVaCreateManagedWidget("reportcityclosecommand", commandWidgetClass,
+				city_form, NULL));
   
-  city_center_command = XtVaCreateManagedWidget("reportcitycentercommand", 
-						commandWidgetClass,
-						city_form,
-						NULL);
+  city_center_command =
+    I_L(XtVaCreateManagedWidget("reportcitycentercommand", commandWidgetClass,
+				city_form, NULL));
 
-  city_popup_command = XtVaCreateManagedWidget("reportcitypopupcommand", 
-					       commandWidgetClass,
-					       city_form,
-					       NULL);
+  city_popup_command =
+    I_L(XtVaCreateManagedWidget("reportcitypopupcommand", commandWidgetClass,
+				city_form, NULL));
 
   city_popupmenu = 0;
 
-  city_buy_command = XtVaCreateManagedWidget("reportcitybuycommand", 
-					     commandWidgetClass,
-					     city_form,
-					     NULL);
+  city_buy_command =
+    I_L(XtVaCreateManagedWidget("reportcitybuycommand",  commandWidgetClass,
+				city_form, NULL));
 
-  city_change_command = XtVaCreateManagedWidget("reportcitychangemenubutton", 
-						menuButtonWidgetClass,
-						city_form,
-						NULL);
+  city_change_command =
+    I_L(XtVaCreateManagedWidget("reportcitychangemenubutton", 
+				menuButtonWidgetClass,
+				city_form, NULL));
 
-  city_chgall_command = XtVaCreateManagedWidget("reportcitychgallcommand",
-						commandWidgetClass,
-						city_form,
-						NULL);
+  city_chgall_command =
+    I_L(XtVaCreateManagedWidget("reportcitychgallcommand",
+				commandWidgetClass,
+				city_form, NULL));
 
-  city_refresh_command = XtVaCreateManagedWidget("reportcityrefreshcommand",
-					     commandWidgetClass,
-					     city_form,
-					     NULL);
+  city_refresh_command =
+    I_L(XtVaCreateManagedWidget("reportcityrefreshcommand",
+				commandWidgetClass,
+				city_form, NULL));
 
-  city_config_command = XtVaCreateManagedWidget("reportcityconfigcommand",
-						commandWidgetClass,
-						city_form,
-						NULL);
+  city_config_command =
+    I_L(XtVaCreateManagedWidget("reportcityconfigcommand",
+				commandWidgetClass,
+				city_form, NULL));
 
   XtAddCallback(close_command, XtNcallback, city_close_callback, NULL);
   XtAddCallback(city_center_command, XtNcallback, city_center_callback, NULL);
@@ -912,17 +907,17 @@ void create_city_report_config_dialog(void)
   char buf[64];
   int i;
   
-  config_shell = XtCreatePopupShell("cityconfig", 
-				    transientShellWidgetClass,
-				    toplevel, NULL, 0);
+  config_shell = I_T(XtCreatePopupShell("cityconfig", 
+					transientShellWidgetClass,
+					toplevel, NULL, 0));
 
   config_form = XtVaCreateManagedWidget("cityconfigform", 
 				        formWidgetClass, 
 				        config_shell, NULL);   
 
-  config_label = XtVaCreateManagedWidget("cityconfiglabel", 
-					 labelWidgetClass, 
-					 config_form, NULL);   
+  config_label = I_L(XtVaCreateManagedWidget("cityconfiglabel", 
+					     labelWidgetClass, 
+					     config_form, NULL));
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
     sprintf(buf, "%-32s", spec->explanation);
@@ -943,11 +938,12 @@ void create_city_report_config_dialog(void)
 					       NULL);
   }
 
-  config_ok_command = XtVaCreateManagedWidget("cityconfigokcommand", 
-					      commandWidgetClass,
-					      config_form,
-					      XtNfromVert, config_optlabel,
-					      NULL);
+  config_ok_command =
+    I_L(XtVaCreateManagedWidget("cityconfigokcommand", 
+				commandWidgetClass,
+				config_form,
+				XtNfromVert, config_optlabel,
+				NULL));
   
   XtAddCallback(config_ok_command, XtNcallback, 
 		config_ok_command_callback, NULL);
@@ -1074,13 +1070,13 @@ static void popup_chgall_dialog (Widget parent)
     }
 
   shell =
-    XtCreatePopupShell
+    I_T(XtCreatePopupShell
     (
      "chgalldialog",
      transientShellWidgetClass,
      parent,
      NULL, 0
-    );
+    ));
 
   state = chgall_state = fc_malloc (sizeof (struct chgall_data));
   state->w.shell = shell;
@@ -1098,22 +1094,22 @@ static void popup_chgall_dialog (Widget parent)
     );
 
   fr_label =
-    XtVaCreateManagedWidget
+    I_LW(XtVaCreateManagedWidget
     (
      "chgallfrlabel",
      labelWidgetClass, 
      main_form,
      NULL
-    );
+    ));
 
   to_label =
-    XtVaCreateManagedWidget
+    I_LW(XtVaCreateManagedWidget
     (
      "chgalltolabel",
      labelWidgetClass, 
      main_form,
      NULL
-    );
+    ));
 
   fr_viewport =
     XtVaCreateManagedWidget
@@ -1152,31 +1148,31 @@ static void popup_chgall_dialog (Widget parent)
     );
 
   state->w.change =
-    XtVaCreateManagedWidget
+    I_L(XtVaCreateManagedWidget
     (
      "chgallchangecommand",
      commandWidgetClass,
      main_form,
      NULL
-    );
+    ));
 
   state->w.refresh =
-    XtVaCreateManagedWidget
+    I_L(XtVaCreateManagedWidget
     (
      "chgallrefreshcommand",
      commandWidgetClass,
      main_form,
      NULL
-    );
+    ));
 
   state->w.cancel =
-    XtVaCreateManagedWidget
+    I_L(XtVaCreateManagedWidget
     (
      "chgallcancelcommand",
      commandWidgetClass,
      main_form,
      NULL
-    );
+    ));
 
   XtAddCallback (state->w.fr, XtNcallback,
 		 chgall_fr_list_callback, state);
