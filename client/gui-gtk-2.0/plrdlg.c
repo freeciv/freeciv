@@ -181,6 +181,9 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
   return FALSE;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void create_store(void)
 {
   int num = NUM_PLAYER_DLG_COLUMNS;
@@ -423,9 +426,9 @@ void create_players_dialog(void)
 **************************************************************************/
 #define MIN_DIMENSION 5
 
-/* 
- * Builds the flag pixmap.
- */
+/**************************************************************************
+ Builds the flag pixmap.
+**************************************************************************/
 static GdkPixbuf *get_flag(struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
@@ -461,10 +464,10 @@ static GdkPixbuf *get_flag(struct nation_type *nation)
 }
 
 
-/* 
- * Builds the text for the cells of a row in the player report. If
- * update is TRUE, only the changable entries are build.
- */
+/**************************************************************************
+ Builds the text for the cells of a row in the player report. If
+ update is TRUE, only the changable entries are build.
+**************************************************************************/
 static void build_row(GtkTreeIter *it, int i)
 {
   struct player *plr = get_player(i);
@@ -667,6 +670,9 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
   popup_spaceship_dialog(&game.players[plrno]);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void update_views(void)
 {
   int i;

@@ -67,16 +67,25 @@ bool is_plrdlg_frozen(void)
   return frozen_level > 0;
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_name(struct player *player)
 {
   return player->name;
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_nation(struct player *player)
 {
   return get_nation_name(player->nation);
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_team(struct player *player)
 {
   if (player->team != TEAM_NONE) {
@@ -86,16 +95,25 @@ static const char *col_team(struct player *player)
   }
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static bool col_ai(struct player *plr)
 {
   return plr->ai.control;
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_embassy(struct player *player)
 {
   return get_embassy_status(game.player_ptr, player);
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_diplstate(struct player *player)
 {
   static char buf[100];
@@ -115,16 +133,25 @@ static const char *col_diplstate(struct player *player)
   }
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_vision(struct player *player)
 {
   return get_vision_status(game.player_ptr, player);
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_reputation(struct player *player)
 {
   return reputation_text(player->reputation);
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_state(struct player *plr)
 {
   if (plr->is_alive) {
@@ -142,11 +169,17 @@ static const char *col_state(struct player *plr)
   }
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_host(struct player *player)
 {
   return player_addr_hack(player);
 }
 
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_idle(struct player *plr)
 {
   int idle;
@@ -199,6 +232,9 @@ struct player_dlg_column player_dlg_columns[NUM_PLAYER_DLG_COLUMNS] = {
   {TRUE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, "ping"}
 };
 
+/******************************************************************
+ ...
+*******************************************************************/
 int player_dlg_default_sort_column(void)
 {
   return 2;
