@@ -278,9 +278,9 @@ void update_intel_dialog(struct player *p)
 	gtk_list_store_append(intel_techs, &it);
 
 	gtk_list_store_set(intel_techs, &it,
-	    0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
-	    1, advances[i].name,
-	    -1);
+			   0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
+			   1, get_tech_name(p, i),
+			   -1);
       }
 
     /* table labels. */

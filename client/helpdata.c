@@ -253,7 +253,8 @@ void boot_help_texts(void)
 	  tech_type_iterate(i) {
 	    if (i != A_NONE && tech_exists(i)) {
 	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", advances[i].name);
+	      my_snprintf(name, sizeof(name), " %s",
+			  get_tech_name(game.player_ptr, i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_insert_back(&category_nodes, pitem);
@@ -517,7 +518,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
   if (tech_exists(improvement_types[which].obsolete_by)) {
     my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		_("* The discovery of %s will make %s obsolete.\n"),
-		advances[improvement_types[which].obsolete_by].name,
+		get_tech_name(game.player_ptr,
+			improvement_types[which].obsolete_by),
 		improvement_types[which].name);
   }
 
@@ -534,7 +536,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
     my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		_("* Allows all players with knowledge of %s "
 		  "to build %s units.\n"),
-		advances[t].name, get_unit_type(u)->name);
+		get_tech_name(game.player_ptr, t), get_unit_type(u)->name);
     my_snprintf(buf + strlen(buf), bufsz - strlen(buf), "  ");
   }
 
@@ -553,7 +555,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
        : sz_strlcpy(req_buf, (s)))
 
       if (b->tech_req != A_NONE) {
-	req_append(advances[b->tech_req].name);
+	req_append(get_tech_name(game.player_ptr, b->tech_req));
       }
 
       for (i = 0; b->terr_gate[i] != T_NONE; i++) {
@@ -581,7 +583,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
       if (u->tech_requirement != A_LAST) {
 	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		    _("* Allows %s (with %s).\n"), u->name,
-		    advances[u->tech_requirement].name);
+		    get_tech_name(game.player_ptr, u->tech_requirement));
       } else {
 	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		    _("* Allows %s.\n"), u->name);
@@ -880,11 +882,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
     if (tech1 != A_LAST) {
       sprintf(buf + strlen(buf),
 	      _("* The discovery of %s reduces the risk to 25%%.\n"),
-	      advances[tech1].name);
+	      get_tech_name(game.player_ptr, tech1));
     }
     if (tech2 != A_LAST) {
       sprintf(buf + strlen(buf),
-	      _("* %s reduces the risk to 12%%.\n"), advances[tech2].name);
+	      _("* %s reduces the risk to 12%%.\n"),
+	      get_tech_name(game.player_ptr, tech2));
     }
   }
   if (utype->fuel > 0) {
@@ -973,14 +976,14 @@ void helptext_tech(char *buf, int i, const char *user_text)
     if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
       sprintf(buf + strlen(buf),
 	      _("If we would now start with %s we would need %d bulbs."),
-	      advances[i].name,
+	      get_tech_name(game.player_ptr, i),
 	      base_total_bulbs_required(game.player_ptr, i));
     } else if (tech_is_available(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _("To reach %s we need to obtain %d other "
 		"technologies first. The whole project "
 		"will require %d bulbs to complete."),
-	      advances[i].name,
+	      get_tech_name(game.player_ptr, i),
 	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
 	      total_bulbs_required_for_goal(game.player_ptr, i));
     } else {
@@ -1005,7 +1008,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
   if (tech_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
 				 "an immediate advance.\n"),
-	    advances[i].name);
+	    get_tech_name(game.player_ptr, i));
   }
   if (tech_flag(i, TF_BOAT_FAST))
     sprintf(buf + strlen(buf), _("* Gives sea units one extra move.\n"));
