@@ -822,7 +822,7 @@ static int create_improvements_list(struct player *pplayer,
   improvement_type[j++] = -1;
 
   built_impr_iterate(pcity, i) {
-    if (i != B_PALACE && !is_wonder(i)) {
+    if (get_improvement_type(i)->sabotage > 0) {
       improvements_can_sabotage[j] = get_impr_name_ex(pcity, i);
       improvement_type[j++] = i;
     }  

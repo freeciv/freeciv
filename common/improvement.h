@@ -112,7 +112,7 @@ struct impr_type {
   bool is_wonder;
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
-  int sabotage;
+  int sabotage;		/* Base chance of diplomat sabotage succeeding. */
   struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
   int variant;			/* FIXME: remove when gen-impr obsoletes */
   struct Sprite *sprite;		/* icon of the improvement */

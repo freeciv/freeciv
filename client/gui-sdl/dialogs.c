@@ -2741,7 +2741,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ------------------ */
   n = 0;
   built_impr_iterate(pCity, imp) {
-    if(imp != B_PALACE && !is_wonder(imp)) {
+    if (get_improvement_type(imp)->sabotage > 0) {
       
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	      (char *) get_impr_name_ex(pCity, imp),

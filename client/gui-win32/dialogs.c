@@ -1365,7 +1365,7 @@ static void create_improvements_list(struct player *pplayer,
   improvement_type[j++] = -1;
   
   impr_type_iterate(i) {
-    if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
+    if (get_improvement_type(i)->sabotage > 0) {
       ListBox_AddString(lb,get_impr_name_ex(pcity,i));
       improvement_type[j++] = i;
     }  

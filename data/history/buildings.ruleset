@@ -259,7 +259,7 @@ obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 80
 upkeep		= 0
-sabotage	= 100
+sabotage	= 50
 effect		=
     { "type", "range", "amount", "cond_bldg", "aff_unit"
 	"Unit_Defend", "City", 300, "", "Land"

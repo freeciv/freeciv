@@ -431,7 +431,7 @@ static void create_improvements_list(struct city *pcity)
 
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
     built_impr_iterate(pcity, i) {
-      if (i != B_PALACE && !is_wonder(i))
+      if (get_improvement_type(i)->sabotage > 0) {
       {
         DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
         any_improvements = TRUE;

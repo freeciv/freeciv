@@ -277,7 +277,7 @@ obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 120
 upkeep		= 2
-sabotage	= 100
+sabotage	= 50
 effect		=
     { "type", "range", "amount", "aff_unit"
 	"Unit_Defend", "City", 300, "Helicopter"

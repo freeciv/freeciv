@@ -67,7 +67,7 @@ static int count_sabotagable_improvements(struct city *pcity)
   int count = 0;
 
   built_impr_iterate(pcity, index) {
-    if (!is_wonder(index) && index != B_PALACE) {
+    if (get_improvement_type(index)->sabotage > 0) {
       count++;
     }
   } built_impr_iterate_end;

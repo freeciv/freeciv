@@ -870,7 +870,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   int count, which, target;
   const char *prod;
-  struct city *capital;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -915,7 +914,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   /* Examine the city for improvements to sabotage. */
   count = 0;
   built_impr_iterate(pcity, index) {
-    if (!is_wonder(index) && index != B_PALACE) {
+    if (get_improvement_type(index)->sabotage > 0) {
       count++;
     }
   } built_impr_iterate_end;
@@ -952,7 +951,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       which = myrand (count);
 
       built_impr_iterate(pcity, index) {
-	if (!is_wonder(index) && index != B_PALACE) {
+	if (get_improvement_type(index)->sabotage > 0) {
 	  if (which > 0) {
 	    which--;
 	  } else {
@@ -972,14 +971,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If not available, say so, deduct movement cost and return.
      */
     if (city_got_building (pcity, improvement)) {
-      if ((!is_wonder (improvement)) && (improvement != B_PALACE)) {
+      if (get_improvement_type(improvement)->sabotage > 0) {
 	target = improvement;
 	freelog (LOG_DEBUG, "sabotage: specified target improvement: %d (%s)",
 	       target, get_improvement_name (target));
       } else {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
-			 _("Game: You cannot sabotage a wonder or a %s!"),
-			 improvement_types[B_PALACE].name);
+			 _("Game: You cannot sabotage a %s!"),
+			 improvement_types[improvement].name);
 	diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
 	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",
@@ -1022,6 +1021,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		     get_nation_name_plural(pplayer->nation));
     freelog (LOG_DEBUG, "sabotage: sabotaged production");
   } else {
+    int vulnerability;
+
     /* Sabotage a city improvement. */
 
     /*
@@ -1029,24 +1030,25 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If target was specified, and it is in the capital or are
      * City Walls, then there is a 50% chance of getting caught.
      */
-    capital = find_palace (city_owner (pcity));
-    if ((pcity == capital) || (improvement == B_CITY)) {
-      if (myrand (2) == 1) {
-	/* Caught! */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
-			 _("Game: Your %s was caught in the attempt"
-			   " of sabotage!"), unit_name(pdiplomat->type));
-	notify_player_ex(cplayer, pcity->x, pcity->y,
-			 E_ENEMY_DIPLOMAT_FAILED,
-			 _("Game: You caught %s %s attempting"
-			   " to sabotage the %s in %s!"),
-			 get_nation_name(pplayer->nation),
-			 unit_name(pdiplomat->type),
-			 get_improvement_name(improvement), pcity->name);
-	wipe_unit(pdiplomat);
-	freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
-	return;
-      }
+    vulnerability = get_improvement_type(improvement)->sabotage;
+    if (city_got_building(pcity, B_CAPITAL)) {
+      vulnerability /= 2;
+    }
+    if (myrand(100) >= vulnerability) {
+      /* Caught! */
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
+		       _("Game: Your %s was caught in the attempt"
+			 " of sabotage!"), unit_name(pdiplomat->type));
+      notify_player_ex(cplayer, pcity->x, pcity->y,
+		       E_ENEMY_DIPLOMAT_FAILED,
+		       _("Game: You caught %s %s attempting"
+			 " to sabotage the %s in %s!"),
+		       get_nation_name(pplayer->nation),
+		       unit_name(pdiplomat->type),
+		       get_improvement_name(improvement), pcity->name);
+      wipe_unit(pdiplomat);
+      freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
+      return;
     }
 
     /* Report it. */
