@@ -971,7 +971,7 @@ PACKET_RULESET_GOVERNMENT=100;sc
   UINT8 civil_war;
   UINT8 martial_law_max;
   UINT8 martial_law_per;
-  UINT8 empire_size_mod;
+  SINT8 empire_size_mod;
   UINT8 empire_size_inc;
   UINT8 rapture_size;
       

@@ -19120,7 +19120,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     dio_get_uint8(&din, (int *) &real_packet->martial_law_per);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->empire_size_mod);
+    dio_get_sint8(&din, (int *) &real_packet->empire_size_mod);
   }
   if (BV_ISSET(fields, 7)) {
     dio_get_uint8(&din, (int *) &real_packet->empire_size_inc);
@@ -19496,7 +19496,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     dio_put_uint8(&dout, real_packet->martial_law_per);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_uint8(&dout, real_packet->empire_size_mod);
+    dio_put_sint8(&dout, real_packet->empire_size_mod);
   }
   if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->empire_size_inc);
