@@ -25,6 +25,7 @@
 #include "support.h"
 
 #include "civclient.h"
+#include "climap.h"
 #include "climisc.h"
 #include "combat.h"
 #include "control.h"
@@ -1607,3 +1608,51 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
   /* PORTME */
 }
 
+static struct map_position focus_tile = { -1, -1 };
+
+/****************************************************************************
+  Set the position of the focus tile, and update the mapview.
+****************************************************************************/
+void set_focus_tile(int x, int y)
+{
+  struct map_position old = focus_tile;
+
+  CHECK_MAP_POS(x, y);
+  focus_tile.x = x;
+  focus_tile.y = y;
+
+  if (old.x >= 0) {
+    refresh_tile_mapcanvas(old.x, old.y, TRUE);
+  }
+  refresh_tile_mapcanvas(focus_tile.x, focus_tile.y, TRUE);
+}
+
+/****************************************************************************
+  Clear the focus tile, and update the mapview.
+****************************************************************************/
+void clear_focus_tile(void)
+{
+  struct map_position old = focus_tile;
+
+  focus_tile.x = -1;
+  focus_tile.y = -1;
+
+  if (map_exists() && is_normal_map_pos(old.x, old.x)) {
+    refresh_tile_mapcanvas(old.x, old.y, TRUE);
+  }
+}
+
+/****************************************************************************
+  Find the focus tile.  Returns FALSE if there is no focus tile.
+****************************************************************************/
+bool get_focus_tile(int *x, int *y)
+{
+  if (focus_tile.x < 0) {
+    *x = *y = -1;
+    return FALSE;
+  } else {
+    *x = focus_tile.x;
+    *y = focus_tile.y;
+    return TRUE;
+  }
+}

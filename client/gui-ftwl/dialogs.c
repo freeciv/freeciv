@@ -29,6 +29,7 @@
 #include "widget.h"
 
 #include "dialogs.h"
+#include "mapview.h"
 
 static struct sw_widget *nations_window;
 #if 0
@@ -386,4 +387,5 @@ void popup_pillage_dialog(struct unit *punit,
 void popdown_all_game_dialogs(void)
 {
   /* PORTME */
+  clear_focus_tile();
 }

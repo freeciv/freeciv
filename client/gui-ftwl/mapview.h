@@ -18,4 +18,8 @@
 
 void mapview_update_actions(void);
 
+void set_focus_tile(int x, int y);
+void clear_focus_tile(void);
+bool get_focus_tile(int *x, int *y);
+
 #endif				/* FC__MAPVIEW_H */
