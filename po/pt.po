@@ -7059,7 +7059,7 @@ msgstr ""
 "\n"
 "- Apenas unidades terrestres são restritas por ZDC.\n"
 "\n"
-"- Unidades não terrestres podem impor ZDC (isto é, contar como quadrados
+"- Unidades não terrestres podem impor ZDC (isto é, contar como quadrados"
 "ocupados pelo inimigo), mas apenas se se encontram num quadrado terrestre.  "
 "Então unidades marítimas não podem impor ZDC, e as unidades aéreas (incluindo "
 "helicópteros) não impõem ZDC se estão sobre quadrados marítimos.\n"
