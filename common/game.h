@@ -97,7 +97,7 @@ struct civ_game {
 	    which no longer exists, if the wonder has been destroyed */
   Impr_Status improvements[B_LAST];        /* impr. with equiv_range==World */
   struct geff_vector effects;		   /* effects with range==World */
-  struct geff_vector destroyed_effects;	   /* list of effects that have survived
+  struct ceff_vector destroyed_effects;	   /* list of effects that have survived
 					      building destruction */
 
   int heating; /* Number of polluted squares. */

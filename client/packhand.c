@@ -1052,9 +1052,9 @@ void handle_game_info(struct packet_game_info *pinfo)
     improvement_status_init(game.improvements);
 
     /* Free vector of effects with a worldwide range. */
-    geff_vector_init(&game.effects);
+    geff_vector_free(&game.effects);
     /* Free vector of destroyed effects. */
-    geff_vector_init(&game.destroyed_effects);
+    ceff_vector_free(&game.destroyed_effects);
 
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];

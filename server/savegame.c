@@ -1966,7 +1966,7 @@ void game_load(struct section_file *file)
     geff_vector_free(&game.effects);
 
     /* Blank vector of destroyed effects. */
-    geff_vector_free(&game.destroyed_effects);
+    ceff_vector_free(&game.destroyed_effects);
   }
 
   map_load(file);

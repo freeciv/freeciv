@@ -694,7 +694,7 @@ void game_init(void)
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
 
   geff_vector_init(&game.effects);
-  geff_vector_init(&game.destroyed_effects);
+  ceff_vector_init(&game.destroyed_effects);
 
   game.heating     = 0;
   game.cooling     = 0;

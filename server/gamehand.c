@@ -147,7 +147,7 @@ void init_new_game(void)
   geff_vector_free(&game.effects);
 
   /* Free vector of destroyed effects */
-  geff_vector_free(&game.destroyed_effects);
+  ceff_vector_free(&game.destroyed_effects);
 }
 
 /**************************************************************************
