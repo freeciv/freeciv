@@ -678,7 +678,7 @@ void get_text_size(int *width, int *height,
   }
   if (height) {
     /* ??? */
-    *height = main_exts->max_logical_extent.height;
+    *height = XExtentsOfFontSet(*fonts[font])->max_logical_extent.height;
   }
 }
 
@@ -691,7 +691,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     enum client_font font, enum color_std color,
 		     const char *text)
 {
-  draw_shadowed_string(pcanvas, fonts[font], font_gcs[font],
+  draw_shadowed_string(pcanvas, (XFontSet)fonts[font], (GC)font_gcs[font],
 		       color, COLOR_STD_BLACK,
 		       canvas_x, canvas_y, text);
 }
