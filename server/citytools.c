@@ -193,15 +193,30 @@ will be.
 **************************************************************************/
 int food_weighting(int city_size)
 {
-  int food_weighting_is_for = 4; /* FOOD_WEIGHTING applies to city with
-				    foodbox width of 4 */
-  int weighting = (food_weighting_is_for * FOOD_WEIGHTING) 
-    / (1+city_size);
+  static int cache[MAX_CITY_SIZE];
+  static bool cache_valid = FALSE;
 
-  /* If the citysize is 1 we assume it will not be so for long, and
-     so adjust the value a little downwards. */
-  if (city_size == 1) return ((weighting*3)/4);
-  else return weighting;
+  if (!cache_valid) {
+    int size = 0;
+
+    for (size = 1; size < MAX_CITY_SIZE; size++) {
+      int food_weighting_is_for = 4;	/* FOOD_WEIGHTING applies to city with
+					   foodbox width of 4 */
+      int weighting = (food_weighting_is_for * FOOD_WEIGHTING) / (1 + size);
+
+      /* If the citysize is 1 we assume it will not be so for long, and
+         so adjust the value a little downwards. */
+      if (size == 1) {
+	weighting = (weighting * 3) / 4;
+      }
+      cache[size] = weighting;
+    }
+    cache_valid = TRUE;
+  }
+
+  assert(city_size > 0 && city_size < MAX_CITY_SIZE);
+
+  return cache[city_size];
 }
 
 /**************************************************************************

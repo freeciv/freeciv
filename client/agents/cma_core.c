@@ -96,7 +96,6 @@
 #define DISABLE_CACHE3                                  FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define MAX_CITY_SIZE					50
 #define MAX_TRADE					200
 #define MAX_LUXURY					150
 #define NUM_SPECIALISTS_ROLLES				3

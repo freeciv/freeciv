@@ -71,6 +71,13 @@ enum city_options {
  */
 #define NUM_TRADEROUTES		4
 
+/*
+ * Size of the biggest possible city.
+ *
+* The constant may be changed since it isn't externally visible.
+ */
+#define MAX_CITY_SIZE					50
+
 /* Iterate a city map */
 
 #define city_map_iterate(x, y)                     \
