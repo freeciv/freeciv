@@ -355,15 +355,20 @@ static int ai_goldequiv_clause(struct player *pplayer,
       break;
     }
 
-    /* If this lucky fella got a ceasefire with da boss, then
+    /* If this lucky fella got a ceasefire or peace with da boss, then
      * let him live. */
-    if (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
-        == DS_CEASEFIRE && pclause->type == CLAUSE_CEASEFIRE) {
+    if ((pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
+         == DS_CEASEFIRE
+         || pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
+            == DS_PEACE)
+        && pclause->type == CLAUSE_CEASEFIRE) {
         notify(aplayer, _("*%s (AI)* %s recommended that I give you a ceasefire."
                " This is your lucky day."), pplayer->name,
                ai->diplomacy.alliance_leader->name);
         if (ai->diplomacy.target == aplayer) {
           /* Damn, we lost our target, too! Stupid boss! */
+          /* FIXME: We shouldn't do this here - the other player may not
+           * accept the whole treaty! */
           ai->diplomacy.target = NULL;
           ai->diplomacy.timer = 0;
           ai->diplomacy.countdown = 0;
@@ -728,9 +733,9 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
 
     /* Remember: pplayers_allied() returns true when aplayer == eplayer */
     if (!cancel_excuse && pplayers_allied(aplayer, eplayer)) {
-      if (ds == DS_CEASEFIRE) {
+      if (ds == DS_NEUTRAL) {
         kill_desire -= kill_desire / 10; /* 10% off */
-      } else if (ds == DS_NEUTRAL) {
+      } else if (ds == DS_CEASEFIRE) {
         kill_desire -= kill_desire / 7; /* 15% off */
       } else if (ds == DS_PEACE) {
         kill_desire -= kill_desire / 5; /* 20% off */
