@@ -71,7 +71,6 @@ pkgdata_DATA =				\
 		nigeria.png		\
 		norway.png		\
 		observer.png		\
-		olympic.png		\
 		pakistan.png		\
 		peru.png		\
 		philippines.png		\
