@@ -1080,7 +1080,7 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
 {
   struct unit *punit;
   struct city *pcity;
-  punit=fc_malloc(sizeof(struct unit));
+  punit=fc_calloc(1,sizeof(struct unit));
   punit->type=type;
   punit->id=get_next_id_number();
   punit->owner=pplayer->player_no;
@@ -1103,19 +1103,21 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
     punit->hp = hp_left;
   punit->activity=ACTIVITY_IDLE;
   punit->activity_count=0;
+  
   punit->upkeep=0;
+  punit->upkeep_food=0;
+  punit->upkeep_gold=0;
+  punit->unhappiness=0;
 
   /* 
      See if this is a spy that has been moved (corrupt and therefore unable 
      to establish an embassy.
   */
-
   if(moves_left != -1 && unit_flag(punit->type, F_SPY))
     punit->foul=1;
   else
     punit->foul=0;
   
-  punit->unhappiness=0;
   punit->fuel=get_unit_type(punit->type)->fuel;
   punit->ai.control=0;
   punit->ai.ai_role = AIUNIT_NONE;

@@ -32,8 +32,8 @@
  * o The clients display wrong upkeep icons in the city display,
  *   not sure what to do here.  (Does the new terrain-ruleset code
  *   have icons that could be used here?)
- * o When change government, should send more updated info to client
- *   (in particular unit upkeep icons are strange).
+ * o When change government, server should update cities and unit
+ *   upkeep etc and send updated info to client.
  * o Implement actual cost for unit gold upkeep.
  * o ai_manage_cities() in aicity.c assigns tech_want to A_CODE,
  *   A_REPUBLIC and A_MONARCHY presumably for government purposes...
