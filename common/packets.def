@@ -395,7 +395,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
 
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
-  UINT8 specialists[SP_COUNT];
+  UINT8 specialists[SP_MAX];
 
   UINT16 food_prod, shield_prod, trade_prod;
   SINT16 food_surplus, shield_surplus, tile_trade;
@@ -971,11 +971,11 @@ PACKET_RULESET_UNIT=96;sc,lsend
 end
 
 PACKET_RULESET_GAME=97;sc,lsend
-  STRING specialist_name[SP_COUNT][MAX_LEN_NAME];
-  STRING specialist_short_name[SP_COUNT][MAX_LEN_NAME]; add-cap(short_spec)
-  UINT8 specialist_min_size[SP_COUNT];
-  UINT8 specialist_bonus_old[SP_COUNT]; remove-cap(spec_multi)
-  UINT8 specialist_bonus[SP_COUNT * O_MAX]; add-cap(spec_multi)
+  STRING specialist_name[SP_MAX][MAX_LEN_NAME];
+  STRING specialist_short_name[SP_MAX][MAX_LEN_NAME]; add-cap(short_spec)
+  UINT8 specialist_min_size[SP_MAX];
+  UINT8 specialist_bonus_old[SP_MAX]; remove-cap(spec_multi)
+  UINT8 specialist_bonus[SP_MAX * O_MAX]; add-cap(spec_multi)
   BOOL changable_tax;
   UINT8 forced_science;
   UINT8 forced_luxury;

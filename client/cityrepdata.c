@@ -548,7 +548,7 @@ void init_city_report_game_data(void)
 
   specialist_type_iterate(sp) {
     struct city_report_spec *p = &city_report_specs[i];
-    static char explanation[SP_COUNT][128];
+    static char explanation[SP_MAX][128];
 
     p->show = FALSE;
     p->width = 2;

@@ -47,7 +47,7 @@ struct cm_result {
   int surplus[O_MAX];
 
   bool worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int specialists[SP_COUNT];
+  int specialists[SP_MAX];
 };
 
 void cm_init(void);

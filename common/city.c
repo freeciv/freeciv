@@ -40,7 +40,8 @@ struct iter_index *city_map_iterate_outwards_indices;
 struct citystyle *city_styles = NULL;
 
 int city_tiles;
-Output_type_id num_output_types = O_LAST;
+const Output_type_id num_output_types = O_LAST;
+const Specialist_type_id num_specialist_types = SP_LAST;
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
@@ -2338,7 +2339,7 @@ int city_specialists(const struct city *pcity)
 const char *specialists_string(const int *specialists)
 {
   size_t len = 0;
-  static char buf[5 * SP_COUNT];
+  static char buf[5 * SP_MAX];
 
   specialist_type_iterate(sp) {
     char *separator = (len == 0) ? "" : "/";

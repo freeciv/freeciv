@@ -175,7 +175,7 @@ struct packet_city_info {
   int ppl_content[5];
   int ppl_unhappy[5];
   int ppl_angry[5];
-  int specialists[SP_COUNT];
+  int specialists[SP_MAX];
   int food_prod;
   int shield_prod;
   int trade_prod;
@@ -735,11 +735,11 @@ struct packet_ruleset_unit {
 };
 
 struct packet_ruleset_game {
-  char specialist_name[SP_COUNT][MAX_LEN_NAME];
-  char specialist_short_name[SP_COUNT][MAX_LEN_NAME];
-  int specialist_min_size[SP_COUNT];
-  int specialist_bonus_old[SP_COUNT];
-  int specialist_bonus[SP_COUNT * O_MAX];
+  char specialist_name[SP_MAX][MAX_LEN_NAME];
+  char specialist_short_name[SP_MAX][MAX_LEN_NAME];
+  int specialist_min_size[SP_MAX];
+  int specialist_bonus_old[SP_MAX];
+  int specialist_bonus[SP_MAX * O_MAX];
   bool changable_tax;
   int forced_science;
   int forced_luxury;

@@ -166,7 +166,7 @@ struct named_sprites {
      * sprites, as defined by the tileset. */
     int count;
     struct Sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN], specialist[SP_COUNT];
+  } citizen[NUM_TILES_CITIZEN], specialist[SP_MAX];
   struct {
     struct Sprite
       *solar_panels,

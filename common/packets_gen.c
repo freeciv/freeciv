@@ -5179,7 +5179,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -5551,10 +5551,10 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialists[i] != real_packet->specialists[i]) {
             differ = TRUE;
             break;
@@ -5808,7 +5808,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialists[i]);
       }
     } 
@@ -22295,7 +22295,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
       }
     }
@@ -22305,7 +22305,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_short_name[i], sizeof(real_packet->specialist_short_name[i]));
       }
     }
@@ -22315,7 +22315,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -22330,7 +22330,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT * O_MAX; i++) {
+      for (i = 0; i < SP_MAX * O_MAX; i++) {
         {
       int readin;
     
@@ -22562,10 +22562,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -22578,10 +22578,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_short_name[i], real_packet->specialist_short_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -22594,10 +22594,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
             differ = TRUE;
             break;
@@ -22610,10 +22610,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT * O_MAX != SP_COUNT * O_MAX);
+      differ = (SP_MAX * O_MAX != SP_MAX * O_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT * O_MAX; i++) {
+        for (i = 0; i < SP_MAX * O_MAX; i++) {
           if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
             differ = TRUE;
             break;
@@ -22787,7 +22787,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_name[i]);
       }
     } 
@@ -22797,7 +22797,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_short_name[i]);
       }
     } 
@@ -22807,7 +22807,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
       }
     } 
@@ -22817,7 +22817,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT * O_MAX; i++) {
+      for (i = 0; i < SP_MAX * O_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
       }
     } 
@@ -22959,7 +22959,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
       }
     }
@@ -22969,7 +22969,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -22984,7 +22984,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_101(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT * O_MAX; i++) {
+      for (i = 0; i < SP_MAX * O_MAX; i++) {
         {
       int readin;
     
@@ -23216,10 +23216,10 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -23232,10 +23232,10 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
             differ = TRUE;
             break;
@@ -23248,10 +23248,10 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT * O_MAX != SP_COUNT * O_MAX);
+      differ = (SP_MAX * O_MAX != SP_MAX * O_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT * O_MAX; i++) {
+        for (i = 0; i < SP_MAX * O_MAX; i++) {
           if (old->specialist_bonus[i] != real_packet->specialist_bonus[i]) {
             differ = TRUE;
             break;
@@ -23425,7 +23425,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_name[i]);
       }
     } 
@@ -23435,7 +23435,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
       }
     } 
@@ -23445,7 +23445,7 @@ static int send_packet_ruleset_game_101(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT * O_MAX; i++) {
+      for (i = 0; i < SP_MAX * O_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_bonus[i]);
       }
     } 
@@ -23587,7 +23587,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
       }
     }
@@ -23597,7 +23597,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_short_name[i], sizeof(real_packet->specialist_short_name[i]));
       }
     }
@@ -23607,7 +23607,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -23622,7 +23622,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_102(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -23854,10 +23854,10 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -23870,10 +23870,10 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_short_name[i], real_packet->specialist_short_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -23886,10 +23886,10 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
             differ = TRUE;
             break;
@@ -23902,10 +23902,10 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_bonus_old[i] != real_packet->specialist_bonus_old[i]) {
             differ = TRUE;
             break;
@@ -24079,7 +24079,7 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_name[i]);
       }
     } 
@@ -24089,7 +24089,7 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_short_name[i]);
       }
     } 
@@ -24099,7 +24099,7 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
       }
     } 
@@ -24109,7 +24109,7 @@ static int send_packet_ruleset_game_102(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_bonus_old[i]);
       }
     } 
@@ -24251,7 +24251,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
       }
     }
@@ -24261,7 +24261,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -24276,7 +24276,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_103(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         {
       int readin;
     
@@ -24508,10 +24508,10 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -24524,10 +24524,10 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
             differ = TRUE;
             break;
@@ -24540,10 +24540,10 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_COUNT != SP_COUNT);
+      differ = (SP_MAX != SP_MAX);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_COUNT; i++) {
+        for (i = 0; i < SP_MAX; i++) {
           if (old->specialist_bonus_old[i] != real_packet->specialist_bonus_old[i]) {
             differ = TRUE;
             break;
@@ -24717,7 +24717,7 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_string(&dout, real_packet->specialist_name[i]);
       }
     } 
@@ -24727,7 +24727,7 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
       }
     } 
@@ -24737,7 +24737,7 @@ static int send_packet_ruleset_game_103(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_COUNT; i++) {
+      for (i = 0; i < SP_MAX; i++) {
         dio_put_uint8(&dout, real_packet->specialist_bonus_old[i]);
       }
     } 

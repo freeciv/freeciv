@@ -228,7 +228,7 @@ struct city {
   int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
   /* Specialists */
-  int specialists[SP_COUNT];
+  int specialists[SP_MAX];
 
   /* trade routes */
   int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
@@ -334,7 +334,8 @@ struct citystyle {
 };                              /* not incl. wall and occupied tiles */
 
 extern struct citystyle *city_styles;
-extern Output_type_id num_output_types;
+extern const Output_type_id num_output_types;
+extern const Specialist_type_id num_specialist_types;
 
 /* get 'struct city_list' and related functions: */
 #define SPECLIST_TAG city
