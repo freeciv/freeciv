@@ -124,10 +124,11 @@ static int unit_to_use_to_connect;
 static int connect_unit_x;
 static int connect_unit_y;
 
-/****************************************************************
-...
-*****************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+/**************************************************************************
+  Popup a generic dialog to display some generic information.
+**************************************************************************/
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   GtkWidget *shell, *label, *headline_label, *sw;
 
@@ -204,10 +205,13 @@ static void notify_goto_response(GtkWidget *w, gint response)
   gtk_widget_destroy(w);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
+/**************************************************************************
+  Popup a dialog to display information about an event that has a
+  specific location.  The user should be given the option to goto that
+  location.
+**************************************************************************/
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int x, int y)
 {
   GtkWidget *shell, *label, *goto_command, *popcity_command;
   

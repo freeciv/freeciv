@@ -108,7 +108,8 @@ static void notify_close(Object **pwnd)
 /****************************************************************
  Popup the notify window
 *****************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   Object *wnd;
   Object *listview;
@@ -165,7 +166,8 @@ static void notify_goto_close(struct notify_goto_close_arg *obj)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int x, int y)
 {
   Object *wnd;
   Object *close_button;

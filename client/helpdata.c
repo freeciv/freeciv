@@ -741,7 +741,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
     }
 
     for (j = 0; j < num_allowed_units; j++) {
-      char *deli_str = NULL;
+      const char *deli_str = NULL;
 
       /* there should be something like astr_append() */
       astr_minsize(&astr, astr.n + strlen(allowed_units[j]));

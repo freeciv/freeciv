@@ -23,8 +23,10 @@ struct packet_nations_selected_info;
 struct tile;
 struct unit;
 
-void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
-void popup_notify_dialog(char *caption, char *headline, char *lines);
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int map_x, int map_y);
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines);
 
 void popup_races_dialog(void);
 void popdown_races_dialog(void);

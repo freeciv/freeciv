@@ -256,10 +256,11 @@ static void notify_dialog_update(char *caption, char *headline, char *lines)
   gtk_label_set_text(GTK_LABEL(notify_label), lines);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+/**************************************************************************
+  Popup a generic dialog to display some generic information.
+**************************************************************************/
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   if (!notify_dialog_shell) {
     create_notify_dialog();
@@ -363,10 +364,13 @@ static gint notify_deleted_callback(GtkWidget *widget, GdkEvent *event,
   return FALSE;
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
+/**************************************************************************
+  Popup a dialog to display information about an event that has a
+  specific location.  The user should be given the option to goto that
+  location.
+**************************************************************************/
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int x, int y)
 {
   GtkWidget *notify_dialog_shell, *notify_command, *notify_goto_command;
   GtkWidget *notify_label;

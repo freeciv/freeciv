@@ -162,10 +162,12 @@ static LONG CALLBACK notify_goto_proc(HWND dlg,UINT message,
 }
 
 /**************************************************************************
-
+  Popup a dialog to display information about an event that has a
+  specific location.  The user should be given the option to goto that
+  location.
 **************************************************************************/
-void
-popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int x, int y)
 {
   POINT *pt;
   struct fcwin_box *hbox;
@@ -224,10 +226,10 @@ static LONG CALLBACK notify_proc(HWND hWnd,
 }
 
 /**************************************************************************
-
+  Popup a generic dialog to display some generic information.
 **************************************************************************/
-void
-popup_notify_dialog(char *caption, char *headline, char *lines)
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   HWND dlg;
   dlg=fcwin_create_layouted_window(notify_proc,caption,WS_OVERLAPPEDWINDOW,

@@ -216,7 +216,8 @@ static bool sdl_get_chance_to_win(int *att_chance, int *def_chance,
   specific location.  The user should be given the option to goto that
   location.
 **************************************************************************/
-void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
+void popup_notify_goto_dialog(const char *headline, const char *lines,
+			      int x, int y)
 {
   freelog(LOG_NORMAL, "popup_notify_goto_dialog : PORT ME\n \
   			a: %s\nb: %s",headline, lines );
@@ -252,7 +253,8 @@ static int exit_notify_dialog_callback(struct GUI *pWidget)
 /**************************************************************************
   Popup a generic dialog to display some generic information.
 **************************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   struct GUI *pBuf, *pWindow;
   SDL_String16 *pStr;

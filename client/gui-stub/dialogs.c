@@ -25,7 +25,7 @@
   specific location.  The user should be given the option to goto that
   location.
 **************************************************************************/
-void popup_notify_goto_dialog(char *headline, char *lines,
+void popup_notify_goto_dialog(const char *headline, const char *lines,
 			      int map_x, int map_y)
 {
   /* PORTME */
@@ -34,7 +34,8 @@ void popup_notify_goto_dialog(char *headline, char *lines,
 /**************************************************************************
   Popup a generic dialog to display some generic information.
 **************************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+void popup_notify_dialog(const char *caption, const char *headline,
+			 const char *lines)
 {
   /* PORTME */
 }
