@@ -67,6 +67,7 @@ The info string should look like this:
 #include "packets.h"
 #include "support.h"
 #include "timing.h"
+#include "version.h"
 
 #include "console.h"
 #include "srv_main.h"
@@ -87,6 +88,24 @@ InetAddress serv_addr;
 static int			sockfd=0;
 #endif /* end network global selector */
 
+
+/*************************************************************************
+  Return static string with default info line to send to metaserver.
+  This is a function (instead of a define) to keep meta.h clean of
+  including config.h and version.h
+*************************************************************************/
+char *default_meta_server_info_string(void)
+{
+#if IS_BETA_VERSION
+  return "unstable pre-" NEXT_STABLE_VERSION ": beware";
+#else
+#if IS_DEVEL_VERSION
+  return "development version: beware";
+#else
+  return "(default)";
+#endif
+#endif
+}
 
 /*************************************************************************
 ...

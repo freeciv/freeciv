@@ -17,27 +17,14 @@
  * Definitions for UDP.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include "version.h"
-
 #define DEFAULT_META_SERVER_NO_SEND	1
 #define DEFAULT_META_SERVER_PORT	12245
 #define DEFAULT_META_SERVER_ADDR	"meta.freeciv.org"
 #define METASERVER_UPDATE_INTERVAL	(3*60)
-#if IS_BETA_VERSION
-#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-" NEXT_STABLE_VERSION ": beware"
-#else
-#  if IS_DEVEL_VERSION
-#    define DEFAULT_META_SERVER_INFO_STRING "development version: beware"
-#  else
-#    define DEFAULT_META_SERVER_INFO_STRING "(default)"
-#  endif
-#endif
 
-extern int server_is_open;
+#define PACKET_UDP_PCKT 2
+
+char *default_meta_server_info_string(void);
 
 void meta_addr_split(void);
 char *meta_addr_port(void);
@@ -47,6 +34,6 @@ void server_open_udp(void);
 
 int send_server_info_to_metaserver(int do_send, int reset_timer);
 
-#define PACKET_UDP_PCKT 2
+extern int server_is_open;
 
 #endif /* FC__META_H */

@@ -155,7 +155,7 @@ void srv_init(void)
   /* init server arguments... */
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
-  sz_strlcpy(srvarg.metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
+  sz_strlcpy(srvarg.metaserver_info_line, default_meta_server_info_string());
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
   srvarg.metaserver_port = DEFAULT_META_SERVER_PORT;
 

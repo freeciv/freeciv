@@ -314,7 +314,7 @@ void game_load(struct section_file *file)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
   sz_strlcpy(srvarg.metaserver_info_line,
-	     secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
+	     secfile_lookup_str_default(file, default_meta_server_info_string(),
 					"game.metastring"));
   sz_strlcpy(srvarg.metaserver_addr,
 	     secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,

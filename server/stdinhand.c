@@ -1721,7 +1721,7 @@ static void write_init_script(char *script_filename)
 
     if (*srvarg.metaserver_info_line &&
 	(0 != strcmp(srvarg.metaserver_info_line,
-		     DEFAULT_META_SERVER_INFO_STRING))) {
+		     default_meta_server_info_string()))) {
       fprintf(script_file, "metainfo %s\n", srvarg.metaserver_info_line);
     }
 
