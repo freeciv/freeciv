@@ -2972,7 +2972,7 @@ static void change_help_callback(GtkWidget * w, gpointer data)
 
     if (cid_is_unit(cid)) {
       popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
-    } else if (is_wonder(id)) {
+    } else if (is_great_wonder(id)) {
       popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
     } else {
       popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
@@ -3000,7 +3000,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
 		       (GTK_CLIST(pdialog->overview.improvement_list),
 			GPOINTER_TO_INT(selection->data)));
   assert(city_got_building(pdialog->pcity, id));
-  if (is_wonder(id))
+  if (!can_sell_improvement(id))
     return;
 
   pdialog->sell_id = id;
@@ -3057,7 +3057,7 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
 			      GPOINTER_TO_INT(selection->data)));
     assert(city_got_building(pdialog->pcity, id));
 
-    if (!is_wonder(id)) {
+    if (can_sell_improvement(id)) {
       char buf[64];
       my_snprintf(buf, sizeof(buf), _("Sell (worth %d gold)"),
 		  impr_sell_gold(id));
@@ -3116,7 +3116,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
        finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+    if (k == 0 && !is_unit && is_great_wonder(id) && same_as_current_build) {
       worklist_remove(pwl, k);
       break;
     }

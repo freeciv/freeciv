@@ -2023,7 +2023,7 @@ static void change_help_callback(Widget w, XtPointer client_data,
 
     if (is_unit) {
       popup_help_dialog_typed(get_unit_type(idx)->name, HELP_UNIT);
-    } else if(is_wonder(idx)) {
+    } else if(is_great_wonder(idx)) {
       popup_help_dialog_typed(get_improvement_name(idx), HELP_WONDER);
     } else {
       popup_help_dialog_typed(get_improvement_name(idx), HELP_IMPROVEMENT);
@@ -2213,7 +2213,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
        finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+    if (k == 0 && !is_unit && is_great_wonder(id) && same_as_current_build) {
       worklist_remove(pwl, k);
       break;
     }
@@ -2288,7 +2288,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
       if (n == ret->list_index) {
 	char buf[512];
 
-	if (is_wonder(i)) {
+	if (!can_sell_building(pdialog->pcity, i)) {
 	  return;
 	}
 

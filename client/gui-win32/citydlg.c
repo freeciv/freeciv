@@ -964,7 +964,7 @@ static void sell_callback(struct city_dialog *pdialog)
     return;
   }
  
-  if (is_wonder(pdialog->id_selected)) {
+  if (!can_sell_building(pdialog->pcity, pdialog->id_selected)) {
     return;
   }
   
@@ -1027,7 +1027,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	      if (is_unit) {
 		popup_help_dialog_typed(get_unit_type(idx)->name,
 					HELP_UNIT);
-	      } else if(is_wonder(idx)) {
+	      } else if(is_great_wonder(idx)) {
 		popup_help_dialog_typed(get_improvement_name(idx),
 					HELP_WONDER);
 	      } else {
@@ -1169,7 +1169,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
        finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+    if (k == 0 && !is_unit && is_great_wonder(id) && same_as_current_build) {
       worklist_remove(pwl, k);
       break;
     }

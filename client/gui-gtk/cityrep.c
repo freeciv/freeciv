@@ -826,9 +826,9 @@ static gboolean city_select_building_callback(GtkWidget *w, gpointer data)
 
     if ( (which == TYPE_UNIT && pcity->is_building_unit)
          || (which == TYPE_NORMAL_IMPROVEMENT && !pcity->is_building_unit
-             && !is_wonder(pcity->currently_building))
+             && !is_great_wonder(pcity->currently_building))
          || (which == TYPE_WONDER && !pcity->is_building_unit
-             && is_wonder(pcity->currently_building)) ) {
+             && is_great_wonder(pcity->currently_building)) ) {
       gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
     }
   }

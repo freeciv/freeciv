@@ -703,7 +703,7 @@ void economy_list_callback(Widget w, XtPointer client_data,
   if (ret->list_index != XAW_LIST_NONE) {
     /* The user has selected an improvement type. */
     int i = economy_improvement_type[ret->list_index];
-    bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+    bool is_sellable = (improvement_exists(i) && can_sell_improvement(i));
 
     XtSetSensitive(sellobsolete_command, is_sellable
 		   && improvement_obsolete(game.player_ptr, i));

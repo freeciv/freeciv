@@ -833,7 +833,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         w = gtk_label_new(_("Allows "));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = help_slink_new(improvement_types[j].name,
-			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
+			  is_great_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(Q_("?techhelp:."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
@@ -844,7 +844,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         w = gtk_label_new(_("Obsoletes "));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = help_slink_new(improvement_types[j].name,
-			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
+			  is_great_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(Q_("?techhelp:."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
@@ -1064,12 +1064,12 @@ static void help_update_dialog(const struct help_item *pitem)
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
     i = find_improvement_by_name(top);
-    if(i!=B_LAST && is_wonder(i)) i = B_LAST;
+    if(i!=B_LAST && is_great_wonder(i)) i = B_LAST;
     help_update_improvement(pitem, top, i);
     break;
   case HELP_WONDER:
     i = find_improvement_by_name(top);
-    if(i!=B_LAST && !is_wonder(i)) i = B_LAST;
+    if(i!=B_LAST && !is_great_wonder(i)) i = B_LAST;
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
