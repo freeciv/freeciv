@@ -322,17 +322,19 @@ dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
 dnl "--keyword=N_" as arguments.  To support Q_(), the following simply
 dnl replaces instances of "--keyword=N_" with "--keyword=N_ --keyword=Q_"
 dnl in the 'po/Makefile' file.
-dnl
-dnl (Left out for now due to minor problem.)
-dnl
-dnl AC_OUTPUT_COMMANDS(
-dnl   [if test -f po/Makefile && ! grep -q -e '--keyword=N_ --keyword=Q_' po/Makefile; then
-dnl     echo extending po/Makefile
-dnl     mv -f po/Makefile po/Makefile.tmp
-dnl     sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_/g' po/Makefile.tmp > po/Makefile
-dnl     rm po/Makefile.tmp
-dnl   fi])
-dnl
+AC_OUTPUT_COMMANDS(
+  [if test -f po/Makefile ; then
+     if grep 'keyword=N_ --keyword=Q_' po/Makefile >/dev/null 2>&1 ; then
+       # has already been extended
+       :
+     else
+       echo extending po/Makefile
+       mv -f po/Makefile po/Makefile.tmp
+       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_/g' po/Makefile.tmp > po/Makefile
+       rm po/Makefile.tmp
+     fi
+   fi])
+
 
 AC_OUTPUT(Makefile
           data/Makefile 
