@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -249,25 +250,9 @@ void load_cursors(void)
   gdk_bitmap_unref(mask);
 }
 
-#ifdef UNUSED
 /***************************************************************************
-...
-***************************************************************************/
-static SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
-{
-    SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
-
-    mysprite->pixmap	= mypixmap;
-    mysprite->width	= width;
-    mysprite->height	= height;
-    mysprite->has_mask	= 0;
-
-    return mysprite;
-}
-#endif
-
-/***************************************************************************
-...
+ Create a new sprite with the given pixmap, dimensions, and
+ (optional) mask.
 ***************************************************************************/
 SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask, 
 			  int width, int height )
@@ -305,8 +290,8 @@ char **gfx_fileextensions(void)
 {
   static char *ext[] =
   {
-    "xpm",
     "png",
+    "xpm",
     NULL
   };
 
@@ -323,7 +308,7 @@ struct Sprite *load_gfxfile(const char *filename)
   int	     w, h;
 
   if (!(im = gdk_pixbuf_new_from_file(filename, NULL))) {
-    freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
+    freelog(LOG_FATAL, "Failed reading graphics file: %s", filename);
     exit(EXIT_FAILURE);
   }
 
@@ -486,13 +471,13 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   xoffset = 0;
   xremsum = new_w / 2;
 
-  for (x = 0; x < new_w; ++x) {
+  for (x = 0; x < new_w; x++) {
     xoffset_table[x] = xoffset;
     xoffset += xadd;
     xremsum += xremadd;
     if (xremsum >= new_w) {
       xremsum -= new_w;
-      ++xoffset;
+      xoffset++;
     }
   }
 
@@ -507,8 +492,8 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
     dst->mask = gdk_pixmap_new(root_window, new_w, new_h, 1);
     gdk_draw_rectangle(dst->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
 
-    for (y = 0; y < new_h; ++y) {
-      for (x = 0; x < new_w; ++x) {
+    for (y = 0; y < new_h; y++) {
+      for (x = 0; x < new_w; x++) {
 	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
 	gdk_image_put_pixel(xi_dst, x, y, pixel);
 
@@ -521,14 +506,14 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
       yremsum += yremadd;
       if (yremsum >= new_h) {
 	yremsum -= new_h;
-	++yoffset;
+	yoffset++;
       }
     }
 
     gdk_image_destroy(xb_src);
   } else {
-    for (y = 0; y < new_h; ++y) {
-      for (x = 0; x < new_w; ++x) {
+    for (y = 0; y < new_h; y++) {
+      for (x = 0; x < new_w; x++) {
 	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
 	gdk_image_put_pixel(xi_dst, x, y, pixel);
       }
@@ -537,7 +522,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
       yremsum += yremadd;
       if (yremsum >= new_h) {
 	yremsum -= new_h;
-	++yoffset;
+	yoffset++;
       }
     }
   }
@@ -632,3 +617,42 @@ SPRITE *crop_blankspace(SPRITE *s)
 
   return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1);
 }
+
+/*********************************************************************
+ Converts a sprite to a GdkPixbuf.
+*********************************************************************/
+GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
+{
+  GdkPixbuf *dst;
+  int x, y, w, h;
+  guchar *pixels;
+  GdkImage *img;
+
+  w = src->width;
+  h = src->height;
+  
+  /* convert pixmap */
+  dst = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  gdk_pixbuf_get_from_drawable(dst, src->pixmap, NULL, 0, 0, 0, 0, w, h);
+
+  /* convert mask */
+  img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
+
+  pixels = gdk_pixbuf_get_pixels(dst);
+
+  for (y = 0; y < h; y++) {
+    for (x = 0; x < w; x++) {
+      pixels += 3;
+	    
+      if (gdk_image_get_pixel(img, x, y)) {
+	*pixels++ = 255;
+      } else {
+	*pixels++ = 0;
+      }
+    }
+  }
+  gdk_image_destroy(img);
+
+  return dst;
+}
+

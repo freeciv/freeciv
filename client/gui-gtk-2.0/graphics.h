@@ -26,6 +26,11 @@ struct Sprite
   int	     height;
 };
 
+struct canvas_store
+{
+  GdkPixmap *pixmap;
+};
+
 typedef struct Sprite SPRITE;
 
 void	create_overlay_unit	(GtkWidget *pixcomm, int i);
@@ -49,5 +54,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
 void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
 SPRITE *crop_blankspace(SPRITE *s);
+
+GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src);
 
 #endif  /* FC__GRAPHICS_H */

@@ -64,9 +64,9 @@ GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname,
   
   shell = gtk_dialog_new_with_buttons(dialogname,
         parent,
-        GTK_DIALOG_MODAL,
+        0,
         NULL);
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_frame_new(text);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, TRUE, TRUE, 0);
@@ -91,7 +91,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname,
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
-  gtk_widget_show(shell);
+  gtk_window_present(GTK_WINDOW(shell));
 
   return shell;
 }
