@@ -2069,4 +2069,5 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 void tileset_changed(void)
 {
   reset_city_dialogs();
+  reset_unit_table();
 }

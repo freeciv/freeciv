@@ -60,4 +60,6 @@ extern GtkWidget *      map_horizontal_scrollbar;
 extern GtkWidget *      map_vertical_scrollbar;
 extern GdkWindow *      root_window;
 
+void reset_unit_table(void);
+
 #endif  /* FC__GUI_MAIN_H */

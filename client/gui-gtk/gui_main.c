@@ -119,6 +119,7 @@ GtkWidget *turn_done_button;
 GtkWidget *unit_info_label;
 GtkWidget *unit_info_frame;
 
+static GtkWidget *unit_pixmap_table;
 static GtkWidget *unit_pixmap;
 static GtkWidget *unit_pixmap_button;
 static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
@@ -454,6 +455,105 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 }
 
 /**************************************************************************
+  Called to build the unit_below pixmap table.  This is the table on the
+  left of the screen that shows all of the inactive units in the current
+  tile.
+
+  It may be called again if the tileset changes.
+**************************************************************************/
+static void populate_unit_pixmap_table(void)
+{
+  int i;
+  GtkWidget *table = unit_pixmap_table;
+ 
+  /* 135 below is rough value (could be more intelligent) --dwp */
+  num_units_below = 135 / (int) NORMAL_TILE_WIDTH;
+  num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
+
+  gtk_table_resize(GTK_TABLE(table), 2, num_units_below);
+
+  /* Note, we ref this and other widgets here so that we can unref them
+   * in reset_unit_table. */
+  unit_pixmap = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, 
+                                UNIT_TILE_HEIGHT);
+  gtk_widget_ref(unit_pixmap);
+  gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
+  unit_pixmap_button = gtk_event_box_new();
+  gtk_widget_ref(unit_pixmap_button);
+  gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
+  gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
+  gtk_signal_connect(GTK_OBJECT(unit_pixmap_button), "button_press_event",
+                     GTK_SIGNAL_FUNC(select_unit_pixmap_callback), 
+                     GINT_TO_POINTER(-1));
+
+  for(i = 0; i < num_units_below; i++) {
+    unit_below_pixmap[i] = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
+                                           UNIT_TILE_HEIGHT);
+    gtk_widget_ref(unit_below_pixmap[i]);
+    unit_below_pixmap_button[i] = gtk_event_box_new();
+    gtk_widget_ref(unit_below_pixmap_button[i]);
+    gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
+                      unit_below_pixmap[i]);
+    gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]),
+                       "button_press_event",
+                        GTK_SIGNAL_FUNC(select_unit_pixmap_callback),
+                        GINT_TO_POINTER(i));
+      
+    gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
+                              i, i + 1, 1, 2);
+    gtk_widget_set_usize(unit_below_pixmap[i],
+                         UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
+  }
+
+  more_arrow_pixmap = gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
+  gtk_widget_ref(more_arrow_pixmap);
+  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(more_arrow_pixmap), FALSE);
+  gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
+
+  gtk_widget_show_all(table);
+}
+
+/**************************************************************************
+  Called when the tileset is changed to reset the unit pixmap table.
+**************************************************************************/
+void reset_unit_table(void)
+{
+  int i;
+
+  /* Unreference all of the widgets that we're about to reallocate, thus
+   * avoiding a memory leak. Remove them from the container first, just
+   * to be safe. Note, the widgets are ref'd in
+   * populatate_unit_pixmap_table. */
+  gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+		       unit_pixmap_button);
+  gtk_widget_unref(unit_pixmap);
+  gtk_widget_unref(unit_pixmap_button);
+  for (i = 0; i < num_units_below; i++) {
+    gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+			 unit_below_pixmap_button[i]);
+    gtk_widget_unref(unit_below_pixmap[i]);
+    gtk_widget_unref(unit_below_pixmap_button[i]);
+  }
+  gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+		       more_arrow_pixmap);
+  gtk_widget_unref(more_arrow_pixmap);
+
+  populate_unit_pixmap_table();
+
+  /* We have to force a redraw of the units.  And we explicitly have
+   * to force a redraw of the focus unit, which is normally only
+   * redrawn when the focus changes. We also have to force the 'more'
+   * arrow to go away, both by explicitly hiding it and telling it to
+   * do so (this will be reset immediately afterwards if necessary,
+   * but we have to make the *internal* state consistent). */
+  gtk_widget_hide(more_arrow_pixmap);
+  set_unit_icons_more_arrow(FALSE);
+  set_unit_icon(-1, get_unit_in_focus());
+  update_unit_pix_label(get_unit_in_focus());
+}
+
+/**************************************************************************
  do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -612,43 +712,14 @@ static void setup_widgets(void)
   box = gtk_hbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
 
-  table = gtk_table_new(2, num_units_below, FALSE);
+  table = gtk_table_new(0, 0, FALSE);
   gtk_box_pack_start(GTK_BOX(box), table, FALSE, FALSE, 5);
 
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
-  unit_pixmap = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, 
-                                UNIT_TILE_HEIGHT);
-  gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
-  unit_pixmap_button = gtk_event_box_new();
-  gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
-  gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
-  gtk_signal_connect(GTK_OBJECT(unit_pixmap_button), "button_press_event",
-                     GTK_SIGNAL_FUNC(select_unit_pixmap_callback), 
-                     GINT_TO_POINTER(-1));
-
-  for(i = 0; i < num_units_below; i++) {
-    unit_below_pixmap[i] = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
-                                           UNIT_TILE_HEIGHT);
-    unit_below_pixmap_button[i] = gtk_event_box_new();
-    gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
-                      unit_below_pixmap[i]);
-    gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]),
-                       "button_press_event",
-                        GTK_SIGNAL_FUNC(select_unit_pixmap_callback),
-                        GINT_TO_POINTER(i));
-      
-    gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
-                              i, i + 1, 1, 2);
-    gtk_widget_set_usize(unit_below_pixmap[i],
-                         UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
-  }
-
-  more_arrow_pixmap = gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(more_arrow_pixmap), FALSE);
-  gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
+  unit_pixmap_table = table;
+  populate_unit_pixmap_table();
 
   /* Map canvas and scrollbars */
 
@@ -878,11 +949,6 @@ void ui_main(int argc, char **argv)
 
   tilespec_load_tiles();
 
-  /* 135 below is rough value (could be more intelligent) --dwp */
-  num_units_below = 135 / (int) NORMAL_TILE_WIDTH;
-  num_units_below = MIN(num_units_below, MAX_NUM_UNITS_BELOW);
-  num_units_below = MAX(num_units_below, 1);
-  
   setup_widgets();
   load_intro_gfx();
   load_cursors();
