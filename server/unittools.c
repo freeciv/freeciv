@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <log.h>
 #include <player.h>
 #include <unithand.h>
 #include <packets.h>
@@ -593,3 +594,109 @@ int enemies_at(struct unit *punit, int x, int y)
   }
   return 0; /* as good a quick'n'dirty should be -- Syela */
 }
+
+
+
+/**************************************************************************
+  Return first unit on square that is not owned by player.
+
+                          - Kris Bubendorfer 
+**************************************************************************/
+
+struct unit *is_enemy_unit_on_tile(int x, int y, int owner)
+{
+  unit_list_iterate(map_get_tile(x, y)->units, punit) 
+    if (owner!=punit->owner) 
+      return punit;
+  unit_list_iterate_end;
+  
+  return 0;
+}
+
+/**************************************************************************
+Teleport punit to city at cost specified.  Returns success.
+                         - Kris Bubendorfer
+**************************************************************************/
+
+int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
+{
+  if(pcity->owner == punit->owner){
+    unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+    punit->x = pcity->x;
+    punit->y = pcity->y;
+    if(punit->moves_left < mov_cost)
+      punit->moves_left = 0;
+    else
+      punit->moves_left -= mov_cost;
+    
+    unit_list_insert(&map_get_tile(pcity->x, pcity->y)->units, punit);
+    send_unit_info(0, punit, 1);
+
+    return 1;
+  }
+  return 0;
+}
+
+/**************************************************************************
+  Resolve unit stack
+
+  When in civil war (or an alliance breaks) there will potentially be units 
+  from both sides coexisting on the same squares.  This routine resolves 
+  this by teleporting the units in multiowner stacks to the closest city.
+
+  That is, if a unit is closer to it's city than the coexistent enemy unit
+  then the enemy unit is teleported home.
+
+                         - Kris Bubendorfer
+**************************************************************************/
+
+void resolve_unit_stack(int x, int y)
+{
+  struct unit *punit = unit_list_get(&map_get_tile(x, y)->units, 0);
+  struct unit *cunit = is_enemy_unit_on_tile(x, y, punit->owner);
+  
+  while(punit && cunit){
+    struct city *pcity = find_closest_owned_city(get_player(punit->owner), x, y);
+    struct city *ccity = find_closest_owned_city(get_player(cunit->owner), x, y);
+    
+    if(map_distance(x, y, pcity->x, pcity->y) 
+       < map_distance(x, y, ccity->x, ccity->y)){
+      teleport_unit_to_city(cunit, ccity, 0);
+      flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(cunit->owner)->name, unit_name(cunit->type), x, y,ccity->name);
+      notify_player(get_player(cunit->owner), "Game: Teleported your %s from (%d, %d) to %s", unit_name(cunit->type), x, y,ccity->name);
+    }else{
+      teleport_unit_to_city(punit, pcity, 0);
+      flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(punit->owner)->name, unit_name(punit->type), x, y, pcity->name);
+      notify_player(get_player(punit->owner), "Game: Teleported your %s from (%d, %d) to %s", unit_name(punit->type), x, y, pcity->name);
+    }
+    
+    punit = unit_list_get(&map_get_tile(x, y)->units, 0);
+    cunit = is_enemy_unit_on_tile(x, y, punit->owner);
+  }
+
+  /* There is only one players units left on this square.  If there is not 
+     enough transporter capacity left , send surplus to the closest friendly 
+     city. */
+
+  if(!punit && cunit)
+    punit = cunit;
+  
+  if(punit && map_get_terrain(punit->x, punit->y)==T_OCEAN && 
+     !is_enough_transporter_space(get_player(punit->owner), x, y)){    
+    unit_list_iterate(map_get_tile(x, y)->units, vunit){
+      struct city *vcity = find_closest_owned_city(get_player(vunit->owner), x, y);
+      if(is_ground_unit(vunit)){
+	teleport_unit_to_city(vunit, vcity, 0);	  
+	flog(LOG_DEBUG,"Teleported  %s's %s to %s as there is no transport space on square (%d, %d)",get_player(vunit->owner)->name, unit_name(vunit->type),vcity->name, x, y);
+	if (0) {  /* too verbose --dwp */
+	  notify_player(get_player(vunit->owner), "Game: Teleported your"
+			" %s to %s as there is no transport space on"
+			" square (%d, %d)", unit_name(vunit->type),
+			vcity->name, x, y);
+	}
+      }
+    }
+    unit_list_iterate_end;
+  }
+}
+

@@ -394,15 +394,13 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: Your spy has successfully completed her mission and returned unharmed to %s.", spyhome->name);
       
-      /* being teleported costs 1 move */
-
-      if(pdiplomat->moves_left > 3)
-	pdiplomat->moves_left -= 3;
-      else
-	pdiplomat->moves_left = 0;
-
-      create_unit(pplayer, spyhome->x, spyhome->y,
-		  pdiplomat->type, 1, spyhome->id, pdiplomat->moves_left);
+       /* being teleported costs 1 move */
+      
+      maybe_make_veteran(pdiplomat);
+      
+      teleport_unit_to_city(pdiplomat, spyhome, 3);
+      
+      return;
     }
   }
   wipe_unit(0, pdiplomat);
@@ -418,8 +416,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     struct city *pcity)
 {
   struct player *cplayer;
-  struct city *pnewcity, *pc2;
-  int i;
+  struct city *pnewcity;
 
   if (!pcity)
     return;
@@ -470,39 +467,23 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
 		   "Game: %s has revolted, %s influence suspected", pcity->name, 
 		   get_race_name(pplayer->race));
-  pnewcity=(struct city *)malloc(sizeof(struct city));
-  *pnewcity=*pcity;
 
-  for (i=0;i<4;i++) {
-    pc2=find_city_by_id(pnewcity->trade[i]);
-    if (can_establish_trade_route(pnewcity, pc2))    
-      establish_trade_route(pnewcity, pc2);
-  }
 
-  pnewcity->id=get_next_id_number();
-  add_city_to_cache(pnewcity);
-  for (i = 0; i < B_LAST; i++) {
-    if (is_wonder(i) && city_got_building(pnewcity, i))
-      game.global_wonders[i] = pnewcity->id;
-  }
-  pnewcity->owner=pplayer->player_no;
-  unit_list_init(&pnewcity->units_supported);
-  city_list_insert(&pplayer->cities, pnewcity);
+  /* Transfer city and units supported by this city to the new owner */
 
-  /* Transfer units supported by this city to the new owner */
+  pnewcity = transfer_city(pplayer,cplayer,pcity);
+  pnewcity->shield_stock=0; /* this is not done automatically */ 
+  transfer_city_units(pplayer, cplayer, pnewcity, pcity, 0);
+  remove_city(pcity);  /* don't forget this! */
 
-  transfer_city_units(pplayer, cplayer, pnewcity, pcity);
+  /* Resolve Stack conflicts */
 
-  /* Transfer wonders to new owner */
-
-  for(i = B_APOLLO;i <= B_WOMENS; i++)
-    if(game.global_wonders[i] == pcity->id)
-      game.global_wonders[i] = pnewcity->id;
-
-  remove_city(pcity);
-
+  unit_list_iterate(pplayer->units, punit) 
+    resolve_unit_stack(punit->x, punit->y);
+  unit_list_iterate_end;
+  
   /* buying a city should result in getting new tech from the victim too */
-  /* but not money!                                                      */
+  /* but no money!                                                       */
 
   get_a_tech(pplayer, cplayer);
    
@@ -515,7 +496,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
   }
 
-  pnewcity->shield_stock=0;
   city_check_workers(pplayer,pnewcity);
   city_refresh(pnewcity);
   initialize_infrastructure_cache(pnewcity);
@@ -1442,11 +1422,13 @@ NOTE: iter should not be an iterator for the map units list, but
 city supported, or player units, is ok.  (For the map units list, would
 have to pass iter on inside transporter_min_cargo_to_unitlist().)
 **************************************************************************/
-void wipe_unit_safe(struct player *dest, struct unit *punit,
-		    struct genlist_iterator *iter)
+void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
+		    struct genlist_iterator *iter, int wipe_cargo)
 {
-  if(get_transporter_capacity(punit) && 
-     map_get_terrain(punit->x, punit->y)==T_OCEAN) {
+  if(get_transporter_capacity(punit) 
+     && map_get_terrain(punit->x, punit->y)==T_OCEAN
+     && wipe_cargo) {
+    
     struct unit_list list;
     
     transporter_min_cargo_to_unitlist(punit, &list);
@@ -1482,10 +1464,21 @@ void wipe_unit_safe(struct player *dest, struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
+
+void wipe_unit_safe(struct player *dest, struct unit *punit,
+		    struct genlist_iterator *iter){
+  wipe_unit_spec_safe(dest, punit, NULL, 1);
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
 void wipe_unit(struct player *dest, struct unit *punit)
 {
   wipe_unit_safe(dest, punit, NULL);
 }
+
 
 /**************************************************************************
 this is a highlevel routine

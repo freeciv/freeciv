@@ -675,8 +675,13 @@ void shuffle_players()
 void ai_start_turn()
 {
   int i;
+
+  if(!shuffled[game.nplayers-1])
+    shuffle_players();
+
   for (i = 0; i < game.nplayers; i++) {
-    if (shuffled[i]->ai.control) ai_do_first_activities(shuffled[i]);
+    if(shuffled[i] && shuffled[i]->ai.control) 
+      ai_do_first_activities(shuffled[i]);
   }
 }
 

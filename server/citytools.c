@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <log.h>
 #include <player.h>
 #include <unithand.h>
 #include <civserver.h>
@@ -31,6 +32,7 @@
 #include <events.h>
 #include <unitfunc.h>
 #include <settlers.h>
+#include <unittools.h>
 
 /****************************************************************
 ...
@@ -597,33 +599,307 @@ int wants_to_be_bigger(struct city *pcity)
  */
 
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
-			 struct city *pcity, struct city *vcity)
+			 struct city *pcity, struct city *vcity, 
+			 int kill_outside)
 {
   int x = vcity->x;
   int y = vcity->y;
 
   /* Transfer units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+    flog(LOG_DEBUG,"Transfered %s in %s from %s to %s", unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
+    if (0) {  /* too verbose --dwp */
+      notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
+		    unit_name(vunit->type), vcity->name,
+		    pvictim->name, pplayer->name);
+    }
     create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
 		pcity->id, vunit->moves_left, vunit->hp);
     wipe_unit(0, vunit);
   } unit_list_iterate_end;
 
   /* Any remaining units supported by the city are either given new home
-   * cities or destroyed */
+   * cities or maybe destroyed */
   unit_list_iterate(vcity->units_supported, vunit) {
     struct city* new_home_city = map_get_city(vunit->x, vunit->y);
     if(new_home_city)  {
       /* unit is in another city: make that the new homecity */
-	
+      
+      flog(LOG_DEBUG,"Transfered %s in %s from %s to %s", unit_name(vunit->type), new_home_city->name, pvictim->name, pplayer->name);
+      if (0) {  /* too verbose --dwp */
+	notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
+		      unit_name(vunit->type), new_home_city->name,
+		      pvictim->name, pplayer->name);
+      }
       create_unit_full(pvictim, vunit->x, vunit->y, vunit->type, 
-		  vunit->veteran, new_home_city->id, vunit->moves_left,
-		  vunit->hp);
+		       vunit->veteran, new_home_city->id, vunit->moves_left,
+		       vunit->hp);
 
+    }else if(!kill_outside){
+      
+      flog(LOG_DEBUG,"Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
+      notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
+      create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
+		       vunit->veteran, pcity->id, vunit->moves_left,
+		       vunit->hp);
     }
-    /* unit isn't in a city - Civ2 deletes it - seems like a good idea to
-     * prevent the city being immediately retaken.  We don't actually have to
-     * do anything here as remove_city deletes all supported units.  */
-    wipe_unit_safe(0, vunit, &myiter);
+    wipe_unit_spec_safe(0, vunit, NULL, 0);
   } unit_list_iterate_end;
+}
+
+
+/*
+ * dist_nearest_city (in ai.c) does not seem to do what I want or expect
+ * this function finds the closest friendly city to pos x,y.  I'm sure 
+ * there must be a similar function somewhere, I just can't find it.
+ * 
+ *                                - Kris Bubendorfer 
+ */
+
+struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
+{
+  int dist;
+  struct city *rcity = city_list_get(&pplayer->cities, 0);
+  
+  if(rcity){
+    dist = real_map_distance(x, y, rcity->x, rcity->y);
+    
+    city_list_iterate(pplayer->cities, pcity)
+      if (real_map_distance(x, y, pcity->x, pcity->y) < dist){
+	dist = real_map_distance(x, y, pcity->x, pcity->y);
+	rcity = pcity;
+      }      
+    city_list_iterate_end;
+  }  
+  return rcity;
+}
+
+/*
+ * This function creates a new player and copies all of it's science
+ * research etc.  Players are both thrown into anarchy and gold is
+ * split between both players.
+ *                                - Kris Bubendorfer 
+ */
+
+struct player *split_player(struct player *pplayer)
+{
+  int races_used[R_LAST], i, num_races_avail=R_LAST, pick;
+  int newplayer = game.nplayers;
+  struct player *cplayer = &game.players[newplayer];
+  
+  /* make a new player */
+
+  player_init(cplayer);
+  
+  /* select a new name and race for the copied player. */
+
+  for(i=0; i<R_LAST;i++){ 
+    races_used[i]=i;
+  }
+
+  for(i = 0; i < game.nplayers; i++){
+    races_used[game.players[i].race] = -1;
+    num_races_avail--;
+  }
+
+  pick = myrand(num_races_avail);
+
+  for(i=0; i<R_LAST; i++){ 
+    if(races_used[i] != -1)
+      pick--;
+    if(pick < 0) break;
+  }
+  
+  /* Rebel will always be an AI player */
+
+  cplayer->race = races_used[i];
+  pick_ai_player_name(cplayer->race,cplayer->name);
+
+  cplayer->is_connected=0;
+  cplayer->conn = NULL;
+  cplayer->government=G_ANARCHY;  
+  cplayer->capital=1;
+
+  /* Split the resources */
+  
+  cplayer->economic.gold = pplayer->economic.gold/2;
+
+  /* Copy the research */
+
+  cplayer->research.researched = 0;
+  cplayer->research.researchpoints = pplayer->research.researchpoints;
+  cplayer->research.researching = pplayer->research.researching;
+  
+  for(i = 0; i<A_LAST ; i++)
+    cplayer->research.inventions[i] = pplayer->research.inventions[i];
+  cplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  cplayer->embassy = 0;   /* all embassys destroyed */
+
+  /* Do the ai */
+
+  cplayer->ai.control = 1;
+  cplayer->ai.tech_goal = pplayer->ai.tech_goal;
+  cplayer->ai.prev_gold = pplayer->ai.prev_gold;
+  cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
+  cplayer->ai.handicap = pplayer->ai.handicap;
+  cplayer->ai.skill_level = pplayer->ai.skill_level;
+  cplayer->ai.warmth = pplayer->ai.warmth;
+
+  for(i = 0; i<A_LAST ; i++){
+    cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
+    cplayer->ai.tech_turns[i] = pplayer->ai.tech_turns[i];
+  }
+  
+  /* change the original player */
+
+  pplayer->government = G_ANARCHY;  
+  pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
+  pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
+  pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
+  pplayer->economic.gold = cplayer->economic.gold;
+  pplayer->research.researched = 0;
+  pplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  pplayer->embassy = 0; /* all embassys destroyed */
+
+  /* copy the maps */
+
+  give_map_from_player_to_player(pplayer, cplayer);
+
+  game.nplayers++;
+  game.max_players = game.nplayers;
+  return cplayer;
+}
+
+/*
+ * Capturing a nation's capital is a devastating blow.  This function
+ * creates a new AI player, and randomly splits the original players
+ * city list into two.  Of course this results in a real mix up of 
+ * teritory - but since when have civil wars ever been tidy, or civil.
+ * 
+ * Embassies:  All embassies with other players are lost.  Other players
+ *             retain their embassies with pplayer.
+ *
+ * Units:      Units inside cities are assigned to the new owner
+ *             of the city.  Units outside are transferred along 
+ *             with the ownership of their supporting city.
+ *             If the units are in a unit stack with non rebel units,
+ *             then whichever units are nearest an allied city
+ *             are teleported to that city.  If the stack is a 
+ *             transport at sea, then all rebel units on the 
+ *             transport are teleported to their nearest allied city.
+ * 
+ * Cities:     Are split randomly into 2.  This results in a real
+ *             mix up of teritory - but since when have civil wars 
+ *             ever been tidy, or for any matter civil?
+ *
+ *
+ * One caveat, since the spliting of cities is random, you can
+ * conceive that this could result in either the original player
+ * or the rebel getting 0 cities.  To prevent this, the hack below
+ * ensures that each side gets roughly half, which ones is still 
+ * determined randomly.
+ *                                    - Kris Bubendorfer
+ */
+
+void civil_war(struct player *pplayer)
+{
+  int i, j;
+  struct city *pnewcity;
+  struct player *cplayer = split_player(pplayer);
+
+  /* Now split the empire */
+
+  flog(LOG_DEBUG,"%s's nation is thrust into civil war, created AI player %s", pplayer->name, cplayer->name);
+  notify_player(pplayer, "Game: Your nation is thrust into civil war, %s is declared the leader of the rebel states.", cplayer->name);
+
+  i = city_list_size(&pplayer->cities)/2;   /* number to flip */
+  j = city_list_size(&pplayer->cities);	    /* number left to process */
+  city_list_iterate(pplayer->cities, pcity) {
+    if (!city_got_building(pcity, B_PALACE)) {
+      if (i >= j || (i > 0 && myrand(2))) {
+	
+	/* Transfer city and units supported by this city to the new owner */
+      
+	if(!(pnewcity = transfer_city(cplayer,pplayer,pcity))){
+	   flog(LOG_DEBUG,"Transfer city returned no city - aborting civil war.");
+	   return;
+	}
+	
+	flog(LOG_DEBUG,"%s declares allegiance to %s",pnewcity->name,cplayer->name);
+	notify_player(pplayer, "Game: %s declares allegiance to %s",pnewcity->name,cplayer->name);
+	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
+	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0);
+	remove_city(pcity); /* don't forget this! */
+	map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+
+	city_check_workers(cplayer,pnewcity);
+	city_refresh(pnewcity);
+	initialize_infrastructure_cache(pnewcity);
+	send_city_info(0, pnewcity, 0);
+	i--;
+      }
+    }
+    j--;
+  }
+  city_list_iterate_end;
+  
+  /* Resolve Stack conflicts */
+
+  i = 0;
+
+  unit_list_iterate(pplayer->units, punit) 
+    resolve_unit_stack(punit->x, punit->y);
+  unit_list_iterate_end;
+  
+  send_player_info(cplayer,  NULL); 
+  send_player_info(pplayer,  NULL); 
+
+  notify_player(0, "Game: The capture of %s's capital and the destruction of the empire's administrative\n      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n      and the upstart %s now holds power in %d rebel provinces.", pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
+    
+}  
+
+
+/* 
+ * Transfers pcity from dest, srcplayer.  No units are moved.  This
+ * is vanila.  It is now used for incite, and I suspect it could
+ * be used to trade cities in the diplomatic section too.
+ *
+ *  - Kris Bubendorfer
+ */
+
+struct city *transfer_city(struct player *pplayer, struct player *cplayer,
+			   struct city *pcity)
+{
+  struct city *pnewcity, *pc2;
+  int i;
+
+  if (!pcity)
+    return NULL;
+  
+  if(pcity->owner != cplayer->player_no)
+    return NULL;
+
+  if (cplayer==pplayer || cplayer==NULL) 
+    return NULL;
+
+  pnewcity=(struct city *)malloc(sizeof(struct city));
+  *pnewcity=*pcity;
+
+  for (i=0;i<4;i++) {
+    pc2=find_city_by_id(pnewcity->trade[i]);
+    if (can_establish_trade_route(pnewcity, pc2))    
+      establish_trade_route(pnewcity, pc2);
+  }
+
+  pnewcity->id=get_next_id_number();
+  add_city_to_cache(pnewcity);
+  for (i = 0; i < B_LAST; i++) {
+    if (is_wonder(i) && city_got_building(pnewcity, i))
+      game.global_wonders[i] = pnewcity->id;
+  }
+  pnewcity->owner=pplayer->player_no;
+  unit_list_init(&pnewcity->units_supported);
+  city_list_insert(&pplayer->cities, pnewcity);
+
+  return pnewcity;
 }

@@ -284,6 +284,28 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y)
   return(total_capacity>none_transporters ? total_capacity-none_transporters : 0);
 }
 
+/**************************************************************************
+The above one isn't quite what I want - Kris
+Specifically: only pplayer's transports count; only returns true/false;
+and returns true if (capacity == passengers).  --dwp
+**************************************************************************/
+int is_enough_transporter_space (struct player *pplayer, int x, int y)
+{
+  int none_transporters, total_capacity=0;
+  none_transporters=0;
+  total_capacity=0;
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if(is_ground_units_transport(punit)
+       && punit->owner == pplayer->player_no)
+      total_capacity+=get_transporter_capacity(punit);
+    else if (is_ground_unit(punit))
+      none_transporters++;
+  }
+  unit_list_iterate_end;
+  
+  return(total_capacity>=none_transporters ? 1 : 0);
+}
+
 
 /**************************************************************************
  can't use the unit_list_iterate macro here

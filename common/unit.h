@@ -235,6 +235,7 @@ struct unit_type *get_unit_type(enum unit_type_id id);
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int is_transporter_with_free_space(struct player *pplayer, int x, int y);
+int is_enough_transporter_space(struct player *pplayer, int x, int y);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
 

@@ -973,6 +973,16 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     struct city *pnewcity;
     cplayer=&game.players[pcity->owner];
     pcity->size--;
+
+    /* If a capital is captured, then spark off a civil war 
+       - Kris Bubendorfer*/
+
+    if(city_got_building(pcity, B_PALACE) 
+       && city_list_size(&cplayer->cities) >= game.civilwarsize 
+       && game.nplayers < R_LAST 
+       && game.civilwarsize < GAME_MAX_CIVILWARSIZE)
+      civil_war(cplayer);
+
     if (pcity->size<1) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		       "Game: You destroy %s completely.", pcity->name);
@@ -1042,17 +1052,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     for (i = 0; i < B_LAST; i++) {
       if (is_wonder(i) && city_got_building(pnewcity, i))
         game.global_wonders[i] = pnewcity->id;
-    } /* Once I added this block, why was the below for() needed? -- Syela */
+    } 
     pnewcity->owner=pplayer->player_no;
 
     unit_list_init(&pnewcity->units_supported);
     city_list_insert(&pplayer->cities, pnewcity);
     
-    /* Transfer wonders to new owner - Kris Bubendorfer*/
-
-    for(i = B_APOLLO;i <= B_WOMENS; i++)
-      if(game.global_wonders[i] == old_id)
-	game.global_wonders[i] = pnewcity->id;
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
     if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&

@@ -341,6 +341,14 @@ struct settings_s settings[] = {
     "  defender.  Also, the chance of a spy returning from a successful mission\n"
     "  is one in diplchance.  (Diplomats never return.)" },
 
+  { "civilwarsize", &game.civilwarsize,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,
+    "Minimum number of cities for civil war",
+    "  A civil war is triggered if a player has at least this many cities and\n"
+    "  the player's capital is captured.  If this option is set to the maximum\n"
+    "  value, civil wars are turned off altogether." },
+
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
  * "output" and don't affect the actual game.

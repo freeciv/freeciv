@@ -278,6 +278,10 @@ int map_build_mine_time(int x, int y);
 #define GAME_MIN_CITYFACTOR          6
 #define GAME_MAX_CITYFACTOR          100
 
+#define GAME_DEFAULT_CIVILWARSIZE    10
+#define GAME_MIN_CIVILWARSIZE        6
+#define GAME_MAX_CIVILWARSIZE        1000
+
 #define GAME_DEFAULT_RAILFOOD        0
 #define GAME_MIN_RAILFOOD            0
 #define GAME_MAX_RAILFOOD            100

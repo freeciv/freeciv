@@ -255,6 +255,7 @@ int game_load(struct section_file *file)
 
   if (game.version >= 10100) {
     game.cityfactor = secfile_lookup_int(file, "game.cityfactor");
+    game.civilwarsize = secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE, "game.civilwarsize");
     game.diplcost   = secfile_lookup_int(file, "game.diplcost");
     game.freecost   = secfile_lookup_int(file, "game.freecost");
     game.conquercost   = secfile_lookup_int(file, "game.conquercost");
@@ -397,6 +398,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.warminglevel, "game.warminglevel");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
+  secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
   secfile_insert_int(file, game.freecost, "game.freecost");
   secfile_insert_int(file, game.conquercost, "game.conquercost");

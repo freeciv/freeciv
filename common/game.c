@@ -331,6 +331,7 @@ void game_init(void)
   game.conquercost = GAME_DEFAULT_CONQUERCOST;
   game.settlers    = GAME_DEFAULT_SETTLERS;
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
+  game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
   game.explorer    = GAME_DEFAULT_EXPLORER;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
   game.rail_trade  = GAME_DEFAULT_RAILTRADE;

@@ -659,6 +659,9 @@ Makes a city the capitol and the centre of your government.
 Corruption in other cities is related to how far away from the
 capitol they are, except when the Government is a Democracy or under
 Communism.
+
+Take good care of your capital, as it's loss may result in your
+empire plunging into civil war.
 ---
 # Police Station
 Reduces unhappiness for military units outside the city by 2 under
@@ -1625,6 +1628,24 @@ TIP 2: Scientific advancement requires high levels of trade, which
        governments.  Consider switching to the Republic as soon as
        you can; gaining advanced technology early in the game puts
        you at an advantage.
+---
+# Civil War
+
+Civil war is devastating to any empire, and is triggered by
+the loss of your capital (palace).  Up to half of your cities 
+will rebel and declare allegiance to a new (AI) leader, who 
+will loot half of your treasury and retain all of your 
+scientific advances.
+
+Players remain in the civil war state for just one turn, after 
+which the government enters a state of anarchy.  The only real
+way of avoiding Civil War is to defend your civilization's 
+capital at all costs.
+
+The number of cities an empire needs before it can erupt into
+civil war is by default 10.  That is, empires with fewer than 10 
+cities are immune from civil war.  However, this is a server
+option, and may vary upwards from a minimum of 6.
 ---
 # Anarchy
 Anarchy is simply the absence of any recognizable government.
