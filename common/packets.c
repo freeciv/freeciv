@@ -2258,6 +2258,9 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint16(cptr, req->shield_prod);
   cptr=put_uint16(cptr, req->shield_surplus);
   cptr=put_uint16(cptr, req->trade_prod);
+  if (pc && has_capability("tile_trade", pc->capability)) {
+      cptr=put_uint16(cptr, req->tile_trade);
+  }
   cptr=put_uint16(cptr, req->corruption);
 
   cptr=put_uint16(cptr, req->luxury_total);
@@ -2346,6 +2349,11 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->shield_surplus);
   if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
   iget_uint16(&iter, &packet->trade_prod);
+  if (pc && has_capability("tile_trade", pc->capability)) {
+    iget_uint16(&iter, &packet->tile_trade);
+  } else {
+    packet->tile_trade = 0;
+  }
   iget_uint16(&iter, &packet->corruption);
 
   iget_uint16(&iter, &packet->luxury_total);

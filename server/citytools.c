@@ -1418,6 +1418,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->shield_prod=pcity->shield_prod;
   packet->shield_surplus=pcity->shield_surplus;
   packet->trade_prod=pcity->trade_prod;
+  packet->tile_trade=pcity->tile_trade;
   packet->corruption=pcity->corruption;
   
   packet->luxury_total=pcity->luxury_total;

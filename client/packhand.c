@@ -343,6 +343,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->shield_prod=packet->shield_prod;
   pcity->shield_surplus=packet->shield_surplus;
   pcity->trade_prod=packet->trade_prod;
+  pcity->tile_trade=packet->tile_trade;
   pcity->corruption=packet->corruption;
   
   pcity->luxury_total=packet->luxury_total;
@@ -591,6 +592,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->shield_prod        = 0;
     pcity->shield_surplus     = 0;
     pcity->trade_prod         = 0;
+    pcity->tile_trade         = 0;
     pcity->corruption         = 0;
     pcity->luxury_total       = 0;
     pcity->tax_total          = 0;

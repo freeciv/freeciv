@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
-" fund_added processing_packets angrycitizen"
+" fund_added processing_packets angrycitizen tile_trade"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -98,6 +98,8 @@ const char * const our_capability = our_capability_internal;
    civilization II.  They counts as 2 unhappy citizens, they are saved
    in ppl_angry[], and you must dealt with them before any citizens in
    a city can become unhappy.
+   
+   "tile_trade" sends the tile_trade field from struct city.
 */
 
 void init_our_capability(void)
