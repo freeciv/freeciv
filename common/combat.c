@@ -113,13 +113,20 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 }
 
 /***********************************************************************
-  To attack a stack, unit must be able to attack every unit there
+  To attack a stack, unit must be able to attack every unit there (not
+  including transported units).
 ************************************************************************/
 bool can_unit_attack_all_at_tile(struct unit *punit,
 				 const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, aunit) {
-    if (!can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
+    /* HACK: we don't count transported units here.  This prevents some
+     * bugs like a submarine carrying a cruise missile being invulnerable
+     * to other sea units.  However from a gameplay perspective it's a hack,
+     * since players can load and unload their units manually to protect
+     * their transporters. */
+    if (aunit->transported_by == -1
+	&& !can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
       return FALSE;
     }
   } unit_list_iterate_end;
