@@ -198,6 +198,7 @@ Object *main_moves_text;
 Object *main_terrain_text;
 Object *main_hometown_text;
 Object *main_unit_unit;
+Object *main_below_group;
 
 Object *main_map_area;
 static Object *main_map_hscroller;
@@ -975,7 +976,11 @@ static int init_gui(void)
                             End,
                         Child, main_unit_unit = UnitObject, End,
                         End,
-                    Child, HVSpace,
+                    Child, main_below_group = AutoGroup,
+			MUIA_AutoGroup_DefVertObjects, 1,
+			Child, HVSpace,
+			End,
+                    Child, RectangleObject, MUIA_Weight,1,End,
                     End,
 
                 Child, ColGroup(2), /* Map and scrollers */

@@ -168,6 +168,7 @@ extern Object *main_moves_text;
 extern Object *main_terrain_text;
 extern Object *main_hometown_text;
 extern Object *main_unit_unit;
+extern Object *main_below_group;
 extern Object *main_map_area;
 extern Object *main_turndone_button;
 extern Object *main_output_listview;

@@ -165,6 +165,30 @@ static ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
   return 0;
 }
 
+static ULONG AutoGroup_Get(struct IClass *cl, Object *o, struct opGet *msg)
+{
+  switch (msg->opg_AttrID)
+  {
+    case  MUIA_AutoGroup_NumObjects:
+    	  {
+    	    int i = 0;
+	    struct List *child_list = (struct List*)xget(o,MUIA_Group_ChildList);
+	    Object *cstate = (Object *)child_list->lh_Head;
+	    Object *child;
+
+	    while ((child = (Object*)NextObject(&cstate)))
+	      i++;
+
+    	    *msg->opg_Storage = i;
+    	  }
+	  break;
+
+    default:
+          return DoSuperMethodA(cl, o, (Msg) msg);
+  }
+  return 1;
+}
+
 static VOID AutoGroup_DisposeChilds(/*struct IClass *cl,*/ Object *o/*, Msg msg*/)
 {
   struct List *child_list = (struct List*)xget(o,MUIA_Group_ChildList);
@@ -182,11 +206,9 @@ DISPATCHERPROTO(AutoGroup_Dispatcher)
 {
   switch (msg->MethodID)
   {
-  case OM_NEW:
-    return AutoGroup_New(cl, obj, (struct opSet *) msg);
-  case MUIM_AutoGroup_DisposeChilds:
-    AutoGroup_DisposeChilds(/*cl, */obj/*, msg*/);
-    return 0;
+    case OM_NEW: return AutoGroup_New(cl, obj, (struct opSet *) msg);
+    case OM_GET: return AutoGroup_Get(cl, obj, (struct opGet *) msg);
+    case MUIM_AutoGroup_DisposeChilds: AutoGroup_DisposeChilds(/*cl, */obj/*, msg*/);return 0;
   }
   return (DoSuperMethodA(cl, obj, msg));
 }

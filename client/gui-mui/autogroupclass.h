@@ -18,6 +18,7 @@
 extern struct MUI_CustomClass *CL_AutoGroup;
 
 #define MUIA_AutoGroup_DefVertObjects   (TAG_USER+0x3000101) /* I.. LONG */
+#define MUIA_AutoGroup_NumObjects       (TAG_USER+0x3000102) /* ..G LONG */
 
 #define MUIM_AutoGroup_DisposeChilds (0x7287840)
 

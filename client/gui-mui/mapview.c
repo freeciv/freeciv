@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,6 +49,7 @@
 
 /* Amiga Client stuff */
 
+#include "autogroupclass.h"
 #include "muistuff.h"
 #include "mapclass.h"
 #include "overviewclass.h"
@@ -240,6 +242,15 @@ void update_info_label(void)
 }
 
 /**************************************************************************
+ Callback if a below unit was selected
+**************************************************************************/
+void activate_below_unit (int *id)
+{
+  struct unit *punit = find_unit_by_id(*id);
+  if (punit) request_unit_selected(punit);
+}
+
+/**************************************************************************
  Update the information label which gives info on the current unit and the
  square under the current unit, for specified unit.  Note that in practice
  punit is almost always (or maybe strictly always?) the focus unit.
@@ -255,12 +266,60 @@ void update_unit_info_label(struct unit *punit)
   if (punit)
   {
     struct city *pcity;
+    int units = 0;
     pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
     settextf(main_unitname_text, "%s%s", get_unit_type(punit->type)->name, (punit->veteran) ? _(" (veteran)") : "");
     settext(main_moves_text, (hover_unit == punit->id) ? _("Select destination") : unit_activity_text(punit));
     settext(main_terrain_text, map_get_tile_info_text(punit->x, punit->y));
     settext(main_hometown_text, pcity ? pcity->name : "");
+
+
+    /* Count the number of units */
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+      if (aunit != punit) {
+	units++;
+      }
+    }
+    unit_list_iterate_end;
+
+    if (xget(main_below_group, MUIA_AutoGroup_NumObjects) == units + 1)
+    {
+      struct List *child_list = (struct List*)xget(main_below_group,MUIA_Group_ChildList);
+      Object *cstate = (Object *)child_list->lh_Head;
+      Object *child;
+
+      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+        if (aunit != punit) {
+          if ((child = (Object*)NextObject(&cstate))) {
+            set(child, MUIA_Unit_Unit, aunit);
+            DoMethod(child, MUIM_KillNotify, MUIA_Pressed);
+	    /* Activate the unit if pressed, note that the object may get's disposed */
+	    DoMethod(child, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, activate_below_unit, aunit->id);
+          }
+        }
+      }
+      unit_list_iterate_end;
+    } else
+    {
+      Object *obj;
+      DoMethod(main_below_group, MUIM_Group_InitChange);
+      DoMethod(main_below_group, MUIM_AutoGroup_DisposeChilds);
+
+      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+        if (aunit != punit) {
+	  if ((obj = UnitObject, MUIA_InputMode, MUIV_InputMode_RelVerify, MUIA_Unit_Unit, aunit, End)) {
+	    DoMethod(main_below_group, OM_ADDMEMBER, obj);
+	    /* Activate the unit if pressed, note that the object may get's disposed */
+	    DoMethod(obj, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, activate_below_unit, aunit->id);
+	  }
+        }
+      }
+      unit_list_iterate_end;
+
+      DoMethod(main_below_group, OM_ADDMEMBER, RectangleObject, MUIA_Weight,0,End);
+      DoMethod(main_below_group, MUIM_Group_ExitChange);
+    }
   }
   else
   {
@@ -268,6 +327,15 @@ void update_unit_info_label(struct unit *punit)
     settext(main_moves_text, "");
     settext(main_terrain_text, "");
     settext(main_hometown_text, "");
+
+    if (xget(main_below_group, MUIA_AutoGroup_NumObjects) > 1)
+    {
+      DoMethod(main_below_group, MUIM_Group_InitChange);
+      DoMethod(main_below_group, MUIM_AutoGroup_DisposeChilds);
+      DoMethod(main_below_group, OM_ADDMEMBER, RectangleObject, MUIA_Weight,0,End);
+      DoMethod(main_below_group, MUIM_Group_ExitChange);
+    }
+
   }
 
   set(main_unit_unit, MUIA_Unit_Unit, punit);
@@ -541,7 +609,6 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 **************************************************************************/
 void center_tile_mapcanvas(int x, int y)
 {
-  int new_map_view_x0, new_map_view_y0;
   int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
   int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
   int map_canvas_store_twidth = get_map_x_visible();
