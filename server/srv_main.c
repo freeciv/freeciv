@@ -1057,7 +1057,7 @@ static void handle_alloc_nation(struct player *pplayer,
   nation_used_count = 0;
 
   players_iterate(other_player) {
-    if (other_player->nation == MAX_NUM_NATIONS) {
+    if (other_player->nation == NO_NATION_SELECTED) {
       send_select_nation(other_player);
     } else {
       nation_used_count++;	/* count used nations */
@@ -1069,7 +1069,7 @@ static void handle_alloc_nation(struct player *pplayer,
   /* if there's no nation left, reject remaining players, sorry */
   if( nation_used_count == game.playable_nation_count ) {   /* barb */
     players_iterate(other_player) {
-      if (other_player->nation == MAX_NUM_NATIONS) {
+      if (other_player->nation == NO_NATION_SELECTED) {
 	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
 		other_player->name);
 	notify_player(other_player,
@@ -1090,7 +1090,7 @@ static void send_select_nation(struct player *pplayer)
   packet.num_nations_used = 0;
 
   players_iterate(other_player) {
-    if (other_player->nation == MAX_NUM_NATIONS) {
+    if (other_player->nation == NO_NATION_SELECTED) {
       continue;
     }
     packet.nations_used[packet.num_nations_used] = other_player->nation;
@@ -1200,8 +1200,9 @@ static void generate_ai_players(void)
   for (i=0; i<game.nplayers; i++) {
     pplayer = &game.players[i];
     
-    if (pplayer->nation != MAX_NUM_NATIONS)
+    if (pplayer->nation != NO_NATION_SELECTED) {
       continue;
+    }
 
     if (num_nations_avail == 0) {
       freelog(LOG_NORMAL,
@@ -1630,7 +1631,7 @@ main_start_players:
    */
   server_state = RUN_GAME_STATE;
   players_iterate(pplayer) {
-    if (pplayer->nation == MAX_NUM_NATIONS && !pplayer->ai.control) {
+    if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
       send_select_nation(pplayer);
       server_state = SELECT_RACES_STATE;
     }
@@ -1642,7 +1643,7 @@ main_start_players:
     sniff_packets();
 
     players_iterate(pplayer) {
-      if (pplayer->nation == MAX_NUM_NATIONS && !pplayer->ai.control) {
+      if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
 	flag = TRUE;
 	break;
       }

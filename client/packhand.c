@@ -278,9 +278,9 @@ static void try_update_effects(bool need_update)
 **************************************************************************/
 void handle_game_state(struct packet_generic_integer *packet)
 {
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE && 
-     packet->value==CLIENT_GAME_RUNNING_STATE &&
-     game.player_ptr->nation == MAX_NUM_NATIONS) {
+  if (get_client_state() == CLIENT_SELECT_RACE_STATE
+      && packet->value == CLIENT_GAME_RUNNING_STATE
+      && game.player_ptr->nation == NO_NATION_SELECTED) {
     popdown_races_dialog();
   }
   

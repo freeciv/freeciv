@@ -177,6 +177,8 @@ struct civ_map {
   bool have_rivers_overlay;	/* only applies if !have_specials */
   int num_continents;
   struct tile *tiles;
+
+  /* Only used by server. */
   struct map_position start_positions[MAX_NUM_NATIONS];
 };
 

@@ -70,7 +70,7 @@ void player_init(struct player *plr)
   sz_strlcpy(plr->username, "UserName");
   plr->is_male = TRUE;
   plr->government=game.default_government;
-  plr->nation=MAX_NUM_NATIONS;
+  plr->nation = NO_NATION_SELECTED;
   plr->team = TEAM_NONE;
   plr->capital = FALSE;
   unit_list_init(&plr->units);
