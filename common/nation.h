@@ -48,20 +48,10 @@ struct nation_type {
   int advisors[ADV_LAST];   /* never implemented either. -- Syela */
 
   /* Following basically disabled -- Syela */
-  /* Now start from strings to be ruleset-friendly --dwp */
+  /* Note the client doesn't use/have these. */
   struct {
-    char *tech[MAX_NUM_TECH_GOALS];	/* tech goals */
-    char *wonder;		/* primary Wonder (maybe primary opponent,
-				   if other builds it) */
-    char *government;		/* wanted government form */
-  } goals_str;
-  /* Following are conversions from above strings after rulesets loaded.
-   * Note these are implicit zeros in initialization table, so this must
-   * come at end of nation struct. Also note the client doesn't
-   * use these. */
-  struct {
-    int tech[MAX_NUM_TECH_GOALS];
-    int wonder;
+    int tech[MAX_NUM_TECH_GOALS];               /* tech goals     */
+    int wonder;                                 /* primary Wonder */
     int government;
   } goals;
 };
@@ -73,7 +63,6 @@ char **get_nation_leader_names(Nation_Type_id nation, int *num);
 int get_nation_leader_sex(Nation_Type_id nation, char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);
-void init_nation_goals(void);
 int check_nation_leader_name(Nation_Type_id nation, char *name);
 struct nation_type *alloc_nations(int num);
 void free_nations(int num);

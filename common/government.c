@@ -16,6 +16,7 @@
 
 #include "game.h"
 #include "log.h"
+#include "mem.h"
 #include "player.h"
 #include "shared.h"
 #include "tech.h"
@@ -257,4 +258,21 @@ int can_change_to_government(struct player *pplayer, int government)
 	    || player_owns_active_govchange_wonder(pplayer));
 }
 
+/***************************************************************
+...
+***************************************************************/
+void set_ruler_title(struct government *gov, int nation,
+                     char *male, char *female)
+{
+  struct ruler_title *title;
 
+  gov->num_ruler_titles++;
+  gov->ruler_titles
+    = fc_realloc(gov->ruler_titles,
+                 gov->num_ruler_titles*sizeof(struct ruler_title));
+  title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
+
+  title->nation = nation;
+  strcpy(title->male_title, male);
+  strcpy(title->female_title, female);
+}

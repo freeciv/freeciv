@@ -56,6 +56,11 @@ leader_sex="Male", "Male", "Female", "Male", "Male"
 flag = "f.italy"
 flag_alt = "-"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Dictator"),     _("Dictator")
+                 "Monarchy",        _("Imperator"),    _("Imperatrix")
+}
+
 attack=1
 expand=2
 civilized=2
@@ -120,6 +125,10 @@ leader="Frederick", "Otto", "Wilhelm"
 leader_sex="Male", "Male", "Male"
 flag="f.germany"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Chancellor"),   _("Chancellor")
+                 "Fundamentalism",  _("Archbishop"),   _("Archbishop")
+               }
 
 attack=2
 expand=0
@@ -156,6 +165,11 @@ leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
 flag="f.egypt"
 flag_alt = "-"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Pharaoh"),       _("Pharaoh")
+                 "Monarchy",        _("Great Pharaoh"), _("Great Pharaoh")
+               }
+
 attack=1
 expand=1
 civilized=2
@@ -183,6 +197,10 @@ leader="Lincoln", "Washington", "Franklin D. Roosevelt",
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="f.usa"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Speaker"),      _("Speaker")
+                 "Fundamentalism",  _("Reverend"),     _("Reverend")
+               }
 
 attack=0
 expand=1
@@ -215,6 +233,9 @@ leader="Alexander", "Perikles", "Leonidas"
 leader_sex="Male", "Male", "Male"
 flag="f.greece"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=1
 expand=2
@@ -249,6 +270,10 @@ leader_sex="Male", "Male", "Male", "Female"
 flag="f.india"
 flag_alt = "-"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Maharaja"),     _("Maharaja")
+               }
+
 attack=0
 expand=0
 civilized=1
@@ -273,6 +298,11 @@ leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter the Great", "Anne"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"
 flag_alt = "-"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Czar"),         _("Czarina")
+                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
+               }
 
 attack=2
 expand=1
@@ -327,6 +357,10 @@ leader="Napoleon", "Louis XIV", "Charles de Gaulle"
 leader_sex="Male", "Male", "Male"
 flag="f.france"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Premier"),      _("Premier")
+                 "Fundamentalism",  _("Archbishop"),   _("Archbishop")
+               }
 
 attack=2
 expand=2
@@ -380,6 +414,9 @@ leader="Mao", "Cixi"
 leader_sex="Male", "Female"
 flag="f.china"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Communism",       _("Chairman"),     _("Chairperson")
+               }
 
 attack=1
 expand=1
@@ -406,6 +443,10 @@ leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII", 
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.united_kingdom"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Fundamentalism",  _("Lord Protector"), _("Lady Protector")
+               }
 
 attack=1
 expand=2
@@ -432,6 +473,10 @@ leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Khan"),         _("Khan")
+                 "Monarchy",        _("Great Khan"),   _("Great Khan")
+               }
 
 attack=2
 expand=2
@@ -458,6 +503,10 @@ leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad", "Selim", 
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.turkey"
 flag_alt = "-"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Sultan"),       _("Sultan")
+               }
 
 attack=1
 expand=2
@@ -486,6 +535,9 @@ leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
 leader_sex="Male", "Female", "Male", "Female", "Male"
 flag="f.spain"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=1
 expand=1
@@ -513,6 +565,10 @@ leader_sex="Male", "Male", "Male", "Male"
 flag="f.iran"
 flag_alt = "-"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Shah"),         _("Shah")
+               }
+
 attack=1
 expand=2
 civilized=0
@@ -539,6 +595,10 @@ leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin"
 leader_sex="Male", "Male", "Male", "Male"
 flag ="f.arab"
 flag_alt = "-"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Caliph"),       _("Caliph")
+               }
 
 attack=2
 expand=1
@@ -593,6 +653,10 @@ leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"
 flag_alt = "-"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Warlord"),      _("Warlord")
+               }
 
 attack=2
 expand=2
@@ -704,6 +768,9 @@ leader="Valdemar", "Knut", "Margaret"
 leader_sex="Male", "Male", "Female"
 flag="f.denmark"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=1
 expand=2
@@ -732,6 +799,9 @@ leader="Willem", "Beatrix"
 leader_sex="Male", "Female"
 flag="f.holland"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=2
 expand=2
@@ -771,6 +841,9 @@ leader="Gustav Vasa", "Erik", "Karl", "Christine"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.sweden"
 flag_alt = "-"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
 
 attack=2
 expand=2
@@ -798,6 +871,11 @@ leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.japan"
 flag_alt = "-"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Shogun"),         _("Shogun")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+}
 
 attack=2
 expand=0

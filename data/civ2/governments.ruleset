@@ -131,9 +131,8 @@ production_trade_penalty  = 2, 0
 production_shield_penalty = 2, 0
 production_food_penalty   = 2, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "Mr.",             "Ms."
-}
+ruler_male_title = _("Mr.")
+ruler_female_title = _("Ms.")
 
 helptext = _("\
 Anarchy is simply the absence of any recognizable government.\
@@ -200,13 +199,8 @@ production_trade_penalty  = 2, 0
 production_shield_penalty = 2, 0
 production_food_penalty   = 2, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "Emperor",         "Empress"
-                 "Roman",       "Dictator",        "Dictator"
-                 "Egyptian",    "Pharaoh",         "Pharaoh"
-                 "Vikings",     "Warlord",         "Warlord"
-                 "Sioux",       "Chief",           "Chief"
-}
+ruler_male_title = _("Emperor")
+ruler_female_title = _("Empress")
 
 helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
@@ -272,17 +266,8 @@ production_trade_penalty  = 0, 0
 production_shield_penalty = 0, 0
 production_food_penalty   = 0, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "King",            "Queen"
-                 "Roman",       "Imperator",       "Imperatrix"
-                 "Egyptian",    "Great Pharaoh",   "Great Pharaoh"
-                 "Indian",      "Maharaja",        "Maharaja"
-                 "Russian",     "Czar",            "Czarina"
-                 "Japanese",    "Shogun",          "Shogun"
-                 "Persian",     "Shah",            "Shah"
-                 "Sioux",       "Great Chief",     "Great Chief"
-                 "Arab",        "Sultan",          "Sultan"
-}
+ruler_male_title = _("King")
+ruler_female_title = _("Queen")
 
 helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
@@ -347,10 +332,8 @@ production_trade_penalty  = 0, 0
 production_shield_penalty = 0, 0
 production_food_penalty   = 0, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "Comrade",         "Comrade"
-                 "Chinese",     "Chairman",        "Chairperson"
-}
+ruler_male_title = _("Comrade")
+ruler_female_title = _("Comrade")
 
 helptext = _("\
 A Communist government is based on the ideal that all people are\
@@ -422,18 +405,8 @@ production_trade_penalty  = 0, 0
 production_shield_penalty = 0, 0
 production_food_penalty   = 0, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "High Priest",     "High Priestess"
-                 "German",      "Archbishop",      "Archbishop"
-                 "American",    "Reverend",        "Reverend"
-                 "Russian",     "Patriarch",       "Matriarch"
-                 "French",      "Archbishop",      "Archbishop"
-                 "English",     "Lord Protector",  "Lady Protector"
-                 "Celt",        "Druid",           "Druid"
-                 "Spanish",     "Archbishop",      "Archbishop"
-                 "Persian",     "Ayatollah",       "Ayatollah"
-                 "Arab",        "Ayatollah",       "Ayatollah"
-}
+ruler_male_title = _("High Priest")
+ruler_female_title = _("High Priestess")
 
 ; FIXME
 helptext = _("\
@@ -481,10 +454,8 @@ production_trade_penalty  = 0, 0
 production_shield_penalty = 0, 0
 production_food_penalty   = 0, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "Consul",          "Consul"
-                 "American",    "Speaker",         "Speaker"
-}
+ruler_male_title = _("Consul")
+ruler_female_title = _("Consul")
 
 helptext = _("\
 Under a Republican government, citizens hold an election to select a\
@@ -560,14 +531,8 @@ production_trade_penalty  = 0, 0
 production_shield_penalty = 0, 0
 production_food_penalty   = 0, 0
 
-ruler_titles = { "nation",      "male_title",      "female_title"
-                 "-",           "President",       "President"
-                 "German",      "Chancellor",      "Chancellor"
-                 "Greek",       "Prime Minister",  "Prime Minister"
-                 "French",      "Premier",         "Premier"
-                 "English",     "Prime Minister",  "Prime Minister"
-                 "Japanese",    "Prime Minister",  "Prime Minister"
-}
+ruler_male_title = _("President")
+ruler_female_title = _("President")
 
 helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\

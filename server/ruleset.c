@@ -1113,53 +1113,22 @@ static void load_ruleset_governments(char *ruleset_subdir)
   /* titles */
   for(i=0; i<game.government_count; i++) {
     struct ruler_title *title;
-    int have_default = 0;
+
     g = &governments[i];
 
-    g->num_ruler_titles = 0;
-    g->ruler_titles = NULL;
-    
-    j = -1;
-    while((c = secfile_lookup_str_default(&file, NULL,
-					  "%s.ruler_titles%d.nation",
-					  sec[i], ++j))) {
-      Nation_Type_id nation;
-      if (strcmp(c, "-") == 0) {
-	nation = DEFAULT_TITLE;
-	have_default = 1;
-      } else {
-	nation = find_nation_by_name(c);
-	if (nation == -1) {
-	  /* otherwise warnings about unused entries: */
-	  section_file_lookup(&file, "%s.ruler_titles%d.male_title",
-			      sec[i], j);
-	  section_file_lookup(&file, "%s.ruler_titles%d.female_title",
-			      sec[i], j);
-	  continue;
-	}
-      }
-      g->num_ruler_titles++;
-      g->ruler_titles
-	= fc_realloc(g->ruler_titles,
-		     g->num_ruler_titles*sizeof(struct ruler_title));
-      title = &(g->ruler_titles[g->num_ruler_titles-1]);
-      
-      title->nation = nation;
-      strncpy(title->male_title,
-	      secfile_lookup_str(&file, "%s.ruler_titles%d.male_title",
-				 sec[i], j),
-	      sizeof(title->male_title)-1);
-      title->male_title[sizeof(title->male_title)-1] = '\0';
-      strncpy(title->female_title,
-	      secfile_lookup_str(&file, "%s.ruler_titles%d.female_title",
-				 sec[i], j),
-	      sizeof(title->female_title)-1);
-      title->female_title[sizeof(title->female_title)-1] = '\0';
-    }
-    if (!have_default) {
-      freelog(LOG_FATAL, "No default title for %s (%s)", g->name, filename);
-      exit(1);
-    }
+    g->num_ruler_titles = 1;
+    g->ruler_titles = fc_calloc(1, sizeof(struct ruler_title));
+    title = &(g->ruler_titles[0]);
+
+    title->nation = DEFAULT_TITLE;
+    strncpy(title->male_title,
+	    secfile_lookup_str(&file, "%s.ruler_male_title", sec[i]),
+	    sizeof(title->male_title)-1);
+    title->male_title[sizeof(title->male_title)-1] = '\0';
+    strncpy(title->female_title,
+	    secfile_lookup_str(&file, "%s.ruler_female_title", sec[i]),
+	    sizeof(title->female_title)-1);
+    title->female_title[sizeof(title->female_title)-1] = '\0';
   }
 
   /* ai tech_hints: */
@@ -1273,10 +1242,11 @@ Load nations.ruleset file
 static void load_ruleset_nations(char *ruleset_subdir)
 {
   struct section_file file;
-  char *filename, *datafile_options, *bad_leader;
+  char *filename, *datafile_options, *bad_leader, *g;
   struct nation_type *pl;
-  int *res, dim, i, j;
-  char temp_name[MAX_LEN_NAME];
+  struct government *gov;
+  int *res, dim, val, i, j;
+  char temp_name[MAX_LEN_NAME], male[MAX_LEN_NAME], female[MAX_LEN_NAME];
   char **cities, **techs, **leaders;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "nations");
@@ -1297,13 +1267,14 @@ static void load_ruleset_nations(char *ruleset_subdir)
   for( i=0; i<game.nation_count; i++) {
     pl = get_nation_by_idx(i);
 
+    /* nation name and leaders */
+
     strcpy( pl->name, secfile_lookup_str(&file, "nation%d.name", i));
     strcpy( pl->name_plural, secfile_lookup_str(&file, "nation%d.plural", i));
-
     leaders = secfile_lookup_str_vec(&file, &dim, "nation%d.leader", i);
     if( dim<1 || dim > MAX_NUM_LEADERS ) {
       freelog(LOG_FATAL, "Nation %s: number of leaders must be 1-%d", pl->name, 
-                MAX_NUM_LEADERS);
+              MAX_NUM_LEADERS);
       exit(1);
     }
     pl->leader_count = dim;
@@ -1348,10 +1319,33 @@ static void load_ruleset_nations(char *ruleset_subdir)
     }
     free(leaders);
 
+    /* Flags */
+
     strcpy(pl->flag_graphic_str,
 	   secfile_lookup_str(&file, "nation%d.flag", i));
     strcpy(pl->flag_graphic_alt,
 	   secfile_lookup_str(&file, "nation%d.flag_alt", i));
+
+    /* Ruler titles */
+
+    j = -1;
+    while((g = secfile_lookup_str_default(&file, NULL, "nation%d.ruler_titles%d.government",
+					  i, ++j))) {
+      strncpy(male, secfile_lookup_str(&file, "nation%d.ruler_titles%d.male_title", i, j),
+              sizeof(male)-1);
+      male[sizeof(male)-1] = '\0';
+      strncpy(female, secfile_lookup_str(&file, "nation%d.ruler_titles%d.female_title", i, j),
+              sizeof(female)-1); 
+      female[sizeof(female)-1] = '\0';
+      if( (gov = find_government_by_name(g)) != NULL ) {
+        set_ruler_title(gov, i, male, female);
+      }
+      else {
+        freelog(LOG_VERBOSE,"Nation %s, government %s not found", pl->name, g);
+      }
+    }
+
+    /* AI stuff */
 
     pl->attack = secfile_lookup_int_default(&file, 2, "nation%d.attack", i);
     pl->expand = secfile_lookup_int_default(&file, 2, "nation%d.expand", i);
@@ -1367,29 +1361,67 @@ static void load_ruleset_nations(char *ruleset_subdir)
       pl->advisors[j] = res[j];
     if(res) free(res);
 
+    /* AI techs */
+
     techs = secfile_lookup_str_vec(&file, &dim, "nation%d.tech_goals", i);
     if( dim > MAX_NUM_TECH_GOALS ) {
       freelog( LOG_VERBOSE, "Only %d techs can used from %d defined for nation %s",
                MAX_NUM_TECH_GOALS, dim, pl->name_plural);
       dim = MAX_NUM_TECH_GOALS;
     }
-    for ( j=0; j<dim; j++) {
-      pl->goals_str.tech[j] = fc_calloc((strlen(techs[j])+1), sizeof(char));
-      strcpy( pl->goals_str.tech[j], techs[j]);
+    for( j=0; j<dim; j++) {
+      val = find_tech_by_name(techs[j]);
+      if(val == A_LAST) {
+	freelog(LOG_VERBOSE, "Didn't match goal tech %d \"%s\" for %s",
+		j, techs[j], pl->name);
+      } else if(!tech_exists(val)) {
+	freelog(LOG_VERBOSE, "Goal tech %d \"%s\" for %s doesn't exist",
+		j, techs[j], pl->name);
+	val = A_LAST;
+      }
+      if(val != A_LAST && val != A_NONE) {
+	freelog(LOG_DEBUG, "%s tech goal (%d) %3d %s", pl->name, j, val, techs[j]);
+	pl->goals.tech[j] = val;
+      }
+    }
+    freelog(LOG_DEBUG, "%s %d tech goals", pl->name, j);
+    if(j==0) {
+      freelog(LOG_VERBOSE, "No valid goal techs for %s", pl->name);
     }
     while( j < MAX_NUM_TECH_GOALS )
-      pl->goals_str.tech[j++] = "";
+      pl->goals.tech[j++] = A_NONE;
     if (techs) free(techs);
 
+    /* AI wonder & government */
+
     strcpy( temp_name, secfile_lookup_str(&file, "nation%d.wonder", i));
-    pl->goals_str.wonder = fc_calloc((strlen(temp_name)+1), sizeof(char));
-    strcpy( pl->goals_str.wonder, temp_name);
+    val = find_improvement_by_name(temp_name);
+    /* for any problems, leave as B_LAST */
+    if(val == B_LAST) {
+      freelog(LOG_VERBOSE, "Didn't match goal wonder \"%s\" for %s", temp_name, pl->name);
+    } else if(!improvement_exists(val)) {
+      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s doesn't exist", temp_name, pl->name);
+      val = B_LAST;
+    } else if(!is_wonder(val)) {
+      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s not a wonder", temp_name, pl->name);
+      val = B_LAST;
+    }
+    pl->goals.wonder = val;
+    freelog(LOG_DEBUG, "%s wonder goal %d %s", pl->name, val, temp_name);
 
     strcpy( temp_name, secfile_lookup_str(&file, "nation%d.government", i));
-    pl->goals_str.government = fc_calloc((strlen(temp_name)+1), sizeof(char));
-    strcpy( pl->goals_str.government, temp_name);
+    gov = find_government_by_name(temp_name);
+    if(gov == NULL) {
+      freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
+	      temp_name, pl->name);
+      val = game.government_when_anarchy;  /* flag value (no goal) (?) */
+    } else {
+      val = gov->index;
+    }
+    pl->goals.government = val;
 
     /* read city names */
+
     cities = secfile_lookup_str_vec(&file, &dim, "nation%d.cities", i);
     pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
     pl->default_city_names[dim] = NULL;
@@ -1717,12 +1749,11 @@ void load_rulesets(void)
 {
   freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
-  load_ruleset_nations(game.ruleset.nations);
   load_ruleset_governments(game.ruleset.governments);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
+  load_ruleset_nations(game.ruleset.nations);
   load_ruleset_terrain(game.ruleset.terrain);
-  init_nation_goals();
 }
 
 /**************************************************************************
