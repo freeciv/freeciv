@@ -2,8 +2,10 @@
 
 name=_("Viking")
 plural=_("?plural:Vikings")
-leader="Erik Blodøks", "Harald Hårfagre", "Gro Harlem Brundtland", "Haakon VII"
-leader_sex="Male", "Male", "Female", "Male"
+leader="Erik Blodøks", "Harald Hårfagre", "Hrolf Gangr", "Rollo",
+       "Gro Harlem Brundtland", "Haakon VII", "Aud Ivarsdottr"
+leader_sex="Male", "Male", "Male", "Male", 
+           "Female", "Male", "Female"
 flag="f.norway"
 flag_alt = "f.denmark"  ; Now used by Danish
 city_style = "European"

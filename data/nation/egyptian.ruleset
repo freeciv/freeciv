@@ -2,8 +2,10 @@
 
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
-leader="Ramesses", "Cleopatra", "Tutanhamon", "Hatshepsut", "Nefertiti", "Cheops"
-leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
+leader="Rameses", "Cleopatra", "Tutankhamun", "Narmer", "Thutmose",
+       "Hatshepsut", "Nefertiti", "Cheops"
+leader_sex="Male", "Female", "Male", "Male", "Male",
+        "Female", "Female", "Male"
 flag="f.egypt"
 flag_alt = "-"
 city_style = "Classical"

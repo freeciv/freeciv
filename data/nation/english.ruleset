@@ -3,9 +3,9 @@
 name=_("English")
 plural=_("?plural:English")
 leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII",
-       "Victoria", "Winston Churchill"
+       "Oliver Cromwell", "Victoria", "Winston Churchill"
 leader_sex="Female", "Male", "Male", "Male",
-           "Female", "Male"
+           "Male", "Female", "Male"
 flag="f.england"
 flag_alt = "f.united_kingdom"
 city_style = "European"

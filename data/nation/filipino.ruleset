@@ -2,8 +2,8 @@
 
 name=_("Filipino")
 plural=_("?plural:Filipinos")
-leader="Jose Rizal", "Luis Taruc", "Sergio Osmena", "Ferdinand Marcos"
-leader_sex="Male", "Male", "Male", "Male"
+leader="Ramon Magsagay","Jose Rizal", "Luis Taruc", "Sergio Osmena", "Ferdinand Marcos"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.philippines"
 flag_alt = "-"
 city_style = "Asian"

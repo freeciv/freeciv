@@ -2,8 +2,8 @@
 
 name = _("Irish")
 plural = _("?plural:Irish")
-leader = "Patrick", "Ollam Fodla", "Lugh"
-leader_sex = "Male", "Male", "Male"
+leader = "Brian Boru", "Cuchulain", "Patrick", "Ollam Fodla", "Lugh"
+leader_sex = "Male", "Male", "Male", "Male", "Male"
 flag="f.ireland"
 flag_alt = "-"
 city_style = "European"

@@ -2,8 +2,11 @@
 
 name=_("Roman")
 plural=_("?plural:Romans")
-leader="Caesar", "August", "Livia", "Trajan", "Constantin"
-leader_sex="Male", "Male", "Female", "Male", "Male"
+leader="Caesar", "Augustus", "Vespasian", "Nero", "Trajan", "Marcus Aurelius",
+       "Tiberius", "Constantine"
+       "Livia", "Messalina"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Female", "Female"
 flag = "f.rome"
 flag_alt = "f.italy"
 city_style = "Classical"

@@ -2,8 +2,8 @@
 
 name=_("Greek")
 plural=_("?plural:Greeks")
-leader="Alexander", "Perikles", "Leonidas"
-leader_sex="Male", "Male", "Male"
+leader="Alexander", "Perikles", "Leonidas", "Solon",
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.greece"
 flag_alt = "-"
 city_style = "Classical"

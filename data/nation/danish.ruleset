@@ -6,12 +6,12 @@ leader=
   "Gudfred", "Gorm den Gamle", "Harald Blåtand", "Svend Tveskæg",
   "Knud den Store", "Hardeknud", "Svend", "Knud", "Valdemar",
   "Valdemar den Store", "Valdemar Sejr", "Erik Klipping",
-  "Valdemar Atterdag", "Margrethe I", "Christian IV"
+  "Valdemar Atterdag", "Margrethe I", "Christian IV", "Dag Hammarskjold"
 leader_sex=
   "Male", "Male", "Male", "Male",
   "Male", "Male", "Male", "Male", "Male",
   "Male", "Male", "Male",
-  "Male", "Female", "Male"
+  "Male", "Female", "Male", "Male"
 flag="f.denmark"
 flag_alt = "-"
 city_style = "European"
