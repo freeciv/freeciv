@@ -1160,7 +1160,7 @@ gboolean select_item_iteration(GtkTreeModel *model, GtkTreePath *path,
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
 
     step = *it;
-    while (gtk_tree_store_iter_depth(model, &step) > 0) {
+    while (gtk_tree_store_iter_depth(GTK_TREE_STORE(model), &step) > 0) {
       gtk_tree_model_iter_parent(model, &parent, &step);
       step = parent;
     }
