@@ -171,17 +171,17 @@ static void get_city_table_header(char *text[], int n)
 ****************************************************************/
 void popup_city_report_dialog(bool make_modal)
 {
-  if(!city_dialog_shell) {
-      city_dialog_shell_is_modal=make_modal;
-    
-      if(make_modal)
-	gtk_widget_set_sensitive(top_vbox, FALSE);
-      
-      create_city_report_dialog(make_modal);
-      gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
+  if (!city_dialog_shell) {
+    city_dialog_shell_is_modal = make_modal;
 
-      gtk_widget_show(city_dialog_shell);
-   }
+    if (make_modal) {
+      gtk_widget_set_sensitive(top_vbox, FALSE);
+    }
+
+    create_city_report_dialog(make_modal);
+    gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
+  }
+  gtk_window_show(GTK_WINDOW(city_dialog_shell));
 }
 
 /****************************************************************
@@ -193,8 +193,7 @@ void popdown_city_report_dialog(void)
     if (city_dialog_shell_is_modal) {
       gtk_widget_set_sensitive(top_vbox, TRUE);
     }
-    gtk_widget_destroy(city_dialog_shell);
-    city_dialog_shell = NULL;
+    gtk_window_hide(GTK_WINDOW(city_dialog_shell));
   }
 }
 
