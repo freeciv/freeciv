@@ -481,7 +481,6 @@ void dio_get_bool8(struct data_in *din, bool * dest)
 
   if (ival != 0 && ival != 1) {
     freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
-    assert(0);
     ival = 1;
   }
 
@@ -499,7 +498,6 @@ void dio_get_bool32(struct data_in *din, bool * dest)
 
   if (ival != 0 && ival != 1) {
     freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
-    assert(0);
     ival = 1;
   }
 
