@@ -13,7 +13,9 @@
 #ifndef __AIUNIT_H
 #define __AIUNIT_H
 
-enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY};
+enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
+                    AIUNIT_RUNAWAY, AIUNIT_ESCORT};
 
 void ai_manage_units(struct player *pplayer); 
 int ai_want_settlers(struct player *pplayer, int cont);
