@@ -657,6 +657,32 @@ void handle_unit_enter_hut(struct unit *punit)
   }
   send_player_info(pplayer, pplayer);
 }
+
+
+/*****************************************************************
+  Will wake up any neighboring enemy sentry units
+  *****************************************************************/
+void wakeup_neighbor_sentries(struct player *pplayer,int cent_x,int cent_y)
+{
+  int x,y;
+  struct unit *punit;
+
+  for (x = cent_x-1;x <= cent_x+1;x++)
+    for (y = cent_y-1;y <= cent_y+1;y++)
+      if ((x != cent_x)||(y != cent_y))
+	{
+	  unit_list_iterate(map_get_tile(x,y)->units, punit) {
+	    if ((pplayer->player_no != punit->owner)&&
+		(punit->activity == ACTIVITY_SENTRY))
+	      {
+		set_unit_activity(punit, ACTIVITY_IDLE);
+		send_unit_info(0,punit,0);
+	      }
+	  }
+	  unit_list_iterate_end;
+	}
+}
+
 /**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
@@ -779,6 +805,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 
     if((map_get_tile(dest_x, dest_y)->special&S_HUT))
       handle_unit_enter_hut(punit);
+
+    wakeup_neighbor_sentries(pplayer,dest_x,dest_y);
     
     connection_do_unbuffer(pplayer->conn);
 
