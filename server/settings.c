@@ -151,7 +151,8 @@ static bool startunits_callback(const char *value, const char **error_string)
       have_founder = TRUE;
       continue;
     }
-    if (strchr("cwxksfdDaA", value[i])) {
+    /* TODO: add 'f' back in here when we can support ferry units */
+    if (strchr("cwxksdDaA", value[i])) {
       continue;
     }
 
@@ -423,6 +424,8 @@ struct settings_s settings[] = {
   /* Game initialization parameters (only affect the first start of the game,
    * and not reloads).  Can not be changed after first start of game.
    */
+  /* TODO: Add this line back when we can support Ferry units */
+  /* "    f   = Ferryboat (eg., Trireme)\n" */
   GEN_STRING("startunits", game.start_units,
 	     SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
              N_("List of players' initial units"),
@@ -435,7 +438,6 @@ struct settings_s settings[] = {
 		"    x   = Explorer (eg., Explorer)\n"
 		"    k   = Gameloss (eg., King)\n"
 		"    s   = Diplomat (eg., Diplomat)\n"
-		"    f   = Ferryboat (eg., Trireme)\n"
 		"    d   = Ok defense unit (eg., Warriors)\n"
 		"    D   = Good defense unit (eg., Phalanx)\n"
 		"    a   = Fast attack unit (eg., Horsemen)\n"
