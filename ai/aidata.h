@@ -74,6 +74,16 @@ struct ai_data {
   int unhappy_priority;
   int angry_priority;
   int pollution_priority;
+
+  /* Goals */
+  struct {
+    struct {
+      int idx;        /* Id of the ideal government */
+      int val;        /* Its value (relative to the current gov) */
+      int req;        /* The tech requirement for the ideal gov */
+    } govt;
+    int revolution;   /* The best gov of the now available */
+  } goal;
 };
 
 void ai_data_turn_init(struct player *pplayer);

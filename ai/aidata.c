@@ -32,6 +32,7 @@
 
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aihand.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -250,6 +251,9 @@ void ai_data_turn_init(struct player *pplayer)
   ai->unhappy_priority = TRADE_WEIGHTING; /* danger */
   ai->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
   ai->pollution_priority = POLLUTION_WEIGHTING;
+
+  /* Goals */
+  ai_best_government(pplayer);
 }
 
 /**************************************************************************

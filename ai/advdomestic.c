@@ -987,7 +987,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_CITIES);
 
   if (unit_type != U_LAST
-      && est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
+      && est_food >= utype_food_cost(get_unit_type(unit_type), gov)) {
     /* founder_want calculated in settlers.c, called from ai_manage_city(). */
     int want = pcity->ai.founder_want;
 

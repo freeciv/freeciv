@@ -306,19 +306,27 @@ static void ai_manage_taxes(struct player *pplayer)
 }
 
 /**************************************************************************
-  Change the government form, if it can and there is a good reason.
+  Find best government to aim for.
+  We do it by setting our government to all possible values and calculating
+  our GDP (total ai_eval_calc_city) under this government.  If the very
+  best of the governments is not available to us (it is not yet discovered),
+  we record it in the goal.gov structure with the aim of wanting the
+  necessary tech more.  The best of the available governments is recorded 
+  in goal.revolution.
 **************************************************************************/
-static void ai_manage_government(struct player *pplayer)
+void ai_best_government(struct player *pplayer)
 {
 #undef ANALYSE
   struct ai_data *ai = ai_data_get(pplayer);
-  int best_gov = 0;
   int best_val = 0;
-  int really_best_val = 0;
-  int really_best_req = A_UNSET;
   int i;
   int bonus = 0; /* in percentage */
   int current_gov = pplayer->government;
+
+  ai->goal.govt.idx = pplayer->government;
+  ai->goal.govt.val = 0;
+  ai->goal.govt.req = A_UNSET;
+  ai->goal.revolution = pplayer->government;
 
   if (ai_handicap(pplayer, H_AWAY)) {
     return;
@@ -370,7 +378,9 @@ static void ai_manage_government(struct player *pplayer)
 #endif
     } city_list_iterate_end;
 
-    /* Bonuses for non-economic abilities */
+    /* Bonuses for non-economic abilities. We increase val by
+     * a very small amount here to choose govt in cases where
+     * we have no cities yet. */
     if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
       bonus += 3; /* WAG */
     }
@@ -385,10 +395,12 @@ static void ai_manage_government(struct player *pplayer)
     }
     if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
       bonus += 5; /* WAG */
+      val += 1;
     }
     if (government_has_flag(gov, G_FANATIC_TROOPS)) {
       bonus += 3; /* WAG */
     }
+    val += gov->trade_bonus + gov->shield_bonus + gov->food_bonus;
 
     val += (val * bonus) / 100;
 
@@ -396,33 +408,47 @@ static void ai_manage_government(struct player *pplayer)
     val = amortize(val, dist);
     if (val > best_val && can_change_to_government(pplayer, i)) {
       best_val = val;
-      best_gov = i;
+      ai->goal.revolution = i;
     }
-    if (val > really_best_val) {
-      really_best_val = val;
-      really_best_req = gov->required_tech;
+    if (val > ai->goal.govt.val) {
+      ai->goal.govt.idx = i;
+      ai->goal.govt.val = val;
+      ai->goal.govt.req = gov->required_tech;
     }
 #ifdef ANALYSE
-    freelog(LOG_NORMAL, "%s govt eval %s (dist %d): %d [f%d|sh%d|l%d|g%d|sc%d|h%d|u%d|a%d|p%d]",
+    freelog(LOG_NORMAL, "%s govt eval %s (dist %d): "
+            "%d [f%d|sh%d|l%d|g%d|sc%d|h%d|u%d|a%d|p%d]",
             pplayer->name, gov->name, dist, val, food_surplus,
             shield_surplus, luxury_total, tax_total, science_total,
             ppl_happy, ppl_unhappy, ppl_angry, pollution);
 #endif
   }
-  if (best_gov != current_gov) {
-    ai_government_change(pplayer, best_gov); /* change */
-  } else {
-    pplayer->government = current_gov; /* reset */
+  /* Goodness of the ideal gov is calculated relative to the goodness of the
+   * best of the available ones. */
+  ai->goal.govt.val -= best_val;
+  /* Now reset our gov to it's real state. */
+  pplayer->government = current_gov;
+}
+
+/**************************************************************************
+  Change the government form, if it can and there is a good reason.
+**************************************************************************/
+static void ai_manage_government(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  if (ai->goal.revolution != pplayer->government) {
+    ai_government_change(pplayer, ai->goal.revolution); /* change */
   }
 
   /* Crank up tech want */
-  if (get_invention(pplayer, really_best_req) == TECH_KNOWN) {
+  if (get_invention(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
     return; /* already got it! */
   }
-  pplayer->ai.tech_want[really_best_req] += (really_best_val - best_val);
+  pplayer->ai.tech_want[ai->goal.govt.req] += ai->goal.govt.val;
   freelog(LOG_DEBUG, "%s wants %s with want %d", pplayer->name,
-          advances[really_best_req].name, 
-          pplayer->ai.tech_want[really_best_req]);
+          advances[ai->goal.govt.req].name, 
+          pplayer->ai.tech_want[ai->goal.govt.req]);
 }
 
 /**************************************************************************

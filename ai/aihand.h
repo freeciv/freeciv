@@ -22,4 +22,6 @@ void ai_do_last_activities(struct player *pplayer);
 
 bool is_unit_choice_type(enum choice_type type);
 
+void ai_best_government(struct player *pplayer);
+
 #endif  /* FC__AIHAND_H */
