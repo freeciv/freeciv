@@ -506,6 +506,10 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
+#ifdef DEBUG
+  static int sprites = 0, pixbufs = 0;
+#endif
+
   if (ssprite->pixmap) {
     if (ssprite->mask) {
       gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
@@ -526,7 +530,18 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 		    MIN(width, MAX(0, ssprite->width - offset_x)),
 		    MIN(height, MAX(0, ssprite->height - offset_y)),
 		    GDK_RGB_DITHER_NONE, 0, 0);
+#ifdef DEBUG
+    pixbufs++;
+#endif
   }
+
+#ifdef DEBUG
+  sprites++;
+  if (sprites % 1000 == 0) {
+    freelog(LOG_DEBUG, "%5d / %5d pixbufs = %d%%",
+	    pixbufs, sprites, 100 * pixbufs / sprites);
+  }
+#endif
 }
 
 /**************************************************************************
