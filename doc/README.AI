@@ -1,95 +1,316 @@
--------------------------------------------------------------------------
-Note: this document is not entirely up-to-date.
+==============
+THE FREECIV AI
+==============
 
-The AI hasn't changed much recently, since John has stopped working 
-on it.  The main change from the information below is that an "easy" 
-skill level has been implemented, and made the default.  Also, the
-AI now uses diplomats and spies, for defense only. --dwp
 
-New for 1.9.0: the AI will sometimes build spaceships, and sometimes
-create trade routes, although not very skillfully yet in either case.
+CONTENTS
+========
+Introduction
+Contacting the current AI developers
+Want calculations
+Amortize
+Estimation of profit from a military operation
+Selecting military units
+Diplomacy
+Difficulty levels
+Things that needs to be fixed
+Idea space
 
-Old README.AI from John Stonebraker, from the 1.7.1 release:
--------------------------------------------------------------------------
-    I haven't worked on the AI as much for the past three weeks as
-I did for the previous three months.  I did substantially improve
-its ability to manage invasions and conquer cities, and prevent
-misbehaviors that I doubt anyone else would have realized were bugs.
-The AI seems capable of winning against experienced players now,
-although to my dismay it still hasn't beaten me.
 
-    The AI is getting so complicated that I'm sure there are problems
-that I haven't encountered.  If it does something stupid or questionable
-that isn't referred to as a Known Problem, send me mail mail describing
-the problem and attach a save file so I can take a look at it.  If you
-have opinions on which of the below are most important, send me mail
-about it.  I'm always happy to get user feedback.
+INTRODUCTION 
+============ 
 
-    The AI difficulty levels aren't fully implemented.  I've done all my
-work getting the default level to work right, and based on what I've
-heard, I defined that level as 'hard'.  The only available alternative
-is 'normal', where the AI doesn't know where huts and military targets
-are before it sees them, and also must obey government max rates.
-It seems to behave sensibly in the few tests I've run in normal mode,
-and I haven't gotten any complaints that there are problems with it.
-There is no 'easy' mode yet, although I suspect there needs to be.
+The Freeciv AI is widely recognized as being as good as or better
+militarywise as the AI of certain other games it is natural to compare
+it with.  It does, however, lack diplomacy and can only do war.  It is
+also too hard on novice players and too easy for experienced players.
 
-John Stonebraker
-ppaqebb@surfshop.net
+The code base is not in a good state.  It has a number of problems,
+from very messy and not very readable codebase, to many missing
+features to some bugs, which aren't easy to fix due to unreadable
+code.  The problem is, that most the code was written by someone who
+didn't care about code readibility a lot.  After he left the project,
+various people have contributed their own mostly unfinished hacks
+without really fixing the main issues in the AI code, resulting in
+even more mess.
 
-[The AI has been left pretty much alone since John Stonebraker left the
-project; mainly because he didn't document his code and liked to choose
-variable names like "int a,b,c,d,e,f,g,h,i,j" (that is an actual example!).
-Any patches adding comments to the AI are welcome; especially I would like
-an explanation of the minimap in settlers.c and the use of the amortize
-function. -Thue]
+Another problem is that not all code is residing in ai/ (which is
+currently still linked to a server, but there're plans to separate
+this completely to some kind of client, working name is "civbot"), but
+it is also dissolved in little chunks in the whole server/.  Aside
+that, server/settlers.c is only AI stuff - the problem is, that most
+of it is used also for the autosettlers, so we can't separate it from
+the server.
 
-Known problems:
-[this looks partially out of date; I removed severel entries, more look
-suspicious but I am not sure. -Thue]
--------------------------------------------------------------------------
-AI doesn't understand when to become DEMOCRACY
-Cities don't realize units are on their way to defend it
-AI doesn't understand obsolescence
-related: AI likes to build Oracle more than Chapel
-AI doesn't know how to use planes and missiles
-AI doesn't understand how to favor trade when it needs luxury
-AI builds cities without regard to danger at that location
-city tile values are not cached; wastes CPU time
-Food tiles should be less wanted if city can't expand
-AI doesn't build infrastructure near where a city is about to be built
-ai_calc* routines are slow and perhaps shouldn't regard government
-AI won't build cross-country roads outside of city radii
-Non-military units need to stop going where they will be killed
-Locally_zero_minimap is not implemented when wilderness tiles change
-AI doesn't understand 13th city is unlucky
-Settlers won't treat about-to-be-built ferryboats as ferryboats
-If no path to chosen victim is found, new victim should be chosen
-Values for Mysticism, Electricity, and Theology need to be verified
-AI doesn't know how to make trade routes or when
-AI is vulnerable to well co-ordinated mass attacks
-AI doesn't acknowledge effects of MAGELLAN in some of its calculations
-Boats sometimes sail away from landlocked would-be passengers
-Ferryboats crossing at sea might lead to unwanted behavior
-Emergencies in two cities at once aren't handled properly
-AI sometimes will get locked into a zero science rate and stay there
-Explorers will not use ferryboats to get to new lands to explore
+This file aims to describe all such problems, in addition to various
+not entirely self-describing constants and equations used in the code
+commonly.
 
-Partially fixed problems:
--------------------------------------------------------------------------
-AI handicaps are minimally implemented
-AI manages workers one at a time, which is not as dumb as it used to be
-Transport paranoia code is mostly working but not 100% reliable
-Auto-settlers have a simplistic idea of enemy territory
 
-Idea space:
--------------------------------------------------------------------------
-Friendly cities can be used as beachheads
-It might be best to only sentry the #1 passenger and its bodyguard
-Unit_move_turns should be implemented more thoroughly
-Assess_danger should acknowledge positive feedback between multiple attackers
-Urgency and grave_danger should probably be ints showing magnitude of danger
-It would be nice for bodyguard and charge to meet en-route more elegantly
-It may be correct to starve workers instead of allowing disorder to continue
-Bodyguards could be used much more often
-AI should sell barracks (and other worthless buildings) voluntarily
+CONTACTING THE CURRENT AI DEVELOPERS
+====================================
+
+AI development has its own mailing list. Send questions to
+freeciv-ai@freeciv.org, or go to 
+
+  http://www.freeciv.org/mailinglists.html
+
+to read the archives or to join up.
+
+
+WANT CALCULATIONS
+=================
+
+Build calculations are expressed through a structure called ai_choice. 
+This has a variable called "want", which determines how much the AI 
+wants whatever item is pointed to by choice->type. choice->want is
+
+   -199   get_a_boat
+   < 0    an error
+   == 0   no want, nothing to do
+   <= 100 normal want
+    > 100 critical want, used to requisition emergency needs
+    > ??? probably an error (1024 is a reasonable upper bound)
+    > 200 Frequently used as a cap. When want exceeds this value,
+          it is reduced to a lower number.
+
+These are ideal numbers, your mileage while travelling through the 
+code may vary considerably.  Technology and diplomats, in particular, 
+seem to violate these standards.
+
+
+AMORTIZE
+========
+
+Hard fact:
+amortize(benefit, delay) returns benefit * ((MORT - 1)/MORT)^delay
+(where "^" == "to the power of")
+
+Speculation:
+What is better, to receive 10$ annually starting in 5 years from now
+or 5$ annually starting from this year?  How can you take inflation
+into account?  The function amortize is meant to help you answer these
+questions.  To achieve this, it rescales the future benefit in terms of
+todays money.
+
+Suppose we have a constant rate of inflation, x percent.  Then in five
+years time 10$ will buy as much as 10*(100/(100+x))^5 will buy today.
+Denoting 100/(100+x) by q we get the general formula, N dollars Y
+years from now will be worth N*q^Y in todays money.  If we will
+receive N every year starting Y years from now, the total amount
+receivable (in todays money) is N*q^Y / (1-q) --- this is the sum of
+infinite geometric series.  This is exactly the operation that
+amortize performs, the multiplication by some q < 1 raised to power Y.
+Note that the factor 1/(1-q) does not depend on the parameters N and Y
+and can be ignored.  The connection between MORT constant and the
+inflation rate x is given by
+    (MORT - 1) / MORT = q = 100 / (100 + x).
+Thus the current value of MORT = 24 corresponds to the inflation rate
+(or the rate of expansion of your civ) of 4.3%
+
+Most likely this explanation is not what the authors of amortize() had
+in mind, but the basic idea is correct: the value of the payoff decays
+exponentially with the delay.
+
+The version of amortize used in the military code (military_amortize())
+remains a complete mystery.
+
+
+ESTIMATION OF PROFIT FROM A MILITARY OPERATION
+==============================================
+
+This estimation is implemented by kill_desire function (which isn't
+perfect: multi-victim part is flawed) plus some corrections.  In
+general,
+        Want = Operation_Profit * Amortization_Factor
+where 
+
+* Amortization_Factor is completely beyond me (but it's a function of the
+estimated time length of the operation).
+
+* Operation_Profit = Battle_Profit - Maintenance
+
+where
+
+* Maintenance 
+  = (Support + Unhappiness_Compensation) * Operation_Time 
+  (here unhappiness is from military unit being away from home
+   and Support is the number of shields spent on supporting this unit 
+   per turn )
+
+* Battle_Profit
+  = Shields_Lost_By_Enemy * Probability_To_Win 
+    - Shields_Lost_By_Us * Probability_To_Lose
+
+That is Battle_Profit is a probabilistic average.  It answer the
+question "how much better off, on average, we would be from attacking
+this enemy unit?"
+
+
+SELECTING MILITARY UNITS
+========================
+
+The code dealing with choosing military units to be built and targets
+for them is especially messy.  Here is what we've managed to decipher.
+
+Military units are requested in military_advisor_choose_build
+function.  It first considers the defensive units and then ventures
+into selection of attackers (if home is safe).  There are 2
+possibilities here: we just build a new attacker or we already have an
+attacker which was forced, for some reason, to defend.  In the second
+case it's easy: we calculate how good the existing attacker is and if
+it's good, we build a defender to free it up.
+
+Building a brand-new attacker is more complicated.  Firstly,
+ai_choose_attacker_* functions are charged to find the first
+approximation to the best attacker that can be built here.  This
+prototype attacker is selected using very simple attack_power * speed
+formula.  Then (already in kill_something_with) we search for targets
+for the prototype attacker (using find_something_to_kill).  Having
+found a target, we do the last refinement by calling
+process_attacker_want to look for the best attacker type to take out
+the target.  This type will be our attacker choice.  Note that the
+function process_attacker_want has side-effects wrt the tech selection. 
+
+Here is an example:
+
+First ai_choose_attacker_land selects a Dragoon because it's strong
+and fast.  Then find_something_to_kill finds a victim for the
+(virtual) Dragoon, an enemy Riflemen standing right next to the town.
+Then process_attacker_want figures out that since the enemy is right
+beside us, it can be taken out easier using an Artillery.  It also
+figures that a Howitzer would do this job even better, so bumps up our
+desire for Robotics.
+
+This is the idea, anyway.  In practice, it is more complicated and
+probably less effecient.
+
+
+DIPLOMACY
+=========
+
+At the moment, the AI cannot change its diplomatic state.  The AI
+starts out in NO_CONTACT mode, and proceeds to WAR on first-contact.
+
+However, AI understands the notion of "ally" and if, by some trickery
+("teams" patch or direct savegame hacking), it is put in an alliance
+with another player, it will stick to this allience.  Thus, AI knows
+about friendly units and cities, and does not consider them to be
+either targets nor dangers.  Caravans are sent to friendly cities, and
+ships that do not have targets are sent on a goto to the closest
+allied port for the hull to get mended and for the crew to rest and
+befriend local girls.
+
+AI is currently totally trusting and does not expect diplomatic states
+to ever change.  So if one is to add active diplomacy to the AI, this
+must be changed.
+
+For people who want to hack at this part of the AI code, please note
+ * pplayers_at_war(p1,p2) returns FALSE if p1==p2
+ * pplayers_non_attack(p1,p2) returns FALSE if p1==p2
+ * pplayers_allied(p1,p2) returns TRUE if p1==p2 
+i.e. we do not ever consider a player to be at war with himself, we
+never consider a player to have any kind of non-attack treaty with
+himself, and we always consider a player to have an alliance with
+himself. 
+
+Note, however, that while perfectly logical, player_has_embassy(p1,p2)  
+does _not_ return TRUE if p1==p2.  This should probably be changed.
+
+The introduction of diplomacy is fraught with many problems.  One is
+that it usually gains only human players, not AI players, since humans
+are so much smarter and know how to exploit diplomacy, while for AIs
+they mostly only add constraints on what it can do.  Another is that it
+can be very difficult to write diplomacy that is useful for and not in
+the way of modpacks.  Which means diplomacy either has to be optional,
+or have finegrained controls on who can do what diplomatic deals to
+whom, set from rulesets.
+
+But one possibility for diplomacy that it would be easy to introduce,
+is an initial PEACE mode for AIs under 'easy' difficulty.  This can be
+turned to WAR by a simple countdown timer started after first contact.
+This way 'easy' will be more easy --- a frequently requested feature.
+
+
+DIFFICULTY LEVELS
+=================
+
+There are currently three difficulty levels: 'easy', 'medium' and
+'hard'.  The 'hard' level is no-holds-barred, while 'medium' has a
+number of handicaps.  In 'easy', the AI also does random stupid things
+through the ai_fuzzy function. 
+
+The handicaps used are:
+  H_RATES, can't set its rates beyond government limits
+  H_TARGETS, can't target anything it doesn't know exists
+  H_HUTS, doesn't know which unseen tiles have huts on them
+  H_FOG, can't see through fog of war
+
+The other defined handicaps (in common/player.h) are not currently in 
+use.
+
+
+THINGS THAT NEED TO BE FIXED
+============================
+
+* The AI difficulty levels aren't fully implemented.  Either add more
+handicaps to 'easy', or use easy diplomacy mode.
+* AI doesn't understand when to become DEMOCRACY or FUNDAMENTALIST.
+Actually it doesn't evalute governments much at all.
+* Cities don't realize units are on their way to defend it.
+* AI doesn't understand that some wonders are obsolete, that some 
+wonders become obsolete, and doesn't upgrade units.
+* AI doesn't understand how to favor trade when it needs luxury.
+* AI builds cities without regard to danger at that location.
+* Food tiles should be less wanted if city can't expand.
+* AI won't build cross-country roads outside of city radii.
+[Note: There is patch that permits the AI to build cross country
+roads/rail.  Unfortunately, it makes it too easy for the AI to be
+invaded.]
+* Non-military units need to stop going where they will be killed.
+* Locally_zero_minimap is not implemented when wilderness tiles 
+change.
+* Settlers won't treat about-to-be-built ferryboats as ferryboats.
+* If no path to chosen victim is found, new victim should be chosen.
+* AI doesn't know how to make trade routes or when.  It should try to 
+build trade routes for its best cities (most building bonuses and 
+least corruption) by moving caravans there and changing homecity.
+* Boats sometimes sail away from landlocked would-be passengers.
+* Ferryboats crossing at sea might lead to unwanted behavior.
+* Emergencies in two cities at once aren't handled properly.
+* AI sometimes will get locked into a zero science rate and stay 
+there.
+* Explorers will not use ferryboats to get to new lands to explore.
+* AI autoattack is never activated (probably a good thing too) (PR#1340)
+* AI sometimes believes that wasting a horde of weak military units to
+kill one enemy is profitable (PR#1340)
+
+
+THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)
+===============================================================
+
+* teach AI to use planes and missiles. [GB]
+* teach AI to use diplomats [Per]
+* teach AI to do diplomacy (see Diplomacy section) [Per]
+
+
+IDEA SPACE
+==========
+
+* Friendly cities can be used as beachheads
+* Assess_danger should acknowledge positive feedback between multiple 
+attackers
+* Urgency and grave_danger should probably be ints showing magnitude 
+of danger
+* It would be nice for bodyguard and charge to meet en-route more 
+elegantly.
+* It may be correct to starve workers instead of allowing disorder to 
+continue.  Ideal if CMA code or similar is used here.
+* Bodyguards could be used much more often.  Actually it would be nice
+if the bodyguard code was taken out and shot, too.  Then rewritten, of
+course.
+* struct choice should have a priority indicator in it.  This will
+reduce the number of "special" want values and remove the necessity to
+have want capped, thus reducing confusion.
+* City tile values could be cached.  However, caching was tried by
+Raimar and was deemed unsuccessful. 
