@@ -39,6 +39,7 @@ server/srv_main.c
 server/stdinhand.c
 server/unithand.c
 server/unittools.c
+client/attribute.c
 client/audio.c
 client/audio_esd.c
 client/citydlg_common.c
@@ -48,6 +49,7 @@ client/climisc.c
 client/clinet.c
 client/control.c
 client/helpdata.c
+client/messagewin_common.c
 client/options.c
 client/packhand.c
 client/tilespec.c
@@ -125,6 +127,7 @@ client/gui-mui/repodlgs.c
 client/gui-mui/spaceshipdlg.c
 client/gui-mui/wldlg.c
 client/gui-mui/worklistclass.c
+# client/gui-stub/ is skipped
 client/gui-win32/chatline.c
 client/gui-win32/citydlg.c
 client/gui-win32/cityrep.c
