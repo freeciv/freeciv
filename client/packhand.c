@@ -238,6 +238,13 @@ void handle_unit_combat(struct packet_unit_combat *packet)
       }
     }
   }
+
+  if (punit0 && !(tile_get_known(punit0->x, punit0->y) == TILE_KNOWN)) {
+    client_remove_unit(punit0);
+  }
+  if (punit1 && !(tile_get_known(punit1->x, punit1->y) == TILE_KNOWN)) {
+    client_remove_unit(punit1);
+  }
 }
 
 /**************************************************************************
