@@ -1526,10 +1526,17 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 ****************************************************************************/
 void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 {
-  struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
-  struct unit *ptrans = player_find_unit_by_id(pplayer, trans_id);
+  struct unit *pcargo = find_unit_by_id(cargo_id);
+  struct unit *ptrans = find_unit_by_id(trans_id);
 
   if (!pcargo || !ptrans) {
+    return;
+  }
+
+  /* You are allowed to unload a unit if it is yours or if the transporter
+   * is yours. */
+  if (pcargo->owner != pplayer->player_no
+      && ptrans->owner != pplayer->player_no) {
     return;
   }
 
