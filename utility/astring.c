@@ -114,7 +114,8 @@ static void vadd(struct astring *astr, const char *format, va_list ap)
   char buf[1024];
 
   if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
-    die("Formatted string bigger than %d bytes", sizeof(buf));
+    die("Formatted string bigger than %lu bytes",
+        (unsigned long)sizeof(buf));
   }
 
   /* Avoid calling strlen with NULL. */
