@@ -1796,7 +1796,12 @@ main_start_players:
       player_limit_to_government_rates(pplayer);
       pplayer->economic.gold = game.gold;
     } players_iterate_end;
-    game.max_players = game.nplayers;
+    if(game.is_new_game) {
+      /* If we're starting a new game, reset the max_players to be the
+       * number of players currently in the game.  But when loading a game
+       * we don't want to change it. */
+      game.max_players = game.nplayers;
+    }
 
     /* we don't want random start positions in a scenario which already
        provides them. -- Gudy */
