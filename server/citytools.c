@@ -1005,7 +1005,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     update_city_tile_status_map(pcity, x, y);
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
-  initialize_infrastructure_cache(pcity);
   if (raze)
     raze_city(pcity);
 
@@ -1128,7 +1127,6 @@ void create_city(struct player *pplayer, const int x, const int y,
   map_clear_special(x, y, S_FORTRESS);
   send_tile_info(NULL, x, y);
 
-  initialize_infrastructure_cache(pcity);
   reset_move_costs(x, y);
 /* I stupidly thought that setting S_ROAD took care of this, but of course
 the city_id isn't set when S_ROAD is set, so reset_move_costs doesn't allow

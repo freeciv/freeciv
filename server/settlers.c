@@ -78,14 +78,6 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
     return FALSE;
   }
 
-  /* initialize infrastructure cache for both this city and other cities
-     nearby. This is neccesary to avoid having settlers want to transform
-     a city into the ocean. */
-  map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
-    struct city *pcity2 = map_get_city(x_itr, y_itr);
-    if (pcity2 && city_owner(pcity2) == pplayer)
-      initialize_infrastructure_cache(pcity2);
-  } map_city_radius_iterate_end;
   return TRUE;
 }
 
@@ -1285,36 +1277,41 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 
 /**************************************************************************
   Do all tile improvement calculations and cache them for later.
+
+  These values are used in evaluate_improvements() so this function must
+  be called before doing that.  Currently this is only done when handling
+  auto-settlers or when the AI contemplates building worker units.
 **************************************************************************/
-void initialize_infrastructure_cache(struct city *pcity)
+void initialize_infrastructure_cache(struct player *pplayer)
 {
-  struct player *pplayer = city_owner(pcity);
-  int best = best_worker_tile_value(pcity);
+  city_list_iterate(pplayer->cities, pcity) {
+    int best = best_worker_tile_value(pcity);
 
-  city_map_iterate(cx, cy) {
-    pcity->ai.detox[cx][cy] = -1;
-    pcity->ai.derad[cx][cy] = -1;
-    pcity->ai.mine[cx][cy] = -1;
-    pcity->ai.irrigate[cx][cy] = -1;
-    pcity->ai.transform[cx][cy] = -1;
-    pcity->ai.road[cx][cy] = -1;
-    pcity->ai.railroad[cx][cy] = -1;
-  } city_map_iterate_end;
+    city_map_iterate(cx, cy) {
+      pcity->ai.detox[cx][cy] = -1;
+      pcity->ai.derad[cx][cy] = -1;
+      pcity->ai.mine[cx][cy] = -1;
+      pcity->ai.irrigate[cx][cy] = -1;
+      pcity->ai.transform[cx][cy] = -1;
+      pcity->ai.road[cx][cy] = -1;
+      pcity->ai.railroad[cx][cy] = -1;
+    } city_map_iterate_end;
 
-  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-    pcity->ai.detox[cx][cy] = ai_calc_pollution(pcity, cx, cy, best, mx, my);
-    pcity->ai.derad[cx][cy] =
+    city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+      pcity->ai.detox[cx][cy] = ai_calc_pollution(pcity, cx, cy, best, mx, my);
+      pcity->ai.derad[cx][cy] =
 	ai_calc_fallout(pcity, pplayer, cx, cy, best, mx, my);
-    pcity->ai.mine[cx][cy] = ai_calc_mine(pcity, cx, cy, mx, my);
-    pcity->ai.irrigate[cx][cy] =
+      pcity->ai.mine[cx][cy] = ai_calc_mine(pcity, cx, cy, mx, my);
+      pcity->ai.irrigate[cx][cy] =
 	ai_calc_irrigate(pcity, pplayer, cx, cy, mx, my);
-    pcity->ai.transform[cx][cy] = ai_calc_transform(pcity, cx, cy, mx, my);
-    pcity->ai.road[cx][cy] = ai_calc_road(pcity, pplayer, cx, cy, mx, my);
-/* gonna handle road_bo dynamically for now since it can change
-as punits arrive at adjacent tiles and start laying road -- Syela */
-    pcity->ai.railroad[cx][cy] =
+      pcity->ai.transform[cx][cy] = ai_calc_transform(pcity, cx, cy, mx, my);
+      pcity->ai.road[cx][cy] = ai_calc_road(pcity, pplayer, cx, cy, mx, my);
+      /* gonna handle road_bo dynamically for now since it can change
+	 as punits arrive at adjacent tiles and start laying road -- Syela */
+      pcity->ai.railroad[cx][cy] =
 	ai_calc_railroad(pcity, pplayer, cx, cy, mx, my);
-  } city_map_checked_iterate_end;
+    } city_map_checked_iterate_end;
+  } city_list_iterate_end;
 }
 
 /************************************************************************** 
@@ -1327,9 +1324,8 @@ static void auto_settlers_player(struct player *pplayer)
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
-  city_list_iterate(pplayer->cities, pcity)
-    initialize_infrastructure_cache(pcity); /* saves oodles of time -- Syela */
-  city_list_iterate_end;
+  /* Initialize the infrastructure cache, which is used shortly. */
+  initialize_infrastructure_cache(pplayer);
 
   pplayer->ai.warmth = WARMING_FACTOR * (game.heating > game.warminglevel ? 2 : 1);
 

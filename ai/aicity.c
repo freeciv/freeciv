@@ -578,6 +578,8 @@ void ai_manage_cities(struct player *pplayer)
 
   ai_manage_buildings(pplayer);
 
+  /* Initialize the infrastructure cache, which is used shortly. */
+  initialize_infrastructure_cache(pplayer);
   city_list_iterate(pplayer->cities, pcity) {
     /* Note that this function mungs the seamap, but we don't care */
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);

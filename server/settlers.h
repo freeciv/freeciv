@@ -30,7 +30,7 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit);
 void init_settlers(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);
-void initialize_infrastructure_cache(struct city *pcity);
+void initialize_infrastructure_cache(struct player *pplayer);
 
 void contemplate_terrain_improvements(struct city *pcity);
 void contemplate_new_city(struct city *pcity);
