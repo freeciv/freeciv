@@ -342,7 +342,7 @@ int section_file_load(struct section_file *sf, char *filename)
   int i;
   struct astring base_name = ASTRING_INIT;    /* for table or single entry */
   struct astring entry_name = ASTRING_INIT;
-  struct athing columns_tab = ATHING_INIT(sizeof(struct astring));
+  struct athing columns_tab;	        /* astrings for column headings */
   struct astring *columns = NULL;	/* -> columns_tab.ptr */
 
   inf = inf_open(filename);
@@ -351,6 +351,7 @@ int section_file_load(struct section_file *sf, char *filename)
     return 0;
   }
   section_file_init(sf);
+  ath_init(&columns_tab, sizeof(struct astring));
   sb = sf->sb;
 
   freelog(LOG_VERBOSE, "Reading file \"%s\"", filename);

@@ -104,9 +104,11 @@ void astr_free(struct astring *astr)
 ***********************************************************************/
 void ath_init(struct athing *ath, int size)
 {
-  struct athing zero_ath = ATHING_INIT(size);
   assert(ath);
-  *ath = zero_ath;
+  ath->ptr = NULL;
+  ath->n = 0;
+  ath->n_alloc = 0;
+  ath->size = size;
 }
 
 /**********************************************************************
@@ -140,7 +142,6 @@ void ath_minnum(struct athing *ath, int n)
 ***********************************************************************/
 void ath_free(struct athing *ath)
 {
-  struct athing zero_ath = ATHING_INIT(1);
   int size;
 
   assert(ath);
@@ -151,8 +152,7 @@ void ath_free(struct athing *ath)
     assert(ath->ptr);
     free(ath->ptr);
   }
-  *ath = zero_ath;
-  ath->size = size;
+  ath_init(ath, size);
 }
 
 

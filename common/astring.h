@@ -34,9 +34,9 @@ struct athing {
 
 /* Can assign this in variable declaration to initialize:
  * Notice a static astring var is exactly this already.
+ * For athing need to call ath_init() due to size.
  */
 #define ASTRING_INIT  { 0, 0, 0 }
-#define ATHING_INIT(sz)  { 0, (sz), 0, 0 }
 
 void astr_init(struct astring *astr);
 void astr_minsize(struct astring *astr, int n);
