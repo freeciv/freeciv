@@ -503,7 +503,7 @@ static void select_preset(Widget w, XtPointer list,
     }
 
     cmafec_get_fe_parameter(current_city, &parameter);
-    cm_copy_result_from_city(pcity, &result);
+    cm_copy_result_from_city(current_city, &result);
     xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -613,7 +613,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -671,7 +671,7 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -792,7 +792,7 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
