@@ -79,7 +79,6 @@ char *get_sane_name(char *name);
 char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
 char *mystrdup(char *);
-char *minstrdup(char *);
 int mystrcasecmp(char *str0, char *str1);
 int myrand(int size);
 void mysrand(unsigned int seed);
