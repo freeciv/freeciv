@@ -1451,6 +1451,7 @@ static void package_player_common(struct player *plr,
 
   packet->playerno=plr->player_no;
   sz_strlcpy(packet->name, plr->name);
+  sz_strlcpy(packet->username, plr->username);
   packet->nation=plr->nation;
   packet->is_male=plr->is_male;
   packet->team = plr->team;

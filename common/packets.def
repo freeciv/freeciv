@@ -533,6 +533,8 @@ end
 PACKET_PLAYER_INFO=39; is-info,sc
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];
+  STRING username[MAX_LEN_NAME]; add-cap(username_info)
+
   BOOL is_male;
   GOVERNMENT government;
   GOVERNMENT target_government;
