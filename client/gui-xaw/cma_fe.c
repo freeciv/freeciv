@@ -489,7 +489,6 @@ static void select_preset(Widget w, XtPointer list,
   const struct cm_parameter *param;
   struct cm_parameter parameter;
   struct cm_result result;
-  int i;
 
   ret = XawListShowCurrent(list);
 
@@ -503,7 +502,7 @@ static void select_preset(Widget w, XtPointer list,
     }
 
     cmafec_get_fe_parameter(current_city, &parameter);
-    cm_copy_result_from_city(pcity, &result);
+    cm_copy_result_from_city(current_city, &result);
     xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -613,7 +612,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -670,7 +669,7 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
@@ -690,7 +689,6 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 static void update_stat_labels(bool is_valid)
 {
   char buf[256]; 
-  int i;
 
   output_type_iterate(i) {
     my_snprintf(buf, sizeof(buf), "%-9s%3d",
@@ -735,7 +733,6 @@ static void new_preset_callback(Widget w, XtPointer save_preset,
 {
   Boolean celebrate_setting;
   struct cm_parameter parameter;
-  int i;
   
   if (save_preset) {
     /* The user entered a preset name and clicked OK  */
@@ -765,7 +762,6 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Boolean celebrate;
   struct cm_parameter parameter;
   struct cm_result result;
-  int i;
 
   /* Change label on celebrate toggle. */
   XtVaGetValues(w, XtNstate, &celebrate, NULL);
@@ -789,7 +785,7 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_copy_result_from_city(pcity, &result);
+  cm_copy_result_from_city(current_city, &result);
   xaw_set_label(result_label,
         (char *) cmafec_get_result_descr(current_city, &result, &parameter));
 
