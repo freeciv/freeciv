@@ -206,15 +206,21 @@ Freeciv*dipform.background:              lightblue
 Freeciv*dipform.resizable:               true
 Freeciv*dipform0.background:             grey
 Freeciv*dipform0.resizable:              true
-Freeciv*dipform1.background:             grey
-Freeciv*dipform1.resizable:              true
+Freeciv*dipform0.bottom:                 chainBottom
 Freeciv*dipformm.fromHoriz:              dipform0
 Freeciv*dipformm.background:             grey
 Freeciv*dipformm.foreground:             black
-
+Freeciv*dipformm.bottom:                 chainBottom
 Freeciv*dipform1.fromHoriz:              dipformm
+Freeciv*dipform1.background:             grey
+Freeciv*dipform1.resizable:              true
+Freeciv*dipform1.bottom:                 chainBottom
+Freeciv*dipform1.right:                  chainRight
+
 Freeciv*dipmainform.background:          lightblue
 Freeciv*dipmainform.resizable:           true
+Freeciv*dipmainform.bottom:              chainBottom
+Freeciv*dipmainform.right:               chainRight
 
 Freeciv*dipheadline0.top:                chainTop
 Freeciv*dipheadline0.bottom:             chainTop
@@ -232,15 +238,24 @@ Freeciv*dipheadlinem.borderWidth:        0
 Freeciv*dipheadlinem.background:         grey
 Freeciv*dipheadlinem.foreground:         black
 Freeciv*dipheadlinem.justify:            center
+Freeciv*dipheadlinem.top:                chainTop
+Freeciv*dipheadlinem.bottom:             chainTop
 
 Freeciv*dipclauselabel.label: The following clauses have been agreed upon:
 Freeciv*dipclauselabel.fromVert:         dipheadlinem
 Freeciv*dipclauselabel.borderWidth:      0
 Freeciv*dipclauselabel.background:       lightgrey
 Freeciv*dipclauselabel.foreground:       black
+Freeciv*dipclauselabel.top:              chainTop
+Freeciv*dipclauselabel.bottom:           chainTop
+Freeciv*dipclauselabel.left:             chainLeft
+Freeciv*dipclauselabel.right:            chainLeft
 
 Freeciv*dipview.fromVert:                dipclauselabel
 Freeciv*dipview.allowVert:               True
+Freeciv*dipview.top:                     chainTop
+Freeciv*dipview.bottom:                  chainBottom
+Freeciv*dipview.right:                   chainRight
 
 Freeciv*dipclauselist.background:        lightgrey
 Freeciv*dipclauselist.foreground:        black
@@ -252,6 +267,8 @@ Freeciv*dipacceptlabel0.fromVert:         dipview
 Freeciv*dipacceptlabel0.borderWidth:      0
 Freeciv*dipacceptlabel0.background:       lightgrey
 Freeciv*dipacceptlabel0.foreground:       black
+Freeciv*dipacceptlabel0.top:              chainBottom
+Freeciv*dipacceptlabel0.bottom:           chainBottom
 
 Freeciv*dipacceptthumb0.fromVert:         dipview
 Freeciv*dipacceptthumb0.fromHoriz:        dipacceptlabel0
@@ -259,6 +276,8 @@ Freeciv*dipacceptthumb0.Width:            30
 Freeciv*dipacceptthumb0.Height:           30
 Freeciv*dipacceptthumb0.internalWidth:    0
 Freeciv*dipacceptthumb0.internalHeight:   0
+Freeciv*dipacceptthumb0.top:              chainBottom
+Freeciv*dipacceptthumb0.bottom:           chainBottom
 
 Freeciv*dipacceptlabel1.label:            \ \ \ Babylonian view:
 Freeciv*dipacceptlabel1.fromHoriz:        dipacceptthumb0
@@ -266,6 +285,8 @@ Freeciv*dipacceptlabel1.fromVert:         dipview
 Freeciv*dipacceptlabel1.borderWidth:      0
 Freeciv*dipacceptlabel1.background:       lightgrey
 Freeciv*dipacceptlabel1.foreground:       black
+Freeciv*dipacceptlabel1.top:              chainBottom
+Freeciv*dipacceptlabel1.bottom:           chainBottom
 
 Freeciv*dipacceptthumb1.fromVert:         dipview
 Freeciv*dipacceptthumb1.fromHoriz:        dipacceptlabel1
@@ -273,12 +294,16 @@ Freeciv*dipacceptthumb1.Width:            30
 Freeciv*dipacceptthumb1.Height:           30
 Freeciv*dipacceptthumb1.internalWidth:    0
 Freeciv*dipacceptthumb1.internalHeight:   0
+Freeciv*dipacceptthumb1.top:              chainBottom
+Freeciv*dipacceptthumb1.bottom:           chainBottom
 
 Freeciv*diperaseclausecommand.label:      Erase clause
 Freeciv*diperaseclausecommand.fromVert:   dipformm
 Freeciv*diperaseclausecommand.fromHoriz:  dipform0
 Freeciv*diperaseclausecommand.foreground: white
 Freeciv*diperaseclausecommand.background: blue
+Freeciv*diperaseclausecommand.top:	  chainBottom
+Freeciv*diperaseclausecommand.bottom:	  chainBottom
 
 Freeciv*dipmapmenubutton0.label:             Maps
 Freeciv*dipmapmenubutton0.foreground:        white
@@ -287,7 +312,7 @@ Freeciv*dipmapmenubutton0.fromVert:          dipheadline0
 Freeciv*dipmapmenubutton0.top:               chainTop
 Freeciv*dipmapmenubutton0.bottom:            chainTop
 Freeciv*dipmapmenubutton0.left:              chainLeft
-Freeciv*dipmapmenubutton0.right:             chainRight
+Freeciv*dipmapmenubutton0.right:             chainLeft
 
 Freeciv*dipmapmenubutton1.label:             Maps
 Freeciv*dipmapmenubutton1.foreground:        white
@@ -296,7 +321,7 @@ Freeciv*dipmapmenubutton1.fromVert:          dipheadline1
 Freeciv*dipmapmenubutton1.top:               chainTop
 Freeciv*dipmapmenubutton1.bottom:            chainTop
 Freeciv*dipmapmenubutton1.left:              chainLeft
-Freeciv*dipmapmenubutton1.right:             chainRight
+Freeciv*dipmapmenubutton1.right:             chainLeft
 
 Freeciv*diptechmenubutton0.label:         Advances
 Freeciv*diptechmenubutton0.fromVert:      dipmapmenubutton0
@@ -305,7 +330,7 @@ Freeciv*diptechmenubutton0.background:    blue
 Freeciv*diptechmenubutton0.top:           chainTop
 Freeciv*diptechmenubutton0.bottom:        chainTop
 Freeciv*diptechmenubutton0.left:          chainLeft
-Freeciv*diptechmenubutton0.right:         chainRight
+Freeciv*diptechmenubutton0.right:         chainLeft
 
 Freeciv*diptechmenubutton1.label:         Advances
 Freeciv*diptechmenubutton1.fromVert:      dipmapmenubutton1
@@ -314,7 +339,7 @@ Freeciv*diptechmenubutton1.background:    blue
 Freeciv*diptechmenubutton1.top:           chainTop
 Freeciv*diptechmenubutton1.bottom:        chainTop
 Freeciv*diptechmenubutton1.left:          chainLeft
-Freeciv*diptechmenubutton1.right:         chainRight
+Freeciv*diptechmenubutton1.right:         chainLeft
 
 Freeciv*dipcitymenubutton0.label:         Cities
 Freeciv*dipcitymenubutton0.fromVert:      diptechmenubutton0
@@ -323,7 +348,7 @@ Freeciv*dipcitymenubutton0.background:    blue
 Freeciv*dipcitymenubutton0.top:           chainTop
 Freeciv*dipcitymenubutton0.bottom:        chainTop
 Freeciv*dipcitymenubutton0.left:          chainLeft
-Freeciv*dipcitymenubutton0.right:         chainRight
+Freeciv*dipcitymenubutton0.right:         chainLeft
 
 Freeciv*dipcitymenubutton1.label:         Cities
 Freeciv*dipcitymenubutton1.fromVert:      diptechmenubutton1
@@ -332,7 +357,7 @@ Freeciv*dipcitymenubutton1.background:    blue
 Freeciv*dipcitymenubutton1.top:           chainTop
 Freeciv*dipcitymenubutton1.bottom:        chainTop
 Freeciv*dipcitymenubutton1.left:          chainLeft
-Freeciv*dipcitymenubutton1.right:         chainRight
+Freeciv*dipcitymenubutton1.right:         chainLeft
 
 Freeciv*dipgoldinput0.foreground:        black
 Freeciv*dipgoldinput0.background:        white
@@ -340,7 +365,7 @@ Freeciv*dipgoldinput0.fromVert:          dipcitymenubutton0
 Freeciv*dipgoldinput0.top:               chainTop
 Freeciv*dipgoldinput0.bottom:            chainTop
 Freeciv*dipgoldinput0.left:              chainLeft
-Freeciv*dipgoldinput0.right:             chainRight
+Freeciv*dipgoldinput0.right:             chainLeft
 Freeciv*dipgoldinput0.Width:             60
 Freeciv*dipgoldinput0.*.editType:        edit
 
@@ -350,7 +375,7 @@ Freeciv*dipgoldinput1.fromVert:          dipcitymenubutton1
 Freeciv*dipgoldinput1.top:               chainTop
 Freeciv*dipgoldinput1.bottom:            chainTop
 Freeciv*dipgoldinput1.left:              chainLeft
-Freeciv*dipgoldinput1.right:             chainRight
+Freeciv*dipgoldinput1.right:             chainLeft
 Freeciv*dipgoldinput1.Width:             60
 Freeciv*dipgoldinput1.*.editType:        edit
 
@@ -363,7 +388,7 @@ Freeciv*dipgoldlabel0.fromVert:          dipcitymenubutton0
 Freeciv*dipgoldlabel0.top:               chainTop
 Freeciv*dipgoldlabel0.bottom:            chainTop
 Freeciv*dipgoldlabel0.left:              chainLeft
-Freeciv*dipgoldlabel0.right:             chainRight
+Freeciv*dipgoldlabel0.right:             chainLeft
 
 Freeciv*dipgoldlabel1.label:             Gold(max 9999)
 Freeciv*dipgoldlabel1.borderWidth:       0
@@ -374,18 +399,26 @@ Freeciv*dipgoldlabel1.fromVert:          dipcitymenubutton1
 Freeciv*dipgoldlabel1.top:               chainTop
 Freeciv*dipgoldlabel1.bottom:            chainTop
 Freeciv*dipgoldlabel1.left:              chainLeft
-Freeciv*dipgoldlabel1.right:             chainRight
+Freeciv*dipgoldlabel1.right:             chainLeft
 
 Freeciv*dipacceptcommand.label:          Accept treaty
 Freeciv*dipacceptcommand.fromVert:       dipmainform
 Freeciv*dipacceptcommand.foreground:     white
 Freeciv*dipacceptcommand.background:     blue
+Freeciv*dipacceptcommand.top:		 chainBottom
+Freeciv*dipacceptcommand.bottom:	 chainBottom
+Freeciv*dipacceptcommand.left:		 chainLeft
+Freeciv*dipacceptcommand.right:		 chainLeft
 
 Freeciv*dipclosecommand.label:           Cancel meeting
 Freeciv*dipclosecommand.fromVert:        dipmainform
 Freeciv*dipclosecommand.fromHoriz:       dipacceptcommand
 Freeciv*dipclosecommand.foreground:      white
 Freeciv*dipclosecommand.background:      blue
+Freeciv*dipclosecommand.top:		 chainBottom
+Freeciv*dipclosecommand.bottom:		 chainBottom
+Freeciv*dipclosecommand.left:		 chainLeft
+Freeciv*dipclosecommand.right:		 chainLeft
 
 !
 ! notify dialogs
