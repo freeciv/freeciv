@@ -1164,6 +1164,8 @@ static void make_land(void)
   make_plains();
   make_fair();
   make_rivers();
+
+  assign_continent_numbers();
 }
 
 /**************************************************************************
@@ -1472,15 +1474,15 @@ void create_start_positions(void)
 {
   int x, y, k, sum;
   struct start_filter_data data;
-
+  
   if (!islands) {
     /* Isle data is already setup for generators 2, 3, and 4. */
     setup_isledata();
   }
 
-  data.count = 0;
   data.dist = MIN(40, MIN(map.xsize / 2, map.ysize / 2));
 
+  data.count = 0;
   sum = 0;
   for (k = 1; k <= map.num_continents; k++) {
     sum += islands[k].starters;
@@ -1502,16 +1504,14 @@ void create_start_positions(void)
       freelog(LOG_DEBUG, "Adding %d,%d as starting position %d.",
 	      x, y, data.count);
       data.count++;
+
     } else {
       data.dist--;
       if (data.dist == 0) {
-	char filename[] = "map_core.sav";
-
-	save_game(filename);
 	die(_("The server appears to have gotten into an infinite loop "
 	      "in the allocation of starting positions, and will abort.\n"
-	      "The map has been saved into %s.\n"
-	      "Please report this bug at %s."), filename, WEBSITE_URL);
+	      "Maybe the numbers of players/ia is too much for this map.\n"
+	      "Please report this bug at %s."), WEBSITE_URL);
       }
     }
   }
@@ -1653,6 +1653,8 @@ void map_fractal_generate(void)
     if (!map.tinyisles) {
       remove_tiny_islands();
     }
+  } else {
+      assign_continent_numbers();
   }
 
   if(!map.have_specials) /* some scenarios already provide specials */
@@ -2225,7 +2227,7 @@ static bool make_island(int islemass, int starters,
     /* this only runs to initialise static things, not to actually
      * create an island. */
     balance = 0;
-    pstate->isleindex = 3;	/* 0= none, 1= arctic, 2= antarctic */
+    pstate->isleindex = map.num_continents + 1;	/* 0= none, poles, then isles */
 
     checkmass = pstate->totalmass;
 
@@ -2272,7 +2274,7 @@ static bool make_island(int islemass, int starters,
       return FALSE;
     }
     islands[pstate->isleindex].starters = starters;
-
+    assert(starters>=0);
     freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
 
     /* keep trying to place an island, and decrease the size of
@@ -2332,6 +2334,7 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
+  int i;
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
 
@@ -2348,9 +2351,9 @@ static void initworld(struct gen234_state *pstate)
     assign_continent_numbers(); 
   }
   make_island(0, 0, pstate, 0);
-  islands[2].starters = 0;
-  islands[1].starters = 0;
-  islands[0].starters = 0;
+  for(i = 0; i <= map.num_continents; i++ ) {
+      islands[i].starters = 0;
+  }
 }  
 
 /* This variable is the Default Minimum Specific Island Size, 

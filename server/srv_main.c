@@ -1688,8 +1688,12 @@ main_start_players:
     map_fractal_generate();
   }
 
-  assign_continent_numbers();
-
+  /*
+   * Don't assign continent numbers here. We have to do it later,
+   * because generators 2-4 use their own continent numbering
+   * in create_start_positions(). For other generators continent numbers
+   * are already assigned.
+   */
   gamelog_map();
   /* start the game */
 
@@ -1716,6 +1720,9 @@ main_start_players:
       create_start_positions();
     }
   }
+
+  /* start positions are created, now we can do this safely */
+  assign_continent_numbers();
 
   /* Set up alliances based on team selections */
   if (game.is_new_game) {
