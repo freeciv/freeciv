@@ -2639,6 +2639,31 @@ static void set_command(struct connection *caller, char *str)
 }
 
 /**************************************************************************
+  Cutting away a trailing comment by putting a '\0' on the '#'. The
+  method handles # in single or double quotes. It also takes care of
+  "\#".
+**************************************************************************/
+static void cut_comment(char *str)
+{
+  int i, in_single_quotes = 0, in_double_quotes = 0;
+
+  freelog(LOG_DEBUG,"cut_comment(str='%s')",str);
+
+  for (i = 0; i < strlen(str); i++) {
+    if (str[i] == '"' && !in_single_quotes) {
+      in_double_quotes = !in_double_quotes;
+    } else if (str[i] == '\'' && in_double_quotes) {
+      in_single_quotes = !in_single_quotes;
+    } else if (str[i] == '#' && !(in_single_quotes || in_double_quotes)
+	       && (i == 0 || str[i - 1] != '\\')) {
+      str[i] = '\0';
+      break;
+    }
+  }
+  freelog(LOG_DEBUG,"cut_comment: returning '%s'",str);
+}
+
+/**************************************************************************
   Handle "command input", which could really come from stdin on console,
   or from client chat command, or read from file with -r, etc.
   caller==NULL means console, str is the input, which may optionally
@@ -2706,6 +2731,8 @@ void handle_stdin_input(struct connection *caller, char *str)
 
   for(; *cptr_s && isspace(*cptr_s); cptr_s++);
   sz_strlcpy(arg, cptr_s);
+
+  cut_comment(arg);
 
   i=strlen(arg)-1;
   while(i>0 && isspace(arg[i]))
