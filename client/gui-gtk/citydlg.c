@@ -222,7 +222,11 @@ static void initialize_city_dialogs(void)
   CITY_DIALOG_HEIGHT = 2*SMALL_TILE_HEIGHT + canvas_height
 	+ 3*NORMAL_TILE_HEIGHT + 160;
 
-  NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/NORMAL_TILE_WIDTH-1;
+  if (is_isometric) {
+    NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/UNIT_TILE_WIDTH-1;
+  } else {
+    NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/(UNIT_TILE_WIDTH + UNIT_TILE_WIDTH/2)-1;
+  }
 
   city_dialogs_have_been_initialised=1;
 }
