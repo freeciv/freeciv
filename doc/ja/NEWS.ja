@@ -1,4 +1,4 @@
-Original: CVS-1.38
+Original: CVS-1.39
 Translator: SAWADA Katsuya <ama@petmail.net>
 
 ========================
@@ -66,6 +66,7 @@ Translator: SAWADA Katsuya <ama@petmail.net>
  - 地図と ai コードがかなりクリーンアップされました。
  - 翻訳の向上。複数形のよりよいサポートの追加。
  - 水面下でいくつものバグが生み出され、沢山の作業が行なわれました。
+ - 残っているバグの概観は、doc/BUGS を見て下さい。
 
 1.11.4 から変更された点:
 
