@@ -1036,8 +1036,10 @@ cities =
 
 name=_("Finnish")
 plural=_("?plural:Finns")
-leader="Mannerheim", "Kekkonen", "Ahtisaari", "Linus Torvalds"
-leader_sex="Male", "Male", "Male", "Male"
+leader="Carl Gustav Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
+       "Tarja Halonen", "Linus Torvalds"
+leader_sex="Male", "Male", "Male",
+           "Female", "Male"
 flag="f.finland"
 flag_alt = "-"
 city_style = "European"
