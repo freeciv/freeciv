@@ -1455,8 +1455,7 @@ const char *dir_get_name(enum direction8 dir)
   case DIR8_NORTHWEST:
     return "NW";
   default:
-    assert(0);
-    return "[Bad Direction]";
+    return "[Undef]";
   }
 }
 
