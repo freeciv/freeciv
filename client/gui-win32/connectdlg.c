@@ -1010,7 +1010,7 @@ void gui_server_connect()
   fcwin_box_add_static(hbox, _("AI skill level:"), 0, SS_LEFT, TRUE, TRUE,
 		       5);
   fcwin_box_add_combo(hbox, NUM_SKILL_LEVELS, ID_NEWGAMEDLG_AISKILL,
-		      CBS_DROPDOWN, TRUE, TRUE, 5);
+		      CBS_DROPDOWN | WS_VSCROLL, TRUE, TRUE, 5);
   for (i = 0; i < NUM_SKILL_LEVELS; i++) {
     ComboBox_AddString(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL), 
 		       _(skill_level_names[i]));
