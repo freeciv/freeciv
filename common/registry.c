@@ -339,7 +339,9 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
     }
   } else {
     pentry->svalue = NULL;
-    pentry->ivalue = atoi(tok);
+    if (sscanf(tok, "%d", &pentry->ivalue) != 1) {
+      freelog(LOG_ERROR, "'%s' isn't an integer", tok);
+    }
     if (SECF_DEBUG_ENTRIES) {
       freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
     }

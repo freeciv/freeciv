@@ -205,7 +205,7 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
       break;
     case COT_INT:
       XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
-      *(o->p_value) = atoi(dp);
+      sscanf(dp, "%d", o->p_value);
       break;
     }
   }

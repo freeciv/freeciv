@@ -883,9 +883,9 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
       pdialog->treaty.plr0 : pdialog->treaty.plr1;
     
     dp=gtk_entry_get_text(GTK_ENTRY(w));
-    amount=atoi(dp);
-    
-    if(amount>=0 && amount<=pgiver->economic.gold) {
+
+    if (sscanf(dp, "%d", &amount) == 1 && amount >= 0
+	&& amount <= pgiver->economic.gold) {
       struct packet_diplomacy_info pa;
       pa.plrno0=pdialog->treaty.plr0->player_no;
       pa.plrno1=pdialog->treaty.plr1->player_no;

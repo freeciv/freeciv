@@ -74,7 +74,7 @@ static void connect_callback()
   Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_NAME),player_name,512);
   Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_HOST),server_host,512);
   Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_PORT),portbuf,10);
-  server_port=atoi(portbuf);
+  sscanf(portbuf, "%d", &server_port);
   if (connect_to_server(player_name,server_host,server_port,
 			errbuf,sizeof(errbuf))!=-1)
     {

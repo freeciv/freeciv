@@ -144,9 +144,11 @@ int main(int argc, char *argv[])
      sz_strlcpy(player_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)))
       sz_strlcpy(metaserver, option);
-   else if ((option = get_option("--port",argv,&i,argc)))
-     server_port=atoi(option);
-   else if ((option = get_option("--server",argv,&i,argc)))
+   else if ((option = get_option("--port",argv,&i,argc))) {
+     if(sscanf(option, "%d", &server_port) != 1) {
+        exit(EXIT_FAILURE);
+     }
+   } else if ((option = get_option("--server",argv,&i,argc)))
       sz_strlcpy(server_host, option);
    else if (is_option("--autoconnect",argv[i]))
       auto_connect = TRUE;

@@ -76,7 +76,10 @@ int log_parse_level_str(char *level_str)
     n++;
   }
   if (n == 0) {
-    level = atoi(level_str);
+    if (sscanf(level_str, "%d", &level) != 1) {
+      fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
+      return -1;
+    }
     if (level >= LOG_FATAL && level <= max_level) {
       return level;
     } else {
@@ -125,8 +128,16 @@ int log_parse_level_str(char *level_str)
       c = strchr(c, ',');
       if (c && *pc != '\0' && c[1] != '\0') {
 	c[0] = '\0';
-	logd_files[i].min = atoi(pc);
-	logd_files[i].max = atoi(c+1);
+	if (sscanf(pc, "%d", &logd_files[i].min) != 1) {
+	  fprintf(stderr, _("Not an integer: '%s'\n"), pc);
+	  level = -1;
+	  goto out;
+	}
+	if (sscanf(c + 1, "%d", &logd_files[i].max) != 1) {
+	  fprintf(stderr, _("Not an integer: '%s'\n"), c + 1);
+	  level = -1;
+	  goto out;
+	}
       }
     }
     if(strlen(tok)==0) {

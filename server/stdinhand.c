@@ -2726,10 +2726,8 @@ static void set_command(struct connection *caller, char *str)
   op = &settings[cmd];
   
   if (SETTING_IS_INT(op)) {
-    val = atoi(arg);
-    if (val == 0 && arg[0] != '0') {
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-		_("Value must be an integer."));
+    if (sscanf(arg, "%d", &val) != 1) {
+      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
     } else if (val >= op->min_value && val <= op->max_value) {
       char *reject_message = NULL;
       if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {

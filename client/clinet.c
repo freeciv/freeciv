@@ -485,9 +485,8 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   {
     char *s;
     if ((s = strchr(server,':'))) {
-      port = atoi(&s[1]);
-      if (port == 0) {
-        port = 80;
+      if (sscanf(&s[1], "%d", &port) != 1) {
+	port = 80;
       }
       s[0] = '\0';
       ++s;

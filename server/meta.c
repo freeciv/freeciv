@@ -103,14 +103,10 @@ char *default_meta_server_info_string(void)
 *************************************************************************/
 void meta_addr_split(void)
 {
-  char *metaserver_port_separator;
-  int specified_port;
+  char *metaserver_port_separator = strchr(srvarg.metaserver_addr, ':');
 
-  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':'))) {
-    metaserver_port_separator[0] = '\0';
-    if ((specified_port=atoi(&metaserver_port_separator[1])) != 0) {
-      srvarg.metaserver_port = (unsigned short int)specified_port;
-    }
+  if (metaserver_port_separator) {
+    sscanf(metaserver_port_separator + 1, "%hd", &srvarg.metaserver_port);
   }
 }
 

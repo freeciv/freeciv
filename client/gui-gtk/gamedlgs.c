@@ -385,7 +385,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
       break;
     case COT_INT:
       dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
-      *(o->p_value) = atoi(dp);
+      sscanf(dp, "%d", o->p_value);
       break;
     }
   }

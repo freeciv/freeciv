@@ -87,13 +87,19 @@ int main(int argc, char *argv[])
       sz_strlcpy(srvarg.metaserver_addr, argv[inx]);
       meta_addr_split();
       srvarg.metaserver_no_send = FALSE;	/* --Metaserver implies --meta */
-    } else if ((option = get_option("--port", argv, &inx, argc)))
-      srvarg.port = atoi(option);
-    else if ((option = get_option("--read", argv, &inx, argc)))
+    } else if ((option = get_option("--port", argv, &inx, argc))) {
+      if (sscanf(option, "%d", &srvarg.port) != 1) {
+	showhelp = TRUE;
+	break;
+      }
+    } else if ((option = get_option("--read", argv, &inx, argc)))
       srvarg.script_filename = option;
-    else if ((option = get_option("--quitidle", argv, &inx, argc)))
-      srvarg.quitidle = atoi(option);
-    else if ((option = get_option("--server", argv, &inx, argc)))
+    else if ((option = get_option("--quitidle", argv, &inx, argc))) {
+      if (sscanf(option, "%d", &srvarg.quitidle) != 1) {
+	showhelp = TRUE;
+	break;
+      }
+    } else if ((option = get_option("--server", argv, &inx, argc)))
       sz_strlcpy(srvarg.metaserver_servername, option);
     else if ((option = get_option("--debug", argv, &inx, argc))) {
       srvarg.loglevel = log_parse_level_str(option);
@@ -254,10 +260,7 @@ static void Mac_options(int argc)
     GetIText( the_handle, (unsigned char *)srvarg.log_filename);
     GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, the_string);
-    if (atoi((char*)the_string)>0)
-    {
-      srvarg.port=atoi((char*)the_string);
-    }
+    sscanf(the_string, "%d", srvarg.port);
     GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, (unsigned char *)srvarg.script_filename);
     GetDItem(optptr, 15, &the_type, &the_handle, &the_rect);

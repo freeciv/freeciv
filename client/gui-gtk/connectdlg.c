@@ -56,7 +56,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 
   sz_strlcpy(player_name, gtk_entry_get_text(GTK_ENTRY(iname)));
   sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
-  server_port=atoi(gtk_entry_get_text(GTK_ENTRY(iport)));
+  sscanf(gtk_entry_get_text(GTK_ENTRY(iport)), "%d", &server_port);
   
   if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {

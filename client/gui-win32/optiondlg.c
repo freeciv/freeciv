@@ -51,7 +51,7 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  break;
 	case COT_INT:
 	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
-	  *(o->p_value)=atoi(dp);
+	  sscanf(dp, "%d", o->p_value);
 	  break;
 	}
       }

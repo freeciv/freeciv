@@ -248,8 +248,9 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
     struct player *pgiver;
     SetWindowText(edit,"");
     pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
-    amount=atoi(buf);
-     if(amount>=0 && amount<=pgiver->economic.gold) {
+
+    if (sscanf(buf, "%d", &amount) == 1 && amount >= 0
+	&& amount <= pgiver->economic.gold) {
        struct packet_diplomacy_info pa;
        pa.plrno0=pdialog->treaty.plr0->player_no;
        pa.plrno1=pdialog->treaty.plr1->player_no;
