@@ -327,18 +327,17 @@ void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list)
   for(; cargo && ITERATOR_PTR(myiter);) {
     struct unit *punit=(struct unit *)ITERATOR_PTR(myiter);
     ITERATOR_NEXT(myiter);
-    if(((is_ground_unit(punit) &&!unit_flag(ptran->type, F_SUBMARINE | F_CARRIER)) || 
-        (is_air_unit(punit) && unit_flag(ptran->type, F_CARRIER)) ||
-	(unit_flag(punit->type, F_MISSILE) && 
-	 unit_flag(ptran->type, F_SUBMARINE))) &&
-       (!map_get_city(punit->x, punit->y) || 
-	punit->activity==ACTIVITY_SENTRY)) {
+    if(((is_ground_unit(punit) && is_ground_units_transport(ptran))
+	|| (is_air_unit(punit) && unit_flag(ptran->type, F_CARRIER))
+	|| (unit_flag(punit->type, F_MISSILE)
+	    && unit_flag(ptran->type, F_SUBMARINE)))
+       && (!map_get_city(punit->x, punit->y)
+	   || punit->activity==ACTIVITY_SENTRY)) {
       unit_list_unlink(srclist, punit);
       unit_list_insert(list, punit);
       cargo--;
     }
   }
-
 }
 
 /**************************************************************************
@@ -430,8 +429,9 @@ int get_transporter_capacity(struct unit *punit)
 **************************************************************************/
 int is_ground_units_transport(struct unit *punit)
 {
-return (get_transporter_capacity(punit) && 
-        !unit_flag(punit->type, F_SUBMARINE | F_CARRIER));
+return (get_transporter_capacity(punit)
+	&& !unit_flag(punit->type, F_SUBMARINE)
+	&& !unit_flag(punit->type, F_CARRIER));
 }
 
 /**************************************************************************

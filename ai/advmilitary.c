@@ -500,7 +500,7 @@ it some more variables for it to meddle with -- Syela */
 
       m = unit_types[i].move_rate;
       q = (acity ? 1 : unit_types[n].move_rate * (unit_flag(n, F_IGTER) ? 3 : 1));
-      if (get_unit_type(i)->flags & F_IGTER) m *= 3; /* not quite right */
+      if (unit_flag(i, F_IGTER)) m *= 3; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
         if (boatspeed) { /* has to be a city, so don't bother with q */
           c = (warmap.cost[bx][by] + m - 1) / m + 1 +
@@ -616,7 +616,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
       pdef = get_defender(pplayer, myunit, x, y);
 
       m = unit_types[v].move_rate;
-      if (get_unit_type(v)->flags & F_IGTER) m *= 3; /* not quite right */
+      if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */
 
       sanity = (goto_is_sane(pplayer, myunit, acity->x, acity->y, 1) &&
               warmap.cost[x][y] <= (MIN(6, m) * THRESHOLD));
@@ -692,7 +692,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       if (!dist) dist = 1;
 
       m = unit_types[v].move_rate;
-      if (get_unit_type(v)->flags & F_IGTER) m *= 3; /* not quite right */
+      if (unit_flag(v, F_IGTER)) m *= 3; /* not quite right */
       c = ((dist + m - 1) / m);
 
       n = pdef->type;

@@ -677,7 +677,8 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap)
   city_list_iterate(pplayer->cities, pcity)
     if (pcity->is_building_unit &&
         unit_types[pcity->currently_building].transport_capacity &&
-        !unit_flag(pcity->currently_building, F_CARRIER | F_SUBMARINE)) {
+        !unit_flag(pcity->currently_building, F_CARRIER) &&
+	!unit_flag(pcity->currently_building, F_SUBMARINE)) {
       if (warmap.cost[pcity->x][pcity->y] < best) {
         id = pcity->id;
         best = warmap.cost[pcity->x][pcity->y];
