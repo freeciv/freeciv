@@ -518,12 +518,19 @@ text = _("\
 The client has a primitive chat interface.  The lines you type \
 are sent to all players, except:\
 "), _("\
-  - Messages starting with 'foo:' are private messages to the \
-player named 'foo'; player names can be abbreviated.\
-"), _("\
   - Messages starting with '/' are interpreted as server commands \
-(if the server is recent enough; regular 1.8.0 servers are not) \
-and executed, if you have the required access rights.\
+and executed, if you have the required access level.\
+"), _("\
+  - Messages starting with 'John:' are private messages to 'John'. \
+Names can be abbreviated. The server looks for players named 'John' \
+and if that fails tries to match a username beginning with 'John' (like \
+'Johnathan').\
+"), _("\
+  - Messages starting with 'John::' are private messages as above, but \
+will match only users (not players) named 'John'.  'Johnathan' will \
+still match.\
+"), _("\
+  - Messages starting with '.' will be sent only to all your allies.\
 ")
 
 [help_worklist_editor]
