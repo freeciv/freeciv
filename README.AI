@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------
+Note: this document is not entirely up-to-date.
+
+The AI hasn't changed much recently, since John has stopped working 
+on it.  The main change is that a new "easy" skill level has been 
+implemented, and made the default.  --dwp
+
+Old README.AI from John Stonebraker, from the 1.7.1 release:
+-------------------------------------------------------------------------
     I haven't worked on the AI as much for the past three weeks as
 I did for the previous three months.  I did substantially improve
 its ability to manage invasions and conquer cities, and prevent
@@ -20,8 +29,6 @@ are before it sees them, and also must obey government max rates.
 It seems to behave sensibly in the few tests I've run in normal mode,
 and I haven't gotten any complaints that there are problems with it.
 There is no 'easy' mode yet, although I suspect there needs to be.
-
-Note: the "default" mode now corresponds to "normal" --dwp
 
 John Stonebraker
 ppaqebb@surfshop.net
