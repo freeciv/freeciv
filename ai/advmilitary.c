@@ -187,6 +187,21 @@ static int assess_distance(struct city *pcity, struct unit *punit, int m,
   return(dist);
 }
 
+/********************************************************************** 
+  Call assess_danger() for all cities owned by pplayer.
+  This is necessary to initialize ... <some ai data>
+  before ... <some ai calculations> ...
+***********************************************************************/
+void assess_danger_player(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity)
+    assess_danger(pcity);
+  city_list_iterate_end;
+}
+	  
+/********************************************************************** 
+...
+***********************************************************************/
 int assess_danger(struct city *pcity)
 {
   int i, danger = 0, v, dist, con, m;

@@ -429,12 +429,11 @@ main_start_players:
 
   if (!game.is_new_game) {
     for (i=0;i<game.nplayers;i++) {
-      civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
-      if (game.players[i].ai.control) {
-	set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
-        city_list_iterate(game.players[i].cities, pcity)
-          assess_danger(pcity); /* a slowdown, but a necessary one */
-        city_list_iterate_end;
+      struct player *pplayer = get_player(i);
+      civ_score(pplayer);	/* if we don't, the AI gets really confused */
+      if (pplayer->ai.control) {
+	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
+	assess_danger_player(pplayer); /* a slowdown, but a necessary one */
       }
     }
   }

@@ -41,6 +41,8 @@
 #include "sernet.h"
 #include "meta.h"
 
+#include "advmilitary.h"	/* assess_danger_player() */
+
 #include "stdinhand.h"
 
 #define MAX_LEN_CMD MAX_LEN_PACKET
@@ -1071,6 +1073,9 @@ static void toggle_ai_player(struct player *caller, char *arg)
        level could have been set as AI, then toggled, then saved,
        then reloaded. */ 
     set_ai_level(caller, pplayer->name, pplayer->ai.skill_level);
+    /* The following is sometimes necessary to avoid using
+       uninitialized data... */
+    assess_danger_player(pplayer);
   } else {
     notify_player(0, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
