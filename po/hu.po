@@ -1,14 +1,14 @@
 # Hungarian translations for Freeciv
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Gábor Dukai <dukai@EUnet.yu>, 2000
+# Gábor Dukai <dukai@EUnet.yu>, 2000-2001
 # This translation is covered by the GNU General Public License Version 2.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.11.4\n"
+"Project-Id-Version: Freeciv 1.11.4 v0.5\n"
 "POT-Creation-Date: 2000-07-20 13:48-0400\n"
-"PO-Revision-Date: 2000-10-25 18:16+0100\n"
+"PO-Revision-Date: 2001-3-25 23:12+0200\n"
 "Last-Translator: Gábor Dukai <dukai@EUnet.yu>\n"
 "Language-Team: Hungarian <dukai@EUnet.yu>\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Nukleáris kihullás"
 #: common/mem.c:38
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
-msgstr ""
+msgstr "Nem volt elég memória amikor %s %lu próbáltam a %d soránál %s filenak."
 
 #: common/player.c:423
 msgid "Spotless"
@@ -182,7 +182,7 @@ msgstr "Nincs kapcsolat"
 #: common/shared.c:130
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "Hiányzó paraméter a \"%s\"-hez.\n"
 
 #: common/shared.c:228
 #, c-format
@@ -197,11 +197,11 @@ msgstr "i.sz. %d"
 #: client/tilespec.c:139 common/shared.c:579
 #, c-format
 msgid "Could not find readable file \"%s\" in data path."
-msgstr ""
+msgstr "Nem találtam a \"%s\" olvasható filet az adatok helyén."
 
 #: client/tilespec.c:141 common/shared.c:581 server/ruleset.c:101
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr ""
+msgstr "Az adatok helyét a FREECIV_PATH környzeti változóban lehet megadni."
 
 #: client/tilespec.c:143 common/shared.c:583 server/ruleset.c:103
 #, c-format
@@ -219,15 +219,15 @@ msgstr "Használj inkább nem privilegizált felhsználót.\n"
 
 #: common/shared.c:637
 msgid "exact match"
-msgstr ""
+msgstr "pontosan egyezõ"
 
 #: common/shared.c:638
 msgid "only match"
-msgstr ""
+msgstr "egyedüli egyezõ"
 
 #: common/shared.c:639
 msgid "ambiguous"
-msgstr ""
+msgstr "bizonytalan"
 
 #: common/shared.c:640
 msgid "empty"
@@ -239,7 +239,7 @@ msgstr "túl hosszú"
 
 #: common/shared.c:642
 msgid "non-match"
-msgstr ""
+msgstr "nem egyezõ"
 
 #: common/shared.c:702
 msgid "'Cause civilization should be free!"
@@ -377,12 +377,12 @@ msgstr "Játék: %s felújítva %s-ra %s városban %d aranyért."
 #: ai/aicity.c:381
 #, c-format
 msgid "Game: %s disbanded in %s."
-msgstr ""
+msgstr "Játék: %s fel lett oszlatva %s városban."
 
 #: ai/aicity.c:802
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
-msgstr ""
+msgstr "Játék: %s eladja %s-t (nem kell) %d aranyért."
 
 #: server/barbarian.c:435
 #, c-format
@@ -436,7 +436,7 @@ msgstr "Játék: %s megvéve %s-ban %d aranyért."
 
 #: server/cityhand.c:578
 msgid " from the worklist"
-msgstr ""
+msgstr " a munkatervbõl"
 
 #: server/cityhand.c:588
 #, c-format
@@ -465,12 +465,12 @@ msgstr "Játék: %s ellátóvárosa %s-ra cserélve."
 #: server/citytools.c:622 server/citytools.c:653
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "Játék: %s %s városban %s tulajdonából %s tulajdona lett."
 
 #: server/citytools.c:676
 #, c-format
 msgid "Game: Transfered %s at (%d, %d) from %s to %s."
-msgstr ""
+msgstr "Játék: %s (%d, %d) koordinátákon %s tulajdonából %s tulajdona lett."
 
 #: server/citytools.c:944
 #, c-format
@@ -488,7 +488,10 @@ msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's administrative\n"
 "      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
-msgstr "Játék: A %s fõvárosának elfoglalása és a birodalom hivatalnoki szervezetének lerombolása polgárháborút robbantott ki. Az alkalmat kihsználók összegyûltek és a lázadó %s %d tartományt tart irányítása alatt."
+msgstr ""
+"Játék: A %s fõvárosának elfoglalása és a birodalom hivatalnoki szervezetének lerombolása\n"
+"      polgárháborút robbantott ki. Az alkalmat kihsználók összegyûltek és a lázadó %s \n"
+"      %d tartományt tart irányítása alatt."
 
 #: server/citytools.c:1084
 #, c-format
@@ -496,6 +499,8 @@ msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"Játék: %s lakói megdöbbentek tudományos jártasságodon!\n"
+"      A munkások önként vasutat építenek a városodnak."
 
 #: server/cityturn.c:571
 #, c-format
@@ -505,7 +510,7 @@ msgstr "Játék: %s %s-t (elavult) ad el %d aranyért."
 #: server/cityturn.c:757
 #, c-format
 msgid "Game: Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr ""
+msgstr "Játék: A népességnövekedés lassítását javaslom %s városban, hogy a %sat (már épül) jobban kihasználhasd."
 
 #: server/cityturn.c:766
 #, c-format
@@ -654,7 +659,7 @@ msgstr "Játék: %s %s-ba lett olvasztva."
 #: server/civserver.c:199
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr ""
+msgstr "Figyelem: a %s paraméter elavult. Használd az -m paramétert a metaserver engedélyezéséhez.\n"
 
 #: server/civserver.c:230
 #, c-format
@@ -664,7 +669,7 @@ msgstr "Hiba: ismeretlen opció '%s'\n"
 #: server/civserver.c:242
 #, c-format
 msgid "This is the server for %s"
-msgstr "Ez a %s szervere"
+msgstr "Ez a %s kiszolgálója"
 
 #: server/civserver.c:243
 #, c-format
@@ -686,7 +691,7 @@ msgstr "  -h, --help\t\tÖsszes opció kiírása\n"
 
 #: server/civserver.c:249
 msgid "  -r, --read FILE\tRead startup script FILE\n"
-msgstr ""
+msgstr "  -r, --read FILE\tFILE indítási parancsfile olvasása\n"
 
 #: server/civserver.c:250
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
@@ -694,7 +699,7 @@ msgstr "  -f, --file FILE\tJátékállást betölt FILE-ból\n"
 
 #: server/civserver.c:251
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-msgstr "  -p, --port=PORT\tPORT porton vár a kliensekre.\n"
+msgstr "  -p, --port=PORT\tPORT porton vár az ügyfelekre.\n"
 
 #: server/civserver.c:252
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
@@ -706,15 +711,15 @@ msgstr "  -l, --log FILE\tFILE használata logfájlként.\n"
 
 #: server/civserver.c:254
 msgid "  -m, --meta\t\tSend info to metaserver\n"
-msgstr "  -m, --meta\t\tInformációt küld a metaszervernek\n"
+msgstr "  -m, --meta\t\tInformációt küld a metakiszolgálónak\n"
 
 #: server/civserver.c:255
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr "  -M, --Metaserver ADDR\tADDR-t állítja be metaszerver címnek\n"
+msgstr "  -M, --Metaserver ADDR\tADDR-t állítja be metakiszolgáló címnek\n"
 
 #: server/civserver.c:256
 msgid "  -s, --server HOST\tList this server as host HOST\n"
-msgstr "  -s, --server HOST\tEzt a szervert HOST szerverként listázza ki\n"
+msgstr "  -s, --server HOST\tEzt a kiszolgálót HOST-ként listázza ki\n"
 
 #: client/civclient.c:117 server/civserver.c:258
 msgid "  -d, --debug NUM\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
@@ -747,12 +752,12 @@ msgstr "Nem tudom a %s játékállást betölteni"
 #: server/civserver.c:326
 #, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr "Információ küldése a metszervernek [%s]"
+msgstr "Információ küldése a metakiszolgálónak [%s]"
 
 #. accept new players, wait for serverop to start..
 #: server/civserver.c:334
 msgid "Now accepting new client connections."
-msgstr "Most elfogadom új kliensek kapcsolódását."
+msgstr "Most elfogadom új ügyfelek kapcsolódását."
 
 #: server/civserver.c:393
 msgid "Last player has disconnected: will need to restart."
@@ -781,12 +786,12 @@ msgstr "Vár"
 #: server/civserver.c:776
 #, c-format
 msgid "Game: Concerned citizens point out that the cease-fire with %s will run out soon."
-msgstr ""
+msgstr "Játék: Az illetékesek megemlítették, hogy a %s-val kötött tûzszünet hamarosan lejár."
 
 #: server/civserver.c:782
 #, c-format
 msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
-msgstr ""
+msgstr "Játék: A %s-val kötött tûzszünet lejárt. Most már semleges a viszonyod %s-val."
 
 #: server/civserver.c:956
 #, c-format
@@ -809,7 +814,7 @@ msgstr "Játék indítása."
 #: server/civserver.c:1324
 #, c-format
 msgid "Another player named '%s' has already joined the game.  Please choose another name."
-msgstr "Másik '%s' nevû játékos már csatlakozott a játékhoz. Kérlek válassz másik nevet."
+msgstr "Másik '%s' nevû játékos már belépett a játékba. Kérlek válassz másik nevet."
 
 #: server/civserver.c:1330
 #, c-format
@@ -818,12 +823,12 @@ msgstr "%s a %s uralkodója %s néven."
 
 #: server/civserver.c:1357
 msgid "Sorry, you can't play.  There are no nations left."
-msgstr ""
+msgstr "Sajnos nem játszhatsz. Nincs több kiválasztható nemzet."
 
 #: server/civserver.c:1360 server/civserver.c:1648
 #, c-format
 msgid "Game full - %s was rejected."
-msgstr "Játék tele - %s kidobva."
+msgstr "Játék tele - %s visszautasítva."
 
 #: server/civserver.c:1412
 #, c-format
@@ -848,12 +853,12 @@ msgstr "Játék: <%s@%s> játékos csatlakozott."
 #: server/civserver.c:1446
 #, c-format
 msgid "Welcome to the %s Server running at %s."
-msgstr "Üdvözöl a %s Szerver %s gépen."
+msgstr "Üdvözöl a %s kiszolgáló a %s gépen."
 
 #: server/civserver.c:1449
 #, c-format
 msgid "Welcome to the %s Server."
-msgstr "Üdvözöl a %s Szerver."
+msgstr "Üdvözöl a %s kiszolgáló."
 
 #: server/civserver.c:1466
 #, c-format
@@ -875,7 +880,7 @@ msgstr " (Nyugodjék békében!)"
 
 #: server/civserver.c:1492
 msgid " (AI mode)"
-msgstr " (AI mód)"
+msgstr " (MI mód)"
 
 #: server/civserver.c:1498
 msgid "There is 1 other player:"
@@ -888,22 +893,22 @@ msgstr "%d másik játékos van:"
 
 #: server/civserver.c:1508
 msgid " (an AI player)"
-msgstr " (egy AI játékos)"
+msgstr " (egy MI játékos)"
 
 #: server/civserver.c:1540
 #, c-format
 msgid "%s has been added as an AI-controlled player."
-msgstr "%s belépett AI irányította játékosként."
+msgstr "%s belépett MI irányította játékosként."
 
 #: server/civserver.c:1542
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
-msgstr "Játék: %s belépett AI irányította játékosként."
+msgstr "Játék: %s belépett MI irányította játékosként."
 
 #: server/civserver.c:1577
 #, c-format
 msgid "Connection request from %s with client version %d.%d.%d%s"
-msgstr ""
+msgstr "Kapcsolatkérés %s-tól %d.%d.%d%s verziójú ügyféllel."
 
 #: server/civserver.c:1587
 #, c-format
@@ -911,11 +916,13 @@ msgid ""
 "The client is missing a capability that this server needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"Az ügyfélnek hiányzik egy képessége, amire ennek a kiszolgálónak szüksége van.\n"
+"Kiszolgáló verzója: %d.%d.%d%s Ügyfél verzója: %d.%d.%d%s.  Frissítés valószínûleg segítene!"
 
 #: server/civserver.c:1594
 #, c-format
 msgid "%s was rejected: mismatched capabilities."
-msgstr ""
+msgstr "%st visszautasítottam, mert az ügyfelének nincsenek megfelelõ képességei."
 
 #: server/civserver.c:1603
 #, c-format
@@ -923,24 +930,26 @@ msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"A kiszolgálónak hiányzik egy képessége, amire az ügyfélnek szükésge van.\n"
+"Kiszolgáló verzója: %d.%d.%d%s Ügyfél verzója: %d.%d.%d%s.  Frissítés valószínûleg segítene!"
 
 #: server/civserver.c:1610
 #, c-format
 msgid "%s was rejected: mismatched capabilities"
-msgstr ""
+msgstr "%st visszautasítottam, mert a kiszolgálónak nincsenek megfelelõ képességei."
 
 #: server/civserver.c:1620
 msgid "Sorry, you can't observe a barbarian."
-msgstr "Bocs, nem vezethetsz barbárokat."
+msgstr "Sajnálom, nem vezethetsz barbárokat."
 
 #: server/civserver.c:1622
 #, c-format
 msgid "No observation of barbarians - %s was rejected."
-msgstr "Barbárokat nem lehet vezetni - %s kidobva."
+msgstr "Barbárokat nem lehet vezetni - %s visszautasítva."
 
 #: server/civserver.c:1647 server/civserver.c:1689
 msgid "Sorry, you can't join.  The game is full."
-msgstr "Bocs, nem léphetsz be.  A játék tele van."
+msgstr "Sajnálom, nem léphetsz be.  A játék tele van."
 
 #. Used to have here: accept_new_player(req->name, pconn);
 #. * but duplicate names cause problems even in PRE_GAME_STATE
@@ -949,36 +958,36 @@ msgstr "Bocs, nem léphetsz be.  A játék tele van."
 #.
 #: server/civserver.c:1658
 msgid "Sorry, someone else already has that name."
-msgstr ""
+msgstr "Sajnálom, de ezt a nevet már valaki használja."
 
 #: server/civserver.c:1660
 #, c-format
 msgid "%s was rejected, name already used."
-msgstr ""
+msgstr "%st visszautasítottam, a neve már foglalt."
 
 #: server/civserver.c:1668
 #, c-format
 msgid "You can't join the game.  %s is already connected."
-msgstr ""
+msgstr "Nem léphetsz be a játékba.  %s már belépett."
 
 #: server/civserver.c:1671
 #, c-format
 msgid "%s was rejected."
-msgstr ""
+msgstr "%s visszautasítva."
 
 #: server/civserver.c:1680
 msgid "Sorry, you can't join.  The game is already running."
-msgstr "Bocs, nem léphetsz be.  A játék már fut."
+msgstr "Sajnálom, nem léphetsz be.  A játék már fut."
 
 #: server/civserver.c:1682
 #, c-format
 msgid "Game running - %s was rejected."
-msgstr "Játék fut - %s kidobva."
+msgstr "Játék fut - %s visszautasítva."
 
 #: server/civserver.c:1690
 #, c-format
 msgid "game full - %s was rejected."
-msgstr "játék tele - %s kidobva."
+msgstr "játék tele - %s visszautasítva."
 
 #. This happens eg if the player has not yet joined properly.
 #: server/civserver.c:1716
@@ -998,22 +1007,22 @@ msgstr "Játék: %s-al elveszett a kapcsolat."
 #: server/civserver.c:1773
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
-msgstr ""
+msgstr "Nincs több nemzet. %st, MI irányította játékost, nem hoztam létre."
 
 #: server/civserver.c:1805
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
-msgstr ""
+msgstr "A nemzetek száma kisebb, mint az aifill; aifill %d-re csökkentve."
 
 #: server/civserver.c:1812
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
-msgstr ""
+msgstr "Maxplayers kisebb, mint az aifill; aifill %d-re csökkentve."
 
 #: server/civserver.c:1834
 #, c-format
 msgid "Error creating new ai player: %s\n"
-msgstr ""
+msgstr "Hiba %s MI játékos létrehozásakor.\n"
 
 #: server/civserver.c:1882
 #, c-format
@@ -1023,12 +1032,12 @@ msgstr "Játékos %d"
 #. no more unused nation
 #: server/civserver.c:1897
 msgid "Argh! ran out of nations!"
-msgstr ""
+msgstr "Nincs több kiválasztható nemzet!"
 
 #: server/civserver.c:1914
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
-msgstr "AI írányitja a %s uralkodóját %s-t"
+msgstr "MI írányitja a %s uralkodóját %s-t"
 
 #: server/civserver.c:1920
 #, c-format
@@ -1037,11 +1046,11 @@ msgstr "Játék: %s a %s uralkodója."
 
 #: server/console.c:178
 msgid "Ok. RFC-style set."
-msgstr ""
+msgstr "Ok. RFC stílust beállítottam."
 
 #: server/console.c:180
 msgid "Ok. Standard style set."
-msgstr ""
+msgstr "Ok. Szabványos stílust beállítottam."
 
 #: server/console.c:199
 msgid "For introductory help, type 'help'."
@@ -1050,17 +1059,17 @@ msgstr "Rövid segítségért írd be, hogy 'help'. "
 #: server/diplhand.c:107 server/diplhand.c:110
 #, c-format
 msgid "Game: A treaty containing %d clauses was agreed upon."
-msgstr ""
+msgstr "Játék: %d cikkelyes szerzõdést kötöttek."
 
 #: server/diplhand.c:126 server/diplhand.c:129
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr ""
+msgstr "Játék: A %snak nincs meg az ígért mennyiségû aranya! Szerzõdés felbontva!"
 
 #: server/diplhand.c:146
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
-msgstr ""
+msgstr "Játék: Megtanították nektek a %s tudományt."
 
 #: server/diplhand.c:150
 #, c-format
@@ -1075,22 +1084,22 @@ msgstr "Játék: Kapsz %d aranyat."
 #: server/diplhand.c:171
 #, c-format
 msgid "Game: You receive %s's worldmap."
-msgstr ""
+msgstr "Játék: Megkapod %s világtérképét."
 
 #: server/diplhand.c:176
 #, c-format
 msgid "Game: You receive %s's seamap."
-msgstr ""
+msgstr "Játék: Megkapod %s hajózási térképét."
 
 #: server/diplhand.c:185
 #, c-format
 msgid "Treaty city id %d not found - skipping clause."
-msgstr ""
+msgstr "A szerzõdésben található %d azonosítójú város nem létezik - kihagyom a cikkelyt."
 
 #: server/diplhand.c:190
 #, c-format
 msgid "Game: You receive city of %s from %s."
-msgstr ""
+msgstr "Játék: %s várost kapod %stól."
 
 #: server/diplhand.c:193
 #, c-format
@@ -1125,21 +1134,21 @@ msgstr "Év: %s"
 #: server/gamelog.c:63
 #, c-format
 msgid "Couldn't open gamelogfile \"%s\" for appending."
-msgstr ""
+msgstr "Nem tudtam a játék \"%s\" naplózási file-ját íráshoz megnyitni."
 
 #: server/handchat.c:105
 #, c-format
 msgid "Game: %s is an ambiguous name-prefix."
-msgstr ""
+msgstr "Játék: %s kétértelmû név elõtag."
 
 #: server/handchat.c:115
 #, c-format
 msgid "Game: There's no player by the name %s."
-msgstr ""
+msgstr "Játék: Nincs %s nevû játékos."
 
 #: server/mapgen.c:721
 msgid "Map generator: not enough start positions, fixing."
-msgstr ""
+msgstr "Térképkészítõ: nincs elég indulópont, kijavítom."
 
 #: server/mapgen.c:724
 #, c-format
@@ -1148,20 +1157,20 @@ msgstr "A térképen %i kezdõhely van %i szigeten."
 
 #: server/mapgen.c:1306
 msgid "High landmass - this may take a few seconds."
-msgstr ""
+msgstr "Nagy a térkép, ezért ez néhány percig eltarthat."
 
 #: server/mapgen.c:1504
 msgid "Falling back to generator 2."
-msgstr ""
+msgstr "Visszatérek a kettes térképkészítõhöz."
 
 #: server/mapgen.c:1518
 msgid "Generator 3 didn't place all big islands."
-msgstr ""
+msgstr "A hármas térképkészítõ nem csinált elég nagy szigetet."
 
 #: server/mapgen.c:1541
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr ""
+msgstr "A hármas térképkészítõ %li földet nem helyezett el."
 
 #: server/maphand.c:107
 msgid "Game: Global warming has occurred!"
@@ -1184,26 +1193,30 @@ msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Játék: A vasút felfedezésével új remény terjed az országban.\n"
+"       A munkások önként vasutat építenek az összes városodnak."
 
 #: server/maphand.c:417
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Játék: Az emberek örülnek, hogy a tudósaid végre ismerik a vasutat.\n"
+"       A munkások önként vasutat építenek az összes városodnak."
 
 #: server/maphand.c:575
 #, c-format
 msgid "Number of starts (%d) are lower than max_players (%d), lowering max_players."
-msgstr ""
+msgstr "Az indulópontok száma (%d) kisebb, mint a játékosok számának maximuma (%d)."
 
 #: server/meta.c:160
 msgid "Not reporting to the metaserver in this game."
-msgstr ""
+msgstr "Ezt a játékot nem jelentem a metakiszolgálónak."
 
 #: server/meta.c:202
 #, c-format
 msgid "Metaserver: bad address: [%s]."
-msgstr "Metaszerver: rossz cím: [%s]."
+msgstr "Metakiszolgáló: rossz cím: [%s]."
 
 #: server/plrhand.c:73
 #, c-format
@@ -1409,7 +1422,7 @@ msgstr "Demográfiai Jelentés:"
 
 #: server/plrhand.c:867
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Bocs, a Demográfiai Jelentés nem elérhetõ."
+msgstr "Sajnálom, a Demográfiai Jelentés nem elérhetõ."
 
 #: server/plrhand.c:872
 #, c-format
@@ -2284,7 +2297,7 @@ msgstr ""
 
 #: server/stdinhand.c:865
 msgid "Set server options."
-msgstr "Szerver paramétereinek beállítása."
+msgstr "Kiszolgáló paramétereinek beállítása."
 
 #: server/stdinhand.c:869
 msgid "This command is not currently implemented."
@@ -2292,7 +2305,7 @@ msgstr ""
 
 #: server/stdinhand.c:875
 msgid "Control metaserver connection."
-msgstr "Metaszerver kapcsolat kezelése."
+msgstr "Metakiszolgáló kapcsolat kezelése."
 
 #: server/stdinhand.c:876
 msgid ""
@@ -2313,7 +2326,7 @@ msgstr ""
 #. translate <> only
 #: server/stdinhand.c:887
 msgid "metaserver <address>"
-msgstr "Metaszerver <cím>"
+msgstr "Metakiszolgáló <cím>"
 
 #: server/stdinhand.c:888
 msgid "Set address for metaserver to report to."
@@ -2540,16 +2553,16 @@ msgstr ""
 #: server/stdinhand.c:1240
 #, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr "Metaszerver kapcsolatot nyit [%s]-al."
+msgstr "Metakiszolgáló kapcsolatot nyit [%s]-al."
 
 #: server/stdinhand.c:1243
 msgid "Metaserver connection opened."
-msgstr ""
+msgstr "Metakiszolgálóval létrejött a kapcsolat."
 
 #: server/stdinhand.c:1254
 #, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr "Bezárja a metaszerver kapcsolatot [%s]-al."
+msgstr "Bezárja a [%s] metakiszolgálóval a kapcsolatot."
 
 #: server/stdinhand.c:1257
 msgid "Metaserver connection closed."
@@ -2557,19 +2570,19 @@ msgstr ""
 
 #: server/stdinhand.c:1270
 msgid "Metaserver connection is open."
-msgstr "Metaszerver kapcsolat meg van nyitva."
+msgstr "Metakiszolgáló kapcsolat meg van nyitva."
 
 #: server/stdinhand.c:1273
 msgid "Metaserver connection is closed."
-msgstr "Metaszerver kapcsolat zárva."
+msgstr "Metakiszolgáló kapcsolat zárva."
 
 #: server/stdinhand.c:1281
 msgid "Metaserver connection is already open."
-msgstr "Metaszerver kapcsolat már nyitva van."
+msgstr "Metakiszolgáló kapcsolat már nyitva van."
 
 #: server/stdinhand.c:1289
 msgid "Metaserver connection is already closed."
-msgstr "Metaszerver kapcsolat már zárva van."
+msgstr "Metakiszolgáló kapcsolat már zárva van."
 
 #: server/stdinhand.c:1293
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
@@ -2591,11 +2604,11 @@ msgstr ""
 #: server/stdinhand.c:1324
 #, c-format
 msgid "Metaserver is now [%s]."
-msgstr "A metaszerver most [%s]."
+msgstr "A metakiszolgáló most [%s]."
 
 #: server/stdinhand.c:1327
 msgid "Metaserver address set."
-msgstr "Metaszerver címe beállítva."
+msgstr "Metakiszolgáló címe beállítva."
 
 #: server/stdinhand.c:1399
 msgid "The game cannot be saved before it is started."
@@ -2842,11 +2855,11 @@ msgstr "Opció"
 
 #: server/stdinhand.c:2078
 msgid "Server Options (initial)"
-msgstr "Szerver Beállítások (kezdeti)"
+msgstr "Kiszolgáló Beállítások (kezdeti)"
 
 #: server/stdinhand.c:2079
 msgid "Server Options (ongoing)"
-msgstr "Szerver Beállítások (menetközben)"
+msgstr "Kiszolgáló Beállítások (menetközben)"
 
 #: server/stdinhand.c:2117 server/stdinhand.c:2142 server/stdinhand.c:2153
 #, c-format
@@ -2972,7 +2985,7 @@ msgstr "Kapcsolat megszakítása %s-al."
 #: server/stdinhand.c:2566
 #, c-format
 msgid "Sorry, %s is not connected."
-msgstr "Bocs, %s nincs bekapcsolódva."
+msgstr "Sajnálom, %s nincs bekapcsolódva."
 
 #: server/stdinhand.c:2585
 msgid "Goodbye."
@@ -3101,7 +3114,7 @@ msgstr ""
 
 #: server/stdinhand.c:2811
 msgid "metaserver A    - game reported to metaserver at address A"
-msgstr "metaserver C    - a játék a C címen lévõ metaszervernek jelentve"
+msgstr "metaserver C    - a játék a C címen lévõ metakiszolgálónak jelentve"
 
 #: server/stdinhand.c:2813
 msgid "normal          - all AI players will be normal"
@@ -3825,7 +3838,7 @@ msgstr ""
 #: server/unithand.c:1113
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
-msgstr "Játék: Bocs, %s-d itt nem alapíthat kereskedelmi útvonalat."
+msgstr "Játék: Sajnálom, %s-d itt nem alapíthat kereskedelmi útvonalat."
 
 #: server/unithand.c:1119
 #, c-format
@@ -4030,11 +4043,11 @@ msgstr "  -n, --name NÉV\tNÉV név használata\n"
 
 #: client/civclient.c:109
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr "  -p, --port PORT\tPORT porton lévõ szerverhez kapcsolódás\n"
+msgstr "  -p, --port PORT\tPORT porton lévõ kiszolgálóhoz kapcsolódás\n"
 
 #: client/civclient.c:110
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr "  -s, --server HOST\tHOST szerverhez kapcsolódás\n"
+msgstr "  -s, --server HOST\tHOST kiszolgálóhoz kapcsolódás\n"
 
 #: client/civclient.c:111
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
@@ -4046,7 +4059,7 @@ msgstr ""
 
 #: client/civclient.c:115
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -m, --meta HOST\tHOST metaszerverhez kapcsolódás\n"
+msgstr "  -m, --meta HOST\tHOST metakiszolgálóhoz kapcsolódás\n"
 
 #: client/civclient.c:144
 #, c-format
@@ -4118,19 +4131,19 @@ msgstr ""
 
 #: client/clinet.c:87
 msgid "Lost connection to server!"
-msgstr "A szerverrel elveszett a kapcsolat!"
+msgstr "A kiszolgálóval elveszett a kapcsolat!"
 
 #: client/clinet.c:115
 msgid "Invalid hostname"
-msgstr "Nem jó szervernév"
+msgstr "Nem jó a kiszolgálónév"
 
 #: client/clinet.c:122 client/clinet.c:273
 msgid "Failed looking up host"
-msgstr "Nem sikerült megtalálni a szervert"
+msgstr "Nem sikerült megtalálni a kiszolgálót"
 
 #: client/clinet.c:175
 msgid "Disconnecting from server."
-msgstr "Elszakadás a szervertõl."
+msgstr "Elszakadás a kiszolgálótól."
 
 #: client/clinet.c:227
 msgid "Invalid $http_proxy value, must start with 'http://'"
@@ -4738,12 +4751,12 @@ msgstr "Kiutasítottak a játékból: %s"
 #: client/packhand.c:126
 #, c-format
 msgid "Client capability string: %s"
-msgstr "Kliens képességek: %s"
+msgstr "Ügyfél képességei: %s"
 
 #: client/packhand.c:129
 #, c-format
 msgid "Server capability string: %s"
-msgstr "Szerver képességek: %s"
+msgstr "Kiszolgáló képességei: %s"
 
 #: client/packhand.c:890
 #, c-format
@@ -5290,7 +5303,7 @@ msgstr "Bezár"
 
 #: client/gui-gtk/connectdlg.c:125
 msgid "Server Name"
-msgstr "Szerver Név"
+msgstr "Kiszolgáló Név"
 
 #: client/gui-gtk/connectdlg.c:125 data/Freeciv:87
 msgid "Port"
@@ -5302,7 +5315,7 @@ msgstr "Verzió"
 
 #: client/gui-gtk/connectdlg.c:126
 msgid "Status"
-msgstr "Státusz"
+msgstr "Állapot"
 
 #: client/gui-gtk/connectdlg.c:126 client/gui-gtk/menu.c:492 client/gui-gtk/plrdlg.c:98 client/gui-xaw/menu.c:109 data/Freeciv:3060 data/Freeciv:3061
 msgid "Players"
@@ -5314,11 +5327,11 @@ msgstr "Megjegyzés"
 
 #: client/gui-gtk/connectdlg.c:140
 msgid " Connect to Freeciv Server"
-msgstr " Kapcsolódás Freeciv Szerverhez"
+msgstr " Kapcsolódás Freeciv Kiszolgálóhoz"
 
 #: client/gui-gtk/connectdlg.c:146 data/Freeciv:68
 msgid "Freeciv Server Selection"
-msgstr "Freeciv Szerver Választás"
+msgstr "Freeciv Kiszolgáló Választás"
 
 #: client/gui-gtk/connectdlg.c:157
 msgid "Name:"
@@ -5334,7 +5347,7 @@ msgstr "Port:"
 
 #: client/gui-gtk/connectdlg.c:197 data/Freeciv:98
 msgid "Metaserver"
-msgstr "Metaszerver"
+msgstr "Metakiszolgáló"
 
 #: client/gui-gtk/connectdlg.c:214 data/Freeciv:138
 msgid "Update"
@@ -6084,11 +6097,11 @@ msgstr "Üzenetek"
 
 #: client/gui-gtk/menu.c:498 client/gui-xaw/menu.c:112
 msgid "Server Opt initial"
-msgstr "Szerver Opc. Kezdeti"
+msgstr "Kiszolg Opc. Kezdeti"
 
 #: client/gui-gtk/menu.c:500 client/gui-xaw/menu.c:113
 msgid "Server Opt ongoing"
-msgstr "Szerver Opc. Menetközben"
+msgstr "Kiszolg Opc. Menetközben"
 
 #: client/gui-gtk/menu.c:504 client/gui-xaw/menu.c:115
 msgid "Export Log"
@@ -6422,7 +6435,7 @@ msgstr "Hírnév"
 
 #: client/gui-gtk/plrdlg.c:86 data/Freeciv:79
 msgid "Host"
-msgstr "Szerver"
+msgstr "Kiszolgáló"
 
 #: client/gui-gtk/plrdlg.c:115
 msgid "_Intelligence"
@@ -6888,15 +6901,15 @@ msgstr "Összesen:                   %9d%9d%9d%9d"
 
 #: data/Freeciv:63
 msgid "Connect to Freeciv Server"
-msgstr "Kapcsolódás Freeciv Szerverhez"
+msgstr "Kapcsolódás Freeciv Kiszolgálóhoz"
 
 #: data/Freeciv:116
 msgid "Metaserver List"
-msgstr "Metaszerver lista"
+msgstr "Metakiszolgáló lista"
 
 #: data/Freeciv:119
 msgid "Server Name                         Port  Version     Status  Players  Comment"
-msgstr "Szerver neve                       Port  Verzió      Státusz JátékosokMegjegyzés"
+msgstr "Kiszolgáló neve                    Port  Verzió      Státusz JátékosokMegjegyzés"
 
 #: data/Freeciv:513
 msgid "Select Unit(s)"
@@ -8830,7 +8843,7 @@ msgstr "Fõpapnõ"
 
 #: data/civ2/governments.ruleset:434
 msgid "(Sorry, no helptext available.)"
-msgstr "(Bocs, nincs segítség.)"
+msgstr "(Sajnálom, nincs segítség.)"
 
 #: data/civ1/governments.ruleset:217
 msgid ""
