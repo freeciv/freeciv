@@ -901,8 +901,9 @@ void handle_player_cancel_pact(struct player *pplayer,
       return;
     }
     remove_shared_vision(pplayer, pplayer2);
-    notify_player(pplayer2, _("%s no longer gives us shared vision!"),
-                pplayer->name);
+    notify_player_ex(pplayer2, -1, -1, E_TREATY_BROKEN,
+                     _("%s no longer gives us shared vision!"),
+                     pplayer->name);
     return;
   }
 
@@ -938,9 +939,10 @@ repeat_break_treaty:
   if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
     pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
     if (has_senate && !repeat) {
-      notify_player(pplayer, _("The senate passes your bill because of the "
-			       "constant provocations of the %s."),
-		    get_nation_name_plural(pplayer2->nation));
+      notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
+                       _("The senate passes your bill because of the "
+                         "constant provocations of the %s."),
+                       get_nation_name_plural(pplayer2->nation));
     }
   }
   /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
@@ -949,12 +951,14 @@ repeat_break_treaty:
      extend the govt rulesets to mimic this -- pt */
   else {
     pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
-    notify_player(pplayer, _("Game: Your reputation is now %s."),
-		  reputation_text(pplayer->reputation));
+    notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
+                     _("Game: Your reputation is now %s."),
+                     reputation_text(pplayer->reputation));
     if (has_senate && pplayer->revolution == 0) {
       if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
-	notify_player(pplayer, _("Game: The senate decides to dissolve "
-				 "rather than support your actions any longer."));
+        notify_player_ex(pplayer, -1, -1, E_ANARCHY,
+                         _("Game: The senate decides to dissolve "
+                         "rather than support your actions any longer."));
 	handle_player_revolution(pplayer);
       }
     }
