@@ -36,7 +36,7 @@
 /* Old-style terrain enumeration: deprecated. */
 enum {
   T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE,
-  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_UNUSED, T_SWAMP, T_TUNDRA,
+  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_SWAMP, T_TUNDRA,
 };
 
 /* Provide a block to convert from native to map coordinates.  For instance
