@@ -73,9 +73,10 @@ effect		=
     { "type", "range", "amount"
 	"Size_Unlimit", "City", 10
     }
-helptext	= _("\
-Allows a city to grow larger than size 10.\
-")
+; FIXME: use this help text when gen-impr implemented...
+; helptext	= _("\
+; Allows a city to grow larger than size 10.\
+; ")
 
 [building_bank]
 name		= _("Bank")

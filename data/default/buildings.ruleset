@@ -246,10 +246,11 @@ effect		=
     { "type", "range", "amount"
 	"Size_Unlimit", "City", 8
     }
-helptext	= _("\
-Allows a city to grow larger than size 8.  A Sewer System is also\
- required for a city to grow larger than size 12.\
-")
+; FIXME: use this help text when gen-impr implemented...
+; helptext	= _("\
+; Allows a city to grow larger than size 8.  A Sewer System is also\
+;  required for a city to grow larger than size 12.\
+; ")
 
 [building_bank]
 name		= _("Bank")
@@ -988,10 +989,11 @@ effect		=
     { "type", "range", "amount", "cond_bldg"
 	"Size_Unlimit", "City", 12, "Aqueduct"
     }
-helptext	= _("\
-Allows a city to grow larger than size 12.  An Aqueduct is first\
- required for a city to grow larger than size 8.\
-")
+; FIXME: use this help text when gen-impr implemented...
+; helptext	= _("\
+; Allows a city to grow larger than size 12.  An Aqueduct is first\
+;  required for a city to grow larger than size 8.\
+; ")
 
 [building_solar_plant]
 name		= _("Solar Plant")
