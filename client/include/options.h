@@ -49,10 +49,10 @@ extern client_option options[];
 
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
 extern char *message_text[];            /* [E_LAST] */
+extern int sorted_events[];	        /* [E_LAST], sorted by message_text */
 
 
 void init_messages_where(void);
-int compar_message_texts(const void *i1, const void *i2);
 
 void load_options(void);
 void save_options(void);

@@ -83,7 +83,6 @@ Widget create_messageopt_dialog(void)
   Widget label,last_label=0;
   Widget toggle=0;
   int i, j;
-  int sorted[E_LAST];
   
   shell = XtCreatePopupShell("messageoptpopup",
 			     transientShellWidgetClass,
@@ -118,17 +117,12 @@ Widget create_messageopt_dialog(void)
 				     col2, NULL);
 
   for(i=0;i<E_LAST;i++)  {
-    sorted[i] = i;
-  }
-  qsort(sorted, E_LAST, sizeof(int), compar_message_texts);
-  
-  for(i=0;i<E_LAST;i++)  {
     int top_line = (!i || i==E_LAST/2);
     int is_col1 = i<E_LAST/2;
     label = XtVaCreateManagedWidget("label",
 				    labelWidgetClass,
 				    is_col1?col1:col2,
-				    XtNlabel, message_text[sorted[i]],
+				    XtNlabel, message_text[sorted_events[i]],
 				    XtNfromVert, top_line?
 				    is_col1?colhead1:colhead2:last_label,
 				    NULL);
@@ -141,7 +135,7 @@ Widget create_messageopt_dialog(void)
 				       is_col1?colhead1:colhead2:last_label,
 				       NULL);
       XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
-      messageopt_toggles[sorted[i]][j]=toggle;
+      messageopt_toggles[sorted_events[i]][j]=toggle;
     }
 
     last_label=label; 

@@ -75,7 +75,6 @@ GtkWidget *create_messageopt_dialog(void)
   GtkWidget *label;
   GtkWidget *toggle=0;
   int i, j;
-  int sorted[E_LAST];
   GtkAccelGroup *accel=gtk_accel_group_new();
   
   shell=gtk_dialog_new();
@@ -103,11 +102,6 @@ GtkWidget *create_messageopt_dialog(void)
   col2=gtk_table_new(E_LAST/2+2, NUM_MW+1, FALSE);
   gtk_container_add(GTK_CONTAINER(colhead2), col2);
 
-  for(i=0; i<E_LAST; i++)  {
-    sorted[i]=i;
-  }
-  qsort(sorted, E_LAST, sizeof(int), compar_message_texts);
-  
   label = gtk_label_new("Out:");
   gtk_table_attach_defaults(GTK_TABLE(col1), label, 1, 2, 0, 1);
   label = gtk_label_new("Mes:");
@@ -125,7 +119,7 @@ GtkWidget *create_messageopt_dialog(void)
     int line = (i%E_LAST);
     int is_col1 = i<(E_LAST/2);
 
-    label = gtk_label_new(message_text[sorted[i]]);
+    label = gtk_label_new(message_text[sorted_events[i]]);
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
     gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), label,
                0, 1, line+1, line+2);
@@ -133,7 +127,7 @@ GtkWidget *create_messageopt_dialog(void)
       toggle = gtk_check_button_new();
       gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), toggle,
                j+1, j+2, line+1, line+2);
-      messageopt_toggles[sorted[i]][j]=toggle;
+      messageopt_toggles[sorted_events[i]][j]=toggle;
     }
   }
 

@@ -53,6 +53,7 @@ client_option options[] = {
 };
 
 unsigned int messages_where[E_LAST];
+int sorted_events[E_LAST];
 
 char *message_text[E_LAST]={
   "Low Funds                ", 		/* E_LOW_ON_FUNDS */
@@ -90,10 +91,22 @@ char *message_text[E_LAST]={
   "Suggest Growth Throttling",          /* E_CITY_GRAN_THROTTLE */
 };
 
+/**************************************************************************
+  Comparison function for qsort; i1 and i2 are pointers to integers which
+  index message_text[].
+**************************************************************************/
+static int compar_message_texts(const void *i1, const void *i2)
+{
+  int j1 = *(const int*)i1;
+  int j2 = *(const int*)i2;
+  
+  return strcmp(message_text[j1], message_text[j2]);
+}
 
 /****************************************************************
   These could be a static table initialisation, except
-  its easier to do it this way.  
+  its easier to do it this way.
+  Now also initialise sorted_events[].
 *****************************************************************/
 void init_messages_where(void)
 {
@@ -107,18 +120,11 @@ void init_messages_where(void)
   for(i=0; i<sizeof(out_only)/sizeof(int); i++) {
     messages_where[out_only[i]] = MW_OUTPUT;
   }
-}
-
-/**************************************************************************
-  Comparison function for qsort; i1 and i2 are pointers to integers which
-  index message_text[].
-**************************************************************************/
-int compar_message_texts(const void *i1, const void *i2)
-{
-  int j1 = *(const int*)i1;
-  int j2 = *(const int*)i2;
   
-  return strcmp(message_text[j1], message_text[j2]);
+  for(i=0;i<E_LAST;i++)  {
+    sorted_events[i] = i;
+  }
+  qsort(sorted_events, E_LAST, sizeof(int), compar_message_texts);
 }
 
 
