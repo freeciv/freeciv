@@ -1971,19 +1971,12 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
 
-  if (is_isometric) {
-    if (backdrop) {
+  if (backdrop) {
+    if (!solid_color_behind_units) {
       ADD_SPRITE(get_unit_nation_flag_sprite(punit),
 		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
-    }
-  } else {
-    if (backdrop) {
-      if (!solid_color_behind_units) {
-	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
-		   DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
-      } else {
-	ADD_BG(player_color(unit_owner(punit)));
-      }
+    } else {
+      ADD_BG(player_color(unit_owner(punit)));
     }
   }
 
@@ -2745,6 +2738,8 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
     if (!solid_color_behind_units) {
       ADD_SPRITE(get_city_nation_flag_sprite(pcity),
 		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+    } else {
+      ADD_BG(player_color(city_owner(pcity)));
     }
     ADD_SPRITE_FULL(get_city_sprite(pcity));
     if (pcity->client.occupied) {
