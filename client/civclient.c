@@ -19,7 +19,7 @@
 
 #include <civclient.h>
 #include <clinet.h>
-#include <xmain.h>
+#include <gui_main.h>
 #include <log.h>
 #include <packets.h>
 #include <map.h>
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
   /*  audio_init(); */
   init_messages_where();
   game_init();
-  x_main(argc, argv);
+  ui_main(argc, argv);
   return 0;
   /*  audio_term(); */
 }

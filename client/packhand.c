@@ -13,7 +13,7 @@
 #include <citydlg.h>
 #include <repodlgs.h>
 #include <cityrep.h>
-#include <xmain.h>
+#include <gui_main.h>
 #include <log.h>
 #include <meswindlg.h>
 #include <chatline.h>
