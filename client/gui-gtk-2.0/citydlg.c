@@ -2341,12 +2341,12 @@ static void buy_callback(GtkWidget *w, gpointer data)
   value = city_buy_cost(pdialog->pcity);
 
   if (game.player_ptr->economic.gold >= value) {
-    shell = gtk_message_dialog_new(GTK_WINDOW(pdialog->shell),
+    shell = gtk_message_dialog_new(NULL,
         GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
         _("Buy %s for %d gold?\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
-    setup_dialog(shell, toplevel);
+    setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
 
@@ -2355,12 +2355,12 @@ static void buy_callback(GtkWidget *w, gpointer data)
     }
     gtk_widget_destroy(shell);
   } else {
-    shell = gtk_message_dialog_new(GTK_WINDOW(pdialog->shell),
+    shell = gtk_message_dialog_new(NULL,
         GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
         _("%s costs %d gold.\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
-    setup_dialog(shell, toplevel);
+    setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
       NULL);
@@ -2391,13 +2391,13 @@ static void sell_callback(Impr_Type_id id, gpointer data)
 
   pdialog->sell_id = id;
 
-  shl = gtk_message_dialog_new(GTK_WINDOW(pdialog->shell),
+  shl = gtk_message_dialog_new(NULL,
     GTK_DIALOG_DESTROY_WITH_PARENT,
     GTK_MESSAGE_QUESTION,
     GTK_BUTTONS_YES_NO,
     _("Sell %s for %d gold?"),
     get_impr_name_ex(pdialog->pcity, id), impr_sell_gold(id));
-  setup_dialog(shl, toplevel);
+  setup_dialog(shl, pdialog->shell);
   pdialog->sell_shell = shl;
   
   gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));
