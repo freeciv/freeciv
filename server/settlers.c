@@ -646,12 +646,14 @@ static int road_bonus(int x, int y, int spc)
   int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
   int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
   struct tile *ptile;
+  bool is_border = IS_BORDER_MAP_POS(x, y, 2);
+  
   if (!normalize_map_pos(&x, &y))
     return 0;
 
   for (k = 0; k < 12; k++) {
     int x1 = x + ii[k], y1 = y + jj[k];
-    if (!normalize_map_pos(&x1, &y1)) {
+    if (is_border && !normalize_map_pos(&x1, &y1)) {
       rd[k] = FALSE;
     } else {
       ptile = map_get_tile(x1, y1);
