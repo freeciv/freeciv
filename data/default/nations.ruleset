@@ -1736,6 +1736,7 @@ cities = "Nowhere"
 ;/* collection of towns aroud the world */
 ;/* from xconq-7, distributed under the GNU GPL */
 ;/* Copyright (C) 1991-1997 Stanley T. Shebs <shebs@cygnus.com> */
+;  ( Plus some additions by the Freeciv folk. )
 
 cities =
 ;  /* Soviet Union */
@@ -2017,4 +2018,7 @@ cities =
   "Ramsgate", "Llantwit Major", "Minehead", "Buckfastleigh", 
   "Pocklington", "Robin Hood's Bay", "West Kilbride",
   "Inchnadamph", "North Tolsta", "Oykel Bridge",
-  "Pangbourne", "Moreton-in-Marsh", "Wye", "Congresbury"
+  "Pangbourne", "Moreton-in-Marsh", "Wye", "Congresbury",
+; Poland
+  "Szczebrzeszyn", "Ustrzyki Dolne", "Ciemnogród",
+  "Gniewomierowice", "Budziwojów", "Trzcianki"
