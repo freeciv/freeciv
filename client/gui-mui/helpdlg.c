@@ -59,13 +59,14 @@ Object *help_text_listview;
 Object *help_right_group;
 
 Object *help_page_group;
+Object *help_page_balance;
+
 Object *help_imprv_cost_text;
 Object *help_imprv_upkeep_text;
 Object *help_imprv_needs_button;	/* tech */
 
 Object *help_wonder_cost_text;
 Object *help_wonder_needs_button;	/* tech */
-
 Object *help_wonder_obsolete_button;	/* tech */
 
 Object *help_tech_group;	/* Allows tech with tech */
@@ -210,6 +211,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
                   MUIA_NList_DestructHook, MUIV_NList_DestructHook_String,
                   End,
               End,
+          Child, BalanceObject, End,
           Child, VGroup,
               Child, help_topic_text = TextObject,
                   MUIA_Text_PreParse, "\33c",
@@ -271,6 +273,7 @@ void popup_help_dialog_string(char *item)
 static void clear_page_objects(void)
 {
   help_page_group =
+    help_page_balance =
     help_imprv_cost_text =
     help_imprv_upkeep_text =
     help_imprv_needs_button =
@@ -415,6 +418,11 @@ static void free_help_page(void)
     DoMethod(help_right_group, OM_REMMEMBER, help_page_group);
     MUI_DisposeObject(help_page_group);
   }
+  if (help_page_balance)
+  {
+    DoMethod(help_right_group, OM_REMMEMBER, help_page_balance);
+    MUI_DisposeObject(help_page_balance);
+  }
   clear_page_objects();
 
   help_last_page = HELP_ANY;
@@ -496,6 +504,7 @@ static void create_help_page(enum help_page_type type)
 	    VirtualFrame,
 	    End,
 	End;
+      help_page_balance = BalanceObject,End;
       break;
 
     case HELP_UNIT:
@@ -545,7 +554,15 @@ static void create_help_page(enum help_page_type type)
     if (help_page_group)
     {
       DoMethod(help_right_group, OM_ADDMEMBER, help_page_group);
-      DoMethod(help_right_group, MUIM_Group_Sort, help_page_group, help_text_listview, NULL);
+
+      if (help_page_balance)
+      {
+      	DoMethod(help_right_group, OM_ADDMEMBER, help_page_balance);
+      	DoMethod(help_right_group, MUIM_Group_Sort, help_page_group, help_page_balance, help_text_listview, NULL);
+      } else
+      {
+      	DoMethod(help_right_group, MUIM_Group_Sort, help_page_group, help_text_listview, NULL);
+      }
     }
     DoMethod(help_right_group, MUIM_Group_ExitChange);
 

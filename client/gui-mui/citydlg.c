@@ -1716,6 +1716,12 @@ void close_city_dialog(struct city_dialog *pdialog)
   if (pdialog)
   {
     genlist_unlink(&dialog_list, pdialog);
+    if (pdialog->worklist_wnd)
+    {
+      set(pdialog->worklist_wnd, MUIA_Window_Open, FALSE);
+      DoMethod(app, OM_REMMEMBER, pdialog->worklist_wnd);
+      MUI_DisposeObject(pdialog->worklist_wnd);
+    }
     set(pdialog->wnd, MUIA_Window_Open, FALSE);
     set(pdialog->prod_wnd, MUIA_Window_Open, FALSE);
     set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);

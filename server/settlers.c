@@ -429,7 +429,7 @@ int make_dx(int x1, int x2)
  return 1 if there is already a unit on this square or one destined for it 
  (via goto)
 **************************************************************************/
-int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+static int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 { 
   x=map_adjust_x(x);
   y=map_adjust_y(y);
@@ -804,7 +804,7 @@ struct unit *other_passengers(struct unit *punit)
 /********************************************************************
   find some work for the settler
 *********************************************************************/
-int auto_settler_findwork(struct player *pplayer, struct unit *punit)
+static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
   int nav_known       = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
@@ -1266,7 +1266,7 @@ as punits arrive at adjacent tiles and start laying road -- Syela */
   run through all the players settlers and let those on ai.control work 
   automagically
 **************************************************************************/
-void auto_settlers_player(struct player *pplayer) 
+static void auto_settlers_player(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
 
@@ -1440,7 +1440,7 @@ Return true iff a city exists within a city radius of the given location.
 (Not including a city at the given location.  I.e., if only city within
 radius is at (x,y), then returns false.)
 **************************************************************************/
-int city_exists_within_city_radius(int x, int y)
+static int city_exists_within_city_radius(int x, int y)
 {
   int dx, dy;
 

@@ -490,8 +490,8 @@ static void load_ruleset_units(char *ruleset_subdir)
   char *sval, **slist, **sec;
 
   filename = openload_ruleset_file(file, ruleset_subdir, "units");
-  datafile_options
-    = check_ruleset_capabilities(file, "+1.9", filename);
+  datafile_options =
+    check_ruleset_capabilities(file, "+1.9", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -851,8 +851,8 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   struct tile_type *t;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "terrain");
-  datafile_options
-    = check_ruleset_capabilities(&file, "+1.9", filename);
+  datafile_options =
+    check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* options */
@@ -1002,8 +1002,8 @@ static void load_ruleset_governments(char *ruleset_subdir)
   char **sec, **slist;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "governments");
-  datafile_options
-    = check_ruleset_capabilities(&file, "+1.9", filename);
+  datafile_options =
+    check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   sec = secfile_get_secnames_prefix(&file, "government_", &nval);

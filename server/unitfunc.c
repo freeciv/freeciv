@@ -1013,7 +1013,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 /**************************************************************************
   This subtracts the destination movement cost from a diplomat/spy.
 **************************************************************************/
-void diplomat_charge_movement (struct unit *pdiplomat, int x, int y)
+static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y)
 {
   pdiplomat->moves_left -=
     tile_move_cost (pdiplomat, pdiplomat->x, pdiplomat->y, x, y);
@@ -1033,7 +1033,7 @@ void diplomat_charge_movement (struct unit *pdiplomat, int x, int y)
 
   - Return TRUE if the "attacker" succeeds.
 **************************************************************************/
-int diplomat_success_vs_defender (struct unit *pdefender)
+static int diplomat_success_vs_defender (struct unit *pdefender)
 {
   int success = game.diplchance;
 
@@ -1064,7 +1064,7 @@ int diplomat_success_vs_defender (struct unit *pdefender)
 
   - Return TRUE if the infiltrator succeeds.
 **************************************************************************/
-int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
+static int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
 			      struct unit *pdiplomat, struct city *pcity)
 {
   unit_list_iterate ((map_get_tile (pcity->x, pcity->y))->units, punit)
@@ -1115,7 +1115,7 @@ int diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
     - Escapes to home city.
     - Escapee may become a veteran.
 **************************************************************************/
-void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
+static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 		      struct city *pcity)
 {
   int x, y;

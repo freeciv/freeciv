@@ -1,5 +1,0 @@
-if not exists ai
-  failat 21
-  makedir ai common server client client/gui-mui
-endif
-

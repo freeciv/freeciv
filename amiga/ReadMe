@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.8 => Freeciv 1.10.0
+Short:     Amiga Version 1.9 => Freeciv 1.10.0
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.8 => Freeciv 1.10.0
+Kurz:      Amiga Version 1.9 => Freeciv 1.10.0
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.8
+Version:   1.9
 
 Introduction
 ~~~~~~~~~~~~
@@ -86,11 +86,19 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.9 (19.03.2000)
+ - corresponds to Freeciv 1.10.0
+ - bug fixes
+ - slightly improved city map
+ - scrollbutton in the main window
+ - added ReadMe.2Amigas document by Ivan kosak <ivan.kosak@sk.tel.hr>
+ - fourth Aminet release
+
 Version 1.8 (21.02.2000)
  - corresponds to Freeciv 1.10.0
  - new layout of the select nations window
  - smaller fixes
- - second Aminet release
+ - third Aminet release
 
 Version 1.7 (05.02.2000)
  - corresponds to Freeciv 1.9.3-devel

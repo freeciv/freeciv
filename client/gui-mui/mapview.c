@@ -38,6 +38,23 @@
 
 #include "mapview.h"
 
+/*
+The bottom row of the map was sometimes hidden.
+
+As of now the top left corner is always aligned with the tiles. This is what
+causes the problem in the first place. The ideal solution would be to align the
+window with the bottom left tiles if you tried to center the window on a tile
+closer than (screen_tiles_height/2 -1) to the south pole.
+
+But, for now, I just grepped for occurences where the ysize (or the values
+derived from it) were used, and those places that had relevance to drawing the
+map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
+
+-Thue
+*/
+#define EXTRA_BOTTOM_ROW 1
+
+
 /* Amiga Client stuff */
 
 #include "muistuff.h"

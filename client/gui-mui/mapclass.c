@@ -44,9 +44,10 @@
 #include "options.h"
 #include "tilespec.h"
 
-#include "overviewclass.h"
 #include "mapclass.h"
 #include "muistuff.h"
+#include "overviewclass.h"
+#include "scrollbuttonclass.h"
 
 /* TODO: Split this file! */
 
@@ -647,8 +648,6 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
   /* from mapctrl.c/popit */
   static struct map_position cross_list[2 + 1];
   struct map_position *cross_head = cross_list;
-  int i, count = 0;
-  int popx, popy;
   char s[512];
   struct city *pcity;
   struct unit *punit;
@@ -807,6 +806,7 @@ struct Map_Data
   Object *overview_object;
   Object *hscroller_object;
   Object *vscroller_object;
+  Object *scrollbutton_object;
 
   /* Owns Object */
   Object *pop_wnd;
@@ -844,27 +844,63 @@ struct NewPosData
 };
 
 
-__asm __saveds STATIC ULONG Map_NewPosFunc(register __a2 Object * map_object, register __a1 struct NewPosData *npd)
+enum
+{
+  MAP_POSITION_OVERVIEW_NEWPOSITION,
+  MAP_POSITION_HORIZONTAL_NEWPOSITION,
+  MAP_POSITION_VERTICAL_NEWPOSITION,
+  MAP_POSITION_SCROLLBUTTON_PRESSED,
+  MAP_POSITION_SCROLLBUTTON_NEWPOSITION
+};
+
+__asm __saveds STATIC VOID Map_NewPosFunc(register __a2 Object * map_object, register __a1 struct NewPosData *npd)
 {
   switch (npd->type)
   {
-  case 0:
-    SetAttrs(map_object,
-	     MUIA_Map_HorizFirst, xget(npd->data->overview_object, MUIA_Overview_RectLeft),
-	     MUIA_Map_VertFirst, xget(npd->data->overview_object, MUIA_Overview_RectTop),
-	     TAG_DONE);
-    break;
+    /* The Overviewmap has been clicked */
+    case  MAP_POSITION_OVERVIEW_NEWPOSITION:
+	  SetAttrs(map_object,
+		   MUIA_Map_HorizFirst, xget(npd->data->overview_object, MUIA_Overview_RectLeft),
+		   MUIA_Map_VertFirst, xget(npd->data->overview_object, MUIA_Overview_RectTop),
+		   TAG_DONE);
+	  break;
 
-  case 1:
-    set(map_object, MUIA_Map_HorizFirst, xget(npd->data->hscroller_object, MUIA_Prop_First));
-    break;
+    /* The horizontal scroller has been moved */
+    case  MAP_POSITION_HORIZONTAL_NEWPOSITION:
+	  set(map_object, MUIA_Map_HorizFirst, xget(npd->data->hscroller_object, MUIA_Prop_First));
+	  break;
 
-  case 2:
-    set(map_object, MUIA_Map_VertFirst, xget(npd->data->vscroller_object, MUIA_Prop_First));
-    break;
+    /* The vertical scroller has been moved */
+    case  MAP_POSITION_VERTICAL_NEWPOSITION:
+	  set(map_object, MUIA_Map_VertFirst, xget(npd->data->vscroller_object, MUIA_Prop_First));
+	  break;
+
+    /* The scroll button has been pressed */
+    case  MAP_POSITION_SCROLLBUTTON_PRESSED:
+    	  {
+	    LONG x = xget(npd->data->hscroller_object, MUIA_Prop_First);
+            LONG y = xget(npd->data->vscroller_object, MUIA_Prop_First);
+
+	    SetAttrs(npd->data->scrollbutton_object,
+			MUIA_ScrollButton_XPosition, x,
+			MUIA_ScrollButton_YPosition, y,
+			TAG_DONE);
+	  }
+	  break;
+
+    /* Mouse has been moved while the scroll button is pressed */
+    case  MAP_POSITION_SCROLLBUTTON_NEWPOSITION:
+    	  {
+            ULONG pos = xget(npd->data->scrollbutton_object, MUIA_ScrollButton_NewPosition);
+            WORD x = pos >> 16;
+            WORD y = pos & 0xffff;
+            SetAttrs(map_object,
+		MUIA_Map_HorizFirst, x,
+		MUIA_Map_VertFirst, y,
+            	TAG_DONE);
+          }
+	  break;
   }
-
-  return 0;
 }
 
 
@@ -988,44 +1024,70 @@ STATIC ULONG Map_Set(struct IClass * cl, Object * o, struct opSet * msg)
   {
     switch (ti->ti_Tag)
     {
-    case MUIA_Map_HorizFirst:
-      new_horiz_first = ti->ti_Data;
-      redraw = TRUE;
-      break;
+      case  MUIA_Map_HorizFirst:
+	    {
+	      LONG visible = xget(o, MUIA_Map_HorizVisible);
+	      LONG maxx = map.xsize + visible - 1;
 
-    case MUIA_Map_VertFirst:
-      new_vert_first = ti->ti_Data;
-      redraw = TRUE;
-      break;
+	      new_horiz_first = ti->ti_Data;
+	      if (new_horiz_first + visible > maxx)
+		new_horiz_first = maxx - visible;
+	      if (new_horiz_first < 0)
+	        new_horiz_first = 0;
+	      redraw = TRUE;
+	    }
+	    break;
 
-    case MUIA_Map_Overview:
-      if ((data->overview_object = (Object *) ti->ti_Data))
-      {
-	DoMethod(data->overview_object, MUIM_Notify, MUIA_Overview_NewPos, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, 0);
-	if (data->overview_object)
-	{
-	  SetAttrs(data->overview_object,
-		   data->radar_gfx_sprite ? MUIA_Overview_RadarPicture : TAG_IGNORE, data->radar_gfx_sprite ? data->radar_gfx_sprite->picture : NULL,
-		   MUIA_Overview_RectWidth, xget(o, MUIA_Map_HorizVisible),
-		   MUIA_Overview_RectHeight, xget(o, MUIA_Map_VertVisible),
-		   TAG_DONE);
-	}
-      }
-      break;
+      case  MUIA_Map_VertFirst:
+	    {
+	      LONG visible = xget(o, MUIA_Map_VertVisible);
+	      LONG maxy = map.ysize;
 
-    case MUIA_Map_HScroller:
-      if ((data->hscroller_object = (Object *) ti->ti_Data))
-      {
-	DoMethod(data->hscroller_object, MUIM_Notify, MUIA_Prop_First, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, 1);
-      }
-      break;
+	      new_vert_first = ti->ti_Data;
+	      if (new_vert_first + visible > maxy)
+	        new_vert_first = maxy - visible;
+	      if (new_vert_first < 0)
+	        new_vert_first = 0;
+	      redraw = TRUE;
+	    }
+	    break;
 
-    case MUIA_Map_VScroller:
-      if ((data->vscroller_object = (Object *) ti->ti_Data))
-      {
-	DoMethod(data->vscroller_object, MUIM_Notify, MUIA_Prop_First, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, 2);
-      }
-      break;
+      case  MUIA_Map_Overview:
+	    if ((data->overview_object = (Object *) ti->ti_Data))
+	    {
+	      DoMethod(data->overview_object, MUIM_Notify, MUIA_Overview_NewPos, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, MAP_POSITION_OVERVIEW_NEWPOSITION);
+	      if (data->overview_object)
+	      {
+		SetAttrs(data->overview_object,
+			 data->radar_gfx_sprite ? MUIA_Overview_RadarPicture : TAG_IGNORE, data->radar_gfx_sprite ? data->radar_gfx_sprite->picture : NULL,
+			 MUIA_Overview_RectWidth, xget(o, MUIA_Map_HorizVisible),
+			 MUIA_Overview_RectHeight, xget(o, MUIA_Map_VertVisible),
+			 TAG_DONE);
+	      }
+	    }
+	    break;
+
+      case  MUIA_Map_HScroller:
+	    if ((data->hscroller_object = (Object *) ti->ti_Data))
+	    {
+	      DoMethod(data->hscroller_object, MUIM_Notify, MUIA_Prop_First, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, MAP_POSITION_HORIZONTAL_NEWPOSITION);
+            }
+	    break;
+
+      case  MUIA_Map_VScroller:
+	    if ((data->vscroller_object = (Object *) ti->ti_Data))
+	    {
+	      DoMethod(data->vscroller_object, MUIM_Notify, MUIA_Prop_First, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, MAP_POSITION_VERTICAL_NEWPOSITION);
+	    }
+	    break;
+
+      case  MUIA_Map_ScrollButton:
+	    if ((data->scrollbutton_object = (Object *)ti->ti_Data))
+	    {
+	      DoMethod(data->scrollbutton_object, MUIM_Notify, MUIA_Pressed, TRUE, o, 4, MUIM_CallHook, &data->newpos_hook, data, MAP_POSITION_SCROLLBUTTON_PRESSED);
+              DoMethod(data->scrollbutton_object, MUIM_Notify, MUIA_ScrollButton_NewPosition, MUIV_EveryTime, o, 4, MUIM_CallHook, &data->newpos_hook, data, MAP_POSITION_SCROLLBUTTON_NEWPOSITION);
+	    }
+	    break;
     }
   }
 
@@ -1184,16 +1246,15 @@ STATIC ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
 
 STATIC ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
-  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
 
   msg->MinMaxInfo->MinWidth += 2;
-  msg->MinMaxInfo->DefWidth += 2;	//get_normal_tile_height()*5;
+  msg->MinMaxInfo->DefWidth += 200;	//get_normal_tile_height()*5;
 
   msg->MinMaxInfo->MaxWidth += MUI_MAXMAX;
 
   msg->MinMaxInfo->MinHeight += 2;
-  msg->MinMaxInfo->DefHeight += 2;	//get_normal_tile_height()*5;
+  msg->MinMaxInfo->DefHeight += 100;	//get_normal_tile_height()*5;
 
   msg->MinMaxInfo->MaxHeight += MUI_MAXMAX;
   return 0;
@@ -1222,7 +1283,7 @@ STATIC ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
 	if (data->hscroller_object)
 	{
 	  SetAttrs(data->hscroller_object,
-	  MUIA_Prop_Entries, map.xsize + xget(o, MUIA_Map_HorizVisible) - 1,
+		   MUIA_Prop_Entries, map.xsize + xget(o, MUIA_Map_HorizVisible) - 1,
 		   MUIA_Prop_Visible, xget(o, MUIA_Map_HorizVisible),
 		   MUIA_NoNotify, TRUE,
 		   TAG_DONE);
@@ -1348,7 +1409,6 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	int i, x, y, diffx, diffy, x0 = data->x0, y0 = data->y0, dx = data->dx,
 	  dy = data->dy, dest_x = data->dest_x, dest_y = data->dest_y;
 	struct unit *punit = data->punit;
-	int start_x;
 
 	if (x0 >= map_view_x0)
 	  x = (x0 - map_view_x0) * get_normal_tile_width();
@@ -1760,7 +1820,6 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	{
 	  BOOL need_barlabel = FALSE;
 
-	  Object *entry;
 	  if (pcity)
 	  if (pcity->owner == game.player_idx)
 	  {
@@ -2102,12 +2161,6 @@ STATIC ULONG CityMap_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG CityMap_Dispose(struct IClass * cl, Object * o, Msg msg)
-{
-  struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
-  return DoSuperMethodA(cl, o, msg);
-}
-
 STATIC ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
@@ -2168,7 +2221,6 @@ STATIC ULONG CityMap_Cleanup(struct IClass * cl, Object * o, Msg msg)
 
 STATIC ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
-  struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
 
   msg->MinMaxInfo->MinWidth += get_normal_tile_width() * 5;
@@ -2196,48 +2248,48 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
     {
       for (x = 0; x < CITY_MAP_SIZE; x++)
       {
+      	LONG tilex = pcity->x + x - CITY_MAP_SIZE / 2;
+      	LONG tiley = pcity->y + y - CITY_MAP_SIZE / 2;
+
+	LONG x1 = _mleft(o) + x * get_normal_tile_width();
+	LONG y1 = _mtop(o) + y * get_normal_tile_height();
+	LONG x2 = x1 + get_normal_tile_width() - 1;
+	LONG y2 = y1 + get_normal_tile_height() - 1;
+
 	if (!(x == 0 && y == 0) && !(x == 0 && y == CITY_MAP_SIZE - 1) &&
 	    !(x == CITY_MAP_SIZE - 1 && y == 0) &&
 	    !(x == CITY_MAP_SIZE - 1 && y == CITY_MAP_SIZE - 1) &&
-	    tile_is_known(pcity->x + x - CITY_MAP_SIZE / 2,
-			  pcity->y + y - CITY_MAP_SIZE / 2))
+	     (tilex >= 0 && tilex >= 0 && tilex < map.xsize && tiley < map.ysize))
 	{
-	  put_tile(_rp(o), _mleft(o), _mtop(o), x, y,
-		   pcity->x + x - CITY_MAP_SIZE / 2,
-		   pcity->y + y - CITY_MAP_SIZE / 2, 1);
-
-	  if (pcity->city_map[x][y] == C_TILE_WORKER)
+	  if(tile_is_known(tilex,tiley))
 	  {
-	    put_city_output_tile(_rp(o), get_food_tile(x, y, pcity), get_shields_tile(x, y, pcity), get_trade_tile(x, y, pcity),
-				 _mleft(o), _mtop(o), x, y);
+	    put_tile(_rp(o), _mleft(o), _mtop(o), x, y, tilex, tiley, 1);
 
-	  }
-	  else
-	  {
-	    if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
+	    if (pcity->city_map[x][y] == C_TILE_WORKER)
 	    {
-	      LONG x1 = _mleft(o) + x * get_normal_tile_width();
-	      LONG y1 = _mtop(o) + y * get_normal_tile_height();
-	      LONG x2 = x1 + get_normal_tile_width() - 2;
-	      LONG y2 = y1 + get_normal_tile_height() - 2;
+	      put_city_output_tile(_rp(o), get_food_tile(x, y, pcity), get_shields_tile(x, y, pcity), get_trade_tile(x, y, pcity),
+				   _mleft(o), _mtop(o), x, y);
 
-	      SetAPen(rp, data->red_color);
-	      Move(rp, x1, y1);
-	      Draw(rp, x2, y1);
-	      Draw(rp, x2, y2);
-	      Draw(rp, x1, y2);
-	      Draw(rp, x1, y1 + 1);
+	    } else
+	    {
+	      if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
+	      {
+	        SetAPen(rp, data->red_color);
+	        Move(rp, x1, y1);
+	        Draw(rp, x2-1, y1);
+	        Draw(rp, x2-1, y2-1);
+	        Draw(rp, x1, y2-1);
+	        Draw(rp, x1, y1 + 1);
+	      }
 	    }
+	  } else
+	  {
+	    SetAPen(rp, data->black_color);
+	    RectFill(rp, x1, y1, x2, y2);
 	  }
-	}
-	else
+	} else
 	{
-	  LONG x1 = _mleft(o) + x * get_normal_tile_width();
-	  LONG y1 = _mtop(o) + y * get_normal_tile_height();
-	  LONG x2 = x1 + get_normal_tile_width() - 1;
-	  LONG y2 = y1 + get_normal_tile_height() - 1;
-
-	  SetAPen(rp, data->black_color);
+	  SetAPen(rp, _dri(o)->dri_Pens[BACKGROUNDPEN]);
 	  RectFill(rp, x1, y1, x2, y2);
 	}
       }
@@ -2288,8 +2340,6 @@ STATIC __asm __saveds ULONG CityMap_Dispatcher(register __a0 struct IClass * cl,
   {
   case OM_NEW:
     return CityMap_New(cl, obj, (struct opSet *) msg);
-  case OM_DISPOSE:
-    return CityMap_Dispose(cl, obj, msg);
   case OM_SET:
     return CityMap_Set(cl, obj, (struct opSet *) msg);
   case MUIM_Setup:
@@ -2499,12 +2549,6 @@ STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
   return (ULONG) o;
 }
 
-STATIC ULONG Sprite_Dispose(struct IClass * cl, Object * o, Msg msg)
-{
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
-  return DoSuperMethodA(cl, o, msg);
-}
-
 STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
@@ -2566,8 +2610,6 @@ STATIC __asm __saveds ULONG Sprite_Dispatcher(register __a0 struct IClass * cl, 
   {
   case OM_NEW:
     return Sprite_New(cl, obj, (struct opSet *) msg);
-  case OM_DISPOSE:
-    return Sprite_Dispose(cl, obj, msg);
   case OM_SET:
     return Sprite_Set(cl, obj, (struct opSet *) msg);
   case MUIM_AskMinMax:

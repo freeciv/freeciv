@@ -133,6 +133,14 @@ const char *strerror(unsigned int error)
 }
 
 /**************************************************************************
+ select() emulation (only sockets)
+**************************************************************************/
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct timeval *timeout)
+{
+  return WaitSelect(nfds, readfds, writefds, exeptfds, timeout, NULL);
+}
+
+/**************************************************************************
  read() emulation. Only for real bsd sockets (created with socket()).
  (The server doesn't use it for other descriptors)
 **************************************************************************/

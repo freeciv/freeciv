@@ -956,7 +956,7 @@ int advisor_choose_build(struct player *pplayer, struct city *pcity)
   the side-effect of removing from the worklist any no-longer-available
   targets as well as the target actually selected, if any.
 **************************************************************************/
-int worklist_change_build_target(struct player *pplayer, struct city *pcity)
+static int worklist_change_build_target(struct player *pplayer, struct city *pcity)
 {
   int success = 0;
   int i;

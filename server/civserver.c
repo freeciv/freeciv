@@ -1766,7 +1766,7 @@ static void announce_ai_player (struct player *pplayer) {
 /*************************************************************************
 ...
 *************************************************************************/
-void enable_fog_of_war_player(struct player *pplayer)
+static void enable_fog_of_war_player(struct player *pplayer)
 {
   int x,y;
   for (x = 0; x < map.xsize; x++)
@@ -1778,7 +1778,7 @@ void enable_fog_of_war_player(struct player *pplayer)
 /*************************************************************************
 ...
 *************************************************************************/
-void enable_fog_of_war(void)
+static void enable_fog_of_war(void)
 {
   int o;
   for (o = 0; o < game.nplayers; o++)
@@ -1788,7 +1788,7 @@ void enable_fog_of_war(void)
 /*************************************************************************
 ...
 *************************************************************************/
-void disable_fog_of_war_player(struct player *pplayer)
+static void disable_fog_of_war_player(struct player *pplayer)
 {
   int x,y;
   for (x = 0; x < map.xsize; x++) {
@@ -1803,7 +1803,7 @@ void disable_fog_of_war_player(struct player *pplayer)
 /*************************************************************************
 ...
 *************************************************************************/
-void disable_fog_of_war(void)
+static void disable_fog_of_war(void)
 {
   int o;
   for (o = 0; o < game.nplayers; o++)

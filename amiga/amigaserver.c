@@ -1,48 +1,60 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include <errno.h>
-
-#include <ios1.h>
 
 #include <exec/types.h>
 #include <exec/memory.h>
+#include <dos/dos.h>
 #include <devices/input.h>
 #include <intuition/intuitionbase.h>
-#include <amitcp/socketbasetags.h>
-#include <libraries/usergroup.h>
 #include <rexx/storage.h>
-#include <sys/errno.h>
 
 #include <clib/alib_protos.h>
-#include <clib/exec_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/intuition_protos.h>
-#include <clib/socket_protos.h>
-#include <clib/usergroup_protos.h>
 
-#include <pragmas/exec_sysbase_pragmas.h>
-#include <pragmas/dos_pragmas.h>
-#include <pragmas/intuition_pragmas.h>
-#include <pragmas/socket_pragmas.h>
-#include <pragmas/usergroup_pragmas.h>
+#include <proto/exec.h>
+#include <proto/dos.h>
+#include <proto/intuition.h>
+
+/* 3rd patry stuff */
+
+#define _TIME_T
+#include <amitcp/socketbasetags.h>
+#include <libraries/usergroup.h>
+#include <proto/socket.h>
+#include <proto/usergroup.h>
+
+/* compiler stuff */
+
+#ifdef __VBCC__
+#define constructor_failed exit(20)
+#define constructor_ok return
+#else
+#define constructor_failed return 1
+#define constructor_ok return 0
+#endif
+
+#ifdef __SASC
+#include <ios1.h>
+#endif
 
 /* The ARexx Port stuff - currently not really used */
 STATIC struct MsgPort *arexx_port;
 STATIC ULONG arexx_added;
 
-/* Stuff for the input.device */
-STATIC struct MsgPort *input_port;
-STATIC struct IOStdReq *input_req;
-STATIC ULONG input_open;
+#define STDIN_BUF_SIZE 256
 
-/* Stuff for the console */
-STATIC struct MsgPort *con_port;
-STATIC struct Window *con_window;
-STATIC struct Interrupt *con_interrupt;
+STATIC struct MsgPort *stdin_port;
+STATIC STRPTR stdin_buffer;
+STATIC char stdin_buffer_copy[STDIN_BUF_SIZE]; /* copy of the stdin_buffer */
+STATIC int stdin_buffer_copy_len;
+STATIC struct DosPacket *pkt;
+STATIC int pkt_sent;
+STATIC struct FileHandle *stdin_handle;
 
 #define SOCKETNAME "bsdsocket.library"
-#define SOCKETVERSION 3		/* minimum bsdsocket version to use */
+#define SOCKETVERSION 3     /* minimum bsdsocket version to use */
 #define USERGROUPVERSION 1
 
 int h_errno;
@@ -51,59 +63,44 @@ struct Library *SocketBase;
 struct Library *UserGroupBase;
 
 /* Opened by the compiler */
-IMPORT struct Library *SysBase;
-IMPORT struct Library *DOSBase;
+IMPORT struct ExecBase *SysBase;
+IMPORT struct DosLibrary *DOSBase;
 IMPORT struct IntuitionBase *IntuitionBase;
 
 /* Stack for the server */
 __near LONG __stack = 150000;
 
-struct ConMsg
-{
-  struct Message msg;
-  ULONG type;
-};
-
-#define CT_RETURN 1
-
 /**************************************************************************
- The Inputhandler simply sends a message to the con_port if somebody
- pressed enter within the console window where the civserver  is started
+ ...
 **************************************************************************/
-__asm __saveds struct InputEvent *InterruptHandler( register __a0 struct InputEvent *oldEventChain, register __a1 ULONG data)
+static void send_stdin_write_packet(void)
 {
-  struct InputEvent *ie;
-  
-  for (ie = oldEventChain; ie; ie = ie->ie_NextEvent)
+  if (!pkt_sent)
   {
-    if(ie->ie_Class == IECLASS_RAWKEY)
-    {
-      if(IntuitionBase->ActiveWindow == con_window)
-      {
-        if((ie->ie_Code == 68 || ie->ie_Code ==67) && !(ie->ie_Qualifier & IEQUALIFIER_REPEAT))
-        {
-          struct ConMsg *msg = (struct ConMsg*)AllocVec(sizeof(struct ConMsg),MEMF_PUBLIC);
-          if(msg)
-          {
-            msg->type = CT_RETURN;
-            PutMsg(con_port,(struct Message*)msg);
-          }
-        }
-      }
-    }
+    pkt->dp_Type = ACTION_READ;
+    pkt->dp_Arg1 = stdin_handle->fh_Arg1;
+    pkt->dp_Arg2 = (LONG)stdin_buffer;
+    pkt->dp_Arg3 = STDIN_BUF_SIZE;
+    SendPkt(pkt, stdin_handle->fh_Type, stdin_port);
+
+    pkt_sent = TRUE;
   }
-  return oldEventChain;
 }
 
 /**************************************************************************
  This is the constructor for the server (called befor main()) which does
  some necessary initialations so Freeciv needn't to be compiled with GNU C
 **************************************************************************/
+#ifdef __VBCC__
+void _INIT_3_amigaserver(void)
+#else
 int __stdargs _STI_30000_init(void)
+#endif
 {
   /* create the ARexx Port, which actually is only a dummy port */
   struct MsgPort *old_port;
-  if(!(arexx_port = CreateMsgPort())) return 1;
+  if(!(arexx_port = CreateMsgPort()))
+    constructor_failed;
 
   Forbid();
   if(old_port = FindPort("CIVSERVER"))
@@ -111,107 +108,90 @@ int __stdargs _STI_30000_init(void)
     Permit();
     DeleteMsgPort(old_port);
     printf("Civserver is already running!\n");
-    return 1;
+    constructor_failed;
   }
   arexx_port->mp_Node.ln_Name = "CIVSERVER";
   arexx_added = TRUE;
   AddPort(arexx_port);
   Permit();
 
-  if((input_port = CreateMsgPort()))
+  if((stdin_port = CreateMsgPort()))
   {
-    if((input_req = (struct IOStdReq*)CreateIORequest(input_port,sizeof(struct IOStdReq))))
+    if((pkt = AllocDosObject(DOS_STDPKT, NULL)))
     {
-      if(!OpenDevice("input.device",0,(struct IORequest*)input_req,0))
+      if((stdin_buffer = AllocVec(STDIN_BUF_SIZE, MEMF_PUBLIC)))
       {
-        input_open = TRUE;
+      	BPTR input = Input();
 
-        if((con_port = CreateMsgPort()))
-        {
-          struct MsgPort *console_task = GetConsoleTask();
-          if(console_task)
+#ifdef __SASC
+	/* When started from Workbench input will be NULL
+	   so we use the handle of stdin */
+	if (!input && stdin)
+	{
+	  struct UFB *stdin_ufb = chkufb(fileno(stdin));
+	  if (stdin_ufb) input = (BPTR)stdin_ufb->ufbfh;
+	}
+#endif
+	stdin_handle = (struct FileHandle *)BADDR(input);
+
+	if (stdin_handle && stdin_handle->fh_Type)
+	{
+          /* Now open the bsdsocket.library, which provides the bsd socket functions */
+          if((SocketBase = OpenLibrary(SOCKETNAME,SOCKETVERSION)))
           {
-            struct InfoData *id = (struct InfoData*)AllocVec(sizeof(*id),0);
-            if(id)
+            SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno,
+                           SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno,
+                           SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver",
+                           TAG_END);
+
+            if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
             {
-              DoPkt(console_task,ACTION_DISK_INFO,((ULONG)id)>>2,NULL,NULL,NULL,NULL);
-              if((con_window = (struct Window*)id->id_VolumeNode))
-              {
-                if((con_interrupt = (struct Interrupt*)AllocVec(sizeof(struct Interrupt),MEMF_PUBLIC)))
-                {
-                  /* Now open the bsdsocket.library, which provides the bsd socket functions */
-                  if((SocketBase = OpenLibrary(SOCKETNAME,SOCKETVERSION)))
-                  {
-                    SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno,
-                                   SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno,
-                                   SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver",
-                                   TAG_END);
+              ug_SetupContextTags("civserver",
+                                  UGT_INTRMASK, SIGBREAKB_CTRL_C,
+                                  UGT_ERRNOPTR(sizeof(errno)), &errno,
+                                  TAG_END);
 
-                    if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
-                    {
-                      ug_SetupContextTags("civserver",
-                                     UGT_INTRMASK, SIGBREAKB_CTRL_C,
-                                     UGT_ERRNOPTR(sizeof(errno)), &errno,
-                                     TAG_END);
+              /* Reserve 0 for stdin */
+              Dup2Socket(-1,0);
 
-                      /* Reserve 0 for stdin */
-                      Dup2Socket(-1,0);
+              send_stdin_write_packet();
 
-                      /* Tell the input.device our input handler.
-                         From now we get every time the user pressed Return or Enter
-                         a message in the con_port */
-                      con_interrupt->is_Code = (void(*)())InterruptHandler;
-                      con_interrupt->is_Data = NULL;
-                      con_interrupt->is_Node.ln_Pri = 10;
-                      con_interrupt->is_Node.ln_Name = "Civserver Handler";
-
-                      input_req->io_Data = (APTR)con_interrupt;
-                      input_req->io_Command = IND_ADDHANDLER;
-
-                      DoIO((struct IORequest*)input_req);
-
-                      return 0;
-                    }  else printf("Couldn't open " USERGROUPNAME"\n");
-                  }  else printf("Couldn't open " SOCKETNAME "!\nPlease start a TCP/IP stack.\n");
-                }
-              }
-              FreeVec(id);
-            }
-          }
-        }
+              constructor_ok;
+            } else printf("Couldn't open " USERGROUPNAME"\n");
+          } else printf("Couldn't open " SOCKETNAME "!\nPlease start a TCP/IP stack.\n");
+        } else printf("Bad Input Handle\n");
       }
     }
   }
-  return 1;
+  constructor_failed;
 }
 
 /**************************************************************************
  This is the destuctor which clean ups the resources allcated
  by the constructor
 **************************************************************************/
+#ifdef __VBCC__
+void _EXIT_3_amigaserver(void)
+#else
 void __stdargs _STD_30000_dispose(void)
+#endif
 {
-  if(UserGroupBase)
+  if (pkt_sent)
   {
-    CloseLibrary(UserGroupBase);
-
-    input_req->io_Data = (APTR)con_interrupt;
-    input_req->io_Command = IND_REMHANDLER;
-
-    DoIO((struct IORequest*)input_req);
+    AbortPkt(stdin_handle->fh_Type, pkt);
+    WaitPort(stdin_port);
   }
-  if(SocketBase) CloseLibrary(SocketBase);
 
-  if(con_interrupt) FreeVec(con_interrupt);
-  if(con_port) DeleteMsgPort(con_port);
+  if (UserGroupBase) CloseLibrary(UserGroupBase);
+  if (SocketBase) CloseLibrary(SocketBase);
 
-  if(input_open) CloseDevice((struct IORequest*)input_req);
-  if(input_req) DeleteIORequest((struct IORequest*)input_req);
-  if(input_port) DeleteMsgPort(input_port);
+  if (pkt) FreeDosObject(DOS_STDPKT, pkt);
+  if (stdin_port) DeleteMsgPort(stdin_port);
+  if (stdin_buffer) FreeVec(stdin_buffer);
 
-  if(arexx_port)
+  if (arexx_port)
   {
-    if(arexx_added) RemPort(arexx_port);
+    if (arexx_added) RemPort(arexx_port);
     DeleteMsgPort(arexx_port);
   }
 }
@@ -221,10 +201,10 @@ void __stdargs _STD_30000_dispose(void)
 **************************************************************************/
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct timeval *timeout)
 {
-  ULONG conmask = 1UL << con_port->mp_SigBit;
+  ULONG stdinmask = 1UL << stdin_port->mp_SigBit;
   ULONG arexxmask = 1UL << arexx_port->mp_SigBit;
 
-  ULONG mask = SIGBREAKF_CTRL_C | conmask | arexxmask;
+  ULONG mask = SIGBREAKF_CTRL_C | arexxmask;
   int sel;
   BOOL usestdin=FALSE;
 
@@ -232,6 +212,9 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
   {
     FD_CLR(0, readfds);
     usestdin=TRUE;
+    mask |= stdinmask;
+
+    send_stdin_write_packet();
   }
 
   sel = WaitSelect(nfds, readfds, writefds, exeptfds, timeout, &mask);
@@ -247,24 +230,27 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
     {
       struct RexxMsg *msg;
       while((msg = (struct RexxMsg*)GetMsg(arexx_port)))
-      {
         ReplyMsg((struct Message*)msg);
-      }
+
       printf("Got ARexx Message");
     }
 
-    if(usestdin && (mask & conmask))
+    if(usestdin && (mask & stdinmask))
     {
-      struct ConMsg *msg;
-      while((msg = (struct ConMsg*)GetMsg(con_port))) FreeVec(msg);
+      while(GetMsg(stdin_port));
+      pkt_sent = FALSE;
+
+      memcpy(stdin_buffer_copy, stdin_buffer, (int)pkt->dp_Res1);
+      stdin_buffer_copy_len = (int)pkt->dp_Res1;
       FD_SET(0, readfds);
       sel = 1;
     }
   } else
   {
-    printf("select failed %ld\n",errno);
+    printf("select failed %d\n",errno);
     exit(1);
   }
+
   return sel;
 }
 
@@ -299,11 +285,23 @@ char *strerror(int error)
 **************************************************************************/
 int read(int fd, char *buf, int len)
 {
+  if(!len) return 0;
   if(!fd)
   {
-    char *str = fgets(buf,len,stdin);
-    if(str) return (int)strlen(str);
-    return 0;
+    int i=0;
+    char *src = stdin_buffer_copy;
+    char *dest = buf;
+
+    while((i < STDIN_BUF_SIZE - 1) && (i < len - 1) && (i < stdin_buffer_copy_len))
+    {
+      char c = *src++;
+      *dest++ = c; i++;
+      if (c==10) break;
+    }
+
+    *dest = 0;
+
+    return i;
   } else
   {
     return recv(fd,buf,len,0);
@@ -327,3 +325,40 @@ void close(int fd)
 {
   if(fd) CloseSocket(fd);
 }
+
+/**************************************************************************
+ inet_ntoa() stub
+**************************************************************************/
+char *inet_ntoa(struct in_addr addr) 
+{
+  return Inet_NtoA(addr.s_addr);
+}
+
+/**************************************************************************
+ For VBCC - this is also in extra.lib
+**************************************************************************/
+clock_t clock(void)
+{
+  struct DateStamp ds;
+  DateStamp(&ds);
+
+  return (clock_t)((ds.ds_Days*1440 + ds.ds_Minute)*60 +
+                    ds.ds_Tick/TICKS_PER_SECOND);
+}
+
+/**************************************************************************
+ Another time function for SAS (the orginal function always looked
+ for the TZ variable)
+**************************************************************************/
+#ifdef __SASC
+time_t time(time_t *timeptr)
+{
+  time_t timeval = (time_t)clock() + 8*365*24*60*60;
+  if (timeptr) *timeptr = timeval;
+  return timeval;
+}
+#endif
+
+#ifdef __VBCC__
+
+#endif

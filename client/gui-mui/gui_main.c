@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -74,10 +78,11 @@
 #include "wldlg.h"
 
 /* Amiga Client Stuff */
-#include "muistuff.h"
-#include "overviewclass.h"
 #include "mapclass.h"
+#include "muistuff.h"
 #include "objecttreeclass.h"
+#include "overviewclass.h"
+#include "scrollbuttonclass.h"
 #include "worklistclass.h"
 
 void popup_option_dialog(void);	/* gamedlg.c */
@@ -190,6 +195,7 @@ Object *main_unit_unit;
 Object *main_map_area;
 Object *main_map_hscroller;
 Object *main_map_vscroller;
+Object *main_map_scrollbutton;
 
 Object *main_overview_area;
 Object *main_overview_group;
@@ -764,6 +770,7 @@ static void free_classes(void)
   delete_overview_class();
   delete_objecttree_class();
   delete_worklist_class();
+  delete_scrollbutton_class();
 }
 
 /****************************************************************
@@ -775,7 +782,8 @@ static int init_classes(void)
     if (create_map_class())
       if (create_objecttree_class())
         if (create_worklist_class())
-	  return TRUE;
+          if (create_scrollbutton_class())
+	    return TRUE;
   return FALSE;
 }
 
@@ -800,7 +808,7 @@ static int init_gui(void)
 
   app = ApplicationObject,
     MUIA_Application_Title, "Freeciv Client",
-    MUIA_Application_Version, "$VER: civclient 1.8" __AMIGADATE__,
+    MUIA_Application_Version, "$VER: civclient 1.9" __AMIGADATE__,
     MUIA_Application_Copyright, "©1999,2000 by Sebastian Bauer",
     MUIA_Application_Author, "Sebastian Bauer",
     MUIA_Application_Description, "Client for Freeciv",
@@ -854,6 +862,7 @@ static int init_gui(void)
                     Child, main_map_hscroller = ScrollbarObject,
                         MUIA_Group_Horiz, TRUE,
                         End,
+                    Child, main_map_scrollbutton = ScrollButtonObject, End,
                     End,
                 End,
             Child, BalanceObject, End,
@@ -888,6 +897,7 @@ static int init_gui(void)
 	     MUIA_Map_Overview, main_overview_area,
 	     MUIA_Map_HScroller, main_map_hscroller,
 	     MUIA_Map_VScroller, main_map_vscroller,
+	     MUIA_Map_ScrollButton, main_map_scrollbutton,
 	     TAG_DONE);
 
     set(main_wnd,MUIA_Window_DefaultObject, main_map_area);

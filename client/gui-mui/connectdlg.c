@@ -10,6 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <string.h>
@@ -52,19 +55,18 @@ static void connect_connect(void)
 {
   char errbuf [512];
 
-	strcpy(name, getstring(connect_name_string));
-	strcpy(server_host, getstring(connect_host_string));
-	server_port = xget(connect_port_string, MUIA_String_Integer);
+  strcpy(name, getstring(connect_name_string));
+  strcpy(server_host, getstring(connect_host_string));
+  server_port = xget(connect_port_string, MUIA_String_Integer);
   
   if(connect_to_server(name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1)
   {
-  	set(connect_wnd,MUIA_Window_Open,FALSE);
-	}
-  else
+    set(connect_wnd,MUIA_Window_Open,FALSE);
+  } else
   {
-		append_output_window(errbuf);
-	}
+    append_output_window(errbuf);
+  }
 }
 
 /**************************************************************************
@@ -72,25 +74,25 @@ static void connect_connect(void)
 **************************************************************************/
 static void connect_meta_page(void)
 {
-	char errbuf[512];
-	struct server_list *slist;
+  char errbuf[512];
+  struct server_list *slist;
 
-	set(app,MUIA_Application_Sleep,TRUE);
+  set(app,MUIA_Application_Sleep,TRUE);
 
-	if((slist = create_server_list(errbuf, sizeof(errbuf))))
-	{
-		DoMethod(connect_meta_listview, MUIM_NList_Clear);
-		server_list_iterate(*slist,pserver)
-			DoMethod(connect_meta_listview,MUIM_NList_InsertSingle, pserver, MUIV_NList_Insert_Bottom);
-		server_list_iterate_end
+  if((slist = create_server_list(errbuf, sizeof(errbuf))))
+  {
+    DoMethod(connect_meta_listview, MUIM_NList_Clear);
+    server_list_iterate(*slist,pserver)
+      DoMethod(connect_meta_listview,MUIM_NList_InsertSingle, pserver, MUIV_NList_Insert_Bottom);
+    server_list_iterate_end
 
-		delete_server_list(slist);
-	}	else
-	{
-		append_output_window(errbuf);
-	}
+    delete_server_list(slist);
+  } else
+  {
+    append_output_window(errbuf);
+  }
 
-	set(app,MUIA_Application_Sleep,FALSE);
+  set(app,MUIA_Application_Sleep,FALSE);
 }
 
 /**************************************************************************
@@ -98,13 +100,13 @@ static void connect_meta_page(void)
 **************************************************************************/
 static void connect_meta_active(void)
 {
-	struct server *pserver;
-	DoMethod(connect_meta_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &pserver);
-	if(pserver)
-	{
-		setstring(connect_host_string,pserver->name);
-		setstring(connect_port_string,pserver->port);
-	}
+  struct server *pserver;
+  DoMethod(connect_meta_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &pserver);
+  if(pserver)
+  {
+    setstring(connect_host_string,pserver->name);
+    setstring(connect_port_string,pserver->port);
+ } 
 }
 
 /**************************************************************************
@@ -112,17 +114,17 @@ static void connect_meta_active(void)
 **************************************************************************/
 __asm __saveds static struct server *connect_meta_construct( register __a2 APTR pool, register __a1 struct server *entry)
 {
-	struct server *newentry = (struct server*)AllocVec(sizeof(*newentry),0);
-	if(newentry)
-	{
-		newentry->name = strdup(entry->name);
-		newentry->port = strdup(entry->port);
-		newentry->version = strdup(entry->version);
-		newentry->status = strdup(entry->status);
-		newentry->players = strdup(entry->players);
-		newentry->metastring = strdup(entry->metastring);
-	}
-	return newentry;
+  struct server *newentry = (struct server*)AllocVec(sizeof(*newentry),0);
+  if(newentry)
+  {
+    newentry->name = strdup(entry->name);
+    newentry->port = strdup(entry->port);
+    newentry->version = strdup(entry->version);
+    newentry->status = strdup(entry->status);
+    newentry->players = strdup(entry->players);
+    newentry->metastring = strdup(entry->metastring);
+  }
+  return newentry;
 }
 
 /**************************************************************************
@@ -130,13 +132,13 @@ __asm __saveds static struct server *connect_meta_construct( register __a2 APTR 
 **************************************************************************/
 __asm __saveds static void connect_meta_destruct( register __a2 APTR pool, register __a1 struct server *entry)
 {
-	free(entry->name);
-	free(entry->port);
-	free(entry->version);
-	free(entry->status);
-	free(entry->players);
-	free(entry->metastring);
-	FreeVec(entry);
+  free(entry->name);
+  free(entry->port);
+  free(entry->version);
+  free(entry->status);
+  free(entry->players);
+  free(entry->metastring);
+  FreeVec(entry);
 }
 
 /**************************************************************************
@@ -144,23 +146,23 @@ __asm __saveds static void connect_meta_destruct( register __a2 APTR pool, regis
 **************************************************************************/
 __asm __saveds static void connect_meta_display(register __a2 char **array, register __a1 struct server *entry)
 {
-	if(entry)
-	{
-		*array++ = entry->name;
-		*array++ = entry->port;
-		*array++ = entry->version;
-		*array++ = entry->status;
-		*array++ = entry->players;
-		*array++ = entry->metastring;
-	}	else
-	{
-		*array++ = "Server Name";
-		*array++ = "Port";
-		*array++ = "Version";
-		*array++ = "Status";
-		*array++ = "Players";
-		*array = "Comment";
-	}
+  if(entry)
+  {
+    *array++ = entry->name;
+    *array++ = entry->port;
+    *array++ = entry->version;
+    *array++ = entry->status;
+    *array++ = entry->players;
+    *array++ = entry->metastring;
+  } else
+  {
+    *array++ = "Server Name";
+    *array++ = "Port";
+    *array++ = "Version";
+    *array++ = "Status";
+    *array++ = "Players";
+    *array = "Comment";
+  }
 }
 
 /**************************************************************************
@@ -168,76 +170,76 @@ __asm __saveds static void connect_meta_display(register __a2 char **array, regi
 **************************************************************************/
 void gui_server_connect(void)
 {
-	Object *page_group;
-	STATIC STRPTR pages[] = {"Server Selection", "Metaserver",NULL};
+  Object *page_group;
+  STATIC STRPTR pages[] = {"Server Selection", "Metaserver",NULL};
 
-	if(!connect_wnd)
-	{
-		STATIC struct Hook const_hook;
-		STATIC struct Hook dest_hook;
-		STATIC struct Hook display_hook;
+  if(!connect_wnd)
+  {
+    STATIC struct Hook const_hook;
+    STATIC struct Hook dest_hook;
+    STATIC struct Hook display_hook;
 
-		const_hook.h_Entry = (HOOKFUNC)connect_meta_construct;
-		dest_hook.h_Entry = (HOOKFUNC)connect_meta_destruct;
-		display_hook.h_Entry = (HOOKFUNC)connect_meta_display;
+    const_hook.h_Entry = (HOOKFUNC)connect_meta_construct;
+    dest_hook.h_Entry = (HOOKFUNC)connect_meta_destruct;
+    display_hook.h_Entry = (HOOKFUNC)connect_meta_display;
 
-		connect_wnd = WindowObject,
-				MUIA_Window_Title, "Connect to Freeciv Server",
-				MUIA_Window_ID, 'CONN',
+    connect_wnd = WindowObject,
+	MUIA_Window_Title, "Connect to Freeciv Server",
+	MUIA_Window_ID, 'CONN',
 
-				WindowContents, VGroup,
-						Child, page_group =RegisterGroup(pages),
-								MUIA_CycleChain,1,
-								MUIA_Register_Frame,TRUE,
+	WindowContents, VGroup,
+	    Child, page_group =RegisterGroup(pages),
+		MUIA_CycleChain,1,
+		MUIA_Register_Frame,TRUE,
 
-								Child, ColGroup(2),
-										Child, MakeLabel("_Name"),
-										Child, connect_name_string = MakeString("_Name",64),
+		Child, ColGroup(2),
+		    Child, MakeLabel("_Name"),
+		    Child, connect_name_string = MakeString("_Name",64),
 
-										Child, MakeLabel("_Host"),
-										Child, connect_host_string = MakeString("_Host",64),
+		    Child, MakeLabel("_Host"),
+		    Child, connect_host_string = MakeString("_Host",64),
 
-										Child, MakeLabel("_Port"),
-										Child, connect_port_string = MakeInteger("_Port"),
+		    Child, MakeLabel("_Port"),
+		    Child, connect_port_string = MakeInteger("_Port"),
 										End,
 
-								Child, VGroup,
-										Child, connect_meta_listview = NListviewObject,
-												MUIA_NListview_NList,NListObject,
-														MUIA_NList_Format,",,,,,",
-														MUIA_NList_Title,TRUE,
-														MUIA_NList_ConstructHook, &const_hook,
-														MUIA_NList_DestructHook, &dest_hook,
-														MUIA_NList_DisplayHook, &display_hook,
-														End,
-												End,
-										End,
-								End,
-								
-						Child, HGroup,
-								Child, connect_connect_button = MakeButton("_Connect"),
-								Child, connect_quit_button = MakeButton("_Quit"),
-								End,
-						End,
-				End;
+		    Child, VGroup,
+		    Child, connect_meta_listview = NListviewObject,
+			MUIA_NListview_NList,NListObject,
+			    MUIA_NList_Format,",,,,,",
+			    MUIA_NList_Title,TRUE,
+			    MUIA_NList_ConstructHook, &const_hook,
+			    MUIA_NList_DestructHook, &dest_hook,
+			    MUIA_NList_DisplayHook, &display_hook,
+			    End,
+			End,
+		    End,
+		End,
 
-		if(connect_wnd)
-		{
-			DoMethod(connect_quit_button, MUIM_Notify, MUIA_Pressed, FALSE, app,2,MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
-			DoMethod(connect_connect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, connect_connect);
-			DoMethod(page_group, MUIM_Notify, MUIA_Group_ActivePage, 1,app, 3, MUIM_CallHook, &standart_hook, connect_meta_page);
-			DoMethod(connect_meta_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, connect_meta_active);
+	    Child, HGroup,
+		Child, connect_connect_button = MakeButton("_Connect"),
+		Child, connect_quit_button = MakeButton("_Quit"),
+		End,
+	    End,
+	End;
 
-			DoMethod(app, OM_ADDMEMBER, connect_wnd);
-		}
-	}
+    if(connect_wnd)
+    {
+      DoMethod(connect_quit_button, MUIM_Notify, MUIA_Pressed, FALSE, app,2,MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+      DoMethod(connect_connect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, connect_connect);
+      DoMethod(page_group, MUIM_Notify, MUIA_Group_ActivePage, 1,app, 3, MUIM_CallHook, &standart_hook, connect_meta_page);
+      DoMethod(connect_meta_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, connect_meta_active);
 
-	if(connect_wnd)
-	{
-		set(connect_name_string, MUIA_String_Contents, name);
-		set(connect_host_string, MUIA_String_Contents, server_host);
-		set(connect_port_string, MUIA_String_Integer, server_port);
+      DoMethod(app, OM_ADDMEMBER, connect_wnd);
+    }
+  }
 
-		set(connect_wnd, MUIA_Window_Open, TRUE);
-	}
+  if(connect_wnd)
+  {
+    set(connect_name_string, MUIA_String_Contents, name);
+    set(connect_host_string, MUIA_String_Contents, server_host);
+    set(connect_port_string, MUIA_String_Integer, server_port);
+
+    set(connect_wnd, MUIA_Window_Open, TRUE);
+  }
 }

@@ -63,9 +63,6 @@ STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
   return max_depth+1;
 }
 
-/* Ugly hack! */
-//struct ObjectTree_Node *root_node;
-
 LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
@@ -118,7 +115,15 @@ VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
     LONG line_x1 = _right(node->object)+1;
     LONG line_y1 = (_top(node->object) + _bottom(node->object))/2;
     struct RastPort *rp = _rp(group);
-    SetAPen(rp,1);
+
+    if (n)
+    {
+      Move(rp,line_x1,line_y1);
+      line_x1 = (line_x1 + _left(n->object) - 1)/2;
+      Draw(rp,line_x1,line_y1);
+    }
+
+    SetAPen(rp,_dri(group)->dri_Pens[TEXTPEN]);
 
     while(n)
     {
@@ -127,6 +132,7 @@ VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
       LONG line_y2 = (_top(child) + _bottom(child))/2;
 
       Move(rp,line_x1,line_y1);
+      Draw(rp,line_x1,line_y2);
       Draw(rp,line_x2,line_y2);
 
       ObjectTree_DrawLines(group,n);

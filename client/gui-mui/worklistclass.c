@@ -707,6 +707,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     if (data->worklist)
     {
+      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &standart_hook, worklist_cancel, data);
       DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &standart_hook, worklist_close, o);
       DoMethod(check, MUIM_Notify, MUIA_Selected, MUIV_EveryTime, check, 4, MUIM_CallHook, &standart_hook, worklist_future_check, data);
       DoMethod(remove_button, MUIM_Notify, MUIA_Pressed, FALSE, remove_button, 4, MUIM_CallHook, &standart_hook, worklist_remove_button, data);

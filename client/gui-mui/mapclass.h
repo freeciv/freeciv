@@ -34,6 +34,7 @@ struct Map_Click
 #define MUIA_Map_HScroller				(TAG_USER+0x1234505) /* .S.. Object */
 #define MUIA_Map_VScroller				(TAG_USER+0x1234506) /* .S.. Object */
 #define MUIA_Map_Click						(TAG_USER+0x1234507) /* ..GN struct Map_Click * */
+#define MUIA_Map_ScrollButton		(TAG_USER+0x1234508) /* .S.. Object */
 
 #define MUIM_Map_Refresh					(0x7878787)
 #define MUIM_Map_MoveUnit				(0x7878788)
