@@ -563,14 +563,18 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   if ((pcity->is_building_unit != is_unit ||
        (!is_unit&&is_wonder(pcity->currently_building)!=is_wonder(target))) &&
       !(pcity->turn_changed_target == game.year ||
-	game_next_year(pcity->turn_last_built) >= game.year))
+	game_next_year(pcity->turn_last_built) >= game.year)) {
     pcity->shield_stock /= 2;
+    /* Only set turn_changed_target when we actually cop the penalty -
+       otherwise you can change to something of the same type first, and
+       suffer no penalty for any later changes in the same turn */
+    pcity->turn_changed_target = game.year;
+  }
 
 
   /* Change build target. */
   pcity->currently_building = target;
   pcity->is_building_unit = is_unit;
-  pcity->turn_changed_target = game.year;
 
   /* What's the name of the target? */
   if (is_unit)

@@ -77,8 +77,8 @@ struct worklist_dialog {
   char *worklist_names_ptrs[MAX_LEN_WORKLIST+1];
   char worklist_names[MAX_LEN_WORKLIST][200];
   int worklist_ids[MAX_LEN_WORKLIST];
-  char *worklist_avail_names_ptrs[B_LAST+1+U_LAST+1+1];
-  char worklist_avail_names[B_LAST+1+U_LAST+1][200];
+  char *worklist_avail_names_ptrs[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1+1];
+  char worklist_avail_names[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1][200];
   int worklist_avail_ids[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1];
   int worklist_avail_num_improvements;
   int worklist_avail_num_targets;

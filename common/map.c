@@ -282,15 +282,15 @@ int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 ***************************************************************/
 int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
-  if (map_get_terrain(x-1, y+1)!=t) return 1;
-  if (map_get_terrain(x+1, y-1)!=t) return 1;
-  if (map_get_terrain(x-1, y-1)!=t) return 1;
-  if (map_get_terrain(x+1, y+1)!=t) return 1;
-  if (map_get_terrain(x, y+1)!=t)   return 1;
-  if (map_get_terrain(x-1, y)!=t)   return 1;
-  if (map_get_terrain(x+1, y)!=t)   return 1;
-  if (map_get_terrain(x, y-1)!=t)   return 1;
-  return 0;
+  if (map_get_terrain(x-1, y+1)==t) return 0;
+  if (map_get_terrain(x+1, y-1)==t) return 0;
+  if (map_get_terrain(x-1, y-1)==t) return 0;
+  if (map_get_terrain(x+1, y+1)==t) return 0;
+  if (map_get_terrain(x, y+1)==t)   return 0;
+  if (map_get_terrain(x-1, y)==t)   return 0;
+  if (map_get_terrain(x+1, y)==t)   return 0;
+  if (map_get_terrain(x, y-1)==t)   return 0;
+  return 1;
 }
 
 /***************************************************************

@@ -298,9 +298,14 @@ void handle_unit_change_homecity(struct player *pplayer,
     if ((pcity=player_find_city_by_id(pplayer, req->city_id))
 	&& pcity->owner == punit->owner) {
       unit_list_insert(&pcity->units_supported, punit);
+      city_refresh(pcity);
+      send_city_info(pplayer, pcity);
 
-      if((pcity=player_find_city_by_id(pplayer, punit->homecity)))
+      if((pcity=player_find_city_by_id(pplayer, punit->homecity))) {
 	unit_list_unlink(&pcity->units_supported, punit);
+	city_refresh(pcity);
+	send_city_info(pplayer, pcity);
+      }
 
       punit->homecity=req->city_id;
       send_unit_info(pplayer, punit);
