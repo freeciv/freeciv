@@ -33,7 +33,11 @@
 #define IS_BETA_VERSION 0
 #endif
 #ifndef VERSION_STRING
-#define VERSION_STRING "1.8.0"
+#define VER_STRINGIFY1(x) #x
+#define VER_STRINGIFY(x) VER_STRINGIFY1(x)
+#define VERSION_STRING VER_STRINGIFY(MAJOR_VERSION) "." \
+                       VER_STRINGIFY(MINOR_VERSION) "." \
+                       VER_STRINGIFY(PATCH_VERSION)
 #endif
 
 /* below, FREECIV_NAME_VERSION uses pre-processor string concatenation --dwp */
