@@ -58,6 +58,7 @@ struct fcwin_win_data {
   struct fcwin_box *full;
   bool size_set;
   bool is_child;
+  struct genlist childs;
   void *user_data;
 };
 
@@ -151,6 +152,25 @@ void fcwin_set_box(HWND hWnd,struct fcwin_box *fcb)
   if (!win_data->is_child)
     fcwin_redo_layout(hWnd);
 }
+
+/**************************************************************************
+
+**************************************************************************/
+static struct genlist *get_childlist(HWND win)
+{
+  char classname[80];
+  struct fcwin_win_data *win_data; 
+  GetClassName(win, classname, sizeof(classname));
+  if (strcmp(classname, CLASSNAME)==0) {
+    win_data=(struct fcwin_win_data *)
+      GetWindowLong(win, GWL_USERDATA);
+    if (win_data) {
+      return &win_data->childs; 
+    }
+  }
+  return NULL;
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -209,10 +229,16 @@ static LONG APIENTRY layout_wnd_proc(HWND hWnd,
   ret=win_data->user_wndproc(hWnd,message,wParam,lParam);
   if (message==WM_DESTROY)
     {
+      struct genlist *childs;
       if (win_data->full)
 	fcwin_box_free(win_data->full);
-      if (win_data->parent!=NULL)
+      if (win_data->parent!=NULL) {
+	childs=get_childlist(win_data->parent);
+	if (childs)
+	  genlist_unlink(childs,hWnd);
 	SetFocus(win_data->parent);
+      }
+      fcwin_close_all_childs(hWnd);
       free(win_data);
       SetWindowLong(hWnd,GWL_USERDATA,0);
     }
@@ -239,6 +265,26 @@ void init_layoutwindow()
   if (!RegisterClass(wndclass))
     exit(EXIT_FAILURE);
 }
+
+/**************************************************************************
+  This closes all windows which were opened without WS_CHILD but with 
+  hWndParent != NULL, fcwin_create_layouted_window does not pass that value
+  to CreateWindow in that case, so those windows won't be closed if the
+  parent is closed.
+  If the child would be passed to CreateWindow, the childs could not be
+  behind the parent which is really annoying
+**************************************************************************/
+void fcwin_close_all_childs(HWND win)
+{ 
+  struct fcwin_win_data *win_data=(struct fcwin_win_data *)
+    GetWindowLong(win, GWL_USERDATA);
+  if (!win_data)
+    return;
+  while(genlist_size(&win_data->childs)) {
+    DestroyWindow((HWND)genlist_get(&win_data->childs,0));
+  }
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -251,6 +297,8 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
 				  HMENU hMenu,
 				  void *user_data)
 {
+
+  HWND win;
   struct fcwin_win_data *win_data;
   win_data=fc_malloc(sizeof(struct fcwin_win_data));
   win_data->user_data=user_data;
@@ -259,10 +307,19 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
   win_data->full=NULL;
   win_data->size_set=0;
   win_data->is_child=dwStyle&WS_CHILD;
-  return CreateWindow(CLASSNAME,lpWindowName,dwStyle,
-		      x,y,40,40,
-		      win_data->is_child?hWndParent:NULL,
-		      hMenu,freecivhinst,win_data);
+  genlist_init(&win_data->childs);
+  win=CreateWindow(CLASSNAME,lpWindowName,dwStyle,
+		   x,y,40,40,
+		   win_data->is_child?hWndParent:NULL,
+		   hMenu,freecivhinst,win_data);
+  if ((win_data->parent)&&(!win_data->is_child)) {
+    struct genlist *childs;
+    childs=get_childlist(win_data->parent);
+    if (childs) {
+      genlist_insert(childs, win, -1);
+    }
+  }
+  return win;
 }
 
 /**************************************************************************
