@@ -32,7 +32,7 @@ struct mapview_decoration {
   } hilite;
 };
 
-struct mapview_canvas {
+struct view {
   int gui_x0, gui_y0;
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
@@ -50,7 +50,7 @@ struct overview {
 };
 
 extern struct mapview_decoration *map_deco;
-extern struct mapview_canvas mapview_canvas;
+extern struct view mapview;
 extern struct overview overview;
 
 /* HACK: Callers can set this to FALSE to disable sliding.  It should be
@@ -194,9 +194,9 @@ extern bool can_slide;
 	}								    \
       }									    \
       canvas_x								    \
-	= GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2 - mapview_canvas.gui_x0;   \
+	= GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2 - mapview.gui_x0;	    \
       canvas_y								    \
-	= GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2 - mapview_canvas.gui_y0;
+	= GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2 - mapview.gui_y0;
 
 #define gui_rect_iterate_end						    \
     }									    \

@@ -836,7 +836,7 @@ void init_sdl(int iFlags)
   Main.guis_count = 0;
 
   Main.map_canvas.surf = Main.map;
-  mapview_canvas.store = &Main.map_canvas;
+  mapview.store = &Main.map_canvas;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
@@ -911,11 +911,11 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   freelog(LOG_DEBUG, _("Setting resolution to: %d x %d %d bpp"),
 	  					iWidth, iHeight, iDepth);
 
-  mapview_canvas.width = iWidth;
-  mapview_canvas.height = iHeight;
+  mapview.width = iWidth;
+  mapview.height = iHeight;
   if (NORMAL_TILE_WIDTH > 0) {
-    mapview_canvas.tile_width = (iWidth - 1) / NORMAL_TILE_WIDTH + 1;
-    mapview_canvas.tile_height = (iHeight - 1) / NORMAL_TILE_HEIGHT + 1;
+    mapview.tile_width = (iWidth - 1) / NORMAL_TILE_WIDTH + 1;
+    mapview.tile_height = (iHeight - 1) / NORMAL_TILE_HEIGHT + 1;
   }
 
   FREESURFACE(Main.map);

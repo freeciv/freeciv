@@ -32,7 +32,7 @@ extern GC           font_gc;
 extern GC           prod_font_gc;
 extern Pixmap       gray50;
 extern Pixmap       gray25;
-#define single_tile_pixmap (mapview_canvas.single_tile->pixmap)
+#define single_tile_pixmap (mapview.single_tile->pixmap)
 extern Widget       map_vertical_scrollbar;
 extern Widget       map_horizontal_scrollbar;
 extern Widget       left_column_form;

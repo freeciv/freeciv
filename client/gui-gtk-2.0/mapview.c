@@ -53,7 +53,7 @@
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
-#define map_canvas_store (mapview_canvas.store->v.pixmap)
+#define map_canvas_store (mapview.store->v.pixmap)
 
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,

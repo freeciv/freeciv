@@ -1132,7 +1132,7 @@ void update_turn_done_button(bool do_restore)
 void update_city_descriptions(void)
 {
   /* redraw buffer */
-  show_city_descriptions(0, 0, mapview_canvas.store_width, mapview_canvas.store_height);
+  show_city_descriptions(0, 0, mapview.store_width, mapview.store_height);
   dirty_all();  
 }
 

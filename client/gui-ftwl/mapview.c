@@ -52,7 +52,7 @@
 static struct ct_point overview_pos;
 static struct ct_point detaildisplay_pos;
 static struct te_screen *screen;
-static struct sw_widget *mapview_canvas_window = NULL;
+static struct sw_widget *mapview_window = NULL;
 static struct sw_widget *overview_window = NULL;
 static struct widget_list *city_descr_windows;
 static int drag_factor = 2;
@@ -519,9 +519,9 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   struct ct_point pos = { canvas_x, canvas_y };
 
   freelog(LOG_DEBUG, "flush_mapcanvas=%s", ct_rect_to_string(&rect));
-  be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_canvas_window),
-		       mapview_canvas.store->osda, &size, &pos, &pos);
-  sw_window_canvas_background_region_needs_repaint(mapview_canvas_window,
+  be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_window),
+		       mapview.store->osda, &size, &pos, &pos);
+  sw_window_canvas_background_region_needs_repaint(mapview_window,
 						   &rect);
 }
 
@@ -535,7 +535,7 @@ void dirty_rect(int canvas_x, int canvas_y,
   struct ct_rect rect = { canvas_x, canvas_y, pixel_width, pixel_height };
 
   //freelog(LOG_NORMAL, "dirty_rect(...)");
-  sw_window_canvas_background_region_needs_repaint(mapview_canvas_window, &rect);
+  sw_window_canvas_background_region_needs_repaint(mapview_window, &rect);
 }
 
 /**************************************************************************
@@ -546,8 +546,8 @@ void dirty_all(void)
 {
   struct ct_rect rect;
 
-  sw_widget_get_bounds(mapview_canvas_window, &rect);
-  sw_window_canvas_background_region_needs_repaint(mapview_canvas_window, 
+  sw_widget_get_bounds(mapview_window, &rect);
+  sw_window_canvas_background_region_needs_repaint(mapview_window, 
                                                    &rect);
 }
 
@@ -558,7 +558,7 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
-  flush_mapcanvas(0, 0, mapview_canvas.width, mapview_canvas.height);
+  flush_mapcanvas(0, 0, mapview.width, mapview.height);
 }
 
 /**************************************************************************
@@ -848,7 +848,7 @@ static void canvas_mouse_press_callback(struct sw_widget *widget,
       /*
     struct ct_rect rect;
 
-    sw_widget_get_bounds(mapview_canvas_window, &rect);
+    sw_widget_get_bounds(mapview_window, &rect);
 
     center_tile_mapcanvas(xtile, ytile);
       */
@@ -1265,20 +1265,20 @@ void popup_mapcanvas(void)
 
   screen = te_get_screen(root_window, "mapview", &env, SCREEN_DEPTH);
 
-  mapview_canvas_window =
+  mapview_window =
       sw_window_create(screen->window, screen_size.width, screen_size.height,
 		       NULL, FALSE, CANVAS_DEPTH);
-  sw_widget_set_position(mapview_canvas_window, 0,0);
+  sw_widget_set_position(mapview_window, 0,0);
 
-  sw_window_set_canvas_background(mapview_canvas_window, TRUE);
-  sw_window_set_mouse_press_notify(mapview_canvas_window,
+  sw_window_set_canvas_background(mapview_window, TRUE);
+  sw_window_set_mouse_press_notify(mapview_window,
 				   canvas_mouse_press_callback, NULL);
-  sw_window_set_draggable(mapview_canvas_window,FALSE);
-  sw_window_set_user_drag(mapview_canvas_window, my_drag_start, my_drag_move,
+  sw_window_set_draggable(mapview_window,FALSE);
+  sw_window_set_user_drag(mapview_window, my_drag_start, my_drag_move,
 			  NULL);
 
-  sw_widget_get_bounds(mapview_canvas_window, &rect);
-  be_draw_region(sw_window_get_canvas_background(mapview_canvas_window), &rect,
+  sw_widget_get_bounds(mapview_window, &rect);
+  be_draw_region(sw_window_get_canvas_background(mapview_window), &rect,
 		 enum_color_to_be_color(COLOR_STD_BACKGROUND));
 
   init_mapcanvas_and_overview();

@@ -139,7 +139,7 @@ void canvas_free(struct canvas *store)
 }
 
 static struct canvas overview_canvas;
-static struct canvas real_mapview_canvas; /* conflict with mapview_canvas */
+static struct canvas mapview_canvas;
 
 /****************************************************************************
   Return a canvas that is the overview window.
@@ -159,12 +159,12 @@ struct canvas *get_overview_window(void)
 ****************************************************************************/
 struct canvas *get_mapview_window(void)
 {
-  real_mapview_canvas.type = CANVAS_WINDOW;
-  real_mapview_canvas.hdc = NULL;
-  real_mapview_canvas.bmp = NULL;
-  real_mapview_canvas.wnd = map_window;
-  real_mapview_canvas.tmp = NULL;
-  return &real_mapview_canvas;
+  mapview_canvas.type = CANVAS_WINDOW;
+  mapview_canvas.hdc = NULL;
+  mapview_canvas.bmp = NULL;
+  mapview_canvas.wnd = map_window;
+  mapview_canvas.tmp = NULL;
+  return &mapview_canvas;
 }
 
 /***************************************************************************
@@ -211,7 +211,7 @@ void map_expose(int x, int y, int width, int height)
     DeleteDC(introgfxdc);
     ReleaseDC(map_window, hdc);
   } else {
-    canvas_copy(get_mapview_window(), mapview_canvas.store, x, y, x, y,
+    canvas_copy(get_mapview_window(), mapview.store, x, y, x, y,
 		width, height);
   }
 } 
@@ -397,7 +397,7 @@ map_size_changed(void)
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height)
 {
-  canvas_copy(get_mapview_window(), mapview_canvas.store, canvas_x, canvas_y,
+  canvas_copy(get_mapview_window(), mapview.store, canvas_x, canvas_y,
 	      canvas_x, canvas_y, pixel_width, pixel_height);
 }
 
@@ -918,6 +918,6 @@ void tileset_changed(void)
   indicator_sprite[1] = NULL;
   indicator_sprite[2] = NULL;
   init_fog_bmp();
-  map_canvas_resized(mapview_canvas.width, mapview_canvas.height);
+  map_canvas_resized(mapview.width, mapview.height);
   citydlg_tileset_change();
 }

@@ -83,7 +83,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
     maxx = minx + map_canvas->allocation.width;
     maxy = miny + map_canvas->allocation.height;
 
-    if (x > mapview_canvas.width/2) {
+    if (x > mapview.width/2) {
       /* right part of the map */
       x += minx;
       y += miny + (NORMAL_TILE_HEIGHT - alloc->height)/2;
@@ -327,7 +327,7 @@ void create_line_at_mouse_pos(void)
 
   gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
   if (x >= 0 && y >= 0
-      && x < mapview_canvas.width && y < mapview_canvas.width) {
+      && x < mapview.width && y < mapview.width) {
     update_line(x, y);
   } else {
     gdk_window_get_pointer(overview_canvas->window, &x, &y, 0);

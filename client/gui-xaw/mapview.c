@@ -53,7 +53,7 @@
 
 #include "mapview.h"
 
-#define map_canvas_store (mapview_canvas.store->pixmap)
+#define map_canvas_store (mapview.store->pixmap)
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);

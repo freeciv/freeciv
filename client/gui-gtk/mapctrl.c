@@ -303,7 +303,7 @@ void create_line_at_mouse_pos(void)
 
   gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
   if (x >= 0 && y >= 0
-      && x < mapview_canvas.width && y < mapview_canvas.width) {
+      && x < mapview.width && y < mapview.width) {
     update_line(x, y);
   } else {
     gdk_window_get_pointer(overview_canvas->window, &x, &y, 0);

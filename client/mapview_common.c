@@ -37,7 +37,7 @@
 #include "tilespec.h"
 
 struct mapview_decoration *map_deco;
-struct mapview_canvas mapview_canvas;
+struct view mapview;
 struct overview overview;
 bool can_slide = TRUE;
 
@@ -275,14 +275,14 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
    */
   /* TODO: Cache the value of this position */
   base_canvas_to_map_pos(&center_map_x, &center_map_y,
-			 mapview_canvas.width / 2,
-			 mapview_canvas.height / 2);
+			 mapview.width / 2,
+			 mapview.height / 2);
   base_map_distance_vector(&dx, &dy,
 			   center_map_x, center_map_y, ptile->x, ptile->y);
 
   map_to_gui_pos(canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
-  *canvas_x -= mapview_canvas.gui_x0;
-  *canvas_y -= mapview_canvas.gui_y0;
+  *canvas_x -= mapview.gui_x0;
+  *canvas_y -= mapview.gui_y0;
 
   /*
    * Finally we clip.
@@ -295,9 +295,9 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
    * backing store we need to draw it in case the canvas is resized.
    */
   return (*canvas_x > -NORMAL_TILE_WIDTH
-	  && *canvas_x < mapview_canvas.store_width
+	  && *canvas_x < mapview.store_width
 	  && *canvas_y > -NORMAL_TILE_HEIGHT
-	  && *canvas_y < (mapview_canvas.store_height
+	  && *canvas_y < (mapview.store_height
 			  + UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT));
 }
 
@@ -309,8 +309,8 @@ static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y)
 {
   gui_to_map_pos(map_x, map_y,
-		 canvas_x + mapview_canvas.gui_x0,
-		 canvas_y + mapview_canvas.gui_y0);
+		 canvas_x + mapview.gui_x0,
+		 canvas_y + mapview.gui_y0);
 }
 
 /**************************************************************************
@@ -425,7 +425,7 @@ static void gui_distance_vector(int *gui_dx, int *gui_dy,
 static void base_set_mapview_origin(int gui_x0, int gui_y0)
 {
   int old_gui_x0, old_gui_y0, dx, dy;
-  const int width = mapview_canvas.width, height = mapview_canvas.height;
+  const int width = mapview.width, height = mapview.height;
   int common_x0, common_x1, common_y0, common_y1;
   int update_x0, update_x1, update_y0, update_y1;
   struct tile *map_center;
@@ -441,13 +441,13 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
    * to wrap the distance vector is only one tile. */
   normalize_gui_pos(&gui_x0, &gui_y0);
   gui_distance_vector(&dx, &dy,
-		      mapview_canvas.gui_x0, mapview_canvas.gui_y0,
+		      mapview.gui_x0, mapview.gui_y0,
 		      gui_x0, gui_y0);
   old_gui_x0 = gui_x0 - dx;
   old_gui_y0 = gui_y0 - dy;
 
-  mapview_canvas.gui_x0 = gui_x0;
-  mapview_canvas.gui_y0 = gui_y0;
+  mapview.gui_x0 = gui_x0;
+  mapview.gui_y0 = gui_y0;
 
   /* Find the overlapping area of the new and old mapview.  This is
    * done in GUI coordinates.  Note that if the GUI coordinates wrap
@@ -457,12 +457,12 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
   common_y0 = MAX(old_gui_y0, gui_y0);
   common_y1 = MIN(old_gui_y0, gui_y0) + height;
 
-  if (mapview_canvas.can_do_cached_drawing
+  if (mapview.can_do_cached_drawing
       && common_x1 > common_x0 && common_y1 > common_y0) {
     /* Do a partial redraw only.  This means the area of overlap (a
      * rectangle) is copied.  Then the remaining areas (two rectangles)
      * are updated through update_map_canvas. */
-    struct canvas *target = mapview_canvas.tmp_store;
+    struct canvas *target = mapview.tmp_store;
 
     if (old_gui_x0 < gui_x0) {
       update_x0 = MAX(old_gui_x0 + width, gui_x0);
@@ -480,13 +480,13 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
     }
 
     dirty_all();
-    canvas_copy(target, mapview_canvas.store,
+    canvas_copy(target, mapview.store,
 		common_x0 - old_gui_x0,
 		common_y0 - old_gui_y0,
 		common_x0 - gui_x0, common_y0 - gui_y0,
 		common_x1 - common_x0, common_y1 - common_y0);
-    mapview_canvas.tmp_store = mapview_canvas.store;
-    mapview_canvas.store = target;
+    mapview.tmp_store = mapview.store;
+    mapview.store = target;
 
     if (update_y1 > update_y0) {
       update_map_canvas(0, update_y0 - gui_y0,
@@ -498,8 +498,7 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
     }
   } else {
     dirty_all();
-    update_map_canvas(0, 0, mapview_canvas.store_width,
-		      mapview_canvas.store_height);
+    update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
   }
 
   map_center = get_center_tile_mapcanvas();
@@ -534,12 +533,12 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     gui_y0 = CLIP(ymin, gui_y0, ymax - ysize);
   }
 
-  if (mapview_canvas.gui_x0 == gui_x0 && mapview_canvas.gui_y0 == gui_y0) {
+  if (mapview.gui_x0 == gui_x0 && mapview.gui_y0 == gui_y0) {
     return;
   }
 
   if (can_slide && smooth_center_slide_msec > 0) {
-    int start_x = mapview_canvas.gui_x0, start_y = mapview_canvas.gui_y0;
+    int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
     int diff_x, diff_y;
     double timing_sec = (double)smooth_center_slide_msec / 1000.0, mytime;
     static struct timer *anim_timer;
@@ -600,8 +599,8 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 {
   int diff;
 
-  *xsize = mapview_canvas.width;
-  *ysize = mapview_canvas.height;
+  *xsize = mapview.width;
+  *ysize = mapview.height;
 
   if (MAP_IS_ISOMETRIC == is_isometric) {
     /* If the map and view line up, it's easy. */
@@ -649,11 +648,11 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     NATIVE_TO_MAP_POS(&map_x, &map_y, map.xsize - 1, map.ysize - 1);
     map_to_gui_pos(&gui_x4, &gui_y4, map_x, map_y);
 
-    *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview_canvas.width / 2;
-    *ymin = MIN(gui_y1, MIN(gui_y2, gui_y3)) - mapview_canvas.height / 2;
+    *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview.width / 2;
+    *ymin = MIN(gui_y1, MIN(gui_y2, gui_y3)) - mapview.height / 2;
 
-    *xmax = MAX(gui_x4, MAX(gui_x2, gui_x3)) + mapview_canvas.width / 2;
-    *ymax = MAX(gui_y4, MAX(gui_y2, gui_y3)) + mapview_canvas.height / 2;
+    *xmax = MAX(gui_x4, MAX(gui_x2, gui_x3)) + mapview.width / 2;
+    *ymax = MAX(gui_y4, MAX(gui_y2, gui_y3)) + mapview.height / 2;
   }
 
   /* Make sure the scroll window is big enough to hold the mapview.  If
@@ -694,8 +693,8 @@ void get_mapview_scroll_step(int *xstep, int *ystep)
 ****************************************************************************/
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)
 {
-  *scroll_x = mapview_canvas.gui_x0;
-  *scroll_y = mapview_canvas.gui_y0;
+  *scroll_x = mapview.gui_x0;
+  *scroll_y = mapview.gui_y0;
 }
 
 /****************************************************************************
@@ -715,8 +714,8 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 **************************************************************************/
 struct tile *get_center_tile_mapcanvas(void)
 {
-  return canvas_pos_to_nearest_tile(mapview_canvas.width / 2,
-				    mapview_canvas.height / 2);
+  return canvas_pos_to_nearest_tile(mapview.width / 2,
+				    mapview.height / 2);
 }
 
 /**************************************************************************
@@ -733,8 +732,8 @@ void center_tile_mapcanvas(struct tile *ptile)
   map_to_gui_pos(&gui_x, &gui_y, ptile->x, ptile->y);
 
   /* Put the center pixel of the tile at the exact center of the mapview. */
-  gui_x -= (mapview_canvas.width - NORMAL_TILE_WIDTH) / 2;
-  gui_y -= (mapview_canvas.height - NORMAL_TILE_HEIGHT) / 2;
+  gui_x -= (mapview.width - NORMAL_TILE_WIDTH) / 2;
+  gui_y -= (mapview.height - NORMAL_TILE_HEIGHT) / 2;
 
   set_mapview_origin(gui_x, gui_y);
 }
@@ -791,11 +790,11 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
       && (!same || scroll_y > ymin || topo_has_flag(TF_WRAPY))) {
     return FALSE;
   }
-  if (canvas_x + NORMAL_TILE_WIDTH > mapview_canvas.width - border_x
+  if (canvas_x + NORMAL_TILE_WIDTH > mapview.width - border_x
       && (!same || scroll_x + xsize < xmax || topo_has_flag(TF_WRAPX))) {
     return FALSE;
   }
-  if (canvas_y + NORMAL_TILE_HEIGHT > mapview_canvas.height - border_y
+  if (canvas_y + NORMAL_TILE_HEIGHT > mapview.height - border_y
       && (!same || scroll_y + ysize < ymax || topo_has_flag(TF_WRAPY))) {
     return FALSE;
   }
@@ -832,11 +831,11 @@ static void put_path_length(void)
 
     if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
       if (sprites.path.turns[units]) {
-	canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
+	canvas_put_sprite_full(mapview.store, canvas_x, canvas_y,
 			       sprites.path.turns[units]);
       }
       if (tens > 0 && sprites.path.turns_tens[tens]) {
-	canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
+	canvas_put_sprite_full(mapview.store, canvas_x, canvas_y,
 			       sprites.path.turns_tens[tens]);
       }
     }
@@ -1315,7 +1314,7 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
    * the screen and wait 1 second. */
   unqueue_mapview_updates(FALSE);
 
-  canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y, mysprite);
+  canvas_put_sprite_full(mapview.store, canvas_x, canvas_y, mysprite);
   dirty_rect(canvas_x, canvas_y, width, height);
 
   flush_dirty();
@@ -1584,14 +1583,14 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   canvas_x = MAX(canvas_x, 0);
   canvas_y = MAX(canvas_y, 0);
-  width = MIN(mapview_canvas.store_width - canvas_x, width);
-  height = MIN(mapview_canvas.store_height - canvas_y, height);
+  width = MIN(mapview.store_width - canvas_x, width);
+  height = MIN(mapview.store_height - canvas_y, height);
 
-  gui_x0 = mapview_canvas.gui_x0 + canvas_x;
-  gui_y0 = mapview_canvas.gui_y0 + canvas_y;
+  gui_x0 = mapview.gui_x0 + canvas_x;
+  gui_y0 = mapview.gui_y0 + canvas_y;
   full = (canvas_x == 0 && canvas_y == 0
-	  && width == mapview_canvas.store_width
-	  && height == mapview_canvas.store_height);
+	  && width == mapview.store_width
+	  && height == mapview.store_height);
 
   freelog(LOG_DEBUG,
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
@@ -1602,9 +1601,9 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * tmp_canvas then copy *just* the area of update onto the canvas. */
   if (!full) {
     /* Swap store and tmp_store. */
-    tmp = mapview_canvas.store;
-    mapview_canvas.store = mapview_canvas.tmp_store;
-    mapview_canvas.tmp_store = tmp;
+    tmp = mapview.store;
+    mapview.store = mapview.tmp_store;
+    mapview.tmp_store = tmp;
   }
 
   /* Clear the area.  This is necessary since some parts of the rectangle
@@ -1614,7 +1613,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    *
    * Of course it's necessary to draw to the whole area to cover up any old
    * drawing that was done there. */
-  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
+  canvas_put_rectangle(mapview.store, COLOR_STD_BLACK,
 		       canvas_x, canvas_y, width, height);
 
   mapview_layer_iterate(layer) {
@@ -1622,12 +1621,12 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
 		     ptile, pedge, pcorner, cx, cy) {
       if (ptile) {
-	put_one_tile(mapview_canvas.store, layer, ptile, cx, cy, FALSE);
+	put_one_tile(mapview.store, layer, ptile, cx, cy, FALSE);
       } else if (pedge) {
-	put_one_element(mapview_canvas.store, layer, NULL, pedge, NULL,
+	put_one_element(mapview.store, layer, NULL, pedge, NULL,
 			NULL, NULL, cx, cy, FALSE);
       } else if (pcorner) {
-	put_one_element(mapview_canvas.store, layer, NULL, NULL, pcorner,
+	put_one_element(mapview.store, layer, NULL, NULL, pcorner,
 			NULL, NULL, cx, cy, FALSE);
       } else {
 	/* This can happen, for instance for unreal tiles. */
@@ -1668,16 +1667,16 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
 
-	put_city_worker(mapview_canvas.store,
+	put_city_worker(mapview.store,
 			city_colors[pcity->client.color_index], worker,
 			canvas_x2, canvas_y2);
 	if (worker == C_TILE_WORKER) {
 	  put_city_tile_output(pcity, city_x, city_y,
-			       mapview_canvas.store, canvas_x2, canvas_y2);
+			       mapview.store, canvas_x2, canvas_y2);
 	}
       } else if (punit && punit->client.colored) {
 	/* Draw citymap overlay for settlers. */
-	put_city_worker(mapview_canvas.store,
+	put_city_worker(mapview.store,
 			city_colors[punit->client.color_index], C_TILE_EMPTY,
 			canvas_x2, canvas_y2);
       }
@@ -1691,12 +1690,12 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   if (!full) {
     /* Swap store and tmp_store back. */
-    tmp = mapview_canvas.store;
-    mapview_canvas.store = mapview_canvas.tmp_store;
-    mapview_canvas.tmp_store = tmp;
+    tmp = mapview.store;
+    mapview.store = mapview.tmp_store;
+    mapview.tmp_store = tmp;
 
     /* And copy store to tmp_store. */
-    canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+    canvas_copy(mapview.store, mapview.tmp_store,
 		canvas_x, canvas_y, canvas_x, canvas_y, width, height);
   }
 
@@ -1768,15 +1767,15 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    * We must draw H2 extra pixels above and (W2 - W1) / 2 extra pixels
    * to each side of the mapview.
    */
-  gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
-		   mapview_canvas.gui_y0 + canvas_y - dy,
+  gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
+		   mapview.gui_y0 + canvas_y - dy,
 		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
 		   ptile, pedge, pcorner, canvas_x, canvas_y) {
     if (ptile && ptile->city) {
       int width = 0, height = 0;
       struct city *pcity = ptile->city;
 
-      show_city_desc(mapview_canvas.store, canvas_x, canvas_y,
+      show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
 
       max_desc_width = MAX(width, max_desc_width);
@@ -1849,7 +1848,7 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
   map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   /* Draw the segment. */
-  canvas_put_line(mapview_canvas.store, COLOR_STD_CYAN, LINE_GOTO,
+  canvas_put_line(mapview.store, COLOR_STD_CYAN, LINE_GOTO,
 		  canvas_x, canvas_y, canvas_dx, canvas_dy);
 
   /* The actual area drawn will extend beyond the base rectangle, since
@@ -1927,7 +1926,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 			   losing_unit->tile)) {
     refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE);
     unqueue_mapview_updates(FALSE);
-    canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
+    canvas_copy(mapview.tmp_store, mapview.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
@@ -1940,10 +1939,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       /* We first draw the explosion onto the unit and draw draw the
        * complete thing onto the map canvas window. This avoids
        * flickering. */
-      canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+      canvas_copy(mapview.store, mapview.tmp_store,
 		  canvas_x, canvas_y, canvas_x, canvas_y,
 		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      canvas_put_sprite_full(mapview_canvas.store,
+      canvas_put_sprite_full(mapview.store,
 			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
 			     canvas_y + NORMAL_TILE_HEIGHT / 2 - h / 2,
 			     sprites.explode.unit[i]);
@@ -2019,12 +2018,12 @@ void move_unit_map_canvas(struct unit *punit,
       new_y = start_y + canvas_dy * (mytime / timing_sec);
 
       /* Backup the canvas store to the temp store. */
-      canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
+      canvas_copy(mapview.tmp_store, mapview.store,
 		  new_x, new_y, new_x, new_y,
 		  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Draw */
-      put_unit(punit, mapview_canvas.store, new_x, new_y);
+      put_unit(punit, mapview.store, new_x, new_y);
       dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Flush. */
@@ -2032,7 +2031,7 @@ void move_unit_map_canvas(struct unit *punit,
       gui_flush();
 
       /* Restore the backup.  It won't take effect until the next flush. */
-      canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+      canvas_copy(mapview.store, mapview.tmp_store,
 		  new_x, new_y, new_x, new_y,
 		  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
       dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
@@ -2302,10 +2301,10 @@ void unqueue_mapview_updates(bool write_to_screen)
     if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
 	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)) {
       dirty_all();
-      update_map_canvas(0, 0, mapview_canvas.store_width,
-			mapview_canvas.store_height);
+      update_map_canvas(0, 0, mapview.store_width,
+			mapview.store_height);
     } else {
-      int min_x = mapview_canvas.width, min_y = mapview_canvas.height;
+      int min_x = mapview.width, min_y = mapview.height;
       int max_x = 0, max_y = 0;
 
       if (tile_updates) {
@@ -2603,34 +2602,34 @@ static void get_mapview_corners(int x[4], int y[4])
     /* We start with the west corner. */
 
     /* North */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width;
-    y[1] = y[0] - OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_width;
+    y[1] = y[0] - OVERVIEW_TILE_HEIGHT * mapview.tile_width;
 
     /* East */
-    x[2] = x[1] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
-    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+    x[2] = x[1] + OVERVIEW_TILE_WIDTH * mapview.tile_height;
+    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
 
     /* South */
-    x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
-    y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+    x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_height;
+    y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
   } else if (!is_isometric && MAP_IS_ISOMETRIC) {
     /* We start with the west corner.  Note the X scale is smaller. */
 
     /* North */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width / 2;
-    y[1] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_width / 2;
+    y[1] = y[0] + OVERVIEW_TILE_HEIGHT * mapview.tile_width;
 
     /* East */
-    x[2] = x[1] - OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height / 2;
-    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+    x[2] = x[1] - OVERVIEW_TILE_WIDTH * mapview.tile_height / 2;
+    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
 
     /* South */
-    x[3] = x[2] - OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width / 2;
-    y[3] = y[2] - OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
+    x[3] = x[2] - OVERVIEW_TILE_WIDTH * mapview.tile_width / 2;
+    y[3] = y[2] - OVERVIEW_TILE_HEIGHT * mapview.tile_width;
   } else {
     /* We start with the northwest corner. */
-    int screen_width = mapview_canvas.tile_width;
-    int screen_height = mapview_canvas.tile_height * (is_isometric ? 2 : 1);
+    int screen_width = mapview.tile_width;
+    int screen_height = mapview.tile_height * (is_isometric ? 2 : 1);
 
     /* Northeast */
     x[1] = x[0] + OVERVIEW_TILE_WIDTH * screen_width - 1;
@@ -2704,7 +2703,7 @@ void overview_update_tile(struct tile *ptile)
 static bool can_do_cached_drawing(void)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-  int w = mapview_canvas.store_width, h = mapview_canvas.store_height;
+  int w = mapview.store_width, h = mapview.store_height;
 
   /* If the mapview window is too large, cached drawing is not possible.
    *
@@ -2799,7 +2798,7 @@ void set_overview_dimensions(int width, int height)
 		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
 
-  mapview_canvas.can_do_cached_drawing = can_do_cached_drawing();
+  mapview.can_do_cached_drawing = can_do_cached_drawing();
 
   /* Call gui specific function. */
   map_size_changed();
@@ -2824,9 +2823,9 @@ void init_mapview_decorations(void)
 **************************************************************************/
 bool map_canvas_resized(int width, int height)
 {
-  int old_tile_width = mapview_canvas.tile_width;
-  int old_tile_height = mapview_canvas.tile_height;
-  int old_width = mapview_canvas.width, old_height = mapview_canvas.height;
+  int old_tile_width = mapview.tile_width;
+  int old_tile_height = mapview.tile_height;
+  int old_width = mapview.width, old_height = mapview.height;
   int tile_width = (width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
   int tile_height = (height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
   int full_width = tile_width * NORMAL_TILE_WIDTH;
@@ -2838,12 +2837,12 @@ bool map_canvas_resized(int width, int height)
   /* Since a resize is only triggered when the tile_*** changes, the canvas
    * width and height must include the entire backing store - otherwise
    * small resizings may lead to undrawn tiles. */
-  mapview_canvas.tile_width = tile_width;
-  mapview_canvas.tile_height = tile_height;
-  mapview_canvas.width = width;
-  mapview_canvas.height = height;
-  mapview_canvas.store_width = full_width;
-  mapview_canvas.store_height = full_height;
+  mapview.tile_width = tile_width;
+  mapview.tile_height = tile_height;
+  mapview.width = width;
+  mapview.height = height;
+  mapview.store_width = full_width;
+  mapview.store_height = full_height;
 
   /* Check for what's changed. */
   tile_size_changed = (tile_width != old_tile_width
@@ -2852,15 +2851,15 @@ bool map_canvas_resized(int width, int height)
 
   /* If the tile size has changed, resize the canvas. */
   if (tile_size_changed) {
-    if (mapview_canvas.store) {
-      canvas_free(mapview_canvas.store);
-      canvas_free(mapview_canvas.tmp_store);
+    if (mapview.store) {
+      canvas_free(mapview.store);
+      canvas_free(mapview.tmp_store);
     }
-    mapview_canvas.store = canvas_create(full_width, full_height);
-    canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
+    mapview.store = canvas_create(full_width, full_height);
+    canvas_put_rectangle(mapview.store, COLOR_STD_BLACK, 0, 0,
 			 full_width, full_height);
 
-    mapview_canvas.tmp_store = canvas_create(full_width, full_height);
+    mapview.tmp_store = canvas_create(full_width, full_height);
   }
 
   if (map_exists() && can_client_change_view()) {
@@ -2879,7 +2878,7 @@ bool map_canvas_resized(int width, int height)
     }
   }
 
-  mapview_canvas.can_do_cached_drawing = can_do_cached_drawing();
+  mapview.can_do_cached_drawing = can_do_cached_drawing();
 
   return redrawn;
 }
@@ -2889,6 +2888,6 @@ bool map_canvas_resized(int width, int height)
 **************************************************************************/
 void init_mapcanvas_and_overview(void)
 {
-  /* Create a dummy map to make sure mapview_canvas.store is never NULL. */
+  /* Create a dummy map to make sure mapview.store is never NULL. */
   map_canvas_resized(1, 1);
 }
