@@ -21,6 +21,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
@@ -1683,14 +1684,13 @@ static int unit_can_be_retired(struct unit *punit)
  Careful: punit may have been destroyed upon return from this routine!
 **************************************************************************/
 
-static void ai_manage_unit(struct player *pplayer, struct unit *punit,
-			   struct genlist_iterator *iter)
+static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
   /* retire useless barbarian units here, before calling the management
      function */
   if( is_barbarian(pplayer) ) {
     if( unit_can_be_retired(punit) && myrand(100) > 90 ) {
-      wipe_unit_safe(0, punit, iter);
+      wipe_unit(0, punit);
       return;
     }
     if( !is_military_unit(punit)
@@ -1742,19 +1742,51 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit,
 void ai_manage_units(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
+  static int *unitids = NULL;         /* realloc'd, never freed */
+  static int max_units = 0;
+
+  int count, index;
+  struct unit *punit;
+  char *type_name;
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
   freelog(LOG_DEBUG, "Managing units for %s", pplayer->name);
-  unit_list_iterate(pplayer->units, punit) {
-    freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
-		  unit_types[punit->type].name, punit->id, punit->x, punit->y);
-    ai_manage_unit(pplayer, punit, &myiter);
-    /* Note punit might be gone!! */
-    freelog(LOG_DEBUG, "Finished managing %s's unit", pplayer->name);
+
+  count = genlist_size(&(pplayer->units.list));
+  if (count > 0) {
+    if (max_units < count) {
+      max_units = count;
+      unitids = fc_realloc(unitids, max_units * sizeof(int));
+    }
+    index = 0;
+    unit_list_iterate(pplayer->units, punit) {
+      unitids[index++] = punit->id;
+    }
+    unit_list_iterate_end;
+
+    for (index = 0; index < count; index++) {
+      punit = unit_list_find(&pplayer->units, unitids[index]);
+      if (!punit) {
+	freelog(LOG_DEBUG, "Can't manage %s's dead unit %d", pplayer->name,
+		unitids[index]);
+	continue;
+      }
+      type_name = unit_types[punit->type].name;
+
+      freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
+	      type_name, unitids[index], punit->x, punit->y);
+
+      ai_manage_unit(pplayer, punit);
+      /* Note punit might be gone!! */
+
+      freelog(LOG_DEBUG, "Finished managing %s's %s %d", pplayer->name,
+	      type_name, unitids[index]);
+    }
   }
-  unit_list_iterate_end;
-  freelog(LOG_DEBUG, "Managed units successfully.");
+
+  freelog(LOG_DEBUG, "Managed %s's units successfully.", pplayer->name);
+
   if (timer_in_use(t)) {
     freelog(LOG_VERBOSE, "%s's units consumed %g milliseconds.",
 	    pplayer->name, 1000.0*read_timer_seconds(t));
