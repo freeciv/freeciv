@@ -63,69 +63,69 @@ static void reload_small_citizens_icons( int style , struct city *pCity )
   FREESURFACE( pIcons->pSpec_Sci ); /* Scientist */
 
   /* allocate icons */
-  pIcons->pMale_Happy = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_HAPPY, 0, pCity ),
-	                                                    15 , 26, 1 );
+  pIcons->pMale_Happy =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_HAPPY, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pMale_Happy , 0 ,0 ) );
     
-  pIcons->pFemale_Happy = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_HAPPY, 1, pCity ) ,
-                                                            15 , 26, 1 );
+  pIcons->pFemale_Happy =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_HAPPY, 1, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pFemale_Happy , 0 ,0 ) );
     
-  pIcons->pMale_Content = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_CONTENT, 0, pCity ) ,
-                                                            15 , 26, 1 );
+  pIcons->pMale_Content =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_CONTENT, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pMale_Content , 0 ,0 ) );
     
-  pIcons->pFemale_Content = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_CONTENT, 1, pCity ),
-                                                             15 , 26, 1 );
+  pIcons->pFemale_Content =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_CONTENT, 1, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pFemale_Content , 0 ,0 ) );
     
-  pIcons->pMale_Unhappy = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_UNHAPPY, 0, pCity ),
-                                                           15 , 26, 1 );
+  pIcons->pMale_Unhappy =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_UNHAPPY, 0, pCity)),
+			   15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pMale_Unhappy , 0 ,0 ) );
     
-  pIcons->pFemale_Unhappy = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_UNHAPPY, 1, pCity ),
-                                                          15 , 26, 1 );
+  pIcons->pFemale_Unhappy =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_UNHAPPY, 1, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pFemale_Unhappy , 0 ,0 ) );
     
-  pIcons->pMale_Angry = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_ANGRY, 0, pCity ),
-                                                           15 , 26, 1 );
+  pIcons->pMale_Angry =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ANGRY, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pMale_Angry , 0 ,0 ) );
     
-  pIcons->pFemale_Angry = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_ANGRY, 1, pCity ),
-                                                           15 , 26, 1 );
+  pIcons->pFemale_Angry =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ANGRY, 1, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pFemale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pFemale_Angry , 0 ,0 ) );
     
-  pIcons->pSpec_Lux = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_ELVIS, 0, pCity ) ,
-                                                            15 , 26, 1 );
+  pIcons->pSpec_Lux =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Lux , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pSpec_Lux , 0 ,0 ) );
     
-  pIcons->pSpec_Tax = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_TAXMAN, 0, pCity )
-                                                          , 15 , 26, 1 );
+  pIcons->pSpec_Tax =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_TAXMAN, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Tax , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pSpec_Tax , 0 ,0 ) );
     
-  pIcons->pSpec_Sci = ResizeSurface( 
-    (SDL_Surface *)get_citizen_sprite( CITIZEN_SCIENTIST, 0, pCity ) ,
-                                                            15 , 26, 1 );
+  pIcons->pSpec_Sci =
+    ResizeSurface(GET_SURF(get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCity)),
+		  15, 26, 1);
   SDL_SetColorKey( pIcons->pSpec_Sci , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    getpixel( pIcons->pSpec_Sci , 0 ,0 ) );
     

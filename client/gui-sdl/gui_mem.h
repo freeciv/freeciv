@@ -28,8 +28,8 @@
 #define FREE(ptr) do { if (ptr) free(ptr); ptr = NULL; } while(0)
 
 /* malloc with check and clear */
-#define MALLOC(size) memset(fc_real_malloc((size), "malloc", \
-					__LINE__, __FILE__), 0, size)
+#define MALLOC(size) fc_real_calloc( 1, (size), \
+					"malloc", __LINE__, __FILE__)
 
 /* fc_calloc in gui-sdl style */
 #define CALLOC(count , size)   fc_real_calloc((count), (size), \
@@ -37,7 +37,13 @@
 
 /* fc_realloc in gui-sdl style */
 #define REALLOC(ptr, size) fc_real_realloc((ptr), (size), "realloc", \
-						   __LINE__, __FILE__)
+					   __LINE__, __FILE__)
 
+/* Want to use GCC's __extension__ keyword to macros , use it */
+#if defined(__GNUC__)
+#define fc__extension(x)	(__extension__(x))
+#else
+#define fc__extension(x)	(x)
+#endif
 
 #endif

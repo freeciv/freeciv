@@ -22,6 +22,8 @@
 #ifndef FC__GUI_STUFF_H
 #define FC__GUI_STUFF_H
 
+#include "gui_mem.h"
+
 #define	WINDOW_TILE_HIGH	20
 #define	FRAME_WH		3
 #define	DOUBLE_FRAME_WH		6
@@ -288,19 +290,14 @@ do {						\
 	(pWidget)->state_types_flags &= ~((flag) & FLAG_MASK)
 
 #define get_wstate(pWidget)				\
-( __extension__						\
-	(pWidget->state_types_flags & STATE_MASK)	\
-)
+	fc__extension(pWidget->state_types_flags & STATE_MASK)
 
 #define get_wtype(pWidget)				\
-( __extension__						\
-	(pWidget->state_types_flags & TYPE_MASK)	\
-)
+	fc__extension(pWidget->state_types_flags & TYPE_MASK)
 
 #define get_wflags(pWidget)				\
-( __extension__						\
-	(pWidget->state_types_flags & FLAG_MASK)	\
-)
+	fc__extension(pWidget->state_types_flags & FLAG_MASK)
+
 
 #define FREEWIDGET(pGUI)			\
 do {						\

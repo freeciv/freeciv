@@ -3121,7 +3121,7 @@ void popup_government_dialog(void)
       pGov = &governments[i];
       pStr = create_str16_from_char(pGov->name, 12);
       pGov_Button =
-	  create_icon_button((SDL_Surface *) pGov->sprite, pStr, 0);
+	  create_icon_button(GET_SURF(pGov->sprite), pStr, 0);
       pGov_Button->action = government_dlg_callback;
 
       if (pGov_Button->size.w > max_w)
@@ -3604,7 +3604,7 @@ static int get_leader_sex(Nation_Type_id nation, Uint8 leader)
 **************************************************************************/
 static SDL_Surface *get_city_style_surf(int style)
 {
-  return (SDL_Surface *) sprites.city.tile[style][2];
+  return GET_SURF(sprites.city.tile[style][2]);
 }
 
 /**************************************************************************
@@ -3766,7 +3766,7 @@ static void create_nations_buttons(void)
   struct GUI *pEndNationButtons = NULL;
 
   /* init list */
-  pTmp_flag = (SDL_Surface *) get_nation_by_idx(0)->flag_sprite;
+  pTmp_flag = GET_SURF(get_nation_by_idx(0)->flag_sprite);
   pTmp_flag = make_flag_surface_smaler(pTmp_flag);
   pTmp_flag_zoomed = ZoomSurface(pTmp_flag, 0.5, 0.5, 0);
   FREESURFACE(pTmp_flag);
@@ -3787,7 +3787,7 @@ static void create_nations_buttons(void)
 
   /* fill list */
   for (i = 1; i < game.playable_nation_count; i++) {
-    pTmp_flag = (SDL_Surface *) get_nation_by_idx(i)->flag_sprite;
+    pTmp_flag = GET_SURF(get_nation_by_idx(i)->flag_sprite);
 
     pTmp_flag = make_flag_surface_smaler(pTmp_flag);
     pTmp_flag_zoomed = ZoomSurface(pTmp_flag, 0.5, 0.5, 0);
@@ -4105,9 +4105,7 @@ static void draw_nations_dialog(void)
   /* end redraw window widgets */
 
   if (pNations->nation) {
-    pTmp =
-	(SDL_Surface *) get_nation_by_idx(pNations->nation -
-					  1)->flag_sprite;
+    pTmp = GET_SURF(get_nation_by_idx(pNations->nation - 1)->flag_sprite);
     pTmp = ZoomSurface(pTmp, 3.0, 3.0, 1);
     SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY, 0x0);
 

@@ -30,8 +30,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
-#include "gui_mem.h"
-
 #include "fcintl.h"
 #include "support.h"
 

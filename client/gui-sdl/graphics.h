@@ -25,12 +25,16 @@
 #define FC__GRAPHICS_H
 
 #include "graphics_g.h"
+#include "gui_mem.h"
 
 #define	RECT_LIMIT	80
 
 struct Sprite {
   struct SDL_Surface;
 };
+
+#define GET_SURF(s)	fc__extension((SDL_Surface *)s)
+#define GET_SPRI(s)	fc__extension((struct Sprite *)s)
 
 struct Sdl {
   int rects_count;		/* update rect. list counter */

@@ -156,10 +156,9 @@ void science_dialog_update(void)
 #endif
 
   pEndScienceDlg->prev->theme =
-      (SDL_Surface *) advances[game.player_ptr->research.researching].
-      sprite;
+    GET_SURF(advances[game.player_ptr->research.researching].sprite);
   pEndScienceDlg->prev->prev->theme =
-      (SDL_Surface *) advances[game.player_ptr->ai.tech_goal].sprite;
+    GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
 
   redraw_group(pBeginScienceDlg, pEndScienceDlg, 0);
   /* ------------------------------------- */
@@ -280,9 +279,9 @@ void science_dialog_update(void)
   impr_type_iterate(imp)
       pImpr = get_improvement_type(imp);
   if (pImpr->tech_req == game.player_ptr->research.researching) {
-    SDL_BlitSurface((SDL_Surface *) pImpr->sprite, NULL, Main.screen,
+    SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, Main.screen,
 		    &dest);
-    dest.x += ((SDL_Surface *) pImpr->sprite)->w + 1;
+    dest.x += GET_SURF(pImpr->sprite)->w + 1;
   } impr_type_iterate_end;
 
   dest.x += 5;
@@ -290,8 +289,8 @@ void science_dialog_update(void)
   unit_type_iterate(un)
       pUnit = get_unit_type(un);
   if (pUnit->tech_requirement == game.player_ptr->research.researching) {
-    src = get_smaller_surface_rect((SDL_Surface *) pUnit->sprite);
-    SDL_BlitSurface((SDL_Surface *) pUnit->sprite, &src, Main.screen,
+    src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+    SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, Main.screen,
 		    &dest);
     dest.x += src.w + 2;
   } unit_type_iterate_end;
@@ -332,9 +331,9 @@ void science_dialog_update(void)
   impr_type_iterate(imp) {
     pImpr = get_improvement_type(imp);
     if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
-      SDL_BlitSurface((SDL_Surface *) pImpr->sprite, NULL, Main.screen,
+      SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, Main.screen,
 		      &dest);
-      dest.x += ((SDL_Surface *) pImpr->sprite)->w + 1;
+      dest.x += GET_SURF(pImpr->sprite)->w + 1;
     }
   } impr_type_iterate_end;
 
@@ -343,8 +342,8 @@ void science_dialog_update(void)
   unit_type_iterate(un) {
     pUnit = get_unit_type(un);
     if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
-      src = get_smaller_surface_rect((SDL_Surface *) pUnit->sprite);
-      SDL_BlitSurface((SDL_Surface *) pUnit->sprite, &src, Main.screen,
+      src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+      SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, Main.screen,
 		      &dest);
       dest.x += src.w + 2;
     }
@@ -471,7 +470,7 @@ static int change_research(struct GUI *pWidget)
       FREESURFACE(pText);
 
       /* draw tech icon */
-      pText = (SDL_Surface *) advances[i].sprite;
+      pText = GET_SURF(advances[i].sprite);
       dst.x = (100 - pText->w) / 2;
       SDL_BlitSurface(pText, NULL, pSurf, &dst);
 
@@ -482,7 +481,7 @@ static int change_research(struct GUI *pWidget)
       impr_type_iterate(imp) {
 	pImpr = get_improvement_type(imp);
 	if (pImpr->tech_req == i) {
-	  Surf_Array[w++] = (SDL_Surface *) pImpr->sprite;
+	  Surf_Array[w++] = GET_SURF(pImpr->sprite);
 	}
       } impr_type_iterate_end;
 
@@ -519,7 +518,7 @@ static int change_research(struct GUI *pWidget)
       unit_type_iterate(un) {
 	pUnit = get_unit_type(un);
 	if (pUnit->tech_requirement == i) {
-	  Surf_Array[w++] = (SDL_Surface *) pUnit->sprite;
+	  Surf_Array[w++] = GET_SURF(pUnit->sprite);
 	}
       } unit_type_iterate_end;
 
@@ -912,9 +911,9 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
   /* ------ */
 
-  pBuf = create_icon2((SDL_Surface *)
-		      advances[game.player_ptr->research.researching].
-		      sprite, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
+					research.researching].sprite),
+		      WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->action = change_research;
   set_wstate(pBuf, WS_NORMAL);
@@ -925,9 +924,9 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-  pBuf =
-      create_icon2((SDL_Surface *) advances[game.player_ptr->ai.tech_goal].
-		   sprite, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_icon2(GET_SURF(advances[game.player_ptr->
+					ai.tech_goal].sprite),
+		      WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->action = change_research_goal;
   set_wstate(pBuf, WS_NORMAL);

@@ -561,9 +561,8 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   pStr = create_str16_from_char(cBuf, 12);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf =
-      create_iconlabel((SDL_Surface *)get_unit_type(pUnit->type)->sprite,
-		       pStr, 0);
+  pBuf = create_iconlabel(GET_SURF(get_unit_type(pUnit->type)->sprite),
+			  pStr, 0);
 
   if (ww < pBuf->size.w) {
     ww = pBuf->size.w;
@@ -1163,21 +1162,24 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
   case 0x20:
     new ^= 0x20;
     new ^= 0x40;
-    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCityDlg->pCity);
+    pWidget->gfx = GET_SURF(get_citizen_sprite(CITIZEN_TAXMAN, 0,
+					       pCityDlg->pCity));
     pWidget->ID = MAX_ID - 0x40;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
     break;
   case 0x40:
     new &= 0x1f;
-    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCityDlg->pCity);
+    pWidget->gfx = GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0,
+					       pCityDlg->pCity));
     pWidget->ID = MAX_ID - 0x60;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
     break;
   case 0x60:
     new |= 0x20;
-    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCityDlg->pCity);
+    pWidget->gfx = GET_SURF(get_citizen_sprite(CITIZEN_SCIENTIST, 0,
+					       pCityDlg->pCity));
     pWidget->ID = MAX_ID - 0x20;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
@@ -1307,16 +1309,19 @@ static void create_city_options_widget_list(struct city *pCity)
   change_ptsize16(pStr, 13);
 
   if (pCity->city_options & 0x20) {
-    pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCityDlg->pCity);
+    pSurf = GET_SURF(get_citizen_sprite(CITIZEN_SCIENTIST, 0,
+					pCityDlg->pCity));
     pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
     if (pCity->city_options & 0x40) {
-      pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCityDlg->pCity);
+      pSurf = GET_SURF(get_citizen_sprite(CITIZEN_TAXMAN, 0,
+					  pCityDlg->pCity));
       pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
       add_to_gui_list(MAX_ID - 0x40, pBuf);
     } else {
-      pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCityDlg->pCity);
+      pSurf = GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0,
+					  pCityDlg->pCity));
       pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
       add_to_gui_list(MAX_ID - 0x60, pBuf);
     }
@@ -1923,7 +1928,7 @@ void popup_change_production_dialog(struct city *pCity)
       pStr->style |= TTF_STYLE_BOLD;
 #endif
 
-      pBuf = create_iconlabel((SDL_Surface *) pImpr->sprite, pStr,
+      pBuf = create_iconlabel(GET_SURF(pImpr->sprite), pStr,
 		WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE);
 
       /* pBuf->string16->style &= ~SF_CENTER; */
@@ -1972,7 +1977,7 @@ void popup_change_production_dialog(struct city *pCity)
       pStr->style |= TTF_STYLE_BOLD;
 #endif
       
-      pTemp_Surf = make_flag_surface_smaler((SDL_Surface *) pUnit->sprite);
+      pTemp_Surf = make_flag_surface_smaler(GET_SURF(pUnit->sprite));
 
       if ( pTemp_Surf->h > 26 )
       {
@@ -3502,9 +3507,9 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	count = 0;
 
 	if (city_got_building(pCity, B_TEMPLE)) {
-	  pTmp1 = ZoomSurface((SDL_Surface *)
-			      get_improvement_type(B_TEMPLE)->sprite, 0.5,
-			      0.5, 1);
+	  pTmp1 =
+	    ZoomSurface(GET_SURF(get_improvement_type(B_TEMPLE)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
 	  pSurf = pTmp1;
 	} else {
@@ -3512,9 +3517,9 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	}
 
 	if (city_got_building(pCity, B_COLOSSEUM)) {
-	  pTmp2 = ZoomSurface((SDL_Surface *)
-			      get_improvement_type(B_COLOSSEUM)->sprite,
-			      0.5, 0.5, 1);
+	  pTmp2 =
+	    ZoomSurface(GET_SURF(get_improvement_type(B_COLOSSEUM)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
 	  if (!pSurf) {
 	    pSurf = pTmp2;
@@ -3525,9 +3530,9 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 	if (city_got_building(pCity, B_CATHEDRAL) ||
 	    city_affected_by_wonder(pCity, B_MICHELANGELO)) {
-	  pTmp3 = ZoomSurface((SDL_Surface *)
-			      get_improvement_type(B_CATHEDRAL)->sprite,
-			      0.5, 0.5, 1);
+	  pTmp3 =
+	    ZoomSurface(GET_SURF(get_improvement_type(B_CATHEDRAL)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
 	  if (!pSurf) {
 	    pSurf = pTmp3;
@@ -3578,8 +3583,8 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 	if (city_affected_by_wonder(pCity, B_CURE)) {
 	  pTmp1 =
-	      ZoomSurface((SDL_Surface *) get_improvement_type(B_CURE)->
-			  sprite, 0.5, 0.5, 1);
+	    ZoomSurface(GET_SURF(get_improvement_type(B_CURE)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
 	  pSurf = pTmp1;
 	} else {
@@ -3587,8 +3592,8 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	}
 
 	if (city_affected_by_wonder(pCity, B_SHAKESPEARE)) {
-	  pTmp2 = ZoomSurface((SDL_Surface *)
-			      get_improvement_type(B_SHAKESPEARE)->sprite,
+	  pTmp2 = ZoomSurface(GET_SURF(get_improvement_type(B_SHAKESPEARE)
+				       ->sprite),
 			      0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
 	  if (!pSurf) {
@@ -3600,8 +3605,8 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 	if (city_affected_by_wonder(pCity, B_BACH)) {
 	  pTmp3 =
-	      ZoomSurface((SDL_Surface *) get_improvement_type(B_BACH)->
-			  sprite, 0.5, 0.5, 1);
+	    ZoomSurface(GET_SURF(get_improvement_type(B_BACH)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
 	  if (!pSurf) {
 	    pSurf = pTmp3;
@@ -3611,9 +3616,9 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	}
 
 	if (city_affected_by_wonder(pCity, B_HANGING)) {
-	  pTmp4 = ZoomSurface((SDL_Surface *)
-			      get_improvement_type(B_HANGING)->sprite, 0.5,
-			      0.5, 1);
+	  pTmp4 =
+	    ZoomSurface(GET_SURF(get_improvement_type(B_HANGING)->sprite),
+			0.5, 0.5, 1);
 	  count += (pTmp4->h + 1);
 	  if (!pSurf) {
 	    pSurf = pTmp4;
@@ -4384,7 +4389,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     pStr->text = convert_to_utf16(pUnit->name);
 
-    src = get_smaller_surface_rect((SDL_Surface *) pUnit->sprite);
+    src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
 
     pBuf = create_text_surf_from_str16(pStr);
 
@@ -4392,8 +4397,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + 233;
 
     /* blit unit icon */
-    SDL_BlitSurface((SDL_Surface *) pUnit->sprite, &src, Main.screen,
-		    &dest);
+    SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, Main.screen, &dest);
 
     dest.y += (src.h - pBuf->h) / 2;
     dest.x += src.w + 5;
@@ -4425,7 +4429,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     pStr->text = convert_to_utf16(pImpr->name);
-    pBuf = (SDL_Surface *) pImpr->sprite;
+    pBuf = GET_SURF(pImpr->sprite);
 
     /* blit impr icon */
     dest.x = pWindow->size.x + 6 + (185 - pBuf->w) / 2;
@@ -4530,7 +4534,7 @@ static void redraw_city_dialog(struct city *pCity)
       pCity->ppl_unhappy[4] + pCity->ppl_angry[4] +
       pCity->ppl_elvis + pCity->ppl_scientist + pCity->ppl_taxman;
 
-  pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCity);
+  pBuf = GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0, pCity));
   if (count > 13) {
     step = (400 - pBuf->w) / (12 + count - 13);
   } else {
@@ -4543,7 +4547,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   if (pCity->ppl_happy[4]) {
     for (i = 0; i < pCity->ppl_happy[4]; i++) {
-      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_HAPPY, i, pCity);
+      pBuf = GET_SURF(get_citizen_sprite(CITIZEN_HAPPY, i, pCity));
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
     }
@@ -4551,7 +4555,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   if (pCity->ppl_content[4]) {
     for (i = 0; i < pCity->ppl_content[4]; i++) {
-      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_CONTENT, i, pCity);
+      pBuf = GET_SURF(get_citizen_sprite(CITIZEN_CONTENT, i, pCity));
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
     }
@@ -4559,7 +4563,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   if (pCity->ppl_unhappy[4]) {
     for (i = 0; i < pCity->ppl_unhappy[4]; i++) {
-      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_UNHAPPY, i, pCity);
+      pBuf = GET_SURF(get_citizen_sprite(CITIZEN_UNHAPPY, i, pCity));
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
     }
@@ -4567,7 +4571,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   if (pCity->ppl_angry[4]) {
     for (i = 0; i < pCity->ppl_angry[4]; i++) {
-      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ANGRY, i, pCity);
+      pBuf = GET_SURF(get_citizen_sprite(CITIZEN_ANGRY, i, pCity));
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
     }
@@ -4578,7 +4582,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREE(pCityDlg->specs_area[2]);
 
   if (pCity->ppl_elvis) {
-    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCity);
+    pBuf = GET_SURF(get_citizen_sprite(CITIZEN_ELVIS, 0, pCity));
     pCityDlg->specs_area[0] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[0]->x = dest.x;
     pCityDlg->specs_area[0]->y = dest.y;
@@ -4593,7 +4597,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   if (pCity->ppl_taxman) {
-    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCity);
+    pBuf = GET_SURF(get_citizen_sprite(CITIZEN_TAXMAN, 0, pCity));
     pCityDlg->specs_area[1] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[1]->x = dest.x;
     pCityDlg->specs_area[1]->y = dest.y;
@@ -4608,7 +4612,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   if (pCity->ppl_scientist) {
-    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCity);
+    pBuf = GET_SURF(get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCity));
     pCityDlg->specs_area[2] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[2]->x = dest.x;
     pCityDlg->specs_area[2]->y = dest.y;
@@ -4687,7 +4691,7 @@ static void rebuild_imprm_list(struct city *pCity)
 
     pStr->style |= TTF_STYLE_BOLD;
 
-    pLogo = ResizeSurface((SDL_Surface *) pImpr->sprite, 18, 11, 1);
+    pLogo = ResizeSurface(GET_SURF(pImpr->sprite), 18, 11, 1);
 
     pBuf =
 	create_iconlabel(pLogo, pStr,

@@ -554,7 +554,7 @@ void Init_MapView(void)
   /* ========================= Cooling/Warming ========================== */
 
   /* cooling icon */
-  pBuf = create_iconlabel((SDL_Surface *) sprites.cooling[0], NULL, 0);
+  pBuf = create_iconlabel(GET_SURF(sprites.cooling[0]), NULL, 0);
 
   pBuf->size.x = Main.screen->w - 10 - pBuf->size.w;
   pBuf->size.y = 10;
@@ -562,7 +562,7 @@ void Init_MapView(void)
   add_to_gui_list(ID_COOLING_ICON, pBuf);
 
   /* warming icon */
-  pBuf = create_iconlabel((SDL_Surface *) sprites.warming[0], NULL, 0);
+  pBuf = create_iconlabel(GET_SURF(sprites.warming[0]), NULL, 0);
 
   pBuf->size.x = Main.screen->w - 10 - pBuf->size.w * 2;
   pBuf->size.y = 10;

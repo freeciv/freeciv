@@ -40,8 +40,6 @@
 #include "fcintl.h"
 #include "log.h"
 
-#include "gui_mem.h"
-
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
@@ -1588,11 +1586,13 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 static bool correct_black(SDL_Surface * pSrc)
 {
   bool ret = 0;
-  if (pSrc->format->BitsPerPixel == 32) {
+  
+  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask ) {
 
     register int x;
     register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
-
+    Uint32 Amask = pSrc->format->Amask;
+    
     Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
     Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
 
@@ -1607,8 +1607,8 @@ static bool correct_black(SDL_Surface * pSrc)
 	*pPixels = new_black;
       } else {
 	if (!ret) {
-	  alpha = *pPixels & 0xff000000;
-	  if (alpha && (alpha != 0xff000000))
+	  alpha = *pPixels & Amask;
+	  if (alpha && (alpha != Amask))
 	    ret = 1;
 	}
       }
@@ -1766,7 +1766,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
   SDL_Rect src_rect =
       { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
   SDL_Surface *pNew, *pTmp =
-      crop_rect_from_surface((SDL_Surface *) source, &src_rect);
+      crop_rect_from_surface(GET_SURF(source), &src_rect);
 
   if (pTmp->format->Amask) {
     SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
@@ -1776,13 +1776,13 @@ struct Sprite *crop_sprite(struct Sprite *source,
     pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
 
     if (!pNew) {
-      return (struct Sprite *) pTmp;
+      return GET_SPRI(pTmp);
     }
 
     FREESURFACE(pTmp);
   }
 
-  return (struct Sprite *) pNew;
+  return GET_SPRI(pNew);
 }
 
 /**************************************************************************
@@ -1850,7 +1850,7 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 **************************************************************************/
-struct Sprite *load_gfxfile(const char *filename)
+struct Sprite * load_gfxfile(const char *filename)
 {
   SDL_Surface *pNew = NULL;
   SDL_Surface *pBuf = NULL;
@@ -1887,7 +1887,7 @@ struct Sprite *load_gfxfile(const char *filename)
 
     if (SDL_BlitSurface(pBuf, NULL, pNew, NULL)) {
       FREESURFACE(pNew);
-      return (struct Sprite *) pBuf;
+      return GET_SPRI(pBuf);
     }
 
     FREESURFACE(pBuf);
@@ -1896,7 +1896,7 @@ struct Sprite *load_gfxfile(const char *filename)
 		    getpixel(pNew, pNew->w - 1, pNew->h - 1));
   }
 
-  return (struct Sprite *) pNew;
+  return GET_SPRI(pNew);
 }
 
 /**************************************************************************
@@ -1904,7 +1904,7 @@ struct Sprite *load_gfxfile(const char *filename)
 **************************************************************************/
 void free_sprite(struct Sprite *s)
 {
-  FREESURFACE((SDL_Surface *) s);
+  FREESURFACE(GET_SURF(s));
 }
 
 
