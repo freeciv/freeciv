@@ -39,10 +39,13 @@ struct player_race {
   char name_plural[MAX_LENGTH_NAME];
   int attack;     /* c 0 = optimize for food, 2 =  optimize for prod  */
                   /* c0 = large amount of buildings, 2 = units */
+/* attack has been un-implemented for the time being. -- Syela */
   int expand;    /* c0 = transform first ,  2 = build cities first */
+/* expand has been un-implemented, probably permanently. -- Syela */
   int civilized; /* c 0 = don't use nukes,  2 = use nukes, lots of pollution */
-  int advisors[ADV_LAST];
-  struct {
+/* civilized was never implemented, but will be eventually. -- Syela */
+  int advisors[ADV_LAST]; /* never implemented either. -- Syela */
+  struct { /* basically disabled -- Syela */
     int tech[TECH_GOALS]; /* Tech goals */
     int wonder;   /* primary Wonder (maybe primary opponent, if other builds it) */
     int government; /* wanted government form */
@@ -81,25 +84,15 @@ struct player_score {
   int bnp;
   int mfg;
 };
-struct ai_player_island {
-  int cities;
-  int workremain;
-  int settlers;
-  struct point harbour;
-  struct point wonder;
-  struct point cityspot;
-};
 
 struct player_ai {
   int control;
-  struct ai_player_island island_data[100];
   int tech_goal;
   int prev_gold;
   int maxbuycost;
   int tech_want[A_LAST];
   int tech_turns[A_LAST]; /* saves zillions of calculations! */
 };
-
 
 struct player {
   int player_no;
