@@ -16,6 +16,7 @@
 #include "unit.h"
 
 int can_unit_move_to_tile(struct unit *punit, int x, int y);
+int can_unit_see_tile(struct unit *punit, int x, int y);
 int is_sailing_unit_tile(int x, int y);
 int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
