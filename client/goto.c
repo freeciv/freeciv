@@ -25,6 +25,7 @@
 #include "pf_tools.h"
 #include "unit.h"
 
+#include "civclient.h"
 #include "clinet.h"
 #include "control.h"
 #include "mapview_g.h"
@@ -773,6 +774,10 @@ void draw_line(struct tile *dest_tile)
 void request_orders_cleared(struct unit *punit)
 {
   struct packet_unit_orders p;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   /* Clear the orders by sending an empty orders path. */
   freelog(PACKET_LOG_LEVEL, "Clearing orders for unit %d.", punit->id);

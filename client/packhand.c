@@ -2683,6 +2683,10 @@ void handle_city_name_suggestion_info(int unit_id, char *name)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, unit_id);
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if (punit) {
     if (ask_city_name) {
       popup_newcity_dialog(punit, name);
