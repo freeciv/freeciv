@@ -947,7 +947,6 @@ void popup_incite_dialog(struct city *pcity)
     my_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
 		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-   diplomat_target_id = pcity->id;
    popup_message_dialog(top_vbox, _("Incite a Revolt!"), buf,
 			diplomat_incite_close_callback, NULL,
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
