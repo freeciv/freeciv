@@ -17,6 +17,7 @@
 
 struct unit;
 struct city;
+struct ai_data;
 
 /* 
  * Change these and remake to watch logs from a specific 
