@@ -1998,7 +1998,7 @@ void create_races_dialog(void)
                                  i%per_row, i%per_row+1, i/per_row, i/per_row+1 );
   }
 
-  /* ------- OK/Disc/Quit buttons ------- */
+  /* ------- Disc/Quit buttons ------- */
 
   disc_command = gtk_stockbutton_new(GTK_STOCK_CANCEL, _("_Disconnect"));
   gtk_dialog_add_action_widget(GTK_DIALOG(races_dialog_shell),
