@@ -1489,6 +1489,10 @@ bool client_handle_packet(enum packet_type type, void *packet);
     f=my_open("../server/hand_gen.c")
     f.write('''
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "packets.h"
 
 #include "hand_gen.h"
@@ -1535,6 +1539,10 @@ bool server_handle_packet(enum packet_type type, void *packet,
 
     f=my_open("../client/packhand_gen.c")
     f.write('''
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "packets.h"
 

@@ -8,6 +8,10 @@
 
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "packets.h"
 
 #include "hand_gen.h"
