@@ -69,7 +69,12 @@ RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
 
-pkgdata_DATA =
+pkgdata_DATA =          \
+	roads.xpm	\
+	small.xpm	\
+	tiles.xpm	\
+	treaty.xpm	\
+	units.xpm
 
 EXTRA_DIST = $(pkgdata_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -185,11 +190,6 @@ installcheck install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-	roads.xpm	\
-	small.xpm	\
-	tiles.xpm	\
-	treaty.xpm	\
-	units.xpm
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

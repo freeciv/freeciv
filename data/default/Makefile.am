@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-pkgdata_DATA =
+pkgdata_DATA =          \
 	roads.xpm	\
 	small.xpm	\
 	tiles.xpm	\
