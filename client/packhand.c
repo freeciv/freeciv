@@ -431,7 +431,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     int y=map_adjust_y(pcity->y - r);
     update_map_canvas
     (
-     map_canvas_adjust_x(x), map_canvas_adjust_y(y),
+     x, y,
      d, d,
      1
     );

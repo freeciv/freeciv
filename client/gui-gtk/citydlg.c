@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -442,8 +443,13 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_widget_set_events(pdialog->map_canvas,
 	GDK_EXPOSURE_MASK|GDK_BUTTON_PRESS_MASK);
 
+#ifdef ISOMETRIC
+  gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
+			NORMAL_TILE_WIDTH*4, NORMAL_TILE_HEIGHT*4);
+#else
   gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
 			NORMAL_TILE_WIDTH*5, NORMAL_TILE_HEIGHT*5);
+#endif
   gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
   
   gtk_widget_realize (pdialog->map_canvas);
@@ -518,7 +524,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_widget_show(pdialog->support_unit_boxes[i]);
 
     pdialog->support_unit_pixmaps[i]=
-     gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
+      gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
+		      NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
     gtk_container_add(GTK_CONTAINER(pdialog->support_unit_boxes[i]),
 	pdialog->support_unit_pixmaps[i]);
 
@@ -567,7 +574,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_widget_show(pdialog->present_unit_boxes[i]);
 
     pdialog->present_unit_pixmaps[i]=
-     gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+     gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER(pdialog->present_unit_boxes[i]),
 	pdialog->present_unit_pixmaps[i]);
 
@@ -1171,15 +1178,146 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   gtk_set_label(pdialog->output_label, buf);
 }
 
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  int diff_xy;
+
+  /* The line at y=0 isometric has constant x+y=1(tiles) */
+  diff_xy = (map_x + map_y) - (1);
+  *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
+
+  /* The line at x=0 isometric has constant x-y=-3(tiles) */
+  diff_xy = map_x - map_y;
+  *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  *map_x = -2;
+  *map_y = 2;
+
+  /* first find an equivalent position on the left side of the screen. */
+  *map_x += canvas_x/NORMAL_TILE_WIDTH;
+  *map_y -= canvas_x/NORMAL_TILE_WIDTH;
+  canvas_x %= NORMAL_TILE_WIDTH;
+
+  /* Then move op to the top corner. */
+  *map_x += canvas_y/NORMAL_TILE_HEIGHT;
+  *map_y += canvas_y/NORMAL_TILE_HEIGHT;
+  canvas_y %= NORMAL_TILE_HEIGHT;
+
+  assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
+  canvas_y *= 2; /* now we have a square. */
+  if (canvas_x + canvas_y > NORMAL_TILE_WIDTH/2) (*map_x)++;
+  if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH/2) (*map_x)++;
+  if (canvas_x - canvas_y > NORMAL_TILE_WIDTH/2)  (*map_y)--;
+  if (canvas_y - canvas_x > NORMAL_TILE_WIDTH/2)  (*map_y)++;
+}
 
 /****************************************************************
-...
+FIXME: we should have a canvas_store like the main map to avoid
+flickering.
 *****************************************************************/
 void city_dialog_update_map(struct city_dialog *pdialog)
 {
   int x, y;
   struct city *pcity=pdialog->pcity;
-  
+
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+
+  /* First make it all black. */
+  gdk_draw_rectangle(pdialog->map_canvas->window, fill_bg_gc, TRUE,
+		     0, 0,
+		     4 * NORMAL_TILE_WIDTH, 4 *NORMAL_TILE_HEIGHT);
+
+  /* This macro happens to iterate correct to draw the top tiles first,
+   so getting the overlap right.
+   Furthermore, we don't have to redraw fog on the part of a fogged tile
+   that overlaps another fogged tile, as on the main map, as no tiles in
+   the city radius can be fogged. */
+  city_map_iterate(x, y) {
+    int map_x = pcity->x + x - 2;
+    int map_y = pcity->y + y - 2;
+    if (normalize_map_pos(&map_x, &map_y)
+	&& tile_is_known(map_x, map_y)) {
+      int canvas_x, canvas_y;
+      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      put_one_tile_full(pdialog->map_canvas->window, map_x, map_y, 
+			canvas_x, canvas_y, 1);
+    }
+  }
+  /* We have to put the output afterwards or it will be covered. */
+  city_map_iterate(x, y) {
+    int map_x = pcity->x + x - 2;
+    int map_y = pcity->y + y - 2;
+    if (normalize_map_pos(&map_x, &map_y)
+	&& tile_is_known(map_x, map_y)) {
+      int canvas_x, canvas_y;
+      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      if (pcity->city_map[x][y]==C_TILE_WORKER) {
+	put_city_tile_output(pdialog->map_canvas->window,
+			     canvas_x, canvas_y,
+			     city_get_food_tile(x, y, pcity),
+			     city_get_shields_tile(x, y, pcity), 
+			     city_get_trade_tile(x, y, pcity));
+      }
+    }
+  }
+
+  /* This sometimes will draw one of the lines on top of a city or
+     unit pixmap. This should maybe be moved to put_one_tile_pixmap()
+     to fix this, but maybe it wouldn't be a good idea because the
+     lines would get obscured. */
+  city_map_iterate(x, y) {
+    int map_x = pcity->x + x - 2;
+    int map_y = pcity->y + y - 2;
+    if (normalize_map_pos(&map_x, &map_y)
+	&& tile_is_known(map_x, map_y)) {
+      int canvas_x, canvas_y;
+      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
+	pixmap_frame_tile_red(pdialog->map_canvas->window,
+				     canvas_x, canvas_y);
+      }
+    }
+  }
+}
+#else
+#ifdef UNUSED
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  *canvas_x = map_x * NORMAL_TILE_WIDTH;
+  *canvas_y = map_y * NORMAL_TILE_HEIGHT;
+}
+#endif
+
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  *map_x = canvas_x/NORMAL_TILE_WIDTH;
+  *map_y = canvas_y/NORMAL_TILE_HEIGHT;
+}
+
+/****************************************************************
+FIXME: we should have a canvas_store like the main map to avoid
+flickering.
+*****************************************************************/
+void city_dialog_update_map(struct city_dialog *pdialog)
+{
+  int x, y;
+  struct city *pcity=pdialog->pcity;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++) {
       if(!(x==0 && y==0) && !(x==0 && y==CITY_MAP_SIZE-1) &&
@@ -1187,11 +1325,13 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 	 !(x==CITY_MAP_SIZE-1 && y==CITY_MAP_SIZE-1) &&
 	 tile_is_known(pcity->x+x-CITY_MAP_SIZE/2, 
 		       pcity->y+y-CITY_MAP_SIZE/2)) {
-	pixmap_put_tile(pdialog->map_canvas->window, x, y, 
-	                pcity->x+x-CITY_MAP_SIZE/2,
-			pcity->y+y-CITY_MAP_SIZE/2, 1);
+	pixmap_put_tile(pdialog->map_canvas->window,
+			pcity->x+x-CITY_MAP_SIZE/2,
+			pcity->y+y-CITY_MAP_SIZE/2,
+			x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT, 1);
 	if(pcity->city_map[x][y]==C_TILE_WORKER)
-	  put_city_tile_output(pdialog->map_canvas->window, x, y, 
+	  put_city_tile_output(pdialog->map_canvas->window,
+			       x * NORMAL_TILE_WIDTH, y *NORMAL_TILE_HEIGHT,
 			       city_get_food_tile(x, y, pcity),
 			       city_get_shields_tile(x, y, pcity), 
 			       city_get_trade_tile(x, y, pcity));
@@ -1199,10 +1339,12 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 	  pixmap_frame_tile_red(pdialog->map_canvas->window, x, y);
       }
       else {
-	pixmap_put_black_tile(pdialog->map_canvas->window, x, y);
+	pixmap_put_black_tile(pdialog->map_canvas->window,
+			      x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
       }
     }
 }
+#endif
 
 /****************************************************************
 ...
@@ -1548,8 +1690,7 @@ gint button_down_citymap(GtkWidget *w, GdkEventButton *ev)
     int xtile, ytile;
     struct packet_city_request packet;
 
-    xtile=ev->x/NORMAL_TILE_WIDTH;
-    ytile=ev->y/NORMAL_TILE_HEIGHT;
+    city_get_map_xy(ev->x, ev->y, &xtile, &ytile);
     packet.city_id=pcity->id;
     packet.worker_x=xtile;
     packet.worker_y=ytile;

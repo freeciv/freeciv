@@ -16,9 +16,6 @@
 struct unit;
 struct city;
 
-int map_canvas_adjust_x(int x);
-int map_canvas_adjust_y(int y);
-
 int tile_visible_mapcanvas(int x, int y);
 int tile_visible_and_not_on_border_mapcanvas(int x, int y);
 
@@ -46,13 +43,19 @@ void put_city_workers(struct city *pcity, int color);
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int x1, int y1);
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1);
-void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0);
+void put_nuke_mushroom_pixmaps(int x, int y);
 
 void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen);
 
-void undraw_segment(int src_x, int src_y, int dir);
+  
+#ifdef ISOMETRIC
+void draw_segment(int src_x, int src_y, int dir,
+		  int write_to_screen);
+#else
 void draw_segment(int src_x, int src_y, int dir);
+#endif
+void undraw_segment(int src_x, int src_y, int dir);
 
 #endif  /* FC__MAPVIEW_G_H */

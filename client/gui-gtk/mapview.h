@@ -31,18 +31,27 @@ SPRITE *get_citizen_sprite(int frame);
 gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev);
 gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev);
 
-void put_city_tile_output(GdkDrawable *pm, int x, int y, 
+void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y, 
 			  int food, int shield, int trade);
-void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile);
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile);
 
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);
-void pixmap_put_black_tile(GdkDrawable *pm, int x, int y);
+#ifdef ISOMETRIC
+void put_one_tile_full(GdkDrawable *pm, int x, int y,
+		       int canvas_x, int canvas_y, int citymode);
+void pixmap_frame_tile_red(GdkDrawable *pm,
+			   int canvas_x, int canvas_y);
+#else
+void pixmap_put_tile(GdkDrawable *pm, int x, int y,
+		     int canvas_x, int canvas_y, int citymode);
+void pixmap_put_black_tile(GdkDrawable *pm,
+			   int canvas_x, int canvas_y);
 void pixmap_frame_tile_red(GdkDrawable *pm, int x, int y);
-void pixmap_put_tile(GdkDrawable *pm, int x, int y, int map_x, int map_y, 
-		     int citymode);
+#endif
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
+
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 
 #endif  /* FC__MAPVIEW_H */

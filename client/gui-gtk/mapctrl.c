@@ -262,8 +262,7 @@ gint butt_down_wakeup(GtkWidget *widget, GdkEventButton *event)
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE||!(event->state & GDK_SHIFT_MASK))
     return TRUE;
 
-  xtile=map_adjust_x(map_view_x0+event->x/NORMAL_TILE_WIDTH);
-  ytile=map_adjust_y(map_view_y0+event->y/NORMAL_TILE_HEIGHT);
+  get_map_xy(event->x, event->y, &xtile, &ytile);
 
   wakeup_sentried_units(xtile,ytile);
   return TRUE;
@@ -284,8 +283,7 @@ gint butt_down_mapcanvas(GtkWidget *widget, GdkEventButton *event)
     return TRUE;
   }
 
-  xtile=map_adjust_x(map_view_x0+event->x/NORMAL_TILE_WIDTH);
-  ytile=map_adjust_y(map_view_y0+event->y/NORMAL_TILE_HEIGHT);
+  get_map_xy(event->x, event->y, &xtile, &ytile);
 
   if(event->button==1) {
     do_map_click(xtile, ytile);
@@ -319,8 +317,7 @@ void update_line(int window_x, int window_y)
 
   if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
-    x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
-    y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
+    get_map_xy(window_x, window_y, &x, &y);
 
     get_line_dest(&old_x, &old_y);
     if (old_x != x || old_y != y) {
@@ -384,8 +381,7 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return TRUE;
 
-  x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
-  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
+  get_map_xy(ev->x, ev->y, &x, &y);
 
   if(!(pcity = find_city_near_tile(x,y)))  return TRUE;
 
@@ -422,7 +418,11 @@ gint butt_down_overviewcanvas(GtkWidget *widget, GdkEventButton *event)
   if (event->type != GDK_BUTTON_PRESS)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
+#ifdef ISOMETRIC
+  xtile=event->x/2-(map.xsize/2-(map_view_x0+(map_canvas_store_twidth+map_canvas_store_theight)/2));
+#else
   xtile=event->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
+#endif
   ytile=event->y/2;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
@@ -455,13 +455,10 @@ gint key_city_workers(GtkWidget *widget, GdkEventKey *ev)
     return TRUE;
   
   gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
-
-  x/=NORMAL_TILE_WIDTH; y/=NORMAL_TILE_HEIGHT;
-  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
+  get_map_xy(x, y, &x, &y);
 
   pcity = find_city_near_tile(x,y);
   if(pcity==NULL) return TRUE;
-
 
   /* Shade tiles on usage */
   city_workers_color = (city_workers_color%3)+1;

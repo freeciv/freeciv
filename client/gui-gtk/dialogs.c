@@ -1746,13 +1746,13 @@ void popup_unit_select_dialog(struct tile *ptile)
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
 
-    pix = gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    pix = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
     unit_select_commands[i]=gtk_button_new();
     gtk_widget_set_sensitive(unit_select_commands[i],
        can_unit_do_activity(punit, ACTIVITY_IDLE) );
     gtk_widget_set_usize(unit_select_commands[i],
-       NORMAL_TILE_WIDTH+4, NORMAL_TILE_HEIGHT+4);
+			 UNIT_TILE_WIDTH+4, UNIT_TILE_HEIGHT+4);
     gtk_container_add(GTK_CONTAINER(unit_select_commands[i]), pix);
     gtk_box_pack_start(GTK_BOX(hbox),unit_select_commands[i],
        FALSE, FALSE, 0);

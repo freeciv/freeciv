@@ -5,17 +5,17 @@
 options = "+tilespec2"
 
 ; A simple name for the tileset specified by this file:
-name = "Trident"
+name = "HiRes"
 
 ; TODO: add more overall information fields on tiles, 
 ; eg, description, authors, colors, etc.
 
 ; Basic tile sizes:
-normal_tile_width  = 30
-normal_tile_height = 30
+normal_tile_width  = 64
+normal_tile_height = 32
 small_tile_width   = 15
 small_tile_height  = 20
-is_isometric = 0
+is_isometric = 1
 
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
@@ -36,13 +36,14 @@ minimap_intro_file = "misc/radar"
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files = 
-  "trident/tiles.spec",
+  "hires/terrain1.spec",
+  "hires/terrain2.spec",
+  "hires/tiles.spec",
   "misc/small.spec",
-  "trident/units.spec",
+  "hires/units.spec",
   "trident/flags.spec",
-  "trident/roads.spec",
   "misc/space.spec",
   "misc/treaty.spec",
-  "trident/cities.spec",
-  "trident/explosions.spec"
+  "hires/cities.spec",
+  "hires/icons.spec"
 

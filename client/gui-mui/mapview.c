@@ -469,6 +469,15 @@ void refresh_overview_viewrect(void)
 void update_map_canvas(int tile_x, int tile_y, int width, int height,
 		       int write_to_screen)
 {
+  I changed the meaning of tile_x, tile_y to be absolute map coordiantes
+  instead of relative to map_view_[xy]. This turned out to be a much more
+  intuitive interface in the rest of the code.
+  As you may guess I havent modified the gui-mui code, which is why you
+  read this.
+  Btw, I think it would be fairly easy to copy the isometric view
+  implementations; just replace the GCs and calls to gdk_draw_x().
+    -Thue
+
   DoMethod(main_map_area, MUIM_Map_Refresh, tile_x, tile_y, width, height, write_to_screen);
 }
 

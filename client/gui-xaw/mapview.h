@@ -25,11 +25,13 @@ struct city;
 Pixmap get_thumb_pixmap(int onoff);
 Pixmap get_citizen_pixmap(int frame);
 
-void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile);
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
+void put_unit_pixmap(struct unit *punit, Pixmap pm,
+		     int canvas_x, int canvas_y);
 
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm);
 
-void put_city_tile_output(Pixmap pm, int x, int y, 
+void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y, 
 			  int food, int shield, int trade);
 
 void overview_canvas_expose(Widget w, XEvent *event, Region exposed, 
@@ -38,10 +40,10 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		       void *client_data);
 void map_canvas_resize(void);
 
-void pixmap_put_tile(Pixmap pm, int x, int y, int map_x, int map_y, 
+void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y, 
 		     int citymode);
-void pixmap_put_black_tile(Pixmap pm, int x, int y);
-void pixmap_frame_tile_red(Pixmap pm, int x, int y);
+void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y);
+void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y);
 
 void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,
 			     XtPointer percent_ptr);

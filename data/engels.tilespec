@@ -15,6 +15,7 @@ normal_tile_width  = 45
 normal_tile_height = 45
 small_tile_width   = 15
 small_tile_height  = 20
+is_isometric = 0
 
 ; Font to use to draw city names:
 city_names_font = "10x20"

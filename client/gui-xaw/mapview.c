@@ -115,6 +115,41 @@ Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 /**************************************************************************
+Finds the pixel coordinates of a tile.
+Beside setting the results in canvas_x,canvas_y it returns whether the tile
+is inside the visible map.
+**************************************************************************/
+static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  if (map_view_x0+map_canvas_store_twidth <= map.xsize)
+    *canvas_x = map_x-map_view_x0;
+  else if(map_x >= map_view_x0)
+    *canvas_x = map_x-map_view_x0;
+  else if(map_x < map_adjust_x(map_view_x0+map_canvas_store_twidth))
+    *canvas_x = map_x+map.xsize-map_view_x0;
+  else *canvas_x = -1;
+
+  *canvas_y = map_y - map_view_y0;
+
+  *canvas_x *= NORMAL_TILE_WIDTH;
+  *canvas_y *= NORMAL_TILE_HEIGHT;
+
+  return *canvas_x >= 0
+    && *canvas_x < map_canvas_store_twidth*NORMAL_TILE_WIDTH
+    && *canvas_y >= 0
+    && *canvas_y < map_canvas_store_twidth*NORMAL_TILE_HEIGHT;
+}
+
+/**************************************************************************
+Finds the map coordinates corresponding to pixel coordinates.
+**************************************************************************/
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
+  *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
@@ -123,6 +158,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int i;
+  int canvas_x, canvas_y;
 
   if (!do_combat_animation) {
     punit0->hp = hp0;
@@ -156,6 +192,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
+  get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
   for (i = 0; i < num_tiles_explode_unit; i++) {
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
@@ -167,8 +204,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
 	      0, 0,
 	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-	      map_canvas_adjust_x(losing_unit->x) * NORMAL_TILE_WIDTH,
-	      map_canvas_adjust_y(losing_unit->y) * NORMAL_TILE_HEIGHT );
+	      canvas_x, canvas_y);
 
     XSync(display, 0);
     usleep_since_timer_start(anim_timer, 20000);
@@ -387,37 +423,13 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int map_canvas_adjust_x(int x)
-{
-  if(map_view_x0+map_canvas_store_twidth<=map.xsize)
-     return x-map_view_x0;
-  else if(x>=map_view_x0)
-     return x-map_view_x0;
-  else if(x<map_adjust_x(map_view_x0+map_canvas_store_twidth))
-     return x+map.xsize-map_view_x0;
-
-  return -1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int map_canvas_adjust_y(int y)
-{
-  return y-map_view_y0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 {
   x=map_adjust_x(x);
   y=map_adjust_y(y);
 
   if(tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(map_canvas_adjust_x(x), 
-		      map_canvas_adjust_y(y), 1, 1, write_to_screen);
+    update_map_canvas(x, y, 1, 1, write_to_screen);
   }
   overview_update_tile(x, y);
 }
@@ -482,12 +494,7 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
       steps = smooth_move_unit_steps;
     }
 
-    if(x0 >= map_view_x0) {
-      start_x = (x0 - map_view_x0) * NORMAL_TILE_WIDTH;
-    } else {
-      start_x = (map.xsize - map_view_x0 + x0) * NORMAL_TILE_WIDTH;
-    }
-    start_y = (y0 - map_view_y0) * NORMAL_TILE_HEIGHT;
+    get_canvas_xy(x0, y0, &start_x, & start_y);
 
     this_x = start_x;
     this_y = start_y;
@@ -524,8 +531,8 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *x, int *y)
 {
-  *x=map_adjust_x(map_view_x0+map_canvas_store_twidth/2);
-  *y=map_adjust_y(map_view_y0+map_canvas_store_theight/2);
+  *x = map_adjust_x(map_view_x0+map_canvas_store_twidth/2);
+  *y = map_adjust_y(map_view_y0+map_canvas_store_theight/2);
 }
 
 /**************************************************************************
@@ -544,7 +551,7 @@ void center_tile_mapcanvas(int x, int y)
   map_view_x0=new_map_view_x0;
   map_view_y0=new_map_view_y0;
 
-  update_map_canvas(0, 0, map_canvas_store_twidth,map_canvas_store_theight, 1);
+  update_map_canvas_visible();
   update_map_canvas_scrollbars();
   
   refresh_overview_viewrect();
@@ -720,8 +727,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		     NORMAL_TILE_WIDTH*map_canvas_store_twidth,
 		     NORMAL_TILE_HEIGHT*map_canvas_store_theight);
 
-      update_map_canvas(0, 0, map_canvas_store_twidth,
-			map_canvas_store_theight, 1);
+      update_map_canvas_visible();
 
       update_map_canvas_scrollbars();
       refresh_overview_viewrect();
@@ -760,30 +766,32 @@ void map_canvas_resize(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_map_canvas(int tile_x, int tile_y, int width, int height, 
+void update_map_canvas(int x, int y, int width, int height, 
 		       int write_to_screen)
 {
-  int x, y;
+  int x_itr, y_itr;
+  int canvas_x, canvas_y;
 
-  for(y=tile_y; y<tile_y+height; y++)
-    for(x=tile_x; x<tile_x+width; x++)
-      pixmap_put_tile(map_canvas_store, x, y, 
-		      (map_view_x0+x)%map.xsize, map_view_y0+y, 0);
+  for (y_itr=y; y_itr<y+height; y_itr++) {
+    for (x_itr=x; x_itr<x+width; x_itr++) {
+      int map_x = map_adjust_x(x_itr);
+      int map_y = y_itr;
+      get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
 
-  if(write_to_screen) {
+      if (tile_visible_mapcanvas(map_x, map_y)) {
+	pixmap_put_tile(map_canvas_store, map_x, map_y,
+			canvas_x, canvas_y, 0);
+      }
+    }
+  }
+
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+  if (write_to_screen) {
     XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
 	      civ_gc, 
-	      tile_x*NORMAL_TILE_WIDTH, 
-	      tile_y*NORMAL_TILE_HEIGHT, 
-	      width*NORMAL_TILE_WIDTH,
-	      height*NORMAL_TILE_HEIGHT,
-	      tile_x*NORMAL_TILE_WIDTH, 
-	      tile_y*NORMAL_TILE_HEIGHT);
-
-    if(width==map_canvas_store_twidth && height==map_canvas_store_theight) {
-      show_city_descriptions();
-    }
-    
+	      canvas_x, canvas_y,
+	      width*NORMAL_TILE_WIDTH, height*NORMAL_TILE_HEIGHT,
+	      canvas_x, canvas_y);
   }
 }
 
@@ -792,7 +800,9 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
+  update_map_canvas(map_view_x0, map_view_y0,
+		    map_canvas_store_twidth, map_canvas_store_theight, 1);
+  show_city_descriptions();
 }
 
 /**************************************************************************
@@ -814,8 +824,7 @@ Update display of descriptions associated with cities on the main map.
 **************************************************************************/
 void update_city_descriptions(void)
 {
-  update_map_canvas(0, 0, map_canvas_store_twidth,
-		    map_canvas_store_theight, 1);
+  update_map_canvas_visible();
 }
 
 /**************************************************************************
@@ -903,62 +912,57 @@ static void show_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_city_tile_output(Pixmap pm, int x, int y, 
+void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y, 
 			  int food, int shield, int trade)
 {
   food = CLIP(0, food, NUM_TILES_DIGITS-1);
   trade = CLIP(0, trade, NUM_TILES_DIGITS-1);
   shield = CLIP(0, shield, NUM_TILES_DIGITS-1);
   
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_foodnum[food]);
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_shieldnum[shield]);
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_tradenum[trade]);
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_foodnum[food]);
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_shieldnum[shield]);
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites.city.tile_tradenum[trade]);
 }
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
+void put_unit_pixmap(struct unit *punit, Pixmap pm,
+		     int canvas_x, int canvas_y)
 {
   struct Sprite *sprites[40];
   int count = fill_unit_sprite_array(sprites, punit);
 
-  if(count)
-  {
+  if (count) {
     int i;
 
-    if(sprites[0])
-    {
-      if(flags_are_transparent)
-      {
-        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[0]);
-      } else
-      {
+    if (sprites[0]) {
+      if (flags_are_transparent) {
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
+      } else {
         XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
                   sprites[0]->width, sprites[0]->height, 
-                  xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
+                  canvas_x, canvas_y);
       }
-    } else
-    {
+    } else {
       XSetForeground(display, fill_bg_gc,
 		     colors_standard[player_color(get_player(punit->owner))]);
       XFillRectangle(display, pm, fill_bg_gc, 
-                     xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
+		     canvas_x, canvas_y,
                      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
 
-    for(i=1;i<count;i++)
-    {
-      if(sprites[i])
-        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[i]);
+    for (i=1;i<count;i++) {
+      if (sprites[i]) {
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
+      }
     }
   }
 }
 
 
 /**************************************************************************
-  ...
   FIXME: 
   For now only two food, one shield and two masks can be drawn per unit,
   the proper way to do this is probably something like what Civ II does.
@@ -986,43 +990,44 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
+void put_nuke_mushroom_pixmaps(int x, int y)
 {
-  int x, y;
+  int x_itr, y_itr;
 
-  for(y=0; y<3; y++) {
-    for(x=0; x<3; x++) {
-      int map_x = map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH;
-      int map_y = map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT;
-      struct Sprite *mysprite = sprites.explode.nuke[y][x];
+  for (x_itr = 0; x_itr<3; x_itr++) {
+    for (y_itr = 0; y_itr<3; y_itr++) {
+      int x1 = x + x_itr -1;
+      int y1 = y + y_itr -1;
+      if (normalize_map_pos(&x1, &y1)) {
+	int canvas_x, canvas_y;
+	struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
 
-      XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
-		map_x, map_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		0, 0);
-      pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
-      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
-		0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		map_x, map_y);
+	get_canvas_xy(x1, y1, &canvas_x, &canvas_y);
+	XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
+		  canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		  0, 0);
+	pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
+	XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
+		  0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		  canvas_x, canvas_y);
+      }
     }
   }
-
   XSync(display, 0);
   sleep(1);
 
-  update_map_canvas(map_canvas_adjust_x(abs_x0-1),
-                    map_canvas_adjust_y(abs_y0-1),
-		    3, 3, 1);
+  update_map_canvas(x-1, y-1, 3, 3, 1);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_put_black_tile(Pixmap pm, int x, int y)
+void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y)
 {
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
 
   XFillRectangle(display, pm, fill_bg_gc,  
-		 x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		 canvas_x, canvas_y,
 		 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 }
 		     
@@ -1030,130 +1035,116 @@ void pixmap_put_black_tile(Pixmap pm, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_frame_tile_red(Pixmap pm, int x, int y)
+void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y)
 {
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RED]);
 
   XDrawRectangle(display, pm, fill_bg_gc,  
-		 x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		 canvas_x, canvas_y,
 		 NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1);
   XDrawRectangle(display, pm, fill_bg_gc,  
-		 x*NORMAL_TILE_WIDTH+1, y*NORMAL_TILE_HEIGHT+1,
+		 canvas_x+1, canvas_y+1,
 		 NORMAL_TILE_WIDTH-3, NORMAL_TILE_HEIGHT-3);
   XDrawRectangle(display, pm, fill_bg_gc,  
-		 x*NORMAL_TILE_WIDTH+2, y*NORMAL_TILE_HEIGHT+2,
+		 canvas_x+2, canvas_y+2,
 		 NORMAL_TILE_WIDTH-5, NORMAL_TILE_HEIGHT-5);
 }
-
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0, 
+void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y, 
 		     int citymode)
 {
   struct Sprite *sprites[80];
-  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
+  int count = fill_tile_sprite_array(sprites, x, y, citymode);
 
-  int x1 = x * NORMAL_TILE_WIDTH;
-  int y1 = y * NORMAL_TILE_HEIGHT;
-
-  if(count)
-  {
+  if(count) {
     int i;
 
-    if(sprites[0])
-    {
+    if (sprites[0]) {
       /* first tile without mask */
       XCopyArea(display, sprites[0]->pixmap, pm, 
-              civ_gc, 0, 0,
-              sprites[0]->width, sprites[0]->height, x1,y1);
-    } else
-    {
+		civ_gc, 0, 0,
+		sprites[0]->width, sprites[0]->height, canvas_x, canvas_y);
+    } else {
       /* normally when solid_color_behind_units */
-      struct city *pcity;
-      struct player *pplayer=NULL;
+      struct city *pcity = map_get_city(x, y);
+      struct player *pplayer = NULL;
 
-      if(count>1 && !sprites[1])
-      {
+      if (count>1 && !sprites[1]) {
         /* it's the unit */
-        struct tile *ptile;
-        struct unit *punit;
-        ptile=map_get_tile(abs_x0, abs_y0);
-        if ((punit=find_visible_unit(ptile)))
+        struct tile *ptile = map_get_tile(x, y);
+        struct unit *punit = find_visible_unit(ptile);
+	if (punit) {
           pplayer = &game.players[punit->owner];
-
-      } else
-      {
+	}
+      } else {
         /* it's the city */
-        if((pcity=map_get_city(abs_x0, abs_y0)))
+        if (pcity)
           pplayer = &game.players[pcity->owner];
       }
 
-      if(pplayer)
-      {
+      if (pplayer) {
         XSetForeground(display, fill_bg_gc,
 		       colors_standard[player_color(pplayer)]);
         XFillRectangle(display, pm, fill_bg_gc, 
-                       x1,y1,NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+                       canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       }
     }
 
-    for(i=1;i<count;i++)
-    {
-      if(sprites[i])
-        pixmap_put_overlay_tile(pm, x, y, sprites[i]);
+    for (i=1;i<count;i++) {
+      if (sprites[i])
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
     }
 
-    if(draw_map_grid && !citymode) {
+    if (draw_map_grid && !citymode) {
       int here_in_radius =
-	player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
+	player_in_city_radius(game.player_ptr, x, y);
       /* left side... */
-      if((map_get_tile(abs_x0-1, abs_y0))->known &&
-	 (here_in_radius ||
-	  player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0))) {
+      if ((map_get_tile(x-1, y))->known &&
+	  (here_in_radius ||
+	   player_in_city_radius(game.player_ptr, x-1, y))) {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
       } else {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
       }
       XDrawLine(display, pm, civ_gc,
-		x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		x*NORMAL_TILE_WIDTH, (y+1)*NORMAL_TILE_HEIGHT);
+		canvas_x, canvas_y,
+		canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
       /* top side... */
-      if((map_get_tile(abs_x0, abs_y0-1))->known &&
-	 (here_in_radius ||
-	  player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1))) {
+      if ((map_get_tile(x, y-1))->known &&
+	  (here_in_radius ||
+	   player_in_city_radius(game.player_ptr, x, y-1))) {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
       } else {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
       }
       XDrawLine(display, pm, civ_gc,
-		x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		(x+1)*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+		canvas_x, canvas_y,
+		canvas_x + NORMAL_TILE_WIDTH, canvas_y);
     }
-
-  } else
-  {
+  } else {
     /* tile is unknow */
-    pixmap_put_black_tile(pm, x,y);
+    pixmap_put_black_tile(pm, canvas_x, canvas_y);
   }
 
   if (!citymode) {
     /* put any goto lines on the tile. */
-    if (abs_y0 >= 0 && abs_y0 < map.ysize) {
+    if (y >= 0 && y < map.ysize) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(abs_x0, abs_y0, dir)) {
-	  put_line(map_canvas_store, abs_x0, abs_y0, dir);
+	if (get_drawn(x, y, dir)) {
+	  put_line(map_canvas_store, x, y, dir);
 	}
       }
     }
 
     /* Some goto lines overlap onto the tile... */
     if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-      int line_x = abs_x0 - 1;
-      int line_y = abs_y0;
+      int line_x = x - 1;
+      int line_y = y;
       if (normalize_map_pos(&line_x, &line_y)
 	  && get_drawn(line_x, line_y, 2)) {
 	/* it is really only one pixel in the top right corner */
@@ -1163,21 +1154,22 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   }
 }
 
+  
 /**************************************************************************
 ...
 **************************************************************************/
-static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
+static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
  				    struct Sprite *ssprite)
 {
   if (!ssprite) return;
       
-  XSetClipOrigin(display, civ_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+  XSetClipOrigin(display, civ_gc, canvas_x, canvas_y);
   XSetClipMask(display, civ_gc, ssprite->mask);
       
   XCopyArea(display, ssprite->pixmap, pixmap, 
 	    civ_gc, 0, 0,
 	    ssprite->width, ssprite->height, 
-	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+	    canvas_x, canvas_y);
   XSetClipMask(display, civ_gc, None); 
 }
 
@@ -1186,12 +1178,14 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
 **************************************************************************/
 void put_cross_overlay_tile(int x,int y)
 {
+  int canvas_x, canvas_y;
   x=map_adjust_x(x);
   y=map_adjust_y(y);
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
-  if(tile_visible_mapcanvas(x, y)) {
-    pixmap_put_overlay_tile(XtWindow(map_canvas),map_canvas_adjust_x(x),
-			    map_canvas_adjust_y(y), sprites.user.attention);
+  if (tile_visible_mapcanvas(x, y)) {
+    pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
+			    sprites.user.attention);
   }
 }
 
@@ -1201,44 +1195,49 @@ void put_cross_overlay_tile(int x,int y)
 **************************************************************************/
 void put_city_workers(struct city *pcity, int color)
 {
-  int x,y;
-  int i,j;
-  static struct city *last_pcity=NULL;
+  int canvas_x, canvas_y;
+  int i, j;
+  static struct city *last_pcity = NULL;
 
-  if(color==-1) {
-    if(pcity!=last_pcity)  city_workers_color = (city_workers_color%3)+1;
-    color=city_workers_color;
+  if (color == -1) {
+    if (pcity != last_pcity)
+      city_workers_color = (city_workers_color%3)+1;
+    color = city_workers_color;
   }
 
   XSetForeground(display, fill_tile_gc, colors_standard[color]);
-  x=map_canvas_adjust_x(pcity->x); y=map_canvas_adjust_y(pcity->y);
+  get_canvas_xy(pcity->x, pcity->y, &canvas_x, &canvas_y);
   city_map_iterate(i, j)  {
-    enum city_tile_type t=get_worker_city(pcity, i, j);
-    enum city_tile_type last_t=-1;
-    if(!(i==2 && j==2)) {
-      if(t==C_TILE_EMPTY) {
-	if(last_t!=t) XSetStipple(display,fill_tile_gc,gray25);
-      } else if(t==C_TILE_WORKER) {
-	if(last_t!=t) XSetStipple(display,fill_tile_gc,gray50);
-      } else continue;
-      last_t=t;
-      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc, 
-		(x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT, 
-		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		(x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT);
-      XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
-		     (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
-		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-    if(t==C_TILE_WORKER) {
-      put_city_tile_output(XtWindow(map_canvas), x+i-2, y+j-2, 
-			   city_get_food_tile(i, j, pcity),
-			   city_get_shields_tile(i, j, pcity), 
-			   city_get_trade_tile(i, j, pcity) );
+    enum city_tile_type worked = get_worker_city(pcity, i, j);
+    int x = pcity->x + i - CITY_MAP_SIZE/2;
+    int y = pcity->y + j - CITY_MAP_SIZE/2;
+    if (normalize_map_pos(&x, &y)) {
+      get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      if (!(i==2 && j==2)) {
+	if (worked == C_TILE_EMPTY) {
+	  XSetStipple(display, fill_tile_gc,gray25);
+	} else if (worked == C_TILE_WORKER) {
+	  XSetStipple(display, fill_tile_gc,gray50);
+	} else continue;
+	XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc, 
+		  canvas_x, canvas_y,
+		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		  canvas_x, canvas_y);
+	XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
+		       canvas_x, canvas_y,
+		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      }
+      if (worked == C_TILE_WORKER) {
+	put_city_tile_output(XtWindow(map_canvas),
+			     canvas_x, canvas_y, 
+			     city_get_food_tile(i, j, pcity),
+			     city_get_shields_tile(i, j, pcity), 
+			     city_get_trade_tile(i, j, pcity) );
+      }
     }
   }
 
-  last_pcity=pcity;
+  last_pcity = pcity;
 }
 
 
@@ -1264,7 +1263,7 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 	map_view_y0;
   }
 
-  update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
+  update_map_canvas_visible();
   /* The scrollbar tracks by itself, while calling the jumpProc,
      so there's no need to call update_map_canvas_scrollbars() here. */
   refresh_overview_viewrect();
@@ -1300,7 +1299,7 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
   map_view_y0=map_adjust_y(map_view_y0);
 
 
-  update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
+  update_map_canvas_visible();
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
 }
@@ -1310,10 +1309,12 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 static void put_line(Pixmap pm, int x, int y, int dir)
 {
-  int canvas_src_x = map_canvas_adjust_x(x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-  int canvas_src_y = map_canvas_adjust_y(y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-  int canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
-  int canvas_dest_y = canvas_src_y + (NORMAL_TILE_HEIGHT * DIR_DY[dir])/2;
+  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
+  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
+  canvas_src_x += NORMAL_TILE_WIDTH/2;
+  canvas_src_y += NORMAL_TILE_HEIGHT/2;
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
 
   XSetForeground(display, civ_gc, colors_standard[COLOR_STD_CYAN]);
 

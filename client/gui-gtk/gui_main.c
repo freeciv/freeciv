@@ -97,8 +97,9 @@ GtkWidget *	toplevel;
 
 GdkGC *		civ_gc;
 GdkGC *		fill_bg_gc;
+GdkGC *         thin_line_gc, *thick_line_gc;
 GdkGC *		fill_tile_gc;
-GdkPixmap *	gray50, *gray25;
+GdkPixmap *	gray50, *gray25, *black50;
 GdkGC *		mask_fg_gc;
 GdkGC *		mask_bg_gc;
 GdkPixmap *	mask_bitmap;
@@ -186,6 +187,36 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 
     switch (event->keyval)
     {
+#ifdef ISOMETRIC
+    case GDK_Up:
+    case GDK_8:
+    case GDK_KP_8:
+    case GDK_KP_Up:		key_move_north_west();		break;
+    case GDK_9:
+    case GDK_KP_9:
+    case GDK_KP_Page_Up:	key_move_north();		break;
+    case GDK_Right:
+    case GDK_6:
+    case GDK_KP_6:
+    case GDK_KP_Right:		key_move_north_east();		break;
+    case GDK_3:
+    case GDK_KP_3:
+    case GDK_KP_Page_Down:	key_move_east();		break;
+    case GDK_Down:
+    case GDK_2:
+    case GDK_KP_2:
+    case GDK_KP_Down:		key_move_south_east();		break;
+    case GDK_1:
+    case GDK_KP_1:
+    case GDK_KP_End:		key_move_south();		break;
+    case GDK_Left:
+    case GDK_4:
+    case GDK_KP_4:
+    case GDK_KP_Left:		key_move_south_west();		break;
+    case GDK_7:
+    case GDK_KP_7:
+    case GDK_KP_Home:		key_move_west();		break;
+#else
     case GDK_Up:
     case GDK_8:
     case GDK_KP_8:
@@ -214,6 +245,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_7:
     case GDK_KP_7:
     case GDK_KP_Home:		key_move_north_west();		break;
+#endif
     case GDK_KP_Begin:
     case GDK_5:
     case GDK_KP_5:		focus_to_next_unit();		break;
@@ -470,7 +502,7 @@ static void setup_widgets(void)
     gtk_table_set_row_spacings(GTK_TABLE(table), 2);
     gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
-    unit_pixmap=gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    unit_pixmap=gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
     unit_pixmap_button=gtk_event_box_new();
     gtk_container_add(GTK_CONTAINER(unit_pixmap_button),unit_pixmap);
@@ -481,7 +513,8 @@ static void setup_widgets(void)
 
     for (i=0; i<num_units_below; i++)
     {
-      unit_below_pixmap[i]=gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      unit_below_pixmap[i]=gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
+					   UNIT_TILE_HEIGHT);
       unit_below_pixmap_button[i]=gtk_event_box_new();
       gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
         unit_below_pixmap[i]);
@@ -492,7 +525,7 @@ static void setup_widgets(void)
       gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
     	  i, i+1, 1, 2);
       gtk_widget_set_usize(unit_below_pixmap[i],
-            NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+			   UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
       gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
     }
 
@@ -648,14 +681,31 @@ void ui_main(int argc, char **argv)
   }
 
   fill_bg_gc = gdk_gc_new(root_window);
+#ifdef ISOMETRIC
+  thin_line_gc = gdk_gc_new(root_window);
+  thick_line_gc = gdk_gc_new(root_window);
+  gdk_gc_set_line_attributes(thin_line_gc,
+			     1,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes(thick_line_gc,
+			     2,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+#endif
+
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
 
   {
     unsigned char d1[]={0x03,0x0c,0x03,0x0c};
     unsigned char d2[]={0x08,0x02,0x08,0x02};
+    unsigned char d3[]={0xAA,0x55,0xAA,0x55};
     gray50=gdk_bitmap_create_from_data(root_window,d1,4,4);
     gray25=gdk_bitmap_create_from_data(root_window,d2,4,4);
+    black50 = gdk_bitmap_create_from_data(root_window,d3,4,4);
   }
 
   {
@@ -712,8 +762,11 @@ void ui_main(int argc, char **argv)
   gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, 0, 0,
               overview_canvas_store_width, overview_canvas_store_height);
 
+  single_tile_pixmap_width = UNIT_TILE_WIDTH;
+  single_tile_pixmap_height = UNIT_TILE_HEIGHT;
   single_tile_pixmap	      = gdk_pixmap_new(root_window, 
-        			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
+					       single_tile_pixmap_width,
+					       single_tile_pixmap_height, -1);
 
   load_options();
 

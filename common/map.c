@@ -48,6 +48,10 @@ const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 const int CAR_DIR_DX[4] = {1, 0, -1, 0};
 const int CAR_DIR_DY[4] = {0, 1, 0, -1};
 
+/* used to compute neighboring tiles */
+const int DIR_DX2[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+const int DIR_DY2[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
+
 /* Names of specials.
  * (These must correspond to enum tile_special_type in terrain.h.)
  */

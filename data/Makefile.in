@@ -102,12 +102,12 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 
-pkgdata_DATA =  	Freeciv		freeciv.rc		engels.tilespec		engels_shields.tilespec		trident.tilespec		trident_shields.tilespec		helpdata.txt		civ1.serv		civ2.serv
+pkgdata_DATA =  	Freeciv		freeciv.rc		engels.tilespec		engels_shields.tilespec		trident.tilespec		trident_shields.tilespec		hires.tilespec 	helpdata.txt		civ1.serv		civ2.serv
 
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation
+SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation hires
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 

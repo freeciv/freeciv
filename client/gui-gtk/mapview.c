@@ -21,6 +21,7 @@
 #include <unistd.h>
 #endif
 
+#include <assert.h>
 #include <gtk/gtk.h>
 
 #include <gdk_imlib.h>
@@ -28,6 +29,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
+#include "log.h"
 #include "map.h"
 #include "player.h"
 #include "rand.h"
@@ -61,7 +63,13 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 
 -Thue
 */
+#ifdef ISOMETRIC
+/* If we have isometric view we need to be able to scroll a little extra down.
+   The places that needs to be adjusted are the same as above. */
+#define EXTRA_BOTTOM_ROW 6
+#else
 #define EXTRA_BOTTOM_ROW 1
+#endif
 
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
@@ -92,7 +100,7 @@ extern int		overview_canvas_store_width, overview_canvas_store_height;
 extern GdkPixmap *	single_tile_pixmap;
 extern int		single_tile_pixmap_width, single_tile_pixmap_height;
 
-extern GdkPixmap *gray50,*gray25;
+extern GdkPixmap *gray50,*gray25,*black50;
 extern int city_workers_color;
 
 /* contains the x0, y0 coordinates of the upper left corner block */
@@ -108,6 +116,7 @@ extern GdkWindow *	root_window;
 extern GdkGC *		civ_gc;
 extern GdkGC *		fill_bg_gc;
 extern GdkGC *		fill_tile_gc;
+extern GdkGC *          thin_line_gc, *thick_line_gc;
 
 extern GdkGC *		mask_fg_gc;
 extern GdkGC *		mask_bg_gc;
@@ -115,12 +124,64 @@ extern GdkGC *		mask_bg_gc;
 extern GdkFont *	main_font;
 extern GdkFont *city_productions_font;
 
-static void pixmap_put_overlay_tile(GdkPixmap *pixmap,
-				    int x, int y, struct Sprite *ssprite);
+#ifdef ISOMETRIC
+/* T: area above the actual tile.
+   M: the top of the actual tile.
+   B: the bottom of the actual tile.
+   L: left.
+   R: right.
+*/
+enum draw_part {
+  D_T_L = 1, D_T_R = 2, D_M_L = 4, D_M_R = 8, D_B_L = 16, D_B_R = 32
+};
+
+/* Format: D_[TMB]+_[LR]+.
+   The drawing algorithm don't take all possible combinations into account,
+   but only those that are rectangles.
+*/
+/* Some usefull definitions: */
+enum draw_type {
+  D_FULL = D_T_L | D_T_R | D_M_L | D_M_R | D_B_L | D_B_R,
+  D_B_LR = D_B_L | D_B_R,
+  D_MB_L = D_M_L | D_B_L,
+  D_MB_R = D_M_R | D_B_R,
+  D_TM_L = D_T_L | D_M_L,
+  D_TM_R = D_T_R | D_M_R,
+  D_T_LR = D_T_L | D_T_R,
+  D_TMB_L = D_T_L | D_M_L | D_B_L,
+  D_TMB_R = D_T_R | D_M_R | D_B_R,
+  D_M_LR = D_M_L | D_M_R,
+  D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
+};
+#endif
+
+static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+				    int canvas_x, int canvas_y,
+				    struct Sprite *ssprite);
 static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
 				     int x, int y, struct Sprite *ssprite);
 static void show_city_descriptions(void);
+static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
+			    int canvas_x, int canvas_y);
+#ifdef ISOMETRIC
+static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
+				 int canvas_x, int canvas_y,
+				 int offset_x, int offset_y_unit,
+				 int width, int height_unit);
+static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+					 int canvas_x, int canvas_y,
+					 struct Sprite *ssprite,
+					 int offset_x, int offset_y,
+					 int width, int height,
+					 int fog);
+static void really_draw_segment(int src_x, int src_y, int dir,
+				int write_to_screen, int force);
+#else
 static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y, int dir);
+#endif
+static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
+				     int x, int y, struct Sprite *ssprite);
+static void show_city_descriptions(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -135,6 +196,593 @@ extern GdkCursor *nuke_cursor;
 extern GdkCursor *patrol_cursor;
 
 GtkObject *		map_hadj, *map_vadj;
+
+#ifdef ISOMETRIC
+
+#define visible_map_iterate(x, y)                                          \
+{                                                                          \
+  int x, y;                                                                \
+  int VMI_w, VMI_h;                                                        \
+                                                                           \
+  for (VMI_h=-1; VMI_h<map_canvas_store_theight*2; VMI_h++) {              \
+    int VMI_x_base = map_view_x0 + VMI_h/2 + (VMI_h != -1 ? VMI_h%2 : 0);  \
+    int VMI_y_base = map_view_y0 + VMI_h/2 + (VMI_h == -1 ? -1 : 0);       \
+    for (VMI_w=0; VMI_w<=map_canvas_store_twidth; VMI_w++) {               \
+      x = (VMI_x_base + VMI_w);                                            \
+      y = VMI_y_base - VMI_w;                                              \
+      if (normalize_map_pos(&x, &y)) {
+
+#define visible_map_iterate_end                                            \
+      }                                                                    \
+    }                                                                      \
+  }                                                                        \
+}
+
+#else
+
+#define visible_map_iterate(x, y)                                          \
+{                                                                          \
+  int x, y;                                                                \
+  int x1, y1;                                                              \
+  for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {                       \
+    x = (map_view_x0 + x) % map.xsize;                                     \
+    for (y1 = 0; y1 < map_canvas_store_twidth; y1++) {                     \
+      y = map_view_y0 + y1;                                                \
+      if (normalize_map_pos(&x, &y)) {
+
+#define visible_map_iterate_end                                            \
+      }                                                                    \
+    }                                                                      \
+  }                                                                        \
+}
+
+#endif
+
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
+				 int canvas_x, int canvas_y,
+				 int offset_x, int offset_y_unit,
+				 int width, int height_unit,
+				 int fog)
+{
+  struct Sprite *sprites[80];
+  int count = fill_city_sprite_array(sprites, pcity);
+  int i;
+
+  for (i=0; i<count; i++) {
+    if (sprites[i]) {
+      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
+				   offset_x, offset_y_unit,
+				   width, height_unit,
+				   fog);
+    }
+  }
+}
+/**************************************************************************
+If x is -1 we never draw the goto line.
+**************************************************************************/
+static void pixmap_put_black_tile(GdkDrawable *pm, int x, int y,
+				  int canvas_x, int canvas_y,
+				  int offset_x, int offset_y,
+				  int width, int height)
+{
+  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+  gdk_gc_set_clip_mask(civ_gc, sprites.black_tile->mask);
+
+  assert(width <= NORMAL_TILE_WIDTH);
+  assert(height <= NORMAL_TILE_HEIGHT);
+  gdk_draw_pixmap(pm, civ_gc, sprites.black_tile->pixmap,
+		  offset_x, offset_y,
+		  canvas_x+offset_x, canvas_y+offset_y,
+		  width, height);
+
+  gdk_gc_set_clip_mask(civ_gc, NULL);
+
+  /* Drawing is cheap; we just draw all the lines.
+     Perhaps this should be optimized, though... */
+  if (x != -1 && y >= 0 && y < map.ysize) {
+    int dir;
+    for (dir = 0; dir < 8; dir++)
+      if (get_drawn(x, y, dir)) {
+	int x1 = x + DIR_DX[dir];
+	int y1 = y + DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1))
+	  really_draw_segment(x, y, dir, 0, 1);
+      }
+  }
+}
+
+/**************************************************************************
+Blend the tile with neighboring tiles.
+**************************************************************************/
+static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
+			int canvas_x, int canvas_y,
+			int offset_x, int offset_y,
+			int width, int height, int fog)
+{
+  if (!width || !height)
+    return;
+
+  gdk_gc_set_clip_mask(civ_gc, sprites.dither_tile->mask);
+  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+  assert(offset_x == 0 || offset_x == NORMAL_TILE_WIDTH/2);
+  assert(offset_y == 0 || offset_y == NORMAL_TILE_HEIGHT/2);
+  assert(width == NORMAL_TILE_WIDTH || width == NORMAL_TILE_WIDTH/2);
+  assert(height == NORMAL_TILE_HEIGHT || height == NORMAL_TILE_HEIGHT/2);
+
+  /* north */
+  if (dither[0]
+      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
+      && (offset_y == 0)) {
+    gdk_draw_pixmap(pixmap, civ_gc, dither[0]->pixmap,
+		    NORMAL_TILE_WIDTH/2, 0,
+		    canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+  }
+
+  /* south */
+  if (dither[1] && offset_x == 0
+      && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
+    gdk_draw_pixmap(pixmap, civ_gc, dither[1]->pixmap,
+		    0, NORMAL_TILE_HEIGHT/2,
+		    canvas_x,
+		    canvas_y + NORMAL_TILE_HEIGHT/2,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+  }
+
+  /* east */
+  if (dither[2]
+      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
+      && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
+    gdk_draw_pixmap(pixmap, civ_gc, dither[2]->pixmap,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+		    canvas_x + NORMAL_TILE_WIDTH/2,
+		    canvas_y + NORMAL_TILE_HEIGHT/2,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+  }
+
+  /* west */
+  if (dither[3] && offset_x == 0 && offset_y == 0) {
+    gdk_draw_pixmap(pixmap, civ_gc, dither[3]->pixmap,
+		    0, 0,
+		    canvas_x,
+		    canvas_y,
+		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+  }
+
+  gdk_gc_set_clip_mask(civ_gc, NULL);
+
+  if (fog) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, sprites.dither_tile->mask);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_stipple(fill_tile_gc, black50);
+
+    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
+		       MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)));
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void pixmap_put_tile(GdkDrawable *pm, int x, int y,
+			    int canvas_x, int canvas_y,
+			    int citymode,
+			    int offset_x, int offset_y, int offset_y_unit,
+			    int width, int height, int height_unit,
+			    enum draw_type draw)
+{
+  struct Sprite *tile_sprs[80];
+  struct Sprite *coasts[4];
+  struct Sprite *dither[4];
+  struct city *pcity;
+  struct unit *punit;
+  enum tile_special_type special;
+  int count, i;
+  int fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED;
+
+  if (!width || !(height || height_unit))
+    return;
+
+  pcity = map_get_city(x, y);
+  punit = get_drawable_unit(x, y, citymode);
+  special = map_get_special(x, y);
+  count = fill_tile_sprite_array(tile_sprs, coasts, dither,
+				 x, y, citymode);
+
+  if (!count) { /* tile is unknown */
+    pixmap_put_black_tile(pm, x, y, canvas_x, canvas_y,
+			  offset_x, offset_y, width, height);
+    return;
+  }
+
+  /*** base terrain. We draw the ocean via the coasts below. ***/
+  if (tile_sprs[0] && map_get_terrain(x, y) != T_OCEAN)
+    pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[0],
+				 offset_x, offset_y, width, height, fog);
+
+  if (map_get_terrain(x, y) == T_OCEAN) { /* coasts */
+    int dx, dy;
+    /* top */
+    dx = offset_x-NORMAL_TILE_WIDTH/4;
+    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
+				 canvas_y, coasts[0],
+				 MAX(0, dx),
+				 offset_y,
+				 MAX(0, width-MAX(0, -dx)),
+				 height,
+				 fog);
+    /* bottom */
+    dx = offset_x-NORMAL_TILE_WIDTH/4;
+    dy = offset_y-NORMAL_TILE_HEIGHT/2;
+    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
+				 canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
+				 MAX(0, dx),
+				 MAX(0, dy),
+				 MAX(0, width-MAX(0, -dx)),
+				 MAX(0, height-MAX(0, -dy)),
+				 fog);
+    /* left */
+    dy = offset_y-NORMAL_TILE_HEIGHT/4;
+    pixmap_put_overlay_tile_draw(pm, canvas_x,
+				 canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
+				 offset_x,
+				 MAX(0, dy),
+				 width,
+				 MAX(0, height-MAX(0, -dy)),
+				 fog);
+    /* right */
+    dx = offset_x-NORMAL_TILE_WIDTH/2;
+    dy = offset_y-NORMAL_TILE_HEIGHT/4;
+    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/2,
+				 canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
+				 MAX(0, dx),
+				 MAX(0, dy),
+				 MAX(0, width-MAX(0, -dx)),
+				 MAX(0, height-MAX(0, -dy)),
+				 fog);
+  }
+
+  /*** Dither base terrain ***/
+  dither_tile(pm, dither, canvas_x, canvas_y,
+	      offset_x, offset_y, width, height, fog);
+
+  /*** Rest of terrain and specials ***/
+  for (i=1; i<count; i++) {
+    if (tile_sprs[i])
+      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[i],
+				   offset_x, offset_y, width, height, fog);
+    else
+      freelog(LOG_ERROR, "sprite is NULL");
+  }
+
+  /*** Map grid ***/
+  if (draw_map_grid) {
+    /* we draw the 2 lines on top of the tile; the buttom lines will be
+       drawn by the tiles underneath. */
+    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
+    if (draw & D_M_R)
+      gdk_draw_line(pm, thin_line_gc,
+		    canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y,
+		    canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+    if (draw & D_M_L)
+      gdk_draw_line(pm, thin_line_gc,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1,
+		    canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
+  }
+
+  /*** City and various terrain improvements ***/
+  if (pcity) {
+    put_city_pixmap_draw(pcity, pm,
+			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+			 offset_x, offset_y_unit,
+			 width, height_unit, fog);
+  }
+  if (special & S_AIRBASE)
+    pixmap_put_overlay_tile_draw(pm,
+				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+				 sprites.tx.airbase,
+				 offset_x, offset_y_unit,
+				 width, height_unit, fog);
+  if (special & S_FALLOUT)
+    pixmap_put_overlay_tile_draw(pm,
+				 canvas_x, canvas_y,
+				 sprites.tx.fallout,
+				 offset_x, offset_y,
+				 width, height, fog);
+  if (special & S_POLLUTION)
+    pixmap_put_overlay_tile_draw(pm,
+				 canvas_x, canvas_y,
+				 sprites.tx.pollution,
+				 offset_x, offset_y,
+				 width, height, fog);
+
+  /*** city size ***/
+  /* Not fogged as it would be unreadable */
+  if (pcity) {
+    if (pcity->size>=10)
+      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+				   sprites.city.size_tens[pcity->size/10],
+				   offset_x, offset_y_unit,
+				   width, height_unit, 0);
+
+    pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+				 sprites.city.size[pcity->size%10],
+				 offset_x, offset_y_unit,
+				 width, height_unit, 0);
+  }
+
+  /*** Unit ***/
+  if (punit) {
+    put_unit_pixmap_draw(punit, pm,
+			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+			 offset_x, offset_y_unit,
+			 width, height_unit);
+    if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
+      pixmap_put_overlay_tile_draw(pm,
+				   canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+				   sprites.unit.stack,
+				   offset_x, offset_y_unit,
+				   width, height_unit, fog);
+  }
+
+  if (special & S_FORTRESS)
+    pixmap_put_overlay_tile_draw(pm,
+				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+				 sprites.tx.fortress,
+				 offset_x, offset_y_unit,
+				 width, height_unit, fog);
+
+  /* Drawing is cheap; we just draw all the lines.
+     Perhaps this should be optimized, though... */
+  if (y >= 0 && y < map.ysize && !citymode) {
+    int dir;
+    for (dir = 0; dir < 8; dir++)
+      if (get_drawn(x, y, dir)) {
+	int x1 = x + DIR_DX[dir];
+	int y1 = y + DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1))
+	  really_draw_segment(x, y, dir, 0, 1);
+      }
+  }
+}
+#else
+/**************************************************************************
+...
+**************************************************************************/
+void pixmap_put_tile(GdkDrawable *pm, int x, int y,
+		     int canvas_x, int canvas_y, int citymode)
+{
+  struct Sprite *tile_sprs[80];
+  int count = fill_tile_sprite_array(tile_sprs, x, y, citymode);
+
+  if (count) {
+    int i;
+
+    if(tile_sprs[0]) {
+      /* first tile without mask */
+      gdk_draw_pixmap(pm, civ_gc, tile_sprs[0]->pixmap,
+                      0, 0, canvas_x, canvas_y,
+                      tile_sprs[0]->width, tile_sprs[0]->height);
+    } else {
+      /* normally when solid_color_behind_units */
+      struct player *pplayer=NULL;
+
+      if(count>1 && !tile_sprs[1]) {
+        /* it's the unit */
+        struct tile *ptile = map_get_tile(x, y);
+        struct unit *punit = find_visible_unit(ptile);
+        if (punit) {
+          pplayer = &game.players[punit->owner];
+	}
+      } else {
+        /* it's the city */
+	struct city *pcity = map_get_city(x, y);
+        if (pcity) {
+          pplayer = &game.players[pcity->owner];
+	}
+      }
+
+      if (pplayer) {
+        gdk_gc_set_foreground(thin_line_gc,
+			      colors_standard[player_color(pplayer)]);
+        gdk_draw_rectangle(pm, thin_line_gc, TRUE,
+			   canvas_x, canvas_y,
+			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      }
+    }
+
+    for (i=1;i<count;i++) {
+      if (tile_sprs[i]) {
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, tile_sprs[i]);
+      }
+    }
+
+    if (draw_map_grid && !citymode) {
+      int here_in_radius =
+	player_in_city_radius(game.player_ptr, x, y);
+      /* left side... */
+      if ((map_get_tile(x-1, y))->known &&
+	  (here_in_radius ||
+	   player_in_city_radius(game.player_ptr, x-1, y))) {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      gdk_draw_line(pm, civ_gc,
+		    canvas_x, canvas_y,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      /* top side... */
+      if((map_get_tile(x, y-1))->known &&
+	 (here_in_radius ||
+	  player_in_city_radius(game.player_ptr, x, y-1))) {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      gdk_draw_line(pm, civ_gc,
+		    canvas_x, canvas_y,
+		    canvas_x + NORMAL_TILE_HEIGHT, canvas_y);
+    }
+
+  } else {
+    /* tile is unknown */
+    pixmap_put_black_tile(pm, canvas_x, canvas_y);
+  }
+
+  if (!citymode) {
+    /* put any goto lines on the tile. */
+    if (y >= 0 && y < map.ysize) {
+      int dir;
+      for (dir = 0; dir < 8; dir++) {
+	if (get_drawn(x, y, dir)) {
+	  put_line(map_canvas_store, x, y, dir);
+	}
+      }
+    }
+
+    /* Some goto lines overlap onto the tile... */
+    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
+      int line_x = x - 1;
+      int line_y = y;
+      if (normalize_map_pos(&line_x, &line_y)
+	  && get_drawn(line_x, line_y, 2)) {
+	/* it is really only one pixel in the top right corner */
+	put_line(map_canvas_store, line_x, line_y, 2);
+      }
+    }
+  }
+}
+#endif
+
+#ifdef ISOMETRIC
+/**************************************************************************
+Finds the pixel coordinates of a tile.
+Beside setting the results in canvas_x,canvas_y it returns whether the tile
+is inside the visible map.
+canvas_x,canvas_y is the top corner of the actual tile, not the pixmap.
+This function also handels non-adjusted tile coords (like -1, -2) as if
+they were adjusted.
+You might want to first take a look at the simpler city_get_xy() for basic
+understanding.
+**************************************************************************/
+static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  int diff_xy;
+  int diff_x, diff_y;
+  int width, height;
+  gdk_window_get_size(map_canvas->window, &width, &height);
+
+  map_x %= map.xsize;
+  if (map_x < map_view_x0) map_x += map.xsize;
+  diff_xy = (map_x + map_y) - (map_view_x0 + map_view_y0);
+  /* one diff_xy value defines a line parallel with the top of the isometric
+     view. */
+  *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
+
+  /* changing both x and y with the same amount doesn't change the isometric
+     x value. (draw a grid to see it!) */
+  map_x -= diff_xy/2;
+  map_y -= diff_xy/2;
+  diff_x = map_x - map_view_x0;
+  diff_y = map_view_y0 - map_y;
+
+  *canvas_x = (diff_x - 1) * NORMAL_TILE_WIDTH
+    + (diff_x == diff_y ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2)
+    /* tiles starting above the visible area */
+    + (diff_y > diff_x ? NORMAL_TILE_WIDTH : 0);
+
+  /* We now have the corner of the sprite. For drawing we move it. */
+  *canvas_x -= NORMAL_TILE_WIDTH/2;
+
+  return (*canvas_x > -NORMAL_TILE_WIDTH)
+    && *canvas_x < (width + NORMAL_TILE_WIDTH/2)
+    && (*canvas_y > -NORMAL_TILE_HEIGHT)
+    && (*canvas_y < height);
+}
+#else
+/**************************************************************************
+Finds the pixel coordinates of a tile.
+Beside setting the results in canvas_x,canvas_y it returns whether the tile
+is inside the visible map.
+**************************************************************************/
+static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  if (map_view_x0+map_canvas_store_twidth <= map.xsize)
+    *canvas_x = map_x-map_view_x0;
+  else if(map_x >= map_view_x0)
+    *canvas_x = map_x-map_view_x0;
+  else if(map_x < map_adjust_x(map_view_x0+map_canvas_store_twidth))
+    *canvas_x = map_x+map.xsize-map_view_x0;
+  else *canvas_x = -1;
+
+  *canvas_y = map_y - map_view_y0;
+
+  *canvas_x *= NORMAL_TILE_WIDTH;
+  *canvas_y *= NORMAL_TILE_HEIGHT;
+
+  return *canvas_x >= 0
+    && *canvas_x < map_canvas_store_twidth*NORMAL_TILE_WIDTH
+    && *canvas_y >= 0
+    && *canvas_y < map_canvas_store_twidth*NORMAL_TILE_HEIGHT;
+}
+#endif
+
+
+#ifdef ISOMETRIC
+/**************************************************************************
+Finds the map coordinates corresponding to pixel coordinates.
+**************************************************************************/
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  *map_x = map_view_x0;
+  *map_y = map_view_y0;
+
+  /* first find an equivalent position on the left side of the screen. */
+  *map_x += canvas_x/NORMAL_TILE_WIDTH;
+  *map_y -= canvas_x/NORMAL_TILE_WIDTH;
+  canvas_x %= NORMAL_TILE_WIDTH;
+
+  /* Then move op to the top corner. */
+  *map_x += canvas_y/NORMAL_TILE_HEIGHT;
+  *map_y += canvas_y/NORMAL_TILE_HEIGHT;
+  canvas_y %= NORMAL_TILE_HEIGHT;
+
+  /* We are inside a rectangle, with 2 half tiles starting in the corner,
+     and two tiles further out. Draw a grid to see how this works :). */
+  assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
+  canvas_y *= 2; /* now we have a square. */
+  if (canvas_x > canvas_y) (*map_y) -= 1;
+  if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) (*map_x) += 1;
+
+  /* If we are outside the map find the nearest tile, with distance as
+     seen on the map. */
+  if (*map_y < 0) {
+    *map_x += *map_y;
+    *map_y = 0;
+  }
+  *map_x %= map.xsize;
+  if (*map_x < 0)
+    *map_x += map.xsize;
+}
+#else
+/**************************************************************************
+Finds the map coordinates corresponding to pixel coordinates.
+**************************************************************************/
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
+  *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);
+}
+#endif
+
 
 /**************************************************************************
 ...
@@ -179,20 +827,37 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
   for (i = 0; i < num_tiles_explode_unit; i++) {
+    int canvas_x, canvas_y;
+    get_canvas_xy(losing_unit->x, losing_unit->y, &canvas_x, &canvas_y);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-    pixmap_put_tile(single_tile_pixmap, 0, 0,
-		    losing_unit->x, losing_unit->y, 0);
+#ifdef ISOMETRIC
+    /* We first draw the explosion onto the unit and draw draw the
+       complete thing onto the map canvas window. This avoids flickering. */
+    gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+		    canvas_x, canvas_y,
+		    0, 0,
+		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    pixmap_put_overlay_tile(single_tile_pixmap,
+				   NORMAL_TILE_WIDTH/4, 0,
+				   sprites.explode.unit[i]);
+    gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+		    0, 0,
+		    canvas_x, canvas_y,
+		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+#else
+    /* FIXME: maybe do as described in the above comment. */
+    pixmap_put_tile(single_tile_pixmap, losing_unit->x, losing_unit->y,
+		    0, 0, 0);
     put_unit_pixmap(losing_unit, single_tile_pixmap, 0, 0);
-    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, sprites.explode.unit[i]);
+    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0,
+			    sprites.explode.unit[i]);
 
     gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
 		    0, 0,
-		    map_canvas_adjust_x(losing_unit->x) * NORMAL_TILE_WIDTH, 
-		    map_canvas_adjust_y(losing_unit->y) * NORMAL_TILE_HEIGHT,
-		    NORMAL_TILE_WIDTH,
-		    NORMAL_TILE_HEIGHT);
-
+		    canvas_x, canvas_y,
+		    UNIT_TILE_WIDTH,
+		    UNIT_TILE_HEIGHT);
+#endif
     gdk_flush();
     usleep_since_timer_start(anim_timer, 20000);
   }
@@ -201,32 +866,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
   refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
 }
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void set_overview_dimensions(int x, int y)
-{
-  overview_canvas_store_width=2*x;
-  overview_canvas_store_height=2*y;
-
-  if(overview_canvas_store)
-    gdk_pixmap_unref(overview_canvas_store);
-  
-  overview_canvas_store	= gdk_pixmap_new(root_window,
-			  overview_canvas_store_width,
-			  overview_canvas_store_height, -1);
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		     0, 0,
-		     overview_canvas_store_width, overview_canvas_store_height);
-
-  gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
-  update_map_canvas_scrollbars_size();
-}
-
 
 /**************************************************************************
 ...
@@ -423,41 +1062,28 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int map_canvas_adjust_x(int x)
-{
-  if(map_view_x0+map_canvas_store_twidth<=map.xsize)
-     return x-map_view_x0;
-  else if(x>=map_view_x0)
-     return x-map_view_x0;
-  else if(x<map_adjust_x(map_view_x0+map_canvas_store_twidth))
-     return x+map.xsize-map_view_x0;
-
-  return -1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int map_canvas_adjust_y(int y)
-{
-  return y-map_view_y0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 {
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
+  x = map_adjust_x(x);
+  y = map_adjust_y(y);
 
-  if(tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(map_canvas_adjust_x(x), 
-		      map_canvas_adjust_y(y), 1, 1, write_to_screen);
+  if (tile_visible_mapcanvas(x, y)) {
+    update_map_canvas(x, y, 1, 1, write_to_screen);
   }
   overview_update_tile(x, y);
 }
 
+
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+int tile_visible_mapcanvas(int x, int y)
+{
+  int dummy_x, dummy_y; /* well, it needs two pointers... */
+  return get_canvas_xy(x, y, &dummy_x, &dummy_y);
+}
+#else
 /**************************************************************************
 ...
 **************************************************************************/
@@ -468,7 +1094,26 @@ int tile_visible_mapcanvas(int x, int y)
 	   (x+map.xsize>=map_view_x0 && 
 	    x+map.xsize<map_view_x0+map_canvas_store_twidth)));
 }
+#endif
 
+
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+int tile_visible_and_not_on_border_mapcanvas(int x, int y)
+{
+  int canvas_x, canvas_y;
+  int width, height;
+  gdk_window_get_size(map_canvas->window, &width, &height);
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+
+  return canvas_x > NORMAL_TILE_WIDTH/2
+    && canvas_x < (width - 3*NORMAL_TILE_WIDTH/2)
+    && canvas_y >= NORMAL_TILE_HEIGHT
+    && canvas_y < height - 3 * NORMAL_TILE_HEIGHT/2;
+}
+#else
 /**************************************************************************
 ...
 **************************************************************************/
@@ -482,11 +1127,17 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 	      (x+map.xsize>=map_view_x0+2
 	       && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
 }
+#endif
+
 
 /**************************************************************************
 Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
 Note: Works only for adjacent-square moves.
 (Tiles need not be square.)
+FIXME: The unit flickers while it is moved because we first undraw the unit
+and then draw it. The correct way to do this is to have an internal pixmap
+where we draw the complete scene onto, and then draw it onto the screen in
+one go.
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
@@ -513,35 +1164,81 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     int i, steps;
     int start_x, start_y;
     int this_x, this_y;
+    int canvas_dx, canvas_dy;
+
+#ifdef ISOMETRIC
+    if (dx == 0) {
+      canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
+      canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
+    } else if (dy == 0) {
+      canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
+      canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
+    } else {
+      if (dx > 0) {
+	if (dy > 0) {
+	  canvas_dx = 0;
+	  canvas_dy = NORMAL_TILE_HEIGHT;
+	} else { /* dy < 0 */
+	  canvas_dx = NORMAL_TILE_WIDTH;
+	  canvas_dy = 0;
+	}
+      } else { /* dx < 0 */
+	if (dy > 0) {
+	  canvas_dx = -NORMAL_TILE_WIDTH;
+	  canvas_dy = 0;
+	} else { /* dy < 0 */
+	  canvas_dx = 0;
+	  canvas_dy = -NORMAL_TILE_HEIGHT;
+	}
+      }
+    }
+#else
+    canvas_dx = NORMAL_TILE_WIDTH * dx;
+    canvas_dy = NORMAL_TILE_HEIGHT * dy;
+#endif
 
     if (smooth_move_unit_steps < 2) {
       steps = 2;
-    } else if (smooth_move_unit_steps >
-	       MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT)) {
-      steps = MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else if (smooth_move_unit_steps > MAX(ABS(canvas_dx), ABS(canvas_dy))) {
+      steps = MAX(ABS(canvas_dx), ABS(canvas_dy));
     } else {
       steps = smooth_move_unit_steps;
     }
 
-    if(x0 >= map_view_x0) {
-      start_x = (x0 - map_view_x0) * NORMAL_TILE_WIDTH;
-    } else {
-      start_x = (map.xsize - map_view_x0 + x0) * NORMAL_TILE_WIDTH;
-    }
-    start_y = (y0 - map_view_y0) * NORMAL_TILE_HEIGHT;
-
+    get_canvas_xy(x0, y0, &start_x, &start_y);
+#ifdef ISOMETRIC
+    start_y -= NORMAL_TILE_HEIGHT/2;
+#endif
     this_x = start_x;
     this_y = start_y;
 
     for (i = 1; i <= steps; i++) {
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
+#ifdef ISOMETRIC
+      /* FIXME: We need to draw units on tiles below the moving unit on top. */
+      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		      this_x, this_y, this_x, this_y,
+		      single_tile_pixmap_width, single_tile_pixmap_height);
+
+      this_x = start_x + ((i * canvas_dx)/steps);
+      this_y = start_y + ((i * canvas_dy)/steps);
+
+      gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+		      this_x, this_y, 0, 0,
+		      single_tile_pixmap_width, single_tile_pixmap_height);
+      put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+
+      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+		      0, 0, this_x, this_y,
+		      single_tile_pixmap_width, single_tile_pixmap_height);
+#else
       gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
 		      this_x, this_y, this_x, this_y,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
-      this_x = start_x + (dx * ((i * NORMAL_TILE_WIDTH) / steps));
-      this_y = start_y + (dy * ((i * NORMAL_TILE_HEIGHT) / steps));
+      this_x = start_x + ((i * canvas_dx)/steps);
+      this_y = start_y + ((i * canvas_dy)/steps);
 
       gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
 		      this_x, this_y, 0, 0,
@@ -551,6 +1248,7 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
       gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
 		      0, 0, this_x, this_y,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+#endif
 
       gdk_flush();
       if (i < steps) {
@@ -565,8 +1263,11 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *x, int *y)
 {
-  *x=map_adjust_x(map_view_x0+map_canvas_store_twidth/2);
-  *y=map_adjust_y(map_view_y0+map_canvas_store_theight/2);
+  int width, height;
+  gdk_window_get_size(map_canvas->window, &width, &height);
+
+  /* This sets the pointers x and y */
+  get_map_xy(width/2, height/2, x, y);
 }
 
 /**************************************************************************
@@ -574,6 +1275,7 @@ void get_center_tile_mapcanvas(int *x, int *y)
 **************************************************************************/
 void center_tile_mapcanvas(int x, int y)
 {
+#ifndef ISOMETRIC
   int new_map_view_x0, new_map_view_y0;
 
   new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
@@ -584,19 +1286,53 @@ void center_tile_mapcanvas(int x, int y)
 
   map_view_x0=new_map_view_x0;
   map_view_y0=new_map_view_y0;
+#else
+  x -= map_canvas_store_twidth/2;
+  y += map_canvas_store_twidth/2;
+  x -= map_canvas_store_theight/2;
+  y -= map_canvas_store_theight/2;
 
-  update_map_canvas(0, 0, map_canvas_store_twidth,map_canvas_store_theight, 1);
+  map_view_x0 = map_adjust_x(x);
+  map_view_y0 = map_adjust_y(y);
+
+  map_view_y0 =
+    (map_view_y0 > map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight) ? 
+    map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight :
+    map_view_y0;
+#endif
+  update_map_canvas_visible();
   update_map_canvas_scrollbars();
-
   refresh_overview_viewrect();
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-    create_line_at_mouse_pos();
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-gint overview_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
+void set_overview_dimensions(int x, int y)
+{
+  overview_canvas_store_width=2*x;
+  overview_canvas_store_height=2*y;
+
+  if (overview_canvas_store)
+    gdk_pixmap_unref(overview_canvas_store);
+  
+  overview_canvas_store	= gdk_pixmap_new(root_window,
+			  overview_canvas_store_width,
+			  overview_canvas_store_height, -1);
+
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
+		     0, 0,
+		     overview_canvas_store_width, overview_canvas_store_height);
+
+  gtk_widget_set_usize(overview_canvas, 2*x, 2*y);
+  update_map_canvas_scrollbars_size();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+gint overview_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(radar_gfx_sprite)
@@ -610,16 +1346,14 @@ gint overview_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
   return TRUE;
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
 static void set_overview_tile_foreground_color(int x, int y)
 {
-  gdk_gc_set_foreground (fill_bg_gc,
-			 colors_standard[overview_tile_color(x, y)]);
+  gdk_gc_set_foreground(fill_bg_gc,
+			colors_standard[overview_tile_color(x, y)]);
 }
-
 
 /**************************************************************************
 ...
@@ -644,18 +1378,24 @@ void refresh_overview_canvas(void)
 **************************************************************************/
 void overview_update_tile(int x, int y)
 {
-  int pos = x + map.xsize/2 - (map_view_x0 + map_canvas_store_twidth/2);
+#ifdef ISOMETRIC
+  int screen_width = map_canvas_store_twidth + map_canvas_store_theight;
+#else
+  int screen_width = map_canvas_store_twidth;
+#endif
+
+  int pos = x + map.xsize/2 - (map_view_x0 + screen_width/2);
   
   pos %= map.xsize;
   if (pos < 0)
     pos += map.xsize;
   
   set_overview_tile_foreground_color(x, y);
-  gdk_draw_rectangle( overview_canvas_store, fill_bg_gc, TRUE, x*2, y*2,
-		 2, 2 );
+  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, x*2, y*2,
+		     2, 2);
   
-  gdk_draw_rectangle( overview_canvas->window, fill_bg_gc, TRUE, pos*2, y*2,
-		 2, 2 );
+  gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE, pos*2, y*2,
+		     2, 2);
 }
 
 /**************************************************************************
@@ -663,9 +1403,15 @@ void overview_update_tile(int x, int y)
 **************************************************************************/
 void refresh_overview_viewrect(void)
 {
-  int delta=map.xsize/2-(map_view_x0+map_canvas_store_twidth/2);
+#ifdef ISOMETRIC
+  int screen_width = map_canvas_store_twidth + map_canvas_store_theight;
+#else
+  int screen_width = map_canvas_store_twidth;
+#endif
 
-  if(delta>=0) {
+  int delta = map.xsize/2 - (map_view_x0 + screen_width/2);
+
+  if (delta>=0) {
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
 		0, 0, 2*delta, 0,
 		overview_canvas_store_width-2*delta,
@@ -674,8 +1420,7 @@ void refresh_overview_viewrect(void)
 		overview_canvas_store_width-2*delta, 0,
 		0, 0,
 		2*delta, overview_canvas_store_height );
-  }
-  else {
+  } else {
     gdk_draw_pixmap( overview_canvas->window, civ_gc, overview_canvas_store,
 		-2*delta, 0,
 		0, 0,
@@ -690,17 +1435,52 @@ void refresh_overview_viewrect(void)
 
   gdk_gc_set_foreground( civ_gc, colors_standard[COLOR_STD_WHITE] );
   
-  gdk_draw_rectangle( overview_canvas->window, civ_gc, FALSE,
-		(overview_canvas_store_width-2*map_canvas_store_twidth)/2,
-		2*map_view_y0,
-		2*map_canvas_store_twidth, 2*map_canvas_store_theight-1 );
+#ifdef ISOMETRIC
+  {
+    /* The x's and y's are in overview coordinates.
+       All the extra factor 2's are because one tile in the overview
+       is 2x2 pixels. */
+    int Wx = overview_canvas_store_width/2 - screen_width /* *2/2 */;
+    int Wy = map_view_y0 * 2;
+    int Nx = Wx + 2 * map_canvas_store_twidth;
+    int Ny = Wy - 2 * map_canvas_store_twidth;
+    int Sx = Wx + 2 * map_canvas_store_theight;
+    int Sy = Wy + 2 * map_canvas_store_theight;
+    int Ex = Nx + 2 * map_canvas_store_theight;
+    int Ey = Ny + 2 * map_canvas_store_theight;
+    
+    freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
+	    Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
+
+    /* W to N */
+    gdk_draw_line(overview_canvas->window, civ_gc,
+		  Wx, Wy, Nx, Ny);
+
+    /* N to E */
+    gdk_draw_line(overview_canvas->window, civ_gc,
+		  Nx, Ny, Ex, Ey);
+
+    /* E to S */
+    gdk_draw_line(overview_canvas->window, civ_gc,
+		  Ex, Ey, Sx, Sy);
+
+    /* S to W */
+    gdk_draw_line(overview_canvas->window, civ_gc,
+		  Sx, Sy, Wx, Wy);
+  }
+#else
+  gdk_draw_rectangle(overview_canvas->window, civ_gc, FALSE,
+		     (overview_canvas_store_width-2*map_canvas_store_twidth)/2,
+		     2*map_view_y0,
+		     2*map_canvas_store_twidth, 2*map_canvas_store_theight-1);
+#endif
 }
 
 
 /**************************************************************************
 ...
 **************************************************************************/
-gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
+gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
 {
   gint height, width;
   int tile_width, tile_height;
@@ -710,7 +1490,7 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
-  
+
   map_resized=FALSE;
   if(map_canvas_store_twidth !=tile_width ||
      map_canvas_store_theight!=tile_height) { /* resized? */
@@ -727,12 +1507,12 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
   		    tile_width*NORMAL_TILE_WIDTH,
   		    tile_height*NORMAL_TILE_HEIGHT,
   		    -1 );
-  				 
+
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
 		       0, 0,
 		       NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-		       NORMAL_TILE_HEIGHT*map_canvas_store_theight );
+		       NORMAL_TILE_HEIGHT*map_canvas_store_theight);
     update_map_canvas_scrollbars_size();
     map_resized=TRUE;
   }
@@ -765,8 +1545,7 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 
     if(map.xsize) { /* do we have a map at all */
       if(map_resized) {
-	update_map_canvas(0, 0, map_canvas_store_twidth,
-			map_canvas_store_theight, 1);
+	update_map_canvas_visible();
 
 	update_map_canvas_scrollbars();
 
@@ -784,70 +1563,317 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
   return TRUE;
 }
 
+#ifndef ISOMETRIC
 /**************************************************************************
 ...
 **************************************************************************/
-void update_map_canvas(int tile_x, int tile_y, int width, int height, 
-		       int write_to_screen)
+void pixmap_put_black_tile(GdkDrawable *pm,
+			   int canvas_x, int canvas_y)
 {
-  int x, y;
+  gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
+  gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+		     canvas_x, canvas_y,
+		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+}
+#endif
 
-  for(y=tile_y; y<tile_y+height; y++)
-    for(x=tile_x; x<tile_x+width; x++)
-      pixmap_put_tile(map_canvas_store, x, y, 
-		      (map_view_x0+x)%map.xsize, map_view_y0+y, 0);
+#ifdef ISOMETRIC
+/**************************************************************************
+FIXME: Find a better way to put flags and such on top.
+**************************************************************************/
+static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
+			    int canvas_x, int canvas_y)
+{
+  struct Sprite *sprites[40];
+  int count = fill_unit_sprite_array(sprites, punit);
+  int i;
 
-  if(write_to_screen) {
-    gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
-		tile_x*NORMAL_TILE_WIDTH, 
-		tile_y*NORMAL_TILE_HEIGHT,
-		tile_x*NORMAL_TILE_WIDTH, 
-		tile_y*NORMAL_TILE_HEIGHT,
-		width*NORMAL_TILE_WIDTH,
-		height*NORMAL_TILE_HEIGHT );
-
-    if (width == map_canvas_store_twidth
-	&& height == map_canvas_store_theight) {
-      show_city_descriptions();
+  for (i=0; i<count; i++) {
+    if (sprites[i]) {
+      pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
     }
   }
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
+				 int canvas_x, int canvas_y,
+				 int offset_x, int offset_y_unit,
+				 int width, int height_unit)
+{
+  struct Sprite *sprites[40];
+  int count = fill_unit_sprite_array(sprites, punit);
+  int i;
+
+  for (i=0; i<count; i++) {
+    if (sprites[i]) {
+      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
+				   offset_x, offset_y_unit,
+				   width, height_unit, 0);
+    }
+  }
+}
+#else
+/**************************************************************************
+...
+**************************************************************************/
+static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
+			    int canvas_x, int canvas_y)
+{
+  struct Sprite *sprites[40];
+  int count = fill_unit_sprite_array(sprites, punit);
+
+  if(count)
+  {
+    int i;
+
+    if(sprites[0])
+    {
+      if(flags_are_transparent)
+      {
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
+      } else
+      {
+        gdk_draw_pixmap( pm, civ_gc, sprites[0]->pixmap,
+                         0, 0,
+                         canvas_x, canvas_y,
+                         sprites[0]->width, sprites[0]->height );
+      }
+    } else
+    {
+      gdk_gc_set_foreground( fill_bg_gc,
+			     colors_standard[player_color(get_player(punit->owner))]);
+      gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
+                          canvas_x, canvas_y,
+                          NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
+    }
+
+    for(i=1;i<count;i++)
+    {
+      if(sprites[i])
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
+    }
+  }
+}
+#endif
+
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+void put_one_tile_full(GdkDrawable *pm, int x, int y,
+		       int canvas_x, int canvas_y, int citymode)
+{
+  pixmap_put_tile(pm, x, y, canvas_x, canvas_y, citymode,
+		  0, 0, 0,
+		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, UNIT_TILE_HEIGHT,
+		  D_FULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void put_one_tile(int x, int y, enum draw_type draw)
+{
+  int canvas_x, canvas_y;
+  int height, width, height_unit;
+  int offset_x, offset_y, offset_y_unit;
+
+  if (!tile_visible_mapcanvas(x, y)) {
+    freelog(LOG_DEBUG, "dropping %d,%d", x, y);
+    return;
+  }
+  freelog(LOG_DEBUG, "putting %d,%d draw %x", x, y, draw);
+
+  width = (draw & D_TMB_L) && (draw & D_TMB_R) ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2;
+  if (!(draw & D_TMB_L))
+    offset_x = NORMAL_TILE_WIDTH/2;
+  else
+    offset_x = 0;
+
+  height = 0;
+  if (draw & D_M_LR) height += NORMAL_TILE_HEIGHT/2;
+  if (draw & D_B_LR) height += NORMAL_TILE_HEIGHT/2;
+  if (draw & D_T_LR)
+    height_unit = height + NORMAL_TILE_HEIGHT/2;
+  else
+    height_unit = height;
+
+  offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT/2;
+  if (!(draw & D_T_LR))
+    offset_y_unit = (draw & D_M_LR) ? NORMAL_TILE_HEIGHT/2 : NORMAL_TILE_HEIGHT;
+  else
+    offset_y_unit = 0;
+
+  /* returns whether the tile is visible. */
+  if (get_canvas_xy(x, y, &canvas_x, &canvas_y)) {
+    if (normalize_map_pos(&x, &y)) {
+      pixmap_put_tile(map_canvas_store, x, y, canvas_x, canvas_y, 0,
+		      offset_x, offset_y, offset_y_unit,
+		      width, height, height_unit,
+		      draw);
+    } else {
+      pixmap_put_black_tile(map_canvas_store, -1, -1, canvas_x, canvas_y,
+			    offset_x, offset_y,
+			    width, height);
+    }
+  }
+}
+#endif
+
+#ifdef ISOMETRIC
+/**************************************************************************
+Refresh and draw to sceen all the tiles in a rectangde width,height (as
+seen in overhead ciew) with the top corner at x,y.
+All references to "left","right", "top" and "bottom" refer to the sides of
+the rectangle width, height as it would be seen in top-down view, unless
+said otherwise.
+The trick is to draw tiles furthest up on the map first, since we will be
+drawing on top of them when we draw tiles further down.
+
+Works by first refreshing map_canvas_store and then drawing the result to
+the screen.
+**************************************************************************/
+void update_map_canvas(const int x, const int y, int width, int height, 
+		       int write_to_screen)
+{
+  int i;
+  int x_itr, y_itr;
+
+  freelog(LOG_DEBUG, "updating %d,%d with width=%d, height=%d",
+	  x, y, width, height);
+
+  /*** First refresh the tiles above the area to remove the old tiles'
+       overlapping gfx ***/
+  put_one_tile(x-1, y-1, D_B_LR); /* top_left corner */
+
+  for (i=0; i<height-1; i++) { /* left side - last tile. */
+    int x1 = x - 1;
+    int y1 = y + i;
+    put_one_tile(x1, y1, D_MB_LR);
+  }
+  put_one_tile(x-1, y+height-1, D_TMB_R); /* last tile left side. */
+
+  for (i=0; i<width-1; i++) { /* top side */
+    int x1 = x + i;
+    int y1 = y - 1;
+    put_one_tile(x1, y1, D_MB_LR);
+  }
+  if (width > 1) /* last tile top side. */
+    put_one_tile(x+width-1, y-1, D_TMB_L);
+  else
+    put_one_tile(x+width-1, y-1, D_MB_L);
+
+
+  /*** Now draw the tiles to be refreshed, from the top down to get the
+       overlapping areas correct ***/
+  for (x_itr = x; x_itr < x+width; x_itr++) {
+    for (y_itr = y; y_itr < y+height; y_itr++) {
+      put_one_tile(x_itr, y_itr, D_FULL);
+    }
+  }
+
+  /*** Then draw the tiles underneath to refresh the parts of them that
+       overlap onto the area just drawn ***/
+  put_one_tile(x, y+height, D_TM_R);  /* bottom side */
+  for (i=1; i<width; i++) {
+    int x1 = x + i;
+    int y1 = y + height;
+    put_one_tile(x1, y1, D_TM_R);
+    put_one_tile(x1, y1, D_T_L);
+  }
+
+  put_one_tile(x+width, y, D_TM_L); /* right side */
+  for (i=1; i < height; i++) {
+    int x1 = x + width;
+    int y1 = y + i;
+    put_one_tile(x1, y1, D_TM_L);
+    put_one_tile(x1, y1, D_T_R);
+  }
+
+  put_one_tile(x+width, y+height, D_T_LR); /* right-bottom corner */
+
+  /*** Lastly draw our changes to the screen. ***/
+  if (write_to_screen) {
+    int canvas_start_x, canvas_start_y;
+    get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y); /* top left corner */
+    /* top left corner in isometric view */
+    canvas_start_x -= height * NORMAL_TILE_WIDTH/2;
+
+    /* because of where get_canvas_xy() sets canvas_x */
+    canvas_start_x += NORMAL_TILE_WIDTH/2;
+
+    /* And because units fill a little extra */
+    canvas_start_y -= NORMAL_TILE_HEIGHT/2;
+
+    /* here we draw a rectangle that includes the updated tiles. */
+    gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		    canvas_start_x, canvas_start_y,
+		    canvas_start_x, canvas_start_y,
+		    (height + width) * NORMAL_TILE_WIDTH/2,
+		    (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2);
+  }
+}
+#else
+/**************************************************************************
+Refresh and draw to sceen all the tiles in a rectangde width,height with
+the top corner at x,y.
+Works by first refreshing map_canvas_store and then drawing the result to
+the screen.
+**************************************************************************/
+void update_map_canvas(const int x, const int y, int width, int height, 
+		       int write_to_screen)
+{
+  int x_itr, y_itr;
+  int canvas_x, canvas_y;
+
+  for (y_itr=y; y_itr<y+height; y_itr++) {
+    for (x_itr=x; x_itr<x+width; x_itr++) {
+      int map_x = map_adjust_x(x_itr);
+      int map_y = y_itr; /* not adjusted;, we want to draw black tiles */
+
+      get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
+      if (tile_visible_mapcanvas(map_x, map_y)) {
+	pixmap_put_tile(map_canvas_store,
+			map_x, map_y,
+			canvas_x, canvas_y, 0);
+      }
+    }
+  }
+
+  if (write_to_screen) {
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		    canvas_x, canvas_y,
+		    canvas_x, canvas_y,
+		    width*NORMAL_TILE_WIDTH,
+		    height*NORMAL_TILE_HEIGHT);
+  }
+}
+#endif
 
 /**************************************************************************
  Update (only) the visible part of the map
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
-}
+#ifdef ISOMETRIC
+  /* just find a big rectangle that includes the whole visible area. The
+     invisible tiles will not be drawn. */
+  int width, height;
 
-/**************************************************************************
-...
-**************************************************************************/
-void update_map_canvas_scrollbars(void)
-{
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), map_view_x0);
-  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), map_view_y0);
-}
+  width = height = map_canvas_store_twidth + map_canvas_store_theight;
+  update_map_canvas(map_view_x0,
+		    map_view_y0 - map_canvas_store_twidth,
+		    width, height, 1);
+#else
+  update_map_canvas(map_view_x0, map_view_y0,
+		    map_canvas_store_twidth,map_canvas_store_theight, 1);
+#endif
 
-/**************************************************************************
-...
-**************************************************************************/
-void update_map_canvas_scrollbars_size(void)
-{
-  map_hadj=gtk_adjustment_new(-1, 0, map.xsize, 1,
-	   map_canvas_store_twidth, map_canvas_store_twidth);
-  map_vadj=gtk_adjustment_new(-1, 0, map.ysize+EXTRA_BOTTOM_ROW, 1,
-	   map_canvas_store_theight, map_canvas_store_theight);
-  gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
-	GTK_ADJUSTMENT(map_hadj));
-  gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
-	GTK_ADJUSTMENT(map_vadj));
-
-  gtk_signal_connect(GTK_OBJECT(map_hadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)TRUE);
-  gtk_signal_connect(GTK_OBJECT(map_vadj), "value_changed",
-	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)FALSE);
+  show_city_descriptions();
 }
 
 /**************************************************************************
@@ -855,8 +1881,7 @@ void update_map_canvas_scrollbars_size(void)
 **************************************************************************/
 void update_city_descriptions(void)
 {
-  update_map_canvas(0, 0, map_canvas_store_twidth,
-		    map_canvas_store_theight, 1);
+  update_map_canvas_visible();
 }
 
 /**************************************************************************
@@ -877,129 +1902,89 @@ static void draw_shadowed_string(GdkDrawable * drawable,
 **************************************************************************/
 static void show_city_descriptions(void)
 {
-  int x, y;
   static char buffer[512];
 
   if (!draw_city_names && !draw_city_productions)
     return;
 
-  for (y = 0; y < map_canvas_store_theight; ++y) {
-    int ry = map_view_y0 + y;
-    for (x = 0; x < map_canvas_store_twidth; ++x) {
-      int rx = (map_view_x0 + x) % map.xsize;
-      struct city *pcity;
-      if ((pcity = map_get_city(rx, ry))) {
-	int w;
+  visible_map_iterate(x, y) {
+    struct city *pcity;
+    if ((pcity = map_get_city(x, y))) {
+      int canvas_x, canvas_y;
+      int w;
 
-	if (draw_city_names) {
-	  my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
-	  w = gdk_string_width(main_font, buffer);
-	  draw_shadowed_string(map_canvas->window, main_font,
-		    toplevel->style->black_gc,
-		    toplevel->style->white_gc,
-			       x * NORMAL_TILE_WIDTH +
-			       NORMAL_TILE_WIDTH / 2 - w / 2,
-			       (y + 1) * NORMAL_TILE_HEIGHT +
-			       main_font->ascent, buffer);
-	}
+      get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      if (draw_city_names) {
+	my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
+	w = gdk_string_width(main_font, buffer);
+	draw_shadowed_string(map_canvas->window, main_font,
+			     toplevel->style->black_gc,
+			     toplevel->style->white_gc,
+			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			     canvas_y + NORMAL_TILE_HEIGHT +
+			     main_font->ascent, buffer);
+      }
 
-	if (draw_city_productions && (pcity->owner==game.player_idx)) {
-	  int turns, y_offset;
-	  struct unit_type *punit_type;
-	  struct impr_type *pimprovement_type;
+      if (draw_city_productions && (pcity->owner==game.player_idx)) {
+	int turns, y_offset;
+	struct unit_type *punit_type;
+	struct impr_type *pimprovement_type;
 
-	  turns = city_turns_to_build(pcity, pcity->currently_building,
-				      pcity->is_building_unit);
+	turns = city_turns_to_build(pcity, pcity->currently_building,
+				    pcity->is_building_unit);
 
-	  if (pcity->is_building_unit) {
-	    punit_type = get_unit_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "%s %d",
-			punit_type->name, turns);
+	if (pcity->is_building_unit) {
+	  punit_type = get_unit_type(pcity->currently_building);
+	  my_snprintf(buffer, sizeof(buffer), "%s %d",
+		      punit_type->name, turns);
+	} else {
+	  pimprovement_type =
+	    get_improvement_type(pcity->currently_building);
+	  if (pcity->currently_building == B_CAPITAL) {
+	    sz_strlcpy(buffer, pimprovement_type->name);
 	  } else {
-	    pimprovement_type =
-		get_improvement_type(pcity->currently_building);
-	    if (pcity->currently_building == B_CAPITAL) {
-	      sz_strlcpy(buffer, pimprovement_type->name);
-	    } else {
-	      my_snprintf(buffer, sizeof(buffer), "%s %d",
-			  pimprovement_type->name, turns);
-	    }
+	    my_snprintf(buffer, sizeof(buffer), "%s %d",
+			pimprovement_type->name, turns);
 	  }
-	  if (draw_city_names)
-	    y_offset = main_font->ascent + main_font->descent;
-	  else
-	    y_offset = 0;
-	  w = gdk_string_width(city_productions_font, buffer);
-	  draw_shadowed_string(map_canvas->window, city_productions_font,
-			       toplevel->style->black_gc,
-			       toplevel->style->white_gc,
-			       x * NORMAL_TILE_WIDTH +
-			       NORMAL_TILE_WIDTH / 2 - w / 2,
-			       (y + 1) * NORMAL_TILE_HEIGHT +
-			       main_font->ascent + y_offset, buffer);
 	}
+	if (draw_city_names)
+	  y_offset = main_font->ascent + main_font->descent;
+	else
+	  y_offset = 0;
+	w = gdk_string_width(city_productions_font, buffer);
+	draw_shadowed_string(map_canvas->window, city_productions_font,
+			     toplevel->style->black_gc,
+			     toplevel->style->white_gc,
+			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			     canvas_y + NORMAL_TILE_HEIGHT +
+			     main_font->ascent + y_offset, buffer);
       }
     }
-  }
+  } visible_map_iterate_end;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void put_city_tile_output(GdkDrawable *pm, int x, int y, 
+void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y, 
 			  int food, int shield, int trade)
 {
   food = CLIP(0, food, NUM_TILES_DIGITS-1);
   trade = CLIP(0, trade, NUM_TILES_DIGITS-1);
   shield = CLIP(0, shield, NUM_TILES_DIGITS-1);
   
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_foodnum[food]);
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_shieldnum[shield]);
-  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_tradenum[trade]);
+#ifdef ISOMETRIC
+  canvas_x += NORMAL_TILE_WIDTH/3;
+  canvas_y -= NORMAL_TILE_HEIGHT/3;
+#endif
+
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y,
+			  sprites.city.tile_foodnum[food]);
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y,
+			  sprites.city.tile_shieldnum[shield]);
+  pixmap_put_overlay_tile(pm, canvas_x, canvas_y,
+			  sprites.city.tile_tradenum[trade]);
 }
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
-{
-  struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
-
-  if(count)
-  {
-    int i;
-
-    if(sprites[0])
-    {
-      if(flags_are_transparent)
-      {
-        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[0]);
-      } else
-      {
-        gdk_draw_pixmap( pm, civ_gc, sprites[0]->pixmap,
-                         0, 0,
-                         xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
-                         sprites[0]->width, sprites[0]->height );
-      }
-    } else
-    {
-      gdk_gc_set_foreground( fill_bg_gc,
-			     colors_standard[player_color(get_player(punit->owner))]);
-      gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-                          xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-                          NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
-    }
-
-    for(i=1;i<count;i++)
-    {
-      if(sprites[i])
-        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[i]);
-    }
-  }
-}
-
 
 /**************************************************************************
 ...
@@ -1032,7 +2017,6 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 
 
 /**************************************************************************
-  ...
   FIXME:
   For now only two food, one shield and two masks can be drawn per unit,
   the proper way to do this is probably something like what Civ II does.
@@ -1055,22 +2039,36 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 /**************************************************************************
 ...
 **************************************************************************/
-void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
+void put_nuke_mushroom_pixmaps(int x, int y)
 {
-  int x, y;
+#ifdef ISOMETRIC
+  /* Do I get points for style? */
+  char boom[] = "Really Loud BOOM!!!";
+  int w = gdk_string_width(city_productions_font, boom);
+  int canvas_x, canvas_y;
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+  draw_shadowed_string(map_canvas->window, main_font,
+		       toplevel->style->black_gc,
+		       toplevel->style->white_gc,
+		       canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+		       canvas_y + NORMAL_TILE_HEIGHT,
+		       boom);
+  update_map_canvas_visible();
+#else
+  int x_itr, y_itr;
+  int canvas_x, canvas_y;
 
-  for(y=0; y<3; y++) {
-    for(x=0; x<3; x++) {
-      int map_x = map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH;
-      int map_y = map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT;
-      struct Sprite *mysprite = sprites.explode.nuke[y][x];
+  for(y_itr=0; y_itr<3; y_itr++) {
+    for(x_itr=0; x_itr<3; x_itr++) {
+      struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
+      get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
 
       gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-		      map_x, map_y, 0, 0,
+		      canvas_x, canvas_y, 0, 0,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
       gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0, map_x, map_y,
+		      0, 0, canvas_x, canvas_y,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
   }
@@ -1078,23 +2076,33 @@ void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
   gdk_flush();
   sleep(1);
 
-  update_map_canvas(map_canvas_adjust_x(abs_x0-1),
-                    map_canvas_adjust_y(abs_y0-1),
-		    3, 3, 1);
+  update_map_canvas(x-1, y-1, 3, 3, 1);
+#endif
 }
 
+#ifdef ISOMETRIC
 /**************************************************************************
-...
+canvas_x, canvas_y is the top left corner of the pixmap.
 **************************************************************************/
-void pixmap_put_black_tile(GdkDrawable *pm, int x, int y)
+void pixmap_frame_tile_red(GdkDrawable *pm,
+			   int canvas_x, int canvas_y)
 {
-  gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
-  gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
-}
-		     
+  gdk_gc_set_foreground(thick_line_gc, colors_standard[COLOR_STD_RED]);
 
+  gdk_draw_line(pm, thick_line_gc,
+		canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y,
+		canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+  gdk_draw_line(pm, thick_line_gc,
+		canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1,
+		canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1);
+  gdk_draw_line(pm, thick_line_gc,
+		canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1,
+		canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1);
+  gdk_draw_line(pm, thick_line_gc,
+		canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1,
+		canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
+}
+#else
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1105,155 +2113,8 @@ void pixmap_frame_tile_red(GdkDrawable *pm, int x, int y)
   gdk_draw_rectangle( pm, fill_bg_gc, FALSE,
 		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
 		    NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1 );
-/*
-  gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		    NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1 );
-  gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-		    x*NORMAL_TILE_WIDTH+1, y*NORMAL_TILE_HEIGHT+1,
-		    NORMAL_TILE_WIDTH-3, NORMAL_TILE_HEIGHT-3 );
-  gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-		    x*NORMAL_TILE_WIDTH+2, y*NORMAL_TILE_HEIGHT+2,
-		    NORMAL_TILE_WIDTH-5, NORMAL_TILE_HEIGHT-5 );
-*/
 }
-
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0, 
-		     int citymode)
-{
-  struct Sprite *sprites[80];
-  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
-
-  int x1 = x * NORMAL_TILE_WIDTH;
-  int y1 = y * NORMAL_TILE_HEIGHT;
-
-  if(count)
-  {
-    int i;
-
-    if(sprites[0])
-    {
-      /* first tile without mask */
-      gdk_draw_pixmap(pm, civ_gc, sprites[0]->pixmap,
-                      0, 0, x1, y1,
-                      sprites[0]->width, sprites[0]->height);
-    } else
-    {
-      /* normally when solid_color_behind_units */
-      struct city *pcity;
-      struct player *pplayer=NULL;
-
-      if(count>1 && !sprites[1])
-      {
-        /* it's the unit */
-        struct tile *ptile;
-        struct unit *punit;
-        ptile=map_get_tile(abs_x0, abs_y0);
-        if ((punit=find_visible_unit(ptile)))
-          pplayer = &game.players[punit->owner];
-
-      } else
-      {
-        /* it's the city */
-        if((pcity=map_get_city(abs_x0, abs_y0)))
-          pplayer = &game.players[pcity->owner];
-      }
-
-      if(pplayer)
-      {
-        gdk_gc_set_foreground( fill_bg_gc,
-			       colors_standard[player_color(pplayer)] );
-        gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
-                    x1, y1, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
-      }
-    }
-
-    for(i=1;i<count;i++)
-    {
-      if(sprites[i])
-        pixmap_put_overlay_tile(pm, x, y, sprites[i]);
-    }
-
-    if(draw_map_grid && !citymode) {
-      int here_in_radius =
-	player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
-      /* left side... */
-      if((map_get_tile(abs_x0-1, abs_y0))->known &&
-	 (here_in_radius ||
-	  player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0))) {
-	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
-      } else {
-	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
-      }
-      gdk_draw_line(pm, civ_gc,
-		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		    x*NORMAL_TILE_WIDTH, (y+1)*NORMAL_TILE_HEIGHT);
-      /* top side... */
-      if((map_get_tile(abs_x0, abs_y0-1))->known &&
-	 (here_in_radius ||
-	  player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1))) {
-	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
-      } else {
-	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
-      }
-      gdk_draw_line(pm, civ_gc,
-		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		    (x+1)*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
-    }
-
-  } else
-  {
-    /* tile is unknown */
-    pixmap_put_black_tile(pm,x,y);
-  }
-
-  if (!citymode) {
-    /* put any goto lines on the tile. */
-    if (abs_y0 >= 0 && abs_y0 < map.ysize) {
-      int dir;
-      for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(abs_x0, abs_y0, dir)) {
-	  put_line(map_canvas_store, abs_x0, abs_y0, dir);
-	}
-      }
-    }
-
-    /* Some goto lines overlap onto the tile... */
-    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-      int line_x = abs_x0 - 1;
-      int line_y = abs_y0;
-      if (normalize_map_pos(&line_x, &line_y)
-	  && get_drawn(line_x, line_y, 2)) {
-	/* it is really only one pixel in the top right corner */
-	put_line(map_canvas_store, line_x, line_y, 2);
-      }
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
-				    int x, int y, struct Sprite *ssprite)
-{
-  if (!ssprite)
-    return;
-      
-  gdk_gc_set_clip_origin( civ_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT );
-  gdk_gc_set_clip_mask( civ_gc, ssprite->mask );
-
-  gdk_draw_pixmap( pixmap, civ_gc, ssprite->pixmap,
-	    0, 0,
-	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-	    ssprite->width, ssprite->height );
-  gdk_gc_set_clip_mask( civ_gc, NULL );
-}
+#endif
 
 /**************************************************************************
 ...
@@ -1264,32 +2125,153 @@ static void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y,
   if (!ssprite)
     return;
 
-  gtk_pixcomm_copyto (p, ssprite, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+  gtk_pixcomm_copyto (p, ssprite, x*UNIT_TILE_WIDTH, y*UNIT_TILE_HEIGHT,
 		FALSE);
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+				    int canvas_x, int canvas_y,
+				    struct Sprite *ssprite)
+{
+  if (!ssprite)
+    return;
+      
+  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+
+  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
+		  0, 0,
+		  canvas_x, canvas_y,
+		  ssprite->width, ssprite->height);
+  gdk_gc_set_clip_mask(civ_gc, NULL);
+}
+
+#ifdef ISOMETRIC
+/**************************************************************************
+...
+**************************************************************************/
+static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+					 int canvas_x, int canvas_y,
+					 struct Sprite *ssprite,
+					 int offset_x, int offset_y,
+					 int width, int height,
+					 int fog)
+{
+  if (!ssprite || !width || !height)
+    return;
+
+  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+
+  gdk_draw_pixmap(pixmap, civ_gc, ssprite->pixmap,
+		  offset_x, offset_y,
+		  canvas_x+offset_x, canvas_y+offset_y,
+		  MIN(width, MAX(0, ssprite->width-offset_x)),
+		  MIN(height, MAX(0, ssprite->height-offset_y)));
+  gdk_gc_set_clip_mask(civ_gc, NULL);
+
+  /* I imagine this could be done more efficiently. Some pixels We first
+     draw from the sprite, and then draw black afterwards. It would be much
+     faster to just draw every second pixel black in the first place. */
+  if (fog) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_stipple(fill_tile_gc, black50);
+
+    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, ssprite->width-offset_x)),
+		       MIN(height, MAX(0, ssprite->height-offset_y)));
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+  }
+}
+#endif
+
+/**************************************************************************
  Draws a cross-hair overlay on a tile
 **************************************************************************/
-void put_cross_overlay_tile(int x,int y)
+void put_cross_overlay_tile(int x, int y)
 {
-  x=map_adjust_x(x);
-  y=map_adjust_y(y);
+  int canvas_x, canvas_y;
+  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
-  if(tile_visible_mapcanvas(x, y)) {
-    pixmap_put_overlay_tile(map_canvas->window,map_canvas_adjust_x(x),
-			    map_canvas_adjust_y(y), sprites.user.attention);
+  if (tile_visible_mapcanvas(x, y)) {
+    pixmap_put_overlay_tile(map_canvas->window,
+			    canvas_x, canvas_y,
+			    sprites.user.attention);
   }
 }
 
+#ifdef ISOMETRIC
+/**************************************************************************
+FIXME: We just put the tile output here
+**************************************************************************/
+void put_city_workers(struct city *pcity, int color)
+{
+  int i, j;
+  int canvas_x, canvas_y;
+  static struct city *last_pcity=NULL;
 
+  if (color==-1) {
+    if (pcity!=last_pcity)
+      city_workers_color = city_workers_color%3 + 1;
+    color=city_workers_color;
+  }
+  gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
+
+  city_map_iterate(i, j) {
+    enum city_tile_type worked = get_worker_city(pcity, i, j);
+    int x = pcity->x + i - CITY_MAP_SIZE/2;
+    int y = pcity->y + j - CITY_MAP_SIZE/2;
+    if (normalize_map_pos(&x, &y)) {
+      get_canvas_xy(x, y, &canvas_x, &canvas_y);
+
+      /* stipple the area */
+      if (!(i == 2 && j == 2)) {
+	if (worked == C_TILE_EMPTY) {
+	  gdk_gc_set_stipple(fill_tile_gc, gray25);
+	} else if (worked == C_TILE_WORKER) {
+	  gdk_gc_set_stipple(fill_tile_gc, gray50);
+	} else
+	  continue;
+
+	gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+	gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+	gdk_draw_pixmap(map_canvas->window, fill_tile_gc, map_canvas_store,
+			canvas_x, canvas_y,
+			canvas_x, canvas_y,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
+			   canvas_x, canvas_y,
+			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+      }
+
+      /* draw tile output */
+      if (worked == C_TILE_WORKER) {
+	put_city_tile_output(map_canvas->window,
+			     canvas_x, canvas_y,
+			     city_get_food_tile(i, j, pcity),
+			     city_get_shields_tile(i, j, pcity), 
+			     city_get_trade_tile(i, j, pcity) );
+      }
+    }
+  }
+
+  last_pcity=pcity;
+}
+#else
 /**************************************************************************
  Shade the tiles around a city to indicate the location of workers
 **************************************************************************/
 void put_city_workers(struct city *pcity, int color)
 {
-  int x,y;
-  int i,j;
+  int canvas_x, canvas_y;
+  int i, j;
   static struct city *last_pcity=NULL;
 
   if(color==-1) {
@@ -1298,36 +2280,68 @@ void put_city_workers(struct city *pcity, int color)
   }
 
   gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
-  x=map_canvas_adjust_x(pcity->x); y=map_canvas_adjust_y(pcity->y);
   city_map_iterate(i, j)  {
-    enum city_tile_type t=get_worker_city(pcity, i, j);
-    enum city_tile_type last_t=-1;
-    if(!(i==2 && j==2)) {
-      if(t==C_TILE_EMPTY) {
-	if(last_t!=t) gdk_gc_set_stipple(fill_tile_gc,gray25);
-      } else if(t==C_TILE_WORKER) {
-	if(last_t!=t) gdk_gc_set_stipple(fill_tile_gc,gray50);
-      } else continue;
-      last_t=t;
-      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		      (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT, 
-		      (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
-			 (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-    if(t==C_TILE_WORKER) {
-      put_city_tile_output(map_canvas->window, x+i-2, y+j-2, 
-			   city_get_food_tile(i, j, pcity),
-			   city_get_shields_tile(i, j, pcity), 
-			   city_get_trade_tile(i, j, pcity) );
+    enum city_tile_type worked = get_worker_city(pcity, i, j);
+    int x = pcity->x + i - CITY_MAP_SIZE/2;
+    int y = pcity->y + j - CITY_MAP_SIZE/2;
+    if (normalize_map_pos(&x, &y)) {
+      get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      if (!(i == 2 && j == 2)) {
+	if (worked == C_TILE_EMPTY) {
+	  gdk_gc_set_stipple(fill_tile_gc, gray25);
+	} else if (worked == C_TILE_WORKER) {
+	  gdk_gc_set_stipple(fill_tile_gc, gray50);
+	} else continue;
+	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+			canvas_x, canvas_y,
+			canvas_x, canvas_y,
+			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
+			   canvas_x, canvas_y,
+			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      }
+      if (worked == C_TILE_WORKER) {
+	put_city_tile_output(map_canvas->window,
+			     canvas_x, canvas_y,
+			     city_get_food_tile(i, j, pcity),
+			     city_get_shields_tile(i, j, pcity), 
+			     city_get_trade_tile(i, j, pcity) );
+      }
     }
   }
 
-  last_pcity=pcity;
+  last_pcity = pcity;
+}
+#endif
+
+/**************************************************************************
+...
+**************************************************************************/
+void update_map_canvas_scrollbars(void)
+{
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), map_view_x0);
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), map_view_y0);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void update_map_canvas_scrollbars_size(void)
+{
+  map_hadj=gtk_adjustment_new(-1, 0, map.xsize, 1,
+	   map_canvas_store_twidth, map_canvas_store_twidth);
+  map_vadj=gtk_adjustment_new(-1, 0, map.ysize+EXTRA_BOTTOM_ROW, 1,
+	   map_canvas_store_theight, map_canvas_store_theight);
+  gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
+	GTK_ADJUSTMENT(map_hadj));
+  gtk_range_set_adjustment(GTK_RANGE(map_vertical_scrollbar),
+	GTK_ADJUSTMENT(map_vadj));
+
+  gtk_signal_connect(GTK_OBJECT(map_hadj), "value_changed",
+	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)TRUE);
+  gtk_signal_connect(GTK_OBJECT(map_vadj), "value_changed",
+	GTK_SIGNAL_FUNC(scrollbar_jump_callback), (gpointer)FALSE);
+}
 
 /**************************************************************************
 ...
@@ -1352,25 +2366,110 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
     map_view_y0=(map_view_y0<0) ? 0 : map_view_y0;
     map_view_y0=
       (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight) ? 
-	map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
-	map_view_y0;
+      map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight :
+      map_view_y0;
   }
 
-  if(last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {
-    update_map_canvas(0, 0,map_canvas_store_twidth, map_canvas_store_theight,1);
+  if (last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {
+    update_map_canvas_visible();
     refresh_overview_viewrect();
   }
+}
+
+  
+#ifdef ISOMETRIC
+/**************************************************************************
+draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
+map_canvas_store
+FIXME: We currently always draw the line.
+**************************************************************************/
+static void really_draw_segment(int src_x, int src_y, int dir,
+				int write_to_screen, int force)
+{
+  int dest_x, dest_y;
+  int canvas_start_x, canvas_start_y;
+  int canvas_end_x, canvas_end_y;
+
+  gdk_gc_set_foreground(thick_line_gc, colors_standard[COLOR_STD_CYAN]);
+
+  dest_x = src_x + DIR_DX[dir];
+  dest_y = src_y + DIR_DY[dir];
+  assert(normalize_map_pos(&dest_x, &dest_y));
+
+  /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
+     horizontal line when we refresh the tile below-between. */
+  get_canvas_xy(src_x, src_y, &canvas_start_x, &canvas_start_y);
+  get_canvas_xy(dest_x, dest_y, &canvas_end_x, &canvas_end_y);
+  canvas_start_x += NORMAL_TILE_WIDTH/2;
+  canvas_start_y += NORMAL_TILE_HEIGHT/2-1;
+  canvas_end_x += NORMAL_TILE_WIDTH/2;
+  canvas_end_y += NORMAL_TILE_HEIGHT/2-1;
+
+  /* somewhat hackish way of solving the problem where draw from a tile on
+     one side of the screen out of the screen, and the tile we draw to is
+     found to be on the other side of the screen. */
+  if (abs(canvas_end_x - canvas_start_x) > NORMAL_TILE_WIDTH
+      || abs(canvas_end_y - canvas_start_y) > NORMAL_TILE_HEIGHT)
+    return;
+
+  /* draw it! */
+  gdk_draw_line(map_canvas_store, thick_line_gc,
+		canvas_start_x, canvas_start_y, canvas_end_x, canvas_end_y);
+  if (write_to_screen)
+    gdk_draw_line(map_canvas->window, thick_line_gc,
+		  canvas_start_x, canvas_start_y, canvas_end_x, canvas_end_y);
+  return;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
+void draw_segment(int src_x, int src_y, int dir,
+		  int write_to_screen)
+{
+  increment_drawn(src_x, src_y, dir);
+  if (get_drawn(src_x, src_y, dir) > 1) {
+    return;
+  } else {
+    really_draw_segment(src_x, src_y, dir, write_to_screen, 0);
+  }
+}
+
+/**************************************************************************
+remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
+map_canvas_store.
+**************************************************************************/
+void undraw_segment(int src_x, int src_y, int dir)
+{
+  int dest_x, dest_y;
+
+  dest_x = src_x + DIR_DX[dir];
+  dest_y = src_y + DIR_DY[dir];
+  assert(normalize_map_pos(&dest_x, &dest_y));
+
+  assert(get_drawn(src_x, src_y, dir));
+  decrement_drawn(src_x, src_y, dir);
+
+  /* somewhat inefficient */
+  if (!get_drawn(src_x, src_y, dir)) {
+    update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
+		      src_x == dest_x ? 1 : 2,
+		      src_y == dest_y ? 1 : 2,
+		      1);
+  }
+}
+#else
+/**************************************************************************
+...
+**************************************************************************/
 static void put_line(GdkDrawable *pm, int x, int y, int dir)
 {
-  int canvas_src_x = map_canvas_adjust_x(x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
-  int canvas_src_y = map_canvas_adjust_y(y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
-  int canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
-  int canvas_dest_y = canvas_src_y + (NORMAL_TILE_HEIGHT * DIR_DY[dir])/2;
+  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
+  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
+  canvas_src_x += NORMAL_TILE_WIDTH/2;
+  canvas_src_y += NORMAL_TILE_HEIGHT/2;
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
 
   gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_CYAN]);
 
@@ -1444,3 +2543,4 @@ void undraw_segment(int src_x, int src_y, int dir)
     }
   }
 }
+#endif

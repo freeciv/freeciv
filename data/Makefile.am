@@ -7,10 +7,11 @@ pkgdata_DATA = \
 	engels_shields.tilespec	\
 	trident.tilespec	\
 	trident_shields.tilespec	\
+	hires.tilespec \
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation
+SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation hires

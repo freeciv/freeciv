@@ -18,7 +18,6 @@
 
 #ifndef FC__TILESPEC_H
 #define FC__TILESPEC_H
-
 #include "map.h"		/* NUM_DIRECTION_NSEW */
 
 #include "colors_g.h"
@@ -40,13 +39,22 @@ void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
+#ifdef ISOMETRIC
+int fill_tile_sprite_array(struct Sprite **sprs, struct Sprite **coasts,
+			   struct Sprite **dither,
+			   int abs_x0, int abs_y0, int citymode);
+#else
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int citymode);
+#endif
 int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit);
+int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity);
 
 enum color_std player_color(struct player *pplayer);
 enum color_std overview_tile_color(int x, int y);
 
 void set_focus_unit_hidden_state(int hide);
+struct unit *get_drawable_unit(int x, int y, int citymode);
+
 
 /* This the way directional indices are now encoded: */
 
@@ -73,7 +81,14 @@ struct named_sprites {
     *cooling[NUM_TILES_PROGRESS],
     *citizen[NUM_TILES_CITIZEN],   /* internal code... */
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
-    *right_arrow;
+    *right_arrow
+#ifdef ISOMETRIC
+    ,
+    *black_tile,
+    *dither_tile,
+    *coast_color
+#endif
+  ;
   struct {
     struct Sprite
       *solar_panels,
@@ -85,9 +100,14 @@ struct named_sprites {
   } spaceship;
   struct {
     struct Sprite
+#ifndef ISOMETRIC
       *isolated,
       *cardinal[NUM_DIRECTION_NSEW],     /* first unused */
       *diagonal[NUM_DIRECTION_NSEW];     /* first unused */
+#else
+      *isolated,
+      *dir[8];     /* first used! */
+#endif
   } road, rail;
   struct {
     struct Sprite *nuke[3][3];	         /* row, column, from top-left */
@@ -131,6 +151,9 @@ struct named_sprites {
       *tile_foodnum[NUM_TILES_DIGITS],
       *tile_shieldnum[NUM_TILES_DIGITS],
       *tile_tradenum[NUM_TILES_DIGITS],
+#ifdef ISOMETRIC
+      ***tile_wall,
+#endif
       ***tile;
   } city;
   struct {
@@ -149,7 +172,14 @@ struct named_sprites {
       *fallout,
       *fog,
       *spec_river[NUM_DIRECTION_NSEW],
+#ifdef ISOMETRIC
+      *spec_forest[NUM_DIRECTION_NSEW],
+      *spec_mountain[NUM_DIRECTION_NSEW],
+      *spec_hill[NUM_DIRECTION_NSEW],
+      *coast_cape[8][4], /* 4 = up down left right */
+#else
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
+#endif
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
       *river_outlet[4],		/* indexed by enum Directions */
       *denmark[2][3];		/* row, column */
@@ -192,6 +222,8 @@ extern char *minimap_intro_filename;
 
 extern int NORMAL_TILE_WIDTH;
 extern int NORMAL_TILE_HEIGHT;
+extern int UNIT_TILE_WIDTH;
+extern int UNIT_TILE_HEIGHT;
 extern int SMALL_TILE_WIDTH;
 extern int SMALL_TILE_HEIGHT;
 

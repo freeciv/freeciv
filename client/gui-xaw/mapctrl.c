@@ -267,21 +267,20 @@ void mapctrl_btn_wakeup(XEvent *event)
 **************************************************************************/
 void mapctrl_btn_mapcanvas(XEvent *event)
 {
-  int xtile, ytile;
+  int x, y;
   XButtonEvent *ev=&event->xbutton;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
 
-  xtile=map_adjust_x(map_view_x0+ev->x/NORMAL_TILE_WIDTH);
-  ytile=map_adjust_y(map_view_y0+ev->y/NORMAL_TILE_HEIGHT);
+  get_map_xy(ev->x, ev->y, &x, &y);
 
-  if(ev->button==Button1)
-    do_map_click(xtile, ytile);
-  else if(ev->button==Button2||ev->state&ControlMask)
-    popit(ev->x, ev->y, xtile, ytile);
+  if (ev->button==Button1)
+    do_map_click(x, y);
+  else if (ev->button==Button2||ev->state&ControlMask)
+    popit(ev->x, ev->y, x, y);
   else
-    center_tile_mapcanvas(xtile, ytile);
+    center_tile_mapcanvas(x, y);
 }
 
 /**************************************************************************
