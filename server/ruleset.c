@@ -620,15 +620,6 @@ static void load_ruleset_units(struct section_file *file)
   datafile_options =
     check_ruleset_capabilities(file, "+1.9", filename);
 
-  game.firepower_factor =
-    secfile_lookup_int_default(file, 1, "units_adjust.firepower_factor");
-  if (game.firepower_factor <= 0) {
-      freelog(LOG_FATAL, "In the [units_adjust] section of the %s file,\n"
-		      "firepower_factor has been set to %d but has to be "
-		      "higher than zero.", filename, game.firepower_factor);
-      exit(EXIT_FAILURE);
-  }
-
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
 
   /* Tech requirement is used to flag removed unit_types, which
@@ -2409,7 +2400,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.tech_requirement = u->tech_requirement;
     packet.vision_range = u->vision_range;
     packet.transport_capacity = u->transport_capacity;
-    packet.hp = u->hp / game.firepower_factor;
+    packet.hp = u->hp;
     packet.firepower = u->firepower;
     packet.obsoleted_by = u->obsoleted_by;
     packet.fuel = u->fuel;

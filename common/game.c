@@ -715,7 +715,6 @@ void game_init(void)
 
   sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
 
-  game.firepower_factor = 1;
   game.num_unit_types = 0;
   game.num_impr_types = 0;
   game.num_tech_types = 0;

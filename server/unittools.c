@@ -211,9 +211,9 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
   }
   while (attacker->hp>0 && defender->hp>0) {
     if (myrand(attackpower+defensepower) >= defensepower) {
-      defender->hp -= attack_firepower * game.firepower_factor;
+      defender->hp -= attack_firepower;
     } else {
-      attacker->hp -= defense_firepower * game.firepower_factor;
+      attacker->hp -= defense_firepower;
     }
   }
   if (attacker->hp<0) attacker->hp = 0;
@@ -2001,7 +2001,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->veteran = punit->veteran;
   packet->type = punit->type;
   packet->movesleft = punit->moves_left;
-  packet->hp = punit->hp / game.firepower_factor;
+  packet->hp = punit->hp;
   packet->activity = punit->activity;
   packet->activity_count = punit->activity_count;
   packet->unhappiness = punit->unhappiness;

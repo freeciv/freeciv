@@ -113,20 +113,6 @@ self-explanatory.  A few points:
   game (rather than intrinsic properties of the unit).
   See comments in common/unit.h
 
-- The [units_adjust] section of the units file deserves some
-  explanation.  It contains the entry
-
-	firepower_factor.
-
-  The value of firepower_factor is used when combat is resolved:
-  All combat firepower values are multiplied by firepower_factor,
-  which means that the effective hitpoints of any unit is really 
-      (hitpoints/firepower_factor).
-  Actually, it is these effective hitpoints which are report to the
-  client for all hitpoint values.
-  (This complicated setup is so that the AI calculations don't 
-  blow up when using Civ1 rulesets.)
-
 - The cities section of the nations ruleset files deserves some
   explanation.  At first glance, it simply contains a comma-
   separated list of quoted city names.  However, this list can
