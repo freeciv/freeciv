@@ -1,0 +1,15 @@
+Requierements to compile Freeciv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Currently the nativ vesion of freeciv can only be compiled with
+SAS C.
+Further you need the AmiTCP SDK (maybe the Miami SDK also works),
+MUI, NList and Guigfx includes to be on your machine.
+
+How to compile?
+~~~~~~~~~~~~~~~
+If all is ready, simply cd into this directory and enter
+ 'smake'
+But note that I can't guarante if it is possible to compile on another
+machine yet, espacially I expect that 'smake install' doesn't work
+(because there are currently no icons in the cvs; also DESTDIR need
+to be adapted)

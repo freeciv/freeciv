@@ -1,0 +1,400 @@
+FREECIV_DIR = /
+DESTDIR = Development:Projects/freeciv
+
+CCFLAGS = ANSI IDLEN=40 NOLINK MATH=IEEE MCCONS COMMENTNEST DATA=far NOSTKCHK IGNORE=51,63
+
+COMMONOBJS = common/astring.o common/capability.o common/capstr.o common/city.o common/diptreaty.o common/fcintl.o \
+             common/game.o common/genlist.o common/government.o common/inputfile.o common/log.o common/map.o common/nation.o common/packets.o common/player.o common/mem.o common/registry.o \
+             common/sbuffer.o common/shared.o common/spaceship.o common/tech.o common/timing.o common/unit.o
+COMMONDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common
+
+AIOBJS = ai/advattitude.o ai/advdomestic.o ai/advforeign.o \
+         ai/advisland.o ai/advleader.o ai/advmilitary.o ai/advscience.o ai/advspace.o \
+         ai/advtrade.o ai/aicity.o ai/aihand.o ai/aitech.o ai/aitools.o ai/aiunit.o
+AIDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}server
+
+SERVEROBJS = server/autoattack.o server/cityhand.o server/citytools.o server/cityturn.o \
+             server/civserver.o server/console.o server/diplhand.o server/gamehand.o server/gamelog.o server/gotohand.o \
+             server/handchat.o server/mapgen.o server/maphand.o server/meta.o server/plrhand.o server/ruleset.o server/sernet.o \
+             server/settlers.o server/spacerace.o server/stdinhand.o server/unitfunc.o server/unithand.o server/unittools.o
+SERVERDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}server IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}ai
+
+CGP = /client/gui-mui/
+
+CLIENTOBJS = client/gui-mui/gui_main.o client/gui-mui/overviewclass.o client/gui-mui/mapclass.o client/gui-mui/muistuff.o client/civclient.o client/climisc.o client/clinet.o client/control.o client/helpdata.o client/options.o client/packhand.o client/tilespec.o
+CLIENTDIRS = DEF=HAVE_CONFIG_H IDIR=`cd`  IDIR=${FREECIV_DIR}client IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include
+
+CLIENTGUIOBJS1 = client/gui-mui/chatline.o client/gui-mui/citydlg.o client/gui-mui/cityrep.o \
+                 client/gui-mui/colors.o client/gui-mui/connectdlg.o client/gui-mui/dialogs.o client/gui-mui/diplodlg.o client/gui-mui/finddlg.o client/gui-mui/gamedlgs.o \
+                 client/gui-mui/gotodlg.o client/gui-mui/helpdlg.o
+CLIENTGUIOBJS2 = client/gui-mui/inteldlg.o client/gui-mui/mapctrl.o client/gui-mui/mapview.o client/gui-mui/messagedlg.o \
+                 client/gui-mui/messagewin.o client/gui-mui/plrdlg.o client/gui-mui/repodlgs.o client/gui-mui/spaceshipdlg.o
+CLIENTGUIOBJS  = ${CLIENTGUIOBJS1} ${CLIENTGUIOBJS2}
+CLIENTGUIDIRS  = IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include IDIR=${FREECIV_DIR}client
+
+All: dirs civserver civclient
+
+dirs:
+  execute makedirs
+
+civserver: ai/libcivai.lib common/libcivcommon.lib server/amigaserver.o _main.o ${SERVEROBJS}
+  sc link with <<
+FROM server/amigaserver.o _main.o ${SERVEROBJS}
+LIB ai/libcivai.lib common/libcivcommon.lib
+TO civserver
+<
+
+# AI Files
+
+ai/libcivai.lib: ${AIOBJS}
+  run >NIL: <NIL: delete quiet $@
+  wait 1
+  oml $@ a ${AIOBJS}
+
+ai/advattitude.o: ${FREECIV_DIR}ai/advattitude.c
+  sc ${FREECIV_DIR}ai/advattitude.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advdomestic.o: ${FREECIV_DIR}ai/advdomestic.c
+  sc ${FREECIV_DIR}ai/advdomestic.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advforeign.o: ${FREECIV_DIR}ai/advforeign.c
+  sc ${FREECIV_DIR}ai/advforeign.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advisland.o: ${FREECIV_DIR}ai/advisland.c
+  sc ${FREECIV_DIR}ai/advisland.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advleader.o: ${FREECIV_DIR}ai/advleader.c
+  sc ${FREECIV_DIR}ai/advleader.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advmilitary.o: ${FREECIV_DIR}ai/advmilitary.c
+  sc ${FREECIV_DIR}ai/advmilitary.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advscience.o: ${FREECIV_DIR}ai/advscience.c
+  sc ${FREECIV_DIR}ai/advscience.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advspace.o: ${FREECIV_DIR}ai/advspace.c
+  sc ${FREECIV_DIR}ai/advspace.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/advtrade.o: ${FREECIV_DIR}ai/advtrade.c
+  sc ${FREECIV_DIR}ai/advtrade.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/aicity.o: ${FREECIV_DIR}ai/aicity.c
+  sc ${FREECIV_DIR}ai/aicity.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/aihand.o: ${FREECIV_DIR}ai/aihand.c
+  sc ${FREECIV_DIR}ai/aihand.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/aitech.o: ${FREECIV_DIR}ai/aitech.c
+  sc ${FREECIV_DIR}ai/aitech.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/aitools.o: ${FREECIV_DIR}ai/aitools.c
+  sc ${FREECIV_DIR}ai/aitools.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+ai/aiunit.o: ${FREECIV_DIR}ai/aiunit.c
+  sc ${FREECIV_DIR}ai/aiunit.c ${AIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+
+# Common Files
+
+common/libcivcommon.lib: ${COMMONOBJS}
+  run >NIL: <NIL: delete quiet $@
+  wait 1
+  oml $@ a ${COMMONOBJS}
+
+common/astring.o: ${FREECIV_DIR}common/astring.c
+  sc ${FREECIV_DIR}common/astring.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/capability.o: ${FREECIV_DIR}common/capability.c
+  sc ${FREECIV_DIR}common/capability.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/capstr.o: ${FREECIV_DIR}common/capstr.c
+  sc ${FREECIV_DIR}common/capstr.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/city.o: ${FREECIV_DIR}common/city.c
+  sc ${FREECIV_DIR}common/city.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/diptreaty.o: ${FREECIV_DIR}common/diptreaty.c
+  sc ${FREECIV_DIR}common/diptreaty.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/fcintl.o: ${FREECIV_DIR}common/fcintl.c
+  sc ${FREECIV_DIR}common/fcintl.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/game.o: ${FREECIV_DIR}common/game.c
+  sc ${FREECIV_DIR}common/game.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/genlist.o: ${FREECIV_DIR}common/genlist.c
+  sc ${FREECIV_DIR}common/genlist.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/government.o: ${FREECIV_DIR}common/government.c
+  sc ${FREECIV_DIR}common/government.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/inputfile.o: ${FREECIV_DIR}common/inputfile.c
+  sc ${FREECIV_DIR}common/inputfile.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/log.o: ${FREECIV_DIR}common/log.c
+  sc ${FREECIV_DIR}common/log.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/map.o: ${FREECIV_DIR}common/map.c
+  sc ${FREECIV_DIR}common/map.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/nation.o: ${FREECIV_DIR}common/nation.c
+  sc ${FREECIV_DIR}common/nation.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/packets.o: ${FREECIV_DIR}common/packets.c
+  sc ${FREECIV_DIR}common/packets.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/player.o: ${FREECIV_DIR}common/player.c
+  sc ${FREECIV_DIR}common/player.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/mem.o: ${FREECIV_DIR}common/mem.c
+  sc ${FREECIV_DIR}common/mem.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/registry.o: ${FREECIV_DIR}common/registry.c
+  sc ${FREECIV_DIR}common/registry.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/sbuffer.o: ${FREECIV_DIR}common/sbuffer.c
+  sc ${FREECIV_DIR}common/sbuffer.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/shared.o: ${FREECIV_DIR}common/shared.c
+  sc ${FREECIV_DIR}common/shared.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/spaceship.o: ${FREECIV_DIR}common/spaceship.c
+  sc ${FREECIV_DIR}common/spaceship.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/tech.o: ${FREECIV_DIR}common/tech.c
+  sc ${FREECIV_DIR}common/tech.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/timing.o: ${FREECIV_DIR}common/timing.c
+  sc ${FREECIV_DIR}common/timing.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/unit.o: ${FREECIV_DIR}common/unit.c
+  sc ${FREECIV_DIR}common/unit.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+# Server Files
+
+server/amigaserver.o: amigaserver.c
+  sc amigaserver.c OBJNAME=$@
+
+server/autoattack.o: ${FREECIV_DIR}server/autoattack.c
+  sc ${FREECIV_DIR}server/autoattack.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/cityhand.o: ${FREECIV_DIR}server/cityhand.c
+  sc ${FREECIV_DIR}server/cityhand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/citytools.o: ${FREECIV_DIR}server/citytools.c
+  sc ${FREECIV_DIR}server/citytools.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/cityturn.o: ${FREECIV_DIR}server/cityturn.c
+  sc ${FREECIV_DIR}server/cityturn.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/civserver.o: ${FREECIV_DIR}server/civserver.c
+  sc ${FREECIV_DIR}server/civserver.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/console.o: ${FREECIV_DIR}server/console.c
+  sc ${FREECIV_DIR}server/console.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/diplhand.o: ${FREECIV_DIR}server/diplhand.c
+  sc ${FREECIV_DIR}server/diplhand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/gamehand.o: ${FREECIV_DIR}server/gamehand.c
+  sc ${FREECIV_DIR}server/gamehand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/gamelog.o: ${FREECIV_DIR}server/gamelog.c
+  sc ${FREECIV_DIR}server/gamelog.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/gotohand.o: ${FREECIV_DIR}server/gotohand.c
+  sc ${FREECIV_DIR}server/gotohand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/handchat.o: ${FREECIV_DIR}server/handchat.c
+  sc ${FREECIV_DIR}server/handchat.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/mapgen.o: ${FREECIV_DIR}server/mapgen.c
+  sc ${FREECIV_DIR}server/mapgen.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/maphand.o: ${FREECIV_DIR}server/maphand.c
+  sc ${FREECIV_DIR}server/maphand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/meta.o: ${FREECIV_DIR}server/meta.c
+  sc ${FREECIV_DIR}server/meta.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/plrhand.o: ${FREECIV_DIR}server/plrhand.c
+  sc ${FREECIV_DIR}server/plrhand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/ruleset.o: ${FREECIV_DIR}server/ruleset.c
+  sc ${FREECIV_DIR}server/ruleset.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/sernet.o: $(FREECIV_DIR)server/sernet.c
+  sc ${FREECIV_DIR}server/sernet.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/settlers.o: ${FREECIV_DIR}server/settlers.c
+  sc ${FREECIV_DIR}server/settlers.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/spacerace.o: ${FREECIV_DIR}server/spacerace.c
+  sc ${FREECIV_DIR}server/spacerace.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/stdinhand.o: ${FREECIV_DIR}server/stdinhand.c
+  sc ${FREECIV_DIR}server/stdinhand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/unitfunc.o: ${FREECIV_DIR}server/unitfunc.c
+  sc ${FREECIV_DIR}server/unitfunc.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/unithand.o: ${FREECIV_DIR}server/unithand.c
+  sc ${FREECIV_DIR}server/unithand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/unittools.o: ${FREECIV_DIR}server/unittools.c
+  sc ${FREECIV_DIR}server/unittools.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+
+#civclient: common/libcivcommon.lib client/gui-mui/libguiclient.lib client/amigaclient.o ${CLIENTOBJS}
+civclient: common/libcivcommon.lib client/amigaclient.o _main.o ${CLIENTOBJS} ${CLIENTGUIOBJS}
+  sc link with <<
+FROM client/amigaclient.o _main.o ${CLIENTOBJS} ${CLIENTGUIOBJS}
+LIB common/libcivcommon.lib # client/gui-mui/libguiclient.lib
+TO civclient
+NOICONS
+<
+
+# Client Files
+
+client/amigaclient.o: amigaclient.c
+  sc amigaclient.c OBJNAME=$@
+
+client/civclient.o: ${FREECIV_DIR}client/civclient.c
+  sc ${FREECIV_DIR}client/civclient.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/climisc.o: ${FREECIV_DIR}client/climisc.c
+  sc ${FREECIV_DIR}client/climisc.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/clinet.o: ${FREECIV_DIR}client/clinet.c
+  sc ${FREECIV_DIR}client/clinet.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/control.o: ${FREECIV_DIR}client/control.c
+  sc ${FREECIV_DIR}client/control.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/helpdata.o: ${FREECIV_DIR}client/helpdata.c
+  sc ${FREECIV_DIR}client/helpdata.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/options.o: ${FREECIV_DIR}client/options.c
+  sc ${FREECIV_DIR}client/options.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/packhand.o: ${FREECIV_DIR}client/packhand.c
+  sc ${FREECIV_DIR}client/packhand.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/tilespec.o: ${FREECIV_DIR}client/tilespec.c
+  sc ${FREECIV_DIR}client/tilespec.c ${CLIENTDIRS} OBJNAME=$@ ${CCFLAGS}
+
+
+# Subclient Files
+
+#client/gui-mui/libguiclient.lib: ${CLIENTGUIOBJS}
+#  run >NIL: <NIL: delete quiet $@
+#  wait 1
+#  oml $@ a ${CLIENTGUIOBJS1}
+#  oml $@ a ${CLIENTGUIOBJS2}
+
+client/gui-mui/overviewclass.o: ${CGP}overviewclass.c
+  sc ${CGP}overviewclass.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/mapclass.o: ${CGP}mapclass.c
+  sc ${CGP}mapclass.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/muistuff.o: ${CGP}muistuff.c
+  sc ${CGP}muistuff.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/chatline.o: ${CGP}chatline.c
+  sc ${CGP}chatline.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/citydlg.o: ${CGP}citydlg.c
+  sc ${CGP}citydlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/cityrep.o: ${CGP}cityrep.c
+  sc ${CGP}cityrep.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/colors.o: ${CGP}colors.c
+  sc ${CGP}colors.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/connectdlg.o: ${CGP}connectdlg.c
+  sc ${CGP}connectdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/dialogs.o: ${CGP}dialogs.c
+  sc ${CGP}dialogs.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/diplodlg.o: ${CGP}diplodlg.c
+  sc ${CGP}diplodlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/finddlg.o: ${CGP}finddlg.c
+  sc ${CGP}finddlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/gamedlgs.o: ${CGP}gamedlgs.c
+  sc ${CGP}gamedlgs.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/gotodlg.o: ${CGP}gotodlg.c
+  sc ${CGP}gotodlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/gui_main.o: ${CGP}gui_main.c
+  sc ${CGP}gui_main.c gst=client.gst ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/helpdlg.o: ${CGP}helpdlg.c
+  sc ${CGP}helpdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/inteldlg.o: ${CGP}inteldlg.c
+  sc ${CGP}inteldlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/mapctrl.o: ${CGP}mapctrl.c
+  sc ${CGP}mapctrl.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/mapview.o: ${CGP}mapview.c
+  sc ${CGP}mapview.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/messagedlg.o: ${CGP}messagedlg.c
+  sc ${CGP}messagedlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/messagewin.o: ${CGP}messagewin.c
+  sc ${CGP}messagewin.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/plrdlg.o: ${CGP}plrdlg.c
+  sc ${CGP}plrdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/repodlgs.o: ${CGP}repodlgs.c
+  sc ${CGP}repodlgs.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+client/gui-mui/spaceshipdlg.o: ${CGP}spaceshipdlg.c
+  sc ${CGP}spaceshipdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
+
+
+
+
+_main.o: _main.c
+  sc _main.c OBJNAME=$@
+
+install:
+  delete ${DESTDIR}/* all
+  copy ReadMe ${DESTDIR}
+  copy ReadMe.info ${DESTDIR}
+  slink civserver nd noicons
+  slink civclient nd noicons
+  copy civserver.exe ${DESTDIR}/civserver
+  copy civserver.exe.info ${DESTDIR}/civserver.info
+  copy civclient.exe ${DESTDIR}/civclient
+  copy civclient.exe.info ${DESTDIR}/civclient.info
+  copy Freeciv.start ${DESTDIR}
+  copy Freeciv.start.info ${DESTDIR}
+  copy Icons ${DESTDIR}/Icons all
+  copy Icons.info ${DESTDIR}
+  copy ${FREECIV_DIR}data/*.(ilbm|txt|sav|serv) ${DESTDIR}/data
+  copy ${FREECIV_DIR}data/trident.tilespec $(DESTDIR}/data
+  copy ${FREECIV_DIR}data/civ1/*.ruleset ${DESTDIR}/data/civ1
+  copy ${FREECIV_DIR}data/civ2/*.ruleset ${DESTDIR}/data/civ2
+  copy ${FREECIV_DIR}data/classic/*.ruleset ${DESTDIR}/data/classic
+  copy ${FREECIV_DIR}data/default/*.ruleset ${DESTDIR}/data/default
+  copy ${FREECIV_DIR}data/misc/*.(ilbm|spec) ${DESTDIR}/data/misc
+  copy ${FREECIV_DIR}data/scenario/*.sav ${DESTDIR}/data/scenario
+  copy ${FREECIV_DIR}data/trident/*.(ilbm|ruleset|spec) ${DESTDIR}/data/trident
+
+  copy ${FREECIV_DIR}README ${DESTDIR}/README.org
+  copy ${FREECIV_DIR}*(README.~(bak*)|BUGS|TODO|HOWTO*|NEWS|AUTHORS|PEOPLE|HOWTOPLAY|COPYING|INSTALL) ${DESTDIR}
+
+clean:
+  delete ai/*.o client/*.o client/gui-mui/*.o common/*.o server/*.o
+
+

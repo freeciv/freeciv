@@ -1,0 +1,165 @@
+Short:     Amiga Version 1.5 => Freeciv 1.9.0
+Uploader:  sebauer@t-online.de (Sebastian Bauer)
+Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
+Type:      game/2play
+Kurz:      Amiga Version 1.5 => Freeciv 1.9.0
+Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
+Version:   1.5
+
+Introduction
+~~~~~~~~~~~~
+This is a native compile of Freeciv. It also has an own client which is
+using MUI. That means you don't need to have ixemul.library or a XServer.
+Actually the client is not completly ready yet, but most things should
+work.
+
+Requirements
+~~~~~~~~~~~~
+ - 68020 processor
+ - OS 3.0
+ - MUI 3.8
+ - NList 0.89
+ - TCP/IP Stack
+ - guigfx.library (needs render.library version 30 itself)
+
+Note, some that some combinations of the picture.datatype and ilbm.datatype
+doesn't work correctly.
+Following combinations seem to work:
+  picture.datatype 43.764 (CGFX) and ilbm.datatype 44.19 (by Stephan Rupprecht)
+  picture.datatype 43.33 (P96; also works on AGA) and ilbm.datatype 44.19
+  picture.datatype 44.19 and ilbm.datatype 44.8 (both are in OS3.5)
+  picture.datatype 43.41 (P96 V1.43a) and ilbm.datatype 40.3 (orginal OS 3.1)
+Please contact me if you use other datatypes and Freeciv works correctly
+with them.
+
+Also always use the latest guigfx.library. The current version is 16.2
+and this can be found at:
+ http://209.201.55.167/binarydistillery/guigfx/guigfxlib.lha.
+or Aminet
+
+Render.library can be found at
+ http://209.201.55.167/binarydistillery/renderlib/renderlib.lha
+Again. guigfx.library version 16.2 needs at least render.library
+version 30. Other (newer) guigfx libraries may require later versions.
+
+Please also let Freeciv open on a big enough screen. A screen with the
+size of 640x256 is not enough (at least at the moment)
+
+Usage
+~~~~~
+Freeciv is a multiplayer game and divided into sever and client. But
+of course it's also possible to play freeciv on a single machine.
+
+The first step is to start your TCP/IP stack (e.g. Miami). You don't
+need to go online if you only want to play Freeciv on a single machine.
+The next step is starting the server and then the client. You can do
+this eighter with help of the Workbench or from the Shell (Freeciv
+allocates hopefully enough stack itself so you needn't set a high
+stack value). After the client has been loaded you can connect to the
+server.
+Alternativly you can start the server and the client with the provided
+Freeciv.start shell scripts. Before it loads the server and client it
+opens a filerequester where you can choose whether to load an old game
+or start a new game.
+
+For more details on usage view the README.org and HOWTOPLAY files, which are
+also included in this package.
+
+Authors
+~~~~~~~
+The authors who are participated in the Freeciv project are listed in the
+AUTHORS and PEOPLE files.
+
+The Amiga Version of the client was created, as well as the server was
+compiled, by Sebastian Bauer. If you have question or problems with this
+version, feel free to ask me.
+
+Future
+~~~~~~
+ - still some few things which are missing
+
+Notes
+~~~~~
+This version is incompatible with the previous version 1.3. That means
+with the included client you cannot connect to a old server. Also old
+clients cannot connect to the included server.
+
+History
+~~~~~~~
+Version 1.5 (07.11.99)
+ - corresponds to Freeciv 1.9.0
+ - context menu for the map
+ - pressing Return when a blinking unit is on a city will popup
+   the city dialog (enter on numericpad is still turn done)
+ - you can browse through all cities now within the city dialog
+ - progress bar shows the state of the production
+ - slightly improved production window
+ - removed old datatypes support which was used in case guigfx.library
+   failed to create the mask of the graphics files
+ - smaller bug fixes
+
+Version 1.4 (20.10.99)
+ - corresponds to Freeciv 1.9.0
+ - workaround for the unit blink problem
+ - some other smaller bug fixes
+ - compiled for 68020 processor (since guigfx.library requires 68020 anywhy)
+ - first Aminet Release
+
+Version 1.3 (17.10.99)
+ - corresponds to latest Freeciv 1.8.4 (devel)
+ - "Unit List" and "Activate Units" buttons in the City Dialog work now
+ - better refreshing in some areas
+ - unavailabe map tiles in the City Map are surrounded by a red rectangle
+ - changed layout of the City Dialog a little bit
+ - on 2:1 screens overview pixels are now only one pixels height
+ - again bug fixes (especially now should work properly on AGA machines)
+
+Version 1.2 (10.10.99)
+ - corresponds to latest Freeciv 1.8.4 (devel)
+ - now every tile is reachable with the horizontal scroller
+ - now only uses clipping for the city names, this improves performance
+   when a window is in front of the windows (map and city)
+ - implemented space ship support
+ - included some icon arts by Fabio "Fabius" Sanna and Jürgen Urbanek
+ - some bug fixes and smaller improvments
+
+Version 1.1 (03.10.99)
+ - corresponds to Freeciv 1.8.4 (devel)
+ - supports the new city styles
+ - added tilepopwindow (Shift + Mouseclick on a map tile)
+ - overviewmap now works also on AGA machines
+ - graphics is freed in the MUIM_Cleanup method now
+
+Version 1.0 (27.09.99)
+ - corresponds to Freeciv 1.8.3 (beta)
+ - first public release on my homepage
+
+
+How can you reach me?
+~~~~~~~~~~~~~~~~~~~~~
+My e-mail address is:
+  sebauer@t-online.de
+
+Address:
+  Sebastian Bauer
+  Neustädter Str. 50
+  07768 Kahla
+
+Visit my homepage at
+  http://home.t-online.de/home/sebauer/
+  (german version)
+
+  http://home.t-online.de/home/sebauer/english.html
+  (english version)
+
+Here you can find the latest version of Freeciv for Amiga but also
+other things for Amiga, for example SimpleFind, SimpleHTML and
+SimplePac.
+
+Also look at the offical Freeciv homepage at http://www.freeciv.org.
+         __
+        / /
+   __  / /   Only Amiga makes it possible...
+   \ \/ /
+    \__/
+
