@@ -1141,8 +1141,8 @@ Only for use on the client side
 ***************************************************************/
 enum known_type tile_is_known(int x, int y)
 {
-  return ((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->known);
+  return (enum known_type) (((map.tiles+map_adjust_x(x)+
+	   map_adjust_y(y)*map.xsize)->known));
 }
 
 /***************************************************************

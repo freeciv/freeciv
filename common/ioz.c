@@ -137,7 +137,7 @@ fz_FILE *fz_fopen(const char *filename, const char *in_mode,
 ***************************************************************/
 int fz_fclose(fz_FILE *fp)
 {
-  int retval;
+  int retval = 0;
   
   switch(fp->method) {
 #ifdef HAVE_LIBZ
@@ -167,7 +167,7 @@ int fz_fclose(fz_FILE *fp)
 ***************************************************************/
 char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 {
-  char *retval;
+  char *retval = 0;
   
   switch(fp->method) {
 #ifdef HAVE_LIBZ
@@ -200,7 +200,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 int fz_fprintf(fz_FILE *fp, const char *format, ...)
 {
   va_list ap;
-  int retval;
+  int retval = 0;
   
   va_start(ap, format);
   
@@ -237,7 +237,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
 ***************************************************************/
 int fz_ferror(fz_FILE *fp)
 {
-  int retval;
+  int retval = 0;
   
   switch(fp->method) {
 #ifdef HAVE_LIBZ
@@ -269,7 +269,7 @@ int fz_ferror(fz_FILE *fp)
 ***************************************************************/
 const char *fz_strerror(fz_FILE *fp)
 {
-  const char *retval;
+  const char *retval = 0;
   
   switch(fp->method) {
 #ifdef HAVE_LIBZ

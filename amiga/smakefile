@@ -53,10 +53,11 @@ TO = OBJNAME=
 OBJDIR  = ${OBJDIR1}/
 
 COMMONOBJS = $(OBJDIR)common/astring.o $(OBJDIR)common/capability.o $(OBJDIR)common/capstr.o \
- $(OBJDIR)common/city.o $(OBJDIR)common/connection.o $(OBJDIR)common/diptreaty.o $(OBJDIR)common/fcintl.o $(OBJDIR)common/game.o \
- $(OBJDIR)common/genlist.o $(OBJDIR)common/government.o $(OBJDIR)common/hash.o $(OBJDIR)common/idex.o \
- $(OBJDIR)common/inputfile.o $(OBJDIR)common/ioz.o $(OBJDIR)common/log.o $(OBJDIR)common/map.o \
- $(OBJDIR)common/nation.o $(OBJDIR)common/packets.o $(OBJDIR)common/player.o $(OBJDIR)common/mem.o \
+ $(OBJDIR)common/city.o $(OBJDIR)common/connection.o $(OBJDIR)common/diptreaty.o $(OBJDIR)common/fcintl.o \
+ $(OBJDIR)common/game.o $(OBJDIR)common/genlist.o $(OBJDIR)common/government.o $(OBJDIR)common/hash.o \
+ $(OBJDIR)common/idex.o $(OBJDIR)common/inputfile.o $(OBJDIR)common/ioz.o $(OBJDIR)common/log.o \
+ $(OBJDIR)common/map.o $(OBJDIR)common/nation.o $(OBJDIR)common/packets.o $(OBJDIR)common/packets_lsend.o \
+ $(OBJDIR)common/player.o $(OBJDIR)common/mem.o \
  $(OBJDIR)common/netintf.o $(OBJDIR)common/rand.o $(OBJDIR)common/registry.o $(OBJDIR)common/sbuffer.o \
  $(OBJDIR)common/shared.o $(OBJDIR)common/spaceship.o $(OBJDIR)common/support.o $(OBJDIR)common/tech.o \
  $(OBJDIR)common/timing.o $(OBJDIR)common/unit.o $(OBJDIR)common/version.o $(OBJDIR)common/worklist.o
@@ -148,6 +149,7 @@ civserver: ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
 FROM ${AMIGASERVEROBJS) ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS}
 TO civserver
 <
+  delete >NIL: civserver.lnk
 
 ${OBJDIR}amigaserver.o: amigaserver.c
   ${CC} ${CCFLAGS} amigaserver.c $(INCDIRS) IDIR=${FREECIV_DIR}common ${TO}$@
@@ -259,6 +261,9 @@ ${OBJDIR}common/nation.o: ${FREECIV_DIR}common/nation.c
 
 ${OBJDIR}common/packets.o: ${FREECIV_DIR}common/packets.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/packets.c ${COMMONDIRS} ${TO}$@
+
+${OBJDIR}common/packets_lsend.o: ${FREECIV_DIR}common/packets_lsend.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}common/packets_lsend.c ${COMMONDIRS} ${TO}$@
 
 ${OBJDIR}common/player.o: ${FREECIV_DIR}common/player.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}common/player.c ${COMMONDIRS} ${TO}$@
@@ -382,6 +387,7 @@ civclient: ${AMIGACLIENTOBJS) ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS}
 FROM ${AMIGACLIENTOBJS) ${CLIENTOBJS} ${COMMONOBJS} ${CLIENTGUIOBJS}
 TO civclient
 <
+  delete >NIL: civclient.lnk
 
 ${OBJDIR}amigaclient.o: amigaclient.c
   ${CC} ${CCFLAGS} amigaclient.c $(INCDIRS) ${TO}$@

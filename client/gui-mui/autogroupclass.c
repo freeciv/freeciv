@@ -152,7 +152,7 @@ STATIC ULONG AutoGroup_New(struct IClass *cl, Object * o, struct opSet *msg)
   return 0;
 }
 
-STATIC VOID AutoGroup_DisposeChilds(struct IClass *cl, Object *o, Msg msg)
+STATIC VOID AutoGroup_DisposeChilds(/*struct IClass *cl,*/ Object *o/*, Msg msg*/)
 {
   struct List *child_list = (struct List*)xget(o,MUIA_Group_ChildList);
   Object *cstate = (Object *)child_list->lh_Head;
@@ -172,7 +172,7 @@ DISPATCHERPROTO(AutoGroup_Dispatcher)
   case OM_NEW:
     return AutoGroup_New(cl, obj, (struct opSet *) msg);
   case MUIM_AutoGroup_DisposeChilds:
-    AutoGroup_DisposeChilds(cl, obj, msg);
+    AutoGroup_DisposeChilds(/*cl, */obj/*, msg*/);
     return 0;
   }
   return (DoSuperMethodA(cl, obj, msg));

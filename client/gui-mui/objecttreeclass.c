@@ -227,7 +227,7 @@ HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *l
     ret = TRUE;
     break;
   default:
-    ret = MUILM_UNKNOWN;
+    ret = (ULONG) MUILM_UNKNOWN;
   }
   return ret;
 }

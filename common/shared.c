@@ -160,7 +160,7 @@ char *int_to_text(int nr)
   char *from=tmpbuf;
   my_snprintf(tmpbuf, sizeof(tmpbuf), "%d", nr);
   while (*from) {
-    *to++=*from++;
+    *to++ = *from++;
     if (strlen(from)%3==0 && *from)  
       *to++=',';
   }
@@ -415,7 +415,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   va_start(ap, format);
   ret = my_vsnprintf(str+len, n-len, format, ap);
   va_end(ap);
-  return ret + len;
+  return (int) (ret + len);
 }
 
 /***************************************************************************

@@ -1296,7 +1296,7 @@ static int find_air_first_destination(
   unsigned int fullmoves = get_unit_type(punit->type)->move_rate/3;
   unsigned int fullfuel = get_unit_type(punit->type)->fuel;
 
-  unsigned int reached_goal;
+  int reached_goal;
   int turns, start_turn;
   int max_moves, moves_left;
   int new_nodes, no_new_nodes;

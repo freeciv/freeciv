@@ -102,7 +102,7 @@ int con_dump(int i, char *message, ...)
     printf("%s", buf);
   }
   console_prompt_is_showing = 0;
-  return strlen(buf);
+  return (int) strlen(buf);
 }
 
 /************************************************************************

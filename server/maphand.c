@@ -308,7 +308,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
   Also updates pplayer knowledge if known and seen, else used old.
   pplayer==NULL means send "real" data, for observers
 **************************************************************************/
-void send_tile_info_always(struct player *pplayer, struct conn_list *dest,
+static void send_tile_info_always(struct player *pplayer, struct conn_list *dest,
 			   int x, int y)
 {
   struct packet_tile_info info;
@@ -972,8 +972,8 @@ void show_area(struct player *pplayer, int x, int y, int len)
 ***************************************************************/
 int map_get_known(int x, int y, struct player *pplayer)
 {
-  return ((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->known)&(1u<<pplayer->player_no);
+  return (int) (((map.tiles+map_adjust_x(x)+
+	   map_adjust_y(y)*map.xsize)->known)&(1u<<pplayer->player_no));
 }
 
 /***************************************************************
@@ -1072,7 +1072,7 @@ void map_know_and_see_all(struct player *pplayer)
 **************************************************************************/
 void show_map_to_all(void)
 {
-  int i=0;
+  int i;
   struct player *pplayer;
 
   for (i=0;i<game.nplayers;i++) {
@@ -1104,8 +1104,8 @@ static void map_clear_sent(int x, int y, struct player *pplayer)
 ***************************************************************/
 static int map_get_sent(int x, int y, struct player *pplayer)
 {
-  return ((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->sent)&(1u<<pplayer->player_no);
+  return (int) (((map.tiles+map_adjust_x(x)+
+	   map_adjust_y(y)*map.xsize)->sent)&(1u<<pplayer->player_no));
 }
 
 /***************************************************************
