@@ -98,10 +98,6 @@ char usage[] =
 int port=DEFAULT_SOCK_PORT;
 int nocity_send=0;
 
-/* These are the capability strings for the client and the server. */
-char c_capability[MSG_SIZE]="";
-char s_capability[MSG_SIZE]="";
-
 /* The next three variables make selecting races for AI players cleaner */
 int races_avail[R_LAST];
 int races_used[R_LAST];
@@ -228,9 +224,9 @@ int main(int argc, char *argv[])
 #endif
   fflush(stdout);
 
-  strcpy(s_capability, CAPABILITY);
+  strcpy(our_capability, CAPABILITY);
   if (getenv("FREECIV_CAPS"))
-    strcpy(s_capability, getenv("FREECIV_CAPS"));
+    strcpy(our_capability, getenv("FREECIV_CAPS"));
 
   game_init();
   initialize_city_cache();
@@ -1103,7 +1099,7 @@ void reject_new_player(char *msg, struct connection *pconn)
   struct packet_join_game_reply packet;
   
   packet.you_can_join=0;
-  strcpy(packet.capability, s_capability);
+  strcpy(packet.capability, our_capability);
   strcpy(packet.message, msg);
   send_packet_join_game_reply(pconn, &packet);
 }
@@ -1120,11 +1116,10 @@ void handle_request_join_game(struct connection *pconn,
   
   flog(LOG_NORMAL, "Connection from %s with client version %d.%d.%d", req->name,
       req->major_version, req->minor_version, req->patch_version);
-#if 0
-  flog(LOG_NORMAL, "Client caps: %s Server Caps: %s", req->capability, s_capability);
-#endif
+  flog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
+       our_capability);
   /* Make sure the server has every capability the client needs */
-  if (!has_capabilities(s_capability, req->capability)) {
+  if (!has_capabilities(our_capability, req->capability)) {
     sprintf(msg, "The server is missing a capability that this client needs.\n"
 	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
@@ -1136,7 +1131,7 @@ void handle_request_join_game(struct connection *pconn,
   }
 
   /* Make sure the client has every capability the server needs */
-  if (!has_capabilities(req->capability, s_capability)) {
+  if (!has_capabilities(req->capability, our_capability)) {
     sprintf(msg, "The client is missing a capability that the server needs.\n"
 	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
@@ -1157,7 +1152,7 @@ void handle_request_join_game(struct connection *pconn,
       strcpy(pplayer->addr, pconn->addr); 
       sprintf(packet.message, "Welcome back %s.", pplayer->name);
       packet.you_can_join=1;
-      strcpy(packet.capability, s_capability);
+      strcpy(packet.capability, our_capability);
       send_packet_join_game_reply(pconn, &packet);
       flog(LOG_NORMAL, "%s has reconnected.", pplayer->name);
       if(server_state==RUN_GAME_STATE) {

@@ -18,6 +18,7 @@
 #include <packets.h>
 #include <log.h>
 
+char our_capability[MSG_SIZE];
 
 /**************************************************************************
 ...

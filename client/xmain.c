@@ -463,9 +463,9 @@ void x_main(int argc, char *argv[])
   XSetWMProtocols(display, XtWindow(toplevel), &wm_delete_window, 1);
   XtOverrideTranslations(toplevel, XtParseTranslationTable ("<Message>WM_PROTOCOLS: quit-freeciv()"));
 
-  strcpy(c_capability, CAPABILITY);
+  strcpy(our_capability, CAPABILITY);
   if (getenv("FREECIV_CAPS"))
-    strcpy(c_capability, getenv("FREECIV_CAPS"));
+    strcpy(our_capability, getenv("FREECIV_CAPS"));
 
   set_client_state(CLIENT_PRE_GAME_STATE);
   

@@ -36,13 +36,21 @@
  *
  * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
  *
- * Note that there are separate c_capability and s_capability char[]'s in
- * the client and server, which are valid if the client has been accepted
- * by the server.  Client and server software can test these strings for
- * a capability by calling the has_capability fn in capability.c.
+ * (Following para replaces previous c_capability and s_capability. --dwp)
+ * There is a string our_capability, which gives the capabilities of
+ * the running executable, be it client or server.
+ * Each "struct connection" also has a capability string, which gives the
+ * capability of the executable at the other end of the connection.
+ * So for the client, the capability of the server is in
+ * aconnection.capability, and for the server, the capabilities of 
+ * connected clients are in game.players[i]->conn.capability
  *
- * Known bug:  There is only one c_capability in the server, whereas there
- * should actually be one per connection.  This is being worked on.
+ * Client and server software can test these strings for a capability by
+ * calling the has_capability fn in capability.c.
+ *
+ * Note the connection struct is a parameter to the functions to send and
+ * receive packets, which may be convenient for adjusting how a packet is
+ * sent or interpreted based on the capabilities of the connection.
  *
  * A note to whoever increments the capability string for a new release:
  * It is your responsibility to search the Freeciv code, and look for places

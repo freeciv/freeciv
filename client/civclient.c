@@ -60,9 +60,6 @@ int seconds_to_turndone;
 int last_turn_gold_amount;
 int turn_gold_difference;
 
-char c_capability[MSG_SIZE]="";
-char s_capability[MSG_SIZE]="";
-
 int did_advance_tech_this_turn;
 int message_values[E_LAST];
 void handle_move_unit(struct packet_move_unit *packet);

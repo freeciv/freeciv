@@ -19,6 +19,7 @@
 #include <graphics.h>
 #include <menu.h>
 #include <events.h>
+#include <clinet.h>		/* aconnection */
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -39,6 +40,7 @@ extern int message_filter[E_LAST];
 void handle_join_game_reply(struct packet_join_game_reply *packet)
 {
   char msg[MSG_SIZE];
+  char *s_capability = aconnection.capability;
 
   strcpy(s_capability, packet->capability);
 
@@ -48,9 +50,9 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
     sprintf(msg, "You were rejected from the game: %s", packet->message);
     append_output_window(msg);
   }
-  if (strcmp(s_capability, c_capability)==0)
+  if (strcmp(s_capability, our_capability)==0)
     return;
-  sprintf(msg, "Client capability string: %s", c_capability);
+  sprintf(msg, "Client capability string: %s", our_capability);
   append_output_window(msg);
   sprintf(msg, "Server capability string: %s", s_capability);
   append_output_window(msg);

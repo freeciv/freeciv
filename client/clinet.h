@@ -28,6 +28,6 @@ void connection_gethostbyaddr(struct connection *pconn, char *desthost);
 int get_meta_list(char *server, char **list, char *errbuf);
 
 extern struct connection aconnection;
+/* this is the client's connection to the server */
+
 #endif
-
-

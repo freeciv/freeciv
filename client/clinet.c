@@ -115,7 +115,7 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   req.major_version=MAJOR_VERSION;
   req.minor_version=MINOR_VERSION;
   req.patch_version=PATCH_VERSION;
-  strcpy(req.capability, c_capability);
+  strcpy(req.capability, our_capability);
 
   send_packet_req_join_game(&aconnection, &req);
   

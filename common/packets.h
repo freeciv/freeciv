@@ -20,8 +20,7 @@
 #define MSG_SIZE          1536
 #define ADDR_LENGTH         32
 
-extern char c_capability[MSG_SIZE];
-extern char s_capability[MSG_SIZE];
+extern char our_capability[MSG_SIZE];
 
 enum packet_type {
   PACKET_REQUEST_JOIN_GAME,
@@ -410,6 +409,10 @@ struct connection {
   struct socket_packet_buffer buffer;
   struct socket_packet_buffer send_buffer;
   char addr[ADDR_LENGTH];
+  char capability[MSG_SIZE];
+  /* "capability" gives the capability string of the executable (be it
+   * a client or server) at the other end of the connection.
+   */
 };
 
 
