@@ -208,19 +208,22 @@ int get_meta_list(GtkWidget *list, char *errbuf)
       }
       s[0] = '\0';
       ++s;
+      while (isdigit(s[0])) {++s;}
     } else {
-      s = server;
       port = 80;
-    }
-  
-    if ((s = strchr(s,'/'))) {
+      if (!(s = strchr(server,'/'))) {
+        s = &server[strlen(server)];
+      }
+    }  /* s now points past the host[:port] part */
+
+    if (s[0] == '/') {
       s[0] = '\0';
       ++s;
-    } else {
-      strcpy(errbuf, "Invalid metaserver URL, check $http_proxy value");
+    } else if (s[0]) {
+      strcpy(errbuf, "Invalid $http_proxy value, cannot find separating '/'");
+      /* which is obligatory if more characters follow */
       return -1;
     }
-
     urlpath = s;
   }
 
@@ -246,9 +249,10 @@ int get_meta_list(GtkWidget *list, char *errbuf)
   }
 
   f=fdopen(s,"r+");
-  fprintf(f,"GET /%s%s HTTP/1.0\r\n\r\n",
-	  urlpath,
-	  proxy_url ? METALIST_ADDR : "");
+  fprintf(f,"GET %s%s%s HTTP/1.0\r\n\r\n",
+    proxy_url ? "" : "/",
+    urlpath,
+    proxy_url ? METALIST_ADDR : "");
   fflush(f);
 
 #define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
