@@ -220,10 +220,29 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
 void real_die(const char *file, int line, const char *format, ...)
       fc__attribute((format (printf, 3, 4)));
 
+/**************************************************************************
+...
+**************************************************************************/
+struct datafile {
+  char *name;		/* descriptive file name string */
+  char *fullname;	/* full absolute filename */
+  time_t mtime;		/* last modification time  */
+};
+
+#define SPECLIST_TAG datafile
+#define SPECLIST_TYPE struct datafile
+#include "speclist.h"
+#define datafile_list_iterate(list, pnode) \
+  TYPED_LIST_ITERATE(struct datafile, list, pnode)
+#define datafile_list_iterate_end LIST_ITERATE_END
+                                                                               
 char *user_home_dir(void);
 const char *user_username(void);
 const char **datafilelist(const char *suffix);
+struct datafile_list datafilelist_infix(const char *subpath,
+    const char *infix, bool nodups);
 char *datafilename(const char *filename);
+char **datafilenames(const char *filename);
 char *datafilename_required(const char *filename);
 
 void init_nls(void);
@@ -258,4 +277,8 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 
 char *get_multicast_group(void);
 void interpret_tilde(char* buf, size_t buf_size, const char* filename);
+
+bool make_dir(const char *pathname);
+bool path_is_absolute(const char *filename);
 #endif  /* FC__SHARED_H */
+

@@ -60,6 +60,7 @@
 #include "menu_g.h"
 #include "messagewin_g.h"
 #include "options.h"
+#include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
@@ -176,6 +177,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.id = conn_id;
     agents_game_joined();
     update_menus();
+    set_client_page(PAGE_START);
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
@@ -188,6 +190,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
       freelog(LOG_NORMAL, "%s", msg);
     }
     gui_server_connect();
+    set_client_page(PAGE_MAIN);
   }
   if (strcmp(s_capability, our_capability) == 0) {
     return;
