@@ -203,7 +203,7 @@ static char *cr_entry_cma(struct city *pcity)
 struct city_report_spec city_report_specs[] = {
   { TRUE, -15, 0, NULL,  N_("Name"),      N_("City Name"),
                                       FUNC_TAG(cityname) },
-  { FALSE,  2, 1, NULL,  N_("Sz"),        N_("Size"),
+  { TRUE,  2, 1, NULL,  N_("Sz"),        N_("Size"),
                                       FUNC_TAG(size) },
   { TRUE,  -8, 1, NULL,  N_("State"),     N_("Rapture/Peace/Disorder"),
                                       FUNC_TAG(hstate_verbose) },
