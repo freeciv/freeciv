@@ -2016,7 +2016,7 @@ void create_races_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(races_dialog_shell)->vbox),
                      frame, FALSE, FALSE, 0);
 
-  races_sex_toggles_form = gtk_table_new(1, 2, FALSE);
+  races_sex_toggles_form = gtk_table_new(1, 2, TRUE);
   gtk_container_add(GTK_CONTAINER(frame), races_sex_toggles_form); 
 
   races_sex_toggles[0] = gtk_radio_button_new_with_label(sgroup, _("Male"));
@@ -2048,33 +2048,35 @@ void create_races_dialog(void)
   city_style_toggles = fc_calloc(b_s_num, sizeof(struct GtkWidget*));
   
   frame = gtk_frame_new(_("Select your city style"));
-  gtk_box_pack_start(GTK_BOX( GTK_DIALOG(races_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(races_dialog_shell)->vbox),
                      frame, FALSE, FALSE, 0);
 
-  city_style_toggles_form = gtk_table_new(per_row, 
-                                          ((b_s_num-1) / per_row) + 1, FALSE);
+  city_style_toggles_form = gtk_table_new(1, b_s_num, TRUE);
   gtk_container_add(GTK_CONTAINER(frame), city_style_toggles_form); 
 
-  per_row /= 2;
- 
   for(i = 0; i < b_s_num; i++) {
-    GtkWidget *box;
+    GtkWidget *box, *sub_box;
     SPRITE *s;
 
     city_style_toggles[i] = gtk_radio_button_new(cgroup);
-    box = gtk_hbox_new(FALSE, 0);
+    box = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(city_style_toggles[i]), box);
+    gtk_box_pack_start(GTK_BOX(box),
+                       gtk_label_new(city_styles[city_style_idx[i]].name),
+                       FALSE, FALSE, 4);
+    sub_box = gtk_hbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(box), sub_box);
     s = crop_blankspace(sprites.city.tile[i][0]);
-    gtk_box_pack_start(GTK_BOX(box), gtk_pixmap_new(s ->pixmap, s->mask),
+    gtk_box_pack_start(GTK_BOX(sub_box), gtk_pixmap_new(s->pixmap, s->mask),
  		       FALSE, FALSE, 4);
     if ((s->width < 80) && (city_styles[i].tiles_num > 1)){
       s = crop_blankspace(sprites.city.tile[i][1]);
-      gtk_box_pack_start(GTK_BOX(box), gtk_pixmap_new(s->pixmap, s->mask),
+      gtk_box_pack_start(GTK_BOX(sub_box), gtk_pixmap_new(s->pixmap, s->mask),
  			 FALSE, FALSE, 4);
     }
     if ((s->width < 40) && (city_styles[i].tiles_num > 2)){
       s = crop_blankspace(sprites.city.tile[i][2]);
-      gtk_box_pack_start(GTK_BOX(box), gtk_pixmap_new(s->pixmap, s->mask),
+      gtk_box_pack_start(GTK_BOX(sub_box), gtk_pixmap_new(s->pixmap, s->mask),
  			 FALSE, FALSE, 4);
     }
 
@@ -2083,9 +2085,9 @@ void create_races_dialog(void)
     cgroup = gtk_radio_button_group(GTK_RADIO_BUTTON(city_style_toggles[i]));
     gtk_table_attach_defaults( GTK_TABLE(city_style_toggles_form), 
  			       city_style_toggles[i],
- 			       i%per_row, i%per_row+1, i/per_row, i/per_row+1);
+ 			       i, i+1, 0, 1);
   }
-  
+
   /* ------- OK/Disc/Quit buttons ------- */
 
   races_ok_command = gtk_button_new_with_label(_("Ok"));

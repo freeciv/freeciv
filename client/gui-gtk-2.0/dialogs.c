@@ -1963,23 +1963,45 @@ void create_races_dialog(void)
   city_style_toggles = fc_calloc( b_s_num, sizeof(struct GtkWidget*) );
 
   fa = gtk_frame_new( _("Select your city style") );
+  gtk_box_pack_start(GTK_BOX( GTK_DIALOG(races_dialog_shell)->vbox),
+                     fa, FALSE, FALSE, 0);
 
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
-                      fa, FALSE, FALSE, 0 );
-  city_style_toggles_form =
-    gtk_table_new(((b_s_num-1)/2)+1, 2, TRUE );
-  gtk_container_add( GTK_CONTAINER( fa ), city_style_toggles_form ); 
+  city_style_toggles_form = gtk_table_new(1, b_s_num, TRUE);
+  gtk_container_add(GTK_CONTAINER(fa), city_style_toggles_form);
 
-  for(i=0; i<b_s_num; i++) {
-      city_style_toggles[i] =
-	gtk_radio_button_new_with_label(cgroup,
-					city_styles[city_style_idx[i]].name);
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(city_style_toggles[i]),
-				   FALSE);
-      cgroup = gtk_radio_button_get_group(GTK_RADIO_BUTTON(city_style_toggles[i]));
-      gtk_table_attach_defaults( GTK_TABLE(city_style_toggles_form),
-				 city_style_toggles[i],
-                                 i%2, i%2+1, i/2, i/2+1 );
+  for(i = 0; i < b_s_num; i++) {
+    GtkWidget *box, *sub_box, *img;
+    SPRITE *s;
+
+    city_style_toggles[i] = gtk_radio_button_new(cgroup);
+    box = gtk_vbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(city_style_toggles[i]), box);
+    gtk_box_pack_start(GTK_BOX(box),
+                       gtk_label_new(city_styles[city_style_idx[i]].name),
+                       FALSE, FALSE, 4);
+    sub_box = gtk_hbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(box), sub_box);
+    s = crop_blankspace(sprites.city.tile[i][0]);
+    img = gtk_image_new_from_pixmap(s->pixmap, s->mask);
+    gtk_box_pack_start(GTK_BOX(sub_box), img, FALSE, FALSE, 4);
+
+    if ((s->width < 80) && (city_styles[i].tiles_num > 1)){
+      s = crop_blankspace(sprites.city.tile[i][1]);
+      img = gtk_image_new_from_pixmap(s->pixmap, s->mask);
+      gtk_box_pack_start(GTK_BOX(sub_box), img, FALSE, FALSE, 4);
+    }
+    if ((s->width < 40) && (city_styles[i].tiles_num > 2)){
+      s = crop_blankspace(sprites.city.tile[i][2]);
+      img = gtk_image_new_from_pixmap(s->pixmap, s->mask);
+      gtk_box_pack_start(GTK_BOX(sub_box), img, FALSE, FALSE, 4);
+    }
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(city_style_toggles[i]),
+                                 FALSE);
+    cgroup=gtk_radio_button_get_group(GTK_RADIO_BUTTON(city_style_toggles[i]));
+    gtk_table_attach_defaults(GTK_TABLE(city_style_toggles_form),
+                              city_style_toggles[i],
+                              i, i+1, 0, 1);
   }
 
   /* ------- Disc/Quit buttons ------- */
