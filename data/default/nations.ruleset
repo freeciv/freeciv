@@ -1529,6 +1529,56 @@ cities =
   "Erelas", "Nardol", "Eilenach", "Amon Dîn", "Henneth Anûn", "Tarnost"
 
 
+[nation42]
+
+name=_("Vietnamese")
+plural=_("?plural:Vietnamese")
+leader="Ly Bon", "Gia Long", "Bao Dai", "Ho Chi Minh", "Ngo Ding Diem"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag="f.vietnam"
+flag_alt = "-"
+city_style = "European"
+
+attack=0
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Feudalism", "Republic", "Gunpowder", "Explosives", "Guerilla Warfare"
+wonder= "Great Wall"
+government = "Communism"
+
+cities =
+  "Hanoi", "Ho Chi Minh City", "Saigon", "Haifong", "Nam Dinh",
+  "Can Tho", "Nha Trang", "Hue", "Danang", "Long Xuyen", "Qui Nhon"
+
+
+[nation43]
+
+name=_("Thai")
+plural=_("?plural:Thai")
+leader = "Rama Thibodi", "Chao Phya Chakri", "Maha Mongkut", "Chulalongkorn",
+         "Pibul Songgram", "Seni Pramoya"
+leader_sex = "Male", "Male", "Male", "Male",
+             "Male", "Male"
+flag="f.thailand"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Republic", "Engeneering", "Invention", "Railroad", "Explosives"
+wonder= "Marco Polo's Embassy"
+government = "Democracy"
+
+cities =
+  "Bangkok", "Thon Buri", "Nakhon Rachasima", "Chiang Mai", "Khon Kaen",
+  "Hat Yai", "Chiang Rai", "Chumphon", "Hua Hin", "Lop Buri", "Lampang",
+  "Phitsanulok", "Sawankhatok", "Songkhla", "Adon Thani", "Pattaya",
+  "Laem Chabang", "Kanchanaburi", "Surat Thani", "Thammarat", "Phuket"
+
+
 ;[nation??]
 ;
 ;name=_("Olympic")
