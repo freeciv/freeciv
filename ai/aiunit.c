@@ -32,6 +32,9 @@
 #include <aicity.h>
 #include <maphand.h>
 #include <sys/time.h>
+#include <advmilitary.h>
+
+extern struct move_cost_map warmap;
 
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)
@@ -63,76 +66,105 @@ void ai_manage_units(struct player *pplayer)
 **************************************************************************/
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
-{
-  int i, j, d, f, x, y, con, dest_x, dest_y, a, b, cur, best, ct = 10;
-  int my_x[10], my_y[10]; /* to prevent getting stuck */
+{ /* this is smarter than the old one, but much slower too. -- Syela */
+  int i, j, d, f, x, y, con, dest_x, dest_y, best = 255, cur, a, b, ct = 3;
   int id = punit->id;
-  if (punit->activity == ACTIVITY_IDLE) {
-    x = punit->x; y = punit->y;
-    con = map_get_continent(x, y);
-    for (d = 1; d <= 24; d++) { /* won't go more than 24 squares to hut */
+
+  if (punit->activity != ACTIVITY_IDLE)
+    handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+
+  x = punit->x; y = punit->y;
+  con = map_get_continent(x, y);
+
+  generate_warmap(0, punit); /* CPU-expensive but worth it I think -- Syela */
+/* otherwise did not understand about bays and did really stupid things! */
+
+  for (d = 1; d <= 24; d++) { /* won't go more than 24 squares to hut */
 /* printf("Hut-hunting: D = %d\n", d); */
-      for (i = 0 - d; i <= d; i++) {
-        f = 1;
-        if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
-        for (j = 0 - d; j <= d; j += f) {
-          if (map_get_tile(x + i, y + j)->special & S_HUT &&
-          map_get_continent(x + i, y + j) == con) {
-            punit->goto_dest_x = map_adjust_x(x + i);
-            punit->goto_dest_y = y + j;
-            punit->activity = ACTIVITY_GOTO;
-            do_unit_goto(pplayer, punit);
-            if (!find_unit_by_id(id)) return; /* cowardly slaughtered! */
-            if (!punit->moves_left) return; /* otherwise, had some ZOC problem ? */
-          } /* end if HUT */
-        } /* end for J */
-      } /* end for I */
-    } /* end for D */
+    for (i = 0 - d; i <= d; i++) {
+      f = 1;
+      if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
+      for (j = 0 - d; j <= d; j += f) {
+        if (map_get_tile(x + i, y + j)->special & S_HUT &&
+        warmap.cost[map_adjust_x(x + i)][y + j] < best &&
+        map_get_continent(x + i, y + j) == con) {
+          dest_x = map_adjust_x(x + i);
+          dest_y = y + j;
+          best = warmap.cost[dest_x][dest_y];
+        }
+      }
+    }
+  } /* end for D */
+  if (best < 255) {
+    punit->goto_dest_x = dest_x;
+    punit->goto_dest_y = dest_y;
+    punit->activity = ACTIVITY_GOTO;
+    do_unit_goto(pplayer, punit);
+    return; /* maybe have moves left but I want to return anyway. */
+  }
+
 /* OK, failed to find huts.  Will explore basically at random */
 /* my old code was dumb dumb dumb dumb dumb and I'm rewriting it -- Syela */
 
-    d = 0; /* to allow the following important && - DUH */
-    while (punit->moves_left && d < 24 && ct) { /* that && is VERY important - DUH */
-      x = punit->x; y = punit->y;
-      for (d = 1; d <= 24; d++) {
-  /* printf("Exploring: D = %d\n", d); */
-        best = 0; dest_x = 0; dest_y = 0;
-        for (i = 0; i < 10; i++) { my_x[i] = x; my_y[i] = y; }
-        for (i = 0 - d; i <= d; i++) {
-          f = 1;
-          if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
-          for (j = 0 - d; j <= d; j += f) {
-            if (map_get_continent(x + i, y + j) == con) {
-              cur = 0;
-              for (a = i - 1; a <= i + 1; a++)
-                for (b = j - 1; b <= j + 1; b++)
-                  if (!map_get_known(x + a, y + b, pplayer)) cur++;
-              if ((my_x[cur] == x && my_y[cur] == y) || myrand(2)) {
-                my_x[cur] = map_adjust_x(x + i);
-                my_y[cur] = y + j;
-                if (cur > best) best = cur;
-              }
-            }
-          } /* end j */
-        } /* end i */
-        if (best) {
-          for (i = best; i; i--) {
-            if (my_x[i] != x || my_y[i] != y) {
-              punit->goto_dest_x = my_x[i];
-              punit->goto_dest_y = my_y[i];
-              punit->activity = ACTIVITY_GOTO;
-              if (d > 1) do_unit_goto(pplayer, punit); /* don't trust goto for d == 1 */
-              else handle_unit_move_request(pplayer, punit, dest_x, dest_y);
-              if (!find_unit_by_id(id)) return; /* cowardly slaughtered! */
-              if (x != punit->x || y != punit->y) break; /* otherwise go elsewhere */
-            }
+  while (best && punit->moves_left && ct) {
+    best = 0;
+    x = punit->x; y = punit->y;
+    for (i = -1; i <= 1; i++) {
+      for (j = -1; j <= 1; j++) {
+        if (map_get_continent(x + i, y + j) == con) {
+          cur = 0;
+          for (a = i - 1; a <= i + 1; a++)
+            for (b = j - 1; b <= j + 1; b++)
+              if (!map_get_known(x + a, y + b, pplayer)) cur++;
+          if (cur > best || (cur == best && myrand(2))) {
+            dest_x = map_adjust_x(x + i);
+            dest_y = y + j;
+            best = cur;
           }
-          if (x != punit->x || y != punit->y) break; /* this ought to work, I hope */
-        } /* end if best */
-      } /* end for D */
-      ct--;
-    } /* end while we can move */
-  } /* end if not already doing something */
+        }
+      } /* end j */
+    } /* end i */
+    if (best) {
+      if (!handle_unit_move_request(pplayer, punit, dest_x, dest_y)) {
+        punit->goto_dest_x = dest_x;
+        punit->goto_dest_y = dest_y;
+        punit->activity = ACTIVITY_GOTO;
+        do_unit_goto(pplayer, punit); /* going around ZOC hell */
+      }
+    }
+    ct--; /* trying to avoid loops */
+  }
+  if (!punit->moves_left) return;
+/* no adjacent squares help us to explore */
+
+/* really slow part follows */
+  best = 255;
+  for (x = 0; x < map.xsize; x++) {
+    for (y = 0; y < map.ysize; y++) {
+      if (map_get_continent(x, y) == con) {
+        cur = 0;
+        for (a = -1; a <= 1; a++)
+          for (b = -1; b <= 1; b++)
+            if (!map_get_known(x + a, y + b, pplayer)) cur++;
+        cur += warmap.cost[x][y];
+        if (cur < best || (cur == best && myrand(2))) {
+          dest_x = map_adjust_x(x + i);
+          dest_y = y + j;
+          best = cur;
+        }
+      }
+    }
+  }
+  if (best < 255) {
+    punit->goto_dest_x = dest_x;
+    punit->goto_dest_y = dest_y;
+    punit->activity = ACTIVITY_GOTO;
+    do_unit_goto(pplayer, punit);
+    return;
+  }
+/*  printf("%s's %s at (%d,%d) failed to explore.\n", pplayer->name,
+    unit_types[punit->type].name, punit->x, punit->y); */
+/*  if (!is_military_unit(punit)) wipe_unit(pplayer, punit); */
 }
 
 
@@ -378,15 +410,11 @@ int should_unit_change_homecity(struct player *pplayer, struct unit *punit)
   int val;
   struct city *pcity;
 
-  if (!can_unit_change_homecity(punit)) {
-/*    printf("%s (%d,%d) can't change homecity.\n", 
-        get_unit_type(punit->type)->name, punit->x, punit->y); */
-    return(0);
-  } /* else printf("%s (%d,%d) can change homecity.\n",
-        get_unit_type(punit->type)->name, punit->x, punit->y); */
-
-
-  if (pcity = map_get_city(punit->x, punit->y)) {
+  pcity = map_get_city(punit->x, punit->y);
+  if (!pcity) return(0);
+  if (pcity->id == punit->homecity) return(0);
+  if (pcity->owner != punit->owner) return(0);
+  else {
     val = -1;
     unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
       if (unit_defensiveness(punit) >= val &&
@@ -448,15 +476,53 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
       break;
     case AIUNIT_ESCORT: 
       break;
+    case AIUNIT_EXPLORE:
+      ai_manage_explorer(pplayer, punit);
+      break;
   }
 
   if (punit = find_unit_by_id(id)) {
+    if (punit->activity != ACTIVITY_IDLE) /* leaving units on GOTO is BAD news! */
+      handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+
     if (punit->moves_left) { /* didn't move, or reached goal */
       handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
     } /* better than doing nothing */
   }
 }
 
+int unit_belligerence(struct unit *punit)
+{
+  int v, w;
+  v = get_attack_power(punit) * punit->hp * 
+            get_unit_type(punit->type)->firepower;
+  w = v * v / get_unit_type(punit->type)->build_cost + 2;
+  return(w);
+}
+
+int unit_vulnerability(struct unit *punit, struct unit *pdef)
+{
+  int v;
+  v = get_total_defense_power(punit, pdef) * pdef->hp * 
+           get_unit_type(pdef->type)->firepower *
+       get_total_defense_power(punit, pdef) * pdef->hp * 
+           get_unit_type(pdef->type)->firepower /
+           get_unit_type(pdef->type)->build_cost;
+  if (map_get_city(pdef->x, pdef->y)) /* prefer to bash cities */
+       v = v * get_unit_type(punit->type)->hp / punit->hp / 3;
+
+  return v;
+}
+
+int reinforcements_value(struct unit *punit, struct unit *pdef)
+{ /* if someone else can clean up my mess, all the better */
+  int val = 0;
+  unit_list_iterate(game.players[punit->owner].units, aunit)
+    if (aunit != punit && is_tiles_adjacent(aunit->x, aunit->y, pdef->x, pdef->y))
+      val += unit_belligerence(aunit);
+  unit_list_iterate_end;
+  return(val);
+}
 
 int ai_military_findvictim(struct player *pplayer,struct unit *punit)
 { /* work of Syela - mostly to fix the ZOC/goto strangeness */
@@ -470,13 +536,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
   x = punit->x;
   y = punit->y;
   dest = y * map.xsize + x;
-  v = get_attack_power(punit) * punit->hp * 
-            get_unit_type(punit->type)->firepower;
-  weakest = v * v / get_unit_type(punit->type)->build_cost + 2;
-/* kluge to prevent stacks of fortified, stuck units */
-  unit_list_iterate(map_get_tile(x,y)->units, pdef)
-    if (pdef->activity == ACTIVITY_FORTIFY && !map_get_city(x,y)) weakest = 2000000000;
-  unit_list_iterate_end;
+  weakest = unit_belligerence(punit);
   if (punit->unhappiness) weakest = 2000000000; /* desperation */
 
 /* stolen from gotohand.c */
@@ -492,12 +552,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
     pdef = get_defender(pplayer, punit, xx[i], yy[j]);
     if (pdef) {
       if (can_unit_attack_tile(punit, xx[i], yy[j])) { /* thanks, Roar */
-        v = get_total_defense_power(punit, pdef) * pdef->hp * 
-                 get_unit_type(pdef->type)->firepower *
-             get_total_defense_power(punit, pdef) * pdef->hp * 
-                 get_unit_type(pdef->type)->firepower /
-                 get_unit_type(pdef->type)->build_cost;
-        if (map_get_city(xx[i], yy[j])) v /= 3; /* prefer to bash cities */
+        v = unit_vulnerability(punit, pdef);
         if (map_get_city(x, y) && /* pikemen defend Knights, attack Catapults */
               get_total_defense_power(pdef, punit) *
               get_total_defense_power(punit, pdef) >
@@ -507,12 +562,12 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
 /*              printf("%s defending %s from %s's %s\n",
             get_unit_type(punit->type)->name, map_get_city(x, y)->name,
             game.players[pdef->owner].name, get_unit_type(pdef->type)->name); */
-        else if (v < weakest) {
+        else if (v < weakest + reinforcements_value(punit, pdef)) {
 /*          printf("Better than %d is %d (%s)\n", weakest, v,
              unit_types[pdef->type].name);  */
           weakest = v; dest = yy[j] * map.xsize + xx[i];
          } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
-             unit_types[pdef->type].name);   */
+             unit_types[pdef->type].name); */
       }
     } else { /* no pdef */
       pcity = map_get_city(xx[i], yy[j]);
@@ -520,6 +575,9 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
         if (pcity->owner != pplayer->player_no) { /* free goodies */
           weakest = -1; dest = yy[j] * map.xsize + xx[i];
         }
+      }
+      if (map_get_tile(xx[i], yy[j])->special & S_HUT && weakest > 0) {
+        weakest = 0; dest = yy[j] * map.xsize + xx[i];
       }
     }
   }
@@ -535,6 +593,7 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
     punit->goto_dest_y = dest_y;
 /*    printf("Syela - Doing unit goto.  From (%d,%d) to (%d,%d)\n",
         punit->x, punit->y, dest_x, dest_y);  */
+    punit->activity = ACTIVITY_GOTO;
     do_unit_goto(pplayer,punit);
 /* liable to bump into someone that will kill us.  Should avoid? */
   }
@@ -551,31 +610,57 @@ int unit_defensiveness(struct unit *punit)
 {
 /* assert get_attack_power(punit); */
   return get_defense_power(punit) * punit->hp / get_attack_power(punit) /
-            get_unit_type(punit->type)->move_rate;
+    get_unit_type(punit->type)->move_rate / (unit_flag(punit->type, F_IGTER) ? 3 : 1);
 }
 
 void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
-  struct city *pcity;
-  struct unit *pdef;
+  struct city *pcity = NULL, *acity = NULL;
+  struct unit *aunit;
   int val;
+  int d = 0;
 
 /* tired of AI abandoning its cities! -- Syela */
   if (punit->homecity) {
     pcity = find_city_by_id(punit->homecity);
-    if (punit->x == pcity->x && punit->y == pcity->y) /* I'm home! */
-      val = unit_defensiveness(punit);
-    else val = -1;
-    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
-      if (unit_defensiveness(punit) >= val &&
-            is_military_unit(pdef) && pdef != punit) val = 0;
-    unit_list_iterate_end; /* was getting confused without the is_military part in */
-    if (val) { /* Guess I better stay / you can live at home now */
-      punit->ai.ai_role=AIUNIT_DEFEND_HOME;
-      return;
-    }
+    if (pcity->ai.danger > DANGEROUS) { /* otherwise we can attack */
+      if (punit->x == pcity->x && punit->y == pcity->y) /* I'm home! */
+        val = unit_defensiveness(punit);
+      else val = -1;
+      unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
+        if (is_military_unit(pdef)) {
+          if (unit_defensiveness(pdef) < val) val = 1; /* someone else has dibs */
+          else if (punit != pdef) {
+            val = get_defense_power(pdef) * pdef->hp * get_unit_type(pdef->type)->firepower;
+            val *= 1.5; /* DUH! */
+            if (city_got_citywalls(pcity) && !game.global_advances[A_MACHINE]) val *= 3;
+            if (val > d) d = val;
+            val = 0;
+          }
+        }
+      unit_list_iterate_end; /* was getting confused without the is_military part in */
+      if (val > 0 || pcity->ai.danger > d * d) { /* Guess I better stay */
+        punit->ai.ai_role=AIUNIT_DEFEND_HOME;
+        return;
+      } else if (val < 0) { /* you can live at home / back to the old house */
+        /* if I am closer to home than any other unit from my city AND */
+        /* I am closer to home than the unit threatening me AND */
+        /* I am closer to home than I am to my target , THEN go home */
+        d = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
+        unit_list_iterate(pcity->units_supported, pdef)
+          if (real_map_distance(pdef->x, pdef->y, pcity->x, pcity->y) < d) val++;
+        unit_list_iterate_end;
+        aunit = dist_nearest_enemy_unit(pplayer, pcity->x, pcity->y);
+        if (aunit)
+          if (real_map_distance(aunit->x, aunit->y, pcity->x, pcity->y) > d) val++;
+        acity = dist_nearest_enemy_city(pplayer, punit->x, punit->y);
+        if (acity)
+          if (real_map_distance(punit->x, punit->y, acity->x, acity->y) < d) val++;
+        if (val < 0) { punit->ai.ai_role=AIUNIT_DEFEND_HOME; return; }
+        /* printf("%s not needed to return to %s.\n", unit_types[punit->type].name, pcity->name); */
+      } /* otherwise will let another unit defend the city for us */
+    } /* else printf("%s not needed to defend %s.\n", unit_types[punit->type].name, pcity->name); */
   }
-
 /* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
   if (should_unit_change_homecity(pplayer, punit)) {
     return;
@@ -588,8 +673,12 @@ if (ai_military_findtarget(pplayer,punit) || punit->unhappiness)
    }
 else 
    {
-   printf("%s's %s doesn't know what to do!\n", pplayer->name, unit_types[punit->type].name);
    punit->ai.ai_role=AIUNIT_NONE;
+   if (unit_attack_desirability(punit->type)) punit->ai.ai_role=AIUNIT_EXPLORE;
+/* this is disabled until cities know that units are coming home and behave! -- Syela
+   else if (pcity && pcity->ai.danger <= DANGEROUS) punit->ai.ai_role=AIUNIT_EXPLORE; */
+   else if (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)) punit->ai.ai_role=AIUNIT_EXPLORE; 
+/* else printf("%s's %s doesn't know what to do!\n", pplayer->name, unit_types[punit->type].name); */
    }
 }
 
@@ -628,6 +717,89 @@ else
    }
 }
 
+#ifdef SIMPLISTIC
+void find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
+{
+  struct city *pcity;
+  pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y);
+  if (pcity && !is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
+    *x = pcity->x; *y = pcity->y; return;
+  }
+}
+
+#else
+
+void find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
+{
+
+/* your mission, should you choose to accept it, is to seek out and destroy the
+nearest vulnerable enemy unit or city */
+
+/* this could be awful to the CPU, will profile it later and see ... */
+
+  int belli, vul, i, d, maxd;
+  int con = map_get_continent(punit->x, punit->y);
+  struct player *aplayer;
+  struct unit *pdef;
+  int kluge = 1000; /* Necessary in some regard */
+  maxd = THRESHOLD * unit_types[punit->type].move_rate;
+  if (unit_flag(punit->type, F_IGTER)) maxd *= 3;
+  if (maxd > THRESHOLD * 6) maxd = THRESHOLD * 6; /* limit of warmap */
+  belli = unit_belligerence(punit) * maxd;
+  *x = punit->x; *y = punit->y;
+
+  generate_warmap(0, punit); /* most flexible but costs milliseconds */
+/*  printf("%s's %s at (%d, %d) has belligerence %d.\n",
+     pplayer->name, unit_types[punit->type].name, punit->x, punit->y, belli); */
+
+  for (i = 0; i < game.nplayers; i++) {
+    aplayer = &game.players[i];
+    if (aplayer != pplayer) { /* enemy */
+      city_list_iterate(aplayer->cities, acity)
+        if (map_get_continent(acity->x, acity->y) == con &&
+            warmap.cost[acity->x][acity->y] < maxd) {
+          if (pdef = get_defender(pplayer, punit, acity->x, acity->y))
+            vul = unit_vulnerability(punit, pdef);
+          else vul = 0;
+/* probably ought to make empty cities less enticing. -- Syela */
+          vul = (vul + kluge) * warmap.cost[acity->x][acity->y];
+          if (vul < belli) {
+            belli = vul;
+            *x = acity->x;
+            *y = acity->y;
+          }
+        }
+      city_list_iterate_end;
+/* I'm not sure the following code is good but I'm testing it -- Syela */
+      unit_list_iterate(aplayer->units, aunit)
+        if (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
+            map_get_continent(aunit->x, aunit->y) == con &&
+            warmap.cost[aunit->x][aunit->y] < maxd) {
+          vul = unit_vulnerability(punit, aunit);
+          d = warmap.cost[aunit->x][aunit->y];
+          d *= unit_types[aunit->type].move_rate;
+          if (unit_flag(aunit->type, F_IGTER)) d *= 3;
+          d /= unit_types[punit->type].move_rate;
+          if (d < 1) d = 1;
+/* this is experimental.  I'm worried about units chasing explorers and diplomats */
+/* arguably should be ADDING the runaway-potential, but this seems to be better */
+          vul = (vul + kluge) * d;
+          if (vul < belli) {
+            belli = vul;
+            *x = aunit->x;
+            *y = aunit->y;
+          }
+        }
+      unit_list_iterate_end;
+    } /* end if enemy */
+  } /* end for all players */
+/*  printf("%s's %s at (%d, %d) targeting (%d, %d) [%d / %d].\n", pplayer->name,
+   unit_types[punit->type].name, punit->x, punit->y, *x, *y, belli,
+   unit_belligerence(punit) * maxd); */
+
+}
+#endif
+
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
   int dest, dest_x, dest_y; 
@@ -643,16 +815,21 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
       dest_y = dest / map.xsize;
       if (dest_x == punit->x && dest_y == punit->y) {
 /* no one to bash here.  Will try to move onward */
-        if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y)) {
-          if (!is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
-            dest_x = pcity->x; dest_y = pcity->y;
-            if (went = ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
-              if (went > 0) flag = punit->moves_left;
-              else punit = 0;
-            } /* else we're having ZOC hell and need to break out of the loop */
-          } /* else printf("Adjacency.\n"); */
-        }
+        find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
+        if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
+/* nothing to kill.  Adjacency is something for us to kill later. */
+          ai_manage_explorer(pplayer, punit); /* nothing else to do */
+          return; /* Jane, stop this crazy thing! */
+        } else if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
+/* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
+          if (went = ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
+            if (went > 0) flag = punit->moves_left;
+            else punit = 0;
+          } /* else we're having ZOC hell and need to break out of the loop */
+        } /* else nothing to kill */
       } else { /* goto does NOT work for fast units */
+/*        printf("%s's %s at (%d, %d) bashing (%d, %d)\n", pplayer->name,
+unit_types[punit->type].name, punit->x, punit->y, dest_x, dest_y); */
         handle_unit_move_request(pplayer, punit, dest_x, dest_y);
         punit = find_unit_by_id(id);
         if (punit) flag = punit->moves_left; else flag = 0;

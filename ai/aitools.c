@@ -330,6 +330,7 @@ void ai_government_change(struct player *pplayer, int gov)
   pplayer->revolution=0;
   pplayer->government=G_ANARCHY;
   handle_player_government(pplayer, &preq);
+  pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
 }
 
 /* --------------------------------TAX---------------------------------- */
@@ -340,7 +341,8 @@ void ai_government_change(struct player *pplayer, int gov)
 **************************************************************************/
 int ai_gold_reserve(struct player *pplayer)
 {
-  return total_player_citizens(pplayer)*2;
+  return MAX(pplayer->ai.maxbuycost, total_player_citizens(pplayer)*2);
+/* I still don't trust this function -- Syela */
 }
 
 /* --------------------------------------------------------------------- */
@@ -388,6 +390,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
     if (!is_wonder(i) ||  (!built_elsewhere(pcity, i) &&
         !is_building_other_wonder(pcity) &&
 /* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
+        !pcity->ai.grave_danger && /* otherwise caravans will be killed! */
 /* might be OK if I forced all AI players to take mysticism early */
         dis < 12 && pcity->shield_prod >= j / k)) { /* too many restrictions? */
 /* trying to keep wonders in safe places with easy caravan access -- Syela */

@@ -97,12 +97,30 @@ int ai_city_build_peaceful_unit(struct city *pcity)
 
 void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
-  int i, values[B_LAST];
+  int i, j, values[B_LAST], leon = 0, palace = 0, corr = 0;
   memset(values, 0, sizeof(values));
+  memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
+
+  if (find_palace(pplayer) || pplayer->government == G_DEMOCRACY) palace = 1;
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
-    for (i = 0; i < B_LAST; i++) values[i] += pcity->ai.building_want[i];
+    if (!palace) corr += pcity->corruption * 8;
+    for (i = 0; i < B_LAST; i++) 
+      if (pcity->ai.building_want[i] > 0) values[i] += pcity->ai.building_want[i];
+    if (pcity->ai.building_want[B_LEONARDO] > leon)
+      leon = pcity->ai.building_want[B_LEONARDO];
   city_list_iterate_end;
+
+/* this is a weird place to put tech advice */
+  for (i = 0; i < B_LAST; i++) {
+    j = improvement_types[i].tech_requirement;
+    if (get_invention(pplayer, j) != TECH_KNOWN)
+      pplayer->ai.tech_want[j] += values[i];
+  }
+
+  if (!game.global_advances[A_PHILOSOPHY])
+    pplayer->ai.tech_want[A_PHILOSOPHY] *= 2; /* this probably isn't right -- Syela */
+
   city_list_iterate(pplayer->cities, pcity)
     pcity->ai.building_want[B_ASMITHS] = values[B_ASMITHS];
     pcity->ai.building_want[B_CURE] = values[B_CURE];
@@ -117,7 +135,10 @@ void ai_manage_buildings(struct player *pplayer)
     pcity->ai.building_want[B_SETI] = values[B_SETI];
     pcity->ai.building_want[B_SUNTZU] = values[B_SUNTZU];
     pcity->ai.building_want[B_WOMENS] = values[B_WOMENS];
+    pcity->ai.building_want[B_LEONARDO] = leon; /* hopefully will fix */
+    pcity->ai.building_want[B_PALACE] = corr; /* urgent enough? */
   city_list_iterate_end;
+
 }
 
 /************************************************************************** 
@@ -129,6 +150,7 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   struct ai_choice bestchoice, curchoice;
   int def = city_get_defenders(pcity);
   int set = city_get_settlers(pcity);
+  int buycost;
 
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
@@ -143,9 +165,12 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   }
 
   if (bestchoice.want) { /* Note - on fallbacks, will NOT get stopped building msg */
-   if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
+/* printf("%s wants %s with desire %d.\n", pcity->name, (bestchoice.type ?
+unit_name(bestchoice.choice) : get_improvement_name(bestchoice.choice)),
+bestchoice.want); */
+    if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
-     notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+      notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
                    "Game: The %s have stopped building The %s in %s.",
                    get_race_name_plural(pplayer->race),
                    get_imp_name_ex(pcity, pcity->currently_building),
@@ -154,7 +179,7 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if (!bestchoice.type && (pcity->is_building_unit ||
                  pcity->currently_building != bestchoice.choice) &&
                  is_wonder(bestchoice.choice))
-       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
+      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
                     "Game: The %s have started building The %s in %s.",
                     get_race_name_plural(city_owner(pcity)->race),
                     get_imp_name_ex(pcity, bestchoice.choice), pcity->name);
@@ -162,17 +187,35 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     pcity->currently_building = bestchoice.choice;
     pcity->is_building_unit    = bestchoice.type;
     if (bestchoice.want > 100) { /* either need defense or building NOW */
-      if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
-            !city_got_building(pcity, B_GRANARY) && /* don't vaporize workers */
-            pcity->food_stock < (pcity->size - 1) * game.foodbox) ;
+      buycost = city_buy_cost(pcity);
+      if (!pcity->shield_stock) ;
+      else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
+            !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
+            pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && unit_flag(bestchoice.choice, F_NONMIL) &&
-         pcity->shield_stock < city_buy_cost(pcity) / 3) ; /* too expensive */
-      else if (pplayer->economic.gold >= city_buy_cost(pcity)) {
+         pcity->shield_stock < buycost / 3) ; /* too expensive */
+      else if (pplayer->economic.gold >= buycost) {
         really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+      } else if (bestchoice.type || !is_wonder(bestchoice.choice)) {
+/*        printf("%s wants %s but can't afford to buy it (%d < %d).\n",
+pcity->name, (bestchoice.type ? unit_name(bestchoice.choice) :
+get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
+        if (bestchoice.type && !unit_flag(bestchoice.choice, F_NONMIL)) {
+          if (pcity->ai.grave_danger && !assess_defense(pcity)) { /* oh dear */
+/* don't need to waste gold here, but may as well spend our production */
+            pcity->currently_building = ai_choose_defender_limited(pcity,
+                  pcity->shield_stock + pcity->shield_surplus);
+          } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
+        } /* end panic subroutine */
+        if (!bestchoice.type) switch (bestchoice.choice) {
+          case B_CITY: /* add other things worth raising taxes for here! -- Syela */
+          case B_TEMPLE:
+          case B_AQUEDUCT:
+            if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
+            break;
+/* granaries/harbors/wonders not worth the tax increase */
+        }
       }
-/* else printf("%s wants %s but can't afford to buy it (%d < %d).\n", pcity->name,
-(bestchoice.type ? unit_name(bestchoice.choice) : get_improvement_name(bestchoice.choice)),
- pplayer->economic.gold, city_buy_cost(pcity)); */
     }
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
@@ -210,6 +253,7 @@ printf("Falling back - %s didn't want soldiers, settlers, or buildings.\n", pcit
 
 void ai_manage_cities(struct player *pplayer)
 { 
+  pplayer->ai.maxbuycost = 0;
   city_list_iterate(pplayer->cities, pcity)
     ai_manage_city(pplayer, pcity);
   city_list_iterate_end;
@@ -220,6 +264,18 @@ void ai_manage_cities(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity)
     ai_city_choose_build(pplayer, pcity);
   city_list_iterate_end;
+
+
+  if (get_invention(pplayer, A_CODE) != TECH_KNOWN) {
+    pplayer->ai.tech_want[A_CODE] += 100 * city_list_size(&pplayer->cities) *
+              ai_tech_goal_turns(pplayer, A_CODE);
+  } else if (get_invention(pplayer, A_REPUBLIC) != TECH_KNOWN) {
+    pplayer->ai.tech_want[A_REPUBLIC] += city_list_size(&pplayer->cities) *
+              (ai_tech_goal_turns(pplayer, A_REPUBLIC) * 72 + 72);
+/* these may need to be fudged sometime -- Syela */
+    if (get_invention(pplayer, A_MONARCHY) != TECH_KNOWN)
+      pplayer->ai.tech_want[A_MONARCHY] += 110 * city_list_size(&pplayer->cities);
+  }
 }
 
 /**************************************************************************
@@ -309,25 +365,17 @@ int ai_in_initial_expand(struct player *pplayer)
 **************************************************************************/
 int unit_attack_desirability(int i)
 {
-  int cur, a, d;
-  cur = get_unit_type(i)->firepower *
-        get_unit_type(i)->hp * get_unit_type(i)->move_rate;
-  a = get_unit_type(i)->attack_strength;
-  d = get_unit_type(i)->defense_strength;
-  if (d > a) return(0);
-  cur *= (a + d + a * d); /* wanted to rank Legion > Catapult > Archer > Horsemen */
-  return(cur);
-}
+  return(unit_desirability(i, 0));
+} 
 
 int ai_choose_attacker(struct city *pcity)
-{
+{ /* don't ask me why this is in aicity, I can't even remember -- Syela */
   int i;
   int best= 0;
   int bestid = 0;
   int cur;
-  for (i = U_WARRIORS; i < U_HOWITZER ; i++) { /* not dealing with boats/planes yet */
+  for (i = U_WARRIORS; i <= U_HOWITZER ; i++) { /* not dealing with boats/planes yet */
     cur = unit_attack_desirability(i);
-    if (unit_flag(i, F_IGTER)) cur *= 3;
 
     if (can_build_unit(pcity, i) && (cur > best || (cur == best &&
  get_unit_type(i)->build_cost <= get_unit_type(bestid)->build_cost))) {
@@ -338,15 +386,16 @@ int ai_choose_attacker(struct city *pcity)
   return bestid;
 }
 
-int ai_choose_defender(struct city *pcity)
+int ai_choose_defender_limited(struct city *pcity, int n)
 {
   int i;
   int best= 0;
   int bestid = 0;
   for (i = U_WARRIORS; i < U_HORSEMEN ; i++) {
     if (can_build_unit(pcity, i) && 
+        get_unit_type(i)->build_cost <= n &&
 	(get_unit_type(i)->defense_strength > best ||
-	(get_unit_type(i)->defense_strength == best &
+	(get_unit_type(i)->defense_strength == best &&
  get_unit_type(i)->build_cost <= get_unit_type(bestid)->build_cost))) {
 /* Legions are NOT better defenders than Pikemen. -- Syela */
       best = get_unit_type(i)->defense_strength;
@@ -354,6 +403,11 @@ int ai_choose_defender(struct city *pcity)
     }
   }
   return bestid;
+}
+
+int ai_choose_defender(struct city *pcity)
+{
+  return (ai_choose_defender_limited(pcity, 65535));
 }
 
 /************************************************************************** 
@@ -422,7 +476,10 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   int x,y, foodneed, prodneed, gov;
 
-  foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  foodneed=(pcity->size *2);
+  unit_list_iterate(pcity->units_supported, punit)
+    if (unit_flag(punit->type, F_SETTLERS)) foodneed += settler_eats(pcity);
+  unit_list_iterate_end;
   foodneed -= pcity->food_prod; /* much more robust now -- Syela */
   prodneed = 0;
   prodneed -= pcity->shield_prod;
@@ -451,8 +508,17 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
     }
   }
   if (*xp == 0 && *yp == 0) return 0;
-  else return(city_tile_value(pcity, *xp, *yp, foodneed +
-      get_food_tile(*xp, *yp, pcity), prodneed + get_shields_tile(*xp, *yp, pcity)));
+  foodneed += get_food_tile(*xp, *yp, pcity);
+  prodneed += get_shields_tile(*xp, *yp, pcity);
+  if (foodneed > 0) {
+/*    printf("No elvis_pos in %s - would create famine.\n", pcity->name); */
+    return 0; /* Bad time to Elvis */
+  }
+  if (prodneed > 0) {
+/*    printf("No elvis_pos in %s - would fail-to-upkeep.\n", pcity->name); */
+    return 0; /* Bad time to Elvis */
+  }
+  return(city_tile_value(pcity, *xp, *yp, foodneed, prodneed));
 }
 /**************************************************************************
 ...
@@ -460,11 +526,12 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 
 int ai_make_elvis(struct city *pcity)
 {
-  int xp, yp;
-  if (ai_find_elvis_pos(pcity, &xp, &yp)) {
+  int xp, yp, val;
+  if (val = ai_find_elvis_pos(pcity, &xp, &yp)) {
     set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
     pcity->ppl_elvis++;
-    return 1;
+    city_refresh(pcity); /* this lets us call ai_make_elvis in luxury routine */
+    return val; /* much more useful! */
   } else
     return 0;
 }
@@ -498,7 +565,7 @@ void make_elvises(struct city *pcity)
 	break;
       if (get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))
 	break; /* scientists don't party */
-      if (wtbb && elviscost >= 24)
+      if (elviscost >= 24) /* doesn't matter if we wtbb or not! */
         break; /* no benefit here! */
       set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
       pcity->ppl_elvis++;
@@ -565,7 +632,7 @@ int ai_fix_unhappy(struct city *pcity)
     return 1;
   while (city_unhappy(pcity)) {
     if(!ai_make_elvis(pcity)) break;
-    city_refresh(pcity);
+/*     city_refresh(pcity);         moved into ai_make_elvis for utility -- Syela */
   }
   return (city_unhappy(pcity));
 }

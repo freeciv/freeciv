@@ -17,8 +17,17 @@ void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice);
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
-void assess_danger(struct city *pcity);
+int assess_danger(struct city *pcity);
 
 #define THRESHOLD 12
+#define DANGEROUS 1000
+
+#include <map.h> /* just to allow MAP_MAX_ to be used */
+
+struct move_cost_map {
+  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  struct city *warcity; /* so we know what we're dealing with here */
+  struct unit *warunit; /* so we know what we're dealing with here */
+};
 
 #endif

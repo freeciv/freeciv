@@ -15,11 +15,7 @@
 #include <game.h>
 #include <unit.h>
 #include <citytools.h>
-
-struct move_cost_map {
-  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-  struct city *warcity; /* so we know what we're dealing with here */
-};
+#include <advmilitary.h>
 
 extern struct move_cost_map warmap; /* useful for caravans, I assure you -- Syela */
 
@@ -134,8 +130,8 @@ void ai_eval_buildings(struct city *pcity)
   tax *= t;
   prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * shield_weighting[a];
   val = ai_best_tile_value(pcity);
-  food = food_weighting[a] * 4 / pcity->size;  
-  i = (pcity->size *2 - get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  food = food_weighting[a] * 4 / MAX(2,pcity->size);  
+  i = (pcity->size * 2) + settler_eats(pcity);
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
   if (i > 0 && !pcity->ppl_scientist) hunger = i + 1; else hunger = 1;
 
@@ -146,9 +142,7 @@ void ai_eval_buildings(struct city *pcity)
     values[i]=0;
   } /* rewrite by Syela - old values seemed very random */
 
-/* the can_build_improvement part of this might be a waste of CPU cycles -- Syela */
-
-  if (can_build_improvement(pcity, B_AQUEDUCT)) {
+  if (could_build_improvement(pcity, B_AQUEDUCT)) {
     values[B_AQUEDUCT] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
                          (9 - MIN(8, pcity->size)); /* guessing about food if we did farm */
     values[B_AQUEDUCT] *= 2; /* guessing about value of loving the president */
@@ -158,7 +152,7 @@ void ai_eval_buildings(struct city *pcity)
   }
 
 
-  if (can_build_improvement(pcity, B_BANK))
+  if (could_build_improvement(pcity, B_BANK))
     values[B_BANK] = tax / 2;
   
   j = 0; k = 0;
@@ -179,7 +173,7 @@ void ai_eval_buildings(struct city *pcity)
   /* if half our production is military, effective gain is 1/2 city prod */
   bar = j / k;
 
-  if (!built_elsewhere(pcity, B_SUNTZU)) {
+  if (!built_elsewhere(pcity, B_SUNTZU)) { /* yes, I want can, not could! */
     if (can_build_improvement(pcity, B_BARRACKS))
       values[B_BARRACKS] = bar;
     if (can_build_improvement(pcity, B_BARRACKS2))
@@ -188,7 +182,7 @@ void ai_eval_buildings(struct city *pcity)
       values[B_BARRACKS3] = bar;
   }
 
-  if (can_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
+  if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
 
   def = assess_defense(pcity); /* not in the if so B_WALL can check them */
@@ -196,52 +190,52 @@ void ai_eval_buildings(struct city *pcity)
 /* it was so stupid, AI wouldn't start building walls until it was in danger */
 /* and it would have no chance to finish them before it was too late */
 
-  if (can_build_improvement(pcity, B_CITY))
+  if (could_build_improvement(pcity, B_CITY))
 /* && !built_elsewhere(pcity, B_WALL))      was counterproductive -- Syela */
     values[B_CITY] = 40; /* WAG */
 
-  if (can_build_improvement(pcity, B_COLOSSEUM))
+  if (could_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
   
-  if (can_build_improvement(pcity, B_COURTHOUSE)) {
+  if (could_build_improvement(pcity, B_COURTHOUSE)) {
     values[B_COURTHOUSE] = pcity->corruption * t / 2;
     if (gov == G_DEMOCRACY) values[B_COLOSSEUM] += building_value(1, pcity, val);
   }
   
-  if (can_build_improvement(pcity, B_FACTORY))
+  if (could_build_improvement(pcity, B_FACTORY))
     values[B_FACTORY] = prod / 2;
   
-  if (can_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
+  if (could_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
     values[B_GRANARY] = food * pcity->food_surplus;
   
-  if (can_build_improvement(pcity, B_HARBOUR))
+  if (could_build_improvement(pcity, B_HARBOUR))
     values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
 
-  if (can_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
+  if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
     values[B_HYDRO] = prod / 2;
 
-  if (can_build_improvement(pcity, B_LIBRARY))
+  if (could_build_improvement(pcity, B_LIBRARY))
     values[B_LIBRARY] = sci / 2;
 
-  if (can_build_improvement(pcity, B_MARKETPLACE))
+  if (could_build_improvement(pcity, B_MARKETPLACE))
     values[B_MARKETPLACE] = tax / 2;
 
-  if (can_build_improvement(pcity, B_MFG))
+  if (could_build_improvement(pcity, B_MFG))
     values[B_MFG] = prod / 2;
 
-  if (can_build_improvement(pcity, B_NUCLEAR))
+  if (could_build_improvement(pcity, B_NUCLEAR))
     values[B_NUCLEAR] = prod / 2;
 
-  if (can_build_improvement(pcity, B_OFFSHORE))
+  if (could_build_improvement(pcity, B_OFFSHORE))
     values[B_OFFSHORE] = ocean_workers(pcity) * shield_weighting[a];
 
-  if (can_build_improvement(pcity, B_POWER))
+  if (could_build_improvement(pcity, B_POWER))
     values[B_POWER] =  prod / 2;
 
-  if (can_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
+  if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
     values[B_RESEARCH] = sci / 2;
   
-  if (can_build_improvement(pcity, B_SEWER)) {
+  if (could_build_improvement(pcity, B_SEWER)) {
     values[B_SEWER] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
                       (13 - MIN(12, pcity->size)); /* guessing about food if we did farm */
     values[B_SEWER] *= 3; /* guessing about value of loving the president */
@@ -250,27 +244,27 @@ void ai_eval_buildings(struct city *pcity)
               game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
   }
 
-  if (can_build_improvement(pcity, B_STOCK))
+  if (could_build_improvement(pcity, B_STOCK))
     values[B_STOCK] = tax / 2;
 
-  if (can_build_improvement(pcity, B_SUPERHIGHWAYS))
+  if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
     values[B_SUPERHIGHWAYS] = railroad_trade(pcity) * t;
 
-  if (can_build_improvement(pcity, B_SUPERMARKET))
+  if (could_build_improvement(pcity, B_SUPERMARKET))
     values[B_SUPERMARKET] = farmland_food(pcity) * t * hunger;
 
-  if (can_build_improvement(pcity, B_TEMPLE))
+  if (could_build_improvement(pcity, B_TEMPLE))
     values[B_TEMPLE] = building_value(get_temple_power(pcity), pcity, val);
 
-  if (can_build_improvement(pcity, B_UNIVERSITY))
+  if (could_build_improvement(pcity, B_UNIVERSITY))
     values[B_UNIVERSITY] = sci / 2;
 
-/* ignored: AIRPORT, BARRACKS, COASTAL, MASS, PALACE, POLICE, PORT, */
+/* ignored: AIRPORT, COASTAL, MASS, PALACE, POLICE, PORT, */
 /* RECYCLING, SAM, SDI, and any effects of pollution. -- Syela */
 /* military advisor will deal with CITY */
 
   for (i = 0; i < B_LAST; i++) {
-    if (is_wonder(i) && can_build_improvement(pcity, i) && !wonder_obsolete(i)) {
+    if (is_wonder(i) && could_build_improvement(pcity, i) && !wonder_obsolete(i)) {
       if (i == B_ASMITHS)
         for (j = 0; j < B_LAST; j++)
           if (city_got_building(pcity, j) && improvement_upkeep(pcity, j) == 1)
@@ -288,7 +282,8 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = (research_time(plr) * (100 - game.freecost)) * t / 100 *
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
 
-      if (i == B_WALL)
+      if (i == B_WALL && !city_got_citywalls(pcity))
+/* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */
         values[B_WALL] = 40; /* WAG */
 
       if (i == B_HANGING) /* will add the global effect to this. */
@@ -311,9 +306,23 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = (pcity->size + 1) * shield_weighting[a];
       if (i == B_MICHELANGELO && !city_got_building(pcity, B_CATHEDRAL))
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
-      if (i == B_ORACLE)
-        if (city_got_building(pcity, B_TEMPLE))
-          values[i] = building_value(get_temple_power(pcity), pcity, val);
+      if (i == B_ORACLE) {
+        if (city_got_building(pcity, B_TEMPLE)) {
+          if (get_invention(plr, A_MYSTICISM) == TECH_KNOWN)
+            values[i] = building_value(2, pcity, val);
+          else {
+            values[i] = building_value(4, pcity, val) - building_value(1, pcity, val);
+            values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
+/* The += has nothing to do with oracle, just the tech_Want of mysticism! */
+          }
+        } else {
+          if (get_invention(plr, A_MYSTICISM) != TECH_KNOWN) {
+            values[i] = building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
+          }
+        }
+      }
+          
       if (i == B_PYRAMIDS && !city_got_building(pcity, B_GRANARY))
         values[i] = food * pcity->food_surplus; /* different tech req's */
       if (i == B_SETI && !city_got_building(pcity, B_RESEARCH))
@@ -363,7 +372,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   con = map_get_continent(pcity->x, pcity->y); 
   cit = get_cities_on_island(pplayer, con);
   work = pplayer->ai.island_data[con].workremain; /* usually = cit */
-  if (!set && pcity->food_surplus >= settler_eats(pcity)) { /* settlers are an option */
+  if (!set && settler_eats(pcity) <= pcity->food_surplus + 2*pcity->ppl_scientist) {
+/* settlers are an option */ /* had to add the scientist guess here too -- Syela */
     set = get_settlers_on_island(pplayer, con);
     work -= set;
     work -= expand_factor[get_race(pplayer)->expand];
@@ -376,30 +386,40 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* was not getting enough settlers after expand_cities reached, so ... */
 /* if 7 cities, expand = 2, cit will = 0. */
     else want += 100 - (pcity->size + cit) * 10;
+    if (can_build_unit(pcity, U_ENGINEERS)) want *= 2;
     if (want > 0) {
 /*      printf("%s desires settlers with passion %d\n", pcity->name, want); */
       if (can_build_unit(pcity, U_ENGINEERS)) choice->choice = U_ENGINEERS;
-      else choice->choice = U_SETTLERS;
+      else {
+        choice->choice = U_SETTLERS;
+        pplayer->ai.tech_want[A_EXPLOSIVES] += want;
+      }
       choice->want = want;
       choice->type = 1;
     }
   }
-  if (can_build_unit(pcity, U_CARAVAN)) {
-    city_list_iterate(pplayer->cities, acity)
-      if (!acity->is_building_unit && is_wonder(acity->currently_building)
-          && acity != pcity) { /* can't believe I forgot this! */
-        want = pcity->ai.building_want[acity->currently_building];
-        want -= warmap.cost[acity->x][acity->y] * 8 / 3;
+
+  city_list_iterate(pplayer->cities, acity)
+    if (!acity->is_building_unit && is_wonder(acity->currently_building)
+        && acity != pcity) { /* can't believe I forgot this! */
+      want = pcity->ai.building_want[acity->currently_building];
+      i = warmap.cost[acity->x][acity->y] * 8 / (can_build_unit(pcity, U_FREIGHT) ? 6 : 3);
+      want -= i;
 /* value of 8 is a total guess and could be wrong, but it's better than 0 -- Syela */
+      if (can_build_unit(pcity, U_CARAVAN)) {
         if (want > choice->want) {
           if (can_build_unit(pcity, U_FREIGHT)) choice->choice = U_FREIGHT;
-          else choice->choice = U_CARAVAN;
+          else {
+            choice->choice = U_CARAVAN;
+            pplayer->ai.tech_want[A_CORPORATION] += i / 2;
+          }
           choice->want = want;
           choice->type = 1;
         }
-      }
-    city_list_iterate_end;
-  } /* kludgy caravan code by Syela -- really in a rush right now */
+      } else pplayer->ai.tech_want[A_TRADE] += want;
+    }
+  city_list_iterate_end;
+
   ai_advisor_choose_building(pcity, &cur);
   if (cur.want > choice->want) {
     choice->choice = cur.choice;
@@ -409,6 +429,15 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     choice->type = 0;
   }
 /* allowing buy of peaceful units after much testing -- Syela */
+
+  if (!choice->want) { /* oh dear, better think of something! */
+    if (can_build_unit(pcity, U_DIPLOMAT)) {
+      choice->want = 1; /* someday, real diplomat code will be here! */
+      choice->type = 1;
+      choice->choice = U_DIPLOMAT;
+    }
+  }
+     
   return;
 }
 
