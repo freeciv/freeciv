@@ -304,7 +304,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   if (ev->button == 1) {
     do_map_click(xtile, ytile);
-    gtk_widget_grab_focus(turn_done_button);
+    gtk_widget_grab_focus(map_canvas);
   } else if ((ev->button == 2) || (ev->state & GDK_CONTROL_MASK)) {
     popit(ev, xtile, ytile);
   } else if (ev->button == 3) {

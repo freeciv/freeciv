@@ -816,7 +816,8 @@ static void setup_widgets(void)
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
   map_canvas = gtk_drawing_area_new();
-  
+  GTK_WIDGET_SET_FLAGS(map_canvas, GTK_CAN_FOCUS);
+
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
 			 colors_standard[COLOR_STD_BLACK]);
