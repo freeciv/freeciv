@@ -653,22 +653,6 @@ int city_science_bonus(struct city *pcity)
   return pcity->science_bonus;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-bool wants_to_be_bigger(struct city *pcity)
-{
-  if (pcity->size < game.aqueduct_size) return TRUE;
-  if (city_got_building(pcity, B_SEWER)) return TRUE;
-  if (city_got_building(pcity, B_AQUEDUCT)
-      && pcity->size < game.sewer_size) return TRUE;
-  if (!pcity->is_building_unit) {
-    if (pcity->currently_building == B_SEWER && pcity->did_buy) return TRUE;
-    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy) return TRUE;
-  } /* saves a lot of stupid flipflops -- Syela */
-  return FALSE;
-}
-
 /*********************************************************************
 Note: the old unit is not wiped here.
 ***********************************************************************/

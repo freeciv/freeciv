@@ -339,10 +339,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
       }
     }
 
-    can_grow = (city_got_building(pcity, B_AQUEDUCT)
-		|| pcity->size < game.aqueduct_size)
-      && (city_got_building(pcity, B_SEWER)
-	  || pcity->size < game.sewer_size);
+    can_grow = city_can_grow_to(pcity, pcity->size + 1);
 
     if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
       notify_conn_ex(dest, pcity->x, pcity->y,

@@ -46,7 +46,6 @@ int city_luxury_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 
-bool wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
 int best_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 

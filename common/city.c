@@ -1561,6 +1561,17 @@ int city_turns_to_grow(const struct city *pcity)
   }
 }
 
+/****************************************************************************
+  Return TRUE iff the city can grow to the given size.
+****************************************************************************/
+bool city_can_grow_to(const struct city *pcity, int pop_size)
+{
+  return (pop_size <= game.aqueduct_size
+	  || (pop_size <= game.sewer_size
+	      && city_got_building(pcity, B_AQUEDUCT))
+	  || city_got_building(pcity, B_SEWER));
+}
+
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
