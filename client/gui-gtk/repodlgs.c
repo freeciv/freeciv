@@ -43,7 +43,7 @@
 
 /******************************************************************/
 
-static void create_science_dialog(int make_modal);
+static void create_science_dialog(bool make_modal);
 static void science_close_callback(GtkWidget * widget, gpointer data);
 static void science_help_callback(GtkWidget * w, gint row, gint column);
 static void science_change_callback(GtkWidget * widget, gpointer data);
@@ -59,7 +59,7 @@ static int science_dialog_shell_is_modal;
 static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
-static void create_economy_report_dialog(int make_modal);
+static void create_economy_report_dialog(bool make_modal);
 static void economy_close_callback(GtkWidget * w, gpointer data);
 static void economy_selloff_callback(GtkWidget * w, gpointer data);
 static void economy_list_callback(GtkWidget * w, gint row, gint column);
@@ -73,7 +73,7 @@ static GtkWidget *sellall_command, *sellobsolete_command;
 static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
-static void create_activeunits_report_dialog(int make_modal);
+static void create_activeunits_report_dialog(bool make_modal);
 static void activeunits_close_callback(GtkWidget * w, gpointer data);
 static void activeunits_upgrade_callback(GtkWidget * w, gpointer data);
 static void activeunits_refresh_callback(GtkWidget * w, gpointer data);
@@ -122,7 +122,7 @@ void update_report_dialogs(void)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_science_dialog(int make_modal)
+void popup_science_dialog(bool make_modal)
 {
   if(!science_dialog_shell) {
     science_dialog_shell_is_modal=make_modal;
@@ -141,7 +141,7 @@ void popup_science_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_science_dialog(int make_modal)
+void create_science_dialog(bool make_modal)
 {
   GtkWidget *close_command;
   GtkWidget *frame, *hbox, *w;
@@ -538,7 +538,7 @@ void science_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_economy_report_dialog(int make_modal)
+void popup_economy_report_dialog(bool make_modal)
 {
   if(!economy_dialog_shell) {
       economy_dialog_shell_is_modal=make_modal;
@@ -557,7 +557,7 @@ void popup_economy_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_economy_report_dialog(int make_modal)
+void create_economy_report_dialog(bool make_modal)
 {
   GtkWidget *close_command, *scrolled;
   static gchar *titles_[4] = { N_("Building Name"), N_("Count"),
@@ -792,7 +792,7 @@ void economy_report_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_activeunits_report_dialog(int make_modal)
+void popup_activeunits_report_dialog(bool make_modal)
 {
   if(!activeunits_dialog_shell) {
       activeunits_dialog_shell_is_modal=make_modal;
@@ -811,7 +811,7 @@ void popup_activeunits_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_activeunits_report_dialog(int make_modal)
+void create_activeunits_report_dialog(bool make_modal)
 {
   GtkWidget *close_command, *refresh_command;
   static gchar *titles_[AU_COL]

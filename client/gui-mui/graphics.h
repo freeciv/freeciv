@@ -92,7 +92,7 @@ enum draw_type {
 
 
 void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
-                         int src_x, int src_y, int dir, int force);
+                         int src_x, int src_y, int dir, bool force);
 void put_one_tile(struct RastPort *rp, int x, int y, enum draw_type draw);
 void put_one_tile_full(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode);
 

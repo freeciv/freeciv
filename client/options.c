@@ -376,8 +376,8 @@ void load_options(void)
 				 "%s.message_where_%02d", prefix, i);
   }
   for (i = 1; i < num_city_report_spec(); i++) {
-    int *ip = city_report_spec_show_ptr(i);
-    *ip = secfile_lookup_int_default(&sf, *ip, "%s.city_report_%s", prefix,
+    bool *ip = city_report_spec_show_ptr(i);
+    *ip = secfile_lookup_bool_default(&sf, *ip, "%s.city_report_%s", prefix,
 				     city_report_spec_tagname(i));
   }
 
@@ -440,7 +440,7 @@ void save_options(void)
   }
 
   for (i = 1; i < num_city_report_spec(); i++) {
-    secfile_insert_int(&sf, *(city_report_spec_show_ptr(i)),
+    secfile_insert_bool(&sf, *(city_report_spec_show_ptr(i)),
 		       "client.city_report_%s",
 		       city_report_spec_tagname(i));
   }

@@ -6,7 +6,7 @@
 #include "cityrep.h"
 
 void
-popup_city_report_dialog(int make_modal)	// HOOK
+popup_city_report_dialog(bool make_modal)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_CITY_REPORT_DIALOG );
     msg->AddBool( "modal", !!make_modal );

@@ -13,6 +13,8 @@
 #ifndef FC__CITYREPDATA_H
 #define FC__CITYREPDATA_H
 
+#include "shared.h"		/* bool type */
+
 struct city;
 
 /* abbreviate long city names to this length in the city report: */
@@ -22,7 +24,7 @@ struct city;
 #define NUM_CREPORT_COLS 14
 
 struct city_report_spec {
-  int show;			/* modify this to customize */
+  bool show;			/* modify this to customize */
   int width;			/* 0 means variable; rightmost only */
   int space;			/* number of leading spaces (see below) */
   char *title1;
@@ -56,7 +58,7 @@ extern struct city_report_spec city_report_specs[];
    this "clean" interface...)
 */
 int num_city_report_spec(void);
-int *city_report_spec_show_ptr(int i);
+bool *city_report_spec_show_ptr(int i);
 char *city_report_spec_tagname(int i);
 
 #endif  /* FC__CITYREPDATA_H */

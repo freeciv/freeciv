@@ -494,7 +494,8 @@ void worklist_populate_worklist(struct Worklist_Data *data)
 {
   int i, n;
   int id;
-  int target, is_unit;
+  int target;
+  bool is_unit;
   struct worklist_entry entry;
 
   set(data->available_listview, MUIA_NList_Quiet, TRUE);

@@ -1025,7 +1025,7 @@ FIXME: We currently always draw the line.
 Only used for isometric view.
 **************************************************************************/
 void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
-                         int src_x, int src_y, int dir, int force)
+                         int src_x, int src_y, int dir, bool force)
 {
   int dest_x, dest_y, is_real;
   int canvas_start_x, canvas_start_y;

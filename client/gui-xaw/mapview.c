@@ -354,7 +354,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int tile_visible_mapcanvas(int x, int y)
+bool tile_visible_mapcanvas(int x, int y)
 {
   return (y>=map_view_y0 && y<map_view_y0+map_canvas_store_theight &&
 	  ((x>=map_view_x0 && x<map_view_x0+map_canvas_store_twidth) ||
@@ -365,7 +365,7 @@ int tile_visible_mapcanvas(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-int tile_visible_and_not_on_border_mapcanvas(int x, int y)
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
 	  && (y<map_view_y0+map_canvas_store_theight-2 ||
@@ -679,7 +679,7 @@ void map_canvas_resize(void)
 ...
 **************************************************************************/
 void update_map_canvas(int x, int y, int width, int height, 
-		       int write_to_screen)
+		       bool write_to_screen)
 {
   int map_x, map_y;
 

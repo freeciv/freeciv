@@ -54,7 +54,7 @@
 
 /******************************************************************/
 
-void create_science_dialog(int make_modal);
+void create_science_dialog(bool make_modal);
 void science_close_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
 void science_help_callback(Widget w, XtPointer client_data, 
@@ -76,7 +76,7 @@ static int science_dialog_shell_is_modal;
 static Widget popupmenu, goalmenu;
 
 /******************************************************************/
-void create_economy_report_dialog(int make_modal);
+void create_economy_report_dialog(bool make_modal);
 void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 void economy_selloff_callback(Widget w, XtPointer client_data,
@@ -92,7 +92,7 @@ static Widget sellall_command, sellobsolete_command;
 static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
-void create_activeunits_report_dialog(int make_modal);
+void create_activeunits_report_dialog(bool make_modal);
 void activeunits_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 void activeunits_upgrade_callback(Widget w, XtPointer client_data, 
@@ -183,7 +183,7 @@ static char *get_report_title_plus(char *report_name, char *additional)
 /****************************************************************
 ...
 ************************ ***************************************/
-void popup_science_dialog(int make_modal)
+void popup_science_dialog(bool make_modal)
 {
 
   if(!science_dialog_shell) {
@@ -212,7 +212,7 @@ void popup_science_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_science_dialog(int make_modal)
+void create_science_dialog(bool make_modal)
 {
   Widget science_form;
   Widget  close_command;
@@ -588,7 +588,7 @@ void science_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_economy_report_dialog(int make_modal)
+void popup_economy_report_dialog(bool make_modal)
 {
   if(!economy_dialog_shell) {
       Position x, y;
@@ -615,7 +615,7 @@ void popup_economy_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_economy_report_dialog(int make_modal)
+void create_economy_report_dialog(bool make_modal)
 {
   Widget economy_form;
   Widget close_command;
@@ -855,7 +855,7 @@ void economy_report_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_activeunits_report_dialog(int make_modal)
+void popup_activeunits_report_dialog(bool make_modal)
 {
   if(!activeunits_dialog_shell) {
       Position x, y;
@@ -882,7 +882,7 @@ void popup_activeunits_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_activeunits_report_dialog(int make_modal)
+void create_activeunits_report_dialog(bool make_modal)
 {
   Widget activeunits_form;
   Widget close_command, refresh_command;

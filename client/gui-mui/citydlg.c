@@ -270,7 +270,7 @@ struct city_dialog
 /****************************************************************
  ...
 *****************************************************************/
-static void request_city_change_production(struct city *pcity, int id, int is_unit_id)
+static void request_city_change_production(struct city *pcity, int id, bool is_unit_id)
 {
   struct packet_city_request packet;
 
@@ -381,13 +381,9 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-int city_dialog_is_open(struct city *pcity)
+bool city_dialog_is_open(struct city *pcity)
 {
-  if (get_city_dialog(pcity)) {
-    return 1;
-  } else {
-    return 0;
-  }
+  return get_city_dialog(pcity) != NULL;
 }
 
 /****************************************************************
@@ -483,7 +479,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity, int make_modal)
+void popup_city_dialog(struct city *pcity, bool make_modal)
 {
   struct city_dialog *pdialog;
 
@@ -886,7 +882,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *)data;
-  int i, id, is_unit;
+  int i, id;
+  bool is_unit;
 
   /* Update the worklist.  But, remember -- the first element of the 
      worklist is actually just the current build target; don't send it

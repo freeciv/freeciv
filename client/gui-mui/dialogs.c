@@ -957,7 +957,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-int diplomat_dialog_is_open(void)
+bool diplomat_dialog_is_open(void)
 {
   return diplomat_dialog_open;
 }
@@ -1078,7 +1078,7 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
 /****************************************************************
 ...
 *****************************************************************/
-int caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(void)
 {
   return caravan_dialog;
 }

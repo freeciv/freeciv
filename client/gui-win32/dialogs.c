@@ -1032,8 +1032,7 @@ popup_caravan_dialog(struct unit *punit,
   
 }
 
-bool
-caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(void)
 {
   return BOOL_VAL(caravan_dialog);          
 }
@@ -1740,7 +1739,7 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 
 **************************************************************************/
 void
-popup_pillage_dialog(struct unit *punit, bool may_pillage)
+popup_pillage_dialog(struct unit *punit, int may_pillage)
 {
   int what;
   HWND dlg;

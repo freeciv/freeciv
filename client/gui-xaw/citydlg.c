@@ -134,7 +134,7 @@ static int dialog_list_has_been_initialised;
 
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
-static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
+static struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal);
 static void close_city_dialog(struct city_dialog *pdialog);
 
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
@@ -327,13 +327,9 @@ struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-int city_dialog_is_open(struct city *pcity)
+bool city_dialog_is_open(struct city *pcity)
 {
-  if (get_city_dialog(pcity)) {
-    return 1;
-  } else {
-    return 0;
-  }
+  return get_city_dialog(pcity) != NULL;
 }
 
 /****************************************************************
@@ -405,7 +401,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity, int make_modal)
+void popup_city_dialog(struct city *pcity, bool make_modal)
 {
   struct city_dialog *pdialog;
   
@@ -461,7 +457,7 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 
 #define LAYOUT_DEBUG 0
 
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
+struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 {
   char *dummy_improvement_list[]={ 
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -2201,7 +2197,7 @@ static void change_help_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(pdialog->change_list);
   if(ret->list_index!=XAW_LIST_NONE) {
     int idx = pdialog->change_list_ids[ret->list_index];
-    int is_unit = (ret->list_index >= pdialog->change_list_num_improvements);
+    bool is_unit = (ret->list_index >= pdialog->change_list_num_improvements);
 
     if (is_unit) {
       popup_help_dialog_typed(get_unit_type(idx)->name, HELP_UNIT);
@@ -2375,7 +2371,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *)data;
-  int k, id, is_unit;
+  int k, id;
+  bool is_unit;
 
   /* Update the worklist.  Remember, though -- the current build 
      target really isn't in the worklist; don't send it to the 

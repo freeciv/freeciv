@@ -58,11 +58,10 @@ popup_caravan_dialog(struct unit *punit,
 	/* PORTME */
 }
 
-int
-caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(void)
 {
 	/* PORTME */
-	return 0;
+	return FALSE;
 }
 
 void
@@ -71,11 +70,10 @@ popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	/* PORTME */
 }
 
-int
-diplomat_dialog_is_open(void)
+bool diplomat_dialog_is_open(void)
 {
 	/* PORTME */
-	return 0;
+	return FALSE;
 }
 
 void

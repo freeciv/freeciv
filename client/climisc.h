@@ -96,7 +96,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		 int num_selected_cities, bool append_units,
 		 bool append_wonders, bool change_prod,
-		 int (*test_func) (struct city *, int));
+		 bool (*test_func) (struct city *, int));
 int collect_cids2(cid * dest_cids);
 int collect_cids3(cid * dest_cids);
 int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech);

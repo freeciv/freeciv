@@ -3,15 +3,13 @@
 #include "mapview.h"
 
 
-int
-tile_visible_mapcanvas(int x, int y)
+bool tile_visible_mapcanvas(int x, int y)
 {
 	/* PORTME */
-	return 0;
+	return FALSE;
 }
 
-int
-tile_visible_and_not_on_border_mapcanvas(int x, int y)
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
 	/* PORTME */
 	return 0;
@@ -73,7 +71,7 @@ get_center_tile_mapcanvas(int *x, int *y)
 
 void
 update_map_canvas(int tile_x, int tile_y, int width, int height,
-                       int write_to_screen)
+		  bool write_to_screen)
 {
 	/* PORTME */
 }

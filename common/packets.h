@@ -241,7 +241,7 @@ struct packet_player_request
   int tech;                              /* research */
   struct worklist worklist;              /* one worklist */
   int wl_idx;                            /* which worklist */
-  int attribute_block;                   /* send attribute block as chunks */
+  bool attribute_block;                   /* send attribute block as chunks */
 };
 
 /*********************************************************

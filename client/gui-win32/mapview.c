@@ -100,13 +100,13 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int width, int height, int height_unit,
                                 enum draw_type draw);
 static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
-                                    int write_to_screen, int force);
+				bool write_to_screen, bool force);
 static void dither_tile(HDC hdc, struct Sprite **dither,
                         int canvas_x, int canvas_y,
                         int offset_x, int offset_y,
                         int width, int height, int fog);
 static void put_line(HDC hdc, int x, int y, 
-		     int dir,int write_to_screen);
+		     int dir, bool write_to_screen);
 static void draw_rates(HDC hdc);
 /**************************************************************************
 
@@ -434,8 +434,7 @@ tile_visible_mapcanvas(int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-bool
-tile_visible_and_not_on_border_mapcanvas(int x, int y)
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   return ((y>=map_view_y+2 || (y >= map_view_y && map_view_y == 0))
           && (y<map_view_y+map_view_height-2 ||
@@ -769,7 +768,7 @@ update_map_canvas(int x, int y, int width, int height,
 	if (normalize_map_pos(&x1, &y1)) {
 	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
 	    if (get_drawn(x1, y1, dir)) {
-	      really_draw_segment(mapstoredc,x1, y1, dir, 0, 1);
+	      really_draw_segment(mapstoredc,x1, y1, dir, FALSE, TRUE);
 	    }
 	  } adjc_dir_iterate_end;
 	}
@@ -1494,7 +1493,7 @@ FIXME: We currently always draw the line.
 Only used for isometric view.
 **************************************************************************/
 static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
-                                int write_to_screen, int force)
+                                bool write_to_screen, bool force)
 {
 
   HPEN old;
@@ -1923,7 +1922,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
 Not used in isometric view.
 **************************************************************************/
 static void put_line(HDC hdc, int x, int y, 
-		     int dir,int write_to_screen)
+		     int dir, bool write_to_screen)
 {
   HPEN old;
   int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
@@ -1961,7 +1960,7 @@ void draw_segment(int src_x, int src_y, int dir)
       HDC mapstoredc;
       mapstoredc=CreateCompatibleDC(NULL);
       old=SelectObject(mapstoredc,mapstorebitmap);
-      really_draw_segment(mapstoredc,src_x, src_y, dir, 1, 0);
+      really_draw_segment(mapstoredc,src_x, src_y, dir, TRUE, FALSE);
       SelectObject(mapstoredc,old);
       DeleteDC(mapstoredc);
     }

@@ -101,7 +101,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int width, int height,
 					 int fog);
 static void really_draw_segment(int src_x, int src_y, int dir,
-				    int write_to_screen, int force);
+				bool write_to_screen, bool force);
 static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				int canvas_x, int canvas_y,
 				int citymode,
@@ -528,7 +528,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int tile_visible_mapcanvas(int x, int y)
+bool tile_visible_mapcanvas(int x, int y)
 {
   if (is_isometric) {
     int dummy_x, dummy_y; /* well, it needs two pointers... */
@@ -544,7 +544,7 @@ int tile_visible_mapcanvas(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-int tile_visible_and_not_on_border_mapcanvas(int x, int y)
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   if (is_isometric) {
     int canvas_x, canvas_y;
@@ -1149,7 +1149,7 @@ Works by first refreshing map_canvas_store and then drawing the result to
 the screen.
 **************************************************************************/
 void update_map_canvas(int x, int y, int width, int height, 
-		       int write_to_screen)
+		       bool write_to_screen)
 {
   freelog(LOG_DEBUG,
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
@@ -1220,7 +1220,7 @@ void update_map_canvas(int x, int y, int width, int height,
 	if (normalize_map_pos(&x1, &y1)) {
 	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
 	    if (get_drawn(x1, y1, dir)) {
-	      really_draw_segment(x1, y1, dir, 0, 1);
+	      really_draw_segment(x1, y1, dir, FALSE, TRUE);
 	    }
 	  } adjc_dir_iterate_end;
 	}
@@ -1789,7 +1789,7 @@ FIXME: We currently always draw the line.
 Only used for isometric view.
 **************************************************************************/
 static void really_draw_segment(int src_x, int src_y, int dir,
-				int write_to_screen, int force)
+				bool write_to_screen, bool force)
 {
   int dest_x, dest_y, is_real;
   int canvas_start_x, canvas_start_y;
@@ -1835,7 +1835,7 @@ void draw_segment(int src_x, int src_y, int dir)
     if (get_drawn(src_x, src_y, dir) > 1) {
       return;
     } else {
-      really_draw_segment(src_x, src_y, dir, 1, 0);
+      really_draw_segment(src_x, src_y, dir, FALSE, TRUE);
     }
   } else {
     int dest_x, dest_y, is_real;

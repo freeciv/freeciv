@@ -37,7 +37,7 @@ science_dialog_update(void)
 }
 
 void
-popup_science_dialog(int make_modal)
+popup_science_dialog(bool make_modal)
 {
 	/* PORTME */
 }
@@ -49,7 +49,7 @@ economy_report_dialog_update(void)
 }
 
 void
-popup_economy_report_dialog(int make_modal)
+popup_economy_report_dialog(bool make_modal)
 {
 	/* PORTME */
 }
@@ -61,7 +61,7 @@ activeunits_report_dialog_update(void)
 }
 
 void
-popup_activeunits_report_dialog(int make_modal)
+popup_activeunits_report_dialog(bool make_modal)
 {
 	/* PORTME */
 }

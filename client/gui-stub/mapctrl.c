@@ -13,8 +13,7 @@ popup_newcity_dialog(struct unit *punit, char *suggestname)
 	/* PORTME */
 }
 
-void
-set_turn_done_button_state( int state )
+void set_turn_done_button_state(bool state)
 {
 	/* PORTME */
 }

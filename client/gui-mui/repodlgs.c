@@ -64,7 +64,7 @@ static STRPTR *help_research_entries;
 int delay_report_update = 0;
 
 static void create_trade_report_dialog(void);
-void create_activeunits_report_dialog(int make_modal);
+void create_activeunits_report_dialog(bool make_modal);
 
 /******************************************************************
  GUI independend
@@ -208,7 +208,7 @@ static void science_researched(ULONG * tech)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_science_dialog(int make_modal)
+void popup_science_dialog(bool make_modal)
 {
   static STRPTR def_entries[2];
   STRPTR *goal_entries = def_entries;
@@ -514,7 +514,7 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
 /****************************************************************
 ...
 ****************************************************************/
-void popup_economy_report_dialog(int make_modal)
+void popup_economy_report_dialog(bool make_modal)
 {
   if (!trade_wnd)
     create_trade_report_dialog();
@@ -694,7 +694,7 @@ static Object *actunit_upgrade_button;
 /****************************************************************
 ...
 ****************************************************************/
-void popup_activeunits_report_dialog(int make_modal)
+void popup_activeunits_report_dialog(bool make_modal)
 {
   if (!actunit_wnd)
     create_activeunits_report_dialog(make_modal);
@@ -839,7 +839,7 @@ static void actunit_upgrade(void)
 /****************************************************************
 ...
 *****************************************************************/
-void create_activeunits_report_dialog(int make_modal)
+void create_activeunits_report_dialog(bool make_modal)
 {
   if (actunit_wnd)
     return;

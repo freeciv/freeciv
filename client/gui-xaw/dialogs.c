@@ -694,7 +694,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
 ...
 *****************************************************************/
 static int create_advances_list(struct player *pplayer,
-				struct player *pvictim, int make_modal)
+				struct player *pvictim, bool make_modal)
 {  
   Widget spy_tech_form;
   Widget close_command;
@@ -779,7 +779,7 @@ static int create_advances_list(struct player *pplayer,
 ...
 *****************************************************************/
 static int create_improvements_list(struct player *pplayer,
-				    struct city *pcity, int make_modal)
+				    struct city *pcity, bool make_modal)
 {  
   Widget spy_sabotage_form;
   Widget close_command;

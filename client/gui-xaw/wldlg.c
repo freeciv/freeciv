@@ -103,7 +103,7 @@ static struct worklist_report_dialog *report_dialog;
 
 static int uni_id(struct worklist *pwl, int wlinx);
 
-static void worklist_id_to_name(char buf[], int id, int is_unit, 
+static void worklist_id_to_name(char buf[], int id, bool is_unit, 
 				struct city *pcity);
 
 static void rename_worklist_callback(Widget w, XtPointer client_data, 
@@ -153,7 +153,7 @@ static void worklist_avail_help_callback(Widget w, XtPointer client_data,
 					  XtPointer call_data);
 static void worklist_show_advanced_callback(Widget w, XtPointer client_data, 
 					  XtPointer call_data);
-static void worklist_help(int id, int is_unit);
+static void worklist_help(int id, bool is_unit);
 static void worklist_populate_worklist(struct worklist_dialog *pdialog);
 static void worklist_populate_targets(struct worklist_dialog *pdialog);
 
@@ -579,7 +579,7 @@ int uni_id(struct worklist *pwl, int inx)
 /****************************************************************
 
 *****************************************************************/
-void worklist_id_to_name(char buf[], int id, int is_unit, 
+void worklist_id_to_name(char buf[], int id, bool is_unit, 
 			 struct city *pcity)
 {
   if (is_unit)
@@ -840,7 +840,8 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
 			  int before, cid cid)
 {
   int i, first_free;
-  int target = cid_id(cid), is_unit = cid_is_unit(cid);
+  int target = cid_id(cid);
+  bool is_unit = cid_is_unit(cid);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
@@ -1162,7 +1163,8 @@ void worklist_worklist_help_callback(Widget w, XtPointer client_data,
 {
   struct worklist_dialog *pdialog;
   XawListReturnStruct *ret;
-  int id, is_unit = 0;
+  int id;
+  bool is_unit = FALSE;
 
   pdialog=(struct worklist_dialog *)client_data;
 
@@ -1183,7 +1185,8 @@ void worklist_avail_help_callback(Widget w, XtPointer client_data,
 {
   struct worklist_dialog *pdialog;
   XawListReturnStruct *ret;
-  int id, is_unit = 0;
+  int id;
+  bool is_unit = FALSE;
 
   pdialog=(struct worklist_dialog *)client_data;
 
@@ -1204,7 +1207,7 @@ void worklist_avail_help_callback(Widget w, XtPointer client_data,
 }
 
 
-void worklist_help(int id, int is_unit)
+void worklist_help(int id, bool is_unit)
 {
   if(id >= 0) {
     if (is_unit) {
@@ -1249,7 +1252,8 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
 {
   int i, n;
   int id;
-  int target, is_unit;
+  int target;
+  bool is_unit;
 
   n = 0;
   if (pdialog->pcity) {

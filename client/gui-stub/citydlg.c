@@ -4,7 +4,7 @@
 
 
 void
-popup_city_dialog(struct city *pcity, int make_modal)
+popup_city_dialog(struct city *pcity, bool make_modal)
 {
 	/* PORTME */
 }

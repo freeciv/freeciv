@@ -756,9 +756,9 @@ static void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
 ...
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
-					 int socket_writable)
+					 bool socket_writable)
 {
-  static int previous_state = 0;
+  static bool previous_state = FALSE;
 
   if (previous_state == socket_writable)
     return;
@@ -880,15 +880,16 @@ void set_unit_icon(int idx, struct unit *punit)
   Maintains a static record of current state to avoid unnecessary redraws.
   Note initial state should match initial gui setup (off).
 **************************************************************************/
-void set_unit_icons_more_arrow(int onoff)
+void set_unit_icons_more_arrow(bool onoff)
 {
-  static int showing = 0;
-  if (onoff==1 && !showing) {
+  static bool showing = FALSE;
+
+  if (onoff && !showing) {
     xaw_set_bitmap(more_arrow_label, sprites.right_arrow->pixmap);
-    showing = 1;
+    showing = TRUE;
   }
-  else if(onoff==0 && showing) {
+  else if(!onoff && showing) {
     xaw_set_bitmap(more_arrow_label, None);
-    showing = 0;
+    showing = FALSE;
   }
 }

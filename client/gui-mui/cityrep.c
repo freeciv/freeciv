@@ -490,7 +490,7 @@ void city_report_dialog_update_city(struct city *pcity)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_city_report_dialog(int make_modal)
+void popup_city_report_dialog(bool make_modal)
 {
   if (!cityrep_wnd)
     create_city_report_dialog();

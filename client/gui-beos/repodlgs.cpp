@@ -48,7 +48,7 @@ science_dialog_update(void)	// HOOK
 
 
 void
-popup_science_dialog(int make_modal)	// HOOK
+popup_science_dialog(bool make_modal)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_SCIENCE_DIALOG );
     msg->AddBool( "modal", !!make_modal );
@@ -64,7 +64,7 @@ trade_report_dialog_update(void)	// HOOK
 
 
 void
-popup_trade_report_dialog(int make_modal)	// HOOK
+popup_trade_report_dialog(bool make_modal)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_TRADE_REPORT_DIALOG );
     msg->AddBool( "modal", !!make_modal );
@@ -80,7 +80,7 @@ activeunits_report_dialog_update(void)	// HOOK
 
 
 void
-popup_activeunits_report_dialog(int make_modal)	// HOOK
+popup_activeunits_report_dialog(bool make_modal)	// HOOK
 {
     BMessage *msg = new BMessage( UI_POPUP_ACTIVEUNITS_REPORT_DIALOG );
     msg->AddBool( "modal", !!make_modal );

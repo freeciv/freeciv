@@ -88,7 +88,7 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
  Activate or deactivate the turn done button.
  Should probably some where else.
 **************************************************************************/
-void set_turn_done_button_state(int state)
+void set_turn_done_button_state(bool state)
 {
   set(main_turndone_button, MUIA_Disabled, !state);
 }

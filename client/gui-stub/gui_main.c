@@ -45,7 +45,7 @@ set_unit_icon(int idx, struct unit *punit)
 }
 
 void
-set_unit_icons_more_arrow(int onoff)
+set_unit_icons_more_arrow(bool onoff)
 {
 	/* PORTME */
 }

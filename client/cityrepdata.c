@@ -200,37 +200,37 @@ static char *cr_entry_cma(struct city *pcity)
 #define FUNC_TAG(var)  cr_entry_##var, #var 
 
 struct city_report_spec city_report_specs[] = {
-  { 1,-15, 0, NULL,  N_("Name"),      N_("City Name"),
+  { TRUE, -15, 0, NULL,  N_("Name"),      N_("City Name"),
                                       FUNC_TAG(cityname) },
-  { 0,  2, 1, NULL,  N_("Sz"),        N_("Size"),
+  { FALSE,  2, 1, NULL,  N_("Sz"),        N_("Size"),
                                       FUNC_TAG(size) },
-  { 1, -8, 1, NULL,  N_("State"),     N_("Rapture/Peace/Disorder"),
+  { TRUE,  -8, 1, NULL,  N_("State"),     N_("Rapture/Peace/Disorder"),
                                       FUNC_TAG(hstate_verbose) },
-  { 0,  1, 1, NULL,  NULL,            N_("Concise *=Rapture, X=Disorder"),
+  { FALSE,  1, 1, NULL,  NULL,            N_("Concise *=Rapture, X=Disorder"),
                                       FUNC_TAG(hstate_concise) },
-  { 1, 10, 1, N_("Workers"), N_("H/C/U/A"),
+  { TRUE,  10, 1, N_("Workers"), N_("H/C/U/A"),
                                       N_("Workers: Happy, Content, Unhappy, Angry"),
                                       FUNC_TAG(workers) },
-  { 0,  7, 1, N_("Special"), N_("E/S/T"),
+  { FALSE,  7, 1, N_("Special"), N_("E/S/T"),
                                       N_("Entertainers, Scientists, Taxmen"),
                                       FUNC_TAG(specialists) },
-  { 1, 10, 1, N_("Surplus"), N_("F/P/T"),
+  { TRUE,  10, 1, N_("Surplus"), N_("F/P/T"),
                                       N_("Surplus: Food, Production, Trade"),
                                       FUNC_TAG(resources) },
-  { 1, 10, 1, N_("Economy"), N_("G/L/S"),
+  { TRUE,  10, 1, N_("Economy"), N_("G/L/S"),
                                       N_("Economy: Gold, Luxuries, Science"),
                                       FUNC_TAG(output) },
-  { 0,  1, 1, N_("n"), N_("T"),       N_("Number of Trade Routes"),
+  { FALSE,  1, 1, N_("n"), N_("T"),       N_("Number of Trade Routes"),
                                       FUNC_TAG(num_trade) },
-  { 1,  7, 1, N_("Food"), N_("Stock"), N_("Food Stock"),
+  { TRUE,   7, 1, N_("Food"), N_("Stock"), N_("Food Stock"),
                                       FUNC_TAG(food) },
-  { 0,  3, 1, NULL, N_("Pol"),        N_("Pollution"),
+  { FALSE,  3, 1, NULL, N_("Pol"),        N_("Pollution"),
                                       FUNC_TAG(pollution) },
-  { 0,  3, 1, NULL, N_("Cor"),        N_("Corruption"),
+  { FALSE,  3, 1, NULL, N_("Cor"),        N_("Corruption"),
                                       FUNC_TAG(corruption) },
-  { 1, 15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
+  { TRUE,  15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
                                       FUNC_TAG(cma) },
-  { 1,  0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
+  { TRUE,   0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
                                       N_("Currently Building"),
                                       FUNC_TAG(building) }
 };
@@ -246,7 +246,7 @@ int num_city_report_spec(void)
 {
   return NUM_CREPORT_COLS;
 }
-int *city_report_spec_show_ptr(int i)
+bool *city_report_spec_show_ptr(int i)
 {
   return &(city_report_specs[i].show);
 }

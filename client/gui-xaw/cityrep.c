@@ -71,7 +71,7 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
 
 
 /******************************************************************/
-void create_city_report_dialog(int make_modal);
+void create_city_report_dialog(bool make_modal);
 void city_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 void city_center_callback(Widget w, XtPointer client_data, 
@@ -164,7 +164,7 @@ static char *get_city_table_header(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_city_report_dialog(int make_modal)
+void popup_city_report_dialog(bool make_modal)
 {
   if(!city_dialog_shell) {
       Position x, y;
@@ -195,7 +195,7 @@ void popup_city_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_city_report_dialog(int make_modal)
+void create_city_report_dialog(bool make_modal)
 {
   Widget close_command;
   char *report_title;
@@ -738,14 +738,15 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
   struct city_report_spec *spec;
-  Boolean b;
   int i;
   
   XtDestroyWidget(config_shell);
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+    Boolean b;
+
     XtVaGetValues(config_toggle[i], XtNstate, &b, NULL);
-    spec->show = b;
+    spec->show = (bool) b;
   }
   config_shell=0;
   city_report_dialog_update();

@@ -3286,7 +3286,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int k, id, is_unit;
+  int k, id;
+  bool is_unit;
 
   /* Update the worklist.  Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server

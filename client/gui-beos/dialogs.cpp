@@ -109,8 +109,7 @@ popup_caravan_dialog(struct unit *punit,	// EXTERNAL HOOK
 }
 
 
-int
-caravan_dialog_is_open(void)	// EXTERNAL HOOK
+bool caravan_dialog_is_open(void)	// EXTERNAL HOOK
 {
 	return !!caravan_dialog;
 }
@@ -131,8 +130,7 @@ popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)	// HOOK
 }
 
 
-int
-diplomat_dialog_is_open(void)	// HOOK
+bool diplomat_dialog_is_open(void)	// HOOK
 {
 	return !!diplomat_dialog;
 }

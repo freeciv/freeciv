@@ -17,8 +17,7 @@ popup_newcity_dialog(struct unit *punit, char *suggestname)	// HOOK
 }
 
 
-void
-set_turn_done_button_state( int state )	// HOOK
+void set_turn_done_button_state(bool state)	// HOOK
 {
     BMessage *msg = new BMessage( UI_SET_TURN_DONE_BUTTON_STATE );
     msg->AddInt32( "state", state );

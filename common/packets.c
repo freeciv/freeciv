@@ -1742,7 +1742,7 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->wl_idx);
 
   if (has_capability("attributes", pc->capability)) {
-    cptr = put_uint8(cptr, packet->attribute_block);
+    cptr = put_bool8(cptr, packet->attribute_block);
   }
 
   (void) put_uint16(buffer, cptr - buffer);
@@ -1770,9 +1770,9 @@ receive_packet_player_request(struct connection *pc)
   iget_worklist(pc, &iter, &preq->worklist);
   iget_uint8(&iter, &preq->wl_idx);
   if (has_capability("attributes", pc->capability))
-    iget_uint8(&iter, &preq->attribute_block);
+    iget_bool8(&iter, &preq->attribute_block);
   else
-    preq->attribute_block = 0;
+    preq->attribute_block = FALSE;
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);

@@ -182,11 +182,7 @@ void refresh_city_dialog(struct city *pcity)
 
 bool city_dialog_is_open(struct city *pcity)
 {
-  if (get_city_dialog(pcity)) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return get_city_dialog(pcity) != NULL;
 }
 
 /**************************************************************************
@@ -1009,7 +1005,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 				    LPARAM lParam) 
 {
   int sel,i,n,idx;
-  int is_unit;
+  bool is_unit;
   struct city_dialog *pdialog;
   pdialog=(struct city_dialog *)fcwin_get_user_data(hWnd);
   is_unit=0; /* silence gcc */

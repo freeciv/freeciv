@@ -127,7 +127,7 @@ static void worklist_list_update(struct worklist_editor *peditor);
 static void targets_list_update(struct worklist_editor *peditor);
 static void update_changed_sensitive(struct worklist_editor *peditor);
 static void targets_help_callback(GtkWidget * w, gpointer data);
-static void worklist_help(int id, int is_unit);
+static void worklist_help(int id, bool is_unit);
 static void cleanup_worklist_editor(struct worklist_editor *peditor);
 static gint worklist_editor_delete_callback(GtkWidget * w, GdkEvent * ev,
 					    gpointer data);
@@ -773,7 +773,8 @@ static void copy_worklist_to_editor(struct worklist *pwl,
   int i;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    int target, is_unit;
+    int target;
+    bool is_unit;
 
     /* end of list */
     if (!worklist_peek_ith(pwl, &target, &is_unit, i)) {
@@ -1066,7 +1067,8 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
 					int before, wid wid)
 {
   int i, first_free;
-  int target = wid_id(wid), is_unit = wid_is_unit(wid);
+  int target = wid_id(wid);
+  bool is_unit = wid_is_unit(wid);
 
   assert(!wid_is_worklist(wid));
 
@@ -1406,7 +1408,8 @@ static void targets_help_callback(GtkWidget * w, gpointer data)
 {
   struct worklist_editor *peditor;
   GList *selection;
-  int id, is_unit = 0;
+  int id;
+  bool is_unit = FALSE;
 
   peditor = (struct worklist_editor *) data;
 
@@ -1432,7 +1435,7 @@ static void targets_help_callback(GtkWidget * w, gpointer data)
 /****************************************************************
  ...
 *****************************************************************/
-static void worklist_help(int id, int is_unit)
+static void worklist_help(int id, bool is_unit)
 {
   if (id >= 0) {
     if (is_unit) {

@@ -653,7 +653,7 @@ static void spy_sabotage_callback(GtkWidget *w, gpointer data)
 ...
 *****************************************************************/
 static int create_advances_list(struct player *pplayer,
-				struct player *pvictim, int make_modal)
+				struct player *pvictim, bool make_modal)
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
@@ -751,7 +751,7 @@ static int create_advances_list(struct player *pplayer,
 ...
 *****************************************************************/
 static int create_improvements_list(struct player *pplayer,
-				    struct city *pcity, int make_modal)
+				    struct city *pcity, bool make_modal)
 {  
   GtkWidget *close_command, *scrolled;
   int j;
@@ -1113,7 +1113,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-int diplomat_dialog_is_open(void)
+bool diplomat_dialog_is_open(void)
 {
   return diplomat_dialog_open;
 }
@@ -1219,7 +1219,7 @@ void popup_caravan_dialog(struct unit *punit,
 /****************************************************************
 ...
 *****************************************************************/
-int caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(void)
 {
   return caravan_dialog != NULL;
 }

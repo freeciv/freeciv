@@ -140,7 +140,7 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
 static void end_turn_callback(GtkWidget *w, gpointer data);
 static void get_net_input(gpointer data, gint fid, GdkInputCondition condition);
 static void set_wait_for_writable_socket(struct connection *pc,
-                                         int socket_writable);
+                                         bool socket_writable);
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
@@ -909,17 +909,17 @@ void set_unit_icon(int idx, struct unit *punit)
   Maintains a static record of current state to avoid unnecessary redraws.
   Note initial state should match initial gui setup (off).
 **************************************************************************/
-void set_unit_icons_more_arrow(int onoff)
+void set_unit_icons_more_arrow(bool onoff)
 {
-  static int showing = 0;
+  static bool showing = FALSE;
 
-  if (onoff == 1 && !showing) {
+  if (onoff && !showing) {
     gtk_widget_show(more_arrow_pixmap);
-    showing = 1;
+    showing = TRUE;
   }
-  else if(onoff == 0 && showing) {
+  else if(!onoff && showing) {
     gtk_widget_hide(more_arrow_pixmap);
-    showing = 0;
+    showing = FALSE;
   }
 }
 
@@ -1078,9 +1078,9 @@ static void get_net_input(gpointer data, gint fid, GdkInputCondition condition)
 ...
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
-					 int socket_writable)
+					 bool socket_writable)
 {
-  static int previous_state = 0;
+  static bool previous_state = FALSE;
 
   assert(pc == &aconnection);
 

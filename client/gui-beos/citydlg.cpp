@@ -7,7 +7,7 @@
 #include "citydlg.h"
 
 void
-popup_city_dialog(struct city *pcity, int make_modal)		// HOOK
+popup_city_dialog(struct city *pcity, bool make_modal)		// HOOK
 {
 	BMessage *msg = new BMessage( UI_POPUP_CITY_DIALOG );
 	msg->AddPointer( "city", pcity );

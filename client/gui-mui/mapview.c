@@ -378,7 +378,7 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 /**************************************************************************
  GUI Independ (with new access functions)
 **************************************************************************/
-int tile_visible_mapcanvas(int x, int y)
+bool tile_visible_mapcanvas(int x, int y)
 {
   if (is_isometric) {
     int dummy_x, dummy_y; /* well, it needs two pointers... */
@@ -399,7 +399,7 @@ int tile_visible_mapcanvas(int x, int y)
 /**************************************************************************
  GUI Independ (with new access functions)
 **************************************************************************/
-int tile_visible_and_not_on_border_mapcanvas(int x, int y)
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   if (is_isometric) {
     int canvas_x, canvas_y;
@@ -553,7 +553,7 @@ Works by first refreshing map_canvas_store and then drawing the result to
 the screen.
 **************************************************************************/
 void update_map_canvas(int x, int y, int width, int height, 
-		       int write_to_screen)
+		       bool write_to_screen)
 {
   DoMethod(main_map_area, MUIM_Map_Refresh, x, y, width, height, write_to_screen);
 }

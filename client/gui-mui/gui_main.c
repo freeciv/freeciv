@@ -1481,6 +1481,6 @@ void set_unit_icon(int idx, struct unit *punit)
   Note initial state should match initial gui setup (off).
   No real function for the Mui client.
 **************************************************************************/
-void set_unit_icons_more_arrow(int onoff)
+void set_unit_icons_more_arrow(bool onoff)
 {
 }

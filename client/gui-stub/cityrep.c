@@ -6,7 +6,7 @@
 
 
 void
-popup_city_report_dialog(int make_modal)
+popup_city_report_dialog(bool make_modal)
 {
 	/* PORTME */
 }

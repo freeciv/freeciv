@@ -60,7 +60,7 @@ static void popup_city_report_config_dialog(void);
 static void config_ok_command_callback(GtkWidget *w, gpointer data);
 
 /******************************************************************/
-static void create_city_report_dialog(int make_modal);
+static void create_city_report_dialog(bool make_modal);
 static void city_close_callback(GtkWidget *w, gpointer data);
 static void city_center_callback(GtkWidget *w, gpointer data);
 static void city_popup_callback(GtkWidget *w, gpointer data);
@@ -149,7 +149,7 @@ static void get_city_table_header(char *text[], int n)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_city_report_dialog(int make_modal)
+void popup_city_report_dialog(bool make_modal)
 {
   if(!city_dialog_shell) {
       city_dialog_shell_is_modal=make_modal;
@@ -186,15 +186,15 @@ city_from_glist(GList* list)
 /****************************************************************
 ...
 *****************************************************************/
-typedef gboolean (*TestCityFunc)(struct city *, gint);
+typedef bool (*TestCityFunc)(struct city *, gint);
 
 /****************************************************************
 ...
 *****************************************************************/
 static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
 					    gchar * nothing_appended_text,
-					    gboolean append_units,
-					    gboolean append_wonders,
+					    bool append_units,
+					    bool append_wonders,
 					    gboolean change_prod,
 					    TestCityFunc test_func,
 					    GtkSignalFunc callback)
@@ -245,7 +245,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
   gint i;
   GtkObject *parent = GTK_OBJECT(w->parent);
   TestCityFunc test_func = gtk_object_get_data(parent, "freeciv_test_func");
-  gboolean change_prod = 
+  bool change_prod = 
     GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_prod"));
 
   /* If this is not the change production button */
@@ -262,7 +262,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
     }
   else
     {
-      gboolean is_unit = cid_is_unit(cid);
+      bool is_unit = cid_is_unit(cid);
       int id = cid_id(cid);
       GList* selection = GTK_CLIST(city_list)->selection;
 
@@ -285,16 +285,16 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void
 append_impr_or_unit_to_menu(GtkWidget *menu,
-			   gboolean change_prod,
-			   gboolean append_improvements,
-			   gboolean append_units,
+			   bool change_prod,
+			   bool append_improvements,
+			   bool append_units,
 			   TestCityFunc test_func)
 {
   if (append_improvements) {
     /* Add all buildings */
     append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
 				    FALSE, FALSE, change_prod,
-				    (gboolean(*)(struct city *, gint))
+				    (bool(*)(struct city *, gint))
 				    test_func,
 				    select_impr_or_unit_callback);
     /* Add a separator */
@@ -318,7 +318,7 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
     /* Add all wonders */
     append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
 				    FALSE, TRUE, change_prod,
-				    (gboolean(*)(struct city *, gint))
+				    (bool(*)(struct city *, gint))
 				    test_func,
 				    select_impr_or_unit_callback);
   }
@@ -336,7 +336,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 {
   int i, index = GPOINTER_TO_INT(data);
   GtkObject *parent = GTK_OBJECT(w->parent);
-  gboolean change_cma =
+  bool change_cma =
       GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_cma"));
   struct cma_parameter parameter;
 
@@ -395,7 +395,7 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
  special. CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
  "custom" preset.
 *****************************************************************/
-static void append_cma_to_menu(GtkWidget * menu, gboolean change_cma)
+static void append_cma_to_menu(GtkWidget * menu, bool change_cma)
 {
   int i;
   struct cma_parameter parameter;
@@ -523,7 +523,7 @@ city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void create_city_report_dialog(int make_modal)
+static void create_city_report_dialog(bool make_modal)
 {
   static char *titles	[NUM_CREPORT_COLS];
   static char  buf	[NUM_CREPORT_COLS][64];
@@ -1373,12 +1373,10 @@ static void create_city_report_config_dialog(void)
 static void config_ok_command_callback(GtkWidget *w, gpointer data)
 {
   struct city_report_spec *spec;
-  gboolean b;
   int i;
   
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    b=GTK_TOGGLE_BUTTON(config_toggle[i])->active;
-    spec->show = b;
+    spec->show = (bool) GTK_TOGGLE_BUTTON(config_toggle[i])->active;
   }
   gtk_widget_destroy(config_shell);
 

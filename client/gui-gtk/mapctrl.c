@@ -462,7 +462,7 @@ void focus_to_next_unit(void)
  Enable or disable the turn done button.
  Should probably some where else.
 **************************************************************************/
-void set_turn_done_button_state(int state)
+void set_turn_done_button_state(bool state)
 {
   gtk_widget_set_sensitive(turn_done_button, state);
 }

@@ -6,21 +6,19 @@
 #include "Defs.hpp"
 #include "mapview.h"
 
-int
-tile_visible_mapcanvas(int x, int y)	// HOOK
+bool tile_visible_mapcanvas(int x, int y)	// HOOK
 {
 	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "tile_visible_mapcanvas(int" );
-	return 0;
+	return FALSE;
 }
 
 
-int
-tile_visible_and_not_on_border_mapcanvas(int x, int y)	// HOOK
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y)	// HOOK
 {
 	// @@@@ will probably require some direct accesses
 	NOT_FINISHED( "tile_visible_and_not_on_border_mapcanvas(int" );
-	return 0;
+	return FALSE;
 }
 
 
@@ -120,7 +118,7 @@ get_center_tile_mapcanvas(int *x, int *y)	// HOOK
 
 void
 update_map_canvas(int tile_x, int tile_y, int width, int height,
-                       int write_to_screen)	// HOOK
+		  bool write_to_screen)	// HOOK
 {
     BMessage *msg = new BMessage( UI_UPDATE_MAP_CANVAS );
     msg->AddInt32( "x", tile_x );
@@ -229,7 +227,7 @@ refresh_overview_viewrect(void)	// HOOK
 
 
 void
-refresh_tile_mapcanvas(int x, int y, int write_to_screen)	// HOOK
+refresh_tile_mapcanvas(int x, int y, bool write_to_screen)	// HOOK
 {
     BMessage *msg = new BMessage( UI_REFRESH_TILE_MAPCANVAS );
     msg->AddInt32( "x", x );

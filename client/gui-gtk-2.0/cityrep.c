@@ -62,7 +62,7 @@
 #include "specvec_c.h"
 
 /******************************************************************/
-static void create_city_report_dialog(int make_modal);
+static void create_city_report_dialog(bool make_modal);
 static void city_model_init(void);
 static void city_destroy_callback(GtkWidget *w, gpointer data);
 static void city_center_callback(GtkWidget *w, gpointer data);
@@ -120,7 +120,7 @@ static void get_city_table_header(char *text[], int n)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_city_report_dialog(int make_modal)
+void popup_city_report_dialog(bool make_modal)
 {
   if(!city_dialog_shell) {
       city_dialog_shell_is_modal=make_modal;
@@ -577,7 +577,7 @@ static GtkWidget *create_city_report_menubar()
 /****************************************************************
 ...
 *****************************************************************/
-static void create_city_report_dialog(int make_modal)
+static void create_city_report_dialog(bool make_modal)
 {
   static char *titles [NUM_CREPORT_COLS];
   static char  buf    [NUM_CREPORT_COLS][64];

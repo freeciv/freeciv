@@ -602,7 +602,7 @@ void send_attribute_block_request()
 {
   struct packet_player_request packet;
 
-  packet.attribute_block = 1;
+  packet.attribute_block = FALSE;
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_ATTRIBUTE_BLOCK);
 }
