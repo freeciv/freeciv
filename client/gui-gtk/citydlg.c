@@ -72,11 +72,13 @@ struct city_dialog {
   GtkWidget *sub_form;
   GtkWidget *map_canvas;
   GdkPixmap *map_canvas_store;
+  GtkWidget *building_label; 
+  GtkWidget *progress_label; 
+  GtkWidget *buy_command; 
+  GtkWidget *change_command;
   GtkWidget *sell_command;
-  GtkWidget *close_command, *rename_command, *trade_command, *activate_command;
-  GtkWidget *show_units_command, *cityopt_command;
-  GtkWidget *building_label, *progress_label, *buy_command, *change_command,
-    *worklist_command, *worklist_label;
+  GtkWidget *worklist_command; 
+  GtkWidget *worklist_label;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
   GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
@@ -86,10 +88,17 @@ struct city_dialog {
   GtkWidget *present_unit_boxes		[NUM_UNITS_SHOWN];
   GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
   GtkWidget *present_unit_button	[2];
-  GtkWidget *change_shell, *change_list;
-  GtkWidget *rename_input;
+  GtkWidget *close_command;
+  GtkWidget *rename_command; 
+  GtkWidget *trade_command; 
+  GtkWidget *activate_command;
+  GtkWidget *show_units_command; 
+  GtkWidget *cityopt_command;
+
   GtkWidget *worklist_shell;
-  GtkWidget *buy_shell, *sell_shell, *rename_shell;
+  GtkWidget *buy_shell, *sell_shell;
+  GtkWidget *change_shell, *change_list;
+  GtkWidget *rename_shell, *rename_input;
   
   Impr_Type_id sell_id;
   
@@ -108,48 +117,88 @@ struct city_dialog {
   int is_modal;
 };
 
+static GdkBitmap *icon_bitmap;
+
 static struct genlist dialog_list;
 static int city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
 
+static struct city_dialog *get_city_dialog(struct city *pcity);
 static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
 static void close_city_dialog(struct city_dialog *pdialog);
+static void initialize_city_dialogs(void);
 
-static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
 static void city_dialog_update_title(struct city_dialog *pdialog);
-static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
-static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_production(struct city_dialog *pdialog);
 static void city_dialog_update_output(struct city_dialog *pdialog);
-static void city_dialog_update_building(struct city_dialog *pdialog);
 static void city_dialog_update_storage(struct city_dialog *pdialog);
 static void city_dialog_update_pollution(struct city_dialog *pdialog);
+static void city_dialog_update_building(struct city_dialog *pdialog);
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
+static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
 
-static void sell_callback	(GtkWidget *w, gpointer data);
+static gint city_map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
+static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
+static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
+static void city_dialog_update_map_iso(struct city_dialog *pdialog);
+static void city_dialog_update_map_ovh(struct city_dialog *pdialog);
+
 static void buy_callback	(GtkWidget *w, gpointer data);
 static void change_callback	(GtkWidget *w, gpointer data);
+static void sell_callback	(GtkWidget *w, gpointer data);
 static void worklist_callback	(GtkWidget *w, gpointer data);
-static void commit_city_worklist(struct worklist *pwl, void *data);
-static void cancel_city_worklist(void *data);
 static void close_callback	(GtkWidget *w, gpointer data);
 static void rename_callback	(GtkWidget *w, gpointer data);
 static void trade_callback	(GtkWidget *w, gpointer data);
 static void activate_callback	(GtkWidget *w, gpointer data);
-static void show_units_callback(GtkWidget *w, gpointer data);
-static void unitupgrade_callback_yes	(GtkWidget *w, gpointer data);
-static void unitupgrade_callback_no	(GtkWidget *w, gpointer data);
-static void upgrade_callback	(GtkWidget *w, gpointer data);
+static void show_units_callback (GtkWidget *w, gpointer data);
+static void cityopt_callback    (GtkWidget *w, gpointer data);
+
 static void citizens_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
+static void buy_callback_no(GtkWidget *w, gpointer data);
+static void buy_callback_yes(GtkWidget *w, gpointer data);
+static void sell_callback_no(GtkWidget *w, gpointer data);
+static void sell_callback_yes(GtkWidget *w, gpointer data);
+static void change_no_callback(GtkWidget *w, gpointer data);
+static void change_to_callback(GtkWidget *w, gpointer data);
+static void change_help_callback(GtkWidget *w, gpointer data);
+static void change_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data);
+static void commit_city_worklist(struct worklist *pwl, void *data);
+static void cancel_city_worklist(void *data);
+
+static gint support_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
-static gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
-static void cityopt_callback(GtkWidget *w, gpointer data);
+static gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static void city_dialog_support_unit_pos_callback(GtkWidget *w, gpointer data);
+static void city_dialog_present_unit_pos_callback(GtkWidget *w, gpointer data);
+static void supported_units_activate_close_callback (GtkWidget *w, gpointer data);
+static void present_units_activate_callback         (GtkWidget *w, gpointer data);
+static void present_units_activate_close_callback   (GtkWidget *w, gpointer data);
+static void present_units_sentry_callback           (GtkWidget *w, gpointer data);
+static void present_units_fortify_callback          (GtkWidget *w, gpointer data);
+static void present_units_disband_callback          (GtkWidget *w, gpointer data);
+static void present_units_homecity_callback         (GtkWidget *w, gpointer data);
+static void present_units_cancel_callback           (GtkWidget *w, gpointer data);
+static void upgrade_callback(GtkWidget *w, gpointer data);
+static void unitupgrade_callback_yes	(GtkWidget *w, gpointer data);
+static void unitupgrade_callback_no	(GtkWidget *w, gpointer data);
+static void activate_unit(struct unit *punit);
+
+static void rename_city_callback(GtkWidget *w, gpointer data);
+static void trade_message_dialog_callback(GtkWidget *w, gpointer data);
+
 static void popdown_cityopt_dialog(void);
 
-static GdkBitmap *icon_bitmap;
+static gint city_dialog_delete_callback(GtkWidget *w, GdkEvent *ev, gpointer data);
+static gint change_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data);
+static gint buy_callback_delete(GtkWidget *widget, GdkEvent *event, gpointer data);
+static gint sell_callback_delete(GtkWidget *widget, GdkEvent *event, gpointer data);
+static gint rename_callback_delete(GtkWidget *widget, GdkEvent *event, gpointer data);
 
 /****************************************************************
 ...
@@ -2345,7 +2394,7 @@ static void sell_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void close_city_dialog(struct city_dialog *pdialog)
+static void close_city_dialog(struct city_dialog *pdialog)
 {
   gtk_widget_hide(pdialog->shell);
   genlist_unlink(&dialog_list, pdialog);
@@ -2402,12 +2451,12 @@ multiple city dialogs.
 								 
 #define NUM_CITYOPT_TOGGLES 5
 
-GtkWidget *create_cityopt_dialog(char *city_name);
-void cityopt_ok_command_callback(GtkWidget *w, gpointer data);
-void cityopt_cancel_command_callback(GtkWidget *w, gpointer data);
-void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data);
+static GtkWidget *create_cityopt_dialog(char *city_name);
+static void cityopt_ok_command_callback(GtkWidget *w, gpointer data);
+static void cityopt_cancel_command_callback(GtkWidget *w, gpointer data);
+static void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data);
 
-char *ncitizen_labels[] = { N_("Elvises"), N_("Scientists"), N_("Taxmen") };
+static char *ncitizen_labels[] = { N_("Elvises"), N_("Scientists"), N_("Taxmen") };
 
 static GtkWidget *cityopt_shell = 0;
 static GtkWidget *cityopt_radio[3];	/* cityopt_ncitizen_radio */
@@ -2454,7 +2503,7 @@ static void cityopt_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-GtkWidget *create_cityopt_dialog(char *city_name)
+static GtkWidget *create_cityopt_dialog(char *city_name)
 {
   GtkWidget *shell, *label, *frame, *vbox, *ok, *cancel;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -2545,7 +2594,7 @@ GtkWidget *create_cityopt_dialog(char *city_name)
 /**************************************************************************
 ...
 **************************************************************************/
-void cityopt_cancel_command_callback(GtkWidget *w, gpointer data)
+static void cityopt_cancel_command_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(cityopt_shell);
   cityopt_shell = 0;
@@ -2554,7 +2603,7 @@ void cityopt_cancel_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
+static void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pcity = find_city_by_id(cityopt_city_id);
 
@@ -2583,7 +2632,7 @@ void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
  Sets newcitizen_index based on the selected radio button.
 **************************************************************************/
-void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data)
+static void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data)
 {
   ncitizen_idx = GPOINTER_TO_INT(data);
 }
