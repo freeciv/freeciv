@@ -483,6 +483,17 @@ static struct settings_s settings[] = {
        "in the tile).  If set to a value between 0 and 100, this will be used "
        "as the percent chance of \"occupying\" territory.") },
 
+  { "killcitizen", &game.killcitizen,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN, GAME_DEFAULT_KILLCITIZEN,
+    N_("Reduce city population after attack"),
+    N_("This flag indicates if city population is reduced after successful "
+       "attack of enemy unit, depending on its movement type (OR-ed):\n"
+       "  1 = land\n"
+       "  2 = sea\n"
+       "  4 = heli\n"
+       "  8 = air") },
+
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
  * to duplicate its previous behaviour (and note diplchance is only used

@@ -790,6 +790,10 @@ to all other effects, Helicopters lose two hit points (or gain two \
 hit points less than they otherwise would) each turn that they do \
 not end in a city.  Damaged units in Sentry mode will wake up when \
 they have regained all of their hit points.\
+"), _("\
+Depending upon server options, any set of unit types may reduce \
+the population of a City without City Walls by one point upon a \
+successful attack.\
 ")
 
 [help_gen_units]

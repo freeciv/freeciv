@@ -735,6 +735,7 @@ void game_init(void)
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
   game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;
+  game.killcitizen = GAME_DEFAULT_KILLCITIZEN;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
   game.techpenalty = GAME_DEFAULT_TECHPENALTY;
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;

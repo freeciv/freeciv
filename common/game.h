@@ -75,6 +75,7 @@ struct civ_game {
   int save_nturns;
   int foodbox;
   int aqueductloss;
+  int killcitizen;
   int techpenalty;
   int razechance;
   int scorelog;
@@ -239,6 +240,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_AQUEDUCTLOSS    0
 #define GAME_MIN_AQUEDUCTLOSS        0
 #define GAME_MAX_AQUEDUCTLOSS        100
+
+#define GAME_DEFAULT_KILLCITIZEN     1
+#define GAME_MIN_KILLCITIZEN         0
+#define GAME_MAX_KILLCITIZEN         15
 
 #define GAME_DEFAULT_TECHPENALTY     100
 #define GAME_MIN_TECHPENALTY         0

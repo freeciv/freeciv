@@ -732,6 +732,13 @@ int can_unit_build_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+int kills_citizen_after_attack(struct unit *punit) {
+  return (game.killcitizen >> ((int)unit_types[punit->type].move_type-1)) & 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 int can_unit_add_to_city(struct unit *punit)
 {
   struct city *pcity;

@@ -363,6 +363,8 @@ void game_load(struct section_file *file)
   }
   game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
 						 "game.aqueductloss");
+  game.killcitizen = secfile_lookup_int_default(file, game.killcitizen,
+						 "game.killcitizen");
   game.turnblock = secfile_lookup_int_default(file,game.turnblock,
                          "game.turnblock");
   game.barbarianrate = secfile_lookup_int_default(file, game.barbarianrate,
@@ -574,6 +576,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.spacerace, "game.spacerace");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
+  secfile_insert_int(file, game.killcitizen, "game.killcitizen");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
   secfile_insert_int(file, game.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");

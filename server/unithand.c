@@ -526,7 +526,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   if(punit->moves_left<0)
     punit->moves_left=0;
 
-  if (punit->hp && (pcity=map_get_city(def_x, def_y)) && pcity->size>1 && !city_got_citywalls(pcity) && is_ground_unit(punit)) {
+  if (punit->hp &&
+      (pcity=map_get_city(def_x, def_y)) &&
+      pcity->size>1 &&
+      !city_got_citywalls(pcity) &&
+      kills_citizen_after_attack(punit)) {
     pcity->size--;
     city_auto_remove_worker(pcity);
     city_refresh(pcity);
@@ -1389,7 +1393,6 @@ void handle_unit_paradrop_to(struct player *pplayer,
     do_paradrop(pplayer,punit,req->x, req->y);
   }
 }
-
 /**************************************************************************
 ...
 **************************************************************************/
