@@ -472,10 +472,8 @@ void popup_city_dialog(struct city *pcity, bool make_modal)
   if (!(pdialog = get_city_dialog(pcity))) {
     pdialog = create_city_dialog(pcity, make_modal);
   }
-  gtk_set_relative_position(toplevel, pdialog->shell, 10, 10);
 
-  gtk_widget_show(pdialog->shell);
-  gdk_window_raise(pdialog->shell->window);
+  gtk_window_present(GTK_WINDOW(pdialog->shell));
 }
 
 /****************************************************************
@@ -1462,6 +1460,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   	0,
 	NULL);
 
+  if (make_modal) {
+    gtk_window_set_transient_for(GTK_WINDOW(pdialog->shell),
+				 GTK_WINDOW(toplevel));
+    gtk_window_set_modal(GTK_WINDOW(pdialog->shell), TRUE);
+  }
+
   gtk_signal_connect(GTK_OBJECT(pdialog->shell), "delete_event",
 		     GTK_SIGNAL_FUNC(city_dialog_delete_callback),
 		     (gpointer) pdialog);
@@ -1577,9 +1581,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
-
-  if (make_modal)
-    gtk_widget_set_sensitive(top_vbox, FALSE);
 
   pdialog->is_modal = make_modal;
 
@@ -3430,9 +3431,6 @@ static void close_city_dialog(struct city_dialog *pdialog)
   free(pdialog->overview.supported_unit_boxes);
   free(pdialog->overview.supported_unit_pixmaps);
   free(pdialog->overview.supported_unit_ids);
-
-  if (pdialog->is_modal)
-    gtk_widget_set_sensitive(top_vbox, TRUE);
 
   if (pdialog->change_shell)
     gtk_widget_destroy(pdialog->change_shell);
