@@ -288,8 +288,6 @@ use.
 THINGS THAT NEED TO BE FIXED
 ============================
 
-* AI doesn't understand when to become DEMOCRACY or FUNDAMENTALIST.
-Actually it doesn't evalute governments much at all.
 * Cities don't realize units are on their way to defend it.
 * AI doesn't understand that some wonders are obsolete, that some 
 wonders become obsolete, and doesn't upgrade units.
