@@ -219,6 +219,7 @@ void create_science_dialog(int make_modal)
 
   science_list = gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(science_list), 0, GTK_CLIST(science_list)->clist_window_width);
+  gtk_clist_set_auto_sort (GTK_CLIST (science_list), TRUE);
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), science_list);
 
@@ -360,7 +361,6 @@ void science_dialog_update(void)
       gtk_clist_append( GTK_CLIST(science_list), row);
       }
   }
-  gtk_clist_sort(GTK_CLIST(science_list));
   gtk_clist_thaw(GTK_CLIST(science_list));
 
   gtk_widget_destroy(popupmenu);
