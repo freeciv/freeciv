@@ -1,4 +1,4 @@
-Original: CVS-1.15
+Original: CVS-1.17
 Translator: SAWADA Katsuya <ama@petmail.net>
 
 ====
@@ -21,10 +21,6 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶにはバグ
 
  - CMA 設定は「ターン終了」を押した時にサーバに送られます。従って、ゲー
    ムを保存と同じターンの CMA 変更は、失なわれるでしょう。
-
- - CMA を使ったら、 savegame はエンディアンや 64 bit セーフではありま
-   せん。従って、異なるアーキテクチャのコンピュータでは savegame は使
-   用できません。
 
  - easy AI は、初心者のプレイヤーにはそれほど易しくありません。ゲーム
    初期に AI があなたを負かすようなら、サーバ・オプションの 
@@ -101,17 +97,27 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶにはバグ
 
  - バグが既に報告されていないか確かめるために
 
-        http://www.freeciv.org/cgi-bin/bugs
+        http://rt.freeciv.org/
 
    の Freeciv バグ追跡システムを調べて下さい。
 
  - バグを報告する!
 
    <bugs@freeciv.freeciv.org> へ email を送るか、
-   <http://www.freeciv.org/cgi-bin/bugs>のweb経由でバグを報告できます。
+   <http://rt.freeciv.org/> のweb経由でバグを報告できます。
 
    もしくは、 Freeciv 開発者にコメントを送りたいがバグ報告に委ねたくな
    いなら、Freeciv 開発者メーリング・リストへemailを送ることもできます。
+
+   何らかの GDK/GTK メッセージを受け取ったら、(以下のようなもの:
+
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     assertion oject->ref_count > 0' failed.
+
+   ) クライアントを再起動して、 "-- --g-fatal-warnings" をコマンドライ
+   ンに追加して下さい。残念ながらこれは現在の CVS か 1.15 以降のバージョ
+   ンでのみ機能します。この方法でコアダンプを入手できます。ぜひバグ報
+   告にこのコアダンプの「スタックトレース」を含めて下さい。
 
    バグ報告に含めるべきもの:
 
@@ -140,7 +146,8 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶにはバグ
 
    - Freeciv が「コアダンプ」したなら、「スタックトレース」を得るため
      にデバッカを使ってくれと頼むかもしれません。このために "core" ファ
-     イルが必要なので、暫くの間保存しておいて下さい。
+     イルと使用したバイナリファイルが必要なので、両方ともバックアップ
+     を取っておいて下さい。
 
 さらなる情報:
 =============
