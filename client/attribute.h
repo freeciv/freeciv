@@ -25,11 +25,11 @@ enum attr_object_type_start_keys {
 };
 
 enum attr_unit {
-  ATTR_UNIT_DUMMY = ATTR_UNIT_START,
+  ATTR_UNIT_DUMMY = ATTR_UNIT_START
 };
 
 enum attr_city {
-  ATTR_CITY_DUMMY = ATTR_CITY_START,
+  ATTR_CITY_DUMMY = ATTR_CITY_START
 };
 
 enum attr_player {
@@ -37,34 +37,17 @@ enum attr_player {
 };
 
 enum attr_tile {
-    ATTR_TILE_DUMMY = ATTR_TILE_START,
+    ATTR_TILE_DUMMY = ATTR_TILE_START
 };
 
 /*
  * Generic methods.
  */
 void attribute_init(void);
-
-/*
- * Send current state to server.
- */
 void attribute_flush(void);
-
-/*
- * Recreate the attribute set from the player's attribute_block.
- */
 void attribute_restore(void);
-
-/* 
- * If data_length is zero the attribute is removed.
- */
 void attribute_set(int key, int id, int x, int y, int data_length,
 		   const void *const data);
-/* 
- * If data hasn't enough space to hold the attribute attribute_get
- * aborts. Returns the actual size of the attribute. Can be zero if
- * the attribute is unset. 
- */
 int attribute_get(int key, int id, int x, int y, int max_data_length,
 		  void *data);
 

@@ -19,6 +19,9 @@ struct attr_key {
   int key, id, x, y;
 };
 
+/****************************************************************************
+ Hash function for attribute_hash.
+*****************************************************************************/
 static unsigned int attr_hash_val_fn(const void *key,
 				     unsigned int num_buckets)
 {
@@ -27,21 +30,28 @@ static unsigned int attr_hash_val_fn(const void *key,
   return (pkey->id ^ pkey->x ^ pkey->y ^ pkey->key) % num_buckets;
 }
 
+/****************************************************************************
+ Compare-function for the keys in the hash table.
+*****************************************************************************/
 static int attr_hash_cmp_fn(const void *key1, const void *key2)
 {
   return memcmp(key1, key2, sizeof(struct attr_key));
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attribute_init()
 {
   assert(attribute_hash == NULL);
   attribute_hash = hash_new(attr_hash_val_fn, attr_hash_cmp_fn);
 }
 
-/*
- * This method isn't endian safe and there will also be errors if
- * sizeof(int) changes.
- */
+/****************************************************************************
+ This method isn't endian safe and there will also be problems if
+ sizeof(int) at serialization time is different from sizeof(int) at
+ deserialization time.
+*****************************************************************************/
 static void serialize_hash(struct hash_table *hash, void **pdata,
 			   int *pdata_length)
 {
@@ -122,7 +132,7 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   }
 
   /*
-   * Step 5: fill out the body.
+   * Step 6: fill out the body.
    */
   body = result + preamble_length + header_length;
   for (i = 0; i < entries; i++) {
@@ -136,7 +146,7 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   }
 
   /*
-   * Step 6: cleanup
+   * Step 7: cleanup
    */
   *pdata = result;
   *pdata_length = total_length;
@@ -145,6 +155,9 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
 	  total_length);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 static void unserialize_hash(struct hash_table *hash, char *data,
 			     int data_length)
 {
@@ -183,6 +196,10 @@ static void unserialize_hash(struct hash_table *hash, char *data,
   }
 }
 
+/****************************************************************************
+ Send current state to the server. Note that the current
+ implementation will send all attributes to the server.
+*****************************************************************************/
 void attribute_flush(void)
 {
   struct player *pplayer = game.player_ptr;
@@ -200,6 +217,10 @@ void attribute_flush(void)
   send_attribute_block(pplayer, &aconnection);
 }
 
+/****************************************************************************
+ Recreate the attribute set from the player's
+ attribute_block. Shouldn't be used by normal code.
+*****************************************************************************/
 void attribute_restore(void)
 {
   struct player *pplayer = game.player_ptr;
@@ -208,6 +229,10 @@ void attribute_restore(void)
 		   pplayer->attribute_block.length);
 }
 
+/****************************************************************************
+ Low-level function to set an attribute.  If data_length is zero the
+ attribute is removed.
+*****************************************************************************/
 void attribute_set(int key, int id, int x, int y, int data_length,
 		   const void *const data)
 {
@@ -242,6 +267,11 @@ void attribute_set(int key, int id, int x, int y, int data_length,
   }
 }
 
+/****************************************************************************
+ Low-level function to get an attribute. If data hasn't enough space
+ to hold the attribute attribute_get aborts. Returns the actual size
+ of the attribute. Can be zero if the attribute is unset.
+*****************************************************************************/
 int attribute_get(int key, int id, int x, int y, int max_data_length,
 		  void *data)
 {
@@ -276,69 +306,104 @@ int attribute_get(int key, int id, int x, int y, int max_data_length,
   return length;
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_unit_set(enum attr_unit what, int unit_id, int data_length,
 		   const void *const data)
 {
   attribute_set(what, unit_id, -1, -2, data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_unit_get(enum attr_unit what, int unit_id, int max_data_length,
 		  void *data)
 {
   return attribute_get(what, unit_id, -1, -2, max_data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_unit_set_int(enum attr_unit what, int unit_id, int data)
 {
   attr_unit_set(what, unit_id, sizeof(int), &data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_unit_get_int(enum attr_unit what, int unit_id, int *data)
 {
   return attr_unit_get(what, unit_id, sizeof(int), data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_city_set(enum attr_city what, int city_id, int data_length,
 		   const void *const data)
 {
   attribute_set(what, city_id, -1, -1, data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_city_get(enum attr_city what, int city_id, int max_data_length,
 		  void *data)
 {
   return attribute_get(what, city_id, -1, -1, max_data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_city_set_int(enum attr_city what, int city_id, int data)
 {
   attr_city_set(what, city_id, sizeof(int), &data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_city_get_int(enum attr_city what, int city_id, int *data)
 {
   return attr_city_get(what, city_id, sizeof(int), data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_player_set(enum attr_player what, int player_id, int data_length,
 		     const void *const data)
 {
   attribute_set(what, player_id, -1, -1, data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_player_get(enum attr_player what, int player_id,
 		    int max_data_length, void *data)
 {
   return attribute_get(what, player_id, -1, -1, max_data_length, data);
 }
 
-
+/****************************************************************************
+...
+*****************************************************************************/
 void attr_tile_set(enum attr_tile what, int x, int y, int data_length,
 		   const void *const data)
 {
   attribute_set(what, -1, x, y, data_length, data);
 }
 
+/****************************************************************************
+...
+*****************************************************************************/
 int attr_tile_get(enum attr_tile what, int x, int y, int max_data_length,
 		  void *data)
 {
