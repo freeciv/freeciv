@@ -337,31 +337,36 @@ SUCH DAMAGES.
                          ------------------
 ---
 #Controls
-Mouse:                                       Keyboard:
-======                                       =========
-                                             a: (A)utosettler
-                                             c: (C)enter on unit 
-Left-click:                                  b: (B)uild City
-  (on city): Pop up city window              D: (D)isband Unit
-  (on unit): Activate unit                   f: (F)ortify
-                                             F: Build (F)ortress
-                                             g: Unit (G)oto
-Center-click:                                h: Change (H)omecity
-             Show tile info                  i: (I)rrigate
-                                             l: Go/air(l)ift to city
-                                             m: (M)ine
-Right-click:                                 p: clean (p)ollution
-             Center tile in view             P: (P)illage
-                                             r: Build (r)oad
-                                             s: (S)entry
-                                             u: (U)nload
-Shift-click:                                 w: (W)ait
-             Wake up sentried units on tile  W: (W)akeup sentries
-	                                     t: Show (T)iles city is using
-                                         space: Stay put
-                                        return: Turn done
-                                    arrow keys: Move unit
- 
+Mouse:                                 
+======                                 
+  Left-click:  (on city):  Pop up city window        
+               (on unit):  Activate unit             
+  Center-click:            Show tile info                     
+  Right-click:             Center tile in view                
+  Shift-click:             Wake up sentried units on tile     
+                                       
+Keyboard:
+=========
+  a: (A)utosettler                      arrow keys: Move unit
+  c: (C)enter view on unit                   space: Unit stay put
+  b: (B)uild City                           return: Turn done
+  D: (D)isband unit
+  f: (F)ortify unit
+  F: Build (F)ortress on tile
+  g: Unit (G)oto (then left-click mouse to select destination)
+  h: Change (H)omecity (to city at current location)
+  i: (I)rrigate tile
+  l: Go/air(l)ift to city
+  m: (M)ine tile
+  p: clean (p)ollution
+  P: (P)illage tile
+  r: Build (r)oad/railroad
+  s: (S)entry unit
+  u: (U)nload boat
+  w: (W)ait until later in turn
+  W: (W)akeup sentried units on tile
+  t: Show (T)iles city is using (mouse over city or worked tile)
+  x: auto-e(X)plore
 ---
 #Strategy and tactics
 While every game is different, there's a basic strategy which most 
