@@ -2165,9 +2165,10 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
-  for( i=0; i<pl->leader_count; i++) {
-    pl->leader_name[i] = mystrdup(p->leader_name[i]);
-    pl->leader_is_male[i] = p->leader_sex[i];
+  pl->leaders = fc_malloc(sizeof(*pl->leaders) * pl->leader_count);
+  for (i = 0; i < pl->leader_count; i++) {
+    pl->leaders[i].name = mystrdup(p->leader_name[i]);
+    pl->leaders[i].is_male = p->leader_sex[i];
   }
   pl->city_style = p->city_style;
 

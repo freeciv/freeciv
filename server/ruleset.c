@@ -1752,24 +1752,29 @@ This checks if nations[pos] leader names are not already defined in any
 previous nation, or twice in its own leader name table.
 If not return NULL, if yes return pointer to name which is repeated.
 **************************************************************************/
-static char *check_leader_names(int pos)
+static char *check_leader_names(Nation_Type_id nation)
 {
-  int i, j, k;
-  struct nation_type *n, *nation;
-  char *leader;
+  int k;
+  struct nation_type *pnation = get_nation_by_idx(nation);
 
-  nation = get_nation_by_idx(pos);
-  for( k = 0; k < nation->leader_count; k++) {
-    leader = nation->leader_name[k];
-    for( i=0; i<k; i++ ) {
-      if( 0 == strcmp(leader, nation->leader_name[i]) )
-          return leader;
+  for (k = 0; k < pnation->leader_count; k++) {
+    char *leader = pnation->leaders[k].name;
+    int i;
+    Nation_Type_id nation2;
+
+    for (i = 0; i < k; i++) {
+      if (0 == strcmp(leader, pnation->leaders[i].name)) {
+	return leader;
+      }
     }
-    for( j = 0; j < pos; j++) {
-      n = get_nation_by_idx(j);
-      for( i=0; i < n->leader_count; i++) {
-        if( 0 == strcmp(leader, n->leader_name[i]) )
-          return leader;
+
+    for (nation2 = 0; nation2 < nation; nation2++) {
+      struct nation_type *pnation2 = get_nation_by_idx(nation2);
+
+      for (i = 0; i < pnation2->leader_count; i++) {
+	if (0 == strcmp(leader, pnation2->leaders[i].name)) {
+	  return leader;
+	}
       }
     }
   }
@@ -1994,10 +1999,11 @@ static void load_ruleset_nations(struct section_file *file)
       exit(EXIT_FAILURE);
     }
     pl->leader_count = dim;
+    pl->leaders = fc_malloc(sizeof(*pl->leaders) * pl->leader_count);
     for(j = 0; j < dim; j++) {
-      pl->leader_name[j] = mystrdup(leaders[j]);
+      pl->leaders[j].name = mystrdup(leaders[j]);
       if (check_name(leaders[j])) {
-	pl->leader_name[j][MAX_LEN_NAME - 1] = 0;
+	pl->leaders[j].name[MAX_LEN_NAME - 1] = '\0';
       }
     }
     free(leaders);
@@ -2019,15 +2025,15 @@ static void load_ruleset_nations(struct section_file *file)
     }
     for (j = 0; j < dim; j++) {
       if (0 == mystrcasecmp(leaders[j], "Male")) {
-        pl->leader_is_male[j] = TRUE;
+        pl->leaders[j].is_male = TRUE;
       } else if (0 == mystrcasecmp(leaders[j], "Female")) {
-        pl->leader_is_male[j] = FALSE;
+        pl->leaders[j].is_male = FALSE;
       } else {
         freelog(LOG_ERROR,
 		"Nation %s, leader %s: sex must be either Male or Female; "
 		"assuming Male",
-		pl->name, pl->leader_name[j]);
-	pl->leader_is_male[j] = TRUE;
+		pl->name, pl->leaders[j].name);
+	pl->leaders[j].is_male = TRUE;
       }
     }
     free(leaders);
@@ -2659,8 +2665,8 @@ static void send_ruleset_nations(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;
     for(i=0; i < n->leader_count; i++) {
-      sz_strlcpy(packet.leader_name[i], n->leader_name[i]);
-      packet.leader_sex[i] = n->leader_is_male[i];
+      sz_strlcpy(packet.leader_name[i], n->leaders[i].name);
+      packet.leader_sex[i] = n->leaders[i].is_male;
     }
     packet.city_style = n->city_style;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));

@@ -18,7 +18,13 @@
 
 #define MAX_NUM_TECH_GOALS 10
 #define MAX_NUM_NATIONS  63
-#define MAX_NUM_LEADERS  16
+
+/* 
+ * Purpose of this constant is to catch invalid ruleset and network
+ * data and to allow static allocation of the nation_info packet.
+ */
+#define MAX_NUM_LEADERS MAX_NUM_ITEMS
+
 #define MAX_NUM_TEAMS MAX_NUM_PLAYERS
 #define TEAM_NONE 255
 
@@ -52,14 +58,18 @@ struct city_name {
   ternary terrain[T_COUNT];	
 };
 
+struct leader {
+  char *name;
+  bool is_male;
+};
+
 struct nation_type {
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
-  char *leader_name[MAX_NUM_LEADERS];
-  bool  leader_is_male[MAX_NUM_LEADERS];
+  struct leader *leaders;
   int city_style;
   struct city_name *city_names;		/* The default city names. */
   struct Sprite *flag_sprite;

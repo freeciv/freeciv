@@ -88,11 +88,18 @@ sets dim to number of leaders.
 ***************************************************************/
 char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 {
+  static char **result = NULL;
+  int i;
+
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_leader_names")) {
     die("wrong nation %d", nation);
   }
   *dim = nations[nation].leader_count;
-  return nations[nation].leader_name;
+  result = fc_realloc(result, sizeof(char *) * (*dim));
+  for (i = 0; i < *dim; i++) {
+    result[i] = nations[nation].leaders[i].name;
+  }
+  return result;
 }
 
 /***************************************************************
@@ -106,14 +113,12 @@ bool get_nation_leader_sex(Nation_Type_id nation, const char *name)
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_leader_sex")) {
     return FALSE;
   }
-  for( i=0; i < nations[nation].leader_count; i++ ) {
-    if (strcmp(nations[nation].leader_name[i], name) == 0)
-      break;
+  for (i = 0; i < nations[nation].leader_count; i++) {
+    if (strcmp(nations[nation].leaders[i].name, name) == 0) {
+      return nations[nation].leaders[i].is_male;
+    }
   }
-  if( i <  nations[nation].leader_count )
-    return nations[nation].leader_is_male[i];
-  else
-    return TRUE;
+  return TRUE;
 }
 
 /***************************************************************
@@ -122,16 +127,16 @@ checks if given leader name exist for given nation.
 bool check_nation_leader_name(Nation_Type_id nation, const char *name)
 {
   int i;
-  bool found = FALSE;
   
   if (!bounds_check_nation_id(nation, LOG_ERROR, "check_nation_leader_name")) {
     return TRUE;			/* ? */
   }
-  for( i=0; i<nations[nation].leader_count; i++) {
-    if (strcmp(name, nations[nation].leader_name[i]) == 0)
-      found = TRUE;
+  for (i = 0; i < nations[nation].leader_count; i++) {
+    if (strcmp(name, nations[nation].leaders[i].name) == 0) {
+      return TRUE;
+    }
   }
-  return found;
+  return FALSE;
 }
 
 /***************************************************************
@@ -186,7 +191,11 @@ static void nation_free(Nation_Type_id nation)
   struct nation_type *p = get_nation_by_idx(nation);
 
   for (i = 0; i < p->leader_count; i++) {
-    free(p->leader_name[i]);
+    free(p->leaders[i].name);
+  }
+  if (p->leaders) {
+    free(p->leaders);
+    p->leaders = NULL;
   }
 
   nation_city_names_free(p->city_names);
