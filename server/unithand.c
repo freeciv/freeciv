@@ -1147,9 +1147,8 @@ void handle_unit_help_build_wonder(struct player *pplayer,
     return;
 
   /* we're there! */
-  /* FIXME: use caravan cost */
-  pcity_dest->shield_stock += 50;
-  pcity_dest->caravan_shields += 50; /*If we change production we don't lose them*/
+  pcity_dest->shield_stock += get_unit_type(punit->type)->build_cost;
+  pcity_dest->caravan_shields += get_unit_type(punit->type)->build_cost;
 
   conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
