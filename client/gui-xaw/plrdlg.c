@@ -40,30 +40,34 @@
 
 #include "plrdlg.h"
 
+
 extern Widget toplevel, main_form;
 extern Display *display;
 extern Atom wm_delete_window;
 
-Widget players_dialog_shell;
-Widget players_form;
-Widget players_label;
-Widget players_list;
-Widget players_close_command;
-Widget players_int_command;
-Widget players_meet_command;
-Widget players_sship_command;
+static Widget players_dialog_shell;
+static Widget players_form;
+static Widget players_label;
+static Widget players_list;
+static Widget players_close_command;
+static Widget players_int_command;
+static Widget players_meet_command;
+static Widget players_sship_command;
 
-void create_players_dialog(void);
-void players_close_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
-void players_meet_callback(Widget w, XtPointer client_data, 
-			   XtPointer call_data);
-void players_intel_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
-void players_list_callback(Widget w, XtPointer client_data, 
-			   XtPointer call_data);
-void players_sship_callback(Widget w, XtPointer client_data, 
-			    XtPointer call_data);
+static int list_index_to_player_index[MAX_NUM_PLAYERS];
+
+
+static void create_players_dialog(void);
+static void players_close_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data);
+static void players_meet_callback(Widget w, XtPointer client_data, 
+				  XtPointer call_data);
+static void players_intel_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data);
+static void players_list_callback(Widget w, XtPointer client_data, 
+				  XtPointer call_data);
+static void players_sship_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data);
 
 
 /****************************************************************
@@ -161,7 +165,7 @@ void update_players_dialog(void)
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
-    
+
     for(i=0,j=0; i<game.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32];
       
@@ -196,8 +200,9 @@ void update_players_dialog(void)
 	      statebuf,
 	      game.players[i].addr, 
 	      idlebuf);
-	 
+
       namelist_ptrs[j]=namelist_text[j];
+      list_index_to_player_index[j] = i;
       j++;
     }
     
@@ -220,8 +225,9 @@ void players_list_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(players_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    struct player *pplayer = &game.players[ret->list_index];
-    
+    int player_index = list_index_to_player_index[ret->list_index];
+    struct player *pplayer = &game.players[player_index];
+
     if(pplayer->spaceship.state != SSHIP_NONE)
       XtSetSensitive(players_sship_command, TRUE);
     else
@@ -271,11 +277,12 @@ void players_meet_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(players_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    if(player_has_embassy(game.player_ptr, &game.players[ret->list_index])) {
+    int player_index = list_index_to_player_index[ret->list_index];
+    if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
       struct packet_diplomacy_info pa;
-    
+
       pa.plrno0=game.player_idx;
-      pa.plrno1=ret->list_index;
+      pa.plrno1=player_index;
       send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
 				 &pa);
     }
@@ -296,11 +303,16 @@ void players_intel_callback(Widget w, XtPointer client_data,
 
   ret=XawListShowCurrent(players_list);
 
-  if(ret->list_index!=XAW_LIST_NONE)
-    if(player_has_embassy(game.player_ptr, &game.players[ret->list_index]))
-      popup_intel_dialog(&game.players[ret->list_index]);
+  if(ret->list_index!=XAW_LIST_NONE) {
+    int player_index = list_index_to_player_index[ret->list_index];
+    if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+      popup_intel_dialog(&game.players[player_index]);
+  }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void players_sship_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
@@ -308,6 +320,8 @@ void players_sship_callback(Widget w, XtPointer client_data,
 
   ret=XawListShowCurrent(players_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) 
-    popup_spaceship_dialog(&game.players[ret->list_index]);
+  if(ret->list_index!=XAW_LIST_NONE) {
+    int player_index = list_index_to_player_index[ret->list_index];
+    popup_spaceship_dialog(&game.players[player_index]);
+  }
 }

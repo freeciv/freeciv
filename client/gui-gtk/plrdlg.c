@@ -38,20 +38,23 @@
 extern GdkWindow *root_window;
 extern GtkWidget *toplevel;
 
-GtkWidget *players_dialog_shell;
-GtkWidget *players_list;
-GtkWidget *players_close_command;
-GtkWidget *players_int_command;
-GtkWidget *players_meet_command;
-GtkWidget *players_sship_command;
+static GtkWidget *players_dialog_shell;
+static GtkWidget *players_list;
+static GtkWidget *players_close_command;
+static GtkWidget *players_int_command;
+static GtkWidget *players_meet_command;
+static GtkWidget *players_sship_command;
 
-void create_players_dialog(void);
-void players_button_callback(GtkWidget *w, gpointer data);
-void players_meet_callback(GtkWidget *w, gpointer data);
-void players_intel_callback(GtkWidget *w, gpointer data);
-void players_list_callback(GtkWidget *w, gint row, gint column);
-void players_list_ucallback(GtkWidget *w, gint row, gint column);
-void players_sship_callback(GtkWidget *w, gpointer data);
+static int list_index_to_player_index[MAX_NUM_PLAYERS];
+
+
+static void create_players_dialog(void);
+static void players_button_callback(GtkWidget *w, gpointer data);
+static void players_meet_callback(GtkWidget *w, gpointer data);
+static void players_intel_callback(GtkWidget *w, gpointer data);
+static void players_list_callback(GtkWidget *w, gint row, gint column);
+static void players_list_ucallback(GtkWidget *w, gint row, gint column);
+static void players_sship_callback(GtkWidget *w, gpointer data);
 
 
 /****************************************************************
@@ -154,13 +157,13 @@ void create_players_dialog(void)
 void update_players_dialog(void)
 {
    if(players_dialog_shell) {
-    int i;
+    int i,j;
     char *row[6];
-    
+
     gtk_clist_freeze(GTK_CLIST(players_list));
     gtk_clist_clear(GTK_CLIST(players_list));
 
-    for(i=0; i<game.nplayers; i++) {
+    for(i=0,j=0; i<game.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32];
       
       if(is_barbarian(&game.players[i]))
@@ -196,6 +199,9 @@ void update_players_dialog(void)
       row[5] = idlebuf;
 
       gtk_clist_append(GTK_CLIST(players_list), row);
+
+      list_index_to_player_index[j] = i;
+      j++;
     }
     
     gtk_clist_thaw(GTK_CLIST(players_list));
@@ -208,8 +214,9 @@ void update_players_dialog(void)
 **************************************************************************/
 void players_list_callback(GtkWidget *w, gint row, gint column)
 {
-  struct player *pplayer = &game.players[row];
-  
+  int player_index = list_index_to_player_index[row];
+  struct player *pplayer = &game.players[player_index];
+
     if(pplayer->spaceship.state != SSHIP_NONE)
       gtk_widget_set_sensitive(players_sship_command, TRUE);
     else
@@ -250,17 +257,19 @@ void players_meet_callback(GtkWidget *w, gpointer data)
 {
   GList *selection;
   gint row;
+  int player_index;
 
   if(!(selection=GTK_CLIST(players_list)->selection))
     return;
 
   row=(gint)selection->data;
+  player_index = list_index_to_player_index[row];
 
-  if(player_has_embassy(game.player_ptr, &game.players[row])) {
+  if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
     struct packet_diplomacy_info pa;
   
     pa.plrno0=game.player_idx;
-    pa.plrno1=row;
+    pa.plrno1=player_index;
     send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
         		       &pa);
   }
@@ -276,14 +285,16 @@ void players_intel_callback(GtkWidget *w, gpointer data)
 {
   GList *selection;
   gint row;
+  int player_index;
 
   if(!(selection=GTK_CLIST(players_list)->selection))
       return;
 
   row=(gint)selection->data;
+  player_index = list_index_to_player_index[row];
 
-  if(player_has_embassy(game.player_ptr, &game.players[row]))
-    popup_intel_dialog(&game.players[row]);
+  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+    popup_intel_dialog(&game.players[player_index]);
 }
 
 /**************************************************************************
@@ -293,12 +304,14 @@ void players_sship_callback(GtkWidget *w, gpointer data)
 {
   GList *selection;
   gint row;
+  int player_index;
 
   if(!(selection=GTK_CLIST(players_list)->selection))
       return;
 
   row=(gint)selection->data;
+  player_index = list_index_to_player_index[row];
 
-  if(player_has_embassy(game.player_ptr, &game.players[row]))
-    popup_spaceship_dialog(&game.players[row]);
+  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
+    popup_spaceship_dialog(&game.players[player_index]);
 }
