@@ -150,7 +150,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 unsigned char *get_int8(unsigned char *buffer, int *val)
 {
   if(val) {
-    *val=(signed char)(*buffer);
+    *val=(*buffer);
+/*  *val=(signed char)(*buffer);   Pernicious. -- Syela */
   }
   return buffer+1;
 }
