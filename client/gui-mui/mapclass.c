@@ -281,7 +281,7 @@ static void real_free_sprite(struct Sprite *sprite)
 *****************************************************************/
 static void free_sprites(void)
 {
-  struct SpriteNode *node = (struct SpriteNode *) sprite_list.mlh_Head;
+  struct SpriteNode *node;
   if(sprite_initialized)
   {
     while ((node = (struct SpriteNode *) RemHead((struct List *) &sprite_list)))
@@ -1456,20 +1456,17 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	int xpix = (data->explode_unit->x - map_view_x0)*get_normal_tile_width();
 	int ypix = (data->explode_unit->y - map_view_y0)*get_normal_tile_height();
-	int ox=0,oy=0;
 	int width = get_normal_tile_width();
 	int height = get_normal_tile_height();
 
 	if (xpix < 0)
 	{
-	  ox = -xpix;
 	  width += xpix;
 	  xpix = 0;
 	}
 
 	if (ypix < 0)
 	{
-	  oy = -ypix;
 	  height += ypix;
 	  ypix = 0;
 	}
@@ -1500,8 +1497,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 /*	Move the Unit Smoothly (from mapview.c) */
 	int map_view_x0 = data->horiz_first;
 	int map_view_y0 = data->vert_first;
-	int i, x, y, diffx, diffy, x0 = data->x0, y0 = data->y0, dx = data->dx,
-	  dy = data->dy;
+	int i, x, y, x0 = data->x0, y0 = data->y0, dx = data->dx, dy = data->dy;
 	struct unit *punit = data->punit;
 
 	if (x0 >= map_view_x0)
@@ -1511,9 +1507,6 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	y = (y0 - map_view_y0) * get_normal_tile_height();
 
-	diffx = get_normal_tile_width();
-	diffy = get_normal_tile_height();
-
 	for (i = 0; i < get_normal_tile_width() / 2; i++)
 	{
 	  LONG x1, y1, w, h, ox, oy;
@@ -1521,8 +1514,6 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	  x += dx * 2;
 	  y += dy * 2;
-	  diffx += dx * 2;
-	  diffy += dy * 2;
 
 	  x1 = x - 2;
 	  y1 = y - 2;
@@ -1876,15 +1867,13 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	{
 	  BOOL need_barlabel = FALSE;
 
-	  if (pcity)
-	  if (pcity->owner == game.player_idx)
+	  if (pcity && pcity->owner == game.player_idx)
 	  {
 	    Map_MakeContextItem(menu_title, "Popup City", PACK_CITY_USERDATA(pcity, CITY_POPUP));
 	    need_barlabel = TRUE;
 	  } else
 	  {
-	    if (punit)
-	    if (punit->owner == game.player_idx)
+	    if (punit && punit->owner == game.player_idx)
 	    {
 	      struct Command_List list;
 	      NewList((struct List *) &list);
