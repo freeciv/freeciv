@@ -1452,3 +1452,16 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y); */
        (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 #endif
 }
+
+/**************************************************************************
+ This a hack to enable emulation of old loops previously hardwired as
+   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++)
+ (Could probably just adjust the loops themselves fairly simply, but this
+ is safer for regression testing.) 
+**************************************************************************/
+int is_ai_simple_military(int type)
+{
+  return !unit_flag(type, F_NONMIL)
+    && !unit_flag(type, F_MISSILE)
+    && !(get_unit_type(type)->transport_capacity >= 8);
+}

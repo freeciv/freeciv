@@ -42,4 +42,6 @@ int unit_vulnerability_virtual(struct unit *punit);
 int unit_vulnerability(struct unit *punit, struct unit *pdef);
 int unit_can_defend(int type);
 
+int is_ai_simple_military(int type);
+
 #endif
