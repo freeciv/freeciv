@@ -682,19 +682,20 @@ void map_fractal_generate(void)
   else 
     mysrand(map.seed);
   
-  init_workmap();
-
-  /* szenario patch will add a if(map.generator){ old_code } here */
-  if (map.generator == 3 ){
-    mapgenerator3();
-  } else if( map.generator == 2 ){
-    mapgenerator2();
-  } else {
-    mapgenerator1();
+  /* don't generate tiles with mapgen==0 as we've loaded them from file */
+  /* also, don't delete (the handcrafted!) tiny islands in a scenario */
+  if (map.generator != 0) {
+    init_workmap();
+    if (map.generator == 3 ){
+      mapgenerator3();
+    } else if( map.generator == 2 ){
+      mapgenerator2();
+    } else {
+      mapgenerator1();
+    }
+    filter_land();
   }
 
-
-  filter_land();
   add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
   
   /* print_map(); */
