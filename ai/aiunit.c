@@ -531,7 +531,7 @@ static int reinforcements_value(struct unit *punit, int x, int y)
 
 static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
 { 
-  int val = 0, val2 = 0, val3 = 0, i, j, x, y;
+  int val, val2 = 0, val3 = 0, i, j, x, y;
   struct tile *ptile;
 
   if (!pcity) return 0;
@@ -758,7 +758,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
-  int x1, y1, dir, l, ok, t, fu, best = 0;
+  int x1, y1, dir, l, ok, t, best = 0;
 
   for (dir = 0; dir < 8; dir++) {
     x1 = dest_x + DIR_DX[dir];
@@ -766,12 +766,11 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
     if (!normalize_map_pos(&x1, &y1))
       continue;
 
-    ok = 0; fu = 0;
+    ok = 0;
     t = map_get_terrain(x1, y1);
     if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
       for (l = 0; l < 8 && !ok; l++) {
         if (map_get_terrain(x1 + DIR_DX[l], y1 + DIR_DY[l]) == T_OCEAN) {
-          fu++;
           if (is_my_zoc(punit, x1 + DIR_DX[l], y1 + DIR_DY[l])) ok++;
         }
       }
@@ -822,12 +821,12 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
-  int id, x, y, boatid = 0, bx, by, i, j;
+  int id, x, y, boatid = 0, bx = 0, by = 0, i, j;
   struct unit *ferryboat;
   struct unit *def;
   struct city *dcity;
   struct tile *ptile;
-  int d_type, d_val = 0;
+  int d_type, d_val;
 
   id = punit->id; x = punit->x; y = punit->y;
 
@@ -1032,8 +1031,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity = NULL, *acity = NULL;
   struct unit *aunit;
-  int val;
-  int d = 0, def = 0;
+  int val, def;
   int q = 0;
 
 /* tired of AI abandoning its cities! -- Syela */
@@ -1106,8 +1104,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   if (q > 0) {
     q *= 100;
     q /= unit_vulnerability_virtual(punit);
-    d = unit_move_turns(punit, pcity->x, pcity->y);
-    q >>= d;
+    q >>= unit_move_turns(punit, pcity->x, pcity->y);
   }
 
   val = 0; acity = 0; aunit = 0;
@@ -1177,7 +1174,9 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
   int a=0, b, c, d, e, m, n, v, i, f, a0, b0, ab, g;
+#ifdef DEBUG
   int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
+#endif
   int con = map_get_continent(punit->x, punit->y);
   struct player *aplayer;
   struct unit *pdef;
@@ -1370,16 +1369,20 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 /* a non-virtual ground unit is trying to attack something on another continent */
 /* need a beachhead which is adjacent to the city and an available ocean tile */
               if (find_beachhead(punit, acity->x, acity->y, &xx, &yy)) { /* LaLALala */
-                aa = a; bb = b; cc = c; dd = d;
-                best = e; bestb0 = b0;
+#ifdef DEBUG
+                aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+#endif
+                best = e;
                 *x = acity->x;
                 *y = acity->y;
 /* the ferryboat needs to target the beachhead, but the unit needs to target
 the city itself.  This is a little weird, but it's the best we can do. -- Syela */
               } /* else do nothing, since we have no beachhead */
             } else {
-              aa = a; bb = b; cc = c; dd = d;
-              best = e; bestb0 = b0;
+#ifdef DEBUG
+              aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+#endif
+              best = e;
               *x = acity->x;
               *y = acity->y;
             } /* end need-beachhead else */
@@ -1422,8 +1425,10 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
             e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
           } else e = 0;
           if (e > best && ai_fuzzy(pplayer,1)) {
-            aa = a; bb = b; cc = c; dd = d;
-            best = e; bestb0 = b0;
+#ifdef DEBUG
+            aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+#endif
+            best = e;
             *x = aunit->x;
             *y = aunit->y;
           }
@@ -2062,8 +2067,8 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
        * We may want this to be a city_map_iterate, or a warmap distance
        * check, but this will suffice for now.  -AJS
        */
-      for (x=-1; x<= 1; x++) {
-	for (y=-1; y<= 1; y++) {
+      for (x= -1; x<= 1; x++) {
+	for (y= -1; y<= 1; y++) {
 	  if (x == 0 && y == 0) continue;
 	  if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
 				     pcity->x+x, pcity->y+y)) {
@@ -2093,7 +2098,6 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
      *  guard, and that's kind of silly.  -AJS, 20000130
      */
     ctarget=0;
-    ptres=0;
     dist=MAX(map.xsize, map.ysize);
     continent=map_get_continent(pdiplomat->x, pdiplomat->y);
     handicap = ai_handicap(pplayer, H_TARGETS);
