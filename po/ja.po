@@ -41,7 +41,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-09 22:21-0700\n"
-"PO-Revision-Date: 2004-09-11 12:15+0900\n"
+"PO-Revision-Date: 2004-09-13 23:30+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -149,51 +149,52 @@ msgstr ""
 "あなたが接続しようとしているサーバは、古すぎます(1.12.0 かそれ以前)。次回は別"
 "のサーバを選択して下さい。さようなら。"
 
+# ntaka 何て訳せばいいんだよ
 #: common/player.c:595
 msgid "?attitude:Genocidal"
-msgstr ""
+msgstr "憎悪"
 
 #: common/player.c:597
 msgid "?attitude:Belligerent"
-msgstr ""
+msgstr "強硬"
 
 #: common/player.c:599
-#, fuzzy
 msgid "?attitude:Hostile"
-msgstr "敵国"
+msgstr "敵対的"
 
 #: common/player.c:601
 msgid "?attitude:Uncooperative"
-msgstr ""
+msgstr "非協力的"
 
+# ntaka 変?
 #: common/player.c:603
 msgid "?attitude:Uneasy"
-msgstr ""
+msgstr "不安"
 
 #: common/player.c:605
-#, fuzzy
 msgid "?attitude:Neutral"
-msgstr "中立国"
+msgstr "中立"
 
+# ntaka Worshipful とどう訳し分けるんだよ?
 #: common/player.c:607
 msgid "?attitude:Respectful"
-msgstr ""
+msgstr "好意的"
 
 #: common/player.c:609
 msgid "?attitude:Helpful"
-msgstr ""
+msgstr "協力的"
 
 #: common/player.c:611
 msgid "?attitude:Enthusiastic"
-msgstr ""
+msgstr "熱狂的"
 
 #: common/player.c:613
 msgid "?attitude:Admiring"
-msgstr ""
+msgstr "賛美"
 
 #: common/player.c:616
 msgid "?attitude:Worshipful"
-msgstr ""
+msgstr "尊敬"
 
 #: common/player.c:628
 msgid "Spotless"
@@ -715,10 +716,10 @@ msgid "*%s (AI)* You don't have the offered city!"
 msgstr ""
 
 #: ai/advdiplomacy.c:425
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
-"*%s (AI)* すまないが貴国と視野を共有することは我が国には危険が多過ぎる。"
+"*%s (AI)* すまないが、貴国と視野を共有することは我が国にとって危険が多過ぎる。"
 
 #: ai/advdiplomacy.c:520
 #, c-format
@@ -728,7 +729,7 @@ msgstr "*%s (AI)* %sよ、我が同盟にようこそ!"
 #: ai/advdiplomacy.c:523
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s"
-msgstr ""
+msgstr "*%s (AI)* 了解した。%sと我が国との同盟が永遠に続くことを願おう。"
 
 #: ai/advdiplomacy.c:528
 #, c-format
@@ -775,7 +776,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1007
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
-msgstr ""
+msgstr "*%s (AI)* 貴国の卑劣な行為が罰せられる時が来たのだ!"
 
 #: ai/advdiplomacy.c:1011
 #, c-format
@@ -787,7 +788,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1016
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
-msgstr "*%s (AI)* 平和な時は...終わりだ。"
+msgstr "*%s (AI)* 平和な時は...終わりだ!"
 
 #: ai/advdiplomacy.c:1031
 #, c-format
@@ -795,10 +796,10 @@ msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
 msgstr "*%s (AI)* 貴国の我が同盟国に対する行いは、貴国の最後の過ちだ!"
 
 #: ai/advdiplomacy.c:1053
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
-"*%s (AI)* すまないが貴国と視野を共有することは我が国には危険が多過ぎる。"
+"*%s (AI)* すまないが、貴国と視野を共有することは我が国にとってもはや安全な事ではない。"
 
 #: ai/advdiplomacy.c:1121
 #, c-format
@@ -3129,9 +3130,9 @@ msgid "Researching %s."
 msgstr "%sを研究しています。"
 
 #: server/plrhand.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
-msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
+msgstr "Game: %sを覚えました。科学者は次に何を研究するべきかの指示を求めています。"
 
 #: server/plrhand.c:415 server/stdinhand.c:363 server/unithand.c:212
 #, c-format
@@ -7434,9 +7435,9 @@ msgid "The %s gives shared vision"
 msgstr "%sは共有視野を与える"
 
 #: client/climisc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gives an embassy"
-msgstr "%sは%sを与える"
+msgstr "%sは大使館の開設を許可する"
 
 #: client/climisc.c:873
 msgid "Exporting output window to civgame.log ..."
@@ -8475,7 +8476,6 @@ msgid "Team"
 msgstr "チーム"
 
 #: client/plrdlg_common.c:220
-#, fuzzy
 msgid "Attitude"
 msgstr "態度"
 
