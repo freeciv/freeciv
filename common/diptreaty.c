@@ -107,6 +107,7 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       }
       break;
     default:
+      ; /* nothing */
     }
   }
    

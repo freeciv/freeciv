@@ -154,6 +154,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  }
 	  break;
 	default:
+	  ; /* nothing */
 	}
       }
     }
@@ -237,6 +238,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  }
 	  break;
 	default:
+	  ; /* nothing */
 	}
       }
     }
