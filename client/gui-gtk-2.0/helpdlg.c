@@ -46,7 +46,6 @@
 #include "helpdlg.h"
 
 #define TECH_TREE_DEPTH         20
-#define TECH_TREE_EXPANDED_DEPTH 2
 
 /*
  * Globals.
@@ -71,9 +70,7 @@ static GtkTreeStore *tstore;
 
 static GtkWidget *help_tree_sw;
 static GtkWidget *help_tree_expand;
-static GtkWidget *help_tree_expand_unknown;
 static GtkWidget *help_tree_collapse;
-static GtkWidget *help_tree_reset;
 static GtkWidget *help_tree_buttons_hbox;
 static GtkWidget *help_ilabel[6];
 static GtkWidget *help_wlabel[6];
@@ -172,8 +169,7 @@ subtrees, so that if Literacy occurs twice in a tech tree, only the first
 will have children. Color codes the node based on when it will be
 discovered: red >2 turns, yellow 1 turn, green 0 turns (discovered).
 **************************************************************************/
-static void create_tech_tree(int tech, int levels,
-			     int expanded_levels, GtkTreeIter *parent)
+static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
 {
   int	        bg;
   int           turns_to_tech;
@@ -224,30 +220,16 @@ static void create_tech_tree(int tech, int levels,
 		     2, tech,
 		     3, colors_standard[bg],
 		     -1);
-/*
-  if (turns_to_tech <= 1) {
-    expanded_levels = 0;
-  }
 
-  if (expanded_levels > 0) {
-    GtkTreePath  *path;
-
-    path = gtk_tree_model_get_path(GTK_TREE_MODEL(tstore), &l);
-    gtk_tree_view_expand_row(GTK_TREE_VIEW(help_tree), path, FALSE);
-    gtk_tree_path_free(path);
-
-    expanded_levels--;
-  }
-*/
   if (--levels <= 0)
       return;
 
   if (original) {
     /* only add children to orginals */
     if (advances[tech].req[0] != A_NONE)
-      create_tech_tree(advances[tech].req[0], levels, expanded_levels, &l);
+      create_tech_tree(advances[tech].req[0], levels, &l);
     if (advances[tech].req[1] != A_NONE)
-      create_tech_tree(advances[tech].req[1], levels, expanded_levels, &l);
+      create_tech_tree(advances[tech].req[1], levels, &l);
   }
   return;
 }
@@ -282,50 +264,6 @@ Called when "Collapse All" button is clicked
 static void help_tech_tree_collapse_callback(GtkWidget *w, gpointer data)
 {
   gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
-}
-#ifdef UNUSED
-/**************************************************************************
-Called by "Reset Tree" and "Expand Unknown" button callbacks
-**************************************************************************/
-static void help_tech_tree_node_expand(GtkCTree *ctree, GtkCTreeNode *node,
-				       gpointer data)
-{
-  help_tndata *d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
-  if (d->turns_to_tech > 1)
-    gtk_ctree_expand(ctree, node);
-}
-#endif
-/**************************************************************************
-Called when "Reset tree" button is clicked
-**************************************************************************/
-static void help_tech_tree_reset_callback(GtkWidget *w, gpointer data)
-{
-#ifdef UNUSED
-  /* Collapse the whole tree */
-  gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
-  /* Expand the deserving */
-/*
-  gtk_ctree_pre_recursive_to_depth(ctree, gtk_ctree_node_nth(ctree, 0), 
-				   TECH_TREE_EXPANDED_DEPTH,
-				   help_tech_tree_node_expand, NULL);
-*/
-#endif
-}
-
-/**************************************************************************
-Called when "Expand Unknown" button is clicked
-**************************************************************************/
-static void help_tech_tree_expand_unknown_callback(GtkWidget *w, gpointer data)
-{
-#ifdef UNUSED
-  /* Collapse the whole tree */
-  gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
-  /* Expand the deserving */
-/*
-  gtk_ctree_pre_recursive(ctree, gtk_ctree_node_nth(ctree, 0), 
-			  help_tech_tree_node_expand, NULL);
-*/
-#endif
 }
 
 /**************************************************************************
@@ -650,26 +588,18 @@ static void create_help_dialog(void)
   gtk_widget_show(help_tree);
   gtk_box_pack_start(GTK_BOX(help_box), help_tree_sw, TRUE, TRUE, 0);
 
-  help_tree_expand = gtk_button_new_with_label(_("Expand All"));
+  help_tree_expand =
+	gtk_button_new_with_label(_("Expand All"));
   help_tree_collapse = gtk_button_new_with_label(_("Collapse All"));
-  help_tree_reset = gtk_button_new_with_label(_("Reset Tree"));
-  help_tree_expand_unknown = gtk_button_new_with_label(_("Expand Unknown"));
+
   g_signal_connect(help_tree_expand, "clicked",
 		   G_CALLBACK(help_tech_tree_expand_callback), help_tree);
   g_signal_connect(help_tree_collapse, "clicked",
 		   G_CALLBACK(help_tech_tree_collapse_callback), help_tree);
-  g_signal_connect(help_tree_reset, "clicked",
-		   G_CALLBACK(help_tech_tree_reset_callback), help_tree);
-  g_signal_connect(help_tree_expand_unknown, "clicked",
-		   G_CALLBACK(help_tech_tree_expand_unknown_callback),
-		   help_tree);
 
   help_tree_buttons_hbox = gtk_hbutton_box_new();
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_expand);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
-  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_reset);
-  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox),
-	help_tree_expand_unknown);
   gtk_box_pack_start(GTK_BOX(help_box), help_tree_buttons_hbox,
 	FALSE, FALSE, 0);
   gtk_widget_show_all(help_tree_buttons_hbox);
@@ -867,7 +797,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       help_advances[j] = FALSE;
     }
     gtk_tree_store_clear(tstore);
-    create_tech_tree(i, TECH_TREE_DEPTH, TECH_TREE_EXPANDED_DEPTH, NULL);
+    create_tech_tree(i, TECH_TREE_DEPTH, NULL);
     gtk_widget_show(help_tree_sw);
     gtk_widget_show(help_tree_buttons_hbox);
 
