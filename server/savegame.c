@@ -3485,6 +3485,12 @@ void game_save(struct section_file *file)
    * don't matter, though. */
   secfile_insert_int(file, 2, "game.settlers");
   secfile_insert_int(file, 1, "game.explorer");
+  secfile_insert_int(file, 30, "map.mountains");
+  secfile_insert_int(file, 35, "map.grass");
+  secfile_insert_int(file, 5, "map.swampsize");
+  secfile_insert_int(file, 5, "map.deserts");
+  secfile_insert_int(file, 5, "map.riverlength");
+  secfile_insert_int(file, 20, "map.forestsize");
 
   if (TRUE) {
     /* Now always save these, so the server options reflect the
