@@ -79,8 +79,9 @@ bool update_city_text_in_refresh_tile = TRUE;
 
 const char *client_option_class_names[COC_MAX] = {
   N_("Graphics"),
+  N_("Sound"),
   N_("Interface"),
-  N_("Miscellaneous")
+  N_("Network")
 };
 
 static client_option common_options[] = {
@@ -88,50 +89,50 @@ static client_option common_options[] = {
 		  N_("Save the options when exiting the game"),
 		  N_("If this option is selected, options will be saved "
 		     "automatically when you exit Freeciv."),
-		  COC_MISCELLANEOUS),
+		  COC_NETWORK),
   GEN_STR_OPTION(default_user_name,
-		 N_("Default player's login name"),
+		 N_("Login name"),
 		 N_("This is the default login username that will be used "
 		    "in the connection dialogs or with the -a command-line "
 		    "parameter."),
-		 COC_MISCELLANEOUS, NULL, NULL),
+		 COC_NETWORK, NULL, NULL),
   GEN_STR_OPTION(default_server_host,
-		 N_("Default server"),
+		 N_("Server"),
 		 N_("This is the default server hostname that will be used "
 		    "in the connection dialogs or with the -a command-line "
 		    "parameter."),
-		 COC_MISCELLANEOUS, NULL, NULL),
+		 COC_NETWORK, NULL, NULL),
   GEN_INT_OPTION(default_server_port,
-		 N_("Default server's port"),
+		 N_("Server port"),
 		 N_("This is the default server port that will be used "
 		    "in the connection dialogs or with the -a command-line "
 		    "parameter."),
-		 COC_MISCELLANEOUS),
+		 COC_NETWORK),
   GEN_STR_OPTION(default_metaserver,
-		 N_("Default metaserver"),
+		 N_("Metaserver"),
 		 N_("The metaserver is a host that the client contacts to "
 		    "find out about games on the internet.  Don't change "
 		    "this from its default value unless you know what "
 		    "you're doing."),
-		 COC_MISCELLANEOUS, NULL, NULL),
+		 COC_NETWORK, NULL, NULL),
   GEN_STR_OPTION(default_sound_set_name,
-		 N_("Default name of sound set"),
-		 N_("This is the sound set that will be used.  Changing "
+		 N_("Soundset"),
+		 N_("This is the soundset that will be used.  Changing "
 		    "this is the same as using the -S command-line "
 		    "parameter."),
-		 COC_MISCELLANEOUS, get_soundset_list, NULL),
+		 COC_SOUND, get_soundset_list, NULL),
   GEN_STR_OPTION(default_sound_plugin_name,
-		 N_("Default sound plugin"),
+		 N_("Sound plugin"),
 		 N_("If you have a problem with sound, try changing the "
 		    "sound plugin.  The new plugin won't take effect until "
 		    "you restart Freeciv.  Changing this is the same as "
 		    "using the -P command-line option."),
-		 COC_MISCELLANEOUS, get_soundplugin_list, NULL),
+		 COC_SOUND, get_soundplugin_list, NULL),
   GEN_STR_OPTION(default_tileset_name, N_("Tileset"),
 		 N_("By changing this option you change the active tileset. "
 		    "This is the same as using the -t command-line "
 		    "parameter."),
-		 COC_MISCELLANEOUS,
+		 COC_GRAPHICS,
 		 get_tileset_list, tilespec_reread_callback),
 
   GEN_BOOL_OPTION(solid_color_behind_units,
@@ -145,7 +146,7 @@ static client_option common_options[] = {
 		     "at the start of a new turn.  You can control the "
 		     "behavior of the \"bell\" event by editing the message "
 		     "options."),
-		  COC_INTERFACE),
+		  COC_SOUND),
   GEN_INT_OPTION(smooth_move_unit_msec,
 		 N_("Unit movement animation time (milliseconds)"),
 		 N_("This option controls how long unit \"animation\" takes "
