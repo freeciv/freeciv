@@ -19,8 +19,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
-"POT-Creation-Date: 2002-04-17 10:47+0900\n"
-"PO-Revision-Date: 2002-04-17 10:53+0900\n"
+"POT-Creation-Date: 2002-04-23 22:16+0900\n"
+"PO-Revision-Date: 2002-04-22 02:04+0900\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -379,7 +379,7 @@ msgid "Patrol"
 msgstr "パトロール"
 
 #: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2069
-#: client/gui-win32/citydlg.c:1297 client/gui-xaw/citydlg.c:1435
+#: client/gui-win32/citydlg.c:1393 client/gui-xaw/citydlg.c:1435
 #: common/unit.c:566
 msgid "Unknown"
 msgstr "不明"
@@ -945,7 +945,7 @@ msgstr "これは %s のためのサーバです。"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Freeciv についての情報を %s で提供しています。"
 
-#: client/civclient.c:116 server/civserver.c:130
+#: client/civclient.c:120 server/civserver.c:130
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -954,7 +954,7 @@ msgstr ""
 "使用法: %s [オプション ...]\n"
 "有効なオプション:\n"
 
-#: client/civclient.c:125 server/civserver.c:131
+#: client/civclient.c:129 server/civserver.c:131
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tオプションの一覧を表示\n"
 
@@ -974,7 +974,7 @@ msgstr "  -p, --port PORT\tポート PORT でクライアントを待つ\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tゲームの記録ファイルとして FILE を使う\n"
 
-#: client/civclient.c:126 server/civserver.c:136
+#: client/civclient.c:130 server/civserver.c:136
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\t記録ファイルとして FILE を使う\n"
 
@@ -994,18 +994,18 @@ msgstr "  -s, --server HOST\tホスト HOST としてこのサーバをリストする\n"
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TIME\tTIME 秒プレイヤーが存在しなれれば終了する\n"
 
-#: client/civclient.c:120 server/civserver.c:142
+#: client/civclient.c:124 server/civserver.c:142
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tデバックログレベルをセットします(0 から 4, もしくは 4:ファ"
 "イル1,最小,最大:...)\n"
 
-#: client/civclient.c:123 server/civserver.c:145
+#: client/civclient.c:127 server/civserver.c:145
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tデバックログレベルをセットする(0 から 3)\n"
 
-#: client/civclient.c:134 server/civserver.c:147
+#: client/civclient.c:141 server/civserver.c:147
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tバージョン番号を表示する\n"
 
@@ -1323,7 +1323,7 @@ msgid "Game: %s's %s stole %s from %s."
 msgstr "Game: %1$sの%2$sは%4$sから%3$sを盗みました。"
 
 # yasu, ama
-#: server/diplomats.c:664 server/plrhand.c:613
+#: server/diplomats.c:664 server/plrhand.c:618
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Game: %1$sは%3$sから%2$sを盗みました。"
@@ -1647,7 +1647,11 @@ msgstr "%sは%sを発見しました(図書館)"
 msgid "Game: The %s have aquired %s from the Great Library."
 msgstr "Game: %1$sは王立図書館から%2$sを得ました。"
 
-#: server/plrhand.c:195
+#: server/plrhand.c:194
+msgid "Game: You are dead!"
+msgstr ""
+
+#: server/plrhand.c:198
 #, c-format
 msgid "Game: The %s are no more!"
 msgstr "Game: %sは絶滅しました"
@@ -1658,23 +1662,23 @@ msgstr "Game: %sは絶滅しました"
 # http://arch.freeciv.org/freeciv-data-200007/msg00008.html
 # からのスレッドを読んで下さい。
 # ここでは私の趣味も含め、 motto らしくしてみました。(ama)
-#: server/plrhand.c:197
+#: server/plrhand.c:200
 #, fuzzy, c-format
 msgid "%s civilization destroyed"
 msgstr "〜自由な Civilization を求めて〜"
 
 # yasu
-#: server/plrhand.c:230
+#: server/plrhand.c:233
 #, c-format
 msgid "%s are first to learn %s"
 msgstr "%sは%sを初めて学びました。"
 
-#: server/plrhand.c:239
+#: server/plrhand.c:242
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Game: %1$sの発見により、 %3$s の%2$sは古くなります!"
 
-#: server/plrhand.c:250
+#: server/plrhand.c:253
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
@@ -1682,32 +1686,32 @@ msgid ""
 msgstr ""
 "Game: %s を発見したことで、政治体制「%s」が増えました。革命を起こせます。"
 
-#: server/plrhand.c:290
+#: server/plrhand.c:293
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Game: %sを覚えました。科学の興味は%sに向かいます。目標は%sです。"
 
-#: server/plrhand.c:299
+#: server/plrhand.c:303
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Game: %sを覚えました。科学者は%sの研究を選択しました。"
 
-#: server/plrhand.c:307
+#: server/plrhand.c:311
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Game: %sを覚えました。"
 
-#: server/plrhand.c:310
+#: server/plrhand.c:314
 #, c-format
 msgid "Researching %s."
 msgstr "%sを研究しています。"
 
-#: server/plrhand.c:322
+#: server/plrhand.c:327
 #, c-format
 msgid "Game: %s"
 msgstr "Game: %s"
 
-#: server/plrhand.c:325
+#: server/plrhand.c:330
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -1715,77 +1719,77 @@ msgstr ""
 "Game: 世界中の偉大な科学者があなたの文明に加わりました。即座に科学を一つ得ま"
 "した。"
 
-#: server/plrhand.c:381
+#: server/plrhand.c:386
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Game: %sは%sを発見しました。"
 
-#: server/plrhand.c:385
+#: server/plrhand.c:390
 #, c-format
 msgid "%s discover %s"
 msgstr "%sは%sを発見しました"
 
 # yasu, ama
-#: server/plrhand.c:390
+#: server/plrhand.c:395
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Game: %s は先端技術%d を発見しました。"
 
 # yasu, ama
-#: server/plrhand.c:394
+#: server/plrhand.c:399
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "%sは先端技術%d を発見しました。"
 
-#: server/plrhand.c:512
+#: server/plrhand.c:517
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Game: 科学の目標は%sです。"
 
 # ama, yasu
-#: server/plrhand.c:583
+#: server/plrhand.c:588
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Game: %2$sから先端技術%1$d を得ました。"
 
-#: server/plrhand.c:586
+#: server/plrhand.c:591
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Game: %sは、その都市で先端技術%dを発見しました。"
 
-#: server/plrhand.c:589
+#: server/plrhand.c:594
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Game: %1$sは%3$sから先端技術%2$dを発見しました(制圧)"
 
-#: server/plrhand.c:605
+#: server/plrhand.c:610
 #, c-format
 msgid "%s acquire %s from %s"
 msgstr "%1$sは%3$sから%2$sを習得しました"
 
-#: server/plrhand.c:609
+#: server/plrhand.c:614
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Game: %2$sから%1$sを習得しました。"
 
-#: server/plrhand.c:611
+#: server/plrhand.c:616
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Game: %s は都市で%sを発見しました。"
 
 # yasu
-#: server/plrhand.c:633
+#: server/plrhand.c:638
 msgid "Game: Cannot change rates before game start."
 msgstr "Game: ゲーム開始前に比率は変えられません。"
 
 #: client/gui-gtk/gamedlgs.c:244 client/gui-win32/ratesdlg.c:314
-#: server/plrhand.c:646
+#: server/plrhand.c:651
 msgid "Tax"
 msgstr "税"
 
 #: client/agents/cma_core.c:1813 client/gui-gtk/gamedlgs.c:264
 #: client/gui-mui/citydlg.c:1649 client/gui-win32/ratesdlg.c:320
-#: server/plrhand.c:648
+#: server/plrhand.c:653
 msgid "Luxury"
 msgstr "贅沢"
 
@@ -1794,72 +1798,72 @@ msgstr "贅沢"
 #: client/gui-mui/repodlgs.c:301 client/gui-win32/ratesdlg.c:326
 #: client/gui-win32/repodlgs.c:117 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:263 client/gui-xaw/repodlgs.c:508
-#: data/Freeciv:1360 server/plrhand.c:650
+#: data/Freeciv:1360 server/plrhand.c:655
 msgid "Science"
 msgstr "科学"
 
-#: server/plrhand.c:651
+#: server/plrhand.c:656
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Game: %sの割合が%sの最大を越えています。"
 
-#: server/plrhand.c:657 server/plrhand.c:782
+#: server/plrhand.c:662 server/plrhand.c:788
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "割合変更: %s %i %i %i"
 
-#: server/plrhand.c:702
+#: server/plrhand.c:707
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Game: %sは%sを%sで治めるようになりました。"
 
-#: server/plrhand.c:706
+#: server/plrhand.c:711
 #, c-format
 msgid "%s form a %s"
 msgstr ""
 
-#: server/plrhand.c:738
+#: server/plrhand.c:744
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Game: %sは革命を促されました。"
 
-#: server/plrhand.c:740
+#: server/plrhand.c:746
 #, c-format
 msgid "The %s revolt!"
 msgstr ""
 
 # yasu
-#: server/plrhand.c:765
+#: server/plrhand.c:771
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 税金の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:771
+#: server/plrhand.c:777
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 科学の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:777
+#: server/plrhand.c:783
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 贅沢の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:832
+#: server/plrhand.c:838
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "%s の絶え間ない挑発のため、上院はあなたの予算を通過させました。"
 
-#: server/plrhand.c:842
+#: server/plrhand.c:848
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Game: あなたの評判は%sになりました。"
 
 # yasu
-#: server/plrhand.c:846
+#: server/plrhand.c:852
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1867,41 +1871,41 @@ msgstr ""
 "Game:上院はあなたの行動をこれ以上支援するのをやめて、解散することにしました。"
 
 # yasu
-#: server/plrhand.c:904 server/plrhand.c:912
+#: server/plrhand.c:910 server/plrhand.c:918
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Game: %sと%sの外交状態はいま%sです。"
 
 # yasu
-#: server/plrhand.c:909
+#: server/plrhand.c:915
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Game: %sは外交的同意を破棄した。"
 
 # yasu
-#: server/plrhand.c:1319
+#: server/plrhand.c:1325
 #, c-format
 msgid "Removing player %s."
 msgstr "プレイヤー %s を中止させます。"
 
 # yasu
-#: server/plrhand.c:1320
+#: server/plrhand.c:1326
 msgid "Game: You've been removed from the game!"
 msgstr "Game: あなたはゲームを中止させられました。"
 
 # yasu
-#: server/plrhand.c:1330
+#: server/plrhand.c:1336
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Game: %sはゲームを中止させられました。"
 
-#: server/plrhand.c:1362 server/plrhand.c:1366
+#: server/plrhand.c:1368 server/plrhand.c:1372
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
 # yasu
-#: server/plrhand.c:1727
+#: server/plrhand.c:1733
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1909,12 +1913,12 @@ msgid ""
 msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
 # yasu
-#: server/plrhand.c:1746
+#: server/plrhand.c:1752
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
-#: server/plrhand.c:1769
+#: server/plrhand.c:1775
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2218,17 +2222,17 @@ msgstr "サポートされるオプション: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 
-#: server/ruleset.c:2637
+#: server/ruleset.c:2662
 msgid "Loading rulesets"
 msgstr "ルールセットをロードしています"
 
 #: server/rulesout.c:55
 msgid "+1 tech to 1st"
-msgstr ""
+msgstr "+1技術(最初)"
 
 #: server/rulesout.c:56
 msgid "boats move +1"
-msgstr ""
+msgstr "船移動+1"
 
 #: server/rulesout.c:57
 msgid "bridges"
@@ -2244,7 +2248,7 @@ msgstr "要塞"
 
 #: server/rulesout.c:60
 msgid "pop. pollution"
-msgstr ""
+msgstr "人口公害"
 
 # yasu
 #: server/rulesout.c:61
@@ -2995,16 +2999,18 @@ msgid "Whether angry citizens are enabled"
 msgstr "怒り市民の有効/無効"
 
 #: server/stdinhand.c:446
-#, fuzzy
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
-msgstr "civilization II のような怒り市民を導入します。怒り市民は"
+msgstr ""
+"Civilization II のような怒り市民を導入します。他の市民クラスと見なされる以前"
+"は、怒り市民は不幸市民になるはずです。unhappysize, cityfactor, 政治体制も見て"
+"下さい。 "
 
 #: server/stdinhand.c:454
 msgid "Number of cities for higher unhappiness"
-msgstr ""
+msgstr "不幸増加の都市数"
 
 #: server/stdinhand.c:455
 msgid ""
@@ -3013,6 +3019,9 @@ msgid ""
 "This assumes a Democracy; for other governments the effect occurs at smaller "
 "numbers of cities."
 msgstr ""
+"プレイヤーが所有する都市の数が cityfactor より多ければ、他の修正を行なう前に "
+"1市民が不幸になります。 unhappysize も見て下さい。このは民主性の時です。他の"
+"政治体制では、都市の数は少なくなります。"
 
 #: server/stdinhand.c:463
 msgid "Minimum distance between cities (move distance)"
@@ -3094,7 +3103,7 @@ msgstr ""
 
 #: server/stdinhand.c:511
 msgid "Range of vision for units in a fortress"
-msgstr ""
+msgstr "要塞内の部隊の視野範囲"
 
 #: server/stdinhand.c:512
 msgid ""
@@ -3103,10 +3112,14 @@ msgid ""
 "necessary invention has been made. This invention is determined by the flag "
 "'Watchtower' in the techs ruleset. Also see wtowerevision."
 msgstr ""
+"物見やぐらの視野範囲: 値が1なら影響はありません。値が2以上で「発明」が発見さ"
+"れているなら、要塞内の部隊の視野範囲がこの値になります。「発明」は techs "
+"ruleset内の 'Watchtower'フラグによって決定されます。wtowerevision も見て下さ"
+"い。"
 
 #: server/stdinhand.c:523
 msgid "Extra vision range for units in a fortress"
-msgstr ""
+msgstr "要塞内の部隊の追加視野範囲"
 
 #: server/stdinhand.c:524
 msgid ""
@@ -3116,6 +3129,10 @@ msgid ""
 "techs ruleset has been made. Always the larger value of wtowervision and "
 "wtowerevision will be used. Also see wtowervision."
 msgstr ""
+"物見やぐらの追加視野範囲: 値が0なら影響はありません。値が1以上で techs "
+"ruleset 内の 'Watchtower'フラグによって決められる「発明」が発見されているな"
+"ら、要塞にいる部隊の視野範囲はこの値だけ広がります。常に wtowervision と "
+"wtowerevision の大きい方が使われます。wtowervision も見て下さい。"
 
 #: server/stdinhand.c:549
 msgid "Barbarian appearance frequency"
@@ -3984,7 +4001,7 @@ msgstr "これはデバックするのに大変役立ちます。"
 msgid "(ambiguous)"
 msgstr "(あいまい)"
 
-#: client/packhand.c:1016 server/stdinhand.c:1284
+#: client/packhand.c:1043 server/stdinhand.c:1284
 msgid "(unknown)"
 msgstr "(不明)"
 
@@ -4045,15 +4062,15 @@ msgstr "[%s]へのメタサーバ接続を閉じます。"
 
 #: server/stdinhand.c:1443
 msgid "Metaserver connection closed."
-msgstr "メタサーバ接続を閉じました。"
+msgstr "メタサーバ接続は閉じています。"
 
 #: server/stdinhand.c:1456
 msgid "Metaserver connection is open."
-msgstr "メタサーバ接続は開かれました。"
+msgstr "メタサーバ接続は開いています。"
 
 #: server/stdinhand.c:1459
 msgid "Metaserver connection is closed."
-msgstr "メタサーバ接続は閉ざわれました。"
+msgstr "メタサーバ接続は閉ざされました。"
 
 #: server/stdinhand.c:1467
 msgid "Metaserver connection is already open."
@@ -4083,11 +4100,11 @@ msgstr "メタサーバ情報文字列を設定しました。"
 #: server/stdinhand.c:1510
 #, c-format
 msgid "Metaserver is now [%s]."
-msgstr ""
+msgstr "メタサーバは今では[%s]です。"
 
 #: server/stdinhand.c:1513
 msgid "Metaserver address set."
-msgstr ""
+msgstr "メタサーバのアドレスをセットします。"
 
 #: server/stdinhand.c:1585
 msgid "The game cannot be saved before it is started."
@@ -5108,31 +5125,31 @@ msgstr ""
 
 #: server/unittools.c:2223
 msgid "Game: This unit type can not be paradropped."
-msgstr ""
+msgstr "Game: この部隊のタイプは落下傘降下させれません。"
 
 #: server/unittools.c:2232
 msgid "Game: The destination location is not known."
-msgstr ""
+msgstr "Game: 目的地は知られていません。"
 
 #: server/unittools.c:2238
 msgid "Game: Cannot paradrop into ocean."
-msgstr ""
+msgstr "Game: 海へ落下傘降下できません。"
 
 #: server/unittools.c:2247
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
+msgstr "Game: 目的への距離(%i)は、部隊の行動範囲(%i)を越えています。"
 
 #: server/unittools.c:2259
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
-msgstr "Game: %2$sを失った時に%1$sを失ないました。"
+msgstr "Game: %sは海に落下傘降下し消滅しました。"
 
 #: server/unittools.c:2271
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
-msgstr "Game: %s はバーバリアンによって部隊は殺されました。"
+msgstr "Game: %sは落下傘降下目標の敵部隊によって殺されました。"
 
 #: server/unittools.c:2294
 #, c-format
@@ -5395,40 +5412,49 @@ msgstr "作成中"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(進行,目標,必要ターン,購入金額)"
 
-#: client/civclient.c:118
+#: client/civclient.c:122
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\t接続ダイアログをスキップする\n"
 
-#: client/civclient.c:127
+#: client/civclient.c:131
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tHOST にあるメタサーバに接続する\n"
 
-#: client/civclient.c:129
+#: client/civclient.c:133
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\t名前として NAME を使います\n"
 
-#: client/civclient.c:130
+#: client/civclient.c:134
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tサーバのポート PORT に接続します\n"
 
-#: client/civclient.c:131
+#: client/civclient.c:135
+#, c-format
+msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
+msgstr "  -P, --Plugin PLUGIN\tPLUGIN をサウンド出力に使う %s\n"
+
+#: client/civclient.c:137
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tHOST にあるサーバに接続します\n"
 
-#: client/civclient.c:132
+#: client/civclient.c:138
+msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
+msgstr "  -S, --Sound FILE\tFILE から音楽タグを読む\n"
+
+#: client/civclient.c:139
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FILE\tタイルとしてデータファイル FILE.tilespec を使う\n"
 
-#: client/civclient.c:161
+#: client/civclient.c:172
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "認識できないオプション: \"%s\"\n"
 
-#: client/civclient.c:526
+#: client/civclient.c:542
 msgid "Game started."
 msgstr "ゲームが始まりました。"
 
-#: client/civclient.c:554
+#: client/civclient.c:571
 msgid "There was an error while auto connecting; aborting."
 msgstr "自動接続中にエラーが起こりました。中断しています。"
 
@@ -5488,27 +5514,27 @@ msgstr "得る"
 #: client/climisc.c:404 client/climisc.c:411
 #, c-format
 msgid "The %s give %s"
-msgstr ""
+msgstr "%sは%sを与える"
 
 #: client/climisc.c:415
 #, c-format
 msgid "The %s give unknown city."
-msgstr ""
+msgstr "%sは未知の都市を与える"
 
 #: client/climisc.c:420
 #, c-format
 msgid "The %s give %d gold"
-msgstr ""
+msgstr "%sは金%dを与える"
 
 #: client/climisc.c:425
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "%sは世界地図を与える"
 
 #: client/climisc.c:429
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "%sは海洋地図を与える"
 
 #: client/climisc.c:433
 msgid "The parties agree on a cease-fire"
@@ -5525,7 +5551,7 @@ msgstr ""
 #: client/climisc.c:442
 #, c-format
 msgid "The %s gives shared vision"
-msgstr ""
+msgstr "%sは共有視野を与える"
 
 #: client/climisc.c:1073
 msgid ""
@@ -5603,33 +5629,33 @@ msgstr "無効なメタサーバ URL です。 `http://' で始めなければなりません。"
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "無効な $http_proxy 値です。分割に使う `/' を見つけられません。"
 
-#: client/control.c:522
+#: client/control.c:523
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Game: 輸送部隊だけが降ろせます。"
 
-#: client/control.c:758
+#: client/control.c:759
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
 
-#: client/control.c:791
+#: client/control.c:792
 msgid "Game: Only nuclear units can do this."
 msgstr "Game: 核兵器部隊だけがこれを行なえます。"
 
-#: client/control.c:808
+#: client/control.c:809
 msgid "Game: Only paratrooper units can do this."
 msgstr "Game: 落下傘兵部隊だけがこれを行なえます。"
 
-#: client/control.c:1100
+#: client/control.c:1106
 msgid "Game: Too far for this unit."
 msgstr ""
 
-#: client/control.c:1232 client/control.c:1281
+#: client/control.c:1238 client/control.c:1287
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Game: 目的地までの経路を探せません。"
 
-#: client/control.c:1272
+#: client/control.c:1278
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Game: ごめんなさい。空軍のパトロールはまだ実装していません。"
 
@@ -5851,7 +5877,7 @@ msgstr ""
 #: client/helpdata.c:738
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr "今%sを開始したら、%d玉必要です。"
+msgstr "今%sを開始したら、%d単位必要です。"
 
 #: client/helpdata.c:743
 #, c-format
@@ -5859,13 +5885,13 @@ msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
 "will require %d bulbs to complete."
 msgstr ""
-"%sに達するにはまず他の技術を%d個獲得する必要があります。全プロジェクトを終わ"
-"らせるには、%d玉必要です。"
+"%sに達するにはまず他の技術を%d個獲得する必要があります。 全プロジェクトを終わ"
+"らせるには、%d単位必要です。"
 
 #: client/helpdata.c:752
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
-"この数は他のプレイヤーが研究している物によっては異なることがあります。\n"
+" この数は他のプレイヤーが研究している物によっては異なることがあります。\n"
 
 #: client/helpdata.c:762
 #, c-format
@@ -6004,7 +6030,7 @@ msgstr "移動を終えた時ターンを終了"
 
 #: client/options.c:76
 msgid "Use Alt/Meta for accelerators (GTK only)"
-msgstr ""
+msgstr "Alt/Meta でアクセラレータ(GTKのみ)"
 
 #: client/options.c:142
 msgid "Low Funds"
@@ -6012,7 +6038,7 @@ msgstr "資金の低下"
 
 #: client/options.c:144
 msgid "Global Eco-Disaster"
-msgstr ""
+msgstr "地球的環境災害"
 
 #: client/options.c:145
 msgid "Civil Disorder"
@@ -6056,11 +6082,11 @@ msgstr "不思議の終了"
 
 #: client/options.c:155
 msgid "Improvement Built"
-msgstr ""
+msgstr "建造物建築終了"
 
 #: client/options.c:156
 msgid "New Improvement Selected"
-msgstr ""
+msgstr "新しい建造物の選択"
 
 #: client/options.c:157
 msgid "Forced Improvement Sale"
@@ -6179,9 +6205,8 @@ msgid "Learned New Government"
 msgstr "新しい政治体制を獲得"
 
 #: client/options.c:186
-#, fuzzy
 msgid "City Nuked"
-msgstr "都市名"
+msgstr "都市核攻撃"
 
 #: client/options.c:187
 msgid "Messages from the Server Operator"
@@ -6260,69 +6285,89 @@ msgstr ""
 msgid "Nation Selected"
 msgstr ""
 
-#: client/options.c:329
+#: client/options.c:206
+#, fuzzy
+msgid "Game End"
+msgstr "Game: "
+
+#: client/options.c:207
+#, fuzzy
+msgid "Turn Bell"
+msgstr "ターン終了"
+
+#: client/options.c:208
+#, fuzzy
+msgid "Tech Learned"
+msgstr "Game: %sを覚えました。"
+
+#: client/options.c:333
 msgid "Cannot find your home directory"
 msgstr "ホームディレクトリが見つかりません。"
 
-#: client/options.c:433
+#: client/options.c:437
 msgid "Save failed, cannot find a filename."
 msgstr ""
 
-#: client/options.c:482
+#: client/options.c:486
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:493
+#: client/options.c:497
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "保存が失敗しました。ファイル %s へ書き込めません"
 
-#: client/options.c:496
+#: client/options.c:500
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "設定をファイル %s へ保存しました。"
 
-#: client/packhand.c:163
+#: client/packhand.c:164
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "接続を拒絶されました: %s"
 
-#: client/packhand.c:174
+#: client/packhand.c:175
 #, c-format
 msgid "Client capability string: %s"
 msgstr "クライアントの機能: %s"
 
-#: client/packhand.c:177
+#: client/packhand.c:178
 #, c-format
 msgid "Server capability string: %s"
 msgstr "サーバの機能: %s"
 
-#: client/packhand.c:761
+#: client/packhand.c:718
+#, c-format
+msgid "Start of turn %d"
+msgstr ""
+
+#: client/packhand.c:785
 msgid "Popup Request"
 msgstr "ポップアップ要求"
 
-#: client/packhand.c:1212
+#: client/packhand.c:1239
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI モードは%sです。"
 
-#: client/packhand.c:1213
+#: client/packhand.c:1240
 msgid "ON"
 msgstr "オン"
 
-#: client/packhand.c:1213
+#: client/packhand.c:1240
 msgid "OFF"
 msgstr "オフ"
 
-#: client/packhand.c:1223
+#: client/packhand.c:1250
 msgid "Game: Revolution finished"
 msgstr "Game: 革命が終了しました"
 
-#: client/packhand.c:2240
+#: client/packhand.c:2274
 msgid "Game: Diplomat arrived."
 msgstr "Game: 外交官が到着しました。"
 
-#: client/packhand.c:2262
+#: client/packhand.c:2296
 msgid "Game: Diplomat sabotage."
 msgstr ""
 
@@ -6403,8 +6448,7 @@ msgid "Shield"
 msgstr "シールド"
 
 #: client/agents/cma_core.c:1809 client/gui-mui/citydlg.c:1641
-#: client/gui-win32/citydlg.c:817 data/Freeciv:2964
-#: data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
+#: data/Freeciv:2964 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:557
 msgid "Trade"
 msgstr "交易"
@@ -6524,11 +6568,11 @@ msgstr "維持"
 msgid "City _Overview"
 msgstr "概観(_O)"
 
-#: client/gui-gtk/citydlg.c:635
+#: client/gui-gtk/citydlg.c:635 client/gui-win32/citydlg.c:840
 msgid "City info"
 msgstr "都市情報"
 
-#: client/gui-gtk/citydlg.c:641
+#: client/gui-gtk/citydlg.c:641 client/gui-win32/citydlg.c:859
 msgid "City map"
 msgstr "都市地図"
 
@@ -6557,7 +6601,7 @@ msgid "C_hange"
 msgstr "変更(_H)"
 
 #: client/gui-gtk/citydlg.c:875 client/gui-gtk/citydlg.c:1993
-#: client/gui-gtk/citydlg.c:3279 client/gui-win32/citydlg.c:770
+#: client/gui-gtk/citydlg.c:3279 client/gui-win32/citydlg.c:864
 msgid "Sell"
 msgstr "売る"
 
@@ -6567,12 +6611,12 @@ msgstr "売る"
 msgid "_Units"
 msgstr "部隊(_U)"
 
-#: client/gui-gtk/citydlg.c:950 client/gui-win32/citydlg.c:803
+#: client/gui-gtk/citydlg.c:950 client/gui-win32/citydlg.c:893
 msgid "Supported units"
 msgstr "援助されている部隊"
 
 #: client/gui-gtk/citydlg.c:954 client/gui-mui/citydlg.c:1499
-#: client/gui-win32/citydlg.c:808
+#: client/gui-win32/citydlg.c:899
 msgid "Units present"
 msgstr "都市にいる部隊"
 
@@ -6617,12 +6661,12 @@ msgid "Entertainers"
 msgstr "芸人"
 
 #: client/gui-gtk/citydlg.c:1256 client/gui-mui/citydlg.c:1429
-#: client/gui-win32/citydlg.c:2037 client/gui-xaw/citydlg.c:2587
+#: client/gui-win32/citydlg.c:2165 client/gui-xaw/citydlg.c:2587
 msgid "Scientists"
 msgstr "科学者"
 
 #: client/gui-gtk/citydlg.c:1257 client/gui-mui/citydlg.c:1430
-#: client/gui-win32/citydlg.c:2039 client/gui-xaw/citydlg.c:2587
+#: client/gui-win32/citydlg.c:2167 client/gui-xaw/citydlg.c:2587
 msgid "Taxmen"
 msgstr "徴税者"
 
@@ -6642,7 +6686,7 @@ msgstr "ヘリコプター"
 msgid "Air units"
 msgstr "空中部隊"
 
-#: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2042
+#: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2170
 msgid "Disband if build settler at size 1"
 msgstr "大きさ1の時に開拓者を作ったら解散"
 
@@ -6686,7 +6730,7 @@ msgstr "都市オプション"
 msgid "Auto attack vs"
 msgstr "自動攻撃の相手"
 
-#: client/gui-gtk/citydlg.c:1340 client/gui-win32/citydlg.c:2034
+#: client/gui-gtk/citydlg.c:1340 client/gui-win32/citydlg.c:2162
 msgid "New citizens are"
 msgstr "新しい市民は"
 
@@ -6695,7 +6739,7 @@ msgid "City name"
 msgstr "都市名"
 
 #: client/gui-gtk/citydlg.c:1366 client/gui-gtk/wldlg.c:222
-#: client/gui-win32/citydlg.c:815 data/Freeciv:1940 data/Freeciv:2962
+#: client/gui-win32/citydlg.c:907 data/Freeciv:1940 data/Freeciv:2962
 msgid "Rename"
 msgstr "改名"
 
@@ -6706,7 +6750,7 @@ msgstr "次回表示"
 #: client/gui-gtk/citydlg.c:1464 client/gui-gtk/citydlg.c:1472
 #, c-format
 msgid "City of %s"
-msgstr ""
+msgstr "%sの都市"
 
 #: client/gui-gtk/citydlg.c:1530
 msgid "Close dialog"
@@ -6757,42 +6801,46 @@ msgid "Present units (%d)"
 msgstr "都市にいる部隊 (%d)"
 
 #: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2069
+#: client/gui-win32/citydlg.c:1393
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #: client/gui-gtk/citydlg.c:2302 client/gui-mui/citydlg.c:2072
+#: client/gui-win32/citydlg.c:1396
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "%sとの交易は、交易%dです。\n"
 
 #: client/gui-gtk/citydlg.c:2308 client/gui-mui/citydlg.c:2078
+#: client/gui-win32/citydlg.c:1402
 msgid "No trade routes exist."
 msgstr "交易路は存在しません。"
 
 #: client/gui-gtk/citydlg.c:2311 client/gui-mui/citydlg.c:2081
+#: client/gui-win32/citydlg.c:1405
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "交易路による合計交易: %d"
 
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2511
-#: client/gui-win32/citydlg.c:1556 client/gui-win32/citydlg.c:1584
+#: client/gui-win32/citydlg.c:1650 client/gui-win32/citydlg.c:1678
 #: data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
 msgstr "部隊コマンド"
 
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2512
-#: client/gui-win32/citydlg.c:1558 client/gui-win32/citydlg.c:1586
+#: client/gui-win32/citydlg.c:1652 client/gui-win32/citydlg.c:1680
 msgid "_Activate unit"
 msgstr "部隊を起こす(_A)"
 
 #: client/gui-gtk/citydlg.c:2483 client/gui-gtk/citydlg.c:2513
-#: client/gui-win32/citydlg.c:1560 client/gui-win32/citydlg.c:1588
+#: client/gui-win32/citydlg.c:1654 client/gui-win32/citydlg.c:1682
 msgid "Activate unit, _close dialog"
 msgstr "部隊を起こし、閉じる(_C)"
 
 #: client/gui-gtk/citydlg.c:2485 client/gui-gtk/citydlg.c:2518
-#: client/gui-win32/citydlg.c:1562 client/gui-win32/citydlg.c:1594
+#: client/gui-win32/citydlg.c:1656 client/gui-win32/citydlg.c:1688
 msgid "_Disband unit"
 msgstr "部隊解散(_D)"
 
@@ -6807,38 +6855,38 @@ msgstr "部隊解散(_D)"
 #: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
 #: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
 #: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:91
-#: client/gui-mui/worklistclass.c:656 client/gui-win32/citydlg.c:1564
-#: client/gui-win32/citydlg.c:1600 client/gui-win32/dialogs.c:1615
+#: client/gui-mui/worklistclass.c:656 client/gui-win32/citydlg.c:1658
+#: client/gui-win32/citydlg.c:1694 client/gui-win32/dialogs.c:1615
 #: client/gui-win32/dialogs.c:1637 client/gui-win32/dialogs.c:1667
 msgid "_Cancel"
 msgstr "取り消し(_C)"
 
-#: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1590
+#: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1684
 msgid "_Sentry unit"
 msgstr "見張り番(_S)"
 
 # yasu
-#: client/gui-gtk/citydlg.c:2517 client/gui-win32/citydlg.c:1592
+#: client/gui-gtk/citydlg.c:2517 client/gui-win32/citydlg.c:1686
 msgid "_Fortify unit"
 msgstr "防御姿勢(_F)"
 
-#: client/gui-gtk/citydlg.c:2520 client/gui-win32/citydlg.c:1596
+#: client/gui-gtk/citydlg.c:2520 client/gui-win32/citydlg.c:1690
 msgid "Make new _homecity"
 msgstr "住人にする(_H)"
 
-#: client/gui-gtk/citydlg.c:2522 client/gui-win32/citydlg.c:1598
+#: client/gui-gtk/citydlg.c:2522 client/gui-win32/citydlg.c:1692
 msgid "_Upgrade unit"
 msgstr "新型にする(_U)"
 
 #: client/gui-gtk/citydlg.c:2708 client/gui-mui/dialogs.c:1864
-#: client/gui-win32/citydlg.c:1508 client/gui-xaw/citydlg.c:2111
+#: client/gui-win32/citydlg.c:1602 client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr ""
+msgstr "すみません。%sを新型にできません。"
 
 #: client/gui-gtk/citydlg.c:2711 client/gui-gtk/citydlg.c:2734
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
-#: client/gui-win32/citydlg.c:1509 client/gui-win32/citydlg.c:1533
+#: client/gui-win32/citydlg.c:1603 client/gui-win32/citydlg.c:1627
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
 msgstr "新型にする"
@@ -6847,8 +6895,8 @@ msgstr "新型にする"
 #: client/gui-gtk/citydlg.c:2945 client/gui-gtk/dialogs.c:413
 #: client/gui-gtk/dialogs.c:979 client/gui-gtk/dialogs.c:994
 #: client/gui-mui/dialogs.c:238 client/gui-mui/dialogs.c:507
-#: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:930
-#: client/gui-win32/citydlg.c:1510 client/gui-win32/citydlg.c:1534
+#: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:1019
+#: client/gui-win32/citydlg.c:1604 client/gui-win32/citydlg.c:1628
 #: client/gui-win32/dialogs.c:1371 client/gui-win32/dialogs.c:1554
 #: client/gui-win32/dialogs.c:1569 data/Freeciv:2185 data/Freeciv:2389
 #: data/Freeciv:2419
@@ -6856,7 +6904,7 @@ msgid "Darn"
 msgstr "がっかり"
 
 #: client/gui-gtk/citydlg.c:2717 client/gui-mui/dialogs.c:1874
-#: client/gui-win32/citydlg.c:1516 client/gui-xaw/citydlg.c:2120
+#: client/gui-win32/citydlg.c:1610 client/gui-xaw/citydlg.c:2120
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -6867,10 +6915,10 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:2723 client/gui-gtk/repodlgs.c:933
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:792
-#: client/gui-win32/citydlg.c:1521 client/gui-win32/repodlgs.c:597
+#: client/gui-win32/citydlg.c:1615 client/gui-win32/repodlgs.c:597
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
-msgstr ""
+msgstr "旧型部隊を新型にする"
 
 #: client/gui-gtk/citydlg.c:2723 client/gui-gtk/citydlg.c:2937
 #: client/gui-gtk/citydlg.c:3218 client/gui-gtk/cma_fe.c:580
@@ -6878,8 +6926,8 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:1354 client/gui-mui/citydlg.c:1035
 #: client/gui-mui/citydlg.c:1075 client/gui-mui/dialogs.c:514
 #: client/gui-mui/dialogs.c:1161 client/gui-mui/dialogs.c:1879
-#: client/gui-mui/repodlgs.c:793 client/gui-win32/citydlg.c:921
-#: client/gui-win32/citydlg.c:985 client/gui-win32/citydlg.c:1522
+#: client/gui-mui/repodlgs.c:793 client/gui-win32/citydlg.c:1010
+#: client/gui-win32/citydlg.c:1074 client/gui-win32/citydlg.c:1616
 #: client/gui-win32/dialogs.c:857 client/gui-win32/dialogs.c:1363
 #: client/gui-win32/dialogs.c:1561
 msgid "_Yes"
@@ -6891,23 +6939,25 @@ msgstr "はい(_Y)"
 #: client/gui-gtk/dialogs.c:1355 client/gui-mui/citydlg.c:1036
 #: client/gui-mui/citydlg.c:1076 client/gui-mui/dialogs.c:515
 #: client/gui-mui/dialogs.c:1162 client/gui-mui/dialogs.c:1880
-#: client/gui-mui/repodlgs.c:794 client/gui-win32/citydlg.c:922
-#: client/gui-win32/citydlg.c:986 client/gui-win32/citydlg.c:1524
+#: client/gui-mui/repodlgs.c:794 client/gui-win32/citydlg.c:1011
+#: client/gui-win32/citydlg.c:1075 client/gui-win32/citydlg.c:1618
 #: client/gui-win32/dialogs.c:858 client/gui-win32/dialogs.c:1364
 #: client/gui-win32/dialogs.c:1562
 msgid "_No"
 msgstr "いいえ(_N)"
 
 #: client/gui-gtk/citydlg.c:2729 client/gui-mui/dialogs.c:1884
-#: client/gui-win32/citydlg.c:1528 client/gui-xaw/citydlg.c:2130
+#: client/gui-win32/citydlg.c:1622 client/gui-xaw/citydlg.c:2130
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"金%3$dで%1$sを%2$sへ新型にしています。\n"
+"現在の資金は%4$dです。"
 
 #: client/gui-gtk/citydlg.c:2932 client/gui-mui/citydlg.c:1031
-#: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:2050
+#: client/gui-win32/citydlg.c:1006 client/gui-xaw/citydlg.c:2050
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -6918,13 +6968,13 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:2936 client/gui-gtk/citydlg.c:2945
 #: client/gui-mui/citydlg.c:1034 client/gui-mui/citydlg.c:1044
-#: client/gui-win32/citydlg.c:920 client/gui-win32/citydlg.c:929
+#: client/gui-win32/citydlg.c:1009 client/gui-win32/citydlg.c:1018
 #: data/Freeciv:2153 data/Freeciv:2183
 msgid "Buy It!"
-msgstr ""
+msgstr "買う!"
 
 #: client/gui-gtk/citydlg.c:2941 client/gui-mui/citydlg.c:1041
-#: client/gui-win32/citydlg.c:926 client/gui-xaw/citydlg.c:2059
+#: client/gui-win32/citydlg.c:1015 client/gui-xaw/citydlg.c:2059
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -6936,30 +6986,30 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:310
 #: client/gui-gtk/wldlg.c:316 client/gui-mui/citydlg.c:687
 #: client/gui-mui/citydlg.c:716 client/gui-mui/worklistclass.c:214
-#: client/gui-win32/citydlg.c:1114
+#: client/gui-win32/citydlg.c:1203
 msgid "Type"
 msgstr "タイプ"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:311
 #: client/gui-gtk/wldlg.c:317 client/gui-mui/citydlg.c:688
-#: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1117
+#: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1206
 msgid "Info"
 msgstr "情報"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/repodlgs.c:565
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:690 client/gui-mui/repodlgs.c:499
-#: client/gui-mui/worklistclass.c:216 client/gui-win32/citydlg.c:1121
+#: client/gui-mui/worklistclass.c:216 client/gui-win32/citydlg.c:1210
 #: client/gui-win32/repodlgs.c:492
 msgid "Cost"
 msgstr "経費"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:319
-#: client/gui-win32/citydlg.c:1123
+#: client/gui-win32/citydlg.c:1212
 msgid "Turns"
 msgstr "ターン"
 
-#: client/gui-gtk/citydlg.c:3022 client/gui-win32/citydlg.c:1093
+#: client/gui-gtk/citydlg.c:3022 client/gui-win32/citydlg.c:1182
 #: data/Freeciv:2012
 msgid "Change Production"
 msgstr "生産物の変更"
@@ -6978,13 +7028,13 @@ msgid "_Help"
 msgstr "ヘルプ(_H)"
 
 #: client/gui-gtk/citydlg.c:3213 client/gui-mui/citydlg.c:1069
-#: client/gui-win32/citydlg.c:980 client/gui-xaw/citydlg.c:2487
+#: client/gui-win32/citydlg.c:1069 client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "金%2$dで%1$sを売りますか?"
 
 #: client/gui-gtk/citydlg.c:3217 client/gui-mui/citydlg.c:1074
-#: client/gui-win32/citydlg.c:985 data/Freeciv:2172
+#: client/gui-win32/citydlg.c:1074 data/Freeciv:2172
 msgid "Sell It!"
 msgstr "売る"
 
@@ -6993,12 +7043,12 @@ msgstr "売る"
 msgid "Sell (worth %d gold)"
 msgstr "売る(金%d)"
 
-#: client/gui-gtk/citydlg.c:3391 client/gui-win32/citydlg.c:1258
+#: client/gui-gtk/citydlg.c:3391 client/gui-win32/citydlg.c:1337
 #: data/Freeciv:524
 msgid "Rename City"
 msgstr "都市名の変更"
 
-#: client/gui-gtk/citydlg.c:3393 client/gui-win32/citydlg.c:1259
+#: client/gui-gtk/citydlg.c:3393 client/gui-win32/citydlg.c:1338
 #: client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "新しい都市名を何と名づけますか?"
@@ -7155,8 +7205,8 @@ msgstr "変更後:"
 msgid "Change Production Everywhere"
 msgstr "生産物の変更"
 
-#: client/gui-gtk/cityrep.c:1079 client/gui-win32/citydlg.c:780
-#: client/gui-win32/citydlg.c:1104 client/gui-win32/cityrep.c:756
+#: client/gui-gtk/cityrep.c:1079 client/gui-win32/citydlg.c:871
+#: client/gui-win32/citydlg.c:1193 client/gui-win32/cityrep.c:756
 #: client/gui-win32/cityrep.c:890 data/Freeciv:1381 data/Freeciv:1583
 #: data/Freeciv:1737 data/Freeciv:2026 data/Freeciv:2974
 msgid "Change"
@@ -7166,16 +7216,16 @@ msgstr "変更"
 #: client/gui-gtk/dialogs.c:1542 client/gui-gtk/finddlg.c:108
 #: client/gui-gtk/gamedlgs.c:315 client/gui-gtk/inputdlg.c:106
 #: client/gui-gtk/messagedlg.c:147 client/gui-gtk/wldlg.c:488
-#: client/gui-win32/citydlg.c:1106 client/gui-win32/citydlg.c:2054
-#: client/gui-win32/cityrep.c:764 client/gui-win32/connectdlg.c:1169
-#: client/gui-win32/dialogs.c:1749 client/gui-win32/dialogs.c:1954
-#: client/gui-win32/finddlg.c:126 client/gui-win32/gotodlg.c:167
-#: client/gui-win32/inputdlg.c:129 client/gui-win32/messagedlg.c:138
-#: client/gui-win32/ratesdlg.c:333 client/gui-xaw/inputdlg.c:109
-#: data/Freeciv:1096 data/Freeciv:1151 data/Freeciv:1193 data/Freeciv:1213
-#: data/Freeciv:1243 data/Freeciv:1274 data/Freeciv:1352 data/Freeciv:1500
-#: data/Freeciv:1752 data/Freeciv:2032 data/Freeciv:2109 data/Freeciv:2226
-#: data/Freeciv:2261 data/Freeciv:2370 data/Freeciv:2438 data/Freeciv:2448
+#: client/gui-win32/citydlg.c:1195 client/gui-win32/cityrep.c:764
+#: client/gui-win32/connectdlg.c:1169 client/gui-win32/dialogs.c:1749
+#: client/gui-win32/dialogs.c:1954 client/gui-win32/finddlg.c:126
+#: client/gui-win32/gotodlg.c:167 client/gui-win32/inputdlg.c:129
+#: client/gui-win32/messagedlg.c:138 client/gui-win32/ratesdlg.c:333
+#: client/gui-xaw/inputdlg.c:109 data/Freeciv:1096 data/Freeciv:1151
+#: data/Freeciv:1193 data/Freeciv:1213 data/Freeciv:1243 data/Freeciv:1274
+#: data/Freeciv:1352 data/Freeciv:1500 data/Freeciv:1752 data/Freeciv:2032
+#: data/Freeciv:2109 data/Freeciv:2226 data/Freeciv:2261 data/Freeciv:2370
+#: data/Freeciv:2438 data/Freeciv:2448
 msgid "Cancel"
 msgstr "取り消し"
 
@@ -7183,7 +7233,7 @@ msgstr "取り消し"
 #: client/gui-win32/cityrep.c:378 client/gui-xaw/cityrep.c:420
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr ""
+msgstr "Game: %sには金%dかかりますが、金%dしか持っていません。"
 
 #: client/gui-gtk/cityrep.c:1358 data/Freeciv:1666
 msgid "Configure Cities Report"
@@ -7201,7 +7251,7 @@ msgstr "列に表示するもの"
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:222
 #: client/gui-gtk/repodlgs.c:598 client/gui-gtk/repodlgs.c:831
 #: client/gui-gtk/spaceshipdlg.c:207 client/gui-gtk/wldlg.c:202
-#: client/gui-win32/citydlg.c:813 client/gui-win32/cityrep.c:134
+#: client/gui-win32/citydlg.c:905 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:886 client/gui-win32/dialogs.c:179
 #: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:667
 #: client/gui-win32/dialogs.c:1274 client/gui-win32/dialogs.c:1486
@@ -7278,7 +7328,7 @@ msgstr "(サンプルのプリセットもあります。)"
 
 #: client/gui-gtk/cma_fe.c:391
 msgid "see README.cma."
-msgstr ""
+msgstr " "
 
 #: client/gui-gtk/cma_fe.c:465
 msgid "new preset"
@@ -7421,11 +7471,13 @@ msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"部隊に金%dの賄賂を贈りますか?\n"
+"現在の資金は%dです。"
 
 #: client/gui-gtk/dialogs.c:404 client/gui-mui/dialogs.c:228
 #: client/gui-win32/dialogs.c:1361 data/Freeciv:2352 data/Freeciv:2365
 msgid "Bribe Enemy Unit"
-msgstr ""
+msgstr "敵部隊に賄賂を贈る"
 
 #: client/gui-gtk/dialogs.c:409 client/gui-mui/dialogs.c:234
 #: client/gui-win32/dialogs.c:1367 client/gui-xaw/dialogs.c:443
@@ -7434,18 +7486,20 @@ msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"部隊に金%dを贈っています。\n"
+"現在の資金は%dです。"
 
 #: client/gui-gtk/dialogs.c:412 client/gui-gtk/dialogs.c:993
 #: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:522
 #: client/gui-win32/dialogs.c:1371 client/gui-win32/dialogs.c:1568
 #: data/Freeciv:2387
 msgid "Traitors Demand Too Much!"
-msgstr ""
+msgstr "謀反人は多くを要求する!"
 
 #: client/gui-gtk/dialogs.c:680 client/gui-mui/dialogs.c:333
 #: client/gui-win32/dialogs.c:1271 data/Freeciv:2283
 msgid "Select Advance to Steal"
-msgstr ""
+msgstr "盗む科学の選択"
 
 #: client/gui-gtk/dialogs.c:687 client/gui-mui/dialogs.c:329
 #: client/gui-win32/dialogs.c:1263 data/Freeciv:2218 data/Freeciv:2251
@@ -7468,7 +7522,7 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:753 client/gui-win32/dialogs.c:1175
 #: client/gui-xaw/dialogs.c:760
 msgid "NONE"
-msgstr ""
+msgstr "なし"
 
 #: client/gui-gtk/dialogs.c:779 client/gui-mui/dialogs.c:430
 #: client/gui-win32/dialogs.c:1483 data/Freeciv:2325
@@ -7709,10 +7763,10 @@ msgstr "都市スタイルの選択"
 
 #: client/gui-gtk/dialogs.c:2026 client/gui-gtk/gamedlgs.c:306
 #: client/gui-gtk/inputdlg.c:100 client/gui-gtk/messagedlg.c:139
-#: client/gui-gtk/wldlg.c:482 client/gui-win32/citydlg.c:2053
-#: client/gui-win32/dialogs.c:504 client/gui-win32/messagedlg.c:137
-#: client/gui-win32/ratesdlg.c:332 client/gui-xaw/inputdlg.c:102
-#: data/Freeciv:1241 data/Freeciv:1272 data/Freeciv:1349 data/Freeciv:1497
+#: client/gui-gtk/wldlg.c:482 client/gui-win32/dialogs.c:504
+#: client/gui-win32/messagedlg.c:137 client/gui-win32/ratesdlg.c:332
+#: client/gui-xaw/inputdlg.c:102 data/Freeciv:1241 data/Freeciv:1272
+#: data/Freeciv:1349 data/Freeciv:1497
 msgid "Ok"
 msgstr "了解"
 
@@ -7745,38 +7799,38 @@ msgstr ""
 #: client/gui-gtk/diplodlg.c:286 client/gui-mui/diplodlg.c:471
 #: data/Freeciv:227
 msgid "Diplomacy meeting"
-msgstr ""
+msgstr "外交会合"
 
 #: client/gui-gtk/diplodlg.c:295 client/gui-gtk/diplodlg.c:303
 #: client/gui-mui/diplodlg.c:638 client/gui-mui/diplodlg.c:639
 #: client/gui-xaw/diplodlg.c:344 client/gui-xaw/diplodlg.c:352
 #, c-format
 msgid "The %s offerings"
-msgstr ""
+msgstr "%s提供"
 
 #: client/gui-gtk/diplodlg.c:316 client/gui-gtk/diplodlg.c:334
 #: client/gui-xaw/diplodlg.c:371 client/gui-xaw/diplodlg.c:389
 msgid "World-map"
-msgstr ""
+msgstr "世界地図"
 
 #: client/gui-gtk/diplodlg.c:321 client/gui-gtk/diplodlg.c:339
 #: client/gui-xaw/diplodlg.c:375 client/gui-xaw/diplodlg.c:393
 msgid "Sea-map"
-msgstr ""
+msgstr "海洋地図"
 
 #: client/gui-gtk/diplodlg.c:327 client/gui-gtk/diplodlg.c:345
 #: client/gui-mui/diplodlg.c:478 client/gui-mui/diplodlg.c:513
 #: client/gui-mui/diplodlg.c:540 client/gui-mui/diplodlg.c:558
 #: data/Freeciv:332 data/Freeciv:341
 msgid "Maps"
-msgstr ""
+msgstr "地図"
 
 #: client/gui-gtk/diplodlg.c:353 client/gui-gtk/diplodlg.c:365
 #: client/gui-mui/diplodlg.c:479 client/gui-mui/diplodlg.c:514
 #: client/gui-mui/diplodlg.c:576 client/gui-mui/diplodlg.c:586
 #: data/Freeciv:350 data/Freeciv:359
 msgid "Advances"
-msgstr ""
+msgstr "科学"
 
 #: client/gui-gtk/diplodlg.c:408 client/gui-gtk/diplodlg.c:415
 #: client/gui-mui/diplodlg.c:640 client/gui-mui/diplodlg.c:641
@@ -7788,7 +7842,7 @@ msgstr "金(最大 %d)"
 #: client/gui-gtk/diplodlg.c:423 client/gui-gtk/diplodlg.c:432
 #: client/gui-mui/diplodlg.c:485 client/gui-mui/diplodlg.c:520
 msgid "Give shared vision"
-msgstr ""
+msgstr "視界の共有を与える"
 
 #: client/gui-gtk/diplodlg.c:462 client/gui-mui/diplodlg.c:486
 #: client/gui-mui/diplodlg.c:617 data/Freeciv:450
@@ -7810,20 +7864,20 @@ msgstr ""
 #: client/gui-xaw/diplodlg.c:566 client/gui-xaw/diplodlg.c:577
 #, c-format
 msgid "%s view:"
-msgstr ""
+msgstr "%sの視点:"
 
 #: client/gui-gtk/diplodlg.c:519 client/gui-mui/diplodlg.c:507
 #: data/Freeciv:324
 msgid "Erase clause"
-msgstr ""
+msgstr "条項の取り消し"
 
 #: client/gui-gtk/diplodlg.c:523 data/Freeciv:459
 msgid "Accept treaty"
-msgstr ""
+msgstr "条約調印"
 
 #: client/gui-gtk/diplodlg.c:528 data/Freeciv:468
 msgid "Cancel meeting"
-msgstr ""
+msgstr "会合中止"
 
 #: client/gui-gtk/diplodlg.c:903 client/gui-mui/diplodlg.c:373
 #: client/gui-xaw/diplodlg.c:995
@@ -7913,25 +7967,25 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk/happiness.c:101 client/gui-mui/citydlg.c:1436
-#: client/gui-mui/citydlg.c:1547 client/gui-xaw/menu.c:225
-#: data/helpdata.txt:1265
+#: client/gui-mui/citydlg.c:1547 client/gui-win32/citydlg.c:783
+#: client/gui-xaw/menu.c:225 data/helpdata.txt:1265
 msgid "Happiness"
 msgstr "幸福"
 
 #: client/gui-gtk/happiness.c:249 client/gui-mui/citydlg.c:2247
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr ""
+msgstr "都市: 合計%1$d, %3$dのしきい値を越える%2$d都市。\n"
 
 #: client/gui-gtk/happiness.c:253 client/gui-mui/citydlg.c:2251
 #, c-format
 msgid "%d content before penalty with "
-msgstr ""
+msgstr "%d普通市民が"
 
 #: client/gui-gtk/happiness.c:255 client/gui-mui/citydlg.c:2253
 #, c-format
 msgid "%d additional unhappy citizens."
-msgstr ""
+msgstr "%d追加不幸市民のペナルティを被る前にいます。"
 
 #: client/gui-gtk/happiness.c:271 client/gui-mui/citydlg.c:2259
 #, c-format
@@ -8000,7 +8054,7 @@ msgstr "部隊につき%d)"
 
 #: client/gui-gtk/happiness.c:371 client/gui-mui/citydlg.c:2343
 msgid "Military units in the field may cause unhappiness. "
-msgstr ""
+msgstr "戦場の軍事部隊は不幸の原因になるかもしれません。"
 
 #: client/gui-gtk/happiness.c:388 client/gui-mui/citydlg.c:2353
 msgid "Wonders: "
@@ -8179,7 +8233,7 @@ msgstr " (共同 "
 #: client/gui-gtk/helpdlg.c:883 client/gui-gtk/helpdlg.c:898
 #: client/gui-win32/helpdlg.c:788 client/gui-win32/helpdlg.c:801
 msgid "?techhelp:)."
-msgstr ""
+msgstr ")"
 
 #: client/gui-gtk/helpdlg.c:931 client/gui-gtk/helpdlg.c:946
 #: client/gui-win32/helpdlg.c:527 client/gui-win32/helpdlg.c:542
@@ -8338,7 +8392,7 @@ msgstr "インフラ: "
 
 #: client/gui-gtk/mapctrl.c:165 client/gui-win32/mapctrl.c:148
 msgid "Activity: "
-msgstr ""
+msgstr "活動: "
 
 #: client/gui-gtk/mapctrl.c:182 client/gui-mui/mapclass.c:146
 #: client/gui-win32/mapctrl.c:163 client/gui-xaw/mapctrl.c:155
@@ -8677,8 +8731,7 @@ msgid "_Wait"
 msgstr "待機(_W)"
 
 #: client/gui-gtk/menu.c:700 client/gui-mui/gui_main.c:305
-#: client/gui-win32/citydlg.c:1312 client/gui-win32/menu.c:350
-#: client/gui-xaw/menu.c:191
+#: client/gui-win32/menu.c:350 client/gui-xaw/menu.c:191
 msgid "Done"
 msgstr "終了"
 
@@ -8744,7 +8797,7 @@ msgstr "宇宙船(_P)"
 #: client/gui-gtk/menu.c:772 client/gui-gtk/menu.c:774
 #: client/gui-gtk/repodlgs.c:187 client/gui-gtk/wldlg.c:498
 #: client/gui-mui/gui_main.c:318 client/gui-mui/helpdlg.c:284
-#: client/gui-mui/repodlgs.c:314 client/gui-win32/citydlg.c:1108
+#: client/gui-mui/repodlgs.c:314 client/gui-win32/citydlg.c:1197
 #: client/gui-win32/repodlgs.c:290 data/Freeciv:1970 data/Freeciv:2038
 #: data/Freeciv:2121 data/Freeciv:2127
 msgid "Help"
@@ -8984,7 +9037,7 @@ msgstr "技術(_I)"
 
 #: client/gui-gtk/plrdlg.c:189 client/gui-mui/plrdlg.c:348
 msgid "_Meet"
-msgstr ""
+msgstr "会合(_M)"
 
 #: client/gui-gtk/plrdlg.c:195 client/gui-mui/plrdlg.c:349
 msgid "_Cancel Treaty"
@@ -8992,7 +9045,7 @@ msgstr "条約取り消し(_C)"
 
 #: client/gui-gtk/plrdlg.c:201 client/gui-mui/plrdlg.c:350
 msgid "_Withdraw vision"
-msgstr ""
+msgstr "視野撤回(_W)"
 
 #: client/gui-gtk/plrdlg.c:207 client/gui-mui/plrdlg.c:351
 msgid "_Spaceship"
@@ -9237,7 +9290,7 @@ msgid "empty worklist"
 msgstr "空の作業リスト"
 
 #: client/gui-gtk/wldlg.c:1353 client/gui-mui/citydlg.c:1435
-#: client/gui-win32/citydlg.c:772 data/Freeciv:2976
+#: client/gui-win32/citydlg.c:782 data/Freeciv:2976
 msgid "Worklist"
 msgstr "作業リスト"
 
@@ -9281,16 +9334,16 @@ msgstr "シールド:"
 msgid "Gold:"
 msgstr "金:"
 
-#: client/gui-mui/citydlg.c:1433
+#: client/gui-mui/citydlg.c:1433 client/gui-win32/citydlg.c:782
 msgid "City Overview"
 msgstr "概観"
 
-#: client/gui-mui/citydlg.c:1438 client/gui-win32/citydlg.c:1310
+#: client/gui-mui/citydlg.c:1438 client/gui-win32/citydlg.c:784
 #: data/Freeciv:2164
 msgid "Trade Routes"
 msgstr "交易路"
 
-#: client/gui-mui/citydlg.c:1439
+#: client/gui-mui/citydlg.c:1439 client/gui-win32/citydlg.c:785
 msgid "Misc. Settings"
 msgstr "その他"
 
@@ -9532,29 +9585,28 @@ msgid "_City Style"
 msgstr "都市スタイル(_C)"
 
 #: client/gui-mui/diplodlg.c:265
-#, fuzzy
 msgid "No technology"
-msgstr "科学"
+msgstr "技術なし"
 
 #: client/gui-mui/diplodlg.c:295
 msgid "No city"
-msgstr ""
+msgstr "都市なし"
 
 #: client/gui-mui/diplodlg.c:525
 msgid "_Accept treaty"
-msgstr ""
+msgstr "条約調印(_A)"
 
 #: client/gui-mui/diplodlg.c:526
 msgid "_Cancel meeting"
-msgstr ""
+msgstr "会合中止(_C)"
 
 #: client/gui-mui/diplodlg.c:547 client/gui-mui/diplodlg.c:565
 msgid "World-Map"
-msgstr ""
+msgstr "世界地図"
 
 #: client/gui-mui/diplodlg.c:551 client/gui-mui/diplodlg.c:569
 msgid "Sea-Map"
-msgstr ""
+msgstr "海洋地図"
 
 #: client/gui-mui/diplodlg.c:645
 #, c-format
@@ -9992,9 +10044,11 @@ msgid ""
 "%s\n"
 "(no research)"
 msgstr ""
+"%s\n"
+"(停止)"
 
 #: client/gui-mui/repodlgs.c:346
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "(%d turn/advance)"
@@ -10088,7 +10142,7 @@ msgstr "削除(_R)"
 #: client/gui-mui/worklistclass.c:180
 msgid "entry"
 msgid_plural "entries"
-msgstr[0] ""
+msgstr[0] "登録"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:206
@@ -10115,17 +10169,17 @@ msgstr "都市の作業リスト"
 msgid "Name of Worklist"
 msgstr "作業リストの名前"
 
-#: client/gui-win32/citydlg.c:339
+#: client/gui-win32/citydlg.c:377
 #, c-format
 msgid "Pollution:   %3d"
 msgstr "公害:   %3d"
 
-#: client/gui-win32/citydlg.c:351
+#: client/gui-win32/citydlg.c:390
 #, c-format
 msgid "Granary: %3d/%-3d"
 msgstr "穀物庫: %3d/%-3d"
 
-#: client/gui-win32/citydlg.c:366
+#: client/gui-win32/citydlg.c:405
 #, c-format
 msgid ""
 "Food:    %2d (%+2d)\n"
@@ -10136,7 +10190,7 @@ msgstr ""
 "生産:    %2d (%+2d)\n"
 "交易:    %2d (%+2d)"
 
-#: client/gui-win32/citydlg.c:383
+#: client/gui-win32/citydlg.c:422
 #, c-format
 msgid ""
 "Gold:    %2d (%+2d)\n"
@@ -10147,66 +10201,38 @@ msgstr ""
 "贅沢:    %2d\n"
 "科学:    %2d"
 
-#: client/gui-win32/citydlg.c:778 client/gui-win32/cityrep.c:889
+#: client/gui-win32/citydlg.c:869 client/gui-win32/cityrep.c:889
 #: data/Freeciv:1575
 msgid "Buy"
 msgstr "買う"
 
-#: client/gui-win32/citydlg.c:821 data/Freeciv:2966
+#: client/gui-win32/citydlg.c:911 data/Freeciv:2966
 msgid "Activate Units"
 msgstr "部隊を起こす"
 
-#: client/gui-win32/citydlg.c:824 data/Freeciv:2968
+#: client/gui-win32/citydlg.c:914 data/Freeciv:2968
 msgid "Unit List"
 msgstr "部隊"
 
-#: client/gui-win32/citydlg.c:827 client/gui-win32/cityrep.c:894
-#: data/Freeciv:1607
-msgid "Configure"
-msgstr "設定"
-
-#: client/gui-win32/citydlg.c:1292 client/gui-win32/citydlg.c:1297
-#: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
-#, c-format
-msgid "%32s: %2d Trade/Year\n"
-msgstr "%32s: %2d 交易/年\n"
-
-#: client/gui-win32/citydlg.c:1304 client/gui-xaw/citydlg.c:1441
-msgid "No trade routes exist.\n"
-msgstr "交易路は存在しません。\n"
-
-#: client/gui-win32/citydlg.c:1306 client/gui-xaw/citydlg.c:1443
-#, c-format
-msgid ""
-"\n"
-"Total trade %d Trade/Year\n"
-msgstr ""
-"\n"
-"合計   %d 交易/年\n"
-
-#: client/gui-win32/citydlg.c:2035
+#: client/gui-win32/citydlg.c:2163
 msgid "Elvises"
 msgstr "太郎"
 
-#: client/gui-win32/citydlg.c:2044
+#: client/gui-win32/citydlg.c:2172
 msgid "Auto-attack vs land units"
 msgstr "地上部隊に対して自動攻撃"
 
-#: client/gui-win32/citydlg.c:2046
+#: client/gui-win32/citydlg.c:2174
 msgid "Auto-attack vs sea units"
 msgstr "海上部隊に対して自動攻撃"
 
-#: client/gui-win32/citydlg.c:2048
+#: client/gui-win32/citydlg.c:2176
 msgid "Auto-attack vs air units"
 msgstr "空軍部隊に対して自動攻撃"
 
-#: client/gui-win32/citydlg.c:2050
+#: client/gui-win32/citydlg.c:2178
 msgid "Auto-attack vs helicopters"
 msgstr "ヘリコプターに対して自動攻撃"
-
-#: client/gui-win32/citydlg.c:2112 data/Freeciv:1449 data/Freeciv:2970
-msgid "City Options"
-msgstr "都市オプション"
 
 #: client/gui-win32/cityrep.c:478
 msgid "Available To Build"
@@ -10231,6 +10257,10 @@ msgstr "全て変更"
 #: client/gui-win32/cityrep.c:893
 msgid "Select"
 msgstr "選択"
+
+#: client/gui-win32/cityrep.c:894 data/Freeciv:1607
+msgid "Configure"
+msgstr "設定"
 
 #: client/gui-win32/connectdlg.c:81
 msgid "Start Game"
@@ -10299,9 +10329,8 @@ msgid "hard"
 msgstr "難しい"
 
 #: client/gui-win32/connectdlg.c:1149
-#, fuzzy
 msgid "Total players (fill with AIs)"
-msgstr "AI で穴埋めするプレイヤーの数"
+msgstr "合計プレイヤー(AI で補填される)"
 
 #: client/gui-win32/connectdlg.c:1168 client/gui-win32/inputdlg.c:128
 msgid "OK"
@@ -10313,7 +10342,7 @@ msgstr "ゲームの開始"
 
 #: client/gui-win32/connectdlg.c:1205
 msgid "What do you wish to to?"
-msgstr ""
+msgstr "何を望みますか?"
 
 #: client/gui-win32/connectdlg.c:1206
 msgid "New Game"
@@ -10370,7 +10399,7 @@ msgstr "技術"
 
 #: client/gui-win32/plrdlg.c:388 data/Freeciv:3135
 msgid "Meet"
-msgstr ""
+msgstr "会合"
 
 #: client/gui-win32/plrdlg.c:389
 msgid "Cancel Treaty"
@@ -10378,17 +10407,18 @@ msgstr "条約取り消し"
 
 #: client/gui-win32/plrdlg.c:390 data/Freeciv:3151
 msgid "Withdraw vision"
-msgstr ""
+msgstr "視野撤回"
 
 #: client/gui-win32/repodlgs.c:121 client/gui-xaw/repodlgs.c:502
-#, fuzzy
 msgid ""
 "\n"
 "(no research)"
-msgstr "研究(_R)"
+msgstr ""
+"\n"
+"(停止)"
 
 #: client/gui-win32/repodlgs.c:124 client/gui-xaw/repodlgs.c:505
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "(%d turn/advance)"
@@ -10446,16 +10476,34 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:300
 msgid "(is empty)"
-msgstr ""
+msgstr "(空)"
 
 #: client/gui-xaw/citydlg.c:302
 msgid "(in prog.)"
-msgstr ""
+msgstr "(進行中)"
 
 #: client/gui-xaw/citydlg.c:1421
 #, c-format
 msgid "These trade routes have been established with %s:\n"
 msgstr "以下の交易路が %s と確立されています。\n"
+
+#: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
+#, c-format
+msgid "%32s: %2d Trade/Year\n"
+msgstr "%32s: %2d 交易/年\n"
+
+#: client/gui-xaw/citydlg.c:1441
+msgid "No trade routes exist.\n"
+msgstr "交易路は存在しません。\n"
+
+#: client/gui-xaw/citydlg.c:1443
+#, c-format
+msgid ""
+"\n"
+"Total trade %d Trade/Year\n"
+msgstr ""
+"\n"
+"合計   %d 交易/年\n"
 
 #: client/gui-xaw/colors.c:83
 msgid "Private colormap ran out of entries -  exiting."
@@ -10472,15 +10520,17 @@ msgstr "XPM ファイルの読み込み失敗: %s"
 
 #: client/gui-xaw/gui_main.c:295
 msgid "No version number in resources."
-msgstr ""
+msgstr "リソースにバージョンがありません。"
 
 #: client/gui-xaw/gui_main.c:296
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr ""
+"恐らくどこかに古い(おそらく V1.0の) Freeciv リソースファイルを持っているはず"
+"です。"
 
 #: client/gui-xaw/gui_main.c:304
 msgid "Game version does not match Resource version."
-msgstr ""
+msgstr "ゲームのバージョンとリソースのバージョンが一致しません。"
 
 #: client/gui-xaw/gui_main.c:305
 #, c-format
@@ -10490,6 +10540,8 @@ msgstr "ゲーム・バージョン: %s - リソース・バージョン: %s"
 #: client/gui-xaw/gui_main.c:307
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
+"古い Freeciv リソースファイルを /usr/lib/X11/app-defaults に持っているかもし"
+"れません"
 
 #: client/gui-xaw/gui_main.c:313
 msgid "Using fallback resources - which is OK"
@@ -10497,28 +10549,28 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:324
 msgid "Only color displays are supported for now..."
-msgstr ""
+msgstr "今はカラーディスプレイのみサポートされています..."
 
 #: client/gui-xaw/gui_main.c:344 client/gui-xaw/gui_main.c:356
 #, c-format
 msgid "Failed loading font: %s"
-msgstr ""
+msgstr "フォントロードに失敗: %s"
 
 #: client/gui-xaw/helpdlg.c:912 client/gui-xaw/helpdlg.c:921
 #: client/gui-xaw/helpdlg.c:928
 #, c-format
 msgid "Allows %s.\n"
-msgstr ""
+msgstr "可能 %s\n"
 
 #: client/gui-xaw/helpdlg.c:915
 #, c-format
 msgid "Obsoletes %s.\n"
-msgstr ""
+msgstr "古い %s\n"
 
 #: client/gui-xaw/helpdlg.c:931 client/gui-xaw/helpdlg.c:935
 #, c-format
 msgid "Allows %s (with %s).\n"
-msgstr ""
+msgstr "可能 %s (共同 %s)\n"
 
 #: client/gui-xaw/mapctrl.c:133
 #, c-format
@@ -10614,18 +10666,18 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:512
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "研究中 %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:237 client/gui-xaw/repodlgs.c:430
 #: client/gui-xaw/repodlgs.c:520
 #, c-format
 msgid "Goal: %s (%d steps)"
-msgstr ""
+msgstr "目標: %s (%dステップ)"
 
 #: client/gui-xaw/repodlgs.c:1130
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
-msgstr ""
+msgstr "合計:                       %9d%9d%9d%9d"
 
 #: data/Freeciv:116
 msgid "Metaserver List"
@@ -10641,15 +10693,15 @@ msgstr ""
 
 #: data/Freeciv:432 data/Freeciv:441
 msgid "Shared vision"
-msgstr ""
+msgstr "共有視野"
 
 #: data/Freeciv:531
 msgid "Select Unit(s)"
-msgstr ""
+msgstr "部隊選択"
 
 #: data/Freeciv:645 data/Freeciv:724
 msgid "Variant:"
-msgstr ""
+msgstr "バリアント:"
 
 #: data/Freeciv:905
 msgid "Movement/Defense:"
@@ -10731,6 +10783,10 @@ msgstr "税、贅沢、科学の割合:"
 #: data/Freeciv:1389
 msgid "Help:"
 msgstr "ヘルプ:"
+
+#: data/Freeciv:1449 data/Freeciv:2970
+msgid "City Options"
+msgstr "都市オプション"
 
 #: data/Freeciv:1459
 msgid "Make new citizens into:     "
@@ -10838,15 +10894,15 @@ msgstr ""
 
 #: data/Freeciv:2425
 msgid "Your New Government"
-msgstr ""
+msgstr "新しい政治体制"
 
 #: data/Freeciv:2955
 msgid " Sell "
-msgstr ""
+msgstr " 売る "
 
 #: data/Freeciv:2972
 msgid " Buy "
-msgstr "買う"
+msgstr " 買う "
 
 #: data/Freeciv:2978
 msgid "Supported units:"
@@ -10874,11 +10930,11 @@ msgstr ""
 
 #: data/Freeciv:3056
 msgid "Male  "
-msgstr ""
+msgstr "男"
 
 #: data/Freeciv:3063
 msgid "Select city style:"
-msgstr ""
+msgstr "都市スタイルの選択:"
 
 #: data/Freeciv:3074
 msgid " Ok "
@@ -11946,14 +12002,14 @@ msgstr ""
 "これらの準備の後、両方の部隊がまだ生きていたら (即ち体力が 0 より大きければ) "
 "戦闘が行なわれます。 各ラウンド、1〜「攻撃側と防御側の強さの合計」までの間の"
 "乱数が生成されます。 この数が防御側の強さより大きければ、防御側は攻撃側の火力"
-"だけ体力を失ないます。そうでなければ、攻撃側は防御側の火力だけ体力を失ないま"
-"す(防御側が都市内にいる船の時は例外です。この場合、攻撃側は体力1を失ないま"
-"す。停泊している船は事実上攻撃できません。)。最初に体力 0 か負になった部隊が"
-"消滅します。\n"
-"\n"
-"(防御側が都市内にいる船の時は例外です。この場合、攻撃側はヒットポイン\n"
-"ト1 を失ないます。停泊している船は事実上攻撃できません。)。最初にヒッ\n"
-"トポイントが 0 か負になったユニットが消滅します。"
+"だけ体力を失ないます(攻撃側が地上部隊を攻撃する船なら、防御側は体力 1 だけ失"
+"ないます)。\n"
+"そうでなければ、攻撃側は防御側の火力だけ体力を失ないます\n"
+"(防御側が都市内にいる船の時を除きます。停泊している船は事実上攻撃できませ"
+"ん。\n"
+"また、攻撃側が地上部隊を攻撃する船の時も除きます。これらの場合、攻撃側は体力 "
+"1 を失ないます。)\n"
+"最初に体力 0 か負になった部隊が消滅します。"
 
 #: data/helpdata.txt:958
 #, no-c-format
@@ -12268,9 +12324,9 @@ msgid ""
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
 msgstr ""
-" - 鉄道はその土地の保護資源を 50% 増やします。(サーバのオプションによっては、"
-"食料と交易資源の両方を増やすかもしれません。また保護資源を 50%以上増やすかも"
-"しれません。)"
+" - 鉄道はその土地のシールド資源を 50% 増やします。(サーバのオプションによって"
+"は、食料や交易資源も増やすかもしれません。また増えるシールド資源は 50%でない"
+"かもしれません。)"
 
 #: data/helpdata.txt:1157
 msgid ""
@@ -12658,12 +12714,12 @@ msgstr ""
 "す。"
 
 #: data/civ1/buildings.ruleset:28 data/civ2/buildings.ruleset:28
-#: data/default/buildings.ruleset:216
+#: data/default/buildings.ruleset:219
 msgid "Airport"
 msgstr "空港"
 
-#: data/civ1/buildings.ruleset:47 data/civ2/buildings.ruleset:47
-#: data/default/buildings.ruleset:235
+#: data/civ1/buildings.ruleset:49 data/civ2/buildings.ruleset:49
+#: data/default/buildings.ruleset:240
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
@@ -12681,32 +12737,32 @@ msgstr ""
 "ます。部隊を空輸するには、その部隊に幾らか移動ポイントが残っていなければなり"
 "ません。"
 
-#: data/civ1/buildings.ruleset:59 data/civ2/buildings.ruleset:59
-#: data/default/buildings.ruleset:247
+#: data/civ1/buildings.ruleset:61 data/civ2/buildings.ruleset:61
+#: data/default/buildings.ruleset:252
 msgid "Aqueduct"
 msgstr "水道"
 
-#: data/civ1/buildings.ruleset:84 data/civ2/buildings.ruleset:85
-#: data/default/buildings.ruleset:273
+#: data/civ1/buildings.ruleset:88 data/civ2/buildings.ruleset:89
+#: data/default/buildings.ruleset:280
 msgid "Bank"
 msgstr "銀行"
 
-#: data/civ1/buildings.ruleset:103 data/civ2/buildings.ruleset:104
-#: data/default/buildings.ruleset:292
+#: data/civ1/buildings.ruleset:109 data/civ2/buildings.ruleset:110
+#: data/default/buildings.ruleset:301
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
 msgstr "銀行は市場と連携して、都市内の贅沢と税の生産を 100% 増やします。"
 
-#: data/civ1/buildings.ruleset:109 data/civ2/buildings.ruleset:110
-#: data/default/buildings.ruleset:298
+#: data/civ1/buildings.ruleset:115 data/civ2/buildings.ruleset:116
+#: data/default/buildings.ruleset:307
 msgid "Barracks"
 msgstr "兵舍"
 
-#: data/civ2/buildings.ruleset:128 data/civ2/buildings.ruleset:155
-#: data/civ2/buildings.ruleset:182 data/default/buildings.ruleset:316
-#: data/default/buildings.ruleset:343 data/default/buildings.ruleset:370
+#: data/civ2/buildings.ruleset:136 data/civ2/buildings.ruleset:165
+#: data/civ2/buildings.ruleset:194 data/default/buildings.ruleset:327
+#: data/default/buildings.ruleset:356 data/default/buildings.ruleset:385
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -12717,22 +12773,22 @@ msgstr ""
 "部隊は、攻撃力と防御力が50%増えます。また傷ついた地上部隊を兵舍のある都市に移"
 "動させずに休ませておくと、一ターンで完治します。"
 
-#: data/civ1/buildings.ruleset:145 data/civ2/buildings.ruleset:137
-#: data/default/buildings.ruleset:325
+#: data/civ1/buildings.ruleset:153 data/civ2/buildings.ruleset:145
+#: data/default/buildings.ruleset:336
 msgid "Barracks II"
 msgstr "兵舍(改良)"
 
-#: data/civ1/buildings.ruleset:180 data/civ2/buildings.ruleset:164
-#: data/default/buildings.ruleset:352
+#: data/civ1/buildings.ruleset:190 data/civ2/buildings.ruleset:174
+#: data/default/buildings.ruleset:365
 msgid "Barracks III"
 msgstr "兵舍(新改良)"
 
-#: data/civ1/buildings.ruleset:215 data/civ2/buildings.ruleset:191
-#: data/default/buildings.ruleset:379
+#: data/civ1/buildings.ruleset:227 data/civ2/buildings.ruleset:203
+#: data/default/buildings.ruleset:394
 msgid "Cathedral"
 msgstr "大聖堂"
 
-#: data/civ2/buildings.ruleset:210 data/default/buildings.ruleset:398
+#: data/civ2/buildings.ruleset:224 data/default/buildings.ruleset:415
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
@@ -12744,12 +12800,12 @@ msgstr ""
 "により大聖堂の効果が増し、不幸市民1をさらに満足させます。共産主義の発見により"
 "大聖堂の効果は衰え、不幸市民1が不満に戻ります。"
 
-#: data/civ1/buildings.ruleset:238 data/civ2/buildings.ruleset:220
-#: data/default/buildings.ruleset:408
+#: data/civ1/buildings.ruleset:252 data/civ2/buildings.ruleset:234
+#: data/default/buildings.ruleset:425
 msgid "City Walls"
 msgstr "城壁"
 
-#: data/civ2/buildings.ruleset:240 data/default/buildings.ruleset:428
+#: data/civ2/buildings.ruleset:256 data/default/buildings.ruleset:447
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground and helicopter units.  They "
@@ -12762,24 +12818,24 @@ msgstr ""
 "りません。城壁は、防御部隊が地上部隊によって殺された時起こる人工の減少を避け"
 "ます。"
 
-#: data/civ1/buildings.ruleset:268 data/civ2/buildings.ruleset:249
-#: data/default/buildings.ruleset:437
+#: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:265
+#: data/default/buildings.ruleset:456
 msgid "Coastal Defense"
 msgstr "沿岸防衛"
 
-#: data/civ1/buildings.ruleset:285 data/civ2/buildings.ruleset:266
-#: data/default/buildings.ruleset:454
+#: data/civ1/buildings.ruleset:303 data/civ2/buildings.ruleset:284
+#: data/default/buildings.ruleset:475
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr "敵船からの砲撃があった時、都市内にいる部隊の防御力を二倍にします。"
 
-#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:272
-#: data/default/buildings.ruleset:460
+#: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:290
+#: data/default/buildings.ruleset:481
 msgid "Colosseum"
 msgstr "コロセウム"
 
-#: data/default/buildings.ruleset:478
+#: data/default/buildings.ruleset:501
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
@@ -12787,13 +12843,13 @@ msgstr ""
 "市民を楽しませ、不幸市民3を収容します。(電気学の発見の後は不幸市民4を収容しま"
 "す。)"
 
-#: data/civ1/buildings.ruleset:313 data/civ2/buildings.ruleset:296
-#: data/default/buildings.ruleset:486
+#: data/civ1/buildings.ruleset:333 data/civ2/buildings.ruleset:316
+#: data/default/buildings.ruleset:509
 msgid "Courthouse"
 msgstr "裁判所"
 
-#: data/civ1/buildings.ruleset:332 data/civ2/buildings.ruleset:315
-#: data/default/buildings.ruleset:505
+#: data/civ1/buildings.ruleset:354 data/civ2/buildings.ruleset:337
+#: data/default/buildings.ruleset:530
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
@@ -12802,13 +12858,13 @@ msgstr ""
 "都市での汚職を 50% 減らします。反乱コストを計算するために使われる首都からの距"
 "離による影響を半減します。民主制下では、不幸市民 1を収容します。"
 
-#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:323
-#: data/default/buildings.ruleset:513
+#: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
+#: data/default/buildings.ruleset:538
 msgid "Factory"
 msgstr "工場"
 
-#: data/civ1/buildings.ruleset:357 data/civ2/buildings.ruleset:340
-#: data/default/buildings.ruleset:530
+#: data/civ1/buildings.ruleset:381 data/civ2/buildings.ruleset:364
+#: data/default/buildings.ruleset:557
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
@@ -12816,13 +12872,13 @@ msgstr ""
 "都市のシールド生産物を 50% 増やします。同時に公害を著しく増やすかもしれませ"
 "ん。"
 
-#: data/civ1/buildings.ruleset:363 data/civ2/buildings.ruleset:346
-#: data/default/buildings.ruleset:536
+#: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370
+#: data/default/buildings.ruleset:563
 msgid "Granary"
 msgstr "穀物庫"
 
-#: data/civ1/buildings.ruleset:380 data/civ2/buildings.ruleset:363
-#: data/default/buildings.ruleset:553
+#: data/civ1/buildings.ruleset:406 data/civ2/buildings.ruleset:389
+#: data/default/buildings.ruleset:582
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -12831,13 +12887,13 @@ msgstr ""
 "穀物庫を持つ都市の大きさが変わると、蓄えられている食料の量が全体の半分にセッ"
 "トされます。都市を大きくしやすくし、飢饉を避けやすくなります。"
 
-#: data/civ1/buildings.ruleset:390 data/civ2/buildings.ruleset:373
-#: data/default/buildings.ruleset:563
+#: data/civ1/buildings.ruleset:416 data/civ2/buildings.ruleset:399
+#: data/default/buildings.ruleset:592
 msgid "Harbour"
 msgstr "港"
 
-#: data/civ1/buildings.ruleset:407 data/civ2/buildings.ruleset:390
-#: data/default/buildings.ruleset:580
+#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:418
+#: data/default/buildings.ruleset:611
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
@@ -12845,12 +12901,12 @@ msgstr ""
 "海上の全区画で食料資源を1多く得ます。沿岸都市が大きくなるためにはこの施設が必"
 "要です。"
 
-#: data/civ1/buildings.ruleset:413 data/civ2/buildings.ruleset:396
-#: data/default/buildings.ruleset:586
+#: data/civ1/buildings.ruleset:441 data/civ2/buildings.ruleset:424
+#: data/default/buildings.ruleset:617
 msgid "Hydro Plant"
 msgstr "水力発電所"
 
-#: data/default/buildings.ruleset:606
+#: data/default/buildings.ruleset:639
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -12871,35 +12927,35 @@ msgstr ""
 "建てることができます。水力発電所は、都市が山や川の隣り(または上)にある時だけ"
 "建てることができます。"
 
-#: data/civ1/buildings.ruleset:446 data/civ2/buildings.ruleset:431
-#: data/default/buildings.ruleset:625
+#: data/civ1/buildings.ruleset:476 data/civ2/buildings.ruleset:461
+#: data/default/buildings.ruleset:658
 msgid "Library"
 msgstr "図書館"
 
-#: data/civ1/buildings.ruleset:464 data/civ2/buildings.ruleset:449
-#: data/default/buildings.ruleset:643
+#: data/civ1/buildings.ruleset:496 data/civ2/buildings.ruleset:481
+#: data/default/buildings.ruleset:678
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "都市の研究成果を 50% 増やします。"
 
-#: data/civ1/buildings.ruleset:469 data/civ2/buildings.ruleset:454
-#: data/default/buildings.ruleset:648
+#: data/civ1/buildings.ruleset:501 data/civ2/buildings.ruleset:486
+#: data/default/buildings.ruleset:683
 msgid "Marketplace"
 msgstr "市場"
 
-#: data/civ1/buildings.ruleset:488 data/civ2/buildings.ruleset:473
-#: data/default/buildings.ruleset:667
+#: data/civ1/buildings.ruleset:522 data/civ2/buildings.ruleset:507
+#: data/default/buildings.ruleset:704
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "都市の税と贅沢品の生産を 50% 増やします。"
 
-#: data/civ1/buildings.ruleset:493 data/civ2/buildings.ruleset:478
-#: data/default/buildings.ruleset:672
+#: data/civ1/buildings.ruleset:527 data/civ2/buildings.ruleset:512
+#: data/default/buildings.ruleset:709
 msgid "Mass Transit"
 msgstr "大量輸送"
 
-#: data/civ1/buildings.ruleset:510 data/civ2/buildings.ruleset:495
-#: data/default/buildings.ruleset:689
+#: data/civ1/buildings.ruleset:546 data/civ2/buildings.ruleset:531
+#: data/default/buildings.ruleset:728
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
@@ -12907,25 +12963,25 @@ msgstr ""
 "人工の増加による公害を中和します。この都市での人工の増加は、公害にまったく影"
 "響を与えません。"
 
-#: data/civ1/buildings.ruleset:517 data/civ2/buildings.ruleset:502
-#: data/default/buildings.ruleset:696
+#: data/civ1/buildings.ruleset:553 data/civ2/buildings.ruleset:538
+#: data/default/buildings.ruleset:735
 msgid "Mfg. Plant"
 msgstr "製造工場"
 
-#: data/civ1/buildings.ruleset:535 data/civ2/buildings.ruleset:520
-#: data/default/buildings.ruleset:714
+#: data/civ1/buildings.ruleset:573 data/civ2/buildings.ruleset:558
+#: data/default/buildings.ruleset:755
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
 msgstr "工場と連携して都市のシールド生産物製作物を 100% 増やします。"
 
-#: data/civ1/buildings.ruleset:541 data/civ2/buildings.ruleset:526
-#: data/default/buildings.ruleset:720
+#: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:564
+#: data/default/buildings.ruleset:761
 msgid "Nuclear Plant"
 msgstr "原子力発電所"
 
-#: data/default/buildings.ruleset:740
+#: data/default/buildings.ruleset:783
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -12943,13 +12999,13 @@ msgstr ""
 "都市には水力発電所、火力発電所、原子力発電所のいづれか一つだけ建てることがで"
 "きます。"
 
-#: data/civ1/buildings.ruleset:576 data/civ2/buildings.ruleset:563
-#: data/default/buildings.ruleset:760
+#: data/civ1/buildings.ruleset:616 data/civ2/buildings.ruleset:603
+#: data/default/buildings.ruleset:803
 msgid "Offshore Platform"
 msgstr "海上プラットフォーム"
 
-#: data/civ1/buildings.ruleset:593 data/civ2/buildings.ruleset:580
-#: data/default/buildings.ruleset:777
+#: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:622
+#: data/default/buildings.ruleset:822
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
@@ -12957,13 +13013,13 @@ msgstr ""
 "都市の海地形でシールド資源を1増やします。これを建てるには、海岸に都市がなけれ"
 "ばなりません。"
 
-#: data/civ1/buildings.ruleset:599 data/civ2/buildings.ruleset:586
-#: data/default/buildings.ruleset:783
+#: data/civ1/buildings.ruleset:641 data/civ2/buildings.ruleset:628
+#: data/default/buildings.ruleset:828
 msgid "Palace"
 msgstr "宮殿"
 
-#: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:605
-#: data/default/buildings.ruleset:802
+#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
+#: data/default/buildings.ruleset:849
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -12981,13 +13037,13 @@ msgstr ""
 "\n"
 "首都は大事に扱って下さい。首都を失なうと、内戦に突入するかもしれません。"
 
-#: data/civ1/buildings.ruleset:630 data/civ2/buildings.ruleset:618
-#: data/default/buildings.ruleset:815
+#: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:662
+#: data/default/buildings.ruleset:862
 msgid "Police Station"
 msgstr "警察署"
 
-#: data/civ1/buildings.ruleset:648 data/civ2/buildings.ruleset:636
-#: data/default/buildings.ruleset:833
+#: data/civ1/buildings.ruleset:694 data/civ2/buildings.ruleset:682
+#: data/default/buildings.ruleset:882
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -12996,13 +13052,13 @@ msgstr ""
 "都市の外での軍隊による不幸を民主制下では2、共和制下では1減らします。他の政治"
 "体制下では効力がありません。"
 
-#: data/civ1/buildings.ruleset:655 data/civ2/buildings.ruleset:643
-#: data/default/buildings.ruleset:843
+#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:689
+#: data/default/buildings.ruleset:892
 msgid "Port Facility"
 msgstr "港施設"
 
-#: data/civ1/buildings.ruleset:673 data/civ2/buildings.ruleset:661
-#: data/default/buildings.ruleset:861
+#: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:709
+#: data/default/buildings.ruleset:912
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -13010,12 +13066,12 @@ msgstr ""
 "都市でベテラン海上部隊を作ることができます。また、また傷ついた海上部隊を都市"
 "に移動させずに休ませておくと、一ターンで完治します。"
 
-#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:668
-#: data/default/buildings.ruleset:868
+#: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
+#: data/default/buildings.ruleset:919
 msgid "Power Plant"
 msgstr "火力発電所"
 
-#: data/default/buildings.ruleset:887
+#: data/default/buildings.ruleset:940
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -13033,26 +13089,26 @@ msgstr ""
 "都市には水力発電所、火力発電所、原子力発電所のいづれか一つだけ建てることがで"
 "きます。"
 
-#: data/civ1/buildings.ruleset:710 data/civ2/buildings.ruleset:698
-#: data/default/buildings.ruleset:902
+#: data/civ1/buildings.ruleset:760 data/civ2/buildings.ruleset:748
+#: data/default/buildings.ruleset:955
 msgid "Recycling Center"
 msgstr "リサイクル・センター"
 
-#: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
-#: data/default/buildings.ruleset:920
+#: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:768
+#: data/default/buildings.ruleset:975
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr "リサイクル・センターは、都市で引き起こされる公害を 66% 減らします。"
 
-#: data/civ1/buildings.ruleset:734 data/civ2/buildings.ruleset:722
-#: data/default/buildings.ruleset:926
+#: data/civ1/buildings.ruleset:786 data/civ2/buildings.ruleset:774
+#: data/default/buildings.ruleset:981
 msgid "Research Lab"
 msgstr "研究所"
 
-#: data/civ1/buildings.ruleset:751 data/civ2/buildings.ruleset:739
-#: data/default/buildings.ruleset:943
+#: data/civ1/buildings.ruleset:805 data/civ2/buildings.ruleset:793
+#: data/default/buildings.ruleset:1000
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -13061,13 +13117,13 @@ msgstr ""
 "研究所は図書館と連携し、都市の研究成果を 100% 増やします。また、研究所は図書"
 "館、大学と連携し、都市の研究成果を 150% 増やします。"
 
-#: data/civ1/buildings.ruleset:759 data/civ2/buildings.ruleset:747
-#: data/default/buildings.ruleset:951
+#: data/civ1/buildings.ruleset:813 data/civ2/buildings.ruleset:801
+#: data/default/buildings.ruleset:1008
 msgid "SAM Battery"
 msgstr "対空ミサイル陣地"
 
-#: data/civ1/buildings.ruleset:777 data/civ2/buildings.ruleset:765
-#: data/default/buildings.ruleset:969
+#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:821
+#: data/default/buildings.ruleset:1028
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -13075,13 +13131,13 @@ msgstr ""
 "核兵器以外の空中部隊に攻撃された時、都市内の全ての部隊の防御力を二倍にしま"
 "す。"
 
-#: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:771
-#: data/default/buildings.ruleset:975
+#: data/civ1/buildings.ruleset:839 data/civ2/buildings.ruleset:827
+#: data/default/buildings.ruleset:1034
 msgid "SDI Defense"
 msgstr "SDI 防衛システム"
 
-#: data/civ1/buildings.ruleset:801 data/civ2/buildings.ruleset:789
-#: data/default/buildings.ruleset:993
+#: data/civ1/buildings.ruleset:859 data/civ2/buildings.ruleset:847
+#: data/default/buildings.ruleset:1054
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -13090,17 +13146,17 @@ msgstr ""
 "核兵器による攻撃から都市を守ります。その都市では、核兵器の攻撃で影響を全く受"
 "けません。また、核兵器以外のミサイルには二倍の防御力を発揮します。"
 
-#: data/civ1/buildings.ruleset:810 data/civ2/buildings.ruleset:798
-#: data/default/buildings.ruleset:1002
+#: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:856
+#: data/default/buildings.ruleset:1063
 msgid "Sewer System"
 msgstr "下水道"
 
-#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:824
-#: data/default/buildings.ruleset:1028
+#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:884
+#: data/default/buildings.ruleset:1091
 msgid "Solar Plant"
 msgstr "太陽光発電所"
 
-#: data/default/buildings.ruleset:1049
+#: data/default/buildings.ruleset:1114
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -13112,13 +13168,13 @@ msgid ""
 "Plant."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:859
-#: data/default/buildings.ruleset:1067
+#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:921
+#: data/default/buildings.ruleset:1132
 msgid "Space Component"
 msgstr "宇宙コンポーネント"
 
-#: data/civ1/buildings.ruleset:885 data/civ2/buildings.ruleset:876
-#: data/default/buildings.ruleset:1084
+#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:940
+#: data/default/buildings.ruleset:1151
 #, fuzzy
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
@@ -13129,13 +13185,13 @@ msgid ""
 "have been built by any player."
 msgstr "宇宙コンポーネントは、"
 
-#: data/civ1/buildings.ruleset:895 data/civ2/buildings.ruleset:886
-#: data/default/buildings.ruleset:1094
+#: data/civ1/buildings.ruleset:959 data/civ2/buildings.ruleset:950
+#: data/default/buildings.ruleset:1161
 msgid "Space Module"
 msgstr "宇宙モジュール"
 
-#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:903
-#: data/default/buildings.ruleset:1111
+#: data/civ1/buildings.ruleset:978 data/civ2/buildings.ruleset:969
+#: data/default/buildings.ruleset:1180
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -13154,13 +13210,13 @@ msgid ""
 "have been built by any player."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:1130
+#: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:988
+#: data/default/buildings.ruleset:1199
 msgid "Space Structural"
 msgstr "宇宙船体構造物"
 
-#: data/civ1/buildings.ruleset:948 data/civ2/buildings.ruleset:939
-#: data/default/buildings.ruleset:1147
+#: data/civ1/buildings.ruleset:1016 data/civ2/buildings.ruleset:1007
+#: data/default/buildings.ruleset:1218
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -13170,13 +13226,13 @@ msgid ""
 "have been built by any player."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:958 data/civ2/buildings.ruleset:949
-#: data/default/buildings.ruleset:1157
+#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
+#: data/default/buildings.ruleset:1228
 msgid "Stock Exchange"
 msgstr "株式取引所"
 
-#: data/civ1/buildings.ruleset:977 data/civ2/buildings.ruleset:968
-#: data/default/buildings.ruleset:1176
+#: data/civ1/buildings.ruleset:1047 data/civ2/buildings.ruleset:1038
+#: data/default/buildings.ruleset:1249
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -13185,25 +13241,25 @@ msgstr ""
 "株式取引所は市場、銀行と一緒になって、都市の税と贅沢品の生産を 150% 増やしま"
 "す。"
 
-#: data/civ1/buildings.ruleset:983 data/civ2/buildings.ruleset:974
-#: data/default/buildings.ruleset:1182
+#: data/civ1/buildings.ruleset:1053 data/civ2/buildings.ruleset:1044
+#: data/default/buildings.ruleset:1255
 msgid "Super Highways"
 msgstr "高速幹線道路"
 
-#: data/civ1/buildings.ruleset:1002 data/civ2/buildings.ruleset:993
-#: data/default/buildings.ruleset:1200
+#: data/civ1/buildings.ruleset:1074 data/civ2/buildings.ruleset:1065
+#: data/default/buildings.ruleset:1275
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr "道路か鉄道のある土地全ての交易資源を 50% 増やします。"
 
-#: data/civ1/buildings.ruleset:1008 data/civ2/buildings.ruleset:999
-#: data/default/buildings.ruleset:1208
+#: data/civ1/buildings.ruleset:1080 data/civ2/buildings.ruleset:1071
+#: data/default/buildings.ruleset:1283
 msgid "Supermarket"
 msgstr "スーパーマーケット"
 
-#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
-#: data/default/buildings.ruleset:1226
+#: data/civ1/buildings.ruleset:1100 data/civ2/buildings.ruleset:1091
+#: data/default/buildings.ruleset:1303
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -13213,13 +13269,13 @@ msgstr ""
 "都市のまわりで使われている各農地の食料生産を 50% 増やします。農地とは、二度灌"
 "漑を行なえる土地のことです。"
 
-#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1024
-#: data/default/buildings.ruleset:1233
+#: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
+#: data/default/buildings.ruleset:1310
 msgid "Temple"
 msgstr "寺院"
 
-#: data/civ1/buildings.ruleset:1051 data/civ2/buildings.ruleset:1042
-#: data/default/buildings.ruleset:1251
+#: data/civ1/buildings.ruleset:1127 data/civ2/buildings.ruleset:1118
+#: data/default/buildings.ruleset:1330
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -13228,26 +13284,26 @@ msgstr ""
 "1不幸市民を満足にします。神秘主義(科学)と信託所(不思議)の両方とも、この効果を"
 "倍にします。神秘主義と信託所の両方があると、4市民が満足します。"
 
-#: data/civ1/buildings.ruleset:1058 data/civ1/techs.ruleset:559
-#: data/civ2/buildings.ruleset:1049 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:563
+#: data/civ1/buildings.ruleset:1134 data/civ1/techs.ruleset:559
+#: data/civ2/buildings.ruleset:1125 data/civ2/techs.ruleset:559
+#: data/default/buildings.ruleset:1337 data/default/techs.ruleset:563
 msgid "University"
 msgstr "大学"
 
-#: data/civ1/buildings.ruleset:1076 data/civ2/buildings.ruleset:1067
-#: data/default/buildings.ruleset:1276
+#: data/civ1/buildings.ruleset:1154 data/civ2/buildings.ruleset:1145
+#: data/default/buildings.ruleset:1357
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr "大学は図書館と連携し、都市の研究成果を 100% 増やします。"
 
-#: data/civ1/buildings.ruleset:1082 data/civ2/buildings.ruleset:1073
-#: data/default/buildings.ruleset:1282
+#: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
+#: data/default/buildings.ruleset:1363
 msgid "Apollo Program"
 msgstr "アポロ計画"
 
-#: data/civ2/buildings.ruleset:1091 data/default/buildings.ruleset:1300
+#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1383
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -13257,61 +13313,61 @@ msgstr ""
 "た、全てのプレイヤーが宇宙船の部品の製作を開始できるようになります(必要な技術"
 "が研究されたと見倣します。)"
 
-#: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
-#: data/default/buildings.ruleset:1307
+#: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1178
+#: data/default/buildings.ruleset:1390
 msgid "A.Smith's Trading Co."
 msgstr "アダム・スミスの貿易会社"
 
-#: data/civ1/buildings.ruleset:1124 data/civ2/buildings.ruleset:1115
-#: data/default/buildings.ruleset:1324
+#: data/civ1/buildings.ruleset:1204 data/civ2/buildings.ruleset:1197
+#: data/default/buildings.ruleset:1409
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr "全ての都市で、都市建造物の維持費1をなくします。"
 
-#: data/civ1/buildings.ruleset:1130 data/civ2/buildings.ruleset:1121
-#: data/default/buildings.ruleset:1330
+#: data/civ1/buildings.ruleset:1210 data/civ2/buildings.ruleset:1203
+#: data/default/buildings.ruleset:1415
 msgid "Colossus"
 msgstr "アポロ巨象"
 
-#: data/civ1/buildings.ruleset:1147 data/civ2/buildings.ruleset:1138
-#: data/default/buildings.ruleset:1347
+#: data/civ1/buildings.ruleset:1229 data/civ2/buildings.ruleset:1222
+#: data/default/buildings.ruleset:1434
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
 "この不思議の建てられた都市のまわりの土地では、交換資源を1多く生産できます。"
 
-#: data/civ1/buildings.ruleset:1153 data/civ2/buildings.ruleset:1144
-#: data/default/buildings.ruleset:1353
+#: data/civ1/buildings.ruleset:1235 data/civ2/buildings.ruleset:1228
+#: data/default/buildings.ruleset:1440
 msgid "Copernicus' Observatory"
 msgstr "コペルニクスの天文台"
 
-#: data/civ1/buildings.ruleset:1171 data/civ2/buildings.ruleset:1162
-#: data/default/buildings.ruleset:1371
+#: data/civ1/buildings.ruleset:1255 data/civ2/buildings.ruleset:1248
+#: data/default/buildings.ruleset:1460
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "建てられた都市の研究成果を 50% 増やします。"
 
-#: data/civ1/buildings.ruleset:1176 data/civ2/buildings.ruleset:1167
-#: data/default/buildings.ruleset:1376
+#: data/civ1/buildings.ruleset:1260 data/civ2/buildings.ruleset:1253
+#: data/default/buildings.ruleset:1465
 msgid "Cure For Cancer"
 msgstr "癌の治療"
 
-#: data/civ1/buildings.ruleset:1193 data/civ2/buildings.ruleset:1184
-#: data/default/buildings.ruleset:1393
+#: data/civ1/buildings.ruleset:1279 data/civ2/buildings.ruleset:1272
+#: data/default/buildings.ruleset:1484
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr "このすばらしい偉業は、すべての都市の1不幸市民の満足をもたらします。"
 
-#: data/civ1/buildings.ruleset:1199 data/civ2/buildings.ruleset:1190
-#: data/default/buildings.ruleset:1401
+#: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1278
+#: data/default/buildings.ruleset:1492
 msgid "Darwin's Voyage"
 msgstr "ダーウィンの航海"
 
-#: data/civ1/buildings.ruleset:1216 data/civ2/buildings.ruleset:1207
-#: data/default/buildings.ruleset:1418
+#: data/civ1/buildings.ruleset:1304 data/civ2/buildings.ruleset:1297
+#: data/default/buildings.ruleset:1511
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -13320,48 +13376,48 @@ msgstr ""
 "チャールズ・ダーウィンの航海は、科学の偉大な秘密である正金の展開を発見する火"
 "付け役となりました。即座に二つの進んだ技術を得ます。"
 
-#: data/civ1/buildings.ruleset:1223 data/civ2/buildings.ruleset:1214
-#: data/default/buildings.ruleset:1425
+#: data/civ1/buildings.ruleset:1311 data/civ2/buildings.ruleset:1304
+#: data/default/buildings.ruleset:1518
 msgid "Eiffel Tower"
 msgstr "エッフェル塔"
 
-#: data/civ1/buildings.ruleset:1241 data/civ2/buildings.ruleset:1232
-#: data/default/buildings.ruleset:1443
+#: data/civ1/buildings.ruleset:1331 data/civ2/buildings.ruleset:1324
+#: data/default/buildings.ruleset:1538
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1249 data/civ2/buildings.ruleset:1240
-#: data/default/buildings.ruleset:1451
+#: data/civ1/buildings.ruleset:1339 data/civ2/buildings.ruleset:1332
+#: data/default/buildings.ruleset:1546
 msgid "Great Library"
 msgstr "王立図書館"
 
-#: data/civ1/buildings.ruleset:1266 data/civ2/buildings.ruleset:1257
-#: data/default/buildings.ruleset:1468
+#: data/civ1/buildings.ruleset:1358 data/civ2/buildings.ruleset:1353
+#: data/default/buildings.ruleset:1565
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
 msgstr ""
 "王立図書館を建てた文明は、他の二つ以上の文明が持つ科学を得ることができます。"
 
-#: data/civ1/buildings.ruleset:1272 data/civ2/buildings.ruleset:1263
-#: data/default/buildings.ruleset:1474
+#: data/civ1/buildings.ruleset:1364 data/civ2/buildings.ruleset:1359
+#: data/default/buildings.ruleset:1571
 msgid "Great Wall"
 msgstr "万里の長城"
 
-#: data/civ1/buildings.ruleset:1291 data/civ2/buildings.ruleset:1282
-#: data/default/buildings.ruleset:1492
+#: data/civ1/buildings.ruleset:1385 data/civ2/buildings.ruleset:1380
+#: data/default/buildings.ruleset:1591
 msgid "Works as a City Wall in all cities."
 msgstr "全ての都市に城壁があるものとして機能します。"
 
-#: data/civ1/buildings.ruleset:1298 data/civ2/buildings.ruleset:1289
-#: data/default/buildings.ruleset:1500
+#: data/civ1/buildings.ruleset:1392 data/civ2/buildings.ruleset:1387
+#: data/default/buildings.ruleset:1599
 msgid "Hanging Gardens"
 msgstr "空中庭園"
 
-#: data/civ1/buildings.ruleset:1316 data/civ2/buildings.ruleset:1307
-#: data/default/buildings.ruleset:1518
+#: data/civ1/buildings.ruleset:1412 data/civ2/buildings.ruleset:1407
+#: data/default/buildings.ruleset:1619
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -13373,66 +13429,68 @@ msgstr ""
 "計3)。ありそうもないことですが、空中庭園の影響を受ける市民がいない場合、不幸"
 "市民を幸福にします。"
 
-#: data/civ1/buildings.ruleset:1325 data/civ2/buildings.ruleset:1316
-#: data/default/buildings.ruleset:1527
+#: data/civ1/buildings.ruleset:1421 data/civ2/buildings.ruleset:1416
+#: data/default/buildings.ruleset:1628
 msgid "Hoover Dam"
 msgstr "フーバーダム"
 
-#: data/civ2/buildings.ruleset:1335 data/default/buildings.ruleset:1547
+#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1650
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
+"まるで水力発電所が全都市にあるかのように作用します。(公害を減らし、工場と製造"
+"工場の効果を増やします。)"
 
-#: data/civ1/buildings.ruleset:1353 data/civ2/buildings.ruleset:1341
-#: data/default/buildings.ruleset:1553
+#: data/civ1/buildings.ruleset:1451 data/civ2/buildings.ruleset:1443
+#: data/default/buildings.ruleset:1656
 msgid "Isaac Newton's College"
 msgstr "ニュートンの学士院"
 
-#: data/civ1/buildings.ruleset:1371 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1571
+#: data/civ1/buildings.ruleset:1471 data/civ2/buildings.ruleset:1463
+#: data/default/buildings.ruleset:1676
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "建てられた都市の研究成果を 100% 増やします。"
 
-#: data/civ1/buildings.ruleset:1376 data/civ2/buildings.ruleset:1364
-#: data/default/buildings.ruleset:1576
+#: data/civ1/buildings.ruleset:1476 data/civ2/buildings.ruleset:1468
+#: data/default/buildings.ruleset:1681
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S.バッハの大聖堂"
 
-#: data/civ2/buildings.ruleset:1381 data/default/buildings.ruleset:1593
+#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1700
 msgid "Makes two unhappy citizens content in every city."
 msgstr "各都市における、不幸な市民2の収容所になります。"
 
-#: data/civ1/buildings.ruleset:1400 data/civ2/buildings.ruleset:1386
-#: data/default/buildings.ruleset:1598
+#: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1492
+#: data/default/buildings.ruleset:1705
 msgid "King Richard's Crusade"
 msgstr "リチャード王の遠征"
 
-#: data/civ1/buildings.ruleset:1417 data/civ2/buildings.ruleset:1403
-#: data/default/buildings.ruleset:1615
+#: data/civ1/buildings.ruleset:1521 data/civ2/buildings.ruleset:1511
+#: data/default/buildings.ruleset:1724
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr "これを建てた都市のまわりの全土地で、資源生産力が1増えます。"
 
-#: data/civ1/buildings.ruleset:1423 data/civ2/buildings.ruleset:1409
-#: data/default/buildings.ruleset:1621
+#: data/civ1/buildings.ruleset:1527 data/civ2/buildings.ruleset:1517
+#: data/default/buildings.ruleset:1730
 msgid "Leonardo's Workshop"
 msgstr "レオナルドの工房"
 
-#: data/civ1/buildings.ruleset:1440 data/civ2/buildings.ruleset:1426
-#: data/default/buildings.ruleset:1638
+#: data/civ1/buildings.ruleset:1546 data/civ2/buildings.ruleset:1536
+#: data/default/buildings.ruleset:1749
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "一ターンにつき一部隊、古い部隊が新しくなります。"
 
-#: data/civ1/buildings.ruleset:1445 data/civ2/buildings.ruleset:1431
-#: data/default/buildings.ruleset:1643
+#: data/civ1/buildings.ruleset:1551 data/civ2/buildings.ruleset:1541
+#: data/default/buildings.ruleset:1754
 msgid "Lighthouse"
 msgstr "大灯台"
 
-#: data/civ1/buildings.ruleset:1464 data/civ2/buildings.ruleset:1450
-#: data/default/buildings.ruleset:1662
+#: data/civ1/buildings.ruleset:1572 data/civ2/buildings.ruleset:1562
+#: data/default/buildings.ruleset:1775
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -13441,36 +13499,36 @@ msgstr ""
 "全ての海上(中)部隊の移動力を1増やし、さらにトライリームを高波で失なう危険を排"
 "除します。全ての新しく生産される海上(中)部隊をベテランにします。"
 
-#: data/civ1/buildings.ruleset:1473 data/civ2/buildings.ruleset:1457
-#: data/default/buildings.ruleset:1669
+#: data/civ1/buildings.ruleset:1581 data/civ2/buildings.ruleset:1569
+#: data/default/buildings.ruleset:1782
 msgid "Magellan's Expedition"
 msgstr "マゼランの探検航海"
 
-#: data/civ2/buildings.ruleset:1474 data/default/buildings.ruleset:1686
+#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1801
 msgid "Gives all sea units 2 additional movement points."
 msgstr "全ての海上部隊の移動ポイントを 2 増やします。"
 
-#: data/civ1/buildings.ruleset:1496 data/civ2/buildings.ruleset:1479
-#: data/default/buildings.ruleset:1691
+#: data/civ1/buildings.ruleset:1606 data/civ2/buildings.ruleset:1593
+#: data/default/buildings.ruleset:1806
 msgid "Manhattan Project"
 msgstr "マンハッタン計画"
 
-#: data/civ1/buildings.ruleset:1517 data/civ2/buildings.ruleset:1500
-#: data/default/buildings.ruleset:1712
+#: data/civ1/buildings.ruleset:1629 data/civ2/buildings.ruleset:1616
+#: data/default/buildings.ruleset:1829
 msgid "Marco Polo's Embassy"
 msgstr "マルコ・ポーロの大使館"
 
-#: data/civ1/buildings.ruleset:1534 data/civ2/buildings.ruleset:1517
-#: data/default/buildings.ruleset:1729
+#: data/civ1/buildings.ruleset:1648 data/civ2/buildings.ruleset:1635
+#: data/default/buildings.ruleset:1848
 msgid "The player who owns it gets an embassy with all players."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1539 data/civ2/buildings.ruleset:1522
-#: data/default/buildings.ruleset:1734
+#: data/civ1/buildings.ruleset:1653 data/civ2/buildings.ruleset:1640
+#: data/default/buildings.ruleset:1853
 msgid "Michelangelo's Chapel"
 msgstr "ミケランジェロの教会"
 
-#: data/civ2/buildings.ruleset:1541 data/default/buildings.ruleset:1753
+#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1874
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -13482,31 +13540,31 @@ msgstr ""
 "ます。神学の発見により大聖堂の効果が増し、不幸市民1をさらに満足させます。共産"
 "主義の発見により大聖堂の効果は衰え、不幸市民1が追い出されます。"
 
-#: data/civ1/buildings.ruleset:1562 data/civ2/buildings.ruleset:1551
-#: data/default/buildings.ruleset:1763
+#: data/civ1/buildings.ruleset:1678 data/civ2/buildings.ruleset:1671
+#: data/default/buildings.ruleset:1884
 msgid "Oracle"
 msgstr "信託所"
 
-#: data/civ1/buildings.ruleset:1580 data/civ2/buildings.ruleset:1569
-#: data/default/buildings.ruleset:1781
+#: data/civ1/buildings.ruleset:1698 data/civ2/buildings.ruleset:1691
+#: data/default/buildings.ruleset:1904
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "全ての都市で寺院の効果が二倍になります。"
 
-#: data/civ1/buildings.ruleset:1585 data/civ2/buildings.ruleset:1574
-#: data/default/buildings.ruleset:1786
+#: data/civ1/buildings.ruleset:1703 data/civ2/buildings.ruleset:1696
+#: data/default/buildings.ruleset:1909
 msgid "Pyramids"
 msgstr "ピラミッド"
 
-#: data/civ2/buildings.ruleset:1591 data/default/buildings.ruleset:1803
+#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1928
 msgid "Counts as having a Granary in every city."
 msgstr "各都市に穀物庫を持っているものとみなします。"
 
-#: data/civ1/buildings.ruleset:1611 data/civ2/buildings.ruleset:1596
-#: data/default/buildings.ruleset:1808
+#: data/civ1/buildings.ruleset:1731 data/civ2/buildings.ruleset:1720
+#: data/default/buildings.ruleset:1933
 msgid "SETI Program"
 msgstr "SETI プログラム"
 
-#: data/civ2/buildings.ruleset:1613 data/default/buildings.ruleset:1825
+#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1952
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -13514,24 +13572,24 @@ msgstr ""
 "図書館のある各都市の科学成果を 50% 増やします。(都市すべてに研究所があると見"
 "なします。)"
 
-#: data/civ1/buildings.ruleset:1634 data/civ2/buildings.ruleset:1619
-#: data/default/buildings.ruleset:1831
+#: data/civ1/buildings.ruleset:1756 data/civ2/buildings.ruleset:1745
+#: data/default/buildings.ruleset:1958
 msgid "Shakespeare's Theatre"
 msgstr "シェイクスピアの劇場"
 
-#: data/civ1/buildings.ruleset:1651 data/civ2/buildings.ruleset:1636
-#: data/default/buildings.ruleset:1848
+#: data/civ1/buildings.ruleset:1775 data/civ2/buildings.ruleset:1764
+#: data/default/buildings.ruleset:1977
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "建てられた都市の不幸市民全てを収容します。"
 
-#: data/civ1/buildings.ruleset:1656 data/civ2/buildings.ruleset:1641
-#: data/default/buildings.ruleset:1853
+#: data/civ1/buildings.ruleset:1780 data/civ2/buildings.ruleset:1769
+#: data/default/buildings.ruleset:1982
 msgid "Statue of Liberty"
 msgstr "自由の女神像"
 
-#: data/civ1/buildings.ruleset:1604 data/civ1/buildings.ruleset:1674
-#: data/civ1/buildings.ruleset:1725 data/civ2/buildings.ruleset:1659
-#: data/default/buildings.ruleset:1871
+#: data/civ1/buildings.ruleset:1724 data/civ1/buildings.ruleset:1800
+#: data/civ1/buildings.ruleset:1855 data/civ2/buildings.ruleset:1789
+#: data/default/buildings.ruleset:2002
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -13540,13 +13598,13 @@ msgstr ""
 "まだ発見していないものを含む全ての政治体制を、無政府状態の期間を経ずに選択で"
 "きるようになります。"
 
-#: data/civ1/buildings.ruleset:1681 data/civ2/buildings.ruleset:1666
-#: data/default/buildings.ruleset:1878
+#: data/civ1/buildings.ruleset:1807 data/civ2/buildings.ruleset:1796
+#: data/default/buildings.ruleset:2009
 msgid "Sun Tzu's War Academy"
 msgstr "孫子の兵法学校"
 
-#: data/civ1/buildings.ruleset:1699 data/civ2/buildings.ruleset:1684
-#: data/default/buildings.ruleset:1896
+#: data/civ1/buildings.ruleset:1827 data/civ2/buildings.ruleset:1816
+#: data/default/buildings.ruleset:2029
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -13554,21 +13612,21 @@ msgstr ""
 "全ての都市で、新しく作った地上部隊がベテランになります。部隊が戦闘の後にベテ"
 "ランになる確立が 50% から 100% に増えます。"
 
-#: data/civ1/buildings.ruleset:1706 data/civ2/buildings.ruleset:1691
-#: data/default/buildings.ruleset:1903
+#: data/civ1/buildings.ruleset:1834 data/civ2/buildings.ruleset:1823
+#: data/default/buildings.ruleset:2036
 msgid "United Nations"
 msgstr "国際連合"
 
-#: data/civ2/buildings.ruleset:1712 data/default/buildings.ruleset:1924
+#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2059
 msgid "Units regain two extra hitpoints per turn."
 msgstr "ターンごとに部隊のヒットポイントが2多く回復します。"
 
-#: data/civ1/buildings.ruleset:1737 data/civ2/buildings.ruleset:1725
-#: data/default/buildings.ruleset:1937
+#: data/civ1/buildings.ruleset:1867 data/civ2/buildings.ruleset:1859
+#: data/default/buildings.ruleset:2072
 msgid "Women's Suffrage"
 msgstr "婦人参政権"
 
-#: data/civ2/buildings.ruleset:1743 data/default/buildings.ruleset:1955
+#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2092
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
@@ -13578,11 +13636,11 @@ msgstr ""
 "よる不幸を民主制下では2、共和制下では1減らします。他の政治体制下では効力があ"
 "りません。)"
 
-#: data/default/buildings.ruleset:1971
+#: data/default/buildings.ruleset:2108
 msgid "Coinage"
 msgstr "貨幣"
 
-#: data/default/buildings.ruleset:1996
+#: data/default/buildings.ruleset:2133
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -13591,13 +13649,13 @@ msgstr ""
 "これは普通の建築物ではありません。都市の生産を貨幣にセットすると、保護生産物"
 "を税金として得ます。"
 
-#: data/civ2/buildings.ruleset:290
+#: data/civ2/buildings.ruleset:310
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
 msgstr ""
 
-#: data/civ1/buildings.ruleset:432 data/civ2/buildings.ruleset:415
+#: data/civ1/buildings.ruleset:462 data/civ2/buildings.ruleset:445
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -13618,7 +13676,7 @@ msgstr ""
 "きます。水力発電所は、都市が山や川の隣り(または上)にある時だけ建てることがで"
 "きます。"
 
-#: data/civ1/buildings.ruleset:560 data/civ2/buildings.ruleset:545
+#: data/civ1/buildings.ruleset:600 data/civ2/buildings.ruleset:585
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -13636,7 +13694,7 @@ msgstr ""
 "都市には水力発電所、火力発電所、原子力発電所のいづれか一つだけ建てることがで"
 "きます。"
 
-#: data/civ1/buildings.ruleset:698 data/civ2/buildings.ruleset:686
+#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:736
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -13654,7 +13712,7 @@ msgstr ""
 "都市には水力発電所、火力発電所、原子力発電所のいづれか一つだけ建てることがで"
 "きます。"
 
-#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:844
+#: data/civ1/buildings.ruleset:915 data/civ2/buildings.ruleset:906
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -13666,11 +13724,11 @@ msgid ""
 "Plant."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1762 data/civ2/buildings.ruleset:1751
+#: data/civ1/buildings.ruleset:1894 data/civ2/buildings.ruleset:1887
 msgid "Capitalization"
 msgstr "資本化"
 
-#: data/civ1/buildings.ruleset:1779 data/civ2/buildings.ruleset:1768
+#: data/civ1/buildings.ruleset:1911 data/civ2/buildings.ruleset:1904
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -13679,8 +13737,8 @@ msgstr ""
 "これは普通の建築物ではありません。都市の生産を資本化にセットすると、生産物を"
 "税金として得ます。"
 
-#: data/civ1/buildings.ruleset:136 data/civ1/buildings.ruleset:171
-#: data/civ1/buildings.ruleset:206
+#: data/civ1/buildings.ruleset:144 data/civ1/buildings.ruleset:181
+#: data/civ1/buildings.ruleset:218
 msgid ""
 "With a Barracks, each new unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -13691,7 +13749,7 @@ msgstr ""
 "は、攻撃力と防御力が50%増えます。また傷ついた部隊を兵舍のある都市に移動させず"
 "に休ませておくと、一ターンで完治します。"
 
-#: data/civ1/buildings.ruleset:232
+#: data/civ1/buildings.ruleset:246
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
@@ -13699,7 +13757,7 @@ msgstr ""
 "大聖堂は都市における不幸な人々4の収容所です。その都市の治安を扱いやすくしま"
 "す。"
 
-#: data/civ1/buildings.ruleset:259
+#: data/civ1/buildings.ruleset:275
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground, sea, and helicopter "
@@ -13708,50 +13766,50 @@ msgid ""
 "when a defending unit is destroyed by a land unit."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:308
+#: data/civ1/buildings.ruleset:328
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:827
+#: data/civ1/buildings.ruleset:887
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1100
+#: data/civ1/buildings.ruleset:1178
 msgid ""
 "All cities on the map become visible for the player who owns it.  It allows "
 "all players to start building spaceship parts (assuming they have researched "
 "the necessary technologies)."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1345
+#: data/civ1/buildings.ruleset:1443
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent where "
 "the wonder is built.  (This reduces pollution and increases the effects of "
 "Factories and Mfg. Plants.)"
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1394
+#: data/civ1/buildings.ruleset:1496
 msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1491
+#: data/civ1/buildings.ruleset:1601
 msgid "Gives all sea units 1 additional movement point."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1557
+#: data/civ1/buildings.ruleset:1673
 msgid "Double effects of Cathedrals."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:1629
+#: data/civ1/buildings.ruleset:1751
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "各都市の研究成果を 50% 増やします。"
 
-#: data/civ1/buildings.ruleset:1755
+#: data/civ1/buildings.ruleset:1887
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -15024,11 +15082,11 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:71 data/civ2/units.ruleset:63
-#: data/default/units.ruleset:133
+#: data/default/units.ruleset:139
 msgid "Settlers"
 msgstr "開拓者"
 
-#: data/civ2/units.ruleset:85 data/default/units.ruleset:155
+#: data/civ2/units.ruleset:89 data/default/units.ruleset:165
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -15055,12 +15113,12 @@ msgstr ""
 "ことを心配する必要はありませんが、余分な労力は無駄になり、部隊のまとまりは敵"
 "の攻撃にとても無防備です。"
 
-#: data/civ1/units.ruleset:111 data/civ2/units.ruleset:103
-#: data/default/units.ruleset:173
+#: data/civ1/units.ruleset:115 data/civ2/units.ruleset:107
+#: data/default/units.ruleset:183
 msgid "Engineers"
 msgstr "エンジニア"
 
-#: data/civ2/units.ruleset:125 data/default/units.ruleset:195
+#: data/civ2/units.ruleset:133 data/default/units.ruleset:209
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -15084,52 +15142,52 @@ msgstr ""
 "ヒント 2:  レオナルドの工房を建築できるなら、工房が古くなる前に爆薬を研究しま"
 "しよう。この方法で、開拓者をタダでアップグレードできます。"
 
-#: data/civ2/units.ruleset:140 data/default/units.ruleset:210
+#: data/civ2/units.ruleset:148 data/default/units.ruleset:224
 msgid "Warriors"
 msgstr "戦士"
 
-#: data/civ1/units.ruleset:157 data/civ2/units.ruleset:162
-#: data/default/units.ruleset:232
+#: data/civ1/units.ruleset:169 data/civ2/units.ruleset:174
+#: data/default/units.ruleset:250
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr "この部隊はゲームの開始時から作ることができます。もっとも弱い部隊です。"
 
-#: data/civ1/units.ruleset:163 data/civ2/units.ruleset:168
-#: data/default/units.ruleset:238
+#: data/civ1/units.ruleset:175 data/civ2/units.ruleset:180
+#: data/default/units.ruleset:256
 msgid "Phalanx"
 msgstr "密集軍"
 
-#: data/civ1/units.ruleset:187 data/civ2/units.ruleset:192
-#: data/default/units.ruleset:262
+#: data/civ1/units.ruleset:203 data/civ2/units.ruleset:208
+#: data/default/units.ruleset:284
 msgid "Archers"
 msgstr "射手"
 
-#: data/civ1/units.ruleset:211 data/civ2/units.ruleset:216
-#: data/default/units.ruleset:286
+#: data/civ1/units.ruleset:231 data/civ2/units.ruleset:236
+#: data/default/units.ruleset:312
 msgid "Legion"
 msgstr "軍隊"
 
-#: data/civ1/units.ruleset:235 data/civ2/units.ruleset:240
-#: data/default/units.ruleset:310
+#: data/civ1/units.ruleset:259 data/civ2/units.ruleset:264
+#: data/default/units.ruleset:340
 msgid "Pikemen"
 msgstr "槍隊"
 
-#: data/civ1/units.ruleset:259 data/civ2/units.ruleset:264
-#: data/default/units.ruleset:334
+#: data/civ1/units.ruleset:287 data/civ2/units.ruleset:292
+#: data/default/units.ruleset:368
 msgid "Musketeers"
 msgstr "マスケット銃士"
 
-#: data/civ1/units.ruleset:284 data/civ2/units.ruleset:289
-#: data/default/units.ruleset:359
+#: data/civ1/units.ruleset:316 data/civ2/units.ruleset:321
+#: data/default/units.ruleset:397
 msgid "Fanatics"
 msgstr "熱狂兵"
 
-#: data/civ1/units.ruleset:308 data/civ2/units.ruleset:319
-#: data/default/units.ruleset:383
+#: data/civ1/units.ruleset:344 data/civ2/units.ruleset:355
+#: data/default/units.ruleset:425
 msgid "Partisan"
 msgstr "パルチザン"
 
-#: data/civ2/units.ruleset:341 data/default/units.ruleset:405
+#: data/civ2/units.ruleset:381 data/default/units.ruleset:451
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -15143,33 +15201,33 @@ msgid ""
 " - You must run either a Democracy or a Communist government."
 msgstr ""
 
-#: data/civ1/units.ruleset:332 data/civ2/units.ruleset:355
-#: data/default/units.ruleset:419
+#: data/civ1/units.ruleset:372 data/civ2/units.ruleset:395
+#: data/default/units.ruleset:465
 msgid "Alpine Troops"
 msgstr "高山部隊"
 
-#: data/civ1/units.ruleset:356 data/civ2/units.ruleset:379
-#: data/default/units.ruleset:443
+#: data/civ1/units.ruleset:400 data/civ2/units.ruleset:423
+#: data/default/units.ruleset:493
 msgid "Riflemen"
 msgstr "ライフル銃兵"
 
-#: data/civ1/units.ruleset:380 data/civ2/units.ruleset:403
-#: data/default/units.ruleset:467
+#: data/civ1/units.ruleset:428 data/civ2/units.ruleset:451
+#: data/default/units.ruleset:521
 msgid "Marines"
 msgstr "海兵隊"
 
-#: data/civ1/units.ruleset:404 data/civ2/units.ruleset:427
-#: data/default/units.ruleset:491
+#: data/civ1/units.ruleset:456 data/civ2/units.ruleset:479
+#: data/default/units.ruleset:549
 msgid "Paratroopers"
 msgstr "落下傘兵"
 
-#: data/civ1/units.ruleset:428 data/civ2/units.ruleset:455
-#: data/default/units.ruleset:519
+#: data/civ1/units.ruleset:484 data/civ2/units.ruleset:511
+#: data/default/units.ruleset:581
 msgid "Mech. Inf."
 msgstr "自動化歩兵"
 
-#: data/civ1/units.ruleset:450 data/civ2/units.ruleset:477
-#: data/default/units.ruleset:541
+#: data/civ1/units.ruleset:510 data/civ2/units.ruleset:537
+#: data/default/units.ruleset:607
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -15177,80 +15235,80 @@ msgstr ""
 "この部隊はどの地上部隊よりも協力な防御力を持ちますが、残念ながら技術の最終段"
 "階近くでなければ利用できません。"
 
-#: data/civ2/units.ruleset:484 data/default/units.ruleset:548
+#: data/civ2/units.ruleset:544 data/default/units.ruleset:614
 msgid "Horsemen"
 msgstr "騎手"
 
-#: data/civ1/units.ruleset:481 data/civ2/units.ruleset:508
-#: data/default/units.ruleset:572
+#: data/civ1/units.ruleset:545 data/civ2/units.ruleset:572
+#: data/default/units.ruleset:642
 msgid "Chariot"
 msgstr "チャリオット"
 
-#: data/civ1/units.ruleset:505 data/civ2/units.ruleset:532
-#: data/default/units.ruleset:596
+#: data/civ1/units.ruleset:573 data/civ2/units.ruleset:600
+#: data/default/units.ruleset:670
 msgid "Elephants"
 msgstr "象兵"
 
-#: data/civ1/units.ruleset:529 data/civ2/units.ruleset:556
-#: data/default/units.ruleset:620
+#: data/civ1/units.ruleset:601 data/civ2/units.ruleset:628
+#: data/default/units.ruleset:698
 msgid "Crusaders"
 msgstr "十字軍"
 
-#: data/civ1/units.ruleset:553 data/civ2/units.ruleset:580
-#: data/default/units.ruleset:644
+#: data/civ1/units.ruleset:629 data/civ2/units.ruleset:656
+#: data/default/units.ruleset:726
 msgid "Knights"
 msgstr "騎士"
 
-#: data/civ1/units.ruleset:578 data/civ2/units.ruleset:605
-#: data/default/units.ruleset:669
+#: data/civ1/units.ruleset:658 data/civ2/units.ruleset:685
+#: data/default/units.ruleset:755
 msgid "Dragoons"
 msgstr "竜騎兵"
 
-#: data/civ1/units.ruleset:457 data/civ2/units.ruleset:629
-#: data/default/units.ruleset:693
+#: data/civ1/units.ruleset:517 data/civ2/units.ruleset:713
+#: data/default/units.ruleset:783
 msgid "Cavalry"
 msgstr "騎兵隊"
 
-#: data/civ1/units.ruleset:626 data/civ2/units.ruleset:653
-#: data/default/units.ruleset:717
+#: data/civ1/units.ruleset:714 data/civ2/units.ruleset:741
+#: data/default/units.ruleset:811
 msgid "Armor"
 msgstr "装甲車"
 
-#: data/civ1/units.ruleset:650 data/civ2/units.ruleset:677
-#: data/default/units.ruleset:741
+#: data/civ1/units.ruleset:742 data/civ2/units.ruleset:769
+#: data/default/units.ruleset:839
 msgid "Catapult"
 msgstr "カタパルト"
 
-#: data/civ1/units.ruleset:674 data/civ2/units.ruleset:701
-#: data/default/units.ruleset:765
+#: data/civ1/units.ruleset:770 data/civ2/units.ruleset:797
+#: data/default/units.ruleset:867
 msgid "Cannon"
 msgstr "キャノン砲"
 
-#: data/civ1/units.ruleset:722 data/civ2/units.ruleset:725
-#: data/default/units.ruleset:789
+#: data/civ1/units.ruleset:826 data/civ2/units.ruleset:825
+#: data/default/units.ruleset:895
 msgid "Artillery"
 msgstr "大砲"
 
-#: data/civ2/units.ruleset:749 data/default/units.ruleset:813
+#: data/civ2/units.ruleset:853 data/default/units.ruleset:923
 msgid "Howitzer"
 msgstr "榴弾砲"
 
-#: data/civ1/units.ruleset:746 data/civ2/units.ruleset:773
-#: data/default/units.ruleset:837
+#: data/civ1/units.ruleset:854 data/civ2/units.ruleset:881
+#: data/default/units.ruleset:951
 msgid "Fighter"
 msgstr "戦闘機"
 
-#: data/civ1/units.ruleset:770 data/civ2/units.ruleset:797
-#: data/default/units.ruleset:861
+#: data/civ1/units.ruleset:882 data/civ2/units.ruleset:909
+#: data/default/units.ruleset:979
 msgid "Bomber"
 msgstr "爆撃機"
 
-#: data/civ1/units.ruleset:794 data/civ2/units.ruleset:821
-#: data/default/units.ruleset:885
+#: data/civ1/units.ruleset:910 data/civ2/units.ruleset:937
+#: data/default/units.ruleset:1007
 msgid "Helicopter"
 msgstr "ヘリコプター"
 
-#: data/civ2/units.ruleset:843 data/default/units.ruleset:907
+#: data/civ2/units.ruleset:963 data/default/units.ruleset:1033
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -15258,119 +15316,119 @@ msgid ""
 "Nations wonder."
 msgstr ""
 
-#: data/civ1/units.ruleset:818 data/civ2/units.ruleset:851
-#: data/default/units.ruleset:915
+#: data/civ1/units.ruleset:938 data/civ2/units.ruleset:971
+#: data/default/units.ruleset:1041
 msgid "Stealth Fighter"
 msgstr "ステルス戦闘機"
 
-#: data/civ2/units.ruleset:873 data/default/units.ruleset:937
+#: data/civ2/units.ruleset:997 data/default/units.ruleset:1067
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr "戦闘機が進化したものです。攻撃力が向上し、飛行半径が広くなりました。"
 
-#: data/civ1/units.ruleset:842 data/civ2/units.ruleset:879
-#: data/default/units.ruleset:943
+#: data/civ1/units.ruleset:966 data/civ2/units.ruleset:1003
+#: data/default/units.ruleset:1073
 msgid "Stealth Bomber"
 msgstr "ステルス爆撃機"
 
-#: data/civ2/units.ruleset:901 data/default/units.ruleset:965
+#: data/civ2/units.ruleset:1029 data/default/units.ruleset:1099
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "爆撃機が進化したものです。攻撃力が向上し、飛行半径が広くなりました。"
 
-#: data/civ1/units.ruleset:866 data/civ2/units.ruleset:907
-#: data/default/units.ruleset:971
+#: data/civ1/units.ruleset:994 data/civ2/units.ruleset:1035
+#: data/default/units.ruleset:1105
 msgid "Trireme"
 msgstr "トライリーム"
 
-#: data/civ2/units.ruleset:931 data/default/units.ruleset:995
+#: data/civ2/units.ruleset:1063 data/default/units.ruleset:1133
 msgid "Caravel"
 msgstr "キャラベル"
 
-#: data/civ1/units.ruleset:914 data/civ2/units.ruleset:955
-#: data/default/units.ruleset:1019
+#: data/civ1/units.ruleset:1050 data/civ2/units.ruleset:1091
+#: data/default/units.ruleset:1161
 msgid "Galleon"
 msgstr "ガリオン船"
 
-#: data/civ1/units.ruleset:938 data/civ2/units.ruleset:979
-#: data/default/units.ruleset:1043
+#: data/civ1/units.ruleset:1078 data/civ2/units.ruleset:1119
+#: data/default/units.ruleset:1189
 msgid "Frigate"
 msgstr "フリゲート艦"
 
-#: data/civ1/units.ruleset:962 data/civ2/units.ruleset:1003
-#: data/default/units.ruleset:1067
+#: data/civ1/units.ruleset:1106 data/civ2/units.ruleset:1147
+#: data/default/units.ruleset:1217
 msgid "Ironclad"
 msgstr "装甲艦"
 
-#: data/civ1/units.ruleset:986 data/civ2/units.ruleset:1027
-#: data/default/units.ruleset:1091
+#: data/civ1/units.ruleset:1134 data/civ2/units.ruleset:1175
+#: data/default/units.ruleset:1245
 msgid "Destroyer"
 msgstr "駆逐艦"
 
-#: data/civ2/units.ruleset:1049 data/default/units.ruleset:1113
+#: data/civ2/units.ruleset:1201 data/default/units.ruleset:1271
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr "ヒント: とても速い部隊です。敵の輸送船を追いつめるのに役立ちます。"
 
-#: data/civ1/units.ruleset:1010 data/civ2/units.ruleset:1055
-#: data/default/units.ruleset:1119
+#: data/civ1/units.ruleset:1162 data/civ2/units.ruleset:1207
+#: data/default/units.ruleset:1277
 msgid "Cruiser"
 msgstr "巡洋艦"
 
-#: data/civ1/units.ruleset:1034 data/civ2/units.ruleset:1079
-#: data/default/units.ruleset:1143
+#: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1235
+#: data/default/units.ruleset:1305
 msgid "AEGIS Cruiser"
 msgstr "イージス巡洋艦"
 
-#: data/civ1/units.ruleset:1058 data/civ2/units.ruleset:1103
-#: data/default/units.ruleset:1167
+#: data/civ1/units.ruleset:1218 data/civ2/units.ruleset:1263
+#: data/default/units.ruleset:1333
 msgid "Battleship"
 msgstr "戦艦"
 
-#: data/civ1/units.ruleset:1082 data/civ2/units.ruleset:1127
-#: data/default/units.ruleset:1191
+#: data/civ1/units.ruleset:1246 data/civ2/units.ruleset:1291
+#: data/default/units.ruleset:1361
 msgid "Submarine"
 msgstr "潜水艦"
 
-#: data/civ1/units.ruleset:1104 data/civ2/units.ruleset:1150
-#: data/default/units.ruleset:1214
+#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1318
+#: data/default/units.ruleset:1388
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "潜水艦は戦略上とても重要ですが、防御に関しては弱いです。"
 
-#: data/civ1/units.ruleset:1110 data/civ2/units.ruleset:1156
-#: data/default/units.ruleset:1220
+#: data/civ1/units.ruleset:1278 data/civ2/units.ruleset:1324
+#: data/default/units.ruleset:1394
 msgid "Carrier"
 msgstr "空母"
 
-#: data/civ1/units.ruleset:1132 data/civ2/units.ruleset:1178
-#: data/default/units.ruleset:1242
+#: data/civ1/units.ruleset:1304 data/civ2/units.ruleset:1350
+#: data/default/units.ruleset:1420
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 
-#: data/civ1/units.ruleset:1139 data/civ2/units.ruleset:1185
-#: data/default/units.ruleset:1249
+#: data/civ1/units.ruleset:1311 data/civ2/units.ruleset:1357
+#: data/default/units.ruleset:1427
 msgid "Transport"
 msgstr "輸送船"
 
-#: data/civ1/units.ruleset:1163 data/civ2/units.ruleset:1209
-#: data/default/units.ruleset:1273
+#: data/civ1/units.ruleset:1339 data/civ2/units.ruleset:1385
+#: data/default/units.ruleset:1455
 msgid "Cruise Missile"
 msgstr "巡航ミサイル"
 
-#: data/civ2/units.ruleset:1231 data/default/units.ruleset:1295
+#: data/civ2/units.ruleset:1411 data/default/units.ruleset:1481
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr "ヒント: 少しの巡航ミサイルで敵の船から自国を守ることができます。"
 
-#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1237
-#: data/default/units.ruleset:1301
+#: data/civ1/units.ruleset:1367 data/civ2/units.ruleset:1417
+#: data/default/units.ruleset:1487
 msgid "Nuclear"
 msgstr "核兵器"
 
 # ama, yasu
-#: data/civ2/units.ruleset:1259 data/default/units.ruleset:1323
+#: data/civ2/units.ruleset:1443 data/default/units.ruleset:1513
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -15403,13 +15461,13 @@ msgstr ""
 "り、核爆発と同じターンに死の灰の後始末する準備をさせます。これにより核の冬の"
 "危険を最小限に食い止めます。地球にやさしい核攻撃！"
 
-#: data/civ1/units.ruleset:1230 data/civ2/units.ruleset:1280
-#: data/default/units.ruleset:1344
+#: data/civ1/units.ruleset:1414 data/civ2/units.ruleset:1464
+#: data/default/units.ruleset:1534
 msgid "Diplomat"
 msgstr "外交官"
 
-#: data/civ1/units.ruleset:1252 data/civ2/units.ruleset:1302
-#: data/default/units.ruleset:1366
+#: data/civ1/units.ruleset:1440 data/civ2/units.ruleset:1490
+#: data/default/units.ruleset:1560
 #, fuzzy
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
@@ -15443,12 +15501,12 @@ msgstr ""
 "- ある戦略において、外交官の群れは敵に大混乱を起こすために使えます。\n"
 "Little wonder that Diplomats are often viewed with suspicion and fear!\n"
 
-#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1322
-#: data/default/units.ruleset:1386
+#: data/civ1/units.ruleset:1460 data/civ2/units.ruleset:1510
+#: data/default/units.ruleset:1580
 msgid "Spy"
 msgstr "スパイ"
 
-#: data/civ2/units.ruleset:1344 data/default/units.ruleset:1408
+#: data/civ2/units.ruleset:1536 data/default/units.ruleset:1606
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -15482,13 +15540,13 @@ msgstr ""
 "スパイはさらに戦場における支援も行ないます。敵部隊を妨害するだけでなく、賄賂"
 "を送り寝返らせます."
 
-#: data/civ1/units.ruleset:1296 data/civ2/units.ruleset:1365
-#: data/default/units.ruleset:1429
+#: data/civ1/units.ruleset:1488 data/civ2/units.ruleset:1557
+#: data/default/units.ruleset:1627
 msgid "Caravan"
 msgstr "キャラバン"
 
-#: data/civ1/units.ruleset:1318 data/civ2/units.ruleset:1387
-#: data/default/units.ruleset:1451
+#: data/civ1/units.ruleset:1514 data/civ2/units.ruleset:1583
+#: data/default/units.ruleset:1653
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -15502,32 +15560,32 @@ msgstr ""
 "ヒント: あらかじめ沢山のキャラバンを備え不思議を建て始めたら移動させること"
 "で、たった一ターンで建築を終えることができます。"
 
-#: data/civ1/units.ruleset:1328 data/civ2/units.ruleset:1397
-#: data/default/units.ruleset:1461
+#: data/civ1/units.ruleset:1524 data/civ2/units.ruleset:1593
+#: data/default/units.ruleset:1663
 msgid "Freight"
 msgstr "貨物運送車"
 
-#: data/civ2/units.ruleset:1419 data/default/units.ruleset:1483
+#: data/civ2/units.ruleset:1619 data/default/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "貨物運送車はキャラバンを置き換えます。キャラバンの二倍のスピードで移動できま"
 "す。"
 
-#: data/civ1/units.ruleset:1352 data/civ2/units.ruleset:1424
-#: data/default/units.ruleset:1488
+#: data/civ1/units.ruleset:1552 data/civ2/units.ruleset:1624
+#: data/default/units.ruleset:1694
 msgid "Explorer"
 msgstr "探索者"
 
-#: data/civ2/units.ruleset:1446 data/default/units.ruleset:1510
+#: data/civ2/units.ruleset:1650 data/default/units.ruleset:1720
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr "探索者は未知の領域の地図作成にとても役立ちます。"
 
-#: data/civ1/units.ruleset:1376 data/civ2/units.ruleset:1451
-#: data/default/units.ruleset:1515
+#: data/civ1/units.ruleset:1580 data/civ2/units.ruleset:1655
+#: data/default/units.ruleset:1725
 msgid "Barbarian Leader"
 msgstr "バーバリアンの指導者"
 
-#: data/civ2/units.ruleset:1473 data/default/units.ruleset:1537
+#: data/civ2/units.ruleset:1681 data/default/units.ruleset:1751
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -15535,7 +15593,7 @@ msgstr ""
 "何らかの防御部隊なしでタイル上でバーバリアンの指導者が殺された時、金100の身代"
 "金がが払われます。これは地上部隊とヘリコプターだけで起こります。"
 
-#: data/civ2/units.ruleset:311
+#: data/civ2/units.ruleset:347
 msgid ""
 "Only Fundamentalist nations can build Fanatic units.\n"
 "\n"
@@ -15543,7 +15601,7 @@ msgid ""
 "shields for upkeep."
 msgstr ""
 
-#: data/civ1/units.ruleset:93
+#: data/civ1/units.ruleset:97
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -15568,15 +15626,15 @@ msgstr ""
 "す。一つの作業に対して多くの開拓者をがいることを心配する必要はありませんが、"
 "余分な労力は無駄になりさらに開拓者のまとまりは敵の攻撃にとても無防備です。"
 
-#: data/civ1/units.ruleset:135
+#: data/civ1/units.ruleset:143
 msgid "Militia"
 msgstr "民兵"
 
-#: data/civ1/units.ruleset:890
+#: data/civ1/units.ruleset:1022
 msgid "Sail"
 msgstr "帆船"
 
-#: data/civ1/units.ruleset:1209
+#: data/civ1/units.ruleset:1393
 #, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
@@ -15609,7 +15667,7 @@ msgstr ""
 "かもしれまん。核兵器を使う前に開拓者を集め、核爆発と同じターンに死の灰の後始"
 "末します。？？ これにより核の冬の危険を最小にできます。これでエコ核兵器!"
 
-#: data/civ1/units.ruleset:1398
+#: data/civ1/units.ruleset:1606
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
@@ -15663,7 +15721,7 @@ msgstr "オーストラリ人"
 #: data/nation/canadian.ruleset:11 data/nation/danish.ruleset:19
 #: data/nation/dutch.ruleset:11 data/nation/english.ruleset:13
 #: data/nation/finnish.ruleset:15 data/nation/greek.ruleset:11
-#: data/nation/israeli.ruleset:12 data/nation/japanese.ruleset:13
+#: data/nation/israeli.ruleset:12 data/nation/japanese.ruleset:14
 #: data/nation/portuguese.ruleset:12 data/nation/silesian.ruleset:13
 #: data/nation/singaporean.ruleset:30 data/nation/spanish.ruleset:16
 #: data/nation/swedish.ruleset:15 data/nation/viking.ruleset:11
@@ -16046,7 +16104,23 @@ msgstr "日本人"
 msgid "?plural:Japanese"
 msgstr "日本人"
 
-#: data/nation/japanese.ruleset:12
+#: data/nation/japanese.ruleset:6
+msgid "Mutsuhito"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Jimmu Tenno"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Hirohito"
+msgstr ""
+
+#: data/nation/japanese.ruleset:6
+msgid "Tokugawa Ieyasu"
+msgstr ""
+
+#: data/nation/japanese.ruleset:13
 msgid "Shogun"
 msgstr "将軍"
 
@@ -16483,46 +16557,3 @@ msgstr "ズールー族"
 #~ "ファイル \"game.ruleset\" のあるサブディレクトリを指定します。ゲームで使わ"
 #~ "れるは雑多なルールは、このファイルを用て初期化されます。README.rulesets を"
 #~ "見て下さい。"
-
-#~ msgid "Game: You gain knowledge about %s."
-#~ msgstr "Game: %sについての知識を得ました。"
-
-#~ msgid "Cannot save settings."
-#~ msgstr "設定を保存できません。"
-
-#~ msgid "Saved settings."
-#~ msgstr "設定を保存しました。"
-
-#~ msgid "Currently building"
-#~ msgstr "作成中"
-
-#~ msgid "Change _All"
-#~ msgstr "全て変更(_A)"
-
-#~ msgid "_Done"
-#~ msgstr "終了(_D)"
-
-#~ msgid "_Activate Units"
-#~ msgstr "起こす(_A)"
-
-#~ msgid "_Unit List"
-#~ msgstr "部隊(_U)"
-
-#~ msgid "_Trade"
-#~ msgstr "交易(_T)"
-
-#~ msgid ""
-#~ "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
-#~ "and increases the effects of Factories and Mfg. Plants.)\n"
-#~ "\n"
-#~ "Like a Hydro Plant, the Hoover Dam can only be built in a city which is "
-#~ "next to (or on) a Mountain or River tile.  However, its effect is "
-#~ "applicable to the whole of your civilization (regardless of whether a "
-#~ "city is next to, or on, a Mountain or River tile)."
-#~ msgstr ""
-#~ "まるで水力発電所が各都市にあるかのように働きます。(これは公害を減らし、工"
-#~ "場と製造工場の効果を増やします。)\n"
-#~ "\n"
-#~ "水力発電所と同様に、フーバーダムは都市が山や川が隣(か上)にある時だけ建てる"
-#~ "ことができますが、その効果は(都市の隣か上に山か川があるかどうかは関係なく)"
-#~ "都市全てに及びます。"
