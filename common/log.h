@@ -62,13 +62,13 @@ void real_freelog(int level, const char *message, ...)
 void vreal_freelog(int level, const char *message, va_list ap);
 
 
+#ifdef DEBUG
 /* A static (per-file) function to use/update the above per-file vars.
  * This should only be called for LOG_DEBUG messages.
  * It returns whether such a LOG_DEBUG message should be sent on
  * to real_freelog.
  */
-#ifdef DEBUG
-static int logdebug_check(const char *file, int line)
+static inline int logdebug_check(const char *file, int line)
 {
   if (logdebug_this_init < logd_init_counter) {  
     logdebug_thisfile = logdebug_update(file);
@@ -78,13 +78,6 @@ static int logdebug_check(const char *file, int line)
 				      || (line >= logdebug_thisfile.min 
 					  && line <= logdebug_thisfile.max))); 
 }
-/* Including log.h without calling freelog() can generate a
-   warning that logdebug_check is never used; can use this to
-   suppress that warning:
-*/
-#define logdebug_suppress_warning logdebug_check(__FILE__, __LINE__)
-#else
-#define logdebug_suppress_warning
 #endif
 
 #ifdef DEBUG

@@ -403,7 +403,6 @@ void ai_set_ferry(struct unit *punit, struct unit *ferry)
   if (!ferry && punit->ai.ferryboat != FERRY_WANTED) {
     struct ai_data *ai = ai_data_get(unit_owner(punit));
 
-    logdebug_suppress_warning;
     UNIT_LOG(LOG_DEBUG, punit, "want a boat.");
     ai->stats.passengers++;
     punit->ai.ferryboat = FERRY_WANTED;

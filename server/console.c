@@ -83,7 +83,6 @@ void con_log_init(const char *log_filename, int log_level)
   bool has_file = (log_filename && strlen(log_filename) > 0);
 
   log_init(log_filename, log_level, has_file ? NULL : con_handle_log);
-  logdebug_suppress_warning;
 }
 
 #ifndef HAVE_LIBREADLINE

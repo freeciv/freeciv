@@ -162,9 +162,6 @@ int main(int argc, char *argv[])
 
   /* Technically, we won't ever get here. We exit via server_quit. */
 
-  /* suppress warnings */
-  logdebug_suppress_warning;
-
   /* done */
   exit(EXIT_SUCCESS);
 }
