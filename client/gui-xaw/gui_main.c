@@ -200,7 +200,6 @@ int overview_canvas_store_width, overview_canvas_store_height;
 
 /* this pixmap is used when moving units etc */
 Pixmap single_tile_pixmap;
-int single_tile_pixmap_width, single_tile_pixmap_height;
 
 XtInputId x_input_id;
 XtIntervalId x_interval_id;

@@ -85,8 +85,6 @@ int overview_canvas_store_height = 2 * 50;
 
 GdkPixmap *single_tile_pixmap;          /* this pixmap is used when 
                                          * moving units etc */
-int single_tile_pixmap_width;
-int single_tile_pixmap_height;
 
 GtkWidget *toplevel;
 GtkWidget *top_vbox;
@@ -975,11 +973,8 @@ void ui_main(int argc, char **argv)
   gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, 0, 0,
                      overview_canvas_store_width, overview_canvas_store_height);
 
-  single_tile_pixmap_width = UNIT_TILE_WIDTH;
-  single_tile_pixmap_height = UNIT_TILE_HEIGHT;
   single_tile_pixmap = gdk_pixmap_new(root_window, 
-                                      single_tile_pixmap_width,
-                                      single_tile_pixmap_height, -1);
+				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
