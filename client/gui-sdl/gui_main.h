@@ -51,4 +51,10 @@ extern struct Sdl Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 
+#ifdef WIN32_NATIVE
+#define WaitEvent(e)	while(!SDL_PollEvent(e))
+#else
+#define WaitEvent(e)	SDL_WaitEvent(e)
+#endif
+
 #endif				/* FC__GUI_MAIN_H */

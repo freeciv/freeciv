@@ -117,6 +117,8 @@ static Uint32 game_timer_callback(Uint32 interval, void *param);
 
 static int optiondlg_callback(struct GUI *p);
 
+/* =========================================================== */
+
 /**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr. 
@@ -192,7 +194,7 @@ static void gui_main_loop(void)
 #endif
     /* ========================================= */
 
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_QUIT:
       return;

@@ -3791,7 +3791,7 @@ static int horiz_taxrate_callback(struct GUI *pHoriz_Src)
   x = pHoriz_Src->size.x;
 
   while (ret) {
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;

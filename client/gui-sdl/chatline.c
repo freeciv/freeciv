@@ -218,7 +218,7 @@ static int chatline_vertical_callback(struct GUI *pVScroll)
   bool ret = TRUE;
 
   while (ret) {
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;

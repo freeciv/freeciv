@@ -1427,7 +1427,7 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
   old_y = pVscrollBarWidget->size.y;
 
   while (ret) {
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;
@@ -2545,7 +2545,7 @@ void edit_field(struct GUI *pEdit_Widget)
       iRedraw = 0;
     }
     /* iRedraw */
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_QUIT:
       /* just in case */
@@ -3318,7 +3318,7 @@ int move_window(struct GUI *pWindow)
   SDL_Rect *pRect_tab = NULL;
 
   while (ret) {
-    SDL_WaitEvent(&Main.event);
+    WaitEvent(&Main.event);
     switch (Main.event.type) {
     case SDL_MOUSEBUTTONUP:
       ret = 0;

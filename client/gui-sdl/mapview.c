@@ -706,20 +706,20 @@ void update_city_descriptions(void)
   Draw a description for the given city onto the surface.
 **************************************************************************/
 static void put_city_desc_on_surface(SDL_Surface *pDest,
-				     struct city *pcity,
+				     struct city *pCity,
 				     int canvas_x, int canvas_y)
 {
-  static char buffer[512];
-  SDL_Surface *pBuf = NULL , *pCity_Name = NULL, *pCity_Prod = NULL;
+  static char buffer[128];
+  SDL_Surface *pCity_Size = NULL, *pCity_Name = NULL, *pCity_Prod = NULL;
   int togrow;
   SDL_String16 *pText = NULL;
   SDL_Rect dst, clear_area = { 0 , 0 , 0 , 0 };	
   SDL_Color color = *( get_game_colorRGB(
-			  player_color( get_player(pcity->owner) ) ));	
+			  player_color(get_player(pCity->owner))));	
   Uint32 frame_color;
   
   pText = create_string16(NULL, 10);
-  pText->style |= TTF_STYLE_BOLD;
+  pText->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pText->forecol.r = 255;
   pText->forecol.g = 255;
   pText->forecol.b = 255;
@@ -727,24 +727,24 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   canvas_y += NORMAL_TILE_HEIGHT;
 
   if (draw_city_names) {
-    if (draw_city_growth && pcity->owner == game.player_idx) {
-      togrow = city_turns_to_grow(pcity);
+    if (draw_city_growth && pCity->owner == game.player_idx) {
+      togrow = city_turns_to_grow(pCity);
       switch (togrow) {
       case 0:
-	my_snprintf(buffer, sizeof(buffer), "%s: #", pcity->name);
+	my_snprintf(buffer, sizeof(buffer), "%s: #", pCity->name);
 	break;
       case FC_INFINITY:
-	my_snprintf(buffer, sizeof(buffer), "%s: --", pcity->name);
+	my_snprintf(buffer, sizeof(buffer), "%s: --", pCity->name);
 	break;
       default:
-	my_snprintf(buffer, sizeof(buffer), "%s: %d", pcity->name, togrow);
+	my_snprintf(buffer, sizeof(buffer), "%s: %d", pCity->name, togrow);
 	break;
       }
     } else {
       /* Force certain behavior below. */
       togrow = 0;
-      my_snprintf(buffer, sizeof(buffer), "%s\n%s", pcity->name , 
-	    get_nation_name(get_player(pcity->owner)->nation) );
+      my_snprintf(buffer, sizeof(buffer), "%s\n%s", pCity->name , 
+	    get_nation_name(get_player(pCity->owner)->nation) );
     }
 
     if (togrow < 0) {
@@ -762,17 +762,17 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   }
 
   /* City Production */
-  if (draw_city_productions && pcity->owner == game.player_idx) {
+  if (draw_city_productions && pCity->owner == game.player_idx) {
     /*pText->style &= ~TTF_STYLE_BOLD; */
     change_ptsize16(pText, 9);
 
     /* set text color */
-    if (pcity->is_building_unit) {
+    if (pCity->is_building_unit) {
       pText->forecol.r = 255;
       pText->forecol.g = 255;
       pText->forecol.b = 0;
     } else {
-      if (get_improvement_type(pcity->currently_building)->is_wonder) {
+      if (get_improvement_type(pCity->currently_building)->is_wonder) {
 	pText->forecol.r = 0xe2;
 	pText->forecol.g = 0xc2;
 	pText->forecol.b = 0x1f;
@@ -783,7 +783,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       }
     }
 
-    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+    get_city_mapview_production(pCity, buffer, sizeof(buffer));
 
     FREE(pText->text);
     pText->text = convert_to_utf16(buffer);
@@ -794,8 +794,10 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   {
     if ( !pCity_Name && ( SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE ) )
     {
+      /* Civ3 style don't draw player flag and size
+         outside city description, that is reason I made this hack */
       my_snprintf(buffer, sizeof(buffer), "%s", 
-	    get_nation_name(get_player(pcity->owner)->nation) );
+	    get_nation_name(get_player(pCity->owner)->nation));
 	    
       FREE(pText->text);
       pText->text = convert_to_utf16(buffer);
@@ -809,41 +811,34 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
     /* city size */
     if ( pCity_Name || pCity_Prod ) {
-      my_snprintf( buffer , sizeof( buffer ) , "%d" , pcity->size );
+      my_snprintf(buffer , sizeof(buffer) , "%d" , pCity->size);
       pText->text = convert_to_utf16( buffer );
       pText->style |= TTF_STYLE_BOLD;
       change_ptsize16(pText, 10);
-      pBuf = create_text_surf_from_str16( pText );
+      pCity_Size = create_text_surf_from_str16(pText);
 	    
       clear_area.y = canvas_y;    
     }
                 
     if ( pCity_Name )
     {
-      clear_area.w = pCity_Name->w + 4;
+      clear_area.w = pCity_Name->w + 6;
       clear_area.h = pCity_Name->h;
     }
   
     if ( pCity_Prod )
     {
       clear_area.h += pCity_Prod->h;
-      if (clear_area.w < pCity_Prod->w)
-      {
-        clear_area.w = pCity_Prod->w + 4;
-      }
-    
+      clear_area.w = MAX(clear_area.w , pCity_Prod->w + 6);
     }
   
     clear_area.h += 2;
     
-    if ( pBuf )
+    if ( pCity_Size )
     {
       /* this isn't a error */	    
-      clear_area.w += pBuf->h + 1;
-      if ( clear_area.h < pBuf->h )
-      {
-        clear_area.h = pBuf->h + 2;
-      }    
+      clear_area.w += pCity_Size->h + 1;
+      clear_area.h = MAX(clear_area.h , pCity_Size->h + 2);
     }
     
     if ( clear_area.w )
@@ -851,7 +846,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       clear_area.x = canvas_x + (NORMAL_TILE_WIDTH - clear_area.w) / 2;
     }
   
-    if ( pBuf )
+    if (pCity_Size)
     {
   
 #if 0
@@ -862,11 +857,11 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
       /* solid citi size background */
       dst = clear_area;	    
-      SDL_FillRect(pDest, &dst , SDL_MapRGBA(pDest->format, 0 , 0, 0 , 80));
+      SDL_FillRect(pDest, &dst , SDL_MapRGBA(pDest->format, 0, 0, 0, 80));
       
       /* solid text background */
-      dst.w = pBuf->h + 1;	    
-      SDL_FillRect(pDest, &dst ,
+      dst.w = pCity_Size->h + 1;	    
+      SDL_FillRect( pDest, &dst ,
 	      SDL_MapRGBA(pDest->format, color.r ,color.g, color.b , 128));
 #else
      
@@ -875,13 +870,13 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       color.unused = 128;
       
       dst = clear_area;
-      dst.w = pBuf->h + 1;
-      /* citi size background */
+      dst.w = pCity_Size->h + 1;
+      /* city size background */
       SDL_FillRectAlpha( pDest , &dst , &color );
     
     
-      dst.x = clear_area.x + pBuf->h + 2; 
-      dst.w = clear_area.w - pBuf->h - 2;
+      dst.x = clear_area.x + pCity_Size->h + 2; 
+      dst.w = clear_area.w - pCity_Size->h - 2;
 
       color.r = 0;
       color.g = 0;
@@ -889,13 +884,16 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       color.unused = 80;
       
       /* text background */
-      SDL_FillRectAlpha(pDest, &dst, &color);
+      SDL_FillRectAlpha(pDest, &dst , &color);
 #endif
+      /* blit city size number */
+      /* this isn't error */
+      dst.x = clear_area.x + ( pCity_Size->h - pCity_Size->w) / 2;
+      dst.y = canvas_y + ( clear_area.h - pCity_Size->h ) / 2;
+      SDL_BlitSurface(pCity_Size, NULL, pDest, &dst);
 
-      blit_entire_src(pBuf, pDest,
-		    clear_area.x + ( pBuf->h - pBuf->w) / 2,
-		    canvas_y + ( clear_area.h - pBuf->h ) / 2);
-
+      /* Draw Frame */
+      
       /* Horizontal lines */
       putline( pDest , clear_area.x , clear_area.y - 1 ,
 			  clear_area.x + clear_area.w ,
@@ -912,53 +910,50 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 			  clear_area.x - 1,
                           clear_area.y + clear_area.h  , frame_color );
 			  
-      putline( pDest , clear_area.x + 1 + pBuf->h, clear_area.y  ,
-			  clear_area.x + 1 + pBuf->h,
+      putline( pDest , clear_area.x + 1 + pCity_Size->h, clear_area.y  ,
+			  clear_area.x + 1 + pCity_Size->h,
                           clear_area.y + clear_area.h  , frame_color );
     }
     
     if ( pCity_Name )
     {
-      blit_entire_src(pCity_Name, pDest,
-		    clear_area.x + pBuf->h + 2 +
-			  (clear_area.w - (pBuf->h + 2) - pCity_Name->w) / 2,
-		    canvas_y);
-
+      dst.x = clear_area.x + pCity_Size->h + 2 +
+		(clear_area.w - (pCity_Size->h + 2) - pCity_Name->w) / 2;
+      dst.y = canvas_y;
+      SDL_BlitSurface(pCity_Name, NULL, pDest, &dst);
       canvas_y += pCity_Name->h;
     }
   
     if ( pCity_Prod )
     {
-      blit_entire_src(pCity_Prod, pDest,
-		    clear_area.x + pBuf->h + 2 +
-			  (clear_area.w - (pBuf->h + 2) - pCity_Prod->w) / 2,
-		    canvas_y);
+      dst.x = clear_area.x + pCity_Size->h + 2 +
+		(clear_area.w - (pCity_Size->h + 2) - pCity_Prod->w) / 2;
+      dst.y = canvas_y;
+      SDL_BlitSurface(pCity_Prod, NULL, pDest, &dst);
     } 
   }
   else
   {
     if ( pCity_Name )
     {
-      blit_entire_src(pCity_Name, pDest,
-		    canvas_x + ( NORMAL_TILE_WIDTH - pCity_Name->w) / 2,
-		    canvas_y);
-
+      dst.x = canvas_x + ( NORMAL_TILE_WIDTH - pCity_Name->w) / 2;
+      dst.y = canvas_y;
+      SDL_BlitSurface(pCity_Name, NULL, pDest, &dst);
       canvas_y += pCity_Name->h;
     }
   
     if ( pCity_Prod )
     {
-      blit_entire_src(pCity_Prod, pDest,
-		    canvas_x +
-			  (NORMAL_TILE_WIDTH - pCity_Prod->w) / 2,
-		    canvas_y);
+      dst.x = canvas_x + ( NORMAL_TILE_WIDTH - pCity_Prod->w) / 2;
+      dst.y = canvas_y;
+      SDL_BlitSurface(pCity_Prod, NULL, pDest, &dst);
     }
     
   }
   
   FREESURFACE(pCity_Prod);
   FREESURFACE(pCity_Name);
-  FREESURFACE(pBuf);
+  FREESURFACE(pCity_Size);
   FREESTRING16(pText);
 }
 
