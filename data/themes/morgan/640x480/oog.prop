@@ -8,7 +8,7 @@ align="center"
 text-color="#0000ff"
 text-background="#ddddff"
 text-size=15
-text-font="data/fonts/Vera.ttf"
+text-font="fonts/Vera.ttf"
 text-antialias=0
 text-outline-width=0
 text-transform=""
@@ -24,7 +24,7 @@ height = 480
 
 text-color="#000000"
 text-size=9
-text-font="data/fonts/Vera.ttf"
+text-font="fonts/Vera.ttf"
 text-antialias=0
 text-outline-width=0
 text-transform=""

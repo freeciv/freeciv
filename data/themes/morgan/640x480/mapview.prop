@@ -2,7 +2,7 @@
 tooltip-color="#000000"
 tooltip-background="#f4ed8b"
 tooltip-size=10
-tooltip-font="data/fonts/Vera.ttf"
+tooltip-font="fonts/Vera.ttf"
 tooltip-antialias=0
 tooltip-outline-width=0
 tooltip-delay=1100
@@ -29,7 +29,7 @@ placement-grid-last="s"
 tooltip-color="#000000"
 tooltip-background="#f4ed8b"
 tooltip-size=10
-tooltip-font="data/fonts/Vera.ttf"
+tooltip-font="fonts/Vera.ttf"
 tooltip-antialias=0
 tooltip-outline-width=0
 tooltip-delay=1100
@@ -47,7 +47,7 @@ transparency=90
 
 name-color="#000000"
 name-size=10
-name-font="data/fonts/Vera.ttf"
+name-font="fonts/Vera.ttf"
 name-antialias=0
 name-outline-width=2
 name-outline-color="#000000"
@@ -58,7 +58,7 @@ name-transform=""
 
 growth-color="#000000"
 growth-size=10
-growth-font="data/fonts/Vera.ttf"
+growth-font="fonts/Vera.ttf"
 growth-antialias=0
 growth-outline-width=0
 growth-delay=1100
@@ -68,7 +68,7 @@ growth-transform=""
 
 production-color="#000000"
 production-size=10
-production-font="data/fonts/Vera.ttf"
+production-font="fonts/Vera.ttf"
 production-antialias=0
 production-outline-width=0
 production-delay=1100
@@ -86,7 +86,7 @@ transparency=50
 
 name-color="#000000"
 name-size=10
-name-font="data/fonts/VeraBd.ttf"
+name-font="fonts/VeraBd.ttf"
 name-antialias=0
 name-outline-width=0
 name-delay=1100
@@ -96,7 +96,7 @@ name-transform=""
 
 growth-color="#000000"
 growth-size=10
-growth-font="data/fonts/Vera.ttf"
+growth-font="fonts/Vera.ttf"
 growth-antialias=0
 growth-outline-width=0
 growth-delay=1100
@@ -106,7 +106,7 @@ growth-transform=""
 
 production-color="#000000"
 production-size=10
-production-font="data/fonts/Vera.ttf"
+production-font="fonts/Vera.ttf"
 production-antialias=0
 production-outline-width=0
 production-delay=1100
@@ -124,7 +124,7 @@ transparency=50
 
 name-color="#000000"
 name-size=12
-name-font="data/fonts/Vera.ttf"
+name-font="fonts/Vera.ttf"
 name-antialias=0
 name-outline-width=0
 name-delay=1100
@@ -134,7 +134,7 @@ name-transform=""
 
 growth-color="#000000"
 growth-size=12
-growth-font="data/fonts/Vera.ttf"
+growth-font="fonts/Vera.ttf"
 growth-antialias=0
 growth-outline-width=0
 growth-delay=1100
@@ -144,7 +144,7 @@ growth-transform=""
 
 production-color="#000000"
 production-size=12
-production-font="data/fonts/Vera.ttf"
+production-font="fonts/Vera.ttf"
 production-antialias=0
 production-outline-width=0
 production-delay=1100
@@ -162,7 +162,7 @@ transparency=50
 
 name-color="#000000"
 name-size=20
-name-font="data/fonts/VeraBd.ttf"
+name-font="fonts/VeraBd.ttf"
 name-antialias=1
 name-outline-width=0
 name-delay=1100
@@ -172,7 +172,7 @@ name-transform="upper"
 
 growth-color="#000000"
 growth-size=12
-growth-font="data/fonts/Vera.ttf"
+growth-font="fonts/Vera.ttf"
 growth-antialias=0
 growth-outline-width=0
 growth-delay=1100
@@ -182,7 +182,7 @@ growth-transform=""
 
 production-color="#000000"
 production-size=12
-production-font="data/fonts/Vera.ttf"
+production-font="fonts/Vera.ttf"
 production-antialias=0
 production-outline-width=0
 production-delay=1100
@@ -324,7 +324,7 @@ background="order_button_done.png"
 #text=_("x")
 #text-color="#000000"
 #text-size=20
-#text-font="data/fonts/Vera.ttf"
+#text-font="fonts/Vera.ttf"
 #text-antialias=0
 #text-outline-width=0
 
