@@ -15,6 +15,8 @@
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 void generate_warmap(struct city *pcity, struct unit *punit);
+void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which);
+
 /* all other functions are internal */
 
 #define THRESHOLD 12
