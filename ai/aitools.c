@@ -405,12 +405,6 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
     );
   }
 
-  /*
-   * Government flags, these were intentionally left out of the evaluation:
-   * G_IS_NICE       - Has no impact on rules.
-   * G_FAVORS_GROWTH - Ditto.
-   * -- SKi
-   */
   rating_before = rating;
   if (government_has_flag(g, G_BUILD_VETERAN_DIPLOMAT)) {
     rating += 100; /* ignore this advantage for now -- SKi */

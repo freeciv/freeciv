@@ -38,6 +38,7 @@ when_anarchy="Anarchy"
 ;               should be a standard tag if preferred is not;
 ;		otherwise may be "-"
 ; flags       = special effects; see government.c for strings
+; hints       = hints to the AI about how to use / behave with government
 
 ; martial_law_max  = maximum number of units which can enforce martial law
 ;		     in the city
@@ -86,7 +87,8 @@ name        = "Anarchy"
 tech_req    = "None"
 graphic     = "gov.anarchy"
 graphic_alt = "-"
-flags       = "Favors_Growth"
+flags       = "-"
+hints       = "Favors_Growth"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -131,7 +133,8 @@ name        = "Despotism"
 tech_req    = "None"
 graphic     = "gov.despotism"
 graphic_alt = "-"
-flags       = "Favors_Growth"
+flags       = "-"
+hints       = "Favors_Growth"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -179,7 +182,8 @@ name        = "Monarchy"
 tech_req    = "Monarchy"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
-flags       = "Favors_Growth"
+flags       = "-"
+hints       = "Favors_Growth"
 
 martial_law_max  = 3
 martial_law_per  = 1
@@ -231,7 +235,8 @@ name        = "Communism"
 tech_req    = "Communism"
 graphic     = "gov.communism"
 graphic_alt = "-"
-flags       = "Favors_Growth", "Build_Veteran_Diplomats", "Inspires_Partisans"
+flags       = "Build_Veteran_Diplomats", "Inspires_Partisans"
+hints       = "Favors_Growth"
 
 martial_law_max  = 3
 martial_law_per  = 2
@@ -276,7 +281,8 @@ name        = "Fundamentalism"
 tech_req    = "Fundamentalism"
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
-flags       = "Favors_Growth"  ; others TODO
+flags       = "-"              ; others TODO
+hints       = "Favors_Growth"
 
 martial_law_max  = 0
 martial_law_per  = 0
@@ -329,7 +335,8 @@ name        = "Republic"
 tech_req    = "The Republic"
 graphic     = "gov.republic"
 graphic_alt = "-"
-flags       = "Has_Senate", "Is_Nice"
+flags       = "Has_Senate"
+hints       = "Is_Nice"
 
 martial_law_max  = 0
 martial_law_per  = 0
@@ -374,8 +381,9 @@ name        = "Democracy"
 tech_req    = "Democracy"
 graphic     = "gov.democracy"
 graphic_alt = "-"
-flags       = "Has_Senate", "Is_Nice", "Revolution_When_Unhappy", 
+flags       = "Has_Senate", "Revolution_When_Unhappy", 
               "Inspires_Partisans", "Unbribable"
+hints       = "Is_Nice"
 
 martial_law_max  = 0
 martial_law_per  = 0

@@ -65,7 +65,10 @@ struct government *governments;
 
 static char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",
-  "Unbribable", "Inspires_Partisans", "Is_Nice", "Favors_Growth"
+  "Unbribable", "Inspires_Partisans"
+};
+static char *hint_names[] = {
+  "Is_Nice", "Favors_Growth"
 };
 
 /***************************************************************
@@ -94,6 +97,34 @@ int government_has_flag(const struct government *gov,
 {
   assert(flag>=0 && flag<G_LAST_FLAG);
   return gov->flags & (1<<flag);
+}
+
+/***************************************************************
+  Convert hint names to enum; case insensitive;
+  returns G_LAST_HINT if can't match.
+***************************************************************/
+enum government_hint_id government_hint_from_str(const char *s)
+{
+  enum government_hint_id i;
+
+  assert(sizeof(hint_names)/sizeof(char*)==G_LAST_HINT);
+  
+  for(i=0; i<G_LAST_HINT; i++) {
+    if (mystrcasecmp(hint_names[i], s)==0) {
+      return i;
+    }
+  }
+  return G_LAST_HINT;
+}
+
+/***************************************************************
+...
+***************************************************************/
+int government_has_hint(const struct government *gov,
+			enum government_hint_id hint)
+{
+  assert(hint>=0 && hint<G_LAST_FLAG);
+  return gov->hints & (1<<hint);
 }
 
 /***************************************************************

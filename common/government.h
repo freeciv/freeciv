@@ -30,9 +30,12 @@ enum government_flag_id {
   G_HAS_SENATE,			/* not implemented */
   G_UNBRIBABLE,
   G_INSPIRES_PARTISANS,
-  G_IS_NICE,			/* hint to AI(?) + spaceship auto-placement */
-  G_FAVORS_GROWTH,		/* hint to AI(?) */
   G_LAST_FLAG
+};
+enum government_hint_id {
+  G_IS_NICE=0,			/* spaceship auto-placement, among others */
+  G_FAVORS_GROWTH,
+  G_LAST_HINT
 };
 
 /* each government has a list of ruler titles, where at least
@@ -116,6 +119,9 @@ struct government
   /* other flags: bits in enum government_flag_id order,
      use government_has_flag() to access */
   int   flags;
+  /* other hints: bits in enum government_hint_id order,
+     use government_has_hint() to access */
+  int   hints;
 
   struct Sprite *sprite;
 };
@@ -132,6 +138,9 @@ struct government *find_government_by_name(char *name);
 enum government_flag_id government_flag_from_str(const char *s);
 int government_has_flag(const struct government *gov,
 			enum government_flag_id flag);
+enum government_hint_id government_hint_from_str(const char *s);
+int government_has_hint(const struct government *gov,
+			enum government_hint_id hint);
 
 int get_government_max_rate(int type);
 int get_government_civil_war_prob(int type);

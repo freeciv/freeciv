@@ -69,7 +69,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
-    " +terrainrulesets1 +governmentrulesets1 +num_units +tilespec" \
+    " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
     " +ruleset_control +ask_pillage"
 
 /* "caravan1" means the server automatically establishes a traderoute
@@ -86,8 +86,9 @@ const char * const our_capability = our_capability_internal;
    "terrainrulesets1" means that the protocol is extended to handle
    the new, expanded terrain rulesets.  (jjm@codewell.com 13aug1999)
 
-   "governmentrulesets1" is for the new government.ruleset packages;
-   includes unit upkeep changes.
+   "governmentrulesets2" is for the new government.ruleset packages;
+   includes unit upkeep changes and split flags into actual flags
+   and hints.
   
    "num_units" means the number of unit types is variable.
  

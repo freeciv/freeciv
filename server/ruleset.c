@@ -927,11 +927,35 @@ static void load_ruleset_governments(char *ruleset_subdir)
     for(j=0; j<nval; j++) {
       char *sval = slist[j];
       enum government_flag_id flag = government_flag_from_str(sval);
+      if (strcmp(sval, "-") == 0) {
+        continue;
+      }
       if (flag == G_LAST_FLAG) {
         freelog(LOG_FATAL, "government %s has unknown flag %s", g->name, sval);
         exit(1);
       } else {
         g->flags |= (1<<flag);
+      }
+    }
+    free(slist);
+  }
+
+  /* hints: */
+  for(i=0; i<game.government_count; i++) {
+    g = &governments[i];
+    g->hints = 0;
+    slist = secfile_lookup_str_vec(&file, &nval, "%s.hints", sec[i]);
+    for(j=0; j<nval; j++) {
+      char *sval = slist[j];
+      enum government_hint_id hint = government_hint_from_str(sval);
+      if (strcmp(sval, "-") == 0) {
+        continue;
+      }
+      if (hint == G_LAST_FLAG) {
+        freelog(LOG_FATAL, "government %s has unknown hint %s", g->name, sval);
+        exit(1);
+      } else {
+        g->hints |= (1<<hint);
       }
     }
     free(slist);
@@ -1245,6 +1269,7 @@ static void send_ruleset_governments(struct player *dest)
     gov.extra_corruption_distance = g->extra_corruption_distance;
     
     gov.flags = g->flags;
+    gov.hints = g->hints;
     gov.num_ruler_titles = g->num_ruler_titles;
 
     strcpy(gov.name, g->name);

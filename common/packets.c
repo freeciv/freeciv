@@ -2285,6 +2285,7 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_int8(cptr, packet->extra_corruption_distance);
 
   cptr=put_int8(cptr, packet->flags);
+  cptr=put_int8(cptr, packet->hints);
 
   cptr=put_int8(cptr, packet->num_ruler_titles);
 
@@ -2370,6 +2371,7 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_int8(&iter, &packet->extra_corruption_distance);
 
   iget_int8(&iter, &packet->flags);
+  iget_int8(&iter, &packet->hints);
 
   iget_int8(&iter, &packet->num_ruler_titles);
 

@@ -741,7 +741,7 @@ static int spaceship_autoplace(struct player *pplayer,
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = government_has_flag(g, G_IS_NICE);
+    int nice = government_has_hint(g, G_IS_NICE);
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */
@@ -1165,6 +1165,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->extra_corruption_distance = p->extra_corruption_distance;
 
   gov->flags               = p->flags;
+  gov->hints               = p->hints;
   gov->num_ruler_titles    = p->num_ruler_titles;
     
   strcpy(gov->name, p->name);

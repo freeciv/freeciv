@@ -582,6 +582,7 @@ struct packet_ruleset_government {
   int extra_corruption_distance;
       
   int flags;
+  int hints;
       
   int num_ruler_titles;
        

@@ -303,7 +303,7 @@ void eval_buildings(struct city *pcity,int *values)
     values[i]=0;
   }
   
-  if (government_has_flag(g, G_FAVORS_GROWTH) || pcity->size < 5) {
+  if (government_has_hint(g, G_FAVORS_GROWTH) || pcity->size < 5) {
     if (can_build_improvement(pcity, B_GRANARY)) 
       values[B_GRANARY]=pcity->food_surplus*50;
   }
@@ -337,7 +337,7 @@ void eval_buildings(struct city *pcity,int *values)
 
   /* FIXME: I think this should trigger on g->trade_bonus,
      not G_IS_NICE --dwp */
-  if (government_has_flag(g, G_IS_NICE))
+  if (government_has_hint(g, G_IS_NICE))
     if (can_build_improvement(pcity, B_SUPERHIGHWAYS)) 
       values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
