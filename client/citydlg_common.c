@@ -33,9 +33,9 @@
 int get_citydlg_canvas_width(void)
 {
   if (is_isometric) {
-    return 4 * NORMAL_TILE_WIDTH;
+    return (CITY_MAP_SIZE - 1) * NORMAL_TILE_WIDTH;
   } else {
-    return 5 * NORMAL_TILE_WIDTH;
+    return CITY_MAP_SIZE * NORMAL_TILE_WIDTH;
   }
 }
 
@@ -45,9 +45,9 @@ int get_citydlg_canvas_width(void)
 int get_citydlg_canvas_height(void)
 {
   if (is_isometric) {
-    return 4 * NORMAL_TILE_HEIGHT;
+    return (CITY_MAP_SIZE - 1) * NORMAL_TILE_HEIGHT;
   } else {
-    return 5 * NORMAL_TILE_HEIGHT;
+    return CITY_MAP_SIZE * NORMAL_TILE_HEIGHT;
   }
 }
 
@@ -64,7 +64,7 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
      * subtract off half a tile in each direction.  For a more
      * rigorous example, see map_pos_to_canvas_pos().
      */
-    int iso_x = (city_x - city_y) - (-4);
+    int iso_x = (city_x - city_y) + (2 * CITY_MAP_RADIUS);
     int iso_y = (city_x + city_y) - (0);
 
     *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
@@ -103,8 +103,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 
     /* Add on the offset of the top-left corner to get the final
      * coordinates (like in canvas_to_map_pos). */
-    *city_x -= 2;
-    *city_y += 2;
+    *city_x -= CITY_MAP_RADIUS;
+    *city_y += CITY_MAP_RADIUS;
   } else {
     *city_x = canvas_x / NORMAL_TILE_WIDTH;
     *city_y = canvas_y / NORMAL_TILE_HEIGHT;

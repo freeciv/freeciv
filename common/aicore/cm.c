@@ -148,7 +148,7 @@
 #define DISABLE_CACHE3                                  FALSE
 
 #define NUM_SPECIALISTS_ROLES				3
-#define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
+#define MAX_FIELDS_USED	       	                        (CITY_TILES - 1)
 #define MAX_COMBINATIONS				150
 
 /*
@@ -1184,11 +1184,14 @@ static void build_cache3(struct city *pcity)
    */
   root_combination.worker = 0;
   root_combination.production2[FOOD] =
-      base_city_get_food_tile(2, 2, pcity, is_celebrating);
+      base_city_get_food_tile(CITY_MAP_RADIUS, CITY_MAP_RADIUS,
+			      pcity, is_celebrating);
   root_combination.production2[SHIELD] =
-      base_city_get_shields_tile(2, 2, pcity, is_celebrating);
+      base_city_get_shields_tile(CITY_MAP_RADIUS, CITY_MAP_RADIUS, 
+			      pcity, is_celebrating);
   root_combination.production2[TRADE] =
-      base_city_get_trade_tile(2, 2, pcity, is_celebrating);
+      base_city_get_trade_tile(CITY_MAP_RADIUS, CITY_MAP_RADIUS, 
+			     pcity, is_celebrating);
 
   total_tile_trade = root_combination.production2[TRADE];
 

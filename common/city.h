@@ -58,10 +58,12 @@ enum city_options {
 /* for new city: default auto-attack options all on, others off: */
 #define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
 
-/* Diameter of the workable city area. Must be an odd number.
-   Some places in the code hardcodes this number, fx 
-   city_map_iterate_outwards_indices */
-#define CITY_MAP_SIZE 5
+
+/* Changing this requires updating CITY_TILES and network capabilities. */
+#define CITY_MAP_RADIUS 2
+
+/* Diameter of the workable city area.  Some places harcdode this number. */
+#define CITY_MAP_SIZE (CITY_MAP_RADIUS * 2 + 1) 
 
 /* Number of tiles a city can use */
 #define CITY_TILES (CITY_MAP_SIZE * CITY_MAP_SIZE - 4)
@@ -188,14 +190,14 @@ struct ai_city {
 
   /* Used for caching when settlers evalueate which tile to improve,
      and when we place workers. */
-  signed short int detox[5][5];
-  signed short int derad[5][5];
-  signed short int mine[5][5];
-  signed short int irrigate[5][5];
-  signed short int road[5][5];
-  signed short int railroad[5][5];
-  signed short int transform[5][5];
-  signed short int tile_value[5][5];
+  signed short int detox[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int derad[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int mine[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int irrigate[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int road[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int railroad[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int transform[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  signed short int tile_value[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   /* so we can contemplate with warmap fresh and decide later */
   int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
