@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-06-03 09:29+0200\n"
+"POT-Creation-Date: 2002-06-06 12:23+0200\n"
 "PO-Revision-Date: 2002-06-03 09:53+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -5766,11 +5766,11 @@ msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
 
-#: client/control.c:586
+#: client/control.c:585
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spel: Alleen transport-eenheden kunnen uitladen."
 
-#: client/control.c:780
+#: client/control.c:779
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
@@ -5778,23 +5778,23 @@ msgstr ""
 "Spel: Alleen kolonisten en militaire eenheden in steden kunnen in auto-modus "
 "worden gezet."
 
-#: client/control.c:813
+#: client/control.c:812
 msgid "Game: Only nuclear units can do this."
 msgstr "Spel: Alleen nucleaire eenheden kunnen dit."
 
-#: client/control.c:830
+#: client/control.c:829
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spel: Alleen paratroepen eenheden kunnen dit."
 
-#: client/control.c:1204
+#: client/control.c:1203
 msgid "Game: Too far for this unit."
 msgstr "Spel: Te ver voor deze eenheid."
 
-#: client/control.c:1270 client/control.c:1319
+#: client/control.c:1269 client/control.c:1318
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Spel: Kon geen route naar de bestemming vinden!"
 
-#: client/control.c:1310
+#: client/control.c:1309
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr ""
 "Spel: Sorry, patrouilleren met lucht-eenheden is nog niet geïmplementeerd."
@@ -9558,8 +9558,8 @@ msgid ""
 "window</i></span>"
 msgstr ""
 "<span foreground=\"blue\"><i>Waar berichten te tonen?\n"
-"<b>Out</b>put venster ; <b>Ber</b>ichten venster ; "
-"<b>Pop</b>up individueel venster</i></span>"
+"<b>Out</b>put venster ; <b>Ber</b>ichten venster ; <b>Pop</b>up individueel "
+"venster</i></span>"
 
 #: client/gui-gtk-2.0/messagedlg.c:126
 msgid "Event"
