@@ -485,6 +485,7 @@ struct city_report_spec city_report_specs[] = {
     FUNC_TAG(growturns) },
   { FALSE,  3, 1, NULL, N_("?corruption:Cor"),        N_("Corruption"),
                                       FUNC_TAG(corruption) },
+  { FALSE,  3, 1, NULL, N_("?waste:Was"), N_("Waste"), FUNC_TAG(waste) },
   { TRUE,  15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
                                       FUNC_TAG(cma) },
   { TRUE,   0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
