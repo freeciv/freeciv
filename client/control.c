@@ -162,7 +162,7 @@ void advance_unit_focus(void)
       }
     }
   }
-  
+
   /* We have to do this ourselves, and not rely on set_unit_focus(),
    * because above we change punit_focus directly.
    */
@@ -170,6 +170,12 @@ void advance_unit_focus(void)
     refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
 
   set_unit_focus(punit_focus);
+
+  /* Handle auto-turn-done mode:  If a unit was in focus (did move),
+   * but now none are (no more to move), then fake a Turn Done keypress.
+   */
+  if(auto_turn_done && punit_old_focus!=NULL && punit_focus==NULL)
+    key_end_turn();
 }
 
 /**************************************************************************
