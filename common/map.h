@@ -130,6 +130,7 @@ void map_know_all(struct player *pplayer);
 void send_full_tile_info(struct player *dest, int x, int y);
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
+int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
 int map_move_cost(struct unit *punit, int x1, int y1);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);

@@ -74,43 +74,18 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit,
 
   moves = punit->moves_left < 3 ? 3 : punit->moves_left;
 
+  /* Check a few condition for invalid moves.  Conditions relating to the
+   * presence of enemy units aren't checked.  */
+  if(is_ground_unit(punit)) {
+    if(ptile->terrain==T_OCEAN)  return -1;
+  } else if(is_sailing_unit(punit)) {
+    if(ptile->terrain!=T_OCEAN && !ptile->city_id)  return -1;
+  }
+  
   if(map_get_known(x1, y1, pplayer)) {
-
-    if(is_ground_unit(punit)) {
-      if(ptile->terrain!=T_OCEAN) {
-	struct tile *ptile0=map_get_tile(x0, y0);
-	int cost=0;
-	
-	if(!(ptile0->special&S_RAILROAD)) {
-	  if(ptile0->special&S_ROAD)
-	    cost=1;
-	  else
-	  {
-	    c = get_tile_type(ptile0->terrain)->movement_cost*3;
-	    cost = c < moves ? c : moves;
-	  }
-	}
-	if(!(ptile->special&S_RAILROAD)) {
-	  if(ptile->special&S_ROAD)
-	    cost++;
-	  else
-	  {
-	    c = get_tile_type(ptile->terrain)->movement_cost*3;
-	    cost += c < moves ? c : moves;
-	  }
-	}
-	
-	return (cost+1)/2;
-      }
-      return -1;
-    }
-
-    else if(is_sailing_unit(punit))
-      return (ptile->terrain==T_OCEAN || ptile->city_id) ? 3 : -1;
-
-    else
-      return 3;
-
+    c = tile_move_cost(punit,x0,y0,x1,y1);
+    /* return the smaller of moves the unit has left or the cost of the move */
+    return c<moves?c:moves;
   }
 
   return 3; /* tile is unknown for player => assume average move cost */
