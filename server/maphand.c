@@ -105,15 +105,6 @@ dest can be NULL meaning all players
 **************************************************************************/
 void send_all_known_tiles(struct player *dest)
 {
-pid_t pid;
-
-pid = fork();
-if (pid > 0)
-   {
-   return;
-   }
-else
-   {
    int o;
  
    for(o=0; o<game.nplayers; o++)           /* dests */
@@ -135,7 +126,6 @@ else
 	                }
                 connection_do_unbuffer(pplayer->conn);
                 }
-            }
          }
       }
    }
