@@ -15,6 +15,24 @@
 
 #include <stdlib.h>		/* size_t */
 
+#if __BEOS__
+#include <posix/be_prim.h>
+#define __bool_true_false_are_defined 1
+#else
+#ifdef HAVE_STDBOOL_H
+#include <stdbool.h>
+#else /* Implement <stdbool.h> ourselves */
+#undef bool
+#undef true
+#undef false
+#undef __bool_true_false_are_defined
+#define bool fc_bool
+#define true  1
+#define false 0
+#define __bool_true_false_are_defined 1
+typedef unsigned int fc_bool;
+#endif /* ! HAVE_STDBOOL_H */
+#endif /* ! __BEOS__ */
 
 /* Want to use GCC's __attribute__ keyword to check variadic
  * parameters to printf-like functions, without upsetting other
@@ -47,14 +65,16 @@
    another unreachable condition. */
 #define FC_INFINITY    	(1000 * 1000 * 1000)
 
-#ifndef TRUE
-#define TRUE (1)
-#endif
-#ifndef FALSE
-#define FALSE (0)
+#ifdef TRUE
+#undef TRUE
 #endif
 
-typedef int bool;
+#ifdef FALSE
+#undef FALSE
+#endif
+
+#define TRUE true
+#define FALSE false
 
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))
