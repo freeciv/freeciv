@@ -624,7 +624,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
                                              punit->type, map)) != NULL) {
       task = AIUNIT_DEFEND_HOME;
-      UNIT_LOG(LOG_DIPLOMAT, punit, "going defensive");
+      UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s", ctarget->name);
     } else if ((ctarget = find_closest_owned_city(pplayer, punit->tile, 
 						  TRUE, NULL)) != NULL) {
       /* This should only happen if the entire continent was suddenly
@@ -639,10 +639,17 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     }
 
     ai_unit_new_role(punit, task, ctarget->tile);
+    assert(punit->moves_left > 0 && ctarget 
+           && punit->ai.ai_role != AIUNIT_NONE);
   }
 
   CHECK_UNIT(punit);
-  assert(punit->moves_left > 0 && ctarget && punit->ai.ai_role != AIUNIT_NONE);
+  if (ctarget == NULL) {
+    UNIT_LOG(LOG_ERROR, punit, "ctarget not set (role==%d)",
+	     punit->ai.ai_role);
+    pf_destroy_map(map);
+    return;
+  }
 
   /* GOTO unless we want to stay */
   if (!same_pos(punit->tile, ctarget->tile)) {
