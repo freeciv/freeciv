@@ -313,7 +313,8 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* Establish the embassy. */
   pplayer->embassy |= (1 << pcity->owner);
-  send_player_info (pplayer, pplayer);
+  send_player_info(pplayer, pplayer);
+  send_player_info(pplayer, cplayer);    /* update player dialog with embassy */
 
   /* Notify everybody involved. */
   notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
