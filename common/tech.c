@@ -590,7 +590,6 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
   default:
     /* Includes A_NONE */
     if (!tech_exists(tech)) {
-      assert(0);
       my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
     } else {
       my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
