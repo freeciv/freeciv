@@ -439,7 +439,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		       struct city  *pcity, int technology)
 {
   struct player *cplayer;
-  int index, count, which, target = -1;
+  int index, count, which, target;
 
   /* Fetch target civilization's player.  Sanity checks. */
   if (!pcity)
@@ -556,11 +556,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 			_("Game: Your %s could not find the %s technology"
 			  " to steal in %s."), 
 			unit_name (pdiplomat->type),
-			advances[target].name, pcity->name);
+			advances[technology].name, pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
       send_unit_info (pplayer, pdiplomat, 0);
       freelog (LOG_DEBUG, "steal-tech: target technology not found: %d (%s)",
-	       target, advances[target].name);
+	       technology, advances[technology].name);
       return;
     }
   }
@@ -809,7 +809,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       struct city *pcity, int improvement)
 {
   struct player *cplayer;
-  int index, count, which, target = -1;
+  int index, count, which, target;
   char *prod;
   struct city *capital;
 
@@ -923,7 +923,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 	diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
 	send_unit_info (pplayer, pdiplomat, 0);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",
-	       target, get_improvement_name (target));
+	       improvement, get_improvement_name (improvement));
 	return;
       }
     } else {
@@ -935,7 +935,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
       send_unit_info (pplayer, pdiplomat, 0);
       freelog (LOG_DEBUG, "sabotage: target improvement not found: %d (%s)",
-	       target, get_improvement_name (target));
+	       improvement, get_improvement_name (improvement));
       return;
     }
   }
