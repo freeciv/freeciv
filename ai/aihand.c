@@ -317,10 +317,8 @@ void ai_manage_taxes(struct player *pplayer)
   m = n; /* storing the lux we really need */
   pplayer->economic.luxury = n * 10; /* temporary */
 
-/* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
-/*    n = ((expense - gnow) * 20 + trade) / trade / 2;   My goof-up.  -- Syela */
-  n = ((expense - gnow + cities) * 20 + (trade<<1) - 1) / (trade<<1);
-/* was failing to upkeep buildings during love-in; found, fixed. -- Syela */
+/* Less-intelligent previous versions of the follow equation purged. -- Syela */
+  n = ((expense - gnow + cities + pplayer->ai.maxbuycost) * 10 + trade - 1) / trade;
   if (n < 0) n = 0;
   while (n > 10 - (pplayer->economic.luxury / 10)) n--;
 
