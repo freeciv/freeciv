@@ -326,7 +326,8 @@ static bool is_valid_result(const struct cm_parameter *const parameter,
   int i;
 
   if (!parameter->allow_specialists
-      && (result->entertainers + result->scientists + result->taxmen) > 0) {
+      && (result->entertainers + result->scientists + result->taxmen) >
+      MAX(0,cache3.pcity->size - cache3.fields_available_total)) {
     return FALSE;
   }
 
@@ -1383,14 +1384,12 @@ static void optimize_final(struct city *pcity,
 	continue;
       }
 
-      if (parameter->allow_specialists) {
-	find_best_specialist_arrangement(pcity, parameter, current, &result,
-					 &major_fitness, &minor_fitness);
-	if (!result.found_a_valid) {
-	  freelog(OPTIMIZE_FINAL_LOG_LEVEL2, "    not enough secondary");
-	  not_enough_secondary++;
-	  continue;
-	}
+      find_best_specialist_arrangement(pcity, parameter, current, &result,
+				       &major_fitness, &minor_fitness);
+      if (!result.found_a_valid) {
+	freelog(OPTIMIZE_FINAL_LOG_LEVEL2, "    not enough secondary");
+	not_enough_secondary++;
+	continue;
       }
 
       freelog(OPTIMIZE_FINAL_LOG_LEVEL2, "    is ok");
