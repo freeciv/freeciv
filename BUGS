@@ -21,9 +21,6 @@ KNOWN BUGS:
    arrow keys will work again.  (Clicking on the main window should also
    do the trick.)
 
- - If you close one of the "undocked" windows in the Gtk+ client, the
-   client will become unstable, and quite likely will crash.
-
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
