@@ -256,9 +256,8 @@ and returns true if (capacity == passengers).  --dwp
 **************************************************************************/
 int is_enough_transporter_space (struct player *pplayer, int x, int y)
 {
-  int none_transporters, total_capacity=0;
-  none_transporters=0;
-  total_capacity=0;
+  int none_transporters=0, total_capacity=0;
+  
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if(is_ground_units_transport(punit)
        && punit->owner == pplayer->player_no)
