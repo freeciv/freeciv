@@ -70,23 +70,20 @@ static void filesel_response_callback(GtkWidget *w, gint id, gpointer data)
     gchar *filename;
     bool is_save = (bool)data;
 
-    if (current_filename) {
-      free(current_filename);
-    }
-
     filename = g_filename_to_utf8(
 	gtk_file_selection_get_filename(GTK_FILE_SELECTION(w)),
 	-1, NULL, NULL, NULL);
-    current_filename = mystrdup(filename);
 
     if (is_save) {
-      send_save_game(current_filename);
+      send_save_game(filename);
     } else {
       char message[MAX_LEN_MSG];
 
-      my_snprintf(message, sizeof(message), "/load %s", current_filename);
+      my_snprintf(message, sizeof(message), "/load %s", filename);
       send_chat(message);
     }
+
+    g_free(filename);
   }
 
   gtk_widget_destroy(w);
@@ -104,11 +101,6 @@ GtkWidget *create_file_selection(const char *title, bool is_save)
   filesel = gtk_file_selection_new(title);
   setup_dialog(filesel, toplevel);
   gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
-   
-  if (current_filename) {
-    gtk_file_selection_set_filename(GTK_FILE_SELECTION(filesel),
-	g_filename_from_utf8(current_filename, -1, NULL, NULL, NULL));
-  }
 
   g_signal_connect(filesel, "response",
 		   G_CALLBACK(filesel_response_callback), (gpointer)is_save);
