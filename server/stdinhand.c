@@ -3570,7 +3570,7 @@ static void take_command(struct connection *caller, char *str)
   conn_list_iterate(pplayer->connections, aconn) {
     if (!aconn->observer) {
       if (server_state == RUN_GAME_STATE) {
-        send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);\
+        send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);
       }
       notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
       unattach_connection_from_player(aconn);
