@@ -209,19 +209,18 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
 				    char *retbuf, int n)
 {
   struct city *pcity;
-  char granary='?';
   int foodstock=0;
   int foodbox=0;
 
   if (pdialog) {
     pcity=pdialog->pcity;
-    granary=(city_got_effect(pcity, B_GRANARY) ? '*' : ' ');
     foodstock=pcity->food_stock;
     foodbox=city_granary_size(pcity->size);
   }
 
-  my_snprintf(retbuf, n, _("Granary: %c%3d/%-3d"),
-	      granary, foodstock, foodbox);
+  /* We used to mark cities with a granary with a "*" here. */
+  my_snprintf(retbuf, n, _("Granary:  %3d/%-3d"),
+	      foodstock, foodbox);
 }
 
 /****************************************************************
