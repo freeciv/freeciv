@@ -1208,7 +1208,7 @@ static const struct command commands[] = {
   },
   {"vote",	ALLOW_INFO,
    N_("vote yes|no [vote number]"),
-   N_("Start or participate in a vote."),
+   N_("Cast a vote."),
       /* xgettext:no-c-format */
    N_("A player with info level access issueing a control level command "
       "starts a new vote for given command.  /vote followed by "
@@ -3227,8 +3227,8 @@ static bool vote_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  const char *usage = _("Undefined arguments. Usage: vote new <command> "
-			"  or   vote yes|no [vote number].");
+  const char *usage = _("Undefined arguments. Usage: vote yes|no "
+                        "[vote number].");
   int idx;
   bool res = FALSE;
 
