@@ -76,6 +76,7 @@ void		dtor_sprite		(SPRITE *mysprite);
 SPRITE *	get_tile_sprite		(int tileno);
 void		load_tile_gfx		(void);
 void		load_intro_gfx		(void);
+void		load_cursors		(void);
 
 SPRITE *	load_gfxfile		(char *filename, int makemask);
 

@@ -32,6 +32,9 @@
 #include <colors.h>
 #include <mem.h>
 
+#include <goto_cursor.xbm>
+#include <goto_cursor_mask.xbm>
+
 extern GtkWidget *	drawing;
 extern GtkWidget *	toplevel;
 extern GdkWindow *	root_window;
@@ -50,6 +53,8 @@ int			NORMAL_TILE_HEIGHT;
 */
 int ROAD_TILES;
 int RAIL_TILES;
+
+GdkCursor *		goto_cursor;
 
 extern GdkFont *	main_font;
 
@@ -260,6 +265,32 @@ void load_tile_gfx(void)
   free_sprite(flags_sprite);
 }
 
+
+/***************************************************************************
+...
+***************************************************************************/
+void load_cursors(void)
+{
+  GdkBitmap *pixmap, *mask;
+  GdkColor *white, *black;
+
+  white = colors_standard[COLOR_STD_WHITE];
+  black = colors_standard[COLOR_STD_BLACK];
+
+  pixmap = gdk_bitmap_create_from_data(root_window, goto_cursor_bits,
+				      goto_cursor_width,
+				      goto_cursor_height);
+  mask   = gdk_bitmap_create_from_data(root_window, goto_cursor_mask_bits,
+				      goto_cursor_mask_width,
+				      goto_cursor_mask_height);
+
+  goto_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
+					  white, black,
+					  goto_cursor_x_hot, goto_cursor_y_hot);
+
+  gdk_bitmap_unref(pixmap);
+  gdk_bitmap_unref(mask);
+}
 
 /***************************************************************************
 ...

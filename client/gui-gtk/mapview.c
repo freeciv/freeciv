@@ -113,6 +113,7 @@ int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 extern SPRITE *intro_gfx_sprite;
 extern SPRITE *radar_gfx_sprite;
+extern GdkCursor *goto_cursor;
 
 GtkObject *		map_hadj, *map_vadj;
 
@@ -295,7 +296,6 @@ void update_unit_info_label(struct unit *punit)
   if(punit) {
     char buffer[512];
     struct city *pcity;
-    static GdkCursor *cursor;
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
     sprintf(buffer, "%s %s", 
@@ -310,15 +310,11 @@ void update_unit_info_label(struct unit *punit)
             pcity ? pcity->name : "");
     gtk_set_label( unit_info_label, buffer);
 
-    if (goto_state==punit->id) {
-      cursor=gdk_cursor_new (24);
-      gdk_window_set_cursor (root_window, cursor);
-    }
-    else if (cursor)
-    {
-      gdk_window_set_cursor (root_window, 0);
-      gdk_cursor_destroy (cursor);
-      cursor=NULL;
+    if (goto_cursor != NULL) {
+      if (goto_state==punit->id)
+       gdk_window_set_cursor (root_window, goto_cursor);
+      else
+       gdk_window_set_cursor (root_window, 0);
     }
   }
   else
