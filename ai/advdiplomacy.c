@@ -1089,9 +1089,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 	  /* to peace */
 	  handle_diplomacy_cancel_pact(pplayer, aplayer->player_no,
 				       CLAUSE_ALLIANCE);
-          if (adip->love > 0) {
-            adip->love /= 4;
-          }
+          adip->love = MIN(adip->love, 0);
           if (gives_shared_vision(pplayer, aplayer)) {
             remove_shared_vision(pplayer, aplayer);
           }
