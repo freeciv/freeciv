@@ -1007,7 +1007,8 @@ static void package_player_info(struct player *plr,
 
     /* Ideally, we should check whether receiver really sees any cities owned
        by player before this. */
-    packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
+    if (server_state == RUN_GAME_STATE)
+      packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
 
     packet->government      = G_MAGIC;
   }
