@@ -364,6 +364,8 @@ void create_science_dialog(int make_modal)
 
   width=500;
   XtVaSetValues(science_label, XtNwidth, &width, NULL);
+
+  toggle_callback(science_help_toggle, NULL, NULL);
 }
 
 

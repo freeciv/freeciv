@@ -223,11 +223,11 @@ char *get_sane_name(char *name)
 ***************************************************************/
 char *textyear(int year)
 {
-  static char y[10];
+  static char y[32];
   if (year<0) 
-    my_snprintf(y, sizeof(y), "%d BC", -year);
+    my_snprintf(y, sizeof(y), _("%d BC"), -year);
   else
-    my_snprintf(y, sizeof(y), "%d AD", year);
+    my_snprintf(y, sizeof(y), _("%d AD"), year);
   return y;
 }
 
