@@ -5,7 +5,7 @@
 "Freeciv*server:                              localhost",
 "Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/",
 "Freeciv*port:                                5555",
-"Freeciv*version:                             1.9.0",
+"Freeciv*version:                             1.9.1-devel",
 "Freeciv*logLevel:                            1",
 "Freeciv*Command.foreground: White",
 "Freeciv*Command.background: Blue",
