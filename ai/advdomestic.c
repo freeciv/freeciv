@@ -205,6 +205,9 @@ void ai_eval_buildings(struct city *pcity)
       values[B_BARRACKS3] = bar;
   }
 
+  if (could_build_improvement(pcity, B_CAPITAL))
+    values[B_CAPITAL] = TRADE_WEIGHTING * 999 / SHIELD_WEIGHTING; /* trust me */
+
   if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
   else if (get_invention(pplayer, A_THEOLOGY) != TECH_KNOWN)
@@ -496,9 +499,3 @@ city X when we should be saving money to buy defenses for city Y. -- Syela */
 
   return;
 }
-
-
-
-
-
-
