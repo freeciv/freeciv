@@ -409,7 +409,7 @@ the metaserver,\
 The client can fetch this page, too: use the Metaserver button \
 in the connection dialog.  If it never shows any results, check \
 if your WWW browser is using a HTTP proxy; to make civclient \
-use the same client, set the $http_proxy environment variable to\
+use the same proxy, set the $http_proxy environment variable to\
 \n\n\
   http://proxyhost:proxyportnumber/\
 \n\n\
@@ -417,7 +417,7 @@ before starting civclient.\
 "), _("\
 When the game has started, everyone can connect as any player who \
 isn't already connected, including AI players.  Merely connecting \
-to an AI player doesn't make it human controlled; this is a \
+to an AI player doesn't make it human controlled; this is an \
 independent server setting.  If you lose connection early in \
 the game and reconnect, use the name you chose for your ruler, \
 not your original nickname!  If the server is reporting on the \
@@ -510,10 +510,10 @@ general, the steps are: \
  0. Choosing the first city site.\n\
  1. Mapping the countryside.\n\
  2. Defending the cities.\n\
- 3. Units to build first.\n\
- 4. Agriculture improvements.\n\
- 5. Where to build?\n\
- 6. Taking care of cities.\n\
+ 3. Deciding which units to build first.\n\
+ 4. Build agriculture improvements.\n\
+ 5. Deciding where to build cities.\n\
+ 6. Taking care of the cities.\n\
  7. Exploring the world.\n\
  8. Things to keep in mind.\n\
  9. Make your own strategy for the game.\n\
@@ -555,7 +555,7 @@ defensive bonus, as if fortified.  When a new city is built, \
 the city starts to build the best available defensive unit from \
 the above list.\
 "), _("\
- 3. Units to build first.\
+ 3. Deciding which units to build first.\
 \n\n\
     After building one or two Warrior units, start building \
 Settlers.  The second Settler can be used to build roads and \
@@ -566,7 +566,7 @@ improvements in the farmland around the cities.  Keep in mind \
 that a large population increases both the amount of \
 productivity and your civilization's research rate.\
 "), _("\
- 4. Agriculture improvements.\
+ 4. Build agriculture improvements.\
 \n\n\
     Each city has an area of farmland around it that can be used \
 for growing food, producing goods, and generating trade.  This \
@@ -574,16 +574,16 @@ can be increased by using Settlers to improve the farmland. \
 The land can be improved with roads, irrigation, mines, and \
 others.\
 "), _("\
- 5. Where to build cities?\
+ 5. Deciding where to build cities.\
 \n\n\
     The best location for a city is a matter of taste.  A city which \
 is placed near the sea is easier to spot by opponents, but can \
 also serve as a port for sea-going units.  (They also usually \
-need a coastal defence later on).  The best strategy is to build \
+need a coastal defence later on.)  The best strategy is to build \
 a few of both, but keep in mind that your opponents will find it \
 harder to locate your city if you don't build it by the sea.\
 "), _("\
- 6. Taking care of cities.\
+ 6. Taking care of the cities.\
 \n\n\
     Every city has a band of citizens.  The number of citizens \
 depends on the city's population.  When you click on a city, you \
@@ -610,7 +610,7 @@ where this is not so is labelled with a lightning bolt.  Take \
 care not to let this happen to any of your cities, as unhappy \
 cities produce nothing, and will soon revolt.\
 "), _("\
- 7. Explore the world.\
+ 7. Exploring the world.\
 \n\n\
     After you have fortified your cities with troops, build Triremes \
 in the cities near the sea.  Use the Triremes to map the world \
@@ -624,7 +624,7 @@ Diplomat units are very useful here, and WILL pay off later.\
 \n\n\
   - What the next advance you'll need is.\
 \n\n\
-  - What your luxury, tax and research rates are currently set to.\
+  - What your tax, luxury and research rates are currently set to.\
 \n\n\
   - Treaty are often broken, so don't neglect defence...\
 \n\n\
@@ -826,7 +826,7 @@ Next, the defender's strength is modified.\
 of the terrain it occupies.\
 "), _("\
  - Next, the defender's strength is doubled if it is a Pikeman unit \
-defending against horsemen.\
+defending against a mounted unit.\
 "), _("\
  - If the defender is an AEGIS Cruiser defending against airborne \
 units (including missiles and Helicopters), the defense is \
@@ -842,7 +842,7 @@ missile attacks.\
  - If the attacker is a ship and the defender is in a city with a \
 Coastal Defense, the defender's strength is doubled.\
 "), _("\
- - Against ground units (other than Howitzers) and Helicopters, \
+ - Against land units (other than Howitzers) and Helicopters, \
 defending units in a city with City Walls have their strength \
 tripled.\
 "), _("\
@@ -936,7 +936,8 @@ status.\
 "), _("\
 The defender's strength is 5, raised to 7.5 due to veteran status. \
 The terrain's defense factor is 1 (no effect).  The Coastal Defense \
-doubles the defender's strength to 15.  The defender is a ground \
+doubles the defender's strength to 15. (The City Walls have no \
+effect against attacking sea units.) The defender is a ground \
 unit inside a city, so its total strength is 22.5.\
 "), _("\
 Internally, the values used for attacker and defender strength are \
@@ -988,13 +989,15 @@ Notes:\
 \n\n\
 - Non-land units can impose ZOC (that is, count as enemy occupied \
 squares), but only if they are on a land square.  So effectively \
-sea units cannot impose ZOC, and air units (including helicopters) \
-do not impose ZOC if they are over ocean squares.\
+sea units cannot impose ZOC (unless they are in a city), and air \
+units (including helicopters) do not impose ZOC if they are over \
+ocean squares.\
 \n\n\
 - ZOC does not restrict unit attacks, only movement.\
 \n\n\
-- An enemy city counts as an enemy occupied square if they are any \
-units inside the city, but not if the city is empty.\
+- An enemy city counts as an enemy occupied square if there are \
+any units inside the city, but not if the city is empty. (This is \
+the same rule as for any other square).\
 \n\n\
 - Moving from an ocean square is a special case; moving _to_ an \
 ocean square (moving back onto a boat) is also permitted, by the \
@@ -1007,7 +1010,7 @@ By repeating this process (and optionally leaving some units \
 behind to keep squares occupied), you can make a path through \
 enemy territory.\
 "), _("\
-These rules differ slightly from previous versions of freeciv \
+These rules differ slightly from previous versions of Freeciv \
 (release 1.8.0 and before) in the following ways:\n\
 - Enemy cities with no units in them no longer impose ZOC.\n\
 - The special case for land units disembarking is new.\
@@ -1051,7 +1054,7 @@ Bridge Building.)  Roads and railroads allow your units to move \
 more quickly, and they increase the resources produced in cities.\
 "), _("\
  - Units use only one third of a movement point when going from one \
-square to another, if both squares have a road.\
+square to an adjecent square, if both squares have a road.\
 "), _("\
  - Units expend no movement points when moving along a railroad. \
 You may ride a railroad indefinitely.\
@@ -1097,7 +1100,7 @@ in the following order:\
  - a railroad\n\
  - a road\
 "), _("\
-Terrain tiles that do not have alterations (farmland, irrigation, \
+Tiles that do not have terrain alterations (farmland, irrigation, \
 mining, fortress, airbase, railroad or road) cannot be pillaged. \
 In addition, terrain conversions and transformations cannot be \
 undone by pillaging.  For example, if you have irrigated a Forest \
