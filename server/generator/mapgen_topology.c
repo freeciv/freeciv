@@ -178,7 +178,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
 
   /* In iso-maps we need to double the map.ysize factor, since xsize is
    * in native coordinates which are compressed 2x in the X direction. */ 
-  const int iso = (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) ? 2 : 1;
+  const int iso = MAP_IS_ISOMETRIC ? 2 : 1;
 
   /* We have:
    *

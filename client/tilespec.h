@@ -309,8 +309,7 @@ extern int SMALL_TILE_HEIGHT;
  * coordinates are used.  For classical maps the width and height are
  * equal.  The base size may be adjusted to get the correct scale. */
 extern int OVERVIEW_TILE_SIZE;
-#define OVERVIEW_TILE_WIDTH \
-  ((topo_has_flag(TF_ISO) ? 2 : 1) * OVERVIEW_TILE_SIZE)
+#define OVERVIEW_TILE_WIDTH ((MAP_IS_ISOMETRIC ? 2 : 1) * OVERVIEW_TILE_SIZE)
 #define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
 extern bool is_isometric;
