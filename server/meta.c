@@ -83,7 +83,6 @@ EndpointRef meta_ep;
 InetAddress serv_addr;
 #else /* Unix network globals */
 static int			sockfd=0;
-static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
 
 extern char metaserver_addr[];
@@ -137,8 +136,7 @@ int send_to_metaserver(char *desc, char *info)
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
-  sendto(sockfd, buffer, cptr-buffer,0, 
-	 (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
+  send(sockfd, buffer, cptr-buffer, 0);
 #endif
   return 1;
 }
@@ -157,6 +155,12 @@ void server_close_udp(void)
 #endif
 }
 
+void metaserver_failed(void)
+{
+  con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
+  con_flush();
+}
+
 void server_open_udp(void)
 {
   char *servername=metaserver_addr;
@@ -167,9 +171,8 @@ void server_open_udp(void)
   InetSvcRef ref=OTOpenInternetServices(kDefaultInternetServicesPath, 0, &err1);
   InetHostInfo hinfo;
 #else
-  int in_size;
+  struct sockaddr_in serv_addr;
   struct hostent *hp;
-  u_int bin;
 #endif
   
   /*
@@ -178,26 +181,22 @@ void server_open_udp(void)
    * is valid, both decimal-dotted and name.
    */
 #ifdef GENERATING_MAC  /* mac networking */
-  if (err1 == 0)
-  {
-    err1=OTInetStringToAddress(ref, servername,&hinfo);
+  if (err1 == 0) {
+    err1=OTInetStringToAddress(ref, servername, &hinfo);
     serv_addr.fHost=hinfo.addrs[0];
     bad = ((serv_addr.fHost == 0) || (err1 != 0));
-  } else
+  } else {
     bad=true;
+  }
 #else
-  in_size = sizeof(inet_addr(servername));
-  bin = inet_addr(servername);
-  bad = (((hp = gethostbyaddr((char *) &bin,in_size,AF_INET)) == NULL)
-	 && ((hp = gethostbyname(servername)) == NULL));
+  bad = ((hp = gethostbyname(servername)) == NULL);
 #endif
   if (bad) {
-    freelog(LOG_NORMAL, _("Metaserver: bad address: [%s]."),
-	    servername);
-    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
-    con_flush();
+    freelog(LOG_NORMAL, _("Metaserver: bad address: [%s]."), servername);
+    metaserver_failed();
     return;
   }
+
   /*
    * Open a UDP socket (an Internet datagram socket).
    */
@@ -205,40 +204,38 @@ void server_open_udp(void)
   meta_ep=OTOpenEndpoint(OTCreateConfiguration(kUDPName), 0, &meta_info, &err1);
   bad = (err1 != 0);
 #else  
-  memset(&serv_addr, 0, sizeof(serv_addr));
-  serv_addr.sin_family      = AF_INET;
-  serv_addr.sin_port        = htons(metaserver_port);
-  memcpy(&serv_addr.sin_addr, hp->h_addr, hp->h_length); 
-  bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0);
+  bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1);
 #endif
   if (bad) {
     freelog(LOG_DEBUG, "Metaserver: can't open datagram socket: %s",
 	    mystrerror(errno));
-    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
-    con_flush();
+    metaserver_failed();
     return;
   }
+
   /*
-   * Bind any local address for us.
+   * Associate datagram socket with server.
    */
-  
 #ifdef GENERATING_MAC  /* mac networking */
-  err1=OTBind(meta_ep, NULL, NULL);
-  bad = (err1 != 0);
-#else
-  memset( &cli_addr, 0, sizeof(cli_addr));	/* zero out */
-  cli_addr.sin_family      = AF_INET;
-  cli_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-  cli_addr.sin_port        = htons(0);
-  bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0);
-#endif
-  if (bad) {
+  if (OTBind(meta_ep, NULL, NULL)) {
     freelog(LOG_DEBUG, "Metaserver: can't bind local address: %s",
 	    mystrerror(errno));
-    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
-    con_flush();
+    metaserver_failed();
     return;
   }
+#else
+  memset(&serv_addr, 0, sizeof(serv_addr));
+  serv_addr.sin_family      = AF_INET;
+  memcpy(&serv_addr.sin_addr, hp->h_addr, hp->h_length); 
+  serv_addr.sin_port        = htons(metaserver_port);
+
+  /* no, this is not weird, see man connect(2) --vasc */
+  if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr))==-1) {
+    freelog(LOG_DEBUG, "Metaserver: connect failed: %s", mystrerror(errno));
+    metaserver_failed();
+    return;
+  }
+#endif
 
   server_is_open=1;
 }
