@@ -143,11 +143,20 @@ void remove_obsolete_buildings(struct player *pplayer)
 }
 
 /**************************************************************************
-  Rearrange workers according to a cm_result struct.
+  Rearrange workers according to a cm_result struct.  The caller must make
+  sure that the result is valid.
 **************************************************************************/
 void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 {
   int i;
+
+  /* The caller had better check this! */
+  if (!cmr->found_a_valid) {
+    freelog(LOG_ERROR, "apply_cmresult_to_city() called with non-valid "
+            "cm_result");
+    assert(0);
+    return;
+  }
 
   /* Now apply results */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
