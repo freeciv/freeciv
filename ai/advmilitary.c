@@ -797,24 +797,25 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   kill_something_with send it some more variables for it to meddle with. 
   -- Syela
 
-  TODO: Get rid of these parameters :).
-
   (x,y) is location of the target.
   (best_value, best_choice) is pre-filled with our current choice, we only 
   consider units of the same move_type as best_choice
 **************************************************************************/
-static void process_attacker_want(struct player *pplayer, struct city *pcity,
+static void process_attacker_want(struct city *pcity,
                                   int value, Unit_Type_id victim_unit_type,
-                                  bool veteran, int x, int y, bool unhap,
+                                  bool veteran, int x, int y,
                                   int *best_value, int *best_choice,
-                                  struct unit *boat, Unit_Type_id boattype,
-                                  int needferry)
+                                  struct unit *boat, Unit_Type_id boattype)
 { 
+  struct player *pplayer = city_owner(pcity);
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = map_get_city(x, y);
   bool shore = is_ocean_near_tile(pcity->x, pcity->y);
   int orig_move_type = unit_types[*best_choice].move_type;
   int victim_count = 1;
+  int needferry = 0;
+  bool unhap = ai_assess_military_unhappiness(pcity,
+                                              get_gov_pplayer(pplayer));
 
   if (orig_move_type != SEA_MOVING && orig_move_type != LAND_MOVING) {
     freelog(LOG_ERROR, "ERROR: Attempting to deal with non-trivial" 
@@ -822,6 +823,11 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
     return;
   }
 
+  if (orig_move_type == LAND_MOVING && !boat && boattype < U_LAST) {
+    /* cost of ferry */
+    needferry = unit_types[boattype].build_cost;
+  }
+  
   if (acity) {
     /* If it is a city, we may have to whack it many times */
     /* FIXME: Also valid for fortresses! */
@@ -889,18 +895,6 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
       
       vuln = unit_vulnerability_virtual2(unit_type, victim_unit_type, x, y,
                                          FALSE, veteran, FALSE, 0);
-
-      if (move_type == LAND_MOVING && acity
-          && move_time > (player_knows_improvement_tech(city_owner(acity),
-                                                        B_CITY) ? 2 : 4)
-          && !unit_type_flag(unit_type, F_IGWALL)
-          && !city_got_citywalls(acity)) {
-        /* Bonus of Citywalls can be expressed as * 3 (because Citywalls have
-         * 200% defense bonus [TODO: genimpr]), and vulnerability is quadratic,
-         * thus we multiply it by 9. */
-        /* FIXME: Use acity->ai.wallvalue? --pasky */
-        vuln *= 9;
-      }
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
@@ -971,37 +965,24 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
 This function 
 1. receives (in myunit) a first estimate of what we would like to build.
 2. finds a potential victim for it.
-3. estimates the want of the attack.
-4. finds the best attacker for this type of victim.
+3. calculates the relevant stats of the victim.
+4. finds the best attacker for this type of victim (in process_attacker_want)
 5. if we still want to attack, records the best attacker in choice.
-TODO: 3 is _completely_ redundant.  All the work is doubled in 
-process_attacker_want, although with very few dopy variations.
 **************************************************************************/
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
 				struct unit *myunit, struct ai_choice *choice)
 {
   /* Our attack rating (with reinforcements) */
   int attack;
-  /* Rating of future defender */
-  int vuln;
   /* Benefit from fighting the target */
   int benefit;
   /* Want (amortized) of the operation */
   int want;
-  /* Build cost of attacker (+adjustments) */
-  int bcost, bcost_bal;
-  /* Number of defenders in the stack */
-  int victim_count;
   Unit_Type_id att_type;
   /* Enemy defender type */
   Unit_Type_id def_type;
-  /* Our move rate */
-  int move_rate;
-  /* Distance to target (in turns) */
-  int move_time;
   /* Target coordinates */
   int x, y;
-  bool unhap = FALSE;
   /* Our transport */
   struct unit *ferryboat = NULL;
   /* Out target */
@@ -1013,7 +994,6 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   /* Type of the boat (real or a future one) */
   Unit_Type_id boattype = U_LAST;
   int boatspeed;
-  int needferry = 0;
   bool go_by_boat;
   /* Is the defender veteran? */
   bool def_vet;
@@ -1045,7 +1025,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
   boatspeed = unit_types[boattype].move_rate;
 
-  (void) find_something_to_kill(pplayer, myunit, &x, &y);
+  want = find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
 
@@ -1055,12 +1035,6 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     return;
   }
   
-  move_rate = unit_types[att_type].move_rate;
-  if (unit_type_flag(att_type, F_IGTER)) {
-    /* See comment in unit_move_turns */
-    move_rate *= 3;
-  }
-    
   attack = unit_belligerence_basic(myunit);
   if (acity) {
     attack += acity->ai.attack;
@@ -1068,38 +1042,44 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   attack *= attack;
   
   if (acity) {
- 
+    /* Our move rate */
+    int move_rate = unit_types[att_type].move_rate;
+    /* Distance to target (in turns) */
+    int move_time;
+    /* Rating of enemy defender */
+    int vuln;
+
+    if (unit_type_flag(att_type, F_IGTER)) {
+      /* See comment in unit_move_turns */
+      move_rate *= 3;
+    }
+    
     if (!pplayers_at_war(pplayer, city_owner(acity))) {
       /* Not a valid target */
       return;
     }
 
-    pdef = get_defender(myunit, x, y);
-    victim_count 
-      = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
-    
     go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
                   && warmap.cost[x][y] <= (MIN(6, move_rate) * THRESHOLD));
-    
     move_time = turns_to_enemy_city(myunit->type, acity, move_rate, go_by_boat,
                                     ferryboat, boattype);
 
     def_type = ai_choose_defender_versus(acity, att_type);
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vuln 
-        = unit_vulnerability_virtual2(att_type, def_type, x, y, FALSE,
-                                      def_vet, FALSE, 0);
+      vuln = unit_vulnerability_virtual2(att_type, def_type, x, y, FALSE,
+                                         def_vet, FALSE, 0);
       benefit = unit_types[def_type].build_cost;
     } else {
       vuln = 0;
       benefit = 0;
       def_vet = FALSE;
     }
+
+    pdef = get_defender(myunit, x, y);
     if (pdef) {
       int m = unit_vulnerability_virtual2(att_type, pdef->type, x, y, FALSE,
-                                      pdef->veteran, myunit->id != 0,
-                                      pdef->hp);
+                                          pdef->veteran, FALSE, 0);
       if (vuln < m) {
         vuln = m;
         benefit = unit_type(pdef)->build_cost;
@@ -1107,16 +1087,9 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
         def_type = pdef->type; 
       }
     }
-    if (is_ground_unit(myunit) || is_heli_unit(myunit) 
-        || TEST_BIT(acity->ai.invasion, 0)) {
-      /* boats can't conquer cities */
+    if (COULD_OCCUPY(myunit) || TEST_BIT(acity->ai.invasion, 0)) {
+      /* bonus for getting the city */
       benefit += 40;
-    }
-    if (!unit_really_ignores_citywalls(myunit) && !city_got_citywalls(acity)
-        && move_time > (player_knows_improvement_tech(city_owner(acity), 
-                                                      B_CITY) ? 2 : 4)) { 
-      /* Might get walls before we get there */
-      vuln *= 9;
     }
 
     /* end dealing with cities */
@@ -1128,80 +1101,20 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       return;
     }
 
-    /* FIXME: what if fortress? */
-    victim_count = 1;    
-
     benefit = unit_type(pdef)->build_cost;
     go_by_boat = FALSE;
 
-    move_time 
-      = turns_to_enemy_unit(myunit->type, move_rate, x, y, pdef->type);    
-    
     def_type = pdef->type;
-    vuln = unit_vulnerability_virtual2(att_type, def_type, x, y,
-                                       pdef->activity == ACTIVITY_FORTIFIED,
-                                       pdef->veteran, myunit->id != 0,
-                                       pdef->hp);
     def_vet = pdef->veteran;
     /* end dealing with units */
   }
   
-  if (pcity->id == myunit->homecity || myunit->id == 0) {
-    unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
-  }  
-
-  if (is_ground_unit(myunit) && go_by_boat && !ferryboat) {
-    /* cost of ferry */
-    needferry = unit_types[boattype].build_cost;
-  }
-  bcost = unit_types[att_type].build_cost;
-  bcost_bal = build_cost_balanced(att_type);
-  
-  if (unit_types[att_type].move_type != LAND_MOVING &&
-      unit_types[att_type].move_type != HELI_MOVING && !pdef) {
-    /* Nobody there to atack! */
-    want = 0;
-  } else if (move_time > THRESHOLD) {
-    /* Too far */
-    want = 0;
-  } else if ((unit_types[att_type].move_type == LAND_MOVING ||
-            unit_types[att_type].move_type == HELI_MOVING) && acity &&
-           acity->ai.invasion == 2) {
-    want = bcost * SHIELD_WEIGHTING;
-  } else {
-    if (!acity) {
-      want = kill_desire(benefit, attack, bcost, vuln, victim_count);
-    } else {
-      int a_squared = acity->ai.attack * acity->ai.attack;
-      
-      want = kill_desire(benefit, attack, bcost + acity->ai.bcost, 
-                         vuln, victim_count);
-      if (benefit * a_squared > acity->ai.bcost * vuln) {
-        want -= kill_desire(benefit, a_squared, acity->ai.bcost, 
-                            vuln, victim_count);
-      }
-    }
-  }
-  want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
-                     : SHIELD_WEIGHTING);
-  want = military_amortize(pplayer, pcity, want, MAX(1, move_time), 
-                           bcost_bal + needferry);
-  
-  if (myunit->id != 0) {
-    freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with");
-    return;
-  }
-
   if (!go_by_boat) {
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
-                          unhap, &want, &att_type, NULL, U_LAST, needferry);
-  } else if (ferryboat) { 
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
-                          unhap, &want, &att_type, ferryboat, 
-                          boattype, needferry);
-  } else {
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
-                          unhap, &want, &att_type, NULL, boattype, needferry);
+    process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
+                          &want, &att_type, NULL, U_LAST);
+  } else { 
+    process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
+                          &want, &att_type, ferryboat, boattype);
   }
 
   if (want > choice->want) { 
@@ -1209,7 +1122,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     choice->choice = att_type;
     choice->type = CT_ATTACKER;
     choice->want = want;
-    if (needferry != 0) {
+    if (go_by_boat && !ferryboat) {
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
     freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
