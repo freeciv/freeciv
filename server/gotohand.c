@@ -407,16 +407,16 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 /**************************************************************************
 Returns false if you are going the in opposite direction of the destination.
 The 3 directions most opposite the one to the target is considered wrong.
-"dir" is the direction you get if you use x = DIR_DX[dir], y = DIR_DY[dir]
 **************************************************************************/
 static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
 {
-  int diff_x, diff_y;
+  int diff_x, diff_y, dx, dy, scalar_product;
+
   if (dest_x > src_x) {
-    diff_x = dest_x-src_x < map.xsize/2 ? 1 : -1;
+    diff_x = dest_x - src_x < map.xsize / 2 ? 1 : -1;
   } else if (dest_x < src_x) {
-    diff_x = src_x-dest_x < map.xsize/2 ? -1 : 1;
-  } else { /* dest_x == src_x */
+    diff_x = src_x - dest_x < map.xsize / 2 ? -1 : 1;
+  } else {			/* dest_x == src_x */
     diff_x = 0;
   }
   if (dest_y != src_y)
@@ -424,36 +424,10 @@ static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
   else
     diff_y = 0;
 
-  switch(dir) {
-  case 0:
-    if (diff_x >= 0 && diff_y >= 0) return 0;
-    else return 1;
-  case 1:
-    if (diff_y == 1) return 0;
-    else return 1;
-  case 2:
-    if (diff_x <= 0 && diff_y >= 0) return 0;
-    else return 1;
-  case 3:
-    if (diff_x == 1) return 0;
-    else return 1;
-  case 4:
-    if (diff_x == -1) return 0;
-    else return 1;
-  case 5:
-    if (diff_x >= 0 && diff_y <= 0) return 0;
-    else return 1;
-  case 6:
-    if (diff_y == -1) return 0;
-    else return 1;
-  case 7:
-    if (diff_x <= 0 && diff_y <= 0) return 0;
-    else return 1;
-  default:
-    freelog(LOG_ERROR, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
-	    src_x, src_y, dest_x, dest_y, dir);
-    return 0;
-  }
+  DIRSTEP(dx, dy, dir);
+  scalar_product = diff_x * dx + diff_y * dy;
+
+  return scalar_product >= 0;
 }
 
 /**************************************************************************
