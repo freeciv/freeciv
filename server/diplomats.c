@@ -496,7 +496,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		       struct city  *pcity, int technology)
 {
   struct player *cplayer;
-  int index, count, which, target;
+  int count, which, target;
 
   /* Fetch target civilization's player.  Sanity checks. */
   if (!pcity)
@@ -554,13 +554,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   /* Examine the civilization for technologies to steal. */
   count = 0;
-  for (index = A_FIRST; index < game.num_tech_types; index++) {
+  tech_type_iterate(index) {
     if (get_invention(pplayer, index) != TECH_KNOWN
 	&& get_invention(cplayer, index) == TECH_KNOWN
 	&& tech_is_available(pplayer, index)) {
       count++;
     }
-  }
+  } tech_type_iterate_end;
 
   freelog (LOG_DEBUG, "steal-tech: count of technologies: %d", count);
 
@@ -586,7 +586,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Pick random technology to steal. */
     target = -1;
     which = myrand (count);
-    for (index = A_FIRST; index < game.num_tech_types; index++) {
+    tech_type_iterate(index) {
       if (get_invention(pplayer, index) != TECH_KNOWN
 	  && get_invention(cplayer, index) == TECH_KNOWN
 	  && tech_is_available(pplayer, index)) {
@@ -597,7 +597,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 	  break;
 	}
       }
-    }
+    } tech_type_iterate_end;
     freelog (LOG_DEBUG, "steal-tech: random: targeted technology: %d (%s)",
 	     target, advances[target].name);
   } else {

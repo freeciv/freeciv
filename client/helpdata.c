@@ -255,15 +255,15 @@ void boot_help_texts(void)
 	    }
 	  } unit_type_iterate_end;
 	} else if(current_type==HELP_TECH) {
-	  for(i=A_FIRST; i<game.num_tech_types; i++) {  /* skip A_NONE */
-	    if(tech_exists(i)) {
+	  tech_type_iterate(i) {
+	    if (i != A_NONE && tech_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", advances[i].name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
-	  }
+	  } tech_type_iterate_end;
 	} else if(current_type==HELP_TERRAIN) {
 	  for(i=T_FIRST; i<T_COUNT; i++) {
 	    if(*(tile_types[i].terrain_name) != '\0') {

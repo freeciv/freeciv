@@ -1212,10 +1212,9 @@ void handle_game_info(struct packet_game_info *pinfo)
 static bool read_player_info_techs(struct player *pplayer,
 				   unsigned char *inventions)
 {
-  int i;
   bool need_effect_update = FALSE;
 
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     enum tech_state oldstate = pplayer->research.inventions[i].state;
     enum tech_state newstate = inventions[i] - '0';
 
@@ -1224,7 +1223,7 @@ static bool read_player_info_techs(struct player *pplayer,
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
       need_effect_update = TRUE;
     }
-  }
+  } tech_type_iterate_end;
   if (need_effect_update) {
     /* nothing yet */
   }

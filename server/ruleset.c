@@ -597,9 +597,9 @@ restart:
   /* Some more consistency checking: 
      Non-removed techs depending on removed techs is too
      broken to fix by default, so die.
-  */   
-  for( i=A_FIRST; i<game.num_tech_types; i++ ) {
-    if (tech_exists(i)) {
+  */
+  tech_type_iterate(i) {
+    if (i != A_NONE && tech_exists(i)) {
       a = &advances[i];
       /* We check for recursive tech loops later,
        * in build_required_techs_helper. */
@@ -614,7 +614,7 @@ restart:
 	exit(EXIT_FAILURE);
       }
     }
-  } 
+  } tech_type_iterate_end;
 
   precalc_tech_data();
 
@@ -2522,10 +2522,11 @@ static void send_ruleset_units(struct conn_list *dest)
 static void send_ruleset_techs(struct conn_list *dest)
 {
   struct packet_ruleset_tech packet;
-  struct advance *a;
 
-  for(a=advances; a<advances+game.num_tech_types; a++) {
-    packet.id = a-advances;
+  tech_type_iterate(tech_id) {
+    struct advance *a = &advances[tech_id];
+
+    packet.id = tech_id;
     sz_strlcpy(packet.name, a->name_orig);
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);	  
@@ -2538,7 +2539,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.helptext = a->helptext;   /* pointer assignment */
 
     lsend_packet_ruleset_tech(dest, &packet);
-  }
+  } tech_type_iterate_end;
 }
 
 /**************************************************************************

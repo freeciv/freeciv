@@ -124,12 +124,11 @@ void send_player_turn_notifications(struct conn_list *dest)
 **************************************************************************/
 void great_library(struct player *pplayer)
 {
-  int i;
   if (wonder_obsolete(B_GREAT)) 
     return;
   if (find_city_wonder(B_GREAT)) {
     if (pplayer->player_no==find_city_wonder(B_GREAT)->owner) {
-      for (i=0;i<game.num_tech_types;i++) {
+      tech_type_iterate(i) {
 	if (get_invention(pplayer, i) != TECH_KNOWN
 	    && tech_is_available(pplayer, i)
 	    && game.global_advances[i]>=2) {
@@ -148,7 +147,7 @@ void great_library(struct player *pplayer)
 	  found_new_tech(pplayer, i, FALSE, FALSE);
 	  break;
 	}
-      }
+      } tech_type_iterate_end;
     }
   }
 }
@@ -469,31 +468,30 @@ static bool choose_goal_tech(struct player *plr)
 void choose_random_tech(struct player *plr)
 {
   int chosen, researchable = 0;
-  Tech_Type_id i;
 
   if (plr->research.bulbs_researched >0) {
     plr->research.bulbs_researched = 0;
   }
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
       researchable++;
     }
-  }
+  } tech_type_iterate_end;
   if (researchable == 0) {
     plr->research.researching = A_FUTURE;
     return;
   }
   chosen = myrand(researchable) + 1;
   
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
       chosen--;
       if (chosen == 0) {
+	plr->research.researching = i;
 	break;
       }
     }
-  }
-  plr->research.researching = i;
+  } tech_type_iterate_end;
 }
 
 /**************************************************************************
@@ -536,9 +534,9 @@ void init_tech(struct player *plr, int tech)
   int i;
   struct nation_type *nation = get_nation_by_plr(plr);
 
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     set_invention(plr, i, TECH_UNKNOWN);
-  }
+  } tech_type_iterate_end;
   set_invention(plr, A_NONE, TECH_KNOWN);
 
   plr->research.techs_researched = 1;
@@ -583,20 +581,21 @@ void init_tech(struct player *plr, int tech)
 **************************************************************************/
 void get_a_tech(struct player *pplayer, struct player *target)
 {
-  int i;
+  Tech_Type_id stolen_tech;
   int j=0;
-  for (i=0;i<game.num_tech_types;i++) {
+
+  tech_type_iterate(i) {
     if (get_invention(pplayer, i) != TECH_KNOWN
 	&& get_invention(target, i) == TECH_KNOWN
 	&& tech_is_available(pplayer, i)) {
       j++;
     }
-  }
+  } tech_type_iterate_end;
   if (j == 0)  {
     /* we've moved on to future tech */
     if (target->future_tech > pplayer->future_tech) {
       found_new_future_tech(pplayer);
-      i = game.num_tech_types + pplayer->future_tech;
+      stolen_tech = game.num_tech_types + pplayer->future_tech;
     } else {
       return; /* nothing to learn here, move on */
     }
@@ -604,40 +603,43 @@ void get_a_tech(struct player *pplayer, struct player *target)
   } else {
     /* pick random tech */
     j = myrand(j) + 1;
-    for (i = 0; i < game.num_tech_types; i++) {
+    stolen_tech = A_NONE; /* avoid compiler warning */
+    tech_type_iterate(i) {
       if (get_invention(pplayer, i) != TECH_KNOWN
 	  && get_invention(target, i) == TECH_KNOWN
 	  && tech_is_available(pplayer, i)) {
 	j--;
       }
       if (j == 0) {
+	stolen_tech = i;
 	break;
       }
-    }
+    } tech_type_iterate_end;
+    assert(stolen_tech != A_NONE);
   }
   gamelog(GAMELOG_TECH, _("%s steal %s from %s"),
 	  get_nation_name_plural(pplayer->nation),
-	  get_tech_name(pplayer, i),
+	  get_tech_name(pplayer, stolen_tech),
 	  get_nation_name_plural(target->nation));
 
   notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
 		   _("Game: You steal %s from the %s."),
-		   get_tech_name(pplayer, i),
+		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(target->nation));
 
   notify_player_ex(target, -1, -1, E_ENEMY_DIPLOMAT_THEFT,
                    _("Game: The %s stole %s from you!"),
 		   get_nation_name_plural(pplayer->nation),
-		   get_tech_name(pplayer, i));
+		   get_tech_name(pplayer, stolen_tech));
 
   notify_embassies(pplayer, target,
 		   _("Game: The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
-		   get_tech_name(pplayer, i),
+		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(target->nation));
 
   do_conquer_cost(pplayer);
-  found_new_tech(pplayer, i, FALSE, TRUE);
+  found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
 }
 
 /**************************************************************************
@@ -1566,9 +1568,10 @@ static struct player *split_player(struct player *pplayer)
   cplayer->research.bulbs_researched = 0;
   cplayer->research.techs_researched = pplayer->research.techs_researched;
   cplayer->research.researching = pplayer->research.researching;
-  
-  for(i = 0; i<game.num_tech_types ; i++)
+
+  tech_type_iterate(i) {
     cplayer->research.inventions[i] = pplayer->research.inventions[i];
+  } tech_type_iterate_end;
   cplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
   cplayer->embassy = 0;   /* all embassies destroyed */
 
@@ -1581,10 +1584,10 @@ static struct player *split_player(struct player *pplayer)
   cplayer->ai.handicap = pplayer->ai.handicap;
   cplayer->ai.warmth = pplayer->ai.warmth;
   set_ai_level_direct(cplayer, game.skill_level);
-		    
-  for(i = 0; i<game.num_tech_types ; i++){
+
+  tech_type_iterate(i) {
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
-  }
+  } tech_type_iterate_end;
   
   /* change the original player */
   if (pplayer->government != game.government_when_anarchy) {

@@ -511,11 +511,11 @@ void translate_data_names(void)
 
 #define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, too_long_msg))
   
-  for (i=0; i<game.num_tech_types; i++) {
-    struct advance *tthis = &advances[i];
+  tech_type_iterate(tech_id) {
+    struct advance *tthis = &advances[tech_id];
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
-  }
+  } tech_type_iterate_end;
 
   unit_type_iterate(i) {
     struct unit_type *tthis = &unit_types[i];

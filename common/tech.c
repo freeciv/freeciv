@@ -122,7 +122,6 @@ static void build_required_techs_helper(struct player *pplayer,
 **************************************************************************/
 static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 {
-  Tech_Type_id i;
   int counter;
 
   memset(pplayer->research.inventions[goal].required_techs, 0,
@@ -142,8 +141,8 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
   pplayer->research.inventions[goal].num_required_techs = 1;
 
   counter = 0;
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (!is_tech_a_req_for_goal(pplayer, i, goal)) {
+  tech_type_iterate(i) {
+    if (i == A_NONE || !is_tech_a_req_for_goal(pplayer, i, goal)) {
       continue;
     }
 
@@ -157,7 +156,7 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
     pplayer->research.inventions[goal].num_required_techs++;
     pplayer->research.inventions[goal].bulbs_required +=
 	base_total_bulbs_required(pplayer, i);
-  }
+  } tech_type_iterate_end;
 
   /* Undo the changes made above */
   pplayer->research.techs_researched -= counter;
@@ -188,14 +187,13 @@ bool tech_is_available(struct player *pplayer, Tech_Type_id id)
 **************************************************************************/
 void update_research(struct player *pplayer)
 {
-  Tech_Type_id i;
   enum tech_flag_id flag;
 
   /* This assert does not work. Triggered by AI players in new
    * games. */
   /* assert(get_invention(pplayer, A_NONE) == TECH_KNOWN); */
 
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (!tech_is_available(pplayer, i)) {
       set_invention(pplayer, i, TECH_UNKNOWN);
     } else {
@@ -210,16 +208,16 @@ void update_research(struct player *pplayer)
       }
     }
     build_required_techs(pplayer, i);
-  }
+  } tech_type_iterate_end;
 
   for (flag = 0; flag < TF_LAST; flag++) {
     pplayer->research.num_known_tech_with_flag[flag] = 0;
 
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
+    tech_type_iterate(i) {
       if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
 	pplayer->research.num_known_tech_with_flag[flag]++;
       }
-    }
+    } tech_type_iterate_end;
   }
 }
 
@@ -283,12 +281,10 @@ Returns A_LAST if none match.
 **************************************************************************/
 Tech_Type_id find_tech_by_name(const char *s)
 {
-  Tech_Type_id i;
-
-  for( i=0; i<game.num_tech_types; i++ ) {
+  tech_type_iterate(i) {
     if (strcmp(advances[i].name, s)==0)
       return i;
-  }
+  } tech_type_iterate_end;
   return A_LAST;
 }
 
@@ -549,13 +545,12 @@ static int precalc_tech_data_helper(Tech_Type_id tech, bool *counted)
 **************************************************************************/
 void precalc_tech_data()
 {
-  Tech_Type_id tech;
   bool counted[A_LAST];
 
-  for (tech = A_FIRST; tech < game.num_tech_types; tech++) {
+  tech_type_iterate(tech) {
     memset(counted, 0, sizeof(counted));
     advances[tech].num_reqs = precalc_tech_data_helper(tech, counted);
-  }
+  } tech_type_iterate_end;
 }
 
 /**************************************************************************

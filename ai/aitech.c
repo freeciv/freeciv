@@ -114,7 +114,7 @@ static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
 static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 			   struct ai_choice *gol)
 {
-  Tech_Type_id i, k, l;
+  Tech_Type_id k, l;
   int j;
   int num_cities_nonzero;
   int values[A_LAST];
@@ -124,25 +124,25 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
     num_cities_nonzero = 1;
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     j = num_unknown_techs_for_goal(pplayer, i);
     if (j > 0) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
-      for (k = A_FIRST; k < game.num_tech_types; k++) {
+      tech_type_iterate(k) {
 	if (is_tech_a_req_for_goal(pplayer, k, i)) {
 	  values[k] += pplayer->ai.tech_want[i] / j;
 	}
-      }
+      } tech_type_iterate_end;
     }
-  }
+  } tech_type_iterate_end;
 
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (num_unknown_techs_for_goal(pplayer, i) > 0) {
-      for (k = A_FIRST; k < game.num_tech_types; k++) {
+      tech_type_iterate(k) {
 	if (is_tech_a_req_for_goal(pplayer, k, i)) {
           goal_values[i] += values[k];
         }
-      }
+      } tech_type_iterate_end;
       goal_values[i] += values[i];
       
 /* this is the best I could do.  It still sometimes does freaky stuff like
@@ -156,11 +156,11 @@ to be doing; it just looks strange. -- Syela */
 		values[i], goal_values[i]);
       }
     } else goal_values[i] = 0;
-  }
+  } tech_type_iterate_end;
 
   l = A_UNSET; /* currently researched tech */
   k = A_UNSET; /* current tech goal */
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (values[i] > values[l]
         && tech_is_available(pplayer, i)
         && get_invention(pplayer, i) == TECH_REACHABLE) {
@@ -170,7 +170,7 @@ to be doing; it just looks strange. -- Syela */
         && tech_is_available(pplayer, i)) {
       k = i;
     }
-  }
+  } tech_type_iterate_end;
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
 		advances[l].name, values[l], pplayer->ai.tech_want[l]);
   if (choice) {

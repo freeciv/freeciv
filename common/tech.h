@@ -138,4 +138,15 @@ void techs_free(void);
 
 extern struct advance advances[];
 
+/* This iterator iterates over almost all technologies.  It includes A_NONE
+ * and non-existent technologies, but not A_FUTURE. */
+#define tech_type_iterate(tech_id)                                          \
+{                                                                           \
+  Tech_Type_id tech_id;                                                     \
+  for (tech_id = A_NONE; tech_id < game.num_tech_types; tech_id++) {
+
+#define tech_type_iterate_end                                               \
+  }                                                                         \
+}
+
 #endif  /* FC__TECH_H */

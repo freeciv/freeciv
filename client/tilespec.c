@@ -354,11 +354,11 @@ void tilespec_reread(const char *tileset_name)
   impr_type_iterate(imp_id) {
     tilespec_setup_impr_type(imp_id);
   } impr_type_iterate_end;
-  for (id = A_FIRST; id < game.num_tech_types; id++) {
-    if (tech_exists(id)) {
-      tilespec_setup_tech_type(id);
+  tech_type_iterate(tech_id) {
+    if (tech_id != A_NONE && tech_exists(tech_id)) {
+      tilespec_setup_tech_type(tech_id);
     }
-  }
+  } tech_type_iterate_end;
 
   /* tilespec_load_tiles reverts the city tile pointers to 0.  This
      is a workaround. */

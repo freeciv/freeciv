@@ -690,11 +690,11 @@ static void player_load(struct player *plr, int plrno,
   plr->revolution=secfile_lookup_int_default(file, 0, "player%d.revolution",
                                              plrno);
 
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (p[i] == '1') {
       set_invention(plr, i, TECH_KNOWN);
     }
-  }
+  } tech_type_iterate_end;
 
   update_research(plr);
 
@@ -1360,9 +1360,10 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->capital, "player%d.capital", plrno);
   secfile_insert_int(file, plr->revolution, "player%d.revolution", plrno);
 
-  for(i=0; i<game.num_tech_types; i++)
-    invs[i]=(get_invention(plr, i)==TECH_KNOWN) ? '1' : '0';
-  invs[i]='\0';
+  tech_type_iterate(tech_id) {
+    invs[tech_id] = (get_invention(plr, tech_id) == TECH_KNOWN) ? '1' : '0';
+  } tech_type_iterate_end;
+  invs[game.num_tech_types] = '\0';
   secfile_insert_str(file, invs, "player%d.invs", plrno);
 
   secfile_insert_int(file, plr->reputation, "player%d.reputation", plrno);

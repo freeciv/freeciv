@@ -376,7 +376,6 @@ static void get_player_landarea(struct claim_map *pcmap,
 **************************************************************************/
 int civ_score(struct player *pplayer)
 {
-  int i;
   struct city *pcity;
   int landarea, settledarea;
   static struct claim_map cmap = { NULL, NULL, NULL,NULL };
@@ -441,11 +440,11 @@ int civ_score(struct player *pplayer)
     free_landarea_map(&cmap);
   }
 
-  for (i = 0; i < game.num_tech_types; i++) {
+  tech_type_iterate(i) {
     if (get_invention(pplayer, i)==TECH_KNOWN) {
       pplayer->score.techs++;
     }
-  }
+  } tech_type_iterate_end;
   pplayer->score.techs += pplayer->future_tech * 5 / 2;
   
   unit_list_iterate(pplayer->units, punit) {

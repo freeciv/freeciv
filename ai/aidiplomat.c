@@ -83,14 +83,14 @@ static int count_sabotagable_improvements(struct city *pcity)
 ******************************************************************************/
 static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
 {
-  int index, count = 0;
+  int count = 0;
 
-  for (index = A_FIRST; index < game.num_tech_types; index++) {
+  tech_type_iterate(index) {
     if ((get_invention(pplayer, index) != TECH_KNOWN)
         && (get_invention(tplayer, index) == TECH_KNOWN)) {
       count++;
     }
-  }
+  } tech_type_iterate_end;
 
   return count;
 }
