@@ -790,10 +790,10 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
   }
   cache1.misses++;
 
-  my_city_map_iterate(pcity, x, y) {
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, mx, my) {
     result->worker_positions_used[x][y] =
 	(base_combination->worker_positions[x][y] == C_TILE_WORKER);
-  } my_city_map_iterate_end;
+  } city_map_checked_iterate_end;
 
   result->scientists = scientists;
   result->taxmen = taxmen;
