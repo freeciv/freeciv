@@ -42,7 +42,6 @@
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
-
 /* unit_focus points to the current unit in focus */
 static struct unit *punit_focus;
 
@@ -54,8 +53,8 @@ enum cursor_hover_state hover_state = HOVER_NONE;
 bool draw_goto_line = TRUE;
 
 /* units involved in current combat */
-static struct unit *punit_attacking;
-static struct unit *punit_defending;
+static struct unit *punit_attacking = NULL;
+static struct unit *punit_defending = NULL;
 
 /*************************************************************************/
 
@@ -324,15 +323,6 @@ struct unit *find_visible_unit(struct tile *ptile)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
-{
-  punit_attacking = pattacker;
-  punit_defending = pdefender;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void blink_active_unit(void)
 {
   static bool is_shown;
@@ -348,6 +338,79 @@ void blink_active_unit(void)
     }
     is_shown=!is_shown;
   }
+}
+
+/**************************************************************************
+  Update unit icons (and arrow) in the information display, for specified
+  punit as the active unit and other units on the same square.  In practice
+  punit is almost always (or maybe strictly always?) the focus unit.
+  
+  Static vars store some info on current (ie previous) state, to avoid
+  unnecessary redraws; initialise to "flag" values to always redraw first
+  time.  In principle we _might_ need more info (eg ai.control, connecting),
+  but in practice this is enough?
+  
+  Used to store unit_ids for below units, to use for callbacks (now done
+  inside gui-dep set_unit_icon()), but even with ids here they would not
+  be enough information to know whether to redraw -- instead redraw every
+  time.  (Could store enough info to know, but is it worth it?)
+**************************************************************************/
+void update_unit_pix_label(struct unit *punit)
+{
+  static enum unit_activity prev_activity = ACTIVITY_UNKNOWN;
+  static Unit_Type_id prev_unit_type = U_LAST;
+  static int prev_hp = -1;	         /* or could store ihp cf tilespec.c */
+  
+  int i;
+  
+  if(punit) {
+    if(punit->type != prev_unit_type
+       || punit->activity != prev_activity
+       || punit->hp != prev_hp) {
+      set_unit_icon(-1, punit);
+      prev_unit_type = punit->type;
+      prev_activity = punit->activity;
+      prev_hp = punit->hp;
+    }
+
+    i = 0;			/* index into unit_below_canvas */
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+      if (aunit != punit) {
+	if (i < num_units_below) {
+	  set_unit_icon(i, aunit);
+	}
+	i++;
+      }
+    }
+    unit_list_iterate_end;
+    
+    if (i > num_units_below) {
+      set_unit_icons_more_arrow(TRUE);
+    } else {
+      set_unit_icons_more_arrow(FALSE);
+      for(; i < num_units_below; i++) {
+	set_unit_icon(i, NULL);
+      }
+    }
+  }
+  else {
+    prev_unit_type = U_LAST;
+    prev_activity = ACTIVITY_UNKNOWN;
+    prev_hp = -1;
+    for(i=-1; i<num_units_below; i++) {
+      set_unit_icon(i, NULL);
+    }
+    set_unit_icons_more_arrow(FALSE);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
+{
+  punit_attacking = pattacker;
+  punit_defending = pdefender;
 }
 
 /**************************************************************************
@@ -660,48 +723,6 @@ void request_unit_selected(struct unit *punit)
   send_packet_unit_info(&aconnection, &info);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void request_unit_sentry(struct unit *punit)
-{
-  if(punit->activity!=ACTIVITY_SENTRY &&
-     can_unit_do_activity(punit, ACTIVITY_SENTRY))
-    request_new_unit_activity(punit, ACTIVITY_SENTRY);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void request_unit_fortify(struct unit *punit)
-{
-  if(punit->activity!=ACTIVITY_FORTIFYING &&
-     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
-    request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_pillage(struct unit *punit)
-{
-  struct tile *ptile = map_get_tile(punit->x, punit->y);
-  enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
-  enum tile_special_type psworking =
-      get_unit_tile_pillage_set(punit->x, punit->y);
-  enum tile_special_type what =
-      get_preferred_pillage(pspresent & (~psworking));
-  enum tile_special_type would =
-      what | map_get_infrastructure_prerequisite(what);
-
-  if ((game.rgame.pillage_select) &&
-      ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
-    popup_pillage_dialog(punit, (pspresent & (~psworking)) != S_NO_SPECIAL);
-  } else {
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -839,6 +860,48 @@ void request_unit_patrol(void)
   } else {
     assert(goto_is_active());
     goto_add_waypoint();
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void request_unit_sentry(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_SENTRY &&
+     can_unit_do_activity(punit, ACTIVITY_SENTRY))
+    request_new_unit_activity(punit, ACTIVITY_SENTRY);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void request_unit_fortify(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_FORTIFYING &&
+     can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+    request_new_unit_activity(punit, ACTIVITY_FORTIFYING);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_pillage(struct unit *punit)
+{
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
+  enum tile_special_type psworking =
+      get_unit_tile_pillage_set(punit->x, punit->y);
+  enum tile_special_type what =
+      get_preferred_pillage(pspresent & (~psworking));
+  enum tile_special_type would =
+      what | map_get_infrastructure_prerequisite(what);
+
+  if ((game.rgame.pillage_select) &&
+      ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
+    popup_pillage_dialog(punit, (pspresent & (~psworking)) != S_NO_SPECIAL);
+  } else {
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
   }
 }
 
@@ -1024,6 +1087,41 @@ void request_toggle_fog_of_war(void)
 /**************************************************************************
 ...
 **************************************************************************/
+void request_center_focus_unit(void)
+{
+  struct unit *punit;
+  
+  if((punit=get_unit_in_focus()))
+    center_tile_mapcanvas(punit->x, punit->y);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_wait(struct unit *punit)
+{
+  punit->focus_status=FOCUS_WAIT;
+  if(punit==get_unit_in_focus()) {
+    advance_unit_focus();
+    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_move_done(void)
+{
+  if(get_unit_in_focus()) {
+    get_unit_in_focus()->focus_status=FOCUS_DONE;
+    advance_unit_focus();
+    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 {
   int x, y;
@@ -1131,15 +1229,14 @@ void do_map_click(int xtile, int ytile)
     return;
   }
   
-  if(unit_list_size(&ptile->units)==1) {
+  if(unit_list_size(&ptile->units) == 1) {
     struct unit *punit=unit_list_get(&ptile->units, 0);
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	request_unit_selected(punit);
       }
     }
-  }
-  else if(unit_list_size(&ptile->units)>=2) {
+  } else if(unit_list_size(&ptile->units) >= 2) {
     unit_list_iterate(ptile->units, punit)
       if (punit->owner == game.player_idx) {
 	popup_unit_select_dialog(ptile);
@@ -1148,71 +1245,6 @@ void do_map_click(int xtile, int ytile)
     unit_list_iterate_end;
   }
 }
-
-/**************************************************************************
-  Update unit icons (and arrow) in the information display, for specified
-  punit as the active unit and other units on the same square.  In practice
-  punit is almost always (or maybe strictly always?) the focus unit.
-  
-  Static vars store some info on current (ie previous) state, to avoid
-  unnecessary redraws; initialise to "flag" values to always redraw first
-  time.  In principle we _might_ need more info (eg ai.control, connecting),
-  but in practice this is enough?
-  
-  Used to store unit_ids for below units, to use for callbacks (now done
-  inside gui-dep set_unit_icon()), but even with ids here they would not
-  be enough information to know whether to redraw -- instead redraw every
-  time.  (Could store enough info to know, but is it worth it?)
-**************************************************************************/
-void update_unit_pix_label(struct unit *punit)
-{
-  static enum unit_activity prev_activity = ACTIVITY_UNKNOWN;
-  static Unit_Type_id prev_unit_type = U_LAST;
-  static int prev_hp = -1;	         /* or could store ihp cf tilespec.c */
-  
-  int i;
-  
-  if(punit) {
-    if(punit->type != prev_unit_type
-       || punit->activity != prev_activity
-       || punit->hp != prev_hp) {
-      set_unit_icon(-1, punit);
-      prev_unit_type = punit->type;
-      prev_activity = punit->activity;
-      prev_hp = punit->hp;
-    }
-
-    i = 0;			/* index into unit_below_canvas */
-    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
-      if (aunit != punit) {
-	if (i < num_units_below) {
-	  set_unit_icon(i, aunit);
-	}
-	i++;
-      }
-    }
-    unit_list_iterate_end;
-    
-    if (i > num_units_below) {
-      set_unit_icons_more_arrow(TRUE);
-    } else {
-      set_unit_icons_more_arrow(FALSE);
-      for(; i < num_units_below; i++) {
-	set_unit_icon(i, NULL);
-      }
-    }
-  }
-  else {
-    prev_unit_type = U_LAST;
-    prev_activity = ACTIVITY_UNKNOWN;
-    prev_hp = -1;
-    for(i=-1; i<num_units_below; i++) {
-      set_unit_icon(i, NULL);
-    }
-    set_unit_icons_more_arrow(FALSE);
-  }
-}
-
 
 /**************************************************************************
  Finish the goto mode and let the unit which is stored in hover_unit move
@@ -1294,41 +1326,6 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void request_unit_wait(struct unit *punit)
-{
-  punit->focus_status=FOCUS_WAIT;
-  if(punit==get_unit_in_focus()) {
-    advance_unit_focus();
-    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_move_done(void)
-{
-  if(get_unit_in_focus()) {
-    get_unit_in_focus()->focus_status=FOCUS_DONE;
-    advance_unit_focus();
-    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_center_focus_unit(void)
-{
-  struct unit *punit;
-  
-  if((punit=get_unit_in_focus()))
-    center_tile_mapcanvas(punit->x, punit->y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void key_cancel_action(void)
 {
   bool popped = FALSE;
@@ -1343,6 +1340,384 @@ void key_cancel_action(void)
 
     update_unit_info_label(punit);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_end_turn(void)
+{
+  if (!game.player_ptr->turn_done) {
+    send_turn_done();
+    set_turn_done_button_state(FALSE);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, DIR8_NORTH);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north_east(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, DIR8_NORTHEAST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_east(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, DIR8_EAST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south_east(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, DIR8_SOUTHEAST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, DIR8_SOUTH);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_south_west(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, DIR8_SOUTHWEST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_west(void)
+{
+  if(get_unit_in_focus())
+    request_move_unit_direction(punit_focus, DIR8_WEST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_move_north_west(void)
+{
+  if(get_unit_in_focus())
+     request_move_unit_direction(punit_focus, DIR8_NORTHWEST);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_build_city(void)
+{
+  if(get_unit_in_focus())
+    request_unit_build_city(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_build_wonder(void)
+{
+  if (get_unit_in_focus() && unit_flag(punit_focus, F_HELP_WONDER))
+    request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
+}
+
+/**************************************************************************
+handle user pressing key for 'Connect' command
+**************************************************************************/
+void key_unit_connect(void)
+{
+  if(get_unit_in_focus())
+    request_unit_connect();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_diplomat_actions(void)
+{
+  struct city *pcity;		/* need pcity->id */
+  if(get_unit_in_focus()
+     && is_diplomat_unit(punit_focus)
+     && (pcity = map_get_city(punit_focus->x, punit_focus->y))
+     && !diplomat_dialog_is_open()    /* confusing otherwise? */
+     && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
+			       punit_focus->x, punit_focus->y))
+     process_diplomat_arrival(punit_focus, pcity->id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_done(void)
+{
+  if(get_unit_in_focus())
+    request_unit_move_done();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_goto(void)
+{
+  if(get_unit_in_focus())
+    request_unit_goto();
+}
+
+/**************************************************************************
+Explode nuclear at a tile without enemy units
+**************************************************************************/
+void key_unit_nuke(void)
+{
+  if(get_unit_in_focus())
+    request_unit_nuke(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_paradrop(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_paradrop(punit_focus))
+      request_unit_paradrop(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_patrol(void)
+{
+  if(get_unit_in_focus())
+    request_unit_patrol();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_traderoute(void)
+{
+  if (get_unit_in_focus() && unit_flag(punit_focus, F_TRADE_ROUTE))
+    request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_unload(void)
+{
+  if(get_unit_in_focus())
+    request_unit_unload(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_wait(void)
+{
+  if(get_unit_in_focus())
+    request_unit_wait(punit_focus);
+}
+
+/**************************************************************************
+...
+***************************************************************************/
+void key_unit_wakeup_others(void)
+{
+  if(get_unit_in_focus())
+    request_unit_wakeup(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_airbase(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_AIRBASE))
+      request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_auto_attack(void)
+{
+  if(get_unit_in_focus())
+    if(!unit_flag(punit_focus, F_SETTLERS) &&
+       can_unit_do_auto(punit_focus))
+      request_unit_auto(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_auto_explore(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_EXPLORE))
+      request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_auto_settle(void)
+{
+  if(get_unit_in_focus())
+    if(unit_flag(punit_focus, F_SETTLERS) &&
+       can_unit_do_auto(punit_focus))
+      request_unit_auto(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_disband(void)
+{
+  if(get_unit_in_focus())
+    request_unit_disband(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_fallout(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FALLOUT))
+      request_new_unit_activity(punit_focus, ACTIVITY_FALLOUT);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_fortify(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFYING))
+      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFYING);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_fortress(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTRESS))
+      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_homecity(void)
+{
+  if(get_unit_in_focus())
+    request_unit_change_homecity(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_irrigate(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_IRRIGATE))
+      request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_mine(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_MINE))
+      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_pillage(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_PILLAGE))
+      request_unit_pillage(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_pollution(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION))
+      request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_road(void)
+{
+  if(get_unit_in_focus()) {
+    if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
+      request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
+    else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
+      request_new_unit_activity(punit_focus, ACTIVITY_RAILROAD);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_sentry(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_SENTRY))
+      request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_transform(void)
+{
+  if(get_unit_in_focus())
+    if(can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM))
+      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_map_grid_toggle(void)
+{
+  request_toggle_map_grid();
 }
 
 /**************************************************************************
@@ -1455,381 +1830,4 @@ void key_focus_unit_toggle(void)
 void key_fog_of_war_toggle(void)
 {
   request_toggle_fog_of_war();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_end_turn(void)
-{
-  if (!game.player_ptr->turn_done) {
-    send_turn_done();
-    set_turn_done_button_state(FALSE);
-  }
-}
-/**************************************************************************
-...
-**************************************************************************/
-void key_map_grid_toggle(void)
-{
-  request_toggle_map_grid();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_north(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_NORTH);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_north_east(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_NORTHEAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_east(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_EAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south_east(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTHEAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTH);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south_west(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTHWEST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_west(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_WEST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_north_west(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_NORTHWEST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_airbase(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_AIRBASE))
-      request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_auto_attack(void)
-{
-  if(get_unit_in_focus())
-    if(!unit_flag(punit_focus, F_SETTLERS) &&
-       can_unit_do_auto(punit_focus))
-      request_unit_auto(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_auto_explore(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_EXPLORE))
-      request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_auto_settle(void)
-{
-  if(get_unit_in_focus())
-    if(unit_flag(punit_focus, F_SETTLERS) &&
-       can_unit_do_auto(punit_focus))
-      request_unit_auto(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_build_city(void)
-{
-  if(get_unit_in_focus())
-    request_unit_build_city(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_build_wonder(void)
-{
-  if (get_unit_in_focus() && unit_flag(punit_focus, F_HELP_WONDER))
-    request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
-}
-
-/**************************************************************************
-handle user pressing key for 'Connect' command
-**************************************************************************/
-void key_unit_connect(void)
-{
-  if(get_unit_in_focus())
-    request_unit_connect();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_diplomat_actions(void)
-{
-  struct city *pcity;		/* need pcity->id */
-  if(get_unit_in_focus()
-     && is_diplomat_unit(punit_focus)
-     && (pcity = map_get_city(punit_focus->x, punit_focus->y))
-     && !diplomat_dialog_is_open()    /* confusing otherwise? */
-     && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
-			       punit_focus->x, punit_focus->y))
-     process_diplomat_arrival(punit_focus, pcity->id);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_disband(void)
-{
-  if(get_unit_in_focus())
-    request_unit_disband(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_done(void)
-{
-  if(get_unit_in_focus())
-    request_unit_move_done();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_fallout(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FALLOUT))
-      request_new_unit_activity(punit_focus, ACTIVITY_FALLOUT);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_fortify(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFYING))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFYING);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_fortress(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTRESS))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_goto(void)
-{
-  if(get_unit_in_focus())
-    request_unit_goto();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_homecity(void)
-{
-  if(get_unit_in_focus())
-    request_unit_change_homecity(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_irrigate(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_IRRIGATE))
-      request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_mine(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_MINE))
-      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
-}
-
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-void key_unit_nuke(void)
-{
-  if(get_unit_in_focus())
-    request_unit_nuke(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_paradrop(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_paradrop(punit_focus))
-      request_unit_paradrop(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_patrol(void)
-{
-  if(get_unit_in_focus())
-    request_unit_patrol();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_pillage(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_PILLAGE))
-      request_unit_pillage(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_pollution(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION))
-      request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_road(void)
-{
-  if(get_unit_in_focus()) {
-    if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
-      request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
-    else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
-      request_new_unit_activity(punit_focus, ACTIVITY_RAILROAD);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_sentry(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_SENTRY))
-      request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_traderoute(void)
-{
-  if (get_unit_in_focus() && unit_flag(punit_focus, F_TRADE_ROUTE))
-    request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_transform(void)
-{
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM))
-      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_unload(void)
-{
-  if(get_unit_in_focus())
-    request_unit_unload(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_wait(void)
-{
-  if(get_unit_in_focus())
-    request_unit_wait(punit_focus);
-}
-
-/**************************************************************************
-...
-***************************************************************************/
-void key_unit_wakeup_others(void)
-{
-  if(get_unit_in_focus())
-    request_unit_wakeup(punit_focus);
 }
