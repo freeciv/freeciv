@@ -1090,10 +1090,14 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 
-    /* Check that missions is still possible */
-    if (!city_can_be_built_here(ptile, punit)) {
+    /* Check that the mission is still possible.  If the tile has become
+     * unavailable or the player has been autotoggled, call it off. */
+    if (!unit_owner(punit)->ai.control
+	|| !city_can_be_built_here(ptile, punit)) {
       UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      set_unit_activity(punit, ACTIVITY_IDLE);
+      send_unit_info(NULL, punit);
       return; /* avoid recursion at all cost */
     } else {
       /* Go there */
