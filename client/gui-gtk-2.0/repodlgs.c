@@ -1446,7 +1446,7 @@ void popup_settable_options_dialog(void)
 
   tips = gtk_tooltips_new();
   win = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(win), _("Server Options"));
+  gtk_window_set_title(GTK_WINDOW(win), _("Game Options"));
   gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_MOUSE);
 
   /* create a notebook for the options */

@@ -761,8 +761,9 @@ void gui_server_connect(void)
 		   G_CALLBACK(response_callback), NULL);
 
   /* create the action area buttons */
-  options_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
-      				      GTK_STOCK_PROPERTIES, CMD_OPTIONS);
+  options_cmd = gtk_stockbutton_new(GTK_STOCK_PREFERENCES, _("Game _Options"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(dialog), options_cmd, CMD_OPTIONS);
+				      
   load_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
       				   GTK_STOCK_OPEN, CMD_LOAD);
 
@@ -828,7 +829,7 @@ void gui_server_connect(void)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   label = g_object_new(GTK_TYPE_LABEL,
-                       "label", _("Number of players:"),
+                       "label", _("Number of players (Including AI):"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
