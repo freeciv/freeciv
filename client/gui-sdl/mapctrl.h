@@ -26,6 +26,12 @@
 
 struct unit;
 
+#define BLOCK_W			30
+#define HIDDEN_UNITS_W		36  /* BLOCK_W + DOUBLE_FRAME_WH */
+#define HIDDEN_MINI_MAP_W	36  /* BLOCK_W + DOUBLE_FRAME_WH */
+#define DEFAULT_UNITS_W		196 /* 160 + BLOCK_W + DOUBLE_FRAME_WH */
+#define DEFAULT_UNITS_H		106 /* 100 + DOUBLE_FRAME_WH */
+
 void popdown_newcity_dialog(void);
 
 void Init_MapView(void);

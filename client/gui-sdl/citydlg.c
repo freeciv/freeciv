@@ -647,14 +647,14 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
     i = pUnit->upkeep + pUnit->upkeep_food +
 	pUnit->upkeep_gold + pUnit->unhappiness;
 
-    if (i * pIcons->pFood->w > UNIT_TILE_WIDTH / 2) {
-      step = (UNIT_TILE_WIDTH / 2 - pIcons->pFood->w) / (i - 1);
+    if (i * pIcons->pFood->w > pSurf->w / 2) {
+      step = (pSurf->w / 2 - pIcons->pFood->w) / (i - 1);
     } else {
       step = pIcons->pFood->w;
     }
 
-    dest.y = UNIT_TILE_HEIGHT - pIcons->pFood->h - 2;
-    dest.x = UNIT_TILE_WIDTH / 8;
+    dest.y = pSurf->h - pIcons->pFood->h - 2;
+    dest.x = pSurf->w / 8;
 
     for (i = 0; i < pUnit->upkeep; i++) {
       SDL_BlitSurface(pIcons->pShield, NULL, pSurf, &dest);
@@ -1416,7 +1416,6 @@ static int sell_imprvm_dlg_ok_callback(struct GUI *pOK_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_callback(struct GUI *pImpr)
 {
-  SDL_Surface *pLogo;
   struct SDL_String16 *pStr = NULL;
   struct GUI *pLabel = pImpr;
   struct GUI *pWindow = NULL;
@@ -1430,26 +1429,16 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
   disable_city_dlg_widgets();
 
   /* create ok button */
-  pLogo = ZoomSurface(pTheme->OK_Icon, 0.7, 0.7, 1);
-
-  SDL_SetColorKey(pLogo, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  get_first_pixel(pLogo));
-
-  pOK_Button = create_themeicon_button_from_chars(pLogo, pImpr->dst,
-				_("Sell"), 10,  WF_FREE_GFX);
+  pOK_Button = create_themeicon_button_from_chars(
+  		pTheme->Small_OK_Icon, pImpr->dst, _("Sell"), 10,  0);
 
   pOK_Button->data.ptr = (void *)pLabel;
   clear_wflag(pOK_Button, WF_DRAW_FRAME_AROUND_WIDGET);
 
   /* create cancel button */
-  pLogo = ZoomSurface(pTheme->CANCEL_Icon, 0.7, 0.7, 1);
-
-  SDL_SetColorKey(pLogo, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  get_first_pixel(pLogo));
-
   pCancel_Button =
-      create_themeicon_button_from_chars(pLogo, pImpr->dst, _("Cancel"), 10,
-					 WF_FREE_GFX);
+      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
+      			pImpr->dst, _("Cancel"), 10, 0);
 
   clear_wflag(pCancel_Button, WF_DRAW_FRAME_AROUND_WIDGET);
 

@@ -1264,16 +1264,16 @@ int std_move_window_group_callback(struct GUI *pBeginWidgetList,
   scroll pointers on list.
   dir == directions: up == -1, down == 1.
 **************************************************************************/
-static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIST,
+static struct GUI *vertical_scroll_widget_list(struct GUI *pActiveWidgetLIST,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST,
 				      int active, int step, int dir)
 {
-  struct GUI *pBegin = pBeginActiveWidgetLIST;
-  struct GUI *pBuf = pBeginActiveWidgetLIST;
+  struct GUI *pBegin = pActiveWidgetLIST;
+  struct GUI *pBuf = pActiveWidgetLIST;
   struct GUI *pTmp = NULL;  
-  int count = active;
-  int count_step = step;
+  int count = active; /* row */
+  int count_step = step; /* col */
     
   if (dir < 0) {
     bool real = TRUE;
@@ -1281,8 +1281,8 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
     if (pBuf != pEndWidgetLIST) {
       /*
        move pointers to positions and unhidde scrolled widgets
-       B = pBuf
-       T = pTmp
+       B = pBuf - new top
+       T = pTmp - current top == pActiveWidgetLIST
        [B] [ ] [ ]
        -----------
        [T] [ ] [ ]
@@ -1290,7 +1290,7 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
        -----------
        [ ] [ ] [ ]
     */
-      pTmp = pBuf;
+      pTmp = pBuf; /* now pBuf == pActiveWidgetLIST == current Top */
       while(count_step) {
       	pBuf = pBuf->next;
 	clear_wflag(pBuf, WF_HIDDEN);
@@ -1308,9 +1308,14 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
        [B0] [B1] [B2]
        -----------
        [T0] [T1] [T2]   => B position = T position
-       [  ] [  ] [  ]
+       [T3] [T4] [T5]
        -----------
        [  ] [  ] [  ]
+      
+       start from B0 and go downd list
+       B0 = T0, B1 = T1, B2 = T2
+       T0 = T3, T1 = T4, T2 = T5
+       etc...
     */
       while (count) {
 	if(real) {
@@ -1326,7 +1331,24 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
 	  }
 	  pTmp = pTmp->prev;
 	} else {
-	  pBuf->size.y += pBuf->size.h;
+	  /*
+	     unsymetric list support.
+	     This is big problem becouse we can't take position from no exist
+	     list memeber. We must put here some hypotetical positions
+	  
+	     [B0] [B1] [B2]
+             --------------
+             [T0] [T1]
+	  
+	  */
+	  if (active > 1) {
+	    /* this work good if active > 1 but is buggy when active == 1 */
+	    pBuf->size.y += pBuf->size.h;
+	  } else {
+	    /* this work good if active == 1 but may be broken if "next"
+	       element have another "y" position */
+	    pBuf->size.y = pBuf->next->size.y;
+	  }
 	  pBuf->gfx = NULL;
 	}
 	
@@ -1342,12 +1364,12 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
   } else {
     SDL_Rect dst;
     /* down */
-    count = active * step;
+    count = active * step; /* row * col */
     
     /*
        find end
        B = pBuf
-       A - start (pBeginActiveWidgetLIST)
+       A - start (pBuf == pActiveWidgetLIST)
        [ ] [ ] [ ]
        -----------
        [A] [ ] [ ]
@@ -1365,7 +1387,7 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
        move pointers to positions and unhidde scrolled widgets
        B = pBuf
        T = pTmp
-       A - start (pBeginActiveWidgetLIST)
+       A - start (pActiveWidgetLIST)
        [ ] [ ] [ ]
        -----------
        [A] [ ] [ ]
@@ -1383,23 +1405,28 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
       clear_wflag(pBuf, WF_HIDDEN);
 
       /*
+       Unsymetric list support.
        correct pTmp and undraw empty fields
        B = pBuf
        T = pTmp
-       A - start (pBeginActiveWidgetLIST)
+       A - start (pActiveWidgetLIST)
        [ ] [ ] [ ]
        -----------
        [A] [ ] [ ]
-       [ ] [T] [ ]
+       [ ] [T] [U]  <- undraw U
        -----------
        [ ] [B]
     */
       count = count_step;
       while(count) {
+	/* hack - clear area under no exist list members */
 	dst = pTmp->size;
 	SDL_BlitSurface(pTmp->gfx, NULL, pTmp->dst, &dst);
 	sdl_dirty_rect(dst);
 	FREESURFACE(pTmp->gfx);
+	if (active == 1) {
+	  set_wflag(pTmp, WF_HIDDEN);
+	}
 	pTmp = pTmp->next;
 	count--;
       }

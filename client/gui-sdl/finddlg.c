@@ -139,13 +139,8 @@ void popup_find_dialog(void)
   pFind_City_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  		(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  	(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   w += pBuf->size.w + 10;
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -257,7 +252,7 @@ void popup_find_dialog(void)
   pBuf = pWindow->prev;
   
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;

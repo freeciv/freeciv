@@ -396,11 +396,11 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.order_airlift")) {
+  if(!sprite_exists("theme.BORDERS_button")) {
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE5"
+    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download DELUXE6"
     "(again:) tileset theme");
   }
   
@@ -416,6 +416,9 @@ void tilespec_setup_theme(void)
   /* ------------------- */
   load_theme_surface(pBuf, OK_PACT_Icon, "theme.pact_ok");
   load_theme_surface(pBuf, CANCEL_PACT_Icon, "theme.pact_cancel");
+  /* ------------------- */
+  load_theme_surface(pBuf, Small_OK_Icon, "theme.SMALL_OK_button");
+  load_theme_surface(pBuf, Small_CANCEL_Icon, "theme.SMALL_FAIL_button");
   /* ------------------- */
   load_theme_surface(pBuf, OK_Icon, "theme.OK_button");
   load_theme_surface(pBuf, CANCEL_Icon, "theme.FAIL_button");
@@ -445,7 +448,7 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, SAVE_Icon, "theme.SAVE_button");
   load_theme_surface(pBuf, LOAD_Icon, "theme.LOAD_button");
   load_theme_surface(pBuf, DELETE_Icon, "theme.DELETE_button");
-
+  load_theme_surface(pBuf, BORDERS_Icon, "theme.BORDERS_button");
   /* ------------------------------ */
   
   load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
@@ -514,6 +517,69 @@ void tilespec_setup_theme(void)
   return;
 }
 
+/* Code come from SDL-dev list */
+static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
+        int             w, x, y;
+        Uint8           *data, *mask, *d, *m, r, g, b;
+        Uint32          color;
+        SDL_Cursor      *cursor;
+
+        w = (image->w + 7) / 8;
+        data = (Uint8 *)MALLOC(w * image->h * 2);
+        if (data == NULL)
+                return NULL;
+        /*memset(data, 0, w * image->h * 2);*/
+        mask = data + w * image->h;
+	lock_surf(image);
+        for (y = 0; y < image->h; y++) {
+                d = data + y * w;
+                m = mask + y * w;
+                for (x = 0; x < image->w; x++) {
+                        color = getpixel(image, x, y);
+                        if ((image->flags & SDL_SRCCOLORKEY) == 0
+			  || color != image->format->colorkey) {
+                                SDL_GetRGB(color, image->format, &r, &g, &b);
+                                color = (r + g + b) / 3;
+                                m[x / 8] |= 128 >> (x & 7);
+                                if (color < 128)
+                                        d[x / 8] |= 128 >> (x & 7);
+                        }
+                }
+        }
+	unlock_surf(image);
+        
+        cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
+	
+	FREE(data);
+        return cursor;
+}
+
+#define load_cursor(iter, num, pSpr, image, cBuf, Type, Tag, x, y, center) \
+do { \
+  iter = 0;	\
+  my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
+  while(sprite_exists(cBuf)) {	\
+    iter++;	\
+    my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
+  }	\
+  num = iter;	\
+  if (num) {	\
+    pAnim->Cursors.Type = CALLOC(num + 1, sizeof(SDL_Cursor *));	\
+    for( iter=0; iter<num; iter++) {	\
+      my_snprintf(cBuf,sizeof(cBuf), "%s_%d", Tag, iter);	\
+      pSpr = load_sprite(cBuf);	\
+      image = (pSpr ? GET_SURF(pSpr) : NULL);	\
+      assert(image != NULL);	\
+      if (center) {	\
+        pAnim->Cursors.Type[iter] = SurfaceToCursor(image, image->w/2, image->h/2);	\
+      } else {	\
+	pAnim->Cursors.Type[iter] = SurfaceToCursor(image, x, y);	\
+      }	\
+      unload_sprite(cBuf);	\
+    }	\
+  }	\
+} while(0)
+
 /*
  *	Alloc and fill Animation struct
  */
@@ -521,8 +587,8 @@ void tilespec_setup_anim(void)
 {
   char buf[32];	/* I hope this is enought :) */
   struct Sprite *pSpr = NULL;
-  int i;
-  
+  SDL_Surface *image = NULL;
+  int i, num;
   pAnim = MALLOC(sizeof(struct Animation));
     
   i = 0;
@@ -533,7 +599,7 @@ void tilespec_setup_anim(void)
   }
   pAnim->num_tiles_explode_nuke = i;
   
-  /* current only one */
+  /* focus unit animation */
   i = 0;
   my_snprintf(buf , sizeof(buf), "anim.focus_%d", i);
   while(sprite_exists(buf)) {
@@ -547,15 +613,50 @@ void tilespec_setup_anim(void)
     my_snprintf(buf,sizeof(buf), "anim.focus_%d", i);
     load_GUI_surface(pSpr, pAnim, Focus[i], buf);
   }
+  
+  /* load cursors */
+  load_cursor(i, num, pSpr, image, buf, Patrol, "anim.patrol_cursor", 0, 0, TRUE);
+  load_cursor(i, num, pSpr, image, buf, Goto, "anim.goto_cursor", 0, 0, TRUE);
+  load_cursor(i, num, pSpr, image, buf, Connect, "anim.connect_cursor", 0, 0, TRUE);
+  load_cursor(i, num, pSpr, image, buf, Nuke, "anim.nuke_cursor", 0, 0, TRUE);
+  load_cursor(i, num, pSpr, image, buf, Paradrop, "anim.paradrop_cursor", 0, 0, TRUE);
+  
+  load_cursor(i, num, pSpr, image, buf, MapScroll[SCROLL_NORTH], "anim.scroll_north_cursor", 20, 3, FALSE);
+  load_cursor(i, num, pSpr, image, buf, MapScroll[SCROLL_SOUTH], "anim.scroll_south_cursor", 20, 37, FALSE);
+  load_cursor(i, num, pSpr, image, buf, MapScroll[SCROLL_EAST], "anim.scroll_east_cursor", 37, 20, FALSE);
+  load_cursor(i, num, pSpr, image, buf, MapScroll[SCROLL_WEST], "anim.scroll_west_cursor", 3, 20, FALSE);
+  
 }
 
 void tilespec_free_anim(void)
 {
-  int i;
+  int i,j;
   for(i=0; i<pAnim->num_tiles_focused_unit; i++) {
     FREESURFACE(pAnim->Focus[i]);
   }
   FREE(pAnim->Focus);
+  
+  for(i=0; pAnim->Cursors.Patrol[i]; i++) {
+    SDL_FreeCursor(pAnim->Cursors.Patrol[i]);
+  }
+  for(i=0; pAnim->Cursors.Goto[i]; i++) {
+    SDL_FreeCursor(pAnim->Cursors.Goto[i]);
+  }
+  for(i=0; pAnim->Cursors.Connect[i]; i++) {
+    SDL_FreeCursor(pAnim->Cursors.Connect[i]);
+  }
+  for(i=0; pAnim->Cursors.Nuke[i]; i++) {
+    SDL_FreeCursor(pAnim->Cursors.Nuke[i]);
+  }
+  for(i=0; pAnim->Cursors.Paradrop[i]; i++) {
+    SDL_FreeCursor(pAnim->Cursors.Paradrop[i]);
+  }
+  for (i = 0; i < SCROLL_LAST; i++) {
+    for (j = 0; pAnim->Cursors.MapScroll[i][j]; j++) {
+      SDL_FreeCursor(pAnim->Cursors.MapScroll[i][j]);
+    }
+  }
+  
   FREE(pAnim);
 }
 
@@ -577,6 +678,8 @@ void tilespec_unload_theme(void)
   
   FREESURFACE(pTheme->OK_Icon);
   FREESURFACE(pTheme->CANCEL_Icon);
+  FREESURFACE(pTheme->Small_OK_Icon);
+  FREESURFACE(pTheme->Small_CANCEL_Icon);
   FREESURFACE(pTheme->FORWARD_Icon);
   FREESURFACE(pTheme->BACK_Icon);
   FREESURFACE(pTheme->L_ARROW_Icon);
@@ -605,6 +708,7 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->SAVE_Icon);
   FREESURFACE(pTheme->LOAD_Icon);
   FREESURFACE(pTheme->DELETE_Icon);
+  FREESURFACE(pTheme->BORDERS_Icon);
   /* ------------------------------ */
   
   FREESURFACE(pTheme->UP_Icon);

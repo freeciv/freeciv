@@ -337,12 +337,8 @@ void popup_players_dialog(void)
   pPlayers_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  				(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    						get_first_pixel(pBuf->theme));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -464,7 +460,7 @@ void popup_players_dialog(void)
   pBuf = pWindow->prev;
   
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
     
   n = WINDOW_TILE_HIGH + 4;
   pStr = create_string16(NULL, 0, 10);
@@ -623,12 +619,8 @@ void popup_players_nations_dialog(void)
   pShort_Players_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  				(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    						get_first_pixel(pBuf->theme));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   w += pBuf->size.w + 10;
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -776,9 +768,8 @@ void popup_players_nations_dialog(void)
   
   /* exit button */
   pBuf = pWindow->prev;
-  
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;

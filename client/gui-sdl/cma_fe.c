@@ -448,12 +448,8 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    						get_first_pixel(pBuf->theme));    
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = cancel_SLD_cma_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -518,7 +514,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
   /* exit button */
   pBuf = pWindow->prev; 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   pBuf = pBuf->prev;
   ww -= (DOUBLE_FRAME_WH + 2);
@@ -846,12 +842,8 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    						get_first_pixel(pBuf->theme));  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = exit_cma_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -969,8 +961,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf->string16 = create_str16_from_char(_("Delete settings"), 10);
   
   add_to_gui_list(ID_ICON, pBuf);
-  
-  
+    
   /* run cma */
   pBuf = create_themeicon(pTheme->QPROD_Icon, pWindow->dst,
   	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
@@ -1021,7 +1012,7 @@ void popup_city_cma_dialog(struct city *pCity)
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* ---------- */
   dst.x = pCity_Map->w + 50 +

@@ -2113,16 +2113,13 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  	  	
           psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
 	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  
-	  
+	  	  
 	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
 	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
 	  
 	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
 	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  
-	  
-	  
+	  	  
 	  psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
 	  pcmpeqd_r2r(mm1,mm1); /* set mm1 to "1" */
 	  psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
@@ -2199,9 +2196,9 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
         pixel[2] = (A >> 16) & 0xff;
 	pixel += 3;
       },{
-	movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
-	movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
+	movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+	movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
+	movq_r2r(mm1, mm5); /* src(00RGBRGB) -> mm5 */
 		
 	pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
 	pand_r2r(mm4, mm5); /* src & mask -> mm4 */
@@ -2214,7 +2211,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
 	pixel[0] = load[0];
 	pixel[1] = load[1];
-	pixel[2] = load[3];
+	pixel[2] = load[2];
 	pixel[3] = load[3];
 	pixel[4] = load[4];
 	pixel[5] = load[5];
@@ -2239,15 +2236,15 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	movd_r2m(mm2, *load);/* mm2 -> pixel */
 	pixel[0] = load[0];
 	pixel[1] = load[1];
-	pixel[2] = load[3];
+	pixel[2] = load[2];
 	pixel += 3;
       }, {
 	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 	movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
 	
 	movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm1 */
-	psllq_i2r(8, mm6); /* mm6 << 8 -> mm6 */
+	movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
+	psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
         punpcklbw_r2r(mm2, mm2); /* low - BBRRGGBB -> mm2 */
 	punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
         pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
@@ -2271,9 +2268,9 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
         movq_r2m(mm2, *load);/* mm2 -> pixel */
 	pixel[0] = load[0];
 	pixel[1] = load[1];
-	pixel[2] = load[3];
+	pixel[2] = load[2];
 	pixel[4] = load[4];
-	pixel[5] = load[6];
+	pixel[5] = load[5];
 	pixel[6] = load[6];
 	pixel += 6;
       },end);
@@ -2323,8 +2320,8 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
           pixel[2] = (A >> 16) & 0xff;
 	  pixel += 3;
         },{
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
+	  movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+	  movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
 	  movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
 		
 	  pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
@@ -2339,7 +2336,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
 	  pixel[0] = load[0];
 	  pixel[1] = load[1];
-	  pixel[2] = load[3];
+	  pixel[2] = load[2];
 	  pixel[3] = load[3];
 	  pixel[4] = load[4];
 	  pixel[5] = load[5];
@@ -2359,9 +2356,9 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
         {
           movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 	
-	  movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
-          punpcklbw_r2r(mm2, mm2); /* AARRGGBB -> mm2 */
-          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+	  movd_m2r((*pixel), mm2);/* dst(bRGB) -> mm2 (0000bRGB)*/
+          punpcklbw_r2r(mm2, mm2); /* bbRRGGBB -> mm2 */
+          pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
 		
           psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
 	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
@@ -2373,20 +2370,20 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  movd_r2m(mm2, *load);/* mm2 -> pixel */
 	  pixel[0] = load[0];
 	  pixel[1] = load[1];
-	  pixel[2] = load[3];
+	  pixel[2] = load[2];
 	
 	  pixel += 3;
         }, {
 	  movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 	  movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
 	
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
-	  psllq_i2r(8, mm6); /* mm6 << 8 -> mm6 */
-          punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
-	  punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
-          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+	  movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+	  movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm1 */
+	  psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
+          punpcklbw_r2r(mm2, mm2); /* low - BBRRGGBB -> mm2 */
+	  punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
+          pand_r2r(mm3, mm2); /* 0B0R0G0B -> mm2 */
+	  pand_r2r(mm3, mm6); /* 0b0R0G0B -> mm6 */
 	
           psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
 	  psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
@@ -2408,10 +2405,10 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
           movq_r2m(mm2, *load);/* mm2 -> pixel */
 	  pixel[0] = load[0];
 	  pixel[1] = load[1];
-	  pixel[2] = load[3];
-	  pixel[4] = load[4];
+	  pixel[2] = load[2];
+	  pixel[3] = load[4];
+	  pixel[4] = load[5];
 	  pixel[5] = load[6];
-	  pixel[6] = load[6];
 	  pixel += 6;
 	}, end);
       
@@ -3454,62 +3451,6 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 }
 
 /**************************************************************************
-  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
-  off and colorkey is set to 0 this black color is trasparent.
-  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
-  (first collor != 0 in 16 bit coding).
-**************************************************************************/
-static bool correct_black(SDL_Surface * pSrc)
-{
-  bool ret = 0;
-  register int x;
-  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask ) {
-    
-    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
-    Uint32 Amask = pSrc->format->Amask;
-    
-    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
-    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
-
-    int end = pSrc->w * pSrc->h;
-
-    /* for 32 bit color coding */
-
-    lock_surf(pSrc);
-
-    for (x = 0; x < end; x++, pPixels++) {
-      if (*pPixels == black) {
-	*pPixels = new_black;
-      } else {
-	if (!ret) {
-	  alpha = *pPixels & Amask;
-	  if (alpha && (alpha != Amask)) {
-	    ret = 1;
-	  }
-	}
-      }
-    }
-
-    unlock_surf(pSrc);
-  } else {
-    if (pSrc->format->BitsPerPixel == 8) {
-      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-	if(x != pSrc->format->colorkey &&
-	  pSrc->format->palette->colors[x].r < 4 &&
-	  pSrc->format->palette->colors[x].g < 4 &&
-	  pSrc->format->palette->colors[x].b < 4) {
-	    pSrc->format->palette->colors[x].r = 4;
-	    pSrc->format->palette->colors[x].g = 4;
-	    pSrc->format->palette->colors[x].b = 4;
-	  }
-      }
-    }
-  }
-
-  return ret;
-}
-
-/**************************************************************************
   ...
 **************************************************************************/
 SDL_Surface * get_intro_gfx(void)
@@ -3599,47 +3540,6 @@ void load_intro_gfx(void)
 }
 
 /**************************************************************************
-  Create a sprite struct and fill it with SDL_Surface pointer
-**************************************************************************/
-static struct Sprite * ctor_sprite(SDL_Surface *pSurface)
-{
-  struct Sprite *result = fc_malloc(sizeof(struct Sprite));
-
-  result->psurface = pSurface;
-
-  return result;
-}
-
-/**************************************************************************
-  Create a new sprite by cropping and taking only the given portion of
-  the image.
-**************************************************************************/
-struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y, int width, int height)
-{
-  SDL_Rect src_rect =
-      { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
-  SDL_Surface *pNew, *pTmp =
-      crop_rect_from_surface(GET_SURF(source), &src_rect);
-
-  if (pTmp->format->Amask) {
-    SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
-    pNew = pTmp;
-  } else {
-    SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-    pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
-
-    if (!pNew) {
-      return ctor_sprite(pTmp);
-    }
-
-    FREESURFACE(pTmp);
-  }
-
-  return ctor_sprite(pNew);
-}
-
-/**************************************************************************
   Load the cursors (mouse substitute sprites), including a goto cursor,
   an airdrop cursor, a nuke cursor, and a patrol cursor.
 **************************************************************************/
@@ -3700,6 +3600,103 @@ const char **gfx_fileextensions(void)
 }
 
 /**************************************************************************
+  Create a sprite struct and fill it with SDL_Surface pointer
+**************************************************************************/
+static struct Sprite * ctor_sprite(SDL_Surface *pSurface)
+{
+  struct Sprite *result = fc_malloc(sizeof(struct Sprite));
+
+  result->psurface = pSurface;
+
+  return result;
+}
+
+/**************************************************************************
+  Create a new sprite by cropping and taking only the given portion of
+  the image.
+**************************************************************************/
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y, int width, int height)
+{
+  SDL_Rect src_rect =
+      { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
+  SDL_Surface *pNew, *pTmp =
+      crop_rect_from_surface(GET_SURF(source), &src_rect);
+
+  if (pTmp->format->Amask) {
+    SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
+    pNew = pTmp;
+  } else {
+    SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY | SDL_RLEACCEL, pTmp->format->colorkey);
+    pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
+
+    if (!pNew) {
+      return ctor_sprite(pTmp);
+    }
+
+    FREESURFACE(pTmp);
+  }
+
+  return ctor_sprite(pNew);
+}
+
+/**************************************************************************
+  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
+  off and colorkey is set to 0 this black color is trasparent.
+  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
+  (first collor != 0 in 16 bit coding).
+**************************************************************************/
+static bool correct_black(SDL_Surface * pSrc)
+{
+  bool ret = 0;
+  register int x;
+  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
+    
+    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
+    Uint32 Amask = pSrc->format->Amask;
+    
+    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
+    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
+
+    int end = pSrc->w * pSrc->h;
+    
+    /* for 32 bit color coding */
+
+    lock_surf(pSrc);
+
+    for (x = 0; x < end; x++, pPixels++) {
+      if (*pPixels == black) {
+	*pPixels = new_black;
+      } else {
+	if (!ret) {
+	  alpha = *pPixels & Amask;
+	  if (alpha && (alpha != Amask)) {
+	    ret = 1;
+	  }
+	}
+      }
+    }
+
+    unlock_surf(pSrc);
+  } else {
+    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
+      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
+	if (x != pSrc->format->colorkey &&
+	  pSrc->format->palette->colors[x].r < 4 &&
+	  pSrc->format->palette->colors[x].g < 4 &&
+	  pSrc->format->palette->colors[x].b < 4) {
+	    pSrc->format->palette->colors[x].r = 4;
+	    pSrc->format->palette->colors[x].g = 4;
+	    pSrc->format->palette->colors[x].b = 4;
+	  }
+      }
+    }
+  }
+
+  return ret;
+}
+
+/**************************************************************************
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
@@ -3708,7 +3705,6 @@ struct Sprite * load_gfxfile(const char *filename)
 {
   SDL_Surface *pNew = NULL;
   SDL_Surface *pBuf = NULL;
-  bool alpha = 0;
 
   if ((pBuf = IMG_Load(filename)) == NULL) {
     freelog(LOG_ERROR,
@@ -3716,36 +3712,34 @@ struct Sprite * load_gfxfile(const char *filename)
 	    filename);
     return NULL;		/* Should I use abotr() ? */
   }
-
-  alpha = correct_black(pBuf);
   
   if (pBuf->flags & SDL_SRCCOLORKEY) {
     SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
   }
 
-  if (alpha) {
+  if (correct_black(pBuf)) {
     pNew = pBuf;
     freelog(LOG_DEBUG, _("%s load with own %d bpp format !"), filename,
 	    pNew->format->BitsPerPixel);
   } else {
-
+    Uint32 color;
+    
     freelog(LOG_DEBUG, _("%s (%d bpp) load with screen (%d bpp) format !"),
 	    filename, pBuf->format->BitsPerPixel,
 	    Main.screen->format->BitsPerPixel);
 
     pNew = create_surf(pBuf->w, pBuf->h, SDL_SWSURFACE);
-
-    SDL_SetAlpha(pBuf, 0x0, 0x0);
-
+    color = SDL_MapRGB(pNew->format, 255, 0, 255);
+    SDL_FillRect(pNew, NULL, color);
+    
     if (SDL_BlitSurface(pBuf, NULL, pNew, NULL)) {
       FREESURFACE(pNew);
       return ctor_sprite(pBuf);
     }
 
     FREESURFACE(pBuf);
-
-    SDL_SetColorKey(pNew, SDL_SRCCOLORKEY,
-		    getpixel(pNew, pNew->w - 1, pNew->h - 1));
+    SDL_SetColorKey(pNew, SDL_SRCCOLORKEY, color);
+    
   }
 
   return ctor_sprite(pNew);

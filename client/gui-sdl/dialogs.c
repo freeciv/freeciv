@@ -278,13 +278,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-    
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = exit_notify_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -343,7 +338,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   /* exit button */
   pBuf = pWindow->prev; 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1 + (WINDOW_TILE_HIGH - pBuf->size.h) / 2;
     
   /* redraw */
   redraw_group(pNotifyDlg->pBeginWidgetList, pWindow, 0);
@@ -649,13 +644,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   pUnit_Select_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-    
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = exit_unit_select_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -744,7 +734,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* exit button */
   pBuf = pWindow->prev; 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   pBuf = pBuf->prev;
   
   setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + 1,
@@ -803,6 +793,26 @@ static int exit_terrain_info_dialog(struct GUI *pButton)
 }
 
 /***************************************************************
+  Return a (static) string with terrain defense bonus;
+***************************************************************/
+const char *sdl_get_tile_defense_info_text(struct tile *pTile)
+{
+  static char buffer[64];
+  int bonus = (tile_types[pTile->terrain].defense_bonus - 10) * 10;
+  
+  if((pTile->special & S_RIVER) == S_RIVER) {
+    bonus += terrain_control.river_defense_bonus;
+  }
+  if((pTile->special & S_FORTRESS) == S_FORTRESS) {
+    bonus += terrain_control.fortress_defense_bonus;
+  }
+  
+  my_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
+  
+  return buffer;
+}
+
+/***************************************************************
   Return a (static) string with terrain name;
   eg: "Hills \n Defense : + 100%"
   eg: "Hills (Coals) \n Defense : + 100%"
@@ -812,20 +822,17 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
 {
   static char s[128];
   bool first;
-  int bonus = (tile_types[pTile->terrain].defense_bonus - 10) * 10;
-  
+    
   my_snprintf(s, sizeof(s), "%s", tile_types[pTile->terrain].terrain_name);
   if((pTile->special & S_RIVER) == S_RIVER) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
-    bonus += terrain_control.river_defense_bonus;
   }
 
   first = TRUE;
   if ((pTile->special & S_SPECIAL_1) == S_SPECIAL_1) {
     first = FALSE;
-    sz_strlcat(s, " (");
-    sz_strlcat(s, tile_types[pTile->terrain].special_1_name);
+    cat_snprintf(s, sizeof(s), " (%s", tile_types[pTile->terrain].special_1_name);
   }
   if ((pTile->special & S_SPECIAL_2) == S_SPECIAL_2) {
     if (first) {
@@ -843,8 +850,7 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
   first = TRUE;
   if ((pTile->special & S_POLLUTION) == S_POLLUTION) {
     first = FALSE;
-    sz_strlcat(s, "\n[");
-    sz_strlcat(s, get_special_name(S_POLLUTION));
+    cat_snprintf(s, sizeof(s), "\n[%s", get_special_name(S_POLLUTION));
   }
   if ((pTile->special & S_FALLOUT) == S_FALLOUT) {
     if (first) {
@@ -859,17 +865,6 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
     sz_strlcat(s, "]");
   }
   
-  if((pTile->special & S_FORTRESS) == S_FORTRESS) {
-    bonus += terrain_control.fortress_defense_bonus;
-  }
-  
-  if(bonus) {
-    static char ss[8];
-    my_snprintf(ss, sizeof(ss), "%d%%", bonus);
-    sz_strlcat(s, _("\nDefense : +"));
-    sz_strlcat(s, ss);
-  }
-  
   return s;
 }
 
@@ -882,8 +877,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   SDL_Surface *pSurf;
   struct GUI *pBuf, *pWindow;
   SDL_String16 *pStr;  
-  char cBuf[255];  
-    
+  char cBuf[256];  
+
   if (pTerrain_Info_Dlg) {
     return;
   }
@@ -906,10 +901,11 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   
   if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
   
-    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n%s"),
 		sdl_map_get_tile_info_text(pTile),
-		map_get_tile_fpt_text(x, y));
-    
+		map_get_tile_fpt_text(x, y),
+    		sdl_get_tile_defense_info_text(pTile));
+        
     if (tile_has_special(pTile, S_HUT))
     { 
       sz_strlcat(cBuf, _("\nMinor Tribe Village"));
@@ -918,18 +914,65 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
     {
       if (get_tile_infrastructure_set(pTile))
       {
-        sz_strlcat(cBuf, _("\nInfrastructure: "));
-        sz_strlcat(cBuf, map_get_infrastructure_text(pTile->special));
+	cat_snprintf(cBuf, sizeof(cBuf), _("\nInfrastructure: %s"),
+				map_get_infrastructure_text(pTile->special));
       }
     }
-    if (game.borders > 0) {
-      if (pTile->owner) {
-	char ownbuf[255];
-	my_snprintf(ownbuf, sizeof(ownbuf), _("\nClaimed by %s"),
-		    get_nation_name(pTile->owner->nation));
-	sz_strlcat(cBuf, ownbuf);
+    
+    if (game.borders > 0 && !pTile->city) {
+      struct player_diplstate *ds = game.player_ptr->diplstates;
+      const char *diplo_nation_plural_adjectives[DS_LAST] =
+    			{Q_("?nation:Neutral"), Q_("?nation:Hostile"),
+     			"" /* unused, DS_CEASEFIRE*/, Q_("?nation:Peaceful"),
+			  Q_("?nation:Friendly"), Q_("?nation:Mysterious")};
+			  
+      if (pTile->owner == game.player_ptr){
+        cat_snprintf(cBuf, sizeof(cBuf), _("\nOur Territory"));
+      } else if (pTile->owner) {
+        if (ds[pTile->owner->player_no].type == DS_CEASEFIRE){
+	  int turns = ds[pTile->owner->player_no].turns_left;
+
+	  cat_snprintf(cBuf, sizeof(cBuf),
+	  		PL_("\n%s territory (%d turn ceasefire)",
+			    "\n%s territory (%d turn ceasefire)", turns),
+		 		get_nation_name(pTile->owner->nation), turns);
+        } else {
+	  cat_snprintf(cBuf, sizeof(cBuf), _("\nTerritory of the %s %s"),
+		diplo_nation_plural_adjectives[ds[pTile->owner->player_no].type],
+		    	get_nation_name_plural(pTile->owner->nation));
+        }
       } else {
-	sz_strlcat(cBuf, _("\nUnclaimed territory"));
+        cat_snprintf(cBuf, sizeof(cBuf), _("\nUnclaimed territory"));
+      }
+    }
+    
+    if (pTile->city) {
+      /* Look at city owner, not tile owner (the two should be the same, if
+       * borders are in use). */
+      struct player *pOwner = city_owner(pTile->city);
+      struct player_diplstate *ds = game.player_ptr->diplstates;
+      const char *diplo_city_adjectives[DS_LAST] =
+    		{Q_("?city:Neutral"), Q_("?city:Hostile"),
+     		"" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
+		  Q_("?city:Friendly"), Q_("?city:Mysterious")};
+		  
+      cat_snprintf(cBuf, sizeof(cBuf), _("\nCity of %s"), pTile->city->name);
+      if (city_got_citywalls(pTile->city)) {
+        cat_snprintf(cBuf, sizeof(cBuf), _(" with City Walls"));
+      }		  
+      if (pOwner && pOwner != game.player_ptr) {
+	if (ds[pOwner->player_no].type == DS_CEASEFIRE) {
+	  int turns = ds[pOwner->player_no].turns_left;
+
+          cat_snprintf(cBuf, sizeof(cBuf), PL_("\n(%s, %d turn ceasefire)",
+				       "\n(%s, %d turn ceasefire)", turns),
+		 		get_nation_name(pOwner->nation), turns);
+        } else {
+          /* TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)" */
+          cat_snprintf(cBuf, sizeof(cBuf), _("\n(%s,%s)"),
+		  get_nation_name(pOwner->nation),
+		  	diplo_city_adjectives[ds[pOwner->player_no].type]);
+	}
       }
     }
   }
@@ -938,6 +981,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain : UNKNOWN"));
   }
   
+   
+    
   pStr = create_str16_from_char(cBuf, 12);
   pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, WF_FREE_THEME);
@@ -960,16 +1005,10 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   pBuf->size.x = pWindow->size.x + 10;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
   
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey( pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-  
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH-1;
+  pBuf->size.y = pWindow->size.y + 1;
   pBuf->action = exit_terrain_info_dialog;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -977,8 +1016,6 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   add_to_gui_list(ID_TERRAIN_INFO_DLG_EXIT_BUTTON, pBuf);
     
   pTerrain_Info_Dlg->pBeginWidgetList = pBuf;
-   
-  
   /* --------------------------------- */
   /* redraw */
   redraw_group(pTerrain_Info_Dlg->pBeginWidgetList, pWindow, 0);
@@ -1265,12 +1302,8 @@ void popup_advanced_terrain_dialog(int x , int y)
   pAdvanced_Terrain_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_advanced_terrain_dlg_callback;
@@ -1674,7 +1707,7 @@ void popup_advanced_terrain_dialog(int x , int y)
   pBuf = pWindow->prev;
   
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* terrain info */
   pBuf = pBuf->prev;
@@ -2124,14 +2157,9 @@ static int spy_steal_popup(struct GUI *pWidget)
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
   pDiplomat_Dlg->pEndWidgetList = pWindow;
   /* ------------------ */
-  
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_spy_steal_dlg_callback;
@@ -2242,7 +2270,7 @@ static int spy_steal_popup(struct GUI *pWidget)
     /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
@@ -2694,13 +2722,8 @@ void popup_sabotage_dialog(struct city *pCity)
   pAdvanced_Terrain_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   w += pBuf->size.w + 10;
   pBuf->action = exit_advanced_terrain_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2815,9 +2838,8 @@ void popup_sabotage_dialog(struct city *pCity)
   
   /* exit button */
   pBuf = pWindow->prev;
-  
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* Production sabotage */
   pBuf = pBuf->prev;
@@ -2979,13 +3001,8 @@ void popup_incite_dialog(struct city *pCity)
   if (pCity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
     
     /* exit button */
-    pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-    SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);  
     w += pBuf->size.w + 10;
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -3051,13 +3068,8 @@ void popup_incite_dialog(struct city *pCity)
     
   } else {
     /* exit button */
-    pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-    SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-  
+    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
     w += pBuf->size.w + 10;
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -3108,7 +3120,7 @@ void popup_incite_dialog(struct city *pCity)
   {/* exit button */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-    pBuf->size.y = pWindow->size.y;
+    pBuf->size.y = pWindow->size.y + 1;
   }
   
   pBuf = pBuf->prev;
@@ -3250,13 +3262,8 @@ void popup_bribe_dialog(struct unit *pUnit)
     
   } else {
     /* exit button */
-    pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-    SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+    pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
     w += pBuf->size.w + 10;
     pBuf->action = exit_bribe_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -3306,7 +3313,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   {/* exit button */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-    pBuf->size.y = pWindow->size.y;
+    pBuf->size.y = pWindow->size.y + 1;
   }
   
   pBuf = pBuf->prev;
@@ -3405,13 +3412,8 @@ void popup_pillage_dialog(struct unit *pUnit,
     
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon ,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   w += pBuf->size.w + 10;
   pBuf->action = exit_pillage_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3450,9 +3452,8 @@ void popup_pillage_dialog(struct unit *pUnit,
 
   /* exit button */  
   pBuf = pWindow->prev;
-  
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
 
   /* first special to pillage */
   pBuf = pBuf->prev;
@@ -3578,13 +3579,8 @@ void popup_unit_connect_dialog(struct unit *pUnit, int dest_x, int dest_y)
     
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  		(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  	(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   w += pBuf->size.w + 10;
   pBuf->action = exit_connect_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3637,7 +3633,7 @@ void popup_unit_connect_dialog(struct unit *pUnit, int dest_x, int dest_y)
   pBuf = pWindow->prev;
   
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
 
   /* first special to connect */
   pBuf = pBuf->prev;
@@ -3727,20 +3723,15 @@ void popup_revolution_dialog(void)
   pRevolutionDlg = MALLOC(sizeof(struct SMALL_DLG));
     
   /* create ok button */
-  pLogo = ZoomSurface(pTheme->OK_Icon, 0.7, 0.7, 1);
-  SDL_SetColorKey(pLogo, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  get_first_pixel(pLogo));
   pOK_Button =
-      create_themeicon_button_from_chars(pLogo, Main.gui, _("Revolution!"), 10,
-					 WF_FREE_GFX);
+      create_themeicon_button_from_chars(pTheme->Small_OK_Icon,
+			  Main.gui, _("Revolution!"), 10, 0);
 
   /* create cancel button */
-  pLogo = ZoomSurface(pTheme->CANCEL_Icon, 0.7, 0.7, 1);
-  SDL_SetColorKey(pLogo, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  get_first_pixel(pLogo));
   pCancel_Button =
-      create_themeicon_button_from_chars(pLogo, Main.gui, _("Cancel"), 10,
-					 WF_FREE_GFX);
+      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
+  					Main.gui, _("Cancel"), 10, 0);
+  
   /* correct sizes */
   pCancel_Button->size.w += 6;
 

@@ -70,6 +70,7 @@ static struct OPT_DLG {
 struct GUI *pOptions_Button = NULL;
 static struct GUI *pEdited_WorkList_Name = NULL;
 extern SDL_Surface * get_buffer_layer(bool transparent);
+extern bool do_cursor_animation;
 
 /**************************************************************************
   ...
@@ -821,6 +822,17 @@ static int do_focus_animation_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static int do_cursor_animation_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  flush_rect(pWidget->size);
+  do_cursor_animation ^= 1;
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int auto_center_on_unit_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
@@ -1027,6 +1039,33 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* label */
   pStr = create_str16_from_char(_("Show focus animation"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->fgcol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 55;
+
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+
+  /* 'show cursors anim' */
+
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+      			do_cursor_animation, WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = do_cursor_animation_callback;
+  set_wstate(pTmpGui, FC_WS_NORMAL);
+
+  pTmpGui->size.x = pWindow->size.x + 15;
+
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("Show cursors animation"), 10);
   pStr->style |= TTF_STYLE_BOLD;
   pStr->fgcol = text_color;
   pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);

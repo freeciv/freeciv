@@ -387,13 +387,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = exit_units_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -628,7 +623,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   /* totals background and label */
   dst.x = FRAME_WH + 2;
@@ -1862,14 +1857,8 @@ void popup_economy_report_dialog(bool make_modal)
   
   my_snprintf(cBuf, sizeof(cBuf), _("Update"));
   pStr = create_str16_from_char(cBuf, 12);
-
-  pBuf = create_themeicon_button(ResizeSurface(pTheme->OK_Icon,
-			  pTheme->OK_Icon->w - 4,
-			  pTheme->OK_Icon->h - 4, 1), pWindow->dst, pStr,
-  			  (WF_FREE_GFX|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->gfx,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->gfx));
-
+  pBuf = create_themeicon_button(pTheme->Small_OK_Icon, pWindow->dst, pStr,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = apply_taxrates_callback;
   clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1880,14 +1869,8 @@ void popup_economy_report_dialog(bool make_modal)
   
   my_snprintf(cBuf, sizeof(cBuf), _("Cancel"));
   pStr = create_str16_from_char(cBuf, 12);
-
-  pBuf = create_themeicon_button(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst, pStr,
-  			  (WF_FREE_GFX|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->gfx,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->gfx));
-
+  pBuf = create_themeicon_button(pTheme->Small_CANCEL_Icon, pWindow->dst, pStr,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = exit_economy_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2041,7 +2024,7 @@ void popup_economy_report_dialog(bool make_modal)
   pText_Name = create_text_surf_from_str16(pStr);
   w3 = MAX(w3, pText_Name->w);
   /* total icome */
-  my_snprintf(cBuf, sizeof(cBuf),_("Total Income: "));
+  my_snprintf(cBuf, sizeof(cBuf), _("Total Income: "));
   copy_chars_to_string16(pStr, cBuf);
   pSurf = create_text_surf_from_str16(pStr);
   w3 = MAX(w3, pSurf->w);
@@ -2496,18 +2479,21 @@ void science_dialog_update(void)
 		_("Current output : 0\nResearch speed : "
 		  "none\nNext's advance time : never"));
     } else {
+      char cBiernikujemy[64];
       turns_to_advance = (cost + curent_output - 1) / curent_output;
       turns_to_next_tech =
 	    (cost - game.player_ptr->research.bulbs_researched +
 		    curent_output - 1) / curent_output;
-    
+      
+      my_snprintf(cBiernikujemy, sizeof(cBiernikujemy),
+                 PL_("Next advance in %d turn",
+                     "Next advance in %d turns",
+                     turns_to_next_tech), turns_to_next_tech);
       my_snprintf(cBuf, sizeof(cBuf),
 		_("Current output : %d per turn\nResearch speed "
-		  ": %d %s/advance\nNext advance in: "
-		  "%d %s"),
+		  ": %d %s/advance\n%s"),
 	  	  curent_output, turns_to_advance,
-		  PL_("turn", "turns", turns_to_advance),
-		  turns_to_next_tech, PL_("turn", "turns", turns_to_next_tech));
+		  PL_("turn", "turns", turns_to_advance), cBiernikujemy);
     }
 
     pStr = create_str16_from_char(cBuf, 12);
@@ -2789,13 +2775,8 @@ static int change_research(struct GUI *pWidget)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_WINDOW, pWindow);
   /* ------------------------- */
     /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   w += pBuf->size.w + 10;
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2889,7 +2870,7 @@ static int change_research(struct GUI *pWidget)
     /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
@@ -2975,13 +2956,8 @@ static int change_research_goal(struct GUI *pWidget)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_WINDOW, pWindow);
   /* ------------------------- */
     /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey(pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
-  
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   w += pBuf->size.w + 10;
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3080,7 +3056,7 @@ static int change_research_goal(struct GUI *pWidget)
     /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
   
   setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
@@ -3210,12 +3186,8 @@ void popup_science_dialog(bool make_modal)
 
   /* ------ */
   /* exit button */
-  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
-			  pTheme->CANCEL_Icon->w - 4,
-			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey( pBuf->theme,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  			  			WF_DRAW_THEME_TRANSPARENT);
   
   pBuf->action = popdown_science_dialog;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3224,9 +3196,8 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pBuf);
   
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y;
+  pBuf->size.y = pWindow->size.y + 1;
     
-
   /* ======================== */
   pScienceDlg->pBeginWidgetList = pBuf;
 

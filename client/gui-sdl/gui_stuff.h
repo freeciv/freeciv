@@ -397,18 +397,26 @@ do {						\
 	fc__extension((enum WFlags)(pWidget->state_types_flags & FLAG_MASK))
 
 
-#define hide_scrollbar(scrollbar)			\
-do {							\
-  set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);	\
-  set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
-  set_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+#define hide_scrollbar(scrollbar)				\
+do {								\
+  if (scrollbar->pUp_Left_Button) {				\
+    set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
+    set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+  }								\
+  if (scrollbar->pScrollBar) {					\
+    set_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+  }								\
 } while(0)
 
 #define show_scrollbar(scrollbar)				\
 do {								\
-  clear_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
-  clear_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
-  clear_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+  if (scrollbar->pUp_Left_Button) {				\
+    clear_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
+    clear_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+  }								\
+  if (scrollbar->pScrollBar) {					\
+    clear_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+  }								\
 } while(0)
 
 #define FREEWIDGET(pGUI)					\

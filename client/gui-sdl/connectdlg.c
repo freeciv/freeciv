@@ -266,13 +266,11 @@ static int meta_severs_callback(struct GUI *pWidget)
   
   /* refresh button */
   pBuf = pWindow->prev;
-  
   pBuf->size.x = pWindow->size.x + 10;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 10;
   
   /* exit button */
   pBuf = pBuf->prev;
-  
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 10;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 10;
   

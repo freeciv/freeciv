@@ -90,7 +90,8 @@
 
 /*#include "freeciv.ico"*/
 
-#define UNITS_TIMER_INTERVAL 125	/* milliseconds */
+#define UNITS_TIMER_INTERVAL 128	/* milliseconds */
+#define MAP_SCROLL_TIMER_INTERVAL 384
 
 const char *client_string = "gui-sdl";
 
@@ -107,18 +108,23 @@ bool LCTRL;
 bool RCTRL;
 bool LALT;
 bool do_focus_animation = TRUE;
+SDL_Cursor **pAnimCursor = NULL;
+bool do_cursor_animation = TRUE;
 
 /* ================================ Private ============================ */
+static SDL_Cursor **pStoreAnimCursor = NULL;
 static int net_socket = -1;
 static bool autoconnect = FALSE;
+static bool is_map_scrolling = FALSE;
+static enum direction8 scroll_dir;
 static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
-
+static SDL_Event *pMap_Scroll_User_Event = NULL;
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static void game_focused_unit_anim(void);
-
+      
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
   NET = 1,
@@ -126,7 +132,8 @@ enum USER_EVENT_ID {
   TRY_AUTO_CONNECT = 3,
   SHOW_WIDGET_INFO_LABBEL = 4,
   FLUSH = 5,
-  EXIT_FROM_EVENT_LOOP = 6
+  MAP_SCROLL = 6,
+  EXIT_FROM_EVENT_LOOP = 7
 };
 
 /* =========================================================== */
@@ -272,6 +279,8 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
   return ID_ERROR;
 }
 
+#define SCROLL_MAP_AREA		8
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -286,7 +295,84 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
     widget_sellected_action(pWidget);
   } else {
-    unsellect_widget_action();
+    if (pSellected_Widget) {
+      unsellect_widget_action();
+    } else {
+      if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+        static SDL_Rect rect;
+                  
+        rect.x = rect.y = 0;
+        rect.w = SCROLL_MAP_AREA;
+        rect.h = Main.map->h;
+        if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
+	  is_map_scrolling = TRUE;
+	  if (scroll_dir != DIR8_WEST) {
+	    pStoreAnimCursor = pAnimCursor;
+	    if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_WEST][1]) {
+	      pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_WEST];
+	    } else {
+	      SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_WEST][0]);
+	    }
+	    scroll_dir = DIR8_WEST;
+	  }
+        } else {
+	  rect.x = Main.map->w - SCROLL_MAP_AREA;
+	  if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
+	    is_map_scrolling = TRUE;
+	    if (scroll_dir != DIR8_EAST) {
+	      pStoreAnimCursor = pAnimCursor;
+	      if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_EAST][1]) {
+	        pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_EAST];
+	      } else {
+	        SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_EAST][0]);
+	      }
+	      scroll_dir = DIR8_EAST;
+	    }
+          } else {
+	    rect.x = rect.y = 0;
+            rect.w = Main.map->w;
+            rect.h = SCROLL_MAP_AREA;
+	    if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
+	      is_map_scrolling = TRUE;
+	      if (scroll_dir != DIR8_NORTH) {
+	        pStoreAnimCursor = pAnimCursor;
+		if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_NORTH][1]) {
+	  	  pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_NORTH];
+	        } else {
+	          SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_NORTH][0]);
+	        }
+	        scroll_dir = DIR8_NORTH;
+	      }
+            } else {
+              rect.y = Main.map->h - SCROLL_MAP_AREA;
+	      if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
+	        is_map_scrolling = TRUE;
+		if (scroll_dir != DIR8_SOUTH) {
+	          pStoreAnimCursor = pAnimCursor;
+		  if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_SOUTH][1]) {
+	  	    pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_SOUTH];
+	          } else {
+	            SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_SOUTH][0]);
+	          }
+	          scroll_dir = DIR8_SOUTH;
+		}
+              } else {
+	        if (is_map_scrolling) {
+	          if (pStoreAnimCursor) {
+		    pAnimCursor = pStoreAnimCursor;
+	          } else {
+		    SDL_SetCursor(pStd_Cursor);
+		    pAnimCursor = NULL;
+		  }
+	        }
+	        pStoreAnimCursor = NULL;
+	        is_map_scrolling = FALSE;
+	      }
+	    } 
+	  }
+        }
+      }
+    }
   }
   
   return ID_ERROR;
@@ -340,6 +426,18 @@ static void game_focused_unit_anim(void)
     
   return;
 }
+
+static void game_cursors_anim(void)
+{
+  static int cursor_anim_frame = 0;
+  if(do_cursor_animation && pAnimCursor && pAnimCursor[1]) {
+    SDL_SetCursor(pAnimCursor[cursor_anim_frame++]);
+    if (!pAnimCursor[cursor_anim_frame]) {
+      cursor_anim_frame = 0;
+    }
+  }
+}
+
 
 /* ============================ Public ========================== */
 
@@ -395,15 +493,15 @@ Uint16 gui_event_loop(void *pData,
         Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
         Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
 {
-  static Uint16 ID;
+  Uint16 ID;
   static struct timeval tv;
   static fd_set civfdset;
-  static Uint32 t1, t2;
+  Uint32 t1, t2, t3;
   static int result, schot_nr = 0;
   static char schot[32];
 
   ID = ID_ERROR;
-  t1 = SDL_GetTicks();
+  t3 = t1 = SDL_GetTicks();
   while (ID == ID_ERROR) {
     /* ========================================= */
     /* net check with 10ms delay event loop */
@@ -432,7 +530,7 @@ Uint16 gui_event_loop(void *pData,
     
     t2 = SDL_GetTicks();
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
-      if(widget_info_counter || autoconnect) {
+      if (widget_info_counter || autoconnect) {
         if(widget_info_counter > 8) {
           SDL_PushEvent(pInfo_User_Event);
           widget_info_counter = 0;
@@ -443,6 +541,12 @@ Uint16 gui_event_loop(void *pData,
       } else {
         SDL_PushEvent(pAnim_User_Event);
       }
+            
+      if (is_map_scrolling && (t2 - t3) > MAP_SCROLL_TIMER_INTERVAL) {
+	SDL_PushEvent(pMap_Scroll_User_Event);
+	t3 = SDL_GetTicks();
+      }
+      
       t1 = SDL_GetTicks();
     }
     /* ========================================= */
@@ -546,6 +650,7 @@ Uint16 gui_event_loop(void *pData,
 	  break;
 	  case ANIM:
 	    game_focused_unit_anim();
+	    game_cursors_anim();
 	  break;
 	  case SHOW_WIDGET_INFO_LABBEL:
 	    draw_widget_info_label();
@@ -558,6 +663,9 @@ Uint16 gui_event_loop(void *pData,
 	  break;
           case FLUSH:
 	    unqueue_flush();
+	  break;
+	  case MAP_SCROLL:
+	      scroll_mapview(scroll_dir);
 	  break;
           case EXIT_FROM_EVENT_LOOP:
 	    return MAX_ID;
@@ -678,6 +786,7 @@ void ui_main(int argc, char *argv[])
   SDL_Event __Anim_User_Event;
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
+  SDL_Event __pMap_Scroll_User_Event;
   
   parse_options(argc, argv);
   
@@ -704,6 +813,12 @@ void ui_main(int argc, char *argv[])
   __Flush_User_Event.user.data1 = NULL;
   __Flush_User_Event.user.data2 = NULL;
   pFlush_User_Event = &__Flush_User_Event;
+
+  __pMap_Scroll_User_Event.type = SDL_USEREVENT;
+  __pMap_Scroll_User_Event.user.code = MAP_SCROLL;
+  __pMap_Scroll_User_Event.user.data1 = NULL;
+  __pMap_Scroll_User_Event.user.data2 = NULL;
+  pMap_Scroll_User_Event = &__pMap_Scroll_User_Event;
   
   smooth_move_unit_steps = 8;
   update_city_text_in_refresh_tile = FALSE;
@@ -828,25 +943,10 @@ void remove_net_input(void)
   net_socket = (-1);
   freelog(LOG_DEBUG, "Connection DOWN... ");
   disable_focus_animation();
-}
-
-/**************************************************************************
-  Set one of the unit icons in the information area based on punit.
-  NULL will be pased to clear the icon. idx==-1 will be passed to
-  indicate this is the active unit, or idx in [0..num_units_below-1] for
-  secondary (inactive) units on the same tile.
-**************************************************************************/
-void set_unit_icon(int idx, struct unit *punit)
-{
-  freelog(LOG_DEBUG, "set_unit_icon : PORT ME");
-}
-
-/**************************************************************************
-  Most clients use an arrow (e.g., sprites.right_arrow) to indicate when
-  the units_below will not fit. This function is called to activate and
-  deactivate the arrow.
-**************************************************************************/
-void set_unit_icons_more_arrow(bool onoff)
-{
-  freelog(LOG_DEBUG, "set_unit_icons_more_arrow : PORT ME");
+  draw_goto_patrol_lines = FALSE;
+  if (pAnimCursor) {
+    SDL_SetCursor(pStd_Cursor);
+    pAnimCursor = NULL;
+    pStoreAnimCursor = NULL;
+  }
 }

@@ -259,7 +259,7 @@ static void set_new_order_widget_start_pos(void)
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
     xx = pMiniMap->size.x + pMiniMap->size.w + 10;
   } else {
-    xx = pMiniMap->size.x + 36 + 10;
+    xx = pMiniMap->size.x + HIDDEN_MINI_MAP_W + 10;
   }
 
   w = (pInfoWind->size.x - 10) - xx;
@@ -270,13 +270,25 @@ static void set_new_order_widget_start_pos(void)
       w = Main.gui->w;
       yy = pInfoWind->size.h;
     } else {
-      w = Main.gui->w - xx - 20;
-      if (w < (pTmpWidget->size.w + 10) * 2) {
-	xx = 0;
-	w = Main.gui->w;
-	yy = pMiniMap->size.h;
+      if (pMiniMap->size.h > pInfoWind->size.h) {
+        w = Main.gui->w - xx - 20;
+        if (w < (pTmpWidget->size.w + 10) * 2) {
+	  xx = 0;
+	  w = pMiniMap->size.w;
+	  yy = pMiniMap->size.h;
+        } else {
+          yy = pInfoWind->size.h;
+        }
       } else {
-        yy = pInfoWind->size.h;
+	w = pInfoWind->size.x - 20;
+        if (w < (pTmpWidget->size.w + 10) * 2) {
+	  xx = pInfoWind->size.x;
+	  w = pInfoWind->size.w;
+	  yy = pInfoWind->size.h;
+        } else {
+	  xx = 10;
+          yy = pMiniMap->size.h;
+        }
       }
     }
   }

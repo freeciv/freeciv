@@ -31,6 +31,8 @@ struct Theme {
 	SDL_Surface *CBOX_Unsell_Icon;
 	SDL_Surface *OK_Icon;
 	SDL_Surface *CANCEL_Icon;
+        SDL_Surface *Small_OK_Icon;
+	SDL_Surface *Small_CANCEL_Icon;
 	SDL_Surface *FORWARD_Icon;
 	SDL_Surface *BACK_Icon;
 	SDL_Surface *META_Icon;
@@ -60,6 +62,7 @@ struct Theme {
 	SDL_Surface *SAVE_Icon;
 	SDL_Surface *LOAD_Icon;
 	SDL_Surface *DELETE_Icon;
+	SDL_Surface *BORDERS_Icon;
 	
 	/* city icons */
 	SDL_Surface *Army_Icon;
@@ -124,8 +127,25 @@ struct Theme {
 void tilespec_setup_theme(void);
 void tilespec_unload_theme(void);
 
+enum DirScrolling {
+  SCROLL_NORTH = 0,
+  SCROLL_SOUTH = 1,
+  SCROLL_EAST  = 2,
+  SCROLL_WEST  = 3,
+  SCROLL_LAST
+};
+
 struct Animation {
   SDL_Surface **Focus;
+  struct {
+    SDL_Cursor **Patrol;
+    SDL_Cursor **Goto;
+    SDL_Cursor **Connect;
+    SDL_Cursor **Nuke;
+    SDL_Cursor **Paradrop;
+    SDL_Cursor **MapScroll[SCROLL_LAST];
+  } Cursors;
+  
   int num_tiles_focused_unit;
   int num_tiles_explode_nuke;
 } *pAnim;

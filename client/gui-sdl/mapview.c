@@ -67,12 +67,14 @@
 #include "options.h"
 #include "tilespec.h"
 #include "citydlg.h"
-
+#include "cma_fe.h"
 #include "gui_dither.h"
 #include "timing.h"
 #include "mapview.h"
 
 extern SDL_Event *pFlush_User_Event;
+extern SDL_Cursor **pAnimCursor;
+extern bool do_cursor_animation;
 
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0
@@ -584,78 +586,73 @@ void update_info_label(void)
   queue_flush();
 }
 
+static int fucus_units_info_callback(struct GUI *pWidget)
+{
+  struct unit *pUnit = pWidget->data.unit;
+  if (pUnit) {
+    request_new_unit_activity(pUnit, ACTIVITY_IDLE);
+    set_unit_focus(pUnit);
+  }
+  return -1;
+}
+
 /**************************************************************************
   Read Function Name :)
 **************************************************************************/
 void redraw_unit_info_label(struct unit *pUnit)
 {
   struct GUI *pInfo_Window = get_unit_info_window_widget();
-  SDL_Rect area = {pInfo_Window->size.x, pInfo_Window->size.y, 0, 0};
-  SDL_Surface *pBuf_Surf = NULL;
-  Uint16 sy, len;
+  SDL_Rect src, area = {pInfo_Window->size.x, pInfo_Window->size.y, 0, 0};
+  SDL_Surface *pBuf_Surf;
+  SDL_String16 *pStr;
   
-  len = 30;
-
-  if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {
+  if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {   
     /* Unit Window is Show */
 
     /* blit theme surface */
     SDL_BlitSurface(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
     
     if (pUnit) {
+      SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
+      int sy, y, sx, width, height, n;
+      bool right;
       char buffer[512];
       struct city *pCity = player_find_city_by_id(game.player_ptr,
 						  pUnit->homecity);
       struct tile *pTile = map_get_tile(pUnit->x, pUnit->y);
       int infrastructure = get_tile_infrastructure_set(pTile);
 
-      change_ptsize16(pInfo_Window->string16, 12);
+      pStr = pInfo_Window->string16;
+      
+      change_ptsize16(pStr, 12);
 
       /* get and draw unit name (with veteran status) */
-      copy_chars_to_string16(pInfo_Window->string16, unit_type(pUnit)->name);
+      copy_chars_to_string16(pStr, unit_type(pUnit)->name);
             
-      pInfo_Window->string16->style |= TTF_STYLE_BOLD;
-      pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-      pInfo_Window->string16->style &= ~TTF_STYLE_BOLD;
+      pStr->style |= TTF_STYLE_BOLD;
+      pName = create_text_surf_from_str16(pStr);
+      SDL_SetAlpha(pName, 0x0 , 0x0);
+      pStr->style &= ~TTF_STYLE_BOLD;
       
-      area.x = pInfo_Window->size.x + len
-	  + (pInfo_Window->size.w - pBuf_Surf->w - len) / 2;
-      area.y = pInfo_Window->size.y + DOUBLE_FRAME_WH;
-    
-      SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
-      SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
+      if (pInfo_Window->size.w > 1.8 * DEFAULT_UNITS_W) {
+	width = pInfo_Window->size.w / 2;
+	right = TRUE;
+      } else {
+	width = pInfo_Window->size.w;
+	right = FALSE;
+      }
       
       if(pUnit->veteran) {
-	area.y += pBuf_Surf->h - 3;
-        FREESURFACE(pBuf_Surf);
-	copy_chars_to_string16(pInfo_Window->string16, _("veteran"));
-        change_ptsize16(pInfo_Window->string16, 10);
-	pInfo_Window->string16->fgcol.b = 255;
-        pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-        pInfo_Window->string16->fgcol.b = 0;
-        area.x = pInfo_Window->size.x + len
-	  + (pInfo_Window->size.w - pBuf_Surf->w - len) / 2;
-        
-        SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
-        SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
-      
+	copy_chars_to_string16(pStr, _("veteran"));
+        change_ptsize16(pStr, 10);
+	pStr->fgcol.b = 255;
+        pVet_Name = create_text_surf_from_str16(pStr);
+	SDL_SetAlpha(pVet_Name, 0x0, 0x0);
+        pStr->fgcol.b = 0;
       }
-      sy = area.y + pBuf_Surf->h;
-      FREESURFACE(pBuf_Surf);
 
-
-      /* draw unit sprite */
-      pBuf_Surf = GET_SURF(unit_type(pUnit)->sprite);
-      area.x = pInfo_Window->size.x + len;
-      area.y = pInfo_Window->size.y + FRAME_WH
-	  + (pInfo_Window->size.h - pBuf_Surf->h - DOUBLE_FRAME_WH) / 2;
-
-      SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
-      
-      area.x += pBuf_Surf->w;
-      
       /* get and draw other info (MP, terran, city, etc.) */
-      change_ptsize16(pInfo_Window->string16, 10);
+      change_ptsize16(pStr, 10);
 
       my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
 		  (hover_unit == pUnit->id) ? _("Select destination") :
@@ -665,70 +662,350 @@ void redraw_unit_info_label(struct unit *pUnit)
 		  map_get_infrastructure_text(infrastructure) : "",
 		  infrastructure ? "\n" : "", pCity ? pCity->name : _("NONE"));
 
-      copy_chars_to_string16(pInfo_Window->string16, buffer);
+      copy_chars_to_string16(pStr, buffer);
+      pInfo = create_text_surf_from_str16(pStr);
+      SDL_SetAlpha(pInfo, 0x0, 0x0);
       
-      pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-
-      area.y = sy + (pInfo_Window->dst->h - sy - FRAME_WH - pBuf_Surf->h)/2;
-
-      area.x += (pInfo_Window->dst->w - area.x - FRAME_WH - pBuf_Surf->w)/2;
-      SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
+      if (pInfo_Window->size.h > DEFAULT_UNITS_H || right) {
+	int h = TTF_FontHeight(pInfo_Window->string16->font);
+				     
+	my_snprintf(buffer, sizeof(buffer),"%s",
+				sdl_get_tile_defense_info_text(pTile));
+	
+        if (pInfo_Window->size.h > 2 * h + DEFAULT_UNITS_H || right) {
+	  if (game.borders > 0 && !pTile->city) {
+	    const char *diplo_nation_plural_adjectives[DS_LAST] =
+                        {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
+     			"" /* unused, DS_CEASEFIRE*/,
+     			Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
+     			Q_("?nation:Mysterious")};
+            if (pTile->owner == game.player_ptr) {
+              cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
+            } else {
+	      if (pTile->owner) {
+                if (game.player_ptr->diplstates[pTile->owner->player_no].type==DS_CEASEFIRE){
+		  int turns = game.player_ptr->diplstates[pTile->owner->player_no].turns_left;
+		  cat_snprintf(buffer, sizeof(buffer),
+		  	PL_("\n%s territory (%d turn ceasefire)",
+				"\n%s territory (%d turn ceasefire)", turns),
+		 		get_nation_name(pTile->owner->nation), turns);
+                } else {
+	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
+		    diplo_nation_plural_adjectives[
+		  	game.player_ptr->diplstates[pTile->owner->player_no].type],
+		    		get_nation_name_plural(pTile->owner->nation));
+                }
+              } else { /* !pTile->owner */
+                cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
+              }
+	    }
+          } /* game.borders > 0 && !pTile->city */
+	  
+          if (pTile->city) {
+            /* Look at city owner, not tile owner (the two should be the same, if
+             * borders are in use). */
+            struct player *pOwner = city_owner(pTile->city);
+            bool citywall, barrack = FALSE, airport = FALSE, port = FALSE;
+	    const char *diplo_city_adjectives[DS_LAST] =
+    			{Q_("?city:Neutral"), Q_("?city:Hostile"),
+     			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
+			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
+			  
+	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pTile->city->name);
+            	  
+	    citywall = city_got_citywalls(pTile->city);
+	    if (pplayers_allied(game.player_ptr, pOwner)) {
+	      barrack = (city_affected_by_wonder(pTile->city, B_SUNTZU) ||
+	  		city_got_building(pTile->city, B_BARRACKS) || 
+	  		city_got_building(pTile->city, B_BARRACKS2) ||
+	  		city_got_building(pTile->city, B_BARRACKS3));
+	      airport = city_got_effect(pTile->city, B_AIRPORT);
+	      port = city_got_effect(pTile->city, B_PORT);
+	    }
+	  
+	    if (citywall || barrack || airport || port) {
+	      cat_snprintf(buffer, sizeof(buffer), _(" with "));
+	      if (barrack) {
+                cat_snprintf(buffer, sizeof(buffer), _("Barracks"));
+	        if (port || airport || citywall) {
+	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	        }
+	      }
+	      if (port) {
+	        cat_snprintf(buffer, sizeof(buffer), _("Port"));
+	        if (airport || citywall) {
+	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	        }
+	      }
+	      if (airport) {
+	        cat_snprintf(buffer, sizeof(buffer), _("Airport"));
+	        if (citywall) {
+	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	        }
+	      }
+	      if (citywall) {
+	        cat_snprintf(buffer, sizeof(buffer), _("City Walls"));
+              }
+	    }
+	    
+	    if (pOwner && pOwner != game.player_ptr) {
+              /* TRANS: (<nation>,<diplomatic_state>)" */
+              cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
+		  get_nation_name(pOwner->nation),
+		  diplo_city_adjectives[game.player_ptr->
+				   diplstates[pOwner->player_no].type]);
+	    }
+	    
+	  }
+        }
+		
+	if (pInfo_Window->size.h > 4 * h + DEFAULT_UNITS_H || right) {
+          cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
+				map_get_tile_fpt_text(pUnit->x, pUnit->y));
+	}
+	
+	copy_chars_to_string16(pStr, buffer);
       
+	pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCK_W - 10);
+	SDL_SetAlpha(pInfo_II, 0x0, 0x0);
+	
+      }
+      /* ------------------------------------------- */
+      
+      n = unit_list_size(&pTile->units);
+      y = 0;
+      
+      if (n > 1 && ((!right && pInfo_II
+	 && (pInfo_Window->size.h - DEFAULT_UNITS_H - pInfo_II->h > 52))
+         || (right && pInfo_Window->size.h - DEFAULT_UNITS_H > 52))) {
+	height = DEFAULT_UNITS_H;
+      } else {
+	height = pInfo_Window->size.h;
+        if (pInfo_Window->size.h > DEFAULT_UNITS_H) {
+	  y = (pInfo_Window->size.h - DEFAULT_UNITS_H -
+	                 (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
+        }
+      }
+      
+      sy = y + DOUBLE_FRAME_WH;
+      area.y = pInfo_Window->size.y + sy;
+      area.x = pInfo_Window->size.x + FRAME_WH + BLOCK_W +
+			    (width - pName->w - BLOCK_W - DOUBLE_FRAME_WH) / 2;
+            
+      SDL_BlitSurface(pName, NULL, pInfo_Window->dst, &area);
+      sy += pName->h;
+      if(pVet_Name) {
+	area.y += pName->h - 3;
+        area.x = pInfo_Window->size.x + FRAME_WH + BLOCK_W +
+		(width - pVet_Name->w - BLOCK_W - DOUBLE_FRAME_WH) / 2;
+        SDL_BlitSurface(pVet_Name, NULL, pInfo_Window->dst, &area);
+	sy += pVet_Name->h - 3;
+        FREESURFACE(pVet_Name);
+      }
+      FREESURFACE(pName);
+      
+      /* draw unit sprite */
+      pBuf_Surf = GET_SURF(unit_type(pUnit)->sprite);
+      src = get_smaller_surface_rect(pBuf_Surf);
+      sx = FRAME_WH + BLOCK_W + 3 +
+			      (width / 2 - src.w - 3 - BLOCK_W - FRAME_WH) / 2;
+                  
+      area.x = pInfo_Window->size.x + sx + src.w +
+      		(width - (sx + src.w) - FRAME_WH - pInfo->w) / 2;
+      
+      area.y = pInfo_Window->size.y + sy +
+	      (DEFAULT_UNITS_H - (sy - y) - FRAME_WH - pInfo->h) / 2;
+            
       /* blit unit info text */
-      SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
-      FREESURFACE(pBuf_Surf);
+      SDL_BlitSurface(pInfo, NULL, pInfo_Window->dst, &area);
+      FREESURFACE(pInfo);
+      
+      area.x = pInfo_Window->size.x + sx;
+      area.y = pInfo_Window->size.y + y +
+      		(DEFAULT_UNITS_H - DOUBLE_FRAME_WH - src.h) / 2;
+      SDL_BlitSurface(pBuf_Surf, &src, pInfo_Window->dst, &area);
+      
+      
+      if (pInfo_II) {
+        if (right) {
+	  area.x = pInfo_Window->size.x + width +
+      				(width - pInfo_II->w) / 2;
+	  area.y = pInfo_Window->size.y + FRAME_WH +
+	  		(height - FRAME_WH - pInfo_II->h) / 2;
+        } else {
+	  area.y = pInfo_Window->size.y + DEFAULT_UNITS_H + y;
+          area.x = pInfo_Window->size.x + BLOCK_W +
+      		(width - BLOCK_W - pInfo_II->w) / 2;
+        }
+      
+        /* blit unit info text */
+        SDL_BlitSurface(pInfo_II, NULL, pInfo_Window->dst, &area);
+              
+        if (right) {
+          sy = DEFAULT_UNITS_H;
+        } else {
+	  sy = area.y - pInfo_Window->size.y + pInfo_II->h;
+        }
+        FREESURFACE(pInfo_II);
+      } else {
+	sy = DEFAULT_UNITS_H;
+      }
+      
+      if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
+	struct ADVANCED_DLG *pDlg = pInfo_Window->private_data.adv;
+	struct GUI *pBuf = NULL, *pEnd = NULL, *pDock;
+	struct city *pHome_City;
+        struct unit_type *pUType;
+	int num_w, num_h;
+	  
+	if (pDlg->pEndActiveWidgetList && pDlg->pBeginActiveWidgetList) {
+	  del_group(pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
+	}
+	num_w = (pInfo_Window->size.w - BLOCK_W - DOUBLE_FRAME_WH) / 68;
+	num_h = (pInfo_Window->size.h - sy - FRAME_WH) / 52;
+	pDock = pInfo_Window;
+	n = 0;
+        unit_list_iterate(pTile->units, aunit) {
+          if (aunit == pUnit) {
+	    continue;
+	  }
+	    
+	  pUType = get_unit_type(aunit->type);
+          pHome_City = find_city_by_id(aunit->homecity);
+          my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
+		pUType->name, pUType->attack_strength,
+		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
+                (aunit->veteran ? _("\nveteran") : ""),
+                unit_activity_text(aunit),
+		aunit->hp, pUType->hp,
+		pHome_City ? pHome_City->name : _("None"));
+      
+	  pBuf_Surf = create_surf(UNIT_TILE_WIDTH,
+	    				UNIT_TILE_HEIGHT, SDL_SWSURFACE);
+
+          put_unit_pixmap_draw(aunit, pBuf_Surf, 0, 0);
+
+          if (pBuf_Surf->w > 64) {
+            float zoom = 64.0 / pBuf_Surf->w;    
+            SDL_Surface *pZoomed = ZoomSurface(pBuf_Surf, zoom, zoom, 1);
+            FREESURFACE(pBuf_Surf);
+            pBuf_Surf = pZoomed;
+          }
+          SDL_SetColorKey(pBuf_Surf, SDL_SRCCOLORKEY | SDL_RLEACCEL, 
+  				get_first_pixel(pBuf_Surf));
+	    
+	  pStr = create_str16_from_char(buffer, 10);
+          pStr->style |= SF_CENTER;
+    
+          pBuf = create_icon2(pBuf_Surf, pInfo_Window->dst,
+	             (WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT |
+						    WF_WIDGET_HAS_INFO_LABEL));
+	
+    	  pBuf->string16 = pStr;
+          pBuf->data.unit = aunit;
+	  pBuf->ID = ID_ICON;
+	  DownAdd(pBuf, pDock);
+          pDock = pBuf;
+
+          if (!pEnd) {
+            pEnd = pBuf;
+          }
+    
+          if (++n > num_w * num_h) {
+             set_wflag(pBuf, WF_HIDDEN);
+          }
+  
+          if (unit_owner(aunit) == game.player_ptr) {    
+            set_wstate(pBuf, FC_WS_NORMAL);
+          }
+    
+          pBuf->action = fucus_units_info_callback;
+    
+	} unit_list_iterate_end;	  
+	    
+	pDlg->pBeginActiveWidgetList = pBuf;
+	pDlg->pEndActiveWidgetList = pEnd;
+	pDlg->pActiveWidgetList = pEnd;
+	  	  	  
+	if (n > num_w * num_h) {
+    
+	  if (!pDlg->pScroll) {
+	      
+            pDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+            pDlg->pScroll->active = num_h;
+            pDlg->pScroll->step = num_w;
+            pDlg->pScroll->count = n;
+	      
+            create_vertical_scrollbar(pDlg, num_w, num_h, FALSE, TRUE);
+          
+	  } else {
+	    pDlg->pScroll->active = num_h;
+            pDlg->pScroll->step = num_w;
+            pDlg->pScroll->count = n;
+	    show_scrollbar(pDlg->pScroll);
+	  }
+	    
+	  /* create up button */
+          pBuf = pDlg->pScroll->pUp_Left_Button;
+          pBuf->size.x = pInfo_Window->size.x +
+			      pInfo_Window->size.w - FRAME_WH - pBuf->size.w;
+          pBuf->size.y = pInfo_Window->size.y + sy +
+	    			(pInfo_Window->size.h - sy - num_h * 52) / 2;
+          pBuf->size.h = (num_h * 52) / 2;
+        
+          /* create down button */
+          pBuf = pDlg->pScroll->pDown_Right_Button;
+          pBuf->size.x = pDlg->pScroll->pUp_Left_Button->size.x;
+          pBuf->size.y = pDlg->pScroll->pUp_Left_Button->size.y +
+	      			pDlg->pScroll->pUp_Left_Button->size.h;
+          pBuf->size.h = pDlg->pScroll->pUp_Left_Button->size.h;
+	    	    
+        } else {
+	  if (pDlg->pScroll) {
+	    hide_scrollbar(pDlg->pScroll);
+	  }
+	  num_h = (n + num_w - 1) / num_w;
+	}
+	  
+	setup_vertical_widgets_position(num_w,
+			pInfo_Window->size.x + FRAME_WH + BLOCK_W + 2,
+			pInfo_Window->size.y + sy +
+	  			(pInfo_Window->size.h - sy - num_h * 52) / 2,
+	  		0, 0, pDlg->pBeginActiveWidgetList,
+			  pDlg->pEndActiveWidgetList);
+	  	  
+      } else {
+	if (pInfo_Window->private_data.adv->pEndActiveWidgetList) {
+	  del_group(pInfo_Window->private_data.adv->pBeginActiveWidgetList,
+	    		pInfo_Window->private_data.adv->pEndActiveWidgetList);
+	}
+	if (pInfo_Window->private_data.adv->pScroll) {
+	  hide_scrollbar(pInfo_Window->private_data.adv->pScroll);
+	}
+      }
+    
     } else { /* pUnit */
+      if (pInfo_Window->private_data.adv->pEndActiveWidgetList) {
+	del_group(pInfo_Window->private_data.adv->pBeginActiveWidgetList,
+	    		pInfo_Window->private_data.adv->pEndActiveWidgetList);
+      }
+      if (pInfo_Window->private_data.adv->pScroll) {
+	hide_scrollbar(pInfo_Window->private_data.adv->pScroll);
+      }
       change_ptsize16(pInfo_Window->string16, 14);
-      copy_chars_to_string16(pInfo_Window->string16, _("End of Turn\n(Press Enter)"));
+      copy_chars_to_string16(pInfo_Window->string16,
+      					_("End of Turn\n(Press Enter)"));
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
       SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
-      area.x = pInfo_Window->size.x + len + (pInfo_Window->size.w - len - pBuf_Surf->w)/2;
+      area.x = pInfo_Window->size.x + BLOCK_W +
+      			(pInfo_Window->size.w - BLOCK_W - pBuf_Surf->w)/2;
       area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
       SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
       FREESURFACE(pBuf_Surf);
     }
 
-    /* ID_ECONOMY */
-    pInfo_Window = pInfo_Window->prev;
-
-    if (!pInfo_Window->gfx && pInfo_Window->theme) {
-      pInfo_Window->gfx =
-	      crop_rect_from_surface(pInfo_Window->dst, &pInfo_Window->size);
-    }
-
-    real_redraw_icon2(pInfo_Window);
-
-    /* ===== */
-    /* ID_RESEARCH */
-    pInfo_Window = pInfo_Window->prev;
-
-    if (!pInfo_Window->gfx && pInfo_Window->theme)
-    {
-      pInfo_Window->gfx =
-	      crop_rect_from_surface(pInfo_Window->dst, &pInfo_Window->size);
-    }
-
-    real_redraw_icon2(pInfo_Window);
-    /* ===== */
-    /* ID_REVOLUTION */
-    pInfo_Window = pInfo_Window->prev;
-
-    if (!pInfo_Window->gfx && pInfo_Window->theme) {
-      pInfo_Window->gfx =
-	      crop_rect_from_surface(pInfo_Window->dst, &pInfo_Window->size);
-    }
-
-    real_redraw_icon2(pInfo_Window);
-
-    /* ===== */
-    /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
-    pInfo_Window = pInfo_Window->prev;
-
-    if (!pInfo_Window->gfx && pInfo_Window->theme) {
-      pInfo_Window->gfx = crop_rect_from_surface(pInfo_Window->dst, &pInfo_Window->size);
-    }
-
-    real_redraw_icon(pInfo_Window);
+    redraw_group(pInfo_Window->private_data.adv->pBeginWidgetList,
+	    	pInfo_Window->private_data.adv->pEndWidgetList->prev, 0);
     
   } else {
 #if 0    
@@ -749,6 +1026,27 @@ static bool is_anim_enabled(void)
 }
 
 /**************************************************************************
+  Set one of the unit icons in the information area based on punit.
+  NULL will be pased to clear the icon. idx==-1 will be passed to
+  indicate this is the active unit, or idx in [0..num_units_below-1] for
+  secondary (inactive) units on the same tile.
+**************************************************************************/
+void set_unit_icon(int idx, struct unit *punit)
+{
+/* Balast */
+}
+
+/**************************************************************************
+  Most clients use an arrow (e.g., sprites.right_arrow) to indicate when
+  the units_below will not fit. This function is called to activate and
+  deactivate the arrow.
+**************************************************************************/
+void set_unit_icons_more_arrow(bool onoff)
+{
+/* Balast */
+}
+
+/**************************************************************************
   Update the information label which gives info on the current unit and
   the square under the current unit, for specified unit.  Note that in
   practice punit is always the focus unit.
@@ -763,7 +1061,7 @@ static bool is_anim_enabled(void)
 void update_unit_info_label(struct unit *pUnit)
 {
   static bool mutant = FALSE;
-      
+ 
   /* draw unit info window */
   redraw_unit_info_label(pUnit);
   
@@ -779,32 +1077,74 @@ void update_unit_info_label(struct unit *pUnit)
     case HOVER_NONE:
       if (mutant) {
 	SDL_SetCursor(pStd_Cursor);
+	pAnimCursor = NULL;
 	mutant = FALSE;
       }
       break;
     case HOVER_PATROL:
-      SDL_SetCursor(pPatrol_Cursor);
+      if (pAnim->Cursors.Patrol) {
+	if (do_cursor_animation && pAnim->Cursors.Patrol[1]) {
+	  pAnimCursor = pAnim->Cursors.Patrol;
+	} else {
+	  SDL_SetCursor(pAnim->Cursors.Patrol[0]);
+	}
+      } else {
+        SDL_SetCursor(pPatrol_Cursor);
+      }
       mutant = TRUE;
       break;
     case HOVER_GOTO:
+      if (pAnim->Cursors.Goto) {
+	if (do_cursor_animation && pAnim->Cursors.Goto[1]) {
+	  pAnimCursor = pAnim->Cursors.Goto;
+	} else {
+	  SDL_SetCursor(pAnim->Cursors.Goto[0]);
+	}
+      } else {
+        SDL_SetCursor(pGoto_Cursor);
+      }
+      mutant = TRUE;
+      break;
     case HOVER_CONNECT:
-      SDL_SetCursor(pGoto_Cursor);
+      if (pAnim->Cursors.Connect) {
+	if (do_cursor_animation && pAnim->Cursors.Connect[1]) {
+	  pAnimCursor = pAnim->Cursors.Connect;
+	} else {
+	  SDL_SetCursor(pAnim->Cursors.Connect[0]);
+	}
+      } else {
+        SDL_SetCursor(pGoto_Cursor);
+      }
       mutant = TRUE;
       break;
     case HOVER_NUKE:
-      SDL_SetCursor(pNuke_Cursor);
+      if (pAnim->Cursors.Nuke) {
+	if (do_cursor_animation && pAnim->Cursors.Nuke[1]) {
+	  pAnimCursor = pAnim->Cursors.Nuke;
+	} else {
+	  SDL_SetCursor(pAnim->Cursors.Nuke[0]);
+	}
+      } else {
+        SDL_SetCursor(pNuke_Cursor);
+      }
       mutant = TRUE;
       break;
     case HOVER_PARADROP:
-      SDL_SetCursor(pDrop_Cursor);
+      if (pAnim->Cursors.Paradrop) {
+	if (do_cursor_animation && pAnim->Cursors.Paradrop[1]) {
+	  pAnimCursor = pAnim->Cursors.Paradrop;
+	} else {
+	  SDL_SetCursor(pAnim->Cursors.Paradrop[0]);
+	}
+      } else {
+        SDL_SetCursor(pDrop_Cursor);
+      }
       mutant = TRUE;
       break;
     }
   } else {
     disable_focus_animation();
   }
-
-  update_unit_pix_label(pUnit);
 }
 
 void update_timeout_label(void)
@@ -1642,22 +1982,25 @@ static void put_city_pixmap_draw(struct city *pCity, SDL_Surface *pDest,
   if(!pCity) {
     return;
   }
-  
-  des.x = map_x;
-  des.y = map_y;
-
+    
   count = fill_city_sprite_array_iso(pSprites, pCity);
   
   if (!(SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE))
   {
     src = get_smaller_surface_rect(GET_SURF(pSprites[0].sprite));
-    des.x += NORMAL_TILE_WIDTH / 4 + NORMAL_TILE_WIDTH / 8;
-    des.y += NORMAL_TILE_HEIGHT / 4;
+    des.x = map_x + (NORMAL_TILE_WIDTH - src.w) / 2;
+    des.y = map_y + NORMAL_TILE_HEIGHT / 4;
       
     /* blit flag/shield */
     SDL_BlitSurface(GET_SURF(pSprites[0].sprite), &src, pDest, &des);
   }
-      
+  
+  if (pCity->owner == game.player_idx && cma_is_city_under_agent(pCity, NULL)) {
+    draw_icon_from_theme(pTheme->CMA_Icon, 0, pDest,
+    		map_x + (NORMAL_TILE_WIDTH - pTheme->CMA_Icon->w / 2) / 4,
+    		map_y + NORMAL_TILE_HEIGHT - pTheme->CMA_Icon->h);
+  }
+  
   des.x = map_x;
   des.y = map_y;
   src = des;
@@ -1672,7 +2015,7 @@ static void put_city_pixmap_draw(struct city *pCity, SDL_Surface *pDest,
       des = src;	    
     }
   }
-  
+    
 }
 
 /**************************************************************************
@@ -2617,6 +2960,11 @@ SDL_Surface * create_city_map(struct city *pCity)
 	  if (get_worker_city(pCity, col, row) == C_TILE_UNAVAILABLE &&
 	      map_get_terrain(real_col, real_row) != T_UNKNOWN) {
 	    if (!pTile) {
+	      
+	      /* fill pTile with Mask Color */
+	      SDL_FillRect(pTmpSurface, NULL,
+			   SDL_MapRGB(pTmpSurface->format, 255, 0, 255));
+	      
 	      /* make mask */
 	      SDL_BlitSurface(GET_SURF(sprites.black_tile),
 			      NULL, pTmpSurface, NULL);
@@ -2822,8 +3170,9 @@ static void init_dither_tiles(void)
   SDL_Rect src = { 0 , 0 , w , h };
   SDL_Surface *pTerrain_Surface, *pBuf = create_surf(NORMAL_TILE_WIDTH,
   					NORMAL_TILE_HEIGHT, SDL_SWSURFACE);
-  
-  SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, 0x0);
+  Uint32 color = SDL_MapRGB(pBuf->format, 255, 0, 255);
+  SDL_FillRect(pBuf, NULL, color);
+  SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, color);
   
   for (terrain = T_ARCTIC ; terrain < T_LAST ; terrain++)
   {
@@ -2842,6 +3191,7 @@ static void init_dither_tiles(void)
     for( i = 0; i < 4; i++ )
     {
       pDithers[terrain][i] = create_surf(w, h , SDL_SWSURFACE);
+      SDL_FillRect(pDithers[terrain][i], NULL, color);
     }
   
     /* north */
@@ -2875,11 +3225,11 @@ static void init_dither_tiles(void)
     src.y = 0;
     SDL_BlitSurface(pBuf, &src, pDithers[terrain][3], NULL);
     
-    SDL_FillRect(pBuf, NULL, 0x0);
+    SDL_FillRect(pBuf, NULL, color);
     
     for(i = 0; i < 4; i++)
     {
-      SDL_SetColorKey(pDithers[terrain][i] , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
+      SDL_SetColorKey(pDithers[terrain][i] , SDL_SRCCOLORKEY|SDL_RLEACCEL, color);
     }
     
   }
