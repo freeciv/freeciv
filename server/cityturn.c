@@ -734,6 +734,42 @@ void auto_arrange_workers(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
+void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
+{
+  int turns_growth, turns_granary;
+
+  if (pcity->food_surplus > 0) {
+    turns_growth = (((pcity->size+1) * game.foodbox) - pcity->food_stock - 1)
+		   / pcity->food_surplus;
+
+    if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
+	(pcity->currently_building == B_GRANARY) && (pcity->shield_surplus > 0)) {
+      turns_granary = (improvement_value(B_GRANARY) - pcity->shield_stock)
+		      / pcity->shield_surplus;
+      /* if growth and granary completion occur simultaneously, granary
+	 preserves food.  -AJS */
+      if ((turns_growth < 5) && (turns_granary < 5) &&
+	  (turns_growth < turns_granary)) {
+	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+			 E_CITY_GRAN_THROTTLE,
+			 _("Game: Suggest throttling growth in %s to use %s "
+			   "(being built) more effectively."), pcity->name,
+			 improvement_types[B_GRANARY].name);
+      }
+    }
+
+    if (turns_growth <= 0) {
+      notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+		       E_CITY_MAY_SOON_GROW,
+		       _("Game: %s may soon grow to size %i."),
+		       pcity->name, pcity->size + 1);
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void update_city_activities(struct player *pplayer)
 {
   int gold;
@@ -1505,37 +1541,15 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   int got_tech = 0;
-  int turns_growth, turns_granary;
 
   city_check_workers(pplayer, pcity);
   city_refresh(pcity);
 
-  if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
-    (pcity->currently_building == B_GRANARY) && (pcity->food_surplus > 0)
-    && (pcity->shield_surplus > 0)) {
-    turns_growth = (((pcity->size+1) * game.foodbox) - pcity->food_stock)
-                     / pcity->food_surplus;
-    turns_granary = (improvement_value(B_GRANARY) - pcity->shield_stock)
-                     / pcity->shield_surplus;
-    /* if growth and granary completion occur simultaneously, granary
-       preserves food.  -AJS */
-    if ((turns_growth < 5) && (turns_granary < 5) &&
-        (turns_growth < turns_granary)) {
-       notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
-			E_CITY_GRAN_THROTTLE,
-			_("Game: %s suggest throttling growth to use %s "
-			  "(being built) more effectively."), pcity->name,
-			improvement_types[B_GRANARY].name);
-       }
-    }
-  
-
-/* the AI often has widespread disorder when the Gardens or Oracle
-become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
+  /* the AI often has widespread disorder when the Gardens or Oracle
+     become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
   while (pplayer->ai.control && city_unhappy(pcity)) {
     if (!ai_make_elvis(pcity)) break;
   } /* putting this lower in the routine would basically be cheating. -- Syela */
-
 
   /* reporting of celebrations rewritten, copying the treatment of disorder below,
      with the added rapture rounds count.  991219 -- Jing */

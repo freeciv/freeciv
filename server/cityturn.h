@@ -32,6 +32,7 @@ void city_check_workers(struct player *pplayer, struct city *pcity);
 /**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 
 void city_auto_remove_worker(struct city *pcity); 
+void send_city_turn_notifications(struct player *pplayer, struct city *pcity);
 void update_city_activities(struct player *pplayer);
 void city_incite_cost(struct city *pcity);
 void remove_obsolete_buildings(struct player *plr);

@@ -68,6 +68,7 @@ int choose_goal_tech(struct player *plr);
 void wonders_of_the_world(struct player *pplayer);
 void demographics_report(struct player *pplayer);
 void top_five_cities(struct player *pplayer);
+void send_player_turn_notifications(struct player *pplayer);
 void make_history_report(void);
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);

@@ -1225,6 +1225,24 @@ log_civ_score_disable:
 }
 
 /**************************************************************************
+Send end-of-turn notifications to pplayer.
+If pplayer is NULL, send to all players.
+**************************************************************************/
+void send_player_turn_notifications(struct player *pplayer)
+{
+  int index;
+
+  for (index = 0; index < game.nplayers; index++) {	/* dests */
+    if (!pplayer || (&game.players[index] == pplayer)) {
+      city_list_iterate(game.players[index].cities, pcity) {
+	send_city_turn_notifications(&game.players[index], pcity);
+      }
+      city_list_iterate_end;
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 

@@ -677,6 +677,7 @@ static void send_all_info(struct player *dest)
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
   send_all_known_units(dest);
+  send_player_turn_notifications(dest);
 }
 
 #ifdef UNUSED
@@ -860,12 +861,14 @@ static void ai_start_turn(void)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int end_turn(void)
 {
   int i;
-  
-  nocity_send = 1;
 
+  nocity_send = 1;
   for(i=0; i<game.nplayers; i++) {
     /* game.nplayers may increase during this loop, due to
        goto-ing units causing a civil war.  Thus shuffled[i]
@@ -889,11 +892,13 @@ static int end_turn(void)
   do_apollo_program();
   marco_polo_make_contact();
   make_history_report();
+  for (i=0; i<game.nplayers;i++) {
+    send_player_turn_notifications(&game.players[i]);
+  }
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
   return 1;
 }
-
 
 /**************************************************************************
 Unconditionally save the game, with specified filename.

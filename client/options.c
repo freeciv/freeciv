@@ -110,7 +110,8 @@ char *message_text[E_LAST]={
   N_("Worklist Events          "),	/* E_WORKLIST */
   N_("Pact Cancelled           "),	/* E_CANCEL_PACT */
   N_("Diplomatic Incident      "),	/* E_DIPL_INCIDENT */
-  N_("First Contact            ")	/* E_FIRST_CONTACT */
+  N_("First Contact            "),	/* E_FIRST_CONTACT */
+  N_("City May Soon Grow       "),	/* E_CITY_MAY_SOON_GROW */
 };
 
 /**************************************************************************
