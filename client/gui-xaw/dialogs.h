@@ -19,7 +19,8 @@
 
 struct tile;
 
-Widget popup_message_dialog(Widget parent, char *shellname, char *text, ...);
+Widget popup_message_dialog(Widget parent, const char *shellname,
+			    const char *text, ...);
 void destroy_message_dialog(Widget button);
 
 void popup_about_dialog(void);

@@ -225,7 +225,7 @@ void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
 **************************************************************************/
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
-  char *name;
+  const char *name;
   int cost, total;
 
   assert(pcity && player_owns_city(pplayer, pcity));
@@ -379,7 +379,7 @@ void handle_city_change(struct player *pplayer,
 void handle_city_rename(struct player *pplayer, 
 			struct packet_city_request *preq)
 {
-  char *cp;
+  const char *cp;
   struct city *pcity = player_find_city_by_id(pplayer, preq->city_id);
 
   if (!pcity) {

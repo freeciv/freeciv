@@ -69,7 +69,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 void reality_check_city(struct player *pplayer,int x, int y);
 void update_dumb_city(struct player *pplayer, struct city *pcity);
 
-void create_city(struct player *pplayer, const int x, const int y, char *name);
+void create_city(struct player *pplayer, const int x, const int y,
+		 const char *name);
 void remove_city(struct city *pcity);
 
 int establish_trade_route(struct city *pc1, struct city *pc2);

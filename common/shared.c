@@ -71,14 +71,21 @@ static size_t grouping_sep_len = 1;
   FIXME: This is only used in the Xaw client, and so probably does
   not belong in common.
 ***************************************************************/
-char *create_centered_string(char *s)
+char *create_centered_string(const char *s)
 {
-  char *cp;  /* Points to the part of the source that we're looking at. */
-  char *cp0; /* Points to the beginning of the line in the source that
-		we're looking at. */
-  char *r;   /* Points to the result. */
-  char *rn;  /* Points to the part of the result that we're filling in
-		right now. */
+  /* Points to the part of the source that we're looking at. */
+  const char *cp;
+
+  /* Points to the beginning of the line in the source that we're
+   * looking at. */
+  const char *cp0;
+
+  /* Points to the result. */
+  char *r;
+
+  /* Points to the part of the result that we're filling in right
+     now. */
+  char *rn;
 
   int i;
 
@@ -264,7 +271,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
   works for numbers >= zero.) The actually number used for the
   formatting is: nr*10^decade_exponent
 ***************************************************************/
-char *general_int_to_text(int nr, int decade_exponent)
+const char *general_int_to_text(int nr, int decade_exponent)
 {
   static char buf[64]; /* Note that we'll be filling this in right to left. */
   char *grp = grouping;
@@ -323,7 +330,7 @@ char *general_int_to_text(int nr, int decade_exponent)
 /***************************************************************
 ...
 ***************************************************************/
-char *int_to_text(int nr)
+const char *int_to_text(int nr)
 {
   return general_int_to_text(nr, 0);
 }
@@ -331,7 +338,7 @@ char *int_to_text(int nr)
 /***************************************************************
 ...
 ***************************************************************/
-char *population_to_text(int thousand_citizen)
+const char *population_to_text(int thousand_citizen)
 {
   return general_int_to_text(thousand_citizen, 3);
 }
@@ -361,9 +368,9 @@ static bool is_iso_latin1(char ch)
   otherwise returns NULL.
   FIXME:  Not internationalised.
 ***************************************************************/
-char *get_sane_name(char *name)
+const char *get_sane_name(const char *name)
 {
-  char *cp;
+  const char *cp;
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
@@ -391,7 +398,7 @@ char *get_sane_name(char *name)
   Produce a statically allocated textual representation of the given
   year.
 ***************************************************************/
-char *textyear(int year)
+const char *textyear(int year)
 {
   static char y[32];
   if (year<0) 
@@ -1057,7 +1064,7 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
    only one instance of the string in the source;
    only one time gettext needs to translate it. --jjm)
 ***************************************************************************/
-char *freeciv_motto(void)
+const char *freeciv_motto(void)
 {
   return _("'Cause civilization should be free!");
 }

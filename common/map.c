@@ -85,7 +85,7 @@ int get_tile_infrastructure_set(struct tile * ptile)
   eg: "Hills (Coals)"
   eg: "Hills (Coals) [Pollution]"
 ***************************************************************/
-char *map_get_tile_info_text(int x, int y)
+const char *map_get_tile_info_text(int x, int y)
 {
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
@@ -149,7 +149,7 @@ char *map_get_tile_info_text(int x, int y)
 /***************************************************************
   Return a (static) string with a tile's food/prod/trade
 ***************************************************************/
-char *map_get_tile_fpt_text(int x, int y)
+const char *map_get_tile_fpt_text(int x, int y)
 {
   static char s[64];
   
@@ -246,7 +246,7 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_terrain_type get_terrain_by_name(char * name)
+enum tile_terrain_type get_terrain_by_name(const char * name)
 {
   enum tile_terrain_type tt;
   for (tt = T_FIRST; tt < T_COUNT; tt++) {
@@ -260,7 +260,7 @@ enum tile_terrain_type get_terrain_by_name(char * name)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_terrain_name(enum tile_terrain_type type)
+const char *get_terrain_name(enum tile_terrain_type type)
 {
   assert(type < T_COUNT);
   return tile_types[type].terrain_name;
@@ -269,7 +269,7 @@ char *get_terrain_name(enum tile_terrain_type type)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_special_type get_special_by_name(char * name)
+enum tile_special_type get_special_by_name(const char * name)
 {
   int i;
   enum tile_special_type st = 1;
@@ -600,7 +600,7 @@ int get_tile_trade_base(struct tile * ptile)
   eg: "Mine"
   eg: "Road/Farmland"
 ***************************************************************/
-char *map_get_infrastructure_text(int spe)
+const char *map_get_infrastructure_text(int spe)
 {
   static char s[64];
   char *p;

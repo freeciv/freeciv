@@ -768,7 +768,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
     bool is_unit = cid_is_unit(pcids[i]);
     int id = cid_id(pcids[i]), cost;
     struct item *pitem = &items[i];
-    char *name;
+    const char *name;
 
     pitem->cid = pcids[i];
 

@@ -133,7 +133,7 @@ static const char *effect_type_names[] = {
   Convert effect range names to enum; case insensitive;
   returns EFR_LAST if can't match.
 **************************************************************************/
-Eff_Range_id effect_range_from_str(char *str)
+Eff_Range_id effect_range_from_str(const char *str)
 {
   Eff_Range_id ret_id;
 
@@ -166,7 +166,7 @@ const char *effect_range_name(Eff_Range_id id)
   Convert effect type names to enum; case insensitive;
   returns EFT_LAST if can't match.
 **************************************************************************/
-Eff_Type_id effect_type_from_str(char *str)
+Eff_Type_id effect_type_from_str(const char *str)
 {
   Eff_Type_id ret_id;
 
@@ -263,7 +263,7 @@ struct impr_type *get_improvement_type(Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-char *get_improvement_name(Impr_Type_id id)
+const char *get_improvement_name(Impr_Type_id id)
 {
   return get_improvement_type(id)->name; 
 }
@@ -288,7 +288,7 @@ bool is_wonder(Impr_Type_id id)
 Does a linear search of improvement_types[].name
 Returns B_LAST if none match.
 **************************************************************************/
-Impr_Type_id find_improvement_by_name(char *s)
+Impr_Type_id find_improvement_by_name(const char *s)
 {
   impr_type_iterate(i) {
     if (strcmp(improvement_types[i].name, s)==0)

@@ -24,7 +24,7 @@
 /**********************************************************************
   ...
 ***********************************************************************/
-char *freeciv_name_version(void)
+const char *freeciv_name_version(void)
 {
   static char msgbuf[128];
 
@@ -42,7 +42,7 @@ char *freeciv_name_version(void)
 /**********************************************************************
   ...
 ***********************************************************************/
-char *word_version(void)
+const char *word_version(void)
 {
 #if IS_BETA_VERSION
   return _("betatest version ");
@@ -55,7 +55,7 @@ char *word_version(void)
   Return the BETA message.
   If returns NULL, not a beta version.
 ***********************************************************************/
-char *beta_message(void)
+const char *beta_message(void)
 {
 #if IS_BETA_VERSION
   static char msgbuf[128];

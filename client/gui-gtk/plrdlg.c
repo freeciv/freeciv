@@ -261,7 +261,7 @@ static void build_row(char **row, int i, int update)
     row[1] = flagbuf;
 
     /* the nation */
-    row[2] = get_nation_name(game.players[i].nation);
+    row[2] = (char *) get_nation_name(game.players[i].nation);
   }
 
   /* text for name, plus AI marker */

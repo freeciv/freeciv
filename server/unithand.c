@@ -438,12 +438,12 @@ static void city_add_or_build_error(struct player *pplayer,
     break;
   case AB_NOT_BUILD_UNIT:
     {
-      char *us = get_units_with_flag_string(F_CITIES);
+      const char *us = get_units_with_flag_string(F_CITIES);
       if (us) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 _("Game: Only %s can build a city."),
 			 us);
-	free(us);
+	free((void *) us);
       } else {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 _("Game: Can't build a city."));
@@ -452,12 +452,12 @@ static void city_add_or_build_error(struct player *pplayer,
     break;
   case AB_NOT_ADDABLE_UNIT:
     {
-      char *us = get_units_with_flag_string(F_ADD_TO_CITY);
+      const char *us = get_units_with_flag_string(F_ADD_TO_CITY);
       if (us) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 _("Game: Only %s can add to a city."),
 			 us);
-	free(us);
+	free((void *) us);
       } else {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 _("Game: Can't add to a city."));
@@ -531,7 +531,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name)
 {
-  char *city_name = get_sane_name(name);
+  const char *city_name = get_sane_name(name);
 
   if (!city_name) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -824,12 +824,12 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
     return TRUE;
 
   if (reason == MR_BAD_TYPE_FOR_CITY_TAKE_OVER) {
-    char *units_str = get_units_with_flag_string(F_MARINES);
+    const char *units_str = get_units_with_flag_string(F_MARINES);
     if (units_str) {
       notify_player_ex(unit_owner(punit), src_x, src_y,
 		       E_NOEVENT, _("Game: Only %s can attack from sea."),
 		       units_str);
-      free(units_str);
+      free((void *) units_str);
     } else {
       notify_player_ex(unit_owner(punit), src_x, src_y,
 		       E_NOEVENT, _("Game: Cannot attack from sea."));

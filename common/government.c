@@ -126,7 +126,7 @@ bool government_has_hint(const struct government *gov,
 /***************************************************************
 ...
 ***************************************************************/
-struct government *find_government_by_name(char *name)
+struct government *find_government_by_name(const char *name)
 {
   int i;
 
@@ -169,7 +169,7 @@ struct government *get_gov_pcity(struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_ruler_title(int gov, bool male, int nation)
+const char *get_ruler_title(int gov, bool male, int nation)
 {
   struct government *g = get_government(gov);
   struct ruler_title *best_match = NULL;
@@ -220,7 +220,7 @@ int get_government_civil_war_prob(int type)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_government_name(int type)
+const char *get_government_name(int type)
 {
   if(type >= 0 && type < game.government_count)
     return governments[type].name;
@@ -253,7 +253,7 @@ bool can_change_to_government(struct player *pplayer, int government)
 ...
 ***************************************************************/
 void set_ruler_title(struct government *gov, int nation,
-                     char *male, char *female)
+                     const char *male, const char *female)
 {
   struct ruler_title *title;
 

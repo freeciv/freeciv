@@ -2032,7 +2032,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   struct city_dialog *pdialog;
   int value;
-  char *name;
+  const char *name;
   char buf[512];
   
   pdialog=(struct city_dialog *)client_data;

@@ -89,18 +89,18 @@ typedef int bool;
 #define BV_DEFINE(name, bits) \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name;
 
-char *create_centered_string(char *s);
+char *create_centered_string(const char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);
 bool is_option(const char *option_name,char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset);
-char *general_int_to_text(int nr, int decade_exponent);
-char *int_to_text(int nr);
-char *population_to_text(int thousand_citizen);
+const char *general_int_to_text(int nr, int decade_exponent);
+const char *int_to_text(int nr);
+const char *population_to_text(int thousand_citizen);
 
-char *get_sane_name(char *name);
-char *textyear(int year);
+const char *get_sane_name(const char *name);
+const char *textyear(int year);
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);
 
@@ -157,6 +157,6 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       const char *prefix,
 			       int *ind_result);
 
-char *freeciv_motto(void);
+const char *freeciv_motto(void);
 
 #endif  /* FC__SHARED_H */

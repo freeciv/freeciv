@@ -97,7 +97,7 @@ bool tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
 
 bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag);
-enum tech_flag_id tech_flag_from_str(char *s);
+enum tech_flag_id tech_flag_from_str(const char *s);
 Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 
 int tech_turns_to_advance(struct player *pplayer);

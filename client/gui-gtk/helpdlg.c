@@ -141,7 +141,7 @@ void popdown_help_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_help_dialog_typed(char *item, enum help_page_type htype)
+void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
 /*
   Position x, y;
@@ -167,7 +167,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
 Not sure if this should call _(item) as it does, or whether all
 callers of this function should do so themselves... --dwp
 *****************************************************************/
-void popup_help_dialog_string(char *item)
+void popup_help_dialog_string(const char *item)
 {
   popup_help_dialog_typed(_(item), HELP_ANY);
 }

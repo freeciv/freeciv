@@ -398,7 +398,7 @@ void city_buy_callback(Widget w, XtPointer client_data,
     struct city *pcity;
     if((pcity=cities_in_list[ret->list_index])) {
       int value;
-      char *name;
+      const char *name;
       char buf[512];
 
       value=city_buy_cost(pcity);    

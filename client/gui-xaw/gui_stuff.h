@@ -16,7 +16,7 @@
 #include <X11/Intrinsic.h>
 
 void xaw_horiz_center(Widget w);
-void xaw_set_label(Widget w, char *text);
+void xaw_set_label(Widget w, const char *text);
 void xaw_set_bitmap(Widget w, Pixmap pm);
 void x_simulate_button_click(Widget w);
 void xaw_expose_now(Widget w);

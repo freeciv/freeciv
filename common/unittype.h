@@ -208,11 +208,11 @@ bool is_ground_unittype(Unit_Type_id id);
 int unit_value(Unit_Type_id id);
 int unit_pop_value(Unit_Type_id id);
 
-char *unit_name(Unit_Type_id id);
+const char *unit_name(Unit_Type_id id);
 const char *unit_class_name(Unit_Class_id id);
 
-char *get_unit_name(Unit_Type_id id);
-char *get_units_with_flag_string(int flag);
+const char *get_unit_name(Unit_Type_id id);
+const char *get_units_with_flag_string(int flag);
 
 int utype_shield_cost(struct unit_type *ut, struct government *g);
 int utype_food_cost(struct unit_type *ut, struct government *g);
@@ -223,12 +223,12 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
 int unit_upgrade_price(struct player *pplayer, Unit_Type_id from,
 		       Unit_Type_id to);
 
-Unit_Type_id find_unit_type_by_name(char *s);
+Unit_Type_id find_unit_type_by_name(const char *s);
 
-enum unit_move_type unit_move_type_from_str(char *s);
-Unit_Class_id unit_class_from_str(char *s);
-enum unit_flag_id unit_flag_from_str(char *s);
-enum unit_role_id unit_role_from_str(char *s);
+enum unit_move_type unit_move_type_from_str(const char *s);
+Unit_Class_id unit_class_from_str(const char *s);
+enum unit_flag_id unit_flag_from_str(const char *s);
+enum unit_role_id unit_role_from_str(const char *s);
 
 bool can_player_build_unit_direct(struct player *p, Unit_Type_id id);
 bool can_player_build_unit(struct player *p, Unit_Type_id id);

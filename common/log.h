@@ -51,8 +51,9 @@ struct logdebug_afile_info logdebug_update(const char *file);
  */
 typedef void (*log_callback_fn)(int, char*);
 
-int log_parse_level_str(char *level_str);
-void log_init(char *filename, int initial_level, log_callback_fn callback);
+int log_parse_level_str(const char *level_str);
+void log_init(const char *filename, int initial_level,
+	      log_callback_fn callback);
 void log_set_level(int level);
 void log_set_callback(log_callback_fn callback);
 

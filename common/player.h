@@ -219,10 +219,10 @@ struct player {
 void player_init(struct player *plr);
 void player_init_island_imprs(struct player *plr, int numcont);
 void player_free_island_imprs(struct player *plr);
-struct player *find_player_by_name(char *name);
+struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
-struct player *find_player_by_user(char *name);
+struct player *find_player_by_user(const char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 bool player_has_embassy(struct player *pplayer, struct player *pplayer2);
 

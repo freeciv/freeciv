@@ -59,10 +59,10 @@
 #endif
 
 /* version informational strings */
-char *freeciv_name_version(void);
-char *word_version(void);
+const char *freeciv_name_version(void);
+const char *word_version(void);
 
 /* If returns NULL, not a beta version. */
-char *beta_message(void);
+const char *beta_message(void);
 
 #endif  /* FC__VERSION_H */

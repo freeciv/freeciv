@@ -257,9 +257,9 @@ extern struct impr_type improvement_types[B_LAST];
 
 /* improvement effect functions */
 
-Eff_Range_id effect_range_from_str(char *str);
+Eff_Range_id effect_range_from_str(const char *str);
 const char *effect_range_name(Eff_Range_id id);
-Eff_Type_id effect_type_from_str(char *str);
+Eff_Type_id effect_type_from_str(const char *str);
 const char *effect_type_name(Eff_Type_id id);
 
 void get_effect_vectors(struct ceff_vector *ceffs[],
@@ -277,14 +277,14 @@ struct impr_type *get_improvement_type(Impr_Type_id id);
 bool improvement_exists(Impr_Type_id id);
 int improvement_value(Impr_Type_id id);
 bool is_wonder(Impr_Type_id id);
-char *get_improvement_name(Impr_Type_id id);
+const char *get_improvement_name(Impr_Type_id id);
 int improvement_variant(Impr_Type_id id);	/* FIXME: remove when gen-impr obsoletes */
 bool improvement_obsolete(struct player *pplayer, Impr_Type_id id);
 bool improvement_redundant(struct player *pplayer,struct city *pcity,
                           Impr_Type_id id, bool want_to_build);
 bool wonder_obsolete(Impr_Type_id id);
 bool is_wonder_useful(Impr_Type_id id);
-Impr_Type_id find_improvement_by_name(char *s);
+Impr_Type_id find_improvement_by_name(const char *s);
 void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */

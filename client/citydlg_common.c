@@ -165,7 +165,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 		get_impr_name_ex(pcity, id), MAX(0, pcity->shield_surplus));
   } else {
     int turns = city_turns_to_build(pcity, id, is_unit, TRUE);
-    char *name;
+    const char *name;
     int cost;
 
     if (is_unit) {

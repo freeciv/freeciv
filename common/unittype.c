@@ -207,8 +207,7 @@ int unit_pop_value(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-
-char *unit_name(Unit_Type_id id)
+const char *unit_name(Unit_Type_id id)
 {
   return (unit_types[id].name);
 }
@@ -216,7 +215,7 @@ char *unit_name(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-char *get_unit_name(Unit_Type_id id)
+const char *get_unit_name(Unit_Type_id id)
 {
   struct unit_type *ptype;
   static char buffer[256];
@@ -254,7 +253,7 @@ const char *unit_class_name(Unit_Class_id id)
  TODO: if there are more than 4 units with this flag return
        a fallback string (e.g. first unit name + "and similar units"
 **************************************************************************/
-char *get_units_with_flag_string(int flag)
+const char *get_units_with_flag_string(int flag)
 {
   int count=num_role_units(flag);
 
@@ -270,7 +269,7 @@ char *get_units_with_flag_string(int flag)
 
     while((count--) > 0) {
       int u = get_role_unit(flag,count);
-      char *unitname = unit_name(u);
+      const char *unitname = unit_name(u);
 
       /* there should be something like astr_append() */
       astr_minsize(&astr,astr.n+strlen(unitname));
@@ -329,7 +328,7 @@ int unit_upgrade_price(struct player *pplayer, Unit_Type_id from,
 Does a linear search of unit_types[].name
 Returns U_LAST if none match.
 **************************************************************************/
-Unit_Type_id find_unit_type_by_name(char *s)
+Unit_Type_id find_unit_type_by_name(const char *s)
 {
   unit_type_iterate(i) {
     if (strcmp(unit_types[i].name, s)==0)
@@ -343,7 +342,7 @@ Unit_Type_id find_unit_type_by_name(char *s)
   Convert unit_move_type names to enum; case insensitive;
   returns 0 if can't match.
 **************************************************************************/
-enum unit_move_type unit_move_type_from_str(char *s)
+enum unit_move_type unit_move_type_from_str(const char *s)
 {
   enum unit_move_type i;
 
@@ -362,7 +361,7 @@ enum unit_move_type unit_move_type_from_str(char *s)
   Convert Unit_Class_id names to enum; case insensitive;
   returns UCL_LAST if can't match.
 **************************************************************************/
-Unit_Class_id unit_class_from_str(char *s)
+Unit_Class_id unit_class_from_str(const char *s)
 {
   Unit_Class_id i;
 
@@ -380,7 +379,7 @@ Unit_Class_id unit_class_from_str(char *s)
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
-enum unit_flag_id unit_flag_from_str(char *s)
+enum unit_flag_id unit_flag_from_str(const char *s)
 {
   enum unit_flag_id i;
 
@@ -398,7 +397,7 @@ enum unit_flag_id unit_flag_from_str(char *s)
   Convert role names to enum; case insensitive;
   returns L_LAST if can't match.
 **************************************************************************/
-enum unit_role_id unit_role_from_str(char *s)
+enum unit_role_id unit_role_from_str(const char *s)
 {
   enum unit_role_id i;
 

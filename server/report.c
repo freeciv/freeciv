@@ -81,12 +81,12 @@ static int get_economics(struct player *pplayer);
 static int get_pollution(struct player *pplayer);
 static int get_mil_service(struct player *pplayer);
 
-static char *area_to_text(int value);
-static char *percent_to_text(int value);
-static char *production_to_text(int value);
-static char *economics_to_text(int value);
-static char *mil_service_to_text(int value);
-static char *pollution_to_text(int value);
+static const char *area_to_text(int value);
+static const char *percent_to_text(int value);
+static const char *production_to_text(int value);
+static const char *economics_to_text(int value);
+static const char *mil_service_to_text(int value);
+static const char *pollution_to_text(int value);
 
 /*
  * Describes a row.
@@ -95,7 +95,7 @@ static struct dem_row {
   char key;
   char *name;
   int (*get_value) (struct player *);
-  char *(*to_text) (int);
+  const char *(*to_text) (int);
   bool greater_values_are_better;
 } rowtable[] = {
   {'N', N_("Population"),       get_population,  population_to_text,  TRUE },
@@ -397,32 +397,32 @@ static char *value_units(int val, char *uni)
   Helper functions which transform the given value to a string
   depending on the unit.
 **************************************************************************/
-static char *area_to_text(int value)
+static const char *area_to_text(int value)
 {
   return value_units(value, _(" sq. mi."));
 }
 
-static char *percent_to_text(int value)
+static const char *percent_to_text(int value)
 {
   return value_units(value, "%");
 }
 
-static char *production_to_text(int value)
+static const char *production_to_text(int value)
 {
   return value_units(MAX(0, value), _(" M tons"));
 }
 
-static char *economics_to_text(int value)
+static const char *economics_to_text(int value)
 {
   return value_units(value, _(" M goods"));
 }
 
-static char *mil_service_to_text(int value)
+static const char *mil_service_to_text(int value)
 {
   return value_units(value, PL_(" month", " months", value));
 }
 
-static char *pollution_to_text(int value)
+static const char *pollution_to_text(int value)
 {
   return value_units(value, PL_(" ton", " tons", value));
 }
@@ -430,7 +430,7 @@ static char *pollution_to_text(int value)
 /**************************************************************************
 ...
 **************************************************************************/
-static char *number_to_ordinal_string(int num)
+static const char *number_to_ordinal_string(int num)
 {
   static char buf[16];
   char fmt[] = "(%d%s)";

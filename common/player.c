@@ -183,7 +183,7 @@ void player_set_unit_focus_status(struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-struct player *find_player_by_name(char *name)
+struct player *find_player_by_name(const char *name)
 {
   players_iterate(pplayer) {
     if (mystrcasecmp(name, pplayer->name) == 0) {
@@ -221,7 +221,7 @@ struct player *find_player_by_name_prefix(const char *name,
 /***************************************************************
 Find player by its user name (not player/leader name)
 ***************************************************************/
-struct player *find_player_by_user(char *name)
+struct player *find_player_by_user(const char *name)
 {
   players_iterate(pplayer) {
     if (mystrcasecmp(name, pplayer->username) == 0) {

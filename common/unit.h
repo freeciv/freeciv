@@ -222,8 +222,8 @@ bool can_unit_add_or_build_city (struct unit *punit);
 enum add_build_city_result test_unit_add_or_build_city(struct unit *punit);
 bool kills_citizen_after_attack(struct unit *punit);
 
-char *unit_activity_text(struct unit *punit);
-char *unit_description(struct unit *punit);
+const char *unit_activity_text(struct unit *punit);
+const char *unit_description(struct unit *punit);
 int ground_unit_transporter_capacity(int x, int y, struct player *pplayer);
 int get_transporter_capacity(struct unit *punit);
 bool is_ground_units_transport(struct unit *punit);

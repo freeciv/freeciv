@@ -185,8 +185,8 @@ void map_init(void);
 void map_allocate(void);
 void map_free(void);
 
-char *map_get_tile_info_text(int x, int y);
-char *map_get_tile_fpt_text(int x, int y);
+const char *map_get_tile_info_text(int x, int y);
+const char *map_get_tile_fpt_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
 int map_distance(int x0, int y0, int x1, int y1);
@@ -314,9 +314,9 @@ int map_move_cost(struct unit *punit, int x, int y);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 void tile_type_free(enum tile_terrain_type type);
 void tile_types_free(void);
-enum tile_terrain_type get_terrain_by_name(char * name);
-char *get_terrain_name(enum tile_terrain_type type);
-enum tile_special_type get_special_by_name(char * name);
+enum tile_terrain_type get_terrain_by_name(const char * name);
+const char *get_terrain_name(enum tile_terrain_type type);
+enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
 bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
@@ -334,7 +334,7 @@ int get_tile_food_base(struct tile * ptile);
 int get_tile_shield_base(struct tile * ptile);
 int get_tile_trade_base(struct tile * ptile);
 int get_tile_infrastructure_set(struct tile * ptile);
-char *map_get_infrastructure_text(int spe);
+const char *map_get_infrastructure_text(int spe);
 int map_get_infrastructure_prerequisite(int spe);
 int get_preferred_pillage(int pset);
 

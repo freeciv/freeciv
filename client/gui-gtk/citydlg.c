@@ -1876,7 +1876,8 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[200], *descr;
+  char buf[32], buf2[200];
+  const char *descr;
   struct city *pcity = pdialog->pcity;
   gfloat pct;
   int cost;
@@ -2873,7 +2874,7 @@ static void buy_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog;
   int value;
-  char *name;
+  const char *name;
   char buf[512];
 
   pdialog = (struct city_dialog *) data;

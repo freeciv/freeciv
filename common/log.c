@@ -26,7 +26,7 @@
 #include "log.h"
 
 static int log_level;
-static char *log_filename;
+static const char *log_filename;
 static log_callback_fn log_callback;
 int logd_init_counter = 1;
 
@@ -48,9 +48,10 @@ If there was a parsing problem, prints to stderr, and returns -1.
 Also sets up the logd_files data structure and increments
 logd_init_counter.  Does _not_ set log_level.
 **************************************************************************/
-int log_parse_level_str(char *level_str)
+int log_parse_level_str(const char *level_str)
 {
-  char *c, *dup, *tok;
+  const char *c, *tok;
+  char *dup;
   int n = 0;			/* number of filenames */
   int i;
   int level;
@@ -118,23 +119,23 @@ int log_parse_level_str(char *level_str)
   }
   i = 0;
   do {
+    char *d = strchr(tok, ',');
+
     logd_files[i].min = logd_files[i].max = 0;
-    c = strchr(tok, ',');
-    if (c) {
-      char *pc;
-      c[0] = '\0';
-      c++;
-      pc = c;
-      c = strchr(c, ',');
-      if (c && *pc != '\0' && c[1] != '\0') {
-	c[0] = '\0';
+    if (d) {
+      char *pc = d + 1;
+
+      d[0] = '\0';
+      d = strchr(d + 1, ',');
+      if (d && *pc != '\0' && d[1] != '\0') {
+	d[0] = '\0';
 	if (sscanf(pc, "%d", &logd_files[i].min) != 1) {
 	  fprintf(stderr, _("Not an integer: '%s'\n"), pc);
 	  level = -1;
 	  goto out;
 	}
-	if (sscanf(c + 1, "%d", &logd_files[i].max) != 1) {
-	  fprintf(stderr, _("Not an integer: '%s'\n"), c + 1);
+	if (sscanf(d + 1, "%d", &logd_files[i].max) != 1) {
+	  fprintf(stderr, _("Not an integer: '%s'\n"), d + 1);
 	  level = -1;
 	  goto out;
 	}
@@ -168,7 +169,8 @@ Either 'filename' or 'callback' may be NULL.
 If both are NULL, print to stderr.
 If both are non-NULL, both callback, and fprintf to file.
 **************************************************************************/
-void log_init(char *filename, int initial_level, log_callback_fn callback)
+void log_init(const char *filename, int initial_level,
+	      log_callback_fn callback)
 {
   log_level=initial_level;
   log_filename=filename;

@@ -54,7 +54,7 @@ static bool bounds_check_nation_id(Nation_Type_id nid, int loglevel,
 /***************************************************************
 ...
 ***************************************************************/
-Nation_Type_id find_nation_by_name(char *name)
+Nation_Type_id find_nation_by_name(const char *name)
 {
   int i;
 
@@ -68,7 +68,7 @@ Nation_Type_id find_nation_by_name(char *name)
 /***************************************************************
 Returns name of the nation
 ***************************************************************/
-char *get_nation_name(Nation_Type_id nation)
+const char *get_nation_name(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name")) {
     return "";
@@ -131,7 +131,7 @@ bool check_nation_leader_name(Nation_Type_id nation, const char *name)
 /***************************************************************
 Returns plural name of the nation.
 ***************************************************************/
-char *get_nation_name_plural(Nation_Type_id nation)
+const char *get_nation_name_plural(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name_plural")) {
     return "";

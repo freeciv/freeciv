@@ -544,7 +544,7 @@ int civ_population(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *game_find_city_by_name(char *name)
+struct city *game_find_city_by_name(const char *name)
 {
   players_iterate(pplayer) {
     struct city *pcity = city_list_find_name(&pplayer->cities, name);

@@ -92,7 +92,7 @@ void load_intro_gfx(void)
   char s[64];
   XColor face;
   int have_face;
-  char *motto = freeciv_motto();
+  const char *motto = freeciv_motto();
 
   /* metrics */
 

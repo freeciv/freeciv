@@ -139,7 +139,7 @@ int mystrncasecmp(const char *str0, const char *str1, size_t n)
 /***************************************************************
   Return a string which describes a given error (errno-style.)
 ***************************************************************/
-char *mystrerror(int errnum)
+const char *mystrerror(int errnum)
 {
 #if defined(HAVE_STRERROR)
   return strerror(errnum);

@@ -1118,7 +1118,7 @@ static void city_buy_callback(GtkWidget *w, gpointer data)
   {
       struct city *pcity = city_from_glist (current);
       int value;
-      char *name;
+      const char *name;
       char buf[512];
 
       value=city_buy_cost(pcity);    

@@ -355,7 +355,7 @@ int city_turns_to_grow(struct city *pcity);
 
 /* textual representation of buildings */
 
-char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
+const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
 
 /* tile production functions */
 
@@ -410,7 +410,7 @@ int city_num_trade_routes(struct city *pcity);
 
 /* list functions */
 struct city *city_list_find_id(struct city_list *This, int id);
-struct city *city_list_find_name(struct city_list *This, char *name);
+struct city *city_list_find_name(struct city_list *This, const char *name);
 
 int city_name_compare(const void *p1, const void *p2);
 
@@ -423,7 +423,7 @@ int citygov_free_gold(struct city *pcity, struct government *gov);
 /* city style functions */
 int get_city_style(struct city *pcity);
 int get_player_city_style(struct player *plr);
-int get_style_by_name(char *);
+int get_style_by_name(const char *);
 
 struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer);
 struct city *is_allied_city_tile(struct tile *ptile,

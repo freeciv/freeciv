@@ -800,7 +800,7 @@ static int create_improvements_list(struct player *pplayer,
   Dimension width1, width2; 
   int j;
 
-  static char *improvements_can_sabotage[B_LAST+1]; 
+  static const char *improvements_can_sabotage[B_LAST+1]; 
   
   spy_sabotage_shell =
     I_T(XtVaCreatePopupShell("spysabotageimprovementspopup", 
@@ -867,7 +867,8 @@ static int create_improvements_list(struct player *pplayer,
   
   XtSetSensitive(spy_sabotage_command, FALSE);
   
-  XawListChange(spy_improvements_list, improvements_can_sabotage, 0, 0, 1);
+  XawListChange(spy_improvements_list, (String *) improvements_can_sabotage,
+		0, 0, 1);
   XtVaGetValues(spy_improvements_list, XtNwidth, &width1, NULL);
   XtVaGetValues(spy_improvements_list_label, XtNwidth, &width2, NULL);
   XtVaSetValues(spy_improvements_list, XtNwidth, MAX(width1,width2), NULL); 
@@ -1531,7 +1532,8 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   Parameters after named parameters should be in triplets:
   - callback, callback_data, fixed_width 
 *****************************************************************/
-Widget popup_message_dialog(Widget parent, char *dialogname, char *text, ...)
+Widget popup_message_dialog(Widget parent, const char *dialogname,
+			    const char *text, ...)
 {
   va_list args;
   Widget dshell, dform, button;
@@ -2315,8 +2317,8 @@ int races_indirect_compare(const void *first, const void *second)
 {
   int first_index;
   int second_index;
-  char *first_string;
-  char *second_string;
+  const char *first_string;
+  const char *second_string;
 
   first_index = *((const int *)first);
   second_index = *((const int *)second);

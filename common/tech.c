@@ -272,7 +272,7 @@ bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
  Convert flag names to enum; case insensitive;
  returns TF_LAST if can't match.
 **************************************************************************/
-enum tech_flag_id tech_flag_from_str(char *s)
+enum tech_flag_id tech_flag_from_str(const char *s)
 {
   enum tech_flag_id i;
 

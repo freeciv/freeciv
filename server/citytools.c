@@ -986,7 +986,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 /**************************************************************************
 ...
 **************************************************************************/
-void create_city(struct player *pplayer, const int x, const int y, char *name)
+void create_city(struct player *pplayer, const int x, const int y,
+		 const char *name)
 {
   struct city *pcity;
   int i, x_itr, y_itr;

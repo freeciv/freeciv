@@ -76,7 +76,7 @@ void xaw_set_bitmap(Widget w, Pixmap pm)
 /**************************************************************************
 ...
 **************************************************************************/
-void xaw_set_label(Widget w, char *text)
+void xaw_set_label(Widget w, const char *text)
 {
   String str;
 

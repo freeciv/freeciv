@@ -262,8 +262,8 @@ void flush_connection_send_buffer_packets(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool add_connection_data(struct connection *pc, unsigned char *data,
-			       int len)
+static bool add_connection_data(struct connection *pc,
+				const unsigned char *data, int len)
 {
   if (pc && pc->delayed_disconnect) {
     if (delayed_disconnect > 0) {
@@ -310,7 +310,8 @@ static bool add_connection_data(struct connection *pc, unsigned char *data,
 /**************************************************************************
   write data to socket
 **************************************************************************/
-void send_connection_data(struct connection *pc, unsigned char *data, int len)
+void send_connection_data(struct connection *pc, const unsigned char *data,
+			  int len)
 {
   if (pc && pc->used) {
     if(pc->send_buffer->do_buffer_sends > 0) {

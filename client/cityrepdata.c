@@ -152,7 +152,8 @@ static char *cr_entry_building(struct city *pcity)
   } else {
     int turns = city_turns_to_build(pcity, pcity->currently_building,
 				    pcity->is_building_unit, TRUE);
-    char time[32], *name;
+    char time[32];
+    const char *name;
     int cost;
 
     if (turns < 999) {

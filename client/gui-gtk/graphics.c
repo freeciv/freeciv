@@ -102,7 +102,7 @@ void load_intro_gfx( void )
   char s[64];
   GdkColor face;
   GdkGC *face_gc;
-  char *motto = freeciv_motto();
+  const char *motto = freeciv_motto();
 
   /* metrics */
 

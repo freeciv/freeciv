@@ -253,7 +253,7 @@ bool wonder_replacement(struct city *pcity, Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
+const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 {
   static char buffer[256];
   char *state = NULL;
@@ -1062,7 +1062,7 @@ struct city *city_list_find_id(struct city_list *This, int id)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *city_list_find_name(struct city_list *This, char *name)
+struct city *city_list_find_name(struct city_list *This, const char *name)
 {
   struct genlist_iterator myiter;
 
@@ -1163,7 +1163,7 @@ int get_player_city_style(struct player *plr)
 /**************************************************************************
 Get index to city_styles for style name.
 **************************************************************************/
-int get_style_by_name(char *style_name)
+int get_style_by_name(const char *style_name)
 {
   int i;
 

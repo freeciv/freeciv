@@ -846,7 +846,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 {
   struct player *cplayer;
   int count, which, target;
-  char *prod;
+  const char *prod;
   struct city *capital;
 
   /* Fetch target city's player.  Sanity checks. */

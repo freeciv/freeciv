@@ -844,7 +844,7 @@ int get_unit_tile_pillage_set(int x, int y)
 /**************************************************************************
  ...
 **************************************************************************/
-char *unit_description(struct unit *punit)
+const char *unit_description(struct unit *punit)
 {
   struct city *pcity;
   static char buffer[512];
@@ -863,7 +863,7 @@ char *unit_description(struct unit *punit)
 /**************************************************************************
  ...
 **************************************************************************/
-char *unit_activity_text(struct unit *punit)
+const char *unit_activity_text(struct unit *punit)
 {
   static char text[64];
   char *moves_str;
