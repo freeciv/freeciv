@@ -26,6 +26,7 @@
 #include "unittools.h"
 
 #include "aidata.h"
+#include "aiexplorer.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"

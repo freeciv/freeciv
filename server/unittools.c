@@ -50,6 +50,7 @@
 #include "srv_main.h"
 #include "unithand.h"
 
+#include "aiexplorer.h"
 #include "aitools.h"
 #include "aiunit.h"
 

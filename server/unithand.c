@@ -47,8 +47,8 @@
 #include "srv_main.h"
 #include "unittools.h"
 
+#include "aiexplorer.h"
 #include "aitools.h"
-#include "aiunit.h"
 
 #include "unithand.h"
 

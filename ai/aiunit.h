@@ -57,8 +57,6 @@ int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
-bool ai_manage_explorer(struct unit *punit);
-
 int turns_to_enemy_city(Unit_Type_id our_type, struct city *acity,
                         int speed, bool go_by_boat, 
                         struct unit *boat, Unit_Type_id boattype);
