@@ -3134,7 +3134,7 @@ enum goto_result goto_route_execute(struct unit *punit)
       return GR_FOUGHT;
     }
 
-    if (!res) {
+    if (!res && punit->moves_left) {
       freelog(LOG_DEBUG, "move idling\n");
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
       return GR_FAILED;
