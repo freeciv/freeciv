@@ -1370,6 +1370,9 @@ void do_map_click(int xtile, int ytile)
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	set_unit_focus_and_select(punit);
       }
+    } else if (pcity) {
+      /* Don't hide the unit in the city. */
+      popup_unit_select_dialog(ptile);
     }
   } else if(unit_list_size(&ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
