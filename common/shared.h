@@ -48,8 +48,8 @@
 
 #define BOOL_VAL(x) ((x)!=0)
 
-/* Used to update bitvectors when a player is removed.
-   Deletes bit no in val, moves all bits larger than no one down,
+/* Deletes bit no in val,
+   moves all bits larger than no one down,
    and inserts a zero at the top. */
 #define WIPEBIT(val, no) ( ((~(-1<<(no)))&(val)) \
                            | (( (-1<<((no)+1)) & (val)) >>1) )

@@ -47,7 +47,9 @@
 #endif
 
 /**************************************************************************
-... 
+  FIXME:  This is an inelegant, English-specific kludge that fails to
+  work correctly even in the limited case of English, e.g. "An hour".
+  It should be put to sleep in favour of a more general solution.
 **************************************************************************/
 char *n_if_vowel(char ch)
 {
@@ -58,18 +60,30 @@ char *n_if_vowel(char ch)
 }
 
 /***************************************************************
-...
+  Take a string containing multiple lines and create a copy where
+  each line is padded to the length of the longest line and centered.
+  We do not cope with tabs etc.  Note that we're assuming that the
+  last line does _not_ end with a newline.  The caller should
+  free() the result.
+
+  FIXME: This is only used in the Xaw client, and so probably does
+  not belong in common.
 ***************************************************************/
 char *create_centered_string(char *s)
 {
-  char *cp, *cp0, *r, *rn;
-  int i, maxlen, curlen, nlines;
+  char *cp;  /* Points to the part of the source that we're looking at. */
+  char *cp0; /* Points to the beginning of the line in the source that
+		we're looking at. */
+  char *r;   /* Points to the result. */
+  char *rn;  /* Points to the part of the result that we're filling in
+		right now. */
 
-  
-  maxlen=0;
-  curlen=0;
-  nlines=1;
-  
+  int i;
+
+  int maxlen = 0;
+  int curlen = 0;
+  int nlines = 1;
+
   for(cp=s; *cp; cp++) {
     if(*cp!='\n')
       curlen++;
@@ -110,7 +124,6 @@ char *create_centered_string(char *s)
   return a char * to the parameter of the option or NULL.
   *i can be increased to get next string in the array argv[]. 
  **************************************************************************/
-
 char * get_option(const char *option_name,char **argv,int *i,int argc)
 {
   int len = strlen(option_name);
@@ -141,7 +154,6 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
 /***************************************************************
 ...
 ***************************************************************/
-
 int is_option(const char *option_name,char *option)
 {
   if (!strcmp(option_name,option) || 
@@ -150,48 +162,68 @@ int is_option(const char *option_name,char *option)
 }
 
 /***************************************************************
-...
+  Returns a statically allocated string containing a nicely-formatted
+  version of the given number.
+  FIXME:  This is not internationalised at all.
 ***************************************************************/
+#define SPLITS 3
+#define N_DIGS 20
 char *int_to_text(int nr)
 {
-  char tmpbuf[12];
-  static char buf[20];
+  char tmpbuf[N_DIGS+1];
+  static char buf[N_DIGS+((N_DIGS-1)/SPLITS)+1];
   char *to=buf;
   char *from=tmpbuf;
   my_snprintf(tmpbuf, sizeof(tmpbuf), "%d", nr);
   while (*from) {
     *to++ = *from++;
-    if (strlen(from)%3==0 && *from)  
+    if (strlen(from)%SPLITS==0 && *from)  
       *to++=',';
   }
   *to=0;
   return buf;
-}
-
 #if 0
-/***************************************************************
-pedantic name enforcer - at most one space between words
-***************************************************************/
-char *get_sane_name(char *name)
-{
-  static char str[MAX_LEN_NAME];
-  char *cp;
-  
-  if(!isalpha(*name))                      /* first char not a letter? */ 
-    return 0; 
+  /* FIXME: Some code which may help when i18n'd using localeconv(). */
+  int neg;
+  static char buf[1 + (2 * N_DIGS - 1) + 1];
+  char *ptr;
+  int inx;
 
-  for(cp=name; *cp && (isalnum(*cp) || (*cp==' ' && isalnum(*(cp+1)))); cp++);
-  if(*cp)
-    return 0; 
+  if (nr == 0) {
+    return "0";
+  }
 
-  sz_strlcpy(str, name);
-  
-  *str=toupper(*str);
-  return str;
-}
+  if ((neg = (nr < 0))) {
+    nr = -nr;
+  }
+
+  ptr = &(buf[sizeof(buf) - 1]);
+  *ptr-- = '\0';
+
+  inx = 0;
+  while (nr != 0) {
+    int dig = nr % 10;
+    *ptr-- = '0' + dig;
+    nr /= 10;
+    inx++;
+    if ((inx % SPLITS == 0) && (nr != 0)) {
+      *ptr-- = ',';
+    }
+  }
+
+  if (neg) {
+    *ptr-- = '-';
+  }
+
+  return ptr + 1;
 #endif
+}
 
-static int iso_latin1(char ch)
+/***************************************************************
+  Check whether or not the given char is a valid,
+  printable ISO 8859-1 character.
+***************************************************************/
+static int is_iso_latin1(char ch)
 {
    int i=ch;
    
@@ -200,26 +232,45 @@ static int iso_latin1(char ch)
     if (ch < ' ')  return 0;
     if (ch <= '~')  return 1;
   }
-  if (ch < '¡')  return 0;
+  if (ch < '¡')  return 0; /* FIXME: Is it really a good idea to
+				 use 8 bit characters in source code? */
   return 1;
 }
 
+/***************************************************************
+  This is used in sundry places to make sure that names of cities,
+  players etc. do not contain yucky characters of various sorts.
+  Returns the input argument if it points to an acceptable name,
+  otherwise returns NULL.
+  FIXME:  Not internationalised.
+***************************************************************/
 char *get_sane_name(char *name)
 {
-  static char str[MAX_LEN_NAME];
   char *cp;
-  
-  for(cp=name; iso_latin1(*cp); cp++);
-  if(*cp)
-    return 0; 
 
-  sz_strlcpy(str, name);
-  
-  return str;
+  /* must not be NULL or empty */
+  if (!name || !(*name)) {
+    return NULL; 
+  }
+
+  /* must begin and end with some non-space character */
+  if ((*name == ' ') || (*(strchr(name, '\0') - 1) == ' ')) {
+    return NULL; 
+  }
+
+  /* must be composed entirely of printable ISO 8859-1 characters */
+  for (cp = name; is_iso_latin1(*cp); cp++) ;
+  if (*cp) {
+    return NULL; 
+  }
+
+  /* otherwise, it's okay... */
+  return name;
 }
 
 /***************************************************************
-...
+  Produce a statically allocated textual representation of the given
+  year.
 ***************************************************************/
 char *textyear(int year)
 {
@@ -731,6 +782,9 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 
 /***************************************************************************
   Return the Freeciv motto.
+  (The motto is common code:
+   only one instance of the string in the source;
+   only one time gettext needs to translate it. --jjm)
 ***************************************************************************/
 char *freeciv_motto(void)
 {
