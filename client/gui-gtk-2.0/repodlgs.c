@@ -620,14 +620,13 @@ void popdown_economy_report_dialog(void)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  static const char *titles[5] = {
-    N_("Type"),
-    N_("Name"),
-    N_("Count"),
-    N_("Cost"),
-    N_("U Total")
+  const char *titles[5] = {
+    _("Type"),
+    Q_("?Building:Name"),
+    _("Count"),
+    _("Cost"),
+    _("U Total")
   };
-  static bool titles_done;
   int i;
 
   static GType model_types[5] = {
@@ -641,8 +640,6 @@ void create_economy_report_dialog(bool make_modal)
 
   model_types[0] = GDK_TYPE_PIXBUF;
 
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
-  
   gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(economy_dialog_shell, _("Economy"));
 
