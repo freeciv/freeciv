@@ -77,14 +77,26 @@ void
 load_cursors(void)
 {
   enum cursor_type cursor;
+  ICONINFO ii;
 
   /* For some reason win32 lets you enter a cursor size, which
    * only works as long as it's this size. */
   int width = GetSystemMetrics(SM_CXCURSOR);
   int height = GetSystemMetrics(SM_CYCURSOR);
 
-  unsigned char *xor_bmp = fc_malloc(width * height / 8);
-  unsigned char *and_bmp = fc_malloc(width * height / 8);
+  BITMAP bmp;
+
+  unsigned char *xor_bmp = fc_malloc(width * height * 4);
+  unsigned char *and_bmp = fc_malloc(width * height * 4);
+
+  bmp.bmType = 0;
+  bmp.bmWidth = width;
+  bmp.bmHeight = height;
+  bmp.bmWidthBytes = width << 2;
+  bmp.bmPlanes = 1;
+  bmp.bmBitsPixel = 32;
+
+  ii.fIcon = FALSE;
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     int hot_x, hot_y;
@@ -93,13 +105,11 @@ load_cursors(void)
     struct Sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
     unsigned char *src;
 
-    for (x = 0; x < width * height / 8; x++) {
-      xor_bmp[x] = 0;
-    }
+    ii.xHotspot = hot_x;
+    ii.yHotspot = hot_y;    
 
-    for (x = 0; x < width * height / 8; x++) {
-      and_bmp[x] = 255;
-    }
+    memset(xor_bmp, 0,   width * height * 4);
+    memset(and_bmp, 255, width * height * 4);
 
     minwidth = MIN(width, sprite->img.bmWidth);
     minheight = MIN(height, sprite->img.bmHeight);
@@ -107,22 +117,32 @@ load_cursors(void)
     for (y = 0; y < minheight; y++) {
       src = (unsigned char *)sprite->img.bmBits + sprite->img.bmWidthBytes * y;
       for (x = 0; x < minwidth; x++) {
-	int byte_pos = (x + y * width) / 8;
-	int bit_pos  = (x + y * width) % 8;
+	int byte_pos = (x + y * width) * 4;
 	
 	if (src[3] > 128) {
-	  if (src[0] + src[1] + src[2] > 128) {
-	    xor_bmp[byte_pos] |= (128 >> bit_pos);
-	  }
-	  and_bmp[byte_pos] &= ~(128 >> bit_pos);
+	  xor_bmp[byte_pos]     = src[0];
+	  xor_bmp[byte_pos + 1] = src[1];
+	  xor_bmp[byte_pos + 2] = src[2];
+	  xor_bmp[byte_pos + 3] = 255;
+	  and_bmp[byte_pos]     = 0;
+	  and_bmp[byte_pos + 1] = 0;
+	  and_bmp[byte_pos + 2] = 0;
+	  and_bmp[byte_pos + 3] = 0;
 	}
 
 	src += 4;
       }
     }
 
-    cursors[cursor] = CreateCursor(freecivhinst, hot_x, hot_y, width, height,
-				   and_bmp, xor_bmp);
+    bmp.bmBits = and_bmp;
+    ii.hbmMask = BITMAP2HBITMAP(&bmp);
+    bmp.bmBits = xor_bmp;
+    ii.hbmColor = BITMAP2HBITMAP(&bmp);
+
+    cursors[cursor] = CreateIconIndirect(&ii);
+
+    DeleteObject(ii.hbmMask);
+    DeleteObject(ii.hbmColor);
   }
 
   free(xor_bmp);
