@@ -16,6 +16,8 @@
 # The only parts you probably want to change are the XPM related lines
 # below, and the architecture specific lines.
 
+# NOTE: THIS FILE IS OUT OF DATE AND NO LONGER SUPPORTED.  YOU'LL
+#       NEED TO HACK IT FIRST.
 #
 # defs
 #
