@@ -45,4 +45,6 @@ char *helptext_unit_upkeep_str(int i);
         while((pitem=help_iter_next())) {   
 #define help_items_iterate_end }}
 
+extern char long_buffer[64000];
+
 #endif  /* FC__HELPDATA_H */

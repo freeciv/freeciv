@@ -68,8 +68,6 @@
 
 struct connection aconnection;
 
-extern char metaserver[];
-
 /**************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
   do so before-hand if necessary.

@@ -27,13 +27,13 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"
+#include "gotohand.h"
 #include "plrhand.h"
 #include "unithand.h"
 #include "unittools.h"
 
 #include "diplomats.h"
 
-extern struct move_cost_map warmap;
 
 /****************************************************************************/
 

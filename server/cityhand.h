@@ -70,4 +70,7 @@ void send_all_known_cities(struct conn_list *dest);
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  int dipl_invest);
 
+extern char **misc_city_names; 
+extern int num_misc_city_names;
+
 #endif  /* FC__CITYHAND_H */

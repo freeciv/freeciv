@@ -50,8 +50,6 @@
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
 
-extern char long_buffer[64000];	      /* helpdata.c */
-
 /*
  * Globals.
  */

@@ -34,14 +34,13 @@
 #include "tech.h"
 #include "unit.h"
 
+#include "cityhand.h"
+
 #include "ruleset.h"
 
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define check_name(name) check_strlen(name, MAX_LEN_NAME, name_too_long)
 #define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, name_too_long)
-
-extern char **misc_city_names;
-extern int num_misc_city_names;
 
 static void openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);

@@ -31,5 +31,13 @@ enum client_states get_client_state(void);
 void client_remove_cli_conn(struct connection *pconn);
 
 extern int turn_gold_difference;
+extern int seconds_to_turndone;
+extern int last_turn_gold_amount;
+extern int did_advance_tech_this_turn;
+
+extern char metaserver[256];
+extern char server_host[512];
+extern char name[512];
+extern int server_port;
 
 #endif  /* FC__CIVCLIENT_H */

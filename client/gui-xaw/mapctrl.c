@@ -317,8 +317,6 @@ static struct city *find_city_near_tile(int x, int y)
   return last_pcity = pcity2;
 }
 
-extern int line_dest_x; /* from goto.c */
-extern int line_dest_y;
 /**************************************************************************
 ...
 **************************************************************************/

@@ -31,6 +31,7 @@
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
+#include "srv_main.h"
 #include "unittools.h"
 #include "unithand.h"
 
@@ -50,7 +51,6 @@ static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
 static void shared_vision_change_seen(int x, int y, struct player *pplayer, int change);
 
-extern enum server_states server_state;
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
 **************************************************************************/

@@ -23,6 +23,7 @@
 #include "support.h"
 #include "version.h"
 
+#include "civclient.h"
 #include "chatline.h"
 #include "clinet.h"
 #include "colors.h"
@@ -30,11 +31,6 @@
 #include "gui_stuff.h"
 
 #include "connectdlg.h"
-
-/* in civclient.c; FIXME hardcoded sizes */
-extern char name[];
-extern char server_host[];
-extern int  server_port;
 
 static GtkWidget *iname, *ihost, *iport;
 static GtkWidget *connw, *quitw;
@@ -58,8 +54,8 @@ static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
 
-  mystrlcpy(name, gtk_entry_get_text(GTK_ENTRY(iname)), 512);
-  mystrlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)), 512);
+  sz_strlcpy(name, gtk_entry_get_text(GTK_ENTRY(iname)));
+  sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
   server_port=atoi(gtk_entry_get_text(GTK_ENTRY(iport)));
   
   if(connect_to_server(name, server_host, server_port,

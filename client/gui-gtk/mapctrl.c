@@ -310,8 +310,6 @@ void create_line_at_mouse_pos(void)
   update_line(x, y);
 }
 
-extern int line_dest_x; /* from goto.c */
-extern int line_dest_y;
 /**************************************************************************
 ...
 **************************************************************************/

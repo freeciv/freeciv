@@ -87,8 +87,6 @@ extern Pixmap single_tile_pixmap;
 extern Pixmap gray50,gray25;
 extern int city_workers_color;
 
-extern int seconds_to_turndone;
-
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
 extern Cursor goto_cursor;
@@ -115,8 +113,6 @@ static void show_city_descriptions(void);
    the screen size */
 Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
-
-extern struct client_goto_map goto_map;
 
 static void put_line(Pixmap pm, int canvas_src_x, int canvas_src_y,
 		     int map_src_x, int map_src_y, int dir, int first_draw);

@@ -24,6 +24,10 @@ struct client_goto_map {
   int src_x, src_y;
 };
 
+extern struct client_goto_map goto_map;
+extern int line_dest_x;
+extern int line_dest_y;
+
 void create_goto_map(struct unit *punit, int src_x, int src_y,
 		     enum goto_move_restriction restriction);
 int transfer_route_to_stack(int dest_x, int dest_y);

@@ -58,8 +58,6 @@
 #define MAX_LEN_CMD MAX_LEN_PACKET
   /* to be used more widely - rp */
 
-extern int gamelog_level;
-
 static enum cmdlevel_id default_access_level = ALLOW_INFO;
 static enum cmdlevel_id   first_access_level = ALLOW_INFO;
 

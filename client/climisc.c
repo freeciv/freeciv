@@ -39,6 +39,7 @@ used throughout the client.
 #include "packets.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
@@ -47,8 +48,6 @@ used throughout the client.
 #include "tilespec.h"
 
 #include "climisc.h"
-
-extern struct connection aconnection;
 
 /**************************************************************************
 ...

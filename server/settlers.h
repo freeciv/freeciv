@@ -35,4 +35,6 @@ void initialize_infrastructure_cache(struct city *pcity);
 void contemplate_settling(struct player *pplayer, struct city *pcity);
 struct unit *other_passengers(struct unit *punit);
 
+extern signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+
 #endif   /* FC__SETTLERS_H */

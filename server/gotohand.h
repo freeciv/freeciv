@@ -41,4 +41,6 @@ struct move_cost_map {
   int orig_x, orig_y;
 };
 
+extern struct move_cost_map warmap;
+
 #endif  /* FC__GOTOHAND_H */

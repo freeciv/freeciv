@@ -31,14 +31,12 @@
 #include "menu_g.h"
 
 #include "civclient.h"
+#include "clinet.h"
 #include "goto.h"
 #include "options.h"
 #include "tilespec.h"
 
 #include "control.h"
-
-extern struct connection aconnection;
-
 
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;

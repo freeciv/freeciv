@@ -36,8 +36,6 @@
 
 #include "settlers.h"
 
-extern struct move_cost_map warmap;
-
 signed int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 static unsigned int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 /* negative: in_city_radius, 0: unassigned, positive: city_des */

@@ -21,12 +21,11 @@
 #include "packets.h"
 #include "unit.h"
 
+#include "clinet.h"
 #include "control.h"
 #include "mapview_g.h"
 
 #include "goto.h"
-
-extern struct connection aconnection;
 
 struct client_goto_map goto_map;
 

@@ -62,12 +62,6 @@
 
 #include "packhand.h"
 
-extern int seconds_to_turndone;
-extern int last_turn_gold_amount;
-extern int did_advance_tech_this_turn;
-extern char name[512];
-
-
 static void handle_city_packet_common(struct city *pcity, int is_new,
                                       int popup);
 

@@ -31,6 +31,7 @@
 #include "support.h"
 #include "version.h"
 
+#include "civclient.h"
 #include "chatline.h"
 #include "clinet.h"
 #include "gui_stuff.h"
@@ -42,11 +43,6 @@
 /* extern AppResources appResources; */
 extern Widget toplevel;
 extern Widget turn_done_button;
-
-/* in civclient.c; FIXME hardcoded sizes */
-extern char name[];
-extern char server_host[];
-extern int  server_port;
 
 Widget iname, ihost, iport;
 Widget connw, metaw, quitw;
@@ -152,9 +148,9 @@ void connect_callback(Widget w, XtPointer client_data,
   char errbuf[512];
   
   XtVaGetValues(iname, XtNstring, &dp, NULL);
-  mystrlcpy(name, (char*)dp, 512);
+  sz_strlcpy(name, (char*)dp);
   XtVaGetValues(ihost, XtNstring, &dp, NULL);
-  mystrlcpy(server_host, (char*)dp, 512);
+  sz_strlcpy(server_host, (char*)dp);
   XtVaGetValues(iport, XtNstring, &dp, NULL);
   sscanf((char*)dp, "%d", &server_port);
   

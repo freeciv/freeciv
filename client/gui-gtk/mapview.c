@@ -63,9 +63,6 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 */
 #define EXTRA_BOTTOM_ROW 1
 
-
-extern int		seconds_to_turndone;
-
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
 extern GtkWidget *	econ_label			[10];
@@ -141,8 +138,6 @@ extern GdkCursor *nuke_cursor;
 extern GdkCursor *patrol_cursor;
 
 GtkObject *		map_hadj, *map_vadj;
-
-extern struct client_goto_map goto_map;
 
 /**************************************************************************
 ...

@@ -58,4 +58,6 @@ void gamelog(int level, char *message, ...)
 void gamelog_map(void);
 void gamelog_save(void);
 
+extern int gamelog_level;
+
 #endif  /* FC__GAMELOG_H */

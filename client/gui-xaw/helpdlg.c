@@ -111,7 +111,6 @@ static void select_help_item_string(const char *item,
 				    enum help_page_type htype);
 
 static char *topic_list[1024];
-extern char long_buffer[64000];	      /* helpdata.c */
 
 #define TREE_NODE_UNKNOWN_TECH_BG "red"
 #define TREE_NODE_KNOWN_TECH_BG "green"
