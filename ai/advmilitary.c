@@ -430,11 +430,8 @@ static int assess_danger(struct city *pcity)
   bool pikemen = FALSE;
   int urgency = 0;
   int igwall_threat = 0;
-  struct unit virtualunit;
-  struct unit *funit = &virtualunit; /* saves me a lot of typing. -- Syela */
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
 
-  memset(&virtualunit, 0, sizeof(struct unit));
   memset(&danger, 0, sizeof(danger));
 
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
@@ -510,16 +507,16 @@ static int assess_danger(struct city *pcity)
 
       if (!igwall) {
         danger[1] += vulnerability * move_rate / MAX(dist, 1); /* walls */
-      } else if (is_sailing_unit(funit)) {
+      } else if (is_sailing_unit(punit)) {
         danger[2] += vulnerability * move_rate / MAX(dist, 1); /* coastal */
-      } else if (is_air_unit(funit) && !unit_flag(funit, F_NUCLEAR)) {
+      } else if (is_air_unit(punit) && !unit_flag(punit, F_NUCLEAR)) {
         danger[3] += vulnerability * move_rate / MAX(dist, 1); /* SAM */
       }
-      if (unit_flag(funit, F_MISSILE)) {
+      if (unit_flag(punit, F_MISSILE)) {
         /* SDI */
         danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
       }
-      if (!unit_flag(funit, F_NUCLEAR)) {
+      if (!unit_flag(punit, F_NUCLEAR)) {
         /* only SDI helps against NUCLEAR */
         vulnerability = dangerfunct(vulnerability, move_rate, dist);
         danger[0] += vulnerability;
