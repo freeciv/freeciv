@@ -122,6 +122,10 @@ int sniff_packets(void)
   struct timeval tv;
   static time_t time_at_turn_end;
   static int year;
+#ifdef SOCKET_ZERO_ISNT_STDIN
+  char buf[BUF_SIZE+1];
+  char *bufptr = buf;
+#endif
   
   if(year!=game.year) {
     time_at_turn_end = time(NULL) + game.timeout;
@@ -160,6 +164,9 @@ int sniff_packets(void)
 	con_prompt_off();
 	return 0;
       }
+#ifdef SOCKET_ZERO_ISNT_STDIN
+    if (feof(stdin))
+#endif
       continue;
     }
   
@@ -168,6 +175,7 @@ int sniff_packets(void)
       if(server_accept_connection(sock)==-1)
 	freelog(LOG_NORMAL, "failed accepting connection");
     }
+#ifndef SOCKET_ZERO_ISNT_STDIN
     else if(FD_ISSET(0, &readfs)) {    /* input from server operator */
       int didget;
       char buf[BUF_SIZE+1];
@@ -180,6 +188,21 @@ int sniff_packets(void)
       con_prompt_enter();	/* will need a new prompt, regardless */
       handle_stdin_input((struct player *)NULL, buf);
     }
+#else
+    else if(!feof(stdin)) {    /* input from server operator */
+      /* fetch chars until \n or run out of space in buffer */
+      while ((*bufptr=fgetc(stdin)) != EOF) {
+          if (*bufptr == '\n') *bufptr = '\0';
+          if (*bufptr == '\0') {
+              bufptr = buf;
+              con_prompt_enter(); /* will need a new prompt, regardless */
+              handle_stdin_input((struct player *)NULL, buf);
+              break;
+          }
+          if ((bufptr-buf) <= BUF_SIZE) bufptr++; /* prevent overrun */
+      }
+  }
+#endif
     else {                             /* input from a player */
       for(i=0; i<MAX_NUM_CONNECTIONS; i++)
 	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {

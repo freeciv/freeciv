@@ -294,19 +294,23 @@ char *mystrerror(int errnum)
 ***************************************************************/
 void myusleep(unsigned long usec)
 {
+#ifdef HAVE_USLEEP
+  usleep(usec);
+#else
+#ifdef HAVE_SNOOZE		/* BeOS */
+  snooze(usec);
+#else
 #ifdef GENERATING_MAC
   EventRecord the_event;  /* dummy var for timesharing */
   WaitNextEvent(0, &the_event, GetCaretTime(), nil); /* this is suposed to
      give other application procseor time for the mac*/
 #else
-#ifndef HAVE_USLEEP
   struct timeval tv;
 
   tv.tv_sec=0;
   tv.tv_usec=100;
   select(0, NULL, NULL, NULL, &tv);
-#else
-  usleep(usec);
+#endif
 #endif
 #endif
 }
@@ -705,7 +709,7 @@ void init_nls(void)
 ***************************************************************************/
 void dont_run_as_root(const char *argv0, const char *fallback)
 {
-#if (defined(ALWAYS_ROOT) || defined(__EMX__))
+#if (defined(ALWAYS_ROOT) || defined(__EMX__) || defined(__BEOS__))
   return;
 #else
   if (getuid()==0 || geteuid()==0) {
