@@ -438,7 +438,7 @@ int city_corruption(struct city *pcity, int trade)
   struct city *capital;
   int dist;
   int val;
-  int corruption[]= { 12,8,20,24,20,0}; /* original {12,8,16,20,24,0} */
+  int corruption[]= { 40,27,67,80,67,0}; /* original {12,8,16,20,24,0} */
   if (get_government(pcity->owner)==G_DEMOCRACY) {
     return(0);
   }
@@ -454,7 +454,7 @@ int city_corruption(struct city *pcity, int trade)
   if (get_government(pcity->owner) == G_DESPOTISM)
     dist = dist*2 + 3; /* yes, DESPOTISM is even worse than ANARCHY */
   
-  val=(trade*dist*3)/(corruption[get_government(pcity->owner)]*10);
+  val=trade*dist/corruption[get_government(pcity->owner)];
 
   if (city_got_building(pcity, B_COURTHOUSE) ||   
       city_got_building(pcity, B_PALACE))
