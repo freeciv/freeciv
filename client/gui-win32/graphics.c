@@ -511,15 +511,14 @@ void free_sprite(struct Sprite *s)
 {
   if (s->has_mask) {
     free(s->mask.bmBits);
-    s->mask = NULL;
   }
 
   free(s->bmp.bmBits);
-  s->bmp = NULL;
 
   free(s);
   if (bitmapcache) {
     DeleteObject(bitmapcache);
+    bitmapcache=NULL;
   }
   sprcache = NULL;
 }
