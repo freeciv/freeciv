@@ -527,34 +527,37 @@ void handle_diplomacy_init(struct player *pplayer,
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
 
-  if(!find_treaty(plr0, plr1)) {
-    if(player_has_embassy(plr0, plr1) && plr0->is_connected && 
-       plr0->is_alive && plr1->is_connected && plr1->is_alive) {
-    
-    struct Treaty *ptreaty;
-    
-    ptreaty=fc_malloc(sizeof(struct Treaty));
-    init_treaty(ptreaty, plr0, plr1);
-    genlist_insert(&treaties, ptreaty, 0);
-    
-    pa.plrno0=plr0->player_no;
-    pa.plrno1=plr1->player_no;
-
-    /* Send at least INFO_MEETING level information */
-    send_player_info(plr0, plr1);
-    send_player_info(plr1, plr0);
-
-    lsend_packet_diplomacy_info(&plr0->connections,
-				PACKET_DIPLOMACY_INIT_MEETING, &pa);
-
-    pa.plrno0=plr1->player_no;
-    pa.plrno1=plr0->player_no;
-    lsend_packet_diplomacy_info(&plr1->connections,
-				PACKET_DIPLOMACY_INIT_MEETING, &pa);
+  if (!find_treaty(plr0, plr1)) {
+    if (plr0->ai.control || plr1->ai.control) {
+      notify_player(plr0, _("AI controlled players cannot participate in "
+			    "diplomatic meetings."));
+      return;
     }
-    
-  }
 
+    if (player_has_embassy(plr0, plr1) && plr0->is_connected && 
+	plr0->is_alive && plr1->is_connected && plr1->is_alive) {
+      struct Treaty *ptreaty;
+
+      ptreaty=fc_malloc(sizeof(struct Treaty));
+      init_treaty(ptreaty, plr0, plr1);
+      genlist_insert(&treaties, ptreaty, 0);
+
+      pa.plrno0=plr0->player_no;
+      pa.plrno1=plr1->player_no;
+
+      /* Send at least INFO_MEETING level information */
+      send_player_info(plr0, plr1);
+      send_player_info(plr1, plr0);
+
+      lsend_packet_diplomacy_info(&plr0->connections,
+				  PACKET_DIPLOMACY_INIT_MEETING, &pa);
+
+      pa.plrno0=plr1->player_no;
+      pa.plrno1=plr0->player_no;
+      lsend_packet_diplomacy_info(&plr1->connections,
+				  PACKET_DIPLOMACY_INIT_MEETING, &pa);
+    }
+  }
 }
 
 /**************************************************************************

@@ -40,6 +40,7 @@
 #include "version.h"
 
 #include "console.h"
+#include "diplhand.h"
 #include "gamehand.h"
 #include "gamelog.h"
 #include "mapgen.h"
@@ -1556,6 +1557,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     /* The ai can't handle pacts and stacked enemy units,
        so do this *before* access_danger. */
     neutralize_ai_player(pplayer);
+    cancel_all_meetings(pplayer);
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
     if (server_state == RUN_GAME_STATE)
