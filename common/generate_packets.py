@@ -1073,12 +1073,12 @@ class Packet:
         only_server=len(self.dirs)==1 and self.dirs[0]=="cs"
         if only_client:
             restrict='''  if(is_server) {
-    die("Can not receive %(name)s from server");
+    freelog(LOG_ERROR, "Receiving %(name)s at the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
             restrict='''  if(!is_server) {
-    die("Can not receive %(name)s from client");
+    freelog(LOG_ERROR, "Receiving %(name)s at the client.");
   }
 '''%self.get_dict(vars())
         else:
@@ -1103,12 +1103,12 @@ class Packet:
         only_server=len(self.dirs)==1 and self.dirs[0]=="sc"
         if only_client:
             restrict='''  if(is_server) {
-    die("Can not send %(name)s from server");
+    freelog(LOG_ERROR, "Sending %(name)s from the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
             restrict='''  if(!is_server) {
-    die("Can not send %(name)s from client");
+    freelog(LOG_ERROR, "Sending %(name)s from the client.");
   }
 '''%self.get_dict(vars())
         else:

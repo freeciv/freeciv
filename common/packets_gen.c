@@ -727,7 +727,7 @@ struct packet_processing_started *receive_packet_processing_started(struct conne
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_processing_started from server");
+    freelog(LOG_ERROR, "Receiving packet_processing_started at the server.");
   }
   ensure_valid_variant_packet_processing_started(pc);
 
@@ -741,7 +741,7 @@ int send_packet_processing_started(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_processing_started from client");
+    freelog(LOG_ERROR, "Sending packet_processing_started from the client.");
   }
   ensure_valid_variant_packet_processing_started(pc);
 
@@ -792,7 +792,7 @@ struct packet_processing_finished *receive_packet_processing_finished(struct con
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_processing_finished from server");
+    freelog(LOG_ERROR, "Receiving packet_processing_finished at the server.");
   }
   ensure_valid_variant_packet_processing_finished(pc);
 
@@ -806,7 +806,7 @@ int send_packet_processing_finished(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_processing_finished from client");
+    freelog(LOG_ERROR, "Sending packet_processing_finished from the client.");
   }
   ensure_valid_variant_packet_processing_finished(pc);
 
@@ -857,7 +857,7 @@ struct packet_freeze_hint *receive_packet_freeze_hint(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_freeze_hint from server");
+    freelog(LOG_ERROR, "Receiving packet_freeze_hint at the server.");
   }
   ensure_valid_variant_packet_freeze_hint(pc);
 
@@ -871,7 +871,7 @@ int send_packet_freeze_hint(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_freeze_hint from client");
+    freelog(LOG_ERROR, "Sending packet_freeze_hint from the client.");
   }
   ensure_valid_variant_packet_freeze_hint(pc);
 
@@ -922,7 +922,7 @@ struct packet_thaw_hint *receive_packet_thaw_hint(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_thaw_hint from server");
+    freelog(LOG_ERROR, "Receiving packet_thaw_hint at the server.");
   }
   ensure_valid_variant_packet_thaw_hint(pc);
 
@@ -936,7 +936,7 @@ int send_packet_thaw_hint(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_thaw_hint from client");
+    freelog(LOG_ERROR, "Sending packet_thaw_hint from the client.");
   }
   ensure_valid_variant_packet_thaw_hint(pc);
 
@@ -1002,7 +1002,7 @@ struct packet_server_join_req *receive_packet_server_join_req(struct connection 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_server_join_req from client");
+    freelog(LOG_ERROR, "Receiving packet_server_join_req at the client.");
   }
   ensure_valid_variant_packet_server_join_req(pc);
 
@@ -1016,7 +1016,7 @@ int send_packet_server_join_req(struct connection *pc, const struct packet_serve
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_server_join_req from server");
+    freelog(LOG_ERROR, "Sending packet_server_join_req from the server.");
   }
   ensure_valid_variant_packet_server_join_req(pc);
 
@@ -1085,7 +1085,7 @@ struct packet_server_join_reply *receive_packet_server_join_reply(struct connect
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_server_join_reply from server");
+    freelog(LOG_ERROR, "Receiving packet_server_join_reply at the server.");
   }
   ensure_valid_variant_packet_server_join_reply(pc);
 
@@ -1099,7 +1099,7 @@ int send_packet_server_join_reply(struct connection *pc, const struct packet_ser
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_server_join_reply from client");
+    freelog(LOG_ERROR, "Sending packet_server_join_reply from the client.");
   }
   ensure_valid_variant_packet_server_join_reply(pc);
 
@@ -1268,7 +1268,7 @@ struct packet_authentication_req *receive_packet_authentication_req(struct conne
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_authentication_req from server");
+    freelog(LOG_ERROR, "Receiving packet_authentication_req at the server.");
   }
   ensure_valid_variant_packet_authentication_req(pc);
 
@@ -1282,7 +1282,7 @@ int send_packet_authentication_req(struct connection *pc, const struct packet_au
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_authentication_req from client");
+    freelog(LOG_ERROR, "Sending packet_authentication_req from the client.");
   }
   ensure_valid_variant_packet_authentication_req(pc);
 
@@ -1437,7 +1437,7 @@ struct packet_authentication_reply *receive_packet_authentication_reply(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_authentication_reply from client");
+    freelog(LOG_ERROR, "Receiving packet_authentication_reply at the client.");
   }
   ensure_valid_variant_packet_authentication_reply(pc);
 
@@ -1451,7 +1451,7 @@ int send_packet_authentication_reply(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_authentication_reply from server");
+    freelog(LOG_ERROR, "Sending packet_authentication_reply from the server.");
   }
   ensure_valid_variant_packet_authentication_reply(pc);
 
@@ -1504,7 +1504,7 @@ struct packet_server_shutdown *receive_packet_server_shutdown(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_server_shutdown from server");
+    freelog(LOG_ERROR, "Receiving packet_server_shutdown at the server.");
   }
   ensure_valid_variant_packet_server_shutdown(pc);
 
@@ -1518,7 +1518,7 @@ int send_packet_server_shutdown(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_server_shutdown from client");
+    freelog(LOG_ERROR, "Sending packet_server_shutdown from the client.");
   }
   ensure_valid_variant_packet_server_shutdown(pc);
 
@@ -1689,7 +1689,7 @@ struct packet_nations_selected_info *receive_packet_nations_selected_info(struct
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_nations_selected_info from server");
+    freelog(LOG_ERROR, "Receiving packet_nations_selected_info at the server.");
   }
   ensure_valid_variant_packet_nations_selected_info(pc);
 
@@ -1703,7 +1703,7 @@ int send_packet_nations_selected_info(struct connection *pc, const struct packet
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_nations_selected_info from client");
+    freelog(LOG_ERROR, "Sending packet_nations_selected_info from the client.");
   }
   ensure_valid_variant_packet_nations_selected_info(pc);
 
@@ -1896,7 +1896,7 @@ struct packet_nation_select_req *receive_packet_nation_select_req(struct connect
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_nation_select_req from client");
+    freelog(LOG_ERROR, "Receiving packet_nation_select_req at the client.");
   }
   ensure_valid_variant_packet_nation_select_req(pc);
 
@@ -1910,7 +1910,7 @@ int send_packet_nation_select_req(struct connection *pc, const struct packet_nat
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_nation_select_req from server");
+    freelog(LOG_ERROR, "Sending packet_nation_select_req from the server.");
   }
   ensure_valid_variant_packet_nation_select_req(pc);
 
@@ -1966,7 +1966,7 @@ struct packet_nation_select_ok *receive_packet_nation_select_ok(struct connectio
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_nation_select_ok from server");
+    freelog(LOG_ERROR, "Receiving packet_nation_select_ok at the server.");
   }
   ensure_valid_variant_packet_nation_select_ok(pc);
 
@@ -1980,7 +1980,7 @@ int send_packet_nation_select_ok(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_nation_select_ok from client");
+    freelog(LOG_ERROR, "Sending packet_nation_select_ok from the client.");
   }
   ensure_valid_variant_packet_nation_select_ok(pc);
 
@@ -2115,7 +2115,7 @@ struct packet_game_state *receive_packet_game_state(struct connection *pc, enum 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_game_state from server");
+    freelog(LOG_ERROR, "Receiving packet_game_state at the server.");
   }
   ensure_valid_variant_packet_game_state(pc);
 
@@ -2129,7 +2129,7 @@ int send_packet_game_state(struct connection *pc, const struct packet_game_state
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_game_state from client");
+    freelog(LOG_ERROR, "Sending packet_game_state from the client.");
   }
   ensure_valid_variant_packet_game_state(pc);
 
@@ -2786,7 +2786,7 @@ struct packet_endgame_report *receive_packet_endgame_report(struct connection *p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_endgame_report from server");
+    freelog(LOG_ERROR, "Receiving packet_endgame_report at the server.");
   }
   ensure_valid_variant_packet_endgame_report(pc);
 
@@ -2800,7 +2800,7 @@ int send_packet_endgame_report(struct connection *pc, const struct packet_endgam
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_endgame_report from client");
+    freelog(LOG_ERROR, "Sending packet_endgame_report from the client.");
   }
   ensure_valid_variant_packet_endgame_report(pc);
 
@@ -3001,7 +3001,7 @@ struct packet_tile_info *receive_packet_tile_info(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_tile_info from server");
+    freelog(LOG_ERROR, "Receiving packet_tile_info at the server.");
   }
   ensure_valid_variant_packet_tile_info(pc);
 
@@ -3015,7 +3015,7 @@ int send_packet_tile_info(struct connection *pc, const struct packet_tile_info *
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_tile_info from client");
+    freelog(LOG_ERROR, "Sending packet_tile_info from the client.");
   }
   ensure_valid_variant_packet_tile_info(pc);
 
@@ -3504,7 +3504,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_game_info from server");
+    freelog(LOG_ERROR, "Receiving packet_game_info at the server.");
   }
   ensure_valid_variant_packet_game_info(pc);
 
@@ -3518,7 +3518,7 @@ int send_packet_game_info(struct connection *pc, const struct packet_game_info *
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_game_info from client");
+    freelog(LOG_ERROR, "Sending packet_game_info from the client.");
   }
   ensure_valid_variant_packet_game_info(pc);
 
@@ -3679,7 +3679,7 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc, enum pack
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_map_info from server");
+    freelog(LOG_ERROR, "Receiving packet_map_info at the server.");
   }
   ensure_valid_variant_packet_map_info(pc);
 
@@ -3693,7 +3693,7 @@ int send_packet_map_info(struct connection *pc, const struct packet_map_info *pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_map_info from client");
+    freelog(LOG_ERROR, "Sending packet_map_info from the client.");
   }
   ensure_valid_variant_packet_map_info(pc);
 
@@ -3862,7 +3862,7 @@ struct packet_nuke_tile_info *receive_packet_nuke_tile_info(struct connection *p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_nuke_tile_info from server");
+    freelog(LOG_ERROR, "Receiving packet_nuke_tile_info at the server.");
   }
   ensure_valid_variant_packet_nuke_tile_info(pc);
 
@@ -3876,7 +3876,7 @@ int send_packet_nuke_tile_info(struct connection *pc, const struct packet_nuke_t
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_nuke_tile_info from client");
+    freelog(LOG_ERROR, "Sending packet_nuke_tile_info from the client.");
   }
   ensure_valid_variant_packet_nuke_tile_info(pc);
 
@@ -4078,7 +4078,7 @@ struct packet_chat_msg *receive_packet_chat_msg(struct connection *pc, enum pack
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_chat_msg from server");
+    freelog(LOG_ERROR, "Receiving packet_chat_msg at the server.");
   }
   ensure_valid_variant_packet_chat_msg(pc);
 
@@ -4092,7 +4092,7 @@ int send_packet_chat_msg(struct connection *pc, const struct packet_chat_msg *pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_chat_msg from client");
+    freelog(LOG_ERROR, "Sending packet_chat_msg from the client.");
   }
   ensure_valid_variant_packet_chat_msg(pc);
 
@@ -4251,7 +4251,7 @@ struct packet_chat_msg_req *receive_packet_chat_msg_req(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_chat_msg_req from client");
+    freelog(LOG_ERROR, "Receiving packet_chat_msg_req at the client.");
   }
   ensure_valid_variant_packet_chat_msg_req(pc);
 
@@ -4265,7 +4265,7 @@ int send_packet_chat_msg_req(struct connection *pc, const struct packet_chat_msg
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_chat_msg_req from server");
+    freelog(LOG_ERROR, "Sending packet_chat_msg_req from the server.");
   }
   ensure_valid_variant_packet_chat_msg_req(pc);
 
@@ -4402,7 +4402,7 @@ struct packet_city_remove *receive_packet_city_remove(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_remove from server");
+    freelog(LOG_ERROR, "Receiving packet_city_remove at the server.");
   }
   ensure_valid_variant_packet_city_remove(pc);
 
@@ -4416,7 +4416,7 @@ int send_packet_city_remove(struct connection *pc, const struct packet_city_remo
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_remove from client");
+    freelog(LOG_ERROR, "Sending packet_city_remove from the client.");
   }
   ensure_valid_variant_packet_city_remove(pc);
 
@@ -5176,7 +5176,7 @@ struct packet_city_info *receive_packet_city_info(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_info from server");
+    freelog(LOG_ERROR, "Receiving packet_city_info at the server.");
   }
   ensure_valid_variant_packet_city_info(pc);
 
@@ -5190,7 +5190,7 @@ int send_packet_city_info(struct connection *pc, const struct packet_city_info *
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_info from client");
+    freelog(LOG_ERROR, "Sending packet_city_info from the client.");
   }
   ensure_valid_variant_packet_city_info(pc);
 
@@ -5422,7 +5422,7 @@ struct packet_city_short_info *receive_packet_city_short_info(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_short_info from server");
+    freelog(LOG_ERROR, "Receiving packet_city_short_info at the server.");
   }
   ensure_valid_variant_packet_city_short_info(pc);
 
@@ -5436,7 +5436,7 @@ int send_packet_city_short_info(struct connection *pc, const struct packet_city_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_short_info from client");
+    freelog(LOG_ERROR, "Sending packet_city_short_info from the client.");
   }
   ensure_valid_variant_packet_city_short_info(pc);
 
@@ -5581,7 +5581,7 @@ struct packet_city_sell *receive_packet_city_sell(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_sell from client");
+    freelog(LOG_ERROR, "Receiving packet_city_sell at the client.");
   }
   ensure_valid_variant_packet_city_sell(pc);
 
@@ -5595,7 +5595,7 @@ int send_packet_city_sell(struct connection *pc, const struct packet_city_sell *
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_sell from server");
+    freelog(LOG_ERROR, "Sending packet_city_sell from the server.");
   }
   ensure_valid_variant_packet_city_sell(pc);
 
@@ -5733,7 +5733,7 @@ struct packet_city_buy *receive_packet_city_buy(struct connection *pc, enum pack
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_buy from client");
+    freelog(LOG_ERROR, "Receiving packet_city_buy at the client.");
   }
   ensure_valid_variant_packet_city_buy(pc);
 
@@ -5747,7 +5747,7 @@ int send_packet_city_buy(struct connection *pc, const struct packet_city_buy *pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_buy from server");
+    freelog(LOG_ERROR, "Sending packet_city_buy from the server.");
   }
   ensure_valid_variant_packet_city_buy(pc);
 
@@ -5900,7 +5900,7 @@ struct packet_city_change *receive_packet_city_change(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_change from client");
+    freelog(LOG_ERROR, "Receiving packet_city_change at the client.");
   }
   ensure_valid_variant_packet_city_change(pc);
 
@@ -5914,7 +5914,7 @@ int send_packet_city_change(struct connection *pc, const struct packet_city_chan
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_change from server");
+    freelog(LOG_ERROR, "Sending packet_city_change from the server.");
   }
   ensure_valid_variant_packet_city_change(pc);
 
@@ -6063,7 +6063,7 @@ struct packet_city_worklist *receive_packet_city_worklist(struct connection *pc,
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_worklist from client");
+    freelog(LOG_ERROR, "Receiving packet_city_worklist at the client.");
   }
   ensure_valid_variant_packet_city_worklist(pc);
 
@@ -6077,7 +6077,7 @@ int send_packet_city_worklist(struct connection *pc, const struct packet_city_wo
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_worklist from server");
+    freelog(LOG_ERROR, "Sending packet_city_worklist from the server.");
   }
   ensure_valid_variant_packet_city_worklist(pc);
 
@@ -6235,7 +6235,7 @@ struct packet_city_make_specialist *receive_packet_city_make_specialist(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_make_specialist from client");
+    freelog(LOG_ERROR, "Receiving packet_city_make_specialist at the client.");
   }
   ensure_valid_variant_packet_city_make_specialist(pc);
 
@@ -6249,7 +6249,7 @@ int send_packet_city_make_specialist(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_make_specialist from server");
+    freelog(LOG_ERROR, "Sending packet_city_make_specialist from the server.");
   }
   ensure_valid_variant_packet_city_make_specialist(pc);
 
@@ -6408,7 +6408,7 @@ struct packet_city_make_worker *receive_packet_city_make_worker(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_make_worker from client");
+    freelog(LOG_ERROR, "Receiving packet_city_make_worker at the client.");
   }
   ensure_valid_variant_packet_city_make_worker(pc);
 
@@ -6422,7 +6422,7 @@ int send_packet_city_make_worker(struct connection *pc, const struct packet_city
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_make_worker from server");
+    freelog(LOG_ERROR, "Sending packet_city_make_worker from the server.");
   }
   ensure_valid_variant_packet_city_make_worker(pc);
 
@@ -6581,7 +6581,7 @@ struct packet_city_change_specialist *receive_packet_city_change_specialist(stru
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_change_specialist from client");
+    freelog(LOG_ERROR, "Receiving packet_city_change_specialist at the client.");
   }
   ensure_valid_variant_packet_city_change_specialist(pc);
 
@@ -6595,7 +6595,7 @@ int send_packet_city_change_specialist(struct connection *pc, const struct packe
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_change_specialist from server");
+    freelog(LOG_ERROR, "Sending packet_city_change_specialist from the server.");
   }
   ensure_valid_variant_packet_city_change_specialist(pc);
 
@@ -6744,7 +6744,7 @@ struct packet_city_rename *receive_packet_city_rename(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_rename from client");
+    freelog(LOG_ERROR, "Receiving packet_city_rename at the client.");
   }
   ensure_valid_variant_packet_city_rename(pc);
 
@@ -6758,7 +6758,7 @@ int send_packet_city_rename(struct connection *pc, const struct packet_city_rena
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_rename from server");
+    freelog(LOG_ERROR, "Sending packet_city_rename from the server.");
   }
   ensure_valid_variant_packet_city_rename(pc);
 
@@ -6906,7 +6906,7 @@ struct packet_city_options_req *receive_packet_city_options_req(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_options_req from client");
+    freelog(LOG_ERROR, "Receiving packet_city_options_req at the client.");
   }
   ensure_valid_variant_packet_city_options_req(pc);
 
@@ -6920,7 +6920,7 @@ int send_packet_city_options_req(struct connection *pc, const struct packet_city
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_options_req from server");
+    freelog(LOG_ERROR, "Sending packet_city_options_req from the server.");
   }
   ensure_valid_variant_packet_city_options_req(pc);
 
@@ -7058,7 +7058,7 @@ struct packet_city_refresh *receive_packet_city_refresh(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_refresh from client");
+    freelog(LOG_ERROR, "Receiving packet_city_refresh at the client.");
   }
   ensure_valid_variant_packet_city_refresh(pc);
 
@@ -7072,7 +7072,7 @@ int send_packet_city_refresh(struct connection *pc, const struct packet_city_ref
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_refresh from server");
+    freelog(LOG_ERROR, "Sending packet_city_refresh from the server.");
   }
   ensure_valid_variant_packet_city_refresh(pc);
 
@@ -7209,7 +7209,7 @@ struct packet_city_incite_inq *receive_packet_city_incite_inq(struct connection 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_incite_inq from client");
+    freelog(LOG_ERROR, "Receiving packet_city_incite_inq at the client.");
   }
   ensure_valid_variant_packet_city_incite_inq(pc);
 
@@ -7223,7 +7223,7 @@ int send_packet_city_incite_inq(struct connection *pc, const struct packet_city_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_incite_inq from server");
+    freelog(LOG_ERROR, "Sending packet_city_incite_inq from the server.");
   }
   ensure_valid_variant_packet_city_incite_inq(pc);
 
@@ -7370,7 +7370,7 @@ struct packet_city_incite_info *receive_packet_city_incite_info(struct connectio
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_incite_info from server");
+    freelog(LOG_ERROR, "Receiving packet_city_incite_info at the server.");
   }
   ensure_valid_variant_packet_city_incite_info(pc);
 
@@ -7384,7 +7384,7 @@ int send_packet_city_incite_info(struct connection *pc, const struct packet_city
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_incite_info from client");
+    freelog(LOG_ERROR, "Sending packet_city_incite_info from the client.");
   }
   ensure_valid_variant_packet_city_incite_info(pc);
 
@@ -7539,7 +7539,7 @@ struct packet_city_name_suggestion_req *receive_packet_city_name_suggestion_req(
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_city_name_suggestion_req from client");
+    freelog(LOG_ERROR, "Receiving packet_city_name_suggestion_req at the client.");
   }
   ensure_valid_variant_packet_city_name_suggestion_req(pc);
 
@@ -7553,7 +7553,7 @@ int send_packet_city_name_suggestion_req(struct connection *pc, const struct pac
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_city_name_suggestion_req from server");
+    freelog(LOG_ERROR, "Sending packet_city_name_suggestion_req from the server.");
   }
   ensure_valid_variant_packet_city_name_suggestion_req(pc);
 
@@ -7700,7 +7700,7 @@ struct packet_city_name_suggestion_info *receive_packet_city_name_suggestion_inf
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_name_suggestion_info from server");
+    freelog(LOG_ERROR, "Receiving packet_city_name_suggestion_info at the server.");
   }
   ensure_valid_variant_packet_city_name_suggestion_info(pc);
 
@@ -7714,7 +7714,7 @@ int send_packet_city_name_suggestion_info(struct connection *pc, const struct pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_name_suggestion_info from client");
+    freelog(LOG_ERROR, "Sending packet_city_name_suggestion_info from the client.");
   }
   ensure_valid_variant_packet_city_name_suggestion_info(pc);
 
@@ -7889,7 +7889,7 @@ struct packet_city_sabotage_list *receive_packet_city_sabotage_list(struct conne
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_city_sabotage_list from server");
+    freelog(LOG_ERROR, "Receiving packet_city_sabotage_list at the server.");
   }
   ensure_valid_variant_packet_city_sabotage_list(pc);
 
@@ -7903,7 +7903,7 @@ int send_packet_city_sabotage_list(struct connection *pc, const struct packet_ci
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_city_sabotage_list from client");
+    freelog(LOG_ERROR, "Sending packet_city_sabotage_list from the client.");
   }
   ensure_valid_variant_packet_city_sabotage_list(pc);
 
@@ -8072,7 +8072,7 @@ struct packet_player_remove *receive_packet_player_remove(struct connection *pc,
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_player_remove from server");
+    freelog(LOG_ERROR, "Receiving packet_player_remove at the server.");
   }
   ensure_valid_variant_packet_player_remove(pc);
 
@@ -8086,7 +8086,7 @@ int send_packet_player_remove(struct connection *pc, const struct packet_player_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_player_remove from client");
+    freelog(LOG_ERROR, "Sending packet_player_remove from the client.");
   }
   ensure_valid_variant_packet_player_remove(pc);
 
@@ -8522,7 +8522,7 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_player_info from server");
+    freelog(LOG_ERROR, "Receiving packet_player_info at the server.");
   }
   ensure_valid_variant_packet_player_info(pc);
 
@@ -8536,7 +8536,7 @@ int send_packet_player_info(struct connection *pc, const struct packet_player_in
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_player_info from client");
+    freelog(LOG_ERROR, "Sending packet_player_info from the client.");
   }
   ensure_valid_variant_packet_player_info(pc);
 
@@ -8587,7 +8587,7 @@ struct packet_player_turn_done *receive_packet_player_turn_done(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_turn_done from client");
+    freelog(LOG_ERROR, "Receiving packet_player_turn_done at the client.");
   }
   ensure_valid_variant_packet_player_turn_done(pc);
 
@@ -8601,7 +8601,7 @@ int send_packet_player_turn_done(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_turn_done from server");
+    freelog(LOG_ERROR, "Sending packet_player_turn_done from the server.");
   }
   ensure_valid_variant_packet_player_turn_done(pc);
 
@@ -8749,7 +8749,7 @@ struct packet_player_rates *receive_packet_player_rates(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_rates from client");
+    freelog(LOG_ERROR, "Receiving packet_player_rates at the client.");
   }
   ensure_valid_variant_packet_player_rates(pc);
 
@@ -8763,7 +8763,7 @@ int send_packet_player_rates(struct connection *pc, const struct packet_player_r
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_rates from server");
+    freelog(LOG_ERROR, "Sending packet_player_rates from the server.");
   }
   ensure_valid_variant_packet_player_rates(pc);
 
@@ -8818,7 +8818,7 @@ struct packet_player_revolution *receive_packet_player_revolution(struct connect
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_revolution from client");
+    freelog(LOG_ERROR, "Receiving packet_player_revolution at the client.");
   }
   ensure_valid_variant_packet_player_revolution(pc);
 
@@ -8832,7 +8832,7 @@ int send_packet_player_revolution(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_revolution from server");
+    freelog(LOG_ERROR, "Sending packet_player_revolution from the server.");
   }
   ensure_valid_variant_packet_player_revolution(pc);
 
@@ -8960,7 +8960,7 @@ struct packet_player_government *receive_packet_player_government(struct connect
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_government from client");
+    freelog(LOG_ERROR, "Receiving packet_player_government at the client.");
   }
   ensure_valid_variant_packet_player_government(pc);
 
@@ -8974,7 +8974,7 @@ int send_packet_player_government(struct connection *pc, const struct packet_pla
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_government from server");
+    freelog(LOG_ERROR, "Sending packet_player_government from the server.");
   }
   ensure_valid_variant_packet_player_government(pc);
 
@@ -9111,7 +9111,7 @@ struct packet_player_research *receive_packet_player_research(struct connection 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_research from client");
+    freelog(LOG_ERROR, "Receiving packet_player_research at the client.");
   }
   ensure_valid_variant_packet_player_research(pc);
 
@@ -9125,7 +9125,7 @@ int send_packet_player_research(struct connection *pc, const struct packet_playe
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_research from server");
+    freelog(LOG_ERROR, "Sending packet_player_research from the server.");
   }
   ensure_valid_variant_packet_player_research(pc);
 
@@ -9262,7 +9262,7 @@ struct packet_player_tech_goal *receive_packet_player_tech_goal(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_tech_goal from client");
+    freelog(LOG_ERROR, "Receiving packet_player_tech_goal at the client.");
   }
   ensure_valid_variant_packet_player_tech_goal(pc);
 
@@ -9276,7 +9276,7 @@ int send_packet_player_tech_goal(struct connection *pc, const struct packet_play
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_tech_goal from server");
+    freelog(LOG_ERROR, "Sending packet_player_tech_goal from the server.");
   }
   ensure_valid_variant_packet_player_tech_goal(pc);
 
@@ -9329,7 +9329,7 @@ struct packet_player_attribute_block *receive_packet_player_attribute_block(stru
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_player_attribute_block from client");
+    freelog(LOG_ERROR, "Receiving packet_player_attribute_block at the client.");
   }
   ensure_valid_variant_packet_player_attribute_block(pc);
 
@@ -9343,7 +9343,7 @@ int send_packet_player_attribute_block(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_player_attribute_block from server");
+    freelog(LOG_ERROR, "Sending packet_player_attribute_block from the server.");
   }
   ensure_valid_variant_packet_player_attribute_block(pc);
 
@@ -9697,7 +9697,7 @@ struct packet_unit_remove *receive_packet_unit_remove(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_remove from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_remove at the server.");
   }
   ensure_valid_variant_packet_unit_remove(pc);
 
@@ -9711,7 +9711,7 @@ int send_packet_unit_remove(struct connection *pc, const struct packet_unit_remo
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_remove from client");
+    freelog(LOG_ERROR, "Sending packet_unit_remove from the client.");
   }
   ensure_valid_variant_packet_unit_remove(pc);
 
@@ -10087,7 +10087,7 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_info from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_info at the server.");
   }
   ensure_valid_variant_packet_unit_info(pc);
 
@@ -10101,7 +10101,7 @@ int send_packet_unit_info(struct connection *pc, const struct packet_unit_info *
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_info from client");
+    freelog(LOG_ERROR, "Sending packet_unit_info from the client.");
   }
   ensure_valid_variant_packet_unit_info(pc);
 
@@ -10361,7 +10361,7 @@ struct packet_unit_short_info *receive_packet_unit_short_info(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_short_info from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_short_info at the server.");
   }
   ensure_valid_variant_packet_unit_short_info(pc);
 
@@ -10375,7 +10375,7 @@ int send_packet_unit_short_info(struct connection *pc, const struct packet_unit_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_short_info from client");
+    freelog(LOG_ERROR, "Sending packet_unit_short_info from the client.");
   }
   ensure_valid_variant_packet_unit_short_info(pc);
 
@@ -10546,7 +10546,7 @@ struct packet_unit_combat_info *receive_packet_unit_combat_info(struct connectio
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_combat_info from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_combat_info at the server.");
   }
   ensure_valid_variant_packet_unit_combat_info(pc);
 
@@ -10560,7 +10560,7 @@ int send_packet_unit_combat_info(struct connection *pc, const struct packet_unit
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_combat_info from client");
+    freelog(LOG_ERROR, "Sending packet_unit_combat_info from the client.");
   }
   ensure_valid_variant_packet_unit_combat_info(pc);
 
@@ -10741,7 +10741,7 @@ struct packet_unit_move *receive_packet_unit_move(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_move from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_move at the client.");
   }
   ensure_valid_variant_packet_unit_move(pc);
 
@@ -10755,7 +10755,7 @@ int send_packet_unit_move(struct connection *pc, const struct packet_unit_move *
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_move from server");
+    freelog(LOG_ERROR, "Sending packet_unit_move from the server.");
   }
   ensure_valid_variant_packet_unit_move(pc);
 
@@ -10904,7 +10904,7 @@ struct packet_unit_build_city *receive_packet_unit_build_city(struct connection 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_build_city from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_build_city at the client.");
   }
   ensure_valid_variant_packet_unit_build_city(pc);
 
@@ -10918,7 +10918,7 @@ int send_packet_unit_build_city(struct connection *pc, const struct packet_unit_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_build_city from server");
+    freelog(LOG_ERROR, "Sending packet_unit_build_city from the server.");
   }
   ensure_valid_variant_packet_unit_build_city(pc);
 
@@ -11056,7 +11056,7 @@ struct packet_unit_disband *receive_packet_unit_disband(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_disband from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_disband at the client.");
   }
   ensure_valid_variant_packet_unit_disband(pc);
 
@@ -11070,7 +11070,7 @@ int send_packet_unit_disband(struct connection *pc, const struct packet_unit_dis
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_disband from server");
+    freelog(LOG_ERROR, "Sending packet_unit_disband from the server.");
   }
   ensure_valid_variant_packet_unit_disband(pc);
 
@@ -11217,7 +11217,7 @@ struct packet_unit_change_homecity *receive_packet_unit_change_homecity(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_change_homecity from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_change_homecity at the client.");
   }
   ensure_valid_variant_packet_unit_change_homecity(pc);
 
@@ -11231,7 +11231,7 @@ int send_packet_unit_change_homecity(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_change_homecity from server");
+    freelog(LOG_ERROR, "Sending packet_unit_change_homecity from the server.");
   }
   ensure_valid_variant_packet_unit_change_homecity(pc);
 
@@ -11369,7 +11369,7 @@ struct packet_unit_establish_trade *receive_packet_unit_establish_trade(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_establish_trade from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_establish_trade at the client.");
   }
   ensure_valid_variant_packet_unit_establish_trade(pc);
 
@@ -11383,7 +11383,7 @@ int send_packet_unit_establish_trade(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_establish_trade from server");
+    freelog(LOG_ERROR, "Sending packet_unit_establish_trade from the server.");
   }
   ensure_valid_variant_packet_unit_establish_trade(pc);
 
@@ -11520,7 +11520,7 @@ struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wonder(stru
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_help_build_wonder from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_help_build_wonder at the client.");
   }
   ensure_valid_variant_packet_unit_help_build_wonder(pc);
 
@@ -11534,7 +11534,7 @@ int send_packet_unit_help_build_wonder(struct connection *pc, const struct packe
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_help_build_wonder from server");
+    freelog(LOG_ERROR, "Sending packet_unit_help_build_wonder from the server.");
   }
   ensure_valid_variant_packet_unit_help_build_wonder(pc);
 
@@ -11691,7 +11691,7 @@ struct packet_unit_goto *receive_packet_unit_goto(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_goto from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_goto at the client.");
   }
   ensure_valid_variant_packet_unit_goto(pc);
 
@@ -11705,7 +11705,7 @@ int send_packet_unit_goto(struct connection *pc, const struct packet_unit_goto *
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_goto from server");
+    freelog(LOG_ERROR, "Sending packet_unit_goto from the server.");
   }
   ensure_valid_variant_packet_unit_goto(pc);
 
@@ -11936,7 +11936,7 @@ struct packet_unit_route *receive_packet_unit_route(struct connection *pc, enum 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_route from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_route at the client.");
   }
   ensure_valid_variant_packet_unit_route(pc);
 
@@ -11950,7 +11950,7 @@ int send_packet_unit_route(struct connection *pc, const struct packet_unit_route
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_route from server");
+    freelog(LOG_ERROR, "Sending packet_unit_route from the server.");
   }
   ensure_valid_variant_packet_unit_route(pc);
 
@@ -12103,7 +12103,7 @@ struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_auto from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_auto at the client.");
   }
   ensure_valid_variant_packet_unit_auto(pc);
 
@@ -12117,7 +12117,7 @@ int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_auto from server");
+    freelog(LOG_ERROR, "Sending packet_unit_auto from the server.");
   }
   ensure_valid_variant_packet_unit_auto(pc);
 
@@ -12254,7 +12254,7 @@ struct packet_unit_unload *receive_packet_unit_unload(struct connection *pc, enu
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_unload from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_unload at the client.");
   }
   ensure_valid_variant_packet_unit_unload(pc);
 
@@ -12268,7 +12268,7 @@ int send_packet_unit_unload(struct connection *pc, const struct packet_unit_unlo
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_unload from server");
+    freelog(LOG_ERROR, "Sending packet_unit_unload from the server.");
   }
   ensure_valid_variant_packet_unit_unload(pc);
 
@@ -12405,7 +12405,7 @@ struct packet_unit_upgrade *receive_packet_unit_upgrade(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_upgrade from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_upgrade at the client.");
   }
   ensure_valid_variant_packet_unit_upgrade(pc);
 
@@ -12419,7 +12419,7 @@ int send_packet_unit_upgrade(struct connection *pc, const struct packet_unit_upg
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_upgrade from server");
+    freelog(LOG_ERROR, "Sending packet_unit_upgrade from the server.");
   }
   ensure_valid_variant_packet_unit_upgrade(pc);
 
@@ -12556,7 +12556,7 @@ struct packet_unit_nuke *receive_packet_unit_nuke(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_nuke from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_nuke at the client.");
   }
   ensure_valid_variant_packet_unit_nuke(pc);
 
@@ -12570,7 +12570,7 @@ int send_packet_unit_nuke(struct connection *pc, const struct packet_unit_nuke *
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_nuke from server");
+    freelog(LOG_ERROR, "Sending packet_unit_nuke from the server.");
   }
   ensure_valid_variant_packet_unit_nuke(pc);
 
@@ -12727,7 +12727,7 @@ struct packet_unit_paradrop_to *receive_packet_unit_paradrop_to(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_paradrop_to from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_paradrop_to at the client.");
   }
   ensure_valid_variant_packet_unit_paradrop_to(pc);
 
@@ -12741,7 +12741,7 @@ int send_packet_unit_paradrop_to(struct connection *pc, const struct packet_unit
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_paradrop_to from server");
+    freelog(LOG_ERROR, "Sending packet_unit_paradrop_to from the server.");
   }
   ensure_valid_variant_packet_unit_paradrop_to(pc);
 
@@ -12890,7 +12890,7 @@ struct packet_unit_airlift *receive_packet_unit_airlift(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_airlift from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_airlift at the client.");
   }
   ensure_valid_variant_packet_unit_airlift(pc);
 
@@ -12904,7 +12904,7 @@ int send_packet_unit_airlift(struct connection *pc, const struct packet_unit_air
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_airlift from server");
+    freelog(LOG_ERROR, "Sending packet_unit_airlift from the server.");
   }
   ensure_valid_variant_packet_unit_airlift(pc);
 
@@ -13072,7 +13072,7 @@ struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_connect from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_connect at the client.");
   }
   ensure_valid_variant_packet_unit_connect(pc);
 
@@ -13086,7 +13086,7 @@ int send_packet_unit_connect(struct connection *pc, const struct packet_unit_con
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_connect from server");
+    freelog(LOG_ERROR, "Sending packet_unit_connect from the server.");
   }
   ensure_valid_variant_packet_unit_connect(pc);
 
@@ -13226,7 +13226,7 @@ struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *p
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_bribe_inq from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_bribe_inq at the client.");
   }
   ensure_valid_variant_packet_unit_bribe_inq(pc);
 
@@ -13240,7 +13240,7 @@ int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_b
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_bribe_inq from server");
+    freelog(LOG_ERROR, "Sending packet_unit_bribe_inq from the server.");
   }
   ensure_valid_variant_packet_unit_bribe_inq(pc);
 
@@ -13387,7 +13387,7 @@ struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_bribe_info from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_bribe_info at the server.");
   }
   ensure_valid_variant_packet_unit_bribe_info(pc);
 
@@ -13401,7 +13401,7 @@ int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_bribe_info from client");
+    freelog(LOG_ERROR, "Sending packet_unit_bribe_info from the client.");
   }
   ensure_valid_variant_packet_unit_bribe_info(pc);
 
@@ -13556,7 +13556,7 @@ struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connect
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_type_upgrade from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_type_upgrade at the client.");
   }
   ensure_valid_variant_packet_unit_type_upgrade(pc);
 
@@ -13570,7 +13570,7 @@ int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_uni
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_type_upgrade from server");
+    freelog(LOG_ERROR, "Sending packet_unit_type_upgrade from the server.");
   }
   ensure_valid_variant_packet_unit_type_upgrade(pc);
 
@@ -13737,7 +13737,7 @@ struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_diplomat_action from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_diplomat_action at the client.");
   }
   ensure_valid_variant_packet_unit_diplomat_action(pc);
 
@@ -13751,7 +13751,7 @@ int send_packet_unit_diplomat_action(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_diplomat_action from server");
+    freelog(LOG_ERROR, "Sending packet_unit_diplomat_action from the server.");
   }
   ensure_valid_variant_packet_unit_diplomat_action(pc);
 
@@ -13901,7 +13901,7 @@ struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dia
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_unit_diplomat_popup_dialog from server");
+    freelog(LOG_ERROR, "Receiving packet_unit_diplomat_popup_dialog at the server.");
   }
   ensure_valid_variant_packet_unit_diplomat_popup_dialog(pc);
 
@@ -13915,7 +13915,7 @@ int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct p
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_unit_diplomat_popup_dialog from client");
+    freelog(LOG_ERROR, "Sending packet_unit_diplomat_popup_dialog from the client.");
   }
   ensure_valid_variant_packet_unit_diplomat_popup_dialog(pc);
 
@@ -14090,7 +14090,7 @@ struct packet_unit_change_activity *receive_packet_unit_change_activity(struct c
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_unit_change_activity from client");
+    freelog(LOG_ERROR, "Receiving packet_unit_change_activity at the client.");
   }
   ensure_valid_variant_packet_unit_change_activity(pc);
 
@@ -14104,7 +14104,7 @@ int send_packet_unit_change_activity(struct connection *pc, const struct packet_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_unit_change_activity from server");
+    freelog(LOG_ERROR, "Sending packet_unit_change_activity from the server.");
   }
   ensure_valid_variant_packet_unit_change_activity(pc);
 
@@ -14243,7 +14243,7 @@ struct packet_diplomacy_init_meeting_req *receive_packet_diplomacy_init_meeting_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_init_meeting_req from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_init_meeting_req at the client.");
   }
   ensure_valid_variant_packet_diplomacy_init_meeting_req(pc);
 
@@ -14257,7 +14257,7 @@ int send_packet_diplomacy_init_meeting_req(struct connection *pc, const struct p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_init_meeting_req from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_init_meeting_req from the server.");
   }
   ensure_valid_variant_packet_diplomacy_init_meeting_req(pc);
 
@@ -14404,7 +14404,7 @@ struct packet_diplomacy_init_meeting *receive_packet_diplomacy_init_meeting(stru
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_diplomacy_init_meeting from server");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_init_meeting at the server.");
   }
   ensure_valid_variant_packet_diplomacy_init_meeting(pc);
 
@@ -14418,7 +14418,7 @@ int send_packet_diplomacy_init_meeting(struct connection *pc, const struct packe
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_diplomacy_init_meeting from client");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_init_meeting from the client.");
   }
   ensure_valid_variant_packet_diplomacy_init_meeting(pc);
 
@@ -14573,7 +14573,7 @@ struct packet_diplomacy_cancel_meeting_req *receive_packet_diplomacy_cancel_meet
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_cancel_meeting_req from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_meeting_req at the client.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_meeting_req(pc);
 
@@ -14587,7 +14587,7 @@ int send_packet_diplomacy_cancel_meeting_req(struct connection *pc, const struct
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_cancel_meeting_req from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_meeting_req from the server.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_meeting_req(pc);
 
@@ -14734,7 +14734,7 @@ struct packet_diplomacy_cancel_meeting *receive_packet_diplomacy_cancel_meeting(
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_diplomacy_cancel_meeting from server");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_meeting at the server.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_meeting(pc);
 
@@ -14748,7 +14748,7 @@ int send_packet_diplomacy_cancel_meeting(struct connection *pc, const struct pac
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_diplomacy_cancel_meeting from client");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_meeting from the client.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_meeting(pc);
 
@@ -14933,7 +14933,7 @@ struct packet_diplomacy_create_clause_req *receive_packet_diplomacy_create_claus
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_create_clause_req from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_create_clause_req at the client.");
   }
   ensure_valid_variant_packet_diplomacy_create_clause_req(pc);
 
@@ -14947,7 +14947,7 @@ int send_packet_diplomacy_create_clause_req(struct connection *pc, const struct 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_create_clause_req from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_create_clause_req from the server.");
   }
   ensure_valid_variant_packet_diplomacy_create_clause_req(pc);
 
@@ -15117,7 +15117,7 @@ struct packet_diplomacy_create_clause *receive_packet_diplomacy_create_clause(st
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_diplomacy_create_clause from server");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_create_clause at the server.");
   }
   ensure_valid_variant_packet_diplomacy_create_clause(pc);
 
@@ -15131,7 +15131,7 @@ int send_packet_diplomacy_create_clause(struct connection *pc, const struct pack
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_diplomacy_create_clause from client");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_create_clause from the client.");
   }
   ensure_valid_variant_packet_diplomacy_create_clause(pc);
 
@@ -15320,7 +15320,7 @@ struct packet_diplomacy_remove_clause_req *receive_packet_diplomacy_remove_claus
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_remove_clause_req from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_remove_clause_req at the client.");
   }
   ensure_valid_variant_packet_diplomacy_remove_clause_req(pc);
 
@@ -15334,7 +15334,7 @@ int send_packet_diplomacy_remove_clause_req(struct connection *pc, const struct 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_remove_clause_req from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_remove_clause_req from the server.");
   }
   ensure_valid_variant_packet_diplomacy_remove_clause_req(pc);
 
@@ -15504,7 +15504,7 @@ struct packet_diplomacy_remove_clause *receive_packet_diplomacy_remove_clause(st
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_diplomacy_remove_clause from server");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_remove_clause at the server.");
   }
   ensure_valid_variant_packet_diplomacy_remove_clause(pc);
 
@@ -15518,7 +15518,7 @@ int send_packet_diplomacy_remove_clause(struct connection *pc, const struct pack
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_diplomacy_remove_clause from client");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_remove_clause from the client.");
   }
   ensure_valid_variant_packet_diplomacy_remove_clause(pc);
 
@@ -15677,7 +15677,7 @@ struct packet_diplomacy_accept_treaty_req *receive_packet_diplomacy_accept_treat
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_accept_treaty_req from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_accept_treaty_req at the client.");
   }
   ensure_valid_variant_packet_diplomacy_accept_treaty_req(pc);
 
@@ -15691,7 +15691,7 @@ int send_packet_diplomacy_accept_treaty_req(struct connection *pc, const struct 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_accept_treaty_req from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_accept_treaty_req from the server.");
   }
   ensure_valid_variant_packet_diplomacy_accept_treaty_req(pc);
 
@@ -15840,7 +15840,7 @@ struct packet_diplomacy_accept_treaty *receive_packet_diplomacy_accept_treaty(st
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_diplomacy_accept_treaty from server");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_accept_treaty at the server.");
   }
   ensure_valid_variant_packet_diplomacy_accept_treaty(pc);
 
@@ -15854,7 +15854,7 @@ int send_packet_diplomacy_accept_treaty(struct connection *pc, const struct pack
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_diplomacy_accept_treaty from client");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_accept_treaty from the client.");
   }
   ensure_valid_variant_packet_diplomacy_accept_treaty(pc);
 
@@ -16021,7 +16021,7 @@ struct packet_diplomacy_cancel_pact *receive_packet_diplomacy_cancel_pact(struct
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_diplomacy_cancel_pact from client");
+    freelog(LOG_ERROR, "Receiving packet_diplomacy_cancel_pact at the client.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_pact(pc);
 
@@ -16035,7 +16035,7 @@ int send_packet_diplomacy_cancel_pact(struct connection *pc, const struct packet
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_diplomacy_cancel_pact from server");
+    freelog(LOG_ERROR, "Sending packet_diplomacy_cancel_pact from the server.");
   }
   ensure_valid_variant_packet_diplomacy_cancel_pact(pc);
 
@@ -16183,7 +16183,7 @@ struct packet_page_msg *receive_packet_page_msg(struct connection *pc, enum pack
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_page_msg from server");
+    freelog(LOG_ERROR, "Receiving packet_page_msg at the server.");
   }
   ensure_valid_variant_packet_page_msg(pc);
 
@@ -16197,7 +16197,7 @@ int send_packet_page_msg(struct connection *pc, const struct packet_page_msg *pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_page_msg from client");
+    freelog(LOG_ERROR, "Sending packet_page_msg from the client.");
   }
   ensure_valid_variant_packet_page_msg(pc);
 
@@ -16352,7 +16352,7 @@ struct packet_report_req *receive_packet_report_req(struct connection *pc, enum 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_report_req from client");
+    freelog(LOG_ERROR, "Receiving packet_report_req at the client.");
   }
   ensure_valid_variant_packet_report_req(pc);
 
@@ -16366,7 +16366,7 @@ int send_packet_report_req(struct connection *pc, const struct packet_report_req
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_report_req from server");
+    freelog(LOG_ERROR, "Sending packet_report_req from the server.");
   }
   ensure_valid_variant_packet_report_req(pc);
 
@@ -16578,7 +16578,7 @@ struct packet_conn_info *receive_packet_conn_info(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_conn_info from server");
+    freelog(LOG_ERROR, "Receiving packet_conn_info at the server.");
   }
   ensure_valid_variant_packet_conn_info(pc);
 
@@ -16592,7 +16592,7 @@ int send_packet_conn_info(struct connection *pc, const struct packet_conn_info *
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_conn_info from client");
+    freelog(LOG_ERROR, "Sending packet_conn_info from the client.");
   }
   ensure_valid_variant_packet_conn_info(pc);
 
@@ -16802,7 +16802,7 @@ struct packet_conn_ping_info *receive_packet_conn_ping_info(struct connection *p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_conn_ping_info from server");
+    freelog(LOG_ERROR, "Receiving packet_conn_ping_info at the server.");
   }
   ensure_valid_variant_packet_conn_ping_info(pc);
 
@@ -16816,7 +16816,7 @@ int send_packet_conn_ping_info(struct connection *pc, const struct packet_conn_p
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_conn_ping_info from client");
+    freelog(LOG_ERROR, "Sending packet_conn_ping_info from the client.");
   }
   ensure_valid_variant_packet_conn_ping_info(pc);
 
@@ -16913,7 +16913,7 @@ struct packet_conn_ping *receive_packet_conn_ping(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_conn_ping from server");
+    freelog(LOG_ERROR, "Receiving packet_conn_ping at the server.");
   }
   ensure_valid_variant_packet_conn_ping(pc);
 
@@ -16927,7 +16927,7 @@ int send_packet_conn_ping(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_conn_ping from client");
+    freelog(LOG_ERROR, "Sending packet_conn_ping from the client.");
   }
   ensure_valid_variant_packet_conn_ping(pc);
 
@@ -16978,7 +16978,7 @@ struct packet_conn_pong *receive_packet_conn_pong(struct connection *pc, enum pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_conn_pong from client");
+    freelog(LOG_ERROR, "Receiving packet_conn_pong at the client.");
   }
   ensure_valid_variant_packet_conn_pong(pc);
 
@@ -16992,7 +16992,7 @@ int send_packet_conn_pong(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_conn_pong from server");
+    freelog(LOG_ERROR, "Sending packet_conn_pong from the server.");
   }
   ensure_valid_variant_packet_conn_pong(pc);
 
@@ -17036,7 +17036,7 @@ struct packet_before_new_year *receive_packet_before_new_year(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_before_new_year from server");
+    freelog(LOG_ERROR, "Receiving packet_before_new_year at the server.");
   }
   ensure_valid_variant_packet_before_new_year(pc);
 
@@ -17050,7 +17050,7 @@ int send_packet_before_new_year(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_before_new_year from client");
+    freelog(LOG_ERROR, "Sending packet_before_new_year from the client.");
   }
   ensure_valid_variant_packet_before_new_year(pc);
 
@@ -17101,7 +17101,7 @@ struct packet_start_turn *receive_packet_start_turn(struct connection *pc, enum 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_start_turn from server");
+    freelog(LOG_ERROR, "Receiving packet_start_turn at the server.");
   }
   ensure_valid_variant_packet_start_turn(pc);
 
@@ -17115,7 +17115,7 @@ int send_packet_start_turn(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_start_turn from client");
+    freelog(LOG_ERROR, "Sending packet_start_turn from the client.");
   }
   ensure_valid_variant_packet_start_turn(pc);
 
@@ -17260,7 +17260,7 @@ struct packet_new_year *receive_packet_new_year(struct connection *pc, enum pack
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_new_year from server");
+    freelog(LOG_ERROR, "Receiving packet_new_year at the server.");
   }
   ensure_valid_variant_packet_new_year(pc);
 
@@ -17274,7 +17274,7 @@ int send_packet_new_year(struct connection *pc, const struct packet_new_year *pa
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_new_year from client");
+    freelog(LOG_ERROR, "Sending packet_new_year from the client.");
   }
   ensure_valid_variant_packet_new_year(pc);
 
@@ -17345,7 +17345,7 @@ struct packet_spaceship_launch *receive_packet_spaceship_launch(struct connectio
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_spaceship_launch from client");
+    freelog(LOG_ERROR, "Receiving packet_spaceship_launch at the client.");
   }
   ensure_valid_variant_packet_spaceship_launch(pc);
 
@@ -17359,7 +17359,7 @@ int send_packet_spaceship_launch(struct connection *pc)
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_spaceship_launch from server");
+    freelog(LOG_ERROR, "Sending packet_spaceship_launch from the server.");
   }
   ensure_valid_variant_packet_spaceship_launch(pc);
 
@@ -17497,7 +17497,7 @@ struct packet_spaceship_place *receive_packet_spaceship_place(struct connection 
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not receive packet_spaceship_place from client");
+    freelog(LOG_ERROR, "Receiving packet_spaceship_place at the client.");
   }
   ensure_valid_variant_packet_spaceship_place(pc);
 
@@ -17511,7 +17511,7 @@ int send_packet_spaceship_place(struct connection *pc, const struct packet_space
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not send packet_spaceship_place from server");
+    freelog(LOG_ERROR, "Sending packet_spaceship_place from the server.");
   }
   ensure_valid_variant_packet_spaceship_place(pc);
 
@@ -17846,7 +17846,7 @@ struct packet_spaceship_info *receive_packet_spaceship_info(struct connection *p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_spaceship_info from server");
+    freelog(LOG_ERROR, "Receiving packet_spaceship_info at the server.");
   }
   ensure_valid_variant_packet_spaceship_info(pc);
 
@@ -17860,7 +17860,7 @@ int send_packet_spaceship_info(struct connection *pc, const struct packet_spaces
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_spaceship_info from client");
+    freelog(LOG_ERROR, "Sending packet_spaceship_info from the client.");
   }
   ensure_valid_variant_packet_spaceship_info(pc);
 
@@ -18305,7 +18305,7 @@ struct packet_ruleset_unit *receive_packet_ruleset_unit(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_unit from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_unit at the server.");
   }
   ensure_valid_variant_packet_ruleset_unit(pc);
 
@@ -18319,7 +18319,7 @@ int send_packet_ruleset_unit(struct connection *pc, const struct packet_ruleset_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_unit from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_unit from the client.");
   }
   ensure_valid_variant_packet_ruleset_unit(pc);
 
@@ -18582,7 +18582,7 @@ struct packet_ruleset_game *receive_packet_ruleset_game(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_game from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_game at the server.");
   }
   ensure_valid_variant_packet_ruleset_game(pc);
 
@@ -18596,7 +18596,7 @@ int send_packet_ruleset_game(struct connection *pc, const struct packet_ruleset_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_game from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_game from the client.");
   }
   ensure_valid_variant_packet_ruleset_game(pc);
 
@@ -18771,7 +18771,7 @@ struct packet_ruleset_government_ruler_title *receive_packet_ruleset_government_
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_government_ruler_title from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_government_ruler_title at the server.");
   }
   ensure_valid_variant_packet_ruleset_government_ruler_title(pc);
 
@@ -18785,7 +18785,7 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc, const stru
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_government_ruler_title from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_government_ruler_title from the client.");
   }
   ensure_valid_variant_packet_ruleset_government_ruler_title(pc);
 
@@ -19036,7 +19036,7 @@ struct packet_ruleset_tech *receive_packet_ruleset_tech(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_tech from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_tech at the server.");
   }
   ensure_valid_variant_packet_ruleset_tech(pc);
 
@@ -19050,7 +19050,7 @@ int send_packet_ruleset_tech(struct connection *pc, const struct packet_ruleset_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_tech from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_tech from the client.");
   }
   ensure_valid_variant_packet_ruleset_tech(pc);
 
@@ -19655,7 +19655,7 @@ struct packet_ruleset_government *receive_packet_ruleset_government(struct conne
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_government from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_government at the server.");
   }
   ensure_valid_variant_packet_ruleset_government(pc);
 
@@ -19669,7 +19669,7 @@ int send_packet_ruleset_government(struct connection *pc, const struct packet_ru
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_government from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_government from the client.");
   }
   ensure_valid_variant_packet_ruleset_government(pc);
 
@@ -20008,7 +20008,7 @@ struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control(st
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_terrain_control from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_terrain_control at the server.");
   }
   ensure_valid_variant_packet_ruleset_terrain_control(pc);
 
@@ -20022,7 +20022,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc, const struct pack
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_terrain_control from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_terrain_control from the client.");
   }
   ensure_valid_variant_packet_ruleset_terrain_control(pc);
 
@@ -20331,7 +20331,7 @@ struct packet_ruleset_nation *receive_packet_ruleset_nation(struct connection *p
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_nation from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_nation at the server.");
   }
   ensure_valid_variant_packet_ruleset_nation(pc);
 
@@ -20345,7 +20345,7 @@ int send_packet_ruleset_nation(struct connection *pc, const struct packet_rulese
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_nation from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_nation from the client.");
   }
   ensure_valid_variant_packet_ruleset_nation(pc);
 
@@ -20550,7 +20550,7 @@ struct packet_ruleset_city *receive_packet_ruleset_city(struct connection *pc, e
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_city from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_city at the server.");
   }
   ensure_valid_variant_packet_ruleset_city(pc);
 
@@ -20564,7 +20564,7 @@ int send_packet_ruleset_city(struct connection *pc, const struct packet_ruleset_
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_city from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_city from the client.");
   }
   ensure_valid_variant_packet_ruleset_city(pc);
 
@@ -21075,7 +21075,7 @@ struct packet_ruleset_building *receive_packet_ruleset_building(struct connectio
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_building from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_building at the server.");
   }
   ensure_valid_variant_packet_ruleset_building(pc);
 
@@ -21089,7 +21089,7 @@ int send_packet_ruleset_building(struct connection *pc, const struct packet_rule
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_building from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_building from the client.");
   }
   ensure_valid_variant_packet_ruleset_building(pc);
 
@@ -21544,7 +21544,7 @@ struct packet_ruleset_terrain *receive_packet_ruleset_terrain(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_terrain from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_terrain at the server.");
   }
   ensure_valid_variant_packet_ruleset_terrain(pc);
 
@@ -21558,7 +21558,7 @@ int send_packet_ruleset_terrain(struct connection *pc, const struct packet_rules
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_terrain from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_terrain from the client.");
   }
   ensure_valid_variant_packet_ruleset_terrain(pc);
 
@@ -21931,7 +21931,7 @@ struct packet_ruleset_control *receive_packet_ruleset_control(struct connection 
 {
   assert(pc->phs.variant);
   if(is_server) {
-    die("Can not receive packet_ruleset_control from server");
+    freelog(LOG_ERROR, "Receiving packet_ruleset_control at the server.");
   }
   ensure_valid_variant_packet_ruleset_control(pc);
 
@@ -21945,7 +21945,7 @@ int send_packet_ruleset_control(struct connection *pc, const struct packet_rules
 {
   assert(pc->phs.variant);
   if(!is_server) {
-    die("Can not send packet_ruleset_control from client");
+    freelog(LOG_ERROR, "Sending packet_ruleset_control from the client.");
   }
   ensure_valid_variant_packet_ruleset_control(pc);
 
