@@ -43,6 +43,7 @@
 #include "mapview.h"
 #include "menu.h"
 #include "tilespec.h"
+#include "cma_core.h"
 
 #include "mapctrl.h"
 
@@ -353,6 +354,10 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 
   if (!(pcity = find_city_near_tile(map_x, map_y)))
     return TRUE;
+
+  if (cma_is_city_under_agent(pcity, NULL)) {
+    return TRUE;
+  }
 
   is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
   assert(is_valid);

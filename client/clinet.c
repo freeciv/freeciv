@@ -76,6 +76,7 @@
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+#include "agents.h"
 
 #include "clinet.h"
 
@@ -106,6 +107,7 @@ static void close_socket_nomessage(struct connection *pc)
   meswin_update_delay_off();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
+  agents_disconnect();
 }
 
 /**************************************************************************

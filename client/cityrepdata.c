@@ -21,6 +21,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "support.h"
+#include "cma_fec.h"
 
 #include "options.h"
 
@@ -182,6 +183,11 @@ static char *cr_entry_corruption(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_cma(struct city *pcity)
+{
+  return (char *) cmafec_get_short_descr_of_city(pcity);
+}
+
 /* City report options (which columns get shown)
  * To add a new entry, you should just have to:
  * - increment NUM_CREPORT_COLS in cityrepdata.h
@@ -221,6 +227,8 @@ struct city_report_spec city_report_specs[] = {
                                       FUNC_TAG(pollution) },
   { 0,  3, 1, NULL, N_("Cor"),        N_("Corruption"),
                                       FUNC_TAG(corruption) },
+  { 1, 15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
+                                      FUNC_TAG(cma) },
   { 1,  0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
                                       N_("Currently Building"),
                                       FUNC_TAG(building) }

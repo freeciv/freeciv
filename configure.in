@@ -658,6 +658,7 @@ AC_OUTPUT(Makefile
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
+	  client/agents/Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-xaw/Makefile 

@@ -19,7 +19,7 @@ struct city;
 #define REPORT_CITYNAME_ABBREV 15
 
 /* Number of city report columns: have to set this manually now... */
-#define NUM_CREPORT_COLS 13
+#define NUM_CREPORT_COLS 14
 
 struct city_report_spec {
   int show;			/* modify this to customize */

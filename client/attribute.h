@@ -29,7 +29,8 @@ enum attr_unit {
 };
 
 enum attr_city {
-  ATTR_CITY_DUMMY = ATTR_CITY_START
+  ATTR_CITY_CMA_PARAMETER = ATTR_CITY_START, 
+  ATTR_CITY_CMAFE_PARAMETER
 };
 
 enum attr_player {

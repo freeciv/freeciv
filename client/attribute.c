@@ -299,7 +299,21 @@ int attribute_get(int key, int id, int x, int y, int max_data_length,
   }
 
   length = ((int *) pvalue)[0];
-  assert(max_data_length >= length);
+
+  if(max_data_length < length){
+    freelog(LOG_FATAL, "attribute: max_data_length=%d, length found=%d (!)\n"
+          "It is quite possible that the server (this client was attached to) "
+          "loaded an old savegame that was created prior to "
+          "certain interface changes in your client. If you have access to "
+          "the savegame, editing the file and removing entries beginning with "
+          "\"attribute_block_\" may alleviate the problem (though you will " 
+          "lose some non-critical client data). If you still encounter this, "
+          "submit a bug report to <freeciv-dev@freeciv.org>", 
+          max_data_length, length);
+
+    exit(1);
+  }
+
   memcpy(data, (char *)pvalue + sizeof(int), length);
 
   freelog(ATTRIBUTE_LOG_LEVEL, "  found length=%d", length);

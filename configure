@@ -7531,6 +7531,7 @@ trap 'rm -fr `echo "Makefile
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
+	  client/agents/Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-xaw/Makefile 
@@ -7709,6 +7710,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
+	  client/agents/Makefile
 	  client/include/Makefile 
 	  client/gui-gtk/Makefile 
 	  client/gui-xaw/Makefile 

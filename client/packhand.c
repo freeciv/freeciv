@@ -63,6 +63,7 @@
 #include "wldlg_g.h"
 #include "attribute.h"
 #include "capability.h"
+#include "agents.h"
 
 #include "packhand.h"
 
@@ -165,8 +166,10 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
       freelog(LOG_NORMAL, "%s", msg);
     }
   }
-  if (strcmp(s_capability, our_capability)==0)
+  if (strcmp(s_capability, our_capability) == 0) {
+    agents_game_joined();
     return;
+  }
   my_snprintf(msg, sizeof(msg),
 	      _("Client capability string: %s"), our_capability);
   append_output_window(msg);
@@ -186,6 +189,8 @@ void handle_remove_city(struct packet_generic_integer *packet)
   if (pcity==NULL)
     return;
 
+  agents_city_remove(pcity);
+
   x = pcity->x; y = pcity->y;
   client_remove_city(pcity);
   reset_move_costs(x, y);
@@ -204,9 +209,9 @@ void handle_remove_city(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_remove_unit(struct packet_generic_integer *packet)
 {
+  agents_unit_remove(find_unit_by_id(packet->value));
   client_remove_unit(packet->value);
 }
-
 
 /**************************************************************************
 ...
@@ -316,6 +321,7 @@ void handle_game_state(struct packet_generic_integer *packet)
     center_on_something();
     
     free_intro_radar_sprites();
+    agents_game_start();
   }
 }
 
@@ -324,7 +330,8 @@ void handle_game_state(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_city_info(struct packet_city_info *packet)
 {
-  int i, x, y, city_is_new, need_effect_update = FALSE;
+  int i, x, y;
+  int city_is_new, city_has_changed_owner = 0, need_effect_update = FALSE;
   struct city *pcity;
   int popup;
   int update_descriptions = 0;
@@ -334,6 +341,7 @@ void handle_city_info(struct packet_city_info *packet)
   if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
+    city_has_changed_owner = 1;
   }
 
   if(!pcity) {
@@ -445,6 +453,12 @@ void handle_city_info(struct packet_city_info *packet)
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
 
+  if (city_is_new && !city_has_changed_owner) {
+    agents_city_new(pcity);
+  } else {
+    agents_city_changed(pcity);
+  }
+
   handle_city_packet_common(pcity, city_is_new, popup, packet->diplomat_investigate);
 
   /* update the descriptions if necessary */
@@ -552,7 +566,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
 void handle_short_city(struct packet_short_city *packet)
 {
   struct city *pcity;
-  int city_is_new, need_effect_update = FALSE;
+  int city_is_new, city_has_changed_owner = 0, need_effect_update = FALSE;
   int update_descriptions = 0;
 
   pcity=find_city_by_id(packet->id);
@@ -560,6 +574,7 @@ void handle_short_city(struct packet_short_city *packet)
   if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = 0;
+    city_has_changed_owner = 1;
   }
 
   if(!pcity) {
@@ -652,6 +667,12 @@ void handle_short_city(struct packet_short_city *packet)
 	pcity->city_map[x][y] = C_TILE_EMPTY;
   } /* Dumb values */
 
+  if (city_is_new && !city_has_changed_owner) {
+    agents_city_new(pcity);
+  } else {
+    agents_city_changed(pcity);
+  }
+
   handle_city_packet_common(pcity, city_is_new, 0, 0);
 
   /* update the descriptions if necessary */
@@ -706,6 +727,8 @@ void handle_new_year(struct packet_new_year *ppacket)
   if(sound_bell_at_new_turn &&
      (!game.player_ptr->ai.control || ai_manual_turn_done))
     sound_bell();
+
+  agents_new_turn();
 }
 
 /**************************************************************************
@@ -727,6 +750,7 @@ void handle_before_new_year(void)
    */
   if (has_capability("turn", aconnection.capability))
     game.turn++;
+  agents_before_new_turn();
 }
 
 /**************************************************************************
@@ -734,6 +758,7 @@ void handle_before_new_year(void)
 **************************************************************************/
 void handle_start_turn(void)
 {
+  agents_start_turn();
 }
 
 /**************************************************************************
@@ -993,6 +1018,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       client_remove_unit(packet->id);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     }
+    agents_unit_changed(punit);
   }
 
   else {      /* create new unit */
@@ -1015,6 +1041,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_unit=0;
     else
       repaint_unit=1;
+    agents_unit_new(punit);
   }
 
   if(punit && punit==get_unit_in_focus())
@@ -2267,6 +2294,8 @@ void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk)
 **************************************************************************/
 void handle_processing_started(void)
 {
+  agents_processing_started();
+
   assert(aconnection.client.request_id_of_currently_handled_packet == 0);
   aconnection.client.request_id_of_currently_handled_packet =
       get_next_request_id(aconnection.
@@ -2290,6 +2319,8 @@ void handle_processing_finished(void)
       aconnection.client.request_id_of_currently_handled_packet;
 
   aconnection.client.request_id_of_currently_handled_packet = 0;
+
+  agents_processing_finished();
 }
 
 /**************************************************************************

@@ -45,8 +45,11 @@
 #include "climisc.h"
 
 #include "cityrep.h"
+#include "cma_fec.h"
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
+#define CMA_NONE	(-1)
+#define CMA_CUSTOM	(-2)
 
 /******************************************************************/
 static GtkWidget *config_shell;
@@ -84,9 +87,9 @@ static GtkWidget *city_select_command;
 
 static int city_dialog_shell_is_modal;
 
-/*
- * Sort cities by column...
- */
+/****************************************************************
+ Sort cities by column...
+*****************************************************************/
 static void sort_cities_callback( GtkButton *button, gpointer *data )
 {
   int sort_column = GPOINTER_TO_INT( data );
@@ -328,13 +331,163 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
 }
 
 /****************************************************************
+ Called when one clicks on an CMA item to make a selection or to
+ change a selection's preset.
+*****************************************************************/
+static void select_cma_callback(GtkWidget * w, gpointer data)
+{
+  int i, index = GPOINTER_TO_INT(data);
+  GtkObject *parent = GTK_OBJECT(w->parent);
+  gboolean change_cma =
+      GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_cma"));
+  struct cma_parameter parameter;
+
+  /* If this is not the change button but the select cities button. */
+  if (!change_cma) {
+    gtk_clist_unselect_all(GTK_CLIST(city_list));
+
+    for (i = 0; i < GTK_CLIST(city_list)->rows; i++) {
+      struct city *pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
+      int controlled = cma_is_city_under_agent(pcity, &parameter);
+      int select = 0;
+
+      if (index == CMA_CUSTOM && controlled
+	  && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+	select = 1;
+      } else if (index == CMA_NONE && !controlled) {
+	select = 1;
+      } else if (index >= 0 && controlled &&
+		 cma_are_parameter_equal(&parameter,
+					 cmafec_preset_get_parameter(index))) {
+	select = 1;
+      }
+      if (select) {
+	gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
+      }
+    }
+  } else {
+    GList *selection = GTK_CLIST(city_list)->selection;
+    GList *copy = NULL;
+
+    g_assert(selection);
+
+    /* must copy the list as refresh_city_dialog() corrupts the selection */
+    for (; selection; selection = g_list_next(selection)) {
+      copy = g_list_append(copy, city_from_glist(selection));
+    }
+
+    for (; copy; copy = g_list_next(copy)) {
+      struct city *pcity = copy->data;
+
+      if (index == CMA_NONE) {
+	cma_release_city(pcity);
+      } else {
+	cma_put_city_under_agent(pcity, cmafec_preset_get_parameter(index));
+      }
+      refresh_city_dialog(pcity);
+    }
+
+    g_list_free(copy);
+  }
+}
+
+/****************************************************************
+ Create the cma entries in the change menu and the select menu. The
+ indices CMA_NONE (aka -1) and CMA_CUSTOM (aka -2) are
+ special. CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
+ "custom" preset.
+*****************************************************************/
+static void append_cma_to_menu(GtkWidget * menu, gboolean change_cma)
+{
+  int i;
+  struct cma_parameter parameter;
+  GtkWidget *w;
+
+  if (change_cma) {
+    for (i = -1; i < cmafec_preset_num(); i++) {
+      w = (i == -1 ? gtk_menu_item_new_with_label(_("none"))
+	   : gtk_menu_item_new_with_label(cmafec_preset_get_descr(i)));
+      gtk_menu_append(GTK_MENU(menu), w);
+      gtk_signal_connect(GTK_OBJECT(w), "activate", select_cma_callback,
+			 GINT_TO_POINTER(i));
+    }
+  } else {
+    /* search for a "none" */
+    int found;
+
+    found = 0;
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      if (!cma_is_city_under_agent(pcity, NULL)) {
+	found = 1;
+	break;
+      }
+    } city_list_iterate_end;
+
+    if (found) {
+      w = gtk_menu_item_new_with_label(_("none"));
+      gtk_menu_append(GTK_MENU(menu), w);
+      gtk_signal_connect(GTK_OBJECT(w), "activate", select_cma_callback,
+			 GINT_TO_POINTER(CMA_NONE));
+    }
+
+    /* 
+     * Search for a city that's under custom (not preset) agent. Might
+     * take a lonnggg time.
+     */
+    found = 0;
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      if (cma_is_city_under_agent(pcity, &parameter) &&
+	  cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+	found = 1;
+	break;
+      }
+    } city_list_iterate_end;
+
+    if (found) {
+      /* we found city that's under agent but not a preset */
+      w = gtk_menu_item_new_with_label(_("custom"));
+
+      gtk_menu_append(GTK_MENU(menu), w);
+      gtk_signal_connect(GTK_OBJECT(w), "activate",
+			 select_cma_callback, GINT_TO_POINTER(CMA_CUSTOM));
+    }
+
+    /* only fill in presets that are being used. */
+    for (i = 0; i < cmafec_preset_num(); i++) {
+      found = 0;
+      city_list_iterate(game.player_ptr->cities, pcity) {
+	if (cma_is_city_under_agent(pcity, &parameter) &&
+	    cma_are_parameter_equal(&parameter,
+				    cmafec_preset_get_parameter(i))) {
+	  found = 1;
+	  break;
+	}
+      } city_list_iterate_end;
+      if (found) {
+	w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
+
+	gtk_menu_append(GTK_MENU(menu), w);
+	gtk_signal_connect(GTK_OBJECT(w), "activate", select_cma_callback,
+			   GINT_TO_POINTER(i));
+      }
+    }
+  }
+
+  gtk_object_set_data(GTK_OBJECT(menu), "freeciv_change_cma",
+		      GINT_TO_POINTER(change_cma));
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static gint 
 city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 {
   static GtkWidget* menu = NULL;
+  GtkWidget* submenu = NULL;
+  GtkWidget* item;
   GdkEventButton *bevent = (GdkEventButton *)event;
+
   
   if ( event->type != GDK_BUTTON_PRESS )
     return FALSE;
@@ -349,6 +502,15 @@ city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   
   menu=gtk_menu_new();
   
+  item=gtk_menu_item_new_with_label( _("CMA") );
+  gtk_menu_append(GTK_MENU(menu), item);
+  submenu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+  append_cma_to_menu(submenu, TRUE);
+
+  /* Add a separator */
+  gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());
+
   append_impr_or_unit_to_menu(menu, TRUE, TRUE, TRUE, 
 			     city_can_build_impr_or_unit);
 
@@ -657,6 +819,12 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 
   /* Add a separator */
   gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());  
+
+  item=gtk_menu_item_new_with_label( _("CMA") );
+  gtk_menu_append(GTK_MENU(menu),item);  
+  submenu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+  append_cma_to_menu(submenu, FALSE);
 
   item=gtk_menu_item_new_with_label( _("Supported Units") );
   gtk_menu_append(GTK_MENU(menu),item);  

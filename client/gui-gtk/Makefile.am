@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LIBRARIES = libguiclient.a
-INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
+INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl -I$(srcdir)/../agents @CLIENT_CFLAGS@
 
 ## Above, note -I../../intl instead of -I$(top_srdir/intl) is deliberate.
 # The INCLUDES "-I." is so resources.c includes the locally generated 
@@ -28,6 +28,8 @@ libguiclient_a_SOURCES = \
 	citydlg.h	\
 	cityrep.c	\
 	cityrep.h	\
+	cma_fe.c	\
+	cma_fe.h	\
 	colors.c	\
 	colors.h	\
 	connectdlg.c	\
@@ -74,4 +76,5 @@ libguiclient_a_SOURCES = \
 	spaceshipdlg.c	\
 	spaceshipdlg.h  \
 	wldlg.c		\
-	wldlg.h
+	wldlg.h	
+

@@ -28,6 +28,7 @@
 #include "version.h"
 
 #include "chatline_g.h"
+#include "cma_fec.h"
 #include "cityrepdata.h"
 
 #include "options.h"
@@ -164,7 +165,13 @@ const char *message_text[E_LAST]={
   N_("Learned New Government"),	     /* E_NEW_GOVERNMENT */
   N_("City Nuked"),                  /* E_CITY_NUKED */
   N_("Messages from the Server Operator"), /* E_MESSAGE_WALL*/
+  N_("City Released from CMA"),      /* E_CITY_CMA_RELEASE */
 };
+
+static void save_cma_preset(struct section_file *file, char *name,
+			    const struct cma_parameter *const pparam,
+			    int inx);
+static void load_cma_preset(struct section_file *file, int inx);
 
 /**************************************************************************
   Comparison function for qsort; i1 and i2 are pointers to integers which
@@ -252,7 +259,7 @@ void load_options(void)
   struct section_file sf;
   const char * const prefix = "client";
   char *name;
-  int i;
+  int i, num;
   client_option *o;
   view_option *v;
 
@@ -277,11 +284,21 @@ void load_options(void)
       secfile_lookup_int_default(&sf, messages_where[i],
 				 "%s.message_where_%02d", prefix, i);
   }
-  for (i=1; i<num_city_report_spec(); i++) {
+  for (i = 1; i < num_city_report_spec(); i++) {
     int *ip = city_report_spec_show_ptr(i);
     *ip = secfile_lookup_int_default(&sf, *ip, "%s.city_report_%s", prefix,
 				     city_report_spec_tagname(i));
   }
+
+  /* 
+   * Load cma presets. If cma.number_of_presets doesn't exist, don't
+   * load any, the order here should be reversed to keep the order the
+   * same */
+  num = secfile_lookup_int_default(&sf, 0, "cma.number_of_presets");
+  for (i = num - 1; i >= 0; i--) {
+    load_cma_preset(&sf, i);
+  }
+ 
   /* avoid warning for unused: */
   section_file_lookup(&sf, "client.flags_are_transparent");
   section_file_lookup(&sf, "client.version");
@@ -329,6 +346,16 @@ void save_options(void)
 		       city_report_spec_tagname(i));
   }
 
+  /* insert cma presets */
+  secfile_insert_int_comment(&sf, cmafec_preset_num(),
+			     _("If you add a preset by "
+			       "hand, also update \"number_of_presets\""),
+			     "cma.number_of_presets");
+  for (i = 0; i < cmafec_preset_num(); i++) {
+    save_cma_preset(&sf, cmafec_preset_get_descr(i),
+		    cmafec_preset_get_parameter(i), i);
+  }
+
   /* save to disk */
   if (!section_file_save(&sf, name, 0)) {
     my_snprintf(output_buffer, sizeof(output_buffer),
@@ -340,4 +367,55 @@ void save_options(void)
 
   append_output_window(output_buffer);
   section_file_free(&sf);
+}
+
+/****************************************************************
+ Does heavy lifting for looking up a preset.
+*****************************************************************/
+static void load_cma_preset(struct section_file *file, int inx)
+{
+  struct cma_parameter parameter;
+  char *name;
+  int i;
+
+  name = secfile_lookup_str_default(file, "preset", 
+				    "cma.preset%d.name", inx);
+  for (i = 0; i < NUM_STATS; i++) {
+    parameter.minimal_surplus[i] =
+	secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", inx, i);
+    parameter.factor[i] =
+	secfile_lookup_int_default(file, 0, "cma.preset%d.factor%d", inx, i);
+  }
+  parameter.require_happy =
+      secfile_lookup_int_default(file, 0, "cma.preset%d.reqhappy", inx);
+  parameter.factor_target =
+      secfile_lookup_int_default(file, 0, "cma.preset%d.factortarget", inx);
+  parameter.happy_factor =
+      secfile_lookup_int_default(file, 0, "cma.preset%d.happyfactor", inx);
+
+  cmafec_preset_add(name, &parameter);
+}
+
+/****************************************************************
+ Does heavy lifting for inserting a preset.
+*****************************************************************/
+static void save_cma_preset(struct section_file *file, char *name,
+			    const struct cma_parameter *const pparam,
+			    int inx)
+{
+  int i;
+
+  secfile_insert_str(file, name, "cma.preset%d.name", inx);
+  for (i = 0; i < NUM_STATS; i++) {
+    secfile_insert_int(file, pparam->minimal_surplus[i],
+		       "cma.preset%d.minsurp%d", inx, i);
+    secfile_insert_int(file, pparam->factor[i],
+		       "cma.preset%d.factor%d", inx, i);
+  }
+  secfile_insert_int(file, pparam->require_happy,
+		     "cma.preset%d.reqhappy", inx);
+  secfile_insert_int(file, pparam->factor_target,
+		     "cma.preset%d.factortarget", inx);
+  secfile_insert_int(file, pparam->happy_factor,
+		     "cma.preset%d.happyfactor", inx);
 }

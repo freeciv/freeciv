@@ -113,17 +113,19 @@ EXTRA_DIST = gui-mui/autogroupclass.c         		gui-mui/autogroupclass.h        
 @MAKE_CLIENT_INCLUDE_TRUE@CLI_INCLUDE = include
 @MAKE_CLIENT_INCLUDE_FALSE@CLI_INCLUDE = 
 
-SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE)
+SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl
+INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl -I$(srcdir)/agents
 
 civclient_SOURCES =  	attribute.h		attribute.c		citydlg_common.c 	citydlg_common.h 	cityrepdata.c		cityrepdata.h		civclient.c		civclient.h		climisc.c		climisc.h		clinet.c		clinet.h		control.c		control.h		goto.c			goto.h			helpdata.c		helpdata.h		mapview_common.c 	mapview_common.h 	packhand.c		packhand.h		options.c		options.h		tilespec.c		tilespec.h
 
 
-civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a
-civclient_LDADD = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@
+civclient_DEPENDENCIES = @gui_sources@/libguiclient.a 	../common/libcivcommon.a agents/libagents.a
+
+civclient_LDADD = @gui_sources@/libguiclient.a 	../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a 	../common/libcivcommon.a @CLIENT_LIBS@ agents/libagents.a
+
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -151,9 +153,9 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
-DIST_SUBDIRS =  gui-gtk gui-xaw gui-stub gui-win32 include
+DIST_SUBDIRS =  gui-gtk gui-xaw gui-stub gui-win32 include agents
 DEP_FILES =  .deps/attribute.P .deps/citydlg_common.P \
 .deps/cityrepdata.P .deps/civclient.P .deps/climisc.P .deps/clinet.P \
 .deps/control.P .deps/goto.P .deps/helpdata.P .deps/mapview_common.P \

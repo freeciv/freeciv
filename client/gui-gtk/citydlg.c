@@ -27,7 +27,6 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
-#include "happiness.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -36,6 +35,8 @@
 #include "support.h"
 
 #include "cityrep.h"
+#include "cma_fe.h"
+#include "cma_fec.h" 
 #include "colors.h"
 #include "control.h"
 #include "clinet.h"
@@ -43,6 +44,7 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "happiness.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
@@ -75,7 +77,8 @@ int MINI_NUM_UNITS;
 
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
-#define NUM_PAGES 7	/* the number of pages in city dialog notebook (+1) */
+#define NUM_PAGES 8		/* the number of pages in city dialog
+				   notebook (+1) */
 #define NUM_INFO_FIELDS 10	/* number of fields in city_info */
 
 int citydialog_width, citydialog_height, support_frame_width,
@@ -146,12 +149,16 @@ struct city_dialog {
     int present_unit_pos;
   } unit;
 
+  struct worklist_editor *wl_editor;
+
   struct {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *widget;
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } happiness;
+
+  struct cma_dialog *cma_editor;
 
   struct {
     GtkWidget *rename_command;
@@ -164,7 +171,6 @@ struct city_dialog {
   GtkWidget *buy_shell, *sell_shell;
   GtkWidget *change_shell, *change_list;
   GtkWidget *rename_shell, *rename_input;
-  struct worklist_editor *wl_editor;
 
   GtkWidget *prev_command, *next_command;
 
@@ -204,6 +210,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog);
 static void create_and_append_units_page(struct city_dialog *pdialog);
 static void create_and_append_worklist_page(struct city_dialog *pdialog);
 static void create_and_append_happiness_page(struct city_dialog *pdialog);
+static void create_and_append_cma_page(struct city_dialog *pdialog);
 static void create_and_append_trade_page(struct city_dialog *pdialog);
 static void create_and_append_misc_page(struct city_dialog *pdialog);
 
@@ -394,6 +401,7 @@ void refresh_city_dialog(struct city *pcity)
 
     update_worklist_editor(pdialog->wl_editor);
     refresh_happiness_dialog(pdialog->pcity);
+    refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
 
     gtk_widget_set_sensitive(pdialog->unit.activate_command,
 			     have_present_units);
@@ -1110,8 +1118,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   pdialog->wl_editor =
       create_worklist_editor(pdialog->pcity->worklist, pdialog->pcity,
-			     (void *) pdialog, commit_city_worklist, NULL,
-			     1);
+			     (void *) pdialog, commit_city_worklist, NULL, 1);
   gtk_signal_connect(GTK_OBJECT(pdialog->shell), "key_press_event",
 		     GTK_SIGNAL_FUNC(pdialog->wl_editor->keyboard_handler),
 		     pdialog->wl_editor);
@@ -1175,6 +1182,28 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 }
 
 /****************************************************************
+            **** Citizen Management Agent (CMA) Page ****
+*****************************************************************/
+static void create_and_append_cma_page(struct city_dialog *pdialog)
+{
+  GtkWidget *page, *label;
+  char *tab_title = _("CM_A");
+
+  page = gtk_vbox_new(FALSE, 0);
+
+  label = gtk_label_new(tab_title);
+  notebook_tab_accels[CMA_PAGE] =
+      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
+
+  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
+
+  pdialog->cma_editor = create_cma_dialog(pdialog->pcity);
+  gtk_box_pack_start(GTK_BOX(page), pdialog->cma_editor->shell, TRUE, TRUE, 0);
+
+  gtk_widget_show(page);
+}
+
+/****************************************************************
                        **** Trade Page **** 
 *****************************************************************/
 static void create_and_append_trade_page(struct city_dialog *pdialog)
@@ -1231,7 +1260,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("Units page"),
     N_("Worklist page"),
     N_("Happiness page"),
-    /* N_("CMA page"), */
+    N_("CMA page"), 
     N_("Trade Routes page"),
     N_("This Misc. Settings page"),
     N_("Last active page")
@@ -1470,7 +1499,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
     create_and_append_happiness_page(pdialog);
 
-    /* create_and_append_cma_page(pdialog); coming soon? */
+    create_and_append_cma_page(pdialog);
 
   }
 
@@ -1479,8 +1508,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   if (pcity->owner == game.player_idx) {
     create_and_append_misc_page(pdialog);
   } else {
-    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook),
-			  new_dialog_def_page);
+    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook), OVERVIEW_PAGE);
   }
 
   gtk_signal_connect(GTK_OBJECT(pdialog->notebook), "switch-page",
@@ -1608,7 +1636,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap), TRUE);
 
-  i = 0;			/* tracks the # of the citizen we are currently placing. */
+  i = 0;	/* tracks the # of the citizen we are currently placing. */
   for (n = 0; n < pcity->ppl_happy[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
 		       get_citizen_sprite(5 + i % 2), i * width, 0, TRUE);
@@ -1641,8 +1669,9 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
 		       get_citizen_sprite(2), i * width, 0, TRUE);
   }
+/*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
+/*                           !cma_is_city_under_agent(pcity, NULL));*/
 }
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -1652,15 +1681,15 @@ static void city_dialog_update_information(struct city_dialog *pdialog)
   char buf[NUM_INFO_FIELDS][512];
   struct city *pcity = pdialog->pcity;
   int granaryturns;
-  enum { FOOD, PROD, TRADE, GOLD, LUXURY, SCIENCE,
-    GRANARY, GROWTH, CORRUPTION, POLLUTION
+  enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, 
+	 GRANARY, GROWTH, CORRUPTION, POLLUTION 
   };
 
   /* fill the buffers with the necessary info */
 
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
 	      pcity->food_prod, pcity->food_surplus);
-  my_snprintf(buf[PROD], sizeof(buf[PROD]), "%2d (%+2d)",
+  my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
 	      pcity->shield_prod, pcity->shield_surplus);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->trade_prod + pcity->corruption, pcity->trade_prod);
@@ -1849,6 +1878,14 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 
   /* draw to real window */
   draw_map_canvas(pdialog);
+
+  if(cma_is_city_under_agent(pdialog->pcity, NULL)) {
+    gtk_widget_set_sensitive(pdialog->overview.map_canvas, FALSE);
+    gtk_widget_set_sensitive(pdialog->happiness.map_canvas, FALSE);
+  } else {
+    gtk_widget_set_sensitive(pdialog->overview.map_canvas, TRUE);
+    gtk_widget_set_sensitive(pdialog->happiness.map_canvas, TRUE);
+  }
 }
 
 /****************************************************************
@@ -3548,6 +3585,7 @@ static void close_city_dialog(struct city_dialog *pdialog)
       commit_worklist(pdialog->wl_editor);
     }
     close_happiness_dialog(pdialog->pcity);
+    close_cma_dialog(pdialog->pcity);
   }
 
   citydialog_height = pdialog->shell->allocation.height;
@@ -3556,7 +3594,7 @@ static void close_city_dialog(struct city_dialog *pdialog)
   last_page =
       gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
 
-  /* else this will be called 5 times as the pages are destroyed */
+  /* else this will be called NUM_PAGES times as the pages are destroyed */
 
   gtk_signal_disconnect_by_func(GTK_OBJECT(pdialog->notebook),
 				GTK_SIGNAL_FUNC(switch_page_callback),
@@ -3682,12 +3720,13 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 
   pdialog->pcity = new_pcity;
 
-  /* reinitialize worklist and happiness dialogs */
+  /* reinitialize happiness, worklist, and cma dialogs */
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->wl_editor->pcity = new_pcity;
   pdialog->wl_editor->pwl = new_pcity->worklist;
   pdialog->wl_editor->user_data = (void *) pdialog;
+  pdialog->cma_editor->pcity = new_pcity;
 
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */

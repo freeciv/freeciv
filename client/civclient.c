@@ -60,6 +60,7 @@
 #include "repodlgs_g.h"
 #include "tilespec.h"
 #include "attribute.h"
+#include "agents.h"
 
 #include "civclient.h"
 
@@ -176,6 +177,7 @@ int main(int argc, char *argv[])
   init_our_capability();
   game_init();
   attribute_init();
+  agents_init();
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */

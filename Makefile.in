@@ -126,7 +126,7 @@ install-sh missing mkinstalldirs undep.sh.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
+TAR = gtar
 GZIP_ENV = --best
 DIST_SUBDIRS =  data intl common ai server client po doc
 all: all-redirect
