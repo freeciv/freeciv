@@ -1765,24 +1765,21 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int i, j = 0, refresh = FALSE;
+  LONG i, j = 0, refresh = FALSE, imprv;
 
-  for (i = 0; i < B_LAST; ++i)
+  for (i = 0; i < B_LAST && !refresh; ++i)
   {
-    if (pdialog->pcity->improvements[i])
+    if(pdialog->pcity->improvements[i])
     {
-      LONG imprv;
-
-      DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j, &imprv);
-      if (!imprv)
+      DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j++, &imprv);
+      if(!imprv || imprv - 1 != i)
 	refresh = TRUE;
-      else if (imprv - 1 != i)
-	refresh = TRUE;
-      j++;
     }
   }
+  /* check the case for to much improvements in list */
+  DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, j, &imprv);
 
-  if (refresh)
+  if(refresh || imprv)
   {
     set(pdialog->imprv_listview, MUIA_NList_Quiet, TRUE);
     DoMethod(pdialog->imprv_listview, MUIM_NList_Clear);

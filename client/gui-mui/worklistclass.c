@@ -90,7 +90,7 @@ char *get_improvement_info(int id, struct city *pcity)
     if (game.global_wonders[id])
       return "Built";
     if (wonder_obsolete(id))
-      return "Obsolette";
+      return "Obsolete";
     return "Wonder";
   }
   return "";
