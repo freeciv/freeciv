@@ -2,9 +2,8 @@
 Willkommen bei Freeciv 1.12
 ===========================
 
-Stand: 04.07.01
+Stand: 06.08.01
 
-Erneut Dank an alle unsere Entwickler für die harte Arbeit.
 
 Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
 Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
@@ -12,9 +11,9 @@ sollten einen Blick in die ChangeLog Datei werfen.
 
 ÄNDERUNGEN SEIT VERSION 1.11.4
 
- - Mehrsprachigkeit verbessert. Weitere Verbesserungen sind nötig.
+ - Mehrsprachigkeit erweitert. Weitere Verbesserungen sind nötig.
    Gegenwärtige Übersetzungen: de en_GB es fr hu it ja nl no pl pt 
-   pt_BR ru sv.
+   pt_BR ro ru sv.
  - Isometrische Ansicht im GTK- und Amiga-Client mit dem weitgehend
    Civ 2-kompatiblen HiRes Tileset. Dies ist standardmäßig eingeschal-
    tet, aber die alte nichtisometrische Darstellung ist weiterhin ver-
@@ -33,7 +32,7 @@ sollten einen Blick in die ChangeLog Datei werfen.
    zeigt werden. Z.B. kann man wählen, das Straßen nicht angezeigt 
    werden.
  - Der Server prüft die verbundenen Clients, und trennt die Verbindung
-   zu denen, die nicht antworten.
+   zu denen, die nicht rechtzeitig antworten.
  - Geschicktere Plazierung der Partisanen.
  - Der Server startet nicht mehr automatisch, wenn die Höchstzahl der
    Spieler erreicht ist.
@@ -214,3 +213,4 @@ sollten einen Blick in die ChangeLog Datei werfen.
 
 Die ÄNDERUNGEN für die VERSIONEN 1.9.0 bis 1.6.3 finden Sie auf Englisch
 in der Datei NEWS.
+
