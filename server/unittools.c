@@ -1420,6 +1420,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 {
   struct player *pplayer = unit_owner(punit);
   int range;
+  int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
 
   /* save old vision range */
   if (map_has_special(punit->x, punit->y, S_FORTRESS)
@@ -1428,15 +1429,15 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
   else
     range = unit_type(punit)->vision_range;
 
+  punit->type = to_unit;
+
   /* Scale HP and MP, rounding down.  Be careful with integer arithmetic,
-   * and don't kill the unit. */
-  punit->hp = MAX(punit->hp * get_unit_type(to_unit)->hp
-		  / unit_type(punit)->hp, 1);
-  punit->moves_left = (punit->moves_left * get_unit_type(to_unit)->move_rate
-		       / unit_type(punit)->move_rate);
+   * and don't kill the unit.  unit_move_rate is used to take into account
+   * global effects like Magellan's Expedition. */
+  punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
+  punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
 
   conn_list_do_buffer(&pplayer->connections);
-  punit->type = to_unit;
 
   /* apply new vision range */
   if (map_has_special(punit->x, punit->y, S_FORTRESS)
