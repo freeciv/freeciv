@@ -72,15 +72,28 @@ enum city_tile_type {
     ITERATOR_NEXT(myiter); 
 #define city_list_iterate_end }}
 
+#ifndef __AITOOLS_H
+
+struct ai_choice {
+  int choice;            /* what the advisor wants */
+  int want;              /* how bad it wants it (0-100) */
+  int type;              /* unit/building or other depending on question */
+};
+
+#endif
 
 struct ai_city {
   int workremain;
   int ai_role;
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST]; /* not sure these will always be < 256 */
-  int danger; /* eight miles better than calculating it twice */
+  int danger; /* danger to be compared to assess_defense */
+  int wallvalue; /* how much it helps for defenders to be ground units */
   int trade_want; /* saves a zillion calculations */
-  unsigned char grave_danger; /* time for the panic button */
+  struct unit *grave_danger; /* time for the panic button */
+  struct ai_choice choice; /* to spend gold in the right place only */
+  int downtown; /* distance from neighbours, for locating wonders wisely */
+  int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
 };
 
 struct city {
