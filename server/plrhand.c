@@ -930,6 +930,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->is_alive=secfile_lookup_int(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_int(file, "player%d.ai.control", plrno);
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
+  plr->ai.handicap = 0; /* might want to put this in save file?? -- Syela */
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);

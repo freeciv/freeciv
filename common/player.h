@@ -34,6 +34,19 @@ enum race_type {
 
 enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};
 
+enum handicap_type {
+  H_NONE=0, /* no handicaps */
+  H_RIGIDPROD=1, /* can't switch to/from building_unit without penalty */
+  H_MAP=2, /* only knows map_get_known tiles */
+  H_TECH=4, /* doesn't know what enemies have researched */
+  H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */
+  H_CITYUNITS=16, /* doesn't know what units are in enemy cities */
+  H_STACKS=32, /* doesn't know what units are in stacks */
+  H_VETERAN=64, /* doesn't know veteran status of enemy units */
+  H_SUB=128, /* doesn't know where subs may be lurking */
+/* anything else I have forgotten?  Let me know. -- Syela */
+};
+
 struct player_race {
   char name[MAX_LENGTH_NAME];
   char name_plural[MAX_LENGTH_NAME];
@@ -92,6 +105,7 @@ struct player_ai {
   int maxbuycost;
   int tech_want[A_LAST];
   int tech_turns[A_LAST]; /* saves zillions of calculations! */
+  int handicap;
 };
 
 struct player {
