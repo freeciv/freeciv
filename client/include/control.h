@@ -13,9 +13,7 @@
 #ifndef FC__CONTROL_H
 #define FC__CONTROL_H
 
-#ifndef FC__PACKETS_H
 #include "packets.h"
-#endif
 
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_nuke(struct unit *punit);

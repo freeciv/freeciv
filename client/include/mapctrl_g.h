@@ -13,9 +13,7 @@
 #ifndef FC__MAPCTRL_G_H
 #define FC__MAPCTRL_G_H
 
-#ifndef FC__UNIT_H
-#include "unit.h"
-#endif
+struct unit;
 
 void popup_newcity_dialog(struct unit *punit, char *suggestname);
 
