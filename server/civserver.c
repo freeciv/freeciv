@@ -221,10 +221,12 @@ int main(int argc, char *argv[])
   /* load a saved game */
   
   if(load_filename) {
+    clock_t loadtime;
     struct section_file file;
-    printf("loading game: %s\n", load_filename);
+    log(LOG_NORMAL,"Loading saved game: %s", load_filename);
+    loadtime = clock();
     if(!section_file_load(&file, load_filename)) { 
-      log(LOG_FATAL, "couldn't load savefile: %s", load_filename);
+      log(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
       exit(1);
     }
     if (game_load(&file)) {
@@ -236,6 +238,8 @@ int main(int argc, char *argv[])
       while(is_id_allocated(global_id_counter++));
     } else 
       section_file_free(&file);
+    loadtime = clock() - loadtime;
+    log(LOG_DEBUG,"Load time: %g seconds", (float)loadtime/CLOCKS_PER_SEC);
   }
   
   /* init network */  
