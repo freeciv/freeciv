@@ -1095,7 +1095,7 @@ static void log_civ_score(void)
 	    {
 	      if (is_barbarian (&(game.players[n])))
 		{
-		  break;
+		  continue;
 		}
 	      fprintf (fp, "%d %s\n", n, game.players[n].name);
 	    }
@@ -1121,7 +1121,7 @@ static void log_civ_score(void)
 	{
 	  if (is_barbarian (&(game.players[n])))
 	    {
-	      break;
+	      continue;
 	    }
 	  switch (i)
 	    {

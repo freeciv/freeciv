@@ -1870,14 +1870,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   
   /* barbarian leader ransom hack */
   if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER) &&
-     (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
-     ransom = (pplayer->economic.gold >= 100)?100:pplayer->economic.gold;
-     notify_player_ex(destroyer, pkiller->x, pkiller->y, E_UNIT_WIN_ATT,
+      (num_killed==1) && (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
+    ransom = (pplayer->economic.gold >= 100)?100:pplayer->economic.gold;
+    notify_player_ex(destroyer, pkiller->x, pkiller->y, E_UNIT_WIN_ATT,
 		     _("Game: Barbarian leader captured, %d gold ransom paid."),
                      ransom);
-     destroyer->economic.gold += ransom;
-     pplayer->economic.gold -= ransom;
-     send_player_info(destroyer,0);   /* let me see my new money :-) */
+    destroyer->economic.gold += ransom;
+    pplayer->economic.gold -= ransom;
+    send_player_info(destroyer,0);   /* let me see my new money :-) */
   }
 
   if( (incity) || 

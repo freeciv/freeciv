@@ -111,20 +111,23 @@ void gamelog_save(void){
   char buf2[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-  for (i=0,count=0;i<game.nplayers;i++,count++) {
-    if (is_barbarian (&(game.players[i]))) break;
-    size[i].value=total_player_citizens(&game.players[i]);
-    size[i].idx=i;
+  for (i=0,count=0;i<game.nplayers;i++) {
+    if (!is_barbarian (&(game.players[i]))) {
+      size[count].value=total_player_citizens(&game.players[i]);
+      size[count].idx=i;
+      count++;
+    }
   }
   qsort(size, count, sizeof(struct player_score_entry), secompare1);
   buffer[0]=0;
   for (i=0;i<count;i++) {
-    sprintf(buf2,"%2d: %s(%i)  ",i+1, get_nation_name_plural(game.players[size[i].idx].nation), size[i].value);
+    sprintf(buf2,
+	    "%2d: %s(%i)  ",
+	    i+1,
+	    get_nation_name_plural(game.players[size[i].idx].nation),
+	    size[i].value);
     strcat(buffer,buf2);
   }
   gamelog(GAMELOG_EOT,buffer);
   free(size);
 }
-
-
-
