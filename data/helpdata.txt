@@ -935,7 +935,7 @@ improvements.
 # Combustion
 ---
 # Communism
-Allows changing government to Communism.
+%% Allows changing government to Communism.
 ---
 # Computers
 ---
@@ -949,7 +949,7 @@ Allows changing government to Communism.
 # Currency
 ---
 # Democracy
-Allows changing government to Democracy.
+%% Allows changing government to Democracy.
 ---
 # Economics
 ---
@@ -970,7 +970,7 @@ Allows changing government to Democracy.
 # Flight
 ---
 # Fundamentalism
-Allows changing government to Fundamentalism (not implemented).
+%% Allows changing government to Fundamentalism (not implemented).
 ---
 # Fusion Power
 ---
@@ -1017,7 +1017,7 @@ Allows changing government to Fundamentalism (not implemented).
 # Mobile Warfare
 ---
 # Monarchy
-Allows changing government to Monarchy.
+%% Allows changing government to Monarchy.
 ---
 # Monotheism
 ---
@@ -1056,7 +1056,7 @@ Allows changing government to Monarchy.
 %% Civ1
 ---
 # The Republic
-Allows changing government to Republic.
+%% Allows changing government to Republic.
 ---
 # Robotics
 ---

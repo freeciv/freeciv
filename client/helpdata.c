@@ -28,6 +28,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -779,8 +780,18 @@ void helptext_unit(char *buf, int i, const char *user_text)
 *****************************************************************/
 void helptext_tech(char *buf, int i, const char *user_text)
 {
+  int gov;
+  
   assert(buf&&user_text);
   strcpy(buf, user_text);
+
+  for(gov=0; gov<game.government_count; gov++) {
+    struct government *g = get_government(gov);
+    if (g->required_tech == i) {
+      sprintf(buf+strlen(buf), _("Allows changing government to %s.\n"),
+	      g->name);
+    }
+  }
   if(tech_flag(i,TF_BONUS_TECH)) {
     sprintf(buf+strlen(buf),
 	    _("The first player to research %s gets an immediate advance.\n"),
