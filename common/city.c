@@ -1016,20 +1016,26 @@ int get_trade_tile(int x, int y, struct city *pcity)
       break;
     }
   }
-  if (gov >=G_REPUBLIC && t)
-    t++; 
+  if (t) {
+    if (spec_t & S_RAILROAD)
+      t+=(t*game.rail_trade)/100;
 
-  if(t && city_affected_by_wonder(pcity, B_COLLOSSUS)) 
-    t++;
-  if (spec_t & S_RAILROAD) {
-    t+=(t*game.rail_trade)/100;
+	/* Civ1 specifically documents that Railroad trade increase is before 
+     * Democracy/Republic bonus  -AJS */
+
+    if (gov >=G_REPUBLIC)
+      t++; 
+
+    if(city_affected_by_wonder(pcity, B_COLLOSSUS)) 
+      t++;
+    if((spec_t&S_ROAD) && city_got_building(pcity, B_SUPERHIGHWAYS))
+      t*=1.5;
+ 
+    if (t>2 && gov <=G_DESPOTISM) 
+      t--;
+    if (spec_t & S_POLLUTION)
+      t=(t+1)/2; /* The trade here is dirty */
   }
-  if((spec_t&S_ROAD) && city_got_building(pcity, B_SUPERHIGHWAYS))
-    t*=1.5;
-  
-  if (t>2 && gov <=G_DESPOTISM) 
-    t--;
-  if (spec_t & S_POLLUTION) t=(t+1)/2; /* The trade here is dirty */
   return t;
 }
 
