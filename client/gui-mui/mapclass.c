@@ -895,6 +895,9 @@ struct Map_Data
   LONG worker_iteratecolor; /* City Workers(7) */
   LONG worker_colors[3];
   LONG worker_colornum;
+
+  /* True if map has been showed at least once, so the scrolling can be optimized */
+  LONG map_shown;
 };
 
 struct NewPosData
@@ -1780,7 +1783,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	{
 	  LONG dx = data->horiz_first - data->old_horiz_first;
 	  LONG dy = data->vert_first - data->old_vert_first;
-	  if (abs(dx) < width && abs(dy) < height)
+	  if (abs(dx) < width && abs(dy) < height && data->map_shown)
 	  {
 	    ScrollRaster(data->map_layer->rp, dx * get_normal_tile_width(), dy * get_normal_tile_height(),
 			 0, 0, _mwidth(o) - 1, _mheight(o) - 1);
@@ -1841,6 +1844,9 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 		for (x = tile_x; x < tile_x + width; x++)
 		  put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
 	    }
+	  } else
+	  {
+	    data->map_shown = TRUE;
 	  }
 	}
       }
@@ -1919,6 +1925,8 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	ReleaseDrawHandle(dh);
       }
     }
+
+    data->map_shown = FALSE;
   }
   return 0;
 }
@@ -2048,6 +2056,9 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
       y /= get_normal_tile_height();
       x += data->horiz_first;
       y += data->vert_first;
+
+      x = map_adjust_x(x);
+      y = map_adjust_y(y);
 
       ptile = map_get_tile(x, y);
 

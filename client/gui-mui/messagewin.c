@@ -115,7 +115,7 @@ HOOKPROTONHNO(mes_construct, struct message_entry *, struct message_entry *entry
     *newentry = *entry;
 
     if ((newentry->message = (char *) AllocVec(len + 1, 0)))
-      sz_strlcpy(newentry->message, entry->message);
+      mystrlcpy(newentry->message, entry->message, len + 1);
   }
   return newentry;
 }
