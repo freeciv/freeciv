@@ -33,6 +33,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
+#include "government.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -92,6 +93,8 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
 
+#define NUM_HAPPINESS_MODIFIERS 5
+enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
 
 
 /******************************************************************
@@ -219,6 +222,8 @@ struct city_dialog
   /* Happines */
   Object *happines_map;
   struct city_info happines_city_info;
+  Object *happiness_citizen_group[NUM_HAPPINESS_MODIFIERS];
+  Object *happiness_citizen_text[NUM_HAPPINESS_MODIFIERS];
 
   /* CMA */
   Object *result_text[10];
@@ -347,6 +352,7 @@ static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
 
 static void refresh_cma_dialog(struct city_dialog *pdialog);
+static void refresh_happiness_dialog(struct city_dialog *pdialog);
 
 static void open_cityopt_dialog(struct city_dialog *pdialog);
 
@@ -443,6 +449,7 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->configure_button, MUIA_Disabled, TRUE);
       } else
       {
+	refresh_happiness_dialog(pdialog);
 	refresh_cma_dialog(pdialog);
       }
     }
@@ -927,7 +934,7 @@ static void city_worklist(struct city_dialog **ppdialog)
 
   if (!pdialog->worklist_wnd)
   {
-    pdialog->worklist_wnd = popup_worklist(pdialog->pcity->worklist,
+    pdialog->worklist_wnd = popup_worklist(&pdialog->pcity->worklist,
     		pdialog->pcity, (void *)pdialog,
     		commit_city_worklist, cancel_city_worklist);
   }
@@ -1539,18 +1546,38 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 */
 	Child, HVSpace, /* Units */
 	Child, HVSpace, /* Worklist */
-	Child, HGroup, /* Happiness */
-	  Child, VGroup,
-	    Child, HorizLineTextObject(_("Happines")),
-	    End,
-	  Child, VGroup,
-	    Child, pdialog->happines_map = MakeCityMap(pcity),
-	    Child, HGroup,
-	      Child, HVSpace,
-	      Child, create_city_info(&pdialog->happines_city_info),
+	Child, VGroup, /* Happiness */
+	  Child, HGroup,
+	    Child, VGroup,
+	      Child, HorizLineTextObject(_("Happiness")),
+	      Child, pdialog->happiness_citizen_group[0] = HGroup,Child,HVSpace,End,
+	      Child, pdialog->happiness_citizen_text[0] = TextObject,End,
+
+	      Child, pdialog->happiness_citizen_group[1] = HGroup,Child,HVSpace,End,
+	      Child, pdialog->happiness_citizen_text[1] = TextObject,End,
+
+	      Child, pdialog->happiness_citizen_group[2] = HGroup,Child,HVSpace,End,
+	      Child, pdialog->happiness_citizen_text[2] = TextObject,End,
+
+	      Child, pdialog->happiness_citizen_group[3] = HGroup,Child,HVSpace,End,
+	      Child, pdialog->happiness_citizen_text[3] = TextObject,End,
+
+	      Child, pdialog->happiness_citizen_group[4] = HGroup,Child,HVSpace,End,
+	      Child, pdialog->happiness_citizen_text[4] = TextObject,End,
+
 	      Child, HVSpace,
 	      End,
+	    Child, VGroup,
+	      Child, VSpace(10),
+	      Child, pdialog->happines_map = MakeCityMap(pcity),
+	      Child, HGroup,
+	        Child, HVSpace,
+	        Child, create_city_info(&pdialog->happines_city_info),
+	        Child, HVSpace,
+	        End,
+	      End,
 	    End,
+	  Child, HVSpace,
 	  End,
 	Child, VGroup, /* CMA Citizen Management Agent */
 
@@ -1791,7 +1818,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
 
-  if (!worklist_is_empty(pcity->worklist)) {
+  if (!worklist_is_empty(&pcity->worklist)) {
     my_snprintf(buf2, sizeof(buf2), _("%s (%s) (worklist)"), buf, descr);
   } else {
     my_snprintf(buf2, sizeof(buf2), "%s (%s)", buf, descr);
@@ -2067,16 +2094,25 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_title(struct city_dialog *pdialog)
 {
+  char *state;
+  if (city_unhappy(pdialog->pcity)) {
+    state = _(" - DISORDER");
+  } else if (city_celebrating(pdialog->pcity)) {
+    state = _(" - celebrating");
+  } else if (city_happy(pdialog->pcity)) {
+    state = _(" - happy");
+  } else state = NULL;
+
   if (pdialog->name_transparentstring)
   {
     set(pdialog->name_transparentstring,MUIA_TransparentString_Contents, pdialog->pcity->name);
-    settextf(pdialog->title_text, _("%s citizens"),
-	     population_to_text(city_population(pdialog->pcity)));
+    settextf(pdialog->title_text, _("%s citizens%s"),
+	     population_to_text(city_population(pdialog->pcity)),state?state:"");
   } else
   {
-    settextf(pdialog->title_text, _("%s - %s citizens"),
+    settextf(pdialog->title_text, _("%s - %s citizens%s"),
 	     pdialog->pcity->name,
-	     population_to_text(city_population(pdialog->pcity)));
+	     population_to_text(city_population(pdialog->pcity)),state?state:"");
   }
 }
 
@@ -2181,6 +2217,230 @@ static void refresh_cma_dialog(struct city_dialog *pdialog)
   set(pdialog->cma_change_button, MUIA_Disabled, !(result.found_a_valid && !controlled));
   set(pdialog->cma_perm_button, MUIA_Disabled, !(result.found_a_valid && !controlled));
   set(pdialog->cma_release_button, MUIA_Disabled, !controlled);
+}
+
+/****************************************************************
+ Refreshed the CMA
+*****************************************************************/
+static void refresh_happiness_dialog(struct city_dialog *pdialog)
+{
+  char buf[512], *bptr = buf;
+  int nleft = sizeof(buf);
+  int i;
+
+  struct city *pcity = pdialog->pcity;
+  struct player *pplayer = &game.players[pcity->owner];
+  struct government *g = get_gov_pcity(pcity);
+  int cities = city_list_size(&pplayer->cities);
+  int content = game.unhappysize;
+  int basis = game.cityfactor + g->empire_size_mod;
+  int step = g->empire_size_inc;
+  int excess = cities - basis;
+  int penalty = 0;
+
+  int faces;
+  int mlmax = g->martial_law_max;
+
+  /* CITIES */
+  if (excess > 0) {
+    if (step > 0)
+      penalty = 1 + (excess - 1) / step;
+    else
+      penalty = 1;
+  } else {
+    excess = 0;
+    penalty = 0;
+  }
+
+  my_snprintf(bptr, nleft,
+	      _("Cities: %d total, %d over threshold of %d cities.\n"),
+	      cities, excess, basis);
+  bptr = end_of_strn(bptr, &nleft);
+
+  my_snprintf(bptr, nleft, _("%d content before penalty with "), content);
+  bptr = end_of_strn(bptr, &nleft);
+  my_snprintf(bptr, nleft, _("%d additional unhappy citizens."), penalty);
+  bptr = end_of_strn(bptr, &nleft);
+
+  settext(pdialog->happiness_citizen_text[0], buf);
+
+  /* LUXURY */
+  my_snprintf(bptr, nleft, _("Luxury: %d total (maximum %d usable). "),
+	      pcity->luxury_total, 2 * pcity->size);
+
+  settext(pdialog->happiness_citizen_text[1], buf);
+
+
+  /* BUILDINGS */
+  faces = 0;
+  bptr = buf;
+  nleft = sizeof(buf);
+  my_snprintf(bptr, nleft, _("Buildings: "));
+  bptr = end_of_strn(bptr, &nleft);
+
+  if (city_got_building(pcity, B_TEMPLE)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_TEMPLE));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_COURTHOUSE));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_got_building(pcity, B_COLOSSEUM)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_COLOSSEUM));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  /* hack for eliminating gtk_set_line_wrap() -mck */
+  if (faces > 2) {
+    /* sizeof("Buildings: ") */
+    my_snprintf(bptr, nleft, _("\n              "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_got_effect(pcity, B_CATHEDRAL)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_CATHEDRAL));
+    bptr = end_of_strn(bptr, &nleft);
+    if (!city_got_building(pcity, B_CATHEDRAL)) {
+      my_snprintf(bptr, nleft, _("("));
+      bptr = end_of_strn(bptr, &nleft);
+      my_snprintf(bptr, nleft, get_improvement_name(B_MICHELANGELO));
+      bptr = end_of_strn(bptr, &nleft);
+      my_snprintf(bptr, nleft, _(")"));
+      bptr = end_of_strn(bptr, &nleft);
+    }
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+
+  if (faces == 0) {
+    my_snprintf(bptr, nleft, _("None. "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+
+  settext(pdialog->happiness_citizen_text[2], buf);
+
+
+  /* UNITS */
+  bptr = buf;
+  nleft = sizeof(buf);
+  my_snprintf(bptr, nleft, _("Units: "));
+  bptr = end_of_strn(bptr, &nleft);
+
+  if (mlmax > 0) {
+    my_snprintf(bptr, nleft, _("Martial law in effect ("));
+    bptr = end_of_strn(bptr, &nleft);
+
+    if (mlmax == 100)
+      my_snprintf(bptr, nleft, _("no maximum, "));
+    else
+      my_snprintf(bptr, nleft, PL_("%d unit maximum, ",
+				   "%d units maximum", mlmax), mlmax);
+    bptr = end_of_strn(bptr, &nleft);
+
+    my_snprintf(bptr, nleft, _("%d per unit). "), g->martial_law_per);
+  } else {
+    my_snprintf(bptr, nleft,
+		_("Military units in the field may cause unhappiness. "));
+  }
+
+  settext(pdialog->happiness_citizen_text[3], buf);
+
+  /* WONDERS */
+  faces = 0;
+  bptr = buf;
+  nleft = sizeof(buf);
+
+  my_snprintf(bptr, nleft, _("Wonders: "));
+  bptr = end_of_strn(bptr, &nleft);
+
+  if (city_affected_by_wonder(pcity, B_HANGING)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_HANGING));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_affected_by_wonder(pcity, B_BACH)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_BACH));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  /* hack for eliminating gtk_set_line_wrap() -mck */
+  if (faces > 1) {
+    /* sizeof("Wonders: ") */
+    my_snprintf(bptr, nleft, _("\n              "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_SHAKESPEARE));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+  if (city_affected_by_wonder(pcity, B_CURE)) {
+    faces++;
+    my_snprintf(bptr, nleft, get_improvement_name(B_CURE));
+    bptr = end_of_strn(bptr, &nleft);
+    my_snprintf(bptr, nleft, _(". "));
+    bptr = end_of_strn(bptr, &nleft);
+  }
+
+  if (faces == 0) {
+    my_snprintf(bptr, nleft, _("None. "));
+  }
+
+  settext(pdialog->happiness_citizen_text[4], buf);
+
+  /* the citizen's */
+  for(i=0;i<5;i++)
+  {
+    int j;
+    int n1 = pcity->ppl_happy[i];
+    int n2 = n1 + pcity->ppl_content[i];
+    int n3 = n2 + pcity->ppl_unhappy[i];
+    int n4 = n3 + pcity->ppl_elvis;
+    int n5 = n4 + pcity->ppl_scientist;
+    int num_citizens = pcity->size;
+
+    DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_InitChange);
+    DisposeAllChilds(pdialog->happiness_citizen_group[i]);
+
+    for (j = 0; j < num_citizens; j++) {
+      int citizen_type;
+      Object *obj;
+      if (j < n1)
+        citizen_type = 5 + j % 2;
+      else if (j < n2)
+        citizen_type = 3 + j % 2;
+      else if (j < n3)
+        citizen_type = 7 + j % 2;
+      else if (j < n4)
+        citizen_type = 0;
+      else if (j < n5)
+        citizen_type = 1;
+      else
+        citizen_type = 2;
+
+      if ((obj = MakeSprite(get_citizen_sprite(citizen_type))))
+      {
+	DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, obj);
+      }
+    }
+    DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, HVSpace);
+    DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_ExitChange);
+  }
 }
 
 /****************************************************************
