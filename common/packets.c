@@ -3882,7 +3882,7 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr=put_uint8(cptr, packet->min_dist_bw_cities);
   cptr=put_uint8(cptr, packet->init_vis_radius_sq);
   cptr=put_uint8(cptr, packet->hut_overflight);
-  cptr=put_uint8(cptr, packet->pillage_select);
+  cptr=put_bool8(cptr, packet->pillage_select);
   cptr=put_uint8(cptr, packet->nuke_contamination);
   cptr=put_uint8(cptr, packet->granary_food_ini);
   cptr=put_uint8(cptr, packet->granary_food_inc);
@@ -3916,7 +3916,7 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->min_dist_bw_cities);
   iget_uint8(&iter, &packet->init_vis_radius_sq);
   iget_uint8(&iter, &packet->hut_overflight);
-  iget_uint8(&iter, &packet->pillage_select);
+  iget_bool8(&iter, &packet->pillage_select);
   iget_uint8(&iter, &packet->nuke_contamination);
   iget_uint8(&iter, &packet->granary_food_ini);
   iget_uint8(&iter, &packet->granary_food_inc);

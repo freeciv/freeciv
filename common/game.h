@@ -184,7 +184,7 @@ struct civ_game {
     int min_dist_bw_cities;
     int init_vis_radius_sq;
     int hut_overflight;
-    int pillage_select;
+    bool pillage_select;
     int nuke_contamination;
     int granary_food_ini;
     int granary_food_inc;

@@ -2220,7 +2220,7 @@ static void load_ruleset_game(char *ruleset_subdir)
   }
 
   game.rgame.pillage_select =
-    secfile_lookup_int(&file, "civstyle.pillage_select");
+      secfile_lookup_bool(&file, "civstyle.pillage_select");
 
   sval = secfile_lookup_str(&file, "civstyle.nuke_contamination" );
   if (mystrcasecmp(sval, "Pollution") == 0) {

@@ -168,8 +168,8 @@ struct civ_map {
   int riverlength;
   int forestsize;
   int generator;
-  int tinyisles;
-  int separatepoles;
+  bool tinyisles;
+  bool separatepoles;
   int num_start_positions;
   int fixed_start_positions;
   bool have_specials;
