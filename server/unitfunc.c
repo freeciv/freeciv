@@ -3304,7 +3304,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
       /* Not enough capacity. Take anything we can */
       if ((aircap < capacity || miscap < capacity)
 	  && !(is_ground_unit(ptrans) && ptile->terrain == T_OCEAN)) {
-	/* We first take nonmissiles, as missiles can be transpoted on anything,
+	/* We first take nonmissiles, as missiles can be transported on anything,
 	   but nonmissiles can not */
 	if (!missiles_only) {
 	  unit_list_iterate(ptile->units, pcargo) {
@@ -3312,6 +3312,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	      break;
 	    if (is_air_unit(pcargo)
 		&& pcargo->id != ptrans->id
+		&& pcargo->transported_by != ptrans->id
 		&& !unit_flag(pcargo->type, F_MISSILE)
 		&& pcargo->owner == playerid) {
 	      capacity--;
@@ -3327,6 +3328,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	    break;
 	  if (is_air_unit(pcargo)
 	      && pcargo->id != ptrans->id
+	      && pcargo->transported_by != ptrans->id
 	      && (!missiles_only || unit_flag(pcargo->type, F_MISSILE))
 	      && pcargo->owner == playerid) {
 	    capacity--;
