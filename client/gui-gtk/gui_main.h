@@ -17,17 +17,15 @@
 
 #include "gui_main_g.h"
 
-void end_turn_callback(GtkWidget *w, gpointer data);
-
 extern GdkFont *        main_font;
 extern GdkFont *        city_productions_font;
+extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
 extern GdkGC *          mask_bg_gc;
-extern GdkGC *          civ_gc;
 extern GdkGC *          fill_bg_gc;
+extern GdkGC *          fill_tile_gc;
 extern GdkGC *          thin_line_gc;
 extern GdkGC *          thick_line_gc;
-extern GdkGC *          fill_tile_gc;
 extern GdkPixmap *      gray50;
 extern GdkPixmap *      gray25;
 extern GdkPixmap *      black50;
