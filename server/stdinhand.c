@@ -2878,6 +2878,11 @@ static void team_command(struct connection *caller, char *str)
     cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Bad team name."));
     return;
   }
+  if (is_barbarian(pplayer)) {
+    /* This can happen if we change team settings on a loaded game. */
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Cannot team a barbarian."));
+    return;
+  }
   team_add_player(pplayer, arg[1]);
   cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
 	    pplayer->name, team_get_by_id(pplayer->team)->name);
