@@ -1448,13 +1448,8 @@ static void popup_mes_close(GtkWidget *dialog_shell)
   struct button_descr *buttons =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "buttons");
 
-  if (GTK_IS_WIDGET(parent)) {
-    /* 
-     * It is possible that the user callback for a button may have
-     * destroyed the parent.
-     */
-    gtk_widget_set_sensitive(parent, TRUE);
-  }
+  gtk_widget_set_sensitive(parent, TRUE);
+  gtk_widget_unref(parent);
 
   if (close_callback) {
     (*close_callback)(close_callback_data);
@@ -1538,6 +1533,11 @@ GtkWidget *base_popup_message_dialog(GtkWidget * parent,
   GtkAccelGroup *accel = gtk_accel_group_new();
   int i;
 
+  /* 
+   * To restore the sensitivity later we have to make sure that parent
+   * still exists via a reference.
+   */
+  gtk_widget_ref(parent);
   gtk_widget_set_sensitive(parent, FALSE);
   
   dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
