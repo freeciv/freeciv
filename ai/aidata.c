@@ -131,7 +131,7 @@ void ai_data_analyze_rulesets(struct player *pplayer)
   defending units, and ignore enemy units that are incapable of harming 
   us, instead of just checking attack strength > 1.
 **************************************************************************/
-void ai_data_turn_init(struct player *pplayer) 
+void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
   int i, nuke_units = num_role_units(F_NUCLEAR);
@@ -292,8 +292,8 @@ void ai_data_turn_init(struct player *pplayer)
 
   /*** Diplomacy ***/
 
-  if (pplayer->ai.control && !is_barbarian(pplayer)) {
-    ai_diplomacy_calculate(pplayer, ai);
+  if (pplayer->ai.control && !is_barbarian(pplayer) && is_new_phase) {
+    ai_diplomacy_begin_new_phase(pplayer, ai);
   }
 
   /* Question: What can we accept as the reputation of a player before
@@ -405,7 +405,7 @@ void ai_data_turn_init(struct player *pplayer)
 /**************************************************************************
   Clean up our mess.
 **************************************************************************/
-void ai_data_turn_done(struct player *pplayer)
+void ai_data_phase_done(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
 
@@ -438,8 +438,8 @@ struct ai_data *ai_data_get(struct player *pplayer)
   if (ai->num_continents != map.num_continents
       || ai->num_oceans != map.num_oceans) {
     /* we discovered more continents, recalculate! */
-    ai_data_turn_done(pplayer);
-    ai_data_turn_init(pplayer);
+    ai_data_phase_done(pplayer);
+    ai_data_phase_init(pplayer, FALSE);
   }
   return ai;
 }

@@ -518,7 +518,7 @@ static void begin_phase(bool is_new_phase)
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
 	    pplayer->player_no, pplayer->name);
     /* human players also need this for building advice */
-    ai_data_turn_init(pplayer);
+    ai_data_phase_init(pplayer, is_new_phase);
     ai_manage_buildings(pplayer);
   } players_iterate_end;
 
@@ -602,7 +602,7 @@ static void end_phase(void)
   nocity_send = FALSE;
   players_iterate(pplayer) {
     send_player_cities(pplayer);
-    ai_data_turn_done(pplayer);
+    ai_data_phase_done(pplayer);
   } players_iterate_end;
   flush_packets();  /* to curb major city spam */
 

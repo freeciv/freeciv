@@ -20,7 +20,8 @@ struct Treaty;
 struct Clause;
 struct ai_data;
 
-void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai);
+void ai_diplomacy_begin_new_phase(struct player *pplayer,
+				  struct ai_data *ai);
 void ai_diplomacy_actions(struct player *pplayer);
 
 void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,

@@ -2016,9 +2016,8 @@ static struct player *split_player(struct player *pplayer)
   give_map_from_player_to_player(pplayer, cplayer);
 
   /* Not sure if this is necessary, but might be a good idea
-     to avoid doing some ai calculations with bogus data:
-  */
-  ai_data_turn_init(cplayer);
+   * to avoid doing some ai calculations with bogus data. */
+  ai_data_phase_init(cplayer, TRUE);
   assess_danger_player(cplayer);
   if (pplayer->ai.control) {
     assess_danger_player(pplayer);

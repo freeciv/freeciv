@@ -141,8 +141,8 @@ struct ai_data {
 };
 
 void ai_data_init(struct player *pplayer);
-void ai_data_turn_init(struct player *pplayer);
-void ai_data_turn_done(struct player *pplayer);
+void ai_data_phase_init(struct player *pplayer, bool is_new_phase);
+void ai_data_phase_done(struct player *pplayer);
 
 void ai_data_init(struct player *pplayer);
 void ai_data_analyze_rulesets(struct player *pplayer);

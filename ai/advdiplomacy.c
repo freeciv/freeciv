@@ -705,8 +705,13 @@ static void ai_diplomacy_suggest(struct player *pplayer,
   Calculate our diplomatic predispositions here. Don't do anything.
 
   Only ever called for AI players and never for barbarians.
+
+  This is called at the start of a new AI phase.  It's not called when
+  a game is loaded.  So everything calculated here should be put into
+  the savegame.
 ***********************************************************************/
-void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
+void ai_diplomacy_begin_new_phase(struct player *pplayer,
+				  struct ai_data *ai)
 {
   int war_desire[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int best_desire = 0;
