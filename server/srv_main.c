@@ -968,7 +968,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 	    type, conn_description(pconn));
   }
 
-  kill_dying_players();
+  if (server_state == RUN_GAME_STATE) {
+    kill_dying_players();
+  }
 
   free(packet);
   pplayer->current_conn = NULL;
