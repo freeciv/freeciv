@@ -970,7 +970,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   if (target && !pplayers_at_war(pplayer, target)
       && ai->diplomacy.countdown <= 0) {
     if (pplayers_allied(pplayer, target)) {
-      PLAYER_LOG(LOG_ERROR, pplayer, ai, "Went to war against %s, who is "
+      PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Went to war against %s, who is "
                  "an ally!", target->name); /* Oh, my. */
     }
     if (pplayer->diplstates[target->player_no].has_reason_to_cancel > 0) {
