@@ -27,7 +27,7 @@
 #define MINOR_VERSION  8
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION  0
+#define PATCH_VERSION  1
 #endif
 #ifndef IS_BETA_VERSION
 #define IS_BETA_VERSION 0
