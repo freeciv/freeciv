@@ -653,29 +653,6 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 /****************************************************************
 ...
 *****************************************************************/
-static void list_swap(GtkListStore *store, GtkTreeIter *a, GtkTreeIter *b)
-{
-  gint ncols, i;
-  GtkTreeModel *model;
-
-  model = GTK_TREE_MODEL(store);
-  ncols = gtk_tree_model_get_n_columns(model);
-
-  for (i = 0; i < ncols; i++) {
-    GValue va = { 0, }, vb = { 0, };
-
-    gtk_tree_model_get_value(model, a, i, &va);
-    gtk_tree_model_get_value(model, b, i, &vb);
-    gtk_list_store_set_value(store, a, i, &vb);
-    gtk_list_store_set_value(store, b, i, &va);
-    g_value_unset(&va);
-    g_value_unset(&vb);
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 				       gpointer data)
 {
@@ -724,7 +701,7 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 	it = it_prev;
 	gtk_tree_model_iter_next(model, &it);
 
-	list_swap(GTK_LIST_STORE(model), &it, &it_prev);
+	gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_prev);
 
 	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
 	commit_worklist(ptr);
@@ -744,7 +721,7 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
       gtk_tree_model_get_iter(model, &it, path);
       it_next = it;
       if (gtk_tree_model_iter_next(model, &it_next)) {
-	list_swap(GTK_LIST_STORE(model), &it, &it_next);
+	gtk_list_store_swap(GTK_LIST_STORE(model), &it, &it_next);
 
 	gtk_tree_path_next(path);
 	gtk_tree_view_set_cursor(GTK_TREE_VIEW(w), path, col, FALSE);
