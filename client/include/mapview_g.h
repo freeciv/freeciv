@@ -44,9 +44,11 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 			  int offset_x, int offset_y, int offset_y_unit,
 			  int width, int height, int height_unit,
 			  enum draw_type draw);
-void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
-				int offset_x, int offset_y,
-				int width, int height);
+void gui_put_sprite(canvas_t *pcanvas,
+		    int canvas_x, int canvas_y,
+		    struct Sprite *sprite,
+		    int offset_x, int offset_y,
+		    int width, int height);
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
 

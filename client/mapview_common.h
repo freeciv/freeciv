@@ -19,6 +19,7 @@
 #include "colors_g.h"
 
 struct unit;
+typedef void canvas_t;
 
 /*
 The bottom row of the map was sometimes hidden.

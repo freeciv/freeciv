@@ -495,9 +495,8 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 			   width, height, height_unit,
 			   draw);
     } else {
-      gui_map_put_black_tile_iso(canvas_x, canvas_y,
-				 offset_x, offset_y,
-				 width, height);
+      gui_put_sprite(NULL, canvas_x, canvas_y,
+		     sprites.black_tile, offset_x, offset_y, width, height);
     }
   }
 }

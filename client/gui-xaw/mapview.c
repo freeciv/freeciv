@@ -621,14 +621,41 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 }
 
 /**************************************************************************
-  Draw some or all of a black tile onto the mapview canvas.
+  Draw a single masked sprite to the pixmap.
 **************************************************************************/
-void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
-				int offset_x, int offset_y,
-				int width, int height)
+static void pixmap_put_sprite(Pixmap pixmap,
+			      int canvas_x, int canvas_y,
+			      struct Sprite *sprite,
+			      int offset_x, int offset_y,
+			      int width, int height)
 {
-  /* PORTME */
-  assert(0);
+  if (sprite->mask) {
+    XSetClipOrigin(display, civ_gc, canvas_x, canvas_y);
+    XSetClipMask(display, civ_gc, sprite->mask);
+  }
+
+  XCopyArea(display, sprite->pixmap, pixmap, 
+	    civ_gc,
+	    offset_x, offset_y,
+	    width, height, 
+	    canvas_x, canvas_y);
+
+  if (sprite->mask) {
+    XSetClipMask(display, civ_gc, None);
+  }
+}
+
+/**************************************************************************
+  Draw some or all of a sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+		    struct Sprite *sprite,
+		    int offset_x, int offset_y, int width, int height)
+{
+  Pixmap pm = pcanvas ? *(Pixmap*)pcanvas : map_canvas_store;
+
+  pixmap_put_sprite(pm, canvas_x, canvas_y,
+		    sprite, offset_x, offset_y, width, height);
 }
 
 /**************************************************************************
@@ -984,15 +1011,9 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
  				    struct Sprite *ssprite)
 {
   if (!ssprite) return;
-      
-  XSetClipOrigin(display, civ_gc, canvas_x, canvas_y);
-  XSetClipMask(display, civ_gc, ssprite->mask);
-      
-  XCopyArea(display, ssprite->pixmap, pixmap, 
-	    civ_gc, 0, 0,
-	    ssprite->width, ssprite->height, 
-	    canvas_x, canvas_y);
-  XSetClipMask(display, civ_gc, None); 
+
+  pixmap_put_sprite(pixmap, canvas_x, canvas_y,
+		    ssprite, 0, 0, ssprite->width, ssprite->height);
 }
 
 /**************************************************************************

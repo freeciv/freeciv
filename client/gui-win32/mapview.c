@@ -1351,22 +1351,23 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 }
 
 /**************************************************************************
-  Draw some or all of a black tile onto the mapview canvas.
+  Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
-				int offset_x, int offset_y,
-				int width, int height)
+void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+		    struct Sprite *sprite,
+		    int offset_x, int offset_y, int width, int height)
 {
   HDC hdc;
   HBITMAP old;
 
   /* FIXME: we don't want to have to recreate the hdc each time! */
+  assert(pcanvas == NULL);
   hdc = CreateCompatibleDC(NULL);
   old = SelectObject(hdc, mapstorebitmap);
 
-  pixmap_put_black_tile_iso(hdc, canvas_x, canvas_y,
-			    offset_x, offset_y,
-			    width, height);
+  pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
+			       sprite, offset_x, offset_y,
+			       width, height, 0);
 
   SelectObject(hdc, old);
   DeleteDC(hdc);

@@ -201,14 +201,17 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 }
 
 /**************************************************************************
-  Draw some or all of a black tile onto the mapview canvas.
+  Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
-void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
-				int offset_x, int offset_y,
-				int width, int height)
+void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+		    struct Sprite *sprite,
+		    int offset_x, int offset_y, int width, int height)
 {
-  blit_entire_src((SDL_Surface *)sprites.black_tile,
-		  Main.screen, canvas_x, canvas_y);
+  SDL_Surface *surf = pcanvas ? pcanvas : Main.screen;
+
+  /* FIXME: handle partial-sprite draws. */
+  assert(pcanvas == NULL);
+  blit_entire_src((SDL_Surface *)sprite, surf, canvas_x, canvas_y);
 }
 
 void flush_mapcanvas( int canvas_x , int canvas_y ,

@@ -926,18 +926,6 @@ void gui_map_put_tile_iso(int map_x, int map_y,
 }
 
 /**************************************************************************
-  Draw some or all of a black tile onto the mapview canvas.
-**************************************************************************/
-void gui_map_put_black_tile_iso(int canvas_x, int canvas_y,
-				int offset_x, int offset_y,
-				int width, int height)
-{
-  pixmap_put_black_tile_iso(map_canvas_store, canvas_x, canvas_y,
-			    offset_x, offset_y,
-			    width, height);	
-}
-
-/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
@@ -1252,6 +1240,19 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 		  MIN(height, MAX(0, ssprite->height - offset_y)));
 
   gdk_gc_set_clip_mask(civ_gc, NULL);
+}
+
+/**************************************************************************
+  Draw some or all of a sprite onto the mapview or citydialog canvas.
+**************************************************************************/
+void gui_put_sprite(canvas_t *pcanvas, int canvas_x, int canvas_y,
+		    struct Sprite *sprite,
+		    int offset_x, int offset_y, int width, int height)
+{
+  GdkPixmap *pm = pcanvas ? pcanvas : map_canvas_store;
+
+  pixmap_put_sprite(pm, canvas_x, canvas_y,
+		    sprite, offset_x, offset_y, width, height);
 }
 
 /**************************************************************************
