@@ -138,7 +138,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 /* no adjacent squares help us to explore */
 
 /* really slow part follows */
-  best = 255;
+  best = 0;
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       if (map_get_continent(x, y) == con) {
@@ -146,8 +146,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
         for (a = -1; a <= 1; a++)
           for (b = -1; b <= 1; b++)
             if (!map_get_known(x + a, y + b, pplayer)) cur++;
-        cur += warmap.cost[x][y];
-        if (cur < best || (cur == best && myrand(2))) {
+        cur -= warmap.cost[x][y];
+        if (cur > best || (cur == best && myrand(2))) {
           dest_x = map_adjust_x(x + i);
           dest_y = y + j;
           best = cur;
@@ -155,7 +155,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       }
     }
   }
-  if (best < 255) {
+  if (best > 0) {
     punit->goto_dest_x = dest_x;
     punit->goto_dest_y = dest_y;
     punit->activity = ACTIVITY_GOTO;
@@ -164,6 +164,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   }
 /*  printf("%s's %s at (%d,%d) failed to explore.\n", pplayer->name,
     unit_types[punit->type].name, punit->x, punit->y); */
+  if (is_military_unit(punit)) ai_military_gohome(pplayer, punit);
 /*  if (!is_military_unit(punit)) wipe_unit(pplayer, punit); */
 }
 
@@ -634,7 +635,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
             val = get_defense_power(pdef) * pdef->hp * get_unit_type(pdef->type)->firepower;
             val *= 1.5; /* DUH! */
             if (city_got_citywalls(pcity) && !game.global_advances[A_MACHINE]) val *= 3;
-            if (val > d) d = val;
+            if (val > d) d = val / 30; /* NEED this /30 because of rescale! -- Syela */
             val = 0;
           }
         }
