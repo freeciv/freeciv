@@ -567,8 +567,12 @@ static void setup_widgets(void)
 
   /* turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
+
+  /* the turn done button must have its own style. otherwise when we flash
+     the turn done button other widgets may flash too. */
   gtk_widget_set_style(turn_done_button, 
                        gtk_style_copy(turn_done_button->style));
+
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
 
   gtk_signal_connect(GTK_OBJECT(turn_done_button), "clicked",
