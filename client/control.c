@@ -692,7 +692,15 @@ void request_unit_return(struct unit *punit)
   }
 
   if ((path = path_to_nearest_allied_city(punit))) {
-    send_goto_path(punit, path);
+    enum unit_activity activity = ACTIVITY_LAST;
+    int turns = pf_last_position(path)->turn;
+
+    if (punit->hp + turns * get_player_bonus(game.player_ptr,
+					     EFT_UNIT_RECOVER)
+	< unit_type(punit)->hp) {
+      activity = ACTIVITY_SENTRY;
+    }
+    send_goto_path(punit, path, activity);
     pf_destroy_path(path);
   }
 }

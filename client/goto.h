@@ -33,7 +33,8 @@ bool is_drawn_line(int x, int y, int dir);
 bool is_endpoint(int x, int y);
 
 void request_orders_cleared(struct unit *punit);
-void send_goto_path(struct unit *punit, struct pf_path *path);
+void send_goto_path(struct unit *punit, struct pf_path *path,
+		    enum unit_activity final_activity);
 void send_patrol_route(struct unit *punit);
 void send_goto_route(struct unit *punit);
 
