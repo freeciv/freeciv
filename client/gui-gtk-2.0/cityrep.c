@@ -1220,15 +1220,6 @@ void city_report_dialog_update_city(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-static void selected_iterate(GtkTreeModel *model, GtkTreePath *path,
-			     GtkTreeIter *it, gpointer data)
-{
-  ++(*(int *)data);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void create_change_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1313,8 +1304,7 @@ static void popup_change_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_improvements_item),
 				  FALSE, FALSE, CO_CHANGE,
@@ -1338,8 +1328,7 @@ static void popup_last_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(last_improvements_item),
 				  FALSE, FALSE, CO_LAST,
@@ -1362,8 +1351,7 @@ static void popup_first_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(first_improvements_item),
 				  FALSE, FALSE, CO_FIRST,
@@ -1386,8 +1374,7 @@ static void popup_next_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(next_improvements_item),
 				  FALSE, FALSE, CO_NEXT,
@@ -1542,8 +1529,7 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
   if (select_menu_cached)
     return;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(city_selection);
   gtk_widget_set_sensitive(select_island_item, (n > 0));
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bunit_item),
@@ -1600,8 +1586,7 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
   int n;
 
-  n = 0;
-  gtk_tree_selection_selected_foreach(selection, selected_iterate, &n);
+  n = gtk_tree_selection_count_selected_rows(selection);
 
   if (n == 0) {
     gtk_widget_set_sensitive(city_change_command, FALSE);
