@@ -363,7 +363,7 @@ static void set_food_trade_shields(struct city *pcity)
     pcity->trade_prod+=pcity->trade_value[i];
   }
   pcity->corruption = city_corruption(pcity, pcity->trade_prod);
-  pcity->ai.trade_want = 8 - city_corruption(pcity, 8);
+  pcity->ai.trade_want = TRADE_WEIGHTING - city_corruption(pcity, TRADE_WEIGHTING);
 /* AI would calculate this 1000 times otherwise; better to do it once -- Syela */
   pcity->trade_prod -= pcity->corruption;
 }

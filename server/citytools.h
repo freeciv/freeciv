@@ -18,7 +18,13 @@
 
 #define FOOD_WEIGHTING 19
 #define SHIELD_WEIGHTING 17
-#define TRADE_WEIGHTING 8
+#define TRADE_WEIGHTING 12
+/* The Trade Weighting has to about as large as the Shield Weighting,
+   otherwise the AI will build Barracks to create veterans in cities 
+   with only 1 shields production.
+    8 is too low
+   18 is too high
+ */
 #define POLLUTION_WEIGHTING 14 /* tentative */
 #define WARMING_FACTOR 32 /* tentative */
 

@@ -172,7 +172,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->city_options = CITYOPT_DEFAULT;
   
   pcity->ai.ai_role = AICITY_NONE;
-  pcity->ai.trade_want = 8; /* default value */
+  pcity->ai.trade_want = TRADE_WEIGHTING; 
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
   pcity->ai.workremain = 1; /* there's always work to be done! */
   pcity->ai.danger = -1; /* flag, may come in handy later */
