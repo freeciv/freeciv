@@ -1278,12 +1278,13 @@ int send_packet_unit_info(struct connection *pc,
 
   dio_put_uint16(&dout, req->id);
   dio_put_uint8(&dout, req->owner);
-  pack = (COND_SET_BIT((req->occupy > 0), 2) |
-          COND_SET_BIT(req->carried, 3) |
-	  COND_SET_BIT(req->veteran, 4) |
-	  COND_SET_BIT(req->ai, 5) |
-	  COND_SET_BIT(req->paradropped, 6) |
-	  COND_SET_BIT(req->connecting, 7));
+  pack = (COND_SET_BIT(req->done_moving, 1)
+	  | COND_SET_BIT((req->occupy > 0), 2)
+	  | COND_SET_BIT(req->carried, 3)
+	  | COND_SET_BIT(req->veteran, 4)
+	  | COND_SET_BIT(req->ai, 5)
+	  | COND_SET_BIT(req->paradropped, 6)
+	  | COND_SET_BIT(req->connecting, 7));
   dio_put_uint8(&dout, pack);
   dio_put_uint8(&dout, req->x);
   dio_put_uint8(&dout, req->y);
@@ -1560,6 +1561,7 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint16(&din, &packet->id);
   dio_get_uint8(&din, &packet->owner);
   dio_get_uint8(&din, &pack);
+  packet->done_moving = TEST_BIT(pack, 1);
   packet->carried = TEST_BIT(pack, 3);
   packet->veteran = TEST_BIT(pack, 4);
   packet->ai = TEST_BIT(pack, 5);

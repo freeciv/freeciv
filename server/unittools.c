@@ -551,7 +551,8 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 ***************************************************************************/
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 {
-  punit->moves_left=unit_move_rate(punit);
+  punit->moves_left = unit_move_rate(punit);
+  punit->done_moving = FALSE;
 }
 
 /**************************************************************************
@@ -1875,6 +1876,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->activity_target = punit->activity_target;
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
+  packet->done_moving = punit->done_moving;
   packet->carried = carried;
   packet->occupy = get_transporter_occupancy(punit);
 }
@@ -2968,6 +2970,9 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   }
   punit->transported_by = -1;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
+  if (punit->moves_left == 0) {
+    punit->done_moving = TRUE;
+  }
   unit_list_insert(&pdesttile->units, punit);
   check_unit_activity(punit);
 
@@ -3148,7 +3153,7 @@ enum goto_result goto_route_execute(struct unit *punit)
 {
   struct goto_route *pgr = punit->pgr;
   int index, x, y;
-  bool res, last_tile;
+  bool res, last_tile, moved;
   int patrol_stop_index = pgr->last_index;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -3188,7 +3193,12 @@ enum goto_result goto_route_execute(struct unit *punit)
     }
 
     /* Move unit */
-    res = handle_unit_move_request(punit, x, y, FALSE, !last_tile);
+    moved = !same_pos(punit->x, punit->y, x, y);
+    if (moved) {
+      res = handle_unit_move_request(punit, x, y, FALSE, !last_tile);
+    } else {
+      res = TRUE;
+    }
 
     if (!player_find_unit_by_id(pplayer, unitid)) {
       return GR_DIED;
@@ -3211,6 +3221,15 @@ enum goto_result goto_route_execute(struct unit *punit)
 	if (maybe_cancel_patrol_due_to_enemy(punit)) {
 	  return GR_FAILED;
 	}
+      }
+
+      if (!moved) {
+	/* Sometimes the goto route will have us sit still for a moment -
+	 * for instance a trireme will do this to have enough MP to
+	 * cross the ocean in one turn. */
+	punit->done_moving = TRUE;
+	send_unit_info(unit_owner(punit), punit);
+	return GR_WAITING;
       }
     }
 

@@ -190,11 +190,12 @@ at the end of the goto, then they are still in focus.
 **************************************************************************/
 void update_unit_focus(void)
 {
-  if(!punit_focus
-     || (punit_focus->activity!=ACTIVITY_IDLE
-	 && punit_focus->activity!=ACTIVITY_GOTO)
-     || punit_focus->moves_left==0 
-     || punit_focus->ai.control) {
+  if (!punit_focus
+      || (punit_focus->activity != ACTIVITY_IDLE
+	  && punit_focus->activity != ACTIVITY_GOTO)
+      || punit_focus->done_moving
+      || punit_focus->moves_left == 0 
+      || punit_focus->ai.control) {
     advance_unit_focus();
   }
 }
@@ -271,30 +272,33 @@ unit, or if there is no possible unit, returns NULL.
 static struct unit *find_best_focus_candidate(void)
 {
   struct unit *best_candidate;
-  int best_dist=99999;
-  int x,y;
+  int best_dist = 99999;
+  int x, y;
 
-  if(punit_focus)  {
-    x=punit_focus->x; y=punit_focus->y;
+  if (punit_focus)  {
+    x = punit_focus->x;
+    y = punit_focus->y;
   } else {
-    get_center_tile_mapcanvas(&x,&y);
+    get_center_tile_mapcanvas(&x, &y);
   }
     
-  best_candidate=NULL;
+  best_candidate = NULL;
   unit_list_iterate(game.player_ptr->units, punit) {
-    if(punit!=punit_focus) {
-      if(punit->focus_status==FOCUS_AVAIL && punit->activity==ACTIVITY_IDLE &&
-	 punit->moves_left > 0 && !punit->ai.control) {
-        int d;
-	d=sq_map_distance(punit->x, punit->y, x, y);
-	if(d<best_dist) {
-	  best_candidate=punit;
-	  best_dist=d;
+    if (punit != punit_focus) {
+      if (punit->focus_status == FOCUS_AVAIL
+	  && punit->activity == ACTIVITY_IDLE
+	  && punit->moves_left > 0
+	  && !punit->done_moving
+	  && !punit->ai.control) {
+        int d = sq_map_distance(punit->x, punit->y, x, y);
+
+	if (d < best_dist) {
+	  best_candidate = punit;
+	  best_dist = d;
 	}
       }
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
   return best_candidate;
 }
 

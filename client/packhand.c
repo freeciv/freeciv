@@ -109,6 +109,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
+  punit->done_moving = packet->done_moving;
   punit->occupy = packet->occupy;
   if (packet->carried) {
     punit->transported_by = 1;
@@ -1098,6 +1099,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
     }
     punit->paradropped = packet_unit->paradropped;
     punit->connecting = packet_unit->connecting;
+    if (punit->done_moving != packet_unit->done_moving) {
+      punit->done_moving = packet_unit->done_moving;
+      check_focus = TRUE;
+    }
   
     dest_x = packet_unit->x;
     dest_y = packet_unit->y;

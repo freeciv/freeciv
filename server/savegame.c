@@ -1033,6 +1033,8 @@ static void player_load(struct player *plr, int plrno,
     punit->connecting=secfile_lookup_bool_default(file, FALSE,
 						"player%d.u%d.connecting",
 						plrno, i);
+    punit->done_moving = secfile_lookup_bool_default(file,
+	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
     /* Load the goto information.  Older savegames will not have the
      * "go" field, so we just load the goto destination by default. */
     if (secfile_lookup_bool_default(file, TRUE,
@@ -1484,6 +1486,8 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, punit->connecting, 
 				"player%d.u%d.connecting",
 				plrno, i);
+    secfile_insert_bool(file, punit->done_moving,
+			"player%d.u%d.done_moving", plrno, i);
     secfile_insert_int(file, punit->moves_left, "player%d.u%d.moves",
 		                plrno, i);
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",

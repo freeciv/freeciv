@@ -137,6 +137,14 @@ struct unit {
   bool moved;
   bool paradropped;
   bool connecting;
+
+  /* This value is set if the unit is done moving for this turn. This
+   * information is used by the client.  The invariant is:
+   *   - If the unit has no more moves, it's done moving.
+   *   - If the unit is on a goto but is waiting, it's done moving.
+   *   - Otherwise the unit is not done moving. */
+  bool done_moving;
+
   int transported_by;
   int occupy; /* number of units that occupy transporter */
   struct goto_route *pgr;

@@ -809,6 +809,10 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity_count=0;
   punit->activity_target = S_NO_SPECIAL;
   punit->connecting = FALSE;
+  if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
+    /* No longer done. */
+    punit->done_moving = FALSE;
+  }
 }
 
 /**************************************************************************
@@ -818,10 +822,8 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target)
 {
-  punit->activity=new_activity;
-  punit->activity_count=0;
-  punit->activity_target=new_target;
-  punit->connecting = FALSE;
+  set_unit_activity(punit, new_activity);
+  punit->activity_target = new_target;
 }
 
 /**************************************************************************
@@ -1466,6 +1468,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->moved = FALSE;
   punit->paradropped = FALSE;
   punit->connecting = FALSE;
+  punit->done_moving = FALSE;
   if (is_barbarian(pplayer)) {
     punit->fuel = BARBARIAN_LIFE;
   }
