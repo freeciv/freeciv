@@ -232,8 +232,10 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
     return(3);
   }
   if (get_defender(pplayer, punit, x1, y1)) {
+     if (same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1))
+       return(MIN(m, unit_types[punit->type].move_rate));
      if (!can_unit_attack_tile(punit, x1, y1)) return(255);
-     if (!same_pos(punit->goto_dest_x, punit->goto_dest_y, x1, y1)) return(15);
+     return(15);
 /* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
   } else {
     if (!could_unit_move_to_tile(punit, x0, y0, x1, y1) &&
@@ -578,6 +580,8 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
     send_unit_info(0, punit, 0);
     return;
   }
+
+  punit->activity = ACTIVITY_GOTO; /* adding this as a failsafe -- Syela */
 
   if(find_the_shortest_path(pplayer, punit, 
 			    punit->goto_dest_x, punit->goto_dest_y)) {
