@@ -253,18 +253,16 @@ popup_notify_dialog(char *caption, char *headline, char *lines)
 **************************************************************************/
 static void update_radio_buttons(int id)
 {  
-  /*
-  if (id!=(selected_leader+ID_RACESDLG_NATION))
+  /* if (id!=selected_leader_sex)  */
+  CheckRadioButton(races_dlg,ID_RACESDLG_MALE,
+		   ID_RACESDLG_FEMALE,selected_leader_sex);
+  /*  if (id!=selected_style) */
+  CheckRadioButton(races_dlg,ID_RACESDLG_STYLE_BASE,
+		   ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
+  if (id!=(selected_nation+ID_RACESDLG_NATION_BASE)) 
     CheckRadioButton(races_dlg,ID_RACESDLG_NATION_BASE,
 		     ID_RACESDLG_NATION_BASE+game.playable_nation_count-1,
-		     selected_leader+ID_RACESDLG_NATION);
-  */
-  if (id!=selected_leader_sex)
-    CheckRadioButton(races_dlg,ID_RACESDLG_MALE,
-		     ID_RACESDLG_FEMALE,selected_leader_sex);
-  if (id!=selected_style)
-    CheckRadioButton(races_dlg,ID_RACESDLG_STYLE_BASE,
-		     ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
+		     selected_nation+ID_RACESDLG_NATION_BASE);   
 }
 
 
@@ -506,7 +504,7 @@ void popup_races_dialog(void)
 		       TRUE,TRUE,25);
   fcwin_box_add_button(hbox,_("Quit"),ID_RACESDLG_QUIT,0,TRUE,TRUE,25);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  selected_style=0;
+  selected_style=ID_RACESDLG_STYLE_BASE;
   CheckRadioButton(races_dlg,
 		   ID_RACESDLG_STYLE_BASE,ID_RACESDLG_STYLE_BASE+b_s_num-1,
 		   ID_RACESDLG_STYLE_BASE);
