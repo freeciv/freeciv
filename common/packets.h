@@ -79,19 +79,19 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 const char *get_packet_name(enum packet_type type);
 
 void pre_send_packet_chat_msg(struct connection *pc,
-			      enum packet_type packet_type,
 			      struct packet_chat_msg *packet);
 void post_receive_packet_chat_msg(struct connection *pc,
-				  enum packet_type packet_type,
 				  struct packet_chat_msg *packet);
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
-					    enum packet_type packet_type,
 					    struct packet_player_attribute_chunk
 					    *packet);
-void post_receive_packet_player_attribute_chunk(struct connection *pc,
-						enum packet_type packet_type,
-						struct packet_player_attribute_chunk
+void post_receive_packet_player_attribute_chunk(struct connection *pc, struct packet_player_attribute_chunk
 						*packet);
+
+void post_receive_packet_game_state(struct connection *pc,
+				    struct packet_game_state *packet);
+void post_send_packet_game_state(struct connection *pc,
+				 const struct packet_game_state *packet);
 
 #define SEND_PACKET_START(type) \
   unsigned char buffer[MAX_LEN_PACKET]; \

@@ -602,7 +602,6 @@ void send_attribute_block(const struct player *pplayer,
 }
 
 void pre_send_packet_chat_msg(struct connection *pc,
-			      enum packet_type packet_type,
 			      struct packet_chat_msg *packet)
 {
   if (packet->x == -1 && packet->y == -1) {
@@ -614,7 +613,6 @@ void pre_send_packet_chat_msg(struct connection *pc,
 }
 
 void post_receive_packet_chat_msg(struct connection *pc,
-				  enum packet_type packet_type,
 				  struct packet_chat_msg *packet)
 {
   if (packet->x == 255 && packet->y == 255) {
@@ -625,7 +623,6 @@ void post_receive_packet_chat_msg(struct connection *pc,
 }
 
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
-					    enum packet_type packet_type,
 					    struct packet_player_attribute_chunk
 					    *packet)
 {
@@ -643,7 +640,6 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 }
 
 void post_receive_packet_player_attribute_chunk(struct connection *pc,
-						enum packet_type packet_type,
 						struct packet_player_attribute_chunk
 						*packet)
 {
@@ -668,4 +664,15 @@ void post_receive_packet_player_attribute_chunk(struct connection *pc,
 
   freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
 	  packet->total_length, packet->chunk_length);
+}
+
+void post_receive_packet_game_state(struct connection *pc,
+				    struct packet_game_state *packet)
+{
+  conn_clear_packet_cache(pc);
+}
+void post_send_packet_game_state(struct connection *pc,
+				 const struct packet_game_state *packet)
+{
+  conn_clear_packet_cache(pc);
 }

@@ -2042,6 +2042,7 @@ static struct packet_game_state *receive_packet_game_state_100(struct connection
   }
   hash_insert(*hash, clone, clone);
 
+  post_receive_packet_game_state(pc, real_packet);
   RECEIVE_PACKET_END(real_packet);
 }
 
@@ -2091,7 +2092,8 @@ static int send_packet_game_state_100(struct connection *pc, const struct packet
 
   *clone = *real_packet;
   hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
+    post_send_packet_game_state(pc, real_packet);
+SEND_PACKET_END;
 }
 
 static void ensure_valid_variant_packet_game_state(struct connection *pc)
@@ -3967,7 +3969,7 @@ static struct packet_chat_msg *receive_packet_chat_msg_100(struct connection *pc
   }
   hash_insert(*hash, clone, clone);
 
-  post_receive_packet_chat_msg(pc, type, real_packet);
+  post_receive_packet_chat_msg(pc, real_packet);
   RECEIVE_PACKET_END(real_packet);
 }
 
@@ -3985,7 +3987,7 @@ static int send_packet_chat_msg_100(struct connection *pc, const struct packet_c
     struct packet_chat_msg *tmp = fc_malloc(sizeof(*tmp));
 
     *tmp = *packet;
-    pre_send_packet_chat_msg(pc, PACKET_CHAT_MSG, tmp);
+    pre_send_packet_chat_msg(pc, tmp);
     real_packet = tmp;
   }
 
@@ -9417,7 +9419,7 @@ static struct packet_player_attribute_chunk *receive_packet_player_attribute_chu
   }
   hash_insert(*hash, clone, clone);
 
-  post_receive_packet_player_attribute_chunk(pc, type, real_packet);
+  post_receive_packet_player_attribute_chunk(pc, real_packet);
   RECEIVE_PACKET_END(real_packet);
 }
 
@@ -9435,7 +9437,7 @@ static int send_packet_player_attribute_chunk_100(struct connection *pc, const s
     struct packet_player_attribute_chunk *tmp = fc_malloc(sizeof(*tmp));
 
     *tmp = *packet;
-    pre_send_packet_player_attribute_chunk(pc, PACKET_PLAYER_ATTRIBUTE_CHUNK, tmp);
+    pre_send_packet_player_attribute_chunk(pc, tmp);
     real_packet = tmp;
   }
 

@@ -558,25 +558,15 @@ static void free_packet_hashes(struct connection *pc)
 {
   int i;
 
+  conn_clear_packet_cache(pc);
+
   for (i = 0; i < PACKET_LAST; i++) {
     if (pc->phs.sent[i] != NULL) {
-      struct hash_table *hash = pc->phs.sent[i];
-      while (hash_num_entries(hash) > 0) {
-	const void *key = hash_key_by_number(hash, 0);
-	hash_delete_entry(hash, key);
-	free((void *) key);
-      }
-      hash_free(hash);
+      hash_free(pc->phs.sent[i]);
       pc->phs.sent[i] = NULL;
     }
     if (pc->phs.received[i] != NULL) {
-      struct hash_table *hash = pc->phs.received[i];
-      while (hash_num_entries(hash) > 0) {
-	const void *key = hash_key_by_number(hash, 0);
-	hash_delete_entry(hash, key);
-	free((void *) key);
-      }
-      hash_free(hash);
+      hash_free(pc->phs.received[i]);
       pc->phs.received[i] = NULL;
     }
   }
@@ -628,3 +618,30 @@ void connection_common_close(struct connection *pconn)
   free_packet_hashes(pconn);
 }
 
+/**************************************************************************
+ Remove all cached packets from the connection. This resets the
+ delta-state.
+**************************************************************************/
+void conn_clear_packet_cache(struct connection *pc)
+{
+  int i;
+
+  for (i = 0; i < PACKET_LAST; i++) {
+    if (pc->phs.sent[i] != NULL) {
+      struct hash_table *hash = pc->phs.sent[i];
+      while (hash_num_entries(hash) > 0) {
+	const void *key = hash_key_by_number(hash, 0);
+	hash_delete_entry(hash, key);
+	free((void *) key);
+      }
+    }
+    if (pc->phs.received[i] != NULL) {
+      struct hash_table *hash = pc->phs.received[i];
+      while (hash_num_entries(hash) > 0) {
+	const void *key = hash_key_by_number(hash, 0);
+	hash_delete_entry(hash, key);
+	free((void *) key);
+      }
+    }
+  }
+}

@@ -485,8 +485,9 @@ class Variant:
         self.no=no
         
         self.no_packet=packet.no_packet
-        self.want_post=packet.want_post
-        self.want_pre=packet.want_pre
+        self.want_post_recv=packet.want_post_recv
+        self.want_pre_send=packet.want_pre_send
+        self.want_post_send=packet.want_post_send
         self.type=packet.type
         self.delta=packet.delta
         self.is_action=packet.is_action
@@ -645,7 +646,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(send_prototype)s
 {
 <real_packet1><delta_header>  SEND_PACKET_START(%(type)s);
-<freelog><report><pre1><body><pre2>  SEND_PACKET_END;
+<freelog><report><pre1><body><pre2>  <post>SEND_PACKET_END;
 }
 
 '''
@@ -660,13 +661,13 @@ static char *stats_%(name)s_names[] = {%(names)s};
             freelog='\n  freelog(%(log_level)s, "%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n'
         else:
             freelog=""
-        if self.want_pre:
+        if self.want_pre_send:
             pre1='''
   {
     struct %(packet_name)s *tmp = fc_malloc(sizeof(*tmp));
 
     *tmp = *packet;
-    pre_send_%(packet_name)s(pc, %(type)s, tmp);
+    pre_send_%(packet_name)s(pc, tmp);
     real_packet = tmp;
   }
 '''
@@ -706,6 +707,11 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             body=""
             delta_header=""
+
+        if self.want_post_send:
+            post="  post_send_%(packet_name)s(pc, real_packet);\n"
+        else:
+            post=""
 
         for i in range(2):
             for k,v in vars().items():
@@ -808,8 +814,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             freelog=""
         
-        if self.want_post:
-            post="  post_receive_%(packet_name)s(pc, type, real_packet);\n"
+        if self.want_post_recv:
+            post="  post_receive_%(packet_name)s(pc, real_packet);\n"
         else:
             post=""
 
@@ -896,12 +902,15 @@ class Packet:
         self.is_action="is-info" not in arr
         if not self.is_action: arr.remove("is-info")
         
-        self.want_pre="pre" in arr
-        if self.want_pre: arr.remove("pre")
+        self.want_pre_send="pre-send" in arr
+        if self.want_pre_send: arr.remove("pre-send")
         
-        self.want_post="post" in arr
-        if self.want_post: arr.remove("post")
-        
+        self.want_post_recv="post-recv" in arr
+        if self.want_post_recv: arr.remove("post-recv")
+
+        self.want_post_send="post-send" in arr
+        if self.want_post_send: arr.remove("post-send")
+
         self.delta="no-delta" not in arr
         if not self.delta: arr.remove("no-delta")
 

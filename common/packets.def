@@ -58,12 +58,13 @@ Syntax:
 
      is-info: a second packet with the same content can be discarded
 
-     pre:
-     post: generate call to pre-send and post-receive
-     hooks. These hooks are named: pre_send_packet_* and
-     post_receive_packet_*. The user has to provide these. These
-     functions may be used to do extra preparations, conversions or
-     checks.
+     pre-send:
+     post-recv: 
+     post-send: generate calls to pre-send, post-receive and post-send
+     hooks. These hooks are named: pre_send_packet_*,
+     post_receive_packet_* and post_send_packet_*. The user has to
+     provide these. These functions may be used to do extra
+     preparations, conversions or checks.
 
      no-delta: don't use the delta protocol. This is useful for
      packets which contain always different data
@@ -279,7 +280,7 @@ end
 PACKET_NATION_SELECT_OK=11;sc
 end
 
-PACKET_GAME_STATE=12;sc
+PACKET_GAME_STATE=12;post-send,post-recv,sc
   UINT32 value;
 end
 
@@ -356,7 +357,7 @@ end
 
 /************** Chat/event packets **********************/
 
-PACKET_CHAT_MSG=18;sc, pre, post
+PACKET_CHAT_MSG=18;sc, pre-send, post-recv
   STRING message[MAX_LEN_MSG];
   COORD x, y;
   EVENT event;
@@ -574,7 +575,7 @@ end
 PACKET_PLAYER_ATTRIBUTE_BLOCK=46;cs
 end
 
-PACKET_PLAYER_ATTRIBUTE_CHUNK=47; pre,post,sc,cs,handle-via-packet
+PACKET_PLAYER_ATTRIBUTE_CHUNK=47; pre-send,post-recv,sc,cs,handle-via-packet
   UINT32 offset, total_length, chunk_length;
   /* to keep memory management simple don't allocate dynamic memory */
   MEMORY data[ATTRIBUTE_CHUNK_SIZE:chunk_length];
