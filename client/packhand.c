@@ -484,6 +484,10 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 	  unit_list_insert(&pcity->units_supported, punit);
       unit_list_iterate_end;
     }
+  } else {
+    if(pcity->owner == game.player_idx) {
+      city_report_dialog_update_city(pcity);
+    }
   }
 
   if (draw_map_grid && can_client_change_view()) {
@@ -1333,6 +1337,9 @@ void handle_player_info(struct packet_player_info *pinfo)
 	update_menus();
       }
     }
+    economy_report_dialog_update();
+    activeunits_report_dialog_update();
+    city_report_dialog_update();
   }
 
   if (pplayer == game.player_ptr && pplayer->turn_done != pinfo->turn_done) {
@@ -2313,6 +2320,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   sz_strlcpy(cs->name, packet->name);
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
+  sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
+  sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 
   tilespec_setup_city_tiles(id);
 }

@@ -78,7 +78,7 @@ const char * const our_capability = our_capability_internal;
                    "city_struct_minor_cleanup obsolete_last class_legend " \
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles" \
-                   "+diplomacy2"
+                   "+diplomacy2 +citizens_style"
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
  * "conn_info" is sending the conn_id field. To preserve compatability
@@ -123,6 +123,9 @@ const char * const our_capability = our_capability_internal;
  * sent to clients (previously used to help with drawing the terrain).
  *
  * "diplomacy2": unified and simplified handling of diplomatic request
+ *
+ * "citizens_style": is support for loading of ruleset-specified
+ * multi style citizens icons.
  */
 
 void init_our_capability(void)

@@ -2289,6 +2289,12 @@ static void load_ruleset_cities(struct section_file *file)
 	       secfile_lookup_str(file, "%s.graphic", styles[i]));
     sz_strlcpy(city_styles[i].graphic_alt, 
 	       secfile_lookup_str(file, "%s.graphic_alt", styles[i]));
+    sz_strlcpy(city_styles[i].citizens_graphic, 
+	       secfile_lookup_str_default(file, "-", 
+	    		"%s.citizens_graphic", styles[i]));
+    sz_strlcpy(city_styles[i].citizens_graphic_alt, 
+	       secfile_lookup_str_default(file, "generic", 
+	    		"%s.citizens_graphic_alt", styles[i]));
     city_styles[i].techreq = lookup_tech(file, styles[i], "tech", TRUE,
                                          filename, city_styles[i].name);
     
@@ -2743,6 +2749,9 @@ static void send_ruleset_cities(struct conn_list *dest)
     sz_strlcpy(city_p.name, city_styles[k].name_orig);
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
+    sz_strlcpy(city_p.citizens_graphic, city_styles[k].citizens_graphic);
+    sz_strlcpy(city_p.citizens_graphic_alt,
+			 city_styles[k].citizens_graphic_alt);
 
     lsend_packet_ruleset_city(dest, &city_p);
   }

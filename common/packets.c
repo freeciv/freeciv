@@ -2707,7 +2707,9 @@ int send_packet_ruleset_city(struct connection *pc,
   dio_put_string(&dout, packet->name);
   dio_put_string(&dout, packet->graphic);
   dio_put_string(&dout, packet->graphic_alt);
-
+  dio_put_string(&dout, packet->citizens_graphic);
+  dio_put_string(&dout, packet->citizens_graphic_alt);
+  
   SEND_PACKET_END;
 }
 
@@ -2726,7 +2728,9 @@ receive_packet_ruleset_city(struct connection *pc)
   dio_get_string(&din, packet->name, MAX_LEN_NAME);
   dio_get_string(&din, packet->graphic, MAX_LEN_NAME);
   dio_get_string(&din, packet->graphic_alt, MAX_LEN_NAME);
-
+  dio_get_string(&din, packet->citizens_graphic, MAX_LEN_NAME);
+  dio_get_string(&din, packet->citizens_graphic_alt, MAX_LEN_NAME);
+	
   RECEIVE_PACKET_END(packet);
 }
 

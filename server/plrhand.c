@@ -673,8 +673,8 @@ void handle_player_rates(struct player *pplayer,
 	    get_nation_name_plural(pplayer->nation), preq->tax, preq->luxury,
 	    preq->science);
     conn_list_do_buffer(&pplayer->connections);
-    send_player_info(pplayer, pplayer);
     global_city_refresh(pplayer);
+    send_player_info(pplayer, pplayer);
     conn_list_do_unbuffer(&pplayer->connections);
   }
 }
@@ -733,10 +733,8 @@ void handle_player_government(struct player *pplayer,
   }
 
   check_player_government_rates(pplayer);
-
-  send_player_info(pplayer, pplayer);
-
   global_city_refresh(pplayer);
+  send_player_info(pplayer, pplayer);
 }
 
 /**************************************************************************
@@ -758,12 +756,10 @@ void handle_player_revolution(struct player *pplayer)
 	  get_nation_name_plural(pplayer->nation));
 
   check_player_government_rates(pplayer);
-
+  global_city_refresh(pplayer);
   send_player_info(pplayer, pplayer);
   if (player_owns_active_govchange_wonder(pplayer))
     pplayer->revolution=1;
-
-  global_city_refresh(pplayer);
 }
 
 /**************************************************************************
