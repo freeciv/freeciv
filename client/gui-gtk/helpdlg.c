@@ -829,7 +829,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         w = help_slink_new(improvement_types[j].name,
 			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = gtk_label_new(".");
+        w = gtk_label_new(Q_("?techhelp:."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       }
       if(i==improvement_types[j].obsolete_by) {
@@ -840,7 +840,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         w = help_slink_new(improvement_types[j].name,
 			  is_wonder(j)?HELP_WONDER:HELP_IMPROVEMENT);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = gtk_label_new(".");
+        w = gtk_label_new(Q_("?techhelp:."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       }
     } impr_type_iterate_end;
@@ -853,7 +853,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       w = help_slink_new(get_unit_type(j)->name, HELP_UNIT);
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-      w = gtk_label_new(".");
+      w = gtk_label_new(Q_("?techhelp:."));
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
     } unit_type_iterate_end;
 
@@ -866,7 +866,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = help_slink_new(advances[j].name, HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = gtk_label_new(".");
+          w = gtk_label_new(Q_("?techhelp:."));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 	}
 	else {
