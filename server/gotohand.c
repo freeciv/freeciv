@@ -50,7 +50,7 @@ struct refuel {
   struct refuel *coming_from;
 };
 
-static struct refuel *refuels[MAP_MAX_WIDTH*MAP_MAX_HEIGHT]; /* enought :P */
+static struct refuel *refuels[MAP_MAX_WIDTH*MAP_MAX_HEIGHT]; /* enough :P */
 static unsigned int refuellist_size;
 
 static void make_list_of_refuel_points(struct player *pplayer);

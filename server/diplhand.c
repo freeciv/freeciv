@@ -179,7 +179,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	case CLAUSE_GOLD:
 	  if (pplayer->economic.gold < pclause->value) {
 	    notify_player(pplayer,
-			  _("Game: You don't have enought gold, "
+			  _("Game: You don't have enough gold, "
 			    "you can't accept treaty."));
 	    return;
 	  }
