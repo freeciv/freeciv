@@ -1232,13 +1232,23 @@ Freeciv*option_smooth_move_units_toggle.fromVert:       option_sound_bell_at_new
 Freeciv*option_smooth_move_units_toggle.fromHoriz:      option_smooth_move_units_label
 Freeciv*option_smooth_move_units_toggle.internalHeight: 0
 
+Freeciv*option_do_combat_animation_label.label:	        _("Show combat animation      ")
+Freeciv*option_do_combat_animation_label.borderWidth: 0
+Freeciv*option_do_combat_animation_label.fromVert:    option_smooth_move_units_toggle
+
+! dummy label:
+Freeciv*option_do_combat_animation_toggle.label:	Yes
+Freeciv*option_do_combat_animation_toggle.fromVert:	option_smooth_move_units_toggle
+Freeciv*option_do_combat_animation_toggle.fromHoriz:	option_do_combat_animation_label
+Freeciv*option_do_combat_animation_toggle.internalHeight: 0
+
 Freeciv*option_ai_popup_windows_label.label:         _("Popup dialogs in AI Mode   ")
 Freeciv*option_ai_popup_windows_label.borderWidth:   0
-Freeciv*option_ai_popup_windows_label.fromVert:      option_smooth_move_units_toggle
+Freeciv*option_ai_popup_windows_label.fromVert:      option_do_combat_animation_toggle
 
 ! dummy label:
 Freeciv*option_ai_popup_windows_toggle.label:          Yes
-Freeciv*option_ai_popup_windows_toggle.fromVert:       option_smooth_move_units_toggle
+Freeciv*option_ai_popup_windows_toggle.fromVert:       option_do_combat_animation_toggle
 Freeciv*option_ai_popup_windows_toggle.fromHoriz:      option_ai_popup_windows_label
 Freeciv*option_ai_popup_windows_toggle.internalHeight: 0
 
