@@ -1,14 +1,14 @@
 /********************************************************************** 
  Freeciv - Copyright (C) 2002 - R. Falke
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2, or (at your option)
+  any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 ***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -26,13 +26,38 @@
 
 #include "audio_none.h"
 
-#include <proto/dos.h>
+#include <datatypes/soundclass.h>
+#include <intuition/classusr.h>
+
+#include <clib/alib_protos.h>
+
+#include <proto/datatypes.h>
+#include <proto/intuition.h>
+
+#define MAX_SAMPLES 8
+
+struct MySample
+{
+  Object    *obj;
+  const char  *tag;
+  ULONG     time;
+};
+
+static struct MySample samples[ MAX_SAMPLES ];
+static Object *MusicSample  = NULL;
 
 /**************************************************************************
   Clean up
 **************************************************************************/
 static void my_shutdown(void)
 {
+  int i;
+
+  for (i = 0; i < MAX_SAMPLES; i++)
+  {
+    DisposeDTObject( samples[i].obj );
+  }
+
 }
 
 /**************************************************************************
@@ -40,6 +65,8 @@ static void my_shutdown(void)
 **************************************************************************/
 static void my_stop(void)
 {
+  if ( MusicSample != NULL )
+    DoMethod(MusicSample, DTM_TRIGGER, 0, STM_STOP, 0);
 }
 
 /**************************************************************************
@@ -52,23 +79,59 @@ static void my_wait(void)
 /**************************************************************************
   Play sound sample
 **************************************************************************/
-static bool my_play(const char *const tag, const char *const fullpath,
-		    bool repeat)
+static bool my_play(const char *const tag, const char *const fullpath, bool repeat)
 {
-	static char cmdbuf[1024];
-	if (!fullpath) return FALSE;
+  Object  *CurrentSample  = NULL;
+  ULONG time, dummy;
+  int slot, i;
 
-  sprintf(cmdbuf,"Run >NIL: <NIL: C:Play16 %s %s >NIL:",fullpath,repeat?"loops=1":"");
+  /*  Find cached sample and alternatively look for the oldest slot */
 
-  system(cmdbuf);
+  time  = -1;
 
-#if 0
-  if (strcmp(tag, "e_turn_bell") == 0) {
-    sound_bell();
-    return TRUE;
+  for (i = 0; i < MAX_SAMPLES; i++)
+  {
+    if ( samples[i].tag && (strcmp( samples[i].tag, tag) == 0 ))
+    {
+      CurrentSample = samples[i].obj;
+      slot  = i;
+      break;
+    }
+
+    if ( samples[ i ].time <= time )
+      slot = i;
   }
-#endif
-  return TRUE;
+
+  if ( CurrentSample == NULL )
+  {
+    if ( fullpath == NULL )
+      return( FALSE );
+
+    DisposeDTObject( samples[ slot ].obj );
+
+    CurrentSample = NewDTObject((APTR)fullpath,
+                DTA_GroupID, GID_SOUND,
+                SDTA_Cycles, repeat ? -1 : 1,
+                DTA_Repeat, repeat,
+                TAG_DONE);
+
+    samples[ slot ].obj = CurrentSample;
+    samples[ slot ].tag = tag;
+
+    if ( CurrentSample == NULL )
+      return( FALSE );
+  }
+
+  /* DateStamp the latest sample. This way samples that were not used for
+   * a while get expunged from the memory.  */
+
+  CurrentTime( &samples[ slot ].time, &dummy );
+
+  if ( repeat )
+    MusicSample = CurrentSample;
+
+  DoMethod(CurrentSample, DTM_TRIGGER, 0, STM_PLAY, 0);
+  return( TRUE );
 }
 
 /**************************************************************************
@@ -76,6 +139,15 @@ static bool my_play(const char *const tag, const char *const fullpath,
 **************************************************************************/
 static bool my_init(void)
 {
+  int i;
+
+  for (i = 0; i < MAX_SAMPLES; i++)
+  {
+    samples[i].obj    = NULL;
+    samples[i].tag    = NULL;
+    samples[i].time = 0;
+  }
+
   return TRUE;
 }
 
