@@ -1679,6 +1679,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   char buffer[512];
   GtkWidget *pix, *hbox, *table;
   GtkWidget *unit_select_all_command, *unit_select_close_command;
+  bool can_ready = FALSE;
 
   if (!unit_select_dialog_shell){
   gtk_widget_set_sensitive(top_vbox, FALSE);
@@ -1703,6 +1704,9 @@ void popup_unit_select_dialog(struct tile *ptile)
     struct unit_type *punittemp=unit_type(punit);
     struct city *pcity;
 
+    /* The "Ready all" button is activated if any units are owned by us. */
+    can_ready = can_ready || (unit_owner(punit) == game.player_ptr);
+
     hbox = gtk_hbox_new(FALSE,10);
     gtk_table_attach_defaults(GTK_TABLE(table), hbox, 
 				(i/r), (i/r)+1,
@@ -1713,10 +1717,13 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
 
-    my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
-	    punittemp->name, 
-	    pcity ? pcity->name : "",
-	    unit_activity_text(punit));
+    if (pcity) {
+      my_snprintf(buffer, sizeof(buffer), "%s (%s)\n%s",
+		  punittemp->name, pcity->name, unit_activity_text(punit));
+    } else {
+      my_snprintf(buffer, sizeof(buffer), "%s\n%s",
+		  punittemp->name, unit_activity_text(punit));
+    }
 
     pix = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
@@ -1752,6 +1759,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   gtk_box_pack_start( GTK_BOX(GTK_DIALOG(unit_select_dialog_shell)->action_area),
 	unit_select_all_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( unit_select_all_command, GTK_CAN_DEFAULT );
+  gtk_widget_set_sensitive(unit_select_all_command, can_ready);
 
   gtk_signal_connect(GTK_OBJECT(unit_select_close_command), "clicked",
 	GTK_SIGNAL_FUNC(unit_select_callback), NULL);
