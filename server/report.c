@@ -495,7 +495,7 @@ static void dem_line_item(char *outptr, size_t out_size,
       }
     } players_iterate_end;
 
-    if (player_has_embassy(pplayer, best_player)) {
+    if(player_has_embassy(pplayer, best_player) && (pplayer != best_player)) {
       cat_snprintf(outptr, out_size, "   %s: %s",
 		   get_nation_name_plural(best_player->nation),
 		   prow->to_text(prow->get_value(best_player)));
