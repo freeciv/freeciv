@@ -1787,7 +1787,9 @@ void create_races_dialog(void)
 void races_dialog_returnkey(Widget w, XEvent *event, String *params,
 			    Cardinal *num_params)
 {
-  x_simulate_button_click(XtNameToWidget(XtParent(w), "racesokcommand"));
+  Widget ok = XtNameToWidget(XtParent(XtParent(w)), "*racesokcommand");
+  if (ok)
+    x_simulate_button_click(ok);
 }
 
 
