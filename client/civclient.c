@@ -432,6 +432,9 @@ void set_client_state(enum client_states newstate)
         cma_release_city(pcity);
       }
     } city_list_iterate_end;
+    popdown_all_city_dialogs();
+    popdown_all_game_dialogs();
+    set_unit_focus(NULL);
   }
 
   if (client_state != newstate) {
