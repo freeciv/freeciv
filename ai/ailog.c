@@ -25,9 +25,51 @@
 
 #include "gotohand.h"
 
+#include "aidata.h"
 #include "ailog.h"
 
 /* General AI logging functions */
+
+/**************************************************************************
+  Log player messages, they will appear like this
+    2: 
+**************************************************************************/
+void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai, 
+                const char *msg, ...)
+{
+  char targetbuffer[250];
+  char buffer[500];
+  char buffer2[500];
+  va_list ap;
+  int minlevel = MIN(LOGLEVEL_CITY, level);
+
+  if (pplayer->debug) {
+    minlevel = LOG_NORMAL;
+  } else if (minlevel > fc_log_level) {
+    return;
+  }
+
+  if (ai->diplomacy.target) {
+    my_snprintf(targetbuffer, sizeof(targetbuffer), "[ti%d co%d lo%d %s] ",
+                ai->diplomacy.timer, ai->diplomacy.countdown,
+              ai->diplomacy.player_intel[ai->diplomacy.target->player_no].love,
+                ai->diplomacy.target->name);
+  }
+  my_snprintf(buffer, sizeof(buffer), "%s %s%s%s ", pplayer->name,
+              ai->diplomacy.target ? targetbuffer : "",
+              ai->diplomacy.spacerace_leader &&
+              ai->diplomacy.spacerace_leader->player_no == pplayer->player_no ? 
+                "(spacelead) " : "",
+              ai->diplomacy.alliance_leader->player_no == pplayer->player_no ?
+                "(*)" : "");
+
+  va_start(ap, msg);
+  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  va_end(ap);
+
+  cat_snprintf(buffer, sizeof(buffer), buffer2);
+  freelog(minlevel, buffer);
+}
 
 /**************************************************************************
   Log city messages, they will appear like this
