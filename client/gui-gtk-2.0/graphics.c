@@ -556,6 +556,10 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
  ********************************************************************/
 GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite)
 {
+  if (!sprite) {
+    return NULL;
+  }
+  
   if (!sprite->pixbuf) {
     sprite->pixbuf = gdk_pixbuf_new_from_sprite(sprite);
   }
