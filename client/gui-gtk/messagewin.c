@@ -366,7 +366,7 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
 
   x = xpos[row];
   y = ypos[row];
-  location_ok = (y >= 0 && y < map.ysize);
+  location_ok = (x != -1 && y != -1);
   city_ok = (location_ok && (pcity=map_get_city(x,y))
 	    && (pcity->owner == game.player_idx));
 
@@ -441,7 +441,7 @@ void meswin_goto_callback(GtkWidget *w, gpointer data)
 
   row = (gint)selection->data;
 
-  if(xpos[row] != 0 || ypos[row]!=0)
+  if(xpos[row]!=-1 && ypos[row]!=-1)
     center_tile_mapcanvas(xpos[row], ypos[row]);
   meswin_visited_item (row);
 }
@@ -463,7 +463,7 @@ void meswin_popcity_callback(GtkWidget *w, gpointer data)
 
   x = xpos[row];
   y = ypos[row];
-  if((x || y) && (pcity=map_get_city(x,y))
+  if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y))
      && (pcity->owner == game.player_idx)) {
       if (center_when_popup_city) {
        center_tile_mapcanvas(x,y);

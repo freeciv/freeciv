@@ -160,7 +160,7 @@ static void mes_active(void)
     int location_ok;
     int city_ok;
 
-    location_ok = (y >= 0 && y < map.ysize);
+    location_ok = (x != -1 && y != -1);
     city_ok = (location_ok && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx));
 
     set(mes_goto_button, MUIA_Disabled, !location_ok);
@@ -180,7 +180,7 @@ static void mes_goto(void)
 {
   struct message_entry *entry;
   DoMethod(mes_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &entry);
-  if (entry)
+  if (entry && entry->x != -1 && entry->y != -1)
   {
     center_tile_mapcanvas(entry->x, entry->y);
   }
@@ -201,7 +201,7 @@ static void mes_popcity(void)
     x = entry->x;
     y = entry->y;
 
-    if ((x || y) && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx))
+    if ((x!=-1 || y!=-1) && (pcity = map_get_city(x, y)) && (pcity->owner == game.player_idx))
     {
       if (center_when_popup_city)
       {

@@ -374,7 +374,7 @@ void meswin_list_callback(Widget w, XtPointer client_data,
     int x, y;
     x = xpos[ret->list_index];
     y = ypos[ret->list_index];
-    location_ok = (y >= 0 && y < map.ysize);
+    location_ok = (x != -1 && y != -1);
     city_ok = (location_ok && (pcity=map_get_city(x,y))
 	       && (pcity->owner == game.player_idx));
   }    
@@ -411,7 +411,8 @@ void meswin_goto_callback(Widget w, XtPointer client_data,
 
   ret=XawListShowCurrent(meswin_list);
 
-  if(ret->list_index!=XAW_LIST_NONE && (xpos[ret->list_index] != 0 || ypos[ret->list_index]!=0))
+  if(ret->list_index!=XAW_LIST_NONE
+     && (xpos[ret->list_index]!=-1 && ypos[ret->list_index]!=-1))
     center_tile_mapcanvas(xpos[ret->list_index], ypos[ret->list_index]);
 }
 
@@ -429,7 +430,7 @@ void meswin_popcity_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE) {
     x = xpos[ret->list_index];
     y = ypos[ret->list_index];
-    if((x || y) && (pcity=map_get_city(x,y))
+    if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y))
        && (pcity->owner == game.player_idx)) {
       if (center_when_popup_city) {
 	center_tile_mapcanvas(x,y);

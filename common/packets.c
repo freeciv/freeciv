@@ -2677,8 +2677,15 @@ if (packet->y < 0 && pc && !has_capability("event00_fix", pc->capability)) {
   cptr=put_uint8(cptr, 0);
   cptr=put_uint8(cptr, 0);
 } else {
-  cptr=put_uint8(cptr, packet->x);
-  cptr=put_uint8(cptr, packet->y);
+  if (packet->x == -1) {
+    /* since we can currently only send unsigned ints... */
+    assert(MAP_MAX_WIDTH <= 255 && MAP_MAX_HEIGHT <= 255);
+    cptr=put_uint8(cptr, 255);
+    cptr=put_uint8(cptr, 255);
+  } else {
+    cptr=put_uint8(cptr, packet->x);
+    cptr=put_uint8(cptr, packet->y);
+  }
 }
   /* when removing "event_wonder_obsolete" capability,
    leave only the code from the *else* clause (send unmodified value) */
@@ -2783,6 +2790,10 @@ receive_packet_generic_message(struct connection *pc)
 
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
+  if (packet->x == 255) { /* unsigned encoding for no position */
+    packet->x = -1;
+    packet->y = -1;
+  }
   
   /* when removing "event00_fix" capability, remove following block */
   if (packet->x==0 && packet->y==0
