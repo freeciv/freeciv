@@ -375,40 +375,40 @@ void create_default_cma_presets(void)
  int i;
  struct cm_parameter parameters[] = {
    { /* max food */
-     minimal_surplus: {0, 0, 0, 0, 0, 0},
-     require_happy: FALSE,
-     allow_disorder: FALSE,
-     allow_specialists: TRUE,
-     factor: {10, 1, 1, 1, 1, 1},
-     happy_factor: 0
+     .minimal_surplus = {0, 0, 0, 0, 0, 0},
+     .require_happy = FALSE,
+     .allow_disorder = FALSE,
+     .allow_specialists = TRUE,
+     .factor = {10, 1, 1, 1, 1, 1},
+     .happy_factor = 0
    }, { /* max prod */
-     minimal_surplus: {0, 0, 0, 0, 0, 0},
-     require_happy: FALSE,
-     allow_disorder: FALSE,
-     allow_specialists: TRUE,
-     factor: {1, 10, 1, 1, 1, 1},
-     happy_factor: 0
+     .minimal_surplus = {0, 0, 0, 0, 0, 0},
+     .require_happy = FALSE,
+     .allow_disorder = FALSE,
+     .allow_specialists = TRUE,
+     .factor = {1, 10, 1, 1, 1, 1},
+     .happy_factor = 0
    }, { /* max gold */
-     minimal_surplus: {0, 0, 0, 0, 0, 0},
-     require_happy: FALSE,
-     allow_disorder: FALSE,
-     allow_specialists: TRUE,
-     factor: {1, 1, 1, 10, 1, 1},
-     happy_factor: 0
+     .minimal_surplus = {0, 0, 0, 0, 0, 0},
+     .require_happy = FALSE,
+     .allow_disorder = FALSE,
+     .allow_specialists = TRUE,
+     .factor = {1, 1, 1, 10, 1, 1},
+     .happy_factor = 0
    }, { /* max science */
-     minimal_surplus: {0, 0, 0, 0, 0, 0},
-     require_happy: FALSE,
-     allow_disorder: FALSE,
-     allow_specialists: TRUE,
-     factor: {1, 1, 1, 1, 1, 10},
-     happy_factor: 0
+     .minimal_surplus = {0, 0, 0, 0, 0, 0},
+     .require_happy = FALSE,
+     .allow_disorder = FALSE,
+     .allow_specialists = TRUE,
+     .factor = {1, 1, 1, 1, 1, 10},
+     .happy_factor = 0
    }, { /* very happy */
-     minimal_surplus: {0, 0, 0, 0, 0, 0},
-     require_happy: FALSE,
-     allow_disorder: FALSE,
-     allow_specialists: TRUE,
-     factor: {1, 1, 1, 1, 1, 1},
-     happy_factor: 25
+     .minimal_surplus = {0, 0, 0, 0, 0, 0},
+     .require_happy = FALSE,
+     .allow_disorder = FALSE,
+     .allow_specialists = TRUE,
+     .factor = {1, 1, 1, 1, 1, 1},
+     .happy_factor = 25
    }   
  };
  const char* names[ARRAY_SIZE(parameters)] = {
