@@ -1281,7 +1281,7 @@ static void choose_government(void)
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
-  bool poptechup = FALSE;
+  bool poptechup, new_tech;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
 
@@ -1317,12 +1317,11 @@ void handle_player_info(struct packet_player_info *pinfo)
   if (pplayer->is_connected
       || get_client_state() == CLIENT_GAME_RUNNING_STATE
       || get_client_state() == CLIENT_GAME_OVER_STATE) {
-    poptechup = poptechup || read_player_info_techs(pplayer, pinfo->inventions);
+    new_tech = read_player_info_techs(pplayer, pinfo->inventions);
   }
 
   poptechup = (pplayer->research.researching != pinfo->researching
-               || pplayer->ai.tech_goal != pinfo->tech_goal
-               || poptechup);
+               || pplayer->ai.tech_goal != pinfo->tech_goal);
   pplayer->research.bulbs_researched = pinfo->bulbs_researched;
   pplayer->research.techs_researched = pinfo->techs_researched;
   pplayer->research.researching=pinfo->researching;
@@ -1330,17 +1329,20 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->ai.tech_goal=pinfo->tech_goal;
   
   if (can_client_change_view() && pplayer == game.player_ptr) {
-    if(poptechup) {
-      if(!game.player_ptr->ai.control || ai_popup_windows)
+    if (poptechup) {
+      if (!game.player_ptr->ai.control || ai_popup_windows) {
 	popup_science_dialog(FALSE);
+      }
       science_dialog_update();
-
+    }
+    if (new_tech) {
       /* If we just learned bridge building and focus is on a settler
 	 on a river the road menu item will remain disabled unless we
 	 do this. (applys in other cases as well.) */
-      if (get_unit_in_focus())
+      if (get_unit_in_focus()) {
 	update_menus();
-    } 
+      }
+    }
   }
 
   if (pplayer == game.player_ptr && pplayer->turn_done != pinfo->turn_done) {
