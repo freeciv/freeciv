@@ -16,9 +16,10 @@ nit-picky, but wars are fought over the silliest things...
   "indent -kr -i2 -l77").  However, do not re-indent areas of code you
   are not modifying or creating. Here are the most important properties:
     - lines are at most 77 chars long
-    - spaces are inserted before and after operators ("int i, j, k;"
-      instead of "int a,b,c;" and "if (foo <= bar) c = a + b;" instead
-      of "if(foo<=bar) c=a+b;")
+    - spaces are inserted before and after operators (instead of 
+      "int a,b,c;" use "int i, j, k;" and instead of "if(foo<=bar) c=a+b;"
+      use "if (foo <= bar) c = a + b;" -- note the space between "if" 
+      and the bracket)
     - function braces begin and end in the first column.
         int foo()
         {
@@ -77,7 +78,7 @@ int the_function_starts_here(int value)
 - Comments in conditionals. If you need a comment to show program flow,
   it should be below the if or else:
 
-  if(is_barbarian(pplayer)) {
+  if (is_barbarian(pplayer)) {
     x++;
   } else {
     /* If not barbarian, ... */
@@ -160,7 +161,7 @@ int foo(struct city *pcity)
 - If an empty block is needed you should put an explanatory comment in
   an empty block (i.e. {}):
 
-  while(*i++) {
+  while (*i++) {
     /* nothing */
   }
 
