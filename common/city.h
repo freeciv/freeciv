@@ -229,4 +229,6 @@ int city_list_size(struct city_list *This);
 void city_list_unlink(struct city_list *This, struct city *pcity);
 void city_list_insert_back(struct city_list *This, struct city *pcity);
 
+int city_name_compare(const void *p1, const void *p2);
+
 #endif

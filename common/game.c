@@ -466,14 +466,17 @@ void game_renumber_players(int plrno)
 /**************************************************************************
 city_name_compare() - Does a string compare on the names of two cities
                       when passed the cities' IDs.  Called by qsort()
+Note that when used in the client this is computationally expensive
+since we have to find cities corresponding to ids for each comparison. --dwp
 **************************************************************************/
-
-int city_name_compare(const void *first,const void *second)
+#ifdef UNUSED
+int old_city_name_compare(const void *first,const void *second)
 {
 
     return mystrcasecmp((game_find_city_by_id(*(int *)first))->name,
                   (game_find_city_by_id(*(int *)second))->name);
 }
+#endif
 
 
 /**************************************************************************

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -70,9 +71,14 @@ extern int did_advance_tech_this_year;
 static char *cr_entry_cityname(struct city *pcity)
 {
   static char buf[REPORT_CITYNAME_ABBREV+1];
-  strncpy(buf, pcity->name, REPORT_CITYNAME_ABBREV);
-  buf[REPORT_CITYNAME_ABBREV] = '\0';
-  return buf;
+  if (strlen(pcity->name) <= REPORT_CITYNAME_ABBREV) {
+    return pcity->name;
+  } else {
+    strncpy(buf, pcity->name, REPORT_CITYNAME_ABBREV-1);
+    buf[REPORT_CITYNAME_ABBREV-1] = '.';
+    buf[REPORT_CITYNAME_ABBREV] = '\0';
+    return buf;
+  }
 }
 
 static char *cr_entry_size(struct city *pcity)
@@ -1183,6 +1189,7 @@ void city_report_dialog_update(void)
     int i=0, n;
     Dimension width;
     static int n_alloc = 0;
+    static struct city **city_list_ptrs = 0;
     static char **city_list_names = 0;
     static char **city_list_names_ptrs = 0;
     char *report_title;
@@ -1195,6 +1202,7 @@ void city_report_dialog_update(void)
       n_alloc = n + 32;
       flog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
       cities_in_list = realloc(cities_in_list, n_alloc*sizeof(int));
+      city_list_ptrs = realloc(city_list_ptrs, n_alloc*sizeof(struct city*));
       city_list_names_ptrs = realloc(city_list_names_ptrs,
 				(n_alloc+1)*sizeof(char*));
       city_list_names = realloc(city_list_names, n_alloc*sizeof(char*));
@@ -1214,12 +1222,23 @@ void city_report_dialog_update(void)
       city_popupmenu = 0;
     }    
 
+    /* Only sort once, in case any cities have duplicate/truncated names.
+     * Plus this should be much faster than sorting on ids which means
+     * having to find city corresponding to id for each comparison.
+     */
     city_list_iterate(game.player_ptr->cities, pcity) {
+      city_list_ptrs[i] = pcity;
+      i++;
+    } city_list_iterate_end;
+    assert(i==n);
+    qsort(city_list_ptrs, n, sizeof(struct city*), city_name_compare);
+    for(i=0; i<n; i++) {
+      struct city *pcity = city_list_ptrs[i];
       get_city_text(pcity,city_list_names[i]);
       city_list_names_ptrs[i]=city_list_names[i];
       cities_in_list[i]=pcity->id;
-      i++;
-    } city_list_iterate_end;
+    }
+    i = n;
     if(i==0) {
       strcpy(city_list_names[0], 
 	     "                                                             ");
@@ -1228,11 +1247,6 @@ void city_report_dialog_update(void)
       cities_in_list[0]=0;
     }
     city_list_names_ptrs[i]=NULL;
-    /* Lists are independently sorted, but stay in sync as long as
-       the city info strings (in city_list_names) start with the
-       city name.  */
-    qsort(city_list_names_ptrs,i,sizeof(char *),(void *)string_ptr_compare);
-    qsort(cities_in_list,i,sizeof(int),(void *)city_name_compare);
 
     XawFormDoLayout(city_form, False);
     XawListChange(city_list, city_list_names_ptrs, i, 0, True);
@@ -1272,7 +1286,7 @@ void city_report_dialog_update_city(struct city *pcity)
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
       if(strncmp(pcity->name,list[i],
-		 MIN(strlen(pcity->name),REPORT_CITYNAME_ABBREV))) {
+		 MIN(strlen(pcity->name),REPORT_CITYNAME_ABBREV-1))) {
 	 break;
       }
       get_city_text(pcity,new_city_line);

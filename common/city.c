@@ -17,6 +17,7 @@
 #include <map.h>
 #include <city.h>
 #include <tech.h>
+#include <shared.h>
 
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
@@ -1370,4 +1371,15 @@ void city_list_unlink(struct city_list *This, struct city *pcity)
 void city_list_insert_back(struct city_list *This, struct city *pcity)
 {
   genlist_insert(&This->list, pcity, -1);
+}
+
+/**************************************************************************
+Comparison function for qsort for city _pointers_, sorting by city name.
+Args are really (struct city**), to sort an array of pointers.
+(Compare with old_city_name_compare() in game.c, which use city_id's)
+**************************************************************************/
+int city_name_compare(const void *p1, const void *p2)
+{
+  return mystrcasecmp( (*(struct city**)p1)->name,
+		       (*(struct city**)p2)->name );
 }
