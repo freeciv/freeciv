@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2001-09-06 23:48+0200\n"
+"POT-Creation-Date: 2001-09-08 20:08+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -128,7 +128,7 @@ msgstr "Bewässerung"
 
 #: common/map.c:64 common/map.c:625 common/unit.c:529
 #: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
-#: data/default/techs.ruleset:439
+#: data/default/techs.ruleset:443
 msgid "Railroad"
 msgstr "Eisenbahn"
 
@@ -1194,7 +1194,7 @@ msgstr "Spiel: %s hat %s von %s gestohlen."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spiel: %ss %s hat %s von %s gestohlen."
 
-#: server/diplomats.c:664 server/plrhand.c:530
+#: server/diplomats.c:664 server/plrhand.c:536
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
@@ -1568,7 +1568,12 @@ msgstr ""
 "Spiel: Zukunftstechnologie %d erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt Zukunftstechnologie %d."
 
-#: server/plrhand.c:316
+#: server/plrhand.c:317
+#, c-format
+msgid "Game: %s"
+msgstr "Spiel: %s"
+
+#: server/plrhand.c:320
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -1577,65 +1582,65 @@ msgstr ""
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
-#: server/plrhand.c:331
+#: server/plrhand.c:337
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spiel: Die %s haben %s erforscht."
 
-#: server/plrhand.c:335
+#: server/plrhand.c:341
 #, c-format
 msgid "%s discover %s"
 msgstr "Die %s haben %s erforscht."
 
-#: server/plrhand.c:341
+#: server/plrhand.c:347
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spiel: Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:345
+#: server/plrhand.c:351
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:455
+#: server/plrhand.c:461
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spiel: Entwicklungsziel ist %s."
 
-#: server/plrhand.c:499
+#: server/plrhand.c:505
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spiel: Zukunftstechnologie %d von %s erhalten."
 
-#: server/plrhand.c:502
+#: server/plrhand.c:508
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spiel: %s entdeckte Zukunftstechnologie %d in der Stadt."
 
-#: server/plrhand.c:505
+#: server/plrhand.c:511
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spiel: Die %s eroberten Zukunftstechnologie %d von den %s."
 
-#: server/plrhand.c:526
+#: server/plrhand.c:532
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spiel. %s von %s erhalten."
 
-#: server/plrhand.c:528
+#: server/plrhand.c:534
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spiel: %s entdeckte %s in der Stadt."
 
-#: server/plrhand.c:550
+#: server/plrhand.c:556
 msgid "Game: Cannot change rates before game start."
 msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 
-#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:563
+#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:569
 msgid "Tax"
 msgstr "Steuern"
 
-#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:565
+#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:571
 msgid "Luxury"
 msgstr "Luxus"
 
@@ -1643,42 +1648,42 @@ msgstr "Luxus"
 #: client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:402
 #: client/gui-mui/repodlgs.c:298 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:270 client/gui-xaw/repodlgs.c:506
-#: data/Freeciv:1360 server/plrhand.c:567
+#: data/Freeciv:1360 server/plrhand.c:573
 msgid "Science"
 msgstr "Forschung"
 
-#: server/plrhand.c:568
+#: server/plrhand.c:574
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spiel: %s Quote übersteigt die Höchstgrenze für %s."
 
-#: server/plrhand.c:635
+#: server/plrhand.c:641
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spiel: %s regiert die %s jetzt als %s."
 
-#: server/plrhand.c:670
+#: server/plrhand.c:676
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
-#: server/plrhand.c:697
+#: server/plrhand.c:703
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:703
+#: server/plrhand.c:709
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Spiel: Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:709
+#: server/plrhand.c:715
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:764
+#: server/plrhand.c:770
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1686,12 +1691,12 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:774
+#: server/plrhand.c:780
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-#: server/plrhand.c:778
+#: server/plrhand.c:784
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1699,36 +1704,36 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:835 server/plrhand.c:843
+#: server/plrhand.c:841 server/plrhand.c:849
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:840
+#: server/plrhand.c:846
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spiel: %s hat die Vereinbarung aufgekündigt!"
 
-#: server/plrhand.c:1253
+#: server/plrhand.c:1259
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1254
+#: server/plrhand.c:1260
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1264
+#: server/plrhand.c:1270
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1295 server/plrhand.c:1299
+#: server/plrhand.c:1301 server/plrhand.c:1305
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:1682
+#: server/plrhand.c:1688
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1737,12 +1742,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten.\n"
 "       %s ist der Anführer der revoltierenden Provinzen."
 
-#: server/plrhand.c:1701
+#: server/plrhand.c:1707
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1724
+#: server/plrhand.c:1730
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -1945,7 +1950,7 @@ msgid "Research Speed"
 msgstr "Forschungstempo"
 
 #: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:301 server/report.c:892
+#: data/default/techs.ruleset:303 server/report.c:892
 msgid "Literacy"
 msgstr "Bildung"
 
@@ -1954,7 +1959,7 @@ msgid "Production"
 msgstr "Produktion"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:175 server/report.c:894
+#: data/default/techs.ruleset:177 server/report.c:894
 msgid "Economics"
 msgstr "Wirtschaft"
 
@@ -2032,7 +2037,7 @@ msgstr "unterstützte Optionen: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 
-#: server/ruleset.c:2506
+#: server/ruleset.c:2516
 msgid "Loading rulesets"
 msgstr "Lade rulesets"
 
@@ -9653,7 +9658,7 @@ msgid " Sell "
 msgstr " Verkaufen "
 
 #: data/Freeciv:2964 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
-#: data/default/techs.ruleset:553
+#: data/default/techs.ruleset:557
 msgid "Trade"
 msgstr "Handel"
 
@@ -12111,7 +12116,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:1058 data/civ1/techs.ruleset:559
 #: data/civ2/buildings.ruleset:1049 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:559
+#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:563
 msgid "University"
 msgstr "Universität"
 
@@ -12809,7 +12814,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
-#: data/default/governments.ruleset:244 data/default/techs.ruleset:367
+#: data/default/governments.ruleset:244 data/default/techs.ruleset:369
 msgid "Monarchy"
 msgstr "Monarchie"
 
@@ -12867,7 +12872,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
-#: data/default/governments.ruleset:314 data/default/techs.ruleset:139
+#: data/default/governments.ruleset:314 data/default/techs.ruleset:141
 msgid "Communism"
 msgstr "Kommunismus"
 
@@ -12988,7 +12993,7 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:521 data/civ2/techs.ruleset:169
-#: data/default/governments.ruleset:471 data/default/techs.ruleset:169
+#: data/default/governments.ruleset:471 data/default/techs.ruleset:171
 msgid "Democracy"
 msgstr "Demokratie"
 
@@ -13065,7 +13070,7 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
-#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:229
+#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:231
 msgid "Fundamentalism"
 msgstr "Fundamentalismus"
 
@@ -13299,396 +13304,405 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
-#: data/default/techs.ruleset:49
+#: data/default/techs.ruleset:51
 msgid "Advanced Flight"
 msgstr "Moderne Flugtechnik"
 
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
-#: data/default/techs.ruleset:55
+#: data/default/techs.ruleset:57
 msgid "Alphabet"
 msgstr "Alphabet"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
-#: data/default/techs.ruleset:61
+#: data/default/techs.ruleset:63
 msgid "Amphibious Warfare"
 msgstr "Amphibische Kriegführung"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
-#: data/default/techs.ruleset:67
+#: data/default/techs.ruleset:69
 msgid "Astronomy"
 msgstr "Astronomie"
 
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
-#: data/default/techs.ruleset:73
+#: data/default/techs.ruleset:75
 msgid "Atomic Theory"
 msgstr "Atomtheorie"
 
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
-#: data/default/techs.ruleset:79
+#: data/default/techs.ruleset:81
 msgid "Automobile"
 msgstr "Automobil"
 
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
-#: data/default/techs.ruleset:85
+#: data/default/techs.ruleset:87
 msgid "Banking"
 msgstr "Bankwesen"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
-#: data/default/techs.ruleset:91
+#: data/default/techs.ruleset:93
 msgid "Bridge Building"
 msgstr "Brückenbau"
 
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
-#: data/default/techs.ruleset:97
+#: data/default/techs.ruleset:99
 msgid "Bronze Working"
 msgstr "Bronzebearbeitung"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
-#: data/default/techs.ruleset:103
+#: data/default/techs.ruleset:105
 msgid "Ceremonial Burial"
 msgstr "Zeremonielle Bestattung"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
-#: data/default/techs.ruleset:109
+#: data/default/techs.ruleset:111
 msgid "Chemistry"
 msgstr "Chemie"
 
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
-#: data/default/techs.ruleset:115
+#: data/default/techs.ruleset:117
 msgid "Chivalry"
 msgstr "Rittertum"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
-#: data/default/techs.ruleset:121
+#: data/default/techs.ruleset:123
 msgid "Code of Laws"
 msgstr "Gesetzbuch"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
-#: data/default/techs.ruleset:127
+#: data/default/techs.ruleset:129
 msgid "Combined Arms"
 msgstr "Kombinierte Waffen"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
-#: data/default/techs.ruleset:133
+#: data/default/techs.ruleset:135
 msgid "Combustion"
 msgstr "Verbrennung"
 
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
-#: data/default/techs.ruleset:145
+#: data/default/techs.ruleset:147
 msgid "Computers"
 msgstr "Computer"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
-#: data/default/techs.ruleset:151
+#: data/default/techs.ruleset:153
 msgid "Conscription"
 msgstr "Wehrpflicht"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
-#: data/default/techs.ruleset:157
+#: data/default/techs.ruleset:159
 msgid "Construction"
 msgstr "Konstruktion"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
-#: data/default/techs.ruleset:163
+#: data/default/techs.ruleset:165
 msgid "Currency"
 msgstr "Währung"
 
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
-#: data/default/techs.ruleset:181
+#: data/default/techs.ruleset:183
 msgid "Electricity"
 msgstr "Elektrizität"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:187
+#: data/default/techs.ruleset:189
 msgid "Electronics"
 msgstr "Elektronik"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
-#: data/default/techs.ruleset:193
+#: data/default/techs.ruleset:195
 msgid "Engineering"
 msgstr "Technik"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
-#: data/default/techs.ruleset:199
+#: data/default/techs.ruleset:201
 msgid "Environmentalism"
 msgstr "Umweltschutz"
 
 #: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
-#: data/default/techs.ruleset:205
+#: data/default/techs.ruleset:207
 msgid "Espionage"
 msgstr "Spionage"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
-#: data/default/techs.ruleset:211
+#: data/default/techs.ruleset:213
 msgid "Explosives"
 msgstr "Sprengstoff"
 
 #: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
-#: data/default/techs.ruleset:217
+#: data/default/techs.ruleset:219
 msgid "Feudalism"
 msgstr "Feudalismus"
 
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
-#: data/default/techs.ruleset:223
+#: data/default/techs.ruleset:225
 msgid "Flight"
 msgstr "Flug"
 
 #: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
-#: data/default/techs.ruleset:235
+#: data/default/techs.ruleset:237
 msgid "Fusion Power"
 msgstr "Kernfusion"
 
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
-#: data/default/techs.ruleset:241
+#: data/default/techs.ruleset:243
 msgid "Genetic Engineering"
 msgstr "Gentechnik"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/default/techs.ruleset:247
+#: data/default/techs.ruleset:249
 msgid "Guerilla Warfare"
 msgstr "Guerillakrieg"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
-#: data/default/techs.ruleset:253
+#: data/default/techs.ruleset:255
 msgid "Gunpowder"
 msgstr "Schießpulver"
 
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
-#: data/default/techs.ruleset:259
+#: data/default/techs.ruleset:261
 msgid "Horseback Riding"
 msgstr "Reiten"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
-#: data/default/techs.ruleset:265
+#: data/default/techs.ruleset:267
 msgid "Industrialization"
 msgstr "Industrialisierung"
 
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
-#: data/default/techs.ruleset:271
+#: data/default/techs.ruleset:273
 msgid "Invention"
 msgstr "Patentierung"
 
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:277
+#: data/default/techs.ruleset:279
 msgid "Iron Working"
 msgstr "Eisenbearbeitung"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
-#: data/default/techs.ruleset:283
+#: data/default/techs.ruleset:285
 msgid "Labor Union"
 msgstr "Gewerkschaft"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
-#: data/default/techs.ruleset:289
+#: data/default/techs.ruleset:291
 msgid "Laser"
 msgstr "Laser"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
-#: data/default/techs.ruleset:295
+#: data/default/techs.ruleset:297
 msgid "Leadership"
 msgstr "Führerschaft"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
-#: data/default/techs.ruleset:307
+#: data/default/techs.ruleset:309
 msgid "Machine Tools"
 msgstr "Werkzeugmaschinen"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
-#: data/default/techs.ruleset:313
+#: data/default/techs.ruleset:315
 msgid "Magnetism"
 msgstr "Magnetismus"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
-#: data/default/techs.ruleset:319
+#: data/default/techs.ruleset:321
 msgid "Map Making"
 msgstr "Kartographie"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
-#: data/default/techs.ruleset:325
+#: data/default/techs.ruleset:327
 msgid "Masonry"
 msgstr "Mauern"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
-#: data/default/techs.ruleset:331
+#: data/default/techs.ruleset:333
 msgid "Mass Production"
 msgstr "Massenproduktion"
 
 #: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
-#: data/default/techs.ruleset:337
+#: data/default/techs.ruleset:339
 msgid "Mathematics"
 msgstr "Mathematik"
 
 #: data/civ1/techs.ruleset:343 data/civ2/techs.ruleset:343
-#: data/default/techs.ruleset:343
+#: data/default/techs.ruleset:345
 msgid "Medicine"
 msgstr "Medizin"
 
 #: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
-#: data/default/techs.ruleset:349
+#: data/default/techs.ruleset:351
 msgid "Metallurgy"
 msgstr "Metallurgie"
 
 #: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
-#: data/default/techs.ruleset:355
+#: data/default/techs.ruleset:357
 msgid "Miniaturization"
 msgstr "Miniaturisierung"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
-#: data/default/techs.ruleset:361
+#: data/default/techs.ruleset:363
 msgid "Mobile Warfare"
 msgstr "Mobile Kriegsführung"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
-#: data/default/techs.ruleset:373
+#: data/default/techs.ruleset:375
 msgid "Monotheism"
 msgstr "Monotheismus"
 
 #: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
-#: data/default/techs.ruleset:379
+#: data/default/techs.ruleset:381
 msgid "Mysticism"
 msgstr "Mystik"
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
-#: data/default/techs.ruleset:385
+#: data/default/techs.ruleset:387
 msgid "Navigation"
 msgstr "Navigation"
 
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
-#: data/default/techs.ruleset:391
+#: data/default/techs.ruleset:393
 msgid "Nuclear Fission"
 msgstr "Kernspaltung"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
-#: data/default/techs.ruleset:397
+#: data/default/techs.ruleset:399
 msgid "Nuclear Power"
 msgstr "Atomkraft"
 
 #: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
-#: data/default/techs.ruleset:403
+#: data/default/techs.ruleset:405
 msgid "Philosophy"
 msgstr "Philosophie"
 
-#: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
 #: data/default/techs.ruleset:409
+msgid ""
+"Great philosophers from all the world join your civilization: you get an "
+"immediate advance."
+msgstr ""
+"Spiel: Die größten Wissenschaftler aus aller Welt haben sich Ihrer Nation "
+"angeschlossen:\n"
+"       Ein direkter Fortschritt ist die Folge."
+
+#: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
+#: data/default/techs.ruleset:413
 msgid "Physics"
 msgstr "Physik"
 
 #: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
-#: data/default/techs.ruleset:415
+#: data/default/techs.ruleset:419
 msgid "Plastics"
 msgstr "Kunststoffe"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
-#: data/default/techs.ruleset:421
+#: data/default/techs.ruleset:425
 msgid "Polytheism"
 msgstr "Polytheismus"
 
 #: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
-#: data/default/techs.ruleset:427
+#: data/default/techs.ruleset:431
 msgid "Pottery"
 msgstr "Töpferei"
 
 #: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
-#: data/default/techs.ruleset:433
+#: data/default/techs.ruleset:437
 msgid "Radio"
 msgstr "Radio"
 
 #: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:445
-#: data/default/techs.ruleset:445
+#: data/default/techs.ruleset:449
 msgid "Recycling"
 msgstr "Recycling"
 
 #: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
-#: data/default/techs.ruleset:451
+#: data/default/techs.ruleset:455
 msgid "Refining"
 msgstr "Raffinierung"
 
 #: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
-#: data/default/techs.ruleset:457
+#: data/default/techs.ruleset:461
 msgid "Refrigeration"
 msgstr "Kältetechnik"
 
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
-#: data/default/techs.ruleset:463
+#: data/default/techs.ruleset:467
 msgid "Robotics"
 msgstr "Robotik"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
-#: data/default/techs.ruleset:469
+#: data/default/techs.ruleset:473
 msgid "Rocketry"
 msgstr "Raketentechnik"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
-#: data/default/techs.ruleset:475
+#: data/default/techs.ruleset:479
 msgid "Sanitation"
 msgstr "Hygiene"
 
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
-#: data/default/techs.ruleset:481
+#: data/default/techs.ruleset:485
 msgid "Seafaring"
 msgstr "Seefahrt"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
-#: data/default/techs.ruleset:487
+#: data/default/techs.ruleset:491
 msgid "Space Flight"
 msgstr "Weltraumflug"
 
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
-#: data/default/techs.ruleset:493
+#: data/default/techs.ruleset:497
 msgid "Stealth"
 msgstr "Stealth-Technologie"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
-#: data/default/techs.ruleset:499
+#: data/default/techs.ruleset:503
 msgid "Steam Engine"
 msgstr "Dampfmaschine"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
-#: data/default/techs.ruleset:505
+#: data/default/techs.ruleset:509
 msgid "Steel"
 msgstr "Stahl"
 
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:511
+#: data/default/techs.ruleset:515
 msgid "Superconductors"
 msgstr "Supraleiter"
 
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
-#: data/default/techs.ruleset:517
+#: data/default/techs.ruleset:521
 msgid "Tactics"
 msgstr "Taktik"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
-#: data/default/techs.ruleset:523
+#: data/default/techs.ruleset:527
 msgid "The Corporation"
 msgstr "Die Firma"
 
 #: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
-#: data/default/techs.ruleset:529
+#: data/default/techs.ruleset:533
 msgid "The Republic"
 msgstr "Die Republik"
 
 #: data/civ1/techs.ruleset:535 data/civ2/techs.ruleset:535
-#: data/default/techs.ruleset:535
+#: data/default/techs.ruleset:539
 msgid "The Wheel"
 msgstr "Das Rad"
 
-#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:541
+#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:545
 msgid "Theology"
 msgstr "Theologie"
 
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
-#: data/default/techs.ruleset:547
+#: data/default/techs.ruleset:551
 msgid "Theory of Gravity"
 msgstr "Gravitationstheorie"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
-#: data/default/techs.ruleset:565
+#: data/default/techs.ruleset:569
 msgid "Warrior Code"
 msgstr "Kriegerkodex"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
-#: data/default/techs.ruleset:571
+#: data/default/techs.ruleset:575
 msgid "Writing"
 msgstr "Schrift"
 
