@@ -660,6 +660,11 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   pdialog->overview.improvement_list = view;
 
+  gtk_tooltips_set_tip(pdialog->tips,
+		       view,
+		       _("Press ENTER or double-click to sell an improvement."),
+		       "");
+    
   rend = gtk_cell_renderer_pixbuf_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
       rend, "pixbuf", 1, NULL);
