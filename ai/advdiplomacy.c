@@ -1003,11 +1003,13 @@ static void suggest_tech_exchange(struct player* player1,
       continue;
     }
     tech_type_iterate(tech2) {
+      int diff;
+
       if (worth[tech2] >= 0) {
         continue;
       }
       /* tech2 is given by player1, tech is given by player2 */
-      int diff = worth[tech] + worth[tech2];
+      diff = worth[tech] + worth[tech2];
       if ((diff > 0 && player1->economic.gold >= diff)
           || (diff < 0 && player2->economic.gold >= -diff)
 	  || diff == 0) {
