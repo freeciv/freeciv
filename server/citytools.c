@@ -656,7 +656,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
   /* Any remaining units supported by the city are either given new home
      cities or maybe destroyed */
-  unit_list_iterate(*units, vunit) {
+  unit_list_iterate_safe(*units, vunit) {
     struct city *new_home_city = map_get_city(vunit->x, vunit->y);
     if (new_home_city && new_home_city != exclude_city) {
       /* unit is in another city: make that the new homecity,
@@ -672,8 +672,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
        no cargo deletion => no trouble with "units" list.
        In cases where the cargo can be left without transport the calling
        function should take that into account. */
-    wipe_unit_spec_safe(vunit, NULL, FALSE);
-  } unit_list_iterate_end;
+    wipe_unit(vunit);
+  } unit_list_iterate_safe_end;
 }
 
 /**********************************************************************
