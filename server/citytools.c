@@ -1958,7 +1958,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		     _("Game: %s is building %s%s."),
 		     pcity->name, name, source);
   } else {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_PRODUCTION_CHANGED,
 		     /* TRANS: "<city> is building <production>." */
 		     _("Game: %s is building %s."), 
 		     pcity->name, name);

@@ -92,7 +92,7 @@ enum event_type {
   E_UNIT_LOST_ATT,
   E_UNIT_WIN_ATT,
   E_UNIT_BUY,
-  E_UNIT_BUILD,
+  E_UNIT_BUILT,
   E_UNIT_LOST,
   E_UNIT_WIN,
   E_UNIT_BECAME_VET,
@@ -105,6 +105,7 @@ enum event_type {
   E_WONDER_STOPPED,
   E_WONDER_WILL_BE_BUILT,
   E_DIPLOMACY,
+  E_CITY_PRODUCTION_CHANGED,
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in client/options.c using GEN_EV and to

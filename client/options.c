@@ -259,7 +259,7 @@ static struct {
   GEN_EV(N_("Unit: Attack Failed"),                   E_UNIT_LOST_ATT),
   GEN_EV(N_("Unit: Attack Succeeded"),                E_UNIT_WIN_ATT),
   GEN_EV(N_("Unit: Bought"),                          E_UNIT_BUY),
-  GEN_EV(N_("Unit: Built"),                           E_UNIT_BUILD),
+  GEN_EV(N_("Unit: Built"),                           E_UNIT_BUILT),
   GEN_EV(N_("Unit: Defender Destroyed"),              E_UNIT_LOST),
   GEN_EV(N_("Unit: Defender Survived"),               E_UNIT_WIN),
   GEN_EV(N_("Unit: Became More Veteran"),             E_UNIT_BECAME_VET),
@@ -272,6 +272,7 @@ static struct {
   GEN_EV(N_("Wonder: Stopped"),                       E_WONDER_STOPPED),
   GEN_EV(N_("Wonder: Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
   GEN_EV(N_("Diplomatic Message"),                    E_DIPLOMACY),
+  GEN_EV(N_("City: Production changed"),              E_CITY_PRODUCTION_CHANGED),
   GEN_EV_TERMINATOR
 };
 

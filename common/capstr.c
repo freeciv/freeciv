@@ -75,7 +75,8 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
-                   "+starter +union +iso_maps +orders2client"
+                   "+starter +union +iso_maps +orders2client " \
+                   "+change_production"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -94,6 +95,8 @@ const char * const our_capability = our_capability_internal;
  * "iso_maps" means iso-maps are supported by both server and client!
  *
  * "orders2client" means that the server sends back the orders to the client.
+ *
+ * "change_production" is the E_CITY_PRODUCTION_CHANGED event.
  */
 
 void init_our_capability(void)

@@ -1082,7 +1082,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     pcity->before_change_shields -= unit_value(pcity->currently_building);
     pcity->shield_stock -= unit_value(pcity->currently_building);
 
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILT,
+		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("Game: %s is finished building %s."),
 		     pcity->name,
 		     unit_types[pcity->currently_building].name);
@@ -1421,7 +1422,8 @@ static bool disband_city(struct city *pcity)
    * transferred this is not a problem. */
   transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, TRUE);
 
-  notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
+  notify_player_ex(pplayer, x, y, E_UNIT_BUILT,
+		   /* TRANS: Settler production leads to disbanded city. */
 		   _("Game: %s is disbanded into %s."), 
 		   pcity->name, unit_types[pcity->currently_building].name);
   gamelog(GAMELOG_UNIT, _("%s (%i, %i) disbanded into %s by the %s"),
