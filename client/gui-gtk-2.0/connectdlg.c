@@ -177,35 +177,56 @@ void gui_server_connect(void)
 
   table = gtk_table_new (4, 1, FALSE);
   gtk_table_set_row_spacings (GTK_TABLE (table), 2);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-  gtk_container_set_border_width(GTK_CONTAINER(table), 5);
+  gtk_table_set_col_spacings (GTK_TABLE (table), 12);
+  gtk_container_set_border_width(GTK_CONTAINER(table), 6);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, TRUE, 0);
-
-  label=gtk_label_new(_("Name:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1, 0, 0, 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
   iname=gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(iname), player_name);
-  gtk_table_attach_defaults (GTK_TABLE (table), iname, 1, 2, 0, 1);
+  gtk_table_attach(GTK_TABLE(table), iname, 1, 2, 0, 1,
+		   GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 
-  label=gtk_label_new(_("Host:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2, 0, 0, 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", iname,
+		       "label", _("_Name:"),
+		       "xalign", 0.0,
+		       "yalign", 0.5,
+		       NULL);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
+		   GTK_FILL, GTK_FILL, 0, 0);
 
   ihost=gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(ihost), server_host);
-  gtk_table_attach_defaults (GTK_TABLE (table), ihost, 1, 2, 1, 2);
+  gtk_table_attach(GTK_TABLE(table), ihost, 1, 2, 1, 2,
+		   GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 
-  label=gtk_label_new(_("Port:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3, 0, 0, 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", ihost,
+		       "label", _("_Host:"),
+		       "xalign", 0.0,
+		       "yalign", 0.5,
+		       NULL);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2,
+		   GTK_FILL, GTK_FILL, 0, 0);
 
   my_snprintf(buf, sizeof(buf), "%d", server_port);
 
   iport=gtk_entry_new();
   gtk_entry_set_text(GTK_ENTRY(iport), buf);
-  gtk_table_attach_defaults (GTK_TABLE (table), iport, 1, 2, 2, 3);
+  gtk_table_attach(GTK_TABLE(table), iport, 1, 2, 2, 3,
+		   GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", iport,
+		       "label", _("_Port:"),
+		       "xalign", 0.0,
+		       "yalign", 0.5,
+		       NULL);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3,
+		   GTK_FILL, GTK_FILL, 0, 0);
 
 #if IS_BETA_VERSION
   {
