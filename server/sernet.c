@@ -90,17 +90,22 @@ EndpointRef serv_ep;
 static int sock;
 #endif
 
-#ifdef __VMS
-#include <descrip.h>
-#include <iodef.h>
-#include <stsdef.h>
-#include <starlet.h>
-#include <lib$routines.h>
-#include <efndef.h>
-static unsigned long int tt_chan;
-static char input_char = 0;
-static char got_input = 0;
-void user_interrupt_callback();
+#if defined(__VMS)
+#  if defined(_VAX_)
+#    define lib$stop LIB$STOP
+#    define sys$qiow SYS$QIOW
+#    define sys$assign SYS$ASSIGN
+#  endif
+#  include <descrip.h>
+#  include <iodef.h>
+#  include <stsdef.h>
+#  include <starlet.h>
+#  include <lib$routines.h>
+#  include <efndef.h>
+   static unsigned long int tt_chan;
+   static char input_char = 0;
+   static char got_input = 0;
+   void user_interrupt_callback();
 #endif
 
 
@@ -395,7 +400,9 @@ int sniff_packets(void)
 #ifdef SOCKET_ZERO_ISNT_STDIN
     my_init_console();
 #else
-    FD_SET(0, &readfs);	
+#   if !defined(__VMS)
+      FD_SET(0, &readfs);
+#   endif	
 #endif
     FD_SET(sock, &readfs);
     FD_SET(sock, &exceptfs);
@@ -421,7 +428,7 @@ int sniff_packets(void)
 	con_prompt_off();
 	return 0;
       }
-#ifdef __VMS
+#if defined(__VMS)
       {
 	struct { short numchars; char firstchar; char reserved; int reserved2; } ttchar;
 	unsigned long status;
@@ -575,7 +582,13 @@ static const char *makeup_connection_name(int *id)
 ********************************************************************/
 static int server_accept_connection(int sockfd)
 {
-  int fromlen;
+
+# if defined(__VMS) && !defined(_DECC_V4_SOURCE)
+    size_t fromlen;
+# else
+    int fromlen;
+# endif
+
   int new_sock;
   struct sockaddr_in fromend;
   struct hostent *from;
@@ -683,7 +696,7 @@ void init_connections(void)
     conn_list_insert(&pconn->self, pconn);
     pconn->route = NULL;
   }
-#ifdef __VMS
+#if defined(__VMS)
   {
     unsigned long status;
     $DESCRIPTOR (tt_desc, "SYS$INPUT");
