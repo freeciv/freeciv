@@ -1470,6 +1470,7 @@ void handle_unit_activity_request(struct unit *punit,
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
+    free_unit_orders(punit);
     set_unit_activity(punit, new_activity);
     send_unit_info(NULL, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
@@ -1489,6 +1490,7 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
+    free_unit_orders(punit);
     set_unit_activity_targeted(punit, new_activity, new_target);
     send_unit_info(NULL, punit);    
     handle_unit_activity_dependencies(punit, old_activity, old_target);
