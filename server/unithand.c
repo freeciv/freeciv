@@ -1039,7 +1039,8 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
 				  enum unit_activity new_activity)
 {
   if((punit->moves_left>0 || punit->activity==ACTIVITY_GOTO ||
-      punit->activity==ACTIVITY_EXPLORE) && 
+      new_activity==ACTIVITY_EXPLORE || /* for update_player_ac to work */
+      punit->activity==ACTIVITY_EXPLORE) &&
      can_unit_do_activity(punit, new_activity)) {
     punit->activity=new_activity;
     punit->activity_count=0;
