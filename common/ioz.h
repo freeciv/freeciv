@@ -19,7 +19,7 @@
   (Currently only "required" functionality is supported.)
 ***********************************************************************/
 
-struct FILE;
+#include <stdio.h>		/* FILE */
 
 #include "shared.h"		/* fc__attribute */
 
@@ -32,7 +32,7 @@ enum fz_method { FZ_PLAIN, FZ_ZLIB, FZ_LAST };
 
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 		      enum fz_method method, int compress_level);
-fz_FILE *fz_from_stream(FILE * stream);
+fz_FILE *fz_from_stream(FILE *stream);
 int fz_fclose(fz_FILE *fp);
 char *fz_fgets(char *buffer, int size, fz_FILE *fp);
 int fz_fprintf(fz_FILE *fp, const char *format, ...)

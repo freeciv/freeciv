@@ -21,6 +21,7 @@
 
 #include <errno.h>
 #include <signal.h>
+#include <stdio.h>
 #include <string.h>
 
 #ifdef HAVE_FCNTL_H
@@ -160,29 +161,71 @@ void my_nonblock(int sockfd)
 }
 
 /***************************************************************************
-  Look up the given host and fill in *sock.  Note that the caller
-  should fill in the port number (sock->sin_port).
+  Look up the service at hostname:port and fill in *sa.
 ***************************************************************************/
-bool fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
+bool net_lookup_service(const char *name,int port,struct sockaddr *sa,int len)
 {
   struct hostent *hp;
+  struct sockaddr_in *sock = NULL;
 
+  if (len != sizeof(*sock)) {
+    return FALSE;
+  }
+
+  sock = (struct sockaddr_in *) sa;
   sock->sin_family = AF_INET;
+  sock->sin_port = htons(port);
 
 #ifdef HAVE_INET_ATON
-  if (inet_aton(hostname, &sock->sin_addr) != 0) {
+  if (inet_aton(name, &sock->sin_addr) != 0) {
     return TRUE;
   }
 #else
-  if ((sock->sin_addr.s_addr = inet_addr(hostname)) != INADDR_NONE) {
+  if ((sock->sin_addr.s_addr = inet_addr(name)) != INADDR_NONE) {
     return TRUE;
   }
 #endif
-  hp = gethostbyname(hostname);
+  hp = gethostbyname(name);
   if (!hp || hp->h_addrtype != AF_INET) {
     return FALSE;
   }
 
   memcpy(&sock->sin_addr, hp->h_addr, hp->h_length);
   return TRUE;
+}
+
+/*************************************************************************
+  Writes buf to socket and returns the response in an fz_FILE.
+  Use only on blocking sockets.
+*************************************************************************/
+fz_FILE *my_querysocket(int sock, void *buf, size_t size)
+{
+  FILE *fp;
+
+#ifdef HAVE_FDOPEN
+  fp = fdopen(sock, "r+b");
+  fwrite(buf, 1, size, fp);
+  fflush(fp);
+
+  /* we don't use my_closesocket on sock here since when fp is closed
+   * sock will also be closed. fdopen doesn't dup the socket descriptor. */
+#else
+  {
+    char tmp[4096];
+    int n;
+
+    fp = tmpfile();
+    my_writesocket(sock, buf, size);
+
+    while ((n = my_readsocket(sock, tmp, sizeof(tmp))) > 0)
+      fwrite(tmp, 1, n, fp);
+    fflush(fp);
+
+    my_closesocket(sock);
+
+    rewind(fp);
+  }
+#endif
+
+  return fz_from_stream(fp);
 }
