@@ -10,10 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#include <stdio.h>
+#include <string.h>
 #include <aitools.h>
 #include <game.h>
 #include <map.h>
+#include <unitfunc.h>
+#include <citytools.h>
 #include <advmilitary.h>
+#include <aicity.h>
+#include <aiunit.h>
 #include <unittools.h> /* for get_defender, amazingly */
 
 struct move_cost_map warmap;

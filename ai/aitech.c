@@ -11,10 +11,14 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#include <stdio.h>
+#include <string.h>
+
 #include <player.h>
 #include <aitools.h>
 #include <tech.h>
 #include <game.h>
+#include <plrhand.h>
 
 #include <advleader.h>
 #include <advmilitary.h>

@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <player.h>
 #include <city.h>
 #include <game.h>
@@ -27,6 +28,7 @@
 #include <citytools.h>
 #include <cityturn.h>
 #include <unithand.h>
+#include <unitfunc.h>
 #include <aitools.h>
 #include <aihand.h>
 #include <aiunit.h>

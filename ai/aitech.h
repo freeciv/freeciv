@@ -17,7 +17,7 @@
 
 void ai_manage_tech(struct player *pplayer); 
 void ai_next_tech_goal(struct player *pplayer);
-
+void calculate_tech_turns(struct player *pplayer);
 
 
 

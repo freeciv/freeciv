@@ -13,8 +13,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <player.h>
 #include <city.h>
+#include <cityturn.h>
+#include <citytools.h>
 #include <game.h>
 #include <unit.h>
 #include <unithand.h>
@@ -296,7 +299,7 @@ void ai_manage_taxes(struct player *pplayer)
             pcity->shield_prod * shield_weighting[get_race(pplayer)->attack];
 
     for (i = 1; i <= pcity->size; i++) {
-      m = ai_make_elvis(pcity, &x, &y);
+      m = ai_make_elvis(pcity);
       if (m) {
         waste[i] = waste[i-1] + m;
       } else {

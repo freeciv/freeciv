@@ -15,5 +15,6 @@
 
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);
+void ai_eval_buildings(struct city *pcity);
 
 #endif

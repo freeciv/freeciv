@@ -18,6 +18,10 @@ void military_advisor_choose_tech(struct player *pplayer,
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
 int assess_danger(struct city *pcity);
+void generate_warmap(struct city *pcity, struct unit *punit);
+void establish_city_distances(struct player *pplayer, struct city *pcity);
+int assess_defense(struct city *pcity);
+int unit_desirability(int i, int def);
 
 #define THRESHOLD 12
 #define DANGEROUS 1000

@@ -10,12 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#include <stdio.h>
+
 #include <aitools.h>
 #include <map.h>
 #include <game.h>
 #include <unit.h>
 #include <citytools.h>
 #include <advmilitary.h>
+#include <aicity.h>
+#include <aiunit.h>
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 

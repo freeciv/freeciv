@@ -34,6 +34,9 @@
 #include <sys/time.h>
 #include <advmilitary.h>
 
+void do_unit_goto(struct player *pplayer, struct unit *punit);
+int unit_defensiveness(struct unit *punit);
+
 extern struct move_cost_map warmap;
 
 /**************************************************************************

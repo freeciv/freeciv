@@ -28,6 +28,10 @@ void ai_military_attack(struct player *pplayer,struct unit *punit);
 void ai_manage_unit(struct player *pplayer, struct unit *punit);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 void ai_manage_caravan(struct player *pplayer, struct unit *punit);
+void find_something_to_kill(struct player *pplayer, struct unit *punit, 
+                            int *x, int *y);
+int get_cities_on_island(struct player *pplayer, int cont);
+int get_settlers_on_island(struct player *pplayer, int cont);
 const char *get_a_name(struct player *pplayer);
 
 

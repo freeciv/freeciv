@@ -483,11 +483,6 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender)
   return attackpower;
 }
 
-/***************************************************************************
- return the modified defense power of a unit.
- An veteran aegis cruiser in a mountain city with SAM and SDI defense 
- being attacked by a missile gets defense 288.
-***************************************************************************/
 int get_virtual_defense_power(int a_type, int d_type, int x, int y)
 {
   int defensepower=unit_types[d_type].defense_strength;
@@ -520,6 +515,11 @@ int get_virtual_defense_power(int a_type, int d_type, int x, int y)
   return defensepower;
 }
 
+/***************************************************************************
+ return the modified defense power of a unit.
+ An veteran aegis cruiser in a mountain city with SAM and SDI defense 
+ being attacked by a missile gets defense 288.
+***************************************************************************/
 int get_total_defense_power(struct unit *attacker, struct unit *defender)
 {
   int defensepower=get_defense_power(defender);
