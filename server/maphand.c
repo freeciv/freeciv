@@ -1167,7 +1167,8 @@ void update_player_tile_last_seen(struct player *pplayer, int x, int y)
 ...
 ***************************************************************/
 static void give_tile_info_from_player_to_player(struct player *pfrom,
-					  struct player *pdest, int x, int y)
+						 struct player *pdest,
+						 int x, int y)
 {
   struct dumb_city *from_city, *dest_city;
   struct player_tile *from_tile, *dest_tile;
