@@ -814,7 +814,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     struct tile *new_tile = path->positions[i + 1].tile;
 
     if (same_pos(new_tile, old_tile)) {
-      p.orders[i] = ORDER_FINISH_TURN;
+      p.orders[i] = ORDER_FULL_MP;
       p.dir[i] = -1;
       freelog(PACKET_LOG_LEVEL, "  packet[%d] = wait: %d,%d",
 	      i, TILE_XY(old_tile));

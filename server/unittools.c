@@ -2938,10 +2938,15 @@ bool execute_orders(struct unit *punit)
     punit->orders.index++;
 
     switch (order.order) {
-    case ORDER_FINISH_TURN:
-      punit->done_moving = TRUE;
-      freelog(LOG_DEBUG, "  waiting this turn");
-      send_unit_info(NULL, punit);
+    case ORDER_FULL_MP:
+      if (punit->moves_left != unit_move_rate(punit)) {
+	/* If the unit doesn't have full MP then it just waits until the
+	 * next turn.  We assume that the next turn it will have full MP
+	 * (there's no check for that). */
+	punit->done_moving = TRUE;
+	freelog(LOG_DEBUG, "  waiting this turn");
+	send_unit_info(NULL, punit);
+      }
       break;
     case ORDER_ACTIVITY:
       activity = order.activity;
@@ -3001,6 +3006,23 @@ bool execute_orders(struct unit *punit)
 			 _("Game: Orders for %s aborted because of "
 			   "failed move."),
 			 unit_name(punit->type));
+	return TRUE;
+      }
+
+      if (!res && punit->moves_left == 0) {
+	/* Movement failed (not enough MP).  Keep this move around for
+	 * next turn. */
+	freelog(LOG_DEBUG, "  orders move failed (out of MP).");
+	if (unit_has_orders(punit)) {
+	  /* FIXME: If this was the last move, the orders will already have
+	   * been freed.  This is a problem, but very hard to fix.  The
+	   * way things work now the orders have to be freed before the
+	   * last move is done for things like caravan popups to work (see
+	   * free_unit_orders above).  So we can't wait until here to
+	   * free the orders without extensive changes elsewhere. */
+	  punit->orders.index--;
+	}
+	send_unit_info(NULL, punit);
 	return TRUE;
       }
 

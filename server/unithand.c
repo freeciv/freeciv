@@ -1611,7 +1611,7 @@ void handle_unit_orders(struct player *pplayer,
 	return;
       }
       break;
-    case ORDER_FINISH_TURN:
+    case ORDER_FULL_MP:
       break;
     default:
       /* An invalid order.  This is handled in execute_orders. */
