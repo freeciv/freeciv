@@ -366,7 +366,7 @@ void eval_buildings(struct city *pcity,int *values)
     if (can_build_improvement(pcity, B_SUPERHIGHWAYS)) 
       values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
-    if (gov != G_COMMUNISM && gov != G_DEMOCRACY) 
+    if (gov != G_DEMOCRACY) 
       values[B_COURTHOUSE]=pcity->corruption*100;
     else 
       values[B_COURTHOUSE]=pcity->ppl_unhappy[4]*200+pcity->ppl_elvis*400;
@@ -453,6 +453,8 @@ void eval_buildings(struct city *pcity,int *values)
 **************************************************************************/
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
 {
+  if (unit_flag(id,F_DIPLOMAT) && get_government(pcity->owner)==G_COMMUNISM)
+    return 1;
   if (is_ground_unittype(id))
     return city_got_barracks(pcity);
   else if (is_water_unit(id))

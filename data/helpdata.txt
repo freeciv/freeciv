@@ -564,9 +564,10 @@ Entertains the citizens of a city, making 3 unhappy citizens
 content.  Increased by 1 upon the discovery of ELECTRICITY.
 ---
 # Courthouse
-Under a Democracy or during Communism, a Courthouse make 1 unhappy
-citizen content.  Otherwise, it reduces the corruption in a city
-by 50%.
+Reduces the corruption in a city by 50%.  Under a Democracy, a
+Courthouse makes 1 unhappy citizen content.  
+Also halves the effective distance to the capital, for the purpose
+of calculating revolt cost.
 ---
 # Factory
 Increases the resources produced in a city by 50%.  Also contributes
@@ -657,7 +658,7 @@ Together with a Marketplace and a Bank, a Stock Exchange boosts
 trade and luxury production in a city by 150%.
 ---
 # Super Highways
-Increased trade by 1 on all trade producing squares.
+Increases trade by 50% on all squares with roads or railroads.
 ---
 # Supermarket
 Increases the food production by 50% on each square of farmland
@@ -896,7 +897,7 @@ Works as if you had a Hydro Plant in every city.  (This boosts
 production by 50% and halves pollution on all city squares).
 ---
 # Isaac Newton's College
-Boosts science output by 50% in all cities.
+Boosts science output by 100% in the city it is in.
 ---
 # J.S. Bach's Cathedral
 Makes two unhappy citizens content in every city.
@@ -909,7 +910,8 @@ Upgrades one obsolete unit per game turn.
 ---
 # Lighthouse
 Gives all sea units 1 additional move point and eliminates the
-risk of losing Triremes on the high seas.
+risk of losing Triremes on the high seas.  Makes all new sea units
+veterans.
 ---
 # Magellan's Expedition
 Gives all sea units 2 additional moves.

@@ -613,10 +613,9 @@ int get_trade_tile(int x, int y, struct city *pcity)
     t++;
   if (spec_t & S_RAILROAD) {
     t+=(t*game.rail_trade)/100;
-    if (city_got_building(pcity, B_SUPERHIGHWAYS))
-      t*=1.5;
   }
-  
+  if((spec_t&S_ROAD) && city_got_building(pcity, B_SUPERHIGHWAYS))
+    t*=1.5;
   
   if (t>2 && gov <=G_DESPOTISM) 
     t--;
