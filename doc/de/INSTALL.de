@@ -616,5 +616,68 @@ Falls ein Aufruf von aclocal notwendig werden sollte (wenn nicht bekannt ist,
 was aclocal macht, benötigt man es auch nicht), wird auch imlib-dev benötigt,
 um das Makro AM_PATH_GDK_IMLIB zu bekommen. Dies ist ein Fehler in Debian,
 das dieses Makro nicht in gdk-imlib-dev definiert ist und wird hoffentlich in
-zukünftigen Debian-Releases gefixt.
+zukünftigen Debian-Releases korrigiert.
 
+11. Freeciv für win32 (nativ, d.h. ohne GTK+ und X-Server) kompilieren
+===============================================================================
+
+Benötigt werden:
+	- eine Unix-Umgebung mit gcc und den binutils für Windows (mingw32)
+	- libz und libpng (unter ftp://ftp.freeciv.org/pub/freeciv/requirements)
+
+Diese funktionieren mit den Standard-Makefiles des gcc, allerdings müssen CC
+und RANLIB entsprechend gesetzt werden.
+
+Autoconf und co:
+
+Beim Übersetzen von CVS-Abzügen muss in den folgenden Zeilen ./configure durch
+./autogen.sh ersetzt werden.
+
+Wird autoconf2.52 verwendet, werden Probleme bei den Pfaden auftreten,
+insbesondere bei dem Verzeichnis der locales (Lokalisierungsdateien); daher
+ist autoconf2.13 die bevorzugte Version.
+
+Die Konfiguration der Sourcen:
+------------------------------
+
+1. Mit den cygwin-Umgebung
+
+Benötigt wird mingw und das win32api-Paket.
+
+Aufruf:
+   % export CC="gcc -mno-cygwin"
+   % ./configure --with-included-gettext --prefix=.
+
+2. Cross-Compilation von einem Unix
+
+X sollte durch die Zahl ersetzt werden, die gewählt wurde, als der
+Cross-Compiler konfiguriert wurde.
+
+   % export CC=iX86-mingw32-gcc
+   % export AR=iX86-mingw32-ar
+   % export RANLIB=i386-mingw32-ranlib
+   % ./configure --host=iX86-mingw32 --build=$(./config.guess) \
+   >  --with-included-gettext --enable-client=win32 --prefix=.
+
+Übersetzen und Installieren:
+----------------------------
+
+   % make
+   % make DESTDIR=/aboluter/installations/pfad/ bindir =./ install
+
+/absoluter/installations/pfad/ ist der Pfad, in den Freeciv installiert werden
+soll. Er muss absolut sein und mit einem "/" enden.
+
+Die ausführbaren Dateien (civserver, civlcient) sollten die Endung .exe
+besitzen. Es können jetzt noch die Debug-Informationen entfernt werden
+(strippen). 
+
+Danach das Datenverzeichnis verschieben
+
+   % mv share/freeciv data
+   
+Der letzte Schritt ist das Konvertieren der Grakfiken in png. Dazu kann ein
+bevorzugtes Grafikprogramm oder eine Kombination aus ImageMagick oder pngquant
+verwendet werden. Es ist sehr wichtig, das das Ergnis kontrolliert wird; jede
+Datei sollte überprüft werden. Der Alpha-Kanel (Transparenz) verschwindet des
+Öfteren. Es gibt kein verlässliches Skript dafür.
