@@ -20,6 +20,7 @@ pkgdata_DATA = \
 		boer.ruleset \
 		bosnia.ruleset \
 		brazilian.ruleset \
+		byzantium.ruleset	\
 		canadian.ruleset \
 		carthaginian.ruleset \
 		catalan.ruleset \
