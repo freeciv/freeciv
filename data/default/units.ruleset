@@ -4,15 +4,13 @@
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
-; command "set units <mysubdir>" in the server to have freeciv
+; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 ;
 ; The AI does not know the value of Partial_Invis, nor does this
 ; work against the AI, since it knows all. It does not know anything 
 ; about air units at all. It does not build No_Land_Attack, Missile 
 ; or Nuclear units.
-;
-; You can have up to 199 unit types.
 
 [datafile]
 description="Default unit_type data for Freeciv"
@@ -24,7 +22,7 @@ options="1.9"
 ; rulesets they modify. Notably the civ1 ruleset. This should be
 ; fixed, and these options removed. - Per
 max_hitpoints=0        ; Cap on unit hitpoints, 0 means no max
-max_firepower=0        ; Cap unit unit firewpower, 0 means no max
+max_firepower=0        ; Cap unit unit firepower, 0 means no max
 firepower_factor=1     ; Multiply firepower by this value. Set it
                        ; to zero to disable firepower altogether.
 

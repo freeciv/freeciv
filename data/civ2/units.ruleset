@@ -7,8 +7,7 @@
 ; command "set units <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
-; Note that the freeciv AI may not cope well with anything more
-; than minor changes.
+; See data/default/units.ruleset for more information.
 
 [datafile]
 description="Civ2 unit_type data for Freeciv (incomplete)"

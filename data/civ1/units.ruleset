@@ -4,12 +4,10 @@
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
-; command "set units <mysubdir>" in the server to have freeciv
+; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
-; Note that the freeciv AI may not cope well when using these
-; units, mainly because of the differences between Civ1 and Civ2
-; style combats (mainly hitpoints).
+; See data/default/units.ruleset for more information.
 
 [datafile]
 description="Civ1-style unit_type data for Freeciv"
