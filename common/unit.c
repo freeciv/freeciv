@@ -1639,6 +1639,11 @@ bool unit_being_aggressive(struct unit *punit)
     return FALSE;
   if (map_get_city(punit->x,punit->y))
     return FALSE;
+  if (game.borders > 0
+      && game.happyborders
+      && map_get_owner(punit->x, punit->y) == unit_owner(punit)) {
+    return FALSE;
+  }
   if (is_ground_unit(punit) &&
       map_has_special(punit->x, punit->y, S_FORTRESS))
     return !is_unit_near_a_friendly_city (punit);

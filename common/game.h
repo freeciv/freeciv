@@ -162,6 +162,7 @@ struct civ_game {
   int allowed_city_names;
 
   int borders;		/* distance of border from city; 0=disabled. */
+  bool happyborders;
   int diplomacy;        /* who can do it */
   bool slow_invasions;  /* land units lose all movement landing on shores */
 
@@ -339,6 +340,8 @@ extern bool is_server;
 #define GAME_DEFAULT_BORDERS         7
 #define GAME_MIN_BORDERS             0
 #define GAME_MAX_BORDERS             24
+
+#define GAME_DEFAULT_HAPPYBORDERS    TRUE
 
 #define GAME_DEFAULT_SLOW_INVASIONS  TRUE
 

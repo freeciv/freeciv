@@ -981,6 +981,7 @@ struct packet_ruleset_control {
   int playable_nation_count;
   int style_count;
   int borders;
+  bool happyborders;
   bool slow_invasions;
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };

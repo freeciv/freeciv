@@ -77,7 +77,7 @@ const char * const our_capability = our_capability_internal;
                    "+starter +union +iso_maps +big_map_size +orders2client " \
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
-                   "+city_map startunits +turn_last_built"
+                   "+city_map startunits +turn_last_built +happyborders"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -127,6 +127,9 @@ const char * const our_capability = our_capability_internal;
  * "startunits" means the initial units are stored as a server string var.
  *
  * "turn_last_built" means that turn_last_built is stored as a turn
+ * 
+ * "happyborders" means that units may not cause unhappiness inside
+ * our own borders.
  */
 
 void init_our_capability(void)

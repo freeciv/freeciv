@@ -1238,6 +1238,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 playable_nation_count;
   UINT8 style_count;
   UINT8 borders;
+  BOOL happyborders;
   BOOL slow_invasions; add-cap(slow_invasions)
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];

@@ -2435,6 +2435,8 @@ void game_load(struct section_file *file)
 
     /* National borders setting. */
     game.borders = secfile_lookup_int_default(file, 0, "game.borders");
+    game.happyborders = secfile_lookup_int_default(file, FALSE, 
+                                                   "game.happyborders");
 
     /* Diplomacy. */
     game.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY, 
@@ -2888,6 +2890,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_int(file, game.borders, "game.borders");
+  secfile_insert_int(file, game.happyborders, "game.happyborders");
   secfile_insert_int(file, game.diplomacy, "game.diplomacy");
   secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");

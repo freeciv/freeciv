@@ -2162,6 +2162,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.num_tech_types = packet->num_tech_types;
 
   game.borders = packet->borders;
+  game.happyborders = packet->happyborders;
   game.slow_invasions = packet->slow_invasions;
 
   governments_alloc(packet->government_count);

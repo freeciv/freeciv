@@ -648,6 +648,13 @@ static struct settings_s settings[] = {
 	     "the maximum distance from any city specified."), NULL,
 	     GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 
+  GEN_BOOL("happyborders", game.happyborders, SSET_RULES, SSET_MILITARY, 
+          SSET_TO_CLIENT,
+	  N_("Do units cause unhappiness inside our own borders?"),
+	  N_("If this is set, units will not cause unhappiness when "
+	     "inside your own borders."), NULL,
+	     GAME_DEFAULT_HAPPYBORDERS)
+
   GEN_INT("diplomacy", game.diplomacy, SSET_RULES, SSET_MILITARY,
           SSET_TO_CLIENT,
 	  N_("The ability to do diplomacy with other players"),

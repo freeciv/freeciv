@@ -1949,6 +1949,7 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.num_impr_types = game.num_impr_types;
   packet.num_tech_types = game.num_tech_types;
   packet.borders = game.borders;
+  packet.happyborders = game.happyborders;
   packet.slow_invasions = game.slow_invasions;
 
   packet.nation_count = game.nation_count;

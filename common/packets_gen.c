@@ -26687,7 +26687,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 22);
+BV_DEFINE(packet_ruleset_control_100_fields, 23);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -26771,8 +26771,9 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
   if (BV_ISSET(fields, 19)) {
     dio_get_uint8(&din, (int *) &real_packet->borders);
   }
-  real_packet->slow_invasions = BV_ISSET(fields, 20);
-  if (BV_ISSET(fields, 21)) {
+  real_packet->happyborders = BV_ISSET(fields, 20);
+  real_packet->slow_invasions = BV_ISSET(fields, 21);
+  if (BV_ISSET(fields, 22)) {
     
     {
       int i;
@@ -26908,9 +26909,13 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
+  differ = (old->happyborders != real_packet->happyborders);
+  if(differ) {different++;}
+  if(packet->happyborders) {BV_SET(fields, 20);}
+
   differ = (old->slow_invasions != real_packet->slow_invasions);
   if(differ) {different++;}
-  if(packet->slow_invasions) {BV_SET(fields, 20);}
+  if(packet->slow_invasions) {BV_SET(fields, 21);}
 
 
     {
@@ -26926,7 +26931,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 22);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26995,7 +27000,8 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->borders);
   }
   /* field 20 is folded into the header */
-  if (BV_ISSET(fields, 21)) {
+  /* field 21 is folded into the header */
+  if (BV_ISSET(fields, 22)) {
   
     {
       int i;
@@ -27022,7 +27028,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
 
 #define cmp_packet_ruleset_control_101 cmp_const
 
-BV_DEFINE(packet_ruleset_control_101_fields, 21);
+BV_DEFINE(packet_ruleset_control_101_fields, 22);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_101(struct connection *pc, enum packet_type type)
 {
@@ -27106,7 +27112,8 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_101(struct 
   if (BV_ISSET(fields, 19)) {
     dio_get_uint8(&din, (int *) &real_packet->borders);
   }
-  if (BV_ISSET(fields, 20)) {
+  real_packet->happyborders = BV_ISSET(fields, 20);
+  if (BV_ISSET(fields, 21)) {
     
     {
       int i;
@@ -27242,6 +27249,10 @@ static int send_packet_ruleset_control_101(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
+  differ = (old->happyborders != real_packet->happyborders);
+  if(differ) {different++;}
+  if(packet->happyborders) {BV_SET(fields, 20);}
+
 
     {
       differ = (MAX_NUM_TEAMS != MAX_NUM_TEAMS);
@@ -27256,7 +27267,7 @@ static int send_packet_ruleset_control_101(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 21);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -27324,7 +27335,8 @@ static int send_packet_ruleset_control_101(struct connection *pc, const struct p
   if (BV_ISSET(fields, 19)) {
     dio_put_uint8(&dout, real_packet->borders);
   }
-  if (BV_ISSET(fields, 20)) {
+  /* field 20 is folded into the header */
+  if (BV_ISSET(fields, 21)) {
   
     {
       int i;
