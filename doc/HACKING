@@ -176,8 +176,8 @@ connection struct.
 The connection struct is defined in common/connection.h.
 
 Each structure field in a structure is serialized using architecture
-independent functions such as put_int32() and de-serialized with
-functions like get_int32().
+independent functions such as dio_put_uint32() and de-serialized with
+functions like dio_get_uint32().
 
 A packet is constituted by header followed by the serialized structure
 data. The header contains the following fields:

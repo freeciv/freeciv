@@ -21,6 +21,8 @@ libcivcommon_a_SOURCES = \
 		connection.c	\
 		connection.h	\
 		create_lsend.pl	\
+		dataio.c	\
+		dataio.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		events.h	\

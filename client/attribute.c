@@ -1,13 +1,31 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 2001 - R. Falke
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <string.h>
 #include <assert.h>
 
-#include "hash.h"
-#include "mem.h"
-#include "game.h"
-#include "packets.h"
 #include "clinet.h"
+#include "dataio.h"
+#include "fcintl.h"
+#include "game.h"
+#include "hash.h"
 #include "log.h"
+#include "mem.h"
+#include "packets.h"
 
 #include "attribute.h"
 
@@ -76,28 +94,24 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
 			   int *pdata_length)
 {
   /*
-   * Layout:
+   * Layout of version 2:
    *
    * struct {
-   *   int entries;
-   *   int total_size_in_bytes;
+   *   uint32 0;   always != 0 in version 1
+   *   uint8 2;
+   *   uint32 entries;
+   *   uint32 total_size_in_bytes;
    * } preamble;
    * 
    * struct {
-   *   int key_size, key_offset, value_size, value_offset;
-   * } header[entries];
-   * (offsets are relative to the body start)
-   *
-   * struct {
+   *   uint32 value_size;
    *   char key[], char value[];
    * } body[entries];
    */
-  int preamble_length, header_length, body_length, total_length, i,
-      current_body_offset, entries = hash_num_entries(hash);
-  size_t key_size = sizeof(struct attr_key);
+  int total_length, i, entries = hash_num_entries(hash);
   void *result;
-  char *body;
-  int *value_lengths, *header, *preamble;
+  int *value_lengths;
+  struct data_out dout;
 
   value_lengths = fc_malloc(sizeof(int) * entries);
 
@@ -106,68 +120,62 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
    */
   for (i = 0; i < entries; i++) {
     const void *pvalue = hash_value_by_number(hash, i);
-    value_lengths[i] = ((int *) pvalue)[0] + sizeof(int);
+    struct data_in din;
+    int tmp_len;
+
+    dio_input_init(&din, pvalue, 4);
+    dio_get_uint32(&din, &tmp_len);
+
+    value_lengths[i] = tmp_len;
   }
 
   /*
    * Step 2: calculate the *_length variables
    */
-  preamble_length = 2 * sizeof(int);
-  header_length = entries * sizeof(int) * 4;
-  body_length = entries * key_size;
+  /* preamble */
+  total_length = 4 * 4;
+  /* value_size and key */
+  total_length += entries * (4 + 4 * 4);
 
   for (i = 0; i < entries; i++) {
-    body_length += value_lengths[i];
+    total_length += value_lengths[i];
   }
 
   /*
    * Step 3: allocate memory
    */
-  total_length = preamble_length + header_length + body_length;
   result = fc_malloc(total_length);
+  dio_output_init(&dout, result, total_length);
 
   /*
    * Step 4: fill out the preamble
    */
-  preamble = (int *)result;
-  preamble[0] = entries;
-  preamble[1] = total_length;
+  dio_put_uint32(&dout, 0);
+  dio_put_uint8(&dout, 2);
+  dio_put_uint32(&dout, entries);
+  dio_put_uint32(&dout, total_length);
 
   /*
-   * Step 5: fill out the header
+   * Step 5: fill out the body
    */
-  header = (int *)(ADD_TO_POINTER(result, preamble_length));
-  current_body_offset = 0;
-
   for (i = 0; i < entries; i++) {
-    header[0] = key_size;
-    header[1] = current_body_offset;
-    current_body_offset += key_size;
-    header[2] = value_lengths[i];
-    header[3] = current_body_offset;
-    current_body_offset += value_lengths[i];
-    freelog(LOG_DEBUG, "serial: [%d] key{size=%d, offset=%d} "
-	    "value{size=%d, offset=%d}", i, header[0], header[1],
-	    header[2], header[3]);
-    header += 4;
-  }
-
-  /*
-   * Step 6: fill out the body.
-   */
-  body = ADD_TO_POINTER(result, preamble_length + header_length);
-  for (i = 0; i < entries; i++) {
-    const void *pkey = hash_key_by_number(hash, i);
+    const struct attr_key *pkey = hash_key_by_number(hash, i);
     const void *pvalue = hash_value_by_number(hash, i);
 
-    memcpy(body, pkey, key_size);
-    body += key_size;
-    memcpy(body, pvalue, value_lengths[i]);
-    body += value_lengths[i];
+    dio_put_uint32(&dout, value_lengths[i]);
+
+    dio_put_uint32(&dout, pkey->key);
+    dio_put_uint32(&dout, pkey->id);
+    dio_put_sint16(&dout, pkey->x);
+    dio_put_sint16(&dout, pkey->y);
+
+    dio_put_memory(&dout, ADD_TO_POINTER(pvalue, 4), value_lengths[i]);
   }
 
+  assert(!dout.too_short);
+
   /*
-   * Step 7: cleanup
+   * Step 6: cleanup
    */
   *pdata = result;
   *pdata_length = total_length;
@@ -179,44 +187,55 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
 /****************************************************************************
 ...
 *****************************************************************************/
-static void unserialize_hash(struct hash_table *hash, void *data,
+static bool unserialize_hash(struct hash_table *hash, void *data,
 			     size_t data_length)
 {
-  int *preamble, *header;
-  int entries, i, preamble_length, header_length;
-  char *body;
+  int entries, i, dummy;
+  struct data_in din;
 
   hash_delete_all_entries(hash);
 
-  preamble = (int *) data;
-  entries = preamble[0];
-  assert(preamble[1] == data_length);
+  dio_input_init(&din, data, data_length);
+
+  dio_get_uint32(&din, &dummy);
+  if (dummy != 0) {
+    return FALSE;
+  }
+  dio_get_uint8(&din, &dummy);
+  if (dummy != 2) {
+    return FALSE;
+  }
+  dio_get_uint32(&din, &entries);
+  dio_get_uint32(&din, &dummy);
+  assert(data_length == dummy);
 
   freelog(LOG_DEBUG, "try to unserialized %d entries from %d bytes",
 	  entries, (unsigned int) data_length);
-  preamble_length = 2 * sizeof(int);
-  header_length = entries * sizeof(int) * 4;
-
-  header = (int *)(ADD_TO_POINTER(data, preamble_length));
-  body = ADD_TO_POINTER(data, preamble_length + header_length);
 
   for (i = 0; i < entries; i++) {
-    void *pkey = fc_malloc(header[0]);
-    void *pvalue = fc_malloc(header[2]);
+    struct attr_key *pkey = fc_malloc(sizeof(*pkey));
+    void *pvalue;
+    int value_length;
     bool inserted;
+    struct data_out dout;
 
-    freelog(LOG_DEBUG, "unserial: [%d] key{size=%d, offset=%d} "
-	    "value{size=%d, offset=%d}", i, header[0], header[1],
-	    header[2], header[3]);
+    dio_get_uint32(&din, &value_length);
+    
+    pvalue = fc_malloc(value_length + 4);
+    
+    dio_get_uint32(&din, &pkey->key);
+    dio_get_uint32(&din, &pkey->id);
+    dio_get_sint16(&din, &pkey->x);
+    dio_get_sint16(&din, &pkey->y);
 
-    memcpy(pkey, body + header[1], header[0]);
-    memcpy(pvalue, body + header[3], header[2]);
+    dio_output_init(&dout, pvalue, 4);
+    dio_put_uint32(&dout, value_length);
+    dio_get_memory(&din, ADD_TO_POINTER(pvalue, 4), value_length);
 
     inserted = hash_insert(hash, pkey, pvalue);
     assert(inserted);
-
-    header += 4;
   }
+  return TRUE;
 }
 
 /****************************************************************************
@@ -249,9 +268,13 @@ void attribute_flush(void)
 void attribute_restore(void)
 {
   struct player *pplayer = game.player_ptr;
+
   assert(attribute_hash != NULL);
-  unserialize_hash(attribute_hash, pplayer->attribute_block.data,
-		   pplayer->attribute_block.length);
+
+  if (!unserialize_hash(attribute_hash, pplayer->attribute_block.data,
+			pplayer->attribute_block.length)) {
+    freelog(LOG_ERROR, _("Old attributes detected and removed."));
+  }
 }
 
 /****************************************************************************
@@ -277,9 +300,13 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   pkey->y = y;
 
   if (data_length != 0) {
-    pvalue = fc_malloc(data_length + sizeof(int));
-    ((int *) pvalue)[0] = data_length;
-    memcpy((char *)pvalue + sizeof(int), data, data_length);
+    struct data_out dout;
+
+    pvalue = fc_malloc(data_length + 4);
+
+    dio_output_init(&dout, pvalue, data_length + 4);
+    dio_put_uint32(&dout, data_length);
+    dio_put_memory(&dout, data, data_length);
   }
 
   if (hash_key_exists(attribute_hash, pkey)) {
@@ -305,6 +332,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   struct attr_key pkey;
   void *pvalue;
   int length;
+  struct data_in din;
 
   freelog(ATTRIBUTE_LOG_LEVEL, "attribute_get(key=%d, id=%d, x=%d, y=%d, "
 	  "max_data_length=%d, data=%p)", key, id, x, y,
@@ -324,7 +352,8 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
     return 0;
   }
 
-  length = ((int *) pvalue)[0];
+  dio_input_init(&din, pvalue, 0xffffffff);
+  dio_get_uint32(&din, &length);
 
   if(max_data_length < length){
     freelog(LOG_FATAL, "attribute: max_data_length=%d, length found=%d (!)\n"
@@ -340,7 +369,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
     exit(EXIT_FAILURE);
   }
 
-  memcpy(data, (char *)pvalue + sizeof(int), length);
+  dio_get_memory(&din, data, length);
 
   freelog(ATTRIBUTE_LOG_LEVEL, "  found length=%d", length);
   return length;

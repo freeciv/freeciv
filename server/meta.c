@@ -56,10 +56,10 @@ The info string should look like this:
 #include <OpenTptInternet.h>
 #endif
 
+#include "dataio.h"
 #include "fcintl.h"
 #include "log.h"
 #include "netintf.h"
-#include "packets.h"
 #include "support.h"
 #include "timing.h"
 #include "version.h"
@@ -133,7 +133,12 @@ char *meta_addr_port(void)
 *************************************************************************/
 static bool send_to_metaserver(char *desc, char *info)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  unsigned char buffer[MAX_LEN_PACKET];
+  struct data_out dout;
+  size_t size;
+
+  dio_output_init(&dout, buffer, sizeof(buffer));
+
 #ifdef GENERATING_MAC       /* mac alternate networking */
   struct TUnitData xmit;
   OSStatus err;
@@ -143,15 +148,22 @@ static bool send_to_metaserver(char *desc, char *info)
   if(sockfd<=0)
     return FALSE;
 #endif
-  cptr=put_uint16(buffer+2,  PACKET_UDP_PCKT);
-  cptr=put_string(cptr, desc);
-  cptr=put_string(cptr, info);
-  (void) put_uint16(buffer, cptr - buffer);
+
+  dio_put_uint16(&dout, 0);
+  dio_put_uint8(&dout, PACKET_UDP_PCKT);
+  dio_put_string(&dout, desc);
+  dio_put_string(&dout, info);
+
+  size = dio_output_used(&dout);
+
+  dio_output_rewind(&dout);
+  dio_put_uint16(&dout, size);
+
 #ifdef GENERATING_MAC  /* mac networking */
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
-  my_writesocket(sockfd, buffer, cptr-buffer);
+  my_writesocket(sockfd, buffer, size);
 #endif
   return TRUE;
 }

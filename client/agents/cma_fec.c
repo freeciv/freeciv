@@ -91,8 +91,7 @@ void cmafec_init(void)
 void cmafec_set_fe_parameter(struct city *pcity,
 			     const struct cma_parameter *const parameter)
 {
-  attr_city_set(ATTR_CITY_CMAFE_PARAMETER, pcity->id,
-		sizeof(struct cma_parameter), parameter);
+  cma_set_parameter(ATTR_CITY_CMAFE_PARAMETER, pcity->id, parameter);
 }
 
 /****************************************************************
@@ -101,7 +100,6 @@ void cmafec_set_fe_parameter(struct city *pcity,
 *****************************************************************/
 void cmafec_get_fe_parameter(struct city *pcity, struct cma_parameter *dest)
 {
-  size_t len;
   struct cma_parameter parameter;
 
   /* our fe_parameter could be stale. our agents parameter is uptodate */
@@ -109,12 +107,8 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cma_parameter *dest)
     cma_copy_parameter(dest, &parameter);
     cmafec_set_fe_parameter(pcity, dest);
   } else {
-    len = attr_city_get(ATTR_CITY_CMAFE_PARAMETER, pcity->id,
-			  sizeof(struct cma_parameter), dest);
+    if (!cma_get_parameter(ATTR_CITY_CMAFE_PARAMETER, pcity->id, dest)) {
 
-    if (len != 0) {
-      assert(len == sizeof(struct cma_parameter));
-    } else {
       /* We haven't seen this city previously; create a new dummy parameter. */
       int i;
 

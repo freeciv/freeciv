@@ -19,24 +19,25 @@
 #include <assert.h>
 #include <unistd.h>
 
+#include "agents.h"
+#include "attribute.h"
+#include "chatline_g.h"
 #include "city.h"
-#include "government.h"
-#include "packets.h"
-#include "clinet.h"
-#include "log.h"
 #include "civclient.h"
 #include "climisc.h"
-#include "attribute.h"
-#include "mem.h"
-#include "shared.h"		/* for MIN() */
-#include "hash.h"
-#include "packhand.h"
-#include "fcintl.h"
-#include "support.h"
+#include "clinet.h"
+#include "dataio.h"
 #include "events.h"
-#include "chatline_g.h"
+#include "fcintl.h"
+#include "government.h"
+#include "hash.h"
+#include "log.h"
+#include "mem.h"
 #include "messagewin_g.h"
-#include "agents.h"
+#include "packets.h"
+#include "packhand.h"
+#include "shared.h"		/* for MIN() */
+#include "support.h"
 #include "timing.h"
 
 #include "cma_core.h"
@@ -174,6 +175,8 @@
 #define NUM_SPECIALISTS_ROLES				3
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
 #define MAX_COMBINATIONS				100
+
+#define SAVED_PARAMETER_SIZE				29
 
 /* Maps scientists and taxmen to result for a certain combination. */
 static struct {
@@ -1713,14 +1716,10 @@ static void handle_city(struct city *pcity)
 {
   struct cma_parameter parameter;
   struct cma_result result;
-  size_t len;
   bool handled;
   int i;
 
-  len = attr_city_get(ATTR_CITY_CMA_PARAMETER, pcity->id,
-		      sizeof(parameter), &parameter);
-
-  if (len == 0) {
+  if (!cma_get_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, &parameter)) {
     return;
   }
 
@@ -1735,8 +1734,6 @@ static void handle_city(struct city *pcity)
 		 pcity->name);
     return;
   }
-
-  assert(len == sizeof(parameter));
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "START handle city='%s'(%d)",
 	  pcity->name, pcity->id);
@@ -1907,8 +1904,7 @@ void cma_put_city_under_agent(struct city *pcity,
 
   assert(city_owner(pcity) == game.player_ptr);
 
-  attr_city_set(ATTR_CITY_CMA_PARAMETER, pcity->id,
-		sizeof(struct cma_parameter), parameter);
+  cma_set_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, parameter);
 
   cause_a_city_changed_for_agent("CMA", pcity);
 
@@ -1930,13 +1926,10 @@ bool cma_is_city_under_agent(struct city *pcity,
 			    struct cma_parameter *parameter)
 {
   struct cma_parameter my_parameter;
-  size_t len = attr_city_get(ATTR_CITY_CMA_PARAMETER, pcity->id,
-			     sizeof(struct cma_parameter), &my_parameter);
 
-  if (len == 0) {
+  if (!cma_get_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, &my_parameter)) {
     return FALSE;
   }
-  assert(len == sizeof(struct cma_parameter));
 
   if (parameter) {
     memcpy(parameter, &my_parameter, sizeof(struct cma_parameter));
@@ -2004,4 +1997,66 @@ void cma_copy_parameter(struct cma_parameter *dest,
 			const struct cma_parameter *const src)
 {
   memcpy(dest, src, sizeof(struct cma_parameter));
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+bool cma_get_parameter(enum attr_city attr, int city_id,
+		       struct cma_parameter *parameter)
+{
+  size_t len;
+  char buffer[SAVED_PARAMETER_SIZE];
+  struct data_in din;
+  int i, version;
+
+  len = attr_city_get(attr, city_id, sizeof(buffer), buffer);
+  if (len == 0) {
+    return FALSE;
+  }
+  assert(len == SAVED_PARAMETER_SIZE);
+
+  dio_input_init(&din, buffer, len);
+
+  dio_get_uint8(&din, &version);
+  assert(version == 2);
+
+  for (i = 0; i < NUM_STATS; i++) {
+    dio_get_sint16(&din, &parameter->minimal_surplus[i]);
+    dio_get_sint16(&din, &parameter->factor[i]);
+  }
+
+  dio_get_sint16(&din, &parameter->happy_factor);
+  dio_get_uint8(&din, (int *) &parameter->factor_target);
+  dio_get_bool8(&din, &parameter->require_happy);
+
+  return TRUE;
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+void cma_set_parameter(enum attr_city attr, int city_id,
+		       const struct cma_parameter *parameter)
+{
+  char buffer[SAVED_PARAMETER_SIZE];
+  struct data_out dout;
+  int i;
+
+  dio_output_init(&dout, buffer, sizeof(buffer));
+
+  dio_put_uint8(&dout, 2);
+
+  for (i = 0; i < NUM_STATS; i++) {
+    dio_put_sint16(&dout, parameter->minimal_surplus[i]);
+    dio_put_sint16(&dout, parameter->factor[i]);
+  }
+
+  dio_put_sint16(&dout, parameter->happy_factor);
+  dio_put_uint8(&dout, (int) parameter->factor_target);
+  dio_put_bool8(&dout, parameter->require_happy);
+
+  assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
+
+  attr_city_set(attr, city_id, SAVED_PARAMETER_SIZE, buffer);
 }

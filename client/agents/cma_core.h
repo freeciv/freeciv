@@ -28,6 +28,7 @@
  * sum over base*factor. The base depends upon the factor_target.
  */
 
+#include "attribute.h"
 #include "city.h"
 
 enum factor_target {
@@ -39,13 +40,13 @@ enum stat { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, NUM_STATS };
 
 /* A description of the goal. */
 struct cma_parameter {
-  short int minimal_surplus[NUM_STATS];
-  short int require_happy;
+  int minimal_surplus[NUM_STATS];
+  bool require_happy;
 
   enum factor_target factor_target;
 
-  short int factor[NUM_STATS];
-  short int happy_factor;
+  int factor[NUM_STATS];
+  int happy_factor;
 };
 
 /* A result which can examined. */
@@ -98,5 +99,9 @@ bool cma_are_parameter_equal(const struct cma_parameter *const p1,
 			    const struct cma_parameter *const p2);
 void cma_copy_parameter(struct cma_parameter *dest,
 			const struct cma_parameter *const src);
+bool cma_get_parameter(enum attr_city attr, int city_id,
+		       struct cma_parameter *parameter);
+void cma_set_parameter(enum attr_city attr, int city_id,
+		       const struct cma_parameter *parameter);
 
 #endif
