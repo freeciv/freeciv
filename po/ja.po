@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.7-devel\n"
-"POT-Creation-Date: 2000-06-29 19:59+0900\n"
+"POT-Creation-Date: 2000-06-29 18:13-0400\n"
 "PO-Revision-Date: 2000-06-29 20:11+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
@@ -3671,7 +3671,7 @@ msgid "build"
 msgstr ""
 
 #: server/unithand.c:386
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Game: %s added to aid %s in growing."
 msgstr "Game: %1$s¤¬¤Ë%2$s¤¬²Ã¤ï¤ê¤Þ¤·¤¿¡£"
 
@@ -9735,7 +9735,9 @@ msgid ""
 "TIP 1:  Nuking the ocean will not generate pollution, and is a most effective (but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the pollution on the same turn it occurs!  This minimises the chance of global warming.  Eco-friendly nukes!"
-msgstr "¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ý¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Þ¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Þ¤¹¡£\n\n"
+msgstr ""
+"¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ý¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Þ¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Þ¤¹¡£\n"
+"\n"
 
 #: data/civ1/units.ruleset:1185 data/civ2/units.ruleset:1229 data/default/units.ruleset:1229
 msgid "Diplomat"
@@ -10031,12 +10033,12 @@ msgid "?plural:Danes"
 msgstr "¥Ç¥ó¥Þ¡¼¥¯Ì±Â²"
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dúîedain"
+msgid "Dúnedain"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:4
 #, fuzzy
-msgid "?plural:Dúîedan"
+msgid "?plural:Dúnedan"
 msgstr "¥É¥¤¥ÄÌ±Â²"
 
 #: data/nation/dutch.ruleset:3
