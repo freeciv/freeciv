@@ -980,7 +980,6 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
 **************************************************************************/
 int num_supported_units_in_city(struct city *pcity)
 {
-  int i = 0;
   struct unit_list *plist;
 
   if (pcity->owner != game.player_idx) {
@@ -989,11 +988,7 @@ int num_supported_units_in_city(struct city *pcity)
     plist = &pcity->units_supported;
   }
 
-  unit_list_iterate(*plist, punit) {
-    i++;
-  } unit_list_iterate_end;
-
-  return i;
+  return unit_list_size(plist);
 }
 
 /**************************************************************************
@@ -1001,7 +996,6 @@ int num_supported_units_in_city(struct city *pcity)
 **************************************************************************/
 int num_present_units_in_city(struct city *pcity)
 {
-  int i = 0;
   struct unit_list *plist;
 
   if (pcity->owner != game.player_idx) {
@@ -1010,11 +1004,7 @@ int num_present_units_in_city(struct city *pcity)
     plist = &map_get_tile(pcity->x, pcity->y)->units;
   }
 
-  unit_list_iterate(*plist, punit) {
-    i++;
-  } unit_list_iterate_end;
-
-  return i;
+  return unit_list_size(plist);
 }
 
 /**************************************************************************
