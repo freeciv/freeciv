@@ -617,6 +617,35 @@ static void clear_caches(struct city *pcity)
 }
 
 /****************************************************************************
+  Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
+  is returned. Parameter can be NULL.
+*****************************************************************************/
+static bool check_city(int city_id, struct cma_parameter *parameter)
+{
+  struct city *pcity = find_city_by_id(city_id);
+  struct cma_parameter dummy;
+
+  if (!parameter) {
+    parameter = &dummy;
+  }
+
+  if (!pcity
+      || !cma_get_parameter(ATTR_CITY_CMA_PARAMETER, city_id, parameter)) {
+    return FALSE;
+  }
+
+  if (city_owner(pcity) != game.player_ptr) {
+    cma_release_city(pcity);
+    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+		 _("CMA: You lost control of %s. Detaching from city."),
+		 pcity->name);
+    return FALSE;
+  }
+
+  return TRUE;
+}  
+
+/****************************************************************************
  Change the actual city setting to the given result. Returns TRUE iff
  the actual data matches the calculated one.
 *****************************************************************************/
@@ -745,7 +774,12 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_unbuffer(&aconnection);
 
   if (last_request_id != 0) {
+    int city_id = pcity->id;
+
     wait_for_requests("CMA", first_request_id, last_request_id);
+    if (!check_city(city_id, NULL)) {
+      return FALSE;
+    }
   }
 
   /* Return. */
@@ -1721,33 +1755,29 @@ static void optimize_final(struct city *pcity,
 *****************************************************************************/
 static void handle_city(struct city *pcity)
 {
-  struct cma_parameter parameter;
   struct cma_result result;
   bool handled;
-  int i;
-
-  if (!cma_get_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, &parameter)) {
-    return;
-  }
+  int i, city_id = pcity->id;
 
   freelog(HANDLE_CITY_LOG_LEVEL,
 	  "handle_city(city='%s'(%d) pos=(%d,%d) owner=%s)", pcity->name,
 	  pcity->id, pcity->x, pcity->y, city_owner(pcity)->name);
-
-  if (city_owner(pcity) != game.player_ptr) {
-    cma_release_city(pcity);
-    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
-		 _("CMA: You lost control of %s. Detaching from city."),
-		 pcity->name);
-    return;
-  }
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "START handle city='%s'(%d)",
 	  pcity->name, pcity->id);
 
   handled = FALSE;
   for (i = 0; i < 5; i++) {
+    struct cma_parameter parameter;
+
     freelog(HANDLE_CITY_LOG_LEVEL2, "  try %d", i);
+
+    if (!check_city(city_id, &parameter)) {
+      handled = TRUE;	
+      break;
+    }
+
+    pcity = find_city_by_id(city_id);
 
     cma_query_result(pcity, &parameter, &result);
     if (!result.found_a_valid) {
@@ -1763,7 +1793,7 @@ static void handle_city(struct city *pcity)
     } else {
       if (!apply_result_on_server(pcity, &result)) {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
-	if (i == 0) {
+	if (check_city(city_id, NULL) && i == 0) {
 	  create_event(pcity->x, pcity->y, E_NOEVENT,
 		       _("CMA: %s has changed and the calculated "
 			 "result can't be applied. Will retry."),
@@ -1778,7 +1808,10 @@ static void handle_city(struct city *pcity)
     }
   }
 
+  pcity = find_city_by_id(city_id);
+
   if (!handled) {
+    assert(pcity);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
     create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
@@ -1799,8 +1832,7 @@ static void handle_city(struct city *pcity)
 #endif
   }
 
-  freelog(HANDLE_CITY_LOG_LEVEL2, "END handle city='%s'(%d)", pcity->name,
-	  pcity->id);
+  freelog(HANDLE_CITY_LOG_LEVEL2, "END handle city=(%d)", city_id);
 }
 
 /****************************************************************************
