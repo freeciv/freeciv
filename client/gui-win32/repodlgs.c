@@ -357,7 +357,6 @@ static void economy_dlg_sell(HWND hWnd,int data)
 {
   HWND lv;
   int n,i,count=0,gold=0;
-  struct packet_city_request packet;
   char str[64];
   int row;
   lv=GetDlgItem(hWnd,ID_TRADEREP_LIST);
@@ -374,9 +373,7 @@ static void economy_dlg_sell(HWND hWnd,int data)
 	    improvement_obsolete(game.player_ptr,i) ||
 	    wonder_replacement(pcity, i) ))  {
 	  count++; gold+=improvement_value(i);
-	  packet.city_id=pcity->id;
-	  packet.build_id=i;
-	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+	  city_sell_improvement(pcity, i);
 	}            
       } city_list_iterate_end;
 

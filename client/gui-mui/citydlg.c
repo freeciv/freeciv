@@ -311,17 +311,6 @@ static void request_city_buy(struct city *pcity)
   packet.city_id = pcity->id;
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 }
-/****************************************************************
- ...
-*****************************************************************/
-static void request_city_sell(struct city *pcity, int sell_id)
-{
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.build_id = sell_id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-}
 
 /* End GUI Independed */
 
@@ -767,8 +756,9 @@ static void city_sell_yes(struct popup_message_data *data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data->data;
 
-  if (pdialog->sell_id >= 0)
-    request_city_sell(pdialog->pcity, pdialog->sell_id);
+  if (pdialog->sell_id >= 0) {
+    city_sell_improvement(pdialog->pcity, pdialog->sell_id);
+  }
 
   destroy_message_dialog(data->wnd);
   pdialog->sell_wnd = NULL;

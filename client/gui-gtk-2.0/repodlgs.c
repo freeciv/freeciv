@@ -715,7 +715,6 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 static void economy_command_callback(GtkWidget *w, gint response_id)
 {
   int i, count = 0, gold = 0;
-  struct packet_city_request packet;
   gint row;
   GtkWidget *shell;
 
@@ -735,9 +734,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 	improvement_obsolete(game.player_ptr,i) ||
         wonder_replacement(pcity, i) ))  {
 	count++; gold+=improvement_value(i);
-        packet.city_id=pcity->id;
-        packet.build_id=i;
-        send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+	city_sell_improvement(pcity, i);
     }
   } city_list_iterate_end;
 

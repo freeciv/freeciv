@@ -2390,14 +2390,9 @@ void cancel_city_worklist(void *data) {
 static void sell_callback_yes(Widget w, XtPointer client_data,
 			      XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
+  struct city_dialog *pdialog = client_data;
 
-  pdialog=(struct city_dialog *)client_data;
-
-  packet.city_id=pdialog->pcity->id;
-  packet.build_id=pdialog->sell_id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+  city_sell_improvement(pdialog->pcity, pdialog->sell_id);
 
   destroy_message_dialog(w);
 }

@@ -513,14 +513,10 @@ static void trade_sell(int *data)
       if (!pcity->did_sell && city_got_building(pcity, i) &&
 	  (*data || improvement_obsolete(game.player_ptr, i) || wonder_replacement(pcity, i)))
     {
-      struct packet_city_request packet;
-
       count++;
       gold += improvement_value(i);
 
-      packet.city_id = pcity->id;
-      packet.build_id = i;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+      city_sell_improvement(pcity, i);
     }
     city_list_iterate_end
 

@@ -1359,7 +1359,6 @@ static void disable_economy_dlg(void)
 static int ok_sell_impv_callback(struct GUI *pWidget)
 {
   int imp, total_count, count = 0;
-  struct packet_city_request packet;
   struct GUI *pImpr = (struct GUI *)pWidget->data.ptr;
     
   imp = pImpr->data.cont->id0;
@@ -1375,10 +1374,8 @@ static int ok_sell_impv_callback(struct GUI *pWidget)
   city_list_iterate(game.player_ptr->cities, pCity) {
     if(!pCity->did_sell && city_got_building(pCity, imp)){
 	count++;
-      
-        packet.city_id=pCity->id;
-        packet.build_id=imp;
-        send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+
+	city_sell_improvement(pCity, imp);
       
     }
   } city_list_iterate_end;

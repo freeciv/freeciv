@@ -1624,12 +1624,9 @@ static int sell_imprvm_dlg_cancel_callback(struct GUI *pCancel_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_ok_callback(struct GUI *pOK_Button)
 {
-
-  struct packet_city_request packet;
   struct GUI *pTmp = (struct GUI *)pOK_Button->data.ptr;
 
-  packet.city_id = pCityDlg->pCity->id;
-  packet.build_id = MAX_ID - 3000 - pTmp->ID;
+  city_sell_improvement(pCityDlg->pCity, MAX_ID - 3000 - pTmp->ID);
   
   /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
      when response from server come */
@@ -1641,8 +1638,6 @@ static int sell_imprvm_dlg_ok_callback(struct GUI *pOK_Button)
   /* del imprv from widget list */
   del_widget_from_vertical_scroll_widget_list(pCityDlg->pImprv, pTmp);
   
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
-
   enable_city_dlg_widgets();
 
   if (pCityDlg->pImprv->pEndWidgetList) {

@@ -16,6 +16,8 @@
 
 #include "improvement.h"
 
+#include "citydlg_common.h" /* for city request functions */
+
 struct improvement_entry
 {
   Impr_Type_id type;

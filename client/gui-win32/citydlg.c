@@ -1011,14 +1011,9 @@ static void buy_callback(struct city_dialog *pdialog)
 *****************************************************************/
 static void sell_callback_yes(HWND w, void * data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
- 
-  pdialog=(struct city_dialog *)data;
- 
-  packet.city_id=pdialog->pcity->id;
-  packet.build_id=pdialog->sell_id;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+  struct city_dialog *pdialog = data;
+
+  city_sell_improvement(pdialog->pcity, pdialog->sell_id);
  
   destroy_message_dialog(w);
 }

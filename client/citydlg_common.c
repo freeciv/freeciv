@@ -359,3 +359,21 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id)
 
   return send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
 }
+
+/**************************************************************************
+  Change the production of a given city.  Return the request ID.
+**************************************************************************/
+int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+  packet.build_id = sell_id;
+
+  /* Fill out unused fields. */
+  packet.is_build_id_unit_id = FALSE;
+  packet.worker_x = packet.worker_y = -1;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+}
