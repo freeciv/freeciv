@@ -116,6 +116,13 @@ GtkWidget *turn_done_button;
 GtkWidget *unit_info_label;
 GtkWidget *unit_info_frame;
 
+GtkTooltips *main_tips;
+GtkWidget *econ_ebox;
+GtkWidget *bulb_ebox;
+GtkWidget *sun_ebox;
+GtkWidget *flake_ebox;
+GtkWidget *government_ebox;
+
 static GtkWidget *unit_pixmap_table;
 static GtkWidget *unit_pixmap;
 static GtkWidget *unit_pixmap_button;
@@ -639,10 +646,12 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *vbox;
   GtkWidget *avbox, *ahbox, *align;
-  GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
+  GtkWidget *frame, *table, *table2, *paned, *menubar, *sw, *text;
   GtkStyle *style;
   int i;
   struct Sprite *sprite;
+
+  main_tips = gtk_tooltips_new();
 
   /* the window is divided into two panes. "top" and "message window" */ 
   paned = gtk_vpaned_new();
@@ -718,18 +727,27 @@ static void setup_widgets(void)
   
   gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
 
-  table = gtk_table_new(3, 10, FALSE);
+  table = gtk_table_new(3, 10, TRUE);
   gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
   gtk_table_set_col_spacing(GTK_TABLE(table), 0, 0);
   gtk_box_pack_start(GTK_BOX(box), table, TRUE, FALSE, 0);
 
   /* citizens for taxrates */
+  ebox = gtk_event_box_new();
+  gtk_table_attach_defaults(GTK_TABLE(table), ebox, 0, 10, 0, 1);
+  econ_ebox = ebox;
+  
+  table2 = gtk_table_new(1, 10, TRUE);
+  gtk_table_set_row_spacing(GTK_TABLE(table2), 0, 0);
+  gtk_table_set_col_spacing(GTK_TABLE(table2), 0, 0);
+  gtk_container_add(GTK_CONTAINER(ebox), table2);
+  
   for (i = 0; i < 10; i++) {
     enum citizen_type c = i < 5 ? CITIZEN_SCIENTIST : CITIZEN_TAXMAN;
     ebox = gtk_event_box_new();
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
-    gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE(table2), ebox, i, i + 1, 0, 1);
 
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
@@ -749,18 +767,32 @@ static void setup_widgets(void)
   for (i = 0; i < 4; i++) {
     GtkWidget *w;
     
+    ebox = gtk_event_box_new();
+
     switch (i) {
-      case 0: w = bulb_label;	      break;
-      case 1: w = sun_label;	      break;
-      case 2: w = flake_label;        break;
-      default:
-      case 3: w = government_label;   break;
+    case 0:
+      w = bulb_label;
+      bulb_ebox = ebox;
+      break;
+    case 1:
+      w = sun_label;
+      sun_ebox = ebox;
+      break;
+    case 2:
+      w = flake_label;
+      flake_ebox = ebox; 
+      break;
+    default:
+    case 3:
+      w = government_label;
+      government_ebox = ebox;
+      break;
     }
 
     gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
     gtk_misc_set_padding(GTK_MISC(w), 0, 0);
-    gtk_widget_set_size_request(w, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-    gtk_table_attach_defaults(GTK_TABLE(table), w, i, i + 1, 1, 2);
+    gtk_container_add(GTK_CONTAINER(ebox), w);
+    gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 1, 2);
   }
 
   timeout_label = gtk_label_new("");

@@ -50,6 +50,12 @@ extern GtkWidget *      bulb_label;
 extern GtkWidget *      sun_label;
 extern GtkWidget *      flake_label;
 extern GtkWidget *      government_label;
+extern GtkTooltips *	main_tips;
+extern GtkWidget *	econ_ebox;
+extern GtkWidget *	bulb_ebox;
+extern GtkWidget *	sun_ebox;
+extern GtkWidget *	flake_ebox;
+extern GtkWidget *	government_ebox;
 extern GtkWidget *      map_canvas;             /* GtkDrawingArea */
 extern GtkWidget *      overview_canvas;        /* GtkDrawingArea */
 extern GtkWidget *      timeout_label;

@@ -214,8 +214,10 @@ void update_info_label( void )
 {
   char buffer	[512];
   int  d;
+  int  sun, flake;
 
-  gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
+  gtk_frame_set_label(GTK_FRAME(main_frame_civ_name),
+		      get_nation_name(game.player_ptr->nation));
 
   my_snprintf(buffer, sizeof(buffer),
 	      _("Population: %s\nYear: %s\n"
@@ -228,9 +230,11 @@ void update_info_label( void )
 
   gtk_set_label(main_label_info, buffer);
 
+  sun = client_warming_sprite();
+  flake = client_cooling_sprite();
   set_indicator_icons(client_research_sprite(),
-		      client_warming_sprite(),
-		      client_cooling_sprite(),
+		      sun,
+		      flake,
 		      game.player_ptr->government);
 
   d=0;
@@ -254,6 +258,38 @@ void update_info_label( void )
   }
  
   update_timeout_label();
+
+  /* update tooltips. */
+  gtk_tooltips_set_tip(main_tips, econ_ebox,
+		       _("Shows your current luxury/science/tax rates;"
+			 "click to toggle them."), "");
+
+  my_snprintf(buffer, sizeof(buffer),
+	      _("Shows your progress in researching "
+		"the current technology.\n"
+		"%s: %d/%d."),
+		advances[game.player_ptr->research.researching].name,
+		game.player_ptr->research.bulbs_researched,
+		total_bulbs_required(game.player_ptr));
+  gtk_tooltips_set_tip(main_tips, bulb_ebox, buffer, "");
+  
+  my_snprintf(buffer, sizeof(buffer),
+	      _("Shows the progress of global warming:\n"
+		"%d."),
+	      sun);
+  gtk_tooltips_set_tip(main_tips, sun_ebox, buffer, "");
+
+  my_snprintf(buffer, sizeof(buffer),
+	      _("Shows the progress of nuclear winter:\n"
+		"%d."),
+	      flake);
+  gtk_tooltips_set_tip(main_tips, flake_ebox, buffer, "");
+
+  my_snprintf(buffer, sizeof(buffer),
+	      _("Shows your current government:\n"
+		"%s."),
+	      get_government_name(game.player_ptr->government));
+  gtk_tooltips_set_tip(main_tips, government_ebox, buffer, "");
 }
 
 /**************************************************************************
