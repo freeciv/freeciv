@@ -692,10 +692,16 @@ void request_move_unit_direction(struct unit *punit, int dir)
     return;
   }
 
-  req_unit = *punit;
-  req_unit.x = dest_x;
-  req_unit.y = dest_y;
-  send_move_unit(&req_unit);
+  if (punit->moves_left > 0) {
+    /* Move the unit! */
+    req_unit = *punit;
+    req_unit.x = dest_x;
+    req_unit.y = dest_y;
+    send_move_unit(&req_unit);
+  } else {
+    /* Initiate a "goto" with direction keys for exhausted units. */
+    send_goto_unit(punit, dest_x, dest_y);
+  }
 }
 
 /**************************************************************************
