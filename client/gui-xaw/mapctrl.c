@@ -65,6 +65,9 @@ int city_workers_color=COLOR_STD_WHITE;
 /* actually, set to id of unit goto-ing (id is non-zero) */
 int goto_state;
 
+/* set high, if the player has selected nuke */
+int nuke_state;
+
 void request_move_unit_direction(struct unit *punit, int dx, int dy);
 struct unit *find_best_focus_candidate(void);
 void wakeup_sentried_units(int x, int y);
@@ -334,6 +337,36 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 }
 
 /**************************************************************************
+ Explode nuclear at a tile without enemy units
+**************************************************************************/
+void request_unit_nuke(struct unit *punit)
+{
+  if(!has_capability("nuke", aconnection.capability))
+    return;
+  if(!unit_flag(punit->type, F_NUCLEAR)) {
+    append_output_window("Game: Only nuclear units can do this.");
+    return;
+  }
+  if(!(punit->moves_left))
+    do_unit_nuke(punit);
+  else {
+    nuke_state=1;
+    goto_state=punit->id;
+    update_unit_info_label(punit);
+  }
+}
+
+/**************************************************************************
+Explode nuclear at a tile without enemy units
+**************************************************************************/
+
+void key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_unit_in_focus())
+    request_unit_nuke(punit_focus);
+}
+ 
+/**************************************************************************
 ...
 **************************************************************************/
 void key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -431,7 +464,20 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 }
 
 /**************************************************************************
-  Toggle display of grid lines on the map
+Explode nuclear at a tile without enemy units
+**************************************************************************/
+
+void do_unit_nuke(struct unit *punit)
+{
+  struct packet_unit_request req;
+ 
+  req.unit_id=punit->id;
+  req.name[0]='\0';
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_NUKE);
+}
+ 
+/**************************************************************************
+Toggle display of grid lines on the map
 **************************************************************************/
 void request_toggle_map_grid(void) 
 {
@@ -845,15 +891,23 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
 
     if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
       struct packet_unit_request req;
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=xtile;
-      req.y=ytile;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+      if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
+        append_output_window("Game: Too far for this unit.");
+        goto_state=0;
+        nuke_state=0;
+        update_unit_info_label(punit);
+      } else {
+        req.unit_id=punit->id;
+        req.name[0]='\0';
+        req.x=xtile;
+        req.y=ytile;
+        send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+        if(nuke_state && (!pcity))
+          do_unit_nuke(punit);
+        goto_state=0;
+        nuke_state=0;
+      }
     }
-
-    goto_state=0;
-
     return;
   }
   
@@ -1134,6 +1188,9 @@ void advance_unit_focus(void)
   struct unit *punit_old_focus=punit_focus;
 
   punit_focus=find_best_focus_candidate();
+
+  goto_state=0;
+  nuke_state=0;
 
   if(!punit_focus) {
     unit_list_iterate(game.player_ptr->units, punit) {

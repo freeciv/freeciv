@@ -30,6 +30,7 @@ void request_unit_upgrade(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_unload(struct unit *punit);
 void request_unit_wakeup(struct unit *punit);
+void request_unit_nuke(struct unit *punit);
 void request_center_focus_unit(void);
 void request_toggle_map_grid(void);
 
@@ -39,6 +40,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action);
 void set_unit_focus(struct unit *punit);
 void set_unit_focus_no_center(struct unit *punit);
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
+void do_unit_nuke(struct unit *punit);
 gint key_city_workers(GtkWidget *w, GdkEventKey *ev);
 gint adjust_workers(GtkWidget *widget, GdkEventButton *ev);
 
@@ -55,6 +57,7 @@ void key_unit_homecity(void);
 void key_unit_pillage(void);
 void key_unit_explore(void);
 void key_unit_auto(void);
+void key_unit_nuke(void);
 
 void key_unit_mine(void);
 void key_unit_road(void);

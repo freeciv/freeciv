@@ -41,6 +41,7 @@
 #include <spaceshipdlg.h>
 #include <mem.h>
 #include <options.h>
+#include <capability.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,
@@ -86,6 +87,7 @@ enum MenuID {
   MENU_ORDER_BUILD_WONDER,
   MENU_ORDER_TRADE_ROUTE,
   MENU_ORDER_DONE,
+  MENU_ORDER_NUKE,
 
   MENU_REPORT_CITY,
   MENU_REPORT_SCIENCE,
@@ -165,6 +167,7 @@ struct MenuEntry order_menu_entries[]={
     { "Fortify             f", MENU_ORDER_FORTIFY, 0},
     { "Sentry              s", MENU_ORDER_SENTRY, 0},
     { "Unload              u", MENU_ORDER_UNLOAD, 0},
+    { "Explode Nuclear     N", MENU_ORDER_NUKE, 0},
     { "Wake up others      W", MENU_ORDER_WAKEUP, 0},
     { "Wait                w", MENU_ORDER_WAIT, 0},
     { "Go to               g", MENU_ORDER_GOTO, 0},
@@ -308,6 +311,9 @@ void update_menus()
 			   can_unit_change_homecity(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_UNLOAD, 
 			   get_transporter_capacity(punit)>0);
+      menu_entry_sensitive(orders_menu, MENU_ORDER_NUKE,
+                           unit_flag(punit->type, F_NUCLEAR) &&
+                           has_capability("nuke", aconnection.capability));
       menu_entry_sensitive(orders_menu, MENU_ORDER_WAKEUP, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
@@ -554,6 +560,10 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
    case MENU_ORDER_DONE:
     if(get_unit_in_focus())
       request_unit_move_done();
+    break;
+   case MENU_ORDER_NUKE:
+    if(get_unit_in_focus())
+      request_unit_nuke(get_unit_in_focus());
     break;
   }
 

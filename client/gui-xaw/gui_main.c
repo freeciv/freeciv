@@ -233,6 +233,7 @@ XtActionsRec Actions[] = {
   { "key-unit-north-west", key_unit_north_west },
   { "key-unit-build-city", key_unit_build_city },
   { "key-unit-unload", key_unit_unload },
+  { "key-unit-nuke", key_unit_nuke },
   { "key-unit-wakeup", key_unit_wakeup },
   { "wakeup", butt_down_wakeup },
   { "key-end-turn", key_end_turn },

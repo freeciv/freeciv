@@ -35,6 +35,7 @@
 #include <unit.h>
 #include <spaceshipdlg.h>
 #include <options.h>
+#include <capability.h>
 
 
 GtkItemFactory *item_factory=NULL;
@@ -90,6 +91,7 @@ enum MenuID {
   MENU_ORDER_BUILD_WONDER,
   MENU_ORDER_TRADE_ROUTE,
   MENU_ORDER_DONE,
+  MENU_ORDER_NUKE,
 
   MENU_REPORT_CITY,
   MENU_REPORT_SCIENCE,
@@ -297,6 +299,10 @@ void orders_menu_callback(gpointer callback_data, guint callback_action,
     if(get_unit_in_focus())
       request_unit_move_done();
     break;
+   case MENU_ORDER_NUKE:
+    if(get_unit_in_focus())
+      request_unit_nuke(get_unit_in_focus());
+    break;
   }
 
 }
@@ -501,6 +507,8 @@ static GtkItemFactoryEntry menu_items[]	=
     0,					"<Separator>"			      },
   { "/Orders/Auto-explore",		"x",		orders_menu_callback,
     MENU_ORDER_EXPLORE							      },
+  { "/Orders/Explode Nuclear",		"<shift>n",	orders_menu_callback,
+    MENU_ORDER_NUKE							      },
   { "/Orders/Unload",			"u",		orders_menu_callback,
     MENU_ORDER_UNLOAD							      },
   { "/Orders/Go to",			"g",		orders_menu_callback,
@@ -750,6 +758,9 @@ void update_menus()
 			   can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
       menus_set_sensitive("<main>/Orders/Make Homecity",
 			   can_unit_change_homecity(punit));
+      menus_set_sensitive("<main>/Orders/Explode Nuclear",
+                           unit_flag(punit->type, F_NUCLEAR) &&
+                           has_capability("nuke", aconnection.capability));
       menus_set_sensitive("<main>/Orders/Unload",
 			   get_transporter_capacity(punit)>0);
       menus_set_sensitive("<main>/Orders/Wake up others", 

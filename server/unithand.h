@@ -49,6 +49,8 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
 				  enum unit_activity new_activity);
 void handle_unit_unload_request(struct player *pplayer, 
 				struct packet_unit_request *req);
+void handle_unit_nuke(struct player *pplayer, 
+                     struct packet_unit_request *req);
 void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet);

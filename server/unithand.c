@@ -1210,3 +1210,16 @@ void handle_unit_unload_request(struct player *pplayer,
     unit_list_iterate_end;
   }
 }
+
+/**************************************************************************
+Explode nuclear at a tile without enemy units
+**************************************************************************/
+void handle_unit_nuke(struct player *pplayer, 
+                     struct packet_unit_request *req)
+{
+  struct unit *punit;
+  
+  if((punit=unit_list_find(&pplayer->units, req->unit_id)))
+    handle_unit_attack_request(pplayer, punit, punit);
+}
+

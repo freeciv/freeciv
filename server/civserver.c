@@ -1004,6 +1004,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_SPACESHIP_ACTION:
     handle_spaceship_action(pplayer, (struct packet_spaceship_action *)packet);
     break;
+  case PACKET_UNIT_NUKE:
+    handle_unit_nuke(pplayer, (struct packet_unit_request *)packet);
+    break;
   default:
     freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }
