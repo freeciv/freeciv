@@ -3075,7 +3075,7 @@ Freeciv*playerslabel.bottom:             chainTop
 Freeciv*playerslabel.left:               chainLeft
 Freeciv*playerslabel.right:              chainRight
 Freeciv*playerslabel.label: _("\
-Name             Race         Embassy  Dipl.State      Reputation    State    Host")
+Name             Nation       Embassy  Dipl.State      Reputation    State    Host")
 
 Freeciv*playerslist.fromVert:            playerslabel
 Freeciv*playerslist.forceColumns:        true

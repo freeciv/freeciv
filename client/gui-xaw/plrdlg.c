@@ -97,14 +97,14 @@ void plrdlg_update_delay_off(void)
 
 
 /****************************************************************
-popup the dialog 10% inside the main-window 
+popup the dialog somewhat inside the main-window 
 *****************************************************************/
 void popup_players_dialog(void)
 {
   if(!players_dialog_shell)
     create_players_dialog();
 
-  xaw_set_relative_position(toplevel, players_dialog_shell, 25, 25);
+  xaw_set_relative_position(toplevel, players_dialog_shell, 5, 25);
   XtPopup(players_dialog_shell, XtGrabNone);
 }
 
@@ -258,7 +258,7 @@ void update_players_dialog(void)
 
       /* assemble the whole lot */
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-	      "%-16s %-12s %-8s   %-15s %-13s %-6s   %-15s%s", 
+	      "%-16s %-12s %-8s %-15s %-13s %-6s   %-15s%s", 
 	      namebuf,
 	      get_nation_name(game.players[i].nation), 
 	      get_embassy_status(game.player_ptr, &game.players[i]),

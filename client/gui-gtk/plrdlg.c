@@ -101,7 +101,7 @@ void popup_players_dialog(void)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles_[NUM_COLOUMS] = { N_("Name"), N_("Race"), N_("Embassy"),
+  static gchar *titles_[NUM_COLOUMS] = { N_("Name"), N_("Nation"), N_("Embassy"),
 			       N_("Dipl.State"), N_("Reputation"),
 			       N_("State"), N_("Host"), N_("Idle") };
   static gchar **titles;
