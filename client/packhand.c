@@ -39,6 +39,7 @@ extern int wakeup_focus;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
+extern struct city *city_workers_display;
 
 #ifndef DEBUG
 #define DEBUG 0
@@ -230,6 +231,11 @@ void handle_city_info(struct packet_city_info *packet)
   }
     
   refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
+
+  if(city_workers_display==pcity)  {
+    put_city_workers(pcity, -1);
+    city_workers_display=NULL;
+  }
 
   if(((city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
       pcity->owner==game.player_idx) || packet->diplomat_investigate) &&

@@ -46,8 +46,6 @@
 #include <colors.h>
 
 extern Display	*display;
-extern GC fill_tile_gc;
-extern Pixmap gray50,gray25;
 
 extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -55,6 +53,11 @@ extern int overview_canvas_store_width, overview_canvas_store_height;
 
 /* unit_focus points to the current unit in focus */
 struct unit *punit_focus;
+
+/* Update the workers for a city on the map, when the update is received */
+struct city *city_workers_display = NULL;
+/* Color to use to display the workers */
+int city_workers_color=COLOR_STD_WHITE;
 
 /* set high, if the player has selected goto */
 /* actually, set to id of unit goto-ing (id is non-zero) */
@@ -866,6 +869,78 @@ void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
     center_tile_mapcanvas(punit->x, punit->y);
 }
 
+
+/**************************************************************************
+  Find the "best" city to associate with the selected tile.  
+    a.  A city working the tile is the best
+    b.  If no city is working the tile, choose a city that could work the tile
+    c.  If multiple cities could work it, choose the most recently "looked at"
+    d.  If none of the cities were looked at last, choose "randomly"
+    e.  If another player is working the tile, or no cities can work it,
+        return NULL
+**************************************************************************/
+static struct city *find_city_near_tile(int x, int y)
+{
+  struct tile *ptile=map_get_tile(x, y);
+  struct city *pcity, *pcity2;
+  int i,j;
+  static struct city *last_pcity=NULL;
+
+  if((pcity=ptile->worked))  {
+    if(pcity->owner==game.player_idx)  return last_pcity=pcity;   /* rule a */
+    else return NULL;    /* rule e */
+  }
+
+  pcity2 = NULL;
+  city_map_iterate(i, j)  {
+    pcity = map_get_city(x+i-2, y+j-2);
+    if(pcity && pcity->owner==game.player_idx && 
+       get_worker_city(pcity,4-i,4-j)==C_TILE_EMPTY)  {  /* rule b */
+      if(pcity==last_pcity) return pcity;  /* rule c */
+      pcity2 = pcity;
+    }
+  }
+  return last_pcity = pcity2;
+}
+
+/**************************************************************************
+  Adjust the position of city workers from the mapcanvas
+**************************************************************************/
+void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  int x,y;
+  XButtonEvent *ev=&event->xbutton;
+  struct city *pcity;
+  struct packet_city_request packet;
+
+  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
+  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
+
+  if(!(pcity = find_city_near_tile(x,y)))  return;
+
+  x = x-pcity->x+2; y = y-pcity->y+2;
+  packet.city_id=pcity->id;
+  packet.worker_x=x;
+  packet.worker_y=y;
+  packet.name[0]='\0';
+  
+  if(pcity->city_map[x][y]==C_TILE_WORKER)
+    send_packet_city_request(&aconnection, &packet, 
+			     PACKET_CITY_MAKE_SPECIALIST);
+  else if(pcity->city_map[x][y]==C_TILE_EMPTY)
+    send_packet_city_request(&aconnection, &packet, 
+			     PACKET_CITY_MAKE_WORKER);
+
+  /* When the city info packet is received, update the workers on the map*/
+  city_workers_display = pcity;
+
+  return;
+}
+
+
 /**************************************************************************
   Draws the on the map the tiles the given city is using
 **************************************************************************/
@@ -874,37 +949,22 @@ void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
   int x,y;
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
-  struct tile *ptile;
-  int i,j;
-  static int color=COLOR_STD_WHITE;
-  static enum city_tile_type last_t=-1;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
   
   x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
-  ptile=map_get_tile(map_adjust_x(map_view_x0+x), map_adjust_y(map_view_y0+y));
-  if(ptile->worked==NULL || 
-     (pcity=ptile->worked)->owner!=game.player_idx) return;
-  x=map_canvas_adjust_x(pcity->x); y=map_canvas_adjust_y(pcity->y);
+  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
 
-  color = (color%3)+1;
-  XSetForeground(display,fill_tile_gc,colors_standard[color]);
+  pcity = find_city_near_tile(x,y);
+  if(pcity==NULL) return;
 
-  city_map_iterate(i, j)  {
-    enum city_tile_type t=get_worker_city(pcity, i, j);
-    if(i==2 && j==2) continue;
-    if(t==C_TILE_EMPTY) {
-      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray25);
-    } else if(t==C_TILE_WORKER) {
-      if(last_t!=t) XSetStipple(display,fill_tile_gc,gray50);
-    } else continue;
-    last_t=t;
-    XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
-		   (x+i-2)*NORMAL_TILE_WIDTH, (y+j-2)*NORMAL_TILE_HEIGHT,
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  }
+
+  /* Shade tiles on usage */
+  city_workers_color = (city_workers_color%3)+1;
+  put_city_workers(pcity, city_workers_color);
 }
+
 
 /**************************************************************************
 ...

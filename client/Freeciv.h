@@ -1664,7 +1664,7 @@ Now.. Go give'em hell!",
 "Freeciv*inputlinetext.top:                       chainBottom",
 "Freeciv*inputlinetext.bottom:                    chainBottom",
 "Freeciv*mapcanvas.translations:\
-   Shift<BtnDown>:    wakeup()              \\n\
+   Shift<BtnDown>:    adjust-workers()      \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
    <Key>Tab:          focus-to-next-unit()  \\n\
    <Key>c:            center-on-unit()      \\n\

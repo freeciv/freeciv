@@ -239,6 +239,7 @@ XtActionsRec Actions[] = {
   { "close-citydialog", close_city_dialog_action},
   { "key-goto-dialog", popup_goto_dialog_action },
   { "key-city-workers", key_city_workers },
+  { "adjust-workers", adjust_workers },
   { "close-spaceshipdialog", close_spaceship_dialog_action },
   { "spaceship-dialog-returnkey", spaceship_dialog_returnkey }
 };
