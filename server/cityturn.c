@@ -169,7 +169,8 @@ void citizen_happy_luxury(struct city *pcity)
   while (x>=4 && pcity->ppl_unhappy[1]) {
     pcity->ppl_unhappy[1]--;
     pcity->ppl_happy[1]++;
-    x-=2;
+/*    x-=2; We can't seriously mean this, right? -- Syela */
+    x-=4;
   }
   if (x>=2 && pcity->ppl_unhappy[1]) {
     pcity->ppl_unhappy[1]--;
@@ -236,6 +237,7 @@ void citizen_happy_buildings(struct city *pcity)
     faces--;
   }
   pcity->ppl_content[0] = faces; /* this won't be needed, so I'm hijacking it -- Syela */
+  pcity->ppl_content[0] -= pcity->ppl_elvis; /* otherwise this gets messed up */
   /* TV doesn't make people happy just content...
  
   while (faces && pcity->ppl_content[2]) { 
@@ -519,17 +521,12 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
     best = 0;
     city_map_iterate(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
-         if(bx==0 && by==0) {
-	    bx=x;
-	    by=y;
-	  } else {
-            if ((cur = city_tile_value(pcity, x, y, *foodneed, *prodneed)) > best) {
-	      bx=x;
-	      by=y;
-              best = cur;
-	    }
-	  }
+        if ((cur = city_tile_value(pcity, x, y, *foodneed, *prodneed)) > best) {
+          bx=x;
+          by=y;
+          best = cur;
 	}
+      }
     }
     if(bx || by) {
       set_worker_city(pcity, bx, by, C_TILE_WORKER);
@@ -695,6 +692,11 @@ void city_increase_size(struct city *pcity)
     auto_arrange_workers(pcity);
 
   city_refresh(pcity);
+
+  if (game.players[pcity->owner].ai.control) /* don't know if we need this -- Syela */
+    if (ai_fix_unhappy(pcity))
+      ai_scientists_taxmen(pcity);
+
   send_city_info(&game.players[pcity->owner], pcity, 0);
 }
 
