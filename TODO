@@ -89,7 +89,9 @@ TODO:
 - Make the AI building evaluation code use the new buildings.ruleset.
 
 - Create a function that gives a statistically excact value for a units
-  chance of winning a battle.
+  chance of winning a battle.  [Now done.  What about expected number
+  of hit points remaing, or the variance?  Can we come up with clever
+  ways for the ai to use this information?]
 
 - Make a function that can generate a warmap for airplanes.
 
