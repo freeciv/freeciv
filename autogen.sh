@@ -8,14 +8,19 @@ srcfile=client/civclient.h
 # Uncomment the line below to debug this file
 #DEBUG=defined
 
-USE_NLS=yes
+FC_USE_NLS=yes
 
 # Leave out NLS checks
 for NAME in $@ ; do
   if test "x$NAME" = "x--disable-nls"; then 
     echo "+ nls checks disabled"
-    USE_NLS=no
-    break
+    FC_USE_NLS=no
+  fi
+  if test "x$NAME" = "x--disable-autoconf2.52"; then 
+    echo "+ forcing old autoconf configuration"
+    FC_USE_NEWAUTOCONF=no
+  else
+    FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
   fi
 done
 
@@ -115,14 +120,22 @@ test -f acconfig.h && {
 # the original autoconf 2.13 version; we must suppose 2.52 by default here
 cp m4/x.252 m4/x.m4
 
-version_check 0 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52 || {
+if [ "x$FC_USE_NEWAUTOCONF" != "xno" ] && test -f configure.old2; then
+	mv configure.old2 configure.ac
+fi
+if [ "x$FC_USE_NEWAUTOCONF" == "xno" ] && test -f configure.ac; then
+	mv configure.ac configure.old2
+fi
+
+(test -z "$FC_USE_NEWAUTOCONF" \
+ && version_check 0 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52) || {
   mv configure.old configure.in
   mv acconfig.old acconfig.h
   cp m4/x.213 m4/x.m4
   version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 13 || DIE=1
 }
 version_check 1 "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 4 || DIE=1
-if [ "$USE_NLS" = "yes" ] ; then
+if [ "$FC_USE_NLS" = "yes" ] ; then
   DIE2=0
   version_check 1 "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
   version_check 1 "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
@@ -136,6 +149,10 @@ fi
 
 if test "$DIE" -eq 1; then
 	exit 1
+fi
+
+if [ "x$FC_USE_NEWAUTOCONF" != "xno" ] ; then
+	echo "+ using new autoconf configuration (use --disable-autoconf2.52 to use old)"
 fi
 
 echo "+ creating acinclude.m4"
@@ -173,15 +190,15 @@ rm -f config.cache
 
 echo "+ running configure ... "
 echo
-if test -z "$*"; then
+if test -z "$FC_NEWARGLINE"; then
 	echo "I am going to run ./configure with no arguments - if you wish "
         echo "to pass any to it, please specify them on the $0 command line."
 else
-	echo "using: $@"
+	echo "using: $FC_NEWARGLINE"
 fi
 echo
 
-./configure "$@" || {
+./configure $FC_NEWARGLINE || {
 	echo
 	echo "configure failed"
 	exit 1
@@ -189,3 +206,14 @@ echo
 
 echo 
 echo "Now type 'make' to compile $package."
+
+# Reverse changes to make tree sane
+test -f configure.old && { 
+	mv configure.old configure.in 
+}
+test -f configure.old2 && { 
+	mv configure.old2 configure.ac 
+}
+test -f acconfig.old && { 
+	mv acconfig.old acconfig.h 
+}
