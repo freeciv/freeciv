@@ -515,9 +515,12 @@ SPRITE *crop_blankspace(SPRITE *s)
 }
 
 /*********************************************************************
- Converts a sprite to a GdkPixbuf.
+  Converts a pixmap/mask sprite to a GdkPixbuf.
+
+  This is just a helper function for sprite_get_pixbuf().  Most callers
+  should use that function instead.
 *********************************************************************/
-GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
+static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(SPRITE *src)
 {
   GdkPixbuf *dst;
   int w, h;
@@ -570,7 +573,7 @@ GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite)
   }
   
   if (!sprite->pixbuf) {
-    sprite->pixbuf = gdk_pixbuf_new_from_sprite(sprite);
+    sprite->pixbuf = gdk_pixbuf_new_from_pixmap_sprite(sprite);
   }
   return sprite->pixbuf;
 }
