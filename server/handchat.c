@@ -56,26 +56,25 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
 static void complain_ambiguous(struct connection *pconn, const char *name,
 			       int player_conn)
 {
-  struct packet_chat_msg genmsg;
-  genmsg.x = genmsg.y = genmsg.event = -1;
+  char message[MAX_LEN_MSG];
 
   switch(player_conn) {
   case 0:
-    my_snprintf(genmsg.message, sizeof(genmsg.message),
+    my_snprintf(message, sizeof(message),
 		_("Game: %s is an ambiguous player name-prefix."), name);
     break;
   case 1:
-    my_snprintf(genmsg.message, sizeof(genmsg.message),
+    my_snprintf(message, sizeof(message),
 		_("Game: %s is an ambiguous connection name-prefix."), name);
     break;
   case 2:
-    my_snprintf(genmsg.message, sizeof(genmsg.message),
+    my_snprintf(message, sizeof(message),
                 _("Game: %s is an anonymous name. Use connection name"), name);
     break;
   default:
     assert(0);
   }
-  send_packet_chat_msg(pconn, &genmsg);
+  dsend_packet_chat_msg(pconn, message, -1, -1, E_NOEVENT);
 }
 
 /**************************************************************************
@@ -85,22 +84,19 @@ static void chat_msg_to_conn(struct connection *sender,
 			     struct connection *dest, char *msg)
 {
   char sender_name[MAX_LEN_CHAT_NAME], dest_name[MAX_LEN_CHAT_NAME];
-  struct packet_chat_msg genmsg;
-  genmsg.x = genmsg.y = genmsg.event = -1;
+  char message[MAX_LEN_MSG];
   
   msg = skip_leading_spaces(msg);
   
   form_chat_name(sender, sender_name, sizeof(sender_name));
   form_chat_name(dest, dest_name, sizeof(dest_name));
 
-  my_snprintf(genmsg.message, sizeof(genmsg.message),
-	      "->*%s* %s", dest_name, msg);
-  send_packet_chat_msg(sender, &genmsg);
+  my_snprintf(message, sizeof(message), "->*%s* %s", dest_name, msg);
+  dsend_packet_chat_msg(sender, message, -1, -1, E_NOEVENT);
 
   if (sender != dest) {
-    my_snprintf(genmsg.message, sizeof(genmsg.message),
-		"*%s* %s", sender_name, msg);
-    send_packet_chat_msg(dest, &genmsg);
+    my_snprintf(message, sizeof(message), "*%s* %s", sender_name, msg);
+    dsend_packet_chat_msg(dest, message, -1, -1, E_NOEVENT);
   }
 }
 
@@ -110,23 +106,19 @@ static void chat_msg_to_conn(struct connection *sender,
 static void chat_msg_to_player_multi(struct connection *sender,
 				     struct player *pdest, char *msg)
 {
-  char sender_name[MAX_LEN_CHAT_NAME];
-  struct packet_chat_msg genmsg;
-  genmsg.x = genmsg.y = genmsg.event = -1;
-  
+  char sender_name[MAX_LEN_CHAT_NAME], message[MAX_LEN_MSG];
+
   msg = skip_leading_spaces(msg);
   
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  my_snprintf(genmsg.message, sizeof(genmsg.message),
-	      "->[%s] %s", pdest->name, msg);
-  send_packet_chat_msg(sender, &genmsg);
+  my_snprintf(message, sizeof(message), "->[%s] %s", pdest->name, msg);
+  dsend_packet_chat_msg(sender, message, -1, -1, E_NOEVENT);
 
-  my_snprintf(genmsg.message, sizeof(genmsg.message),
-	      "[%s] %s", sender_name, msg);
+  my_snprintf(message, sizeof(message), "[%s] %s", sender_name, msg);
   conn_list_iterate(pdest->connections, dest_conn) {
     if (dest_conn != sender) {
-      send_packet_chat_msg(dest_conn, &genmsg);
+      dsend_packet_chat_msg(dest_conn, message, -1, -1, E_NOEVENT);
     }
   } conn_list_iterate_end;
 }
@@ -156,16 +148,12 @@ static void chat_msg_to_player_multi(struct connection *sender,
 **************************************************************************/
 void handle_chat_msg_req(struct connection *pconn, char *message)
 {
-  struct packet_chat_msg genmsg;
-  char sender_name[MAX_LEN_CHAT_NAME];
+  char sender_name[MAX_LEN_CHAT_NAME], chat[MAX_LEN_MSG];
   char *cp;
   bool double_colon;
 
   /* this loop to prevent players from sending multiple lines
    * which can be abused */
-  genmsg.x = -1;
-  genmsg.y = -1;
-  genmsg.event =-1;
   for (cp = message; *cp != '\0'; cp++)
     if(!my_isprint(*cp & 0x7f)) {
       *cp='\0';
@@ -187,19 +175,17 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
   /* Send to allies command */
   if (message[0] == ALLIESCHAT_COMMAND_PREFIX) {
     char sender_name[MAX_LEN_CHAT_NAME];
-    struct packet_chat_msg genmsg;
 
-    genmsg.x = genmsg.y = genmsg.event = -1;
     message[0] = ' '; /* replace command prefix */
     form_chat_name(pconn, sender_name, sizeof(sender_name));
-    my_snprintf(genmsg.message, sizeof(genmsg.message),
+    my_snprintf(chat, sizeof(chat),
                 _("%s to allies: %s"), sender_name,
                 skip_leading_spaces(message));
     players_iterate(aplayer) {
       if (!pplayers_allied(pconn->player, aplayer)) {
         continue;
       }
-      lsend_packet_chat_msg(&aplayer->connections, &genmsg);
+      dlsend_packet_chat_msg(&aplayer->connections, chat, -1, -1, E_NOEVENT);
     } players_iterate_end;
     return;
   }
@@ -283,9 +269,9 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
       }
       if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
-	my_snprintf(genmsg.message, sizeof(genmsg.message),
+	my_snprintf(chat, sizeof(chat),
 		    _("Game: %s is not connected."), pdest->name);
-	send_packet_chat_msg(pconn, &genmsg);
+	dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT);
 	return;
       }
     }
@@ -295,20 +281,20 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     cpblank=strchr(message, ' ');
     if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
-	my_snprintf(genmsg.message, sizeof(genmsg.message),
+	my_snprintf(chat, sizeof(chat),
 		    _("Game: There is no connection by the name %s."), name);
       } else {
-	my_snprintf(genmsg.message, sizeof(genmsg.message),
+	my_snprintf(chat, sizeof(chat),
 		    _("Game: There is no player nor connection by the name %s."),
 		    name);
       }
-      send_packet_chat_msg(pconn, &genmsg);
+      dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT);
       return;
     }
   }
   /* global message: */
   form_chat_name(pconn, sender_name, sizeof(sender_name));
-  my_snprintf(genmsg.message, sizeof(genmsg.message),
+  my_snprintf(chat, sizeof(chat),
 	      "<%s> %s", sender_name, message);
-  lsend_packet_chat_msg(&game.game_connections, &genmsg);
+  dlsend_packet_chat_msg(&game.game_connections, chat, -1, -1, E_NOEVENT);
 }
