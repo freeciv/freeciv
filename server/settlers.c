@@ -1312,10 +1312,16 @@ static void auto_settlers_player(struct player *pplayer)
 
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
 	  pplayer->ai.warmth, game.globalwarming);
+
+  /* Auto-settle with a settler unit if it's under AI control (e.g. human
+   * player auto-settler mode) or if the player is an AI.  But don't
+   * auto-settle with a unit under orders even for an AI player - these come
+   * from the human player and take precedence. */
   unit_list_iterate(pplayer->units, punit) {
     if ((punit->ai.control || pplayer->ai.control)
 	&& (unit_flag(punit, F_SETTLERS)
-	    || unit_flag(punit, F_CITIES))) {
+	    || unit_flag(punit, F_CITIES))
+	&& !unit_has_orders(punit)) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
 	      pplayer->name, punit->x, punit->y); 
       if (punit->activity == ACTIVITY_SENTRY) {

@@ -2590,6 +2590,12 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
+  /* Don't manage the unit if it is under human orders. */
+  if (unit_has_orders(punit)) {
+    punit->ai.ai_role = AIUNIT_NONE;
+    return;
+  }
+
   /* retire useless barbarian units here, before calling the management
      function */
   if( is_barbarian(pplayer) ) {

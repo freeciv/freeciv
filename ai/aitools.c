@@ -434,6 +434,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   struct unit *charge = find_unit_by_id(punit->ai.charge);
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
 
+  /* If the unit is under (human) orders we shouldn't control it. */
+  assert(!unit_has_orders(punit));
+
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
     ai_clear_ferry(punit);
