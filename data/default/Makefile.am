@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/@PACKAGE@/default
 pkgdata_DATA =          \
 	buildings.ruleset \
 	cities.ruleset	\
+	effects.ruleset	\
 	game.ruleset	\
 	governments.ruleset \
 	nations.ruleset	\
