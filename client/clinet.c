@@ -210,6 +210,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   aconnection.last_write = 0;
   aconnection.client.last_request_id_used = 0;
   aconnection.client.last_processed_request_id_seen = 0;
+  aconnection.client.request_id_of_currently_handled_packet = 0;
   aconnection.incomming_packet_notify = notify_about_incomming_packet;
   aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
   aconnection.used = 1;
