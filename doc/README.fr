@@ -7,7 +7,7 @@ Bienvenue à Freeciv !
 Cette archive contient Freeciv, un clone libre de Civilization pour X,
 principalement sous Unix. Il permet les parties multijoueurs locales ou
 à travers un réseau, et inclut une IA qui donne du fil à retordre à la
-plupart des gens.
+plupart des joueurs.
 
 Le but de Freeciv est d'avoir des règles compatibles avec Civilization
 II [tm], publié par Sid Meier et Microprose [tm]. Quelques règles
@@ -55,7 +55,7 @@ compiler et installer Freeciv sur votre machine.
 Commencer une partie:
 =====================
 
-Freeciv comporte en fait deux programmes : un serveur et un
+Freeciv se compose en fait de deux programmes : un serveur et un
 client. Lorsqu'une partie est en cours, il y a un programme serveur qui
 tourne, et autant de programmes clients que de joueurs humains. Le
 serveur, au contraire des clients, n'a pas besoin de X.
@@ -154,15 +154,15 @@ Client :
 
   Si vous êtes le seul joueur humain, un seul client a besoin d'être
   lancé. Vous pouvez lancer le client "en tâche de fond" de la manière
-  standard sous Unix en ajoutant un "&" "civclient" :
+  standard sous Unix en ajoutant un "&" à la suite de "civclient" :
 
   |  % civclient &
 
   Une autre option du client que vous devriez apprécier est '--tiles',
-  qui peut être utilisée pour choisir des "tilesets" différents (c'est à
-  dire des graphismes différents pour le terrain, les unités, etc). La
-  distribution fournit deux tilesets principaux, appelés "trident" et
-  "engels" et deux variantes, "trident_shields" et
+  qui peut être utilisée pour choisir des "tilesets" différents
+  (c'est-à-dire des graphismes différents pour le terrain, les unités,
+  etc). La distribution fournit deux tilesets principaux, appelés
+  "trident" et "engels" et deux variantes, "trident_shields" et
   "engels_shields". Dans cette distribution, "trident" est le tileset
   par défaut (dans certaines distributions précédentes, c'était
   "engels"). Les deux tilesets principaux ont des styles graphiques
@@ -207,21 +207,21 @@ Joueurs IA :
 
   Ceci créera un joueur IA appelé TueurdHumains.
 
-  Les joueurs humains sont assignés à des nations après que tous les
-  joueurs humains aient choisi les leurs, mais vous pouvez choisir une
-  nation particulière pour un joueur IA en utilisant le nom normal pour
-  le chef de cette nation. Par exemple, pour jouer contre des Romains
-  contrôlés par l'IA, utilisez la commande du serveur suivante :  
+  Des nations sont assignées aux joueurs IA après que tous les joueurs
+  humains aient choisi les leurs, mais vous pouvez choisir une nation
+  particulière pour un joueur IA en utilisant le nom normal pour le chef
+  de cette nation. Par exemple, pour jouer contre des Romains contrôlés
+  par l'IA, utilisez la commande du serveur suivante :
 
   |  > create César
 
   Note : ceci n'est qu'un préférence. Si aucun joueur humain ne choisit
-  de jouer les Romains, alors l'IA les prendra.
+  de jouer les Romains, alors cette IA les prendra.
 
 Serveur :
 
   Une fois que tout le monde a rejoint la partie (utilisez la commande
-  "list") pour savoir qui est là), lancez la partie avec la commande
+  "list" pour savoir qui est là), lancez la partie avec la commande
   "start" :
 
   |  > start
@@ -245,10 +245,10 @@ Remarques :
  1) Étant donnée l'inclusion de nouvelles fonctionnalités, des versions
     différentes du client et du serveur sont souvent
     incompatibles. Toutes les incompatibilités ne peuvent pas être
-    repérées et rapportées facilement. Par exemple, un client de version
-    1.8.0 (ou plus récente) se connecte à un serveur 1.7.2 : le client
-    semble se connecter, mais il ne reçoit jamais aucun message du
-    serveur.
+    repérées et rapportées facilement. Par exemple, si un client de
+    version 1.8.0 (ou plus récente) essaie de se connecter à un serveur
+    1.7.2 : le client semble se connecter, mais il ne reçoit jamais
+    aucun message du serveur.
 
  2) Si le bouton Métaserveur dans la boîte de dialogue de connexion ne
     fonctionne pas, vérifiez si votre fournisser d'accès utilise un
@@ -326,7 +326,7 @@ Bien sûr, le serveur ne devrait pas être lancé avec les privilèges du
 super-utilisateur pour réduire ce genre de risques.
 
 Si vous débutez et désirez avoir une idée de stratégies possibles,
-consultez le Freeciv playing HOWTO, dans le fichier HOWTOPLAY.
+consultez le "Freeciv playing HOWTO", dans le fichier HOWTOPLAY.fr.
 
 Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
@@ -340,9 +340,9 @@ Fin de la partie :
 
 Il y a trois façons de terminer une partie :
 
-1) Il ne reste q'une seule race.
+1) Il ne reste q'une seule nation.
 2) L'année de fin est atteinte.
-3) Un joueur construit et lance un vaisseau spatial qui atteint l'Alpha
+3) Un joueur construit et lance un vaisseau spatial qui atteint Alpha
    du Centaure le premier.
 
 Un tableau des scores sera montré dans tous les cas. Truc :

@@ -111,13 +111,13 @@ systèmes, vous aurez besoin des paquetages appropriés de "développement"
 
    Cette bibliothèque est essentielle pour la gestion des icones et des
    bitmaps. Elle est largement utilisée et fournie sur la plupart des
-   machines Unix les plus modernes, bien qu'elle puisse être absente sur
-   des Unices traditionnels ou plus vieux (par exemple Solaris).
+   machines Unix modernes, bien qu'elle puisse être absente sur des
+   Unices traditionnels ou plus vieux (par exemple Solaris).
 
    Lorsque vous lancez le script configure de Freeciv, il peut être
    nécessaire que vous utilisiez l'option "--with-xpm-prefix=RÉP" (RÉP
-   est le nom du répertoire contenant les sous-répertoires "include" et
-   "lib" où on peut trouver Xpm).
+   désignant le nom du répertoire contenant les sous-répertoires
+   "include" et "lib" où on peut trouver Xpm).
 
    Si le processus de configuration de Freeciv vous indique que vous
    n'avez pas la bibliothèque Xpm, vous pouvez l'obtenir ici :
@@ -185,7 +185,7 @@ systèmes, vous aurez besoin des paquetages appropriés de "développement"
    de celles-ci n'est nécessaire au client Freeciv)
 
 Si vous devez faire tout ceci vous-même, faites les compilations et les
-installlations  dans l'ordre suivant : Glib, Gtk+, Imlib.
+installlations dans l'ordre suivant : Glib, Gtk+, Imlib.
 
 
 2. Générer le Makefile :
@@ -197,17 +197,17 @@ machine.
 
 La configuration est faite en utilisant le script "configure" de GNU.
 
-Pour utiliser "configure", rendez-vous dans le répertoire racine de la
+Pour utiliser "configure", rendez vous dans le répertoire racine de la
 distribution de Freeciv et tapez :
 
  % ./configure
 
 Ce script tentera ensuite de déterminer les fonctionnalités présentes
 (et absentes) sur votre système. Il devrait imprimer une page ou deux de
-diagnostics sur votre machine et s'arrêter.
+diagnostics sur votre machine puis s'arrêter.
 
 Si vous désirez de l'aide sur les diverses options acceptées par le
-script confifure, utilisez l'option --help comme ceci :
+script configure, utilisez l'option --help comme ceci :
 
  % ./configure --help
 
@@ -216,7 +216,7 @@ vous n'avez ni GNU Make ni gcc, utilisez l'option "--disable-cvs-deps"
 de configure. Vous en aurez particulièrement besoin si vous utilisez les
 programmes cc et make de Solaris.
 
-Notes que, dans ce cas, la vérification des dépendances est
+Notez que, dans ce cas, la vérification des dépendances est
 désactivée. Si vous modifiez un fichier .h de Freeciv par la suite pour
 une raison quelconque, vous devrez faire un "make clean" avant de faire
 "make" pour vous assurer que tout se compile correctement.
@@ -314,9 +314,9 @@ l'être.
 
 Consultez le fichier README.fr pour plus de renseignements.
 
-[ cependant, vous ne pouvez pas utilisez la localisation en jouant à
+[ Cependant, vous ne pouvez pas utilisez la localisation en jouant à
 Freeciv depuis le répertoire des sources ; vous devez installer Freeciv
-pour cela ]
+pour cela. ]
 
 
 4. Installation:
@@ -353,7 +353,7 @@ Par exemple :
   (pour les utilisateurs de sh, bash, ksh, zsh, etc.)
 
 Notez que vous devez généralement installer Freeciv si vous voulez
-utiliser sa localisation. Consultez le fichier README.fr pour plus de
+utiliser la localisation. Consultez le fichier README.fr pour plus de
 renseignements.
 
 Enfin, si vous avez choisi d'utiliser le client Xaw et que vous avez la
@@ -384,7 +384,7 @@ les différentes versions.
 
 Assurez-vous que vos variables d'environnement, en particulier $PATH et
 $LD_LIBRARY_PATH et les options de ./configure ne pointent pas sur un
-ensemble inconsistant de logiciels, et la compilation se passera bien.
+ensemble inconsistant de logiciels et la compilation se passera bien.
 
 Une recette simple pour compiler avec Sun X, Sun make et Sun cc,
 considérant que les bibliothèques xpm sont elle-mêmes à un endroit non
@@ -451,7 +451,7 @@ La procédure :
      % ./configure --with-xpm-prefix=$MYXPMDEST
 
    qui ajoutera les options -I/-L/-R qui conviennent aux commandes de
-   compilations et de liage.
+   compilations et de linkage.
 
 
 7. Localisation :

@@ -95,7 +95,7 @@ grandes, réglez le taux de luxe à un niveau plus raisonnable de
 100%, votre recherche va totalement s'arrêter. Après que vos villes
 aient grandi, et que vous ayez remis la science à environ 50%, vous
 allez à nouveau gagner des technologies, mais à un rythme moins
-soutenu. Si vous avez fait un peu d'exploration, vous n'êtes pas
+soutenu. Si vous avez fait un peu d'exploration, et que vous n'êtes pas
 directement menacé par un autre joueur, et ce serait donc une bonne idée
 de garder la science au maximum jusqu'à ce que les technologies
 deviennent trop longues à découvrir.
