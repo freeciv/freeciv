@@ -149,14 +149,13 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
 {
   int id = punit->id;
   struct unit *enemy;
-  int debug = 0;
 
   enemy=search_best_target(pplayer,pcity,punit);
 
   /* nothing found */
   if(enemy == NULL) return;
   
-  if (debug) freelog(LOG_DEBUG, "launching attack");
+  freelog(LOG_DEBUG, "launching attack");
   
   notify_player_ex(pplayer, enemy->x, enemy->y, E_NOEVENT,
 		   _("Game: Auto-Attack: %s's %s attacking %s's %s"),
