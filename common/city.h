@@ -318,7 +318,7 @@ int city_rapture_grow(struct city *pcity);
 
 /* city related improvement and unit functions */
 
-int improvement_upkeep(struct city *pcity, int i); 
+int improvement_upkeep(struct city *pcity, Impr_Type_id i); 
 int could_build_improvement(struct city *pcity, Impr_Type_id id);
 int can_build_improvement(struct city *pcity, Impr_Type_id id);
 int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);

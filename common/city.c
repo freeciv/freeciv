@@ -50,7 +50,8 @@ static void set_food_trade_shields(struct city *pcity);
 static void city_support(struct city *pcity);
 /* end helper functions for generic_city_refresh */
 
-static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
+static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
+				      int asmiths);
 
 /* Iterate a city map, from the center (the city) outwards */
 
@@ -471,7 +472,7 @@ int city_got_building(struct city *pcity,  Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int improvement_upkeep(struct city *pcity, int i) 
+int improvement_upkeep(struct city *pcity, Impr_Type_id i) 
 {
   if (!improvement_exists(i))
     return 0;
@@ -491,7 +492,8 @@ int improvement_upkeep(struct city *pcity, int i)
 /**************************************************************************
   Caller to pass asmiths = city_affected_by_wonder(pcity, B_ASMITHS)
 **************************************************************************/
-static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths) 
+static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
+				      int asmiths)
 {
   if (!improvement_exists(i))
     return 0;

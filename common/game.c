@@ -785,7 +785,7 @@ void initialize_globals(void)
 int game_next_year(int year)
 {
   int spaceshipparts, i;
-  int parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
+  Impr_Type_id parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
 
   if (year == 1) /* hacked it to get rid of year 0 */
     year = 0;

@@ -325,7 +325,7 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 int get_virtual_defense_power(Unit_Type_id a_type, Unit_Type_id d_type, int x, int y)
 {
   int defensepower=unit_types[d_type].defense_strength;
-  int m_type = unit_types[a_type].move_type;
+  enum unit_move_type m_type = unit_types[a_type].move_type;
   struct city *pcity = map_get_city(x, y);
   enum tile_terrain_type t = map_get_terrain(x, y);
   int db;
