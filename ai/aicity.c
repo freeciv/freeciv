@@ -640,14 +640,20 @@ void ai_manage_city(struct player *pplayer, struct city *pcity)
 int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
   int x,y, foodneed, prodneed, gov;
+  int luxneed, pwr, e;
 
-  foodneed=(pcity->size *2);
-  unit_list_iterate(pcity->units_supported, punit)
-    if (unit_flag(punit->type, F_SETTLERS)) foodneed += settler_eats(pcity);
-  unit_list_iterate_end;
+  foodneed=(pcity->size *2) + settler_eats(pcity);
   foodneed -= pcity->food_prod; /* much more robust now -- Syela */
   prodneed = 0;
   prodneed -= pcity->shield_prod;
+  luxneed = 2 * (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]);
+  pwr = 2 * city_tax_bonus(pcity) / 100;
+  e = (luxneed + pwr - 1) / pwr;
+  if (e > 1) {
+    foodneed += (e - 1) * 2;
+    prodneed += (e - 1);
+  } /* not as good as elvising all at once, but should be adequate */
+
   unit_list_iterate(pcity->units_supported, punit)
     if (is_military_unit(punit)) prodneed++;
   unit_list_iterate_end;
@@ -796,16 +802,17 @@ int ai_fix_unhappy(struct city *pcity)
     if(!ai_make_elvis(pcity)) break;
 /*     city_refresh(pcity);         moved into ai_make_elvis for utility -- Syela */
   }
-  return (city_unhappy(pcity));
+  return (!city_unhappy(pcity));
 }
 
 void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
-{ /* I don't care how slow this is; it will almost never be used. -- Syela */
+{ /* I don't care how slow this is; it will very rarely be used. -- Syela */
 /* this would be a lot easier if I made ->worked a city id. */
   struct city_list minilist;
   int i, j;
    
-printf("Emergency in %s!\n", pcity->name);
+printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod)\n", pcity->name,
+pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
   city_list_iterate(pplayer->cities, acity)
     if (acity == pcity) continue;
@@ -814,8 +821,8 @@ printf("Emergency in %s!\n", pcity->name);
 /* am I nearby? */
       if (make_dx(acity->x+i-2, pcity->x) <= 2 &&
           make_dy(acity->y+j-2, pcity->y) <= 2) {
-printf("Availing square in %s\n", acity->name);
-        set_worker_city(pcity, i, j, C_TILE_EMPTY);
+/*printf("Availing square in %s\n", acity->name);*/
+        set_worker_city(acity, i, j, C_TILE_EMPTY);
         if (!city_list_find_id(&minilist, acity->id))
           city_list_insert(&minilist, acity);
       }
@@ -825,15 +832,16 @@ printf("Availing square in %s\n", acity->name);
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity))
     ai_scientists_taxmen(pcity);
-printf("Rearranging workers in %s\n", pcity->name);
+/*printf("Rearranging workers in %s\n", pcity->name);*/
 
   city_list_iterate(minilist, acity)
+    city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
     city_check_workers(pplayer, acity);
     add_adjust_workers(acity);
     city_refresh(acity);
     if (ai_fix_unhappy(acity))
       ai_scientists_taxmen(acity);
-printf("Readjusting workers in %s\n", acity->name);
+/*printf("Readjusting workers in %s\n", acity->name);*/
     send_city_info(city_owner(acity), acity, 1);
   city_list_iterate_end;
 }
