@@ -3,31 +3,42 @@ Welcome to Freeciv 1.7!
 Thanks again to all our developers, who continue to work so hard.
 
 For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
-to John Stonebraker, the AI is ever-increasingly capable.
+to John Stonebraker, the AI is now so powerful that you'll probably want
+to handicap it. :-)
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
 
-WHAT'S CHANGED SINCE 1.6.4:
-
- - Added some files which got missed out.  Sorry!!
-
 WHAT'S CHANGED SINCE 1.6.3:
 
+ - Massive AI changes. It plays smarter, and the AI uses seagoing vessels.  
+ - The contents of the help system have been improved substantially.
+ - Many bugs fixed.
+ - We now recommend you use "configure" instead of Imake.
+ - Settlers have a new "e"xplore mode.
+ - The makefiles now contain auto-generated dependency information.
+ - Units within the radius of the city to which they belong no longer
+   cause unhappiness.  This will allow much more realistic defense
+   scenarios.
+ - The tax/lux/sci rates are now limited by your government type.
+   Also, they can modified by clicking on the rate status icons.
+ - The behaviour of spies and diplomats has been greatly improved.
+ - Freeciv now needs to transmit a lot less data (<25%!) when playing
+   over the Internet.  This will greatly speed up games.
+ - Preliminary support for compiling Freeciv under Windows and OS/2,
+   when used in conjunction with the GNU tools.
+ - From now on, it will be possible for different Freeciv versions to
+   talk to each other if they're able.
  - Tracy Reed (who provides www.freeciv.org) reports that our site is
    getting over 6,000 hits per month.  He was quoted as saying "Cool!
    Now my computer is doing something!"
- - Massive AI changes. It plays smarter, and the AI uses seagoing vessels.  
- - Help system has been improved a bit more.
  - Lots, and Lots, and Lots of donated patches. Thanks guys, keep 'em 
    coming!
- - FIXME
 
 KNOWN BUGS:
 
-Freeciv 1.7 will be the first stable release since 1.6.3, and will be
-considered bug-free enough for everyday use.  But first, we want to release
-a series of beta versions.  These will be numbered 1.6.4 and higher.
+Freeciv 1.7 is the first stable release since 1.6.3, and is considered
+bug-free enough for everyday use.
 
 However if you do find one, please report it (or other problems) to
 the freeciv-dev mailing list.  For instructions on how to do this, see:
@@ -38,3 +49,4 @@ THINGS TO DO:
 
  - goto should be looked at, as units with moves left after a goto should
    be active but aren't.
+ - Alliances, the Space Race, and more!!
