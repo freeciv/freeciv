@@ -84,6 +84,7 @@
 #include "ruleset.h"
 #include "sanitycheck.h"
 #include "savegame.h"
+#include "score.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "spacerace.h"

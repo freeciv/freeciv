@@ -21,13 +21,13 @@
 #include <string.h>
 
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "support.h"
 
 #include "gamelog.h"
+#include "score.h"
 
 int gamelog_level;		/* also accessed from stdinhand.c */
 static char *gamelog_filename;

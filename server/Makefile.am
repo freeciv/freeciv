@@ -57,6 +57,8 @@ libcivserver_a_SOURCES = \
 		sanitycheck.h	\
 		savegame.c	\
 		savegame.h	\
+		score.c		\
+		score.h		\
 		sernet.c	\
 		sernet.h	\
 		settlers.c	\

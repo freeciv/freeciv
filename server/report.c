@@ -20,7 +20,6 @@
 
 #include "events.h"
 #include "fcintl.h"
-#include "game.h"
 #include "government.h"
 #include "log.h"
 #include "mem.h"
@@ -31,8 +30,8 @@
 #include "version.h"
 
 #include "citytools.h"
-
 #include "report.h"
+#include "score.h"
 
 static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
