@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 11:56+0100\n"
+"PO-Revision-Date: 2005-01-30 14:08+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2220,9 +2220,9 @@ msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Hra: Dohoda obsahuje %d již potvrzenou klauzuli."
+msgstr[1] "Hra: Dohoda obsahuje %d již potvrzené klauzule."
+msgstr[2] "Hra: Dohoda obsahuje %d již potvrzených klauzulí."
 
 #: server/diplhand.c:251
 #: server/diplhand.c:255
@@ -3214,12 +3214,12 @@ msgid "The %s of the %s"
 msgstr "%s %s"
 
 #: server/report.c:1094
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
-msgstr[0] "Výjimka matematického koprocesoru (SIGFPE)"
-msgstr[1] "Výjimka matematického koprocesoru (SIGFPE)"
-msgstr[2] "Výjimka matematického koprocesoru (SIGFPE)"
+msgstr[0] "%2d: %s %s získal %d bod\n"
+msgstr[1] "%2d: %s %s získal %d body\n"
+msgstr[2] "%2d: %s %s získal %d bodů\n"
 
 #: server/report.c:1102
 msgid "Progress Scores:"
@@ -5094,9 +5094,8 @@ msgid "All options"
 msgstr "Všechny možnosti"
 
 #: server/stdinhand.c:1918
-#, fuzzy
 msgid "Vital options"
-msgstr "Volby databáze:"
+msgstr "Rozhodující možnosti"
 
 #: server/stdinhand.c:1921
 msgid "Situational options"
@@ -5162,9 +5161,9 @@ msgid "Observers cannot vote."
 msgstr "Pozorovatelé nemohou hlasovat."
 
 #: server/stdinhand.c:2129
-#, fuzzy, c-format
+#, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
-msgstr "Hlasoval jsi proti \"%s\""
+msgstr "Hlasování %d \"%s\": %d pro, %d proti"
 
 #: server/stdinhand.c:2136
 msgid "There are no votes going on."
@@ -5179,9 +5178,9 @@ msgid "Value must be integer."
 msgstr "Hodnota musí být celé číslo."
 
 #: server/stdinhand.c:2173
-#, fuzzy, c-format
+#, c-format
 msgid "No such vote (%d)."
-msgstr "Takové zařízení neexistuje"
+msgstr "Žádné hlasování (%d)."
 
 #: server/stdinhand.c:2177
 #, c-format
@@ -5396,7 +5395,7 @@ msgstr "%s již ovládá %s"
 #: server/stdinhand.c:2881
 #, fuzzy, c-format
 msgid "being detached from %s."
-msgstr " (pravidlo z \"%s\", řádek %d)"
+msgstr "Hra: %s získali %s od %s."
 
 #: server/stdinhand.c:2934
 #, c-format
@@ -5516,9 +5515,9 @@ msgid "Your new vote cancelled your previous vote."
 msgstr "Váš nový hlas zrušil vaše předchozí hlasování."
 
 #: server/stdinhand.c:3350
-#, fuzzy, c-format
+#, c-format
 msgid "New vote, no. %d, by %s: %s."
-msgstr "Neexistuje žádné spojení se jménem '%s'."
+msgstr "Nové hlasování, č. %d, od %s: %s."
 
 #: server/stdinhand.c:3370
 msgid "You are not allowed to use this command."
@@ -5805,9 +5804,9 @@ msgid "Game: Your attacking %s succeeded against %s's %s%s and became more exper
 msgstr "Hra: Vaše útočící jednotka %s zvítězila proti %s %s%s a stala se více zkušenou!"
 
 #: server/unithand.c:846
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
-msgstr "Hra: Vaše útočící %s selhala proti %s's %s%s!"
+msgstr "Hra: Vaše útočící %s byla uspěšná proti %s %s%s!"
 
 #: server/unithand.c:895
 msgid "Game: Cancel treaty in the players dialog first (F3)."
@@ -5964,9 +5963,9 @@ msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:863
-#, c-format
+#, fuzzy, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
-msgstr ""
+msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:878
 #, c-format
@@ -6057,14 +6056,14 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: server/unittools.c:1753
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost to an attack from %s's %s."
-msgstr "Hra: %s ztracena při útoku %s %s%s."
+msgstr "Hra: %s ztracena při útoku %s %s."
 
 #: server/unittools.c:2012
 #, fuzzy, c-format
 msgid "Game: Your %s was nuked by %s."
-msgstr "Hra: Jednotka %s byla uplacena hráčem %s."
+msgstr "Hra: Váš %s byl sabotován hráčem %s!"
 
 #: server/unittools.c:2014
 #: server/unittools.c:2030
@@ -6079,7 +6078,7 @@ msgstr "Hra: Na %s %s byl proveden jaderný útok."
 #: server/unittools.c:2028
 #, fuzzy, c-format
 msgid "Game: %s was nuked by %s."
-msgstr "Hra: Jednotka %s byla uplacena hráčem %s."
+msgstr "Hra: Váš %s byl sabotován hráčem %s!"
 
 #: server/unittools.c:2035
 #, c-format
@@ -6955,9 +6954,8 @@ msgid "The %s gives an embassy"
 msgstr "%s dají ambasádu"
 
 #: client/climisc.c:867
-#, fuzzy
 msgid "Popup Request"
-msgstr "Žádost o informaci (SIGINFO)"
+msgstr "Požadavek samostatně"
 
 #: client/climisc.c:897
 msgid "Exporting output window to civgame.log ..."
@@ -8440,7 +8438,7 @@ msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 #: client/text.c:292
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
-msgstr "hp-service"
+msgstr "HP Mini"
 
 #: client/text.c:295
 msgid " V"
@@ -8829,6 +8827,14 @@ msgid ""
 "          City grows: %s\n"
 "Production completed: %s"
 msgstr ""
+"Název: %s\n"
+"Jídlo:         %10s Zlata:    %10s\n"
+"Production: %10s Luxus:  %10s\n"
+"Obchod:     %10s Věda:   %10s\n"
+"\n"
+"    Lidé (D/B/V/D): %s\n"
+"          Růst města: %s\n"
+"Dokončení produkce: %s"
 
 #: client/agents/cma_fec.c:415
 msgid "?cma:Max food"
@@ -9409,9 +9415,8 @@ msgstr "Města"
 #: client/gui-gtk-2.0/cityrep.c:800
 #: client/gui-gtk/cityrep.c:640
 #: client/gui-mui/cityrep.c:368
-#, fuzzy
 msgid "_Popup"
-msgstr "Rozbalovací"
+msgstr "_Samostatné"
 
 #: client/gui-gtk-2.0/cityrep.c:1201
 #: client/gui-gtk-2.0/cityrep.c:1222
@@ -9783,9 +9788,8 @@ msgstr "_Objevy:"
 #: client/gui-win32/dialogs.c:1325
 #: client/gui-xaw/dialogs.c:746
 #: client/gui-xaw/dialogs.c:833
-#, fuzzy
 msgid "At Spy's Discretion"
-msgstr "PŘÍSTUP UŽIVATELE %2$s VYTÁČENOU LINKOU NA TTY %1$s"
+msgstr "Podle úsudku špionáže"
 
 #: client/gui-gtk-2.0/dialogs.c:583
 #: client/gui-gtk/dialogs.c:781
@@ -9964,9 +9968,8 @@ msgstr "Průmyslová sabotáž"
 #: client/gui-mui/dialogs.c:885
 #: client/gui-win32/dialogs.c:1577
 #: data/Freeciv.in:2457
-#, fuzzy
 msgid "Subvert Enemy Unit"
-msgstr "Uplatit nepřátelskou jednotku"
+msgstr "Rozvrátit nepřátelskou jednotku"
 
 #: client/gui-gtk-2.0/dialogs.c:895
 #: client/gui-gtk/dialogs.c:1081
@@ -10059,18 +10062,16 @@ msgstr "Revoluce!"
 #: client/gui-gtk/dialogs.c:1260
 #: client/gui-win32/dialogs.c:1651
 #: data/Freeciv.in:2527
-#, fuzzy
 msgid "What To Pillage"
-msgstr "Co uložit:"
+msgstr "Co plenit"
 
 #: client/gui-gtk-2.0/dialogs.c:1092
 #: client/gui-gtk/dialogs.c:1261
 #: client/gui-mui/dialogs.c:1117
 #: client/gui-win32/dialogs.c:1658
 #: data/Freeciv.in:2529
-#, fuzzy
 msgid "Select what to pillage:"
-msgstr "Zvolte soubor pro otevření"
+msgstr "Vyberte co plenit:"
 
 #: client/gui-gtk-2.0/dialogs.c:1429
 msgid "Unit"
@@ -10315,9 +10316,8 @@ msgstr "Nastavení lokálních možností"
 #: client/gui-win32/gotodlg.c:152
 #: client/gui-win32/gotodlg.c:160
 #: data/Freeciv.in:1136
-#, fuzzy
 msgid "Goto/Airlift Unit"
-msgstr "Organizační jednotka (OU)"
+msgstr "Přesun/Letecký most jednotky"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
 msgid "Air_lift"
@@ -10481,7 +10481,7 @@ msgstr "Spokojenost"
 #: client/gui-win32/happiness.c:197
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities.\n"
-msgstr ""
+msgstr "Města: %d celkem, %d nad hranicí z %d měst.\n"
 
 #: client/gui-gtk-2.0/happiness.c:243
 #: client/gui-gtk/happiness.c:249
@@ -10692,30 +10692,26 @@ msgstr "Sp2 J/Š/O:"
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-gtk/helpdlg.c:105
 #: client/gui-win32/helpdlg.c:99
-#, fuzzy
 msgid "Road Rslt/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Cesta výsledek/čas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-gtk/helpdlg.c:105
 #: client/gui-win32/helpdlg.c:99
-#, fuzzy
 msgid "Irrig. Rslt/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Závlaha výsledek/čas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107
 #: client/gui-gtk/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:100
-#, fuzzy
 msgid "Mine Rslt/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Důl výsledek/čas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107
 #: client/gui-gtk/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:100
-#, fuzzy
 msgid "Trans. Rslt/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Transf. výsledek/čas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:129
 #: client/gui-gtk/helpdlg.c:127
@@ -10918,7 +10914,7 @@ msgstr "Jak budeme nazývat naše nové město?"
 
 #: client/gui-gtk-2.0/mapview.c:158
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
+msgstr "Zobrazí současné hodnoty luxusu/vědy/daní; klikněte pro jejich přepnutí."
 
 #: client/gui-gtk-2.0/mapview.c:945
 #: client/gui-win32/mapview.c:736
@@ -11869,6 +11865,10 @@ msgid ""
 "\t<b>Mes</b>sages window ;\n"
 "\t<b>Pop</b>up individual window"
 msgstr ""
+"Kde zobrazovat zprávy?\n"
+"\t<b>Výs</b>tupní okno ;\n"
+"\t<b>Zpr</b>ávové okno ;\n"
+"\t<b>Sam</b>ostatné okno"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -11876,21 +11876,18 @@ msgstr "Událost"
 
 #: client/gui-gtk-2.0/messagedlg.c:124
 #: client/gui-gtk/messagedlg.c:98
-#, fuzzy
 msgid "Out"
-msgstr "Out"
+msgstr "Výs"
 
 #: client/gui-gtk-2.0/messagedlg.c:131
 #: client/gui-gtk/messagedlg.c:100
-#, fuzzy
 msgid "Mes"
-msgstr "_Zpráva:"
+msgstr "Zpr"
 
 #: client/gui-gtk-2.0/messagedlg.c:138
 #: client/gui-gtk/messagedlg.c:102
-#, fuzzy
 msgid "Pop"
-msgstr "Pop"
+msgstr "Sam"
 
 #: client/gui-gtk-2.0/messagewin.c:159
 #: client/gui-gtk/messagewin.c:129
@@ -12118,7 +12115,7 @@ msgstr "_Zrušit dohodu"
 #: client/gui-mui/plrdlg.c:335
 #, fuzzy
 msgid "_Withdraw vision"
-msgstr "Vidění s barevnou poruchou"
+msgstr "?vision:Oba"
 
 #: client/gui-gtk-2.0/plrdlg.c:418
 #: client/gui-gtk/plrdlg.c:212
@@ -12222,9 +12219,8 @@ msgid "Sell Improvements"
 msgstr "Prodej Vylepšení"
 
 #: client/gui-gtk-2.0/repodlgs.c:820
-#, fuzzy
 msgid "Sell-Off: Results"
-msgstr "Výsledek hledání pro "
+msgstr "Odprodej: Výsledky"
 
 #: client/gui-gtk-2.0/repodlgs.c:879
 #, c-format
@@ -12499,9 +12495,8 @@ msgid "Acti_vate present units"
 msgstr "Akti_vovat přítomné jednotky"
 
 #: client/gui-gtk/citydlg.c:1102
-#, fuzzy
 msgid "_Sentry idle units"
-msgstr "Jednotky implicitní připomínky"
+msgstr "_Strážit nečinné jednotky"
 
 #: client/gui-gtk/citydlg.c:1108
 msgid "_List present units"
@@ -12724,9 +12719,9 @@ msgid "Ca_ncel"
 msgstr "Zr_ušit"
 
 #: client/gui-gtk/citydlg.c:3061
-#, fuzzy, c-format
+#, c-format
 msgid "Sell (worth %d gold)"
-msgstr "Prodat %s za %d zlatých?"
+msgstr "Prodat (hodnota %d zlatých)"
 
 #: client/gui-gtk/cityrep.c:349
 #: client/gui-win32/cityrep.c:246
@@ -12848,11 +12843,8 @@ msgstr "Konfigurovat přehled měst"
 #: client/gui-mui/cityrep.c:273
 #: client/gui-win32/cityrep.c:128
 #: data/Freeciv.in:1752
-#, fuzzy
 msgid "Set columns shown"
-msgstr ""
-"<qt><p><b>Zobrazené sloupce</b></p>\n"
-"<p></p></qt>"
+msgstr "Nastavit zobrazené sloupce"
 
 #: client/gui-gtk/cityrep.c:1446
 #: client/gui-gtk/dialogs.c:223
@@ -13144,7 +13136,7 @@ msgstr "Odpojit"
 #: client/gui-gtk/diplodlg.c:291
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
-msgstr ""
+msgstr "Následující klauzule byly potvrzeny při:"
 
 #: client/gui-gtk/diplodlg.c:313
 #: client/gui-gtk/diplodlg.c:321
@@ -13285,7 +13277,7 @@ msgstr "Obnovit strom"
 #: client/gui-gtk/helpdlg.c:592
 #, fuzzy
 msgid "Expand Unknown"
-msgstr "(Neznámý objekt)\n"
+msgstr "Neznámá technologie (%s)"
 
 #: client/gui-gtk/helpdlg.c:833
 #: client/gui-gtk/helpdlg.c:858
@@ -13344,9 +13336,9 @@ msgstr "Zahraniční přehled"
 #: client/gui-mui/inteldlg.c:138
 #: client/gui-win32/inteldlg.c:94
 #: client/gui-xaw/inteldlg.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Měním informace o uživateli %s.\n"
+msgstr "Informace výzvědné služby pro %s impérium"
 
 #: client/gui-gtk/inteldlg.c:99
 #: client/gui-mui/inteldlg.c:139
@@ -13512,6 +13504,9 @@ msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
 msgstr ""
+"Kde zobrazovat zprávy\n"
+"Výs = Výstupní okno, Zpr = Zprávové okno,\n"
+"Sam = Samostatné okno"
 
 #: client/gui-gtk/messagewin.c:155
 #: client/gui-mui/citydlg.c:1679
@@ -13568,9 +13563,8 @@ msgstr "Prodat vše"
 #: client/gui-mui/repodlgs.c:491
 #: client/gui-win32/repodlgs.c:355
 #: client/gui-xaw/repodlgs.c:750
-#, fuzzy
 msgid "Sell-Off:"
-msgstr "Vypnout lampu"
+msgstr "Odprodej:"
 
 #: client/gui-gtk/repodlgs.c:787
 #: client/gui-mui/repodlgs.c:569
@@ -14484,7 +14478,7 @@ msgstr "Jednotka: %s(%s%s)"
 #: client/gui-mui/mapclass.c:160
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr "hp-service"
+msgstr "HP Mini"
 
 #: client/gui-mui/mapclass.c:172
 #, fuzzy, c-format
@@ -14559,6 +14553,8 @@ msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
 msgstr ""
+"Kde zobrazovat zprávy\n"
+"Výs = Výstupní okno, Zpr = Zprávové okno, Sam = Samostatné okno"
 
 #: client/gui-mui/messagedlg.c:100
 #: client/gui-win32/messagedlg.c:138
@@ -14651,9 +14647,9 @@ msgstr "Vojenský přehled"
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%2d: %s vládce %s získal %d bod\n"
+msgstr[1] "%2d: %s vládce %s získal %d body\n"
+msgstr[2] "%2d: %s vládce %s získal %d bodů\n"
 
 #: client/gui-mui/repodlgs.c:869
 #: client/gui-win32/repodlgs.c:728
@@ -14801,9 +14797,8 @@ msgstr "Hra: To je stejná věc!"
 
 #: client/gui-win32/cityrep.c:878
 #: data/Freeciv.in:1648
-#, fuzzy
 msgid "Popup"
-msgstr "Rozbalovací"
+msgstr "Samostatné"
 
 #: client/gui-win32/cityrep.c:881
 msgid "Change All"
@@ -14943,7 +14938,7 @@ msgstr "Zrušit dohodu"
 #: data/Freeciv.in:3261
 #, fuzzy
 msgid "Withdraw vision"
-msgstr "Vidění s barevnou poruchou"
+msgstr "?vision:Oba"
 
 #: client/gui-win32/repodlgs.c:251
 msgid "Science Report"
@@ -15082,7 +15077,7 @@ msgstr "Možná máte starší Freeciv soubor se zdroji v /usr/lib/X11/app-defau
 
 #: client/gui-xaw/gui_main.c:322
 msgid "Using fallback resources - which is OK"
-msgstr ""
+msgstr "Použity nouzové zdroje - které jsou OK"
 
 #: client/gui-xaw/gui_main.c:333
 msgid "Only color displays are supported for now..."
@@ -15564,24 +15559,20 @@ msgid "Food/Resources/Trade:"
 msgstr "Jídlo/Štíty/Obchod:"
 
 #: data/Freeciv.in:1012
-#, fuzzy
 msgid "Road Result/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Cesta výsledek/čas:"
 
 #: data/Freeciv.in:1032
-#, fuzzy
 msgid "Irrig. Result/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Závlaha výsledek/čas:"
 
 #: data/Freeciv.in:1053
-#, fuzzy
 msgid "Mine Result/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Důl výsledek/čas:"
 
 #: data/Freeciv.in:1073
-#, fuzzy
 msgid "Trans. Result/Time:"
-msgstr "Real-timeový signál %d"
+msgstr "Transf. výsledek/čas:"
 
 #: data/Freeciv.in:1137
 msgid "Select destination:"
@@ -15627,11 +15618,12 @@ msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
 msgstr ""
+"Výs = Výstupní okno, Zpr = Zprávové okno,\n"
+"Sam = Samostatné okno"
 
 #: data/Freeciv.in:1303
-#, fuzzy
 msgid " Out Mes Pop"
-msgstr "Zdrojové URI pro POP"
+msgstr " Výs Zpr Sam"
 
 #: data/Freeciv.in:1314
 msgid "Rates"
@@ -15715,7 +15707,7 @@ msgstr "Název stavby         Počet Celkem výdaje"
 
 #: data/Freeciv.in:1949
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr ""
+msgstr "Typ jednotky           Vylepšení  Výstavba   Aktivní   Štít     Jídlo"
 
 #: data/Freeciv.in:2033
 msgid "Rename worklist"
@@ -16099,6 +16091,16 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 "             t: show city workers (mouse over or near city)\n"
 msgstr ""
+"Hlavní mapa (klávesy):\n"
+"===================\n"
+"    Shift-home: centrovat na hlavní město\n"
+"    Shift-šipky: skrolování mapou\n"
+"        Ctrl-G: zobrazit mřížku zap/vyp\n"
+"        Ctrl-B: zobrazit státní hranice zap/vyp\n"
+"        Ctrl-N: zobrazit názvy měst zap/vyp\n"
+"        Ctrl-R: zobrazit růst měst zap/vyp\n"
+"        Ctrl-P: zobrazit produkci měst zap/vyp\n"
+"             t: zobrazit pracovníky města (myš nad nebo blízko města)\n"
 
 #: data/helpdata.txt:495
 #, fuzzy
@@ -20736,12 +20738,11 @@ msgstr "Belgie získala samostatnost na Německém Království v roce 1830 n.l.
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr ""
+msgstr "Boerský"
 
 #: data/nation/boer.ruleset:4
-#, fuzzy
 msgid "?plural:Boers"
-msgstr "Forma plurálů:"
+msgstr "?plural:Boerové"
 
 #: data/nation/boer.ruleset:6
 msgid "The Boers were Dutch settlers in British-controlled South Africa from 1650AD.  They briefly controlled two republics, the Transvaal and the Orange Free State, before being defeated by the British in the war of 1899-1902."
@@ -20862,7 +20863,7 @@ msgstr "Královna"
 
 #: data/nation/catalan.ruleset:20
 msgid "Arquebisbe"
-msgstr ""
+msgstr "Arcybiskup"
 
 #: data/nation/catalan.ruleset:20
 msgid "Gran Bruixa"
@@ -20979,12 +20980,11 @@ msgstr "Založení Dánského království je přisuzováno říši Haralda Blat
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
-msgstr ""
+msgstr "Dunedánský"
 
 #: data/nation/dunedain.ruleset:8
-#, fuzzy
 msgid "?plural:Dunedan"
-msgstr "Forma plurálů:"
+msgstr "?plural:Dunedánové"
 
 #: data/nation/dunedain.ruleset:9
 #: data/nation/elvish.ruleset:6
@@ -21284,7 +21284,7 @@ msgstr "Matka představená"
 
 #: data/nation/irish.ruleset:40
 msgid "Taoiseach"
-msgstr ""
+msgstr "Premiér"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -21324,7 +21324,7 @@ msgstr "Šogun"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr ""
+msgstr "Kampučíjský"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
@@ -21384,12 +21384,11 @@ msgstr "Velkovévodkyně"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr ""
+msgstr "Malajský"
 
 #: data/nation/malaysian.ruleset:4
-#, fuzzy
 msgid "?plural:Malaysians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Malajci"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -21525,12 +21524,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "Kebecký"
 
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "Forma plurálů:"
+msgstr "?plural:Kebekové"
 
 #: data/nation/quebecois.ruleset:14
 msgid "Governor"
