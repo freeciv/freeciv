@@ -234,6 +234,7 @@ static void log_write(FILE *fs, int level, char *message)
   }
   if (log_filename || (!log_callback)) {
     fprintf(fs, "%d: %s\n", level, message);
+    fflush(fs);
   }
 }
 
