@@ -766,6 +766,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
   int war_desire[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int best_desire = 0;
   struct player *target = NULL;
+  int mult;
 
   memset(war_desire, 0, sizeof(war_desire));
 
@@ -813,12 +814,17 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
       }
       pplayer->ai.love[aplayer->player_no] -= ai->diplomacy.love_incr;
     }
+    
     /* Reduce love by number of units in our territory.
      * AI is so naive, that we have to count it even if players are allied */
+    mult = 
+      pplayers_at_war(pplayer, aplayer) || adip->is_allied_with_enemy ?
+      2 : 1;
+    
     pplayer->ai.love[aplayer->player_no] -=
       MIN(player_in_territory(pplayer, aplayer) * (MAX_AI_LOVE / 100),
           pplayers_allied(aplayer, pplayer) ? 
-	    ai->diplomacy.love_incr - 1 : (MAX_AI_LOVE / 2));
+	    ai->diplomacy.love_incr - 1 : (MAX_AI_LOVE / 2)) * mult;
  
     /* Increase the love if aplayer has got a building that makes 
      * us love him more. Typically it's Eiffel Tower */
