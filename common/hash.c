@@ -433,7 +433,7 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
 }
 
 /**************************************************************************
-  Delete an entry with specified key.  Returns user-data or deleted
+  Delete an entry with specified key.  Returns user-data of deleted
   entry, or NULL if not found.
 **************************************************************************/
 void *hash_delete_entry(struct hash_table *h, const void *key)
@@ -459,7 +459,7 @@ void *hash_delete_entry(struct hash_table *h, const void *key)
 int hash_key_exists(const struct hash_table *h, const void *key)
 {
   struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
-  return bucket->used;
+  return (bucket->used == BUCKET_USED);
 }
 
 /**************************************************************************
@@ -470,7 +470,7 @@ int hash_key_exists(const struct hash_table *h, const void *key)
 void *hash_lookup_data(const struct hash_table *h, const void *key)
 {
   struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
-  return (bucket->used ? (void*)bucket->data : NULL);
+  return ((bucket->used == BUCKET_USED) ? (void*)bucket->data : NULL);
 }
 
 /**************************************************************************
