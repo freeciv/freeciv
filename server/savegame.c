@@ -1143,7 +1143,7 @@ static void player_map_load(struct player *plr, int plrno,
   if (!plr->is_alive)
     for (x=0; x<map.xsize; x++)
       for (y=0; y<map.ysize; y++)
-	map_change_seen(x, y, plrno, +1);
+	map_change_seen(x, y, plr, +1);
 
   /* load map if:
      1) it from a fog of war build
@@ -1165,7 +1165,7 @@ static void player_map_load(struct player *plr, int plrno,
 		  "at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
 	  exit(1);
 	}
-	map_get_player_tile(x, y, plrno)->terrain=pch-terrain_chars;
+	map_get_player_tile(x, y, plr)->terrain=pch-terrain_chars;
       }
     }
     
@@ -1177,14 +1177,14 @@ static void player_map_load(struct player *plr, int plrno,
 	char ch=terline[x];
 	
 	if(isxdigit(ch)) {
-	  map_get_player_tile(x, y, plrno)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
+	  map_get_player_tile(x, y, plr)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
 	} else if(ch!=' ') {
 	  freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
 		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
 	  exit(1);
 	}
 	else
-	  map_get_player_tile(x, y, plrno)->special=S_NO_SPECIAL;
+	  map_get_player_tile(x, y, plr)->special=S_NO_SPECIAL;
       }
     }
     
@@ -1196,7 +1196,7 @@ static void player_map_load(struct player *plr, int plrno,
 	char ch=terline[x];
 	
 	if(isxdigit(ch)) {
-	  map_get_player_tile(x, y, plrno)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
+	  map_get_player_tile(x, y, plr)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
 	} else if(ch!=' ') {
 	  freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
 		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
@@ -1214,7 +1214,7 @@ static void player_map_load(struct player *plr, int plrno,
 	  char ch=terline[x];
 	  
 	  if(isxdigit(ch)) {
-	    map_get_player_tile(x, y, plrno)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	    map_get_player_tile(x, y, plr)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
 	  } else if(ch!=' ') {
 	    freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
 		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
@@ -1231,7 +1231,7 @@ static void player_map_load(struct player *plr, int plrno,
       
       for(x=0; x<map.xsize; x++) {
 	char ch=terline[x];
-	map_get_player_tile(x, y, plrno)->last_updated = ch-(isdigit(ch) ? '0' : ('a'-10));
+	map_get_player_tile(x, y, plr)->last_updated = ch-(isdigit(ch) ? '0' : ('a'-10));
       }
     }
     
@@ -1241,7 +1241,7 @@ static void player_map_load(struct player *plr, int plrno,
       
       for(x=0; x<map.xsize; x++) {
 	char ch=terline[x];
-	map_get_player_tile(x, y, plrno)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
+	map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
       }
     }
     
@@ -1252,7 +1252,7 @@ static void player_map_load(struct player *plr, int plrno,
       if (terline) {
 	for(x=0; x<map.xsize; x++) {
 	  char ch=terline[x];
-	  map_get_player_tile(x, y, plrno)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	  map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
 	}
       }
     }
@@ -1264,7 +1264,7 @@ static void player_map_load(struct player *plr, int plrno,
       if (terline) {
 	for(x=0; x<map.xsize; x++) {
 	  char ch=terline[x];
-	  map_get_player_tile(x, y, plrno)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
+	  map_get_player_tile(x, y, plr)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
 	}
       }
     }
@@ -1282,7 +1282,7 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->has_walls = secfile_lookup_int(file, "player%d.dc%d.has_walls", plrno, j);    
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
-	map_get_player_tile(x, y, plrno)->city = pdcity;
+	map_get_player_tile(x, y, plr)->city = pdcity;
 	alloc_id(pdcity->id);
       }
     }
@@ -1613,7 +1613,7 @@ static void player_save(struct player *plr, int plrno,
     /* put the terrain type */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=terrain_chars[map_get_player_tile(x, y, plrno)->terrain];
+	pbuf[x]=terrain_chars[map_get_player_tile(x, y, plr)->terrain];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_t%03d", plrno, y);
@@ -1622,7 +1622,7 @@ static void player_save(struct player *plr, int plrno,
     /* put lower 4 bits of special flags */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[map_get_player_tile(x, y, plrno)->special&0xf];
+      pbuf[x]=dec2hex[map_get_player_tile(x, y, plr)->special&0xf];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_l%03d",plrno,  y);
@@ -1631,7 +1631,7 @@ static void player_save(struct player *plr, int plrno,
     /* put upper 4 bits of special flags */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plrno)->special&0xf0)>>4];
+	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->special&0xf0)>>4];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_u%03d", plrno,  y);
@@ -1640,7 +1640,7 @@ static void player_save(struct player *plr, int plrno,
     /* put "next" 4 bits of special flags */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plrno)->special&0xf00)>>8];
+	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->special&0xf00)>>8];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_n%03d", plrno, y);
@@ -1649,7 +1649,7 @@ static void player_save(struct player *plr, int plrno,
     /* put lower 4 bits of updated */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[map_get_player_tile(x, y, plrno)->last_updated&0xf];
+	pbuf[x]=dec2hex[map_get_player_tile(x, y, plr)->last_updated&0xf];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_ua%03d",plrno,  y);
@@ -1658,7 +1658,7 @@ static void player_save(struct player *plr, int plrno,
     /* put upper 4 bits of updated */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plrno)->last_updated&0xf0)>>4];
+	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf0)>>4];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_ub%03d", plrno,  y);
@@ -1667,7 +1667,7 @@ static void player_save(struct player *plr, int plrno,
     /* put "next" 4 bits of updated */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plrno)->last_updated&0xf00)>>8];
+	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf00)>>8];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_uc%03d", plrno, y);
@@ -1676,7 +1676,7 @@ static void player_save(struct player *plr, int plrno,
     /* put "yet next" 4 bits of updated */
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++)
-	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plrno)->last_updated&0xf000)>>12];
+	pbuf[x]=dec2hex[(map_get_player_tile(x, y, plr)->last_updated&0xf000)>>12];
       pbuf[x]='\0';
       
       secfile_insert_str(file, pbuf, "player%d.map_ud%03d", plrno, y);
@@ -1690,7 +1690,7 @@ static void player_save(struct player *plr, int plrno,
       
       for (x = 0; x < map.xsize; x++)
 	for (y = 0; y < map.ysize; y++)
-	  if ((pdcity = map_get_player_tile(x, y, plrno)->city)) {
+	  if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
 	    secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno, i);
 	    secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
 	    secfile_insert_int(file, y, "player%d.dc%d.y", plrno, i);

@@ -1502,8 +1502,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
 				   Unit_Type_id type, int unit_is_on_tile)
 {
-  struct player_tile *plrtile =
-      map_get_player_tile(x, y, pplayer->player_no);
+  struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
 
   if ((is_allied_city_tile(map_get_tile(x, y), pplayer)
        && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer))
@@ -2167,7 +2166,7 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return 0;
   }
 
-  if (map_get_player_tile(dest_x, dest_y, punit->owner)->terrain == T_OCEAN) {
+  if (map_get_player_tile(dest_x, dest_y, unit_owner(punit))->terrain == T_OCEAN) {
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
 		     _("Game: Cannot paradrop into ocean."));
     return 0;    
@@ -2502,7 +2501,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
     return;
     /*** Allocate air and missile units ***/
   } else if (is_air_units_transport(ptrans)) {
-    struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
+    struct player_tile *plrtile =
+	map_get_player_tile(x, y, unit_owner(ptrans));
     int is_refuel_point =
 	is_allied_city_tile(map_get_tile(x, y), unit_owner(ptrans))
 	|| (plrtile->special & S_AIRBASE

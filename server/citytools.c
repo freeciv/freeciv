@@ -1143,7 +1143,7 @@ This fills out a package from a players dumb_city.
 static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_short_city *packet)
 {
-  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer->player_no)->city;
+  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
   struct city *pcity;
   packet->id=pdcity->id;
   packet->owner=pdcity->owner;
@@ -1236,7 +1236,7 @@ void send_all_known_cities(struct conn_list *dest)
     for(y=0; y<map.ysize; y++) {
       for(x=0; x<map.xsize; x++) {
 	if (pplayer==NULL
-	    || map_get_player_tile(x, y, pplayer->player_no)->city) {
+	    || map_get_player_tile(x, y, pplayer)->city) {
 	  send_city_info_at_tile(pplayer, &pconn->self, NULL, x, y);
 	}
       }
@@ -1343,7 +1343,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	lsend_packet_short_city(dest, &sc_pack);
       }
     } else { /* not seen; send old info */
-      pdcity = map_get_player_tile(x, y, pviewer->player_no)->city;
+      pdcity = map_get_player_tile(x, y, pviewer)->city;
       if (pdcity) {
 	package_dumb_city(pviewer, x, y, &sc_pack);
 	lsend_packet_short_city(dest, &sc_pack);
@@ -1435,7 +1435,7 @@ reality_check city first)
 void update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   struct player_tile *plrtile = map_get_player_tile(pcity->x, pcity->y,
-						    pplayer->player_no);
+						    pplayer);
   struct dumb_city *pdcity;
   if (!plrtile->city) {
     plrtile->city = fc_malloc(sizeof(struct dumb_city));
@@ -1460,7 +1460,7 @@ void reality_check_city(struct player *pplayer,int x, int y)
 {
   struct packet_generic_integer packet;
   struct city *pcity;
-  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer->player_no)->city;
+  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
 
   if (pdcity) {
     pcity = map_get_tile(x,y)->city;
@@ -1469,7 +1469,7 @@ void reality_check_city(struct player *pplayer,int x, int y)
       lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_CITY,
 				   &packet);
       free(pdcity);
-      map_get_player_tile(x, y, pplayer->player_no)->city = NULL;
+      map_get_player_tile(x, y, pplayer)->city = NULL;
     }
   }
 }
