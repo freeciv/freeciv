@@ -310,51 +310,65 @@ static void generate_map_indices(void)
 /****************************************************************************
   Set the map xsize and ysize based on a base size and ratio (in natural
   coordinates).
-****************************************************************************/
-static void set_ratio(int size, int Xratio, int Yratio)
-{
-  /* Future topologies may require even dimensions (set this to 2). */
-  const int even = 1;
 
+  xsize and ysize are even numbers.  For iso-maps ysize%4 == 0.  This avoids
+  problems in current and future topologies.
+****************************************************************************/
+static void set_ratio(double base_size, int Xratio, int Yratio)
+{
   /* In TF_ISO we need to double the map.ysize factor, since xsize is
    * in native coordinates which are compressed 2x in the X direction. */ 
   const int iso = topo_has_flag(TF_ISO) ? 2 : 1;
 
   /* We have:
    *
-   *   1000 * size = xsize * ysize
+   *   size = xsize * ysize
    *
    * And to satisfy the ratios and other constraints we set
    *
-   *   xsize = isize * xratio * even
-   *   ysize = isize * yratio * even * iso
+   *   xsize = 2 * isize * xratio
+   *   ysize = 2 * isize * yratio * iso
    *
-   * For any value of "isize".  So with some substitution
+   * For any value of "isize".  The factor of 2 is to ensure even dimensions
+   * (which are important for some topologies).  So with some substitution
    *
-   *   1000 * size = isize * isize * xratio * yratio * even * even * iso
-   *   isize = sqrt(1000 * size / (xratio * yratio * even * even * iso))
+   *   size = 4 * isize * xratio * isize * yratio * iso
+   *   isize = sqrt(size / (4 * xratio * yratio * iso))
+   *
+   * Remember that size = base_size * 1000.  So this gives us
+   *
+   *   isize = sqrt(base_size * 250 / (xratio * yratio * iso))
    */
-  const float i_size
-    = sqrt((float)(1000 * size)
-	   / (float)(Xratio * Yratio * iso * even * even));
+  int i_size = sqrt(250.0 * base_size / (Xratio * Yratio * iso)) + 0.49;
 
-  /* Now build xsize and ysize value as described above.  Make sure to
-   * round off _before_ multiplying by even and iso so that we can end up
-   * with even values if needed. */
-  map.xsize = (int)(Xratio * i_size + 0.5) * even;
-  map.ysize = (int)(Yratio * i_size + 0.5) * even * iso;
+  /* Make sure the linear size is large enough. */
+  while (MIN(Xratio, iso * Yratio) * 2 * i_size < MAP_MIN_LINEAR_SIZE) {
+    i_size++;
+  }
 
-  /* The size and ratio must satisfy the minimum and maximum *linear*
-   * restrictions on width.  If not then either these restrictions should
-   * be lifted or the size should be more limited. */
-  assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
-  assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
-  assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
-  assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
+  /* Now build xsize and ysize value as described above.  This gives and
+   * even xsize and ysize.  For iso maps ysize % 4 == 0. */
+  map.xsize =       2 * Xratio * i_size;
+  map.ysize = iso * 2 * Yratio * i_size;
 
-  freelog(LOG_VERBOSE,
-	  "Creating a map of size %d x %d = %d tiles (%d requested).",
-	  map.xsize, map.ysize, map.xsize * map.ysize, size * 1000);
+  /* Now make sure the linear size isn't too large.  If it is, the best thing
+   * we can do is decrease the base_size and try again. */
+  if (MAX(MAP_WIDTH, MAP_HEIGHT) - 1 > MAP_MAX_LINEAR_SIZE ) {
+      /* make a more litle map if possible */
+    assert(base_size > 0.1);
+    set_ratio(base_size - 0.1, Xratio, Yratio);
+    return;
+  }
+
+  if (map.size > base_size + 0.9) {
+    /* Warning when size is set uselessly big */ 
+    freelog(LOG_NORMAL,
+	    _("Requested size of %d is too big for this topology."),
+	    map.size);
+  }
+  freelog(LOG_VERBOSE, "Creating a map of size of %2.1fk tiles.", base_size);
+  freelog(LOG_VERBOSE, "xsize and ysize are set to %d and %d.",
+	  map.xsize, map.ysize);
 }
 
 /*
