@@ -244,17 +244,17 @@ int main(int argc, char *argv[])
       exit(1);
     }
     game.scenario=game_load(&file);
+    section_file_check_unused(&file, load_filename);
+    section_file_free(&file);
     /* game.scenario: 0=normal savegame, 1=everything but players,
        2=just tile map and startpositions, 3=just tile map */
     if (game.scenario) { /* we may have a scenario here */
-      section_file_free(&file);
       if(game.nplayers) { /* no, it's just a normal savegame */
 	is_new_game=0;
 	game.scenario=0;
       }
       while(is_id_allocated(global_id_counter++));
-    } else 
-      section_file_free(&file);
+    }
     loadtime = clock() - loadtime;
     flog(LOG_DEBUG,"Load time: %g seconds", (float)loadtime/CLOCKS_PER_SEC);
   }
