@@ -229,7 +229,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     {
-      char buffer[4096];
+      char buffer[65536];
       int num;
       num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
       if (num == -1) {
