@@ -1200,6 +1200,11 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
 
   TERRAIN transform_result;
   UINT8 transform_time;
+  UINT8 rail_time;
+  UINT8 airbase_time;
+  UINT8 fortress_time;
+  UINT8 clean_pollution_time;
+  UINT8 clean_fallout_time;
   
   STRING helptext[MAX_LEN_PACKET];
 end

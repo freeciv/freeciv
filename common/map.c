@@ -747,7 +747,7 @@ int map_transform_time(int x, int y)
 ***************************************************************/
 int map_build_rail_time(int x, int y)
 {
-  return 30;
+  return tile_types[map_get_terrain(x, y)].rail_time * 10;
 }
 
 /***************************************************************
@@ -755,7 +755,7 @@ int map_build_rail_time(int x, int y)
 ***************************************************************/
 int map_build_airbase_time(int x, int y)
 {
-  return 30;
+  return tile_types[map_get_terrain(x, y)].airbase_time * 10;
 }
 
 /***************************************************************
@@ -763,7 +763,7 @@ int map_build_airbase_time(int x, int y)
 ***************************************************************/
 int map_build_fortress_time(int x, int y)
 {
-  return 30;
+  return tile_types[map_get_terrain(x, y)].fortress_time * 10;
 }
 
 /***************************************************************
@@ -771,7 +771,7 @@ int map_build_fortress_time(int x, int y)
 ***************************************************************/
 int map_clean_pollution_time(int x, int y)
 {
-  return 30;
+  return tile_types[map_get_terrain(x, y)].clean_pollution_time * 10;
 }
 
 /***************************************************************
@@ -779,7 +779,7 @@ int map_clean_pollution_time(int x, int y)
 ***************************************************************/
 int map_clean_fallout_time(int x, int y)
 {
-  return 30;
+  return tile_types[map_get_terrain(x, y)].clean_fallout_time * 10;
 }
 
 /***************************************************************

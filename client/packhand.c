@@ -2584,6 +2584,11 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->mining_time = p->mining_time;
   t->transform_result = p->transform_result;
   t->transform_time = p->transform_time;
+  t->rail_time = p->rail_time;
+  t->airbase_time = p->airbase_time;
+  t->fortress_time = p->fortress_time;
+  t->clean_pollution_time = p->clean_pollution_time;
+  t->clean_fallout_time = p->clean_fallout_time;
   
   t->flags = p->flags;
 

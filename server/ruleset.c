@@ -1610,6 +1610,16 @@ static void load_ruleset_terrain(struct section_file *file)
       t->transform_result =
 	lookup_terrain(secfile_lookup_str(file, "%s.transform_result", sec[i]), i);
       t->transform_time = secfile_lookup_int(file, "%s.transform_time", sec[i]);
+      t->rail_time = 
+          secfile_lookup_int_default(file, 3, "%s.rail_time", sec[i]);
+      t->airbase_time = 
+          secfile_lookup_int_default(file, 3, "%s.airbase_time", sec[i]);
+      t->fortress_time = 
+          secfile_lookup_int_default(file, 3, "%s.fortress_time", sec[i]);
+      t->clean_pollution_time = 
+         secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", sec[i]);
+      t->clean_fallout_time = 
+          secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", sec[i]);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
       BV_CLR_ALL(t->flags);
@@ -2924,6 +2934,11 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
       packet.transform_result = t->transform_result;
       packet.transform_time = t->transform_time;
+      packet.rail_time = t->rail_time;
+      packet.airbase_time = t->airbase_time;
+      packet.fortress_time = t->fortress_time;
+      packet.clean_pollution_time = t->clean_pollution_time;
+      packet.clean_fallout_time = t->clean_fallout_time;
 
       packet.flags = t->flags;
 
