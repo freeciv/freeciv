@@ -3,8 +3,8 @@
 #
 # ###########################################################
 # # German translation for Freeciv                          #
-# # Copyright (C)1999-2001 Free Software Foundation, Inc.   #
-# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2001             #
+# # Copyright (C)1999-2002 Free Software Foundation, Inc.   #
+# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2002             #
 # ###########################################################
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,37 +34,42 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-01-08 07:57+0100\n"
+"POT-Creation-Date: 2002-01-09 11:55+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: common/city.c:260
-msgid "?wonder:w"
-msgstr "?wonder:+"
+# ?
+#: common/city.c:264
+msgid "?redundant:*"
+msgstr ""
 
-#: common/city.c:269
-msgid "?built:B"
-msgstr "?built:-"
-
-#: common/city.c:270
+#: common/city.c:265
 msgid "?obsolete:O"
 msgstr "?obsolete:0"
 
+#: common/city.c:270
+msgid "?built:B"
+msgstr "?built:-"
+
+#: common/city.c:272
+msgid "?wonder:w"
+msgstr "?wonder:+"
+
 #: client/gui-mui/citydlg.c:527 client/gui-mui/worklistclass.c:107
-#: client/gui-win32/citydlg.c:1192 common/city.c:1402
+#: client/gui-win32/citydlg.c:1192 common/city.c:1411
 msgid "Wonder"
 msgstr "Weltwunder"
 
 #: client/gui-mui/citydlg.c:529 client/gui-mui/worklistclass.c:104
-#: client/gui-win32/citydlg.c:1193 common/city.c:1404
+#: client/gui-win32/citydlg.c:1193 common/city.c:1413
 msgid "Built"
 msgstr "Fertig"
 
 #: client/gui-mui/citydlg.c:531 client/gui-mui/worklistclass.c:106
-#: client/gui-win32/citydlg.c:1194 common/city.c:1406
+#: client/gui-win32/citydlg.c:1194 common/city.c:1415
 msgid "Obsolete"
 msgstr "Veraltet"
 
@@ -2534,8 +2539,9 @@ msgstr "Invalid ruleset subdirectory, keeping old value."
 
 #: server/stdinhand.c:189
 msgid "Number of players is higher than requested value, keeping old value"
-msgstr "Da die neu eingebene Spielerzahl höher als der erlaubte Wert "
-"ist, bleibt der alte Wert erhalten."
+msgstr ""
+"Da die neu eingebene Spielerzahl höher als der erlaubte Wert ist, bleibt der "
+"alte Wert erhalten."
 
 #: server/stdinhand.c:210
 msgid "Map width in squares"
