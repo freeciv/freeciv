@@ -41,4 +41,3 @@ EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
 		vms/imlib_config.h_vms \
 		vms/readme.vms         \
 		vms/vms_build.com
-

@@ -1752,4 +1752,3 @@ int main ()
   AC_SUBST(GDK_IMLIB_LIBS)
   rm -f conf.gdkimlibtest
 ])
-
