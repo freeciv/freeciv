@@ -737,6 +737,7 @@ void add_net_input(int sock)
 void remove_net_input(void)
 {
   XtRemoveInput(x_input_id);
+  XUndefineCursor(display, XtWindow(map_canvas));
 }
 
 /**************************************************************************
