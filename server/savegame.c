@@ -1429,7 +1429,6 @@ static void player_load(struct player *plr, int plrno,
   int id;
 
   server_player_init(plr, TRUE);
-  ai_data_init(plr);
   ai = ai_data_get(plr);
 
   plr->ai.barbarian_type = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
