@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Default nations data for Freeciv"  
+description="Default nations data for Freeciv"
 options="1.9"
 
 ; Below: nations data in sections [nation0] - [nationxx]
@@ -17,14 +17,14 @@ options="1.9"
 ; of 63 nations however. I hope it is enough :-)
 ;
 ; Notes:
-; 
+;
 ; name          = name of the nation
 ; plural        = plural form of the nation name (use '?plural:' qualifier)
 ; leader        = default leader names for the nation
 ; leader_sex    = sex of each default leader: "Male" or "Female"
-; flag		= string to look for in client tilespec files for 
-;		  preferred flag icon
-; flag_alt	= alternate flag icon string, or "-"
+; flag          = string to look for in client tilespec files for
+;                 preferred flag icon
+; flag_alt      = alternate flag icon string, or "-"
 ;
 ; Next are some hints for AI, as defined in struct player_race
 ; Ask the guy who designed this struct for more explanation :-)
@@ -43,7 +43,7 @@ options="1.9"
 ;
 ;
 ;
-; section [misc] currently contains cities suggested when 
+; section [misc] currently contains cities suggested when
 ; you run out of default cities for your nation
 ;
 
@@ -71,7 +71,7 @@ tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
 wonder="Leonardo's Workshop"
 government="Republic"
 
-cities = 
+cities =
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
   "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
   "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
@@ -110,8 +110,8 @@ tech_goals = "Monarchy","Philosophy","Mathematics","Chivalry",
 wonder="Hanging Gardens"
 government="Monarchy"
 
-cities = 
-  "Babylon", "Lagash", "Nippur", "Ur", "Kish", 
+cities =
+  "Babylon", "Lagash", "Nippur", "Ur", "Kish",
   "Shuruppak", "Kisurra", "Cutha", "Adab", "Umma",
   "Akkad", "Eridu", "Larsa", "Borsippa", "Sippar",
   "Nineveh", "Ashur", "Calach", "Carcar", "Hamat",
@@ -143,7 +143,8 @@ tech_goals = "The Republic", "Iron Working", "Gunpowder", "Explosives",
 wonder="J.S. Bach's Cathedral"
 government="Republic"
 
-cities = "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
+cities =
+  "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
   "Bremen", "Lübeck", "Hamburg", "Berlin", "Dresden",
   "Wien", "Fulda", "Würzburg", "Bamberg", "Nürnberg",
   "München", "Brixien", "Salzburg", "Passau", "Köln",
@@ -152,7 +153,7 @@ cities = "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
   "Stralsund", "Marburg", "Schlettstadt", "Augsburg", "Rostock", "Schwerin",
   "Mansfeld", "Donauwörth", "Dessau", "Osnabrück", "Hannover", "Stuttgart",
   "Mühlberg", "Wittstock", "Speyer", "Kleve", "Worms", "Halle", "Erfurt",
-  "Landau", "Heilbronn", "Rosheim", "Schmalkalden", "Lutter", 
+  "Landau", "Heilbronn", "Rosheim", "Schmalkalden", "Lutter",
   "Wiesloch", "Rosslau", "Magdeburg", "Minden", "Sinsheim", "Gotha",
   "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab",
   "Oldenburg", "Weimar", "Freiburg", "Baden-Baden", "Mannheim", "Kiel",
@@ -184,9 +185,10 @@ tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
 wonder="Pyramids"
 government="Monarchy"
 
-cities = "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
+cities =
+  "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
   "Ammonium", "Alexandria", "Pelusium", "Canopus", "Naucratis",
-  "Diospolis",  "Sais", "Acoris", "Cynopolis", "Thinis", 
+  "Diospolis",  "Sais", "Acoris", "Cynopolis", "Thinis",
   "Timonepsis", "Nilopolis", "Chemmis", "Antaeopolis", "Hermonthis",
   "Letopolis", "Aphroditopolis", "Heracleopolis", "Oxyrynchus",
   "Ibiu", "Busiris", "Andropolis", "Sele", "Antiphrae", "Apis"
@@ -216,9 +218,10 @@ tech_goals = "The Republic", "Trade", "Engineering", "Democracy",
 wonder="Statue of Liberty"
 government="Democracy"
 
-cities = "Washington", "New York", "Boston", "Philadelphia", "Los Angeles", 
+cities =
+  "Washington", "New York", "Boston", "Philadelphia", "Los Angeles",
   "Atlanta", "Chicago", "Buffalo", "St. Louis", "Detroit",
-  "New Orleans", "Baltimore", "Denver", "Cincinnati", "Dallas", 
+  "New Orleans", "Baltimore", "Denver", "Cincinnati", "Dallas",
   "Minneapolis", "Houston", "San Antonio", "San Francisco", "Seattle",
   "Portland", "Miami", "Cleveland", "Buffalo", "Pittsburgh",
   "Salt Lake City", "San Diego", "Phoenix", "Kansas City", "Indianapolis",
@@ -252,14 +255,15 @@ tech_goals = "The Republic", "Philosophy", "Trade", "Engineering",
 wonder="Lighthouse"
 government="Republic"
 
-cities = "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
+cities =
+  "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
   "Miletus", "Ephesus", "Piraeus", "Argos", "Megalopolis",
   "Megara", "Eleusis", "Chalcis", "Eretria", "Thessalonica",
   "Pella", "Edessa", "Dodona", "Nikopolis", "Naupactus",
   "Patrae", "Olympia", "Pylos", "Mantinea", "Tegea",
   "Nauplion", "Mycenae", "Nemea", "Epidauros", "Aulis",
   "Orchomenos", "Marathon", "Delphi", "Thermopylae", "Phaleron",
-  "Nicaea", "Heraclea", "Potidaea", "Stagira", "Olynthus", 
+  "Nicaea", "Heraclea", "Potidaea", "Stagira", "Olynthus",
   "Colophon", "Phocaea", "Amphissa", "Elateia", "Hyampolis",
   "Atalante", "Oropos", "Lebadeia", "Larissa", "Iolkus",
   "Amphiclaea", "Mesembria", "Cyzicus", "Halicarnassus", "Pergamos",
@@ -289,7 +293,9 @@ tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
              "Engineering", "Railroad"
 wonder="Oracle"
 government="Republic"
-cities = "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
+
+cities =
+  "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
   "Lahore", "Karachi", "Ahmadabad", "Kanpur", "Hyderabad",
   "Dacca", "Lucknow", "Benares", "Chandrigarh", "Rawalpindi",
   "Colombo", "Madurai", "Coimbatore", "Calicut", "Trivandrum",
@@ -307,7 +313,7 @@ flag="f.russia"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title"
+ruler_titles = { "government",      "male_title",      "female_title",
                  "Monarchy",        _("Czar"),         _("Czarina")
                  "Fundamentalism",  _("Patriarch"),    _("Matriarch")
                }
@@ -322,8 +328,9 @@ tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade",
 wonder="Women's Suffrage"
 government="Communism"
 
-cities = "Moskva", "Petersburg", "Tver", "Novgorod",  
-  "Yekaterinburg", "Samara", "Pskov", "Ryazan", "Vladimir", 
+cities =
+  "Moskva", "Petersburg", "Tver", "Novgorod",
+  "Yekaterinburg", "Samara", "Pskov", "Ryazan", "Vladimir",
   "Yaroslavl",  "Novosibirsk", "Smolensk", "Briansk", "Oriel",
   "Voronezh", "Saransk", "Uralsk", "Petrozavodsk", "Perm", "Ufa",
   "Saratov", "Volgograd", "Rostov", "Tomsk", "Omsk", "Chelyabinsk",
@@ -351,7 +358,7 @@ tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
 wonder="Apollo Program"
 government="Communism"
 
-cities = 
+cities =
  "Zimbabwe", "Ulundi", "Bapedi", "Hlobane", "Isandhlwana",
  "Intombe", "Mpondo", "Ngome", "Swazi", "Tugela", "Umtata",
  "Umfolozi", "Ibabanago", "Isipezi", "Amatikulu", "Zunguin",
@@ -382,8 +389,9 @@ tech_goals = "Monarchy", "Chivalry", "Philosophy", "The Republic", "Monotheism",
 wonder="Magellan's Expedition"
 government="Republic"
 
-cities = "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",
-  "Nantes", "Rouen", "Reims", "Tours", "Angers", 
+cities =
+  "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",
+  "Nantes", "Rouen", "Reims", "Tours", "Angers",
   "Toulouse", "Montpellier", "Nîmes", "Toulon", "Orléans",
   "Chartres", "Avignon", "Grenoble", "Dijon", "Amiens",
   "Cherbourg", "Caen", "Calais", "Limoges", "Clermont-Ferrand",
@@ -409,7 +417,8 @@ tech_goals = "Monarchy", "Chivalry", "Iron Working", "Trade",
 wonder="Hoover Dam"
 government="Communism"
 
-cities = "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
+cities =
+  "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
   "Tlacopán", "Theotihucanán", "Tezcuco", "Jalapa", "Tlaxcala",
   "Cholula", "Tenochtitlán", "Yopitzingo", "Teotitlán", "Theuantepec",
   "Chiauhtia", "Chapultepec", "Coatepec", "Ayotzinco", "Itzapalapa",
@@ -440,7 +449,8 @@ tech_goals = "Monarchy", "Trade", "Philosophy", "Bridge Building",
 wonder="Great Wall"
 government="Communism"
 
-cities = "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",
+cities =
+  "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",
   "Xi'an", "Taiyuan", "Shenyang", "Changchun", "Harbin",
   "Wuhan", "Chengdu", "Kunming", "Guiyang", "Lanzhou",
   "Zhengzhou", "Changsha", "Nanchang", "Fuzhou", "Hangzhou",
@@ -482,8 +492,9 @@ tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Religion",
 wonder="King Richard's Crusade"
 government="Democracy"
 
-cities = "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
-  "Newcastle", "Canterbury", "Bradford", "Derby", "Southampton", 
+cities =
+  "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
+  "Newcastle", "Canterbury", "Bradford", "Derby", "Southampton",
   "Middlesborough", "Sheffield", "Nottingham", "Coventry", "Bath", "Bristol",
   "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth",
   "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford",
@@ -493,7 +504,7 @@ cities = "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
   "Kidderminster", "Leek", "Lincoln", "Lutterworth", "Macclesfield",
   "Market Bosworth", "Market Harborough", "Melton Mowbray", "Nuneaton",
   "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
-  "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay", 
+  "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
   "Wolverhampton", "Weymouth", "Winchester", "Yeovil", "Halifax", "Oldham",
   "Rochdale", "Blackburn", "Burnley", "Lancaster"
 
@@ -521,7 +532,8 @@ tech_goals = "Monarchy",  "Chivalry", "Trade", "Bridge Building",
 wonder="Sun Tzu's War Academy"
 government="Monarchy"
 
-cities = "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
+cities =
+  "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
   "Tashkent", "Kashgar", "Balkh", "Kabul",
   "Sarai", "Astrachan", "Tana", "Kazan", "Caffa", "Bulgar",
   "Karakorum", "Hami", "Dunhuang", "Lhasa", "Tali",
@@ -552,7 +564,7 @@ tech_goals = "Monarchy", "Philosophy", "Mathematics", "Chivalry",
 wonder="Sun Tzu's War Academy"
 government="Republic"
 
-cities = 
+cities =
  "Ankara", "Istanbul", "Izmir", "Adana", "Antalya",
  "Galatarasay", "Smyrna", "Bursa", "Edirne", "Erzerum",
  "Eskisehir", "Trabzon", "Konya", "Ordu", "Iskenderun",
@@ -582,7 +594,8 @@ tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
              "Railroad"
 wonder="Magellan's Expedition"
 government="Democracy"
-cities = 
+
+cities =
  "Madrid", "Toledo", "Leon", "Salamanca",
  "Vigo", "La Coruna", "Oviedo", "Bilbao", "Valladolid",
  "San Sebastian", "Vitoria", "Zaragoza",
@@ -614,7 +627,9 @@ tech_goals = "Polytheism", "Philosophy", "Trade", "Engineering",
 wonder="Hanging Gardens"
 government="Monarchy"
 
-cities = ;first are ancient cities in latin version
+;first are ancient cities in latin version
+
+cities =
   "Persepolis", "Susa", "Ekbatana", "Pasargadae",
   "Rhagae", "Margiane", "Baktra", "Taxila", "Gabae",
   "Zadrakarta", "Herat", "Drapsaka", "Karmana", "Pura", ;modern cities
@@ -645,13 +660,16 @@ tech_goals="Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
            "Railroad"
 wonder="Oracle"
 government="Monarchy"
-cities = ;Arab Peninsula and Near East
-"Mekka", "Medina", "Rijadh",  "Jidda", "Al Hufuf",
-"Buraydah", "At Taif", "Sana", "Al Hudaydah", "Aden",
-"Al Mukalla", "Taizz", "Masquat", "Abu Dhabi", "Dubai",
-"Doha", "Al Manamah", "Ad Damman", "Kuwait", "Al-Jahrah",
-"Amman", "Damascus", "Beyruth", "Hamah", "Aleppo", "Hums",
-"Al Ayn"
+
+;Arab Peninsula and Near East
+
+cities =
+  "Mekka", "Medina", "Rijadh",  "Jidda", "Al Hufuf",
+  "Buraydah", "At Taif", "Sana", "Al Hudaydah", "Aden",
+  "Al Mukalla", "Taizz", "Masquat", "Abu Dhabi", "Dubai",
+  "Doha", "Al Manamah", "Ad Damman", "Kuwait", "Al-Jahrah",
+  "Amman", "Damascus", "Beyruth", "Hamah", "Aleppo", "Hums",
+  "Al Ayn"
 
 
 [nation18]
@@ -674,13 +692,15 @@ tech_goals="Monarchy", "Philosophy","Chivalry","Trade","Bridge Building",
 wonder="Lighthouse"
 government="Monarchy"
 
-cities = ;Ancient cities from Africa and south Spain,  
+;Ancient cities from Africa and south Spain,
+;some are later roman colonies and not carthaginian towns
+
+cities =
   "Carthago", "Leptis Magna", "Cirta", "Hadrumetum", "Aspis",
   "Charax", "Oea", "Sabrata", "Utica", "Saldae", "Cartenna",
   "Siga", "Rusaddir", "Tingis", "Gades", "Malaca", "Mastia",
   "Thapsus", "Capsa", "Thugga", "Thevesta", "Madaura", "Sitifis",
   "Githis", "Uthina", "Thamugaddi", "Lambaesis"
-;some are later roman colonies and not carthaginian towns
 
 
 [nation19]
@@ -706,7 +726,7 @@ tech_goals="Monarchy","Chivalry","Philosophy","Monotheism", "Invention"
 wonder="Great Wall"
 government="Monarchy"
 
-cities = 
+cities =
   "Cuzco", "Machu Picchu","Tiahuanaco", "Nazca", "Paracas",
   "Recuay", "Chavin", "Pacatnamu", "Quito", "Tumbez",
   "Sullana", "Huanapampa", "Cajanarca", "Chanchan", "Moche",
@@ -720,7 +740,7 @@ cities =
 
 name=_("Viking")
 plural=_("?plural:Vikings")
-leader="Erik the Bloodaxe", "Harald" 
+leader="Erik the Bloodaxe", "Harald"
 leader_sex="Male", "Male"
 flag="f.norway"
 flag_alt = "f.denmark"  ; Now used by Danish
@@ -764,10 +784,11 @@ attack=2
 expand=1
 civilized=2
 advisors=100,100,100,100,100,100,100
-tech_goals = "The Republic", "Trade", "Engineering", "Monotheism", 
+tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
              "Gunpowder", "Railroad"
 wonder="Copernicus' Observatory"
 government="Democracy"
+
 cities =
  "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Lódz",
  "Plock", "Wloclawek", "Torun", "Bydgoszcz", "Radom",
@@ -792,11 +813,12 @@ attack=2
 expand=0
 civilized=2
 advisors=100,100,100,100,100,100,100
-tech_goals = "The Republic", "Iron Working", "Theology", "Gunpowder", 
+tech_goals = "The Republic", "Iron Working", "Theology", "Gunpowder",
              "Railroad"
 wonder="J.S. Bach's Cathedral"
 government="Republic"
-cities = 
+
+cities =
  "Budapest", "Szeged", "Debrecen", "Pécs", "Székesfehervár",
  "Györ", "Kolosvár", "Temesvar", "Mohacs", "Szombathely",
  "Veszprém", "Miskolc", "Nyiregyhaza", "Sopron", "Kaposvár",
@@ -827,7 +849,8 @@ tech_goals = "Monarchy", "Chivalry", "Trade", "Theology", "University",
 wonder="Magellan's Expedition"
 government="Democracy"
 
-cities = "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers", 
+cities =
+   "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
   "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
   "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
   "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
@@ -934,6 +957,7 @@ tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
              "Engineering", "Railroad"
 wonder="Oracle"
 government="Republic"
+
 cities =
   "Tokyo", "Osaka", "Yokohama", "Kyoto", "Kobe",
   "Sapporo", "Hiroshima", "Nagoya", "Kawasaki", "Nagasaki",
@@ -999,20 +1023,20 @@ expand=0
 civilized=0
 advisors=100,100,100,100,100,100,100
 
-tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making", 
-             "Republic", "Metallurgy", "Industrialization", "Electronics", 
+tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making",
+             "Republic", "Metallurgy", "Industrialization", "Electronics",
              "Tactics"
 wonder="Women's Suffrage"
 government="Republic"
 
-; all the Finnish cities, the situation in 1998, 
+; all the Finnish cities, the situation in 1998,
 ; ordered by combined population and age (in 2000)
 
 cities =
  "Helsinki", "Turku", "Oulu", "Tampere", "Pori", "Porvoo", "Vaasa",
  "Rauma", "Lappeenranta", "Kuopio", "Hämeenlinna", "Kokkola", "Kajaani",
- "Jyväskylä", "Savonlinna", "Lahti", "Tornio", "Joensuu", "Naantali", 
- "Pietarsaari", "Kotka", "Uusikaupunki", "Tammisaari", "Raahe", "Espoo", 
+ "Jyväskylä", "Savonlinna", "Lahti", "Tornio", "Joensuu", "Naantali",
+ "Pietarsaari", "Kotka", "Uusikaupunki", "Tammisaari", "Raahe", "Espoo",
  "Mikkeli", "Vantaa", "Heinola", "Hamina", "Kemi", "Kristiinankaupunki",
  "Uusikaarlepyy", "Iisalmi", "Loviisa", "Hyvinkää", "Maarianhamina",
  "Rovaniemi", "Hanko", "Kouvola", "Seinäjoki", "Järvenpää", "Lohja",
@@ -1051,7 +1075,9 @@ tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working"
 wonder="Sun Tzu War Academy"
 government="Republic"
 
-cities = ;big problem I use names of more known battles between Indians and USA
+;big problem I use names of more known battles between Indians and USA
+
+cities =
   "Big Mound", "Killdeer Knee", "Bear Paw", "Lame Deer",
   "Wolf Mountain", "Dull Knife", "Little Bighorn", "Blue Water",
   "Birch Coulee", "Wood Lake", "Whitestone Hill", "Dead Buffalo Lake",
@@ -1087,35 +1113,35 @@ civilized = 0
 advisors = 100,100,100,100,100,100,100
 
 tech_goals = "Iron Working", "Literacy", "Astronomy", "Bridge Building",
-             "Republic", "Metallurgy", "Medicine", "University", 
+             "Republic", "Metallurgy", "Medicine", "University",
              "Explosives"
 wonder = "Shakespeare's Theatre"
 government = "Republic"
 
 cities =
-	"Praha", "Brno", "Ostrava", "Plzen", "Hradec Kralove", 
-	"Olomouc", "Ceske Budejovice", "Usti nad Labem", "Opava", 
-	"Most", "Pardubice", "Jihlava", "Chomutov", "Prerov", 
-	"Teplice", "Frydek Mistek", "Znojmo", "Cheb", "Zlin", 
-	"Karlovy Vary", "Uherske Hradiste", "Kolin", "Hodonin", 
-	"Mlada Boleslav", "Pribram", "Sumperk", "Pisek", 
-	"Litomerice", "Trebic", "Vyskov", "Kromeriz", "Klatovy", 
-	"Havlickuv Brod", "Prostejov", "Chrudim", "Louny", "Decin", 
-	"Rokycany", "Nachod", "Beroun", "Rakovnik", "Melnik", 
-	"Novy Jicin", "Tachov", "Strakonice", "Kutna Hora", 
-	"Bruntal", "Trutnov", "Sokolov", "Pelhrimov", "Nymburk", 
-	"Svitavy", "Usti nad Orlici", "Jicin", "Tabor", 
-	"Domazlice", "Jindrichuv Hradec", "Ceska Lipa", "Benesov", 
-	"Liberec", "Rychnov nad Kneznou", "Cesky Krumlov", 
-	"Prachatice", "Semily", "Zdar nad Sazavou", "Vsetin", 
-	"Osek", "Litomysl", "Velehrad", "Tesin", "Rozmberk", 
-	"Tovacov", "Sezimovo Usti", "Horice", "Kourim", 
-	"Podebrady", "Vilemov", "Kunvald", "Dvur Kralove", 
-	"Bezdez", "Trebon", "Sternberk", "Sazava", "Slany", 
-	"Stara Boleslav", "Kunstat", "Zelena Hora", "Duchcov", 
-	"Zatec", "Kladsko", "Horazdovice", "Caslav", "Pirkstejn", 
-	"Krnov", "Rozmital", "Loket", "Kladno", 
-	"Jablonec nad Nisou", "Breclav", "Blansko", "Karvina"
+        "Praha", "Brno", "Ostrava", "Plzen", "Hradec Kralove",
+        "Olomouc", "Ceske Budejovice", "Usti nad Labem", "Opava",
+        "Most", "Pardubice", "Jihlava", "Chomutov", "Prerov",
+        "Teplice", "Frydek Mistek", "Znojmo", "Cheb", "Zlin",
+        "Karlovy Vary", "Uherske Hradiste", "Kolin", "Hodonin",
+        "Mlada Boleslav", "Pribram", "Sumperk", "Pisek",
+        "Litomerice", "Trebic", "Vyskov", "Kromeriz", "Klatovy",
+        "Havlickuv Brod", "Prostejov", "Chrudim", "Louny", "Decin",
+        "Rokycany", "Nachod", "Beroun", "Rakovnik", "Melnik",
+        "Novy Jicin", "Tachov", "Strakonice", "Kutna Hora",
+        "Bruntal", "Trutnov", "Sokolov", "Pelhrimov", "Nymburk",
+        "Svitavy", "Usti nad Orlici", "Jicin", "Tabor",
+        "Domazlice", "Jindrichuv Hradec", "Ceska Lipa", "Benesov",
+        "Liberec", "Rychnov nad Kneznou", "Cesky Krumlov",
+        "Prachatice", "Semily", "Zdar nad Sazavou", "Vsetin",
+        "Osek", "Litomysl", "Velehrad", "Tesin", "Rozmberk",
+        "Tovacov", "Sezimovo Usti", "Horice", "Kourim",
+        "Podebrady", "Vilemov", "Kunvald", "Dvur Kralove",
+        "Bezdez", "Trebon", "Sternberk", "Sazava", "Slany",
+        "Stara Boleslav", "Kunstat", "Zelena Hora", "Duchcov",
+        "Zatec", "Kladsko", "Horazdovice", "Caslav", "Pirkstejn",
+        "Krnov", "Rozmital", "Loket", "Kladno",
+        "Jablonec nad Nisou", "Breclav", "Blansko", "Karvina"
 
 [nation31]
 
@@ -1141,12 +1167,217 @@ tech_goals="Monarchy","Chivalry","Iron Working","Trade","Navigation",
 wonder="Hoover Dam"
 government="Democracy"
 
-cities = "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide",
+cities =
+         "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide",
          "Perth", "Darwin", "Hobart", "Wollongong", "Rockhampton",
          "Launceston", "Townsville", "Albany", "Bunbury", "Kalgoorlie",
          "Meekatharra", "Winton", "Alice Springs", "Quilpie", "Cairns",
-         "Southport", "Ballarat", "Waneroo", "Fremantle", "Whyalla", 
+         "Southport", "Ballarat", "Waneroo", "Fremantle", "Whyalla",
          "Albury", "Bathurst", "Dubbo","Mackay"
+
+
+[nation32]
+
+name=_("Welsh")
+plural=_("?plural:Welsh")
+leader="Llywelyn ap Gruffudd", "Hywel Dda", "Owain Glyndwr"
+leader_sex="Male", "Male", "Male"
+flag="f.wales"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+
+;names = "Yr Ymerodreath Gymreig"           empire            (depotism)
+;      = "Y Twysysogaeth Cymru"             principality      (monarchy)
+;      = "Y Gwerinaeth Pobl Cymru"          people's republic (communism)
+;      = "Yr Ymerodrath Scantaidd Cymreig"  holy welsh empire (fundamentalism)
+;      = "Y Gweriniaeth Cymru"              republic          (republic, democracy)
+
+ruler_titles = { "government",      "male_title",      "female_title",
+                 "Monarchy",        _("Prince"),         _("Princess")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Trade","Navigation","Railroad","Steel",
+           "Industrialization"
+wonder="Hoover Dam"
+government="Democracy"
+
+cities =
+  "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",
+  "Caerphily", "Methyr Tydfil", "Pembroke", "Fishguard", "Aberystwith",
+  "Lampeter", "Llandovery", "Brecon", "Flint", "Caemarfon", "Llanfyllin",
+  "Holyhead", "Tywyn", "Llandeilo", "Cwmbran"
+
+
+[nation33]
+
+name=_("Korean")
+plural=_("?plural:Koreans")
+leader="T'aejong"
+leader_sex="Male"
+flag="f.korea"
+flag_alt = "-"
+city_style = "European"
+
+attack=0
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Philosophy","Invention","Gunpowder",
+           "Railroad","Steel"
+wonder="Sun Tzu's War Academy"
+government="Democracy"
+
+cities =
+  "Seoul", "Pyongyang", "Pusan", "Taegu", "Inchon", "Taejon",
+  "Wonsan", "Kosong", "Haeju", "Sunchon", "Kimchaek", "Najin",
+  "Ulsan", "Yosu", "Mokpo", "Pohang", "Masan", "Chinhae",
+  "Sonbong", "Songnim", "Sariwon", "Hamhung"
+
+
+[nation34]
+
+name=_("Scottish")
+plural=_("?plural:Scottish")
+leader="Robert the Bruce", "William Wallace", "James", "Charles"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.scotland"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Speaker")       , _("Speaker")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Trade","Navigation","Railroad","Steel",
+           "Industrialization"
+wonder="Hoover Dam"
+government="Democracy"
+
+cities =
+  "Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Inverness", "Perth",
+  "Ayr", "Cowdenbeath", "Dumbarton", "Dunfermline", "Falkirk",
+  "Fort William", "Gretna", "Irvine", "Johnstone", "Kilmarnok",
+  "Kilwinning", "Livingstone", "Lockerbie", "Motherwell", "Monifieth",
+  "Paisly", "Peterhead", "Prestwick", "Stirling", "Stranraer",
+  "Troon", "Ullapool", "Whitebridge"
+
+
+[nation35]
+
+name=_("Israeli")
+plural=_("?plural:Israelis")
+leader="David"
+leader_sex="Male"
+flag="f.israel"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
+           "Railroad","Steel","Industrialization"
+wonder="J. S. Bach's Cathedral"
+government="Democracy"
+
+cities =
+  "Jerusalam", "Tel Aviv", "Nazareth", "Netanya", "Rishon LeZiyyon",
+  "Petaq Tiqwa", "Ra'anana", "Rehovot", "Beer-Sheva", "Eilat",
+  "Ramat-Gav", "Herzelia", "Holon", "Haifa"
+
+
+[nation36]
+
+name=_("Argentine")
+plural=_("?plural:Argentines")
+leader="San Martin", "de Rosas", "Rivadavia", "Penon"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.argentina"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Republic","Iron Working","Trade","Navigation",
+           "Railroad","Steel","Industrialization","Democracy"
+wonder="J. S. Bach's Cathedral"
+government="Democracy"
+
+cities =
+  "Buenos Airies", "Cordoba", "Rosario", "Mendoza", "Tucuman",
+  "Mar del Plata", "Santa Fe"
+
+
+;[nation??]
+;
+;name=_("Olympic")
+;plural=_("?plural:Olympians")
+;leader=""
+;leader_sex="Male"
+;flag="f.olympic"
+;flag_alt = "-"
+;city_style = "European"
+;
+;attack=0
+;expand=2
+;civilized=2
+;advisors=100,100,100,100,100,100,100
+;
+;tech_goals="Monarchy","Philosophy","Invention","Electricity"
+;wonder="United Nations"
+;government="Democracy"
+;
+;cities =
+;  "Athens", "Paris", "St Louis", "London", "Stockholm", "Antwerp",
+;  "Amsterdam", "Los Angeles", "Berlin", "Helsinki", "Melbourne",
+;  "Rome", "Tokyo", "Grenoble", "Mexico City", "Munich", "Montreal",
+;  "Moscow", "Seoul", "Barcelona", "Atlanta", "Sydney", "Salt Lake"
+
+
+;[nation??]
+;
+;name=_("Krevi")
+;plural=_("?plural:Krevis")
+;leader="Leif", "Michael"
+;leader_sex="Male", "Male"
+;flag="f.krev"
+;flag_alt = "-"
+;city_style = "European"
+;
+;attack=1
+;expand=1
+;civilized=2
+;advisors=100,100,100,100,100,100,100
+;
+;tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
+;           "Railroad","Steel","Industrialization"
+;wonder="J. S. Bach's Cathedral"
+;government="Democracy"
+;
+;cities =
+;  "Elgaland", "Vargaland"
 
 
 ;
@@ -1183,7 +1414,7 @@ cities = "Mordor"
 ;/* from xconq-7, distributed under the GNU GPL */
 ;/* Copyright (C) 1991-1997 Stanley T. Shebs <shebs@cygnus.com> */
 
-cities = 
+cities =
 ;  /* Soviet Union */
   "Uglegorsk", "Taganrog", "Kuzemino", "Igodovo", 
   "Izhevsk", "Leninskoye", "Zvenigorod", "Faustovo", 
@@ -1464,4 +1695,3 @@ cities =
   "Pocklington", "Robin Hood's Bay", "West Kilbride",
   "Inchnadamph", "North Tolsta", "Oykel Bridge",
   "Pangbourne", "Moreton-in-Marsh", "Wye", "Congresbury"
-

@@ -13,6 +13,7 @@ artists = "
     Reineir Post <rp@win.tue.nl> (Sweden, Holland)
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
     Jeff Mallatt <jjm@codewell.com> (England)
+    Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
 "
 
 [file]
@@ -34,7 +35,7 @@ tiles = { "row", "column", "tag"
   0,  5, "f.greece"
   0,  6, "f.india"
   0,  7, "f.russia"
-  0,  8, "f.rwanda"
+  0,  8, "f.rwanda"       ; for Zulu
   0,  9, "f.france"
   0, 10, "f.mexico"
   0, 11, "f.china"
@@ -65,5 +66,25 @@ tiles = { "row", "column", "tag"
   2,  8, "f.portugal"
   2,  9, "f.czech"
   2, 10, "f.england"
+  2, 11, "f.scotland"
+  2, 12, "f.unknown"      ; useful for alternates
   2, 13, "f.barbarian"
+  3,  0, "f.europe"
+  3,  1, "f.canada"
+  3,  2, "f.korea"
+  3,  3, "f.israel"
+  3,  4, "f.ireland"
+  3,  5, "f.belgium"
+  3,  6, "f.iceland"
+  3,  7, "f.pakistan"
+  3,  8, "f.greenland"
+  3,  9, "f.austria"
+  3, 10, "f.argentina"
+  3, 11, "f.united_nations"
+  3, 12, "f.nato"
+  3, 13, "f.vietnam"
+  4,  0, "f.thailand"
+  4,  1, "f.olympic"
+  4,  2, "f.krev"
+  4,  3, "f.wales"
 }

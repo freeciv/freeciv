@@ -28,7 +28,7 @@ tiles = { "row", "column", "tag"
   0,  5, "f.greece"
   0,  6, "f.india"
   0,  7, "f.russia"
-  0,  8, "f.rwanda"
+  0,  8, "f.rwanda"       ; for Zulu
   0,  9, "f.france"
   0, 10, "f.mexico"
   0, 11, "f.china"
@@ -59,5 +59,7 @@ tiles = { "row", "column", "tag"
   2,  8, "f.portugal"
   2,  9, "f.czech"
   2, 10, "f.england"
+  2, 11, "f.scotland"
+  2, 12, "f.unknown"      ; useful for alternates
   2, 13, "f.barbarian"
 }
