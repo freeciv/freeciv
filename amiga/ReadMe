@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.11 => Freeciv 1.10.3-devel (beta)
+Short:     Amiga Version 1.13 => Freeciv 1.11.5-devel (beta)
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.11 => Freeciv 1.10.3-devel (beta)
+Kurz:      Amiga Version 1.13 => Freeciv 1.11.5-devel (beta)
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.11
+Version:   1.13
 
 Introduction
 ~~~~~~~~~~~~
@@ -72,7 +72,9 @@ AUTHORS and PEOPLE files.
 
 The Amiga Version of the client was created, as well as the server was
 compiled, by Sebastian Bauer. If you have question or problems with this
-version, feel free to ask me.
+version, feel free to ask me. Starting with 1.13 I got help from
+Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>. Very much thanks goes
+to him.
 
 Future
 ~~~~~~
@@ -80,18 +82,31 @@ Future
 
 Notes
 ~~~~~
-This developer version is incompatible with the previous version 1.10. That
+This developer version is incompatible with the previous version 1.11. That
 means with the included client you cannot connect to a old server. Also old
 clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.13 (22.09.2000)
+ - corresponds to Freeciv 1.11.5-devel (beta)
+ - should require less chip ram now on aga machines
+ - changed some window layouts
+ - context menu of units in the city window
+ - city can now be renamed
+ - message options work now
+ - many bug fixes
+ - can now be compiled also with vbcc
+
+Version 1.12 (30.06.2000)
+ - corresponds to Freeciv 1.11.0
+
 Version 1.11 (16.06.2000)
  - corresponds to Freeciv 1.10.3-devel (beta)
 
 Version 1.10 (30.04.2000)
  - corresponds to latest Freeciv 1.10.1-devel
-   (biggest new feature is the so called fox of war)
+   (biggest new feature is the so called fog of war)
  - bug fixes
  - saving of the client options is finally possible now
  - small changes in the city window
@@ -204,4 +219,6 @@ Also look at the offical Freeciv homepage at http://www.freeciv.org.
    __  / /   Only Amiga makes it possible...
    \ \/ /
     \__/
+
+Amiga is a trademark from Amiga Inc.
 
