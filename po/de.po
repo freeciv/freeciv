@@ -1684,16 +1684,13 @@ msgstr ""
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
-"Spiel: %s erforscht.\n"
-"        Unsere Wissenschaftler konzentrieren sich jetzt auf %s,\n"
-"        Ziel ist die Entwicklung von %s."
+"Spiel: %s erforscht. Unsere Wissenschaftler konzentrieren sich jetzt auf "
+"%s, Ziel ist %s."
 
 #: server/plrhand.c:303
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
-msgstr ""
-"Spiel: %s erforscht.\n"
-"       Die Wissenschaftler erforschen jetzt %s."
+msgstr "Spiel: %s erforscht. Die Wissenschaftler erforschen jetzt %s."
 
 #: server/plrhand.c:311
 #, c-format
@@ -1890,8 +1887,8 @@ msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
-"Spiel: Die Nation wird vom Bürgerkrieg gespalten.\n"
-"       %s ist der Anführer der revoltierenden Provinzen."
+"Spiel: Die Nation wird vom Bürgerkrieg gespalten. "
+"%s ist der Anführer der revoltierenden Provinzen."
 
 #: server/plrhand.c:1757
 #, c-format
@@ -2957,7 +2954,7 @@ msgstr ""
 
 #: server/stdinhand.c:423
 msgid "Maximum size of a city without trade"
-msgstr "Untergrenze für Handelspunkte"
+msgstr "Bis zu dieser Stadtgröße keine Handelspunkte"
 
 #: server/stdinhand.c:424
 msgid ""
@@ -2971,7 +2968,7 @@ msgstr ""
 
 #: server/stdinhand.c:433
 msgid "Minimum city size to get full trade"
-msgstr "Untergrenze für volle Handelspunkte"
+msgstr "Mindestgröße für volle Handelspunkte"
 
 #: server/stdinhand.c:434
 msgid ""
@@ -2981,8 +2978,9 @@ msgid ""
 "also notradesize."
 msgstr ""
 "Städte unter dieser Größe erhalten Abzüge bei den generierten "
-"Handelspunkten. Dieser Abzug beträgt 100 % bei Städten, die kleiner sind als "
-"'notradesize' und reduziert sich stufenweise bis auf 0 % bei 'fulltradesize'."
+"Handelspunkten. Dieser Abzug beträgt 100 % bei Städten, die kleiner oder "
+"gleich 'notradesize' sind und reduziert sich stufenweise bis auf 0 % bei "
+"'fulltradesize'."
 
 #: server/stdinhand.c:443
 msgid "City size before people become unhappy"
@@ -7665,15 +7663,15 @@ msgstr "Faktor"
 msgid "Celebrate"
 msgstr "Begeisterung"
 
-# ?
+#
 #: client/gui-gtk-2.0/cma_fe.c:289 client/gui-gtk/cma_fe.c:289
 msgid "Apply onc_e"
-msgstr ""
+msgstr "_Testen"
 
-# ?
+#
 #: client/gui-gtk-2.0/cma_fe.c:295 client/gui-gtk/cma_fe.c:295
 msgid "Control c_ity"
-msgstr ""
+msgstr "_Aktivieren"
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-gtk/cma_fe.c:302
 #: client/gui-mui/citydlg.c:1676
