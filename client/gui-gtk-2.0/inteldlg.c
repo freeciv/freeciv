@@ -317,7 +317,7 @@ void update_intel_dialog(struct player *p)
       GtkTreeIter it;
       GValue v = { 0, };
 
-      if (other == p) {
+      if (other == p || !other->is_alive) {
 	continue;
       }
       state = pplayer_get_diplstate(p, other);
