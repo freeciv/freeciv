@@ -63,6 +63,8 @@ void goto_all_toggle_callback(Widget w, XtPointer client_data,
 			      XtPointer call_data);
 void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
+static void cleanup_goto_list(void);
+
 static char *dummy_city_list[]={ 
   "                                ",
   "                                ",
@@ -76,8 +78,8 @@ static char *dummy_city_list[]={
   0
 };
 
-static int ncities_total;
-static char **city_name_ptrs;
+static int ncities_total = 0;
+static char **city_name_ptrs = NULL;
 static int original_x, original_y;
 
 void popup_goto_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -199,12 +201,16 @@ void update_goto_dialog(Widget goto_list)
   Boolean all_cities;
 
   XtVaGetValues(goto_all_toggle, XtNstate, &all_cities, NULL);
-  
-  if(all_cities)
-    for(i=0, ncities_total=0; i<game.nplayers; i++)
+
+  cleanup_goto_list();
+
+  if(all_cities) {
+    for(i=0, ncities_total=0; i<game.nplayers; i++) {
       ncities_total+=city_list_size(&game.players[i].cities);
-  else
-      ncities_total=city_list_size(&game.player_ptr->cities);
+    }
+  } else {
+    ncities_total=city_list_size(&game.player_ptr->cities);
+  }
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
@@ -215,7 +221,7 @@ void update_goto_dialog(Widget goto_list)
       strcpy(name, pcity->name);
       if(pcity->improvements[B_AIRPORT]==1)
 	strcat(name, "(A)");
-      *(city_name_ptrs+j++)=mystrdup(name);
+      city_name_ptrs[j++]=mystrdup(name);
     }
     city_list_iterate_end;
   }
@@ -231,13 +237,9 @@ void update_goto_dialog(Widget goto_list)
 **************************************************************************/
 static void popdown_goto_dialog(void)
 {
-  int i;
-  
-  for(i=0; i<ncities_total; i++)
-    free(*(city_name_ptrs+i));
-  
+  cleanup_goto_list();
+
   XtDestroyWidget(goto_dialog_shell);
-  free(city_name_ptrs);
   XtSetSensitive(main_form, TRUE);
 }
 
@@ -321,4 +323,23 @@ void goto_cancel_command_callback(Widget w, XtPointer client_data,
 {
   center_tile_mapcanvas(original_x, original_y);
   popdown_goto_dialog();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void cleanup_goto_list(void)
+{
+  int i;
+
+  XawListChange(goto_list, dummy_city_list, 0, 0, FALSE);
+
+  if(city_name_ptrs) {
+    for(i=0; i<ncities_total; i++) {
+      free(city_name_ptrs[i]);
+    }
+    free(city_name_ptrs);
+  }
+  ncities_total = 0;
+  city_name_ptrs = NULL;
 }
