@@ -190,8 +190,13 @@ int map_same_continent(int x1, int y1, int x2, int y2);
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
-#define map_adjust_x(X) \
-  ((X) % map.xsize < 0 ? (X) % map.xsize + map.xsize : (X) % map.xsize)
+#define map_adjust_x(X)            \
+  ((X) < 0                         \
+   ? ((X) % map.xsize != 0 ? (X) % map.xsize + map.xsize : 0)
+   : ((X) >= map.xsize             \
+      ? (X) % map.xsize            \
+      : (X)))
+
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
