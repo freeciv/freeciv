@@ -820,8 +820,7 @@ static void city_change(struct city_dialog **ppdialog)
 *****************************************************************/
 static void commit_city_worklist(struct worklist *pwl, void *data)
 {
-  struct packet_city_request packet;
-  struct city_dialog *pdialog = (struct city_dialog *) data;
+  struct city_dialog *pdialog = data;
   int k, id;
   bool is_unit;
 
@@ -866,10 +865,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
   }
 
   /* Send the rest of the worklist on its way. */
-  packet.city_id = pdialog->pcity->id;
-  copy_worklist(&packet.worklist, pwl);
-  packet.worklist.name[0] = '\0';
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+  city_set_worklist(pdialog->pcity, pwl);
 }
 
 /****************************************************************

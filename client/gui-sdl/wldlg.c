@@ -158,10 +158,6 @@ static int ok_worklist_editor_callback(struct GUI *pWidget)
   }
   
   if(pCity) {
-    struct packet_city_request packet;
-      
-    packet.city_id = pCity->id;
-    
     /* remove duplicate entry of currently building impv./wonder from worklist */
     if(!pEditor->is_building_unit) {
       for(i = 0; i < MAX_LEN_WORKLIST; i++) {
@@ -184,10 +180,7 @@ static int ok_worklist_editor_callback(struct GUI *pWidget)
     }
     
     /* commit new city worklist */
-    copy_worklist(&packet.worklist, pEditor->pCopy_WorkList);
-    packet.worklist.name[0] = '\n';
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
-    
+    city_set_worklist(pCity, pEditor->pCopy_WorkList);
   } else {
     /* commit global worklist */
     copy_worklist(pEditor->pOrginal_WorkList, pEditor->pCopy_WorkList);

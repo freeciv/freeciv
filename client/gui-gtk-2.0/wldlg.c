@@ -1201,13 +1201,6 @@ static void commit_worklist(struct worklist_data *ptr)
   strcpy(pwl->name, name);
 
   if (ptr->pcity) {
-    struct packet_city_request packet;
-
-    packet.city_id = ptr->pcity->id;
-    copy_worklist(&packet.worklist, pwl);
-    packet.worklist.name[0] = '\0';
-    
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+    city_set_worklist(ptr->pcity, pwl);
   }
 }
-

@@ -395,6 +395,29 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id)
 }
 
 /**************************************************************************
+  Set the worklist for a given city.  Return the request ID.
+**************************************************************************/
+int city_set_worklist(struct city *pcity, struct worklist *pworklist)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+  copy_worklist(&packet.worklist, pworklist);
+
+  /* Don't send the worklist name to the server. */
+  packet.worklist.name[0] = '\0';
+
+  /* Fill out unused fields. */
+  packet.build_id = -1;
+  packet.is_build_id_unit_id = FALSE;
+  packet.worker_x = packet.worker_y = -1;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  return send_packet_city_request(&aconnection, &packet,
+				  PACKET_CITY_WORKLIST);
+}
+
+/**************************************************************************
   Change the production of a given city.  Return the request ID.
 **************************************************************************/
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
