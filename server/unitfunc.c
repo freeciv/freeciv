@@ -3475,7 +3475,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
     /* entering/leaving a fortress */
     if (map_get_tile(dest_x, dest_y)->special&S_FORTRESS
 	&& homecity
-	&& real_map_distance(homecity->x, homecity->y, dest_x, dest_y) <= 3
+	&& is_friendly_city_near(punit->owner, dest_x, dest_y)
 	&& !senthome) {
       city_refresh(homecity);
       send_city_info(pplayer, homecity);
@@ -3483,7 +3483,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 
     if (map_get_tile(src_x, src_y)->special&S_FORTRESS
 	&& homecity
-	&& real_map_distance(homecity->x, homecity->y, src_x, src_y) <= 3
+	&& is_friendly_city_near(punit->owner, src_x, src_y)
 	&& !senthome) {
       city_refresh(homecity);
       send_city_info(pplayer, homecity);

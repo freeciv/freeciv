@@ -1210,3 +1210,27 @@ struct city *is_non_allied_city_tile(struct tile *ptile, int playerid)
   else
     return NULL;
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_unit_near_a_friendly_city(struct unit *punit)
+{
+  return is_friendly_city_near(punit->owner, punit->x, punit->y);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_friendly_city_near(int player_id, int x, int y)
+{
+  int x1, y1;
+
+  square_iterate (x, y, 3, x1, y1) {
+    struct city * pcity = map_get_city (x1, y1);
+    if (pcity && players_allied(player_id, pcity->owner))
+      return 1;
+  } square_iterate_end;
+
+  return 0;
+}

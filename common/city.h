@@ -318,4 +318,7 @@ struct city *is_allied_city_tile(struct tile *ptile, int playerid);
 struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
 struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
 
+int is_unit_near_a_friendly_city(struct unit *punit);
+int is_friendly_city_near(int owner, int x, int y);
+
 #endif  /* FC__CITY_H */
