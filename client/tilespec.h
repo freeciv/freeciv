@@ -223,8 +223,4 @@ const char *tileset_main_intro_filename(struct tileset *t);
 const char *tileset_mini_intro_filename(struct tileset *t);
 int tileset_num_city_colors(struct tileset *t);
 
-struct sprite *load_sprite(struct tileset *t, const char *tag_name);
-void unload_sprite(struct tileset *t, const char *tag_name);
-bool sprite_exists(struct tileset *t, const char *tag_name);
-
 #endif  /* FC__TILESPEC_H */

@@ -1525,7 +1525,93 @@ static char *valid_index_str(struct tileset *t, int index)
 
   return c;
 }
-     
+
+/**************************************************************************
+  Loads the sprite. If the sprite is already loaded a reference
+  counter is increased. Can return NULL if the sprite couldn't be
+  loaded.
+**************************************************************************/
+static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
+{
+  /* Lookup information about where the sprite is found. */
+  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+
+  freelog(LOG_DEBUG, "load_sprite(tag='%s')", tag_name);
+  if (!ss) {
+    return NULL;
+  }
+
+  assert(ss->ref_count >= 0);
+
+  if (!ss->sprite) {
+    /* If the sprite hasn't been loaded already, then load it. */
+    assert(ss->ref_count == 0);
+    if (ss->file) {
+      ss->sprite = load_gfx_file(ss->file);
+      if (!ss->sprite) {
+	freelog(LOG_FATAL, _("Couldn't load gfx file %s for sprite %s"),
+		ss->file, tag_name);
+	exit(EXIT_FAILURE);
+      }
+    } else {
+      int sf_w, sf_h;
+
+      ensure_big_sprite(ss->sf);
+      get_sprite_dimensions(ss->sf->big_sprite, &sf_w, &sf_h);
+      if (ss->x < 0 || ss->x + ss->width > sf_w
+	  || ss->y < 0 || ss->y + ss->height > sf_h) {
+	freelog(LOG_ERROR,
+		"Sprite '%s' in file '%s' isn't within the image!",
+		tag_name, ss->sf->file_name);
+	return NULL;
+      }
+      ss->sprite =
+	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
+		    NULL, -1, -1);
+    }
+  }
+
+  /* Track the reference count so we know when to free the sprite. */
+  ss->ref_count++;
+
+  return ss->sprite;
+}
+
+/**************************************************************************
+  Unloads the sprite. Decrease the reference counter. If the last
+  reference is removed the sprite is freed.
+**************************************************************************/
+static void unload_sprite(struct tileset *t, const char *tag_name)
+{
+  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+
+  assert(ss);
+  assert(ss->ref_count >= 1);
+  assert(ss->sprite);
+
+  ss->ref_count--;
+
+  if (ss->ref_count == 0) {
+    /* Nobody's using the sprite anymore, so we should free it.  We know
+     * where to find it if we need it again. */
+    freelog(LOG_DEBUG, "freeing sprite '%s'", tag_name);
+    free_sprite(ss->sprite);
+    ss->sprite = NULL;
+  }
+}
+
+/**************************************************************************
+  Return TRUE iff the specified sprite exists in the tileset (whether
+  or not it is currently loaded).
+**************************************************************************/
+static bool sprite_exists(struct tileset *t, const char *tag_name)
+{
+  /* Lookup information about where the sprite is found. */
+  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+
+  return (ss != NULL);
+}
+
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag)					  \
   do {								  \
@@ -1817,7 +1903,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   t->sprites.unit.select[0] = NULL;
-  if (load_sprite(t, "unit.select0")) {
+  if (sprite_exists(t, "unit.select0")) {
     for (i = 0; i < NUM_TILES_SELECT; i++) {
       my_snprintf(buffer, sizeof(buffer), "unit.select%d", i);
       SET_SPRITE(unit.select[i], buffer);
@@ -4296,90 +4382,4 @@ struct sprite *get_unit_upkeep_sprite(struct tileset *t,
   } else {
     return NULL;
   }
-}
-
-/**************************************************************************
-  Loads the sprite. If the sprite is already loaded a reference
-  counter is increased. Can return NULL if the sprite couldn't be
-  loaded.
-**************************************************************************/
-struct sprite *load_sprite(struct tileset *t, const char *tag_name)
-{
-  /* Lookup information about where the sprite is found. */
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
-  freelog(LOG_DEBUG, "load_sprite(tag='%s')", tag_name);
-  if (!ss) {
-    return NULL;
-  }
-
-  assert(ss->ref_count >= 0);
-
-  if (!ss->sprite) {
-    /* If the sprite hasn't been loaded already, then load it. */
-    assert(ss->ref_count == 0);
-    if (ss->file) {
-      ss->sprite = load_gfx_file(ss->file);
-      if (!ss->sprite) {
-	freelog(LOG_FATAL, _("Couldn't load gfx file %s for sprite %s"),
-		ss->file, tag_name);
-	exit(EXIT_FAILURE);
-      }
-    } else {
-      int sf_w, sf_h;
-
-      ensure_big_sprite(ss->sf);
-      get_sprite_dimensions(ss->sf->big_sprite, &sf_w, &sf_h);
-      if (ss->x < 0 || ss->x + ss->width > sf_w
-	  || ss->y < 0 || ss->y + ss->height > sf_h) {
-	freelog(LOG_ERROR,
-		"Sprite '%s' in file '%s' isn't within the image!",
-		tag_name, ss->sf->file_name);
-	return NULL;
-      }
-      ss->sprite =
-	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
-		    NULL, -1, -1);
-    }
-  }
-
-  /* Track the reference count so we know when to free the sprite. */
-  ss->ref_count++;
-
-  return ss->sprite;
-}
-
-/**************************************************************************
-  Unloads the sprite. Decrease the reference counter. If the last
-  reference is removed the sprite is freed.
-**************************************************************************/
-void unload_sprite(struct tileset *t, const char *tag_name)
-{
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
-  assert(ss);
-  assert(ss->ref_count >= 1);
-  assert(ss->sprite);
-
-  ss->ref_count--;
-
-  if (ss->ref_count == 0) {
-    /* Nobody's using the sprite anymore, so we should free it.  We know
-     * where to find it if we need it again. */
-    freelog(LOG_DEBUG, "freeing sprite '%s'", tag_name);
-    free_sprite(ss->sprite);
-    ss->sprite = NULL;
-  }
-}
-
-/**************************************************************************
-  Return TRUE iff the specified sprite exists in the tileset (whether
-  or not it is currently loaded).
-**************************************************************************/
-bool sprite_exists(struct tileset *t, const char *tag_name)
-{
-  /* Lookup information about where the sprite is found. */
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
-  return (ss != NULL);
 }
