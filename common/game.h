@@ -441,11 +441,7 @@ extern bool is_server;
 #define GAME_DEFAULT_TIMEOUTINCMULT  1
 #define GAME_DEFAULT_TIMEOUTADDEMOVE 0
 
-#ifndef NDEBUG
 #define GAME_MIN_TIMEOUT             -1
-#else
-#define GAME_MIN_TIMEOUT             0
-#endif
 #define GAME_MAX_TIMEOUT             8639999
 
 #define GAME_DEFAULT_SIMULTANEOUS_PHASES TRUE
