@@ -4,11 +4,11 @@
 # Roman Festchook <roma@polesye.net>, 2003.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
-"PO-Revision-Date: 2003-06-16 19:18+0200\n"
+"Project-Id-Version: freeciv 1.14.1-beta1\n"
+"POT-Creation-Date: 2003-09-14 00:47+0300\n"
+"PO-Revision-Date: 2003-09-15 13:18+0200\n"
 "Last-Translator: Roman Festchook <roma@polesye.net>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"Language-Team: Ukrainian <roma@polesye.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-u\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -162,7 +162,7 @@ msgstr "Рад╕ац╕я"
 #: common/mem.c:40
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
-msgstr ""
+msgstr "Не вистача╓ пам'ят╕ в╕конуючи %s %lu байт╕в у строц╕ %d у %s."
 
 #: common/packets.c:3059
 msgid ""
@@ -231,9 +231,8 @@ msgid "?diplomatic_state:Alliance"
 msgstr "?д╕пломатичний_стан:Альянс"
 
 #: common/player.c:531
-#, fuzzy
 msgid "?diplomatic_state:No Contact"
-msgstr "?д╕пломатичний_стан:Нейтральний"
+msgstr "?д╕пломатичний_стан:Нема╓ контакту"
 
 #: common/shared.c:172
 #, c-format
@@ -325,6 +324,9 @@ msgid ""
 "want to set your local encoding manually by setting\n"
 "the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
 msgstr ""
+"Перетворення строк з %s не можливе. Ви можете\n"
+"встановити Вашу мову вручну встановлюючи зм╕нну\n"
+"оточення $FREECIV_LOCAL_ENCODING. Продовжую..."
 
 #: common/shared.c:1277
 #, c-format
@@ -333,6 +335,9 @@ msgid ""
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
 msgstr ""
+"Нев╕рна строка '%s': %s. Файл правил повинен бути у кодуванн╕\n"
+"%s; Ви можете зм╕нити це встановлюючи\n"
+"$FREECIV_DATA_ENCODING."
 
 #: common/shared.c:1343
 msgid ""
@@ -341,6 +346,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
 msgstr ""
+"Ви запустили Freeciv без використання iconv. Якщо Ви не\n"
+"використову╓те наб╕р символ╕в latin1, деяки символи\n"
+"можуть виглядати нев╕рно. Ви можете завантажити iconv\n"
+"з http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
@@ -443,51 +452,51 @@ msgstr "верс╕я "
 
 #: common/version.c:65
 msgid "January"
-msgstr "С╕чень"
+msgstr "С╕чн╕"
 
 #: common/version.c:66
 msgid "February"
-msgstr "Лютий"
+msgstr "Лютому"
 
 #: common/version.c:67
 msgid "March"
-msgstr "Березень"
+msgstr "Березн╕"
 
 #: common/version.c:68
 msgid "April"
-msgstr "Кв╕тень"
+msgstr "Кв╕т╕н╕"
 
 #: common/version.c:69
 msgid "May"
-msgstr "Травень"
+msgstr "Травн╕"
 
 #: common/version.c:70
 msgid "June"
-msgstr "Червень"
+msgstr "Червн╕"
 
 #: common/version.c:71
 msgid "July"
-msgstr "Липень"
+msgstr "Липн╕"
 
 #: common/version.c:72
 msgid "August"
-msgstr "Серпень"
+msgstr "Серпн╕"
 
 #: common/version.c:73
 msgid "September"
-msgstr "Вересень"
+msgstr "Вересн╕"
 
 #: common/version.c:74
 msgid "October"
-msgstr "Жовтень"
+msgstr "Жовтн╕"
 
 #: common/version.c:75
 msgid "November"
-msgstr "Листопад"
+msgstr "Листопад╕"
 
 #: common/version.c:76
 msgid "December"
-msgstr "Грудень"
+msgstr "Грудн╕"
 
 #: common/version.c:79
 #, c-format
@@ -535,9 +544,8 @@ msgid "Sea raiders seen near %s!"
 msgstr "П╕рати б╕ля %s!"
 
 #: server/cityhand.c:141
-#, fuzzy
 msgid "Game: you don't have a worker here."
-msgstr "Гра: Ви не ма╓те прац╕вник╕в тут."
+msgstr "Гра: Ви не ма╓те прац╕вника тут."
 
 #: server/cityhand.c:193
 msgid "Game: You have already sold something here this turn."
@@ -701,7 +709,7 @@ msgid "%s (%s) (%i,%i) conquered by %s"
 msgstr "%s (%s) (%i,%i) захоплений %s"
 
 #: server/citytools.c:1325
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Гра: Ви визволили %s! Здобич склала %d гривень!"
 
@@ -1007,7 +1015,6 @@ msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 
 #: server/civserver.c:141
-#, fuzzy
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
 msgstr ""
 "  -m, --meta\t\tПов╕домити метасервер та в╕дправити ╕нформац╕ю сервера\n"
@@ -1293,7 +1300,7 @@ msgstr "Гра: Ваш %s не зм╕г найти %s технолог╕й для крад╕жки у %s."
 #: server/diplomats.c:637
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
-msgstr "Гра: Ваш %s вкрав Технолог╕ю Майбутнього %d з %s."
+msgstr "Гра: Ваш %s вкрали Технолог╕ю Майбутнього %d з %s."
 
 #: server/diplomats.c:641
 #, c-format
@@ -1303,7 +1310,7 @@ msgstr "Гра: Технолог╕ю Майбутнього %d вкрадено %s %s з %s."
 #: server/diplomats.c:644
 #, c-format
 msgid "%s steals Future Tech. %d from the %s"
-msgstr "%s вкрав Технолог╕ю Майбутнього %d з %s"
+msgstr "%s вкрали Технолог╕ю Майбутнього %d з %s"
 
 #: server/diplomats.c:657
 #, c-format
@@ -1532,7 +1539,7 @@ msgstr "Гра: Нема╓ з`╓днання або гравця з ╕м`ям %s."
 
 #: server/mapgen.c:1102
 msgid "Map generator: not enough start positions, fixing."
-msgstr ""
+msgstr "Генератор мапи: не вистача╓ стартових позиц╕й, виправляю."
 
 #: server/mapgen.c:1722
 msgid "High landmass - this may take a few seconds."
@@ -1606,12 +1613,12 @@ msgstr "Не зв╕ту╓мо метасерверу у ц╕й гр╕."
 #: server/meta.c:224
 #, c-format
 msgid "Error opening OpenTransport (Id: %g)"
-msgstr ""
+msgstr "Помилка в╕дкриття (╤Д: %g)"
 
 #: server/meta.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver: bad address: [%s]."
-msgstr "Метасервер: погана адреса: [%s:%d]."
+msgstr "Метасервер: погана адреса: [%s]."
 
 #: server/meta.c:313
 msgid "Pregame"
@@ -1748,7 +1755,7 @@ msgstr "Гра: Ви вкрали %s у цив╕л╕зац╕╖ %s."
 #: server/plrhand.c:609
 #, c-format
 msgid "Game: The %s stole %s from you!"
-msgstr "Гра: %s вкрав у Вас %s!"
+msgstr "Гра: %s вкрали у Вас %s!"
 
 #: server/plrhand.c:634
 msgid "Game: Cannot change rates before game start."
@@ -1998,7 +2005,7 @@ msgstr "Величн╕"
 
 #: server/report.c:141
 msgid "Glorious"
-msgstr "Славн╕"
+msgstr "Славетн╕"
 
 #: server/report.c:141
 msgid "Great"
@@ -2006,7 +2013,7 @@ msgstr "Велик╕"
 
 #: server/report.c:141
 msgid "Decent"
-msgstr "Звичайн╕"
+msgstr "Славн╕"
 
 #: server/report.c:142
 msgid "Mediocre"
@@ -2026,7 +2033,7 @@ msgstr "Невдал╕"
 
 #: server/report.c:143
 msgid "Useless"
-msgstr "Нег╕дн╕"
+msgstr "Неяк╕"
 
 #: server/report.c:193
 #, c-format
@@ -2040,7 +2047,7 @@ msgstr "╤сторичн╕ досл╕дники!"
 #: server/report.c:263
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: %s м╕сто %s розм╕ром %d, "
+msgstr "%2d: Нац╕я %s м╕сто %s розм╕ром %d, "
 
 #: server/report.c:269
 msgid "with no wonders\n"
@@ -2209,7 +2216,7 @@ msgstr "Завантажую правила"
 #: server/savegame.c:74
 #, c-format
 msgid "Trying to write invalid map data: '%c' %d"
-msgstr ""
+msgstr "Спроби запису нев╕рних данних мапи: '%c' %d"
 
 #: server/savegame.c:126
 msgid ""
@@ -2342,12 +2349,12 @@ msgstr "Гра: Без керування з╕ столиц╕, косм╕чний корабель %s загублено!"
 #: server/spacerace.c:376
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Гра: Косм╕чний корабель %s досяг Альфа Центавра."
+msgstr "Гра: Косм╕чний корабель нац╕╖ %s досяг Альфа Центавра."
 
 #: server/spacerace.c:379
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr "Косм╕чний корабель %s досяг Альфа Центавра."
+msgstr "Косм╕чний корабель нац╕╖ %s досяг Альфа Центавра."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
@@ -2437,14 +2444,14 @@ msgid "Game: Sorry, there are no nations left."
 msgstr "Гра: Вибачте, але нац╕й не залишилося."
 
 #: server/srv_main.c:1120
-#, fuzzy, c-format
+#, c-format
 msgid "%s has joined as player %s."
-msgstr "%s при╓днався з %s."
+msgstr "%s при╓днався як гравець %s."
 
 #: server/srv_main.c:1125
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
-msgstr ""
+msgstr "Гра: З'╓днання %s з %s приеднався як гравець %s."
 
 #: server/srv_main.c:1146
 #, c-format
@@ -2472,7 +2479,7 @@ msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Гра: %s додано як комп'ютерного гравця."
 
 #: server/srv_main.c:1294
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid name '%s'"
 msgstr "Нев╕рне ╕м'я '%s'"
 
@@ -2487,9 +2494,9 @@ msgid "Connection request from %s from %s"
 msgstr "Запит на з'╓днання в╕д %s з %s"
 
 #: server/srv_main.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "Connection request from %s from %s (connection named %s)"
-msgstr "Запит на з'╓днання в╕д %s з %s"
+msgstr "Запит на з'╓днання в╕д %s з %s (назва з'╓днання %s)"
 
 #: server/srv_main.c:1310
 #, c-format
@@ -2523,91 +2530,85 @@ msgstr ""
 
 #: server/srv_main.c:1351
 msgid "Sorry, no observation of barbarians in this game."
-msgstr ""
+msgstr "Вибачте, нема╓ нагляду за варварами у ц╕й гр╕."
 
 #: server/srv_main.c:1354
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
-msgstr ""
+msgstr "%s в╕дкинуто: Нема╓ нагляду за варварами."
 
 #: server/srv_main.c:1360
-#, fuzzy
 msgid "Sorry, no observation of dead players in this game."
-msgstr "Не зв╕ту╓мо метасерверу у ц╕й гр╕."
+msgstr "Вибачте, нема╓ нагляду за померлими гравцями у ц╕й гр╕."
 
 #: server/srv_main.c:1363
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No observation of dead players."
-msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
+msgstr "%s в╕дкинуто: Нема╓ нагляду за померлими гравцями."
 
 #: server/srv_main.c:1369
 msgid "Sorry, no observation of AI players in this game."
-msgstr ""
+msgstr "Вибачте, нема╓ нагляду за комп'ютерними гравцями у ц╕й гр╕."
 
 #: server/srv_main.c:1372
 #, c-format
 msgid "%s was rejected: No observation of AI players."
-msgstr ""
+msgstr "%s в╕дкинуто: Нема╓ нагляду за комп'ютерними гравцями."
 
 #: server/srv_main.c:1378
-#, fuzzy
 msgid "Sorry, no reconnections to human-mode players in this game."
-msgstr "Не зв╕ту╓мо метасерверу у ц╕й гр╕."
+msgstr "Вибачте, нема╓ можливост╕ перез'╓днання до гравц╕в людей у ц╕й гр╕."
 
 #: server/srv_main.c:1381
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No reconnection to human players."
-msgstr "Неможу додати Ваше з'╓днання до нового гравця."
+msgstr "%s в╕дкинуто: Нема╓ можливост╕ перез'╓днання до гравц╕в людей."
 
 #: server/srv_main.c:1399
-#, fuzzy
 msgid "Sorry, someone else already has that name."
 msgstr "Користувач з таким ╕м'ям вже ╕сну╓."
 
 #: server/srv_main.c:1401
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Name %s already used."
-msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
+msgstr "В╕дкинуто %s: ╤м'я %s вже використову╓ться."
 
 #: server/srv_main.c:1406
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, %s is already connected."
-msgstr "'%s' вже на з'╓днанн╕."
+msgstr "Вибачте, %s вже на з'╓днанн╕."
 
 #: server/srv_main.c:1409
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: %s already connected."
-msgstr "'%s' вже на з'╓днанн╕."
+msgstr "%s в╕дкинуто: %s вже на з'╓днанн╕."
 
 #: server/srv_main.c:1442
-#, fuzzy
 msgid "Sorry, the game is already running."
-msgstr "Гра вже запущена."
+msgstr "Вибачте, гру вже запущено."
 
 #: server/srv_main.c:1443
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
-msgstr ""
+msgstr "%s в╕дкинуто: Гру вже запущено та нев╕доме ╕м'я %s."
 
 #: server/srv_main.c:1449
-#, fuzzy
 msgid "Sorry, the game is full."
-msgstr "Вибачте, але демограф╕чний зв╕т недоступний."
+msgstr "Вибачте, та гра вже повна."
 
 #: server/srv_main.c:1450
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Maximum number of players reached."
-msgstr "Максимальна к╕льк╕сть гравц╕в."
+msgstr "%s в╕дкинуто: Максимальна к╕льк╕сть гравц╕в."
 
 #: server/srv_main.c:1456
-#, fuzzy
 msgid "Sorry, no new players allowed in this game."
-msgstr "Перехоплено м╕сце гравця %s у гр╕."
+msgstr "Вибачте, нов╕ гравц╕ заборонен╕ у гр╕."
 
 #: server/srv_main.c:1457
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No connections as new player."
-msgstr "Неможу додати Ваше з'╓днання до нового гравця."
+msgstr "%s в╕дкинуто: Неможу додати Ваше з'╓днання до нового гравця."
 
 #: server/srv_main.c:1479
 #, c-format
@@ -2635,7 +2636,7 @@ msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Максимальна к╕льк╕сть гравц╕в менша за aifill; aifill зменшено до %d."
 
 #: server/srv_main.c:1636
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Помилка створення нового комп'ютерного гравця: %s\n"
 
@@ -2646,7 +2647,7 @@ msgstr "Гравець %d"
 
 #: server/srv_main.c:1710
 msgid "Argh! ran out of nations!"
-msgstr ""
+msgstr "Д╕дька! Не вистача╓ нац╕й!"
 
 #: server/srv_main.c:1725
 #, c-format
@@ -2702,7 +2703,6 @@ msgid "Method used to generate map"
 msgstr "Метод що використову╓ться для створення мапи"
 
 #: server/stdinhand.c:229
-#, fuzzy
 msgid ""
 "1 = standard, with random continents;\n"
 "2 = equally sized large islands with one player each, and twice that many\n"
@@ -3039,7 +3039,6 @@ msgid "Minimum distance between cities (move distance)"
 msgstr "М╕н╕мальна в╕дстань м╕ж м╕стами (у рухах)"
 
 #: server/stdinhand.c:474
-#, fuzzy
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
 "citymindist distance. For example, if citymindist is 3, there have to be at "
@@ -3410,7 +3409,6 @@ msgid "Max seconds for TCP buffers to drain"
 msgstr "Затримка очикування зв╕льнення буфер╕в TCP"
 
 #: server/stdinhand.c:723
-#, fuzzy
 msgid ""
 "The civserver will wait for upto the value of this parameter in seconds, for "
 "all client connection TCP buffers to unblock. Zero means the server will not "
@@ -3421,12 +3419,10 @@ msgstr ""
 "сервером. "
 
 #: server/stdinhand.c:730
-#, fuzzy
 msgid "Maximum seconds between PINGs"
 msgstr "Затримка у секундах м╕ж П╤НГами"
 
 #: server/stdinhand.c:731
-#, fuzzy
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses. If a client doesn't reply with a PONG before the next server "
@@ -4689,9 +4685,8 @@ msgid "Not enough players, game will not start."
 msgstr "Не вистача╓ гравц╕в, гру не стартовано."
 
 #: server/stdinhand.c:3300
-#, fuzzy
 msgid "You're not associated with a player and the game is starting. Bye."
-msgstr "Ви не можете перемкнути гравця з 'take' коли гру вже стартовано."
+msgstr "Ви не асоц╕йован╕ з гравцем та гру вже стартовано. До побачення."
 
 #: server/stdinhand.c:3311
 msgid "Cannot start the game: it is already running."
@@ -4789,7 +4784,7 @@ msgid "<no players>"
 msgstr "<нема╓ гравц╕в>"
 
 #: server/stdinhand.c:3642
-#, fuzzy, c-format
+#, c-format
 msgid "username %s, "
 msgstr "╕м'я %s, "
 
@@ -5063,7 +5058,7 @@ msgstr "      Торговий шлях вже ╕сну╓ м╕ж %s та %s!"
 #: server/unithand.c:1117 server/unithand.c:1124
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
-msgstr "      М╕сто %s вже ма╓ %d торгов╕ шляхи!"
+msgstr "      М╕сто %s вже ма╓ %d торгових шлях╕в!"
 
 #: server/unithand.c:1135
 #, c-format
@@ -5328,7 +5323,7 @@ msgstr "Гра: Ви знайшли арм╕ю дикун╕в!"
 #: server/unittools.c:2434
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
-msgstr "Гра: Ваш заг╕н %s знищено дикуни!"
+msgstr "Гра: Ваш заг╕н %s знищено дикунами!"
 
 #: server/unittools.c:2450
 msgid "Game: You found a friendly city."
@@ -5375,7 +5370,6 @@ msgid "Proceeding with sound support disabled"
 msgstr "Продовжую без п╕дтримки звуку"
 
 #: client/audio.c:219
-#, fuzzy
 msgid "No real audio plugin present, Proceeding with sound support disabled"
 msgstr "Не знайдено додатку real audio. Продовжую без п╕дтримки звуку"
 
@@ -6256,7 +6250,6 @@ msgid "%s%d gold"
 msgstr "%s%d гривень"
 
 #: client/options.c:83
-#, fuzzy
 msgid "Default player's username"
 msgstr "╤м'я гравця по замовчуванню"
 
@@ -6765,7 +6758,6 @@ msgid "Game: Revolution finished"
 msgstr "Гра: Революц╕ю завершено"
 
 #: client/tilespec.c:166
-#, fuzzy
 msgid "No useable default tileset found, aborting!"
 msgstr "Не знайдено фон╕в по замовчуванню, перериваюся! "
 
@@ -6831,7 +6823,7 @@ msgstr ""
 "знову."
 
 #: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
 "luck. Please contact <freeciv-dev@freeciv.org>. The CMA will detach itself "
@@ -6964,9 +6956,8 @@ msgid "Pollution:"
 msgstr "Забруднення:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
-msgstr "Огляд"
+msgstr "Огляд (O)"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
 #: client/gui-gtk/citydlg.c:2954 client/gui-gtk/wldlg.c:310
@@ -6998,36 +6989,33 @@ msgstr "%d/%d %d ход╕в"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
 msgid "_Improvements:"
-msgstr "Буд╕вл╕:"
+msgstr "Буд╕вл╕ (I):"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "Виробництво"
+msgstr "Виробництво (D)"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
 #: client/gui-mui/citydlg.c:1544 client/gui-mui/cityrep.c:391
 msgid "_Buy"
-msgstr "Купити"
+msgstr "Купити (B)"
 
 #: client/gui-gtk-2.0/citydlg.c:792 client/gui-gtk/citydlg.c:1134
 msgid "_Happiness"
-msgstr "Щастя"
+msgstr "Щастя (H)"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
-msgstr "АКМ"
+msgstr "АКМ (M)"
 
 #: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
-msgstr "Торгов╕ шляхи"
+msgstr "Торгов╕ шляхи (T)"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Установки"
+msgstr "Установки (S)"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7127,7 +7115,7 @@ msgstr "Перейменувати..."
 
 #: client/gui-gtk-2.0/citydlg.c:1140
 msgid "_List present units..."
-msgstr "Перел╕к присутн╕х п╕дрозд╕л╕в..."
+msgstr "Перел╕к присутн╕х п╕дрозд╕л╕в"
 
 #: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
@@ -7166,12 +7154,12 @@ msgstr "блоковано"
 #: client/gui-gtk-2.0/citydlg.c:1683
 #, c-format
 msgid "Supported units %d"
-msgstr "П╕дтримуван╕ п╕дрозд╕ли %d"
+msgstr "П╕дтриму╓ %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
 #, c-format
 msgid "Present units %d"
-msgstr "Присутн╕ п╕дрозд╕ли %d"
+msgstr "Присутн╕ %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
@@ -7461,12 +7449,12 @@ msgstr "Той же остр╕в"
 #: client/gui-mui/citydlg.c:1531 client/gui-mui/citydlg.c:1570
 #: client/gui-win32/cityrep.c:469
 msgid "Supported Units"
-msgstr "П╕дтримуван╕ п╕дрозд╕ли"
+msgstr "П╕дтриму╓"
 
 #: client/gui-gtk-2.0/cityrep.c:1295 client/gui-gtk/cityrep.c:885
 #: client/gui-win32/cityrep.c:476
 msgid "Units Present"
-msgstr "Присутн╕ п╕дрозд╕ли"
+msgstr "Присутн╕"
 
 #: client/gui-gtk-2.0/cityrep.c:1299 client/gui-gtk/cityrep.c:888
 #: client/gui-win32/cityrep.c:491
@@ -7590,7 +7578,7 @@ msgstr "Виб╕р сервера Freeciv"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
 msgid "_Name:"
-msgstr "╤м'я:"
+msgstr "Назва (N):"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
 msgid "_Host:"
@@ -8121,7 +8109,7 @@ msgstr "Грош╕:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Додати пункт... (A)"
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8224,7 +8212,7 @@ msgstr ""
 "Грош╕: %d\n"
 "Прибуток: %d\n"
 "Податки:%d Розк╕ш:%d Наука:%d\n"
-"Досл╕джу╓ться %s: %d/%d\n"
+"Досл╕джу╓мо %s: %d/%d\n"
 "Тип правл╕ння: %s"
 
 #: client/gui-gtk-2.0/happiness.c:104 client/gui-gtk/happiness.c:101
@@ -8637,7 +8625,7 @@ msgstr "Розк╕ш: %d%%"
 #: client/gui-xaw/inteldlg.c:146
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr "Досл╕джу╓ться: %s(%d/%d)"
+msgstr "Досл╕джу╓мо: %s(%d/%d)"
 
 #: client/gui-gtk-2.0/inteldlg.c:148 client/gui-gtk/inteldlg.c:138
 #: client/gui-mui/inteldlg.c:149 client/gui-win32/inteldlg.c:132
@@ -8754,7 +8742,7 @@ msgstr "?таймаут:н╕"
 
 #: client/gui-gtk-2.0/mapview.c:382 client/gui-gtk/mapview.c:382
 #: client/gui-win32/mapview.c:518
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population: %s\n"
 "Year: %s\n"
@@ -8763,7 +8751,7 @@ msgid ""
 msgstr ""
 "Населення: %s\n"
 "Р╕к: %s\n"
-"Грошей: %d\n"
+"Грошей %d\n"
 "Под: %d Роз: %d Наука: %d"
 
 #: client/gui-gtk-2.0/mapview.c:434 client/gui-gtk/mapview.c:434
@@ -9450,9 +9438,8 @@ msgid "Host"
 msgstr "Хост"
 
 #: client/gui-gtk-2.0/plrdlg.c:169
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Ход╕в"
+msgstr "Простою╓ ход╕в"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
 msgid "_Player"
@@ -9725,7 +9712,7 @@ msgstr "П╕тримуван╕ п╕дрозд╕ли"
 #: client/gui-gtk/citydlg.c:944 client/gui-mui/citydlg.c:1524
 #: client/gui-mui/citydlg.c:1572 client/gui-win32/citydlg.c:917
 msgid "Units present"
-msgstr "Присутн╕ п╕дрозд╕ли"
+msgstr "Присутн╕"
 
 #: client/gui-gtk/citydlg.c:1074
 msgid "Acti_vate present units"
@@ -9806,12 +9793,12 @@ msgstr "Утримання (Загалом: %d)"
 #: client/gui-gtk/citydlg.c:2135
 #, c-format
 msgid "Supported units (%d)"
-msgstr "П╕дтримуван╕ п╕дрозд╕ли (%d)"
+msgstr "П╕дтриму╓ (%d)"
 
 #: client/gui-gtk/citydlg.c:2270
 #, c-format
 msgid "Present units (%d)"
-msgstr "Присутн╕ п╕дрозд╕ли (%d)"
+msgstr "Присутн╕ (%d)"
 
 #: client/gui-gtk/citydlg.c:2309 client/gui-mui/citydlg.c:2173
 #: client/gui-win32/citydlg.c:1424
@@ -10096,9 +10083,8 @@ msgid "Disconnect"
 msgstr "В╕дключитись"
 
 #: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
-#, fuzzy
 msgid "more"
-msgstr "Танк"
+msgstr "дал╕"
 
 #: client/gui-gtk/diplodlg.c:349 data/Freeciv:268
 msgid "The following clauses have been agreed upon:"
@@ -10276,7 +10262,7 @@ msgstr "Закрити"
 
 #: client/gui-gtk/plrdlg.c:123 client/gui-win32/plrdlg.c:354
 msgid "Ai"
-msgstr ""
+msgstr "Комп"
 
 #: client/gui-gtk/plrdlg.c:309 client/gui-mui/plrdlg.c:106
 #: client/gui-win32/plrdlg.c:175 client/gui-xaw/plrdlg.c:203
@@ -10975,7 +10961,6 @@ msgid "Build Farmland"
 msgstr "Будувати ферму"
 
 #: client/gui-mui/gui_main.c:1307 client/gui-mui/mapclass.c:1858
-#, fuzzy
 msgid "Transform terrain"
 msgstr "Зм╕нити тер╕тор╕ю"
 
@@ -11650,16 +11635,16 @@ msgstr ""
 
 #: client/gui-xaw/colors.c:83
 msgid "Private colormap ran out of entries -  exiting."
-msgstr ""
+msgstr "Приватно╖ карти кольор╕в не вистача╓ - виходжу"
 
 #: client/gui-xaw/colors.c:88
 msgid "Ran out of colors -  trying with a private colormap."
-msgstr ""
+msgstr "Не вистача╓ кольор╕в - продовжою з приватною картою кольор╕в."
 
 #: client/gui-xaw/graphics.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "Failed reading XPM file: %s"
-msgstr "Помилка читання PNG файлу: %s"
+msgstr "Помилка читання XPM файлу: %s"
 
 #: client/gui-xaw/gui_main.c:303
 msgid "No version number in resources."
@@ -11813,7 +11798,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:493
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr "Досл╕джу╓ться %s: %d/%d"
+msgstr "Досл╕джу╓мо %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:218 client/gui-xaw/repodlgs.c:411
 #: client/gui-xaw/repodlgs.c:501
@@ -12248,7 +12233,6 @@ msgstr ""
 "  Shift+кл╕к:              Зм╕нити прац╕вник╕в м╕ста з головно╖ мапи"
 
 #: data/helpdata.txt:440
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -12394,7 +12378,6 @@ msgid "Worklist Editor"
 msgstr "Редактор Плану Буд╕вництва"
 
 #: data/helpdata.txt:512
-#, fuzzy
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor You can create lists "
@@ -12749,7 +12732,6 @@ msgstr ""
 "революц╕й чи крад╕жок."
 
 #: data/helpdata.txt:682
-#, fuzzy
 msgid ""
 "    If you have established an embassy with another human player, then you "
 "can arrange a diplomatic meeting. This is done by going to the `Game' menu, "
@@ -12786,7 +12768,6 @@ msgstr ""
 "   - та дати грошей."
 
 #: data/helpdata.txt:699
-#, fuzzy
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
@@ -12809,7 +12790,6 @@ msgstr ""
 "   - Якщо Ви не бачете м╕ста на мап╕, той не можете вимагати його."
 
 #: data/helpdata.txt:709
-#, fuzzy
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -14403,7 +14383,7 @@ msgstr "Переробний комб╕нат"
 
 #: data/default/buildings.ruleset:976 data/civ2/buildings.ruleset:769
 #: data/civ1/buildings.ruleset:781 data/history/buildings.ruleset:785
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
 "production in a city by 66%."
@@ -14418,7 +14398,6 @@ msgstr "Досл╕дна лаборатор╕я"
 
 #: data/default/buildings.ruleset:1001 data/civ2/buildings.ruleset:794
 #: data/civ1/buildings.ruleset:806 data/history/buildings.ruleset:810
-#, fuzzy
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -14662,7 +14641,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1391 data/civ2/buildings.ruleset:1179
 #: data/civ1/buildings.ruleset:1186 data/history/buildings.ruleset:1200
 msgid "A.Smith's Trading Co."
-msgstr "Компания Адама См╕та"
+msgstr "Компания А.См╕та"
 
 #: data/default/buildings.ruleset:1410 data/civ2/buildings.ruleset:1198
 #: data/civ1/buildings.ruleset:1205 data/history/buildings.ruleset:1219
@@ -14782,7 +14761,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1629 data/civ2/buildings.ruleset:1415
 #: data/civ1/buildings.ruleset:1422 data/history/buildings.ruleset:1438
 msgid "Hoover Dam"
-msgstr "Дамба Гувера"
+msgstr "Дн╕проГЕС"
 
 #: data/default/buildings.ruleset:1651 data/civ2/buildings.ruleset:1436
 #: data/history/buildings.ruleset:1460
@@ -15217,11 +15196,11 @@ msgstr "╤ндустр╕альн╕"
 
 #: data/default/cities.ruleset:47
 msgid "Modern"
-msgstr "Модерн╕"
+msgstr "Сучасн╕"
 
 #: data/default/cities.ruleset:54
 msgid "PostModern"
-msgstr "Постмодернов╕"
+msgstr "Майбутн╕"
 
 #: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
 #: data/civ1/governments.ruleset:103 data/history/governments.ruleset:102
@@ -15430,7 +15409,6 @@ msgid "Comrade"
 msgstr "Товариш"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15649,7 +15627,6 @@ msgstr ""
 "ворожим╕ Д╕пломатами та Шпигунами."
 
 #: data/civ2/governments.ruleset:356 data/history/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15723,7 +15700,6 @@ msgid "High Priestess"
 msgstr "Духовний л╕дер"
 
 #: data/civ2/governments.ruleset:434
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -15870,7 +15846,6 @@ msgstr ""
 "нещасного у м╕ст╕. "
 
 #: data/civ1/governments.ruleset:354
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16095,7 +16070,7 @@ msgstr "Обробка бронзи"
 #: data/default/techs.ruleset:110 data/civ2/techs.ruleset:103
 #: data/civ1/techs.ruleset:103 data/history/techs.ruleset:110
 msgid "Ceremonial Burial"
-msgstr "Церемон╕я спалення"
+msgstr "Р╕туал спалення"
 
 #: data/default/techs.ruleset:116 data/civ2/techs.ruleset:109
 #: data/civ1/techs.ruleset:109 data/history/techs.ruleset:116
@@ -16110,7 +16085,7 @@ msgstr "Лицарство"
 #: data/default/techs.ruleset:128 data/civ2/techs.ruleset:121
 #: data/civ1/techs.ruleset:121 data/history/techs.ruleset:128
 msgid "Code of Laws"
-msgstr "Свод закон╕в"
+msgstr "Законодавство"
 
 #: data/default/techs.ruleset:134 data/civ2/techs.ruleset:127
 #: data/civ1/techs.ruleset:127 data/history/techs.ruleset:134
@@ -16170,7 +16145,7 @@ msgstr "Шпигунство"
 #: data/default/techs.ruleset:218 data/civ2/techs.ruleset:211
 #: data/civ1/techs.ruleset:211 data/history/techs.ruleset:218
 msgid "Explosives"
-msgstr "Взриви"
+msgstr "П╕дривне д╕ло"
 
 #: data/default/techs.ruleset:224 data/civ2/techs.ruleset:217
 #: data/civ1/techs.ruleset:217 data/history/techs.ruleset:224
@@ -16290,7 +16265,7 @@ msgstr "Моб╕льна в╕йна"
 #: data/default/techs.ruleset:380 data/civ2/techs.ruleset:373
 #: data/civ1/techs.ruleset:373 data/history/techs.ruleset:380
 msgid "Monotheism"
-msgstr "Мототе╕зм"
+msgstr "Моноте╕зм"
 
 #: data/default/techs.ruleset:386 data/civ2/techs.ruleset:379
 #: data/civ1/techs.ruleset:379 data/history/techs.ruleset:386
@@ -16373,7 +16348,7 @@ msgstr "Робототехн╕ка"
 #: data/default/techs.ruleset:478 data/civ2/techs.ruleset:469
 #: data/civ1/techs.ruleset:469 data/history/techs.ruleset:478
 msgid "Rocketry"
-msgstr "Рокетобудування"
+msgstr "Ракетобудування"
 
 #: data/default/techs.ruleset:484 data/civ2/techs.ruleset:475
 #: data/civ1/techs.ruleset:475 data/history/techs.ruleset:484
@@ -17085,7 +17060,7 @@ msgstr "Крейсер"
 #: data/default/units.ruleset:1305 data/civ2/units.ruleset:1242
 #: data/civ1/units.ruleset:1196 data/history/units.ruleset:1305
 msgid "AEGIS Cruiser"
-msgstr "Ракетний крейсер"
+msgstr "Протиракетний крейсер"
 
 #: data/default/units.ruleset:1333 data/civ2/units.ruleset:1270
 #: data/civ1/units.ruleset:1224 data/history/units.ruleset:1333
@@ -17762,7 +17737,6 @@ msgid "Chancellor"
 msgstr "Канцлер"
 
 #: data/nation/german.ruleset:14
-#, fuzzy
 msgid "Princebishop"
 msgstr "Арх╕╓п╕скоп"
 
@@ -18161,1217 +18135,3 @@ msgstr "Зулуси"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "Зулуси"
-
-#~ msgid "?diplomatic_state:Never met"
-#~ msgstr "?д╕пломатичний_стан:Не зустр╕чалися"
-
-#~ msgid "%s Welcome"
-#~ msgstr "%s Ласкаво просимо"
-
-#~ msgid "Server: %s has connected from %s."
-#~ msgstr "Гра: %s при╓днався з %s."
-
-#~ msgid "Rejected connection from %s with duplicate login name."
-#~ msgstr "В╕дмовлено у з'╓днанн╕ з %s з причини наявност╕ такого ╕мен╕."
-
-#~ msgid ""
-#~ "Game: You are at war with one of %s's allies - an alliance with %s is "
-#~ "impossible."
-#~ msgstr ""
-#~ "Гра: Ви у стан╕ в╕йни з одним ╕з союзник╕в %s - тож альянс з %s "
-#~ "неможливий."
-
-#~ msgid ""
-#~ "Game: %s is at war with one of your allies - an alliance with %s is "
-#~ "impossible."
-#~ msgstr ""
-#~ "Гра: %s у стан╕ в╕йни з одним ╕з Ваших союзник╕в - тож альянс з %s "
-#~ "неможливий."
-
-#~ msgid "Game: An enemy %s has been eliminated defending %s."
-#~ msgstr "Гра: Ваш п╕дрозд╕л %s загинув захищаючи %s."
-
-#~ msgid "Game: request for unknown report (type %d)"
-#~ msgstr "Гра: запит на нев╕домий зв╕т (тип %d)"
-
-#~ msgid "Number of turns players may meet after contact"
-#~ msgstr "К╕льк╕сть ход╕в через як╕ гравц╕ можуть зустр╕тися п╕сля контакту"
-
-#~ msgid ""
-#~ "Players may meet for diplomacy this number of turns after their units "
-#~ "have last met. Set this to zero to turn this feature off entirely."
-#~ msgstr ""
-#~ "Гравц╕ можуть зустр╕тись для д╕пломатичного сп╕лкування через таку "
-#~ "к╕льк╕сть ход╕в п╕сля останнього контакту. Встанов╕ть у нуль аби вимкнути "
-#~ "цю опц╕ю."
-
-#~ msgid "Time to cut a client"
-#~ msgstr "Час аби в╕др╕зати кл╕╓нта"
-
-#~ msgid ""
-#~ "If a client doesn't reply to a PONG in this time the client is "
-#~ "disconnected."
-#~ msgstr "Якщо кл╕ент не в╕дпов╕сть ПОНГом за цей час, в╕н в╕дключа╓ться."
-
-#~ msgid "take [connection-name] <player-name>"
-#~ msgstr "take [з'╓днання] <гравець>"
-
-#~ msgid ""
-#~ "Only the console and connections with cmdlevel 'hack' can force other "
-#~ "connections to take over a player. If you're not one of these, only the "
-#~ "<player-name> argument is allowed"
-#~ msgstr ""
-#~ "Лише консоль та з'╓днання з р╕внем cmdlevel 'hack' можуть дозволяти ╕нш╕м "
-#~ "з'╓днанням перехоплювати гравц╕в. Якщо Ви не один з них, лише аргумент "
-#~ "<гравець> дозволений"
-
-#~ msgid ""
-#~ "away\n"
-#~ "away"
-#~ msgstr ""
-#~ "away\n"
-#~ "away"
-
-#~ msgid "Set yourself in away mode. The AI will watch your back."
-#~ msgstr ""
-#~ "Встановити соб╕ режим в╕дсутност╕. Комп'ютерний гравець буде очикувати на "
-#~ "Ваше повернення."
-
-#~ msgid "The AI will govern your nation but do minimal changes."
-#~ msgstr ""
-#~ "Комп'ютерний гравець буде головувати Вашою нац╕╓ю але робити м╕н╕мальн╕ "
-#~ "зм╕ни."
-
-#~ msgid ""
-#~ "novice\n"
-#~ "novice <player-name>"
-#~ msgstr ""
-#~ "novice\n"
-#~ "novice <гравець>"
-
-#~ msgid "Set one or all AI players to 'novice'."
-#~ msgstr ""
-#~ "Встановити р╕вень одного або ус╕х комп'ютерних гравц╕в у початковий."
-
-#~ msgid ""
-#~ "With no arguments, sets all AI players to skill level 'novice', and sets "
-#~ "the default level for any new AI players to 'novice'.  With an argument, "
-#~ "sets the skill level for that player only."
-#~ msgstr ""
-#~ "Без аргумент╕в встановлю╓ р╕вень ус╕х комп'ютерних гравц╕в у початк╕вця, "
-#~ "також початковим буде р╕вень по замовчуванню ус╕х нових комп'ютерних "
-#~ "гравц╕в. За наявност╕ агрумента встановлю╓ р╕вень лише цього гравця."
-
-#~ msgid "This command is client only."
-#~ msgstr "Це команда кл╕╓нта."
-
-#~ msgid "Usage: away"
-#~ msgstr "Використання: away"
-
-#~ msgid "%s set to away mode."
-#~ msgstr "%s встановлено у стан в╕дсутн╕й."
-
-#~ msgid "%s returned to game."
-#~ msgstr "%s повернувся до гри."
-
-#~ msgid "Usage: take [connection-name] <player-name>"
-#~ msgstr "Використання: take [з'╓днання] <гравець>"
-
-#~ msgid "Usage: take <player-name>"
-#~ msgstr "Використання: take <гравець>"
-
-#~ msgid "%s already controls or observes %s"
-#~ msgstr "%s вже контролю╓ або нагляда╓ над %s"
-
-#~ msgid ""
-#~ "%s already controls or observes %s.\n"
-#~ "  multiple controlling connections aren't allowed yet."
-#~ msgstr ""
-#~ "%s вже контролю╓ або нагляда╓ над %s.\n"
-#~ "  б╕льше одного контрольного з'╓днання нараз╕ не дозволено."
-
-#~ msgid "%s unconnecting from  %s"
-#~ msgstr "%s в╕д'╓днався в╕д %s"
-
-#~ msgid "removing %s [%d]"
-#~ msgstr "видаляю %s [%d]"
-
-#~ msgid "%s now controls %s"
-#~ msgstr "%s тепер контролю╓ться %s."
-
-#~ msgid ""
-#~ "Game: Can't attack %s's unit since it is stacked with %s's unit(s) and "
-#~ "you are not at war with %s."
-#~ msgstr ""
-#~ "Гра: Не можу атакувати п╕дрозд╕л %s тому що там же знаходяться п╕дрозд╕ли "
-#~ "%s, та Ви не ворогу╓те з %s."
-
-#~ msgid "Game: Your %s helps build the %s in %s (%d surplus)."
-#~ msgstr "Гра: Ваш╕ %s допомогли будувати %s у %s (залишилося %d)."
-
-#~ msgid "?Happy workers:H"
-#~ msgstr "?Щаслив╕ прац╕вники:Щ"
-
-#~ msgid "Workers: Happy"
-#~ msgstr "Прац╕вники: Щаслив╕"
-
-#~ msgid "?Content workers:C"
-#~ msgstr "?Нейтральн╕ прац╕вники:Й"
-
-#~ msgid "Workers: Content"
-#~ msgstr "Прац╕вники: Нейтральн╕"
-
-#~ msgid "?Unhappy workers:U"
-#~ msgstr "?Нещасн╕ прац╕вники:Н"
-
-#~ msgid "Workers: Unhappy"
-#~ msgstr "Прац╕вники: Нещасн╕"
-
-#~ msgid "?Angry workers:A"
-#~ msgstr "?Зл╕ прац╕вники:З"
-
-#~ msgid "Workers: Angry"
-#~ msgstr "Прац╕вники: Зл╕"
-
-#~ msgid "?Entertainers:E"
-#~ msgstr "?Шоумени:Ш"
-
-#~ msgid "?Scientists:S"
-#~ msgstr "?Науковц╕:Н"
-
-#~ msgid "?Taxmen:T"
-#~ msgstr "?Податк╕вц╕:П"
-
-#~ msgid "Best"
-#~ msgstr "Найкращий"
-
-#~ msgid "attack"
-#~ msgstr "атака"
-
-#~ msgid "Best attacking units"
-#~ msgstr "Найкращ╕ атакуюч╕ загони"
-
-#~ msgid "defense"
-#~ msgstr "захист"
-
-#~ msgid "Best defending units"
-#~ msgstr "Найкращ╕ захисн╕ загони"
-
-#~ msgid "?Supported (units):Sup"
-#~ msgstr "?П╕дтримуван╕ (п╕дрозд╕ли): П╕д"
-
-#~ msgid "Number of units supported"
-#~ msgstr "К╕льк╕сть п╕дтримуваних п╕дрозд╕л╕в"
-
-#~ msgid "?Present (units):Prs"
-#~ msgstr "?Присутн╕ (п╕дрозд╕ли): При"
-
-#~ msgid "Number of units present"
-#~ msgstr "К╕льк╕сть присутн╕х п╕дрозд╕л╕в"
-
-#~ msgid "?Food surplus:F+"
-#~ msgstr "?Надлишок ╖ж╕:╥+"
-
-#~ msgid "Surplus: Food"
-#~ msgstr "Надлишок: ╥жа"
-
-#~ msgid "?Production surplus:P+"
-#~ msgstr "?Надлишок виробництва: В+"
-
-#~ msgid "Surplus: Production"
-#~ msgstr "Надлишок: Виробництво"
-
-#~ msgid "?Trade surplus:T+"
-#~ msgstr "?Надлишок торг╕вля:Т+"
-
-#~ msgid "Surplus: Trade"
-#~ msgstr "Надлишок: Торг╕вля"
-
-#~ msgid "?Gold:G"
-#~ msgstr "?Гривень:Г"
-
-#~ msgid "Economy: Gold"
-#~ msgstr "Економ╕ка: Гривень"
-
-#~ msgid "?Luxury:L"
-#~ msgstr "?Розк╕ш:Р"
-
-#~ msgid "Economy: Luxury"
-#~ msgstr "Економ╕ка:Розк╕ш"
-
-#~ msgid "?Science:S"
-#~ msgstr "?Наука:Н"
-
-#~ msgid "Economy: Science"
-#~ msgstr "Економ╕ка: Наука"
-
-#~ msgid "Grow"
-#~ msgstr "Зр╕ст"
-
-#~ msgid "Turns until growth/famine"
-#~ msgstr "Ход╕в до зросту/голоду"
-
-#~ msgid "?waste:Was"
-#~ msgstr "?втрати:Втр"
-
-#~ msgid "Waste"
-#~ msgstr "Втрати"
-
-#~ msgid ""
-#~ "      --\t\tPass any following options to the UI.\n"
-#~ "\t\t\tTry \"%s -- --help\" for more.\n"
-#~ msgstr ""
-#~ "      --\t\tПередати будь яку наступну опц╕ю до UI.\n"
-#~ "\t\t\tСпробуйте \"%s -- --help\" для допомоги.\n"
-
-#~ msgid "?embassy:Contact"
-#~ msgstr "?амбасада:Контакт"
-
-#~ msgid "far from %s"
-#~ msgstr "далеко в╕д %s"
-
-#~ msgid "near %s"
-#~ msgstr "б╕ля %s"
-
-#~ msgid "in %s"
-#~ msgstr "у %s"
-
-#~ msgid "from %s"
-#~ msgstr "з %s"
-
-#~ msgid "%s (veteran)"
-#~ msgstr "%s (ветеран)"
-
-#~ msgid "Game: You don't buy %s in %s!"
-#~ msgstr "Гра: Ви не купили %s у %s!"
-
-#~ msgid "Game: Oh my! You seem to have no capital!"
-#~ msgstr "Гра: Ой в╓й! Зда╓ться у Вас не ма╓ столиц╕!"
-
-#~ msgid "Current tileset (EXPERIMENTAL)"
-#~ msgstr "Поточн╕ фони (ЕКПЕР╤МЕНТАЛЬН╤)"
-
-#~ msgid "Prompt for city names"
-#~ msgstr "Запрошення для назви м╕ста"
-
-#~ msgid "Pop up city dialog for new cities"
-#~ msgstr "В╕дкрити в╕кно м╕ста для нового м╕ста"
-
-#~ msgid "Other"
-#~ msgstr "╤нше"
-
-#~ msgid "%6d.%02d ms"
-#~ msgstr "%6d.%02d мс"
-
-#~ msgid "Waste:"
-#~ msgstr "Втрати:"
-
-#~ msgid ""
-#~ "For information on:\n"
-#~ "CMA and presets\n"
-#~ "including sample presets,\n"
-#~ "see README.cma."
-#~ msgstr ""
-#~ "Для ╕нформац╕╖ про:\n"
-#~ "АКМ та предустановки\n"
-#~ "включаючи зразки предустановок,\n"
-#~ "дивись README.cma."
-
-#~ msgid "_Presets:"
-#~ msgstr "Предустановки:"
-
-#~ msgid "Class"
-#~ msgstr "Клас"
-
-#~ msgid "_Properties"
-#~ msgstr "Властивост╕"
-
-#~ msgid "L_egend"
-#~ msgstr "Легенда"
-
-#~ msgid "_Connected Users:"
-#~ msgstr "З'╓днанн╕ користувач╕:"
-
-#~ msgid "Shows your current luxury/science/tax rates;click to toggle them."
-#~ msgstr ""
-#~ "Показати Ваш╕ поточн╕ установки розкош╕/науки/податк╕в;кл╕кн╕ть аби "
-#~ "в╕дкрити ╖х."
-
-#~ msgid ""
-#~ "Shows your progress in researching the current technology.\n"
-#~ "%s: %d/%d."
-#~ msgstr ""
-#~ "Демонстру╓ прогрес у вивченн╕ нових технолог╕й.\n"
-#~ "%s: %d/%d."
-
-#~ msgid ""
-#~ "Shows the progress of global warming:\n"
-#~ "%d."
-#~ msgstr ""
-#~ "Демонстру╓ розвиток глобального потепл╕ння:\n"
-#~ "%d."
-
-#~ msgid ""
-#~ "Shows the progress of nuclear winter:\n"
-#~ "%d."
-#~ msgstr ""
-#~ "Демонстру╓ розвиток рад╕ац╕йно╖ зими:\n"
-#~ "%d."
-
-#~ msgid ""
-#~ "Shows your current government:\n"
-#~ "%s."
-#~ msgstr ""
-#~ "Показати поточне правл╕ння:\n"
-#~ "%s."
-
-#~ msgid "City G_rowth"
-#~ msgstr "Р╕ст М╕ста"
-
-#~ msgid "Ping"
-#~ msgstr "П╕нг"
-
-#~ msgid "All"
-#~ msgstr "Вс╕"
-
-#~ msgid "Class:"
-#~ msgstr "Клас"
-
-#~ msgid "Description"
-#~ msgstr "Опис"
-
-#~ msgid "Leader"
-#~ msgstr "Голова"
-
-#~ msgid "Location: (%d, %d) [%d]"
-#~ msgstr "Розм╕щення: (%d, %d) [%d]"
-
-#~ msgid "_Revolution!"
-#~ msgstr "Революц╕я!"
-
-#~ msgid "Failed creating PNG struct"
-#~ msgstr "Помилка читання PNG файлу"
-
-#~ msgid "Failed while reading PNG file: %s"
-#~ msgstr "Помилка читання PNG файлу: %s"
-
-#~ msgid "PNG file has no palette: %s"
-#~ msgstr "PNG файл не м╕стить пал╕три: %s"
-
-#~ msgid "City Growth"
-#~ msgstr "Р╕ст м╕ста"
-
-#~ msgid "Configure..."
-#~ msgstr "Конф╕гурувати"
-
-#~ msgid "Rename..."
-#~ msgstr "Перейменувати"
-
-#~ msgid "Unit List..."
-#~ msgstr "Список п╕дрозд╕л╕в"
-
-#~ msgid "City Options..."
-#~ msgstr "Опц╕╖ м╕ста"
-
-#~ msgid "Change..."
-#~ msgstr "Зм╕нити"
-
-#~ msgid "Worklist..."
-#~ msgstr "Плани буд╕вництва..."
-
-#~ msgid ""
-#~ "If you want to buy the unit that's first on the list, you can do that "
-#~ "from the City Overview window."
-#~ msgstr ""
-#~ "Якщо Ви бажа╓те купити п╕дрозд╕л що ╓ першим у списку, Ви можете зробити "
-#~ "це у в╕кн╕ м╕ста."
-
-#~ msgid ""
-#~ "Waste is the loss of shields due to inefficiency and greed. Under most "
-#~ "forms of government, the farther away from the capital a city is, the "
-#~ "more shields will be lost to waste.  (If you do not have a capital, your "
-#~ "cities will suffer extremely high levels of waste.)  A Courthouse will "
-#~ "reduce the level of waste in a city. Waste can result in your cities not "
-#~ "building anything."
-#~ msgstr ""
-#~ "Втрати це зменшення виробництва через неефективн╕сть та жадобу. За "
-#~ "б╕льшост╕ форм правл╕ння, чим дал╕ м╕сто в╕д столиц╕, тим б╕льше "
-#~ "виробництво недовиробля╓ через втрати. (Якщо Ви не ма╓те столиц╕, у Ваш╕х "
-#~ "м╕стах буде занадто високий р╕вень втрат.) Суд зменшу╓ р╕вень втрат у "
-#~ "м╕ст╕. Втрати можуть спричинити те, що Ваше м╕сто буде н╕чого не "
-#~ "виробляти."
-
-#~ msgid ""
-#~ "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
-#~ "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
-#~ "distance to the capital, for the purpose of calculating revolt cost."
-#~ msgstr ""
-#~ "Зменшу╓ корупц╕ю та втрати у м╕ст╕ на 50%. При Демократ╕╖ Суд нейтрал╕зу╓ "
-#~ "1 незадоволеного. Також зменшу╓ вдв╕ч╕ в╕дстань до столиц╕, при обрахунку "
-#~ "кошторису революц╕╖."
-
-#~ msgid "Tropical"
-#~ msgstr "Троп╕чн╕"
-
-#~ msgid "Asian"
-#~ msgstr "Аз╕йськ╕"
-
-#~ msgid "Renaissance"
-#~ msgstr "Ренесанс"
-
-#~ msgid ""
-#~ "Anarchy is simply the absence of any recognizable government. Citizens "
-#~ "are disorganized and unproductive, and will spend all income as quickly "
-#~ "as possible, rather than paying taxes or conducting research.\n"
-#~ "\n"
-#~ "Anarchy offers slightly less corruption and waste than Despotism, but "
-#~ "slightly more unhappiness.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Anarchy.  Squares which would "
-#~ "normally yield more than 2 units of food, shields or trade suffer a 1-"
-#~ "unit penalty (e.g., an irrigated grassland square which would normally "
-#~ "yield 3 food only yields 2 food while you are in Anarchy). (This penalty "
-#~ "is removed if the city is celebrating; see Happiness.)\n"
-#~ "\n"
-#~ "Under Anarchy, each of your cities can support a number of military units "
-#~ "equal to its size without paying shields for upkeep. (Additional units "
-#~ "require 1 production shield each.)\n"
-#~ "\n"
-#~ "You may impose martial law under Anarchy: each military unit inside a "
-#~ "city will keep one unhappy citizen content.  (Or at least, unhappy "
-#~ "citizens will act content, and will not cause disorder.)"
-#~ msgstr ""
-#~ "Анарх╕я це в╕дсутн╕сть будь якого управл╕ння. Городяни неорган╕зован╕ та "
-#~ "непродуктивн╕, витрачають ус╕ надходження так швидко як можуть, не "
-#~ "сплачуючи податк╕в та не вкладаючи у досл╕дження.\n"
-#~ "\n"
-#~ "Анарх╕я призводить до меншо╖ корупц╕╖ н╕ж при Деспотизм╕, але спричиня╓ "
-#~ "б╕льше нещастя.\n"
-#~ "\n"
-#~ "Колон╕сти споживають одиницю ╖ж╕ на х╕д за Анарх╕╖. Кл╕тини як╕ звичайно "
-#~ "дають б╕льше н╕ж дв╕ одиниц╕ ╖ж╕, виробництва або торг╕вл╕, зазнають "
-#~ "штрафу у 1 (тобто зрошен╕ луки що звичайно дають 3 ╖ж╕ за Анарх╕╖ будуть "
-#~ "давати лише 2 ╖ж╕). (Цей штраф нейтрал╕зу╓ться якщо м╕сто святку╓; дивись "
-#~ "Щастя.)\n"
-#~ "\n"
-#~ "За Анарх╕╖, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
-#~ "загон╕в що дор╕вню╓ його розм╕ру без втрат виробництва на утримання. "
-#~ "(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
-#~ "\n"
-#~ "Ви можете використовувати в╕йськове положення за Анарх╕╖: кожен "
-#~ "в╕йськовий заг╕н у м╕ст╕ може нейтрал╕зувати одного нещасного у м╕ст╕. "
-#~ "(Або щонайменше, нещасний городянин буде нейтральним, та не буде "
-#~ "спричиняти повстання.)"
-
-#~ msgid ""
-#~ "Under Despotism, you are the absolute ruler of your people.  Your control "
-#~ "over your citizens is maintained largely by martial law.\n"
-#~ "\n"
-#~ "Despotism suffers the highest level of corruption and waste of all forms "
-#~ "of government.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Despotism.  Squares which would "
-#~ "normally yield more than 2 units of food, shields or trade suffer a 1-"
-#~ "unit penalty (e.g., an irrigated grassland square which would normally "
-#~ "yield 3 food only yields 2 food while you are under Despotic rule).  "
-#~ "(This penalty is removed if the city is celebrating; see Happiness.)\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 60%.\n"
-#~ "\n"
-#~ "Under Despotism, each of your cities can support a number of military "
-#~ "units equal to its size without paying shields for upkeep.  (Additional "
-#~ "units require 1 production shield each.)\n"
-#~ "\n"
-#~ "You may impose martial law under Despotism: each military unit inside a "
-#~ "city will keep one unhappy citizen content.  (Or at least, unhappy "
-#~ "citizens will act content, and will not cause disorder.)"
-#~ msgstr ""
-#~ "За Деспот╕зму, Ви абсолютний кер╕вник сво╖х людей. Ваш контроль над "
-#~ "громадянами зд╕йсню╓ться в б╕льшост╕ за допомогою в╕йськового положення.\n"
-#~ "\n"
-#~ "Деспот╕зм ма╓ найб╕льший р╕вень корупц╕╖ н╕ж ╕нш╕ форми керування.\n"
-#~ "\n"
-#~ "Колон╕сти споживають одиницю ╖ж╕ за х╕д при Деспотизм╕. Кл╕тини як╕ "
-#~ "звичайно дають б╕льше н╕ж дв╕ одиниц╕ ╖ж╕, виробництва або торг╕вл╕, "
-#~ "зазнають штрафу у 1 (тобто зрошен╕ луки, що звичайно дають 3 ╖ж╕, за "
-#~ "Деспотизму будуть давати лише 2 ╖ж╕). (Цей штраф нейтрал╕зу╓ться якщо "
-#~ "м╕сто святку╓; дивись Щастя.)\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 60%.\n"
-#~ "\n"
-#~ "За Деспот╕зма, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
-#~ "загон╕в що дор╕вню╓ його розм╕ру без виплат виробництва на утримання. "
-#~ "(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
-#~ "\n"
-#~ "Ви можете використовувати в╕йськове положення за Деспот╕зму: кожен "
-#~ "в╕йськовий заг╕н у м╕ст╕ може нейтрал╕зувати одного нещасного у м╕ст╕. "
-#~ "(Або щонайменше, нещасний городянин буде нейтральним, та не буде "
-#~ "спричиняти повстання.)"
-
-#~ msgid ""
-#~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
-#~ "your government.\n"
-#~ "\n"
-#~ "Monarchy suffers the same small amount of corruption and waste that the "
-#~ "Republic does.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Monarchy.\n"
-#~ "\n"
-#~ "If a city governed by a Monarchy is celebrating, it will receive a bonus "
-#~ "of 1 trade in each square which already produces at least 1 trade.  See "
-#~ "Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 70%.\n"
-#~ "\n"
-#~ "Under Monarchy, your cities can support up to 3 military units without "
-#~ "paying shields for upkeep.  (Additional units require 1 production shield "
-#~ "each.)\n"
-#~ "\n"
-#~ "You may impose limited martial law under Monarchy: each military unit in "
-#~ "a city, up to a maximum of 3, will keep one unhappy citizen content."
-#~ msgstr ""
-#~ "За Монарх╕╖, король або королева слугу╓ центральною ф╕гурою у "
-#~ "кер╕вництв╕, та ця посада насл╕ду╓ться.\n"
-#~ "\n"
-#~ "За монарх╕╖ корупц╕я так само мала як при Республ╕ц╕.\n"
-#~ "\n"
-#~ "Колон╕сти споживають одиницю ╖ж╕ за х╕д при Монарх╕╖.\n"
-#~ "\n"
-#~ "Якщо м╕сто за Монарх╕╖ святку╓, воно отриму╓ бонус у одиницю торг╕вл╕ на "
-#~ "кожну кл╕тинку що вже да╓ хоча б одиницю торг╕вл╕. Дивись Щастя для "
-#~ "додатково╖ ╕нформац╕╖.\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 70%.\n"
-#~ "\n"
-#~ "За Монарх╕╖, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
-#~ "загон╕в що дор╕вню╓ ╖х розм╕ру без виплат виробництва на утримання. "
-#~ "(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
-#~ "\n"
-#~ "Ви можете використовувати обмежене в╕йськове положення за Монарх╕╖: кожен "
-#~ "в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може нейтрал╕зувати одного "
-#~ "нещасного у м╕ст╕. "
-
-#~ msgid ""
-#~ "A Communist government is based on the ideal that all people are equal.  "
-#~ "All goods are owned by the state, rather than by private citizens.  "
-#~ "Communism gives a balance between military and commercial styles of "
-#~ "government.\n"
-#~ "\n"
-#~ "Under Communism, corruption and waste does not vary by distance from the "
-#~ "capital; all cities (including the capital) have a modest amount of "
-#~ "corruption.  In addition, Communist cities more than 10 squares away from "
-#~ "the capital are considered to be only 10 squares away when computing the "
-#~ "cost of inciting a revolt (see Units, Diplomat).\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under Communism.\n"
-#~ "\n"
-#~ "If a city governed by Communism is celebrating, it will receive a bonus "
-#~ "of 1 trade in each square which already produces at least 1 trade.  See "
-#~ "Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
-#~ "\n"
-#~ "Diplomats and Spies created under Communism are always veterans.\n"
-#~ "\n"
-#~ "Under Communism, your cities can support up to 3 military units without "
-#~ "paying shields for upkeep.  (Additional units require 1 production shield "
-#~ "each.)\n"
-#~ "\n"
-#~ "You impose limited but efficient martial law under Communism.  Each "
-#~ "military unit inside a city, up to a maximum of 3, will keep 2 unhappy "
-#~ "citizens content."
-#~ msgstr ""
-#~ "Комун╕зм базу╓ться на утоп╕╖ що ус╕ люди р╕вн╕. Ус╕ма статками волод╕╓ "
-#~ "держава, а не приватн╕ особи. Комун╕зм да╓ баланс м╕ж в╕йськовими та "
-#~ "комерц╕йними формами правл╕ння.\n"
-#~ "\n"
-#~ "За Комун╕зма, корупц╕я не зм╕ню╓ться в залежност╕ в╕д в╕дстан╕ до "
-#~ "столиц╕; ус╕ м╕ста (включаючи столицю) мають невеликий р╕вень корупц╕╖. "
-#~ "Надодаток, за Комун╕зму м╕ста що розташован╕ б╕льш н╕ж на 10 кл╕тин в╕д "
-#~ "столиц╕,  рахуються як розташован╕ на 10 кл╕тин в╕д столиц╕ при обрахунку "
-#~ "кошту влаштування революц╕╖. Дивись: П╕дрозд╕ли, Д╕пломат.\n"
-#~ "\n"
-#~ "Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д при Комун╕зм╕.\n"
-#~ "\n"
-#~ "Якщо м╕сто за Комун╕зма святку╓, воно отриму╓ бонус у одиницю торг╕вл╕ на "
-#~ "кожну кл╕тинку що вже да╓ хоча б одиницю торг╕вл╕. Дивись Щастя для "
-#~ "додатково╖ ╕нформац╕╖.\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 80%.\n"
-#~ "\n"
-#~ "Д╕пломати та Шпигуни створен╕ за комун╕зму завжди ветерани.\n"
-#~ "\n"
-#~ "За Комун╕зму, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
-#~ "загон╕в що дор╕вню╓ його розм╕ру без виплат виробництва на утримання. "
-#~ "(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
-#~ "\n"
-#~ "Ви можете використовувати обмежене але ефективне в╕йськове положення за "
-#~ "Комун╕зму: кожен в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може "
-#~ "нейтрал╕зувати двох нещасних у м╕ст╕. "
-
-#~ msgid ""
-#~ "Under a Republican government, citizens hold an election to select a "
-#~ "representative who will govern them; since elected leaders must remain "
-#~ "popular to remain in control, citizens are given a greater degree of "
-#~ "freedom.  Citizens under the Republic become unhappy easily, but the self-"
-#~ "sufficiency of your citizens allows high levels of trade.\n"
-#~ "\n"
-#~ "Cities under the Republic suffer a small amount of corruption and waste.\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under the Republic.  Squares with at "
-#~ "least 1 trade resource get a trade bonus of 1 under the Republic.\n"
-#~ "\n"
-#~ "Republican cities which are celebrating grow at a rate of 1 citizen per "
-#~ "turn; see Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
-#~ "\n"
-#~ "Under the Republic, military units require 1 production shield each for "
-#~ "upkeep.  In addition the following units are considered aggressive "
-#~ "units:\n"
-#~ "\n"
-#~ "- units with an attack strength greater than 0 which are not inside a "
-#~ "city or inside a fortress within 3 squares of a friendly city\n"
-#~ "\n"
-#~ "- air units (including missiles and helicopters, but not fighters) with "
-#~ "an attack strength greater than 0, regardless of their location\n"
-#~ "\n"
-#~ "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
-#~ "will generate 1 unhappy citizen each."
-#~ msgstr ""
-#~ "За Республ╕кансько╖ форми правл╕ння, громадяни беруть участь у виборах "
-#~ "того хто буде ними керувати; тому що виборн╕ л╕дери повинн╕ бути "
-#~ "популярн╕ аби головувати, громадянам надано б╕льшу ступ╕нь свободи. "
-#~ "Громадяни за Республ╕ки швидше стають нещасними, але самовизначен╕сть "
-#~ "городян дозволя╓ висок╕й р╕вень торговл╕.\n"
-#~ "\n"
-#~ "М╕ста за Республ╕к╕ мають невелику корупц╕ю.\n"
-#~ "\n"
-#~ "Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д у Республ╕ц╕. Кл╕тини з "
-#~ "щонайменше одиницею торг╕вл╕ отримують торговий бонус у одиницю за "
-#~ "Республ╕к╕.\n"
-#~ "\n"
-#~ "М╕ста республ╕к╕ що святкують зростають з╕ швидк╕стю 1 городянин на х╕д; "
-#~ "дивись Щастя для ╕нформац╕╖.\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 80%.\n"
-#~ "\n"
-#~ "При Республ╕ц╕, в╕йськов╕ загони вимагають одну одиницю виробництва для "
-#~ "утримання. На додаток наступн╕ п╕дрозд╕ли вважаються агресивними:\n"
-#~ "\n"
-#~ "- загони з силою атаки б╕льшою н╕ж 0, що не у м╕ст╕ або укр╕пленн╕, у "
-#~ "трьох кл╕тинах в╕д дружн╕х м╕ст\n"
-#~ "\n"
-#~ "- ав╕азагони (включаючи ракети та гел╕коптери, але не л╕таки) з силою "
-#~ "атаки б╕льше н╕ж 0, в╕дпов╕дно до ╖х розташування\n"
-#~ "\n"
-#~ "Громадяни у м╕ст╕ нейтрал╕зують д╕ю одного агресивного загону; наступн╕ "
-#~ "загони дають одного нещасного кожен."
-
-#~ msgid ""
-#~ "Under Democracy, citizens govern directly by voting on issues. Democracy "
-#~ "offers the highest possible level of trade, but also offers the most "
-#~ "potential for unhappiness.  There is no corruption or waste during "
-#~ "Democracy, but citizens become very upset during wars.\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under Democracy.  Squares with at least "
-#~ "1 trade resource get a trade bonus of 1 under Democracy.\n"
-#~ "\n"
-#~ "Democratic cities which are celebrating grow at a rate of 1 citizen per "
-#~ "turn; see Happiness for details.\n"
-#~ "\n"
-#~ "There are no taxation limits under Democracy; you can set science, tax or "
-#~ "luxuries to 100%.\n"
-#~ "\n"
-#~ "Under Democracy, military units require 1 production shield each for "
-#~ "upkeep.  In addition the following units generate unhappiness:\n"
-#~ "\n"
-#~ "- Units with an attack strength greater than 0 which are not inside a "
-#~ "city, or inside a fortress within 3 squares of a friendly city, generate "
-#~ "2 unhappy citizens.\n"
-#~ "\n"
-#~ "- Air units with an attack strength greater than 0 which are inside a "
-#~ "city generate only 1 unhappy citizen.  Fighters generate no unhappiness.\n"
-#~ "\n"
-#~ "If a city remains in disorder more than 2 turns under Democratic rule, "
-#~ "the citizens will spontaneously revolt and plunge your civilization into "
-#~ "Anarchy.\n"
-#~ "\n"
-#~ "Because (happy) citizens of Democracy believe strongly in the government, "
-#~ "their loyalty is unswerving.  Military units of Democratic civilizations "
-#~ "cannot be bribed, and Democratic cities cannot be incited to revolt by "
-#~ "enemy Diplomats and Spies."
-#~ msgstr ""
-#~ "За Демократ╕╖, громадяни керують напряму голосуючи на виборах. Демократ╕я "
-#~ "нада╓ найвищий р╕вень торг╕вл╕, але найб╕льш вразлива до нещастя. За "
-#~ "Демократ╕╖ нема╓ корупц╕╖, але городяни досить нещасн╕ при в╕йн╕.\n"
-#~ "\n"
-#~ "Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д при Демократ╕╖. Кл╕тини з "
-#~ "щонайменше одиницею торг╕вл╕ отримують торговий бонус у одиницю за "
-#~ "Демократ╕╖.\n"
-#~ "\n"
-#~ "М╕ста за Демократ╕╖ що святкують зростають з╕ швидк╕стю 1 городянин на "
-#~ "х╕д; дивись Щастя для ╕нформац╕╖.\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 100%. Тобто не ма╓ обмежень.\n"
-#~ "\n"
-#~ "При Демократ╕╖, в╕йськов╕ загони вимагають одну одиницю виробництва для "
-#~ "утримання. На додаток наступн╕ п╕дрозд╕ли створюють нещастя:\n"
-#~ "\n"
-#~ "- загони з силою атаки б╕льшою н╕ж 0 що не у м╕ст╕ або укр╕пленн╕ у трьох "
-#~ "кл╕тинах в╕д дружн╕х м╕ст дають двох нещасних\n"
-#~ "\n"
-#~ "- ав╕азагони (включаючи ракети та гел╕коптери, але не л╕таки) з силою "
-#~ "атаки б╕льше н╕ж 0 дають двох нещасних. Л╕таки не роблять нещастя.\n"
-#~ "\n"
-#~ "Якщо м╕сто перебува╓ у заколот╕ б╕льше н╕ж два 2 ходи за Демократ╕╖, "
-#~ "громадяни влаштовують революц╕ю та кра╖на впада╓ в Анарх╕ю.\n"
-#~ "\n"
-#~ "Тому що (щаслив╕) громадяни за Демократ╕╖ свято в╕рять у кер╕вництво, ╖х "
-#~ "лояльн╕сть непереборна. В╕йськов╕ загони Демократично╖ цив╕л╕зац╕╖ не "
-#~ "можуть бути п╕дкуплен╕, та Демократичн╕ м╕ста не можуть бути п╕дбурен╕ до "
-#~ "революц╕╖ ворожим╕ Д╕пломатами та Шпигунами."
-
-#~ msgid ""
-#~ "A Communist government is based on the ideal that all people are equal.  "
-#~ "All goods are owned by the state, rather than by private citizens.  "
-#~ "Communism gives a balance between military and commercial styles of "
-#~ "government.\n"
-#~ "\n"
-#~ "Under Communism, corruption and waste does not vary by distance from the "
-#~ "capital; all cities (including the capital) have a modest amount of "
-#~ "corruption and waste.  In addition, Communist cities more than 10  "
-#~ "squares away from the capital are considered to be only 10 squares away "
-#~ "when computing the cost of inciting a revolt (see Units, Diplomat).\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under Communism.\n"
-#~ "\n"
-#~ "If a city governed by Communism is celebrating, it will receive a bonus "
-#~ "of 1 trade in each square which already produces at least 1 trade.  See "
-#~ "Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
-#~ "\n"
-#~ "Diplomats and Spies created under Communism are always veterans.\n"
-#~ "\n"
-#~ "Under Communism, your cities can support up to 3 military units without "
-#~ "paying shields for upkeep.  (Additional units require 1 production shield "
-#~ "each.)\n"
-#~ "\n"
-#~ "You impose limited but efficient martial law under Communism.  Each "
-#~ "military unit inside a city, up to a maximum of 3, will keep 2 unhappy "
-#~ "citizens content."
-#~ msgstr ""
-#~ "Комун╕зм базу╓ться на утоп╕╖ що ус╕ люди р╕вн╕. Ус╕ма статками волод╕╓ "
-#~ "держава, а не приватн╕ особи. Комун╕зм да╓ баланс м╕ж в╕йськовими та "
-#~ "комерц╕йними формами правл╕ння.\n"
-#~ "\n"
-#~ "За Комун╕зма, корупц╕я не зм╕ню╓ться в залежност╕ в╕д в╕дстан╕ до "
-#~ "столиц╕; ус╕ м╕ста (включаючи столицю) мають невеликий р╕вень корупц╕╖. "
-#~ "Надодаток, за Комун╕зму м╕ста що розташован╕ б╕льш н╕ж на 10 кл╕тин в╕д "
-#~ "столиц╕,  рахуються як розташован╕ на 10 кл╕тин в╕д столиц╕ при обрахунку "
-#~ "кошту влаштування революц╕╖. Дивись: П╕дрозд╕ли, Д╕пломат.\n"
-#~ "\n"
-#~ "Колон╕сти споживають 2 одиниц╕ ╖ж╕ за х╕д при Комунизм╕.\n"
-#~ "\n"
-#~ "Якщо м╕сто за Комун╕зма святку╓, воно отриму╓ бонус у одиницю торг╕вл╕ на "
-#~ "кожну кл╕тинку що вже да╓ хоча б одиницю торг╕вл╕. Дивись Щастя для "
-#~ "додатково╖ ╕нформац╕╖.\n"
-#~ "\n"
-#~ "Найб╕льший р╕вень що Ви можете встановити для науки, податк╕в або розкош╕ "
-#~ "становить 80%.\n"
-#~ "\n"
-#~ "Д╕пломати та Шпигуни створен╕ за комун╕зму завжди ветерани.\n"
-#~ "\n"
-#~ "За Комун╕зму, кожне з Ваших м╕ст може п╕дтримувати к╕льк╕сть в╕йськових "
-#~ "загон╕в що дор╕вню╓ ╖х розм╕ру без виплат виробництва на утримання. "
-#~ "(Додатков╕ загони вимагають 1 виробництво на кожен.)\n"
-#~ "\n"
-#~ "Ви можете використовувати обмежене але ефективне в╕йськове положення за "
-#~ "Комун╕зму: кожен в╕йськовий заг╕н у м╕ст╕, але не б╕льше трьох, може "
-#~ "нейтрал╕зувати двох нещасних у м╕ст╕. "
-
-#~ msgid "AWACS"
-#~ msgstr "Л╕так спостереження"
-
-#~ msgid ""
-#~ "The AWACS (Airborne Warning and Control System) is an airplane with an "
-#~ "advanced radar that can determine the location of enemy units over a wide "
-#~ "area."
-#~ msgstr ""
-#~ "Л╕так спостереження - це л╕так з потужним радаром що може визначити "
-#~ "м╕сцеросташування ворожих загон╕в на широких просторах."
-
-#~ msgid ""
-#~ "Formally named the United States of America.  Independent from Great "
-#~ "Britain after a revolution in 1776-1783AD."
-#~ msgstr ""
-#~ "Оф╕ц╕йна назва Сполучен╕ Штати Амер╕ки. Незалежн╕ в╕д Велико╖ Британ╕╖ "
-#~ "п╕сля революц╕╖ у 1776-1783 н.е."
-
-#~ msgid "Historical"
-#~ msgstr "╤стор╕чн╕"
-
-#~ msgid "The Arab/Islamic civilization of 622AD-1495AD."
-#~ msgstr "Арабська/╤сламська цив╕л╕зац╕я у 622 н.е - 1495 н.е."
-
-#~ msgid "Argentina is located on the south-eastern coast of South America."
-#~ msgstr ""
-#~ "Аргентину розташовано на п╕вденно-сх╕дному узбережж╕ П╕вденно╖ Амер╕ки."
-
-#~ msgid ""
-#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
-#~ "country on earth to occupy an entire continent."
-#~ msgstr ""
-#~ "Австрал╕ю було засновано як Британську колон╕ю у 1788. Це ╓дина кра╖на на "
-#~ "св╕т╕ що розм╕щу╓ться на ц╕лому континент╕."
-
-#~ msgid ""
-#~ "The Azteca, a group of barbarians from the Sonoran desert, seized control "
-#~ "of the Toltec-derived civilizations of Central Mexico during the 15th "
-#~ "century AD, reviving the practice of human sacrifice.  They were "
-#~ "conquered by the Spanish under Cortez in 1524."
-#~ msgstr ""
-#~ "Ацтеки, це групи дикун╕в з пустель Саноран, що захопили контроль над "
-#~ "цив╕л╕зац╕╓ю Толтек╕в у Центральн╕й Мексиц╕ напротяз╕ 15 стор╕ччя, та "
-#~ "в╕дновили практику жертвоприношення людей. Вони були захоплен╕ ╤спанц╕ями "
-#~ "п╕д головуванням Кортеза у 1524."
-
-#~ msgid ""
-#~ "Babylon was the dominant city of Mesopotamia from the 18th to 7th "
-#~ "centuries BC under a succession of peoples including Amorites, Kassites, "
-#~ "Assyrians, and Chaldeans."
-#~ msgstr ""
-#~ "Вав╕лон це дом╕нуюче м╕сто у Мясопотам╕╖ з 18 по 7 стор╕ччя до н.е. п╕д "
-#~ "об'╓днанням нац╕й що включали Амор╕т╕в, Хасс╕т╕в, Ас╕р╕йц╕в та Халде╖в."
-
-#~ msgid ""
-#~ "Bavaria, before national unification in 1870AD, was one of the largest of "
-#~ "the German kingdoms."
-#~ msgstr ""
-#~ "Бавар╕я, перед об'╓днанням у 1870, була одн╕╓ю з найб╕льших пров╕нц╕й у "
-#~ "Н╕мецькому корол╕вств╕."
-
-#~ msgid ""
-#~ "The Boers were Dutch settlers in British-controlled South Africa from "
-#~ "1650AD.  They briefly controlled two republics, the Transvaal and the "
-#~ "Orange Free State, before being defeated by the British in the war of "
-#~ "1899-1902."
-#~ msgstr ""
-#~ "Боери це Голандськ╕ колон╕сти на п╕дконтрольних Британ╕╖ територ╕ях у "
-#~ "П╕вденн╕й Афр╕ц╕ у 1650. Вони контролювали дв╕ республ╕ки Трансваал та "
-#~ "Оранж Фри Стейтс, до того як ╖х захопила Англ╕я у в╕йн╕ 1899-1902."
-
-#~ msgid ""
-#~ "Brazil was founded as a colony of Portugal but became independent in "
-#~ "1822AD. It is the only country in the New World that has been the seat of "
-#~ "a monarchy."
-#~ msgstr ""
-#~ "Браз╕л╕ю було засновано як колон╕ю Португал╕╖, вона набула незалежност╕ у "
-#~ "1822. Це ╓дина кра╖на у Новому Св╕т╕ у як╕й була монарх╕я."
-
-#~ msgid ""
-#~ "The Carthaginians, descendendents of Phoenician traders, ran a naval "
-#~ "empire in the Mediterranean from the 5th to 2nd centuries BC. Carthage "
-#~ "was destroyed by Rome in 146BC."
-#~ msgstr ""
-#~ "Карфагеняни, наступники Ф╕н╕к╕йськ╕й торговц╕в, що мали ╕мпер╕ю у "
-#~ "середземномор'╖ м╕ж 5 та 2 стор╕ччями до н.е. Карфаген було зруйновано "
-#~ "Римом у 146 до н.е."
-
-#~ msgid ""
-#~ "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
-#~ "region of Spain near the southern foot of the Pyrenees."
-#~ msgstr ""
-#~ "Каталон╕я це п╕вн╕чно-сх╕дне узбережжя ╤спан╕╖ б╕ля п╕вденного п╕дн╕жжя "
-#~ "П╕р╕не╖в."
-
-#~ msgid "Chile is located on the south-western coast of South America."
-#~ msgstr "Ч╕л╕ розташовано на п╕вденно-зах╕дному узбережж╕ П╕вденно╖ Амер╕ки."
-
-#~ msgid "China has the largest population of any nation on earth."
-#~ msgstr "Китай ма╓ найб╕льше населення н╕ж будь яка нац╕я на земл╕."
-
-#~ msgid ""
-#~ "Cornwall is a region in the extreme southwest of England, traditionally "
-#~ "the home of the legendary King Arthur."
-#~ msgstr ""
-#~ "Корнуел це рег╕он на крайньому п╕вденному-заход╕ Англ╕╖, традиц╕йна "
-#~ "дом╕вка легендарного Короля Артура."
-
-#~ msgid ""
-#~ "Croatia is the region of the Southern Slavs that was held by the Austro-"
-#~ "Hungarian Empire, rather than coming under Ottoman rule after the "
-#~ "collapse of Byzantium. During most of the 20th century it was part of the "
-#~ "Yugoslav Federation."
-#~ msgstr ""
-#~ "Хорват╕я це рег╕он П╕вденних Словян що був у Австро-Угорськ╕й ╕мпер╕╖, а "
-#~ "до того п╕д Отоманськ╕м керуванням п╕сля розпаду В╕зант╕╖. Напротяз╕ "
-#~ "б╕льшого часу 20 стор╕ччя була частиною Югославсько╖ Федерац╕╖."
-
-#~ msgid ""
-#~ "Today's Czech Republic was until 1993 part of Czechoslovakia, which had "
-#~ "been until 1918 part of the Austro-Hungarian Empire."
-#~ msgstr ""
-#~ "Сучасна Чеська республ╕ка ╕снувала до 1993 як частина Чехословак╕╖, що "
-#~ "була частиною Австро-Угорсько╖ ╕мпер╕╖ до 1918."
-
-#~ msgid ""
-#~ "The founding of the Danish kingdom is generally assigned to the reign of "
-#~ "Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
-#~ msgstr ""
-#~ "Заснування Датського корол╕вства в ц╕лому справа рук Геральда "
-#~ "Галасливого, що об'╓днав те що ╓ зараз Дан╕╓ю м╕ж 958 та 988 роками."
-
-#~ msgid "Fictional"
-#~ msgstr "Вигадан╕"
-
-#~ msgid "The Men of the West from J.R.R. Tolkien's Middle Earth fantasies."
-#~ msgstr "Люди з Заходу Середзем'я Толк╕╓на."
-
-#~ msgid ""
-#~ "Egypt was the second-oldest of the world's civilizations.  Since ancient "
-#~ "times it has been unusually urbanized, supporting a large population on "
-#~ "silt deposited by the annual floodings of the Nile."
-#~ msgstr ""
-#~ "╢г╕пет це друга найстар╕ша св╕това цив╕л╕зац╕я. З ант╕чних час╕в вона "
-#~ "була надзвичайно урбан╕зована, п╕дтримувала велике населення "
-#~ "землеробством на ╕лових осадах п╕сля щор╕чних розл╕в╕в Н╕лу."
-
-#~ msgid ""
-#~ "England was unified by Alfred the Great of Wessex in the late 9th century "
-#~ "AD, only to be conquered by William of Normandy a century later, in the "
-#~ "last successful invasion of the country."
-#~ msgstr ""
-#~ "Англ╕ю було об'╓днано Альфредом Великим з Уссексу наприк╕нц╕ 9 стор╕ччя н."
-#~ "е., та було захоплено В╕льямом Нормандським стор╕ччям п╕зн╕ше, це було "
-#~ "останн╓ вдале захоплення кра╖ни."
-
-#~ msgid ""
-#~ "Estonia is a small country on the south shore of the estern Baltic Sea.  "
-#~ "Its people and language are closely related to those of Finland."
-#~ msgstr ""
-#~ "Естон╕я це невеличка кра╖на на п╕вдн╕ сходу Балт╕йського моря. ╥╖ "
-#~ "населення та мова дуже под╕бн╕ до Ф╕нлянд╕╖."
-
-#~ msgid ""
-#~ "After centuries of Spanish rule, the Phillipines were ceded to the "
-#~ "Americans in 1898. They attained home rule in 1935 and independence in "
-#~ "1946."
-#~ msgstr ""
-#~ "П╕сля зв╕льнення в╕д ╤спанського керування, Ф╕л╕п╕ни були захоплен╕ "
-#~ "Амер╕канц╕ми у 1898. Вони отримали самоврядування у 1935 та незалежн╕сть "
-#~ "у 1946."
-
-#~ msgid ""
-#~ "Finland is a small, cold country on the northen fringe of Europe, noted "
-#~ "for exporting timber, cellular phones, and world-class operating systems."
-#~ msgstr ""
-#~ "Ф╕нлянд╕я це мала, холодна кра╖на на п╕вноч╕ ╢вропи, що екпорту╓ "
-#~ "деревину, моб╕льн╕ телефони та всесв╕тньо в╕дому операц╕йну систему Linux."
-
-#~ msgid ""
-#~ "Germany was united in 1871 by the Prussian military force.  After World "
-#~ "War I it became a republic, but fell into Nazism 1933 and started World "
-#~ "War II.  After the war it was split into two states, which reunited in "
-#~ "1990 at the end of the Cold War."
-#~ msgstr ""
-#~ "Н╕метчину було об'╓днано у 1871 роц╕ в╕йськами Прус╕╖. П╕сля Першо╖ "
-#~ "Св╕тово╖ вона стала распубл╕кою, але владу захопили Нацисти у 1933 та "
-#~ "розпочали Другу Св╕тову. П╕сля в╕йни ╖╖ було под╕лено на дв╕ кра╖ни, як╕ "
-#~ "було об'╓днано у 1990 п╕сля зак╕нчення холодно╖ в╕йни."
-
-#~ msgid "First Secretary"
-#~ msgstr "Перший Секретар"
-
-#~ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-#~ msgstr "Античн╕ Греки, м╕ж М╕ценом та Римськ╕м завоюванням."
-
-#~ msgid ""
-#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
-#~ "empire stretching along the west coast of South America from what is now "
-#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
-#~ "just a few decades before the Spanish conquistadores arrived in their "
-#~ "part of the world in the mid-1500s AD."
-#~ msgstr ""
-#~ "╤нк╕ це туб╕льне населення Амер╕к╕ у П╕вн╕чних Андах що захопило ╕мпер╕ю "
-#~ "що простиралася на Зах╕дному узбережж╕ П╕вденно╖ Амер╕к╕ в╕д сучасного "
-#~ "Ч╕л╕ до Еквадора. Вони переживали ненайкращ╕ часи напередодн╕ того часу, "
-#~ "коли ╤спанськ╕ конк╕стадори досягли ц╕╓╖ частини св╕ту у середин╕ 1500."
-
-#~ msgid ""
-#~ "The nation of Israel was founded in 1948 as a scattered collection of "
-#~ "cantons in British Palestine, and has gradually expanded through winning "
-#~ "a series of wars launched against it in 1948, 1967 and 1973."
-#~ msgstr ""
-#~ "Державу ╤зрал'╓тян було засновано у 1948 як об'╓днання пров╕нц╕й у "
-#~ "Британськ╕й Палестин╕, та сутт╓во розширено п╕сля перемог у дек╕лькох "
-#~ "в╕йнах що були проти ╤зра╕ля у 1948, 1967 та 1973."
-
-#~ msgid ""
-#~ "The Italian nation was unified in 1870AD after decades of campaigning by "
-#~ "indigenous nationalists. It was a monarchy under the House of Savoy until "
-#~ "1922, then a fascist state until 1945 after which democracy was restored "
-#~ "by the WWII victors."
-#~ msgstr ""
-#~ "╤тал╕йська нац╕я почала формуватися у 1870 роц╕ п╕сля десятер╕ч компан╕й "
-#~ "м╕сцевих нац╕онал╕ст╕в. Вона була монарх╕╓ю до 1922, посля того "
-#~ "фашистською кра╖ною до 1945, п╕сля чого демократ╕ю було встановлено "
-#~ "переможцями Друго╖ Св╕тово╖ В╕йни."
-
-#~ msgid ""
-#~ "Lithuania is a small country on the south coast of the Baltic Sea, "
-#~ "northeast of Poland.  Lithuanian is the most archaic and complex of the "
-#~ "northern Indo-European languages"
-#~ msgstr ""
-#~ "Л╕тва це невеличка кра╖на на п╕вденному узбережж╕ Балт╕йського Моря, "
-#~ "п╕вн╕чн╕ше Польщ╕. Л╕товська це найб╕льш арха╕чна та комплексна з "
-#~ "п╕вн╕чних ╤ндо-╢вропейськ╕х мов."
-
-#~ msgid ""
-#~ "In the centuries after their unification by Genghis Khan, the Mongols "
-#~ "conquered the largest empire in human history, encompassing most of the "
-#~ "continent of Asia.  They became notorious for the utter ruthlessness in "
-#~ "warfare."
-#~ msgstr ""
-#~ "П╕сля об'╓днання Ченг╕с Ханом, Монголи створили найб╕льшу ╕мпер╕ю в "
-#~ "╕стор╕╖ людства, що була розташована на б╕льшость аз╕йського конт╕ненту. "
-#~ "Вони були безжальними во╖нами."
-
-#~ msgid ""
-#~ "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
-#~ "fantasies."
-#~ msgstr "Арм╕╖ Лорда Терм'яви Саурона, з Середзем'я Толк╕╓на."
-
-#~ msgid ""
-#~ "The first Persan (Achmaenid) Empire lasted from 55BC-330BC; the second "
-#~ "(Sassanid) from 226AD-642AD."
-#~ msgstr ""
-#~ "Перша Перська (Акмаен╕дська) ╤мпер╕я ╕снувала з 55 до н.е. по 330 до н."
-#~ "е.; друга (Сасан╕дська) з 226 по 642 роки."
-
-#~ msgid ""
-#~ "Portugal founded the first of the great mercantile empires in the 1400s "
-#~ "on the shipbuilding advances funded by Prince Henry the Navigator."
-#~ msgstr ""
-#~ "Португал╕я це велика меркант╕льна ╕мпер╕я заснована у 1400 за розвитку "
-#~ "кораблебудування Принцем Генр╕ Мореплавцем."
-
-#~ msgid ""
-#~ "Russia originated as the Kievan Rus, territory seized during the early "
-#~ "medieval period by Vikings from what is now Sweden."
-#~ msgstr ""
-#~ "Москов╕я була започаткована при розпад╕ Ки╕всько╖ Рус╕, князями "
-#~ "ки╖вського роду що був започаткований В╕к╕нгами."
-
-#~ msgid ""
-#~ "Scotland, originally settled in late Roman times by Irish raiders who "
-#~ "displaced the native Picts, was an independent kingdom from around 1034AD "
-#~ "to the the Union of Crowns with England in 1701."
-#~ msgstr ""
-#~ "Шотланд╕я, спочатку колон╕зована у п╕зн╕ Римськ╕ часи ╕рланськими "
-#~ "завойовниками, що вит╕сн╕ли туб╕льних П╕кт╕в, була незалежним "
-#~ "корол╕вством з 1034 року до об'╓днання з Англ╕╓ю у 1701."
-
-#~ msgid ""
-#~ "Serbia is part of the region of the Southern Slavs that was conquered by "
-#~ "the Ottomans after the collapse of the Byzantine Empire.  During most of "
-#~ "the 20th century it was part of the Yugoslav Federation."
-#~ msgstr ""
-#~ "Серб╕я це частина рег╕ону П╕вденних Словян що була захоплена Отоманською "
-#~ "╕мпер╕╓ю п╕сля розпаду В╕зант╕╖. Напротяз╕ б╕льшост╕ часу 20 стор╕ччя це "
-#~ "була частина Югославсько╖ Федерац╕╖."
-
-#~ msgid ""
-#~ "Silesia is a region of southern Poland that was at one time an "
-#~ "independent kingdom."
-#~ msgstr ""
-#~ "С╕лез╕я це рег╕он на п╕вдн╕ Польщ╕, що колись був незалежним корол╕вством."
-
-#~ msgid ""
-#~ "Singapore is a mercantile city-state located at the southernmost tip of "
-#~ "the Malaysian Peninsula"
-#~ msgstr ""
-#~ "С╕нгапур це заможне м╕сто-кра╖на що розташована на п╕вдн╕ Малаз╕йського "
-#~ "п╕вострова."
-
-#~ msgid ""
-#~ "Slovenia was the most western and northern republic of the old Yugoslav "
-#~ "Federation."
-#~ msgstr ""
-#~ "Словен╕я це найб╕льш зах╕дна та п╕вн╕чна республ╕ка старо╖ Югославсько╖ "
-#~ "Федерац╕╖."
-
-#~ msgid ""
-#~ "The modern Spanish nation was formed when the rulers of the kingdoms of "
-#~ "Castille and Aragon led the recapture of the Iberian peninsula from the "
-#~ "Moslems.  The Reconquista was completed in 1492AD, the same year Columbus "
-#~ "sailed."
-#~ msgstr ""
-#~ "Сучасн╕ ╤спанц╕ сформувалися коли володар╕ корол╕вств Каст╕лья та Арагон "
-#~ "в╕двоювали ╤бер╕йське наг╕рря у Мусульман. Р╕конк╕сту було зак╕нчено у "
-#~ "1492 н.е., того ж року Колумб зробив сво╓ в╕дкриття."
-
-#~ msgid ""
-#~ "The Thai kingdom was the only country in Southeast Asia to preserve its "
-#~ "independence throught the colonial era of the 18th and 19th centuries AD."
-#~ msgstr ""
-#~ "Корол╕вство Та╕ланд це ╓дина кра╖на у П╕вденн╕й Аз╕╖ що збер╕гла "
-#~ "незалежн╕сть п╕д час колон╕ально╖ ери 18 та 19 стор╕чь нашо╖ ери."
-
-#~ msgid ""
-#~ "Modern Turkey is the successor state of the Ottoman Empire, which "
-#~ "collapsed and was dismembered by the victors in World War I after backing "
-#~ "the Central Powers.  The country was subsequently reformed and "
-#~ "secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-#~ msgstr ""
-#~ "Сучасн╕ Турки це залишок Отомансько╖ ╤мпер╕╖, що зак╕нчила сво╓ ╕снування "
-#~ "та була розформована переможцями у Перш╕й Св╕тов╕й В╕йн╕. Кра╖ну було "
-#~ "реформовано Кемалем Мустафою, геро╓м захисту Гал╕пол╕."
-
-#~ msgid ""
-#~ "The Ukraine is a vast region on the westernmost marches of the former "
-#~ "Soviet Union. It includes some of the most fertile black-soil cropland on "
-#~ "Earth."
-#~ msgstr ""
-#~ "Укра╖на це велика кра╖на на заход╕ колишнього Радянського Союзу. У н╕й "
-#~ "найб╕льш╕ плодородн╕ черноземи на Земл╕."
-
-#~ msgid ""
-#~ "The Vietnamese nation was founded in the first century AD by twin sisters "
-#~ "who became the war leaders of a revolt against a Chinese military "
-#~ "governor."
-#~ msgstr ""
-#~ "Нац╕я в'╓тнамц╕в була заснована у першому стор╕чч╕ нашо╖ ери двома "
-#~ "сестрами що були л╕дерами повстання проти К╕тайсько╖ в╕йськово╖ "
-#~ "адм╕н╕страц╕╖."
-
-#~ msgid ""
-#~ "The Vikings raided and traded along the coasts of Europe between 800AD "
-#~ "and 1100AD. Viking raids eventually became the rulers of Normandy, "
-#~ "Russia, and a short-lived kingdom in Sicily."
-#~ msgstr ""
-#~ "В╕к╕нг╕ грабували та торгували на узбережж╕ ╢вропи м╕ж 800 н.е. та 1100 н."
-#~ "е. У результат╕ напад╕в В╕к╕нг╕в вони очол╕ли Норманд╕ю, Укра╖ну та не "
-#~ "довго ╕снувавше корол╕вство на С╕ц╕л╕╖."
-
-#~ msgid ""
-#~ "The Welsh at one time controlled all of what is now England until being "
-#~ "driven into the mountainous western reaches by invading Saxons."
-#~ msgstr ""
-#~ "Вал╕йц╕ контролювали Англ╕ю до тих п╕р доки не були видворен╕ Саксонц╕ями "
-#~ "у гористий зах╕д острова."
-
-#~ msgid ""
-#~ "The Zulus are a warlike Bantu people who migrated from west-central "
-#~ "Africa into southern Africa beginning in the early 1700s, conquering the "
-#~ "native Khoisan peoples and clashing with European settlers."
-#~ msgstr ""
-#~ "Зулуси це войовнич╕ люди Банту що м╕грували з зах╕дно-центрально╖ Афр╕ки "
-#~ "у п╕вденну Афр╕ку на початку 1700s, захопили туб╕льне населення Хо╕сан та "
-#~ "зустр╕лися з ╓вропейськими колон╕стами."
