@@ -2412,6 +2412,8 @@ static void show_command(struct connection *caller, char *str)
   cmd_reply_show(horiz_line);
   len1 = my_snprintf(buf, sizeof(buf),
 	_("%-*s value   (min,max)      "), OPTION_NAME_SPACE, _("Option"));
+  if (len1 == -1)
+    len1 = sizeof(buf) -1;
   sz_strlcat(buf, _("description"));
   cmd_reply_show(buf);
   cmd_reply_show(horiz_line);
@@ -2432,12 +2434,16 @@ static void show_command(struct connection *caller, char *str)
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((*op->value==op->default_value) ? '=' : ' '),
 		      *op->value, op->min_value, op->max_value);
+	if (len == -1)
+	  len = sizeof(buf) - 1;
       } else {
         len = my_snprintf(buf, sizeof(buf),
 		      "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((strcmp(op->svalue, op->default_svalue)==0) ? '=' : ' '),
 		      op->svalue);
+	if (len == -1)
+	  len = sizeof(buf) - 1;
       }
       /* Line up the descriptions: */
       if(len < len1) {

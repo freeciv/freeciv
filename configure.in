@@ -509,10 +509,14 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
+AC_FUNC_VSNPRINTF
 
 AC_CHECK_FUNCS(fileno gethostname getpwuid gettimeofday inet_aton \
                select snooze strerror strcasecmp strncasecmp \
                strlcat strlcpy strstr usleep vsnprintf)
+
+dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
+dnl deliberate.
 
 dnl Windows fdopen does not work with sockets.
 if test "x$MINGW32" != "xyes"; then

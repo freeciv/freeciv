@@ -293,5 +293,9 @@ student.uni-tuebingen.de>
 /* Version number of package */
 #undef VERSION
 
+/* Define if you have a version of the 'vsnprintf' function
+             that honours the size argument and has a proper return value. */
+#undef HAVE_WORKING_VSNPRINTF
+
 
 #endif /* FC_CONFIG_H */

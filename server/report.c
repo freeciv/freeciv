@@ -1436,7 +1436,7 @@ void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
 
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    "%s\n%s\n%s", caption, headline, lines);
-  if (len >= sizeof(genmsg.message)) {
+  if (len == -1) {
     freelog(LOG_ERROR, "Message truncated in page_conn_etype()!");
   }
   genmsg.event = event;

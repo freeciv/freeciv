@@ -212,9 +212,9 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       char buffer[4096];
       int num;
       num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
-      if (num >= sizeof(buffer)) {
-	freelog(LOG_ERROR, "Too much data: truncated in fz_fprintf (%d/%d)",
-		num, (int)sizeof(buffer));
+      if (num == -1) {
+	  freelog(LOG_ERROR, "Too much data: truncated in fz_fprintf (%lu)",
+		  (unsigned long) sizeof(buffer));
       }
       retval = gzwrite(fp->u.zlib, buffer, (unsigned int)strlen(buffer));
     }

@@ -251,65 +251,6 @@ size_t mystrlcat(char *dest, const char *src, size_t n)
 #endif
 }
 
-
-#ifdef HAVE_VSNPRINTF
-/**********************************************************************
- Convenience function used by check_native_vsnprintf() below.
- (Can test check_native_vsnprintf() by replacing vsnprintf call
- below with vsprintf(), or by changing return value to eg -1.)
-***********************************************************************/
-static int test_snprintf(char *str, size_t n, const char *format, ...)
-{
-  int ret;
-  va_list ap;
-
-  va_start(ap, format);
-  ret = vsnprintf(str, n, format, ap);
-  va_end(ap);
-  return ret;
-}
-
-/**********************************************************************
- This function checks, at runtime, whether a native vsnprintf() meets
- our requirements; specifically:
- - Should actually obey the parameter n, rather than, eg, just
-   calling sprintf and ignoring n.
- - On truncation, should return the number of chars (not counting
-   trailing null) which would have been printed, rather than, eg, -1.
- Returns 1 if both ok.
- Also checks whether null-terminates on truncation, but we don't
- base return value on this since it is easy to force this behaviour.
- Reports to stderr if DEBUG set (cannot use freelog since that
- calls my_vsnprintf).
- Could do these checks at configure time, but seems to me easier to
- do at runtime on first call...
-***********************************************************************/
-static int check_native_vsnprintf(void)
-{
-  char buf[20]   = "abcdefghijkl";   /* 12 + null */
-  char *test_str = "0123456789";
-  const int ntrunc = 5;
-  const char one_past = buf[ntrunc];
-  int test_len = strlen(test_str);
-  int ret;
-
-  ret = test_snprintf(buf, ntrunc, "%s", test_str);
-#ifdef DEBUG
-  if (buf[ntrunc] != one_past) {
-    fprintf(stderr, "debug: test_snprintf wrote past n\n");
-  } else if (buf[ntrunc-1] != '\0') {
-    fprintf(stderr, "debug: test_snprintf did not null-terminate\n");
-  }
-  if (ret != test_len) {
-    fprintf(stderr, "debug: test_snprintf returned %d,"
-	    " not untruncated length %d\n", ret, test_len);
-  }
-#endif
-
-  return (buf[ntrunc]==one_past && ret==test_len);
-}
-#endif
-
 /**********************************************************************
  vsnprintf() replacement using a big malloc()ed internal buffer,
  originally by David Pfitzner <dwp@mso.anu.edu.au>
@@ -360,84 +301,68 @@ static int check_native_vsnprintf(void)
 
 ***********************************************************************/
 
-/* buffer size: "64k should be big enough for anyone" ;-) */
+/* "64k should be big enough for anyone" ;-) */
 #define VSNP_BUF_SIZE (64*1024)
-
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 {
-  /* This may be overzealous, but I suspect any triggering of these
-   * to be bugs.  (Do this even if call native function.)
-   */
+  int r;
+
+  /* This may be overzealous, but I suspect any triggering of these to
+   * be bugs.  */
+
   assert(str);
   assert(n>0);
   assert(format);
 
-#ifdef HAVE_VSNPRINTF
-  {
-    static int native_is_ok = -1; /* set to 0 or 1 on first call */
+#ifdef HAVE_WORKING_VSNPRINTF
+  r = vsnprintf(str, n, format, ap);
+  str[n - 1] = 0;
 
-    if (native_is_ok == -1) {
-      native_is_ok = check_native_vsnprintf();
-    }
+  /* Convert C99 return value to C89.  */
+  if (r >= n)
+    return -1;
 
-    if (native_is_ok) {
-      int ret = vsnprintf(str, n, format, ap);
-      /* Guarantee null-terminated: (native_is_ok means can use ret like this) */
-      if (ret >= n) {
-	str[n-1] = '\0';
-      }
-      return ret;
-    }
-  }
-#endif
-  /* Following is used if don't have native, or if fall through
-   * from above if native doesn't pass checks.
-   */
-  {
-    static char *buf = NULL;
-    int len;
-
-    if (buf==NULL) {
-      buf = fc_malloc(VSNP_BUF_SIZE);
-    }
-
-#ifdef HAVE_VSNPRINTF
-    /* This occurs if have native, but didn't pass check:
-     * may just be that native doesn't give the right return,
-     * in which case may be slightly safer to use it here:
-     */
-    vsnprintf(buf, VSNP_BUF_SIZE, format, ap);
+  return r;
 #else
-    vsprintf(buf, format, ap);
-#endif
+  {
+    /* Don't use fc_malloc() or freelog() here, since they may call
+       my_vsnprintf() if it fails.  */
+ 
+    static char *buf;
+    size_t len;
 
-    /* Check strlen of buf straight away: could be more efficient
-       not to do this and step through instead (eg if n small and
-       len long), but useful anyway to get the return value, and
-       importantly want to abort if vsprintf clobbered the heap!
-       (Don't just use return from vsprintf since not sure if
-       that gives the right thing on all platforms?)
-       Will maintain last char of buffer as null, and use SIZE-2
-       as longest string which we can detect as untruncated.
-       (Don't use freelog() for report since that uses vsnprintf...)
-    */
-    buf[VSNP_BUF_SIZE-1] = '\0';
+    if (buf == NULL) {
+      buf = malloc(VSNP_BUF_SIZE);
+
+      if (buf == NULL) {
+	fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
+		"replacement.", VSNP_BUF_SIZE);
+	exit(1);
+      }
+    }
+#ifdef HAVE_VSNPRINTF
+    r = vsnprintf(buf, n, format, ap);
+#else
+    r = vsprintf(buf, format, ap);
+#endif
+    buf[VSNP_BUF_SIZE - 1] = '\0';
     len = strlen(buf);
-    if (len >= VSNP_BUF_SIZE-1) {
+
+    if (len >= VSNP_BUF_SIZE - 1) {
       fprintf(stderr, "Overflow in vsnprintf replacement!"
-	      " (buffer size %d) aborting...\n", VSNP_BUF_SIZE);
+              " (buffer size %d) aborting...\n", VSNP_BUF_SIZE);
       abort();
     }
-
-    if (n > len) {
-      memcpy(str, buf, len+1);	/* +1 for terminating null */
+    if (n >= len + 1) {
+      memcpy(str, buf, len+1);
       return len;
     } else {
       memcpy(str, buf, n-1);
-      str[n-1] = '\0';
-      return len;		/* truncated */
+      str[n - 1] = '\0';
+      return -1;
     }
   }
+#endif  
 }
 
 int my_snprintf(char *str, size_t n, const char *format, ...)
