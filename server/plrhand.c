@@ -1344,7 +1344,6 @@ void server_remove_player(struct player *pplayer)
   lsend_packet_generic_integer(&game.est_connections,
 			       PACKET_REMOVE_PLAYER, &pack);
 
-  player_free_island_imprs(pplayer, map.num_continents);
   game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);
 }

@@ -203,7 +203,7 @@ void client_init_player(struct player *plr)
 **************************************************************************/
 void client_remove_player(int plrno)
 {
-  player_free_island_imprs(get_player(plrno), max_cont_used);
+  game_remove_player(get_player(plrno));
   game_renumber_players(plrno);
 }
 

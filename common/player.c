@@ -126,7 +126,7 @@ void player_init_island_imprs(struct player *plr, int numcont)
 {
   int i;
 
-  player_free_island_imprs(plr, numcont);
+  player_free_island_imprs(plr);
   if (game.num_impr_types>0) {
     /* Initialise lists of improvements with island-wide equiv_range. */
     if (plr->island_improv)
@@ -149,7 +149,7 @@ void player_init_island_imprs(struct player *plr, int numcont)
   Frees the player's list of island-range improvements and
   effects.
 ***************************************************************/
-void player_free_island_imprs(struct player *plr, int numcont)
+void player_free_island_imprs(struct player *plr)
 {
   int i;
 
@@ -159,11 +159,12 @@ void player_free_island_imprs(struct player *plr, int numcont)
   }
 
   if (plr->island_effects) {
-    for (i=0; i<=numcont; i++) {
+    for (i = 0; i <= plr->max_continent; i++) {
       geff_vector_free(&plr->island_effects[i]);
     }
     free(plr->island_effects);
     plr->island_effects = NULL;
+    plr->max_continent = 0;
   }
 }
 

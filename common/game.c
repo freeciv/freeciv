@@ -861,6 +861,7 @@ void game_remove_player(struct player *pplayer)
   }
 
   geff_vector_free(&pplayer->effects);
+  player_free_island_imprs(pplayer);
 
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit);
@@ -1020,6 +1021,7 @@ void update_island_impr_effect(int oldmax, int maxcont)
     for (i=oldmax+1; i<=maxcont; i++) {
       geff_vector_init(&plr->island_effects[i]);
     }
+    plr->max_continent = maxcont;
   } players_iterate_end;
 }
 

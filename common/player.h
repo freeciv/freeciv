@@ -191,6 +191,11 @@ struct player {
   struct geff_vector effects;		/* effects with range==Player */
   struct geff_vector *island_effects;	/* effects with range==Island */
 
+  /* 
+   * Size of the island_improv and island_effects arrays.
+   */
+  int max_continent;
+
   struct {
     int length;
     void *data;
@@ -199,7 +204,7 @@ struct player {
 
 void player_init(struct player *plr);
 void player_init_island_imprs(struct player *plr, int numcont);
-void player_free_island_imprs(struct player *plr, int numcont);
+void player_free_island_imprs(struct player *plr);
 struct player *find_player_by_name(char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
