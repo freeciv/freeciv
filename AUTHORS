@@ -9,73 +9,97 @@ Here is a list of recent and past contributors to Freeciv:
 
   Present administrators:
 
-     Mitch Davis          <mjd@alphalink.com.au>
+     Nicolas Brunel       <brunel@lim.univ-mrs.fr>
      David Pfitzner       <dwp@mso.anu.edu.au>
 
-  Coders for 1.7:                 (since 1.6.6)
+Coders for 1.8.0:
+	Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
+	Jeff Mallatt <jjm@codewell.com>. (diagonal roads)
+	Jake Kesinger <kesinger@math.ttu.edu> (gamelog american city names)
+	Bussi Andrea <bta@edu.al.unipmn.it> (ctrl + button)
+	Lalo Martins <lalo@debian.org>. (Debian)
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (ai handle diplomats)
+	Kris Bubendorfer <kris@MCS.VUW.AC.NZ> ( civil war trade cities)
+	Greg Wooledge <wooledge@kellnet.com> ( helpdata.txt terrain alteration 
+	settlers and engineers teamwork ) 
+	Frank Muzzulini <muzz@albatross.pond.sub.org> ( artillery icon )
+	David Pfitzner <dwp@mso.anu.edu.au>  (ruleset spaceship )
+	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> ( spaceship fix )
+	Per Mathisen <permath@ifi.ntnu.no> ( spaceship option )
+	Rizos Sakellariou <rizos@cs.rice.edu>
+	Massimo Campostrini <campo@mailbox.difi.unipi.it>
+	Trent Piepho <xyzzy@u.washington.edu>
+	Sebastian Fischmeister <sfischme@nexus.lzk.tuwien.ac.at> ( auttoattach )
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> 
+	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de> ( mapgen4 )
+	Daniel Burrows <Daniel_Burrows@brown.edu> ( hp regeneration )
 
-     Trent Piepho <xyzzy@u.washington.edu> (Core)
+gtk port:
+	Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt>
+
+civworld:
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (our map editor !)
+
+tilesets:
+	Ralph engel. THE tiles.
+        Trent Piepho <xyzzy@u.washington.edu> ( Diagonal road and railroads ).
+        David Pfitzner       <dwp@mso.anu.edu.au>
+	Bruno gilleta <gilleta@pento.esil.univ-mrs.fr>
+	beraud <berauda@crit2.univ-montp2.fr>  Wonders tiles
+
+Bug report 
+	Marko Lindqvist <caz@students.cc.tut.fi>
+	Alexander Mai <st002279@hrzpub.tu-darmstadt.de>
+	Jake Kesinger <kesinger@math.ttu.edu>
+	Andrew E. Schulman" <andrex@alw.nih.gov>
+	Dee Jay Randall <randal@cs.uregina.ca>
+	Todd Goodman <tsg1@earthlink.net>
+	Mel Ooran <melooran@yahoo.com> 
+	David Usherwood <davidu@infocat.co.uk>
+	and all the people on freeciv-dev@freeciv.org
+
+documentation:
+	David King <crkinger@usa.net> Freeciv Client and Server Guide. 
+	nicolas lannier <Nicolas.Lannier@epita.fr> translate freeciv in french.
+
+Projet:
+	caz@students.cc.tut.fi ai client
+	Todd Goodman <tsg1@earthlink.net> windows version
+        "Markus L. Noga" <noga@inrialpes.fr> client improvement.
+	 Schaefer Frank R <fschaef@ces.clemson.edu>  City Plans
+
+Site design:
+	Martin Willemoes Hansen <martin_w_hansen@my-dejanews.com>
+
+Mailing list:
+	John Goerzen <jgoerzen@complete.org>
+	Canis_L <twolf@kc.net> freeciv.midsun.com
+
+Site hosting:
+	Tracy Reed <treed@ultraviolet.org>
+
+
+  These people helped us previous to the 1.8 series:
+
      John Stonebraker <ppaqebb@surfshop.net> (AI)
-     David Pfitzner <dwp@mso.anu.edu.au> (Patches)
      Cedric Tefft <cedric@earthling.net>
-     Reinier Post <rp@win.tue.nl>
-     Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ> (diplomats)
-     Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
-     Massimo Campostrini <campo@mailbox.difi.unipi.it>
      Sverker Wiberg <sverkerw@Update.UU.SE>
-     Markus Linnala <maage@cs.tut.fi>
      Trevor Pering <pering@tongass.EECS.Berkeley.EDU>
      Dee Jay Randall <randal@cs.uregina.ca>
      Finn Arne Gangstad <finnag@guardian.no>
      Paul Cameron <pmcamero@socs.uts.EDU.AU>
-     Daniel Gudlat <gudlat@informatik.hu-berlin.de> (Earth scenarios)
      Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe scenario)
      Mirar <mirar@idonex.se>
-     Greg Wooledge <wooledge@kellnet.com>
-     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (Space Race)
-     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
      Patrick Smith <patsmith@pobox.com>
-     Rizos Sakellariou <rizos@cs.rice.edu> 
      Sergey Shkonda <serg@bcs.zp.ua>
      Matthew Hunt <mph@pobox.com>
      Mika Korhonen <mikak@ee.oulu.fi>
-     Robert Donn <squirk@ihug.co.nz>
      Alex Rhomberg <rhomberg@ife.ee.ethz.ch>
-     Mark Brown <broonie@tardis.ed.ac.uk>
      Jason Merrill <jason@yorick.cygnus.com>
      Michael Bickel <Michael.Bickel@informatik.uni-erlangen.de>
-
-  GTK+ Port:
-
-     Per I Mathisen <permath@ifi.ntnu.no>
-     Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt>
-
-  Bug reports and testing:
-
-     Andrew E. Schulman <andrex@alw.nih.gov>
-     Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
      Ben Korvemaker <benjamin@cs.ualberta.ca>
      Walter Misar <misar@rbg.informatik.tu-darmstadt.de>
-
-  Packaging:
-
-     Lalo Martins <lalo@debian.org> (Debian)
-
-  Website hosting:
-
-     Tracy Reed <treed@ultraviolet.org> (What a guy - thanks Tracy!)
-
-  Website design:
-
-     Martin Willemoes Hansen <martin_w_hansen@my-dejanews.com>
-
-  Mailing list hosting:
-
-     John Goerzen <jgoerzen@complete.org> (+Java civclient project)
      Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
-
-  These people helped us previous to the 1.7 series:
-
      James Blackwell <innocent@mercury.merconline.com> (Docs, co-admin)
      Olav Andree Brevik <olavb@ifi.uio.no>
      Carl Bartels <cb@bravo436.chem.mcgill.ca>

@@ -726,25 +726,37 @@ void adjust_terrain_param(){
 
   map.riverlength/= 10;/* left in */
 
-  total = map.riverlength + map.mountains
-    + map.deserts + map.forestsize 
-    + map.swampsize + map.grasssize
-    + map.deserts;
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
 
   if(total>100){
-    map.riverlength= map.riverlength*100/total;
-    map.mountains= map.mountains*100/total;
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
     map.forestsize= map.forestsize*100/total;
+
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
+    map.riverlength= map.riverlength*100/total;
+
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
     map.swampsize= map.swampsize*100/total;
+
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
+    map.mountains= map.mountains*100/total;
+
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + map.grasssize;
     map.deserts= map.deserts*100/total;
 
-    total = map.grasssize+ map.riverlength + map.mountains
-    + map.deserts + map.forestsize 
-    + map.swampsize + 0
-    + map.deserts;
-
+    total = map.riverlength + map.mountains + map.deserts 
+    + map.forestsize + map.swampsize + 0;
     map.grasssize= 100 - total;
   }
+  /* if smaller than 100, rest goes implicitly to grass */
+
+  map.riverlength*= 10;
 }
 
 

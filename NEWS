@@ -1,18 +1,57 @@
-Welcome to Freeciv 1.7!
+Welcome to Freeciv 1.8!
 
-This is release 1.7.2.
+This is pre-release 1.8.0.
 
 Thanks again to all our developers, who continue to work so hard.
-My extra-special huge steaming thanks to David Pfitzner.  This release
-wouldn't have happened were it not for his tireless efforts.  The Freeciv
+My extra-special huge steaming thanks to David Pfitzner. It was already
+true for 1.7.2. David is keeping on the real good work. The Freeciv
 team salutes you.
 
-For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
-to John Stonebraker, the AI is now a worthy match for most people.
-(See the "easy", "normal" and "hard" server commands).
+In this pre-1.8.0, they are many enhancements: civil war, space race,
+log of the game and many other pleasant things.
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
+
+We have tried to improve graphics of freeciv with 2 beautifull
+tiles sets. In next version, we hope to include 
+- Gtk client. (certain)
+- Improved server commands. (certain)
+- Race selection. (possible)
+- Wonders tiles. ( Already drawn but not used yet )
+- For projects see www.freeciv.org.
+
+WHAT'S CHANGED SINCE 1.7.2:
+
+- Space race ! Be the first to build a space ship and colonize alpha-centauri. 
+- Civil war ! Taking the ennemy capital may split his empire. Halph of his towns
+will join another leader !
+- Two tiles sets in this release ! The 'big' one is from Ralph Engel. I hope you
+will enjoy them. The second one is an enhancement of the classic ones. 
+The server option -tiles allows to choose directory relative to DATADIR 
+environnement variable. Now, diagonal roads and railroads are drawn.
+- Units in a town can be put in auto attach mode. In this mode, they will
+try to destroy ennemy units passing by. 
+- Mapgen 4 is a new map generator which generates map with 2 players on
+each island.
+- City can be clause of diplomaty treaties. You can exchange, sell or 
+buy cities. 
+- Ai builds diplomats against ennemy diplomats.
+- Settlers and engineers can do teamwork. With enough man power, All terrain 
+improvements can be done real fast.
+- With engineers, the terrain type can be changed. For example, hill
+can be turned into plain.
+- Hit points only increase if unit hasn't moved. 
+- Gamelog option. The whole history of a game is stored in the gamelog file. 
+- Changes to earth-160x90.sav, earth-80x50.sav and europe.sav
+- Cleanup of the server options.
+- Additionnal american city names.
+- Some spelling mystakes were corrected.
+- The game can't segfault loading a wrong tileset.
+- One can select a unit with 0 move left.
+- Cleanup of helpdata.txt
+- Clean up of the code.
+- Change the order of libraries for IRIX and cygwin.
 
 WHAT'S CHANGED SINCE 1.7.1:
 
