@@ -1128,7 +1128,7 @@ void city_incite_cost(struct city *pcity)
     pcity->incite_revolt_cost*=pcity->size;
     if (city_unhappy(pcity))
       pcity->incite_revolt_cost/=2;
-    if (unit_list_size(&pcity->units_supported)==0) 
+    if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)==0)
       pcity->incite_revolt_cost/=2;
   }
 }
