@@ -22,6 +22,8 @@
 #include <sys/time.h>
 #endif
 
+#define USE_COMPRESSION
+
 /**************************************************************************
   The connection struct and related stuff.
   Includes cmdlevel stuff, which is connection-based.
@@ -30,11 +32,12 @@
 #include "shared.h"		/* MAX_LEN_ADDR, bool type */
 
 struct player;
+struct hash_table;
 struct timer_list;
 
 #define MAX_LEN_PACKET   4096
-#define MAX_LEN_CAPSTR    512
 #define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
+#define MAX_LEN_CAPSTR    512
 
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -99,42 +102,44 @@ struct connection {
   int sock;
   bool used;
   bool established;		/* have negotiated initial packets */
-  bool first_packet;		/* check byte order on first packet */
-  bool byte_swap;		/* connection uses non-network byte order */
   struct player *player;	/* NULL for connections not yet associated
 				   with a specific player */
-  bool observer;		/* connection is "observer", not controller;
- 				   may be observing specific player, or all
- 				   (implementation incomplete) */
+  /* 
+   * connection is "observer", not controller; may be observing
+   * specific player, or all (implementation incomplete).
+   */
+  bool observer;
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   time_t last_write;
 
   double ping_time;
   
-  struct conn_list self;	/* list with this connection as single element */
+  struct conn_list self;     /* list with this connection as single element */
   char username[MAX_LEN_NAME];
-  char password[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
-  char capability[MAX_LEN_CAPSTR];
-  /* "capability" gives the capability string of the executable (be it
+
+  /* 
+   * "capability" gives the capability string of the executable (be it
    * a client or server) at the other end of the connection.
    */
-  enum cmdlevel_id access_level;
-  /* Used in the server, "access_level" stores the access granted
-   * to the client corresponding to this connection.
-   */
-  struct map_position *route;
-  int route_length;
-  /* These are used when recieving goto routes; they are sent split, and in
-   * the time where the route is partially received it is stored here. */
+  char capability[MAX_LEN_CAPSTR];
 
+  /* 
+   * "access_level" stores the access granted to the client
+   * corresponding to this connection.
+   */
+  enum cmdlevel_id access_level;
+
+  /* 
+   * Something has occurred that means the connection should be
+   * closed, but the closing has been postponed. 
+   */
   bool delayed_disconnect;
-  /* Something has occurred that means the connection should be closed, but
-   * the closing has been postponed. */
 
   void (*notify_of_writable_data) (struct connection * pc,
 				   bool data_available_and_socket_full);
+
   struct {
     /* 
      * Increases for every packet send to the server.
@@ -180,6 +185,7 @@ struct connection {
 
     /* used to follow where the connection is in the authentication process */
     enum auth_status status;
+    char password[MAX_LEN_NAME];
   } server;
 
   /*
@@ -198,6 +204,22 @@ struct connection {
   void (*outgoing_packet_notify) (struct connection * pc,
 				  int packet_type, int size,
 				  int request_id);
+  struct {
+    struct hash_table **sent;
+    struct hash_table **received;
+    int *variant;
+  } phs;
+
+#ifdef USE_COMPRESSION
+  struct {
+    int frozen_level;
+    void *queued_packets;
+    size_t queue_size;
+  } compression;
+#endif
+  struct {
+    int bytes_send;
+  } statistics;
 };
 
 
@@ -225,7 +247,9 @@ struct connection *find_conn_by_user_prefix(const char *user_name,
 struct connection *find_conn_by_id(int id);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
-void free_socket_packet_buffer(struct socket_packet_buffer *buf);
+void connection_common_init(struct connection *pconn);
+void connection_common_close(struct connection *pconn);
+void free_compression_queue(struct connection *pconn);
 
 const char *conn_description(const struct connection *pconn);
 

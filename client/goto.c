@@ -443,23 +443,24 @@ void draw_line(int dest_x, int dest_y)
 **************************************************************************/
 void send_goto_path(struct unit *punit, struct pf_path *path)
 {
-  struct packet_goto_route p;
+  struct packet_unit_route p;
   int i;
 
   p.unit_id = punit->id;
+  p.activity = ACTIVITY_GOTO;
 
   /* we skip the start position */
   p.length = path->length - 1;
   assert(p.length < MAX_LEN_ROUTE);
 
   for (i = 0; i < path->length - 1; i++) {
-    p.pos[i].x = path->positions[i + 1].x;
-    p.pos[i].y = path->positions[i + 1].y;
+    p.x[i] = path->positions[i + 1].x;
+    p.y[i] = path->positions[i + 1].y;
     freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)",
-	    i, p.pos[i].x, p.pos[i].y);
+	    i, p.x[i], p.y[i]);
   }
 
-  send_packet_goto_route(&aconnection, &p, PACKET_GOTO_ROUTE);
+  send_packet_unit_route(&aconnection, &p);
 }
 
 /**************************************************************************
@@ -468,7 +469,7 @@ void send_goto_path(struct unit *punit, struct pf_path *path)
 **************************************************************************/
 void send_patrol_route(struct unit *punit)
 {
-  struct packet_goto_route p;
+  struct packet_unit_route p;
   int i, j = 0;
   struct pf_path *path = NULL;
 
@@ -480,6 +481,7 @@ void send_patrol_route(struct unit *punit)
   }
 
   p.unit_id = punit->id;
+  p.activity = ACTIVITY_PATROL;
 
   /* we skip the start position */
   p.length = 2 * (path->length - 1);
@@ -487,20 +489,20 @@ void send_patrol_route(struct unit *punit)
 
   j = 0;
   for (i = 1; i < path->length; i++) {
-    p.pos[j].x = path->positions[i].x;
-    p.pos[j].y = path->positions[i].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.pos[j].x,
-            p.pos[j].y);
+    p.x[j] = path->positions[i].x;
+    p.y[j] = path->positions[i].y;
+    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.x[j],
+            p.y[j]);
     j++;
   }
   for (i = path->length - 2; i >= 0; i--) {
-    p.pos[j].x = path->positions[i].x;
-    p.pos[j].y = path->positions[i].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.pos[j].x,
-            p.pos[j].y);
+    p.x[j] = path->positions[i].x;
+    p.y[j] = path->positions[i].y;
+    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", j, p.x[j],
+            p.y[j]);
     j++;
   }
-  send_packet_goto_route(&aconnection, &p, PACKET_PATROL_ROUTE);
+  send_packet_unit_route(&aconnection, &p);
   pf_destroy_path(path);
 }
 

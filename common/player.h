@@ -14,7 +14,7 @@
 #define FC__PLAYER_H
 
 #include "city.h"
-#include "connection.h"		/* struct conn_list */
+#include "connection.h"
 #include "improvement.h"	/* Impr_Status */
 #include "nation.h"
 #include "shared.h"
@@ -229,6 +229,8 @@ bool player_can_see_unit_at_location(struct player *pplayer,
                                      int x, int y);
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
                             int x, int y);
+bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
+			     int x, int y);
 
 bool player_owns_city(struct player *pplayer, struct city *pcity);
 
@@ -262,7 +264,8 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer,
 						     const struct player
 						     *pplayer2);
-
+bool are_diplstates_equal(const struct player_diplstate *pds1,
+			  const struct player_diplstate *pds2);
 bool pplayer_can_ally(struct player *p1, struct player *p2);
 bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);

@@ -30,6 +30,7 @@
 
 #include "civclient.h"
 #include "clinet.h"
+#include "packhand.h"
 
 #include "chatline.h"
 #include "colors.h"
@@ -92,16 +93,15 @@ void close_connection_dialog()
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
   gtk_widget_grab_focus(iinput);
   gtk_entry_set_text(GTK_ENTRY(iinput), "");
   gtk_set_label(GTK_BUTTON(connw)->child, _("Next"));
   gtk_widget_set_sensitive(connw, TRUE);
-  gtk_set_label(imsg, packet->message);
+  gtk_set_label(imsg, message);
 
-  switch (packet->type) {
+  switch (type) {
   case AUTH_NEWUSER_FIRST:
     dialog_config = NEW_PASSWORD_TYPE;
     break;

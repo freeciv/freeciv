@@ -74,95 +74,9 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
-                   "city_struct_minor_cleanup obsolete_last class_legend " \
-                   "+impr_req +waste +fastfocus +continent +small_dipl " \
-                   "+no_nation_selected +diplomacy +no_extra_tiles " \
-                   "+diplomacy2 +citizens_style +root_tech auth " \
-                   "+nat_ulimit +retake +goto_pack borders dip " \
-                   "+packet_short_unit +unit_occupied endgame_rep " \
-                   "+terr_flags +topo_id +goto_pack"
+#define CAPABILITY "+1.14.delta"
 
-/* "+1.14.0" is protocol for 1.14.0 release.
- *
- * "conn_info" is sending the conn_id field. To preserve compatability
- * with old clients trying to connect this should persist across releases.
- *
- * "occupied": don't send info about units which are inside enemy
- * cities but instead use the occupied flag of short_city_info.
- *
- * "team" is support for player teams
- *
- * "tech_impr_gfx" is support for loading of ruleset-specified
- * technology and city improvement icons.
- *
- * "city_struct_minor_cleanup" just removes one unused variable from the
- * city struct, which no longer needs to be sent to the client.
- *
- * "obsolete_last" means A_LAST is used to mark improvements that are never
- * obsoleted.  Previously A_NONE was used.
- *
- * "class_legend" means each nation has a class and an (optional) legend
- * text associated with it.
- *
- * "impr_req" is the ability to have city improvements as a prerequisite for
- * building specific types of units
- *
- * "waste" is support for penalizing city shield production based
- * on distance from capital city, varying by government type.
- *
- * "fastfocus" removes the server from client unit focus.
- *
- * "continent": the server gives the client continent information
- *
- * "small_dipl" makes the player diplomacy data in the player packet
- * smaller, by sending 8-bit instead of 32-bit values.
- *
- * "no_nation_selected" means that -1 (NO_NATION_SELECTED) is used for
- * players who have no assigned nation (rather than MAX_NUM_NATIONS).
- *
- * "diplomacy": changed requirements for diplomatic meetings
- *
- * "no_extra_tiles" means that the extra, unknown (NODRAW) tiles will not be
- * sent to clients (previously used to help with drawing the terrain).
- *
- * "diplomacy2": unified and simplified handling of diplomatic request
- *
- * "citizens_style": is support for loading of ruleset-specified
- * multi style citizens icons.
- *
- * "root_tech" restricts who can acquire technology
- *
- * "auth": client can authenticate and server has the ability to.
- *
- * "nat_ulimit" means that the MAX_NUM_NATIONS limit has been removed,
- * allowing easy adding of arbitrarily many nations.
- *
- * "retake" means that a client can switch players during a running game.
- *
- * "goto_pack" changes the goto route packet to send (255,255) instead of
- * map.xsize/map.ysize to mark the end of the goto chunk.
- *
- * "borders" is support for national borders.
- * 
- * "dip" is support for reporting the state of ability to do 
- *  diplomacy restrictions (see game.diplomacy)
- *
- * "packet_short_unit" is packet sent instead of full packet_unit_info to
- * enemies, so that not all info about the unit is sent.
- *
- * "unit_occupied" means units occupying transporters are not sent to enemies.
- * instead an 'occupied' flag is set for the transporter.
- *
- * "endgame_rep" is an update of the report at endgame.
- *
- * "terr_flags" means terrain flags (with the TER_NO_BARBS flag) have been
- * added.
- *
- * "topo_id" means there is a topology_id map value that controls which
- * topology is in use.  This value is sent to the client.
- *
- * "goto_pack" means a revised goto packet protocol.
+/* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  */
 
 void init_our_capability(void)

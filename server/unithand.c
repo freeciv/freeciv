@@ -63,20 +63,20 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  new_activity,
 						  enum tile_special_type
 						  new_target);
+static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id);
 
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_goto_tile(struct player *pplayer, 
-			   struct packet_unit_request *req)
+void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!is_normal_map_pos(req->x, req->y) || !punit) {
+  if (!is_normal_map_pos(x, y) || !punit) {
     return;
   }
 
-  set_goto_dest(punit, req->x, req->y);
+  set_goto_dest(punit, x, y);
 
   set_unit_activity(punit, ACTIVITY_GOTO);
 
@@ -97,17 +97,11 @@ void handle_unit_goto_tile(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_airlift(struct player *pplayer,
-			 struct packet_unit_request *req)
+void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
-  struct city *pcity;
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct city *pcity = find_city_by_id(city_id);
 
-  if (!is_normal_map_pos(req->x, req->y)) {
-    return;
-  }
-
-  pcity = map_get_city(req->x, req->y);
   if (punit && pcity) {
     (void) do_airline(punit, pcity);
   }
@@ -122,19 +116,20 @@ FIXME: This should be rewritten to use client-side path finding along so
 that we can show in the client where the road-to-be-built will be and 
 enable the use of waypoints to alter this route. - Per
 **************************************************************************/
-void handle_unit_connect(struct player *pplayer, 
-		          struct packet_unit_connect *req)
+void handle_unit_connect(struct player *pplayer, int unit_id,
+			 enum unit_activity activity_type, int dest_x,
+			 int dest_y)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!is_normal_map_pos(req->dest_x, req->dest_y) || !punit
-      || !can_unit_do_connect(punit, req->activity_type)) {
+  if (!is_normal_map_pos(dest_x, dest_y) || !punit
+      || !can_unit_do_connect(punit, activity_type)) {
     return;
   }
 
-  set_goto_dest(punit, req->dest_x, req->dest_y);
+  set_goto_dest(punit, dest_x, dest_y);
 
-  set_unit_activity(punit, req->activity_type);
+  set_unit_activity(punit, activity_type);
   punit->connecting = TRUE;
 
   send_unit_info(NULL, punit);
@@ -143,9 +138,9 @@ void handle_unit_connect(struct player *pplayer,
    * Avoid wasting first turn if unit cannot do the activity on the
    * starting tile.
    */
-  if (!can_unit_do_activity(punit, req->activity_type)) {
+  if (!can_unit_do_activity(punit, activity_type)) {
     (void) do_unit_goto(punit,
-			get_activity_move_restriction(req->activity_type),
+			get_activity_move_restriction(activity_type),
 			FALSE);
   }
 }
@@ -153,10 +148,9 @@ void handle_unit_connect(struct player *pplayer,
 /**************************************************************************
  Upgrade all units of a given type.
 **************************************************************************/
-void handle_upgrade_unittype_request(struct player * const pplayer,
-			const struct packet_unittype_info * const packet)
+void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type)
 {
-  const Unit_Type_id from_unittype = packet->type;
+  const Unit_Type_id from_unittype = type;
   const Unit_Type_id to_unittype = can_upgrade_unittype(pplayer,
 							from_unittype);
 
@@ -209,22 +203,16 @@ void handle_upgrade_unittype_request(struct player * const pplayer,
  Upgrade a single unit.
  TODO: should upgrades in allied cities be possible?
 **************************************************************************/
-void handle_unit_upgrade_request(struct player *pplayer,
-                                 struct packet_unit_request *packet)
+void handle_unit_upgrade(struct player *pplayer, int unit_id)
 {
   int cost;
   int from_unit, to_unit;
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
-  struct city *pcity = player_find_city_by_id(pplayer, packet->city_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   
-  if (!punit || !pcity) {
+  if (!punit || !map_get_city(punit->x, punit->y)) {
     return;
   }
 
-  if(!same_pos(punit->x, punit->y, pcity->x, pcity->y))  {
-    notify_player(pplayer, _("Game: Illegal move, unit not in city!"));
-    return;
-  }
   from_unit = punit->type;
   if((to_unit=can_upgrade_unittype(pplayer, punit->type)) == -1) {
     notify_player(pplayer, _("Game: Illegal package, can't upgrade %s (yet)."), 
@@ -244,55 +232,39 @@ void handle_unit_upgrade_request(struct player *pplayer,
 		unit_name(from_unit), unit_name(to_unit), cost);
 }
 
-
 /***************************************************************
   Tell the client the cost of inciting a revolt or bribing a unit.
   Only send result back to the requesting connection, not all
   connections for that player.
 ***************************************************************/
-void handle_incite_inq(struct connection *pconn,
-		       struct packet_generic_integer *packet)
+void handle_unit_bribe_inq(struct connection *pc, int unit_id)
 {
-  struct player *pplayer = pconn->player;
-  struct city *pcity = find_city_by_id(packet->value);
-  struct unit *punit = find_unit_by_id(packet->value);
-  struct packet_generic_values req;
+  struct player *pplayer = pc->player;
+  struct unit *punit = find_unit_by_id(unit_id);
 
-  if (!pplayer) {
-    freelog(LOG_ERROR, "Incite inquiry from non-player %s",
-	    conn_description(pconn));
-    return;
-  }
-  if (pcity) {
-    req.value1 = city_incite_cost(pplayer, pcity);
-    req.id = packet->value;
-    send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
-    return;
-  }
-  if (punit) {
+  if (pplayer && punit) {
     punit->bribe_cost = unit_bribe_cost(punit);
-    req.id = packet->value;
-    req.value1 = punit->bribe_cost;
-    send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
+    dsend_packet_unit_bribe_info(pc, unit_id, punit->bribe_cost);
   }
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-void handle_diplomat_action(struct player *pplayer, 
-			    struct packet_diplomat_action *packet)
+void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
+				 enum diplomat_actions action_type,
+				 int target_id, int value)
 {
-  struct unit *pdiplomat=player_find_unit_by_id(pplayer, packet->diplomat_id);
-  struct unit *pvictim=find_unit_by_id(packet->target_id);
-  struct city *pcity=find_city_by_id(packet->target_id);
+  struct unit *pdiplomat = player_find_unit_by_id(pplayer, diplomat_id);
+  struct unit *pvictim = find_unit_by_id(target_id);
+  struct city *pcity = find_city_by_id(target_id);
 
   if (!pdiplomat || !unit_flag(pdiplomat, F_DIPLOMAT)) {
     return;
   }
 
   if(pdiplomat->moves_left > 0) {
-    switch(packet->action_type) {
+    switch(action_type) {
     case DIPLOMAT_BRIBE:
       if(pvictim && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
 					   pvictim->x, pvictim->y)) {
@@ -309,7 +281,7 @@ void handle_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
 					 pcity->x, pcity->y)) {
 	/* packet value is improvement ID + 1 (or some special codes) */
-	diplomat_sabotage(pplayer, pdiplomat, pcity, packet->value - 1);
+	diplomat_sabotage(pplayer, pdiplomat, pcity, value - 1);
       }
       break;
     case SPY_POISON:
@@ -347,7 +319,7 @@ void handle_diplomat_action(struct player *pplayer,
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
 					 pcity->x, pcity->y)) {
 	/* packet value is technology ID (or some special codes) */
-	diplomat_get_tech(pplayer, pdiplomat, pcity, packet->value);
+	diplomat_get_tech(pplayer, pdiplomat, pcity, value);
       }
       break;
     case SPY_GET_SABOTAGE_LIST:
@@ -356,6 +328,8 @@ void handle_diplomat_action(struct player *pplayer,
 	spy_get_sabotage_list(pplayer, pdiplomat, pcity);
       }
       break;
+    default:
+	assert(0);
     }
   }
 }
@@ -363,12 +337,12 @@ void handle_diplomat_action(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_change_homecity(struct player *pplayer, 
-				 struct packet_unit_request *req)
+void handle_unit_change_homecity(struct player *pplayer, int unit_id,
+				 int city_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   struct city *old_pcity, *new_pcity =
-      player_find_city_by_id(pplayer, req->city_id);
+      player_find_city_by_id(pplayer, city_id);
 
   if (!punit || !new_pcity) {
     return;
@@ -380,7 +354,7 @@ void handle_unit_change_homecity(struct player *pplayer,
     unit_list_unlink(&old_pcity->units_supported, punit);
   }
 
-  punit->homecity = req->city_id;
+  punit->homecity = new_pcity->id;
   send_unit_info(pplayer, punit);
 
   city_refresh(new_pcity);
@@ -396,10 +370,9 @@ void handle_unit_change_homecity(struct player *pplayer,
   Disband a unit.  If its in a city, add 1/2 of the worth of the unit
   to the city's shield stock for the current production.
 **************************************************************************/
-void handle_unit_disband(struct player *pplayer, 
-			 struct packet_unit_request *req)
+void handle_unit_disband(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   struct city *pcity;
 
   if (!punit) {
@@ -561,10 +534,9 @@ static void city_build(struct player *pplayer, struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_build_city(struct player *pplayer,
-			    struct packet_unit_request *req)
+void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   enum add_build_city_result res;
 
   if (!punit) {
@@ -574,7 +546,7 @@ void handle_unit_build_city(struct player *pplayer,
   res = test_unit_add_or_build_city(punit);
 
   if (res == AB_BUILD_OK)
-    city_build(pplayer, punit, req->name);
+    city_build(pplayer, punit, name);
   else if (res == AB_ADD_OK)
     city_add_unit(pplayer, punit);
   else
@@ -584,46 +556,40 @@ void handle_unit_build_city(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
+void handle_unit_change_activity(struct player *pplayer, int unit_id,
+				 enum unit_activity activity,
+				 enum tile_special_type activity_target)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, pinfo->id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!punit || !is_normal_map_pos(pinfo->x, pinfo->y)) {
+  if (!punit) {
     return;
   }
 
-  if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
-    if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
-      punit->ai.control = FALSE;
-      (void) handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
-    } else {
-      /* This can happen due to lag, so don't complain too loudly */
-      freelog(LOG_DEBUG, "tiles are not adjacent, unit pos %d,%d trying "
-	      "to go to  %d,%d!\n", punit->x, punit->y, pinfo->x, pinfo->y);
-    }
-  } else if (punit->activity != pinfo->activity ||
-	     punit->activity_target != pinfo->activity_target ||
-	     punit->ai.control) {
+  if (punit->activity != activity ||
+      punit->activity_target != activity_target ||
+      punit->ai.control) {
+    /* Treat change in ai.control as change in activity, so
+       * idle autosettlers behave correctly when selected --dwp
+     */
     punit->ai.control = FALSE;
-    handle_unit_activity_request_targeted(punit,
-					  pinfo->activity,
-					  pinfo->activity_target);
+    handle_unit_activity_request_targeted(punit, activity, activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
      * Handling it deeper in the code leads to some tricky recursive loops -
      * see PR#2631. */
-    if (punit->moves_left > 0 && pinfo->activity == ACTIVITY_EXPLORE) {
+    if (punit->moves_left > 0 && activity == ACTIVITY_EXPLORE) {
       int id = punit->id;
       bool more_to_explore = ai_manage_explorer(punit);
 
       if ((punit = find_unit_by_id(id))) {
-        assert(punit->activity == ACTIVITY_EXPLORE); 
+	assert(punit->activity == ACTIVITY_EXPLORE);
 	if (!more_to_explore) {
-          set_unit_activity(punit, ACTIVITY_IDLE);
-          punit->ai.control = FALSE;
-        }
-        send_unit_info(NULL, punit);
+	  set_unit_activity(punit, ACTIVITY_IDLE);
+	  punit->ai.control = FALSE;
+	}
+	send_unit_info(NULL, punit);
       }
     }
   }
@@ -632,15 +598,15 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
+void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, pmove->unid);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!is_normal_map_pos(pmove->x, pmove->y) || !punit
-      || !is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
+  if (!is_normal_map_pos(x, y) || !punit
+      || !is_tiles_adjacent(punit->x, punit->y, x, y)) {
     return;
   }
-  (void) handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
+  (void) handle_unit_move_request(punit, x, y, FALSE, FALSE);
 }
 
 /**************************************************************************
@@ -650,13 +616,13 @@ already made all neccesary checks.
 static void handle_unit_attack_request(struct unit *punit, struct unit *pdefender)
 {
   struct player *pplayer = unit_owner(punit);
-  struct packet_unit_combat combat;
+  struct packet_unit_combat_info combat;
   struct unit *plooser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
   int def_x = pdefender->x, def_y = pdefender->y;
   struct packet_unit_info unit_att_full_packet, unit_def_full_packet;
-  struct packet_short_unit unit_att_short_packet, unit_def_short_packet;
+  struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
 
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
@@ -675,11 +641,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
 
   if (unit_flag(punit, F_NUCLEAR)) {
-    struct packet_nuke_tile packet;
-    
-    packet.x=def_x;
-    packet.y=def_y;
-    if ((pcity=sdi_defense_close(unit_owner(punit), def_x, def_y))) {
+    if ((pcity = sdi_defense_close(unit_owner(punit), def_x, def_y))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
 		       _("Game: Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));
@@ -690,7 +652,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       return;
     } 
 
-    lsend_packet_nuke_tile(&game.game_connections, &packet);
+    dlsend_packet_nuke_tile_info(&game.game_connections, def_x, def_y);
 
     wipe_unit(punit);
     do_nuclear_explosion(pplayer, def_x, def_y);
@@ -762,19 +724,30 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	lsend_packet_unit_info(&other_player->connections,
 			       &unit_att_full_packet);
       } else {
-	lsend_packet_short_unit(&other_player->connections,
-				&unit_att_short_packet);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_att_short_packet);
       }
 
       if (other_player->player_no == pdefender->owner) {
 	lsend_packet_unit_info(&other_player->connections,
 			       &unit_def_full_packet);
       } else {
-	lsend_packet_short_unit(&other_player->connections,
-				&unit_def_short_packet);
+	lsend_packet_unit_short_info(&other_player->connections,
+				     &unit_def_short_packet);
       }
 
-      lsend_packet_unit_combat(&other_player->connections, &combat);
+      lsend_packet_unit_combat_info(&other_player->connections, &combat);
+
+      /* 
+       * Remove the client knowledge of the units. 
+       */
+      if (!can_player_see_unit_at2(pplayer, punit, punit->x, punit->y)) {
+	unit_goes_out_of_sight(pplayer, punit);
+      }
+      if (!can_player_see_unit_at2
+	  (pplayer, pdefender, pdefender->x, pdefender->y)) {
+	unit_goes_out_of_sight(pplayer, pdefender);
+      }
     }
   } players_iterate_end;
 
@@ -782,7 +755,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     if (!pconn->player && pconn->observer) {
       send_packet_unit_info(pconn, &unit_att_full_packet);
       send_packet_unit_info(pconn, &unit_def_full_packet);
-      send_packet_unit_combat(pconn, &combat);
+      send_packet_unit_combat_info(pconn, &combat);
     }
   } conn_list_iterate_end;
   
@@ -960,11 +933,7 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
   if (unit_flag(punit, F_TRADE_ROUTE) && pcity
       && !pplayers_allied(city_owner(pcity), pplayer)
       && punit->homecity != 0) {
-    struct packet_unit_request req;
-    req.unit_id = punit->id;
-    req.city_id = pcity->id;
-    req.name[0] = '\0';
-    return handle_unit_establish_trade(pplayer, &req);
+    return base_handle_unit_establish_trade(pplayer, punit->id);
   }
 
   /* Diplomats. Pop up a diplomat action dialog in the client.  
@@ -978,7 +947,7 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
     if (target || is_non_allied_city_tile(pdesttile, pplayer)
         || !move_diplomat_city) {
       if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, x, y)) {
-        struct packet_diplomat_action packet;
+	int target_id = 0;
         
         if (pplayer->ai.control) {
           return FALSE;
@@ -995,15 +964,14 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
         /* if is_diplomat_action_available() then there must be 
          * a city or a unit */
         if (pcity) {
-          packet.target_id = pcity->id;
+          target_id = pcity->id;
         } else if (target) {
-          packet.target_id = target->id;
+          target_id = target->id;
         } else {
           die("Bug in unithand.c: no diplomat target.");
         }
-        packet.diplomat_id = punit->id;
-        packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
-        lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
+	dlsend_packet_unit_diplomat_popup_dialog(player_reply_dest(pplayer),
+						 punit->id, target_id);
         return FALSE;
       } else if (!can_unit_move_to_tile(punit, x, y, igzoc)) {
         notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -1110,27 +1078,21 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_help_build_wonder(struct player *pplayer, 
-				   struct packet_unit_request *req)
+void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
-  struct city *pcity_dest = find_city_by_id(req->city_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct city *pcity_dest;
   const char *text;
 
-  if (!punit || !unit_flag(punit, F_HELP_WONDER) || !pcity_dest
-      || !unit_can_help_build_wonder(punit, pcity_dest)) {
+  if (!punit || !unit_flag(punit, F_HELP_WONDER)) {
+    return;
+  }
+  pcity_dest = map_get_city(punit->x,punit->y);
+  
+  if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest)) {
     return;
   }
 
-  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
-    return;
-
-  if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y)))
-    return;
-
-  /* we're there! */
   pcity_dest->shield_stock += unit_type(punit)->build_cost;
   pcity_dest->caravan_shields += unit_type(punit)->build_cost;
 
@@ -1157,40 +1119,30 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-bool handle_unit_establish_trade(struct player *pplayer, 
-				 struct packet_unit_request *req)
+static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
-  struct city *pcity_homecity, *pcity_dest = find_city_by_id(req->city_id);
+  struct city *pcity_homecity, *pcity_dest;
   int revenue, i;
   bool home_full = FALSE, dest_full = FALSE, can_establish;
   
-  if (!punit || !pcity_dest || !unit_flag(punit, F_TRADE_ROUTE)) {
+  if (!punit || !unit_flag(punit, F_TRADE_ROUTE)) {
     return FALSE;
   }
 
+  pcity_dest = map_get_city(punit->x, punit->y);
   pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
-  if (!pcity_homecity || pcity_homecity == pcity_dest) {
+  if (!pcity_homecity || !pcity_dest) {
     return FALSE;
   }
     
-  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) {
-    return FALSE;
-  }
-
-  if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y))) {
-    return FALSE;
-  }
-
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
     return FALSE;
   }
   
-  /* This part of code works like can_establish_trade_route, except that
-   * we actually do the action of making the trade route. */
+  /* This part of code works like can_establish_trade_route, except
+   * that we actually do the action of making the trade route. */
 
   /* If we can't make a new trade route we can still get the trade bonus. */
   can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
@@ -1360,10 +1312,17 @@ bool handle_unit_establish_trade(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_auto_request(struct player *pplayer, 
-			      struct packet_unit_request *req)
+void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  (void) base_handle_unit_establish_trade(pplayer, unit_id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_unit_auto(struct player *pplayer, int unit_id)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (!punit || !can_unit_do_auto(punit))
     return;
@@ -1456,10 +1415,9 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_unload_request(struct player *pplayer, 
-				struct packet_unit_request *req)
+void handle_unit_unload(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (!punit) {
     return;
@@ -1495,10 +1453,9 @@ void handle_unit_unload_request(struct player *pplayer,
 /**************************************************************************
 Explode nuclear at a tile without enemy units
 **************************************************************************/
-void handle_unit_nuke(struct player *pplayer, 
-                     struct packet_unit_request *req)
+void handle_unit_nuke(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
   if (!punit) {
     return;
@@ -1509,41 +1466,25 @@ void handle_unit_nuke(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_paradrop_to(struct player *pplayer, 
-			     struct packet_unit_request *req)
+void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
+			     int y)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
   
   if (!punit) {
     return;
   }
 
-  (void) do_paradrop(punit, req->x, req->y);
-}
-
-
-
-/**************************************************************************
-Sanity checks on the goto route.
-**************************************************************************/
-static bool check_route(struct player *pplayer, struct packet_goto_route *packet)
-{
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
-
-  if (!punit || packet->length < 1) {
-    return FALSE;
-  }
-
-  return TRUE;
+  (void) do_paradrop(punit, x, y);
 }
 
 /**************************************************************************
 Receives goto route packages.
 **************************************************************************/
-static void handle_route(struct player *pplayer, struct packet_goto_route *packet)
+static void handle_route(struct player *pplayer, struct unit *punit,
+			 int length, int *x, int *y)
 {
   struct goto_route *pgr = NULL;
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
   int i;
 
   free_unit_goto_route(punit);
@@ -1554,13 +1495,14 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
    * increase the length by one. 
    */
   pgr = fc_malloc(sizeof(struct goto_route));
-  pgr->length = packet->length + 1;
+  pgr->length = length + 1;
   pgr->first_index = 0;
-  pgr->last_index = packet->length;
+  pgr->last_index = length;
   pgr->pos = fc_malloc(pgr->length * sizeof(*pgr->pos));
 
-  for (i = 0; i < packet->length; i++) {
-    pgr->pos[i] = packet->pos[i];
+  for (i = 0; i < length; i++) {
+    pgr->pos[i].x = x[i];
+    pgr->pos[i].y = y[i];
   }
 
   punit->pgr = pgr;
@@ -1569,7 +1511,7 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
   freelog(LOG_DEBUG, "first:%d, last:%d, length:%d",
 	  pgr->first_index, pgr->last_index, pgr->length);
   for (i = pgr->first_index; i < pgr->last_index; i++) {
-    freelog(LOG_DEBUG, "  %d,%d", pgr->pos[i].x, pgr->pos[i].y);
+    freelog(LOG_NORMAL, "  %d,%d", pgr->pos[i].x, pgr->pos[i].y);
   }
 #endif
 
@@ -1584,31 +1526,19 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
 }
 
 /**************************************************************************
-Receives goto route packages.
+Receives route packages.
 **************************************************************************/
-void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet)
+void handle_unit_route(struct player *pplayer, int unit_id,
+		       enum unit_activity activity, int length, int *x,
+		       int *y)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!check_route(pplayer, packet)) {
+  if (!punit || length < 1
+      || !(activity == ACTIVITY_GOTO || activity == ACTIVITY_PATROL)) {
     return;
   }
 
-  handle_unit_activity_request(punit, ACTIVITY_GOTO);
-  handle_route(pplayer, packet);
-}
-
-/**************************************************************************
-Receives patrol route packages.
-**************************************************************************/
-void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packet)
-{
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
-
-  if (!check_route(pplayer, packet)) {
-    return;
-  }
-
-  handle_unit_activity_request(punit, ACTIVITY_PATROL);
-  handle_route(pplayer, packet);
+  handle_unit_activity_request(punit, activity);
+  handle_route(pplayer, punit, length, x, y);
 }

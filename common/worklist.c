@@ -203,3 +203,25 @@ bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
   
   return TRUE;
 }
+
+/**************************************************************************
+  Return TRUE iff the two worklists are equal.
+**************************************************************************/
+bool are_worklists_equal(const struct worklist *wlist1,
+			 const struct worklist *wlist2)
+{
+  int i, len = worklist_length(wlist1);
+
+  if (worklist_length(wlist2) != len) {
+    return FALSE;
+  }
+
+  for (i = 0; i < len; i++) {
+    if (wlist1->wlefs[i] != wlist2->wlefs[i] ||
+	wlist1->wlids[i] != wlist2->wlids[i]) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}

@@ -260,228 +260,12 @@ int main(int argc, char *argv[])
 void handle_packet_input(void *packet, int type)
 {
   switch(type) {
-  case PACKET_LOGIN_REPLY:
-    handle_login_reply((struct packet_login_reply *)packet);
-    break;
+    /* 
+     * We now include a number of case statements. Each statement
+     * calls the corresponding handle_packet_* function. 
+     */
+#include "civclient_gen.c"
 
-  case PACKET_AUTHENTICATION_REQUEST:
-    handle_authentication_request((struct packet_authentication_request *)
-                                  packet);
-    break;
-
-  case PACKET_SERVER_SHUTDOWN:
-    freelog(LOG_VERBOSE, "server shutdown");
-    break;
-
-  case PACKET_BEFORE_NEW_YEAR:
-    handle_before_new_year();
-    break;
-
-  case PACKET_NEW_YEAR:
-    handle_new_year((struct packet_new_year *)packet);
-    break;
-
-  case PACKET_UNIT_INFO:
-    handle_unit_info((struct packet_unit_info *)packet);
-    break;
-
-  case PACKET_SHORT_UNIT:
-    handle_short_unit(packet);
-    break;
-
-  case PACKET_TILE_INFO:
-    handle_tile_info((struct packet_tile_info *)packet);
-    break;
-
-  case PACKET_SELECT_NATION:
-    handle_select_nation((struct packet_nations_used *)packet);
-    break;
-
-  case PACKET_PLAYER_INFO:
-    handle_player_info((struct packet_player_info *)packet);
-    break;
-    
-  case PACKET_GAME_INFO:
-    handle_game_info((struct packet_game_info *)packet);
-    break;
-
-  case PACKET_MAP_INFO:
-    handle_map_info((struct packet_map_info *)packet);
-    break;
-    
-  case PACKET_CHAT_MSG:
-    handle_chat_msg((struct packet_generic_message *)packet);
-    break;
-
-  case PACKET_PAGE_MSG:
-    handle_page_msg((struct packet_generic_message *)packet);
-    break;
-    
-  case PACKET_CITY_INFO:
-    handle_city_info((struct packet_city_info *)packet);
-    break;
-
-  case PACKET_SHORT_CITY:
-    handle_short_city((struct packet_short_city *)packet);
-    break;
-
-  case PACKET_REMOVE_UNIT:
-    handle_remove_unit((struct packet_generic_integer *)packet);
-    break;
-
-  case PACKET_REMOVE_CITY:
-    handle_remove_city((struct packet_generic_integer *)packet);
-    break;
-    
-  case PACKET_UNIT_COMBAT:
-    handle_unit_combat((struct packet_unit_combat *)packet);
-    break;
-
-  case PACKET_GAME_STATE:
-    handle_game_state(((struct packet_generic_integer *)packet));
-    break;
-
-  case PACKET_NUKE_TILE:
-    handle_nuke_tile(((struct packet_nuke_tile *)packet));
-    break;
-
-  case PACKET_DIPLOMACY_INIT_MEETING:
-    handle_diplomacy_init_meeting((struct packet_diplomacy_info *)packet);  
-    break;
-
-  case PACKET_DIPLOMACY_CANCEL_MEETING:
-    handle_diplomacy_cancel_meeting((struct packet_diplomacy_info *)packet);  
-    break;
-
-  case PACKET_DIPLOMACY_CREATE_CLAUSE:
-    handle_diplomacy_create_clause((struct packet_diplomacy_info *)packet);  
-    break;
-
-  case PACKET_DIPLOMACY_REMOVE_CLAUSE:
-    handle_diplomacy_remove_clause((struct packet_diplomacy_info *)packet);  
-    break;
-
-  case PACKET_DIPLOMACY_ACCEPT_TREATY:
-    handle_diplomacy_accept_treaty((struct packet_diplomacy_info *)packet);  
-    break;
-
-  case PACKET_REMOVE_PLAYER:
-    handle_remove_player((struct packet_generic_integer *)packet);
-    break;
-
-  case PACKET_RULESET_CONTROL:
-    handle_ruleset_control((struct packet_ruleset_control *)packet);
-    break;
-
-  case PACKET_RULESET_UNIT:
-    handle_ruleset_unit((struct packet_ruleset_unit *)packet);
-    break;
-    
-  case PACKET_RULESET_TECH:
-    handle_ruleset_tech((struct packet_ruleset_tech *)packet);
-    break;
-    
-  case PACKET_RULESET_BUILDING:
-    handle_ruleset_building((struct packet_ruleset_building *)packet);
-    break;
-
-  case PACKET_RULESET_TERRAIN:
-    handle_ruleset_terrain((struct packet_ruleset_terrain *)packet);
-    break;
-
-  case PACKET_RULESET_TERRAIN_CONTROL:
-    handle_ruleset_terrain_control((struct terrain_misc *)packet);
-    break;
-
-  case PACKET_RULESET_GOVERNMENT:
-    handle_ruleset_government((struct packet_ruleset_government *)packet);
-    break;
-  
-  case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
-    handle_ruleset_government_ruler_title((struct packet_ruleset_government_ruler_title *)packet);
-    break;
-  
-  case PACKET_RULESET_NATION:
-    handle_ruleset_nation((struct packet_ruleset_nation *)packet);
-    break;
-
-  case PACKET_RULESET_CITY:
-    handle_ruleset_city((struct packet_ruleset_city *)packet);
-    break;
-
-  case PACKET_RULESET_GAME:
-    handle_ruleset_game((struct packet_ruleset_game *)packet);
-    break;
-
-  case PACKET_INCITE_COST:
-    handle_incite_cost((struct packet_generic_values *)packet);
-    break;
-
-  case PACKET_CITY_OPTIONS:
-    handle_city_options((struct packet_generic_values *)packet);
-    break;
-    
-  case PACKET_SPACESHIP_INFO:
-    handle_spaceship_info((struct packet_spaceship_info *)packet);
-    break;
-    
-  case PACKET_CITY_NAME_SUGGESTION:
-    handle_city_name_suggestion((struct packet_city_name_suggestion *)packet);
-    break;
-
-  case PACKET_SABOTAGE_LIST:
-    handle_sabotage_list((struct packet_sabotage_list *)packet);
-    break;
-
-  case PACKET_DIPLOMAT_ACTION:
-    handle_diplomat_action((struct packet_diplomat_action *)packet);
-    break;
-
-  case PACKET_CONN_INFO:
-    handle_conn_info((struct packet_conn_info *)packet);
-    break;
-    
-  case PACKET_CONN_PING:
-    send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
-    break;
-
-  case PACKET_SELECT_NATION_OK:
-    handle_select_nation(NULL);
-    break;
-
-  case PACKET_ATTRIBUTE_CHUNK:
-    handle_player_attribute_chunk((struct packet_attribute_chunk *)
- 				  packet);
-    break;
-
-  case PACKET_PROCESSING_STARTED:
-    handle_processing_started();
-    break;
-
-  case PACKET_PROCESSING_FINISHED:
-    handle_processing_finished();
-    break;
-
-  case PACKET_START_TURN:
-    handle_start_turn();
-    break;
-
-  case PACKET_FREEZE_HINT:
-    handle_freeze_hint();
-    break;
-
-  case PACKET_THAW_HINT:
-    handle_thaw_hint();
-    break;
-
-  case PACKET_PING_INFO:
-    handle_ping_info((struct packet_ping_info *) packet);
-    break;
-
-  case PACKET_ENDGAME_REPORT:
-    handle_endgame_report((struct packet_endgame_report *) packet);
-    break;
-    
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     break;
@@ -503,8 +287,6 @@ void user_ended_turn(void)
 **************************************************************************/
 void send_turn_done(void)
 {
-  struct packet_generic_message gen_packet;
-
   freelog(LOG_DEBUG, "send_turn_done() turn_done_button_state=%d",
 	  get_turn_done_button_state());
 
@@ -526,10 +308,7 @@ void send_turn_done(void)
 
   attribute_flush();
 
-  gen_packet.message[0] = '\0';
-  gen_packet.x = gen_packet.y = -1;
-  gen_packet.event = E_NOEVENT;
-  send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
+  send_packet_player_turn_done(&aconnection);
 
   update_turn_done_button_state();
 }
@@ -537,75 +316,9 @@ void send_turn_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_unit_info(struct unit *punit)
-{
-  struct packet_unit_info info;
-
-  /* 
-   * Initialize unused fields.  The content is ignored by the server
-   * but they are part of the packet.  Initialized for completness
-   * here since we don't want to send uninitialized data over the
-   * network.  Note we could just use memset instead.  They're set
-   * above the applicable fields for safety.
-   */
-  info.done_moving = punit->done_moving;
-  info.carried = FALSE;
-  info.ai = FALSE;
-  info.paradropped = FALSE;
-  info.connecting = FALSE;
-  info.hp = 0;
-  info.upkeep = 0;
-  info.upkeep_food = 0;
-  info.upkeep_gold = 0;
-  info.unhappiness = 0;
-  info.activity_count = 0;
-  info.goto_dest_x = 0;
-  info.goto_dest_y = 0;
-  info.fuel = 0;
-
-  /* These fields are used. */
-  info.id=punit->id;
-  info.owner=punit->owner;
-  info.x=punit->x;
-  info.y=punit->y;
-  info.homecity=punit->homecity;
-  info.occupy = punit->occupy;
-  info.veteran=punit->veteran;
-  info.type=punit->type;
-  info.movesleft=punit->moves_left;
-  info.activity=punit->activity;
-  info.activity_target=punit->activity_target;
-
-  send_packet_unit_info(&aconnection, &info);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void send_move_unit(struct unit *punit)
-{
-  struct packet_move_unit move;
-
-  move.unid=punit->id;
-  move.x=punit->x;
-  move.y=punit->y;
-
-  send_packet_move_unit(&aconnection, &move);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void send_goto_unit(struct unit *punit, int dest_x, int dest_y)
 {
-  struct packet_unit_request req;
-
-  req.unit_id = punit->id;
-  req.city_id = -1;
-  req.name[0] = '\0';
-  req.x = dest_x;
-  req.y = dest_y;
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+  dsend_packet_unit_goto(&aconnection, punit->id,dest_x,dest_y);
 }
 
 /**************************************************************************
@@ -613,10 +326,7 @@ void send_goto_unit(struct unit *punit, int dest_x, int dest_y)
 **************************************************************************/
 void send_report_request(enum report_type type)
 {
- struct packet_generic_integer pa;
-  
-  pa.value=type;
-  send_packet_generic_integer(&aconnection, PACKET_REPORT_REQUEST, &pa);
+  dsend_packet_report_req(&aconnection, type);
 }
 
 /**************************************************************************
@@ -737,6 +447,7 @@ void client_remove_cli_conn(struct connection *pconn)
   conn_list_unlink(&game.all_connections, pconn);
   conn_list_unlink(&game.est_connections, pconn);
   conn_list_unlink(&game.game_connections, pconn);
+  assert(pconn != &aconnection);
   free(pconn);
 }
 
@@ -760,10 +471,7 @@ void dealloc_id(int id) { }/* kludge */
 **************************************************************************/
 void send_attribute_block_request()
 {
-  struct packet_player_request packet;
-
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_ATTRIBUTE_BLOCK);
+  send_packet_player_attribute_block(&aconnection);
 }
 
 /**************************************************************************

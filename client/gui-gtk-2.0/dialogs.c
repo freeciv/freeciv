@@ -289,13 +289,9 @@ static void bribe_response(GtkWidget *w, gint response)
 *****************************************************************/
 static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_generic_integer packet;
-
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
-   }
+  if (find_unit_by_id(diplomat_id) && find_unit_by_id(diplomat_target_id)) {
+    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
+  }
 }
 
 /****************************************************************
@@ -751,13 +747,8 @@ void popup_sabotage_dialog(struct city *pcity)
 *****************************************************************/
 static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 {
-  struct city *pcity;
-  struct packet_generic_integer packet;
-
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
+    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
 
@@ -984,11 +975,7 @@ bool diplomat_dialog_is_open(void)
 *****************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
 }
 
 
@@ -997,11 +984,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
 }
 
 
@@ -1071,11 +1054,7 @@ bool caravan_dialog_is_open(void)
 *****************************************************************/
 static void government_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_player_request packet;
-
-  packet.government=GPOINTER_TO_INT(data);
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
-
+  dsend_packet_player_government(&aconnection, GPOINTER_TO_INT(data));
   is_showing_government_dialog=0;
 }
 
@@ -2106,14 +2085,15 @@ static void select_random_race(void)
 /**************************************************************************
   ...
  **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
   GtkTreePath *path;
   gboolean chosen;
 
-  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
+  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
 
   if (!races_shell) {
     return;
@@ -2129,13 +2109,13 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
 
       gtk_tree_model_get(model, &it, 0, &nation, -1);
 
-      for (i = 0; i < packet->num_nations_used; i++) {
-	if (packet->nations_used[i] == nation) {
+      for (i = 0; i < num_nations_used; i++) {
+	if (nations_used[i] == nation) {
 	  break;
 	}
       }
 
-      chosen = (i < packet->num_nations_used);
+      chosen = (i < num_nations_used);
       gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 
     } while (gtk_tree_model_iter_next(model, &it));
@@ -2267,7 +2247,6 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
 {
   if (response == GTK_RESPONSE_ACCEPT) {
     const char *s;
-    struct packet_alloc_nation packet;
 
     if (selected_nation == -1) {
       append_output_window(_("You must select a nation."));
@@ -2287,18 +2266,13 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     s = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
 
     /* Perform a minimum of sanity test on the name. */
-    packet.nation_no = selected_nation;
-    packet.is_male = selected_sex;
-    packet.city_style = selected_city_style;
-    sz_strlcpy(packet.name, s);
-    
-    if (!is_sane_name(packet.name)) {
+    if (!is_sane_name(s)) {
       append_output_window(_("You must type a legal name."));
       return;
     }
 
-    send_packet_alloc_nation(&aconnection, &packet);
-
+    dsend_packet_nation_select_req(&aconnection, selected_nation,
+				   selected_sex, s, selected_city_style);
   } else if (response == GTK_RESPONSE_CLOSE) {
     exit(EXIT_SUCCESS);
 
@@ -2312,39 +2286,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
 /**************************************************************************
   Adjust tax rates from main window
 **************************************************************************/
-gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+gboolean taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
 {
-  int tax_end,lux_end,sci_end;
-  size_t i;
-  int delta=10;
-  struct packet_player_request packet;
-  
-  if (!can_client_issue_orders()) {
-    return TRUE;
-  }
-  
-  i= (size_t)data;
-  
-  lux_end= game.player_ptr->economic.luxury;
-  sci_end= lux_end + game.player_ptr->economic.science;
-  tax_end= 100;
-
-  packet.luxury= game.player_ptr->economic.luxury;
-  packet.science= game.player_ptr->economic.science;
-  packet.tax= game.player_ptr->economic.tax;
-
-  i*= 10;
-  if(i<lux_end){
-    packet.luxury-= delta; packet.science+= delta;
-  }else if(i<sci_end){
-    packet.science-= delta; packet.tax+= delta;
-   }else{
-    packet.tax-= delta; packet.luxury+= delta;
-  }
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+  common_taxrates_callback((size_t) data);
   return TRUE;
 }
-
 
 /**************************************************************************
 ...

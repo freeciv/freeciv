@@ -191,20 +191,14 @@ void handle_spaceship_launch(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_spaceship_action(struct player *pplayer, 
-			     struct packet_spaceship_action *packet)
+void handle_spaceship_place(struct player *pplayer,
+			    enum spaceship_place_type type, int num)
 {
   struct player_spaceship *ship = &pplayer->spaceship;
-  int action = packet->action;
-  int num = packet->num;
   
   if (ship->state == SSHIP_NONE) {
     notify_player(pplayer, _("Game: Spaceship action received,"
 			     " but you don't have a spaceship!"));
-    return;
-  }
-  if (action == SSHIP_ACT_LAUNCH) {
-    handle_spaceship_launch(pplayer);
     return;
   }
   if (ship->state >= SSHIP_LAUNCHED) {
@@ -212,7 +206,7 @@ void handle_spaceship_action(struct player *pplayer,
 			     " spaceship after launch!"));
     return;
   }
-  if (action == SSHIP_ACT_PLACE_STRUCTURAL) {
+  if (type == SSHIP_PLACE_STRUCTURAL) {
     if (num<0 || num>=NUM_SS_STRUCTURALS || ship->structure[num]) {
       return;
     }
@@ -231,7 +225,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  if (action == SSHIP_ACT_PLACE_FUEL) {
+  if (type == SSHIP_PLACE_FUEL) {
     if (ship->fuel != num-1) {
       return;
     }
@@ -250,7 +244,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  if (action == SSHIP_ACT_PLACE_PROPULSION) {
+  if (type == SSHIP_PLACE_PROPULSION) {
     if (ship->propulsion != num-1) {
       return;
     }
@@ -269,7 +263,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  if (action == SSHIP_ACT_PLACE_HABITATION) {
+  if (type == SSHIP_PLACE_HABITATION) {
     if (ship->habitation != num-1) {
       return;
     }
@@ -289,7 +283,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  if (action == SSHIP_ACT_PLACE_LIFE_SUPPORT) {
+  if (type == SSHIP_PLACE_LIFE_SUPPORT) {
     if (ship->life_support != num-1) {
       return;
     }
@@ -309,7 +303,7 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  if (action == SSHIP_ACT_PLACE_SOLAR_PANELS) {
+  if (type == SSHIP_PLACE_SOLAR_PANELS) {
     if (ship->solar_panels != num-1) {
       return;
     }
@@ -329,8 +323,8 @@ void handle_spaceship_action(struct player *pplayer,
     send_spaceship_info(pplayer, NULL);
     return;
   }
-  freelog(LOG_ERROR, "Received unknown spaceship action %d from %s",
-       action, pplayer->name);
+  freelog(LOG_ERROR, "Received unknown spaceship place type %d from %s",
+       type, pplayer->name);
 }
 
 /**************************************************************************

@@ -16,46 +16,11 @@
 #include "packets.h"
 #include "unit.h"
 
-void handle_unit_goto_tile(struct player *pplayer, 
-			   struct packet_unit_request *req);
-void handle_unit_airlift(struct player *pplayer,
-			 struct packet_unit_request *req);
-void handle_unit_connect(struct player *pplayer, 
-		          struct packet_unit_connect *req);
-void handle_upgrade_unittype_request(struct player * const pplayer,
-			const struct packet_unittype_info * const packet);
-void handle_unit_upgrade_request(struct player *pplayer,
-				 struct packet_unit_request *packet);
-void handle_diplomat_action(struct player *pplayer, 
-			    struct packet_diplomat_action *packet);
-void handle_unit_change_homecity(struct player *pplayer, 
-				 struct packet_unit_request *req);
-void handle_unit_disband(struct player *pplayer, 
-			 struct packet_unit_request *req);
-void handle_unit_build_city(struct player *pplayer, 
-			    struct packet_unit_request *req);
-void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
+#include "hand_gen.h"
+
 bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 			     bool igzoc, bool move_diplomat_city);
-void handle_unit_help_build_wonder(struct player *pplayer, 
-				   struct packet_unit_request *req);
-bool handle_unit_establish_trade(struct player *pplayer, 
-				struct packet_unit_request *req);
-void handle_unit_auto_request(struct player *pplayer, 
-			      struct packet_unit_request *req);
 void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity);
-void handle_unit_unload_request(struct player *pplayer, 
-				struct packet_unit_request *req);
-void handle_unit_nuke(struct player *pplayer, 
-                     struct packet_unit_request *req);
-void handle_unit_paradrop_to(struct player *pplayer, 
-                     struct packet_unit_request *req);
-void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
-void handle_incite_inq(struct connection *pconn,
-		       struct packet_generic_integer *packet);
-
-void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet);
-void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packet);
 
 #endif  /* FC__UNITHAND_H */

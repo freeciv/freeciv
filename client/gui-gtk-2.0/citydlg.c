@@ -2566,7 +2566,6 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
   if(!pdialog->misc.block_signal){
     int i, new_options = 0;
     struct city *pcity = pdialog->pcity;
-    struct packet_generic_values packet;
 
     for(i = 0; i < NUM_CITY_OPTS; i++){
       if(GTK_TOGGLE_BUTTON(pdialog->misc.city_opts[i])->active)
@@ -2579,9 +2578,7 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
       new_options |= (1 << CITYO_NEW_TAXMAN);
     }
 
-    packet.value1 = pcity->id;
-    packet.value2 = new_options;
-    send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS, &packet);
+    dsend_packet_city_options_req(&aconnection, pcity->id,new_options);
   }
 }
 

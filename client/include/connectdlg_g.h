@@ -17,8 +17,7 @@ struct packet_authentication_request;
 
 void close_connection_dialog(void);
 
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet);
+void handle_authentication_request(struct packet_authentication_req *packet);
 
 void gui_server_connect(void);
 void server_autoconnect(void);

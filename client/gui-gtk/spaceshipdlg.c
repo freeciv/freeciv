@@ -387,10 +387,6 @@ void spaceship_close_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void spaceship_launch_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_spaceship_action packet;
-
-  packet.action = SSHIP_ACT_LAUNCH;
-  packet.num = 0;
-  send_packet_spaceship_action(&aconnection, &packet);
+  send_packet_spaceship_launch(&aconnection);
   /* close_spaceship_dialog((struct spaceship_dialog *)data); */
 }

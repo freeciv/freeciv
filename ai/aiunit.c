@@ -2170,7 +2170,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
-  struct packet_unit_request req;
   int tradeval, best_city = -1, best=0;
   struct ai_data *ai = ai_data_get(pplayer);
 
@@ -2192,9 +2191,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
          * Instead, we want to aggregate enough caravans to build instantly.
          * -AJS, 990704
          */
-        req.unit_id = punit->id;
-        req.city_id = pcity->id;
-        handle_unit_help_build_wonder(pplayer, &req);
+	handle_unit_help_build_wonder(pplayer, punit->id);
       }
     } else {
        /* A caravan without a home?  Kinda strange, but it might happen.  */
@@ -2228,9 +2225,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
            }
            (void) ai_unit_goto(punit, pcity->x, pcity->y);
          } else {
-           req.unit_id = punit->id;
-           req.city_id = pcity->id;
-           (void) handle_unit_establish_trade(pplayer, &req);
+           handle_unit_establish_trade(pplayer, punit->id);
         }
       }
     }

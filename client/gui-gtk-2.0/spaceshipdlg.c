@@ -186,11 +186,7 @@ static void spaceship_response(GtkWidget *w, gint response)
   switch (response) {
   case GTK_RESPONSE_ACCEPT:
     {
-      struct packet_spaceship_action packet;
-
-      packet.action = SSHIP_ACT_LAUNCH;
-      packet.num = 0;
-      send_packet_spaceship_action(&aconnection, &packet);
+      send_packet_spaceship_launch(&aconnection);
     }
     break;
 

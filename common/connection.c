@@ -34,9 +34,11 @@
 
 #include "fcintl.h"
 #include "game.h"		/* game.all_connections */
+#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
+#include "packets.h"
 #include "support.h"		/* mystr(n)casecmp */
 
 #include "connection.h"
@@ -128,8 +130,9 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 {
   int didget;
 
-  didget=my_readsocket(sock, (char *)(buffer->data+buffer->ndata),
-		       MAX_LEN_PACKET-buffer->ndata);
+  freelog(LOG_DEBUG, "try reading %d bytes", buffer->nsize - buffer->ndata);
+  didget = my_readsocket(sock, (char *) (buffer->data + buffer->ndata),
+			 buffer->nsize - buffer->ndata);
 
   if (didget > 0) {
     buffer->ndata+=didget;
@@ -197,6 +200,7 @@ static int write_socket_data(struct connection *pc,
 
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
+      freelog(LOG_DEBUG,"trying to write %d limit=%d",nblock,limit);
       if((nput=my_writesocket(pc->sock, 
 			      (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
@@ -277,6 +281,8 @@ static bool add_connection_data(struct connection *pc,
 
     buf = pc->send_buffer;
 
+    freelog(LOG_DEBUG, "add %d bytes to %d (space=%d)", len, buf->ndata,
+	    buf->nsize);
     /* room for more? */
     if(buf->nsize - buf->ndata < len) {
       buf->nsize += MAX_LEN_PACKET;
@@ -310,6 +316,7 @@ void send_connection_data(struct connection *pc, const unsigned char *data,
 			  int len)
 {
   if (pc && pc->used) {
+    pc->statistics.bytes_send += len;
     if(pc->send_buffer->do_buffer_sends > 0) {
       flush_connection_send_buffer_packets(pc);
       if (!add_connection_data(pc, data, len)) {
@@ -449,7 +456,7 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
 /**************************************************************************
   Free malloced struct
 **************************************************************************/
-void free_socket_packet_buffer(struct socket_packet_buffer *buf)
+static void free_socket_packet_buffer(struct socket_packet_buffer *buf)
 {
   if (buf) {
     if (buf->data) {
@@ -511,3 +518,113 @@ int get_next_request_id(int old_request_id)
   assert(result);
   return result;
 }
+
+/**************************************************************************
+ ...
+**************************************************************************/
+void free_compression_queue(struct connection *pc)
+{
+#ifdef USE_COMPRESSION
+  if (pc->compression.queue_size > 0) {
+    free(pc->compression.queued_packets);
+    pc->compression.queued_packets = NULL;
+  }
+  pc->compression.queue_size = 0;
+#endif
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+static void init_packet_hashs(struct connection *pc)
+{
+  enum packet_type i;
+
+  pc->phs.sent = fc_malloc(sizeof(*pc->phs.sent) * PACKET_LAST);
+  pc->phs.received = fc_malloc(sizeof(*pc->phs.received) * PACKET_LAST);
+  pc->phs.variant = fc_malloc(sizeof(*pc->phs.variant) * PACKET_LAST);
+
+  for (i = 0; i < PACKET_LAST; i++) {
+    pc->phs.sent[i] = NULL;
+    pc->phs.received[i] = NULL;
+    pc->phs.variant[i] = -1;
+  }
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+static void free_packet_hashes(struct connection *pc)
+{
+  int i;
+
+  for (i = 0; i < PACKET_LAST; i++) {
+    if (pc->phs.sent[i] != NULL) {
+      struct hash_table *hash = pc->phs.sent[i];
+      while (hash_num_entries(hash) > 0) {
+	const void *key = hash_key_by_number(hash, 0);
+	hash_delete_entry(hash, key);
+	free((void *) key);
+      }
+      hash_free(hash);
+      pc->phs.sent[i] = NULL;
+    }
+    if (pc->phs.received[i] != NULL) {
+      struct hash_table *hash = pc->phs.received[i];
+      while (hash_num_entries(hash) > 0) {
+	const void *key = hash_key_by_number(hash, 0);
+	hash_delete_entry(hash, key);
+	free((void *) key);
+      }
+      hash_free(hash);
+      pc->phs.received[i] = NULL;
+    }
+  }
+  free(pc->phs.sent);
+  pc->phs.sent = NULL;
+  free(pc->phs.received);
+  pc->phs.received = NULL;
+  free(pc->phs.variant);
+  pc->phs.variant = NULL;
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+void connection_common_init(struct connection *pconn)
+{
+  pconn->established = FALSE;
+  pconn->used = TRUE;
+  pconn->last_write = 0;
+  pconn->buffer = new_socket_packet_buffer();
+  pconn->send_buffer = new_socket_packet_buffer();
+  pconn->statistics.bytes_send = 0;
+
+  init_packet_hashs(pconn);
+
+#ifdef USE_COMPRESSION
+  pconn->compression.frozen_level = 0;
+  pconn->compression.queued_packets = NULL;
+  pconn->compression.queue_size = 0;
+#endif
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+void connection_common_close(struct connection *pconn)
+{
+  my_closesocket(pconn->sock);
+  pconn->used = FALSE;
+  pconn->established = FALSE;
+
+  free_socket_packet_buffer(pconn->buffer);
+  pconn->buffer = NULL;
+
+  free_socket_packet_buffer(pconn->send_buffer);
+  pconn->send_buffer = NULL;
+
+  free_compression_queue(pconn);
+  free_packet_hashes(pconn);
+}
+

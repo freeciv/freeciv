@@ -20,6 +20,8 @@
 #include "log.h"
 #include "support.h"
 
+#include <assert.h>
+
 #include "agents.h"
 #include "chatline_common.h"
 #include "cityrep_g.h"
@@ -353,7 +355,6 @@ void clipboard_paste_production(struct city *pcity)
 **************************************************************************/
 static void clipboard_send_production_packet(struct city *pcity)
 {
-  struct packet_city_request packet;
   cid mycid = cid_encode(clipboard_is_unit, clipboard);
 
   if (mycid == cid_encode_from_city(pcity)
@@ -361,12 +362,8 @@ static void clipboard_send_production_packet(struct city *pcity)
     return;
   }
 
-  packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
-  packet.build_id = clipboard;
-  packet.is_build_id_unit_id = clipboard_is_unit;
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  dsend_packet_city_change(&aconnection, pcity->id, clipboard,
+			   clipboard_is_unit);
 }
 
 /**************************************************************************
@@ -457,7 +454,6 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {
   int map_x, map_y, city_x, city_y;
   struct city *pcity;
-  struct packet_city_request packet;
   enum city_tile_type worker;
 
   if (can_client_issue_orders()) {
@@ -468,17 +464,13 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 	  assert(0);
 	}
 
-	packet.city_id = pcity->id;
-	packet.worker_x = city_x;
-	packet.worker_y = city_y;
-
 	worker = get_worker_city(pcity, city_x, city_y);
 	if (worker == C_TILE_WORKER) {
-	  send_packet_city_request(&aconnection, &packet,
-				   PACKET_CITY_MAKE_SPECIALIST);
+	  dsend_packet_city_make_specialist(&aconnection, pcity->id, city_x,
+					    city_y);
 	} else if (worker == C_TILE_EMPTY) {
-	  send_packet_city_request(&aconnection, &packet,
-				   PACKET_CITY_MAKE_WORKER);
+	  dsend_packet_city_make_worker(&aconnection, pcity->id, city_x,
+					city_y);
 	} else {
 	  /* If worker == C_TILE_UNAVAILABLE then we can't use this tile.  No
 	   * packet is sent and city_workers_display is not updated. */

@@ -32,13 +32,7 @@
 **************************************************************************/
 void send_chat(const char *message)
 {
-  struct packet_generic_message apacket;
-
-  mystrlcpy(apacket.message, message, MAX_LEN_MSG - MAX_LEN_USERNAME + 1);
-  apacket.x = apacket.y = -1;
-  apacket.event = 0; /* ? */
-
-  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+  dsend_packet_chat_msg_req(&aconnection, message);
 }
 
 static int frozen_level = 0;

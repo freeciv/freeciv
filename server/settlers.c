@@ -66,14 +66,11 @@ static int city_desirability(struct player *pplayer, int x, int y);
 **************************************************************************/
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
-  int x = punit->x;
-  int y = punit->y;
-  struct packet_unit_request req;
+  int x = punit->x, y = punit->y;
   struct city *pcity;
 
-  req.unit_id = punit->id;
-  sz_strlcpy(req.name, city_name_suggestion(pplayer, x, y));
-  handle_unit_build_city(pplayer, &req);
+  handle_unit_build_city(pplayer, punit->id,
+			 city_name_suggestion(pplayer, x, y));
   pcity = map_get_city(x, y);
   if (!pcity) {
     freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 

@@ -336,13 +336,10 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
         real_limit = pplayer->ai.est_upkeep;
       }
       if (pplayer->economic.gold - cost > real_limit) {
-        struct packet_unit_request packet;
-        packet.unit_id = punit->id;
-        packet.city_id = pcity->id;
         CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
                  unit_type(punit)->name, unit_types[id].name, cost,
                  military ? "military" : "civilian");
-        handle_unit_upgrade_request(city_owner(pcity), &packet);
+        handle_unit_upgrade(city_owner(pcity), punit->id);
       } else {
         increase_maxbuycost(pplayer, cost);
       }
@@ -367,11 +364,9 @@ static void ai_spend_gold(struct player *pplayer)
       if (unit_has_role(punit->type, L_EXPLORER)
           && pcity->id == punit->homecity
           && pcity->ai.urgency == 0) {
-        struct packet_unit_request packet;
-        packet.unit_id = punit->id;
         CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
                  unit_name(punit->type));
-        handle_unit_disband(pplayer, &packet);
+	handle_unit_disband(pplayer,punit->id);
       }
     } unit_list_iterate_end;
   } city_list_iterate_end;
@@ -692,11 +687,8 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     if (city_unhappy(pcity)
         && punit->unhappiness != 0
         && punit->ai.passenger == 0) {
-      struct packet_unit_request pack;
-
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
-      pack.unit_id = punit->id;
-      handle_unit_disband(pplayer, &pack);
+      handle_unit_disband(pplayer, punit->id);
       city_refresh(pcity);
     }
   } unit_list_iterate_end;

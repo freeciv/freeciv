@@ -422,20 +422,20 @@ void city_chgall_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void city_refresh_callback(Widget w, XtPointer client_data, XtPointer call_data)
-{ /* added by Syela - I find this very useful */
-  XawListReturnStruct *ret=XawListShowCurrent(city_list);
-  struct city *pcity;
-  struct packet_generic_integer packet;
+void city_refresh_callback(Widget w, XtPointer client_data,
+			   XtPointer call_data)
+{
+  /* added by Syela - I find this very useful */
+  XawListReturnStruct *ret = XawListShowCurrent(city_list);
 
-  if (ret->list_index!=XAW_LIST_NONE) {
-    if ((pcity=cities_in_list[ret->list_index])) {
-      packet.value = pcity->id;
-      send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+  if (ret->list_index != XAW_LIST_NONE) {
+    struct city *pcity = cities_in_list[ret->list_index];
+
+    if (pcity) {
+      dsend_packet_city_refresh(&aconnection, pcity->id);
     }
   } else {
-    packet.value = 0;
-    send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+    dsend_packet_city_refresh(&aconnection, 0);
   }
 }
 

@@ -707,8 +707,8 @@ void get_a_tech(struct player *pplayer, struct player *target)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_rates(struct player *pplayer, 
-                         struct packet_player_request *preq)
+void handle_player_rates(struct player *pplayer, int tax, int luxury,
+			 int science)
 {
   int maxrate;
 
@@ -719,29 +719,31 @@ void handle_player_rates(struct player *pplayer,
     return;
   }
 	
-  if (preq->tax+preq->luxury+preq->science!=100)
+  if (tax + luxury + science != 100) {
     return;
-  if (preq->tax<0 || preq->tax >100) return;
-  if (preq->luxury<0 || preq->luxury > 100) return;
-  if (preq->science<0 || preq->science >100) return;
+  }
+  if (tax < 0 || tax > 100 || luxury < 0 || luxury > 100 || science < 0
+      || science > 100) {
+    return;
+  }
   maxrate=get_government_max_rate (pplayer->government);
-  if (preq->tax>maxrate || preq->luxury>maxrate || preq->science>maxrate) {
+  if (tax > maxrate || luxury > maxrate || science > maxrate) {
     char *rtype;
-    if (preq->tax > maxrate)
+
+    if (tax > maxrate)
       rtype = _("Tax");
-    else if (preq->luxury > maxrate)
+    else if (luxury > maxrate)
       rtype = _("Luxury");
     else
       rtype = _("Science");
     notify_player(pplayer, _("Game: %s rate exceeds the max rate for %s."),
                   rtype, get_government_name(pplayer->government));
   } else {
-    pplayer->economic.tax=preq->tax;
-    pplayer->economic.luxury=preq->luxury;
-    pplayer->economic.science=preq->science;
+    pplayer->economic.tax = tax;
+    pplayer->economic.luxury = luxury;
+    pplayer->economic.science = science;
     gamelog(GAMELOG_EVERYTHING, _("RATE CHANGE: %s %i %i %i"),
-	    get_nation_name_plural(pplayer->nation), preq->tax, preq->luxury,
-	    preq->science);
+	    get_nation_name_plural(pplayer->nation), tax, luxury, science);
     conn_list_do_buffer(&pplayer->connections);
     global_city_refresh(pplayer);
     send_player_info(pplayer, pplayer);
@@ -752,46 +754,43 @@ void handle_player_rates(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_research(struct player *pplayer,
-			    struct packet_player_request *preq)
+void handle_player_research(struct player *pplayer, int tech)
 {
-  choose_tech(pplayer, preq->tech);
+  choose_tech(pplayer, tech);
   send_player_info(pplayer, pplayer);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_tech_goal(struct player *pplayer,
-			    struct packet_player_request *preq)
+void handle_player_tech_goal(struct player *pplayer, int tech)
 {
-  choose_tech_goal(pplayer, preq->tech);
+  choose_tech_goal(pplayer, tech);
   send_player_info(pplayer, pplayer);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_player_government(struct player *pplayer,
-			     struct packet_player_request *preq)
+void handle_player_government(struct player *pplayer, int government)
 {
   if (pplayer->government != game.government_when_anarchy ||
-      preq->government < 0 || preq->government >= game.government_count ||
-      !can_change_to_government(pplayer, preq->government)) {
+      government < 0 || government >= game.government_count ||
+      !can_change_to_government(pplayer, government)) {
     return;
   }
 
   if((pplayer->revolution<=5) && (pplayer->revolution>0))
     return;
 
-  pplayer->government=preq->government;
+  pplayer->government = government;
   notify_player(pplayer, _("Game: %s now governs the %s as a %s."), 
 		pplayer->name, 
   	        get_nation_name_plural(pplayer->nation),
-		get_government_name(preq->government));  
+		get_government_name(government));  
   gamelog(GAMELOG_GOVERNMENT, _("%s form a %s"),
 	  get_nation_name_plural(pplayer->nation),
-	  get_government_name(preq->government));
+	  get_government_name(government));
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -878,23 +877,22 @@ void check_player_government_rates(struct player *pplayer)
     a pact treaty type, we break one pact level. If it is CLAUSE_LAST
     we break _all_ treaties and go straight to war.
 **************************************************************************/
-void handle_player_cancel_pact(struct player *pplayer,
-                               struct packet_generic_values *packet)
+void handle_diplomacy_cancel_pact(struct player *pplayer,
+				  int other_player_id,
+				  enum clause_type clause)
 {
   enum diplstate_type old_type;
   enum diplstate_type new_type;
   struct player *pplayer2;
   int reppenalty = 0;
   bool has_senate, repeat = FALSE;
-  int other_player = packet->id;
-  int clause = packet->value1;
 
-  if (other_player < 0 || other_player >= game.nplayers) {
+  if (!is_valid_player_id(other_player_id)) {
     return;
   }
 
-  old_type = pplayer->diplstates[other_player].type;
-  pplayer2 = get_player(other_player);
+  old_type = pplayer->diplstates[other_player_id].type;
+  pplayer2 = get_player(other_player_id);
   has_senate = government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
 
   /* can't break a pact with yourself */
@@ -1028,17 +1026,13 @@ repeat_break_treaty:
         && (pplayer->team == TEAM_NONE || pplayer->team != pplayer2->team)
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && !pplayers_at_war(pplayer, other)) {
-      struct packet_generic_values packet;
-
       /* A declaration of war by A against B also means A declares
        * war against all of B's allies. Yes, A gets the blame. */
-      packet.id = other->player_no;
-      packet.value1 = CLAUSE_LAST;
       notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
 		       _("Game: %s has attacked one of your allies! "
                          "The alliance brings you into the war as well."),
                        pplayer->name);
-      handle_player_cancel_pact(pplayer, &packet);
+      handle_diplomacy_cancel_pact(pplayer, other->player_no, CLAUSE_LAST);
     }
   } players_iterate_end;
 }
@@ -1057,7 +1051,7 @@ void vnotify_conn_ex(struct conn_list *dest, int x, int y,
 		     enum event_type event, const char *format,
 		     va_list vargs)
 {
-  struct packet_generic_message genmsg;
+  struct packet_chat_msg genmsg;
   
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, vargs);
   genmsg.event = event;
@@ -1075,7 +1069,7 @@ void vnotify_conn_ex(struct conn_list *dest, int x, int y,
       genmsg.x = -1;
       genmsg.y = -1;
     }
-    send_packet_generic_message(pconn, PACKET_CHAT_MSG, &genmsg);
+    send_packet_chat_msg(pconn, &genmsg);
   }
   conn_list_iterate_end;
 }
@@ -1153,7 +1147,7 @@ void notify_player(const struct player *pplayer, const char *format, ...)
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...) 
 {
-  struct packet_generic_message genmsg;
+  struct packet_chat_msg genmsg;
   va_list args;
   va_start(args, format);
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
@@ -1166,8 +1160,7 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
     if (player_has_embassy(other_player, pplayer)
 	&& exclude != other_player
         && pplayer != other_player) {
-      lsend_packet_generic_message(&other_player->connections,
-				   PACKET_CHAT_MSG, &genmsg);
+      lsend_packet_chat_msg(&other_player->connections, &genmsg);
     }
   } players_iterate_end;
 }
@@ -1413,8 +1406,6 @@ void server_player_init(struct player *pplayer, bool initmap)
 ***********************************************************************/
 void server_remove_player(struct player *pplayer)
 {
-  struct packet_generic_integer pack;
-
   /* Not allowed after a game has started */
   if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
 			     server_state==SELECT_RACES_STATE))) {
@@ -1427,9 +1418,7 @@ void server_remove_player(struct player *pplayer)
   notify_conn(&game.est_connections,
 	      _("Game: %s has been removed from the game."), pplayer->name);
   
-  pack.value=pplayer->player_no;
-  lsend_packet_generic_integer(&game.game_connections,
-			       PACKET_REMOVE_PLAYER, &pack);
+  dlsend_packet_player_remove(&game.game_connections, pplayer->player_no);
 
   /* Note it is ok to remove the _current_ item in a list_iterate. */
   conn_list_iterate(pplayer->connections, pconn) {
@@ -1898,9 +1887,10 @@ void civil_war(struct player *pplayer)
  The client has send as a chunk of the attribute block.
 **************************************************************************/
 void handle_player_attribute_chunk(struct player *pplayer,
-				   struct packet_attribute_chunk *chunk)
+				   struct packet_player_attribute_chunk
+				   *chunk)
 {
-  generic_handle_attribute_chunk(pplayer, chunk);
+  generic_handle_player_attribute_chunk(pplayer, chunk);
 }
 
 /**************************************************************************
@@ -1910,3 +1900,17 @@ void handle_player_attribute_block(struct player *pplayer)
 {
   send_attribute_block(pplayer, pplayer->current_conn);
 }
+
+/**************************************************************************
+...
+(Hmm, how should "turn done" work for multi-connected non-observer players?)
+**************************************************************************/
+void handle_player_turn_done(struct player *pplayer)
+{
+  pplayer->turn_done = TRUE;
+
+  check_for_full_turn_done();
+
+  send_player_info(pplayer, NULL);
+}
+

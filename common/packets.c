@@ -15,20 +15,20 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+#include <limits.h>
 
-#ifdef HAVE_ARPA_INET_H
-#include <arpa/inet.h>
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
 #endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
@@ -38,12 +38,40 @@
 #include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
+#include "map.h"
 #include "mem.h"
 #include "support.h"
 
 #include "packets.h"
 
+#ifdef USE_COMPRESSION
+#include <zlib.h>
+/*
+ * Value for the 16bit size to indicate a jumbo packet
+ */
+#define JUMBO_SIZE		0xffff
+
+/*
+ * All values 0<=size<COMPRESSION_BORDER are uncompressed packets.
+ */
+#define COMPRESSION_BORDER	(16*1024+1)
+
+/*
+ * All compressed packets over this size are sent as a jumbo packet.
+ */
+#define JUMBO_BORDER 		(64*1024-COMPRESSION_BORDER-1)
+#endif
+
+#define BASIC_PACKET_LOG_LEVEL	LOG_DEBUG
+#define COMPRESS_LOG_LEVEL	LOG_DEBUG
+#define COMPRESS2_LOG_LEVEL	LOG_DEBUG
+
+/* 
+ * Valid values are 0, 1 and 2. For 2 you have to set generate_stats
+ * to 1 in generate_packets.py.
+ */
 #define PACKET_SIZE_STATISTICS 0
 
 /********************************************************************** 
@@ -63,56 +91,18 @@
     o check in configure for ints with size others than 4
     o write real put functions and check for the limit
 ***********************************************************************/
-#define SEND_PACKET_START(type) \
-  unsigned char buffer[MAX_LEN_PACKET]; \
-  struct data_out dout; \
-  \
-  dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_uint16(&dout, 0); \
-  dio_put_uint8(&dout, type);
-
-#define SEND_PACKET_END \
-  { \
-    size_t size = dio_output_used(&dout); \
-    \
-    dio_output_rewind(&dout); \
-    dio_put_uint16(&dout, size); \
-    return send_packet_data(pc, buffer, size); \
-  }
-
-#define RECEIVE_PACKET_START(type, result) \
-  struct data_in din; \
-  struct type *result = fc_malloc(sizeof(*result)); \
-  \
-  dio_input_init(&din, pc->buffer->data, 2); \
-  { \
-    int size; \
-  \
-    dio_get_uint16(&din, &size); \
-    dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
-  } \
-  dio_get_uint16(&din, NULL); \
-  dio_get_uint8(&din, NULL);
-
-#define RECEIVE_PACKET_END(result) \
-  check_packet(&din, pc); \
-  remove_packet_from_buffer(pc->buffer); \
-  return result;
-
-static int send_packet_data(struct connection *pc, unsigned char *data,
-			    int len);
 
 /**************************************************************************
 It returns the request id of the outgoing packet or 0 if the packet
 was no request (i.e. server sends packet).
 **************************************************************************/
-static int send_packet_data(struct connection *pc, unsigned char *data,
-			    int len)
+int send_packet_data(struct connection *pc, unsigned char *data, int len)
 {
   /* default for the server */
   int result = 0;
 
-  freelog(LOG_DEBUG, "sending packet type=%d len=%d", data[2], len);
+  freelog(BASIC_PACKET_LOG_LEVEL, "sending packet type=%s(%d) len=%d",
+	  get_packet_name(data[2]), data[2], len);
 
   if (!is_server) {
     pc->client.last_request_id_used =
@@ -125,6 +115,108 @@ static int send_packet_data(struct connection *pc, unsigned char *data,
     pc->outgoing_packet_notify(pc, data[2], len, result);
   }
 
+#ifdef USE_COMPRESSION
+  if(TRUE) {
+    static int stat_size_alone, stat_size_uncompressed, stat_size_compressed,
+	stat_size_no_compression;
+    static bool compression_level_initialized = FALSE;
+    static int compression_level;
+    int packet_type = data[2];
+    int size = len;
+
+    if (!compression_level_initialized) {
+      char *s = getenv("FREECIV_COMPRESSION_LEVEL");
+      if (!s || sscanf(s, "%d", &compression_level) != 1
+	  || compression_level < -1 || compression_level > 9) {
+	compression_level = -1;
+      }
+      compression_level_initialized = TRUE;
+    }
+
+    if (packet_type == PACKET_PROCESSING_STARTED
+	|| packet_type == PACKET_FREEZE_HINT) {
+      if (pc->compression.frozen_level == 0) {
+	free_compression_queue(pc);
+      }
+      pc->compression.frozen_level++;
+    }
+
+    if (pc->compression.frozen_level > 0) {
+      size_t new_size = pc->compression.queue_size + size;
+      pc->compression.queued_packets = fc_realloc(pc->compression.queued_packets, new_size);
+      memcpy(ADD_TO_POINTER(pc->compression.queued_packets, pc->compression.queue_size), data, len);
+      pc->compression.queue_size = new_size;
+      freelog(COMPRESS2_LOG_LEVEL, "COMPRESS: putting %s into the queue",
+	      get_packet_name(packet_type));
+    } else {
+      stat_size_alone += size;
+      freelog(COMPRESS_LOG_LEVEL, "COMPRESS: sending %s alone (%d bytes total)",
+	      get_packet_name(packet_type), stat_size_alone);
+      send_connection_data(pc, data, len);
+    }
+
+    if (packet_type ==
+	PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT) {
+      pc->compression.frozen_level--;
+      if (pc->compression.frozen_level == 0) {
+	long int compressed_size = 12 + pc->compression.queue_size * 1.001;
+	int error;
+	void *compressed = fc_malloc(compressed_size);
+
+	error =
+	    compress2(compressed, &compressed_size,
+		      pc->compression.queued_packets,
+		      pc->compression.queue_size, compression_level);
+	assert(error == Z_OK);
+	if (compressed_size + 2 < pc->compression.queue_size) {
+	    struct data_out dout;
+
+	  freelog(COMPRESS_LOG_LEVEL,
+		  "COMPRESS: compressed %d bytes to %ld (level %d)",
+		  pc->compression.queue_size, compressed_size,
+		  compression_level);
+	  stat_size_uncompressed += pc->compression.queue_size;
+	  stat_size_compressed += compressed_size;
+
+	  if (compressed_size <= JUMBO_BORDER) {
+	    unsigned char header[2];
+
+	    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: sending %ld as normal",
+		    compressed_size);
+
+	    dio_output_init(&dout, header, sizeof(header));
+	    dio_put_uint16(&dout, 2 + compressed_size + COMPRESSION_BORDER);
+	    send_connection_data(pc, header, sizeof(header));
+	    send_connection_data(pc, compressed, compressed_size);
+	  } else {
+	    unsigned char header[6];
+
+	    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: sending %ld as jumbo",
+		    compressed_size);
+	    dio_output_init(&dout, header, sizeof(header));
+	    dio_put_uint16(&dout, JUMBO_SIZE);
+	    dio_put_uint32(&dout, 6 + compressed_size);
+	    send_connection_data(pc, header, sizeof(header));
+	    send_connection_data(pc, compressed, compressed_size);
+	  }
+	} else {
+	  freelog(COMPRESS_LOG_LEVEL,
+		  "COMPRESS: would enlarging %d bytes to %ld; sending uncompressed",
+		  pc->compression.queue_size, compressed_size);
+	  send_connection_data(pc, pc->compression.queued_packets, pc->compression.queue_size);
+	  stat_size_no_compression += pc->compression.queue_size;
+	}
+      }
+    }
+    freelog(COMPRESS2_LOG_LEVEL,
+	    "COMPRESS: STATS: alone=%d compression-expand=%d compression (before/after) = %d/%d",
+	    stat_size_alone, stat_size_no_compression,
+	    stat_size_uncompressed, stat_size_compressed);
+  }
+#else
+  send_connection_data(pc, data, len);
+#endif
+
 #if PACKET_SIZE_STATISTICS
   {
     static struct {
@@ -132,9 +224,13 @@ static int send_packet_data(struct connection *pc, unsigned char *data,
       int size;
     } packets_stats[PACKET_LAST];
     static int packet_counter = 0;
+    static int last_start_turn_seen = -1;
+    static bool start_turn_seen = FALSE;
 
     int packet_type = data[2];
     int size = len;
+    bool print = FALSE;
+    bool clear = FALSE;
 
     if (!packet_counter) {
       int i;
@@ -149,31 +245,61 @@ static int send_packet_data(struct connection *pc, unsigned char *data,
     packets_stats[packet_type].size += size;
 
     packet_counter++;
-    if ((!is_server && (packet_counter % 10 == 0))
-	|| (is_server && (packet_counter % 1000 == 0))) {
-      int i, sum = 0;
+    if (packet_type == PACKET_START_TURN
+	&& last_start_turn_seen != game.turn) {
+	start_turn_seen=TRUE;
+      last_start_turn_seen = game.turn;
+    }
 
-      freelog(LOG_NORMAL, "Transmitted packets:");
+    if ((packet_type ==
+	 PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT)
+	&& start_turn_seen) {
+      start_turn_seen = FALSE;
+      print = TRUE;
+      clear = TRUE;
+    }
+
+    if(print) {
+      int i, sum = 0;
+      int ll = LOG_DEBUG;
+
+#if PACKET_SIZE_STATISTICS == 2
+      delta_stats_report();
+#endif
+      freelog(ll, "Transmitted packets:");
+      freelog(ll, "%8s %8s %8s %s", "Packets", "Bytes",
+	      "Byt/Pac", "Name");
+
       for (i = 0; i < PACKET_LAST; i++) {
-	if (packets_stats[i].counter == 0)
+	if (packets_stats[i].counter == 0) {
 	  continue;
+	}
 	sum += packets_stats[i].size;
-	freelog(LOG_NORMAL,
-		"  [%2d]: %6d packets; %8d bytes total; "
-		"%5d bytes/packet average",
-		i, packets_stats[i].counter,
-		packets_stats[i].size,
-		packets_stats[i].size / packets_stats[i].counter);
+	freelog(ll, "%8d %8d %8d %s(%i)",
+		packets_stats[i].counter, packets_stats[i].size,
+		packets_stats[i].size / packets_stats[i].counter,
+		get_packet_name(i),i);
       }
       freelog(LOG_NORMAL,
-	      "transmitted %d bytes in %d packets;average size "
-	      "per packet %d bytes",
-	      sum, packet_counter, sum / packet_counter);
+	      "turn=%d; transmitted %d bytes in %d packets;average size "
+	      "per packet %d bytes", game.turn, sum, packet_counter,
+	      sum / packet_counter);
+      freelog(LOG_NORMAL, "turn=%d; transmitted %d bytes", game.turn,
+	      pc->statistics.bytes_send);
+    }    
+    if (clear) {
+      int i;
+
+      for (i = 0; i < PACKET_LAST; i++) {
+	packets_stats[i].counter = 0;
+	packets_stats[i].size = 0;
+      }
+      packet_counter = 0;
+      pc->statistics.bytes_send = 0;
+      delta_stats_reset();
     }
   }
 #endif
-
-  send_connection_data(pc, data, len);
 
   return result;
 }
@@ -186,43 +312,119 @@ return a NULL packet even if everything is OK (receive_packet_goto_route).
 void *get_packet_from_connection(struct connection *pc,
 				 enum packet_type *ptype, bool * presult)
 {
-  int len, i;
+  int len_read;
+  int whole_packet_len;
   enum packet_type type;
   struct data_in din;
+#ifdef USE_COMPRESSION
+  bool compressed_packet = FALSE;
+  int header_size = 0;
+#endif
 
   *presult = FALSE;
 
-  if (!pc->used)
+  if (!pc->used) {
     return NULL;		/* connection was closed, stop reading */
+  }
   
-  if(pc->buffer->ndata<3)
+  if (pc->buffer->ndata < 3) {
     return NULL;           /* length and type not read */
-
-  dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_uint16(&din, &len);
-  dio_get_uint8(&din, &i);
-  type = (enum packet_type) i; /* safe conversion from integer */
-
-  if(pc->first_packet) {
-    /* the first packet better be short: */
-    freelog(LOG_DEBUG, "first packet type %d len %d", type, len);
-    pc->first_packet = FALSE;
   }
 
-  if (len > pc->buffer->ndata) {
+  dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
+  dio_get_uint16(&din, &len_read);
+
+  /* The non-compressed case */
+  whole_packet_len = len_read;
+
+#ifdef USE_COMPRESSION
+  if (len_read == JUMBO_SIZE) {
+    compressed_packet = TRUE;
+    header_size = 6;
+    if (dio_input_remaining(&din) >= 4) {
+      dio_get_uint32(&din, &whole_packet_len);
+      freelog(COMPRESS_LOG_LEVEL, "COMPRESS: got a jumbo packet of size %d", whole_packet_len);
+    } else {
+      /* to return NULL below */
+      whole_packet_len = 6;
+    }
+  } else if (len_read >= COMPRESSION_BORDER) {
+    compressed_packet = TRUE;
+    header_size = 2;
+    whole_packet_len = len_read - COMPRESSION_BORDER;
+    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: got a normal packet of size %d", whole_packet_len);
+  }
+#endif
+
+  if (whole_packet_len > pc->buffer->ndata) {
     return NULL;		/* not all data has been read */
   }
 
-  freelog(LOG_DEBUG, "got packet type=%d len=%d", type, len);
+#ifdef USE_COMPRESSION
+  if (compressed_packet) {
+    int compressed_size = whole_packet_len - header_size;
+    /* 
+     * We don't know the decompressed size. We assume a bad case
+     * here: an expansion by an factor of 100. 
+     */
+    long int decompressed_size = 100 * compressed_size;
+    void *decompressed = fc_malloc(decompressed_size);
+    int error;
+    struct socket_packet_buffer *buffer = pc->buffer;
+    
+    error =
+	uncompress(decompressed, &decompressed_size,
+		   ADD_TO_POINTER(buffer->data, header_size), 
+		   compressed_size);
+    assert(error == Z_OK);
+
+    buffer->ndata -= whole_packet_len;
+    /* 
+     * Remove the packet with the compressed data and shift all the
+     * remaining data to the front. 
+     */
+    memmove(buffer->data, buffer->data + whole_packet_len, buffer->ndata);
+
+    if (buffer->ndata + decompressed_size > buffer->nsize) {
+      buffer->nsize += decompressed_size;
+      buffer->data = fc_realloc(buffer->data, buffer->nsize);
+    }
+
+    /*
+     * Make place for the uncompressed data by moving the remaining
+     * data.
+     */
+    memmove(buffer->data + decompressed_size, buffer->data, buffer->ndata);
+
+    /* 
+     * Copy the uncompressed data.
+     */
+    memcpy(buffer->data, decompressed, decompressed_size);
+
+    free(decompressed);
+
+    buffer->ndata += decompressed_size;
+    
+    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: decompressed %d into %ld",
+	    compressed_size, decompressed_size);
+
+    return get_packet_from_connection(pc, ptype, presult);
+  }
+#endif
+
+  dio_get_uint8(&din, (int *) &type);
+
+  freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d",
+	  get_packet_name(type), type, whole_packet_len);
 
   *ptype=type;
   *presult = TRUE;
 
   if (pc->incoming_packet_notify) {
-    pc->incoming_packet_notify(pc, type, len);
+    pc->incoming_packet_notify(pc, type, whole_packet_len);
   }
 
-#if PACKET_SIZE_STATISTICS
+#if PACKET_SIZE_STATISTICS 
   {
     static struct {
       int counter;
@@ -256,9 +458,9 @@ void *get_packet_from_connection(struct connection *pc,
 	  continue;
 	sum += packets_stats[i].size;
 	freelog(LOG_NORMAL,
-		"  [%2d]: %6d packets; %8d bytes total; "
+		"  [%-25.25s %3d]: %6d packets; %8d bytes total; "
 		"%5d bytes/packet average",
-		i, packets_stats[i].counter,
+		get_packet_name(i), i, packets_stats[i].counter,
 		packets_stats[i].size,
 		packets_stats[i].size / packets_stats[i].counter);
       }
@@ -269,207 +471,7 @@ void *get_packet_from_connection(struct connection *pc,
     }
   }
 #endif
-
-  switch(type) {
-
-  case PACKET_LOGIN_REQUEST:
-    return receive_packet_login_request(pc);
-
-  case PACKET_LOGIN_REPLY:
-    return receive_packet_login_reply(pc);
-
-  case PACKET_AUTHENTICATION_REQUEST:
-   return receive_packet_authentication_request(pc);
-
-  case PACKET_AUTHENTICATION_REPLY:
-   return receive_packet_authentication_reply(pc);
-
-  case PACKET_SERVER_SHUTDOWN:
-    return receive_packet_generic_message(pc);
-
-  case PACKET_UNIT_INFO:
-    return receive_packet_unit_info(pc);
-
-  case PACKET_SHORT_UNIT:
-    return receive_packet_short_unit(pc);
-
-  case PACKET_CITY_INFO:
-    return receive_packet_city_info(pc);
-
-  case PACKET_SHORT_CITY:
-    return receive_packet_short_city(pc);
-
-  case PACKET_MOVE_UNIT:
-    return receive_packet_move_unit(pc);
-
-  case PACKET_TURN_DONE:
-    return receive_packet_generic_message(pc);
-
-  case PACKET_CONN_PING:
-  case PACKET_CONN_PONG:
-  case PACKET_BEFORE_NEW_YEAR:
-  case PACKET_PROCESSING_STARTED:
-  case PACKET_PROCESSING_FINISHED:
-  case PACKET_START_TURN:
-  case PACKET_SELECT_NATION_OK:
-  case PACKET_FREEZE_HINT:
-  case PACKET_THAW_HINT:
-    return receive_packet_generic_empty(pc);
-
-  case PACKET_NEW_YEAR:
-    return receive_packet_new_year(pc);
-
-  case PACKET_TILE_INFO:
-    return receive_packet_tile_info(pc);
-
-  case PACKET_SELECT_NATION:
-    return receive_packet_nations_used(pc);
-
-  case PACKET_REMOVE_UNIT:
-  case PACKET_REMOVE_CITY:
-  case PACKET_GAME_STATE:
-  case PACKET_REPORT_REQUEST:
-  case PACKET_REMOVE_PLAYER:  
-  case PACKET_CITY_REFRESH:
-  case PACKET_INCITE_INQ:
-  case PACKET_CITY_NAME_SUGGEST_REQ:
-    return receive_packet_generic_integer(pc);
-
-  case PACKET_PLAYER_CANCEL_PACT:
-    return receive_packet_generic_values(pc);
-
-  case PACKET_ALLOC_NATION:
-    return receive_packet_alloc_nation(pc);
-
-  case PACKET_SHOW_MESSAGE:
-    return receive_packet_generic_message(pc);
-
-  case PACKET_PLAYER_INFO:
-    return receive_packet_player_info(pc);
-
-  case PACKET_GAME_INFO:
-    return receive_packet_game_info(pc);
-
-  case PACKET_MAP_INFO:
-    return receive_packet_map_info(pc);
-
-  case PACKET_CHAT_MSG:
-  case PACKET_PAGE_MSG:
-    return receive_packet_generic_message(pc);
-    
-  case PACKET_CITY_SELL:
-  case PACKET_CITY_BUY:
-  case PACKET_CITY_CHANGE:
-  case PACKET_CITY_WORKLIST:
-  case PACKET_CITY_MAKE_SPECIALIST:
-  case PACKET_CITY_MAKE_WORKER:
-  case PACKET_CITY_CHANGE_SPECIALIST:
-  case PACKET_CITY_RENAME:
-    return receive_packet_city_request(pc);
-
-  case PACKET_PLAYER_RATES:
-  case PACKET_PLAYER_REVOLUTION:
-  case PACKET_PLAYER_GOVERNMENT:
-  case PACKET_PLAYER_RESEARCH:
-  case PACKET_PLAYER_TECH_GOAL:
-  case PACKET_PLAYER_ATTRIBUTE_BLOCK:
-    return receive_packet_player_request(pc);
-
-  case PACKET_UNIT_BUILD_CITY:
-  case PACKET_UNIT_DISBAND:
-  case PACKET_UNIT_CHANGE_HOMECITY:
-  case PACKET_UNIT_ESTABLISH_TRADE:
-  case PACKET_UNIT_HELP_BUILD_WONDER:
-  case PACKET_UNIT_GOTO_TILE:
-  case PACKET_UNIT_AUTO:
-  case PACKET_UNIT_UNLOAD:
-  case PACKET_UNIT_UPGRADE:
-  case PACKET_UNIT_NUKE:
-  case PACKET_UNIT_PARADROP_TO:
-    return receive_packet_unit_request(pc);
-  case PACKET_UNIT_CONNECT:
-    return receive_packet_unit_connect(pc);
-  case PACKET_UNITTYPE_UPGRADE:
-    return receive_packet_unittype_info(pc);
-  case PACKET_UNIT_COMBAT:
-    return receive_packet_unit_combat(pc);
-  case PACKET_NUKE_TILE:
-    return receive_packet_nuke_tile(pc);
-  case PACKET_DIPLOMAT_ACTION:
-    return receive_packet_diplomat_action(pc);
-
-  case PACKET_DIPLOMACY_INIT_MEETING:
-  case PACKET_DIPLOMACY_CREATE_CLAUSE:
-  case PACKET_DIPLOMACY_REMOVE_CLAUSE:
-  case PACKET_DIPLOMACY_CANCEL_MEETING:
-  case PACKET_DIPLOMACY_ACCEPT_TREATY:
-  case PACKET_DIPLOMACY_SIGN_TREATY:
-    return receive_packet_diplomacy_info(pc);
-
-  case PACKET_INCITE_COST:
-  case PACKET_CITY_OPTIONS:
-    return receive_packet_generic_values(pc);
-
-  case PACKET_RULESET_CONTROL:
-    return receive_packet_ruleset_control(pc);
-  case PACKET_RULESET_TECH:
-    return receive_packet_ruleset_tech(pc);
-  case PACKET_RULESET_UNIT:
-    return receive_packet_ruleset_unit(pc);
-  case PACKET_RULESET_BUILDING:
-    return receive_packet_ruleset_building(pc);
-  case PACKET_RULESET_TERRAIN:
-    return receive_packet_ruleset_terrain(pc);
-  case PACKET_RULESET_TERRAIN_CONTROL:
-    return receive_packet_ruleset_terrain_control(pc);
-  case PACKET_RULESET_GOVERNMENT:
-    return receive_packet_ruleset_government(pc);
-  case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
-    return receive_packet_ruleset_government_ruler_title(pc);
-  case PACKET_RULESET_NATION:
-    return receive_packet_ruleset_nation(pc);
-  case PACKET_RULESET_CITY:
-    return receive_packet_ruleset_city(pc);
-  case PACKET_RULESET_GAME:
-    return receive_packet_ruleset_game(pc);
-
-  case PACKET_SPACESHIP_INFO:
-    return receive_packet_spaceship_info(pc);
-
-  case PACKET_SPACESHIP_ACTION:
-    return receive_packet_spaceship_action(pc);
-    
-  case PACKET_CITY_NAME_SUGGESTION:
-    return receive_packet_city_name_suggestion(pc);
-
-  case PACKET_SABOTAGE_LIST:
-    return receive_packet_sabotage_list(pc);
-
-  case PACKET_CONN_INFO:
-    return receive_packet_conn_info(pc);
-
-  case PACKET_GOTO_ROUTE:
-  case PACKET_PATROL_ROUTE:
-    return receive_packet_goto_route(pc);
-
-  case PACKET_UNIT_AIRLIFT:
-    return receive_packet_unit_request(pc);
-
-  case PACKET_ATTRIBUTE_CHUNK:
-    return receive_packet_attribute_chunk(pc);
-
-  case PACKET_PING_INFO:
-    return receive_packet_ping_info(pc);
-    
-  case PACKET_ENDGAME_REPORT:
-    return receive_packet_endgame_report(pc);
-    
-  default:
-    freelog(LOG_ERROR, "unknown packet type %d received from %s",
-	    type, conn_description(pc));
-    remove_packet_from_buffer(pc->buffer);
-    return NULL;
-  };
+  return get_packet_from_connection_helper(pc, type);
 }
 
 /**************************************************************************
@@ -484,12 +486,14 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
   dio_get_uint16(&din, &len);
   memmove(buffer->data, buffer->data + len, buffer->ndata - len);
   buffer->ndata -= len;
+  freelog(LOG_DEBUG, "remove_packet_from_buffer: remove %d; remaining %d",
+	  len, buffer->ndata);
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static void check_packet(struct data_in *din, struct connection *pc)
+void check_packet(struct data_in *din, struct connection *pc)
 {
   size_t rem = dio_input_remaining(din);
 
@@ -531,2805 +535,13 @@ static void check_packet(struct data_in *din, struct connection *pc)
   }
 }
 
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
-			       const struct packet_diplomacy_info *packet)
-{
-  SEND_PACKET_START(pt);
-
-  dio_put_uint32(&dout, packet->plrno0);
-  dio_put_uint32(&dout, packet->plrno1);
-  dio_put_uint32(&dout, packet->plrno_from);
-  dio_put_uint32(&dout, packet->clause_type);
-  dio_put_uint32(&dout, packet->value);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_diplomacy_info *receive_packet_diplomacy_info(struct connection
-							    *pc)
-{
-  RECEIVE_PACKET_START(packet_diplomacy_info, preq);
-
-  dio_get_uint32(&din, &preq->plrno0);
-  dio_get_uint32(&din, &preq->plrno1);
-  dio_get_uint32(&din, &preq->plrno_from);
-  dio_get_uint32(&din, &preq->clause_type);
-  dio_get_uint32(&din, &preq->value);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_diplomat_action(struct connection *pc,
-				const struct packet_diplomat_action *packet)
-{
-  SEND_PACKET_START(PACKET_DIPLOMAT_ACTION);
-
-  dio_put_uint8(&dout, packet->action_type);
-  dio_put_uint16(&dout, packet->diplomat_id);
-  dio_put_uint16(&dout, packet->target_id);
-  dio_put_uint16(&dout, packet->value);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_diplomat_action *receive_packet_diplomat_action(struct
-							      connection *pc)
-{
-  RECEIVE_PACKET_START(packet_diplomat_action, preq);
-
-  dio_get_uint8(&din, &preq->action_type);
-  dio_get_uint16(&din, &preq->diplomat_id);
-  dio_get_uint16(&din, &preq->target_id);
-  dio_get_uint16(&din, &preq->value);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_nuke_tile(struct connection *pc,
-			  const struct packet_nuke_tile *packet)
-{
-  SEND_PACKET_START(PACKET_NUKE_TILE);
-
-  dio_put_uint8(&dout, packet->x);
-  dio_put_uint8(&dout, packet->y);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_nuke_tile *receive_packet_nuke_tile(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_nuke_tile, preq);
-
-  dio_get_uint8(&din, &preq->x);
-  dio_get_uint8(&din, &preq->y);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_unit_combat(struct connection *pc,
-			    const struct packet_unit_combat *packet)
-{
-  SEND_PACKET_START(PACKET_UNIT_COMBAT);
-
-  dio_put_uint16(&dout, packet->attacker_unit_id);
-  dio_put_uint16(&dout, packet->defender_unit_id);
-  dio_put_uint8(&dout, packet->attacker_hp);
-  dio_put_uint8(&dout, packet->defender_hp);
-  dio_put_uint8(&dout, packet->make_winner_veteran);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_unit_combat *receive_packet_unit_combat(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_unit_combat, preq);
-
-  dio_get_uint16(&din, &preq->attacker_unit_id);
-  dio_get_uint16(&din, &preq->defender_unit_id);
-  dio_get_uint8(&din, &preq->attacker_hp);
-  dio_get_uint8(&din, &preq->defender_hp);
-  dio_get_uint8(&din, &preq->make_winner_veteran);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_unit_request(struct connection *pc,
-			     const struct packet_unit_request *packet,
-			     enum packet_type req_type)
-{
-  SEND_PACKET_START(req_type);
-
-  dio_put_uint16(&dout, packet->unit_id);
-  dio_put_uint16(&dout, packet->city_id);
-  dio_put_uint8(&dout, packet->x);
-  dio_put_uint8(&dout, packet->y);
-  dio_put_string(&dout, packet->name);
-
-  SEND_PACKET_END;
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_unit_request *receive_packet_unit_request(struct connection
-							*pc)
-{
-  RECEIVE_PACKET_START(packet_unit_request, preq);
-
-  dio_get_uint16(&din, &preq->unit_id);
-  dio_get_uint16(&din, &preq->city_id);
-  dio_get_uint8(&din, &preq->x);
-  dio_get_uint8(&din, &preq->y);
-  dio_get_string(&din, preq->name, sizeof(preq->name));
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_unit_connect(struct connection *pc,
-			     const struct packet_unit_connect *packet)
-{
-  SEND_PACKET_START(PACKET_UNIT_CONNECT);
-
-  dio_put_uint8(&dout, packet->activity_type);
-  dio_put_uint16(&dout, packet->unit_id);
-  dio_put_uint16(&dout, packet->dest_x);
-  dio_put_uint16(&dout, packet->dest_y);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_unit_connect *receive_packet_unit_connect(struct connection
-							*pc)
-{
-  RECEIVE_PACKET_START(packet_unit_connect, preq);
-
-  dio_get_uint8(&din, &preq->activity_type);
-  dio_get_uint16(&din, &preq->unit_id);
-  dio_get_uint16(&din, &preq->dest_x);
-  dio_get_uint16(&din, &preq->dest_y);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_player_request(struct connection *pc,
-			       const struct packet_player_request *packet,
-			       enum packet_type req_type)
-{
-  SEND_PACKET_START(req_type);
-
-  dio_put_uint8(&dout, packet->tax);
-  dio_put_uint8(&dout, packet->luxury);
-  dio_put_uint8(&dout, packet->science);
-  dio_put_uint8(&dout, packet->government);
-  dio_put_uint8(&dout, packet->tech);
-  dio_put_bool8(&dout, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_player_request *receive_packet_player_request(struct connection
-							    *pc)
-{
-  RECEIVE_PACKET_START(packet_player_request, preq);
-
-  dio_get_uint8(&din, &preq->tax);
-  dio_get_uint8(&din, &preq->luxury);
-  dio_get_uint8(&din, &preq->science);
-  dio_get_uint8(&din, &preq->government);
-  dio_get_uint8(&din, &preq->tech);
-  dio_get_bool8(&din, &preq->attribute_block);
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_city_request(struct connection *pc,
-			     const struct packet_city_request *packet,
-			     enum packet_type req_type)
-{
-  /* can't modify the packet directly */
-  struct worklist copy;
-  SEND_PACKET_START(req_type);
-
-  if (req_type == PACKET_CITY_WORKLIST) {
-    assert(packet->worklist.is_valid);
-    copy_worklist(&copy, &packet->worklist);
-  } else {
-    copy.is_valid = FALSE;
-  }
-
-  dio_put_uint16(&dout, packet->city_id);
-  dio_put_uint8(&dout, packet->build_id);
-  if (req_type == PACKET_CITY_CHANGE) {
-    dio_put_bool8(&dout, packet->is_build_id_unit_id);
-  } else {
-    dio_put_bool8(&dout, FALSE);
-  }
-  dio_put_uint8(&dout, packet->worker_x);
-  dio_put_uint8(&dout, packet->worker_y);
-  dio_put_uint8(&dout, packet->specialist_from);
-  dio_put_uint8(&dout, packet->specialist_to);
-  dio_put_worklist(&dout, &copy);
-  if (req_type == PACKET_CITY_RENAME) {
-    dio_put_string(&dout, packet->name);
-  } else {
-    dio_put_string(&dout, "");
-  }
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_city_request *receive_packet_city_request(struct connection
-							*pc)
-{
-  RECEIVE_PACKET_START(packet_city_request, preq);
-
-  dio_get_uint16(&din, &preq->city_id);
-  dio_get_uint8(&din, &preq->build_id);
-  dio_get_bool8(&din, &preq->is_build_id_unit_id);
-  dio_get_uint8(&din, &preq->worker_x);
-  dio_get_uint8(&din, &preq->worker_y);
-  dio_get_uint8(&din, &preq->specialist_from);
-  dio_get_uint8(&din, &preq->specialist_to);
-  dio_get_worklist(&din, &preq->worklist);
-  dio_get_string(&din, preq->name, sizeof(preq->name));
-
-  RECEIVE_PACKET_END(preq);
-}
-
-/*************************************************************************
-This is the ping packet
-**************************************************************************/
-int send_packet_ping_info(struct connection *pc,
-			  const struct packet_ping_info *packet)
-{
-  int i;
-  SEND_PACKET_START(PACKET_PING_INFO);
-
-  dio_put_uint8(&dout, packet->connections);  
-
-  for (i = 0; i < packet->connections; i++) {
-    dio_put_uint8(&dout, packet->conn_id[i]);
-    dio_put_uint32(&dout, (int) (packet->ping_time[i] * 1e6));
-  }
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_ping_info *receive_packet_ping_info(struct connection *pc)
-{
-  int i;	
-  RECEIVE_PACKET_START(packet_ping_info, packet);
-
-  dio_get_uint8(&din, &packet->connections);
-  for (i = 0; i < packet->connections; i++) {
-    int tmp;
-
-    dio_get_uint8(&din, &packet->conn_id[i]);
-    dio_get_uint32(&din, &tmp);
-    packet->ping_time[i] = tmp / 1e6;
-  }
-	
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_player_info(struct connection *pc,
-			    const struct packet_player_info *pinfo)
-{
-  int i;
-  SEND_PACKET_START(PACKET_PLAYER_INFO);
-
-  dio_put_uint8(&dout, pinfo->playerno);
-  dio_put_string(&dout, pinfo->name);
-
-  dio_put_bool8(&dout, pinfo->is_male);
-  if (has_capability("team", pc->capability)) {
-    dio_put_uint8(&dout, pinfo->team);
-  }
-  dio_put_uint8(&dout, pinfo->government);
-  dio_put_uint32(&dout, pinfo->embassy);
-  dio_put_uint8(&dout, pinfo->city_style);
-  dio_put_uint8(&dout, pinfo->nation);
-  dio_put_bool8(&dout, pinfo->turn_done);
-  dio_put_uint16(&dout, pinfo->nturns_idle);
-  dio_put_bool8(&dout, pinfo->is_alive);
-
-  dio_put_uint32(&dout, pinfo->reputation);
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    dio_put_uint8(&dout, pinfo->diplstates[i].type);
-    dio_put_uint8(&dout, pinfo->diplstates[i].turns_left);
-    dio_put_uint8(&dout, pinfo->diplstates[i].contact_turns_left);
-    dio_put_uint8(&dout, pinfo->diplstates[i].has_reason_to_cancel);
-  }
-
-  dio_put_uint32(&dout, pinfo->gold);
-  dio_put_uint8(&dout, pinfo->tax);
-  dio_put_uint8(&dout, pinfo->science);
-  dio_put_uint8(&dout, pinfo->luxury);
-
-  dio_put_uint32(&dout, pinfo->bulbs_researched);
-  dio_put_uint32(&dout, pinfo->techs_researched);
-  dio_put_uint8(&dout, pinfo->researching);
-
-  dio_put_bit_string(&dout, (char *) pinfo->inventions);
-  dio_put_uint16(&dout, pinfo->future_tech);
-
-  dio_put_bool8(&dout, pinfo->is_connected);
-
-  dio_put_uint8(&dout, pinfo->revolution);
-  dio_put_uint8(&dout, pinfo->tech_goal);
-  dio_put_bool8(&dout, pinfo->ai);
-  dio_put_uint8(&dout, pinfo->barbarian_type);
-
-  dio_put_uint32(&dout, pinfo->gives_shared_vision);
-
-  SEND_PACKET_END;
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_player_info *receive_packet_player_info(struct connection *pc)
-{
-  int i;
-  RECEIVE_PACKET_START(packet_player_info, pinfo);
-
-  dio_get_uint8(&din, &pinfo->playerno);
-  dio_get_string(&din, pinfo->name, sizeof(pinfo->name));
-
-  dio_get_bool8(&din, &pinfo->is_male);
-  if (has_capability("team", pc->capability)) {
-    dio_get_uint8(&din, &pinfo->team);
-  } else {
-    pinfo->team = TEAM_NONE;
-  }
-  dio_get_uint8(&din, &pinfo->government);
-  dio_get_uint32(&din, &pinfo->embassy);
-  dio_get_uint8(&din, &pinfo->city_style);
-  dio_get_uint8(&din, &pinfo->nation);
-  dio_get_bool8(&din, &pinfo->turn_done);
-  dio_get_uint16(&din, &pinfo->nturns_idle);
-  dio_get_bool8(&din, &pinfo->is_alive);
-
-  dio_get_uint32(&din, &pinfo->reputation);
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    dio_get_uint8(&din, (int *) &pinfo->diplstates[i].type);
-    dio_get_uint8(&din, &pinfo->diplstates[i].turns_left);
-    dio_get_uint8(&din, &pinfo->diplstates[i].contact_turns_left);
-    dio_get_uint8(&din, &pinfo->diplstates[i].has_reason_to_cancel);
-  }
-
-  dio_get_uint32(&din, &pinfo->gold);
-  dio_get_uint8(&din, &pinfo->tax);
-  dio_get_uint8(&din, &pinfo->science);
-  dio_get_uint8(&din, &pinfo->luxury);
-
-  dio_get_uint32(&din, &pinfo->bulbs_researched);
-  dio_get_uint32(&din, &pinfo->techs_researched);
-  dio_get_uint8(&din, &pinfo->researching);
-  dio_get_bit_string(&din, (char *) pinfo->inventions,
-		     sizeof(pinfo->inventions));
-  dio_get_uint16(&din, &pinfo->future_tech);
-
-  dio_get_bool8(&din, &pinfo->is_connected);
-
-  dio_get_uint8(&din, &pinfo->revolution);
-  dio_get_uint8(&din, &pinfo->tech_goal);
-  dio_get_bool8(&din, &pinfo->ai);
-  dio_get_uint8(&din, &pinfo->barbarian_type);
-
-  /* Unfortunately the second argument to iget_uint32 is int, not uint: */
-  dio_get_uint32(&din, &i);
-  pinfo->gives_shared_vision = i;
-
-  RECEIVE_PACKET_END(pinfo);
-}
-
-/*************************************************************************
-  Send connection.id as uint32 even though currently only use ushort
-  range, in case want to use it for more later, eg global user-id...?
-...
-**************************************************************************/
-int send_packet_conn_info(struct connection *pc,
-			  const struct packet_conn_info *pinfo)
-{
-  SEND_PACKET_START(PACKET_CONN_INFO);
-
-  dio_put_uint32(&dout, pinfo->id);
-
-  dio_put_uint8(&dout, (COND_SET_BIT(pinfo->used, 0) |
-			COND_SET_BIT(pinfo->established, 1) |
-			COND_SET_BIT(pinfo->observer, 2)));
-
-  dio_put_uint8(&dout, pinfo->player_num);
-  dio_put_uint8(&dout, pinfo->access_level);
-
-  dio_put_string(&dout, pinfo->username);
-  dio_put_string(&dout, pinfo->addr);
-  dio_put_string(&dout, pinfo->capability);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_conn_info *receive_packet_conn_info(struct connection *pc)
-{
-  int data;
-  RECEIVE_PACKET_START(packet_conn_info, pinfo);
-
-  dio_get_uint32(&din, &pinfo->id);
-
-  dio_get_uint8(&din, &data);
-  pinfo->used = TEST_BIT(data, 0);
-  pinfo->established = TEST_BIT(data, 1);
-  pinfo->observer = TEST_BIT(data, 2);
-
-  dio_get_uint8(&din, &pinfo->player_num);
-  dio_get_uint8(&din, &data);
-  pinfo->access_level = data;
-
-  dio_get_string(&din, pinfo->username, sizeof(pinfo->username));
-  dio_get_string(&din, pinfo->addr, sizeof(pinfo->addr));
-  dio_get_string(&din, pinfo->capability, sizeof(pinfo->capability));
-
-  RECEIVE_PACKET_END(pinfo);
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_game_info(struct connection *pc,
-			  const struct packet_game_info *pinfo)
-{
-  int i;
-  SEND_PACKET_START(PACKET_GAME_INFO);
-
-  dio_put_uint16(&dout, pinfo->gold);
-  dio_put_uint32(&dout, pinfo->tech);
-  dio_put_uint8(&dout, pinfo->researchcost);
-  dio_put_uint32(&dout, pinfo->skill_level);
-  dio_put_uint32(&dout, pinfo->timeout);
-  dio_put_uint32(&dout, pinfo->end_year);
-  dio_put_uint32(&dout, pinfo->year);
-  dio_put_uint8(&dout, pinfo->min_players);
-  dio_put_uint8(&dout, pinfo->max_players);
-  dio_put_uint8(&dout, pinfo->nplayers);
-  dio_put_uint8(&dout, pinfo->player_idx);
-  dio_put_uint32(&dout, pinfo->globalwarming);
-  dio_put_uint32(&dout, pinfo->heating);
-  dio_put_uint32(&dout, pinfo->nuclearwinter);
-  dio_put_uint32(&dout, pinfo->cooling);
-  dio_put_uint8(&dout, pinfo->cityfactor);
-  dio_put_uint8(&dout, pinfo->diplcost);
-  dio_put_uint8(&dout, pinfo->freecost);
-  dio_put_uint8(&dout, pinfo->conquercost);
-  dio_put_uint8(&dout, pinfo->unhappysize);
-  dio_put_bool8(&dout, pinfo->angrycitizen);
-
-  for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
-    dio_put_uint8(&dout, pinfo->global_advances[i]);
-  for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
-    dio_put_uint16(&dout, pinfo->global_wonders[i]);
-
-  if (has_capability("dip", pc->capability)) {
-    dio_put_uint8(&dout, pinfo->diplomacy);
-  }
-  dio_put_uint8(&dout, pinfo->techpenalty);
-  dio_put_uint8(&dout, pinfo->foodbox);
-  dio_put_uint8(&dout, pinfo->civstyle);
-  dio_put_bool8(&dout, pinfo->spacerace);
-
-  /* computed values */
-  dio_put_uint32(&dout, pinfo->seconds_to_turndone);
-
-  dio_put_uint32(&dout, pinfo->turn);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_game_info *receive_packet_game_info(struct connection *pc)
-{
-  int i;
-  RECEIVE_PACKET_START(packet_game_info, pinfo);
-
-  dio_get_uint16(&din, &pinfo->gold);
-  dio_get_uint32(&din, &pinfo->tech);
-  dio_get_uint8(&din, &pinfo->researchcost);
-  dio_get_uint32(&din, &pinfo->skill_level);
-  dio_get_uint32(&din, &pinfo->timeout);
-  dio_get_uint32(&din, &pinfo->end_year);
-  dio_get_uint32(&din, &pinfo->year);
-  dio_get_uint8(&din, &pinfo->min_players);
-  dio_get_uint8(&din, &pinfo->max_players);
-  dio_get_uint8(&din, &pinfo->nplayers);
-  dio_get_uint8(&din, &pinfo->player_idx);
-  dio_get_uint32(&din, &pinfo->globalwarming);
-  dio_get_uint32(&din, &pinfo->heating);
-  dio_get_uint32(&din, &pinfo->nuclearwinter);
-  dio_get_uint32(&din, &pinfo->cooling);
-  dio_get_uint8(&din, &pinfo->cityfactor);
-  dio_get_uint8(&din, &pinfo->diplcost);
-  dio_get_uint8(&din, &pinfo->freecost);
-  dio_get_uint8(&din, &pinfo->conquercost);
-  dio_get_uint8(&din, &pinfo->unhappysize);
-  dio_get_bool8(&din, &pinfo->angrycitizen);
-
-  for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
-    dio_get_uint8(&din, &pinfo->global_advances[i]);
-  for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
-    dio_get_uint16(&din, &pinfo->global_wonders[i]);
-
-  if (has_capability("dip", pc->capability)) {
-    dio_get_uint8(&din, &pinfo->diplomacy);
-  }
-  dio_get_uint8(&din, &pinfo->techpenalty);
-  dio_get_uint8(&din, &pinfo->foodbox);
-  dio_get_uint8(&din, &pinfo->civstyle);
-  dio_get_bool8(&din, &pinfo->spacerace);
-
-  /* computed values */
-  dio_get_uint32(&din, &pinfo->seconds_to_turndone);
-
-  dio_get_uint32(&din, &pinfo->turn);
-
-  RECEIVE_PACKET_END(pinfo);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_map_info(struct connection *pc,
-			 const struct packet_map_info *pinfo)
-{
-  SEND_PACKET_START(PACKET_MAP_INFO);
-
-  dio_put_uint8(&dout, pinfo->xsize);
-  dio_put_uint8(&dout, pinfo->ysize);
-  dio_put_uint8(&dout, pinfo->topology_id);
-  dio_put_bool8(&dout, pinfo->is_earth);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_map_info *receive_packet_map_info(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_map_info, pinfo);
-
-  dio_get_uint8(&din, &pinfo->xsize);
-  dio_get_uint8(&din, &pinfo->ysize);
-  dio_get_uint8(&din, &pinfo->topology_id);
-  dio_get_bool8(&din, &pinfo->is_earth);
-
-  RECEIVE_PACKET_END(pinfo);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_tile_info *receive_packet_tile_info(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_tile_info, packet);
-
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_uint8(&din, &packet->type);
-  dio_get_uint16(&din, &packet->special);
-  dio_get_uint8(&din, &packet->known);
-  if (has_capability("continent", pc->capability)) {
-    dio_get_uint16(&din, (int *)&packet->continent);
-  }
-  if (has_capability("borders", pc->capability)) {
-    dio_get_uint16(&din, &packet->owner);
-  }
-  RECEIVE_PACKET_END(packet);
-}
-
-struct packet_unittype_info *receive_packet_unittype_info(struct connection
-							  *pc)
-{
-  RECEIVE_PACKET_START(packet_unittype_info, packet);
-
-  dio_get_uint8(&din, &packet->type);
-  dio_get_uint8(&din, &packet->action);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_tile_info(struct connection *pc,
-			  const struct packet_tile_info *pinfo)
- {
-  SEND_PACKET_START(PACKET_TILE_INFO);
-
-  dio_put_uint8(&dout, pinfo->x);
-  dio_put_uint8(&dout, pinfo->y);
-  dio_put_uint8(&dout, pinfo->type);
-  dio_put_uint16(&dout, pinfo->special);
-  dio_put_uint8(&dout, pinfo->known);
-  if (has_capability("continent", pc->capability)) {
-    dio_put_uint16(&dout, pinfo->continent);
-  }
-  if (has_capability("borders", pc->capability)) {
-    dio_put_uint16(&dout, pinfo->owner);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_new_year(struct connection *pc,
-			 const struct packet_new_year *request)
-{
-  SEND_PACKET_START(PACKET_NEW_YEAR);
-
-  dio_put_uint32(&dout, request->year);
-  dio_put_uint32(&dout, request->turn);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_unittype_info(struct connection *pc, int type, int action)
-{
-  SEND_PACKET_START(PACKET_UNITTYPE_UPGRADE);
-
-  dio_put_uint8(&dout, type);
-  dio_put_uint8(&dout, action);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_generic_empty *receive_packet_generic_empty(struct connection
-							  *pc)
-{
-  RECEIVE_PACKET_START(packet_generic_empty, packet);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_generic_empty(struct connection *pc, enum packet_type type)
-{
-  SEND_PACKET_START(type);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_unit_info(struct connection *pc,
-			  const struct packet_unit_info *req)
-{
-  unsigned char pack;
-  SEND_PACKET_START(PACKET_UNIT_INFO);
-
-  dio_put_uint16(&dout, req->id);
-  dio_put_uint8(&dout, req->owner);
-  pack = (COND_SET_BIT(req->done_moving, 1)
-	  | COND_SET_BIT((req->occupy > 0), 2)
-	  | COND_SET_BIT(req->carried, 3)
-	  | COND_SET_BIT(req->veteran, 4)
-	  | COND_SET_BIT(req->ai, 5)
-	  | COND_SET_BIT(req->paradropped, 6)
-	  | COND_SET_BIT(req->connecting, 7));
-  dio_put_uint8(&dout, pack);
-  dio_put_uint8(&dout, req->x);
-  dio_put_uint8(&dout, req->y);
-  dio_put_uint16(&dout, req->homecity);
-  dio_put_uint8(&dout, req->type);
-  dio_put_uint8(&dout, req->movesleft);
-  dio_put_uint8(&dout, req->hp);
-  dio_put_uint8(&dout, req->upkeep);
-  dio_put_uint8(&dout, req->upkeep_food);
-  dio_put_uint8(&dout, req->upkeep_gold);
-  dio_put_uint8(&dout, req->unhappiness);
-  dio_put_uint8(&dout, req->activity);
-  dio_put_uint8(&dout, req->activity_count);
-  dio_put_uint8(&dout, req->goto_dest_x);
-  dio_put_uint8(&dout, req->goto_dest_y);
-  dio_put_uint16(&dout, req->activity_target);
-  if (req->occupy > 0) {
-    dio_put_uint8(&dout, req->occupy);
-  }
-  if (req->fuel > 0)
-    dio_put_uint8(&dout, req->fuel);
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_city_info(struct connection *pc,
-			  const struct packet_city_info *req)
-{
-  int data;
-  SEND_PACKET_START(PACKET_CITY_INFO);
-
-  dio_put_uint16(&dout, req->id);
-  dio_put_uint8(&dout, req->owner);
-  dio_put_uint8(&dout, req->x);
-  dio_put_uint8(&dout, req->y);
-  dio_put_string(&dout, req->name);
-
-  dio_put_uint8(&dout, req->size);
-
-  for (data = 0; data < 5; data++) {
-    dio_put_uint8(&dout, req->ppl_angry[data]);
-    dio_put_uint8(&dout, req->ppl_happy[data]);
-    dio_put_uint8(&dout, req->ppl_content[data]);
-    dio_put_uint8(&dout, req->ppl_unhappy[data]);
-  }
-
-  dio_put_uint8(&dout, req->ppl_elvis);
-  dio_put_uint8(&dout, req->ppl_scientist);
-  dio_put_uint8(&dout, req->ppl_taxman);
-
-  dio_put_uint8(&dout, req->food_prod);
-  dio_put_uint8(&dout, req->food_surplus);
-  dio_put_uint16(&dout, req->shield_prod);
-  dio_put_uint16(&dout, req->shield_surplus);
-  dio_put_uint16(&dout, req->trade_prod);
-  dio_put_uint16(&dout, req->tile_trade);
-  dio_put_uint16(&dout, req->corruption);
-  dio_put_uint16(&dout, req->shield_waste);
-
-  dio_put_uint16(&dout, req->luxury_total);
-  dio_put_uint16(&dout, req->tax_total);
-  dio_put_uint16(&dout, req->science_total);
-
-  dio_put_uint16(&dout, req->food_stock);
-  dio_put_uint16(&dout, req->shield_stock);
-  dio_put_uint16(&dout, req->pollution);
-  dio_put_uint8(&dout, req->currently_building);
-
-  dio_put_sint16(&dout, req->turn_last_built);
-  /* After new release, just remove this block! */
-  if (has_capability("city_struct_minor_cleanup", pc->capability)) {
-    /* nothing */
-  } else {
-    int dummy = 0;
-    dio_put_sint16(&dout, dummy);
-  }
-  dio_put_uint8(&dout, req->changed_from_id);
-  dio_put_uint16(&dout, req->before_change_shields);
-
-  dio_put_uint16(&dout, req->disbanded_shields);
-  dio_put_uint16(&dout, req->caravan_shields);
-
-  dio_put_worklist(&dout, &req->worklist);
-
-  dio_put_uint8(&dout, (COND_SET_BIT(req->is_building_unit, 0) |
-			COND_SET_BIT(req->did_buy, 1) |
-			COND_SET_BIT(req->did_sell, 2) |
-			COND_SET_BIT(req->was_happy, 3) |
-			COND_SET_BIT(req->airlift, 4) |
-			COND_SET_BIT(req->diplomat_investigate, 5) |
-			COND_SET_BIT(req->changed_from_is_unit, 6)));
-
-  dio_put_city_map(&dout, (char *) req->city_map);
-  dio_put_bit_string(&dout, (char *) req->improvements);
-
-  /* only 8 options allowed before need to extend protocol */
-  dio_put_uint8(&dout, req->city_options);
-
-  dio_put_uint32(&dout, req->turn_founded);
-
-  for (data = 0; data < NUM_TRADEROUTES; data++) {
-    if (req->trade[data] != 0) {
-      dio_put_uint16(&dout, req->trade[data]);
-      dio_put_uint8(&dout, req->trade_value[data]);
-    }
-  }
-
-  SEND_PACKET_END;
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_city_info *receive_packet_city_info(struct connection *pc)
-{
-  int data;
-  RECEIVE_PACKET_START(packet_city_info, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  dio_get_uint8(&din, &packet->owner);
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-
-  dio_get_uint8(&din, &packet->size);
-  for (data = 0; data < 5; data++) {
-    dio_get_uint8(&din, &packet->ppl_angry[data]);
-    dio_get_uint8(&din, &packet->ppl_happy[data]);
-    dio_get_uint8(&din, &packet->ppl_content[data]);
-    dio_get_uint8(&din, &packet->ppl_unhappy[data]);
-  }
-  dio_get_uint8(&din, &packet->ppl_elvis);
-  dio_get_uint8(&din, &packet->ppl_scientist);
-  dio_get_uint8(&din, &packet->ppl_taxman);
-
-  dio_get_uint8(&din, &packet->food_prod);
-  dio_get_uint8(&din, &packet->food_surplus);
-  if (packet->food_surplus > 127)
-    packet->food_surplus -= 256;
-  dio_get_uint16(&din, &packet->shield_prod);
-  dio_get_uint16(&din, &packet->shield_surplus);
-  if (packet->shield_surplus > 32767)
-    packet->shield_surplus -= 65536;
-  dio_get_uint16(&din, &packet->trade_prod);
-  dio_get_uint16(&din, &packet->tile_trade);
-  dio_get_uint16(&din, &packet->corruption);
-  dio_get_uint16(&din, &packet->shield_waste);
-  
-  dio_get_uint16(&din, &packet->luxury_total);
-  dio_get_uint16(&din, &packet->tax_total);
-  dio_get_uint16(&din, &packet->science_total);
-
-  dio_get_uint16(&din, &packet->food_stock);
-  dio_get_uint16(&din, &packet->shield_stock);
-  dio_get_uint16(&din, &packet->pollution);
-  dio_get_uint8(&din, &packet->currently_building);
-
-  dio_get_sint16(&din, &packet->turn_last_built);
-  /* After new release, just remove this block! */
-  if (has_capability("city_struct_minor_cleanup", pc->capability)) {
-    /* nothing */
-  } else {
-    int dummy;
-    dio_get_sint16(&din, &dummy);
-  }
-  dio_get_uint8(&din, &packet->changed_from_id);
-  dio_get_uint16(&din, &packet->before_change_shields);
-
-  dio_get_uint16(&din, &packet->disbanded_shields);
-  dio_get_uint16(&din, &packet->caravan_shields);
-
-  dio_get_worklist(&din, &packet->worklist);
-
-  dio_get_uint8(&din, &data);
-  packet->is_building_unit = TEST_BIT(data, 0);
-  packet->did_buy = TEST_BIT(data, 1);
-  packet->did_sell = TEST_BIT(data, 2);
-  packet->was_happy = TEST_BIT(data, 3);
-  packet->airlift = TEST_BIT(data, 4);
-  packet->diplomat_investigate = TEST_BIT(data, 5);
-  packet->changed_from_is_unit = TEST_BIT(data, 6);
-
-  dio_get_city_map(&din, (char *) packet->city_map,
-		   sizeof(packet->city_map));
-  dio_get_bit_string(&din, (char *) packet->improvements,
-		     sizeof(packet->improvements));
-
-  dio_get_uint8(&din, &packet->city_options);
-
-  dio_get_uint32(&din, &packet->turn_founded);
-
-  for (data = 0; data < NUM_TRADEROUTES; data++) {
-    if (dio_input_remaining(&din) < 3)
-      break;
-    dio_get_uint16(&din, &packet->trade[data]);
-    dio_get_uint8(&din, &packet->trade_value[data]);
-  }
-  for (; data < NUM_TRADEROUTES; data++) {
-    packet->trade_value[data] = packet->trade[data] = 0;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_short_city(struct connection *pc,
-			   const struct packet_short_city *req)
-{
-  SEND_PACKET_START(PACKET_SHORT_CITY);
-
-  dio_put_uint16(&dout, req->id);
-  dio_put_uint8(&dout, req->owner);
-  dio_put_uint8(&dout, req->x);
-  dio_put_uint8(&dout, req->y);
-  dio_put_string(&dout, req->name);
-
-  dio_put_uint8(&dout, req->size);
-
-  dio_put_uint8(&dout, (COND_SET_BIT(req->happy, 0)
-			| COND_SET_BIT(req->capital, 1)
-			| COND_SET_BIT(req->walls, 2)
-			| COND_SET_BIT(req->occupied, 3)
-			| COND_SET_BIT(req->happy, 4)
-			| COND_SET_BIT(req->unhappy, 5)));
-
-  dio_put_uint16(&dout, req->tile_trade);
-
-  SEND_PACKET_END;
-}
-
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_short_city *receive_packet_short_city(struct connection *pc)
-{
-  int i;
-  RECEIVE_PACKET_START(packet_short_city, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  dio_get_uint8(&din, &packet->owner);
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-
-  dio_get_uint8(&din, &packet->size);
-
-  dio_get_uint8(&din, &i);
-  packet->happy = TEST_BIT(i, 0);
-  packet->capital = TEST_BIT(i, 1);
-  packet->walls = TEST_BIT(i, 2);
-  packet->occupied = TEST_BIT(i, 3);
-  packet->happy = TEST_BIT(i, 4);
-  packet->unhappy = TEST_BIT(i, 5);
-
-  dio_get_uint16(&din, &packet->tile_trade);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
-{
-  int pack;
-  RECEIVE_PACKET_START(packet_unit_info, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  dio_get_uint8(&din, &packet->owner);
-  dio_get_uint8(&din, &pack);
-  packet->done_moving = TEST_BIT(pack, 1);
-  packet->carried = TEST_BIT(pack, 3);
-  packet->veteran = TEST_BIT(pack, 4);
-  packet->ai = TEST_BIT(pack, 5);
-  packet->paradropped = TEST_BIT(pack, 6);
-  packet->connecting = TEST_BIT(pack, 7);
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_uint16(&din, &packet->homecity);
-  dio_get_uint8(&din, &packet->type);
-  dio_get_uint8(&din, &packet->movesleft);
-  dio_get_uint8(&din, &packet->hp);
-  dio_get_uint8(&din, &packet->upkeep);
-  dio_get_uint8(&din, &packet->upkeep_food);
-  dio_get_uint8(&din, &packet->upkeep_gold);
-  dio_get_uint8(&din, &packet->unhappiness);
-  dio_get_uint8(&din, &packet->activity);
-  dio_get_uint8(&din, &packet->activity_count);
-  dio_get_uint8(&din, &packet->goto_dest_x);
-  dio_get_uint8(&din, &packet->goto_dest_y);
-  dio_get_uint16(&din, (int *) &packet->activity_target);
-  if (TEST_BIT(pack, 2)) {
-    dio_get_uint8(&din, &packet->occupy);
-  } else {
-    packet->occupy = 0;
-  }
-  if (dio_input_remaining(&din) >= 1) {
-    dio_get_uint8(&din, &packet->fuel);
-  } else {
-    packet->fuel = 0;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_new_year *receive_packet_new_year(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_new_year, packet);
-
-  dio_get_uint32(&din, &packet->year);
-  dio_get_uint32(&din, &packet->turn);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_move_unit(struct connection *pc,
-			  const struct packet_move_unit *request)
-{
-  SEND_PACKET_START(PACKET_MOVE_UNIT);
-
-  dio_put_uint8(&dout, request->x);
-  dio_put_uint8(&dout, request->y);
-  dio_put_uint16(&dout, request->unid);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_move_unit, packet);
-
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_uint16(&din, &packet->unid);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_login_request(struct connection *pc,
-			      const struct packet_login_request *request)
-{
-  SEND_PACKET_START(PACKET_LOGIN_REQUEST);
-
-  dio_put_string(&dout, request->short_name);
-  dio_put_uint32(&dout, request->major_version);
-  dio_put_uint32(&dout, request->minor_version);
-  dio_put_uint32(&dout, request->patch_version);
-  dio_put_string(&dout, request->capability);
-  dio_put_string(&dout, request->username);
-  dio_put_string(&dout, request->version_label);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_login_request *receive_packet_login_request(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_login_request, packet);
-
-  dio_get_string(&din, packet->short_name, sizeof(packet->short_name));
-  dio_get_uint32(&din, &packet->major_version);
-  dio_get_uint32(&din, &packet->minor_version);
-  dio_get_uint32(&din, &packet->patch_version);
-  dio_get_string(&din, packet->capability, sizeof(packet->capability));
-  if (dio_input_remaining(&din) > 0) {
-    dio_get_string(&din, packet->username, sizeof(packet->username));
-  } else {
-    sz_strlcpy(packet->username, packet->short_name);
-  }
-  if (dio_input_remaining(&din) > 0) {
-    dio_get_string(&din, packet->version_label, sizeof(packet->version_label));
-  } else {
-    packet->version_label[0] = '\0';
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-Fills in conn.id automatically, no need to set in packet_join_game_reply.
-**************************************************************************/
-int send_packet_login_reply(struct connection *pc,
-                            const struct packet_login_reply *reply)
-{
-  SEND_PACKET_START(PACKET_LOGIN_REPLY);
-
-  dio_put_bool32(&dout, reply->you_can_login);
-  dio_put_string(&dout, reply->message);
-  dio_put_string(&dout, reply->capability);
-
-  /* This must stay even at new releases! */
-  if (has_capability("conn_info", pc->capability)) {
-    dio_put_uint32(&dout, pc->id);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_login_reply *receive_packet_login_reply(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_login_reply, packet);
-
-  dio_get_bool32(&din, &packet->you_can_login);
-  dio_get_string(&din, packet->message, sizeof(packet->message));
-  dio_get_string(&din, packet->capability, sizeof(packet->capability));
-
-  /* This must stay even at new releases! */
-  /* NOTE: pc doesn't yet have capability filled in!  Use packet value: */
-  if (has_capability("conn_info", packet->capability)) {
-    dio_get_uint32(&din, &packet->conn_id);
-  } else {
-    packet->conn_id = 0;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_authentication_request(struct connection *pc,
-                           const struct packet_authentication_request *request)
-{
-  SEND_PACKET_START(PACKET_AUTHENTICATION_REQUEST);
-
-  dio_put_uint16(&dout, request->type);
-  dio_put_string(&dout, request->message);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_authentication_request *
-                   receive_packet_authentication_request(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_authentication_request, packet);
-
-  dio_get_uint16(&din, (int *)&packet->type);
-  dio_get_string(&din, packet->message, sizeof(packet->message));
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_authentication_reply(struct connection *pc,
-                               const struct packet_authentication_reply *reply)
-{
-  SEND_PACKET_START(PACKET_AUTHENTICATION_REPLY);
-
-  dio_put_string(&dout, reply->password);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_authentication_reply *
-                    receive_packet_authentication_reply(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_authentication_reply, packet);
-
-  dio_get_string(&din, packet->password, sizeof(packet->password));
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_generic_message(struct connection *pc, enum packet_type type,
-				const struct packet_generic_message *packet)
-{
-  SEND_PACKET_START(type);
-
-  if (packet->x == -1) {
-    /* since we can currently only send unsigned ints... */
-    assert(MAP_MAX_WIDTH <= 255 && MAP_MAX_HEIGHT <= 255);
-    dio_put_uint8(&dout, 255);
-    dio_put_uint8(&dout, 255);
-  } else {
-    dio_put_uint8(&dout, packet->x);
-    dio_put_uint8(&dout, packet->y);
-  }
-  dio_put_uint32(&dout, packet->event);
-
-  dio_put_string(&dout, packet->message);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_generic_integer(struct connection *pc, enum packet_type type,
-				const struct packet_generic_integer *packet)
-{
-  SEND_PACKET_START(type);
-
-  dio_put_uint32(&dout, packet->value);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_generic_message *
-receive_packet_generic_message(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_generic_message, packet);
-
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  if (packet->x == 255) { /* unsigned encoding for no position */
-    packet->x = -1;
-    packet->y = -1;
-  }
-
-  dio_get_uint32(&din, &packet->event);
-  dio_get_string(&din, packet->message, sizeof(packet->message));
-  
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_generic_integer *
-receive_packet_generic_integer(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_generic_integer, packet);
-
-  dio_get_uint32(&din, &packet->value);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_alloc_nation(struct connection *pc, 
-			     const struct packet_alloc_nation *packet)
-{
-  SEND_PACKET_START(PACKET_ALLOC_NATION);
-
-  dio_put_uint32(&dout, packet->nation_no);
-  dio_put_string(&dout, packet->name);
-  dio_put_bool8(&dout,packet->is_male);
-  dio_put_uint8(&dout,packet->city_style);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_alloc_nation *
-receive_packet_alloc_nation(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_alloc_nation, packet);
-
-  dio_get_uint32(&din, &packet->nation_no);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-  dio_get_bool8(&din, &packet->is_male);
-  dio_get_uint8(&din, &packet->city_style);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_generic_values(struct connection *pc, enum packet_type type,
-			       const struct packet_generic_values *req)
-{
-  SEND_PACKET_START(type);
-
-  dio_put_uint16(&dout, req->id);
-  dio_put_uint32(&dout, req->value1);
-  dio_put_uint32(&dout, req->value2);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_generic_values *
-receive_packet_generic_values(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_generic_values, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  if (dio_input_remaining(&din) >= 4) {
-    dio_get_uint32(&din, &packet->value1);
-  } else {
-    packet->value1 = 0;
-  }
-  if (dio_input_remaining(&din) >= 4) {
-    dio_get_uint32(&din, &packet->value2);
-  } else {
-    packet->value2 = 0;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_control(struct connection *pc, 
-				const struct packet_ruleset_control *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_CONTROL);
-  
-  dio_put_uint8(&dout, packet->aqueduct_size);
-  dio_put_uint8(&dout, packet->sewer_size);
-  dio_put_uint8(&dout, packet->add_to_size_limit);
-  dio_put_uint8(&dout, packet->notradesize);
-  dio_put_uint8(&dout, packet->fulltradesize);
-
-  dio_put_uint8(&dout, packet->rtech.cathedral_plus);
-  dio_put_uint8(&dout, packet->rtech.cathedral_minus);
-  dio_put_uint8(&dout, packet->rtech.colosseum_plus);
-  dio_put_uint8(&dout, packet->rtech.temple_plus);
-
-  dio_put_uint8(&dout, packet->government_count);
-  dio_put_uint8(&dout, packet->default_government);
-  dio_put_uint8(&dout, packet->government_when_anarchy);
-
-  dio_put_uint8(&dout, packet->num_unit_types);
-  dio_put_uint8(&dout, packet->num_impr_types);
-  dio_put_uint8(&dout, packet->num_tech_types);
- 
-  dio_put_uint8(&dout, packet->nation_count);
-  dio_put_uint8(&dout, packet->playable_nation_count);
-  dio_put_uint8(&dout, packet->style_count);
-
-  if (has_capability("borders", pc->capability)) {
-    dio_put_uint8(&dout, packet->borders);
-  }
-  
-  dio_put_tech_list(&dout, packet->rtech.partisan_req);
-
-  if (has_capability("team", pc->capability)) {
-    int i;
-
-    for (i = 0; i < MAX_NUM_TEAMS; i++) {
-      dio_put_string(&dout, packet->team_name[i]);
-    }
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-  Send a short_unit packet (containing limited information about a unit)
-  to a client.
-**************************************************************************/
-int send_packet_short_unit(struct connection *pc,
-                           const struct packet_short_unit *req)
-{
-  int pack;
-  SEND_PACKET_START(PACKET_SHORT_UNIT);
-  
-  dio_put_uint16(&dout, req->id);
-  dio_put_uint8(&dout, req->owner);
-  dio_put_uint8(&dout, req->x);
-  dio_put_uint8(&dout, req->y);
-  dio_put_uint8(&dout, req->type);
-  dio_put_uint8(&dout, req->hp);
-  dio_put_uint8(&dout, req->activity);
-
-  pack = (COND_SET_BIT(req->carried, 3)
-	  | COND_SET_BIT(req->veteran, 4)
-	  | COND_SET_BIT(req->occupied, 5));
-  dio_put_uint8(&dout, pack);
-
-  dio_put_uint8(&dout, req->packet_use);
-  dio_put_uint16(&dout, req->info_city_id);
-  dio_put_uint16(&dout, req->serial_num);
-    
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-  Receive a short_unit packet (containing limited information about a unit)
-  from the server.
-**************************************************************************/
-struct packet_short_unit *receive_packet_short_unit(struct connection *pc)
-{
-  int pack;
-  RECEIVE_PACKET_START(packet_short_unit, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  dio_get_uint8(&din, &packet->owner);
-  dio_get_uint8(&din, &packet->x);
-  dio_get_uint8(&din, &packet->y);
-  dio_get_uint8(&din, &packet->type);
-  dio_get_uint8(&din, &packet->hp);
-  dio_get_uint8(&din, &packet->activity);
-
-  dio_get_uint8(&din, &pack);
-  packet->carried = TEST_BIT(pack, 3);
-  packet->veteran = TEST_BIT(pack, 4);
-  packet->occupied = TEST_BIT(pack, 5);
-
-  dio_get_uint8(&din, &packet->packet_use);
-  dio_get_uint16(&din, &packet->info_city_id);
-  dio_get_uint8(&din, &packet->serial_num);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_control *
-receive_packet_ruleset_control(struct connection *pc)
-{
-  int i;
-
-  RECEIVE_PACKET_START(packet_ruleset_control, packet);
-
-  dio_get_uint8(&din, &packet->aqueduct_size);
-  dio_get_uint8(&din, &packet->sewer_size);
-  dio_get_uint8(&din, &packet->add_to_size_limit);
-  dio_get_uint8(&din, &packet->notradesize);
-  dio_get_uint8(&din, &packet->fulltradesize);
-
-  dio_get_uint8(&din, &packet->rtech.cathedral_plus);
-  dio_get_uint8(&din, &packet->rtech.cathedral_minus);
-  dio_get_uint8(&din, &packet->rtech.colosseum_plus);
-  dio_get_uint8(&din, &packet->rtech.temple_plus);
-  
-  dio_get_uint8(&din, &packet->government_count);
-  dio_get_uint8(&din, &packet->default_government);
-  dio_get_uint8(&din, &packet->government_when_anarchy);
-
-  dio_get_uint8(&din, &packet->num_unit_types);
-  dio_get_uint8(&din, &packet->num_impr_types);
-  dio_get_uint8(&din, &packet->num_tech_types);
-
-  dio_get_uint8(&din, &packet->nation_count);
-  dio_get_uint8(&din, &packet->playable_nation_count);
-  dio_get_uint8(&din, &packet->style_count);
-
-  if (has_capability("borders", pc->capability)) {
-    dio_get_uint8(&din, &packet->borders);
-  } else {
-    packet->borders = 0;
-  }
-  
-  dio_get_tech_list(&din, packet->rtech.partisan_req);
-
-  for (i = 0; i < MAX_NUM_TEAMS; i++) {
-    if (has_capability("team", pc->capability)) {
-      dio_get_string(&din, packet->team_name[i], 
-                     sizeof(packet->team_name[i]));
-    } else {
-      packet->team_name[i][0] = '\0';
-    }
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_unit(struct connection *pc,
-			     const struct packet_ruleset_unit *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_UNIT);
-
-  dio_put_uint8(&dout, packet->id);
-  dio_put_uint8(&dout, packet->move_type);
-  dio_put_uint16(&dout, packet->build_cost);
-  dio_put_uint8(&dout, packet->attack_strength);
-  dio_put_uint8(&dout, packet->defense_strength);
-  dio_put_uint8(&dout, packet->move_rate);
-  dio_put_uint8(&dout, packet->tech_requirement);
-  dio_put_uint8(&dout, packet->impr_requirement);
-  dio_put_uint8(&dout, packet->vision_range);
-  dio_put_uint8(&dout, packet->transport_capacity);
-  dio_put_uint8(&dout, packet->hp);
-  dio_put_uint8(&dout, packet->firepower);
-  dio_put_uint8(&dout, packet->obsoleted_by);
-  dio_put_uint8(&dout, packet->fuel);
-  DIO_BV_PUT(&dout, packet->flags);
-  DIO_BV_PUT(&dout, packet->roles);
-  dio_put_uint8(&dout, packet->happy_cost);   /* unit upkeep -- SKi */
-  dio_put_uint8(&dout, packet->shield_cost);
-  dio_put_uint8(&dout, packet->food_cost);
-  dio_put_uint8(&dout, packet->gold_cost);
-  dio_put_string(&dout, packet->name);
-  dio_put_string(&dout, packet->graphic_str);
-  dio_put_string(&dout, packet->graphic_alt);
-  dio_put_string(&dout, packet->sound_move);
-  dio_put_string(&dout, packet->sound_move_alt);
-  dio_put_string(&dout, packet->sound_fight);
-  dio_put_string(&dout, packet->sound_fight_alt);
-
-  if (BV_ISSET(packet->flags, F_PARATROOPERS)) {
-    dio_put_uint16(&dout, packet->paratroopers_range);
-    dio_put_uint8(&dout, packet->paratroopers_mr_req);
-    dio_put_uint8(&dout, packet->paratroopers_mr_sub);
-  }
-  dio_put_uint8(&dout, packet->pop_cost);
-
-  /* This must be last, so client can determine length: */
-  if(packet->helptext) {
-    dio_put_string(&dout, packet->helptext);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_unit *
-receive_packet_ruleset_unit(struct connection *pc)
-{
-  int len;
-  RECEIVE_PACKET_START(packet_ruleset_unit, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  dio_get_uint8(&din, &packet->move_type);
-  dio_get_uint16(&din, &packet->build_cost);
-  dio_get_uint8(&din, &packet->attack_strength);
-  dio_get_uint8(&din, &packet->defense_strength);
-  dio_get_uint8(&din, &packet->move_rate);
-  dio_get_uint8(&din, &packet->tech_requirement);
-  dio_get_uint8(&din, &packet->impr_requirement);
-  dio_get_uint8(&din, &packet->vision_range);
-  dio_get_uint8(&din, &packet->transport_capacity);
-  dio_get_uint8(&din, &packet->hp);
-  dio_get_uint8(&din, &packet->firepower);
-  dio_get_uint8(&din, &packet->obsoleted_by);
-  if (packet->obsoleted_by > 127) {
-    packet->obsoleted_by-=256;
-  }
-  dio_get_uint8(&din, &packet->fuel);
-  DIO_BV_GET(&din, packet->flags);
-  DIO_BV_GET(&din, packet->roles);
-  dio_get_uint8(&din, &packet->happy_cost);   /* unit upkeep -- SKi */
-  dio_get_uint8(&din, &packet->shield_cost);
-  dio_get_uint8(&din, &packet->food_cost);
-  dio_get_uint8(&din, &packet->gold_cost);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-  dio_get_string(&din, packet->graphic_str, sizeof(packet->graphic_str));
-  dio_get_string(&din, packet->graphic_alt, sizeof(packet->graphic_alt));
-  dio_get_string(&din, packet->sound_move, sizeof(packet->sound_move));
-  dio_get_string(&din, packet->sound_move_alt, sizeof(packet->sound_move_alt));
-  dio_get_string(&din, packet->sound_fight, sizeof(packet->sound_fight));
-  dio_get_string(&din, packet->sound_fight_alt,
-	      sizeof(packet->sound_fight_alt));
-
-  if (BV_ISSET(packet->flags, F_PARATROOPERS)) {
-    dio_get_uint16(&din, &packet->paratroopers_range);
-    dio_get_uint8(&din, &packet->paratroopers_mr_req);
-    dio_get_uint8(&din, &packet->paratroopers_mr_sub);
-  } else {
-    packet->paratroopers_range=0;
-    packet->paratroopers_mr_req=0;
-    packet->paratroopers_mr_sub=0;
-  }
-  dio_get_uint8(&din, &packet->pop_cost);
-
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->helptext = fc_malloc(len);
-    dio_get_string(&din, packet->helptext, len);
-  } else {
-    packet->helptext = NULL;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_tech(struct connection *pc,
-			     const struct packet_ruleset_tech *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_TECH);
-
-  dio_put_uint8(&dout, packet->id);
-  dio_put_uint8(&dout, packet->req[0]);
-  dio_put_uint8(&dout, packet->req[1]);
-  dio_put_uint8(&dout, packet->root_req);
-  dio_put_uint32(&dout, packet->flags);
-  dio_put_uint32(&dout, packet->preset_cost);
-  dio_put_uint32(&dout, packet->num_reqs);
-  dio_put_string(&dout, packet->name);
-	
-  if (has_capability("tech_impr_gfx", pc->capability)) {
-    dio_put_string(&dout, packet->graphic_str);
-    dio_put_string(&dout, packet->graphic_alt);  
-  }	
-  
-  /* This must be last, so client can determine length: */
-  if(packet->helptext) {
-    dio_put_string(&dout, packet->helptext);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_tech *
-receive_packet_ruleset_tech(struct connection *pc)
-{
-  int len;
-  RECEIVE_PACKET_START(packet_ruleset_tech, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  dio_get_uint8(&din, &packet->req[0]);
-  dio_get_uint8(&din, &packet->req[1]);
-  dio_get_uint8(&din, &packet->root_req);
-  dio_get_uint32(&din, &packet->flags);
-  dio_get_uint32(&din, &packet->preset_cost);
-  dio_get_uint32(&din, &packet->num_reqs);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-	
-  if (has_capability("tech_impr_gfx", pc->capability)) {
-    dio_get_string(&din, packet->graphic_str,
-                   sizeof(packet->graphic_str));
-    dio_get_string(&din, packet->graphic_alt,
-                   sizeof(packet->graphic_alt));
-  } else {
-    /* Give a valid string (that will not refer to any sprite). */
-    packet->graphic_str[0] = '\0';
-    packet->graphic_alt[0] = '\0';
-  }	
-  
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->helptext = fc_malloc(len);
-    dio_get_string(&din, packet->helptext, len);
-  } else {
-    packet->helptext = NULL;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_building(struct connection *pc,
-			        const struct packet_ruleset_building *packet)
-{
-  struct impr_effect *eff;
-  int count;
-  SEND_PACKET_START(PACKET_RULESET_BUILDING);
-
-  dio_put_uint8(&dout, packet->id);
-  dio_put_uint8(&dout, packet->tech_req);
-  dio_put_uint8(&dout, packet->bldg_req);
-  dio_put_uint8_vec8(&dout, (int *)packet->terr_gate, T_LAST);
-  dio_put_uint16_vec8(&dout, (int *)packet->spec_gate, S_NO_SPECIAL);
-  dio_put_uint8(&dout, packet->equiv_range);
-  dio_put_uint8_vec8(&dout, packet->equiv_dupl, B_LAST);
-  dio_put_uint8_vec8(&dout, packet->equiv_repl, B_LAST);
-  if (has_capability("obsolete_last", pc->capability)) {
-    dio_put_uint8(&dout, packet->obsolete_by);
-  } else {
-    if (!tech_exists(packet->obsolete_by)) {
-      dio_put_uint8(&dout, A_NONE);
-    } else {
-      dio_put_uint8(&dout, packet->obsolete_by);
-    }
-  }
-  dio_put_bool8(&dout, packet->is_wonder);
-  dio_put_uint16(&dout, packet->build_cost);
-  dio_put_uint8(&dout, packet->upkeep);
-  dio_put_uint8(&dout, packet->sabotage);
-  for (count = 0, eff = packet->effect; eff->type != EFT_LAST;
-       count++, eff++) {
-    /* nothing */
-  }
-  dio_put_uint8(&dout, count);
-  for (eff = packet->effect; eff->type != EFT_LAST; eff++) {
-    dio_put_uint8(&dout, eff->type);
-    dio_put_uint8(&dout, eff->range);
-    dio_put_sint16(&dout, eff->amount);
-    dio_put_uint8(&dout, eff->survives);
-    dio_put_uint8(&dout, eff->cond_bldg);
-    dio_put_uint8(&dout, eff->cond_gov);
-    dio_put_uint8(&dout, eff->cond_adv);
-    dio_put_uint8(&dout, eff->cond_eff);
-    dio_put_uint8(&dout, eff->aff_unit);
-    dio_put_uint8(&dout, eff->aff_terr);
-    dio_put_uint16(&dout, eff->aff_spec);
-  }
-  dio_put_uint8(&dout, packet->variant);	/* FIXME: remove when gen-impr obsoletes */
-  dio_put_string(&dout, packet->name);
-  
-  if (has_capability("tech_impr_gfx", pc->capability)) {
-    dio_put_string(&dout, packet->graphic_str);
-    dio_put_string(&dout, packet->graphic_alt);
-  }
-
-  dio_put_string(&dout, packet->soundtag);
-  dio_put_string(&dout, packet->soundtag_alt);
-
-  /* This must be last, so client can determine length: */
-  if(packet->helptext) {
-    dio_put_string(&dout, packet->helptext);
-  }
-  
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_building *
-receive_packet_ruleset_building(struct connection *pc)
-{
-  int len, inx, count;
-  RECEIVE_PACKET_START(packet_ruleset_building, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  dio_get_uint8(&din, &packet->tech_req);
-  dio_get_uint8(&din, &packet->bldg_req);
-  dio_get_uint8_vec8(&din, (int **)&packet->terr_gate, T_LAST);
-  dio_get_uint16_vec8(&din, (int **)&packet->spec_gate, S_NO_SPECIAL);
-  dio_get_uint8(&din, (int *)&packet->equiv_range);
-  dio_get_uint8_vec8(&din, &packet->equiv_dupl, B_LAST);
-  dio_get_uint8_vec8(&din, &packet->equiv_repl, B_LAST);
-  dio_get_uint8(&din, &packet->obsolete_by);
-  if (!has_capability("obsolete_last", pc->capability)
-      && packet->obsolete_by == A_NONE) {
-    packet->obsolete_by = A_LAST;
-  }
-  dio_get_bool8(&din, &packet->is_wonder);
-  dio_get_uint16(&din, &packet->build_cost);
-  dio_get_uint8(&din, &packet->upkeep);
-  dio_get_uint8(&din, &packet->sabotage);
-  dio_get_uint8(&din, &count);
-  packet->effect = fc_malloc((count + 1) * sizeof(struct impr_effect));
-  for (inx = 0; inx < count; inx++) {
-    dio_get_uint8(&din, (int *)&(packet->effect[inx].type));
-    dio_get_uint8(&din, (int *)&(packet->effect[inx].range));
-    dio_get_sint16(&din, &(packet->effect[inx].amount));
-    dio_get_uint8(&din, &(packet->effect[inx].survives));
-    dio_get_uint8(&din, &(packet->effect[inx].cond_bldg));
-    dio_get_uint8(&din, &(packet->effect[inx].cond_gov));
-    dio_get_uint8(&din, &(packet->effect[inx].cond_adv));
-    dio_get_uint8(&din, (int *)&(packet->effect[inx].cond_eff));
-    dio_get_uint8(&din, (int *)&(packet->effect[inx].aff_unit));
-    dio_get_uint8(&din, (int *)&(packet->effect[inx].aff_terr));
-    dio_get_uint16(&din, (int *)&(packet->effect[inx].aff_spec));
-  }
-  packet->effect[count].type = EFT_LAST;
-  dio_get_uint8(&din, &packet->variant);	/* FIXME: remove when gen-impr obsoletes */
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-  
-  if (has_capability("tech_impr_gfx", pc->capability)) {
-    dio_get_string(&din, packet->graphic_str,
-                   sizeof(packet->graphic_str));
-    dio_get_string(&din, packet->graphic_alt,
-                   sizeof(packet->graphic_alt));
-  } else {
-    /* Give a valid string (that will not refer to any sprite). */
-    packet->graphic_str[0] = '\0';
-    packet->graphic_alt[0] = '\0';
-  }
-  
-  dio_get_string(&din, packet->soundtag, sizeof(packet->soundtag));
-  dio_get_string(&din, packet->soundtag_alt, sizeof(packet->soundtag_alt));
-
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->helptext = fc_malloc(len);
-    dio_get_string(&din, packet->helptext, len);
-  } else {
-    packet->helptext = NULL;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_terrain(struct connection *pc,
-				const struct packet_ruleset_terrain *packet)
-{
-  int i;
-  SEND_PACKET_START(PACKET_RULESET_TERRAIN);
-
-  dio_put_uint8(&dout, packet->id);
-  dio_put_string(&dout, packet->terrain_name);
-  dio_put_uint8(&dout, packet->movement_cost);
-  dio_put_uint8(&dout, packet->defense_bonus);
-  dio_put_uint8(&dout, packet->food);
-  dio_put_uint8(&dout, packet->shield);
-  dio_put_uint8(&dout, packet->trade);
-  dio_put_string(&dout, packet->special_1_name);
-  dio_put_uint8(&dout, packet->food_special_1);
-  dio_put_uint8(&dout, packet->shield_special_1);
-  dio_put_uint8(&dout, packet->trade_special_1);
-  dio_put_string(&dout, packet->special_2_name);
-  dio_put_uint8(&dout, packet->food_special_2);
-  dio_put_uint8(&dout, packet->shield_special_2);
-  dio_put_uint8(&dout, packet->trade_special_2);
-  dio_put_uint8(&dout, packet->road_trade_incr);
-  dio_put_uint8(&dout, packet->road_time);
-  dio_put_uint8(&dout, packet->irrigation_result);
-  dio_put_uint8(&dout, packet->irrigation_food_incr);
-  dio_put_uint8(&dout, packet->irrigation_time);
-  dio_put_uint8(&dout, packet->mining_result);
-  dio_put_uint8(&dout, packet->mining_shield_incr);
-  dio_put_uint8(&dout, packet->mining_time);
-  dio_put_uint8(&dout, packet->transform_result);
-  dio_put_uint8(&dout, packet->transform_time);
-  dio_put_string(&dout, packet->graphic_str);
-  dio_put_string(&dout, packet->graphic_alt);
-  for(i=0; i<2; i++) {
-    dio_put_string(&dout, packet->special[i].graphic_str);
-    dio_put_string(&dout, packet->special[i].graphic_alt);
-  }
-
-  DIO_BV_PUT(&dout, packet->flags);
-
-  /* This must be last, so client can determine length: */
-  if(packet->helptext) {
-    dio_put_string(&dout, packet->helptext);
-  }
-  
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_terrain *
-receive_packet_ruleset_terrain(struct connection *pc)
-{
-  int i, len;
-  RECEIVE_PACKET_START(packet_ruleset_terrain, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  dio_get_string(&din, packet->terrain_name, sizeof(packet->terrain_name));
-  dio_get_uint8(&din, &packet->movement_cost);
-  dio_get_uint8(&din, &packet->defense_bonus);
-  dio_get_uint8(&din, &packet->food);
-  dio_get_uint8(&din, &packet->shield);
-  dio_get_uint8(&din, &packet->trade);
-  dio_get_string(&din, packet->special_1_name, sizeof(packet->special_1_name));
-  dio_get_uint8(&din, &packet->food_special_1);
-  dio_get_uint8(&din, &packet->shield_special_1);
-  dio_get_uint8(&din, &packet->trade_special_1);
-  dio_get_string(&din, packet->special_2_name, sizeof(packet->special_2_name));
-  dio_get_uint8(&din, &packet->food_special_2);
-  dio_get_uint8(&din, &packet->shield_special_2);
-  dio_get_uint8(&din, &packet->trade_special_2);
-  dio_get_uint8(&din, &packet->road_trade_incr);
-  dio_get_uint8(&din, &packet->road_time);
-  dio_get_uint8(&din, (int*)&packet->irrigation_result);
-  dio_get_uint8(&din, &packet->irrigation_food_incr);
-  dio_get_uint8(&din, &packet->irrigation_time);
-  dio_get_uint8(&din, (int*)&packet->mining_result);
-  dio_get_uint8(&din, &packet->mining_shield_incr);
-  dio_get_uint8(&din, &packet->mining_time);
-  dio_get_uint8(&din, (int*)&packet->transform_result);
-  dio_get_uint8(&din, &packet->transform_time);
-  
-  dio_get_string(&din, packet->graphic_str, sizeof(packet->graphic_str));
-  dio_get_string(&din, packet->graphic_alt, sizeof(packet->graphic_alt));
-  for(i=0; i<2; i++) {
-    dio_get_string(&din, packet->special[i].graphic_str,
-		sizeof(packet->special[i].graphic_str));
-    dio_get_string(&din, packet->special[i].graphic_alt,
-		sizeof(packet->special[i].graphic_alt));
-  }
-
-  DIO_BV_GET(&din, packet->flags);
-
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->helptext = fc_malloc(len);
-    dio_get_string(&din, packet->helptext, len);
-  } else {
-    packet->helptext = NULL;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_terrain_control(struct connection *pc,
-					const struct terrain_misc *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_TERRAIN_CONTROL);
-
-  dio_put_uint8(&dout, packet->river_style);
-  dio_put_bool8(&dout, packet->may_road);
-  dio_put_bool8(&dout, packet->may_irrigate);
-  dio_put_bool8(&dout, packet->may_mine);
-  dio_put_bool8(&dout, packet->may_transform);
-  dio_put_uint8(&dout, packet->ocean_reclaim_requirement);
-  dio_put_uint8(&dout, packet->land_channel_requirement);
-  dio_put_uint8(&dout, packet->river_move_mode);
-  dio_put_uint16(&dout, packet->river_defense_bonus);
-  dio_put_uint16(&dout, packet->river_trade_incr);
-  dio_put_uint16(&dout, packet->fortress_defense_bonus);
-  dio_put_uint16(&dout, packet->road_superhighway_trade_bonus);
-  dio_put_uint16(&dout, packet->rail_food_bonus);
-  dio_put_uint16(&dout, packet->rail_shield_bonus);
-  dio_put_uint16(&dout, packet->rail_trade_bonus);
-  dio_put_uint16(&dout, packet->farmland_supermarket_food_bonus);
-  dio_put_uint16(&dout, packet->pollution_food_penalty);
-  dio_put_uint16(&dout, packet->pollution_shield_penalty);
-  dio_put_uint16(&dout, packet->pollution_trade_penalty);
-  dio_put_uint16(&dout, packet->fallout_food_penalty);
-  dio_put_uint16(&dout, packet->fallout_shield_penalty);
-  dio_put_uint16(&dout, packet->fallout_trade_penalty);
-
-  if (packet->river_help_text) {
-    dio_put_string(&dout, packet->river_help_text);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct terrain_misc *
-receive_packet_ruleset_terrain_control(struct connection *pc)
-{
-  int len;
-  RECEIVE_PACKET_START(terrain_misc, packet);
-
-  dio_get_uint8(&din, (int*)&packet->river_style);
-  dio_get_bool8(&din, &packet->may_road);
-  dio_get_bool8(&din, &packet->may_irrigate);
-  dio_get_bool8(&din, &packet->may_mine);
-  dio_get_bool8(&din, &packet->may_transform);
-  dio_get_uint8(&din, (int*)&packet->ocean_reclaim_requirement);
-  dio_get_uint8(&din, (int*)&packet->land_channel_requirement);
-  dio_get_uint8(&din, (int*)&packet->river_move_mode);
-  dio_get_uint16(&din, &packet->river_defense_bonus);
-  dio_get_uint16(&din, &packet->river_trade_incr);
-  dio_get_uint16(&din, &packet->fortress_defense_bonus);
-  dio_get_uint16(&din, &packet->road_superhighway_trade_bonus);
-  dio_get_uint16(&din, &packet->rail_food_bonus);
-  dio_get_uint16(&din, &packet->rail_shield_bonus);
-  dio_get_uint16(&din, &packet->rail_trade_bonus);
-  dio_get_uint16(&din, &packet->farmland_supermarket_food_bonus);
-  dio_get_uint16(&din, &packet->pollution_food_penalty);
-  dio_get_uint16(&din, &packet->pollution_shield_penalty);
-  dio_get_uint16(&din, &packet->pollution_trade_penalty);
-  dio_get_uint16(&din, &packet->fallout_food_penalty);
-  dio_get_uint16(&din, &packet->fallout_shield_penalty);
-  dio_get_uint16(&din, &packet->fallout_trade_penalty);
-
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->river_help_text = fc_malloc(len);
-    dio_get_string(&din, packet->river_help_text, len);
-  } else {
-    packet->river_help_text = NULL;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_government(struct connection *pc,
-			     const struct packet_ruleset_government *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_GOVERNMENT);
-  
-  dio_put_uint8(&dout, packet->id);
-  
-  dio_put_uint8(&dout, packet->required_tech);
-  dio_put_uint8(&dout, packet->max_rate);
-  dio_put_uint8(&dout, packet->civil_war);
-  dio_put_uint8(&dout, packet->martial_law_max);
-  dio_put_uint8(&dout, packet->martial_law_per);
-  dio_put_uint8(&dout, packet->empire_size_mod);
-  dio_put_uint8(&dout, packet->empire_size_inc);
-  dio_put_uint8(&dout, packet->rapture_size);
-  
-  dio_put_uint8(&dout, packet->unit_happy_cost_factor);
-  dio_put_uint8(&dout, packet->unit_shield_cost_factor);
-  dio_put_uint8(&dout, packet->unit_food_cost_factor);
-  dio_put_uint8(&dout, packet->unit_gold_cost_factor);
-  
-  dio_put_uint8(&dout, packet->free_happy);
-  dio_put_uint8(&dout, packet->free_shield);
-  dio_put_uint8(&dout, packet->free_food);
-  dio_put_uint8(&dout, packet->free_gold);
-
-  dio_put_uint8(&dout, packet->trade_before_penalty);
-  dio_put_uint8(&dout, packet->shields_before_penalty);
-  dio_put_uint8(&dout, packet->food_before_penalty);
-
-  dio_put_uint8(&dout, packet->celeb_trade_before_penalty);
-  dio_put_uint8(&dout, packet->celeb_shields_before_penalty);
-  dio_put_uint8(&dout, packet->celeb_food_before_penalty);
-
-  dio_put_uint8(&dout, packet->trade_bonus);
-  dio_put_uint8(&dout, packet->shield_bonus);
-  dio_put_uint8(&dout, packet->food_bonus);
-
-  dio_put_uint8(&dout, packet->celeb_trade_bonus);
-  dio_put_uint8(&dout, packet->celeb_shield_bonus);
-  dio_put_uint8(&dout, packet->celeb_food_bonus);
-
-  dio_put_uint8(&dout, packet->corruption_level);
-  dio_put_uint8(&dout, packet->corruption_modifier);
-  dio_put_uint8(&dout, packet->fixed_corruption_distance);
-  dio_put_uint8(&dout, packet->corruption_distance_factor);
-  dio_put_uint8(&dout, packet->extra_corruption_distance);
-  dio_put_uint8(&dout, packet->corruption_max_distance_cap);
-  
-  dio_put_uint8(&dout, packet->waste_level);
-  dio_put_uint8(&dout, packet->waste_modifier);
-  dio_put_uint8(&dout, packet->fixed_waste_distance);
-  dio_put_uint8(&dout, packet->waste_distance_factor);
-  dio_put_uint8(&dout, packet->extra_waste_distance);
-  dio_put_uint8(&dout, packet->waste_max_distance_cap);
-  
-  dio_put_uint16(&dout, packet->flags);
-  dio_put_uint8(&dout, packet->hints);
-
-  dio_put_uint8(&dout, packet->num_ruler_titles);
-
-  dio_put_string(&dout, packet->name);
-  dio_put_string(&dout, packet->graphic_str);
-  dio_put_string(&dout, packet->graphic_alt);
-
-  /* This must be last, so client can determine length: */
-  if(packet->helptext) {
-    dio_put_string(&dout, packet->helptext);
-  }
-  
-  SEND_PACKET_END;
-}
-
-int send_packet_ruleset_government_ruler_title(struct connection *pc,
-		    const struct packet_ruleset_government_ruler_title *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_GOVERNMENT_RULER_TITLE);
-  
-  dio_put_uint8(&dout, packet->gov);
-  dio_put_uint8(&dout, packet->id);
-  dio_put_uint8(&dout, packet->nation);
-
-  dio_put_string(&dout, packet->male_title);
-  dio_put_string(&dout, packet->female_title);
-  
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_government *
-receive_packet_ruleset_government(struct connection *pc)
-{
-  int len;
-  RECEIVE_PACKET_START(packet_ruleset_government, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  
-  dio_get_uint8(&din, &packet->required_tech);
-  dio_get_uint8(&din, &packet->max_rate);
-  dio_get_uint8(&din, &packet->civil_war);
-  dio_get_uint8(&din, &packet->martial_law_max);
-  dio_get_uint8(&din, &packet->martial_law_per);
-  dio_get_uint8(&din, &packet->empire_size_mod);
-  if(packet->empire_size_mod > 127) packet->empire_size_mod-=256;
-  dio_get_uint8(&din, &packet->empire_size_inc);
-  dio_get_uint8(&din, &packet->rapture_size);
-  
-  dio_get_uint8(&din, &packet->unit_happy_cost_factor);
-  dio_get_uint8(&din, &packet->unit_shield_cost_factor);
-  dio_get_uint8(&din, &packet->unit_food_cost_factor);
-  dio_get_uint8(&din, &packet->unit_gold_cost_factor);
-  
-  dio_get_uint8(&din, &packet->free_happy);
-  dio_get_uint8(&din, &packet->free_shield);
-  dio_get_uint8(&din, &packet->free_food);
-  dio_get_uint8(&din, &packet->free_gold);
-
-  dio_get_uint8(&din, &packet->trade_before_penalty);
-  dio_get_uint8(&din, &packet->shields_before_penalty);
-  dio_get_uint8(&din, &packet->food_before_penalty);
-
-  dio_get_uint8(&din, &packet->celeb_trade_before_penalty);
-  dio_get_uint8(&din, &packet->celeb_shields_before_penalty);
-  dio_get_uint8(&din, &packet->celeb_food_before_penalty);
-
-  dio_get_uint8(&din, &packet->trade_bonus);
-  dio_get_uint8(&din, &packet->shield_bonus);
-  dio_get_uint8(&din, &packet->food_bonus);
-
-  dio_get_uint8(&din, &packet->celeb_trade_bonus);
-  dio_get_uint8(&din, &packet->celeb_shield_bonus);
-  dio_get_uint8(&din, &packet->celeb_food_bonus);
-
-  dio_get_uint8(&din, &packet->corruption_level);
-  dio_get_uint8(&din, &packet->corruption_modifier);
-  dio_get_uint8(&din, &packet->fixed_corruption_distance);
-  dio_get_uint8(&din, &packet->corruption_distance_factor);
-  dio_get_uint8(&din, &packet->extra_corruption_distance);
-  dio_get_uint8(&din, &packet->corruption_max_distance_cap);
-  
-  dio_get_uint8(&din, &packet->waste_level);
-  dio_get_uint8(&din, &packet->waste_modifier);
-  dio_get_uint8(&din, &packet->fixed_waste_distance);
-  dio_get_uint8(&din, &packet->waste_distance_factor);
-  dio_get_uint8(&din, &packet->extra_waste_distance);
-  dio_get_uint8(&din, &packet->waste_max_distance_cap);
-  
-  dio_get_uint16(&din, &packet->flags);
-  dio_get_uint8(&din, &packet->hints);
-
-  dio_get_uint8(&din, &packet->num_ruler_titles);
-
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-  dio_get_string(&din, packet->graphic_str, sizeof(packet->graphic_str));
-  dio_get_string(&din, packet->graphic_alt, sizeof(packet->graphic_alt));
-  
-  len = dio_input_remaining(&din);
-  if (len > 0) {
-    packet->helptext = fc_malloc(len);
-    dio_get_string(&din, packet->helptext, len);
-  } else {
-    packet->helptext = NULL;
-  }
-
-  freelog(LOG_DEBUG, "recv gov %s", packet->name);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-struct packet_ruleset_government_ruler_title *
-receive_packet_ruleset_government_ruler_title(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_ruleset_government_ruler_title, packet);
-
-  dio_get_uint8(&din, &packet->gov);
-  dio_get_uint8(&din, &packet->id);
-  dio_get_uint8(&din, &packet->nation);
-
-  dio_get_string(&din, packet->male_title, sizeof(packet->male_title));
-  dio_get_string(&din, packet->female_title, sizeof(packet->female_title));
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_nation(struct connection *pc,
-			       const struct packet_ruleset_nation *packet)
-{
-  int i;
-  SEND_PACKET_START(PACKET_RULESET_NATION);
-
-  dio_put_uint8(&dout, packet->id);
-
-  dio_put_string(&dout, packet->name);
-  dio_put_string(&dout, packet->name_plural);
-  dio_put_string(&dout, packet->graphic_str);
-  dio_put_string(&dout, packet->graphic_alt);
-  dio_put_uint8(&dout, packet->leader_count);
-  for( i=0; i<packet->leader_count; i++ ) {
-    dio_put_string(&dout, packet->leader_name[i]);
-    dio_put_bool8(&dout, packet->leader_sex[i]);
-  }
-  dio_put_uint8(&dout, packet->city_style);
-  dio_put_tech_list(&dout, packet->init_techs);
-  if (has_capability("class_legend", pc->capability)) {
-    dio_put_string(&dout, packet->class);
-    dio_put_string(&dout, packet->legend);
-  }
-
-  SEND_PACKET_END;
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_nation *
-receive_packet_ruleset_nation(struct connection *pc)
-{
-  int i;
-  RECEIVE_PACKET_START(packet_ruleset_nation, packet);
-
-  dio_get_uint8(&din, &packet->id);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-  dio_get_string(&din, packet->name_plural, sizeof(packet->name_plural));
-  dio_get_string(&din, packet->graphic_str, sizeof(packet->graphic_str));
-  dio_get_string(&din, packet->graphic_alt, sizeof(packet->graphic_alt));
-  dio_get_uint8(&din, &packet->leader_count);
-
-  if (packet->leader_count > MAX_NUM_LEADERS) {
-    packet->leader_count = MAX_NUM_LEADERS;
-  }
-
-  for (i = 0; i < packet->leader_count; i++) {
-    dio_get_string(&din, packet->leader_name[i],
-		   sizeof(packet->leader_name[i]));
-    dio_get_bool8(&din, &packet->leader_sex[i]);
-  }
-
-  dio_get_uint8(&din, &packet->city_style);
-  dio_get_tech_list(&din, packet->init_techs);
-  if (has_capability("class_legend", pc->capability)) {
-    dio_get_string(&din, packet->class, sizeof(packet->class));
-    dio_get_string(&din, packet->legend, sizeof(packet->legend));
-  } else {
-    packet->class[0] = '\0';
-    packet->legend[0] = '\0';
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_city(struct connection *pc,
-                             const struct packet_ruleset_city *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_CITY);
-
-  dio_put_uint8(&dout, packet->style_id);
-  dio_put_uint8(&dout, packet->techreq);
-  dio_put_sint16(&dout, packet->replaced_by);           /* I may send -1 */
-
-  dio_put_string(&dout, packet->name);
-  dio_put_string(&dout, packet->graphic);
-  dio_put_string(&dout, packet->graphic_alt);
-  dio_put_string(&dout, packet->citizens_graphic);
-  dio_put_string(&dout, packet->citizens_graphic_alt);
-  
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_city *
-receive_packet_ruleset_city(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_ruleset_city, packet);
-
-  dio_get_uint8(&din, &packet->style_id);
-  dio_get_uint8(&din, &packet->techreq);
-  dio_get_sint16(&din, &packet->replaced_by);           /* may be -1 */
-
-  dio_get_string(&din, packet->name, MAX_LEN_NAME);
-  dio_get_string(&din, packet->graphic, MAX_LEN_NAME);
-  dio_get_string(&din, packet->graphic_alt, MAX_LEN_NAME);
-  dio_get_string(&din, packet->citizens_graphic, MAX_LEN_NAME);
-  dio_get_string(&din, packet->citizens_graphic_alt, MAX_LEN_NAME);
-	
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_ruleset_game(struct connection *pc,
-                             const struct packet_ruleset_game *packet)
-{
-  SEND_PACKET_START(PACKET_RULESET_GAME);
-
-  dio_put_uint8(&dout, packet->min_city_center_food);
-  dio_put_uint8(&dout, packet->min_city_center_shield);
-  dio_put_uint8(&dout, packet->min_city_center_trade);
-  dio_put_uint8(&dout, packet->min_dist_bw_cities);
-  dio_put_uint8(&dout, packet->init_vis_radius_sq);
-  dio_put_uint8(&dout, packet->hut_overflight);
-  dio_put_bool8(&dout, packet->pillage_select);
-  dio_put_uint8(&dout, packet->nuke_contamination);
-  dio_put_uint8(&dout, packet->granary_food_ini);
-  dio_put_uint8(&dout, packet->granary_food_inc);
-  dio_put_uint8(&dout, packet->tech_cost_style);
-  dio_put_uint8(&dout, packet->tech_leakage);
-  dio_put_tech_list(&dout, packet->global_init_techs);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_ruleset_game *
-receive_packet_ruleset_game(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_ruleset_game, packet);
-
-  dio_get_uint8(&din, &packet->min_city_center_food);
-  dio_get_uint8(&din, &packet->min_city_center_shield);
-  dio_get_uint8(&din, &packet->min_city_center_trade);
-  dio_get_uint8(&din, &packet->min_dist_bw_cities);
-  dio_get_uint8(&din, &packet->init_vis_radius_sq);
-  dio_get_uint8(&din, &packet->hut_overflight);
-  dio_get_bool8(&din, &packet->pillage_select);
-  dio_get_uint8(&din, &packet->nuke_contamination);
-  dio_get_uint8(&din, &packet->granary_food_ini);
-  dio_get_uint8(&din, &packet->granary_food_inc);
-  dio_get_uint8(&din, &packet->tech_cost_style);
-  dio_get_uint8(&din, &packet->tech_leakage);
-  dio_get_tech_list(&din, packet->global_init_techs);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_spaceship_info(struct connection *pc,
-			       const struct packet_spaceship_info *packet)
-{
-  SEND_PACKET_START(PACKET_SPACESHIP_INFO);
-  
-  dio_put_uint8(&dout, packet->player_num);
-  dio_put_uint8(&dout, packet->sship_state);
-  dio_put_uint8(&dout, packet->structurals);
-  dio_put_uint8(&dout, packet->components);
-  dio_put_uint8(&dout, packet->modules);
-  dio_put_uint8(&dout, packet->fuel);
-  dio_put_uint8(&dout, packet->propulsion);
-  dio_put_uint8(&dout, packet->habitation);
-  dio_put_uint8(&dout, packet->life_support);
-  dio_put_uint8(&dout, packet->solar_panels);
-  dio_put_uint16(&dout, packet->launch_year);
-  dio_put_uint8(&dout, (packet->population/1000));
-  dio_put_uint32(&dout, packet->mass);
-  dio_put_uint32(&dout, (int) (packet->support_rate*10000));
-  dio_put_uint32(&dout, (int) (packet->energy_rate*10000));
-  dio_put_uint32(&dout, (int) (packet->success_rate*10000));
-  dio_put_uint32(&dout, (int) (packet->travel_time*10000));
-  dio_put_bit_string(&dout, (char*)packet->structure);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_spaceship_info *
-receive_packet_spaceship_info(struct connection *pc)
-{
-  int tmp;
-  RECEIVE_PACKET_START(packet_spaceship_info, packet);
-
-  dio_get_uint8(&din, &packet->player_num);
-  dio_get_uint8(&din, &packet->sship_state);
-  dio_get_uint8(&din, &packet->structurals);
-  dio_get_uint8(&din, &packet->components);
-  dio_get_uint8(&din, &packet->modules);
-  dio_get_uint8(&din, &packet->fuel);
-  dio_get_uint8(&din, &packet->propulsion);
-  dio_get_uint8(&din, &packet->habitation);
-  dio_get_uint8(&din, &packet->life_support);
-  dio_get_uint8(&din, &packet->solar_panels);
-  dio_get_uint16(&din, &packet->launch_year);
-  
-  if(packet->launch_year > 32767) packet->launch_year-=65536;
-  
-  dio_get_uint8(&din, &packet->population);
-  packet->population *= 1000;
-  dio_get_uint32(&din, &packet->mass);
-  
-  dio_get_uint32(&din, &tmp);
-  packet->support_rate = tmp * 0.0001;
-  dio_get_uint32(&din, &tmp);
-  packet->energy_rate = tmp * 0.0001;
-  dio_get_uint32(&din, &tmp);
-  packet->success_rate = tmp * 0.0001;
-  dio_get_uint32(&din, &tmp);
-  packet->travel_time = tmp * 0.0001;
-
-  dio_get_bit_string(&din, (char *) packet->structure,
-		     sizeof(packet->structure));
-  
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_spaceship_action(struct connection *pc,
-				 const struct packet_spaceship_action *packet)
-{
-  SEND_PACKET_START(PACKET_SPACESHIP_ACTION);
-  
-  dio_put_uint8(&dout, packet->action);
-  dio_put_uint8(&dout, packet->num);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_spaceship_action *
-receive_packet_spaceship_action(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_spaceship_action, packet);
-
-  dio_get_uint8(&din, &packet->action);
-  dio_get_uint8(&din, &packet->num);
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_city_name_suggestion(struct connection *pc,
-			      const struct packet_city_name_suggestion *packet)
-{
-  SEND_PACKET_START(PACKET_CITY_NAME_SUGGESTION);
-  
-  dio_put_uint16(&dout, packet->id);
-  dio_put_string(&dout, packet->name);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_city_name_suggestion *
-receive_packet_city_name_suggestion(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_city_name_suggestion, packet);
-
-  dio_get_uint16(&din, &packet->id);
-  dio_get_string(&din, packet->name, sizeof(packet->name));
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_sabotage_list(struct connection *pc,
-			      const struct packet_sabotage_list *packet)
-{
-  SEND_PACKET_START(PACKET_SABOTAGE_LIST);
-
-  dio_put_uint16(&dout, packet->diplomat_id);
-  dio_put_uint16(&dout, packet->city_id);
-  dio_put_bit_string(&dout, (char *)packet->improvements);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_sabotage_list *
-receive_packet_sabotage_list(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_sabotage_list, packet);
-
-  dio_get_uint16(&din, &packet->diplomat_id);
-  dio_get_uint16(&din, &packet->city_id);
-  dio_get_bit_string(&din, (char *) packet->improvements,
-		     sizeof(packet->improvements));
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-  Send a PACKET_GOTO_ROUTE or PACKET_PATROL_ROUTE.
-**************************************************************************/
-int send_packet_goto_route(struct connection *pc,
-			   const struct packet_goto_route *packet,
-			   enum packet_type packet_type)
-{
-  int i;
-  SEND_PACKET_START(packet_type);
-
-  dio_put_uint16(&dout, packet->unit_id);
-  dio_put_uint16(&dout, packet->length);
-
-  for (i = 0; i < packet->length; i++) {
-    dio_put_uint8(&dout, packet->pos[i].x);
-    dio_put_uint8(&dout, packet->pos[i].y);
-  }
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-Pick up and reassemble the pieces. Note that this means it will return NULL
-if the received piece isn't the last one.
-**************************************************************************/
-struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
-{
-  int i;
-  RECEIVE_PACKET_START(packet_goto_route, packet);
-
-  dio_get_uint16(&din, &packet->unit_id);
-  dio_get_uint16(&din, &packet->length);
-
-  if (packet->length > MAX_LEN_ROUTE) {
-    packet->length = MAX_LEN_ROUTE;
-  }
-
-  for (i = 0; i < packet->length; i++) {
-    dio_get_uint8(&din, &packet->pos[i].x);
-    dio_get_uint8(&din, &packet->pos[i].y);
-  }
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_nations_used(struct connection *pc,
-			     const struct packet_nations_used *packet)
-{
-  int i;
-  SEND_PACKET_START(PACKET_SELECT_NATION);
-
-  for (i = 0; i < packet->num_nations_used; i++) {
-    assert((packet->nations_used[i] & 0xffff) == packet->nations_used[i]);
-    dio_put_uint16(&dout, packet->nations_used[i]);
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_nations_used *receive_packet_nations_used(struct connection
-							*pc)
-{
-  RECEIVE_PACKET_START(packet_nations_used, packet);
-
-  packet->num_nations_used = 0;
-
-  while (dio_input_remaining(&din) >= 2 &&
-	 packet->num_nations_used < MAX_NUM_PLAYERS) {
-
-    dio_get_uint16(&din, &packet->nations_used[packet->num_nations_used]);
-    packet->num_nations_used++;
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/*************************************************************************
-...
-**************************************************************************/
-int send_packet_endgame_report(struct connection *pc, enum packet_type pt,
-			       const struct packet_endgame_report *packet)
-{
-  int i;
-	
-  SEND_PACKET_START(pt);
-
-  dio_put_uint8(&dout, packet->nscores);
-  for (i = 0; i < packet->nscores; i++) {
-    dio_put_uint16(&dout, packet->id[i]);
-    dio_put_uint16(&dout, packet->score[i]);
-    dio_put_uint32(&dout, packet->pop[i]);
-    dio_put_uint16(&dout, packet->bnp[i]);
-    dio_put_uint16(&dout, packet->mfg[i]);
-    dio_put_uint16(&dout, packet->cities[i]);
-    dio_put_uint16(&dout, packet->techs[i]);
-    dio_put_uint16(&dout, packet->mil_service[i]);
-    dio_put_uint8(&dout, packet->wonders[i]);
-    dio_put_uint16(&dout, packet->research[i]);
-    dio_put_uint32(&dout, packet->landarea[i]);
-    dio_put_uint32(&dout, packet->settledarea[i]);
-    dio_put_uint16(&dout, packet->literacy[i]);
-    if (has_capability("endgame_rep", pc->capability)) {
-      dio_put_uint32(&dout, packet->spaceship[i]);
-    } else {
-      dio_put_uint8(&dout, packet->spaceship[i]);
-    }
-  }
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_endgame_report *
-receive_packet_endgame_report(struct connection *pc)
-{
-  int i;
-	
-  RECEIVE_PACKET_START(packet_endgame_report, packet);
-
-  dio_get_uint8(&din, &packet->nscores);
-  for (i = 0; i < packet->nscores; i++) {
-    dio_get_uint16(&din, &packet->id[i]);
-    dio_get_uint16(&din, &packet->score[i]);
-    dio_get_uint32(&din, &packet->pop[i]);
-    dio_get_uint16(&din, &packet->bnp[i]);
-    dio_get_uint16(&din, &packet->mfg[i]);
-    dio_get_uint16(&din, &packet->cities[i]);
-    dio_get_uint16(&din, &packet->techs[i]);
-    dio_get_uint16(&din, &packet->mil_service[i]);
-    dio_get_uint8(&din, &packet->wonders[i]);
-    dio_get_uint16(&din, &packet->research[i]);
-    dio_get_uint32(&din, &packet->landarea[i]);
-    dio_get_uint32(&din, &packet->settledarea[i]);
-    dio_get_uint16(&din, &packet->literacy[i]);
-    if (has_capability("endgame_rep", pc->capability)) {
-      dio_get_uint32(&din, &packet->spaceship[i]);
-    } else {
-      dio_get_uint8(&din, &packet->spaceship[i]);
-    }
-  }
-	        
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_attribute_chunk(struct connection *pc,
-				struct packet_attribute_chunk *packet)
-{
-  SEND_PACKET_START(PACKET_ATTRIBUTE_CHUNK);
-
-  assert(packet->total_length > 0
-	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
-  /* 500 bytes header, just to be sure */
-  assert(packet->chunk_length > 0
-	 && packet->chunk_length < MAX_LEN_PACKET - 500);
-  assert(packet->chunk_length <= packet->total_length);
-  assert(packet->offset >= 0 && packet->offset < packet->total_length);
-
-  freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
-	  packet->total_length, packet->chunk_length);
-
-  dio_put_uint32(&dout, packet->offset);
-  dio_put_uint32(&dout, packet->total_length);
-  dio_put_uint32(&dout, packet->chunk_length);
-  dio_put_memory(&dout, packet->data, packet->chunk_length);
-
-  SEND_PACKET_END;
-}
-
-/**************************************************************************
-..
-**************************************************************************/
-struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
-							      connection
-							      *pc)
-{
-  RECEIVE_PACKET_START(packet_attribute_chunk, packet);
-
-  dio_get_uint32(&din, &packet->offset);
-  dio_get_uint32(&din, &packet->total_length);
-  dio_get_uint32(&din, &packet->chunk_length);
-
-  /*
-   * Because of the changes in enum packet_type during the 1.12.1
-   * timeframe an old server will trigger the following condition.
-   */
-  if (packet->total_length <= 0
-      || packet->total_length >= MAX_ATTRIBUTE_BLOCK) {
-    freelog(LOG_FATAL, _("The server you tried to connect is too old "
-			 "(1.12.0 or earlier). Please choose another "
-			 "server next time. Good bye."));
-    exit(EXIT_FAILURE);
-  }
-  assert(packet->total_length > 0
-	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
-  /* 500 bytes header, just to be sure */
-  assert(packet->chunk_length > 0
-	 && packet->chunk_length < MAX_LEN_PACKET - 500);
-  assert(packet->chunk_length <= packet->total_length);
-  assert(packet->offset >= 0 && packet->offset < packet->total_length);
-
-  assert(packet->chunk_length != -1);
-  assert(dio_input_remaining(&din) == packet->chunk_length);
-
-  dio_get_memory(&din, packet->data, packet->chunk_length);
-
-  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
-	  packet->total_length, packet->chunk_length);
-
-  RECEIVE_PACKET_END(packet);
-}
-
 /**************************************************************************
  Updates pplayer->attribute_block according to the given packet.
 **************************************************************************/
-void generic_handle_attribute_chunk(struct player *pplayer,
-				    struct packet_attribute_chunk *chunk)
+void generic_handle_player_attribute_chunk(struct player *pplayer,
+					   const struct
+					   packet_player_attribute_chunk
+					   *chunk)
 {
   /* first one in a row */
   if (chunk->offset == 0) {
@@ -3350,7 +562,7 @@ void generic_handle_attribute_chunk(struct player *pplayer,
 void send_attribute_block(const struct player *pplayer,
 			  struct connection *pconn)
 {
-  struct packet_attribute_chunk packet;
+  struct packet_player_attribute_chunk packet;
   int current_chunk, chunks, bytes_left;
 
   if (!pplayer || !pplayer->attribute_block.data) {
@@ -3378,8 +590,77 @@ void send_attribute_block(const struct player *pplayer,
 	   packet.chunk_length);
     bytes_left -= packet.chunk_length;
 
-    send_packet_attribute_chunk(pconn, &packet);
+    send_packet_player_attribute_chunk(pconn, &packet);
   }
 
   connection_do_unbuffer(pconn);
+}
+
+void pre_send_packet_chat_msg(struct connection *pc,
+			      enum packet_type packet_type,
+			      struct packet_chat_msg *packet)
+{
+  if (packet->x == -1 && packet->y == -1) {
+    /* since we can currently only send unsigned ints... */
+    assert(MAP_MAX_WIDTH <= 255 && MAP_MAX_HEIGHT <= 255);
+    packet->x = 255;
+    packet->y = 255;
+  }
+}
+
+void post_receive_packet_chat_msg(struct connection *pc,
+				  enum packet_type packet_type,
+				  struct packet_chat_msg *packet)
+{
+  if (packet->x == 255 && packet->y == 255) {
+    /* unsigned encoding for no position */
+    packet->x = -1;
+    packet->y = -1;
+  }
+}
+
+void pre_send_packet_player_attribute_chunk(struct connection *pc,
+					    enum packet_type packet_type,
+					    struct packet_player_attribute_chunk
+					    *packet)
+{
+  assert(packet->total_length > 0
+	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
+  /* 500 bytes header, just to be sure */
+  assert(packet->chunk_length > 0
+	 && packet->chunk_length < MAX_LEN_PACKET - 500);
+  assert(packet->chunk_length <= packet->total_length);
+  assert(packet->offset >= 0 && packet->offset < packet->total_length);
+
+  freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
+	  packet->total_length, packet->chunk_length);
+
+}
+
+void post_receive_packet_player_attribute_chunk(struct connection *pc,
+						enum packet_type packet_type,
+						struct packet_player_attribute_chunk
+						*packet)
+{
+  /*
+   * Because of the changes in enum packet_type during the 1.12.1
+   * timeframe an old server will trigger the following condition.
+   */
+  if (packet->total_length <= 0
+      || packet->total_length >= MAX_ATTRIBUTE_BLOCK) {
+    freelog(LOG_FATAL, _("The server you tried to connect is too old "
+			 "(1.12.0 or earlier). Please choose another "
+			 "server next time. Good bye."));
+    exit(EXIT_FAILURE);
+  }
+  assert(packet->total_length > 0
+	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
+  /* 500 bytes header, just to be sure */
+  assert(packet->chunk_length > 0
+	 && packet->chunk_length < MAX_LEN_PACKET - 500);
+  assert(packet->chunk_length <= packet->total_length);
+  assert(packet->offset >= 0 && packet->offset < packet->total_length);
+
+  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
+	  packet->total_length, packet->chunk_length);
 }

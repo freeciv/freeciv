@@ -197,15 +197,11 @@ static void rates_changed_callback(GtkAdjustment *adj)
 **************************************************************************/
 static void rates_ok_command_callback(GtkWidget *widget, gpointer data)
 {
-  struct packet_player_request packet;
-  
   gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(rates_dialog_shell);
 
-  packet.tax=rates_tax_value;
-  packet.science=rates_sci_value;
-  packet.luxury=rates_lux_value;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+  dsend_packet_player_rates(&aconnection, rates_tax_value, rates_lux_value,
+			    rates_sci_value);
 }
 
 

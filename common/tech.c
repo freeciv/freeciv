@@ -107,6 +107,7 @@ static void build_required_techs_helper(struct player *pplayer,
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
     freelog(LOG_FATAL, _("tech \"%s\": requires itself"),
 	    advances[goal].name);
+    assert(0);
     exit(EXIT_FAILURE);
   }
 
@@ -122,6 +123,7 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 {
   int counter;
 
+  //if(goal==0) freelog(LOG_NORMAL, "foobar %d",get_invention(pplayer, goal));
   BV_CLR_ALL(pplayer->research.inventions[goal].required_techs);
 
   if (get_invention(pplayer, goal) == TECH_KNOWN) {

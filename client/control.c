@@ -610,8 +610,6 @@ void request_unit_connect(void)
 **************************************************************************/
 void request_unit_unload(struct unit *punit)
 {
-  struct packet_unit_request req;
-
   if(get_transporter_capacity(punit) == 0) {
     append_output_window(_("Game: Only transporter units can be unloaded."));
     return;
@@ -619,10 +617,7 @@ void request_unit_unload(struct unit *punit)
 
   request_unit_wait(punit);    /* RP: unfocus the ship */
   
-  req.unit_id=punit->id;
-  req.city_id = req.x = req.y = -1;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UNLOAD);
+  dsend_packet_unit_unload(&aconnection, punit->id);
 }
 
 /**************************************************************************
@@ -630,13 +625,7 @@ void request_unit_unload(struct unit *punit)
 **************************************************************************/
 void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
-  struct packet_unit_request p;
-  p.unit_id = punit->id;
-  p.city_id = -1;
-  p.x = pcity->x;
-  p.y = pcity->y;
-  p.name[0] = '\0';
-  send_packet_unit_request(&aconnection, &p, PACKET_UNIT_AIRLIFT);
+  dsend_packet_unit_airlift(&aconnection, punit->id,pcity->id);
 }
 
 /**************************************************************************
@@ -677,14 +666,7 @@ void request_unit_wakeup(struct unit *punit)
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value)
 {
-  struct packet_diplomat_action req;
-
-  req.action_type = action;
-  req.diplomat_id = dipl_id;
-  req.target_id = target_id;
-  req.value = value;
-
-  send_packet_diplomat_action(&aconnection, &req);
+  dsend_packet_unit_diplomat_action(&aconnection, dipl_id,action,target_id,value);
 }
 
 void wakeup_sentried_units(int x, int y)
@@ -707,20 +689,12 @@ all the server checks and messages here.)
 **************************************************************************/
 void request_unit_build_city(struct unit *punit)
 {
-  if(can_unit_build_city(punit)) {
-    struct packet_generic_integer req;
-    req.value = punit->id;
-    send_packet_generic_integer(&aconnection,
-				PACKET_CITY_NAME_SUGGEST_REQ, &req);
+  if (can_unit_build_city(punit)) {
+    dsend_packet_city_name_suggestion_req(&aconnection, punit->id);
     /* the reply will trigger a dialog to name the new city */
-  }
-  else {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.city_id = req.x = req.y = -1;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
-    return;
+  } else {
+    char name[] = "";
+    dsend_packet_unit_build_city(&aconnection, punit->id, name);
   }
 }
 
@@ -736,7 +710,6 @@ void request_unit_build_city(struct unit *punit)
 void request_move_unit_direction(struct unit *punit, int dir)
 {
   int dest_x, dest_y;
-  struct unit req_unit;
 
   /* Catches attempts to move off map */
   if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, dir)) {
@@ -744,11 +717,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   }
 
   if (punit->moves_left > 0) {
-    /* Move the unit! */
-    req_unit = *punit;
-    req_unit.x = dest_x;
-    req_unit.y = dest_y;
-    send_move_unit(&req_unit);
+    dsend_packet_unit_move(&aconnection, punit->id, dest_x,dest_y);
   } else {
     /* Initiate a "goto" with direction keys for exhausted units. */
     send_goto_unit(punit, dest_x, dest_y);
@@ -760,24 +729,18 @@ void request_move_unit_direction(struct unit *punit, int dir)
 **************************************************************************/
 void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 {
-  struct unit req_unit;
-  req_unit=*punit;
-  req_unit.activity=act;
-  req_unit.activity_target = S_NO_SPECIAL;
-  send_unit_info(&req_unit);
+  dsend_packet_unit_change_activity(&aconnection, punit->id, act,
+				    S_NO_SPECIAL);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
+void request_new_unit_activity_targeted(struct unit *punit,
+					enum unit_activity act,
 					enum tile_special_type tgt)
 {
-  struct unit req_unit;
-  req_unit=*punit;
-  req_unit.activity=act;
-  req_unit.activity_target=tgt;
-  send_unit_info(&req_unit);
+  dsend_packet_unit_change_activity(&aconnection, punit->id, act, tgt);
 }
 
 /**************************************************************************
@@ -785,11 +748,7 @@ void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity a
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
-  struct packet_unit_request req;
-  req.unit_id=punit->id;
-  req.city_id = req.x = req.y = -1;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_DISBAND);
+  dsend_packet_unit_disband(&aconnection, punit->id);
 }
 
 /**************************************************************************
@@ -797,15 +756,10 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity;
+  struct city *pcity=map_get_city(punit->x, punit->y);
   
-  if((pcity=map_get_city(punit->x, punit->y))) {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.city_id=pcity->id;
-    req.x = req.y = -1;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_CHANGE_HOMECITY);
+  if (pcity) {
+    dsend_packet_unit_change_homecity(&aconnection, punit->id, pcity->id);
   }
 }
 
@@ -814,15 +768,10 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity;
+  struct city *pcity=map_get_city(punit->x, punit->y);
 
-  if((pcity=map_get_city(punit->x, punit->y)))  {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.city_id=pcity->id;
-    req.x = req.y = -1;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UPGRADE);
+  if (pcity) {
+    dsend_packet_unit_upgrade(&aconnection, punit->id);
   }
 }
 
@@ -832,11 +781,7 @@ void request_unit_upgrade(struct unit *punit)
 void request_unit_auto(struct unit *punit)
 {
   if (can_unit_do_auto(punit)) {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.x = req.y = -1;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
+    dsend_packet_unit_auto(&aconnection, punit->id);
   } else {
     append_output_window(_("Game: Only settler units and military units"
 			   " in cities can be put in auto-mode."));
@@ -848,22 +793,18 @@ void request_unit_auto(struct unit *punit)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  struct packet_unit_request req;
-  struct city *pcity = map_get_city(punit->x, punit->y);
-
-  if (!pcity) return;
-  if (!(action==PACKET_UNIT_ESTABLISH_TRADE
-	||(action==PACKET_UNIT_HELP_BUILD_WONDER))) {
-    freelog(LOG_ERROR, "Bad action (%d) in request_unit_caravan_action",
-	    action);
+  if (!map_get_city(punit->x, punit->y)) {
     return;
   }
-  
-  req.unit_id = punit->id;
-  req.city_id = pcity->id;
-  req.x = req.y = -1;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, action);
+
+  if (action == PACKET_UNIT_ESTABLISH_TRADE) {
+    dsend_packet_unit_establish_trade(&aconnection, punit->id);
+  } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
+    dsend_packet_unit_help_build_wonder(&aconnection, punit->id);
+  } else {
+    freelog(LOG_ERROR, "Bad action (%d) in request_unit_caravan_action",
+	    action);
+  }
 }
 
 /**************************************************************************
@@ -1398,12 +1339,7 @@ Explode nuclear at a tile without enemy units
 **************************************************************************/
 void do_unit_nuke(struct unit *punit)
 {
-  struct packet_unit_request req;
- 
-  req.unit_id=punit->id;
-  req.city_id = req.x = req.y = -1;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_NUKE);
+  dsend_packet_unit_nuke(&aconnection, punit->id);
 }
 
 /**************************************************************************
@@ -1411,14 +1347,7 @@ Paradrop to a location
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, int x, int y)
 {
-  struct packet_unit_request req;
-
-  req.unit_id=punit->id;
-  req.city_id = -1;
-  req.x = x;
-  req.y = y;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_PARADROP_TO);
+  dsend_packet_unit_paradrop_to(&aconnection, punit->id, x, y);
 }
  
 /**************************************************************************

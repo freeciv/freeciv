@@ -2647,7 +2647,6 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
   struct city *pcity = find_city_by_id(cityopt_city_id);
 
   if (pcity) {
-    struct packet_generic_values packet;
     int i, new_options;
     Boolean b;
     
@@ -2661,10 +2660,7 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
     } else if (newcitizen_index == 2) {
       new_options |= (1<<CITYO_NEW_TAXMAN);
     }
-    packet.value1 = cityopt_city_id;
-    packet.value2 = new_options;
-    send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
-			       &packet);
+    dsend_packet_city_options_req(&aconnection, cityopt_city_id,new_options);
   }
   XtDestroyWidget(cityopt_shell);
   cityopt_shell = 0;

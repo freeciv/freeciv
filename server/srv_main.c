@@ -109,12 +109,9 @@ static void save_game_auto(void);
 static void generate_ai_players(void);
 static int mark_nation_as_used(int nation);
 static void announce_ai_player(struct player *pplayer);
-
-static void handle_alloc_nation(struct player *pplayer,
-				struct packet_alloc_nation *packet);
-static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void srv_loop(void);
+
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in srv_main.h) */
@@ -422,7 +419,7 @@ static void update_diplomatics(void)
 **************************************************************************/
 static void before_end_year(void)
 {
-  lsend_packet_generic_empty(&game.game_connections, PACKET_BEFORE_NEW_YEAR);
+  lsend_packet_before_new_year(&game.est_connections);
 }
 
 /**************************************************************************
@@ -652,8 +649,7 @@ void server_quit(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void handle_report_request(struct connection *pconn,
-				  enum report_type type)
+void handle_report_req(struct connection *pconn, enum report_type type)
 {
   struct conn_list *dest = &pconn->self;
   
@@ -733,22 +729,23 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   if (!packet)
     return TRUE;
 
-  if (type == PACKET_LOGIN_REQUEST) {
-    bool result = handle_login_request(pconn,
-                                       (struct packet_login_request *) packet);
+  if (type == PACKET_SERVER_JOIN_REQ) {
+    bool result =
+	handle_login_request(pconn,
+			     (struct packet_server_join_req *) packet);
     free(packet);
     return result;
   }
 
-  /* we simply ignore the packet if authentication is not enabled */
-#ifdef AUTHENTICATION_ENABLED
+  /* May be received on a non-established connection. */
   if (type == PACKET_AUTHENTICATION_REPLY) {
-    bool result = handle_authentication_reply(pconn,
-                                (struct packet_authentication_reply *) packet);
+    bool result =
+	handle_authentication_reply(pconn,
+				    ((struct packet_authentication_reply *)
+				     packet)->password);
     free(packet);
     return result;
-  } 
-#endif
+  }
 
   if (type == PACKET_CONN_PONG) {
     handle_conn_pong(pconn);
@@ -764,8 +761,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   }
   
   /* valid packets from established connections but non-players */
-  if (type == PACKET_CHAT_MSG) {
-    handle_chat_msg(pconn, (struct packet_generic_message *)packet);
+  if (type == PACKET_CHAT_MSG_REQ) {
+    handle_chat_msg_req(pconn,
+			((struct packet_chat_msg_req *) packet)->message);
     free(packet);
     return TRUE;
   }
@@ -781,9 +779,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   }
 
   if (server_state != RUN_GAME_STATE
-      && type != PACKET_ALLOC_NATION
+      && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_CONN_PONG
-      && type != PACKET_REPORT_REQUEST) {
+      && type != PACKET_REPORT_REQ) {
     if (server_state == GAME_OVER_STATE) {
       /* This can happen by accident, so we don't want to print
 	 out lots of error messages. Ie, we use LOG_DEBUG. */
@@ -800,7 +798,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->nturns_idle=0;
 
   if((!pplayer->is_alive || pconn->observer)
-     && !(type == PACKET_REPORT_REQUEST || type == PACKET_CONN_PONG)) {
+     && !(type == PACKET_REPORT_REQ || type == PACKET_CONN_PONG)) {
     freelog(LOG_ERROR, _("Got a packet of type %d from a "
 			 "dead or observer player"), type);
     free(packet);
@@ -809,184 +807,13 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   
   /* Make sure to set this back to NULL before leaving this function: */
   pplayer->current_conn = pconn;
-  
-  switch(type) {
-    
-  case PACKET_TURN_DONE:
-    handle_turn_done(pplayer);
-    break;
 
-  case PACKET_ALLOC_NATION:
-    handle_alloc_nation(pplayer, (struct packet_alloc_nation *)packet);
-    break;
-
-  case PACKET_UNIT_INFO:
-    handle_unit_info(pplayer, (struct packet_unit_info *)packet);
-    break;
-
-  case PACKET_MOVE_UNIT:
-    handle_move_unit(pplayer, (struct packet_move_unit *)packet);
-    break;
- 
-  case PACKET_CITY_SELL:
-    handle_city_sell(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_BUY:
-    handle_city_buy(pplayer, (struct packet_city_request *)packet);
-    break;
-   
-  case PACKET_CITY_CHANGE:
-    handle_city_change(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_WORKLIST:
-    handle_city_worklist(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_MAKE_SPECIALIST:
-    handle_city_make_specialist(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_MAKE_WORKER:
-    handle_city_make_worker(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_CHANGE_SPECIALIST:
-    handle_city_change_specialist(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_CITY_RENAME:
-    handle_city_rename(pplayer, (struct packet_city_request *)packet);
-    break;
-
-  case PACKET_PLAYER_RATES:
-    handle_player_rates(pplayer, (struct packet_player_request *)packet);
-    break;
-
-  case PACKET_PLAYER_REVOLUTION:
-    handle_player_revolution(pplayer);
-    break;
-
-  case PACKET_PLAYER_GOVERNMENT:
-    handle_player_government(pplayer, (struct packet_player_request *)packet);
-    break;
-
-  case PACKET_PLAYER_RESEARCH:
-    handle_player_research(pplayer, (struct packet_player_request *)packet);
-    break;
-
-  case PACKET_PLAYER_TECH_GOAL:
-    handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
-    break;
-
-  case PACKET_UNIT_BUILD_CITY:
-    handle_unit_build_city(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_DISBAND:
-    handle_unit_disband(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_CHANGE_HOMECITY:
-    handle_unit_change_homecity(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_AUTO:
-    handle_unit_auto_request(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_UNLOAD:
-    handle_unit_unload_request(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNITTYPE_UPGRADE:
-    handle_upgrade_unittype_request(pplayer, (struct packet_unittype_info *)packet);
-    break;
-
-  case PACKET_UNIT_ESTABLISH_TRADE:
-    (void) handle_unit_establish_trade(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_HELP_BUILD_WONDER:
-    handle_unit_help_build_wonder(pplayer, (struct packet_unit_request *)packet);
-    break;
-
-  case PACKET_UNIT_GOTO_TILE:
-    handle_unit_goto_tile(pplayer, (struct packet_unit_request *)packet);
-    break;
-    
-  case PACKET_DIPLOMAT_ACTION:
-    handle_diplomat_action(pplayer, (struct packet_diplomat_action *)packet);
-    break;
-  case PACKET_REPORT_REQUEST:
-    handle_report_request(pconn,
-			  ((struct packet_generic_integer *)packet)->value);
-    break;
-  case PACKET_DIPLOMACY_INIT_MEETING:
-    handle_diplomacy_init(pplayer, (struct packet_diplomacy_info *)packet);
-    break;
-  case PACKET_DIPLOMACY_CANCEL_MEETING:
-    handle_diplomacy_cancel_meeting(pplayer, (struct packet_diplomacy_info *)packet);  
-    break;
-  case PACKET_DIPLOMACY_CREATE_CLAUSE:
-    handle_diplomacy_create_clause(pplayer, (struct packet_diplomacy_info *)packet);  
-    break;
-  case PACKET_DIPLOMACY_REMOVE_CLAUSE:
-    handle_diplomacy_remove_clause(pplayer, (struct packet_diplomacy_info *)packet);  
-    break;
-  case PACKET_DIPLOMACY_ACCEPT_TREATY:
-    handle_diplomacy_accept_treaty(pplayer, (struct packet_diplomacy_info *)packet);  
-    break;
-  case PACKET_CITY_REFRESH:
-    handle_city_refresh(pplayer, (struct packet_generic_integer *)packet);
-    break;
-  case PACKET_INCITE_INQ:
-    handle_incite_inq(pconn, (struct packet_generic_integer *)packet);
-    break;
-  case PACKET_UNIT_UPGRADE:
-    handle_unit_upgrade_request(pplayer, (struct packet_unit_request *)packet);
-    break;
-  case PACKET_CITY_OPTIONS:
-    handle_city_options(pplayer, (struct packet_generic_values *)packet);
-    break;
-  case PACKET_SPACESHIP_ACTION:
-    handle_spaceship_action(pplayer, (struct packet_spaceship_action *)packet);
-    break;
-  case PACKET_UNIT_NUKE:
-    handle_unit_nuke(pplayer, (struct packet_unit_request *)packet);
-    break;
-  case PACKET_CITY_NAME_SUGGEST_REQ:
-    handle_city_name_suggest_req(pconn,
-				 (struct packet_generic_integer *)packet);
-    break;
-  case PACKET_UNIT_PARADROP_TO:
-    handle_unit_paradrop_to(pplayer, (struct packet_unit_request *)packet);
-    break;
-  case PACKET_PLAYER_CANCEL_PACT:
-    handle_player_cancel_pact(pplayer, (struct packet_generic_values *)packet);
-    break;
-  case PACKET_UNIT_CONNECT:
-    handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
-    break;
-  case PACKET_GOTO_ROUTE:
-    handle_goto_route(pplayer, (struct packet_goto_route *)packet);
-    break;
-  case PACKET_PATROL_ROUTE:
-    handle_patrol_route(pplayer, (struct packet_goto_route *)packet);
-    break;
-  case PACKET_UNIT_AIRLIFT:
-    handle_unit_airlift(pplayer, (struct packet_unit_request *)packet);
-    break;
-  case PACKET_ATTRIBUTE_CHUNK:
-    handle_player_attribute_chunk(pplayer,
-				  (struct packet_attribute_chunk *)
-				  packet);
-    break;
-  case PACKET_PLAYER_ATTRIBUTE_BLOCK:
-    handle_player_attribute_block(pplayer);
-    break;
-
+  switch (type) {
+    /* 
+     * We now include a number of case statements. Each statement
+     * calls the corresponding handle_packet_* function. 
+     */
+#include "srv_main_gen.c"
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));
@@ -1026,24 +853,13 @@ void check_for_full_turn_done(void)
 
 /**************************************************************************
 ...
-(Hmm, how should "turn done" work for multi-connected non-observer players?)
 **************************************************************************/
-static void handle_turn_done(struct player *pplayer)
-{
-  pplayer->turn_done = TRUE;
-
-  check_for_full_turn_done();
-
-  send_player_info(pplayer, NULL);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void handle_alloc_nation(struct player *pplayer,
-				struct packet_alloc_nation *packet)
+void handle_nation_select_req(struct player *pplayer,
+			      Nation_Type_id nation_no, bool is_male,
+			      char *name, int city_style)
 {
   int nation_used_count;
+  char real_name[MAX_LEN_NAME];
 
   if (server_state != SELECT_RACES_STATE) {
     freelog(LOG_ERROR, _("Trying to alloc nation outside "
@@ -1051,28 +867,28 @@ static void handle_alloc_nation(struct player *pplayer,
     return;
   }  
   
-  if (packet->nation_no < 0 || packet->nation_no >= game.nation_count) {
+  if (nation_no < 0 || nation_no >= game.nation_count) {
     return;
   }
 
-  remove_leading_trailing_spaces(packet->name);
+  remove_leading_trailing_spaces(name);
 
-  if (strlen(packet->name)==0) {
+  if (strlen(name)==0) {
     notify_player(pplayer, _("Please choose a non-blank name."));
     send_select_nation(pplayer);
     return;
   }
 
-  if (!is_sane_name(packet->name)) {
+  if (!is_sane_name(name)) {
     notify_player(pplayer, _("Please choose a legal name."));
     send_select_nation(pplayer);
     return;
   }
 
-  packet->name[0] = my_toupper(packet->name[0]);
+  name[0] = my_toupper(name[0]);
 
   players_iterate(other_player) {
-    if(other_player->nation==packet->nation_no) {
+    if (other_player->nation == nation_no) {
        send_select_nation(pplayer); /* it failed - nation taken */
        return;
     } else
@@ -1086,10 +902,10 @@ static void handle_alloc_nation(struct player *pplayer,
        * allocation phase.
        */
       if (other_player->player_no != pplayer->player_no
-	  && mystrcasecmp(other_player->name,packet->name) == 0) {
+	  && mystrcasecmp(other_player->name, real_name) == 0) {
 	notify_player(pplayer,
 		     _("Another player already has the name '%s'.  "
-		       "Please choose another name."), packet->name);
+		       "Please choose another name."), real_name);
        send_select_nation(pplayer);
        return;
     }
@@ -1097,16 +913,15 @@ static void handle_alloc_nation(struct player *pplayer,
 
   notify_conn_ex(&game.game_connections, -1, -1, E_NATION_SELECTED,
 		 _("Game: %s is the %s ruler %s."), pplayer->username,
-		 get_nation_name(packet->nation_no), packet->name);
+		 get_nation_name(nation_no), name);
 
   /* inform player his choice was ok */
-  lsend_packet_generic_empty(&pplayer->connections,
-			     PACKET_SELECT_NATION_OK);
+  lsend_packet_nation_select_ok(&pplayer->connections);
 
-  pplayer->nation=packet->nation_no;
-  sz_strlcpy(pplayer->name, packet->name);
-  pplayer->is_male=packet->is_male;
-  pplayer->city_style=packet->city_style;
+  pplayer->nation = nation_no;
+  sz_strlcpy(pplayer->name, name);
+  pplayer->is_male = is_male;
+  pplayer->city_style = city_style;
 
   /* tell the other players, that the nation is now unavailable */
   nation_used_count = 0;
@@ -1119,7 +934,7 @@ static void handle_alloc_nation(struct player *pplayer,
     }
   } players_iterate_end;
 
-  mark_nation_as_used(packet->nation_no);
+  mark_nation_as_used(nation_no);
 
   /* if there's no nation left, reject remaining players, sorry */
   if( nation_used_count == game.playable_nation_count ) {   /* barb */
@@ -1140,7 +955,7 @@ static void handle_alloc_nation(struct player *pplayer,
 **************************************************************************/
 static void send_select_nation(struct player *pplayer)
 {
-  struct packet_nations_used packet;
+  struct packet_nations_selected_info packet;
 
   packet.num_nations_used = 0;
 
@@ -1152,7 +967,7 @@ static void send_select_nation(struct player *pplayer)
     packet.num_nations_used++;
   } players_iterate_end;
 
-  lsend_packet_nations_used(&pplayer->connections, &packet);
+  lsend_packet_nations_selected_info(&pplayer->connections, &packet);
 }
 
 /**************************************************************************
@@ -1461,7 +1276,7 @@ static void main_loop(void)
    * Do this before the body so that the PACKET_THAW_HINT packet is
    * balanced. 
    */
-  lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
+  lsend_packet_freeze_hint(&game.game_connections);
 
   while(server_state==RUN_GAME_STATE) {
     /* absolute beginning of a turn */
@@ -1483,7 +1298,7 @@ static void main_loop(void)
     /* 
      * This will thaw the reports and agents at the client.
      */
-    lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
+    lsend_packet_thaw_hint(&game.game_connections);
 
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1525,7 +1340,7 @@ static void main_loop(void)
     /* 
      * This will freeze the reports and agents at the client.
      */
-    lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
+    lsend_packet_freeze_hint(&game.game_connections);
 
     freelog(LOG_DEBUG, "Season of native unrests");
     summon_barbarians(); /* wild guess really, no idea where to put it, but
@@ -1561,7 +1376,7 @@ static void main_loop(void)
   /* 
    * This will thaw the reports and agents at the client.
    */
-  lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
+  lsend_packet_thaw_hint(&game.game_connections);
 
   free_timer(eot_timer);
 }
@@ -1821,9 +1636,9 @@ main_start_players:
    * sent to the clients */
   game.turn_start = time(NULL);
 
-  lsend_packet_generic_empty(&game.game_connections, PACKET_FREEZE_HINT);
+  lsend_packet_freeze_hint(&game.game_connections);
   send_all_info(&game.game_connections);
-  lsend_packet_generic_empty(&game.game_connections, PACKET_THAW_HINT);
+  lsend_packet_thaw_hint(&game.game_connections);
   
   if(game.is_new_game) {
     init_new_game();

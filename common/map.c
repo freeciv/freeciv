@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "packets.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
@@ -1698,7 +1699,4 @@ void tile_types_free(void)
   for (i = T_FIRST; i < T_COUNT; i++) {
     tile_type_free(i);
   }
-
-  /* no better place to put this */
-  free(terrain_control.river_help_text);
 }

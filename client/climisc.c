@@ -99,6 +99,9 @@ void client_remove_unit(struct unit *punit)
 
   pcity = map_get_city(x, y);
   if (pcity) {
+    pcity->client.occupied =
+	(unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+
     refresh_city_dialog(pcity);
     freelog(LOG_DEBUG, "map city %s, %s, (%d %d)", pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
@@ -950,17 +953,13 @@ void create_event(int x, int y, enum event_type event,
 		  const char *format, ...)
 {
   va_list ap;
-  struct packet_generic_message packet;
-
-  packet.x = x;
-  packet.y = y;
-  packet.event = event;
+  char message[MAX_LEN_MSG];
 
   va_start(ap, format);
-  my_vsnprintf(packet.message, sizeof(packet.message), format, ap);
+  my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  handle_chat_msg(&packet);
+  handle_chat_msg(message, x, y, event);
 }
 
 /**************************************************************************
@@ -1170,4 +1169,35 @@ void cityrep_buy(struct city *pcity)
 		name, value, game.player_ptr->economic.gold);
     append_output_window(buf);
   }
+}
+
+void common_taxrates_callback(int i)
+{
+  int tax_end, lux_end, sci_end, tax, lux, sci;
+  int delta = 10;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  lux_end = game.player_ptr->economic.luxury;
+  sci_end = lux_end + game.player_ptr->economic.science;
+  tax_end = 100;
+
+  lux = game.player_ptr->economic.luxury;
+  sci = game.player_ptr->economic.science;
+  tax = game.player_ptr->economic.tax;
+
+  i *= 10;
+  if (i < lux_end) {
+    lux -= delta;
+    sci += delta;
+  } else if (i < sci_end) {
+    sci -= delta;
+    tax += delta;
+  } else {
+    tax -= delta;
+    lux += delta;
+  }
+  dsend_packet_player_rates(&aconnection, tax, lux, sci);
 }

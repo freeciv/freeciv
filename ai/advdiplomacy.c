@@ -394,17 +394,12 @@ static int ai_goldequiv_clause(struct player *pplayer,
 void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                         struct Treaty *ptreaty)
 {
-  struct packet_diplomacy_info packet;
   int total_balance = 0;
   bool has_treaty = FALSE;
   bool only_gifts = TRUE;
   struct ai_data *ai = ai_data_get(pplayer);
 
   assert(!is_barbarian(pplayer));
-
-  packet.plrno0 = pplayer->player_no;
-  packet.plrno1 = aplayer->player_no;
-  packet.plrno_from = pplayer->player_no;
 
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
@@ -434,7 +429,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 
   /* Accept if balance is good */
   if (total_balance >= 0) {
-    handle_diplomacy_accept_treaty(pplayer, &packet);
+    handle_diplomacy_accept_treaty_req(pplayer, aplayer->player_no);
   }
 }
 
@@ -602,22 +597,15 @@ static void ai_diplomacy_suggest(struct player *pplayer,
                                  enum clause_type what,
                                  int value)
 {
-  struct packet_diplomacy_info packet;
-
   if (!could_meet_with_player(pplayer, aplayer)) {
     freelog(LOG_DIPL2, "%s tries to do diplomacy to %s without contact",
             pplayer->name, aplayer->name);
     return;
   }
 
-  packet.plrno_from = pplayer->player_no;
-  packet.plrno0 = pplayer->player_no;
-  packet.plrno1 = aplayer->player_no;
-  packet.clause_type = what;
-  packet.value = value;
-
-  handle_diplomacy_init(pplayer, &packet);
-  handle_diplomacy_create_clause(pplayer, &packet);
+  handle_diplomacy_init_meeting_req(pplayer, aplayer->player_no);
+  handle_diplomacy_create_clause_req(pplayer, aplayer->player_no,
+				     pplayer->player_no, what, value);
 }
 
 /********************************************************************** 
@@ -813,14 +801,14 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
                          struct player *target)
 {
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[target->player_no];
-  struct packet_generic_values packet;
 
-  packet.id = target->player_no;
-  packet.value1 = CLAUSE_LAST; /* will take us straight to war */
   if (gives_shared_vision(pplayer, target)) {
     remove_shared_vision(pplayer, target);
   }
-  handle_player_cancel_pact(pplayer, &packet);
+
+  /* will take us straight to war */
+  handle_diplomacy_cancel_pact(pplayer, target->player_no, CLAUSE_LAST);
+
   /* Continue war at least in this arbitrary number of turns to show 
    * some spine */
   ai->diplomacy.timer = myrand(4) + 3;
@@ -879,14 +867,11 @@ void ai_diplomacy_actions(struct player *pplayer)
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
           && ai->diplomacy.spacerace_leader == aplayer
           && pplayers_allied(pplayer, aplayer)) {
-        struct packet_generic_values packet;
-
-        packet.id = aplayer->player_no;
-        packet.value1 = CLAUSE_ALLIANCE;
         notify(aplayer, _("*%s (AI)* Your attempt to conquer space for "
                "yourself alone betray your true intentions, and I "
                "will have no more of our alliance!"), pplayer->name);
-        handle_player_cancel_pact(pplayer, &packet);
+	handle_diplomacy_cancel_pact(pplayer, aplayer->player_no,
+				     CLAUSE_ALLIANCE);
         if (gives_shared_vision(pplayer, aplayer)) {
           remove_shared_vision(pplayer, aplayer);
         }
@@ -956,7 +941,6 @@ void ai_diplomacy_actions(struct player *pplayer)
     enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
     struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
     struct Clause clause;
-    struct packet_generic_values packet;
 
     /* Meaningless values, but rather not have them unset. */
     clause.from = pplayer;
@@ -1043,9 +1027,9 @@ void ai_diplomacy_actions(struct player *pplayer)
                  "more!"), pplayer->name, target->name);
           PLAYER_LOG(LOG_DIPL2, pplayer, ai, "breaking useless alliance with ",
                      "%s", aplayer->name);
-          packet.id = aplayer->player_no;
-          packet.value1 = CLAUSE_ALLIANCE;
-          handle_player_cancel_pact(pplayer, &packet); /* to peace */
+	  /* to peace */
+	  handle_diplomacy_cancel_pact(pplayer, aplayer->player_no,
+				       CLAUSE_ALLIANCE);
           if (adip->love > 0) {
             adip->love /= 4;
           }

@@ -19,7 +19,7 @@
 struct tile;
 struct unit;
 struct city;
-struct packet_nations_used;
+struct packet_nations_selected_info;
 
 void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
 void popup_notify_dialog(char *caption, char *headline, char *lines);
@@ -29,7 +29,8 @@ void popdown_races_dialog(void);
 
 void popup_unit_select_dialog(struct tile *ptile);
 
-void races_toggles_set_sensitive(struct packet_nations_used *packet);
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used);
 
 void popup_revolution_dialog(void);
 void popup_government_dialog(void);

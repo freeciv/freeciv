@@ -15,11 +15,13 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "government.h"
 #include "log.h"
 #include "mem.h"
@@ -1146,8 +1148,7 @@ void report_final_scores(void)
     packet.spaceship[i] = get_spaceship(size[i].player); 
   }  
 
-  lsend_packet_endgame_report(&game.game_connections,
-                              PACKET_ENDGAME_REPORT, &packet);
+  lsend_packet_endgame_report(&game.game_connections, &packet);
 }	
 
 /**************************************************************************
@@ -1175,7 +1176,7 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    enum event_type event)
 {
   int len;
-  struct packet_generic_message genmsg;
+  struct packet_page_msg genmsg;
 
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    "%s\n%s\n%s", caption, headline, lines);
@@ -1183,11 +1184,6 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
     freelog(LOG_ERROR, "Message truncated in page_conn_etype()!");
   }
   genmsg.event = event;
-
-  /* unused but at least initialized */
-  genmsg.x = -1;
-  genmsg.y = -1;
-  genmsg.event = -1;
   
-  lsend_packet_generic_message(dest, PACKET_PAGE_MSG, &genmsg);
+  lsend_packet_page_msg(dest, &genmsg);
 }

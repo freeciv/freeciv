@@ -13,12 +13,10 @@
 #ifndef FC__HANDCHAT_H
 #define FC__HANDCHAT_H
 
-struct connection;
-struct packet_generic_message;
-
 #define ALLIESCHAT_COMMAND_PREFIX '.'
 
-void handle_chat_msg(struct connection *pconn, 
-                   struct packet_generic_message *packet);
+struct connection;
+
+void handle_chat_msg_req(struct connection *pc, char *message);
 
 #endif  /* FC__HANDCHAT_H */

@@ -193,3 +193,24 @@ const char *effect_type_name(enum effect_type id)
     return NULL;
   }
 }
+
+/**************************************************************************
+  Return TRUE iff the two effects are equal.
+**************************************************************************/
+bool are_effects_equal(const struct impr_effect *const peff1,
+		       const struct impr_effect *const peff2)
+{
+#define T(name) if(peff1->name!=peff2->name) return FALSE;
+  T(type);
+  T(range);
+  T(amount);
+  T(survives);
+  T(cond_bldg);
+  T(cond_gov);
+  T(cond_adv);
+  T(cond_eff);
+  T(aff_unit);
+  T(aff_terr);
+  T(aff_spec);
+  return TRUE;
+}

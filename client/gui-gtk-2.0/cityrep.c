@@ -311,15 +311,12 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
 				 GtkTreeIter *it, gpointer data)
 {
-  struct packet_city_request packet;
+  cid cid = GPOINTER_TO_INT(data);
   gint id;
 
-  /* FIXME: don't use network packet structures here. */
-  packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  city_change_production(find_city_by_id(id),
-			 packet.is_build_id_unit_id, packet.build_id);
+  city_change_production(find_city_by_id(id), cid_is_unit(cid), cid_id(cid));
 }
 
 /****************************************************************
@@ -333,20 +330,16 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
 						 GtkTreeIter *it, 
 						 gpointer data)
 {
-  struct packet_city_request packet;
+  cid cid = GPOINTER_TO_INT(data);
   gint id;
   struct city *pcity;  
 
-  packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
+
   /* try to add the object to the worklist. */
-  if (worklist_append(&pcity->worklist, packet.build_id, 
-		     packet.is_build_id_unit_id)) {
-    copy_worklist(&packet.worklist, &pcity->worklist);
-    
-    packet.city_id = id;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+  if (worklist_append(&pcity->worklist, cid_id(cid), cid_is_unit(cid))) {
+    city_set_worklist(pcity, &pcity->worklist);
   } /* perhaps should warn the user if not successful? */
 }
 
@@ -363,28 +356,24 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
 						 GtkTreeIter *it, 
 						 gpointer data)
 {
-  struct packet_city_request packet;
+  cid cid = GPOINTER_TO_INT(data);
   gint id;
   struct city *pcity;  
   int old_id;
   bool old_is_build_id_unit_id;
 
-  packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
+
   old_id = pcity->currently_building;
   old_is_build_id_unit_id = pcity->is_building_unit;
-  /* first try and insert the old production into the worklist. */
-  if (worklist_insert(&pcity->worklist, old_id, 
-		      old_is_build_id_unit_id, 0)) {
-    copy_worklist(&packet.worklist, &pcity->worklist);
 
-    packet.city_id = id;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+  /* first try and insert the old production into the worklist. */
+  if (worklist_insert(&pcity->worklist, old_id, old_is_build_id_unit_id, 0)) {
+    city_set_worklist(pcity, &pcity->worklist);
 
     /* next change the current production to the new production. */
-    city_change_production(find_city_by_id(id),
-			   packet.is_build_id_unit_id, packet.build_id);
+    city_change_production(pcity, cid_is_unit(cid), cid_id(cid));
   }
 }
 
@@ -399,19 +388,15 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
 						 GtkTreeIter *it, 
 						 gpointer data)
 {
-  struct packet_city_request packet;
+  struct city *pcity;
   gint id;
-  struct city *pcity;  
+  cid cid = GPOINTER_TO_INT(data);
 
-  packet = *(struct packet_city_request *)data;
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
-  if (worklist_insert(&pcity->worklist, packet.build_id, 
-		      packet.is_build_id_unit_id, 0)) {
-    copy_worklist(&packet.worklist, &pcity->worklist);
 
-    packet.city_id = id;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+  if (worklist_insert(&pcity->worklist, cid_id(cid), cid_is_unit(cid), 0)) {
+    city_set_worklist(pcity, &pcity->worklist);
   }
 }
 
@@ -445,33 +430,26 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       }
     }
   } else {
-    bool is_unit = cid_is_unit(cid);
-    int id = cid_id(cid);
-    struct packet_city_request packet;
-
-    packet.build_id = id;
-    packet.is_build_id_unit_id = is_unit;
-
     connection_do_buffer(&aconnection);
     switch (city_operation) {
     case CO_LAST:
-      gtk_tree_selection_selected_foreach(city_selection, 
+      gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_last_impr_or_unit_iterate,
-					  &packet);
+					  GINT_TO_POINTER(cid));
       break;
     case CO_CHANGE:
-      gtk_tree_selection_selected_foreach(city_selection, impr_or_unit_iterate,
-					  &packet);
+      gtk_tree_selection_selected_foreach(city_selection,
+					  impr_or_unit_iterate, GINT_TO_POINTER(cid));
       break;
     case CO_FIRST:
-      gtk_tree_selection_selected_foreach(city_selection, 
+      gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_first_impr_or_unit_iterate,
-					  &packet);
+					  GINT_TO_POINTER(cid));
       break;
     case CO_NEXT:
-      gtk_tree_selection_selected_foreach(city_selection, 
+      gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_next_impr_or_unit_iterate,
-					  &packet);
+					  GINT_TO_POINTER(cid));
       break;
     default:
       assert(FALSE); /* should never get here. */
@@ -1034,31 +1012,27 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
 static void refresh_iterate(GtkTreeModel *model, GtkTreePath *path,
 			    GtkTreeIter *it, gpointer data)
 {
-  struct packet_generic_integer packet;
   gint id;
 
   *(gboolean *)data = TRUE;
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  packet.value = id;
-  send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+  dsend_packet_city_refresh(&aconnection, id);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static void city_refresh_callback(GtkWidget *w, gpointer data)
+static void city_refresh_callback(GtkWidget * w, gpointer data)
+{
+  /* added by Syela - I find this very useful */
+  gboolean found = FALSE;
 
-{ /* added by Syela - I find this very useful */
-  struct packet_generic_integer packet;
-  gboolean found;
-
-  found = FALSE;
-  gtk_tree_selection_selected_foreach(city_selection, refresh_iterate, &found);
+  gtk_tree_selection_selected_foreach(city_selection, refresh_iterate,
+				      &found);
 
   if (!found) {
-    packet.value = 0;
-    send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+    dsend_packet_city_refresh(&aconnection, 0);
   }
 }
 

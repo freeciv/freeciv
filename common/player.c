@@ -280,6 +280,22 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 }
 
 /***************************************************************
+  Like can_player_see_unit_at but disallow looking into transporters
+  except you are the owner or were allowed by the owner with shared
+  vision.
+***************************************************************/
+bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
+			     int x, int y)
+{
+  if (punit->transported_by != -1 && unit_owner(punit) != pplayer
+      && !gives_shared_vision(unit_owner(punit), pplayer)) {
+    return FALSE;
+  }
+
+  return can_player_see_unit_at(pplayer, punit, x, y);
+}
+
+/***************************************************************
  If the specified player owns the city with the specified id,
  return pointer to the city struct.  Else return NULL.
  Now always uses fast idex_lookup_city.
@@ -665,4 +681,14 @@ bool is_barbarian(const struct player *pplayer)
 bool gives_shared_vision(struct player *me, struct player *them)
 {
   return TEST_BIT(me->gives_shared_vision, them->player_no);
+}
+
+/**************************************************************************
+  Return TRUE iff the two diplstates are equal.
+**************************************************************************/
+bool are_diplstates_equal(const struct player_diplstate *pds1,
+			  const struct player_diplstate *pds2)
+{
+  return (pds1->type == pds2->type && pds1->turns_left == pds2->turns_left
+	  && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel);
 }

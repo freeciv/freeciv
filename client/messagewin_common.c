@@ -104,14 +104,14 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(struct packet_generic_message *packet)
+void add_notify_window(char *message, int x, int y, enum event_type event)
 {
   const size_t min_msg_len = 50;
   const char *game_prefix1 = "Game: ";
   const char *game_prefix2 = _("Game: ");
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
-  char *s = fc_malloc(MAX(strlen(packet->message), min_msg_len) + 1);
+  char *s = fc_malloc(MAX(strlen(message), min_msg_len) + 1);
   int i, nspc;
 
   change = TRUE;
@@ -121,12 +121,12 @@ void add_notify_window(struct packet_generic_message *packet)
     messages = fc_realloc(messages, messages_alloc * sizeof(*messages));
   }
 
-  if (strncmp(packet->message, game_prefix1, gp_len1) == 0) {
-    strcpy(s, packet->message + gp_len1);
-  } else if (strncmp(packet->message, game_prefix2, gp_len2) == 0) {
-    strcpy(s, packet->message + gp_len2);
+  if (strncmp(message, game_prefix1, gp_len1) == 0) {
+    strcpy(s, message + gp_len1);
+  } else if (strncmp(message, game_prefix2, gp_len2) == 0) {
+    strcpy(s, message + gp_len2);
   } else {
-    strcpy(s, packet->message);
+    strcpy(s, message);
   }
 
   nspc = min_msg_len - strlen(s);
@@ -134,11 +134,11 @@ void add_notify_window(struct packet_generic_message *packet)
     strncat(s, "                                                  ", nspc);
   }
 
-  messages[messages_total].x = packet->x;
-  messages[messages_total].y = packet->y;
-  messages[messages_total].event = packet->event;
+  messages[messages_total].x = x;
+  messages[messages_total].y = y;
+  messages[messages_total].event = event;
   messages[messages_total].descr = s;
-  messages[messages_total].location_ok = (packet->x != -1 && packet->y != -1);
+  messages[messages_total].location_ok = (x != -1 && y != -1);
   messages[messages_total].visited = FALSE;
   messages_total++;
 

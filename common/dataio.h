@@ -16,6 +16,8 @@
 #include "shared.h"		/* bool type */
 
 struct worklist;
+struct player_diplstate;
+struct impr_effect;
 
 struct data_in {
   const void *src;
@@ -68,6 +70,8 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 void dio_get_city_map(struct data_in *din, char *dest, size_t max_dest_size);
 void dio_get_tech_list(struct data_in *din, int *dest);
 void dio_get_worklist(struct data_in *din, struct worklist *pwl);
+void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds);
+void dio_get_effect(struct data_in *din, struct impr_effect *peffect);
 
 void dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value);
 void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value);
@@ -94,6 +98,10 @@ void dio_put_bit_string(struct data_out *dout, const char *value);
 void dio_put_city_map(struct data_out *dout, const char *value);
 void dio_put_tech_list(struct data_out *dout, const int *value);
 void dio_put_worklist(struct data_out *dout, const struct worklist *pwl);
+void dio_put_diplstate(struct data_out *dout,
+		       const struct player_diplstate *pds);
+void dio_put_effect(struct data_out *dout,
+		    const struct impr_effect *peffect);
 
 void dio_put_uint8_vec8(struct data_out *dout, int *values, int stop_value);
 void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);

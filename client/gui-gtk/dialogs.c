@@ -36,6 +36,7 @@
 #include "support.h"
 
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "control.h"
 #include "options.h"
@@ -422,13 +423,9 @@ static void diplomat_bribe_yes_callback(gpointer data)
 *****************************************************************/
 static void diplomat_bribe_callback(gpointer data)
 {
-  struct packet_generic_integer packet;
-
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
-   }
+  if (find_unit_by_id(diplomat_id) && find_unit_by_id(diplomat_target_id)) {
+    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
+  }
 }
  
 /****************************************************************
@@ -929,13 +926,8 @@ static void diplomat_incite_close_callback(gpointer data)
 *****************************************************************/
 static void diplomat_incite_callback(gpointer data)
 {
-  struct city *pcity;
-  struct packet_generic_integer packet;
-
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
+    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
 
@@ -1115,11 +1107,7 @@ bool diplomat_dialog_is_open(void)
 *****************************************************************/
 static void caravan_establish_trade_callback(gpointer data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
 }
 
 
@@ -1128,11 +1116,7 @@ static void caravan_establish_trade_callback(gpointer data)
 *****************************************************************/
 static void caravan_help_build_wonder_callback(gpointer data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
 }
 
 /****************************************************************
@@ -1195,10 +1179,7 @@ bool caravan_dialog_is_open(void)
 *****************************************************************/
 static void government_callback(gpointer data)
 {
-  struct packet_player_request packet;
-
-  packet.government = GPOINTER_TO_INT(data);
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
+  dsend_packet_player_government(&aconnection, GPOINTER_TO_INT(data));
 
   assert(government_dialog_is_open);
   government_dialog_is_open = FALSE;
@@ -2296,11 +2277,12 @@ static void races_by_name_callback(GtkWidget * w, gpointer data)
 /**************************************************************************
  ...
 **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   int i, class_id;
 
-  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
+  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
 
   for (class_id = 0; class_id < num_classes; class_id++) {
     int nations_in_class = g_list_length(sorted_races_list[class_id]);
@@ -2309,8 +2291,8 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
       gtk_widget_set_sensitive(races_toggles[class_id][i], TRUE);
     }
 
-    for (i = 0; i < packet->num_nations_used; i++) {
-      int nation = packet->nations_used[i];
+    for (i = 0; i < num_nations_used; i++) {
+      int nation = nations_used[i];
       int index =
 	  g_list_index(sorted_races_list[class_id], GINT_TO_POINTER(nation));
 
@@ -2320,8 +2302,8 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
     }
   }
 
-  for (i = 0; i < packet->num_nations_used; i++) {
-    int nation = packet->nations_used[i];
+  for (i = 0; i < num_nations_used; i++) {
+    int nation = nations_used[i];
 
     freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation,
 	    get_nation_name(nation));
@@ -2435,8 +2417,6 @@ static void races_buttons_callback(GtkWidget *w, gpointer data)
   int selected, selected_sex, selected_style;
   char *s;
 
-  struct packet_alloc_nation packet;
-
   if(w == races_quit_command) {
     exit(EXIT_SUCCESS);
   } else if(w == races_disc_command) {
@@ -2463,18 +2443,14 @@ static void races_buttons_callback(GtkWidget *w, gpointer data)
   s = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(leader_name)->entry));
 
   /* perform a minimum of sanity test on the name */
-  packet.nation_no = selected;
-  packet.is_male = selected_sex;
-  packet.city_style = city_style_idx[selected_style];
-  sz_strlcpy(packet.name, (char*)s);
-  
-  if (!is_sane_name(packet.name)) {
+  if (!is_sane_name(s)) {
     append_output_window(_("You must type a legal name."));
     return;
   }
 
-  send_packet_alloc_nation(&aconnection, &packet);
-
+  dsend_packet_nation_select_req(&aconnection, selected,
+				 selected_sex, s,
+				 city_style_idx[selected_style]);
   /* reset this variable */
   is_name_unique = FALSE;  
 }
@@ -2491,37 +2467,9 @@ void destroy_me_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   Adjust tax rates from main window
 **************************************************************************/
-void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+void taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
 {
-  int tax_end,lux_end,sci_end;
-  size_t i;
-  int delta=10;
-  struct packet_player_request packet;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-  
-  i= (size_t)data;
-  
-  lux_end= game.player_ptr->economic.luxury;
-  sci_end= lux_end + game.player_ptr->economic.science;
-  tax_end= 100;
-
-  packet.luxury= game.player_ptr->economic.luxury;
-  packet.science= game.player_ptr->economic.science;
-  packet.tax= game.player_ptr->economic.tax;
-
-  i*= 10;
-  if(i<lux_end){
-    packet.luxury-= delta; packet.science+= delta;
-  }else if(i<sci_end){
-    packet.science-= delta; packet.tax+= delta;
-   }else{
-    packet.tax-= delta; packet.luxury+= delta;
-  }
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
-
+  common_taxrates_callback((size_t) data);
 }
 
 void dummy_close_callback(gpointer data){}

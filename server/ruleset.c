@@ -1392,9 +1392,9 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.river_trade_incr =
     secfile_lookup_int_default(file, 1, "parameters.river_trade_incr");
   {
-    char *s = secfile_lookup_str_default(file, NULL,
+    char *s = secfile_lookup_str_default(file, "",
       "parameters.river_help_text");
-    terrain_control.river_help_text = (s && *s != '\0') ? mystrdup(s) : NULL;
+    sz_strlcpy(terrain_control.river_help_text, s);
   }
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
@@ -1807,13 +1807,13 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;
 
-  packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
-  packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
-  packet.rtech.colosseum_plus = game.rtech.colosseum_plus;
-  packet.rtech.temple_plus = game.rtech.temple_plus;
+  packet.rtech_cathedral_plus = game.rtech.cathedral_plus;
+  packet.rtech_cathedral_minus = game.rtech.cathedral_minus;
+  packet.rtech_colosseum_plus = game.rtech.colosseum_plus;
+  packet.rtech_temple_plus = game.rtech.temple_plus;
 
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    packet.rtech.partisan_req[i] = game.rtech.partisan_req[i];
+    packet.rtech_partisan_req[i] = game.rtech.partisan_req[i];
   }
 
   packet.government_count = game.government_count;
@@ -2537,7 +2537,11 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_range = u->paratroopers_range;
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
-    packet.helptext = u->helptext;   /* pointer assignment */
+    if (u->helptext) {
+      sz_strlcpy(packet.helptext, u->helptext);
+    } else {
+      packet.helptext[0] = '\0';
+    }
 
     lsend_packet_ruleset_unit(dest, &packet);
   } unit_type_iterate_end;
@@ -2564,7 +2568,11 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.flags = a->flags;
     packet.preset_cost = a->preset_cost;
     packet.num_reqs = a->num_reqs;
-    packet.helptext = a->helptext;   /* pointer assignment */
+    if (a->helptext) {
+      sz_strlcpy(packet.helptext, a->helptext);
+    } else {
+      packet.helptext[0] = '\0';
+    }
 
     lsend_packet_ruleset_tech(dest, &packet);
   } tech_type_iterate_end;
@@ -2579,6 +2587,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
   impr_type_iterate(i) {
     struct impr_type *b = &improvement_types[i];
     struct packet_ruleset_building packet;
+    struct impr_effect *eff;
 
     packet.id = i;
     sz_strlcpy(packet.name, b->name_orig);
@@ -2586,21 +2595,38 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     packet.tech_req = b->tech_req;
     packet.bldg_req = b->bldg_req;
-    packet.terr_gate = b->terr_gate;		/* pointer assignment */
-    packet.spec_gate = b->spec_gate;		/* pointer assignment */
     packet.equiv_range = b->equiv_range;
-    packet.equiv_dupl = b->equiv_dupl;		/* pointer assignment */
-    packet.equiv_repl = b->equiv_repl;		/* pointer assignment */
     packet.obsolete_by = b->obsolete_by;
     packet.is_wonder = b->is_wonder;
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
-    packet.effect = b->effect;			/* pointer assignment */
     packet.variant = b->variant;	/* FIXME: remove when gen-impr obsoletes */
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
-    packet.helptext = b->helptext;		/* pointer assignment */
+
+    if (b->helptext) {
+      sz_strlcpy(packet.helptext, b->helptext);
+    } else {
+      packet.helptext[0] = '\0';
+    }
+
+#define T(elem,count,last) \
+    for (packet.count = 0; b->elem[packet.count] != last; packet.count++) { \
+      packet.elem[packet.count] =  b->elem[packet.count]; \
+    }
+
+    T(terr_gate, terr_gate_count, T_LAST);
+    T(spec_gate, spec_gate_count, S_NO_SPECIAL);
+    T(equiv_dupl, equiv_dupl_count, B_LAST);
+    T(equiv_repl, equiv_repl_count, B_LAST);
+#undef T
+
+    packet.effect_count = 0;
+    for (eff = b->effect; eff->type != EFT_LAST; eff++) {
+      packet.effect[packet.effect_count] = *eff;
+      packet.effect_count++;
+    }
 
     lsend_packet_ruleset_building(dest, &packet);
   } impr_type_iterate_end;
@@ -2613,8 +2639,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
 static void send_ruleset_terrain(struct conn_list *dest)
 {
   struct packet_ruleset_terrain packet;
-
-  int j;
 
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
@@ -2644,10 +2668,11 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.shield_special_2 = t->shield_special_2;
       packet.trade_special_2 = t->trade_special_2;
 
-      for(j=0; j<2; j++) {
-	sz_strlcpy(packet.special[j].graphic_str, t->special[j].graphic_str);
-	sz_strlcpy(packet.special[j].graphic_alt, t->special[j].graphic_alt);
-      }
+      sz_strlcpy(packet.graphic_str_special_1, t->special[0].graphic_str);
+      sz_strlcpy(packet.graphic_alt_special_1, t->special[0].graphic_alt);
+
+      sz_strlcpy(packet.graphic_str_special_2, t->special[1].graphic_str);
+      sz_strlcpy(packet.graphic_alt_special_2, t->special[1].graphic_alt);
 
       packet.road_trade_incr = t->road_trade_incr;
       packet.road_time = t->road_time;
@@ -2665,7 +2690,11 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
       packet.flags = t->flags;
 
-      packet.helptext = t->helptext;   /* pointer assignment */
+      if (t->helptext) {
+	sz_strlcpy(packet.helptext, t->helptext);
+      } else {
+	packet.helptext[0] = '\0';
+      }
       
       lsend_packet_ruleset_terrain(dest, &packet);
   } terrain_type_iterate_end;
@@ -2743,7 +2772,11 @@ static void send_ruleset_governments(struct conn_list *dest)
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
     
-    gov.helptext = g->helptext;   /* pointer assignment */
+    if (g->helptext) {
+      sz_strlcpy(gov.helptext, g->helptext);
+    } else {
+      gov.helptext[0] = '\0';
+    }
       
     lsend_packet_ruleset_government(dest, &gov);
     
@@ -2900,6 +2933,7 @@ void load_rulesets(void)
 void send_rulesets(struct conn_list *dest)
 {
   conn_list_do_buffer(dest);
+  lsend_packet_freeze_hint(dest);
 
   send_ruleset_control(dest);
   send_ruleset_game(dest);
@@ -2911,5 +2945,6 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
 
+  lsend_packet_thaw_hint(dest);
   conn_list_do_unbuffer(dest);
 }

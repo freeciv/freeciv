@@ -13,13 +13,14 @@
 #ifndef FC__DIPLODLG_G_H
 #define FC__DIPLODLG_G_H
 
-struct packet_diplomacy_info;
-
-void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa);
-void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa);
-void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa);
-void handle_diplomacy_cancel_meeting(struct packet_diplomacy_info *pa);
-void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa);
+void handle_diplomacy_init_meeting(int counterpart, int initiated_from);
+void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from);
+void handle_diplomacy_create_clause(int counterpart, int giver,
+				    enum clause_type type, int value);
+void handle_diplomacy_remove_clause(int counterpart, int giver,
+				    enum clause_type type, int value);
+void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
+				    bool other_accepted);
 
 void close_all_diplomacy_dialogs(void);
 

@@ -46,6 +46,7 @@
 #include "events.h"
 #include "log.h"
 #include "mem.h"
+#include "player.h"
 #include "support.h"
 #include "tech.h"
 #include "worklist.h"
@@ -391,8 +392,6 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
   if (pwl->is_valid) {
     int i, length = worklist_length(pwl);
 
-    dio_put_string(dout, "");
-
     dio_put_uint8(dout, length);
     for (i = 0; i < length; i++) {
       dio_put_uint8(dout, pwl->wlefs[i]);
@@ -502,6 +501,22 @@ void dio_get_bool32(struct data_in *din, bool * dest)
 /**************************************************************************
 ...
 **************************************************************************/
+void dio_get_sint8(struct data_in *din, int *dest)
+{
+  int tmp;
+
+  dio_get_uint8(din, &tmp);
+  if (dest) {
+    if (tmp > 0x7f) {
+      tmp -= 0x100;
+    }
+    *dest = tmp;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void dio_get_sint16(struct data_in *din, int *dest)
 {
   int tmp;
@@ -587,6 +602,7 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 
   dio_get_uint16(din, &npack);
   if (npack >= max_dest_size) {
+      freelog(LOG_NORMAL, "Have size for %d, got %d",max_dest_size,npack);
     din->bad_bit_string = TRUE;
     dest[0] = '\0';
     return;
@@ -690,7 +706,7 @@ void dio_get_worklist(struct data_in *din, struct worklist *pwl)
   if (pwl->is_valid) {
     int i, length;
 
-    dio_get_string(din, pwl->name, MAX_LEN_NAME);
+    strcpy(pwl->name,"xyz");
 
     dio_get_uint8(din, &length);
 
@@ -746,4 +762,51 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
   if (values) {
     (*values)[inx] = stop_value;
   }
+}
+
+void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
+{
+  dio_get_uint8(din, (int *) &pds->type);
+  dio_get_uint16(din, &pds->turns_left);
+  dio_get_uint16(din, &pds->contact_turns_left);
+  dio_get_uint8(din, &pds->has_reason_to_cancel);
+}
+
+void dio_put_diplstate(struct data_out *dout,
+		       const struct player_diplstate *pds)
+{
+  dio_put_uint8(dout, pds->type);
+  dio_put_uint16(dout, pds->turns_left);
+  dio_put_uint16(dout, pds->contact_turns_left);
+  dio_put_uint8(dout, pds->has_reason_to_cancel);
+}
+
+void dio_get_effect(struct data_in *din, struct impr_effect *peffect)
+{
+  dio_get_uint8(din, (int *) &(peffect->type));
+  dio_get_uint8(din, (int *) &(peffect->range));
+  dio_get_sint16(din, &peffect->amount);
+  dio_get_uint8(din, &peffect->survives);
+  dio_get_uint8(din, &peffect->cond_bldg);
+  dio_get_uint8(din, &peffect->cond_gov);
+  dio_get_uint8(din, &peffect->cond_adv);
+  dio_get_uint8(din, (int *) &(peffect->cond_eff));
+  dio_get_uint8(din, (int *) &(peffect->aff_unit));
+  dio_get_uint8(din, (int *) &(peffect->aff_terr));
+  dio_get_uint16(din, (int *) &(peffect->aff_spec));
+}
+
+void dio_put_effect(struct data_out *dout, const struct impr_effect *peffect)
+{
+  dio_put_uint8(dout, peffect->type);
+  dio_put_uint8(dout, peffect->range);
+  dio_put_sint16(dout, peffect->amount);
+  dio_put_uint8(dout, peffect->survives);
+  dio_put_uint8(dout, peffect->cond_bldg);
+  dio_put_uint8(dout, peffect->cond_gov);
+  dio_put_uint8(dout, peffect->cond_adv);
+  dio_put_uint8(dout, peffect->cond_eff);
+  dio_put_uint8(dout, peffect->aff_unit);
+  dio_put_uint8(dout, peffect->aff_terr);
+  dio_put_uint16(dout, peffect->aff_spec);
 }

@@ -207,7 +207,7 @@ void init_new_game(void)
 **************************************************************************/
 void send_start_turn_to_clients(void)
 {
-  lsend_packet_generic_empty(&game.game_connections, PACKET_START_TURN);
+  lsend_packet_start_turn(&game.game_connections);
 }
 
 /**************************************************************************
@@ -241,9 +241,7 @@ void send_year_to_clients(int year)
 **************************************************************************/
 void send_game_state(struct conn_list *dest, int state)
 {
-  struct packet_generic_integer pack;
-  pack.value=state;
-  lsend_packet_generic_integer(dest, PACKET_GAME_STATE, &pack);
+  dlsend_packet_game_state(dest, state);
 }
 
 

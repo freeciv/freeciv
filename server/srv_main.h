@@ -57,6 +57,7 @@ void dealloc_id(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
 void server_game_free(void);
+void check_for_full_turn_done(void);
 
 extern struct server_arguments srvarg;
 

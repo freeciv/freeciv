@@ -554,15 +554,8 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   player_index = LI_2_PI(row);
 
   if (can_meet_with_player(&game.players[player_index])) {
-    struct packet_diplomacy_info pa;
-  
-    pa.plrno0=game.player_idx;
-    pa.plrno1=player_index;
-    pa.plrno_from=pa.plrno0;
-    send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
-        		       &pa);
-  }
-  else {
+    dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
+  } else {
     append_output_window(_("Game: You need an embassy to "
 			   "establish a diplomatic meeting."));
   }
@@ -574,21 +567,14 @@ void players_meet_callback(GtkWidget *w, gpointer data)
 void players_war_callback(GtkWidget *w, gpointer data)
 {
   GList *selection = GTK_CLIST(players_list)->selection;
-  gint row;
-  int player_index;
 
-  if (!selection)
+  if (!selection) {
     return;
-  else {
-    struct packet_generic_values packet;
-
-    row = GPOINTER_TO_INT(selection->data);
-    player_index = LI_2_PI(row);
-
-    packet.id = player_index;
-    packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
-    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-                               &packet);
+  } else {
+    gint row = GPOINTER_TO_INT(selection->data);
+    /* can be any pact clause */
+    dsend_packet_diplomacy_cancel_pact(&aconnection, LI_2_PI(row),
+				       CLAUSE_CEASEFIRE);
   }
 }
 
@@ -598,21 +584,13 @@ void players_war_callback(GtkWidget *w, gpointer data)
 void players_vision_callback(GtkWidget *w, gpointer data)
 {
   GList *selection = GTK_CLIST(players_list)->selection;
-  gint row;
-  int player_index;
 
-  if (!selection)
+  if (!selection) {
     return;
-  else {
-    struct packet_generic_values packet;
-
-    row = GPOINTER_TO_INT(selection->data);
-    player_index = LI_2_PI(row);
-
-    packet.id = player_index;
-    packet.value1 = CLAUSE_VISION;
-    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-			       &packet);
+  } else {
+    gint row = GPOINTER_TO_INT(selection->data);
+    dsend_packet_diplomacy_cancel_pact(&aconnection, LI_2_PI(row),
+				       CLAUSE_VISION);
   }
 }
 

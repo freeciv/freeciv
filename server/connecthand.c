@@ -79,18 +79,19 @@ static void establish_new_connection(struct connection *pconn)
 {
   struct conn_list *dest = &pconn->self;
   struct player *pplayer;
-  struct packet_login_reply packet;
+  struct packet_server_join_reply packet;
   char hostname[512];
 
   /* zero out the password */
-  memset(pconn->password, 0, MAX_LEN_NAME);
+  memset(pconn->server.password, 0, sizeof(pconn->server.password));
 
   /* send off login_replay packet */
-  packet.you_can_login = TRUE;
+  packet.you_can_join = TRUE;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
               pconn->username);
-  send_packet_login_reply(pconn, &packet);
+  packet.conn_id = -1;
+  send_packet_server_join_reply(pconn, &packet);
 
   /* "establish" the connection */
   pconn->established = TRUE;
@@ -124,14 +125,14 @@ static void establish_new_connection(struct connection *pconn)
     if (server_state == RUN_GAME_STATE) {
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
-      send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
+      send_packet_freeze_hint(pconn);
       send_rulesets(dest);
       send_all_info(dest);
       send_game_state(dest, CLIENT_GAME_RUNNING_STATE);
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
-      send_packet_generic_empty(pconn, PACKET_THAW_HINT);
-      send_packet_generic_empty(pconn, PACKET_START_TURN);
+      send_packet_thaw_hint(pconn);
+      send_packet_start_turn(pconn);
     }
 
     if (game.auto_ai_toggle && pplayer->ai.control) {
@@ -189,18 +190,17 @@ static void establish_new_connection(struct connection *pconn)
 **************************************************************************/
 static void reject_new_connection(char *msg, struct connection *pconn)
 {
-  struct packet_login_reply packet;
+  struct packet_server_join_reply packet;
 
   /* zero out the password */
-  memset(pconn->password, 0, MAX_LEN_NAME);
+  memset(pconn->server.password, 0, sizeof(pconn->server.password));
 
-  packet.you_can_login = FALSE;
+  packet.you_can_join = FALSE;
   sz_strlcpy(packet.capability, our_capability);
   sz_strlcpy(packet.message, msg);
-  send_packet_login_reply(pconn, &packet);
+  send_packet_server_join_reply(pconn, &packet);
   freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
-  close_connection(pconn);
 }
 
 /**************************************************************************
@@ -208,7 +208,7 @@ static void reject_new_connection(char *msg, struct connection *pconn)
  closed. Returns TRUE if the client get accepted.
 **************************************************************************/
 bool handle_login_request(struct connection *pconn, 
-                          struct packet_login_request *req)
+                          struct packet_server_join_req *req)
 {
   char msg[MAX_LEN_MSG];
   
@@ -307,8 +307,8 @@ bool handle_login_request(struct connection *pconn,
 
   if (has_capability("auth", req->capability) 
       && !is_guest_name(req->username)) {
-    struct packet_authentication_request packet;
     char tmpname[MAX_LEN_NAME] = "\0";
+    char buffer[MAX_LEN_MSG];
 
     sz_strlcpy(pconn->username, req->username);
 
@@ -331,18 +331,16 @@ bool handle_login_request(struct connection *pconn,
       break;
     case USER_DB_SUCCESS:
       /* we found a user */
-      packet.type = AUTH_LOGIN_FIRST;
-      my_snprintf(packet.message, sizeof(packet.message),
-                  _("Enter password for %s:"), pconn->username);
-      send_packet_authentication_request(pconn, &packet);
+      my_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
+		  pconn->username);
+      dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
       pconn->server.status = AS_REQUESTING_OLD_PASS;
       break;
     case USER_DB_NOT_FOUND:
       /* we couldn't find the user, he is new */
 #ifdef NEW_USERS_ALLOWED
-      packet.type = AUTH_NEWUSER_FIRST;
-      sz_strlcpy(packet.message, _("Enter a password (and remember it)."));
-      send_packet_authentication_request(pconn, &packet);
+      sz_strlcpy(buffer, _("Enter a password (and remember it)."));
+      dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
       pconn->server.status = AS_REQUESTING_NEW_PASS;
 #else
       reject_new_connection(_("This server allows only preregistered users. "
@@ -390,21 +388,20 @@ void unfail_authentication(struct connection *pconn)
     pconn->server.status = AS_NOT_ESTABLISHED;
     reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
   } else {
-    struct packet_authentication_request request;
+    struct packet_authentication_req request;
 
     pconn->server.status = AS_REQUESTING_OLD_PASS;
     request.type = AUTH_LOGIN_RETRY;
     sz_strlcpy(request.message,
                _("Your password is incorrect. Try again."));
-    send_packet_authentication_request(pconn, &request);
+    send_packet_authentication_req(pconn, &request);
   }
 }
 
 /**************************************************************************
   Receives a password from a client and verifies it.
 **************************************************************************/
-bool handle_authentication_reply(struct connection *pconn,
-                                 struct packet_authentication_reply *packet)
+bool handle_authentication_reply(struct connection *pconn, char *password)
 {
 #ifdef AUTHENTICATION_ENABLED 
   char msg[MAX_LEN_MSG];
@@ -412,22 +409,18 @@ bool handle_authentication_reply(struct connection *pconn,
   if (pconn->server.status == AS_REQUESTING_NEW_PASS) {
 
     /* check if the new password is acceptable */
-    if (!is_good_password(packet->password, msg)) {
+    if (!is_good_password(password, msg)) {
       if (pconn->server.authentication_tries++ >= MAX_AUTHENTICATION_TRIES) {
         reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
       } else {
-        struct packet_authentication_request request;
-
-        request.type = AUTH_NEWUSER_RETRY;
-        sz_strlcpy(request.message, msg);
-        send_packet_authentication_request(pconn, &request);
+        dsend_packet_authentication_req(pconn, AUTH_NEWUSER_RETRY,msg);
       }
       return TRUE;
     }
 
     /* the new password is good, create a database entry for
      * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(pconn->password, packet->password);
+    sz_strlcpy(pconn->password, password);
 
     switch(user_db_save(pconn)) {
     case USER_DB_SUCCESS:
@@ -444,7 +437,7 @@ bool handle_authentication_reply(struct connection *pconn,
 
     establish_new_connection(pconn);
   } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
-    if (strncmp(pconn->password, packet->password, MAX_LEN_NAME) == 0) {
+    if (strncmp(pconn->password, password, MAX_LEN_NAME) == 0) {
       pconn->server.status = AS_ESTABLISHED;
       establish_new_connection(pconn);
     } else {
@@ -599,11 +592,7 @@ void lost_connection_to_client(struct connection *pconn)
   if (!pplayer->is_connected) { /* may be still true if multiple connections */
     players_iterate(other_player) {
       if (find_treaty(pplayer, other_player)) {
-        struct packet_diplomacy_info packet;
-
-        packet.plrno0 = pplayer->player_no;
-        packet.plrno1 = other_player->player_no;
-        handle_diplomacy_cancel_meeting(pplayer, &packet);
+        handle_diplomacy_cancel_meeting_req(pplayer, other_player->player_no);
       }
     } players_iterate_end;
   }

@@ -46,6 +46,7 @@
 #include "chatline.h"
 #include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"
@@ -426,14 +427,10 @@ static void diplomat_bribe_no_callback(Widget w, XtPointer client_data,
 static void diplomat_bribe_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  struct packet_generic_integer packet;
-
   destroy_message_dialog(w);
 
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  if (find_unit_by_id(diplomat_id) && find_unit_by_id(diplomat_target_id)) {
+    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
   }
 }
 
@@ -960,16 +957,11 @@ static void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 static void diplomat_incite_callback(Widget w, XtPointer client_data, 
 				     XtPointer call_data)
 {
-  struct city *pcity;
-  struct packet_generic_integer packet;
-
   destroy_message_dialog(w);
   diplomat_dialog_open = FALSE;
 
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
-    packet.value = diplomat_target_id;
-    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
+    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
 }
 
@@ -1150,15 +1142,10 @@ bool diplomat_dialog_is_open(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_establish_trade_callback(Widget w, XtPointer client_data, 
+static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
 					     XtPointer call_data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
-    
+  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
   destroy_message_dialog(w);
   caravan_dialog = 0;
   process_caravan_arrival(NULL);
@@ -1168,14 +1155,11 @@ static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_help_build_wonder_callback(Widget w, XtPointer client_data, 
+static void caravan_help_build_wonder_callback(Widget w,
+					       XtPointer client_data,
 					       XtPointer call_data)
 {
-  struct packet_unit_request req;
-  req.unit_id=caravan_unit_id;
-  req.city_id=caravan_city_id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
 
   destroy_message_dialog(w);
   caravan_dialog = 0;
@@ -1189,21 +1173,6 @@ static void caravan_help_build_wonder_callback(Widget w, XtPointer client_data,
 static void caravan_keep_moving_callback(Widget w, XtPointer client_data, 
 					 XtPointer call_data)
 {
-#if 0   /* Now don't want to move at all in this case --dwp */
-  struct unit *punit;
-  struct city *pcity;
-
-  if((punit=find_unit_by_id(caravan_unit_id)) && 
-     (pcity=find_city_by_id(caravan_city_id))) {
-    struct unit req_unit;
-
-    req_unit=*punit;
-    req_unit.x=pcity->x;
-    req_unit.y=pcity->y;
-    send_unit_info(&req_unit);
-  }
-#endif
-  
   destroy_message_dialog(w);
   caravan_dialog = 0;
   process_caravan_arrival(NULL);
@@ -1251,18 +1220,13 @@ bool caravan_dialog_is_open(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void government_callback(Widget w, XtPointer client_data, 
+static void government_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  struct packet_player_request packet;
-
-  packet.government=(size_t)client_data;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
-
+  dsend_packet_player_government(&aconnection, (size_t) client_data);
   destroy_message_dialog(w);
-  is_showing_government_dialog=0;
+  is_showing_government_dialog = 0;
 }
-
 
 /****************************************************************
 ...
@@ -2087,7 +2051,8 @@ void racesdlg_key_ok(Widget w)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_toggles_set_sensitive(struct packet_nations_used *packet)
+void races_toggles_set_sensitive(int num_nations_used,
+				 Nation_Type_id * nations_used)
 {
   int i;
 
@@ -2095,9 +2060,9 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
     XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
   }
 
-  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
-  for (i = 0; i < packet->num_nations_used; i++) {
-    int nation = packet->nations_used[i], selected_nation = -1;
+  freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
+  for (i = 0; i < num_nations_used; i++) {
+    int nation = nations_used[i], selected_nation = -1;
 
     if (races_buttons_get_current() != -1) {
       selected_nation =
@@ -2294,8 +2259,6 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   int selected_index, selected_sex, selected_style;
   XtPointer dp;
 
-  struct packet_alloc_nation packet;
-
   if((selected_index=races_buttons_get_current())==-1) {
     append_output_window(_("You must select a nation."));
     return;
@@ -2314,18 +2277,15 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   XtVaGetValues(races_leader, XtNstring, &dp, NULL);
 
   /* perform a minimum of sanity test on the name */
-  packet.nation_no=races_toggles_to_nations[selected_index];
-  packet.city_style = get_nation_city_style(packet.nation_no);
-  packet.is_male = selected_sex? 0: 1;     /* first button is male */
-  packet.city_style = city_style_idx[selected_style];
-  sz_strlcpy(packet.name, (char*)dp);
-  
-  if (!is_sane_name(packet.name)) {
+  if (!is_sane_name(dp)) {
     append_output_window(_("You must type a legal name."));
     return;
   }
 
-  send_packet_alloc_nation(&aconnection, &packet);
+  dsend_packet_nation_select_req(&aconnection,
+				 races_toggles_to_nations[selected_index],
+				 selected_sex ? FALSE : TRUE,
+				 dp, city_style_idx[selected_style]);
 }
 
 /**************************************************************************
@@ -2374,35 +2334,7 @@ void destroy_me_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  int tax_end,lux_end,sci_end;
-  size_t i;
-  int delta=10;
-  struct packet_player_request packet;
-
-  if (!can_client_issue_orders) {
-    return;
-  }
-  
-  i= (size_t)client_data;
-  
-  lux_end= game.player_ptr->economic.luxury;
-  sci_end= lux_end + game.player_ptr->economic.science;
-  tax_end= 100;
-
-  packet.luxury= game.player_ptr->economic.luxury;
-  packet.science= game.player_ptr->economic.science;
-  packet.tax= game.player_ptr->economic.tax;
-
-  i*= 10;
-  if(i<lux_end){
-    packet.luxury-= delta; packet.science+= delta;
-  }else if(i<sci_end){
-    packet.science-= delta; packet.tax+= delta;
-   }else{
-    packet.tax-= delta; packet.luxury+= delta;
-  }
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
-
+  common_taxrates_callback((size_t) client_data);
 }
 
 /********************************************************************** 

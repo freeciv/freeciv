@@ -75,35 +75,7 @@ struct tile {
 /****************************************************************
 miscellaneous terrain information
 *****************************************************************/
-
-struct terrain_misc
-{
-  /* options */
-  enum terrain_river_type river_style;
-  bool may_road;       /* may build roads/railroads */
-  bool may_irrigate;   /* may build irrigation/farmland */
-  bool may_mine;       /* may build mines */
-  bool may_transform;  /* may transform terrain */
-  /* parameters */
-  int ocean_reclaim_requirement;       /* # adjacent land tiles for reclaim */
-  int land_channel_requirement;        /* # adjacent ocean tiles for channel */
-  enum special_river_move river_move_mode;
-  int river_defense_bonus;             /* % added to defense if Civ2 river */
-  int river_trade_incr;                /* added to trade if Civ2 river */
-  char *river_help_text;	       /* help for Civ2-style rivers */
-  int fortress_defense_bonus;          /* % added to defense if fortress */
-  int road_superhighway_trade_bonus;   /* % added to trade if road/s-highway */
-  int rail_food_bonus;                 /* % added to food if railroad */
-  int rail_shield_bonus;               /* % added to shield if railroad */
-  int rail_trade_bonus;                /* % added to trade if railroad */
-  int farmland_supermarket_food_bonus; /* % added to food if farm/s-market */
-  int pollution_food_penalty;          /* % subtr. from food if polluted */
-  int pollution_shield_penalty;        /* % subtr. from shield if polluted */
-  int pollution_trade_penalty;         /* % subtr. from trade if polluted */
-  int fallout_food_penalty;            /* % subtr. from food if fallout */
-  int fallout_shield_penalty;          /* % subtr. from shield if fallout */
-  int fallout_trade_penalty;           /* % subtr. from trade if fallout */
-};
+#define terrain_misc packet_ruleset_terrain_control
 
 /****************************************************************
 tile_type for each terrain type
@@ -645,7 +617,7 @@ extern const int CAR_DIR_DY[4];
 }
 
 /* Used for network transmission; do not change. */
-#define MAP_TILE_OWNER_NULL	 MAX_UINT16
+#define MAP_TILE_OWNER_NULL	 MAX_UINT8
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

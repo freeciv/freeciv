@@ -69,13 +69,11 @@ static void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointe
 static void name_new_city_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data)
 {
-  size_t unit_id;
+  size_t unit_id=(size_t)client_data;
   
-  if((unit_id=(size_t)client_data)) {
-    struct packet_unit_request req;
-    req.unit_id=unit_id;
-    sz_strlcpy(req.name, input_dialog_get_input(w));
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
+  if (unit_id) {
+    dsend_packet_unit_build_city(&aconnection, unit_id,
+				 input_dialog_get_input(w));
   }
     
   input_dialog_destroy(w);

@@ -247,11 +247,6 @@ The Xaw client uses XtAppAddInput() to tell Xt to call the callback
 functions, when something happens on the client socket.
 The GTK+ client uses a similar gdk_input_add() call.
 
-[The packet system started out as a pain and it stayed that way all the time. 
-After using Java's object serialize system, this handcoded serialize
-code really feels like the stoneage. That said, I fear it requires some
-advanced pre-processing system etc to automate the task for C structures. -PU]
-
 =========================================================================
 Network Improvements
 =========================================================================

@@ -144,10 +144,18 @@ typedef unsigned int fc_bool;
        (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit); } while(FALSE)
 #define BV_CLR_ALL(bv) \
   do { memset((bv).vec, 0, sizeof((bv).vec)); } while(FALSE)
-bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
-		   size_t size2);
+#define BV_SET_ALL(bv) \
+  do { memset((bv).vec, 0xff, sizeof((bv).vec)); } while(FALSE)
+bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
+		   size_t size1, size_t size2);
 #define BV_CHECK_MASK(vec1, vec2) \
   bv_check_mask((vec1).vec, (vec2).vec, sizeof((vec1).vec), sizeof((vec2).vec))
+#define BV_ISSET_ANY(vec) BV_CHECK_MASK(vec, vec)
+
+bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
+		  size_t size1, size_t size2);
+#define BV_ARE_EQUAL(vec1, vec2) \
+  bv_are_equal((vec1).vec, (vec2).vec, sizeof((vec1).vec), sizeof((vec2).vec))
 
 #define BV_DEFINE(name, bits) \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name

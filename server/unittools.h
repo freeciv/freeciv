@@ -64,14 +64,15 @@ void kill_unit(struct unit *pkiller, struct unit *punit);
 /* sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
 		  bool carried);
-void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
-			bool carried, enum unit_info_use packet_use,
-			int info_city_id, bool new_serial_num);
+void package_short_unit(struct unit *punit,
+			struct packet_unit_short_info *packet, bool carried,
+			enum unit_info_use packet_use, int info_city_id,
+			bool new_serial_num);
 void send_unit_info(struct player *dest, struct unit *punit);
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit, 
 				 int x, int y, bool remove_unseen);
 void send_all_known_units(struct conn_list *dest);
-
+void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit);
 
 /* doing a unit activity */
 void do_nuclear_explosion(struct player *pplayer, int x, int y);

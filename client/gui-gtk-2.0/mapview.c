@@ -1074,6 +1074,7 @@ void gui_put_sprite_full(struct canvas_store *pcanvas_store,
 			 int canvas_x, int canvas_y,
 			 struct Sprite *sprite)
 {
+    assert(sprite->pixmap);
   gui_put_sprite(pcanvas_store, canvas_x, canvas_y,
 		 sprite,
 		 0, 0, sprite->width, sprite->height);

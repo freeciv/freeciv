@@ -133,7 +133,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 {
   struct player *cplayer;
   bool first_packet;
-  struct packet_short_unit unit_packet;
+  struct packet_unit_short_info unit_packet;
   struct packet_city_info city_packet;
 
   /* Fetch target city's player.  Sanity checks. */
@@ -156,13 +156,13 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   unit_list_iterate(pcity->units_supported, punit) {
     package_short_unit(punit, &unit_packet, FALSE,
                        UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
-    lsend_packet_short_unit(&pplayer->connections, &unit_packet);
+    lsend_packet_unit_short_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
     package_short_unit(punit, &unit_packet, FALSE,
                        UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
-    lsend_packet_short_unit(&pplayer->connections, &unit_packet);
+    lsend_packet_unit_short_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
@@ -201,7 +201,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 			   struct city *pcity)
 {
-  struct packet_sabotage_list packet;
+  struct packet_city_sabotage_list packet;
   char *p;
 
   /* Send city improvements info to player. */
@@ -214,7 +214,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
-  lsend_packet_sabotage_list(player_reply_dest(pplayer), &packet);
+  lsend_packet_city_sabotage_list(player_reply_dest(pplayer), &packet);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_GET_SABOTAGE_LIST, pplayer, NULL, pcity);

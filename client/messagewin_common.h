@@ -31,7 +31,7 @@ void meswin_force_thaw(void);
 
 void update_meswin_dialog(void);
 void clear_notify_window(void);
-void add_notify_window(struct packet_generic_message *packet);
+void add_notify_window(char *message, int x, int y, enum event_type event);
 
 struct message *get_message(int message_index);
 int get_num_messages(void);

@@ -861,13 +861,10 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       if (utype_shield_cost(unit_type(punit), g) > 0
 	  && pcity->shield_surplus < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
-	struct packet_unit_request packet;
-
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, unit_type(punit)->name);
-        packet.unit_id = punit->id;
-        handle_unit_disband(pplayer, &packet);
+        handle_unit_disband(pplayer, punit->id);
 	/* pcity->shield_surplus is automatically updated. */
       }
     } unit_list_iterate_safe_end;

@@ -21,6 +21,7 @@
 
 #include "log.h"
 #include "map.h"
+#include "packets.h"
 #include "unit.h"
 
 #include "combat.h"

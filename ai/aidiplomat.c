@@ -256,7 +256,6 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 **************************************************************************/
 static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
 {
-  struct packet_diplomat_action packet;
   struct player *pplayer = unit_owner(punit);
   struct player *tplayer = city_owner(ctarget);
   int count_impr = count_sabotagable_improvements(ctarget);
@@ -271,17 +270,14 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   }
 
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  packet.diplomat_id = punit->id;
-  packet.target_id = ctarget->id;
 
 #define T(my_act,my_val)                                            \
   if (diplomat_can_do_action(punit, my_act, ctarget->x,             \
                              ctarget->y)) {                         \
-    packet.action_type = my_act;                                    \
-    packet.value = my_val;                                          \
     freelog(LOG_DIPLOMAT, "Player %s's diplomat %d does " #my_act   \
             " on %s", pplayer->name, punit->id, ctarget->name);     \
-    handle_diplomat_action(pplayer, &packet);                       \
+    handle_unit_diplomat_action(pplayer, punit->id, my_act,         \
+                                ctarget->id, my_val);               \
     return;                                                         \
   }
 
@@ -447,7 +443,6 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
 static bool ai_diplomat_bribe_nearby(struct player *pplayer, 
                                      struct unit *punit, struct pf_map *map)
 {
-  struct packet_diplomat_action packet;
   int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
   struct ai_data *ai = ai_data_get(pplayer);
 
@@ -522,10 +517,8 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.x, pos.y)) {
-      packet.diplomat_id = punit->id;
-      packet.target_id = unit_list_get(&ptile->units, 0)->id;
-      packet.action_type = DIPLOMAT_BRIBE;
-      handle_diplomat_action(pplayer, &packet);
+      handle_unit_diplomat_action(pplayer, punit->id, DIPLOMAT_BRIBE,
+				  unit_list_get(&ptile->units, 0)->id, -1);
       /* autoattack might kill us as we move in */
       if (find_unit_by_id(sanity) && punit->moves_left > 0) {
         return TRUE;

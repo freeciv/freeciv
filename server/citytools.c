@@ -1339,7 +1339,7 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
 This fills out a package from a players dumb_city.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, int x, int y,
-			      struct packet_short_city *packet)
+			      struct packet_city_short_info *packet)
 {
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
   struct city *pcity = map_get_city(x, y);
@@ -1381,13 +1381,13 @@ void refresh_dumb_city(struct city *pcity)
     if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)
 	|| player_has_traderoute_with_city(pplayer, pcity)) {
       if (update_dumb_city(pplayer, pcity)) {
-	struct packet_short_city sc_pack;
+	struct packet_city_short_info packet;
 
 	if (city_owner(pcity) != pplayer) {
 	  /* Don't send the short_city information to someone who can see the
 	   * city's internals.  Doing so would really confuse the client. */
-	  package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
-	  lsend_packet_short_city(&pplayer->connections, &sc_pack);
+	  package_dumb_city(pplayer, pcity->x, pcity->y, &packet);
+	  lsend_packet_city_short_info(&pplayer->connections, &packet);
 	}
       }
     }
@@ -1409,7 +1409,7 @@ static void broadcast_city_info(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
   struct packet_city_info packet;
-  struct packet_short_city sc_pack;
+  struct packet_city_short_info sc_pack;
 
   /* nocity_send is used to inhibit sending cities to the owner between
    * turn updates
@@ -1431,7 +1431,7 @@ static void broadcast_city_info(struct city *pcity)
 	|| player_has_traderoute_with_city(pplayer, pcity)) {
       update_dumb_city(pplayer, pcity);
       package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
-      lsend_packet_short_city(&pplayer->connections, &sc_pack);
+      lsend_packet_city_short_info(&pplayer->connections, &sc_pack);
     }
   } players_iterate_end;
 
@@ -1532,7 +1532,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 {
   struct player *powner = NULL;
   struct packet_city_info packet;
-  struct packet_short_city sc_pack;
+  struct packet_city_short_info sc_pack;
   struct dumb_city *pdcity;
 
   if (!pcity)
@@ -1567,13 +1567,13 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	if (pcity) {		/* it's there and we see it; update and send */
 	  update_dumb_city(pviewer, pcity);
 	  package_dumb_city(pviewer, x, y, &sc_pack);
-	  lsend_packet_short_city(dest, &sc_pack);
+	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
       } else {			/* not seen; send old info */
 	pdcity = map_get_player_tile(x, y, pviewer)->city;
 	if (pdcity) {
 	  package_dumb_city(pviewer, x, y, &sc_pack);
-	  lsend_packet_short_city(dest, &sc_pack);
+	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
       }
     }
@@ -1720,16 +1720,13 @@ Removes outdated (nonexistant) cities from a player
 **************************************************************************/
 void reality_check_city(struct player *pplayer,int x, int y)
 {
-  struct packet_generic_integer packet;
   struct city *pcity;
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
 
   if (pdcity) {
     pcity = map_get_tile(x,y)->city;
     if (!pcity || (pcity && pcity->id != pdcity->id)) {
-      packet.value=pdcity->id;
-      lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_CITY,
-				   &packet);
+      dlsend_packet_city_remove(&pplayer->connections, pdcity->id);
       free(pdcity);
       map_get_player_tile(x, y, pplayer)->city = NULL;
     }

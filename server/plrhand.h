@@ -19,8 +19,9 @@
 #include "packets.h"
 #include "shared.h"		/* fc__attribute */
 
+#include "hand_gen.h"
+
 struct player;
-struct packet_player_request;
 struct section_file;
 struct connection;
 struct conn_list;
@@ -34,12 +35,7 @@ void begin_player_turn(struct player *pplayer);
 void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 void great_library(struct player *pplayer);
-void handle_player_revolution(struct player *pplayer);
-void handle_player_rates(struct player *pplayer, 
-			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
-void handle_player_cancel_pact(struct player *pplayer,
-                               struct packet_generic_values *packet);
 void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
 		  int y);
 void maybe_make_contact(int x, int y, struct player *pplayer);
@@ -66,15 +62,6 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 
-void handle_player_government(struct player *pplayer,
-			     struct packet_player_request *preq);
-void handle_player_research(struct player *pplayer,
-			    struct packet_player_request *preq);
-void handle_player_tech_goal(struct player *pplayer,
-                            struct packet_player_request *preq);
-void handle_player_attribute_chunk(struct player *pplayer,
-				   struct packet_attribute_chunk *chunk);
-void handle_player_attribute_block(struct player *pplayer);
 void found_new_tech(struct player *plr, int tech_found, bool was_discovery, 
 		    bool saving_bulbs);
 void found_new_future_tech(struct player *pplayer);

@@ -488,10 +488,7 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
   }
   if (pcity->shield_surplus - unit_type(punit)->shield_cost >= 0
       && pcity->food_surplus - unit_type(punit)->food_cost >= 0) {
-    struct packet_unit_request packet;
-    packet.unit_id = punit->id;
-    packet.city_id = pcity->id;
-    handle_unit_change_homecity(unit_owner(punit), &packet);
+    handle_unit_change_homecity(unit_owner(punit), punit->id, pcity->id);
     return TRUE;
   }
   return FALSE;
@@ -560,7 +557,6 @@ static bool has_bodyguard(struct unit *punit)
 **************************************************************************/
 bool ai_unit_attack(struct unit *punit, int x, int y)
 {
-  struct packet_move_unit pmove;
   int sanity = punit->id;
   bool alive;
 
@@ -569,11 +565,8 @@ bool ai_unit_attack(struct unit *punit, int x, int y)
   assert(is_normal_map_pos(x, y));
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));
 
-  pmove.x = x;
-  pmove.y = y;
-  pmove.unid = punit->id;
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  handle_move_unit(unit_owner(punit), &pmove);
+  handle_unit_move(unit_owner(punit), punit->id,x,y);
   alive = (find_unit_by_id(sanity) != NULL);
 
   if (alive && same_pos(x, y, punit->x, punit->y)
@@ -595,7 +588,6 @@ bool ai_unit_attack(struct unit *punit, int x, int y)
 **************************************************************************/
 bool ai_unit_move(struct unit *punit, int x, int y)
 {
-  struct packet_move_unit pmove;
   struct unit *bodyguard;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -637,11 +629,8 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   }
 
   /* go */
-  pmove.x = x;
-  pmove.y = y;
-  pmove.unid = punit->id;
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  handle_move_unit(unit_owner(punit), &pmove);
+  handle_unit_move(unit_owner(punit), punit->id, x, y);
 
   /* handle the results */
   if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
@@ -719,15 +708,12 @@ int stack_cost(struct unit *pdef)
 **************************************************************************/
 void ai_government_change(struct player *pplayer, int gov)
 {
-  struct packet_player_request preq;
-
   if (gov == pplayer->government) {
     return;
   }
-  preq.government = gov;
   pplayer->revolution = 0;
   pplayer->government = game.government_when_anarchy;
-  handle_player_government(pplayer, &preq);
+  handle_player_government(pplayer, gov);
   pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
 }
 

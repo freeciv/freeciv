@@ -42,6 +42,7 @@
 #include "connectdlg_g.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "packhand.h"
 
 #include "connectdlg.h"
 
@@ -116,15 +117,14 @@ static void password_callback(Widget w, XtPointer client_data,
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
   XtVaSetValues(iinput, XtNstring, "", NULL);
   XtVaSetValues(connw, XtNlabel, _("Next"), NULL);
   XtSetSensitive(connw, TRUE);
-  XtVaSetValues(imsg, XtNlabel, packet->message, NULL);
+  XtVaSetValues(imsg, XtNlabel, message, NULL);
 
-  switch (packet->type) {
+  switch (type) {
   case AUTH_NEWUSER_FIRST:
     dialog_config = NEW_PASSWORD_TYPE;
     break;

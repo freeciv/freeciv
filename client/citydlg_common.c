@@ -388,17 +388,8 @@ void activate_all_units(int map_x, int map_y)
 **************************************************************************/
 int city_change_production(struct city *pcity, bool is_unit, int build_id)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.build_id = build_id;
-  packet.is_build_id_unit_id = is_unit;
-
-  /* Fill out unused fields. */
-  packet.worker_x = packet.worker_y = -1;
-  packet.specialist_from = packet.specialist_to = -1;
-
-  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  return dsend_packet_city_change(&aconnection, pcity->id, build_id,
+				  is_unit);
 }
 
 /**************************************************************************
@@ -406,22 +397,14 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id)
 **************************************************************************/
 int city_set_worklist(struct city *pcity, struct worklist *pworklist)
 {
-  struct packet_city_request packet;
+  struct worklist copy;
 
-  packet.city_id = pcity->id;
-  copy_worklist(&packet.worklist, pworklist);
+  copy_worklist(&copy, pworklist);
 
   /* Don't send the worklist name to the server. */
-  packet.worklist.name[0] = '\0';
+  copy.name[0] = '\0';
 
-  /* Fill out unused fields. */
-  packet.build_id = -1;
-  packet.is_build_id_unit_id = FALSE;
-  packet.worker_x = packet.worker_y = -1;
-  packet.specialist_from = packet.specialist_to = -1;
-
-  return send_packet_city_request(&aconnection, &packet,
-				  PACKET_CITY_WORKLIST);
+  return dsend_packet_city_worklist(&aconnection, pcity->id, &copy);
 }
 
 /**************************************************************************
@@ -429,17 +412,7 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
 **************************************************************************/
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.build_id = sell_id;
-
-  /* Fill out unused fields. */
-  packet.is_build_id_unit_id = FALSE;
-  packet.worker_x = packet.worker_y = -1;
-  packet.specialist_from = packet.specialist_to = -1;
-
-  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+  return dsend_packet_city_sell(&aconnection, pcity->id, sell_id);
 }
 
 /**************************************************************************
@@ -447,17 +420,7 @@ int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
 **************************************************************************/
 int city_buy_production(struct city *pcity)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-
-  /* Fill out unused fields. */
-  packet.build_id = -1;
-  packet.is_build_id_unit_id = FALSE;
-  packet.worker_x = packet.worker_y = -1;
-  packet.specialist_from = packet.specialist_to = -1;
-
-  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+  return dsend_packet_city_buy(&aconnection, pcity->id);
 }
 
 /**************************************************************************
@@ -466,19 +429,8 @@ int city_buy_production(struct city *pcity)
 int city_change_specialist(struct city *pcity, enum specialist_type from,
 			   enum specialist_type to)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.specialist_from = from;
-  packet.specialist_to = to;
-
-  /* Fill out unused fields. */
-  packet.build_id = -1;
-  packet.is_build_id_unit_id = FALSE;
-  packet.worker_x = packet.worker_y = -1;
-
-  return send_packet_city_request(&aconnection, &packet,
-				  PACKET_CITY_CHANGE_SPECIALIST);
+  return dsend_packet_city_change_specialist(&aconnection, pcity->id, from,
+					     to);
 }
 
 /**************************************************************************
@@ -487,33 +439,17 @@ int city_change_specialist(struct city *pcity, enum specialist_type from,
 **************************************************************************/
 int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 {
-  struct packet_city_request packet;
-  enum packet_type ptype;
-
   assert(is_valid_city_coords(city_x, city_y));
 
-  packet.city_id = pcity->id;
-  packet.worker_x = city_x;
-  packet.worker_y = city_y;
-
-  /* Fill out unused fields. */
-  packet.build_id = -1;
-  packet.is_build_id_unit_id = FALSE;
-  packet.specialist_from = packet.specialist_to = -1;
-
   if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
-    ptype = PACKET_CITY_MAKE_SPECIALIST;
+    return dsend_packet_city_make_specialist(&aconnection, pcity->id, city_x,
+					     city_y);
   } else if (pcity->city_map[city_x][city_y] == C_TILE_EMPTY) {
-    ptype = PACKET_CITY_MAKE_WORKER;
+    return dsend_packet_city_make_worker(&aconnection, pcity->id, city_x,
+					 city_y);
   } else {
     return 0;
   }
-
-  freelog(LOG_DEBUG, "city_toggle_worker(city='%s'(%d), x=%d, y=%d, %s)",
-	  pcity->name, pcity->id, city_x, city_y,
-	  (ptype == PACKET_CITY_MAKE_SPECIALIST) ? "clear" : "set");
-
-  return send_packet_city_request(&aconnection, &packet, ptype);
 }
 
 /**************************************************************************
@@ -521,16 +457,5 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 **************************************************************************/
 int city_rename(struct city *pcity, const char *name)
 {
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  sz_strlcpy(packet.name, name);
-
-  /* Fill out unused fields. */
-  packet.build_id = -1;
-  packet.is_build_id_unit_id = FALSE;
-  packet.worker_x = packet.worker_y = -1;
-  packet.specialist_from = packet.specialist_to = -1;
-
-  return send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
+  return dsend_packet_city_rename(&aconnection, pcity->id, name);
 }

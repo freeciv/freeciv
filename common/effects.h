@@ -13,6 +13,7 @@
 #ifndef FC__EFFECTS_H
 #define FC__EFFECTS_H
 
+struct impr_effect;
 
 #include "shared.h"		/* bool */
 #include "terrain.h"
@@ -125,5 +126,8 @@ enum effect_range effect_range_from_str(const char *str);
 const char *effect_range_name(enum effect_range id);
 enum effect_type effect_type_from_str(const char *str);
 const char *effect_type_name(enum effect_type id);
+
+bool are_effects_equal(const struct impr_effect *const peff1,
+		       const struct impr_effect *const peff2);
 
 #endif  /* FC__EFFECTS_H */

@@ -33,6 +33,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "packets.h"
 #include "registry.h"
 #include "support.h"
 #include "unit.h"

@@ -1007,21 +1007,6 @@ static void caravan_help_build_wonder_callback(HWND w, void * data)
 *****************************************************************/
 static void caravan_keep_moving_callback(HWND w, void * data)
 {
-#if 0   /* Now don't want to move at all in this case --dwp */
-  struct unit *punit;
-  struct city *pcity;
- 
-  if((punit=find_unit_by_id(caravan_unit_id)) &&
-     (pcity=find_city_by_id(caravan_city_id))) {
-    struct unit req_unit;
- 
-    req_unit=*punit;
-    req_unit.x=pcity->x;
-    req_unit.y=pcity->y;
-    send_unit_info(&req_unit);
-  }
-#endif
- 
   destroy_message_dialog(w);
   caravan_dialog = 0;
   process_caravan_arrival(NULL);

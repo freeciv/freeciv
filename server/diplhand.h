@@ -18,20 +18,11 @@ struct player;
 struct packet_diplomacy_info;
 struct connection;
 
+#include "hand_gen.h"
+
 void establish_embassy(struct player *pplayer, struct player *aplayer);
 
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
-
-void handle_diplomacy_cancel_meeting(struct player *pplayer, 
-				     struct packet_diplomacy_info *packet);
-void handle_diplomacy_create_clause(struct player *pplayer, 
-				    struct packet_diplomacy_info *packet);
-void handle_diplomacy_remove_clause(struct player *pplayer, 
-				    struct packet_diplomacy_info *packet);
-void handle_diplomacy_init(struct player *pplayer, 
-			   struct packet_diplomacy_info *packet);
-void handle_diplomacy_accept_treaty(struct player *pplayer, 
-				    struct packet_diplomacy_info *packet);
 
 void send_diplomatic_meetings(struct connection *dest);
 void cancel_all_meetings(struct player *pplayer);

@@ -21,7 +21,6 @@ libcivcommon_a_SOURCES = \
 		combat.h	\
 		connection.c	\
 		connection.h	\
-		create_lsend.pl	\
 		dataio.c	\
 		dataio.h	\
 		diptreaty.c	\
@@ -33,6 +32,7 @@ libcivcommon_a_SOURCES = \
 		fcintl.h	\
 		game.c		\
 		game.h		\
+		generate_packets.py \
 		genlist.c	\
 		genlist.h	\
 		government.c	\
@@ -57,8 +57,9 @@ libcivcommon_a_SOURCES = \
 		netintf.h	\
 		packets.c	\
 		packets.h	\
-		packets_lsend.c	\
-		packets_lsend.h	\
+		packets_gen.c	\
+		packets_gen.h	\
+		packets.def	\
 		player.c	\
 		player.h	\
 		pqueue.c	\
@@ -94,3 +95,6 @@ libcivcommon_a_SOURCES = \
 		worklist.h	\
 		version.c	\
 		version.h
+
+packets_gen.h packets_gen.c: packets.def generate_packets.py
+	./generate_packets.py

@@ -22,6 +22,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"

@@ -90,15 +90,6 @@ AC_ARG_WITH(xaw3d,
 WITH_XAW3D=1
 )
 
-dnl no=do not use, do not even look
-dnl yes=do use, and fail to configure if not found
-dnl maybe=use if found
-AC_ARG_WITH(zlib,
-[  --with-zlib             use zlib to (un)compress savegames transparently],
-WITH_ZLIB=$withval,
-WITH_ZLIB="maybe"
-)
-
 AC_ARG_ENABLE(make_data,
 [  --disable-make-data     do not recurse make into data directories
                           (ok to disable unless you will 'make install')],
@@ -302,6 +293,13 @@ if test x"$MINGW32" = "xyes"; then
   LIBS="$LIBS -lwsock32"
 fi
 
+dnl Check for zlib (needed for libpng)
+AC_CHECK_LIB(z, gzgets, , 
+  AC_MSG_ERROR([Could not find zlib library.]), )
+AC_CHECK_HEADER(zlib.h, , 
+  AC_MSG_ERROR([zlib found but not zlib.h.  
+You may need to install a zlib \"development\" package.]))
+
 dnl Check and choose clients
 if test x$client != xno; then
 
@@ -340,14 +338,6 @@ if test x$client != xno; then
     if test -n "$fc_x_proto_value"; then
       AC_DEFINE_UNQUOTED(NARROWPROTO, $fc_x_proto_value, [Narrowproto])
     fi
-
-    dnl Check for zlib (needed for libpng)
-    AC_CHECK_LIB(z, gzgets, , 
-        AC_MSG_ERROR([Could not find zlib library.]), 
-        $CLIENT_LIBS)
-    AC_CHECK_HEADER(zlib.h, , 
-        AC_MSG_ERROR([zlib found but not zlib.h.  
-You may need to install a zlib \"development\" package.]))
 
     dnl Check for libpng
     AC_CHECK_LIB(png, png_read_image, [X_LIBS="$X_LIBS -lpng -lm"],
@@ -514,23 +504,6 @@ fi
 AC_SUBST(SERVER_LIBS)
 
 AC_CHECK_LIB(nls,main)
-
-dnl Include CLIENT_LIBS in zlib tests below because some X11R4 installations
-dnl contain their own libz which may be too old a version to have gzgets().
-if test "$WITH_ZLIB" = "yes"; then
-    AC_CHECK_LIB(z, gzgets, , 
-        AC_MSG_ERROR([Could not find zlib library.]), 
-        $CLIENT_LIBS)
-    AC_CHECK_HEADER(zlib.h, , 
-        AC_MSG_ERROR([zlib found but not zlib.h.  
-You may need to install a zlib \"development\" package.]))
-
-elif test "$WITH_ZLIB" = "maybe"; then
-    AC_CHECK_HEADER(zlib.h, have_zlib_h=1, have_zlib_h=0)
-    if test "$have_zlib_h" = "1"; then
-        AC_CHECK_LIB(z, gzgets, , , $CLIENT_LIBS)
-    fi
-fi
 
 dnl Checks for header files.
 AC_HEADER_STDC

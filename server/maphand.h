@@ -17,6 +17,8 @@
 #include "packets.h"
 #include "terrain.h"
 
+#include "hand_gen.h"
+
 enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
 
 struct player;
@@ -84,8 +86,6 @@ void update_player_tile_last_seen(struct player *pplayer, int x, int y);
 
 void give_shared_vision(struct player *pfrom, struct player *pto);
 void remove_shared_vision(struct player *pfrom, struct player *pto);
-void handle_player_remove_vision(struct player *pplayer,
-				 struct packet_generic_integer *packet);
 
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);

@@ -343,20 +343,13 @@ void plrdlg_msg_close(Widget w)
 void players_meet_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data)
 {
-  XawListReturnStruct *ret;
+  XawListReturnStruct *ret = XawListShowCurrent(players_list);
 
-  ret=XawListShowCurrent(players_list);
-
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
-    if (can_meet_with_player(&game.players[player_index])) {
-      struct packet_diplomacy_info pa;
 
-      pa.plrno0=game.player_idx;
-      pa.plrno1=player_index;
-      pa.plrno_from=pa.plrno0;
-      send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_INIT_MEETING,
-				 &pa);
+    if (can_meet_with_player(&game.players[player_index])) {
+      dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
     }
     else {
       append_output_window(_("Game: You need an embassy to establish"
@@ -371,11 +364,9 @@ void players_meet_callback(Widget w, XtPointer client_data,
 void players_intel_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  XawListReturnStruct *ret;
+  XawListReturnStruct *ret = XawListShowCurrent(players_list);
 
-  ret=XawListShowCurrent(players_list);
-
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
 
     if (can_intel_with_player(&game.players[player_index])) {
@@ -390,16 +381,14 @@ void players_intel_callback(Widget w, XtPointer client_data,
 void players_war_callback(Widget w, XtPointer client_data, 
                           XtPointer call_data)
 {
-  XawListReturnStruct *ret;
-  
-  ret=XawListShowCurrent(players_list);
-  if(ret->list_index!=XAW_LIST_NONE) {
-    struct packet_generic_values packet;
+  XawListReturnStruct *ret = XawListShowCurrent(players_list);
 
-    packet.id = ret->list_index;
-    packet.value1 = CLAUSE_CEASEFIRE; /* can be any pact clause */
-    send_packet_generic_values(&aconnection, PACKET_PLAYER_CANCEL_PACT,
-                               &packet);
+  if (ret->list_index != XAW_LIST_NONE) {
+    int player_index = list_index_to_player_index[ret->list_index];
+
+    /* can be any pact clause */
+    dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+				       CLAUSE_CEASEFIRE);
   }
 }
 
@@ -409,31 +398,27 @@ void players_war_callback(Widget w, XtPointer client_data,
 void players_vision_callback(Widget w, XtPointer client_data, 
                           XtPointer call_data)
 {
-  XawListReturnStruct *ret;
-  
-  ret=XawListShowCurrent(players_list);
-  if(ret->list_index!=XAW_LIST_NONE) {
-    struct packet_generic_values packet;
+  XawListReturnStruct *ret = XawListShowCurrent(players_list);
 
-    packet.id = ret->list_index;
-    packet.value1 = CLAUSE_VISION;
-    send_packet_generic_values(&aconnection, 
-                               PACKET_PLAYER_CANCEL_PACT, &packet);
+  if (ret->list_index != XAW_LIST_NONE) {
+    int player_index = list_index_to_player_index[ret->list_index];
+
+    dsend_packet_diplomacy_cancel_pact(&aconnection, player_index,
+				       CLAUSE_VISION);
   }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void players_sship_callback(Widget w, XtPointer client_data, 
+void players_sship_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data)
 {
-  XawListReturnStruct *ret;
+  XawListReturnStruct *ret = XawListShowCurrent(players_list);
 
-  ret=XawListShowCurrent(players_list);
-
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index != XAW_LIST_NONE) {
     int player_index = list_index_to_player_index[ret->list_index];
+
     popup_spaceship_dialog(&game.players[player_index]);
   }
 }

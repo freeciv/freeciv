@@ -125,5 +125,6 @@ char *get_nearest_city_text(struct city *pcity, int sq_dist,
 const char *unit_description(struct unit *punit);
 
 void cityrep_buy(struct city *pcity);
+void common_taxrates_callback(int i);
 
 #endif  /* FC__CLIMISC_H */

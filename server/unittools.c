@@ -535,8 +535,9 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 
   if(punit->hp>=unit_type(punit)->hp) {
     punit->hp=unit_type(punit)->hp;
-    if(was_lower&&punit->activity==ACTIVITY_SENTRY)
+    if(was_lower&&punit->activity==ACTIVITY_SENTRY){
       set_unit_activity(punit,ACTIVITY_IDLE);
+    }
   }
   if(punit->hp<0)
     punit->hp=0;
@@ -895,7 +896,9 @@ static void update_unit_activity(struct unit *punit)
 
   unit_list_iterate(ptile->units, punit2) {
     if (!can_unit_continue_current_activity(punit2))
+    {
       handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+    }
   } unit_list_iterate_end;
 
   /* Any units that landed in water or boats that landed on land as a
@@ -1569,7 +1572,6 @@ and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
 {
-  struct packet_generic_integer packet;
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *phomecity = find_city_by_id(punit->homecity);
   int punit_x = punit->x, punit_y = punit->y;
@@ -1588,15 +1590,13 @@ static void server_remove_unit(struct unit *punit)
     ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
   }
 
-  remove_unit_sight_points(punit);
-
-  packet.value = punit->id;
   players_iterate(pplayer) {
     if (map_is_known_and_seen(punit_x, punit_y, pplayer)) {
-      lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_UNIT,
-				   &packet);
+      dlsend_packet_unit_remove(&pplayer->connections, punit->id);
     }
   } players_iterate_end;
+
+  remove_unit_sight_points(punit);
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
@@ -1882,7 +1882,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   information about the unit, and is sent to players who shouldn't know
   everything (like the unit's owner's enemies).
 **************************************************************************/
-void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
+void package_short_unit(struct unit *punit, struct packet_unit_short_info *packet,
 			bool carried, enum unit_info_use packet_use,
 			int info_city_id, bool new_serial_num)
 {
@@ -1916,6 +1916,24 @@ void package_short_unit(struct unit *punit, struct packet_short_unit *packet,
   }
 
   packet->carried  = carried;
+  packet->goes_out_of_sight = FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
+{
+  struct packet_unit_short_info packet;
+
+  if (unit_owner(punit) == pplayer) {
+    /* The unit is about to die. No need to send an info. */
+  } else {
+    memset(&packet, 0, sizeof(packet));
+    packet.id = punit->id;
+    packet.goes_out_of_sight = TRUE;
+    lsend_packet_unit_short_info(&pplayer->connections, &packet);
+  }
 }
 
 /**************************************************************************
@@ -1929,8 +1947,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 				 int x, int y, bool remove_unseen)
 {
   struct packet_unit_info info;
-  struct packet_short_unit sinfo;
-  struct packet_generic_integer packet; 
+  struct packet_unit_short_info sinfo;
   bool carried = punit->transported_by != -1;
   
   if (!dest) {
@@ -1940,7 +1957,6 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   package_unit(punit, &info, carried);
   package_short_unit(punit, &sinfo, carried,
 		     UNIT_INFO_IDENTITY, FALSE, FALSE);
-  packet.value = punit->id;
             
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
@@ -1949,21 +1965,12 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 	|| pplayer->player_no == punit->owner) {
       send_packet_unit_info(pconn, &info);
     } else {
-      bool see_unit = (!carried || (carried
-                       && gives_shared_vision(unit_owner(punit), pplayer)));
-      bool see_pos = see_unit 
-	&& can_player_see_unit_at(pplayer, punit, punit->x, punit->y);
-      bool see_xy = see_pos;
-
-      if (see_unit && !same_pos(x, y, punit->x, punit->y)) {
-        see_xy = can_player_see_unit_at(pplayer, punit, x, y);
-      }
-      
-      if (see_pos || see_xy) {
-        send_packet_short_unit(pconn, &sinfo);
+      if (can_player_see_unit_at2(pplayer, punit, punit->x, punit->y)
+	  || can_player_see_unit_at2(pplayer, punit, x, y)) {
+	send_packet_unit_short_info(pconn, &sinfo);
       } else {
 	if (remove_unseen) {
-	  send_packet_generic_integer(pconn, PACKET_REMOVE_UNIT, &packet);
+	  dsend_packet_unit_remove(pconn, punit->id);
 	}
       }
     }

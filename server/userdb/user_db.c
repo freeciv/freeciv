@@ -45,7 +45,8 @@ static void fill_conn(struct section_file *sf,
                       struct connection *pconn, int no)
 {
   sz_strlcpy(pconn->username, secfile_lookup_str(sf, "db.users%d.name", no));
-  sz_strlcpy(pconn->password, secfile_lookup_str(sf, "db.users%d.pass", no));
+  sz_strlcpy(pconn->server.password,
+	     secfile_lookup_str(sf, "db.users%d.pass", no));
 }
 
 /**************************************************************************
@@ -55,7 +56,7 @@ static void fill_entry(struct section_file *sf,
                        struct connection *pconn, int no)
 {
   secfile_insert_str(sf, pconn->username, "db.users%d.name", no);
-  secfile_insert_str(sf, pconn->password, "db.users%d.pass", no);
+  secfile_insert_str(sf, pconn->server.password, "db.users%d.pass", no);
 }
 
 /**************************************************************************

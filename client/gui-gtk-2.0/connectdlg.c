@@ -36,6 +36,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "options.h"
+#include "packhand.h"
 
 #include "connectdlg.h"
 
@@ -88,16 +89,15 @@ void close_connection_dialog()
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_request(struct packet_authentication_request *
-                                   packet)
+void handle_authentication_req(enum authentication_type type, char *message)
 {
   gtk_widget_grab_focus(iinput);
   gtk_entry_set_text(GTK_ENTRY(iinput), "");
   gtk_button_set_label(GTK_BUTTON(connw), _("Next"));
   gtk_widget_set_sensitive(connw, TRUE);
-  gtk_label_set_text(GTK_LABEL(imsg), packet->message);
+  gtk_label_set_text(GTK_LABEL(imsg), message);
 
-  switch (packet->type) {
+  switch (type) {
   case AUTH_NEWUSER_FIRST:
     dialog_config = NEW_PASSWORD_TYPE;
     break;

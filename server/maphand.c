@@ -565,6 +565,11 @@ static void really_fog_area(struct player *pplayer, int x, int y)
 	  x, y, map_get_seen(x, y, pplayer));
  
   assert(map_get_seen(x, y, pplayer) == 0);
+
+  unit_list_iterate(map_get_tile(x, y)->units, punit)
+    unit_goes_out_of_sight(pplayer,punit);
+  unit_list_iterate_end;  
+
   update_player_tile_last_seen(pplayer, x, y);
   send_tile_info_always(pplayer, &pplayer->connections, x, y);
 }

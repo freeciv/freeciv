@@ -381,11 +381,8 @@ void science_change_callback(Widget w, XtPointer client_data,
 			     XtPointer call_data)
 {
   char current_text[512];
-  struct packet_player_request packet;
-  size_t to;
+  size_t to = (size_t) client_data;
   Boolean b;
-
-  to=(size_t)client_data;
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE) {
@@ -398,9 +395,7 @@ void science_change_callback(Widget w, XtPointer client_data,
 
     XtVaSetValues(science_current_label, XtNlabel, current_text, NULL);
 
-    packet.tech = to;
-    send_packet_player_request(&aconnection, &packet,
-			       PACKET_PLAYER_RESEARCH);
+    dsend_packet_player_research(&aconnection, to);
   }
 }
 
@@ -411,11 +406,8 @@ void science_goal_callback(Widget w, XtPointer client_data,
 			   XtPointer call_data)
 {
   char goal_text[512];
-  struct packet_player_request packet;
-  size_t to;
+  size_t to = (size_t) client_data;
   Boolean b;
-
-  to=(size_t)client_data;
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE)
@@ -427,8 +419,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
 
     XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
 
-    packet.tech=to;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
+    dsend_packet_player_tech_goal(&aconnection, to);
   }
 }
 
@@ -978,8 +969,7 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 static void upgrade_callback_yes(Widget w, XtPointer client_data, 
                                  XtPointer call_data)
 {
-  send_packet_unittype_info(&aconnection, (size_t)client_data,
-			    PACKET_UNITTYPE_UPGRADE);
+  dsend_packet_unit_type_upgrade(&aconnection, (size_t) client_data);
   destroy_message_dialog(w);
 }
 

@@ -388,12 +388,9 @@ void spaceship_close_callback(Widget w, XtPointer client_data, XtPointer call_da
 /****************************************************************
 ...
 *****************************************************************/
-void spaceship_launch_callback(Widget w, XtPointer client_data, XtPointer call_data)
+void spaceship_launch_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data)
 {
-  struct packet_spaceship_action packet;
-
-  packet.action = SSHIP_ACT_LAUNCH;
-  packet.num = 0;
-  send_packet_spaceship_action(&aconnection, &packet);
+  send_packet_spaceship_launch(&aconnection);
   /* close_spaceship_dialog((struct spaceship_dialog *)client_data); */
 }

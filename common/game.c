@@ -31,6 +31,7 @@
 #include "map.h"
 #include "mem.h"
 #include "nation.h"
+#include "packets.h"
 #include "player.h"
 #include "shared.h"
 #include "spaceship.h"
@@ -305,7 +306,7 @@ void game_init(void)
     game.global_wonders[i]=0;
   game.player_idx=0;
   game.player_ptr=&game.players[0];
-  terrain_control.river_help_text = NULL;
+  terrain_control.river_help_text[0] = '\0';
 }
 
 /***************************************************************
@@ -489,6 +490,11 @@ get_player() - Return player struct pointer corresponding to player_id.
 struct player *get_player(int player_id)
 {
     return &game.players[player_id];
+}
+
+bool is_valid_player_id(int player_id)
+{
+  return player_id >= 0 && player_id < game.nplayers;
 }
 
 /**************************************************************************

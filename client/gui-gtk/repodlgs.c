@@ -256,11 +256,7 @@ void create_science_dialog(bool make_modal)
 *****************************************************************/
 void science_change_callback(GtkWidget *widget, gpointer data)
 {
-  char text[512];
-  struct packet_player_request packet;
-  size_t to;
-
-  to=(size_t)data;
+  int to = GPOINTER_TO_INT(data);
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
@@ -269,6 +265,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   } else {
     gfloat pct;
+    char text[512];
 
     gtk_widget_set_sensitive(science_change_menu_button,
 			     can_client_issue_orders());
@@ -281,8 +278,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
     gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
     
-    packet.tech=to;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
+    dsend_packet_player_research(&aconnection, to);
   }
 }
 
@@ -291,11 +287,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 void science_goal_callback(GtkWidget *widget, gpointer data)
 {
-  char text[512];
-  struct packet_player_request packet;
-  size_t to;
-
-  to=(size_t)data;
+  int to = GPOINTER_TO_INT(data);
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
@@ -305,12 +297,13 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
   }
   else {  
     int steps = num_unknown_techs_for_goal(game.player_ptr, to);
+    char text[512];
+
     my_snprintf(text, sizeof(text),
 		PL_("(%d step)", "(%d steps)", steps), steps);
     gtk_set_label(science_goal_label,text);
 
-    packet.tech=to;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
+    dsend_packet_player_tech_goal(&aconnection, to);
   }
 }
 
@@ -978,8 +971,7 @@ void activeunits_list_ucallback(GtkWidget *w, gint row, gint column)
 *****************************************************************/
 static void upgrade_callback_yes(gpointer data)
 {
-  send_packet_unittype_info(&aconnection, (size_t) data,
-			    PACKET_UNITTYPE_UPGRADE);
+  dsend_packet_unit_type_upgrade(&aconnection, GPOINTER_TO_INT(data));
 }
 
 /****************************************************************

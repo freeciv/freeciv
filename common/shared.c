@@ -380,7 +380,7 @@ bool is_sane_name(const char *name)
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
-    return FALSE;
+    return FALSE; 
   }
 
   /* must begin and end with some non-space character */
@@ -395,7 +395,7 @@ bool is_sane_name(const char *name)
     /* nothing */
   }
   if (*cp != '\0') {
-    return FALSE;
+    return FALSE; 
   }
 
   /* otherwise, it's okay... */
@@ -603,6 +603,7 @@ bool check_strlen(const char *str, size_t len, const char *errmsg)
 {
   if (strlen(str) >= len) {
     freelog(LOG_ERROR, errmsg, str, len);
+    assert(0);
     return TRUE;
   }
   return FALSE;
@@ -1237,8 +1238,8 @@ const char *freeciv_motto(void)
  Don't call this function directly, use BV_CHECK_MASK macro
  instead. Don't call this function with two different bitvectors.
 ***************************************************************************/
-bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
-		   size_t size2)
+bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
+		   size_t size1, size_t size2)
 {
   size_t i;
   assert(size1 == size2);
@@ -1251,6 +1252,22 @@ bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
     vec2++;
   }
   return FALSE;
+}
+
+bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
+		  size_t size1, size_t size2)
+{
+  size_t i;
+  assert(size1 == size2);
+
+  for (i = 0; i < size1; i++) {
+    if (vec1[0] != vec2[0]) {
+      return FALSE;
+    }
+    vec1++;
+    vec2++;
+  }
+  return TRUE;
 }
 
 /***************************************************************************

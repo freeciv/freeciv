@@ -193,15 +193,9 @@ void close_connection(struct connection *pconn)
   conn_list_unlink(&game.est_connections, pconn);
   conn_list_unlink(&game.game_connections, pconn);
 
-  my_closesocket(pconn->sock);
-  pconn->used = FALSE;
-  pconn->established = FALSE;
   pconn->player = NULL;
   pconn->access_level = ALLOW_NONE;
-  free_socket_packet_buffer(pconn->buffer);
-  free_socket_packet_buffer(pconn->send_buffer);
-  pconn->buffer = NULL;
-  pconn->send_buffer = NULL;
+  connection_common_close(pconn);
 }
 
 /*****************************************************************************
@@ -210,14 +204,7 @@ void close_connection(struct connection *pconn)
 void close_connections_and_socket(void)
 {
   int i;
-  struct packet_generic_message gen_packet;
-
-  gen_packet.message[0]='\0';
-  gen_packet.x = gen_packet.y = -1;
-  gen_packet.event = E_NOEVENT;
-
-  lsend_packet_generic_message(&game.all_connections, PACKET_SERVER_SHUTDOWN,
-			       &gen_packet);
+  lsend_packet_server_shutdown(&game.all_connections);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     if(connections[i].used) {
@@ -440,8 +427,9 @@ int sniff_packets(void)
 	  freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
 		  conn_description(pconn));
 	  close_socket_callback(pconn);
+	} else {
+	  ping_connection(pconn);
 	}
-	ping_connection(pconn);
       } conn_list_iterate_end;
       game.last_ping = time(NULL);
     }
@@ -731,16 +719,10 @@ static int server_accept_connection(int sockfd)
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
     if (!pconn->used) {
-      pconn->used = TRUE;
+      connection_common_init(pconn);
       pconn->sock = new_sock;
-      pconn->established = FALSE;
       pconn->observer = FALSE;
       pconn->player = NULL;
-      pconn->buffer = new_socket_packet_buffer();
-      pconn->send_buffer = new_socket_packet_buffer();
-      pconn->last_write = 0;
-      pconn->first_packet = TRUE;
-      pconn->byte_swap = FALSE;
       pconn->capability[0] = '\0';
       pconn->access_level = access_level_for_next_connection();
       pconn->delayed_disconnect = FALSE;
@@ -867,7 +849,6 @@ void init_connections(void)
     pconn->used = FALSE;
     conn_list_init(&pconn->self);
     conn_list_insert(&pconn->self, pconn);
-    pconn->route = NULL;
   }
 #if defined(__VMS)
   {
@@ -889,7 +870,7 @@ static void start_processing_request(struct connection *pconn,
   assert(pconn->server.currently_processed_request_id == 0);
   freelog(LOG_DEBUG, "start processing packet %d from connection %d",
 	  request_id, pconn->id);
-  send_packet_generic_empty(pconn, PACKET_PROCESSING_STARTED);
+  send_packet_processing_started(pconn);
   pconn->server.currently_processed_request_id = request_id;
 }
 
@@ -901,7 +882,7 @@ static void finish_processing_request(struct connection *pconn)
   assert(pconn->server.currently_processed_request_id);
   freelog(LOG_DEBUG, "finish processing packet %d from connection %d",
 	  pconn->server.currently_processed_request_id, pconn->id);
-  send_packet_generic_empty(pconn, PACKET_PROCESSING_FINISHED);
+  send_packet_processing_finished(pconn);
   pconn->server.currently_processed_request_id = 0;
 }
 
@@ -915,7 +896,7 @@ static void ping_connection(struct connection *pconn)
 	  timer_list_size(pconn->server.ping_timers));
   timer_list_insert_back(pconn->server.ping_timers,
 			 new_timer_start(TIMER_USER, TIMER_ACTIVE));
-  send_packet_generic_empty(pconn, PACKET_CONN_PING);
+  send_packet_conn_ping(pconn);
 }
 
 /**************************************************************************
@@ -944,7 +925,7 @@ void handle_conn_pong(struct connection *pconn)
 **************************************************************************/
 static void send_ping_times_to_all(void)
 {
-  struct packet_ping_info packet;
+  struct packet_conn_ping_info packet;
   int i;
 
   i = 0;
@@ -966,7 +947,7 @@ static void send_ping_times_to_all(void)
     packet.ping_time[i] = pconn->ping_time;
     i++;
   } conn_list_iterate_end;
-  lsend_packet_ping_info(&game.est_connections, &packet);
+  lsend_packet_conn_ping_info(&game.est_connections, &packet);
 }
 
 /********************************************************************
@@ -1100,4 +1081,3 @@ static void send_lanserver_response(void)
 
   my_closesocket(socksend);
 }
-

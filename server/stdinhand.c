@@ -3459,14 +3459,14 @@ static void observe_command(struct connection *caller, char *str)
   attach_connection_to_player(pconn, pplayer);
 
   if (server_state == RUN_GAME_STATE) {
-    send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
+    send_packet_freeze_hint(pconn);
     send_rulesets(&pconn->self);
     send_all_info(&pconn->self);
     send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
-    send_packet_generic_empty(pconn, PACKET_THAW_HINT);
-    send_packet_generic_empty(pconn, PACKET_START_TURN);
+    send_packet_thaw_hint(pconn);
+    send_packet_start_turn(pconn);
   }
 
   /* tell everyone that pconn is observing */
@@ -3607,14 +3607,14 @@ static void take_command(struct connection *caller, char *str)
   }
 
   if (server_state == RUN_GAME_STATE) {
-    send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
+    send_packet_freeze_hint(pconn);
     send_rulesets(&pconn->self);
     send_all_info(&pconn->self);
     send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
-    send_packet_generic_empty(pconn, PACKET_THAW_HINT);
-    send_packet_generic_empty(pconn, PACKET_START_TURN);
+    send_packet_thaw_hint(pconn);
+    send_packet_start_turn(pconn);
   }
 
   /* aitoggle the player back to human if necessary. */

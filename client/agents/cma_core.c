@@ -329,7 +329,6 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 static bool apply_result_on_server(struct city *pcity,
 				   const struct cm_result *const result)
 {
-  struct packet_city_request packet;
   int first_request_id = 0, last_request_id = 0, i, worker;
   struct cm_result current_state;
   bool success;
@@ -348,8 +347,6 @@ static bool apply_result_on_server(struct city *pcity,
 	  pcity->name, pcity->id);
 
   connection_do_buffer(&aconnection);
-
-  packet.city_id = pcity->id;
 
   /* Do checks */
   worker = count_worker(pcity, result);
@@ -427,12 +424,8 @@ static bool apply_result_on_server(struct city *pcity,
        * allocation of citizen than the server. We just send a
        * PACKET_CITY_REFRESH to bring them in sync.
        */
-    struct packet_generic_integer packet;
-
-    packet.value = pcity->id;
     first_request_id = last_request_id =
-	send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH,
-				    &packet);
+	dsend_packet_city_refresh(&aconnection, pcity->id);
     stats.refresh_forced++;
   }
   reports_freeze_till(last_request_id);

@@ -97,16 +97,7 @@ static struct sockaddr_in server_addr;
 **************************************************************************/
 static void close_socket_nomessage(struct connection *pc)
 {
-  pc->used = FALSE;
-  pc->established = FALSE;
-  my_closesocket(pc->sock);
-
-  /* make sure not to use these accidently: */
-  free_socket_packet_buffer(pc->buffer);
-  free_socket_packet_buffer(pc->send_buffer);
-  pc->buffer = NULL;
-  pc->send_buffer = NULL;
-
+  connection_common_close(pc);
   remove_net_input();
   popdown_races_dialog(); 
   close_connection_dialog();
@@ -185,7 +176,7 @@ int get_server_address(const char *hostname, int port, char *errbuf,
 **************************************************************************/
 int try_to_connect(char *username, char *errbuf, int errbufsize)
 {
-  struct packet_login_request req;
+  struct packet_server_join_req req;
 
   /* connection in progress? wait. */
   if (aconnection.used) {
@@ -210,23 +201,18 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
 #endif
   }
 
-  assert(aconnection.buffer == NULL);
-  aconnection.buffer = new_socket_packet_buffer();
-  aconnection.send_buffer = new_socket_packet_buffer();
-  aconnection.last_write = 0;
+  connection_common_init(&aconnection);
   aconnection.client.last_request_id_used = 0;
   aconnection.client.last_processed_request_id_seen = 0;
   aconnection.client.request_id_of_currently_handled_packet = 0;
   aconnection.incoming_packet_notify = notify_about_incoming_packet;
   aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
-  aconnection.used = TRUE;
 
   /* call gui-dependent stuff in gui_main.c */
   add_net_input(aconnection.sock);
 
   /* now send join_request package */
 
-  sz_strlcpy(req.short_name, username);
   req.major_version = MAJOR_VERSION;
   req.minor_version = MINOR_VERSION;
   req.patch_version = PATCH_VERSION;
@@ -234,7 +220,7 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
   sz_strlcpy(req.capability, our_capability);
   sz_strlcpy(req.username, username);
   
-  send_packet_login_request(&aconnection, &req);
+  send_packet_server_join_req(&aconnection, &req);
 
   return 0;
 }

@@ -269,10 +269,7 @@ void create_science_dialog(bool make_modal)
 void science_change_callback(GtkWidget *widget, gpointer data)
 {
   char text[512];
-  struct packet_player_request packet;
-  size_t to;
-
-  to=(size_t)data;
+  size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
@@ -293,8 +290,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
     
-    packet.tech=to;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
+    dsend_packet_player_research(&aconnection, to);
   }
 }
 
@@ -304,10 +300,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
 void science_goal_callback(GtkWidget *widget, gpointer data)
 {
   char text[512];
-  struct packet_player_request packet;
-  size_t to;
-
-  to=(size_t)data;
+  size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
@@ -321,8 +314,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 		PL_("(%d step)", "(%d steps)", steps), steps);
     gtk_set_label(science_goal_label,text);
 
-    packet.tech=to;
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_TECH_GOAL);
+    dsend_packet_player_tech_goal(&aconnection, to);
   }
 }
 
@@ -1157,7 +1149,7 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
+      dsend_packet_unit_type_upgrade(&aconnection, ut1);
     }
 
     gtk_widget_destroy(shell);
