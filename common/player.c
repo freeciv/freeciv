@@ -257,36 +257,24 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   return player_can_see_unit_at_location(pplayer, punit, punit->x, punit->y);
 }
 
-/**************************************************************************
-  A helper function for send_info_to_onlookers below.  
+/****************************************************************************
   Checks if a unit can be seen by pplayer at (x,y).
   A player can see a unit if he:
   (a) can see the tile AND
   (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
-  (c) the unit is outside a city OR in an allied city
+  (c) the unit is outside a city OR in an allied city AND
+  (d) the unit isn't in a transporter, or we are allied AND
+  (e) the unit isn't in a transporter, or we can see the transporter
   
   TODO: the name is confusingly similar to player_can_see_unit_at_location
   But we need to rename p_c_s_u_a_t because it is really 
   is_unit_visible_to_player_at or player_ignores_unit_invisibility_at.
-**************************************************************************/
+****************************************************************************/
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 			    int x, int y)
 {
-  struct city *pcity = map_get_city(x, y);
+  struct city *pcity;
 
-  return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
-	  && player_can_see_unit_at_location(pplayer, punit, x, y)
-	  && (!pcity || can_player_see_units_in_city(pplayer, pcity)));
-}
-
-/***************************************************************
-  Like can_player_see_unit_at but disallow looking into transporters
-  except you are the owner or were allowed by the owner with shared
-  vision.
-***************************************************************/
-bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
-			     int x, int y)
-{
   /* Don't show non-allied units that are in transports.  This is logical
    * because allied transports can also contain our units.  Shared vision
    * isn't taken into account. */
@@ -295,7 +283,10 @@ bool can_player_see_unit_at2(struct player *pplayer, struct unit *punit,
     return FALSE;
   }
 
-  return can_player_see_unit_at(pplayer, punit, x, y);
+  pcity = map_get_city(x, y);
+  return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
+	  && player_can_see_unit_at_location(pplayer, punit, x, y)
+	  && (!pcity || can_player_see_units_in_city(pplayer, pcity)));
 }
 
 /****************************************************************************

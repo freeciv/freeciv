@@ -735,10 +735,10 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       /* 
        * Remove the client knowledge of the units. 
        */
-      if (!can_player_see_unit_at2(other_player, punit, punit->x, punit->y)) {
+      if (!can_player_see_unit_at(other_player, punit, punit->x, punit->y)) {
 	unit_goes_out_of_sight(other_player, punit);
       }
-      if (!can_player_see_unit_at2
+      if (!can_player_see_unit_at
 	  (other_player, pdefender, pdefender->x, pdefender->y)) {
 	unit_goes_out_of_sight(other_player, pdefender);
       }

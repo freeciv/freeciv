@@ -1995,8 +1995,8 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 	|| pplayer->player_no == punit->owner) {
       send_packet_unit_info(pconn, &info);
     } else {
-      if (can_player_see_unit_at2(pplayer, punit, punit->x, punit->y)
-	  || can_player_see_unit_at2(pplayer, punit, x, y)) {
+      if (can_player_see_unit_at(pplayer, punit, punit->x, punit->y)
+	  || can_player_see_unit_at(pplayer, punit, x, y)) {
 	send_packet_unit_short_info(pconn, &sinfo);
       } else {
 	if (remove_unseen) {
@@ -3073,8 +3073,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
    * the unit anymore.
    */
   players_iterate(pplayer) {
-    if (can_player_see_unit_at2(pplayer, punit, src_x, src_y)
-	&& !can_player_see_unit_at2(pplayer, punit, dest_x, dest_y)) {
+    if (can_player_see_unit_at(pplayer, punit, src_x, src_y)
+	&& !can_player_see_unit_at(pplayer, punit, dest_x, dest_y)) {
       unit_goes_out_of_sight(pplayer, punit);
     }
   } players_iterate_end;
