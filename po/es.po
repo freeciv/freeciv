@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
 "POT-Creation-Date: 2003-09-22 19:41+0200\n"
-"PO-Revision-Date: 2003-09-30 20:59+0200\n"
+"PO-Revision-Date: 2003-10-01 11:59+0100\n"
 "Last-Translator: Miguel Lobo <miguell@miguell.cjb.net>\n"
 "Language-Team: Spanish <ES@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -569,7 +569,7 @@ msgstr ""
 #: ai/advdiplomacy.c:251
 #, c-format
 msgid "*%s (AI)* I will not let you go that easy, %s."
-msgstr "*%s (Ordenador)* No vamos a dejar que te marches por las buenas."
+msgstr "*%s (Ordenador)* No vamos a dejar que te marches por las buenas, %s."
 
 #: ai/advdiplomacy.c:268
 #, c-format
@@ -1111,7 +1111,7 @@ msgstr "Juego: ¡Los %s han empezado a construir una nave espacial!"
 #: server/cityturn.c:1041
 #, c-format
 msgid "%s's %s tried build %s, which is not available"
-msgstr "El %2$s de %1$s ha intentado producir %s, que no está disponible"
+msgstr "El %2$s de %1$s ha intentado producir %3$s, que no está disponible"
 
 #: server/cityturn.c:1055
 #, c-format
@@ -2740,8 +2740,8 @@ msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr ""
-"Se ha detectado una estructura de alianza inválida: la alianza de %s se "
-"reduce a tratado de paz."
+"Se ha detectado una estructura de alianza inválida: la alianza de %s y %s "
+"se reduce a tratado de paz."
 
 #: server/savegame.c:1825
 msgid "Savegame too old, at least version 1.9.0 required."
@@ -5285,7 +5285,7 @@ msgstr "Uso: observe <nombre-del-jugador>"
 #: server/stdinhand.c:3268
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr "%s ya controla.  Si se usa 'observe' se eliminaría %s"
+msgstr "%s ya controla de %s.  Si se usa 'observe' se eliminaría %s"
 
 #: server/stdinhand.c:3314
 #, c-format
@@ -12969,7 +12969,7 @@ msgstr "Veterano"
 #: client/gui-sdl/dialogs.c:685
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "%s %s %s(A:%d D:%d PF:%d) PV:%d0%%"
+msgstr "%s %s %s(A:%d D:%d M:%d PF:%d) PV:%d0%%"
 
 #: client/gui-sdl/dialogs.c:697 client/gui-sdl/dialogs.c:1492
 #: client/gui-sdl/dialogs.c:1617
@@ -13019,13 +13019,13 @@ msgstr ""
 msgid ""
 "\n"
 "Claimed by %s"
-msgstr "Reclamado por %s"
+msgstr "\nReclamado por %s"
 
 #: client/gui-sdl/dialogs.c:932
 msgid ""
 "\n"
 "Unclaimed territory"
-msgstr "Territorio sin reclamar"
+msgstr "\nTerritorio sin reclamar"
 
 #: client/gui-sdl/dialogs.c:938
 msgid "Terrain : UNKNOWN"
@@ -13068,7 +13068,7 @@ msgstr "Activar %s (%d / %d) %s (%d,%d,%d) %s"
 #: client/gui-sdl/dialogs.c:1480 client/gui-sdl/dialogs.c:1605
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "%s %s %s (A:%d D:%d PF:%d) PV:%d0%%"
+msgstr "%s %s %s (A:%d D:%d M:%d PF:%d) PV:%d0%%"
 
 #: client/gui-sdl/dialogs.c:1550
 msgid "Sentry idle"
