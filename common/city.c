@@ -2711,8 +2711,8 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->airlift = FALSE;
 
   pcity->turn_last_built = game.year;
-  pcity->changed_from_id = 0;
-  pcity->changed_from_is_unit = FALSE;
+  pcity->changed_from_id = pcity->currently_building;
+  pcity->changed_from_is_unit = pcity->is_building_unit;
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;
