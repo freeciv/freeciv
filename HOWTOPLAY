@@ -55,10 +55,10 @@ player, don't worry about building military units just yet.)
 	All this time, you have been gaining techs as fast as
 possible.  What you should be shooting for is first "The Republic",
 then "Democracy", then "Railroad", and then "Industrialization".
-(Some people go for The Monarchy before The Republic).  As soon as
+(Some people go for Monarchy before The Republic).  As soon as
 you've researched a new government type, start a revolution and change
 over to it.  Cities operate much better as Republics than they do
-under despotisms, but note that it's much harder to keep military
+under Despotism, but note that it's much harder to keep military
 units outside of city limits under a Republic.  Also, don't forget to
 recheck your rates after you've changed governments, as the maximums
 vary for each type.
@@ -133,7 +133,7 @@ Additional questions:
 
 Q. What other strategies are there?
 
-Well, you could read "Greggurabi's Twelve Steps to World Domination",
+Well, you could read "Gregurabi's Twelve Steps to World Domination",
 available at ftp://ftp.freeciv.org/pub/freeciv/contrib/gregurabi.txt
 It's a detailed guide to winning against the AI.  Plus, the Freeciv
 online help describes another strategy.
@@ -230,11 +230,11 @@ Q. What kinds of military units are the most useful?
    For Attack:
 
 	Armor (tanks), Helicopters, Cruise Missiles, Battleships,
-	Transports, and Nuclears.
+	Transports, Nuclears, Howitzers, Bombers.
 
    For Defense:
 
-	Armor (tanks), Mech Inf. Howitzers, Battleships,
+	Armor (tanks), Mech Inf., Howitzers, Battleships,
 	Cruise Missiles, Nuclears.
 
 Remember, the best defense is a strong offense.

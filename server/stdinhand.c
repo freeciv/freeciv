@@ -758,7 +758,7 @@ void show_help(void)
   puts("score     - show current score");
   puts("save F    - save game as file F");
   puts("show      - list server options");
-  puts("meta M    - Set meta-server infoline to T");
+  puts("meta M    - Set meta-server infoline to M");
   puts("ai P      - toggles AI on player");
   puts("create P  - creates an AI player");
   puts("easy P    - AI player will be easy");

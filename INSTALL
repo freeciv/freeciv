@@ -16,7 +16,7 @@ out whether your system is suitable.  If in doubt, just try it.
    The Unix operating system, a work-alike such as Linux or FreeBSD,
    or some OS that provides a very Unix-like personality or mode, like
    EMX under OS/2 or the Cygnus Cygwin toolkit under Windows.
-   (See http://http://sourceware.cygnus.com/cygwin/).  Support for
+   (See http://sourceware.cygnus.com/cygwin/).  Support for
    BSD-style TCP/IP sockets is essential, as is a Bourne-shell
    compatible shell, such as GNU "bash".  (Most Unixes fit the bill...)
 
@@ -61,7 +61,7 @@ out whether your system is suitable.  If in doubt, just try it.
    If the Freeciv configure process tells you that you don't have the
    Xpm library installed, then it may be obtained from here:
 
-     ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz    FIXME: most recent?
+     ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
 
    Install it as you would any other package.  If you can't install
@@ -124,7 +124,7 @@ configure script, try the --help option, like this:
 
   If you're compiling a development release or a CVS snapshot, and you
   don't have both GNU make AND gcc, then pass configure the
-  "--without-cvs-deps" option.  You'll especially need to do this if
+  "--disable-cvs-deps" option.  You'll especially need to do this if
   you're using the Solaris cc and make programs.
 
   Note that if you do this, dependency checking is disabled.  If you

@@ -36,9 +36,9 @@ Freeciv metaserver, which records games being played around the world.
 License:
 ========
 
-Freeciv is released under the GNU Public Licence.  In short, you may
-copy this program (including source) freely, but see the COPYING file
-for full details.
+Freeciv is released under the GNU General Public Licence.  In short, 
+you may copy this program (including source) freely, but see the 
+COPYING file for full details.
 
 Compiling and installing:
 =========================
@@ -94,7 +94,7 @@ Server:
   score     - show current score
   save F    - save game as file F
   show      - list server options
-  meta M    - Set meta-server infoline to T
+  meta M    - Set meta-server infoline to M
   ai P      - toggles AI on player
   create P  - creates an AI player
   easy P    - AI player will be easy
@@ -147,11 +147,11 @@ Client:
 
 Computer Players:
 
-  There are two ways to create AI players.  The first is to
-  set the number of players (human and AI) with the 'aifill'
-  server command.  For example:
+  There are two ways to create AI players.  The first is to set 
+  the number of players (human and AI) by setting the 'aifill'
+  server option.  For example:
 
-  > aifill 7
+  > set aifill 7
 
   After using the "s" server command to start the game, any players
   which aren't controlled by humans will be AI players.  For the
@@ -228,7 +228,7 @@ If you're just starting, and would like to get an idea of a strategy,
 have a look in the Freeciv playing HOWTO, contained in the HOWTOPLAY
 file.
 
-Alternatively, check out "Greggurabi's Twelve Steps to World
+Alternatively, check out "Gregurabi's Twelve Steps to World
 Domination", which you can find here:
 
   ftp://ftp.freeciv.org/pub/freeciv/contrib/gregurabi.txt
@@ -309,7 +309,7 @@ Here's what to do:
  - Check the Freeciv website, to ensure you're playing the latest
    version.  (We may have already fixed the problem).
 
-   In particular, you might like to try a developer's napshot,
+   In particular, you might like to try a development snapshot,
    from our CVS repository.  You can FTP them from:
 
      http://www.freeciv.org/latest.html
