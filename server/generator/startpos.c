@@ -96,16 +96,16 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
 {
   const struct start_filter_data *pdata = dataptr;
   int i;
-  struct islands_data_type *island
-    = islands + islands_index[(int) map_get_continent(ptile)];
-  int cont_size;
+  struct islands_data_type *island;
+  int cont_size, cont = map_get_continent(ptile);
 
   /* Only start on certain terrain types. */  
   if (pdata->value[ptile->index] < pdata->min_value) {
       return FALSE;
   } 
 
-  if (islands[islands_index[(int) map_get_continent(ptile)]].starters == 0) {
+  assert(cont > 0);
+  if (islands[islands_index[cont]].starters == 0) {
     return FALSE;
   }
 
@@ -115,7 +115,8 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   }
 
   /* Don't start too close to someone else. */
-  cont_size = get_continent_size(map_get_continent(ptile));
+  cont_size = get_continent_size(cont);
+  island = islands + islands_index[cont];
   for (i = 0; i < pdata->count; i++) {
     struct tile *tile1 = map.start_positions[i].tile;
 
