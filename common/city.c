@@ -1822,25 +1822,30 @@ static inline void citizen_luxury_happy(const struct city *pcity, int *luxuries,
                                         int *angry, int *unhappy, int *happy, 
                                         int *content)
 {
-  while (*luxuries >= 2 && *angry > 0) {
+  while (*luxuries >= HAPPY_COST && *angry > 0) {
+    /* Upgrade angry to unhappy: costs HAPPY_COST each. */
     (*angry)--;
     (*unhappy)++;
-    *luxuries -= 2;
+    *luxuries -= HAPPY_COST;
   }
-  while (*luxuries >= 2 && *content > 0) {
+  while (*luxuries >= HAPPY_COST && *content > 0) {
+    /* Upgrade content to happy: costs HAPPY_COST each. */
     (*content)--;
     (*happy)++;
     *luxuries -= 2;
   }
-  while (*luxuries >= 4 && *unhappy > 0) {
+  while (*luxuries >= 2 * HAPPY_COST && *unhappy > 0) {
+    /* Upgrade unhappy to happy.  Note this is a 2-level upgrade with
+     * double the cost. */
     (*unhappy)--;
     (*happy)++;
-    *luxuries -= 4;
+    *luxuries -= 2 * HAPPY_COST;
   }
-  if (*luxuries >= 2 && *unhappy > 0) {
+  if (*luxuries >= HAPPY_COST && *unhappy > 0) {
+    /* Upgrade unhappy to content: costs HAPPY_COST each. */
     (*unhappy)--;
     (*content)++;
-    *luxuries -= 2;
+    *luxuries -= HAPPY_COST;
   }
 }
 
