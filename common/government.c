@@ -66,9 +66,6 @@ static const char *flag_names[] = {
   "Fanatic_Troops", "No_Unhappy_Citizens", "Convert_Tithes_To_Money",
   "Reduced_Research"
 };
-static const char *hint_names[] = {
-  "Is_Nice", "Favors_Growth"
-};
 
 /***************************************************************
   Convert flag names to enum; case insensitive;
@@ -96,34 +93,6 @@ bool government_has_flag(const struct government *gov,
 {
   assert(flag>=G_FIRST_FLAG && flag<G_LAST_FLAG);
   return TEST_BIT(gov->flags, flag);
-}
-
-/***************************************************************
-  Convert hint names to enum; case insensitive;
-  returns G_LAST_HINT if can't match.
-***************************************************************/
-enum government_hint_id government_hint_from_str(const char *s)
-{
-  enum government_hint_id i;
-
-  assert(ARRAY_SIZE(hint_names) == G_LAST_HINT);
-  
-  for(i=G_FIRST_HINT; i<G_LAST_HINT; i++) {
-    if (mystrcasecmp(hint_names[i], s)==0) {
-      return i;
-    }
-  }
-  return G_LAST_HINT;
-}
-
-/***************************************************************
-...
-***************************************************************/
-bool government_has_hint(const struct government *gov,
-			enum government_hint_id hint)
-{
-  assert(hint>=G_FIRST_HINT && hint<G_LAST_HINT);
-  return TEST_BIT(gov->hints, hint);
 }
 
 /***************************************************************

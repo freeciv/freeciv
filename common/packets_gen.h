@@ -833,7 +833,6 @@ struct packet_ruleset_government {
   int extra_waste_distance;
   int waste_max_distance_cap;
   int flags;
-  int hints;
   int num_ruler_titles;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];

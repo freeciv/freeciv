@@ -1767,7 +1767,6 @@ which is left.
 static bool spaceship_autoplace(struct player *pplayer,
 			       struct player_spaceship *ship)
 {
-  struct government *g = get_gov_pplayer(pplayer);
   int i, num;
   enum spaceship_place_type type;
   
@@ -1776,8 +1775,6 @@ static bool spaceship_autoplace(struct player *pplayer,
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */
-    bool nice = government_has_hint(g, G_IS_NICE);
-
     type =
       (ship->habitation==0)   ? SSHIP_PLACE_HABITATION :
       (ship->life_support==0) ? SSHIP_PLACE_LIFE_SUPPORT :
@@ -1789,11 +1786,10 @@ static bool spaceship_autoplace(struct player *pplayer,
                               ? SSHIP_PLACE_SOLAR_PANELS :
       (ship->life_support<ship->habitation)
                               ? SSHIP_PLACE_LIFE_SUPPORT :
-      (nice && (ship->life_support <= ship->habitation)
+      ((ship->life_support <= ship->habitation)
        && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
                               ? SSHIP_PLACE_LIFE_SUPPORT :
-      (nice)                  ? SSHIP_PLACE_SOLAR_PANELS :
-                                SSHIP_PLACE_HABITATION;
+                                SSHIP_PLACE_SOLAR_PANELS;
 
     if (type == SSHIP_PLACE_HABITATION) {
       num = ship->habitation + 1;
@@ -2533,7 +2529,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->waste_max_distance_cap = p->waste_max_distance_cap;
   
   gov->flags               = p->flags;
-  gov->hints               = p->hints;
   gov->num_ruler_titles    = p->num_ruler_titles;
     
   sz_strlcpy(gov->name, p->name);

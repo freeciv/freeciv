@@ -32,7 +32,6 @@
 
 bool ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship)
 {
-  struct government *g = get_gov_pplayer(pplayer);
   enum spaceship_place_type type;
   int num, i;
   bool retval = FALSE;
@@ -40,11 +39,6 @@ bool ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *shi
   while (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    bool nice = government_has_hint(g, G_IS_NICE);
-    /* "nice" governments prefer to keep success 100%;
-     * others build habitation first (for score?)  (Thanks Massimo.)
-     */
-
     type =
       (ship->habitation==0)   ? SSHIP_PLACE_HABITATION :
       (ship->life_support==0) ? SSHIP_PLACE_LIFE_SUPPORT :
@@ -56,11 +50,10 @@ bool ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *shi
                               ? SSHIP_PLACE_SOLAR_PANELS :
       (ship->life_support<ship->habitation)
                               ? SSHIP_PLACE_LIFE_SUPPORT :
-      (nice && (ship->life_support <= ship->habitation)
+      ((ship->life_support <= ship->habitation)
        && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
                               ? SSHIP_PLACE_LIFE_SUPPORT :
-      (nice)                  ? SSHIP_PLACE_SOLAR_PANELS :
-                                SSHIP_PLACE_HABITATION;
+                                SSHIP_PLACE_SOLAR_PANELS;
 
     if (type == SSHIP_PLACE_HABITATION) {
       num = ship->habitation + 1;

@@ -24183,7 +24183,7 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_government_100 cmp_const
 
-BV_DEFINE(packet_ruleset_government_100_fields, 48);
+BV_DEFINE(packet_ruleset_government_100_fields, 47);
 
 static struct packet_ruleset_government *receive_packet_ruleset_government_100(struct connection *pc, enum packet_type type)
 {
@@ -24334,21 +24334,18 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     dio_get_uint16(&din, (int *) &real_packet->flags);
   }
   if (BV_ISSET(fields, 42)) {
-    dio_get_uint8(&din, (int *) &real_packet->hints);
-  }
-  if (BV_ISSET(fields, 43)) {
     dio_get_uint8(&din, (int *) &real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 44)) {
+  if (BV_ISSET(fields, 43)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 44)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 45)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 47)) {
+  if (BV_ISSET(fields, 46)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -24553,29 +24550,25 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 41);}
 
-  differ = (old->hints != real_packet->hints);
+  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 42);}
 
-  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 43);}
 
-  differ = (strcmp(old->name, real_packet->name) != 0);
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 44);}
 
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 45);}
 
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 46);}
-
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 47);}
+  if(differ) {BV_SET(fields, 46);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24710,21 +24703,18 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     dio_put_uint16(&dout, real_packet->flags);
   }
   if (BV_ISSET(fields, 42)) {
-    dio_put_uint8(&dout, real_packet->hints);
-  }
-  if (BV_ISSET(fields, 43)) {
     dio_put_uint8(&dout, real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 44)) {
+  if (BV_ISSET(fields, 43)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 44)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 45)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 47)) {
+  if (BV_ISSET(fields, 46)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

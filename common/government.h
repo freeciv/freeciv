@@ -75,7 +75,6 @@ struct government
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */
-  int   subgoal;		/* for AI; another government or -1 */
 
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
@@ -147,9 +146,6 @@ struct government
   /* other flags: bits in enum government_flag_id order,
      use government_has_flag() to access */
   int   flags;
-  /* other hints: bits in enum government_hint_id order,
-     use government_has_hint() to access */
-  int   hints;
 
   struct Sprite *sprite;
   
@@ -181,9 +177,6 @@ struct government *find_government_by_name(const char *name);
 enum government_flag_id government_flag_from_str(const char *s);
 bool government_has_flag(const struct government *gov,
 			enum government_flag_id flag);
-enum government_hint_id government_hint_from_str(const char *s);
-bool government_has_hint(const struct government *gov,
-			enum government_hint_id hint);
 
 int get_government_max_rate(int type);
 int get_government_civil_war_prob(int type);

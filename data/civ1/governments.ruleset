@@ -47,9 +47,6 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;               should be a standard tag if preferred is not;
 ;		otherwise may be "-"
 ; flags       = special effects; see government.c for strings
-; hints       = hints to the AI about how to use / behave with government
-; subgoal     = another government name or "-"; if main gov is nation or 
-;		AI goal government, aim for subgoal first.
 
 ; martial_law_max  = maximum number of units which can enforce martial law
 ;		     in the city
@@ -118,8 +115,6 @@ tech_req    = "None"
 graphic     = "gov.anarchy"
 graphic_alt = "-"
 flags       = "-"
-hints       = "Favors_Growth"
-subgoal	    = "-"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -197,8 +192,6 @@ tech_req    = "None"
 graphic     = "gov.despotism"
 graphic_alt = "-"
 flags       = "-"
-hints       = "Favors_Growth"
-subgoal	    = "-"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -274,8 +267,6 @@ tech_req    = "Monarchy"
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 flags       = "-"
-hints       = "Favors_Growth"
-subgoal	    = "-"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -349,8 +340,6 @@ tech_req    = "Communism"
 graphic     = "gov.communism"
 graphic_alt = "-"
 flags       = "Build_Veteran_Diplomats"
-hints       = "Favors_Growth"
-subgoal	    = "Monarchy"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -432,8 +421,6 @@ tech_req    = "The Republic"
 graphic     = "gov.republic"
 graphic_alt = "-"
 flags       = "Has_Senate", "Rapture_City_Growth"
-hints       = "Is_Nice"
-subgoal	    = "Monarchy"
 
 martial_law_max  = 0
 martial_law_per  = 0
@@ -518,8 +505,6 @@ tech_req    = "Democracy"
 graphic     = "gov.democracy"
 graphic_alt = "-"
 flags       = "Has_Senate", "Revolution_When_Unhappy", "Rapture_City_Growth"
-hints       = "Is_Nice"
-subgoal	    = "Republic"
 
 martial_law_max  = 0
 martial_law_per  = 0

@@ -1069,7 +1069,6 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 waste_max_distance_cap;
       
   UINT16 flags;
-  UINT8 hints;
       
   UINT8 num_ruler_titles;
        
