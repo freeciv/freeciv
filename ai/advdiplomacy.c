@@ -240,6 +240,14 @@ static int ai_goldequiv_clause(struct player *pplayer,
   case CLAUSE_ALLIANCE:
   case CLAUSE_PEACE:
   case CLAUSE_CEASEFIRE:
+    /* Don't do anything in away mode */
+    if (ai_handicap(pplayer, H_AWAY)) {
+      notify(aplayer, _("*%s (AI)* In away mode AI can't sign such a treaty"),
+             pplayer->name);
+      worth = -BIG_NUMBER;
+      break;
+    }
+
     /* This guy is at war with our alliance and we're not alliance
      * leader. */
     if (pplayer != ai->diplomacy.alliance_leader
