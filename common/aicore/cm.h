@@ -60,10 +60,8 @@ struct cm_result {
   int specialists[SP_COUNT];
 };
 
-/*
- * ...
- */
 void cm_init(void);
+void cm_init_citymap(void);
 
 /*
  * ...

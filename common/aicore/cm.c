@@ -1152,10 +1152,6 @@ static void build_cache3(struct city *pcity)
   struct tile_stats tile_stats;
   bool is_celebrating = base_city_celebrating(pcity);
 
-  cache3.results
-    = fc_realloc(cache3.results,
-		 (MAX_FIELDS_USED + 1) * sizeof(*cache3.results));
-
   if (cache3.pcity != pcity) {
     cache3.pcity = NULL;
   } else {
@@ -1435,6 +1431,16 @@ void cm_init(void)
   /* Reset the stats. */
   memset(&stats, 0, sizeof(stats));
   stats.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+}
+
+/****************************************************************************
+  Call this function when the citymap size (city_tiles) has changed.
+****************************************************************************/
+void cm_init_citymap(void)
+{
+  cache3.results
+    = fc_realloc(cache3.results,
+		 (MAX_FIELDS_USED + 1) * sizeof(*cache3.results));
 }
 
 /****************************************************************************

@@ -28,6 +28,8 @@
 #include "packets.h"
 #include "support.h"
 
+#include "cm.h"
+
 #include "city.h"
 
 /* Iterate a city map, from the center (the city) outwards */
@@ -216,6 +218,8 @@ void generate_city_map_indices(void)
 #endif
 
   city_map_iterate_outwards_indices = array;
+
+  cm_init_citymap();
 }
 
 /**************************************************************************
