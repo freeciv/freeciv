@@ -2045,8 +2045,10 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->ai.charge = 0;
   unit_list_insert(&pplayer->units, punit);
   unit_list_insert(&map_get_tile(x, y)->units, punit);
-  if (pcity)
+  if (pcity) {
     unit_list_insert(&pcity->units_supported, punit);
+    assert(city_owner(pcity) == pplayer);
+  }
   punit->bribe_cost=-1;		/* flag value */
   if(moves_left < 0)  
     punit->moves_left=unit_move_rate(punit);

@@ -1120,7 +1120,7 @@ void remove_city(struct city *pcity)
 	      unit_name(punit->type), new_home_city->name);
       notify_player(pplayer, _("Game: Changed homecity of %s in %s."),
 		    unit_name(punit->type), new_home_city->name);
-      create_unit_full(pplayer, x, y,
+      create_unit_full(city_owner(new_home_city), x, y,
 		       punit->type, punit->veteran, new_home_city->id,
 		       punit->moves_left, punit->hp);
     }
