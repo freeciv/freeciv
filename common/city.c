@@ -891,6 +891,8 @@ bool city_can_be_built_here(const struct tile *ptile, struct unit *punit)
 **************************************************************************/
 bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 {
+  /* If you change the logic here, make sure to update the help in
+   * helptext_unit(). */
   return (pc1 && pc2 && pc1 != pc2
           && (pc1->owner != pc2->owner
 	      || map_distance(pc1->tile, pc2->tile) > 8));
