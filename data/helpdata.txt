@@ -685,7 +685,7 @@ diplomats to incite and steal.\
 "), _("\
     If you have established an embassy with another human player, \
 then you can arrange a diplomatic meeting. This is done by \
-going to the `Game' menu, selecting players and clicking on \
+going to the `Reports' menu, selecting players and clicking on \
 the player with whom you wish to meet.  If you actually have \
 an embassy (denoted by an X) and the other player is connected \
 then a diplomacy menu will pop up.\
