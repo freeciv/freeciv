@@ -1094,15 +1094,15 @@ static void ensure_invalid_cache2(struct city *pcity, int total_tile_trade)
    * Estimate an upper limit for the luxury. We assume that the player
    * has set the luxury rate to 100%. There are two extremal cases: all
    * citizen are entertainers (yielding a luxury of "(pcity->size * 2
-   * * get_city_tax_bonus(pcity))/100" = A) or all citizen are
+   * * get_city_luxury_bonus(pcity))/100" = A) or all citizen are
    * working on tiles and the resulting trade is converted to luxury
-   * (yielding a luxury of "(total_trade * get_city_tax_bonus(pcity))
+   * (yielding a luxury of "(total_trade * get_city_luxury_bonus(pcity))
    * / 100" = B) . We can't use MAX(A, B) since there may be cases in
    * between them which are better than these two exremal cases. So we
    * use A+B as upper limit.
    */
-  luxury =
-      ((pcity->size * 2 + total_trade) * get_city_tax_bonus(pcity)) / 100;
+  luxury
+    = ((pcity->size * 2 + total_trade) * get_city_luxury_bonus(pcity)) / 100;
 
   /* +1 because we want to index from 0 to pcity->size inclusive */
   if (pcity->size + 1 > cache2.allocated_size) {

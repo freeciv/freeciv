@@ -486,9 +486,10 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   j *= SHIELD_WEIGHTING * city_shield_bonus(pcity);
   j /= 100;
 
-  k = city_get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
-      (city_tax_bonus(pcity) * (plr->economic.tax + plr->economic.luxury) +
-       city_science_bonus(pcity) * plr->economic.science) / 10000;
+  k = (city_get_trade_tile(x, y, pcity) * pcity->ai.trade_want
+       * (city_tax_bonus(pcity) * plr->economic.tax
+	  + city_luxury_bonus(pcity) * plr->economic.luxury
+	  + city_science_bonus(pcity) * plr->economic.science)) / 10000;
 
   return(i + j + k);
 }  
@@ -617,7 +618,8 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the cached shield bonus rate.  Don't confuse this with
+  get_city_shield_bonus which recomputes the value from scratch.
 **************************************************************************/
 int city_shield_bonus(struct city *pcity)
 {
@@ -625,7 +627,17 @@ int city_shield_bonus(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the cached luxury bonus rate.  Don't confuse this with
+  get_city_luxury_bonus which recomputes the value from scratch.
+**************************************************************************/
+int city_luxury_bonus(struct city *pcity)
+{
+  return pcity->luxury_bonus;
+}
+
+/**************************************************************************
+  Return the cached tax bonus rate.  Don't confuse this with
+  get_city_tax_bonus which recomputes the value from scratch.
 **************************************************************************/
 int city_tax_bonus(struct city *pcity)
 {
@@ -633,7 +645,8 @@ int city_tax_bonus(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the cached science bonus rate.  Don't confuse this with
+  get_city_science_bonus which recomputes the value from scratch.
 **************************************************************************/
 int city_science_bonus(struct city *pcity)
 {

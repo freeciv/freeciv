@@ -239,7 +239,9 @@ struct city {
   /* Shield production is shields produced minus shield_waste*/
   int shield_prod, shield_surplus, shield_waste; 
   int trade_prod, corruption, tile_trade;
-  int shield_bonus, tax_bonus, science_bonus; /* more CPU savings! */
+
+  /* Cached values for CPU savings. */
+  int shield_bonus, luxury_bonus, tax_bonus, science_bonus;
 
   /* the totals */
   int luxury_total, tax_total, science_total;
@@ -485,6 +487,7 @@ int get_temple_power(const struct city *pcity);
 int get_cathedral_power(const struct city *pcity);
 int get_colosseum_power(const struct city *pcity);
 int get_city_tax_bonus(const struct city *pcity);
+int get_city_luxury_bonus(const struct city *pcity);
 int get_city_shield_bonus(const struct city *pcity);
 int get_city_science_bonus(const struct city *pcity);
 bool city_built_last_turn(const struct city *pcity);

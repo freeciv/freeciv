@@ -42,6 +42,7 @@ bool is_building_other_wonder(struct city *pc);
 bool built_elsewhere(struct city *pc, Impr_Type_id wonder);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
 int city_shield_bonus(struct city *pcity);
+int city_luxury_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 

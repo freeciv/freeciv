@@ -1741,8 +1741,7 @@ int get_city_shield_bonus(const struct city *pcity)
 }
 
 /**************************************************************************
- Return the factor (in %) by which the tax and luxury should be
- multiplied.
+  Return the factor (in %) by which the tax should be multiplied.
 **************************************************************************/
 int get_city_tax_bonus(const struct city *pcity)
 {
@@ -1759,6 +1758,15 @@ int get_city_tax_bonus(const struct city *pcity)
   }
 
   return tax_bonus;
+}
+
+/**************************************************************************
+  Return the factor (in %) by which the luxury should be multiplied.
+**************************************************************************/
+int get_city_luxury_bonus(const struct city *pcity)
+{
+  /* Currently the luxury bonus is equivalent to the tax bonus. */
+  return get_city_tax_bonus(pcity);
 }
 
 /**************************************************************************
@@ -1951,12 +1959,13 @@ static inline void set_tax_income(struct city *pcity)
 static void add_buildings_effect(struct city *pcity)
 {
   /* this is the place to set them */
+  pcity->luxury_bonus = get_city_luxury_bonus(pcity);
   pcity->tax_bonus = get_city_tax_bonus(pcity);
   pcity->science_bonus = get_city_science_bonus(pcity);
   pcity->shield_bonus = get_city_shield_bonus(pcity);
 
   pcity->shield_prod = (pcity->shield_prod * pcity->shield_bonus) / 100;
-  pcity->luxury_total = (pcity->luxury_total * pcity->tax_bonus) / 100;
+  pcity->luxury_total = (pcity->luxury_total * pcity->luxury_bonus) / 100;
   pcity->tax_total = (pcity->tax_total * pcity->tax_bonus) / 100;
   pcity->science_total = (pcity->science_total * pcity->science_bonus) / 100;
   pcity->shield_surplus = pcity->shield_prod;
@@ -2762,6 +2771,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->corruption = 0;
   pcity->shield_waste = 0;
   pcity->shield_bonus = 100;
+  pcity->luxury_bonus = 100;
   pcity->tax_bonus = 100;
   pcity->science_bonus = 100;
 
