@@ -380,17 +380,17 @@ void map_mine_tile(int x, int y)
   map_clear_special(x,y, S_IRRIGATION);
 }
 
-
-
 /***************************************************************
-...
+  The cost to move punit from x1,y1 to x2,y2
+  The tiles are assumed to be adjacent
 ***************************************************************/
-
-int tile_move_cost(struct unit *punit, int x, int y)
+int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2)
 {
-  struct tile *t1=map_get_tile(punit->x,punit->y);
-  struct tile *t2=map_get_tile(x,y);
+  struct tile *t1=map_get_tile(x1,y1);
+  struct tile *t2=map_get_tile(x2,y2);
 
+  if (!is_ground_unit(punit))
+    return 3;
   if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
     return 0;
   if(unit_flag(punit->type, F_IGTER)) 
@@ -403,13 +403,12 @@ int tile_move_cost(struct unit *punit, int x, int y)
 }
 
 /***************************************************************
-...
+  The cost to move punit from where it is to tile x1,y1.
+  It is assumed the move is a valid one, e.g. the tiles are adjacent
 ***************************************************************/
 int map_move_cost(struct unit *punit, int x1, int y1)
 {
-  if (!is_ground_unit(punit))
-    return 3;
-  return tile_move_cost(punit, x1, y1);
+  return tile_move_cost(punit, punit->x, punit->y, x1, y1);
 }
 
 /***************************************************************

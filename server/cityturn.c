@@ -741,17 +741,16 @@ void city_populate(struct city *pcity)
 **************************************************************************/
 int advisor_choose_build(struct city *pcity)
 { /* this function isn't docked very well.  WTF is the return value? -- Syela */
-  struct ai_choice *choice;
+  struct ai_choice choice;
   int i;
   int id=-1;
   int want=0;
-  
 
-  choice = ai_advisor_choose_building(pcity); /* much smarter version -- Syela */
+  ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
 /*  printf("Advisor_choose_build got %s/%d from ai_advisor_choose_building.\n", 
-  get_improvement_name(choice->choice), choice->want); */
-  id = choice->choice;
-  want = choice->want;
+  get_improvement_name(choice.choice), choice.want); */
+  id = choice.choice;
+  want = choice.want;
 
   if (id == B_CAPITAL)
     return 0; /* we won't build this.  therefore exit, 0 = undecided */

@@ -23,6 +23,7 @@
 #include <mapgen.h>
 #include <unittools.h>
 #include <cityhand.h>
+#include <citytools.h>
 #include <plrhand.h>
 #include <aitools.h>
 #include <aiunit.h>
@@ -120,11 +121,11 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
     pplay=&game.players[i];
     if (pplay!=pplayer) {
       city_list_iterate(pplay->cities, pcity) {
-        if (map_distance(x, y, pcity->x, pcity->y)<dist 
+        if (real_map_distance(x, y, pcity->x, pcity->y)<dist 
          && map_get_continent(x, y)==map_get_continent(pcity->x, pcity->y)
          && (pplayer==NULL || map_get_known(x,y,pplayer))) 
            { 
-           dist=map_distance(x, y, pcity->x, pcity->y);
+           dist=real_map_distance(x, y, pcity->x, pcity->y);
            pc=pcity;
            }
       }
@@ -146,11 +147,11 @@ struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y)
     pplay=&game.players[i];
     if (pplay!=pplayer) {
       unit_list_iterate(pplay->units, punit) {
-        if (map_distance(x, y, punit->x, punit->y)<dist 
+        if (real_map_distance(x, y, punit->x, punit->y)<dist 
          && map_get_continent(x, y)==map_get_continent(punit->x, punit->y)
          && map_get_known(x,y,pplayer)) 
            { 
-           dist=map_distance(x, y, punit->x, punit->y);
+           dist=real_map_distance(x, y, punit->x, punit->y);
            pu=punit;
            }
       }
@@ -171,7 +172,7 @@ int ai_city_spot_value(int xp, int yp)
   val = 0;
   if (pcity) {
     dist = map_distance(xp, yp, pcity->x, pcity->y);
-    if (dist < 4) 
+    if (dist < 4)  /* leaving. Not changing to real_map_distance -- Syela */
       return 0;
   }
   food = get_food_tile_bc(xp, yp);
@@ -284,9 +285,10 @@ if (agression<=0) { agression=0; }
 else { agression+=5; }
 pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y); 
 penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y); 
+/* changed to real distances.  Might need to reduce agression -- Syela */
 if (pcity)
    {
-   closestcity=map_distance(punit->x,punit->y,pcity->x,pcity->y);
+   closestcity=real_map_distance(punit->x,punit->y,pcity->x,pcity->y);
    if (closestcity < agression*2 )
       {
       myreturn=1;
@@ -294,7 +296,7 @@ if (pcity)
    }
 if (penemyunit)
    {
-   closestunit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
+   closestunit=real_map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
     if (closestunit < agression*2 )
       {
       myreturn=1;
@@ -351,11 +353,49 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
     best->want = cur->want;
     best->type = cur->type;
   }
-
 }
 
-
-
-
-
-
+void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
+{ /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
+  int i;
+  int id = B_LAST;
+  int j = 0, k = 0;
+  int want=0;
+  struct city *capital;
+  struct player *plr;
+        
+  plr = &game.players[pcity->owner];
+  capital=find_palace(plr);
+     
+  /* too bad plr->score isn't kept up to date. */
+  city_list_iterate(plr->cities, acity)
+    j += pcity->shield_prod;
+    k++;
+  city_list_iterate_end;
+  if (!k) printf("Gonna crash, 0 k, looking at %s (ai_adv_ch_bu)\n", pcity->name);
+ 
+  for(i=0; i<B_LAST; i++) {
+    if (!is_wonder(i) ||  (!built_elsewhere(pcity, i) &&
+        !is_building_other_wonder(pcity) &&
+/* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
+/* might be OK if I forced all AI players to take mysticism early */
+        real_map_distance(capital->x, capital->y, pcity->x, pcity->y) < 12 &&
+        pcity->shield_prod >= j / k)) { /* too many restrictions? */
+/* trying to keep wonders in safe places with easy caravan access -- Syela */
+      if(pcity->ai.building_want[i]>want) {
+/* we have to do the can_build check to avoid Built Granary.  Now Building Granary. */
+        if (can_build_improvement(pcity, i)) {
+          want=pcity->ai.building_want[i];
+          id=i;
+        } /* else printf("%s can't build %s\n", pcity->name, get_improvement_name(i)); */
+      } /* id is the building we like the best */
+    }
+  }
+  
+/* if (!want) printf("AI_Chosen: None for %s\n", pcity->name);
+  else printf("AI_Chosen: %s with desire = %d for %s\n",
+          get_improvement_name(id), want, pcity->name); */
+  choice->want = want;
+  choice->choice = id;
+  choice->type = 0;
+}

@@ -90,6 +90,7 @@ void ai_next_tech_goal_default(struct player *pplayer,
     if (dist < bestdist) { 
       bestdist = dist;
       goal = prace->goals.tech[i];
+      break; /* remove this to restore old functionality -- Syela */
     }
   } 
   tech = get_government_tech(pplayer);

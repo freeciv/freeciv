@@ -109,16 +109,24 @@ void ai_after_work(struct player *pplayer);
  Main AI routine.
 **************************************************************************/
 
-void ai_do_activities(struct player *pplayer)
+void ai_do_first_activities(struct player *pplayer)
 {
   ai_before_work(pplayer); 
-  ai_manage_units(pplayer); 
-  ai_manage_cities(pplayer); 
+  ai_manage_units(pplayer); /* STOP.  Everything else is at end of turn. */
+}
+
+void ai_do_last_activities(struct player *pplayer)
+{
+  ai_manage_cities(pplayer);
+/* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
+/* printf("Managing %s's taxes.\n", pplayer->name); */
   ai_manage_taxes(pplayer); 
+/* printf("Managing %s's government.\n", pplayer->name); */
   ai_manage_government(pplayer); 
   ai_manage_diplomacy(pplayer);
   ai_manage_tech(pplayer); 
   ai_after_work(pplayer);
+/* printf("Done with %s.\n", pplayer->name); */
 }
 
 /**************************************************************************
@@ -173,7 +181,7 @@ int ai_calc_city_buy(struct city *pcity)
 .. Spend money
 **************************************************************************/
 void ai_spend_gold(struct player *pplayer, int gold)
-{
+{ /* obsoleted by Syela */
   struct city *pc2=NULL;
   int maxwant, curwant;
   maxwant = 0;
@@ -212,36 +220,87 @@ void ai_spend_gold(struct player *pplayer, int gold)
 **************************************************************************/
 
 void ai_manage_taxes(struct player *pplayer) 
-{
+{ /* total rewrite by Syela */
   int gnow=pplayer->economic.gold;
   int gthen=pplayer->ai.prev_gold;
-  if (pplayer->government == G_REPUBLIC || pplayer->government == G_DEMOCRACY)
-    pplayer->economic.luxury = 20;
-  else
-    pplayer->economic.luxury = 0;
-  
+  int sad = 0, trade = 0, m, n, i, expense = 0;
+  int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  int food_weighting[3] = { 15, 14, 13 }; 
+ 
+  pplayer->economic.science += pplayer->economic.luxury;
+/* without the above line, auto_arrange does strange things we must avoid -- Syela */
+  pplayer->economic.luxury = 0;
+  city_list_iterate(pplayer->cities, pcity) 
+    auto_arrange_workers(pcity); /* I hate doing this but I need to stop the flipflop */
+    sad += pcity->ppl_unhappy[4];
+    trade += pcity->trade_prod;
+/*    printf("%s has %d trade.\n", pcity->name, pcity->trade_prod); */
+    for (i = 0; i < B_LAST; i++)
+      if (city_got_building(pcity, i)) expense += improvement_upkeep(pcity,i);
+  city_list_iterate_end;
+
+/*  printf("%s has %d trade.\n", pplayer->name, trade); */
+  if (!trade) return; /* damn division by zero! */
+
+  pplayer->economic.luxury = 0;
+  city_list_iterate(pplayer->cities, pcity) 
+    n = (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]) * 20; /* need this much lux */
+    for (i = 0; i <= 10; i++) {
+      m = ((n - pcity->trade_prod * i + 19) / 20);
+      elvises[i] += MAX(m, 0) * ai_best_tile_value(pcity);
+    }
+/* printf("Does %s want to be bigger? %d\n", pcity->name, wants_to_be_bigger(pcity)); */
+    if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
+        !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity)) {
+/*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name); */
+      n = ((pcity->size + 1) / 2 - pcity->ppl_happy[4]) * 20;
+      for (i = 0; i <= 10; i++) {
+        if (pcity->trade_prod * i >= n && pcity->food_surplus > 0)
+          hhjj[i] += (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
+              game.foodbox / 2 - pcity->food_stock) *
+              food_weighting[get_race(pplayer)->attack] / pcity->size *
+              (pcity->was_happy ? 4 : 3); /* maybe should be ? 4 : 2 */
+      }
+    } /* hhjj[i] is (we think) the desirability of partying with lux = 10 * i */
+  city_list_iterate_end;
+
+  for (i = 0; i <= 10; i++) elvises[i] += (trade * i) / 10 * 8;
+  /* elvises[i] is the production + income lost to elvises with lux = i * 10 */
+  n = 0; /* default to 0 lux */
+  for (i = 1; i <= 10; i++) if (elvises[i] < elvises[n]) n = i;
+/* two thousand zero zero party over it's out of time */
+  for (i = 0; i <= 10; i++) {
+    hhjj[i] -= (trade * i) / 10 * 8; /* hhjj is now our bonus */
+/*    printf("hhjj[%d] = %d for %s.\n", i, hhjj[i], pplayer->name);  */
+  }
+  /* want to max the hhjj */
+  for (i = n; i <= 10; i++) if (hhjj[i] > hhjj[n]) n = i;
+
+/*  n = (sad * 40 + trade) / trade / 2;  WAG, now disabled */
+
+  pplayer->economic.luxury = n * 10;
+
+
+
   /* do president sale here */
 
   if (pplayer->research.researching==A_NONE) {
-    pplayer->economic.tax+=pplayer->economic.science;
-    pplayer->economic.science=0;
-    if (gnow > ai_gold_reserve(pplayer))
-      ai_spend_gold(pplayer, gnow - ai_gold_reserve(pplayer));
-    return;
-  } else if (gnow>gthen && gnow>1.5*ai_gold_reserve(pplayer)) { 
-    if (pplayer->economic.tax>20) 
-      pplayer->economic.tax-=10;
-    
+    pplayer->economic.tax = 100 - pplayer->economic.luxury;
+  } else { /* have to balance things logically */
+/* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
+    n = ((ai_gold_reserve(pplayer) - gnow - expense) * 20 + trade) / trade / 2;
+    if (n < 1) n = 1; /* should allow 0 tax? */
+    while (n > 10 - (pplayer->economic.luxury / 10)) n--;
+    pplayer->economic.tax = 10 * n;
   }
-  if (gnow<gthen || gnow < ai_gold_reserve(pplayer)) {
-    pplayer->economic.tax+=10;
-  }
-  if (pplayer->economic.tax > 80) 
-    pplayer->economic.tax = 80;
-  pplayer->economic.science = 100 - (pplayer->economic.tax +
-									     pplayer->economic.luxury);
-  if (gnow > ai_gold_reserve(pplayer))
-    ai_spend_gold(pplayer, gnow - ai_gold_reserve(pplayer));
+  pplayer->economic.science = 100 - pplayer->economic.tax - pplayer->economic.luxury;
+
+  city_list_iterate(pplayer->cities, pcity) 
+    auto_arrange_workers(pcity);
+    if (ai_fix_unhappy(pcity))
+      ai_scientists_taxmen(pcity);
+  city_list_iterate_end;
 }
 
 /* --------------------------GOVERNMENT--------------------------------- */
@@ -267,6 +326,12 @@ void ai_manage_government(struct player *pplayer)
   case G_DEMOCRACY:
     if (can_change_to_government(pplayer, G_REPUBLIC)) 
       ai_government_change(pplayer, G_REPUBLIC);
+    else if (can_change_to_government(pplayer, G_MONARCHY)) 
+      ai_government_change(pplayer, G_MONARCHY);
+    break;
+  case G_REPUBLIC:
+    if (can_change_to_government(pplayer, G_MONARCHY)) 
+      ai_government_change(pplayer, G_MONARCHY); /* better than despotism! -- Syela */
     break;
   }
 }

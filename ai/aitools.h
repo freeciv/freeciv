@@ -72,6 +72,7 @@ extern struct ai_map_struct ai_map;
 
 void adjust_choice(int type, struct ai_choice *choice);
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
+void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice);
 
 
 

@@ -15,7 +15,7 @@
 
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice);
-void  military_advisor_choose_build(struct player *pplayer, 
+void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
 
 #endif

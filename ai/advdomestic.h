@@ -13,7 +13,7 @@
 #ifndef __ADVDOMESTIC_H
 #define __ADVDOMESTIC_H
 
-void domestic_advisor_choose_build(struct player *pplayer,
+void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);
 
 #endif
