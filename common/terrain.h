@@ -117,8 +117,10 @@ int adjacent_terrain_flag_tiles4(int x, int y, enum terrain_flag_id flag);
 /* Terrain-specific functions. */
 #define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))
 #define is_ocean_near_tile(x, y) is_terrain_flag_near_tile(x, y, TER_OCEANIC)
-#define adjacent_ocean_tiles4(x, y) adjacent_terrain_tiles4(x, y, T_OCEAN)
-#define count_ocean_near_tile(x,y) count_terrain_near_tile(x,y, T_OCEAN)
+#define adjacent_ocean_tiles4(x, y) \
+         adjacent_terrain_flag_tiles4(x, y, TER_OCEANIC)
+#define count_ocean_near_tile(x, y) \
+         count_terrain_flag_near_tile(x, y, TER_OCEANIC)
 
 /* This iterator iterates over all terrain types. */
 #define terrain_type_iterate(id)                                            \
