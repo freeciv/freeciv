@@ -262,8 +262,6 @@ void put_unit_city_overlays(struct unit *punit,
 			    int canvas_x, int canvas_y);
 void toggle_city_color(struct city *pcity);
 void toggle_unit_color(struct unit *punit);
-void put_red_frame_tile(struct canvas *pcanvas,
-			int canvas_x, int canvas_y);
 
 void put_nuke_mushroom_pixmaps(struct tile *ptile);
 

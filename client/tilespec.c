@@ -1640,7 +1640,7 @@ static void tilespec_lookup_sprite_tags(void)
     sprites.city.unworked_tile_overlay.p[i] = unworked;
   }
 
-  if (load_sprite("grid.main.ns")) {
+  {
     SET_SPRITE(grid.unavailable, "grid.unavailable");
 
     for (i = 0; i < EDGE_COUNT; i++) {
@@ -2973,12 +2973,7 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  if (!sprites.grid.main[EDGE_NS]) {
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
-      /* Add grid.  In classic view this is done later. */
-      ADD_GRID(ptile, citymode);
-    }
-  } else if (pedge) {
+  if (pedge) {
     bool known[NUM_EDGE_TILES], city[NUM_EDGE_TILES];
     bool unit[NUM_EDGE_TILES], worked[NUM_EDGE_TILES];
     int i;

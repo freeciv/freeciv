@@ -50,7 +50,6 @@ struct tile_corner {
 struct drawn_sprite {
   enum {
     DRAWN_SPRITE,	/* Draw a sprite. */
-    DRAWN_GRID,		/* Draw the map grid now. */
     DRAWN_BG            /* Draw a solid BG. */
   } type;
 
@@ -66,11 +65,6 @@ struct drawn_sprite {
       struct Sprite *sprite;
       int offset_x, offset_y;	/* offset from tile origin */
     } sprite;
-
-    struct {
-      const struct tile *tile;
-      const struct city *citymode;
-    } grid;
 
     struct {
       enum color_std color;
