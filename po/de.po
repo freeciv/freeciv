@@ -46,14 +46,12 @@ msgstr ""
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.26  2000/02/02 20:19:45  jjm
-# Begin beta-test period leading to version 1.10.0:
-# - Changed version to 1.9.2 (beta).
-# - Ran msgmerge on all .po files (normal part of 'make dist').
-#
-# Revision 1.25  2000/02/02 17:25:43  jjm
-# Update German (de) translation.
+# Revision 1.27  2000/02/04 14:53:57  jjm
+# Updated German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
+#
+# Revision 1.9.1.36  2000/02/02 18:28:51  egbert
+# includes patches until 00/02/02
 #
 # Revision 1.9.1.35  2000/02/01 09:41:55  egbert
 # includes patches until 00/02/02
@@ -405,17 +403,16 @@ msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spiel: Die %s haben aufgehört, %s in %s zu bauen."
 
 #: server/cityhand.c:550
-#, fuzzy
 msgid " from the worklist"
-msgstr "aus der Arbeitsliste"
+msgstr " aus der Arbeitsliste"
 
 #: server/cityhand.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Spiel: %s baut %s %s."
+msgstr "Spiel: %s baut %s%s."
 
 #: server/cityhand.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s."
 msgstr "Spiel: %s baut %s."
 
@@ -5061,7 +5058,7 @@ msgstr "Was soll hergestellt werden?"
 
 #: client/gui-gtk/citydlg.c:1700 data/Freeciv:1990
 msgid "Change Production"
-msgstr "_Auswählen"
+msgstr "Produktion ändern"
 
 #: client/gui-gtk/citydlg.c:1722
 msgid "Ca_ncel"
@@ -7145,7 +7142,7 @@ msgstr " Kaufen "
 
 #: data/Freeciv:2929
 msgid "Worklist"
-msgstr "_Arbeitsliste"
+msgstr "Arbeitsliste"
 
 #: data/Freeciv:2931
 msgid "Supported units:"
