@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "citytools.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -36,6 +37,9 @@ enum historian_type {
         HISTORIAN_MILITARY=2,
         HISTORIAN_HAPPIEST=3,
         HISTORIAN_LARGEST=4};
+
+#define HISTORIAN_FIRST		HISTORIAN_RICHEST
+#define HISTORIAN_LAST 		HISTORIAN_LARGEST
 
 static const char *historian_message[]={
     N_("%s report on the RICHEST Civilizations in the World."),
@@ -57,8 +61,70 @@ static const char *historian_name[]={
 };
 
 struct player_score_entry {
-  int idx;
+  struct player *player;
   int value;
+};
+
+struct city_score_entry {
+  struct city *city;
+  int value;
+};
+
+static int get_population(struct player *pplayer);
+static int get_landarea(struct player *pplayer);
+static int get_settledarea(struct player *pplayer);
+static int get_research(struct player *pplayer);
+static int get_literacy(struct player *pplayer);
+static int get_production(struct player *pplayer);
+static int get_economics(struct player *pplayer);
+static int get_pollution(struct player *pplayer);
+static int get_mil_service(struct player *pplayer);
+
+static char *area_to_text(int value);
+static char *percent_to_text(int value);
+static char *production_to_text(int value);
+static char *economics_to_text(int value);
+static char *mil_service_to_text(int value);
+static char *pollution_to_text(int value);
+
+/*
+ * Describes a row.
+ */
+static struct dem_row {
+  char key;
+  char *name;
+  int (*get_value) (struct player *);
+  char *(*to_text) (int);
+  bool greater_values_are_better;
+} rowtable[] = {
+  {'N', N_("Population"),       get_population,  population_to_text,  TRUE },
+  {'A', N_("Land Area"),        get_landarea,    area_to_text,        TRUE },
+  {'S', N_("Settled Area"),     get_settledarea, area_to_text,        TRUE },
+  {'R', N_("Research Speed"),   get_research,    percent_to_text,     TRUE },
+  {'L', N_("Literacy"),         get_literacy,    percent_to_text,     TRUE },
+  {'P', N_("Production"),       get_production,  production_to_text,  TRUE },
+  {'E', N_("Economics"),        get_economics,   economics_to_text,   TRUE },
+  {'M', N_("Military Service"), get_mil_service, mil_service_to_text, FALSE },
+  {'O', N_("Pollution"),        get_pollution,   pollution_to_text,   FALSE }
+};
+
+enum dem_flag {
+  DEM_COL_QUANTITY,
+  DEM_COL_RANK,
+  DEM_COL_BEST
+};
+
+/*
+ * Describes a column.
+ */
+static struct dem_col
+{
+  char key;
+  enum dem_flag flag;
+} coltable[] = {
+    { 'q', DEM_COL_QUANTITY },
+    { 'r', DEM_COL_RANK },
+    { 'b', DEM_COL_BEST }
 };
 
 /**************************************************************************
@@ -84,68 +150,69 @@ static const char *greatness[MAX_NUM_PLAYERS] = {
 **************************************************************************/
 static void historian_generic(enum historian_type which_news)
 {
-  int i,j=0;
-  int rank=0;
-  int which_historian;
+  int i, j = 0, rank = 0;
   char buffer[4096];
   char title[1024];
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size =
+      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
 
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].is_alive && !is_barbarian(&game.players[i])) {
+  players_iterate(pplayer) {
+    if (pplayer->is_alive && !is_barbarian(pplayer)) {
       switch(which_news) {
       case HISTORIAN_RICHEST:
-	size[j].value=game.players[i].economic.gold;
+	size[j].value = pplayer->economic.gold;
 	break;
       case HISTORIAN_ADVANCED:
-	size[j].value = (game.players[i].score.techs
-			 +game.players[i].future_tech);
+	size[j].value = (pplayer->score.techs + pplayer->future_tech);
 	break;
       case HISTORIAN_MILITARY:
-	size[j].value=game.players[i].score.units;
+	size[j].value = pplayer->score.units;
 	break;
       case HISTORIAN_HAPPIEST: 
-	size[j].value=
-	  ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
-	  /(1+total_player_citizens(&game.players[i]));
+	size[j].value =
+	    (((pplayer->score.happy - pplayer->score.unhappy) * 1000) /
+	     (1 + total_player_citizens(pplayer)));
 	break;
       case HISTORIAN_LARGEST:
-	size[j].value=total_player_citizens(&game.players[i]);
+	size[j].value = total_player_citizens(pplayer);
 	break;
       }
-      size[j].idx=i;
+      size[j].player = pplayer;
       j++;
     } /* else the player is dead or barbarian */
-  }
+  } players_iterate_end;
+
   qsort(size, j, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<j;i++) {
-    if (i == 0 || size[i].value < size[i-1].value)
+  buffer[0] = '\0';
+  for (i = 0; i < j; i++) {
+    if (i == 0 || size[i].value < size[i - 1].value) {
       rank = i;
+    }
     cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s %s\n"), rank+1, _(greatness[rank]),
-		 get_nation_name_plural(game.players[size[i].idx].nation));
+		 _("%2d: The %s %s\n"), rank + 1, _(greatness[rank]),
+		 get_nation_name_plural(size[i].player->nation));
   }
   free(size);
-  which_historian = myrand(ARRAY_SIZE(historian_name));
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
-    _(historian_name[which_historian]));
+    _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(&game.game_connections, _("Historian Publishes!"),
 		  title, buffer, BROADCAST_EVENT);
 }
 
 /**************************************************************************
-...
+ Returns the number of wonders the given city has.
 **************************************************************************/
 static int nr_wonders(struct city *pcity)
 {
-  int i;
-  int res=0;
-  for (i=0;i<game.num_impr_types;i++)
-    if (is_wonder(i) && city_got_building(pcity, i))
-      res++;
-  return res;
+  int i, result = 0;
+
+  for (i = 0; i < game.num_impr_types; i++) {
+    if (is_wonder(i) && city_got_building(pcity, i)) {
+      result++;
+    }
+  }
+
+  return result;
 }
 
 /**************************************************************************
@@ -156,14 +223,14 @@ void report_top_five_cities(struct conn_list *dest)
   const int NUM_BEST_CITIES = 5;
   /* a wonder equals WONDER_FACTOR citizen */
   const int WONDER_FACTOR = 5;
-  struct player_score_entry *size =
-      fc_malloc(sizeof(struct player_score_entry) * NUM_BEST_CITIES);
+  struct city_score_entry *size =
+      fc_malloc(sizeof(struct city_score_entry) * NUM_BEST_CITIES);
   int i;
   char buffer[4096];
 
   for (i = 0; i < NUM_BEST_CITIES; i++) {
     size[i].value = 0;
-    size[i].idx = 0;
+    size[i].city = NULL;
   }
 
   players_iterate(pplayer) {
@@ -172,19 +239,18 @@ void report_top_five_cities(struct conn_list *dest)
 
       if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
 	size[NUM_BEST_CITIES - 1].value = value_of_pcity;
-	size[NUM_BEST_CITIES - 1].idx = pcity->id;
+	size[NUM_BEST_CITIES - 1].city = pcity;
 	qsort(size, NUM_BEST_CITIES, sizeof(struct player_score_entry),
 	      secompare);
       }
     } city_list_iterate_end;
   } players_iterate_end;
 
-  buffer[0] = 0;
+  buffer[0] = '\0';
   for (i = 0; i < NUM_BEST_CITIES; i++) {
-    struct city *pcity = find_city_by_id(size[i].idx);
     int wonders;
 
-    if (!pcity) {
+    if (!size[i].city) {
 	/* 
 	 * pcity may be NULL if there are less then NUM_BEST_CITIES in
 	 * the whole game.
@@ -192,13 +258,18 @@ void report_top_five_cities(struct conn_list *dest)
       break;
     }
 
-    wonders = nr_wonders(pcity);
     cat_snprintf(buffer, sizeof(buffer),
-		 PL_("%2d: The %s City of %s of size %d, with %d wonder\n",
-		     "%2d: The %s City of %s of size %d, with %d wonders\n",
-		     wonders), i + 1,
-		 get_nation_name(city_owner(pcity)->nation), pcity->name,
-		 pcity->size, wonders);
+		 _("%2d: The %s City of %s of size %d, "), i + 1,
+		 get_nation_name(city_owner(size[i].city)->nation),
+		 size[i].city->name, size[i].city->size);
+
+    wonders = nr_wonders(size[i].city);
+    if (wonders == 0) {
+      cat_snprintf(buffer, sizeof(buffer), _("with no wonders\n"));
+    } else {
+      cat_snprintf(buffer, sizeof(buffer),
+		   PL_("with %d wonder\n", "with %d wonders\n", wonders),
+		   wonders);}
   }
   free(size);
   page_conn(dest, _("Traveler's Report:"),
@@ -211,32 +282,34 @@ void report_top_five_cities(struct conn_list *dest)
 **************************************************************************/
 void report_wonders_of_the_world(struct conn_list *dest)
 {
-  int i;
-  struct city *pcity;
+  Impr_Type_id i;
   char buffer[4096];
-  buffer[0]=0;
+
+  buffer[0] = '\0';
+
   for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
-      if (game.global_wonders[i]) {
-	if ((pcity=find_city_by_id(game.global_wonders[i]))) {
-	  cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		       get_impr_name_ex(pcity, i), pcity->name,
-		       get_nation_name(city_owner(pcity)->nation));
-	} else {
-	  cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
-		       get_improvement_type(i)->name);
-	}
+      struct city *pcity = find_city_wonder(i);
+
+      if (pcity) {
+	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
+		     get_impr_name_ex(pcity, i), pcity->name,
+		     get_nation_name(city_owner(pcity)->nation));
+      } else if(game.global_wonders[i] != 0) {
+	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
+		     get_improvement_type(i)->name);
       }
     }
   }
+
   for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
       players_iterate(pplayer) {
-	city_list_iterate(pplayer->cities, pcity2) {
-	  if (pcity2->currently_building == i && !pcity2->is_building_unit) {
+	city_list_iterate(pplayer->cities, pcity) {
+	  if (pcity->currently_building == i && !pcity->is_building_unit) {
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
-			 get_improvement_type(i)->name, pcity2->name,
+			 get_improvement_type(i)->name, pcity->name,
 			 get_nation_name(pplayer->nation));
 	  }
 	} city_list_iterate_end;
@@ -248,292 +321,57 @@ void report_wonders_of_the_world(struct conn_list *dest)
 }
 
 /**************************************************************************
-...
+ Helper functions which return the value for the given player.
 **************************************************************************/
-static int rank_population(struct player *pplayer)
+static int get_population(struct player *pplayer)
 {
-  int basis=pplayer->score.population;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.population>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
+  return pplayer->score.population;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_population(void)
+static int get_landarea(struct player *pplayer)
 {
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.population > pplayer->score.population &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
+    return pplayer->score.landarea;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_landarea(struct player *pplayer)
+static int get_settledarea(struct player *pplayer)
 {
-  int basis=pplayer->score.landarea;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.landarea>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
+  return pplayer->score.settledarea;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_landarea(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.landarea > pplayer->score.landarea &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_settledarea(struct player *pplayer)
-{
-  int basis=pplayer->score.settledarea;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.settledarea>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_settledarea(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.settledarea > pplayer->score.settledarea &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_calc_research(struct player *pplayer)
+static int get_research(struct player *pplayer)
 {
   return (pplayer->score.techout * 100) / (total_bulbs_required(pplayer));
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_research(struct player *pplayer)
-{
-  int basis = rank_calc_research(pplayer), place = 1;
-
-  players_iterate(other) {
-    if (other->is_alive && !is_barbarian(other)
-	&& rank_calc_research(other) > basis) {
-      place++;
-    }
-  } players_iterate_end;
-
-  return place;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_research(void)
-{
-  struct player *pplayer = NULL;
-
-  players_iterate(other) {
-    if (other->is_alive && !is_barbarian(other)
-	&& (!pplayer
-	    || rank_calc_research(other) > rank_calc_research(pplayer))) {
-      pplayer = other;
-    }
-  } players_iterate_end;
-
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_calc_literacy(struct player *pplayer)
+static int get_literacy(struct player *pplayer)
 {
   int pop = civ_population(pplayer);
 
   if (pop <= 0) {
     return 0;
   } else if (pop >= 10000) {
-    return pplayer->score.literacy/(pop/100);
+    return pplayer->score.literacy / (pop / 100);
   } else {
-    return (pplayer->score.literacy*100)/pop;
+    return (pplayer->score.literacy * 100) / pop;
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_literacy(struct player *pplayer)
+static int get_production(struct player *pplayer)
 {
-  int basis=rank_calc_literacy(pplayer);
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_literacy(&game.players[i])>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
+  return pplayer->score.mfg;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_literacy(void)
+static int get_economics(struct player *pplayer)
 {
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_literacy(&game.players[i]) > rank_calc_literacy(pplayer) &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
+  return pplayer->score.bnp;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_production(struct player *pplayer)
+static int get_pollution(struct player *pplayer)
 {
-  int basis=pplayer->score.mfg;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.mfg>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
+  return pplayer->score.pollution;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_production(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.mfg > pplayer->score.mfg &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_economics(struct player *pplayer)
-{
-  int basis=pplayer->score.bnp;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.bnp>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_economics(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.bnp > pplayer->score.bnp &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_pollution(struct player *pplayer)
-{
-  int basis=pplayer->score.pollution;
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.pollution<basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_pollution(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.pollution < pplayer->score.pollution &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int rank_calc_mil_service(struct player *pplayer)
+static int get_mil_service(struct player *pplayer)
 {
   return (pplayer->score.units * 5000) / (10 + civ_population(pplayer));
 }
@@ -541,43 +379,11 @@ static int rank_calc_mil_service(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-static int rank_mil_service(struct player *pplayer)
-{
-  int basis=rank_calc_mil_service(pplayer);
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_mil_service(&game.players[i])<basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
-      place++;
-  }
-  return place;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct player *best_mil_service(void)
-{
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_mil_service(&game.players[i]) < rank_calc_mil_service(pplayer) &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
-    }
-  }
-  return pplayer;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static char *value_units(char *val, char *uni)
+static char *value_units(int val, char *uni)
 {
   static char buf[64];
 
-  if (my_snprintf(buf, sizeof(buf), "%s%s", val, uni) == -1) {
+  if (my_snprintf(buf, sizeof(buf), "%s%s", int_to_text(val), uni) == -1) {
     freelog(LOG_ERROR, "String truncated in value_units()!");
     assert(0);
     exit(EXIT_FAILURE);
@@ -585,314 +391,120 @@ static char *value_units(char *val, char *uni)
 
   return buf;
 }
+
 /**************************************************************************
-...
+  Helper functions which transform the given value to a string
+  depending on the unit.
 **************************************************************************/
-static char *number_to_ordinal_string(int num, bool parens)
+static char *area_to_text(int value)
 {
-  static char buf[16];
-  char *fmt;
+  return value_units(value, _(" sq. mi."));
+}
 
-  fmt = parens ? "(%d%s)" : "%d%s";
+static char *percent_to_text(int value)
+{
+  return value_units(value, "%");
+}
 
-  switch (num)
-    {
-    case 1:
-      my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
-      break;
-    case 2:
-      my_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
-      break;
-    case 3:
-      my_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
-      break;
-    default:
-      if (num > 0)
-	{
-	  my_snprintf(buf, sizeof(buf), fmt, num, _("th"));
-	}
-      else
-	{
-	  my_snprintf(buf, sizeof(buf),
-		      (parens ? "(%s%s)" : "%s%s"), "??", _("th"));
-	}
-      break;
-    }
+static char *production_to_text(int value)
+{
+  return value_units(MAX(0, value), _(" M tons"));
+}
 
-  return (buf);
+static char *economics_to_text(int value)
+{
+  return value_units(value, _(" M goods"));
+}
+
+static char *mil_service_to_text(int value)
+{
+  return value_units(value, PL_(" month", " months", value));
+}
+
+static char *pollution_to_text(int value)
+{
+  return value_units(value, PL_(" ton", " tons", value));
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-
-#define DEM_KEY_ROW_POPULATION        'N'
-#define DEM_KEY_ROW_LAND_AREA         'A'
-#define DEM_KEY_ROW_SETTLED_AREA      'S'
-#define DEM_KEY_ROW_RESEARCH_SPEED    'R'
-#define DEM_KEY_ROW_LITERACY          'L'
-#define DEM_KEY_ROW_PRODUCTION        'P'
-#define DEM_KEY_ROW_ECONOMICS         'E'
-#define DEM_KEY_ROW_MILITARY_SERVICE  'M'
-#define DEM_KEY_ROW_POLLUTION         'O'
-#define DEM_KEY_COL_QUANTITY          'q'
-#define DEM_KEY_COL_RANK              'r'
-#define DEM_KEY_COL_BEST              'b'
-
-enum dem_flag
+static char *number_to_ordinal_string(int num)
 {
-  DEM_NONE = 0x00,
-  DEM_COL_QUANTITY = 0x01,
-  DEM_COL_RANK = 0x02,
-  DEM_COL_BEST = 0x04,
-  DEM_ROW = 0xFF
-};
+  static char buf[16];
+  char fmt[] = "(%d%s)";
 
-struct dem_key
-{
-  char key;
-  char *name;
-  enum dem_flag flag;
-};
+  assert(num > 0);
+
+  switch (num) {
+  case 1:
+    my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
+    break;
+  case 2:
+    my_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
+    break;
+  case 3:
+    my_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
+    break;
+  default:
+    my_snprintf(buf, sizeof(buf), fmt, num, _("th"));
+    break;
+  }
+
+  return buf;
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
-			  char key, enum dem_flag selcols)
+static void dem_line_item(char *outptr, size_t out_size,
+			  struct player *pplayer, struct dem_row *prow,
+			  int selcols)
 {
-  static char *fmt_quan = " %-18s";
-  static char *fmt_rank = " %6s";
-  static char *fmt_best = "   %s: %s";
-  struct player *best_player;
+  if (TEST_BIT(selcols, DEM_COL_QUANTITY)) {
+      cat_snprintf(outptr, out_size, " %-18s",
+		   prow->to_text(prow->get_value(pplayer)));
+  }
 
-  switch (key)
-    {
-    case DEM_KEY_ROW_POPULATION:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_quan,
-		      population_to_text(pplayer->score.population));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_population(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_population())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_best,
-		      get_nation_name_plural(best_player->nation),
-		      population_to_text(best_player->score.population));
-        }
-      break;
-    case DEM_KEY_ROW_LAND_AREA:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (pplayer->score.landarea),
-				    _(" sq. mi.")));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_landarea(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_landarea())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units (int_to_text(best_player->score.landarea),
-				    _(" sq. mi.")));
-        }
-      break;
-    case DEM_KEY_ROW_SETTLED_AREA:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (pplayer->score.settledarea),
-				    _(" sq. mi.")));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_settledarea(pplayer),
-						TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_settledarea())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units (int_to_text(best_player->score.settledarea),
-				    _(" sq. mi.")));
-        }
-      break;
-    case DEM_KEY_ROW_RESEARCH_SPEED:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (rank_calc_research(pplayer)),
-				    "%"));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_research(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_research())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(rank_calc_research(best_player)),
-				   "%"));
-        }
-      break;
-    case DEM_KEY_ROW_LITERACY:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (rank_calc_literacy(pplayer)),
-				    "%"));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_literacy(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_literacy())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(rank_calc_literacy(best_player)),
-				   "%"));
-        }
-      break;
-    case DEM_KEY_ROW_PRODUCTION:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (MAX(0,pplayer->score.mfg)),
-				    _(" M tons")));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_production(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_production())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(MAX(0,best_player->score.mfg)),
-				   _(" M tons")));
-        }
-      break;
-    case DEM_KEY_ROW_ECONOMICS:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (pplayer->score.bnp),
-				    _(" M goods")));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_economics(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_economics())) )
-        {
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_best,
-		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(best_player->score.bnp),
-				   _(" M goods")));
-        }
-      break;
-    case DEM_KEY_ROW_MILITARY_SERVICE:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  int x = rank_calc_mil_service(pplayer);
+  if (TEST_BIT(selcols, DEM_COL_RANK)) {
+    int basis = prow->get_value(pplayer);
+    int place = 1;
 
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_quan,
-		      value_units(int_to_text(x),
-				  PL_(" month", " months", x)));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_mil_service(pplayer),
-						TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_mil_service())) )
-        {
-	  int x = rank_calc_mil_service(best_player);
+    players_iterate(other) {
+      if (other->is_alive && !is_barbarian(other) &&
+	  ((prow->greater_values_are_better
+	    && prow->get_value(other) > basis)
+	   || (!prow->greater_values_are_better
+	       && prow->get_value(other) < basis))) {
+	place++;
+      }
+    } players_iterate_end;
 
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_best,
-		      get_nation_name_plural(best_player->nation),
-		      value_units(int_to_text(x),
-				  PL_(" month", " months", x)));
-        }
-      break;
-    case DEM_KEY_ROW_POLLUTION:
-      if (selcols & DEM_COL_QUANTITY)
-	{
-	  int x = pplayer->score.pollution;
+    cat_snprintf(outptr, out_size, " %6s", number_to_ordinal_string(place));
+  }
 
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_quan,
-		      value_units(int_to_text(x),
-				  PL_(" ton", " tons", x)));
-	}
-      if (selcols & DEM_COL_RANK)
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_rank,
-		       number_to_ordinal_string(rank_pollution(pplayer), TRUE));
-	}
-      if (selcols & DEM_COL_BEST && 
-          player_has_embassy(pplayer, (best_player = best_pollution())) )
-        {
-	  int x = best_player->score.pollution;
+  if (TEST_BIT(selcols, DEM_COL_BEST)) {
+    struct player *best_player = pplayer;
+    int best_value = prow->get_value(pplayer);
 
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf(outptr, nleft, fmt_best,
-		      get_nation_name_plural(best_player->nation),
-		      value_units(int_to_text(x),
-				  PL_(" ton", " tons", x)));
-        }
-      break;
+    players_iterate(other) {
+      if (other->is_alive && !is_barbarian(other)) {
+	int value = prow->get_value(other);
+
+	if ((prow->greater_values_are_better && value > best_value)
+	    || (!prow->greater_values_are_better && value < best_value)) {
+	  best_player = other;
+	  best_value = value;
+	}
+      }
+    } players_iterate_end;
+
+    if (player_has_embassy(pplayer, best_player)) {
+      cat_snprintf(outptr, out_size, "   %s: %s",
+		   get_nation_name_plural(best_player->nation),
+		   prow->to_text(prow->get_value(best_player)));
     }
+  }
 }
 
 /*************************************************************************
@@ -904,66 +516,43 @@ void report_demographics(struct connection *pconn)
   struct player *pplayer = pconn->player;
   char civbuf[1024];
   char buffer[4096];
-  int inx;
+  unsigned int i;
   bool anyrows;
-  enum dem_flag selcols;
-  char *outptr = buffer;
-  int nleft = sizeof(buffer);
-  static char *fmt_name = "%-18s";
-  static struct dem_key keytable[] =
-  {
-    { DEM_KEY_ROW_POPULATION,       N_("Population"),       DEM_ROW },
-    { DEM_KEY_ROW_LAND_AREA,        N_("Land Area"),        DEM_ROW },
-    { DEM_KEY_ROW_SETTLED_AREA,     N_("Settled Area"),     DEM_ROW },
-    { DEM_KEY_ROW_RESEARCH_SPEED,   N_("Research Speed"),   DEM_ROW },
-    { DEM_KEY_ROW_LITERACY,         N_("Literacy"),         DEM_ROW },
-    { DEM_KEY_ROW_PRODUCTION,       N_("Production"),       DEM_ROW },
-    { DEM_KEY_ROW_ECONOMICS,        N_("Economics"),        DEM_ROW },
-    { DEM_KEY_ROW_MILITARY_SERVICE, N_("Military Service"), DEM_ROW },
-    { DEM_KEY_ROW_POLLUTION,        N_("Pollution"),        DEM_ROW },
-    { DEM_KEY_COL_QUANTITY,         "",                     DEM_COL_QUANTITY },
-    { DEM_KEY_COL_RANK,             "",                     DEM_COL_RANK },
-    { DEM_KEY_COL_BEST,             "",                     DEM_COL_BEST }
-  };
+  int selcols;
 
-  anyrows = FALSE;
-  selcols = DEM_NONE;
-  buffer[0] = '\0';
-  for (inx = 0; inx < ARRAY_SIZE(keytable); inx++) {
-    if (strchr(game.demography, keytable[inx].key)) {
-      if (keytable[inx].flag == DEM_ROW) {
-	anyrows = TRUE;
-      } else {
-	selcols |= keytable[inx].flag;
-      }
+  selcols = 0;
+  for (i = 0; i < ARRAY_SIZE(coltable); i++) {
+    if (strchr(game.demography, coltable[i].key)) {
+      selcols |= (1u << coltable[i].flag);
     }
   }
 
-  if (!pplayer || !pplayer->is_alive || !anyrows
-      || (selcols == DEM_NONE)) {
+  anyrows = FALSE;
+  for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
+    if (strchr(game.demography, rowtable[i].key)) {
+      anyrows = TRUE;
+      break;
+    }
+  }
+
+  if (!pplayer || !pplayer->is_alive || !anyrows || selcols == 0) {
     page_conn(&pconn->self, _("Demographics Report:"),
-	      _("Sorry, the Demographics report is unavailable."),
-	      "");
+	      _("Sorry, the Demographics report is unavailable."), "");
     return;
   }
 
-  my_snprintf (civbuf, sizeof(civbuf), _("The %s of the %s"),
-	       get_government_name (pplayer->government),
-	       get_nation_name_plural (pplayer->nation));
+  my_snprintf(civbuf, sizeof(civbuf), _("The %s of the %s"),
+	      get_government_name(pplayer->government),
+	      get_nation_name_plural(pplayer->nation));
 
-  for (inx = 0; inx < ARRAY_SIZE(keytable); inx++)
-    {
-      if ((strchr (game.demography, keytable[inx].key)) &&
-	  (keytable[inx].flag == DEM_ROW))
-	{
-	  outptr = end_of_strn (outptr, &nleft);
-	  my_snprintf (outptr, nleft, fmt_name, _(keytable[inx].name));
-	  outptr = end_of_strn (outptr, &nleft);
-	  dem_line_item (outptr, nleft, pplayer, keytable[inx].key, selcols);
-	  outptr = end_of_strn (outptr, &nleft);
-	  mystrlcpy (outptr, "\n", nleft);
-	}
+  buffer[0] = '\0';
+  for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
+    if (strchr(game.demography, rowtable[i].key)) {
+      cat_snprintf(buffer, sizeof(buffer), "%-18s", _(rowtable[i].name));
+      dem_line_item(buffer, sizeof(buffer), pplayer, &rowtable[i], selcols);
+      sz_strlcat(buffer, "\n");
     }
+  }
 
   page_conn(&pconn->self, _("Demographics Report:"), civbuf, buffer);
 }
@@ -976,7 +565,7 @@ static void log_civ_score(void)
   int fom; /* fom == figure-of-merit */
   char *ptr;
   char line[64];
-  int i, n, ln, ni;
+  int i, ln, ni;
   int index, dummy;
   char name[64];
   int foms = 0;
@@ -1215,14 +804,11 @@ static void log_civ_score(void)
 	      fprintf (fp, "%d %s\n", i, tags[i]);
 	    }
 	  fprintf (fp, "%s\n", endmark);
-	  for (n = 0; n < game.nplayers; n++)
-	    {
-	      if (is_barbarian (&(game.players[n])))
-		{
-		  continue;
-		}
-	      fprintf (fp, "%d %s\n", n, game.players[n].name);
+	  players_iterate(pplayer) {
+	    if (!is_barbarian(pplayer)) {
+	      fprintf(fp, "%d %s\n", pplayer->player_no, pplayer->name);
 	    }
+	  } players_iterate_end
 	  fprintf (fp, "%s\n", endmark);
 	  break;
 	case SL_APPEND:
@@ -1241,33 +827,32 @@ static void log_civ_score(void)
 
   for (i = 0; tags[i]; i++)
     {
-      for (n = 0; n < game.nplayers; n++)
-	{
-	  if (is_barbarian (&(game.players[n])))
-	    {
-	      continue;
-	    }
-	  switch (i)
+      players_iterate(pplayer) {
+	if (is_barbarian(pplayer)) {
+	  continue;
+	}
+
+	switch (i)
 	    {
 	    case 0:
-	      fom = total_player_citizens (&(game.players[n]));
+	      fom = total_player_citizens (pplayer);
 	      break;
 	    case 1:
-	      fom = game.players[n].score.bnp;
+	      fom = pplayer->score.bnp;
 	      break;
 	    case 2:
-	      fom = game.players[n].score.mfg;
+	      fom = pplayer->score.mfg;
 	      break;
 	    case 3:
-	      fom = game.players[n].score.cities;
+	      fom = pplayer->score.cities;
 	      break;
 	    case 4:
-	      fom = game.players[n].score.techs;
+	      fom = pplayer->score.techs;
 	      break;
 	    case 5:
 	      fom = 0;
 	      /* count up military units */
-	      unit_list_iterate (game.players[n].units, punit)
+	      unit_list_iterate (pplayer->units, punit)
 		if (is_military_unit (punit))
 		  fom++;
 	      unit_list_iterate_end;
@@ -1275,75 +860,75 @@ static void log_civ_score(void)
 	    case 6:
 	      fom = 0;
 	      /* count up settlers */
-	      unit_list_iterate (game.players[n].units, punit)
+	      unit_list_iterate (pplayer->units, punit)
 		if (unit_flag (punit, F_CITIES))
 		  fom++;
 	      unit_list_iterate_end;
 	      break;
 	    case 7:
-	      fom = game.players[n].score.wonders;
+	      fom = pplayer->score.wonders;
 	      break;
 	    case 8:
-	      fom = game.players[n].score.techout;
+	      fom = pplayer->score.techout;
 	      break;
 	    case 9:
-	      fom = game.players[n].score.landarea;
+	      fom = pplayer->score.landarea;
 	      break;
 	    case 10:
-	      fom = game.players[n].score.settledarea;
+	      fom = pplayer->score.settledarea;
 	      break;
 	    case 11:
-	      fom = game.players[n].score.pollution;
+	      fom = pplayer->score.pollution;
 	      break;
 	    case 12:
-	      fom = game.players[n].score.literacy;
+	      fom = pplayer->score.literacy;
 	      break;
 	    case 13:
-	      fom = game.players[n].score.spaceship;
+	      fom = pplayer->score.spaceship;
 	      break;
 	    case 14: /* gold */
-	      fom = game.players[n].economic.gold;
+	      fom = pplayer->economic.gold;
 	      break;
 	    case 15: /* taxrate */
-	      fom = game.players[n].economic.tax;
+	      fom = pplayer->economic.tax;
 	      break;
 	    case 16: /* scirate */
-	      fom = game.players[n].economic.science;
+	      fom = pplayer->economic.science;
 	      break;
 	    case 17: /* luxrate */
-	      fom = game.players[n].economic.luxury;
+	      fom = pplayer->economic.luxury;
 	      break;
 	    case 18: /* riots */
 	      fom = 0;
-	      city_list_iterate (game.players[n].cities, pcity)
+	      city_list_iterate (pplayer->cities, pcity)
                 if (pcity->anarchy > 0)
                   fom++;
 	      city_list_iterate_end;
 	      break;
 	    case 19: /* happypop */
-	      fom = game.players[n].score.happy;
+	      fom = pplayer->score.happy;
 	      break;
 	    case 20: /* contentpop */
-	      fom = game.players[n].score.content;
+	      fom = pplayer->score.content;
 	      break;
 	    case 21: /* unhappypop */
-	      fom = game.players[n].score.unhappy;
+	      fom = pplayer->score.unhappy;
 	      break;
 	    case 22: /* taxmen */
-	      fom = game.players[n].score.taxmen;
+	      fom = pplayer->score.taxmen;
 	      break;
 	    case 23: /* scientists */
-	      fom = game.players[n].score.scientists;
+	      fom = pplayer->score.scientists;
 	      break;
 	    case 24: /* elvis */
-	      fom = game.players[n].score.elvis;
+	      fom = pplayer->score.elvis;
 	      break;
 	    case 25: /* gov */
-	      fom = game.players[n].government;
+	      fom = pplayer->government;
 	      break;
             case 26: /* corruption */
 	      fom = 0;
-	      city_list_iterate (game.players[n].cities, pcity)
+	      city_list_iterate (pplayer->cities, pcity)
                 fom+=pcity->corruption;
 	      city_list_iterate_end;
 	      break;
@@ -1351,8 +936,8 @@ static void log_civ_score(void)
 	      fom = 0; /* -Wall demands we init this somewhere! */
 	    }
 
-	  fprintf (fp, "%d %d %d %d\n", i, n, game.year, fom);
-	}
+	  fprintf (fp, "%d %d %d %d\n", i, pplayer->player_no, game.year, fom);
+      } players_iterate_end;
     }
 
   fflush (fp);
@@ -1375,12 +960,12 @@ log_civ_score_disable:
 **************************************************************************/
 void make_history_report(void)
 {
-  static int report=0;
+  static enum historian_type report = HISTORIAN_FIRST;
   static int time_to_report=20;
-  int i;
 
-  for (i=0;i<game.nplayers;i++)
-    civ_score(&game.players[i]);
+  players_iterate(pplayer) {
+    civ_score(pplayer);
+  } players_iterate_end;
 
   if (game.scorelog)
     log_civ_score();
@@ -1397,7 +982,10 @@ void make_history_report(void)
 
   historian_generic(report);
   
-  report=(report+1)%5;
+  report++;
+  if (report > HISTORIAN_LAST) {
+    report = HISTORIAN_FIRST;
+  }
 }
 
 /**************************************************************************
@@ -1405,35 +993,35 @@ void make_history_report(void)
 **************************************************************************/
 void report_scores(bool final)
 {
-  int i,j=0;
+  int i, j = 0;
   char buffer[4096];
+  struct player_score_entry *size =
+      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
 
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-
-  for (i=0;i<game.nplayers;i++) {
-    size[i].value=civ_score(&game.players[i]);
-    size[i].idx=i;
-  }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
-    if( !is_barbarian(&game.players[size[i].idx]) ) {
-      cat_snprintf(buffer, sizeof(buffer),
-		   PL_("%2d: The %s %s scored %d point\n",
-		       "%2d: The %s %s scored %d points\n",
-		       size[i].value),
-		   j + 1, _(greatness[j]),
-		   get_nation_name_plural(game.players[size[i].idx].
-					  nation), size[i].value);
+  players_iterate(pplayer) {
+    if (!is_barbarian(pplayer)) {
+      size[j].value = civ_score(pplayer);
+      size[j].player = pplayer;
       j++;
     }
+  } players_iterate_end;
+
+  qsort(size, j, sizeof(struct player_score_entry), secompare);
+  buffer[0] = '\0';
+
+  for (i = 0; i < j; i++) {
+    cat_snprintf(buffer, sizeof(buffer),
+		 PL_("%2d: The %s %s scored %d point\n",
+		     "%2d: The %s %s scored %d points\n",
+		     size[i].value),
+		 i + 1, _(greatness[i]),
+		 get_nation_name_plural(size[i].player->nation),
+		 size[i].value);
   }
   free(size);
   page_conn(&game.game_connections,
 	    final ? _("Final Report:") : _("Progress Scores:"),
 	    _("The Greatest Civilizations in the world."), buffer);
-
 }
 
 /**************************************************************************
@@ -1457,7 +1045,7 @@ event == BROADCAST_EVENT: message can safely be ignored by clients watching AI
 void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
 		      char *lines, int event) 
 {
-  int len;
+  size_t len;
   struct packet_generic_message genmsg;
 
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),
