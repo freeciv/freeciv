@@ -107,13 +107,10 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
 int real_map_distance(int x0, int y0, int x1, int y1)
 {
   int tmp;
-  x0=map_adjust_x(x0);
-  x1=map_adjust_x(x1);
-  if(x0>x1)
-    tmp=x0, x0=x1, x1=tmp;
   if(y0>y1)
     tmp=y0, y0=y1, y1=tmp;
-  return MAX(y1 - y0, MIN(x1-x0, map.xsize-x1+x0));
+  tmp=map_adjust_x(x0-x1);
+  return MAX(y1 - y0, MIN(tmp, map.xsize-tmp));
 }
 /***************************************************************
 ...
@@ -121,14 +118,9 @@ int real_map_distance(int x0, int y0, int x1, int y1)
 int sq_map_distance(int x0, int y0, int x1, int y1)
 {
   int tmp;
-  x0=map_adjust_x(x0);
-  x1=map_adjust_x(x1);
-  if(x0>x1)
-    tmp=x0, x0=x1, x1=tmp;
-  if(y0>y1)
-    tmp=y0, y0=y1, y1=tmp;
-  return (((y1 - y0) * (y1 - y0)) +
-         (MIN(x1 - x0, map.xsize - x1 + x0) * MIN(x1 - x0, map.xsize - x1 + x0)));
+  tmp=map_adjust_x(x0-x1);
+  tmp= MIN(tmp, map.xsize-tmp);
+  return (((y1 - y0) * (y1 - y0)) + tmp * tmp);
 }
 /***************************************************************
 ...
@@ -136,13 +128,11 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
 int map_distance(int x0, int y0, int x1, int y1)
 {
   int tmp;
-  x0=map_adjust_x(x0);
-  x1=map_adjust_x(x1);
-  if(x0>x1)
-    tmp=x0, x0=x1, x1=tmp;
+
   if(y0>y1)
     tmp=y0, y0=y1, y1=tmp;
-  return MIN(x1-x0, map.xsize-x1+x0)+y1-y0;
+  tmp = map_adjust_x(x0-x1);
+  return MIN(tmp, map.xsize-tmp)+y1-y0;
 }
 
 /***************************************************************
