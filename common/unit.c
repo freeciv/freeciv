@@ -244,7 +244,7 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y)
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if(get_transporter_capacity(punit) && !unit_flag(punit->type, F_SUBMARINE| F_CARRIER))
       total_capacity+=get_transporter_capacity(punit);
-    else
+    else if (is_ground_unit(punit))
       none_transporters++;
   }
   unit_list_iterate_end;
@@ -678,8 +678,10 @@ char *unit_activity_text(struct unit *punit)
     return "Pillage";
    case ACTIVITY_GOTO:
     return "Goto";
+   case ACTIVITY_EXPLORE:
+    return "Explore";
    default:
-    log(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()");
+    log(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
     exit(0);
   }
   return 0;
