@@ -24,9 +24,10 @@ struct unit;
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
 struct mapview_canvas {
-  int map_x0, map_y0;
+  int gui_x0, gui_y0;
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
+  int store_width, store_height;
   struct canvas *store, *single_tile;
 };
 

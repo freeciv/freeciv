@@ -162,6 +162,87 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
   }
 }
 
+/****************************************************************************
+  Translate from map to gui coordinate systems.
+
+  GUI coordinates are comparable to canvas coordinates but extend in all
+  directions.  gui(0,0) == map(0,0).
+****************************************************************************/
+static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
+{
+  if (is_isometric) {
+    /*
+     * Convert the map coordinates to isometric GUI
+     * coordinates.  We'll make tile map(0,0) be the origin, and
+     * transform like this:
+     * 
+     *                     3
+     * 123                2 6
+     * 456 -> becomes -> 1 5 9
+     * 789                4 8
+     *                     7
+     */
+    *gui_x = (map_x - map_y) * NORMAL_TILE_WIDTH / 2;
+    *gui_y = (map_x + map_y) * NORMAL_TILE_HEIGHT / 2;
+  } else {
+    *gui_x = map_x * NORMAL_TILE_HEIGHT;
+    *gui_y = map_y * NORMAL_TILE_WIDTH;
+  }
+}
+
+/****************************************************************************
+  Translate from gui to map coordinate systems.  See map_to_gui_pos().
+
+  Note that you lose some information in this conversion.  If you convert
+  from a gui position to a map position and back, you will probably not get
+  the same value you started with.
+****************************************************************************/
+static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
+{
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+
+  if (is_isometric) {
+    /* The basic operation here is a simple pi/4 rotation; however, we
+     * have to first scale because the tiles have different width and
+     * height.  Mathematically, this looks like
+     *   | 1/W  1/H | |x|    |x`|
+     *   |          | | | -> |  |
+     *   |-1/W  1/H | |y|    |y`|
+     *
+     * Where W is the tile width and H the height.
+     *
+     * In simple terms, this is
+     *   map_x = [   x / W + y / H ]
+     *   map_y = [ - x / W + y / H ]
+     * where [q] stands for integer part of q.
+     *
+     * Here the division is proper mathematical floating point division.
+     *
+     * A picture demonstrating this can be seen at
+     * http://rt.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
+     *
+     * We have to subtract off a half-tile in the X direction before doing
+     * the transformation.  This is because, although the origin of the tile
+     * is the top-left corner of the bounding box, after the transformation
+     * the top corner of the diamond-shaped tile moves into this position.
+     *
+     * The calculation is complicated somewhat because of two things: we
+     * only use integer math, and C integer division rounds toward zero
+     * instead of rounding down.
+     *
+     * For another example of this math, see canvas_to_city_pos().
+     */
+    gui_x -= W / 2;
+    *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
+    *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
+  } else {			/* is_isometric */
+    /* We use DIVIDE so that we will get the correct result even
+     * for negative coordinates. */
+    *map_x = DIVIDE(gui_x, W);
+    *map_y = DIVIDE(gui_y, H);
+  }
+}
+
 /**************************************************************************
   Finds the canvas coordinates for a map position. Beside setting the results
   in canvas_x, canvas_y it returns whether the tile is inside the
@@ -201,52 +282,20 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
   map_x = center_map_x + dx;
   map_y = center_map_y + dy;
 
-  if (is_isometric) {
-    /* For a simpler example of this math, see city_to_canvas_pos(). */
-    int iso_x, iso_y;
-
-    /*
-     * Next we convert the flat GUI coordinates to isometric GUI
-     * coordinates.  We'll make tile (x0, y0) be the origin, and
-     * transform like this:
-     * 
-     *                     3
-     * 123                2 6
-     * 456 -> becomes -> 1 5 9
-     * 789                4 8
-     *                     7
-     */
-    iso_x = (map_x - map_y)
-      - (mapview_canvas.map_x0 - mapview_canvas.map_y0);
-    iso_y = (map_x + map_y)
-      - (mapview_canvas.map_x0 + mapview_canvas.map_y0);
-
-    /*
-     * As the above picture shows, each isometric-coordinate unit
-     * corresponds to a half-tile on the canvas.  Since the (x0, y0)
-     * tile actually has its top corner (of the diamond-shaped tile)
-     * located right at the corner of the canvas, to find the top-left
-     * corner of the surrounding rectangle we must subtract off an
-     * additional half-tile in the X direction.
-     */
-    *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
-    *canvas_y = iso_y * NORMAL_TILE_HEIGHT / 2;
-  } else {			/* is_isometric */
-    *canvas_x = map_x - mapview_canvas.map_x0;
-    *canvas_y = map_y - mapview_canvas.map_y0;
-
-    *canvas_x *= NORMAL_TILE_WIDTH;
-    *canvas_y *= NORMAL_TILE_HEIGHT;
-  }
+  map_to_gui_pos(canvas_x, canvas_y, map_x, map_y);
+  *canvas_x -= mapview_canvas.gui_x0;
+  *canvas_y -= mapview_canvas.gui_y0;
 
   /*
    * Finally we clip; checking to see if _any part_ of the tile is
-   * visible on the canvas.
+   * present on the backing store.  (Even if it's not visible on the canvas,
+   * if it's present on the backing store we need to draw it in case the
+   * canvas is resized.)
    */
   return (*canvas_x > -NORMAL_TILE_WIDTH
-	  && *canvas_x < mapview_canvas.width
+	  && *canvas_x < mapview_canvas.store_width
 	  && *canvas_y > -NORMAL_TILE_HEIGHT
-	  && *canvas_y < mapview_canvas.height);
+	  && *canvas_y < mapview_canvas.store_height);
 }
 
 /****************************************************************************
@@ -256,45 +305,9 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
                                   int canvas_x, int canvas_y)
 {
-  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-
-  if (is_isometric) {
-    /* The basic operation here is a simple pi/4 rotation; however, we
-     * have to first scale because the tiles have different width and
-     * height.  Mathematically, this looks like
-     *   | 1/W  1/H | |x|    |x`|
-     *   |          | | | -> |  |
-     *   |-1/W  1/H | |y|    |y`|
-     *
-     * Where W is the tile width and H the height.
-     *
-     * In simple terms, this is
-     *   map_x = [   x / W + y / H ]
-     *   map_y = [ - x / W + y / H ]
-     * where [q] stands for integer part of q.
-     *
-     * Here the division is proper mathematical floating point division.
-     *
-     * A picture demonstrating this can be seen at
-     * http://rt.freeciv.org/Ticket/Attachment/16782/9982/grid1.png.
-     *
-     * The calculation is complicated somewhat because of two things: we
-     * only use integer math, and C integer division rounds toward zero
-     * instead of rounding down.
-     *
-     * For another example of this math, see canvas_to_city_pos().
-     */
-    *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
-    *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
-  } else {			/* is_isometric */
-    /* We use DIVIDE so that we will get the correct result even
-     * for negative (off-canvas) coordinates. */
-    *map_x = DIVIDE(canvas_x, W);
-    *map_y = DIVIDE(canvas_y, H);
-  }
-
-  *map_x += mapview_canvas.map_x0;
-  *map_y += mapview_canvas.map_y0;
+  gui_to_map_pos(map_x, map_y,
+		 canvas_x + mapview_canvas.gui_x0,
+		 canvas_y + mapview_canvas.gui_y0);
 }
 
 
@@ -313,35 +326,28 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 /****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
-static void set_mapview_origin(int map_x0, int map_y0)
+static void set_mapview_origin(int gui_x0, int gui_y0)
 {
-  int nat_x0, nat_y0, xmin, xmax, ymin, ymax, xsize, ysize;
+  int xmin, xmax, ymin, ymax, xsize, ysize;
 
   /* First wrap/clip the position.  Wrapping is done in native positions
    * while clipping is done in scroll (native) positions. */
-  map_to_native_pos(&nat_x0, &nat_y0, map_x0, map_y0);
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
 
-  if (topo_has_flag(TF_WRAPX)) {
-    nat_x0 = FC_WRAP(nat_x0, map.xsize);
-  } else {
-    nat_x0 = CLIP(xmin, nat_x0, xmax - xsize);
+  if (!topo_has_flag(TF_WRAPX)) {
+    gui_x0 = CLIP(xmin, gui_x0, xmax - xsize);
   }
 
-  if (topo_has_flag(TF_WRAPY)) {
-    nat_y0 = FC_WRAP(nat_y0, map.ysize);
-  } else {
-    nat_y0 = CLIP(ymin, nat_y0, ymax - ysize);
+  if (!topo_has_flag(TF_WRAPY)) {
+    gui_y0 = CLIP(ymin, gui_y0, ymax - ysize);
   }
-
-  native_to_map_pos(&map_x0, &map_y0, nat_x0, nat_y0);
 
   /* Then update everything. */
-  if (mapview_canvas.map_x0 != map_x0 || mapview_canvas.map_y0 != map_y0) {
+  if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
     int map_center_x, map_center_y;
 
-    mapview_canvas.map_x0 = map_x0;
-    mapview_canvas.map_y0 = map_y0;
+    mapview_canvas.gui_x0 = gui_x0;
+    mapview_canvas.gui_y0 = gui_y0;
 
     get_center_tile_mapcanvas(&map_center_x, &map_center_y);
     center_tile_overviewcanvas(map_center_x, map_center_y);
@@ -384,103 +390,50 @@ static void set_mapview_origin(int map_x0, int map_y0)
 void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 			       int *xsize, int *ysize)
 {
-  /* There are a number of factors that must be taken into account in
-   * calculating these values:
-   *
-   * 1. Basic constraints: X should generally range from 0 to map.xsize;
-   * Y from 0 to map.ysize.
-   *
-   * 2. Non-aligned borders: if the borders don't line up (an iso-view client
-   * with a standard map, for instance) the minimum and maximum must be
-   * extended if the map doesn't wrap in that direction.  They are extended
-   * by an amount proportional to the size of the screen.
-   *
-   * 3. Compression: on an iso-map native coordinates are compressed 2x in
-   * the X direction.
-   *
-   * 4. Translation: the min and max values give a range for the origin.
-   * Since the base constraint is on the minimal value contained in the
-   * mapview, we have to translate the minimum and maximum to account for
-   * this.
-   *
-   * 5. Wrapping: if the map wraps in a given direction, no border adjustment
-   * or translation is needed.  Instead we have to make sure the range is
-   * large enough to get the full wrap.
-   */
-  *xmin = 0;
-  *ymin = 0;
-  *xmax = map.xsize;
-  *ymax = map.ysize;
+  *xsize = mapview_canvas.width;
+  *ysize = mapview_canvas.height;
 
-  if (topo_has_flag(TF_ISO) != is_isometric) {
-    /* The mapview window is aligned differently than the map.  In this
-     * case we need to give looser constraints because (if the map doesn't
-     * wrap) the edges will not line up well. */
+  if (topo_has_flag(TF_ISO) == is_isometric) {
+    /* If the map and view line up, it's easy. */
+    native_to_map_pos(xmin, ymin, 0, 0);
+    map_to_gui_pos(xmin, ymin, *xmin, *ymin);
 
-    /* These are the dimensions of the bounding box. */
-    *xsize = *ysize =
-      mapview_canvas.tile_width + mapview_canvas.tile_height;
+    native_to_map_pos(xmax, ymax, map.xsize - 1, map.ysize - 1);
+    map_to_gui_pos(xmax, ymax, *xmax, *ymax);
+    *xmax += NORMAL_TILE_WIDTH;
+    *ymax += NORMAL_TILE_HEIGHT;
 
-    if (is_isometric) {
-      /* Step 2: Calculate extra border distance. */
-      *xmin = *ymin = -(MAX(mapview_canvas.tile_width,
-			    mapview_canvas.tile_height) + 1) / 2;
-      *xmax -= *xmin;
-      *ymax -= *ymin;
-
-      /* Step 4: Translate the Y coordinate.  The mapview origin is at the
-       * top-left corner of the window, which is offset at +tile_width from
-       * the minimum Y value (at the top-right corner). */
-      *ymin += mapview_canvas.tile_width;
-      *ymax += mapview_canvas.tile_width;
-    } else {
-      /* Compression. */
-      *xsize = (*xsize + 1) / 2;
-
-      /* Step 2: calculate border adjustment. */
-      *ymin = -(MAX(mapview_canvas.tile_width,
-		    mapview_canvas.tile_height) + 1) / 2;
-      *xmin = (*ymin + 1) / 2; /* again compressed */
-      *xmax -= *xmin;
-      *ymax -= *ymin;
-
-      /* Step 4: translate the X coordinate.  The mapview origin is at the
-       * top-left corner of the window, which is offset at +tile_height/2
-       * from the minimum X value (at the bottom-left corner). */
-      *xmin += mapview_canvas.tile_height / 2;
-      *xmax += (mapview_canvas.tile_height + 1) / 2;
+    /* To be able to center on positions near the edges, we have to be
+     * allowed to scroll past those edges. */
+    if (topo_has_flag(TF_WRAPX)) {
+      *xmax += *xsize;
+    }
+    if (topo_has_flag(TF_WRAPY)) {
+      *ymax += *ysize;
     }
   } else {
-    *xsize = mapview_canvas.tile_width;
-    *ysize = mapview_canvas.tile_height;
+    /* Otherwise it's hard.  Very hard.  Impossible, in fact.  This is just
+     * an approximation - a huge bounding box. */
+    int gui_x1, gui_y1, gui_x2, gui_y2, gui_x3, gui_y3, gui_x4, gui_y4;
+    int map_x, map_y;
 
-    if (is_isometric) {
-      /* Compression: Each vertical half-tile corresponds to one native
-       * unit (a full horizontal tile corresponds to a native unit). */
-      *ysize = (mapview_canvas.height - 1) / (NORMAL_TILE_HEIGHT / 2) + 1;
+    native_to_map_pos(&map_x, &map_y, 0, 0);
+    map_to_gui_pos(&gui_x1, &gui_y1, map_x, map_y);
 
-      /* Isometric fixes: the above calculations are in half-tiles; since we
-       * need to see full tiles we have to extend the range a bit.  This also
-       * corrects for the off-by-one error caused by the X compression of
-       * native coordinates. */
-      (*xmin)--;
-      (*xmax)++;
-      (*ymax) += 2;
-    } else {
-      (*ymax)++;
-    }
-  }
+    native_to_map_pos(&map_x, &map_y, map.xsize - 1, 0);
+    map_to_gui_pos(&gui_x2, &gui_y2, map_x, map_y);
 
-  /* Now override the above to satisfy wrapping constraints.  We allow the
-   * scrolling to cover the full range of the map, plus one unit in each
-   * direction (to allow scrolling with the scroll bars, for instance). */
-  if (topo_has_flag(TF_WRAPX)) {
-    *xmin = -1;
-    *xmax = map.xsize + *xsize;
-  }
-  if (topo_has_flag(TF_WRAPY)) {
-    *ymin = -1;
-    *ymax = map.ysize + *ysize;
+    native_to_map_pos(&map_x, &map_y, 0, map.ysize - 1);
+    map_to_gui_pos(&gui_x3, &gui_y3, map_x, map_y);
+
+    native_to_map_pos(&map_x, &map_y, map.xsize - 1, map.ysize - 1);
+    map_to_gui_pos(&gui_x4, &gui_y4, map_x, map_y);
+
+    *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview_canvas.width / 2;
+    *ymin = MIN(gui_y1, MIN(gui_y2, gui_y3)) - mapview_canvas.height / 2;
+
+    *xmax = MAX(gui_x4, MAX(gui_x2, gui_x3)) + mapview_canvas.width / 2;
+    *ymax = MAX(gui_y4, MAX(gui_y2, gui_y3)) + mapview_canvas.height / 2;
   }
 
   freelog(LOG_DEBUG, "x: %d<-%d->%d; y: %d<-%d->%d",
@@ -493,8 +446,13 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 ****************************************************************************/
 void get_mapview_scroll_step(int *xstep, int *ystep)
 {
-  *xstep = 1;
-  *ystep = (topo_has_flag(TF_ISO) ? 2 : 1);
+  *xstep = NORMAL_TILE_WIDTH;
+  *ystep = NORMAL_TILE_HEIGHT;
+
+  if (is_isometric) {
+    *xstep /= 2;
+    *ystep /= 2;
+  }
 }
 
 /****************************************************************************
@@ -502,8 +460,8 @@ void get_mapview_scroll_step(int *xstep, int *ystep)
 ****************************************************************************/
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)
 {
-  map_to_native_pos(scroll_x, scroll_y,
-		    mapview_canvas.map_x0, mapview_canvas.map_y0);
+  *scroll_x = mapview_canvas.gui_x0;
+  *scroll_y = mapview_canvas.gui_y0;
 }
 
 /****************************************************************************
@@ -511,10 +469,9 @@ void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)
 ****************************************************************************/
 void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 {
-  int map_x0, map_y0;
+  int gui_x0 = scroll_x, gui_y0 = scroll_y;
 
-  native_to_map_pos(&map_x0, &map_y0, scroll_x, scroll_y);
-  set_mapview_origin(map_x0, map_y0);
+  set_mapview_origin(gui_x0, gui_y0);
 }
 
 /**************************************************************************
@@ -534,7 +491,9 @@ void get_center_tile_mapcanvas(int *map_x, int *map_y)
 **************************************************************************/
 void center_tile_mapcanvas(int map_center_x, int map_center_y)
 {
-  int map_x = map_center_x, map_y = map_center_y;
+  int map_x = map_center_x, map_y = map_center_y, gui_x, gui_y;
+
+  CHECK_MAP_POS(map_center_x, map_center_y);
 
   /* Find top-left corner. */
   if (is_isometric) {
@@ -547,7 +506,8 @@ void center_tile_mapcanvas(int map_center_x, int map_center_y)
     map_y -= mapview_canvas.tile_height / 2;
   }
 
-  set_mapview_origin(map_x, map_y);
+  map_to_gui_pos(&gui_x, &gui_y, map_x, map_y);
+  set_mapview_origin(gui_x, gui_y);
 }
 
 /**************************************************************************
@@ -1260,6 +1220,8 @@ void update_map_canvas(int x, int y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
+  int map_x0, map_y0;
+
   dirty_all();
 
   /* Clear the entire mapview.  This is necessary since if the mapview is
@@ -1271,18 +1233,20 @@ void update_map_canvas_visible(void)
   canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK,
 		       0, 0, mapview_canvas.width, mapview_canvas.height);
 
+  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
        invisible tiles will not be drawn. */
     int width, height;
 
-    width = height = mapview_canvas.tile_width + mapview_canvas.tile_height;
-    update_map_canvas(mapview_canvas.map_x0,
-		      mapview_canvas.map_y0 - mapview_canvas.tile_width,
+    width = mapview_canvas.tile_width + mapview_canvas.tile_height + 2;
+    height = width;
+    update_map_canvas(map_x0 - 1, map_y0 - mapview_canvas.tile_width - 1,
 		      width, height, FALSE);
   } else {
-    update_map_canvas(mapview_canvas.map_x0, mapview_canvas.map_y0,
-		      mapview_canvas.tile_width, mapview_canvas.tile_height,
+    update_map_canvas(map_x0, map_y0,
+		      mapview_canvas.tile_width + 1,
+		      mapview_canvas.tile_height + 1,
 		      FALSE);
   }
 
@@ -1295,6 +1259,7 @@ void update_map_canvas_visible(void)
 void show_city_descriptions(void)
 {
   int canvas_x, canvas_y;
+  int map_x0, map_y0;
 
   if (!draw_city_names && !draw_city_productions) {
     return;
@@ -1302,12 +1267,13 @@ void show_city_descriptions(void)
 
   prepare_show_city_descriptions();
 
+  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
   if (is_isometric) {
     int w, h;
 
     for (h = -1; h < mapview_canvas.tile_height * 2; h++) {
-      int x_base = mapview_canvas.map_x0 + h / 2 + (h != -1 ? h % 2 : 0);
-      int y_base = mapview_canvas.map_y0 + h / 2 + (h == -1 ? -1 : 0);
+      int x_base = map_x0 + h / 2 + (h != -1 ? h % 2 : 0);
+      int y_base = map_y0 + h / 2 + (h == -1 ? -1 : 0);
 
       for (w = 0; w <= mapview_canvas.tile_width; w++) {
 	int x = x_base + w;
@@ -1324,10 +1290,10 @@ void show_city_descriptions(void)
   } else {			/* is_isometric */
     int x1, y1;
 
-    for (x1 = 0; x1 < mapview_canvas.tile_width; x1++) {
-      for (y1 = 0; y1 < mapview_canvas.tile_height; y1++) {
-	int x = mapview_canvas.map_x0 + x1;
-	int y = mapview_canvas.map_y0 + y1;
+    for (x1 = 0; x1 <= mapview_canvas.tile_width; x1++) {
+      for (y1 = 0; y1 <= mapview_canvas.tile_height; y1++) {
+	int x = map_x0 + x1;
+	int y = map_y0 + y1;
 	struct city *pcity;
 
 	if (normalize_map_pos(&x, &y)
@@ -1997,8 +1963,10 @@ void overview_to_map_pos(int *map_x, int *map_y,
 **************************************************************************/
 static void get_mapview_corners(int x[4], int y[4])
 {
-  map_to_overview_pos(&x[0], &y[0],
-		      mapview_canvas.map_x0, mapview_canvas.map_y0);
+  int map_x0, map_y0;
+
+  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
+  map_to_overview_pos(&x[0], &y[0], map_x0, map_y0);
 
   /* Note: these calculations operate on overview coordinates as if they
    * are native. */
@@ -2107,13 +2075,14 @@ void set_overview_dimensions(int width, int height)
 **************************************************************************/
 bool map_canvas_resized(int width, int height)
 {
+  int old_tile_width = mapview_canvas.tile_width;
+  int old_tile_height = mapview_canvas.tile_height;
+  int old_width = mapview_canvas.width, old_height = mapview_canvas.height;
   int tile_width = (width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
   int tile_height = (height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
-
-  if (mapview_canvas.tile_width == tile_width
-       && mapview_canvas.tile_height == tile_height) {
-      return FALSE;
-  }
+  int full_width = tile_width * NORMAL_TILE_WIDTH;
+  int full_height = tile_height * NORMAL_TILE_HEIGHT;
+  bool tile_size_changed, size_changed;
 
   /* Resized */
 
@@ -2122,25 +2091,38 @@ bool map_canvas_resized(int width, int height)
    * small resizings may lead to undrawn tiles. */
   mapview_canvas.tile_width = tile_width;
   mapview_canvas.tile_height = tile_height;
+  mapview_canvas.width = width;
+  mapview_canvas.height = height;
+  mapview_canvas.store_width = full_width;
+  mapview_canvas.store_height = full_height;
 
-  mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
-  mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
+  /* Check for what's changed. */
+  tile_size_changed = (tile_width != old_tile_width
+ 		       || tile_height != old_tile_height);
+  size_changed = (width != old_width || height != old_height);
 
-  if (mapview_canvas.store) {
-    canvas_free(mapview_canvas.store);
+  /* If the tile size has changed, resize the canvas. */
+  if (tile_size_changed) {
+    if (mapview_canvas.store) {
+      canvas_free(mapview_canvas.store);
+    }
+    mapview_canvas.store = canvas_create(full_width, full_height);
+    canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
+			 full_width, full_height);
   }
-  
-  mapview_canvas.store =
-      canvas_create(mapview_canvas.width, mapview_canvas.height);
-  canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
-		       mapview_canvas.width, mapview_canvas.height);
 
   if (map_exists() && can_client_change_view()) {
-    update_map_canvas_visible();
+    if (tile_size_changed) {
+      update_map_canvas_visible();
+      refresh_overview_canvas();
+    }
 
-    update_map_canvas_scrollbars_size();
-    update_map_canvas_scrollbars();
-    refresh_overview_canvas();
+    /* If the width/height has changed, update the scrollbars even if
+     * the backing store is not resized. */
+    if (size_changed) {
+      update_map_canvas_scrollbars_size();
+      update_map_canvas_scrollbars();
+    }
   }
 
   return TRUE;

@@ -87,8 +87,8 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
   map_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, tile_x, tile_y);
   rec_anchor_x += NORMAL_TILE_WIDTH / 2;
   rec_anchor_y += NORMAL_TILE_HEIGHT / 2;
-  rec_canvas_map_x0 = mapview_canvas.map_x0;
-  rec_canvas_map_y0 = mapview_canvas.map_y0;
+  /* FIXME: This may be off-by-one. */
+  canvas_to_map_pos(&rec_canvas_map_x0, &rec_canvas_map_y0, 0, 0);
   rec_w = rec_h = 0;
 }
 
@@ -165,6 +165,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
   const int H = NORMAL_TILE_HEIGHT,   half_H = H / 2;
   static int rec_tile_x = 9999, rec_tile_y = 9999;
   int tile_x, tile_y, diff_x, diff_y;
+  int map_x0, map_y0;
 
   canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y);
 
@@ -190,8 +191,10 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
   rec_w = rec_anchor_x - canvas_x;  /* width */
   rec_h = rec_anchor_y - canvas_y;  /* height */
 
-  diff_x = rec_canvas_map_x0 - mapview_canvas.map_x0;
-  diff_y = rec_canvas_map_y0 - mapview_canvas.map_y0;
+  /* FIXME: This may be off-by-one. */
+  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
+  diff_x = rec_canvas_map_x0 - map_x0;
+  diff_y = rec_canvas_map_y0 - map_y0;
 
   /*  Adjust width, height if mapview has recentered.
    */
