@@ -1414,6 +1414,7 @@ static void join_game_accept(struct player *pplayer, int rejoin)
   my_snprintf(packet.message, sizeof(packet.message),
 	      "%s %s.", (rejoin?"Welcome back":"Welcome"), pplayer->name);
   send_packet_join_game_reply(pplayer->conn, &packet);
+  pplayer->conn->established = 1;
   if (rejoin) {
     freelog(LOG_NORMAL, _("<%s@%s> has rejoined the game."),
 	    pplayer->name, pplayer->addr);

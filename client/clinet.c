@@ -86,6 +86,7 @@ extern char metaserver[];
 static void close_socket_nomessage(struct connection *pc)
 {
   pc->used = 0;
+  pc->established = 0;
   close(pc->sock);
 
   /* make sure not to use these accidently: */

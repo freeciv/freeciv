@@ -115,6 +115,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
 
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
+    aconnection.established = 1;
   } else {
     my_snprintf(msg, sizeof(msg),
 		_("You were rejected from the game: %s"), packet->message);

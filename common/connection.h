@@ -63,12 +63,17 @@ struct socket_packet_buffer {
 ***********************************************************/
 struct connection {
   int sock, used;
+  int established;		/* have negotiated initial packets */
   int first_packet;		/* check byte order on first packet */
   int byte_swap;		/* connection uses non-network byte order */
   struct player *player;	/* NULL for connections not yet associated
 				   with a specific player */
+  int observer;			/* connection is "observer", not controller;
+ 				   may be observing specific player, or all
+ 				   (implementation incomplete) */
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
+  char name[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
   /* "capability" gives the capability string of the executable (be it

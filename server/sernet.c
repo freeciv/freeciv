@@ -131,9 +131,10 @@ static void handle_readline_input_callback(char *line)
 void close_connection(struct connection *pconn)
 {
   close(pconn->sock);
-  pconn->used=0;
+  pconn->used = 0;
+  pconn->established = 0;
   pconn->player = NULL;
-  pconn->access_level=ALLOW_NONE;
+  pconn->access_level = ALLOW_NONE;
   free(pconn->buffer);
   free(pconn->send_buffer);
   pconn->buffer = NULL;
@@ -366,7 +367,29 @@ int sniff_packets(void)
     return 0;
   return 1;
 }
-  
+
+/********************************************************************
+  Make up a name for the connection, before we get any data from
+  it to use as a sensible name.  Name will be 'c' + integer,
+  guaranteed not to be the same as any other connection name,
+  nor player name nor user name (avoid possible confusions).
+  Returns pointer to static buffer.
+********************************************************************/
+static const char *makeup_connection_name(void)
+{
+  static unsigned long i = 0;
+  static char name[MAX_LEN_NAME];
+
+  for(;;) {
+    my_snprintf(name, sizeof(name), "c%lu", i++);
+    /* fixme: also find_conn_by_name() when implemented */
+    if (!find_player_by_name(name)
+	&& !find_player_by_user(name)) {
+      return name;
+    }
+  }
+  return NULL;	/* not reached */
+}
   
 /********************************************************************
  server accepts connections from client
@@ -396,6 +419,8 @@ int server_accept_connection(int sockfd)
     if (!pconn->used) {
       pconn->used = 1;
       pconn->sock = new_sock;
+      pconn->established = 0;
+      pconn->observer = 0;
       pconn->player = NULL;
       pconn->buffer = new_socket_packet_buffer();
       pconn->send_buffer = new_socket_packet_buffer();
@@ -403,10 +428,11 @@ int server_accept_connection(int sockfd)
       pconn->byte_swap = 0;
       pconn->access_level = (i?default_access_level:first_access_level);
 
+      sz_strlcpy(pconn->name, makeup_connection_name());
       sz_strlcpy(pconn->addr,
 		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 
-      freelog(LOG_VERBOSE, "connection from %s", pconn->addr);
+      freelog(LOG_VERBOSE, "connection (%s) from %s", pconn->name, pconn->addr);
       return 0;
     }
   }
