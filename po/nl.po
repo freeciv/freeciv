@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.10.0\n"
 "POT-Creation-Date: 2000-03-16 03:58-0800\n"
 "PO-Revision-Date: 2000-03-16 16:45+MET\n"
-"Last-Translator: Pieter J. Kersten <P.J.Kersten@hetnet.nl>\n"
+"Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -16,15 +16,15 @@ msgstr ""
 
 #: common/city.c:177
 msgid "?wonder:w"
-msgstr "wereldwonder"
+msgstr "?wereldwonder:w"
 
 #: common/city.c:186
 msgid "?built:B"
-msgstr "gebouwd"
+msgstr "?gebouwd:B"
 
 #: common/city.c:187
 msgid "?obsolete:O"
-msgstr "overtollig"
+msgstr "?overtollig:O"
 
 #: common/log.c:83
 #, c-format
@@ -87,7 +87,7 @@ msgstr "Spoorlijn"
 
 #: common/map.c:550 common/unit.c:854
 msgid "Irrigation"
-msgstr "Irigatie"
+msgstr "Irrigatie"
 
 #: common/map.c:552
 msgid "Farmland"
@@ -194,12 +194,10 @@ msgid "Pollution"
 msgstr "Verontreiniging"
 
 #: common/unit.c:855
-#, fuzzy
 msgid "Fortifying"
 msgstr "Fortificeren"
 
 #: common/unit.c:856
-#, fuzzy
 msgid "Fortified"
 msgstr "Gefortificeerd"
 
@@ -221,7 +219,7 @@ msgstr "Verken"
 
 #: common/unit.c:863
 msgid "Transform"
-msgstr "Verander"
+msgstr "Transformeer"
 
 #: client/gui-gtk/citydlg.c:931 client/gui-xaw/citydlg.c:1454
 #: common/unit.c:865
@@ -298,7 +296,7 @@ msgstr ""
 #: server/barbarian.c:432
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr "Inboorlingenopstand bij %s geleid door %s."
+msgstr "Inboorlingenopstand bij %s onder leiding van %s."
 
 #: server/barbarian.c:435
 #, c-format
@@ -381,17 +379,17 @@ msgstr "Spel: %s is geen geldige naam."
 #: server/citytools.c:617 server/citytools.c:647
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
-msgstr "Spel: %s omgezet van %s in %s."
+msgstr "Spel: %s in %s overgeplaatst van %s naar %s."
 
 #: server/citytools.c:639
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
-msgstr "Spel: Hoofdstad gewijzigd van %s naar %s."
+msgstr "Spel: Hoofdstad verplaatst van %s naar %s."
 
 #: server/citytools.c:670
 #, c-format
 msgid "Game: Transfered %s at (%d, %d) from %s to %s."
-msgstr "Spel: %s getransporteerd in (%d, %d) van %s naar %s."
+msgstr "Spel: %s in (%d, %d) overgeplaatst van %s naar %s."
 
 #: server/citytools.c:932
 #, c-format
@@ -399,13 +397,13 @@ msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
-"Spel: Uw natie is verzonken in burgeroorlog, %s is aangewezen als de leider "
-"van de rebellerende staten."
+"Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van "
+"de rebellerende staten."
 
 #: server/citytools.c:952
 #, c-format
 msgid "Game: %s declares allegiance to %s."
-msgstr "Spel: %s verklaart aliantie aan %s."
+msgstr "Spel: %s verklaart alliantie aan %s."
 
 #: server/citytools.c:981
 #, c-format
@@ -424,7 +422,7 @@ msgstr ""
 #: server/cityturn.c:555
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
-msgstr "Spel: %s verkoopt %s (overtollig) voor %d."
+msgstr "Spel: %s verkoopt %s (verouderd) voor %d."
 
 #: server/cityturn.c:734
 msgid "Game: WARNING, we're LOW on FUNDS sire."
@@ -448,7 +446,7 @@ msgstr "Spel: %s groeit naar grootte %d."
 #: server/cityturn.c:871
 #, c-format
 msgid "Game: Famine feared in %s."
-msgstr "Spel: Hongersnood gevreesd in %s"
+msgstr "Spel: Hongersnood gevreesd in %s."
 
 #: server/cityturn.c:903
 #, c-format
@@ -522,7 +520,7 @@ msgstr "Spel: %s is klaar met het bouwen van %s."
 #: server/cityturn.c:1349
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
-msgstr "Spel: Kan %s in %s niet meer onderhouden, gebouw verkocht!"
+msgstr "Spel: Kan onderhoud van %s in %s niet meer betalen, gebouw verkocht!"
 
 #: server/cityturn.c:1411
 #, c-format
@@ -534,18 +532,17 @@ msgstr "Spel: Verontreiniging bij %s."
 msgid ""
 "Game: %s suggest throttling growth to use %s (being built) more effectively."
 msgstr ""
-"Spel: %s adviseert beperking van groei om %s (wordt gebouwd) beter te "
-"benutten."
+"Spel: %s adviseert groeibeperking om %s (in aanbouw) beter te benutten."
 
 #: server/cityturn.c:1522
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Spel: Wij Loven De %s Dag viering in %s."
+msgstr "Spel: De 'Wij Loven De %s Dag' wordt gevierd in %s."
 
 #: server/cityturn.c:1530
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
-msgstr "Spel: Wij Loven De %s Dag afgezegd in %s."
+msgstr "Spel: De 'Wij Loven De %s Dag' afgezegd in %s."
 
 #: server/cityturn.c:1563
 #, c-format
@@ -572,19 +569,18 @@ msgstr ""
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"Spel: %s kan nog geen kolonisten bouwen en we kunnen niet onze enige stad "
-"opheffen."
+"Spel: %s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
 #: server/cityturn.c:1630
 #, c-format
 msgid "Game: %s is disbanded into %s."
-msgstr "Spel: %s is opgeheven in %s."
+msgstr "Spel: %s is ontbonden in %s."
 
 #: server/civserver.c:198
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
-"Waarschuwing: de %s optie is verouderd. Gebruik -m om de metaserver te "
+"Waarschuwing: de optie %s is verouderd. Gebruik -m om de metaserver te "
 "activeren.\n"
 
 #: server/civserver.c:229
@@ -651,12 +647,12 @@ msgstr "  -s, --server NAAM\tKondig deze server aan als host NAAM\n"
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug GETAL\tZet debug logging niveau (0,1,2,3,of "
-"3:bstand1,min,max:...)\n"
+"  -d, --debug GETAL\tZet debug logniveau (0,1,2,3,of "
+"3:bestand1,min,max:...)\n"
 
 #: client/civclient.c:119 server/civserver.c:260
 msgid "  -d, --debug NUM\tSet debug log level (0,1,2)\n"
-msgstr "  -d, --debug GETAL\tZet debug logging niveau (0,1,2)\n"
+msgstr "  -d, --debug GETAL\tZet debug logniveau (0,1,2)\n"
 
 #: client/civclient.c:121 server/civserver.c:262
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -712,12 +708,12 @@ msgstr ""
 #: server/civserver.c:832
 #, c-format
 msgid "Failed saving game as %s"
-msgstr "Kon spel niet als %s opslaan"
+msgstr "Kon spel niet als %s bewaren"
 
 #: server/civserver.c:834
 #, c-format
 msgid "Game saved as %s"
-msgstr "Spel opgeslagen als %s"
+msgstr "Spel bewaard als %s"
 
 #: server/civserver.c:861
 msgid "The game is already running."
@@ -725,7 +721,7 @@ msgstr "Het spel is al begonnen."
 
 #: server/civserver.c:865
 msgid "Starting game."
-msgstr "Start spel."
+msgstr "Spel begint."
 
 #: server/civserver.c:1188
 #, c-format
@@ -753,12 +749,12 @@ msgstr "Spel vol - %s is geweigerd."
 #: server/civserver.c:1276
 #, c-format
 msgid "<%s@%s> has rejoined the game."
-msgstr "<%s@%s> doet weer mee."
+msgstr "<%s@%s> speelt weer mee."
 
 #: server/civserver.c:1279
 #, c-format
 msgid "<%s@%s> has joined the game."
-msgstr "<%s@%s> doet mee."
+msgstr "<%s@%s> speelt mee."
 
 #: server/civserver.c:1286
 #, c-format
@@ -859,14 +855,13 @@ msgid "%s was rejected: mismatched capabilities"
 msgstr "%s is geweigerd: afwijkende mogelijkheden."
 
 #: server/civserver.c:1483
-#, fuzzy
 msgid "Sorry, you can't observe a barbarian."
-msgstr "Sorry, u kunt niet meedoen. Het spel is al begonnen."
+msgstr "Sorry, u kunt geen barbaren bekijken."
 
 #: server/civserver.c:1485
-#, fuzzy, c-format
+#, c-format
 msgid "No observation of barbarians - %s was rejected."
-msgstr "Spel begonnen - %s is geweigerd."
+msgstr "Barbaren kunnen niet bekeken worden - %s is geweigerd."
 
 #: server/civserver.c:1507 server/civserver.c:1550
 msgid "Sorry, you can't join.  The game is full."
@@ -995,7 +990,7 @@ msgstr "Spel: De %s hebben %s geleerd van de %s"
 #: server/diplhand.c:165
 #, c-format
 msgid "Game: You get %d gold."
-msgstr "Spel: U krijgt %s goud."
+msgstr "Spel: U krijgt %d goud."
 
 #: server/diplhand.c:171
 #, c-format
@@ -1044,7 +1039,7 @@ msgstr "Spel: Er is geen speler met de naam %s."
 
 #: server/mapgen.c:721
 msgid "Map generator: not enough start positions, fixing."
-msgstr "Kaartgenerator: niet genoeg startplaatsen, pas aan."
+msgstr "Kaartgenerator: niet genoeg startplaatsen, aanpassen."
 
 #: server/mapgen.c:724
 #, c-format
@@ -1158,7 +1153,7 @@ msgstr "Zielige"
 
 #: server/plrhand.c:91
 msgid "Useless"
-msgstr "Waardeloze"
+msgstr "Onbruikbare"
 
 #: server/plrhand.c:131
 #, c-format
@@ -1167,7 +1162,7 @@ msgstr "%2d: De %s %s\n"
 
 #: server/plrhand.c:135
 msgid "Historian Publishes!"
-msgstr "Historische Publicaties!"
+msgstr "Geschiedkundige Publicaties!"
 
 #: server/plrhand.c:177
 #, c-format
@@ -2026,9 +2021,8 @@ msgstr ""
 "terrein."
 
 #: server/stdinhand.c:494
-#, fuzzy
 msgid "Whether to enable fog of war"
-msgstr "Wel of geen ruimterace"
+msgstr "Of er oorlogsmist gebruikt moet worden"
 
 #: server/stdinhand.c:495
 msgid ""
@@ -2036,9 +2030,9 @@ msgid ""
 "units will be revealed to you.  You will still see terrain changes, such as "
 "roads, on all discovered land."
 msgstr ""
-"Als deze op 1 gezet is zullen alleen die eenheden binnen het gezichtsveld van "
-"uw eenheden aan u getoond worden. U zult nog steeds terreinwijzigingen als "
-"wegen e.d. op al het ontdekte land zien."
+"Als deze op 1 gezet is zullen alleen de eenheden binnen het gezichtsveld van "
+"uw eigen eenheden aan u worden getoond. U zult nog steeds terreinwijzigingen "
+"als wegen e.d. op al het ontdekte land zien."
 
 #: server/stdinhand.c:502
 msgid "Chance in diplomat/spy contests"
@@ -3489,7 +3483,7 @@ msgstr "Spel: De %s vernietigden de %s in %s."
 #: server/unitfunc.c:1076
 #, c-format
 msgid "Game: Your %s has been eliminated defending against a %s in %s."
-msgstr "Spel: Uw %s is ge-elimineerd tijdens verdediging tegen %s in %s."
+msgstr "Spel: Uw %s is ge-elimineerd bij de verdediging tegen %s in %s."
 
 #: server/unitfunc.c:1087
 #, c-format
@@ -3499,7 +3493,7 @@ msgstr "Spel: Uw %s is ge-elimineerd bij de verdediging tegen %s in %s."
 #: server/unitfunc.c:1093
 #, c-format
 msgid "Game: A%s %s %s was eliminated while infiltrating %s."
-msgstr "Spel: Een%s %s %s is ge-elimineerd tijden infiltratie van %s."
+msgstr "Spel: Een%s %s %s is ge-elimineerd bij het infiltreren van %s."
 
 #: server/unitfunc.c:1144
 #, c-format
@@ -3543,7 +3537,7 @@ msgstr "Spel: Uw %s is verloren gegaan op de diepzee."
 #: server/unitfunc.c:2014
 #, c-format
 msgid "Game: %s transported succesfully."
-msgstr "Spel: %s succesvol getransporteerd."
+msgstr "Spel: %s succesvol overgeplaatst."
 
 #: client/control.c:665 server/unitfunc.c:2077
 msgid "Game: Too far for this unit."
@@ -3708,7 +3702,7 @@ msgstr "Spel: %s heeft %s nodig voor groei, dus u kunt geen %s toevoegen."
 #: server/unithand.c:397
 #, c-format
 msgid "Game: cannot add %s to %s."
-msgstr "Spel: Kan %s niet aan %s toevoegen."
+msgstr "Spel: Kan %s niet toevoegen aan %s."
 
 #: server/unithand.c:406
 msgid "Game: Can't place city here."
@@ -4325,7 +4319,7 @@ msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
 msgstr ""
-"* Moet zet in een stad of naast land eindigen, of heeft 50% kans op vergaan."
+"* Moet zet in een stad of naast land eindigen, of heeft 50%% kans op vergaan."
 
 #: client/helpdata.c:728
 msgid "* Must end "
@@ -4817,38 +4811,31 @@ msgid "Unit Commands"
 msgstr "Eenheidsopdrachten"
 
 #: client/gui-gtk/citydlg.c:827 client/gui-gtk/citydlg.c:1233
-#, fuzzy
 msgid "_Activate unit"
-msgstr "Aktiveer eenheid"
+msgstr "Aktivive eenheid"
 
 #: client/gui-gtk/citydlg.c:829 client/gui-gtk/citydlg.c:1235
-#, fuzzy
 msgid "Activate unit, _close dialog"
-msgstr "Aktiveer eenheid, sluit dialoog"
+msgstr "Aktiveer eenheid, _sluit dialoog"
 
 #: client/gui-gtk/citydlg.c:831
-#, fuzzy
 msgid "_Sentry unit"
 msgstr "Zet eenheid op _wacht"
 
 #: client/gui-gtk/citydlg.c:833
-#, fuzzy
 msgid "_Fortify unit"
 msgstr "_Fortificeer eenheid"
 
 #. act+c
 #: client/gui-gtk/citydlg.c:835 client/gui-gtk/citydlg.c:1237
-#, fuzzy
 msgid "_Disband unit"
 msgstr "_Ontbind eenheid"
 
 #: client/gui-gtk/citydlg.c:837
-#, fuzzy
 msgid "Make new _homecity"
 msgstr "Maak _nieuwe hoofdstad"
 
 #: client/gui-gtk/citydlg.c:839
-#, fuzzy
 msgid "_Upgrade unit"
 msgstr "Waardeer eenheid _op"
 
@@ -4979,16 +4966,14 @@ msgstr "Koop Het!"
 #: client/gui-gtk/citydlg.c:1558 client/gui-gtk/citydlg.c:1628
 #: client/gui-gtk/citydlg.c:2040 client/gui-gtk/dialogs.c:402
 #: client/gui-gtk/dialogs.c:937 client/gui-gtk/dialogs.c:1247
-#, fuzzy
 msgid "_Yes"
-msgstr "Ja"
+msgstr "_Ja"
 
 #: client/gui-gtk/citydlg.c:1559 client/gui-gtk/citydlg.c:1630
 #: client/gui-gtk/citydlg.c:2041 client/gui-gtk/dialogs.c:403
 #: client/gui-gtk/dialogs.c:938 client/gui-gtk/dialogs.c:1248
-#, fuzzy
 msgid "_No"
-msgstr "Nee"
+msgstr "_Nee"
 
 #: client/gui-gtk/citydlg.c:1563 client/gui-xaw/citydlg.c:2051
 #, c-format
@@ -5023,7 +5008,7 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Waardeer %d op naar %s voor %d goud?\n"
+"Waardeer %s op naar %s voor %d goud?\n"
 "Schatkist bevat %d goud."
 
 #. "upgradedialog"
@@ -5042,7 +5027,6 @@ msgstr ""
 "Schatkist bevat %d goud."
 
 #: client/gui-gtk/citydlg.c:1753
-#, fuzzy
 msgid "Type"
 msgstr "Type"
 
@@ -5055,9 +5039,8 @@ msgid "Cost"
 msgstr "Kosten"
 
 #: client/gui-gtk/citydlg.c:1753
-#, fuzzy
 msgid "Turns"
-msgstr "Turkse"
+msgstr "Beurten"
 
 #: client/gui-gtk/citydlg.c:1770 data/Freeciv:1998
 msgid "Change Production"
@@ -5072,17 +5055,14 @@ msgid "_Help"
 msgstr "_Help"
 
 #: client/gui-gtk/citydlg.c:1849
-#, fuzzy
 msgid "Wonder"
 msgstr "Wereldwonder"
 
 #: client/gui-gtk/citydlg.c:1850
-#, fuzzy
 msgid "Built"
-msgstr "Einde"
+msgstr "Gebouwd"
 
 #: client/gui-gtk/citydlg.c:1851
-#, fuzzy
 msgid "Obsolete"
 msgstr "Verouderd"
 
@@ -5237,7 +5217,8 @@ msgstr "Spel: Kies een eenheid of verbetering om produktie van te veranderen."
 
 #: client/gui-gtk/cityrep.c:806
 msgid "Game: Select a unit or improvement to change production to."
-msgstr "Spel: Kies een eenheid of verbetering om de produktie in te veranderen."
+msgstr ""
+"Spel: Kies een eenheid of verbetering om de produktie in te veranderen."
 
 #: client/gui-gtk/cityrep.c:816
 msgid "Game: That's the same thing!"
@@ -5268,7 +5249,7 @@ msgstr "Verander"
 #: client/gui-gtk/cityrep.c:1038 client/gui-xaw/cityrep.c:445
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "Spel: %d kost %d goud en u heeft slechts %d goud."
+msgstr "Spel: %s kost %d goud en u heeft slechts %d goud."
 
 #: client/gui-gtk/cityrep.c:1268 data/Freeciv:1648
 msgid "Configure City Report"
@@ -5467,27 +5448,22 @@ msgid "Sir, the diplomat is waiting for your command"
 msgstr "Sire, de diplomaat wacht op uw orders"
 
 #: client/gui-gtk/dialogs.c:979 client/gui-gtk/dialogs.c:1000
-#, fuzzy
 msgid "Establish _Embassy"
 msgstr "Vestig _Ambassade"
 
 #: client/gui-gtk/dialogs.c:980
-#, fuzzy
 msgid "_Investigate City"
 msgstr "_Onderzoek Stad"
 
 #: client/gui-gtk/dialogs.c:981
-#, fuzzy
 msgid "_Sabotage City"
 msgstr "_Saboteer stad"
 
 #: client/gui-gtk/dialogs.c:982 client/gui-gtk/dialogs.c:1004
-#, fuzzy
 msgid "Steal _Technology"
 msgstr "Steel _Technologie"
 
 #: client/gui-gtk/dialogs.c:983 client/gui-gtk/dialogs.c:1005
-#, fuzzy
 msgid "Incite a _Revolt"
 msgstr "Begin een _Revolutie"
 
@@ -5502,17 +5478,14 @@ msgid "Sir, the spy is waiting for your command"
 msgstr "Sire, de spion wacht op uw orders"
 
 #: client/gui-gtk/dialogs.c:1001
-#, fuzzy
 msgid "_Investigate City (free)"
 msgstr "Onderzoek Stad (gratis)"
 
 #: client/gui-gtk/dialogs.c:1002
-#, fuzzy
 msgid "_Poison City"
 msgstr "_Vergiftig Stad"
 
 #: client/gui-gtk/dialogs.c:1003
-#, fuzzy
 msgid "Industrial _Sabotage"
 msgstr "Industrieële _Sabotage"
 
@@ -5522,12 +5495,10 @@ msgid "Subvert Enemy Unit"
 msgstr "Werp Vijandelijke Eenheid Omver"
 
 #: client/gui-gtk/dialogs.c:1032
-#, fuzzy
 msgid "_Bribe Enemy Unit"
 msgstr "_Koop Vijandelijke Eenheid Om"
 
 #: client/gui-gtk/dialogs.c:1033
-#, fuzzy
 msgid "_Sabotage Enemy Unit"
 msgstr "_Saboteer Vijandelijke Eenheid"
 
@@ -5546,19 +5517,16 @@ msgid "Your Caravan Has Arrived"
 msgstr "Uw Karavaan Is Aangekomen"
 
 #: client/gui-gtk/dialogs.c:1126
-#, fuzzy
 msgid "Establish _Traderoute"
-msgstr "Maak handelsroute"
+msgstr "Vestig _Handelsroute"
 
 #: client/gui-gtk/dialogs.c:1127
-#, fuzzy
 msgid "Help build _Wonder"
-msgstr "Help Wonder te bouwen"
+msgstr "Help _Wonder te bouwen"
 
 #: client/gui-gtk/dialogs.c:1128
-#, fuzzy
 msgid "_Keep moving"
-msgstr "Blijf doorgaan"
+msgstr "Blijf _doorgaan"
 
 #: client/gui-gtk/dialogs.c:1183
 msgid "Choose Your New Government"
@@ -6035,9 +6003,9 @@ msgid "Minor Tribe Village"
 msgstr "Klein Inboorlingen Dorp"
 
 #: client/gui-gtk/mapctrl.c:138
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s(%s)"
-msgstr "Stad: %s(%s) %s"
+msgstr "Stad: %s(%s)"
 
 #: client/gui-gtk/mapctrl.c:147 client/gui-xaw/mapctrl.c:142
 msgid "with City Walls"
@@ -6710,13 +6678,13 @@ msgid ""
 "Success prob.:   %5d %%\n"
 "Year of arrival: %8s"
 msgstr ""
-"Bevolking:         1234\n"
-"Onderhoud:          100 %\n"
-"Energie:            100 %\n"
-"Massa:            12345 ton\n"
-"Reistijd:          1234 jaar\n"
-"Succeskans:         100 %\n"
-"Jaar van aankomst: 1234 AD"
+"Bevolking:         %5d\n"
+"Onderhoud:         %5d %%\n"
+"Energie:           %5d %%\n"
+"Massa:             %5d ton\n"
+"Reistijd:          %5.1f jaar\n"
+"Succeskans:        %5d %%\n"
+"Jaar van aankomst: %8s"
 
 #: client/gui-gtk/wldlg.c:157 data/Freeciv:1901
 msgid "Available worklists"
@@ -7061,12 +7029,10 @@ msgid "Activate unit, close dialog"
 msgstr "Aktiveer eenheid, sluit dialoog"
 
 #: data/Freeciv:1137
-#, fuzzy
 msgid "Sentry unit"
 msgstr "Zet eenheid op wacht"
 
 #: data/Freeciv:1141
-#, fuzzy
 msgid "Fortify unit"
 msgstr "Fortificeer eenheid"
 
@@ -7717,7 +7683,6 @@ msgstr ""
 "van kracht): Krijgers, Phalanx, Piekeniers, Musketiers en Infanteristen."
 
 #: data/helpdata.txt:550
-#, c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
 "or outside cities can create or reduce unhappiness. Also remember that when "
@@ -8065,7 +8030,6 @@ msgstr ""
 "gemakkelijkst is om deze te beschouwen als een apart type eenheid."
 
 #: data/helpdata.txt:737
-#, c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
 "benefit from roads and railroads.  They cannot move on ocean squares except "
@@ -8423,7 +8387,6 @@ msgstr ""
 "aanvaller is 80 en de sterkte van de verdediger is 202."
 
 #: data/helpdata.txt:903
-#, c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
 "the number is greater than 202 (about a 28% chance), the defender loses 1 "
@@ -8439,7 +8402,6 @@ msgstr ""
 #. ; defender's 20 HP total.  The defender should win the other 20,
 #. ; killing the attacker.
 #: data/helpdata.txt:913
-#, c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
 "defender.  The defender will probably lose somewhere around 40% of its hit "
@@ -8494,7 +8456,6 @@ msgstr ""
 "respectievelijk 180 en 225."
 
 #: data/helpdata.txt:940
-#, c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 2 hit points (the "
@@ -8511,7 +8472,6 @@ msgstr ""
 #. ; Troops (precisely to 0 hit points), and inflict 12 hit points on
 #. ; the Battleship's 40 HP total.
 #: data/helpdata.txt:951
-#, c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
 "is 25% less likely to score a hit in any given round, but when it does, it "
@@ -9356,7 +9316,6 @@ msgstr "Waterkracht Centrale"
 
 #: data/civ1/buildings.ruleset:244 data/civ2/buildings.ruleset:260
 #: data/default/buildings.ruleset:260
-#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -9435,7 +9394,6 @@ msgstr "Kerncentrale"
 
 #: data/civ1/buildings.ruleset:318 data/civ2/buildings.ruleset:334
 #: data/default/buildings.ruleset:334
-#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -9526,7 +9484,6 @@ msgstr "Electriciteits Centrale"
 
 #: data/civ1/buildings.ruleset:389 data/civ2/buildings.ruleset:421
 #: data/default/buildings.ruleset:421
-#, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -11139,40 +11096,33 @@ msgstr "?plural:Thai"
 
 #: data/default/nations.ruleset:1598
 msgid "Mordor"
-msgstr "Mordor"
+msgstr "Mordorse"
 
 #: data/default/nations.ruleset:1599
-#, fuzzy
 msgid "?plural:Mordors"
-msgstr "?plural:Mongolen"
+msgstr "?plural:Mordoren"
 
 #: data/default/nations.ruleset:1607
-#, fuzzy
 msgid "Overlord"
 msgstr "Opperheer"
 
 #: data/default/nations.ruleset:1608
-#, fuzzy
 msgid "Dark Lord"
 msgstr "Donkere Heer"
 
 #: data/default/nations.ruleset:1630
-#, fuzzy
 msgid "Bavarian"
 msgstr "Bavariaanse"
 
 #: data/default/nations.ruleset:1631
-#, fuzzy
 msgid "?plural:Bavarians"
 msgstr "?plural:Baverianen"
 
 #: data/default/nations.ruleset:1656
-#, fuzzy
 msgid "Brazilian"
 msgstr "Brazilianen"
 
 #: data/default/nations.ruleset:1657
-#, fuzzy
 msgid "?plural:Brazilians"
 msgstr "?plural:Brazilianen"
 
@@ -11399,7 +11349,7 @@ msgstr "Magnetisme"
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
 #: data/default/techs.ruleset:319
 msgid "Map Making"
-msgstr "Kaarten Maken"
+msgstr "Landkaarten Maken"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
 #: data/default/techs.ruleset:325
@@ -12502,8 +12452,8 @@ msgid ""
 "ready to fix the pollution on the same turn it occurs!  This minimises the "
 "chance of global warming.  Eco-friendly nukes!"
 msgstr ""
-"U kunt kernraketten bouwen wanneer u de vereiste voorsprong geeft, "
-"en het Manhattan Project wonder is gebouwd door een willekeurige speler.\n"
+"U kunt kernraketten bouwen wanneer u de vereiste voorsprong geeft, en het "
+"Manhattan Project wonder is gebouwd door een willekeurige speler.\n"
 "\n"
 "Bij inslag zal de explosie elke eenheid binnen een 3x3 vlak vernietigen, "
 "inclusief bevriende eenheden. Wanneer een stad geraakt wordt, wordt de "
