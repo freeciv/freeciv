@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2002-11-18 07:07+0100\n"
+"POT-Creation-Date: 2002-11-22 21:49+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -2221,18 +2221,18 @@ msgstr ""
 "Liczba pozycji startowych (%d) jest mniejsza od max_players (%d), zmniejszam "
 "max_players."
 
-#: server/savegame.c:1697
+#: server/savegame.c:1716
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 "Plik stanu gry jest zbyt stary, wymagana jest wersja co najmniej 1.9.0."
 
-#: server/savegame.c:1860
+#: server/savegame.c:1879
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Plik stanu gry u¿ywa klasycznych zasad terenu, które nie s± ju¿ wspierane."
 
-#: server/savegame.c:1869
+#: server/savegame.c:1888
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4928,7 +4928,7 @@ msgstr "Gra: Tylko %s mog± atakowaæ z morza."
 msgid "Game: Cannot attack from sea."
 msgstr "Gra: Nie mo¿esz atakowaæ z morza."
 
-#: server/unithand.c:852
+#: server/unithand.c:852 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Gra: Nie mo¿esz atakowaæ zanim nie wypowiesz wojny."
 
@@ -5205,85 +5205,85 @@ msgstr "Gra: %s u¿y³(a) broni j±drowej!"
 msgid "Game: %s transported succesfully."
 msgstr "Gra: Jednostka %s bezpiecznie przetransportowana."
 
-#: server/unittools.c:2258
+#: server/unittools.c:2261
 msgid "Game: This unit type can not be paradropped."
 msgstr "Gra: Ta jednostka nie mo¿e byæ przerzucona."
 
-#: server/unittools.c:2267
+#: server/unittools.c:2270
 msgid "Game: The destination location is not known."
 msgstr "Gra: Cel jest nieznany."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2276
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Gra: Nie mo¿na przerzuciæ jednostki do oceanu."
 
-#: server/unittools.c:2282
+#: server/unittools.c:2293
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Gra: Odleg³o¶æ do celu (%i) jest wiêksza od zasiêgu danej jednostki (%i)."
 
-#: server/unittools.c:2294
+#: server/unittools.c:2305
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Gra: Twoi %s zostali zrzuceni do morza i zginêli."
 
-#: server/unittools.c:2306
+#: server/unittools.c:2317 server/unittools.c:2329
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Gra: Twoi %s zostali zabici przez jednostki wroga podczas l±dowania."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2352
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Gra: Znalaz³e¶ %d z³ota."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2378
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Gra: Odkry³e¶ technologiê %s w pradawnych zbiorach wiedzy."
 
-#: server/unittools.c:2357
+#: server/unittools.c:2380
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s odkry³ %s (Chatka)"
 
-#: server/unittools.c:2359
+#: server/unittools.c:2382
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Gra: %s znale¼li technologiê %s w pradawnych zbiorach wiedzy."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2402
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Gra: Przyja¼nie nastawieni najemnicy przy³±czyli siê do ciebie."
 
-#: server/unittools.c:2396
+#: server/unittools.c:2419
 msgid "Game: An abandoned village is here."
 msgstr "Gra: Ta wioska jest opuszczona."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2431
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Gra: Sprowokowa³e¶ barbarzyñców do ataku!"
 
-#: server/unittools.c:2411
+#: server/unittools.c:2434
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Gra: %s zosta³(a) zabity przez barbarzyñców!"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2450
 msgid "Game: You found a friendly city."
 msgstr "Gra: Znalaz³e¶ przyjazne miasto."
 
-#: server/unittools.c:2432
+#: server/unittools.c:2455
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Gra: Przyjazne oddzia³y s± zachwycone tob± i przy³±czaj± siê."
 
-#: server/unittools.c:2456
+#: server/unittools.c:2479
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Gra: Twój przelot wystraszy³ tubylców; uciekli wystraszeni."
 
-#: server/unittools.c:3095
+#: server/unittools.c:3118
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -17903,4 +17903,3 @@ msgstr "Zuluski"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "Zulusi"
-

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2002-11-16 23:05+0100\n"
+"POT-Creation-Date: 2002-11-22 21:49+0100\n"
 "PO-Revision-Date: 2002-10-26 22:00+0200\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -2264,19 +2264,19 @@ msgstr ""
 "Numero di partecipanti (%d) è più basso del massimo dei giocatori (%d), "
 "diminuisco il massimo di giocatori."
 
-#: server/savegame.c:1697
+#: server/savegame.c:1716
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 "File di salvataggio troppo vecchio, è richiesta almeno la versione 1.9.0."
 
-#: server/savegame.c:1860
+#: server/savegame.c:1879
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Il file di salvataggio utilizza il ruleset di terreno classic che non è più "
 "supportato."
 
-#: server/savegame.c:1869
+#: server/savegame.c:1888
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5017,7 +5017,7 @@ msgstr "Gioco: solo i %s possono attaccare dal mare."
 msgid "Game: Cannot attack from sea."
 msgstr "Gioco: impossibile attaccare dal mare."
 
-#: server/unithand.c:852
+#: server/unithand.c:852 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Gioco: impossibile attaccare finché non dichiarate guerra."
 
@@ -5303,19 +5303,19 @@ msgstr "Gioco: gli %s hanno fatto esplodere una bomba nucleare."
 msgid "Game: %s transported succesfully."
 msgstr "Gioco: %s trasportato con successo."
 
-#: server/unittools.c:2258
+#: server/unittools.c:2261
 msgid "Game: This unit type can not be paradropped."
 msgstr "Gioco: questo tipo di unità non può essere paracadutato."
 
-#: server/unittools.c:2267
+#: server/unittools.c:2270
 msgid "Game: The destination location is not known."
 msgstr "Gioco: la posizione della destinazione non è conosciuta."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2276
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Gioco: impossibile paracadutare nell'oceano."
 
-#: server/unittools.c:2282
+#: server/unittools.c:2293
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5323,71 +5323,71 @@ msgstr ""
 "Gioco: la distanza fino al bersaglio (%i) è maggiore dell'autonomia "
 "dell'unità (%i)."
 
-#: server/unittools.c:2294
+#: server/unittools.c:2305
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Gioco: il vostro %s è stato paracadutato nell'oceano ed è morto."
 
-#: server/unittools.c:2306
+#: server/unittools.c:2317 server/unittools.c:2329
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Gioco: il vostro %s è stato ucciso da unità nemiche nella zona in cui è "
 "stato paracadutato."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2352
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Gioco: avete trovato %d auri."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2378
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Gioco: avete trovato %s in delle antiche pergamene di saggezza."
 
-#: server/unittools.c:2357
+#: server/unittools.c:2380
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s scoprono %s (Capanna)"
 
-#: server/unittools.c:2359
+#: server/unittools.c:2382
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr ""
 "Gioco: gli %s hanno acquisito %s da delle antiche pergamene di saggezza."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2402
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Gioco: una banda di mercenari amichevoli si unisce alla vostra causa."
 
-#: server/unittools.c:2396
+#: server/unittools.c:2419
 msgid "Game: An abandoned village is here."
 msgstr "Gioco: qui c'è un villaggio abbandonato."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2431
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Gioco: avete scatenato un'orda di barbari!"
 
-#: server/unittools.c:2411
+#: server/unittools.c:2434
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Gioco: il vostro %s è stato ucciso dai barbari!"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2450
 msgid "Game: You found a friendly city."
 msgstr "Gioco: Avete fondato una città."
 
-#: server/unittools.c:2432
+#: server/unittools.c:2455
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Gioco: avete impressionato dei nomadi amichevoli, che si uniscono a voi."
 
-#: server/unittools.c:2456
+#: server/unittools.c:2479
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Gioco: il vostro sorvolo ha atterrito la tribù, che fugge terrorizzata."
 
-#: server/unittools.c:3095
+#: server/unittools.c:3118
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."

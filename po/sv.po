@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.39-1.14-1\n"
-"POT-Creation-Date: 2002-11-17 01:01+0100\n"
+"POT-Creation-Date: 2002-11-22 21:49+0100\n"
 "PO-Revision-Date: 2002-11-17 01:10+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -2210,18 +2210,18 @@ msgstr ""
 "Antalet platser att börja på (%d) är lägre än max_players (%d), sänker "
 "max_players."
 
-#: server/savegame.c:1697
+#: server/savegame.c:1716
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Sparat spel är för gammalt. Minst version 1.9.0 krävs."
 
-#: server/savegame.c:1860
+#: server/savegame.c:1879
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Det sparade spelet använder den klassiska regeluppsättningen för landskap. "
 "Den stöds inte längre."
 
-#: server/savegame.c:1869
+#: server/savegame.c:1888
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4912,7 +4912,7 @@ msgstr "Spel: Endast %s kunna angripa från sjön."
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan inte angripa från sjön."
 
-#: server/unithand.c:852
+#: server/unithand.c:852 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: Kan inte angripa utan att förklara krig först."
 
@@ -5191,85 +5191,85 @@ msgstr "Spel: %s utlöste en atombomb."
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s framgångsrikt fraktad."
 
-#: server/unittools.c:2258
+#: server/unittools.c:2261
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Detta enhetsslag kan inte hoppa fallskärm."
 
-#: server/unittools.c:2267
+#: server/unittools.c:2270
 msgid "Game: The destination location is not known."
 msgstr "Spel: Målets läge är okänt."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2276
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan inte hoppa fallskärm i havet."
 
-#: server/unittools.c:2282
+#: server/unittools.c:2293
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Spel: Avståndet till målet (%i) är större än enhetens räckvidd (%i)."
 
-#: server/unittools.c:2294
+#: server/unittools.c:2305
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Spel: Vår %s hoppade fallskärm ner i havet och gick förlorad."
 
-#: server/unittools.c:2306
+#: server/unittools.c:2317 server/unittools.c:2329
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Vår %s dödades av fientliga enheter där den landade."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2352
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: Vi fann %d guld."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2378
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spel: Vi fann %s i forntida skriftrullar med visdom."
 
-#: server/unittools.c:2357
+#: server/unittools.c:2380
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s upptäcker %s (stamby)"
 
-#: server/unittools.c:2359
+#: server/unittools.c:2382
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spel: %s erhöllo %s från forntida skriftrullar med visdom."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2402
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: En grupp soldenärer ställer sig till förfogande."
 
-#: server/unittools.c:2396
+#: server/unittools.c:2419
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Här är en övergiven by."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2431
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: Vi ha släppt lös en hord barbarer!"
 
-#: server/unittools.c:2411
+#: server/unittools.c:2434
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Barbarer ha dödat vår %s!"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2450
 msgid "Game: You found a friendly city."
 msgstr "Spel: Vi fann en vänlig stad."
 
-#: server/unittools.c:2432
+#: server/unittools.c:2455
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vänliga nomader äro imponerade av oss och ställer sig till förfogande."
 
-#: server/unittools.c:2456
+#: server/unittools.c:2479
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Spel: Vår överflygning skrämde stammen. Den skingras av skräck."
 
-#: server/unittools.c:3095
+#: server/unittools.c:3118
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."

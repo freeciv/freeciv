@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"POT-Creation-Date: 2002-11-16 14:48+0200\n"
+"POT-Creation-Date: 2002-11-22 21:49+0100\n"
 "PO-Revision-Date: 2002-11-16 15:45+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
@@ -2250,17 +2250,17 @@ msgstr ""
 "Aloitusten (%d) määrä on pienempi kuin pelaajamaksimi max_players (%d), "
 "pienennän pelaajamaksimia."
 
-#: server/savegame.c:1697
+#: server/savegame.c:1716
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 1.9.0."
 
-#: server/savegame.c:1860
+#: server/savegame.c:1879
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Tallennettu peli käyttää 'klassista' maastosäännöstöä, jota ei enää tueta."
 
-#: server/savegame.c:1869
+#: server/savegame.c:1888
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4945,7 +4945,7 @@ msgstr "Peli: Vain %s voi hyökätä mereltä."
 msgid "Game: Cannot attack from sea."
 msgstr "Peli: Merihyökkäys ei onnistu."
 
-#: server/unithand.c:852
+#: server/unithand.c:852 server/unittools.c:2284
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Peli: Et voi hyökätä ennen sodanjulistusta."
 
@@ -5232,85 +5232,85 @@ msgstr "Peli: %s räjäytti ydinohjuksen!"
 msgid "Game: %s transported succesfully."
 msgstr "Peli: %s on turvallisesti siirretty kohteeseensa."
 
-#: server/unittools.c:2258
+#: server/unittools.c:2261
 msgid "Game: This unit type can not be paradropped."
 msgstr "Peli: Tämä yksikkö ei sovellu laskuvarjohyppelyyn."
 
-#: server/unittools.c:2267
+#: server/unittools.c:2270
 msgid "Game: The destination location is not known."
 msgstr "Peli: Kohderuutu on tuntematon."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2276
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Peli: Et voi hypätä mereen."
 
-#: server/unittools.c:2282
+#: server/unittools.c:2293
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Peli: Etäisyys kohteesta (%i) ylittää yksikön toimintasäteen (%i)."
 
-#: server/unittools.c:2294
+#: server/unittools.c:2305
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Peli: Yksikkösi %s hyppäsi mereen ja katosi."
 
-#: server/unittools.c:2306
+#: server/unittools.c:2317 server/unittools.c:2329
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Peli: Maahanlaskupaikalla olleet viholliset tuhosivat yksikkösi %s."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2352
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Peli: Löysit %d kultaa."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2378
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Peli: Edistysaskel %s löytyi vanhoista tietäjien kirjoituksista."
 
-#: server/unittools.c:2357
+#: server/unittools.c:2380
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s ovat tehneet löydön (%s) majan avulla."
 
-#: server/unittools.c:2359
+#: server/unittools.c:2382
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Peli: %s ovat oppineet teknologian %s muinaisista kirjoituksista."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2402
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Peli: Ryhmä palkkasotureita liittyy joukkoihisi."
 
-#: server/unittools.c:2396
+#: server/unittools.c:2419
 msgid "Game: An abandoned village is here."
 msgstr "Peli: Täällä on vain hylätty kylä."
 
-#: server/unittools.c:2408
+#: server/unittools.c:2431
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Peli: Olet joutunut keskelle rosvojoukon leiriä!"
 
-#: server/unittools.c:2411
+#: server/unittools.c:2434
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Peli: Barbaarit tappoivat yksikkösi %s!"
 
-#: server/unittools.c:2427
+#: server/unittools.c:2450
 msgid "Game: You found a friendly city."
 msgstr "Peli: Löysit kannattajakaupungin."
 
-#: server/unittools.c:2432
+#: server/unittools.c:2455
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Peli: Joukko paimentolaisia liittyy seurueeseesi."
 
-#: server/unittools.c:2456
+#: server/unittools.c:2479
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Peli: Ylilentosi pelottaa alkukantaista heimoa; he hajaantuvat kauhuissaan."
 
-#: server/unittools.c:3095
+#: server/unittools.c:3118
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
