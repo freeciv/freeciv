@@ -204,6 +204,7 @@ int main(int argc, char *argv[])
     strcpy(s_capability, getenv("FREECIV_CAPS"));
 
   game_init();
+  initialize_city_cache();
 
   /* load a saved game */
   
@@ -296,7 +297,6 @@ int main(int argc, char *argv[])
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
-  initialize_city_cache(); /* probably not needed, better to be safe */
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!is_new_game) {
@@ -868,7 +868,7 @@ void alloc_id(int id)
 
 int get_next_id_number(void)
 {
-  while(is_id_allocated(++global_id_counter)) ;
+  while(is_id_allocated(++global_id_counter) || !global_id_counter) ;
   return global_id_counter;
 }
 
