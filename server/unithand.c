@@ -787,7 +787,7 @@ static int hut_get_barbarians(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int ok = 1;
 
-  if (in_city_radius(punit->x, punit->y)) {
+  if (city_exists_within_city_radius(punit->x, punit->y, 1)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: An abandoned village is here."));
   }

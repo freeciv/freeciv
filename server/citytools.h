@@ -37,7 +37,6 @@ int get_temple_power(struct city *pcity);
 int get_cathedral_power(struct city *pcity);
 int get_colosseum_power(struct city *pcity);
 int build_points_left(struct city *pcity);
-int in_city_radius(int x, int y);
 int is_worked_here(int x, int y);
 int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);

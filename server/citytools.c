@@ -209,18 +209,6 @@ int build_points_left(struct city *pcity)
   return (improvement_value(pcity->currently_building) - pcity->shield_stock);
 }
 
-/*************************************************************************
-  return true if a city is in range of this square.
-**************************************************************************/
-int in_city_radius(int x, int y)
-{
-  map_city_radius_iterate(x, y, x1, y1) {
-    if (map_get_city(x1, y1))
-      return 1;
-  } map_city_radius_iterate_end;
-  return 0;
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

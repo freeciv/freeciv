@@ -368,6 +368,7 @@ struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
 
 int is_unit_near_a_friendly_city(struct unit *punit);
 int is_friendly_city_near(int owner, int x, int y);
+int city_exists_within_city_radius(int x, int y, int may_be_on_center);
 
 /* granary size as a function of city size */
 int city_granary_size(int city_size);

@@ -49,7 +49,6 @@ static void auto_settlers_player(struct player *pplayer);
 static int is_already_assigned(struct unit *myunit, struct player *pplayer, 
 			       int x, int y);
 
-static int city_exists_within_city_radius(int x, int y);
 
 static int make_dy(int y1, int y2);
 static int make_dx(int x1, int x2);
@@ -1115,7 +1114,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 				/* pretty good, hope it's enough! -- Syela */
             && (near < 8 || map_get_continent(x, y) != ucont)
 	    && city_can_be_built_here(x,y)
-	    && !city_exists_within_city_radius(x,y)) {
+	    && !city_exists_within_city_radius(x, y, 0)) {
 
 	  /* potential target, calculate mv_cost: */
           if (ferryboat) {
@@ -1517,23 +1516,4 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
     unit_list_iterate_end;
     pcity->ai.founder_want = want;
   }
-}
-
-/**************************************************************************
-Return true iff a city exists within a city radius of the given location.
-(Not including a city at the given location.  I.e., if only city within
-radius is at (x,y), then returns false.)
-**************************************************************************/
-static int city_exists_within_city_radius(int x, int y)
-{
-  int dx, dy;
-
-  city_radius_iterate(dx, dy) {
-    if (!(dx==0 && dy==0)) {
-      if (map_get_city(x+dx, y+dy))
-	return 1;
-    }
-  }
-
-  return 0;
 }

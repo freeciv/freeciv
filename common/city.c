@@ -1247,6 +1247,23 @@ int is_friendly_city_near(int player_id, int x, int y)
 }
 
 /**************************************************************************
+Return true iff a city exists within a city radius of the given location.
+may_be_on_center determines if a city at x,y counts
+**************************************************************************/
+int city_exists_within_city_radius(int x, int y, int may_be_on_center)
+{
+  map_city_radius_iterate(x, y, x1, y1) {
+    if (may_be_on_center || x != x1 || y != y1) {
+      if (map_get_city(x1, y1)) {
+	return 1;
+      }
+    }
+  } map_city_radius_iterate_end;
+
+  return 0;
+}
+
+/**************************************************************************
 generalized formula used to calculate granary size.
 for now, the AI doesn't understand settings other than the default,
 i.e. granary_food_ini=1, granary_food_inc=100.
