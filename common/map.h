@@ -329,9 +329,10 @@ static inline int map_pos_to_index(int map_x, int map_y);
  * we bend this rule here.
  */
 #define MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
-(    (dest_x) = (src_x) + DIR_DX[(dir)],   		\
-     (dest_y) = (src_y) + DIR_DY[(dir)],		\
-     normalize_map_pos(&(dest_x), &(dest_y)))
+  (is_valid_dir(dir)                                    \
+   && ((dest_x) = (src_x) + DIR_DX[(dir)],   		\
+       (dest_y) = (src_y) + DIR_DY[(dir)],		\
+       normalize_map_pos(&(dest_x), &(dest_y))))
 
 struct player *map_get_owner(int x, int y);
 void map_set_owner(int x, int y, struct player *pplayer);
