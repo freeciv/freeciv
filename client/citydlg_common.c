@@ -255,3 +255,41 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
     my_snprintf(buf[3], column_size, "---");
   }
 }
+
+/**************************************************************************
+  Provide a list of all citizens in the city, in order.  "index"
+  should be the happiness index (currently [0..4]; 4 = final
+  happiness).  "citizens" should be an array large enough to hold all
+  citizens (use MAX_CITY_SIZE to be on the safe side).
+**************************************************************************/
+void get_city_citizen_types(struct city *pcity, int index,
+			    enum citizen_type *citizens)
+{
+  int i = 0, n;
+  assert(index >= 0 && index < 5);
+
+  for (n = 0; n < pcity->ppl_happy[index]; n++, i++) {
+    citizens[i] = CITIZEN_HAPPY;
+  }
+  for (n = 0; n < pcity->ppl_content[index]; n++, i++) {
+    citizens[i] = CITIZEN_CONTENT;
+  }
+  for (n = 0; n < pcity->ppl_unhappy[index]; n++, i++) {
+    citizens[i] = CITIZEN_UNHAPPY;
+  }
+  for (n = 0; n < pcity->ppl_angry[index]; n++, i++) {
+    citizens[i] = CITIZEN_ANGRY;
+  }
+
+  for (n = 0; n < pcity->ppl_elvis; n++, i++) {
+    citizens[i] = CITIZEN_ELVIS;
+  }
+  for (n = 0; n < pcity->ppl_scientist; n++, i++) {
+    citizens[i] = CITIZEN_SCIENTIST;
+  }
+  for (n = 0; n < pcity->ppl_taxman; n++, i++) {
+    citizens[i] = CITIZEN_TAXMAN;
+  }
+
+  assert(i == pcity->size);
+}

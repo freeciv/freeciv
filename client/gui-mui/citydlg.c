@@ -1114,18 +1114,21 @@ static void city_citizen(struct city_citizen_msg *msg)
   struct city_dialog *pdialog = msg->pdialog;
   struct city *pcity = pdialog->pcity;
 
-  switch (msg->type)
-  {
-  case 0:
+  switch (msg->type)  {
+  case CITIZEN_ELVIS:
     request_city_change_specialist(pcity, SP_ELVIS, SP_SCIENTIST);
     break;
 
-  case 1:
+  case CITIZEN_SCIENTIST:
     request_city_change_specialist(pcity, SP_SCIENTIST, SP_TAXMAN);
     break;
 
-  default:
+  case CITIZEN_TAXMAN:
     request_city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
+    break;
+
+  default:
+    assert(FALSE);
     break;
   }
 }
@@ -1934,8 +1937,9 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  int n;
+  int i;
   struct city *pcity = pdialog->pcity;
+  enum citizen_type citizens[MAX_CITY_SIZE];
 
   DoMethod(pdialog->citizen_group, MUIM_Group_InitChange);
   if (pdialog->citizen2_group)
@@ -1946,64 +1950,26 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   pdialog->citizen2_group = HGroup, GroupSpacing(0), End;
 
-  /* maybe add an i < NUM_CITIZENS_SHOWN check into every loop with own counter i */
+  /* Get a list of the citizens. */
+  get_city_citizen_types(pcity, 4, citizens);
 
-  for (n = 0; n < pcity->ppl_happy[4]; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_HAPPY, n, pcity));
-    if (o)
+  for (i = 0; i < pcity->size; i++) {
+    Object *o = MakeSprite(get_citizen_sprite(citizens[i], i, pcity));
+
+    if (o) {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-  }
 
-  for (n = 0; n < pcity->ppl_content[4]; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_CONTENT, n, pcity));
-    if (o)
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-  }
-
-
-  for (n = 0; n < pcity->ppl_unhappy[4]; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_UNHAPPY, n, pcity));
-    if (o)
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-  }
-
-  for (n = 0; n < pcity->ppl_angry[4]; n++) {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_ANGRY, n, pcity));
-    if (o)
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-  }
-
-  for (n = 0; n < pcity->ppl_elvis; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_ELVIS, n, pcity));
-    if (o)
-    {
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 0);
-    }
-  }
-
-  for (n = 0; n < pcity->ppl_scientist; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_SCIENTIST, n, pcity));
-    if (o)
-    {
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 1);
-    }
-  }
-
-  for (n = 0; n < pcity->ppl_taxman; n++)
-  {
-    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_TAXMAN, n, pcity));
-
-    if (o)
-    {
-      DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 2);
+      /* HACK: set sensitivity on widgets */
+      switch (citizens[i]) {
+      case CITIZEN_ELVIS:
+      case CITIZEN_SCIENTIST:
+      case CITIZEN_TAXMAN:
+	DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook,
+		 &civstandard_hook, city_citizen, pdialog, citizens[i]);
+	break;
+      default:
+	break;
+      }
     }
   }
 
@@ -2490,38 +2456,17 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   for(i=0;i<5;i++)
   {
     int j;
-    int n1 = pcity->ppl_happy[i];
-    int n2 = n1 + pcity->ppl_content[i];
-    int n3 = n2 + pcity->ppl_unhappy[i];
-    int n4 = n3 + pcity->ppl_angry[i];
-    int n5 = n4 + pcity->ppl_elvis;
-    int n6 = n5 + pcity->ppl_scientist;
     int num_citizens = pcity->size;
+    enum citizen_type citizens[MAX_CITY_SIZE];
 
     DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_InitChange);
     DisposeAllChilds(pdialog->happiness_citizen_group[i]);
 
-    for (j = 0; j < num_citizens; j++) {
-      int citizen_type;
-      Object *obj;
-      if (j < n1)
-        citizen_type = CITIZEN_HAPPY;
-      else if (j < n2)
-        citizen_type = CITIZEN_CONTENT;
-      else if (j < n3)
-        citizen_type = CITIZEN_UNHAPPY;
-      else if (j < n4) {
-	citizen_type = CITIZEN_ANGRY;
-      }  else if (j < n5) {
-        citizen_type = CITIZEN_ELVIS;
-      } else if (j < n6) {
-        citizen_type = CITIZEN_SCIENTIST;
-      } else {
-        citizen_type = CITIZEN_TAXMAN;
-      }
+    get_city_citizen_types(pcity, i, citizens);
 
-      if ((obj = MakeSprite(get_citizen_sprite(citizen_type, j, pcity))))
-      {
+    for (j = 0; j < num_citizens; j++) {
+      obj = MakeSprite(get_citizen_sprite(citizens[j], j, pcity));
+      if (obj) {
 	DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, obj);
       }
     }

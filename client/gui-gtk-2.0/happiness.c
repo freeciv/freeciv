@@ -146,13 +146,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
 {
   int i;
-  enum citizen_type citizen_type;
-  int n1 = pcity->ppl_happy[index];
-  int n2 = n1 + pcity->ppl_content[index];
-  int n3 = n2 + pcity->ppl_unhappy[index];
-  int n4 = n3 + pcity->ppl_angry[index];
-  int n5 = n4 + pcity->ppl_elvis;
-  int n6 = n5 + pcity->ppl_scientist;
+  enum citizen_type citizens[MAX_CITY_SIZE];
   int num_citizens = pcity->size;
   int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
   int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);
@@ -161,24 +155,11 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
   GdkPixmap *happiness_pixmap = gdk_pixmap_new(root_window, true_pix_width,
 					       SMALL_TILE_HEIGHT, -1);
 
-  for (i = 0; i < num_citizens; i++) {
-    if (i < n1)
-      citizen_type = CITIZEN_HAPPY;
-    else if (i < n2)
-      citizen_type = CITIZEN_CONTENT;
-    else if (i < n3)
-      citizen_type = CITIZEN_UNHAPPY;
-    else if (i < n4)
-      citizen_type = CITIZEN_ANGRY;
-    else if (i < n5)
-      citizen_type = CITIZEN_ELVIS;
-    else if (i < n6)
-      citizen_type = CITIZEN_SCIENTIST;
-    else
-      citizen_type = CITIZEN_TAXMAN;
+  get_city_citizen_types(pcity, index, citizens);
 
+  for (i = 0; i < num_citizens; i++) {
     gdk_draw_pixmap(happiness_pixmap, civ_gc,
-		    get_citizen_pixmap(citizen_type, i, pcity),
+		    get_citizen_pixmap(citizens[i], i, pcity),
 		    0, 0, i * offset, 0, SMALL_TILE_WIDTH,
 		    SMALL_TILE_HEIGHT);
   }

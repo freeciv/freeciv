@@ -114,7 +114,6 @@ struct city_dialog {
   
   Impr_Type_id sell_id;
   
-  enum citizen_type *citizen_type;
   int support_unit_base;
   int present_unit_base;
   char improvlist_names[B_LAST+1][64];
@@ -931,8 +930,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 
   pdialog->citizen_labels=
     fc_malloc(pdialog->num_citizens_shown * sizeof(Widget));
-  pdialog->citizen_type=
-    fc_malloc(pdialog->num_citizens_shown * sizeof(*pdialog->citizen_type));
 
   pdialog->support_unit_pixcomms=
     fc_malloc(pdialog->num_units_shown * sizeof(Widget));
@@ -1050,11 +1047,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   for(i=0; i<B_LAST+1; i++)
     pdialog->improvlist_names_ptrs[i]=0;
 
-  for (i = 0; i < pdialog->num_citizens_shown; i++) {
-    /* Initialize to an invalid value to trigger an assert if it's used */
-    pdialog->citizen_type[i] = CITIZEN_LAST;
-  }
-  
   XtRealizeWidget(pdialog->shell);
 
   refresh_city_dialog(pdialog->pcity);
@@ -1578,105 +1570,54 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  int i, n;
+  int i;
   struct city *pcity=pdialog->pcity;
+  enum citizen_type citizens[MAX_CITY_SIZE];
 
-  i=0;
+  get_city_citizen_types(pcity, 4, citizens);
 
-  for(n=0; n<pcity->ppl_happy[4] && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_HAPPY) {
-      pdialog->citizen_type[i] = CITIZEN_HAPPY;
-      xaw_set_bitmap(pdialog->citizen_labels[i], 
-		     get_citizen_pixmap(CITIZEN_HAPPY, i, pcity));
-      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-    }
-  if(n<pcity->ppl_happy[4]) goto city_dialog_update_citizens_overflow;
+  for (i = 0; i < pcity->size && i < pdialog->num_citizens_shown; i++) {
+    xaw_set_bitmap(pdialog->citizen_labels[i],
+		   get_citizen_pixmap(citizens[i], i, pcity));
 
-  for(n=0; n<pcity->ppl_content[4] && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_CONTENT) {
-      pdialog->citizen_type[i] = CITIZEN_CONTENT;
-      xaw_set_bitmap(pdialog->citizen_labels[i], 
-		     get_citizen_pixmap(CITIZEN_CONTENT, i, pcity));
-      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-    }
-  if(n<pcity->ppl_content[4]) goto city_dialog_update_citizens_overflow;
-
-  for(n=0; n<pcity->ppl_unhappy[4] && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_UNHAPPY) {
-      pdialog->citizen_type[i] = CITIZEN_UNHAPPY;
-      xaw_set_bitmap(pdialog->citizen_labels[i],
-		     get_citizen_pixmap(CITIZEN_UNHAPPY, i, pcity));
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-    }
-  if(n<pcity->ppl_unhappy[4]) goto city_dialog_update_citizens_overflow;
-
-  for (n = 0; n < pcity->ppl_angry[4] && i < pdialog->num_citizens_shown;
-       n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_ANGRY) {
-      pdialog->citizen_type[i] = CITIZEN_ANGRY;
-      xaw_set_bitmap(pdialog->citizen_labels[i],
-		     get_citizen_pixmap(CITIZEN_ANGRY, i, pcity));
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-    }
-  if (n < pcity->ppl_angry[4])
-    goto city_dialog_update_citizens_overflow;
-
-  for(n=0; n<pcity->ppl_elvis && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_ELVIS) {
-      xaw_set_bitmap(pdialog->citizen_labels[i],
-		     get_citizen_pixmap(CITIZEN_ELVIS, i, pcity));
-      pdialog->citizen_type[i] = CITIZEN_ELVIS;
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-      XtAddCallback(pdialog->citizen_labels[i], XtNcallback, elvis_callback,
-		    (XtPointer)pdialog);
+    /* HACK: set sensitivity/callbacks on the widget */
+    XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
+    switch (citizens[i]) {
+    case CITIZEN_ELVIS:
+      XtAddCallback(pdialog->citizen_labels[i], XtNcallback,
+		    elvis_callback, (XtPointer)pdialog);
       XtSetSensitive(pdialog->citizen_labels[i], TRUE);
-    }
-  if(n<pcity->ppl_elvis) goto city_dialog_update_citizens_overflow;
-
-  for(n=0; n<pcity->ppl_scientist && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_SCIENTIST) {
-      xaw_set_bitmap(pdialog->citizen_labels[i],
-		     get_citizen_pixmap(CITIZEN_SCIENTIST, i, pcity));
-      pdialog->citizen_type[i] = CITIZEN_SCIENTIST;
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-      XtAddCallback(pdialog->citizen_labels[i], XtNcallback, scientist_callback,
-		    (XtPointer)pdialog);
+      break;
+    case CITIZEN_SCIENTIST:
+      XtAddCallback(pdialog->citizen_labels[i], XtNcallback,
+		    scientist_callback, (XtPointer)pdialog);
       XtSetSensitive(pdialog->citizen_labels[i], TRUE);
-    }
-  if(n<pcity->ppl_scientist) goto city_dialog_update_citizens_overflow;
-
-  for(n=0; n<pcity->ppl_taxman && i<pdialog->num_citizens_shown; n++, i++)
-    if (pdialog->citizen_type[i] != CITIZEN_TAXMAN) {
-      xaw_set_bitmap(pdialog->citizen_labels[i],
-		     get_citizen_pixmap(CITIZEN_TAXMAN, i, pcity));
-      pdialog->citizen_type[i] = CITIZEN_TAXMAN;
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
+      break;
+    case CITIZEN_TAXMAN:
       XtAddCallback(pdialog->citizen_labels[i], XtNcallback, taxman_callback,
 		    (XtPointer)pdialog);
       XtSetSensitive(pdialog->citizen_labels[i], TRUE);
+      break;      
+    default:
+      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
+      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
+      break;
     }
-  if(n<pcity->ppl_taxman) goto city_dialog_update_citizens_overflow;
+  }
+
+  if (i >= pdialog->num_citizens_shown && i < pcity->size) {
+    i = pdialog->num_citizens_shown - 1;
+    xaw_set_bitmap(pdialog->citizen_labels[i], sprites.right_arrow->pixmap);
+    XtSetSensitive(pdialog->citizen_labels[i], FALSE);
+    XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
+    return;
+  }
 
   for(; i<pdialog->num_citizens_shown; i++) {
     xaw_set_bitmap(pdialog->citizen_labels[i], None);
     XtSetSensitive(pdialog->citizen_labels[i], FALSE);
     XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
   }
-
-  return;
-
-city_dialog_update_citizens_overflow:
-
-  i=pdialog->num_citizens_shown-1;
-  xaw_set_bitmap(pdialog->citizen_labels[i], sprites.right_arrow->pixmap);
-  XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-  XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-
-  return;
 }
 
 /****************************************************************
@@ -2528,7 +2469,6 @@ void close_city_dialog(struct city_dialog *pdialog)
   dialog_list_unlink(&dialog_list, pdialog);
 
   free(pdialog->citizen_labels);
-  free(pdialog->citizen_type);
 
   free(pdialog->support_unit_pixcomms);
   free(pdialog->present_unit_pixcomms);

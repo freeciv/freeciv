@@ -185,7 +185,6 @@ struct city_dialog {
 
   Impr_Type_id sell_id;
 
-  int first_elvis, first_scientist, first_taxman;
   int cwidth;
 
   /* This is used only to avoid too many refreshes. */
@@ -1648,9 +1647,10 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  int i, n;
+  int i;
   struct city *pcity = pdialog->pcity;
   int width;
+  enum citizen_type citizens[MAX_CITY_SIZE];
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
@@ -1668,51 +1668,14 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap), TRUE);
 
-  i = 0;	/* tracks the # of the citizen we are currently placing. */
-  for (n = 0; n < pcity->ppl_happy[4]; n++, i++) {
+  get_city_citizen_types(pcity, 4, citizens);
+
+  for (i = 0; i < pcity->size; i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_HAPPY, i, pcity),
+		       get_citizen_sprite(citizens[i], i, pcity),
 		       i * width, 0, TRUE);
   }
 
-  for (n = 0; n < pcity->ppl_content[4]; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_CONTENT, i, pcity),
-		       i * width, 0, TRUE);
-  }
-
-  for (n = 0; n < pcity->ppl_unhappy[4]; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_UNHAPPY, i, pcity),
-		       i * width, 0, TRUE);
-  }
-
-  for (n = 0; n < pcity->ppl_angry[4]; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_ANGRY, i, pcity),
-		       i * width, 0, TRUE);
-  }
-
-  pdialog->first_elvis = i;
-  for (n = 0; n < pcity->ppl_elvis; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_ELVIS, i, pcity),
-		       i * width, 0, TRUE);
-  }
-
-  pdialog->first_scientist = i;
-  for (n = 0; n < pcity->ppl_scientist; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_SCIENTIST, i, pcity),
-		       i * width, 0, TRUE);
-  }
-
-  pdialog->first_taxman = i;
-  for (n = 0; n < pcity->ppl_taxman; n++, i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(CITIZEN_TAXMAN, i, pcity),
-		       i * width, 0, TRUE);
-  }
 /*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
 /*                           !cma_is_city_under_agent(pcity, NULL));*/
 }
@@ -2787,19 +2750,26 @@ static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
   struct packet_city_request packet;
   int citnum;
   enum specialist_type type;
+  enum citizen_type citizens[MAX_CITY_SIZE];
 
   if (ev->x > (pcity->size - 1) * pdialog->cwidth + SMALL_TILE_WIDTH)
     return;			/* no citizen that far to the right */
 
   citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
 
-  if (citnum >= pdialog->first_taxman) {
-    type = SP_TAXMAN;
-  } else if (citnum >= pdialog->first_scientist) {
-    type = SP_SCIENTIST;
-  } else if (citnum >= pdialog->first_elvis) {
+  get_city_citizen_types(pcity, 4, citizens);
+
+  switch (citizens[citnum]) {
+  case CITIZEN_ELVIS:
     type = SP_ELVIS;
-  } else {
+    break;
+  case CITIZEN_SCIENTIST:
+    type = SP_SCIENTIST;
+    break;
+  case CITIZEN_TAXMAN:
+    type = SP_TAXMAN;
+    break;
+  default:
     return;
   }
 
