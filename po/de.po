@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-04-16 06:15+0200\n"
+"POT-Creation-Date: 2002-04-20 23:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -385,7 +385,7 @@ msgid "Patrol"
 msgstr "Patrouillieren"
 
 #: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2069
-#: client/gui-win32/citydlg.c:1297 client/gui-xaw/citydlg.c:1435
+#: client/gui-win32/citydlg.c:1378 client/gui-xaw/citydlg.c:1435
 #: common/unit.c:566
 msgid "Unknown"
 msgstr "Unbekannt"
@@ -957,7 +957,7 @@ msgstr "%s Server"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Weitere Informationen zu Freeciv finden Sie auf %s."
 
-#: client/civclient.c:116 server/civserver.c:130
+#: client/civclient.c:120 server/civserver.c:130
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -966,7 +966,7 @@ msgstr ""
 "Syntax: %s [option ...]\n"
 "Gültige Optionen sind:\n"
 
-#: client/civclient.c:125 server/civserver.c:131
+#: client/civclient.c:129 server/civserver.c:131
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tZeigt diesen Text\n"
 
@@ -986,7 +986,7 @@ msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog DATEI\tSpiel in DATEI protokollieren\n"
 
-#: client/civclient.c:126 server/civserver.c:136
+#: client/civclient.c:130 server/civserver.c:136
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
 
@@ -1006,17 +1006,17 @@ msgstr "  -s, --server HOST\tZeige diesen Server als HOST an\n"
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle ZEIT\tAbbrechen wenn ZEIT Sekunden ohne Spieler\n"
 
-#: client/civclient.c:120 server/civserver.c:142
+#: client/civclient.c:124 server/civserver.c:142
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tSetze Debugloglevel (0-4 oder 4:Datei1,min,max:...)\n"
 
-#: client/civclient.c:123 server/civserver.c:145
+#: client/civclient.c:127 server/civserver.c:145
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tSetze Debugloglevel (0-3)\n"
 
-#: client/civclient.c:134 server/civserver.c:147
+#: client/civclient.c:141 server/civserver.c:147
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
@@ -1320,7 +1320,7 @@ msgstr "Spiel: %s hat %s von %s gestohlen."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spiel: %ss %s hat %s von %s gestohlen."
 
-#: server/diplomats.c:664 server/plrhand.c:613
+#: server/diplomats.c:664 server/plrhand.c:618
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
@@ -1653,28 +1653,32 @@ msgstr ""
 msgid "Game: The %s have aquired %s from the Great Library."
 msgstr "Spiel: Die %s haben %s in der Großen Bibliothek entdeckt!"
 
-#: server/plrhand.c:195
+#: server/plrhand.c:194
+msgid "Game: You are dead!"
+msgstr "Spiel: Sie sind tot!"
+
+#: server/plrhand.c:198
 #, c-format
 msgid "Game: The %s are no more!"
 msgstr "Spiel: Die %s existieren nicht mehr!"
 
 # ?
-#: server/plrhand.c:197
+#: server/plrhand.c:200
 #, c-format
 msgid "%s civilization destroyed"
 msgstr ""
 
-#: server/plrhand.c:230
+#: server/plrhand.c:233
 #, c-format
 msgid "%s are first to learn %s"
 msgstr "Die %s sind die Ersten, die %s erforscht haben."
 
-#: server/plrhand.c:239
+#: server/plrhand.c:242
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Spiel: Mit der Entdeckung von %s ist %s in %s VERALTET!"
 
-#: server/plrhand.c:250
+#: server/plrhand.c:253
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
@@ -1683,7 +1687,7 @@ msgstr ""
 "Spiel: Die Entdeckung von %s macht %s möglich. Vielleicht ist eine "
 "Revolution sinnvoll."
 
-#: server/plrhand.c:290
+#: server/plrhand.c:293
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
@@ -1691,29 +1695,29 @@ msgstr ""
 "        Unsere Wissenschaftler konzentrieren sich jetzt auf %s,\n"
 "        Ziel ist die Entwicklung von %s."
 
-#: server/plrhand.c:299
+#: server/plrhand.c:303
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr ""
 "Spiel: %s erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt %s."
 
-#: server/plrhand.c:307
+#: server/plrhand.c:311
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Spiel: %s erforscht."
 
-#: server/plrhand.c:310
+#: server/plrhand.c:314
 #, c-format
 msgid "Researching %s."
 msgstr "Erforsche %s."
 
-#: server/plrhand.c:322
+#: server/plrhand.c:327
 #, c-format
 msgid "Game: %s"
 msgstr "Spiel: %s"
 
-#: server/plrhand.c:325
+#: server/plrhand.c:330
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -1722,74 +1726,74 @@ msgstr ""
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
-#: server/plrhand.c:381
+#: server/plrhand.c:386
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spiel: Die %s haben %s erforscht."
 
-#: server/plrhand.c:385
+#: server/plrhand.c:390
 #, c-format
 msgid "%s discover %s"
 msgstr "Die %s haben %s erforscht."
 
-#: server/plrhand.c:390
+#: server/plrhand.c:395
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spiel: Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:394
+#: server/plrhand.c:399
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:512
+#: server/plrhand.c:517
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spiel: Entwicklungsziel ist %s."
 
-#: server/plrhand.c:583
+#: server/plrhand.c:588
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spiel: Zukunftstechnologie %d von %s erhalten."
 
-#: server/plrhand.c:586
+#: server/plrhand.c:591
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spiel: %s entdeckte Zukunftstechnologie %d in der Stadt."
 
-#: server/plrhand.c:589
+#: server/plrhand.c:594
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spiel: Die %s eroberten Zukunftstechnologie %d von den %s."
 
 # ?
-#: server/plrhand.c:605
+#: server/plrhand.c:610
 #, c-format
 msgid "%s acquire %s from %s"
 msgstr ""
 
-#: server/plrhand.c:609
+#: server/plrhand.c:614
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spiel. %s von %s erhalten."
 
-#: server/plrhand.c:611
+#: server/plrhand.c:616
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spiel: %s entdeckte %s in der Stadt."
 
-#: server/plrhand.c:633
+#: server/plrhand.c:638
 msgid "Game: Cannot change rates before game start."
 msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 
 #: client/gui-gtk/gamedlgs.c:244 client/gui-win32/ratesdlg.c:314
-#: server/plrhand.c:646
+#: server/plrhand.c:651
 msgid "Tax"
 msgstr "Steuern"
 
 #: client/agents/cma_core.c:1813 client/gui-gtk/gamedlgs.c:264
 #: client/gui-mui/citydlg.c:1649 client/gui-win32/ratesdlg.c:320
-#: server/plrhand.c:648
+#: server/plrhand.c:653
 msgid "Luxury"
 msgstr "Luxus"
 
@@ -1798,59 +1802,59 @@ msgstr "Luxus"
 #: client/gui-mui/repodlgs.c:301 client/gui-win32/ratesdlg.c:326
 #: client/gui-win32/repodlgs.c:117 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:263 client/gui-xaw/repodlgs.c:508
-#: data/Freeciv:1360 server/plrhand.c:650
+#: data/Freeciv:1360 server/plrhand.c:655
 msgid "Science"
 msgstr "Forschung"
 
-#: server/plrhand.c:651
+#: server/plrhand.c:656
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spiel: %s Quote übersteigt die Höchstgrenze für %s."
 
 # ?
-#: server/plrhand.c:657 server/plrhand.c:782
+#: server/plrhand.c:662 server/plrhand.c:788
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr ""
 
-#: server/plrhand.c:702
+#: server/plrhand.c:707
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spiel: %s regiert die %s jetzt als %s."
 
 # ?
-#: server/plrhand.c:706
+#: server/plrhand.c:711
 #, c-format
 msgid "%s form a %s"
 msgstr "%s von %s"
 
-#: server/plrhand.c:738
+#: server/plrhand.c:744
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
-#: server/plrhand.c:740
+#: server/plrhand.c:746
 #, c-format
 msgid "The %s revolt!"
 msgstr "Die %s revoltieren!"
 
-#: server/plrhand.c:765
+#: server/plrhand.c:771
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:771
+#: server/plrhand.c:777
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Spiel: Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:777
+#: server/plrhand.c:783
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:832
+#: server/plrhand.c:838
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1858,12 +1862,12 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:842
+#: server/plrhand.c:848
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-#: server/plrhand.c:846
+#: server/plrhand.c:852
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1871,36 +1875,36 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:904 server/plrhand.c:912
+#: server/plrhand.c:910 server/plrhand.c:918
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:909
+#: server/plrhand.c:915
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spiel: %s hat die Vereinbarung aufgekündigt!"
 
-#: server/plrhand.c:1319
+#: server/plrhand.c:1325
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1320
+#: server/plrhand.c:1326
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1330
+#: server/plrhand.c:1336
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1362 server/plrhand.c:1366
+#: server/plrhand.c:1368 server/plrhand.c:1372
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:1727
+#: server/plrhand.c:1733
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1909,12 +1913,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten.\n"
 "       %s ist der Anführer der revoltierenden Provinzen."
 
-#: server/plrhand.c:1746
+#: server/plrhand.c:1752
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1769
+#: server/plrhand.c:1775
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2221,7 +2225,7 @@ msgstr "unterstützte Optionen: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 
-#: server/ruleset.c:2637
+#: server/ruleset.c:2662
 msgid "Loading rulesets"
 msgstr "Lade rulesets"
 
@@ -4032,7 +4036,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:1016 server/stdinhand.c:1284
+#: client/packhand.c:1043 server/stdinhand.c:1284
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5482,40 +5486,49 @@ msgstr "derzeitiges Projekt"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(aktuell/benötigt/Runden/Preis)"
 
-#: client/civclient.c:118
+#: client/civclient.c:122
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnnect\tAuswahlmenu zur Serverwahl unterdrücken\n"
 
-#: client/civclient.c:127
+#: client/civclient.c:131
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --metaserver HOST\tmit Metaserver auf HOST verbinden\n"
 
-#: client/civclient.c:129
+#: client/civclient.c:133
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\tBenutze NAME als Alias\n"
 
-#: client/civclient.c:130
+#: client/civclient.c:134
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 
-#: client/civclient.c:131
+#: client/civclient.c:135
+#, c-format
+msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
+msgstr " -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen\n"
+
+#: client/civclient.c:137
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
 
-#: client/civclient.c:132
+#: client/civclient.c:138
+msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
+msgstr "  -S, --Sound DATEI\tSounds aus DATEI laden\n"
+
+#: client/civclient.c:139
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles DATEI\tTiles aus DATEI.tilespec verwenden\n"
 
-#: client/civclient.c:161
+#: client/civclient.c:172
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unbekannte Option: '%s'\n"
 
-#: client/civclient.c:526
+#: client/civclient.c:542
 msgid "Game started."
 msgstr "Spiel begonnen."
 
-#: client/civclient.c:554
+#: client/civclient.c:571
 msgid "There was an error while auto connecting; aborting."
 msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
 
@@ -5690,11 +5703,11 @@ msgstr "Ungültige Metaserver URL: Muß mit 'http://' anfangen."
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ungültiger Eintrag in $http_proxy: Muß '/' enthalten."
 
-#: client/control.c:522
+#: client/control.c:523
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spiel: Nur Transporter können ausgeladen werden."
 
-#: client/control.c:758
+#: client/control.c:759
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
@@ -5702,23 +5715,23 @@ msgstr ""
 "Spiel: Nur Siedler und militärische Einheiten in Städten können selbständig "
 "agieren."
 
-#: client/control.c:791
+#: client/control.c:792
 msgid "Game: Only nuclear units can do this."
 msgstr "Spiel: Das können nur Nuklear-Einheiten."
 
-#: client/control.c:808
+#: client/control.c:809
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spiel: Das können nur Fallschirmspringer."
 
-#: client/control.c:1100
+#: client/control.c:1106
 msgid "Game: Too far for this unit."
 msgstr "Spiel: Zu weit für diese Einheit."
 
-#: client/control.c:1232 client/control.c:1281
+#: client/control.c:1238 client/control.c:1287
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Spiel: Es gibt keinen Weg zu diesem Ziel!"
 
-#: client/control.c:1272
+#: client/control.c:1278
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Spiel: Patrouillien für Luftwaffeneinheiten gibt es noch nicht."
 
@@ -6353,75 +6366,93 @@ msgstr "Rundfunknachrichten"
 msgid "Nation Selected"
 msgstr "Nation gewählt"
 
+#: client/options.c:206
+msgid "Game End"
+msgstr "Spielende"
+
+#: client/options.c:207
+msgid "Turn Bell"
+msgstr "Tonsignal"
+
+#: client/options.c:208
+msgid "Tech Learned"
+msgstr "Forschungsergebnisse"
+
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/options.c:329
+#: client/options.c:333
 msgid "Cannot find your home directory"
 msgstr "Cannot find your home directory"
 
-#: client/options.c:433
+#: client/options.c:437
 msgid "Save failed, cannot find a filename."
 msgstr "NICHT GESPEICHERT: Kein Dateiname."
 
-#: client/options.c:482
+#: client/options.c:486
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Wenn manuell eine Vorgabe hinzugefügt wird, muß auch 'number_of_presets' "
 "geändert werden."
 
-#: client/options.c:493
+#: client/options.c:497
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:496
+#: client/options.c:500
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
 
-#: client/packhand.c:163
+#: client/packhand.c:164
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "Verbindungsaufbau abgelehnt: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:174
+#: client/packhand.c:175
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Client capability string: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:177
+#: client/packhand.c:178
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:761
+# ?
+#: client/packhand.c:718
+#, c-format
+msgid "Start of turn %d"
+msgstr ""
+
+#: client/packhand.c:785
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1212
+#: client/packhand.c:1239
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1213
+#: client/packhand.c:1240
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1213
+#: client/packhand.c:1240
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:1223
+#: client/packhand.c:1250
 msgid "Game: Revolution finished"
 msgstr "Spiel: Revolution beendet."
 
-#: client/packhand.c:2240
+#: client/packhand.c:2274
 msgid "Game: Diplomat arrived."
 msgstr "Spiel: Diplomat angekommen."
 
 # ?
-#: client/packhand.c:2262
+#: client/packhand.c:2296
 msgid "Game: Diplomat sabotage."
 msgstr ""
 
@@ -6519,8 +6550,7 @@ msgid "Shield"
 msgstr "Schild"
 
 #: client/agents/cma_core.c:1809 client/gui-mui/citydlg.c:1641
-#: client/gui-win32/citydlg.c:817 data/Freeciv:2964
-#: data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
+#: data/Freeciv:2964 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:557
 msgid "Trade"
 msgstr "Handel"
@@ -6640,11 +6670,11 @@ msgstr "Unterhalt"
 msgid "City _Overview"
 msgstr "Übersicht"
 
-#: client/gui-gtk/citydlg.c:635
+#: client/gui-gtk/citydlg.c:635 client/gui-win32/citydlg.c:826
 msgid "City info"
 msgstr "Info"
 
-#: client/gui-gtk/citydlg.c:641
+#: client/gui-gtk/citydlg.c:641 client/gui-win32/citydlg.c:845
 msgid "City map"
 msgstr "Stadtplan"
 
@@ -6673,7 +6703,7 @@ msgid "C_hange"
 msgstr "Ändern"
 
 #: client/gui-gtk/citydlg.c:875 client/gui-gtk/citydlg.c:1993
-#: client/gui-gtk/citydlg.c:3279 client/gui-win32/citydlg.c:770
+#: client/gui-gtk/citydlg.c:3279 client/gui-win32/citydlg.c:849
 msgid "Sell"
 msgstr "Verkaufen"
 
@@ -6683,12 +6713,12 @@ msgstr "Verkaufen"
 msgid "_Units"
 msgstr "Einheiten"
 
-#: client/gui-gtk/citydlg.c:950 client/gui-win32/citydlg.c:803
+#: client/gui-gtk/citydlg.c:950 client/gui-win32/citydlg.c:878
 msgid "Supported units"
 msgstr "zu unterhaltende Einheiten"
 
 #: client/gui-gtk/citydlg.c:954 client/gui-mui/citydlg.c:1499
-#: client/gui-win32/citydlg.c:808
+#: client/gui-win32/citydlg.c:884
 msgid "Units present"
 msgstr "stationierte Einheiten"
 
@@ -6733,12 +6763,12 @@ msgid "Entertainers"
 msgstr "Unterhalter"
 
 #: client/gui-gtk/citydlg.c:1256 client/gui-mui/citydlg.c:1429
-#: client/gui-win32/citydlg.c:2037 client/gui-xaw/citydlg.c:2587
+#: client/gui-win32/citydlg.c:2149 client/gui-xaw/citydlg.c:2587
 msgid "Scientists"
 msgstr "Forscher"
 
 #: client/gui-gtk/citydlg.c:1257 client/gui-mui/citydlg.c:1430
-#: client/gui-win32/citydlg.c:2039 client/gui-xaw/citydlg.c:2587
+#: client/gui-win32/citydlg.c:2151 client/gui-xaw/citydlg.c:2587
 msgid "Taxmen"
 msgstr "Steuereintreiber"
 
@@ -6758,7 +6788,7 @@ msgstr "Hubschrauber"
 msgid "Air units"
 msgstr "Flugzeuge"
 
-#: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2042
+#: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2154
 msgid "Disband if build settler at size 1"
 msgstr ""
 "Stadt der Größe 1\n"
@@ -6804,7 +6834,7 @@ msgstr "Einstellungen"
 msgid "Auto attack vs"
 msgstr "Selbständiger Angriff gegen"
 
-#: client/gui-gtk/citydlg.c:1340 client/gui-win32/citydlg.c:2034
+#: client/gui-gtk/citydlg.c:1340 client/gui-win32/citydlg.c:2146
 msgid "New citizens are"
 msgstr "Neue Bürger werden"
 
@@ -6813,7 +6843,7 @@ msgid "City name"
 msgstr "Name der Stadt"
 
 #: client/gui-gtk/citydlg.c:1366 client/gui-gtk/wldlg.c:222
-#: client/gui-win32/citydlg.c:815 data/Freeciv:1940 data/Freeciv:2962
+#: client/gui-win32/citydlg.c:892 data/Freeciv:1940 data/Freeciv:2962
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -6875,42 +6905,46 @@ msgid "Present units (%d)"
 msgstr "Stationierte Einheiten (%d)"
 
 #: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2069
+#: client/gui-win32/citydlg.c:1378
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #: client/gui-gtk/citydlg.c:2302 client/gui-mui/citydlg.c:2072
+#: client/gui-win32/citydlg.c:1381
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Der Handel mit %s erbringt %d Handelspunkte.\n"
 
 #: client/gui-gtk/citydlg.c:2308 client/gui-mui/citydlg.c:2078
+#: client/gui-win32/citydlg.c:1387
 msgid "No trade routes exist."
 msgstr "Es gibt keine Handelswege."
 
 #: client/gui-gtk/citydlg.c:2311 client/gui-mui/citydlg.c:2081
+#: client/gui-win32/citydlg.c:1390
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Handelspunkte insgesamt: %d"
 
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2511
-#: client/gui-win32/citydlg.c:1556 client/gui-win32/citydlg.c:1584
+#: client/gui-win32/citydlg.c:1635 client/gui-win32/citydlg.c:1663
 #: data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
 msgstr "Befehle"
 
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2512
-#: client/gui-win32/citydlg.c:1558 client/gui-win32/citydlg.c:1586
+#: client/gui-win32/citydlg.c:1637 client/gui-win32/citydlg.c:1665
 msgid "_Activate unit"
 msgstr "Einheit _aktivieren"
 
 #: client/gui-gtk/citydlg.c:2483 client/gui-gtk/citydlg.c:2513
-#: client/gui-win32/citydlg.c:1560 client/gui-win32/citydlg.c:1588
+#: client/gui-win32/citydlg.c:1639 client/gui-win32/citydlg.c:1667
 msgid "Activate unit, _close dialog"
 msgstr "Einheit aktivieren, _Fenster schließen"
 
 #: client/gui-gtk/citydlg.c:2485 client/gui-gtk/citydlg.c:2518
-#: client/gui-win32/citydlg.c:1562 client/gui-win32/citydlg.c:1594
+#: client/gui-win32/citydlg.c:1641 client/gui-win32/citydlg.c:1673
 msgid "_Disband unit"
 msgstr "Einheit a_uflösen"
 
@@ -6925,37 +6959,37 @@ msgstr "Einheit a_uflösen"
 #: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
 #: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
 #: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:91
-#: client/gui-mui/worklistclass.c:656 client/gui-win32/citydlg.c:1564
-#: client/gui-win32/citydlg.c:1600 client/gui-win32/dialogs.c:1615
+#: client/gui-mui/worklistclass.c:656 client/gui-win32/citydlg.c:1643
+#: client/gui-win32/citydlg.c:1679 client/gui-win32/dialogs.c:1615
 #: client/gui-win32/dialogs.c:1637 client/gui-win32/dialogs.c:1667
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
-#: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1590
+#: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1669
 msgid "_Sentry unit"
 msgstr "_Stellung halten"
 
-#: client/gui-gtk/citydlg.c:2517 client/gui-win32/citydlg.c:1592
+#: client/gui-gtk/citydlg.c:2517 client/gui-win32/citydlg.c:1671
 msgid "_Fortify unit"
 msgstr "Einheit _eingraben"
 
-#: client/gui-gtk/citydlg.c:2520 client/gui-win32/citydlg.c:1596
+#: client/gui-gtk/citydlg.c:2520 client/gui-win32/citydlg.c:1675
 msgid "Make new _homecity"
 msgstr "Standort als neue _Heimatstadt wählen"
 
-#: client/gui-gtk/citydlg.c:2522 client/gui-win32/citydlg.c:1598
+#: client/gui-gtk/citydlg.c:2522 client/gui-win32/citydlg.c:1677
 msgid "_Upgrade unit"
 msgstr "Einheit _modernisieren"
 
 #: client/gui-gtk/citydlg.c:2708 client/gui-mui/dialogs.c:1864
-#: client/gui-win32/citydlg.c:1508 client/gui-xaw/citydlg.c:2111
+#: client/gui-win32/citydlg.c:1587 client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "%s können nicht modernisiert werden."
 
 #: client/gui-gtk/citydlg.c:2711 client/gui-gtk/citydlg.c:2734
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
-#: client/gui-win32/citydlg.c:1509 client/gui-win32/citydlg.c:1533
+#: client/gui-win32/citydlg.c:1588 client/gui-win32/citydlg.c:1612
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
 msgstr "Einheit modernisieren!"
@@ -6964,8 +6998,8 @@ msgstr "Einheit modernisieren!"
 #: client/gui-gtk/citydlg.c:2945 client/gui-gtk/dialogs.c:413
 #: client/gui-gtk/dialogs.c:979 client/gui-gtk/dialogs.c:994
 #: client/gui-mui/dialogs.c:238 client/gui-mui/dialogs.c:507
-#: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:930
-#: client/gui-win32/citydlg.c:1510 client/gui-win32/citydlg.c:1534
+#: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:1004
+#: client/gui-win32/citydlg.c:1589 client/gui-win32/citydlg.c:1613
 #: client/gui-win32/dialogs.c:1371 client/gui-win32/dialogs.c:1554
 #: client/gui-win32/dialogs.c:1569 data/Freeciv:2185 data/Freeciv:2389
 #: data/Freeciv:2419
@@ -6973,7 +7007,7 @@ msgid "Darn"
 msgstr "Zurück"
 
 #: client/gui-gtk/citydlg.c:2717 client/gui-mui/dialogs.c:1874
-#: client/gui-win32/citydlg.c:1516 client/gui-xaw/citydlg.c:2120
+#: client/gui-win32/citydlg.c:1595 client/gui-xaw/citydlg.c:2120
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -6984,7 +7018,7 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:2723 client/gui-gtk/repodlgs.c:933
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:792
-#: client/gui-win32/citydlg.c:1521 client/gui-win32/repodlgs.c:597
+#: client/gui-win32/citydlg.c:1600 client/gui-win32/repodlgs.c:597
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
 msgstr "Modernisiere veraltete Einheiten"
@@ -6995,8 +7029,8 @@ msgstr "Modernisiere veraltete Einheiten"
 #: client/gui-gtk/dialogs.c:1354 client/gui-mui/citydlg.c:1035
 #: client/gui-mui/citydlg.c:1075 client/gui-mui/dialogs.c:514
 #: client/gui-mui/dialogs.c:1161 client/gui-mui/dialogs.c:1879
-#: client/gui-mui/repodlgs.c:793 client/gui-win32/citydlg.c:921
-#: client/gui-win32/citydlg.c:985 client/gui-win32/citydlg.c:1522
+#: client/gui-mui/repodlgs.c:793 client/gui-win32/citydlg.c:995
+#: client/gui-win32/citydlg.c:1059 client/gui-win32/citydlg.c:1601
 #: client/gui-win32/dialogs.c:857 client/gui-win32/dialogs.c:1363
 #: client/gui-win32/dialogs.c:1561
 msgid "_Yes"
@@ -7008,15 +7042,15 @@ msgstr "_Ja"
 #: client/gui-gtk/dialogs.c:1355 client/gui-mui/citydlg.c:1036
 #: client/gui-mui/citydlg.c:1076 client/gui-mui/dialogs.c:515
 #: client/gui-mui/dialogs.c:1162 client/gui-mui/dialogs.c:1880
-#: client/gui-mui/repodlgs.c:794 client/gui-win32/citydlg.c:922
-#: client/gui-win32/citydlg.c:986 client/gui-win32/citydlg.c:1524
+#: client/gui-mui/repodlgs.c:794 client/gui-win32/citydlg.c:996
+#: client/gui-win32/citydlg.c:1060 client/gui-win32/citydlg.c:1603
 #: client/gui-win32/dialogs.c:858 client/gui-win32/dialogs.c:1364
 #: client/gui-win32/dialogs.c:1562
 msgid "_No"
 msgstr "_Nein"
 
 #: client/gui-gtk/citydlg.c:2729 client/gui-mui/dialogs.c:1884
-#: client/gui-win32/citydlg.c:1528 client/gui-xaw/citydlg.c:2130
+#: client/gui-win32/citydlg.c:1607 client/gui-xaw/citydlg.c:2130
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -7026,7 +7060,7 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #: client/gui-gtk/citydlg.c:2932 client/gui-mui/citydlg.c:1031
-#: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:2050
+#: client/gui-win32/citydlg.c:991 client/gui-xaw/citydlg.c:2050
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -7037,13 +7071,13 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:2936 client/gui-gtk/citydlg.c:2945
 #: client/gui-mui/citydlg.c:1034 client/gui-mui/citydlg.c:1044
-#: client/gui-win32/citydlg.c:920 client/gui-win32/citydlg.c:929
+#: client/gui-win32/citydlg.c:994 client/gui-win32/citydlg.c:1003
 #: data/Freeciv:2153 data/Freeciv:2183
 msgid "Buy It!"
 msgstr "Kaufen!"
 
 #: client/gui-gtk/citydlg.c:2941 client/gui-mui/citydlg.c:1041
-#: client/gui-win32/citydlg.c:926 client/gui-xaw/citydlg.c:2059
+#: client/gui-win32/citydlg.c:1000 client/gui-xaw/citydlg.c:2059
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -7055,30 +7089,30 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:310
 #: client/gui-gtk/wldlg.c:316 client/gui-mui/citydlg.c:687
 #: client/gui-mui/citydlg.c:716 client/gui-mui/worklistclass.c:214
-#: client/gui-win32/citydlg.c:1114
+#: client/gui-win32/citydlg.c:1188
 msgid "Type"
 msgstr "Bezeichnung"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:311
 #: client/gui-gtk/wldlg.c:317 client/gui-mui/citydlg.c:688
-#: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1117
+#: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1191
 msgid "Info"
 msgstr "Info"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/repodlgs.c:565
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:690 client/gui-mui/repodlgs.c:499
-#: client/gui-mui/worklistclass.c:216 client/gui-win32/citydlg.c:1121
+#: client/gui-mui/worklistclass.c:216 client/gui-win32/citydlg.c:1195
 #: client/gui-win32/repodlgs.c:492
 msgid "Cost"
 msgstr "Kosten"
 
 #: client/gui-gtk/citydlg.c:3000 client/gui-gtk/wldlg.c:319
-#: client/gui-win32/citydlg.c:1123
+#: client/gui-win32/citydlg.c:1197
 msgid "Turns"
 msgstr "Runden"
 
-#: client/gui-gtk/citydlg.c:3022 client/gui-win32/citydlg.c:1093
+#: client/gui-gtk/citydlg.c:3022 client/gui-win32/citydlg.c:1167
 #: data/Freeciv:2012
 msgid "Change Production"
 msgstr "Produktion ändern"
@@ -7097,13 +7131,13 @@ msgid "_Help"
 msgstr "_Hilfe"
 
 #: client/gui-gtk/citydlg.c:3213 client/gui-mui/citydlg.c:1069
-#: client/gui-win32/citydlg.c:980 client/gui-xaw/citydlg.c:2487
+#: client/gui-win32/citydlg.c:1054 client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "%s für %d Goldstücke verkaufen?"
 
 #: client/gui-gtk/citydlg.c:3217 client/gui-mui/citydlg.c:1074
-#: client/gui-win32/citydlg.c:985 data/Freeciv:2172
+#: client/gui-win32/citydlg.c:1059 data/Freeciv:2172
 msgid "Sell It!"
 msgstr "Verkaufen!"
 
@@ -7112,12 +7146,12 @@ msgstr "Verkaufen!"
 msgid "Sell (worth %d gold)"
 msgstr "Verkaufen (für %d Goldstücke)"
 
-#: client/gui-gtk/citydlg.c:3391 client/gui-win32/citydlg.c:1258
+#: client/gui-gtk/citydlg.c:3391 client/gui-win32/citydlg.c:1322
 #: data/Freeciv:524
 msgid "Rename City"
 msgstr "Stadt umbenennen"
 
-#: client/gui-gtk/citydlg.c:3393 client/gui-win32/citydlg.c:1259
+#: client/gui-gtk/citydlg.c:3393 client/gui-win32/citydlg.c:1323
 #: client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "Wie soll die Stadt heißen?"
@@ -7274,8 +7308,8 @@ msgstr "Zu:"
 msgid "Change Production Everywhere"
 msgstr "Produktion überall verändern"
 
-#: client/gui-gtk/cityrep.c:1079 client/gui-win32/citydlg.c:780
-#: client/gui-win32/citydlg.c:1104 client/gui-win32/cityrep.c:756
+#: client/gui-gtk/cityrep.c:1079 client/gui-win32/citydlg.c:856
+#: client/gui-win32/citydlg.c:1178 client/gui-win32/cityrep.c:756
 #: client/gui-win32/cityrep.c:890 data/Freeciv:1381 data/Freeciv:1583
 #: data/Freeciv:1737 data/Freeciv:2026 data/Freeciv:2974
 msgid "Change"
@@ -7285,16 +7319,16 @@ msgstr "Ändern"
 #: client/gui-gtk/dialogs.c:1542 client/gui-gtk/finddlg.c:108
 #: client/gui-gtk/gamedlgs.c:315 client/gui-gtk/inputdlg.c:106
 #: client/gui-gtk/messagedlg.c:147 client/gui-gtk/wldlg.c:488
-#: client/gui-win32/citydlg.c:1106 client/gui-win32/citydlg.c:2054
-#: client/gui-win32/cityrep.c:764 client/gui-win32/connectdlg.c:1169
-#: client/gui-win32/dialogs.c:1749 client/gui-win32/dialogs.c:1954
-#: client/gui-win32/finddlg.c:126 client/gui-win32/gotodlg.c:167
-#: client/gui-win32/inputdlg.c:129 client/gui-win32/messagedlg.c:138
-#: client/gui-win32/ratesdlg.c:333 client/gui-xaw/inputdlg.c:109
-#: data/Freeciv:1096 data/Freeciv:1151 data/Freeciv:1193 data/Freeciv:1213
-#: data/Freeciv:1243 data/Freeciv:1274 data/Freeciv:1352 data/Freeciv:1500
-#: data/Freeciv:1752 data/Freeciv:2032 data/Freeciv:2109 data/Freeciv:2226
-#: data/Freeciv:2261 data/Freeciv:2370 data/Freeciv:2438 data/Freeciv:2448
+#: client/gui-win32/citydlg.c:1180 client/gui-win32/cityrep.c:764
+#: client/gui-win32/connectdlg.c:1169 client/gui-win32/dialogs.c:1749
+#: client/gui-win32/dialogs.c:1954 client/gui-win32/finddlg.c:126
+#: client/gui-win32/gotodlg.c:167 client/gui-win32/inputdlg.c:129
+#: client/gui-win32/messagedlg.c:138 client/gui-win32/ratesdlg.c:333
+#: client/gui-xaw/inputdlg.c:109 data/Freeciv:1096 data/Freeciv:1151
+#: data/Freeciv:1193 data/Freeciv:1213 data/Freeciv:1243 data/Freeciv:1274
+#: data/Freeciv:1352 data/Freeciv:1500 data/Freeciv:1752 data/Freeciv:2032
+#: data/Freeciv:2109 data/Freeciv:2226 data/Freeciv:2261 data/Freeciv:2370
+#: data/Freeciv:2438 data/Freeciv:2448
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -7320,7 +7354,7 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:222
 #: client/gui-gtk/repodlgs.c:598 client/gui-gtk/repodlgs.c:831
 #: client/gui-gtk/spaceshipdlg.c:207 client/gui-gtk/wldlg.c:202
-#: client/gui-win32/citydlg.c:813 client/gui-win32/cityrep.c:134
+#: client/gui-win32/citydlg.c:890 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:886 client/gui-win32/dialogs.c:179
 #: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:667
 #: client/gui-win32/dialogs.c:1274 client/gui-win32/dialogs.c:1486
@@ -7836,10 +7870,10 @@ msgstr "Bauweise:"
 
 #: client/gui-gtk/dialogs.c:2026 client/gui-gtk/gamedlgs.c:306
 #: client/gui-gtk/inputdlg.c:100 client/gui-gtk/messagedlg.c:139
-#: client/gui-gtk/wldlg.c:482 client/gui-win32/citydlg.c:2053
-#: client/gui-win32/dialogs.c:504 client/gui-win32/messagedlg.c:137
-#: client/gui-win32/ratesdlg.c:332 client/gui-xaw/inputdlg.c:102
-#: data/Freeciv:1241 data/Freeciv:1272 data/Freeciv:1349 data/Freeciv:1497
+#: client/gui-gtk/wldlg.c:482 client/gui-win32/dialogs.c:504
+#: client/gui-win32/messagedlg.c:137 client/gui-win32/ratesdlg.c:332
+#: client/gui-xaw/inputdlg.c:102 data/Freeciv:1241 data/Freeciv:1272
+#: data/Freeciv:1349 data/Freeciv:1497
 msgid "Ok"
 msgstr "OK"
 
@@ -8825,8 +8859,7 @@ msgid "_Wait"
 msgstr "Warten"
 
 #: client/gui-gtk/menu.c:700 client/gui-mui/gui_main.c:305
-#: client/gui-win32/citydlg.c:1312 client/gui-win32/menu.c:350
-#: client/gui-xaw/menu.c:191
+#: client/gui-win32/menu.c:350 client/gui-xaw/menu.c:191
 msgid "Done"
 msgstr "Fertig"
 
@@ -8892,7 +8925,7 @@ msgstr "_Raumschiff"
 #: client/gui-gtk/menu.c:772 client/gui-gtk/menu.c:774
 #: client/gui-gtk/repodlgs.c:187 client/gui-gtk/wldlg.c:498
 #: client/gui-mui/gui_main.c:318 client/gui-mui/helpdlg.c:284
-#: client/gui-mui/repodlgs.c:314 client/gui-win32/citydlg.c:1108
+#: client/gui-mui/repodlgs.c:314 client/gui-win32/citydlg.c:1182
 #: client/gui-win32/repodlgs.c:290 data/Freeciv:1970 data/Freeciv:2038
 #: data/Freeciv:2121 data/Freeciv:2127
 msgid "Help"
@@ -9386,7 +9419,7 @@ msgid "empty worklist"
 msgstr "leere Arbeitsliste"
 
 #: client/gui-gtk/wldlg.c:1353 client/gui-mui/citydlg.c:1435
-#: client/gui-win32/citydlg.c:772 data/Freeciv:2976
+#: client/gui-win32/citydlg.c:768 data/Freeciv:2976
 msgid "Worklist"
 msgstr "Arbeitsliste"
 
@@ -9430,16 +9463,16 @@ msgstr "Schilde"
 msgid "Gold:"
 msgstr "Gold:"
 
-#: client/gui-mui/citydlg.c:1433
+#: client/gui-mui/citydlg.c:1433 client/gui-win32/citydlg.c:768
 msgid "City Overview"
 msgstr "Stadtübersicht"
 
-#: client/gui-mui/citydlg.c:1438 client/gui-win32/citydlg.c:1310
+#: client/gui-mui/citydlg.c:1438 client/gui-win32/citydlg.c:770
 #: data/Freeciv:2164
 msgid "Trade Routes"
 msgstr "Handelswege"
 
-#: client/gui-mui/citydlg.c:1439
+#: client/gui-mui/citydlg.c:1439 client/gui-win32/citydlg.c:771
 msgid "Misc. Settings"
 msgstr "Sonstige Einstellungen"
 
@@ -10285,17 +10318,17 @@ msgstr "Arbeitsliste für die Stadt"
 msgid "Name of Worklist"
 msgstr "Name der Arbeitsliste"
 
-#: client/gui-win32/citydlg.c:339
+#: client/gui-win32/citydlg.c:362
 #, c-format, ycp-format
 msgid "Pollution:   %3d"
 msgstr "Verschmutzung: %3d"
 
-#: client/gui-win32/citydlg.c:351
+#: client/gui-win32/citydlg.c:374
 #, c-format
 msgid "Granary: %3d/%-3d"
 msgstr "Kornvorrat: %3d/%-3d"
 
-#: client/gui-win32/citydlg.c:366
+#: client/gui-win32/citydlg.c:389
 #, c-format
 msgid ""
 "Food:    %2d (%+2d)\n"
@@ -10306,7 +10339,7 @@ msgstr ""
 "Produktion:       %2d (%+2d)\n"
 "Handel:           %2d (%+2d)"
 
-#: client/gui-win32/citydlg.c:383
+#: client/gui-win32/citydlg.c:406
 #, c-format
 msgid ""
 "Gold:    %2d (%+2d)\n"
@@ -10317,66 +10350,38 @@ msgstr ""
 "Luxusgüter:       %2d\n"
 "Forschung:        %2d"
 
-#: client/gui-win32/citydlg.c:778 client/gui-win32/cityrep.c:889
+#: client/gui-win32/citydlg.c:854 client/gui-win32/cityrep.c:889
 #: data/Freeciv:1575
 msgid "Buy"
 msgstr "Kaufen"
 
-#: client/gui-win32/citydlg.c:821 data/Freeciv:2966
+#: client/gui-win32/citydlg.c:896 data/Freeciv:2966
 msgid "Activate Units"
 msgstr "Einheiten aktivieren"
 
-#: client/gui-win32/citydlg.c:824 data/Freeciv:2968
+#: client/gui-win32/citydlg.c:899 data/Freeciv:2968
 msgid "Unit List"
 msgstr "Liste aller Einheiten"
 
-#: client/gui-win32/citydlg.c:827 client/gui-win32/cityrep.c:894
-#: data/Freeciv:1607
-msgid "Configure"
-msgstr "Einstellen"
-
-#: client/gui-win32/citydlg.c:1292 client/gui-win32/citydlg.c:1297
-#: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
-#, c-format, ycp-format
-msgid "%32s: %2d Trade/Year\n"
-msgstr "%32s: %2d Handel/Jahr\n"
-
-#: client/gui-win32/citydlg.c:1304 client/gui-xaw/citydlg.c:1441
-msgid "No trade routes exist.\n"
-msgstr "Es gibt keine Handelswege.\n"
-
-#: client/gui-win32/citydlg.c:1306 client/gui-xaw/citydlg.c:1443
-#, c-format
-msgid ""
-"\n"
-"Total trade %d Trade/Year\n"
-msgstr ""
-"\n"
-"Gesamter Handel %d Handel/Jahr\n"
-
-#: client/gui-win32/citydlg.c:2035
+#: client/gui-win32/citydlg.c:2147
 msgid "Elvises"
 msgstr "Unterhalter"
 
-#: client/gui-win32/citydlg.c:2044
+#: client/gui-win32/citydlg.c:2156
 msgid "Auto-attack vs land units"
 msgstr "Landeinheiten automatisch angreifen"
 
-#: client/gui-win32/citydlg.c:2046
+#: client/gui-win32/citydlg.c:2158
 msgid "Auto-attack vs sea units"
 msgstr "Marineeinheiten automatisch angreifen"
 
-#: client/gui-win32/citydlg.c:2048
+#: client/gui-win32/citydlg.c:2160
 msgid "Auto-attack vs air units"
 msgstr "Luftwaffeneinheiten automatisch angreifen"
 
-#: client/gui-win32/citydlg.c:2050
+#: client/gui-win32/citydlg.c:2162
 msgid "Auto-attack vs helicopters"
 msgstr "Helikopter automatisch angreifen"
-
-#: client/gui-win32/citydlg.c:2112 data/Freeciv:1449 data/Freeciv:2970
-msgid "City Options"
-msgstr "Allgemeine Einstellungen"
 
 #: client/gui-win32/cityrep.c:478
 msgid "Available To Build"
@@ -10401,6 +10406,10 @@ msgstr "Alles ändern"
 #: client/gui-win32/cityrep.c:893
 msgid "Select"
 msgstr "Wählen"
+
+#: client/gui-win32/cityrep.c:894 data/Freeciv:1607
+msgid "Configure"
+msgstr "Einstellen"
 
 #: client/gui-win32/connectdlg.c:81
 msgid "Start Game"
@@ -10629,6 +10638,24 @@ msgstr "(in Arbeit)"
 #, c-format
 msgid "These trade routes have been established with %s:\n"
 msgstr "Diese Handelswege wurden mit %s eingerichtet:\n"
+
+#: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
+#, c-format, ycp-format
+msgid "%32s: %2d Trade/Year\n"
+msgstr "%32s: %2d Handel/Jahr\n"
+
+#: client/gui-xaw/citydlg.c:1441
+msgid "No trade routes exist.\n"
+msgstr "Es gibt keine Handelswege.\n"
+
+#: client/gui-xaw/citydlg.c:1443
+#, c-format
+msgid ""
+"\n"
+"Total trade %d Trade/Year\n"
+msgstr ""
+"\n"
+"Gesamter Handel %d Handel/Jahr\n"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/gui-xaw/colors.c:83
@@ -10931,6 +10958,10 @@ msgstr "Wähle Steuer-, Luxus- und Forschungsquote:"
 #: data/Freeciv:1389
 msgid "Help:"
 msgstr "Hilfe:"
+
+#: data/Freeciv:1449 data/Freeciv:2970
+msgid "City Options"
+msgstr "Allgemeine Einstellungen"
 
 #: data/Freeciv:1459
 msgid "Make new citizens into:     "
@@ -12979,12 +13010,12 @@ msgstr ""
 "gegnerischen Hauptstadt."
 
 #: data/civ1/buildings.ruleset:28 data/civ2/buildings.ruleset:28
-#: data/default/buildings.ruleset:216
+#: data/default/buildings.ruleset:219
 msgid "Airport"
 msgstr "Flughafen"
 
-#: data/civ1/buildings.ruleset:47 data/civ2/buildings.ruleset:47
-#: data/default/buildings.ruleset:235
+#: data/civ1/buildings.ruleset:49 data/civ2/buildings.ruleset:49
+#: data/default/buildings.ruleset:240
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
@@ -13004,18 +13035,18 @@ msgstr ""
 "werden alle Bewegungspunkte der Einheit verbraucht. Von einem Flughafen kann "
 "nur einen Transport pro Runde durchgeführt werden."
 
-#: data/civ1/buildings.ruleset:59 data/civ2/buildings.ruleset:59
-#: data/default/buildings.ruleset:247
+#: data/civ1/buildings.ruleset:61 data/civ2/buildings.ruleset:61
+#: data/default/buildings.ruleset:252
 msgid "Aqueduct"
 msgstr "Aquädukt"
 
-#: data/civ1/buildings.ruleset:84 data/civ2/buildings.ruleset:85
-#: data/default/buildings.ruleset:273
+#: data/civ1/buildings.ruleset:88 data/civ2/buildings.ruleset:89
+#: data/default/buildings.ruleset:280
 msgid "Bank"
 msgstr "Bank"
 
-#: data/civ1/buildings.ruleset:103 data/civ2/buildings.ruleset:104
-#: data/default/buildings.ruleset:292
+#: data/civ1/buildings.ruleset:109 data/civ2/buildings.ruleset:110
+#: data/default/buildings.ruleset:301
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
@@ -13024,14 +13055,14 @@ msgstr ""
 "Zusammen mit einem Marktplatz verdoppelt eine Bank die Luxusproduktion und "
 "die Steuereinnahmen einer Stadt."
 
-#: data/civ1/buildings.ruleset:109 data/civ2/buildings.ruleset:110
-#: data/default/buildings.ruleset:298
+#: data/civ1/buildings.ruleset:115 data/civ2/buildings.ruleset:116
+#: data/default/buildings.ruleset:307
 msgid "Barracks"
 msgstr "Kasernen"
 
-#: data/civ2/buildings.ruleset:128 data/civ2/buildings.ruleset:155
-#: data/civ2/buildings.ruleset:182 data/default/buildings.ruleset:316
-#: data/default/buildings.ruleset:343 data/default/buildings.ruleset:370
+#: data/civ2/buildings.ruleset:136 data/civ2/buildings.ruleset:165
+#: data/civ2/buildings.ruleset:194 data/default/buildings.ruleset:327
+#: data/default/buildings.ruleset:356 data/default/buildings.ruleset:385
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -13043,22 +13074,22 @@ msgstr ""
 "Beschädigte Landeinheiten, die eine Runde in der Stadt bleiben, werden "
 "vollständig instandgesetzt."
 
-#: data/civ1/buildings.ruleset:145 data/civ2/buildings.ruleset:137
-#: data/default/buildings.ruleset:325
+#: data/civ1/buildings.ruleset:153 data/civ2/buildings.ruleset:145
+#: data/default/buildings.ruleset:336
 msgid "Barracks II"
 msgstr "Kasernen II"
 
-#: data/civ1/buildings.ruleset:180 data/civ2/buildings.ruleset:164
-#: data/default/buildings.ruleset:352
+#: data/civ1/buildings.ruleset:190 data/civ2/buildings.ruleset:174
+#: data/default/buildings.ruleset:365
 msgid "Barracks III"
 msgstr "Kasernen III"
 
-#: data/civ1/buildings.ruleset:215 data/civ2/buildings.ruleset:191
-#: data/default/buildings.ruleset:379
+#: data/civ1/buildings.ruleset:227 data/civ2/buildings.ruleset:203
+#: data/default/buildings.ruleset:394
 msgid "Cathedral"
 msgstr "Kathedrale"
 
-#: data/civ2/buildings.ruleset:210 data/default/buildings.ruleset:398
+#: data/civ2/buildings.ruleset:224 data/default/buildings.ruleset:415
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
@@ -13071,12 +13102,12 @@ msgstr ""
 "macht sie einen zusätzlichen Unzufriedenen zufrieden; nach Entdeckung des "
 "Kommunismus macht sie einen Unzufriedenen weniger zufrieden."
 
-#: data/civ1/buildings.ruleset:238 data/civ2/buildings.ruleset:220
-#: data/default/buildings.ruleset:408
+#: data/civ1/buildings.ruleset:252 data/civ2/buildings.ruleset:234
+#: data/default/buildings.ruleset:425
 msgid "City Walls"
 msgstr "Stadtmauer"
 
-#: data/civ2/buildings.ruleset:240 data/default/buildings.ruleset:428
+#: data/civ2/buildings.ruleset:256 data/default/buildings.ruleset:447
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground and helicopter units.  They "
@@ -13091,13 +13122,13 @@ msgstr ""
 "Sie verhindert Verluste bei der Bevölkerung, falls gegnerische Landeinheiten "
 "eine in der Stadt stationierte Einheit vernichten."
 
-#: data/civ1/buildings.ruleset:268 data/civ2/buildings.ruleset:249
-#: data/default/buildings.ruleset:437
+#: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:265
+#: data/default/buildings.ruleset:456
 msgid "Coastal Defense"
 msgstr "Küstenverteidigung"
 
-#: data/civ1/buildings.ruleset:285 data/civ2/buildings.ruleset:266
-#: data/default/buildings.ruleset:454
+#: data/civ1/buildings.ruleset:303 data/civ2/buildings.ruleset:284
+#: data/default/buildings.ruleset:475
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
@@ -13105,12 +13136,12 @@ msgstr ""
 "Verdoppelt die Verteidigungsstärke in der Stadt stationierter Einheiten "
 "gegenüber angreifenden Marineeinheiten."
 
-#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:272
-#: data/default/buildings.ruleset:460
+#: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:290
+#: data/default/buildings.ruleset:481
 msgid "Colosseum"
 msgstr "Kolosseum"
 
-#: data/default/buildings.ruleset:478
+#: data/default/buildings.ruleset:501
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
@@ -13118,13 +13149,13 @@ msgstr ""
 "Sorgt für Unterhaltung der Bürger einer Stadt und stellt so 3 (nach "
 "Entdeckung der Elektrizität 4) Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:313 data/civ2/buildings.ruleset:296
-#: data/default/buildings.ruleset:486
+#: data/civ1/buildings.ruleset:333 data/civ2/buildings.ruleset:316
+#: data/default/buildings.ruleset:509
 msgid "Courthouse"
 msgstr "Gerichtsgebäude"
 
-#: data/civ1/buildings.ruleset:332 data/civ2/buildings.ruleset:315
-#: data/default/buildings.ruleset:505
+#: data/civ1/buildings.ruleset:354 data/civ2/buildings.ruleset:337
+#: data/default/buildings.ruleset:530
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
@@ -13136,13 +13167,13 @@ msgstr ""
 "\n"
 "Der Entfernungseffekt zur Hauptstadt wird halbiert."
 
-#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:323
-#: data/default/buildings.ruleset:513
+#: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
+#: data/default/buildings.ruleset:538
 msgid "Factory"
 msgstr "Fabrik"
 
-#: data/civ1/buildings.ruleset:357 data/civ2/buildings.ruleset:340
-#: data/default/buildings.ruleset:530
+#: data/civ1/buildings.ruleset:381 data/civ2/buildings.ruleset:364
+#: data/default/buildings.ruleset:557
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
@@ -13150,13 +13181,13 @@ msgstr ""
 "Erhöht die Schildproduktion in einer Stadt um 50%, trägt aber auch "
 "wesentlich zur Umweltverschmutzung bei."
 
-#: data/civ1/buildings.ruleset:363 data/civ2/buildings.ruleset:346
-#: data/default/buildings.ruleset:536
+#: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370
+#: data/default/buildings.ruleset:563
 msgid "Granary"
 msgstr "Kornspeicher"
 
-#: data/civ1/buildings.ruleset:380 data/civ2/buildings.ruleset:363
-#: data/default/buildings.ruleset:553
+#: data/civ1/buildings.ruleset:406 data/civ2/buildings.ruleset:389
+#: data/default/buildings.ruleset:582
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -13166,13 +13197,13 @@ msgstr ""
 "aufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot besser zu "
 "widerstehen."
 
-#: data/civ1/buildings.ruleset:390 data/civ2/buildings.ruleset:373
-#: data/default/buildings.ruleset:563
+#: data/civ1/buildings.ruleset:416 data/civ2/buildings.ruleset:399
+#: data/default/buildings.ruleset:592
 msgid "Harbour"
 msgstr "Hafen"
 
-#: data/civ1/buildings.ruleset:407 data/civ2/buildings.ruleset:390
-#: data/default/buildings.ruleset:580
+#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:418
+#: data/default/buildings.ruleset:611
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
@@ -13180,12 +13211,12 @@ msgstr ""
 "+1 Nahrung von allen Ozeanfeldern\n"
 "Kann nur von Küstenstädten gebaut werden."
 
-#: data/civ1/buildings.ruleset:413 data/civ2/buildings.ruleset:396
-#: data/default/buildings.ruleset:586
+#: data/civ1/buildings.ruleset:441 data/civ2/buildings.ruleset:424
+#: data/default/buildings.ruleset:617
 msgid "Hydro Plant"
 msgstr "Wasserkraftwerk"
 
-#: data/default/buildings.ruleset:606
+#: data/default/buildings.ruleset:639
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -13207,48 +13238,48 @@ msgstr ""
 "bauen. Wasserkraftwerke können nur auf oder neben Berg- oder Flußfeldern "
 "gebaut werden."
 
-#: data/civ1/buildings.ruleset:446 data/civ2/buildings.ruleset:431
-#: data/default/buildings.ruleset:625
+#: data/civ1/buildings.ruleset:476 data/civ2/buildings.ruleset:461
+#: data/default/buildings.ruleset:658
 msgid "Library"
 msgstr "Bücherei"
 
-#: data/civ1/buildings.ruleset:464 data/civ2/buildings.ruleset:449
-#: data/default/buildings.ruleset:643
+#: data/civ1/buildings.ruleset:496 data/civ2/buildings.ruleset:481
+#: data/default/buildings.ruleset:678
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Erhöht das Forschungstempo in der Stadt um 50%."
 
-#: data/civ1/buildings.ruleset:469 data/civ2/buildings.ruleset:454
-#: data/default/buildings.ruleset:648
+#: data/civ1/buildings.ruleset:501 data/civ2/buildings.ruleset:486
+#: data/default/buildings.ruleset:683
 msgid "Marketplace"
 msgstr "Marktplatz"
 
-#: data/civ1/buildings.ruleset:488 data/civ2/buildings.ruleset:473
-#: data/default/buildings.ruleset:667
+#: data/civ1/buildings.ruleset:522 data/civ2/buildings.ruleset:507
+#: data/default/buildings.ruleset:704
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Erhöht die Luxusproduktion und Steuereinnahmen der Stadt um 50%."
 
-#: data/civ1/buildings.ruleset:493 data/civ2/buildings.ruleset:478
-#: data/default/buildings.ruleset:672
+#: data/civ1/buildings.ruleset:527 data/civ2/buildings.ruleset:512
+#: data/default/buildings.ruleset:709
 msgid "Mass Transit"
 msgstr "Massenbeförderung"
 
-#: data/civ1/buildings.ruleset:510 data/civ2/buildings.ruleset:495
-#: data/default/buildings.ruleset:689
+#: data/civ1/buildings.ruleset:546 data/civ2/buildings.ruleset:531
+#: data/default/buildings.ruleset:728
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
 "Neutralisiert die durch die Bevölkerung verursachte Umweltverschmutzung."
 
-#: data/civ1/buildings.ruleset:517 data/civ2/buildings.ruleset:502
-#: data/default/buildings.ruleset:696
+#: data/civ1/buildings.ruleset:553 data/civ2/buildings.ruleset:538
+#: data/default/buildings.ruleset:735
 msgid "Mfg. Plant"
 msgstr "Fertigungsstätte"
 
-#: data/civ1/buildings.ruleset:535 data/civ2/buildings.ruleset:520
-#: data/default/buildings.ruleset:714
+#: data/civ1/buildings.ruleset:573 data/civ2/buildings.ruleset:558
+#: data/default/buildings.ruleset:755
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
@@ -13257,12 +13288,12 @@ msgstr ""
 "In Verbindung mit einer Fabrik verdoppelt die Stadt ihre Produktion "
 "(Schilde)."
 
-#: data/civ1/buildings.ruleset:541 data/civ2/buildings.ruleset:526
-#: data/default/buildings.ruleset:720
+#: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:564
+#: data/default/buildings.ruleset:761
 msgid "Nuclear Plant"
 msgstr "Atomkraftwerk"
 
-#: data/default/buildings.ruleset:740
+#: data/default/buildings.ruleset:783
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -13281,13 +13312,13 @@ msgstr ""
 "Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
 "bauen."
 
-#: data/civ1/buildings.ruleset:576 data/civ2/buildings.ruleset:563
-#: data/default/buildings.ruleset:760
+#: data/civ1/buildings.ruleset:616 data/civ2/buildings.ruleset:603
+#: data/default/buildings.ruleset:803
 msgid "Offshore Platform"
 msgstr "Bohrinsel"
 
-#: data/civ1/buildings.ruleset:593 data/civ2/buildings.ruleset:580
-#: data/default/buildings.ruleset:777
+#: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:622
+#: data/default/buildings.ruleset:822
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
@@ -13295,13 +13326,13 @@ msgstr ""
 "+1 Schild von allen Ozeanfeldern\n"
 "Kann nur von Küstenstädten gebaut werden."
 
-#: data/civ1/buildings.ruleset:599 data/civ2/buildings.ruleset:586
-#: data/default/buildings.ruleset:783
+#: data/civ1/buildings.ruleset:641 data/civ2/buildings.ruleset:628
+#: data/default/buildings.ruleset:828
 msgid "Palace"
 msgstr "Palast"
 
-#: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:605
-#: data/default/buildings.ruleset:802
+#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
+#: data/default/buildings.ruleset:849
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -13318,13 +13349,13 @@ msgstr ""
 "Anzetteln einer Revolution benötigten Kosten hängen davon ab. Außerdem kann "
 "der Verlust der Hauptstadt einen Bürgerkrieg verursachen."
 
-#: data/civ1/buildings.ruleset:630 data/civ2/buildings.ruleset:618
-#: data/default/buildings.ruleset:815
+#: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:662
+#: data/default/buildings.ruleset:862
 msgid "Police Station"
 msgstr "Polizeiwache"
 
-#: data/civ1/buildings.ruleset:648 data/civ2/buildings.ruleset:636
-#: data/default/buildings.ruleset:833
+#: data/civ1/buildings.ruleset:694 data/civ2/buildings.ruleset:682
+#: data/default/buildings.ruleset:882
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -13334,13 +13365,13 @@ msgstr ""
 "Aktionen Unzufriedenen zufrieden. Unter anderen Regierungsformen hat eine "
 "Polizeiwache keine Auswirkungen."
 
-#: data/civ1/buildings.ruleset:655 data/civ2/buildings.ruleset:643
-#: data/default/buildings.ruleset:843
+#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:689
+#: data/default/buildings.ruleset:892
 msgid "Port Facility"
 msgstr "Werft"
 
-#: data/civ1/buildings.ruleset:673 data/civ2/buildings.ruleset:661
-#: data/default/buildings.ruleset:861
+#: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:709
+#: data/default/buildings.ruleset:912
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -13350,12 +13381,12 @@ msgstr ""
 "Beschädigte Marineeinheiten, die eine Runde in der Stadt bleiben, werden "
 "vollständig repariert."
 
-#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:668
-#: data/default/buildings.ruleset:868
+#: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
+#: data/default/buildings.ruleset:919
 msgid "Power Plant"
 msgstr "Kohlekraftwerk"
 
-#: data/default/buildings.ruleset:887
+#: data/default/buildings.ruleset:940
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -13374,13 +13405,13 @@ msgstr ""
 "Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
 "bauen."
 
-#: data/civ1/buildings.ruleset:710 data/civ2/buildings.ruleset:698
-#: data/default/buildings.ruleset:902
+#: data/civ1/buildings.ruleset:760 data/civ2/buildings.ruleset:748
+#: data/default/buildings.ruleset:955
 msgid "Recycling Center"
 msgstr "Recycling-Zentrum"
 
-#: data/civ1/buildings.ruleset:728 data/civ2/buildings.ruleset:716
-#: data/default/buildings.ruleset:920
+#: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:768
+#: data/default/buildings.ruleset:975
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
@@ -13389,13 +13420,13 @@ msgstr ""
 "Ein Recycling-Zentrum vermindert die durch Produktion verursachte "
 "Umweltverschmutzung einer Stadt um 66%."
 
-#: data/civ1/buildings.ruleset:734 data/civ2/buildings.ruleset:722
-#: data/default/buildings.ruleset:926
+#: data/civ1/buildings.ruleset:786 data/civ2/buildings.ruleset:774
+#: data/default/buildings.ruleset:981
 msgid "Research Lab"
 msgstr "Forschunglabor"
 
-#: data/civ1/buildings.ruleset:751 data/civ2/buildings.ruleset:739
-#: data/default/buildings.ruleset:943
+#: data/civ1/buildings.ruleset:805 data/civ2/buildings.ruleset:793
+#: data/default/buildings.ruleset:1000
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -13406,13 +13437,13 @@ msgstr ""
 "Universität erhöht ein Forschungslabor das Forschungstempo einer Stadt um "
 "150%."
 
-#: data/civ1/buildings.ruleset:759 data/civ2/buildings.ruleset:747
-#: data/default/buildings.ruleset:951
+#: data/civ1/buildings.ruleset:813 data/civ2/buildings.ruleset:801
+#: data/default/buildings.ruleset:1008
 msgid "SAM Battery"
 msgstr "SAM Batterie"
 
-#: data/civ1/buildings.ruleset:777 data/civ2/buildings.ruleset:765
-#: data/default/buildings.ruleset:969
+#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:821
+#: data/default/buildings.ruleset:1028
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -13420,13 +13451,13 @@ msgstr ""
 "Verdoppelt die Verteidigungstärke aller in der Stadt stationierten Einheiten "
 "gegenüber allen nicht-nuklearen Luftwaffeneinheiten."
 
-#: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:771
-#: data/default/buildings.ruleset:975
+#: data/civ1/buildings.ruleset:839 data/civ2/buildings.ruleset:827
+#: data/default/buildings.ruleset:1034
 msgid "SDI Defense"
 msgstr "SDI Verteidigung"
 
-#: data/civ1/buildings.ruleset:801 data/civ2/buildings.ruleset:789
-#: data/default/buildings.ruleset:993
+#: data/civ1/buildings.ruleset:859 data/civ2/buildings.ruleset:847
+#: data/default/buildings.ruleset:1054
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -13437,17 +13468,17 @@ msgstr ""
 "Verdoppelt die Verteidigungsstärke aller in der Stadt stationierten "
 "Einheiten gegenüber nicht-nuklearen Raketen."
 
-#: data/civ1/buildings.ruleset:810 data/civ2/buildings.ruleset:798
-#: data/default/buildings.ruleset:1002
+#: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:856
+#: data/default/buildings.ruleset:1063
 msgid "Sewer System"
 msgstr "Kanalisation"
 
-#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:824
-#: data/default/buildings.ruleset:1028
+#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:884
+#: data/default/buildings.ruleset:1091
 msgid "Solar Plant"
 msgstr "Solarkraftwerk"
 
-#: data/default/buildings.ruleset:1049
+#: data/default/buildings.ruleset:1114
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -13467,13 +13498,13 @@ msgstr ""
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
 "Atomkraftwerk bauen."
 
-#: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:859
-#: data/default/buildings.ruleset:1067
+#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:921
+#: data/default/buildings.ruleset:1132
 msgid "Space Component"
 msgstr "Komponenten"
 
-#: data/civ1/buildings.ruleset:885 data/civ2/buildings.ruleset:876
-#: data/default/buildings.ruleset:1084
+#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:940
+#: data/default/buildings.ruleset:1151
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -13489,13 +13520,13 @@ msgstr ""
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
 "'Apollo Programm' fertiggestellt hat."
 
-#: data/civ1/buildings.ruleset:895 data/civ2/buildings.ruleset:886
-#: data/default/buildings.ruleset:1094
+#: data/civ1/buildings.ruleset:959 data/civ2/buildings.ruleset:950
+#: data/default/buildings.ruleset:1161
 msgid "Space Module"
 msgstr "Module"
 
-#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:903
-#: data/default/buildings.ruleset:1111
+#: data/civ1/buildings.ruleset:978 data/civ2/buildings.ruleset:969
+#: data/default/buildings.ruleset:1180
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -13525,13 +13556,13 @@ msgstr ""
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
 "'Apollo Programm' fertiggestellt hat."
 
-#: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:1130
+#: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:988
+#: data/default/buildings.ruleset:1199
 msgid "Space Structural"
 msgstr "Verbindungsstücke"
 
-#: data/civ1/buildings.ruleset:948 data/civ2/buildings.ruleset:939
-#: data/default/buildings.ruleset:1147
+#: data/civ1/buildings.ruleset:1016 data/civ2/buildings.ruleset:1007
+#: data/default/buildings.ruleset:1218
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -13547,13 +13578,13 @@ msgstr ""
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
 "'Apollo Programm' fertiggestellt hat."
 
-#: data/civ1/buildings.ruleset:958 data/civ2/buildings.ruleset:949
-#: data/default/buildings.ruleset:1157
+#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
+#: data/default/buildings.ruleset:1228
 msgid "Stock Exchange"
 msgstr "Börse"
 
-#: data/civ1/buildings.ruleset:977 data/civ2/buildings.ruleset:968
-#: data/default/buildings.ruleset:1176
+#: data/civ1/buildings.ruleset:1047 data/civ2/buildings.ruleset:1038
+#: data/default/buildings.ruleset:1249
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -13562,13 +13593,13 @@ msgstr ""
 "Zusammen mit einem Marktplatz und einer Bank erhöht eine Börse die "
 "Luxusproduktion und Steuereinnahmen einer Stadt um 150%."
 
-#: data/civ1/buildings.ruleset:983 data/civ2/buildings.ruleset:974
-#: data/default/buildings.ruleset:1182
+#: data/civ1/buildings.ruleset:1053 data/civ2/buildings.ruleset:1044
+#: data/default/buildings.ruleset:1255
 msgid "Super Highways"
 msgstr "Autobahnen"
 
-#: data/civ1/buildings.ruleset:1002 data/civ2/buildings.ruleset:993
-#: data/default/buildings.ruleset:1200
+#: data/civ1/buildings.ruleset:1074 data/civ2/buildings.ruleset:1065
+#: data/default/buildings.ruleset:1275
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
@@ -13576,13 +13607,13 @@ msgstr ""
 "Für alle Felder mit Straßen und Schienen erhöht sich das Handelsaufkommen um "
 "50 %."
 
-#: data/civ1/buildings.ruleset:1008 data/civ2/buildings.ruleset:999
-#: data/default/buildings.ruleset:1208
+#: data/civ1/buildings.ruleset:1080 data/civ2/buildings.ruleset:1071
+#: data/default/buildings.ruleset:1283
 msgid "Supermarket"
 msgstr "Supermarkt"
 
-#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
-#: data/default/buildings.ruleset:1226
+#: data/civ1/buildings.ruleset:1100 data/civ2/buildings.ruleset:1091
+#: data/default/buildings.ruleset:1303
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -13593,13 +13624,13 @@ msgstr ""
 "Ein Ackerfeld ist ein Feld, auf dem zwei Bewässerungssysteme eingerichtet "
 "wurden."
 
-#: data/civ1/buildings.ruleset:1033 data/civ2/buildings.ruleset:1024
-#: data/default/buildings.ruleset:1233
+#: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
+#: data/default/buildings.ruleset:1310
 msgid "Temple"
 msgstr "Tempel"
 
-#: data/civ1/buildings.ruleset:1051 data/civ2/buildings.ruleset:1042
-#: data/default/buildings.ruleset:1251
+#: data/civ1/buildings.ruleset:1127 data/civ2/buildings.ruleset:1118
+#: data/default/buildings.ruleset:1330
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -13609,14 +13640,14 @@ msgstr ""
 "auch das Orakel verdoppeln den Effekt. Somit können bis zu 4 Unzufriedene "
 "zufrieden gestellt werden."
 
-#: data/civ1/buildings.ruleset:1058 data/civ1/techs.ruleset:559
-#: data/civ2/buildings.ruleset:1049 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1258 data/default/techs.ruleset:563
+#: data/civ1/buildings.ruleset:1134 data/civ1/techs.ruleset:559
+#: data/civ2/buildings.ruleset:1125 data/civ2/techs.ruleset:559
+#: data/default/buildings.ruleset:1337 data/default/techs.ruleset:563
 msgid "University"
 msgstr "Universität"
 
-#: data/civ1/buildings.ruleset:1076 data/civ2/buildings.ruleset:1067
-#: data/default/buildings.ruleset:1276
+#: data/civ1/buildings.ruleset:1154 data/civ2/buildings.ruleset:1145
+#: data/default/buildings.ruleset:1357
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -13625,12 +13656,12 @@ msgstr ""
 "In Verbindung mit einer Bücherei wird das Forschungstempo in der Stadt "
 "verdoppelt."
 
-#: data/civ1/buildings.ruleset:1082 data/civ2/buildings.ruleset:1073
-#: data/default/buildings.ruleset:1282
+#: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
+#: data/default/buildings.ruleset:1363
 msgid "Apollo Program"
 msgstr "das Apollo Programm"
 
-#: data/civ2/buildings.ruleset:1091 data/default/buildings.ruleset:1300
+#: data/civ2/buildings.ruleset:1171 data/default/buildings.ruleset:1383
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -13641,13 +13672,13 @@ msgstr ""
 "Erlaubt allen Spielern mit den notwendigen Kenntnissen mit dem Raumschiffbau "
 "zu beginnen."
 
-#: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
-#: data/default/buildings.ruleset:1307
+#: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1178
+#: data/default/buildings.ruleset:1390
 msgid "A.Smith's Trading Co."
 msgstr "A.Smiths Handelsgesellschaft"
 
-#: data/civ1/buildings.ruleset:1124 data/civ2/buildings.ruleset:1115
-#: data/default/buildings.ruleset:1324
+#: data/civ1/buildings.ruleset:1204 data/civ2/buildings.ruleset:1197
+#: data/default/buildings.ruleset:1409
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
@@ -13655,13 +13686,13 @@ msgstr ""
 "In allen eigenen Städten braucht für Stadterweiterungen mit Unterhaltskosten "
 "von 1 kein Unterhalt mehr bezahlt zu werden."
 
-#: data/civ1/buildings.ruleset:1130 data/civ2/buildings.ruleset:1121
-#: data/default/buildings.ruleset:1330
+#: data/civ1/buildings.ruleset:1210 data/civ2/buildings.ruleset:1203
+#: data/default/buildings.ruleset:1415
 msgid "Colossus"
 msgstr "Kolossus"
 
-#: data/civ1/buildings.ruleset:1147 data/civ2/buildings.ruleset:1138
-#: data/default/buildings.ruleset:1347
+#: data/civ1/buildings.ruleset:1229 data/civ2/buildings.ruleset:1222
+#: data/default/buildings.ruleset:1434
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -13669,63 +13700,63 @@ msgstr ""
 "Jedes Feld der Stadt, in der dieses Weltwunder steht, und das zumindest 1 "
 "Handelspunkt erwirtschaftet, produziert einen zusätzlichen Handelspunkt."
 
-#: data/civ1/buildings.ruleset:1153 data/civ2/buildings.ruleset:1144
-#: data/default/buildings.ruleset:1353
+#: data/civ1/buildings.ruleset:1235 data/civ2/buildings.ruleset:1228
+#: data/default/buildings.ruleset:1440
 msgid "Copernicus' Observatory"
 msgstr "Kopernikus Observatorium"
 
-#: data/civ1/buildings.ruleset:1171 data/civ2/buildings.ruleset:1162
-#: data/default/buildings.ruleset:1371
+#: data/civ1/buildings.ruleset:1255 data/civ2/buildings.ruleset:1248
+#: data/default/buildings.ruleset:1460
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Das Forschungstempo der Stadt wird um 50% gesteigert."
 
-#: data/civ1/buildings.ruleset:1176 data/civ2/buildings.ruleset:1167
-#: data/default/buildings.ruleset:1376
+#: data/civ1/buildings.ruleset:1260 data/civ2/buildings.ruleset:1253
+#: data/default/buildings.ruleset:1465
 msgid "Cure For Cancer"
 msgstr "das Krebs-Zentrum"
 
-#: data/civ1/buildings.ruleset:1193 data/civ2/buildings.ruleset:1184
-#: data/default/buildings.ruleset:1393
+#: data/civ1/buildings.ruleset:1279 data/civ2/buildings.ruleset:1272
+#: data/default/buildings.ruleset:1484
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr "Macht in jeder Stadt einen Unzufriedenen zufrieden."
 
-#: data/civ1/buildings.ruleset:1199 data/civ2/buildings.ruleset:1190
-#: data/default/buildings.ruleset:1401
+#: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1278
+#: data/default/buildings.ruleset:1492
 msgid "Darwin's Voyage"
 msgstr "Darwins Reise"
 
-#: data/civ1/buildings.ruleset:1216 data/civ2/buildings.ruleset:1207
-#: data/default/buildings.ruleset:1418
+#: data/civ1/buildings.ruleset:1304 data/civ2/buildings.ruleset:1297
+#: data/default/buildings.ruleset:1511
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
 msgstr "2 sofortige Forschungsergebnisse"
 
-#: data/civ1/buildings.ruleset:1223 data/civ2/buildings.ruleset:1214
-#: data/default/buildings.ruleset:1425
+#: data/civ1/buildings.ruleset:1311 data/civ2/buildings.ruleset:1304
+#: data/default/buildings.ruleset:1518
 msgid "Eiffel Tower"
 msgstr "den Eiffelturm"
 
 # CK: Übersetzung wird nicht benötigt
-#: data/civ1/buildings.ruleset:1241 data/civ2/buildings.ruleset:1232
-#: data/default/buildings.ruleset:1443
+#: data/civ1/buildings.ruleset:1331 data/civ2/buildings.ruleset:1324
+#: data/default/buildings.ruleset:1538
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
 "When built, every civilization's attitude toward you is improved by 25%."
 
-#: data/civ1/buildings.ruleset:1249 data/civ2/buildings.ruleset:1240
-#: data/default/buildings.ruleset:1451
+#: data/civ1/buildings.ruleset:1339 data/civ2/buildings.ruleset:1332
+#: data/default/buildings.ruleset:1546
 msgid "Great Library"
 msgstr "die Große Bibliothek"
 
-#: data/civ1/buildings.ruleset:1266 data/civ2/buildings.ruleset:1257
-#: data/default/buildings.ruleset:1468
+#: data/civ1/buildings.ruleset:1358 data/civ2/buildings.ruleset:1353
+#: data/default/buildings.ruleset:1565
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -13733,23 +13764,23 @@ msgstr ""
 "Jede Erkenntnis, die mindestens zwei andere Zivilisationen gewonnen haben, "
 "steht auch der Zivilisation mit der Großen Bibliothek zur Verfügung."
 
-#: data/civ1/buildings.ruleset:1272 data/civ2/buildings.ruleset:1263
-#: data/default/buildings.ruleset:1474
+#: data/civ1/buildings.ruleset:1364 data/civ2/buildings.ruleset:1359
+#: data/default/buildings.ruleset:1571
 msgid "Great Wall"
 msgstr "die Große Mauer"
 
-#: data/civ1/buildings.ruleset:1291 data/civ2/buildings.ruleset:1282
-#: data/default/buildings.ruleset:1492
+#: data/civ1/buildings.ruleset:1385 data/civ2/buildings.ruleset:1380
+#: data/default/buildings.ruleset:1591
 msgid "Works as a City Wall in all cities."
 msgstr "Gilt als Stadtmauer für jede eigene Stadt."
 
-#: data/civ1/buildings.ruleset:1298 data/civ2/buildings.ruleset:1289
-#: data/default/buildings.ruleset:1500
+#: data/civ1/buildings.ruleset:1392 data/civ2/buildings.ruleset:1387
+#: data/default/buildings.ruleset:1599
 msgid "Hanging Gardens"
 msgstr "die Hängenden Gärten"
 
-#: data/civ1/buildings.ruleset:1316 data/civ2/buildings.ruleset:1307
-#: data/default/buildings.ruleset:1518
+#: data/civ1/buildings.ruleset:1412 data/civ2/buildings.ruleset:1407
+#: data/default/buildings.ruleset:1619
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -13764,12 +13795,12 @@ msgstr ""
 "Sollte es in einer Stadt keine Zufriedenen geben, stellen sie stattdessen "
 "Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:1325 data/civ2/buildings.ruleset:1316
-#: data/default/buildings.ruleset:1527
+#: data/civ1/buildings.ruleset:1421 data/civ2/buildings.ruleset:1416
+#: data/default/buildings.ruleset:1628
 msgid "Hoover Dam"
 msgstr "den Hoover-Staudamm"
 
-#: data/civ2/buildings.ruleset:1335 data/default/buildings.ruleset:1547
+#: data/civ2/buildings.ruleset:1437 data/default/buildings.ruleset:1650
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -13777,55 +13808,55 @@ msgstr ""
 "Zählt als Wasserkraftwerk in jeder Stadt. (Die Umweltverschmutzung wird "
 "verringert und die Produktivität wird erhöht.)"
 
-#: data/civ1/buildings.ruleset:1353 data/civ2/buildings.ruleset:1341
-#: data/default/buildings.ruleset:1553
+#: data/civ1/buildings.ruleset:1451 data/civ2/buildings.ruleset:1443
+#: data/default/buildings.ruleset:1656
 msgid "Isaac Newton's College"
 msgstr "Isaac Newtons Universität"
 
-#: data/civ1/buildings.ruleset:1371 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1571
+#: data/civ1/buildings.ruleset:1471 data/civ2/buildings.ruleset:1463
+#: data/default/buildings.ruleset:1676
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Verdoppelt das Forschungstempo in der Stadt, wo sie steht."
 
-#: data/civ1/buildings.ruleset:1376 data/civ2/buildings.ruleset:1364
-#: data/default/buildings.ruleset:1576
+#: data/civ1/buildings.ruleset:1476 data/civ2/buildings.ruleset:1468
+#: data/default/buildings.ruleset:1681
 msgid "J.S. Bach's Cathedral"
 msgstr "J. S. Bachs Kathedrale"
 
-#: data/civ2/buildings.ruleset:1381 data/default/buildings.ruleset:1593
+#: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1700
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Macht in jeder Stadt 2 Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:1400 data/civ2/buildings.ruleset:1386
-#: data/default/buildings.ruleset:1598
+#: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1492
+#: data/default/buildings.ruleset:1705
 msgid "King Richard's Crusade"
 msgstr "König Richards Kreuzzug"
 
-#: data/civ1/buildings.ruleset:1417 data/civ2/buildings.ruleset:1403
-#: data/default/buildings.ruleset:1615
+#: data/civ1/buildings.ruleset:1521 data/civ2/buildings.ruleset:1511
+#: data/default/buildings.ruleset:1724
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr "Jedes Feld der Stadt produziert einen zusätzlichen Schild."
 
-#: data/civ1/buildings.ruleset:1423 data/civ2/buildings.ruleset:1409
-#: data/default/buildings.ruleset:1621
+#: data/civ1/buildings.ruleset:1527 data/civ2/buildings.ruleset:1517
+#: data/default/buildings.ruleset:1730
 msgid "Leonardo's Workshop"
 msgstr "Leonardos Werkstatt"
 
-#: data/civ1/buildings.ruleset:1440 data/civ2/buildings.ruleset:1426
-#: data/default/buildings.ruleset:1638
+#: data/civ1/buildings.ruleset:1546 data/civ2/buildings.ruleset:1536
+#: data/default/buildings.ruleset:1749
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Modernisiert eine veraltete Einheit pro Runde."
 
-#: data/civ1/buildings.ruleset:1445 data/civ2/buildings.ruleset:1431
-#: data/default/buildings.ruleset:1643
+#: data/civ1/buildings.ruleset:1551 data/civ2/buildings.ruleset:1541
+#: data/default/buildings.ruleset:1754
 msgid "Lighthouse"
 msgstr "den Leuchtturm"
 
-#: data/civ1/buildings.ruleset:1464 data/civ2/buildings.ruleset:1450
-#: data/default/buildings.ruleset:1662
+#: data/civ1/buildings.ruleset:1572 data/civ2/buildings.ruleset:1562
+#: data/default/buildings.ruleset:1775
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -13837,36 +13868,36 @@ msgstr ""
 "\n"
 "In allen eigenen Städten erhalten neue Marineeinheiten Veteran-Status."
 
-#: data/civ1/buildings.ruleset:1473 data/civ2/buildings.ruleset:1457
-#: data/default/buildings.ruleset:1669
+#: data/civ1/buildings.ruleset:1581 data/civ2/buildings.ruleset:1569
+#: data/default/buildings.ruleset:1782
 msgid "Magellan's Expedition"
 msgstr "Magellans Expedition"
 
-#: data/civ2/buildings.ruleset:1474 data/default/buildings.ruleset:1686
+#: data/civ2/buildings.ruleset:1588 data/default/buildings.ruleset:1801
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Alle Marineeinheiten erhalten 2 zusätzliche Bewegungspunkte."
 
-#: data/civ1/buildings.ruleset:1496 data/civ2/buildings.ruleset:1479
-#: data/default/buildings.ruleset:1691
+#: data/civ1/buildings.ruleset:1606 data/civ2/buildings.ruleset:1593
+#: data/default/buildings.ruleset:1806
 msgid "Manhattan Project"
 msgstr "das Manhattan Projekt"
 
-#: data/civ1/buildings.ruleset:1517 data/civ2/buildings.ruleset:1500
-#: data/default/buildings.ruleset:1712
+#: data/civ1/buildings.ruleset:1629 data/civ2/buildings.ruleset:1616
+#: data/default/buildings.ruleset:1829
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polos Botschaft"
 
-#: data/civ1/buildings.ruleset:1534 data/civ2/buildings.ruleset:1517
-#: data/default/buildings.ruleset:1729
+#: data/civ1/buildings.ruleset:1648 data/civ2/buildings.ruleset:1635
+#: data/default/buildings.ruleset:1848
 msgid "The player who owns it gets an embassy with all players."
 msgstr "Gilt als Botschaft bei allen Mitspielern."
 
-#: data/civ1/buildings.ruleset:1539 data/civ2/buildings.ruleset:1522
-#: data/default/buildings.ruleset:1734
+#: data/civ1/buildings.ruleset:1653 data/civ2/buildings.ruleset:1640
+#: data/default/buildings.ruleset:1853
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelos Kapelle"
 
-#: data/civ2/buildings.ruleset:1541 data/default/buildings.ruleset:1753
+#: data/civ2/buildings.ruleset:1661 data/default/buildings.ruleset:1874
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -13875,54 +13906,54 @@ msgid ""
 "the number of unhappy citizens made content."
 msgstr "Zählt als Kathedrale in jeder eigenen Stadt."
 
-#: data/civ1/buildings.ruleset:1562 data/civ2/buildings.ruleset:1551
-#: data/default/buildings.ruleset:1763
+#: data/civ1/buildings.ruleset:1678 data/civ2/buildings.ruleset:1671
+#: data/default/buildings.ruleset:1884
 msgid "Oracle"
 msgstr "das Orakel"
 
-#: data/civ1/buildings.ruleset:1580 data/civ2/buildings.ruleset:1569
-#: data/default/buildings.ruleset:1781
+#: data/civ1/buildings.ruleset:1698 data/civ2/buildings.ruleset:1691
+#: data/default/buildings.ruleset:1904
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "In allen Städten verdoppelt sich der Effekt von Tempeln."
 
-#: data/civ1/buildings.ruleset:1585 data/civ2/buildings.ruleset:1574
-#: data/default/buildings.ruleset:1786
+#: data/civ1/buildings.ruleset:1703 data/civ2/buildings.ruleset:1696
+#: data/default/buildings.ruleset:1909
 msgid "Pyramids"
 msgstr "die Pyramiden"
 
-#: data/civ2/buildings.ruleset:1591 data/default/buildings.ruleset:1803
+#: data/civ2/buildings.ruleset:1715 data/default/buildings.ruleset:1928
 msgid "Counts as having a Granary in every city."
 msgstr "Zählen als Kornspeicher in jeder eigenen Stadt."
 
-#: data/civ1/buildings.ruleset:1611 data/civ2/buildings.ruleset:1596
-#: data/default/buildings.ruleset:1808
+#: data/civ1/buildings.ruleset:1731 data/civ2/buildings.ruleset:1720
+#: data/default/buildings.ruleset:1933
 msgid "SETI Program"
 msgstr "das SETI-Programm"
 
-#: data/civ2/buildings.ruleset:1613 data/default/buildings.ruleset:1825
+#: data/civ2/buildings.ruleset:1739 data/default/buildings.ruleset:1952
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
 msgstr "Zählt als Forschungslabor in jeder eigenen Stadt."
 
-#: data/civ1/buildings.ruleset:1634 data/civ2/buildings.ruleset:1619
-#: data/default/buildings.ruleset:1831
+#: data/civ1/buildings.ruleset:1756 data/civ2/buildings.ruleset:1745
+#: data/default/buildings.ruleset:1958
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeares Theater"
 
-#: data/civ1/buildings.ruleset:1651 data/civ2/buildings.ruleset:1636
-#: data/default/buildings.ruleset:1848
+#: data/civ1/buildings.ruleset:1775 data/civ2/buildings.ruleset:1764
+#: data/default/buildings.ruleset:1977
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Macht alle unzufriedenen Einwohner der Stadt zufrieden."
 
-#: data/civ1/buildings.ruleset:1656 data/civ2/buildings.ruleset:1641
-#: data/default/buildings.ruleset:1853
+#: data/civ1/buildings.ruleset:1780 data/civ2/buildings.ruleset:1769
+#: data/default/buildings.ruleset:1982
 msgid "Statue of Liberty"
 msgstr "die Freiheitsstatue"
 
-#: data/civ1/buildings.ruleset:1604 data/civ1/buildings.ruleset:1674
-#: data/civ1/buildings.ruleset:1725 data/civ2/buildings.ruleset:1659
-#: data/default/buildings.ruleset:1871
+#: data/civ1/buildings.ruleset:1724 data/civ1/buildings.ruleset:1800
+#: data/civ1/buildings.ruleset:1855 data/civ2/buildings.ruleset:1789
+#: data/default/buildings.ruleset:2002
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -13931,13 +13962,13 @@ msgstr ""
 "Gestattet die Wahl jeder Regierungsform (auch ohne entsprechende Kenntnisse) "
 "ohne die Periode der Anarchie."
 
-#: data/civ1/buildings.ruleset:1681 data/civ2/buildings.ruleset:1666
-#: data/default/buildings.ruleset:1878
+#: data/civ1/buildings.ruleset:1807 data/civ2/buildings.ruleset:1796
+#: data/default/buildings.ruleset:2009
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzus Militärakademie"
 
-#: data/civ1/buildings.ruleset:1699 data/civ2/buildings.ruleset:1684
-#: data/default/buildings.ruleset:1896
+#: data/civ1/buildings.ruleset:1827 data/civ2/buildings.ruleset:1816
+#: data/default/buildings.ruleset:2029
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -13946,33 +13977,33 @@ msgstr ""
 "Status. Die bereits bestehenden Truppen erhalten ihn nach dem nächsten "
 "gewonnenen Kampf."
 
-#: data/civ1/buildings.ruleset:1706 data/civ2/buildings.ruleset:1691
-#: data/default/buildings.ruleset:1903
+#: data/civ1/buildings.ruleset:1834 data/civ2/buildings.ruleset:1823
+#: data/default/buildings.ruleset:2036
 msgid "United Nations"
 msgstr "die Vereinten Nationen"
 
-#: data/civ2/buildings.ruleset:1712 data/default/buildings.ruleset:1924
+#: data/civ2/buildings.ruleset:1846 data/default/buildings.ruleset:2059
 msgid "Units regain two extra hitpoints per turn."
 msgstr ""
 "Alle eigenen Einheiten erhalten 2 zusätzliche Trefferpunkte pro Runde zurück."
 
-#: data/civ1/buildings.ruleset:1737 data/civ2/buildings.ruleset:1725
-#: data/default/buildings.ruleset:1937
+#: data/civ1/buildings.ruleset:1867 data/civ2/buildings.ruleset:1859
+#: data/default/buildings.ruleset:2072
 msgid "Women's Suffrage"
 msgstr "das Frauenstimmrecht"
 
-#: data/civ2/buildings.ruleset:1743 data/default/buildings.ruleset:1955
+#: data/civ2/buildings.ruleset:1879 data/default/buildings.ruleset:2092
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
 "under Republic.  This wonder has no effect under other governments.)"
 msgstr "Zählt als Polizeiwache in jeder eigenen Stadt."
 
-#: data/default/buildings.ruleset:1971
+#: data/default/buildings.ruleset:2108
 msgid "Coinage"
 msgstr "Kapitalisierung"
 
-#: data/default/buildings.ruleset:1996
+#: data/default/buildings.ruleset:2133
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -13981,13 +14012,13 @@ msgstr ""
 "Dies ist eigentlich keine Erweiterung. Es erlaubt (kostenfrei) die "
 "Produktion von Schilden in Steuern umzusetzen."
 
-#: data/civ2/buildings.ruleset:290
+#: data/civ2/buildings.ruleset:310
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
 msgstr "Macht 3 (nach Entdeckung der Elektronik 4) Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:432 data/civ2/buildings.ruleset:415
+#: data/civ1/buildings.ruleset:462 data/civ2/buildings.ruleset:445
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14009,7 +14040,7 @@ msgstr ""
 "bauen. Wasserkraftwerke können nur auf oder neben Berg- oder Flußfeldern "
 "gebaut werden."
 
-#: data/civ1/buildings.ruleset:560 data/civ2/buildings.ruleset:545
+#: data/civ1/buildings.ruleset:600 data/civ2/buildings.ruleset:585
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14028,7 +14059,7 @@ msgstr ""
 "Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
 "bauen."
 
-#: data/civ1/buildings.ruleset:698 data/civ2/buildings.ruleset:686
+#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:736
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -14047,7 +14078,7 @@ msgstr ""
 "Eine Stadt kann nur ein Wasserkraftwerk, Kohlekraftwerk oder Atomkraftwerk "
 "bauen."
 
-#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:844
+#: data/civ1/buildings.ruleset:915 data/civ2/buildings.ruleset:906
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -14067,11 +14098,11 @@ msgstr ""
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
 "Atomkraftwerk bauen."
 
-#: data/civ1/buildings.ruleset:1762 data/civ2/buildings.ruleset:1751
+#: data/civ1/buildings.ruleset:1894 data/civ2/buildings.ruleset:1887
 msgid "Capitalization"
 msgstr "die Kapitalisierung"
 
-#: data/civ1/buildings.ruleset:1779 data/civ2/buildings.ruleset:1768
+#: data/civ1/buildings.ruleset:1911 data/civ2/buildings.ruleset:1904
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -14080,8 +14111,8 @@ msgstr ""
 "Dies ist eigentlich keine Erweiterung. Es erlaubt (kostenfrei) die "
 "Produktion von Schilden in Steuern umzusetzen."
 
-#: data/civ1/buildings.ruleset:136 data/civ1/buildings.ruleset:171
-#: data/civ1/buildings.ruleset:206
+#: data/civ1/buildings.ruleset:144 data/civ1/buildings.ruleset:181
+#: data/civ1/buildings.ruleset:218
 msgid ""
 "With a Barracks, each new unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -14093,7 +14124,7 @@ msgstr ""
 "Beschädigte Landeinheiten, die eine Runde in der Stadt bleiben, werden "
 "vollständig instandgesetzt."
 
-#: data/civ1/buildings.ruleset:232
+#: data/civ1/buildings.ruleset:246
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
@@ -14101,7 +14132,7 @@ msgstr ""
 "Eine Kathedrale macht 4 Unzufriedene einer Stadt zufrieden. Dies erleichtert "
 "es, die Ordnung aufrecht zu erhalten."
 
-#: data/civ1/buildings.ruleset:259
+#: data/civ1/buildings.ruleset:275
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground, sea, and helicopter "
@@ -14116,11 +14147,11 @@ msgstr ""
 "Sie verhindert Verluste bei der Bevölkerung, falls gegnerische Landeinheiten "
 "eine in der Stadt stationierte Einheit vernichten."
 
-#: data/civ1/buildings.ruleset:308
+#: data/civ1/buildings.ruleset:328
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
 msgstr "Macht 3 Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:827
+#: data/civ1/buildings.ruleset:887
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
@@ -14128,7 +14159,7 @@ msgstr ""
 "Erlaubt einer Stadt über die Größe 12 hinaus zu wachsen. Vorher benötigt "
 "eine Stadt bereits ein Aquädukt, um größer als 8 werden zu können."
 
-#: data/civ1/buildings.ruleset:1100
+#: data/civ1/buildings.ruleset:1178
 msgid ""
 "All cities on the map become visible for the player who owns it.  It allows "
 "all players to start building spaceship parts (assuming they have researched "
@@ -14139,7 +14170,7 @@ msgstr ""
 "Erlaubt allen Spielern mit den notwendigen Kenntnissen mit dem Raumschiffbau "
 "zu beginnen."
 
-#: data/civ1/buildings.ruleset:1345
+#: data/civ1/buildings.ruleset:1443
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent where "
 "the wonder is built.  (This reduces pollution and increases the effects of "
@@ -14149,27 +14180,27 @@ msgstr ""
 "Weltwunder errichtet wurde. (Die Umweltverschmutzung wird vermindert und die "
 "Produktivität wird erhöht.)"
 
-#: data/civ1/buildings.ruleset:1394
+#: data/civ1/buildings.ruleset:1496
 msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
 msgstr ""
 "Stellt in jeder Stadt auf dem gleichen Kontinent zwei Unzufriedene zufrieden."
 
-#: data/civ1/buildings.ruleset:1491
+#: data/civ1/buildings.ruleset:1601
 msgid "Gives all sea units 1 additional movement point."
 msgstr "Alle eigenen Marineeinheiten bekommen +1 Bewegungspunkt."
 
-#: data/civ1/buildings.ruleset:1557
+#: data/civ1/buildings.ruleset:1673
 msgid "Double effects of Cathedrals."
 msgstr "Verdoppelt den Effekt von Kathedralen."
 
-#: data/civ1/buildings.ruleset:1629
+#: data/civ1/buildings.ruleset:1751
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Beschleunigt das Forschungstempo in jeder eigenen Stadt um 50%."
 
-#: data/civ1/buildings.ruleset:1755
+#: data/civ1/buildings.ruleset:1887
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -15535,11 +15566,11 @@ msgstr ""
 "Brückenbau haben."
 
 #: data/civ1/units.ruleset:71 data/civ2/units.ruleset:63
-#: data/default/units.ruleset:133
+#: data/default/units.ruleset:139
 msgid "Settlers"
 msgstr "Siedler"
 
-#: data/civ2/units.ruleset:85 data/default/units.ruleset:155
+#: data/civ2/units.ruleset:89 data/default/units.ruleset:165
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -15570,12 +15601,12 @@ msgstr ""
 "'Arbeitskraft' zu verschwenden. Außerdem können solche Gruppen sehr leicht "
 "von Angreifern vernichtet werden."
 
-#: data/civ1/units.ruleset:111 data/civ2/units.ruleset:103
-#: data/default/units.ruleset:173
+#: data/civ1/units.ruleset:115 data/civ2/units.ruleset:107
+#: data/default/units.ruleset:183
 msgid "Engineers"
 msgstr "Ingenieure"
 
-#: data/civ2/units.ruleset:125 data/default/units.ruleset:195
+#: data/civ2/units.ruleset:133 data/default/units.ruleset:209
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -15600,54 +15631,54 @@ msgstr ""
 "über Sprengstoff verschaffen, so lange sie nützt: Auf diese Art werden die "
 "Siedler kostenlos 'modernisiert'."
 
-#: data/civ2/units.ruleset:140 data/default/units.ruleset:210
+#: data/civ2/units.ruleset:148 data/default/units.ruleset:224
 msgid "Warriors"
 msgstr "Krieger"
 
-#: data/civ1/units.ruleset:157 data/civ2/units.ruleset:162
-#: data/default/units.ruleset:232
+#: data/civ1/units.ruleset:169 data/civ2/units.ruleset:174
+#: data/default/units.ruleset:250
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
 "Diese Einheit kann gleich vom Start an hergestellt werden, ist aber auch die "
 "schwächste Einheit."
 
-#: data/civ1/units.ruleset:163 data/civ2/units.ruleset:168
-#: data/default/units.ruleset:238
+#: data/civ1/units.ruleset:175 data/civ2/units.ruleset:180
+#: data/default/units.ruleset:256
 msgid "Phalanx"
 msgstr "Phalanx"
 
-#: data/civ1/units.ruleset:187 data/civ2/units.ruleset:192
-#: data/default/units.ruleset:262
+#: data/civ1/units.ruleset:203 data/civ2/units.ruleset:208
+#: data/default/units.ruleset:284
 msgid "Archers"
 msgstr "Bogenschützen"
 
-#: data/civ1/units.ruleset:211 data/civ2/units.ruleset:216
-#: data/default/units.ruleset:286
+#: data/civ1/units.ruleset:231 data/civ2/units.ruleset:236
+#: data/default/units.ruleset:312
 msgid "Legion"
 msgstr "Legion"
 
-#: data/civ1/units.ruleset:235 data/civ2/units.ruleset:240
-#: data/default/units.ruleset:310
+#: data/civ1/units.ruleset:259 data/civ2/units.ruleset:264
+#: data/default/units.ruleset:340
 msgid "Pikemen"
 msgstr "Lanzenkämpfer"
 
-#: data/civ1/units.ruleset:259 data/civ2/units.ruleset:264
-#: data/default/units.ruleset:334
+#: data/civ1/units.ruleset:287 data/civ2/units.ruleset:292
+#: data/default/units.ruleset:368
 msgid "Musketeers"
 msgstr "Musketiere"
 
-#: data/civ1/units.ruleset:284 data/civ2/units.ruleset:289
-#: data/default/units.ruleset:359
+#: data/civ1/units.ruleset:316 data/civ2/units.ruleset:321
+#: data/default/units.ruleset:397
 msgid "Fanatics"
 msgstr "Fanatiker"
 
-#: data/civ1/units.ruleset:308 data/civ2/units.ruleset:319
-#: data/default/units.ruleset:383
+#: data/civ1/units.ruleset:344 data/civ2/units.ruleset:355
+#: data/default/units.ruleset:425
 msgid "Partisan"
 msgstr "Partisanen"
 
-#: data/civ2/units.ruleset:341 data/default/units.ruleset:405
+#: data/civ2/units.ruleset:381 data/default/units.ruleset:451
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -15668,33 +15699,33 @@ msgstr ""
 "- Kommunismus und Schießpulver sind bekannt.\n"
 "- Die Regierungsform ist Demokratie oder Kommunismus."
 
-#: data/civ1/units.ruleset:332 data/civ2/units.ruleset:355
-#: data/default/units.ruleset:419
+#: data/civ1/units.ruleset:372 data/civ2/units.ruleset:395
+#: data/default/units.ruleset:465
 msgid "Alpine Troops"
 msgstr "Gebirgsjäger"
 
-#: data/civ1/units.ruleset:356 data/civ2/units.ruleset:379
-#: data/default/units.ruleset:443
+#: data/civ1/units.ruleset:400 data/civ2/units.ruleset:423
+#: data/default/units.ruleset:493
 msgid "Riflemen"
 msgstr "Schützen"
 
-#: data/civ1/units.ruleset:380 data/civ2/units.ruleset:403
-#: data/default/units.ruleset:467
+#: data/civ1/units.ruleset:428 data/civ2/units.ruleset:451
+#: data/default/units.ruleset:521
 msgid "Marines"
 msgstr "Marines"
 
-#: data/civ1/units.ruleset:404 data/civ2/units.ruleset:427
-#: data/default/units.ruleset:491
+#: data/civ1/units.ruleset:456 data/civ2/units.ruleset:479
+#: data/default/units.ruleset:549
 msgid "Paratroopers"
 msgstr "Fallschirmspringer"
 
-#: data/civ1/units.ruleset:428 data/civ2/units.ruleset:455
-#: data/default/units.ruleset:519
+#: data/civ1/units.ruleset:484 data/civ2/units.ruleset:511
+#: data/default/units.ruleset:581
 msgid "Mech. Inf."
 msgstr "Mech. Inf."
 
-#: data/civ1/units.ruleset:450 data/civ2/units.ruleset:477
-#: data/default/units.ruleset:541
+#: data/civ1/units.ruleset:510 data/civ2/units.ruleset:537
+#: data/default/units.ruleset:607
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -15702,80 +15733,80 @@ msgstr ""
 "Mechanische Infanterie ist die Landeinheit mit der höchsten "
 "Verteidigungsstärke, sie wird allerdings auch erst sehr spät verfügbar."
 
-#: data/civ2/units.ruleset:484 data/default/units.ruleset:548
+#: data/civ2/units.ruleset:544 data/default/units.ruleset:614
 msgid "Horsemen"
 msgstr "Reiter"
 
-#: data/civ1/units.ruleset:481 data/civ2/units.ruleset:508
-#: data/default/units.ruleset:572
+#: data/civ1/units.ruleset:545 data/civ2/units.ruleset:572
+#: data/default/units.ruleset:642
 msgid "Chariot"
 msgstr "Streitwagen"
 
-#: data/civ1/units.ruleset:505 data/civ2/units.ruleset:532
-#: data/default/units.ruleset:596
+#: data/civ1/units.ruleset:573 data/civ2/units.ruleset:600
+#: data/default/units.ruleset:670
 msgid "Elephants"
 msgstr "Elefanten"
 
-#: data/civ1/units.ruleset:529 data/civ2/units.ruleset:556
-#: data/default/units.ruleset:620
+#: data/civ1/units.ruleset:601 data/civ2/units.ruleset:628
+#: data/default/units.ruleset:698
 msgid "Crusaders"
 msgstr "Kreuzfahrer"
 
-#: data/civ1/units.ruleset:553 data/civ2/units.ruleset:580
-#: data/default/units.ruleset:644
+#: data/civ1/units.ruleset:629 data/civ2/units.ruleset:656
+#: data/default/units.ruleset:726
 msgid "Knights"
 msgstr "Ritter"
 
-#: data/civ1/units.ruleset:578 data/civ2/units.ruleset:605
-#: data/default/units.ruleset:669
+#: data/civ1/units.ruleset:658 data/civ2/units.ruleset:685
+#: data/default/units.ruleset:755
 msgid "Dragoons"
 msgstr "Dragoner"
 
-#: data/civ1/units.ruleset:457 data/civ2/units.ruleset:629
-#: data/default/units.ruleset:693
+#: data/civ1/units.ruleset:517 data/civ2/units.ruleset:713
+#: data/default/units.ruleset:783
 msgid "Cavalry"
 msgstr "Kavallerie"
 
-#: data/civ1/units.ruleset:626 data/civ2/units.ruleset:653
-#: data/default/units.ruleset:717
+#: data/civ1/units.ruleset:714 data/civ2/units.ruleset:741
+#: data/default/units.ruleset:811
 msgid "Armor"
 msgstr "Panzer"
 
-#: data/civ1/units.ruleset:650 data/civ2/units.ruleset:677
-#: data/default/units.ruleset:741
+#: data/civ1/units.ruleset:742 data/civ2/units.ruleset:769
+#: data/default/units.ruleset:839
 msgid "Catapult"
 msgstr "Katapult"
 
-#: data/civ1/units.ruleset:674 data/civ2/units.ruleset:701
-#: data/default/units.ruleset:765
+#: data/civ1/units.ruleset:770 data/civ2/units.ruleset:797
+#: data/default/units.ruleset:867
 msgid "Cannon"
 msgstr "Kanone"
 
-#: data/civ1/units.ruleset:722 data/civ2/units.ruleset:725
-#: data/default/units.ruleset:789
+#: data/civ1/units.ruleset:826 data/civ2/units.ruleset:825
+#: data/default/units.ruleset:895
 msgid "Artillery"
 msgstr "Artillerie"
 
-#: data/civ2/units.ruleset:749 data/default/units.ruleset:813
+#: data/civ2/units.ruleset:853 data/default/units.ruleset:923
 msgid "Howitzer"
 msgstr "Haubitze"
 
-#: data/civ1/units.ruleset:746 data/civ2/units.ruleset:773
-#: data/default/units.ruleset:837
+#: data/civ1/units.ruleset:854 data/civ2/units.ruleset:881
+#: data/default/units.ruleset:951
 msgid "Fighter"
 msgstr "Jäger"
 
-#: data/civ1/units.ruleset:770 data/civ2/units.ruleset:797
-#: data/default/units.ruleset:861
+#: data/civ1/units.ruleset:882 data/civ2/units.ruleset:909
+#: data/default/units.ruleset:979
 msgid "Bomber"
 msgstr "Bomber"
 
-#: data/civ1/units.ruleset:794 data/civ2/units.ruleset:821
-#: data/default/units.ruleset:885
+#: data/civ1/units.ruleset:910 data/civ2/units.ruleset:937
+#: data/default/units.ruleset:1007
 msgid "Helicopter"
 msgstr "Hubschrauber"
 
-#: data/civ2/units.ruleset:843 data/default/units.ruleset:907
+#: data/civ2/units.ruleset:963 data/default/units.ruleset:1033
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -15786,57 +15817,57 @@ msgstr ""
 "Städte erobern können. Trotzdem muß man sie im Auge behalten, da sie jede "
 "Runde, die sie nicht in einer Stadt sind, Trefferpunkte verlieren."
 
-#: data/civ1/units.ruleset:818 data/civ2/units.ruleset:851
-#: data/default/units.ruleset:915
+#: data/civ1/units.ruleset:938 data/civ2/units.ruleset:971
+#: data/default/units.ruleset:1041
 msgid "Stealth Fighter"
 msgstr "Tarnkappenjäger"
 
-#: data/civ2/units.ruleset:873 data/default/units.ruleset:937
+#: data/civ2/units.ruleset:997 data/default/units.ruleset:1067
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Ein verbesserter Jäger mit höherer Angriffsstärke und größerem Aktionsradius."
 
-#: data/civ1/units.ruleset:842 data/civ2/units.ruleset:879
-#: data/default/units.ruleset:943
+#: data/civ1/units.ruleset:966 data/civ2/units.ruleset:1003
+#: data/default/units.ruleset:1073
 msgid "Stealth Bomber"
 msgstr "Tarnkappenbomber"
 
-#: data/civ2/units.ruleset:901 data/default/units.ruleset:965
+#: data/civ2/units.ruleset:1029 data/default/units.ruleset:1099
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Ein verbesserter Bomber mit höherer Angriffsstärke und größerem "
 "Aktionsradius."
 
-#: data/civ1/units.ruleset:866 data/civ2/units.ruleset:907
-#: data/default/units.ruleset:971
+#: data/civ1/units.ruleset:994 data/civ2/units.ruleset:1035
+#: data/default/units.ruleset:1105
 msgid "Trireme"
 msgstr "Trireme"
 
-#: data/civ2/units.ruleset:931 data/default/units.ruleset:995
+#: data/civ2/units.ruleset:1063 data/default/units.ruleset:1133
 msgid "Caravel"
 msgstr "Karavelle"
 
-#: data/civ1/units.ruleset:914 data/civ2/units.ruleset:955
-#: data/default/units.ruleset:1019
+#: data/civ1/units.ruleset:1050 data/civ2/units.ruleset:1091
+#: data/default/units.ruleset:1161
 msgid "Galleon"
 msgstr "Galleone"
 
-#: data/civ1/units.ruleset:938 data/civ2/units.ruleset:979
-#: data/default/units.ruleset:1043
+#: data/civ1/units.ruleset:1078 data/civ2/units.ruleset:1119
+#: data/default/units.ruleset:1189
 msgid "Frigate"
 msgstr "Fregatte"
 
-#: data/civ1/units.ruleset:962 data/civ2/units.ruleset:1003
-#: data/default/units.ruleset:1067
+#: data/civ1/units.ruleset:1106 data/civ2/units.ruleset:1147
+#: data/default/units.ruleset:1217
 msgid "Ironclad"
 msgstr "Panzerschiff"
 
-#: data/civ1/units.ruleset:986 data/civ2/units.ruleset:1027
-#: data/default/units.ruleset:1091
+#: data/civ1/units.ruleset:1134 data/civ2/units.ruleset:1175
+#: data/default/units.ruleset:1245
 msgid "Destroyer"
 msgstr "Zerstörer"
 
-#: data/civ2/units.ruleset:1049 data/default/units.ruleset:1113
+#: data/civ2/units.ruleset:1201 data/default/units.ruleset:1271
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -15844,40 +15875,40 @@ msgstr ""
 "HINWEIS: Eine sehr schnelle Einheit, sehr nützlich zur Jagd auf feindliche "
 "Transportschiffe."
 
-#: data/civ1/units.ruleset:1010 data/civ2/units.ruleset:1055
-#: data/default/units.ruleset:1119
+#: data/civ1/units.ruleset:1162 data/civ2/units.ruleset:1207
+#: data/default/units.ruleset:1277
 msgid "Cruiser"
 msgstr "Kreuzer"
 
-#: data/civ1/units.ruleset:1034 data/civ2/units.ruleset:1079
-#: data/default/units.ruleset:1143
+#: data/civ1/units.ruleset:1190 data/civ2/units.ruleset:1235
+#: data/default/units.ruleset:1305
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Kreuzer"
 
-#: data/civ1/units.ruleset:1058 data/civ2/units.ruleset:1103
-#: data/default/units.ruleset:1167
+#: data/civ1/units.ruleset:1218 data/civ2/units.ruleset:1263
+#: data/default/units.ruleset:1333
 msgid "Battleship"
 msgstr "Schlachtschiff"
 
-#: data/civ1/units.ruleset:1082 data/civ2/units.ruleset:1127
-#: data/default/units.ruleset:1191
+#: data/civ1/units.ruleset:1246 data/civ2/units.ruleset:1291
+#: data/default/units.ruleset:1361
 msgid "Submarine"
 msgstr "U-Boot"
 
-#: data/civ1/units.ruleset:1104 data/civ2/units.ruleset:1150
-#: data/default/units.ruleset:1214
+#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1318
+#: data/default/units.ruleset:1388
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
 "U-Boote haben zwar sehr hohen strategischen Wert, können sich aber nur "
 "äußerst schlecht verteidigen."
 
-#: data/civ1/units.ruleset:1110 data/civ2/units.ruleset:1156
-#: data/default/units.ruleset:1220
+#: data/civ1/units.ruleset:1278 data/civ2/units.ruleset:1324
+#: data/default/units.ruleset:1394
 msgid "Carrier"
 msgstr "Flugzeugträger"
 
-#: data/civ1/units.ruleset:1132 data/civ2/units.ruleset:1178
-#: data/default/units.ruleset:1242
+#: data/civ1/units.ruleset:1304 data/civ2/units.ruleset:1350
+#: data/default/units.ruleset:1420
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -15886,17 +15917,17 @@ msgstr ""
 "Schlachtschiff, da der Verlust eines vollbeladenen Flugzeugträgers SEHR "
 "schmerzlich und teuer ist."
 
-#: data/civ1/units.ruleset:1139 data/civ2/units.ruleset:1185
-#: data/default/units.ruleset:1249
+#: data/civ1/units.ruleset:1311 data/civ2/units.ruleset:1357
+#: data/default/units.ruleset:1427
 msgid "Transport"
 msgstr "Landungsschiff"
 
-#: data/civ1/units.ruleset:1163 data/civ2/units.ruleset:1209
-#: data/default/units.ruleset:1273
+#: data/civ1/units.ruleset:1339 data/civ2/units.ruleset:1385
+#: data/default/units.ruleset:1455
 msgid "Cruise Missile"
 msgstr "Lenkrakete"
 
-#: data/civ2/units.ruleset:1231 data/default/units.ruleset:1295
+#: data/civ2/units.ruleset:1411 data/default/units.ruleset:1481
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -15904,12 +15935,12 @@ msgstr ""
 "HINWEIS: Ein paar davon halten den Ozean in Küstennähe frei von feindlichen "
 "Schiffen."
 
-#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1237
-#: data/default/units.ruleset:1301
+#: data/civ1/units.ruleset:1367 data/civ2/units.ruleset:1417
+#: data/default/units.ruleset:1487
 msgid "Nuclear"
 msgstr "Atomrakete"
 
-#: data/civ2/units.ruleset:1259 data/default/units.ruleset:1323
+#: data/civ2/units.ruleset:1443 data/default/units.ruleset:1513
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -15944,13 +15975,13 @@ msgstr ""
 "die Explosion stattfindet. Das senkt die Wahrscheinlichkeit eines atomaren "
 "Winters erheblich."
 
-#: data/civ1/units.ruleset:1230 data/civ2/units.ruleset:1280
-#: data/default/units.ruleset:1344
+#: data/civ1/units.ruleset:1414 data/civ2/units.ruleset:1464
+#: data/default/units.ruleset:1534
 msgid "Diplomat"
 msgstr "Diplomat"
 
-#: data/civ1/units.ruleset:1252 data/civ2/units.ruleset:1302
-#: data/default/units.ruleset:1366
+#: data/civ1/units.ruleset:1440 data/civ2/units.ruleset:1490
+#: data/default/units.ruleset:1560
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -15975,12 +16006,12 @@ msgstr ""
 " - feindliche Einheiten bestechen.\n"
 " - eine Revolte auslösen und die Stadt übernehmen."
 
-#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1322
-#: data/default/units.ruleset:1386
+#: data/civ1/units.ruleset:1460 data/civ2/units.ruleset:1510
+#: data/default/units.ruleset:1580
 msgid "Spy"
 msgstr "Spion"
 
-#: data/civ2/units.ruleset:1344 data/default/units.ruleset:1408
+#: data/civ2/units.ruleset:1536 data/default/units.ruleset:1606
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -16014,13 +16045,13 @@ msgstr ""
 "Spione mit gewissen Ruf werden hingerichtet, wenn sie versuchen, eine "
 "Botschaft einzurichten."
 
-#: data/civ1/units.ruleset:1296 data/civ2/units.ruleset:1365
-#: data/default/units.ruleset:1429
+#: data/civ1/units.ruleset:1488 data/civ2/units.ruleset:1557
+#: data/default/units.ruleset:1627
 msgid "Caravan"
 msgstr "Karawane"
 
-#: data/civ1/units.ruleset:1318 data/civ2/units.ruleset:1387
-#: data/default/units.ruleset:1451
+#: data/civ1/units.ruleset:1514 data/civ2/units.ruleset:1583
+#: data/default/units.ruleset:1653
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -16036,31 +16067,31 @@ msgstr ""
 "Baubeginn in die Stadt zu bringen. Auf diese Art kann man ein Weltwunder in "
 "nur einem Zug fertigstellen!"
 
-#: data/civ1/units.ruleset:1328 data/civ2/units.ruleset:1397
-#: data/default/units.ruleset:1461
+#: data/civ1/units.ruleset:1524 data/civ2/units.ruleset:1593
+#: data/default/units.ruleset:1663
 msgid "Freight"
 msgstr "Laster"
 
-#: data/civ2/units.ruleset:1419 data/default/units.ruleset:1483
+#: data/civ2/units.ruleset:1619 data/default/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr "Der Laster ersetzt die Karawane und ist doppelt so schnell."
 
-#: data/civ1/units.ruleset:1352 data/civ2/units.ruleset:1424
-#: data/default/units.ruleset:1488
+#: data/civ1/units.ruleset:1552 data/civ2/units.ruleset:1624
+#: data/default/units.ruleset:1694
 msgid "Explorer"
 msgstr "Kundschafter"
 
-#: data/civ2/units.ruleset:1446 data/default/units.ruleset:1510
+#: data/civ2/units.ruleset:1650 data/default/units.ruleset:1720
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 "Kundschafter sind sehr nützlich bei der Erkundung von unbekanntem Gelände."
 
-#: data/civ1/units.ruleset:1376 data/civ2/units.ruleset:1451
-#: data/default/units.ruleset:1515
+#: data/civ1/units.ruleset:1580 data/civ2/units.ruleset:1655
+#: data/default/units.ruleset:1725
 msgid "Barbarian Leader"
 msgstr "Barbarenanführer"
 
-#: data/civ2/units.ruleset:1473 data/default/units.ruleset:1537
+#: data/civ2/units.ruleset:1681 data/default/units.ruleset:1751
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -16068,7 +16099,7 @@ msgstr ""
 "Wird ein Barbarenanführer auf einem Feld ohne Verteidiger getötet, werden "
 "die 100 Goldstücke Belohnung nur an Landeinheiten oder Helikopter bezahlt."
 
-#: data/civ2/units.ruleset:311
+#: data/civ2/units.ruleset:347
 msgid ""
 "Only Fundamentalist nations can build Fanatic units.\n"
 "\n"
@@ -16079,7 +16110,7 @@ msgstr ""
 "\n"
 "Diese Staaten können Fanatiker ohne Erhaltungskosten  einsetzen."
 
-#: data/civ1/units.ruleset:93
+#: data/civ1/units.ruleset:97
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -16109,15 +16140,15 @@ msgstr ""
 "'Arbeitskraft' zu verschwenden. Außerdem können solche Gruppen sehr leicht "
 "von Angreifern vernichtet werden."
 
-#: data/civ1/units.ruleset:135
+#: data/civ1/units.ruleset:143
 msgid "Militia"
 msgstr "Miliz"
 
-#: data/civ1/units.ruleset:890
+#: data/civ1/units.ruleset:1022
 msgid "Sail"
 msgstr "Segelschiff"
 
-#: data/civ1/units.ruleset:1209
+#: data/civ1/units.ruleset:1393
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -16152,7 +16183,7 @@ msgstr ""
 "der die Explosion stattfindet. Das senkt die Wahrscheinlichkeit eines "
 "atomaren Winters erheblich."
 
-#: data/civ1/units.ruleset:1398
+#: data/civ1/units.ruleset:1606
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
