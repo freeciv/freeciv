@@ -330,7 +330,7 @@ static void economy_dlg_sell(HWND hWnd,int data)
   for (row = 0; row < n; row++) {
     if (ListView_GetItemState(lv,row,LVIS_SELECTED)) {
       sell_all_improvements(economy_improvement_type[row],
-			    data != 0, str, sizeof(str));
+			    data == 0, str, sizeof(str));
       ListView_SetItemState(lv,row,0,LVIS_SELECTED);
       popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
     }
