@@ -1,14 +1,72 @@
-=======================
-Welcome to Freeciv 1.14
-=======================
+======================
+Welcome to Freeciv 2.0
+======================
 
-This is release 1.14.0.
+This is release 2.0.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.14.0
+ - Player authentication with optional passwords.
+ - AI is much improved, and does not use 'double-move' any more.
+ - AI now does diplomacy with you (and against you)
+ - New difficulty level: Novice.  The AI will be severely 
+   handicapped in this difficulty.
+ - New units: AWACS and Worker.
+ - Isometric and hexagonal topologies. Wrap map in any direction.
+ - There are now national borders.  Units inside your borders do
+   not cause unhappiness under Republic and Democracy.
+ - Modpack options vastly improved: You can customize buildings,
+   add buildings as requirements to units, restrict technologies
+   to certain nations, have split technology trees, gold upkeep
+   for units, new units and terrain flags and lots of other options.
+ - Civ1 and Civ2 rulesets now have waste.  Default ruleset does not.
+ - Smarter autoexplorer code
+ - Fewer popups (eg choose the new government from the menu directly)
+ - Support for drawing civ3 graphics
+ - 'Home' key centers on your capital
+ - New 'load' and 'unload' commands for transporting units.
+ - You can start the server and set server options from the client.
+ - You can meet with other players for 20 turns after your units
+   have last met, and you can exchange embassies when meeting.
+ - It is no longer possible for one player to be in alliance with
+   a player who is in war with another player you are allied with.
+ - Global observer can observe the entire game.
+ - Incite costs changed.  Now cities closer to the capital, with
+   units and with buildings, have much higher incite cost.
+ - Killing a defending diplomat now costs you 1 movement point.
+ - Set number and type of starting units as server option.
+ - You can bind the server to a given IP on multihomed hosts.
+ - New client dialog which uses multicast to find servers on your LAN.
+ - Compress network traffic and send only a delta (diff) of the data.
+ - Units now have multiple, configurable veteran levels.
+ - Team mates now pool their research and research as one. You may 
+   opt out and research individually by cancelling the 'Team' treaty.
+ - Keyboardless or "drag and drop" goto.
+ - Server has voting on commands and options. You need over 50% of votes.
+ - When moving a unit from a transport on an ocean tile to a land tile,
+   you lose all movement points.
+ - GTK2 client can now run in fullscreen mode.
+ - You can specify a list of players using the 'endgame' command that
+   you would like to share victory with.
+ - New method of settings map dimensions: Just use 'size'.
+ - Add the Swiss, Afghanistan, Ethiopian, Assyrian, Columbian, Elvish,
+   Galician, Hobbits, Indonesian, Kampuchean, Malaysian, Martian,
+   Nigerian, Quebecois, Sumerian, Taiwanese, Austrian, Belgian,
+   Phoenician and Mexican nations.
+ - New wonder: The Eiffel Tower. Makes AIs love you and improves reputation.
+ - The building requirements of several buildings have been changed.
+ - Convert charsets as they are sent between client and server.  All
+   data files are now in UTF-8.
+ - The whale special is reduced to 2 food, 1 shield and 2 trade.
+ - New metaserver.
+ - New ALSA sound plugin.
+ - The name of new nations created by civil war depends on original nation.
+ - Many more (smaller) changes, and massive changes under the hood.
 
 WHAT'S CHANGED SINCE 1.13.0
  - Unique city names, you no longer can name your cities the same,
