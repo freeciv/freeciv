@@ -47,6 +47,8 @@ extern int		seconds_to_turndone;
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
 extern int goto_state;
+extern int paradrop_state;
+extern int nuke_state;
 
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
@@ -123,6 +125,8 @@ int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 extern SPRITE *intro_gfx_sprite;
 extern SPRITE *radar_gfx_sprite;
 extern GdkCursor *goto_cursor;
+extern GdkCursor *drop_cursor;
+extern GdkCursor *nuke_cursor;
 
 GtkObject *		map_hadj, *map_vadj;
 
@@ -305,11 +309,17 @@ void update_unit_info_label(struct unit *punit)
             pcity ? pcity->name : "");
     gtk_set_label( unit_info_label, buffer);
 
-    if (goto_cursor != NULL) {
-      if (goto_state==punit->id)
-       gdk_window_set_cursor (root_window, goto_cursor);
-      else
-       gdk_window_set_cursor (root_window, 0);
+    if ((goto_cursor != NULL) && (drop_cursor != NULL)) {
+      if (goto_state==punit->id) {
+	if (paradrop_state)
+	  gdk_window_set_cursor (root_window, drop_cursor);
+	else if (nuke_state)
+	  gdk_window_set_cursor (root_window, nuke_cursor);
+	else
+	  gdk_window_set_cursor (root_window, goto_cursor);
+      } else {
+	gdk_window_set_cursor (root_window, 0);
+      }
     }
   }
   else

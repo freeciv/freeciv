@@ -74,6 +74,8 @@ extern int draw_map_grid;
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
 extern Cursor goto_cursor;
+extern Cursor drop_cursor;
+extern Cursor nuke_cursor;
 
 extern Pixmap map_canvas_store;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -90,6 +92,8 @@ int force_full_repaint;
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
 extern int goto_state;
+extern int paradrop_state;
+extern int nuke_state;
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
@@ -276,13 +280,19 @@ void update_unit_info_label(struct unit *punit)
 	    "Select destination" : unit_activity_text(punit), 
 	    map_get_tile_info_text(punit->x, punit->y),
 	    pcity ? pcity->name : "");
-
     xaw_set_label(unit_info_label, buffer);
-    if (goto_cursor != (Cursor) None) {
-      if (goto_state == punit->id)
-	XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
-      else
+
+    if ((goto_cursor != (Cursor) None) && (drop_cursor != (Cursor) None)) {
+      if (goto_state == punit->id) {
+	if (paradrop_state)
+	  XDefineCursor(display, XtWindow(map_canvas), drop_cursor);
+	else if (nuke_state)
+	  XDefineCursor(display, XtWindow(map_canvas), nuke_cursor);
+	else
+	  XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
+      } else {
 	XUndefineCursor(display, XtWindow(map_canvas));
+      }
     }
   }
   else

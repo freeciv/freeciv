@@ -44,6 +44,10 @@
 
 #include "goto_cursor.xbm"
 #include "goto_cursor_mask.xbm"
+#include "drop_cursor.xbm"
+#include "drop_cursor_mask.xbm"
+#include "nuke_cursor.xbm"
+#include "nuke_cursor_mask.xbm"
 
 extern int display_depth;
 extern Display *display;
@@ -58,6 +62,8 @@ struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
 
 Cursor goto_cursor;
+Cursor drop_cursor;
+Cursor nuke_cursor;
 
 static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
  				       int width, int height);
@@ -122,15 +128,36 @@ void load_cursors(void)
   XQueryColor(display, cmap, &white);
   XQueryColor(display, cmap, &black);
 
+  /* goto */
   pixmap = XCreateBitmapFromData(display, root_window, goto_cursor_bits,
 				 goto_cursor_width, goto_cursor_height);
   mask   = XCreateBitmapFromData(display, root_window, goto_cursor_mask_bits,
 				 goto_cursor_mask_width, goto_cursor_mask_height);
-
   goto_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				    &white, &black,
 				    goto_cursor_x_hot, goto_cursor_y_hot);
+  XFreePixmap(display, pixmap);
+  XFreePixmap(display, mask);
 
+  /* drop */
+  pixmap = XCreateBitmapFromData(display, root_window, drop_cursor_bits,
+				 drop_cursor_width, drop_cursor_height);
+  mask   = XCreateBitmapFromData(display, root_window, drop_cursor_mask_bits,
+				 drop_cursor_mask_width, drop_cursor_mask_height);
+  drop_cursor = XCreatePixmapCursor(display, pixmap, mask,
+				    &white, &black,
+				    drop_cursor_x_hot, drop_cursor_y_hot);
+  XFreePixmap(display, pixmap);
+  XFreePixmap(display, mask);
+
+  /* nuke */
+  pixmap = XCreateBitmapFromData(display, root_window, nuke_cursor_bits,
+				 nuke_cursor_width, nuke_cursor_height);
+  mask   = XCreateBitmapFromData(display, root_window, nuke_cursor_mask_bits,
+				 nuke_cursor_mask_width, nuke_cursor_mask_height);
+  nuke_cursor = XCreatePixmapCursor(display, pixmap, mask,
+				    &white, &black,
+				    nuke_cursor_x_hot, nuke_cursor_y_hot);
   XFreePixmap(display, pixmap);
   XFreePixmap(display, mask);
 }
