@@ -3397,23 +3397,17 @@ static void take_command(struct connection *caller, char *str)
     send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
   }
 
-  /* if we're taking another player with a user attached 
-   * and we have the power, forcibly detach the user from the player. */
-  if (!caller || caller->access_level == ALLOW_HACK) {
-    conn_list_iterate(pplayer->connections, aconn) {
-      if (!aconn->observer) {
-        if (server_state == RUN_GAME_STATE) {
-          send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);\
-        }
-        notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
-        unattach_connection_from_player(aconn);
+  /* if we're taking another player with a user attached, 
+   * forcibly detach the user from the player. */
+  conn_list_iterate(pplayer->connections, aconn) {
+    if (!aconn->observer) {
+      if (server_state == RUN_GAME_STATE) {
+        send_game_state(&aconn->self, CLIENT_PRE_GAME_STATE);\
       }
-    } conn_list_iterate_end;
-  } else {
-    cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
-              pplayer->username, pplayer->name);
-    goto end;
-  }
+      notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
+      unattach_connection_from_player(aconn);
+    }
+  } conn_list_iterate_end;
 
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
