@@ -176,7 +176,7 @@ Currently there are 6 surpluses and factors. They are:
 5 = science
 
 Also currently, "factortarget" is not changeable within the client,
-see "client/agents/citizen_management.h" for more information.
+see "client/agents/cma_core.h" for more information.
 
 The array should be terminated with a '}'.
 
