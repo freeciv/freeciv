@@ -2433,45 +2433,34 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	  LONG x2 = x1 + get_normal_tile_width() - 1;
 	  LONG y2 = y1 + get_normal_tile_height() - 1;
 
-	  if (!(x == 0 && y == 0) && !(x == 0 && y == CITY_MAP_SIZE - 1) &&
-	      !(x == CITY_MAP_SIZE - 1 && y == 0) &&
-	      !(x == CITY_MAP_SIZE - 1 && y == CITY_MAP_SIZE - 1) &&
-	       (tiley >= 0 && tiley < map.ysize))
-	  {
-	    if (tile_is_known(tilex,tiley))
-	    {
+	  if (is_valid_city_coords(x, y) && is_real_tile(tilex, tiley)) {
+	    if (tile_is_known(tilex, tiley)) {
 	      put_tile(_rp(o), tilex, tiley, x1, y1, 1);
 
-	      if (pcity->city_map[x][y] == C_TILE_WORKER)
-	      {
-	        put_city_output_tile(_rp(o),
-	                             city_get_food_tile(x, y, pcity),
-	                             city_get_shields_tile(x, y, pcity),
-	                             city_get_trade_tile(x, y, pcity),
+	      if (pcity->city_map[x][y] == C_TILE_WORKER) {
+		put_city_output_tile(_rp(o),
+				     city_get_food_tile(x, y, pcity),
+				     city_get_shields_tile(x, y, pcity),
+				     city_get_trade_tile(x, y, pcity),
 				     _mleft(o), _mtop(o), x, y);
-
-	      } else
-	      {
-	        if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	        {
-	          SetAPen(rp, data->red_color);
-	          Move(rp, x1, y1);
-	          Draw(rp, x2, y1);
-	          Draw(rp, x2, y2);
-	          Draw(rp, x1, y2);
-	          Draw(rp, x1, y1 + 1);
-	        }
+	      } else {
+		if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+		  SetAPen(rp, data->red_color);
+		  Move(rp, x1, y1);
+		  Draw(rp, x2, y1);
+		  Draw(rp, x2, y2);
+		  Draw(rp, x1, y2);
+		  Draw(rp, x1, y1 + 1);
+		}
 	      }
-	    } else
-	    {
+	    } else {
 	      SetAPen(rp, data->black_color);
 	      RectFill(rp, x1, y1, x2, y2);
 	    }
-	  } else
-	  {
-	    if (msg->flags & MADF_DRAWOBJECT)
-	    {
-	      DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,x1,y1,0);
+	  } else {
+	    if (msg->flags & MADF_DRAWOBJECT) {
+	      DoMethod(o, MUIM_DrawBackground, x1, y1, x2 - x1 + 1,
+		       y2 - y1 + 1, x1, y1, 0);
 	    }
 	  }
 	}
