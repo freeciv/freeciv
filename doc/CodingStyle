@@ -214,7 +214,8 @@ int foo(struct city *pcity)
   use gcc.
 
 - If you send patches, use "diff -u" (or "diff -r -u", or "cvs diff -u").
-  For further information, see <http://www.freeciv.org/contribute.html>.
+  For further information, see
+  <http://www.freeciv.org/index.php/How_to_Contribute>.
   Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
   but "freeciv.diff" is not).
 
