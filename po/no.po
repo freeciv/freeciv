@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
 "POT-Creation-Date: 2002-06-23 11:10+0000\n"
-"PO-Revision-Date: 2002-06-25 23:36+0000\n"
+"PO-Revision-Date: 2002-06-27 18:25+0000\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1599,13 +1599,13 @@ msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
-"Spill: Oppdagelsen av %s gjør styreformen %s tilgjengelig. Du vil muligens "
+"Spill: Oppdagelsen av %s gjør styreformen %s tilgjengelig. Du vil kanskje "
 "starte en revolusjon."
 
 #: server/plrhand.c:294
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr "Spill: Lærte %s.  Våre forskere fokuserer på %s, målet er %s."
+msgstr "Spill: Oppdaget %s.  Våre forskere fokuserer på %s, målet er %s."
 
 #: server/plrhand.c:304
 #, c-format
@@ -9141,7 +9141,7 @@ msgstr "Endre terreng"
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1115
 #: client/gui-win32/menu.c:324
 msgid "Build _Fortress"
-msgstr "Bygg _Festning"
+msgstr "Bygg _festning"
 
 #: client/gui-gtk-2.0/menu.c:655 client/gui-gtk/menu.c:654
 #: client/gui-win32/menu.c:325
@@ -12162,7 +12162,7 @@ msgid ""
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
 msgstr ""
-"  3. Bestemme hvilke enheter som første skal bygges.\n"
+"  3. Bestemme hvilke enheter som først skal bygges.\n"
 "\n"
 "      Etter du har bygget et par krigerenheter, så kan du bygge nybyggere. "
 "Den andre nybyggeren kan brukes til å bygge veier eller irrigere "
@@ -13358,6 +13358,13 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
+"Tillater produksjon av veterane flyenheter. Dessuten blir skadede flyenheter "
+"som forblir i byen en hel runde uten å forflytte seg helt reparert.\n"
+"\n"
+"To byer med flyplasser kan flyforflytte en enhet per runde. "
+"Flyforflytning forflytter enheten øyeblikkelig fra en by til en annen, "
+"og vil forbruke alle enhetens bevegelsespoeng. En enhet må ha noen "
+"bevegelsespoeng igjen for å flyforflyttes."
 
 #: data/civ1/buildings.ruleset:61 data/civ2/buildings.ruleset:61
 #: data/default/buildings.ruleset:252
@@ -13376,6 +13383,8 @@ msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
 msgstr ""
+"I tillegg til markedsplass forbedringen øker en bank produksjonen av "
+"luksus og skatt i en by med 100%."
 
 #: data/civ1/buildings.ruleset:115 data/civ2/buildings.ruleset:116
 #: data/default/buildings.ruleset:307
@@ -13418,6 +13427,12 @@ msgid ""
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
 msgstr ""
+"En katedral gjør 3 ulykkelige borgere fornøyde i en by, "
+"og gjør det enklere å holde ro og orden i den byen. Oppdagelsen av "
+"teologi øker effekten av en katedral, ved å gjøre enda en "
+"ulykkelig borger fornøyd. Oppdagelsen av kommunisme reduserer "
+"effekten av en katedral, ved å redusere antallet ulykkelige borgere som blir "
+"fornøyde med 1."
 
 #: data/civ1/buildings.ruleset:252 data/civ2/buildings.ruleset:234
 #: data/default/buildings.ruleset:425
@@ -13537,6 +13552,15 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"Reduserer mengden forurensning generert av en by med 50%.  "
+"Det øker produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i byen: "
+"en fabrikk og et fabrikk-kompleks gir til sammen 75% produksjonsbonus, "
+"og en fabrikk, et fabrikk-kompleks og et vannkraftverk gir tilsammen 150% "
+"produksjonsbonus.\n"
+"\n"
+"En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
+"En by kan kun bygge vannkraftverk dersom den er ved siden av (eller på) "
+"et fjell eller en elv."
 
 #: data/civ1/buildings.ruleset:476 data/civ2/buildings.ruleset:461
 #: data/default/buildings.ruleset:658
@@ -13585,7 +13609,7 @@ msgstr "Fabrikk-kompleks"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr ""
+msgstr "Sammen med en fabrikk øker et fabrikk-kompleks skjoldproduksjonen i en by med 100%."
 
 #: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:564
 #: data/default/buildings.ruleset:761
@@ -13602,6 +13626,13 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Reduserer mengden forurensning fra produksjon i en by med 50%. "
+"Det øker også skjoldproduksjonen fra en fabrikk eller et fabrikk-kompleks "
+"i byen: en fabrikk og et atomkraftverk gir tilsammen 75% produksjonsbonus, "
+"og en fabrikk, et fabrikk-kompleks og et atomkraftverk gir tilsammen 150% "
+"produksjonsbonus.\n"
+"\n"
+"En by kan kun ha et vannkraftverk, kraftverk eller atomkreftverk."
 
 #: data/civ1/buildings.ruleset:616 data/civ2/buildings.ruleset:603
 #: data/default/buildings.ruleset:803
@@ -13634,6 +13665,14 @@ msgid ""
 "Take good care of your capital, as it's loss may result in your empire "
 "plunging into civil war."
 msgstr ""
+"Gjør byen til hovedstad og sentrum for din regjering. "
+"Korrupsjon i andre byer er avhengig av hvor langt de ligger "
+"fra hovedstaden, unntatt når styresettet er demokrati eller kommunisme. "
+"Kostnaden av å skape opprør i en by avhenger også av hvor langt byen "
+"ligger fra hovedstaden. (under alle styresett).\n"
+"\n"
+"Pass godt på hovedstaden, dersom du mister den kan hele "
+"riket ditt bli i borgerkrig."
 
 #: data/civ1/buildings.ruleset:674 data/civ2/buildings.ruleset:662
 #: data/default/buildings.ruleset:862
@@ -13680,6 +13719,12 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Det øker produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i en by: "
+"en fabrikk og et fabrikk-kompleks gir til sammen 75%  produksjonsbonus, "
+"og en fabrikk, et fabrikk-kompleks og et kraftverk gir tilsammen 150% "
+"produksjonsbonus.\n"
+"\n"
+"En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
 
 #: data/civ1/buildings.ruleset:760 data/civ2/buildings.ruleset:748
 #: data/default/buildings.ruleset:955
@@ -13708,6 +13753,9 @@ msgid ""
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
 msgstr ""
+"Sammen med et bibliotek øker et forskningslaboratorium forskningen "
+"i en by med 100%. Sammen med en bibliotek og et universitet øker et "
+"forskningslaboratorium forskningen i en by med 150%."
 
 #: data/civ1/buildings.ruleset:813 data/civ2/buildings.ruleset:801
 #: data/default/buildings.ruleset:1008
@@ -13757,6 +13805,13 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
+"Fjerner all forurensning fra produksjon i en by."
+"Det øker også produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i en by: "
+"en fabrikk og et fabrikk-kompleks gir til sammen 75%  produksjonsbonus, "
+"og en fabrikk, et fabrikk-kompleks og et solkraftverk gir tilsammen 150% "
+"produksjonsbonus.\n"
+"\n"
+"En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
 
 #: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:921
 #: data/default/buildings.ruleset:1132
@@ -13773,6 +13828,11 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Romkomponenter kan deles i fremdrifts- og drivstoff-komponenter. "
+"Hvert par kan redusere ditt romskips reisetid. Du kan bygge opp til 8 par.\n"
+"\n"
+"Før du kan bygge noen romkomponenter må en spiller ha bygget "
+"Apolloprogrammet."
 
 #: data/civ1/buildings.ruleset:959 data/civ2/buildings.ruleset:950
 #: data/default/buildings.ruleset:1161
@@ -13798,6 +13858,19 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Rom-moduler er de dyreste delene av et romskip. "
+"Det finnes 3 slags rom-moduler:\n"
+"\n"
+"- Boligmodul: har boliger til 10000 mennesker.\n"
+"\n"
+"- Overlevelsesmoduler: har mat og vann til innbyggere i en boligmodul.\n"
+"\n. "
+"- Solcellepanelmodul: produserer energi til de to andre modulene.\n"
+"\n"
+"Man kan bruke opp til 4 rom-moduler av hvert slag.\n"
+"\n"
+"Før du kan bygge noen romskipsdeler må en spiller "
+"ha bygget underverket Apolloprogrammet."
 
 #: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:988
 #: data/default/buildings.ruleset:1199
@@ -13814,6 +13887,12 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Romstrukturer danner fundamentet i romskipet. "
+"Alle andre romskipsdeler må være festet til strukturene for å fungere. "
+"Du kan bygge opp til 32 romstrykturer.\n"
+"\n"
+"Før du kan bygge noen romskipsdeler må en spiller "
+"ha bygget underverket Apolloprogrammet."
 
 #: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1017
 #: data/default/buildings.ruleset:1228
@@ -13884,7 +13963,7 @@ msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr ""
-"Sammen med bibliotek, vil et universitet øke forskningsproduksjonen "
+"Sammen med bibliotek vil et universitet øke forskningsproduksjonen "
 "i en by med 100%."
 
 #: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
@@ -13898,6 +13977,9 @@ msgid ""
 "players to start building spaceship parts (assuming they have researched the "
 "necessary technologies)."
 msgstr ""
+"Hele kartet blir synlig for spilleren som eier det. "
+"Det lar alle spillere begynne å bygge romskipsdeler (dersom de har "
+"forsket på de nødvendige teknologiene)."
 
 #: data/civ1/buildings.ruleset:1185 data/civ2/buildings.ruleset:1178
 #: data/default/buildings.ruleset:1390
@@ -13962,6 +14044,8 @@ msgid ""
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
 msgstr ""
+"Charles Darwins reise utløste oppdagelsen av artsutviklingen, "
+"som økte troen på forskning. Gir to umiddelbare teknologiske fremskritt."
 
 #: data/civ1/buildings.ruleset:1311 data/civ2/buildings.ruleset:1304
 #: data/default/buildings.ruleset:1518
@@ -13972,7 +14056,7 @@ msgstr "Eiffeltårnet"
 #: data/default/buildings.ruleset:1538
 #, no-c-format
 msgid "When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
+msgstr "Når det bygges ferdig vil hver sivilisasjons innstilling til deg forbedres med 25%."
 
 #: data/civ1/buildings.ruleset:1339 data/civ2/buildings.ruleset:1332
 #: data/default/buildings.ruleset:1546
@@ -13985,6 +14069,8 @@ msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
 msgstr ""
+"Sivilisasjonen som bygger Verdensbiblioteket får alle fremskritt "
+"som minst to andre sivilisasjoner har oppdaget."
 
 #: data/civ1/buildings.ruleset:1364 data/civ2/buildings.ruleset:1359
 #: data/default/buildings.ruleset:1571
@@ -14010,6 +14096,11 @@ msgid ""
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (making "
 "them content instead)."
 msgstr ""
+"Gjør en fornøyd borger lykkelig i hver by. Gjør to "
+"ekstra fornøyde borgere lykkelige i byen med Hengende Hager (totalt 3). "
+"I den usannsynlige situasjonen hvor det er ingen fornøyde borgere "
+"som kan ta effekten av Hengende Hager gjelder underverket i stedet ulykkelige "
+"borgere (og gjør de fornøyde i stedet)."
 
 # noe kontroversiell kanskje
 #: data/civ1/buildings.ruleset:1421 data/civ2/buildings.ruleset:1416
@@ -14022,6 +14113,8 @@ msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
+"Fungerer som om du hadde et vannkraftverk i hver by. (Dette reduserer "
+"forurensningen og øker effekten av fabrikker og fabrikk-komplekser.)"
 
 #: data/civ1/buildings.ruleset:1451 data/civ2/buildings.ruleset:1443
 #: data/default/buildings.ruleset:1656
@@ -14041,7 +14134,7 @@ msgstr "J.S. Bachs katedral"
 
 #: data/civ2/buildings.ruleset:1487 data/default/buildings.ruleset:1700
 msgid "Makes two unhappy citizens content in every city."
-msgstr ""
+msgstr "Gjør to ulykkelige innbyggere fornøyde i hver by."
 
 #: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1492
 #: data/default/buildings.ruleset:1705
@@ -14053,7 +14146,7 @@ msgstr "Kong Rikard Løvehjertes Korstog"
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
-msgstr ""
+msgstr "Legger til en ekstra skjoldressurs på hver rute rundt byen hvor den bygges."
 
 #: data/civ1/buildings.ruleset:1527 data/civ2/buildings.ruleset:1517
 #: data/default/buildings.ruleset:1730
@@ -14232,6 +14325,15 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"Reduserer mengden forurensning fra produksjon i en by med 50%."
+"Det øker produksjonen av skjold fra en fabrikk eller et fabrikk-kompleks i en by: "
+"en fabrikk og et fabrikk-kompleks gir til sammen 75%  produksjonsbonus, "
+"og en fabrikk, et fabrikk-kompleks og et vannkraftverk gir tilsammen 150% "
+"produksjonsbonus.\n"
+"\n"
+"En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
+"En by kan kun bygge et vannkraftverk dersom det er ved siden av (eller på) "
+"et fjell eller ei elv."
 
 #: data/civ1/buildings.ruleset:600 data/civ2/buildings.ruleset:585
 msgid ""
@@ -14457,7 +14559,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
 #: data/default/governments.ruleset:244 data/default/techs.ruleset:369
 msgid "Monarchy"
-msgstr "Monarki"
+msgstr "monarki"
 
 #: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:283
 #: data/default/governments.ruleset:284 data/nation/croatian.ruleset:18
