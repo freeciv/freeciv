@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.12.0\n"
-"POT-Creation-Date: 2002-11-25 17:33+0100\n"
-"PO-Revision-Date: 2002-11-16 20:00+01:00\n"
+"POT-Creation-Date: 2002-11-26 13:44+0100\n"
+"PO-Revision-Date: 2002-11-25 20:00+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -3364,19 +3364,18 @@ msgstr ""
 "vente overhovedet."
 
 #: server/stdinhand.c:730
-#, fuzzy
 msgid "Maximum seconds between PINGs"
-msgstr "Sekunder mellem PING"
+msgstr "Maksimalt antal sekunder mellem PING"
 
 #: server/stdinhand.c:731
-#, fuzzy
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses. If a client doesn't reply with a PONG before the next server "
 "PING request the client is disconnected."
 msgstr ""
-"Civserver vil kontakte klienterne med PING forespørgsler efter dette "
-"tidsinterval."
+"Civserveren vil kontakte klienterne med en PING-forespørgsel hver gang dette "
+"tidsrum er gået. Hvis en klient ikke svarer med en PONG før den næste PING "
+"fra serveren bliber klienten koblet fra."
 
 #: server/stdinhand.c:738
 msgid "Turn-blocking game play mode"
@@ -6178,9 +6177,8 @@ msgid "Default metaserver"
 msgstr "Standard metaserver"
 
 #: client/options.c:87
-#, fuzzy
 msgid "Default tileset"
-msgstr "Standard server"
+msgstr "Standard spillebrædt"
 
 #: client/options.c:89
 msgid "Default name of sound set"
@@ -10038,9 +10036,8 @@ msgid "Disconnect"
 msgstr "Kobl ned"
 
 #: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
-#, fuzzy
 msgid "more"
-msgstr "Tanks"
+msgstr "mere"
 
 #: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:899
 #: client/gui-win32/finddlg.c:126 data/Freeciv:1089 data/Freeciv:1561
@@ -17349,7 +17346,6 @@ msgid "Thane"
 msgstr "Thane"
 
 #: data/nation/czech.ruleset:21
-#, fuzzy
 msgid "Prophetess"
 msgstr "Spåkvinde"
 
