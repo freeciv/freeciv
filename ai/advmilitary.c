@@ -54,15 +54,21 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
                                     int wall_value)
 {
   int defense;
+  bool do_wall = FALSE;
 
   if (!is_military_unit(punit)) {
     return 0;
   }
 
-  defense = get_defense_power(punit) * punit->hp *
-            (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
-  if (is_ground_unit(punit)) {
-    defense = (3 * defense) / 2;
+  defense = get_defense_power(punit) * punit->hp;
+  if (!is_sailing_unit(punit)) {
+    defense *= unit_type(punit)->firepower;
+    if (is_ground_unit(punit)) {
+      if (pcity) {
+        do_wall = (!igwall && city_got_citywalls(pcity));
+        defense *= 3;
+      }
+    }
   }
   defense /= POWER_DIVIDER;
 
@@ -70,7 +76,7 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
     defense *= defense;
   }
 
-  if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
+  if (do_wall) {
     defense *= wall_value;
     defense /= 10;
   }
@@ -102,10 +108,9 @@ int assess_defense_quadratic(struct city *pcity)
   if (defense > 1<<12) {
     freelog(LOG_VERBOSE, "Very large defense in assess_defense_quadratic: %d in %s",
             defense, pcity->name);
-  }
-
-  if (defense > 1<<15) {
-    defense = 1<<15; /* more defense than we know what to do with! */
+    if (defense > 1<<15) {
+      defense = 1<<15; /* more defense than we know what to do with! */
+    }
   }
 
   return defense * defense;
