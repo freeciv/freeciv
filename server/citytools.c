@@ -1069,6 +1069,7 @@ warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
 to use ferryboats.  I really should have identified this sooner. -- Syela */
 
   pcity->synced = 0;
+  send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
   maybe_make_first_contact(x, y, pcity->owner);
 
