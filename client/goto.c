@@ -779,12 +779,16 @@ static int find_route(int x, int y)
 /********************************************************************** 
 Puts a line to dest_x, dest_y on the map according to the current
 goto_map.
+If there is no route to the dest then don't draw anything.
 ***********************************************************************/
 void draw_line(int dest_x, int dest_y)
 {
   int start_index;
 
   assert(is_active);
+
+  if (!normalize_map_pos(&dest_x, &dest_y))
+    return;
 
   if (!goto_map.vector[dest_x][dest_y]) {
     undraw_line();
