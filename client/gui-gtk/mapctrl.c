@@ -178,16 +178,10 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
-        struct unit *apunit;
-        
+	int att_chance, def_chance;
+
         /* calculate chance to win */
-        if ((apunit = get_unit_in_focus())) {
-          /* chance to win when active unit is attacking the selected unit */
-          int att_chance = unit_win_chance(apunit, punit) * 100;
-
-          /* chance to win when selected unit is attacking the active unit */
-          int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
-
+        if (get_chance_to_win(&att_chance, &def_chance, xtile, ytile)) {
           my_snprintf(s, sizeof(s), _("Chance to win: A:%d%% D:%d%%"),
                att_chance, def_chance);
           gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,

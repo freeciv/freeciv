@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include "combat.h"
 #include "log.h"
 
 #include "agents.h"
@@ -220,4 +221,29 @@ void update_line(int canvas_x, int canvas_y)
       draw_line(x, y);
     }
   }
+}
+
+/**************************************************************************
+  Find the focus unit's chance of success at attacking/defending the
+  given tile.  Return FALSE if the values cannot be determined (e.g., no
+  units on the tile).
+**************************************************************************/
+bool get_chance_to_win(int *att_chance, int *def_chance,
+		       int map_x, int map_y)
+{
+  struct unit *my_unit, *defender, *attacker;
+
+  if (!(my_unit = get_unit_in_focus())
+      || !(defender = get_defender(my_unit, map_x, map_y))
+      || !(attacker = get_attacker(my_unit, map_x, map_y))) {
+    return FALSE;
+  }
+
+  /* chance to win when active unit is attacking the selected unit */
+  *att_chance = unit_win_chance(my_unit, defender) * 100;
+
+  /* chance to win when selected unit is attacking the active unit */
+  *def_chance = (1.0 - unit_win_chance(attacker, my_unit)) * 100;
+
+  return TRUE;
 }
