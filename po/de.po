@@ -2566,13 +2566,13 @@ msgstr ""
 #: server/srv_main.c:1291
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr ""
-"Die Wiederherstellung abgebrochener Verbindungen ist in diesem Spiel nicht "
-"möglich."
+"Verlorene Verbindungen können in diesem Spiel nicht wieder aufgebaut "
+"werden."
 
 #: server/srv_main.c:1294
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
-msgstr "%s abgewiesen: Keine Wiederherstellung abgebrochener Verbindungen."
+msgstr "%s abgewiesen: Kein Neuaufbau verlorener Verbindungen."
 
 #: server/srv_main.c:1312
 msgid "Sorry, someone else already has that name."
@@ -2620,7 +2620,7 @@ msgstr "Neue Spieler sind in diesem Spiel nicht erlaubt."
 #: server/srv_main.c:1368
 #, c-format
 msgid "%s was rejected: No connections as new player."
-msgstr "%s abgewiesen: Keine Verbindungen zu neuen Spielern zulässig."
+msgstr "%s abgewiesen: Neue Spieler nicht zugelassen."
 
 #: server/srv_main.c:1390
 #, c-format
@@ -3032,7 +3032,7 @@ msgstr ""
 
 #: server/stdinhand.c:450
 msgid "Whether angry citizens are enabled"
-msgstr "Wüntende Bürger?"
+msgstr "Wütende Bürger?"
 
 #: server/stdinhand.c:451
 msgid ""
@@ -3281,7 +3281,7 @@ msgstr ""
 
 #: server/stdinhand.c:616
 msgid "Whether to use natural city names"
-msgstr "'Natürliche Städtenamen"
+msgstr "Terrainbezogene Städtenamen"
 
 #: server/stdinhand.c:617
 msgid ""
@@ -3627,7 +3627,7 @@ msgstr "Verbindung zu <Name> beenden"
 
 #: server/stdinhand.c:980
 msgid "Cut a client's connection to server."
-msgstr "Eine Client-Server-Verbindung beendet."
+msgstr "Eine Client-Server-Verbindung beenden."
 
 #: server/stdinhand.c:981
 msgid ""
@@ -3921,7 +3921,7 @@ msgstr ""
 "Spieler, der zuerst den 'firstlevel' Befehl eingibt, diese Rechte.\n"
 "Durch die Angabe eines Namens wird die Zugangsberechtigung nur für die "
 "betreffende Verbindung gesetzt.\n"
-"Um Mißbrauch zu verhindern, gelten Zugangsberechtigungen zum Ende einer "
+"Um Mißbrauch zu verhindern, gelten Zugangsberechtigungen nur bis zum Ende einer "
 "Verbindung."
 
 #: server/stdinhand.c:1121
@@ -4792,7 +4792,7 @@ msgstr " (Beobachtermodus)"
 
 #: server/stdinhand.c:3471
 msgid "List of connections to server:"
-msgstr "Liste der Verbindungungen zum Server:"
+msgstr "Liste der Verbindungen zum Server:"
 
 #: server/stdinhand.c:3475
 msgid "<no connections>"
