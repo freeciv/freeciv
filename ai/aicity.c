@@ -55,7 +55,7 @@ static void ai_manage_city(struct player *pplayer, struct city *pcity);
 /************************************************************************** 
 ...
 **************************************************************************/
-void ai_do_build_unit(struct city *pcity, int unit_type)
+void ai_do_build_unit(struct city *pcity, Unit_Type_id unit_type)
 {
   pcity->is_building_unit = 1;
   pcity->currently_building = unit_type;
@@ -79,7 +79,8 @@ void ai_city_build_settler(struct city *pcity)
 **************************************************************************/
 int ai_city_build_peaceful_unit(struct city *pcity)
 {
-  int i;
+  Unit_Type_id i;
+
   if (is_building_other_wonder(pcity)) {
     i = best_role_unit(pcity, F_CARAVAN);
     if (i < U_LAST) {
@@ -103,7 +104,9 @@ int ai_city_build_peaceful_unit(struct city *pcity)
 static void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
   struct government *g = get_gov_pplayer(pplayer);
-  int i, j, values[B_LAST], leon = 0, palace = 0, corr = 0;
+  Impr_Type_id i;
+  Tech_Type_id j;
+  int values[B_LAST], leon = 0, palace = 0, corr = 0;
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
 
@@ -184,7 +187,8 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   bestchoice.type   = 0;
 
   if( is_barbarian(pplayer) ) {    /* always build best attack unit */
-    int i, iunit, bestunit = -1, bestattack = 0;
+    Unit_Type_id i, iunit, bestunit = -1;
+    int bestattack = 0;
     for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
       iunit = get_role_unit(L_BARBARIAN_BUILD, i);
       if (get_unit_type(iunit)->attack_strength > bestattack) {
@@ -281,7 +285,8 @@ I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */
 ...
 **************************************************************************/
 #ifdef GRAVEDANGERWORKS
-static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
+static int ai_city_defender_value(struct city *pcity, Unit_Type_id a_type,
+                                  Unit_Type_id d_type)
 {
   int m;
   m = get_virtual_defense_power(a_type, d_type, pcity->x, pcity->y);
@@ -297,7 +302,7 @@ static int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 **************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
-  int id;
+  Impr_Type_id id;
   for (id = 0; id < game.num_impr_types; id++) {
     if (can_sell_building(pcity, id) && id != B_CITY) {
 /* selling walls to buy defenders is counterproductive -- Syela */
@@ -312,7 +317,8 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void ai_new_spend_gold(struct player *pplayer)
 {
-  int buycost, id, cost, frugal = 0, trireme=0;
+  Unit_Type_id id;
+  int buycost, cost, frugal = 0, trireme=0;
   int total, build, did_upgrade, reserve;
   struct ai_choice bestchoice;
   struct city *pcity = NULL;
@@ -472,7 +478,7 @@ static void ai_new_spend_gold(struct player *pplayer)
     trireme = get_role_unit(F_TRIREME, 0);
     id = can_upgrade_unittype(pplayer, trireme);
   }
-  if (id > 0 && !frugal) {
+  if (id >= 0 && !frugal) {
     unit_list_iterate(pplayer->units, punit)
       if (punit->type != trireme) continue;
       pcity = map_get_city(punit->x, punit->y);
@@ -549,7 +555,8 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
 int city_get_buildings(struct city *pcity)
 {
   int b=0;
-  int i;
+  Impr_Type_id i;
+
   for (i=0; i<game.num_impr_types; i++) {
     if (is_wonder(i)) continue;
     if (i==B_PALACE)  continue;
@@ -578,7 +585,7 @@ static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 /************************************************************************** 
 ...
 **************************************************************************/
-static int is_defender_unit(int unit_type) 
+static int is_defender_unit(Unit_Type_id unit_type) 
 {
   return unit_has_role(unit_type, L_DEFEND_GOOD)
       || unit_has_role(unit_type, L_DEFEND_OK);
@@ -636,12 +643,14 @@ void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_c
 }
 
 /* don't ask me why this is in aicity, I can't even remember -- Syela */
-static int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
-{ 
-  int i;
+static Unit_Type_id ai_choose_attacker(struct city *pcity,
+                                       enum unit_move_type which)
+{
+  Unit_Type_id i;
+  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int best = 0;
-  int bestid = 0;
   int cur;
+
   for (i = 0; i < game.num_unit_types; i++) {
     /* not dealing with planes yet */
     if (!is_ai_simple_military(i)) continue;
@@ -657,21 +666,22 @@ static int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
   return bestid;
 }
 
-int ai_choose_attacker_ground(struct city *pcity)
+Unit_Type_id ai_choose_attacker_ground(struct city *pcity)
 {
   return(ai_choose_attacker(pcity, LAND_MOVING));
 }
 
-int ai_choose_attacker_sailing(struct city *pcity)
+Unit_Type_id ai_choose_attacker_sailing(struct city *pcity)
 {
   return(ai_choose_attacker(pcity, SEA_MOVING));
 }
 
-int ai_choose_defender_versus(struct city *pcity, int v)
+Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
 {
-  int i, j, m;
+  Unit_Type_id i;
+  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
+  int j, m;
   int best= 0;
-  int bestid = 0;
 
   for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
@@ -719,11 +729,13 @@ int has_a_normal_defender(struct city *pcity)
   return 0;
 }
 
-int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type which)
+Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
+                                        enum unit_move_type which)
 {
-  int i, j, m;
+  Unit_Type_id i;
+  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
+  int j, m;
   int best= 0;
-  int bestid = 0;
   int walls = 1; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
   int isdef = has_a_normal_defender(pcity);
 
@@ -747,12 +759,13 @@ int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type wh
   return bestid;
 }
 
-int ai_choose_defender_by_type(struct city *pcity, enum unit_move_type which)
+Unit_Type_id ai_choose_defender_by_type(struct city *pcity,
+                                        enum unit_move_type which)
 {
   return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, which));
 }
 
-int ai_choose_defender(struct city *pcity)
+Unit_Type_id ai_choose_defender(struct city *pcity)
 {
   return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, 0));
 }
@@ -774,7 +787,7 @@ void adjust_build_choice(struct player *pplayer, struct ai_choice *cur,
 ... 
 **************************************************************************/
 
-static int building_unwanted(struct player *plr, int i)
+static int building_unwanted(struct player *plr, Impr_Type_id i)
 {
   if (plr->research.researching != A_NONE)
     return 0;
@@ -787,7 +800,8 @@ static int building_unwanted(struct player *plr, int i)
 
 static void ai_sell_obsolete_buildings(struct city *pcity)
 {
-  int i;
+  Impr_Type_id i;
+
   struct player *pplayer = city_owner(pcity);
   for (i=0;i<game.num_impr_types;i++) {
     if(city_got_building(pcity, i) 

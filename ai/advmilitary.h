@@ -28,7 +28,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity);
 int assess_defense_quadratic(struct city *pcity);
 int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall);
 int assess_defense(struct city *pcity);
-int unit_desirability(int i, int def);
-int unit_attack_desirability(int i);
+int unit_desirability(Unit_Type_id i, int def);
+int unit_attack_desirability(Unit_Type_id i);
 
 #endif  /* FC__ADVMILITARY_H */

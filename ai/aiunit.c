@@ -60,7 +60,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
-static int unit_can_defend(int type);
+static int unit_can_defend(Unit_Type_id type);
 
 
 /**************************************************************************
@@ -1000,7 +1000,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 /*************************************************************************
 ...
 **************************************************************************/
-static int unit_can_defend(int type)
+static int unit_can_defend(Unit_Type_id type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
   return (unit_has_role(type, L_DEFEND_GOOD));
@@ -1011,7 +1011,7 @@ static int unit_can_defend(int type)
    whether a unit is a "good" defender depends on how good other
    units are)
 */
-int old_unit_can_defend(int type)
+int old_unit_can_defend(Unit_Type_id type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
   if (unit_types[type].defense_strength * 
@@ -1995,10 +1995,12 @@ void ai_manage_units(struct player *pplayer)
  Assign tech wants for techs to get better units with given role/flag.
  Returns the best we can build so far, or U_LAST if none.  (dwp)
 **************************************************************************/
-int ai_wants_role_unit(struct player *pplayer, struct city *pcity,
-		       int role, int want)
+Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
+                                int role, int want)
 {
-  int i, n, iunit, itech;
+  Unit_Type_id iunit;
+  Tech_Type_id itech;
+  int i, n;
 
   n = num_role_units(role);
   for (i=n-1; i>=0; i--) {
@@ -2022,7 +2024,7 @@ int ai_wants_role_unit(struct player *pplayer, struct city *pcity,
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want)
 {
-  int iunit = ai_wants_role_unit(pplayer, pcity, role, want);
+  Unit_Type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
   if (iunit != U_LAST)
     choice->choice = iunit;
 }
@@ -2031,7 +2033,7 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
  Whether unit_type test is on the "upgrade path" of unit_type base,
  even if we can't upgrade now.
 **************************************************************************/
-int is_on_unit_upgrade_path(int test, int base)
+int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
 {
 #if 0
   /* This is a hack for regression testing; I believe the new version
@@ -2057,7 +2059,7 @@ int is_on_unit_upgrade_path(int test, int base)
  (Could probably just adjust the loops themselves fairly simply, but this
  is safer for regression testing.) 
 **************************************************************************/
-int is_ai_simple_military(int type)
+int is_ai_simple_military(Unit_Type_id type)
 {
   return !unit_flag(type, F_NONMIL)
     && !unit_flag(type, F_MISSILE)

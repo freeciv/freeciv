@@ -124,8 +124,8 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
-  int i;
-  int id = B_LAST;
+  Impr_Type_id i;
+  Impr_Type_id id = B_LAST;
   int danger = 0, downtown = 0, cities = 0;
   int want=0;
   struct player *plr;

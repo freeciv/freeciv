@@ -97,7 +97,7 @@ static Tech_Type_id get_government_tech(struct player *plr)
   if it makes sense, and wonder is not already built and not obsolete.
   Otherwise returns A_NONE.
 **************************************************************************/
-static int get_wonder_tech(struct player *plr)
+static Tech_Type_id get_wonder_tech(struct player *plr)
 {
   int building = get_nation_by_plr(plr)->goals.wonder;
   

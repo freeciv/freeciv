@@ -108,16 +108,25 @@ static int assess_defense_backend(struct city *pcity, int igwall)
 /* unclear whether this should treat settlers/caravans as defense -- Syela */
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 int assess_defense(struct city *pcity)
 {
   return(assess_defense_backend(pcity, 0));
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static int assess_defense_igwall(struct city *pcity)
 {
   return(assess_defense_backend(pcity, 1));
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static int dangerfunct(int v, int m, int dist)
 {
 #ifdef OLDCODE
@@ -147,6 +156,9 @@ static int dangerfunct(int v, int m, int dist)
 #endif
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
   int v, sailing;
@@ -166,6 +178,9 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   return(v);
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
 static int assess_distance(struct city *pcity, struct unit *punit, int m,
 			   int boatid, int boatdist, int boatspeed)
 {
@@ -212,6 +227,7 @@ void assess_danger_player(struct player *pplayer)
 int assess_danger(struct city *pcity)
 {
   int i, danger = 0, v, dist, m;
+  Unit_Type_id utype;
   int danger2 = 0; /* linear for walls */
   int danger3 = 0; /* linear for coastal */
   int danger4 = 0; /* linear for SAM */
@@ -259,10 +275,10 @@ int assess_danger(struct city *pcity)
           virtualunit.owner = i;
           virtualunit.x = acity->x;
           virtualunit.y = acity->y;
-          v = acity->currently_building;
-          virtualunit.type = v;
-          virtualunit.veteran = do_make_unit_veteran(acity, v);
-          virtualunit.hp = unit_types[v].hp;
+          utype = acity->currently_building;
+          virtualunit.type = utype;
+          virtualunit.veteran = do_make_unit_veteran(acity, utype);
+          virtualunit.hp = unit_types[utype].hp;
 /* yes, I know cloning all this code is bad form.  I don't really
 want to write a funct that takes nine ints by reference. -- Syela */
           m = get_unit_type(funit->type)->move_rate;
@@ -415,9 +431,12 @@ trying again, but this will require yet more tedious observation -- Syela */
   return(urgency);
 }
 
-int unit_desirability(int i, int def)
+/************************************************************************** 
+...
+**************************************************************************/
+int unit_desirability(Unit_Type_id i, int def)
 {
-  int cur, a, d;   
+  int cur, a, d;
   cur = get_unit_type(i)->hp;
   if (unit_types[i].move_type != SEA_MOVING || !def)
     cur *= get_unit_type(i)->firepower;
@@ -439,7 +458,7 @@ int unit_desirability(int i, int def)
 /************************************************************************** 
 ...
 **************************************************************************/
-int unit_attack_desirability(int i)
+int unit_attack_desirability(Unit_Type_id i)
 {
   return(unit_desirability(i, 0));
 } 
@@ -447,9 +466,11 @@ int unit_attack_desirability(int i)
 static void process_defender_want(struct player *pplayer, struct city *pcity,
 				  int danger, struct ai_choice *choice)
 {
-  int i, j, k, l, m, n;
+  Unit_Type_id i;
+  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
+  Tech_Type_id tech_req;
+  int j, k, l, m, n;
   int best= 0;
-  int bestid = 0;
   int walls = city_got_citywalls(pcity);
   int desire[U_LAST]; /* what you get is what you seek */
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
@@ -495,12 +516,13 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 /* multiply by unit_types[bestid].build_cost / best */
   for (i = 0; i < game.num_unit_types; i++) {
     if (desire[i] && is_ai_simple_military(i)) {
-      j = unit_types[i].tech_requirement;
+      tech_req = unit_types[i].tech_requirement;
       n = desire[i] * unit_types[bestid].build_cost / best;
-      pplayer->ai.tech_want[j] += n; /* not the totally idiotic
-      pplayer->ai.tech_want[j] += n * pplayer->ai.tech_turns[j];  I amaze myself. -- Syela */
+      pplayer->ai.tech_want[tech_req] += n; /* not the totally idiotic
+      pplayer->ai.tech_want[tech_req] += n * pplayer->ai.tech_turns[tech_req];
+                                               I amaze myself. -- Syela */
       freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
-		    pcity->name, advances[j].name, n, desire[i]);
+		    pcity->name, advances[tech_req].name, n, desire[i]);
     }
   }
   choice->choice = bestid;
@@ -509,16 +531,20 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   return;
 }
 
+/************************************************************************** 
+n is type of defender, vet is vet status, x,y is location of target
+I decided this funct wasn't confusing enough, so I made k_s_w send
+it some more variables for it to meddle with -- Syela
+**************************************************************************/
 static void process_attacker_want(struct player *pplayer,
-			    struct city *pcity, int b, int n,
+			    struct city *pcity, int b, Unit_Type_id n,
                             int vet, int x, int y, int unhap, int *e0, int *v,
                             int bx, int by, int boatspeed, int needferry)
 { 
-/* n is type of defender, vet is vet status, x,y is location of target */
-/* I decided this funct wasn't confusing enough, so I made k_s_w send
-it some more variables for it to meddle with -- Syela */
-  int a, c, d, e, i, a0, b0, f, g, fprime;
-  int j, k, l, m, q;
+  Unit_Type_id i;
+  Tech_Type_id j;
+  int a, c, d, e, a0, b0, f, g, fprime;
+  int k, l, m, q;
   int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   struct city *acity = map_get_city(x, y);
   int movetype = unit_types[*v].move_type;
@@ -631,7 +657,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 				struct unit *myunit, struct ai_choice *choice)
 {
   int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
-  int m, n, vet, dist, v, a0, b0, fprime;
+  Unit_Type_id v, n;
+  int m, vet, dist, a0, b0, fprime;
   int x, y, unhap = 0;
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
@@ -852,7 +879,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
         }
         if (is_sailing_unit(myunit) && improvement_exists(B_PORT)
 	    && !city_got_building(pcity, B_PORT)) {
-	  int tech = get_improvement_type(B_PORT)->tech_req;
+	  Tech_Type_id tech = get_improvement_type(B_PORT)->tech_req;
           if (get_invention(pplayer, tech) == TECH_KNOWN) {
             choice->choice = B_PORT;
             choice->want = e;
@@ -899,7 +926,8 @@ static int port_is_within(struct player *pplayer, int d)
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice)
 {
-  int def, danger, v, urgency, want;
+  Unit_Type_id v;
+  int def, danger, urgency, want;
   struct unit *myunit = 0;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct unit virtualunit;
@@ -921,7 +949,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   if ((pcity->ai.diplomat_threat) && (def)){
   /* It's useless to build a diplomat as the last defender of a town. --nb */ 
 
-    int u = best_role_unit(pcity, F_DIPLOMAT);
+    Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
     if (u<U_LAST) {
        freelog(LOG_DEBUG, "A diplomat will be built in city %s.", pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */ 
@@ -1049,7 +1077,8 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
 {
   int dist;
   int wondercity;
-  int freight;
+  Unit_Type_id freight;
+  int moverate;
 /* at this moment, our warmap is intact.  we need to do two things: */
 /* establish faraway for THIS city, and establish d_t_w_c for ALL cities */
 
@@ -1057,14 +1086,14 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
     wondercity = map_get_continent(pcity->x, pcity->y);
   else wondercity = 0;
   freight = best_role_unit(pcity, F_CARAVAN);
-  freight = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
+  moverate = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity)
     dist = warmap.cost[othercity->x][othercity->y];
     if (wondercity && map_get_continent(othercity->x, othercity->y) == wondercity)
       othercity->ai.distance_to_wonder_city = dist;
-    dist += freight - 1; dist /= freight;
+    dist += moverate - 1; dist /= moverate;
     pcity->ai.downtown += MAX(0, 5 - dist); /* four three two one fire */
   city_list_iterate_end;
   return;

@@ -35,11 +35,11 @@ int unit_vulnerability_basic(struct unit *punit, struct unit *pdef);
 int unit_vulnerability_virtual(struct unit *punit);
 int unit_vulnerability(struct unit *punit, struct unit *pdef);
 
-int is_on_unit_upgrade_path(int test, int base);
-int is_ai_simple_military(int type);
+int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
+int is_ai_simple_military(Unit_Type_id type);
 
-int ai_wants_role_unit(struct player *pplayer, struct city *pcity,
-		       int role, int want);
+Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
+                                int role, int want);
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want);
 

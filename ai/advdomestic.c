@@ -178,6 +178,7 @@ void ai_eval_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   int i, val, t, food, j, k, hunger, bar, grana;
+  Impr_Type_id id, id2;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
@@ -397,125 +398,128 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
 /* military advisor will deal with CITY and PORT */
 
-  for (i = 0; i < game.num_impr_types; i++) {
-    if (is_wonder(i) && could_build_improvement(pcity, i)
-	&& !wonder_obsolete(i)&& is_wonder_useful(i)) {
-      if (i == B_ASMITHS)
-        for (j = 0; j < game.num_impr_types; j++)
-          if (city_got_building(pcity, j) && improvement_upkeep(pcity, j) == 1)
-            values[i] += t;
-      if (i == B_COLLOSSUS)
-        values[i] = (pcity->size + 1) * t; /* probably underestimates the value */
-      if (i == B_COPERNICUS)
-        values[i] = sci/2;
-      if (i == B_CURE)
-        values[i] = building_value(1, pcity, val);
-      if (i == B_DARWIN) /* this is a one-time boost, not constant */
-        values[i] = ((research_time(pplayer) * 2 + game.techlevel) * t -
+  for (id = 0; id < game.num_impr_types; id++) {
+    if (is_wonder(id) && could_build_improvement(pcity, id)
+	&& !wonder_obsolete(id)&& is_wonder_useful(id)) {
+      if (id == B_ASMITHS)
+        for (id2 = 0; id2 < game.num_impr_types; id2++)
+          if (city_got_building(pcity, id2) &&
+              improvement_upkeep(pcity, id2) == 1)
+            values[id] += t;
+      if (id == B_COLLOSSUS)
+        values[id] = (pcity->size + 1) * t; /* probably underestimates the value */
+      if (id == B_COPERNICUS)
+        values[id] = sci/2;
+      if (id == B_CURE)
+        values[id] = building_value(1, pcity, val);
+      if (id == B_DARWIN) /* this is a one-time boost, not constant */
+        values[id] = ((research_time(pplayer) * 2 + game.techlevel) * t -
                     pplayer->research.researched * t) / MORT;
-      if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
-        values[i] = (research_time(pplayer) * (100 - game.freecost)) * t *
+      if (id == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
+        values[id] = (research_time(pplayer) * (100 - game.freecost)) * t *
                     (game.nplayers - 2) / (game.nplayers * 100); /* guessing */
 
-      if (i == B_WALL && !city_got_citywalls(pcity))
+      if (id == B_WALL && !city_got_citywalls(pcity))
 /* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */
         values[B_WALL] = 1; /* WAG */
  /* was 40, which led to the AI building WALL, not being able to build CITY,
 someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela */
 
-      if (i == B_HANGING) /* will add the global effect to this. */
-        values[i] = building_value(3, pcity, val) -
+      if (id == B_HANGING) /* will add the global effect to this. */
+        values[id] = building_value(3, pcity, val) -
                     building_value(1, pcity, val);
-      if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
+      if (id == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
                            !city_got_building(pcity, B_NUCLEAR))
-        values[i] = (city_got_building(pcity, B_POWER) ? 0 :
+        values[id] = (city_got_building(pcity, B_POWER) ? 0 :
                (needpower * prod)/4) + pollution_cost(pplayer, pcity, B_HOOVER);
-      if (i == B_ISAAC)
-        values[i] = sci;
-      if (i == B_LEONARDO) {
-        unit_list_iterate(pcity->units_supported, punit)
-          j = can_upgrade_unittype(pplayer, punit->type);
-  	  if (j >= 0) {
+      if (id == B_ISAAC)
+        values[id] = sci;
+      if (id == B_LEONARDO) {
+        unit_list_iterate(pcity->units_supported, punit) {
+          Unit_Type_id unit_id;
+
+          unit_id = can_upgrade_unittype(pplayer, punit->type);
+  	  if (unit_id >= 0) {
 	     /* this is probably wrong -- Syela */
-	    int tmp = 8 * unit_upgrade_price(pplayer, punit->type, j);
-	    values[i] = MAX(values[i], tmp);
+	    int tmp = 8 * unit_upgrade_price(pplayer, punit->type, unit_id);
+	    values[id] = MAX(values[id], tmp);
 	  }
-        unit_list_iterate_end;
+        } unit_list_iterate_end;
       }
-      if (i == B_BACH)
-        values[i] = building_value(2, pcity, val);
-      if (i == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
-        values[i] = (pcity->size + 1) * SHIELD_WEIGHTING;
-      if (i == B_MICHELANGELO) {
+      if (id == B_BACH)
+        values[id] = building_value(2, pcity, val);
+      if (id == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
+        values[id] = (pcity->size + 1) * SHIELD_WEIGHTING;
+      if (id == B_MICHELANGELO) {
 	/* Note: Mich not built, so get_cathedral_power() doesn't include its effect. */
         if (improvement_variant(B_MICHELANGELO)==0 &&
 	    !city_got_building(pcity, B_CATHEDRAL)) {
 	  /* Assumes Mich will act as the Cath that is not in this city. */
-          values[i] = building_value(get_cathedral_power(pcity), pcity, val);
+          values[id] = building_value(get_cathedral_power(pcity), pcity, val);
 	} else if (improvement_variant(B_MICHELANGELO)==1 &&
 		   city_got_building(pcity, B_CATHEDRAL)) {
 	  /* Assumes Mich will double the power of the Cath that is in this city. */
-          values[i] = building_value(get_cathedral_power(pcity), pcity, val);
+          values[id] = building_value(get_cathedral_power(pcity), pcity, val);
 	}
       }
 
       /* The following is probably wrong if B_ORACLE req is
 	 not the same as game.rtech.temple_plus (was A_MYSTICISM)
 	 --dwp */
-      if (i == B_ORACLE) {
+      if (id == B_ORACLE) {
         if (city_got_building(pcity, B_TEMPLE)) {
           if (get_invention(pplayer, game.rtech.temple_plus) == TECH_KNOWN)
-            values[i] = building_value(2, pcity, val);
+            values[id] = building_value(2, pcity, val);
           else {
-            values[i] = building_value(4, pcity, val) - building_value(1, pcity, val);
-            values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[id] = building_value(4, pcity, val) - building_value(1, pcity, val);
+            values[id] += building_value(2, pcity, val) - building_value(1, pcity, val);
 /* The += has nothing to do with oracle, just the tech_Want of mysticism! */
           }
         } else {
           if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
-            values[i] = building_value(2, pcity, val) - building_value(1, pcity, val);
-            values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[id] = building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[id] += building_value(2, pcity, val) - building_value(1, pcity, val);
           }
         }
       }
           
-      if (i == B_PYRAMIDS && improvement_variant(B_PYRAMIDS)==0
+      if (id == B_PYRAMIDS && improvement_variant(B_PYRAMIDS)==0
 	  && !city_got_building(pcity, B_GRANARY))
-        values[i] = food * pcity->food_surplus; /* different tech req's */
-      if (i == B_SETI && !city_got_building(pcity, B_RESEARCH))
-        values[i] = sci/2;
-      if (i == B_SHAKESPEARE)
-        values[i] = building_value(pcity->size, pcity, val);
-      if (i == B_SUNTZU)
-        values[i] = bar;
-      if (i == B_WOMENS) {
+        values[id] = food * pcity->food_surplus; /* different tech req's */
+      if (id == B_SETI && !city_got_building(pcity, B_RESEARCH))
+        values[id] = sci/2;
+      if (id == B_SHAKESPEARE)
+        values[id] = building_value(pcity->size, pcity, val);
+      if (id == B_SUNTZU)
+        values[id] = bar;
+      if (id == B_WOMENS) {
         unit_list_iterate(pcity->units_supported, punit)
-          if (punit->unhappiness) values[i] += t * 2;
+          if (punit->unhappiness) values[id] += t * 2;
         unit_list_iterate_end;
       }
 
-      if ((i == B_APOLLO) && game.spacerace) {
-        values[i] = values[B_CAPITAL]+1;
+      if ((id == B_APOLLO) && game.spacerace) {
+        values[id] = values[B_CAPITAL]+1;
       }
 
       /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
     }
   }
 
-  for (i=0;i<game.num_impr_types;i++) {
-    if (values[i]) {
+  for (id=0;id<game.num_impr_types;id++) {
+    if (values[id]) {
       freelog(LOG_DEBUG, "%s wants %s with desire %d.",
-	      pcity->name, get_improvement_name(i), values[i]);
+	      pcity->name, get_improvement_name(id), values[id]);
     }
-    if (!is_wonder(i)) values[i] -= improvement_upkeep(pcity, i) * t;
-    values[i] *= 100;
-    if (!is_wonder(i)) { /* trying to buy fewer improvements */
-      values[i] *= SHIELD_WEIGHTING;
-      values[i] /= MORT;
+    if (!is_wonder(id)) values[id] -= improvement_upkeep(pcity, id) * t;
+    values[id] *= 100;
+    if (!is_wonder(id)) { /* trying to buy fewer improvements */
+      values[id] *= SHIELD_WEIGHTING;
+      values[id] /= MORT;
     }
-    j = improvement_value(i);
+    j = improvement_value(id);
 /* handle H_PROD here? -- Syela */
-    pcity->ai.building_want[i] = values[i] / j;
+    pcity->ai.building_want[id] = values[id] / j;
   }
 
   return;
@@ -525,7 +529,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   struct government *g = get_gov_pplayer(pplayer);
-  int con, utid, want, iunit, dw;
+  int con, want, dw;
+  Unit_Type_id utid, iunit;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   int vans = 0;
