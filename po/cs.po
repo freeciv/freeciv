@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-28 13:38+0100\n"
+"PO-Revision-Date: 2005-01-28 14:52+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8437,7 +8437,6 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
-#. FIXME: veteran status isn't handled properly here.
 #: client/text.c:292
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
@@ -20504,7 +20503,7 @@ msgstr "Pokud vůdce barbarů zemře na políčku bez obránců, bude vyplacena 
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "Afgánci"
+msgstr "Afgánský"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
@@ -20597,7 +20596,7 @@ msgstr "Kalif"
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr "Asyřané"
+msgstr "Asyřanský"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
@@ -20605,11 +20604,11 @@ msgstr "?plural:Asyřanský"
 
 #: data/nation/assyrian.ruleset:14
 msgid "Malka"
-msgstr ""
+msgstr "Král"
 
 #: data/nation/assyrian.ruleset:14
 msgid "Malikta"
-msgstr ""
+msgstr "Královna"
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
@@ -20657,7 +20656,7 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "Babylóňan"
+msgstr "Babylónský"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -20673,7 +20672,7 @@ msgstr "?plural:Barbaři"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "Bavorák"
+msgstr "Bavorský"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
@@ -20685,7 +20684,7 @@ msgstr "Bavorsko bylo před národním sjednocením v roce 1870 jedním z nejvě
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "Belgičan"
+msgstr "Belgický"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
@@ -20710,7 +20709,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr "Bosna a Hercegovina"
+msgstr "Bosenský a Hercegovinský"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -20718,7 +20717,7 @@ msgstr "?plural:Bosenci"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brazilan"
+msgstr "Brazilský"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
@@ -20736,7 +20735,7 @@ msgstr "Diktátor"
 #: data/nation/brazilian.ruleset:17
 #: data/nation/roman.ruleset:19
 msgid "Dictatrix"
-msgstr ""
+msgstr "Diktátorka"
 
 #: data/nation/brazilian.ruleset:18
 #: data/nation/roman.ruleset:20
@@ -20756,7 +20755,7 @@ msgstr "Předseda"
 #: data/nation/brazilian.ruleset:20
 #: data/nation/chinese.ruleset:22
 msgid "Chairperson"
-msgstr "Předseda"
+msgstr "Předsedkyně"
 
 #: data/nation/brazilian.ruleset:21
 #, fuzzy
@@ -20765,7 +20764,7 @@ msgstr "Distribuovaný správce"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "Kanaďan"
+msgstr "Kanadský"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
@@ -20773,7 +20772,7 @@ msgstr "?plural:Kanaďané"
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr "Kartaginec"
+msgstr "Kartaginský"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
@@ -20785,7 +20784,7 @@ msgstr "Kartagiňané, následníci Fénických obchodníků, vládli námořní
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr "Katalánec"
+msgstr "Katalánský"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
@@ -20816,11 +20815,11 @@ msgstr "Diktátorka"
 #: data/nation/catalan.ruleset:18
 #: data/nation/galician.ruleset:16
 msgid "Rei"
-msgstr ""
+msgstr "Král"
 
 #: data/nation/catalan.ruleset:18
 msgid "Reina"
-msgstr ""
+msgstr "Královna"
 
 #: data/nation/catalan.ruleset:20
 msgid "Arquebisbe"
@@ -20828,11 +20827,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:20
 msgid "Gran Bruixa"
-msgstr ""
+msgstr "Gran Bruixa"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "Chile"
+msgstr "Chilský"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
@@ -20861,7 +20860,7 @@ msgstr "Distribuovaný správce"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "Číňan"
+msgstr "Čínský"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
@@ -20873,11 +20872,11 @@ msgstr "Čína je nejstarší velká civilizace, která ještě stále existuje,
 
 #: data/nation/chinese.ruleset:21
 msgid "Dowager"
-msgstr ""
+msgstr "Dědic trůnu"
 
 #: data/nation/columbian.ruleset:3
 msgid "Columbian"
-msgstr "Kolumbijec"
+msgstr "Kolumbijský"
 
 #: data/nation/columbian.ruleset:4
 msgid "?plural:Columbians"
@@ -20897,7 +20896,7 @@ msgstr ""
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "Chorvati"
+msgstr "Chorvatský"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
@@ -20905,11 +20904,11 @@ msgstr "?plural:Chorvatský"
 
 #: data/nation/croatian.ruleset:6
 msgid "Croatia is the region of the Southern Slavs that was held by the Austro-Hungarian Empire, rather than coming under Ottoman rule after the collapse of Byzantium. During most of the 20th century it was part of the Yugoslav Federation."
-msgstr ""
+msgstr "Chorvatsko je regionem Jižních Slovanů a kdysi patřilo do Rakousko-Uherské monarchie a ještě dříve bylo součástí tureckého impéria po rozpadu Byzancie. Během 20.století bylo součástí Jugoslávské federace."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr "Čech"
+msgstr "Český"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
@@ -20929,20 +20928,18 @@ msgstr "Prorokyně"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "Dán"
+msgstr "Dánský"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
 msgstr "?plural:Dánové"
 
 #. TRANS: The third letter in "Blatand" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
 msgid "The founding of the Danish kingdom is generally assigned to the reign of Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
 msgstr "Založení Dánského království je přisuzováno říši Haralda Blatanda, který spojil nynější Dánsko v letech 958 - 988 n.l.  "
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
 msgstr ""
@@ -20974,7 +20971,7 @@ msgstr "Holanďané"
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "Egypťan"
+msgstr "Egyptský"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
@@ -20982,7 +20979,7 @@ msgstr "?plural:Egypťané"
 
 #: data/nation/egyptian.ruleset:6
 msgid "Egypt was the second-oldest of the world's civilizations.  Since ancient times it has been unusually urbanized, supporting a large population on silt deposited by the annual floodings of the Nile."
-msgstr ""
+msgstr "Egypt byl druhou největší starodávnou civilizací světa. I když byl starověk mimořádně urbanizovaný, podporování velké populace záviselo na náplavách a úrodné půdě okolo Nilu. "
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
@@ -20994,7 +20991,7 @@ msgstr "Velký Faraon"
 
 #: data/nation/elvish.ruleset:4
 msgid "Elves"
-msgstr "Elf"
+msgstr "Elfský"
 
 #: data/nation/elvish.ruleset:5
 msgid "?plural:Elves"
@@ -21012,7 +21009,7 @@ msgstr "Nejvyšší Královna"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "Angličan"
+msgstr "Anglický"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
@@ -21032,7 +21029,7 @@ msgstr "Lady Protektor"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "Estonec"
+msgstr "Estonský"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
@@ -21044,7 +21041,7 @@ msgstr "Estonsko je malá země u serverního pobřeží Baltského moře. Její
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr "Etiopan"
+msgstr "Etiopský"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
@@ -21052,11 +21049,11 @@ msgstr "?plural:Etiopané"
 
 #: data/nation/ethiopian.ruleset:14
 msgid "Emporer"
-msgstr ""
+msgstr "Imperátor"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Filipínec"
+msgstr "Filipínský"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
@@ -21064,11 +21061,11 @@ msgstr "?plural:Filipíňané"
 
 #: data/nation/filipino.ruleset:6
 msgid "After centuries of Spanish rule, the Philippines were ceded to the Americans in 1898. They attained home rule in 1935 and independence in 1946."
-msgstr ""
+msgstr "Po stoletích Španělské nadvlády, Filipíny byli postoupeny Američanům v r. 1898. Pak dosáhly domácí vlády v r. 1935 a nezávislost v r. 1946."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "Fin"
+msgstr "Finský"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
@@ -21080,7 +21077,7 @@ msgstr "Finsko je malá, studená země na severním okraji Evropy, významný p
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr "Francouz"
+msgstr "Francouzský"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
@@ -21102,15 +21099,15 @@ msgstr "Forma plurálů:"
 
 #: data/nation/galician.ruleset:14
 msgid "Primeiro Ministro"
-msgstr ""
+msgstr "Premiér"
 
 #: data/nation/galician.ruleset:14
 msgid "Primeira Ministra"
-msgstr ""
+msgstr "Premiérka"
 
 #: data/nation/galician.ruleset:16
 msgid "Raina"
-msgstr ""
+msgstr "Královna"
 
 #: data/nation/galician.ruleset:17
 msgid "Presidente"
@@ -21122,7 +21119,7 @@ msgstr "Prezidentka"
 
 #: data/nation/galician.ruleset:18
 msgid "Gran Bardo"
-msgstr ""
+msgstr "Gran Bardo"
 
 #: data/nation/galician.ruleset:18
 #, fuzzy
@@ -21131,7 +21128,7 @@ msgstr "Amerika/Campo Grande"
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "Němec"
+msgstr "Německý"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
@@ -21151,7 +21148,7 @@ msgstr "První sekretář"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "Řek"
+msgstr "Řecký"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
@@ -21163,7 +21160,7 @@ msgstr "Starodávné Řecko, mezi Mykénami a Římským tažením."
 
 #: data/nation/hobbits.ruleset:3
 msgid "Hobbit"
-msgstr "Hobit"
+msgstr "Hobitský"
 
 #: data/nation/hobbits.ruleset:4
 msgid "?plural:Hobbits"
@@ -21175,7 +21172,7 @@ msgstr "Hrabě"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "Maďar"
+msgstr "Maďarský"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
@@ -21183,7 +21180,7 @@ msgstr "?plural:Maďaři"
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr "Islanďan"
+msgstr "Islandský"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
@@ -21191,7 +21188,7 @@ msgstr "?plural:Islanďané"
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "Ink"
+msgstr "Incký"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
@@ -21207,7 +21204,7 @@ msgstr "Válečník"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Indián"
+msgstr "Indiánský"
 
 #: data/nation/indian.ruleset:5
 msgid "?plural:Indians"
@@ -21219,7 +21216,7 @@ msgstr "Maharadža"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "Indonézan"
+msgstr "Indonézský"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
@@ -21227,7 +21224,7 @@ msgstr "?plural:Indonézané"
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "Ir"
+msgstr "Irský"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
@@ -21251,7 +21248,7 @@ msgstr "Nejvyšší Královna"
 
 #: data/nation/irish.ruleset:39
 msgid "Mother Superior"
-msgstr ""
+msgstr "Matka představená"
 
 #: data/nation/irish.ruleset:40
 msgid "Taoiseach"
@@ -21259,7 +21256,7 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "Izraelec"
+msgstr "Izraelský"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
@@ -21271,7 +21268,7 @@ msgstr "Izrael vznikl v roce 1948 jako společenství kantonů v britské Palest
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "Ital"
+msgstr "Italský"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
@@ -21283,7 +21280,7 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr "Japonec"
+msgstr "Japonský"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
@@ -21311,15 +21308,15 @@ msgstr "Sestra"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "Keňan"
+msgstr "Keňský"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:Keňanci"
+msgstr "?plural:Keňané"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "Korejec"
+msgstr "Korejský"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
@@ -21327,7 +21324,7 @@ msgstr "?plural:Korejci"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "Litevec"
+msgstr "Litevský"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
@@ -21335,15 +21332,15 @@ msgstr "?plural:Litevci"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Litevci"
+msgstr "Lotyšský"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:Litevský"
+msgstr "?plural:Lotyši"
 
 #: data/nation/lithuanian.ruleset:6
 msgid "Lithuania is a small country on the south coast of the Baltic Sea, northeast of Poland.  Lithuanian is the most archaic and complex of the northern Indo-European languages"
-msgstr "Litva je malá země na severním pobřeží Baltského moře, severovýchodně od Polska. Litevština je nejarchaičtější a komplexní ze severních Indo-Evropských jazyků."
+msgstr "Lotyšsko je malá země na severním pobřeží Baltského moře, severovýchodně od Polska. Lotyšština je nejarchaičtější a komplexní ze severních Indo-Evropských jazyků."
 
 #: data/nation/lithuanian.ruleset:15
 msgid "Great Duke"
@@ -21364,7 +21361,7 @@ msgstr "Forma plurálů:"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr "Marťan"
+msgstr "Marťanský"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
@@ -21372,7 +21369,7 @@ msgstr "?plural:Marťané"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr "Mexičan"
+msgstr "Mexický"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
@@ -21380,7 +21377,7 @@ msgstr "?plural:Mexičané"
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr "Mongol"
+msgstr "Mongolský"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
@@ -21400,7 +21397,7 @@ msgstr "Velký chán"
 
 #: data/nation/mordor.ruleset:3
 msgid "Mordor"
-msgstr "Mordor"
+msgstr "Mordorský"
 
 #: data/nation/mordor.ruleset:4
 msgid "?plural:Mordors"
@@ -21420,7 +21417,7 @@ msgstr "Dark Lord"
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "Nigérijec"
+msgstr "Nigérijský"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
@@ -21436,7 +21433,7 @@ msgstr "?plural:Pozorovatelé"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "Peršan"
+msgstr "Perský"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
@@ -21452,7 +21449,7 @@ msgstr "Šach"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "Féničan"
+msgstr "Fénický"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
@@ -21460,7 +21457,7 @@ msgstr "?plural:Féničané"
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Polák"
+msgstr "Polský"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Polish"
@@ -21476,15 +21473,15 @@ msgstr "Diktátorka"
 
 #: data/nation/polish.ruleset:25
 msgid "Prymas"
-msgstr ""
+msgstr "Primas"
 
 #: data/nation/polish.ruleset:27
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "První sekretář"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "Portugalec"
+msgstr "Portugalský"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
@@ -21509,7 +21506,7 @@ msgstr "Guvernér"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "Říman"
+msgstr "Římský"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
@@ -21521,7 +21518,7 @@ msgstr "Řím podle legendy založil Romulus v roce 753 př.n.l. Jak rostl, Ří
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Rus"
+msgstr "Ruský"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
@@ -21549,7 +21546,7 @@ msgstr "Matriarcha"
 
 #: data/nation/scottish.ruleset:2
 msgid "Scottish"
-msgstr "Skot"
+msgstr "Skotský"
 
 #: data/nation/scottish.ruleset:3
 msgid "?plural:Scots"
@@ -21565,7 +21562,7 @@ msgstr "První ministr"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "Srb"
+msgstr "Srbský"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
@@ -21577,7 +21574,7 @@ msgstr "Srbsko je část regionu jižních Slovanů, které bylo součástí Tur
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "Slezan"
+msgstr "Slezský"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
@@ -21599,7 +21596,7 @@ msgstr "Princezna"
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "Singapurec"
+msgstr "Singapurský"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
@@ -21611,7 +21608,7 @@ msgstr "Singapur je městským státem, žijícím převážně z obchodu a nach
 
 #: data/nation/singaporean.ruleset:29
 msgid "Ah"
-msgstr ""
+msgstr "Ah"
 
 #: data/nation/singaporean.ruleset:30
 #: data/nation/turk.ruleset:19
@@ -21620,11 +21617,11 @@ msgstr "Sultán"
 
 #: data/nation/singaporean.ruleset:31
 msgid "Encik"
-msgstr ""
+msgstr "Tovaryš"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr "Sioux"
+msgstr "Siouxský"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
@@ -21640,7 +21637,7 @@ msgstr "Velký Náčelník"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "Slovinec"
+msgstr "Slovinský"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
@@ -21652,7 +21649,7 @@ msgstr "Slovinsko je nezápadnější a nejsevernější republikou bývalé Jug
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "Španěl"
+msgstr "Španělský"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
@@ -21664,11 +21661,11 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:18
 msgid "Caudillo"
-msgstr ""
+msgstr "Caudillo"
 
 #: data/nation/spanish.ruleset:18
 msgid "Caudilla"
-msgstr ""
+msgstr "Caudilla"
 
 #: data/nation/spanish.ruleset:19
 msgid "Cardinal"
@@ -21676,7 +21673,7 @@ msgstr "Kardinál"
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "Sumeřan"
+msgstr "Sumerský"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
@@ -21684,15 +21681,15 @@ msgstr "?plural:Sumeřané"
 
 #: data/nation/sumerian.ruleset:13
 msgid "Lugal"
-msgstr ""
+msgstr "Lugal"
 
 #: data/nation/sumerian.ruleset:14
 msgid "Ensi"
-msgstr ""
+msgstr "Tovaryš"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "Švéd"
+msgstr "Švédský"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
@@ -21708,7 +21705,7 @@ msgstr "?plural:Švýcaři"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "Thajvanec"
+msgstr "Thajvanský"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
@@ -21728,7 +21725,7 @@ msgstr ""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "Turek"
+msgstr "Turecký"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
@@ -21740,7 +21737,7 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "Ukrajinec"
+msgstr "Ukrajinský"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
@@ -21756,7 +21753,7 @@ msgstr "Hejtman"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "Vietnamec"
+msgstr "Vietnamský"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
@@ -21768,7 +21765,7 @@ msgstr "Vietnamský národ se datuje v prvním století našeho letopočtu, kdy 
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr "Viking"
+msgstr "Vikingský"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
@@ -21792,7 +21789,7 @@ msgstr ""
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr "Zulu"
+msgstr "Zulský"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
