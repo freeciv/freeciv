@@ -96,13 +96,12 @@ struct city_dialog {
   int citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];
-  char improvlist_names[B_LAST+1][64];
-  char *improvlist_names_ptrs[B_LAST+1];
-  
   int change_list_ids[B_LAST+1+U_LAST+1];
   int change_list_num_improvements;
-  
+  cid building_cids[B_LAST+U_LAST];
   int is_modal;    
+  int id_selected;
+  int last_improvlist_seen[B_LAST];
   struct happiness_dlg *happiness;
 };
 
@@ -227,37 +226,58 @@ bool city_dialog_is_open(struct city *pcity)
 
 void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int i, n = 0, flag = 0;
+  LV_COLUMN lvc;
+  int changed, total, item, cids_used;
+  cid cids[U_LAST + B_LAST];
+  struct item items[U_LAST + B_LAST];
+  char buf[100];
+
+  /* Test if the list improvements of pcity has changed */
+  changed = 0;
+  impr_type_iterate(i) {
+    if (pdialog->pcity->improvements[i] !=
+        pdialog->last_improvlist_seen[i]) {
+      changed = 1;
+      break;
+    }
+  } impr_type_iterate_end;
+
+  if (!changed) {
+    return;
+  }
   
-  built_impr_iterate(pdialog->pcity, i) {
-    if (!pdialog->improvlist_names_ptrs[n] ||
-	strcmp(pdialog->improvlist_names_ptrs[n],
-	       get_impr_name_ex(pdialog->pcity, i)) != 0)
-      flag = 1;
-    sz_strlcpy(pdialog->improvlist_names[n],
-	       get_impr_name_ex(pdialog->pcity, i));
-    pdialog->improvlist_names_ptrs[n] = pdialog->improvlist_names[n];
-    n++;
-  } built_impr_iterate_end;
- 
-  if(pdialog->improvlist_names_ptrs[n]!=0) {
-    pdialog->improvlist_names_ptrs[n]=0;
-    flag=1;
+  /* Update pdialog->last_improvlist_seen */
+  impr_type_iterate(i) {
+    pdialog->last_improvlist_seen[i] = pdialog->pcity->improvements[i];
+  } impr_type_iterate_end;
+  
+  cids_used = collect_cids5(cids, pdialog->pcity);
+  name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
+   
+  ListView_DeleteAllItems(pdialog->buildings_list);
+  
+  total = 0;
+  for (item = 0; item < cids_used; item++) {
+    char *strings[2];
+    int row,id = cid_id(items[item].cid);
+
+    strings[0] = items[item].descr;
+    strings[1] = buf;
+
+    my_snprintf(buf, sizeof(buf), "%d", get_improvement_type(id)->upkeep);
+   
+    row=fcwin_listview_add_row(pdialog->buildings_list,
+			   item, 2, strings);
+    pdialog->building_cids[row]=items[item].cid;
+    total += get_improvement_type(id)->upkeep;
   }
- 
-  if(flag || n==0) {
-    ListBox_ResetContent(pdialog->buildings_list);
-    for (i=0;i<n;i++)
-      {
-	int id;
-	id=ListBox_AddString(pdialog->buildings_list,
-			  pdialog->improvlist_names_ptrs[i]);
-	if (id!=LB_ERR)
-	  {
-	    ListBox_SetItemData(pdialog->buildings_list,id,i);
-	  }
-      }
-  }
+  lvc.mask=LVCF_TEXT;
+  lvc.pszText=buf;
+  my_snprintf(buf, sizeof(buf), _("Upkeep (Total: %d)"), total);
+  ListView_SetColumn(pdialog->buildings_list,1,&lvc);
+  ListView_SetColumnWidth(pdialog->buildings_list,0,LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(pdialog->buildings_list,1,LVSCW_AUTOSIZE_USEHEADER);
+  pdialog->id_selected=-1;
 }
 
 /**************************************************************************
@@ -766,6 +786,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   int ybut;
   int i;
   HDC hdc;
+  LV_COLUMN lvc;
   struct fcwin_box *lbupper;
   struct fcwin_box *lbunder;
   struct fcwin_box *upper_row;
@@ -867,18 +888,9 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 					   0,TRUE,TRUE,5);
   pdialog->listbox_area=fcwin_vbox_new(pdialog->tab_childs[0],FALSE);
   fcwin_box_add_box(pdialog->listbox_area,lbupper,FALSE,FALSE,0);
-  pdialog->buildings_list=CreateWindow("LISTBOX",NULL,
-				       WS_CHILD | WS_VSCROLL | WS_VISIBLE |
-				       LBS_HASSTRINGS,
-				       0/*pdialog->map.x+pdialog->map_w*/,
-				       0/*pdialog->map.y+10+15*/,
-				       0/*300*/,0/*pdialog->map_h-2*15-10*/,
-				       pdialog->tab_childs[0],
-				       (HMENU)ID_CITY_BLIST,
-				       freecivhinst,
-				       NULL);
-  fcwin_box_add_win(pdialog->listbox_area,pdialog->buildings_list,
-		    TRUE,TRUE,0);
+  pdialog->buildings_list=fcwin_box_add_listview(pdialog->listbox_area,4,
+						 ID_CITY_BLIST,LVS_REPORT,
+						 TRUE,TRUE,0);
   fcwin_box_add_box(pdialog->listbox_area,lbunder,FALSE,FALSE,0);
   fcwin_box_add_box(upper_row,pdialog->listbox_area,TRUE,TRUE,5);
 
@@ -925,13 +937,23 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   SendMessage(pdialog->output_area[0],
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   genlist_insert(&dialog_list, pdialog, 0);    
-  for(i=0; i<B_LAST+1; i++)
-    pdialog->improvlist_names_ptrs[i]=0;   
+ 
   for(i=0; i<NUM_UNITS_SHOWN;i++)
     {
       pdialog->support_unit_ids[i]=-1;  
       pdialog->present_unit_ids[i]=-1;    
     }
+  lvc.mask=LVCF_TEXT | LVCF_FMT;
+  lvc.pszText=_("Improvement");
+  lvc.fmt=LVCFMT_RIGHT;
+  ListView_InsertColumn(pdialog->buildings_list,0,&lvc);
+  lvc.pszText=_("Upkeep");
+  ListView_InsertColumn(pdialog->buildings_list,1,&lvc);
+  ListView_SetColumnWidth(pdialog->buildings_list,0,LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(pdialog->buildings_list,1,LVSCW_AUTOSIZE_USEHEADER);   impr_type_iterate(i) {
+    pdialog->last_improvlist_seen[i] = 0;
+  } impr_type_iterate_end;
+  
   pdialog->mainwindow=hWnd;
   fcwin_set_box(pdialog->tab_childs[0],child_vbox);
   fcwin_set_box(pdialog->mainwindow,pdialog->full_win);
@@ -1046,34 +1068,25 @@ static void sell_callback_no(HWND w, void * data)
 *****************************************************************/            
 void sell_callback(struct city_dialog *pdialog)
 {
-  int row,n;
-  row=ListBox_GetCurSel(pdialog->buildings_list);
-  if (row!=LB_ERR) {
-    row=ListBox_GetItemData(pdialog->buildings_list,row);
-    n=0;
-
-    built_impr_iterate(pdialog->pcity, i) {
-      if (n == row) {
-	char buf[512];
-
-	if (is_wonder(i)) {
-	  return;
-	}
-
-	pdialog->sell_id = i;
-	my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-		    get_impr_name_ex(pdialog->pcity, i),
-		    improvement_value(i));
-
-	popup_message_dialog(pdialog->mainwindow, /*"selldialog" */
-			     _("Sell It!"), buf, _("_Yes"),
-			     sell_callback_yes, pdialog, _("_No"),
-			     sell_callback_no, pdialog, 0);
-	return;
-      }
-      n++;
-    } built_impr_iterate_end;
+  char buf[100];
+  if (pdialog->id_selected<0) {
+    return;
   }
+ 
+  if (is_wonder(pdialog->id_selected)) {
+    return;
+  }
+  
+  pdialog->sell_id = pdialog->id_selected;
+  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+	      get_impr_name_ex(pdialog->pcity, pdialog->id_selected),
+	      improvement_value(pdialog->id_selected));
+  
+  popup_message_dialog(pdialog->mainwindow, /*"selldialog" */
+		       _("Sell It!"), buf, _("_Yes"),
+		       sell_callback_yes, pdialog, _("_No"),
+		       sell_callback_no, pdialog, 0);
+
 }
 
 
@@ -1834,6 +1847,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
   HBITMAP old;
   HDC hdc;
   PAINTSTRUCT ps;
+  int n,i;
   struct city_dialog *pdialog;
   pdialog=fcwin_get_user_data(win);
   if (!pdialog) {
@@ -1862,6 +1876,17 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
       city_dlg_mouse(pdialog,LOWORD(lParam),HIWORD(lParam),TRUE);
       break;
     case WM_COMMAND:
+      n=ListView_GetItemCount(pdialog->buildings_list);
+      for(i=0;i<n;i++) {
+	if (ListView_GetItemState(pdialog->buildings_list,
+				  i, LVIS_SELECTED)) {
+	  pdialog->id_selected = cid_id(pdialog->building_cids[i]);
+	  break;
+	}
+      }
+      if (i == n) {
+	pdialog->id_selected=-1;
+      }
       switch(LOWORD(wParam)) 
 	{
 	case ID_CITY_BUY:
