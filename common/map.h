@@ -246,7 +246,7 @@ void reset_move_costs(int x, int y);
   (topo_has_flag(TF_ISO)                                                    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
-   : *(pnat_x) = (map_x), *(pnat_y) = (map_y))
+   : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
 /* Use map_to_native_pos instead unless you know what you're doing. */
 #define map_pos_to_native_x(map_x, map_y)                                   \
