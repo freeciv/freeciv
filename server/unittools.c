@@ -69,8 +69,9 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 						 int x, int y, int missile);
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
-int is_airunit_refuel_point(int x, int y, int playerid,
-			    Unit_Type_id type, int unit_is_on_tile);
+static int is_airunit_refuel_point(int x, int y, int playerid,
+				   Unit_Type_id type, int unit_is_on_tile);
+static int maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
 /**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 
@@ -1642,8 +1643,8 @@ void resolve_unit_stack(int x, int y, int verbose)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_airunit_refuel_point(int x, int y, int playerid,
-			    Unit_Type_id type, int unit_is_on_tile)
+static int is_airunit_refuel_point(int x, int y, int playerid,
+				   Unit_Type_id type, int unit_is_on_tile)
 {
   struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
 
@@ -2777,7 +2778,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 }
 
 /*****************************************************************
-  Will wake up any neighboring enemy sentry units
+Will wake up any neighboring enemy sentry units or patrolling units
 *****************************************************************/
 static void wakeup_neighbor_sentries(struct unit *punit)
 {
@@ -2798,6 +2799,15 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  && !(move_type == LAND_MOVING && terrain == T_OCEAN)) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
 	send_unit_info(0, penemy);
+      }
+    } unit_list_iterate_end;
+  } square_iterate_end;
+
+  /* Wakeup patrolling units we bump into. */
+  square_iterate(punit->x, punit->y, 1, x, y) {
+    unit_list_iterate(map_get_tile(x, y)->units, ppatrol) {
+      if (punit != ppatrol) {
+	maybe_cancel_patrol_due_to_enemy(ppatrol);
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -3035,6 +3045,33 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
 }
 
 /**************************************************************************
+Maybe cancel the patrol as there is an enemy near.
+
+If you modify the wakeup range you should change it in
+wakeup_neighbor_sentries() too.
+**************************************************************************/
+static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
+{
+  int cancel = 0;
+
+  square_iterate(punit->x, punit->y, 1, x, y) {
+    struct unit *penemy = is_non_allied_unit_tile(map_get_tile(x, y), punit->owner);
+    if (penemy && player_can_see_unit(unit_owner(punit), penemy)) {
+      cancel = 1;
+    }
+  } square_iterate_end;
+
+  if (cancel) {
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT, 
+		     _("Game: Your %s cancelled patrol order because it "
+		       "encountered a foreign unit."), unit_name(punit->type));
+  }
+
+  return cancel;
+}
+
+/**************************************************************************
 Moves a unit according to its pgr (goto or patrol order). If two consequetive
 positions in the route is not adjacent it is assumed to be a goto. The unit
 is put on idle if a move fails.
@@ -3069,6 +3106,10 @@ void goto_route_execute(struct unit *punit)
     x = pgr->pos[index].x; y = pgr->pos[index].y;
     freelog(LOG_DEBUG, "%i,%i -> %i,%i\n", punit->x, punit->y, x, y);
 
+    if (punit->activity == ACTIVITY_PATROL
+	&& maybe_cancel_patrol_due_to_enemy(punit))
+      return;
+
     /* Move unit */
     if (is_tiles_adjacent(punit->x, punit->y, x, y)) {
       int last_tile = (index+1)%pgr->length == pgr->last_index;
@@ -3089,6 +3130,10 @@ void goto_route_execute(struct unit *punit)
 
     if (!same_pos(x, y, punit->x, punit->y))
       return; /* Ran out of more points */
+
+    if (punit->activity == ACTIVITY_PATROL
+	&& maybe_cancel_patrol_due_to_enemy(punit))
+      return;
 
     pgr->first_index = (pgr->first_index+1) % pgr->length;
 
