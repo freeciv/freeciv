@@ -771,7 +771,6 @@ void enable_and_redraw_revolution_button(void)
 void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
 {
   int col, row;
-  bool is_real;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
@@ -784,17 +783,14 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
   }
 #endif
   
-  is_real = canvas_to_map_pos(&col, &row,
-			      (int) pButtonEvent->x, (int) pButtonEvent->y);
   draw_goto_patrol_lines = FALSE;
   
   if (pButtonEvent->button == SDL_BUTTON_LEFT) {
-    if (is_real) {
-      do_map_click(col, row);
-    }
+    action_button_pressed(pButtonEvent->x, pButtonEvent->y);
   } else {
     if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
-      if (is_real) {
+      if (canvas_to_map_pos(&col, &row,
+			    (int) pButtonEvent->x, (int) pButtonEvent->y)) {
         popup_advanced_terrain_dialog(col, row);
       }
     } else {

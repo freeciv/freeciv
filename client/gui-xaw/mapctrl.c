@@ -245,18 +245,15 @@ void mapctrl_btn_mapcanvas(XEvent *event)
 {
   int x, y;
   XButtonEvent *ev=&event->xbutton;
-  bool is_real;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  is_real = canvas_to_map_pos(&x, &y, ev->x, ev->y);
-
-  if (is_real && ev->button == Button1) {
-    do_map_click(x, y);
-  } else if (is_real &&
-	     (ev->button == Button2 || ev->state & ControlMask)) {
+  if (ev->button == Button1) {
+    action_button_pressed(ev->x, ev->y);
+  } else if (canvas_to_map_pos(&x, &y, ev->x, ev->y)
+	     && (ev->button == Button2 || ev->state & ControlMask)) {
     popit(ev->x, ev->y, x, y);
   } else if (ev->button == Button3) {
     recenter_button_pressed(ev->x, ev->y);

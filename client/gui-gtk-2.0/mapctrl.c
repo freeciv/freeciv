@@ -301,28 +301,24 @@ gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
-  bool is_real;
 
   if (!can_client_change_view()) {
     return TRUE;
   }
 
+  gtk_widget_grab_focus(map_canvas);
+
   if (ev->button == 1 && (ev->state & GDK_SHIFT_MASK)) {
     adjust_workers_button_pressed(ev->x, ev->y);
-    return TRUE;
-  }
-
-  is_real = canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y);
-
-  if (is_real && ev->button == 1) {
-    do_map_click(xtile, ytile);
-    gtk_widget_grab_focus(map_canvas);
-  } else if (is_real
+  } else if (ev->button == 1) {
+    action_button_pressed(ev->x, ev->y);
+  } else if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)
 	     && (ev->button == 2 || (ev->state & GDK_CONTROL_MASK))) {
     popit(ev, xtile, ytile);
   } else if (ev->button == 3) {
     recenter_button_pressed(ev->x, ev->y);
   }
+
   return TRUE;
 }
 

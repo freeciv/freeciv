@@ -71,6 +71,24 @@ void scroll_mapview(enum direction8 gui_dir)
 }
 
 /**************************************************************************
+  Do some appropriate action when the "main" mouse button (usually
+  left-click) is pressed.  For more sophisticated user control use (or
+  write) a different xxx_button_pressed function.
+**************************************************************************/
+void action_button_pressed(int canvas_x, int canvas_y)
+{
+  int map_x, map_y;
+
+  if (can_client_change_view()) {
+    /* FIXME: Some actions here will need to check can_client_issue_orders.
+     * But all we can check is the lowest common requirement. */
+    if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+      do_map_click(map_x, map_y);
+    }
+  }
+}
+
+/**************************************************************************
   Wakeup sentried units on the tile of the specified location.  Usually
   this is done with SHIFT+left-click.
 **************************************************************************/

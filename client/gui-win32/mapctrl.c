@@ -230,16 +230,15 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       break;
     }
     SetFocus(root_window);
-    if (!canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam))) {
-      break;
-    }
     if (wParam&MK_SHIFT) {
       adjust_workers_button_pressed(LOWORD(lParam), HIWORD(lParam));
       wakeup_button_pressed(LOWORD(lParam), HIWORD(lParam));
-    } else if (wParam&MK_CONTROL){
+    } else if (wParam & MK_CONTROL
+	       && canvas_to_map_pos(&xtile, &ytile,
+				    LOWORD(lParam), HIWORD(lParam))) {
       popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
     } else {
-      do_map_click(xtile,ytile);
+      action_button_pressed(LOWORD(lParam), HIWORD(lParam));
     }
     break;
   case WM_MBUTTONDOWN:
@@ -250,10 +249,9 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     break;
   case WM_RBUTTONDOWN:
     if (can_client_change_view()) {
-      bool is_real =
-        canvas_to_map_pos(&xtile, &ytile, LOWORD(lParam), HIWORD(lParam));
       if (wParam&MK_CONTROL) {
-        if (is_real) {
+        if (canvas_to_map_pos(&xtile, &ytile,
+			      LOWORD(lParam), HIWORD(lParam))) {
           popit(LOWORD(lParam), HIWORD(lParam), xtile, ytile);
         }
       } else {

@@ -19,6 +19,7 @@
 
 bool get_turn_done_button_state(void);
 void scroll_mapview(enum direction8 gui_dir);
+void action_button_pressed(int canvas_x, int canvas_y);
 void wakeup_button_pressed(int canvas_x, int canvas_y);
 void adjust_workers_button_pressed(int canvas_x, int canvas_y);
 void recenter_button_pressed(int canvas_x, int canvas_y);
