@@ -1281,11 +1281,20 @@ static void handle_alloc_nation(struct player *pplayer,
     if(game.players[i].nation==packet->nation_no) {
        send_select_nation(pplayer); /* it failed - nation taken */
        return;
-    } else /* check to see if name has been taken */
-       if (!strcmp(game.players[i].name,packet->name) && 
-            game.players[i].nation != MAX_NUM_NATIONS) { 
-       notify_player(pplayer,
-		     _("Another player named '%s' has already joined the game.  "
+    } else
+      /* Check to see if name has been taken.
+       * Ignore case because matches elsewhere are case-insenstive.
+       * Don't limit this check to just players with allocated nation:
+       * otherwise could end up with same name as pre-created AI player
+       * (which have no nation yet, but will keep current player name).
+       * Also want to keep all player names strictly distinct at all
+       * times (for server commands etc), including during nation
+       * allocation phase.
+       */
+      if (i != pplayer->player_no
+	  && mystrcasecmp(game.players[i].name,packet->name) == 0) {
+	notify_player(pplayer,
+		     _("Another player already has the name '%s'.  "
 		       "Please choose another name."), packet->name);
        send_select_nation(pplayer);
        return;
