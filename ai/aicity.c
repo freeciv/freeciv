@@ -415,7 +415,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 	  case EFT_SEA_DEFEND:
 	    if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	      v += amount; /* make AI slow */
+	      v += amount / 10; /* make AI slow */
 	    }
             if (is_ocean(map_get_terrain(pcity->x, pcity->y))) {
               v += ai->threats.ocean[-map_get_continent(pcity->x, pcity->y)]
@@ -437,7 +437,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 	  case EFT_AIR_DEFEND:
 	    if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	      v += amount * 15; /* make AI slow */
+	      v += amount / 15; /* make AI slow */
 	    }
 	    v += (ai->threats.air && ai->threats.continent[ptile->continent]) 
 	      ? amount/10 * 5 + amount/10 * c : c;
@@ -450,13 +450,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 	  case EFT_LAND_DEFEND:
 	    if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	      v += amount * 10; /* make AI slow */
+	      v += amount / 10; /* make AI slow */
 	    }
 	    if (ai->threats.continent[ptile->continent]
 		|| capital
 		|| (ai->threats.invasions
 		  && is_water_adjacent_to_tile(pcity->x, pcity->y))) {
-	      v += !ai->threats.igwall ? 15 + (capital * amount / 10) : 10;
+              v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
 	    }
 	    v += (1 + ai->threats.invasions + !ai->threats.igwall) * c;
 	    break;
