@@ -6830,7 +6830,8 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Freeciv ist freie Software! Sie darf unter Beachtung der unter 'Lizenz' "
+"Freeciv ist freie Software!\n"
+"Sie darf unter Beachtung der unter 'Lizenz' "
 "aufgeführten Bedingungen kopiert und weitergegeben werden."
 
 #: client/gui-gtk/gui_main.c:836 client/gui-xaw/gui_main.c:686
