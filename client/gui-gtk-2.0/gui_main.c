@@ -175,7 +175,7 @@ static unsigned char *put_conv(const char *src, size_t *length)
     g_convert(src, -1, network_charset, "UTF-8", NULL, &len, NULL);
 
   if (out) {
-    unsigned char *dst = fc_malloc(len);
+    unsigned char *dst = fc_malloc(len + 1);
 
     memcpy(dst, out, len);
     g_free(out);
