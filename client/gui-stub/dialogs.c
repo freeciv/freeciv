@@ -80,9 +80,6 @@ void races_toggles_set_sensitive(bool *nations_used)
 void popup_revolution_dialog(void)
 {
   /* PORTME */
-#if 0				/* Demo code */
-  popup_message_dialog(_("Revolution!"), _("You say you wanna revolution?"));
-#endif
 }
 
 /**************************************************************************
