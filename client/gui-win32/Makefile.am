@@ -30,7 +30,6 @@ libguiclient_a_SOURCES = \
 	gui_main.h	\
 	gui_stuff.h	\
 	gui_stuff.c	\
-	freeciv-rc.rc   \
 	helpdlg.c	\
 	helpdlg.h	\
 	inputdlg.c	\
