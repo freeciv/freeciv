@@ -8145,7 +8145,8 @@ msgstr ""
 "Soporte:         %5d %%\n"
 "Energía:         %5d %%\n"
 "Masa:            %5d tm\n"
-"Prob. éxito:     %5d %\n"
+"%s\n"
+"Prob. éxito:     %5d %%\n"
 "Año de llegada:  %8s"
 
 #: client/gui-gtk/wldlg.c:161 data/Freeciv:1915
