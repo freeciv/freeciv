@@ -1312,7 +1312,8 @@ void draw_segment(int src_x, int src_y, int dir)
   dest_x = src_x + DIR_DX[dir];
   dest_y = src_y + DIR_DY[dir];
 
-  assert(normalize_map_pos(&dest_x, &dest_y));
+  assert(is_real_tile(dest_x, dest_y));
+  normalize_map_pos(&dest_x, &dest_y);
 
   /* A previous line already marks the place */
   if (get_drawn(src_x, src_y, dir)) {
@@ -1352,19 +1353,22 @@ void undraw_segment(int src_x, int src_y, int dir)
 
   decrement_drawn(src_x, src_y, dir);
   refresh_tile_mapcanvas(src_x, src_y, 1);
-  assert(normalize_map_pos(&dest_x, &dest_y));
+  assert(is_real_tile(dest_x, dest_y));
+  normalize_map_pos(&dest_x, &dest_y);
   refresh_tile_mapcanvas(dest_x, dest_y, 1);
   if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
     if (dir == 2) { /* Since the tle doesn't have a middle we draw an extra pixel
 		       on the adjacent tile when drawing in this direction. */
       dest_x = src_x + 1;
       dest_y = src_y;
-      assert(normalize_map_pos(&dest_x, &dest_y));
+      assert(is_real_tile(dest_x, dest_y));
+      normalize_map_pos(&dest_x, &dest_y);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     } else if (dir == 5) { /* the same */
       dest_x = src_x;
       dest_y = src_y + 1;
-      assert(normalize_map_pos(&dest_x, &dest_y));
+      assert(is_real_tile(dest_x, dest_y));
+      normalize_map_pos(&dest_x, &dest_y);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     }
   }

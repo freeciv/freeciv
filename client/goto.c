@@ -618,12 +618,15 @@ static unsigned char *get_drawn_char(int x, int y, int dir)
 {
   int x1, y1;
 
-  assert(normalize_map_pos(&x, &y));
+  /* Replace with check for is_normal_tile later */  
+  assert(is_real_tile(x, y));
+  normalize_map_pos(&x, &y);
 
   x1 = x + DIR_DX[dir];
   y1 = y + DIR_DY[dir];
   /* It makes no sense to draw a goto line to a non-existant tile. */
-  assert(normalize_map_pos(&x1, &y1));
+  assert(is_real_tile(x1, y1));
+  normalize_map_pos(&x1, &y1);
 
   if (dir >= 4) {
     x = x1;
@@ -776,7 +779,8 @@ static int find_route(int x, int y)
     if (goto_map.vector[x][y] & (1<<dir)) {
       int new_x = x + DIR_DX[dir];
       int new_y = y + DIR_DY[dir];
-      assert(normalize_map_pos(&new_x, &new_y));
+      assert(is_real_tile(new_x, new_y));
+      normalize_map_pos(&new_x, &new_y);
 
       /* expand array as neccesary */
       if (route_index == route_length) {
@@ -806,7 +810,10 @@ void draw_line(int dest_x, int dest_y)
   int start_index;
 
   assert(is_active);
-  assert(normalize_map_pos(&dest_x, &dest_y));
+
+  /* Replace with check for is_normal_tile later */
+  assert(is_real_tile(dest_x, dest_y));
+  normalize_map_pos(&dest_x, &dest_y);
 
   if (!goto_map.vector[dest_x][dest_y]) {
     undraw_line();

@@ -965,7 +965,8 @@ void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
 
   dest_x = src_x + DIR_DX[dir];
   dest_y = src_y + DIR_DY[dir];
-  assert(normalize_map_pos(&dest_x, &dest_y));
+  assert(is_real_tile(dest_x, dest_y));
+  normalize_map_pos(&dest_x, &dest_y);
 
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */
@@ -1208,7 +1209,8 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
     return;
   }
 
-  assert(normalize_map_pos(&x, &y));
+  assert(is_real_tile(x, y));
+  normalize_map_pos(&x, &y);
   fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pcity = map_get_city(x, y);
   punit = get_drawable_unit(x, y, citymode);

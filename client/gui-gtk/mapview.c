@@ -1950,7 +1950,8 @@ static void really_draw_segment(int src_x, int src_y, int dir,
 
   dest_x = src_x + DIR_DX[dir];
   dest_y = src_y + DIR_DY[dir];
-  assert(normalize_map_pos(&dest_x, &dest_y));
+  assert(is_real_tile(dest_x, dest_y));
+  normalize_map_pos(&dest_x, &dest_y);
 
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */
@@ -1995,7 +1996,8 @@ void draw_segment(int src_x, int src_y, int dir)
     dest_x = src_x + DIR_DX[dir];
     dest_y = src_y + DIR_DY[dir];
 
-    assert(normalize_map_pos(&dest_x, &dest_y));
+    assert(is_real_tile(dest_x, dest_y));
+    normalize_map_pos(&dest_x, &dest_y);
 
     /* A previous line already marks the place */
     if (get_drawn(src_x, src_y, dir)) {
@@ -2027,7 +2029,8 @@ void undraw_segment(int src_x, int src_y, int dir)
 
     dest_x = src_x + DIR_DX[dir];
     dest_y = src_y + DIR_DY[dir];
-    assert(normalize_map_pos(&dest_x, &dest_y));
+    assert(is_real_tile(dest_x, dest_y));
+    normalize_map_pos(&dest_x, &dest_y);
 
     assert(get_drawn(src_x, src_y, dir));
     decrement_drawn(src_x, src_y, dir);
@@ -2053,19 +2056,22 @@ void undraw_segment(int src_x, int src_y, int dir)
 
     decrement_drawn(src_x, src_y, dir);
     refresh_tile_mapcanvas(src_x, src_y, 1);
-    assert(normalize_map_pos(&dest_x, &dest_y));
+    assert(is_real_tile(dest_x, dest_y));
+    normalize_map_pos(&dest_x, &dest_y);
     refresh_tile_mapcanvas(dest_x, dest_y, 1);
     if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
       if (dir == 2) { /* Since the tle doesn't have a middle we draw an extra pixel
 			 on the adjacent tile when drawing in this direction. */
 	dest_x = src_x + 1;
 	dest_y = src_y;
-	assert(normalize_map_pos(&dest_x, &dest_y));
+	assert(is_real_tile(dest_x, dest_y));
+	normalize_map_pos(&dest_x, &dest_y);
 	refresh_tile_mapcanvas(dest_x, dest_y, 1);
       } else if (dir == 5) { /* the same */
 	dest_x = src_x;
 	dest_y = src_y + 1;
-	assert(normalize_map_pos(&dest_x, &dest_y));
+	assert(is_real_tile(dest_x, dest_y));
+	normalize_map_pos(&dest_x, &dest_y);
 	refresh_tile_mapcanvas(dest_x, dest_y, 1);
       }
     }
@@ -2241,7 +2247,10 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     return;
   }
 
-  assert(normalize_map_pos(&x, &y));
+  /* Replace with check for is_normal_tile later */
+  assert(is_real_tile(x, y));
+  normalize_map_pos(&x, &y);
+
   fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pcity = map_get_city(x, y);
   punit = get_drawable_unit(x, y, citymode);

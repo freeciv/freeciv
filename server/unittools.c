@@ -2980,6 +2980,9 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
 
+  /* It is ok placing check_coords() inside an assert (ie may be optimized
+     away by compiler). Though it may adjust dest_x, dest_y it shouldn't
+     be needed. */
   assert(check_coords(&dest_x, &dest_y));
 
   conn_list_do_buffer(&pplayer->connections);

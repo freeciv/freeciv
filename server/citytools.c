@@ -1893,7 +1893,8 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
       struct city *pcity2 = map_get_city(x1, y1);
       if (pcity2 && pcity2 != pcity) {
 	int city_x2, city_y2;
-	assert(get_citymap_xy(pcity2, map_x, map_y, &city_x2, &city_y2));
+	int res = get_citymap_xy(pcity2, map_x, map_y, &city_x2, &city_y2);
+	assert(res);
 	update_city_tile_status(pcity2, city_x2, city_y2);
       }
     } map_city_radius_iterate_end;
