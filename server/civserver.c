@@ -360,7 +360,7 @@ main_start_players:
   if (game.auto_ai_toggle) {
     for (i=0;i<game.nplayers;i++) {
       struct player *pplayer = get_player(i);
-      if (!pplayer->conn && !pplayer->ai.control) {
+      if (!pplayer->is_connected && !pplayer->ai.control) {
 	toggle_ai_player_direct(NULL, pplayer);
       }
     }
@@ -504,8 +504,7 @@ main_start_players:
     /* After sniff, re-zero the timer: (read-out above on next loop) */
     clear_timer_start(eot_timer);
     
-    for(i=0;i<game.nplayers;i++)
-      connection_do_buffer(game.players[i].conn);
+    conn_list_do_buffer(&game.game_connections);
 
     before_end_year();
     /* This empties the client Messages window; put this before
@@ -539,8 +538,7 @@ main_start_players:
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     send_server_info_to_metaserver(0,0);
 
-    for(i=0;i<game.nplayers;i++)
-      connection_do_unbuffer(game.players[i].conn);
+    conn_list_do_unbuffer(&game.game_connections);
 
     if(++save_counter>=game.save_nturns && game.save_nturns>0) {
       save_counter=0;
@@ -869,8 +867,7 @@ static void begin_turn(void)
     }
   }
 
-  for(i=0; i<game.nplayers; i++)
-    connection_do_buffer(game.players[i].conn);
+  conn_list_do_buffer(&game.game_connections);
 
   for(i=0; i<game.nplayers; i++) {
     struct player *pplayer = &game.players[i];
@@ -882,8 +879,7 @@ static void begin_turn(void)
     send_player_cities(&game.players[i]);
   }
 
-  for(i=0; i<game.nplayers; i++)
-    connection_do_unbuffer(game.players[i].conn);
+  conn_list_do_unbuffer(&game.game_connections);
 }
 
 /**************************************************************************
@@ -1357,8 +1353,8 @@ static void handle_alloc_nation(struct player *pplayer,
 
   /* inform player his choice was ok */
   select_nation.value2=0xffff;
-  send_packet_generic_values(pplayer->conn, PACKET_SELECT_NATION,
-			     &select_nation);
+  lsend_packet_generic_values(&pplayer->connections, PACKET_SELECT_NATION,
+			      &select_nation);
 
   pplayer->nation=packet->nation_no;
   sz_strlcpy(pplayer->name, packet->name);
@@ -1411,7 +1407,8 @@ static void send_select_nation(struct player *pplayer)
         select_nation.value2 |= 1<<(game.players[i].nation-32);
     }
 
-  send_packet_generic_values(pplayer->conn, PACKET_SELECT_NATION, &select_nation);
+  lsend_packet_generic_values(&pplayer->connections, PACKET_SELECT_NATION,
+			      &select_nation);
 }
 
 

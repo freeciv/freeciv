@@ -1473,7 +1473,6 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   int saved_bulbs;
   int wonder;
   struct city *pcity;
-  struct player *pplayer;
 
   plr->got_tech=1;
   plr->research.researchpoints++;
@@ -1488,11 +1487,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
       if (game.global_wonders[wonder] && is_wonder(wonder) &&
 	  improvement_types[wonder].obsolete_by == tech_found &&
 	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
-	pplayer = city_owner(pcity);
-	if (pplayer->conn)
-	  notify_player_ex(pplayer, -1, -1,
-	      has_capability("event_wonder_obsolete", pplayer->conn->capability)
-	      ?  E_WONDER_OBSOLETE : E_NOEVENT,
+	notify_player_ex(city_owner(pcity), -1, -1, E_WONDER_OBSOLETE,
 	      _("Game: Discovery of %s OBSOLETES %s in %s!"), 
 	      advances[tech_found].name, get_improvement_name(wonder),
 	      pcity->name);

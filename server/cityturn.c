@@ -836,20 +836,21 @@ Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
 static void city_increase_size(struct city *pcity)
 {
+  struct player *powner = city_owner(pcity);
   int have_square, x, y;
   int has_granary = city_got_effect(pcity, B_GRANARY);
   int rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
   int new_food;
-  
+
   if (!city_got_building(pcity, B_AQUEDUCT)
       && pcity->size>=game.aqueduct_size) {/* need aqueduct */
     if (!pcity->is_building_unit && pcity->currently_building == B_AQUEDUCT) {
-      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
+      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
 			 "to grow any further."), pcity->name,
 		       improvement_types[B_AQUEDUCT].name);
     } else {
-      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
+      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQUEDUCT,
 		       _("Game: %s needs %s to grow any further."),
 		       pcity->name, improvement_types[B_AQUEDUCT].name);
     }
@@ -863,12 +864,12 @@ static void city_increase_size(struct city *pcity)
   if (!city_got_building(pcity, B_SEWER)
       && pcity->size>=game.sewer_size) {/* need sewer */
     if (!pcity->is_building_unit && pcity->currently_building == B_SEWER) {
-      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
+      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
 			 "to grow any further."), pcity->name,
 		       improvement_types[B_SEWER].name);
     } else {
-      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
+      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQUEDUCT,
 		       _("Game: %s needs %s to grow any further."),
 		       pcity->name, improvement_types[B_SEWER].name);
     }
@@ -916,14 +917,14 @@ static void city_increase_size(struct city *pcity)
 
   city_refresh(pcity);
 
-  if (game.players[pcity->owner].ai.control) /* don't know if we need this -- Syela */
+  if (powner->ai.control) /* don't know if we need this -- Syela */
     if (ai_fix_unhappy(pcity))
       ai_scientists_taxmen(pcity);
 
-  connection_do_buffer(city_owner(pcity)->conn);
-  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_GROWTH,
+  conn_list_do_buffer(&powner->connections);
+  notify_player_ex(powner, pcity->x, pcity->y, E_CITY_GROWTH,
                    _("Game: %s grows to size %d."), pcity->name, pcity->size);
-  connection_do_unbuffer(city_owner(pcity)->conn);
+  conn_list_do_unbuffer(&powner->connections);
 }
 
 /**************************************************************************

@@ -31,6 +31,7 @@
 #endif
 
 #include "capability.h"
+#include "events.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
@@ -2363,7 +2364,14 @@ if (packet->y < 0 && pc && !has_capability("event00_fix", pc->capability)) {
   cptr=put_uint8(cptr, packet->x);
   cptr=put_uint8(cptr, packet->y);
 }
+  /* when removing "event_wonder_obsolete" capability,
+   leave only the code from the *else* clause (send unmodified value) */
+if (packet->event == E_WONDER_OBSOLETE && pc
+    && !has_capability("event_wonder_obsolete", pc->capability)) {
+  cptr=put_uint32(cptr, E_NOEVENT);
+} else {
   cptr=put_uint32(cptr, packet->event);
+}
 
   cptr=put_string(cptr, packet->message);
   put_uint16(buffer, cptr-buffer);
