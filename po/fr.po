@@ -7,8 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
+"Project-Id-Version: Freeciv 1.14.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-12 18:01+0200\n"
 "PO-Revision-Date: 2002-12-20 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@egroups.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
@@ -336,6 +337,10 @@ msgid ""
 "want to set your local encoding manually by setting\n"
 "the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
 msgstr ""
+"Conversion de chaîne depuis %s impossible. Vous devez \n"
+"régler votre encodage local manuellement en utilisant\n"
+"la variable d'environnement $FREECIV_LOCAL_ENCODING. On continue quand "
+"même..."
 
 #: common/shared.c:1277
 #, c-format
@@ -344,6 +349,9 @@ msgid ""
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
 msgstr ""
+"La chaîne '%s' n'est pas valide : %s. Les fichiers de jeux de règles\n"
+"doivent être encodés en %s, vous pouvez changer ceci en modifiant\n"
+"$FREECIV_DATA_ENCODING."
 
 #: common/shared.c:1343
 msgid ""
@@ -352,6 +360,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
 msgstr ""
+"Vous utilisez Freeciv sans iconv. À moins que vous \n"
+"n'utilisiez le jeu de caractères latin1, certains caractères\n"
+"peuvent ne pas s'afficher correctement. Vous pouvez télécharger\n"
+"iconv à http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
@@ -1561,9 +1573,9 @@ msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Jeu : %s est un préfixe ambigu pour un nom de connexion."
 
 #: server/handchat.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "%s to allies: %s"
-msgstr "Les %s passent en %s"
+msgstr "%s aux alliés: %s"
 
 #: server/handchat.c:281
 #, c-format
@@ -2427,25 +2439,25 @@ msgstr "Le vaisseau spatial des %s est arrivé sur Alpha du Centaure."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "Partie s'achevant sur un ex-aequo au dépassement de la date de fin"
 
 #: server/srv_main.c:230 server/srv_main.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "Transformer en %s"
+msgstr "Victoire d'équipe à %s"
 
 #: server/srv_main.c:240 server/srv_main.c:241
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "Partie s'achevant par une victoire de %s"
 
 #: server/srv_main.c:246 server/srv_main.c:247
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "Partie s'achevant sur un ex-aequo."
 
 #: server/srv_main.c:269 server/srv_main.c:270
 msgid "Game ended in allied victory"
-msgstr ""
+msgstr "Partie s'achevant par une victoire d'alliés"
 
 #: server/srv_main.c:390
 #, c-format
@@ -3838,13 +3850,12 @@ msgid "Set server option."
 msgstr "Régle les options du serveur."
 
 #: server/stdinhand.c:1077
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <joueur>"
+msgstr "team <joueur> [équipe]"
 
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "Change, ajoute ou supprime l'affiliation d'un joueur à une équipe"
 
 #: server/stdinhand.c:1079
 msgid ""
@@ -3853,6 +3864,11 @@ msgid ""
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
 msgstr ""
+"Rend un joueur membre d'une équipe. Si aucune équipe n'est spécifiée, le "
+"joueur est rendu 'sans équipe'. Utilisez \"\" si les noms contiennent des "
+"espaces blanches. Une équipe est une groupe de joueurs qui démarrent alliés "
+"avec vision partagée et ambassades et qui combattent ensemble pour parvenir "
+"à une victoire d'équipe avec une moyenne des scores individuels."
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -4619,29 +4635,26 @@ msgid "description"
 msgstr "description"
 
 #: server/stdinhand.c:2682
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "Impossible d'ajouter des joueurs IA après le début de la partie."
+msgstr "Impossible de changer les équipesaprès le début de la partie."
 
 #: server/stdinhand.c:2692
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "Argument non défini. Usage : set <option> <valeur>."
+msgstr "Argument non défini. Usage : team <joueur> [équipe]."
 
 #: server/stdinhand.c:2708
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "Le joueur %s est rendu 'sans équipe'"
 
 #: server/stdinhand.c:2714
-#, fuzzy
 msgid "Bad team name."
-msgstr "Termine la partie."
+msgstr "Mauvais nom d'équipe."
 
 #: server/stdinhand.c:2718
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "Les %s ont perdu %s contre les %s"
+msgstr "Joueur %s assigné à l'équipe %s."
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5475,6 +5488,10 @@ msgid ""
 msgstr ""
 "Jeu: Vos %s ont annulé leur ordre de patrouille à cause de la rencontre "
 "d'une unité ennemie."
+
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr "Anciens attributs détectés et enlevés"
 
 #: client/audio.c:132
 #, c-format
@@ -6392,6 +6409,10 @@ msgstr "%s%d mécontents"
 msgid "%s%d gold"
 msgstr "%s%d or"
 
+#: client/messagewin_common.c:109
+msgid "Game: "
+msgstr "Jeu : "
+
 #: client/options.c:83
 msgid "Default player's username"
 msgstr "Nom par défaut du joueur"
@@ -6480,18 +6501,16 @@ msgid "End Turn when done moving"
 msgstr "Terminer le tour à la fin des mouvements"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "Utiliser Alt/Méta comme raccourcis (GTK seulement)"
+msgstr "Utiliser Alt/Méta comme raccourcis (GTK+ seulement)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Montrer les barres de défilement de la carte (GTK seulement)"
+msgstr "Montrer les barres de défilement de la carte (GTK+ seulement)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "Garder les dialogues au dessus (GTK+ 2.0 seulement)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -7113,7 +7132,6 @@ msgid "Pollution:"
 msgstr "Pollution :"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
 msgstr "Aperçu gl_obal"
 
@@ -7132,7 +7150,7 @@ msgstr "Carte de la ville"
 
 #: client/gui-gtk-2.0/citydlg.c:648
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Appuyer sur ENTRÉE ou double-cliquez pour vendre un bâtiment."
 
 #: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk-2.0/citydlg.c:753
 #: client/gui-mui/citydlg.c:1646
@@ -7146,14 +7164,12 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d tours"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
-#, fuzzy
 msgid "_Improvements:"
-msgstr "Bâtiments"
+msgstr "Bât_iments:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "Production"
+msgstr "Pro_duction"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7166,7 +7182,6 @@ msgid "_Happiness"
 msgstr "Bon_heur"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
 msgstr "AGU"
 
@@ -7175,9 +7190,8 @@ msgid "_Trade Routes"
 msgstr "Rou_tes commerciales"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "_Enregistrer la configuration"
+msgstr "Réglage_s"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7218,22 +7232,20 @@ msgstr "Unités aériennes"
 #: client/gui-gtk-2.0/citydlg.c:902 client/gui-gtk/citydlg.c:1255
 #: client/gui-win32/citydlg.c:2207
 msgid "Disband if build settler at size 1"
-msgstr "Congédier les colons si la ville a une taille de 1"
+msgstr "Dissoudre la ville en colons si construits a une taille de 1"
 
 #: client/gui-gtk-2.0/citydlg.c:906
-#, fuzzy
 msgid "Overview page"
 msgstr "Aperçu global"
 
 #: client/gui-gtk-2.0/citydlg.c:907
-#, fuzzy
 msgid "Production page"
-msgstr "Production"
+msgstr "Page de la Production"
 
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
 msgid "Happiness page"
-msgstr "Bonheur"
+msgstr "Page du Bonheur"
 
 #: client/gui-gtk-2.0/citydlg.c:909 client/gui-gtk/citydlg.c:1263
 #: client/gui-mui/citydlg.c:1461
@@ -7243,17 +7255,16 @@ msgstr "Page de l'AGU"
 #: client/gui-gtk-2.0/citydlg.c:910 client/gui-gtk/citydlg.c:1264
 #: client/gui-mui/citydlg.c:1462
 msgid "Trade Routes page"
-msgstr "Routes commerciales"
+msgstr "Page des Routes commerciales"
 
 #: client/gui-gtk-2.0/citydlg.c:911
-#, fuzzy
 msgid "This Settings page"
-msgstr "cette page"
+msgstr "Cette page"
 
 #: client/gui-gtk-2.0/citydlg.c:912 client/gui-gtk/citydlg.c:1266
 #: client/gui-mui/citydlg.c:1464
 msgid "Last active page"
-msgstr "la dernière page active"
+msgstr "La dernière page active"
 
 #: client/gui-gtk-2.0/citydlg.c:939 client/gui-gtk/citydlg.c:1330
 #: client/gui-mui/citydlg.c:1721 client/gui-win32/citydlg.c:2199
@@ -7271,19 +7282,16 @@ msgid "Next time open"
 msgstr "La prochaine fois ouvrir"
 
 #: client/gui-gtk-2.0/citydlg.c:999
-#, fuzzy
 msgid "City"
-msgstr "Carte de la ville"
+msgstr "Ville"
 
 #: client/gui-gtk-2.0/citydlg.c:1006
-#, fuzzy
 msgid "_Rename..."
-msgstr "Renommer"
+msgstr "_Renommer..."
 
 #: client/gui-gtk-2.0/citydlg.c:1140
-#, fuzzy
 msgid "_List present units..."
-msgstr "_Lister les unités présentes"
+msgstr "_Lister les unités présentes..."
 
 #: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
@@ -7320,14 +7328,14 @@ msgid "blocked"
 msgstr "bloqué"
 
 #: client/gui-gtk-2.0/citydlg.c:1683
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units %d"
-msgstr "Unités supportées : %d"
+msgstr "Unités supportées %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
-msgstr "Unités présentes : %d"
+msgstr "Unités présentes %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
@@ -7347,9 +7355,9 @@ msgid "No trade routes exist."
 msgstr "Aucune route commerciale n'existe."
 
 #: client/gui-gtk-2.0/citydlg.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Commerce total des routes commerciales : %d"
+msgstr "Commerce total des routes commerciales %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
@@ -7498,14 +7506,12 @@ msgid "_Change"
 msgstr "_Changer"
 
 #: client/gui-gtk-2.0/cityrep.c:555
-#, fuzzy
 msgid "_Select"
 msgstr "_Sélectionner"
 
 #: client/gui-gtk-2.0/cityrep.c:559
-#, fuzzy
 msgid "S_how"
-msgstr "Montrer..."
+msgstr "Montrer"
 
 #: client/gui-gtk-2.0/cityrep.c:636 client/gui-gtk-2.0/menu.c:624
 #: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:455
@@ -7682,7 +7688,7 @@ msgstr "Surplus minimal"
 #: client/gui-gtk-2.0/cma_fe.c:213 client/gui-gtk/cma_fe.c:223
 #: client/gui-mui/citydlg.c:1673
 msgid "Factor"
-msgstr "Fabrique"
+msgstr "Facteur"
 
 #: client/gui-gtk-2.0/cma_fe.c:248 client/gui-gtk/cma_fe.c:258
 #: client/gui-mui/citydlg.c:1699 client/gui-mui/citydlg.c:1700
@@ -7750,19 +7756,16 @@ msgid "Freeciv Server Selection"
 msgstr "Sélection du serveur de Freeciv"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
-#, fuzzy
 msgid "_Name:"
-msgstr "_Nom"
+msgstr "_Nom :"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
-#, fuzzy
 msgid "_Host:"
-msgstr "_Hôte"
+msgstr "_Hôte :"
 
 #: client/gui-gtk-2.0/connectdlg.c:228
-#, fuzzy
 msgid "_Port:"
-msgstr "_Port"
+msgstr "_Port :"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:205
 #: client/gui-mui/connectdlg.c:177 client/gui-win32/connectdlg.c:363
@@ -7910,9 +7913,8 @@ msgid "Select Advance to Steal"
 msgstr "Choisissez l'avancée que vous voulez voler"
 
 #: client/gui-gtk-2.0/dialogs.c:541
-#, fuzzy
 msgid "_Advances:"
-msgstr "Des avancées"
+msgstr "_Avancées :"
 
 #: client/gui-gtk-2.0/dialogs.c:584 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
@@ -8163,14 +8165,12 @@ msgid "Unit selection"
 msgstr "Choix de l'unité"
 
 #: client/gui-gtk-2.0/dialogs.c:1729
-#, fuzzy
 msgid "_Ready all"
-msgstr "Préparer tous"
+msgstr "P_réparer tous"
 
 #: client/gui-gtk-2.0/dialogs.c:1737
-#, fuzzy
 msgid "_Sentry idle"
-msgstr "Veiller les unité_s inactives"
+msgstr "Veiller inactive_s"
 
 #: client/gui-gtk-2.0/dialogs.c:1778 client/gui-gtk/dialogs.c:1919
 #: data/Freeciv:3034
@@ -8178,14 +8178,12 @@ msgid "What Nation Will You Be?"
 msgstr "Quelle nation voulez-vous être ?"
 
 #: client/gui-gtk-2.0/dialogs.c:1800
-#, fuzzy
 msgid "Select a nation"
-msgstr "Choisissez une destination"
+msgstr "Choisissez une nation"
 
 #: client/gui-gtk-2.0/dialogs.c:1827
-#, fuzzy
 msgid "_Nations:"
-msgstr "Nation:"
+msgstr "_Nations :"
 
 #: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
@@ -8199,24 +8197,20 @@ msgid "Nation"
 msgstr "Nation"
 
 #: client/gui-gtk-2.0/dialogs.c:1890
-#, fuzzy
 msgid "_Leader:"
-msgstr "Chef:"
+msgstr "Chef :"
 
 #: client/gui-gtk-2.0/dialogs.c:1897
-#, fuzzy
 msgid "_Female"
-msgstr "Une femme"
+msgstr "_Femme"
 
 #: client/gui-gtk-2.0/dialogs.c:1902
-#, fuzzy
 msgid "_Male"
-msgstr "Un homme"
+msgstr "Ho_mme"
 
 #: client/gui-gtk-2.0/dialogs.c:1929
-#, fuzzy
 msgid "_City Styles:"
-msgstr "Style de la ville"
+msgstr "Styles de ville :"
 
 #: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
@@ -8252,14 +8246,12 @@ msgid "Sea-map"
 msgstr "La carte des mers"
 
 #: client/gui-gtk-2.0/diplodlg.c:214
-#, fuzzy
 msgid "_Maps"
 msgstr "Les cartes"
 
 #: client/gui-gtk-2.0/diplodlg.c:242
-#, fuzzy
 msgid "_Advances"
-msgstr "Des avancées"
+msgstr "Des _avancées"
 
 #: client/gui-gtk-2.0/diplodlg.c:292 client/gui-gtk-2.0/menu.c:706
 #: client/gui-gtk/menu.c:707 client/gui-win32/menu.c:354
@@ -8267,14 +8259,12 @@ msgid "_Cities"
 msgstr "_Villes"
 
 #: client/gui-gtk-2.0/diplodlg.c:301
-#, fuzzy
 msgid "_Give shared vision"
-msgstr "Donne la vue partagée"
+msgstr "Donne la vue parta_gée"
 
 #: client/gui-gtk-2.0/diplodlg.c:331
-#, fuzzy
 msgid "_Pacts"
-msgstr "Pactes"
+msgstr "_Pactes"
 
 #: client/gui-gtk-2.0/diplodlg.c:429 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
@@ -8287,23 +8277,20 @@ msgid "_Cancel meeting"
 msgstr "Annuler la ren_contre"
 
 #: client/gui-gtk-2.0/diplodlg.c:445
-#, fuzzy
 msgid "Accept _treaty"
-msgstr "Accepter le traité"
+msgstr "Accepter le _traité"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
-#, fuzzy
 msgid "C_lauses:"
-msgstr "Fermer"
+msgstr "C_lauses :"
 
 #: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
-#, fuzzy
 msgid "_Gold:"
 msgstr "Or :"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "_Ajouter une clause..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8318,9 +8305,8 @@ msgid "Find City"
 msgstr "Trouver une ville"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "Villes"
+msgstr "Villes :"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:238
 #: client/gui-win32/ratesdlg.c:301
@@ -8354,7 +8340,6 @@ msgid "Goto/Airlift Unit"
 msgstr "Aller/Transférer unité"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
 msgstr "Aéroporter"
 
@@ -8365,7 +8350,6 @@ msgid "Select destination"
 msgstr "Choisissez une destination"
 
 #: client/gui-gtk-2.0/gotodlg.c:188
-#, fuzzy
 msgid "Show _All Cities"
 msgstr "Toutes les villes"
 
@@ -8913,7 +8897,7 @@ msgstr " V"
 #: client/gui-gtk-2.0/mapctrl.c:184
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Chances de gagner : A:%d%% D:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
 #: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
@@ -9611,9 +9595,8 @@ msgstr "Nom"
 
 # AR
 #: client/gui-gtk-2.0/plrdlg.c:161 client/gui-gtk/plrdlg.c:123
-#, fuzzy
 msgid "Team"
-msgstr "Temple"
+msgstr "Équipe"
 
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9645,14 +9628,13 @@ msgid "Idle Turns"
 msgstr "Tours Inactifs"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
-#, fuzzy
 msgid "_Player"
-msgstr "_Joueurs"
+msgstr "Joueur"
 
 #: client/gui-gtk-2.0/plrdlg.c:277 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
 msgid "_Intelligence"
-msgstr "_Renseignement"
+msgstr "Rense_ignement"
 
 #: client/gui-gtk-2.0/plrdlg.c:284 client/gui-gtk/plrdlg.c:169
 #: client/gui-mui/plrdlg.c:329
@@ -9834,7 +9816,7 @@ msgstr "_Lancer"
 
 #: client/gui-gtk-2.0/wldlg.c:137
 msgid "new"
-msgstr ""
+msgstr "nouveau"
 
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/wldlg.c:161
 #: client/gui-win32/wldlg.c:293
@@ -9842,9 +9824,8 @@ msgid "Edit worklists"
 msgstr "Modifier les listes de travail"
 
 #: client/gui-gtk-2.0/wldlg.c:257
-#, fuzzy
 msgid "_Worklists:"
-msgstr "Liste de travail"
+msgstr "Liste de travail :"
 
 #: client/gui-gtk-2.0/wldlg.c:822 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:309 client/gui-gtk/wldlg.c:315
@@ -9862,22 +9843,19 @@ msgstr "Tours"
 
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "_Tâches préalables:"
 
 #: client/gui-gtk-2.0/wldlg.c:902
-#, fuzzy
 msgid "Show _Future Targets"
-msgstr "Montrer les futurs objectifs"
+msgstr "Montrer les _futurs objectifs"
 
 #: client/gui-gtk-2.0/wldlg.c:956
-#, fuzzy
 msgid "Target _Worklist:"
-msgstr "Liste de travail"
+msgstr "Liste de travail ciblée :"
 
 #: client/gui-gtk-2.0/wldlg.c:974
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "Listes de travail disponibles"
+msgstr "_Ajouter listes de travail Globales"
 
 # AR
 #: client/gui-gtk/citydlg.c:597
@@ -9963,7 +9941,7 @@ msgstr "Liste de travail"
 
 #: client/gui-gtk/citydlg.c:1265 client/gui-mui/citydlg.c:1463
 msgid "This Misc. Settings page"
-msgstr "cette page"
+msgstr "Cette page"
 
 #: client/gui-gtk/citydlg.c:1284
 msgid "City options"
@@ -12142,7 +12120,7 @@ msgstr "Faire de nouveaux citoyens dans:"
 # AR
 #: data/Freeciv:1469
 msgid "Disband if build settler at size 1:"
-msgstr "Annuler la construction de colons si la taille est 1: "
+msgstr "Dissoudre la ville en colons si construits à taille 1: "
 
 #: data/Freeciv:1475
 msgid "Auto-attack vs land units:         "
@@ -15771,7 +15749,6 @@ msgid "Comrade"
 msgstr "Camarade"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15812,15 +15789,17 @@ msgstr ""
 "cases sont considérés comme éloignées de 10 cases pour les calculs du coût "
 "de l'incitation à la révolte (cf. Unités, Diplomate).\n"
 "\n"
+"Les colons consomment 1 nourriture par tour en communisme.\n"
+"\n"
+"Sous un régime communiste, une ville en liesse reçoit un bonus de 1 point de "
+"commerce pour chaque case qui produit déjà au moins un point de commerce. "
+"cf. Bonheur pour plus de détails.\n"
+"\n"
 "Le taux maximum que vous pouvez allouer à la science, aux impôts ou au luxe "
 "est de 80%.\n"
 "\n"
 "Les diplomates et les espions créés sous le Communisme sont toujours "
 "vétérans.\n"
-"\n"
-"Sous un régime communiste, une ville en liesse reçoit un bonus de 1 point de "
-"commerce pour chaque case qui produit déjà au moins un point de commerce. "
-"cf. Bonheur pour plus de détails.\n"
 "\n"
 "Sous le Communisme, chacune de vos villes peut supporter jusqu'à 3 unités "
 "militaires sans payer aucune ressource pour la soutenir. (les unités "
@@ -16212,7 +16191,6 @@ msgstr ""
 "de 3 habitants."
 
 #: data/civ1/governments.ruleset:354
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16236,7 +16214,7 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
@@ -16251,7 +16229,7 @@ msgstr ""
 "cases sont considérés comme éloignées de 10 cases pour les calculs du coût "
 "de l'incitation à la révolte (cf. Unités, Diplomate).\n"
 "\n"
-"Les colons consomment 2 nourritures par tour sous le Communisme.\n"
+"Les colons consomment 1 nourriture par tour sous le Communisme.\n"
 "\n"
 "Sous un régime communiste, une ville en liesse reçoit un bonus de 1 point de "
 "commerce pour chaque case qui produit déjà au moins un point de commerce. "
@@ -16264,9 +16242,10 @@ msgstr ""
 "militaires sans payer aucune ressource pour la soutenir. (les unités "
 "supplémentaires en demandent chacune 1).\n"
 "\n"
-"Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais "
-"efficace : chaque unité militaire à l'intérieur de la ville rendra contents "
-"2 habitants mécontents, dans la limite de 3 unités (6 habitants)."
+"Sous un régime communiste, vous pouvez imposer la loi martiale : chaque "
+"unité militaire à l'intérieur de la ville rendra contents 1 habitant "
+"mécontent, (ou du moins, les citoyens mécontents seront renduscontents et ne "
+"causeront pas de désordre."
 
 #: data/civ1/governments.ruleset:429
 msgid ""
@@ -18542,6 +18521,3 @@ msgstr "?plural:Zoulous"
 
 #~ msgid " What Nation Will You Be?"
 #~ msgstr " Quel peuple voulez-vous être ?"
-
-#~ msgid "Game: "
-#~ msgstr "Jeu : "
