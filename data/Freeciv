@@ -5,11 +5,11 @@
 ! none widgets resources
 ! gotAppDefFile MUST be the first entry!
 Freeciv*gotAppDefFile:                       True
-Freeciv*server:                              localhost
-Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
-Freeciv*port:                                5555
 Freeciv*version:                             1.9.1-devel
-Freeciv*logLevel:                            1
+!Freeciv*logLevel:                            1
+!Freeciv*port:                                5555
+!Freeciv*server:                              localhost
+!Freeciv*metaserver:                          http://meta.freeciv.org/metaserver/
 
 !
 ! Default colors, by widget type

@@ -31,8 +31,10 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "packets.h"
 #include "rand.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline_g.h"
@@ -53,6 +55,7 @@
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
+#include "tilespec.h"
 
 #include "civclient.h"
 
@@ -64,6 +67,8 @@ int is_server = 0;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
 
+static char *tile_set_name = NULL;
+
 int seconds_to_turndone;
 
 int last_turn_gold_amount;
@@ -74,45 +79,80 @@ int did_advance_tech_this_turn;
 /**************************************************************************
 ...
 **************************************************************************/
-char usage[] = 
-N_("Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n\t [--server] [--debug] [--version] [--tiles]\n");
-
-/**************************************************************************
-...
-**************************************************************************/
 
 int main(int argc, char *argv[])
 {
+  int i;
+  int loglevel;
+  char *logfile=NULL;
+  char *option=NULL;
+
   init_nls();
   dont_run_as_root(argv[0], "freeciv_client");
-  
-  if(argc>1 && strstr(argv[1],"-help")) {
-    fprintf(stderr, _("This is the Freeciv client\n"));
-    fprintf(stderr, _(usage), argv[0]);
-    fprintf(stderr, _("  -help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -log F\tUse F as logfile\n"));
-    fprintf(stderr, _("  -name N\tUse N as name\n"));
-    fprintf(stderr, _("  -port N\tconnect to port N\n"));
-    fprintf(stderr, _("  -server S\tConnect to the server at S\n"));
-    fprintf(stderr, _("  -metaserver A\tConnect to the metaserver at A\n"));
-#ifdef DEBUG
-    fprintf(stderr, _("  -debug N\tSet debug log level (0,1,2,3,"
-	                          "or 3:file1,min,max:...)\n"));
-#else
-    fprintf(stderr, _("  -debug N\tSet debug log level (0,1,2)\n"));
+
+  /* set default argument values */
+  loglevel=LOG_NORMAL;
+  server_port=DEFAULT_SOCK_PORT;
+  mystrlcpy(server_host, "localhost", 512);
+  mystrlcpy(metaserver, METALIST_ADDR, 256);
+  name[0] = '\0';
+
+  i = 1;
+
+  while (i < argc) {
+   if (is_option("--help", argv[i])) {
+    fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
+    fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
+    fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
+    fprintf(stderr, _("  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"));
+#ifdef SOUND
+    fprintf(stderr, _("  -s, --sound FILE\tRead sound information from FILE\n"));
 #endif
-    fprintf(stderr, _("  -version\tPrint the version number\n"));
-    fprintf(stderr, _("  -tiles D\tLook in data subdirectory D for the tiles\n"));
-    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
-    exit(0);
-  }
-  
-  if(argc>1 && strstr(argv[1],"-version")) {
+    fprintf(stderr, _("  -m, --meta HOST\tConnect to the metaserver at HOST\n"));
+#ifdef DEBUG
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2,3,"
+                                  "or 3:file1,min,max:...)\n"));
+#else
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2)\n"));
+#endif
+    fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+   } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
     exit(0);
+   } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
+      logfile = mystrdup(option); /* never free()d */
+   else if ((option = get_option("--name",argv,&i,argc)) != NULL)
+      mystrlcpy(name, option, 512);
+   else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL)
+      mystrlcpy(metaserver, option, 256);
+   else if ((option = get_option("--port",argv,&i,argc)) != NULL)
+     server_port=atoi(option);
+   else if ((option = get_option("--server",argv,&i,argc)) != NULL)
+      mystrlcpy(server_host, option, 512);
+   else if ((option = get_option("--debug",argv,&i,argc)) != NULL) {
+      loglevel=log_parse_level_str(option);
+      if (loglevel==-1) {
+        exit(1);
+      }
+   } else if ((option = get_option("--tiles",argv,&i,argc)) != NULL) {
+      tile_set_name=option;
+   } else { 
+      fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(1);
+   }
+   i++;
+  } /* of while */
+
+  log_init(logfile, loglevel, NULL);
+
+  /* after log_init: */
+  if (name[0] == '\0') {
+    mystrlcpy(name, user_username(), 512);
   }
 
-  /*  audio_init(); */
   init_messages_where();
   init_our_capability();
   game_init();
@@ -121,12 +161,12 @@ int main(int argc, char *argv[])
      have cosmetic effects only (eg city name suggestions).  --dwp */
   mysrand(time(NULL));
 
+  boot_help_texts();
+  tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
+
   ui_main(argc, argv);
   return 0;
-  /*  audio_term(); */
 }
-
-
 
 
 /**************************************************************************

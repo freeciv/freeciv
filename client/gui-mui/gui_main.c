@@ -79,34 +79,16 @@
 void popup_option_dialog(void);	/* gamedlg.c */
 
 
-extern char metaserver[];
-extern char server_host[];
-extern char name[];
-extern int server_port;
-static char *tile_set_name;
 extern int seconds_to_turndone;
 
 /**************************************************************************
-  Print the usage information, including one line help on each option,
+  Print extra usage information, including one line help on each option,
   to stderr.
 **************************************************************************/
 static void print_usage(const char *argv0)
 {
-  fprintf(stderr, "Usage: %s [option ...]\nValid options are:\n", argv0);
-  fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
-  fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
-  fprintf(stderr, "  -N, --Name=NAME\tUse NAME.\n");
-  fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
-  fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
-  fprintf(stderr, "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n");
-#ifdef DEBUG
-  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,"
-	  "or 3:file1,min,max:...)\n");
-#else
-  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n");
-#endif
-  fprintf(stderr, "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n");
-  fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
+  /* add client-specific usage information here */
+  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS); 
 }
 
 /**************************************************************************
@@ -114,17 +96,7 @@ static void print_usage(const char *argv0)
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
-  char *logfile = NULL;
-  char *option = NULL;		/* really use as a pointer */
-  int loglevel;
   int i;
-
-  /* set default argument values */
-  loglevel = LOG_NORMAL;
-  server_port = DEFAULT_SOCK_PORT;
-  strcpy(server_host, "localhost");
-  strcpy(metaserver, METALIST_ADDR);
-  name[0] = '\0';
 
   i = 1;
   while (i < argc)
@@ -134,40 +106,7 @@ static void parse_options(int argc, char **argv)
       print_usage(argv[0]);
       exit(0);
     }
-    else if (is_option("--version", argv[i]))
-    {
-      fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
-      exit(0);
-    }
-    else if ((option = get_option("--log", argv, &i, argc)) != NULL)
-      logfile = mystrdup(option);	/* never free()d */
-    else if ((option = get_option("--name", argv, &i, argc)) != NULL)
-      strcpy(name, option);
-    else if ((option = get_option("--metaserver", argv, &i, argc)) != NULL)
-      strcpy(metaserver, option);
-    else if ((option = get_option("--port", argv, &i, argc)) != NULL)
-      server_port = atoi(option);
-    else if ((option = get_option("--server", argv, &i, argc)) != NULL)
-      strcpy(server_host, option);
-    else if ((option = get_option("--debug", argv, &i, argc)) != NULL)
-    {
-      loglevel = log_parse_level_str(option);
-      if (loglevel == -1)
-      {
-	exit(1);
-      }
-    }
-    else if ((option = get_option("--tiles", argv, &i, argc)) != NULL)
-      tile_set_name = option;
     i += 1;
-  }
-
-  log_init(logfile, loglevel, NULL);
-
-  /* after log_init: */
-  if (name[0] == '\0')
-  {
-    strcpy(name, user_username());
   }
 }
 
@@ -1296,8 +1235,6 @@ void ui_exit(void)
 void ui_main(int argc, char *argv[])
 {
   parse_options(argc, argv);
-  boot_help_texts();		/* after log_init */
-  tilespec_read_toplevel(tile_set_name);	/* get tile sizes etc */
 
   atexit(ui_exit);
 

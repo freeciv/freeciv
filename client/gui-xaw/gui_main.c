@@ -66,12 +66,6 @@ AppResources appResources;
 
 extern String fallback_resources[];
 
-/* in civclient.c; FIXME hardcoded sizes */
-extern char name[];
-extern char server_host[];
-extern char metaserver[];
-extern int  server_port;
-
 extern int num_units_below;
 
 
@@ -84,6 +78,9 @@ static void setup_widgets(void);
 XtResource resources[] = {
     { "GotAppDefFile", "gotAppDefFile", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,gotAppDefFile), XtRImmediate, (XtPointer)False},
+    { "version", "Version", XtRString, sizeof(String),
+      XtOffset(AppResources *,version), XtRImmediate, (XtPointer)False},
+#ifdef UNUSED
     { "log", "Log", XtRString, sizeof(String),
       XtOffset(AppResources *,logfile), XtRImmediate, (XtPointer)False},
     { "name", "name", XtRString, sizeof(String),
@@ -96,21 +93,19 @@ XtResource resources[] = {
       XtOffset(AppResources *,metaserver), XtRImmediate, (XtPointer)False},
     { "logLevel", "LogLevel", XtRString, sizeof(String),
       XtOffset(AppResources *,loglevel_str), XtRImmediate, (XtPointer)False},
-    { "version", "Version", XtRString, sizeof(String),
-      XtOffset(AppResources *,version), XtRImmediate, (XtPointer)False},
-/*
     { "showHelp", "ShowHelp", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,showHelp), XtRImmediate, (XtPointer)False},
     { "showVersion", "ShowVersion", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,showVersion), XtRImmediate, (XtPointer)False},
-*/
     { "tileset", "TileSet", XtRString, sizeof(String),
       XtOffset(AppResources *,tileset), XtRImmediate, (XtPointer)False},
+#endif
 };
 
 /**************************************************************************
 ...
 **************************************************************************/
+#ifdef UNUSED
 static XrmOptionDescRec cmd_options[] = {
 /* { "-help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "-log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
@@ -131,6 +126,7 @@ static XrmOptionDescRec cmd_options[] = {
  { "--tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" }
 /* { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }*/
 };
+#endif
 
 /**************************************************************************/
 
@@ -222,6 +218,35 @@ static int myerr(Display *p, XErrorEvent *e)
 #endif
 
 /**************************************************************************
+  Print extra usage information, including one line help on each option,
+  to stderr.
+**************************************************************************/
+static void print_usage(const char *argv0)
+{
+  /* add client-specific usage information here */
+  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void parse_options(int argc, char **argv)
+{
+  int i;
+
+  i = 1;
+  while (i < argc)
+  {
+    if (is_option("--help", argv[i]))
+    {
+      print_usage(argv[0]);
+      exit(0);
+    }
+    i += 1;
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static Boolean toplevel_work_proc(XtPointer client_data)
@@ -238,19 +263,24 @@ static Boolean toplevel_work_proc(XtPointer client_data)
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
-  int i, loglevel;
+  int i;
   Pixmap icon_pixmap; 
   XtTranslations TextFieldTranslations;
   Dimension w,h;
-  char *tile_set_name = NULL;
-  
+
+  parse_options(argc, argv);
+
   /* include later - pain to see the warning at every run */
   /* XtSetLanguageProc(NULL, (XtLanguageProc)NULL, NULL); */
   
   toplevel = XtVaAppInitialize(
 	       &app_context,               /* Application context */
 	       "Freeciv",                  /* application class name */
+#ifdef UNUSED
 	       cmd_options, XtNumber(cmd_options),
+#else
+	       NULL, 0,
+#endif
 	                                   /* command line option list */
 	       &argc, argv,                /* command line args */
 	       &fallback_resources[1],     /* for missing app-defaults file */
@@ -259,12 +289,6 @@ void ui_main(int argc, char *argv[])
 
   XtGetApplicationResources(toplevel, &appResources, resources,
                             XtNumber(resources), NULL, 0);
-
-  loglevel = log_parse_level_str(appResources.loglevel_str);
-  if (loglevel==-1) {
-    exit(1);
-  }
-  log_init(appResources.logfile, loglevel, NULL);
 
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
@@ -291,41 +315,12 @@ void ui_main(int argc, char *argv[])
     freelog(LOG_NORMAL, _("Using fallback resources - which is OK"));
   }
 
-  if(appResources.name) {
-    mystrlcpy(name, appResources.name, 512);
-  } else {
-    mystrlcpy(name, user_username(), 512);
-  }
-
-  if(appResources.server)
-    mystrlcpy(server_host, appResources.server, 512);
-  else {
-    mystrlcpy(server_host, "localhost", 512);
-  }
-
-  if(appResources.metaserver)
-    mystrlcpy(metaserver, appResources.metaserver, 256);
-  else {
-    mystrlcpy(metaserver, METALIST_ADDR, 256);
-  }
-    
-  if(appResources.port)
-    server_port=appResources.port;
-  else
-    server_port=DEFAULT_SOCK_PORT;
-
-  if(appResources.tileset)
-    tile_set_name=appResources.tileset; 
-  
-  boot_help_texts();		/* after log_init */
-
   display = XtDisplay(toplevel);
   screen_number=XScreenNumberOfScreen(XtScreen(toplevel));
   display_depth=DefaultDepth(display, screen_number);
   root_window=DefaultRootWindow(display);
 
   display_color_type=get_visual(); 
-
   
   if(display_color_type!=COLOR_DISPLAY) {
     freelog(LOG_FATAL, _("Only color displays are supported for now..."));
@@ -339,11 +334,6 @@ void ui_main(int argc, char *argv[])
   XtVaSetValues(toplevel, XtNiconPixmap, icon_pixmap, NULL);
 
   init_color_system();
-
-
-  /* get tile sizes etc, required for setup_widgets: */
-  /* also, get cityname font name, required to load the font: */
-  tilespec_read_toplevel(tile_set_name);
 
   {
     XGCValues values;

@@ -115,27 +115,26 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
 {
   int len = strlen(option_name);
 
-  if (!strcmp(option_name,argv[*i]) || 
-      (!strncmp(option_name,argv[*i],len) &&
-       argv[*i][len]=='=') ||
-     !strncmp(option_name+1,argv[*i],2))
-     {
-     argv[*i] += (argv[*i][1] != '-' ? 0 : len); 
-     
-     if (argv[*i][0] == '=')
-	argv[*i]++;
-       else {
-	if (*i < argc - 1) 
-	  (*i)++;
-	else {
-          fprintf(stderr, _("Missing argument for \"%s\".\n"), option_name);
-          exit(1);
-	  }
-	}
-	
-     return argv[*i];
-     }
-  
+  if (!strcmp(option_name,argv[*i]) ||
+      (!strncmp(option_name,argv[*i],len) && argv[*i][len]=='=') ||
+      !strncmp(option_name+1,argv[*i],2)) {
+    char *opt = argv[*i] + (argv[*i][1] != '-' ? 0 : len);
+
+    if (*opt == '=') {
+      opt++;
+    } else {
+      if (*i < argc - 1) {
+	(*i)++;
+	opt = argv[*i];
+      }	else {
+	fprintf(stderr, _("Missing argument for \"%s\".\n"), option_name);
+	exit(1);
+      }
+    }
+
+    return opt;
+  }
+
   return NULL;
 }
 

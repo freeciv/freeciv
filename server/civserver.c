@@ -239,20 +239,21 @@ int main(int argc, char *argv[])
 	    WEBSITE_URL);
 
   if(h) {
-    fprintf(stderr, _("  -f, --file F\t\tLoad saved game F\n"));
-    fprintf(stderr, _("  -g, --gamelog F\tUse F as game logfile\n"));
+    fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
     fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -l, --log F\t\tUse F as logfile\n"));
-    fprintf(stderr, _("  -m, --meta\t\tSend info to Metaserver\n"));
-    fprintf(stderr, _("  -M, --Metaserver\tSet Metaserver address.\n"));
-    fprintf(stderr, _("  -p, --port N\t\tconnect to port N\n"));
-    fprintf(stderr, _("  -r, --read\t\tRead startup script\n"));
-    fprintf(stderr, _("  -s, --server H\tList this server as host H\n"));
+    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
+    fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
+    fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));
+    fprintf(stderr, _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
+    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fprintf(stderr, _("  -m, --meta\t\tSend info to metaserver\n"));
+    fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
+    fprintf(stderr, _("  -s, --server HOST\tList this server as host HOST\n"));
 #ifdef DEBUG
-    fprintf(stderr, _("  -d, --debug N\t\tSet debug log level (0,1,2,3,"
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2,3,"
 	                                "or 3:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, _("  -d, --debug N\t\tSet debug log level (0,1,2)\n"));
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2)\n"));
 #endif
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
