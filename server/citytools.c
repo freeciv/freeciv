@@ -577,6 +577,10 @@ int wants_to_be_bigger(struct city *pcity)
   if (pcity->size < 8) return 1;
   if (city_got_building(pcity, B_SEWER)) return 1;
   if (city_got_building(pcity, B_AQUEDUCT) && pcity->size < 12) return 1;
+  if (!pcity->is_building_unit) {
+    if (pcity->currently_building == B_SEWER && pcity->did_buy == 1) return 1;
+    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy == 1) return 1;
+  } /* saves a lot of stupid flipflops -- Syela */
   return 0;
 }
 
