@@ -74,6 +74,9 @@ enum MenuID {
 
   MENU_GAME_OPTIONS,
   MENU_GAME_MSG_OPTIONS,
+#ifdef DEBUG
+  MENU_GAME_RELOAD_TILESET,
+#endif
   MENU_GAME_SAVE_OPTIONS_ON_EXIT,
   MENU_GAME_SAVE_OPTIONS,
   MENU_GAME_SERVER_OPTIONS1,
@@ -204,6 +207,9 @@ static void game_menu_callback(gpointer callback_data,
     break;
   case MENU_GAME_MSG_OPTIONS:
     popup_messageopt_dialog();
+    break;
+  case MENU_GAME_RELOAD_TILESET:
+    tilespec_reread(NULL);
     break;
   case MENU_GAME_SAVE_OPTIONS_ON_EXIT:
     if (save_options_on_exit ^ GTK_CHECK_MENU_ITEM(widget)->active) {
@@ -663,6 +669,10 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_MSG_OPTIONS					},
   { "/" N_("Game") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
+#ifdef DEBUG
+  { "/" N_("Game") "/" N_("_Reload Tileset"), "<ctrl><alt>r",
+    game_menu_callback, MENU_GAME_RELOAD_TILESET },
+#endif
   { "/" N_("Game") "/" N_("Save Options on _Exit"),	NULL,
 	game_menu_callback,	MENU_GAME_SAVE_OPTIONS_ON_EXIT,		"<CheckItem>"	},
   { "/" N_("Game") "/" N_("Sa_ve Options"),		NULL,

@@ -62,7 +62,7 @@ struct named_sprites sprites;
 
 /* Stores the currently loaded tileset.  This differs from the value in
  * options.h since that variable is changed by the GUI code. */
-static char current_tileset[512];
+char current_tileset[512];
 
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
@@ -423,7 +423,8 @@ static void tilespec_free_toplevel(void)
   Unlike the initial reading code, which reads pieces one at a time,
   this gets rid of the old data and reads in the new all at once.  If the
   new tileset fails to load the old tileset may be reloaded; otherwise the
-  client will exit.
+  client will exit.  If a NULL name is given the current tileset will be
+  reread.
 
   It will also call the necessary functions to redraw the graphics.
 ***********************************************************************/
@@ -432,6 +433,10 @@ void tilespec_reread(const char *tileset_name)
   int id;
   struct tile *center_tile;
   enum client_states state = get_client_state();
+
+  if (!tileset_name) {
+    tileset_name = current_tileset;
+  }
 
   freelog(LOG_NORMAL, "Loading tileset %s.", tileset_name);
 
