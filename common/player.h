@@ -44,6 +44,10 @@ enum handicap_type {
   H_STACKS=32, /* doesn't know what units are in stacks */
   H_VETERAN=64, /* doesn't know veteran status of enemy units */
   H_SUB=128, /* doesn't know where subs may be lurking */
+/* below this point are milder handicaps that I can actually implement -- Syela */
+  H_RATES=256, /* can't set its rates beyond government limits */
+  H_TARGETS=512, /* can't target anything it doesn't know exists */
+  H_HUTS=1024 /* doesn't know which unseen tiles have huts on them */
 /* anything else I have forgotten?  Let me know. -- Syela */
 };
 
@@ -148,6 +152,8 @@ char *get_race_name_plural(enum race_type race);
 struct player_race *get_race(struct player *plr);
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
 int player_owns_city(struct player *pplayer, struct city *pcity);
+
+int ai_handicap(struct player *pplayer, enum handicap_type htype);
 
 extern struct player_race races[];
 extern char *default_race_leader_names[];
