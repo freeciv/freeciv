@@ -34,6 +34,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "cityrep.h"
+#include "cma_fe.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
@@ -54,7 +55,7 @@
 #define NUM_CITIZENS_SHOWN 25   
 #define ID_CITYOPT_RADIO 100
 #define ID_CITYOPT_TOGGLE 200
-#define NUM_TABS 5
+#define NUM_TABS 6
 struct city_dialog {
   struct city *pcity;
   HBITMAP map_bmp;
@@ -149,13 +150,13 @@ static LONG APIENTRY citydlg_config_proc(HWND hWnd,
 static WNDPROC tab_procs[NUM_TABS]={citydlg_overview_proc,
 				    worklist_editor_proc,
 				    happiness_proc,
-				    /*	 cma_proc, */
+				    cma_proc,
 				    trade_page_proc,citydlg_config_proc};
 enum t_tab_pages {
   PAGE_OVERVIEW=0,
   PAGE_WORKLIST,
   PAGE_HAPPINESS,
-  /*   PAGE_CMA, */
+  PAGE_CMA, 
   PAGE_TRADE,
   PAGE_CONFIG
 };
@@ -205,6 +206,7 @@ void refresh_city_dialog(struct city *pcity)
     if (pdialog != NULL) {
       update_worklist_editor_win(pdialog->tab_childs[PAGE_WORKLIST]);
     }
+    refresh_cma_dialog(pcity, REFRESH_ALL);
   }
   else if (pdialog) {
       EnableWindow(pdialog->buy_but,FALSE);
@@ -689,10 +691,11 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   struct fcwin_box *child_vbox;
   struct fcwin_box *left_labels;
   struct fcwin_box *grp_box;
+  struct cma_gui_initdata *cmadata = fc_malloc(sizeof(struct cma_gui_initdata));
   struct worklist_window_init wl_init;
   void *user_data[NUM_TABS];
   static char *titles_[NUM_TABS]={N_("City Overview"),N_("Worklist"),
-				  N_("Happiness"), /* N_("CMA"), */
+				  N_("Happiness"),  N_("CMA"), 
 				  N_("Trade Routes"),
 				  N_("Misc. Settings")};
   static char *titles[NUM_TABS];
@@ -735,7 +738,9 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
     user_data[i]=pdialog;
   }
   user_data[PAGE_WORKLIST] = &wl_init;
-  
+  cmadata->pcity = pdialog->pcity;
+  cmadata->pdialog = NULL;
+  user_data[PAGE_CMA] = cmadata;
   wl_init.pwl = &pdialog->pcity->worklist;
   wl_init.pcity = pdialog->pcity;
   wl_init.parent = pdialog->mainwindow;

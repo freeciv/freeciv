@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libguiclient.a
 
-INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
+INCLUDES = -I. -I$(srcdir)/.. -I$(srcdir)/../agents -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common -I../../intl @CLIENT_CFLAGS@
 
 ## Above, note -I../../intl instead of -I$(top_srdir)/intl is deliberate.
 
@@ -11,6 +11,8 @@ libguiclient_a_SOURCES = \
 	chatline.h	\
 	citydlg.c	\
 	citydlg.h	\
+	cma_fe.c 	\
+	cma_fe.h	\
 	cityrep.c	\
 	cityrep.h	\
 	colors.c	\
