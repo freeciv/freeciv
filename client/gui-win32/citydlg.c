@@ -266,12 +266,14 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     strings[0] = items[item].descr;
     strings[1] = buf;
 
-    my_snprintf(buf, sizeof(buf), "%d", get_improvement_type(id)->upkeep);
+    /* This takes effects (like Adam Smith's) into account. */
+    my_snprintf(buf, sizeof(buf), "%d",
+		improvement_upkeep(pdialog->pcity, id));
    
     row=fcwin_listview_add_row(pdialog->buildings_list,
 			   item, 2, strings);
     pdialog->building_cids[row]=items[item].cid;
-    total += get_improvement_type(id)->upkeep;
+    total += improvement_upkeep(pdialog->pcity, id);
   }
   lvc.mask=LVCF_TEXT;
   lvc.pszText=buf;
@@ -1607,8 +1609,7 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
   struct city *pcity;  
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->support_unit_ids[n])) &&
-     (pcity=map_get_city(punit->x, punit->y)) &&
-     (pdialog=get_city_dialog(pcity))) {   
+     (pcity = find_city_by_id(punit->homecity))) {   
       popup_message_dialog(NULL,
            /*"supportunitsdialog"*/ _("Unit Commands"),
            unit_description(punit),
