@@ -473,39 +473,30 @@ bool is_starter_close(int x, int y, int nr, int dist)
 ***************************************************************/
 int is_good_tile(int x, int y)
 {
-  int c;
-  c=map_get_terrain(x,y);
-  switch (c) {
+  switch (map_get_terrain(x, y)) {
 
     /* range 0 .. 5 , 2 standard */
 
   case T_FOREST:
-    if (map_get_tile(x, y)->special) return 5;
-    return 3;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 5;
   case T_RIVER:
-    if (map_get_tile(x, y)->special) return 4;
-    return 3;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 4;
   case T_GRASSLAND:
   case T_PLAINS:
   case T_HILLS:
-    if (map_get_tile(x, y)->special) return 4;
-    return 2;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 2 : 4;
   case T_DESERT:
   case T_OCEAN:/* must be called with usable seas */    
-    if (map_get_tile(x, y)->special) return 3;
-    return 1;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 1 : 3;
   case T_SWAMP:
   case T_JUNGLE:
   case T_MOUNTAINS:
-    if (map_get_tile(x, y)->special) return 3;
-    return 0;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 3;
   /* case T_ARCTIC: */
   /* case T_TUNDRA: */
   default:
-    if (map_get_tile(x,y)->special) return 1;
-    break;
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 1;
   }
-  return 0;
 }
 
 /***************************************************************
