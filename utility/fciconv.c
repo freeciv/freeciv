@@ -200,9 +200,8 @@ char *convert_string(const char *text,
   assert(text != NULL);
 
   if (cd == (iconv_t) (-1)) {
-    freelog(LOG_ERROR,
-	    _("Could not convert text from %s to %s: %s"),
-	    from, to, strerror(errno));
+    freelog(LOG_ERROR, _("Could not convert text from %s to %s: %s"), from,
+	    to, mystrerror());
     /* The best we can do? */
     if (alloc) {
       return mystrdup(text);

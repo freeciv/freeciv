@@ -896,7 +896,7 @@ static void action_callback(const char *action)
     }
 
     for (i = 0; i < 8; i++) {
-      if (strcasecmp(dir_str, dir_get_name(i)) == 0) {
+      if (mystrcasecmp(dir_str, dir_get_name(i)) == 0) {
 	dir = i;
 	found = TRUE;
 	break;

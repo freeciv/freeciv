@@ -1944,16 +1944,12 @@ void cm_copy_result_from_city(const struct city *pcity,
 ****************************************************************************/
 #ifdef CM_DEBUG
 static void snprint_production(char *buffer, size_t bufsz,
-			      const int production[])
+			       const int production[])
 {
-  int nout;
-
-  nout = snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
-		  production[O_FOOD], production[O_SHIELD],
-		  production[O_TRADE], production[O_GOLD],
-		  production[O_LUXURY], production[O_SCIENCE]);
-
-  assert(nout >= 0 && nout <= bufsz);
+  my_snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
+	      production[O_FOOD], production[O_SHIELD],
+	      production[O_TRADE], production[O_GOLD],
+	      production[O_LUXURY], production[O_SCIENCE]);
 }
 
 /****************************************************************************
@@ -2005,8 +2001,8 @@ static void print_partial_solution(int loglevel,
   freelog(loglevel, "tiles used:");
   for (i = 0; i < num_types(state); i++) {
     if (soln->worker_counts[i] != 0) {
-      snprintf(buf, sizeof(buf),
-          "  %d tiles of type ", soln->worker_counts[i]);
+      my_snprintf(buf, sizeof(buf), "  %d tiles of type ",
+		  soln->worker_counts[i]);
       print_tile_type(loglevel, tile_type_get(state, i), buf);
     }
   }

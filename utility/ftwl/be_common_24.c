@@ -639,7 +639,7 @@ void be_multiply_alphas(struct Sprite *dest_sprite,
 void be_write_osda_to_file(struct osda *osda, const char *filename)
 {
   FILE *file;
-  unsigned char *line_buffer = malloc(3 * osda->image->width), *pout;
+  unsigned char *line_buffer = fc_malloc(3 * osda->image->width), *pout;
   int x, y;
 
   file = fopen(filename, "w");

@@ -1479,8 +1479,8 @@ static const char *cardinal_index_str(struct tileset *t, int idx)
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     int value = (idx >> i) & 1;
 
-    snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
-	     dir_get_tileset_name(t->cardinal_tileset_dirs[i]), value);
+    cat_snprintf(c, sizeof(c), "%s%d",
+		 dir_get_tileset_name(t->cardinal_tileset_dirs[i]), value);
   }
 
   return c;
@@ -1499,8 +1499,8 @@ static char *valid_index_str(struct tileset *t, int index)
   for (i = 0; i < t->num_valid_tileset_dirs; i++) {
     int value = (index >> i) & 1;
 
-    snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
-	     dir_get_tileset_name(t->valid_tileset_dirs[i]), value);
+    cat_snprintf(c, sizeof(c), "%s%d",
+		 dir_get_tileset_name(t->valid_tileset_dirs[i]), value);
   }
 
   return c;
@@ -1696,10 +1696,12 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       for (j = 0; j < t->num_valid_tileset_dirs / 2; j++) {
 	int value = (i >> j) & 1;
 
-	snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
-		 dir_get_tileset_name(t->valid_tileset_dirs[2 * j]), value);
-	snprintf(d + strlen(d), sizeof(d) - strlen(d), "%s%d",
-		 dir_get_tileset_name(t->valid_tileset_dirs[2 * j + 1]), value);
+	cat_snprintf(c, sizeof(c), "%s%d",
+		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j]),
+		     value);
+	cat_snprintf(d, sizeof(d), "%s%d",
+		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j + 1]),
+		     value);
       }
 
       my_snprintf(buffer, sizeof(buffer), "r.c_road_%s", c);

@@ -1441,7 +1441,7 @@ char *helptext_unit_upkeep_str(int i)
 
   if (any == 0) {
     /* strcpy(buf, _("None")); */
-    snprintf(buf, sizeof(buf), "%d", 0);
+    my_snprintf(buf, sizeof(buf), "%d", 0);
   }
   return buf;
 }

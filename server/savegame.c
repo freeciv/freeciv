@@ -418,7 +418,7 @@ static enum unit_activity char2activity(char activity)
   for (a = 0; a < ACTIVITY_LAST; a++) {
     char achar = activity2char(a);
 
-    if (activity == achar || activity == toupper(achar)) {
+    if (activity == achar || activity == my_toupper(achar)) {
       return a;
     }
   }
