@@ -851,7 +851,6 @@ static void setup_widgets(void)
   populate_unit_pixmap_table();
 
   top_notebook = gtk_notebook_new();  
-  GTK_WIDGET_UNSET_FLAGS(top_notebook, GTK_CAN_FOCUS);
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
   gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
@@ -920,7 +919,6 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(sbox);
 
   bottom_notebook = gtk_notebook_new();
-  GTK_WIDGET_UNSET_FLAGS(bottom_notebook, GTK_CAN_FOCUS);
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
   gtk_box_pack_start(GTK_BOX(avbox), bottom_notebook, TRUE, TRUE, 0);
