@@ -629,6 +629,20 @@ Freeciv.iconName: Freeciv
 *helpdialog.*.helpunitmovedata.background: lightblue
 *helpdialog.*.helpunitmovedata.borderWidth: 0
 
+*helpdialog.*.helpunittile.width: 30
+*helpdialog.*.helpunittile.height: 30
+*helpdialog.*.helpunittile.internalWidth: 0
+*helpdialog.*.helpunittile.internalHeight: 0
+*helpdialog.*.helpunittile.fromVert: helptext
+*helpdialog.*.helpunittile.fromHoriz: helpunitmovedata
+*helpdialog.*.helpunittile.left: chainLeft
+*helpdialog.*.helpunittile.right: chainRight
+*helpdialog.*.helpunittile.top: chainTop
+*helpdialog.*.helpunittile.bottom: chainTop
+*helpdialog.*.helpunittile.foreground: lightblue
+*helpdialog.*.helpunittile.background: lightblue
+*helpdialog.*.helpunittile.borderWidth: 1
+
 *helpdialog.*.helpunithp.fromVert: helpunitcost
 *helpdialog.*.helpunithp.fromHoriz: helpunitfpdata
 *helpdialog.*.helpunithp.label: Hitpoints:
