@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-03-26 16:45+0100\n"
-"PO-Revision-Date: 2003-03-26 16:47+0100\n"
+"POT-Creation-Date: 2003-03-28 09:02+0100\n"
+"PO-Revision-Date: 2003-03-28 09:05+0100\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1004,6 +1004,182 @@ msgstr "  -v, --version\t\tToon het versienummer\n"
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
+
+#: server/connecthand.c:65
+#, c-format
+msgid "%s has joined as player %s."
+msgstr "%s doet mee als speler %s."
+
+#: server/connecthand.c:70
+#, c-format
+msgid "Game: Connection %s from %s has joined as player %s."
+msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
+
+#: server/connecthand.c:90
+#, c-format
+msgid "Welcome to the %s Server running at %s port %d."
+msgstr "Welkom bij de %s Server, draaiend op %s, poort %d."
+
+#: server/connecthand.c:93
+#, c-format
+msgid "Welcome to the %s Server at port %d."
+msgstr "Welkom bij de %s Server op poort %d."
+
+#: server/connecthand.c:104
+#, c-format
+msgid "Turn-blocking game play: waiting on %s to finish turn..."
+msgstr "Wissel-beurt spel: wacht tot %s zijn beurt heeft voltooid..."
+
+#: server/connecthand.c:145
+#, c-format
+msgid "%s has been added as an AI-controlled player."
+msgstr "%s is toegevoegd als een KI-gestuurde speler."
+
+#: server/connecthand.c:148
+#, c-format
+msgid "Game: %s has been added as an AI-controlled player."
+msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
+
+#: server/connecthand.c:238
+#, c-format
+msgid "Invalid name '%s'"
+msgstr "Ongeldige naam '%s'"
+
+#: server/connecthand.c:240
+#, c-format
+msgid "Rejected connection from %s with invalid name."
+msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
+
+#: server/connecthand.c:246
+#, c-format
+msgid "Connection request from %s from %s"
+msgstr "Verzoek tot verbinding van %s van %s"
+
+#: server/connecthand.c:250
+#, c-format
+msgid "Connection request from %s from %s (connection named %s)"
+msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
+
+#: server/connecthand.c:254
+#, c-format
+msgid "%s has client version %d.%d.%d%s"
+msgstr "%s heeft client versie %d.%d.%d%s"
+
+#: server/connecthand.c:264
+#, c-format
+msgid ""
+"The client is missing a capability that this server needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"De client mist een mogelijkheid die deze server nodig heeft.\n"
+"Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
+
+#: server/connecthand.c:271 server/connecthand.c:286
+#, c-format
+msgid "%s was rejected: Mismatched capabilities."
+msgstr "%s is geweigerd: Afwijkende mogelijkheden."
+
+#: server/connecthand.c:279
+#, c-format
+msgid ""
+"The server is missing a capability that the client needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"De server mist een mogelijkheid die de client nodig heeft.\n"
+"Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
+
+#: server/connecthand.c:295
+msgid "Sorry, no observation of barbarians in this game."
+msgstr "Sorry, geen waarnemers van barbaren in dit spel."
+
+#: server/connecthand.c:298
+#, c-format
+msgid "%s was rejected: No observation of barbarians."
+msgstr "%s is geweigerd: Geen waarnemers van barbaren."
+
+#: server/connecthand.c:304
+msgid "Sorry, no observation of dead players in this game."
+msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
+
+#: server/connecthand.c:307
+#, c-format
+msgid "%s was rejected: No observation of dead players."
+msgstr "%s is geweigerd: Geen waarnemers van dode spelers."
+
+#: server/connecthand.c:314
+msgid "Sorry, no observation of AI players in this game."
+msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
+
+#: server/connecthand.c:317
+#, c-format
+msgid "%s was rejected: No observation of AI players."
+msgstr "%s is geweigerd: Geen waarnemers van KI-spelers."
+
+#: server/connecthand.c:324
+msgid "Sorry, no reconnections to human-mode players in this game."
+msgstr ""
+"Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
+
+#: server/connecthand.c:327
+#, c-format
+msgid "%s was rejected: No reconnection to human players."
+msgstr "%s is geweigerd: Geen verbindingsherstel met menselijke spelers."
+
+#: server/connecthand.c:344
+msgid "Sorry, someone else already has that name."
+msgstr "Sorry, iemand anders gebruikt die naam al."
+
+#: server/connecthand.c:346
+#, c-format
+msgid "%s was rejected: Name %s already used."
+msgstr "%s is geweigerd, Naam %s is al in gebruik."
+
+#: server/connecthand.c:350
+#, c-format
+msgid "Sorry, %s is already connected."
+msgstr "Sorry, %s is al verbonden."
+
+#: server/connecthand.c:353
+#, c-format
+msgid "%s was rejected: %s already connected."
+msgstr "%s is geweigerd, %s heeft al verbinding."
+
+#: server/connecthand.c:388
+msgid "Sorry, the game is already running."
+msgstr "Sorry, het spel is al begonnen."
+
+#: server/connecthand.c:390
+#, c-format
+msgid "%s was rejected: Game running and unknown name %s."
+msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
+
+#: server/connecthand.c:396
+msgid "Sorry, the game is full."
+msgstr "Sorry, het spel is vol."
+
+#: server/connecthand.c:398
+#, c-format
+msgid "%s was rejected: Maximum number of players reached."
+msgstr "%s is geweigerd: Maximum aantal spelers bereikt."
+
+#: server/connecthand.c:404
+msgid "Sorry, no new players allowed in this game."
+msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
+
+#: server/connecthand.c:405
+#, c-format
+msgid "%s was rejected: No connections as new player."
+msgstr "%s is geweigerd: Geen verbindingen als nieuwe speler."
+
+#: server/connecthand.c:427
+#, c-format
+msgid "Lost connection: %s."
+msgstr "Verbinding verbroken: %s."
+
+#: server/connecthand.c:435
+#, c-format
+msgid "Game: Lost connection: %s."
+msgstr "Spel: Verbinding verbroken: %s."
 
 #: server/console.c:164
 msgid "Ok. RFC-style set."
@@ -2421,63 +2597,63 @@ msgstr "Geen naties meer over: Verwijder speler %s."
 msgid "Game: Sorry, there are no nations left."
 msgstr "Spel: Sorry, er zijn geen naties meer over."
 
-#: server/srv_main.c:1139
+#: server/srv_main.c:1208
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/srv_main.c:1180
+#: server/srv_main.c:1256
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1187
+#: server/srv_main.c:1263
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1201
+#: server/srv_main.c:1277
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/srv_main.c:1264
+#: server/srv_main.c:1340
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
-#: server/srv_main.c:1293
+#: server/srv_main.c:1369
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/srv_main.c:1299
+#: server/srv_main.c:1375
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
 
-#: server/srv_main.c:1442
+#: server/srv_main.c:1518
 msgid "Starting new log"
 msgstr "Begin nieuw log"
 
-#: server/srv_main.c:1464
+#: server/srv_main.c:1540
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Zend info naar metaserver [%s]"
 
-#: server/srv_main.c:1490
+#: server/srv_main.c:1566
 msgid "Game: The game is over..."
 msgstr "Spel: Het spel is voorbij..."
 
-#: server/srv_main.c:1491
+#: server/srv_main.c:1567
 msgid "The game is over!"
 msgstr "Het spel is voorbij!"
 
-#: server/srv_main.c:1518
+#: server/srv_main.c:1594
 msgid "Now accepting new client connections."
 msgstr "Accepteer nu nieuwe client-verbindingen."
 
-#: server/srv_main.c:1580
+#: server/srv_main.c:1656
 msgid "Last player has disconnected: will need to restart."
 msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
 
@@ -7714,7 +7890,7 @@ msgstr "Hoe zullen we de snelkeuze noemen?"
 msgid "Remove this preset?"
 msgstr "Deze snelkeuze verwijderen?"
 
-#: client/gui-gtk-2.0/connectdlg.c:153 client/gui-gtk/connectdlg.c:145
+#: client/gui-gtk-2.0/connectdlg.c:153 client/gui-gtk/connectdlg.c:165
 msgid " Connect to Freeciv Server"
 msgstr " Maak verbinding met Freeciv Server"
 
@@ -7724,7 +7900,7 @@ msgstr " Maak verbinding met Freeciv Server"
 msgid "_Connect"
 msgstr "Maak _verbinding"
 
-#: client/gui-gtk-2.0/connectdlg.c:173 client/gui-gtk/connectdlg.c:151
+#: client/gui-gtk-2.0/connectdlg.c:173 client/gui-gtk/connectdlg.c:171
 #: client/gui-win32/connectdlg.c:364 data/Freeciv:68
 msgid "Freeciv Server Selection"
 msgstr "Freeciv Server Keuze"
@@ -7741,52 +7917,52 @@ msgstr "_Host:"
 msgid "_Port:"
 msgstr "_Poort:"
 
-#: client/gui-gtk-2.0/connectdlg.c:244 client/gui-gtk/connectdlg.c:206
+#: client/gui-gtk-2.0/connectdlg.c:244 client/gui-gtk/connectdlg.c:226
 #: client/gui-mui/connectdlg.c:178 client/gui-win32/connectdlg.c:364
 #: data/Freeciv:98
 msgid "Metaserver"
 msgstr "Metaserver"
 
-#: client/gui-gtk-2.0/connectdlg.c:259 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:259 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:365
 msgid "Server Name"
 msgstr "Servernaam"
 
-#: client/gui-gtk-2.0/connectdlg.c:261 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:261 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:365
 #: data/Freeciv:87
 msgid "Port"
 msgstr "Poort"
 
-#: client/gui-gtk-2.0/connectdlg.c:263 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:263 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:365
 msgid "Version"
 msgstr "Versie"
 
-#: client/gui-gtk-2.0/connectdlg.c:265 client/gui-gtk/connectdlg.c:131
+#: client/gui-gtk-2.0/connectdlg.c:265 client/gui-gtk/connectdlg.c:151
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:366
 msgid "Status"
 msgstr "Status"
 
 #: client/gui-gtk-2.0/connectdlg.c:267 client/gui-gtk-2.0/plrdlg.c:223
-#: client/gui-gtk/connectdlg.c:131 client/gui-gtk/plrdlg.c:160
+#: client/gui-gtk/connectdlg.c:151 client/gui-gtk/plrdlg.c:160
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:312
 #: client/gui-win32/connectdlg.c:366 client/gui-win32/plrdlg.c:354
 #: client/gui-xaw/menu.c:201 data/Freeciv:3092 data/Freeciv:3093
 msgid "Players"
 msgstr "Spelers"
 
-#: client/gui-gtk-2.0/connectdlg.c:269 client/gui-gtk/connectdlg.c:131
+#: client/gui-gtk-2.0/connectdlg.c:269 client/gui-gtk/connectdlg.c:151
 #: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:366
 msgid "Comment"
 msgstr "Commentaar"
 
-#: client/gui-gtk-2.0/connectdlg.c:277 client/gui-gtk/connectdlg.c:223
+#: client/gui-gtk-2.0/connectdlg.c:277 client/gui-gtk/connectdlg.c:243
 #: client/gui-win32/connectdlg.c:410 data/Freeciv:138
 msgid "Update"
 msgstr "Bijwerken"
 
-#: client/gui-gtk-2.0/connectdlg.c:356 client/gui-gtk/connectdlg.c:314
+#: client/gui-gtk-2.0/connectdlg.c:356 client/gui-gtk/connectdlg.c:349
 #: client/gui-mui/connectdlg.c:272 client/gui-win32/connectdlg.c:447
 #: client/gui-xaw/connectdlg.c:321
 #, c-format
@@ -7796,12 +7972,12 @@ msgstr ""
 "pogingen"
 
 #: client/gui-gtk-2.0/connectdlg.c:368 client/gui-gtk-2.0/connectdlg.c:370
-#: client/gui-gtk/connectdlg.c:326 client/gui-gtk/connectdlg.c:328
+#: client/gui-gtk/connectdlg.c:361 client/gui-gtk/connectdlg.c:363
 msgid "Connection to server refused. Please start the server."
 msgstr "Verbinding met server geweigerd. Herstart de server alstublieft."
 
 #: client/gui-gtk-2.0/connectdlg.c:377 client/gui-gtk-2.0/connectdlg.c:407
-#: client/gui-gtk/connectdlg.c:335 client/gui-gtk/connectdlg.c:365
+#: client/gui-gtk/connectdlg.c:370 client/gui-gtk/connectdlg.c:400
 #: client/gui-mui/connectdlg.c:286 client/gui-mui/connectdlg.c:317
 #: client/gui-win32/connectdlg.c:463 client/gui-win32/connectdlg.c:501
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/connectdlg.c:367
@@ -7813,7 +7989,7 @@ msgstr ""
 "Fout bij contact maken met server \"%s\" op poort %d als \"%s\":\n"
 " %s\n"
 
-#: client/gui-gtk-2.0/connectdlg.c:398 client/gui-gtk/connectdlg.c:356
+#: client/gui-gtk-2.0/connectdlg.c:398 client/gui-gtk/connectdlg.c:391
 #: client/gui-mui/connectdlg.c:307 client/gui-win32/connectdlg.c:493
 #: client/gui-xaw/connectdlg.c:358
 #, c-format
@@ -8125,7 +8301,7 @@ msgstr "Wat Te Plunderen"
 msgid "Select what to pillage:"
 msgstr "Kies wat te plunderen:"
 
-#: client/gui-gtk-2.0/dialogs.c:1303 client/gui-gtk/connectdlg.c:233
+#: client/gui-gtk-2.0/dialogs.c:1303 client/gui-gtk/connectdlg.c:254
 #: client/gui-gtk/dialogs.c:1463 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:414 client/gui-win32/dialogs.c:1994
 #: client/gui-xaw/menu.c:182 data/Freeciv:95 data/Freeciv:2445
@@ -9239,39 +9415,39 @@ msgstr "_Opdrachten"
 msgid "Orders"
 msgstr "Opdrachten"
 
-#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1162
-#: client/gui-gtk-2.0/menu.c:1165 client/gui-gtk/menu.c:660
-#: client/gui-gtk/menu.c:1143 client/gui-gtk/menu.c:1146
+#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1163
+#: client/gui-gtk-2.0/menu.c:1166 client/gui-gtk/menu.c:660
+#: client/gui-gtk/menu.c:1144 client/gui-gtk/menu.c:1147
 #: client/gui-win32/menu.c:321
 msgid "_Build City"
 msgstr "_Bouw Stad"
 
-#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1175
-#: client/gui-gtk-2.0/menu.c:1181 client/gui-gtk/menu.c:662
-#: client/gui-gtk/menu.c:1156 client/gui-gtk/menu.c:1162
+#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1176
+#: client/gui-gtk-2.0/menu.c:1182 client/gui-gtk/menu.c:662
+#: client/gui-gtk/menu.c:1157 client/gui-gtk/menu.c:1163
 #: client/gui-win32/menu.c:322
 msgid "Build _Road"
 msgstr "Bouw Weg (_R)"
 
-#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:1102
-#: client/gui-gtk/menu.c:664 client/gui-gtk/menu.c:1083
+#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:1103
+#: client/gui-gtk/menu.c:664 client/gui-gtk/menu.c:1084
 #: client/gui-win32/menu.c:323
 msgid "Build _Irrigation"
 msgstr "Bouw _Irrigatie"
 
-#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:1103
-#: client/gui-gtk/menu.c:666 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:1104
+#: client/gui-gtk/menu.c:666 client/gui-gtk/menu.c:1085
 #: client/gui-win32/menu.c:324
 msgid "Build _Mine"
 msgstr "Bouw _Mijn"
 
-#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:1104
-#: client/gui-gtk/menu.c:668 client/gui-gtk/menu.c:1085
+#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:1105
+#: client/gui-gtk/menu.c:668 client/gui-gtk/menu.c:1086
 msgid "Transf_orm Terrain"
 msgstr "Transf_ormeer Terrein"
 
-#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk-2.0/menu.c:1213
-#: client/gui-gtk/menu.c:670 client/gui-gtk/menu.c:1194
+#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk-2.0/menu.c:1214
+#: client/gui-gtk/menu.c:670 client/gui-gtk/menu.c:1195
 #: client/gui-win32/menu.c:326
 msgid "Build _Fortress"
 msgstr "Bouw _Fort"
@@ -9281,8 +9457,8 @@ msgstr "Bouw _Fort"
 msgid "Build Airbas_e"
 msgstr "Bouw Vliegbasis"
 
-#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk-2.0/menu.c:1218
-#: client/gui-gtk/menu.c:674 client/gui-gtk/menu.c:1199
+#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk-2.0/menu.c:1219
+#: client/gui-gtk/menu.c:674 client/gui-gtk/menu.c:1200
 #: client/gui-win32/menu.c:328
 msgid "Clean _Pollution"
 msgstr "Verwijder Verontreiniging (_P)"
@@ -9312,8 +9488,8 @@ msgstr "Los (_U)"
 msgid "Wake up o_thers"
 msgstr "Wek anderen (_t)"
 
-#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk-2.0/menu.c:1223
-#: client/gui-gtk/menu.c:694 client/gui-gtk/menu.c:1204
+#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk-2.0/menu.c:1224
+#: client/gui-gtk/menu.c:694 client/gui-gtk/menu.c:1205
 msgid "_Auto Settler"
 msgstr "_Auto Kolonist"
 
@@ -9554,50 +9730,50 @@ msgstr "Kopiëren (_C)"
 msgid "_About"
 msgstr "Over (_A)"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1075
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1076
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Verander in %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1076
+#: client/gui-gtk-2.0/menu.c:1096 client/gui-gtk/menu.c:1077
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Verander in %s (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1096 client/gui-gtk/menu.c:1077
+#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1078
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Transf_ormeer naar %s"
 
-#: client/gui-gtk-2.0/menu.c:1157 client/gui-gtk/menu.c:1138
+#: client/gui-gtk-2.0/menu.c:1158 client/gui-gtk/menu.c:1139
 msgid "Help _Build Wonder"
 msgstr "Help Wonder _Bouwen"
 
-#: client/gui-gtk-2.0/menu.c:1160 client/gui-gtk/menu.c:1141
+#: client/gui-gtk-2.0/menu.c:1161 client/gui-gtk/menu.c:1142
 msgid "Add to City (_B)"
 msgstr "Voeg toe aan Stad (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1168 client/gui-gtk/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:1169 client/gui-gtk/menu.c:1150
 msgid "Make Trade _Route"
 msgstr "Maak Handels _Route"
 
-#: client/gui-gtk-2.0/menu.c:1171 client/gui-gtk/menu.c:1152
+#: client/gui-gtk-2.0/menu.c:1172 client/gui-gtk/menu.c:1153
 msgid "Build _Railroad"
 msgstr "Bouw Spoo_rweg"
 
-#: client/gui-gtk-2.0/menu.c:1193 client/gui-gtk/menu.c:1174
+#: client/gui-gtk-2.0/menu.c:1194 client/gui-gtk/menu.c:1175
 msgid "Bu_ild Farmland"
 msgstr "Bouw Landbouwgrond (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1211 client/gui-gtk/menu.c:1192
+#: client/gui-gtk-2.0/menu.c:1212 client/gui-gtk/menu.c:1193
 msgid "_Fortify"
 msgstr "_Fortificeer"
 
-#: client/gui-gtk-2.0/menu.c:1216 client/gui-gtk/menu.c:1197
+#: client/gui-gtk-2.0/menu.c:1217 client/gui-gtk/menu.c:1198
 msgid "_Paradrop"
 msgstr "Drop _Para's"
 
-#: client/gui-gtk-2.0/menu.c:1221 client/gui-gtk/menu.c:1202
+#: client/gui-gtk-2.0/menu.c:1222 client/gui-gtk/menu.c:1203
 msgid "_Auto Attack"
 msgstr "_Auto Aanval"
 
@@ -10180,20 +10356,20 @@ msgstr "Stel Steden Rapport in"
 msgid "Set columns shown"
 msgstr "Stel zichtbare kolommen in"
 
-#: client/gui-gtk/connectdlg.c:162 client/gui-mui/citydlg.c:1629
+#: client/gui-gtk/connectdlg.c:182 client/gui-mui/citydlg.c:1629
 #: client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Naam:"
 
-#: client/gui-gtk/connectdlg.c:170 client/gui-win32/connectdlg.c:391
+#: client/gui-gtk/connectdlg.c:190 client/gui-win32/connectdlg.c:391
 msgid "Host:"
 msgstr "Server:"
 
-#: client/gui-gtk/connectdlg.c:178 client/gui-win32/connectdlg.c:393
+#: client/gui-gtk/connectdlg.c:198 client/gui-win32/connectdlg.c:393
 msgid "Port:"
 msgstr "Poort:"
 
-#: client/gui-gtk/connectdlg.c:239 client/gui-gtk/dialogs.c:2257
+#: client/gui-gtk/connectdlg.c:260 client/gui-gtk/dialogs.c:2257
 #: client/gui-mui/gui_main.c:203 client/gui-win32/connectdlg.c:416
 #: client/gui-win32/dialogs.c:554 client/gui-xaw/menu.c:115 data/Freeciv:102
 #: data/Freeciv:3080
@@ -10336,11 +10512,11 @@ msgstr "Ga|Vlieg naar Stad"
 msgid "Diplomat|Spy Actions"
 msgstr "Diplomaat|Spion Acties"
 
-#: client/gui-gtk/menu.c:882
+#: client/gui-gtk/menu.c:883
 msgid "Go/Air_lift to City"
 msgstr "Ga/V_lieg naar Stad"
 
-#: client/gui-gtk/menu.c:883
+#: client/gui-gtk/menu.c:884
 msgid "_Diplomat/Spy Actions"
 msgstr "_Diplomaat/Spion Acties"
 
@@ -12830,16 +13006,16 @@ msgstr ""
 #: data/helpdata.txt:685
 msgid ""
 "    If you have established an embassy with another human player, then you "
-"can arrange a diplomatic meeting. This is done by going to the `Game' menu, "
-"selecting players and clicking on the player with whom you wish to meet.  If "
-"you actually have an embassy (denoted by an X) and the other player is "
-"connected then a diplomacy menu will pop up."
+"can arrange a diplomatic meeting. This is done by going to the `Reports' "
+"menu, selecting players and clicking on the player with whom you wish to "
+"meet.  If you actually have an embassy (denoted by an X) and the other "
+"player is connected then a diplomacy menu will pop up."
 msgstr ""
 "    Als u een ambassade gevestigd hebt bij een andere menselijke speler, dan "
 "kunt u een diplomatieke ontmoeting regelen. Dit kan worden gedaan door naar "
-"het 'Spel' menu te gaan, 'Spelers' te kiezen en de speler met wie u een "
+"het 'Rapporten' menu te gaan, 'Spelers' te kiezen en de speler met wie u een "
 "ontmoeting wilt aan te klikken. Als u daadwerkelijk een ambassade hebt "
-"(aangegeven door een X) en de andere speler heeft verbinding, dan zal het "
+"(aangegeven met een X) en de andere speler heeft verbinding, dan zal het "
 "diplomatie menu verschijnen."
 
 #: data/helpdata.txt:692
@@ -18347,6 +18523,18 @@ msgstr "Kroatische"
 msgid "?plural:Croatians"
 msgstr "?plural:Kroaten"
 
+#: data/nation/croatian.ruleset:6
+msgid ""
+"Croatia is the region of the Southern Slavs that was held by the Austro-"
+"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
+"of Byzantium. During most of the 20th century it was part of the Yugoslav "
+"Federation."
+msgstr ""
+"Kroatië is het deel van het gebied van de Zuidelijke Slaven dat behouden werd "
+"door het Oostenrijks-Hongaarse rijk en kwam dus niet onder Ottomaans bestuurd "
+"na de ineenstorting van het Byzantijnse Rijk. Gedurende het grootste gedeelte "
+"van de 20e eeuw AD was het lid van de Joegoslavische Federatie."
+
 #: data/nation/czech.ruleset:3
 msgid "Czech"
 msgstr "Tsjechische"
@@ -19175,124 +19363,6 @@ msgstr ""
 "De Zoeloes zijn een krijgshaftig Bantu-volk die migreerden van west centraal "
 "Afrika naar zuidelijk Afrika in het begin van de 18e eeuw AD, waarbij ze de "
 "inheemse Khoisan veroverden en in botsing kwamen met Europese kolonisten."
-
-#~ msgid "%s has joined as player %s."
-#~ msgstr "%s doet mee als speler %s."
-
-#~ msgid "Game: Connection %s from %s has joined as player %s."
-#~ msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
-
-#~ msgid "Welcome to the %s Server running at %s port %d."
-#~ msgstr "Welkom bij de %s Server, draaiend op %s, poort %d."
-
-#~ msgid "Welcome to the %s Server at port %d."
-#~ msgstr "Welkom bij de %s Server op poort %d."
-
-#~ msgid "Turn-blocking game play: waiting on %s to finish turn..."
-#~ msgstr "Wissel-beurt spel: wacht tot %s zijn beurt heeft voltooid..."
-
-#~ msgid "%s has been added as an AI-controlled player."
-#~ msgstr "%s is toegevoegd als een KI-gestuurde speler."
-
-#~ msgid "Game: %s has been added as an AI-controlled player."
-#~ msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
-
-#~ msgid "Invalid name '%s'"
-#~ msgstr "Ongeldige naam '%s'"
-
-#~ msgid "Rejected connection from %s with invalid name."
-#~ msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
-
-#~ msgid "Connection request from %s from %s"
-#~ msgstr "Verzoek tot verbinding van %s van %s"
-
-#~ msgid "Connection request from %s from %s (connection named %s)"
-#~ msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
-
-#~ msgid "%s has client version %d.%d.%d%s"
-#~ msgstr "%s heeft client versie %d.%d.%d%s"
-
-#~ msgid ""
-#~ "The client is missing a capability that this server needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may "
-#~ "help!"
-#~ msgstr ""
-#~ "De client mist een mogelijkheid die deze server nodig heeft.\n"
-#~ "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan "
-#~ "helpen!"
-
-#~ msgid "%s was rejected: Mismatched capabilities."
-#~ msgstr "%s is geweigerd: Afwijkende mogelijkheden."
-
-#~ msgid ""
-#~ "The server is missing a capability that the client needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may "
-#~ "help!"
-#~ msgstr ""
-#~ "De server mist een mogelijkheid die de client nodig heeft.\n"
-#~ "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan "
-#~ "helpen!"
-
-#~ msgid "Sorry, no observation of barbarians in this game."
-#~ msgstr "Sorry, geen waarnemers van barbaren in dit spel."
-
-#~ msgid "%s was rejected: No observation of barbarians."
-#~ msgstr "%s is geweigerd: Geen waarnemers van barbaren."
-
-#~ msgid "Sorry, no observation of dead players in this game."
-#~ msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
-
-#~ msgid "%s was rejected: No observation of dead players."
-#~ msgstr "%s is geweigerd: Geen waarnemers van dode spelers."
-
-#~ msgid "Sorry, no observation of AI players in this game."
-#~ msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
-
-#~ msgid "%s was rejected: No observation of AI players."
-#~ msgstr "%s is geweigerd: Geen waarnemers van KI-spelers."
-
-#~ msgid "Sorry, no reconnections to human-mode players in this game."
-#~ msgstr ""
-#~ "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
-
-#~ msgid "%s was rejected: No reconnection to human players."
-#~ msgstr "%s is geweigerd: Geen verbindingsherstel met menselijke spelers."
-
-#~ msgid "Sorry, someone else already has that name."
-#~ msgstr "Sorry, iemand anders gebruikt die naam al."
-
-#~ msgid "%s was rejected: Name %s already used."
-#~ msgstr "%s is geweigerd, Naam %s is al in gebruik."
-
-#~ msgid "Sorry, %s is already connected."
-#~ msgstr "Sorry, %s is al verbonden."
-
-#~ msgid "%s was rejected: %s already connected."
-#~ msgstr "%s is geweigerd, %s heeft al verbinding."
-
-#~ msgid "Sorry, the game is already running."
-#~ msgstr "Sorry, het spel is al begonnen."
-
-#~ msgid "%s was rejected: Game running and unknown name %s."
-#~ msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
-
-#~ msgid "Sorry, the game is full."
-#~ msgstr "Sorry, het spel is vol."
-
-#~ msgid "%s was rejected: Maximum number of players reached."
-#~ msgstr "%s is geweigerd: Maximum aantal spelers bereikt."
-
-#~ msgid "Sorry, no new players allowed in this game."
-#~ msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
-
-#~ msgid "%s was rejected: No connections as new player."
-#~ msgstr "%s is geweigerd: Geen verbindingen als nieuwe speler."
-
-#~ msgid "Lost connection: %s."
-#~ msgstr "Verbinding verbroken: %s."
-
-#~ msgid "Game: Lost connection: %s."
-#~ msgstr "Spel: Verbinding verbroken: %s."
 
 #~ msgid ""
 #~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
