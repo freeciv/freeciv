@@ -966,7 +966,7 @@ static void city_popup_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void update_row(GtkTreeIter *row, struct city *pcity, bool init)
+static void update_row(GtkTreeIter *row, struct city *pcity)
 {
   GValue value = { 0, };
 
@@ -979,14 +979,6 @@ static void update_row(GtkTreeIter *row, struct city *pcity, bool init)
   g_value_set_int(&value, pcity->id);
   gtk_list_store_set_value(city_model, row, 1, &value);
   g_value_unset(&value);
-
-  if (!init) {
-    GtkTreePath *path;
-
-    path = gtk_tree_model_get_path(GTK_TREE_MODEL(city_model), row);
-    gtk_tree_model_row_changed(GTK_TREE_MODEL(city_model), path, row);
-    gtk_tree_path_free(path);
-  }
 }
 
 /****************************************************************
@@ -1000,7 +992,7 @@ static void city_model_init(void)
       GtkTreeIter it;
 
       gtk_list_store_append(city_model, &it);
-      update_row(&it, pcity, TRUE);
+      update_row(&it, pcity);
     } city_list_iterate_end;
   }
 }
@@ -1011,28 +1003,63 @@ static void city_model_init(void)
 void city_report_dialog_update(void)
 {
   if (city_dialog_shell && !is_report_dialogs_frozen()) {
-    ITree it, it_next;
-    GtkTreeModel *model = GTK_TREE_MODEL(city_model);
+    GtkTreeModel *model;
+    GtkTreeIter it, it2;
+    GtkTreePath *path;
+    GList *copy;
+    struct city *cursor;
+    bool found;
 
-    /* remove cities which were taken from us */
-    for (itree_begin(model, &it); !itree_end(&it); it=it_next) {
-      struct city *pcity;
-      gint id;
+    model = GTK_TREE_MODEL(city_model);
 
-      it_next = it;
-      itree_next(&it_next);
-
-      itree_get(&it, 1, &id, -1);
-
-      if (!(pcity=find_city_by_id(id)) || city_owner(pcity)!=game.player_ptr) {
-        tstore_remove(&it);
+    gtk_tree_view_get_cursor(GTK_TREE_VIEW(city_view), &path, NULL);
+    cursor = NULL;
+    if (path) {
+      if (gtk_tree_model_get_iter(model, &it, path)) {
+	gtk_tree_model_get(model, &it, 0, &cursor, -1);
       }
+      gtk_tree_path_free(path);
     }
 
-    /* update */
+    /* copy the selection. */
+    copy = NULL;
+    if (gtk_tree_model_get_iter_first(model, &it)) {
+      do {
+	if (gtk_tree_selection_iter_is_selected(city_selection, &it)) {
+	  gpointer pcity;
+
+	  gtk_tree_model_get(model, &it, 0, &pcity, -1);
+	  copy = g_list_append(copy, pcity);
+	}
+      } while (gtk_tree_model_iter_next(model, &it));
+    }
+    
+    /* update. */
+    gtk_list_store_clear(city_model);
+
+    found = FALSE;
     city_list_iterate(game.player_ptr->cities, pcity) {
-      city_report_dialog_update_city(pcity);
+      gtk_list_store_append(city_model, &it);
+      update_row(&it, pcity);
+
+      if (g_list_find(copy, pcity)) {
+	gtk_tree_selection_select_iter(city_selection, &it);
+      }
+
+      if (pcity == cursor) {
+	it2 = it;
+	found = TRUE;
+      }
     } city_list_iterate_end;
+
+    if (found) {
+      path = gtk_tree_model_get_path(model, &it2);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(city_view), path, NULL, FALSE);
+      gtk_tree_path_free(path);
+    }
+	
+    /* free the selection. */
+    g_list_free(copy);
 
     city_selection_changed_callback(city_selection);
 
@@ -1050,27 +1077,27 @@ void city_report_dialog_update_city(struct city *pcity)
     GtkTreeModel *model = GTK_TREE_MODEL(city_model);
     bool found;
 
-    /* search for pcity in the current store */
+    /* search for pcity in the current store. */
     found = FALSE;
     for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
-      gint id;
+      struct city *iter;
 
-      itree_get(&it, 1, &id, -1);
+      itree_get(&it, 0, &iter, -1);
 
-      if (id == pcity->id) {
+      if (pcity == iter) {
 	found = TRUE;
 	break;
       }
     }
 
-    /* if pcity is not in the store, create an entry for it */
-    if (!found) {
-      gtk_list_store_append(city_model, TREE_ITER_PTR(it));
+    /* update. */
+    if (found) {
+      update_row(TREE_ITER_PTR(it), pcity);
+
+      select_menu_cached = FALSE;
+    } else {
+      city_report_dialog_update();
     }
-
-    update_row(TREE_ITER_PTR(it), pcity, FALSE);
-
-    select_menu_cached = FALSE;
   }
 }
 
