@@ -1978,7 +1978,7 @@ Freeciv*reportactiveunitsrefreshcommand.right:       chainLeft
 !
 ! Worklist report dialog
 !
-Freeciv*worklistreportdialog.title: Worklists
+Freeciv*worklistreportdialog.title:			_("Worklists")
 
 Freeciv*worklistreportdialog.*.dlabel.label: 		_("Available worklists")
 Freeciv*worklistreportdialog.*.dlabel.borderWidth:  	0
@@ -2112,7 +2112,7 @@ Freeciv*changedialog.*.buttonhelp.right:	chainLeft
 !
 ! city production worklist dialog
 !
-Freeciv*worklistdialog.title: Production Worklist
+Freeciv*worklistdialog.title:			_("Production Worklist")
 
 Freeciv*worklistdialog.*.worklistlabel.label: 	_("Current worklist")
 Freeciv*worklistdialog.*.worklistlabel.borderWidth:  0

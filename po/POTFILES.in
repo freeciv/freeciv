@@ -7,6 +7,7 @@ common/mem.c
 common/shared.c
 common/support.c
 common/unit.c
+server/barbarian.c
 server/cityhand.c
 server/citytools.c
 server/cityturn.c
@@ -54,6 +55,7 @@ client/gui-gtk/messagewin.c
 client/gui-gtk/plrdlg.c
 client/gui-gtk/repodlgs.c
 client/gui-gtk/spaceshipdlg.c
+client/gui-gtk/wldlg.c
 client/gui-xaw/chatline.c
 client/gui-xaw/citydlg.c
 client/gui-xaw/cityrep.c
@@ -75,6 +77,7 @@ client/gui-xaw/plrdlg.c
 client/gui-xaw/ratesdlg.c
 client/gui-xaw/repodlgs.c
 client/gui-xaw/spaceshipdlg.c
+client/gui-xaw/wldlg.c
 data/Freeciv
 data/helpdata.txt
 data/default/buildings.ruleset
