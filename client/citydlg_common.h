@@ -23,15 +23,17 @@
 
 struct canvas;
 
+enum citizen_category {
+  CITIZEN_SPECIALIST,
+  CITIZEN_CONTENT,
+  CITIZEN_HAPPY,
+  CITIZEN_UNHAPPY,
+  CITIZEN_ANGRY,
+  CITIZEN_LAST
+};
+
 struct citizen_type {
-  enum {
-    CITIZEN_SPECIALIST,
-    CITIZEN_CONTENT,
-    CITIZEN_HAPPY,
-    CITIZEN_UNHAPPY,
-    CITIZEN_ANGRY,
-    CITIZEN_LAST
-  } type;
+  enum citizen_category type;
   Specialist_type_id spec_type;
 };
 
