@@ -62,6 +62,8 @@
 const char *freeciv_name_version(void);
 const char *word_version(void);
 
+const char *freeciv_motto(void);
+
 /* If returns NULL, not a beta version. */
 const char *beta_message(void);
 

@@ -1257,17 +1257,6 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 }
 
 /***************************************************************************
-  Return the Freeciv motto.
-  (The motto is common code:
-   only one instance of the string in the source;
-   only one time gettext needs to translate it. --jjm)
-***************************************************************************/
-const char *freeciv_motto(void)
-{
-  return _("'Cause civilization should be free!");
-}
-
-/***************************************************************************
  Return whether two vectors: vec1 and vec2 have common
  bits. I.e. (vec1 & vec2) != 0.
 
