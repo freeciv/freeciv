@@ -60,22 +60,16 @@ struct genlist_link {
 
 /* A genlist, storing the number of elements (for quick retrieval and
    testing for empty lists), and pointers to the first and last elements
-   of the list.  The address of the null_link is used to "terminate"
-   the ends of the list, and head_link and tail_link initially point
-   to null_link.  null_link always has dataptr==0.  (This is used to
-   conveniently deal with "out of range" results etc, though I'm not
-   sure if it really gives a big advantage compared to a scheme just
-   using NULL as a terminator/flag value  --dwp)
+   of the list.
 */
 struct genlist {
   int nelements;
-  struct genlist_link null_link;
   struct genlist_link *head_link;
   struct genlist_link *tail_link;
 };
 
-int genlist_size(struct genlist *pgenlist);
-void *genlist_get(struct genlist *pgenlist, int idx);
+int genlist_size(const struct genlist *pgenlist);
+void *genlist_get(const struct genlist *pgenlist, int idx);
 void genlist_init(struct genlist *pgenlist);
 void genlist_unlink_all(struct genlist *pgenlist);
 void genlist_insert(struct genlist *pgenlist, void *data, int pos);
@@ -84,7 +78,7 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink);
 void genlist_sort(struct genlist *pgenlist,
 		  int (*compar)(const void *, const void *));
 
-#define ITERATOR_PTR(iter) ((iter)->dataptr)
+#define ITERATOR_PTR(iter) ((iter) ? ((iter)->dataptr) : NULL)
 #define ITERATOR_NEXT(iter) (iter = (iter)->next)
 #define ITERATOR_PREV(iter) (iter = (iter)->prev)
 

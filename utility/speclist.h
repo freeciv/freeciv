@@ -91,14 +91,14 @@ static inline void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TY
   genlist_unlink(&tthis->list, pfoo);
 }
 
-static inline int SPECLIST_FOO(_list_size) (SPECLIST_LIST *tthis)
+static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
 {
   return genlist_size(&tthis->list);
 }
 
-static inline SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *tthis, int index)
+static inline SPECLIST_TYPE *SPECLIST_FOO(_list_get) (const SPECLIST_LIST *tthis, int index)
 {
-  return (SPECLIST_TYPE *)genlist_get(&tthis->list, index);
+  return genlist_get(&tthis->list, index);
 }
 
 static inline void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
