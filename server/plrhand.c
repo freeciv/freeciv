@@ -744,17 +744,19 @@ void get_a_tech(struct player *pplayer, struct player *target)
 }
 
 /**************************************************************************
-...
+  Handle a client or AI request to change the tax/luxury/science rates.
+  This function does full sanity checking.
 **************************************************************************/
-void handle_player_rates(struct player *pplayer, int tax, int luxury,
-			 int science)
+void handle_player_rates(struct player *pplayer,
+			 int tax, int luxury, int science)
 {
   int maxrate;
 
-  if (server_state!=RUN_GAME_STATE) {
+  if (server_state != RUN_GAME_STATE) {
     freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    pplayer->name);
-    notify_player(pplayer, _("Game: Cannot change rates before game start."));
+    notify_player(pplayer,
+		  _("Game: Cannot change rates before game start."));
     return;
   }
 	
@@ -765,16 +767,18 @@ void handle_player_rates(struct player *pplayer, int tax, int luxury,
       || science > 100) {
     return;
   }
-  maxrate=get_government_max_rate (pplayer->government);
+  maxrate = get_government_max_rate (pplayer->government);
   if (tax > maxrate || luxury > maxrate || science > maxrate) {
-    char *rtype;
+    const char *rtype;
 
-    if (tax > maxrate)
+    if (tax > maxrate) {
       rtype = _("Tax");
-    else if (luxury > maxrate)
+    } else if (luxury > maxrate) {
       rtype = _("Luxury");
-    else
+    } else {
       rtype = _("Science");
+    }
+
     notify_player(pplayer, _("Game: %s rate exceeds the max rate for %s."),
                   rtype, get_government_name(pplayer->government));
   } else {

@@ -282,6 +282,9 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
 
+  /* tempname must be static because it's returned below. */
+  static char tempname[MAX_LEN_NAME];
+
   /* This function follows a straightforward algorithm to look through
    * nations to find a city name.
    *
@@ -369,9 +372,6 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   }
 
   for (i = 1; i <= num_tiles; i++ ) {
-    /* tempname must be static because it's returned below. */
-    static char tempname[MAX_LEN_NAME];
-
     my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
     if (!game_find_city_by_name(tempname)) {
       return tempname;
@@ -380,7 +380,8 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   
   /* This had better be impossible! */
   assert(FALSE);
-  return _("A poorly-named city");
+  sz_strlcpy(tempname, _("A poorly-named city"));
+  return tempname;
 }
 
 /****************************************************************

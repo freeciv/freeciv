@@ -655,7 +655,7 @@ static void dem_line_item(char *outptr, size_t out_size,
   Verify that a given demography string is valid.  See
   game.demography.
 *************************************************************************/
-bool is_valid_demography(const char *demography, char **error_string)
+bool is_valid_demography(const char *demography, const char **error_string)
 {
   int len = strlen(demography), i;
 

@@ -184,30 +184,31 @@ struct settings_s {
   /*** bool part ***/
   bool *bool_value;
   bool bool_default_value;
-  bool (*bool_validate)(bool, char **);
+  bool (*bool_validate)(bool value, const char **reject_message);
 
   /*** int part ***/
   int *int_value;
   int int_default_value;
-  bool (*int_validate)(int, char **);
+  bool (*int_validate)(int value, const char **reject_message);
   int int_min_value, int_max_value;
 
   /*** string part ***/
   char *string_value;
   const char *string_default_value;
-  bool (*string_validate)(const char *, char **);
+  bool (*string_validate)(const char * value, const char **reject_message);
   size_t string_value_size;	/* max size we can write into string_value */
 };
 
 /*
  * Triggers used in settings_s.
  */
-static bool valid_notradesize(int value, char **reject_message);
-static bool valid_fulltradesize(int value, char **reject_message);
-static bool autotoggle(bool value, char **reject_message);
-static bool is_valid_allowtake(const char *allow_take, char **error_string);
+static bool valid_notradesize(int value, const char **reject_message);
+static bool valid_fulltradesize(int value, const char **reject_message);
+static bool autotoggle(bool value, const char **reject_message);
+static bool is_valid_allowtake(const char *allow_take,
+			       const char **error_string);
 
-static bool valid_max_players(int v, char **r_m)
+static bool valid_max_players(int v, const char **r_m)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
 
@@ -2748,8 +2749,9 @@ void report_server_options(struct conn_list *dest, int which)
   int i, c;
   char buffer[4096];
   char title[128];
-  char *caption;
-  buffer[0] = 0;
+  const char *caption;
+
+  buffer[0] = '\0';
   my_snprintf(title, sizeof(title), _("%-20svalue  (min , max)"), _("Option"));
   caption = (which == 1) ?
     _("Server Options (initial)") :
@@ -3208,8 +3210,8 @@ static bool vote_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  char *usage = _("Undefined arguments. Usage: vote new <command> "
-                  "  or   vote yes|no [vote number].");
+  const char *usage = _("Undefined arguments. Usage: vote new <command> "
+			"  or   vote yes|no [vote number].");
   int idx;
   bool res = FALSE;
 
@@ -3303,8 +3305,9 @@ static bool debug_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  char *usage = _("Undefined arguments. Usage: debug <player "
-                  "<player> | city <x> <y> | units <x> <y> | unit <id>>.");
+  const char *usage = _("Undefined arguments. Usage: debug <player "
+			"<player> | city <x> <y> | units <x> <y> | "
+			"unit <id>>.");
 
   if (server_state != RUN_GAME_STATE) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -3500,7 +3503,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 		_("Value out of range (minimum: 0, maximum: 1)."));
       return FALSE;
     } else {
-      char *reject_message = NULL;
+      const char *reject_message = NULL;
       bool b_val = (val != 0);
 
       if (settings[cmd].bool_validate
@@ -3526,7 +3529,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 		op->int_min_value, op->int_max_value);
       return FALSE;
     } else {
-      char *reject_message = NULL;
+      const char *reject_message = NULL;
 
       if (settings[cmd].int_validate
 	  && !settings[cmd].int_validate(val, &reject_message)) {
@@ -3548,7 +3551,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 		_("String value too long.  Usage: set <option> <value>."));
       return FALSE;
     } else {
-      char *reject_message = NULL;
+      const char *reject_message = NULL;
 
       if (settings[cmd].string_validate
 	  && !settings[cmd].string_validate(arg, &reject_message)) {
@@ -4910,10 +4913,11 @@ static void show_connections(struct connection *caller)
 /**************************************************************************
   Verify that notradesize is always smaller than fulltradesize
 **************************************************************************/
-static bool valid_notradesize(int value, char **reject_message)
+static bool valid_notradesize(int value, const char **reject_message)
 {
-  if (value < game.fulltradesize)
+  if (value < game.fulltradesize) {
     return TRUE;
+  }
 
   *reject_message = _("notradesize must be always smaller than "
 		      "fulltradesize, keeping old value.");
@@ -4923,20 +4927,25 @@ static bool valid_notradesize(int value, char **reject_message)
 /**************************************************************************
   Verify that fulltradesize is always bigger than notradesize
 **************************************************************************/
-static bool valid_fulltradesize(int value, char **reject_message)
+static bool valid_fulltradesize(int value, const char **reject_message)
 {
-  if (value > game.notradesize)
+  if (value > game.notradesize) {
     return TRUE;
+  }
 
   *reject_message = _("fulltradesize must be always bigger than "
 		      "notradesize, keeping old value.");
   return FALSE;
 }
 
-static bool autotoggle(bool value, char **reject_message)
+/**************************************************************************
+  A callback invoked when autotoggle is set.
+**************************************************************************/
+static bool autotoggle(bool value, const char **reject_message)
 {
-  if (!value)
+  if (!value) {
     return TRUE;
+  }
 
   players_iterate(pplayer) {
     if (!pplayer->ai.control
@@ -4945,7 +4954,8 @@ static bool autotoggle(bool value, char **reject_message)
     }
   } players_iterate_end;
 
-  reject_message = NULL; /* we should modify this, but since we cannot fail... */
+  /* we should modify this, but since we cannot fail... */
+  reject_message = NULL;
   return TRUE;
 }
 
@@ -4953,7 +4963,8 @@ static bool autotoggle(bool value, char **reject_message)
   Verify that a given allowtake string is valid.  See
   game.allow_take.
 *************************************************************************/
-static bool is_valid_allowtake(const char *allow_take, char **error_string)
+static bool is_valid_allowtake(const char *allow_take,
+			       const char **error_string)
 {
   int len = strlen(allow_take), i;
   bool havecharacter_state = FALSE;

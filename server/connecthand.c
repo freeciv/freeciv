@@ -60,7 +60,7 @@ static const int auth_fail_period[] = { 1, 1, 2, 3 };
 #endif
 
 static void establish_new_connection(struct connection *pconn);
-static void reject_new_connection(char *msg, struct connection *pconn);
+static void reject_new_connection(const char *msg, struct connection *pconn);
 
 #ifdef AUTHENTICATION_ENABLED
 static bool is_guest_name(const char *name);
@@ -189,7 +189,7 @@ static void establish_new_connection(struct connection *pconn)
 /**************************************************************************
   send the rejection packet to the client.
 **************************************************************************/
-static void reject_new_connection(char *msg, struct connection *pconn)
+static void reject_new_connection(const char *msg, struct connection *pconn)
 {
   struct packet_server_join_reply packet;
 
