@@ -55,10 +55,10 @@ struct options_settable {
   int type;
   unsigned char category;
 
-  short val;
-  short default_val;
-  short min;
-  short max;
+  int val;
+  int default_val;
+  int min;
+  int max;
 
   char *strval;
   char *default_strval;

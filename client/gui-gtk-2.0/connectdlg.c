@@ -120,7 +120,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
 {
   gtk_widget_grab_focus(iinput);
   gtk_entry_set_text(GTK_ENTRY(iinput), "");
-  gtk_button_set_label(GTK_BUTTON(nextw), _("Next >"));
+  gtk_button_set_label(GTK_BUTTON(nextw), GTK_STOCK_GO_FORWARD);
   gtk_widget_set_sensitive(nextw, TRUE);
   gtk_label_set_text(GTK_LABEL(imsg), message);
 
@@ -599,7 +599,7 @@ static void switch_page_callback(GtkNotebook * notebook,
     case FIRST_PAGE:
       client_kill_server();
       gtk_widget_set_sensitive(prevw, FALSE);
-      gtk_button_set_label(GTK_BUTTON(nextw), _("Next >"));
+      gtk_button_set_label(GTK_BUTTON(nextw), GTK_STOCK_GO_FORWARD);
       break;
     case NEW_PAGE:
       break;
@@ -616,11 +616,11 @@ static void switch_page_callback(GtkNotebook * notebook,
     switch(page_num) {
     case LOGIN_PAGE:
       gtk_button_set_label(GTK_BUTTON(nextw),
-                      dialog_config == LOGIN_TYPE ? _("Connect") : _("Next >"));
+	  dialog_config == LOGIN_TYPE ? _("_Connect") : GTK_STOCK_GO_FORWARD);
       break;
     case METASERVER_PAGE:
     case LAN_PAGE:
-      gtk_button_set_label(GTK_BUTTON(nextw), _("Select"));
+      gtk_button_set_label(GTK_BUTTON(nextw), _("_Select"));
       break;
     default:
       break;
@@ -683,7 +683,9 @@ static void prev_command_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void next_command_callback(GtkWidget *w, gpointer data)
 {
-  const char *next_labels[4] = { "", N_("Start"), N_("Resume"), N_("Connect") };
+  const char *next_labels[4] = {
+    "", N_("_Start"), N_("_Resume"), N_("_Connect")
+  };
   char buf[512];
 
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK(uberbook)) == FIRST_PAGE) {
@@ -764,18 +766,18 @@ void gui_server_connect(void)
 
   /* create the action area buttons */
 
-  loadw = gtk_button_new_with_label(_("Load..."));
+  loadw = gtk_button_new_with_mnemonic(_("_Load..."));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
                      loadw, TRUE, TRUE, 0);
   g_signal_connect(loadw, "clicked", G_CALLBACK(load_callback), NULL);
 
-  prevw = gtk_button_new_with_label(_("< Prev"));
+  prevw = gtk_button_new_from_stock(GTK_STOCK_GO_BACK);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),
                      prevw, TRUE, TRUE, 0);
   gtk_widget_set_sensitive(prevw, FALSE);
   g_signal_connect(prevw, "clicked", G_CALLBACK(prev_command_callback), NULL);
 
-  nextw = gtk_button_new_with_label(_("Next >"));
+  nextw = gtk_button_new_from_stock(GTK_STOCK_GO_FORWARD);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),
                      nextw, TRUE, TRUE, 0);
   g_signal_connect(nextw, "clicked", G_CALLBACK(next_command_callback), NULL);
@@ -795,21 +797,22 @@ void gui_server_connect(void)
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), vbox, NULL);
 
-  radio = gtk_radio_button_new_with_label(group, _("Start New Game"));
+  radio = gtk_radio_button_new_with_mnemonic(group, _("_Start New Game"));
   group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
   gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
 
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(NEW_PAGE));
 
-  radio = gtk_radio_button_new_with_label(group, _("Load Saved Game"));
+  radio = gtk_radio_button_new_with_mnemonic(group, _("_Load Saved Game"));
   group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
   gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
   
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(LOAD_PAGE));
 
-  radio = gtk_radio_button_new_with_label(group, _("Connect to Network Game"));
+  radio = gtk_radio_button_new_with_mnemonic(group,
+      					     _("_Connect to Network Game"));
   gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
 
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
@@ -862,7 +865,7 @@ void gui_server_connect(void)
   hbox = gtk_hbox_new(FALSE, 2);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 20);
 
-  button = gtk_button_new_with_label(_("Change Server Options"));
+  button = gtk_button_new_with_mnemonic(_("Change Server _Options"));
   g_signal_connect_swapped(G_OBJECT(button), "clicked",
 			   G_CALLBACK(send_report_request), 
 			   (gpointer)REPORT_SERVER_OPTIONS2);

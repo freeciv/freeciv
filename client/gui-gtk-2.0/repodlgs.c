@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1480,9 +1481,18 @@ static void set_options(GtkWidget *w)
   tmp = (GtkWidget *)g_object_get_data(G_OBJECT(w), "prev");
   if (tmp) {
     set_options(tmp);
-  } else {
-    gtk_widget_destroy(gtk_widget_get_toplevel(w));
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
+{
+  if (rid == GTK_RESPONSE_OK) {
+    set_options(w);
+  }
+  gtk_widget_destroy(win);
 }
 
 /*************************************************************************
@@ -1490,7 +1500,7 @@ static void set_options(GtkWidget *w)
 *************************************************************************/
 void popup_settable_options_dialog(void)
 {
-  GtkWidget *win, *book, **vbox, *but, *label, *prev_widget = NULL;
+  GtkWidget *win, *book, **vbox, *label, *prev_widget = NULL;
   GtkTooltips *tips;
   bool *used = fc_malloc(num_options_categories * sizeof(bool));
   int i;
@@ -1502,6 +1512,7 @@ void popup_settable_options_dialog(void)
   tips = gtk_tooltips_new();
   win = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(win), _("Server Options"));
+  gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_MOUSE);
 
   /* create a notebook for the options */
   book = gtk_notebook_new();
@@ -1512,9 +1523,9 @@ void popup_settable_options_dialog(void)
 
   for (i = 0; i < num_options_categories; i++) {
     vbox[i] = gtk_vbox_new(FALSE, 2);
+    gtk_container_set_border_width(GTK_CONTAINER(vbox[i]), 6);
     label = gtk_label_new(options_categories[i]);
     gtk_notebook_append_page(GTK_NOTEBOOK(book), vbox[i], label);
-    gtk_box_pack_end(GTK_BOX(vbox[i]), gtk_label_new(""), FALSE, FALSE, 0);
   }
 
   /* fill each category */
@@ -1543,42 +1554,37 @@ void popup_settable_options_dialog(void)
     /* create the proper entry method depending on the type */
     if (settable_options[i].type == 0) {
       /* boolean */
-      GtkWidget *no;
-
-      ent = gtk_radio_button_new_with_label(NULL, _("Yes"));
-      no  = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(ent), 
-                                                        _("No"));
+      ent = gtk_check_button_new();
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
                                    settable_options[i].val);
-      gtk_box_pack_end(GTK_BOX(hbox), no, FALSE, FALSE, 0);
 
-      g_signal_connect(G_OBJECT(ent), "toggled", 
+      g_signal_connect(ent, "toggled", 
                        G_CALLBACK(option_changed_callback), NULL);
     } else if (settable_options[i].type == 1) {
       /* integer */
-      int step, max, min;
-      GtkObject *adj;
+      double step, max, min;
 
       min = settable_options[i].min;
       max = settable_options[i].max;
  
       /* pick a reasonable step size */
-      step = (max - min) / 101 + 1;
-      if (step > 100) {
+      step = ceil((max - min) / 100.0);
+      if (step > 100.0) {
 	/* this is ridiculous, the bounds must be meaningless */
-	step = 5;
+	step = 5.0;
       }
-      adj = gtk_adjustment_new(settable_options[i].val, min, max, step, 0, 0);
-      ent = gtk_spin_button_new(GTK_ADJUSTMENT(adj), 1, 0);
 
-      g_signal_connect(G_OBJECT(ent), "changed", 
+      ent = gtk_spin_button_new_with_range(min, max, step);
+      gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), settable_options[i].val);
+
+      g_signal_connect(ent, "changed", 
                        G_CALLBACK(option_changed_callback), NULL);
     } else {
       /* string */
       ent = gtk_entry_new();
       gtk_entry_set_text(GTK_ENTRY(ent), settable_options[i].strval);
 
-      g_signal_connect(G_OBJECT(ent), "changed", 
+      g_signal_connect(ent, "changed", 
                        G_CALLBACK(option_changed_callback), NULL);
     }
     gtk_box_pack_end(GTK_BOX(hbox), ent, FALSE, FALSE, 0);
@@ -1598,15 +1604,13 @@ void popup_settable_options_dialog(void)
   }
   free(used);
 
-  but = gtk_button_new_with_label(_("OK"));
-  g_signal_connect_swapped(G_OBJECT(but), "clicked",
-			   G_CALLBACK(set_options), prev_widget);
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(win)->action_area), but, TRUE, TRUE, 2);
+  g_signal_connect(win, "response",
+		   G_CALLBACK(settable_options_callback), prev_widget);
 
-  but = gtk_button_new_with_label(_("Cancel"));
-  g_signal_connect_swapped(G_OBJECT(but), "clicked",
-			   G_CALLBACK(gtk_widget_destroy), win);
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(win)->action_area), but, TRUE, TRUE, 2);
+  gtk_dialog_add_buttons(GTK_DIALOG(win),
+			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			 GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-  gtk_widget_show_all(win);
+  gtk_widget_show_all(GTK_DIALOG(win)->vbox);
+  gtk_window_present(GTK_WINDOW(win));
 }
