@@ -2317,6 +2317,11 @@ receive_packet_ruleset_unit(struct connection *pc)
   if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
   iget_uint8(&iter, &packet->fuel);
   iget_uint32(&iter, &packet->flags);
+  if ((packet->flags & (1<<F_PARTIAL_INVIS))
+      && !has_capability("submarine_flags", pc->capability)) {
+    /* Backwards compatibility for standard rulesets */
+    packet->flags |= ((1<<F_MISSILE_CARRIER) | (1<<F_NO_LAND_ATTACK));
+  }
   iget_uint32(&iter, &packet->roles);
   iget_uint8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
   iget_uint8(&iter, &packet->shield_cost);

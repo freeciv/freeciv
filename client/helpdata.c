@@ -636,11 +636,11 @@ void helptext_unit(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
   if (utype->transport_capacity>0) {
-    if (unit_flag(i, F_SUBMARINE)) {
-      sprintf(buf+strlen(buf), _("* Can carry and refuel %d missile units.\n"),
-	      utype->transport_capacity);
-    } else if (unit_flag(i, F_CARRIER)) {
+    if (unit_flag(i, F_CARRIER)) {
       sprintf(buf+strlen(buf), _("* Can carry and refuel %d air units.\n"),
+	      utype->transport_capacity);
+    } else if (unit_flag(i, F_MISSILE_CARRIER)) {
+      sprintf(buf+strlen(buf), _("* Can carry and refuel %d missile units.\n"),
 	      utype->transport_capacity);
     } else {
       sprintf(buf+strlen(buf), _("* Can carry %d ground units across water.\n"),
@@ -666,6 +666,14 @@ void helptext_unit(char *buf, int i, const char *user_text)
   }
   if (unit_flag(i, F_FIGHTER)) {
     sprintf(buf+strlen(buf), _("* Can attack enemy air units.\n"));
+  }
+  if (unit_flag(i, F_PARTIAL_INVIS)) {
+    sprintf(buf+strlen(buf), _("* Is invisible except when next to an"
+			       " enemy unit or city.\n"));
+  }
+  if (unit_flag(i, F_NO_LAND_ATTACK)) {
+    sprintf(buf+strlen(buf), _("* Can only attack units on ocean squares"
+			       " (no land attacks).\n"));
   }
   if (unit_flag(i, F_MARINES)) {
     sprintf(buf+strlen(buf), _("* Can attack from aboard sea units: against"
@@ -733,10 +741,11 @@ void helptext_unit(char *buf, int i, const char *user_text)
     } else if (utype->fuel>=4) {
       sprintf(buf+strlen(buf), _("%dth "), utype->fuel);
     }
+    /* FIXME: should use something like get_units_with_flag_string() */
     sprintf(buf+strlen(buf), _("turn in a city, or on a Carrier"));
     if (unit_flag(i, F_MISSILE) &&
-	num_role_units(F_SUBMARINE)>0 &&
-	get_unit_type(get_role_unit(F_SUBMARINE,0))->transport_capacity) {
+	num_role_units(F_MISSILE_CARRIER)>0 &&
+	get_unit_type(get_role_unit(F_MISSILE_CARRIER,0))->transport_capacity) {
       sprintf(buf+strlen(buf), _(" or Submarine"));
     }
     sprintf(buf+strlen(buf), _(", or will run out of fuel and be lost.\n"));

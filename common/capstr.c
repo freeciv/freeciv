@@ -71,7 +71,8 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
-ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players"
+ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players \
+submarine_flags"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -92,6 +93,9 @@ ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players"
    tell the client that the server does not intend to move a unit further.
 
    "30players" is raising the MAX_NUM_PLAYERS value from 14 to 30.
+
+   "submarine_flags" is F_SUBMARINE split into F_PARTIAL_INVIS,
+   F_MISSILE_CARRIER, F_NO_LAND_ATTACK
 */
 
 void init_our_capability(void)

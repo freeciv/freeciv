@@ -1221,7 +1221,8 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 
   /* With weird non-standard unit types, upgrading these could
      cause air units to run out of fuel; too bad. */
-  if (unit_flag(punit->type, F_CARRIER) || unit_flag(punit->type,F_SUBMARINE))
+  if (unit_flag(punit->type, F_CARRIER)
+      || unit_flag(punit->type, F_MISSILE_CARRIER))
     return 0;
 
   old_cap = get_transporter_capacity(punit);
@@ -1297,7 +1298,7 @@ void player_restore_units(struct player *pplayer)
      of numbers of supported Air Units:   --dwp */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit->type, F_CARRIER) || 
-	unit_flag(punit->type, F_SUBMARINE)) {
+	unit_flag(punit->type, F_MISSILE_CARRIER)) {
       punit->fuel = get_unit_type(punit->type)->transport_capacity;
     }
   }
@@ -1330,7 +1331,8 @@ void player_restore_units(struct player *pplayer)
 	  /* Want to preferentially refuel Missiles from Subs,
 	     to leave space on co-located Carriers for normal air units */
 	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
-	    if (!done && unit_flag(punit2->type,F_SUBMARINE) && punit2->fuel) {
+	    if (!done && unit_flag(punit2->type, F_MISSILE_CARRIER)
+		&& punit2->fuel) {
 	      punit->fuel = get_unit_type(punit->type)->fuel;
 	      punit2->fuel--;
 	      done = 1;
@@ -1379,7 +1381,7 @@ void player_restore_units(struct player *pplayer)
   /* Clean up temporary use of 'fuel' on Carriers and Subs: */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit->type, F_CARRIER) || 
-	unit_flag(punit->type, F_SUBMARINE)) {
+	unit_flag(punit->type, F_MISSILE_CARRIER)) {
       punit->fuel = 0;
     }
   }

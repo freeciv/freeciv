@@ -145,7 +145,7 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   int v, sailing;
   struct unit_type *ptype;
 
-  if (unit_flag(punit->type, F_SUBMARINE)) return(0);
+  if (unit_flag(punit->type, F_NO_LAND_ATTACK)) return(0);
   sailing = is_sailing_unit(punit);
   if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
 

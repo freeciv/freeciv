@@ -1884,7 +1884,7 @@ int is_ai_simple_military(int type)
 {
   return !unit_flag(type, F_NONMIL)
     && !unit_flag(type, F_MISSILE)
-    && !unit_flag(type, F_SUBMARINE) /* not caught by capacity for civ1 */
+    && !unit_flag(type, F_NO_LAND_ATTACK)
     && !(get_unit_type(type)->transport_capacity >= 8);
 }
 

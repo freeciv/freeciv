@@ -1097,12 +1097,10 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Submarine"
+flags         = "FieldUnit", "Partial_Invis", 
+	        "Missile_Carrier", "No_Land_Attack"
 roles         = ""
 helptext      = _("\
-This unit is invisible unless it is next to an enemy unit or city.\
- It cannot make shore bombardments against enemy land units or cities.\
-\n\n\
 Submarines have a very high strategic value, but have a weak\
  defence.\
 ")

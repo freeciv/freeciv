@@ -794,7 +794,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
       continue;
     for(x=punit->x-2; x<punit->x+3; ++x) { 
       unit_list_iterate(map_get_tile(x, y)->units, pu)
-	if(unit_flag(pu->type, F_SUBMARINE)) {
+	if(unit_flag(pu->type, F_PARTIAL_INVIS)) {
 	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
 	}
       unit_list_iterate_end

@@ -601,7 +601,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return 0;
   }
 
-  if (unit_flag(punit->type, F_SUBMARINE) && totile!=T_OCEAN)  {
+  if (unit_flag(punit->type, F_NO_LAND_ATTACK) && totile!=T_OCEAN)  {
     return 0;
   }
   

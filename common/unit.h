@@ -138,7 +138,7 @@ enum unit_flag_id {
   F_AEGIS,       
   F_FIGHTER,     
   F_MARINES,     
-  F_SUBMARINE,   
+  F_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
   F_SETTLERS,         /* Does not include ability to found cities */
   F_DIPLOMAT,    
   F_TRIREME,          /* Trireme sinking effect */
@@ -149,6 +149,8 @@ enum unit_flag_id {
   F_AIRBASE,          /* Can build Airbases */
   F_CITIES,           /* Can build cities */
   F_IGTIRED,          /* Ignore tired negative bonus when attacking */
+  F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
+  F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_LAST
 };
 

@@ -50,9 +50,9 @@ static char *move_type_names[] = {
 static char *flag_names[] = {
   "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
-  "Fighter", "Marines", "Submarine", "Settlers", "Diplomat",
+  "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
-  "Airbase", "Cities", "IgTired"
+  "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack"
 };
 static char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -324,7 +324,7 @@ void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list)
     if(((is_ground_unit(punit) && is_ground_units_transport(ptran))
 	|| (is_air_unit(punit) && unit_flag(ptran->type, F_CARRIER))
 	|| (unit_flag(punit->type, F_MISSILE)
-	    && unit_flag(ptran->type, F_SUBMARINE)))
+	    && unit_flag(ptran->type, F_MISSILE_CARRIER)))
        && (!map_get_city(punit->x, punit->y)
 	   || punit->activity==ACTIVITY_SENTRY)) {
       unit_list_unlink(srclist, punit);
@@ -407,7 +407,7 @@ int get_transporter_capacity(struct unit *punit)
 int is_ground_units_transport(struct unit *punit)
 {
 return (get_transporter_capacity(punit)
-	&& !unit_flag(punit->type, F_SUBMARINE)
+	&& !unit_flag(punit->type, F_MISSILE_CARRIER)
 	&& !unit_flag(punit->type, F_CARRIER));
 }
 
@@ -565,14 +565,19 @@ int is_field_unit(struct unit *punit)
 /**************************************************************************
   Is the unit one that is invisible on the map, which is currently limited
   to subs and missiles in subs.
+  FIXME: this should be made more general: does not handle cargo units
+  on an invisible transport, or planes on invisible carrier.
 **************************************************************************/
 int is_hiding_unit(struct unit *punit)
 {
-  if(unit_flag(punit->type, F_SUBMARINE)) return 1;
+  if(unit_flag(punit->type, F_PARTIAL_INVIS)) return 1;
   if(unit_flag(punit->type, F_MISSILE)) {
     if(map_get_terrain(punit->x, punit->y)==T_OCEAN) {
       unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-	if(unit_flag(punit2->type, F_SUBMARINE)) return 1;
+	if(unit_flag(punit2->type, F_PARTIAL_INVIS)
+	   && unit_flag(punit2->type, F_MISSILE_CARRIER)) {
+	  return 1;
+	}
       } unit_list_iterate_end;
     }
   }
