@@ -43,6 +43,9 @@ WAT IS ANDERS SINDS 1.12.0
  - De kosten van voeding onder een communistisch bestuur is in de standaard
    spelregels verminderd tot 1, terwijl het in de Civ2 regels veranderd is in
    2.
+ - Stealth jachtvliegtuigen en bommenwerpers zijn nu echt stealthy/slecht
+   zichtbaar en zijn gedeeltelijk onzichtbaar analoog aan onderzeeërs. Ook is
+   de aanvalskracht van de stealth bommenwerper verhoogd van 14 naar 18.
  - De Civ2 spelregels bevatten nu Fundamentalisme.
  - Verbeterde modpack mogelijkheden: de karavaan-eigenschap is nu gesplitst.
    Nieuwe manieren om de technologiekosten te berekenen. Betere documentatie.
