@@ -605,7 +605,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* is a lot less warmap generation than there would be otherwise. -- Syela */
       iunit = best_role_unit(pcity, F_CARAVAN);
       dw = pcity->ai.distance_to_wonder_city * 8 /
-	((iunit==U_LAST) ? 3 : get_unit_type(iunit)->move_rate);
+	((iunit==U_LAST) ? SINGLE_MOVE : get_unit_type(iunit)->move_rate);
       want -= dw;
       /* value of 8 is a total guess and could be wrong,
        * but it's better than 0 -- Syela */

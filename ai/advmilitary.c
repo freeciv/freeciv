@@ -133,7 +133,7 @@ static int dangerfunct(int v, int m, int dist)
     v /= 2;
     dist -= m;
   }
-  m /= 3;
+  m /= SINGLE_MOVE;
   while (dist && dist >= m) {
     num *= 4;
     denom *= 5;
@@ -171,26 +171,26 @@ static int assess_distance(struct city *pcity, struct unit *punit, int m,
 			   int boatid, int boatdist, int boatspeed)
 {
   int x, y, dist;
-  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = 3;
+  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = SINGLE_MOVE;
   else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
   else if (!is_ground_unit(punit))
-    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * 3;
+    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * SINGLE_MOVE;
   else if (unit_flag(punit->type, F_IGTER))
     dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
   else dist = warmap.cost[punit->x][punit->y];
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
 /* Samarkand bug should be obsoleted by re-ordering of events */
-  if (dist < 3) dist = 3;
+  if (dist < SINGLE_MOVE) dist = SINGLE_MOVE;
 
   if (is_ground_unit(punit) && boatid &&
       find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
 /* this bug is so obvious I can't believe it wasn't discovered sooner. -- Syela */
     y = warmap.seacost[punit->x][punit->y];
     if (y >= 6 * THRESHOLD)
-      y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * 3;
+      y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * SINGLE_MOVE;
     x = MAX(y, boatdist) * m / boatspeed;
     if (dist > x) dist = x;
-    if (dist < 3) dist = 3;
+    if (dist < SINGLE_MOVE) dist = SINGLE_MOVE;
   }
   return(dist);
 }
@@ -550,7 +550,7 @@ it some more variables for it to meddle with -- Syela */
 
       m = unit_types[i].move_rate;
       q = (acity ? 1 : unit_types[n].move_rate * (unit_flag(n, F_IGTER) ? 3 : 1));
-      if (unit_flag(i, F_IGTER)) m *= 3; /* not quite right */
+      if (unit_flag(i, F_IGTER)) m *= SINGLE_MOVE; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
         if (boatspeed) { /* has to be a city, so don't bother with q */
           c = (warmap.cost[bx][by] + m - 1) / m + 1 +
@@ -561,8 +561,8 @@ it some more variables for it to meddle with -- Syela */
       } else if (unit_types[i].move_type == SEA_MOVING) {
         if (warmap.seacost[x][y] <= m) c = 1;
         else c = (warmap.seacost[x][y] * q + m - 1) / m;
-      } else if (real_map_distance(pcity->x, pcity->y, x, y) * 3 <= m) c = 1;
-      else c = real_map_distance(pcity->x, pcity->y, x, y) * 3 * q / m;
+      } else if (real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE <= m) c = 1;
+      else c = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE * q / m;
 
       m = get_virtual_defense_power(i, n, x, y);
       m *= unit_types[n].hp * unit_types[n].firepower;
@@ -644,8 +644,11 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   if (is_ground_unit(myunit)) boatid = find_boat(pplayer, &bx, &by, 2);
 
   ferryboat = player_find_unit_by_id(pplayer, boatid);
-  if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
-  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
+  /* FIXME: hardcoded boat speed */
+ if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME)
+			     ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
+  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
+		    ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
 
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 
@@ -689,7 +692,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
         } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
       } else if (is_sailing_unit(myunit))
         c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
-      else c = real_map_distance(myunit->x, myunit->y, acity->x, acity->y) * 3 / m;
+      else c = real_map_distance(myunit->x, myunit->y, acity->x, acity->y) * SINGLE_MOVE / m;
 
       n = ai_choose_defender_versus(acity, v);
       m = get_virtual_defense_power(v, n, x, y);
@@ -740,7 +743,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
 
       if (is_ground_unit(myunit)) dist = warmap.cost[x][y];
       else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
-      else dist = real_map_distance(pcity->x, pcity->y, x, y) * 3;
+      else dist = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE;
       if (dist > m) {
         dist *= unit_types[pdef->type].move_rate;
         if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
@@ -1055,7 +1058,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
     wondercity = map_get_continent(pcity->x, pcity->y);
   else wondercity = 0;
   freight = best_role_unit(pcity, F_CARAVAN);
-  freight = (freight==U_LAST) ? 3 : get_unit_type(freight)->move_rate;
+  freight = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity)

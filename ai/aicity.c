@@ -121,7 +121,7 @@ static void ai_manage_buildings(struct player *pplayer)
 /* this is a weird place to iterate a units list! */
   unit_list_iterate(pplayer->units, punit)
     if (is_sailing_unit(punit))
-      values[B_MAGELLAN] += unit_types[punit->type].build_cost * 6 /
+      values[B_MAGELLAN] += unit_types[punit->type].build_cost * 2 * SINGLE_MOVE /
                             unit_types[punit->type].move_rate;
   unit_list_iterate_end;
   values[B_MAGELLAN] *= 100 * SHIELD_WEIGHTING;

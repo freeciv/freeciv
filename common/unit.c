@@ -46,9 +46,9 @@ int unit_move_rate(struct unit *punit)
     val = (val * punit->hp) / get_unit_type(punit->type)->hp;
   if(is_sailing_unit(punit)) {
     if(player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
-      val+=3;
+      val+=SINGLE_MOVE;
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
-      val += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
+      val += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
     val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
     if (val < 6) 
       val = 6;
@@ -868,35 +868,35 @@ char *unit_activity_text(struct unit *punit)
      moves_str = _("Moves");
      if(is_air_unit(punit)) {
        int rate,f;
-       rate=get_unit_type(punit->type)->move_rate/3;
+       rate=get_unit_type(punit->type)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
-       if(punit->moves_left%3) {
-	 if(punit->moves_left/3>0) {
+       if(punit->moves_left%SINGLE_MOVE) {
+	 if(punit->moves_left/SINGLE_MOVE>0) {
 	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/3", moves_str,
-		       ((rate*f)+(punit->moves_left/3)),
-		       punit->moves_left/3, punit->moves_left%3);
+		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
+		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE);
 	 } else {
 	   my_snprintf(text, sizeof(text), "%s: (%d)%d/3", moves_str,
-		       ((rate*f)+(punit->moves_left/3)),
-		       punit->moves_left%3);
+		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
+		       punit->moves_left%SINGLE_MOVE);
 	 }
        } else {
 	 my_snprintf(text, sizeof(text), "%s: (%d)%d", moves_str,
-		     rate*f+punit->moves_left/3,
-		     punit->moves_left/3);
+		     rate*f+punit->moves_left/SINGLE_MOVE,
+		     punit->moves_left/SINGLE_MOVE);
        }
      } else {
-       if(punit->moves_left%3) {
-	 if(punit->moves_left/3>0) {
+       if(punit->moves_left%SINGLE_MOVE) {
+	 if(punit->moves_left/SINGLE_MOVE>0) {
 	   my_snprintf(text, sizeof(text), "%s: %d %d/3", moves_str,
-		       punit->moves_left/3, punit->moves_left%3);
+		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE);
 	 } else {
 	   my_snprintf(text, sizeof(text),
-		       "%s: %d/3", moves_str, punit->moves_left%3);
+		       "%s: %d/3", moves_str, punit->moves_left%SINGLE_MOVE);
 	 }
        } else {
 	 my_snprintf(text, sizeof(text),
-		     "%s: %d", moves_str, punit->moves_left/3);
+		     "%s: %d", moves_str, punit->moves_left/SINGLE_MOVE);
        }
      }
      return text;

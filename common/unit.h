@@ -111,6 +111,10 @@ struct unit {
 #define unit_list_iterate(unitlist, punit) \
     TYPED_LIST_ITERATE(struct unit, unitlist, punit)
 #define unit_list_iterate_end  LIST_ITERATE_END
+#define SINGLE_MOVE 3
+#define MOVE_COST_RIVER 1
+#define MOVE_COST_RAIL 0
+#define MOVE_COST_ROAD 1
 
 
 struct unit *unit_list_find(struct unit_list *This, int id);

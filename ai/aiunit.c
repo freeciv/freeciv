@@ -187,13 +187,13 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
   m = unit_types[punit->type].move_rate;
-  if (unit_flag(punit->type, F_IGTER)) m *= 3;
+  if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
   if(is_sailing_unit(punit)) {
     struct player *pplayer = get_player(punit->owner);
     if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
-      m += 3;
+      m += SINGLE_MOVE;
     if (player_owns_active_wonder(pplayer, B_MAGELLAN))
-      m += (improvement_variant(B_MAGELLAN)==1) ? 3 : 6;
+      m += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
     m += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
   }   
 
@@ -811,7 +811,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
         ok = get_tile_type(t)->defense_bonus;
 	if (map_get_special(x1, y1) & S_RIVER)
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
-        if (get_tile_type(t)->movement_cost * 3 <
+        if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
             unit_types[punit->type].move_rate) ok *= 8;
         ok += (6 * THRESHOLD - warmap.seacost[x1][y1]);
         if (ok > best) { best = ok; *x = x1; *y = y1; }
@@ -877,7 +877,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
           unit_types[d_type].attack_strength;
       d_val += j;
     }
-    d_val /= (unit_types[punit->type].move_rate / 3);
+    d_val /= (unit_types[punit->type].move_rate / SINGLE_MOVE);
     if (unit_flag(punit->type, F_IGTER)) d_val /= 1.5;
     freelog(LOG_DEBUG,
 	    "%s@(%d,%d) looking for bodyguard, d_val=%d, my_val=%d",
@@ -1255,7 +1255,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
       unit_types[aunit->type].transport_capacity) { /* attacker */
       if (aunit->activity == ACTIVITY_GOTO) invasion_funct(aunit, 1, 0,
          ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
-      invasion_funct(aunit, 0, unit_types[aunit->type].move_rate / 3,
+      invasion_funct(aunit, 0, unit_types[aunit->type].move_rate / SINGLE_MOVE,
          ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
     } else if (aunit->ai.passenger &&
               !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
@@ -1274,7 +1274,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   ab = unit_belligerence_basic(punit);
   if (!ab) return(0); /* don't want to deal with SIGFPE's -- Syela */
   m = unit_types[punit->type].move_rate;
-  if (unit_flag(punit->type, F_IGTER)) m *= 3;
+  if (unit_flag(punit->type, F_IGTER)) m *= SINGLE_MOVE;
   maxd = MIN(6, m) * THRESHOLD + 1;
   f = unit_types[punit->type].build_cost;
   fprime = f * 2 * unit_types[punit->type].attack_strength /
@@ -1326,7 +1326,8 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
             } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
           } else if (is_sailing_unit(punit))
              c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
-          else c = (real_map_distance(punit->x, punit->y, acity->x, acity->y) * 3) / m;
+          else c = (real_map_distance(punit->x, punit->y, acity->x, acity->y)
+		    * SINGLE_MOVE) / m;
           if (c > 1) {
             n = ai_choose_defender_versus(acity, punit->type);
             v = get_virtual_defense_power(punit->type, n, acity->x, acity->y) *

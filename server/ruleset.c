@@ -633,7 +633,7 @@ static void load_ruleset_units(struct section_file *file)
     u->defense_strength =
       secfile_lookup_int(file,"%s.defense", sec[i]);
     u->move_rate =
-      3*secfile_lookup_int(file,"%s.move_rate", sec[i]);
+      SINGLE_MOVE*secfile_lookup_int(file,"%s.move_rate", sec[i]);
     
     u->vision_range =
       secfile_lookup_int(file,"%s.vision_range", sec[i]);

@@ -368,11 +368,9 @@ int get_attack_power(struct unit *punit)
     power /= 2;
   }
   if (unit_flag(punit->type, F_IGTIRED)) return power;
-  if (punit->moves_left==1)
-    return power/3;
-  if (punit->moves_left==2)
-    return (power*2)/3;
-  return power;
+  if ( punit->moves_left < SINGLE_MOVE )
+     return (power*punit->moves_left)/SINGLE_MOVE;
+    return power;
 }
 
 /**************************************************************************

@@ -321,11 +321,11 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
         if (map_get_terrain(x1, y1) == T_OCEAN) {
           if (punit && ground_unit_transporter_capacity(x1, y1, pplayer->player_no) > 0)
-	    move_cost = 3;
+	    move_cost = SINGLE_MOVE;
           else
 	    continue;
         } else if (ptile->terrain == T_OCEAN)
-	  move_cost = 3;
+	  move_cost = SINGLE_MOVE;
         else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
 	  move_cost = (ptile->move_cost[dir] ? 3 : 0);
@@ -348,7 +348,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
 
       case SEA_MOVING:
-        move_cost = 3;
+        move_cost = SINGLE_MOVE;
         move_cost += warmap.seacost[x][y];
         if (warmap.seacost[x1][y1] > move_cost && move_cost < maxcost) {
 	  /* by adding the move_cost to the warmap regardless if we can move between
@@ -726,13 +726,13 @@ static int find_the_shortest_path(struct unit *punit,
 		  && !is_diplomat_unit(punit)) {
 		continue; /* unit is non_allied and non_enemy, ie non_attack */
 	      } else {
-		move_cost = 3; /* Attack cost */
+		move_cost = SINGLE_MOVE; /* Attack cost */
 	      }
 	    } else {
 	      continue; /* non-AI players don't attack on goto */
 	    }
 	  } else {
-	    move_cost = 3;
+	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  if ((is_non_attack_city_tile(pdesttile, punit->owner)
@@ -741,13 +741,13 @@ static int find_the_shortest_path(struct unit *punit,
 		&& (x1 != dest_x || y1 != dest_y)) /* Allow players to target anything */
 	      continue;
 	    else
-	      move_cost = 3;
+	      move_cost = SINGLE_MOVE;
 	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
 	  continue;
 
 	if (restriction == GOTO_MOVE_STRAIGHTEST && dir == straight_dir)
-	  move_cost /= 3;
+	  move_cost /= SINGLE_MOVE;
 
 	/* Add the route to our warmap if it is worth keeping */
 	total_cost = move_cost + warmap.cost[x][y];
@@ -778,7 +778,7 @@ static int find_the_shortest_path(struct unit *punit,
 	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1))
 	  move_cost = 7;
 	else
-	  move_cost = 3;
+	  move_cost = SINGLE_MOVE;
 
 	/* See previous comment on pcargo */
 	if (x1 == dest_x && y1 == dest_y && pcargo && move_cost < 60 &&
@@ -797,7 +797,7 @@ static int find_the_shortest_path(struct unit *punit,
 	}
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
-	  move_cost /= 3;
+	  move_cost /= SINGLE_MOVE;
 
 	total_cost = move_cost + warmap.seacost[x][y];
 
@@ -838,7 +838,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
 	  continue; /* No need for all the calculations */
 
-	move_cost = 3;
+	move_cost = SINGLE_MOVE;
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
@@ -855,7 +855,7 @@ static int find_the_shortest_path(struct unit *punit,
 	}
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
-	  move_cost /= 3;
+	  move_cost /= SINGLE_MOVE;
 
 	/* Add the route to our warmap if it is worth keeping */
 	total_cost = move_cost + warmap.cost[x][y];
@@ -1026,7 +1026,7 @@ static int find_a_direction(struct unit *punit,
           unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */
             if (players_at_war(aunit->owner, punit->owner)
 		&& (a = get_attack_power(aunit))) {
-              if (punit->moves_left < c + 3) { /* can't fight */
+              if (punit->moves_left < c + SINGLE_MOVE) { /* can't fight */
                 if (passenger && !is_ground_unit(aunit)) d[k] = -99;
                 else d[k] -= d1 * (aunit->hp * a * a / (a * a + d1 * d1));
               }
@@ -1269,7 +1269,7 @@ int calculate_move_cost(struct unit *punit, int dest_x, int dest_y)
        (times 3 for road factor).
        (Could be wrong if there are things in the way.)
     */
-    return 3 * real_map_distance(punit->x, punit->y, dest_x, dest_y);
+    return SINGLE_MOVE * real_map_distance(punit->x, punit->y, dest_x, dest_y);
   }
 
   generate_warmap(NULL, punit);
@@ -1377,7 +1377,7 @@ static int find_air_first_destination(
   static struct refuel **been_there;
   static unsigned int *turn_index;
   struct refuel start, *pgoal;
-  unsigned int fullmoves = get_unit_type(punit->type)->move_rate/3;
+  unsigned int fullmoves = get_unit_type(punit->type)->move_rate/SINGLE_MOVE;
   unsigned int fullfuel = get_unit_type(punit->type)->fuel;
 
   int reached_goal;
@@ -1428,7 +1428,7 @@ static int find_air_first_destination(
 	struct refuel *pfrom = been_there[j];
 	if (j == 0) {
 	  /* start pos is special case as we maybe don't have full moves and/or fuel */
-	  max_moves = punit->moves_left/3;
+	  max_moves = punit->moves_left/SINGLE_MOVE;
 	  if (turns-i > 1) {
 	    max_moves += MIN(punit->fuel-1, turns-i-1) * fullmoves;
 	  }
