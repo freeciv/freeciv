@@ -377,18 +377,6 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 }
 
 /**************************************************************************
-  Draw some or all of a tile onto the canvas.
-**************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas,
-		      int map_x, int map_y,
-		      int canvas_x, int canvas_y,
-		      bool citymode)
-{
-  /* PORTME */
-  assert(0);
-}
-
-/**************************************************************************
   Draw a single masked sprite to the pixmap.
 **************************************************************************/
 static void pixmap_put_sprite(Pixmap pixmap,
@@ -458,6 +446,48 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   XSetForeground(display, fill_bg_gc, colors_standard[color]);
   XFillRectangle(display, pcanvas->pixmap, fill_bg_gc,
 		 canvas_x, canvas_y, width, height);
+}
+
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct Sprite *psprite, enum color_std color,
+			     int canvas_x, int canvas_y)
+{
+  if (psprite->mask) {
+    XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);
+    XSetClipMask(display, fill_tile_gc, psprite->mask);
+  }
+  XSetForeground(display, fill_tile_gc, colors_standard[color]);
+
+  XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
+		 canvas_x, canvas_y, psprite->width, psprite->height);
+
+  if (psprite->mask) {
+    XSetClipMask(display, fill_tile_gc, None);
+  }
+}
+
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+			    int canvas_x, int canvas_y)
+{
+  if (psprite->mask) {
+    XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);
+    XSetClipMask(display, fill_tile_gc, psprite->mask);
+  }
+  XSetStipple(display, fill_tile_gc, gray50);
+  XSetForeground(display, fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+
+  XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
+		 canvas_x, canvas_y, psprite->width, psprite->height);
+
+  if (psprite->mask) {
+    XSetClipMask(display, fill_tile_gc, None);
+  }
 }
 
 /**************************************************************************

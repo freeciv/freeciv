@@ -1172,10 +1172,10 @@ static void tile_draw_borders(struct canvas *pcanvas,
 /**************************************************************************
   Draw an array of drawn sprites onto the canvas.
 **************************************************************************/
-void put_drawn_sprites(struct canvas *pcanvas,
-		       int canvas_x, int canvas_y,
-		       int count, struct drawn_sprite *pdrawn, bool fog,
-		       int map_x, int map_y, bool citymode)
+static void put_drawn_sprites(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      int count, struct drawn_sprite *pdrawn,
+			      bool fog, int map_x, int map_y, bool citymode)
 {
   int i;
 
@@ -1374,6 +1374,48 @@ void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
   tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y);
   tile_draw_coastline(pcanvas, map_x, map_y, canvas_x, canvas_y);
   tile_draw_selection(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
+}
+
+/**************************************************************************
+  Draw some or all of a tile onto the canvas, in iso-view.
+**************************************************************************/
+void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
+		      int canvas_x, int canvas_y, bool citymode)
+{
+  struct drawn_sprite tile_sprs[80];
+  int count;
+  bool solid_bg, fog;
+  enum color_std bg_color;
+
+  count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
+				 map_x, map_y, citymode);
+
+  if (count == -1) { /* tile is unknown */
+    canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
+			    canvas_x, canvas_y);
+    return;
+  }
+
+  /* Replace with check for is_normal_tile later */
+  if (!normalize_map_pos(&map_x, &map_y)) {
+    assert(0);
+    return;
+  }
+
+  fog = tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
+
+  if (solid_bg) {
+    canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
+			    canvas_x, canvas_y);
+    if (fog) {
+      canvas_fog_sprite_area(pcanvas, sprites.black_tile,
+			     canvas_x, canvas_y);
+    }
+  }
+
+  /*** Draw terrain and specials ***/
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		    count, tile_sprs, fog, map_x, map_y, citymode);
 }
 
 /**************************************************************************

@@ -37,9 +37,6 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		    struct city *pcity, int *width, int *height);
 void prepare_show_city_descriptions(void);
 
-void put_one_tile_iso(struct canvas *pcanvas,
-		      int map_x, int map_y,
-		      int canvas_x, int canvas_y, bool citymode);
 void canvas_put_sprite(struct canvas *pcanvas,
 		       int canvas_x, int canvas_y, struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height);
@@ -53,6 +50,11 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height);
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct Sprite *psprite, enum color_std color,
+			     int canvas_x, int canvas_y);
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+			    int canvas_x, int canvas_y);
 void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy);

@@ -200,6 +200,25 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 }
 
 /****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct Sprite *psprite, enum color_std color,
+			     int canvas_x, int canvas_y)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+			    int canvas_x, int canvas_y)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 ****************************************************************************/
 void canvas_put_line(struct canvas *pcanvas, enum color_std color,
@@ -215,17 +234,6 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 void canvas_copy(struct canvas *dest, struct canvas *src,
 		     int src_x, int src_y, int dest_x, int dest_y, int width,
 		     int height)
-{
-  /* PORTME */
-}
-
-/****************************************************************************
-  Draw some or all of a tile onto the canvas.
-****************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas,
-		      int map_x, int map_y,
-		      int canvas_x, int canvas_y,
-		      bool citymode)
 {
   /* PORTME */
 }

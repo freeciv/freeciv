@@ -61,13 +61,6 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int canvas_x, int canvas_y,
 					 struct Sprite *ssprite,
 					 bool fog);
-static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
-				int canvas_x, int canvas_y,
-				int citymode);
-static void pixmap_put_black_tile_iso(GdkDrawable *pm,
-				      int canvas_x, int canvas_y,
-				      int offset_x, int offset_y,
-				      int width, int height);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -388,18 +381,6 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 }
 
 /**************************************************************************
-  Draw some or all of a tile onto the canvas.
-**************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas,
-		      int map_x, int map_y,
-		      int canvas_x, int canvas_y, bool citymode)
-{
-  pixmap_put_tile_iso(pcanvas->pixmap,
-		      map_x, map_y, canvas_x, canvas_y,
-		      citymode);
-}
-
-/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
@@ -708,6 +689,40 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   }
 }
 
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct Sprite *psprite, enum color_std color,
+			     int canvas_x, int canvas_y)
+{
+  gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
+  gdk_gc_set_clip_mask(fill_bg_gc, psprite->mask);
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
+
+  gdk_draw_rectangle(pcanvas->pixmap, fill_bg_gc, TRUE,
+		     canvas_x, canvas_y, psprite->width, psprite->height);
+
+  gdk_gc_set_clip_mask(fill_bg_gc, NULL);
+}
+
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+			    int canvas_x, int canvas_y)
+{
+  gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+  gdk_gc_set_clip_mask(fill_tile_gc, psprite->mask);
+  gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_gc_set_stipple(fill_tile_gc, black50);
+
+  gdk_draw_rectangle(pcanvas->pixmap, fill_tile_gc, TRUE,
+		     canvas_x, canvas_y, psprite->width, psprite->height);
+
+  gdk_gc_set_clip_mask(fill_tile_gc, NULL); 
+}
+
 /**************************************************************************
   Draw a colored line onto the mapview or citydialog canvas.
 **************************************************************************/
@@ -893,83 +908,6 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
             canvas_x + w, canvas_y, canvas_x + w, canvas_y + h);
 
   rectangle_active = TRUE;
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void pixmap_put_black_tile_iso(GdkDrawable *pm,
-				      int canvas_x, int canvas_y,
-				      int offset_x, int offset_y,
-				      int width, int height)
-{
-  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(civ_gc, sprites.black_tile->mask);
-
-  assert(width <= NORMAL_TILE_WIDTH);
-  assert(height <= NORMAL_TILE_HEIGHT);
-  gdk_draw_pixmap(pm, civ_gc, sprites.black_tile->pixmap,
-		  offset_x, offset_y,
-		  canvas_x+offset_x, canvas_y+offset_y,
-		  width, height);
-
-  gdk_gc_set_clip_mask(civ_gc, NULL);
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
-				int canvas_x, int canvas_y,
-				int citymode)
-{
-  struct drawn_sprite tile_sprs[80];
-  int count;
-  bool solid_bg, fog;
-  enum color_std bg_color;
-  struct canvas canvas_store = {pm};
-
-  count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
-				 x, y, citymode);
-
-  if (count == -1) { /* tile is unknown */
-    pixmap_put_black_tile_iso(pm, canvas_x, canvas_y,
-			      0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    return;
-  }
-
-  /* Replace with check for is_normal_tile later */
-  assert(is_real_map_pos(x, y));
-  normalize_map_pos(&x, &y);
-
-  fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
-
-  if (solid_bg) {
-    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[bg_color]);
-
-    gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-		       canvas_x, canvas_y,
-		       sprites.black_tile->width,
-		       sprites.black_tile->height);
-    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
-    if (fog) {
-      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
-      gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-      gdk_gc_set_stipple(fill_tile_gc, black50);
-
-      gdk_draw_rectangle(pm, fill_tile_gc, TRUE,
-			 canvas_x, canvas_y,
-			 sprites.black_tile->width,
-			 sprites.black_tile->height);
-      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-    }
-  }
-
-  put_drawn_sprites(&canvas_store, canvas_x, canvas_y,
-		    count, tile_sprs, fog, x, y, citymode);
 }
 
 /**************************************************************************

@@ -62,9 +62,6 @@ extern void do_mainwin_layout();
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
-static void pixmap_put_tile_iso(HDC hdc, int x, int y,
-                                int canvas_x, int canvas_y,
-                                int citymode);
 static void draw_rates(HDC hdc);
 
 
@@ -748,32 +745,6 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
 }
 
 /**************************************************************************
-  Draw some or all of a tile onto the canvas.
-**************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas,
-		      int map_x, int map_y,
-		      int canvas_x, int canvas_y,
-		      bool citymode)
-{
-  HDC hdc;
-  HBITMAP old = NULL; /*Remove warning*/
-
-  /* FIXME: we don't want to have to recreate the hdc each time! */
-  if (pcanvas->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas->hdc);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = pcanvas->hdc;
-  }
-  pixmap_put_tile_iso(hdc, map_x, map_y,
-		      canvas_x, canvas_y, 0);
-  if (pcanvas->bitmap) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
-  }
-}
-
-/**************************************************************************
   Draw some or all of a sprite onto the mapview or citydialog canvas.
 **************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
@@ -853,6 +824,58 @@ void canvas_put_rectangle(struct canvas *pcanvas,
     DeleteDC(hdc);
   }
 }
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct Sprite *psprite, enum color_std color,
+			     int canvas_x, int canvas_y)
+{
+  /* FIXME: this may be inefficient */
+  HDC hdc;
+  HBITMAP old = NULL; /*Remove warning*/
+  HPEN oldpen;
+  HBRUSH oldbrush;
+  POINT points[4];
+
+  if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(pcanvas->hdc);
+    old = SelectObject(hdc, pcanvas->bitmap);
+  } else {
+    hdc = pcanvas->hdc;
+  }
+
+  /* FIXME: give a real implementation of this function. */
+  assert(psprite == sprites.black_tile);
+
+  points[0].x = canvas_x + NORMAL_TILE_WIDTH / 2;
+  points[0].y = canvas_y;
+  points[1].x = canvas_x;
+  points[1].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
+  points[2].x = canvas_x + NORMAL_TILE_WIDTH / 2;
+  points[2].y = canvas_y + NORMAL_TILE_HEIGHT;
+  points[3].x = canvas_x + NORMAL_TILE_WIDTH;
+  points[3].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
+  oldpen = SelectObject(hdc, pen_std[color]); 
+  oldbrush = SelectObject(hdc, brush_std[color]);
+  Polygon(hdc, points, 4);
+  SelectObject(hdc, oldpen);
+  SelectObject(hdc, oldbrush);
+
+  if (pcanvas->bitmap) {
+    SelectObject(hdc, old);
+    DeleteDC(hdc);
+  }
+}
+
+/****************************************************************************
+  Fill the area covered by the sprite with the given color.
+****************************************************************************/
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
+			    int canvas_x, int canvas_y)
+{
+  /* PORTME */
+}
 
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
@@ -889,55 +912,6 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
     }
   }
 
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void pixmap_put_tile_iso(HDC hdc, int x, int y,
-                                int canvas_x, int canvas_y,
-                                int citymode)
-{
-  struct drawn_sprite tile_sprs[80];
-  struct canvas canvas_store={hdc,NULL};
-  int count;
-  bool fog, solid_bg, is_real;
-  enum color_std bg_color;
-
-  count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
-				 x, y, citymode);
-
-  if (count == -1) { /* tile is unknown */
-    pixmap_put_black_tile_iso(hdc, canvas_x, canvas_y,
-			      0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    return;
-  }
-  is_real = normalize_map_pos(&x, &y);
-  assert(is_real);
-  fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
-
-  if (solid_bg) {
-    HPEN oldpen;
-    HBRUSH oldbrush;
-    POINT points[4];
-    points[0].x = canvas_x + NORMAL_TILE_WIDTH / 2;
-    points[0].y = canvas_y;
-    points[1].x = canvas_x;
-    points[1].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
-    points[2].x = canvas_x + NORMAL_TILE_WIDTH / 2;
-    points[2].y = canvas_y + NORMAL_TILE_HEIGHT;
-    points[3].x = canvas_x + NORMAL_TILE_WIDTH;
-    points[3].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
-    oldpen = SelectObject(hdc, pen_std[bg_color]); 
-    oldbrush = SelectObject(hdc, brush_std[bg_color]);
-    Polygon(hdc, points, 4);
-    SelectObject(hdc, oldpen);
-    SelectObject(hdc, oldbrush);
-  }
-
-  /*** Draw terrain and specials ***/
-  put_drawn_sprites(&canvas_store, canvas_x, canvas_y,
-		    count, tile_sprs, fog, x, y, citymode);
 }
 
 /**************************************************************************
