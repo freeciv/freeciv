@@ -135,7 +135,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
-      my_snprintf(s, sizeof(s), "City: %s(%s)", pcity->name, 
+      my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name, 
 		  get_nation_name(game.players[pcity->owner].nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
