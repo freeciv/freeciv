@@ -550,12 +550,9 @@ void ai_eval_buildings(struct city *pcity)
       if (g->corruption_level == 0) {
         values[id] += impr_happy_val(pcity, 1, val);
       } else {
-        /* We only really get half the value saved, but since
-         * courthouse helps against incitement as well, and incite
-         * cost gets proportionally lower as corruption increases
-         * (though no causal relation), this is a useful metric for
-         * how much Courthouse will help */
-        values[id] = pcity->corruption * t;
+        /* The use of TRADE_WEIGHTING here is deliberate, since
+         * t is corruption modified. */
+        values[id] = (pcity->corruption * TRADE_WEIGHTING) / 2;
       }
       break;
     
