@@ -1501,6 +1501,10 @@ static void build_cache3(struct city *pcity)
   for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
     for (j = 0; j < MAX_COMBINATIONS; j++) {
       cache3.results[i].combinations[j].is_valid = FALSE;
+      if (cache3.results[i].combinations[j].cache1) {
+        free(cache3.results[i].combinations[j].cache1);
+        cache3.results[i].combinations[j].cache1 = NULL;
+      }
     }
   }
 
