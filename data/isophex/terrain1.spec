@@ -21,7 +21,7 @@ x_top_left = 1
 y_top_left = 1
 dx = 64
 dy = 32
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
 
@@ -128,7 +128,7 @@ x_top_left = 1
 y_top_left = 447
 dx = 64
 dy = 32
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
   0, 0, "t.dither_tile"
@@ -147,7 +147,7 @@ x_top_left = 380
 y_top_left = 1
 dx = 64
 dy = 32
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
   0, 0, "r.road_isolated"

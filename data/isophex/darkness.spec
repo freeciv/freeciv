@@ -21,7 +21,7 @@ x_top_left = 1
 y_top_left = 1
 dx = 64
 dy = 32
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
 
