@@ -26,6 +26,7 @@
 #include "gui_main.h" 
 #include "gui_stuff.h"
 #include "shared.h"
+#include "support.h"
 #include "inputdlg.h"              
 
 extern HINSTANCE freecivhinst;
@@ -86,6 +87,19 @@ static LONG CALLBACK inputdlg_proc(HWND hWnd,
     case WM_COMMAND:
       switch (LOWORD(wParam))
         {
+	case ID_INPUT_TEXT: 
+	  {
+	    static char buf[128];
+	    char buf2[128];
+	    GetWindowText((HWND)lParam, buf2, sizeof(buf2));
+	    if (strchr(buf2,'\n')) {
+	      SetWindowText((HWND)lParam, buf);
+	      id->ok_callback(hWnd, id->okdata);
+	    } else {
+	      sz_strlcpy(buf, buf2);
+	    }
+	  }
+	  break;
         case ID_INPUT_OK:
           id->ok_callback(hWnd,id->okdata);
 	  break;
@@ -132,7 +146,9 @@ HWND input_dialog_create(HWND parent, char *dialogname,
   vbox=fcwin_vbox_new(dlg,FALSE);
   fcwin_box_add_static(vbox,text,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_edit(vbox,postinputtext,MAX(30,strlen(postinputtext)),
-		     ID_INPUT_TEXT,0,FALSE,FALSE,5);
+		     ID_INPUT_TEXT,
+		     ES_AUTOVSCROLL | ES_MULTILINE | ES_WANTRETURN,
+		     FALSE,FALSE,5);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   fcwin_set_box(dlg,vbox);
   ShowWindow(dlg,SW_SHOWNORMAL);
