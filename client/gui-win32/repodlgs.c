@@ -38,6 +38,7 @@
 #include "gui_main.h"
 #include "helpdlg.h"
 #include "optiondlg.h"    
+#include "repodlgs_common.h"
 #include "repodlgs.h"
 
 static HWND economy_dlg;
@@ -347,7 +348,7 @@ economy_report_dialog_update(void)
     my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
     my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
 
-    fcwin_listview_add_row(lv, k, 4, row);
+    fcwin_listview_add_row(lv, i, 4, row);
 
     economy_improvement_type[i] = p->type;
   }
@@ -355,8 +356,8 @@ economy_report_dialog_update(void)
 	      _("Income:%6d    Total Costs: %6d"), tax, total);
   SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_CASH),economy_total);
   ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
-  for(j=1;j<4;j++) {
-    ListView_SetColumnWidth(lv,j,
+  for(i=1;i<4;i++) {
+    ListView_SetColumnWidth(lv,i,
 			    LVSCW_AUTOSIZE_USEHEADER);	
   }
   fcwin_redo_layout(economy_dlg);
