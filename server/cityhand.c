@@ -75,6 +75,12 @@ void remove_city_from_cache(int id)
 
 struct city *find_city_by_id(int id)
 {
+  /* This is sometimes called with id=unit.ai.charge, which is either
+   * a unit id or a city id; if its a unit id then that id won't be used
+   * for a city (?), so that is ok, except that it is possible that it
+   * might exceed citycachesize. --dwp
+   */
+  if(id<0 || id>=citycachesize) return 0;
   return citycache[id];
 }
 
