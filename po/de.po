@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-12 22:13+0200\n"
+"POT-Creation-Date: 2004-07-13 09:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -816,12 +816,20 @@ msgstr ""
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Spiel (automatisch): %ss %s greifen %ss %s an"
 
-#: server/barbarian.c:424
+#: server/barbarian.c:155
+#, c-format
+msgid ""
+"Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
+msgstr ""
+"Die Barbaren haben einen neuen Führer namens %s. Gefährliche Zeiten "
+"liegen vor uns."
+
+#: server/barbarian.c:427
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Barbarenaufstand bei %s; Anführer ist %s."
 
-#: server/barbarian.c:428
+#: server/barbarian.c:431
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Piraten in der Nähe von %s entdeckt!"
@@ -1046,12 +1054,12 @@ msgstr "Spiel: %s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Spiel: %s verkauft %s (veraltet) für %d Goldstücke."
 
-#: server/cityturn.c:296
+#: server/cityturn.c:305
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Spiel: Hinweis: %s in %s in der nächsten Runde fertig."
 
-#: server/cityturn.c:329
+#: server/cityturn.c:338
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
@@ -1060,56 +1068,56 @@ msgstr ""
 "%s empfiehlt, das Wachstum zu drosseln, um %s (im Bau) besser nutzen zu "
 "können."
 
-#: server/cityturn.c:343
+#: server/cityturn.c:352
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Spiel: %s wächst vermutlich bald zu Größe %i."
 
-#: server/cityturn.c:350
+#: server/cityturn.c:359
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Spiel: VORSICHT, in %s ist eine Hungersnot zu befürchten!"
 
-#: server/cityturn.c:374
+#: server/cityturn.c:383
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 
-#: server/cityturn.c:454 server/cityturn.c:473
+#: server/cityturn.c:463 server/cityturn.c:482
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s fertig bauen, um weiter wachsen zu können."
 
-#: server/cityturn.c:459 server/cityturn.c:478
+#: server/cityturn.c:468 server/cityturn.c:487
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
 
-#: server/cityturn.c:527
+#: server/cityturn.c:536
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spiel: %s wächst zu Größe %d."
 
-#: server/cityturn.c:558
+#: server/cityturn.c:567
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 
-#: server/cityturn.c:560
+#: server/cityturn.c:569
 #, c-format
 msgid "%s lose %s (famine)"
 msgstr "%s verlieren %s (Hungersnot)"
 
-#: server/cityturn.c:570
+#: server/cityturn.c:579
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spiel: In %s sind Teile der Bevölkerung verhungert."
 
-#: server/cityturn.c:656 server/cityturn.c:696
+#: server/cityturn.c:665 server/cityturn.c:705
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag gelöscht."
 
-#: server/cityturn.c:675 server/cityturn.c:716
+#: server/cityturn.c:684 server/cityturn.c:725
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -1118,12 +1126,12 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:683 server/cityturn.c:740 server/cityturn.c:851
+#: server/cityturn.c:692 server/cityturn.c:749 server/cityturn.c:860
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spiel: Anstatt %s wird %s produziert (in %s)."
 
-#: server/cityturn.c:722
+#: server/cityturn.c:731
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -1132,7 +1140,7 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da Kenntnisse über %s "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:731
+#: server/cityturn.c:740
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -1140,123 +1148,123 @@ msgstr ""
 "Spiel: Aus unbekannten Gründen kann %s %s aus der Arbeitsliste nicht bauen. "
 "Auftrag zurück gestellt."
 
-#: server/cityturn.c:765
+#: server/cityturn.c:774
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spiel: %ss Arbeitsliste ist jetzt leer."
 
-#: server/cityturn.c:873
+#: server/cityturn.c:882
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spiel: %s kann %s nicht mehr versorgen, Einheit aufgelöst."
 
-#: server/cityturn.c:892
+#: server/cityturn.c:901
 #, c-format
 msgid "Game: Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Spiel: Bevölkerung in %s stirbt, weil %s nicht unterhalten wurde!"
 
-#: server/cityturn.c:930 server/cityturn.c:1054
+#: server/cityturn.c:939 server/cityturn.c:1063
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spiel: %s baut %s, obwohl das nicht mehr erhältlich ist."
 
-#: server/cityturn.c:967
+#: server/cityturn.c:976
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spiel: Die %s haben %s in %s fertiggestellt."
 
-#: server/cityturn.c:971 server/cityturn.c:977
+#: server/cityturn.c:980 server/cityturn.c:986
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s bauen %s in %s"
 
-#: server/cityturn.c:983
+#: server/cityturn.c:992
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:990
+#: server/cityturn.c:999
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Spiel: %s beschleunigt die Forschung;\n"
 "       2 Fortschritte werden sofort erzielt."
 
-#: server/cityturn.c:1008
+#: server/cityturn.c:1017
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spiel: Die %s haben %s und %s durch %s erhalten."
 
-#: server/cityturn.c:1015
+#: server/cityturn.c:1024
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spiel: Die %s haben mit dem Bau eines Raumschiffs begonnen!"
 
-#: server/cityturn.c:1056
+#: server/cityturn.c:1065
 #, c-format
 msgid "%s's %s tried build %s, which is not available"
 msgstr "Spiel: %s' Stadt %s baut %s, obwohl das nicht erhältlich ist."
 
-#: server/cityturn.c:1072
+#: server/cityturn.c:1081
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spiel: %s kann zur Zeit %s nicht bauen."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1102
+#: server/cityturn.c:1111
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:1106
+#: server/cityturn.c:1115
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s bauen %s in %s (%i,%i)"
 
-#: server/cityturn.c:1152
+#: server/cityturn.c:1161
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Spiel: %s in %s verkauft, da die laufenden Kosten nicht erbracht werden "
 "konnten!"
 
-#: server/cityturn.c:1187
+#: server/cityturn.c:1196
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spiel: Umweltverschmutzung bei %s."
 
-#: server/cityturn.c:1339
+#: server/cityturn.c:1348
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spiel: %ss Ehrentag wird in %s gefeiert."
 
-#: server/cityturn.c:1347
+#: server/cityturn.c:1356
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spiel: %ss Ehrentag wurde in %s abgeschafft."
 
-#: server/cityturn.c:1380
+#: server/cityturn.c:1389
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spiel: Aufruhr in %s."
 
-#: server/cityturn.c:1383
+#: server/cityturn.c:1392
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spiel: IMMER NOCH AUFRUHR in %s."
 
-#: server/cityturn.c:1389
+#: server/cityturn.c:1398
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 
-#: server/cityturn.c:1397
+#: server/cityturn.c:1406
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr."
 
-#: server/cityturn.c:1421
+#: server/cityturn.c:1430
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -1264,12 +1272,12 @@ msgstr ""
 "Stadt aufgeben."
 
 #. TRANS: Settler production leads to disbanded city.
-#: server/cityturn.c:1439
+#: server/cityturn.c:1448
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spiel: %s wurde aufgegeben, um %s zu bekommen."
 
-#: server/cityturn.c:1441
+#: server/cityturn.c:1450
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) in %s verwandelt von den %s"
@@ -2943,12 +2951,12 @@ msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 
 #. TRANS: Rare error message.
-#: server/ruleset.c:1632
+#: server/ruleset.c:1626
 #, c-format
 msgid "Terrain %s has unknown flag %s"
 msgstr "Fehler im Ruleset: Terrain %s has unknown flag %s"
 
-#: server/ruleset.c:3172
+#: server/ruleset.c:3166
 msgid "Loading rulesets"
 msgstr "Lade rulesets"
 
@@ -3461,12 +3469,14 @@ msgstr ""
 
 #: server/stdinhand.c:316
 msgid "All the map is temperate (no poles or equatorial regions)"
-msgstr ""
-"Die gesamte Karte ist gleichtemperiert (keine Pole oder Äquatorialregionen)"
+msgstr "Gleichmäßige Temperaturverteilung"
 
 #: server/stdinhand.c:317
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
-msgstr "0 = erdähnlicher Planet; 1 = gleichtemperierter Planet "
+msgstr ""
+"Die Karte besitzt kalte (Pole) und warme (Äquator) Zonen, oder die Temperatur "
+"ist überall gleich mild:"
+"  0 = erdähnlicher Planet; 1 = gleichtemperierter Planet "
 
 #: server/stdinhand.c:322
 msgid "Amount of land vs ocean"
@@ -4073,7 +4083,7 @@ msgstr ""
 
 #: server/stdinhand.c:760
 msgid "Number of turns players may meet after contact"
-msgstr "Anzahl der Spielrunden für mögliche Konferenz nach Kontakt"
+msgstr "Länge der Kontaktphase für mögliche Konferenz"
 
 #: server/stdinhand.c:761
 msgid ""
@@ -4581,11 +4591,11 @@ msgid ""
 msgstr ""
 "Ein Spieler mit Zugangsberechtigung Info, der einen Befehl der Kontrollebene "
 "gibt, leitet damit eine Abstimmung ein. Jeder Spieler kann dan seine Stimme "
-"abgeben, indem er '/vote', gefolgt von 'yes' oder 'no', wahlweise gefolgt von "
-"einer Abstimmungsnummer, eingibt. Ohne Abstimmunsnummer bezieht sich die "
-"Stimmangabe immer auf die letzte Abstimmung. Die Abstimmung dauert bis zum Ende "
-"der Runde oder bis ein klares Votum (mehr als 50%) erreicht ist. Erst danach kann "
-"derselbe Spieler eine neue Abstimmung einleiten."
+"abgeben, indem er '/vote', gefolgt von 'yes' oder 'no', wahlweise gefolgt "
+"von einer Abstimmungsnummer, eingibt. Ohne Abstimmunsnummer bezieht sich die "
+"Stimmangabe immer auf die letzte Abstimmung. Die Abstimmung dauert bis zum "
+"Ende der Runde oder bis ein klares Votum (mehr als 50%) erreicht ist. Erst "
+"danach kann derselbe Spieler eine neue Abstimmung einleiten."
 
 #: server/stdinhand.c:1222
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
@@ -15078,7 +15088,7 @@ msgid ""
 "%s\n"
 "%d gold per turn"
 msgstr ""
-"%s\n"  
+"%s\n"
 "%d Goldstücke pro Runde"
 
 #: client/gui-sdl/wldlg.c:1001 client/gui-sdl/wldlg.c:1184
@@ -15087,7 +15097,7 @@ msgid ""
 "%s\n"
 "blocked!"
 msgstr ""
-"%s\n"  
+"%s\n"
 "gesperrt!"
 
 #: client/gui-sdl/wldlg.c:1003 client/gui-sdl/wldlg.c:1186
@@ -15096,7 +15106,7 @@ msgid ""
 "%s\n"
 "%d %s"
 msgstr ""
-"%s\n"  
+"%s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1007 client/gui-sdl/wldlg.c:1190
@@ -15169,7 +15179,7 @@ msgstr ""
 msgid ""
 "%d/%d %s\n"
 "%d %s"
-msgstr ""   
+msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
@@ -15185,7 +15195,7 @@ msgid ""
 "%d %s"
 msgstr ""
 "(%s)\n"
-"%d %s" 
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1480
 #, c-format
@@ -16705,7 +16715,6 @@ msgstr ""
 "Spieler ansprechen können."
 
 #: data/helpdata.txt:694
-#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -16716,9 +16725,14 @@ msgid ""
 "under the embassy column is not blank and the other player is connected (or "
 "is a server AI) then a diplomacy menu will pop up."
 msgstr ""
-"Nachdem eine Botschaft eingerichtet wurde, kann man über das Spielerfenster "
-"zu einer Konferenz einladen. Dies funktioniert nur mit menschlichen "
-"Spielern, die auch gerade am Spiel teilnehmen."
+" 10. Interaktion mit anderen Spielern (Diplomatie).\n"
+"\n"
+"Nach einem Kontakt (in der Kontaktphase), oder wenn Sie bei einem Spieler eine "
+"Botschaft eingerichtet haben, können Sie eine Konferenz einberufen. Dies können "
+"Sie im Spielerbericht in der Spalte 'Botschaft' ablesen. Wählen Sie den Spieler "
+"aus, und wählen Sie 'Treffen' aus dem 'Spieler'-Menü. Dann erscheint das "
+"Konferenzfenster. Dies funktioniert nur mit menschlichen Spielern, die auch "
+"gerade am Spiel teilnehmen."
 
 #: data/helpdata.txt:704
 msgid ""
@@ -17272,8 +17286,8 @@ msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
 msgstr ""
-" - killstack. (Standard: 1) Bei '0' werden Einheiten auf demselben Feld wie "
-" ein unterlegener Verteidiger nicht zerstört."
+" - killstack. (Standard: 1) Bei '0' werden Einheiten auf demselben Feld wie  "
+"ein unterlegener Verteidiger nicht zerstört."
 
 #: data/helpdata.txt:1009
 msgid " Combat example 1"
@@ -19453,7 +19467,6 @@ msgid "Comrade"
 msgstr "Genosse"
 
 #: data/default/governments.ruleset:402
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19489,9 +19502,11 @@ msgstr ""
 "wirtschaftlich orientierter Staatsführung.\n"
 "\n"
 "Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt "
-"abhängig ist.\n"
+"abhängig ist. Die Kosten für den Gegner, eine Revolte zu verursachen, sind hoch, "
+"da sie so berechnet werden, als wenn keine Stadt mehr als zehn Felder von der "
+"Hauptstadt entfernt wäre.\n"
 "\n"
-"Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
+"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
 "\n"
 "Die Quoten für Wissenschaft, Steuern und Luxus können 80 % nicht "
 "übersteigen.\n"
@@ -20034,7 +20049,6 @@ msgstr ""
 "Kriegsrecht gilt: Jede Militäreinheit macht 1 Unzufriedenen zufrieden."
 
 #: data/civ1/governments.ruleset:323
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -20062,6 +20076,9 @@ msgstr ""
 "\n"
 "Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
 "\n"
+"Wenn eine Stadt in der Monarchie feiert, erhält sie einen Bonus von 1 Handelspunkt "
+"für jedes Feld, dass bereits Handel erzeugt. Einzelheiten unter 'Zufriedenheit'.\n"
+"\n"
 "Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
 "weitere Einheit kostet 1 Schild.\n"
 "\n"
@@ -20069,7 +20086,6 @@ msgstr ""
 "zufrieden."
 
 #: data/civ1/governments.ruleset:398
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -20098,18 +20114,27 @@ msgid ""
 "act content, and will not cause disorder.)"
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
-"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. \n"
-"Die geringe Korruption ist nicht von der Entfernung zur Hauptstadt "
-"abhängig.\n"
-"Diplomaten und Spione haben immer Veteran-Status.\n"
+"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. Der "
+"Kommunismus ermöglicht ein Gleichgewicht zwischen militärisch und "
+"wirtschaftlich orientierter Staatsführung.\n"
 "\n"
-"Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
+"Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt "
+"abhängig ist. Die Kosten für den Gegner, eine Revolte zu verursachen, sind hoch, "
+"da sie so berechnet werden, als wenn keine Stadt mehr als zehn Felder von der "
+"Hauptstadt entfernt wäre.\n"
+"\n"
+"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
+"\n"
+"Wenn eine Stadt im Kommunismus feiert, erhält sie einen Bonus von 1 Handelspunkt "
+"für jedes Feld, dass bereits Handel erzeugt. Einzelheiten unter 'Zufriedenheit'.\n"
+"\n"
+"Neue Diplomaten und Spione haben immer Veteranenstatus.\n"
 "\n"
 "Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
-"weitere Einheit kostet 1 Schild.\n"
+"weitere Einheit kostet 1 Schild Unterhalt pro Runde.\n"
 "\n"
-"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 2 Unzufriedenen "
-"zufrieden."
+"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten innerhalb einer Stadt "
+"macht 2 Unzufriedene zufrieden."
 
 #: data/civ1/governments.ruleset:481
 msgid ""
@@ -20962,19 +20987,16 @@ msgstr "Pferde"
 
 #: data/default/units.ruleset:32 data/civ2/units.ruleset:21
 #: data/civ1/units.ruleset:21 data/history/units.ruleset:29
-#, fuzzy
 msgid "green"
-msgstr "1. Eintrag"
+msgstr "unerfahren"
 
 #: data/default/units.ruleset:32 data/history/units.ruleset:29
-#, fuzzy
 msgid "hardened"
-msgstr "schwer"
+msgstr "kampferprobt"
 
 #: data/default/units.ruleset:32 data/history/units.ruleset:29
-#, fuzzy
 msgid "elite"
-msgstr "Löschen"
+msgstr "Elite"
 
 #: data/default/units.ruleset:195 data/civ2/units.ruleset:93
 #: data/civ1/units.ruleset:101 data/history/units.ruleset:166
@@ -20982,7 +21004,6 @@ msgid "Settlers"
 msgstr "Siedler"
 
 #: data/default/units.ruleset:221
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -20999,10 +21020,9 @@ msgid ""
 "attacks."
 msgstr ""
 "Siedler gehören zu den wichtigsten Einheiten des Spiels. Man kann mit ihnen "
-"Städte, befestigte Stellungen, Bergwerke und Fliegerhorste bauen; auch "
+"Städte, befestigte Stellungen und Bergwerke bauen; auch "
 "Straßen und Eisenbahnen, Bewässerungssysteme und Beseitigung von "
-"Umweltverschmutzung und Fallout sind durch sie möglich.\n"
-"\n"
+"Umweltverschmutzung und Fallout sind durch sie möglich."
 "Siedler verursachen Unterhaltskosten abhängig von der Regierungsform und "
 "'sterben' wenn ihre Heimatstadt sie nicht mit Nahrung versorgen kann.\n"
 "\n"
@@ -21010,11 +21030,10 @@ msgstr ""
 "beschleunigen. Wenn zwei oder mehr Siedler/Ingenieure gemeinsam arbeiten, "
 "werden ihre Leistungen am Rundenende addiert. Es sollte darauf geachtet "
 "werden, daß man nicht zu viele zusammen arbeiten läßt, um keine "
-"'Arbeitskraft' zu verschwenden. Außerdem können solche Gruppen sehr leicht "
-"von Angreifern vernichtet werden."
+"'Arbeitskraft' zu verschwenden. Außerdem können solche Gruppen leicht "
+"das Ziel von Angriffen werden."
 
 #: data/default/units.ruleset:265
-#, fuzzy
 msgid ""
 "Workers are one of the key units in the game.  They can be used to irrigate "
 "land, build roads, railroads, fortresses, airbases and mines, and clean up "
@@ -21028,16 +21047,13 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
-"Siedler gehören zu den wichtigsten Einheiten des Spiels. Man kann mit ihnen "
-"Städte, befestigte Stellungen, Bergwerke und Fliegerhorste bauen; auch "
-"Straßen und Eisenbahnen, Bewässerungssysteme und Beseitigung von "
-"Umweltverschmutzung und Fallout sind durch sie möglich.\n"
+"Arbeiter gehören zu den wichtigsten Einheiten des Spiels. Man kann mit ihnen "
+"Straßen und Eisenbahnen, Bewässerungssysteme, befestigte Stellungen, "
+"Bergwerke und Fliegerhorste bauen; auch Beseitigung von Umweltverschmutzung "
+"und Fallout sind durch sie möglich.\n"
 "\n"
-"Siedler verursachen Unterhaltskosten abhängig von der Regierungsform und "
-"'sterben' wenn ihre Heimatstadt sie nicht mit Nahrung versorgen kann.\n"
-"\n"
-"Siedler und Ingenieure können zusammen arbeiten, um Projekte zu "
-"beschleunigen. Wenn zwei oder mehr Siedler/Ingenieure gemeinsam arbeiten, "
+"Siedler, Arbeiter und Ingenieure können zusammen arbeiten, um Projekte zu "
+"beschleunigen. Wenn zwei oder mehr von ihnen gemeinsam arbeiten, "
 "werden ihre Leistungen am Rundenende addiert. Es sollte darauf geachtet "
 "werden, daß man nicht zu viele zusammen arbeiten läßt, um keine "
 "'Arbeitskraft' zu verschwenden. Außerdem können solche Gruppen sehr leicht "
@@ -21049,7 +21065,6 @@ msgid "Engineers"
 msgstr "Ingenieure"
 
 #: data/default/units.ruleset:306
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
@@ -21063,16 +21078,16 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
 msgstr ""
-"Ingenieure sind Siedlern sehr ähnlich, arbeiten aber doppelt so schnell und "
+"Ingenieure sind Arbeitern sehr ähnlich, arbeiten aber doppelt so schnell und "
 "können sich doppelt so schnell bewegen. Außerdem sind sie im Gegensatz zu "
 "Siedlern dazu fähig, Geländeformen zu verändern.\n"
 "\n"
-"HINWEIS 1: Siedler sollten so bald wie möglich zu Ingenieuren 'modernisiert' "
-"werden, da diese nicht mehr kosten.\n"
+"HINWEIS 1: Arbeiter sollten so bald wie möglich zu Ingenieuren 'modernisiert' "
+"werden, da diese nicht mehr Unterhalt kosten.\n"
 "\n"
 "HINWEIS 2: Wenn man Leonardos Werkstatt besitzt, sollte man sich Kenntnisse "
-"über Sprengstoff verschaffen, so lange sie nützt: Auf diese Art werden die "
-"Siedler kostenlos 'modernisiert'."
+"über Sprengstoff verschaffen, bevor sie veraltet: Auf diese Art werden die "
+"Arbeiter kostenlos 'modernisiert'."
 
 #: data/default/units.ruleset:321 data/civ2/units.ruleset:178
 #: data/history/units.ruleset:251
@@ -22240,19 +22255,16 @@ msgstr ""
 "Das Volk und die Sprache sind eng mit Finnland verwandt."
 
 #: data/nation/ethiopian.ruleset:3
-#, fuzzy
 msgid "Ethiopian"
-msgstr "estnisch"
+msgstr "äthiopisch"
 
 #: data/nation/ethiopian.ruleset:4
-#, fuzzy
 msgid "?plural:Ethiopians"
-msgstr "?plural:Esten"
+msgstr "Äthiopier"
 
 #: data/nation/ethiopian.ruleset:14
-#, fuzzy
 msgid "Emporer"
-msgstr "Kundschafter"
+msgstr "Kaiser"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -22815,14 +22827,12 @@ msgid "?plural:Swedes"
 msgstr "?plural:Schweden"
 
 #: data/nation/swiss.ruleset:3
-#, fuzzy
 msgid "Swiss"
-msgstr "schwedisch"
+msgstr "schweizerisch"
 
 #: data/nation/swiss.ruleset:4
-#, fuzzy
 msgid "?plural:Swiss"
-msgstr "?plural:Schweden"
+msgstr "Schweiz"
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
