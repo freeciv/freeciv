@@ -1045,7 +1045,8 @@ static void player_load(struct player *plr, int plrno,
   }
 
   if (section_file_lookup(file, "player%d.attribute_block_length", plrno)) {
-    int raw_length1, raw_length2, part_nr, parts,quoted_length;
+    int raw_length1, raw_length2, part_nr, parts;
+    size_t quoted_length;
     char *quoted;
 
     raw_length1 =
@@ -1071,15 +1072,17 @@ static void player_load(struct player *plr, int plrno,
 					 plrno, part_nr);
       if (!current)
 	break;
-      freelog(LOG_DEBUG,"quoted_length=%d quoted=%d current=%d",
-	      quoted_length,	
-	      strlen(quoted),strlen(current));
+      freelog(LOG_DEBUG, "quoted_length=%lu quoted=%lu current=%lu",
+	      (unsigned long) quoted_length,
+	      (unsigend long) strlen(quoted),
+	      (unsigned long) strlen(current));
       assert(strlen(quoted) + strlen(current) <= quoted_length);
       strcat(quoted, current);
     }
     if (quoted_length != strlen(quoted)) {
-      freelog(LOG_NORMAL, "quoted_length=%d quoted=%d", quoted_length,
-	      strlen(quoted));
+      freelog(LOG_NORMAL, "quoted_length=%lu quoted=%lu",
+	      (unsigned long) quoted_length,
+	      (unsigned long) strlen(quoted));
       assert(0);
     }
 
