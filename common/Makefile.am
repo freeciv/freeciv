@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = civcommon
+noinst_LIBRARIES = libcivcommon.a
 
 INCLUDES = -I $(srcdir)/../ai
 
-civcommon_SOURCES = \
+libcivcommon_a_SOURCES = \
 		capability.c	\
 		capability.h	\
 		city.c		\
