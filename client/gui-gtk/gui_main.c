@@ -33,6 +33,7 @@
 
 #include "fcintl.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -1036,7 +1037,7 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
     
     my_snprintf(buf, sizeof(buf),
 	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
-	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d"),
+	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d\nGovernment: %s"),
 	    population_to_text(civ_population(game.player_ptr)),
 	    textyear(game.year), game.turn,
 	    game.player_ptr->economic.gold,
@@ -1047,7 +1048,8 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 	    
 	    advances[game.player_ptr->research.researching].name,
 	    game.player_ptr->research.bulbs_researched,
-	    total_bulbs_required(game.player_ptr));
+	    total_bulbs_required(game.player_ptr),
+	    get_government_name(game.player_ptr->government));
     
     p = gtk_window_new(GTK_WINDOW_POPUP);
 

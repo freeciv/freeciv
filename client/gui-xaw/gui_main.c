@@ -38,6 +38,7 @@
 
 #include "fcintl.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "support.h"
@@ -695,7 +696,8 @@ void main_show_info_popup(XEvent *event)
 		  "Gold: %d\n"
 		  "Net Income: %d\n"
 		  "Tax:%d Lux:%d Sci:%d\n"
-		  "Researching %s: %d/%d"),
+		  "Researching %s: %d/%d\n"
+		  "Government: %s"),
 		population_to_text(civ_population(game.player_ptr)),
 		textyear(game.year), game.turn,
 		game.player_ptr->economic.gold,
@@ -705,7 +707,8 @@ void main_show_info_popup(XEvent *event)
 		game.player_ptr->economic.science,
 		advances[game.player_ptr->research.researching].name,
 		game.player_ptr->research.bulbs_researched,
-		total_bulbs_required(game.player_ptr));
+		total_bulbs_required(game.player_ptr),
+		get_government_name(game.player_ptr->government));
 
     p=XtCreatePopupShell("popupinfo", 
 			 overrideShellWidgetClass, 
