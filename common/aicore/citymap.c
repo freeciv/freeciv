@@ -47,7 +47,7 @@
  * which has a negative value.
  */
 
-static int citymap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+int citymap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 #define LOG_CITYMAP LOG_DEBUG
 
@@ -82,39 +82,6 @@ void citymap_turn_init(struct player *pplayer)
       citymap[goto_dest_x(punit)][goto_dest_y(punit)] = -(punit->id);
     }
   } unit_list_iterate_end;
-}
-
-/**************************************************************************
-  Returns a positive value if within a city radius, which is 1 x number of
-  cities you are within the radius of, or zero or less if not. A negative
-  value means this tile is reserved by a city and should not be taken.
-**************************************************************************/
-int citymap_read(int x, int y)
-{
-#ifdef DEBUG
-  assert(is_normal_map_pos(x, y));
-#endif
-
-  return citymap[x][y];
-}
-
-/**************************************************************************
-  A tile is reserved if it contains a city or unit id, or a worker is
-  assigned to it.
-**************************************************************************/
-bool citymap_is_reserved(int x, int y)
-{
-  struct tile *ptile;
-
-#ifdef DEBUG
-  assert(is_normal_map_pos(x, y));
-#endif
-
-  ptile = map_get_tile(x, y);
-  if (ptile->worked || ptile->city) {
-    return TRUE;
-  }
-  return (citymap[x][y] < 0);
 }
 
 /**************************************************************************

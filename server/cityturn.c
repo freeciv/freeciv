@@ -379,7 +379,6 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
   }
 
   if (pcity->size <= pop_loss) {
-    remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
     return FALSE;
   }

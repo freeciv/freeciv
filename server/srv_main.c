@@ -97,6 +97,8 @@
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"
+#include "aisettler.h"
+#include "citymap.h"
 
 #include "srv_main.h"
 
@@ -530,7 +532,12 @@ static void end_phase(void)
   nocity_send = TRUE;
 
   /* AI end of turn activities */
+  auto_settlers_init();
   players_iterate(pplayer) {
+    if (pplayer->ai.control) {
+      ai_settler_init(pplayer);
+    }
+    auto_settlers_player(pplayer);
     if (pplayer->ai.control) {
       ai_do_last_activities(pplayer);
     }
@@ -558,10 +565,6 @@ static void end_phase(void)
 
   do_apollo_program();
   marco_polo_make_contact();
-
-  /* Moved this to after the human turn for efficiency -- Syela */
-  freelog(LOG_DEBUG, "Autosettlers");
-  auto_settlers();
 
   freelog(LOG_DEBUG, "Auto-Attack phase");
   auto_attack();

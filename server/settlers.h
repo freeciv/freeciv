@@ -19,7 +19,8 @@ struct player;
 struct unit;
 struct city;
 
-void auto_settlers(void);
+void auto_settlers_init(void);
+void auto_settlers_player(struct player *pplayer);
 int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
 #define MORT 24
@@ -28,8 +29,6 @@ int amortize(int benefit, int delay);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 
 void init_settlers(void);
-void remove_city_from_minimap(int x, int y);
-void add_city_to_minimap(int x, int y);
 void initialize_infrastructure_cache(struct player *pplayer);
 
 void contemplate_terrain_improvements(struct city *pcity);

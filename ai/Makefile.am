@@ -29,6 +29,8 @@ libcivai_a_SOURCES = \
 		aihunt.h	\
 		ailog.c		\
 		ailog.h		\
+		aisettler.c	\
+		aisettler.h	\
 		aitech.c	\
 		aitech.h	\
 		aitools.c	\

@@ -393,7 +393,6 @@ int get_food_tile(int map_x, int map_y);    /* food   on spot */
 /* city map functions */
 
 bool is_valid_city_coords(const int city_x, const int city_y);
-bool is_city_center(int city_x, int city_y);
 bool map_to_city_map(int *city_map_x, int *city_map_y,
 		    const struct city *const pcity, int map_x, int map_y);
 
@@ -523,5 +522,14 @@ int get_city_tithes_bonus(const struct city *pcity);
 
 #define built_impr_iterate_end                                                \
   } impr_type_iterate_end;
+
+/**************************************************************************
+  Return TRUE iff the given city coordinate pair is the center tile of
+  the citymap.
+**************************************************************************/
+static inline bool is_city_center(int city_x, int city_y)
+{
+  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
+}
 
 #endif  /* FC__CITY_H */

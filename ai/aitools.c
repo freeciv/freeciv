@@ -29,6 +29,7 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "citymap.h"
 #include "path_finding.h"
 #include "pf_tools.h"
 
@@ -324,7 +325,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    remove_city_from_minimap(goto_dest_x(punit), goto_dest_y(punit));
+    assert(is_normal_map_pos(goto_dest_x(punit), goto_dest_y(punit)));
+    citymap_free_city_spot(goto_dest_x(punit), goto_dest_y(punit), punit->id);
   }
 
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
@@ -359,9 +361,10 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
     ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);
   }
 
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+  /* Reserve city spot, _unless_ we want to add ourselves to a city. */
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !map_get_city(x, y)) {
     assert(is_normal_map_pos(x, y));
-    add_city_to_minimap(x, y);
+    citymap_reserve_city_spot(x, y, punit->id);
   }
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */

@@ -1105,7 +1105,6 @@ void create_city(struct player *pplayer, const int x, const int y,
   map_set_city(x, y, pcity);
 
   city_list_insert(&pplayer->cities, pcity);
-  add_city_to_minimap(x, y);
 
   /* it is possible to build a city on a tile that is already worked
    * this will displace the worker on the newly-built city's tile -- Syela */
@@ -1277,8 +1276,6 @@ void remove_city(struct city *pcity)
      alive in the client. As the number of removed cities is small the leak is
      acceptable. */
 
-/* DO NOT remove city from minimap here. -- Syela */
-  
   game_remove_city(pcity);
   map_update_borders_city_destroyed(x, y);
 
@@ -1364,7 +1361,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     gamelog(GAMELOG_LOSEC, _("%s (%s) (%i,%i) destroyed by %s"), pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
 	    get_nation_name_plural(pplayer->nation));
-    remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
     if (do_civil_war) {
       civil_war(cplayer);

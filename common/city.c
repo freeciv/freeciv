@@ -68,15 +68,6 @@ bool is_valid_city_coords(const int city_x, const int city_y)
 }
 
 /**************************************************************************
-  Return TRUE iff the given city coordinate pair is the center tile of
-  the citymap.
-**************************************************************************/
-bool is_city_center(int city_x, int city_y)
-{
-  return CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y;
-}
-
-/**************************************************************************
   Finds the city map coordinate for a given map position and a city
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/

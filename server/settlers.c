@@ -39,13 +39,12 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
+#include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "citymap.h"
 
 #include "settlers.h"
-
-/* negative: in_city_radius, 0: unassigned, positive: city_des */
-signed int *minimap;
 
 BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static nearness *territory;
@@ -54,12 +53,8 @@ static nearness *territory;
 BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
-static void auto_settler_findwork(struct player *pplayer, 
-                                  struct unit *punit);
-static void auto_settlers_player(struct player *pplayer); 
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
 				int x, int y);
-static int city_desirability(struct player *pplayer, int x, int y);
 
 /**************************************************************************
   Build a city and initialize AI infrastructure cache.
@@ -68,6 +63,11 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
   int x = punit->x, y = punit->y;
   struct city *pcity;
+
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+
+  /* Free city reservations */
+  ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
 
   handle_unit_build_city(pplayer, punit->id,
 			 city_name_suggestion(pplayer, x, y));
@@ -121,325 +121,17 @@ int amortize(int benefit, int delay)
 }
 
 /**************************************************************************
-  The minimap marks areas that are occupied by other cities, so we
-  don't settle in their area. This also include cities we plan on
-  settling.
+  Initialize the territory map. 
+
+  TODO: Add borders support.
 **************************************************************************/
 void init_settlers(void)
 {
   /* (Re)allocate map arrays.  Note that the server may run more than one
    * game so the realloc() is necessary. */
-  minimap = fc_realloc(minimap, map.xsize * map.ysize * sizeof(*minimap));
   territory = fc_realloc(territory,
-			 map.xsize * map.ysize * sizeof(*territory));
-
-  memset(minimap, 0, map.xsize * map.ysize * sizeof(*minimap));
-
-  players_iterate(pplayer) {
-    city_list_iterate(pplayer->cities, pcity) {
-      map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
-	MINIMAP(x_itr, y_itr)--;
-      } map_city_radius_iterate_end;
-    } city_list_iterate_end;
-  } players_iterate_end;
+                         map.xsize * map.ysize * sizeof(*territory));
 }
-
-/**************************************************************************
-  Remove a city from the minimap. We only do this when we become uncertain
-  if our settler will really settle there. That happens a lot, 
-  unfortunately. 
-**************************************************************************/
-void remove_city_from_minimap(int x, int y)
-{
-  freelog(LOG_DEBUG, "Removing (%d, %d) from minimap.", x, y);
-  square_iterate(x, y, CITY_MAP_SIZE-1, x1, y1) {
-    int dist = sq_map_distance(x, y, x1, y1);
-    if (dist <= CITY_MAP_SIZE) {
-      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1) + 1, 0);
-    } else if (dist <= 20) {
-      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1), 0);
-    }
-  } square_iterate_end;
-}    
-
-/**************************************************************************
-  Adds a city to the minimap. This is done when a new city is being
-  founded, and when the AI assigns a settler to build a city somewhere.
-  The minimap also caches city desirability. When the minimap position
-  is positive, it is a city want. When it is negative, there is one or
-  more cities keeping a semaphoric lock on this tile.
-**************************************************************************/
-void add_city_to_minimap(int x, int y)
-{
-  freelog(LOG_DEBUG, "Adding (%d, %d) to minimap.", x, y);
-  square_iterate(x, y, CITY_MAP_SIZE-1, x1, y1) {
-    int dist = sq_map_distance(x, y, x1, y1);
-    if (dist <= CITY_MAP_SIZE) {
-      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1) - 1, -1);
-    } else if (dist <= 20) {
-      MINIMAP(x1, y1) = MIN(MINIMAP(x1, y1), 0);
-    }
-  } square_iterate_end;
-}
-
-/**************************************************************************
-  Calculates the desire for founding a new city at (x, y). This 
-  information is cached in the minimap at (x, y) for the remainder of
-  the game. The minimap ensures that we do not build cities too close
-  to each other.
-
-  FIXME: We need to use a virtual unit here. Some defines added for
-  now.- Per
-
-  this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela
-**************************************************************************/
-static int city_desirability(struct player *pplayer, int x, int y)
-{
-#define SETTLER_COST 40
-#define SETTLER_LOSS_FACTOR 12 /* totally arbitrary Syelaism */
-#define TEMPLE_COST 40
-  int taken[CITY_MAP_SIZE][CITY_MAP_SIZE], food[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int shield[CITY_MAP_SIZE][CITY_MAP_SIZE], trade[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int irrig[CITY_MAP_SIZE][CITY_MAP_SIZE], mine[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int road[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  int cfood, n, worst, b2, best = 0, ii, jj, val, cur;
-  int a, i0, j0, temp=0, tmp=0; /* need some temp variables */
-  const bool debug = FALSE; /* turn on extra LOG_DEBUG output */
-  struct tile *ptile;
-  int continent, continent2;
-  bool harbour; /* is near ocean */
-  struct tile_type *ptype;
-  struct city *pcity;
-  int defense_bonus;
-
-  if (is_square_threatened(pplayer, x, y))
-    return 0;
-  
-  ptile = map_get_tile(x, y);
-  if (is_ocean(ptile->terrain)) {
-    return 0;
-  }
-  pcity = map_get_city(x, y);
-  if (pcity && pcity->size >= game.add_to_size_limit) return 0;
-  if (!pcity && MINIMAP(x, y) < 0) {
-    return 0;
-  }
-  if (!pcity && MINIMAP(x, y) > 0) {
-    return MINIMAP(x, y);
-  }
-
-  harbour = is_ocean_near_tile(x, y);
-
-  continent = ptile->continent;
-
-  memset(taken, 0, sizeof(taken));
-  memset(food, 0, sizeof(food));
-  memset(shield, 0, sizeof(shield));
-  memset(trade, 0, sizeof(trade));
-  memset(irrig, 0, sizeof(irrig));
-  memset(mine, 0, sizeof(mine));
-  memset(road, 0, sizeof(road));
-
-  city_map_checked_iterate(x, y, i, j, map_x, map_y) {
-    const int cshields = SHIELD_WEIGHTING * MORT;
-    const int ctrade = TRADE_WEIGHTING * MORT; 
-
-    if ((!pcity && MINIMAP(map_x, map_y) >= 0)
-	|| (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
-      ptile = map_get_tile(map_x, map_y);
-      continent2 = ptile->continent;
-      ptype = get_tile_type(ptile->terrain);
-      food[i][j] = (get_tile_food_base(ptile) - 2) * MORT;
-      if (is_city_center(i, j)) {
-	food[i][j] += 2 * MORT;
-      }
-      if (ptype->irrigation_result == ptile->terrain 
-          && continent2 == continent) {
-	if (tile_has_special(ptile, S_IRRIGATION) || is_city_center(i, j)) {
-	  irrig[i][j] = MORT * ptype->irrigation_food_incr;
-	}
-        else if (is_water_adjacent_to_tile(map_x, map_y) &&
-                 ptile->terrain != T_HILLS)
-	  irrig[i][j] = MORT * ptype->irrigation_food_incr - 9; /* KLUGE */
-/* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
-      } else if (harbour && is_ocean(ptile->terrain)) {
-	food[i][j] += MORT;
-      }
-      shield[i][j] = get_tile_shield_base(ptile) * cshields;
-      if (is_city_center(i, j) && shield[i][j] == 0) {
-	shield[i][j] = cshields;
-      }
-#if 0
-      if (harbour && is_ocean(ptile->terrain)) {
-	shield[i][j] += cshields;
-      }
-      /* above line is not sufficiently tested.  AI was building on shores, 
-       * but not as far out in the ocean as possible, which limits growth in
-       * the very long term (after SEWER).  These cities will all eventually
-       * have OFFSHORE, and I need to acknowledge that.  I probably shouldn't
-       * treat it as free, but that's the easiest, and I doubt pathological
-       * behavior will result. -- Syela */
-#endif
-      if (tile_has_special(ptile, S_MINE)) {
-	mine[i][j] = cshields * ptype->mining_shield_incr;
-      } else if (ptile->terrain == T_HILLS && continent2 == continent) {
-	mine[i][j] = cshields * ptype->mining_shield_incr - 300; /* KLUGE */
-      }
-      trade[i][j] = get_tile_trade_base(ptile) * ctrade;
-      if (ptype->road_trade_incr > 0) {
-	if (tile_has_special(ptile, S_ROAD) || is_city_center(i, j)) {
-	  road[i][j] = ctrade * ptype->road_trade_incr;
-	}
-        else if (continent2 == continent) {
-          /* KLUGE */ /* actualy exactly 70 1/2 */
-          road[i][j] = ctrade * ptype->road_trade_incr - 70; 
-        }
-      }
-      if (trade[i][j] != 0) trade[i][j] += ctrade;
-      else if (road[i][j] != 0) road[i][j] += ctrade;
-    }
-  } city_map_checked_iterate_end;
-
-  if (pcity) { /* quick-n-dirty immigration routine -- Syela */
-    n = pcity->size;
-    best = 0; ii = 0; jj = 0; /* blame -Wall -Werror for these */
-    city_map_iterate(i, j) {
-      cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
-            (shield[i][j] + mine[i][j]) +
-            (trade[i][j] + road[i][j]);
-      if (cur > best && !is_city_center(i, j)) {
-	best = cur;
-	ii = i;
-	jj = j;
-      }
-    } city_map_iterate_end;
-    if (best == 0) return(0);
-    val = (shield[ii][jj] + mine[ii][jj])
-          + (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING
-          + (trade[ii][jj] + road[ii][jj]);
-    val -= amortize(SETTLER_COST * SHIELD_WEIGHTING + (50 - 20)
-                    * FOOD_WEIGHTING, SETTLER_LOSS_FACTOR);
-    freelog(LOG_DEBUG, "Desire to add ourselves to city %s = %d -> %d",
-		  pcity->name, val, (val * 100) / MORT / 70);
-    return(val);
-  }
-
-  cfood = food[2][2] + irrig[2][2];
-  if (cfood < 2 * FOOD_WEIGHTING) {
-    /* no starving cities, thank you! -- Syela */
-    /* This used to be zero, but I increased the limit to two to avoid
-     * some common pathological behaviour. An optimal algorithm should
-     * not need such a limitation, but the algorithm used here is far
-     * from optimal, hence this hack. The problem is that the AI often
-     * builds cities that are unable to produce settlers, which is
-     * a lethal mistake. -- Per */
-    return 0;
-  }
-
-  val = cfood * FOOD_WEIGHTING + /* this needs to be here, strange as it seems */
-          (shield[2][2] + mine[2][2]) +
-          (trade[2][2] + road[2][2]);
-  taken[2][2]++;
-  /* val is mort times the real value */
-  /* treating harbor as free to approximate advantage of
-     building boats. -- Syela */
-  defense_bonus = get_tile_type(map_get_terrain(x, y))->defense_bonus;
-  if (map_has_special(x, y, S_RIVER))
-    defense_bonus += (defense_bonus * terrain_control.river_defense_bonus) / 100;
-  val += (4 * defense_bonus - SETTLER_COST) * SHIELD_WEIGHTING;
-  /* don't build cities in danger!! FIX! -- Syela */
-  val += 8 * MORT; /* one science per city */ /* FIXME: not correct - Per */
-  
-  freelog(LOG_DEBUG, "City value (%d, %d) = %d, harbour = %d, cfood = %d",
-		     x, y, val, harbour, cfood);
-
-  /* loop until size 20 virtual city */
-  for (n = 1; n <= 20 && cfood > 0; n++) {
-    int d = 0; /* i have no idea wtf this is - per */
-    for (a = 1; a > 0; a--) {
-      best = 0; worst = -1; b2 = 0; i0 = 0; j0 = 0; ii = 0; jj = 0;
-      city_map_iterate(i, j) {
-        cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
-              (shield[i][j] + mine[i][j]) +
-              (trade[i][j] + road[i][j]);
-	if (taken[i][j] == 0) {
-	  if (cur > best) {
-	    b2 = best;
-	    best = cur;
-	    ii = i;
-	    jj = j;
-	  } else if (cur > b2) {
-	    b2 = cur;
-	  }
-	} else if (!is_city_center(i, j) && (cur < worst || worst < 0)) {
-	  worst = cur;
-	  i0 = i;
-	  j0 = j;
-	}
-      } city_map_iterate_end;
-      if (best == 0) break;
-      cur = amortize((shield[ii][jj] + mine[ii][jj]) +
-            (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
-            (trade[ii][jj] + road[ii][jj]), d);
-      cfood += food[ii][jj] + irrig[ii][jj];
-      if (cur > 0) val += cur;
-      taken[ii][jj]++;
-      
-      if (debug) {
-	freelog(LOG_DEBUG,
-		"Value of (%d, %d) = %d food = %d, type = %s, n = %d, d = %d",
-		ii, jj, cur, (food[ii][jj] + irrig[ii][jj]),
-		get_tile_type(map_get_tile(x + ii - 2,
-					   y + jj - 2)->terrain)->terrain_name,
-		n, d);
-      }
-
-/* I hoped to avoid the following, but it seems I can't take ANY shortcuts
-in this unspeakable routine, so here comes even more CPU usage in order to
-get this EXACTLY right instead of just reasonably close. -- Syela */
-      if (worst < b2 && worst >= 0) {
-        cur = amortize((shield[i0][j0] + mine[i0][j0]) +
-              (trade[i0][j0] + road[i0][j0]), d);
-        cfood -= (food[i0][j0] + irrig[i0][j0]);
-        val -= cur;
-        taken[i0][j0]--;
-        a++;
-	
-	if (debug) {
-	  freelog(LOG_DEBUG, "REJECTING Value of (%d, %d) = %d"
-		  " food = %d, type = %s, n = %d, d = %d",
-		  i0, j0, cur, (food[i0][j0] + irrig[i0][j0]),
-		  get_tile_type(map_get_tile(x + i0 - 2,
-					     y + j0 - 2)->terrain)->terrain_name,
-		  n, d);
-	}
-      }
-    }
-    if (best == 0) break;
-    if (cfood > 0) d += (game.foodbox * MORT * n + cfood - 1) / cfood;
-    if (n == 4) {
-      val -= amortize(SETTLER_COST * SHIELD_WEIGHTING + (50 - 20) * 
-                      FOOD_WEIGHTING, d); /* settlers */
-      temp = amortize(TEMPLE_COST * SHIELD_WEIGHTING, d); /* temple */
-      tmp = val;
-    }
-  }
-  if (n > 4) {
-    if (val - temp > tmp) val -= temp;
-    else val = tmp;
-  }
-  val -= 110 * SHIELD_WEIGHTING; /* WAG: walls, defenders */
-  MINIMAP(x, y) = val;
-
-  if (debug) {
-    freelog(LOG_DEBUG, "Total value of (%d, %d) [%d workers] = %d",
-	    x, y, n, val);
-  }
-  return(val);
-}
-#undef TEMPLE_COST
-#undef SETTLER_COST
-#undef SETTLER_LOSS_FACTOR
 
 /**************************************************************************
   Manages settlers.
@@ -1128,160 +820,6 @@ static int unit_food_upkeep(struct unit *punit)
 }
 
 /**************************************************************************
-Evaluates all squares within 11 squares of the settler for city building.
-
-best_newv is the current best activity value for the settler.
-best_act is the activity of the best value. gx, gy is where the activity
-takes place.
-If this function finds a better alternative it will modify these values.
-
-ferryboat is a ferryboat the unit can use to go to the tile with value
-best_newv.
-if gx is -1 and the return value is != 0 then we want to go to another
-continent, but need to build a ferryboat first.
-**************************************************************************/
-static int evaluate_city_building(struct unit *punit,
-				  int *gx, int *gy,
-				  struct unit **ferryboat)
-{
-  struct city *mycity = map_get_city(punit->x, punit->y);
-  int best_newv = 0, best_moves = 0;
-  struct player *pplayer = unit_owner(punit);
-  bool nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
-  int ucont              = map_get_continent(punit->x, punit->y);
-  int mv_rate            = unit_type(punit)->move_rate;
-  int food_upkeep        = unit_food_upkeep(punit);
-  int food_cost          = unit_foodbox_cost(punit);
-
-  int boatid, bx = 0, by = 0;	/* as returned by find_boat */
-  enemy_mask my_enemies = enemies[pplayer->player_no]; /* optimalization */
-
-  if (pplayer->ai.control)
-    boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for bodyguard */
-  else
-    boatid = 0;
-  *ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid);
-  if (*ferryboat)
-    really_generate_warmap(mycity, *ferryboat, SEA_MOVING);
-
-  generate_warmap(mycity, punit);
-
-  /* A default, and also resets minimap if we reserved it previously */
-  ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, -1, -1);
-
- /* hope 11 is far enough -- Syela */
-  square_iterate(punit->x, punit->y, 11, x, y) {
-    int near = real_map_distance(punit->x, punit->y, x, y);
-    bool w_virtual = FALSE;	/* I'm no entirely sure what this is --dwp */
-    int b, mv_cost, newv, moves = 0;
-
-    if (!is_already_assigned(punit, pplayer, x, y)
-	&& city_can_be_built_here(x, y, punit)
-	&& !BV_CHECK_MASK(TERRITORY(x, y), my_enemies)
-	/* pretty good, hope it's enough! -- Syela */
-	&& (near < 8 || map_get_continent(x, y) != ucont)
-	&& !city_exists_within_city_radius(x, y, FALSE)) {
-
-      /* potential target, calculate mv_cost: */
-      if (*ferryboat) {
-	/* already aboard ship, can use real warmap */
-	if (!is_ocean_near_tile(x, y)) {
-	  mv_cost = 9999;
-	} else {
-	  mv_cost = WARMAP_SEACOST(x, y) * mv_rate /
-	      unit_type(*ferryboat)->move_rate;
-	}
-      } else if (!goto_is_sane(punit, x, y, TRUE) ||
-		 WARMAP_COST(x, y) > THRESHOLD * mv_rate) {
-	/* for Rome->Carthage */
-	if (!is_ocean_near_tile(x, y)) {
-	  mv_cost = 9999;
-	} else if (boatid != 0) {
-	  if (punit->id == 0 && mycity->id == boatid) {
-	    w_virtual = TRUE;
-	  }
-	  mv_cost = WARMAP_COST(bx, by) + real_map_distance(bx, by, x, y)
-	    + mv_rate; 
-	} else if (punit->id != 0 ||
-		   !is_ocean_near_tile(mycity->x, mycity->y)) {
-	  mv_cost = 9999;
-	} else {
-	  mv_cost = WARMAP_SEACOST(x, y) * mv_rate / 9;
-	  /* this should be fresh; the only thing that could have
-	     munged the seacost is the ferryboat code in
-	     k_s_w/f_s_t_k, but only if find_boat succeeded */
-	  w_virtual = TRUE;
-	}
-      } else {
-	mv_cost = WARMAP_COST(x, y);
-      }
-      moves = mv_cost / mv_rate;
-      /* without this, the computer will go 6-7 tiles from X to
-	 build a city at Y */
-      moves *= 2;
-      /* and then build its NEXT city halfway between X and Y. -- Syela */
-      b = city_desirability(pplayer, x, y);
-      newv = amortize(b, moves);
-
-      b = (food_upkeep * FOOD_WEIGHTING) * MORT;
-      if (map_get_continent(x, y) != ucont) {
-        b += SHIELD_WEIGHTING * MORT;
-      }
-      newv -= (b - amortize(b, moves));
-      /* deal with danger Real Soon Now! -- Syela */
-      /* newv is now the value over mort turns */
-      newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
-
-      /* I added a line to discourage settling in existing cities, but it was
-	 inadequate.  It may be true that in the short-term building infrastructure
-	 on tiles that won't be worked for ages is not as useful as helping other
-	 cities grow and then building engineers later, but this is short-sighted.
-	 There was also a problem with workers suddenly coming onto unimproved tiles,
-	 either through city growth or de-elvisization, settlers being built and
-	 improving those tiles, and then immigrating shortly thereafter. -- Syela
-      */
-      if (best_newv != 0 && map_get_city(x, y)) newv = 0;
-	  
-      if (newv>0 && pplayer->ai.expand!=100) {
-	newv = (newv * pplayer->ai.expand) / 100;
-      }
-
-#ifdef REALLY_DEBUG_THIS
-      if (w_virtual) {
-	freelog(LOG_DEBUG, "%s: best_newv = %d, w_virtual = 1, newv = %d",
-		mycity->name, best_newv, newv);
-      }
-#endif
-
-      if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
-#ifdef REALLY_DEBUG_THIS
-	freelog(LOG_DEBUG,
-		"%s (%d, %d) rejected city at (%d, %d) to %d, newv = %d, moves = %d" \
-                " (too far for trireme)",
-		(punit->id != 0 ? unit_type(punit)->name : mycity->name), 
-		punit->x, punit->y, x, y, b, newv, moves);
-#endif
-      } else if (newv > best_newv) {
-	best_newv = newv;
-	best_moves = moves;
-	if (w_virtual) {
-	  *gx = -1; *gy = -1;
-	} else {
-	  *gx = x; *gy = y;
-	}
-      }
-    }
-  } square_iterate_end;
-
-  freelog(LOG_DEBUG,
-	"%s %d(%d, %d) wants city at (%d, %d) with want %d, distance %d moves",
-	(punit->id != 0 ? unit_type(punit)->name : mycity->name), 
-	(punit->id != 0 ? punit->id : mycity->id), 
-	punit->x, punit->y, *gx, *gy, best_newv, best_moves);
-  return best_newv;
-}
-
-/**************************************************************************
 Finds tiles to improve, using punit.
 How nice a tile it finds is returned. If it returns >0 gx,gy indicates the
 tile it has chosen, and bestact indicates the activity it wants to do.
@@ -1434,79 +972,129 @@ static int evaluate_improvements(struct unit *punit,
 }
 
 /**************************************************************************
-  find some work for the settler
+  Find some work for our settlers and/or workers.
 **************************************************************************/
+#define LOG_SETTLER LOG_DEBUG
 static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
-  int gx = -1, gy = -1;		/* x,y of target (goto) square */
-  int best_newv = 0;		/* newv of best target so far, all cities */
-  enum unit_activity best_act = ACTIVITY_IDLE; /* act. of best target so far */
-  struct unit *ferryboat = NULL; /* if non-null, boatid boat at unit's x,y */
+  struct cityresult result;
+  int best_impr = 0;            /* best terrain improvement we can do */
+  enum unit_activity best_act = ACTIVITY_IDLE; /* compat. kludge */
+  int gx = -1, gy = -1;
+  struct ai_data *ai = ai_data_get(pplayer);
 
-  /* First find the best square to upgrade,
-   * results in: gx, gy, best_newv, best_act */  
-  if (unit_flag(punit, F_SETTLERS)) {
-    best_newv = evaluate_improvements(punit, &best_act, &gx, &gy);
-  }
+  CHECK_UNIT(punit);
 
-  /* Found the best square to upgrade, have gx, gy, best_newv, best_act */
+  result.total = 0;
+  result.result = 0;
 
-  /* Decide whether to build a new city:
-   * if so, modify: gx, gy, best_newv, best_act
-   */
-  if (unit_flag(punit, F_CITIES) &&
-      pplayer->ai.control) {
-    int nx, ny;
-    int want = evaluate_city_building(punit, &nx, &ny, &ferryboat);
+  assert(pplayer && punit);
+  assert(unit_flag(punit, F_CITIES) || unit_flag(punit, F_SETTLERS));
 
-    if (want > best_newv) {
-      best_newv = want;
-      best_act = ACTIVITY_UNKNOWN;
-      gx = nx;
-      gy = ny;
+  /*** If we are on a city mission: Go where we should ***/
+
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+    int x = goto_dest_x(punit), y = goto_dest_y(punit), sanity = punit->id;
+
+    /* Check that missions is still possible */
+    if (!city_can_be_built_here(x, y, punit)) {
+      UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+      return; /* avoid recursion at all cost */
+    } else {
+      /* Go there */
+      if ((!ai_gothere(pplayer, punit, x, y) && !find_unit_by_id(sanity))
+          || punit->moves_left <= 0) {
+        return;
+      }
+      if (same_pos(punit->x, punit->y, x, y)) {
+        if (!ai_do_build_city(pplayer, punit)) {
+          UNIT_LOG(LOG_ERROR, punit, "could not make city on %s",
+                   map_get_tile_info_text(punit->x, punit->y));
+          ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+        } else {
+          return; /* We came, we saw, we built... */
+        }
+      } else {
+        UNIT_LOG(LOG_SETTLER, punit, "could not go to target");
+        /* ai_unit_new_role(punit, AIUNIT_NONE, -1, -1); */
+        return;
+      }
     }
   }
 
-  /* Mark the square as taken. */
-  if (gx != -1 && gy != -1) {
-    map_get_tile(gx, gy)->assigned =
-      map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
-  } else {
-    /* This line makes non-AI autosettlers go off auto when they run
-       out of squares to improve. I would like keep them on, prepared for
-       future pollution and warming, but there wasn't consensus to do so. */
-    punit->ai.control = FALSE;
-    return;
+  CHECK_UNIT(punit);
+
+  /*** Try find some work ***/
+
+  if (unit_flag(punit, F_SETTLERS)) {
+    best_impr = evaluate_improvements(punit, &best_act, &gx, &gy);
   }
 
-  /* If we intent on building a city then reserve the square. */
-  if (unit_flag(punit, F_CITIES) &&
-      best_act == ACTIVITY_UNKNOWN /* flag */) {
-    ai_unit_new_role(punit, AIUNIT_BUILD_CITY, gx, gy);
+  if (unit_flag(punit, F_CITIES)) {
+    find_best_city_placement(punit, &result, TRUE, FALSE);
+    UNIT_LOG(LOG_SETTLER, punit, "city want %d (impr want %d)", result.result,
+             best_impr);
+    if (result.result > best_impr) {
+      if (map_get_city(result.x, result.y)) {
+        UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 
+                 map_get_city(result.x, result.y), result.x, result.y);
+      } else {
+        UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
+                 result.x, result.y);
+        if (punit->debug) {
+          print_cityresult(pplayer, &result, ai);
+        }
+      }
+      /* Go make a city! */
+      ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.x, result.y);
+      /* Reserve best other tile */
+      citymap_reserve_tile(result.other_x, result.other_y, punit->id);
+      set_goto_dest(punit, result.x, result.y); /* TMP */
+    } else if (best_impr > 0) {
+      UNIT_LOG(LOG_SETTLER, punit, "improves terrain instead of founding");
+      /* Terrain improvements follows the old model, and is recalculated
+       * each turn. */
+      ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
+    } else {
+      UNIT_LOG(LOG_SETTLER, punit, "cannot find work");
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+      return;
+    }
   } else {
+    /* We are a worker or engineer */
     ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
   }
 
-  /* We've now worked out what to do; go to it! */
-  if (!ai_gothere(pplayer, punit, gx, gy)) {
-    /* Died or got stuck */
-    return;
-  }
-
-  /* If we are at the destination then do the activity. */
-  if (punit->moves_left > 0
-      && same_pos(gx, gy, punit->x, punit->y)) {
-    if (best_act == ACTIVITY_UNKNOWN) {
-      remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
-      (void) ai_do_build_city(pplayer, punit);
+  /* Run the "autosettler" program */
+  if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
+    /* Mark the square as taken. */
+    if (gx != -1 && gy != -1) {
+      map_get_tile(gx, gy)->assigned =
+        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+    } else {
+      UNIT_LOG(LOG_NORMAL, punit, "giving up trying to improve terrain");
+      return; /* We cannot do anything */
+    }
+    set_goto_dest(punit, gx, gy); /* TMP */
+    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
       return;
     }
-    handle_unit_activity_request(punit, best_act);
-    send_unit_info(NULL, punit);
-    return;
+    if (punit->moves_left > 0
+        && same_pos(gx, gy, punit->x, punit->y)) {
+      handle_unit_activity_request(punit, best_act);
+      send_unit_info(NULL, punit);
+      return;
+    }
+  }
+
+  /*** Recurse if we want to found a city ***/
+
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+    auto_settler_findwork(pplayer, punit);
   }
 }
+#undef LOG_SETTLER
 
 /**************************************************************************
   Do all tile improvement calculations and cache them for later.
@@ -1555,14 +1143,19 @@ void initialize_infrastructure_cache(struct player *pplayer)
 }
 
 /************************************************************************** 
-  run through all the players settlers and let those on ai.control work 
-  automagically
+  Run through all the players settlers and let those on ai.control work 
+  automagically.
 **************************************************************************/
-static void auto_settlers_player(struct player *pplayer) 
+void auto_settlers_player(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
+
+  if (pplayer->ai.control && ai_handicap(pplayer, H_EXPERIMENTAL)) {
+    /* Set up our city map. */
+    citymap_turn_init(pplayer);
+  }
 
   /* Initialize the infrastructure cache, which is used shortly. */
   initialize_infrastructure_cache(pplayer);
@@ -1590,9 +1183,8 @@ static void auto_settlers_player(struct player *pplayer)
         handle_unit_activity_request(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_IDLE) {
-	auto_settler_findwork(pplayer, punit);
+        auto_settler_findwork(pplayer, punit);
       }
-      freelog(LOG_DEBUG, "Has been processed.");
     }
   }
   unit_list_iterate_end;
@@ -1711,7 +1303,6 @@ static void assign_territory(void)
    */
 }  
 
-
 /**************************************************************************
   Recalculate enemies[] table
 **************************************************************************/
@@ -1727,9 +1318,9 @@ static void recount_enemy_masks(void)
 }
 
 /**************************************************************************
-  Do the auto_settler stuff for all the players. 
+  Initialize autosettler code.
 **************************************************************************/
-void auto_settlers(void)
+void auto_settlers_init(void)
 {
   assign_settlers();
   assign_territory();
@@ -1740,16 +1331,13 @@ void auto_settlers(void)
 }
 
 /**************************************************************************
-used to use old crappy formulas for settler want, but now using actual
-want!
+  Return want for city settler. Note that we rely here on the fact that
+  ai_settler_init() has been run while doing autosettlers.
 **************************************************************************/
 void contemplate_new_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit *virtualunit;
-  int want;
-  int gx = 0, gy = 0;
-  struct unit *ferryboat = NULL; /* dummy */
   Unit_Type_id unit_type = best_role_unit(pcity, F_CITIES); 
 
   if (unit_type == U_LAST) {
@@ -1761,24 +1349,26 @@ void contemplate_new_city(struct city *pcity)
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->x = pcity->x;
   virtualunit->y = pcity->y;
-  want = evaluate_city_building(virtualunit, &gx, &gy, &ferryboat);
-  free(virtualunit);
 
-  unit_list_iterate(pplayer->units, qpass) {
-    /* We want a ferryboat with want 199 */
-    if (qpass->ai.ferryboat == pcity->id)
-      want = -199;
-  } unit_list_iterate_end;
+  assert(pplayer->ai.control);
 
-  /* Did we count on using an existing boat.  If yes we need to keep it
-   * in the city. */
-  pcity->ai.founder_boat = (ferryboat != NULL);
+  if (pplayer->ai.control) {
+    struct cityresult result;
+    bool is_coastal = is_ocean_near_tile(pcity->x, pcity->y);
 
-  if (gx == -1) {
-    pcity->ai.founder_want = -want;
-  } else {
-    pcity->ai.founder_want = want; /* boat */
+    find_best_city_placement(virtualunit, &result, is_coastal, is_coastal);
+
+    CITY_LOG(LOG_DEBUG, pcity, "want(%d) to establish city at"
+	     " (%d, %d) and will %s to get there", result.result, 
+	     result.x, result.y, 
+	     (result.virt_boat ? "build a boat" : 
+	      (result.overseas ? "use a boat" : "walk")));
+
+    pcity->ai.founder_want = (result.virt_boat ? 
+			      -result.result : result.result);
+    pcity->ai.founder_boat = result.overseas;
   }
+  free(virtualunit);
 }
 
 /**************************************************************************
