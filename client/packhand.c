@@ -353,6 +353,8 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->changed_from_id=packet->changed_from_id;
   pcity->changed_from_is_unit=packet->changed_from_is_unit;
   pcity->before_change_shields=packet->before_change_shields;
+  pcity->disbanded_shields=packet->disbanded_shields;
+  pcity->caravan_shields=packet->caravan_shields;
 
   i=0;
   for(y=0; y<CITY_MAP_SIZE; y++) {

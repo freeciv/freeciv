@@ -395,10 +395,8 @@ static void ai_new_spend_gold(struct player *pplayer)
 		   unit_types[bestchoice.choice].name);
               notify_player(pplayer, _("Game: %s disbanded in %s."),
 			    unit_types[punit->type].name, pcity->name);
-	      /* FIXME: should be handled in server... */
-              pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
-              send_city_info(pplayer, pcity);
-              wipe_unit_safe(punit, &myiter);
+
+              do_unit_disband_safe(pcity, punit, &myiter);
             }
           }
         }

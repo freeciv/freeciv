@@ -272,6 +272,9 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   pplayer->economic.gold-=cost;
   if (pcity->shield_stock < total){
+    /* As we never put penalty on disbanded_shields, we can
+     * fully well add the missing shields there. */
+    pcity->disbanded_shields += total - pcity->shield_stock;
     pcity->shield_stock=total; /* AI wants this -- Syela */
     pcity->did_buy=1; /* !PS: no need to set buy flag otherwise */
   }

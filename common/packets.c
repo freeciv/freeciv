@@ -2248,6 +2248,11 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
   cptr=put_uint16(cptr, req->before_change_shields);
 }
 
+if (pc && has_capability("production_change_fix2", pc->capability)) {
+  cptr=put_uint16(cptr, req->disbanded_shields);
+  cptr=put_uint16(cptr, req->caravan_shields);
+}
+
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
   cptr=put_worklist(cptr, &req->worklist, pc, 1);
@@ -2349,6 +2354,14 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
   packet->turn_changed_target = GAME_START_YEAR;
   packet->changed_from_id = packet->currently_building;
   packet->before_change_shields = packet->shield_stock;
+}
+
+if (pc && has_capability("production_change_fix2", pc->capability)) {
+  iget_uint16(&iter, &packet->disbanded_shields);
+  iget_uint16(&iter, &packet->caravan_shields);
+} else {
+  packet->disbanded_shields = 0;
+  packet->caravan_shields = 0;
 }
 
 /* when removing "worklist_true_ids" capability,

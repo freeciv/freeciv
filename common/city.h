@@ -23,6 +23,9 @@ struct player;
 struct government;
 struct tile;
 
+enum production_class_type {
+  TYPE_UNIT, TYPE_NORMAL_IMPROVEMENT, TYPE_WONDER
+};
 
 enum specialist_type {
   SP_ELVIS, SP_SCIENTIST, SP_TAXMAN
@@ -215,6 +218,8 @@ struct city {
   int turn_changed_target;    /* Suffer shield loss at most once per turn */
   int changed_from_id;	      /* If changed this turn, what changed from (id) */
   int changed_from_is_unit;   /* If changed this turn, what changed from (unit?) */
+  int disbanded_shields;      /* If you disband unit in a city. Count them */
+  int caravan_shields;        /* If caravan has helped city to build wonder. */
   int before_change_shields;  /* If changed this turn, shields before penalty */
   int anarchy;		      /* anarchy rounds count */ 
   int rapture;                /* rapture rounds count */ 

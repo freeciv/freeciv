@@ -81,8 +81,9 @@ static void sanity_check_city(struct city *pcity);
 
 static void disband_city(struct city *pcity);
 
-static void begin_city_turn(struct player *pplayer, struct city *pcity);
+static void define_orig_production_values(struct city *pcity);
 static int update_city_activity(struct player *pplayer, struct city *pcity);
+static void nullify_caravan_and_disband_plus(struct city *pcity);
 
 static void worker_loop(struct city *pcity, int *foodneed,
 			int *prodneed, int *workers);
@@ -835,7 +836,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 void begin_cities_turn(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity)
-     begin_city_turn(pplayer, pcity);
+     define_orig_production_values(pcity);
   city_list_iterate_end;
 }
 
@@ -1307,10 +1308,15 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     unit_list_iterate_end;
   }
 
+  /* Now we confirm changes made last turn. */
   pcity->shield_stock+=pcity->shield_surplus;
+  pcity->before_change_shields=pcity->shield_stock;
+  nullify_caravan_and_disband_plus(pcity);
+
   if (!pcity->is_building_unit) {
     if (pcity->currently_building==B_CAPITAL) {
       pplayer->economic.gold+=pcity->shield_surplus;
+      pcity->before_change_shields=0;
       pcity->shield_stock=0;
     }    
     upgrade_building_prod(pcity);
@@ -1341,7 +1347,9 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	space_part = 0;
 	pcity->improvements[pcity->currently_building]=1;
       }
-      pcity->shield_stock-=improvement_value(pcity->currently_building); 
+      pcity->before_change_shields-=
+			  improvement_value(pcity->currently_building); 
+      pcity->shield_stock-=improvement_value(pcity->currently_building);
       pcity->turn_last_built = game.year;
       /* to eliminate micromanagement */
       if(is_wonder(pcity->currently_building)) {
@@ -1398,7 +1406,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
       }
     } 
-  } else {
+  } else { /* is_building_unit */
     city_built_city_builder = 0;
 
     upgrade_unit_prod(pcity);
@@ -1406,7 +1414,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     /* FIXME: F_CITIES should be changed to any unit
      * that 'contains' 1 (or more) pop -- sjolie
      */
-    if(pcity->shield_stock>=unit_value(pcity->currently_building)) {
+    if (pcity->shield_stock>=unit_value(pcity->currently_building)) {
       if (unit_flag(pcity->currently_building, F_CITIES)) {
 	if (pcity->size==1) {
 
@@ -1432,7 +1440,8 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 		  do_make_unit_veteran(pcity, pcity->currently_building), 
 		  pcity->id, -1);
       /* to eliminate micromanagement, we only subtract the unit's cost */
-      pcity->shield_stock-=unit_value(pcity->currently_building); 
+      pcity->before_change_shields-=unit_value(pcity->currently_building); 
+      pcity->shield_stock-=unit_value(pcity->currently_building);
 
       if (city_built_city_builder) {
 	pcity->size--;
@@ -1450,15 +1459,14 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       worklist_change_build_target(pplayer, pcity);
 
 
-    gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
-	    get_nation_name_plural(pplayer->nation), 
-	    unit_types[pcity->currently_building].name,
-	    pcity->name, pcity->x, pcity->y);
-
-
+      gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
+	      get_nation_name_plural(pplayer->nation), 
+	      unit_types[pcity->currently_building].name,
+	      pcity->name, pcity->x, pcity->y);
     }
   }
-return 1;
+
+  return 1;
 }
 
 /**************************************************************************
@@ -1712,13 +1720,13 @@ void city_incite_cost(struct city *pcity)
 /**************************************************************************
  Called every turn, at beginning of turn, for every city.
 **************************************************************************/
-static void begin_city_turn(struct player *pplayer, struct city *pcity)
+static void define_orig_production_values(struct city *pcity)
 {
   /* remember what this city is building at start of turn,
      so user can switch production back without penalty */
   pcity->changed_from_id = pcity->currently_building;
   pcity->changed_from_is_unit = pcity->is_building_unit;
-  pcity->before_change_shields = pcity->shield_stock;
+
   freelog(LOG_DEBUG,
 	  "In %s, building %s.  Beg of Turn shields = %d",
 	  pcity->name,
@@ -1727,6 +1735,24 @@ static void begin_city_turn(struct player *pplayer, struct city *pcity)
 	    improvement_types[pcity->changed_from_id].name,
 	  pcity->before_change_shields
 	  );
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void nullify_caravan_and_disband_plus(struct city *pcity)
+{
+  pcity->disbanded_shields=0;
+  pcity->caravan_shields=0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void nullify_prechange_production(struct city *pcity)
+{
+  nullify_caravan_and_disband_plus(pcity);
+  pcity->before_change_shields=0;
 }
 
 /**************************************************************************

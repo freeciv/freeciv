@@ -332,6 +332,27 @@ void handle_unit_change_homecity(struct player *pplayer,
   Disband a unit.  If its in a city, add 1/2 of the worth of the unit
   to the city's shield stock for the current production.
   "iter" may be NULL, see wipe_unit_safe for details.
+  NOTE: AI calls do_unit_disband_safe directly, but player calls
+  of course handle_unit_disband_safe
+**************************************************************************/
+void do_unit_disband_safe(struct city *pcity, struct unit *punit,
+			  struct genlist_iterator *iter)
+{
+  if (pcity) {
+    pcity->shield_stock += (get_unit_type(punit->type)->build_cost/2);
+    /* If we change production later at this turn. No penalty is added. */
+    pcity->disbanded_shields += (get_unit_type(punit->type)->build_cost/2);
+
+    /* Note: Nowadays it's possible to disband unit in allied city and
+     * your ally receives those shields. Should it be like this? Why not?
+     * That's why we must use city_owner instead of pplayer -- Zamar */
+    send_city_info(city_owner(pcity), pcity);
+  }
+  wipe_unit_safe(punit, iter);
+}
+
+/**************************************************************************
+...
 **************************************************************************/
 void handle_unit_disband_safe(struct player *pplayer, 
 			      struct packet_unit_request *req,
@@ -339,12 +360,9 @@ void handle_unit_disband_safe(struct player *pplayer,
 {
   struct unit *punit;
   struct city *pcity;
-  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
-    if ((pcity=map_get_city(punit->x, punit->y))) {
-      pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
-      send_city_info(pplayer, pcity);
-    }
-    wipe_unit_safe(punit, iter);
+  if ((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
+    pcity=map_get_city(punit->x, punit->y);
+    do_unit_disband_safe(pcity, punit, iter);
   }
 }
 
@@ -1129,11 +1147,9 @@ void handle_unit_help_build_wonder(struct player *pplayer,
     return;
 
   /* we're there! */
-
-  pcity_dest->shield_stock+=50;
-  if (build_points_left(pcity_dest) < 0) {
-    pcity_dest->shield_stock = improvement_value(pcity_dest->currently_building);
-  }
+  /* FIXME: use caravan cost */
+  pcity_dest->shield_stock += 50;
+  pcity_dest->caravan_shields += 50; /*If we change production we don't lose them*/
 
   conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,

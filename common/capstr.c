@@ -74,7 +74,7 @@ const char * const our_capability = our_capability_internal;
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
 " event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
 " indef_impr_types worklist_true_ids shared_vision activity_patrol" \
-" gen_granary_size happiness_display"
+" gen_granary_size happiness_display production_change_fix2"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -138,6 +138,10 @@ const char * const our_capability = our_capability_internal;
    breakdown of a city's happiness components.  Previously, only 
    ppl_happy[4] etc. were sent to the client.  Now all components have 
    to be sent.
+
+   "production_change_fix2" is various fixes to lost/regained shield when
+   changing production. (and sending disbanded_shields and caravan_shields
+   over the connection.)
 */
 
 void init_our_capability(void)

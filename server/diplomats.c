@@ -802,6 +802,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		    pcity->name, get_nation_name (pplayer->nation));
 
   pcity->shield_stock = 0;
+  nullify_prechange_production(pcity);
 
   /* You get a technology advance, too! */
   get_a_tech (pplayer, cplayer);
@@ -983,6 +984,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     pcity->shield_stock = 0;
+    nullify_prechange_production(pcity); /* Make it impossible to recover */
+
     /* Report it. */
     if (pcity->is_building_unit)
       prod = unit_name (pcity->currently_building);

@@ -346,6 +346,8 @@ struct packet_city_info {
   int changed_from_id;
   int changed_from_is_unit;
   int before_change_shields;
+  int disbanded_shields;
+  int caravan_shields;
 
   struct worklist worklist;
 

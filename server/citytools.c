@@ -820,7 +820,7 @@ static void raze_city(struct city *pcity)
       pcity->improvements[i]=0;
     }
   }
-  pcity->before_change_shields = 0;
+  nullify_prechange_production(pcity);
   pcity->shield_stock = 0;
 }
 
@@ -1027,6 +1027,8 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->changed_from_id = 0;
   pcity->changed_from_is_unit = 0;
   pcity->before_change_shields = 0;
+  pcity->disbanded_shields = 0;
+  pcity->caravan_shields = 0;
   pcity->anarchy=0;
   pcity->rapture=0;
 
@@ -1503,6 +1505,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->changed_from_id=pcity->changed_from_id;
   packet->changed_from_is_unit=pcity->changed_from_is_unit;
   packet->before_change_shields=pcity->before_change_shields;
+  packet->disbanded_shields=pcity->disbanded_shields;
+  packet->caravan_shields=pcity->caravan_shields;
 
   copy_worklist(&packet->worklist, pcity->worklist);
   packet->diplomat_investigate=dipl_invest;

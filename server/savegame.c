@@ -775,6 +775,12 @@ static void player_load(struct player *plr, int plrno,
     pcity->before_change_shields=
       secfile_lookup_int_default(file, pcity->shield_stock,
 				 "player%d.c%d.before_change_shields", plrno, i);
+    pcity->disbanded_shields=
+      secfile_lookup_int_default(file, 0,
+				 "player%d.c%d.disbanded_shields", plrno, i);
+    pcity->caravan_shields=
+      secfile_lookup_int_default(file, 0,
+				 "player%d.c%d.caravan_shields", plrno, i);
 
     pcity->did_buy=secfile_lookup_int(file,
 				      "player%d.c%d.did_buy", plrno,i);
@@ -1417,6 +1423,11 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
     secfile_insert_int(file, pcity->before_change_shields,
 		       "player%d.c%d.before_change_shields", plrno, i);
+    secfile_insert_int(file, pcity->disbanded_shields,
+		       "player%d.c%d.disbanded_shields", plrno, i);
+    secfile_insert_int(file, pcity->caravan_shields,
+		       "player%d.c%d.caravan_shields", plrno, i);
+
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
     secfile_insert_int(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);

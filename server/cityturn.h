@@ -37,4 +37,5 @@ void city_incite_cost(struct city *pcity);
 void remove_obsolete_buildings_city(struct city *pcity, int refresh);
 void remove_obsolete_buildings(struct player *plr);
 
+void nullify_prechange_production(struct city *pcity);
 #endif  /* FC__CITYTURN_H */

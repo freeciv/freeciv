@@ -1056,91 +1056,53 @@ int get_style_by_name(char *style_name)
 int city_change_production_penalty(struct city *pcity,
 				   int target, int is_unit, int apply_it)
 {
-  int shield_stock_after_adjustment = pcity->shield_stock;
+  int shield_stock_after_adjustment;
+  enum production_class_type orig_class;
+  enum production_class_type new_class;
+  int put_penalty; /* boolean */
 
-  freelog(LOG_DEBUG, "compute change-production penalty: %s -> %s",
-	  pcity->is_building_unit ?
-	    unit_types[pcity->currently_building].name :
-	    improvement_types[pcity->currently_building].name,
-	  is_unit ?
-	    unit_types[target].name :
-	    improvement_types[target].name
-	  );
-  freelog(LOG_DEBUG,
-	  "before: (stock=%d last/test=%d/%d changed=%d year=%d orig: %d %s)",
-	  pcity->shield_stock,
-	  pcity->turn_last_built, game_next_year(pcity->turn_last_built),
-	  pcity->turn_changed_target, game.year,
-	  pcity->before_change_shields,
-	  pcity->changed_from_is_unit ?
-	    unit_types[pcity->changed_from_id].name :
-	    improvement_types[pcity->changed_from_id].name
-	  );
+  if (pcity->changed_from_is_unit)
+    orig_class=TYPE_UNIT;
+  else if (is_wonder(pcity->changed_from_id))
+    orig_class=TYPE_WONDER;
+  else
+    orig_class=TYPE_NORMAL_IMPROVEMENT;
 
-  /* If already building this thing, nothing to do... */
-  if ((pcity->is_building_unit == is_unit) &&
-      (pcity->currently_building == target)) {
-    freelog(LOG_DEBUG, "...did not change production; do nothing");
-    return shield_stock_after_adjustment;
-  }
+  if (is_unit)
+    new_class=TYPE_UNIT;
+  else if (is_wonder(target))
+    new_class=TYPE_WONDER;
+  else
+    new_class=TYPE_NORMAL_IMPROVEMENT;
 
-  /* We're changing production... */
-  if (((pcity->is_building_unit != is_unit) ||
-       (!is_unit &&
-	(is_wonder(pcity->currently_building) != is_wonder(target)))) &&
-      (game_next_year(pcity->turn_last_built) < game.year)) {
-    /* We've changed "class", and it's not the turn immed after completion. */
-    freelog(LOG_DEBUG, "...changed prod class in latter year");
-    if (pcity->turn_changed_target != game.year) {
-      /* This is the first change this turn... */
-      freelog(LOG_DEBUG, "   ...first change this year; penalty");
-      /* Compute new shield_stock after production penalty. */
-      shield_stock_after_adjustment /= 2;
-      /* Only if really applying the penalty... */
-      if (apply_it) {
-	/* Apply the penalty. */
-	pcity->shield_stock = shield_stock_after_adjustment;
-	/* Only set turn_changed_target when we actually cop the penalty -
-	   otherwise you can change to something of the same class first,
-	   and suffer no penalty for any later changes in the same turn. */
-	pcity->turn_changed_target = game.year;
-      }
-    } else if ((pcity->changed_from_is_unit == is_unit) &&
-	       (is_unit ||
-		(is_wonder(pcity->changed_from_id) == is_wonder(target)))) {
-      /* This is a change back to the initial production class... */
-      freelog(LOG_DEBUG, "   ...revert to initial production class");
-      /* Compute new shield_stock after reverting penalty. */
-      shield_stock_after_adjustment = pcity->before_change_shields;
-      /* Only if really applying the penalty... */
-      if (apply_it) {
-	/* Undo penalty. */
-	pcity->shield_stock = shield_stock_after_adjustment;
-	/* Pretend we havn't changed this turn. */
-	pcity->turn_changed_target = GAME_START_YEAR;
-      }
-#ifdef DEBUG
+  put_penalty = (orig_class != new_class &&
+                 game_next_year(pcity->turn_last_built) < game.year)? 1 : 0;
+
+  if (put_penalty)
+    shield_stock_after_adjustment = pcity->before_change_shields/2;
+  else
+    shield_stock_after_adjustment = pcity->before_change_shields;
+
+  /* Do not put penalty on these. It shouldn't matter whether you disband unit
+     before or after changing production...*/
+  shield_stock_after_adjustment += pcity->disbanded_shields;
+
+  if (new_class == TYPE_WONDER) /* No penalty! */
+    shield_stock_after_adjustment += pcity->caravan_shields;
+  else /* Same as you had disbanded caravans. 50 percent penalty is logical! */
+    shield_stock_after_adjustment += pcity->caravan_shields/2;
+
+  if (apply_it) {
+    pcity->shield_stock = shield_stock_after_adjustment;
+
+    if (new_class != orig_class) {
+      /* This is buggy; the interval between turns is not constant. */
+      pcity->turn_changed_target = game.year; 
     } else {
-      freelog(LOG_DEBUG, "   ...latter change in year; no penalty");
-#endif
+      /* Pretend we have changed nothing */
+      pcity->turn_changed_target = GAME_START_YEAR;
     }
-#ifdef DEBUG
-  } else {
-    freelog(LOG_DEBUG, "...same class or first year; no penalty");
-#endif
   }
-
-  freelog(LOG_DEBUG,
-	  "--> %-3d (stock=%d last/test=%d/%d changed=%d year=%d orig: %d %s)",
-	  shield_stock_after_adjustment,
-	  pcity->shield_stock,
-	  pcity->turn_last_built, game_next_year(pcity->turn_last_built),
-	  pcity->turn_changed_target, game.year,
-	  pcity->before_change_shields,
-	  pcity->changed_from_is_unit ?
-	    unit_types[pcity->changed_from_id].name :
-	    improvement_types[pcity->changed_from_id].name
-	  );
 
   return shield_stock_after_adjustment;
 }
