@@ -127,8 +127,23 @@ int farmland_food(struct city *pcity)
 
 int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_type_id id)
 {
-  int p, mod = 0, poppul = 0, a, b, c;
-  p = pcity->shield_prod;
+  int p, mod = 0, poppul = 0, a, b, c, x, y, tmp = 0;
+  p = 0;
+  city_map_iterate(x, y) {
+    if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
+      p += get_shields_tile(x, y, pcity);
+    }
+  }
+  if (city_got_building(pcity, B_FACTORY) || id == B_FACTORY) {
+    if (city_got_building(pcity, B_MFG) || id == B_MFG) tmp = 100;
+    else tmp = 50;
+  }
+  if (city_affected_by_wonder(pcity, B_HOOVER) || id == B_HOOVER ||
+      city_got_building(pcity, B_POWER) || id == B_POWER ||
+      city_got_building(pcity, B_HYDRO) || id == B_HYDRO ||
+      city_got_building(pcity, B_NUCLEAR) || id == B_NUCLEAR) tmp *= 1.5;
+  p = p * (tmp + 100) / 100;
+
   if (city_got_building(pcity, B_RECYCLING) || id == B_RECYCLING) p /= 3;
   else if (city_got_building(pcity, B_HYDRO) ||
            city_affected_by_wonder(pcity, B_HOOVER) ||
@@ -149,8 +164,8 @@ int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_
   if (pcity->pollution > 0) {
     a = amortize(b, 100 / pcity->pollution);
     c = ((a * b) / (MAX(1, b - a)))>>6;
-printf("City: %s, Pollu: %d, cost: %d ", pcity->name, pcity->pollution, c);
-printf("Id: %d, P: %d\n", id, p);
+/*printf("City: %s, Pollu: %d, cost: %d ", pcity->name, pcity->pollution, c);
+printf("Id: %d, P: %d\n", id, p);*/
   } else c = 0;
   if (p) {
     a = amortize(b, 100 / p);
@@ -179,6 +194,7 @@ void ai_eval_buildings(struct city *pcity)
   sci = ((sci + pcity->trade_prod) * t)>>1;
   tax = ((tax + pcity->trade_prod) * t)>>1;
 #endif
+  if (pplayer->research.researching == A_NONE) sci = 0; /* don't need libraries!! */
   prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * SHIELD_WEIGHTING;
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
               (city_got_building(pcity, B_FACTORY) ? 1 : 0));
@@ -243,7 +259,9 @@ void ai_eval_buildings(struct city *pcity)
   }
 
   if (could_build_improvement(pcity, B_CAPITAL))
-    values[B_CAPITAL] = TRADE_WEIGHTING * 999 / SHIELD_WEIGHTING; /* trust me */
+    values[B_CAPITAL] = TRADE_WEIGHTING * 999 / MORT; /* trust me */
+/* rationale: If cost is N and benefit is N gold per MORT turns, want is
+TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela */
 
   if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
@@ -275,7 +293,7 @@ void ai_eval_buildings(struct city *pcity)
   }
   
   if (could_build_improvement(pcity, B_FACTORY))
-    values[B_FACTORY] = prod>>1;
+    values[B_FACTORY] = (prod>>1) + pollution_cost(pplayer, pcity, B_FACTORY);
   
   if (could_build_improvement(pcity, B_GRANARY) && !built_elsewhere(pcity, B_PYRAMIDS))
     values[B_GRANARY] = grana * pcity->food_surplus;
@@ -284,7 +302,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
 
   if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
-    values[B_HYDRO] = (needpower * prod)>>2;
+    values[B_HYDRO] = ((needpower * prod)>>2) + pollution_cost(pplayer, pcity, B_HYDRO);
 
   if (could_build_improvement(pcity, B_LIBRARY))
     values[B_LIBRARY] = sci>>1;
@@ -297,16 +315,17 @@ void ai_eval_buildings(struct city *pcity)
                      city_got_building(pcity, B_NUCLEAR) ||
                      city_got_building(pcity, B_POWER) ||
                      city_affected_by_wonder(pcity, B_HOOVER)) ?
-                     (prod * 3)>>2 : prod>>1);
+                     (prod * 3)>>2 : prod>>1) +
+                     pollution_cost(pplayer, pcity, B_MFG);
 
   if (could_build_improvement(pcity, B_NUCLEAR))
-    values[B_NUCLEAR] = (needpower * prod)>>2;
+    values[B_NUCLEAR] = ((needpower * prod)>>2) + pollution_cost(pplayer, pcity, B_NUCLEAR);
 
-  if (could_build_improvement(pcity, B_OFFSHORE))
+  if (could_build_improvement(pcity, B_OFFSHORE)) /* ignoring pollu.  FIX? */
     values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
 
   if (could_build_improvement(pcity, B_POWER))
-    values[B_POWER] = (needpower * prod)>>2;
+    values[B_POWER] = ((needpower * prod)>>2) + pollution_cost(pplayer, pcity, B_POWER);
 
   if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
     values[B_RESEARCH] = sci>>1;
@@ -345,7 +364,6 @@ void ai_eval_buildings(struct city *pcity)
   if (could_build_improvement(pcity, B_RECYCLING))
     values[B_RECYCLING] = pollution_cost(pplayer, pcity, B_RECYCLING);
 
-/* not dealt with yet - pollution costs/advantages of prod-enhancers */
 /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
 /* military advisor will deal with CITY and PORT */
 
@@ -362,9 +380,8 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_CURE)
         values[i] = building_value(1, pcity, val);
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
-        values[i] = (research_time(pplayer) * 2 + game.techlevel) * t -
-                    pplayer->research.researched * t - /* Have to time it right */
-                    400 * SHIELD_WEIGHTING; /* rough estimate at best */
+        values[i] = ((research_time(pplayer) * 2 + game.techlevel) * t -
+                    pplayer->research.researched * t) / MORT;
       if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
         values[i] = (research_time(pplayer) * (100 - game.freecost)) * t *
                     (game.nplayers - 2) / (game.nplayers * 100); /* guessing */
@@ -377,8 +394,9 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = building_value(3, pcity, val) -
                     building_value(1, pcity, val);
       if (i == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
-     !city_got_building(pcity, B_NUCLEAR) && !city_got_building(pcity, B_POWER))
-        values[i] = (needpower * prod)>>2;
+                           !city_got_building(pcity, B_NUCLEAR))
+        values[i] = (city_got_building(pcity, B_POWER) ? 0 :
+               (needpower * prod)>>2) + pollution_cost(pplayer, pcity, B_HOOVER);
       if (i == B_ISAAC)
         values[i] = sci;
       if (i == B_LEONARDO) {
@@ -390,7 +408,7 @@ void ai_eval_buildings(struct city *pcity)
       }
       if (i == B_BACH)
         values[i] = building_value(2, pcity, val);
-      if (i == B_RICHARDS)
+      if (i == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
         values[i] = (pcity->size + 1) * SHIELD_WEIGHTING;
       if (i == B_MICHELANGELO && !city_got_building(pcity, B_CATHEDRAL))
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
@@ -440,7 +458,6 @@ void ai_eval_buildings(struct city *pcity)
     } commented out for now -- Syela */
     pcity->ai.building_want[i] = values[i] / j;
   }
-  pcity->ai.building_want[B_DARWIN] -= 100;
 
   return;
 }  
