@@ -313,7 +313,7 @@ void send_server_info_to_metaserver(int do_send)
     sprintf(desc+strlen(desc), "Freeciv\n");
     sprintf(desc+strlen(desc), VERSION_STRING"\n");
     switch(server_state) {
-     case CLIENT_PRE_GAME_STATE:
+     case PRE_GAME_STATE:
       sprintf(desc+strlen(desc), "Pregame\n");
       break;
      case RUN_GAME_STATE:
