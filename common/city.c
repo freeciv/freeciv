@@ -259,6 +259,7 @@ char **race_default_city_names[R_LAST]={
 *****************************************************************/
 int wonder_replacement(struct city *pcity, enum improvement_type_id id)
 {
+  if(is_wonder(id)) return 0;
   switch (id) {
   case B_BARRACKS:
   case B_BARRACKS2:
