@@ -221,31 +221,31 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 			 struct city *pcity)
 {
   
-  if (pdiplomat->type == U_DIPLOMAT)
+  if (pdiplomat->type == U_SPY) {
     if (myrand(game.diplchance)) {
       
-    /* Attacking Spy/Diplomat dies (N-1:N) chance */
+      /* Attacking Spy/Diplomat dies (N-1:N) chance */
       
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     "Game: Your spy was captured after completing her mission in %s.", pcity->name);
-  } else {
+    } else {
 
-    /* Survived (1:N) chance */
+      /* Survived (1:N) chance */
       
-    struct city *spyhome = find_city_by_id(pdiplomat->homecity);
+      struct city *spyhome = find_city_by_id(pdiplomat->homecity);
       
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
       
-    /* move back to home city */
-    pdiplomat->x = map_adjust_x(spyhome->x);
-    pdiplomat->y = spyhome->y;
-    pdiplomat->veteran = 1;
-    pdiplomat->moves_left = 0;
-    send_unit_info(0, pdiplomat, 0);
+      /* move back to home city */
+      pdiplomat->x = map_adjust_x(spyhome->x);
+      pdiplomat->y = spyhome->y;
+      pdiplomat->veteran = 1;
+      pdiplomat->moves_left = 0;
+      send_unit_info(0, pdiplomat, 0);
 
-    return;
-
+      return;
+    }
   }
   wipe_unit(0, pdiplomat);
 }
