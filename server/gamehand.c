@@ -363,9 +363,6 @@ void game_load(struct section_file *file)
     game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
   }
 
-  game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
-  game.fogofwar_old = game.fogofwar;
-
   if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
       || (game.version > 10604)) 
     savefile_options = secfile_lookup_str(file,"savefile.options");
@@ -377,9 +374,16 @@ void game_load(struct section_file *file)
      secfile_lookup_int_default() or secfile_lookup_str_default().
   */
 
+  sz_strlcpy(game.save_name,
+	     secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
+					"game.save_name"));
+
   game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
   game.scorelog = secfile_lookup_int_default(file, 0, "game.scorelog");
+
+  game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
+  game.fogofwar_old = game.fogofwar;
   
   if(has_capability("diplchance_percent", savefile_options)) {
     game.diplchance = secfile_lookup_int_default(file, game.diplchance,
@@ -629,7 +633,6 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
-  secfile_insert_int(file, game.fogofwar, "game.fogofwar");
   secfile_insert_int(file, game.freecost, "game.freecost");
   secfile_insert_int(file, game.conquercost, "game.conquercost");
   secfile_insert_int(file, game.foodbox, "game.foodbox");
@@ -637,8 +640,10 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.razechance, "game.razechance");
   secfile_insert_int(file, game.civstyle, "game.civstyle");
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
+  secfile_insert_str(file, game.save_name, "game.save_name");
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_int(file, game.scorelog, "game.scorelog");
+  secfile_insert_int(file, game.fogofwar, "game.fogofwar");
   secfile_insert_int(file, game.spacerace, "game.spacerace");
   secfile_insert_int(file, game.auto_ai_toggle, "game.auto_ai_toggle");
   secfile_insert_int(file, game.diplchance, "game.diplchance");

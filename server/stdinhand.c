@@ -646,6 +646,15 @@ static struct settings_s settings[] = {
        "Larger values will give better compression but take longer.  If the "
        "maximum is zero this server was not compiled to use zlib.") },
 
+  { "savename", NULL,
+    SSET_META, SSET_SERVER_ONLY,
+    0, 0, 0,
+    N_("Auto-save name prefix"),
+    N_("Automatically saved games will have name \"<prefix><year>.sav\".\n"
+       "This setting sets the <prefix> part."),
+    game.save_name, GAME_DEFAULT_SAVE_NAME,
+    sizeof(game.save_name) },
+
   { "scorelog", &game.scorelog,
     SSET_META, SSET_SERVER_ONLY,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,

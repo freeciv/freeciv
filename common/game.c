@@ -763,7 +763,7 @@ void game_init(void)
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
   game.cooling     = 0;
-  sz_strlcpy(game.save_name, "civgame");
+  sz_strlcpy(game.save_name, GAME_DEFAULT_SAVE_NAME);
   game.save_nturns=10;
 #ifdef HAVE_LIBZ
   game.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;

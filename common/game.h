@@ -325,6 +325,7 @@ extern struct civ_game game;
 #define GAME_MIN_OCCUPYCHANCE        0
 #define GAME_MAX_OCCUPYCHANCE        100
 
+#define GAME_DEFAULT_SAVE_NAME       "civgame"
 #define GAME_DEFAULT_RULESET         "default"
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
