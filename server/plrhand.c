@@ -668,13 +668,13 @@ int update_tech(struct player *plr, int bulbs)
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))
       if (old != A_NONE)
-       notify_player(&game.players[i], "Game: The %s has Researched %s.", 
-                     get_race_name(plr->race),
+       notify_player(&game.players[i], "Game: The %s have researched %s.", 
+                     get_race_name_plural(plr->race),
                      advances[old].name);
       else
        notify_player(&game.players[i],
-                     "Game: the %s has Researched Future Tech. %d.", 
-                     get_race_name(plr->race),
+                     "Game: the %s have researched Future Tech. %d.", 
+                     get_race_name_plural(plr->race),
                      plr->future_tech);
   }
 
