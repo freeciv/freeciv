@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <player.h>
 #include <city.h>
 #include <game.h>
@@ -20,11 +21,14 @@
 #include <shared.h>
 #include <packets.h>
 #include <map.h>
+#include <log.h>
+
 #include <mapgen.h>
 #include <unittools.h>
 #include <cityhand.h>
 #include <citytools.h>
 #include <plrhand.h>
+
 #include <aitools.h>
 #include <aiunit.h>
 
@@ -134,14 +138,19 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
         if (can_build_improvement(pcity, i)) {
           want=pcity->ai.building_want[i];
           id=i;
-        } /* else printf("%s can't build %s\n", pcity->name, get_improvement_name(i)); */
+        } else if(0) {
+	  freelog(LOG_DEBUG, "%s can't build %s", pcity->name,
+		  get_improvement_name(i));
+	}
       } /* id is the building we like the best */
     }
   }
-  
-/* if (!want) printf("AI_Chosen: None for %s\n", pcity->name);
-  else printf("AI_Chosen: %s with desire = %d for %s\n",
-          get_improvement_name(id), want, pcity->name); */
+
+  if(0) {
+    if (!want) freelog(LOG_DEBUG, "AI_Chosen: None for %s", pcity->name);
+    else freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",
+		 get_improvement_name(id), want, pcity->name);
+  }
   choice->want = want;
   choice->choice = id;
   choice->type = 0;

@@ -583,7 +583,8 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *foodneed -= 2 * (*workers - 1 - e);
   *prodneed -= (*workers - 1 - e);
 
-/*printf("%s, %d workers, %d luxneed, %d e\n", pcity->name, *workers, luxneed, e);*/
+  if(0) freelog(LOG_DEBUG, "%s, %d workers, %d luxneed, %d e",
+		pcity->name, *workers, luxneed, e);
 
   if (city_happy(pcity) && wants_to_be_bigger(pcity) && pcity->size > 4) *foodneed += 1;
 
@@ -884,8 +885,9 @@ int advisor_choose_build(struct city *pcity)
   if (!game.players[pcity->owner].ai.control)
     ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
-/*printf("Advisor_choose_build got %d/%d from ai_advisor_choose_building.\n", 
-  choice.choice, choice.want);*/
+  if(0) freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
+		" from ai_advisor_choose_building.",
+		choice.choice, choice.want);
   id = choice.choice;
   want = choice.want;
 
@@ -1052,9 +1054,9 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	send_spaceship_info(pplayer, 0);
       } else {
 	city_refresh(pcity);
-	/* printf("Trying advisor_choose_build.\n"); */
+	if(0) freelog(LOG_DEBUG, "Trying advisor_choose_build.");
 	advisor_choose_build(pcity);
-	/* printf("Advisor_choose_build didn't kill us.\n"); */
+	if(0) freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
 			 "Game: %s is now building %s", pcity->name, 
 			 improvement_types[pcity->currently_building].name);
@@ -1203,7 +1205,10 @@ void sanity_check_city(struct city *pcity)
   }
   iswork--;
   if (iswork+city_specialists(pcity)!=size) {
-    printf("%s is bugged: size:%d workers:%d elvis: %d tax:%d sci:%d\n", pcity->name,size,iswork,  pcity->ppl_elvis, pcity->ppl_taxman, pcity->ppl_scientist); 
+    freelog(LOG_NORMAL,
+	    "%s is bugged: size:%d workers:%d elvis: %d tax:%d sci:%d",
+	    pcity->name, size, iswork, pcity->ppl_elvis,
+	    pcity->ppl_taxman, pcity->ppl_scientist); 
     auto_arrange_workers(pcity);
   }
 }

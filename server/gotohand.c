@@ -153,14 +153,18 @@ This led to a bad bug where a unit in a swamp was considered too far away */
     freelog(LOG_DEBUG, "Warning: %u nodes in map #%d for (%d, %d)",
 	 warnodes, which, orig_x, orig_y);
   }
-/* printf("Generated warmap for (%d,%d) with %u nodes checked.\n", orig_x, orig_y, warnodes); */
-/* warnodes is often as much as 2x the size of the continent -- Syela */
+  if(0) freelog(LOG_DEBUG,
+		"Generated warmap for (%d,%d) with %u nodes checked.",
+		orig_x, orig_y, warnodes); 
+  /* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
-/*printf("Generating warmap, pcity = %s, punit = %s\n", (pcity ?
-pcity->name : "NULL"), (punit ? unit_types[punit->type].name : "NULL"));*/
+  if(0) freelog(LOG_DEBUG,
+		"Generating warmap, pcity = %s, punit = %s",
+		(pcity ? pcity->name : "NULL"),
+		(punit ? unit_types[punit->type].name : "NULL"));
 
   if (punit) {
     if (pcity && pcity == warmap.warcity) return; /* time-saving shortcut */
@@ -232,7 +236,8 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
       if (w >= s && n >= e) return 0;
       else return 1;
     default:
-      printf("Bad dir_ok call: (%d, %d) -> (%d, %d), %d\n", x0, y0, x1, y1, k);
+      freelog(LOG_NORMAL, "Bad dir_ok call: (%d, %d) -> (%d, %d), %d",
+	      x0, y0, x1, y1, k);
       return 0;
   }
 }
@@ -349,8 +354,9 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
 {
   int i;
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
-/*    printf("Venturing into the unknown at (%d, %d).\n", x1, y1);*/
-/*    return(3);   People seemed not to like this. -- Syela */
+    if(0) freelog(LOG_DEBUG, "Venturing into the unknown at (%d, %d).",
+		  x1, y1);
+    /* return(3);   People seemed not to like this. -- Syela */
     return(15); /* arbitrary deterrent. */
   }
   if (get_defender(pplayer, punit, x1, y1)) {
@@ -358,7 +364,7 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
        return(MIN(m, unit_types[punit->type].move_rate));
      if (!can_unit_attack_tile(punit, x1, y1)) return(255);
      return(15);
-/* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
+     /* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
   } else {
     i = could_unit_move_to_tile(punit, x0, y0, x1, y1);
     if (!i && !unit_really_ignores_zoc(punit) && 
@@ -400,7 +406,7 @@ int dir_ect(int x0, int y0, int x1, int y1, int k)
 int find_the_shortest_path(struct player *pplayer, struct unit *punit,
                            int dest_x, int dest_y)
 {
-/*  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };*/
+  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int igter = 0, xx[3], yy[3], x, y, i, j, k, tm, c;
@@ -466,9 +472,11 @@ and independently I can worry about optimizing them. -- Syela */
         if (warmap.cost[x][y] < punit->moves_left && tm < maxcost &&
             tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, xx[i], yy[j])) {
           tm += unit_types[punit->type].move_rate;
-/*printf("%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)\n",
-unit_types[punit->type].name, punit->id, punit->x, punit->y, xx[i], yy[j],
-punit->goto_dest_x, punit->goto_dest_y);*/
+	  if(0) freelog(LOG_DEBUG,
+			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
+			unit_types[punit->type].name, punit->id,
+			punit->x, punit->y, xx[i], yy[j],
+			punit->goto_dest_x, punit->goto_dest_y);
         }
 #endif
         if (tm < maxcost) {
@@ -476,10 +484,14 @@ punit->goto_dest_x, punit->goto_dest_y);*/
             warmap.cost[xx[i]][yy[j]] = tm;
             add_to_stack(xx[i], yy[j]);
             local_vector[xx[i]][yy[j]] = 128>>k;
-/*printf("Candidate: %s from (%d, %d) to (%d, %d) +%d to %d\n", d[k], x, y, xx[i], yy[j], c, tm);*/
+	    if(0) freelog(LOG_DEBUG,
+			  "Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
+			  d[k], x, y, xx[i], yy[j], c, tm);
           } else if (warmap.cost[xx[i]][yy[j]] == tm) {
             local_vector[xx[i]][yy[j]] |= 128>>k;
-/*printf("Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d\n", d[k], x, y, xx[i], yy[j], c, tm);*/
+	    if(0) freelog(LOG_DEBUG,
+			  "Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
+			  d[k], x, y, xx[i], yy[j], c, tm);
           }
         }
       } else {
@@ -498,9 +510,11 @@ punit->goto_dest_x, punit->goto_dest_y);*/
             unit_types[punit->type].attack_strength ? 3 : 2) &&
             enemies_at(punit, xx[i], yy[j])) {
           tm += unit_types[punit->type].move_rate;
-/*printf("%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)\n",
-unit_types[punit->type].name, punit->id, punit->x, punit->y, xx[i], yy[j],
-punit->goto_dest_x, punit->goto_dest_y);*/
+	  if(0) freelog(LOG_DEBUG,
+			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
+			unit_types[punit->type].name, punit->id,
+			punit->x, punit->y, xx[i], yy[j],
+			punit->goto_dest_x, punit->goto_dest_y);
         }
         if (tm < maxcost) {
           if (warmap.seacost[xx[i]][yy[j]] > tm) {
@@ -513,16 +527,18 @@ punit->goto_dest_x, punit->goto_dest_y);*/
         }
       }
       if (xx[i] == dest_x && yy[j] == dest_y && maxcost > tm) {
-/*printf("Found path, cost = %d\n", tm);*/
+	if(0) freelog(LOG_DEBUG, "Found path, cost = %d", tm);
         maxcost = tm + 1; /* NOT = tm.  Duh! -- Syela */
       }
     } /* end for */
   } while (warstacksize > warnodes);
-/*printf("GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d\n", 
-orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);*/
+  
+  if(0) freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), %u nodes, cost = %d", 
+		orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
   if (maxcost == 255) return(0);
-/* succeeded.  the vector at the destination indicates which way we get there */
-/* backtracing */
+  /* succeeded.  the vector at the destination indicates which
+     way we get there */
+  /* backtracing */
   warnodes = 0;
   warstacksize = 0;
   add_to_stack(dest_x, dest_y);
@@ -546,13 +562,14 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
         add_to_stack(xx[i], yy[j]);
         warmap.vector[xx[i]][yy[j]] |= 128>>k;
         local_vector[x][y] -= 1<<k; /* avoid repetition */
-/*printf("PATH-SEGMENT: %s from (%d, %d) to (%d, %d)\n", d[7-k], xx[i], yy[j], x, y);*/
+	if(0) freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
+		      d[7-k], xx[i], yy[j], x, y);
       }
     }
   } while (warstacksize > warnodes);
-/*printf("BACKTRACE: %u nodes\n", warnodes);*/
+  if(0) freelog(LOG_DEBUG, "BACKTRACE: %u nodes", warnodes);
   return(1);
-/* DONE! */
+  /* DONE! */
 }
 
 int find_a_direction(struct unit *punit)
@@ -578,8 +595,10 @@ int find_a_direction(struct unit *punit)
       else c = 3;
       if (unit_flag(punit->type, F_IGTER) && c) c = 1;
       x = map_adjust_x(punit->x + ii[k]); y = map_adjust_y(punit->y + jj[k]);
-/*if (passenger) printf("%d@(%d,%d) evaluating (%d,%d)[%d/%d]\n",
-punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
+      if (0 && passenger) {
+	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
+		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
+      }
       ptile = map_get_tile(x, y);
       d0 = get_simple_defense_power(punit->type, x, y);
       pcity = map_get_city(x, y);
@@ -646,7 +665,8 @@ punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
          !punit->ai.passenger || punit->moves_left >= 6)) d[k] = 1;
       if (d[k] > best) { 
         best = d[k];
-/*printf("New best = %d: (%d, %d) -> (%d, %d)\n", best, punit->x, punit->y, x, y);*/
+	if(0) freelog(LOG_DEBUG, "New best = %d: (%d, %d) -> (%d, %d)",
+		      best, punit->x, punit->y, x, y);
       }
     } /* end is-a-valid-vector */
   } /* end for */
@@ -707,7 +727,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit)
   int x, y, k;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-/*  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };*/
+  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
 
   int id=punit->id;
 
@@ -737,34 +757,35 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       if(!punit->moves_left) return;
       k = find_a_direction(punit);
       if (k < 0) {
-/*printf("%s#%d@(%d,%d) stalling so it won't be killed.\n",
-unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
-/*        punit->activity=ACTIVITY_IDLE;*/
+	if(0) freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
+		      unit_types[punit->type].name, punit->id,
+		      punit->x, punit->y);
+	/* punit->activity=ACTIVITY_IDLE;*/
 	send_unit_info(0, punit, 0);
 	return;
       }
-/*printf("Going %s\n", d[k]);*/
+      if(0) freelog(LOG_DEBUG, "Going %s", d[k]);
       x = map_adjust_x(punit->x + ii[k]);
       y = punit->y + jj[k]; /* no need to adjust this */
 
       if(!punit->moves_left) return;
       if(!handle_unit_move_request(pplayer, punit, x, y)) {
-/*printf("Couldn't handle it.\n");*/
+	if(0) freelog(LOG_DEBUG, "Couldn't handle it.");
 	if(punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
 	  send_unit_info(0, punit, 0);
 	  return;
 	};
-      } /*else printf("Handled.\n");*/
+      } else if(0) freelog(LOG_DEBUG, "Handled.");
       if(!unit_list_find(&pplayer->units, id))
 	return; /* unit died during goto! */
 
       if(punit->x!=x || punit->y!=y) {
-/*printf("Aborting, out of movepoints.\n");*/
+	if(0) freelog(LOG_DEBUG, "Aborting, out of movepoints.");
 	send_unit_info(0, punit, 0);
 	return; /* out of movepoints */
       }
-/*printf("Moving on.\n");*/
+      if(0) freelog(LOG_DEBUG, "Moving on.");
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
   }
   else {

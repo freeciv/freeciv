@@ -25,6 +25,7 @@
 #include <aiunit.h>
 #include <settlers.h>
 #include <unittools.h>
+#include <log.h>
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 
@@ -70,18 +71,20 @@ int building_value(int max, struct city *pcity, int val)
 
   i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
   sad += i; /* if units are making us unhappy, count that too. */
-/*  printf("In %s, unh[0] = %d, unh[4] = %d, sad = %d\n",
-       pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad); */
+  if(0) freelog(LOG_DEBUG, "In %s, unh[0] = %d, unh[4] = %d, sad = %d",
+		pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
 
   i = max;
   while (i && elvis) { i--; elvis--; j += val; }
   while (i && sad) { i--; sad--; j += 16; }
-  if (city_unhappy(pcity)) j += 16 * (sad + bored); /* Desperately seeking Colosseum */
+  if (city_unhappy(pcity))
+    j += 16 * (sad + bored); /* Desperately seeking Colosseum */
   while (i) { i--; j += 16; } /* 16 is debatable value */
-/* using (i && bored) led to a lack of foresight, especially re: Chapel -- Syela */
-/*  printf("%s: %d elvis %d sad %d bored %d size %d max %d val\n",
-    pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
-    pcity->ppl_content[4], pcity->size, max, j);  */
+  /* using (i && bored) led to a lack of foresight,
+     especially re: Chapel -- Syela */
+  if(0) freelog(LOG_DEBUG, "%s: %d elvis %d sad %d bored %d size %d max %d val",
+		pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
+		pcity->ppl_content[4], pcity->size, max, j);
 
   return(j);
 }
@@ -160,8 +163,8 @@ int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_
   if (pcity->pollution > 0) {
     a = amortize(b, 100 / pcity->pollution);
     c = ((a * b) / (MAX(1, b - a)))>>6;
-/*printf("City: %s, Pollu: %d, cost: %d ", pcity->name, pcity->pollution, c);
-printf("Id: %d, P: %d\n", id, p);*/
+    if(0) freelog(LOG_DEBUG, "City: %s, Pollu: %d, cost: %d, Id: %d, P: %d",
+		  pcity->name, pcity->pollution, c, id, p);
   } else c = 0;
   if (p) {
     a = amortize(b, 100 / p);
@@ -240,7 +243,9 @@ void ai_eval_buildings(struct city *pcity)
              acity->currently_building == B_SUNTZU) j += prod;
     k++;
   city_list_iterate_end;
-  if (!k) printf("Gonna crash, 0 k, looking at %s (ai_eval_buildings)\n", pcity->name);
+  if (!k) freelog(LOG_FATAL,
+		  "Gonna crash, 0 k, looking at %s (ai_eval_buildings)",
+		  pcity->name);
   /* rationale: barracks effectively double prod while building military units */
   /* if half our production is military, effective gain is 1/2 city prod */
   bar = j / k;
@@ -446,13 +451,15 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
           if (punit->unhappiness) values[i] += t * 2;
         unit_list_iterate_end;
       }
-/* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
+      /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
     }
   }
 
   for (i=0;i<B_LAST;i++) {
-/*    if (values[i]) printf("%s wants %s with desire %d.\n", pcity->name,
-        get_improvement_name(i), values[i]); */
+    if (0 && values[i]) {
+      freelog(LOG_DEBUG, "%s wants %s with desire %d.",
+	      pcity->name, get_improvement_name(i), values[i]);
+    }
     if (!is_wonder(i)) values[i] -= improvement_upkeep(pcity, i) * t;
     values[i] *= 100;
     if (!is_wonder(i)) { /* trying to buy fewer improvements */
@@ -489,7 +496,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     want = pcity->ai.settler_want;
 
     if (want > 0) {
-/*      printf("%s (%d, %d) desires settlers with passion %d\n", pcity->x, pcity->y, pcity->name, want);*/
+      if(0) freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
+		    pcity->name, pcity->x, pcity->y, want);
       choice->want = want;
       choice->type = 1;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);

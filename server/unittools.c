@@ -330,7 +330,7 @@ ct++;
     }
   }
   unit_list_iterate_end;
-if(ct&&!bestdef)printf("Get_def bugged at (%d,%d)\n", x, y);
+  if(ct&&!bestdef) freelog(LOG_NORMAL, "Get_def bugged at (%d,%d)", x, y);
   return bestdef;
 }
 

@@ -258,7 +258,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       if (!j) break;
     }
     if (i==A_LAST) {
-      printf("Bug in diplomat_a_tech\n");
+      freelog(LOG_NORMAL, "Bug in diplomat_a_tech");
       return;
     }
   }else{
@@ -386,7 +386,7 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       struct city *spyhome = find_city_by_id(pdiplomat->homecity);
 
       if(!spyhome){
-	printf("Bug in diplomat_leave_city\n");
+	freelog(LOG_NORMAL, "Bug in diplomat_leave_city");
 	return;
       }
       
@@ -1073,8 +1073,10 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
   punit->owner=pplayer->player_no;
   punit->x = map_adjust_x(x); /* was = x, caused segfaults -- Syela */
   punit->y=y;
-  if (y < 0 || y >= map.ysize) printf("Whoa!  Creating %s at illegal loc (%d, %d)\n",
-         get_unit_type(type)->name, x, y);
+  if (y < 0 || y >= map.ysize) {
+    freelog(LOG_NORMAL, "Whoa!  Creating %s at illegal loc (%d, %d)",
+	    get_unit_type(type)->name, x, y);
+  }
   punit->goto_dest_x=0;
   punit->goto_dest_y=0;
   
@@ -1476,8 +1478,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
       j--;
     if (!j) break;
   }
-  if (i==A_LAST) 
-    printf("Bug in get_a_tech\n");
+  if (i==A_LAST) {
+    freelog(LOG_NORMAL, "Bug in get_a_tech");
+  }
   gamelog(GAMELOG_TECH,"%s acquire %s from %s",
           get_race_name_plural(pplayer->race),
           advances[i].name,

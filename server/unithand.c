@@ -795,9 +795,11 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
               punit->ai.passenger);
           if (passenger) {
             if (get_transporter_capacity(punit)) abort();
-            else printf("%s#%d@(%d,%d) thinks %s#%d is a passenger?\n",
-               unit_name(punit->type), punit->id, punit->x, punit->y,
-               unit_name(passenger->type), passenger->id);
+            else {
+	      freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
+		      unit_name(punit->type), punit->id, punit->x, punit->y,
+		      unit_name(passenger->type), passenger->id);
+	    }
           }
         }
         if (get_unit_type(punit->type)->attack_strength == 0) {
@@ -858,7 +860,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
                   punit->ai.ferryboat);
       if (ferryboat) {
-/*printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);*/
+	if(0) freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
+		      punit->id, punit->ai.ferryboat);
         ferryboat->ai.passenger = 0;
         punit->ai.ferryboat = 0;
       }
@@ -921,11 +924,16 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
                     punit->ai.bodyguard);
         if (bodyguard) {
           handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_IDLE);
-/* may be fortifying, have to FIX this eventually -- Syela */
-/*printf("Dragging %s from (%d,%d)->(%d,%d) (Success=%d)\n",
-unit_types[bodyguard->type].name, src_x, src_y, dest_x, dest_y,
-handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y));*/
-          handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y);
+	  /* may be fortifying, have to FIX this eventually -- Syela */
+	  if(0) {
+	    freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
+		    unit_types[bodyguard->type].name, src_x, src_y,
+		    dest_x, dest_y,
+		    handle_unit_move_request(pplayer, bodyguard,
+					     dest_x, dest_y));
+	  } else {
+	    handle_unit_move_request(pplayer, bodyguard, dest_x, dest_y);
+	  }
           handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFY);
         }
       }

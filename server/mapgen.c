@@ -828,7 +828,7 @@ void init_workmap(void)
   int x,y;
   if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
 				      sizeof(struct tile)))) {
-    fprintf(stderr, "malloc failed in mapgen\n");
+    freelog(LOG_FATAL, "malloc failed in mapgen");
     exit(1);
   }
   for(y=0;y<map.ysize;y++)

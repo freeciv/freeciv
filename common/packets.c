@@ -1928,9 +1928,9 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
     return -1;
  
   buffer->ndata+=didget;
-/*
-  printf("didget:%d\n", didget); 
-*/     
+  
+  if(0) freelog(LOG_DEBUG, "didget:%d", didget); 
+
   return didget;
 }
 

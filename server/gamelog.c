@@ -18,6 +18,7 @@
 
 #include <game.h>
 #include <map.h>
+#include <log.h>
 
 #include "gamelog.h"
 
@@ -53,7 +54,7 @@ void gamelog(int level, char *message, ...)
 
   fs=fopen(gamelog_filename, "a");
   if(!fs) {
-    fprintf(stderr, "couldn't open gamelogfile: %s for appending.\n", 
+    freelog(LOG_FATAL, "couldn't open gamelogfile: %s for appending.\n", 
 	    gamelog_filename);
     exit(1);
   }

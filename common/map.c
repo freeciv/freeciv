@@ -479,9 +479,12 @@ void reset_move_costs(int x, int y)
   yy[1] = y; /* if these are out of range, map_get_tile will complain */
   yy[2] = y + 1;
 
-/*  printf("Resetting move costs for (%d, %d) [%x%x%x%x%x%x%x%x]\n", x, y,
-tile0->move_cost[0],  tile0->move_cost[1], tile0->move_cost[2], tile0->move_cost[3],
-tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost[7]); */
+  if(0) freelog(LOG_DEBUG,
+		"Resetting move costs for (%d, %d) [%x%x%x%x%x%x%x%x]",
+		x, y, tile0->move_cost[0],  tile0->move_cost[1],
+		tile0->move_cost[2], tile0->move_cost[3],
+		tile0->move_cost[4],  tile0->move_cost[5],
+		tile0->move_cost[6], tile0->move_cost[7]); 
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */
     tile1 = map_get_tile(xx[i], yy[j]);
@@ -499,10 +502,14 @@ tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost
     else c = get_tile_type(tile1->terrain)->movement_cost*3;
     tile0->move_cost[k] = c;
   } /* next k */
-/*  printf("Reset move costs for (%d, %d) [%x%x%x%x%x%x%x%x]\n", x, y,
-tile0->move_cost[0],  tile0->move_cost[1], tile0->move_cost[2], tile0->move_cost[3],
-tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost[7]); */
-/* reverse!  This is not optimized, and hopefully not obfuscated either -- Syela */
+
+  if(0) freelog(LOG_DEBUG, "Reset move costs for (%d, %d) [%x%x%x%x%x%x%x%x]",
+		x, y, tile0->move_cost[0],  tile0->move_cost[1],
+		tile0->move_cost[2], tile0->move_cost[3],
+		tile0->move_cost[4],  tile0->move_cost[5],
+		tile0->move_cost[6], tile0->move_cost[7]);
+  /* reverse!  This is not optimized, and hopefully not
+     obfuscated either -- Syela */
   tile1 = tile0;
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */

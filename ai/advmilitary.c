@@ -321,16 +321,22 @@ content to let it remain that way for now. -- Syela 980805 */
 /* afraid *100 would create integer overflow, but *10 surely won't */
 
   if (danger < 0 || danger > 1<<24) /* I hope never to see this! */
-    printf("Dangerous danger (%d) in %s.  Beware of overflow.\n", danger, pcity->name);
+    freelog(LOG_NORMAL, "Dangerous danger (%d) in %s.  Beware of overflow.",
+	    danger, pcity->name);
   if (danger2 < 0 || danger2 > 1<<24) /* I hope never to see this! */
-    printf("Dangerous danger2 (%d) in %s.  Beware of overflow.\n", danger2, pcity->name);
+    freelog(LOG_NORMAL, "Dangerous danger2 (%d) in %s.  Beware of overflow.",
+	    danger2, pcity->name);
   if (danger3 < 0 || danger3 > 1<<24) /* I hope never to see this! */
-    printf("Dangerous danger3 (%d) in %s.  Beware of overflow.\n", danger3, pcity->name);
+    freelog(LOG_NORMAL, "Dangerous danger3 (%d) in %s.  Beware of overflow.",
+	    danger3, pcity->name);
   if (danger4 < 0 || danger4 > 1<<24) /* I hope never to see this! */
-    printf("Dangerous danger4 (%d) in %s.  Beware of overflow.\n", danger4, pcity->name);
+    freelog(LOG_NORMAL, "Dangerous danger4 (%d) in %s.  Beware of overflow.",
+	    danger4, pcity->name);
   if (danger5 < 0 || danger5 > 1<<24) /* I hope never to see this! */
-    printf("Dangerous danger5 (%d) in %s.  Beware of overflow.\n", danger5, pcity->name);
-  if (pcity->ai.grave_danger) urgency += 10; /* really, REALLY urgent to defend */
+    freelog(LOG_NORMAL, "Dangerous danger5 (%d) in %s.  Beware of overflow.",
+	    danger5, pcity->name);
+  if (pcity->ai.grave_danger)
+    urgency += 10; /* really, REALLY urgent to defend */
   pcity->ai.danger = danger;
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
     i = assess_defense(pcity);
@@ -450,8 +456,8 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
       n = desire[i] * unit_types[bestid].build_cost / best;
       pplayer->ai.tech_want[j] += n; /* not the totally idiotic
       pplayer->ai.tech_want[j] += n * pplayer->ai.tech_turns[j];  I amaze myself. -- Syela */
-/*      printf("%s wants %s for defense with desire %d <%d>\n",
-pcity->name, advances[j].name, n, desire[i]); */
+      if(0) freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
+		    pcity->name, advances[j].name, n, desire[i]);
     }
   }
   choice->choice = bestid;
@@ -554,11 +560,17 @@ it some more variables for it to meddle with -- Syela */
       if (e > 0) {
         if (k) {
           pplayer->ai.tech_want[j] += e;
-/*if (movetype == SEA_MOVING) printf("%s wants %s to punish %s@(%d, %d) with desire %d.\n", 
-pcity->name, unit_name(i), (acity ? acity->name : "punit"), x, y, e);*/
-        } else if (e > *e0) {
-/*printf("%s overriding %s(%d) with %s(%d) [a=%d,b=%d,c=%d,d=%d,f=%d]\n",
-pcity->name, unit_name(*v), *e0, unit_name(i), e, a, b, c, d, f);*/
+	  if (0 && movetype == SEA_MOVING) {
+	    freelog(LOG_DEBUG,
+		    "%s wants %s to punish %s@(%d, %d) with desire %d.", 
+		    pcity->name, unit_name(i), (acity ? acity->name : "punit"),
+		    x, y, e);
+	  }
+	} else if (e > *e0) {
+	  if(0) freelog(LOG_DEBUG, "%s overriding %s(%d) with %s(%d)"
+			" [a=%d,b=%d,c=%d,d=%d,f=%d]",
+			pcity->name, unit_name(*v), *e0, unit_name(i), e,
+			a, b, c, d, f);
           *v = i;
           *e0 = e;
         }
@@ -626,8 +638,8 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
                 warmap.seacost[acity->x][acity->y] / boatspeed; /* kluge */
           else c = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
           if (unit_flag(myunit->type, F_MARINES)) c -= 1;
-/*printf("%s attempting to attack via ferryboat (boatid = %d, c = %d)\n",
-unit_types[v].name, boatid, c);*/
+	  if(0) freelog(LOG_DEBUG, "%s attempting to attack via ferryboat"
+			" (boatid = %d, c = %d)", unit_types[v].name, boatid, c);
         } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
       } else if (is_sailing_unit(myunit))
         c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
@@ -751,15 +763,21 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / ((fprime + needferry) * MORT);
     } else e = 0;  
 
-/*if (e != fstk && acity) {
-printf("%s (%d, %d), %s#%d -> %s[%d] (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n",
-pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
-acity->name, acity->ai.invasion, acity->x, acity->y, a, b, c, d, e, fstk, f);
-} else if (e != fstk && aunit) {
-printf("%s (%d, %d), %s#%d -> %s (%d, %d) [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]\n", 
-pcity->name, pcity->x, pcity->y, unit_types[v].name, myunit->id,
-unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
-}*/
+    if(0) {
+      if (e != fstk && acity) {
+	freelog(LOG_DEBUG, "%s (%d, %d), %s#%d -> %s[%d] (%d, %d)"
+		" [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]",
+		pcity->name, pcity->x, pcity->y, unit_types[v].name,
+		myunit->id, acity->name, acity->ai.invasion,
+		acity->x, acity->y, a, b, c, d, e, fstk, f);
+      } else if (e != fstk && aunit) {
+	freelog(LOG_DEBUG, "%s (%d, %d), %s#%d -> %s (%d, %d)"
+		" [A=%d, B=%d, C=%d, D=%d, E=%d/%d, F=%d]", 
+		pcity->name, pcity->x, pcity->y, unit_types[v].name,
+		myunit->id, unit_types[pdef->type].name,
+		pdef->x, pdef->y, a, b, c, d, e, fstk, f);
+      }
+    }
 
     if (!myunit->id) {  /* I don't want to know what happens otherwise -- Syela */
       if (sanity)
@@ -787,10 +805,12 @@ unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
           choice->type = 2; /* type == 2 identifies attackers */
           choice->want = e;
           if (needferry) ai_choose_ferryboat(pplayer, pcity, choice);
-/*printf("%s has chosen attacker, %s\n", pcity->name, unit_types[choice->choice].name);*/
+	  if(0) freelog(LOG_DEBUG, "%s has chosen attacker, %s",
+			pcity->name, unit_types[choice->choice].name);
         } else {
           choice->choice = ai_choose_defender(pcity);
-/*printf("%s has chosen defender, %s\n", pcity->name, unit_types[choice->choice].name);*/
+	  if(0) freelog(LOG_DEBUG, "%s has chosen defender, %s",
+			pcity->name, unit_types[choice->choice].name);
           choice->type = 1;
           choice->want = e;
         }
@@ -851,7 +871,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   def = assess_defense_quadratic(pcity); /* has to be AFTER assess_danger thanks to wallvalue */
 /* changing to quadratic to stop AI from building piles of small units -- Syela */
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
-/*printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def);*/
+  if(0) freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
+		pcity->name, danger, def);
 
   if (pcity->ai.diplomat_threat) {
   /* if I put a && (danger < def), if def = 0 and there is a little enemy unit
@@ -867,7 +888,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     int u = best_role_unit(pcity, F_DIPLOMAT);
     if (u<U_LAST) {
-       /* printf("A diplomat will be built in city %s.\n", pcity->name); */
+       if(0) freelog(LOG_DEBUG, "A diplomat will be built in city %s.",
+		     pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */ 
        pcity->ai.urgency = 1;
        choice->type = 3; /* defender */
@@ -926,9 +948,10 @@ creating any other problems that are worse. -- Syela */
         if (city_got_barracks(pcity)) choice->want = MIN(49, danger); /* unlikely */
         else choice->want = MIN(25, danger);
       } else choice->want = danger;
-/*    printf("%s wants %s to defend with desire %d.\n", pcity->name,
-       get_unit_type(choice->choice)->name, choice->want); */
-/*    return; - this is just stupid */
+      if(0) freelog(LOG_DEBUG, "%s wants %s to defend with desire %d.",
+		    pcity->name, get_unit_type(choice->choice)->name,
+		    choice->want);
+      /* return; - this is just stupid */
     }
   } /* ok, don't need to defend */
 
@@ -967,7 +990,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
 /* and we will use its attack values, otherwise we will use virtualunit */
   if (myunit) kill_something_with(pplayer, pcity, myunit, choice);
   else {
-/*printf("Killing with virtual unit in %s\n", pcity->name);*/
+    if(0) freelog(LOG_DEBUG, "Killing with virtual unit in %s", pcity->name);
     v = ai_choose_attacker_sailing(pcity);
     if (v > 0 && /* have to put sailing first before we mung the seamap */
       (city_got_building(pcity, B_PORT) || /* only need a few ports */

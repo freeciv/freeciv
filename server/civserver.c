@@ -423,38 +423,38 @@ int main(int argc, char *argv[])
   
   while(server_state==RUN_GAME_STATE) {
     force_end_of_sniff=0;
-/* printf("Shuffleplayers\n"); */
+    if(0) freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
-/* printf("Aistartturn\n"); */
+    if(0) freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
-    printf("\n");		/* in case no output since last show_prompt() */
-    show_prompt();
 
-/* printf("sniffingpackets\n"); */
+    if(0) freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
+    
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
-/* printf("Autosettlers\n"); */
+    if(0) freelog(LOG_DEBUG, "Autosettlers");
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
-/* moved after sniff_packets for even more efficiency.  What a guy I am. -- Syela */
+    /* moved after sniff_packets for even more efficiency.
+       What a guy I am. -- Syela */
     before_end_year(); /* resetting David P's message window -- Syela */
-/* and now, we must manage our remaining units BEFORE the cities that are
-empty get to refresh and defend themselves.  How totally stupid. */
+    /* and now, we must manage our remaining units BEFORE the cities that are
+       empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
     if(0) freelog(LOG_DEBUG, "Auto-Attack phase");
     auto_attack();
-/* printf("Endturn\n"); */
+    if(0) freelog(LOG_DEBUG, "Endturn");
     end_turn();
-/* printf("Gamenextyear\n"); */
+    if(0) freelog(LOG_DEBUG, "Gamenextyear");
     game_next_year();
     check_spaceship_arrivals();
-/* printf("Sendplayerinfo\n"); */
+    if(0) freelog(LOG_DEBUG, "Sendplayerinfo");
     send_player_info(0, 0);
-/* printf("Sendgameinfo\n"); */
+    if(0) freelog(LOG_DEBUG, "Sendgameinfo");
     send_game_info(0);
-/* printf("Sendyeartoclients\n"); */
+    if(0) freelog(LOG_DEBUG, "Sendyeartoclients");
     send_year_to_clients(game.year);
-/* printf("Sendinfotometaserver\n"); */
+    if(0) freelog(LOG_DEBUG, "Sendinfotometaserver");
     send_server_info_to_metaserver(0);
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
@@ -512,7 +512,7 @@ void read_init_script(char *script_filename)
       fclose(script_file);
     }
   else
-    fprintf(stderr,"Could not open script file '%s'.\n",script_filename);
+    freelog(LOG_NORMAL, "Could not open script file '%s'.",script_filename);
 }
 
 /**************************************************************************
@@ -650,7 +650,7 @@ void update_pollution()
   else {
     game.globalwarming-=game.warminglevel;
     if (myrand(200)<=game.globalwarming) {
-      fprintf(stderr, "Global warming:%d\n", count);
+      freelog(LOG_NORMAL, "Global warming:%d\n", count);
       global_warming(map.xsize/10+map.ysize/10+game.globalwarming*5);
       game.globalwarming=0;
       send_all_known_tiles(0);
@@ -733,7 +733,7 @@ int end_turn()
   update_pollution();
   do_apollo_program();
   make_history_report();
-/*  printf("Turn ended.\n"); */
+  if(0) freelog(LOG_DEBUG, "Turn ended.");
   return 1;
 }
 

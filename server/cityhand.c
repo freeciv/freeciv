@@ -79,7 +79,8 @@ void create_city(struct player *pplayer, int x, int y, char *name)
 {
   struct city *pcity, *othercity;
   int i;
-/* printf("Creating city %s\n", name);   */
+  
+  if(0) freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
 	  x,y, get_race_name_plural(pplayer->race));
   pcity=(struct city *)malloc(sizeof(struct city));
@@ -427,7 +428,8 @@ void handle_city_change(struct player *pplayer,
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
   if (!pcity) {
-    printf("Pcity null in handle_city_change (%s, id = %d)!\n", pplayer->name, preq->city_id);
+    freelog(LOG_NORMAL, "Pcity null in handle_city_change"
+	                " (%s, id = %d)!", pplayer->name, preq->city_id);
     return;
   }
    if(!player_owns_city(pplayer, pcity))

@@ -484,7 +484,7 @@ int sset_is_changeable(int idx)
     /* These can always be changed: */
     return 1;
   default:
-    fprintf(stderr, "Unexpected case %d in %s line %d\n",
+    freelog(LOG_NORMAL, "Unexpected case %d in %s line %d",
 	    op->sclass, __FILE__, __LINE__);
     return 0;
   }

@@ -190,9 +190,10 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 /* type 0 = building, 1 = non-mil unit, 2 = attacker, 3 = defender */
 
   if (bestchoice.want) { /* Note - on fallbacks, will NOT get stopped building msg */
-/* printf("%s wants %s with desire %d.\n", pcity->name, (bestchoice.type ?
-unit_name(bestchoice.choice) : get_improvement_name(bestchoice.choice)),
-bestchoice.want); */
+    if(0) freelog(LOG_DEBUG, "%s wants %s with desire %d.", pcity->name,
+		  (bestchoice.type ? unit_name(bestchoice.choice)
+		   : get_improvement_name(bestchoice.choice)),
+		  bestchoice.want);
     if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
@@ -284,11 +285,12 @@ void ai_new_spend_gold(struct player *pplayer)
       unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
         id = can_upgrade_unittype(pplayer, punit->type);
         did_upgrade = 0;
-/* printf("%s wants %s, %s -> %s\n", pcity->name, unit_types[bestchoice.choice].name, 
-unit_types[punit->type].name, unit_types[id].name); */
+	if(0) freelog(LOG_DEBUG, "%s wants %s, %s -> %s", pcity->name,
+		      unit_types[bestchoice.choice].name, 
+		      unit_types[punit->type].name, unit_types[id].name);
         if (id == bestchoice.choice && ai_fuzzy(pplayer,1)) {
 	  /* and I can simply upgrade a unit I already have */
-/* printf("Trying to upgrade in %s.\n", pcity->name); */
+	  if(0) freelog(LOG_DEBUG, "Trying to upgrade in %s.", pcity->name);
           cost = unit_upgrade_price(pplayer, punit->type, id);
           if (cost < buycost) { /* and the upgrade would be cheaper */
             if (cost < pplayer->economic.gold) { /* let's just upgrade */
@@ -349,7 +351,7 @@ unit_types[punit->type].name, unit_types[id].name); */
         pcity->ai.grave_danger > (assess_defense_quadratic(pcity) +
   ai_city_defender_value(pcity, U_LEGION, bestchoice.choice)) * 2 &&
                pcity->food_stock + pcity->food_surplus < 10) { /* We're DOOMED */
-printf("%s is DOOMED!\n", pcity->name);
+	 freelog(LOG_DEBUG, "%s is DOOMED!", pcity->name);
          try_to_sell_stuff(pplayer, pcity); /* and don't buy stuff */
          pcity->currently_building = ai_choose_defender_limited(pcity,
                   pcity->shield_stock + pcity->shield_surplus, 0);
@@ -361,9 +363,11 @@ printf("%s is DOOMED!\n", pcity->name);
 	  really_handle_city_buy(pplayer, pcity); /* adequately tested now */
 	}
       } else if (bestchoice.type || !is_wonder(bestchoice.choice)) {
-/*        printf("%s wants %s but can't afford to buy it (%d < %d).\n",
-pcity->name, (bestchoice.type ? unit_name(bestchoice.choice) :
-get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
+	if(0) freelog(LOG_DEBUG, "%s wants %s but can't afford to buy it"
+		      " (%d < %d).", pcity->name,
+		      (bestchoice.type ? unit_name(bestchoice.choice)
+		       : get_improvement_name(bestchoice.choice)),
+		      pplayer->economic.gold, buycost);
         if (bestchoice.type && !unit_flag(bestchoice.choice, F_NONMIL)) {
           if (pcity->ai.grave_danger && !assess_defense(pcity)) { /* oh dear */
             try_to_sell_stuff(pplayer, pcity);
@@ -805,11 +809,13 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
     prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
   }
   if (foodneed > pcity->food_stock) {
-/*    printf("No elvis_pos in %s - would create famine.\n", pcity->name); */
+    if(0) freelog(LOG_DEBUG, "No elvis_pos in %s - would create famine.",
+		  pcity->name);
     return 0; /* Bad time to Elvis */
   }
   if (prodneed > 0) {
-/*    printf("No elvis_pos in %s - would fail-to-upkeep.\n", pcity->name); */
+    if(0) freelog(LOG_DEBUG, "No elvis_pos in %s - would fail-to-upkeep.",
+		  pcity->name);
     return 0; /* Bad time to Elvis */
   }
   return(city_tile_value(pcity, *xp, *yp, foodneed, prodneed));
@@ -945,7 +951,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     if(acity!=NULL && acity!=pcity && acity->owner==pcity->owner)  {
       if(acity->x==x && acity->y==y) /* can't stop working city center */
 	continue;  
-      /*printf("Availing square in %s\n", acity->name);*/
+      if(0) freelog(LOG_DEBUG, "Availing square in %s", acity->name);
       set_worker_city(acity, map_to_city_x(acity, x), 
                       map_to_city_y(acity, y), C_TILE_EMPTY);
       if (!city_list_find_id(&minilist, acity->id))
@@ -962,7 +968,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   } else {
     freelog(LOG_DEBUG, "Emergency resolved");
   }
-  /*printf("Rearranging workers in %s\n", pcity->name);*/
+  if(0) freelog(LOG_DEBUG, "Rearranging workers in %s", pcity->name);
 
   unit_list_iterate(pcity->units_supported, punit)
     if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
@@ -983,7 +989,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     city_refresh(acity);
     if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))
       ai_scientists_taxmen(acity);
-/*printf("Readjusting workers in %s\n", acity->name);*/
+    if(0) freelog(LOG_DEBUG, "Readjusting workers in %s", acity->name);
     send_city_info(city_owner(acity), acity, 1);
   city_list_iterate_end;
 }
