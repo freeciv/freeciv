@@ -62,6 +62,7 @@ Cursor drop_cursor;
 Cursor nuke_cursor;
 Cursor patrol_cursor;
 
+static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
 static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
  				       int width, int height);
 
@@ -167,22 +168,27 @@ return newly allocated sprite cropped from source
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y, int width, int height)
 {
-  GC plane_gc;
-  Pixmap mypixmap, mask;
+  Pixmap mypixmap;
 
   mypixmap = XCreatePixmap(display, root_window,
 			   width, height, display_depth);
   XCopyArea(display, source->pixmap, mypixmap, civ_gc, 
 	    x, y, width, height, 0, 0);
 
-  mask = XCreatePixmap(display, root_window, width, height, 1);
+  if (source->has_mask) {
+    GC plane_gc;
+    Pixmap mask;
 
-  plane_gc = XCreateGC(display, mask, 0, NULL);
-  XCopyArea(display, source->mask, mask, plane_gc, 
-	    x, y, width, height, 0, 0);
-  XFreeGC(display, plane_gc);
+    mask = XCreatePixmap(display, root_window, width, height, 1);
 
-  return ctor_sprite_mask(mypixmap, mask, width, height);
+    plane_gc = XCreateGC(display, mask, 0, NULL);
+    XCopyArea(display, source->mask, mask, plane_gc, 
+	      x, y, width, height, 0, 0);
+    XFreeGC(display, plane_gc);
+    return ctor_sprite_mask(mypixmap, mask, width, height);
+  } else {
+    return ctor_sprite(mypixmap, width, height);
+  }
 }
 
 /***************************************************************************
@@ -257,7 +263,6 @@ void load_cursors(void)
   XFreePixmap(display, mask);
 }
 
-#ifdef UNUSED
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -270,7 +275,6 @@ static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
   mysprite->has_mask=0;
   return mysprite;
 }
-#endif
 
 /***************************************************************************
 ...
