@@ -993,18 +993,16 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 {
   struct drawn_sprite tile_sprs[80];
   bool solid_bg;
-  struct player *pplayer;
+  enum color_std bg_color;
   bool is_real = normalize_map_pos(&map_x, &map_y);
 
   if (is_real && tile_get_known(map_x, map_y)) {
     int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode,
-				       &solid_bg, &pplayer);
+				       &solid_bg, &bg_color);
     int i = 0;
 
     if (solid_bg) {
-      enum color_std color = pplayer ? player_color(pplayer)
-	      : COLOR_STD_BACKGROUND;
-      canvas_put_rectangle(pcanvas, color, canvas_x, canvas_y,
+      canvas_put_rectangle(pcanvas, bg_color, canvas_x, canvas_y,
 			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
 

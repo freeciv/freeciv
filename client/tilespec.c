@@ -2270,7 +2270,7 @@ The sprites are drawn in the following order:
 ***********************************************************************/
 int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 			   bool citymode, bool *solid_bg,
-			   struct player **pplayer)
+			   enum color_std *bg_color)
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
@@ -2280,8 +2280,9 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   struct unit *pfocus;
   struct unit *punit;
   struct drawn_sprite *save_sprs = sprs;
+
   *solid_bg = FALSE;
-  *pplayer = NULL;
+  *bg_color = COLOR_STD_BACKGROUND;
 
   ptile=map_get_tile(abs_x0, abs_y0);
 
@@ -2300,13 +2301,13 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
       sprs += fill_unit_sprite_array(sprs, punit, solid_bg,
 				     stacked, TRUE);
 
-      *pplayer = unit_owner(punit);
+      *bg_color = player_color(unit_owner(punit));
       return sprs - save_sprs;
     }
 
     if (pcity && draw_cities) {
       sprs += fill_city_sprite_array(sprs, pcity, solid_bg);
-      *pplayer = city_owner(pcity);
+      *bg_color = player_color(city_owner(pcity));
       return sprs - save_sprs;
     }
   }
