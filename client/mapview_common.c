@@ -37,6 +37,11 @@
 struct mapview_canvas mapview_canvas;
 struct overview overview;
 
+/* Arbitrary estimated maximums for width and height of a city description
+ * text.  Eventually this may be determined dynamically. */
+#define MAX_CITY_DESC_WIDTH 128
+#define MAX_CITY_DESC_HEIGHT 32
+
 /*
  * Set to TRUE if the backing store is more recent than the version
  * drawn into overview.window.
@@ -1460,8 +1465,8 @@ void update_map_canvas_visible(void)
 **************************************************************************/
 void show_city_descriptions(void)
 {
-  int canvas_x, canvas_y;
-  int map_x0, map_y0;
+  const int dx = MAX(MAX_CITY_DESC_WIDTH - NORMAL_TILE_WIDTH, 0);
+  const int dy = MAX_CITY_DESC_HEIGHT;
 
   if (!draw_city_names && !draw_city_productions) {
     return;
@@ -1469,43 +1474,38 @@ void show_city_descriptions(void)
 
   prepare_show_city_descriptions();
 
-  canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
-  if (is_isometric) {
-    int w, h;
+  /* A city description is shown below the city.  It has a specified
+   * maximum width and height (although these are only estimates).  Thus
+   * we need to update some tiles above the mapview and some to the left
+   * and right.
+   *
+   *                    /--W1--\   (W1 = NORMAL_TILE_WIDTH)
+   *                    -------- \
+   *                    | CITY | H1 (H1 = NORMAL_TILE_HEIGHT)
+   *                    |      | /
+   *               ------------------ \
+   *               |  DESCRIPTION   | H2  (H2 = MAX_CITY_DESC_HEIGHT)
+   *               |                | /
+   *               ------------------
+   *               \-------W2-------/    (W2 = MAX_CITY_DESC_WIDTH)
+   *
+   * We must draw H2 extra pixels above and (W2 - W1) / 2 extra pixels
+   * to each side of the mapview.
+   */
+  gui_rect_iterate(mapview_canvas.gui_x0 - dx / 2,
+		   mapview_canvas.gui_y0 - dy,
+		   mapview_canvas.width + dx,
+		   mapview_canvas.height + dy,
+		   map_x, map_y, draw) {
+    int canvas_x, canvas_y;
+    struct city *pcity;
 
-    for (h = -1; h < mapview_canvas.tile_height * 2; h++) {
-      int x_base = map_x0 + h / 2 + (h != -1 ? h % 2 : 0);
-      int y_base = map_y0 + h / 2 + (h == -1 ? -1 : 0);
-
-      for (w = 0; w <= mapview_canvas.tile_width; w++) {
-	int x = x_base + w;
-	int y = y_base - w;
-	struct city *pcity;
-
-	if (normalize_map_pos(&x, &y)
-	    && (pcity = map_get_city(x, y))) {
-	  map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
-	  show_city_desc(pcity, canvas_x, canvas_y);
-	}
-      }
+    if (normalize_map_pos(&map_x, &map_y)
+	&& (pcity = map_get_city(map_x, map_y))) {
+      (void) map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+      show_city_desc(pcity, canvas_x, canvas_y);
     }
-  } else {			/* is_isometric */
-    int x1, y1;
-
-    for (x1 = 0; x1 <= mapview_canvas.tile_width; x1++) {
-      for (y1 = 0; y1 <= mapview_canvas.tile_height; y1++) {
-	int x = map_x0 + x1;
-	int y = map_y0 + y1;
-	struct city *pcity;
-
-	if (normalize_map_pos(&x, &y)
-	    && (pcity = map_get_city(x, y))) {
-	  map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
-	  show_city_desc(pcity, canvas_x, canvas_y);
-	}
-      }
-    }
-  }
+  } gui_rect_iterate_end;
 }
 
 /****************************************************************************
