@@ -57,6 +57,9 @@ extern struct advance advances[];
 
 extern int did_advance_tech_this_year;
 
+/* abbreviate long city names to this length in the city report: */
+#define REPORT_CITYNAME_ABBREV 15 
+
 /************************************************************************
  cr_entry = return an entry (one column for one city) for the city report
  These return ptrs to filled in static strings.
@@ -66,7 +69,10 @@ extern int did_advance_tech_this_year;
 
 static char *cr_entry_cityname(struct city *pcity)
 {
-  return pcity->name;
+  static char buf[REPORT_CITYNAME_ABBREV+1];
+  strncpy(buf, pcity->name, REPORT_CITYNAME_ABBREV);
+  buf[REPORT_CITYNAME_ABBREV] = '\0';
+  return buf;
 }
 
 static char *cr_entry_size(struct city *pcity)
@@ -1265,7 +1271,10 @@ void city_report_dialog_update_city(struct city *pcity)
       char new_city_line[200];
 
       XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
-      if(strncmp(pcity->name,list[i],strlen(pcity->name))) break;
+      if(strncmp(pcity->name,list[i],
+		 MIN(strlen(pcity->name),REPORT_CITYNAME_ABBREV))) {
+	 break;
+      }
       get_city_text(pcity,new_city_line);
       if(strcmp(new_city_line, list[i])==0) return; /* no change */
       strcpy(list[i], new_city_line);

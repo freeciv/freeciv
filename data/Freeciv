@@ -402,6 +402,7 @@ Freeciv*notifylabel.background: lightblue
 !
 Freeciv*shellnewcityname.title: Build New City
 Freeciv*shellnewcityname*ilable.background: LightBlue
+Freeciv*shellnewcityname*iinput.width: 220
 
 
 !
@@ -409,6 +410,7 @@ Freeciv*shellnewcityname*ilable.background: LightBlue
 !
 Freeciv*shellrenamecity.title: Rename City
 Freeciv*shellrenamecity*ilable.background: LightBlue
+Freeciv*shellrenamecity*iinput.width: 220
 
 !
 ! unit select dialog
