@@ -1700,13 +1700,13 @@ static void rename_player(struct connection *caller, char *arg)
 
 /**************************************************************************
 ...
-(Should this take a 'caller' argument for output? --dwp)
 **************************************************************************/
-void read_init_script(char *script_filename)
+void read_init_script(struct connection *caller, char *script_filename)
 {
   FILE *script_file;
   char buffer[MAX_LEN_CONSOLE_LINE];
 
+  freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
   script_file = fopen(script_filename,"r");
 
   if (script_file) {
@@ -1717,6 +1717,8 @@ void read_init_script(char *script_filename)
     fclose(script_file);
 
   } else {
+    cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
+	_("Cannot read command line scriptfile '%s'."), script_filename);
     freelog(LOG_ERROR,
 	_("Could not read script file '%s'."), script_filename);
   }
@@ -1729,7 +1731,7 @@ void read_init_script(char *script_filename)
 static void read_command(struct connection *caller, char *arg)
 {
   /* warning: there is no recursion check! */
-  read_init_script(arg);
+  read_init_script(caller, arg);
 }
 
 /**************************************************************************

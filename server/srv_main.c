@@ -1780,11 +1780,6 @@ void srv_main(void)
   init_our_capability();
   game_init();
 
-  /* load a script file */
-
-  if (srvarg.script_filename)
-    read_init_script(srvarg.script_filename);
-
   /* load a saved game */
   
   if(srvarg.load_filename) {
@@ -1810,6 +1805,7 @@ void srv_main(void)
   /* init network */  
   init_connections(); 
   server_open_socket();
+
   if(!(srvarg.metaserver_no_send)) {
     freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
 	    meta_addr_port());
@@ -1817,11 +1813,15 @@ void srv_main(void)
   }
 
   send_server_info_to_metaserver(1,0);
-  
+
   /* accept new players, wait for serverop to start..*/
-  freelog(LOG_NORMAL, _("Now accepting new client connections."));
   server_state=PRE_GAME_STATE;
 
+  /* load a script file */
+  if (srvarg.script_filename)
+    read_init_script(NULL,srvarg.script_filename);
+
+  freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state==PRE_GAME_STATE)
     sniff_packets(); /* Accepting commands. */
 

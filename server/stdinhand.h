@@ -24,7 +24,7 @@ void handle_stdin_input(struct connection *caller, char *str);
 void report_server_options(struct conn_list *dest, int which);
 void set_ai_level_direct(struct player *pplayer, int level);
 void set_ai_level_directer(struct player *pplayer, int level);
-void read_init_script(char *script_filename);
+void read_init_script(struct connection *caller, char *script_filename);
 void show_players(struct connection *caller);
 
 void quit_game(struct connection *caller);
