@@ -27,6 +27,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "player.h"
 #include "registry.h"
 #include "shared.h"
@@ -35,8 +36,6 @@
 #include "graphics_g.h"
 
 #include "tilespec.h"
-
-extern struct player_race *races;
 
 char *main_intro_filename;
 char *minimap_intro_filename;
@@ -652,7 +651,7 @@ void tilespec_setup_government(int id)
 ***********************************************************************/
 void tilespec_setup_nation_flag(int id)
 {
-  struct player_race *this = &races[id];
+  struct nation_type *this = get_nation_by_idx(id);
 
   this->flag_sprite = lookup_sprite_tag_alt(this->flag_graphic_str, 
 					    this->flag_graphic_alt,

@@ -91,7 +91,7 @@ void intel_create_dialog(struct player *p)
 				 intel_dialog_shell, NULL);
   
   sprintf(buf, "Intelligence Information for the %s Empire", 
-	  get_race_name(p->race));
+	  get_nation_name(p->nation));
   
   title=XtVaCreateManagedWidget("inteltitlelabel", 
 			  labelWidgetClass, 
@@ -100,7 +100,7 @@ void intel_create_dialog(struct player *p)
 			  NULL);
   
   sprintf(buf, "Ruler: %s %s", 
-	  get_ruler_title(p->government, p->is_male, p->race), p->name);
+	  get_ruler_title(p->government, p->is_male, p->nation), p->name);
   XtVaCreateManagedWidget("intelnamelabel", 
 			  labelWidgetClass, 
 			  form, 

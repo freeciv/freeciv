@@ -246,7 +246,7 @@ void update_info_label( void )
   char buffer	[512];
   int  d;
 
-  gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_race_name(game.player_ptr->race) );
+  gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
 
   sprintf( buffer, "Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d",
   	  int_to_text( civ_population( game.player_ptr ) ),
@@ -456,17 +456,17 @@ void set_bulb_sol_government(int bulb, int sol, int government)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Sprite *get_city_race_flag_sprite(struct city *pcity)
+static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
 {
-  return get_race(&game.players[pcity->owner])->flag_sprite;
+  return get_nation_by_plr(&game.players[pcity->owner])->flag_sprite;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Sprite *get_unit_race_flag_sprite(struct unit *punit)
+static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
 {
-  return get_race(&game.players[punit->owner])->flag_sprite;
+  return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
 }
 
 
@@ -948,19 +948,19 @@ void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile)
 
   if(use_solid_color_behind_units) {
     gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-					game.players[pcity->owner].race] );
+					game.players[pcity->owner].nation] );
     gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
 		    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
   }
   else if(!flags_are_transparent) {	/* observe transparency here, too! */
-    mysprite=get_city_race_flag_sprite(pcity);
+    mysprite=get_city_nation_flag_sprite(pcity);
     gdk_draw_pixmap( pm, civ_gc, mysprite->pixmap,
 		0, 0,
 		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
 		mysprite->width, mysprite->height );
   } else {
-    pixmap_put_overlay_tile(pm, xtile, ytile, get_city_race_flag_sprite(pcity));
+    pixmap_put_overlay_tile(pm, xtile, ytile, get_city_nation_flag_sprite(pcity));
   }
   
 
@@ -1013,7 +1013,7 @@ void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
 
   if(use_solid_color_behind_units) {
     gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-					game.players[punit->owner].race] );
+					game.players[punit->owner].nation] );
     gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
 		    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
@@ -1021,9 +1021,9 @@ void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
   else {
     if(flags_are_transparent) {
       pixmap_put_overlay_tile(pm, xtile, ytile, 
-			      get_unit_race_flag_sprite(punit));
+			      get_unit_nation_flag_sprite(punit));
     } else {
-      mysprite=get_unit_race_flag_sprite(punit);
+      mysprite=get_unit_nation_flag_sprite(punit);
       gdk_draw_pixmap( pm, civ_gc, mysprite->pixmap,
 		0, 0,
 		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT,
@@ -1100,11 +1100,11 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
   
   if(use_solid_color_behind_units) {
     gtk_pixcomm_fill(p, colors_standard[COLOR_STD_RACE0+
-			game.players[punit->owner].race], FALSE);
+			game.players[punit->owner].nation], FALSE);
   }
   else {
     put_overlay_tile_gpixmap(p, xtile, ytile,
-			     get_unit_race_flag_sprite(punit));
+			     get_unit_nation_flag_sprite(punit));
   }
     
   put_overlay_tile_gpixmap(p, xtile, ytile,

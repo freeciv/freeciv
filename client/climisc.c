@@ -76,7 +76,7 @@ void client_remove_unit(int unit_id)
     int hc=punit->homecity;
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_race_name(get_player(punit->owner)->race),
+	   unit_id, get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, hc);
     
     if(punit==get_unit_in_focus()) {
@@ -92,7 +92,7 @@ void client_remove_unit(int unit_id)
 
     if (pcity) {
       freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
-	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
     
     if((pcity=city_list_find_id(&game.player_ptr->cities, hc)))
@@ -100,7 +100,7 @@ void client_remove_unit(int unit_id)
 
     if (pcity) {
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
     
     refresh_tile_mapcanvas(x, y, 1);
@@ -118,7 +118,7 @@ void client_remove_city(struct city *pcity)
   int y=pcity->y;
 
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	  get_race_name(city_owner(pcity)->race), x, y);
+	  get_nation_name(city_owner(pcity)->nation), x, y);
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();

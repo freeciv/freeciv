@@ -79,7 +79,7 @@ void intel_create_dialog(struct player *p)
   gtk_container_border_width(GTK_CONTAINER(intel_dialog_shell), 5);
 
   sprintf(buf, "Intelligence Information for the %s Empire", 
-	  get_race_name(p->race));
+	  get_nation_name(p->nation));
 
   label=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
@@ -92,7 +92,7 @@ void intel_create_dialog(struct player *p)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
   sprintf(buf, "Ruler: %s %s", 
-	  get_ruler_title(p->government, p->is_male, p->race), p->name);
+	  get_ruler_title(p->government, p->is_male, p->nation), p->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
   

@@ -17,7 +17,6 @@
 #include "city.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "shared.h"
 #include "tech.h"
@@ -26,8 +25,6 @@
 #include "player.h"
 
 extern int is_server;
-
-struct player_race *races;
 
 /***************************************************************
 ...
@@ -51,51 +48,6 @@ int player_owns_city(struct player *pplayer, struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-Nation_Type_id find_race_by_name(char *name)
-{
-  int i;
-
-  for(i=0; i<game.nation_count; i++)
-     if(!mystrcasecmp(name, get_race_name (i)))
-	return i;
-
-  return -1;
-}
-
-/***************************************************************
-...
-***************************************************************/
-char *get_race_name(Nation_Type_id race)
-{
-  return races[race].name;
-}
-
-char *get_race_leader_name(Nation_Type_id race)
-{
-  return races[race].leader_name;
-}
-
-int get_race_leader_sex(Nation_Type_id race)
-{
-  return races[race].leader_is_male;
-}
-
-/***************************************************************
-...
-***************************************************************/
-char *get_race_name_plural(Nation_Type_id race)
-{
-  return races[race].name_plural;
-}
-
-struct player_race *get_race(struct player *plr)
-{
-  return &races[plr->race];
-}
-
-/***************************************************************
-...
-***************************************************************/
 void player_init(struct player *plr)
 {
   plr->player_no=plr-game.players;
@@ -104,7 +56,7 @@ void player_init(struct player *plr)
   strcpy(plr->username, "UserName");
   plr->is_male = 1;
   plr->government=game.default_government;
-  plr->race=MAX_NUM_NATIONS;
+  plr->nation=MAX_NUM_NATIONS;
   plr->capital=0;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);
@@ -324,78 +276,6 @@ int ai_fuzzy(struct player *pplayer, int normal_decision)
   if (!pplayer->ai.control || !pplayer->ai.fuzzy) return normal_decision;
   if (myrand(1000) >= pplayer->ai.fuzzy) return normal_decision;
   return !normal_decision;
-}
-
-/**************************************************************************
-  This converts the goal strings in races[] to integers.
-  This should only be done after rulesets are loaded!
-  Messages are LOG_VERBOSE because its quite possible they
-  are not real errors.
-**************************************************************************/
-void init_race_goals(void)
-{
-  char *str, *name;
-  int val, i, j;
-  struct player_race *prace;
-  struct government *gov;
-
-  for(prace=races; prace<races+game.nation_count; prace++) {
-    name = prace->name_plural;
-    str = prace->goals_str.government;
-    gov = find_government_by_name(str);
-    if(gov == NULL) {
-      freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
-	      str, name);
-      val = game.government_when_anarchy;  /* flag value (no goal) (?) */
-    } else {
-      val = gov->index;
-    }
-    freelog(LOG_DEBUG, "%s gov goal %d %s", name, val, str);
-    prace->goals.government = val;
-    
-    str = prace->goals_str.wonder;
-    val = find_improvement_by_name(str);
-    /* for any problems, leave as B_LAST */
-    if(val == B_LAST) {
-      freelog(LOG_VERBOSE, "Didn't match goal wonder \"%s\" for %s", str, name);
-    } else if(!improvement_exists(val)) {
-      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s doesn't exist", str, name);
-      val = B_LAST;
-    } else if(!is_wonder(val)) {
-      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s not a wonder", str, name);
-      val = B_LAST;
-    }
-    prace->goals.wonder = val;
-    freelog(LOG_DEBUG, "%s wonder goal %d %s", name, val, str);
-
-    /* i is index is goals_str, j is index (good values) in goals */
-    j = 0;			
-    for(i=0; i<MAX_NUM_TECH_GOALS; i++) {
-      str = prace->goals_str.tech[i];
-      if(str[0] == '\0')
-	continue;
-      val = find_tech_by_name(str);
-      if(val == A_LAST) {
-	freelog(LOG_VERBOSE, "Didn't match goal tech %d \"%s\" for %s",
-		i, str, name);
-      } else if(!tech_exists(val)) {
-	freelog(LOG_VERBOSE, "Goal tech %d \"%s\" for %s doesn't exist",
-		i, str, name);
-	val = A_LAST;
-      }
-      if(val != A_LAST && val != A_NONE) {
-	freelog(LOG_DEBUG, "%s tech goal (%d) %3d %s", name, j, val, str);
-	prace->goals.tech[j++] = val;
-      }
-    }
-    freelog(LOG_DEBUG, "%s %d tech goals", name, j);
-    if(j==0) {
-      freelog(LOG_VERBOSE, "No valid goal techs for %s", name);
-    }
-    while(j<MAX_NUM_TECH_GOALS) {
-      prace->goals.tech[j++] = A_NONE;
-    }
-  }
 }
 
 /**************************************************************************

@@ -131,7 +131,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
     
     if((pcity=map_get_city(xtile, ytile))) {
       sprintf(s, "City: %s(%s)", pcity->name, 
-	      get_race_name(game.players[pcity->owner].race));
+	      get_nation_name(game.players[pcity->owner].nation));
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
@@ -152,7 +152,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
 	  sprintf(cn, "/%s", pcity->name);
       }
       sprintf(s, "Unit: %s(%s%s)", ptype->name, 
-	      get_race_name(game.players[punit->owner].race), cn);
+	      get_nation_name(game.players[punit->owner].nation), cn);
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
       if(punit->owner==game.player_idx)  {

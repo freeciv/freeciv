@@ -154,8 +154,8 @@ char *get_report_title(char *report_name)
   sprintf(buf, "%s\n%s of the %s\n%s %s: %s",
 	  report_name,
 	  get_government_name(game.player_ptr->government),
-	  get_race_name_plural(game.player_ptr->race),
-	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->race),
+	  get_nation_name_plural(game.player_ptr->nation),
+	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->nation),
 	  game.player_ptr->name,
 	  textyear(game.year));
 

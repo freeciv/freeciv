@@ -14,23 +14,17 @@
 #define FC__PLAYER_H
 
 #include "city.h"
+#include "nation.h"
 #include "tech.h"
 #include "unit.h"
 #include "spaceship.h"
 
 struct tile;
-struct Sprite;			/* opaque; client-gui specific */
 
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0
-#define MAX_NUM_TECH_GOALS 10
-#define MAX_NUM_NATIONS  63
 
-
-typedef int Nation_Type_id;
-
-enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};
 
 enum handicap_type {
   H_NONE=0, /* no handicaps */
@@ -49,41 +43,6 @@ enum handicap_type {
 /* anything else I have forgotten?  Let me know. -- Syela */
 };
 
-struct player_race {
-  char name[MAX_LEN_NAME];
-  char name_plural[MAX_LEN_NAME];
-  char flag_graphic_str[MAX_LEN_NAME];
-  char flag_graphic_alt[MAX_LEN_NAME];
-  char leader_name[MAX_LEN_NAME];
-  int leader_is_male;
-  int attack;     /* c 0 = optimize for food, 2 =  optimize for prod  */
-                  /* c0 = large amount of buildings, 2 = units */
-/* attack has been un-implemented for the time being. -- Syela */
-  int expand;    /* c0 = transform first ,  2 = build cities first */
-/* expand has been un-implemented, probably permanently. -- Syela */
-  int civilized; /* c 0 = don't use nukes,  2 = use nukes, lots of pollution */
-/* civilized was never implemented, but will be eventually. -- Syela */
-  int advisors[ADV_LAST]; /* never implemented either. -- Syela */
-
-  /* Following basically disabled -- Syela */
-  /* Now start from strings to be ruleset-friendly --dwp */
-  struct {
-    char *tech[MAX_NUM_TECH_GOALS];	/* tech goals */
-    char *wonder;		/* primary Wonder (maybe primary opponent,
-				   if other builds it) */
-    char *government;		/* wanted government form */
-  } goals_str;
-  /* Following are conversions from above strings after rulesets loaded.
-   * Note these are implicit zeros in initialization table, so this must
-   * come at end of player_race struct. Also note the client doesn't
-   * use these (?) */
-  struct {
-    int tech[MAX_NUM_TECH_GOALS];
-    int wonder;
-    int government;
-  } goals;
-  struct Sprite *flag_sprite;
-};
 
 struct player_economic {
   int gold;
@@ -153,7 +112,7 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 /*    - ALLOW_HACK is required for SSET_TO_SERVER options                 */
 
 /***************************************************************************
-  On the distinction between races, players, and users,
+  On the distinction between nations(formerly races), players, and users,
   see freeciv_hackers_guide.txt
 ***************************************************************************/
 
@@ -163,7 +122,7 @@ struct player {
   char username[MAX_LEN_NAME];
   int is_male;
   int government;
-  Nation_Type_id race;
+  Nation_Type_id nation;
   int turn_done;
   int nturns_idle;
   int is_alive;
@@ -190,12 +149,6 @@ struct player *find_player_by_user(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
-Nation_Type_id find_race_by_name(char *name);
-char *get_race_name(Nation_Type_id race);
-char *get_race_name_plural(Nation_Type_id race);
-char *get_race_leader_name(Nation_Type_id race);
-int get_race_leader_sex(Nation_Type_id race);
-struct player_race *get_race(struct player *plr);
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
 struct unit *player_find_visible_unit(struct player *pplayer, struct tile *);
 int player_owns_city(struct player *pplayer, struct city *pcity);
@@ -212,8 +165,6 @@ struct city *find_palace(struct player *pplayer);
 
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
-
-void init_race_goals(void);
 
 char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named (char *token);

@@ -186,7 +186,7 @@ void ai_eval_buildings(struct city *pcity)
   int needpower;
   int wwtv = worst_worker_tile_value(pcity);
   
-  a = get_race(city_owner(pcity))->attack;
+  a = get_nation_by_plr(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
   sci = (pcity->trade_prod * pplayer->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;

@@ -49,5 +49,8 @@ void reestablish_city_trade_routes(struct city *pcity);
 
 void handle_city_options(struct player *pplayer,
  			 struct packet_generic_values *preq);
+void handle_city_name_suggest_req(struct player *pplayer,
+				  struct packet_generic_integer *packet);
+char *city_name_suggestion(struct player *pplayer);
 
 #endif  /* FC__CITYHAND_H */

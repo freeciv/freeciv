@@ -876,7 +876,7 @@ static void city_populate(struct city *pcity)
 			 "Game: Famine feared in %s, Settlers lost!", 
 			 pcity->name);
 	gamelog(GAMELOG_UNITFS, "%s lose Settlers (famine)",
-		get_race_name_plural(game.players[pcity->owner].race));
+		get_nation_name_plural(game.players[pcity->owner].nation));
 	if (city_got_effect(pcity, B_GRANARY))
 	  pcity->food_stock=(pcity->size*game.foodbox)/2;
 	else
@@ -912,7 +912,7 @@ int advisor_choose_build(struct city *pcity)
     if(is_wonder(id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		    "Game: The %s have started building The %s in %s.",
-		    get_race_name_plural(city_owner(pcity)->race),
+		    get_nation_name_plural(city_owner(pcity)->nation),
 		    get_imp_name_ex(pcity, id), pcity->name);
     }
     pcity->currently_building=id;
@@ -1037,17 +1037,17 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	game.global_wonders[pcity->currently_building]=pcity->id;
 	notify_player_ex(0, pcity->x, pcity->y, E_WONDER_BUILD,
 		      "Game: The %s have finished building %s in %s.",
-		      get_race_name_plural(pplayer->race),
+		      get_nation_name_plural(pplayer->nation),
 		      get_imp_name_ex(pcity, pcity->currently_building),
 		      pcity->name);
         gamelog(GAMELOG_WONDER,"%s build %s in %s",
-                get_race_name_plural(pplayer->race),
+                get_nation_name_plural(pplayer->nation),
                 get_imp_name_ex(pcity, pcity->currently_building),
                 pcity->name);
 
       } else 
 	gamelog(GAMELOG_IMP, "%s build %s in %s",
-                get_race_name_plural(pplayer->race),
+                get_nation_name_plural(pplayer->nation),
                 get_imp_name_ex(pcity, pcity->currently_building),
                 pcity->name);
       
@@ -1065,7 +1065,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
 	notify_player_ex(0, pcity->x, pcity->y, E_SPACESHIP,
 			 "Game: The %s have started building a spaceship!",
-			 get_race_name_plural(pplayer->race));
+			 get_nation_name_plural(pplayer->nation));
 	pplayer->spaceship.state = SSHIP_STARTED;
       }
       if (space_part) {
@@ -1111,7 +1111,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 		       pcity->name, 
 		       unit_types[pcity->currently_building].name);
     gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
-	    get_race_name_plural(pplayer->race), 
+	    get_nation_name_plural(pplayer->nation), 
 	    unit_types[pcity->currently_building].name,
 	    pcity->name, pcity->x, pcity->y);
 
@@ -1315,13 +1315,13 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
 	     	    "Game: We Love The %s Day celebrated in %s", 
-	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->race),
+	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
 		    pcity->name);
     }
     if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
 		    "Game: We Love The %s Day canceled in %s",
-	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->race),
+	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
 		    pcity->name);
 
     }
@@ -1418,7 +1418,7 @@ static void disband_city(struct city *pcity)
 		   pcity->name, unit_types[pcity->currently_building].name);
   gamelog(GAMELOG_UNIT, "%s (%i, %i) disbanded into %s by the %s", pcity->name, 
 	  x,y, unit_types[pcity->currently_building].name,
-	  get_race_name_plural(pplayer->race));
+	  get_nation_name_plural(pplayer->nation));
 
   remove_city(pcity);
 }

@@ -323,14 +323,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 					       pdialog->dip_main_form, 
 					       NULL);
   
-  sprintf(buf, "The %s offerings", get_race_name(plr0->race));
+  sprintf(buf, "The %s offerings", get_nation_name(plr0->nation));
   pdialog->dip_headline0=XtVaCreateManagedWidget("dipheadline0", 
 						 labelWidgetClass, 
 						 pdialog->dip_form0, 
 						 XtNlabel, buf,
 						 NULL);   
 
-  sprintf(buf, "The %s offerings", get_race_name(plr1->race));
+  sprintf(buf, "The %s offerings", get_nation_name(plr1->nation));
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadline1", 
 						 labelWidgetClass, 
 						 pdialog->dip_form1, 
@@ -445,11 +445,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   
   sprintf(buf, "This Eternal Treaty\nmarks the results of the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s",
-	  get_race_name(plr0->race),
-	  get_ruler_title(plr0->government, plr0->is_male, plr0->race),
+	  get_nation_name(plr0->nation),
+	  get_ruler_title(plr0->government, plr0->is_male, plr0->nation),
 	  plr0->name,
-	  get_race_name(plr1->race),
-	  get_ruler_title(plr1->government, plr0->is_male, plr0->race),
+	  get_nation_name(plr1->nation),
+	  get_ruler_title(plr1->government, plr0->is_male, plr0->nation),
 	  plr1->name);
   
   pheadlinem=create_centered_string(buf);
@@ -481,7 +481,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaSetValues(pdialog->dip_view, XtNwidth, width, NULL); 
   XtVaSetValues(pdialog->dip_clauselist, XtNwidth, width, NULL); 
 
-  sprintf(buf, "%s view:", get_race_name(plr0->race));
+  sprintf(buf, "%s view:", get_nation_name(plr0->nation));
   pdialog->dip_acceptlabel0=XtVaCreateManagedWidget("dipacceptlabel0",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -492,7 +492,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    pdialog->dip_formm, 
 						    XtNbitmap, get_thumb_pixmap(0),
 						    NULL);
-  sprintf(buf, "%s view:", get_race_name(plr1->race));
+  sprintf(buf, "%s view:", get_nation_name(plr1->nation));
   pdialog->dip_acceptlabel1=XtVaCreateManagedWidget("dipacceptlabel1",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -577,26 +577,26 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     switch(pclause->type) {
      case CLAUSE_ADVANCE:
       sprintf(pdialog->clauselist_strings[i], "The %s give %s",
-	      get_race_name_plural(pclause->from->race),
+	      get_nation_name_plural(pclause->from->nation),
 	      advances[pclause->value].name);
       break;
     case CLAUSE_CITY:
       sprintf(pdialog->clauselist_strings[i], "The %s give %s",
-	      get_race_name_plural(pclause->from->race),
+	      get_nation_name_plural(pclause->from->nation),
 	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
       sprintf(pdialog->clauselist_strings[i], "The %s give %d gold",
-	      get_race_name_plural(pclause->from->race),
+	      get_nation_name_plural(pclause->from->nation),
 	      pclause->value);
       break;
      case CLAUSE_MAP: 
       sprintf(pdialog->clauselist_strings[i], "The %s give their worldmap",
-	      get_race_name_plural(pclause->from->race));
+	      get_nation_name_plural(pclause->from->nation));
       break;
      case CLAUSE_SEAMAP: 
       sprintf(pdialog->clauselist_strings[i], "The %s give their seamap",
-	      get_race_name_plural(pclause->from->race));
+	      get_nation_name_plural(pclause->from->nation));
       break;
     }
     pdialog->clauselist_strings_ptrs[i]=pdialog->clauselist_strings[i];

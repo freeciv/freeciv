@@ -421,17 +421,17 @@ void set_bulb_sol_government(int bulb, int sol, int government)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Sprite *get_city_race_flag_sprite(struct city *pcity)
+static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
 {
-  return get_race(&game.players[pcity->owner])->flag_sprite;
+  return get_nation_by_plr(&game.players[pcity->owner])->flag_sprite;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Sprite *get_unit_race_flag_sprite(struct unit *punit)
+static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
 {
-  return get_race(&game.players[punit->owner])->flag_sprite;
+  return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
 }
 
 /**************************************************************************
@@ -893,19 +893,19 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
 
   if(use_solid_color_behind_units) {
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                   game.players[pcity->owner].race]);
+                   game.players[pcity->owner].nation]);
     XFillRectangle(display, pm, fill_bg_gc, 
 		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
   else if(!flags_are_transparent) {	/* observe transparency here, too! */
-    mysprite=get_city_race_flag_sprite(pcity);
+    mysprite=get_city_nation_flag_sprite(pcity);
     XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
 	      mysprite->width, mysprite->height, 
 	      xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
   }
   else {
-    pixmap_put_overlay_tile(pm,xtile,ytile, get_city_race_flag_sprite(pcity));
+    pixmap_put_overlay_tile(pm,xtile,ytile, get_city_nation_flag_sprite(pcity));
   }
 
   pixmap_put_overlay_tile(pm, xtile, ytile,
@@ -957,7 +957,7 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 
   if(use_solid_color_behind_units) {
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-		   game.players[punit->owner].race]);
+		   game.players[punit->owner].nation]);
     XFillRectangle(display, pm, fill_bg_gc, 
 		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -965,9 +965,9 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
   else {
     if(flags_are_transparent) {
       pixmap_put_overlay_tile(pm, xtile, ytile, 
-			      get_unit_race_flag_sprite(punit));
+			      get_unit_nation_flag_sprite(punit));
     } else {
-      mysprite=get_unit_race_flag_sprite(punit);
+      mysprite=get_unit_nation_flag_sprite(punit);
       XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
 		mysprite->width, mysprite->height, 
 		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);

@@ -58,8 +58,6 @@ The improvement_types array is now setup in:
 
 struct improvement_type improvement_types[B_LAST];
 
-char ***default_nation_city_names;
-
 char **misc_city_names; 
 
 /**************************************************************************
@@ -186,45 +184,6 @@ char *get_improvement_name(enum improvement_type_id id)
 {
   return get_improvement_type(id)->name; 
 }
-
-/****************************************************************
-...
-*****************************************************************/
-
-char *city_name_suggestion(struct player *pplayer)
-{
-  char **nptr;
-  int i, j, k;
-  static int n_misc=0;
-  static char tempname[100];
-
-  freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
-  
-  if (!n_misc) {
-    for (i=0; misc_city_names[i]; i++) {}
-    n_misc = i;
-  }
-
-  for(nptr=default_nation_city_names[pplayer->race]; *nptr; nptr++) {
-    if(!game_find_city_by_name(*nptr))
-      return *nptr;
-  }
-
-  j = myrand(n_misc);
-  for (i=0; i<n_misc; i++) {
-    k = (i+j) % n_misc;
-    if (!game_find_city_by_name(misc_city_names[k])) 
-      return misc_city_names[k];
-  }
-
-  for (i = 0; i < 1000;i++ ) {
-    sprintf(tempname, "city %d", i);
-    if (!game_find_city_by_name(tempname)) 
-      return tempname;
-  }
-  return "";
-}
-
 
 /**************************************************************************
 ...

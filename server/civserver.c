@@ -55,6 +55,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "packets.h"
 #include "player.h"
 #include "registry.h"
@@ -98,14 +99,15 @@ static int is_game_over(void);
 static void read_init_script(char *script_filename);
 static void save_game_auto(void);
 static void generate_ai_players(void);
-static int mark_race_as_used(int race);
+static int mark_nation_as_used(int nation);
 static void announce_ai_player(struct player *pplayer);
+static void reject_new_player(char *msg, struct connection *pconn);
 
-static void handle_alloc_race(int player_no, struct packet_alloc_race *packet);
+static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packet);
 static void handle_request_join_game(struct connection *pconn, 
 				     struct packet_req_join_game *request);
 static void handle_turn_done(int player_no);
-static void send_select_race(struct player *pplayer);
+static void send_select_nation(struct player *pplayer);
 
 #ifdef GENERATING_MAC
 static void Mac_options(int *argc, char *argv[]);
@@ -142,10 +144,10 @@ char usage[] =
 int port=DEFAULT_SOCK_PORT;
 int nocity_send=0;
 
-/* The next three variables make selecting races for AI players cleaner */
-int *races_avail;
-int *races_used;
-int num_races_avail;
+/* The next three variables make selecting nations for AI players cleaner */
+int *nations_avail;
+int *nations_used;
+int num_nations_avail;
 
 int rand_init=0;
 
@@ -337,22 +339,24 @@ int main(int argc, char *argv[])
     /* otherwise rulesets were loaded when savegame was loaded */
   }
 
-  races_avail = fc_calloc( game.nation_count, sizeof(int));
-  races_used = fc_calloc( game.nation_count, sizeof(int));
-  num_races_avail = game.nation_count;
+  send_rulesets(0);
+
+  nations_avail = fc_calloc( game.nation_count, sizeof(int));
+  nations_used = fc_calloc( game.nation_count, sizeof(int));
+  num_nations_avail = game.nation_count;
   for(i=0; i<game.nation_count; i++) {
-      races_avail[i]=i;
-      races_used[i]=i;
+      nations_avail[i]=i;
+      nations_used[i]=i;
   }
 
-  /* Allow players to select a race (case new game).
-   * AI players may not yet have a race; these will be selected
+  /* Allow players to select a nation (case new game).
+   * AI players may not yet have a nation; these will be selected
    * in generate_ai_players() later
    */
   server_state = RUN_GAME_STATE;
   for(i=0; i<game.nplayers; i++) {
-    if (game.players[i].race == MAX_NUM_NATIONS && !game.players[i].ai.control) {
-      send_select_race(&game.players[i]);
+    if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
+      send_select_nation(&game.players[i]);
       server_state = SELECT_RACES_STATE;
     }
   }
@@ -360,7 +364,7 @@ int main(int argc, char *argv[])
   while(server_state==SELECT_RACES_STATE) {
     sniff_packets();
     for(i=0; i<game.nplayers; i++) {
-      if (game.players[i].race == MAX_NUM_NATIONS && !game.players[i].ai.control) {
+      if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
 	break;
       }
     }
@@ -605,7 +609,7 @@ dest can be NULL meaning all players
 **************************************************************************/
 static void send_all_info(struct player *dest)
 {
-  send_rulesets(dest);
+/*  send_rulesets(dest); */
   send_game_info(dest);
   send_map_info(dest);
   send_player_info(0, dest);
@@ -847,18 +851,6 @@ static void handle_report_request(struct player *pplayer, enum report_type type)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_city_name_suggest_req(struct player *pplayer,
-				  struct packet_generic_integer *packet)
-{
-  struct packet_city_name_suggestion reply;
-  reply.id = packet->value;
-  strcpy(reply.name, city_name_suggestion(pplayer));
-  send_packet_city_name_suggestion(pplayer->conn, &reply);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void handle_packet_input(struct connection *pconn, char *packet, int type)
 {
   int i;
@@ -895,8 +887,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_turn_done(i);
     break;
 
-  case PACKET_ALLOC_RACE:
-    handle_alloc_race(i, (struct packet_alloc_race *)packet);
+  case PACKET_ALLOC_NATION:
+    handle_alloc_nation(i, (struct packet_alloc_nation *)packet);
     break;
 
   case PACKET_UNIT_INFO:
@@ -1121,73 +1113,81 @@ static void handle_turn_done(int player_no)
 /**************************************************************************
 ...
 **************************************************************************/
-static void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
+static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packet)
 {
-  int i;
-  struct packet_select_race select_race; 
+  int i, nations_used;
+  struct packet_generic_values select_nation; 
 
   for(i=0; i<game.nplayers; i++)
-    if(game.players[i].race==packet->race_no) {
-       send_select_race(&game.players[player_no]); /* it failed - race taken */
+    if(game.players[i].nation==packet->nation_no) {
+       send_select_nation(&game.players[player_no]); /* it failed - nation taken */
        return;
     } else /* check to see if name has been taken */
        if (!strcmp(game.players[i].name,packet->name) && 
-            game.players[i].race != MAX_NUM_NATIONS) { 
+            game.players[i].nation != MAX_NUM_NATIONS) { 
        notify_player(&game.players[player_no],
 		     "Another player named '%s' has already joined the game.  "
 		     "Please choose another name.", packet->name);
-       send_select_race(&game.players[player_no]);
+       send_select_nation(&game.players[player_no]);
        return;
     }
 
   freelog(LOG_NORMAL, "%s is the %s ruler %s", game.players[player_no].name, 
-      get_race_name(packet->race_no), packet->name);
+      get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
-  select_race.mask2=0xffff;
-  select_race.nation_count=0;
-  send_packet_select_race(game.players[player_no].conn, &select_race);
+  select_nation.value2=0xffff;
+  send_packet_generic_values(game.players[player_no].conn, PACKET_SELECT_NATION, 
+                             &select_nation);
 
-  game.players[player_no].race=packet->race_no;
+  game.players[player_no].nation=packet->nation_no;
   strcpy(game.players[player_no].name, packet->name);
   game.players[player_no].is_male=packet->is_male;
 
-  /* tell the other players, that the race is now unavailable */
+  /* tell the other players, that the nation is now unavailable */
+  nations_used = 0;
   for(i=0; i<game.nplayers; i++)
-    if(game.players[i].race==MAX_NUM_NATIONS)
-      send_select_race(&game.players[i]);
+    if(game.players[i].nation==MAX_NUM_NATIONS) 
+      send_select_nation(&game.players[i]);
+    else
+      nations_used++;                     /* count used nations */
 
-  mark_race_as_used(packet->race_no);
+  mark_nation_as_used(packet->nation_no);
+
+  /* if there's no nation left, reject remaining players, sorry */
+  if( nations_used == game.nation_count ) {
+    for(i=0; i<game.nplayers; i++) {
+      if( game.players[i].nation == MAX_NUM_NATIONS ) {
+        reject_new_player("Sorry you can't play. There's no nation left.", game.players[i].conn);
+	freelog(LOG_NORMAL, "Game full - %s was rejected.", game.players[i].name);    
+	server_remove_player(&game.players[i]);
+      }
+    }
+  }
 }
 
 /**************************************************************************
 Send request to select nation, mask1, mask2 contains those that were
 already selected and are not available
 **************************************************************************/
-static void send_select_race(struct player *pplayer)
+static void send_select_nation(struct player *pplayer)
 {
   int i;
-  struct packet_select_race select_race;   /* I need this because rulesets
-                                              are sent later - jk        */
-  select_race.mask1=0;                     /* assume int is 32 bit, safe */
-  select_race.mask2=0;
+  struct packet_generic_values select_nation;
+                                           
+  select_nation.value1=0;                     /* assume int is 32 bit, safe */
+  select_nation.value2=0;
 
   /* set bits in mask corresponding to nations already selected by others */
   for( i=0; i<game.nplayers; i++)
-    if(game.players[i].race != MAX_NUM_NATIONS) {
-      if( game.players[i].race < 32)
-        select_race.mask1 |= 1<<game.players[i].race;
+    if(game.players[i].nation != MAX_NUM_NATIONS) {
+      if( game.players[i].nation < 32)
+        select_nation.value1 |= 1<<game.players[i].nation;
       else
-        select_race.mask2 |= 1<<(game.players[i].race-32);
+        select_nation.value2 |= 1<<(game.players[i].nation-32);
     }
-  select_race.nation_count = game.nation_count;
-  for(i=0; i<game.nation_count; i++) {
-    strcpy( select_race.nation[i], get_race_name(i) );
-    strcpy( select_race.leader[i], get_race_leader_name(i) );
-    select_race.leader_sex[i] = get_race_leader_sex(i);
-  }
 
-  send_packet_select_race(pplayer->conn, &select_race);
+  send_packet_generic_values(pplayer->conn, PACKET_SELECT_NATION, &select_nation);
 }
 
 
@@ -1396,6 +1396,7 @@ static void handle_request_join_game(struct connection *pconn,
       join_game_accept(pplayer, 1);
       introduce_game_to_player(pplayer);
       if(server_state==RUN_GAME_STATE) {
+        send_rulesets(pplayer);
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
 	send_player_info(NULL,NULL);
@@ -1485,20 +1486,20 @@ void lost_connection_to_player(struct connection *pconn)
 }
 
 /**************************************************************************
-generate_ai_players() - Selects a race for players created with server's
+generate_ai_players() - Selects a nation for players created with server's
    "create <PlayerName>" command.  If <PlayerName> is the default leader
-   name for some race, we choose the corresponding race for that name
+   name for some nation, we choose the corresponding nation for that name
    (i.e. if we issue "create Shaka" then we will make that AI player's
-   race the Zulus if the Zulus have not been chosen by anyone else.  If they
-   have, then we pick an available race at random.
+   nation the Zulus if the Zulus have not been chosen by anyone else.  If they
+   have, then we pick an available nation at random.
 
    After that, we check to see if the
    server option "aifill" is greater than the number of players currently
    connected.  If so, we create the appropriate number of players
-   (game.aifill - game.nplayers) from scratch, choosing a random race
+   (game.aifill - game.nplayers) from scratch, choosing a random nation
    and appropriate name for each.
 
-   If AI player name is the default leader name for AI player race,
+   If AI player name is the default leader name for AI player nation,
    then player sex is defualt nation leader sex.
    (so if English are ruled by Elisabeth, she is female, but if "Player 1"
    rules English, he's a male).
@@ -1506,47 +1507,65 @@ generate_ai_players() - Selects a race for players created with server's
 
 static void generate_ai_players(void)
 {
-  int i,player,race;
+  int i, player;
+  Nation_Type_id nation;
   char player_name[MAX_LEN_NAME];
 
-  /* Select races for AI players generated with server 'create <name>' command */
+  /* Select nations for AI players generated with server 'create <name>' command */
 
   for(player=0;player<game.nplayers;player++) {
-    if(game.players[player].race != MAX_NUM_NATIONS)
+    if(game.players[player].nation != MAX_NUM_NATIONS)
        continue;
 
-    for (race = 0; race < game.nation_count; race++) {
-      if (!strcmp(game.players[player].name, get_race_leader_name(race)))
-        if(races_used[race] != -1) {
-           game.players[player].race=mark_race_as_used(race);
-           game.players[player].is_male=get_race_leader_sex(race);
+    if( num_nations_avail == 0 ) {
+      freelog( LOG_NORMAL, "Run out of nations. AI controlled player %s not created.",
+               game.players[player].name );
+      server_remove_player(&game.players[player]);
+      continue;
+    }
+
+    for (nation = 0; nation < game.nation_count; nation++) {
+      if ( check_nation_leader_name( nation, game.players[player].name ) )
+        if(nations_used[nation] != -1) {
+           game.players[player].nation=mark_nation_as_used(nation);
+           game.players[player].is_male=get_nation_leader_sex(nation, game.players[player].name);
            break;
         }
     }
 
-    if(race == game.nation_count)
-           game.players[player].race=
-              mark_race_as_used(races_avail[myrand(num_races_avail)]);
+    if(nation == game.nation_count) {
+      game.players[player].nation=
+              mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+      game.players[player].is_male=myrand(2);
+    }
 
     announce_ai_player(&game.players[player]);
 
   }
 
-  /* Create and pick race and name for AI players needed to bring the
+  /* Create and pick nation and name for AI players needed to bring the
      total number of players == game.aifill */
 
+  if( game.nation_count < game.aifill ) {
+    game.aifill = game.nation_count;
+    freelog( LOG_NORMAL, "Nation count smaller than aifill. Aifill reduced to %d",
+             game.nation_count);
+  }
+
   for(;game.nplayers < game.aifill;) {
-     race = mark_race_as_used(races_avail[myrand(num_races_avail)]);
-     pick_ai_player_name(race,player_name);
+     nation = mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+     pick_ai_player_name(nation,player_name);
      i=game.nplayers;
      accept_new_player(player_name, NULL);
      if ((game.nplayers == i+1) && 
          !strcmp(player_name,game.players[i].name)) {
-           game.players[i].race=race;
+           game.players[i].nation=nation;
 	   game.players[i].ai.control = !game.players[i].ai.control;
 	   game.players[i].ai.skill_level = game.skill_level;
-           if(!strcmp(player_name,get_race_leader_name(race)))
-             game.players[i].is_male = get_race_leader_sex(race);
+           if( check_nation_leader_name(nation,player_name) )
+             game.players[i].is_male = get_nation_leader_sex(nation,player_name);
+           else
+             game.players[i].is_male = myrand(2);
            announce_ai_player(&game.players[i]);
 	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         } else
@@ -1560,44 +1579,57 @@ static void generate_ai_players(void)
 
 
 /*************************************************************************
- pick_ai_player_name() - Returns the default ruler name for a given race
-     given that race's number.  If that player name is already taken,
-     iterates through "Player 1", "Player 2", ... until an unused name
+ pick_ai_player_name() - Returns a random ruler name picked from given nation
+     ruler names, given that nation's number. If that player name is already 
+     taken, iterates through all leader names to find unused one. If it fails
+     it iterates through "Player 1", "Player 2", ... until an unused name
      is found.
 *************************************************************************/
-void pick_ai_player_name (Nation_Type_id race, char *newname) 
+void pick_ai_player_name (Nation_Type_id nation, char *newname) 
 {
-   int playernumber=1;
+   int i, playernumber=1, names_count;
    char tempname[50];
+   char **names;
 
-   strcpy(tempname,get_race_leader_name(race));
+   names = get_nation_leader_names(nation, &names_count);
 
-   while(find_player_by_name(tempname)) {
+   /* first try random name, then all available */
+   strcpy( tempname, names[myrand(names_count)] );
+
+   if( find_player_by_name(tempname) ) {
+     for(i=0; i<names_count; i++) {
+       sprintf( tempname, names[i] );
+       if( !find_player_by_name(tempname) ) {
+         strcpy(newname,tempname);
+         return;
+       }
+     }
+     while(find_player_by_name(tempname)) {
        sprintf(tempname,"Player %d",playernumber++);
+     }
    }
-
    strcpy(newname,tempname);
 }
 
 /*************************************************************************
- mark_race_as_used() - shuffles the appropriate arrays to indicate that
- the specified race number has been allocated to some player and is
+ mark_nation_as_used() - shuffles the appropriate arrays to indicate that
+ the specified nation number has been allocated to some player and is
  therefore no longer available to any other player.  We do things this way
- so that the process of determining which races are available to AI players
+ so that the process of determining which nations are available to AI players
  is more efficient.
 *************************************************************************/
-static int mark_race_as_used (int race) {
-
-  if(num_races_avail <= 0) {/* no more unused races */
-      freelog(LOG_FATAL, "Argh! ran out of races!");
+static int mark_nation_as_used (int nation) 
+{
+  if(num_nations_avail <= 0) {/* no more unused nation */
+      freelog(LOG_FATAL, "Argh! ran out of nations!");
       exit(1);
   }
 
-   races_used[races_avail[num_races_avail-1]]=races_used[race];
-   races_avail[races_used[race]]=races_avail[--num_races_avail];
-   races_used[race]=-1;
+   nations_used[nations_avail[num_nations_avail-1]]=nations_used[nation];
+   nations_avail[nations_used[nation]]=nations_avail[--num_nations_avail];
+   nations_used[nation]=-1;
 
-   return race;
+   return nation;
 }
 
 /*************************************************************************
@@ -1607,13 +1639,13 @@ static void announce_ai_player (struct player *pplayer) {
    int i;
 
    freelog(LOG_NORMAL, "AI is controlling the %s ruled by %s",
-                    get_race_name_plural(pplayer->race),
+                    get_nation_name_plural(pplayer->nation),
                     pplayer->name);
 
    for(i=0; i<game.nplayers; ++i)
      notify_player(&game.players[i],
   	     "Game: %s rules the %s.", pplayer->name,
-                    get_race_name_plural(pplayer->race));
+                    get_nation_name_plural(pplayer->nation));
 
 }
 

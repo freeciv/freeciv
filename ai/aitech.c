@@ -54,7 +54,7 @@ enum government_type {
 #define A_DEMOCRACY (get_government(G_DEMOCRACY)->required_tech)
 static int get_government_tech(struct player *plr)
 {
-  int government = get_race(plr)->goals.government;
+  int government = get_nation_by_plr(plr)->goals.government;
   if (can_change_to_government(plr, government))
     return 0;
   switch (government) {
@@ -106,14 +106,14 @@ static int get_government_tech(struct player *plr)
 #endif /* NEW_GOV_EVAL */
 
 /**************************************************************************
-  Returns tech corresponding to players wonder goal from races[],
+  Returns tech corresponding to players wonder goal from nations[],
   if it makes sense, and wonder is not already built and not obsolete.
   Otherwise returns A_NONE.
 **************************************************************************/
 static int get_wonder_tech(struct player *plr)
 {
   int tech = A_NONE;
-  int building = get_race(plr)->goals.wonder;
+  int building = get_nation_by_plr(plr)->goals.wonder;
   
   if (!improvement_exists(building))
     return A_NONE;
@@ -130,12 +130,12 @@ static int get_wonder_tech(struct player *plr)
 static void ai_next_tech_goal_default(struct player *pplayer, 
 				      struct ai_choice *choice)
 {
-  struct player_race *prace;
+  struct nation_type *prace;
   int bestdist = A_LAST + 1;
   int dist, i;
   int goal = 0;
   int tech;
-  prace = get_race(pplayer);
+  prace = get_nation_by_plr(pplayer);
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
     int j = prace->goals.tech[i];
     if (!tech_exists(j) || get_invention(pplayer, j) == TECH_KNOWN) 

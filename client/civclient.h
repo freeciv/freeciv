@@ -22,7 +22,7 @@ void handle_tile_info(struct packet_tile_info *packet);
 void handle_player_info(struct packet_player_info *packet);
 void handle_game_info(struct packet_game_info *packet);
 void handle_map_info(struct packet_map_info *pinfo);
-void handle_select_race(struct packet_select_race *packet);
+void handle_select_nation(struct packet_generic_values *packet);
 void handle_unit_info(struct packet_unit_info *packet);
 void handle_chat_msg(struct packet_generic_message *packet);
 void send_unit_info(struct unit *punit);

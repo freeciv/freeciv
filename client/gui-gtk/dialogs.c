@@ -52,9 +52,10 @@ GtkWidget	*races_dialog_shell=NULL;
 GtkWidget	*races_toggles_form;
 GtkWidget       *races_sex_toggles_form;
 GtkWidget	*races_ok_command;		/* ok button */
-GtkWidget	**races_toggles,		/* toggle race */
+GtkWidget	**races_toggles=NULL,		/* toggle race */
                 *races_sex_toggles       [2],   /* Male/Female */
 		*races_name;			/* leader name */
+GList           *leader_strings = NULL;
 /******************************************************************/
 GtkWidget *spy_tech_shell;
 GtkWidget *spy_advances_list, *spy_advances_list_label;
@@ -89,8 +90,9 @@ void create_races_dialog	(void);
 void races_buttons_callback	( GtkWidget *w, gpointer data );
 void races_toggles_callback	( GtkWidget *w, gpointer data );
 void races_sex_toggles_callback ( GtkWidget *w, gpointer data );
+void races_name_callback	( GtkWidget *w, gpointer data );
 
-int race_selected;
+int selected_nation;
 int selected_sex;
 
 int is_showing_government_dialog;
@@ -1562,30 +1564,31 @@ void popdown_races_dialog(void)
 *****************************************************************/
 void create_races_dialog(void)
 {
-  int       i;
+  int       i, leader_num;
   GSList    *group = NULL;
   GSList    *sgroup = NULL;
   GtkWidget *f, *fs;
+  char **leaders;
 
   races_dialog_shell = gtk_dialog_new();
     gtk_signal_connect( GTK_OBJECT(races_dialog_shell),"delete_event",
 	GTK_SIGNAL_FUNC(deleted_callback),NULL );
 
-  gtk_window_set_title( GTK_WINDOW( races_dialog_shell ), " What Race Will You Be?" );
+  gtk_window_set_title( GTK_WINDOW( races_dialog_shell ), " What Nation Will You Be?" );
 
-  f = gtk_frame_new("Select race and name");
+  f = gtk_frame_new("Select nation and name");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
 	f, FALSE, FALSE, 0 );
 
   races_toggles_form = gtk_table_new( 3, (game.nation_count+2)/3, FALSE );
   gtk_container_add( GTK_CONTAINER( f ), races_toggles_form );
 
-  /* FIXME: memory leak on disconnect/reconnect? --dwp */ 
+  free(races_toggles);
   races_toggles = fc_calloc( game.nation_count, sizeof(GtkWidget*) );
 
   for(i=0; i<game.nation_count; i++) {
 
-    races_toggles[i]= gtk_radio_button_new_with_label( group, get_race_name(i) );
+    races_toggles[i]= gtk_radio_button_new_with_label( group, get_nation_name(i) );
 
     gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_toggles[i] ), FALSE );
 
@@ -1595,9 +1598,15 @@ void create_races_dialog(void)
 			i%3,i%3+1,i/3,i/3+1 );
   }
 
-  races_name = gtk_entry_new();
-
-  gtk_entry_set_text(GTK_ENTRY(races_name), get_race_leader_name(0));
+  races_name = gtk_combo_new();
+  leaders = get_nation_leader_names(0, &leader_num);
+  g_list_free(leader_strings);
+  leader_strings = 0;
+  for(i=0; i<leader_num; i++)
+    leader_strings = g_list_append(leader_strings, leaders[i]);
+  gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
+  gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
+  gtk_entry_set_text( GTK_ENTRY(GTK_COMBO(races_name)->entry), leaders[0]);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
 	races_name, FALSE, FALSE, 0 );
@@ -1631,11 +1640,14 @@ void create_races_dialog(void)
         gtk_signal_connect( GTK_OBJECT( races_sex_toggles[i] ), "toggled",
 	    GTK_SIGNAL_FUNC( races_sex_toggles_callback ), NULL );
 
+  gtk_signal_connect( GTK_OBJECT( GTK_COMBO(races_name)->list ), "selection_changed",
+                      GTK_SIGNAL_FUNC( races_name_callback ), NULL );
+
   gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_toggles[0] ), TRUE );
-  race_selected = 0;
+  selected_nation = 0;
   gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( 
-                               races_sex_toggles[get_race_leader_sex(0)?0:1] ), TRUE ); 
-  selected_sex = get_race_leader_sex(0); 
+                               races_sex_toggles[get_nation_leader_sex(0,leaders[0])?0:1]), TRUE); 
+  selected_sex = get_nation_leader_sex( 0, leaders[0]); 
 
   gtk_signal_connect( GTK_OBJECT( races_ok_command ), "clicked",
 			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
@@ -1686,22 +1698,45 @@ void races_toggles_set_sensitive(int bits1, int bits2)
      return;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void races_name_callback( GtkWidget *w, gpointer data )
+{
+  char *lead;
+  int nat;
 
+  nat = races_buttons_get_current();
+  lead = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry)); 
+  selected_sex = get_nation_leader_sex(nat, lead);
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
+                              races_sex_toggles[selected_sex?0:1]), TRUE);
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
 void races_toggles_callback( GtkWidget *w, gpointer data )
 {
-  int i;
+  int i, j, leader_count;
+  char **leaders;
+
+  g_list_free(leader_strings);
+  leader_strings = 0;
 
   for(i=0; i<game.nation_count; i++)
     if(w==races_toggles[i]) {
-      gtk_entry_set_text(GTK_ENTRY(races_name), get_race_leader_name(i));
-      race_selected = i;
+      leaders = get_nation_leader_names( i, &leader_count);
+      for( j=0; j<leader_count; j++) {
+        leader_strings = g_list_append(leader_strings, leaders[j]);
+      }
+      gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
+      gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
+      gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_name)->entry), leaders[0]);
+      selected_nation = i;
+      selected_sex = get_nation_leader_sex(i,leaders[0]);
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON( 
-                                  races_sex_toggles[get_race_leader_sex(i)?0:1]), TRUE);
-      selected_sex = get_race_leader_sex(i);
+                 races_sex_toggles[selected_sex?0:1]), TRUE);
       return;
     }
 }
@@ -1722,7 +1757,7 @@ void races_sex_toggles_callback( GtkWidget *w, gpointer data )
 **************************************************************************/
 int races_buttons_get_current(void)
 {
-  return race_selected;
+  return selected_nation;
 }
 
 int sex_buttons_get_current(void)
@@ -1738,10 +1773,10 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   int selected, selected_sex;
   char *s;
 
-  struct packet_alloc_race packet;
+  struct packet_alloc_nation packet;
 
   if((selected=races_buttons_get_current())==-1) {
-    append_output_window("You must select a race.");
+    append_output_window("You must select a nation.");
     return;
   }
 
@@ -1750,10 +1785,10 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
     return;
   }
 
-  s = gtk_entry_get_text(GTK_ENTRY(races_name));
+  s = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_name)->entry));
 
   /* perform a minimum of sanity test on the name */
-  packet.race_no=selected;
+  packet.nation_no=selected;
   packet.is_male = selected_sex;
   strncpy(packet.name, (char*)s, MAX_LEN_NAME);
   packet.name[MAX_LEN_NAME-1]='\0';
@@ -1765,7 +1800,7 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
 
   packet.name[0]=toupper(packet.name[0]);
 
-  send_packet_alloc_race(&aconnection, &packet);
+  send_packet_alloc_nation(&aconnection, &packet);
 }
 
 

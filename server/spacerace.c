@@ -172,7 +172,7 @@ void handle_spaceship_launch(struct player *pplayer)
   notify_player_ex(0, 0, 0, E_SPACESHIP,
 		"Game: The %s have launched a spaceship! It is estimated to "
 		"arrive on Alpha Centauri in %s.",
-		get_race_name(pplayer->race),
+		get_nation_name(pplayer->nation),
 		textyear(arrival));
 
   send_spaceship_info(pplayer, 0);
@@ -331,7 +331,7 @@ void spaceship_lost(struct player *pplayer)
   notify_player_ex(0, 0, 0, E_SPACESHIP,
 		"Game: With the capture of %s's capital, the %s"
 		" spaceship is lost!", pplayer->name,
-		get_race_name(pplayer->race));
+		get_nation_name(pplayer->nation));
   spaceship_init(&pplayer->spaceship);
   send_spaceship_info(pplayer, 0);
 }
@@ -368,7 +368,7 @@ void check_spaceship_arrivals(void)
     server_state = GAME_OVER_STATE;
     notify_player_ex(0, 0, 0, E_SPACESHIP,
 		     "Game: The %s spaceship has arrived at Alpha Centauri.",
-		     get_race_name(best_pplayer->race));
+		     get_nation_name(best_pplayer->nation));
   }
 }
 

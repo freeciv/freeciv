@@ -126,7 +126,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     
     if((pcity=map_get_city(xtile, ytile))) {
       sprintf(s, "City: %s(%s)", pcity->name, 
-	      get_race_name(game.players[pcity->owner].race));
+	      get_nation_name(game.players[pcity->owner].nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
@@ -151,7 +151,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  sprintf(cn, "/%s", pcity->name);
       }
       sprintf(s, "Unit: %s(%s%s)", ptype->name, 
-	      get_race_name(game.players[punit->owner].race), cn);
+	      get_nation_name(game.players[punit->owner].nation), cn);
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);

@@ -22,16 +22,13 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "packets.h"
 #include "registry.h"
 #include "tech.h"
 #include "unit.h"
 
 #include "ruleset.h"
-
-extern char ***default_nation_city_names;
-extern char **misc_city_names;
-extern struct player_race *races;
 
 static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
@@ -1082,13 +1079,13 @@ static void load_ruleset_governments(char *ruleset_subdir)
     while((c = secfile_lookup_str_default(&file, NULL,
 					  "%s.ruler_titles%d.nation",
 					  sec[i], ++j))) {
-      Nation_Type_id race;
+      Nation_Type_id nation;
       if (strcmp(c, "-") == 0) {
-	race = DEFAULT_TITLE;
+	nation = DEFAULT_TITLE;
 	have_default = 1;
       } else {
-	race = find_race_by_name(c);
-	if (race == -1) {
+	nation = find_nation_by_name(c);
+	if (nation == -1) {
 	  /* otherwise warnings about unused entries: */
 	  section_file_lookup(&file, "%s.ruler_titles%d.male_title",
 			      sec[i], j);
@@ -1103,7 +1100,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
 		     g->num_ruler_titles*sizeof(struct ruler_title));
       title = &(g->ruler_titles[g->num_ruler_titles-1]);
       
-      title->race = race;
+      title->nation = nation;
       strncpy(title->male_title,
 	      secfile_lookup_str(&file, "%s.ruler_titles%d.male_title",
 				 sec[i], j),
@@ -1197,16 +1194,45 @@ static void send_ruleset_control(struct player *dest)
 }
 
 /**************************************************************************
+This checks if nations[pos] leader names are not already defined in any 
+previous nation, or twice in its own leader name table.
+If not return NULL, if yes return pointer to name which is repeated.
+**************************************************************************/
+static char *check_leader_names(int pos)
+{
+  int i, j, k;
+  struct nation_type *n, *nation;
+  char *leader;
+
+  nation = get_nation_by_idx(pos);
+  for( k = 0; k < nation->leader_count; k++) {
+    leader = nation->leader_name[k];
+    for( i=0; i<k; i++ ) {
+      if( !strcmp(leader, nation->leader_name[i]) )
+          return leader;
+    }
+    for( j = 0; j < pos; j++) {
+      n = get_nation_by_idx(j);
+      for( i=0; i < n->leader_count; i++) {
+        if( !strcmp(leader, n->leader_name[i]) )
+          return leader;
+      }
+    }
+  }
+  return NULL;
+}
+
+/**************************************************************************
 Load nations.ruleset file
 **************************************************************************/
 static void load_ruleset_nations(char *ruleset_subdir)
 {
   struct section_file file;
-  char *filename, *datafile_options;
-  struct player_race *pl;
+  char *filename, *datafile_options, *bad_leader;
+  struct nation_type *pl;
   int *res, dim, i, j;
   char temp_name[MAX_LEN_NAME];
-  char **cities, **techs;
+  char **cities, **techs, **leaders;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "nations");
   datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
@@ -1221,42 +1247,61 @@ static void load_ruleset_nations(char *ruleset_subdir)
     freelog(LOG_FATAL, "There can must be between 1 and %d nations", MAX_NUM_NATIONS);
     exit(1);    
   }
-  races = fc_calloc( game.nation_count, sizeof(struct player_race));
-  default_nation_city_names = fc_calloc( game.nation_count, sizeof(char**));
+  alloc_nations(game.nation_count);
 
-  for( i=0, pl=races; i<game.nation_count; i++, pl++ ) {
+  for( i=0; i<game.nation_count; i++) {
+    pl = get_nation_by_idx(i);
+
     strcpy( pl->name, secfile_lookup_str(&file, "nation%d.name", i));
     strcpy( pl->name_plural, secfile_lookup_str(&file, "nation%d.plural", i));
-    strcpy( pl->leader_name, secfile_lookup_str(&file, "nation%d.leader", i)); 
+
+    leaders = secfile_lookup_str_vec(&file, &dim, "nation%d.leader", i);
+    if( dim<1 || dim > MAX_NUM_LEADERS ) {
+      freelog(LOG_FATAL, "Nation %s: number of leaders must be 1-%d", pl->name, 
+                MAX_NUM_LEADERS);
+      exit(1);
+    }
+    pl->leader_count = dim;
+    for( j=0; j<dim; j++) {
+      pl->leader_name[j] = fc_calloc( strlen(leaders[j])+1, sizeof(char));
+      strcpy( pl->leader_name[j], leaders[j]);
+    }
+    free(leaders);
 
     /* check if nation or leader name is not already defined */
     for( j=0; j<i; j++) {
-      if(!strcmp(races[j].name,pl->name) ){
+      if( !strcmp(get_nation_name(j), pl->name) ) {
         freelog(LOG_FATAL, "Nation %s already defined in section nation%d", pl->name, j);
         exit(1);
       }
-      if(!strcmp(races[j].name_plural,pl->name_plural)) {
+      if( !strcmp(get_nation_name_plural(j), pl->name_plural) ) {
         freelog(LOG_FATAL, "Nation %s already defined in section nation%d", 
                 pl->name_plural, j);
         exit(1);
       }
-      if(!strcmp(races[j].leader_name,pl->leader_name)) {
-        freelog(LOG_FATAL, "Leader %s already defined in section nation%d", 
-                pl->leader_name, j);
+    }
+    if( (bad_leader=check_leader_names(i)) ) {
+        freelog(LOG_FATAL, "Nation %s leader %s already defined", pl->name, bad_leader);
+        exit(1);
+    }
+    /* read leaders'sexes */
+    leaders = secfile_lookup_str_vec(&file, &dim, "nation%d.leader_sex", i);
+    if( dim != pl->leader_count ) {
+      freelog(LOG_FATAL, "Nation %s: leader sex count not equal to number of leaders",
+              pl->name);
+      exit(1);
+    }
+    for(j=0; j<dim; j++) {
+      if( strcmp(leaders[j], "Male")==0 )
+        pl->leader_is_male[j] = 1;
+      else if( strcmp(leaders[j], "Female")==0 )
+        pl->leader_is_male[j] = 0;
+      else {
+        freelog( LOG_FATAL, "Nation %s leader sex must be Male or Female", pl->name);
         exit(1);
       }
     }
-
-    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.leader_sex", i));
-    if( strcmp(temp_name, "Male")==0 )
-      pl->leader_is_male = 1;
-    else if( strcmp(temp_name, "Female")==0 )
-      pl->leader_is_male = 0;
-    else {
-      freelog( LOG_FATAL, "Nation %d leader sex must be Male or Female but is %s", 
-               i, temp_name);
-      exit(1);
-    }
+    free(leaders);
 
     strcpy(pl->flag_graphic_str,
 	   secfile_lookup_str(&file, "nation%d.flag", i));
@@ -1299,13 +1344,13 @@ static void load_ruleset_nations(char *ruleset_subdir)
     pl->goals_str.government = fc_calloc((strlen(temp_name)+1), sizeof(char));
     strcpy( pl->goals_str.government, temp_name);
 
-    /* read city names - jk */
+    /* read city names */
     cities = secfile_lookup_str_vec(&file, &dim, "nation%d.cities", i);
-    default_nation_city_names[i] = fc_calloc(dim+1, sizeof(char*));
-    default_nation_city_names[i][dim] = NULL;
+    pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
+    pl->default_city_names[dim] = NULL;
     for ( j=0; j<dim; j++) {
-      default_nation_city_names[i][j] = fc_calloc((strlen(cities[j])+1), sizeof(char));
-      strcpy( default_nation_city_names[i][j], cities[j]);
+      pl->default_city_names[j] = fc_calloc( (strlen(cities[j])+1), sizeof(char));
+      strcpy( pl->default_city_names[j], cities[j]);
     }
     if(cities) free(cities);
   }
@@ -1568,7 +1613,7 @@ static void send_ruleset_governments(struct player *dest)
 
       title.gov = i;
       title.id = j;
-      title.race = p_title->race;
+      title.nation = p_title->nation;
       strcpy (title.male_title, p_title->male_title);
       strcpy (title.female_title, p_title->female_title);
     
@@ -1587,15 +1632,21 @@ static void send_ruleset_governments(struct player *dest)
 static void send_ruleset_nations(struct player *dest)
 {
   struct packet_ruleset_nation packet;
-  struct player_race *p;
-  int to;
+  struct nation_type *n;
+  int to, i, k;
 
-  for(p=races; p<races+game.nation_count; p++) {
-    packet.id = p-races;
-    strcpy(packet.name, p->name);
-    strcpy(packet.name_plural, p->name_plural);
-    strcpy(packet.graphic_str, p->flag_graphic_str);
-    strcpy(packet.graphic_alt, p->flag_graphic_alt);
+  for( k=0; k<game.nation_count; k++) {
+    n = get_nation_by_idx(k);
+    packet.id = k;
+    strcpy(packet.name, n->name);
+    strcpy(packet.name_plural, n->name_plural);
+    strcpy(packet.graphic_str, n->flag_graphic_str);
+    strcpy(packet.graphic_alt, n->flag_graphic_alt);
+    packet.leader_count = n->leader_count;
+    for(i=0; i < n->leader_count; i++) {
+      strcpy(packet.leader_name[i], n->leader_name[i]);
+      packet.leader_sex[i] = n->leader_is_male[i];
+    }
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
@@ -1617,7 +1668,7 @@ void load_rulesets(void)
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
   load_ruleset_terrain(game.ruleset.terrain);
-  init_race_goals();
+  init_nation_goals();
 }
 
 /**************************************************************************

@@ -679,40 +679,40 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
 
 static struct player *split_player(struct player *pplayer)
 {
-  int *races_used, i, num_races_avail=game.nation_count, pick;
+  int *nations_used, i, num_nations_avail=game.nation_count, pick;
   int newplayer = game.nplayers;
   struct player *cplayer = &game.players[newplayer];
 
-  races_used = fc_calloc(game.nation_count,sizeof(int));
+  nations_used = fc_calloc(game.nation_count,sizeof(int));
   
   /* make a new player */
 
   player_init(cplayer);
   
-  /* select a new name and race for the copied player. */
+  /* select a new name and nation for the copied player. */
 
   for(i=0; i<game.nation_count;i++){ 
-    races_used[i]=i;
+    nations_used[i]=i;
   }
 
   for(i = 0; i < game.nplayers; i++){
-    races_used[game.players[i].race] = -1;
-    num_races_avail--;
+    nations_used[game.players[i].nation] = -1;
+    num_nations_avail--;
   }
 
-  pick = myrand(num_races_avail);
+  pick = myrand(num_nations_avail);
 
   for(i=0; i<game.nation_count; i++){ 
-    if(races_used[i] != -1)
+    if(nations_used[i] != -1)
       pick--;
     if(pick < 0) break;
   }
   
   /* Rebel will always be an AI player */
 
-  cplayer->race = races_used[i];
-  free(races_used);
-  pick_ai_player_name(cplayer->race,cplayer->name);
+  cplayer->nation = nations_used[i];
+  free(nations_used);
+  pick_ai_player_name(cplayer->nation,cplayer->name);
 
   cplayer->is_connected = 0;
   cplayer->conn = NULL;
@@ -868,7 +868,7 @@ void civil_war(struct player *pplayer)
   /* So that clients get the correct game.nplayers: */
   send_game_info(0);
   
-  /* Before units, cities, so clients know name of new race
+  /* Before units, cities, so clients know name of new nation
    * (for debugging etc).
    */
   send_player_info(cplayer,  NULL);

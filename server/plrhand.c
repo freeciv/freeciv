@@ -124,7 +124,7 @@ static void historian_generic(enum historian_type which_news)
   buffer[0]=0;
   for (i=0;i<j;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i],  
-	    get_race_name_plural(game.players[size[i].idx].race));
+	    get_nation_name_plural(game.players[size[i].idx].nation));
     strcat(buffer,buf2);
   }
   free(size);
@@ -170,7 +170,7 @@ void top_five_cities(struct player *pplayer)
     pcity=find_city_by_id(size[i].idx);
     if (pcity) { 
       sprintf(buf2, "%2d: The %s City of %s of size %d, with %d wonders\n", i+1,  
-	      get_race_name(city_owner(pcity)->race),pcity->name, 
+	      get_nation_name(city_owner(pcity)->nation),pcity->name, 
 	      pcity->size, nr_wonders(pcity));
       strcat(buffer, buf2);
     }
@@ -192,7 +192,7 @@ void wonders_of_the_world(struct player *pplayer)
       if((pcity=find_city_by_id(game.global_wonders[i]))) {
 	sprintf(buf2, "%s in %s (%s)\n",
 		get_imp_name_ex(pcity, i), pcity->name,
-		get_race_name(game.players[pcity->owner].race));
+		get_nation_name(game.players[pcity->owner].nation));
       } else {
 	sprintf(buf2, "%s has been DESTROYED\n",
 		get_improvement_type(i)->name);
@@ -629,7 +629,7 @@ void demographics_report(struct player *pplayer)
 
   sprintf (civbuf, "The %s of the %s",
 	   get_government_name (pplayer->government),
-	   get_race_name_plural (pplayer->race));
+	   get_nation_name_plural (pplayer->nation));
 
   for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
     {
@@ -1042,7 +1042,7 @@ void show_ending(void)
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: The %s %s scored %d points\n",i+1, greatness[i],  
-            get_race_name_plural(game.players[size[i].idx].race), size[i].value);
+            get_nation_name_plural(game.players[size[i].idx].nation), size[i].value);
     strcat(buffer,buf2);
   }
   free(size);
@@ -1067,7 +1067,7 @@ static void great_library(struct player *pplayer)
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
 	    && game.global_advances[i]>=2) {
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
-	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_race_name_plural(pplayer->race),advances[i].name);
+	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_nation_name_plural(pplayer->nation),advances[i].name);
 
 	  if (tech_flag(i,TF_RAILROAD)) {
 	    upgrade_city_rails(pplayer, 0);
@@ -1139,9 +1139,9 @@ static void update_player_aliveness(struct player *pplayer)
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
       notify_player_ex(0, 0,0, E_DESTROYED, "Game: The %s are no more!", 
-		       get_race_name_plural(pplayer->race));
+		       get_nation_name_plural(pplayer->nation));
       gamelog(GAMELOG_GENO, "%s civilization destroyed",
-              get_race_name(pplayer->race));
+              get_nation_name(pplayer->nation));
 
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
@@ -1171,7 +1171,7 @@ int update_tech(struct player *plr, int bulbs)
     origtech = "(first)";
   else 
     origtech = "";
-  gamelog(GAMELOG_TECH,"%s discover %s %s",get_race_name_plural(plr->race),
+  gamelog(GAMELOG_TECH,"%s discover %s %s",get_nation_name_plural(plr->nation),
 	  advances[plr->research.researching].name, origtech
 	  );
  
@@ -1207,12 +1207,12 @@ int update_tech(struct player *plr, int bulbs)
     if (player_has_embassy(&game.players[i], plr))  {
       if (old != A_NONE)
         notify_player(&game.players[i], "Game: The %s have researched %s.", 
-                      get_race_name_plural(plr->race),
+                      get_nation_name_plural(plr->nation),
                       advances[old].name);
       else
         notify_player(&game.players[i],
                       "Game: The %s have researched Future Tech. %d.", 
-                      get_race_name_plural(plr->race),
+                      get_nation_name_plural(plr->nation),
                       plr->future_tech);
     }
   }
@@ -1361,7 +1361,7 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.luxury=preq->luxury;
     pplayer->economic.science=preq->science;
     gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i", 
-	    get_race_name_plural(pplayer->race), preq->tax, 
+	    get_nation_name_plural(pplayer->nation), preq->tax, 
 	    preq->luxury, preq->science);
     connection_do_buffer(pplayer->conn);
     send_player_info(pplayer, pplayer);
@@ -1406,10 +1406,10 @@ void handle_player_government(struct player *pplayer,
   pplayer->government=preq->government;
   notify_player(pplayer, "Game: %s now governs the %s as a %s.", 
 		pplayer->name, 
-  	        get_race_name_plural(pplayer->race),
+  	        get_nation_name_plural(pplayer->nation),
 		get_government_name(preq->government));  
   gamelog(GAMELOG_GOVERNMENT,"%s form a %s",
-          get_race_name_plural(pplayer->race),
+          get_nation_name_plural(pplayer->nation),
           get_government_name(preq->government));
 
   if (!pplayer->ai.control)
@@ -1431,9 +1431,9 @@ void handle_player_revolution(struct player *pplayer)
   pplayer->revolution=myrand(5)+1;
   pplayer->government=game.government_when_anarchy;
   notify_player(pplayer, "Game: The %s have incited a revolt!", 
-		get_race_name(pplayer->race));
+		get_nation_name(pplayer->nation));
   gamelog(GAMELOG_REVOLT,"The %s revolt!",
-                get_race_name(pplayer->race));
+                get_nation_name(pplayer->nation));
 
   if (!pplayer->ai.control)
      check_player_government_rates(pplayer);
@@ -1492,7 +1492,7 @@ void check_player_government_rates(struct player *pplayer)
 
   if (surplus)
       gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i",
-              get_race_name_plural(pplayer->race), pplayer->economic.tax,
+              get_nation_name_plural(pplayer->nation), pplayer->economic.tax,
               pplayer->economic.luxury, pplayer->economic.science);
 
 }
@@ -1603,7 +1603,7 @@ void send_player_info(struct player *src, struct player *dest)
              struct packet_player_info info;
              info.playerno=i;
              strcpy(info.name, game.players[i].name);
-             info.race=game.players[i].race;
+             info.nation=game.players[i].nation;
              info.is_male=game.players[i].is_male;
 
              info.gold=game.players[i].economic.gold;
@@ -1656,8 +1656,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   */
 
   strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
-  strcpy(plr->username, secfile_lookup_str_default(file, "", "player%d.username", plrno));
-  plr->race=secfile_lookup_int(file, "player%d.race", plrno);
+  strcpy(plr->username,
+	 secfile_lookup_str_default(file, "", "player%d.username", plrno));
+  plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
    
@@ -1928,7 +1929,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
-  secfile_insert_int(file, plr->race, "player%d.race", plrno);
+  secfile_insert_int(file, plr->nation, "player%d.race", plrno);
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
    

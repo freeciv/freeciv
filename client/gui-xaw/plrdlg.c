@@ -188,7 +188,7 @@ void update_players_dialog(void)
         sprintf(namebuf,"%-16s",game.players[i].name);
       sprintf(namelist_text[i], "%-16s %-12s    %c     %-6s   %-15s%s", 
 	      namebuf,
-	      get_race_name(game.players[i].race), 
+	      get_nation_name(game.players[i].nation), 
 	      player_has_embassy(game.player_ptr, &game.players[i]) ? 'X':' ',
 	      statebuf,
 	      game.players[i].addr, 

@@ -23,6 +23,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "packets.h"
 #include "spaceship.h"
 #include "unit.h"
@@ -55,7 +56,6 @@ extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern char name[512];
 extern struct city *city_workers_display;
-extern struct player_race *races;
 
 /**************************************************************************
 ...
@@ -135,7 +135,7 @@ void handle_game_state(struct packet_generic_integer *packet)
   
   if(get_client_state()==CLIENT_SELECT_RACE_STATE && 
      packet->value==CLIENT_GAME_RUNNING_STATE &&
-     game.player_ptr->race == MAX_NUM_NATIONS) {
+     game.player_ptr->nation == MAX_NUM_NATIONS) {
     popdown_races_dialog();
   }
   
@@ -265,7 +265,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   if(city_is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
-	 get_race_name(city_owner(pcity)->race),
+	 get_nation_name(city_owner(pcity)->nation),
 	 pcity->name, pcity->id, pcity->x, pcity->y);
   }
 }
@@ -548,7 +548,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       unit_list_insert(&pcity->units_supported, punit);
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
-	   get_race_name(get_player(punit->owner)->race),
+	   get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : "(unknown)"));
     
@@ -645,7 +645,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct player *pplayer=&game.players[pinfo->playerno];
   
   strcpy(pplayer->name, pinfo->name);
-  pplayer->race=pinfo->race;
+  pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
   
   pplayer->economic.gold=pinfo->gold;
@@ -973,33 +973,23 @@ void handle_remove_player(struct packet_generic_integer *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_select_race(struct packet_select_race *packet)
+void handle_select_nation(struct packet_generic_values *packet)
 {
-  int i;
   if(get_client_state()==CLIENT_SELECT_RACE_STATE) {
-    if(packet->mask2 == 0xffff) {
+    if(packet->value2 == 0xffff) {
       set_client_state(CLIENT_WAITING_FOR_GAME_START_STATE);
       popdown_races_dialog();
     }
     else
-      races_toggles_set_sensitive( packet->mask1, packet->mask2);
+      races_toggles_set_sensitive( packet->value1, packet->value2);
   }
   else if(get_client_state()==CLIENT_PRE_GAME_STATE) {
     set_client_state(CLIENT_SELECT_RACE_STATE);
-
-    game.nation_count = packet->nation_count;
-    if( races ) free(races);
-    races = fc_calloc(game.nation_count, sizeof(struct player_race));
-    for( i=0; i<game.nation_count; i++) {
-      strcpy( races[i].name, packet->nation[i]);
-      strcpy( races[i].leader_name, packet->leader[i]);
-      races[i].leader_is_male = packet->leader_sex[i];
-    }
     popup_races_dialog();
-    races_toggles_set_sensitive( packet->mask1, packet->mask2);
+    races_toggles_set_sensitive( packet->value1, packet->value2);
   }
   else
-    freelog(LOG_VERBOSE, "got a select race packet in an incompatible state");
+    freelog(LOG_VERBOSE, "got a select nation packet in an incompatible state");
 }
 
 /**************************************************************************
@@ -1041,9 +1031,9 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
     get_government(i)->ruler_titles = NULL;
   }
 
+  free_nations(game.nation_count);
   game.nation_count = packet->nation_count;
-  if(races) free(races);
-  races = fc_calloc(game.nation_count, sizeof(struct player_race));
+  alloc_nations(game.nation_count);
 }
 
 /**************************************************************************
@@ -1216,7 +1206,7 @@ void handle_ruleset_government_ruler_title
 	    p->id, gov->name);
     return;
   }
-  gov->ruler_titles[p->id].race = p->race;
+  gov->ruler_titles[p->id].nation = p->nation;
   strcpy(gov->ruler_titles[p->id].male_title, p->male_title);
   strcpy(gov->ruler_titles[p->id].female_title, p->female_title);
 }
@@ -1302,19 +1292,26 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
 **************************************************************************/
 void handle_ruleset_nation(struct packet_ruleset_nation *p)
 {
-  struct player_race *pl;
+  int i;
+  struct nation_type *pl;
 
   if(p->id < 0 || p->id >= game.nation_count || p->id >= MAX_NUM_NATIONS) {
     freelog(LOG_NORMAL, "Received bad nation id %d in handle_ruleset_nation()",
 	    p->id);
     return;
   }
-  pl = &races[p->id];
+  pl = get_nation_by_idx(p->id);
 
   strcpy(pl->name, p->name);
   strcpy(pl->name_plural, p->name_plural);
   strcpy(pl->flag_graphic_str, p->graphic_str);
   strcpy(pl->flag_graphic_alt, p->graphic_alt);
+  pl->leader_count = p->leader_count;
+  for( i=0; i<pl->leader_count; i++) {
+    pl->leader_name[i] = fc_calloc(strlen(p->leader_name[i])+1, sizeof(char));
+    strcpy(pl->leader_name[i], p->leader_name[i]);
+    pl->leader_is_male[i] = p->leader_sex[i];
+  }
 
   tilespec_setup_nation_flag(p->id);
 }

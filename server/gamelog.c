@@ -114,7 +114,7 @@ void gamelog_save(void){
   qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare1);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: %s(%i)  ",i+1, get_race_name_plural(game.players[size[i].idx].race), size[i].value);
+    sprintf(buf2,"%2d: %s(%i)  ",i+1, get_nation_name_plural(game.players[size[i].idx].nation), size[i].value);
     strcat(buffer,buf2);
   }
   gamelog(GAMELOG_EOT,buffer);

@@ -198,10 +198,7 @@ struct city {
 
 
 extern struct improvement_type improvement_types[B_LAST];
-
-/* initial functions */
-
-char *city_name_suggestion(struct player *pplayer);
+extern char **misc_city_names;
 
 /* properties */
 

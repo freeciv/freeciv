@@ -103,8 +103,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       notify_player(plr1, "Game: A treaty containing %d clauses was agreed upon",
 		    genlist_size(&ptreaty->clauses));
       gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
-	      get_race_name_plural(plr0->race),
-	      get_race_name_plural(plr1->race));
+	      get_nation_name_plural(plr0->nation),
+	      get_nation_name_plural(plr1->nation));
       
       
       /* verify gold! the player's gold amount could have changed during
@@ -117,9 +117,9 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	if(pclause->type==CLAUSE_GOLD && pgiver->economic.gold<pclause->value) {
 	  
 	  notify_player(plr0, "Game: The %s don't have the promised amount of gold! Treaty canceled!",
-			get_race_name_plural(pgiver->race));
+			get_nation_name_plural(pgiver->nation));
 	  notify_player(plr1, "Game: The %s don't have the promised amount of gold! Treaty canceled!",
-			get_race_name_plural(pgiver->race));
+			get_nation_name_plural(pgiver->nation));
 	  goto cleanup;
 	}
       }
@@ -140,9 +140,9 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    upgrade_city_rails(pdest, 0);
 	  }
 	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
-                  get_race_name_plural(pdest->race),
+                  get_nation_name_plural(pdest->nation),
                   advances[pclause->value].name,
-                  get_race_name_plural(pgiver->race));
+                  get_nation_name_plural(pgiver->nation));
 	  set_invention(pdest, pclause->value, TECH_KNOWN);
 	  update_research(pdest);
 	  do_dipl_cost(pdest);

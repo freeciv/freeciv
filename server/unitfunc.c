@@ -232,8 +232,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
  			 ++(pplayer->future_tech), target->name);
  	notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
  			 "Game: A%s %s diplomat stole Future Tech. %d from %s.", 
-			 n_if_vowel(get_race_name(pplayer->race)[0]),
-			 get_race_name(pplayer->race), pplayer->future_tech, 
+			 n_if_vowel(get_nation_name(pplayer->nation)[0]),
+			 get_nation_name(pplayer->nation), pplayer->future_tech, 
 			 pcity->name);
  	return;
       } else {
@@ -291,9 +291,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     upgrade_city_rails(pplayer, 0);
   }
   gamelog(GAMELOG_TECH,"%s steals %s from the %s",
-          get_race_name_plural(pplayer->race),
+          get_nation_name_plural(pplayer->nation),
           advances[i].name,
-          get_race_name_plural(target->race));
+          get_nation_name_plural(target->nation));
 
   set_invention(pplayer, i, TECH_KNOWN);
   update_research(pplayer);
@@ -342,8 +342,8 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: A%s %s %s was eliminated"
 			 " while infiltrating %s.", 
-			 n_if_vowel(get_race_name(pplayer->race)[0]), 
-			 get_race_name(pplayer->race),
+			 n_if_vowel(get_nation_name(pplayer->nation)[0]), 
+			 get_nation_name(pplayer->nation),
 			 unit_name(pdiplomat->type),
 			 pcity->name);
 	wipe_unit(0, pdiplomat);
@@ -463,7 +463,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		   pcity->name);
   notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
 		   "Game: %s has revolted, %s influence suspected", pcity->name, 
-		   get_race_name(pplayer->race));
+		   get_nation_name(pplayer->nation));
 
   /* Transfer city and units supported by this city to the new owner */
 
@@ -548,7 +548,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 		       prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
 		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
-		       prod, pcity->name, get_race_name_plural(pplayer->race));
+		       prod, pcity->name, get_nation_name_plural(pplayer->nation));
       
       break;
     case 1:
@@ -569,15 +569,15 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 			   get_improvement_name(building), pcity->name);
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			   "Game: The %s destroyed the %s in %s.", 
-			   get_race_name_plural(pplayer->race),
+			   get_nation_name_plural(pplayer->nation),
 			   get_improvement_name(building), pcity->name);
 	} else {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 			   "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			   "Game: You caught a%s %s diplomat attempting sabotage in %s!",
-			   n_if_vowel(get_race_name(pplayer->race)[0]),
-			   get_race_name(pplayer->race), pcity->name);
+			   n_if_vowel(get_nation_name(pplayer->nation)[0]),
+			   get_nation_name(pplayer->nation), pcity->name);
 	  
 	  wipe_unit(0, pdiplomat);
 	  return;
@@ -612,8 +612,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 			 "Game: Your spy was caught in the attempt of sabotage!");
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: You caught a%s %s spy attempting to sabotage the %s in %s!",
-			 n_if_vowel(get_race_name(pplayer->race)[0]),
-			 get_race_name(pplayer->race), 
+			 n_if_vowel(get_nation_name(pplayer->nation)[0]),
+			 get_nation_name(pplayer->nation), 
 			 get_improvement_name(improvement), pcity->name);
 	
 	wipe_unit(0, pdiplomat);
@@ -636,7 +636,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 		       prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
 		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
-		       prod, pcity->name, get_race_name_plural(pplayer->race));
+		       prod, pcity->name, get_nation_name_plural(pplayer->nation));
             
     }else{
       pcity->improvements[improvement]=0;
@@ -646,7 +646,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 		       get_improvement_name(improvement), pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 		       "Game: The %s destroyed %s in %s.", 
-		       get_race_name_plural(pplayer->race),
+		       get_nation_name_plural(pplayer->nation),
 		       get_improvement_name(improvement), pcity->name);
       
     }
@@ -773,7 +773,7 @@ void player_restore_units(struct player *pplayer)
 		       "Game: Your %s has run out of hit points",
 		       unit_name(punit->type));
       gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
-	      get_race_name_plural(pplayer->race),
+	      get_nation_name_plural(pplayer->nation),
 	      unit_name(punit->type));
       wipe_unit(0, punit);
     }
@@ -811,7 +811,7 @@ void player_restore_units(struct player *pplayer)
 			 "Game: Your %s has run out of fuel",
 			 unit_name(punit->type));
 	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
-		get_race_name_plural(pplayer->race),
+		get_nation_name_plural(pplayer->nation),
 		unit_name(punit->type));
 	wipe_unit(0, punit);
       }
@@ -824,7 +824,7 @@ void player_restore_units(struct player *pplayer)
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 "Game: Your Trireme has been lost on the high seas");
 	gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
-		get_race_name_plural(pplayer->race));
+		get_nation_name_plural(pplayer->nation));
 	wipe_unit_safe(pplayer, punit, &myiter);
       }
     }
@@ -1607,9 +1607,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
     freelog(LOG_NORMAL, "Bug in get_a_tech");
   }
   gamelog(GAMELOG_TECH,"%s acquire %s from %s",
-          get_race_name_plural(pplayer->race),
+          get_nation_name_plural(pplayer->nation),
           advances[i].name,
-          get_race_name_plural(target->race));
+          get_nation_name_plural(target->nation));
 
   set_invention(pplayer, i, TECH_KNOWN);
   update_research(pplayer);
@@ -1730,7 +1730,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
 		       get_unit_type(punit2->type)->name,
 		       get_unit_type(punit->type)->name);
       gamelog(GAMELOG_UNITL, "%s lose a%s %s when %s lost", 
-	      get_race_name_plural(game.players[punit2->owner].race),
+	      get_nation_name_plural(game.players[punit2->owner].nation),
 	      n_if_vowel(get_unit_type(punit2->type)->name[0]),
 	      get_unit_type(punit2->type)->name,
 	      get_unit_type(punit->type)->name);
@@ -1801,10 +1801,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		     get_unit_type(punit->type)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
     gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
-	    get_race_name_plural(pplayer->race),
+	    get_nation_name_plural(pplayer->nation),
 	    n_if_vowel(get_unit_type(punit->type)->name[0]),
 	    get_unit_type(punit->type)->name,
-	    get_race_name_plural(destroyer->race));
+	    get_nation_name_plural(destroyer->nation));
     
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
@@ -1822,10 +1822,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			 get_unit_type(punit2->type)->name, destroyer->name,
                          unit_name(pkiller->type));
 	gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
-		get_race_name_plural(pplayer->race),
+		get_nation_name_plural(pplayer->nation),
 		n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		get_unit_type(punit2->type)->name,
-		get_race_name_plural(destroyer->race));
+		get_nation_name_plural(destroyer->nation));
 	send_remove_unit(0, punit2->id);
 	game_remove_unit(punit2->id);
     }

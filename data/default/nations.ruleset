@@ -20,8 +20,8 @@ options="1.8.2"
 ; 
 ; name          = name of the nation
 ; plural        = plural form of the nation name
-; leader        = default leader name for the nation
-; leader_sex    = default leader is "Male" or "Female"
+; leader        = default leaders' names for the nation
+; leader_sex    = default leaders' sex: "Male" or "Female"
 ; flag		= string to look for in client tilespec files for 
 ;		  preferred flag icon
 ; flag_alt	= alternate flag icon string, or "-"
@@ -51,8 +51,8 @@ options="1.8.2"
 
 name="Roman"
 plural="Romans"
-leader="Caesar"
-leader_sex="Male"
+leader="Caesar", "August", "Traian"
+leader_sex="Male", "Male", "Male"
 flag = "f.italy"
 flag_alt = "-"
 
@@ -66,26 +66,30 @@ wonder="Leonardo's Workshop"
 government="Democracy"
 
 cities = 
-  "Roma", "Capua", "Syracusae", "Tarentum", "Neapolis",
-  "Tingis", "Nova Carthago", "Brundisium", "Ravenna", "Numantia",
-  "Utica", "Carthago", "Caesarea", "Messana", "Ierusalem",
-  "Trapezus", "Durcotorum", "Perusia", "Leptis Magna", "Mediolanum",
-  "Ariminum", "Tarraco", "Narbo Martius", "Pergamum", "Aquileia",
-  "Salonae", "Cyrene", "Dyrrachium", "Luni", "Noreia",
-  "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra",
-  "Pisae", "Ancona", "Palmyra", "Tyrus", "Cortona", 
-  "Agrigentum", "Florentia", "Lix", "Sala", "Berytus",
-  "Bononia", "Sabrata","Verona", "Attalea", "Sinope",
-  "Velia", "Segesta", "Gaza", "Aleria", "Genua",
-  "Arretium", "Thapsus", "Ostia", "Altinum", "Tarsus"
-
+  "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
+  "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
+  "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
+  "Syracusae", "Neapolis", "Pompeii", "Salernum", "Tarraco",
+  "Carthago", "Tingis", "Numantia", "Carthago Nova",
+  "Noviomagus", "Vindobona", "Atuatuca", "Caesarea", "Ierusalem",
+  "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
+  "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
+  "Eburacum", "Coriovallum", "Perusia", "Leptis Magna", "Corduba", "Edessa",
+  "Ariminum", "Tarraco", "Narbo Martius", "Pergamum", "Vienna", "Hispalis",
+  "Salonae", "Cyrenae", "Dyrrachium", "Luni", "Noreia", "Ephesus",
+  "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra", "Tolosa",
+  "Pisae", "Palmyra", "Tyrus", "Cortona", "Arenate", "Brigantium",
+  "Lix", "Sala", "Berytus", "Naissus", "Nicomedia", "Petra", "Berenice",
+  "Sabrata", "Attalea", "Sinope", "Hippo Regius", "Gesoriacum",
+  "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
+  "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
 
 [nation1]
 
 name="Babylonian"
 plural="Babylonians"
-leader="Hammurabi"
-leader_sex="Male"
+leader="Hammurabi", "Sargon"
+leader_sex="Male", "Male"
 flag = "f.iraq_old"
 flag_alt = "-"
 
@@ -112,8 +116,8 @@ cities =
 
 name="German"
 plural="Germans"
-leader="Frederick"
-leader_sex="Male"
+leader="Frederick", "Otto"
+leader_sex="Male", "Male"
 flag="f.germany"
 flag_alt = "-"
 
@@ -133,20 +137,22 @@ cities = "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
   "München", "Brixien", "Salzburg", "Passau", "Köln",
   "Koblenz", "Leipzig", "Regensburg", "Heidelberg", "Verden",
   "Kassel", "Wittenberg", "Wismar", "Ulm", "Nördlingen",
-  "Stralsund", "Breslau", "Marburg", "Schlettstadt", "Augsburg",
-  "Mansfeld", "Donauwörth", "Dessau", "Osnabrück", "Hannover",
-  "Mühlberg", "Wittstock", "Speyer", "Kleve", "Worms",
+  "Stralsund", "Marburg", "Schlettstadt", "Augsburg", "Rostock", "Schwerin",
+  "Mansfeld", "Donauwörth", "Dessau", "Osnabrück", "Hannover", "Stuttgart",
+  "Mühlberg", "Wittstock", "Speyer", "Kleve", "Worms", "Halle", "Erfurt",
   "Landau", "Heilbronn", "Rosheim", "Schmalkalden", "Lutter", 
-  "Wiesloch", "Rosslau", "Magdeburg", "Minden", "Sinsheim", 
-  "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab"
-
+  "Wiesloch", "Rosslau", "Magdeburg", "Minden", "Sinsheim", "Gotha",
+  "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab",
+  "Oldenburg", "Weimar", "Freiburg", "Baden-Baden", "Mannheim", "Kiel",
+  "Solingen", "Elberfeld", "Barmen", "Essen", "Dortmund", "Duisburg",
+  "Düsseldorf", "Gelsenkirchen", "Bochum", "Saarbrücken", "Ludwigshafen"
 
 [nation3]
 
 name="Egyptian"
 plural="Egyptians"
-leader="Ramesses"
-leader_sex="Male"
+leader="Ramesses", "Kleopatra"
+leader_sex="Male", "Female"
 flag="f.egypt"
 flag_alt = "-"
 
@@ -172,8 +178,8 @@ cities = "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
 
 name="American"
 plural="Americans"
-leader="Lincoln"
-leader_sex="Male"
+leader="Lincoln", "Washington", "Roosevelt", "Kennedy"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.usa"
 flag_alt = "-"
 
@@ -204,8 +210,8 @@ cities = "Washington", "New York", "Boston", "Philadelphia", "Los Angeles",
 
 name="Greek"
 plural="Greeks"
-leader="Alexander"
-leader_sex="Male"
+leader="Alexander", "Perikles", "Leonidas"
+leader_sex="Male", "Male", "Male"
 flag="f.greece"
 flag_alt = "-"
 
@@ -237,8 +243,8 @@ cities = "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
 
 name="Indian"
 plural="Indians"
-leader="Gandhi"
-leader_sex="Male"
+leader="Gandhi", "Ashoka"
+leader_sex="Male", "Male"
 flag="f.india"
 flag_alt = "-"
 
@@ -262,8 +268,8 @@ cities = "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
 
 name="Russian"
 plural="Russians"
-leader="Stalin"
-leader_sex="Male"
+leader="Catherine", "Ivan", "Stalin", "Peter"
+leader_sex="Female", "Male", "Male", "Male"
 flag="f.russia"
 flag_alt = "-"
 
@@ -316,8 +322,8 @@ cities =
 
 name="French"
 plural="French"
-leader="Napoleon"
-leader_sex="Male"
+leader="Napoleon", "Louis"
+leader_sex="Male", "Male"
 flag="f.france"
 flag_alt = "-"
 
@@ -395,8 +401,8 @@ cities = "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",
 
 name="English"
 plural="English"
-leader="Elizabeth"
-leader_sex="Female"
+leader="Elizabeth", "George", "Henry", "Mary"
+leader_sex="Female", "Male", "Male", "Female"
 flag="f.united_kingdom"
 flag_alt = "-"
 
@@ -421,8 +427,8 @@ cities = "London", "Birmingham", "Liverpool", "Manchester", "Leeds",
 
 name="Mongol"
 plural="Mongols"
-leader="Genghis"
-leader_sex="Male"
+leader="Genghis", "Timur"
+leader_sex="Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
 
@@ -447,8 +453,8 @@ cities = "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
 
 name="Turk"
 plural="Turks"
-leader="Atatürk"    ;Kemal Atatürk - creator of modern turkish state 
-leader_sex="Male"
+leader="Atatürk", "Suleyman"
+leader_sex="Male", "Male"
 flag="f.turkey"
 flag_alt = "-"
 
@@ -475,9 +481,8 @@ cities =
 
 name="Spanish"
 plural="Spanish"
-leader="Charles"  ; "Charles V" ; spaces in names not well supported yet.
-                  ; also german emperor - Spain at its height in XVI cent.
-leader_sex="Male"
+leader="Charles", "Isabel" 
+leader_sex="Male", "Female"
 flag="f.spain"
 flag_alt = "-"
 
@@ -502,8 +507,8 @@ cities =
 
 name="Persian"
 plural="Persians"
-leader="Cyrus"   ;Cyrus the Great - creator of ancient Persia (~550BC)
-leader_sex="Male"
+leader="Cyrus", "Darius"
+leader_sex="Male", "Male"
 flag="f.iran"
 flag_alt = "-"
 
@@ -529,8 +534,8 @@ cities = ;first are ancient cities in latin version
 
 name="Arab"
 plural="Arabs"
-leader="Mohammad"
-leader_sex="Male"
+leader="Mohammad", "al-Rashid"
+leader_sex="Male", "Male"
 flag ="f.arab"
 flag_alt = "-"
 
@@ -555,8 +560,8 @@ cities = ;Arab Peninsula and Near East
 
 name="Carthaginian"
 plural="Carthaginians"
-leader="Hannibal"
-leader_sex="Male"
+leader="Hannibal", "Hasdrubal"
+leader_sex="Male", "Male"
 flag="f.tunisia"
 flag_alt = "-"
 
@@ -583,8 +588,8 @@ cities = ;Ancient cities from Africa and south Spain,
 
 name="Inca"
 plural="Incas"
-leader="Tupac"  ;Tupac Yupanqui - end of XVth century
-leader_sex="Male"
+leader="Tupac", "Manco", "Atahualpa"
+leader_sex="Male", "Male", "Male"
 flag="f.peru"
 flag_alt = "-"
 
@@ -611,10 +616,8 @@ cities =
 
 name="Viking"
 plural="Vikings"
-leader="Erik"   ;Erik the Red discovered Greenland, Erik was also name
-                ;of many Swedish legendary kings, Erik the Bloodaxe -2nd
-                ;king of Norway
-leader_sex="Male"
+leader="Erik", "Harald" 
+leader_sex="Male", "Male"
 flag="f.denmark"
 flag_alt = "-"
 

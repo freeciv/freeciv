@@ -645,7 +645,7 @@ void game_remove_unit(int unit_id)
     struct city *pcity;
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_race_name(get_player(punit->owner)->race),
+	   unit_id, get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
     
     pcity=player_find_city_by_id(get_player(punit->owner), punit->homecity);
@@ -654,7 +654,7 @@ void game_remove_unit(int unit_id)
     
     if (pcity) {
       freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
 
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
@@ -675,7 +675,7 @@ void game_remove_city(struct city *pcity)
   
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
   
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);

@@ -74,6 +74,44 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
   return tb;
 }
 
+/****************************************************************
+...
+*****************************************************************/
+
+char *city_name_suggestion(struct player *pplayer)
+{
+  char **nptr;
+  int i, j, k;
+  static int n_misc=0;
+  static char tempname[100];
+
+  freelog(LOG_VERBOSE, "Suggesting city name for %s", pplayer->name);
+  
+  if (!n_misc) {
+    for (i=0; misc_city_names[i]; i++) {}
+    n_misc = i;
+  }
+
+  for(nptr=get_nation_by_plr(pplayer)->default_city_names; *nptr; nptr++) {
+    if(!game_find_city_by_name(*nptr))
+      return *nptr;
+  }
+
+  j = myrand(n_misc);
+  for (i=0; i<n_misc; i++) {
+    k = (i+j) % n_misc;
+    if (!game_find_city_by_name(misc_city_names[k])) 
+      return misc_city_names[k];
+  }
+
+  for (i = 0; i < 1000;i++ ) {
+    sprintf(tempname, "city %d", i);
+    if (!game_find_city_by_name(tempname)) 
+      return tempname;
+  }
+  return "";
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -84,7 +122,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
-	  x,y, get_race_name_plural(pplayer->race));
+	  x,y, get_nation_name_plural(pplayer->nation));
   pcity=fc_malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
@@ -447,7 +485,7 @@ void handle_city_change(struct player *pplayer,
    if(!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
 		   "Game: The %s have stopped building The %s in %s.",
-		   get_race_name_plural(pplayer->race),
+		   get_nation_name_plural(pplayer->nation),
 		   get_imp_name_ex(pcity, pcity->currently_building),
 		   pcity->name);
    }
@@ -468,7 +506,7 @@ void handle_city_change(struct player *pplayer,
     if(is_wonder(preq->build_id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		       "Game: The %s have started building The %s in %s.",
-		       get_race_name_plural(pplayer->race),
+		       get_nation_name_plural(pplayer->nation),
 		       get_imp_name_ex(pcity, pcity->currently_building),
 		       pcity->name);
     }
@@ -517,6 +555,18 @@ void handle_city_options(struct player *pplayer,
    *   send_city_info(pplayer, pcity, 1);
    */
   send_packet_generic_values(pplayer->conn, PACKET_CITY_OPTIONS, preq);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_city_name_suggest_req(struct player *pplayer,
+				  struct packet_generic_integer *packet)
+{
+  struct packet_city_name_suggestion reply;
+  reply.id = packet->value;
+  strcpy(reply.name, city_name_suggestion(pplayer));
+  send_packet_city_name_suggestion(pplayer->conn, &reply);
 }
 
 /**************************************************************************
@@ -675,7 +725,7 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct packet_generic_integer packet;
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
-          get_race_name_plural(game.players[pcity->owner].race),
+          get_nation_name_plural(game.players[pcity->owner].nation),
           pcity->name,pcity->x,pcity->y);
   while(unit_list_size(&pcity->units_supported)) {
     wipe_unit(0, unit_list_get(&pcity->units_supported,0));

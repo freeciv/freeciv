@@ -473,7 +473,7 @@ enum government_type {
 };
 static void ai_manage_government(struct player *pplayer)
 {
-  int government = get_race(pplayer)->goals.government;
+  int government = get_nation_by_plr(pplayer)->goals.government;
   government = G_REPUBLIC; /* need to be REPUBLIC+ to love */
 /* advantages of DEMOCRACY: partisans, no bribes, no corrup, +1 content if courthouse */
 /* disadvantages of DEMOCRACY: doubled unhappiness from attacking units, anarchy */

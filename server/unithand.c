@@ -244,10 +244,10 @@ void handle_diplomat_action(struct player *pplayer,
 					 pcity->x, pcity->y)) {
 	if(pdiplomat->foul){
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   "Game: Your spy was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable.",pcity->name, get_race_name_plural(pplayer->race));
+			   "Game: Your spy was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable.",pcity->name, get_nation_name_plural(pplayer->nation));
 	  
 	  notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "You executed a spy the %s had sent to establish an embassy in %s",
-			   get_race_name_plural(pplayer->race),
+			   get_nation_name_plural(pplayer->nation),
 			   pcity->name);
 	  
 	  wipe_unit(0, pdiplomat);
@@ -262,11 +262,11 @@ void handle_diplomat_action(struct player *pplayer,
 	
 	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, 
 			 "Game: The %s have established an embassy in %s",
-		         get_race_name_plural(pplayer->race), pcity->name);
+		         get_nation_name_plural(pplayer->nation), pcity->name);
         gamelog(GAMELOG_EMBASSY,"%s establish an embassy in %s (%s) (%i,%i)\n",
-                get_race_name_plural(pplayer->race),
+                get_nation_name_plural(pplayer->nation),
                 pcity->name,
-                get_race_name(game.players[pcity->owner].race),
+                get_nation_name(game.players[pcity->owner].nation),
 		pcity->x,pcity->y);
 
       }
@@ -1104,9 +1104,9 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 		    pcity->name, pplayer->name);
       gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
               pcity->name,
-              get_race_name(game.players[pcity->owner].race),
+              get_nation_name(game.players[pcity->owner].nation),
 	      pcity->x,pcity->y,
-              get_race_name_plural(pplayer->race));
+              get_nation_name_plural(pplayer->nation));
       remove_city_from_minimap(pcity->x, pcity->y);
       remove_city(pcity);
       return;
@@ -1127,9 +1127,9 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 		       pplayer->name, pcity->name, coins);
       gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
               pcity->name,
-              get_race_name(game.players[pcity->owner].race),
+              get_nation_name(game.players[pcity->owner].nation),
 	      pcity->x,pcity->y,
-              get_race_name_plural(pplayer->race));
+              get_nation_name_plural(pplayer->nation));
  
     } else {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
@@ -1141,9 +1141,9 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 		       pplayer->name, pcity->name, coins);
       gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
               pcity->name,
-              get_race_name(game.players[pcity->owner].race),
+              get_nation_name(game.players[pcity->owner].nation),
 	      pcity->x,pcity->y,
-              get_race_name_plural(pplayer->race));
+              get_nation_name_plural(pplayer->nation));
 
     }
 

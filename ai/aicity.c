@@ -202,7 +202,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
                    "Game: The %s have stopped building The %s in %s.",
-                   get_race_name_plural(pplayer->race),
+                   get_nation_name_plural(pplayer->nation),
                    get_imp_name_ex(pcity, pcity->currently_building),
                    pcity->name);
 
@@ -211,7 +211,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
                  is_wonder(bestchoice.choice)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
                     "Game: The %s have started building The %s in %s.",
-                    get_race_name_plural(city_owner(pcity)->race),
+                    get_nation_name_plural(city_owner(pcity)->nation),
                     get_imp_name_ex(pcity, bestchoice.choice), pcity->name);
       pcity->currently_building = bestchoice.choice;
       pcity->is_building_unit    = (bestchoice.type > 0);
@@ -577,7 +577,7 @@ int city_get_settlers(struct city *pcity)
 int ai_in_initial_expand(struct player *pplayer)
 {
   int expand_cities [3] = {3, 5, 7};
-  return (pplayer->score.cities < expand_cities[get_race(pplayer)->expand]);  
+  return (pplayer->score.cities < expand_cities[get_nation_by_plr(pplayer)->expand]);  
 }
 
 /************************************************************************** 

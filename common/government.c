@@ -192,7 +192,7 @@ struct government *get_gov_pcity(struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_ruler_title(int gov, int male, int race)
+char *get_ruler_title(int gov, int male, int nation)
 {
   struct government *g = get_government(gov);
   struct ruler_title *best_match = NULL;
@@ -200,9 +200,9 @@ char *get_ruler_title(int gov, int male, int race)
 
   for(i=0; i<g->num_ruler_titles; i++) {
     struct ruler_title *title = &g->ruler_titles[i];
-    if (title->race == DEFAULT_TITLE && best_match == NULL) {
+    if (title->nation == DEFAULT_TITLE && best_match == NULL) {
       best_match = title;
-    } else if (title->race == race) {
+    } else if (title->nation == nation) {
       best_match = title;
       break;
     }
@@ -212,8 +212,8 @@ char *get_ruler_title(int gov, int male, int race)
     return male ? best_match->male_title : best_match->female_title;
   } else {
     freelog(LOG_NORMAL,
-	    "get_ruler_title: found no title for government %d (%s) race %d",
-	    gov, g->name, race);
+	    "get_ruler_title: found no title for government %d (%s) nation %d",
+	    gov, g->name, nation);
     return male ? "Mr." : "Ms.";
   }
 }

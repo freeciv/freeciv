@@ -266,7 +266,7 @@ Pixmap create_overlay_unit(int i)
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
 
   /* Give tile a background color, based on the type of unit */
-  bg_color = COLOR_STD_RACE0+game.player_ptr->race;
+  bg_color = COLOR_STD_RACE0+game.player_ptr->nation;
   switch (get_unit_type(i)->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
     case SEA_MOVING:  bg_color = COLOR_STD_OCEAN; break;
@@ -280,7 +280,7 @@ Pixmap create_overlay_unit(int i)
 
   /* If we're using flags, put one on the tile */
   if(!use_solid_color_behind_units)  {
-    struct Sprite *flag=get_race(game.player_ptr)->flag_sprite;
+    struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);

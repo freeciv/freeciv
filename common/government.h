@@ -39,13 +39,13 @@ enum government_hint_id {
 };
 
 /* each government has a list of ruler titles, where at least
- * one entry should have race=DEFAULT_TITLE.
+ * one entry should have nation=DEFAULT_TITLE.
  */
 #define DEFAULT_TITLE  MAX_NUM_ITEMS
 
 struct ruler_title
 {
-  int  race;
+  int  nation;
   char male_title[MAX_LEN_NAME];
   char female_title[MAX_LEN_NAME];
 };
@@ -160,7 +160,7 @@ int government_has_hint(const struct government *gov,
 int get_government_max_rate(int type);
 int get_government_civil_war_prob(int type);
 char *get_government_name(int type);
-char *get_ruler_title(int gov, int male, int race);
+char *get_ruler_title(int gov, int male, int nation);
 
 int can_change_to_government(struct player *pplayer, int government);
 

@@ -27,8 +27,8 @@ void leader_adjust_tech_choice(struct player *pplayer,
 {
   int distmodifier = 100;
 
-  struct player_race *prace = get_race(pplayer);
-  /* adjust it according to racial attribute */
+  struct nation_type *prace = get_nation_by_plr(pplayer);
+  /* adjust it according to nation attribute */
   adjust_choice(prace->advisors[advisor], choice); 
   /* distmod should be assigned a value according to how many techs player
      have to research to reach this goal, 100 for now */
@@ -40,7 +40,7 @@ void leader_adjust_tech_choice(struct player *pplayer,
 void leader_adjust_build_choice(struct player *pplayer, 
 				struct ai_choice *choice, int advisor)
 {
-  struct player_race *prace = get_race(pplayer);
+  struct nation_type *prace = get_nation_by_plr(pplayer);
   adjust_choice(prace->advisors[advisor], choice); 
   /* this function haven't been implemented yet */
 }

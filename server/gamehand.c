@@ -68,7 +68,7 @@ void init_new_game(void)
       map.start_positions[i].y=y;
     }
   }
-  /* In a scenario, choose starting positions by race.
+  /* In a scenario, choose starting positions by nation.
      If there are too few starts for number of nations, assign
      to nations with specific starts first, then assign rest
      to random from remainder.  (Would be better to label start
@@ -84,10 +84,10 @@ void init_new_game(void)
     int nrem = npos;		/* remaining unused starts */
     
     for(i=0; i<game.nplayers; i++) {
-      int race = game.players[i].race;
-      if (race < npos) {
-	start_pos[i] = race;
-	pos_used[race] = 1;
+      int nation = game.players[i].nation;
+      if (nation < npos) {
+	start_pos[i] = nation;
+	pos_used[nation] = 1;
 	nrem--;
       } else {
 	start_pos[i] = npos;

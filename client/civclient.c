@@ -162,8 +162,8 @@ void handle_packet_input(char *packet, int type)
     handle_tile_info((struct packet_tile_info *)packet);
     break;
 
-  case PACKET_SELECT_RACE:
-    handle_select_race((struct packet_select_race *)packet);
+  case PACKET_SELECT_NATION:
+    handle_select_nation((struct packet_generic_values *)packet);
     break;
 
   case PACKET_PLAYER_INFO:

@@ -192,8 +192,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_TILE_INFO:
     return receive_packet_tile_info(pc);
 
-  case PACKET_SELECT_RACE:
-    return receive_packet_select_race(pc);
+  case PACKET_SELECT_NATION:
+    return receive_packet_generic_values(pc);
 
   case PACKET_REMOVE_UNIT:
   case PACKET_REMOVE_CITY:
@@ -205,8 +205,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_NAME_SUGGEST_REQ:
     return receive_packet_generic_integer(pc);
     
-  case PACKET_ALLOC_RACE:
-    return receive_packet_alloc_race(pc);
+  case PACKET_ALLOC_NATION:
+    return receive_packet_alloc_nation(pc);
 
   case PACKET_SHOW_MESSAGE:
     return receive_packet_generic_message(pc);
@@ -1057,7 +1057,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(cptr, pinfo->is_male);
   cptr=put_int8(cptr, pinfo->government);
   cptr=put_int32(cptr, pinfo->embassy);
-  cptr=put_int8(cptr, pinfo->race);
+  cptr=put_int8(cptr, pinfo->nation);
   cptr=put_int8(cptr, pinfo->turn_done?1:0);
   cptr=put_int16(cptr, pinfo->nturns_idle);
   cptr=put_int8(cptr, pinfo->is_alive?1:0);
@@ -1105,7 +1105,7 @@ receive_packet_player_info(struct connection *pc)
   iget_int8(&iter,  &pinfo->is_male);
   iget_int8(&iter,  &pinfo->government);
   iget_int32(&iter,  &pinfo->embassy);
-  iget_int8(&iter,  &pinfo->race);
+  iget_int8(&iter,  &pinfo->nation);
   iget_int8(&iter,  &pinfo->turn_done);
   iget_int16(&iter,  &pinfo->nturns_idle);
   iget_int8(&iter,  &pinfo->is_alive);
@@ -1813,12 +1813,12 @@ receive_packet_generic_integer(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_alloc_race(struct connection *pc, 
-			   struct packet_alloc_race *packet)
+int send_packet_alloc_nation(struct connection *pc, 
+			     struct packet_alloc_nation *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_ALLOC_RACE);
-  cptr=put_int32(cptr, packet->race_no);
+  cptr=put_int8(buffer+2, PACKET_ALLOC_NATION);
+  cptr=put_int32(cptr, packet->nation_no);
   cptr=put_string(cptr, packet->name);
   cptr=put_int8(cptr,packet->is_male);
   put_int16(buffer, cptr-buffer);
@@ -1829,16 +1829,16 @@ int send_packet_alloc_race(struct connection *pc,
 /**************************************************************************
 ...
 **************************************************************************/
-struct packet_alloc_race *
-receive_packet_alloc_race(struct connection *pc)
+struct packet_alloc_nation *
+receive_packet_alloc_nation(struct connection *pc)
 {
   struct pack_iter iter;
-  struct packet_alloc_race *packet=
-    fc_malloc(sizeof(struct packet_alloc_race));
+  struct packet_alloc_nation *packet=
+    fc_malloc(sizeof(struct packet_alloc_nation));
 
   pack_iter_init(&iter, pc);
 
-  iget_int32(&iter, &packet->race_no);
+  iget_int32(&iter, &packet->nation_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_int8(&iter, &packet->is_male);
 
@@ -2377,7 +2377,7 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc,
   
   cptr=put_int8(cptr, packet->gov);
   cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->race);
+  cptr=put_int8(cptr, packet->nation);
 
   cptr=put_string(cptr, packet->male_title);
   cptr=put_string(cptr, packet->female_title);
@@ -2467,7 +2467,7 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
 
   iget_int8(&iter, &packet->gov);
   iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->race);
+  iget_int8(&iter, &packet->nation);
 
   iget_string(&iter, packet->male_title, sizeof(packet->male_title));
   iget_string(&iter, packet->female_title, sizeof(packet->female_title));
@@ -2483,6 +2483,7 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
 int send_packet_ruleset_nation(struct connection *pc,
 			       struct packet_ruleset_nation *packet)
 {
+  int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_RULESET_NATION);
 
@@ -2492,6 +2493,11 @@ int send_packet_ruleset_nation(struct connection *pc,
   cptr=put_string(cptr, packet->name_plural);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
+  cptr=put_int8(cptr, packet->leader_count);
+  for( i=0; i<packet->leader_count; i++ ) {
+    cptr=put_string(cptr, packet->leader_name[i]);
+    cptr=put_int8(cptr, packet->leader_sex[i]);
+  }
 
   put_int16(buffer, cptr-buffer);
 
@@ -2505,6 +2511,7 @@ int send_packet_ruleset_nation(struct connection *pc,
 struct packet_ruleset_nation *
 receive_packet_ruleset_nation(struct connection *pc)
 {
+  int i;
   struct pack_iter iter;
   struct packet_ruleset_nation *packet=
     fc_malloc(sizeof(struct packet_ruleset_nation));
@@ -2516,58 +2523,12 @@ receive_packet_ruleset_nation(struct connection *pc)
   iget_string(&iter, packet->name_plural, sizeof(packet->name_plural));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
-
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
-  return packet;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int send_packet_select_race(struct connection *pc,
-			    struct packet_select_race *packet)
-{
-  int i;
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_int8(buffer+2, PACKET_SELECT_RACE);
-
-  cptr=put_int32(cptr, packet->mask1);
-  cptr=put_int32(cptr, packet->mask2);
-  cptr=put_int8(cptr, packet->nation_count);
-  for( i=0; i<packet->nation_count; i++) {
-       cptr=put_string(cptr, packet->nation[i]);
-       cptr=put_string(cptr, packet->leader[i]);
-       cptr=put_int8(cptr, packet->leader_sex[i]);
+  iget_int8(&iter, &packet->leader_count);
+  for( i=0; i<packet->leader_count; i++ ) {
+    iget_string(&iter, packet->leader_name[i], sizeof(packet->leader_name[i]));
+    iget_int8(&iter, &packet->leader_sex[i]);
   }
-  put_int16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_select_race *
-receive_packet_select_race(struct connection *pc)
-{
-  int i;
-  struct pack_iter iter;
-  struct packet_select_race *packet=
-    fc_malloc(sizeof(struct packet_select_race));
-
-  pack_iter_init(&iter, pc);
-
-  iget_int32(&iter, &packet->mask1);
-  iget_int32(&iter, &packet->mask2);
-  iget_int8(&iter, &packet->nation_count);
-  if( packet->mask2 != 0xffff ) {         /* 0xffff means race choice was OK */
-    for( i=0; i<packet->nation_count; i++) {
-      iget_string(&iter, packet->nation[i], MAX_LEN_NAME);
-      iget_string(&iter, packet->leader[i], MAX_LEN_NAME);
-      iget_int8(&iter, &packet->leader_sex[i]);
-    }
-  }
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
   return packet;

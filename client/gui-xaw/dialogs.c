@@ -60,7 +60,7 @@ extern GC fill_bg_gc;
 Widget races_dialog_shell=NULL;
 Widget races_form, races_toggles_form, races_label;
 Widget races_ok_command;
-Widget *races_toggles, races_name;
+Widget *races_toggles=NULL, races_name;
 Widget races_sex_toggles[2], races_sex_form, races_sex_label;
 
 /******************************************************************/
@@ -1569,11 +1569,11 @@ void create_races_dialog(void)
 
   maxlen = 0;
   for(i=0; i<game.nation_count; i++) {
-    int len = strlen(get_race_name(i));
+    int len = strlen(get_nation_name(i));
     maxlen = MAX(maxlen, len);
   }
   maxlen = MIN(maxlen, MAX_LEN_NAME-1);
-  sprintf(maxname, "%*s", maxlen, " ");
+  sprintf(maxname, "%*s", maxlen+2, "W");
 
   races_dialog_shell = XtCreatePopupShell("racespopup", 
 					  transientShellWidgetClass,
@@ -1593,7 +1593,7 @@ void create_races_dialog(void)
 					       XtNfromVert, races_label, 
 					       NULL);   
 
-  /* FIXME: memory leak on disconnect/reconnect? --dwp */ 
+  free(races_toggles);
   races_toggles = fc_calloc(game.nation_count,sizeof(Widget));
 
   races_toggles[0]=XtVaCreateManagedWidget("racestoggle0", 
@@ -1709,7 +1709,7 @@ void create_races_dialog(void)
   XtRealizeWidget(races_dialog_shell);
   
   for(i=0; i<game.nation_count; i++) {
-    XtVaSetValues(races_toggles[i], XtNlabel, (XtArgVal)get_race_name(i), NULL);
+    XtVaSetValues(races_toggles[i], XtNlabel, (XtArgVal)get_nation_name(i), NULL);
   }
 
 }
@@ -1766,11 +1766,13 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 void races_toggles_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  int i;
+  int i, dim;
+  char **leaders;
 
   for(i=0; i<game.nation_count; i++)
     if(w==races_toggles[i]) {
-      XtVaSetValues(races_name, XtNstring, get_race_leader_name(i), NULL);
+      leaders = get_nation_leader_names(i, &dim);
+      XtVaSetValues(races_name, XtNstring, leaders[0], NULL);
       return;
     }
 }
@@ -1824,10 +1826,10 @@ void races_buttons_callback(Widget w, XtPointer client_data,
   int selected, selected_sex;
   XtPointer dp;
 
-  struct packet_alloc_race packet;
+  struct packet_alloc_nation packet;
 
   if((selected=races_buttons_get_current())==-1) {
-    append_output_window("You must select a race.");
+    append_output_window("You must select a nation.");
     return;
   }
 
@@ -1839,7 +1841,7 @@ void races_buttons_callback(Widget w, XtPointer client_data,
   XtVaGetValues(races_name, XtNstring, &dp, NULL);
 
   /* perform a minimum of sanity test on the name */
-  packet.race_no=selected;
+  packet.nation_no=selected;
   packet.is_male = selected_sex? 0: 1;     /* first button is male */
   strncpy(packet.name, (char*)dp, MAX_LEN_NAME);
   packet.name[MAX_LEN_NAME-1]='\0';
@@ -1851,7 +1853,7 @@ void races_buttons_callback(Widget w, XtPointer client_data,
 
   packet.name[0]=toupper(packet.name[0]);
 
-  send_packet_alloc_race(&aconnection, &packet);
+  send_packet_alloc_nation(&aconnection, &packet);
 }
 
 /**************************************************************************

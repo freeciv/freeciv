@@ -37,8 +37,8 @@ enum packet_type {
   PACKET_TURN_DONE,
   PACKET_NEW_YEAR,
   PACKET_TILE_INFO,
-  PACKET_SELECT_RACE,
-  PACKET_ALLOC_RACE,
+  PACKET_SELECT_NATION,
+  PACKET_ALLOC_NATION,
   PACKET_SHOW_MESSAGE,
   PACKET_PLAYER_INFO,
   PACKET_GAME_INFO,
@@ -340,8 +340,8 @@ struct packet_join_game_reply {
 /*********************************************************
 ...
 *********************************************************/
-struct packet_alloc_race {
-  Nation_Type_id race_no;
+struct packet_alloc_nation {
+  Nation_Type_id nation_no;
   char name[MAX_LEN_NAME];
   int is_male;
 };
@@ -376,7 +376,7 @@ struct packet_player_info {
   int is_male;
   int government;
   int embassy;
-  int race;
+  int nation;
   int turn_done, nturns_idle;
   int is_alive;
   int gold, tax, science, luxury;
@@ -608,7 +608,7 @@ struct packet_ruleset_government {
 struct packet_ruleset_government_ruler_title {
   int gov;
   int id;
-  int race;
+  int nation;
   char male_title[MAX_LEN_NAME];
   char female_title[MAX_LEN_NAME];
 };
@@ -619,16 +619,10 @@ struct packet_ruleset_nation {
   char name_plural[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
-};
 
-struct packet_select_race {
-  unsigned int mask1;           /* masks indicate already     */
-  unsigned int mask2;           /* selected nations           */
-                                /* mask2=ffff means choice OK */
-  Nation_Type_id nation_count;
-  char nation[MAX_NUM_NATIONS][MAX_LEN_NAME];
-  char leader[MAX_NUM_NATIONS][MAX_LEN_NAME];
-  int leader_sex[MAX_NUM_NATIONS];
+  int leader_count;
+  char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
+  int leader_sex[MAX_NUM_LEADERS];
 };
 
 /*********************************************************
@@ -790,9 +784,9 @@ int send_packet_join_game_reply(struct connection *pc,
 struct packet_join_game_reply *receive_packet_join_game_reply(struct 
 							      connection *pc);
 
-int send_packet_alloc_race(struct connection *pc, 
-			   struct packet_alloc_race *packet);
-struct packet_alloc_race *receive_packet_alloc_race(struct connection *pc);
+int send_packet_alloc_nation(struct connection *pc, 
+			   struct packet_alloc_nation *packet);
+struct packet_alloc_nation *receive_packet_alloc_nation(struct connection *pc);
 
 
 int send_packet_generic_message(struct connection *pc, int type,
@@ -875,11 +869,6 @@ int send_packet_ruleset_nation(struct connection *pc,
 			       struct packet_ruleset_nation *packet);
 struct packet_ruleset_nation *
 receive_packet_ruleset_nation(struct connection *pc);
-
-int send_packet_select_race(struct connection *pc,
-			    struct packet_select_race *packet);
-struct packet_select_race *
-receive_packet_select_race(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 

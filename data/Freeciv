@@ -2804,8 +2804,8 @@ Freeciv*citymapcanvas.translations:\
 !
 ! the race selection dialog
 !
-Freeciv*racespopup.title: What Race Will You Be?
-Freeciv*raceslabel.label:              Select race and name
+Freeciv*racespopup.title:              What Nation Will You Be?
+Freeciv*raceslabel.label:              Select nation and name
 Freeciv*raceslabel.borderWidth:        0
 Freeciv*raceslabel.background:         lightblue
 
