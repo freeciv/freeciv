@@ -2638,7 +2638,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   } players_iterate_end;
 
   /* Disappearance - 33% chance on coast, when older than barbarian life span */
-  if (is_at_coast(leader->x, leader->y) && leader->fuel == 0) {
+  if (is_ocean_near_tile(leader->x, leader->y) && leader->fuel == 0) {
     if(myrand(3) == 0) {
       UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
       wipe_unit(leader);

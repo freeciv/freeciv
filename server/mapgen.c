@@ -1953,7 +1953,7 @@ static void fill_island(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold0) 
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
-	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
+	   &&( !is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast )) {
 	if (map_pos_is_cold(x, y)) {
 	  map_set_terrain(x, y, (myrand(cold0_weight
 					+ cold1_weight) < cold0_weight) 
@@ -1999,7 +1999,7 @@ static void fill_island_rivers(int coast, long int *bucket,
 	     || count_special_near_tile(x, y, S_RIVER) > 0
 	     || myrand(100)<50 
 	     )
-	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
+	   &&( !is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast )) {
 	if (is_water_adjacent_to_tile(x, y) &&
 	    count_ocean_near_tile(x, y) < 4 &&
             count_special_near_tile(x, y, S_RIVER) < 3) {

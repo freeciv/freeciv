@@ -604,10 +604,12 @@ int count_special_near_tile(int x, int y, enum tile_special_type spe)
   return count;
 }
 
-/***************************************************************
-...
-***************************************************************/
-bool is_at_coast(int x, int y)
+/*************************************************************************
+  This is used in mapgen for rivers going into ocen.  The name is 
+  intentionally made awkward to prevent people from using it in place of
+  is_ocean_near_tile
+*************************************************************************/
+bool is_cardinally_adj_to_ocean(int x, int y)
 {
   cardinal_adjc_iterate(x, y, x1, y1) {
     if (is_ocean(map_get_terrain(x1, y1))) {
