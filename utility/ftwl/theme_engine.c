@@ -87,9 +87,18 @@ void te_init(const char *theme, char *example_file)
 /*************************************************************************
   Initialize colour model from a palette file.
 *************************************************************************/
-void te_init_colormodel(struct section_file *file)
+void te_init_colormodel(char *name)
 {
-  theme_bytes_per_pixel = secfile_lookup_int(file, "meta.bpp") / 8;
+  char filename[512];
+  struct section_file file;
+
+  my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
+	      current_theme, current_res, name);
+
+  section_file_init(&file);
+  section_file_load(&file, filename);
+  theme_bytes_per_pixel = secfile_lookup_int(&file, "meta.bpp") / 8;
+  section_file_free(&file);
 }
 
 /*************************************************************************
