@@ -36,6 +36,7 @@
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "options.h"
+#include "overview_common.h"
 #include "tilespec.h"
 
 #include "mapctrl_common.h"

@@ -46,6 +46,7 @@
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "options.h"
+#include "overview_common.h"
 #include "tilespec.h"
 #include "text.h"
 #include "wldlg.h"

@@ -132,7 +132,6 @@ int fill_sprite_array(struct tileset *t,
 		      const struct city *citymode);
 
 enum color_std player_color(const struct player *pplayer);
-enum color_std overview_tile_color(struct tile *ptile);
 
 double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);
@@ -203,14 +202,6 @@ struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
-
-/* The overview tile width and height are defined in terms of the base
- * size.  For iso-maps the width is twice the height since "natural"
- * coordinates are used.  For classical maps the width and height are
- * equal.  The base size may be adjusted to get the correct scale. */
-extern int OVERVIEW_TILE_SIZE;
-#define OVERVIEW_TILE_WIDTH ((MAP_IS_ISOMETRIC ? 2 : 1) * OVERVIEW_TILE_SIZE)
-#define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
 /* Tileset accessor functions. */
 bool tileset_is_isometric(const struct tileset *t);

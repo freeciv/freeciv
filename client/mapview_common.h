@@ -43,17 +43,8 @@ struct view {
   struct canvas *store, *tmp_store;
 };
 
-/* Holds all information about the overview aka minimap. */
-struct overview {
-  /* The following fields are controlled by mapview_common.c. */
-  int map_x0, map_y0;
-  int width, height;		/* Size in pixels. */
-  struct canvas *store;
-};
-
 extern struct mapview_decoration *map_deco;
 extern struct view mapview;
-extern struct overview overview;
 
 /* HACK: Callers can set this to FALSE to disable sliding.  It should be
  * reenabled afterwards. */
@@ -235,6 +226,8 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
 struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y);
 struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y);
 
+void get_mapview_corners(int x[4], int y[4]);
+
 void get_mapview_scroll_window(int *xmin, int *ymin,
 			       int *xmax, int *ymax,
 			       int *xsize, int *ysize);
@@ -300,15 +293,6 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      char *growth_buffer,
 				      size_t growth_buffer_len,
 				      enum color_std *grwoth_color);
-
-void map_to_overview_pos(int *overview_x, int *overview_y,
-			 int map_x, int map_y);
-void overview_to_map_pos(int *map_x, int *map_y,
-			 int overview_x, int overview_y);
-
-void refresh_overview_canvas(void);
-void overview_update_tile(struct tile *ptile);
-void set_overview_dimensions(int width, int height);
 
 void init_mapview_decorations(void);
 bool map_canvas_resized(int width, int height);

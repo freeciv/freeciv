@@ -255,8 +255,6 @@ struct named_sprites {
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
-int OVERVIEW_TILE_SIZE = 2;
-
 /* Don't reorder this enum since tilesets depend on it. */
 enum fog_style {
   FOG_AUTO, /* Fog is automatically appended by the code. */
@@ -4032,44 +4030,6 @@ enum color_std player_color(const struct player *pplayer)
   return COLOR_STD_RACE0 +
     (pplayer->player_no %
      (COLOR_STD_RACE13 - COLOR_STD_RACE0 + 1));
-}
-
-/**********************************************************************
-  Return color for overview map tile.
-***********************************************************************/
-enum color_std overview_tile_color(struct tile *ptile)
-{
-  enum color_std color;
-  struct unit *punit;
-  struct city *pcity;
-
-  if (tile_get_known(ptile) == TILE_UNKNOWN) {
-    color=COLOR_STD_BLACK;
-  } else if((pcity=map_get_city(ptile))) {
-    if(pcity->owner==game.player_idx)
-      color=COLOR_STD_WHITE;
-    else
-      color=COLOR_STD_CYAN;
-  } else if ((punit=find_visible_unit(ptile))) {
-    if(punit->owner==game.player_idx)
-      color=COLOR_STD_YELLOW;
-    else
-      color=COLOR_STD_RED;
-  } else if (is_ocean(ptile->terrain)) {
-    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      color = COLOR_STD_RACE4;
-    } else {
-      color = COLOR_STD_OCEAN;
-    }
-  } else {
-    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      color = COLOR_STD_BACKGROUND;
-    } else {
-      color = COLOR_STD_GROUND;
-    }
-  }
-
-  return color;
 }
 
 /****************************************************************************

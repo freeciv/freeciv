@@ -26,6 +26,8 @@
 #include "support.h"
 #include "unit.h"
 
+#include "overview_common.h"
+
 #include "chatline.h"
 #include "citydlg.h"
 #include "civclient.h"

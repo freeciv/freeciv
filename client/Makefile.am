@@ -170,6 +170,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	mapview_common.h \
 	messagewin_common.c \
 	messagewin_common.h \
+	overview_common.c	\
+	overview_common.h	\
 	packhand.c	\
 	packhand.h	\
 	packhand_gen.h	\

@@ -38,6 +38,7 @@
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "options.h"
+#include "overview_common.h"
 #include "tilespec.h"
 
 #include "control.h"

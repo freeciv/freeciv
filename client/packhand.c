@@ -60,6 +60,7 @@
 #include "menu_g.h"
 #include "messagewin_g.h"
 #include "options.h"
+#include "overview_common.h"
 #include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
