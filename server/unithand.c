@@ -888,6 +888,19 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
       }
     }
 
+    /* This should be part of can_unit_attack_tile(), but I think the AI
+       depends on can_unit_attack_tile() not stopping it in the goto, so
+       leave it here for now. */
+    if (get_unit_type(punit->type)->attack_strength == 0) {
+      char message[MAX_LEN_NAME + 64];
+      my_snprintf(message, sizeof(message),
+		  _("Game: A %s cannot attack other units."),
+		  unit_name(punit->type));
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       message);
+      return 0;
+    }
+
     handle_unit_attack_request(pplayer, punit, pdefender);
     return 1;
   } /* End attack case */
