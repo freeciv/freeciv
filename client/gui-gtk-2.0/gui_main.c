@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -131,7 +132,7 @@ static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
-static gint gdk_input_id;
+static guint input_id;
 
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -146,7 +147,7 @@ static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 
-static void tearoff_callback(GtkToggleButton *b, gpointer data);
+static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
@@ -473,14 +474,18 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 }
 
 /**************************************************************************
- reattaches the detached widget when the user closes it via 
- the window manager.
+ reattaches the detached widget when the user destroys it.
 **************************************************************************/
 static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
-  GtkWidget *p, *box = GTK_WIDGET(data);
+  GtkWidget *p, *b, *box;
 
-  p = g_object_get_data(G_OBJECT(w), "prev_parent");
+  box = GTK_WIDGET(data);
+  p = g_object_get_data(G_OBJECT(w), "parent");
+  b = g_object_get_data(G_OBJECT(w), "toggle");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b), FALSE);
+
+  gtk_widget_hide(w);
   gtk_widget_reparent(box, p);
 }
 
@@ -488,24 +493,24 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
  callback for the toggle button in the detachable widget: causes the
  widget to detach or reattach.
 **************************************************************************/
-static void tearoff_callback(GtkToggleButton *b, gpointer data)
+static void tearoff_callback(GtkWidget *b, gpointer data)
 {
   GtkWidget *box = GTK_WIDGET(data);
   GtkWidget *w;
 
-  if (gtk_toggle_button_get_active(b)) {
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
-
-    g_object_set_data(G_OBJECT(w), "prev_parent", box->parent);
+    
+    g_object_set_data(G_OBJECT(w), "parent", box->parent);
+    g_object_set_data(G_OBJECT(w), "toggle", b);
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
   } else {
-    w = box->parent;
-    gtk_widget_destroy(w);
+    gtk_widget_destroy(box->parent);
   }
 }
 
@@ -523,15 +528,11 @@ static GtkWidget *detached_widget_new(void)
 **************************************************************************/
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 {
-  GtkWidget *b, *sep, *avbox;
+  GtkWidget *b, *avbox;
 
   b = gtk_toggle_button_new();
   gtk_box_pack_start(GTK_BOX(ahbox), b, FALSE, FALSE, 0);
   g_signal_connect(b, "toggled", G_CALLBACK(tearoff_callback), ahbox);
-
-  /* cosmetic effects */
-  sep = gtk_vseparator_new();
-  gtk_container_add(GTK_CONTAINER(b), sep);
 
   avbox = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(ahbox), avbox, TRUE, TRUE, 0);
@@ -790,6 +791,8 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(ahbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
@@ -814,7 +817,7 @@ static void setup_widgets(void)
 
   /* the chat line */
   inputline = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 3);
 
   g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
 
@@ -914,6 +917,7 @@ void ui_main(int argc, char **argv)
   }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = toplevel->window;
@@ -932,23 +936,22 @@ void ui_main(int argc, char **argv)
   civ_gc = gdk_gc_new(root_window);
 
   /* font names shouldn't be in spec files! */
-  main_font = pango_font_description_from_string("Sans Bold 13");
-  city_productions_font = pango_font_description_from_string("Serif 11");
+  main_font = pango_font_description_from_string("Sans Bold 10");
+  city_productions_font = pango_font_description_from_string("Serif 10");
 
   fill_bg_gc = gdk_gc_new(root_window);
 
-  if (is_isometric) {
-    thin_line_gc = gdk_gc_new(root_window);
-    thick_line_gc = gdk_gc_new(root_window);
-    gdk_gc_set_line_attributes(thin_line_gc, 1,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-    gdk_gc_set_line_attributes(thick_line_gc, 2,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-  }
+  /* for isometric view. always create. the tileset can change at run time. */
+  thin_line_gc = gdk_gc_new(root_window);
+  thick_line_gc = gdk_gc_new(root_window);
+  gdk_gc_set_line_attributes(thin_line_gc, 1,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes(thick_line_gc, 2,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
 
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
@@ -1200,10 +1203,11 @@ static void set_wait_for_writable_socket(struct connection *pc,
     return;
 
   freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
-  gdk_input_remove(gdk_input_id);
-  gdk_input_id = gdk_input_add(aconnection.sock, GDK_INPUT_READ 
-                               | (socket_writable ? GDK_INPUT_WRITE : 0)
-                               | GDK_INPUT_EXCEPTION, get_net_input, NULL);
+  gtk_input_remove(input_id);
+  input_id = gtk_input_add_full(aconnection.sock, GDK_INPUT_READ 
+				| (socket_writable ? GDK_INPUT_WRITE : 0)
+				| GDK_INPUT_EXCEPTION,
+				get_net_input, NULL, NULL, NULL);
   previous_state = socket_writable;
 }
 
@@ -1213,8 +1217,8 @@ static void set_wait_for_writable_socket(struct connection *pc,
 **************************************************************************/
 void add_net_input(int sock)
 {
-  gdk_input_id = gdk_input_add(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
-			       get_net_input, NULL);
+  input_id = gtk_input_add_full(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
+				get_net_input, NULL, NULL, NULL);
   aconnection.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
@@ -1224,6 +1228,6 @@ void add_net_input(int sock)
 **************************************************************************/
 void remove_net_input(void)
 {
-  gdk_input_remove(gdk_input_id);
+  gtk_input_remove(input_id);
   gdk_window_set_cursor(root_window, NULL);
 }
