@@ -81,6 +81,8 @@ const char * const our_capability = our_capability_internal;
  * "conn_ping_info" means the packet_conn_ping_info uses MAX_NUM_CONNECTIONS
  * not MAX_NUM_PLAYERS.
  *
+ * "username_info" means that the username is sent in the player_info packet
+ *
  *   - No new manditory capabilities can be added to the release branch; doing
  *     so would break network capability of supposedly "compatible" releases.
  *
@@ -88,7 +90,7 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-#define CAPABILITY "+2.0 connecting conn_ping_info"
+#define CAPABILITY "+2.0 connecting conn_ping_info username_info"
 
 void init_our_capability(void)
 {

@@ -9159,7 +9159,7 @@ static int cmp_packet_player_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_player_info_100_fields, 30);
+BV_DEFINE(packet_player_info_100_fields, 31);
 
 static struct packet_player_info *receive_packet_player_info_100(struct connection *pc, enum packet_type type)
 {
@@ -9180,6 +9180,567 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
 
   if (!*hash) {
     *hash = hash_new(hash_packet_player_info_100, cmp_packet_player_info_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    int playerno = real_packet->playerno;
+
+    memset(real_packet, 0, sizeof(*real_packet));
+
+    real_packet->playerno = playerno;
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->username, sizeof(real_packet->username));
+  }
+  real_packet->is_male = BV_ISSET(fields, 2);
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->target_government = readin;
+    }
+  }
+  if (BV_ISSET(fields, 5)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->embassy = readin;
+    }
+  }
+  if (BV_ISSET(fields, 6)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->city_style = readin;
+    }
+  }
+  if (BV_ISSET(fields, 7)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->nation = readin;
+    }
+  }
+  if (BV_ISSET(fields, 8)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->team = readin;
+    }
+  }
+  real_packet->turn_done = BV_ISSET(fields, 9);
+  if (BV_ISSET(fields, 10)) {
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->nturns_idle = readin;
+    }
+  }
+  real_packet->is_alive = BV_ISSET(fields, 11);
+  if (BV_ISSET(fields, 12)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->reputation = readin;
+    }
+  }
+  if (BV_ISSET(fields, 13)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        dio_get_diplstate(&din, &real_packet->diplstates[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 14)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gold = readin;
+    }
+  }
+  if (BV_ISSET(fields, 15)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tax = readin;
+    }
+  }
+  if (BV_ISSET(fields, 16)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->science = readin;
+    }
+  }
+  if (BV_ISSET(fields, 17)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->luxury = readin;
+    }
+  }
+  if (BV_ISSET(fields, 18)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->bulbs_last_turn = readin;
+    }
+  }
+  if (BV_ISSET(fields, 19)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->bulbs_researched = readin;
+    }
+  }
+  if (BV_ISSET(fields, 20)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->techs_researched = readin;
+    }
+  }
+  if (BV_ISSET(fields, 21)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->researching = readin;
+    }
+  }
+  if (BV_ISSET(fields, 22)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->future_tech = readin;
+    }
+  }
+  if (BV_ISSET(fields, 23)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->tech_goal = readin;
+    }
+  }
+  real_packet->is_connected = BV_ISSET(fields, 24);
+  if (BV_ISSET(fields, 25)) {
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->revolution_finishes = readin;
+    }
+  }
+  real_packet->ai = BV_ISSET(fields, 26);
+  if (BV_ISSET(fields, 27)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->barbarian_type = readin;
+    }
+  }
+  if (BV_ISSET(fields, 28)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->gives_shared_vision = readin;
+    }
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
+  }
+  if (BV_ISSET(fields, 30)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->love[i] = readin;
+    }
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_player_info_100(struct connection *pc, const struct packet_player_info *packet)
+{
+  const struct packet_player_info *real_packet = packet;
+  packet_player_info_100_fields fields;
+  struct packet_player_info *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_INFO];
+  int different = 0;
+  SEND_PACKET_START(PACKET_PLAYER_INFO);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_info_100, cmp_packet_player_info_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->username, real_packet->username) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (old->is_male != real_packet->is_male);
+  if(differ) {different++;}
+  if(packet->is_male) {BV_SET(fields, 2);}
+
+  differ = (old->government != real_packet->government);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->target_government != real_packet->target_government);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->embassy != real_packet->embassy);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (old->city_style != real_packet->city_style);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->nation != real_packet->nation);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->team != real_packet->team);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (old->turn_done != real_packet->turn_done);
+  if(differ) {different++;}
+  if(packet->turn_done) {BV_SET(fields, 9);}
+
+  differ = (old->nturns_idle != real_packet->nturns_idle);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->is_alive != real_packet->is_alive);
+  if(differ) {different++;}
+  if(packet->is_alive) {BV_SET(fields, 11);}
+
+  differ = (old->reputation != real_packet->reputation);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+
+    {
+      differ = (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS != MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+          if (!are_diplstates_equal(&old->diplstates[i], &real_packet->diplstates[i])) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->gold != real_packet->gold);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 14);}
+
+  differ = (old->tax != real_packet->tax);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 15);}
+
+  differ = (old->science != real_packet->science);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 16);}
+
+  differ = (old->luxury != real_packet->luxury);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
+
+  differ = (old->bulbs_last_turn != real_packet->bulbs_last_turn);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 18);}
+
+  differ = (old->bulbs_researched != real_packet->bulbs_researched);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 19);}
+
+  differ = (old->techs_researched != real_packet->techs_researched);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 20);}
+
+  differ = (old->researching != real_packet->researching);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 21);}
+
+  differ = (old->future_tech != real_packet->future_tech);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 22);}
+
+  differ = (old->tech_goal != real_packet->tech_goal);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 23);}
+
+  differ = (old->is_connected != real_packet->is_connected);
+  if(differ) {different++;}
+  if(packet->is_connected) {BV_SET(fields, 24);}
+
+  differ = (old->revolution_finishes != real_packet->revolution_finishes);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 25);}
+
+  differ = (old->ai != real_packet->ai);
+  if(differ) {different++;}
+  if(packet->ai) {BV_SET(fields, 26);}
+
+  differ = (old->barbarian_type != real_packet->barbarian_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 27);}
+
+  differ = (old->gives_shared_vision != real_packet->gives_shared_vision);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
+  differ = (strcmp(old->inventions, real_packet->inventions) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 29);}
+
+
+    {
+      differ = (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS != MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+          if (old->love[i] != real_packet->love[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 30);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+  dio_put_uint8(&dout, real_packet->playerno);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->username);
+  }
+  /* field 2 is folded into the header */
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->government);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->target_government);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_uint32(&dout, real_packet->embassy);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_uint8(&dout, real_packet->city_style);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_put_uint16(&dout, real_packet->nation);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->team);
+  }
+  /* field 9 is folded into the header */
+  if (BV_ISSET(fields, 10)) {
+    dio_put_sint16(&dout, real_packet->nturns_idle);
+  }
+  /* field 11 is folded into the header */
+  if (BV_ISSET(fields, 12)) {
+    dio_put_uint32(&dout, real_packet->reputation);
+  }
+  if (BV_ISSET(fields, 13)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        dio_put_diplstate(&dout, &real_packet->diplstates[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_put_uint32(&dout, real_packet->gold);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_put_uint8(&dout, real_packet->tax);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_put_uint8(&dout, real_packet->science);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_put_uint8(&dout, real_packet->luxury);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_put_uint16(&dout, real_packet->bulbs_last_turn);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_put_uint32(&dout, real_packet->bulbs_researched);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_put_uint32(&dout, real_packet->techs_researched);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_put_uint8(&dout, real_packet->researching);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_put_uint16(&dout, real_packet->future_tech);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_put_uint8(&dout, real_packet->tech_goal);
+  }
+  /* field 24 is folded into the header */
+  if (BV_ISSET(fields, 25)) {
+    dio_put_sint16(&dout, real_packet->revolution_finishes);
+  }
+  /* field 26 is folded into the header */
+  if (BV_ISSET(fields, 27)) {
+    dio_put_uint8(&dout, real_packet->barbarian_type);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_put_uint32(&dout, real_packet->gives_shared_vision);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_put_bit_string(&dout, real_packet->inventions);
+  }
+  if (BV_ISSET(fields, 30)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        dio_put_sint16(&dout, real_packet->love[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static unsigned int hash_packet_player_info_101(const void *vkey, unsigned int num_buckets)
+{
+  const struct packet_player_info *key = (const struct packet_player_info *) vkey;
+
+  return ((key->playerno) % num_buckets);
+}
+
+static int cmp_packet_player_info_101(const void *vkey1, const void *vkey2)
+{
+  const struct packet_player_info *key1 = (const struct packet_player_info *) vkey1;
+  const struct packet_player_info *key2 = (const struct packet_player_info *) vkey2;
+  int diff;
+
+  diff = key1->playerno - key2->playerno;
+  if (diff != 0) {
+    return diff;
+  }
+
+  return 0;
+}
+
+BV_DEFINE(packet_player_info_101_fields, 30);
+
+static struct packet_player_info *receive_packet_player_info_101(struct connection *pc, enum packet_type type)
+{
+  packet_player_info_101_fields fields;
+  struct packet_player_info *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_player_info *clone;
+  RECEIVE_PACKET_START(packet_player_info, real_packet);
+
+  DIO_BV_GET(&din, fields);
+  {
+    int readin;
+  
+    dio_get_uint8(&din, &readin);
+    real_packet->playerno = readin;
+  }
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_info_101, cmp_packet_player_info_101);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -9408,10 +9969,10 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_player_info_100(struct connection *pc, const struct packet_player_info *packet)
+static int send_packet_player_info_101(struct connection *pc, const struct packet_player_info *packet)
 {
   const struct packet_player_info *real_packet = packet;
-  packet_player_info_100_fields fields;
+  packet_player_info_101_fields fields;
   struct packet_player_info *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = FALSE;
   struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_INFO];
@@ -9419,7 +9980,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   SEND_PACKET_START(PACKET_PLAYER_INFO);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_player_info_100, cmp_packet_player_info_100);
+    *hash = hash_new(hash_packet_player_info_101, cmp_packet_player_info_101);
   }
   BV_CLR_ALL(fields);
 
@@ -9698,8 +10259,10 @@ static void ensure_valid_variant_packet_player_info(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("username_info", pc->capability) && has_capability("username_info", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("username_info", pc->capability) && has_capability("username_info", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -9722,6 +10285,7 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc, enu
 
   switch(pc->phs.variant[PACKET_PLAYER_INFO]) {
     case 100: return receive_packet_player_info_100(pc, type);
+    case 101: return receive_packet_player_info_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -9742,6 +10306,7 @@ int send_packet_player_info(struct connection *pc, const struct packet_player_in
 
   switch(pc->phs.variant[PACKET_PLAYER_INFO]) {
     case 100: return send_packet_player_info_100(pc, packet);
+    case 101: return send_packet_player_info_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }

@@ -79,6 +79,14 @@ static const char *col_name(struct player *player)
 /******************************************************************
  ...
 *******************************************************************/
+static const char *col_username(struct player *player)
+{
+  return player->username;
+}
+
+/******************************************************************
+ ...
+*******************************************************************/
 static const char *col_nation(struct player *player)
 {
   return get_nation_name(player->nation);
@@ -212,6 +220,7 @@ static const char *col_idle(struct player *plr)
 *******************************************************************/
 struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("?Player:Name"), col_name, NULL, "name"},
+  {FALSE, COL_TEXT, N_("Username"), col_username, NULL, "username"},
   {TRUE, COL_FLAG, N_("Flag"), NULL, NULL, "flag"},
   {TRUE, COL_TEXT, N_("Nation"), col_nation, NULL, "nation"},
   {TRUE, COL_COLOR, N_("Border"), NULL, NULL, "border"},
