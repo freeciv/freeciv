@@ -1,100 +1,109 @@
-Stand: 23.05.01
+===========================
+Willkommen bei Freeciv 1.12
+===========================
 
-Diese Version enthält eine Menge Änderungen, die unten skizziert
-sind. Diejenigen, die an den Einzelheiten der Änderungen interes-
-siert sind, sollten einen Blick in die ChangeLog Datei werfen.
+Stand: 04.07.01
+
+Erneut Dank an alle unsere Entwickler für die harte Arbeit.
+
+Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
+Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
+sollten einen Blick in die ChangeLog Datei werfen.
 
 ÄNDERUNGEN SEIT VERSION 1.11.4
 
- - Mehrsprachigkeit verbessert. Weitere Verbesserungen nötig.
-   Gegenwärtige Übersetzungen: de en_GB es fr hu ja nl no pl pt
+ - Mehrsprachigkeit verbessert. Weitere Verbesserungen sind nötig.
+   Gegenwärtige Übersetzungen: de en_GB es fr hu it ja nl no pl pt 
    pt_BR ru sv.
- - Isometrische Ansicht im GTK- und Amiga-Client mit dem weit-
-   gehend Civ2-kompatiblen HiRes Tileset. Dies ist standardmäßig
-   eingeschaltet, aber die alte nichtisometrische Darstellung
-   ist weiterhin verfügbar, mit der --tiles Option des Client,
-   z.B. "civclient --tiles trident".
- - Bei Eingabe des Goto-Befehls (Taste "g") zeigt eine Linie die
-   Route von der Einheit bis zum Mauszeiger an. Die Taste "g"
-   setzt einen Wegpunkt an der Stelle des Mauszeigers.
- - Der Server vervollständigt nun die Eingaben. Dies funktio-
-   niert auf allen Ebenen. z.B. "cu<TAB>" wird zu "cut", und
-   wenn ein Spieler namens "paulz" existiert, wird "cut pau<TAB>"
-   zu "cut paulz" komplettiert.
- - Spieler können sich gegenseitig Karteneinsicht geben, dann
-   sieht man automatisch alles, was der andere Spieler sieht.
- - Im Menü lassen sich die Details einstellen, die auf der Karte
-   angezeigt werden. Z.B. kann man wählen, das Straßen nicht an-
-   gezeigt werden.
- - Der Server prüft die verbundenen Clients, und trennt die
-   Verbindung zu denen, die nicht antworten.
+ - Isometrische Ansicht im GTK- und Amiga-Client mit dem weitgehend
+   Civ 2-kompatiblen HiRes Tileset. Dies ist standardmäßig eingeschal-
+   tet, aber die alte nichtisometrische Darstellung ist weiterhin ver-
+   fügbar, mit der --tiles Option des Client, z.B. 
+   "civclient --tiles trident".
+ - Bei Eingabe des Goto-Befehls (Taste "g") zeigt eine Linie die Route
+   von der Einheit bis zum Mauszeiger an. Die Taste "g" setzt einen
+   Wegpunkt an der Stelle des Mauszeigers.
+ - Der Server vervollständigt nun die Eingaben. Dies funktioniert auf
+   allen Ebenen. z.B. "cu<TAB>" wird zu "cut", und wenn ein Spieler
+   namens "paulz" existiert, wird "cut pau<TAB>" zu "cut paulz" kom-
+   plettiert.
+ - Spieler können sich gegenseitig Karteneinsicht geben, dann sieht man
+   automatisch alles, was der andere Spieler sieht.
+ - Im Menü lassen sich die Details einstellen, die auf der Karte ange-
+   zeigt werden. Z.B. kann man wählen, das Straßen nicht angezeigt 
+   werden.
+ - Der Server prüft die verbundenen Clients, und trennt die Verbindung
+   zu denen, die nicht antworten.
  - Geschicktere Plazierung der Partisanen.
- - Der Server startet nicht mehr automatisch, wenn die Höchst-
-   zahl der Spieler erreicht ist.
- - Wenn Zugriffsebenen verwendet werden und der kontrollierende
-   Spieler ausscheidet, kann ein anderer Spieler mit dem
-   "/firstlevel" Befehl die erste Zugriffsebene erhalten.
+ - Der Server startet nicht mehr automatisch, wenn die Höchstzahl der
+   Spieler erreicht ist.
+ - Wenn Zugriffsebenen verwendet werden und der kontrollierende Spieler
+   ausscheidet, kann ein anderer Spieler mit dem "/firstlevel" Befehl
+   die erste Zugriffsebene erhalten.
  - Die Datei README.ruleset enthält nun einen Abschnitt über
    "Einschränkungen und Grenzen".
- - Karawanen, Diplomaten und Spione können nun in verbündete
-   Städte ziehen.
- - Elephanten, Kreuzritter, und Fanatiker sind nun in den Civ 2
-   Regeln enthalten (civ2 ruleset).
- - Dei Größe der städtischen Kornkammer wird nun über die
-   ruleset-Variablen "granary_food_ini" und "granary_food_inc"
-   eingestellt.
- - Die Anzahl der im ruleset einstellbaren Stadterweiterungen
-   ist nun unbegrenzt.
- - Kapitalisierung ist nun von Spielbeginn an verfügbar, in den
+ - Karawanen, Diplomaten und Spione können nun in verbündete Städte 
+   ziehen.
+ - Elephanten, Kreuzritter, und Fanatiker sind nun in den Civ 2 Regeln
+   enthalten (civ2 ruleset).
+ - Dei Größe der städtischen Kornkammer wird nun über die ruleset-
+   Variablen "granary_food_ini" und "granary_food_inc" eingestellt.
+ - Die Anzahl der im ruleset einstellbaren Stadterweiterungen ist nun 
+   unbegrenzt.
+ - Kapitalisierung ist nun von Spielbeginn an verfügbar, in den 
    Standardregeln.
  - Städte können 0 Handelspunkte abwerfen (bisher mindestens 1).
- - Wenn man einen Fallschirmspringer über unbekanntem Gebiet ab-
-   springen läßt, und das Zielfeld von einer feindlichen Einheit
-   besetzt ist, ist der Fallschirmspringer verloren. Ist das
-   (unbekannte) Zielfeld der Ozean, ist die Einheit ebenfalls
-   verloren.
- - Das Auftanken der Lufteinheiten wird so durchgeführt, das
-   Einheiten mit leerem Tank bevorzugt werden; in zweiter Linie
-   werden die teuersten Einheiten bevorzugt.
- - Die Gefahr, Triremen zu verlieren, hängt davon ab, welche 
-   Technologien bekannt sind.
- - Leonardos Werkstatt modernisiert die Einheiten jetzt in zufäl-
-   liger Reihenfolge.
- - Truppen in verbündeten Städten erzeugen keine zusätzliche
-   Unzufriedenheit.
- - Wüsten werden vorzugsweise zwischen dem 15. und 35. Breiten-
-   grad erzeugt.
+ - Siedler können nur zu einer Stadt hinzugefügt werden, die kleiner 
+   als Größe 8 ist, wie in Civ 2.
+ - Wenn ein Fallschirmspringer über unbekanntem Gebiet abspringt, und 
+   das Zielfeld von einer feindlichen Einheit besetzt ist, ist der 
+   Fallschirmspringer verloren. Springt er (aus Versehen) über dem Meer
+   ab, ist er ebenfalls verloren.
+ - Diplomaten und Spione können nicht vom Schiff aus arbeiten.
+ - Das Auftanken der Lufteinheiten wird so durchgeführt, das Einheiten
+   mit leerem Tank bevorzugt werden; in zweiter Linie werden die teu-
+   ersten Einheiten bevorzugt.
+ - Die Gefahr, Triremen zu verlieren, hängt davon ab, welche Techno-
+   logien bekannt sind.
+ - Leonardos Werkstatt modernisiert die Einheiten jetzt in zufälliger
+   Reihenfolge.
+ - Truppen in verbündeten Städten erzeugen keine zusätzliche Unzufrie-
+   denheit.
+ - Wüsten werden vorzugsweise zwischen dem 15. und 35. Breitengrad 
+   erzeugt.
  - An den Polen befinden sich nun ausschließlich Gletscher.
- - Der Server weist darauf hin, wenn eine neue Regierungsform
-   verfügbar wird.
+ - Der Server weist darauf hin, wenn eine neue Regierungsform verfügbar
+   wird.
  - Vor Hungersnöten wird nun rechtzeitig gewarnt.
- - Es wird mitgeteilt, wenn ein Weltwunder kurz vor der Vollen-
-   dung steht.
- - Die Spieler werden darauf hingewiesen, wenn eines ihrer Wun-
-   der ausgelaufen (veraltet) ist.
- - Im Spieler-Dialog wird nun aufgeführt, welche Spieler bei Dir
-   eine Botschaft gegründet haben. Deine Botschaften werden
-   ebenfalls gelistet.
- - Im Weltwunder-Bericht werden auch die im Bau befindlichen
-   Wunder gelistet.
+ - Es wird mitgeteilt, wenn ein Weltwunder kurz vor der Vollendung 
+   steht.
+ - Die Spieler werden darauf hingewiesen, wenn eines ihrer Wunder 
+   ausgelaufen (veraltet) ist.
+ - Im Spieler-Dialog wird nun aufgeführt, welche Spieler bei Dir eine 
+   Botschaft gegründet haben. Deine eigenen Botschaften werden eben-
+   falls angezeigt.
+ - Im Weltwunder-Bericht werden auch die im Bau befindlichen Wunder 
+   gelistet.
  - Der "save" Befehl speichert den Spielstand unter
    <auto-save Namenspräfix><jahr>m.sav[.gz] wenn kein Argument
    angegeben wird.
- - Die Serveroption "quitidle" beendet den Server, wenn kein
-   Spieler mehr verbunden ist.
- - Mit der Option "autotoggle" werden menschliche Nationen von
-   der KI übernommen, wenn kein Spieler mehr mit der Nation ver-
-   bunden ist.
+ - Die Serveroption "quitidle" beendet den Server, wenn kein Spieler 
+   mehr verbunden ist.
+ - Mit der Option "autotoggle" werden menschliche Nationen von der KI 
+   übernommen, wenn kein Spieler mehr mit der Nation verbunden ist.
  - Der Server blockiert nicht mehr, wenn er einem langsamen Host
    Daten sendet, einstellbar über die Optionen "tcptimeout" und
    "netwait".
- - Die Servervariable "savename" stellt den Präfix für automa-
-   tisches Speichern ein.
- - Die Servervariable "allowconnect" gibt die Kontrolle, welche
-   Typen von Spielern (neue Spieler, menschliche Spieler, KI-
-   Spieler, tote Spieler, Barbaren) von einem Client übernommen
-   werden können.
+ - Die Servervariable "savename" stellt den Präfix für automatisches 
+   Speichern ein.
+ - Die Servervariable "allowconnect" gibt die Kontrolle, welche Typen
+   von Spielern (neue Spieler, menschliche Spieler, KI-Spieler, tote 
+   Spieler, Barbaren) von einem Client übernommen werden können.
  - Weitere Nationen hinzugefügt.
+ - Neue Landkarten im Verzeichnis data/scenario: 
+   Britische Inseln (british-isles-80x76-v2.51.sav), 
+   Iberische Halbinsel (iberian-peninsula-136x100-v0.9.sav), 
+   Die Erde (hagworld-120x60-v1.2.sav).
  - Mehrsprachigkeit und Übersetzungen für Amiga.
  - Amiga-Client: History-Funktion für Chat.
  - Jede Menge Korrekturen und Aufräumarbeiten.
@@ -203,30 +212,5 @@ siert sind, sollten einen Blick in die ChangeLog Datei werfen.
    --enable-client=xaw3d .
  - Viele Fehler beseitigt und Code bereinigt.
 
-ÄNDERUNGEN SEIT VERSION 1.9.0
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.8.1
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.8.0
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.7.2
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.7.1
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.7.0
-
- - nicht übersetzt -
-
-ÄNDERUNGEN SEIT VERSION 1.6.3
-
- - nicht übersetzt -
+Die ÄNDERUNGEN für die VERSIONEN 1.9.0 bis 1.6.3 finden Sie auf Englisch
+in der Datei NEWS.
