@@ -48,19 +48,15 @@ static void handle_alloc_failure(size_t size, const char *called_as,
 static void sanity_check_size(size_t size, const char *called_as,
 			      int line, const char *file)
 {
-  /* We're not allowed to allocate more than 30 Mb - the program will exit
-   * if someone tries.  This is a sanity measure since some parts of the code
-   * could try to allocate unboundedly large amounts of memory if given the
-   * wrong input. */
-  const size_t max_alloc_size = 30 * (1 << 20);
+  /* There used to be a sanity check here that would abort if more than
+   * 30 megabytes were allocated.  Unfortunately this didn't work because
+   * savegame loading can potentially use a huge amount of memory for large
+   * games.  Another problem is it doesn't help much because there's nothing
+   * preventing a large number of smaller allocations. */
 
   if (size == 0) {
     freelog(LOG_VERBOSE, "Warning: %s with size %lu at line %d of %s",
 	    called_as, (unsigned long)size, line, file);
-  } else if (size > max_alloc_size) {
-    die("Overly large request in %s with size %lu > %lu at line %d of %s",
-        called_as, (unsigned long)size, (unsigned long)max_alloc_size,
-        line, file);
   }
 }
 
