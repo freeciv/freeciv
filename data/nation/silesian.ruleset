@@ -5,8 +5,9 @@ plural=_("?plural:Silesians")
 class=_("Historical")
 legend=_("Silesia is a region of southern Poland that was at one time an \
 independent kingdom.")
-leader="Wladislaw the Exile", "Henryk the Godfearing"
-leader_sex="Male", "Male"
+leader = "Wladislaw the Exile", "Henryk the Godfearing", "Josef Kozdon",
+         "Jan Kustos"
+leader_sex = "Male", "Male", "Male", "Male"
 flag="f.silesia"
 flag_alt = "-"
 city_style = "European"

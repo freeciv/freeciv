@@ -3,8 +3,8 @@
 name = _("Kenyan")
 plural = _("?plural:Kenyans")
 class=_("Modern")
-leader = "Kenyatta"
-leader_sex = "Male"
+leader = "Kenyatta", "Nabongo", "Wangari Maathai", "Ezekiel Apindi"
+leader_sex = "Male", "Male", "Female", "Male"
 flag = "f.kenya"
 flag_alt = "-"
 city_style = "Tropical"

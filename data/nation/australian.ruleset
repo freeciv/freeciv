@@ -5,8 +5,8 @@ plural=_("?plural:Australians")
 class=_("Modern")
 legend=_("Australia was founded as a British penal colony in 1788AD. It is \
 the only country on earth to occupy an entire continent.")
-leader="Robert Menzies"
-leader_sex="Male"
+leader = "Robert Menzies", "Helen Leonard", "John Curtin", "Edna Lyon"
+leader_sex = "Male", "Female", "Male", "Female"
 flag="f.australia"
 flag_alt = "-"
 city_style = "European"
