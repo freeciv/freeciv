@@ -52,31 +52,37 @@
 #define PLAINS_TILES     5*20
 #define SWAMP_TILES      6*20
 #define TUNDRA_TILES     7*20
-#define ROAD_TILES       8*20
 
-#define RIVER_TILES      9*20
-#define OUTLET_TILES     9*20+16
-#define OCEAN_TILES      10*20
-#define HILLS_TILES      11*20
-#define FOREST_TILES     11*20+4
-#define MOUNTAINS_TILES  11*20+8
-#define DENMARK_TILES    11*20+12
+/* jjm@codewell.com 30dec1998a
+   Moved road and rail tiles to roads.xpm; added tiles for diagonals.
+   (Lots of rearranging of tile indices.)
+*/
 
-#define SPECIAL_TILES    12*20
-#define S_TILE           12*20+13
-#define G_TILE           12*20+14
-#define M_TILE           12*20+15
-#define P_TILE           12*20+16
-#define R_TILE           12*20+17
-#define I_TILE           12*20+18
-#define F_TILE           12*20+19
+extern int ROAD_TILES;
+extern int RAIL_TILES;
 
-#define RAIL_TILES       13*20
-#define X_TILE           13*20+19
-#define FLAG_TILES       14*20
-#define CROSS_TILE       14*20+17
-#define AUTO_TILE        14*20+18
-#define PLUS_TILE        14*20+19
+#define RIVER_TILES      8*20
+#define OUTLET_TILES     8*20+16
+#define OCEAN_TILES      9*20
+#define HILLS_TILES      10*20
+#define FOREST_TILES     10*20+4
+#define MOUNTAINS_TILES  10*20+8
+#define DENMARK_TILES    10*20+12
+#define X_TILE           10*20+19
+
+#define SPECIAL_TILES    11*20
+#define S_TILE           11*20+13
+#define G_TILE           11*20+14
+#define M_TILE           11*20+15
+#define P_TILE           11*20+16
+#define R_TILE           11*20+17
+#define I_TILE           11*20+18
+#define F_TILE           11*20+19
+
+#define FLAG_TILES       12*20
+#define CROSS_TILE       12*20+17
+#define AUTO_TILE        12*20+18
+#define PLUS_TILE        12*20+19
 
 /*
 #define UNIT_TILES       15*20
@@ -84,39 +90,39 @@ The tiles for the units are now stored in units.xpm
 */
 extern int UNIT_TILES;
 
-#define IRRIGATION_TILE  15*20+8
-#define HILLMINE_TILE    15*20+9
-#define DESERTMINE_TILE  15*20+10
-#define POLLUTION_TILE   15*20+11
-#define CITY_TILE        15*20+12
-#define CITY_WALLS_TILE  15*20+13
-#define HUT_TILE         15*20+14
-#define FORTRESS_TILE    15*20+15
+#define IRRIGATION_TILE  13*20+8
+#define HILLMINE_TILE    13*20+9
+#define DESERTMINE_TILE  13*20+10
+#define POLLUTION_TILE   13*20+11
+#define CITY_TILE        13*20+12
+#define CITY_WALLS_TILE  13*20+13
+#define HUT_TILE         13*20+14
+#define FORTRESS_TILE    13*20+15
 
-#define BORDER_TILES     16*20
+#define BORDER_TILES     14*20
 
-#define NUMBER_TILES     17*20
-#define NUMBER_MSD_TILES 17*20+9
+#define NUMBER_TILES     15*20
+#define NUMBER_MSD_TILES 15*20+9
 
-#define SHIELD_NUMBERS   18*20
-#define TRADE_NUMBERS    18*20+10
+#define SHIELD_NUMBERS   16*20
+#define TRADE_NUMBERS    16*20+10
 
-#define HP_BAR_TILES     19*20
+#define HP_BAR_TILES     17*20
 
-#define CITY_FLASH_TILE  19*20+14
-#define CITY_FOOD_TILES  19*20+15
-#define CITY_MASK_TILES  19*20+17
-#define CITY_SHIELD_TILE 19*20+19
+#define CITY_FLASH_TILE  17*20+14
+#define CITY_FOOD_TILES  17*20+15
+#define CITY_MASK_TILES  17*20+17
+#define CITY_SHIELD_TILE 17*20+19
 
-#define FOOD_NUMBERS     20*20
+#define FOOD_NUMBERS     18*20
 
-#define BULB_TILES       21*20
-#define GOVERNMENT_TILES 21*20+8
-#define SUN_TILES        21*20+14
-#define PEOPLE_TILES     21*20+22
-#define RIGHT_ARROW_TILE 21*20+30
+#define BULB_TILES       19*20
+#define GOVERNMENT_TILES 19*20+8
+#define SUN_TILES        19*20+14
+#define PEOPLE_TILES     19*20+22
+#define RIGHT_ARROW_TILE 19*20+30
 
-#define THUMB_TILES      21*20+31
+#define THUMB_TILES      19*20+31
 
 int terrain_to_tile_map[13]= {
   ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,
@@ -1127,6 +1133,9 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
   int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
   int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
+  int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
+  int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
+  int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
 
   int tileno,n;
   struct tile *ptile;
@@ -1267,6 +1276,105 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   if(tspecial & S_IRRIGATION)
     pixmap_put_overlay_tile(pm, x, y, IRRIGATION_TILE);
 
+  /* jjm@codewell.com 30dec1998a
+     Lots of rearranging of drawing stuff.
+     (Old code "#if 00000"d out below.)
+  */
+
+  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
+    tspecial_north=map_get_special(abs_x0, abs_y0-1);
+    tspecial_east=map_get_special(abs_x0+1, abs_y0);
+    tspecial_south=map_get_special(abs_x0, abs_y0+1);
+    tspecial_west=map_get_special(abs_x0-1, abs_y0);
+
+    tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
+    tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
+    tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
+    tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
+
+    rail_card_tileno+=(tspecial_north&S_RAILROAD) ? (rail_card_count++, 1) : 0;
+    rail_card_tileno+=(tspecial_east&S_RAILROAD)  ? (rail_card_count++, 2) : 0;
+    rail_card_tileno+=(tspecial_south&S_RAILROAD) ? (rail_card_count++, 4) : 0;
+    rail_card_tileno+=(tspecial_west&S_RAILROAD)  ? (rail_card_count++, 8) : 0;
+
+    road_card_tileno+=(tspecial_north&S_ROAD) ? (road_card_count++, 1) : 0;
+    road_card_tileno+=(tspecial_east&S_ROAD)  ? (road_card_count++, 2) : 0;
+    road_card_tileno+=(tspecial_south&S_ROAD) ? (road_card_count++, 4) : 0;
+    road_card_tileno+=(tspecial_west&S_ROAD)  ? (road_card_count++, 8) : 0;
+
+    rail_semi_tileno+=(tspecial_north_east&S_RAILROAD) ? (rail_semi_count++, 1) : 0;
+    rail_semi_tileno+=(tspecial_south_east&S_RAILROAD) ? (rail_semi_count++, 2) : 0;
+    rail_semi_tileno+=(tspecial_south_west&S_RAILROAD) ? (rail_semi_count++, 4) : 0;
+    rail_semi_tileno+=(tspecial_north_west&S_RAILROAD) ? (rail_semi_count++, 8) : 0;
+
+    road_semi_tileno+=(tspecial_north_east&S_ROAD) ? (road_semi_count++, 1) : 0;
+    road_semi_tileno+=(tspecial_south_east&S_ROAD) ? (road_semi_count++, 2) : 0;
+    road_semi_tileno+=(tspecial_south_west&S_ROAD) ? (road_semi_count++, 4) : 0;
+    road_semi_tileno+=(tspecial_north_west&S_ROAD) ? (road_semi_count++, 8) : 0;
+
+    if(tspecial & S_RAILROAD) {
+      road_card_tileno&=~rail_card_tileno;
+      road_semi_tileno&=~rail_semi_tileno;
+    } else if(tspecial & S_ROAD) {
+      rail_card_tileno&=~road_card_tileno;
+      rail_semi_tileno&=~road_semi_tileno;
+    }
+
+    if(road_semi_count > road_card_count) {
+      if(road_card_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+road_card_tileno);
+      }
+      if(road_semi_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
+      }
+    } else {
+      if(road_semi_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
+      }
+      if(road_card_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+road_card_tileno);
+      }
+    }
+
+    if(rail_semi_count > rail_card_count) {
+      if(rail_card_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+rail_card_tileno);
+      }
+      if(rail_semi_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
+      }
+    } else {
+      if(rail_semi_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
+      }
+      if(rail_card_tileno!=0) {
+	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+rail_card_tileno);
+      }
+    }
+  }
+
+  if(tspecial & S_SPECIAL)
+     pixmap_put_overlay_tile(pm, x, y, SPECIAL_TILES+ttype);
+
+  if(tspecial & S_MINE) {
+    if(ttype==T_HILLS || ttype==T_MOUNTAINS)
+      pixmap_put_overlay_tile(pm, x, y, HILLMINE_TILE);
+    else /* desert */
+      pixmap_put_overlay_tile(pm, x, y, DESERTMINE_TILE);
+  }
+
+  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
+    if((rail_card_tileno|rail_semi_tileno|road_card_tileno|road_semi_tileno)==0) {
+      if(tspecial & S_RAILROAD) {
+	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES);
+      } else if(tspecial & S_ROAD) {
+	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES);
+      }
+    }
+  }
+
+#if 00000
+
   if(tspecial & S_MINE) {
     if(ttype==T_HILLS || ttype==T_MOUNTAINS)
       pixmap_put_overlay_tile(pm, x, y, HILLMINE_TILE);
@@ -1302,6 +1410,8 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 
   if(tspecial & S_SPECIAL)
      pixmap_put_overlay_tile(pm, x, y, SPECIAL_TILES+ttype);
+
+#endif
 
   if(tspecial & S_HUT)
     pixmap_put_overlay_tile(pm, x, y, HUT_TILE);

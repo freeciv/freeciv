@@ -660,6 +660,11 @@ void handle_tile_info(struct packet_tile_info *packet)
       refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
       refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
       refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+      /* jjm@codewell.com 30dec1998a */
+      refresh_tile_mapcanvas(packet->x-1, packet->y+1, 1); 
+      refresh_tile_mapcanvas(packet->x+1, packet->y+1, 1); 
+      refresh_tile_mapcanvas(packet->x+1, packet->y-1, 1); 
+      refresh_tile_mapcanvas(packet->x-1, packet->y-1, 1); 
     }
   }
 }

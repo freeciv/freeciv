@@ -51,6 +51,12 @@ int UNIT_TILES;
 int NORMAL_TILE_WIDTH;
 int NORMAL_TILE_HEIGHT;
 
+/* jjm@codewell.com 30dec1998a
+   Moved road and rail tiles to roads.xpm; added tiles for diagonals.
+*/
+int ROAD_TILES;
+int RAIL_TILES;
+
 
 /***************************************************************************
 ...
@@ -92,13 +98,16 @@ void load_tile_gfx(void)
 {
   int i, x, y, ntiles, a;
   struct Sprite *big_sprite, *small_sprite, *unit_sprite, *treaty_sprite;
+  struct Sprite *roads_sprite;
+  int row;
 
   big_sprite  = load_xpmfile(datafilename("tiles.xpm"));
   unit_sprite = load_xpmfile(datafilename("units.xpm"));
   small_sprite= load_xpmfile(datafilename("small.xpm"));
   treaty_sprite=load_xpmfile(datafilename("treaty.xpm"));
+  roads_sprite=load_xpmfile(datafilename("roads.xpm"));
 
-  ntiles= (20*21) + (20*3) + (31*1) + 3;
+  ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4);
 
   if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
     flog(LOG_FATAL, "couldn't malloc tile_sprites array");
@@ -106,10 +115,10 @@ void load_tile_gfx(void)
   }
 
   NORMAL_TILE_WIDTH=big_sprite->width/20;
-  NORMAL_TILE_HEIGHT=big_sprite->height/21;
+  NORMAL_TILE_HEIGHT=big_sprite->height/19;
 
   i=0;
-  for(y=0, a=0; a<21 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
+  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
     for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
       GC plane_gc;
       Pixmap mypixmap, mask;
@@ -186,10 +195,41 @@ void load_tile_gfx(void)
 
       XFreeGC(display, plane_gc);
     }
+
+  /* jjm@codewell.com 30dec1998a */
+  for(y=0, row=0; y<roads_sprite->height; y+=NORMAL_TILE_HEIGHT, row++) {
+    if (row==0) ROAD_TILES = i;
+    if (row==2) RAIL_TILES = i;
+    for(x=0; x<roads_sprite->width; x+=NORMAL_TILE_WIDTH) {
+      GC plane_gc;
+      Pixmap mypixmap, mask;
+      
+      mypixmap=XCreatePixmap(display, root_window,
+			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
+			     display_depth);
+      XCopyArea(display, roads_sprite->pixmap, mypixmap, civ_gc, 
+		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
+
+      mask=XCreatePixmap(display, root_window,
+			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
+
+      plane_gc = XCreateGC(display, mask, 0, NULL);
+
+      XCopyArea(display, roads_sprite->mask, mask, plane_gc, 
+		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
+
+      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
+					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+
+      XFreeGC(display, plane_gc);
+    }
+  }
+
   free_sprite(unit_sprite);
   free_sprite(big_sprite);
   free_sprite(small_sprite);
   free_sprite(treaty_sprite);
+  free_sprite(roads_sprite); /* jjm@codewell.com 30dec1998a */
 }
 
 

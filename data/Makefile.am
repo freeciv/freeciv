@@ -8,6 +8,7 @@ pkgdata_DATA = Freeciv	\
 	europe.sav	\
 	intro.xpm	\
 	radar.xpm	\
+	roads.xpm	\
 	small.xpm	\
 	tiles.xpm	\
 	treaty.xpm	\
