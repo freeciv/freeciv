@@ -2,6 +2,9 @@
 
 name=_("Catalan")
 plural=_("?plural:Catalans")
+class=_("Historical")
+legend=_("Catalunya (aka Catalonia in English) is the north-eastern-most \
+coastal region of Spain near the southern foot of the Pyrenees.")
 leader="Guifré el Pilós", "Ramon Berenguer IV", "Jaume I", "Pere II",
        "Lluis Companys", "Josep Tarradellas"
 leader_sex="Male", "Male", "Male", "Male",
@@ -28,6 +31,9 @@ tech_goals = "Monarchy", "Navigation", "Chivalry", "Trade",
 wonder="A.Smith's Trading Co."
 government="Republic"
 
+; This city list does not actually correspond to medieval Catalonia,
+; but rather to the "Països Catalans" of modern ethnolinguistic
+; nationalists.
 cities =
   "Barcelona", "Tarragona", "Lleida", "Girona", "Perpinyà", "Valencia",
   "Tolosa", "Ripoll", "Vic", "La Seu d'Urgell", "Cardona", "Tortosa",

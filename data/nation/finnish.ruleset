@@ -2,6 +2,10 @@
 
 name=_("Finnish")
 plural=_("?plural:Finns")
+class=_("Modern")
+legend=_("Finland is a small, cold country on the northen fringe of Europe, \
+noted for exporting timber, cellular phones, and world-class operating \
+systems.")
 leader="Carl Gustav Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
        "Tarja Halonen", "Linus Torvalds"
 leader_sex="Male", "Male", "Male",

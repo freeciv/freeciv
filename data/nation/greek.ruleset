@@ -2,6 +2,8 @@
 
 name=_("Greek")
 plural=_("?plural:Greeks")
+class=_("Historical")
+legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
 leader="Alexander", "Perikles", "Leonidas", "Solon"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.greece"

@@ -2,6 +2,7 @@
 
 name=_("Japanese")
 plural=_("?plural:Japanese")
+class=_("Modern")
 leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.japan"

@@ -2,6 +2,7 @@
 
 name=_("Polish")
 plural=_("?plural:Polish")
+class=_("Modern")
 leader="Mieszko I", "Wladyslaw Lokietek", "Kazimierz Wielki", "Jadwiga",
        "Wladyslaw Jagiello", "Stefan Batory", "Jan III Sobieski",
        "Stanislaw Poniatowski", "Kosciuszko", "Pilsudski"

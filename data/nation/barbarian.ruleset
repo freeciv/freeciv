@@ -2,8 +2,8 @@
 
 name=_("Barbarian")
 plural=_("?plural:Barbarians")
-leader="Genseric", "Alaric", "Theodoric", "Stilicho", "Attila"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leader="Genseric", "Alaric", "Theodoric", "Stilicho", "Attila", "Boadicea"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 flag="f.barbarian"
 flag_alt = "-"
 city_style = "European"

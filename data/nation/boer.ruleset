@@ -2,6 +2,11 @@
 
 name=_("Boer")
 plural=_("?plural:Boers")
+class=_("Historical")
+legend=_("The Boers were Dutch settlers in British-controlled South \
+Africa from 1650AD.  They briefly controlled two republics, the \
+Transvaal and the Orange Free State, before being defeated by the British \
+in the war of 1899-1902.")
 leader= "Jacobus Pretorius", "Louis Botha", "Wessel Pretorius",
 	"Paulus Krüger", "Piet Retief", "Jan Smuts"
 leader_sex= "Male", "Male", "Male",

@@ -2,6 +2,10 @@
 
 name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
+class=_("Modern")
+legend=_("Lithuania is a small country on the south coast of the Baltic \
+Sea, northeast of Poland.  Lithuanian is the most archaic and complex of \
+the northern Indo-European languages")
 leader="Gediminas", "Mindaugas", "Vytautas", "Antanas Smetona"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.lithuania"

@@ -2,8 +2,12 @@
 
 name=_("Israeli")
 plural=_("?plural:Israelis")
-leader="Solomon", "David", "David Ben-Gurion", "Ze'ev Zabotinsky"
-leader_sex="Male", "Male", "Male", "Male"
+class=_("Modern")
+legend=_("The nation of Israel was founded in 1948 as a scattered collection \
+of cantons in British Palestine, and has gradually expanded through winning \
+a series of wars launched against it in 1948, 1967 and 1973.")
+leader="Solomon", "David", "David Ben-Gurion", "Ze'ev Zabotinsky", "Golda Meir"
+leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="f.israel"
 flag_alt = "-"
 city_style = "European"

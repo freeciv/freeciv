@@ -2,6 +2,10 @@
 
 name=_("Estonian")
 plural=_("?plural:Estonians")
+class=_("Modern")
+legend=_("Estonia is a small country on the south shore of the estern \
+Baltic Sea.  Its people and language are closely related to those of \
+Finland.")
 leader="Kalevipoeg", "Lembitu", "Carl Robert Jakobson", "Konstatin Päts",
   "Tunne Kelam", "Lennart Meri"
 leader_sex="Male", "Male", "Male", "Male",

@@ -2,6 +2,9 @@
 
 name=_("Russian")
 plural=_("?plural:Russians")
+class=_("Modern")
+legend=_("Russia originated as the Kievan Rus, territory seized during the \
+early medieval period by Vikings from what is now Sweden.")
 leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter", "Anne"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"

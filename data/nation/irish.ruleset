@@ -2,6 +2,7 @@
 
 name = _("Irish")
 plural = _("?plural:Irish")
+class=_("Historical")
 leader = "Brian Boru", "Cuchulain", "Patrick", "Ollam Fodla", "Lugh"
 leader_sex = "Male", "Male", "Male", "Male", "Male"
 flag="f.ireland"

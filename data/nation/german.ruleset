@@ -2,6 +2,7 @@
 
 name=_("German")
 plural=_("?plural:Germans")
+class=_("Modern")
 leader="Frederick", "Otto", "Wilhelm", "Bismarck", "Hitler",
   "Barbarossa", "Luther", "Müntzer"
 leader_sex="Male", "Male", "Male", "Male", "Male",

@@ -2,6 +2,10 @@
 
 name=_("Viking")
 plural=_("?plural:Vikings")
+class=_("Historical")
+legend=_("The Vikings raided and traded along the coasts of Europe \
+between 800 and 1100. Viking raids eventually became the rulers of \
+Normandy, Russia, and a short-lived kingdom in Sicily.")
 leader="Erik Blodøks", "Harald Hårfagre", "Hrolf Gangr", "Rollo",
        "Gro Harlem Brundtland", "Haakon VII", "Aud Ivarsdottr"
 leader_sex="Male", "Male", "Male", "Male", 
@@ -26,6 +30,7 @@ government="Republic"
 
 ;Norwegian (and Icelandic) names.
 ;Norwegian places listed up in the order it struck my mind.
+;Thorshavn and Hedeby (Haithabu) were Viking cities in the premodern period.
 
 cities =
  "Oslo", "Bergen", "Kaupang", "Stavanger", "Nidaros", "Narvik", "Tromsø",
@@ -36,7 +41,7 @@ cities =
  "Lillehammer", "Lillestrøm", "Strømmen", "Fredrikborg", "Halden", "Karmøy",
  "Kragerø", "Fauske", "Bodø", "Andenes", "Stokkmarknes", "Svolvær",
  "Sortland", "Moss", "Honningsvåg", "Hammerfest", "Ås", "Os", "Tynset",
- "Longyearbyen", "Mandal",
+ "Longyearbyen", "Mandal"
 
 ; Eg skal ikkje gløyme kvelden, det var ein augustikveld,
 ; Vårherre heldt fest for folket i Fjaler prestegjeld,
@@ -47,4 +52,3 @@ cities =
 ; added to Freeciv by Gaute Strokkenes RCNUWC 96-98
 ; for sentimental reasons.
 
- "Fjaler"

@@ -2,8 +2,13 @@
 
 name=_("Mongol")
 plural=_("?plural:Mongols")
-leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+class=_("Historical")
+legend=_("In the centuries after their unification by Genghis Khan, the \
+Mongols conquered the largest empire in human history, encompassing most \
+of the continent of Asia.  They became notorious for the utter ruthlessness \
+in warfare.")
+leader="Genghis", "Bortai", "Ogodei", "Bayan", "Timur", "Batu", "Tokhtamysh"
+leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
 city_style = "Asian"

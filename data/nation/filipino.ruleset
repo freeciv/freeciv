@@ -2,8 +2,12 @@
 
 name=_("Filipino")
 plural=_("?plural:Filipinos")
-leader="Ramon Magsagay","Jose Rizal", "Luis Taruc", "Sergio Osmena", "Ferdinand Marcos"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+class=_("Modern")
+legend=_("After centuries of Spanish rule, the Phillipines were ceded to the \
+Americans in 1898. They attained home rule in 1935 and independence in 1946.")
+leader="Ramon Magsagay","Jose Rizal", "Luis Taruc", "Sergio Osmena", 
+		"Ferdinand Marcos", "Imelda Marcos"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 flag="f.philippines"
 flag_alt = "-"
 city_style = "Asian"

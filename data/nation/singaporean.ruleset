@@ -14,6 +14,9 @@
 
 name=_("Singaporean")
 plural=_("?plural:Singaporeans")
+class=_("Modern")
+legend=_("Singapore is a mercantile city-state located at the southernmost \
+tip of the Malaysian Peninsula")
 leader="Tengku Long", "Stamford Raffles", "W.A. Pickering", "Ong Teng Cheong",
   "S.R. Nathan", "Lee Kuan Yew", "Yusof bin Ishak", "Ah Beng", "Ah Lian"
 leader_sex="Male", "Male", "Male", "Male",

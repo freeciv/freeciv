@@ -2,6 +2,7 @@
 
 name=_("Korean")
 plural=_("?plural:Koreans")
+class=_("Modern")
 leader="T'aejong", "Kim Ir Sen", "Pak Dzonghyi", "Wang Gon"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.korea"

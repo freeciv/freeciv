@@ -2,8 +2,11 @@
 
 name=_("Arab")
 plural=_("?plural:Arabs")
-leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin"
-leader_sex="Male", "Male", "Male", "Male"
+class=_("Historical")
+legend=_("The Arab/Islamic civilization of 622AD-1495AD.")
+leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin", 
+	"Al-Mansur", "Al-Hakim"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag ="f.arab"
 flag_alt = "-"
 city_style = "Classical"
@@ -22,12 +25,16 @@ tech_goals="Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
 wonder="Oracle"
 government="Monarchy"
 
-;Arab Peninsula and Near East
+; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 
+; and Abbasid periods.  These are Arab spellings rather than Anglicized ones;
+; thus, Dimashq = Damascus, Al Qahira = Cairo, etc.
 
 cities =
-  "Mekka", "Medina", "Rijadh",  "Jidda", "Al Hufuf",
-  "Buraydah", "At Taif", "Sana", "Al Hudaydah", "Aden",
-  "Al Mukalla", "Taizz", "Masquat", "Abu Dhabi", "Dubai",
-  "Doha", "Al Manamah", "Ad Damman", "Kuwait", "Al-Jahrah",
-  "Amman", "Damascus", "Beyruth", "Hamah", "Aleppo", "Hums",
-  "Al Ayn"
+
+  "Makkah", "Al-Madinah", "Al-Rijadh", "Al-Qahira", "Baghdad",
+  "Timbuktu", "Sijilmasa", "Jidda", "Al-Hufuf", "Buraydah", "At Taif", 
+  "Sana'a", "Al-Hudaydah", "Al'Adan",
+  "Al-Mukalla", "Taizz", "Masquat", "Abu Zaby", "Dubayy",
+  "Ad-Dawhah", "Al-Manamah", "Ad-Damman", "Al-Kuwayt", "Al-Jahrah",
+  "Al-Amman", "Dimashq", "Bayrut", "Hamah", "Aleppo", "Hums",
+  "Al-Ayn", "Al-Basrah", "Khorramshar"

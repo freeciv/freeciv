@@ -2,6 +2,9 @@
 
 name=_("Scottish")
 plural=_("?plural:Scots")
+class=_("Modern")
+legend=_("Scotland was an independent kingdom before the Union of Crowns \
+with England in 1701.")
 leader="Henry McLeish", "Donald Dewar", "Charles", "James",
        "Robert the Bruce", "William Wallace", "Mary Stuart"
 leader_sex="Male", "Male", "Male", "Male",

@@ -2,6 +2,7 @@
 
 name=_("Roman")
 plural=_("?plural:Romans")
+class=_("Historical")
 leader="Caesar", "Augustus", "Vespasian", "Nero", "Trajan", "Marcus Aurelius",
        "Tiberius", "Constantine",
        "Livia", "Messalina"

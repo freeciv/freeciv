@@ -2,7 +2,9 @@
 
 name = _("Czech")
 plural = _("?plural:Czechs")
-
+class=_("Modern")
+legend=_("Today's Czech Republic was until 1993 part of Czechoslovakia, \
+which had been until 1918 part of the Austro-Hungarian Empire.")
 leader = "Jan Lucembursky", "Otakar II", "Karel IV", "Vaclav", "Jiri z Podebrad",
          "Jan Zizka", "Jan Hus", "Zavis z Falknstejna", "Libuse",
          "Kunhuta", "Alzbeta Pomoranska", "Eliska Premyslovna", "Anezka",

@@ -2,6 +2,12 @@
 
 name=_("Inca")
 plural=_("?plural:Incas")
+class=_("Historical")
+legend=_("The Inca were an Amerind people of the Northern Andes who \
+conquered an empire stretching along the west coast of South America \
+from what is now southern Chile nearly to the Equator. They had the bad \
+timing to do it just a few decades before the Spanish conquistadores \
+arrived in their part of the world in the mid-1500s.")
 leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"

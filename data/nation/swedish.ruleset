@@ -2,6 +2,7 @@
 
 name=_("Swedish")
 plural=_("?plural:Swedes")
+class=_("Modern")
 
 leader=
   "Erik Segergäll", "Olof Skötkonung", "Gustav Vasa", "Erik", "Karl",

@@ -2,6 +2,10 @@
 
 name=_("Serbian")
 plural=_("?plural:Serbians")
+class=_("Modern")
+legend=_("Serbia is part of the region of the Southern Slavs that was \
+conquered by the Ottomans after the collapse of the Byzantine Empire.  \
+During most of the 20th century it was part of the Yugoslav Federation.")
 leader="Vlastimir", "Caslav", "Vojislav", "Mihailo", "Bodin", "Nemanja",
        "Stefan Prvovjencani", "Stefan Uros", "Milutin", "Dusan",
        "Karadorde Petrovic", "Milos Obrenovic", "Aleksandar Petrovic",

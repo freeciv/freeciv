@@ -2,10 +2,14 @@
 
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
+class=_("Historical")
+legend=_("Egypt was the second-oldest of the world's civilizations.  Since \
+ancient times it has been unusually urbanized, supporting a large population \
+on silt deposited by the annual floodings of the Nile.")
 leader="Rameses", "Cleopatra", "Tutankhamun", "Narmer", "Thutmose",
-       "Hatshepsut", "Nefertiti", "Cheops"
+       "Hatshepsut", "Nefertiti", "Cheops", "Akhenaten"
 leader_sex="Male", "Female", "Male", "Male", "Male",
-        "Female", "Female", "Male"
+        "Female", "Female", "Male", "Male"
 flag="f.egypt"
 flag_alt = "-"
 city_style = "Classical"

@@ -2,6 +2,11 @@
 
 name=_("Spanish")
 plural=_("?plural:Spanish")
+class=_("Modern")
+legend=_("The modern Spanish nation was formed when the rulers of the \
+kingdoms of Castille and Aragon led the recapture of the Iberian peninsula \
+from the Moslems.  The Reconquista was completed in 1492, the same year \
+Columbus sailed.")
 leader="Viriato", "Recaredo I", "Alfonso X", "Fernando V", "Isabel I",
        "Carlos I", "Felipe II", "Carlos III", "Franco", "Mortadelo"
 leader_sex="Male", "Male", "Male", "Male", "Female",

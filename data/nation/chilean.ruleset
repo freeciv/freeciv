@@ -2,6 +2,8 @@
 
 name=_("Chilean")
 plural=_("?plural:Chileans")
+class=_("Modern")
+legend=_("Chile is located on the south-western coast of South America.")
 leader="Pedro de Valdivia", "Bernardo O'Higgins", "José Miguel Carrera",
        "Manuel Blanco Encalada", "Diego Portales", "Manuel Montt",
        "Arturo Alessandri", "Augusto Pinochet"
@@ -38,7 +40,7 @@ cities =
   "San Antonio", "La Calera (hills)", "Chillán", "Talcahuano", "Osorno",
   "Valdivia", "Puerto Varas (ocean)", "Llanquihue", "Ancud", "Castro",
   "Calama", "Arica", "Constitución", "Chañaral", "Cauquenes",
-  "Puente alto (river, hills)", "Talagante", "Melipilla", "Peumo",
+  "Puente Alto (river, hills)", "Talagante", "Melipilla", "Peumo",
   "Puerto Natales (ocean)", "Lota", "Ovalle", "Huasco", "Mejillones",
   "Victoria", "San Felipe", "Frutillar", "Illapel", "Angol",
   "San Fernando", "Toltén", "Curicó", "Pisagua", "Tocopilla",

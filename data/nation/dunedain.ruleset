@@ -6,8 +6,12 @@
 
 name=_("Dunedain")
 plural=_("?plural:Dunedan")
-leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn"
-leader_sex="Male", "Female", "Female", "Male", "Male", "Male"
+class=_("Fictional")
+legend=_("The Men of the West from J.R.R. Tolkien's Middle Earth fantasies.")
+leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn",
+	"Tarannon Falastur", "Thorongil", "Ar-Pharazon", "Beruthiel"
+leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
+	"Male", "Male", "Male", "Female"
 flag = "f.dunedain"
 flag_alt = "-"
 city_style = "Classical"
@@ -29,7 +33,7 @@ cities =
   "Armenelos", "Romenna", "Meneltarma (mountains)", "Andúnië",
   "Eldalondë (ocean)", "Nindamos", "Vinyalondë (ocean)", "Lond Daer (ocean)",
   "Emerië", "Hyarastorni", "Osgiliath", "Minas Anor", "Minas Ithil",
-  "Pelargir", "Erech (hills)", "Umbar", "Aglarond", "Angrenost", "Annúminas",
+  "Pelargir", "Erech (hills)", "Umbar", "Aglarond", "Annúminas",
   "Amon Sûl (hills)", "Fornost", "Ethring (river)", "Dol Amroth",
   "Edhellond (ocean)", "Linhir", "Calembel", "Tharbad", "Elostirion (hills)",
   "Isengard (hills)", "Belfalas", "Anórien", "Bree (hills)", "Staddle",

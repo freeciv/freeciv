@@ -2,6 +2,7 @@
 
 name=_("Latvian")
 plural=_("?plural:Latvians")
+class=_("Modern")
 leader="Karlis Ulmanis", "Guntis Ulmanis", 
   "Vaira Vike Freiberga", "Namejs"
 leader_sex="Male", "Male", 
