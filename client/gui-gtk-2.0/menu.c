@@ -599,36 +599,43 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Game") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Game") "/" N_("_Local Options"),		NULL,
+  { "/" N_("Game") "/" N_("Local _Options"),		NULL,
 	game_menu_callback,	MENU_GAME_OPTIONS					},
-  { "/" N_("Game") "/" N_("Messa_ge Options"),		NULL,
+  { "/" N_("Game") "/" N_("_Message Options"),		NULL,
 	game_menu_callback,	MENU_GAME_MSG_OPTIONS					},
-  { "/" N_("Game") "/" N_("_Save Settings"),		NULL,
+  { "/" N_("Game") "/" N_("Sa_ve Settings"),		NULL,
 	game_menu_callback,	MENU_GAME_SAVE_SETTINGS					},
   { "/" N_("Game") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("View _Fixed Server Options"),NULL,
+  { "/" N_("Game") "/" N_("_Initial Server Options"),NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS1				},
-  { "/" N_("Game") "/" N_("_Change Server Options"),	NULL,
+  { "/" N_("Game") "/" N_("Server O_ptions"),	NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS2				},
-  { "/" N_("Game") "/" N_("Save Game As..."),		NULL,
-	game_menu_callback,	MENU_GAME_SAVE_GAME					},
-  { "/" N_("Game") "/" N_("Quick Save Game"),	NULL,
-	game_menu_callback,	MENU_GAME_SAVE_QUICK					},
   { "/" N_("Game") "/sep3",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("_Export Log"),		NULL,
-	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
-  { "/" N_("Game") "/" N_("_Clear Log"),		NULL,
-	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
+  { "/" N_("Game") "/" N_("_Save Game"),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_QUICK, 			"<StockItem>",
+	GTK_STOCK_SAVE									},
+  { "/" N_("Game") "/" N_("Save Game _As..."),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_GAME,			"<StockItem>",
+	GTK_STOCK_SAVE_AS								},
   { "/" N_("Game") "/sep4",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_End Game"),		NULL,
+	game_menu_callback,	MENU_GAME_END						},
+  { "/" N_("Game") "/sep5",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("E_xport Log"),		NULL,
+	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
+  { "/" N_("Game") "/" N_("Clear _Log"),		NULL,
+	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
+  { "/" N_("Game") "/sep6",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Disconnect"),		NULL,
 	game_menu_callback,	MENU_GAME_DISCONNECT					},
-  { "/" N_("Game") "/" N_("End Game"),		NULL,
-	game_menu_callback,	MENU_GAME_END						},
-  { "/" N_("Game") "/" N_("_Quit"),			"<control>q",
-	game_menu_callback,	MENU_GAME_QUIT						},
+  { "/" N_("Game") "/" N_("_Quit"),			NULL,
+	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
+	GTK_STOCK_QUIT									},
   /* Kingdom menu ... */
   { "/" N_("_Kingdom"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1062,15 +1069,15 @@ the string is used for a lookup via gtk_item_factory_get_widget()
 void update_menus(void)
 {
 
-  menus_set_sensitive("<main>/_Game/Save Game As...", client_has_hack &&
+  menus_set_sensitive("<main>/_Game/Save Game _As...", client_has_hack &&
 		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/Quick Save Game", client_has_hack &&
+  menus_set_sensitive("<main>/_Game/_Save Game", client_has_hack &&
 		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/End Game", client_has_hack &&
+  menus_set_sensitive("<main>/_Game/_End Game", client_has_hack &&
 		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_Change Server Options", 
+  menus_set_sensitive("<main>/_Game/Server O_ptions", 
 		      aconnection.established);
-  menus_set_sensitive("<main>/_Game/View _Fixed Server Options", 
+  menus_set_sensitive("<main>/_Game/_Initial Server Options", 
 		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/_Disconnect", aconnection.established);
 

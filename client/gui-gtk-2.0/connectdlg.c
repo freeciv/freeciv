@@ -43,6 +43,12 @@
 #include "connectdlg.h"
 
 enum {
+  CMD_OPTIONS, CMD_LOAD,
+  CMD_PREV, CMD_NEXT,
+  CMD_START, CMD_RESUME, CMD_CONNECT
+};
+
+enum {
   FIRST_PAGE,
   NEW_PAGE,
   LOAD_PAGE,
@@ -55,6 +61,10 @@ enum {
   LAN_PAGE
 };
   
+static GtkWidget *options_cmd, *load_cmd;
+static GtkWidget *prev_cmd, *next_cmd;
+static GtkWidget *start_cmd, *resume_cmd, *connect_cmd;
+
 static enum {
   LOGIN_TYPE, 
   NEW_PASSWORD_TYPE, 
@@ -63,8 +73,7 @@ static enum {
 } dialog_config;
 
 static GtkWidget *imsg, *ilabel, *iinput, *ihost, *iport;
-static GtkWidget *aifill, *aiskill, *savedlabel;
-static GtkWidget *prevw, *nextw, *loadw;
+static GtkWidget *aifill, *aiskill;
 static GtkListStore *storesaved;
 static GtkListStore *storemeta;
 static GtkListStore *storelan;
@@ -96,8 +105,6 @@ void really_close_connection_dialog(void)
 {
   if (dialog) {
     gtk_widget_destroy(dialog);
-    dialog = NULL;
-    gtk_widget_set_sensitive(top_vbox, TRUE);
   }
 }
 
@@ -120,8 +127,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
 {
   gtk_widget_grab_focus(iinput);
   gtk_entry_set_text(GTK_ENTRY(iinput), "");
-  gtk_button_set_label(GTK_BUTTON(nextw), GTK_STOCK_GO_FORWARD);
-  gtk_widget_set_sensitive(nextw, TRUE);
+  gtk_widget_set_sensitive(connect_cmd, TRUE);
   gtk_label_set_text(GTK_LABEL(imsg), message);
 
   switch (type) {
@@ -153,7 +159,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
 
   gtk_widget_show(dialog);
   gtk_entry_set_visibility(GTK_ENTRY(iinput), FALSE);
-  gtk_label_set_text(GTK_LABEL(ilabel), _("Password:"));
+  gtk_label_set_text_with_mnemonic(GTK_LABEL(ilabel), _("_Password:"));
 }
 
 /**************************************************************************
@@ -180,7 +186,6 @@ static void connect_callback(GtkWidget *w, gpointer data)
   
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
-      really_close_connection_dialog();
     } else {
       append_output_window(errbuf);
     }
@@ -196,8 +201,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
   case VERIFY_PASSWORD_TYPE:
     sz_strlcpy(reply.password, gtk_entry_get_text(GTK_ENTRY(iinput)));
     if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
-      gtk_widget_set_sensitive(nextw, FALSE);
-      memset(password, 0, MAX_LEN_NAME);
+      gtk_widget_set_sensitive(connect_cmd, FALSE);
       password[0] = '\0';
       send_packet_authentication_reply(&aconnection, &reply);
     } else { 
@@ -209,7 +213,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
     }
     break;
   case ENTER_PASSWORD_TYPE:
-    gtk_widget_set_sensitive(nextw, FALSE);
+    gtk_widget_set_sensitive(connect_cmd, FALSE);
     sz_strlcpy(reply.password, gtk_entry_get_text(GTK_ENTRY(iinput)));
     send_packet_authentication_reply(&aconnection, &reply);
     break;
@@ -294,6 +298,7 @@ static void lan_update_callback(GtkWidget *w, gpointer data)
 
   if (num_lanservers_timer == 0) { 
     gtk_list_store_clear(storelan);
+
     if (begin_lanserver_scan()) {
       get_lanservers_timer = gtk_timeout_add(100, get_lanservers, NULL);
     }
@@ -310,7 +315,7 @@ static void saved_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
   char *name;
 
   if (!gtk_tree_selection_get_selected(select, NULL, &it)) {
-    gtk_widget_set_sensitive(nextw, FALSE);
+    gtk_widget_set_sensitive(resume_cmd, FALSE);
     return;
   }
 
@@ -318,7 +323,7 @@ static void saved_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
 
   sz_strlcpy(player_name, name);
 
-  gtk_widget_set_sensitive(nextw, TRUE);
+  gtk_widget_set_sensitive(resume_cmd, TRUE);
 }
 
 /**************************************************************************
@@ -396,6 +401,7 @@ static gboolean lan_click_callback(GtkWidget *w, GdkEventButton *event, gpointer
 static void connect_destroy_callback(GtkWidget *w, gpointer data)
 {
   dialog = NULL;
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 #define MIN_DIMENSION 5
@@ -461,13 +467,13 @@ void handle_single_playerlist_reply(struct packet_single_playerlist_reply
   /* we couldn't load the savegame, we could have gotten the name wrong, etc */
   if (packet->nplayers == 0
       || strcmp(current_filename, packet->load_filename) != 0) {
-    gtk_label_set_label(GTK_LABEL(savedlabel), _("Couldn't load the savegame"));
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Couldn't load the savegame"));
     return;
   } else {
     char *buf = current_filename;
     
     buf = strrchr(current_filename, '/');
-    gtk_label_set_label(GTK_LABEL(savedlabel), ++buf);
+    gtk_window_set_title(GTK_WINDOW(dialog), ++buf);
   }
 
 
@@ -490,78 +496,71 @@ void handle_single_playerlist_reply(struct packet_single_playerlist_reply
 }
 
 /**************************************************************************
- callback to load a game.
+...
 **************************************************************************/
-static void load_file(GtkWidget *widget, gpointer user_data)
+static void filesel_response_callback(GtkWidget *w, gint id, gpointer data)
 {
-  GtkFileSelection *selector = (GtkFileSelection *)user_data;
-  char message[MAX_LEN_MSG];
+  if (id == GTK_RESPONSE_OK) {
+    gchar *filename;
+    bool is_save = (bool)data;
 
-  if (current_filename) {
-    free(current_filename);
+    if (current_filename) {
+      free(current_filename);
+    }
+
+    filename = g_filename_to_utf8(
+	gtk_file_selection_get_filename(GTK_FILE_SELECTION(w)),
+	-1, NULL, NULL, NULL);
+    current_filename = mystrdup(filename);
+
+    if (is_save) {
+      send_save_game(current_filename);
+    } else {
+      char message[MAX_LEN_MSG];
+
+      gtk_window_set_title(GTK_WINDOW(dialog), _("Loading..."));
+
+      my_snprintf(message, sizeof(message), "/load %s", current_filename);
+      send_chat(message);
+      send_packet_single_playerlist_req(&aconnection);
+    }
   }
 
-  current_filename = mystrdup(gtk_file_selection_get_filename(selector));
-
-  gtk_label_set_label(GTK_LABEL(savedlabel), _("Loading..."));
-
-  my_snprintf(message, MAX_LEN_MSG, "/load %s", current_filename);
-  send_chat(message);
-  send_packet_single_playerlist_req(&aconnection);
+  gtk_widget_destroy(w);
 }
 
-/**************************************************************************
- callback to save a game.
-**************************************************************************/
-static void save_file(GtkWidget *widget, gpointer user_data)
-{ 
-  GtkFileSelection *selector = (GtkFileSelection *)user_data;
-  
-  if (current_filename) {
-    free(current_filename);
-  }
-  
-  current_filename = mystrdup(gtk_file_selection_get_filename(selector));
-
-  send_save_game(current_filename);
-}
 
 /**************************************************************************
  create a file selector for both the load and save commands
 **************************************************************************/
 GtkWidget *create_file_selection(char *title, bool is_save)
 {
-  GtkWidget *file_selector;
+  GtkWidget *filesel;
   
   /* Create the selector */
-  file_selector = gtk_file_selection_new(title);
+  filesel = gtk_file_selection_new(title);
+  gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
    
   if (current_filename) {
-    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
-                                    current_filename);
+    gtk_file_selection_set_filename(GTK_FILE_SELECTION(filesel),
+	g_filename_from_utf8(current_filename, -1, NULL, NULL, NULL));
   }
 
-  g_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button),
-                   "clicked", 
-                   (is_save) ? G_CALLBACK(save_file) : G_CALLBACK(load_file), 
-                   (gpointer)file_selector);
-                           
-  /* Ensure that the dialog box is destroyed when the user clicks a button. */
-   
-  g_signal_connect_swapped(GTK_OBJECT(
-                           GTK_FILE_SELECTION(file_selector)->ok_button),
-                           "clicked", G_CALLBACK (gtk_widget_destroy), 
-                           (gpointer) file_selector); 
-
-  g_signal_connect_swapped(GTK_OBJECT(
-                           GTK_FILE_SELECTION(file_selector)->cancel_button),
-                           "clicked", G_CALLBACK (gtk_widget_destroy),
-                           (gpointer) file_selector); 
+  g_signal_connect(filesel, "response",
+		   G_CALLBACK(filesel_response_callback), (gpointer)is_save);
 
   /* Display that dialog */
-  gtk_widget_show(file_selector);
+  gtk_window_present(GTK_WINDOW(filesel));
 
-  return file_selector;
+  return filesel;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void filesel_destroy_callback(GtkWidget *w, gpointer data)
+{
+  gtk_widget_set_sensitive(load_cmd, TRUE);
 }
 
 /**************************************************************************
@@ -570,62 +569,75 @@ GtkWidget *create_file_selection(char *title, bool is_save)
 static void load_callback(GtkWidget *w, gpointer data)
 {
   /* start a server if we haven't already started one */
-  if (!is_server_running() && !client_start_server()) {
-    return;
-  }
- 
-  gtk_widget_set_sensitive(nextw, FALSE);
+  if (is_server_running() || client_start_server()) {
+    GtkWidget *filesel;
 
-  /* swapped makes the filesel the second arg, and a filesel is always true */
-  g_signal_connect_swapped(create_file_selection(_("Choose Savegame to Load"),
-                                                 FALSE),
-			   "destroy", G_CALLBACK(gtk_widget_set_sensitive), w);
-  gtk_widget_set_sensitive(w, FALSE);
+    gtk_widget_set_sensitive(resume_cmd, FALSE);
+    gtk_widget_set_sensitive(load_cmd, FALSE);
+
+    filesel = create_file_selection(_("Choose Saved Game to Load"), FALSE);
+
+    g_signal_connect(filesel, "destroy",
+		     G_CALLBACK(filesel_destroy_callback), NULL);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void reset_dialog(void)
+{
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Welcome to Freeciv"));
+  gtk_widget_hide(options_cmd);
+  gtk_widget_hide(load_cmd);
+  gtk_widget_hide(prev_cmd);
+  gtk_widget_hide(next_cmd);
+  gtk_widget_hide(start_cmd);
+  gtk_widget_hide(resume_cmd);
+  gtk_widget_hide(connect_cmd);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void update_dialog(gint page_num)
+{
+  switch (page_num) {
+  case FIRST_PAGE:
+    reset_dialog();
+    gtk_widget_show(next_cmd);
+    break;
+  case NEW_PAGE:
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Start New Game"));
+    gtk_widget_show(options_cmd);
+    gtk_widget_show(prev_cmd);
+    gtk_widget_hide(next_cmd);
+    gtk_widget_show(start_cmd);
+    break;
+  case LOAD_PAGE:
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Load Saved Game"));
+    gtk_widget_show(load_cmd);
+    gtk_widget_show(prev_cmd);
+    gtk_widget_hide(next_cmd);
+    gtk_widget_show(resume_cmd);
+    break;
+  case NETWORK_PAGE:
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Connect to Network Game"));
+    gtk_widget_show(prev_cmd);
+    gtk_widget_hide(next_cmd);
+    gtk_widget_show(connect_cmd);
+    break;
+  }
 }
 
 /****************************************************************
- handles both the uberbook and the network book
+ handles the uberbook
 *****************************************************************/
-static void switch_page_callback(GtkNotebook * notebook,
-                                 GtkNotebookPage * page, gint page_num,
+static void switch_page_callback(GtkNotebook *notebook,
+                                 GtkNotebookPage *page, gint page_num,
                                  gpointer data)
 {
-  if (notebook == GTK_NOTEBOOK(uberbook)) {
-    gtk_widget_set_sensitive(nextw, TRUE);
-    gtk_widget_set_sensitive(prevw, TRUE);
-    gtk_widget_hide(loadw);
-
-    switch(page_num) {
-    case FIRST_PAGE:
-      client_kill_server();
-      gtk_widget_set_sensitive(prevw, FALSE);
-      gtk_button_set_label(GTK_BUTTON(nextw), GTK_STOCK_GO_FORWARD);
-      break;
-    case NEW_PAGE:
-      break;
-    case LOAD_PAGE:
-      gtk_widget_set_sensitive(nextw, FALSE);
-      gtk_widget_show(loadw);
-      break;
-    case NETWORK_PAGE:
-      break;
-    default:
-      break;
-    }
-  } else { /* network book */
-    switch(page_num) {
-    case LOGIN_PAGE:
-      gtk_button_set_label(GTK_BUTTON(nextw),
-	  dialog_config == LOGIN_TYPE ? _("_Connect") : GTK_STOCK_GO_FORWARD);
-      break;
-    case METASERVER_PAGE:
-    case LAN_PAGE:
-      gtk_button_set_label(GTK_BUTTON(nextw), _("_Select"));
-      break;
-    default:
-      break;
-    }
-  }
+  update_dialog(page_num);
 }
 
 /**************************************************************************
@@ -633,9 +645,60 @@ static void switch_page_callback(GtkNotebook * notebook,
 **************************************************************************/
 static void response_callback(GtkWidget *w, gint response_id)
 {
-  if (response_id == GTK_RESPONSE_REJECT) {
+  switch (response_id) {
+  case CMD_OPTIONS:
+    send_report_request(REPORT_SERVER_OPTIONS2);
+    break;
+  case CMD_LOAD:
+    load_callback(load_cmd, NULL);
+    break;
+  case CMD_PREV:
+    client_kill_server();
+
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(uberbook), FIRST_PAGE);
+    break;
+  case CMD_NEXT:
+    switch (next_page) {
+    case NEW_PAGE:
+      if (!is_server_running() && !client_start_server()) {
+	return;
+      }
+      break;
+    case LOAD_PAGE:
+      load_callback(load_cmd, NULL);
+      break;
+    default:
+      break;
+    }
+
+    /* check which radio button is active and switch "book" to that page */   
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(uberbook), next_page);
+    break;
+  case CMD_START:
+    {
+      char buf[512];
+
+      my_snprintf(buf, sizeof(buf), "/%s", get_aiskill_setting());
+      send_chat(buf);
+      my_snprintf(buf, sizeof(buf), "/set aifill %d",
+	  gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(aifill)));
+      send_chat(buf);
+
+      really_close_connection_dialog();
+      send_chat("/start");
+    }
+    break;
+  case CMD_RESUME:
+    really_close_connection_dialog();
+    send_start_saved_game();
+    break;
+  case CMD_CONNECT:
+    connect_callback(connect_cmd, NULL);
+    break;
+  default:
     client_kill_server();
     gtk_main_quit();
+    break;
   }
 }
 
@@ -673,68 +736,11 @@ const char *get_aiskill_setting(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void prev_command_callback(GtkWidget *w, gpointer data)
-{
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(uberbook), FIRST_PAGE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void next_command_callback(GtkWidget *w, gpointer data)
-{
-  const char *next_labels[4] = {
-    "", N_("_Start"), N_("_Resume"), N_("_Connect")
-  };
-  char buf[512];
-
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK(uberbook)) == FIRST_PAGE) {
-    if (next_page != NETWORK_PAGE && !is_server_running() && 
-        !client_start_server()) {
-      return;
-    }
-
-    gtk_widget_set_sensitive(prevw, TRUE);
-
-    /* check which radio button is active and switch "book" to that page */   
-    gtk_notebook_set_current_page(GTK_NOTEBOOK(uberbook), next_page);
-    gtk_button_set_label(GTK_BUTTON(nextw), next_labels[next_page]);
-    if (next_page == LOAD_PAGE) {
-      load_callback(loadw, NULL);
-    }
-  } else {
-    switch (gtk_notebook_get_current_page(GTK_NOTEBOOK(uberbook))) {
-    case NEW_PAGE:
-      my_snprintf(buf, sizeof(buf), "/%s", get_aiskill_setting());
-      send_chat(buf);
-      my_snprintf(buf, sizeof(buf), "/set aifill %d",
-                  (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(aifill)));
-      send_chat(buf);
-
-      really_close_connection_dialog();
-      send_chat("/start");
-      break;
-    case LOAD_PAGE:
-      really_close_connection_dialog();
-      send_start_saved_game();
-      break;
-    case NETWORK_PAGE:
-      connect_callback(w, NULL);
-      break;
-    default:
-      break;
-    };
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void gui_server_connect(void)
 {
   GtkWidget *label, *table, *scrolled, *listsaved, *listmeta, *listlan;
-  GtkWidget *hbox, *vbox, *updatemeta, *updatelan;
-  GtkWidget *radio, *button;
+  GtkWidget *hbox, *vbox, *updatemeta, *updatelan, *align;
+  GtkWidget *radio;
   int i;
   char buf[256];
   GtkCellRenderer *trenderer, *prenderer;
@@ -750,7 +756,7 @@ void gui_server_connect(void)
   next_page = NEW_PAGE;
   dialog_config = LOGIN_TYPE;
 
-  dialog = gtk_dialog_new_with_buttons(_(" Connect to Freeciv Server"),
+  dialog = gtk_dialog_new_with_buttons(NULL,
                                        NULL,
                                        GTK_DIALOG_DESTROY_WITH_PARENT,
                                        NULL);
@@ -765,134 +771,108 @@ void gui_server_connect(void)
 		   G_CALLBACK(response_callback), NULL);
 
   /* create the action area buttons */
+  options_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				      GTK_STOCK_PROPERTIES, CMD_OPTIONS);
+  load_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				   GTK_STOCK_OPEN, CMD_LOAD);
 
-  loadw = gtk_button_new_with_mnemonic(_("_Load..."));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), 
-                     loadw, TRUE, TRUE, 0);
-  g_signal_connect(loadw, "clicked", G_CALLBACK(load_callback), NULL);
-
-  prevw = gtk_button_new_from_stock(GTK_STOCK_GO_BACK);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),
-                     prevw, TRUE, TRUE, 0);
-  gtk_widget_set_sensitive(prevw, FALSE);
-  g_signal_connect(prevw, "clicked", G_CALLBACK(prev_command_callback), NULL);
-
-  nextw = gtk_button_new_from_stock(GTK_STOCK_GO_FORWARD);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),
-                     nextw, TRUE, TRUE, 0);
-  g_signal_connect(nextw, "clicked", G_CALLBACK(next_command_callback), NULL);
+  prev_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				   GTK_STOCK_GO_BACK, CMD_PREV);
+  next_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				   GTK_STOCK_GO_FORWARD, CMD_NEXT);
+  
+  start_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				    _("_Start"), CMD_START);
+  resume_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				     _("_Resume"), CMD_RESUME);
+  connect_cmd = gtk_dialog_add_button(GTK_DIALOG(dialog),
+      				      _("_Connect"), CMD_CONNECT);
 
   gtk_dialog_add_button(GTK_DIALOG(dialog),
-                        GTK_STOCK_QUIT, GTK_RESPONSE_REJECT);
+                    	GTK_STOCK_QUIT, GTK_RESPONSE_REJECT);
+  reset_dialog();
 
   /* main body */
-
   uberbook = gtk_notebook_new();
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(uberbook), FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), uberbook, 
                      TRUE, TRUE, 0);
   
-  /* first page of uber book */  
 
-  vbox = gtk_vbox_new(FALSE, 2);
-  gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), vbox, NULL);
+  /* first page of uber book */  
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), align, NULL);
+
+  vbox = gtk_vbutton_box_new();
+  gtk_container_add(GTK_CONTAINER(align), vbox);
 
   radio = gtk_radio_button_new_with_mnemonic(group, _("_Start New Game"));
   group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
-  gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(vbox), radio);
 
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(NEW_PAGE));
 
   radio = gtk_radio_button_new_with_mnemonic(group, _("_Load Saved Game"));
   group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
-  gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(vbox), radio);
   
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(LOAD_PAGE));
 
   radio = gtk_radio_button_new_with_mnemonic(group,
       					     _("_Connect to Network Game"));
-  gtk_box_pack_start(GTK_BOX(vbox), radio, TRUE, FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(vbox), radio);
 
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(NETWORK_PAGE));
 
   /* second page of uber book: new game */  
-
   vbox = gtk_vbox_new(FALSE, 2);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);
   gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), vbox, NULL);
 
-  label = gtk_label_new(_("Start New Game"));
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 2);
-
-  hbox = gtk_hbox_new(FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 20);
-
-  table = gtk_table_new(2, 2, FALSE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 15);
-  gtk_box_pack_start(GTK_BOX(hbox), table, TRUE, TRUE, 20);
+  hbox = gtk_hbox_new(FALSE, 12);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "label", _("Number of players:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
   adj = GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, MAX_NUM_PLAYERS, 1, 1, 1));
   aifill = gtk_spin_button_new(adj, 1, 0);
   gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(aifill), 
                                     GTK_UPDATE_IF_VALID);
-  gtk_table_attach_defaults(GTK_TABLE(table), aifill, 1, 2, 0, 1);
+  gtk_box_pack_start(GTK_BOX(hbox), aifill, FALSE, FALSE, 0);
+
+  hbox = gtk_hbox_new(FALSE, 12);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
   label = g_object_new(GTK_TYPE_LABEL,
                        "label", _("AI skill level:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
   aiskill = gtk_combo_new();
 
   gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(aiskill)->entry), FALSE);
   for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    items = g_list_append(items, (char*)_(skill_level_names[i]));
+    items = g_list_append(items, _(skill_level_names[i]));
   }
   gtk_combo_set_popdown_strings(GTK_COMBO(aiskill), items);
-  gtk_table_attach_defaults(GTK_TABLE(table), aiskill, 1, 2, 1, 2);
-
-  hbox = gtk_hbox_new(FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 20);
-
-  button = gtk_button_new_with_mnemonic(_("Change Server _Options"));
-  g_signal_connect_swapped(G_OBJECT(button), "clicked",
-			   G_CALLBACK(send_report_request), 
-			   (gpointer)REPORT_SERVER_OPTIONS2);
-  gtk_box_pack_end(GTK_BOX(hbox), button, TRUE, TRUE, 20);
+  gtk_box_pack_start(GTK_BOX(hbox), aiskill, FALSE, FALSE, 0);
 
 
   /* third page of uber book: load game */  
-
   vbox = gtk_vbox_new(FALSE, 2);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);
   gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), vbox, NULL);
 
-  savedlabel = g_object_new(GTK_TYPE_LABEL,
-                            "use-underline", TRUE,
-                            "xalign", 0.0,
-                            "yalign", 0.5,
-                            NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), savedlabel, FALSE, FALSE, 2);
-  
-  label = g_object_new(GTK_TYPE_LABEL,
-                       "use-underline", TRUE,
-                       "label", _("These are the nations in the saved game, "
-                                  "choose which to play:"),
-                       "xalign", 0.0,
-                       "yalign", 0.5,
-                       NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 2);
-  
   storesaved = gtk_list_store_new(5, G_TYPE_STRING, GDK_TYPE_PIXBUF,
                                      G_TYPE_STRING, G_TYPE_STRING,
                                      G_TYPE_STRING);
@@ -918,14 +898,24 @@ void gui_server_connect(void)
 
   gtk_tree_selection_set_mode(selectionsaved, GTK_SELECTION_SINGLE);
 
+  label = g_object_new(GTK_TYPE_LABEL,
+                       "use-underline", TRUE,
+		       "mnemonic-widget", listsaved,
+                       "label", _("Choose a _nation to play:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 2);
+  
   scrolled = gtk_scrolled_window_new(NULL,NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), listsaved);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
   /* fourth page of uber book: network notebook */  
-
   book = gtk_notebook_new();
   gtk_notebook_append_page(GTK_NOTEBOOK(uberbook), book, NULL);
 
@@ -1046,8 +1036,6 @@ void gui_server_connect(void)
   updatemeta = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_box_pack_start(GTK_BOX(vbox), updatemeta, FALSE, FALSE, 2);
 
-  gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
-
   /* Create the Local Area Network notebook page   */
   label = gtk_label_new(_("Local Area Network"));
 
@@ -1086,15 +1074,7 @@ void gui_server_connect(void)
   updatelan = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_box_pack_start(GTK_BOX(vbox), updatelan, FALSE, FALSE, 2);
 
-  gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
-
-  gtk_widget_hide(loadw);
-
-  if (auto_connect) {
-     gtk_widget_hide(dialog);
-  } else {
-     gtk_widget_show(dialog);
-  }
+  gtk_widget_show_all(uberbook);
 
   /* connect all the signals here, so that we can't send 
    * packets to the server until the dialog is up (which 
@@ -1122,14 +1102,19 @@ void gui_server_connect(void)
 
   g_signal_connect(uberbook, "switch-page",
                    G_CALLBACK(switch_page_callback), NULL);
-  g_signal_connect(book, "switch-page", G_CALLBACK(switch_page_callback), NULL);
+
   g_signal_connect(iinput, "activate", G_CALLBACK(connect_callback), NULL);
   g_signal_connect(ihost, "activate", G_CALLBACK(connect_callback), NULL);
   g_signal_connect(iport, "activate", G_CALLBACK(connect_callback), NULL);
 
+  update_dialog(FIRST_PAGE);
+
   gtk_widget_set_size_request(dialog, 500, 250);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_present(GTK_WINDOW(dialog));
+
+  if (!auto_connect) {
+    gtk_window_present(GTK_WINDOW(dialog));
+  }
 }
 
 /**************************************************************************
