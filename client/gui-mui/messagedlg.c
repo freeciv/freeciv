@@ -122,6 +122,14 @@ void popup_messageopt_dialog(void)
         else
           ++err;
       }
+      if(E_LAST & 1) /* uneven number of entries */
+      {
+        if((o = MakeLabel("")))
+          DoMethod(group[0], OM_ADDMEMBER, o);
+        else
+          ++err;
+      }
+
       if(!err)
       {
         DoMethod(option_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
