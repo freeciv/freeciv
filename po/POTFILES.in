@@ -76,6 +76,7 @@ client/gui-gtk-2.0/finddlg.c
 client/gui-gtk-2.0/gamedlgs.c
 client/gui-gtk-2.0/gotodlg.c
 client/gui-gtk-2.0/gui_main.c
+client/gui-gtk-2.0/gui_stuff.c
 client/gui-gtk-2.0/happiness.c
 client/gui-gtk-2.0/helpdlg.c
 client/gui-gtk-2.0/inputdlg.c
