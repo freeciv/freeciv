@@ -214,176 +214,62 @@ static void create_meswin_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-
-static int messages_total = 0; /* current total number of message lines */
-static int messages_alloc = 0; /* number allocated for */
-static char **string_ptrs = NULL;
-static int *xpos = NULL;
-static int *ypos = NULL;
-static int *event = NULL;
-
-/**************************************************************************
- This makes sure that the next two elements in string_ptrs etc are
- allocated for.  Two = one to be able to grow, and one for the sentinel
- in string_ptrs.
- Note update_meswin_dialog should always be called soon after this since
- it contains pointers to the memory we're reallocing here.
-**************************************************************************/
-static void meswin_allocate(void)
-{
-  int i;
-  
-  if (messages_total+2 > messages_alloc) {
-    messages_alloc = messages_total + 32;
-    string_ptrs = fc_realloc(string_ptrs, messages_alloc*sizeof(char*));
-    xpos = fc_realloc(xpos, messages_alloc*sizeof(int));
-    ypos = fc_realloc(ypos, messages_alloc*sizeof(int));
-    event = fc_realloc(event, messages_alloc*sizeof(int));
-    for( i=messages_total; i<messages_alloc; i++ ) {
-      string_ptrs[i] = NULL;
-      xpos[i] = 0;
-      ypos[i] = 0;
-      event[i] = E_NOEVENT;
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_clear_notify_window(void)
-{
-  int i;
-  meswin_allocate();
-  for (i = 0; i <messages_total; i++) {
-    free(string_ptrs[i]);
-    string_ptrs[i] = NULL;
-    xpos[i] = 0;
-    ypos[i] = 0;
-    event[i] = E_NOEVENT;
-  }
-  string_ptrs[0] = NULL;
-  messages_total = 0;
-
-  if(meswin_dialog_shell) {
-    gtk_widget_set_sensitive(meswin_goto_command, FALSE);
-    gtk_widget_set_sensitive(meswin_popcity_command, FALSE);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_add_notify_window(struct packet_generic_message *packet)
-{
-  char *s;
-  int nspc;
-  char *game_prefix1 = "Game: ";
-  char *game_prefix2 = _("Game: ");
-  int gp_len1 = strlen(game_prefix1);
-  int gp_len2 = strlen(game_prefix2);
-
-  meswin_allocate();
-  s = fc_malloc(strlen(packet->message) + 50);
-  if (strncmp(packet->message, game_prefix1, gp_len1) == 0) {
-    strcpy(s, packet->message + gp_len1);
-  } else if(strncmp(packet->message, game_prefix2, gp_len2) == 0) {
-    strcpy(s, packet->message + gp_len2);
-  } else {
-    strcpy(s, packet->message);
-  }
-
-  nspc=50-strlen(s);
-  if(nspc>0)
-    strncat(s, "                                                  ", nspc);
-  
-  xpos[messages_total] = packet->x;
-  ypos[messages_total] = packet->y;
-  event[messages_total]= packet->event;
-  string_ptrs[messages_total] = s;
-  messages_total++;
-  string_ptrs[messages_total] = NULL;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void real_update_meswin_dialog(void)
 {
-  int i;
+  int i, num = get_num_messages();
   GtkTreeIter it;
 
   gtk_list_store_clear(meswin_store);
 
-  for (i = 0; i < messages_total; i++) {
+  for (i = 0; i < num; i++) {
     GValue value = { 0, };
 
     gtk_list_store_append(meswin_store, &it);
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, string_ptrs[i]);
+    g_value_set_static_string(&value, get_message(i)->descr);
     gtk_list_store_set_value(meswin_store, &it, 0, &value);
     g_value_unset(&value);
 
     meswin_not_visited_item(i);
   }
+  gtk_widget_set_sensitive(meswin_goto_command, FALSE);
+  gtk_widget_set_sensitive(meswin_popcity_command, FALSE);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void meswin_selection_callback(GtkTreeSelection *selection,
-                                      gpointer data)
+static void meswin_selection_callback(GtkTreeSelection * selection,
+				      gpointer data)
 {
-  gint row;
+  gint row = gtk_tree_selection_get_row(selection);
 
-  if ((row = gtk_tree_selection_get_row(selection)) != -1) {
-    struct city *pcity;
-    int x, y;
-    bool location_ok, city_ok;
+  if (row != -1) {
+    struct message *message = get_message(i);
 
-    x = xpos[row];
-    y = ypos[row];
-    location_ok = (x != -1 && y != -1);
-    city_ok = (location_ok && (pcity = map_get_city(x, y))
-	       && (pcity->owner == game.player_idx));
-
-    gtk_widget_set_sensitive(meswin_goto_command, location_ok);
-    gtk_widget_set_sensitive(meswin_popcity_command, city_ok);
+    gtk_widget_set_sensitive(meswin_goto_command, message->location_ok);
+    gtk_widget_set_sensitive(meswin_popcity_command, message->city_ok);
   }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void meswin_row_activated_callback(GtkTreeView *view,
-					  GtkTreePath *path,
-					  GtkTreeViewColumn *col,
+static void meswin_row_activated_callback(GtkTreeView * view,
+					  GtkTreePath * path,
+					  GtkTreeViewColumn * col,
 					  gpointer data)
 {
-  struct city *pcity;
-  int x, y;
-  bool location_ok, city_ok;
-  gint row;
+  gint row = gtk_tree_path_get_indices(path)[0];
+  struct message *message = get_message(i);
 
-  row = gtk_tree_path_get_indices(path)[0];
-
-  x = xpos[row];
-  y = ypos[row];
-  location_ok = (x != -1 && y != -1);
-  city_ok = (location_ok && (pcity = map_get_city(x, y))
-	     && (pcity->owner == game.player_idx));
-
-  if (city_ok && is_city_event(event[row])) {
-    meswin_popcity_callback(meswin_popcity_command, NULL);
-  } else if (location_ok) {
-    meswin_goto_callback(meswin_goto_command, NULL);
-  }
+  meswin_double_click(row);
 
   meswin_visited_item(row);
 
-  gtk_widget_set_sensitive(meswin_goto_command, location_ok);
-  gtk_widget_set_sensitive(meswin_popcity_command, city_ok);
+  gtk_widget_set_sensitive(meswin_goto_command, message->location_ok);
+  gtk_widget_set_sensitive(meswin_popcity_command, message->city_ok);
 }
 
 /**************************************************************************
@@ -406,38 +292,28 @@ static void meswin_command_callback(GtkWidget *w, gint response_id)
 /**************************************************************************
 ...
 **************************************************************************/
-void meswin_goto_callback(GtkWidget *w, gpointer data)
+void meswin_goto_callback(GtkWidget * w, gpointer data)
 {
-  gint row;
+  gint row = gtk_tree_selection_get_row(meswin_selection);
 
-  if((row = gtk_tree_selection_get_row(meswin_selection)) == -1)
+  if (row == -1) {
     return;
+  }
 
-  if(xpos[row]!=-1 && ypos[row]!=-1)
-    center_tile_mapcanvas(xpos[row], ypos[row]);
+  meswin_goto(row);
   meswin_visited_item(row);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void meswin_popcity_callback(GtkWidget *w, gpointer data)
+static void meswin_popcity_callback(GtkWidget * w, gpointer data)
 {
-  struct city *pcity;
-  int x, y;
-  gint row;
+  gint row = gtk_tree_selection_get_row(meswin_selection);
 
-  if((row = gtk_tree_selection_get_row(meswin_selection)) == -1)
+  if (row == -1) {
     return;
-
-  x = xpos[row];
-  y = ypos[row];
-  if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y))
-     && (pcity->owner == game.player_idx)) {
-      if (center_when_popup_city) {
-       center_tile_mapcanvas(x,y);
-      }
-    popup_city_dialog(pcity, 0);
   }
+  meswin_popup_city(row);
   meswin_visited_item(row);
 }

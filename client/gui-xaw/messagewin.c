@@ -172,94 +172,6 @@ static void create_meswin_dialog(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-
-static int messages_total = 0;	/* current total number of message lines */
-static int messages_alloc = 0;	/* number allocated for */
-static char **string_ptrs = NULL;
-static int *xpos = NULL;
-static int *ypos = NULL;
-
-/**************************************************************************
- This makes sure that the next two elements in string_ptrs etc are
- allocated for.  Two = one to be able to grow, and one for the sentinel
- in string_ptrs.
- Note update_meswin_dialog should always be called soon after this since
- it contains pointers to the memory we're reallocing here.
-**************************************************************************/
-static void meswin_allocate(void)
-{
-  int i;
-  
-  if (messages_total+2 > messages_alloc) {
-    messages_alloc = messages_total + 32;
-    string_ptrs = fc_realloc(string_ptrs, messages_alloc*sizeof(char*));
-    xpos = fc_realloc(xpos, messages_alloc*sizeof(int));
-    ypos = fc_realloc(ypos, messages_alloc*sizeof(int));
-    for( i=messages_total; i<messages_alloc; i++ ) {
-      string_ptrs[i] = NULL;
-      xpos[i] = 0;
-      ypos[i] = 0;
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_clear_notify_window(void)
-{
-  int i;
-  meswin_allocate();
-  for (i = 0; i <messages_total; i++) {
-    free(string_ptrs[i]);
-    string_ptrs[i] = NULL;
-    xpos[i] = 0;
-    ypos[i] = 0;
-  }
-  string_ptrs[0]=0;
-  messages_total = 0;
-  if(meswin_dialog_shell) {
-    XtSetSensitive(meswin_goto_command, FALSE);
-    XtSetSensitive(meswin_popcity_command, FALSE);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_add_notify_window(struct packet_generic_message *packet)
-{
-  char *s;
-  int nspc;
-  char *game_prefix1 = "Game: ";
-  char *game_prefix2 = _("Game: ");
-  int gp_len1 = strlen(game_prefix1);
-  int gp_len2 = strlen(game_prefix2);
-  
-  meswin_allocate();
-  s = fc_malloc(strlen(packet->message) + 50);
-  if (strncmp(packet->message, game_prefix1, gp_len1) == 0) {
-    strcpy(s, packet->message + gp_len1);
-  } else if(strncmp(packet->message, game_prefix2, gp_len2) == 0) {
-    strcpy(s, packet->message + gp_len2);
-  } else {
-    strcpy(s, packet->message);
-  }
-
-  nspc=50-strlen(s);
-  if(nspc>0)
-    strncat(s, "                                                  ", nspc);
-  
-  xpos[messages_total] = packet->x;
-  ypos[messages_total] = packet->y;
-  string_ptrs[messages_total] = s;
-  messages_total++;
-  string_ptrs[messages_total] = 0;
-}
-
-/**************************************************************************
  This scrolls the messages window down to the bottom.
  NOTE: it seems this must not be called until _after_ meswin_dialog_shell
  is ...? realized, popped up, ... something.
@@ -275,11 +187,12 @@ static void meswin_scroll_down(void)
   
   if (!meswin_dialog_shell)
     return;
-  if (messages_total <= N_MSG_VIEW)
+  if (get_num_messages() <= N_MSG_VIEW) {
     return;
+  }
   
   XtVaGetValues(meswin_list, XtNheight, &height, NULL);
-  pos = (((double)(messages_total-1))/messages_total)*height;
+  pos = (((double) (get_num_messages() - 1)) / get_num_messages()) * height;
   XawViewportSetCoordinates(meswin_viewport, 0, pos);
 }
 
@@ -293,10 +206,21 @@ void real_update_meswin_dialog(void)
 
   XawFormDoLayout(meswin_form, False);
 
-  if (messages_total == 0)
+  if (get_num_messages() == 0) {
     XawListChange(meswin_list, dummy_message_list, 1, 0, True);
-  else
-    XawListChange(meswin_list, string_ptrs, messages_total, 0, True);
+  } else {
+    /* strings will not be freed */
+    static char **strings = NULL;
+    int i, num = get_num_messages();
+
+    strings = fc_realloc(strings, num * sizeof(char *));
+
+    for (i = 0; i < num; i++) {
+      strings[i] = get_message(i)->descr;
+    }
+
+    XawListChange(meswin_list, strings, get_num_messages(), 0, True);
+  }
 
   /* Much of the following copied from city_report_dialog_update() */
   XtVaGetValues(meswin_list, XtNlongest, &i, NULL);
@@ -309,19 +233,22 @@ void real_update_meswin_dialog(void)
   /* Seems have to do this here so we get the correct height below. */
   XawFormDoLayout(meswin_form, True);
 
-  if (messages_total <= N_MSG_VIEW) {
+  if (get_num_messages() <= N_MSG_VIEW) {
     XtVaGetValues(meswin_list, XtNheight, &height, NULL);
     XtVaSetValues(meswin_viewport, XtNheight, height, NULL);
   } else {
     XtVaGetValues(meswin_list, XtNheight, &height, NULL);
     XtVaGetValues(meswin_list, XtNinternalHeight, &iheight, NULL);
     height -= (iheight * 2);
-    height /= messages_total;
+    height /= get_num_messages();
     height *= N_MSG_VIEW;
     height += (iheight * 2);
     XtVaSetValues(meswin_viewport, XtNheight, height, NULL);
   }
   meswin_scroll_down();
+
+  XtSetSensitive(meswin_goto_command, FALSE);
+  XtSetSensitive(meswin_popcity_command, FALSE);
 }
 
 /**************************************************************************
@@ -330,25 +257,18 @@ void real_update_meswin_dialog(void)
 static void meswin_list_callback(Widget w, XtPointer client_data,
 				 XtPointer call_data)
 {
-  XawListReturnStruct *ret;
-  int location_ok = 0;
-  int city_ok = 0;
+  XawListReturnStruct *ret = XawListShowCurrent(meswin_list);
 
-  ret=XawListShowCurrent(meswin_list);
+  if (ret->list_index != XAW_LIST_NONE) {
+    struct message *message = get_message(ret->list_index);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
-    struct city *pcity;
-    int x, y;
-    x = xpos[ret->list_index];
-    y = ypos[ret->list_index];
-    location_ok = (x != -1 && y != -1);
-    city_ok = (location_ok && (pcity=map_get_city(x,y))
-	       && (pcity->owner == game.player_idx));
-  }    
-  XtSetSensitive(meswin_goto_command, location_ok?True:False);
-  XtSetSensitive(meswin_popcity_command, city_ok?True:False);
+    XtSetSensitive(meswin_goto_command, message->location_ok ? True : False);
+    XtSetSensitive(meswin_popcity_command, message->city_ok ? True : False);
+  } else {
+    XtSetSensitive(meswin_goto_command, False);
+    XtSetSensitive(meswin_popcity_command, False);
+  }
 }
-
 
 /**************************************************************************
 ...
@@ -374,13 +294,11 @@ void meswin_msg_close(Widget w)
 static void meswin_goto_callback(Widget w, XtPointer client_data,
 				 XtPointer call_data)
 {
-  XawListReturnStruct *ret;
+  XawListReturnStruct *ret = XawListShowCurrent(meswin_list);
 
-  ret=XawListShowCurrent(meswin_list);
-
-  if(ret->list_index!=XAW_LIST_NONE
-     && (xpos[ret->list_index]!=-1 && ypos[ret->list_index]!=-1))
-    center_tile_mapcanvas(xpos[ret->list_index], ypos[ret->list_index]);
+  if (ret->list_index != XAW_LIST_NONE) {
+    meswin_goto(ret->list_index);
+  }
 }
 
 /**************************************************************************
@@ -389,20 +307,9 @@ static void meswin_goto_callback(Widget w, XtPointer client_data,
 static void meswin_popcity_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data)
 {
-  XawListReturnStruct *ret;
-  struct city *pcity;
-  int x, y;
-  
-  ret=XawListShowCurrent(meswin_list);
-  if(ret->list_index!=XAW_LIST_NONE) {
-    x = xpos[ret->list_index];
-    y = ypos[ret->list_index];
-    if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y))
-       && (pcity->owner == game.player_idx)) {
-      if (center_when_popup_city) {
-	center_tile_mapcanvas(x,y);
-      }
-      popup_city_dialog(pcity, 0);
-    }
+  XawListReturnStruct *ret = XawListShowCurrent(meswin_list);
+
+  if (ret->list_index != XAW_LIST_NONE) {
+    meswin_popup_city(ret->list_index);
   }
 }

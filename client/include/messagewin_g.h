@@ -20,7 +20,5 @@
 void popup_meswin_dialog(void);
 bool is_meswin_open(void);
 void real_update_meswin_dialog(void);
-void real_clear_notify_window(void);
-void real_add_notify_window(struct packet_generic_message *packet);
      
 #endif  /* FC__MESSAGEWIN_G_H */

@@ -48,12 +48,6 @@ extern HINSTANCE freecivhinst;
 static HWND meswin_dlg;
 static struct fcwin_box *meswin_box;
 static int max_list_width;
-static int messages_total = 0; /* current total number of message lines */
-static int messages_alloc = 0; /* number allocated for */
-static char **string_ptrs = NULL;
-static int *xpos = NULL;
-static int *ypos = NULL;
-static int *event = NULL;
 
 /**************************************************************************
 
@@ -98,38 +92,25 @@ LONG APIENTRY MsgdlgProc(HWND hWnd,
 	  break;
 	case ID_MESSAGEWIN_GOTO:
 	  {
-	    int id,row;
-	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_MESSAGEWIN_LIST));
-	    if (id!=LB_ERR)
-	      {
-		row=ListBox_GetItemData(GetDlgItem(hWnd,ID_MESSAGEWIN_LIST),
-					id);
-		if(xpos[row] != 0 || ypos[row]!=0)
-		    center_tile_mapcanvas(xpos[row], ypos[row]);
-		  
-	      }
+	    int id = ListBox_GetCurSel(GetDlgItem(hWnd, ID_MESSAGEWIN_LIST));
+
+	    if (id != LB_ERR) {
+	      int row =
+		ListBox_GetItemData(GetDlgItem(hWnd, ID_MESSAGEWIN_LIST),
+				    id);
+	      meswin_goto(row);
+	    }   
 	  }
 	  break;
 	case ID_MESSAGEWIN_POPUP:
 	  {
-	    int id,row;
-	    struct city *pcity;
-	    int x, y;   
-	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_MESSAGEWIN_LIST));
-	    if (id!=LB_ERR)
-	      {
-		row=ListBox_GetItemData(GetDlgItem(hWnd,ID_MESSAGEWIN_LIST),
-					id);
-		x = xpos[row];
-		y = ypos[row];
-		if((x || y) && (pcity=map_get_city(x,y))
-		   && (pcity->owner == game.player_idx)) {
-		  if (center_when_popup_city) {
-		    center_tile_mapcanvas(x,y);
-		  }
-		  popup_city_dialog(pcity, 0);
-		}                                   
-	      }
+	    int id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_MESSAGEWIN_LIST));
+	    if (id != LB_ERR) {
+	      int row =
+		  ListBox_GetItemData(GetDlgItem(hWnd, ID_MESSAGEWIN_LIST),
+				      id);
+	      meswin_popup_city(row);
+	    }
 	  }
 	  break;
 	}
@@ -237,110 +218,25 @@ bool is_meswin_open(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-
-
-/**************************************************************************
- This makes sure that the next two elements in string_ptrs etc are
- allocated for.  Two = one to be able to grow, and one for the sentinel
- in string_ptrs.
- Note update_meswin_dialog should always be called soon after this since
- it contains pointers to the memory we're reallocing here.
-**************************************************************************/
-static void meswin_allocate(void)
-{
-  int i;
-  
-  if (messages_total+2 > messages_alloc) {
-    messages_alloc = messages_total + 32;
-    string_ptrs = fc_realloc(string_ptrs, messages_alloc*sizeof(char*));
-    xpos = fc_realloc(xpos, messages_alloc*sizeof(int));
-    ypos = fc_realloc(ypos, messages_alloc*sizeof(int));
-    event = fc_realloc(event, messages_alloc*sizeof(int));
-    for( i=messages_total; i<messages_alloc; i++ ) {
-      string_ptrs[i] = NULL;
-      xpos[i] = 0;
-      ypos[i] = 0;
-      event[i] = E_NOEVENT;
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_clear_notify_window(void)
-{
-  int i;
-  meswin_allocate();
-  for (i = 0; i <messages_total; i++) {
-    free(string_ptrs[i]);
-    string_ptrs[i] = NULL;
-    xpos[i] = 0;
-    ypos[i] = 0;
-    event[i] = E_NOEVENT;
-  }
-  string_ptrs[0]=0;
-  messages_total = 0;
-  if(meswin_dlg) {
-    EnableWindow(GetDlgItem(meswin_dlg,ID_MESSAGEWIN_GOTO),FALSE);
-    EnableWindow(GetDlgItem(meswin_dlg,ID_MESSAGEWIN_POPUP),FALSE);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void real_add_notify_window(struct packet_generic_message *packet)
-{
-  char *s;
-  int nspc;
-  char *game_prefix1 = "Game: ";
-  char *game_prefix2 = _("Game: ");
-  int gp_len1 = strlen(game_prefix1);
-  int gp_len2 = strlen(game_prefix2);
-
-  meswin_allocate();
-  s = fc_malloc(strlen(packet->message) + 50);
-  if (strncmp(packet->message, game_prefix1, gp_len1) == 0) {
-    strcpy(s, packet->message + gp_len1);
-  } else if(strncmp(packet->message, game_prefix2, gp_len2) == 0) {
-    strcpy(s, packet->message + gp_len2);
-  } else {
-    strcpy(s, packet->message);
-  }
-
-  nspc=50-strlen(s);
-  if(nspc>0)
-    strncat(s, "                                                  ", nspc);
-  
-  xpos[messages_total] = packet->x;
-  ypos[messages_total] = packet->y;
-  event[messages_total]= packet->event;
-  string_ptrs[messages_total] = s;
-  messages_total++;
-  string_ptrs[messages_total] = 0;
-}
-
-
-/**************************************************************************
 
 **************************************************************************/
 void real_update_meswin_dialog(void)
 {
-  RECT rc;
-  int id;
-  int i;
-  HWND hLst;
+  int i, num = get_num_messages();
+  HWND hLst = GetDlgItem(meswin_dlg, ID_MESSAGEWIN_LIST);
+
   max_list_width = 0;
-  hLst = GetDlgItem(meswin_dlg, ID_MESSAGEWIN_LIST);
   ListBox_ResetContent(hLst);
-  for (i = 0; i < messages_total; i++) {
-    id = ListBox_AddString(hLst, string_ptrs[i]);
+
+  for (i = 0; i < num; i++) {
+    int id = ListBox_AddString(hLst, get_message(i)->descr);
+    RECT rc;
+
     ListBox_SetItemData(hLst, id, i);
     ListBox_GetItemRect(hLst, id, &rc);
     max_list_width = MAX(max_list_width, rc.right - rc.left);
   }
   max_list_width += 20;
+  EnableWindow(GetDlgItem(meswin_dlg, ID_MESSAGEWIN_GOTO), FALSE);
+  EnableWindow(GetDlgItem(meswin_dlg, ID_MESSAGEWIN_POPUP), FALSE);
 }
