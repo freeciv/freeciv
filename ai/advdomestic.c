@@ -135,7 +135,7 @@ int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_
            city_got_building(pcity, B_NUCLEAR) ||
            id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
 
-  if (!city_got_building(pcity, B_MASS) || id == B_MASS) {
+  if (!city_got_building(pcity, B_MASS) && id != B_MASS) {
     if (get_invention(pplayer, A_INDUSTRIALIZATION)==TECH_KNOWN)  mod=1;
     if (get_invention(pplayer, A_AUTOMOBILE)==TECH_KNOWN) mod=2;
     if (get_invention(pplayer, A_MASS)==TECH_KNOWN) mod=3;
@@ -149,11 +149,13 @@ int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_
   if (pcity->pollution > 0) {
     a = amortize(b, 100 / pcity->pollution);
     c = ((a * b) / (MAX(1, b - a)))>>6;
+printf("City: %s, Pollu: %d, cost: %d ", pcity->name, pcity->pollution, c);
+printf("Id: %d, P: %d\n", id, p);
   } else c = 0;
   if (p) {
     a = amortize(b, 100 / p);
     c -= ((a * b) / (MAX(1, b - a)))>>6;
-  }
+  } 
   return(c); /* benefit or cost of this building */
 }
  
@@ -501,7 +503,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
         map_get_continent(punit->x, punit->y) == con) vans++;
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, acity)
-    if (acity->is_building_unit &&
+    if (acity->is_building_unit && acity->shield_stock >= 50 &&
         unit_flag(acity->currently_building, F_CARAVAN) &&
         map_get_continent(acity->x, acity->y) == con) vans++;
   city_list_iterate_end;
@@ -518,7 +520,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       i = pcity->ai.distance_to_wonder_city * 8 / (can_build_unit(pcity, U_FREIGHT) ? 6 : 3);
       want -= i;
 /* value of 8 is a total guess and could be wrong, but it's better than 0 -- Syela */
-      if (can_build_unit(pcity, U_CARAVAN)) {
+      if (can_build_unit_direct(pcity, U_CARAVAN)) {
         if (want > choice->want) {
           if (can_build_unit(pcity, U_FREIGHT)) choice->choice = U_FREIGHT;
           else {
