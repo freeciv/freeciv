@@ -87,39 +87,20 @@ static int logdebug_check(const char *file, int line)
 #define logdebug_suppress_warning
 #endif
 
-/* For GCC we use a variadic macro; for others we take
-   the performance hit of a function to get variadic args:
-*/
-#ifdef __GNUC__
 #ifdef DEBUG
-#define freelog(level, args...) do { \
-  if ((level) != LOG_DEBUG || logdebug_check(__FILE__, __LINE__)) { \
-    real_freelog((level), args); \
-  } \
-} while(FALSE) 
+#  define freelog(level, ...)                                             \
+  do {                                                                      \
+    if ((level) != LOG_DEBUG || logdebug_check(__FILE__, __LINE__)) {       \
+      real_freelog((level), __VA_ARGS__);                                   \
+    }                                                                       \
+  } while(FALSE)
 #else
-#define freelog(level, args...) do { \
-  if ((level) != LOG_DEBUG) { \
-    real_freelog((level), args); } \
-} while(FALSE) 
+#  define freelog(level, ...)                                             \
+  do {                                                                      \
+    if ((level) != LOG_DEBUG) {                                             \
+      real_freelog((level), __VA_ARGS__);                                   \
+    }                                                                       \
+  } while(FALSE) 
 #endif  /* DEBUG */
-#else
-/* non-GCC: */
-static void freelog(int level, const char *message, ...)
-{
-  bool log_this; 
-#ifdef DEBUG
-  log_this = (level != LOG_DEBUG || logdebug_check(__FILE__, __LINE__));
-#else
-  log_this = (level != LOG_DEBUG);
-#endif
-  if (log_this) {
-    va_list args;
-    va_start(args, message);
-    vreal_freelog(level, message, args);
-    va_end(args);
-  }
-}
-#endif /* __GNUC__ */
 
 #endif  /* FC__LOG_H */
