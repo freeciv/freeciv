@@ -147,6 +147,47 @@ void get_city_dialog_production(struct city *pcity,
 
 
 /**************************************************************************
+ Pretty sprints the info about a production (name, info, cost, turns
+ to build) into a single text string.
+
+ This is very similar to get_city_dialog_production_row; the
+ difference is that instead of placing the data into an array of
+ strings it all goes into one long string.  This means it can be used
+ by frontends that do not use a tabled structure, but it also gives
+ less flexibility.
+**************************************************************************/
+void get_city_dialog_production_full(char *buffer, size_t buffer_len,
+				     int id, bool is_unit,
+				     struct city *pcity)
+{
+  if (!is_unit && id == B_CAPITAL) {
+    my_snprintf(buffer, buffer_len,
+		"%s (XX) %d/turn",
+		get_impr_name_ex(pcity, id), pcity->shield_surplus);
+  } else {
+    int turns = city_turns_to_build(pcity, id, is_unit, TRUE);
+    char *name;
+    int cost;
+
+    if (is_unit) {
+      name = get_unit_name(id);
+      cost = get_unit_type(id)->build_cost;
+    } else {
+      name = get_impr_name_ex(pcity, id);
+      cost = get_improvement_type(id)->build_cost;
+    }
+
+    if (turns < 999) {
+      my_snprintf(buffer, buffer_len,
+		  PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
+		  name, cost, turns);
+    } else {
+      my_snprintf(buffer, buffer_len, "%s (%d) never", name, cost);
+    }
+  }
+}
+
+/**************************************************************************
  Pretty sprints the info about a production in 4 columns (name, info,
  cost, turns to build). The columns must each have a size of
  column_size bytes.

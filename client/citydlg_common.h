@@ -21,6 +21,9 @@ void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y);
 
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);
+void get_city_dialog_production_full(char *buffer, size_t buffer_len,
+				     int id, bool is_unit,
+				     struct city *pcity);
 void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 				    bool is_unit, struct city *pcity);
 

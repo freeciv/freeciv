@@ -48,7 +48,7 @@
 #include "support.h"
 
 #include "cityrep.h"
-#include "clinet.h"
+#include "citydlg.h"
 #include "colors.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "dialogs.h"
@@ -60,13 +60,14 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "optiondlg.h"		/* for toggle_callback */
-#include "options.h"
 #include "repodlgs.h"
-#include "tilespec.h"
 #include "wldlg.h"
-#include "climisc.h"
 
-#include "citydlg.h"
+#include "citydlg_common.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "options.h"
+#include "tilespec.h"
 
 #include "cityicon.ico"
 
@@ -2243,7 +2244,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Position x, y;
   Dimension width, height;
   struct city_dialog *pdialog;
-  int n, turns;
+  int n;
   
   pdialog=(struct city_dialog *)client_data;
   
@@ -2317,19 +2318,9 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   n = 0;
   impr_type_iterate(i) {
     if(can_build_improvement(pdialog->pcity, i)) {
-      if (i==B_CAPITAL) {
-	my_snprintf(pdialog->change_list_names[n],
-		    sizeof(pdialog->change_list_names[n]),
-		    "%s (XX)",
-		    get_impr_name_ex(pdialog->pcity, i));
-      } else {
-	turns = city_turns_to_build(pdialog->pcity, i, FALSE, TRUE);
-	my_snprintf(pdialog->change_list_names[n],
-		    sizeof(pdialog->change_list_names[n]),
-		    PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
-		    get_impr_name_ex(pdialog->pcity, i),
-		    get_improvement_type(i)->build_cost, turns);
-      }
+      get_city_dialog_production_full(pdialog->change_list_names[n],
+                                      sizeof(pdialog->change_list_names[n]),
+                                      i, FALSE, pdialog->pcity);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
@@ -2340,11 +2331,9 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   unit_type_iterate(i) {
     if(can_build_unit(pdialog->pcity, i)) {
-      turns = city_turns_to_build(pdialog->pcity, i, TRUE, TRUE);
-      my_snprintf(pdialog->change_list_names[n],
-		  sizeof(pdialog->change_list_names[n]),
-		  PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
-		  get_unit_name(i), get_unit_type(i)->build_cost, turns);
+      get_city_dialog_production_full(pdialog->change_list_names[n],
+                                      sizeof(pdialog->change_list_names[n]),
+                                      i, TRUE, pdialog->pcity);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
