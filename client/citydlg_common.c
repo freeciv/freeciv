@@ -240,7 +240,7 @@ void get_city_dialog_production(struct city *pcity,
     cost = impr_build_shield_cost(pcity->currently_building);
   }
 
-  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
 		MAX(0, pcity->shield_surplus));
   } else {

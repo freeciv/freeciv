@@ -21,4 +21,6 @@
 typedef signed short Continent_id;
 typedef enum tile_terrain_type Terrain_type_id;
 
+struct city;
+
 #endif /* FC__FC_TYPES_H */

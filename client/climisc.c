@@ -983,12 +983,14 @@ void cityrep_buy(struct city *pcity)
 {
   int value = city_buy_cost(pcity);
 
-  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     char buf[512];
 
+    assert(!pcity->is_building_unit);
     my_snprintf(buf, sizeof(buf),
 		_("Game: You don't buy %s in %s!"),
-		improvement_types[B_CAPITAL].name, pcity->name);
+		improvement_types[pcity->currently_building].name,
+		pcity->name);
     append_output_window(buf);
     return;
   }

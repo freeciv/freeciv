@@ -16,6 +16,8 @@
 struct impr_effect;
 
 #include "shared.h"		/* bool */
+
+#include "fc_types.h"
 #include "terrain.h"
 
 /* Range of effects (used in equiv_range and effect.range fields)
@@ -129,5 +131,8 @@ const char *effect_type_name(enum effect_type id);
 
 bool are_effects_equal(const struct impr_effect *const peff1,
 		       const struct impr_effect *const peff2);
+
+int get_current_construction_bonus(const struct city *pcity,
+				   enum effect_type effect);
 
 #endif  /* FC__EFFECTS_H */

@@ -213,3 +213,25 @@ bool are_effects_equal(const struct impr_effect *const peff1,
   T(aff_spec);
   return TRUE;
 }
+
+/**************************************************************************
+  Returns the effect bonus the currently-in-construction-item will provide.
+
+  Note this is not called get_current_production_bonus because that would
+  be confused with EFT_PROD_BONUS.
+
+  TODO:
+    1.  This function does not access the effect data directly; instead
+        it just associates the effect with a building.
+    2.  Only a few effects are supported.
+**************************************************************************/
+int get_current_construction_bonus(const struct city *pcity,
+				   enum effect_type effect)
+{
+  if (effect == EFT_PROD_TO_GOLD) {
+    return (!pcity->is_building_unit 
+	    && pcity->currently_building == B_CAPITAL) ? 1 : 0;
+  }
+  assert(0);
+  return 0;
+}

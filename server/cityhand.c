@@ -224,10 +224,11 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (!pcity->is_building_unit && pcity->currently_building==B_CAPITAL)  {
+  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+    assert(!pcity->is_building_unit);
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
                      _("Game: You don't buy %s!"),
-		     improvement_types[B_CAPITAL].name);
+		     improvement_types[pcity->currently_building].name);
     return;
   }
 

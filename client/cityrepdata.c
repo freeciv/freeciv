@@ -355,7 +355,7 @@ static char *cr_entry_building(struct city *pcity)
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "*" : _("(worklist)");
 	
-  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
 		get_impr_name_ex(pcity, pcity->currently_building),
 		MAX(0, pcity->shield_surplus), from_worklist);

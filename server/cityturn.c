@@ -904,7 +904,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
 
-  if (pcity->currently_building == B_CAPITAL) {
+  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(pcity->shield_surplus >= 0);
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
