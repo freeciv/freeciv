@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
-"POT-Creation-Date: 2003-01-30 19:43-0800\n"
-"PO-Revision-Date: 2003-02-02 02:13-0800\n"
+"POT-Creation-Date: 2003-02-03 23:35-0800\n"
+"PO-Revision-Date: 2003-02-04 00:20-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgid "Road"
 msgstr "道路"
 
 #: common/map.c:56 common/map.c:644 common/unit.c:548
-#: client/gui-gtk-2.0/menu.c:627 client/gui-gtk/menu.c:626
+#: client/gui-gtk-2.0/menu.c:625 client/gui-gtk/menu.c:626
 #: client/gui-mui/gui_main.c:222 client/gui-win32/menu.c:307
 #: client/gui-xaw/menu.c:139
 msgid "Irrigation"
@@ -171,7 +171,7 @@ msgstr "飛行場"
 msgid "Fallout"
 msgstr "死の灰"
 
-#: common/packets.c:3158
+#: common/packets.c:3171
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -363,7 +363,7 @@ msgstr "防御姿勢をとった"
 msgid "Sentry"
 msgstr "見張り番"
 
-#: common/unit.c:554 client/gui-gtk-2.0/menu.c:676 client/gui-gtk/menu.c:675
+#: common/unit.c:554 client/gui-gtk-2.0/menu.c:674 client/gui-gtk/menu.c:675
 #: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1673
 #: client/gui-win32/menu.c:333 client/gui-xaw/menu.c:173
 msgid "Pillage"
@@ -385,8 +385,8 @@ msgstr "変更"
 msgid "Patrol"
 msgstr "パトロール"
 
-#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2235
-#: client/gui-gtk/citydlg.c:2306 client/gui-mui/citydlg.c:2115
+#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2289
+#: client/gui-gtk/citydlg.c:2301 client/gui-mui/citydlg.c:2115
 #: client/gui-win32/citydlg.c:1381 client/gui-xaw/citydlg.c:1430
 msgid "Unknown"
 msgstr "不明"
@@ -842,110 +842,110 @@ msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Game: %sは%sを援助できません。部隊は解散しました。"
 
 # clefs
-#: server/cityturn.c:925
+#: server/cityturn.c:927
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Game: %sで%sを建設中ですが、これはもう無意味です。"
 
-#: server/cityturn.c:962
+#: server/cityturn.c:964
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Game: %sは%sを%sに建て終わりました。"
 
-#: server/cityturn.c:966 server/cityturn.c:972
+#: server/cityturn.c:968 server/cityturn.c:974
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%1$s は %3$s に %2$s を建てました。"
 
-#: server/cityturn.c:978
+#: server/cityturn.c:980
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Game: %sで%sを建て終わりました。"
 
-#: server/cityturn.c:985
+#: server/cityturn.c:987
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Game: %sは研究を加速させます。即座に科学を2つ覚えます。"
 
-#: server/cityturn.c:1001
+#: server/cityturn.c:1003
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Game: %1$sは%4$sから%2$sと%3$sを得ました。"
 
-#: server/cityturn.c:1008
+#: server/cityturn.c:1010
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Game: %sは宇宙船の製作を開始しました!"
 
-#: server/cityturn.c:1051
+#: server/cityturn.c:1053
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Game: %sではまだ%sを作ることができません。"
 
-#: server/cityturn.c:1078
+#: server/cityturn.c:1080
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Game: %sで%sを作り終えました。"
 
-#: server/cityturn.c:1082
+#: server/cityturn.c:1084
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%1$s は %3$s (%4$i,%5$i) に %2$s を建てました。"
 
 # yasu, ama
-#: server/cityturn.c:1121
+#: server/cityturn.c:1123
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Game: %2$sで%1$sを維持できません。建物を売りました。"
 
-#: server/cityturn.c:1157
+#: server/cityturn.c:1159
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Game: 公害が%sへ広がりつつあります。"
 
-#: server/cityturn.c:1289
+#: server/cityturn.c:1291
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Game: %sを愛する日が%sで催されました。"
 
-#: server/cityturn.c:1297
+#: server/cityturn.c:1299
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Game: %sを愛する日が%sで中止されました。"
 
-#: server/cityturn.c:1329
+#: server/cityturn.c:1331
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Game: %sで市民が混乱しています。"
 
-#: server/cityturn.c:1332
+#: server/cityturn.c:1334
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Game: %sで市民の混乱が続いています。"
 
-#: server/cityturn.c:1338
+#: server/cityturn.c:1340
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Game: %sの秩序が復活しました。"
 
 # yasu
-#: server/cityturn.c:1346
+#: server/cityturn.c:1348
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Game: 人々はあなたの%sを投げ捨てました。国は騒乱に陥ってます。"
 
 # yasu
-#: server/cityturn.c:1370
+#: server/cityturn.c:1372
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr "Game: %sはまだ%sを建設できません。唯一の都市を解散できません。"
 
-#: server/cityturn.c:1387
+#: server/cityturn.c:1389
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Game: %sは解散して%sになりました。"
 
-#: server/cityturn.c:1389
+#: server/cityturn.c:1391
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%5$sによって%1$s (%2$i, %3$i)は解散させられ、%4$sになりました"
@@ -2243,19 +2243,19 @@ msgid "Ruleset datafile appears incompatible:"
 msgstr "ルールセット・データファイルに矛盾があります:"
 
 #: server/ruleset.c:175 server/ruleset.c:183 client/audio.c:252
-#: client/audio.c:260 client/tilespec.c:201 client/tilespec.c:209
+#: client/audio.c:260 client/tilespec.c:199 client/tilespec.c:207
 #, c-format
 msgid "file: \"%s\""
 msgstr "ファイル: \"%s\""
 
 #: server/ruleset.c:176 server/ruleset.c:184 client/audio.c:253
-#: client/audio.c:261 client/tilespec.c:202 client/tilespec.c:210
+#: client/audio.c:261 client/tilespec.c:200 client/tilespec.c:208
 #, c-format
 msgid "file options: %s"
 msgstr "ファイルオプション: %s"
 
 #: server/ruleset.c:177 server/ruleset.c:185 client/audio.c:254
-#: client/audio.c:262 client/tilespec.c:203 client/tilespec.c:211
+#: client/audio.c:262 client/tilespec.c:201 client/tilespec.c:209
 #, c-format
 msgid "supported options: %s"
 msgstr "サポートされるオプション: %s"
@@ -2265,7 +2265,7 @@ msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr ""
 "ルールセット・データファイルは、サポートしていない必須オプションを要求します:"
 
-#: server/ruleset.c:2746
+#: server/ruleset.c:2765
 msgid "Loading rulesets"
 msgstr "ルールセットをロードしています"
 
@@ -3478,7 +3478,9 @@ msgstr "PING 間の秒数"
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
-msgstr "civserver はここで指定した秒数経過するたびに、 PING をクライアントに送ります。"
+msgstr ""
+"civserver はここで指定した秒数経過するたびに、 PING をクライアントに送りま"
+"す。"
 
 #: server/stdinhand.c:737
 msgid "Time to cut a client"
@@ -5505,7 +5507,7 @@ msgstr[0] "%3d ターン"
 
 #: client/citydlg_common.c:158 client/citydlg_common.c:276
 #: client/agents/cma_fec.c:264 client/agents/cma_fec.c:298
-#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk/citydlg.c:1727
+#: client/gui-gtk-2.0/citydlg.c:1710 client/gui-gtk/citydlg.c:1727
 #: client/gui-mui/citydlg.c:108 client/gui-mui/citydlg.c:143
 #: client/gui-mui/citydlg.c:1901
 msgid "never"
@@ -5599,7 +5601,7 @@ msgid "Concise *=Rapture, X=Disorder"
 msgstr "簡略表示 *=歓喜, X=混乱"
 
 #: client/cityrepdata.c:421 client/gui-mui/citydlg.c:1435
-#: client/gui-xaw/citydlg.c:2531
+#: client/gui-xaw/citydlg.c:2529
 msgid "Workers"
 msgstr "労働者"
 
@@ -5659,7 +5661,7 @@ msgstr "芸人, 科学者, 徴税者"
 msgid "?Entertainers:E"
 msgstr "?Entertainers:芸"
 
-#: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:1266
+#: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:1274
 #: client/gui-gtk/citydlg.c:1282
 msgid "Entertainers"
 msgstr "芸人"
@@ -5668,9 +5670,9 @@ msgstr "芸人"
 msgid "?Scientists:S"
 msgstr "?Scientists:科"
 
-#: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:1267
+#: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:1275
 #: client/gui-gtk/citydlg.c:1283 client/gui-mui/citydlg.c:1436
-#: client/gui-win32/citydlg.c:2178 client/gui-xaw/citydlg.c:2531
+#: client/gui-win32/citydlg.c:2178 client/gui-xaw/citydlg.c:2529
 msgid "Scientists"
 msgstr "科学者"
 
@@ -5678,9 +5680,9 @@ msgstr "科学者"
 msgid "?Taxmen:T"
 msgstr "?Taxmen:税"
 
-#: client/cityrepdata.c:441 client/gui-gtk-2.0/citydlg.c:1268
+#: client/cityrepdata.c:441 client/gui-gtk-2.0/citydlg.c:1276
 #: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1437
-#: client/gui-win32/citydlg.c:2180 client/gui-xaw/citydlg.c:2531
+#: client/gui-win32/citydlg.c:2180 client/gui-xaw/citydlg.c:2529
 msgid "Taxmen"
 msgstr "徴税者"
 
@@ -5707,7 +5709,7 @@ msgid "Best defending units"
 msgstr ""
 
 #: client/cityrepdata.c:447 client/cityrepdata.c:449
-#: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:639
+#: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:637
 #: client/gui-gtk-2.0/repodlgs.c:868 client/gui-gtk/cityrep.c:560
 #: client/gui-gtk/menu.c:638 client/gui-gtk/repodlgs.c:829
 #: client/gui-mui/citydlg.c:1441 client/gui-mui/gui_main.c:228
@@ -5720,23 +5722,20 @@ msgid "Units"
 msgstr "部隊"
 
 #: client/cityrepdata.c:447
-#, fuzzy
 msgid "?Supported (units):Sup"
-msgstr "支援されている部隊:"
+msgstr "?Supported (units):支援"
 
 #: client/cityrepdata.c:448
 msgid "Number of units supported"
-msgstr ""
+msgstr "部隊の数: 支援"
 
 #: client/cityrepdata.c:449
-#, fuzzy
 msgid "?Present (units):Prs"
-msgstr "都市にいる部隊: %d"
+msgstr "?Present (units):存在"
 
 #: client/cityrepdata.c:450
-#, fuzzy
 msgid "Number of units present"
-msgstr "都市にいる部隊"
+msgstr "部隊の数: 存在"
 
 #: client/cityrepdata.c:452
 msgid "Surplus"
@@ -5847,8 +5846,8 @@ msgstr "?pollution:公"
 msgid "Grow"
 msgstr ""
 
-#: client/cityrepdata.c:477 client/gui-gtk-2.0/citydlg.c:2860
-#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2959
+#: client/cityrepdata.c:477 client/gui-gtk-2.0/citydlg.c:2995
+#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:320 client/gui-win32/citydlg.c:1200
 #: client/gui-win32/wldlg.c:682
 msgid "Turns"
@@ -7000,51 +6999,56 @@ msgstr "オフ"
 msgid "Game: Revolution finished"
 msgstr "Game: 革命が終了しました"
 
+#: client/packhand.c:2188
+#, fuzzy
+msgid "Other"
+msgstr "十月"
+
 #: client/plrdlg_common.c:80
 #, c-format
 msgid "%6d.%02d ms"
 msgstr ""
 
-#: client/tilespec.c:180
+#: client/tilespec.c:178
 msgid "No useable default tileset found, aborting!"
 msgstr "利用可能なデフォルト・タイルセットが見つかりません。中断しています!"
 
-#: client/tilespec.c:183
+#: client/tilespec.c:181
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "\"%s\" タイルセットを試みています。"
 
-#: client/tilespec.c:200
+#: client/tilespec.c:198
 #, c-format
 msgid "%s file appears incompatible:"
 msgstr "%s ファイルが非互換のように思えます:"
 
-#: client/tilespec.c:207
+#: client/tilespec.c:205
 #, c-format
 msgid "%s file claims required option(s) which we don't support:"
 msgstr "%s ファイルはサポートしていない必須オプションを要求します:"
 
 # clefs
-#: client/tilespec.c:240
+#: client/tilespec.c:238
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr ""
 "%s に対応する、サポートしているグラフィックファイルの拡張子をみつけられません"
 "でした。"
 
-#: client/tilespec.c:393 client/tilespec.c:497
+#: client/tilespec.c:391 client/tilespec.c:492
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "\"%s\" を開けません。"
 
-#: client/tilespec.c:402
+#: client/tilespec.c:400
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "クライアントは等角タイルセットをサポートしていません。かわりにデフォルトのタ"
 "イルセットを使います。"
 
-#: client/tilespec.c:411
+#: client/tilespec.c:409
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -7052,7 +7056,7 @@ msgstr ""
 "クライアントは頭上ビュー・タイルセットをサポートしていません。かわりにデフォ"
 "ルトタイルセットを使います。"
 
-#: client/tilespec.c:525
+#: client/tilespec.c:520
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "スペックファイル %s 用のグラフィックスファイルがロードできません"
@@ -7100,7 +7104,7 @@ msgid "custom"
 msgstr "自在"
 
 #: client/agents/cma_fec.c:284 client/agents/cma_fec.c:327
-#: client/gui-gtk-2.0/citydlg.c:1701 client/gui-gtk/citydlg.c:1732
+#: client/gui-gtk-2.0/citydlg.c:1715 client/gui-gtk/citydlg.c:1732
 #: client/gui-mui/citydlg.c:128 client/gui-mui/citydlg.c:172
 #: client/gui-mui/citydlg.c:1905
 #, c-format
@@ -7214,339 +7218,312 @@ msgstr "都市情報"
 msgid "City map"
 msgstr "都市地図"
 
-#: client/gui-gtk-2.0/citydlg.c:845 client/gui-gtk/citydlg.c:852
+#: client/gui-gtk-2.0/citydlg.c:844 client/gui-gtk/citydlg.c:852
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d ターン"
 
-#: client/gui-gtk-2.0/citydlg.c:847 client/gui-gtk-2.0/cityrep.c:648
+#: client/gui-gtk-2.0/citydlg.c:846 client/gui-gtk-2.0/cityrep.c:648
 #: client/gui-gtk/citydlg.c:855 client/gui-gtk/cityrep.c:649
 #: client/gui-mui/citydlg.c:1535 client/gui-mui/cityrep.c:392
 msgid "_Buy"
 msgstr "買う(_B)"
 
-#: client/gui-gtk-2.0/citydlg.c:851
+#: client/gui-gtk-2.0/citydlg.c:850
 msgid "Chang_e"
 msgstr "変更(_E)"
 
-#: client/gui-gtk-2.0/citydlg.c:893 client/gui-gtk-2.0/citydlg.c:1965
-#: client/gui-gtk-2.0/citydlg.c:3119 client/gui-gtk/citydlg.c:902
-#: client/gui-gtk/citydlg.c:2000 client/gui-gtk/citydlg.c:3222
+#: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk-2.0/citydlg.c:1979
+#: client/gui-gtk-2.0/citydlg.c:3252 client/gui-gtk/citydlg.c:902
+#: client/gui-gtk/citydlg.c:2000 client/gui-gtk/citydlg.c:3217
 #: client/gui-win32/citydlg.c:860
 msgid "Sell"
 msgstr "売る"
 
-#: client/gui-gtk-2.0/citydlg.c:922 client/gui-gtk-2.0/menu.c:721
-#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk/citydlg.c:935
+#: client/gui-gtk-2.0/citydlg.c:921 client/gui-gtk-2.0/menu.c:719
+#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/citydlg.c:935
 #: client/gui-gtk/menu.c:720 client/gui-gtk/menu.c:763
 #: client/gui-win32/menu.c:356 client/gui-win32/menu.c:375
 msgid "_Units"
 msgstr "部隊(_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:964 client/gui-gtk/citydlg.c:977
+#: client/gui-gtk-2.0/citydlg.c:963 client/gui-gtk/citydlg.c:977
 #: client/gui-win32/citydlg.c:880
 msgid "Supported units"
 msgstr "援助されている部隊"
 
-#: client/gui-gtk-2.0/citydlg.c:968 client/gui-gtk/citydlg.c:981
+#: client/gui-gtk-2.0/citydlg.c:967 client/gui-gtk/citydlg.c:981
 #: client/gui-mui/citydlg.c:1515 client/gui-mui/citydlg.c:1563
 #: client/gui-win32/citydlg.c:886
 msgid "Units present"
 msgstr "都市にいる部隊"
 
-#: client/gui-gtk-2.0/citydlg.c:1100 client/gui-gtk/citydlg.c:1111
+#: client/gui-gtk-2.0/citydlg.c:1108 client/gui-gtk/citydlg.c:1111
 msgid "Acti_vate present units"
 msgstr "都市の部隊を起こす(_V)"
 
-#: client/gui-gtk-2.0/citydlg.c:1106 client/gui-gtk/citydlg.c:1117
+#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk/citydlg.c:1117
 msgid "_Sentry idle units"
 msgstr "手空き部隊を見張り番へ(_S)"
 
-#: client/gui-gtk-2.0/citydlg.c:1112 client/gui-gtk/citydlg.c:1123
+#: client/gui-gtk-2.0/citydlg.c:1120 client/gui-gtk/citydlg.c:1123
 msgid "_List present units"
 msgstr "都市にいる部隊をリスト(_L)"
 
-#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk/citydlg.c:1148
+#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk/citydlg.c:1148
 msgid "_Worklist"
 msgstr "作業リスト(_W)"
 
-#: client/gui-gtk-2.0/citydlg.c:1160 client/gui-gtk/citydlg.c:1171
+#: client/gui-gtk-2.0/citydlg.c:1168 client/gui-gtk/citydlg.c:1171
 msgid "_Happiness"
 msgstr "幸福(_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:1209 client/gui-gtk/citydlg.c:1225
+#: client/gui-gtk-2.0/citydlg.c:1217 client/gui-gtk/citydlg.c:1225
 msgid "CM_A"
 msgstr "CM_A"
 
-#: client/gui-gtk-2.0/citydlg.c:1231 client/gui-gtk/citydlg.c:1247
+#: client/gui-gtk-2.0/citydlg.c:1239 client/gui-gtk/citydlg.c:1247
 msgid "_Trade Routes"
 msgstr "交易路(_T)"
 
-#: client/gui-gtk-2.0/citydlg.c:1241 client/gui-gtk/citydlg.c:1257
+#: client/gui-gtk-2.0/citydlg.c:1249 client/gui-gtk/citydlg.c:1257
 msgid "Established trade routes"
 msgstr "確立済み交易路"
 
-#: client/gui-gtk-2.0/citydlg.c:1263 client/gui-gtk/citydlg.c:1279
+#: client/gui-gtk-2.0/citydlg.c:1271 client/gui-gtk/citydlg.c:1279
 msgid "_Misc. Settings"
 msgstr "その他(_M)"
 
-#: client/gui-gtk-2.0/citydlg.c:1272 client/gui-gtk/citydlg.c:1288
+#: client/gui-gtk-2.0/citydlg.c:1280 client/gui-gtk/citydlg.c:1288
 #: client/gui-mui/citydlg.c:1716 client/gui-mui/citydlg.c:1717
 msgid "Land units"
 msgstr "地上部隊"
 
-#: client/gui-gtk-2.0/citydlg.c:1273 client/gui-gtk/citydlg.c:1289
+#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1289
 #: client/gui-mui/citydlg.c:1719 client/gui-mui/citydlg.c:1720
 msgid "Sea units"
 msgstr "海上部隊"
 
-#: client/gui-gtk-2.0/citydlg.c:1274 client/gui-gtk/citydlg.c:1290
+#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1290
 #: client/gui-mui/citydlg.c:1722 client/gui-mui/citydlg.c:1723
 msgid "Helicopters"
 msgstr "ヘリコプター"
 
-#: client/gui-gtk-2.0/citydlg.c:1275 client/gui-gtk/citydlg.c:1291
+#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1291
 #: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
 msgid "Air units"
 msgstr "空中部隊"
 
-#: client/gui-gtk-2.0/citydlg.c:1276 client/gui-gtk/citydlg.c:1292
+#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1292
 #: client/gui-win32/citydlg.c:2183
 msgid "Disband if build settler at size 1"
 msgstr "大きさ1の時に開拓者を作ったら解散"
 
-#: client/gui-gtk-2.0/citydlg.c:1280 client/gui-gtk/citydlg.c:1296
+#: client/gui-gtk-2.0/citydlg.c:1288 client/gui-gtk/citydlg.c:1296
 #: client/gui-mui/citydlg.c:1448
 msgid "City Overview page"
 msgstr "概観ページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1297
+#: client/gui-gtk-2.0/citydlg.c:1289 client/gui-gtk/citydlg.c:1297
 #: client/gui-mui/citydlg.c:1449
 msgid "Units page"
 msgstr "部隊ページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1298
+#: client/gui-gtk-2.0/citydlg.c:1290 client/gui-gtk/citydlg.c:1298
 #: client/gui-mui/citydlg.c:1450
 msgid "Worklist page"
 msgstr "作業リストページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1299
+#: client/gui-gtk-2.0/citydlg.c:1291 client/gui-gtk/citydlg.c:1299
 #: client/gui-mui/citydlg.c:1451
 msgid "Happiness page"
 msgstr "幸福ページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1300
+#: client/gui-gtk-2.0/citydlg.c:1292 client/gui-gtk/citydlg.c:1300
 #: client/gui-mui/citydlg.c:1452
 msgid "CMA page"
 msgstr "CMAページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1285 client/gui-gtk/citydlg.c:1301
+#: client/gui-gtk-2.0/citydlg.c:1293 client/gui-gtk/citydlg.c:1301
 #: client/gui-mui/citydlg.c:1453
 msgid "Trade Routes page"
 msgstr "交易路ページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1286 client/gui-gtk/citydlg.c:1302
+#: client/gui-gtk-2.0/citydlg.c:1294 client/gui-gtk/citydlg.c:1302
 #: client/gui-mui/citydlg.c:1454
 msgid "This Misc. Settings page"
 msgstr "その他ページ(これ)"
 
-#: client/gui-gtk-2.0/citydlg.c:1287 client/gui-gtk/citydlg.c:1303
+#: client/gui-gtk-2.0/citydlg.c:1295 client/gui-gtk/citydlg.c:1303
 #: client/gui-mui/citydlg.c:1455
 msgid "Last active page"
 msgstr "最後に見たページ"
 
-#: client/gui-gtk-2.0/citydlg.c:1305 client/gui-gtk/citydlg.c:1321
+#: client/gui-gtk-2.0/citydlg.c:1313 client/gui-gtk/citydlg.c:1321
 msgid "City options"
 msgstr "都市オプション"
 
-#: client/gui-gtk-2.0/citydlg.c:1314 client/gui-gtk/citydlg.c:1330
+#: client/gui-gtk-2.0/citydlg.c:1322 client/gui-gtk/citydlg.c:1330
 #: client/gui-mui/citydlg.c:1714
 msgid "Auto attack vs"
 msgstr "自動攻撃の相手"
 
-#: client/gui-gtk-2.0/citydlg.c:1352 client/gui-gtk/citydlg.c:1367
+#: client/gui-gtk-2.0/citydlg.c:1360 client/gui-gtk/citydlg.c:1367
 #: client/gui-mui/citydlg.c:1712 client/gui-win32/citydlg.c:2175
 msgid "New citizens are"
 msgstr "新しい市民は"
 
-#: client/gui-gtk-2.0/citydlg.c:1373 client/gui-gtk/citydlg.c:1387
+#: client/gui-gtk-2.0/citydlg.c:1381 client/gui-gtk/citydlg.c:1387
 msgid "City name"
 msgstr "都市名"
 
-#: client/gui-gtk-2.0/citydlg.c:1379 client/gui-gtk-2.0/wldlg.c:221
+#: client/gui-gtk-2.0/citydlg.c:1387 client/gui-gtk-2.0/wldlg.c:221
 #: client/gui-gtk/citydlg.c:1393 client/gui-gtk/wldlg.c:223
 #: client/gui-win32/citydlg.c:894 client/gui-win32/wldlg.c:309
 #: data/Freeciv:1942 data/Freeciv:2964
 msgid "Rename"
 msgstr "改名"
 
-#: client/gui-gtk-2.0/citydlg.c:1389 client/gui-gtk/citydlg.c:1405
+#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk/citydlg.c:1405
 #: client/gui-mui/citydlg.c:1737
 msgid "Next time open"
 msgstr "次回表示"
 
-#: client/gui-gtk-2.0/citydlg.c:1545 client/gui-gtk/citydlg.c:1566
+#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk/citydlg.c:1566
 msgid "_Prev city"
 msgstr "前の都市へ(_P)"
 
-#: client/gui-gtk-2.0/citydlg.c:1550 client/gui-gtk/citydlg.c:1574
+#: client/gui-gtk-2.0/citydlg.c:1564 client/gui-gtk/citydlg.c:1574
 msgid "_Next city"
 msgstr "次の都市へ(_N)"
 
-#: client/gui-gtk-2.0/citydlg.c:1602 client/gui-gtk/citydlg.c:1634
-#: client/gui-xaw/citydlg.c:1814
+#: client/gui-gtk-2.0/citydlg.c:1616 client/gui-gtk/citydlg.c:1634
+#: client/gui-xaw/citydlg.c:1812
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s 市民"
 
-#: client/gui-gtk-2.0/citydlg.c:1607 client/gui-gtk/citydlg.c:1639
+#: client/gui-gtk-2.0/citydlg.c:1621 client/gui-gtk/citydlg.c:1639
 #: client/gui-mui/citydlg.c:2140
 msgid " - DISORDER"
 msgstr " - 混乱"
 
-#: client/gui-gtk-2.0/citydlg.c:1609 client/gui-gtk/citydlg.c:1641
+#: client/gui-gtk-2.0/citydlg.c:1623 client/gui-gtk/citydlg.c:1641
 #: client/gui-mui/citydlg.c:2142
 msgid " - celebrating"
 msgstr " - 祝典"
 
-#: client/gui-gtk-2.0/citydlg.c:1611 client/gui-gtk/citydlg.c:1643
+#: client/gui-gtk-2.0/citydlg.c:1625 client/gui-gtk/citydlg.c:1643
 #: client/gui-mui/citydlg.c:2144
 msgid " - happy"
 msgstr " - 幸福"
 
 # clefs
-#: client/gui-gtk-2.0/citydlg.c:1694 client/gui-gtk/citydlg.c:1725
+#: client/gui-gtk-2.0/citydlg.c:1708 client/gui-gtk/citydlg.c:1725
 #: client/gui-mui/citydlg.c:1899
 msgid "blocked"
 msgstr "拡大不能"
 
-#: client/gui-gtk-2.0/citydlg.c:1896 client/gui-gtk/citydlg.c:1929
+#: client/gui-gtk-2.0/citydlg.c:1910 client/gui-gtk/citydlg.c:1929
 msgid " (worklist)"
 msgstr " (作業リスト)"
 
-#: client/gui-gtk-2.0/citydlg.c:1961 client/gui-gtk/citydlg.c:1995
+#: client/gui-gtk-2.0/citydlg.c:1975 client/gui-gtk/citydlg.c:1995
 #: client/gui-win32/citydlg.c:278
 #, c-format
 msgid "Upkeep (Total: %d)"
 msgstr "維持(計: %d)"
 
-#: client/gui-gtk-2.0/citydlg.c:2093
+#: client/gui-gtk-2.0/citydlg.c:2121
 #, c-format
 msgid "Supported units: %d"
 msgstr "援助されている部隊: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2208
+#: client/gui-gtk-2.0/citydlg.c:2260
 #, c-format
 msgid "Present units: %d"
 msgstr "都市にいる部隊: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2235 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:2289 client/gui-gtk/citydlg.c:2301
 #: client/gui-mui/citydlg.c:2115 client/gui-win32/citydlg.c:1381
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2238 client/gui-gtk/citydlg.c:2309
+#: client/gui-gtk-2.0/citydlg.c:2292 client/gui-gtk/citydlg.c:2304
 #: client/gui-mui/citydlg.c:2118 client/gui-win32/citydlg.c:1384
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "%sとの交易は、交易%dです。\n"
 
-#: client/gui-gtk-2.0/citydlg.c:2244 client/gui-gtk/citydlg.c:2315
+#: client/gui-gtk-2.0/citydlg.c:2298 client/gui-gtk/citydlg.c:2310
 #: client/gui-mui/citydlg.c:2124 client/gui-win32/citydlg.c:1390
 msgid "No trade routes exist."
 msgstr "交易路は存在しません。"
 
-#: client/gui-gtk-2.0/citydlg.c:2247 client/gui-gtk/citydlg.c:2318
+#: client/gui-gtk-2.0/citydlg.c:2301 client/gui-gtk/citydlg.c:2313
 #: client/gui-mui/citydlg.c:2127 client/gui-win32/citydlg.c:1393
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "交易路による合計交易: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2404 client/gui-gtk-2.0/citydlg.c:2434
-#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2508
-#: client/gui-win32/citydlg.c:1625 client/gui-win32/citydlg.c:1653
-#: data/Freeciv:1163 data/Freeciv:1199
-msgid "Unit Commands"
-msgstr "部隊コマンド"
-
-#: client/gui-gtk-2.0/citydlg.c:2405 client/gui-gtk-2.0/citydlg.c:2435
-#: client/gui-gtk/citydlg.c:2478 client/gui-gtk/citydlg.c:2510
+#: client/gui-gtk-2.0/citydlg.c:2503 client/gui-gtk-2.0/citydlg.c:2555
+#: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2505
 #: client/gui-win32/citydlg.c:1627 client/gui-win32/citydlg.c:1655
 msgid "_Activate unit"
 msgstr "部隊を起こす(_A)"
 
-#: client/gui-gtk-2.0/citydlg.c:2406 client/gui-gtk-2.0/citydlg.c:2436
-#: client/gui-gtk/citydlg.c:2479 client/gui-gtk/citydlg.c:2511
+#: client/gui-gtk-2.0/citydlg.c:2509 client/gui-gtk-2.0/citydlg.c:2561
+#: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2506
 #: client/gui-win32/citydlg.c:1629 client/gui-win32/citydlg.c:1657
 msgid "Activate unit, _close dialog"
 msgstr "部隊を起こし、閉じる(_C)"
 
-#: client/gui-gtk-2.0/citydlg.c:2408 client/gui-gtk-2.0/citydlg.c:2441
-#: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2516
+#: client/gui-gtk-2.0/citydlg.c:2515 client/gui-gtk-2.0/citydlg.c:2589
+#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2511
 #: client/gui-win32/citydlg.c:1631 client/gui-win32/citydlg.c:1663
 msgid "_Disband unit"
 msgstr "部隊解散(_D)"
 
-#: client/gui-gtk-2.0/citydlg.c:2409 client/gui-gtk-2.0/citydlg.c:2446
-#: client/gui-gtk-2.0/dialogs.c:967 client/gui-gtk-2.0/dialogs.c:992
-#: client/gui-gtk-2.0/dialogs.c:1024 client/gui-gtk-2.0/gotodlg.c:124
-#: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2521
-#: client/gui-gtk/dialogs.c:1060 client/gui-gtk/dialogs.c:1086
-#: client/gui-gtk/dialogs.c:1119 client/gui-gtk/gotodlg.c:126
-#: client/gui-mui/citydlg.c:1321 client/gui-mui/cityrep.c:306
-#: client/gui-mui/dialogs.c:343 client/gui-mui/dialogs.c:440
-#: client/gui-mui/dialogs.c:840 client/gui-mui/dialogs.c:907
-#: client/gui-mui/dialogs.c:942 client/gui-mui/dialogs.c:1228
-#: client/gui-mui/dialogs.c:1318 client/gui-mui/finddlg.c:110
-#: client/gui-mui/gamedlgs.c:238 client/gui-mui/gamedlgs.c:330
-#: client/gui-mui/gotodlg.c:169 client/gui-mui/inputdlg.c:82
-#: client/gui-mui/messagedlg.c:91 client/gui-mui/worklistclass.c:717
-#: client/gui-win32/citydlg.c:1633 client/gui-win32/citydlg.c:1669
-#: client/gui-win32/dialogs.c:1636 client/gui-win32/dialogs.c:1658
-#: client/gui-win32/dialogs.c:1688
-msgid "_Cancel"
-msgstr "取り消し(_C)"
-
-#: client/gui-gtk-2.0/citydlg.c:2438 client/gui-gtk/citydlg.c:2513
+#: client/gui-gtk-2.0/citydlg.c:2567 client/gui-gtk/citydlg.c:2508
 #: client/gui-win32/citydlg.c:1659
 msgid "_Sentry unit"
 msgstr "見張り番(_S)"
 
 # yasu
-#: client/gui-gtk-2.0/citydlg.c:2440 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2578 client/gui-gtk/citydlg.c:2510
 #: client/gui-win32/citydlg.c:1661
 msgid "_Fortify unit"
 msgstr "防御姿勢(_F)"
 
-#: client/gui-gtk-2.0/citydlg.c:2443 client/gui-gtk/citydlg.c:2518
+#: client/gui-gtk-2.0/citydlg.c:2595 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1665
 msgid "Make new _homecity"
 msgstr "住人にする(_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:2445 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2605 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1667
 msgid "_Upgrade unit"
 msgstr "新型にする(_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:2635 client/gui-gtk/citydlg.c:2693
+#: client/gui-gtk-2.0/citydlg.c:2779 client/gui-gtk/citydlg.c:2688
 #: client/gui-mui/dialogs.c:1865 client/gui-win32/citydlg.c:1577
-#: client/gui-xaw/citydlg.c:2058
+#: client/gui-xaw/citydlg.c:2056
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "すみません。%sを新型にできません。"
 
-#: client/gui-gtk-2.0/citydlg.c:2637 client/gui-gtk-2.0/citydlg.c:2668
-#: client/gui-gtk/citydlg.c:2695 client/gui-gtk/citydlg.c:2718
+#: client/gui-gtk-2.0/citydlg.c:2781 client/gui-gtk-2.0/citydlg.c:2812
+#: client/gui-gtk/citydlg.c:2690 client/gui-gtk/citydlg.c:2713
 #: client/gui-mui/dialogs.c:1866 client/gui-mui/dialogs.c:1890
 #: client/gui-win32/citydlg.c:1578 client/gui-win32/citydlg.c:1602
 #: data/Freeciv:2419
 msgid "Upgrade Unit!"
 msgstr "新型にする"
 
-#: client/gui-gtk-2.0/citydlg.c:2648 client/gui-gtk/citydlg.c:2702
+#: client/gui-gtk-2.0/citydlg.c:2792 client/gui-gtk/citydlg.c:2697
 #: client/gui-mui/dialogs.c:1875 client/gui-win32/citydlg.c:1585
-#: client/gui-xaw/citydlg.c:2067
+#: client/gui-xaw/citydlg.c:2065
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -7555,8 +7532,8 @@ msgstr ""
 "%sを%sへ金%dで新型にしますか?\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2652 client/gui-gtk-2.0/repodlgs.c:1011
-#: client/gui-gtk/citydlg.c:2707 client/gui-gtk/repodlgs.c:942
+#: client/gui-gtk-2.0/citydlg.c:2796 client/gui-gtk-2.0/repodlgs.c:1011
+#: client/gui-gtk/citydlg.c:2702 client/gui-gtk/repodlgs.c:942
 #: client/gui-mui/dialogs.c:1879 client/gui-mui/repodlgs.c:773
 #: client/gui-win32/citydlg.c:1590 client/gui-win32/repodlgs.c:579
 #: data/Freeciv:2408
@@ -7564,9 +7541,9 @@ msgid "Upgrade Obsolete Units"
 msgstr "旧型部隊を新型にする"
 
 # ama, clefs
-#: client/gui-gtk-2.0/citydlg.c:2663 client/gui-gtk/citydlg.c:2714
+#: client/gui-gtk-2.0/citydlg.c:2807 client/gui-gtk/citydlg.c:2709
 #: client/gui-mui/dialogs.c:1885 client/gui-win32/citydlg.c:1597
-#: client/gui-xaw/citydlg.c:2077
+#: client/gui-xaw/citydlg.c:2075
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -7575,9 +7552,9 @@ msgstr ""
 "%1$sを%2$sへ新型にするには金%3$dが必要です。\n"
 "現在の資金は%4$dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2825 client/gui-gtk/citydlg.c:2905
+#: client/gui-gtk-2.0/citydlg.c:2961 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1034 client/gui-win32/citydlg.c:1003
-#: client/gui-xaw/citydlg.c:1997
+#: client/gui-xaw/citydlg.c:1995
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -7586,17 +7563,17 @@ msgstr ""
 "%sを金%dで買いますか?\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2827 client/gui-gtk-2.0/citydlg.c:2844
-#: client/gui-gtk/citydlg.c:2909 client/gui-gtk/citydlg.c:2919
+#: client/gui-gtk-2.0/citydlg.c:2963 client/gui-gtk-2.0/citydlg.c:2980
+#: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1037 client/gui-mui/citydlg.c:1047
 #: client/gui-win32/citydlg.c:1006 client/gui-win32/citydlg.c:1015
 #: data/Freeciv:2155 data/Freeciv:2185
 msgid "Buy It!"
 msgstr "買う!"
 
-#: client/gui-gtk-2.0/citydlg.c:2841 client/gui-gtk/citydlg.c:2915
+#: client/gui-gtk-2.0/citydlg.c:2977 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1044 client/gui-win32/citydlg.c:1012
-#: client/gui-xaw/citydlg.c:2006
+#: client/gui-xaw/citydlg.c:2004
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -7605,8 +7582,8 @@ msgstr ""
 "%sの費用は金%dです。\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/wldlg.c:309
-#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2959
+#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/wldlg.c:309
+#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:311 client/gui-gtk/wldlg.c:317
 #: client/gui-mui/citydlg.c:699 client/gui-mui/citydlg.c:728
 #: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1191
@@ -7614,8 +7591,8 @@ msgstr ""
 msgid "Type"
 msgstr "タイプ"
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/wldlg.c:310
-#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2959
+#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/wldlg.c:310
+#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:700 client/gui-mui/worklistclass.c:238
 #: client/gui-win32/citydlg.c:1194 client/gui-win32/wldlg.c:674
@@ -7623,9 +7600,9 @@ msgstr "タイプ"
 msgid "Info"
 msgstr "情報"
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/repodlgs.c:566
+#: client/gui-gtk-2.0/citydlg.c:2995 client/gui-gtk-2.0/repodlgs.c:566
 #: client/gui-gtk-2.0/wldlg.c:311 client/gui-gtk-2.0/wldlg.c:317
-#: client/gui-gtk/citydlg.c:2959 client/gui-gtk/repodlgs.c:575
+#: client/gui-gtk/citydlg.c:2954 client/gui-gtk/repodlgs.c:575
 #: client/gui-gtk/wldlg.c:313 client/gui-gtk/wldlg.c:319
 #: client/gui-mui/citydlg.c:702 client/gui-mui/repodlgs.c:479
 #: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1198
@@ -7634,27 +7611,27 @@ msgstr "情報"
 msgid "Cost"
 msgstr "経費"
 
-#: client/gui-gtk-2.0/citydlg.c:2873 client/gui-gtk/citydlg.c:2981
+#: client/gui-gtk-2.0/citydlg.c:3006 client/gui-gtk/citydlg.c:2976
 #: client/gui-win32/citydlg.c:1170 data/Freeciv:2014
 msgid "Change Production"
 msgstr "生産物の変更"
 
-#: client/gui-gtk-2.0/citydlg.c:3054 client/gui-gtk/citydlg.c:3172
+#: client/gui-gtk-2.0/citydlg.c:3187 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1072 client/gui-win32/citydlg.c:1061
-#: client/gui-xaw/citydlg.c:2434
+#: client/gui-xaw/citydlg.c:2432
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "金%2$dで%1$sを売りますか?"
 
-#: client/gui-gtk-2.0/citydlg.c:3058 client/gui-gtk/citydlg.c:3176
+#: client/gui-gtk-2.0/citydlg.c:3191 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1077 client/gui-win32/citydlg.c:1066
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "売る"
 
-#: client/gui-gtk-2.0/citydlg.c:3059 client/gui-gtk-2.0/cma_fe.c:575
-#: client/gui-gtk/citydlg.c:2709 client/gui-gtk/citydlg.c:2911
-#: client/gui-gtk/citydlg.c:3178 client/gui-gtk/cma_fe.c:569
+#: client/gui-gtk-2.0/citydlg.c:3192 client/gui-gtk-2.0/cma_fe.c:575
+#: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2906
+#: client/gui-gtk/citydlg.c:3173 client/gui-gtk/cma_fe.c:569
 #: client/gui-gtk/dialogs.c:417 client/gui-gtk/dialogs.c:983
 #: client/gui-gtk/dialogs.c:1283 client/gui-mui/citydlg.c:1038
 #: client/gui-mui/citydlg.c:1078 client/gui-mui/dialogs.c:515
@@ -7666,9 +7643,9 @@ msgstr "売る"
 msgid "_Yes"
 msgstr "はい(_Y)"
 
-#: client/gui-gtk-2.0/citydlg.c:3060 client/gui-gtk-2.0/cma_fe.c:577
-#: client/gui-gtk/citydlg.c:2710 client/gui-gtk/citydlg.c:2912
-#: client/gui-gtk/citydlg.c:3179 client/gui-gtk/cma_fe.c:572
+#: client/gui-gtk-2.0/citydlg.c:3193 client/gui-gtk-2.0/cma_fe.c:577
+#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2907
+#: client/gui-gtk/citydlg.c:3174 client/gui-gtk/cma_fe.c:572
 #: client/gui-gtk/dialogs.c:418 client/gui-gtk/dialogs.c:984
 #: client/gui-gtk/dialogs.c:1284 client/gui-mui/citydlg.c:1039
 #: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:516
@@ -7680,17 +7657,17 @@ msgstr "はい(_Y)"
 msgid "_No"
 msgstr "いいえ(_N)"
 
-#: client/gui-gtk-2.0/citydlg.c:3129 client/gui-gtk/citydlg.c:3232
+#: client/gui-gtk-2.0/citydlg.c:3262 client/gui-gtk/citydlg.c:3227
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "売る(金%d)"
 
-#: client/gui-gtk-2.0/citydlg.c:3230 client/gui-gtk/citydlg.c:3335
+#: client/gui-gtk-2.0/citydlg.c:3363 client/gui-gtk/citydlg.c:3330
 #: client/gui-win32/citydlg.c:1325 data/Freeciv:524
 msgid "Rename City"
 msgstr "都市名の変更"
 
-#: client/gui-gtk-2.0/citydlg.c:3232 client/gui-gtk/citydlg.c:3337
+#: client/gui-gtk-2.0/citydlg.c:3365 client/gui-gtk/citydlg.c:3332
 #: client/gui-win32/citydlg.c:1326 client/gui-xaw/citydlg.c:1387
 msgid "What should we rename the city to?"
 msgstr "新しい都市名を何と名づけますか?"
@@ -7708,7 +7685,7 @@ msgid "S_how..."
 msgstr "表示(_H)..."
 
 #: client/gui-gtk-2.0/cityrep.c:610 client/gui-gtk-2.0/diplodlg.c:392
-#: client/gui-gtk-2.0/diplodlg.c:404 client/gui-gtk-2.0/menu.c:637
+#: client/gui-gtk-2.0/diplodlg.c:404 client/gui-gtk-2.0/menu.c:635
 #: client/gui-gtk/cityrep.c:607 client/gui-gtk/diplodlg.c:394
 #: client/gui-gtk/diplodlg.c:406 client/gui-gtk/menu.c:636
 #: client/gui-mui/diplodlg.c:492 client/gui-mui/diplodlg.c:527
@@ -7742,10 +7719,10 @@ msgstr "再表示(_R)"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Game: %sには金%dかかりますが、金%dしか持っていません。"
 
-#: client/gui-gtk-2.0/cityrep.c:1084 client/gui-gtk-2.0/menu.c:621
-#: client/gui-gtk-2.0/menu.c:623 client/gui-gtk-2.0/menu.c:625
-#: client/gui-gtk-2.0/menu.c:627 client/gui-gtk-2.0/menu.c:629
-#: client/gui-gtk-2.0/menu.c:631 client/gui-gtk/cityrep.c:557
+#: client/gui-gtk-2.0/cityrep.c:1084 client/gui-gtk-2.0/menu.c:619
+#: client/gui-gtk-2.0/menu.c:621 client/gui-gtk-2.0/menu.c:623
+#: client/gui-gtk-2.0/menu.c:625 client/gui-gtk-2.0/menu.c:627
+#: client/gui-gtk-2.0/menu.c:629 client/gui-gtk/cityrep.c:557
 #: client/gui-gtk/menu.c:620 client/gui-gtk/menu.c:622
 #: client/gui-gtk/menu.c:624 client/gui-gtk/menu.c:626
 #: client/gui-gtk/menu.c:628 client/gui-gtk/menu.c:630
@@ -7759,10 +7736,9 @@ msgstr "建造物"
 msgid "Wonders"
 msgstr "不思議"
 
-#: client/gui-gtk-2.0/cityrep.c:1128 client/gui-gtk-2.0/gotodlg.c:119
-#: client/gui-gtk/cityrep.c:860 client/gui-gtk/gotodlg.c:121
-#: client/gui-win32/cityrep.c:463 client/gui-win32/gotodlg.c:168
-#: data/Freeciv:1141
+#: client/gui-gtk-2.0/cityrep.c:1128 client/gui-gtk/cityrep.c:860
+#: client/gui-gtk/gotodlg.c:121 client/gui-win32/cityrep.c:463
+#: client/gui-win32/gotodlg.c:168 data/Freeciv:1141
 msgid "All Cities"
 msgstr "全ての都市"
 
@@ -7933,7 +7909,7 @@ msgstr "このプリセットを削除していいですか?"
 msgid " Connect to Freeciv Server"
 msgstr "Freeciv サーバへ接続"
 
-#: client/gui-gtk-2.0/connectdlg.c:163 client/gui-gtk-2.0/menu.c:692
+#: client/gui-gtk-2.0/connectdlg.c:163 client/gui-gtk-2.0/menu.c:690
 #: client/gui-gtk/menu.c:691 client/gui-mui/connectdlg.c:225
 #: client/gui-win32/menu.c:342
 msgid "_Connect"
@@ -8042,17 +8018,17 @@ msgstr ""
 "サーバ \"%s\"(ポート %d, ユーザ \"%s\")へ %d.%d 秒毎に %d 回まで自動接続を試"
 "みています。"
 
-#: client/gui-gtk-2.0/dialogs.c:254 client/gui-gtk-2.0/messagewin.c:170
+#: client/gui-gtk-2.0/dialogs.c:238 client/gui-gtk-2.0/messagewin.c:170
 #: client/gui-gtk/messagewin.c:160
 msgid "_Goto location"
 msgstr "現場へ移動(_G)"
 
-#: client/gui-gtk-2.0/dialogs.c:259 client/gui-gtk-2.0/messagewin.c:176
+#: client/gui-gtk-2.0/dialogs.c:243 client/gui-gtk-2.0/messagewin.c:176
 #: client/gui-gtk/messagewin.c:166 client/gui-mui/messagewin.c:210
 msgid "_Popup City"
 msgstr "都市をポップアップ(_P)"
 
-#: client/gui-gtk-2.0/dialogs.c:310 client/gui-gtk/dialogs.c:413
+#: client/gui-gtk-2.0/dialogs.c:294 client/gui-gtk/dialogs.c:413
 #: client/gui-mui/dialogs.c:225 client/gui-win32/dialogs.c:1378
 #: client/gui-xaw/dialogs.c:453
 #, c-format
@@ -8063,13 +8039,13 @@ msgstr ""
 "部隊に金%dの賄賂を贈りますか?\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/dialogs.c:312 client/gui-gtk/dialogs.c:415
+#: client/gui-gtk-2.0/dialogs.c:296 client/gui-gtk/dialogs.c:415
 #: client/gui-mui/dialogs.c:228 client/gui-win32/dialogs.c:1380
 #: data/Freeciv:2354 data/Freeciv:2367
 msgid "Bribe Enemy Unit"
 msgstr "敵部隊に賄賂を贈る"
 
-#: client/gui-gtk-2.0/dialogs.c:317 client/gui-gtk/dialogs.c:421
+#: client/gui-gtk-2.0/dialogs.c:301 client/gui-gtk/dialogs.c:421
 #: client/gui-mui/dialogs.c:234 client/gui-win32/dialogs.c:1386
 #: client/gui-xaw/dialogs.c:462
 #, c-format
@@ -8080,7 +8056,7 @@ msgstr ""
 "部隊に金%dを贈っています。\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/dialogs.c:319 client/gui-gtk-2.0/dialogs.c:883
+#: client/gui-gtk-2.0/dialogs.c:303 client/gui-gtk-2.0/dialogs.c:867
 #: client/gui-gtk/dialogs.c:424 client/gui-gtk/dialogs.c:990
 #: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:523
 #: client/gui-win32/dialogs.c:1390 client/gui-win32/dialogs.c:1589
@@ -8088,23 +8064,23 @@ msgstr ""
 msgid "Traitors Demand Too Much!"
 msgstr "謀反人は多くを要求する!"
 
-#: client/gui-gtk-2.0/dialogs.c:597 client/gui-gtk/dialogs.c:690
+#: client/gui-gtk-2.0/dialogs.c:581 client/gui-gtk/dialogs.c:690
 #: client/gui-mui/dialogs.c:333 client/gui-win32/dialogs.c:1290
 #: data/Freeciv:2285
 msgid "Select Advance to Steal"
 msgstr "盗む科学の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:604 client/gui-gtk/dialogs.c:697
+#: client/gui-gtk-2.0/dialogs.c:588 client/gui-gtk/dialogs.c:697
 #: client/gui-mui/dialogs.c:329 client/gui-win32/dialogs.c:1280
 #: data/Freeciv:2220 data/Freeciv:2253 data/Freeciv:2270
 msgid "Steal Technology"
 msgstr "技術を盗む"
 
-#: client/gui-gtk-2.0/dialogs.c:622 client/gui-gtk-2.0/dialogs.c:720
+#: client/gui-gtk-2.0/dialogs.c:606 client/gui-gtk-2.0/dialogs.c:704
 #: client/gui-gtk-2.0/spaceshipdlg.c:217 client/gui-gtk-2.0/wldlg.c:201
 #: client/gui-gtk/cityrep.c:1435 client/gui-gtk/dialogs.c:214
 #: client/gui-gtk/dialogs.c:351 client/gui-gtk/dialogs.c:715
-#: client/gui-gtk/dialogs.c:813 client/gui-gtk/dialogs.c:1770
+#: client/gui-gtk/dialogs.c:813 client/gui-gtk/dialogs.c:1768
 #: client/gui-gtk/gamedlgs.c:492 client/gui-gtk/helpdlg.c:613
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:217
 #: client/gui-gtk/repodlgs.c:608 client/gui-gtk/repodlgs.c:848
@@ -8126,12 +8102,12 @@ msgstr "技術を盗む"
 msgid "Close"
 msgstr "閉じる"
 
-#: client/gui-gtk-2.0/dialogs.c:627 client/gui-gtk/dialogs.c:720
+#: client/gui-gtk-2.0/dialogs.c:611 client/gui-gtk/dialogs.c:720
 #: client/gui-win32/dialogs.c:1294 data/Freeciv:2301
 msgid "Steal"
 msgstr "盗む"
 
-#: client/gui-gtk-2.0/dialogs.c:663 client/gui-gtk-2.0/dialogs.c:757
+#: client/gui-gtk-2.0/dialogs.c:647 client/gui-gtk-2.0/dialogs.c:741
 #: client/gui-gtk/dialogs.c:756 client/gui-gtk/dialogs.c:850
 #: client/gui-mui/dialogs.c:309 client/gui-mui/dialogs.c:410
 #: client/gui-win32/dialogs.c:1187 client/gui-win32/dialogs.c:1414
@@ -8139,36 +8115,36 @@ msgstr "盗む"
 msgid "At Spy's Discretion"
 msgstr "スパイに任せる"
 
-#: client/gui-gtk-2.0/dialogs.c:670 client/gui-gtk/dialogs.c:763
+#: client/gui-gtk-2.0/dialogs.c:654 client/gui-gtk/dialogs.c:763
 #: client/gui-win32/dialogs.c:1192 client/gui-xaw/dialogs.c:779
 msgid "NONE"
 msgstr "なし"
 
-#: client/gui-gtk-2.0/dialogs.c:696 client/gui-gtk/dialogs.c:789
+#: client/gui-gtk-2.0/dialogs.c:680 client/gui-gtk/dialogs.c:789
 #: client/gui-mui/dialogs.c:430 client/gui-win32/dialogs.c:1504
 #: data/Freeciv:2327
 msgid "Select Improvement to Sabotage"
 msgstr "破壊する建造物の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:703 client/gui-gtk/dialogs.c:796
+#: client/gui-gtk-2.0/dialogs.c:687 client/gui-gtk/dialogs.c:796
 #: client/gui-mui/dialogs.c:426 client/gui-win32/dialogs.c:1494
 #: data/Freeciv:2312
 msgid "Sabotage Improvements"
 msgstr "建造物破壊"
 
-#: client/gui-gtk-2.0/dialogs.c:725 client/gui-gtk/dialogs.c:818
+#: client/gui-gtk-2.0/dialogs.c:709 client/gui-gtk/dialogs.c:818
 #: client/gui-win32/dialogs.c:1508 data/Freeciv:2343
 msgid "Sabotage"
 msgstr "破壊"
 
-#: client/gui-gtk-2.0/dialogs.c:744 client/gui-gtk/dialogs.c:837
+#: client/gui-gtk-2.0/dialogs.c:728 client/gui-gtk/dialogs.c:837
 #: client/gui-mui/dialogs.c:409 client/gui-win32/dialogs.c:1403
 #: client/gui-xaw/dialogs.c:869
 msgid "City Production"
 msgstr "都市の生産物"
 
 # clefs
-#: client/gui-gtk-2.0/dialogs.c:867 client/gui-gtk/dialogs.c:972
+#: client/gui-gtk-2.0/dialogs.c:851 client/gui-gtk/dialogs.c:972
 #: client/gui-mui/dialogs.c:505 client/gui-win32/dialogs.c:1572
 #: client/gui-xaw/dialogs.c:1039
 #, c-format
@@ -8176,12 +8152,12 @@ msgid "You can't incite a revolt in %s."
 msgstr "%sでは革命は煽動できません。"
 
 # clefs
-#: client/gui-gtk-2.0/dialogs.c:869 client/gui-gtk/dialogs.c:974
+#: client/gui-gtk-2.0/dialogs.c:853 client/gui-gtk/dialogs.c:974
 #: client/gui-mui/dialogs.c:507 client/gui-win32/dialogs.c:1574
 msgid "City can't be incited!"
 msgstr "煽動できない都市です！"
 
-#: client/gui-gtk-2.0/dialogs.c:874 client/gui-gtk/dialogs.c:979
+#: client/gui-gtk-2.0/dialogs.c:858 client/gui-gtk/dialogs.c:979
 #: client/gui-mui/dialogs.c:510 client/gui-win32/dialogs.c:1578
 #: client/gui-xaw/dialogs.c:1045
 #, c-format
@@ -8192,13 +8168,13 @@ msgstr ""
 "革命を金%dで煽りますか？\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/dialogs.c:876 client/gui-gtk/dialogs.c:981
+#: client/gui-gtk-2.0/dialogs.c:860 client/gui-gtk/dialogs.c:981
 #: client/gui-mui/dialogs.c:514 client/gui-win32/dialogs.c:1581
 #: data/Freeciv:2378
 msgid "Incite a Revolt!"
 msgstr "革命を煽る!"
 
-#: client/gui-gtk-2.0/dialogs.c:881 client/gui-gtk/dialogs.c:987
+#: client/gui-gtk-2.0/dialogs.c:865 client/gui-gtk/dialogs.c:987
 #: client/gui-mui/dialogs.c:521 client/gui-win32/dialogs.c:1586
 #: client/gui-xaw/dialogs.c:1055
 #, c-format
@@ -8209,7 +8185,7 @@ msgstr ""
 "革命煽動にかかる費用は金%dです。\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/dialogs.c:955 client/gui-gtk/dialogs.c:1047
+#: client/gui-gtk-2.0/dialogs.c:939 client/gui-gtk/dialogs.c:1047
 #: client/gui-win32/dialogs.c:1625 client/gui-xaw/dialogs.c:1119
 #, c-format
 msgid ""
@@ -8219,97 +8195,115 @@ msgstr ""
 "%s が %s に到着しました。\n"
 "何を行ないますか?"
 
-#: client/gui-gtk-2.0/dialogs.c:960 client/gui-gtk/dialogs.c:1052
+#: client/gui-gtk-2.0/dialogs.c:944 client/gui-gtk/dialogs.c:1052
 #: client/gui-win32/dialogs.c:1630
 msgid " Choose Your Diplomat's Strategy"
 msgstr " 外交官の戦略を選択"
 
-#: client/gui-gtk-2.0/dialogs.c:961 client/gui-gtk-2.0/dialogs.c:985
+#: client/gui-gtk-2.0/dialogs.c:945 client/gui-gtk-2.0/dialogs.c:969
 #: client/gui-gtk/dialogs.c:1054 client/gui-gtk/dialogs.c:1079
 #: client/gui-win32/dialogs.c:1631 client/gui-win32/dialogs.c:1652
 msgid "Establish _Embassy"
 msgstr "大使館を作る(_E)"
 
-#: client/gui-gtk-2.0/dialogs.c:962 client/gui-gtk/dialogs.c:1055
+#: client/gui-gtk-2.0/dialogs.c:946 client/gui-gtk/dialogs.c:1055
 #: client/gui-win32/dialogs.c:1632
 msgid "_Investigate City"
 msgstr "都市を調べる(_I)"
 
-#: client/gui-gtk-2.0/dialogs.c:963 client/gui-gtk/dialogs.c:1056
+#: client/gui-gtk-2.0/dialogs.c:947 client/gui-gtk/dialogs.c:1056
 #: client/gui-win32/dialogs.c:1633
 msgid "_Sabotage City"
 msgstr "都市を破壊する(_S)"
 
-#: client/gui-gtk-2.0/dialogs.c:964 client/gui-gtk-2.0/dialogs.c:989
+#: client/gui-gtk-2.0/dialogs.c:948 client/gui-gtk-2.0/dialogs.c:973
 #: client/gui-gtk/dialogs.c:1057 client/gui-gtk/dialogs.c:1083
 #: client/gui-win32/dialogs.c:1634 client/gui-win32/dialogs.c:1656
 msgid "Steal _Technology"
 msgstr "技術を盗む(_T)"
 
-#: client/gui-gtk-2.0/dialogs.c:965 client/gui-gtk-2.0/dialogs.c:990
+#: client/gui-gtk-2.0/dialogs.c:949 client/gui-gtk-2.0/dialogs.c:974
 #: client/gui-gtk/dialogs.c:1058 client/gui-gtk/dialogs.c:1084
 #: client/gui-win32/dialogs.c:1635 client/gui-win32/dialogs.c:1657
 msgid "Incite a _Revolt"
 msgstr "革命を煽る(_R)"
 
-#: client/gui-gtk-2.0/dialogs.c:966 client/gui-gtk-2.0/dialogs.c:991
-#: client/gui-gtk-2.0/dialogs.c:1125 client/gui-gtk/dialogs.c:1059
+#: client/gui-gtk-2.0/dialogs.c:950 client/gui-gtk-2.0/dialogs.c:975
+#: client/gui-gtk-2.0/dialogs.c:1109 client/gui-gtk/dialogs.c:1059
 #: client/gui-gtk/dialogs.c:1085 client/gui-gtk/dialogs.c:1192
 #: client/gui-mui/dialogs.c:834 client/gui-mui/dialogs.c:901
 #: client/gui-mui/dialogs.c:1069 client/gui-win32/dialogs.c:1023
 msgid "_Keep moving"
 msgstr "なにもしない(_K)"
 
-#: client/gui-gtk-2.0/dialogs.c:984 client/gui-gtk/dialogs.c:1077
+#: client/gui-gtk-2.0/dialogs.c:951 client/gui-gtk-2.0/dialogs.c:976
+#: client/gui-gtk-2.0/dialogs.c:1008 client/gui-gtk/citydlg.c:2477
+#: client/gui-gtk/citydlg.c:2516 client/gui-gtk/dialogs.c:1060
+#: client/gui-gtk/dialogs.c:1086 client/gui-gtk/dialogs.c:1119
+#: client/gui-gtk/gotodlg.c:126 client/gui-mui/citydlg.c:1321
+#: client/gui-mui/cityrep.c:306 client/gui-mui/dialogs.c:343
+#: client/gui-mui/dialogs.c:440 client/gui-mui/dialogs.c:840
+#: client/gui-mui/dialogs.c:907 client/gui-mui/dialogs.c:942
+#: client/gui-mui/dialogs.c:1228 client/gui-mui/dialogs.c:1318
+#: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
+#: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
+#: client/gui-mui/inputdlg.c:82 client/gui-mui/messagedlg.c:91
+#: client/gui-mui/worklistclass.c:717 client/gui-win32/citydlg.c:1633
+#: client/gui-win32/citydlg.c:1669 client/gui-win32/dialogs.c:1636
+#: client/gui-win32/dialogs.c:1658 client/gui-win32/dialogs.c:1688
+msgid "_Cancel"
+msgstr "取り消し(_C)"
+
+#: client/gui-gtk-2.0/dialogs.c:968 client/gui-gtk/dialogs.c:1077
 #: client/gui-mui/dialogs.c:913 client/gui-win32/dialogs.c:1651
 #: data/Freeciv:2234
 msgid "Choose Your Spy's Strategy"
 msgstr "スパイの行動選択"
 
-#: client/gui-gtk-2.0/dialogs.c:986 client/gui-gtk/dialogs.c:1080
+#: client/gui-gtk-2.0/dialogs.c:970 client/gui-gtk/dialogs.c:1080
 #: client/gui-win32/dialogs.c:1653
 msgid "_Investigate City (free)"
 msgstr "都市を調べる(無料)(_I)"
 
-#: client/gui-gtk-2.0/dialogs.c:987 client/gui-gtk/dialogs.c:1081
+#: client/gui-gtk-2.0/dialogs.c:971 client/gui-gtk/dialogs.c:1081
 #: client/gui-win32/dialogs.c:1654
 msgid "_Poison City"
 msgstr "毒混入(_P)"
 
-#: client/gui-gtk-2.0/dialogs.c:988 client/gui-gtk/dialogs.c:1082
+#: client/gui-gtk-2.0/dialogs.c:972 client/gui-gtk/dialogs.c:1082
 #: client/gui-win32/dialogs.c:1655
 msgid "Industrial _Sabotage"
 msgstr "建造物破壊(_S)"
 
-#: client/gui-gtk-2.0/dialogs.c:1018 client/gui-gtk/dialogs.c:1112
+#: client/gui-gtk-2.0/dialogs.c:1002 client/gui-gtk/dialogs.c:1112
 #: client/gui-mui/dialogs.c:948 client/gui-win32/dialogs.c:1682
 #: data/Freeciv:2365
 msgid "Subvert Enemy Unit"
 msgstr "敵部隊の殺害"
 
-#: client/gui-gtk-2.0/dialogs.c:1020 client/gui-gtk/dialogs.c:1114
+#: client/gui-gtk-2.0/dialogs.c:1004 client/gui-gtk/dialogs.c:1114
 #: client/gui-mui/dialogs.c:847 client/gui-mui/dialogs.c:950
 #: client/gui-win32/dialogs.c:1684 client/gui-xaw/dialogs.c:1179
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "外交官はあなたのコマンドを待っています"
 
-#: client/gui-gtk-2.0/dialogs.c:1021 client/gui-gtk/dialogs.c:1115
+#: client/gui-gtk-2.0/dialogs.c:1005 client/gui-gtk/dialogs.c:1115
 #: client/gui-mui/dialogs.c:914 client/gui-mui/dialogs.c:951
 #: client/gui-win32/dialogs.c:1685 client/gui-xaw/dialogs.c:1180
 msgid "Sir, the spy is waiting for your command"
 msgstr "スパイはあなたのコマンドを待っています"
 
-#: client/gui-gtk-2.0/dialogs.c:1022 client/gui-gtk/dialogs.c:1117
+#: client/gui-gtk-2.0/dialogs.c:1006 client/gui-gtk/dialogs.c:1117
 #: client/gui-mui/dialogs.c:928 client/gui-win32/dialogs.c:1686
 msgid "_Bribe Enemy Unit"
 msgstr "敵部隊に賄賂を贈る(_B)"
 
-#: client/gui-gtk-2.0/dialogs.c:1023 client/gui-gtk/dialogs.c:1118
+#: client/gui-gtk-2.0/dialogs.c:1007 client/gui-gtk/dialogs.c:1118
 #: client/gui-mui/dialogs.c:936 client/gui-win32/dialogs.c:1687
 msgid "_Sabotage Enemy Unit"
 msgstr "敵部隊の暗殺(_S)"
 
-#: client/gui-gtk-2.0/dialogs.c:1114 client/gui-gtk/dialogs.c:1181
+#: client/gui-gtk-2.0/dialogs.c:1098 client/gui-gtk/dialogs.c:1181
 #: client/gui-mui/dialogs.c:1036 client/gui-win32/dialogs.c:1012
 #: client/gui-xaw/dialogs.c:1280
 #, c-format
@@ -8320,58 +8314,58 @@ msgstr ""
 "%sからのキャラバンが%sに着きました。\n"
 "何を行ないますか?"
 
-#: client/gui-gtk-2.0/dialogs.c:1121 client/gui-gtk/dialogs.c:1188
+#: client/gui-gtk-2.0/dialogs.c:1105 client/gui-gtk/dialogs.c:1188
 #: client/gui-mui/dialogs.c:1075 client/gui-win32/dialogs.c:1019
 #: data/Freeciv:2194
 msgid "Your Caravan Has Arrived"
 msgstr "キャラバン到着"
 
-#: client/gui-gtk-2.0/dialogs.c:1123 client/gui-gtk/dialogs.c:1190
+#: client/gui-gtk-2.0/dialogs.c:1107 client/gui-gtk/dialogs.c:1190
 #: client/gui-win32/dialogs.c:1021
 msgid "Establish _Traderoute"
 msgstr "交易路を確立する(_T)"
 
-#: client/gui-gtk-2.0/dialogs.c:1124 client/gui-gtk/dialogs.c:1191
+#: client/gui-gtk-2.0/dialogs.c:1108 client/gui-gtk/dialogs.c:1191
 #: client/gui-win32/dialogs.c:1022
 msgid "Help build _Wonder"
 msgstr "不思議建築を手伝う(_W)"
 
-#: client/gui-gtk-2.0/dialogs.c:1178 client/gui-gtk/dialogs.c:1260
+#: client/gui-gtk-2.0/dialogs.c:1162 client/gui-gtk/dialogs.c:1260
 #: client/gui-mui/dialogs.c:1139 client/gui-win32/dialogs.c:923
 msgid "Choose Your New Government"
 msgstr "新しい政治体制の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:1190 client/gui-gtk/dialogs.c:1261
+#: client/gui-gtk-2.0/dialogs.c:1174 client/gui-gtk/dialogs.c:1261
 #: client/gui-mui/dialogs.c:1140 client/gui-win32/dialogs.c:924
 #: data/Freeciv:2429
 msgid "Select government type:"
 msgstr "政治体制の選択:"
 
 # J.Lennonのもじりだが…
-#: client/gui-gtk-2.0/dialogs.c:1261 client/gui-gtk/dialogs.c:1281
+#: client/gui-gtk-2.0/dialogs.c:1245 client/gui-gtk/dialogs.c:1281
 #: client/gui-mui/dialogs.c:1161 client/gui-win32/dialogs.c:873
 #: client/gui-xaw/dialogs.c:1394
 msgid "You say you wanna revolution?"
 msgstr "革命を宣言しますか?"
 
-#: client/gui-gtk-2.0/dialogs.c:1262 client/gui-gtk/dialogs.c:1280
+#: client/gui-gtk-2.0/dialogs.c:1246 client/gui-gtk/dialogs.c:1280
 #: client/gui-mui/dialogs.c:1161 client/gui-win32/dialogs.c:872
 #: data/Freeciv:2397
 msgid "Revolution!"
 msgstr "革命!"
 
-#: client/gui-gtk-2.0/dialogs.c:1322 client/gui-gtk/dialogs.c:1350
+#: client/gui-gtk-2.0/dialogs.c:1306 client/gui-gtk/dialogs.c:1350
 #: client/gui-win32/dialogs.c:1756 data/Freeciv:2435
 msgid "What To Pillage"
 msgstr "略奪の対象"
 
-#: client/gui-gtk-2.0/dialogs.c:1329 client/gui-gtk/dialogs.c:1351
+#: client/gui-gtk-2.0/dialogs.c:1313 client/gui-gtk/dialogs.c:1351
 #: client/gui-mui/dialogs.c:1235 client/gui-win32/dialogs.c:1763
 #: data/Freeciv:2437
 msgid "Select what to pillage:"
 msgstr "略奪対象を選択:"
 
-#: client/gui-gtk-2.0/dialogs.c:1347 client/gui-gtk-2.0/dialogs.c:1456
+#: client/gui-gtk-2.0/dialogs.c:1331 client/gui-gtk-2.0/dialogs.c:1440
 #: client/gui-gtk-2.0/wldlg.c:485 client/gui-gtk/cityrep.c:1142
 #: client/gui-gtk/dialogs.c:1347 client/gui-gtk/dialogs.c:1427
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:315
@@ -8390,90 +8384,90 @@ msgstr "略奪対象を選択:"
 msgid "Cancel"
 msgstr "取り消し"
 
-#: client/gui-gtk-2.0/dialogs.c:1432 client/gui-gtk/connectdlg.c:233
+#: client/gui-gtk-2.0/dialogs.c:1416 client/gui-gtk/connectdlg.c:233
 #: client/gui-gtk/dialogs.c:1430 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:414 client/gui-win32/dialogs.c:1966
 #: client/gui-xaw/menu.c:182 data/Freeciv:95 data/Freeciv:2445
 msgid "Connect"
 msgstr "接続"
 
-#: client/gui-gtk-2.0/dialogs.c:1439 client/gui-gtk/dialogs.c:1431
+#: client/gui-gtk-2.0/dialogs.c:1423 client/gui-gtk/dialogs.c:1431
 #: client/gui-mui/dialogs.c:1325 client/gui-win32/dialogs.c:1973
 #: data/Freeciv:2447
 msgid "Choose unit activity:"
 msgstr "部隊の行動を選択"
 
-#: client/gui-gtk-2.0/dialogs.c:1642 client/gui-gtk/dialogs.c:1715
+#: client/gui-gtk-2.0/dialogs.c:1626 client/gui-gtk/dialogs.c:1715
 msgid "Unit selection"
 msgstr "部隊の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:1704 client/gui-gtk/dialogs.c:1776
+#: client/gui-gtk-2.0/dialogs.c:1688 client/gui-gtk/dialogs.c:1774
 #: client/gui-win32/dialogs.c:681 data/Freeciv:534
 msgid "Ready all"
 msgstr "全準備"
 
-#: client/gui-gtk-2.0/dialogs.c:1853
+#: client/gui-gtk-2.0/dialogs.c:1837
 msgid " What Nation Will You Be?"
 msgstr " あなたの民族は?"
 
-#: client/gui-gtk-2.0/dialogs.c:1861 client/gui-gtk/dialogs.c:1941
+#: client/gui-gtk-2.0/dialogs.c:1845 client/gui-gtk/dialogs.c:1939
 #: client/gui-win32/dialogs.c:480
 msgid "Select nation and name"
 msgstr "民族と名前の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:1903 client/gui-gtk/dialogs.c:1986
+#: client/gui-gtk-2.0/dialogs.c:1887 client/gui-gtk/dialogs.c:1984
 msgid "Nation:"
 msgstr "民族:"
 
-#: client/gui-gtk-2.0/dialogs.c:1921 client/gui-gtk/dialogs.c:2005
+#: client/gui-gtk-2.0/dialogs.c:1905 client/gui-gtk/dialogs.c:2003
 msgid "Leader:"
 msgstr "指揮:"
 
-#: client/gui-gtk-2.0/dialogs.c:1930 client/gui-gtk/dialogs.c:2014
+#: client/gui-gtk-2.0/dialogs.c:1914 client/gui-gtk/dialogs.c:2012
 #: client/gui-win32/dialogs.c:491
 msgid "Select your sex"
 msgstr "男女の選択"
 
-#: client/gui-gtk-2.0/dialogs.c:1937 client/gui-gtk/dialogs.c:2021
+#: client/gui-gtk-2.0/dialogs.c:1921 client/gui-gtk/dialogs.c:2019
 #: client/gui-mui/dialogs.c:1710 client/gui-win32/dialogs.c:493
 msgid "Male"
 msgstr "男"
 
-#: client/gui-gtk-2.0/dialogs.c:1943 client/gui-gtk/dialogs.c:2027
+#: client/gui-gtk-2.0/dialogs.c:1927 client/gui-gtk/dialogs.c:2025
 #: client/gui-mui/dialogs.c:1711 client/gui-win32/dialogs.c:495
 #: data/Freeciv:3059
 msgid "Female"
 msgstr "女"
 
-#: client/gui-gtk-2.0/dialogs.c:1964 client/gui-gtk/dialogs.c:2049
+#: client/gui-gtk-2.0/dialogs.c:1948 client/gui-gtk/dialogs.c:2047
 #: client/gui-win32/dialogs.c:499
 msgid "Select your city style"
 msgstr "都市スタイルの選択"
 
-#: client/gui-gtk-2.0/dialogs.c:2008 client/gui-gtk-2.0/menu.c:580
+#: client/gui-gtk-2.0/dialogs.c:1992 client/gui-gtk-2.0/menu.c:578
 #: client/gui-gtk/menu.c:579 client/gui-mui/dialogs.c:1777
 #: client/gui-win32/menu.c:288
 msgid "_Disconnect"
 msgstr "切断(_D)"
 
-#: client/gui-gtk-2.0/dialogs.c:2209 client/gui-gtk/dialogs.c:2309
-#: client/gui-xaw/dialogs.c:2366
+#: client/gui-gtk-2.0/dialogs.c:2193 client/gui-gtk/dialogs.c:2307
+#: client/gui-xaw/dialogs.c:2362
 msgid "You must select a nation."
 msgstr "民族を選択して下さい。"
 
-#: client/gui-gtk-2.0/dialogs.c:2214 client/gui-gtk/dialogs.c:2314
-#: client/gui-xaw/dialogs.c:2371
+#: client/gui-gtk-2.0/dialogs.c:2198 client/gui-gtk/dialogs.c:2312
+#: client/gui-xaw/dialogs.c:2367
 msgid "You must select your sex."
 msgstr "男女を選択して下さい。"
 
-#: client/gui-gtk-2.0/dialogs.c:2219 client/gui-gtk/dialogs.c:2319
-#: client/gui-xaw/dialogs.c:2376
+#: client/gui-gtk-2.0/dialogs.c:2203 client/gui-gtk/dialogs.c:2317
+#: client/gui-xaw/dialogs.c:2372
 msgid "You must select your city style."
 msgstr "都市スタイルをを選択して下さい。"
 
-#: client/gui-gtk-2.0/dialogs.c:2232 client/gui-gtk/dialogs.c:2332
+#: client/gui-gtk-2.0/dialogs.c:2216 client/gui-gtk/dialogs.c:2330
 #: client/gui-mui/dialogs.c:1638 client/gui-win32/dialogs.c:327
-#: client/gui-xaw/dialogs.c:2390
+#: client/gui-xaw/dialogs.c:2386
 msgid "You must type a legal name."
 msgstr "正しい名前を入力して下さい。"
 
@@ -8636,21 +8630,36 @@ msgstr "%s 最大: %d%%"
 msgid "Set local options"
 msgstr "ローカル・オプション設定"
 
-#: client/gui-gtk-2.0/gotodlg.c:84 client/gui-gtk/gotodlg.c:92
+#: client/gui-gtk-2.0/gotodlg.c:123 client/gui-gtk/gotodlg.c:92
 #: client/gui-mui/gotodlg.c:157 client/gui-win32/gotodlg.c:152
 #: client/gui-win32/gotodlg.c:160 data/Freeciv:1108
 msgid "Goto/Airlift Unit"
 msgstr "部隊を移動/空輸"
 
-#: client/gui-gtk-2.0/gotodlg.c:92 client/gui-gtk-2.0/mapview.c:409
+#: client/gui-gtk-2.0/gotodlg.c:131
+#, fuzzy
+msgid "Air_lift"
+msgstr "空輸"
+
+#: client/gui-gtk-2.0/gotodlg.c:134 client/gui-gtk/gotodlg.c:110
+msgid "_Goto"
+msgstr "移動(_G)"
+
+#: client/gui-gtk-2.0/gotodlg.c:143 client/gui-gtk-2.0/mapview.c:409
 #: client/gui-gtk/gotodlg.c:94 client/gui-gtk/mapview.c:407
 #: client/gui-mui/mapview.c:271 client/gui-xaw/mapview.c:273
 msgid "Select destination"
 msgstr "行き先の選択"
 
-#: client/gui-gtk-2.0/gotodlg.c:108 client/gui-gtk/gotodlg.c:110
-msgid "_Goto"
-msgstr "移動(_G)"
+#: client/gui-gtk-2.0/gotodlg.c:178
+#, fuzzy
+msgid "Ci_ties:"
+msgstr "都市"
+
+#: client/gui-gtk-2.0/gotodlg.c:186
+#, fuzzy
+msgid "Show _All Cities"
+msgstr "全ての都市"
 
 #: client/gui-gtk-2.0/gui_main.c:499 client/gui-gtk-2.0/gui_main.c:995
 #: client/gui-gtk/gui_main.c:410 client/gui-gtk/gui_main.c:871
@@ -8700,7 +8709,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:103 client/gui-gtk/happiness.c:116
 #: client/gui-mui/citydlg.c:1443 client/gui-mui/citydlg.c:1580
 #: client/gui-win32/citydlg.c:779 client/gui-win32/happiness.c:92
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:1276
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:1277
 msgid "Happiness"
 msgstr "幸福"
 
@@ -9254,68 +9263,67 @@ msgstr "ゲーム(_G)"
 #: client/gui-gtk-2.0/menu.c:568 client/gui-gtk-2.0/menu.c:570
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk-2.0/menu.c:574
 #: client/gui-gtk-2.0/menu.c:576 client/gui-gtk-2.0/menu.c:578
-#: client/gui-gtk-2.0/menu.c:580 client/gui-gtk-2.0/menu.c:582
-#: client/gui-gtk/menu.c:555 client/gui-gtk/menu.c:557
-#: client/gui-gtk/menu.c:559 client/gui-gtk/menu.c:561
-#: client/gui-gtk/menu.c:563 client/gui-gtk/menu.c:565
-#: client/gui-gtk/menu.c:567 client/gui-gtk/menu.c:569
-#: client/gui-gtk/menu.c:571 client/gui-gtk/menu.c:573
-#: client/gui-gtk/menu.c:575 client/gui-gtk/menu.c:577
-#: client/gui-gtk/menu.c:579 client/gui-gtk/menu.c:581
-#: client/gui-mui/gui_main.c:190 data/Freeciv:1967
+#: client/gui-gtk-2.0/menu.c:580 client/gui-gtk/menu.c:555
+#: client/gui-gtk/menu.c:557 client/gui-gtk/menu.c:559
+#: client/gui-gtk/menu.c:561 client/gui-gtk/menu.c:563
+#: client/gui-gtk/menu.c:565 client/gui-gtk/menu.c:567
+#: client/gui-gtk/menu.c:569 client/gui-gtk/menu.c:571
+#: client/gui-gtk/menu.c:573 client/gui-gtk/menu.c:575
+#: client/gui-gtk/menu.c:577 client/gui-gtk/menu.c:579
+#: client/gui-gtk/menu.c:581 client/gui-mui/gui_main.c:190 data/Freeciv:1967
 msgid "Game"
 msgstr "ゲーム(G)"
 
-#: client/gui-gtk-2.0/menu.c:560 client/gui-gtk/menu.c:559
+#: client/gui-gtk-2.0/menu.c:558 client/gui-gtk/menu.c:559
 #: client/gui-win32/menu.c:278
 msgid "_Local Options"
 msgstr "ローカル設定(_L)"
 
-#: client/gui-gtk-2.0/menu.c:562 client/gui-gtk/menu.c:561
+#: client/gui-gtk-2.0/menu.c:560 client/gui-gtk/menu.c:561
 #: client/gui-win32/menu.c:279
 msgid "Messa_ge Options"
 msgstr "メッセージ設定(_G)"
 
-#: client/gui-gtk-2.0/menu.c:564 client/gui-gtk/menu.c:563
+#: client/gui-gtk-2.0/menu.c:562 client/gui-gtk/menu.c:563
 #: client/gui-win32/menu.c:280
 msgid "_Save Settings"
 msgstr "設定を保存(_S)"
 
-#: client/gui-gtk-2.0/menu.c:568 client/gui-gtk/menu.c:567
+#: client/gui-gtk-2.0/menu.c:566 client/gui-gtk/menu.c:567
 #: client/gui-win32/menu.c:282
 msgid "Server Opt _initial"
 msgstr "起動時サーバオプション(_I)"
 
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:569
+#: client/gui-gtk-2.0/menu.c:568 client/gui-gtk/menu.c:569
 #: client/gui-win32/menu.c:283
 msgid "Server Opt _ongoing"
 msgstr "進行中サーバオプション(_O)"
 
-#: client/gui-gtk-2.0/menu.c:574 client/gui-gtk/menu.c:573
+#: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-win32/menu.c:285
 msgid "_Export Log"
 msgstr "ログの保存(_E)"
 
-#: client/gui-gtk-2.0/menu.c:576 client/gui-gtk/menu.c:575
+#: client/gui-gtk-2.0/menu.c:574 client/gui-gtk/menu.c:575
 #: client/gui-win32/menu.c:286
 msgid "_Clear Log"
 msgstr "ログの消去(_C)"
 
-#: client/gui-gtk-2.0/menu.c:582 client/gui-gtk/menu.c:581
+#: client/gui-gtk-2.0/menu.c:580 client/gui-gtk/menu.c:581
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1778
 #: client/gui-win32/menu.c:289
 msgid "_Quit"
 msgstr "終了(_Q)"
 
-#: client/gui-gtk-2.0/menu.c:585 client/gui-gtk/menu.c:584
+#: client/gui-gtk-2.0/menu.c:583 client/gui-gtk/menu.c:584
 #: client/gui-win32/menu.c:291
 msgid "_Kingdom"
 msgstr "王国(_K)"
 
-#: client/gui-gtk-2.0/menu.c:587 client/gui-gtk-2.0/menu.c:589
-#: client/gui-gtk-2.0/menu.c:591 client/gui-gtk-2.0/menu.c:593
-#: client/gui-gtk-2.0/menu.c:595 client/gui-gtk-2.0/menu.c:597
-#: client/gui-gtk-2.0/menu.c:599 client/gui-gtk/menu.c:586
+#: client/gui-gtk-2.0/menu.c:585 client/gui-gtk-2.0/menu.c:587
+#: client/gui-gtk-2.0/menu.c:589 client/gui-gtk-2.0/menu.c:591
+#: client/gui-gtk-2.0/menu.c:593 client/gui-gtk-2.0/menu.c:595
+#: client/gui-gtk-2.0/menu.c:597 client/gui-gtk/menu.c:586
 #: client/gui-gtk/menu.c:588 client/gui-gtk/menu.c:590
 #: client/gui-gtk/menu.c:592 client/gui-gtk/menu.c:594
 #: client/gui-gtk/menu.c:596 client/gui-gtk/menu.c:598
@@ -9323,41 +9331,41 @@ msgstr "王国(_K)"
 msgid "Kingdom"
 msgstr "王国(K)"
 
-#: client/gui-gtk-2.0/menu.c:589 client/gui-gtk/menu.c:588
+#: client/gui-gtk-2.0/menu.c:587 client/gui-gtk/menu.c:588
 msgid "_Tax Rates"
 msgstr "税率(_T)"
 
-#: client/gui-gtk-2.0/menu.c:593 client/gui-gtk/menu.c:592
+#: client/gui-gtk-2.0/menu.c:591 client/gui-gtk/menu.c:592
 #: client/gui-win32/menu.c:294
 msgid "_Find City"
 msgstr "都市をさがす(_F)"
 
-#: client/gui-gtk-2.0/menu.c:595 client/gui-gtk/menu.c:594
+#: client/gui-gtk-2.0/menu.c:593 client/gui-gtk/menu.c:594
 #: client/gui-win32/menu.c:295
 msgid "Work_lists"
 msgstr "作業リスト(_L)"
 
-#: client/gui-gtk-2.0/menu.c:599 client/gui-gtk/menu.c:598
+#: client/gui-gtk-2.0/menu.c:597 client/gui-gtk/menu.c:598
 #: client/gui-win32/menu.c:297
 msgid "_Revolution"
 msgstr "革命(_R)"
 
-#: client/gui-gtk-2.0/menu.c:602 client/gui-gtk/menu.c:601
+#: client/gui-gtk-2.0/menu.c:600 client/gui-gtk/menu.c:601
 #: client/gui-win32/menu.c:299
 msgid "_View"
 msgstr "ビュー(_V)"
 
-#: client/gui-gtk-2.0/menu.c:604 client/gui-gtk-2.0/menu.c:606
-#: client/gui-gtk-2.0/menu.c:608 client/gui-gtk-2.0/menu.c:610
-#: client/gui-gtk-2.0/menu.c:613 client/gui-gtk-2.0/menu.c:615
-#: client/gui-gtk-2.0/menu.c:617 client/gui-gtk-2.0/menu.c:619
-#: client/gui-gtk-2.0/menu.c:621 client/gui-gtk-2.0/menu.c:623
-#: client/gui-gtk-2.0/menu.c:625 client/gui-gtk-2.0/menu.c:627
-#: client/gui-gtk-2.0/menu.c:629 client/gui-gtk-2.0/menu.c:631
-#: client/gui-gtk-2.0/menu.c:633 client/gui-gtk-2.0/menu.c:635
-#: client/gui-gtk-2.0/menu.c:637 client/gui-gtk-2.0/menu.c:639
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:643
-#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:647
+#: client/gui-gtk-2.0/menu.c:602 client/gui-gtk-2.0/menu.c:604
+#: client/gui-gtk-2.0/menu.c:606 client/gui-gtk-2.0/menu.c:608
+#: client/gui-gtk-2.0/menu.c:611 client/gui-gtk-2.0/menu.c:613
+#: client/gui-gtk-2.0/menu.c:615 client/gui-gtk-2.0/menu.c:617
+#: client/gui-gtk-2.0/menu.c:619 client/gui-gtk-2.0/menu.c:621
+#: client/gui-gtk-2.0/menu.c:623 client/gui-gtk-2.0/menu.c:625
+#: client/gui-gtk-2.0/menu.c:627 client/gui-gtk-2.0/menu.c:629
+#: client/gui-gtk-2.0/menu.c:631 client/gui-gtk-2.0/menu.c:633
+#: client/gui-gtk-2.0/menu.c:635 client/gui-gtk-2.0/menu.c:637
+#: client/gui-gtk-2.0/menu.c:639 client/gui-gtk-2.0/menu.c:641
+#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk-2.0/menu.c:645
 #: client/gui-gtk/menu.c:603 client/gui-gtk/menu.c:605
 #: client/gui-gtk/menu.c:607 client/gui-gtk/menu.c:609
 #: client/gui-gtk/menu.c:612 client/gui-gtk/menu.c:614
@@ -9373,102 +9381,102 @@ msgstr "ビュー(_V)"
 msgid "View"
 msgstr "ビュー(V)"
 
-#: client/gui-gtk-2.0/menu.c:606 client/gui-gtk/menu.c:605
+#: client/gui-gtk-2.0/menu.c:604 client/gui-gtk/menu.c:605
 #: client/gui-win32/menu.c:300
 msgid "Map _Grid"
 msgstr "格子(_G)"
 
-#: client/gui-gtk-2.0/menu.c:608 client/gui-gtk/menu.c:607
+#: client/gui-gtk-2.0/menu.c:606 client/gui-gtk/menu.c:607
 #: client/gui-win32/menu.c:301
 msgid "City _Names"
 msgstr "都市の名前(_N)"
 
-#: client/gui-gtk-2.0/menu.c:610 client/gui-gtk/menu.c:609
+#: client/gui-gtk-2.0/menu.c:608 client/gui-gtk/menu.c:609
 msgid "City G_rowth"
 msgstr "都市: 拡大(_R)"
 
-#: client/gui-gtk-2.0/menu.c:613 client/gui-gtk/menu.c:612
+#: client/gui-gtk-2.0/menu.c:611 client/gui-gtk/menu.c:612
 #: client/gui-win32/menu.c:302
 msgid "City _Productions"
 msgstr "都市の生産物(_P)"
 
-#: client/gui-gtk-2.0/menu.c:617 client/gui-gtk/menu.c:616
+#: client/gui-gtk-2.0/menu.c:615 client/gui-gtk/menu.c:616
 #: client/gui-mui/gui_main.c:218 client/gui-win32/menu.c:303
-#: client/gui-xaw/menu.c:136 client/gui-xaw/menu.c:225 data/helpdata.txt:1119
+#: client/gui-xaw/menu.c:136 client/gui-xaw/menu.c:225 data/helpdata.txt:1120
 msgid "Terrain"
 msgstr "地形"
 
-#: client/gui-gtk-2.0/menu.c:619 client/gui-gtk/menu.c:618
+#: client/gui-gtk-2.0/menu.c:617 client/gui-gtk/menu.c:618
 #: client/gui-mui/gui_main.c:219 client/gui-win32/menu.c:304
 #: client/gui-xaw/menu.c:137
 msgid "Coastline"
 msgstr "海岸線"
 
-#: client/gui-gtk-2.0/menu.c:625 client/gui-gtk/menu.c:624
+#: client/gui-gtk-2.0/menu.c:623 client/gui-gtk/menu.c:624
 #: client/gui-win32/menu.c:306
 msgid "Roads & Rails"
 msgstr "道路と鉄道"
 
-#: client/gui-gtk-2.0/menu.c:629 client/gui-gtk/menu.c:628
+#: client/gui-gtk-2.0/menu.c:627 client/gui-gtk/menu.c:628
 #: client/gui-mui/gui_main.c:223 client/gui-win32/menu.c:308
 #: client/gui-xaw/menu.c:140
 msgid "Mines"
 msgstr "資源"
 
-#: client/gui-gtk-2.0/menu.c:631 client/gui-gtk/menu.c:630
+#: client/gui-gtk-2.0/menu.c:629 client/gui-gtk/menu.c:630
 #: client/gui-mui/gui_main.c:224 client/gui-win32/menu.c:309
 msgid "Fortress & Airbase"
 msgstr "要塞と飛行場"
 
-#: client/gui-gtk-2.0/menu.c:633 client/gui-gtk/menu.c:632
+#: client/gui-gtk-2.0/menu.c:631 client/gui-gtk/menu.c:632
 #: client/gui-mui/gui_main.c:225 client/gui-win32/menu.c:311
 #: client/gui-xaw/menu.c:142
 msgid "Specials"
 msgstr "特別"
 
-#: client/gui-gtk-2.0/menu.c:635 client/gui-gtk/menu.c:634
+#: client/gui-gtk-2.0/menu.c:633 client/gui-gtk/menu.c:634
 #: client/gui-mui/gui_main.c:226 client/gui-win32/menu.c:312
 #: client/gui-xaw/menu.c:143
 msgid "Pollution & Fallout"
 msgstr "公害 & 死の灰"
 
-#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk/menu.c:640
+#: client/gui-gtk-2.0/menu.c:639 client/gui-gtk/menu.c:640
 #: client/gui-mui/gui_main.c:229 client/gui-win32/menu.c:315
 #: client/gui-xaw/menu.c:146
 msgid "Focus Unit"
 msgstr "部隊へ移動"
 
-#: client/gui-gtk-2.0/menu.c:643 client/gui-gtk/menu.c:642
+#: client/gui-gtk-2.0/menu.c:641 client/gui-gtk/menu.c:642
 #: client/gui-mui/gui_main.c:230 client/gui-win32/menu.c:316
 #: client/gui-xaw/menu.c:147
 msgid "Fog of War"
 msgstr "霧戦"
 
-#: client/gui-gtk-2.0/menu.c:647 client/gui-gtk/menu.c:646
+#: client/gui-gtk-2.0/menu.c:645 client/gui-gtk/menu.c:646
 msgid "_Center View"
 msgstr "中心へ(_C)"
 
-#: client/gui-gtk-2.0/menu.c:650 client/gui-gtk/menu.c:649
+#: client/gui-gtk-2.0/menu.c:648 client/gui-gtk/menu.c:649
 #: client/gui-win32/menu.c:320
 msgid "_Orders"
 msgstr "命令(_O)"
 
-#: client/gui-gtk-2.0/menu.c:652 client/gui-gtk-2.0/menu.c:654
-#: client/gui-gtk-2.0/menu.c:656 client/gui-gtk-2.0/menu.c:658
-#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:662
-#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:666
-#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:670
-#: client/gui-gtk-2.0/menu.c:672 client/gui-gtk-2.0/menu.c:674
-#: client/gui-gtk-2.0/menu.c:676 client/gui-gtk-2.0/menu.c:678
-#: client/gui-gtk-2.0/menu.c:680 client/gui-gtk-2.0/menu.c:682
-#: client/gui-gtk-2.0/menu.c:684 client/gui-gtk-2.0/menu.c:686
-#: client/gui-gtk-2.0/menu.c:688 client/gui-gtk-2.0/menu.c:690
-#: client/gui-gtk-2.0/menu.c:692 client/gui-gtk-2.0/menu.c:694
-#: client/gui-gtk-2.0/menu.c:696 client/gui-gtk-2.0/menu.c:698
-#: client/gui-gtk-2.0/menu.c:700 client/gui-gtk-2.0/menu.c:702
-#: client/gui-gtk-2.0/menu.c:704 client/gui-gtk-2.0/menu.c:706
-#: client/gui-gtk-2.0/menu.c:708 client/gui-gtk-2.0/menu.c:710
-#: client/gui-gtk-2.0/menu.c:712 client/gui-gtk/menu.c:651
+#: client/gui-gtk-2.0/menu.c:650 client/gui-gtk-2.0/menu.c:652
+#: client/gui-gtk-2.0/menu.c:654 client/gui-gtk-2.0/menu.c:656
+#: client/gui-gtk-2.0/menu.c:658 client/gui-gtk-2.0/menu.c:660
+#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:664
+#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:668
+#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk-2.0/menu.c:672
+#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk-2.0/menu.c:676
+#: client/gui-gtk-2.0/menu.c:678 client/gui-gtk-2.0/menu.c:680
+#: client/gui-gtk-2.0/menu.c:682 client/gui-gtk-2.0/menu.c:684
+#: client/gui-gtk-2.0/menu.c:686 client/gui-gtk-2.0/menu.c:688
+#: client/gui-gtk-2.0/menu.c:690 client/gui-gtk-2.0/menu.c:692
+#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk-2.0/menu.c:696
+#: client/gui-gtk-2.0/menu.c:698 client/gui-gtk-2.0/menu.c:700
+#: client/gui-gtk-2.0/menu.c:702 client/gui-gtk-2.0/menu.c:704
+#: client/gui-gtk-2.0/menu.c:706 client/gui-gtk-2.0/menu.c:708
+#: client/gui-gtk-2.0/menu.c:710 client/gui-gtk/menu.c:651
 #: client/gui-gtk/menu.c:653 client/gui-gtk/menu.c:655
 #: client/gui-gtk/menu.c:657 client/gui-gtk/menu.c:659
 #: client/gui-gtk/menu.c:661 client/gui-gtk/menu.c:663
@@ -9487,140 +9495,140 @@ msgstr "命令(_O)"
 msgid "Orders"
 msgstr "命令(O)"
 
-#: client/gui-gtk-2.0/menu.c:654 client/gui-gtk-2.0/menu.c:1118
-#: client/gui-gtk-2.0/menu.c:1121 client/gui-gtk/menu.c:653
+#: client/gui-gtk-2.0/menu.c:652 client/gui-gtk-2.0/menu.c:1106
+#: client/gui-gtk-2.0/menu.c:1109 client/gui-gtk/menu.c:653
 #: client/gui-gtk/menu.c:1090 client/gui-gtk/menu.c:1093
 #: client/gui-win32/menu.c:321
 msgid "_Build City"
 msgstr "都市を作る(_B)"
 
-#: client/gui-gtk-2.0/menu.c:656 client/gui-gtk-2.0/menu.c:1131
-#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:655
+#: client/gui-gtk-2.0/menu.c:654 client/gui-gtk-2.0/menu.c:1119
+#: client/gui-gtk-2.0/menu.c:1125 client/gui-gtk/menu.c:655
 #: client/gui-gtk/menu.c:1103 client/gui-gtk/menu.c:1109
 #: client/gui-win32/menu.c:322
 msgid "Build _Road"
 msgstr "道路を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:658 client/gui-gtk-2.0/menu.c:1058
+#: client/gui-gtk-2.0/menu.c:656 client/gui-gtk-2.0/menu.c:1046
 #: client/gui-gtk/menu.c:657 client/gui-gtk/menu.c:1030
 #: client/gui-win32/menu.c:323
 msgid "Build _Irrigation"
 msgstr "灌漑を行なう(_I)"
 
-#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1059
+#: client/gui-gtk-2.0/menu.c:658 client/gui-gtk-2.0/menu.c:1047
 #: client/gui-gtk/menu.c:659 client/gui-gtk/menu.c:1031
 #: client/gui-win32/menu.c:324
 msgid "Build _Mine"
 msgstr "資源化する(_M)"
 
-#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1060
+#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1048
 #: client/gui-gtk/menu.c:661 client/gui-gtk/menu.c:1032
 msgid "Transf_orm Terrain"
 msgstr "地形を変える(_O)"
 
-#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:1169
+#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1157
 #: client/gui-gtk/menu.c:663 client/gui-gtk/menu.c:1141
 #: client/gui-win32/menu.c:326
 msgid "Build _Fortress"
 msgstr "要塞を築く(_F)"
 
-#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk/menu.c:665
+#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk/menu.c:665
 #: client/gui-win32/menu.c:327
 msgid "Build Airbas_e"
 msgstr "飛行場を作る(_E)"
 
-#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:1174
+#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:1162
 #: client/gui-gtk/menu.c:667 client/gui-gtk/menu.c:1146
 #: client/gui-win32/menu.c:328
 msgid "Clean _Pollution"
 msgstr "汚染をきれいにする(_P)"
 
-#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk/menu.c:669
+#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk/menu.c:669
 #: client/gui-win32/menu.c:329
 msgid "Clean _Nuclear Fallout"
 msgstr "死の灰をきれいにする(_N)"
 
-#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk/menu.c:673
+#: client/gui-gtk-2.0/menu.c:672 client/gui-gtk/menu.c:673
 #: client/gui-win32/menu.c:332
 msgid "_Sentry"
 msgstr "見張り番(_S)"
 
-#: client/gui-gtk-2.0/menu.c:680 client/gui-gtk/menu.c:679
+#: client/gui-gtk-2.0/menu.c:678 client/gui-gtk/menu.c:679
 #: client/gui-win32/menu.c:335
 msgid "Make _Homecity"
 msgstr "住人にする(_H)"
 
-#: client/gui-gtk-2.0/menu.c:682 client/gui-gtk/menu.c:681
+#: client/gui-gtk-2.0/menu.c:680 client/gui-gtk/menu.c:681
 #: client/gui-win32/menu.c:336
 msgid "_Unload"
 msgstr "降ろす(_U)"
 
-#: client/gui-gtk-2.0/menu.c:684 client/gui-gtk/menu.c:683
+#: client/gui-gtk-2.0/menu.c:682 client/gui-gtk/menu.c:683
 #: client/gui-win32/menu.c:337
 msgid "Wake up o_thers"
 msgstr "他を起こす(_t)"
 
-#: client/gui-gtk-2.0/menu.c:688 client/gui-gtk-2.0/menu.c:1179
+#: client/gui-gtk-2.0/menu.c:686 client/gui-gtk-2.0/menu.c:1167
 #: client/gui-gtk/menu.c:687 client/gui-gtk/menu.c:1151
 msgid "_Auto Settler"
 msgstr "自動開拓(_A)"
 
-#: client/gui-gtk-2.0/menu.c:690 client/gui-gtk/menu.c:689
+#: client/gui-gtk-2.0/menu.c:688 client/gui-gtk/menu.c:689
 #: client/gui-win32/menu.c:341
 msgid "Auto E_xplore"
 msgstr "自動探索(_X)"
 
-#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk/menu.c:693
+#: client/gui-gtk-2.0/menu.c:692 client/gui-gtk/menu.c:693
 msgid "Patrol (_Q)"
 msgstr "パトロール(_Q)"
 
-#: client/gui-gtk-2.0/menu.c:696 client/gui-gtk/menu.c:695
+#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk/menu.c:695
 #: client/gui-win32/menu.c:343
 msgid "_Go to"
 msgstr "移動(_G)"
 
-#: client/gui-gtk-2.0/menu.c:698
+#: client/gui-gtk-2.0/menu.c:696
 msgid "Go\\/Airlift to City"
 msgstr "都市へ移動\\/空輸"
 
-#: client/gui-gtk-2.0/menu.c:702 client/gui-gtk/menu.c:701
+#: client/gui-gtk-2.0/menu.c:700 client/gui-gtk/menu.c:701
 #: client/gui-mui/gui_main.c:262 client/gui-win32/menu.c:346
 #: client/gui-xaw/menu.c:187
 msgid "Disband Unit"
 msgstr "部隊解散"
 
-#: client/gui-gtk-2.0/menu.c:704
+#: client/gui-gtk-2.0/menu.c:702
 msgid "Diplomat\\/Spy Actions"
 msgstr "外交官\\/スパイ活動"
 
-#: client/gui-gtk-2.0/menu.c:706 client/gui-gtk/menu.c:705
+#: client/gui-gtk-2.0/menu.c:704 client/gui-gtk/menu.c:705
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1683
 #: client/gui-win32/menu.c:349 client/gui-xaw/menu.c:191
 msgid "Explode Nuclear"
 msgstr "核兵器を爆発させる"
 
-#: client/gui-gtk-2.0/menu.c:710 client/gui-gtk/menu.c:709
+#: client/gui-gtk-2.0/menu.c:708 client/gui-gtk/menu.c:709
 #: client/gui-win32/menu.c:351
 msgid "_Wait"
 msgstr "待機(_W)"
 
-#: client/gui-gtk-2.0/menu.c:712 client/gui-gtk/menu.c:711
+#: client/gui-gtk-2.0/menu.c:710 client/gui-gtk/menu.c:711
 #: client/gui-mui/gui_main.c:269 client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:194
 msgid "Done"
 msgstr "終了"
 
-#: client/gui-gtk-2.0/menu.c:715 client/gui-gtk/menu.c:714
+#: client/gui-gtk-2.0/menu.c:713 client/gui-gtk/menu.c:714
 #: client/gui-win32/menu.c:354
 msgid "_Reports"
 msgstr "報告(_R)"
 
-#: client/gui-gtk-2.0/menu.c:717 client/gui-gtk-2.0/menu.c:719
-#: client/gui-gtk-2.0/menu.c:721 client/gui-gtk-2.0/menu.c:723
-#: client/gui-gtk-2.0/menu.c:725 client/gui-gtk-2.0/menu.c:727
-#: client/gui-gtk-2.0/menu.c:729 client/gui-gtk-2.0/menu.c:731
-#: client/gui-gtk-2.0/menu.c:733 client/gui-gtk-2.0/menu.c:735
-#: client/gui-gtk-2.0/menu.c:737 client/gui-gtk-2.0/menu.c:739
+#: client/gui-gtk-2.0/menu.c:715 client/gui-gtk-2.0/menu.c:717
+#: client/gui-gtk-2.0/menu.c:719 client/gui-gtk-2.0/menu.c:721
+#: client/gui-gtk-2.0/menu.c:723 client/gui-gtk-2.0/menu.c:725
+#: client/gui-gtk-2.0/menu.c:727 client/gui-gtk-2.0/menu.c:729
+#: client/gui-gtk-2.0/menu.c:731 client/gui-gtk-2.0/menu.c:733
+#: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
 #: client/gui-gtk/menu.c:716 client/gui-gtk/menu.c:718
 #: client/gui-gtk/menu.c:720 client/gui-gtk/menu.c:722
 #: client/gui-gtk/menu.c:724 client/gui-gtk/menu.c:726
@@ -9630,68 +9638,68 @@ msgstr "報告(_R)"
 msgid "Reports"
 msgstr "報告(R)"
 
-#: client/gui-gtk-2.0/menu.c:719 client/gui-gtk/menu.c:718
+#: client/gui-gtk-2.0/menu.c:717 client/gui-gtk/menu.c:718
 #: client/gui-win32/menu.c:355
 msgid "_Cities"
 msgstr "都市(_C)"
 
-#: client/gui-gtk-2.0/menu.c:723 client/gui-gtk/menu.c:722
+#: client/gui-gtk-2.0/menu.c:721 client/gui-gtk/menu.c:722
 #: client/gui-win32/menu.c:357
 msgid "_Players"
 msgstr "プレイヤー(_P)"
 
-#: client/gui-gtk-2.0/menu.c:725 client/gui-gtk/menu.c:724
+#: client/gui-gtk-2.0/menu.c:723 client/gui-gtk/menu.c:724
 #: client/gui-win32/menu.c:358
 msgid "_Economy"
 msgstr "経済(_E)"
 
-#: client/gui-gtk-2.0/menu.c:727 client/gui-gtk/menu.c:726
+#: client/gui-gtk-2.0/menu.c:725 client/gui-gtk/menu.c:726
 #: client/gui-win32/menu.c:359
 msgid "_Science"
 msgstr "科学(_S)"
 
-#: client/gui-gtk-2.0/menu.c:731 client/gui-gtk/menu.c:730
+#: client/gui-gtk-2.0/menu.c:729 client/gui-gtk/menu.c:730
 #: client/gui-win32/menu.c:361
 msgid "_Wonders of the World"
 msgstr "世界の不思議(_W)"
 
-#: client/gui-gtk-2.0/menu.c:733 client/gui-gtk/menu.c:732
+#: client/gui-gtk-2.0/menu.c:731 client/gui-gtk/menu.c:732
 #: client/gui-win32/menu.c:362
 msgid "_Top Five Cities"
 msgstr "上位5位の都市(_T)"
 
-#: client/gui-gtk-2.0/menu.c:735 client/gui-gtk/menu.c:734
+#: client/gui-gtk-2.0/menu.c:733 client/gui-gtk/menu.c:734
 #: client/gui-win32/menu.c:363
 msgid "_Messages"
 msgstr "メッセージ(_M)"
 
-#: client/gui-gtk-2.0/menu.c:737 client/gui-gtk/menu.c:736
+#: client/gui-gtk-2.0/menu.c:735 client/gui-gtk/menu.c:736
 #: client/gui-win32/menu.c:364
 msgid "_Demographics"
 msgstr "人口統計(_D)"
 
-#: client/gui-gtk-2.0/menu.c:739 client/gui-gtk/menu.c:738
+#: client/gui-gtk-2.0/menu.c:737 client/gui-gtk/menu.c:738
 #: client/gui-win32/menu.c:365
 msgid "S_paceship"
 msgstr "宇宙船(_P)"
 
-#: client/gui-gtk-2.0/menu.c:742 client/gui-gtk/citydlg.c:3023
+#: client/gui-gtk-2.0/menu.c:740 client/gui-gtk/citydlg.c:3018
 #: client/gui-gtk/menu.c:741 client/gui-mui/citydlg.c:1320
 #: client/gui-win32/menu.c:367
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: client/gui-gtk-2.0/menu.c:744 client/gui-gtk-2.0/menu.c:746
-#: client/gui-gtk-2.0/menu.c:748 client/gui-gtk-2.0/menu.c:750
-#: client/gui-gtk-2.0/menu.c:752 client/gui-gtk-2.0/menu.c:754
-#: client/gui-gtk-2.0/menu.c:756 client/gui-gtk-2.0/menu.c:758
-#: client/gui-gtk-2.0/menu.c:760 client/gui-gtk-2.0/menu.c:762
-#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk-2.0/menu.c:766
-#: client/gui-gtk-2.0/menu.c:768 client/gui-gtk-2.0/menu.c:770
-#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk-2.0/menu.c:774
-#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk-2.0/menu.c:778
-#: client/gui-gtk-2.0/menu.c:780 client/gui-gtk-2.0/menu.c:782
-#: client/gui-gtk-2.0/menu.c:784 client/gui-gtk-2.0/menu.c:786
+#: client/gui-gtk-2.0/menu.c:742 client/gui-gtk-2.0/menu.c:744
+#: client/gui-gtk-2.0/menu.c:746 client/gui-gtk-2.0/menu.c:748
+#: client/gui-gtk-2.0/menu.c:750 client/gui-gtk-2.0/menu.c:752
+#: client/gui-gtk-2.0/menu.c:754 client/gui-gtk-2.0/menu.c:756
+#: client/gui-gtk-2.0/menu.c:758 client/gui-gtk-2.0/menu.c:760
+#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk-2.0/menu.c:764
+#: client/gui-gtk-2.0/menu.c:766 client/gui-gtk-2.0/menu.c:768
+#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
+#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
+#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
+#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
 #: client/gui-gtk-2.0/repodlgs.c:181 client/gui-gtk-2.0/wldlg.c:495
 #: client/gui-gtk/menu.c:743 client/gui-gtk/menu.c:745
 #: client/gui-gtk/menu.c:747 client/gui-gtk/menu.c:749
@@ -9712,139 +9720,139 @@ msgstr "ヘルプ(_H)"
 msgid "Help"
 msgstr "ヘルプ(H)"
 
-#: client/gui-gtk-2.0/menu.c:746 client/gui-gtk/menu.c:745
+#: client/gui-gtk-2.0/menu.c:744 client/gui-gtk/menu.c:745
 #: client/gui-win32/menu.c:368
 msgid "Language_s"
 msgstr "言語(_S)"
 
-#: client/gui-gtk-2.0/menu.c:748 client/gui-gtk/menu.c:747
+#: client/gui-gtk-2.0/menu.c:746 client/gui-gtk/menu.c:747
 #: client/gui-win32/menu.c:369
 msgid "Co_nnecting"
 msgstr "接続(_N)"
 
-#: client/gui-gtk-2.0/menu.c:750 client/gui-gtk/menu.c:749
+#: client/gui-gtk-2.0/menu.c:748 client/gui-gtk/menu.c:749
 #: client/gui-win32/menu.c:370
 msgid "C_ontrols"
 msgstr "操作(_O)"
 
-#: client/gui-gtk-2.0/menu.c:752 client/gui-gtk/menu.c:751
+#: client/gui-gtk-2.0/menu.c:750 client/gui-gtk/menu.c:751
 #: client/gui-win32/menu.c:371
 msgid "C_hatline"
 msgstr "チャット行(_H)"
 
-#: client/gui-gtk-2.0/menu.c:754 client/gui-gtk/menu.c:753
+#: client/gui-gtk-2.0/menu.c:752 client/gui-gtk/menu.c:753
 msgid "_Worklist Editor"
 msgstr "作業リストエディタ(_W)"
 
-#: client/gui-gtk-2.0/menu.c:756 client/gui-gtk/menu.c:755
+#: client/gui-gtk-2.0/menu.c:754 client/gui-gtk/menu.c:755
 msgid "Citizen _Management"
 msgstr "市民管理(CMA)(_M)"
 
-#: client/gui-gtk-2.0/menu.c:758 client/gui-gtk/menu.c:757
+#: client/gui-gtk-2.0/menu.c:756 client/gui-gtk/menu.c:757
 #: client/gui-win32/menu.c:372
 msgid "_Playing"
 msgstr "遊び方(_P)"
 
-#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/menu.c:761
+#: client/gui-gtk-2.0/menu.c:760 client/gui-gtk/menu.c:761
 #: client/gui-win32/menu.c:374
 msgid "City _Improvements"
 msgstr "都市建造物(_I)"
 
-#: client/gui-gtk-2.0/menu.c:766 client/gui-gtk/menu.c:765
+#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk/menu.c:765
 #: client/gui-win32/menu.c:376
 msgid "Com_bat"
 msgstr "戦闘(_B)"
 
-#: client/gui-gtk-2.0/menu.c:768 client/gui-gtk/menu.c:767
+#: client/gui-gtk-2.0/menu.c:766 client/gui-gtk/menu.c:767
 #: client/gui-win32/menu.c:377
 msgid "_ZOC"
 msgstr "_ZOC"
 
-#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk/menu.c:769
+#: client/gui-gtk-2.0/menu.c:768 client/gui-gtk/menu.c:769
 #: client/gui-win32/menu.c:378
 msgid "Techno_logy"
 msgstr "科学(_L)"
 
-#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk/menu.c:771
+#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk/menu.c:771
 #: client/gui-win32/menu.c:379
 msgid "_Terrain"
 msgstr "地形(_T)"
 
-#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk/menu.c:773
+#: client/gui-gtk-2.0/menu.c:772 client/gui-gtk/menu.c:773
 #: client/gui-win32/menu.c:380
 msgid "Won_ders"
 msgstr "不思議(_D)"
 
-#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk/menu.c:775
+#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk/menu.c:775
 #: client/gui-win32/menu.c:381
 msgid "_Government"
 msgstr "政治体制(_G)"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk/menu.c:777
+#: client/gui-gtk-2.0/menu.c:776 client/gui-gtk/menu.c:777
 #: client/gui-win32/menu.c:382
 msgid "Happin_ess"
 msgstr "幸福(_E)"
 
-#: client/gui-gtk-2.0/menu.c:780 client/gui-gtk/menu.c:779
+#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk/menu.c:779
 #: client/gui-win32/menu.c:383
 msgid "Space _Race"
 msgstr "宇宙開発競争(_R)"
 
-#: client/gui-gtk-2.0/menu.c:784 client/gui-gtk/menu.c:783
+#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk/menu.c:783
 #: client/gui-win32/menu.c:385
 msgid "_Copying"
 msgstr "著作権(_C)"
 
-#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk/menu.c:785
+#: client/gui-gtk-2.0/menu.c:784 client/gui-gtk/menu.c:785
 #: client/gui-win32/menu.c:386
 msgid "_About"
 msgstr "Freeciv について(_A)"
 
-#: client/gui-gtk-2.0/menu.c:1050 client/gui-gtk/menu.c:1022
+#: client/gui-gtk-2.0/menu.c:1038 client/gui-gtk/menu.c:1022
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "%sに変える(_I)"
 
-#: client/gui-gtk-2.0/menu.c:1051 client/gui-gtk/menu.c:1023
+#: client/gui-gtk-2.0/menu.c:1039 client/gui-gtk/menu.c:1023
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "%sに変える(_M)"
 
-#: client/gui-gtk-2.0/menu.c:1052 client/gui-gtk/menu.c:1024
+#: client/gui-gtk-2.0/menu.c:1040 client/gui-gtk/menu.c:1024
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "%sに変える(_O)"
 
-#: client/gui-gtk-2.0/menu.c:1113 client/gui-gtk/menu.c:1085
+#: client/gui-gtk-2.0/menu.c:1101 client/gui-gtk/menu.c:1085
 msgid "Help _Build Wonder"
 msgstr "不思議建築を手伝う(_B)"
 
-#: client/gui-gtk-2.0/menu.c:1116 client/gui-gtk/menu.c:1088
+#: client/gui-gtk-2.0/menu.c:1104 client/gui-gtk/menu.c:1088
 msgid "Add to City (_B)"
 msgstr "都市に加える(_B)"
 
-#: client/gui-gtk-2.0/menu.c:1124 client/gui-gtk/menu.c:1096
+#: client/gui-gtk-2.0/menu.c:1112 client/gui-gtk/menu.c:1096
 msgid "Make Trade _Route"
 msgstr "交易路を確立する(_R)"
 
-#: client/gui-gtk-2.0/menu.c:1127 client/gui-gtk/menu.c:1099
+#: client/gui-gtk-2.0/menu.c:1115 client/gui-gtk/menu.c:1099
 msgid "Build _Railroad"
 msgstr "鉄道を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:1149 client/gui-gtk/menu.c:1121
+#: client/gui-gtk-2.0/menu.c:1137 client/gui-gtk/menu.c:1121
 msgid "Bu_ild Farmland"
 msgstr "農地を作る(_I)"
 
 # yasu
-#: client/gui-gtk-2.0/menu.c:1167 client/gui-gtk/menu.c:1139
+#: client/gui-gtk-2.0/menu.c:1155 client/gui-gtk/menu.c:1139
 msgid "_Fortify"
 msgstr "防御姿勢(_F)"
 
-#: client/gui-gtk-2.0/menu.c:1172 client/gui-gtk/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:1160 client/gui-gtk/menu.c:1144
 msgid "_Paradrop"
 msgstr "落下傘降下(_P)"
 
-#: client/gui-gtk-2.0/menu.c:1177 client/gui-gtk/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:1165 client/gui-gtk/menu.c:1149
 msgid "_Auto Attack"
 msgstr "自動攻撃(_A)"
 
@@ -9902,9 +9910,8 @@ msgid "Nation"
 msgstr "民族"
 
 #: client/gui-gtk-2.0/plrdlg.c:183 client/gui-gtk/plrdlg.c:136
-#, fuzzy
 msgid "Team"
-msgstr "寺院"
+msgstr "チーム"
 
 #: client/gui-gtk-2.0/plrdlg.c:185 client/gui-gtk/plrdlg.c:137
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/plrdlg.c:349
@@ -10175,7 +10182,7 @@ msgstr "全表示"
 msgid "Undo"
 msgstr "取消"
 
-#: client/gui-gtk-2.0/wldlg.c:479 client/gui-gtk/dialogs.c:2092
+#: client/gui-gtk-2.0/wldlg.c:479 client/gui-gtk/dialogs.c:2090
 #: client/gui-gtk/gamedlgs.c:306 client/gui-gtk/inputdlg.c:129
 #: client/gui-gtk/messagedlg.c:117 client/gui-gtk/wldlg.c:483
 #: client/gui-win32/dialogs.c:521 client/gui-win32/messagedlg.c:216
@@ -10218,7 +10225,7 @@ msgstr "<"
 msgid ">"
 msgstr ">"
 
-#: client/gui-gtk/citydlg.c:860 client/gui-gtk/citydlg.c:3007
+#: client/gui-gtk/citydlg.c:860 client/gui-gtk/citydlg.c:3002
 #: client/gui-mui/citydlg.c:1698
 msgid "_Change"
 msgstr "変更(_C)"
@@ -10232,18 +10239,24 @@ msgstr "%sの都市"
 msgid "Close dialog"
 msgstr "閉じる"
 
-#: client/gui-gtk/citydlg.c:2144
+#: client/gui-gtk/citydlg.c:2142
 #, c-format
 msgid "Supported units (%d)"
 msgstr "援助されている部隊 (%d)"
 
-#: client/gui-gtk/citydlg.c:2279
+#: client/gui-gtk/citydlg.c:2274
 #, c-format
 msgid "Present units (%d)"
 msgstr "都市にいる部隊 (%d)"
 
-#: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
-#: client/gui-gtk/citydlg.c:2921 client/gui-gtk/dialogs.c:425
+#: client/gui-gtk/citydlg.c:2471 client/gui-gtk/citydlg.c:2503
+#: client/gui-win32/citydlg.c:1625 client/gui-win32/citydlg.c:1653
+#: data/Freeciv:1163 data/Freeciv:1199
+msgid "Unit Commands"
+msgstr "部隊コマンド"
+
+#: client/gui-gtk/citydlg.c:2692 client/gui-gtk/citydlg.c:2715
+#: client/gui-gtk/citydlg.c:2916 client/gui-gtk/dialogs.c:425
 #: client/gui-gtk/dialogs.c:976 client/gui-gtk/dialogs.c:992
 #: client/gui-mui/dialogs.c:238 client/gui-mui/dialogs.c:508
 #: client/gui-mui/dialogs.c:524 client/gui-win32/citydlg.c:1016
@@ -10254,7 +10267,7 @@ msgstr "都市にいる部隊 (%d)"
 msgid "Darn"
 msgstr "がっかり"
 
-#: client/gui-gtk/citydlg.c:3015
+#: client/gui-gtk/citydlg.c:3010
 msgid "Ca_ncel"
 msgstr "取り消し(_N)"
 
@@ -10317,7 +10330,7 @@ msgstr "都市報告の設定"
 msgid "Set columns shown"
 msgstr "列に表示するもの"
 
-#: client/gui-gtk/connectdlg.c:239 client/gui-gtk/dialogs.c:2102
+#: client/gui-gtk/connectdlg.c:239 client/gui-gtk/dialogs.c:2100
 #: client/gui-mui/gui_main.c:203 client/gui-win32/connectdlg.c:416
 #: client/gui-win32/dialogs.c:524 client/gui-xaw/menu.c:115 data/Freeciv:102
 #: data/Freeciv:3080
@@ -10333,11 +10346,11 @@ msgstr "メッセージ:"
 msgid "Goto and Close"
 msgstr "移動して閉じる"
 
-#: client/gui-gtk/dialogs.c:1939 data/Freeciv:3034
+#: client/gui-gtk/dialogs.c:1937 data/Freeciv:3034
 msgid "What Nation Will You Be?"
 msgstr "あなたがなりたい民族は?"
 
-#: client/gui-gtk/dialogs.c:2097 client/gui-mui/gui_main.c:201
+#: client/gui-gtk/dialogs.c:2095 client/gui-mui/gui_main.c:201
 #: client/gui-win32/dialogs.c:522 client/gui-xaw/menu.c:114 data/Freeciv:3078
 msgid "Disconnect"
 msgstr "切断"
@@ -10424,9 +10437,8 @@ msgid "Ai"
 msgstr "AI"
 
 #: client/gui-gtk/plrdlg.c:138
-#, fuzzy
 msgid "Ping"
-msgstr "王"
+msgstr "Ping"
 
 #: client/gui-gtk/plrdlg.c:322 client/gui-mui/plrdlg.c:108
 #: client/gui-win32/plrdlg.c:177 client/gui-xaw/plrdlg.c:215
@@ -10462,7 +10474,7 @@ msgid "Refresh"
 msgstr "再表示"
 
 #: client/gui-gtk/repodlgs.c:944 client/gui-mui/dialogs.c:229
-#: client/gui-win32/repodlgs.c:580 client/gui-xaw/citydlg.c:2557
+#: client/gui-win32/repodlgs.c:580 client/gui-xaw/citydlg.c:2555
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/messagedlg.c:73
 #: client/gui-xaw/optiondlg.c:77 client/gui-xaw/optiondlg.c:249
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2143 data/Freeciv:2157
@@ -10472,7 +10484,7 @@ msgid "Yes"
 msgstr "はい"
 
 #: client/gui-gtk/repodlgs.c:946 client/gui-mui/dialogs.c:230
-#: client/gui-win32/repodlgs.c:582 client/gui-xaw/citydlg.c:2557
+#: client/gui-win32/repodlgs.c:582 client/gui-xaw/citydlg.c:2555
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/messagedlg.c:73
 #: client/gui-xaw/optiondlg.c:77 client/gui-xaw/optiondlg.c:249
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2159 data/Freeciv:2178
@@ -11747,24 +11759,23 @@ msgstr ""
 "合計   %d 交易/年\n"
 
 #: client/gui-xaw/graphics.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Failed reading PNG file: %s"
-msgstr "XPM ファイルの読み込み失敗: %s"
+msgstr "PNG ファイルの読み込み失敗: %s"
 
 #: client/gui-xaw/graphics.c:357 client/gui-xaw/graphics.c:363
-#, fuzzy
 msgid "Failed creating PNG struct"
-msgstr "XPM ファイルの読み込み失敗: %s"
+msgstr "PNG構造体の作成失敗"
 
 #: client/gui-xaw/graphics.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Failed while reading PNG file: %s"
-msgstr "XPM ファイルの読み込み失敗: %s"
+msgstr "PNG ファイル読み込み中の失敗: %s"
 
 #: client/gui-xaw/graphics.c:403
 #, c-format
 msgid "PNG file has no palette: %s"
-msgstr ""
+msgstr "PNG ファイルにパレットがありません: %s"
 
 #: client/gui-xaw/gui_main.c:303
 msgid "No version number in resources."
@@ -11773,8 +11784,7 @@ msgstr "リソースにバージョンがありません。"
 #: client/gui-xaw/gui_main.c:304
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr ""
-"恐らくどこかに古い(おそらく V1.0の) Freeciv リソースファイルを持っているはず"
-"です。"
+"恐らくどこかに古い(V1.0頃の) Freeciv リソースファイルを持っているはずです。"
 
 #: client/gui-xaw/gui_main.c:312
 msgid "Game version does not match Resource version."
@@ -11898,11 +11908,11 @@ msgstr "戦闘"
 msgid "ZOC"
 msgstr "ZOC"
 
-#: client/gui-xaw/menu.c:227 data/helpdata.txt:1212
+#: client/gui-xaw/menu.c:227 data/helpdata.txt:1213
 msgid "Government"
 msgstr "政治体制"
 
-#: client/gui-xaw/menu.c:229 data/helpdata.txt:1349
+#: client/gui-xaw/menu.c:229 data/helpdata.txt:1350
 msgid "Space Race"
 msgstr "宇宙開発競争"
 
@@ -12357,12 +12367,13 @@ msgstr ""
 
 # ama, clefs(fuzzy)
 #: data/helpdata.txt:440
+#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
-"  a: (a)uto-settler  (settler units)\n"
+"  a: (a)uto-settler  (settler/engineer units)\n"
 "  a: (a)uto-attack  (military units)\n"
-"  b: (b)uild city  (settler units)\n"
+"  b: (b)uild city  (settler/engineer units)\n"
 "  b: help (b)uild wonder  (caravan units)\n"
 "  c: (c)enter view on unit\n"
 "  C: unit (c)onnect  (then left-click mouse to select destination)\n"
@@ -12370,22 +12381,23 @@ msgid ""
 "  D: (D)isband unit\n"
 "  e: build airbas(e)  (airbase units)\n"
 "  f: (f)ortify unit  (military units)\n"
-"  f: build (f)ortress  (settler units)\n"
+"  f: build (f)ortress  (settler/engineer units)\n"
 "  F: open (F)ind City dialog\n"
 "  g: unit (g)oto  (then left-click mouse to select destination)\n"
 "  h: change (h)omecity  (to city at current location)\n"
-"  i: build (i)rrigation/farmland  (settler units; may convert terr)\n"
+"  i: build (i)rrigation/farmland  (settler/engineer units; may convert "
+"terr)\n"
 "  l: go/air(l)ift to city\n"
 "  L: open Work(L)ists dialog\n"
-"  m: build (m)ine  (settler units; may convert terrain)\n"
+"  m: build (m)ine  (settler/engineer units; may convert terrain)\n"
 "  n: clean (n)uclear fallout\n"
 "  N: explode (N)uclear\n"
 "  o: transf(o)rm terrain\n"
-"  p: clean (p)ollution  (settler units)\n"
+"  p: clean (p)ollution  (settler/engineer units)\n"
 "  p: (p)aradrop  (paratroop units)\n"
 "  P: (P)illage terrain alteration\n"
 "  q: unit patrol  (then left-click mouse to select destination)\n"
-"  r: build (r)oad/railroad  (settler units)\n"
+"  r: build (r)oad/railroad  (settler/engineer units)\n"
 "  r: establish trade (r)oute  (caravan units)\n"
 "  R: incite a (R)evolution\n"
 "  s: (s)entry unit\n"
@@ -13221,130 +13233,16 @@ msgid ""
 msgstr " - それから防御側の地形に応じた係数を強さに掛けます。"
 
 #: data/helpdata.txt:912
+#, fuzzy
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
-"defending against a mounted unit."
+"defending against a mounted unit.  Mounted units normally include Horsemen, "
+"Chariots, Elephants, Crusaders and Cavalry, ), _("
 msgstr ""
 " - 乗馬している部隊が槍隊に攻撃していたら、防御側の強さを二倍にします。"
 
-#: data/helpdata.txt:915
-msgid ""
-" - If the defender is an AEGIS Cruiser defending against airborne units "
-"(including missiles and Helicopters), the defense is quintupled."
-msgstr ""
-" - 航空部隊(ミサイル、ヘリコプターを含む)がイージス巡洋艦を攻撃していたら、防"
-"御側の強さを五倍にします。"
-
-#: data/helpdata.txt:919
-msgid ""
-" - The defender's strength is doubled again if it is in a city with a SAM "
-"Battery and the attacker is an air unit (other than an Helicopter) or a "
-"missile."
-msgstr ""
-" - ヘリコプター以外の航空部隊かミサイルが、対空ミサイル陣地を備えた都市の部隊"
-"を攻撃していたら、防御側の強さを二倍にします。"
-
-#: data/helpdata.txt:923
-msgid ""
-" - An SDI Defense doubles the defender's strength yet again against missile "
-"attacks."
-msgstr ""
-" - 攻撃側がミサイルで防御側の都市が SDI防衛システムを備えていたら、さらに防御"
-"側の強さを二倍にします。"
-
-#: data/helpdata.txt:926
-msgid ""
-" - If the attacker is a ship and the defender is in a city with a Coastal "
-"Defense, the defender's strength is doubled."
-msgstr ""
-" - 沿岸防衛を備えた都市にいる防御側を船で攻撃していたら、防御側の強さを二倍に"
-"します。"
-
-#: data/helpdata.txt:929
-msgid ""
-" - Against land units (other than Howitzers) and Helicopters, defending "
-"units in a city with City Walls have their strength tripled."
-msgstr ""
-" - 城壁を備えた都市にいる防御側部隊を榴弾砲以外の地上部隊かヘリコプターで攻撃"
-"したら、防御側の強さを三倍にします。"
-
-#: data/helpdata.txt:933
-msgid ""
-" - If the defender is in a fortress (and not a city), its strength is "
-"doubled."
-msgstr "- 防御側が要塞にいたら、その部隊の強さを二倍にします。"
-
-# yasu
-#: data/helpdata.txt:936
-msgid ""
-" - Finally, if the defender is a ground unit, and is either fortified or "
-"inside a city, its strength is multiplied by 1.5."
-msgstr ""
-" - 最後に、防御側が陸上部隊で防御姿勢をとっているか都市にいる場合、強さが 1.5"
-"倍になります。"
-
-#: data/helpdata.txt:939
-msgid ""
-"If, after these modifications, the attacker has a strength of 0, it "
-"automatically loses.  Otherwise, if the defender has a strength of 0, the "
-"defender loses."
-msgstr ""
-"以上の修正の結果、攻撃側の強さが 0 になっていたら、攻撃側は自動的に消滅しま"
-"す。そうでない場合で防御側の強さが 0の時、防御側は消滅します。"
-
-# clefs
-#: data/helpdata.txt:943
-msgid "The firepower of the attacker and defender are also modified."
-msgstr "攻撃側・防御側共に、火力も修正されます。"
-
-# clefs
-#: data/helpdata.txt:945
-msgid ""
-" - If the defender is a ship and is inside a city the firepower of the "
-"attacker is doubled and the firepower of the ship is set to 1."
-msgstr ""
-" - 防御側が都市内に停泊中の艦船なら、攻撃側の火力は二倍に、防御側の火力は1に"
-"なります。"
-
-# clefs
-# (原文の問題)ステルス戦闘機の場合は？
-#: data/helpdata.txt:948
-msgid ""
-" - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
-"is set to 1."
-msgstr ""
-" - 戦闘機がヘリコプターを攻撃する場合、ヘリコプターの火力は1になります。"
-
-# clefs
-#: data/helpdata.txt:951
-msgid ""
-" - If a ship is attacking a ground unit on land the firepower of both is set "
-"to 1."
-msgstr ""
-" - 艦船が陸上にある陸ユニットを攻撃する場合、双方とも火力は1になります。"
-
-# was fuzzy
-#: data/helpdata.txt:954
-msgid ""
-"After these preliminaries, combat occurs, as long as both units are still "
-"alive (i.e., hit points are greater than 0).  Each round, a random number "
-"between 1 and the sum of the attacker's and defender's strengths is "
-"generated.  If this number is greater than the defender's strength, the "
-"defender loses hit points equal to the attacker's firepower.  Otherwise, the "
-"attacker loses hit points equal to the defender's firepower. The first unit "
-"to reach 0 hit points (or negative hit points) loses. "
-msgstr ""
-"これらの準備の後、両方の部隊がまだ生きていたら (即ち体力が 0 より大きければ) "
-"戦闘が行なわれます。 各ラウンド、1〜「攻撃側と防御側の強さの合計」までの間の"
-"乱数が生成されます。 この数が防御側の強さより大きければ、防御側は攻撃側の火力"
-"だけ体力を失います(攻撃側が地上部隊を攻撃する船なら、防御側は体力 1 だけ失い"
-"ます)。そうでなければ、攻撃側は防御側の火力だけ体力を失います(防御側が都市内"
-"にいる船の時を除きます。停泊している船は効果的な作戦行動を起こせません。ま"
-"た、攻撃側が地上部隊を攻撃する船の時も除きます。これらの場合、攻撃側は体力 1 "
-"を失います)。最初に体力 0 か負になった部隊が消滅します。"
-
 # yasu, ama
-#: data/helpdata.txt:969
+#: data/helpdata.txt:970
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -13357,7 +13255,7 @@ msgstr ""
 "なってない)場合、部隊は常にベテランになります。その他の場合には、ベテランにな"
 "る確率は 50% です。"
 
-#: data/helpdata.txt:975
+#: data/helpdata.txt:976
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -13365,7 +13263,7 @@ msgstr ""
 "攻撃側の地上部隊が勝利し、防御側が城壁なしの都市にいた場合、都市の大きさは 1"
 "小さくなります。"
 
-#: data/helpdata.txt:978
+#: data/helpdata.txt:979
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -13373,12 +13271,12 @@ msgstr ""
 "防御側部隊が都市か要塞以外で負けた場合、その部隊の場所にいた全て部隊が消滅し"
 "ます。"
 
-#: data/helpdata.txt:985
+#: data/helpdata.txt:986
 msgid " Combat example 1"
 msgstr " 戦闘例1"
 
 # yasu, ama
-#: data/helpdata.txt:986
+#: data/helpdata.txt:987
 msgid ""
 "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
@@ -13388,7 +13286,7 @@ msgstr ""
 "られた城壁付き都市の中にいる非ベテランのマスケット銃士(攻:3 防:3 体:20 火:1)"
 "を攻撃するとします。"
 
-#: data/helpdata.txt:990
+#: data/helpdata.txt:991
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
@@ -13396,7 +13294,7 @@ msgstr ""
 "攻撃側の基礎攻撃力は 8です。ベテラン状態なので 12になりますが、残り移動ポイン"
 "トが 2/3しかないので最終的な攻撃力は 8です。"
 
-#: data/helpdata.txt:993
+#: data/helpdata.txt:994
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -13406,7 +13304,7 @@ msgstr ""
 "防御側の防御力は 3です。森にいるので強さは 4.5になります。城壁で守られている"
 "ので 3倍になり 13.5 です。都市内にいる地上部隊なので、20.25になります。"
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:999
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -13416,11 +13314,11 @@ msgstr ""
 "攻撃側の強さは 80, 防御側の強さは 202です。"
 
 # clefs
-#: data/helpdata.txt:1002
+#: data/helpdata.txt:1003
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "双方とも、火力は 1のままで変更はありません。"
 
-#: data/helpdata.txt:1005
+#: data/helpdata.txt:1006
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -13432,7 +13330,7 @@ msgstr ""
 "確率)、攻撃側は体力 1を失います。"
 
 # ama, yasu
-#: data/helpdata.txt:1016
+#: data/helpdata.txt:1017
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -13446,12 +13344,12 @@ msgstr ""
 "ん。防御側は無傷かもしれないし、ほとんどの体力を失うかもしれないし、負けるこ"
 "とさえあります。"
 
-#: data/helpdata.txt:1026
+#: data/helpdata.txt:1027
 msgid " Combat example 2"
 msgstr " 戦闘例2"
 
 # yasu, ama
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1028
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -13461,11 +13359,11 @@ msgstr ""
 "城壁と沿岸防衛付き都市の中にいるベテラン高山部隊(攻:5 防:5 HP:20 火:1)を攻撃"
 "するとします。"
 
-#: data/helpdata.txt:1032
+#: data/helpdata.txt:1033
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "攻撃側の攻撃力は 12で、ベテラン状態なので 18に上昇します。"
 
-#: data/helpdata.txt:1035
+#: data/helpdata.txt:1036
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -13478,20 +13376,20 @@ msgstr ""
 "対しては効果ありません。)防御側は都市にいる地上部隊なので、合計の防御力は "
 "22.5になります。"
 
-#: data/helpdata.txt:1041
+#: data/helpdata.txt:1042
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr "内部では、攻撃側と防御側で使われる値はそれぞれ 180 と 225 です。"
 
 # clefs
-#: data/helpdata.txt:1044
+#: data/helpdata.txt:1045
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "戦艦の火力は 2から 1に修正されます。"
 
 # ama, clefs
 # was fuzzy
-#: data/helpdata.txt:1047
+#: data/helpdata.txt:1048
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -13504,7 +13402,7 @@ msgstr ""
 
 # yasu, clefs
 # was fuzzy
-#: data/helpdata.txt:1058
+#: data/helpdata.txt:1059
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -13517,11 +13415,11 @@ msgstr ""
 "すが、戦艦は 2倍のヒットポイントを持っています。戦艦は約 60% のヒットポイント"
 "を失うと推測されます。戦闘後、移動力はおそらく残らないでしょう。"
 
-#: data/helpdata.txt:1067
+#: data/helpdata.txt:1068
 msgid "Zones of Control"
 msgstr "ゾーンコントロール"
 
-#: data/helpdata.txt:1068
+#: data/helpdata.txt:1069
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -13529,7 +13427,7 @@ msgstr ""
 "ゾーンコントロール(Zones of Control 略して ZOC)とは、敵の(部分的に)支配してい"
 "る領域での移動を制限するゲームの概念です。"
 
-#: data/helpdata.txt:1072
+#: data/helpdata.txt:1073
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -13542,7 +13440,7 @@ msgstr ""
 "いる土地」とは地上の敵部隊のいる土地のことで、「隣接」とは部隊を囲う8方の土地"
 "のことです。"
 
-#: data/helpdata.txt:1078
+#: data/helpdata.txt:1079
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -13556,7 +13454,7 @@ msgstr ""
 "- 海上からの部隊移動(ボートからの上陸)\n"
 "- 部隊タイプが ZOC 無視(例:外交官やスパイ)"
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1085
 msgid ""
 "Notes:\n"
 "\n"
@@ -13594,7 +13492,7 @@ msgstr ""
 "- 海上からの移動は特別な場合です。海上への移動(ボートへ戻る)も、友好的な(ボー"
 "ト)部隊への移動の場合は許可されます。"
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1105
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -13607,7 +13505,7 @@ msgstr ""
 "占領した土地を守るための部隊を残しておくことを繰り返し行なうことで、敵の領域"
 "を通る道を作れます。"
 
-#: data/helpdata.txt:1111
+#: data/helpdata.txt:1112
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -13619,7 +13517,7 @@ msgstr ""
 "- 部隊のいない敵都市はもう ZOC を課さない。\n"
 "- 今では地上部隊の上陸という特別な場合を認める"
 
-#: data/helpdata.txt:1120
+#: data/helpdata.txt:1121
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -13628,23 +13526,23 @@ msgstr ""
 "地形は長所と欠点を生みます。新しい都市を建てる土地を選ぶ時には、人口増加を支"
 "えるのに十分な食料生産が近くで行なえるか確認する必要があります。"
 
-#: data/helpdata.txt:1125
+#: data/helpdata.txt:1126
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr "都市からの純益は、都市建造物や不思議だけでなく政治体制にもよります。"
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1135
 msgid " Terrain Alterations"
 msgstr "地形の変更"
 
-#: data/helpdata.txt:1135
+#: data/helpdata.txt:1136
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr "開拓者とエンジニアは、幾通りかの方法で地形を変えることができます。"
 
-#: data/helpdata.txt:1138
+#: data/helpdata.txt:1139
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -13658,7 +13556,7 @@ msgstr ""
 "で直接接していなければなりません。灌漑された土地は、各ターンでさらに食料を生"
 "みます。また、技術が進むと二度灌漑を行なえ、より生産力のある農地にできます。"
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1147
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -13666,7 +13564,7 @@ msgstr ""
 "一部の地形は資源化を行なえます。資源化は、その土地で生産される資源(シールド)"
 "の量を増やします。"
 
-#: data/helpdata.txt:1149
+#: data/helpdata.txt:1150
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -13677,7 +13575,7 @@ msgstr ""
 "なければなりません)。道路と鉄道は部隊の移動を素早くし、都市の資源を増やしま"
 "す。"
 
-#: data/helpdata.txt:1154
+#: data/helpdata.txt:1155
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -13685,7 +13583,7 @@ msgstr ""
 " - 現在の土地と移動先の土地の両方に道路が通っているなら、部隊移動に要するポイ"
 "ントは通常の 1/3 になります。"
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1158
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -13693,12 +13591,12 @@ msgstr ""
 " - 鉄道だけを使って移動する時は、移動ポイントは消費しません。鉄道に乗って無限"
 "に移動できます。"
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1161
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr " - 地形によっては、道路を作ることで交易資源が増えます。"
 
-#: data/helpdata.txt:1163
+#: data/helpdata.txt:1164
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -13708,7 +13606,7 @@ msgstr ""
 "は、食料や交易資源も増やすかもしれません。また増えるシールド資源は 50%でない"
 "かもしれません。)"
 
-#: data/helpdata.txt:1168
+#: data/helpdata.txt:1169
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -13718,12 +13616,12 @@ msgstr ""
 "倍の強さで防御できます。また、要塞の中にいる部隊は一度に一部隊しか滅ぼされま"
 "せん。詳しくは「戦闘」の説明を見て下さい。"
 
-#: data/helpdata.txt:1173
+#: data/helpdata.txt:1174
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr "飛行場を作ることもできます。航空部隊の着陸や燃料補給が行なえます。"
 
-#: data/helpdata.txt:1176
+#: data/helpdata.txt:1177
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -13734,11 +13632,11 @@ msgstr ""
 "ンジニアは半分の時間(切り上げ)で終わります。開拓者やエンジニアを集合させるこ"
 "とでさらに時間を減らせます。"
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1187
 msgid "  Pillaging"
 msgstr "  略奪"
 
-#: data/helpdata.txt:1187
+#: data/helpdata.txt:1188
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -13750,7 +13648,7 @@ msgstr ""
 "奪する具体的な種類を選択できます。選択できないなら、以下の順で略奪を行ないま"
 "す:"
 
-#: data/helpdata.txt:1193
+#: data/helpdata.txt:1194
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -13768,7 +13666,7 @@ msgstr ""
 " - 鉄道\n"
 " - 道路"
 
-#: data/helpdata.txt:1201
+#: data/helpdata.txt:1202
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -13782,7 +13680,7 @@ msgstr ""
 "漑して平野に変えてしまったら、略奪によって森へ戻すことはできません。もし戻し"
 "たければ、開拓者やエンジニアでまた変更しなければなりません。"
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1214
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -13790,7 +13688,7 @@ msgstr ""
 "政治体制は、都市の生産性や交易、人民の幸福など多くのゲームの要素に影響しま"
 "す。"
 
-#: data/helpdata.txt:1216
+#: data/helpdata.txt:1217
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -13803,7 +13701,7 @@ msgstr ""
 "ばなりません。革命がおこると、文明は無政府状態の期間(1-5ターン)を経験します。"
 "この期間を経た後、新しい政治体制を選択できます。"
 
-#: data/helpdata.txt:1223
+#: data/helpdata.txt:1224
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -13816,7 +13714,7 @@ msgstr ""
 "都がなければ、全ての都市にひどい汚職がはびこるでしょう。) 裁判所は都市の汚職"
 "を減らします。"
 
-#: data/helpdata.txt:1230
+#: data/helpdata.txt:1231
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -13827,7 +13725,7 @@ msgstr ""
 "んの余暇を与えない限り難しいです。他の文明を征服するつもりなら、他の好戦的な"
 "政治体制にしたほうがいいかもしれません。"
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1237
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13838,12 +13736,12 @@ msgstr ""
 "やしやすいです。できるだけ早く共和制に切り変えることを考えて下さい。ゲームの"
 "早い段階で進んだ科学を得ると、それだけ有利になるのです。"
 
-#: data/helpdata.txt:1245
+#: data/helpdata.txt:1246
 msgid " Civil War"
 msgstr " 内戦"
 
 # ama, clefs
-#: data/helpdata.txt:1246
+#: data/helpdata.txt:1247
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13855,14 +13753,14 @@ msgstr ""
 "導者は国庫の半分を略奪し、全ての科学の発展をそのまま保持します。"
 
 # clefs
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1253
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "内戦は1ターンのみで、その後は無政府状態になります。"
 
 # ama, clefs
-#: data/helpdata.txt:1255
+#: data/helpdata.txt:1256
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13873,7 +13771,7 @@ msgstr ""
 "かっていたら、おそらく誠実なままです。祝典を行なっている都市は内戦を起こりづ"
 "らく、逆に混乱状態の都市は内戦を起こりやすくします。"
 
-#: data/helpdata.txt:1261
+#: data/helpdata.txt:1262
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13883,7 +13781,7 @@ msgstr ""
 "は、専制的なものに比べ暴動の起こる可能性がはるかに少なくなります。"
 
 # ama, clefs
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1266
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13895,7 +13793,7 @@ msgstr ""
 "バ・オプションで、 6 以上の数に変更されているかもしれません。"
 
 # yasu
-#: data/helpdata.txt:1277
+#: data/helpdata.txt:1278
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13909,7 +13807,7 @@ msgstr ""
 "に増えます。"
 
 # yasu
-#: data/helpdata.txt:1284
+#: data/helpdata.txt:1285
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13923,7 +13821,7 @@ msgstr ""
 "起きます。"
 
 # yasu
-#: data/helpdata.txt:1291
+#: data/helpdata.txt:1292
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13936,7 +13834,7 @@ msgstr ""
 "ます。祝典の効果は政治体制によって様々です。"
 
 # yasu
-#: data/helpdata.txt:1298
+#: data/helpdata.txt:1299
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13946,7 +13844,7 @@ msgstr ""
 "産している土地の通常の生産制限を受けません。"
 
 # yasu
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1303
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13957,7 +13855,7 @@ msgstr ""
 "ることができます。"
 
 # yasu
-#: data/helpdata.txt:1306
+#: data/helpdata.txt:1307
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -13967,7 +13865,7 @@ msgstr ""
 "を満たさなくなるまで、各ターン毎に人口が1増えます。"
 
 # yasu
-#: data/helpdata.txt:1311
+#: data/helpdata.txt:1312
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -13984,7 +13882,7 @@ msgstr ""
 "ことがあります。"
 
 # yasu
-#: data/helpdata.txt:1321
+#: data/helpdata.txt:1322
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -14003,7 +13901,7 @@ msgstr ""
 "もあります(適切な章に詳細があります)。"
 
 # yasu
-#: data/helpdata.txt:1331
+#: data/helpdata.txt:1332
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -14028,7 +13926,7 @@ msgstr ""
 "す。)の建設、または交易をより贅沢に使うことにより解消されます。"
 
 # yasu
-#: data/helpdata.txt:1350
+#: data/helpdata.txt:1351
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -14040,7 +13938,7 @@ msgstr ""
 "し、サーバ・オションとしてこのオプションが無効になっている可能性もあります。)"
 
 # yasu, clefs
-#: data/helpdata.txt:1356
+#: data/helpdata.txt:1357
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -14056,7 +13954,7 @@ msgstr ""
 "が無効になっているということでしょう。)"
 
 # yasu
-#: data/helpdata.txt:1364
+#: data/helpdata.txt:1365
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -14067,7 +13965,7 @@ msgstr ""
 "リックしてください。"
 
 # yasu
-#: data/helpdata.txt:1369
+#: data/helpdata.txt:1370
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -14078,7 +13976,7 @@ msgstr ""
 "ます。"
 
 # yasu, clefs
-#: data/helpdata.txt:1373
+#: data/helpdata.txt:1374
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -14087,7 +13985,7 @@ msgstr ""
 "ることが大事です。"
 
 # yasu
-#: data/helpdata.txt:1376
+#: data/helpdata.txt:1377
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -16645,10 +16543,9 @@ msgid ""
 msgstr ""
 "ツンドラは広く寒い地帯です。農業には適当ですが、他はほとんどありません。"
 
-# 「極地」？
 #: data/civ1/terrain.ruleset:144
 msgid "Arctic"
-msgstr "厳寒"
+msgstr "極地"
 
 #: data/civ1/terrain.ruleset:152
 msgid "Seals"
@@ -16658,8 +16555,7 @@ msgstr "アザラシ"
 msgid ""
 "Arctic squares are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
-msgstr ""
-"厳寒は世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変です。"
+msgstr "極地は世界の最北部と最南部にのみ存在します。とても寒いので働くのが大変です。"
 
 #: data/civ1/terrain.ruleset:442
 msgid "Horses"
@@ -16677,12 +16573,12 @@ msgstr ""
 "\n"
 "橋梁建設技術を持っていなければ、道路や鉄道を川へ引くことはできません。"
 
-#: data/default/units.ruleset:135 data/civ2/units.ruleset:66
+#: data/default/units.ruleset:136 data/civ2/units.ruleset:66
 #: data/civ1/units.ruleset:75 data/history/units.ruleset:139
 msgid "Settlers"
 msgstr "開拓者"
 
-#: data/default/units.ruleset:161 data/civ2/units.ruleset:92
+#: data/default/units.ruleset:162 data/civ2/units.ruleset:92
 #: data/history/units.ruleset:165
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
@@ -16710,12 +16606,12 @@ msgstr ""
 "りあてないようにしましょう。余分な労力は無駄になり、部隊のまとまりは敵の攻撃"
 "にとても無防備です。"
 
-#: data/default/units.ruleset:179 data/civ2/units.ruleset:110
+#: data/default/units.ruleset:180 data/civ2/units.ruleset:110
 #: data/civ1/units.ruleset:119 data/history/units.ruleset:183
 msgid "Engineers"
 msgstr "エンジニア"
 
-#: data/default/units.ruleset:205 data/civ2/units.ruleset:136
+#: data/default/units.ruleset:206 data/civ2/units.ruleset:136
 #: data/history/units.ruleset:209
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
@@ -16740,55 +16636,55 @@ msgstr ""
 "ヒント 2:  レオナルドの工房を建築できたなら、工房が古くなる前に爆薬を研究しま"
 "しよう。この方法で、開拓者をタダでアップグレードできます。"
 
-#: data/default/units.ruleset:220 data/civ2/units.ruleset:151
+#: data/default/units.ruleset:221 data/civ2/units.ruleset:151
 #: data/history/units.ruleset:224
 msgid "Warriors"
 msgstr "戦士"
 
-#: data/default/units.ruleset:246 data/civ2/units.ruleset:177
+#: data/default/units.ruleset:247 data/civ2/units.ruleset:177
 #: data/civ1/units.ruleset:173 data/history/units.ruleset:250
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr "この部隊はゲームの開始時から作ることができます。もっとも弱い部隊です。"
 
-#: data/default/units.ruleset:252 data/civ2/units.ruleset:183
+#: data/default/units.ruleset:253 data/civ2/units.ruleset:183
 #: data/civ1/units.ruleset:179 data/history/units.ruleset:256
 msgid "Phalanx"
 msgstr "密集軍"
 
-#: data/default/units.ruleset:280 data/civ2/units.ruleset:211
+#: data/default/units.ruleset:281 data/civ2/units.ruleset:211
 #: data/civ1/units.ruleset:207 data/history/units.ruleset:284
 msgid "Archers"
 msgstr "射手"
 
-#: data/default/units.ruleset:308 data/civ2/units.ruleset:239
+#: data/default/units.ruleset:309 data/civ2/units.ruleset:239
 #: data/civ1/units.ruleset:235 data/history/units.ruleset:312
 msgid "Legion"
 msgstr "軍隊"
 
-#: data/default/units.ruleset:336 data/civ2/units.ruleset:267
+#: data/default/units.ruleset:337 data/civ2/units.ruleset:267
 #: data/civ1/units.ruleset:263 data/history/units.ruleset:340
 msgid "Pikemen"
 msgstr "槍隊"
 
-#: data/default/units.ruleset:364 data/civ2/units.ruleset:295
+#: data/default/units.ruleset:365 data/civ2/units.ruleset:295
 #: data/civ1/units.ruleset:291 data/history/units.ruleset:368
 msgid "Musketeers"
 msgstr "マスケット銃士"
 
 # "狂信兵"?
-#: data/default/units.ruleset:393 data/civ2/units.ruleset:324
+#: data/default/units.ruleset:394 data/civ2/units.ruleset:324
 #: data/civ1/units.ruleset:320 data/history/units.ruleset:397
 msgid "Fanatics"
 msgstr "熱狂兵"
 
-#: data/default/units.ruleset:421 data/civ2/units.ruleset:358
+#: data/default/units.ruleset:422 data/civ2/units.ruleset:358
 #: data/civ1/units.ruleset:348 data/history/units.ruleset:425
 msgid "Partisan"
 msgstr "パルチザン"
 
 # clefs
-#: data/default/units.ruleset:447 data/civ2/units.ruleset:384
+#: data/default/units.ruleset:448 data/civ2/units.ruleset:384
 #: data/history/units.ruleset:451
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
@@ -16813,33 +16709,33 @@ msgstr ""
 "\n"
 " - 民主主義もしくは共産主義で国を治めている"
 
-#: data/default/units.ruleset:461 data/civ2/units.ruleset:398
+#: data/default/units.ruleset:462 data/civ2/units.ruleset:398
 #: data/civ1/units.ruleset:376 data/history/units.ruleset:465
 msgid "Alpine Troops"
 msgstr "高山部隊"
 
-#: data/default/units.ruleset:489 data/civ2/units.ruleset:426
+#: data/default/units.ruleset:490 data/civ2/units.ruleset:426
 #: data/civ1/units.ruleset:404 data/history/units.ruleset:493
 msgid "Riflemen"
 msgstr "ライフル銃兵"
 
-#: data/default/units.ruleset:517 data/civ2/units.ruleset:454
+#: data/default/units.ruleset:518 data/civ2/units.ruleset:454
 #: data/civ1/units.ruleset:432 data/history/units.ruleset:521
 msgid "Marines"
 msgstr "海兵隊"
 
-#: data/default/units.ruleset:545 data/civ2/units.ruleset:482
+#: data/default/units.ruleset:546 data/civ2/units.ruleset:482
 #: data/civ1/units.ruleset:460 data/history/units.ruleset:549
 msgid "Paratroopers"
 msgstr "落下傘兵"
 
-#: data/default/units.ruleset:577 data/civ2/units.ruleset:514
+#: data/default/units.ruleset:578 data/civ2/units.ruleset:514
 #: data/civ1/units.ruleset:488 data/history/units.ruleset:581
 msgid "Mech. Inf."
 msgstr "自動化歩兵"
 
 # ama
-#: data/default/units.ruleset:603 data/civ2/units.ruleset:540
+#: data/default/units.ruleset:604 data/civ2/units.ruleset:540
 #: data/civ1/units.ruleset:514 data/history/units.ruleset:607
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
@@ -16848,83 +16744,83 @@ msgstr ""
 "この部隊はどの地上部隊よりも強力な防御力を持ちますが、残念ながら技術の最終段"
 "階近くでなければ利用できません。"
 
-#: data/default/units.ruleset:610 data/civ2/units.ruleset:547
+#: data/default/units.ruleset:611 data/civ2/units.ruleset:547
 #: data/history/units.ruleset:614
 msgid "Horsemen"
 msgstr "騎手"
 
-#: data/default/units.ruleset:638 data/civ2/units.ruleset:575
+#: data/default/units.ruleset:639 data/civ2/units.ruleset:575
 #: data/civ1/units.ruleset:549 data/history/units.ruleset:642
 msgid "Chariot"
 msgstr "チャリオット"
 
-#: data/default/units.ruleset:666 data/civ2/units.ruleset:603
+#: data/default/units.ruleset:667 data/civ2/units.ruleset:603
 #: data/civ1/units.ruleset:577 data/history/units.ruleset:670
 msgid "Elephants"
 msgstr "象兵"
 
-#: data/default/units.ruleset:694 data/civ2/units.ruleset:631
+#: data/default/units.ruleset:695 data/civ2/units.ruleset:631
 #: data/civ1/units.ruleset:605 data/history/units.ruleset:698
 msgid "Crusaders"
 msgstr "十字軍"
 
-#: data/default/units.ruleset:722 data/civ2/units.ruleset:659
+#: data/default/units.ruleset:723 data/civ2/units.ruleset:659
 #: data/civ1/units.ruleset:633 data/history/units.ruleset:726
 msgid "Knights"
 msgstr "騎士"
 
-#: data/default/units.ruleset:751 data/civ2/units.ruleset:688
+#: data/default/units.ruleset:752 data/civ2/units.ruleset:688
 #: data/civ1/units.ruleset:662 data/history/units.ruleset:755
 msgid "Dragoons"
 msgstr "竜騎兵"
 
-#: data/default/units.ruleset:779 data/civ2/units.ruleset:716
+#: data/default/units.ruleset:780 data/civ2/units.ruleset:716
 #: data/civ1/units.ruleset:521 data/history/units.ruleset:783
 msgid "Cavalry"
 msgstr "騎兵隊"
 
-#: data/default/units.ruleset:807 data/civ2/units.ruleset:744
+#: data/default/units.ruleset:808 data/civ2/units.ruleset:744
 #: data/civ1/units.ruleset:718 data/history/units.ruleset:811
 msgid "Armor"
 msgstr "装甲車"
 
-#: data/default/units.ruleset:835 data/civ2/units.ruleset:772
+#: data/default/units.ruleset:836 data/civ2/units.ruleset:772
 #: data/civ1/units.ruleset:746 data/history/units.ruleset:839
 msgid "Catapult"
 msgstr "カタパルト"
 
-#: data/default/units.ruleset:863 data/civ2/units.ruleset:800
+#: data/default/units.ruleset:864 data/civ2/units.ruleset:800
 #: data/civ1/units.ruleset:774 data/history/units.ruleset:867
 msgid "Cannon"
 msgstr "キャノン砲"
 
-#: data/default/units.ruleset:891 data/civ2/units.ruleset:828
+#: data/default/units.ruleset:892 data/civ2/units.ruleset:828
 #: data/civ1/units.ruleset:830 data/history/units.ruleset:895
 msgid "Artillery"
 msgstr "大砲"
 
-#: data/default/units.ruleset:919 data/civ2/units.ruleset:856
+#: data/default/units.ruleset:920 data/civ2/units.ruleset:856
 #: data/history/units.ruleset:923
 msgid "Howitzer"
 msgstr "榴弾砲"
 
-#: data/default/units.ruleset:947 data/civ2/units.ruleset:884
+#: data/default/units.ruleset:948 data/civ2/units.ruleset:884
 #: data/civ1/units.ruleset:858 data/history/units.ruleset:951
 msgid "Fighter"
 msgstr "戦闘機"
 
-#: data/default/units.ruleset:975 data/civ2/units.ruleset:912
+#: data/default/units.ruleset:976 data/civ2/units.ruleset:912
 #: data/civ1/units.ruleset:886 data/history/units.ruleset:979
 msgid "Bomber"
 msgstr "爆撃機"
 
-#: data/default/units.ruleset:1003 data/civ2/units.ruleset:940
+#: data/default/units.ruleset:1004 data/civ2/units.ruleset:940
 #: data/civ1/units.ruleset:914 data/history/units.ruleset:1007
 msgid "Helicopter"
 msgstr "ヘリコプター"
 
 # clefs
-#: data/default/units.ruleset:1029 data/civ2/units.ruleset:966
+#: data/default/units.ruleset:1030 data/civ2/units.ruleset:966
 #: data/history/units.ruleset:1033
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
@@ -16936,107 +16832,96 @@ msgstr ""
 "市以外の場所でターンを終えると少しずつ体力を消耗するので注意が必要です。ただ"
 "し、不思議『国際連合』を持っていればこの消耗はありません。"
 
-#: data/default/units.ruleset:1037 data/civ2/units.ruleset:974
+#: data/default/units.ruleset:1038 data/civ2/units.ruleset:974
 #: data/civ1/units.ruleset:942 data/history/units.ruleset:1041
 msgid "Stealth Fighter"
 msgstr "ステルス戦闘機"
 
-#: data/default/units.ruleset:1063 data/civ2/units.ruleset:1000
+#: data/default/units.ruleset:1064 data/civ2/units.ruleset:1000
 #: data/history/units.ruleset:1067
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr "戦闘機が進化したものです。攻撃力が向上し、飛行半径が広くなりました。"
 
-#: data/default/units.ruleset:1069 data/civ2/units.ruleset:1006
+#: data/default/units.ruleset:1070 data/civ2/units.ruleset:1006
 #: data/civ1/units.ruleset:970 data/history/units.ruleset:1073
 msgid "Stealth Bomber"
 msgstr "ステルス爆撃機"
 
-#: data/default/units.ruleset:1095 data/civ2/units.ruleset:1032
+#: data/default/units.ruleset:1096 data/civ2/units.ruleset:1032
 #: data/history/units.ruleset:1099
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "爆撃機が進化したものです。攻撃力が向上し、飛行半径が広くなりました。"
 
-#: data/default/units.ruleset:1101
-msgid "AWACS"
-msgstr ""
-
-#: data/default/units.ruleset:1127
-msgid ""
-"The AWACS (Airborne Warning and Control System) is an airplane with an "
-"advanced radar that can determine the location of enemy units over a wide "
-"area."
-msgstr ""
-
 # "三段櫂船"?
-#: data/default/units.ruleset:1134 data/civ2/units.ruleset:1038
+#: data/default/units.ruleset:1102 data/civ2/units.ruleset:1038
 #: data/civ1/units.ruleset:998 data/history/units.ruleset:1105
 msgid "Trireme"
 msgstr "トライリーム"
 
-#: data/default/units.ruleset:1162 data/civ2/units.ruleset:1066
+#: data/default/units.ruleset:1130 data/civ2/units.ruleset:1066
 #: data/history/units.ruleset:1133
 msgid "Caravel"
 msgstr "キャラベル"
 
-#: data/default/units.ruleset:1190 data/civ2/units.ruleset:1094
+#: data/default/units.ruleset:1158 data/civ2/units.ruleset:1094
 #: data/civ1/units.ruleset:1054 data/history/units.ruleset:1161
 msgid "Galleon"
 msgstr "ガリオン船"
 
-#: data/default/units.ruleset:1218 data/civ2/units.ruleset:1122
+#: data/default/units.ruleset:1186 data/civ2/units.ruleset:1122
 #: data/civ1/units.ruleset:1082 data/history/units.ruleset:1189
 msgid "Frigate"
 msgstr "フリゲート艦"
 
-#: data/default/units.ruleset:1246 data/civ2/units.ruleset:1150
+#: data/default/units.ruleset:1214 data/civ2/units.ruleset:1150
 #: data/civ1/units.ruleset:1110 data/history/units.ruleset:1217
 msgid "Ironclad"
 msgstr "装甲艦"
 
-#: data/default/units.ruleset:1274 data/civ2/units.ruleset:1178
+#: data/default/units.ruleset:1242 data/civ2/units.ruleset:1178
 #: data/civ1/units.ruleset:1138 data/history/units.ruleset:1245
 msgid "Destroyer"
 msgstr "駆逐艦"
 
-#: data/default/units.ruleset:1300 data/civ2/units.ruleset:1204
+#: data/default/units.ruleset:1268 data/civ2/units.ruleset:1204
 #: data/history/units.ruleset:1271
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr "ヒント: とても速い部隊です。敵の輸送船を追いつめるのに役立ちます。"
 
-#: data/default/units.ruleset:1306 data/civ2/units.ruleset:1210
+#: data/default/units.ruleset:1274 data/civ2/units.ruleset:1210
 #: data/civ1/units.ruleset:1166 data/history/units.ruleset:1277
 msgid "Cruiser"
 msgstr "巡洋艦"
 
-#: data/default/units.ruleset:1334 data/civ2/units.ruleset:1238
+#: data/default/units.ruleset:1302 data/civ2/units.ruleset:1238
 #: data/civ1/units.ruleset:1194 data/history/units.ruleset:1305
 msgid "AEGIS Cruiser"
 msgstr "イージス巡洋艦"
 
-#: data/default/units.ruleset:1362 data/civ2/units.ruleset:1266
+#: data/default/units.ruleset:1330 data/civ2/units.ruleset:1266
 #: data/civ1/units.ruleset:1222 data/history/units.ruleset:1333
 msgid "Battleship"
 msgstr "戦艦"
 
-#: data/default/units.ruleset:1390 data/civ2/units.ruleset:1294
+#: data/default/units.ruleset:1358 data/civ2/units.ruleset:1294
 #: data/civ1/units.ruleset:1250 data/history/units.ruleset:1361
 msgid "Submarine"
 msgstr "潜水艦"
 
-#: data/default/units.ruleset:1417 data/civ2/units.ruleset:1321
+#: data/default/units.ruleset:1385 data/civ2/units.ruleset:1321
 #: data/civ1/units.ruleset:1276 data/history/units.ruleset:1388
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "潜水艦は戦略上とても重要ですが、防御に関しては弱いです。"
 
-#: data/default/units.ruleset:1423 data/civ2/units.ruleset:1327
+#: data/default/units.ruleset:1391 data/civ2/units.ruleset:1327
 #: data/civ1/units.ruleset:1282 data/history/units.ruleset:1394
 msgid "Carrier"
 msgstr "空母"
 
 # clefs
-#: data/default/units.ruleset:1449 data/civ2/units.ruleset:1353
+#: data/default/units.ruleset:1417 data/civ2/units.ruleset:1353
 #: data/civ1/units.ruleset:1308 data/history/units.ruleset:1420
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
@@ -17045,30 +16930,30 @@ msgstr ""
 "ヒント: 高速な艦艇数隻と戦艦で空母を護衛しましょう。航空機を満載した空母を失"
 "うと被害は甚大です。"
 
-#: data/default/units.ruleset:1456 data/civ2/units.ruleset:1360
+#: data/default/units.ruleset:1424 data/civ2/units.ruleset:1360
 #: data/civ1/units.ruleset:1315 data/history/units.ruleset:1427
 msgid "Transport"
 msgstr "輸送船"
 
-#: data/default/units.ruleset:1484 data/civ2/units.ruleset:1388
+#: data/default/units.ruleset:1452 data/civ2/units.ruleset:1388
 #: data/civ1/units.ruleset:1343 data/history/units.ruleset:1455
 msgid "Cruise Missile"
 msgstr "巡航ミサイル"
 
-#: data/default/units.ruleset:1510 data/civ2/units.ruleset:1414
+#: data/default/units.ruleset:1478 data/civ2/units.ruleset:1414
 #: data/history/units.ruleset:1481
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr "ヒント: 少しの巡航ミサイルで敵の船から自国を守ることができます。"
 
-#: data/default/units.ruleset:1516 data/civ2/units.ruleset:1420
+#: data/default/units.ruleset:1484 data/civ2/units.ruleset:1420
 #: data/civ1/units.ruleset:1371 data/history/units.ruleset:1487
 msgid "Nuclear"
 msgstr "核兵器"
 
 # ama, yasu
-#: data/default/units.ruleset:1542 data/civ2/units.ruleset:1446
+#: data/default/units.ruleset:1510 data/civ2/units.ruleset:1446
 #: data/history/units.ruleset:1513
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
@@ -17102,13 +16987,13 @@ msgstr ""
 "り、核爆発と同じターンに死の灰の後始末する準備をさせます。これにより核の冬の"
 "危険を最小限に食い止めます。地球にやさしい核攻撃!"
 
-#: data/default/units.ruleset:1563 data/civ2/units.ruleset:1467
+#: data/default/units.ruleset:1531 data/civ2/units.ruleset:1467
 #: data/civ1/units.ruleset:1418 data/history/units.ruleset:1534
 msgid "Diplomat"
 msgstr "外交官"
 
 # ama, yasu
-#: data/default/units.ruleset:1589 data/civ2/units.ruleset:1493
+#: data/default/units.ruleset:1557 data/civ2/units.ruleset:1493
 #: data/civ1/units.ruleset:1444 data/history/units.ruleset:1560
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
@@ -17142,12 +17027,12 @@ msgstr ""
 "- ある戦略では、敵の大混乱を引き起こすために外交官の群れを使います。外交官が"
 "疑いと怖れの目で見られるのは驚くほどのことではありません!"
 
-#: data/default/units.ruleset:1609 data/civ2/units.ruleset:1513
+#: data/default/units.ruleset:1577 data/civ2/units.ruleset:1513
 #: data/civ1/units.ruleset:1464 data/history/units.ruleset:1580
 msgid "Spy"
 msgstr "スパイ"
 
-#: data/default/units.ruleset:1635 data/civ2/units.ruleset:1539
+#: data/default/units.ruleset:1603 data/civ2/units.ruleset:1539
 #: data/history/units.ruleset:1606
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
@@ -17182,13 +17067,13 @@ msgstr ""
 "スパイはさらに戦場における支援も行ないます。敵部隊を妨害するだけでなく、賄賂"
 "を贈り寝返らせます."
 
-#: data/default/units.ruleset:1656 data/civ2/units.ruleset:1560
+#: data/default/units.ruleset:1624 data/civ2/units.ruleset:1560
 #: data/civ1/units.ruleset:1492 data/history/units.ruleset:1627
 msgid "Caravan"
 msgstr "キャラバン"
 
 # ama, clefs
-#: data/default/units.ruleset:1682 data/civ2/units.ruleset:1586
+#: data/default/units.ruleset:1650 data/civ2/units.ruleset:1586
 #: data/civ1/units.ruleset:1518 data/history/units.ruleset:1653
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
@@ -17203,34 +17088,34 @@ msgstr ""
 "ヒント: あらかじめ沢山のキャラバンを備え不思議を建て始めたら移動させること"
 "で、たった一ターンで建築を終えることができます。"
 
-#: data/default/units.ruleset:1692 data/civ2/units.ruleset:1596
+#: data/default/units.ruleset:1660 data/civ2/units.ruleset:1596
 #: data/civ1/units.ruleset:1528 data/history/units.ruleset:1663
 msgid "Freight"
 msgstr "貨物運送車"
 
-#: data/default/units.ruleset:1718 data/civ2/units.ruleset:1622
+#: data/default/units.ruleset:1686 data/civ2/units.ruleset:1622
 #: data/history/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "貨物運送車はキャラバンを置き換えます。キャラバンの二倍のスピードで移動できま"
 "す。"
 
-#: data/default/units.ruleset:1723 data/civ2/units.ruleset:1627
+#: data/default/units.ruleset:1691 data/civ2/units.ruleset:1627
 #: data/civ1/units.ruleset:1556 data/history/units.ruleset:1694
 msgid "Explorer"
 msgstr "探索者"
 
-#: data/default/units.ruleset:1749 data/civ2/units.ruleset:1653
+#: data/default/units.ruleset:1717 data/civ2/units.ruleset:1653
 #: data/history/units.ruleset:1720
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr "探索者は未知の領域の地図作成にとても役立ちます。"
 
-#: data/default/units.ruleset:1754 data/civ2/units.ruleset:1658
+#: data/default/units.ruleset:1722 data/civ2/units.ruleset:1658
 #: data/civ1/units.ruleset:1584 data/history/units.ruleset:1725
 msgid "Barbarian Leader"
 msgstr "バーバリアンの指導者"
 
-#: data/default/units.ruleset:1780 data/civ2/units.ruleset:1684
+#: data/default/units.ruleset:1748 data/civ2/units.ruleset:1684
 #: data/history/units.ruleset:1751
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
@@ -17238,6 +17123,17 @@ msgid ""
 msgstr ""
 "他のユニットに護衛されていない場所でバーバリアンの指導者が地上ユニットまたは"
 "ヘリコプターにより殺された場合、100ゴールドの身代金が支払われます。"
+
+#: data/default/units.ruleset:1754
+msgid "AWACS"
+msgstr ""
+
+#: data/default/units.ruleset:1780
+msgid ""
+"The AWACS (Airborne Warning and Control System) is an airplane with an "
+"advanced radar that can determine the location of enemy units over a wide "
+"area."
+msgstr ""
 
 # clefs
 #: data/civ2/units.ruleset:350
@@ -17339,10 +17235,10 @@ msgstr "アメリカ人"
 #: data/nation/american.ruleset:6
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
-"after a revolution in 1776-1783 AD."
+"after a revolution in 1776-1783AD."
 msgstr ""
 
-#: data/nation/american.ruleset:64 data/nation/scottish.ruleset:17
+#: data/nation/american.ruleset:64 data/nation/scottish.ruleset:18
 msgid "Speaker"
 msgstr "議長"
 
@@ -17368,9 +17264,8 @@ msgstr "アラブ民族"
 #: data/nation/roman.ruleset:5 data/nation/silesian.ruleset:5
 #: data/nation/sioux.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/zulu.ruleset:5
-#, fuzzy
 msgid "Historical"
-msgstr "インダストリアル"
+msgstr ""
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -17402,12 +17297,12 @@ msgstr "オーストラリア人"
 
 #: data/nation/australian.ruleset:6
 msgid ""
-"Australia was founded as a British penal colony in 1788. It is the only "
+"Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
 msgstr ""
 
 #: data/nation/australian.ruleset:15 data/nation/canadian.ruleset:12
-#: data/nation/danish.ruleset:22 data/nation/dutch.ruleset:12
+#: data/nation/danish.ruleset:23 data/nation/dutch.ruleset:12
 #: data/nation/english.ruleset:18 data/nation/finnish.ruleset:19
 #: data/nation/greek.ruleset:13 data/nation/israeli.ruleset:16
 #: data/nation/japanese.ruleset:14 data/nation/portuguese.ruleset:16
@@ -17462,8 +17357,8 @@ msgstr "ババリア民族"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
-"Bavaria, before national unification in 1870, was one of the largest of the "
-"German kingdoms."
+"Bavaria, before national unification in 1870AD, was one of the largest of "
+"the German kingdoms."
 msgstr ""
 
 #: data/nation/boer.ruleset:3
@@ -17491,7 +17386,7 @@ msgstr "ブラジル民族"
 
 #: data/nation/brazilian.ruleset:6
 msgid ""
-"Brazil was founded as a colony of Portugal but became independent in 1822. "
+"Brazil was founded as a colony of Portugal but became independent in 1822AD. "
 "It is the only country in the New World that has been the seat of a monarchy."
 msgstr ""
 
@@ -17692,7 +17587,7 @@ msgstr "デンマーク民族"
 #: data/nation/danish.ruleset:6
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
-"Harald Bltand, who unified what is now Denmark between 958 and 988."
+"Harald Bltand, who unified what is now Denmark between 958AD and 988AD."
 msgstr ""
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
@@ -17876,7 +17771,7 @@ msgid ""
 "empire stretching along the west coast of South America from what is now "
 "southern Chile nearly to the Equator. They had the bad timing to do it just "
 "a few decades before the Spanish conquistadores arrived in their part of the "
-"world in the mid-1500s."
+"world in the mid-1500s AD."
 msgstr ""
 
 #: data/nation/inca.ruleset:18
@@ -17928,7 +17823,7 @@ msgstr "イタリア民族"
 
 #: data/nation/italian.ruleset:6
 msgid ""
-"The Italian nation was unified in 1870 after decades of campaigning by "
+"The Italian nation was unified in 1870AD after decades of campaigning by "
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
@@ -18154,12 +18049,13 @@ msgstr "スコットランド民族"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
-"Scotland was an independent kingdom before the Union of Crowns with England "
-"in 1701."
+"Scotland, originally settled in late Roman times by Irish raiders who "
+"displaced the native Picts, was an independent kingdom from around 1034AD to "
+"the the Union of Crowns with England in 1701."
 msgstr ""
 
 # yasu
-#: data/nation/scottish.ruleset:18
+#: data/nation/scottish.ruleset:19
 msgid "First Minister"
 msgstr "最初の首相"
 
@@ -18270,7 +18166,7 @@ msgstr "スペイン民族"
 msgid ""
 "The modern Spanish nation was formed when the rulers of the kingdoms of "
 "Castille and Aragon led the recapture of the Iberian peninsula from the "
-"Moslems.  The Reconquista was completed in 1492, the same year Columbus "
+"Moslems.  The Reconquista was completed in 1492AD, the same year Columbus "
 "sailed."
 msgstr ""
 
@@ -18309,7 +18205,7 @@ msgstr "タイ民族"
 #: data/nation/thai.ruleset:6
 msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
-"independence throught the colonial era of the 18th and 19th centuries."
+"independence throught the colonial era of the 18th and 19th centuries AD."
 msgstr ""
 
 #: data/nation/turk.ruleset:3
@@ -18371,8 +18267,8 @@ msgstr "バイキング"
 
 #: data/nation/viking.ruleset:6
 msgid ""
-"The Vikings raided and traded along the coasts of Europe between 800 and "
-"1100. Viking raids eventually became the rulers of Normandy, Russia, and a "
+"The Vikings raided and traded along the coasts of Europe between 800AD and "
+"1100AD. Viking raids eventually became the rulers of Normandy, Russia, and a "
 "short-lived kingdom in Sicily."
 msgstr ""
 
@@ -18404,6 +18300,110 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
+
+#~ msgid ""
+#~ " - If the defender is an AEGIS Cruiser defending against airborne units "
+#~ "(including missiles and Helicopters), the defense is quintupled."
+#~ msgstr ""
+#~ " - 航空部隊(ミサイル、ヘリコプターを含む)がイージス巡洋艦を攻撃していた"
+#~ "ら、防御側の強さを五倍にします。"
+
+#~ msgid ""
+#~ " - The defender's strength is doubled again if it is in a city with a SAM "
+#~ "Battery and the attacker is an air unit (other than an Helicopter) or a "
+#~ "missile."
+#~ msgstr ""
+#~ " - ヘリコプター以外の航空部隊かミサイルが、対空ミサイル陣地を備えた都市の"
+#~ "部隊を攻撃していたら、防御側の強さを二倍にします。"
+
+#~ msgid ""
+#~ " - An SDI Defense doubles the defender's strength yet again against "
+#~ "missile attacks."
+#~ msgstr ""
+#~ " - 攻撃側がミサイルで防御側の都市が SDI防衛システムを備えていたら、さらに"
+#~ "防御側の強さを二倍にします。"
+
+#~ msgid ""
+#~ " - If the attacker is a ship and the defender is in a city with a Coastal "
+#~ "Defense, the defender's strength is doubled."
+#~ msgstr ""
+#~ " - 沿岸防衛を備えた都市にいる防御側を船で攻撃していたら、防御側の強さを二"
+#~ "倍にします。"
+
+#~ msgid ""
+#~ " - Against land units (other than Howitzers) and Helicopters, defending "
+#~ "units in a city with City Walls have their strength tripled."
+#~ msgstr ""
+#~ " - 城壁を備えた都市にいる防御側部隊を榴弾砲以外の地上部隊かヘリコプターで"
+#~ "攻撃したら、防御側の強さを三倍にします。"
+
+#~ msgid ""
+#~ " - If the defender is in a fortress (and not a city), its strength is "
+#~ "doubled."
+#~ msgstr "- 防御側が要塞にいたら、その部隊の強さを二倍にします。"
+
+# yasu
+#~ msgid ""
+#~ " - Finally, if the defender is a ground unit, and is either fortified or "
+#~ "inside a city, its strength is multiplied by 1.5."
+#~ msgstr ""
+#~ " - 最後に、防御側が陸上部隊で防御姿勢をとっているか都市にいる場合、強さが "
+#~ "1.5倍になります。"
+
+#~ msgid ""
+#~ "If, after these modifications, the attacker has a strength of 0, it "
+#~ "automatically loses.  Otherwise, if the defender has a strength of 0, the "
+#~ "defender loses."
+#~ msgstr ""
+#~ "以上の修正の結果、攻撃側の強さが 0 になっていたら、攻撃側は自動的に消滅し"
+#~ "ます。そうでない場合で防御側の強さが 0の時、防御側は消滅します。"
+
+# clefs
+#~ msgid "The firepower of the attacker and defender are also modified."
+#~ msgstr "攻撃側・防御側共に、火力も修正されます。"
+
+# clefs
+#~ msgid ""
+#~ " - If the defender is a ship and is inside a city the firepower of the "
+#~ "attacker is doubled and the firepower of the ship is set to 1."
+#~ msgstr ""
+#~ " - 防御側が都市内に停泊中の艦船なら、攻撃側の火力は二倍に、防御側の火力は1"
+#~ "になります。"
+
+# clefs
+# (原文の問題)ステルス戦闘機の場合は？
+#~ msgid ""
+#~ " - If a Fighter is attacking an Helicopter the firepower of the "
+#~ "Helicopter is set to 1."
+#~ msgstr ""
+#~ " - 戦闘機がヘリコプターを攻撃する場合、ヘリコプターの火力は1になります。"
+
+# clefs
+#~ msgid ""
+#~ " - If a ship is attacking a ground unit on land the firepower of both is "
+#~ "set to 1."
+#~ msgstr ""
+#~ " - 艦船が陸上にある陸ユニットを攻撃する場合、双方とも火力は1になります。"
+
+# was fuzzy
+#~ msgid ""
+#~ "After these preliminaries, combat occurs, as long as both units are still "
+#~ "alive (i.e., hit points are greater than 0).  Each round, a random number "
+#~ "between 1 and the sum of the attacker's and defender's strengths is "
+#~ "generated.  If this number is greater than the defender's strength, the "
+#~ "defender loses hit points equal to the attacker's firepower.  Otherwise, "
+#~ "the attacker loses hit points equal to the defender's firepower. The "
+#~ "first unit to reach 0 hit points (or negative hit points) loses. "
+#~ msgstr ""
+#~ "これらの準備の後、両方の部隊がまだ生きていたら (即ち体力が 0 より大きけれ"
+#~ "ば) 戦闘が行なわれます。 各ラウンド、1〜「攻撃側と防御側の強さの合計」まで"
+#~ "の間の乱数が生成されます。 この数が防御側の強さより大きければ、防御側は攻"
+#~ "撃側の火力だけ体力を失います(攻撃側が地上部隊を攻撃する船なら、防御側は体"
+#~ "力 1 だけ失います)。そうでなければ、攻撃側は防御側の火力だけ体力を失います"
+#~ "(防御側が都市内にいる船の時を除きます。停泊している船は効果的な作戦行動を"
+#~ "起こせません。また、攻撃側が地上部隊を攻撃する船の時も除きます。これらの場"
+#~ "合、攻撃側は体力 1 を失います)。最初に体力 0 か負になった部隊が消滅しま"
+#~ "す。"
 
 #~ msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 #~ msgstr ""
