@@ -1631,6 +1631,10 @@ void handle_unit_orders(struct player *pplayer,
     return;
   }
 
+  if (punit->ai.ai_role != AIUNIT_NONE) {
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  }
+
   punit->has_orders = TRUE;
   punit->orders.length = packet->length;
   punit->orders.index = 0;
