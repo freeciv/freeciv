@@ -332,7 +332,7 @@ int map_transform_time(int x, int y);
 
 #define GAME_DEFAULT_RULESET         "default"
 
-#define GAME_DEFAULT_SPACERACE       0
+#define GAME_DEFAULT_SPACERACE       1
 #define GAME_MIN_SPACERACE           0
 #define GAME_MAX_SPACERACE           1
 

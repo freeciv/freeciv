@@ -282,6 +282,7 @@ void game_init(void)
   game.techpenalty = GAME_DEFAULT_TECHPENALTY;
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
+  game.spacerace   = GAME_DEFAULT_SPACERACE;
   game.heating     = 0;
   game.scenario    = 0;
   strcpy(game.save_name, "civgame");
