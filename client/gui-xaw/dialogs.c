@@ -47,6 +47,7 @@
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "tilespec.h"
 
 #include "dialogs.h"
 

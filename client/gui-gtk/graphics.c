@@ -47,11 +47,6 @@ extern int 		use_solid_color_behind_units;
 SPRITE *		intro_gfx_sprite;
 SPRITE *		radar_gfx_sprite;
 
-int                     NORMAL_TILE_WIDTH;
-int                     NORMAL_TILE_HEIGHT;
-int                     SMALL_TILE_WIDTH;
-int                     SMALL_TILE_HEIGHT;
-
 GdkCursor *		goto_cursor;
 
 extern GdkFont *	main_font;

@@ -16,6 +16,9 @@ normal_tile_height = 45
 small_tile_width   = 15
 small_tile_height  = 20
 
+; Font to use to draw city names:
+city_names_font = "10x20"
+
 ; Should flags be drawn as transparent:  (else opaque)
 flags_are_transparent = 1
 

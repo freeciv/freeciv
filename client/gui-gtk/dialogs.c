@@ -39,6 +39,7 @@
 #include "control.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "tilespec.h"
 
 #include "dialogs.h"
 

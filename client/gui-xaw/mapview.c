@@ -27,6 +27,7 @@
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
+#include "player.h"
 #include "shared.h"		/* myusleep() */
 #include "unit.h"
 
@@ -786,22 +787,6 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
       pixmap_put_tile(map_canvas_store, x, y, 
 		      (map_view_x0+x)%map.xsize, map_view_y0+y, 0);
 
-  if(draw_map_grid) { /* draw some grid lines... */
-    int x1,y1,x2,y2;
-
-    XSetForeground(display, civ_gc, 0xffffff);
-    XSetFunction(display, civ_gc, GXxor);
-
-    y1 = tile_y*NORMAL_TILE_HEIGHT; y2 = (tile_y+height)*NORMAL_TILE_HEIGHT;
-    x1 = tile_x*NORMAL_TILE_WIDTH; x2 = (tile_x+width)*NORMAL_TILE_WIDTH;
-    for(x=x1; x<=x2; x+=NORMAL_TILE_WIDTH)
-      XDrawLine(display, map_canvas_store, civ_gc, x, y1, x, y2);
-    for(y=y1; y<=y2; y+=NORMAL_TILE_HEIGHT)
-      XDrawLine(display, map_canvas_store, civ_gc, x1, y, x2, y);
-
-    XSetFunction(display, civ_gc, GXcopy);
-  }
-
   if(write_to_screen) {
     XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
 	      civ_gc, 
@@ -848,19 +833,24 @@ void update_map_canvas_scrollbars(void)
 static void show_city_names(void)
 {
   int x, y;
-  
+
   for(y=0; y<map_canvas_store_theight; ++y) { 
     int ry=map_view_y0+y;
     for(x=0; x<map_canvas_store_twidth; ++x) { 
       int rx=(map_view_x0+x)%map.xsize;
       struct city *pcity;
       if((pcity=map_get_city(rx, ry))) {
+	Window wndw=XtWindow(map_canvas);
 	int w=XTextWidth(main_font_struct, pcity->name, strlen(pcity->name));
-	
-	XDrawString(display, XtWindow(map_canvas), font_gc, 
-		    x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2, 
-		    y*NORMAL_TILE_HEIGHT+3*NORMAL_TILE_HEIGHT/2,
-		    pcity->name, strlen(pcity->name));
+	int xs=x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2;
+	int ys=(y+1)*NORMAL_TILE_HEIGHT+main_font_struct->ascent;
+	int len=strlen(pcity->name);
+
+	XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
+	XDrawString(display, wndw, font_gc, xs+1, ys+1, pcity->name, len);
+
+	XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+	XDrawString(display, wndw, font_gc, xs, ys, pcity->name, len);
       }
     }
   }
@@ -1117,6 +1107,32 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       if(sprites[i])
         pixmap_put_overlay_tile(pm, x, y, sprites[i]);
     }
+
+    if(draw_map_grid && !citymode) {
+      int here_in_radius =
+	player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
+      /* left side... */
+      if(here_in_radius ||
+	 player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0)) {
+	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      XDrawLine(display, pm, civ_gc,
+		x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		x*NORMAL_TILE_WIDTH, (y+1)*NORMAL_TILE_HEIGHT);
+      /* top side... */
+      if(here_in_radius ||
+	 player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1)) {
+	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      XDrawLine(display, pm, civ_gc,
+		x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		(x+1)*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+    }
+
   } else
   {
     /* tile is unknow */

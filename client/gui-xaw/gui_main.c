@@ -423,7 +423,10 @@ void ui_main(int argc, char *argv[])
 
   init_color_system();
 
-  
+
+  /* get tile sizes etc, required for setup_widgets: */
+  /* also, get cityname font name, required to load the font: */
+  tilespec_read_toplevel(tile_set_name);
 
   {
     XGCValues values;
@@ -431,9 +434,9 @@ void ui_main(int argc, char *argv[])
     values.graphics_exposures = False;
     civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
-    main_font_struct=XLoadQueryFont(display, CITY_NAMES_FONT);
+    main_font_struct=XLoadQueryFont(display, city_names_font);
     if(main_font_struct==0) {
-      freelog(LOG_FATAL, "failed loading font: " CITY_NAMES_FONT);
+      freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
       exit(1);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
@@ -461,9 +464,6 @@ void ui_main(int argc, char *argv[])
     gray50=XCreateBitmapFromData(display,root_window,d1,4,4);
     gray25=XCreateBitmapFromData(display,root_window,d2,4,4);
   }
-
-  /* get tile sizes etc, required for setup_widgets: */
-  tilespec_read_toplevel(tile_set_name);
   
   /* 135 below is rough value (could be more intelligent) --dwp */
   num_units_below = 135/(int)NORMAL_TILE_WIDTH;

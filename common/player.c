@@ -181,6 +181,20 @@ struct city *player_find_city_by_id(struct player *pplayer, int city_id)
   }
 }
 
+/*************************************************************************
+Return 1 if x,y is inside any of the player's city radii.
+**************************************************************************/
+int player_in_city_radius(struct player *pplayer, int x, int y)
+{
+  int i, j;
+  struct city *pcity;
+  city_map_iterate(i, j) {
+    pcity = map_get_city(x+i-2, y+j-2);
+    if (pcity && (pcity->owner == pplayer->player_no)) return 1;
+  }
+  return 0;
+}
+
 /**************************************************************************
  Return 1 if one of the player's cities has the specified wonder,
  and it is not obsolete.

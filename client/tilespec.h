@@ -141,4 +141,41 @@ extern struct named_sprites sprites;
 extern char *main_intro_filename;
 extern char *minimap_intro_filename;
 
+/* NOTE: The following comments are out of date and need to
+ *       be revised!  -- dwp
+ *
+ * These variables contain thee size of the tiles used within the game.
+ * Tiles for the units and city squares, etc, are usually 30x30.
+ * Tiles for things like food production, etc, are usually 15x20.  We
+ * say "usually" for two reasons:  
+ *
+ * First, it is feasible to replace the tiles in the .xpm files with
+ * ones of some other size.  Mitch Davis (mjd@alphalink.com.au) has
+ * done this, and replaced all the tiles with the ones from the
+ * original Civ.  The tiles from the original civ are 32x32.  All that
+ * is required is that these constants be changed.
+ *
+ * Second, although there is currently no "zoom" feature as in the
+ * original Civ, we might add it some time in the future.  If and when
+ * this happens, we'll have to stop using the constants, and go back
+ * to using ints which change at runtime.  Note, this would require
+ * quite a bit of memory and pixmap management work, so it seems like
+ * a nasty task.
+ *
+ * BUG: pjunold informs me that there are hard-coded geometries in
+ * the Freeciv.h file which will prevent ideal displaying of pixmaps
+ * which are not of the original 30x30 size.  Also, the pixcomm widget
+ * apparently also does not handle this well.  Truthfully, I hadn't
+ * noticed at all! :-) (mjd)
+ */
+
+extern int NORMAL_TILE_WIDTH;
+extern int NORMAL_TILE_HEIGHT;
+extern int SMALL_TILE_WIDTH;
+extern int SMALL_TILE_HEIGHT;
+
+/* name of font to use to draw city names on main map */
+
+extern char *city_names_font;
+
 #endif  /* FC__TILESPEC_H */

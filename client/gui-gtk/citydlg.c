@@ -42,6 +42,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "tilespec.h"
 
 #include "citydlg.h"
 

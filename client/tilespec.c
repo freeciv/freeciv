@@ -45,6 +45,14 @@ char *minimap_intro_filename;
 
 struct named_sprites sprites;
 
+int NORMAL_TILE_WIDTH;
+int NORMAL_TILE_HEIGHT;
+int SMALL_TILE_WIDTH;
+int SMALL_TILE_HEIGHT;
+
+char *city_names_font;
+
+
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
 
@@ -231,6 +239,9 @@ void tilespec_read_toplevel(const char *tileset_name)
   freelog(LOG_VERBOSE, "tile sizes %dx%d, %dx%d small",
 	  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 	  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+
+  c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
+  city_names_font = mystrdup(c);
 
   /* TODO: use this */
   section_file_lookup(file, "tilespec.flags_are_transparent"); 

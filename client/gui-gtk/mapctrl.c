@@ -38,6 +38,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
+#include "tilespec.h"
 
 #include "mapctrl.h"
 

@@ -28,6 +28,7 @@
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
+#include "player.h"
 #include "shared.h"		/* myusleep() */
 
 #include "civclient.h"
@@ -819,24 +820,6 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
       pixmap_put_tile(map_canvas_store, x, y, 
 		      (map_view_x0+x)%map.xsize, map_view_y0+y, 0);
 
-  if(draw_map_grid) {	/* draw some grid lines... */
-    int length, limit;
-  
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-
-    length=map_canvas_store_twidth*NORMAL_TILE_WIDTH;
-    limit=(tile_y+height)*NORMAL_TILE_HEIGHT;
-
-    for(y=tile_y*NORMAL_TILE_HEIGHT; y<limit; y+=NORMAL_TILE_HEIGHT)
-      gdk_draw_line(map_canvas_store, fill_bg_gc, 0, y, length, y);
-
-    length=map_canvas_store_theight*NORMAL_TILE_HEIGHT;
-    limit=(tile_x+width)*NORMAL_TILE_WIDTH;
-
-    for(x=tile_x*NORMAL_TILE_WIDTH; x<limit; x+=NORMAL_TILE_WIDTH)
-      gdk_draw_line(map_canvas_store, fill_bg_gc, x, 0, x, length);
-  }
-
   if(write_to_screen) {
     gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
 		tile_x*NORMAL_TILE_WIDTH, 
@@ -896,7 +879,7 @@ void update_map_canvas_scrollbars_size(void)
 static void show_city_names(void)
 {
   int x, y;
-  
+
   for(y=0; y<map_canvas_store_theight; ++y) { 
     int ry=map_view_y0+y;
     for(x=0; x<map_canvas_store_twidth; ++x) { 
@@ -908,12 +891,12 @@ static void show_city_names(void)
 	gdk_draw_string( map_canvas->window, main_font,
 		    toplevel->style->black_gc,
 		    x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2+1,
-		    y*NORMAL_TILE_HEIGHT+3*NORMAL_TILE_HEIGHT/2+1,
+		    (y+1)*NORMAL_TILE_HEIGHT+main_font->ascent+1,
 		    pcity->name );
 	gdk_draw_string( map_canvas->window, main_font,
 		    toplevel->style->white_gc,
 		    x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2, 
-		    y*NORMAL_TILE_HEIGHT+3*NORMAL_TILE_HEIGHT/2,
+		    (y+1)*NORMAL_TILE_HEIGHT+main_font->ascent,
 		    pcity->name );
       }
     }
@@ -1202,6 +1185,32 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
       if(sprites[i])
         pixmap_put_overlay_tile(pm, x, y, sprites[i]);
     }
+
+    if(draw_map_grid && !citymode) {
+      int here_in_radius =
+	player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
+      /* left side... */
+      if(here_in_radius ||
+	 player_in_city_radius(game.player_ptr, abs_x0-1, abs_y0)) {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      gdk_draw_line(pm, civ_gc,
+		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		    x*NORMAL_TILE_WIDTH, (y+1)*NORMAL_TILE_HEIGHT);
+      /* top side... */
+      if(here_in_radius ||
+	 player_in_city_radius(game.player_ptr, abs_x0, abs_y0-1)) {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+      gdk_draw_line(pm, civ_gc,
+		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
+		    (x+1)*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+    }
+
   } else
   {
     /* tile is unknow */

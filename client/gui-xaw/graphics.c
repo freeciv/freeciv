@@ -56,10 +56,6 @@ extern int use_solid_color_behind_units;
 
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
-int NORMAL_TILE_WIDTH;
-int NORMAL_TILE_HEIGHT;
-int SMALL_TILE_WIDTH;
-int SMALL_TILE_HEIGHT;
 
 Cursor goto_cursor;
 

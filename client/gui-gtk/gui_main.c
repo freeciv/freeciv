@@ -627,9 +627,9 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  if (!(main_font=gdk_font_load(CITY_NAMES_FONT)))
+  if (!(main_font=gdk_font_load(city_names_font)))
   {
-      freelog(LOG_FATAL, "failed loading font: " CITY_NAMES_FONT);
+      freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
       exit(1);
   }
 
