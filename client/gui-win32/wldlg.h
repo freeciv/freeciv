@@ -31,6 +31,7 @@ void popup_worklist(struct worklist_window_init *init);
 void popup_worklists_report(struct player *pplr);
                                         /* The global worklist view */ 
 void update_worklist_report_dialog(void);
+void update_worklist_editor_win(HWND win);
 LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
 				   LPARAM lParam);
 #endif  /* FC__WLDLG_H */

@@ -198,20 +198,19 @@ void refresh_city_dialog(struct city *pcity)
     refresh_happiness_box(pdialog->happiness);
     resize_city_dialog(pdialog);
   }
-  if (pcity->owner==game.player_idx)
-    {
-      city_report_dialog_update_city(pcity);
-      economy_report_dialog_update();   
-    }
-  else if (pdialog)
-    {
+  if (pcity->owner==game.player_idx) {
+    city_report_dialog_update_city(pcity);
+    economy_report_dialog_update();   
+    update_worklist_editor_win(pdialog->tab_childs[PAGE_WORKLIST]);
+  }
+  else if (pdialog) {
       EnableWindow(pdialog->buy_but,FALSE);
       EnableWindow(pdialog->change_but,FALSE);
       EnableWindow(pdialog->sell_but,FALSE);
       EnableWindow(pdialog->rename_but,FALSE);
       EnableWindow(pdialog->activate_but,FALSE);
       EnableWindow(pdialog->unitlist_but,FALSE);
-    }
+  }
 }
 
 

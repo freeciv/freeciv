@@ -974,6 +974,18 @@ static void update_worklist_editor(struct worklist_editor *peditor)
 }
 
 /****************************************************************
+...
+*****************************************************************/
+void update_worklist_editor_win(HWND win)
+{
+  if (fcwin_get_user_data(win) != NULL) {
+    update_worklist_editor((struct worklist_editor *)fcwin_get_user_data(win));
+  }
+}
+
+
+
+/****************************************************************
 
 ****************************************************************/
 void popup_worklist(struct worklist_window_init *init)
