@@ -21,6 +21,10 @@
 #include <assert.h>
 #include <stdarg.h>
 
+#ifdef HAVE_LIBREADLINE
+#include <readline/readline.h>
+#endif
+
 #include "astring.h"
 #include "attribute.h"
 #include "events.h"
@@ -2918,3 +2922,381 @@ static void show_players(struct player *caller)
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
+
+#ifdef HAVE_LIBREADLINE
+/********************* RL completion functions ***************************/
+/* To properly complete both commands, player names, options and filenames
+   I have created one array per type of completion with the commands that
+   the type is relevant for.
+   All this could be done more generally, but it works now and is fairly
+   simple.
+   If there were a command that could use completions from two of these
+   types (say, you could issue the command followed by either a filenames
+   or a player names) it would not currently be possible. Currently only
+   "help" needs this. A quick change would do it for help, but I don't
+   feel it would be more user friendly. A generel framework would be a lot
+   of work. */
+
+/**************************************************************************
+The valid commands at the root of the prompt.
+**************************************************************************/
+char *command_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen (text);
+  }
+
+  /* Return the next name which partially matches from the command list. */
+  while (list_index < CMD_NUM) {
+    name = commands[list_index].name;
+    list_index++;
+
+    if (mystrncasecmp (name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+/**************************************************************************
+The valid arguments to "set" and "explain"
+**************************************************************************/
+char *option_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen (text);
+  }
+
+  /* Return the next name which partially matches from the settings list. */
+  while ((name = settings[list_index].name)) {
+    list_index++;
+
+    if (mystrncasecmp (name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+/**************************************************************************
+The player names.
+**************************************************************************/
+char *player_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen (text);
+  }
+
+  /* Return the next name which partially matches from the command list. */
+  while (list_index < game.nplayers) {
+    name = get_player(list_index)->name;
+    list_index++;
+
+    if (mystrncasecmp(name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+char *rulesout_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen(text);
+  }
+
+  /* Return the next name which partially matches from the command list. */
+  while (list_index < RULESOUT_NUM) {
+    name = rulesout_names[list_index];
+    list_index++;
+
+    if (mystrncasecmp(name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+char *cmdlevel_generator(char *text, int state)
+{
+  static int list_index, len;
+  const char *name;
+
+  /* If this is a new word to complete, initialize now.  This includes
+     saving the length of TEXT for efficiency, and initializing the index
+     variable to 0. */
+  if (!state) {
+    list_index = 0;
+    len = strlen(text);
+  }
+
+  /* Return the next name which partially matches from the command list. */
+  while (list_index < ALLOW_NUM) {
+    name = cmdlevel_name(list_index);
+    list_index++;
+
+    if (mystrncasecmp(name, text, len) == 0)
+      return mystrdup(name);
+  }
+
+  /* If no names matched, then return NULL. */
+  return ((char *)NULL);
+}
+
+
+/**************************************************************************
+returns whether the characters before the start position in rl_line_buffer
+is of the form [non-alpha]*cmd[non-alpha]*
+allow_fluff changes the regexp to [non-alpha]*cmd[non-alpha].*
+**************************************************************************/
+static int contains_str_before_start(int start, char *cmd, int allow_fluff)
+{
+  char *str_itr = rl_line_buffer;
+  int cmd_len = strlen(cmd);
+
+  while (str_itr < rl_line_buffer + start && !isalnum(*str_itr))
+    str_itr++;
+
+  if (mystrncasecmp(str_itr, cmd, cmd_len) != 0)
+    return 0;
+  str_itr += cmd_len;
+
+  if (isalnum(*str_itr)) /* not a distinct word */
+    return 0;
+
+  if (!allow_fluff) {
+    for (; str_itr < rl_line_buffer + start; str_itr++)
+      if (isalnum(*str_itr))
+	return 0;
+  }
+
+  return 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_command(int start)
+{
+  char *str_itr;
+
+  if (contains_str_before_start(start, commands[CMD_HELP].name, 0))
+    return 1;
+
+  /* if there is only it is also OK */
+  str_itr = rl_line_buffer;
+  while (str_itr - rl_line_buffer < start) {
+    if (isalnum(*str_itr))
+      return 0;
+    str_itr++;
+  }
+  return 1;
+}
+
+/**************************************************************************
+Commands that may be followed by a player name
+**************************************************************************/
+int player_cmd[] = {
+  CMD_CUT,
+  CMD_RENAME,
+  CMD_AITOGGLE,
+  CMD_EASY,
+  CMD_NORMAL,
+  CMD_HARD,
+  CMD_CMDLEVEL,
+  CMD_REMOVE,
+  -1
+};
+
+/**************************************************************************
+number of tokens in rl_line_buffer before start
+**************************************************************************/
+static int num_tokens(int start)
+{
+  int res = 0, alnum = 0;
+  char *chptr = rl_line_buffer;
+
+  while (chptr - rl_line_buffer < start) {
+    if (isalnum(*chptr)) {
+      if (!alnum) {
+	alnum = 1;
+	res++;
+      }
+    } else {
+      alnum = 0;
+    }
+    chptr++;
+  }
+
+  return res;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_player(int start)
+{
+  int i = 0;
+
+  while (player_cmd[i] != -1) {
+    if (player_cmd[i] == CMD_CMDLEVEL) {
+      if (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 1)
+	  && num_tokens(start) == 2)
+	return 1;
+    } else {
+      if (contains_str_before_start(start, commands[player_cmd[i]].name, 0))
+	return 1;
+    }
+    i++;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+Commands that may be followed by a server option name
+**************************************************************************/
+int server_option_cmd[] = {
+  CMD_EXPLAIN,
+  CMD_SET,
+  CMD_SHOW,
+  -1
+};
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_server_option(int start)
+{
+  int i = 0;
+
+  while (server_option_cmd[i] != -1) {
+    if (contains_str_before_start(start, commands[server_option_cmd[i]].name, 0))
+      return 1;
+    i++;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_rulesout(int start)
+{
+  return contains_str_before_start(start, commands[CMD_RULESOUT].name, 0);
+}
+
+/**************************************************************************
+Commands that may be followed by a filename
+**************************************************************************/
+int filename_cmd[] = {
+  CMD_SAVE,
+  CMD_READ_SCRIPT,
+  CMD_WRITE_SCRIPT,
+  CMD_RULESOUT,
+  -1
+};
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_filename(int start)
+{
+  int i = 0;
+
+  while (filename_cmd[i] != -1) {
+    if (filename_cmd[i] == CMD_RULESOUT) {
+      if (contains_str_before_start(start, commands[CMD_RULESOUT].name, 1)
+	  && num_tokens(start) == 2)
+	return 1;
+    } else {
+      if (contains_str_before_start(start, commands[filename_cmd[i]].name, 0))
+	return 1;
+    }
+    i++;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_cmdlevel(int start)
+{
+  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 0);
+}
+
+/**************************************************************************
+Attempt to complete on the contents of TEXT.  START and END bound the
+region of rl_line_buffer that contains the word to complete.  TEXT is
+the word to complete.  We can use the entire contents of rl_line_buffer
+in case we want to do some simple parsing.  Return the array of matches,
+or NULL if there aren't any.
+**************************************************************************/
+char **freeciv_completion(char *text, int start, int end)
+{
+  char **matches = (char **)NULL;
+
+  if (is_command(start)) {
+    matches = completion_matches(text, command_generator);
+  } else if (is_rulesout(start)) {
+    matches = completion_matches(text, rulesout_generator);
+  } else if (is_cmdlevel(start)) { /* before is_player! */
+    matches = completion_matches(text, cmdlevel_generator);
+  } else if (is_player(start)) {
+    matches = completion_matches(text, player_generator);
+  } else if (is_server_option(start)) {
+    matches = completion_matches(text, option_generator);
+  } else if (is_filename(start)) {
+    /* This function we get from readline */
+    matches = completion_matches(text, filename_completion_function);
+  } else /* We have no idea what to do */
+    matches = NULL;
+
+  /* Don't automatically try to complete with filenames */
+  rl_attempted_completion_over = 1;
+
+  return (matches);
+}
+
+#endif /* HAVE_LIBREADLINE */

@@ -26,6 +26,10 @@ extern void read_init_script(char *script_filename);
 
 void toggle_ai_player_direct(struct player *caller, struct player *subject);
 
+#ifdef HAVE_LIBREADLINE
+char **freeciv_completion(char *text, int start, int end);
+#endif
+
 extern enum cmdlevel_id default_access_level;  /* for sernet.c in */
 extern enum cmdlevel_id   first_access_level;  /* initing a new connection */
 

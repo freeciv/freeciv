@@ -212,6 +212,7 @@ int sniff_packets(void)
 
       rl_initialize();
       rl_callback_handler_install("> ", handle_readline_input_callback);
+      rl_attempted_completion_function = freeciv_completion;
 
       readline_initialized = 1;
     }
