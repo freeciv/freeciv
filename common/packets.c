@@ -425,7 +425,7 @@ static unsigned char *get_int32(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
-unsigned char *put_int32(unsigned char *buffer, int val)
+static unsigned char *put_int32(unsigned char *buffer, int val)
 {
   unsigned long x = htonl(val);
   memcpy(buffer,&x,4);

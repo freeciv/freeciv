@@ -865,7 +865,7 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_ruleset_units(struct player *dest)
+static void send_ruleset_units(struct player *dest)
 {
   struct packet_ruleset_unit packet;
   struct unit_type *u;
@@ -901,7 +901,7 @@ void send_ruleset_units(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
-void send_ruleset_techs(struct player *dest)
+static void send_ruleset_techs(struct player *dest)
 {
   struct packet_ruleset_tech packet;
   struct advance *a;
@@ -924,7 +924,7 @@ void send_ruleset_techs(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
-void send_ruleset_buildings(struct player *dest)
+static void send_ruleset_buildings(struct player *dest)
 {
   struct packet_ruleset_building packet;
   struct improvement_type *b;

@@ -963,7 +963,7 @@ static void upgrade_unit_prod(struct city *pcity)
 return 0 if the city is removed
 return 1 otherwise
 **************************************************************************/
-int city_build_stuff(struct player *pplayer, struct city *pcity)
+static int city_build_stuff(struct player *pplayer, struct city *pcity)
 {
   int space_part;
   
@@ -1254,7 +1254,7 @@ void city_incite_cost(struct city *pcity)
 /**************************************************************************
  called every turn, for every city. 
 **************************************************************************/
-int update_city_activity(struct player *pplayer, struct city *pcity)
+static int update_city_activity(struct player *pplayer, struct city *pcity)
 {
   int got_tech = 0;
   int turns_growth, turns_granary;

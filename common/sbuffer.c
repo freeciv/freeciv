@@ -31,6 +31,7 @@ sbuffer: ("string buffer")
 ***************************************************************************/
 
 #include <assert.h>
+#include <string.h>
 
 #include "mem.h"
 #include "sbuffer.h"
