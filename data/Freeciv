@@ -70,7 +70,7 @@ Freeciv*connectdialog*translations:	#override \
 Freeciv*connectdialog.*.cheadline.label: _("Freeciv Server Selection")
 Freeciv*connectdialog.*.cheadline.width: 300
 
-Freeciv*connectdialog.*.cmsgl.label: _("")
+Freeciv*connectdialog.*.cmsgl.label:
 Freeciv*connectdialog.*.cmsgl.fromVert: cheadline
 Freeciv*connectdialog.*.cmsgl.resizable: True
 
