@@ -48,6 +48,8 @@ void init_new_game(void);
 void send_game_state(struct player *dest, int state);
 int find_highest_used_id(void);
 void send_all_info(struct player *dest);
+void shuffle_players(void);
+void ai_start_turn(void);
 int is_game_over();
 
 extern struct connection connections[];
@@ -62,6 +64,8 @@ int force_end_of_sniff;
 char metaserver_info_line[256];
 /* server name for metaserver to use for us */
 char metaserver_servername[64]="";
+
+struct player *shuffled[MAX_PLAYERS];
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -261,13 +265,25 @@ int main(int argc, char *argv[])
   
   while(server_state==RUN_GAME_STATE) {
     force_end_of_sniff=0;
+/* printf("Shuffleplayers\n"); */
+    shuffle_players();
+/* printf("Autosettlers\n"); */
     auto_settlers();
+/* printf("Aistartturn\n"); */
+    ai_start_turn();
+/* printf("sniffingpackets\n"); */
     while(sniff_packets()==1);
+/* printf("Endturn\n"); */
     end_turn();
+/* printf("Gamenextyear\n"); */
     game_next_year();
+/* printf("Sendplayerinfo\n"); */
     send_player_info(0, 0);
+/* printf("Sendgameinfo\n"); */
     send_game_info(0);
+/* printf("Sendyeartoclients\n"); */
     send_year_to_clients(game.year);
+/* printf("Sendinfotometaserver\n"); */
     send_server_info_to_metaserver(0);
     
     if(--save_counter==0) {
@@ -461,31 +477,42 @@ void before_end_year()
 /**************************************************************************
 ...
 **************************************************************************/
-
-int end_turn()
+void shuffle_players()
 {
-  struct player *players[MAX_PLAYERS];   
   int i, pos;
   struct player *tmpplr;
-  before_end_year();
-  nocity_send = 1;
-
   /* shuffle players */
 
   for(i=0; i<game.nplayers; i++) {
-    players[i] = &game.players[i];
+    shuffled[i] = &game.players[i];
   }
 
   for(i=0; i<game.nplayers; i++) {
     pos = myrand(game.nplayers);
-    tmpplr = players[i]; 
-    players[i] = players[pos];
-    players[pos] = tmpplr;
+    tmpplr = shuffled[i]; 
+    shuffled[i] = shuffled[pos];
+    shuffled[pos] = tmpplr;
   }
+}
+
+void ai_start_turn()
+{
+  int i;
+  for (i = 0; i < game.nplayers; i++) {
+    if (shuffled[i]->ai.control) ai_do_first_activities(shuffled[i]);
+  }
+}
+
+int end_turn()
+{
+  int i, pos;
+  before_end_year();
+  nocity_send = 1;
 
   for(i=0; i<game.nplayers; i++) {
-    update_player_activities(players[i]);
-    players[i]->turn_done=0;
+/*    printf("updating player activities for #%d\n", i); */
+    update_player_activities(shuffled[i]); /* ai unit activity has been moved UP -- Syela */
+    shuffled[i]->turn_done=0;
   }
   nocity_send = 0;
   for (i=0; i<game.nplayers;i++) {
@@ -494,6 +521,7 @@ int end_turn()
   update_pollution();
   do_apollo_program();
   make_history_report();
+/*  printf("Turn ended.\n"); */
   return 1;
 }
 
@@ -666,6 +694,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 
    case PACKET_PLAYER_RESEARCH:
     handle_player_research(pplayer, (struct packet_player_request *)packet);
+    break;
+
+   case PACKET_PLAYER_TECH_GOAL:
+    handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
     break;
 
    case PACKET_UNIT_BUILD_CITY:
