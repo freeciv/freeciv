@@ -619,37 +619,67 @@ void request_unit_goto(void)
 }
 
 /**************************************************************************
+  Return TRUE if there are any units doing the activity on the tile.
+**************************************************************************/
+static bool is_activity_on_tile(struct tile *ptile,
+				enum unit_activity activity)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (punit->activity == ACTIVITY_MINE) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
   Return whether the unit can connect with given activity (or with
   any activity if activity arg is set to ACTIVITY_IDLE)
 
   This function is client-specific.
 **************************************************************************/
-bool can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
+bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
   Terrain_type_id terrain = map_get_terrain(punit->tile);
   struct tile_type *ttype = get_tile_type(terrain);
 
-  if (!can_unit_do_activity(punit, activity)) {
-    return FALSE;
-  }
-
+  /* HACK: This code duplicates that in
+   * can_unit_do_activity_targeted_at(). The general logic here is that
+   * the connect is allowed if both:
+   * (1) the unit can do that activity type, in general
+   * (2) either
+   *     (a) the activity has already been completed at this tile
+   *     (b) it can be done by the unit at this tile. */
   switch (activity) {
   case ACTIVITY_ROAD:
-    return TRUE;
+    return terrain_control.may_road
+      && unit_flag(punit, F_SETTLERS)
+      && (tile_has_special(punit->tile, S_ROAD)
+	  || (ttype->road_time != 0
+	      && (!tile_has_special(punit->tile, S_RIVER)
+		  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))));
   case ACTIVITY_RAILROAD:
-    if (!player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
-      return FALSE;
-    }
-    return TRUE;
+    /* There is no check for existing road/rail; the connect is allowed
+     * regardless. It is assumed that if you know the TF_RAILROAD flag
+     * you must also know the TF_BRIDGE flag. */
+    return (terrain_control.may_road
+	    && unit_flag(punit, F_SETTLERS)
+	    && player_knows_techs_with_flag(pplayer, TF_RAILROAD));
   case ACTIVITY_IRRIGATE:
-    if (ttype->irrigation_result != terrain) {
-      return FALSE;
-    }
-    return TRUE;
+    /* Special case for irrigation: only irrigate to make S_IRRIGATION,
+     * never to transform tiles. */
+    return (terrain_control.may_irrigate
+	    && unit_flag(punit, F_SETTLERS)
+	    && (tile_has_special(punit->tile, S_IRRIGATION)
+		|| (terrain == ttype->irrigation_result
+		    && is_water_adjacent_to_tile(punit->tile)
+		    && !is_activity_on_tile(punit->tile, ACTIVITY_MINE))));
   default:
     break;
   }
+
   return FALSE;
 }
 
