@@ -1740,6 +1740,18 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	width = data->width;
 	height = data->height;
 
+	if (tile_x < 0)
+	{
+	  width += tile_x;
+	  tile_x = 0;
+	}
+
+	if (tile_y < 0)
+	{
+	  height += tile_y;
+	  tile_y = 0;
+	}
+
 	if (width > 1 && height > 1)
 	  citynames = TRUE;
       }
@@ -1844,6 +1856,19 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  /* Own simple cliping is a lot of faster */
 	  LONG pix_width = width * get_normal_tile_width();
 	  LONG pix_height = height * get_normal_tile_height();
+
+	  /* Should create a SafeBltBitMapRastPort() function */
+          if (x < 0)
+          {
+            pix_width += x;
+            x = 0;
+          }
+
+          if (y < 0)
+          {
+            pix_height += y;
+            y = 0;
+          }
 
 	  if (pix_width + x > _mwidth(o))
 	    pix_width = _mwidth(o) - x;
