@@ -791,7 +791,7 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
   int search_dist = real_map_distance(pc->x, pc->y, punit->x, punit->y) - 1;
   
   square_iterate(punit->x, punit->y, search_dist, xx, yy) {
-    if (map_same_continent(xx, yy, pc->x, pc->y)
+    if (map_get_continent(xx, yy) == map_get_continent(pc->x, pc->y)
         && real_map_distance(punit->x, punit->y, xx, yy) < dist) {
 
       dist = real_map_distance(punit->x, punit->y, xx, yy);
@@ -1578,8 +1578,9 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
        /* A caravan without a home?  Kinda strange, but it might happen.  */
        pcity=player_find_city_by_id(pplayer, punit->homecity);
        city_list_iterate(pplayer->cities,pdest)
-         if (pcity && can_establish_trade_route(pcity,pdest) &&
-            map_same_continent(pcity->x, pcity->y, pdest->x, pdest->y)) {
+         if (pcity
+             && can_establish_trade_route(pcity, pdest)
+             && map_get_continent(pcity->x, pcity->y) == map_get_continent(pdest->x, pdest->y)) {
            tradeval=trade_between_cities(pcity, pdest);
            if (tradeval) {
              if (best < tradeval) {
@@ -2192,7 +2193,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   if (closest_unit != NULL
       && !same_pos(closest_unit->x, closest_unit->y, leader->x, leader->y)
-      && map_same_continent(leader->x, leader->y, closest_unit->x, closest_unit->y)) {
+      && (map_get_continent(leader->x, leader->y)
+          == map_get_continent(closest_unit->x, closest_unit->y))) {
     auto_settler_do_goto(pplayer, leader, closest_unit->x, closest_unit->y);
     handle_unit_activity_request(leader, ACTIVITY_IDLE);
     return; /* sticks better to own units with this -- jk */

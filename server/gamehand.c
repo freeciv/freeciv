@@ -112,11 +112,11 @@ void init_new_game(void)
 	  dx = x + myrand(2 * game.dispersion + 1) - game.dispersion;
 	  dy = y + myrand(2 * game.dispersion + 1) - game.dispersion;
 	  normalize_map_pos(&dx, &dy);
-	} while (!(is_real_tile(dx, dy) &&
-		   map_same_continent(x, y, dx, dy) &&
-		   (map_get_terrain(dx, dy) != T_OCEAN) &&
-		   !is_non_allied_unit_tile(map_get_tile(dx, dy),
-					    get_player(i))));
+	} while (!(is_real_tile(dx, dy)
+                   && map_get_continent(x, y) == map_get_continent(dx, dy)
+                   && map_get_terrain(dx, dy) != T_OCEAN
+                   && !is_non_allied_unit_tile(map_get_tile(dx, dy),
+                    			       get_player(i))));
       }
       /* For scenarios or dispersion, huts may coincide with player
 	 starts (in other cases, huts are avoided as start positions).

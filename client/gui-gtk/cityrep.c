@@ -588,8 +588,8 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
       for(; current; current = g_list_next(current))
 	{
 	  struct city* selectedcity = current->data;
-	  if (map_same_continent(pcity->x,pcity->y,
-				 selectedcity->x,selectedcity->y))
+          if (map_get_continent(pcity->x, pcity->y)
+              == map_get_continent(selectedcity->x, selectedcity->y))
 	    {
 	      gtk_clist_select_row(GTK_CLIST(city_list),i,0);
 	      break;

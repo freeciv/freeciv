@@ -186,7 +186,6 @@ int get_direction_for_step(int start_x, int start_y, int end_x, int end_y);
 
 void map_set_continent(int x, int y, int val);
 signed short map_get_continent(int x, int y);
-int map_same_continent(int x1, int y1, int x2, int y2);
 
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);

@@ -427,14 +427,6 @@ int terrain_is_clean(int x, int y)
 }
 
 /***************************************************************
-...
-***************************************************************/
-int map_same_continent(int x1, int y1, int x2, int y2)
-{
-  return (map_get_continent(x1,y1) == map_get_continent(x2,y2));
-}
-
-/***************************************************************
   Returns 1 if (x,y) is _not_ a good position to start from;
   Bad places:
   - Non-suitable terrain;
@@ -466,7 +458,7 @@ int is_starter_close(int x, int y, int nr, int dist)
   for (i=0;i<nr;i++) {
     int x1 = map.start_positions[i].x;
     int y1 = map.start_positions[i].y;
-    if (map_same_continent(x, y, x1, y1)
+    if (map_get_continent(x, y) == map_get_continent(x1, y1)
 	&& real_map_distance(x, y, x1, y1) < dist) {
       return 1;
     }
