@@ -121,9 +121,10 @@ bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 
   fromtile = map_get_terrain(punit->x, punit->y);
   totile   = map_get_terrain(dest_x, dest_y);
-  
-  if(!is_military_unit(punit))
+
+  if (!is_military_unit(punit) || unit_type(punit)->attack_strength == 0) {
     return FALSE;
+  }
 
   /* only fighters can attack planes, except for city or airbase attacks */
   if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender) &&
