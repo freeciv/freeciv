@@ -609,6 +609,7 @@ AC_CONFIG_FILES([Makefile
 	  intl/Makefile
 	  po/Makefile.in
 	  doc/Makefile
+	  doc/man/Makefile
 	  doc/de/Makefile
 	  doc/fr/Makefile
 	  doc/it/Makefile
