@@ -19,6 +19,7 @@
 #include "events.h"
 #include "fcintl.h"
 
+#include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "options.h"
@@ -66,13 +67,15 @@ static GtkWidget *create_messageopt_dialog(void)
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  gtk_widget_set_name(shell, "Freeciv");
 
   explanation = gtk_label_new(NULL);
   gtk_label_set_markup(GTK_LABEL(explanation),
-    _("<span foreground=\"blue\"><i>Where to display messages?\n"
+    _("Where to display messages?\n"
       "<b>Out</b>put window ; "
       "<b>Mes</b>sages window ; "
-      "<b>Pop</b>up individual window</i></span>"));
+      "<b>Pop</b>up individual window"));
+  gtk_widget_set_name(explanation, "comment label");
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), explanation,
 	FALSE, FALSE, 0);
   gtk_widget_show(explanation);	
