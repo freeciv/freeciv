@@ -53,38 +53,6 @@
 #include "overviewclass.h"
 #include "scrollbuttonclass.h"
 
-/**************************************************************************
-  Find the "best" city to associate with the selected tile.  
-    a.  A city working the tile is the best
-    b.  If no city is working the tile, choose a city that could work the tile
-    c.  If multiple cities could work it, choose the most recently "looked at"
-    d.  If none of the cities were looked at last, choose "randomly"
-    e.  If another player is working the tile, or no cities can work it,
-	return NULL
-**************************************************************************/
-static struct city *find_city_near_tile(int x, int y)
-{
-  struct tile *ptile=map_get_tile(x, y);
-  struct city *pcity, *pcity2;
-  static struct city *last_pcity=NULL;
-
-  if((pcity=ptile->worked))  {
-    if(pcity->owner==game.player_idx)  return last_pcity=pcity;   /* rule a */
-    else return NULL;	 /* rule e */
-  }
-
-  pcity2 = NULL;
-  city_map_iterate(i, j)  {
-    pcity = map_get_city(x+i-2, y+j-2);
-    if(pcity && pcity->owner==game.player_idx && 
-       get_worker_city(pcity,4-i,4-j)==C_TILE_EMPTY)  {  /* rule b */
-      if(pcity==last_pcity) return pcity;  /* rule c */
-      pcity2 = pcity;
-    }
-  } city_map_iterate_end;
-  return last_pcity = pcity2;
-}
-
 /****************************************************************
  TilePopWindow Custom Class
 *****************************************************************/

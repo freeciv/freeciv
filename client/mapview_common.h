@@ -59,5 +59,7 @@ void base_center_tile_mapcanvas(int map_x, int map_y,
 				int *map_view_topleft_map_y,
 				int map_view_map_width,
 				int map_view_map_height);
+				
+struct city *find_city_near_tile(int x, int y);
 
 #endif /* FC__MAPVIEW_COMMON_H */
