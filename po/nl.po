@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2001-01-23 12:23+0100\n"
-"PO-Revision-Date: 2001-01-15 12:45 CET\n"
+"POT-Creation-Date: 2001-01-24 15:37+0100\n"
+"PO-Revision-Date: 2001-01-24 15:45 CET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -560,159 +560,159 @@ msgstr "Spel: %s verkoopt %s (verouderd) voor %d."
 
 #: server/cityturn.c:769
 #, c-format
-msgid "Game: Notice: Wonder %s in %s will be finished next turn"
-msgstr "Spel: Opmerking: Wonder %s in %s zal de volgende beurt klaar zijn"
+msgid "Game: Notice: Wonder %s in %s will be finished next turn."
+msgstr "Spel: Opmerking: Wonder %s in %s zal de volgende beurt klaar zijn."
 
-#: server/cityturn.c:787
+#: server/cityturn.c:789
 #, c-format
 msgid "Game: Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr "Spel: %s adviseert groeibeperking om %s (in aanbouw) beter te benutten."
 
-#: server/cityturn.c:801
+#: server/cityturn.c:803
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Spel: %s kan binnenkort groeien naar grootte %i."
 
-#: server/cityturn.c:808
+#: server/cityturn.c:810
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Spel: Hongersnood gevreesd in %s."
 
-#: server/cityturn.c:839
+#: server/cityturn.c:841
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spel: WAARSCHUWING, de SCHATKIST raakt LEEG sire."
 
-#: server/cityturn.c:889 server/cityturn.c:908
+#: server/cityturn.c:891 server/cityturn.c:910
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spel: %s heeft %s nodig (wordt gebouwd) om verder te kunnen groeien."
 
-#: server/cityturn.c:894 server/cityturn.c:913
+#: server/cityturn.c:896 server/cityturn.c:915
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spel: %s heeft %s nodig om verder te kunnen groeien."
 
-#: server/cityturn.c:965
+#: server/cityturn.c:967
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spel: %s groeit naar grootte %d."
 
-#: server/cityturn.c:974
+#: server/cityturn.c:976
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spel: Hongersnood veroorzaakt sterfte in %s."
 
-#: server/cityturn.c:1008
+#: server/cityturn.c:1010
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spel: Hongersnood gevreesd in %s, %s verloren!"
 
-#: server/cityturn.c:1093 server/cityturn.c:1133
+#: server/cityturn.c:1095 server/cityturn.c:1135
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spel: %s kan %s van de werklijst niet bouwen.  Verwijderen..."
 
-#: server/cityturn.c:1112 server/cityturn.c:1152
+#: server/cityturn.c:1114 server/cityturn.c:1154
 #, c-format
 msgid "Game: %s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr "Spel: %s kan %s van de werklijst niet bouwen; techniek nog niet beschikbaar.  Uitstellen..."
 
-#: server/cityturn.c:1120 server/cityturn.c:1160 server/cityturn.c:1263
+#: server/cityturn.c:1122 server/cityturn.c:1162 server/cityturn.c:1265
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Produktie van %s is opgewaardeerd naar %s in %s."
 
-#: server/cityturn.c:1185
+#: server/cityturn.c:1187
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %s's werklijst is nu leeg."
 
-#: server/cityturn.c:1284
+#: server/cityturn.c:1286
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan %s niet onderhouden, eenheid opgeheven."
 
-#: server/cityturn.c:1302
+#: server/cityturn.c:1304
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s is %s aan het bouwen, die niet meer beschikbaar is."
 
-#: server/cityturn.c:1333
+#: server/cityturn.c:1335
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: De %s zijn klaar met het bouwen van %s in %s."
 
-#: server/cityturn.c:1349
+#: server/cityturn.c:1351
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1355
+#: server/cityturn.c:1357
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s versnelt onderzoek, u krijgt 2 onmiddelijke vooruitgangen"
 
-#: server/cityturn.c:1363
+#: server/cityturn.c:1365
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: De %s zijn begonnen met het bouwen van een ruimteschip!"
 
-#: server/cityturn.c:1402
+#: server/cityturn.c:1404
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan %s nog niet bouwen."
 
-#: server/cityturn.c:1426
+#: server/cityturn.c:1428
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1469
+#: server/cityturn.c:1471
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Kan onderhoud van %s in %s niet meer betalen, gebouw verkocht!"
 
-#: server/cityturn.c:1630
+#: server/cityturn.c:1632
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Verontreiniging bij %s."
 
-#: server/cityturn.c:1739
+#: server/cityturn.c:1741
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: De 'Wij Loven De %s Dag' wordt gevierd in %s."
 
-#: server/cityturn.c:1747
+#: server/cityturn.c:1749
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: De 'Wij Loven De %s Dag' afgezegd in %s."
 
-#: server/cityturn.c:1780
+#: server/cityturn.c:1782
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Burgelijke onlusten in %s."
 
-#: server/cityturn.c:1783
+#: server/cityturn.c:1785
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: BURGELIJKE ONLUSTEN GAAN DOOR in %s."
 
-#: server/cityturn.c:1789
+#: server/cityturn.c:1791
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Orde hersteld in %s."
 
-#: server/cityturn.c:1798
+#: server/cityturn.c:1800
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Spel: De bevolking heeft uw %s omvergeworpen, uw land is in verwarring."
 
-#: server/cityturn.c:1823
+#: server/cityturn.c:1825
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr "Spel: %s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
-#: server/cityturn.c:1837
+#: server/cityturn.c:1839
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s is ontbonden in %s."
