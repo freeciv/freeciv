@@ -172,15 +172,7 @@ int main(int argc, char *argv[])
   textdomain(PACKAGE);
 #endif
 
-  /* a general test would be better here... */
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC) || defined(__EMX__))
-  if (!getuid() || !geteuid()) {
-    fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
-	    (argv[0] ? argv[0] : "freeciv_server"));
-    fprintf(stderr,"Use a non-privileged account instead.\n");
-    exit(1);
-  }
-#endif
+  dont_run_as_root(argv[0], "freeciv_server");
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 

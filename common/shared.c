@@ -642,3 +642,27 @@ char *datafilename_required(char *filename)
     exit(1);
   }
 }
+
+/***************************************************************************
+  If we have root privileges, die with an error.
+  (Eg, for security reasons.)
+  Param argv0 should be argv[0] or similar; fallback is
+  used instead if argv0 is NULL.
+  But don't die on systems where the user is always root...
+  (a general test for this would be better).
+  Doesn't use freelog() because gets called before logging is setup.
+***************************************************************************/
+void dont_run_as_root(const char *argv0, const char *fallback)
+{
+#if (defined(GENERATING68K) || defined(GENERATINGPPC) || defined(__EMX__))
+  return;
+#else
+  if (getuid()==0 || geteuid()==0) {
+    fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
+	    (argv0 ? argv0 : fallback ? fallback : "freeciv"));
+    fprintf(stderr,"Use a non-privileged account instead.\n");
+    exit(1);
+  }
+#endif
+}
+

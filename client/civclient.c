@@ -87,6 +87,8 @@ int main(int argc, char *argv[])
   textdomain(PACKAGE);
 #endif
 
+  dont_run_as_root(argv[0], "freeciv_client");
+  
   if(argc>1 && strstr(argv[1],"-help")) {
     fprintf(stderr, _("This is the Freeciv client\n"));
     fprintf(stderr, usage, argv[0]);
