@@ -413,7 +413,9 @@ static void ai_hunter_try_launch(struct player *pplayer,
       } pf_iterator_end;
       pf_destroy_map(map);
       if (sucker) {
-        unload_unit_from_transporter(missile);
+        if (find_unit_by_id(missile->transported_by)) {
+          unload_unit_from_transporter(missile);
+        }
         ai_unit_goto(missile, sucker->x, sucker->y);
         sucker = find_unit_by_id(target_sanity); /* Sanity */
         if (sucker && is_tiles_adjacent(sucker->x, sucker->y, missile->x, missile->y)) {
