@@ -357,6 +357,28 @@ static enum tile_behavior get_TB_peace(int x, int y, enum known_type known,
 }
 
 /********************************************************************** 
+  Fill the PF parameter with the correct client-goto values.
+***********************************************************************/
+static void fill_client_goto_parameter(struct unit *punit,
+				       struct pf_parameter *parameter)
+{
+  pft_fill_default_parameter(parameter);
+  pft_fill_unit_parameter(parameter, punit);
+  parameter->get_EC = get_EC;
+  if (unit_type(punit)->attack_strength > 0) {
+    parameter->get_TB = get_TB_aggr;
+  } else {
+    parameter->get_TB = get_TB_peace;
+  }
+  parameter->turn_mode = TM_WORST_TIME;
+  parameter->start_x = punit->x;
+  parameter->start_y = punit->y;
+
+  /* May be overwritten by the caller. */
+  parameter->moves_left_initially = punit->moves_left;
+}
+
+/********************************************************************** 
   Enter the goto state: activate, prepare PF-template and add the 
   initial part.
 ***********************************************************************/
@@ -367,17 +389,9 @@ void enter_goto_state(struct unit *punit)
   goto_map.unit_id = punit->id;
   assert(goto_map.num_parts == 0);
 
-  pft_fill_default_parameter(&goto_map.template);
-  pft_fill_unit_parameter(&goto_map.template, punit);
   assert(goto_map.template.get_EC == NULL);
-  goto_map.template.get_EC = get_EC;
   assert(goto_map.template.get_TB == NULL);
-  if (unit_type(punit)->attack_strength > 0) {
-    goto_map.template.get_TB = get_TB_aggr;
-  } else {
-    goto_map.template.get_TB = get_TB_peace;
-  }    
-  goto_map.template.turn_mode = TM_WORST_TIME;
+  fill_client_goto_parameter(punit, &goto_map.template);
 
   add_part();
   is_active = TRUE;
@@ -438,10 +452,39 @@ void draw_line(int dest_x, int dest_y)
   update_last_part(dest_x, dest_y);
 }
 
-/********************************************************************** 
-  FIXME: the packet interface need to be changed to support danger
-  paths.
-***********************************************************************/
+/**************************************************************************
+  Send an arbitrary goto path for the unit to the server.  FIXME: danger
+  paths are not supported.
+**************************************************************************/
+void send_goto_path(struct unit *punit, struct pf_path *path)
+{
+  struct packet_goto_route p;
+  int i;
+
+  p.unit_id = punit->id;
+
+  /* we skip the start position */
+  /* FIXME: but for unknown reason the server discards the last position */
+  p.length = path->length - 1 + 1;
+  p.first_index = 0;
+  p.last_index = p.length - 1;
+  p.pos = fc_malloc(p.length * sizeof(*p.pos));
+  for (i = 0; i < path->length - 1; i++) {
+    p.pos[i].x = path->positions[i + 1].x;
+    p.pos[i].y = path->positions[i + 1].y;
+    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)",
+	    i, p.pos[i].x, p.pos[i].y);
+  }
+
+  send_packet_goto_route(&aconnection, &p, ROUTE_GOTO);
+
+  free(p.pos);
+}
+
+/**************************************************************************
+  Send the current patrol route (i.e., the one generated via HOVER_STATE)
+  to the server.  FIXME: danger paths are not supported.
+**************************************************************************/
 void send_patrol_route(struct unit *punit)
 {
   struct packet_goto_route p;
@@ -484,15 +527,15 @@ void send_patrol_route(struct unit *punit)
   pf_destroy_path(path);
 }
 
-/********************************************************************** 
-  FIXME: the packet interface need to be changed to support danger
-  paths.
-***********************************************************************/
+/**************************************************************************
+  Send the current goto route (i.e., the one generated via
+  HOVER_STATE) to the server.  The route might involve more than one
+  part if waypoints were used.  FIXME: danger paths are not supported.
+**************************************************************************/
 void send_goto_route(struct unit *punit)
 {
-  struct packet_goto_route p;
-  int i;
   struct pf_path *path = NULL;
+  int i;
 
   assert(is_active);
   assert(punit->id == goto_map.unit_id);
@@ -501,23 +544,7 @@ void send_goto_route(struct unit *punit)
     path = pft_concat(path, goto_map.parts[i].path);
   }
 
-  p.unit_id = punit->id;
-
-  /* we skip the start position */
-  /* FIXME: but for unknown reason the server discards the last position */
-  p.length = path->length - 1 + 1;
-  p.first_index = 0;
-  p.last_index = p.length - 1;
-  p.pos = fc_malloc(p.length * sizeof(struct map_position));
-  for (i = 0; i < path->length - 1; i++) {
-    p.pos[i].x = path->positions[i + 1].x;
-    p.pos[i].y = path->positions[i + 1].y;
-    freelog(PACKET_LOG_LEVEL, "  packet[%d] = (%d,%d)", i, p.pos[i].x,
-            p.pos[i].y);
-  }
-  send_packet_goto_route(&aconnection, &p, ROUTE_GOTO);
-  free(p.pos);
-  p.pos = NULL;
+  send_goto_path(punit, path);
   pf_destroy_path(path);
 }
 
@@ -603,29 +630,41 @@ int get_drawn(int x, int y, int dir)
 }
 
 /**************************************************************************
-  Find the nearest (fastest to reach) allied city for the unit, or NULL if
-  none is reachable.
+  Find the path to the nearest (fastest to reach) allied city for the
+  unit, or NULL if none is reachable.
 ***************************************************************************/
-struct city *find_nearest_allied_city(struct unit *punit)
+struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 {
   struct city *pcity = NULL;
+  struct pf_parameter parameter;
+  struct pf_map *map;
+  struct pf_path *path = NULL;
 
   if ((pcity = is_allied_city_tile(map_get_tile(punit->x, punit->y),
 				   game.player_ptr))) {
-    /* We're already on a city - PF doesn't check for this (!). */
-    return pcity;
+    /* We're already on a city - don't go anywhere. */
+    return NULL;
   }
 
-  simple_unit_path_iterator(punit, pos) {
+  fill_client_goto_parameter(punit, &parameter);
+  map = pf_create_map(&parameter);
+
+  while (pf_next(map)) {
+    struct pf_position pos;
+
+    pf_next_get_position(map, &pos);
+
     if ((pcity = is_allied_city_tile(map_get_tile(pos.x, pos.y),
 				     game.player_ptr))) {
-      /* We use break so that the PF map can be destroyed. */
       break;
     }
-  } simple_unit_path_iterator_end;
+  }
 
-  /* FIXME: For some reason this sometimes seems to find arbitrary but
-   * reproducable far-away cities instead of the obvious closest city. */
+  if (pcity) {
+    path = pf_next_get_path(map);
+  }
 
-  return pcity;
+  pf_destroy_map(map);
+
+  return path;
 }

@@ -663,16 +663,12 @@ void request_unit_airlift(struct unit *punit, struct city *pcity)
 **************************************************************************/
 void request_unit_return(struct unit *punit)
 {
-  struct city *pcity;
+  struct pf_path *path = path_to_nearest_allied_city(punit);
 
-  enter_goto_state(punit);
-
-  if ((pcity = find_nearest_allied_city(punit))) {
-    draw_line(pcity->x, pcity->y);
-    send_goto_route(punit);
+  if (path) {
+    send_goto_path(punit, path);
+    pf_destroy_path(path);
   }
-
-  exit_goto_state();
 }
 
 /**************************************************************************

@@ -15,6 +15,8 @@
 
 #include "map.h"
 
+#include "path_finding.h"
+
 void init_client_goto(void);
 void free_client_goto(void);
 void enter_goto_state(struct unit *punit);
@@ -27,9 +29,10 @@ bool goto_pop_waypoint(void);
 void draw_line(int dest_x, int dest_y);
 int get_drawn(int x, int y, int dir);
 
+void send_goto_path(struct unit *punit, struct pf_path *path);
 void send_patrol_route(struct unit *punit);
 void send_goto_route(struct unit *punit);
 
-struct city *find_nearest_allied_city(struct unit *punit);
+struct pf_path *path_to_nearest_allied_city(struct unit *punit);
 
 #endif /* FC__GOTO_H */
