@@ -274,8 +274,9 @@ if test x`$UNAME -s` = xBeOS ; then
     CFLAGS="$CFLAGS -gdwarf-2"
     LDFLAGS="$LDFLAGS -gdwarf-2"
   fi
-  ARFLAGS=${ARFLAGS:-cru}
-  AC_SUBST(ARFLAGS)
+  # We used to set ARFLAGS here, but under recent versions of automake this
+  # broke compilation on other systems.  Setting ARFLAGS shouldn't be
+  # necessary with a working automake.
 fi
 
 dnl Windows-specific settings
