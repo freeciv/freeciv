@@ -20,6 +20,40 @@ out whether your system is suitable.  If in doubt, just try it.
    BSD-style TCP/IP sockets is essential, as is a Bourne-shell
    compatible shell, such as GNU "bash".  (Most Unixes fit the bill...)
 
+ - An ANSI C compiler.
+
+   Freeciv is written in very portable (almost) ANSI C.  Both 32- and 64-
+   bit machines are supported.  You cannot use a "K&R C" compiler, or
+   a C++ compiler.
+
+   Development of Freeciv is primarily done with "gcc", the GNU
+   project's excellent C compiler.  Releases can be compiled with gcc
+   or most other compilers (such as the unbundled Solaris C compiler).
+   Development releases and CVS snapshots will not work without gcc,
+   unless you give configure the "--disable-cvs-deps" option.  See
+   the section below for more information.
+
+ - A "make" program.
+
+   Freeciv developers generally use "gmake", the GNU make program.
+
+   Officially released versions of Freeciv are designed to have
+   makefiles which work with most make programs.  Development releases
+   and CVS snapshots contain things (like dependencies) which use
+   gmake's enhanced features, so gmake is necessary for development,
+   unless you give configure the "--disable-cvs-deps" option.  See the
+   section below for more information.
+
+   You can check if you have GNU make installed on your system by
+   typing:
+
+    % make -v                   [and if this doesn't work, try "gmake -v"]
+
+   The output should include "GNU Make" somewhere.
+
+1a. Prerequisites for the Xaw client:
+=====================================
+
  - X-Windows.
 
    The Freeciv client is an X-Windows program, so you'll need some way
@@ -34,6 +68,9 @@ out whether your system is suitable.  If in doubt, just try it.
    This library (also known as "Xaw") is usually supplied standard
    with the rest of X Windows, but some platforms (HP-UX 10 for
    example) only provide it in a limited form.
+
+   To compile the client using the "Xaw" library add "--with-xaw" to
+   the Freeciv configure script.
 
    Many modern Unix systems (such as Linux) ship with a variant called
    "Xaw3d", which has a more modern "3D" look.  If you'd like to try
@@ -68,38 +105,53 @@ out whether your system is suitable.  If in doubt, just try it.
    it in a standard system directory, then use the --with-xpm-prefix
    option, as described above.
 
- - An ANSI C compiler.
+1b. Prerequisites for the Gtk+ client:
+======================================
 
-   Freeciv is written in very portable (almost) ANSI C.  Both 32- and 64-
-   bit machines are supported.  You cannot use a "K&R C" compiler, or
-   a C++ compiler.
+ - The "Gtk+" widget library.
 
-   Development of Freeciv is primarily done with "gcc", the GNU
-   project's excellent C compiler.  Releases can be compiled with gcc
-   or most other compilers (such as the unbundled Solaris C compiler).
-   Development releases and CVS snapshots will not work without gcc,
-   unless you give configure the "--disable-cvs-deps" option.  See
-   the section below for more information.
+   The "Gtk+" widget library was designed for the GIMP graphics program.
+   Since then it has gained popularity has an easy to program, free toolkit.
+   The "Gtk+" library comes with a companion library "Gdk" which provides an
+   abstraction layer over X Windows to implement basic drawing functions,
+   windows, clipping, etc.
 
- - A "make" program.
+   Freeciv 1.8.1 requires a version of "Gtk+" greater or equal to 1.2.1.
 
-   Freeciv developers generally use "gmake", the GNU make program.
+   If the Freeciv configure process tells you that you don't have the
+   Gtk+ library installed, then it may be obtained from here:
 
-   Officially released versions of Freeciv are designed to have
-   makefiles which work with most make programs.  Development releases
-   and CVS snapshots contain things (like dependencies) which use
-   gmake's enhanced features, so gmake is necessary for development,
-   unless you give configure the "--disable-cvs-deps" option.  See the
-   section below for more information.
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk-1.2.1.tar.gz
 
-   You can check if you have GNU make installed on your system by
-   typing:
+ - The "Glib" utility library.
 
-    % make -v                   [and if this doesn't work, try "gmake -v"]
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
 
-   The output should include "GNU Make" somewhere.
+   Freeciv 1.8.1 requires a version of "Glib" greater or equal to 1.2.1.
 
-1. Generating the Makefile:
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.1.tar.gz
+
+ - The "Imlib" library.
+
+   This library is essential for bitmap handling.  It is also
+   used by the GNOME project.
+
+   Freeciv 1.8.1 requires a version of "Imlib" greater or equal to 1.9.2.
+
+   If the Freeciv configure process tells you that you don't have the
+   Imlib library installed, then it may be obtained from here:
+
+     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/imlib-1.9.4.tar.gz
+
+   (Imlib documentation says that you require other libraries to use
+   certain features but none of those are needed by the Freeciv client).
+
+
+2. Generating the Makefile:
 ===========================
 
 Before you compile Freeciv, you must generate a Makefile.  This
@@ -156,11 +208,19 @@ If for some reason using "configure" gives you trouble, follow these steps:
   - Read the prerequisites section carefully, to determine if your
     system meets all the requirements.
 
-  - Ensure that you have both the Xpm and Xaw libraries
-    installed on your system.  Make sure that the configure script
-    can find them, either by installing them in the standard places
-    on your system, or by instructing the configure script with the
-    appropriate command-line options.  (See ./configure --help).
+  - If you are compiling the Gtk+ version of the client: Ensure that
+    you have the Gtk+, Gdk, Glib & Imlib libraries installed on your
+    system.  Make sure that the configure script can find them,
+    either by installing them in the standard places on your system,
+    or by instructing the configure script with the appropriate
+    command-line options.  (See ./configure --help)
+
+  - If you are compiling the Xaw version of the client: Ensure that
+    you have both the Xpm and Xaw libraries installed on your system.
+    Make sure that the configure script can find them, either by
+    installing them in the standard places on your system, or by
+    instructing the configure script with the appropriate command-line
+    options.  (See ./configure --help).
 
   - Let us know, so that we can fix it for the next release!!
 
@@ -185,7 +245,7 @@ If for some reason using "configure" gives you trouble, follow these steps:
 Please note that as of Freeciv 1.7.2, we no longer support using
 Imake.
 
-2. Compiling Freeciv:
+3. Compiling Freeciv:
 =====================
 
 If all has gone well previous to this point, then compiling Freeciv
@@ -206,7 +266,7 @@ installing it.  If you do this, you'll need to use the "civ" and
 
 See the README file for more information.
 
-3. Installation:
+4. Installation:
 ================
 
 Installing Freeciv involves installing the components mentioned in
@@ -235,8 +295,8 @@ in the Freeciv main directory.  This script first sets FREECIV_DATADIR to
 point to a 'data' directory under the directory where the script lives, and
 then runs civclient.
 
-Finally, if you're logged in as the 'root' user, you should consider copying
-the file data/Freeciv into your app-defaults directory. (Usually this is
-/usr/lib/X11/app-defaults).
+Finally, if you've choose to use the Xaw client and you're logged in as the
+'root' user, you should consider copying the file data/Freeciv into your
+app-defaults directory. (Usually this is /usr/lib/X11/app-defaults).
 
 ** END **
