@@ -1098,6 +1098,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
   struct city *pcity_dest = find_city_by_id(req->city_id);
+  const char *text;
 
   if (!punit || !unit_flag(punit, F_HELP_WONDER) || !pcity_dest
       || !unit_can_help_build_wonder(punit, pcity_dest)) {
@@ -1117,12 +1118,18 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   pcity_dest->caravan_shields += unit_type(punit)->build_cost;
 
   conn_list_do_buffer(&pplayer->connections);
+
+  if (build_points_left(pcity_dest) >= 0) {
+    text = _("Game: Your %s helps build the %s in %s (%d remaining).");
+  } else {
+    text = _("Game: Your %s helps build the %s in %s (%d surplus).");
+  }
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		   _("Game: Your %s helps build the %s in %s (%d remaining)."), 
+		   text, /* Must match arguments below. */
 		   unit_name(punit->type),
 		   get_improvement_type(pcity_dest->currently_building)->name,
 		   pcity_dest->name, 
-		   build_points_left(pcity_dest));
+		   abs(build_points_left(pcity_dest)));
 
   wipe_unit(punit);
   send_player_info(pplayer, pplayer);
