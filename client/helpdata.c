@@ -694,23 +694,69 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	    _("* Must end turn in a city or next to land,"
 	      " or has a 50%% risk of being lost at sea."));
   }
-  if (utype->fuel>0) {
-    sprintf(buf+strlen(buf), _("* Must end "));
-    if (utype->fuel==2) {
-      sprintf(buf+strlen(buf), _("second "));
-    } else if (utype->fuel==3) {
-      sprintf(buf+strlen(buf), _("third "));
-    } else if (utype->fuel>=4) {
-      sprintf(buf+strlen(buf), _("%dth "), utype->fuel);
+  if (utype->fuel > 0) {
+    char allowed_units[10][64];
+    int num_allowed_units = 0;
+    int j, n;
+    struct astring astr;
+
+    astr_init(&astr);
+    astr_minsize(&astr,1);
+    astr.str[0] = '\0';
+
+    n = num_role_units(F_CARRIER);
+    for (j = 0; j < n; j++) {
+      Unit_Type_id id = get_role_unit(F_CARRIER, j);
+
+      mystrlcpy(allowed_units[num_allowed_units],
+		unit_name(id), sizeof(allowed_units[num_allowed_units]));
+      num_allowed_units++;
+      assert(num_allowed_units < ARRAY_SIZE(allowed_units));
     }
-    /* FIXME: should use something like get_units_with_flag_string() */
-    sprintf(buf+strlen(buf), _("turn in a city, or on a Carrier"));
-    if (unit_type_flag(i, F_MISSILE) &&
-	num_role_units(F_MISSILE_CARRIER)>0 &&
-	get_unit_type(get_role_unit(F_MISSILE_CARRIER,0))->transport_capacity > 0) {
-      sprintf(buf+strlen(buf), _(" or Submarine"));
+
+    if (unit_type_flag(i, F_MISSILE)) {
+      n = num_role_units(F_MISSILE_CARRIER);
+
+      for (j = 0; j < n; j++) {
+	Unit_Type_id id = get_role_unit(F_MISSILE_CARRIER, j);
+
+	if (get_unit_type(id)->transport_capacity > 0) {
+	  mystrlcpy(allowed_units[num_allowed_units],
+		    unit_name(id), sizeof(allowed_units[num_allowed_units]));
+	  num_allowed_units++;
+	  assert(num_allowed_units < ARRAY_SIZE(allowed_units));
+	}
+      }
     }
-    sprintf(buf+strlen(buf), _(", or will run out of fuel and be lost.\n"));
+
+    for (j = 0; j < num_allowed_units; j++) {
+      char *deli_str = NULL;
+
+      /* there should be something like astr_append() */
+      astr_minsize(&astr, astr.n + strlen(allowed_units[j]));
+      strcat(astr.str, allowed_units[j]);
+
+      if (j == num_allowed_units - 2) {
+	deli_str = _(" or ");
+      } else if (j < num_allowed_units - 1) {
+	deli_str = Q_("?or:, ");
+      }
+
+      if (deli_str) {
+	astr_minsize(&astr, astr.n + strlen(deli_str));
+	strcat(astr.str, deli_str);
+      }
+    }
+    
+    assert(num_allowed_units > 0);
+
+    sprintf(buf + strlen(buf),
+	    PL_("* Unit has to be in a city, or on a %s"
+		" after %d turn.\n",
+		"* Unit has to be in a city, or on a %s"
+		" after %d turns.\n", utype->fuel),
+	    astr.str, utype->fuel);
+    astr_free(&astr);
   }
   if (strlen(buf) > 0) {
     sprintf(buf+strlen(buf), "\n");
