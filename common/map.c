@@ -452,6 +452,31 @@ const char *get_special_name(enum tile_special_type type)
   return NULL;
 }
 
+/****************************************************************************
+  Return the "distance" (which is really the Manhattan distance, and should
+  rarely be used) for a given vector.
+****************************************************************************/
+static int map_vector_to_distance(int dx, int dy)
+{
+  return abs(dx) + abs(dy);
+}
+
+/****************************************************************************
+  Return the "real" distance for a given vector.
+****************************************************************************/
+int map_vector_to_real_distance(int dx, int dy)
+{
+  return MAX(abs(dx), abs(dy));
+}
+
+/****************************************************************************
+  Return the sq_distance for a given vector.
+****************************************************************************/
+int map_vector_to_sq_distance(int dx, int dy)
+{
+  return dx * dx + dy * dy;
+}
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -460,8 +485,7 @@ int real_map_distance(int x0, int y0, int x1, int y1)
   int dx, dy;
 
   map_distance_vector(&dx, &dy, x0, y0, x1, y1);
-
-  return MAX(abs(dx), abs(dy));
+  return map_vector_to_real_distance(dx, dy);
 }
 
 /***************************************************************
@@ -474,8 +498,7 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
   int dx, dy;
 
   map_distance_vector(&dx, &dy, x0, y0, x1, y1);
-
-  return (dx*dx + dy*dy);
+  return map_vector_to_sq_distance(dx, dy);
 }
 
 /***************************************************************
@@ -488,8 +511,7 @@ int map_distance(int x0, int y0, int x1, int y1)
   int dx, dy;
 
   map_distance_vector(&dx, &dy, x0, y0, x1, y1);
-
-  return abs(dx) + abs(dy);
+  return map_vector_to_distance(dx, dy);
 }
 
 /***************************************************************

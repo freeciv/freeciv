@@ -45,6 +45,9 @@ int city_tiles;
 **************************************************************************/
 bool is_valid_city_coords(const int city_x, const int city_y)
 {
+  int dist = map_vector_to_sq_distance(city_x - CITY_MAP_RADIUS,
+				       city_y - CITY_MAP_RADIUS);
+
   /* The city's valid positions are in a circle of radius CITY_MAP_RADIUS
    * around the city center.  Depending on the value of CITY_MAP_RADIUS
    * this circle will be:
@@ -61,13 +64,7 @@ bool is_valid_city_coords(const int city_x, const int city_y)
    *
    * FIXME: this won't work for hexagonal tiles.
    */
-  if (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1
-      >= ((city_x - CITY_MAP_RADIUS) * (city_x - CITY_MAP_RADIUS) +
-	  (city_y - CITY_MAP_RADIUS) * (city_y - CITY_MAP_RADIUS))) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1 >= dist);
 }
 
 /**************************************************************************
@@ -200,7 +197,7 @@ void generate_city_map_indices(void)
       if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
 	array[i].dx = dx;
 	array[i].dy = dy;
-	array[i].dist = dx * dx + dy * dy;
+	array[i].dist = map_vector_to_sq_distance(dx, dy);
 	i++;
       }
     }

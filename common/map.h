@@ -198,9 +198,12 @@ const char *map_get_tile_info_text(int x, int y);
 const char *map_get_tile_fpt_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
+int map_vector_to_real_distance(int dx, int dy);
+int map_vector_to_sq_distance(int dx, int dy);
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
+
 bool same_pos(int x1, int y1, int x2, int y2);
 bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir);
