@@ -197,41 +197,43 @@ void create_science_dialog(bool make_modal)
   gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
         frame, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new( TRUE, 5 );
+  hbox = gtk_hbox_new(TRUE, 4);
   gtk_container_add(GTK_CONTAINER(frame), hbox);
 
   science_change_menu_button = gtk_option_menu_new();
-  gtk_box_pack_start( GTK_BOX( hbox ), science_change_menu_button,TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), science_change_menu_button,
+      TRUE, TRUE, 0);
 
   popupmenu = gtk_menu_new();
   gtk_widget_show_all(popupmenu);
 
   science_current_label=gtk_progress_bar_new();
-  gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), science_current_label, TRUE, TRUE, 0);
   gtk_widget_set_size_request(science_current_label, -1, 25);
   
   science_help_toggle = gtk_check_button_new_with_label (_("Help"));
-  gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), science_help_toggle, TRUE, FALSE, 0);
 
   frame = gtk_frame_new( _("Goal"));
   gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
         frame, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new( TRUE, 5 );
+  hbox = gtk_hbox_new(TRUE, 4);
   gtk_container_add(GTK_CONTAINER(frame),hbox);
 
   science_goal_menu_button = gtk_option_menu_new();
-  gtk_box_pack_start(GTK_BOX(hbox), science_goal_menu_button, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), science_goal_menu_button,
+      TRUE, TRUE, 0);
 
   goalmenu = gtk_menu_new();
   gtk_widget_show_all(goalmenu);
 
   science_goal_label = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( hbox ), science_goal_label, TRUE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), science_goal_label, TRUE, TRUE, 0);
   gtk_widget_set_size_request(science_goal_label, -1, 25);
 
   w = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), w, TRUE, FALSE, 0);
 
   hbox = gtk_hbox_new(TRUE, 0);
   gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
@@ -551,7 +553,7 @@ void science_dialog_update(void)
 
     label = gtk_label_new(advances[tech].name);
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
     gtk_size_group_add_widget(group1, label);
 
     my_snprintf(text, sizeof(text), "%d",
@@ -559,7 +561,7 @@ void science_dialog_update(void)
 
     label = gtk_label_new(text);
     gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
-    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
     gtk_size_group_add_widget(group2, label);
 
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
