@@ -551,7 +551,7 @@ STATIC ULONG Overview_RefreshSingle(struct IClass * cl, Object * o, struct MUIP_
   return NULL;
 }
 
-STATIC __asm __saveds ULONG Overview_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Overview_Dispatcher)
 {
   switch (msg->MethodID)
   {

@@ -16,7 +16,7 @@ TCPSDK = #AmiTCP SDK (no define for this one!)
 #TCPSDK = DEFINE=MIAMI_SDK # the miami SDK
 
 # comment, if not debugging, disabled by default
-DEBFLAGS = #DEBUG=LINE NOSTRIPDEBUG
+DEBFLAGS = #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG
 
 # The optimize flags, set the comment mark, where you want. The options at the end
 # need much more time. Disabled by default.
@@ -39,11 +39,11 @@ FREECIV_DIR = /
 OBJDIR1 = sas_68k
 
 # Additional flags
-CCFLAGS = ANSI IDLEN=40 NOLINK MCCONS COMMENTNEST DATA=FAR NOSTKCHK IGNORE=63\
-DEF=HAVE_CONFIG_H $(DEBFLAGS) $(OPTFLAGS) $(CPU_MATH) $(TCPSDK)
+CCFLAGS = RESOPT ANSI IDLEN=40 NOLINK MCCONS COMMENTNEST DATA=FAR NOSTKCHK IGNORE=63\
+NOVERSION DEF=HAVE_CONFIG_H $(DEBFLAGS) $(OPTFLAGS) $(CPU_MATH) $(TCPSDK)
 
 # Additional linker flags
-LNFLAGS = RESOPT STRIPDEBUG $(DEBFLAGS) $(CPU_MATH) LINK NOICONS LIB:debug.lib
+LNFLAGS = RESOPT STRIPDEBUG $(DEBFLAGS) $(CPU_MATH) LINK NOICONS NOVERSION
 
 # How to tell the compiler the destination of object files
 TO = OBJNAME=

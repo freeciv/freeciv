@@ -248,13 +248,13 @@ Object *MakeCheck(STRPTR label, ULONG check)
 }
 
 
-struct Hook standart_hook;
+struct Hook civstandard_hook;
 
 /****************************************************************
- Standart Hook function, so we can easily call functions via
+ Standard Hook function, so we can easily call functions via
  MUIM_CallHook
 *****************************************************************/
-static void __asm __saveds Standart_Hook_Func(register __a1 ULONG * funcptr)
+HOOKPROTONHNO(Standard_Hook_Func, void, ULONG * funcptr)
 {
   void (*func) (ULONG *) = (void (*)(ULONG *)) (*funcptr);
   if (func)
@@ -262,10 +262,10 @@ static void __asm __saveds Standart_Hook_Func(register __a1 ULONG * funcptr)
 }
 
 /****************************************************************
- Initialize the standart hook
+ Initialize the standard hook
 *****************************************************************/
-void init_standart_hook(void)
+void init_civstandard_hook(void)
 {
-  standart_hook.h_Entry = (HOOKFUNC) Standart_Hook_Func;
+  civstandard_hook.h_Entry = (HOOKFUNC) Standard_Hook_Func;
 }
 

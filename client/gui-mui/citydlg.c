@@ -465,14 +465,14 @@ static void city_list_sort(struct MinList *list)
 /**************************************************************************
  Display function for the listview in the production window
 **************************************************************************/
-__asm __saveds static int city_prod_display(register __a0 struct Hook *h, register __a2 char **array, register __a1 ULONG which)
+HOOKPROTO(city_prod_display, int, char **array, ULONG which)
 {
   static char name[256];
   static char info[32];
   static char cost[32];
   static char rounds[32];
 
-  struct city *pcity = (struct city *) h->h_Data;
+  struct city *pcity = (struct city *) hook->h_Data;
 
   if (which)
   {
@@ -571,13 +571,13 @@ __asm __saveds static int city_prod_display(register __a0 struct Hook *h, regist
 /**************************************************************************
  Display function for the listview in the city window
 **************************************************************************/
-__asm __saveds static int city_imprv_display(register __a0 struct Hook *h, register __a2 char **array, register __a1 ULONG which)
+HOOKPROTO(city_imprv_display, int, char **array, ULONG which)
 {
   static char name[256];
   static char cost[32];
   if (which)
   {
-    struct city_dialog *pdialog = (struct city_dialog *) h->h_Data;
+    struct city_dialog *pdialog = (struct city_dialog *) hook->h_Data;
     which--;
     sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which), get_improvement_type(which)->build_cost);
     sprintf(cost, "%d", improvement_upkeep(pdialog->pcity, which));
@@ -608,7 +608,7 @@ static int city_close_real(struct city_dialog **ppdialog)
 static int city_close(struct city_dialog **ppdialog)
 {
   set((*ppdialog)->wnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, city_close_real, *ppdialog);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, city_close_real, *ppdialog);
   return NULL;
 }
 
@@ -1090,7 +1090,7 @@ static void city_prod_close_real(struct city_prod **ppcprod)
 void city_prod_destroy(struct city_prod **ppcprod)
 {
   set((*ppcprod)->wnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, city_prod_close_real, *ppcprod);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, city_prod_close_real, *ppcprod);
 }
 
 /**************************************************************************
@@ -1244,11 +1244,11 @@ void popup_city_production_dialog(struct city *pcity)
       set(pcprod->available_listview, MUIA_NList_Active, current);
     }
 
-    DoMethod(pcprod->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, city_prod_destroy, pcprod);
-    DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_destroy, pcprod);
-    DoMethod(pcprod->available_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);
-    DoMethod(change_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_change, pcprod);
-    DoMethod(help_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_prod_help, pcprod);
+    DoMethod(pcprod->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, city_prod_destroy, pcprod);
+    DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_prod_destroy, pcprod);
+    DoMethod(pcprod->available_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_prod_change, pcprod);
+    DoMethod(change_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_prod_change, pcprod);
+    DoMethod(help_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_prod_help, pcprod);
 
     DoMethod(app,OM_ADDMEMBER,pcprod->wnd);
     SetAttrs(pcprod->wnd, MUIA_Window_Open, TRUE, TAG_DONE);
@@ -1446,31 +1446,31 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   if(pdialog->wnd && pdialog->cityopt_wnd)
   {
-    DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
-    DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_close, pdialog);
-    DoMethod(pdialog->trade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_trade, pdialog);
-    DoMethod(pdialog->configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_configure, pdialog);
-    DoMethod(pdialog->unitlist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_unitlist, pdialog);
-    DoMethod(pdialog->activateunits_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_activate_units, pdialog);
+    DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
+    DoMethod(pdialog->close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_close, pdialog);
+    DoMethod(pdialog->trade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_trade, pdialog);
+    DoMethod(pdialog->configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_configure, pdialog);
+    DoMethod(pdialog->unitlist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_unitlist, pdialog);
+    DoMethod(pdialog->activateunits_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_activate_units, pdialog);
 
     if (prev_button && next_button)
     {
       set(next_button, MUIA_Weight, 0);
       set(prev_button, MUIA_Weight, 0);
-      DoMethod(prev_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 0);
-      DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_browse, pdialog, 1);
+      DoMethod(prev_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_browse, pdialog, 0);
+      DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_browse, pdialog, 1);
     }
 
-    DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &standart_hook, city_click, pdialog, MUIV_TriggerValue);
-    DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_change, pdialog);
-    DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_worklist, pdialog);
-    DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_buy, pdialog);
-    DoMethod(pdialog->rename_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_rename, pdialog);
-    DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, city_sell, pdialog);
+    DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
+    DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_change, pdialog);
+    DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_worklist, pdialog);
+    DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_buy, pdialog);
+    DoMethod(pdialog->rename_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
+    DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_sell, pdialog);
 
     DoMethod(pdialog->cityopt_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(cityopt_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Window, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(cityopt_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &standart_hook, city_opt_ok, pdialog);
+    DoMethod(cityopt_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, MUIV_Notify_Self, 4, MUIM_CallHook, &civstandard_hook, city_opt_ok, pdialog);
 
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
     DoMethod(app, OM_ADDMEMBER, pdialog->cityopt_wnd);
@@ -1650,7 +1650,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     if (o)
     {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &standart_hook, city_citizen, pdialog, 0);
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 0);
     }
   }
 
@@ -1660,7 +1660,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     if (o)
     {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &standart_hook, city_citizen, pdialog, 1);
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 1);
     }
   }
 
@@ -1671,7 +1671,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     if (o)
     {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &standart_hook, city_citizen, pdialog, 2);
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 5, MUIM_CallHook, &civstandard_hook, city_citizen, pdialog, 2);
     }
   }
 
@@ -1764,7 +1764,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     o = MakeUnit(punit, FALSE);
     if (o)
     {
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, city_present, pdialog, punit);
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_present, pdialog, punit);
       DoMethod(pdialog->present2_group, OM_ADDMEMBER, o);
     }
   }

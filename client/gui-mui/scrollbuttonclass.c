@@ -41,6 +41,7 @@ STATIC ULONG ScrollButton_Get(struct IClass * cl, Object * o, struct opGet * msg
   {
     case  MUIA_ScrollButton_NewPosition:
           *msg->opg_Storage = data->pos;
+          return TRUE;
           break;
 
     default:
@@ -143,7 +144,7 @@ STATIC ULONG ScrollButton_HandleInput(struct IClass * cl, Object * o, struct MUI
   return 0;
 }
 
-STATIC __asm __saveds ULONG ScrollButton_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(ScrollButton_Dispatcher)
 {
   switch (msg->MethodID)
   {

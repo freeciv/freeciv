@@ -122,7 +122,7 @@ static void set_title_topic(char *topic)
     text = topic;
   }
 
-  set(help_topic_text, MUIA_Text_Contents, topic);
+  set(help_topic_text, MUIA_Text_Contents, text);
 }
 
 /****************************************************************
@@ -161,10 +161,9 @@ static void help_hyperlink(Object ** text_obj)
   if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
       && strcmp(s, advances[A_NONE].name))
   {
-    const struct help_item *pitem;
     int idx;
 
-    pitem = get_help_item_spec(s, type, &idx);
+    get_help_item_spec(s, type, &idx);
     if (idx == -1)
       idx = 0;
 
@@ -186,7 +185,7 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 	     MUIA_UserData, type,
 	     MUIA_Weight, 0,
 	     TAG_DONE);
-    DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, button);
+    DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
   }
   return button;
 }
@@ -234,7 +233,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
     if (help_wnd)
     {
       DoMethod(help_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, help_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-      DoMethod(help_topic_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, help_topic_listview, 4, MUIM_CallHook, &standart_hook, help_topic_active, MUIV_TriggerValue);
+      DoMethod(help_topic_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, help_topic_listview, 4, MUIM_CallHook, &civstandard_hook, help_topic_active, MUIV_TriggerValue);
 
       DoMethod(app, OM_ADDMEMBER, help_wnd);
     }
@@ -301,7 +300,7 @@ static void clear_page_objects(void)
 *****************************************************************/
 static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
 {
-  APTR leaf;
+  APTR leaf = 0;
 /*
   int type;
   char *bg="";*/
@@ -323,7 +322,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
   if(!tech_exists(tech))
   {
     Object *o = MakeButton("Removed");
-    leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
+/*    leaf = */(APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
 /*    bg=TREE_NODE_REMOVED_TECH_BG;
     l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
 			      tree,
@@ -343,7 +342,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     Object *o = MakeButton(label);
     if (o)
     {
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
       set(o,MUIA_UserData, tech);
       leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,parent,o);
     }
@@ -352,8 +351,8 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     Object *o = MakeButton(label);
     if (o)
     {
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
-/*      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o); */
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
+/*      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o); */
       set(o,MUIA_UserData, tech);
       leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
     }
@@ -449,7 +448,7 @@ static void create_help_page(enum help_page_type type)
 
       if (help_page_group)
       {
-	DoMethod(help_imprv_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, help_imprv_needs_button);
+	DoMethod(help_imprv_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, help_imprv_needs_button);
       }
       break;
 
@@ -465,8 +464,8 @@ static void create_help_page(enum help_page_type type)
 
       if (help_page_group)
       {
-	DoMethod(help_wonder_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, help_wonder_needs_button);
-	DoMethod(help_wonder_obsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, help_wonder_obsolete_button);
+	DoMethod(help_wonder_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, help_wonder_needs_button);
+	DoMethod(help_wonder_obsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, help_wonder_obsolete_button);
       }
       break;
 
@@ -532,8 +531,8 @@ static void create_help_page(enum help_page_type type)
 	End;
       if (help_page_group)
       {
-	DoMethod(help_unit_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, help_unit_needs_button);
-	DoMethod(help_unit_obsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_hyperlink, help_unit_obsolete_button);
+	DoMethod(help_unit_needs_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, help_unit_needs_button);
+	DoMethod(help_unit_obsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, help_unit_obsolete_button);
       }
       break;
     }
@@ -1095,10 +1094,9 @@ static void select_help_item(int item)
 static void select_help_item_string(const char *item,
 				    enum help_page_type htype)
 {
-  const struct help_item *pitem;
   int idx;
 
-  pitem = get_help_item_spec(item, htype, &idx);
+  get_help_item_spec(item, htype, &idx);
   if (idx == -1)
     idx = 0;
   select_help_item(idx);

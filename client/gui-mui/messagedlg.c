@@ -125,7 +125,7 @@ void popup_messageopt_dialog(void)
       if(!err)
       {
         DoMethod(option_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-        DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_CallHook, &standart_hook, message_option_ok);
+        DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_CallHook, &civstandard_hook, message_option_ok);
         DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
         DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
         DoMethod(app, OM_ADDMEMBER, option_wnd);

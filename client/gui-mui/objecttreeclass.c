@@ -49,6 +49,7 @@ STATIC struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
   return node;
 }
 
+/*
 STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
@@ -62,6 +63,7 @@ STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
   }
   return max_depth+1;
 }
+*/
 
 LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
 {
@@ -178,7 +180,7 @@ STATIC APTR ObjectTree_Find(struct ObjectTree_Node *node, Object *o)
   return NULL;
 }
 
-__asm __saveds ULONG ObjectTree_Group_Layout(register __a0 struct Hook *h, register __a2 Object *obj, register __a1 struct MUI_LayoutMsg *lm)
+HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
 {
   LONG vert_spacing = 4;
   LONG horiz_spacing = 4;
@@ -348,7 +350,7 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
 
 }
 
-STATIC BOOL ObjectTree_HasSubNodes(struct IClass * cl, Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
+STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
 {
 /*  struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o); */
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
@@ -368,7 +370,7 @@ STATIC APTR ObjectTree_FindObject(struct IClass * cl, Object * o, struct MUIP_Ob
   return ObjectTree_Find(data->first_node,msg->object);
 }
 
-__asm __saveds STATIC ULONG ObjectTree_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(ObjectTree_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -389,7 +391,7 @@ __asm __saveds STATIC ULONG ObjectTree_Dispatcher(register __a0 struct IClass * 
   case MUIM_ObjectTree_FindObject:
     return (ULONG)ObjectTree_FindObject(cl,obj,(struct MUIP_ObjectTree_FindObject*)msg);
   case MUIM_ObjectTree_HasSubNodes:
-    return ObjectTree_HasSubNodes(cl,obj,(struct MUIP_ObjectTree_HasSubNodes*)msg);
+    return ObjectTree_HasSubNodes(/*cl,*/obj,(struct MUIP_ObjectTree_HasSubNodes*)msg);
   }
   return (DoSuperMethodA(cl, obj, msg));
 }

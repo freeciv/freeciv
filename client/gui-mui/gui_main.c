@@ -341,9 +341,7 @@ void enable_turn_done_button(void)
  Edit Hook for the Chatline String Gadget (Should create a new
  subclass)
 *****************************************************************/
-static __asm __saveds int inputline_edit( register __a0 struct Hook *hook,
-                                    register __a1 ULONG *msg,
-                                    register __a2 struct SGWork *sgw)
+HOOKPROTO(inputline_edit, int, struct SGWork *sgw, ULONG *msg)
 {
   #define INPUTLINE_MAXLINES 20
   #define INPUTLINE_MAXCHARS 256
@@ -904,7 +902,7 @@ static void free_gui(void)
 *****************************************************************/
 static int init_gui(void)
 {
-  init_standart_hook();
+  init_civstandard_hook();
   if (!init_classes())
     return FALSE;
 
@@ -1004,23 +1002,23 @@ static int init_gui(void)
 
     set(main_wnd,MUIA_Window_DefaultObject, main_map_area);
 
-    DoMethod(main_map_area, MUIM_Notify, MUIA_Map_Click, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, main_map_click, MUIV_TriggerValue);
-    DoMethod(main_chatline_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, inputline_return);
-    DoMethod(main_turndone_button, MUIM_Notify, MUIA_Pressed, FALSE, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, END_TURN);
+    DoMethod(main_map_area, MUIM_Notify, MUIA_Map_Click, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, main_map_click, MUIV_TriggerValue);
+    DoMethod(main_chatline_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, inputline_return);
+    DoMethod(main_turndone_button, MUIM_Notify, MUIA_Pressed, FALSE, main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, END_TURN);
 
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "rcommand q", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MENU_GAME_QUIT);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 4", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_WEST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 6", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_EAST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 8", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_NORTH);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 2", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_SOUTH);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 7", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_NORTH_WEST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 9", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_NORTH_EAST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 1", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_SOUTH_WEST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 3", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_SOUTH_EAST);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 5", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, NEXT_UNIT);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad enter", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, END_TURN);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "return", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_POPUP_CITY);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "escape", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, UNIT_ESCAPE);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "rcommand q", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MENU_GAME_QUIT);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 4", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_WEST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 6", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_EAST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 8", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_NORTH);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 2", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_SOUTH);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 7", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_NORTH_WEST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 9", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_NORTH_EAST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 1", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_SOUTH_WEST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 3", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_SOUTH_EAST);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad 5", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, NEXT_UNIT);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad enter", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, END_TURN);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "return", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_POPUP_CITY);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "escape", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_ESCAPE);
 
     /* Menu */
     while (MenuData[i].nm_Type != NM_END)
@@ -1028,16 +1026,16 @@ static int init_gui(void)
       if(MenuData[i].nm_Flags & NM_COMMANDSTRING && MenuData[i].nm_CommKey &&
       (MenuData[i].nm_UserData != (APTR) MENU_VIEW_SHOW_MAP_GRID) && (MenuData[i].nm_UserData != (APTR) MENU_KINGDOM_FIND_CITY))
       {
-	DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, MenuData[i].nm_CommKey, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MenuData[i].nm_UserData);
+	DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, MenuData[i].nm_CommKey, main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MenuData[i].nm_UserData);
       }
       i++;
     }
 
     /* Do this outside loop. The menu entry are upper case and thus would need SHIFT be pressed. */
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl f", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MENU_KINGDOM_FIND_CITY);
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl g", main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, KEMAP_GRID_TOGGLE);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl f", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MENU_KINGDOM_FIND_CITY);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "ctrl g", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, KEMAP_GRID_TOGGLE);
 
-    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_MenuAction, MUIV_EveryTime, main_wnd, 4, MUIM_CallHook, &standart_hook, control_callback, MUIV_TriggerValue);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_MenuAction, MUIV_EveryTime, main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MUIV_TriggerValue);
 
     append_output_window(
       "Freeciv is free software and you are welcome to distribute copies of"
@@ -1400,7 +1398,7 @@ void ui_main(int argc, char *argv[])
 	  if (o)
 	  {
 	    DoMethod(econ_group, OM_ADDMEMBER, o);
-	    DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 4, MUIM_CallHook, &standart_hook, taxrates_callback, i);
+	    DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, o, 4, MUIM_CallHook, &civstandard_hook, taxrates_callback, i);
 	  }
 	}
       }

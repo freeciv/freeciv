@@ -72,7 +72,7 @@ static void intel_close_real(void)
 static void intel_close(void)
 {
   set(intel_wnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 3, MUIM_CallHook, &standart_hook, intel_close_real);
+  DoMethod(app, MUIM_Application_PushMethod, app, 3, MUIM_CallHook, &civstandard_hook, intel_close_real);
 }
 
 /****************************************************************
@@ -163,7 +163,7 @@ static void intel_create_dialog(struct player *p)
       }
     }
 
-    DoMethod(intel_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &standart_hook, intel_close);
+    DoMethod(intel_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &civstandard_hook, intel_close);
     DoMethod(app, OM_ADDMEMBER, intel_wnd);
   }
 }

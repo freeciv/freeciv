@@ -246,10 +246,10 @@ static void create_rates_dialog(void)
   {
     DoMethod(rates_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, rates_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, rates_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, rates_ok);
-    DoMethod(rates_tax_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, Rates_Change, rates_tax_slider);
-    DoMethod(rates_luxury_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, Rates_Change, rates_luxury_slider);
-    DoMethod(rates_science_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, Rates_Change, rates_science_slider);
+    DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, rates_ok);
+    DoMethod(rates_tax_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, Rates_Change, rates_tax_slider);
+    DoMethod(rates_luxury_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, Rates_Change, rates_luxury_slider);
+    DoMethod(rates_science_slider, MUIM_Notify, MUIA_Numeric_Value, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, Rates_Change, rates_science_slider);
     DoMethod(app, OM_ADDMEMBER, rates_wnd);
   }
 }
@@ -350,7 +350,7 @@ static void create_option_dialog(void)
       }
 
       DoMethod(option_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_CallHook, &standart_hook, option_ok);
+      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_CallHook, &civstandard_hook, option_ok);
       DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
       DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, option_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
       DoMethod(app, OM_ADDMEMBER, option_wnd);

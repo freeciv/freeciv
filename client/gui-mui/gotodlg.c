@@ -47,18 +47,12 @@ IMPORT Object *app;
 STATIC Object *goto_wnd;
 STATIC Object *goto_cities_listview;
 STATIC struct Hook goto_cities_disphook;
-STATIC Object *goto_ok_button;
 STATIC Object *goto_airlift_button;
-STATIC Object *goto_cancel_button;
-
-void update_goto_dialog(void);
-
-static int original_x, original_y;
 
 /****************************************************************
  Display function for the cities listview
 *****************************************************************/
-__asm __saveds static void goto_cities_display(register __a2 char **array, register __a1 struct city *pcity)
+HOOKPROTONH(goto_cities_display, void, char **array, struct city *pcity)
 {
   static char name[80];
   strcpy(name, pcity->name);
@@ -132,11 +126,33 @@ VOID goto_airlift(void)
   set(goto_wnd, MUIA_Window_Open, FALSE);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void update_goto_dialog(void)
+{
+  int i;
+
+  set(goto_cities_listview, MUIA_NList_Quiet, TRUE);
+  DoMethod(goto_cities_listview, MUIM_NList_Clear);
+
+  for (i = 0; i < game.nplayers; i++)
+  {
+    city_list_iterate(game.players[i].cities, pcity)
+      DoMethod(goto_cities_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Bottom);
+    city_list_iterate_end;
+  }
+  set(goto_cities_listview, MUIA_NList_Quiet, FALSE);
+  set(goto_airlift_button, MUIA_Disabled, TRUE);
+}
+
 /****************************************************************
  popup the goto window
 *****************************************************************/
 void popup_goto_dialog(void)
 {
+  Object *goto_ok_button;
+  Object *goto_cancel_button;
   if (!goto_wnd)
   {
     goto_cities_disphook.h_Entry = (HOOKFUNC) goto_cities_display;
@@ -162,9 +178,9 @@ void popup_goto_dialog(void)
     {
       DoMethod(goto_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, goto_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
       DoMethod(goto_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, goto_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-      DoMethod(goto_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, goto_ok);
-      DoMethod(goto_airlift_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, goto_airlift);
-      DoMethod(goto_cities_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, goto_cities_active);
+      DoMethod(goto_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, goto_ok);
+      DoMethod(goto_airlift_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, goto_airlift);
+      DoMethod(goto_cities_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, goto_cities_active);
       DoMethod(app, OM_ADDMEMBER, goto_wnd);
     }
   }
@@ -176,24 +192,3 @@ void popup_goto_dialog(void)
     set(goto_wnd, MUIA_Window_Open, TRUE);
   }
 }
-
-/**************************************************************************
-...
-**************************************************************************/
-void update_goto_dialog(void)
-{
-  int i;
-
-  set(goto_cities_listview, MUIA_NList_Quiet, TRUE);
-  DoMethod(goto_cities_listview, MUIM_NList_Clear);
-
-  for (i = 0; i < game.nplayers; i++)
-  {
-    city_list_iterate(game.players[i].cities, pcity)
-      DoMethod(goto_cities_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Bottom);
-    city_list_iterate_end;
-  }
-  set(goto_cities_listview, MUIA_NList_Quiet, FALSE);
-  set(goto_airlift_button, MUIA_Disabled, TRUE);
-}
-

@@ -110,7 +110,7 @@ static void notify_close_real(Object **pwnd)
 static void notify_close(Object **pwnd)
 {
   set(*pwnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, notify_close_real, *pwnd);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, notify_close_real, *pwnd);
 }
 
 /****************************************************************
@@ -147,8 +147,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 
   if(wnd)
   {
-    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
-    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
+    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, notify_close, wnd);
+    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, notify_close, wnd);
     DoMethod(listview, MUIM_NList_Insert, lines, -2, MUIV_NList_Insert_Bottom);
     DoMethod(app, OM_ADDMEMBER, wnd);
     set(wnd,MUIA_Window_Open, TRUE);
@@ -167,7 +167,7 @@ static void notify_goto_close(struct notify_goto_close_arg *obj)
 {
   center_tile_mapcanvas(obj->x, obj->y);
   set(obj->pwnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, notify_close_real, obj->pwnd);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, notify_close_real, obj->pwnd);
 }
 
 /****************************************************************
@@ -196,9 +196,9 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 
   if(wnd)
   {
-    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
-    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, notify_close, wnd);
-    DoMethod(goto_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 6, MUIM_CallHook, &standart_hook, notify_goto_close, wnd, x, y);
+    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, notify_close, wnd);
+    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, notify_close, wnd);
+    DoMethod(goto_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 6, MUIM_CallHook, &civstandard_hook, notify_goto_close, wnd, x, y);
     DoMethod(app, OM_ADDMEMBER, wnd);
     set(wnd,MUIA_Window_Open, TRUE);
   }
@@ -271,7 +271,7 @@ static void spy_real_close(struct spy_data *data)
 *****************************************************************/
 static void spy_close(struct spy_data *data)
 {
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, spy_real_close, data->wnd);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, spy_real_close, data->wnd);
 }
 
 /****************************************************************
@@ -306,7 +306,7 @@ static void advance_steal(struct spy_data *data)
 /****************************************************************
  Display function for the technology listview
 *****************************************************************/
-__asm __saveds static void advance_display( register __a0 struct Hook *h, register __a2 char **array, register __a1 LONG which)
+HOOKPROTONH(advance_display, void, char **array, LONG which)
 {
   if(which)
   {
@@ -370,9 +370,9 @@ static void create_advances_list(struct player *pplayer,
 	DoMethod(listview, MUIM_NList_InsertSingle, 100+game.num_tech_types,MUIV_NList_Insert_Bottom);
     }
 
-    DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 5, MUIM_CallHook, &standart_hook, spy_close, wnd, listview);
-    DoMethod(cancel_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, spy_close, wnd, listview);
-    DoMethod(steal_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, advance_steal, wnd, listview);
+    DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 5, MUIM_CallHook, &civstandard_hook, spy_close, wnd, listview);
+    DoMethod(cancel_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, spy_close, wnd, listview);
+    DoMethod(steal_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, advance_steal, wnd, listview);
     DoMethod(app,OM_ADDMEMBER,wnd);
     set(wnd,MUIA_Window_Open, TRUE);
   }
@@ -408,7 +408,7 @@ static void imprv_sabotage(struct spy_data *data)
 /****************************************************************
  Display function for the sabotage listview
 *****************************************************************/
-__asm __saveds void imprv_display( register __a0 struct Hook *h, register __a2 char **array, register __a1 LONG which)
+HOOKPROTONH(imprv_display, void, char **array, LONG which)
 {
   int imprv = which-100;
   if (imprv == -1) *array = _("City Production");
@@ -467,9 +467,9 @@ static void create_improvements_list(/*struct player *pplayer,*/
       DoMethod(listview, MUIM_NList_InsertSingle, i+B_LAST,MUIV_NList_Insert_Bottom);
     }
 
-    DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, spy_close, wnd);
-    DoMethod(cancel_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, spy_close, wnd);
-    DoMethod(steal_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &standart_hook, imprv_sabotage, wnd, listview);
+    DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &civstandard_hook, spy_close, wnd);
+    DoMethod(cancel_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, spy_close, wnd);
+    DoMethod(steal_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, imprv_sabotage, wnd, listview);
     DoMethod(app,OM_ADDMEMBER,wnd);
     set(wnd,MUIA_Window_Open, TRUE);
   }
@@ -1355,7 +1355,7 @@ Object *popup_message_dialog_args( Object *parent, char *title, char *text, stru
       if(msg->function)
       {
         DoMethod(button_group,OM_ADDMEMBER, o);
-        DoMethod(o,MUIM_Notify,MUIA_Pressed,FALSE,MUIV_Notify_Self, 5, MUIM_CallHook,&standart_hook, msg->function, wnd, msg->data);
+        DoMethod(o,MUIM_Notify,MUIA_Pressed,FALSE,MUIV_Notify_Self, 5, MUIM_CallHook,&civstandard_hook, msg->function, wnd, msg->data);
       }
       msg++;
     }
@@ -1382,7 +1382,7 @@ void destroy_message_dialog( Object *wnd)
   {
     set(wnd, MUIA_Window_Open, FALSE);
     /* Close the window better in the Application Object */
-    DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, message_close_real, wnd);
+    DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, message_close_real, wnd);
   }
 }
 
@@ -1430,7 +1430,7 @@ static void unitsel_ready_all(struct tile **pptile)
 /****************************************************************
 ...
 *****************************************************************/
-__saveds __asm ULONG unitsel_group_layout(register __a0 struct Hook *h, register __a2 Object *obj, register __a1 struct MUI_LayoutMsg *lm)
+HOOKPROTONH(unitsel_group_layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
 {
   LONG vert_spacing = 4;
   LONG horiz_spacing = 4;
@@ -1575,7 +1575,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     char buffer[512];
 
     DoMethod(readyall_button, MUIM_KillNotify, MUIA_Pressed);
-    DoMethod(readyall_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, unitsel_ready_all, ptile);
+    DoMethod(readyall_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, unitsel_ready_all, ptile);
 
     n=unit_list_size(&ptile->units);
 
@@ -1625,7 +1625,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
         if(o)
         {
-          DoMethod(unit_obj,MUIM_Notify, MUIA_Pressed, FALSE, unit_obj, 4, MUIM_CallHook, &standart_hook, unitsel_unit, punit);
+          DoMethod(unit_obj,MUIM_Notify, MUIA_Pressed, FALSE, unit_obj, 4, MUIM_CallHook, &civstandard_hook, unitsel_unit, punit);
           DoMethod(unit_group, OM_ADDMEMBER, o);
         }
       }
@@ -1737,7 +1737,7 @@ static void nations_disconnect(void)
 /****************************************************************
 ...
 *****************************************************************/
-__asm __saveds static void nations_obj2str( register __a2 Object *list, register __a1 Object *str, register __a0 struct Hook *hook)
+HOOKPROTONH(nations_obj2str, void, Object *list, Object *str)
 {
   char *x;
   Nation_Type_id nation = get_active_nation();
@@ -1749,7 +1749,7 @@ __asm __saveds static void nations_obj2str( register __a2 Object *list, register
 /****************************************************************
 ...
 *****************************************************************/
-__asm __saveds static ULONG nations_str2obj( register __a2 Object *list, register __a1 Object *str, register __a0 struct Hook *hook)
+HOOKPROTONH(nations_str2obj, ULONG, Object *list, Object *str)
 {
   char *x,*s;
   int i;
@@ -1865,10 +1865,10 @@ void popup_races_dialog(void)
       for(i=0;i<game.playable_nation_count && i<64;i++)
 	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Sorted);
 
-      DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, nations_nation_active);
-      DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, nations_ok);
-      DoMethod(nations_disconnect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, nations_disconnect);
-      DoMethod(nations_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &standart_hook, nations_disconnect);
+      DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, nations_nation_active);
+      DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, nations_ok);
+      DoMethod(nations_disconnect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, nations_disconnect);
+      DoMethod(nations_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &civstandard_hook, nations_disconnect);
 
       DoMethod(nations_quit_button, MUIM_Notify, MUIA_Pressed, FALSE, app,2,MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
       DoMethod(list,MUIM_Notify,MUIA_Listview_DoubleClick,TRUE, nations_leader_poplist,2,MUIM_Popstring_Close,TRUE);

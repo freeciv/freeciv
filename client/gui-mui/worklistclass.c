@@ -55,7 +55,7 @@ struct worklist_entry
 /****************************************************************
  Constructor of a new entry in the listview
 *****************************************************************/
-__asm __saveds static struct worklist_entry *worklistview_construct(register __a2 APTR pool, register __a1 struct worklist_entry *entry)
+HOOKPROTONHNO(worklistview_construct, struct worklist_entry *, struct worklist_entry *entry)
 {
   struct worklist_entry *newentry = (struct worklist_entry *) AllocVec(sizeof(*newentry), 0);
   if (newentry)
@@ -68,7 +68,7 @@ __asm __saveds static struct worklist_entry *worklistview_construct(register __a
 /****************************************************************
  Destructor of a entry in the listview
 *****************************************************************/
-__asm __saveds static void worklistview_destruct(register __a2 APTR pool, register __a1 struct worklist_entry *entry)
+HOOKPROTONHNO(worklistview_destruct, void, struct worklist_entry *entry)
 {
   FreeVec(entry);
 }
@@ -131,7 +131,7 @@ int worklist_length(struct worklist *pwl)
 /****************************************************************
  Display function for the listview
 *****************************************************************/
-__asm __saveds static void worklistview_display(register __a0 struct Hook *hook, register __a2 char **array, register __a1 struct worklist_entry *entry)
+HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry)
 {
   struct Worklistview_Data *data = (struct Worklistview_Data *)hook->h_SubEntry;
 
@@ -153,8 +153,8 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
 	    *array++ = buf;
 	    if (id == B_CAPITAL)
 	    {
-	      *array++ = "--";
-	    } else *array++ = buf2;
+	      *array = "--";
+	    } else *array = buf2;
 	    break;
 
       case  1:
@@ -164,7 +164,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
 
 	    *array++ = unit_name(id);
 	    *array++ = buf;
-	    *array++ = buf2;
+	    *array = buf2;
 	    break;
 
       case  2:
@@ -177,7 +177,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
 
 	      *array++ = pplr->worklists[entry->id].name;
 	      *array++ = buf;
-	      *array++ = "--";
+	      *array = "--";
 	    }
 	    break;
 
@@ -185,7 +185,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
             {
               *array++ = "\33u\338Units\33n";
               *array++ = "";
-              *array++ = "";
+              *array = "";
             }
             break;
 
@@ -193,7 +193,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
 	    {
               *array++ = "\33u\338Improvements\33n";
               *array++ = "";
-              *array++ = "";
+              *array = "";
             }
             break;
 
@@ -201,7 +201,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
             {
 	      *array++ = "\33u\338Worklists\33n";
               *array++ = "";
-              *array++ = "";
+              *array = "";
             }
             break;
     }
@@ -209,7 +209,7 @@ __asm __saveds static void worklistview_display(register __a0 struct Hook *hook,
   {
     *array++ = "Type";
     *array++ = "Info";
-    *array++ = "Cost";
+    *array = "Cost";
   }
 }
 
@@ -353,8 +353,7 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
   }
 }
 
-
-__asm __saveds STATIC ULONG Worklistview_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Worklistview_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -399,7 +398,7 @@ struct Worklist_Data
 
 void worklist_populate_targets(struct Worklist_Data *data)
 {
-  int i, n;
+  int i;
   struct player *pplr = game.player_ptr;
   int advanced_tech;
   int can_build, can_eventually_build;
@@ -407,8 +406,6 @@ void worklist_populate_targets(struct Worklist_Data *data)
 
   set(data->available_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(data->available_listview, MUIM_NList_Clear);
-
-  n = 0;
 
   /* Is the worklist limited to just the current targets, or
      to any available and future targets? */
@@ -552,7 +549,7 @@ STATIC VOID worklist_close(Object **pobj)
   Object *app = (Object*)xget(obj, MUIA_ApplicationObject);
   if (app)
   {
-    DoMethod(app,MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, worklist_close_real, obj);
+    DoMethod(app,MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, worklist_close_real, obj);
   }
 }
 
@@ -705,14 +702,14 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     if (data->worklist)
     {
-      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &standart_hook, worklist_cancel, data);
-      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &standart_hook, worklist_close, o);
-      DoMethod(check, MUIM_Notify, MUIA_Selected, MUIV_EveryTime, check, 4, MUIM_CallHook, &standart_hook, worklist_future_check, data);
-      DoMethod(remove_button, MUIM_Notify, MUIA_Pressed, FALSE, remove_button, 4, MUIM_CallHook, &standart_hook, worklist_remove_button, data);
-      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &standart_hook, worklist_ok, data);
-      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &standart_hook, worklist_close, o);
-      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &standart_hook, worklist_cancel, data);
-      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &standart_hook, worklist_close, o);
+      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
+      DoMethod(o,MUIM_Notify,MUIA_Window_CloseRequest, TRUE, o, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
+      DoMethod(check, MUIM_Notify, MUIA_Selected, MUIV_EveryTime, check, 4, MUIM_CallHook, &civstandard_hook, worklist_future_check, data);
+      DoMethod(remove_button, MUIM_Notify, MUIA_Pressed, FALSE, remove_button, 4, MUIM_CallHook, &civstandard_hook, worklist_remove_button, data);
+      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &civstandard_hook, worklist_ok, data);
+      DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, ok_button, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
+      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_cancel, data);
+      DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 4, MUIM_CallHook, &civstandard_hook, worklist_close, o);
 
       set(alist,MUIA_Worklistview_City, data->pcity);
       set(clist,MUIA_Worklistview_City, data->pcity);
@@ -743,7 +740,7 @@ STATIC VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
   DoSuperMethodA(cl, o, msg);
 }
 
-__asm __saveds STATIC ULONG Worklist_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Worklist_Dispatcher)
 {
   switch (msg->MethodID)
   {

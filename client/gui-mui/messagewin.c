@@ -99,7 +99,7 @@ struct message_entry
 /****************************************************************
  Constructor of a new entry in the message listview
 *****************************************************************/
-__asm __saveds static struct message_entry *mes_construct(register __a2 APTR pool, register __a1 struct message_entry *entry)
+HOOKPROTONHNO(mes_construct, struct message_entry *, struct message_entry *entry)
 {
   struct message_entry *newentry = (struct message_entry *) AllocVec(sizeof(*newentry), 0);
   if (newentry)
@@ -117,7 +117,7 @@ __asm __saveds static struct message_entry *mes_construct(register __a2 APTR poo
 /**************************************************************************
  Destructor of a entry in the message listview
 **************************************************************************/
-__asm __saveds static void mes_destruct(register __a2 APTR pool, register __a1 struct message_entry *entry)
+HOOKPROTONHNO(mes_destruct, void, struct message_entry *entry)
 {
   if (entry->message)
     FreeVec(entry->message);
@@ -127,7 +127,7 @@ __asm __saveds static void mes_destruct(register __a2 APTR pool, register __a1 s
 /**************************************************************************
  Display function for the message listview
 **************************************************************************/
-__asm __saveds static void mes_display(register __a2 char **array, register __a1 struct message_entry *entry)
+HOOKPROTONH(mes_display, void, char **array, struct message_entry *entry)
 {
   if (entry)
   {
@@ -243,10 +243,10 @@ void create_meswin_dialog(void)
     set(mes_popcity_button, MUIA_Disabled, TRUE);
     DoMethod(mes_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, mes_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(mes_close_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(mes_goto_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_CallHook, &standart_hook, mes_goto);
-    DoMethod(mes_popcity_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_CallHook, &standart_hook, mes_popcity);
+    DoMethod(mes_goto_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_CallHook, &civstandard_hook, mes_goto);
+    DoMethod(mes_popcity_button, MUIM_Notify, MUIA_Pressed, FALSE, mes_wnd, 3, MUIM_CallHook, &civstandard_hook, mes_popcity);
 
-    DoMethod(mes_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, mes_active);
+    DoMethod(mes_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, mes_active);
 
     DoMethod(app, OM_ADDMEMBER, mes_wnd);
   }

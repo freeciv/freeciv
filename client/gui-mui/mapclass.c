@@ -26,7 +26,6 @@
 #include <proto/datatypes.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "map.h"
 #include "game.h"
 #include "spaceship.h"
@@ -771,7 +770,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
   return ((ULONG) obj);
 }
 
-STATIC __saveds __asm ULONG TilePopWindow_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(TilePopWindow_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -858,7 +857,7 @@ enum
   MAP_POSITION_SCROLLBUTTON_NEWPOSITION
 };
 
-__asm __saveds STATIC VOID Map_NewPosFunc(register __a2 Object * map_object, register __a1 struct NewPosData *npd)
+HOOKPROTONH(Map_NewPosFunc, void, Object * map_object, struct NewPosData *npd)
 {
   switch (npd->type)
   {
@@ -1503,7 +1502,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  for(x=0; x<3; x++) {
 	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) *NORMAL_TILE_WIDTH;
 	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * NORMAL_TILE_HEIGHT;
-	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
+/*	    struct Sprite *mysprite = sprites.explode.nuke[y][x]; */
 
 	    printf("%ld %ld\n",map_x,map_y);
 
@@ -2121,7 +2120,7 @@ STATIC ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUn
   return 0;
 }
 
-STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o, Msg msg)
+STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o/*, Msg msg*/)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 4;
@@ -2129,6 +2128,7 @@ STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o, Msg msg)
   return 0;
 }
 
+/*
 STATIC ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_PutCityWorkers * msg)
 {
   return NULL;
@@ -2138,6 +2138,7 @@ STATIC ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_Pu
 {
   return NULL;
 }
+*/
 
 STATIC ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_DrawMushroom *msg)
 {
@@ -2158,7 +2159,7 @@ STATIC ULONG Map_ExplodeUnit(struct IClass * cl, Object * o, struct MUIP_Map_Exp
   return 0;
 }
 
-STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Map_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -2194,11 +2195,12 @@ STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, reg
   case MUIM_Map_MoveUnit:
     return Map_MoveUnit(cl, obj, (struct MUIP_Map_MoveUnit *) msg);
   case MUIM_Map_ShowCityDescriptions:
-    return Map_ShowCityDescriptions(cl, obj, msg);
+    return Map_ShowCityDescriptions(cl, obj/*, msg*/);
   case MUIM_Map_PutCityWorkers:
-    return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
+/*    return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);*/
   case MUIM_Map_PutCrossTile:
-    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
+/*    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);*/
+    return NULL;
   case MUIM_Map_ExplodeUnit:
     return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
   case MUIM_Map_DrawMushroom:
@@ -2419,13 +2421,7 @@ STATIC ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_Han
   return 0;
 }
 
-STATIC ULONG CityMap_Refresh(struct IClass * cl, Object * o, Msg msg)
-{
-  MUI_Redraw(o, MADF_DRAWUPDATE);
-  return 0;
-}
-
-STATIC __asm __saveds ULONG CityMap_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(CityMap_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -2444,7 +2440,8 @@ STATIC __asm __saveds ULONG CityMap_Dispatcher(register __a0 struct IClass * cl,
   case MUIM_HandleInput:
     return CityMap_HandleInput(cl, obj, (struct MUIP_HandleInput *) msg);
   case MUIM_CityMap_Refresh:
-    return CityMap_Refresh(cl, obj, msg);
+    MUI_Redraw(obj, MADF_DRAWUPDATE);
+    return 0;
   }
   return (DoSuperMethodA(cl, obj, msg));
 }
@@ -2569,7 +2566,7 @@ STATIC ULONG SpaceShip_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * m
   return 0;
 }
 
-STATIC __asm __saveds ULONG SpaceShip_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(SpaceShip_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -2702,7 +2699,7 @@ STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
   return 0;
 }
 
-STATIC __asm __saveds ULONG Sprite_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Sprite_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -2882,7 +2879,7 @@ STATIC ULONG Unit_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
   return 0;
 }
 
-STATIC __asm __saveds ULONG Unit_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(Unit_Dispatcher)
 {
   switch (msg->MethodID)
   {
@@ -2939,7 +2936,7 @@ STATIC ULONG MyGauge_SetGauge(struct IClass * cl, Object * o, struct MUIP_MyGaug
   return 0;
 }
 
-STATIC __asm __saveds ULONG MyGauge_Dispatcher(register __a0 struct IClass * cl, register __a2 Object * obj, register __a1 Msg msg)
+DISPATCHERPROTO(MyGauge_Dispatcher)
 {
   switch (msg->MethodID)
   {

@@ -165,7 +165,7 @@ static void space_close_real(struct spaceship_dialog **ppdialog)
 static void space_close(struct spaceship_dialog ** ppdialog)
 {
   set((*ppdialog)->wnd, MUIA_Window_Open, FALSE);
-  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, space_close_real, *ppdialog);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, space_close_real, *ppdialog);
 }
 
 /****************************************************************
@@ -233,9 +233,9 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   if (pdialog->wnd)
   {
-    DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, space_close, pdialog);
-    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, space_close, pdialog);
-    DoMethod(pdialog->launch_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, space_launch, pdialog);
+    DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, space_close, pdialog);
+    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, space_close, pdialog);
+    DoMethod(pdialog->launch_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, space_launch, pdialog);
 
     DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
 

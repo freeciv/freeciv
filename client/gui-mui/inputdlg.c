@@ -54,7 +54,7 @@ void input_dialog_destroy( Object * wnd)
   {
     set(wnd, MUIA_Window_Open, FALSE);
     /* Close the window better in the Application Object */
-    DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, input_dialog_close_real, wnd);
+    DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, input_dialog_close_real, wnd);
   }
 }
 
@@ -87,14 +87,14 @@ void *ok_callback, APTR ok_data, void *cancel_callback, APTR cancel_data)
 
   if(wnd)
   {
-    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 6, MUIM_CallHook, &standart_hook,
+    DoMethod(wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 6, MUIM_CallHook, &civstandard_hook,
     cancel_callback, wnd, name_string, cancel_data);
-    DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &standart_hook,
+    DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &civstandard_hook,
     cancel_callback, wnd, name_string, cancel_data);
-    DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &standart_hook,
+    DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, cancel_button, 6, MUIM_CallHook, &civstandard_hook,
     ok_callback, wnd, name_string, ok_data);
     DoMethod(name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, cancel_button, 6,
-    MUIM_CallHook, &standart_hook, ok_callback, wnd, name_string, ok_data);
+    MUIM_CallHook, &civstandard_hook, ok_callback, wnd, name_string, ok_data);
     setstring(name_string, postinputtext);
 
     DoMethod(app,OM_ADDMEMBER,wnd);

@@ -83,7 +83,7 @@ void popup_players_dialog(void)
 /****************************************************************
  Display function for the players listview
 *****************************************************************/
-__asm __saveds static void players_render(register __a2 char **array, register __a1 ULONG playerno)
+HOOKPROTONH(players_render, void, char **array, ULONG playerno)
 {
   if (playerno)
   {
@@ -320,11 +320,11 @@ void create_players_dialog(void)
     set(player_spaceship_button, MUIA_Disabled, TRUE);
     DoMethod(player_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, player_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(player_close_button, MUIM_Notify, MUIA_Pressed, FALSE, player_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(player_intelligence_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_intelligence);
-    DoMethod(player_meet_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_meet);
-    DoMethod(player_war_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_war);
-    DoMethod(player_spaceship_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_spaceship);
-    DoMethod(player_players_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, players_active);
+    DoMethod(player_intelligence_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_intelligence);
+    DoMethod(player_meet_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_meet);
+    DoMethod(player_war_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_war);
+    DoMethod(player_spaceship_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, players_spaceship);
+    DoMethod(player_players_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, players_active);
     DoMethod(app, OM_ADDMEMBER, player_wnd);
   }
 }

@@ -112,7 +112,7 @@ static void connect_meta_active(void)
 /**************************************************************************
  Constructor of a new entry in the meta listview
 **************************************************************************/
-__asm __saveds static struct server *connect_meta_construct( register __a2 APTR pool, register __a1 struct server *entry)
+HOOKPROTONHNO(connect_meta_construct, struct server *, struct server *entry)
 {
   struct server *newentry = (struct server*)AllocVec(sizeof(*newentry),0);
   if(newentry)
@@ -130,7 +130,7 @@ __asm __saveds static struct server *connect_meta_construct( register __a2 APTR 
 /**************************************************************************
  Destructor of a entry in the meta listview
 **************************************************************************/
-__asm __saveds static void connect_meta_destruct( register __a2 APTR pool, register __a1 struct server *entry)
+HOOKPROTONHNO(connect_meta_destruct, void, struct server *entry)
 {
   free(entry->name);
   free(entry->port);
@@ -144,7 +144,7 @@ __asm __saveds static void connect_meta_destruct( register __a2 APTR pool, regis
 /**************************************************************************
  Display function for the meta listview
 **************************************************************************/
-__asm __saveds static void connect_meta_display(register __a2 char **array, register __a1 struct server *entry)
+HOOKPROTONH(connect_meta_display, void, char **array, struct server *entry)
 {
   if(entry)
   {
@@ -153,7 +153,7 @@ __asm __saveds static void connect_meta_display(register __a2 char **array, regi
     *array++ = entry->version;
     *array++ = entry->status;
     *array++ = entry->players;
-    *array++ = entry->metastring;
+    *array = entry->metastring;
   } else
   {
     *array++ = "Server Name";
@@ -226,9 +226,9 @@ void gui_server_connect(void)
     if(connect_wnd)
     {
       DoMethod(connect_quit_button, MUIM_Notify, MUIA_Pressed, FALSE, app,2,MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
-      DoMethod(connect_connect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, connect_connect);
-      DoMethod(page_group, MUIM_Notify, MUIA_Group_ActivePage, 1,app, 3, MUIM_CallHook, &standart_hook, connect_meta_page);
-      DoMethod(connect_meta_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, connect_meta_active);
+      DoMethod(connect_connect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, connect_connect);
+      DoMethod(page_group, MUIM_Notify, MUIA_Group_ActivePage, 1,app, 3, MUIM_CallHook, &civstandard_hook, connect_meta_page);
+      DoMethod(connect_meta_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, connect_meta_active);
 
       DoMethod(app, OM_ADDMEMBER, connect_wnd);
     }

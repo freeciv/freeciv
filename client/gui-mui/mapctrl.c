@@ -22,7 +22,6 @@
 
 #include "capability.h"
 #include "game.h"
-#include "log.h"
 #include "map.h"
 #include "player.h"
 #include "support.h"

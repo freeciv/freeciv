@@ -51,15 +51,13 @@ STATIC LONG science_goal_active;
 STATIC Object *science_steps_text;
 STATIC Object *science_help_button;
 STATIC Object *science_researched_listview;
-STATIC Object *science_ok_button;
-STATIC Object *science_cancel_button;
 
 STATIC STRPTR *help_goal_entries;
 STATIC STRPTR *help_research_entries;
 
 int delay_report_update = 0;
 
-static void create_trade_report_dialog(int make_modal);
+static void create_trade_report_dialog(void/*int make_modal*/);
 void create_activeunits_report_dialog(int make_modal);
 
 /******************************************************************
@@ -362,8 +360,8 @@ void popup_science_dialog(int make_modal)
 	set(science_research_popup, MUIA_Cycle_Active, science_research_active);
 	set(science_goal_popup, MUIA_Cycle_Active, science_goal_active);
 
-	DoMethod(science_research_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, science_research, MUIV_TriggerValue);
-	DoMethod(science_goal_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, science_goal, MUIV_TriggerValue);
+	DoMethod(science_research_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, science_research, MUIV_TriggerValue);
+	DoMethod(science_goal_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, science_goal, MUIV_TriggerValue);
 
 	DoMethod(status_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld/%ld", game.player_ptr->research.researched, research_time(game.player_ptr));
       }
@@ -426,7 +424,7 @@ STATIC Object *trade_sellall_button;
 /****************************************************************
  Constructor of a new entry in the trade listview
 *****************************************************************/
-__asm __saveds static struct trade_imprv_entry *trade_imprv_construct(register __a2 APTR pool, register __a1 struct trade_imprv_entry *entry)
+HOOKPROTONHNO(trade_imprv_construct, struct trade_imprv_entry *, struct trade_imprv_entry *entry)
 {
   struct trade_imprv_entry *newentry = (struct trade_imprv_entry *) AllocVec(sizeof(*newentry), 0);
   if (newentry)
@@ -439,7 +437,7 @@ __asm __saveds static struct trade_imprv_entry *trade_imprv_construct(register _
 /****************************************************************
  Destructor of a entry in the trades listview
 *****************************************************************/
-__asm __saveds static void trade_imprv_destruct(register __a2 APTR pool, register __a1 struct trade_imprv_entry *entry)
+HOOKPROTONHNO(trade_imprv_destruct, void, struct trade_imprv_entry *entry)
 {
   FreeVec(entry);
 }
@@ -447,7 +445,7 @@ __asm __saveds static void trade_imprv_destruct(register __a2 APTR pool, registe
 /****************************************************************
  Display function for the trade listview
 *****************************************************************/
-__asm __saveds static void trade_imprv_render(register __a2 char **array, register __a1 struct trade_imprv_entry *entry)
+HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *entry)
 {
   if (entry)
   {
@@ -466,14 +464,14 @@ __asm __saveds static void trade_imprv_render(register __a2 char **array, regist
     *array++ = get_improvement_name(j);
     *array++ = count;
     *array++ = coststr;
-    *array++ = utotal;
+    *array = utotal;
   }
   else
   {
     *array++ = "Building Name";
     *array++ = "Count";
     *array++ = "Cost";
-    *array++ = "U Total";
+    *array = "U Total";
   }
 }
 
@@ -483,7 +481,7 @@ __asm __saveds static void trade_imprv_render(register __a2 char **array, regist
 void popup_trade_report_dialog(int make_modal)
 {
   if (!trade_wnd)
-    create_trade_report_dialog(make_modal);
+    create_trade_report_dialog(/*make_modal*/);
   if (trade_wnd)
   {
     trade_report_dialog_update();
@@ -533,7 +531,7 @@ static void trade_sell(int *data)
   }
 }
 
-static void create_trade_report_dialog(int make_modal)
+static void create_trade_report_dialog(void/*int make_modal*/)
 {
   if (trade_wnd)
     return;
@@ -573,8 +571,8 @@ static void create_trade_report_dialog(int make_modal)
 
     DoMethod(trade_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, trade_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(trade_close_button, MUIM_Notify, MUIA_Pressed, FALSE, trade_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(trade_sellobsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, trade_sell, 0);
-    DoMethod(trade_sellall_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, trade_sell, 1);
+    DoMethod(trade_sellobsolete_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, trade_sell, 0);
+    DoMethod(trade_sellall_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, trade_sell, 1);
     DoMethod(app, OM_ADDMEMBER, trade_wnd);
   }
 }
@@ -690,7 +688,7 @@ struct actunit_units_entry
 /****************************************************************
  Constructor of a new entry in the units listview
 *****************************************************************/
-__asm __saveds static struct actunit_units_entry *actunit_units_construct(register __a2 APTR pool, register __a1 struct actunit_units_entry *entry)
+HOOKPROTONHNO(actunit_units_construct, struct actunit_units_entry *, struct actunit_units_entry *entry)
 {
   struct actunit_units_entry *newentry = (struct actunit_units_entry *) AllocVec(sizeof(*newentry), 0);
   if (newentry)
@@ -703,7 +701,7 @@ __asm __saveds static struct actunit_units_entry *actunit_units_construct(regist
 /****************************************************************
  Destructor of a entry in the units listview
 *****************************************************************/
-__asm __saveds static void actunit_units_destruct(register __a2 APTR pool, register __a1 struct actunit_units_entry *entry)
+HOOKPROTONHNO(actunit_units_destruct, void, struct actunit_units_entry *entry)
 {
   FreeVec(entry);
 }
@@ -711,7 +709,7 @@ __asm __saveds static void actunit_units_destruct(register __a2 APTR pool, regis
 /**************************************************************************
  Display function for the message listview
 **************************************************************************/
-__asm __saveds static void actunit_units_display(register __a2 char **array, register __a1 struct actunit_units_entry *entry)
+HOOKPROTONH(actunit_units_display, void, char **array, struct actunit_units_entry *entry)
 {
   if (entry)
   {
@@ -733,7 +731,7 @@ __asm __saveds static void actunit_units_display(register __a2 char **array, reg
     *array++ = building_count;
     *array++ = active_count;
     *array++ = upkeep_shield;
-    *array++ = upkeep_food;
+    *array = upkeep_food;
   }
   else
   {
@@ -742,7 +740,7 @@ __asm __saveds static void actunit_units_display(register __a2 char **array, reg
     *array++ = "In-Prog";
     *array++ = "Active";
     *array++ = "Shield";
-    *array++ = "Food";
+    *array = "Food";
   }
 }
 
@@ -853,8 +851,8 @@ void create_activeunits_report_dialog(int make_modal)
 
     DoMethod(actunit_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, actunit_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(actunit_close_button, MUIM_Notify, MUIA_Pressed, FALSE, actunit_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(actunit_upgrade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, actunit_upgrade);
-    DoMethod(actunit_units_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, actunit_units, MUIV_TriggerValue);
+    DoMethod(actunit_upgrade_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, actunit_upgrade);
+    DoMethod(actunit_units_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, actunit_units, MUIV_TriggerValue);
     DoMethod(app, OM_ADDMEMBER, actunit_wnd);
   }
 }

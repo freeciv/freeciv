@@ -72,7 +72,7 @@ static void populate_worklist_report_list(struct worklist_report_dialog *pdialog
 /****************************************************************
   Display function for the worklist listview
 *****************************************************************/
-__asm static void worklist_report_display(register __a2 char **array, register __a1 int num)
+HOOKPROTONH(worklist_report_display, void, char **array, int num)
 {
   if (num)
   {
@@ -266,12 +266,12 @@ void popup_worklists_dialog(struct player *pplr)
     DoMethod(app,OM_ADDMEMBER,pdialog->wnd);
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, pdialog->wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-    DoMethod(insert_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_insert, pdialog);
-    DoMethod(delete_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_delete, pdialog);
-    DoMethod(edit_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_edit, pdialog);
-    DoMethod(pdialog->listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_list, pdialog);
-    DoMethod(pdialog->listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_edit, pdialog);
-    DoMethod(pdialog->name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, worklist_report_rename, pdialog);
+    DoMethod(insert_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_insert, pdialog);
+    DoMethod(delete_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_delete, pdialog);
+    DoMethod(edit_button, MUIM_Notify, MUIA_Pressed, FALSE, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_edit, pdialog);
+    DoMethod(pdialog->listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_list, pdialog);
+    DoMethod(pdialog->listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_edit, pdialog);
+    DoMethod(pdialog->name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, pdialog->wnd, 4, MUIM_CallHook, &civstandard_hook, worklist_report_rename, pdialog);
 
     report_dialog = pdialog;
     populate_worklist_report_list(pdialog);

@@ -35,11 +35,30 @@ IMPORT Object *app;
 
 STATIC Object *find_wnd;
 STATIC Object *find_cities_listview;
-STATIC Object *find_ok_button;
-STATIC Object *find_cancel_button;
 
-void update_find_dialog(void);
+/****************************************************************
+ Updates the contents of the find dialog
+*****************************************************************/
+void update_find_dialog(void)
+{
+  int i;
 
+  if (!find_wnd)
+    return;
+
+  set(find_cities_listview, MUIA_NList_Quiet, TRUE);
+  DoMethod(find_cities_listview, MUIM_NList_Clear);
+
+  for (i = 0; i < game.nplayers; i++)
+  {
+    city_list_iterate(game.players[i].cities, pcity)
+      DoMethod(find_cities_listview, MUIM_NList_InsertSingle, pcity->name, MUIV_NList_Insert_Bottom);
+    city_list_iterate_end;
+  }
+
+  DoMethod(find_cities_listview, MUIM_NList_Sort);
+  set(find_cities_listview, MUIA_NList_Quiet, FALSE);
+}
 
 /****************************************************************
  Callback for the Ok Button
@@ -66,6 +85,9 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_find_dialog(void)
 {
+  Object *find_ok_button;
+  Object *find_cancel_button;
+
   if (!find_wnd)
   {
     find_wnd = WindowObject,
@@ -92,8 +114,8 @@ void popup_find_dialog(void)
     {
       DoMethod(find_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, find_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
       DoMethod(find_cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, find_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
-      DoMethod(find_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, find_wnd, 3, MUIM_CallHook, &standart_hook, find_ok);
-      DoMethod(find_cities_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, find_wnd, 3, MUIM_CallHook, &standart_hook, find_ok);
+      DoMethod(find_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, find_wnd, 3, MUIM_CallHook, &civstandard_hook, find_ok);
+      DoMethod(find_cities_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, find_wnd, 3, MUIM_CallHook, &civstandard_hook, find_ok);
       DoMethod(app, OM_ADDMEMBER, find_wnd);
     }
   }
@@ -103,38 +125,5 @@ void popup_find_dialog(void)
     update_find_dialog();
     set(find_wnd, MUIA_Window_Open, TRUE);
   }
-}
-
-/****************************************************************
- Updates the contents of the find dialog
-*****************************************************************/
-void update_find_dialog(void)
-{
-  int i;
-
-  if (!find_wnd)
-    return;
-
-  set(find_cities_listview, MUIA_NList_Quiet, TRUE);
-  DoMethod(find_cities_listview, MUIM_NList_Clear);
-
-  for (i = 0; i < game.nplayers; i++)
-  {
-    city_list_iterate(game.players[i].cities, pcity)
-      DoMethod(find_cities_listview, MUIM_NList_InsertSingle, pcity->name, MUIV_NList_Insert_Bottom);
-    city_list_iterate_end;
-  }
-
-  DoMethod(find_cities_listview, MUIM_NList_Sort);
-  set(find_cities_listview, MUIA_NList_Quiet, FALSE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void popdown_find_dialog(void)
-{
-  if (find_wnd)
-    set(find_wnd, MUIA_Window_Open, FALSE);
 }
 
