@@ -221,8 +221,8 @@ echo
 [ -f configure.old2 ] && { 
   mv configure.old2 configure.ac 
 }
-[ -f acconfig.old ] && { 
-  mv acconfig.old acconfig.h 
+[ -f acconfig.h ] && { 
+  mv acconfig.h acconfig.old
 }
 
 # abort if we did --help
