@@ -277,13 +277,8 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
 static void bribe_response(GtkWidget *w, gint response)
 {
   if (response == GTK_RESPONSE_YES) {
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_BRIBE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_BRIBE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(w);
   gtk_widget_destroy(diplomat_dialog);
@@ -345,14 +340,8 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type=DIPLOMAT_SABOTAGE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-    req.value = -1;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+			    diplomat_target_id, -1);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -364,13 +353,8 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_INVESTIGATE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -380,13 +364,8 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct packet_diplomat_action req;
-  
-  req.action_type=SPY_SABOTAGE_UNIT;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-  
-  send_packet_diplomat_action(&aconnection, &req);
+  request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
+			  diplomat_target_id, 0);
 
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -398,13 +377,8 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_EMBASSY;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -416,13 +390,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
-    struct packet_diplomat_action req;
-
-    req.action_type=SPY_POISON;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_POISON, diplomat_id, diplomat_target_id, 0);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -434,14 +402,8 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_STEAL;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-    req.value=0;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -454,14 +416,8 @@ static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
   if (response == GTK_RESPONSE_ACCEPT && steal_advance > 0) {
     if (find_unit_by_id(diplomat_id) && 
         find_city_by_id(diplomat_target_id)) { 
-      struct packet_diplomat_action req;
-    
-      req.action_type = DIPLOMAT_STEAL;
-      req.value = steal_advance;
-      req.diplomat_id = diplomat_id;
-      req.target_id = diplomat_target_id;
-
-      send_packet_diplomat_action(&aconnection, &req);
+      request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+			      diplomat_target_id, steal_advance);
     }
   }
   gtk_widget_destroy(spy_tech_shell);
@@ -613,14 +569,8 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   if (response == GTK_RESPONSE_ACCEPT && sabotage_improvement > -2) {
     if (find_unit_by_id(diplomat_id) && 
         find_city_by_id(diplomat_target_id)) { 
-      struct packet_diplomat_action req;
-    
-      req.action_type = DIPLOMAT_SABOTAGE;
-      req.value = sabotage_improvement+1;
-      req.diplomat_id = diplomat_id;
-      req.target_id = diplomat_target_id;
-
-      send_packet_diplomat_action(&aconnection, &req);
+      request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+			      diplomat_target_id, sabotage_improvement + 1);
     }
   }
   gtk_widget_destroy(spy_sabotage_shell);
@@ -774,13 +724,8 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
-    struct packet_diplomat_action req;
-
-    req.action_type = SPY_GET_SABOTAGE_LIST;
-    req.diplomat_id = diplomat_id;
-    req.target_id = diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
+			    diplomat_target_id, 0);
   }
 }
 
@@ -817,13 +762,8 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 static void incite_response(GtkWidget *w, gint response)
 {
   if (response == GTK_RESPONSE_YES) {
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_INCITE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(w);
   gtk_widget_destroy(diplomat_dialog);
@@ -888,11 +828,8 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-    struct packet_diplomat_action req;
-    req.action_type = DIPLOMAT_MOVE;
-    req.diplomat_id = diplomat_id;
-    req.target_id = diplomat_target_id;
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(diplomat_dialog);
 }

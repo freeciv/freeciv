@@ -201,13 +201,8 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
 *****************************************************************/
 static void diplomat_bribe_yes(struct popup_message_data *data)
 {
-  struct packet_diplomat_action req;
-
-  req.action_type=DIPLOMAT_BRIBE;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-
-  send_packet_diplomat_action(&aconnection, &req);
+  request_diplomat_action(DIPLOMAT_BRIBE, diplomat_id,
+			  diplomat_target_id, 0);
 
   message_close(data);
 }
@@ -277,17 +272,10 @@ static void advance_steal(struct spy_data *data)
   if(which)
   {
     which-=100;
-    if(find_unit_by_id(diplomat_id) && 
-       find_city_by_id(diplomat_target_id))
-    { 
-      struct packet_diplomat_action req;
-
-      req.action_type=DIPLOMAT_STEAL;
-      req.value=which;
-      req.diplomat_id=diplomat_id;
-      req.target_id=diplomat_target_id;
-			
-      send_packet_diplomat_action(&aconnection, &req);
+    if (find_unit_by_id(diplomat_id) && 
+	find_city_by_id(diplomat_target_id)) { 
+      request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+			      diplomat_target_id, which);
     }
   }
 
@@ -383,14 +371,8 @@ static void imprv_sabotage(struct spy_data *data)
   {
     if(find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id))
     { 
-      struct packet_diplomat_action req;
-    
-      req.action_type=DIPLOMAT_SABOTAGE;
-      req.value=which-100+1;
-      req.diplomat_id=diplomat_id;
-      req.target_id=diplomat_target_id;
-
-      send_packet_diplomat_action(&aconnection, &req);
+      request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+			      diplomat_target_id, which - 100 + 1);
     }
   }
 
@@ -472,14 +454,9 @@ static void create_improvements_list(struct city *pcity)
 *****************************************************************/
 static void diplomat_incite_yes(struct popup_message_data *data)
 {
-  struct packet_diplomat_action req;
+  request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
+			  diplomat_target_id, 0);
 
-  req.action_type=DIPLOMAT_INCITE;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-
-  send_packet_diplomat_action(&aconnection, &req);
-  
   message_close(data);
   process_diplomat_arrival(NULL, 0);
 }
@@ -535,13 +512,8 @@ static void diplomat_embassy(struct popup_message_data *data)
 
    if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type=DIPLOMAT_EMBASSY;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-    
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
+			    diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -556,13 +528,8 @@ static void diplomat_investigate(struct popup_message_data *data)
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_INVESTIGATE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -577,14 +544,8 @@ static void diplomat_sabotage(struct popup_message_data *data)
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type=DIPLOMAT_SABOTAGE;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-    req.value = -1;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+			    diplomat_target_id, -1);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -599,14 +560,8 @@ static void diplomat_steal(struct popup_message_data *data)
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type=DIPLOMAT_STEAL;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-    req.value=0;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+			    diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -661,11 +616,8 @@ static void diplomat_move(struct popup_message_data *data)
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-    struct packet_diplomat_action req;
-    req.action_type = DIPLOMAT_MOVE;
-    req.diplomat_id = diplomat_id;
-    req.target_id = diplomat_target_id;
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
+			    diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -691,13 +643,7 @@ static void spy_poison(struct popup_message_data *data)
 
   if(find_unit_by_id(diplomat_id) &&
     (find_city_by_id(diplomat_target_id))) {
-    struct packet_diplomat_action req;
-
-    req.action_type=SPY_POISON;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_POISON, diplomat_id, diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
 }
@@ -713,13 +659,8 @@ static void spy_request_sabotage_list(struct popup_message_data *data)
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
-    struct packet_diplomat_action req;
- 
-    req.action_type = SPY_GET_SABOTAGE_LIST;
-    req.diplomat_id = diplomat_id;
-    req.target_id = diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
+			    diplomat_target_id, 0);
   }
 }
 
@@ -755,14 +696,9 @@ static void spy_steal(struct popup_message_data *data)
 *****************************************************************/
 static void spy_sabotage_unit(struct popup_message_data *data)
 {
-  struct packet_diplomat_action req;
-  
-  req.action_type=SPY_SABOTAGE_UNIT;
-  req.diplomat_id=diplomat_id;
-  req.target_id=diplomat_target_id;
-  
-  send_packet_diplomat_action(&aconnection, &req);
-  
+  request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
+			  diplomat_target_id, 0);
+
   message_close(data);
 }
 

@@ -63,6 +63,8 @@ void request_unit_return(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
 void request_unit_wait(struct unit *punit);
 void request_unit_wakeup(struct unit *punit);
+void request_diplomat_action(enum diplomat_actions action, int dipl_id,
+			     int target_id, int value);
 void request_toggle_map_grid(void);
 void request_toggle_city_names(void);
 void request_toggle_city_growth(void);

@@ -1672,13 +1672,7 @@ static int diplomat_embassy_callback(struct GUI *pWidget)
   
   popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type = DIPLOMAT_EMBASSY;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_EMBASSY, id, pCity->id, 0);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -1696,13 +1690,7 @@ static int diplomat_investigate_callback(struct GUI *pWidget)
   lock_buffer(pWidget->dst);
   popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type = DIPLOMAT_INVESTIGATE;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_INVESTIGATE, id, pCity->id, 0);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -1719,13 +1707,7 @@ static int spy_poison_callback( struct GUI *pWidget )
 
   popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type = SPY_POISON;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_POISON, id, pCity->id, 0);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -1745,13 +1727,7 @@ static int spy_sabotage_request(struct GUI *pWidget)
   popdown_diplomat_dialog();
   
   if(pCity && find_unit_by_id(id)) {
-    struct packet_diplomat_action req;
-
-    req.action_type = SPY_GET_SABOTAGE_LIST;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(SPY_GET_SABOTAGE_LIST, id, pCity->id, 0);
   }
   return -1;
 }
@@ -1766,14 +1742,7 @@ static int diplomat_sabotage_callback(struct GUI *pWidget)
   
   popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type = DIPLOMAT_SABOTAGE;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-    req.value = -1;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_SABOTAGE, id, pCity->id, -1);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -1803,14 +1772,8 @@ static int spy_steal_callback(struct GUI *pWidget)
   
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type = DIPLOMAT_STEAL;
-    req.value = steal_advance;
-    req.diplomat_id = diplomat_id;
-    req.target_id = diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
+			    diplomat_target_id, steal_advance);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -1865,15 +1828,10 @@ static int spy_steal_popup(struct GUI *pWidget)
   {
     /* if there is only 1 tech to steal then 
        send steal order to it */
-    struct packet_diplomat_action req;
-    
-    req.action_type = DIPLOMAT_STEAL;
-    req.value = w;
-    req.diplomat_id = id;
-    req.target_id = pVcity->id;
+    int target_id = pVcity->id;
 
     remove_locked_buffer();
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, w);
     return -1;
   }
   
@@ -2058,14 +2016,7 @@ static int diplomat_steal_callback(struct GUI *pWidget)
   
   popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
-    struct packet_diplomat_action req;
-
-    req.action_type = DIPLOMAT_STEAL;
-    req.diplomat_id = id;
-    req.target_id = pCity->id;
-    req.value = 0;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_STEAL, id, pCity->id, 0);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -2103,11 +2054,7 @@ static int diplomat_keep_moving_callback(struct GUI *pWidget)
   popdown_diplomat_dialog();
   
   if(pUnit && pCity && !same_pos(pUnit->x, pUnit->y, pCity->x, pCity->y)) {
-    struct packet_diplomat_action req;
-    req.action_type = DIPLOMAT_MOVE;
-    req.diplomat_id = pUnit->id;
-    req.target_id = pCity->id;
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_MOVE, pUnit->id, pCity->id, 0);
   }
   process_diplomat_arrival(NULL, 0);
   
@@ -2139,16 +2086,12 @@ static int diplomat_bribe_callback(struct GUI *pWidget)
 *****************************************************************/
 static int spy_sabotage_unit_callback(struct GUI *pWidget)
 {
-  
-  struct packet_diplomat_action req;
-  
-  req.action_type = SPY_SABOTAGE_UNIT;
-  req.diplomat_id = MAX_ID - pWidget->ID;
-  req.target_id = pWidget->data.unit->id;
+  int diplomat_id = MAX_ID - pWidget->ID;
+  int target_id = pWidget->data.unit->id;
   
   popdown_diplomat_dialog();
   
-  send_packet_diplomat_action(&aconnection, &req);
+  request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id, target_id, 0);
   
   return -1;
 }
@@ -2485,14 +2428,8 @@ static int sabotage_impr_callback(struct GUI *pWidget)
   
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
-    struct packet_diplomat_action req;
-    
-    req.action_type=DIPLOMAT_SABOTAGE;
-    req.value=sabotage_improvement+1;
-    req.diplomat_id=diplomat_id;
-    req.target_id=diplomat_target_id;
-
-    send_packet_diplomat_action(&aconnection, &req);
+    request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
+			    diplomat_target_id, sabotage_improvement + 1);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -2776,15 +2713,12 @@ static int incite_dlg_window_callback(struct GUI *pWindow)
 *****************************************************************/
 static int diplomat_incite_yes_callback(struct GUI *pWidget)
 {
-  struct packet_diplomat_action req;
-    
-  req.action_type=DIPLOMAT_INCITE;
-  req.diplomat_id = MAX_ID - pWidget->ID;
-  req.target_id = pWidget->data.city->id;
+  int diplomat_id = MAX_ID - pWidget->ID;
+  int target_id = pWidget->data.city->id;
   
   popdown_incite_dialog();
-  
-  send_packet_diplomat_action(&aconnection, &req);
+
+  request(diplomat_action(DIPLOMAT_INCITE, diplomat_id, target_id, 0);
   return -1;
 }
 
@@ -3057,15 +2991,12 @@ static int bribe_dlg_window_callback(struct GUI *pWindow)
 
 static int diplomat_bribe_yes_callback(struct GUI *pWidget)
 {
-  struct packet_diplomat_action req;
-
-  req.action_type = DIPLOMAT_BRIBE;
-  req.diplomat_id = MAX_ID - pWidget->ID;
-  req.target_id = pWidget->data.unit->id;
+  int diplomat_id = MAX_ID - pWidget->ID;
+  int target_id = pWidget->data.unit->id;
 
   popdown_bribe_dialog();
   
-  send_packet_diplomat_action(&aconnection, &req);
+  request_diplomat_action(DIPLOMAT_BRIBE, diplomat_id, target_id, 0);
   return -1;
 }
 

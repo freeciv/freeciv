@@ -680,6 +680,27 @@ void request_unit_wakeup(struct unit *punit)
   wakeup_sentried_units(punit->x,punit->y);
 }
 
+/**************************************************************************
+  Request a diplomat to do a specific action.
+  - action : The action to be requested.
+  - dipl_id : The unit ID of the diplomatic unit.
+  - target_id : The ID of the target unit or city.
+  - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
+            or building to aim for (spies only).
+**************************************************************************/
+void request_diplomat_action(enum diplomat_actions action, int dipl_id,
+			     int target_id, int value)
+{
+  struct packet_diplomat_action req;
+
+  req.action_type = action;
+  req.diplomat_id = dipl_id;
+  req.target_id = target_id;
+  req.value = value;
+
+  send_packet_diplomat_action(&aconnection, &req);
+}
+
 void wakeup_sentried_units(int x, int y)
 {
   unit_list_iterate(map_get_tile(x,y)->units, punit) {
