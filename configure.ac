@@ -292,8 +292,7 @@ if test x"$MINGW32" = "xyes"; then
   AC_DEFINE(ALWAYS_ROOT, 1, [Mingw32-specific setting - root])
   AC_DEFINE(WIN32_NATIVE, 1, [Mingw32-specific setting - native])
   AC_DEFINE(HAVE_WINSOCK, 1, [Mingw32-specific setting - winsock])
-  SERVER_LIBS="-lwsock32"
-  CFLAGS="$CFLAGS -fnative-struct"
+  LIBS="$LIBS -lwsock32"
 fi
 
 dnl Check for libiconv (which is usually included in glibc, but may be
@@ -342,6 +341,9 @@ if test x$client != xno; then
     if test "x$gtk_2_0_found" = "xyes"; then
       CLIENT_CFLAGS="$GTK_CFLAGS"
       CLIENT_LIBS="$GTK_LIBS"
+      if test x"$MINGW32" = "xyes"; then
+        CFLAGS="$CFLAGS -mms-bitfields"
+      fi
       found_client=yes
     fi
 
