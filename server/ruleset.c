@@ -1863,8 +1863,8 @@ static struct city_name* load_city_name_list(struct section_file *file,
    * Each string will be of the form
    * "<cityname> (<label>, <label>, ...)".  The cityname is just the
    * name for this city, while each "label" matches a terrain type
-   * for the city (or "river"), with a preceeding !, -, or ~ to negate
-   * it.  The parentheses are optional (but necessary to have the
+   * for the city (or "river"), with a preceeding ! to negate it.
+   * The parentheses are optional (but necessary to have the
    * settings, of course).  Our job is now to parse this into the
    * city_name structure.
    */
@@ -1910,10 +1910,9 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	
 	  /*
 	   * The ! is used to mark a negative, which is recorded
-	   * with a -1.  Otherwise we use a 1.  '-' and '~' have
-	   * the same meaning.
+	   * with a -1.  Otherwise we use a 1.
 	   */
-	  if (name[0] == '!' || name[0] == '-' || name[0] == '~') {
+	  if (name[0] == '!') {
 	    name++;
 	    setting = -1;
 	  } else {

@@ -143,9 +143,9 @@ self-explanatory.  A few points:
   where the cityname is just the name for the city (note that it
   may not contain quotes or parenthesis), and each "label" matches
   (case-insensitive) a terrain type for the city (or "river"), with a
-  preceeding !, -, or ~ to negate it.  The terrain list is optional, of
-  course, so the entry can just contain the cityname if desired.  A city
-  name labeled as matching a terrain type will match a particular map
+  preceeding ! to negate it.  The terrain list is optional, of course,
+  so the entry can just contain the cityname if desired.  A city name
+  labeled as matching a terrain type will match a particular map
   location if that map location is on or adjacent to a tile of the named
   terrain type; in the case of the "river" label (which is a special
   case) only the map location itself is considered.  A complex example:
