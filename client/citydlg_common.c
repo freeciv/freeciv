@@ -530,7 +530,7 @@ bool city_queue_insert(struct city *pcity, int position,
     if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {
       return FALSE;
     }
-    if (!worklist_insert(&pcity->worklist, item_is_unit, item_id,
+    if (!worklist_insert(&pcity->worklist, item_id, item_is_unit,
 			 position - 1)) {
       return FALSE;
     }
@@ -543,7 +543,7 @@ bool city_queue_insert(struct city *pcity, int position,
     if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {
       return FALSE;
     }
-    if (!worklist_append(&pcity->worklist, item_is_unit, item_id)) {
+    if (!worklist_append(&pcity->worklist, item_id, item_is_unit)) {
       return FALSE;
     }
     city_set_worklist(pcity, &pcity->worklist);
