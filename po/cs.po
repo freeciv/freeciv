@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -1166,7 +1166,7 @@ msgstr "Hra: %s dokončili stavbu %s ve městě %s."
 #: server/cityturn.c:942 server/cityturn.c:948
 #, c-format
 msgid "%s build %s in %s"
-msgstr ""
+msgstr "%s staví %s v %s"
 
 #: server/cityturn.c:954
 #, c-format
@@ -1210,7 +1210,7 @@ msgstr "Hra: Město %s dokončilo stavbu %s."
 #: server/cityturn.c:1079
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
-msgstr ""
+msgstr "%s staví %s v %s (%i,%i)"
 
 #: server/cityturn.c:1125
 #, c-format
@@ -1371,7 +1371,7 @@ msgstr "  -e, --exit-on-end\tKdyž skončí hra, ukončení místo restartu\n"
 
 #: server/civserver.c:185
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-msgstr ""
+msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
 
 #: server/civserver.c:186
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2106,7 +2106,7 @@ msgstr "Server: %s byl(a) připojen(a) z %s."
 
 #: server/connecthand.c:136
 msgid "Couldn't attach your connection to new player."
-msgstr ""
+msgstr "Nelze připojit vaše spojení na nového hráče."
 
 #: server/connecthand.c:145
 #, c-format
@@ -2326,7 +2326,10 @@ msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
-msgstr ""
+msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: server/diplhand.c:239
 #, c-format
@@ -3050,7 +3053,7 @@ msgstr "%s ukradl %s %s"
 #: server/plrhand.c:735
 #, c-format
 msgid "Game: You steal %s from the %s."
-msgstr ""
+msgstr "Hra: Ukradli jsme %s od %s."
 
 #: server/plrhand.c:740
 #, c-format
@@ -3461,7 +3464,10 @@ msgstr ""
 #: server/report.c:1098
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
-msgstr ""
+msgid_plural "%2d: The %s %s scored %d points\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: server/report.c:1106
 msgid "Progress Scores:"
@@ -3572,7 +3578,7 @@ msgstr "Nelze nalézt žádný palác"
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1446
 msgid "Cannot find any land defend building"
-msgstr ""
+msgstr "Nelze najít žádné obranné stavby"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1478
@@ -4401,7 +4407,7 @@ msgstr ""
 
 #: server/settings.c:702
 msgid "Ability to do diplomacy with other players"
-msgstr ""
+msgstr "Možnosti diplomacie s ostatními hráči"
 
 #: server/settings.c:703
 msgid ""
@@ -4417,6 +4423,17 @@ msgid ""
 "\n"
 "You can always do diplomacy with players on your team."
 msgstr ""
+"0 = výchozí; diplomacie je povolena pro všechny.\n"
+"\n"
+"1 = diplomacie je povolena jen mezi lidskými hráči.\n"
+"\n"
+"2 = diplomacie je povolena jen mezi počítačovými hráči.\n"
+"\n"
+"3 = diplomacie je omezena na týmy.\n"
+"\n"
+"4 = diplomacie je pro všechny zakázána.\n"
+"\n"
+"Vždy můžete využít diplomacii mezi hráči svého týmu."
 
 #: server/settings.c:713
 msgid "Allowed city names"
@@ -6234,7 +6251,7 @@ msgstr "Hra: Jednotka musí být na pevnině k provedení diplomatické akce."
 
 #: server/unithand.c:1024
 msgid "Game: No diplomat action possible."
-msgstr ""
+msgstr "Hra: Diplomatická akce není možná."
 
 #: server/unithand.c:1039
 #, c-format
@@ -6485,7 +6502,10 @@ msgstr ""
 #: server/unittools.c:1736
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgstr ""
+msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: server/unittools.c:1751
 #, c-format
@@ -7525,7 +7545,7 @@ msgstr "* Nemůže se stavět ve městech.\n"
 #: client/helpdata.c:657
 #, c-format
 msgid "* Never has a home city.\n"
-msgstr "* Nikdy nemá domovské město.\n"
+msgstr "* Neměl nikdy domovské město.\n"
 
 #: client/helpdata.c:661
 #, c-format
@@ -8655,7 +8675,10 @@ msgstr "Naše území"
 #: client/text.c:169
 #, c-format
 msgid "%s territory (%d turn ceasefire)"
-msgstr ""
+msgid_plural "%s territory (%d turn ceasefire)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #. * ?nation adjectives.
@@ -8678,7 +8701,10 @@ msgstr "Město: %s (%s)"
 #: client/text.c:200
 #, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
-msgstr ""
+msgid_plural "City: %s (%s, %d turn ceasefire)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -8717,7 +8743,10 @@ msgstr "Jednotka: %s(%s%s)"
 #: client/text.c:260
 #, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
-msgstr ""
+msgid_plural "Unit: %s (%s, %d turn ceasefire)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
@@ -8785,7 +8814,10 @@ msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
 #: client/text.c:439
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
-msgstr ""
+msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
 #, c-format
@@ -8867,7 +8899,10 @@ msgstr ""
 #: client/text.c:608
 #, c-format
 msgid "Mass:            %5d ton"
-msgstr ""
+msgid_plural "Mass:            %5d tons"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:613
@@ -10416,7 +10451,10 @@ msgstr "žádné maximum, "
 #: client/gui-mui/citydlg.c:2254 client/gui-win32/happiness.c:258
 #, c-format
 msgid "%d unit maximum, "
-msgstr ""
+msgid_plural "%d units maximum, "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: client/gui-gtk-2.0/happiness.c:303 client/gui-gtk/happiness.c:309
 #: client/gui-mui/citydlg.c:2258 client/gui-win32/happiness.c:262
@@ -13586,9 +13624,11 @@ msgstr ""
 msgid ""
 "%s\n"
 "(%d turn/advance)"
+msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr ""
+msgstr[0] ""
+msgstr[1] ""
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
@@ -13615,7 +13655,10 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:1144
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
-msgstr ""
+msgid_plural "%2d: The %s ruler %s scored %d points\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:718
 #: client/gui-xaw/repodlgs.c:1152
@@ -16700,9 +16743,9 @@ msgstr ""
 "hydroelektrárnou zvýší produkci o 75%, Výrobní podnik s Hydroelektrárnou "
 "zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, že je na "
-"(nebo hned vedle) kopci nebo řece."
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, "
+"že je na (nebo hned vedle) kopci nebo řece."
 
 #: data/default/buildings.ruleset:607 data/civ2/buildings.ruleset:548
 #: data/civ1/buildings.ruleset:468 data/history/buildings.ruleset:555
@@ -16772,8 +16815,8 @@ msgstr ""
 "Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou el. zvýší "
 "produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. "
 
 #: data/default/buildings.ruleset:762 data/civ2/buildings.ruleset:700
 #: data/history/buildings.ruleset:709
@@ -16865,8 +16908,8 @@ msgstr ""
 "Jadernou el. zvýší produkci o 150%. Zvýšená produkce však může vést ke "
 "zvýšení znečištění.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. "
 
 #: data/default/buildings.ruleset:927 data/civ2/buildings.ruleset:859
 #: data/civ1/buildings.ruleset:690 data/history/buildings.ruleset:874
@@ -17507,9 +17550,9 @@ msgstr ""
 "hydroelektrárnou zvýší produkci o 100%, Výrobní podnik s Hydroelektrárnou "
 "zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, že je na "
-"(nebo hned vedle) kopci nebo řece."
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, "
+"že je na (nebo hned vedle) kopci nebo řece."
 
 #: data/civ2/buildings.ruleset:570 data/civ1/buildings.ruleset:490
 #: data/history/buildings.ruleset:577
@@ -17532,8 +17575,8 @@ msgstr ""
 "jadernou elektrárnou zvýší produkci o 100%, Výrobní podnik s jadernou "
 "elektrárnou zvýší produkci o 150%.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. "
 
 #: data/civ2/buildings.ruleset:847 data/civ1/buildings.ruleset:678
 #, no-c-format
@@ -17550,8 +17593,8 @@ msgstr ""
 "s jadernou elektrárnou zvýší produkci o 150%. Vyšší produkce může způsobovat "
 "i vyššé míru znečistění.\n"
 "\n"
-"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) elektrárnu "
-"a Jadernou el. "
+"Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
+"elektrárnu a Jadernou el. "
 
 #: data/civ2/buildings.ruleset:908 data/history/buildings.ruleset:923
 msgid ""
