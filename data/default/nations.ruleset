@@ -76,7 +76,7 @@ cities =
   "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
   "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
   "Syracusae", "Neapolis", "Pompeii", "Salernum", "Tarraco",
-  "Carthago", "Tingis", "Numantia", "Carthago Nova",
+  "Carthago", "Numantia", "Carthago Nova", "Baiae",
   "Noviomagus", "Vindobona", "Atuatuca", "Caesarea", "Ierusalem",
   "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
   "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
@@ -85,7 +85,7 @@ cities =
   "Salonae", "Cyrenae", "Dyrrachium", "Luni", "Noreia", "Ephesus",
   "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra", "Tolosa",
   "Pisae", "Palmyra", "Tyrus", "Cortona", "Arenate", "Brigantium",
-  "Lix", "Sala", "Berytus", "Naissus", "Nicomedia", "Petra", "Berenice",
+  "Lix", "Sala", "Berytus", "Naissus", "Nicomedia", "Berenice",
   "Sabrata", "Attalea", "Sinope", "Hippo Regius", "Gesoriacum",
   "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
@@ -188,7 +188,7 @@ wonder="Pyramids"
 government="Monarchy"
 
 cities =
-  "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
+  "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe", "Bubastis",
   "Ammonium", "Alexandria", "Pelusium", "Canopus", "Naucratis",
   "Diospolis",  "Sais", "Acoris", "Cynopolis", "Thinis",
   "Timonepsis", "Nilopolis", "Chemmis", "Antaeopolis", "Hermonthis",
@@ -304,7 +304,8 @@ cities =
   "Dacca", "Lucknow", "Benares", "Chandrigarh", "Rawalpindi",
   "Colombo", "Madurai", "Coimbatore", "Calicut", "Trivandrum",
   "Nagpur", "Chittagong", "Multan", "Amritsar", "Srinagar",
-  "Agra", "Bhopal", "Patna", "Surat", "Jaipur"
+  "Agra", "Bhopal", "Patna", "Surat", "Jaipur", "Varanasi",
+  "Allahabad", "Indore", "Mysore", "Raipur", "Gaya"
 
 
 [nation7]
@@ -333,7 +334,7 @@ wonder="Women's Suffrage"
 government="Communism"
 
 cities =
-  "Moskva", "Petersburg", "Tver", "Novgorod",
+  "Moskva", "St. Petersburg", "Tver", "Novgorod",
   "Yekaterinburg", "Samara", "Pskov", "Ryazan", "Vladimir",
   "Yaroslavl",  "Novosibirsk", "Smolensk", "Briansk", "Oriel",
   "Voronezh", "Saransk", "Uralsk", "Petrozavodsk", "Perm", "Ufa",
@@ -400,7 +401,9 @@ cities =
   "Toulouse", "Montpellier", "Nîmes", "Toulon", "Orléans",
   "Chartres", "Avignon", "Grenoble", "Dijon", "Amiens",
   "Cherbourg", "Caen", "Calais", "Limoges", "Clermont-Ferrand",
-  "Nancy", "Besançon", "St. Etienne", "Brest", "Perpignan"
+  "Nancy", "Besançon", "St. Etienne", "Brest", "Perpignan",
+  "Vichy", "Rennes", "Le Havre", "La Rochelle", "Poitiers",
+  "St. Nazaire", "Bourges", "Le Mans", "Valenciennes", "Montlucon"
 
 
 [nation10]
@@ -505,8 +508,8 @@ cities =
   "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
   "Newcastle", "Canterbury", "Bradford", "Derby", "Southampton",
   "Middlesborough", "Sheffield", "Nottingham", "Coventry", "Bath", "Bristol",
-  "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth",
-  "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford",
+  "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth", "Bournemouth",
+  "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford", "Colchester",
   "Reading", "Cambridge", "Gloucester", "Blackpool", "Stratford-upon-Avon",
   "Durham", "Eastleigh", "Winchester", "Norwich", "Folkestone", "Dover",
   "Huntingdon", "Hereford", "Ipswich", "Kettering", "King's Lynn",
@@ -515,7 +518,7 @@ cities =
   "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
   "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
   "Wolverhampton", "Weymouth", "Winchester", "Yeovil", "Halifax", "Oldham",
-  "Rochdale", "Blackburn", "Burnley", "Lancaster"
+  "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton"
 
 
 [nation13]
@@ -543,12 +546,12 @@ wonder="Sun Tzu's War Academy"
 government="Monarchy"
 
 cities =
-  "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
-  "Tashkent", "Kashgar", "Balkh", "Kabul",
-  "Sarai", "Astrachan", "Tana", "Kazan", "Caffa", "Bulgar",
-  "Karakorum", "Hami", "Dunhuang", "Lhasa", "Tali",
-  "Tabriz", "Mosul", "Baghdad", "Basra", "Shiraz",
-  "Esfahan", "Rayy", "Kerman", "Hormuz", "Daybul"
+  "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara", "Tashkent",
+  "Kashgar", "Balkh", "Kabul", "Sarai", "Astrachan", "Tana", "Kazan",
+  "Caffa", "Karakorum", "Hami", "Dunhuang", "Tali", "Tabriz", "Basra",
+  "Rayy", "Daybul", "Ulan Bator", "Ulan Ude", "Saynshand", "Ulaangom",
+  "Hovd", "Hatgal", "Ulyasutay", "Tsetserleg", "Altanbulug", "Dzuumod",
+  "Buyanhongor", "Huld", "Dalandzadgad", "Choybalsan"
 
 
 [nation14]
@@ -648,7 +651,8 @@ cities =
   "Zadrakarta", "Herat", "Drapsaka", "Karmana", "Pura", ;modern cities
   "Teheran", "Isfahan", "Tabriz", "Hamadan", "Rasht",
   "Ahraz", "Shiraz", "Kerman", "Yazd", "Mashhad", "Zahedan",
-  "Bushehr", "Qazrin"
+  "Bushehr", "Qazrin", "Lhasa", "Bulgar", "Hormuz", "Baghdad",
+  "Esfahan", "Mosul"
 
 
 [nation17]
@@ -1192,12 +1196,20 @@ wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-         "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide",
-         "Perth", "Darwin", "Hobart", "Wollongong", "Rockhampton",
-         "Launceston", "Townsville", "Albany", "Bunbury", "Kalgoorlie",
-         "Meekatharra", "Winton", "Alice Springs", "Quilpie", "Cairns",
-         "Southport", "Ballarat", "Waneroo", "Fremantle", "Whyalla",
-         "Albury", "Bathurst", "Dubbo","Mackay"
+  "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",
+  "Darwin", "Hobart", "Wollongong", "Rockhampton", "Launceston",
+  "Townsville", "Albany", "Bunbury", "Kalgoorlie", "Meekatharra",
+  "Winton", "Alice Springs", "Quilpie", "Cairns", "Southport", "Ballarat",
+  "Waneroo", "Fremantle", "Whyalla", "Albury", "Bathurst", "Dubbo",
+  "Mackay", "Newcastle", "Byron Bay", "Monkey Mia", "Grafton",
+  "Wagga Wagga", "Lismore", "Bourke", "Tamworth", "Woomera", "Carnarvon",
+  "Esperance", "Katherine", "Oodnadatta", "Broken Hill", "Hughenden",
+  "Geelong", "Mt. Isa", "Pine Creek", "Daly Waters", "Wyndham", "Broome",
+  "Onslow", "Geraldton", "Meekathrra", "Tennant Creek", "Ceduna",
+  "Longreach", "Renmark", "Mildura", "Hay", "Bega", "Toowoomba",
+  "Queenstown", "Coober Pedy", "Bendigo", "Derby", "Cunnamulla", "Walgett",
+  "Dampier", "Exmouth", "Yorketown", "Kiama", "Moe", "Warwick", "Gosford",
+  "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Prosperpine"
 
 
 [nation32]
