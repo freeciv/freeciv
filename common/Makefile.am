@@ -24,6 +24,8 @@ libcivcommon_a_SOURCES = \
 		game.h		\
 		genlist.c	\
 		genlist.h	\
+		inputfile.c	\
+		inputfile.h	\
 		log.c		\
 		log.h		\
 		map.c		\
