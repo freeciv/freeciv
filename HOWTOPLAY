@@ -10,7 +10,7 @@ If you have never played the Civilization games, it's easiest to
 start by reading the Freeciv Manual, available separately at:
 
      http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual
+     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
 
 If you're looking for ideas on playing Freeciv, then keep reading!!
 
@@ -138,17 +138,22 @@ take out the rest of them with.  Show no quarter!  To the death!
 
 Repeat as often as necessary! ;-)
 
-[Note for pacifists:  A future version of Freeciv will allow a player
-to win by building and launching a spaceship which arrives at Alpha
-Centauri before anyone else.  Stay tuned...]
+[Note for pacifists:  Freeciv also allows a player to win by building
+and launching a spaceship which arrives at Alpha Centauri before anyone
+else.]
+
 
 Additional questions:
 
 Q. What other strategies are there?
 
-There are a number of tutorials and strategy guides available at the 
-freeciv web pages, at http://www.freeciv.org/tutorials/tutorials.html
+	There are a number of tutorials and strategy guides available at
+the freeciv web pages, at:
+
+	 http://www.freeciv.org/tutorials/tutorials.phtml
+
 Plus, the Freeciv online help describes another strategy.
+
 
 Q. In multiplayer games, what timeout should I set?
 
