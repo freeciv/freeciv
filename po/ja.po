@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2003-01-30 19:43-0800\n"
-"PO-Revision-Date: 2003-01-30 20:24-0800\n"
+"PO-Revision-Date: 2003-02-02 02:13-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -1661,9 +1661,9 @@ msgid "Not reporting to the metaserver in this game."
 msgstr "このゲームではメタサーバへは報告していません。"
 
 #: server/meta.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver: bad address: [%s:%d]."
-msgstr "メタサーバ: 間違ったアドレス: [%s]"
+msgstr "メタサーバ: 間違ったアドレス: [%s:%d]"
 
 #: server/meta.c:257
 msgid "Pregame"
@@ -2421,9 +2421,9 @@ msgid "Game ended in a draw as end year exceeded"
 msgstr ""
 
 #: server/srv_main.c:231 server/srv_main.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "%sに変える"
+msgstr ""
 
 #: server/srv_main.c:241 server/srv_main.c:242
 #, c-format
@@ -3471,28 +3471,23 @@ msgstr ""
 "します。"
 
 #: server/stdinhand.c:731
-#, fuzzy
 msgid "Seconds between PINGs"
-msgstr "PING 間の最大秒数"
+msgstr "PING 間の秒数"
 
 #: server/stdinhand.c:732
-#, fuzzy
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
-msgstr ""
-"civserver はここで指定した秒数経過するたびに、 PING をクライアントに送りま"
-"す。次にサーバから送られる PING までにクライアントが返答しなければ切断されま"
-"す。"
+msgstr "civserver はここで指定した秒数経過するたびに、 PING をクライアントに送ります。"
 
 #: server/stdinhand.c:737
 msgid "Time to cut a client"
-msgstr ""
+msgstr "クライアントを切断するまでの時間"
 
 #: server/stdinhand.c:738
 msgid ""
 "If a client doesn't reply to a PONG in this time the client is disconnected."
-msgstr ""
+msgstr "この時間以内にクライアントが PONG を返さなければ切断されます。"
 
 #: server/stdinhand.c:743
 msgid "Turn-blocking game play mode"
@@ -3795,9 +3790,8 @@ msgid "Set server option."
 msgstr "サーバオプションを設定する。"
 
 #: server/stdinhand.c:1082
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <プレイヤー名>"
+msgstr "team <プレイヤー> [チーム]"
 
 #: server/stdinhand.c:1083
 msgid "Change, add or remove a player's team affiliation."
@@ -4569,14 +4563,12 @@ msgid "description"
 msgstr "説明"
 
 #: server/stdinhand.c:2688
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "一旦ゲームが始まると AI プレイヤーを追加できません。"
+msgstr "一旦ゲームが始まるとチームを変更できません。"
 
 #: server/stdinhand.c:2698
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "不明な引数です。使用法: set <オプション名> <値>"
+msgstr "不明な引数です。使用法: team <プレイヤー> [チーム]"
 
 #: server/stdinhand.c:2714
 #, c-format
@@ -4584,15 +4576,13 @@ msgid "Player %s is made teamless."
 msgstr ""
 
 #: server/stdinhand.c:2720
-#, fuzzy
 msgid "Bad team name."
-msgstr "ゲームを終える。"
+msgstr "チーム名は不正です。"
 
-# clefs
 #: server/stdinhand.c:2724
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "%1$sは%3$sによる攻撃で%2$sを失いました。"
+msgstr ""
 
 #: server/stdinhand.c:2762
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5623,39 +5613,35 @@ msgstr "労働者: 幸福, 普通, 不幸, 怒り"
 
 #: client/cityrepdata.c:425
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "?Happy workers:幸"
 
 #: client/cityrepdata.c:425
-#, fuzzy
 msgid "Workers: Happy"
-msgstr "労働者"
+msgstr "労働者: 幸福"
 
 #: client/cityrepdata.c:427
 msgid "?Content workers:C"
-msgstr ""
+msgstr "?Content workers:普"
 
 #: client/cityrepdata.c:427
-#, fuzzy
 msgid "Workers: Content"
-msgstr "労働者"
+msgstr "労働者: 普通"
 
 #: client/cityrepdata.c:429
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "?Unhappy workers:不"
 
 #: client/cityrepdata.c:429
-#, fuzzy
 msgid "Workers: Unhappy"
-msgstr "労働者"
+msgstr "労働者: 不幸"
 
 #: client/cityrepdata.c:431
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "?Angry workers:怒"
 
 #: client/cityrepdata.c:431
-#, fuzzy
 msgid "Workers: Angry"
-msgstr "労働者"
+msgstr "労働者: 怒り"
 
 #: client/cityrepdata.c:433
 msgid "Special"
@@ -5670,9 +5656,8 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "芸人, 科学者, 徴税者"
 
 #: client/cityrepdata.c:437
-#, fuzzy
 msgid "?Entertainers:E"
-msgstr "芸人"
+msgstr "?Entertainers:芸"
 
 #: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:1266
 #: client/gui-gtk/citydlg.c:1282
@@ -5680,9 +5665,8 @@ msgid "Entertainers"
 msgstr "芸人"
 
 #: client/cityrepdata.c:439
-#, fuzzy
 msgid "?Scientists:S"
-msgstr "科学者"
+msgstr "?Scientists:科"
 
 #: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:1267
 #: client/gui-gtk/citydlg.c:1283 client/gui-mui/citydlg.c:1436
@@ -5691,9 +5675,8 @@ msgid "Scientists"
 msgstr "科学者"
 
 #: client/cityrepdata.c:441
-#, fuzzy
 msgid "?Taxmen:T"
-msgstr "徴税者"
+msgstr "?Taxmen:税"
 
 #: client/cityrepdata.c:441 client/gui-gtk-2.0/citydlg.c:1268
 #: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1437
@@ -5702,29 +5685,26 @@ msgid "Taxmen"
 msgstr "徴税者"
 
 #: client/cityrepdata.c:443 client/cityrepdata.c:445
-#, fuzzy
 msgid "Best"
-msgstr "位"
+msgstr ""
 
 #: client/cityrepdata.c:443
 #, fuzzy
 msgid "attack"
-msgstr "攻撃力:"
+msgstr "攻撃力"
 
 #: client/cityrepdata.c:444
-#, fuzzy
 msgid "Best attacking units"
-msgstr "空軍部隊に対して自動攻撃"
+msgstr ""
 
 #: client/cityrepdata.c:445
 #, fuzzy
 msgid "defense"
-msgstr "防御力:"
+msgstr "防御力"
 
 #: client/cityrepdata.c:446
-#, fuzzy
 msgid "Best defending units"
-msgstr "都市にいる部隊をリスト(_L)"
+msgstr ""
 
 #: client/cityrepdata.c:447 client/cityrepdata.c:449
 #: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:639
@@ -5772,32 +5752,27 @@ msgstr "黒字: 食料, 生産物, 交易"
 
 #: client/cityrepdata.c:455
 msgid "?Food surplus:F+"
-msgstr ""
+msgstr "?Food surplus:食+"
 
 #: client/cityrepdata.c:455
-#, fuzzy
 msgid "Surplus: Food"
-msgstr "黒字"
+msgstr "黒字: 食料"
 
 #: client/cityrepdata.c:457
-#, fuzzy
 msgid "?Production surplus:P+"
-msgstr "生産物作業リスト"
+msgstr "?Production surplus:生+"
 
 #: client/cityrepdata.c:458
-#, fuzzy
 msgid "Surplus: Production"
-msgstr "黒字: 食料, 生産物, 交易"
+msgstr "黒字: 生産物"
 
 #: client/cityrepdata.c:459
-#, fuzzy
 msgid "?Trade surplus:T+"
-msgstr "?trade_routes:易"
+msgstr "?Trade surplus:交+"
 
 #: client/cityrepdata.c:459
-#, fuzzy
 msgid "Surplus: Trade"
-msgstr "黒字"
+msgstr "黒字: 交易"
 
 #: client/cityrepdata.c:461 client/gui-gtk-2.0/repodlgs.c:582
 #: client/gui-gtk/repodlgs.c:587 client/gui-win32/repodlgs.c:315
@@ -5815,34 +5790,28 @@ msgid "Economy: Gold, Luxuries, Science"
 msgstr "経済: 金, 贅沢, 科学"
 
 #: client/cityrepdata.c:464
-#, fuzzy
 msgid "?Gold:G"
-msgstr "金:"
+msgstr "?Gold:金"
 
 #: client/cityrepdata.c:464
-#, fuzzy
 msgid "Economy: Gold"
-msgstr "経済"
+msgstr "経済: 金"
 
 #: client/cityrepdata.c:466
-#, fuzzy
 msgid "?Luxury:L"
-msgstr "贅沢:"
+msgstr "?Luxury:贅"
 
 #: client/cityrepdata.c:466
-#, fuzzy
 msgid "Economy: Luxury"
-msgstr "経済"
+msgstr "経済: 贅沢"
 
 #: client/cityrepdata.c:468
-#, fuzzy
 msgid "?Science:S"
-msgstr "科学:"
+msgstr "?Science:科"
 
 #: client/cityrepdata.c:468
-#, fuzzy
 msgid "Economy: Science"
-msgstr "経済: 金, 贅沢, 科学"
+msgstr "経済: 科学"
 
 #: client/cityrepdata.c:470
 msgid "?trade_routes:n"
@@ -6133,12 +6102,12 @@ msgid "far from %s"
 msgstr "%2$sからの%1$s"
 
 #: client/climisc.c:1076
-#, fuzzy, c-format
+#, c-format
 msgid "near %s"
 msgstr "%sの近くにいる"
 
 #: client/climisc.c:1077
-#, fuzzy, c-format
+#, c-format
 msgid "in %s"
 msgstr "%sの"
 
@@ -6148,9 +6117,9 @@ msgid "from %s"
 msgstr "%2$sからの%1$s"
 
 #: client/climisc.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid "%s (veteran)"
-msgstr " (ベテラン)"
+msgstr "%s (ベテラン)"
 
 #: client/clinet.c:117
 msgid "Lost connection to server!"
@@ -9415,9 +9384,8 @@ msgid "City _Names"
 msgstr "都市の名前(_N)"
 
 #: client/gui-gtk-2.0/menu.c:610 client/gui-gtk/menu.c:609
-#, fuzzy
 msgid "City G_rowth"
-msgstr "都市: 拡大"
+msgstr "都市: 拡大(_R)"
 
 #: client/gui-gtk-2.0/menu.c:613 client/gui-gtk/menu.c:612
 #: client/gui-win32/menu.c:302
@@ -11891,9 +11859,8 @@ msgid "Revolution"
 msgstr "革命"
 
 #: client/gui-xaw/menu.c:132
-#, fuzzy
 msgid "City Growth"
-msgstr "都市: 拡大"
+msgstr "都市の拡大"
 
 #: client/gui-xaw/menu.c:138
 msgid "Roads and Rails"
@@ -15329,9 +15296,8 @@ msgid "Tropical"
 msgstr ""
 
 #: data/default/cities.ruleset:47
-#, fuzzy
 msgid "Asian"
-msgstr "ロシア人"
+msgstr ""
 
 #: data/default/cities.ruleset:54
 msgid "Industrial"
