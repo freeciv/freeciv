@@ -28,9 +28,10 @@
    and prototypes for the following functions:
       void foo_vector_init(struct foo_vector *tthis);
       void foo_vector_reserve(struct foo_vector *tthis, int n);
-      int  foo_vector_size(struct foo_vector *tthis);
+      int  foo_vector_size(const struct foo_vector *tthis);
       foo_t *foo_vector_get(struct foo_vector *tthis, int index);
-      void foo_vector_copy(struct foo_vector *to, struct foo_vector *from);
+      void foo_vector_copy(struct foo_vector *to, 
+                const struct foo_vector *from);
       void foo_vector_free(struct foo_vector *tthis);
 
    Note this is not protected against multiple inclusions; this is
@@ -98,7 +99,7 @@ static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis,
   tthis->size = size;
 }
 
-static inline size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
+static inline size_t SPECVEC_FOO(_vector_size) (const SPECVEC_VECTOR *tthis)
 {
   return tthis->size;
 }
@@ -117,7 +118,7 @@ static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis,
 
 /* You must _init "*to" before using this function */
 static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to,
-					      SPECVEC_VECTOR *from)
+					      const SPECVEC_VECTOR *from)
 {
   SPECVEC_FOO(_vector_reserve) (to, from->size);
   memcpy(to->p, from->p, from->size * sizeof(*to->p));
