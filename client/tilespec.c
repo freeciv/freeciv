@@ -1864,6 +1864,110 @@ static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
   return sprs - saved_sprs;
 }
 
+/****************************************************************************
+  Add sprites for the base terrain to the sprite list.  This doesn't
+  include specials or rivers.
+****************************************************************************/
+static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
+				     struct tile *ptile,
+				     enum tile_terrain_type *ttype_near,
+				     int *dither_count)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+  struct Sprite *sprite;
+  enum tile_terrain_type ttype = ptile->terrain;
+
+  if (!draw_terrain) {
+    *dither_count = 0;
+    return 0;
+  }
+
+  if (ptile->spec_sprite && (sprite = load_sprite(ptile->spec_sprite))) {
+    /* Skip dithering. */
+    ADD_SPRITE_SIMPLE(sprite);
+    return 1;
+  }
+
+  if (is_isometric && is_ocean(ttype)) {
+    /* painted via coasts. */
+    const enum direction8 dirs[4] = {
+      DIR8_NORTHWEST, /* up */
+      DIR8_SOUTHEAST, /* down */
+      DIR8_SOUTHWEST, /* left */
+      DIR8_NORTHEAST /* right */
+    };
+    const int offsets[4][2] = {
+      {NORMAL_TILE_WIDTH / 4, 0},
+      {NORMAL_TILE_WIDTH / 4, NORMAL_TILE_HEIGHT / 2},
+      {0, NORMAL_TILE_HEIGHT / 4},
+      {NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 4},
+    };
+    int i;
+
+    *dither_count = 4;
+
+    /* put coasts */
+    for (i = 0; i < 4; i++) {
+      int array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
+			 + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
+			 + (!is_ocean(ttype_near[dir_cw(dirs[i])])
+			    ? 4 : 0));
+
+      ADD_SPRITE(sprites.tx.coast_cape_iso[array_index][i],
+		 offsets[i][0], offsets[i][1]);
+    }
+  } else {
+    *dither_count = 1;
+
+    if (sprites.terrain[ttype]->match_type == 0
+	|| sprites.terrain[ttype]->is_layered) {
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
+    }
+
+    if (sprites.terrain[ttype]->match_type != 0) {
+      int match_type = sprites.terrain[ttype]->match_type;
+#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
+      int tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
+			      MATCH(DIR8_SOUTH) == match_type,
+			      MATCH(DIR8_EAST) == match_type,
+			      MATCH(DIR8_WEST) == match_type);
+#undef MATCH
+
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->blend[tileno]);
+    }
+
+    /* Short-cut past dithering if all adjacent tiles are the same. */
+    if (ttype_near[DIR8_NORTH] == ttype
+	&& ttype_near[DIR8_SOUTH] == ttype
+	&& ttype_near[DIR8_EAST] == ttype
+	&& ttype_near[DIR8_WEST] == ttype) {
+      *dither_count = 0;
+    }
+  }
+
+  /* Extra "capes" added on in non-iso view. */
+  if (is_ocean(ttype) && !is_isometric) {
+    int tileno = INDEX_NSEW((is_ocean(ttype_near[DIR8_NORTH])
+			     && is_ocean(ttype_near[DIR8_EAST])
+			     && !is_ocean(ttype_near[DIR8_NORTHEAST])),
+			    (is_ocean(ttype_near[DIR8_SOUTH])
+			     && is_ocean(ttype_near[DIR8_WEST])
+			     && !is_ocean(ttype_near[DIR8_SOUTHWEST])),
+			    (is_ocean(ttype_near[DIR8_EAST])
+			     && is_ocean(ttype_near[DIR8_SOUTH])
+			     && !is_ocean(ttype_near[DIR8_SOUTHEAST])),
+			    (is_ocean(ttype_near[DIR8_NORTH])
+			     && is_ocean(ttype_near[DIR8_WEST])
+			     && !is_ocean(ttype_near[DIR8_NORTHWEST])));
+    if (tileno != 0) {
+      ADD_SPRITE_SIMPLE(sprites.tx.coast_cape[tileno]);
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
+
 /**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
@@ -1884,126 +1988,61 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
-  int tileno, dir, i;
-  struct city *pcity;
+  int tileno, dir;
+  struct tile *ptile = map_get_tile(x, y);
+  struct city *pcity = ptile->city;
   struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
+  *dither_count = 0;
 
   if (tile_get_known(x, y) == TILE_UNKNOWN)
     return -1;
 
-  pcity = map_get_city(x, y);
-
   build_tile_data(x, y, &ttype, &tspecial, ttype_near, tspecial_near);
 
-  if (draw_terrain) {
-    if (is_ocean(ttype)) {
-      /* painted via coasts. */
-      const enum direction8 dirs[4] = {
-	DIR8_NORTHWEST, /* up */
-	DIR8_SOUTHEAST, /* down */
-	DIR8_SOUTHWEST, /* left */
-	DIR8_NORTHEAST /* right */
-      };
-      const int offsets[4][2] = {
-	{NORMAL_TILE_WIDTH / 4, 0},
-	{NORMAL_TILE_WIDTH / 4, NORMAL_TILE_HEIGHT / 2},
-	{0, NORMAL_TILE_HEIGHT / 4},
-	{NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 4},
-      };
+  sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near, dither_count);
 
-      *dither_count = 4;
-
-      /* put coasts */
-      for (i = 0; i < 4; i++) {
-	int array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
-			   + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
-			   + (!is_ocean(ttype_near[dir_cw(dirs[i])])
-			      ? 4 : 0));
-
-	ADD_SPRITE(sprites.tx.coast_cape_iso[array_index][i],
-		   offsets[i][0], offsets[i][1]);
-      }
-
-      for (dir = 0; dir < 4; dir++) {
-	if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
-    	  ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
-	}
-      }
-
-      if (draw_specials) {
-	if (contains_special(tspecial, S_SPECIAL_1)) {
-	  ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
-	} else if (contains_special(tspecial, S_SPECIAL_2)) {
-	  ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
-	}
-      }
-    } else {
-      *dither_count = 1;
-
-      if (sprites.terrain[ttype]->match_type == 0
-	  || sprites.terrain[ttype]->is_layered) {
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
-      }
-
-      if (sprites.terrain[ttype]->match_type != 0) {
-	int match_type = sprites.terrain[ttype]->match_type;
-
-#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
-	tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
-			    MATCH(DIR8_SOUTH) == match_type,
-			    MATCH(DIR8_EAST) == match_type,
-			    MATCH(DIR8_WEST) == match_type);
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->blend[tileno]);
-#undef MATCH
-      }
-
-      sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
-					   pcity);
- 
-      if (contains_special(tspecial, S_RIVER)) {
-	tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
-      	      	      	    || is_ocean(ttype_near[DIR8_NORTH]),
-			    contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
-			    || is_ocean(ttype_near[DIR8_SOUTH]),
-			    contains_special(tspecial_near[DIR8_EAST], S_RIVER)
-			    || is_ocean(ttype_near[DIR8_EAST]),
-			    contains_special(tspecial_near[DIR8_WEST], S_RIVER)
-			    || is_ocean(ttype_near[DIR8_WEST]));
-      	ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
+  if (is_ocean(ttype) && draw_terrain) {
+    for (dir = 0; dir < 4; dir++) {
+      if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
+	ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
       }
     }
+  }
 
-    /* Short-cut past dithering if all adjacent tiles are the same. */
-    if (ttype_near[DIR8_NORTH] == ttype
-	&& ttype_near[DIR8_SOUTH] == ttype
-	&& ttype_near[DIR8_EAST] == ttype
-	&& ttype_near[DIR8_WEST] == ttype) {
-      *dither_count = 0;
+  sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
+					   pcity);
+
+  if (draw_terrain) {
+    /* Draw rivers on top of irrigation. */
+    if (contains_special(tspecial, S_RIVER)) {
+      tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
+			  || is_ocean(ttype_near[DIR8_NORTH]),
+			  contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
+			  || is_ocean(ttype_near[DIR8_SOUTH]),
+			  contains_special(tspecial_near[DIR8_EAST], S_RIVER)
+			  || is_ocean(ttype_near[DIR8_EAST]),
+			  contains_special(tspecial_near[DIR8_WEST], S_RIVER)
+			  || is_ocean(ttype_near[DIR8_WEST]));
+      ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
     }
   } else {
     *solid_bg = TRUE;
-    *dither_count = 0;
-
-    /* This call is duplicated because it is normally
-     * drawn underneath rivers. */
-    sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
-					 pcity);
   }
   
-  if (!is_ocean(ttype)) {
-    sprs += fill_road_rail_sprite_array(sprs,
-					tspecial, tspecial_near, pcity);
+  sprs += fill_road_rail_sprite_array(sprs,
+				      tspecial, tspecial_near, pcity);
 
-    if (draw_specials) {
-      if (contains_special(tspecial, S_SPECIAL_1)) {
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
-      } else if (contains_special(tspecial, S_SPECIAL_2)) {
-	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
-      }
+  if (draw_specials) {
+    if (contains_special(tspecial, S_SPECIAL_1)) {
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
+    } else if (contains_special(tspecial, S_SPECIAL_2)) {
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
     }
-  
+  }
+
+  if (!is_ocean(ttype)) {
     if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
       ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
     }
@@ -2071,11 +2110,8 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
-
-  int dir;
-  int tileno;
+  int dir, tileno, dither_count;
   struct tile *ptile;
-  struct Sprite *mysprite;
   struct city *pcity;
   struct unit *pfocus;
   struct unit *punit;
@@ -2115,49 +2151,13 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   build_tile_data(abs_x0, abs_y0, 
 		  &ttype, &tspecial, ttype_near, tspecial_near);
 
-  if (ptile->spec_sprite && (mysprite = load_sprite(ptile->spec_sprite))) {
-    freelog(LOG_DEBUG, "Using spec_sprite %s for %d,%d",
-	    ptile->spec_sprite, abs_x0, abs_y0);
-  } else {
-    /* FIXME: doesn't support is_layered. */
-    if (sprites.terrain[ttype]->match_type == 0) {
-      mysprite = sprites.terrain[ttype]->base;
-    } else {
-      int match_type = sprites.terrain[ttype]->match_type;
+  sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near, &dither_count);
 
-#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
-      tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
-			  MATCH(DIR8_SOUTH) == match_type,
-			  MATCH(DIR8_EAST) == match_type,
-			  MATCH(DIR8_WEST) == match_type);
-      mysprite = sprites.terrain[ttype]->blend[tileno];
-#undef MATCH
-    }
+  if (!draw_terrain) {
+    *solid_bg = TRUE;
   }
 
-  if (draw_terrain)
-    ADD_SPRITE_SIMPLE(mysprite);
-  else
-    *solid_bg = TRUE;
-
-  if(is_ocean(ttype) && draw_terrain) {
-    int dir;
-
-    tileno = INDEX_NSEW(is_ocean(ttype_near[DIR8_NORTH])
-			&& is_ocean(ttype_near[DIR8_EAST])
-			&& !is_ocean(ttype_near[DIR8_NORTHEAST]),
-			is_ocean(ttype_near[DIR8_SOUTH])
-			&& is_ocean(ttype_near[DIR8_WEST])
-			&& !is_ocean(ttype_near[DIR8_SOUTHWEST]),
-			is_ocean(ttype_near[DIR8_EAST])
-			&& is_ocean(ttype_near[DIR8_SOUTH])
-			&& !is_ocean(ttype_near[DIR8_SOUTHEAST]),
-			is_ocean(ttype_near[DIR8_NORTH])
-			&& is_ocean(ttype_near[DIR8_WEST])
-			&& !is_ocean(ttype_near[DIR8_NORTHWEST]));
-    if(tileno!=0)
-      ADD_SPRITE_SIMPLE(sprites.tx.coast_cape[tileno]);
-
+  if (is_ocean(ttype) && draw_terrain) {
     for (dir = 0; dir < 4; dir++) {
       if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
