@@ -610,8 +610,8 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   RECT rc;
   HBITMAP oldbit;
-  oldbit=SelectObject(citydlgdc,pdialog->citizen_bmp);
   enum citizen_type citizens[MAX_CITY_SIZE];
+  oldbit=SelectObject(citydlgdc,pdialog->citizen_bmp);
 
   get_city_citizen_types(pcity, 4, citizens);
 
