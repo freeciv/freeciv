@@ -314,14 +314,14 @@ static int assess_distance(struct city *pcity, struct unit *punit,
   if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y))
     distance = SINGLE_MOVE;
   else if (is_sailing_unit(punit))
-    distance = warmap.seacost[punit->x][punit->y];
+    distance = WARMAP_SEACOST(punit->x, punit->y);
   else if (!is_ground_unit(punit))
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y)
                * SINGLE_MOVE;
   else if (unit_flag(punit, F_IGTER))
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
   else
-    distance = warmap.cost[punit->x][punit->y];
+    distance = WARMAP_COST(punit->x, punit->y);
 
   /* If distance = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
   if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
@@ -330,7 +330,7 @@ static int assess_distance(struct city *pcity, struct unit *punit,
       && find_beachhead(punit, pcity->x, pcity->y, &x, &y) != 0) {
     /* Sea travellers. */
 
-    y = warmap.seacost[punit->x][punit->y];
+    y = WARMAP_SEACOST(punit->x, punit->y);
     if (y >= 6 * THRESHOLD)
       y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * SINGLE_MOVE;
 
@@ -449,7 +449,7 @@ static int assess_danger(struct city *pcity)
                  ? 4 * SINGLE_MOVE : 2 * SINGLE_MOVE); /* likely speed */
     boatid = find_boat(aplayer, &x, &y, 0); /* acquire a boat */
     if (boatid != 0) {
-      boatdist = warmap.seacost[x][y]; /* distance to acquired boat */
+      boatdist = WARMAP_SEACOST(x, y); /* distance to acquired boat */
     } else {
       boatdist = -1; /* boat wanted */
     }
@@ -1079,7 +1079,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     }
 
     go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
-                  && warmap.cost[x][y] <= (MIN(6, move_rate) * THRESHOLD));
+                  && WARMAP_COST(x, y) <= (MIN(6, move_rate) * THRESHOLD));
     move_time = turns_to_enemy_city(myunit->type, acity, move_rate, go_by_boat,
                                     ferryboat, boattype);
 
@@ -1401,7 +1401,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity) {
-    distance = warmap.cost[othercity->x][othercity->y];
+    distance = WARMAP_COST(othercity->x, othercity->y);
     if (wonder_continent != 0
         && map_get_continent(othercity->x, othercity->y, NULL) 
              == wonder_continent) {

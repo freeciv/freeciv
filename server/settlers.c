@@ -760,12 +760,12 @@ Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)
   Unit_Type_id id = 0;
   unit_list_iterate(pplayer->units, aunit)
     if (is_ground_units_transport(aunit)) {
-      if (warmap.cost[aunit->x][aunit->y] < best &&
-	  (warmap.cost[aunit->x][aunit->y] == 0 ||
+      if (WARMAP_COST(aunit->x, aunit->y) < best &&
+	  (WARMAP_COST(aunit->x, aunit->y) == 0 ||
 	   ground_unit_transporter_capacity(aunit->x, aunit->y,
 					    pplayer) >= cap)) {
         id = aunit->id;
-        best = warmap.cost[aunit->x][aunit->y];
+        best = WARMAP_COST(aunit->x, aunit->y);
         *x = aunit->x;
         *y = aunit->y;
       }
@@ -778,9 +778,9 @@ Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)
         unit_types[pcity->currently_building].transport_capacity &&
         !unit_flag(pcity->currently_building, F_CARRIER) &&
 	!unit_flag(pcity->currently_building, F_MISSILE_CARRIER)) {
-      if (warmap.cost[pcity->x][pcity->y] < best) {
+      if (WARMAP_COST(pcity->x, pcity->y) < best) {
         id = pcity->id;
-        best = warmap.cost[pcity->x][pcity->y];
+        best = WARMAP_COST(pcity->x, pcity->y);
         *x = pcity->x;
         *y = pcity->y;
       }
@@ -944,11 +944,11 @@ static int evaluate_city_building(struct unit *punit,
 	if (!is_ocean_near_tile(x, y)) {
 	  mv_cost = 9999;
 	} else {
-	  mv_cost = warmap.seacost[x][y] * mv_rate /
+	  mv_cost = WARMAP_SEACOST(x, y) * mv_rate /
 	      unit_type(*ferryboat)->move_rate;
 	}
       } else if (!goto_is_sane(punit, x, y, TRUE) ||
-		 warmap.cost[x][y] > THRESHOLD * mv_rate) {
+		 WARMAP_COST(x, y) > THRESHOLD * mv_rate) {
 	/* for Rome->Carthage */
 	if (!is_ocean_near_tile(x, y)) {
 	  mv_cost = 9999;
@@ -956,20 +956,20 @@ static int evaluate_city_building(struct unit *punit,
 	  if (punit->id == 0 && mycity->id == boatid) {
 	    w_virtual = TRUE;
 	  }
-	  mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
+	  mv_cost = WARMAP_COST(bx, by) + real_map_distance(bx, by, x, y)
 	    + mv_rate; 
 	} else if (punit->id != 0 ||
 		   !is_ocean_near_tile(mycity->x, mycity->y)) {
 	  mv_cost = 9999;
 	} else {
-	  mv_cost = warmap.seacost[x][y] * mv_rate / 9;
+	  mv_cost = WARMAP_SEACOST(x, y) * mv_rate / 9;
 	  /* this should be fresh; the only thing that could have
 	     munged the seacost is the ferryboat code in
 	     k_s_w/f_s_t_k, but only if find_boat succeeded */
 	  w_virtual = TRUE;
 	}
       } else {
-	mv_cost = warmap.cost[x][y];
+	mv_cost = WARMAP_COST(x, y);
       }
       moves = mv_cost / mv_rate;
       /* without this, the computer will go 6-7 tiles from X to
@@ -1077,7 +1077,7 @@ static int evaluate_improvements(struct unit *punit,
 	continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       if (map_get_continent(x, y, pplayer) == ucont
-	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
+	  && WARMAP_COST(x, y) <= THRESHOLD * mv_rate
 	  && !BV_CHECK_MASK(territory[x][y], my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */
 	  && !is_already_assigned(punit, pplayer, x, y)) {
@@ -1085,7 +1085,7 @@ static int evaluate_improvements(struct unit *punit,
 	   for obvious reasons;  structure is much the same as it once
 	   was but subroutines are not -- Syela	*/
 	int time;
-	mv_turns = (warmap.cost[x][y]) / mv_rate;
+	mv_turns = (WARMAP_COST(x, y)) / mv_rate;
 	oldv = city_tile_value(pcity, i, j, 0, 0);
 
 	/* now, consider various activities... */

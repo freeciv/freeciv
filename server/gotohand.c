@@ -184,14 +184,12 @@ Reset the movecosts of the warmap.
 **************************************************************************/
 static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
 {
-  int x;
-
-  if (!warmap.cost[0]) {
-    for (x = 0; x < map.xsize; x++) {
-      warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
-      warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
-      warmap.vector[x]=fc_malloc(map.ysize*sizeof(unsigned char));
-    }
+  if (!warmap.cost) {
+    warmap.cost = fc_malloc(map.xsize * map.ysize * sizeof(*warmap.cost));
+    warmap.seacost = fc_malloc(map.xsize * map.ysize
+			       * sizeof(*warmap.seacost));
+    warmap.vector = fc_malloc(map.xsize * map.ysize
+			      * sizeof(*warmap.vector));
   }
 
   init_queue();
@@ -200,14 +198,16 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
   case LAND_MOVING:
   case HELI_MOVING:
   case AIR_MOVING:
-    for (x = 0; x < map.xsize; x++)
-      memset(warmap.cost[x], MAXCOST, map.ysize*sizeof(unsigned char));
-    warmap.cost[orig_x][orig_y] = 0;
+    whole_map_iterate(x, y) {
+      WARMAP_COST(x, y) = MAXCOST;
+    } whole_map_iterate_end;
+    WARMAP_COST(orig_x, orig_y) = 0;
     break;
   case SEA_MOVING:
-    for (x = 0; x < map.xsize; x++)
-      memset(warmap.seacost[x], MAXCOST, map.ysize*sizeof(unsigned char));
-    warmap.seacost[orig_x][orig_y] = 0;
+    whole_map_iterate(x, y) {
+      WARMAP_SEACOST(x, y) = MAXCOST;
+    } whole_map_iterate_end;
+    WARMAP_SEACOST(orig_x, orig_y) = 0;
     break;
   default:
     freelog(LOG_ERROR, "Bad move_type in init_warmap().");
@@ -289,7 +289,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
     adjc_dir_iterate(x, y, x1, y1, dir) {
       switch (move_type) {
       case LAND_MOVING:
-	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
+	if (WARMAP_COST(x1, y1) <= WARMAP_COST(x, y))
 	  continue; /* No need for all the calculations */
 
         if (is_ocean(map_get_terrain(x1, y1))) {
@@ -313,9 +313,9 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 		       (ptile->move_cost[dir] > tmp ? 1 : 0))/2;
         }
 
-        move_cost += warmap.cost[x][y];
-        if (warmap.cost[x1][y1] > move_cost && move_cost < maxcost) {
-          warmap.cost[x1][y1] = move_cost;
+        move_cost += WARMAP_COST(x, y);
+        if (WARMAP_COST(x1, y1) > move_cost && move_cost < maxcost) {
+          WARMAP_COST(x1, y1) = move_cost;
           add_to_mapqueue(move_cost, x1, y1);
         }
 	break;
@@ -323,12 +323,12 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
       case SEA_MOVING:
         move_cost = SINGLE_MOVE;
-        move_cost += warmap.seacost[x][y];
-        if (warmap.seacost[x1][y1] > move_cost && move_cost < maxcost) {
+        move_cost += WARMAP_SEACOST(x, y);
+        if (WARMAP_SEACOST(x1, y1) > move_cost && move_cost < maxcost) {
 	  /* by adding the move_cost to the warmap regardless if we
 	     can move between we allow for shore bombardment/transport
 	     to inland positions/etc. */
-          warmap.seacost[x1][y1] = move_cost;
+          WARMAP_SEACOST(x1, y1) = move_cost;
 	  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP) {
 	    add_to_mapqueue(move_cost, x1, y1);
 	  }
@@ -372,8 +372,8 @@ void generate_warmap(struct city *pcity, struct unit *punit)
      * correct (warmap.(sea)cost[x][y] == 0), reuse it.
      */
     if (warmap.warunit == punit &&
-	(is_sailing_unit(punit) ? (warmap.seacost[punit->x][punit->y] == 0)
-	 : (warmap.cost[punit->x][punit->y] == 0))) {
+	(is_sailing_unit(punit) ? (WARMAP_SEACOST(punit->x, punit->y) == 0)
+	 : (WARMAP_COST(punit->x, punit->y) == 0))) {
       return;
     }
 
@@ -565,7 +565,7 @@ static bool find_the_shortest_path(struct unit *punit,
    * Land/air units use warmap.cost while sea units use
    * warmap.seacost.  Don't ask me why.  --JDS 
    */
-  unsigned char **warmap_cost =
+  unsigned char *warmap_cost =
       (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
 
   orig_x = punit->x;
@@ -620,7 +620,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
       switch (move_type) {
       case LAND_MOVING:
-	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
+	if (WARMAP_COST(x1, y1) <= WARMAP_COST(x, y))
 	  continue; /* No need for all the calculations. Note that this also excludes
 		       RR loops, ie you can't create a cycle with the same move_cost */
 
@@ -683,11 +683,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	if (restriction == GOTO_MOVE_STRAIGHTEST && dir == straight_dir)
 	  move_cost /= SINGLE_MOVE;
 
-	total_cost = move_cost + warmap.cost[x][y];
+	total_cost = move_cost + WARMAP_COST(x, y);
 	break;
 
       case SEA_MOVING:
-	if (warmap.seacost[x1][y1] <= warmap.seacost[x][y])
+	if (WARMAP_SEACOST(x1, y1) <= WARMAP_SEACOST(x, y))
 	  continue; /* No need for all the calculations */
 
 	/* allow ships to target a shore */
@@ -723,11 +723,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
 	  move_cost /= SINGLE_MOVE;
 
-	total_cost = move_cost + warmap.seacost[x][y];
+	total_cost = move_cost + WARMAP_SEACOST(x, y);
 
 	/* For the ai, maybe avoid going close to enemies. */
 	if (pplayer->ai.control &&
-	    warmap.seacost[x][y] < punit->moves_left
+	    WARMAP_SEACOST(x, y) < punit->moves_left
 	    && total_cost < maxcost
 	    && total_cost >= punit->moves_left - (get_transporter_capacity(punit) >
 			      unit_type(punit)->attack_strength ? 3 : 2)
@@ -742,7 +742,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
       case AIR_MOVING:
       case HELI_MOVING:
-	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
+	if (WARMAP_COST(x1, y1) <= WARMAP_COST(x, y))
 	  continue; /* No need for all the calculations */
 
 	move_cost = SINGLE_MOVE;
@@ -757,7 +757,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
 	  move_cost /= SINGLE_MOVE;
-	total_cost = move_cost + warmap.cost[x][y];
+	total_cost = move_cost + WARMAP_COST(x, y);
 	break;
 
       default:
@@ -767,14 +767,14 @@ static bool find_the_shortest_path(struct unit *punit,
 
       /* Add the route to our warmap if it is worth keeping */
       if (total_cost < maxcost) {
-	if (warmap_cost[x1][y1] > total_cost) {
-	  warmap_cost[x1][y1] = total_cost;
+	if (warmap_cost[map_inx(x1, y1)] > total_cost) {
+	  warmap_cost[map_inx(x1, y1)] = total_cost;
 	  add_to_mapqueue(total_cost, x1, y1);
 	  local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
 		  dir_get_name(dir), x, y, x1, y1, total_cost);
-	} else if (warmap_cost[x1][y1] == total_cost) {
+	} else if (warmap_cost[map_inx(x1, y1)] == total_cost) {
 	  local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
@@ -798,8 +798,9 @@ static bool find_the_shortest_path(struct unit *punit,
 
   /*** Succeeded. The vector at the destination indicates which way we get there.
      Now backtrack to remove all the blind paths ***/
-  for (x = 0; x < map.xsize; x++)
-    memset(warmap.vector[x], 0, map.ysize*sizeof(unsigned char));
+  whole_map_iterate(x, y) {
+    WARMAP_VECTOR(x, y) = 0;
+  } whole_map_iterate_end;
 
   init_queue();
   add_to_mapqueue(0, dest_x, dest_y);
@@ -813,11 +814,13 @@ static bool find_the_shortest_path(struct unit *punit,
 	  && !DIR_IS_CARDINAL(dir)) continue;
 
       if (TEST_BIT(local_vector[x][y], dir)) {
-	move_cost = (move_type == SEA_MOVING) ? warmap.seacost[x1][y1] : warmap.cost[x1][y1];
+	move_cost = (move_type == SEA_MOVING)
+		? WARMAP_SEACOST(x1, y1)
+		: WARMAP_COST(x1, y1);
 
         add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
 	/* Mark it on the warmap */
-	warmap.vector[x1][y1] |= 1 << DIR_REVERSE(dir);	
+	WARMAP_VECTOR(x1, y1) |= 1 << DIR_REVERSE(dir);	
         local_vector[x][y] -= 1<<dir; /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
 		dir_get_name(DIR_REVERSE(dir)), x1, y1, x, y);
@@ -901,7 +904,7 @@ static int find_a_direction(struct unit *punit,
     int dir;
 
     if (base_get_direction_for_step(punit->x, punit->y, dest_x, dest_y, &dir)
-	&& TEST_BIT(warmap.vector[punit->x][punit->y], dir)
+	&& TEST_BIT(WARMAP_VECTOR(punit->x, punit->y), dir)
 	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
 	     && !DIR_IS_CARDINAL(dir))) {
       return dir;
@@ -926,7 +929,7 @@ static int find_a_direction(struct unit *punit,
     /* 
      * Is it an allowed direction?  is it marked on the warmap?
      */
-    if (!TEST_BIT(warmap.vector[punit->x][punit->y], dir)
+    if (!TEST_BIT(WARMAP_VECTOR(punit->x, punit->y), dir)
 	|| ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	    && !DIR_IS_CARDINAL(dir))) {
       /* make sure we don't select it later */
@@ -1429,9 +1432,9 @@ int calculate_move_cost(struct unit *punit, int dest_x, int dest_y)
   generate_warmap(NULL, punit);
 
   if (is_sailing_unit(punit))
-    return warmap.seacost[dest_x][dest_y];
+    return WARMAP_SEACOST(dest_x, dest_y);
   else /* ground unit */
-    return warmap.cost[dest_x][dest_y];
+    return WARMAP_COST(dest_x, dest_y);
 }
 
 
@@ -1555,7 +1558,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
   while (get_from_mapqueue(&x, &y)) {
     adjc_dir_iterate(x, y, x1, y1, dir) {
-      if (warmap.cost[x1][y1] != MAXCOST) {
+      if (WARMAP_COST(x1, y1) != MAXCOST) {
 	continue;
       }
 
@@ -1566,17 +1569,17 @@ int air_can_move_between(int moves, int src_x, int src_y,
       if (same_pos(x1, y1, dest_x, dest_y)) {
 	/* We're there! */
 	freelog(LOG_DEBUG, "air_can_move_between: movecost: %i",
-		warmap.cost[x][y] + MOVE_COST_AIR);
+		WARMAP_COST(x, y) + MOVE_COST_AIR);
 	/* The -MOVE_COST_AIR is because we haven't taken the final
 	   step yet. */
-	return moves - warmap.cost[x][y] - MOVE_COST_AIR;
+	return moves - WARMAP_COST(x, y) - MOVE_COST_AIR;
       }
 
       /* We refuse to goto through unsafe airspace. */
       if (airspace_looks_safe(x1, y1, pplayer)) {
-	int cost = warmap.cost[x][y] + MOVE_COST_AIR;
+	int cost = WARMAP_COST(x, y) + MOVE_COST_AIR;
 
-	warmap.cost[x1][y1] = cost;
+	WARMAP_COST(x1, y1) = cost;
 
 	/* Now for A* we find the minimum total cost. */
 	cost += real_map_distance(x1, y1, dest_x, dest_y);

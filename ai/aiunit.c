@@ -264,7 +264,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
     if (unit_flag(punit, F_IGTER)) {
       move_rate *= 3;
     }
-    move_time = warmap.cost[x][y] / move_rate;
+    move_time = WARMAP_COST(x, y) / move_rate;
     break;
  
   case SEA_MOVING:
@@ -282,7 +282,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
         move_rate += SINGLE_MOVE;
     }
       
-    move_time = warmap.seacost[x][y] / move_rate;
+    move_time = WARMAP_SEACOST(x, y) / move_rate;
     break;
  
   case HELI_MOVING:
@@ -381,13 +381,13 @@ bool ai_manage_explorer(struct unit *punit)
      * the nearest is used. */
     iterate_outward(x, y, maxmoves, x1, y1) {
       if (map_has_special(x1, y1, S_HUT)
-          && warmap.cost[x1][y1] < bestcost
+          && WARMAP_COST(x1, y1) < bestcost
           && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
           && tile_is_accessible(punit, x1, y1)
           && ai_fuzzy(pplayer, TRUE)) {
         best_x = x1;
         best_y = y1;
-        bestcost = warmap.cost[best_x][best_y];
+        bestcost = WARMAP_COST(best_x, best_y);
       }
     } iterate_outward_end;
     
@@ -545,9 +545,9 @@ bool ai_manage_explorer(struct unit *punit)
           int threshold = THRESHOLD * move_rate;
           
           if (is_sailing_unit(punit))
-            unknown += COSTWEIGHT * (threshold - warmap.seacost[x1][y1]);
+            unknown += COSTWEIGHT * (threshold - WARMAP_SEACOST(x1, y1));
           else
-            unknown += COSTWEIGHT * (threshold - warmap.cost[x1][y1]);
+            unknown += COSTWEIGHT * (threshold - WARMAP_COST(x1, y1));
           
           /* FIXME? Why we don't do same tests like in part 2? --pasky */
           if (((unknown > most_unknown) ||
@@ -1150,7 +1150,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
   adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;
     t = map_get_terrain(x1, y1);
-    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && !is_ocean(t)) {
+    if (WARMAP_SEACOST(x1, y1) <= 6 * THRESHOLD && !is_ocean(t)) {
       /* accessible beachhead */
       adjc_iterate(x1, y1, x2, y2) {
 	if (is_ocean(map_get_terrain(x2, y2))
@@ -1173,7 +1173,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
             unit_type(punit)->move_rate)
 	  ok *= 8;
-        ok += (6 * THRESHOLD - warmap.seacost[x1][y1]);
+        ok += (6 * THRESHOLD - WARMAP_SEACOST(x1, y1));
         if (ok > best) {
 	  best = ok;
 	  *x = x1;
@@ -1633,7 +1633,7 @@ int turns_to_enemy_city(Unit_Type_id our_type,  struct city *acity,
   case LAND_MOVING:
     if (go_by_boat) {
       int boatspeed = unit_types[boattype].move_rate;
-      int move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed;
+      int move_time = (WARMAP_SEACOST(acity->x, acity->y)) / boatspeed;
       
       if (unit_type_flag(boattype, F_TRIREME) && move_time > 2) {
         /* FIXME: Should also check for LIGHTHOUSE */
@@ -1642,7 +1642,7 @@ int turns_to_enemy_city(Unit_Type_id our_type,  struct city *acity,
       }
       if (boat) {
         /* Time to get to the boat */
-        move_time += (warmap.cost[boat->x][boat->y] + speed - 1) / speed;
+        move_time += (WARMAP_COST(boat->x, boat->y) + speed - 1) / speed;
       }
       
       if (!unit_type_flag(our_type, F_MARINES)) {
@@ -1653,11 +1653,11 @@ int turns_to_enemy_city(Unit_Type_id our_type,  struct city *acity,
       return move_time;
     } else {
       /* We are walking */
-      return (warmap.cost[acity->x][acity->y] + speed - 1) / speed;
+      return (WARMAP_COST(acity->x, acity->y) + speed - 1) / speed;
     }
   case SEA_MOVING:
     /* We are a boat: time to sail */
-    return (warmap.seacost[acity->x][acity->y] + speed - 1) / speed;
+    return (WARMAP_SEACOST(acity->x, acity->y) + speed - 1) / speed;
   default: 
     freelog(LOG_ERROR, "ERROR: Unsupported move_type in time_to_enemy_city");
     /* Return something prohibitive */
@@ -1679,10 +1679,10 @@ int turns_to_enemy_unit(Unit_Type_id our_type, int speed, int x, int y,
 
   switch(unit_types[our_type].move_type) {
   case LAND_MOVING:
-    dist = warmap.cost[x][y];
+    dist = WARMAP_COST(x, y);
     break;
   case SEA_MOVING:
-    dist = warmap.seacost[x][y];
+    dist = WARMAP_SEACOST(x, y);
     break;
   default:
     /* Compiler warning */
@@ -1906,7 +1906,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     city_list_iterate(aplayer->cities, acity) {
       bool go_by_boat = (is_ground_unit(punit)
                          && !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
-                              && warmap.cost[acity->x][acity->y] < maxd));
+                              && WARMAP_COST(acity->x, acity->y) < maxd));
 
       if (handicap && !map_get_known(acity->x, acity->y, pplayer)) {
         /* Can't see it */
@@ -1915,13 +1915,13 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
       if (go_by_boat 
           && (!(ferryboat || harbor)
-              || warmap.seacost[acity->x][acity->y] > 6 * THRESHOLD)) {
+              || WARMAP_SEACOST(acity->x, acity->y) > 6 * THRESHOLD)) {
         /* Too far or impossible to go by boat */
         continue;
       }
       
       if (is_sailing_unit(punit) 
-          && warmap.seacost[acity->x][acity->y] >= maxd) {
+          && WARMAP_SEACOST(acity->x, acity->y) >= maxd) {
         /* Too far to sail */
         continue;
       }
@@ -2078,14 +2078,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
       if (is_ground_unit(punit) 
           && (map_get_continent(aunit->x, aunit->y, NULL) != con 
-              || warmap.cost[aunit->x][aunit->y] >= maxd)) {
+              || WARMAP_COST(aunit->x, aunit->y) >= maxd)) {
         /* Impossible or too far to walk */
         continue;
       }
 
       if (is_sailing_unit(punit)
           && (!goto_is_sane(punit, aunit->x, aunit->y, TRUE)
-              || warmap.seacost[aunit->x][aunit->y] >= maxd)) {
+              || WARMAP_SEACOST(aunit->x, aunit->y) >= maxd)) {
         /* Impossible or too far to sail */
         continue;
       }
@@ -2148,14 +2148,14 @@ static struct city *find_nearest_safe_city(struct unit *punit)
     if (pplayers_allied(pplayer,aplayer)) {
       city_list_iterate(aplayer->cities, pcity) {
         if (ground) {
-          cur = warmap.cost[pcity->x][pcity->y];
+          cur = WARMAP_COST(pcity->x, pcity->y);
           if (city_got_building(pcity, B_BARRACKS)
               || city_got_building(pcity, B_BARRACKS2)
               || city_got_building(pcity, B_BARRACKS3)) {
             cur /= 3;
           }
         } else {
-          cur = warmap.seacost[pcity->x][pcity->y];
+          cur = WARMAP_SEACOST(pcity->x, pcity->y);
           if (city_got_building(pcity, B_PORT)) {
             cur /= 3;
           }
@@ -2466,14 +2466,15 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   best = 9999;
   x = -1; y = -1;
   unit_list_iterate(pplayer->units, aunit) {
-    if (aunit->ai.ferryboat != 0 && warmap.seacost[aunit->x][aunit->y] < best &&
-	ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer) <= 0
+    if (aunit->ai.ferryboat != 0
+	&& WARMAP_SEACOST(aunit->x, aunit->y) < best
+	&& ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer) <= 0
         && is_at_coast(aunit->x, aunit->y)) {
       UNIT_LOG(LOG_DEBUG, punit, "Found a potential pickup %d@(%d, %d)",
 		    aunit->id, aunit->x, aunit->y);
       x = aunit->x;
       y = aunit->y;
-      best = warmap.seacost[x][y];
+      best = WARMAP_SEACOST(x, y);
     }
     if (is_sailing_unit(aunit)
 	&& is_ocean(map_get_terrain(aunit->x, aunit->y))) {
@@ -2813,8 +2814,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 	|| map_get_continent(aunit->x, aunit->y, NULL) != con)
       continue;
 
-    if (warmap.cost[aunit->x][aunit->y] < mindist) {
-      mindist = warmap.cost[aunit->x][aunit->y];
+    if (WARMAP_COST(aunit->x, aunit->y) < mindist) {
+      mindist = WARMAP_COST(aunit->x, aunit->y);
       closest_unit = aunit;
     }
   } unit_list_iterate_end;
@@ -2838,7 +2839,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 	  && map_get_continent(aunit->x, aunit->y, NULL) == con) {
 	/* questionable assumption: aunit needs as many moves to reach us as we
 	   need to reach it */
-	dist = warmap.cost[aunit->x][aunit->y] - unit_move_rate(aunit);
+	dist = WARMAP_COST(aunit->x, aunit->y) - unit_move_rate(aunit);
 	if (dist < mindist) {
 	  freelog(LOG_DEBUG, "Barbarian leader: closest enemy is %s at %d, %d, dist %d",
                   unit_name(aunit->type), aunit->x, aunit->y, dist);
@@ -2872,9 +2873,9 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 	    leader->moves_left);
 
     square_iterate(leader->x, leader->y, 1, x, y) {
-      if (warmap.cost[x][y] > safest
+      if (WARMAP_COST(x, y) > safest
 	  && could_unit_move_to_tile(leader, x, y) == 1) {
-	safest = warmap.cost[x][y];
+	safest = WARMAP_COST(x, y);
 	freelog(LOG_DEBUG,
 		"Barbarian leader: safest is %d, %d, safeness %d", x, y,
 		safest);

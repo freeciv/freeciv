@@ -192,7 +192,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     /* Probability to lose our unit */
     p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
 
-    time_to_dest = warmap.cost[acity->x][acity->y] / ut->move_rate;
+    time_to_dest = WARMAP_COST(acity->x, acity->y) / ut->move_rate;
     time_to_dest *= (time_to_dest/2); /* No long treks, please */
 
     /* Almost kill_desire */
@@ -342,7 +342,7 @@ static struct city *find_city_to_diplomat(struct player *pplayer, int x,
       }
 
       incite_cost = city_incite_cost(pplayer, acity);
-      move_cost = warmap.cost[acity->x][acity->y];
+      move_cost = WARMAP_COST(acity->x, acity->y);
       dipldef = (count_diplomats_on_tile(acity->x, acity->y) > 0);
       /* Three actions to consider:
        * 1. establishing embassy OR
@@ -398,7 +398,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer, int x, int y,
       urgency /= 3;
     }
 
-    dist = warmap.cost[acity->x][acity->y];
+    dist = WARMAP_COST(acity->x, acity->y);
     /* This formula may not be optimal, but it works. */
     if (dist > best_dist) {
       /* punish city for being so far away */
@@ -437,7 +437,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
   /* Check ALL possible targets */
   whole_map_iterate(x, y) {
     ptile = map_get_tile(x, y);
-    if (warmap.cost[x][y] > move_rate && !is_ocean(ptile->terrain)) {
+    if (WARMAP_COST(x, y) > move_rate && !is_ocean(ptile->terrain)) {
       /* Can't get there */
       continue;
     }
@@ -447,8 +447,8 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       /* Try to bribe a ship on the coast */
       int best = 9999;
       adjc_iterate(x, y, x2, y2) {
-        if (best > warmap.cost[x2][y2]) {
-          best = warmap.cost[x2][y2];
+        if (best > WARMAP_COST(x2, y2)) {
+          best = WARMAP_COST(x2, y2);
           destx = x2;
           desty = y2;
         }
@@ -488,7 +488,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       /* Compare with victim's attack power */
       newval = ATTACK_POWER(pvictim);
       if (newval > bestval 
-          && unit_type(pvictim)->move_rate > warmap.cost[x][y]) {
+          && unit_type(pvictim)->move_rate > WARMAP_COST(x, y)) {
         /* Enemy can probably kill us */
         threat = TRUE;
       } else {
@@ -659,7 +659,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s (%s goto)"
              "[%d mc]", dist, ctarget ? ctarget->name : "(none)", 
              punit->activity == ACTIVITY_GOTO ? "has" : "no",
-             warmap.cost[punit->goto_dest_x][punit->goto_dest_y]);
+             WARMAP_COST(punit->goto_dest_x, punit->goto_dest_y));
     if (dist == 1) {
       /* Do our stuff */
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
