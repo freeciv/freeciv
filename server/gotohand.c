@@ -38,6 +38,18 @@ struct stack_element {
 /* These are used for airplane GOTOs with waypoints */
 #define MAXFUEL 100
 
+/* 
+ * These settings should be either true or false.  They are used for
+ * finding routes for airplanes - the airplane doesn't want to fly
+ * through occupied territory, but most territory will be either
+ * fogged or unknown entirely.  See airspace_looks_safe().  Note that
+ * this is currently only used by the move-counting function
+ * air_can_move_between(), not by the path-finding function (whatever
+ * that may be).
+ */
+#define AIR_ASSUMES_UNKNOWN_SAFE        TRUE
+#define AIR_ASSUMES_FOGGED_SAFE         TRUE
+
 enum refuel_type {
   FUEL_START = 0, FUEL_GOAL, FUEL_CITY, FUEL_AIRBASE
 };
@@ -56,6 +68,7 @@ static unsigned int refuellist_size;
 static void make_list_of_refuel_points(struct player *pplayer);
 static void dealloc_refuel_stack(void);
 static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
+static int airspace_looks_safe(int x, int y, struct player *pplayer);
 
 /* These are used for all GOTO's */
 
@@ -752,6 +765,7 @@ static int find_the_shortest_path(struct unit *punit,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
+	/* This should probably use airspace_looks_safe instead. */
 	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (x1 != dest_x || y1 != dest_y) {
 	    continue;
@@ -1418,131 +1432,157 @@ static int find_air_first_destination(
 }
 
 /**************************************************************************
- Returns #moves left when player playerid is moving a unit from src_x,src_y to
- dest_x,dest_y in moves moves. [Kero]
- If there was no way to move between returns -1.
+ Returns true if the airspace at given map position _looks_ safe to
+ the given player. The airspace is unsafe if the player believes
+ there is an enemy unit on it. This is tricky, since we have to
+ consider what the player knows/doesn't know about the tile.
+**************************************************************************/
+static int airspace_looks_safe(int x, int y, struct player *pplayer)
+{
+  struct tile * ptile = map_get_tile(x, y);
+
+  /* 
+   * We do handicap checks for the player with ai_handicap(). This
+   * function returns true if the player is handicapped. For human
+   * players they'll always return true. This is the desired behavior.
+   */
+
+  /* If the tile's unknown, we (may) assume it's safe. */
+  if (ai_handicap(pplayer, H_MAP) && !map_get_known(x, y, pplayer)) {
+    return AIR_ASSUMES_UNKNOWN_SAFE;
+  }
+
+  /* This is bad: there could be a city there that the player doesn't
+      know about.  How can we check that? */
+  if (is_non_allied_city_tile(ptile, pplayer)) {
+    return 0;
+  }
+
+  /* If the tile's fogged we again (may) assume it's safe. */
+  if (ai_handicap(pplayer, H_FOG) &&
+      !map_get_known_and_seen(x, y, pplayer)) {
+    return AIR_ASSUMES_FOGGED_SAFE;
+  }
+
+  /* The tile is unfogged so we can check for enemy units on the
+     tile. */
+  return !is_non_allied_unit_tile(ptile, pplayer);
+}
+
+/**************************************************************************
+ An air unit starts (src_x,src_y) with moves moves and want to go to
+ (dest_x,dest_y). It returns the number of moves left if this is
+ possible without running out of moves. It returns -1 if it is
+ impossible.
 
 The function has 3 stages:
 Try to rule out the possibility in O(1) time              else
 Try to quickly verify in O(moves) time                    else
-Create a movemap to decide with certainty in O(moves2) time.
-Each step should catch the vast majority of tries.
+Do an A* search using the warmap to completely search for the path.
 **************************************************************************/
 int air_can_move_between(int moves, int src_x, int src_y,
 			 int dest_x, int dest_y, struct player *pplayer)
 {
-  int x, y, go_x, go_y, i, movescount;
-  struct tile *ptile;
-  freelog(LOG_DEBUG, "naive_air_can_move_between %i,%i -> %i,%i, moves: %i",
-	  src_x, src_y, dest_x, dest_y, moves);
+  int x, y, dist;
+  int total_distance = real_map_distance(src_x, src_y, dest_x, dest_y);
 
-  /* O(1) */
-  if (real_map_distance(src_x, src_y, dest_x, dest_y) > moves) return -1;
-  if (real_map_distance(src_x, src_y, dest_x, dest_y) == 0) return moves;
+  freelog(LOG_DEBUG,
+	  "air_can_move_between(moves=%d, src=(%i,%i), "
+	  "dest=(%i,%i), player=%s)", moves, src_x, src_y, dest_x, dest_y,
+	  pplayer->name);
 
-  /* O(moves). Try to go to the destination in a ``straight'' line. */
-  x = src_x; y = src_y;
-  movescount = moves;
-  while (real_map_distance(x, y, dest_x, dest_y) > 1) {
-    if (movescount <= 1)
-      goto TRYFULL;
-
-    go_x = (x > dest_x ?
-	    (x-dest_x < map.xsize/2 ? -1 : 1) :
-	    (dest_x-x < map.xsize/2 ? 1 : -1));
-    go_y = (dest_y > y ? 1 : -1);
-
-    freelog(LOG_DEBUG, "%i,%i to %i,%i. go_x: %i, go_y:%i",
-	    x, y, dest_x, dest_y, go_x, go_y);
-    if (x == dest_x) {
-      for (i = x-1 ; i <= x+1; i++)
-	if ((ptile = map_get_tile(i, y+go_y))
-	    /* && is_real_tile(i, y+go_y) */
-	    && ! is_non_allied_unit_tile(ptile, pplayer)) {
-	  x = i;
-	  y += go_y;
-	  goto NEXTCYCLE;
-	}
-      goto TRYFULL;
-    } else if (y == dest_y) {
-      for (i = y-1 ; i <= y+1; i++)
-	if ((ptile = map_get_tile(x+go_x, i))
-	    && is_real_tile(x+go_x, i)
-	    && ! is_non_allied_unit_tile(ptile, pplayer)) {
-	  x += go_x;
-	  y = i;
-	  goto NEXTCYCLE;
-	}
-      goto TRYFULL;
-    }
-
-    /* (x+go_x, y+go_y) is always real, given (x, y) is real */
-    ptile = map_get_tile(x+go_x, y+go_y);
-    if (! is_non_allied_unit_tile(ptile, pplayer)) {
-      x += go_x;
-      y += go_y;
-      goto NEXTCYCLE;
-    }
-
-    /* (x+go_x, y) is always real, given (x, y) is real */
-    ptile = map_get_tile(x+go_x, y);
-    if (! is_non_allied_unit_tile(ptile, pplayer)) {
-      x += go_x;
-      goto NEXTCYCLE;
-    }
-
-    /* (x, y+go_y) is always real, given (x, y) is real */
-    ptile = map_get_tile(x, y+go_y);
-    if (! is_non_allied_unit_tile(ptile, pplayer)) {
-      y += go_y;
-      goto NEXTCYCLE;
-    }
-
-    /* we didn't advance.*/
-    goto TRYFULL;
-
-  NEXTCYCLE:
-    movescount--;
+  /* First we do some very simple O(1) checks. */
+  if (total_distance > moves) {
+    return -1;
   }
-  /* if this loop stopped we made it! We found a way! */
-  freelog(LOG_DEBUG, "end of loop; success");
-  return movescount-1;
-
-  /* Nope, we couldn't find a quick way. Lets do the full monty.
-     Copied from find_the_shortest_path. If you want to know how
-     it works refer to the documentation there */
- TRYFULL:
-  freelog(LOG_DEBUG, "didn't work. Lets try full");
-  {
-    int cost;
-    struct unit *penemy;
-
-    init_warmap(src_x, src_y, AIR_MOVING);
-    add_to_mapqueue(0, src_x, src_y);
-
-    while (get_from_mapqueue(&x, &y)) {
-      if (warmap.cost[x][y] > moves /* no chance */
-	  || warmap.cost[dest_x][dest_y] != MAXCOST) /* found route */
-	break;
-
-      adjc_dir_iterate(x, y, x1, y1, dir) {
-	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
-	  continue; /* No need for all the calculations */
-
-	if (warmap.cost[x1][y1] == MAXCOST) {
-	  ptile = map_get_tile(x1, y1);
-	  penemy = is_non_allied_unit_tile(ptile, pplayer);
-	  if (!penemy
-	      || (x1 == dest_x && y1 == dest_y)) { /* allow attack goto's */
-	    cost = warmap.cost[x1][y1] = warmap.cost[x][y] + 1;
-	    add_to_mapqueue(cost, x1, y1);
-	  }
-	}
-      } adjc_dir_iterate_end;
-    }
-
-    freelog(LOG_DEBUG, "movecost: %i", warmap.cost[dest_x][dest_y]);
+  if (total_distance == 0) {
+    return moves;
   }
-  return (warmap.cost[dest_x][dest_y] <= moves)?
-    moves - warmap.cost[dest_x][dest_y]: -1;
+
+  /* 
+   * Then we do a fast O(n) straight-line check.  It'll work so long
+   * as the straight-line doesn't cross any unreal tiles, unknown
+   * tiles, or enemy-controlled tiles.  So, it should work most of the
+   * time. 
+   */
+  x = src_x, y = src_y;
+  
+  /* 
+   * We don't check the endpoint of the goto, since it is possible
+   * that the endpoint is a tile which has an enemy which should be
+   * attacked. But we do check that all points in between are safe.
+   */
+  for (dist = total_distance; dist > 1; dist--) {
+    /* Warning: straightest_direction may not actually follow the
+       straight line. */
+    int dir = straightest_direction(x, y, dest_x, dest_y);
+    int nx, ny;
+
+    if (!MAPSTEP(nx, ny, x, y, dir)
+	|| !airspace_looks_safe(nx, ny, pplayer)) {
+      break;
+    }
+    x = nx, y = ny;
+  }
+  if (dist == 1) {
+    /* Looks like the O(n) quicksearch worked. */
+    assert(real_map_distance(x, y, dest_x, dest_y) == 1);
+    return moves - total_distance * MOVE_COST_AIR;
+  }
+
+  /* 
+   * Finally, we do a full A* search if this isn't one of the specical
+   * cases from above. This is copied from find_the_shortest_path but
+   * we use real_map_distance as a minimum distance estimator for the
+   * A* search. This distance estimator is used for the cost value in
+   * the queue, but is not stored in the warmap itself.
+   *
+   * Note, A* is possible here but not in a normal FreeCiv path
+   * finding because planes always take 1 movement unit to move -
+   * which is not true of land units.
+   */
+  freelog(LOG_DEBUG,
+	  "air_can_move_between: quick search didn't work. Lets try full.");
+
+  init_warmap(src_x, src_y, AIR_MOVING);
+
+  /* The 0 is inaccurate under A*, but it doesn't matter. */
+  add_to_mapqueue(0, src_x, src_y);
+
+  while (get_from_mapqueue(&x, &y)) {
+    adjc_dir_iterate(x, y, x1, y1, dir) {
+      if (warmap.cost[x1][y1] != MAXCOST) {
+	continue;
+      }
+
+      /*
+       * This comes before the airspace_looks_safe check because it's
+       * okay to goto into an enemy. 
+       */
+      if (x1 == dest_x && y1 == dest_y) {
+	/* We're there! */
+	freelog(LOG_DEBUG, "air_can_move_between: movecost: %i",
+		warmap.cost[x][y] + MOVE_COST_AIR);
+	/* The -MOVE_COST_AIR is because we haven't taken the final
+	   step yet. */
+	return moves - warmap.cost[x][y] - MOVE_COST_AIR;
+      }
+
+      /* We refuse to goto through unsafe airspace. */
+      if (airspace_looks_safe(x1, y1, pplayer)) {
+	int cost = warmap.cost[x][y] + MOVE_COST_AIR;
+
+	warmap.cost[x1][y1] = cost;
+
+	/* Now for A* we find the minimum total cost. */
+	cost += real_map_distance(x1, y1, dest_x, dest_y);
+	if (cost <= moves) {
+	  add_to_mapqueue(cost, x1, y1);
+	}
+      }
+    } adjc_dir_iterate_end;
+  }
+
+  freelog(LOG_DEBUG, "air_can_move_between: no route found");
+  return -1;
 }
