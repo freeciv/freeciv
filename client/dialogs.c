@@ -989,27 +989,23 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     }
   }else{ 
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
-      
       /* Spy/Diplomat acting against a unit */ 
       
       diplomat_target_id=ptunit->id;
 
-      if(punit->type != U_SPY){      
-	if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
-	  popup_bribe_dialog(ptunit);
-      }else{
-	shl=popup_message_dialog(toplevel, "spybribedialog", 
-				 "Sir, the spy is waiting for your command",
-				 diplomat_bribe_callback, 0,
-				 spy_sabotage_unit_callback, 0,
-				 diplomat_cancel_callback, 0,
-				 0);
+      shl=popup_message_dialog(toplevel, "spybribedialog", 
+      			       punit->type!=U_SPY?
+			       "Sir, the diplomat is waiting for your command":
+			       "Sir, the spy is waiting for your command",
+			       diplomat_bribe_callback, 0,
+			       spy_sabotage_unit_callback, 0,
+			       diplomat_cancel_callback, 0,
+			       0);
 	
-	if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
-	  XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
-	if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
-	  XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
-      }
+      if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+      if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
     }
   }
 }
