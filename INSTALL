@@ -111,12 +111,12 @@ out whether your system is suitable.  If in doubt, just try it.
  - The "Gtk+" widget library.
 
    The "Gtk+" widget library was designed for the GIMP graphics program.
-   Since then it has gained popularity has an easy to program, free toolkit.
+   Since then it has gained popularity as an easy to program, free toolkit.
    The "Gtk+" library comes with a companion library "Gdk" which provides an
    abstraction layer over X Windows to implement basic drawing functions,
    windows, clipping, etc.
 
-   Freeciv 1.8.1 requires a version of "Gtk+" greater or equal to 1.2.1.
+   Freeciv requires a version of "Gtk+" greater or equal to 1.2.1.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
@@ -128,7 +128,7 @@ out whether your system is suitable.  If in doubt, just try it.
    The "Glib" utility library provides non-graphical functions used by the
    "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
 
-   Freeciv 1.8.1 requires a version of "Glib" greater or equal to 1.2.1.
+   Freeciv requires a version of "Glib" greater or equal to 1.2.1.
 
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
@@ -140,7 +140,7 @@ out whether your system is suitable.  If in doubt, just try it.
    This library is essential for bitmap handling.  It is also
    used by the GNOME project.
 
-   Freeciv 1.8.1 requires a version of "Imlib" greater or equal to 1.9.2.
+   Freeciv requires a version of "Imlib" greater or equal to 1.9.2.
 
    If the Freeciv configure process tells you that you don't have the
    Imlib library installed, then it may be obtained from here:
