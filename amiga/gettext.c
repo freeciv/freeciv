@@ -13,18 +13,15 @@ Modification history;
   fixes to match changed calling mechanism
 26.09.2000 : Oliver Gantert <lucyg@t-online.de>
   changed includes to work with vbcc WarpOS
+16.12.2000 : Dirk Stöcker <stoecker@amigaworld.com>
+  removed changes, as it works without also
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if defined(__VBCC__) && defined(__PPC__)
-#include <clib/exec_protos.h>
-#include <clib/locale_protos.h>
-#else
 #include <proto/exec.h>
 #include <proto/locale.h>
-#endif
 
 /* The magic number of the GNU message catalog format.  */
 #define _MAGIC 0x950412de

@@ -282,6 +282,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM(N_("Auto Attack"), MENU_ORDER_AUTO_ATTACK, "SHIFT A", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Auto Explore"), MENU_ORDER_AUTO_EXPLORE, "x", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Connect"), MENU_ORDER_CONNECT, "SHIFT C", NM_COMMANDSTRING),
+  MAKE_ITEM(N_("Patrol"), MENU_ORDER_PATROL, "q", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Go to"), MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
   MAKE_ITEM(N_("Go/Airlift to City"), MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
@@ -558,6 +559,10 @@ static void control_callback(ULONG * value)
     case MENU_ORDER_CONNECT:
       if(get_unit_in_focus())
         request_unit_connect();
+      break;
+    case MENU_ORDER_PATROL:
+      if(get_unit_in_focus())
+        request_unit_patrol();
       break;
     case MENU_ORDER_POLLUTION:
       if (get_unit_in_focus()) {
@@ -1275,6 +1280,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER_CONNECT, can_unit_do_connect(punit, ACTIVITY_IDLE));
+      menu_entry_sensitive(MENU_ORDER_PATROL, can_unit_do_activity(punit, ACTIVITY_PATROL));
       menu_entry_sensitive(MENU_ORDER_GOTO_CITY, any_cities);
       menu_entry_sensitive(MENU_ORDER_BUILD_WONDER, unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));

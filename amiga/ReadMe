@@ -1,8 +1,8 @@
-Short:     Amiga Version 1.13 => Freeciv 1.11.5-devel (beta)
+Short:     Amiga V1.13 - Freeciv 1.11.5-devel(beta)
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.13 => Freeciv 1.11.5-devel (beta)
+Kurz:      Amiga V1.13 - Freeciv 1.11.5-devel(beta)
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
 Version:   1.13
 
@@ -10,16 +10,14 @@ Introduction
 ~~~~~~~~~~~~
 This is a native compile of Freeciv. It also has an own client which is
 using MUI. That means you don't need to have ixemul.library or a XServer.
-Actually the client is not completely ready yet, but most things should
-work.
 
 Requirements
 ~~~~~~~~~~~~
- - 68020 processor
+ - 68020 or better processor
  - OS 3.0
  - MUI 3.8
  - NList 0.89
- - TCP/IP Stack
+ - TCP/IP Stack (Miami, AmiTCP, ...)
  - guigfx.library (needs render.library version 30 itself)
 
 Note, that some combinations of the picture.datatype and ilbm.datatype don't
@@ -62,8 +60,8 @@ Freeciv.start shell scripts. Before it loads the server and client it
 opens a filerequester where you can choose whether to load an old game
 or start a new game.
 
-For more details on usage view the README.org and HOWTOPLAY files, which are
-also included in this package.
+For more details on usage view the other README and HOWTOPLAY files, which
+are also included in this package.
 
 Authors
 ~~~~~~~
@@ -73,12 +71,11 @@ AUTHORS and PEOPLE files.
 The Amiga Version of the client was created, as well as the server was
 compiled, by Sebastian Bauer. If you have question or problems with this
 version, feel free to ask me. Starting with 1.13 I got help from
-Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>. Very much thanks goes
-to him.
+Dirk Stoecker <stoecker@amigaworld.com>. Very much thanks goes to him.
 
 Future
 ~~~~~~
- - still some few things which are missing
+ - keep the work up-to-date
 
 Notes
 ~~~~~

@@ -107,3 +107,4 @@ int main_map_click(struct Map_Click **click)
   do_map_click(xtile, ytile);
   return 0;
 }
+

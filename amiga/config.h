@@ -15,13 +15,8 @@ void usleep(unsigned long usec);
 char *inet_ntoa(struct in_addr addr);
 #endif
 int ioctl(int fd, unsigned int request, char *argp);
-#if defined(__VBCC__) && defined(__PPC__)
-#include <clib/socket_protos.h>
-#include <clib/usergroup_protos.h>
-#else
 #include <proto/socket.h>
 #include <proto/usergroup.h>
-#endif
 #ifndef __VBCC__
 #include <fcntl.h>
 #endif

@@ -99,7 +99,7 @@ AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
 CLIENTOBJS = ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
  ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/options.o \
- ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o
+ ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
  ${INC}${FREECIV_DIR}client/include
 
@@ -450,6 +450,9 @@ ${OBJDIR}client/clinet.o: ${FREECIV_DIR}client/clinet.c
 
 ${OBJDIR}client/control.o: ${FREECIV_DIR}client/control.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/control.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/goto.o: ${FREECIV_DIR}client/goto.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/goto.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/helpdata.o: ${FREECIV_DIR}client/helpdata.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/helpdata.c ${CLIENTDIRS} ${TO}$@

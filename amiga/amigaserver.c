@@ -30,20 +30,11 @@ function main() and call main2() afterwards. This depends on your compiler.
 
 #include <clib/alib_protos.h>
 
-#ifdef __PPC__
-#include <clib/dos_protos.h>
-#include <clib/exec_protos.h>
-#include <clib/icon_protos.h>
-#include <clib/socket_protos.h>
-#include <clib/usergroup_protos.h>
-#include <clib/powerpc_protos.h>
-#else
 #include <proto/dos.h>
 #include <proto/exec.h>
 #include <proto/icon.h>
 #include <proto/socket.h>
 #include <proto/usergroup.h>
-#endif
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
@@ -380,11 +371,7 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
 **************************************************************************/
 void usleep(unsigned long usec)
 {
-  #ifndef __PPC__
   TimeDelay(0,0,usec);
-  #else
-  WaitTime(0,usec);
-  #endif
 }
 
 /**************************************************************************
