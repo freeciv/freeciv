@@ -106,35 +106,38 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 static inline int city_want(struct player *pplayer, struct city *acity, 
                             struct ai_data *ai)
 {
-  int want = 0, food, trade, shields, lux, sci, tax;
+  int want = 0, prod[O_COUNT];
 
-  get_food_trade_shields(acity, &food, &trade, &shields);
-  trade -= city_waste(acity, O_TRADE, trade);
-  shields -= city_waste(acity, O_SHIELD, shields);
-  get_tax_income(pplayer, trade, &sci, &lux, &tax);
+  get_citizen_output(acity, prod); /* this also clears prod[] */
+  output_type_iterate(o) {
+    prod[o] -= city_waste(acity, o, prod[o]);
+  } output_type_iterate_end;
+  add_tax_income(pplayer, prod);
 
   built_impr_iterate(acity, i) {
-    tax -= improvement_upkeep(acity, i);
+    prod[O_GOLD] -= improvement_upkeep(acity, i);
   } built_impr_iterate_end;
+  /* Unit upkeep isn't handled here.  Unless we do a full city_refresh it
+   * won't be changed anyway. */
 
-  want += food * ai->food_priority;
-  if (shields != 0) {
-    want += ((shields * get_city_output_bonus(acity, O_SHIELD)) / 100)
+  want += prod[O_FOOD] * ai->food_priority;
+  if (prod[O_SHIELD] != 0) {
+    want += ((prod[O_SHIELD] * get_city_output_bonus(acity, O_SHIELD)) / 100)
             * ai->shield_priority;
-    want -= city_pollution(acity, shields) * ai->pollution_priority;
+    want -= city_pollution(acity, prod[O_SHIELD]) * ai->pollution_priority;
   }
-  if (lux > 0) {
-    want += ((lux * get_city_output_bonus(acity, O_LUXURY)) / 100)
+  if (prod[O_LUXURY] > 0) {
+    want += ((prod[O_LUXURY] * get_city_output_bonus(acity, O_LUXURY)) / 100)
             * ai->luxury_priority;
   }
-  if (sci > 0) {
-    want += ((sci * get_city_output_bonus(acity, O_SCIENCE)) / 100)
+  if (prod[O_SCIENCE] > 0) {
+    want += ((prod[O_SCIENCE] * get_city_output_bonus(acity, O_SCIENCE)) / 100)
             * ai->science_priority;
   }
-  if (tax > 0) {
-    tax *= get_city_output_bonus(acity, O_GOLD) / 100;
+  if (prod[O_GOLD] > 0) {
+    prod[O_GOLD] *= get_city_output_bonus(acity, O_GOLD) / 100;
   }
-  want += tax * ai->gold_priority;
+  want += prod[O_GOLD] * ai->gold_priority;
 
   return want;
 }

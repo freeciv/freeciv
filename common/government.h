@@ -149,7 +149,7 @@ extern struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
    and techs before that are guaranteed to exist */
 
 struct government *get_government(int gov);
-struct government *get_gov_pplayer(struct player *pplayer);
+struct government *get_gov_pplayer(const struct player *pplayer);
 struct government *get_gov_pcity(const struct city *pcity);
 
 struct government *find_government_by_name(const char *name);
