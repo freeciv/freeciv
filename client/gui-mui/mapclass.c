@@ -459,7 +459,70 @@ struct Command_Node *Map_InsertCommand(struct Command_List *list, STRPTR name, U
   return node;
 }
 
-static VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
+/**************************************************************************
+...
+**************************************************************************/
+static void show_desc_at_tile(Object *o, struct Map_Data *data, int x, int y)
+{
+  static char buffer[512];
+  struct city *pcity;
+  struct RastPort *rp = _rp(o);
+  if ((pcity = map_get_city(x, y))) {
+    int canvas_x, canvas_y;
+    int w, pix_x, pix_y;
+
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    pix_y = _mtop(o) + canvas_y + NORMAL_TILE_HEIGHT - 2 + rp->TxBaseline;
+    if (draw_city_names) {
+      w = TextLength(rp, pcity->name, strlen(pcity->name));
+      pix_x = _mleft(o) + canvas_x + NORMAL_TILE_WIDTH/2 - w/2;
+
+      SetAPen(rp, data->black_pen);
+      Move(rp, pix_x, pix_y);
+      Text(rp, pcity->name, strlen(pcity->name));
+      SetAPen(rp, data->white_pen);
+      Move(rp, pix_x - 1, pix_y - 1);
+      Text(rp, pcity->name, strlen(pcity->name));
+      pix_y += rp->TxHeight + 2;
+    }
+
+    if (draw_city_productions && (pcity->owner==game.player_idx)) {
+      int turns, y_offset;
+      struct unit_type *punit_type;
+      struct impr_type *pimprovement_type;
+
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  pcity->is_building_unit);
+
+      if (pcity->is_building_unit) {
+	punit_type = get_unit_type(pcity->currently_building);
+	my_snprintf(buffer, sizeof(buffer), "%s %d",
+		    punit_type->name, turns);
+      } else {
+	pimprovement_type =
+	  get_improvement_type(pcity->currently_building);
+	if (pcity->currently_building == B_CAPITAL) {
+	  sz_strlcpy(buffer, pimprovement_type->name);
+	} else {
+	  my_snprintf(buffer, sizeof(buffer), "%s %d",
+		      pimprovement_type->name, turns);
+	}
+      }
+      w = TextLength(rp, buffer, strlen(buffer));
+      pix_x = _mleft(o) + canvas_x + NORMAL_TILE_WIDTH/2 - w/2;
+
+      SetAPen(rp, data->black_pen);
+      Move(rp, pix_x, pix_y);
+      Text(rp, buffer, strlen(buffer));
+      SetAPen(rp, data->white_pen);
+      Move(rp, pix_x - 1, pix_y - 1);
+      Text(rp, buffer, strlen(buffer));
+      pix_y += rp->TxHeight + 2;
+    }
+  }
+}
+
+static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
 {
   struct TextFont *new_font;
   struct RastPort *rp;
@@ -469,90 +532,52 @@ static VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 
   if((new_font = _font(o)))
   {
-    int width,height,map_view_x0,map_view_y0,x,y;
-    struct TextFont *org_font;
     APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+    struct TextFont *org_font;
+    int map_view_x0 = data->horiz_first;
+    int map_view_y0 = data->vert_first;
+    int map_canvas_store_twidth = xget(o, MUIA_Map_HorizVisible);
+    int map_canvas_store_theight = xget(o, MUIA_Map_VertVisible);
 
     rp = _rp(o);
-
-    width = xget(o, MUIA_Map_HorizVisible);
-    height = xget(o, MUIA_Map_VertVisible);
-    map_view_x0 = xget(o, MUIA_Map_HorizFirst);
-    map_view_y0 = xget(o, MUIA_Map_VertFirst);
 
     GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
     SetFont(rp, new_font);
 
-    for (y = 0; y < height; ++y)
-    {
-      int ry = map_view_y0 + y;
-      for (x = 0; x < width; ++x)
-      {
-	int rx = (map_view_x0 + x) % map.xsize;
-	struct city *pcity;
-	if ((pcity = map_get_city(rx, ry)))
-	{
-	  int w,pix_x,pix_y;
+    if (is_isometric ) {
+      int x, y;
+      int w, h;
 
-	  pix_y = _mtop(o) + (y + 1) * get_normal_tile_height() + 1 + rp->TxBaseline - 2;
-
-	  if (draw_city_names)
-	  {
-	    w = TextLength(rp, pcity->name, strlen(pcity->name));
-	    pix_x = _mleft(o) + x * get_normal_tile_width() + get_normal_tile_width() / 2 - w / 2 + 1;
-
-	    SetAPen(rp, data->black_pen);
-	    Move(rp, pix_x, pix_y);
-	    Text(rp, pcity->name, strlen(pcity->name));
-	    SetAPen(rp, data->white_pen);
-	    Move(rp, pix_x - 1, pix_y - 1);
-	    Text(rp, pcity->name, strlen(pcity->name));
-	    pix_y += rp->TxHeight;
+      for (h=-1; h<map_canvas_store_theight*2; h++) {
+        int x_base = map_view_x0 + h/2 + (h != -1 ? h%2 : 0);
+        int y_base = map_view_y0 + h/2 + (h == -1 ? -1 : 0);
+        for (w=0; w<=map_canvas_store_twidth; w++) {
+	  x = (x_base + w);
+	  y = y_base - w;
+	  if (normalize_map_pos(&x, &y)) {
+	    show_desc_at_tile(o, data, x, y);
 	  }
-
-	  if (draw_city_productions && (pcity->owner==game.player_idx))
-	  {
-	    int turns;
-	    struct unit_type *punit_type;
-	    struct impr_type *pimprovement_type;
-	    static char buffer[256];
-
-	    turns = city_turns_to_build(pcity, pcity->currently_building,
-				        pcity->is_building_unit);
-
-	    if (pcity->is_building_unit)
-	    {
-	      punit_type = get_unit_type(pcity->currently_building);
-	      my_snprintf(buffer, sizeof(buffer), "%s %d",
-			  punit_type->name, turns);
-	    } else
-	    {
-	      pimprovement_type =
-		  get_improvement_type(pcity->currently_building);
-	      my_snprintf(buffer, sizeof(buffer), "%s %d",
-			  pimprovement_type->name, turns);
-	    }
-
-	    w = TextLength(rp, buffer, strlen(buffer));
-	    pix_x = _mleft(o) + x * get_normal_tile_width() + get_normal_tile_width() / 2 - w / 2 + 1;
-
-	    SetAPen(rp, data->black_pen);
-	    Move(rp, pix_x, pix_y);
-	    Text(rp, buffer, strlen(buffer));
-	    SetAPen(rp, data->white_pen);
-	    Move(rp, pix_x - 1, pix_y - 1);
-	    Text(rp, buffer, strlen(buffer));
+        }
+      }
+    } else { /* is_isometric */
+      int x, y;
+      int x1, y1;
+      for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {
+        x = (map_view_x0 + x1) % map.xsize;
+        for (y1 = 0; y1 < map_canvas_store_theight; y1++) {
+	  y = map_view_y0 + y1;
+	  if (normalize_map_pos(&x, &y)) {
+	    show_desc_at_tile(o, data, x, y);
 	  }
-	}
+        }
       }
     }
-    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
-
     SetFont(rp, org_font);
+    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
   }
 }
 
-STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
+static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
 {
   int x0, y0, dx, dy, dest_x, dest_y, w, h;
   struct unit *punit;
@@ -624,6 +649,8 @@ STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
     oy = NORMAL_TILE_HEIGHT / steps;
 
     for (i = 1; i <= steps; i++) {
+      int uox,uoy;
+
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
       w = UNIT_TILE_WIDTH + 2*ox;
@@ -632,16 +659,30 @@ STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
       this_x = start_x + ((i * canvas_dx)/steps) - ox;
       this_y = start_y + ((i * canvas_dy)/steps) - oy;
 
+      if (this_x < 0)
+      {
+      	w += this_x;
+      	uox = -this_x;
+      	this_x = 0;
+      } else uox = 0;
+
+      if (this_y < 0)
+      {
+      	h += this_y;
+      	uoy = -this_y;
+      	this_y = 0;
+      } else uoy = 0;
+
       if (this_x + w > _mwidth(o)) w = _mwidth(o) - this_x;
       if (this_y + h > _mheight(o)) h = _mheight(o) - this_y;
 
-      MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
-			  data->unit_layer->rp, 0, 0, w, h, 0xc0);
-
-      put_unit_tile(data->unit_layer->rp, punit, ox, oy);
-
-      MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
-			 _rp(o), _mleft(o) + this_x, _mtop(o) + this_y, w, h, 0xc0);
+      if (w > 0 && h > 0) {
+	MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
+			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
+	put_unit_tile(data->unit_layer->rp, punit, ox - uox, oy - uoy);
+	MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
+			    _rp(o), _mleft(o) + this_x, _mtop(o) + this_y, w, h, 0xc0);
+      }
 
       if (i < steps) {
 	usleep_since_timer_start(anim_timer, 10000);
@@ -650,6 +691,41 @@ STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
   }
 }
 
+static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
+{
+  /* Explode Unit */
+  static struct timer *anim_timer = NULL; 
+  int i;
+
+
+  for (i = 0; i < num_tiles_explode_unit; i++) {
+    int canvas_x, canvas_y, w, h;
+
+    get_canvas_xy(data->explode_unit->x, data->explode_unit->y, &canvas_x, &canvas_y);
+
+    w = MAX(0,MIN(NORMAL_TILE_WIDTH, _mwidth(o)-canvas_x));
+    h = MAX(0,MIN(NORMAL_TILE_HEIGHT, _mheight(o)-canvas_y));
+
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+    if (w > 0 && h > 0) {
+      if (is_isometric) {
+      /* We first draw the explosion onto the unit and draw draw the
+	 complete thing onto the map canvas window. This avoids flickering. */
+	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
+			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
+	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], NORMAL_TILE_WIDTH/4,0);
+	MyBltBitMapRastPort(data->unit_bitmap,0,0,_rp(o),_mleft(o) + canvas_x, _mtop(o) + canvas_y, w, h, 0xc0);
+      } else { /* is_isometric */
+	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
+			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
+	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], 0, 0);
+	MyBltBitMapRastPort(data->unit_bitmap,0,0,_rp(o),_mleft(o) + canvas_x, _mtop(o) + canvas_y, w, h, 0xc0);
+      }
+    }
+    usleep_since_timer_start(anim_timer, 20000);
+  }
+}
 
 static ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
@@ -1045,58 +1121,19 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     BOOL drawmap = FALSE;
     if (msg->flags & MADF_DRAWUPDATE)
     {
-      if (data->update == 5)
+      if (data->update == 4) /* show city desc */
       {
-      }
-
-/*      if (data->update == 5)
-      {
-      	/* Explode Unit */
-	static struct timer *anim_timer = NULL; 
-	int i;
-
-	int map_view_x0 = data->horiz_first;
-	int map_view_y0 = data->vert_first;
-
-	int xpix = (data->explode_unit->x - map_view_x0)*get_normal_tile_width();
-	int ypix = (data->explode_unit->y - map_view_y0)*get_normal_tile_height();
-	int width = get_normal_tile_width();
-	int height = get_normal_tile_height();
-
-	if (xpix < 0)
-	{
-	  width += xpix;
-	  xpix = 0;
-	}
-
-	if (ypix < 0)
-	{
-	  height += ypix;
-	  ypix = 0;
-	}
-
-
-	if (width > 0 && height > 0)
-	{
-	  for (i = 0; i < num_tiles_explode_unit; i++)
-	  {
-	    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-            put_tile( data->unit_layer->rp, 0, 0, 0, 0, data->explode_unit->x, data->explode_unit->y, 0);
-            put_unit_tile( data->unit_layer->rp, data->explode_unit, 0, 0);
-            put_sprite_overlay( data->unit_layer->rp, sprites.explode.unit[i],0,0);
-
-	    BltBitMapRastPort( data->unit_bitmap,0,0,
-	  	_rp(o),_mleft(o)+xpix,_mtop(o)+ypix, width, height,0xc0);
-
-	    usleep_since_timer_start(anim_timer, 20000);
-	  }
-	}
-
+      	Map_Priv_ShowCityDescriptions(o,data);
       	return 0;
       }
 
-      if (data->update == 6)
+      if (data->update == 5)
+      {
+      	Map_Priv_ExplodeUnit(o,data);
+      	return 0;
+      }
+
+/*      if (data->update == 6)
       {
       	/* Draw Mushroom */
 	int x, y, w, h;
@@ -1547,6 +1584,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
         if (blit_all) {
           BltBitMapRastPort(data->map_bitmap,0,0,_rp(o),_mleft(o),_mtop(o),_mwidth(o),_mheight(o),0xc0);
+	  Map_Priv_ShowCityDescriptions(o, data);
         } else
 	if (write_to_screen) {
 	  LONG pix_width = width * get_normal_tile_width();

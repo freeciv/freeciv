@@ -487,9 +487,11 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
     /* If we are outside the map find the nearest tile, with distance as
        seen on the map. */
     if (*map_y < 0) {
-      *map_x += *map_y;
       *map_y = 0;
+    } else if (*map_y >= map.ysize) {
+      *map_y = map.ysize - 1;
     }
+
     *map_x %= map.xsize;
     if (*map_x < 0)
       *map_x += map.xsize;
@@ -672,6 +674,17 @@ void refresh_overview_viewrect(void)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void show_city_descriptions(void)
+{
+  if (!draw_city_names && !draw_city_productions)
+    return;
+
+  DoMethod(main_map_area, MUIM_Map_ShowCityDescriptions);
+}
+
+/**************************************************************************
 Refresh and draw to sceen all the tiles in a rectangde width,height (as
 seen in overhead ciew) with the top corner at x,y.
 All references to "left","right", "top" and "bottom" refer to the sides of
@@ -713,9 +726,7 @@ void update_map_canvas_visible(void)
 		      map_canvas_store_twidth,map_canvas_store_theight, 1);
   }
 
-//  show_city_descriptions();
-
-
+  show_city_descriptions();
 }
 
 /**************************************************************************
