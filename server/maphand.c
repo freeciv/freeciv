@@ -475,7 +475,7 @@ void map_load(struct section_file *file)
 	exit(1);
       }
       else
-	map_get_tile(x, y)->special=S_NONE;
+	map_get_tile(x, y)->special=S_NO_SPECIAL;
     }
   }
 

@@ -842,7 +842,7 @@ int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 void tile_init(struct tile *ptile)
 {
   ptile->terrain=T_UNKNOWN;
-  ptile->special=S_NONE;
+  ptile->special=S_NO_SPECIAL;
   ptile->known=0;
   ptile->city=NULL;
   unit_list_init(&ptile->units);
@@ -899,7 +899,7 @@ enum tile_terrain_type map_get_terrain(int x, int y)
 enum tile_special_type map_get_special(int x, int y)
 {
   if(y<0 || y>=map.ysize)
-    return S_NONE;
+    return S_NO_SPECIAL;
   else
     return (map.tiles+map_adjust_x(x)+y*map.xsize)->special;
 }
