@@ -132,7 +132,7 @@ static int farmland_food(struct city *pcity)
 static int pollution_cost(struct player *pplayer, struct city *pcity,
 			  Impr_Type_id id)
 {
-  int p, mod = 0, poppul = 0, a, b, c, x, y, tmp = 0;
+  int p, a, b, c, x, y, tmp = 0;
   p = 0;
   city_map_iterate(x, y) {
     if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
@@ -156,9 +156,8 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
            id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
 
   if (!city_got_building(pcity, B_MASS) && id != B_MASS) {
-    mod = player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC);
-    poppul=(pcity->size*mod)/4;
-    p += poppul;
+    p += (player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)*
+    pcity->size)/4;
   }
   p -= 20;
   if (p < 0) p = 0;
@@ -179,14 +178,13 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
 void ai_eval_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
-  int i, val, a, t, food, j, k, hunger, bar, grana;
+  int i, val, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
   int needpower;
   int wwtv = worst_worker_tile_value(pcity);
   
-  a = get_nation_by_plr(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
   sci = (pcity->trade_prod * pplayer->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
@@ -213,9 +211,7 @@ void ai_eval_buildings(struct city *pcity)
   if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
   else hunger = 1;
 
-  for (i=0;i<game.num_impr_types;i++) {
-    values[i]=0;
-  } /* rewrite by Syela - old values seemed very random */
+  memset(values, 0, sizeof(values)); /* clear to initialize */
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
     int asz = game.aqueduct_size;
@@ -530,7 +526,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   struct government *g = get_gov_pplayer(pplayer);
-  int set, con, utid, want, iunit, dw;
+  int con, utid, want, iunit, dw;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   int vans = 0;
@@ -539,7 +535,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   choice->choice = 0;
   choice->want   = 0;
   choice->type   = 0;
-  set = city_get_settlers(pcity);
   con = map_get_continent(pcity->x, pcity->y);
 
   utid = best_role_unit(pcity, F_SETTLERS);

@@ -604,6 +604,7 @@ int city_get_defenders(struct city *pcity)
   return def;
 }
 
+#ifdef UNUSED
 /************************************************************************** 
 ...
 **************************************************************************/
@@ -617,6 +618,7 @@ int city_get_settlers(struct city *pcity)
   unit_list_iterate_end;
   return set;
 }
+#endif
 
 #ifdef UNUSED
 /************************************************************************** 
