@@ -24,6 +24,8 @@
 
 #include "sanitycheck.h"
 
+#ifndef NDEBUG
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -265,11 +267,14 @@ static void check_players(void)
   } players_iterate_end;
 }
 
+#endif /* !NDEBUG */
+
 /**************************************************************************
 ...
 **************************************************************************/
 void sanity_check(void)
 {
+#ifndef NDEBUG
   check_specials();
   check_fow();
   check_misc();
@@ -277,4 +282,5 @@ void sanity_check(void)
   check_cities();
   check_units();
   check_players();
+#endif /* !NDEBUG */
 }
