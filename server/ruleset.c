@@ -2326,7 +2326,12 @@ static void load_ruleset_nations(struct section_file *file)
 
       if (pl->civilwar_nations[j] == -1) {
 	j--;
-	freelog(LOG_ERROR, "Civil war nation %s for nation %s not defined.",
+	/* For nation authors this would probably be considered an error.
+	 * But it can happen normally.  The civ1 compatability ruleset only
+	 * uses the nations that were in civ1, so not all of the links will
+	 * exist. */
+	freelog(LOG_VERBOSE,
+		"Civil war nation %s for nation %s not defined.",
 		civilwar_nations[k], pl->name);
       }
     }
