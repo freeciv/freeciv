@@ -134,6 +134,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -t, --tiles FILE\t"
 		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    exit(0);
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
     exit(0);
