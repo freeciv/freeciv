@@ -236,6 +236,7 @@ int main(int argc, char *argv[])
   send_server_info_to_metaserver(1);
   
   /* accept new players, wait for serverop to start..*/
+  log(LOG_NORMAL, "Now accepting new client connections");
   server_state=PRE_GAME_STATE;
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
