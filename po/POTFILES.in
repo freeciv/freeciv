@@ -1,0 +1,4 @@
+# List of source files containing translatable strings.
+# (Filenames relative to toplevel dir.)
+server/civserver.c
+client/civclient.c

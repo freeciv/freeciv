@@ -73,6 +73,8 @@
 #include "advmilitary.h"
 #include "aihand.h"
 
+#include "fcintl.h"
+
 #include "civserver.h"
 
 /* main() belongs at the bottom of files!! -- Syela */
@@ -154,6 +156,14 @@ int main(int argc, char *argv[])
   DialogPtr  optptr;
   bool done;
 #endif
+
+#ifdef ENABLE_NLS
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, GNULOCALEDIR);
+  textdomain(PACKAGE);
+#endif
+
+
 #if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac code */
   if (!getuid() || !geteuid()) {
     fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
@@ -337,7 +347,7 @@ int main(int argc, char *argv[])
     exit(0);
   }
 
-  con_write(C_VERSION, "This is the server for %s", FREECIV_NAME_VERSION);
+  con_write(C_VERSION, _("This is the server for %s"), FREECIV_NAME_VERSION);
   con_write(C_COMMENT, "You can learn a lot about Freeciv at %s",
 	    WEBSITE_URL);
 

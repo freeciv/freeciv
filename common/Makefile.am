@@ -2,7 +2,9 @@
 
 noinst_LIBRARIES = libcivcommon.a
 
-INCLUDES =
+INCLUDES = -I../intl
+
+## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libcivcommon_a_SOURCES = \
 		attribute.h	\

@@ -47,6 +47,8 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 
+#include "fcintl.h"
+
 #include "civclient.h"
 
 char server_host[512];
@@ -75,8 +77,14 @@ char usage[] =
 
 int main(int argc, char *argv[])
 {
+#ifdef ENABLE_NLS
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, GNULOCALEDIR);
+  textdomain(PACKAGE);
+#endif
+
   if(argc>1 && strstr(argv[1],"-help")) {
-    fprintf(stderr, "This is the Freeciv client\n");
+    fprintf(stderr, _("This is the Freeciv client\n"));
     fprintf(stderr, usage, argv[0]);
     fprintf(stderr, "  -help\t\tPrint a summary of the options\n");
     fprintf(stderr, "  -log F\tUse F as logfile\n");

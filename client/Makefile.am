@@ -24,7 +24,9 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE)
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common @CLIENT_CFLAGS@
+INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl @CLIENT_CFLAGS@
+
+## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 civclient_SOURCES = \
 	civclient.c	\
@@ -32,5 +34,5 @@ civclient_SOURCES = \
 	packhand.c	\
 	options.c
 
-civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a
-civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@
+civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLDEPS@
+civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@

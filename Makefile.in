@@ -58,27 +58,47 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 AWK = @AWK@
+CATALOGS = @CATALOGS@
+CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CLIENT_CFLAGS = @CLIENT_CFLAGS@
 CLIENT_LIBS = @CLIENT_LIBS@
 CPP = @CPP@
 CVS_DEPS = @CVS_DEPS@
+DATADIRNAME = @DATADIRNAME@
 GDK_IMLIB_CFLAGS = @GDK_IMLIB_CFLAGS@
 GDK_IMLIB_LIBS = @GDK_IMLIB_LIBS@
+GENCAT = @GENCAT@
+GMOFILES = @GMOFILES@
+GMSGFMT = @GMSGFMT@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
+GT_NO = @GT_NO@
+GT_YES = @GT_YES@
 IMLIB_CFLAGS = @IMLIB_CFLAGS@
 IMLIB_CONFIG = @IMLIB_CONFIG@
 IMLIB_LIBS = @IMLIB_LIBS@
+INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
+INSTOBJEXT = @INSTOBJEXT@
+INTLDEPS = @INTLDEPS@
+INTLLIBS = @INTLLIBS@
+INTLOBJS = @INTLOBJS@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+POFILES = @POFILES@
+POSUB = @POSUB@
 RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
+USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
+USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
+l = @l@
 @CLIENT_TRUE@CSUBDIRS = client
 @CLIENT_FALSE@CSUBDIRS = 
 @SERVER_TRUE@SSUBDIRS = ai server
@@ -86,7 +106,7 @@ gui_sources = @gui_sources@
 @MAKE_DATA_TRUE@DSUBDIRS = data
 @MAKE_DATA_FALSE@DSUBDIRS = 
 
-SUBDIRS = $(DSUBDIRS) common $(SSUBDIRS) $(CSUBDIRS)
+SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po 
 
 EXTRA_DIST = PEOPLE BUGS HOWTOPLAY README.AI README.rulesets 		civ ser freeciv_hackers_guide.txt
 
@@ -104,7 +124,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  data common ai server client
+DIST_SUBDIRS =  data intl common ai server client po
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -254,7 +274,7 @@ distcheck: dist
 	mkdir $(distdir)/=inst
 	dc_install_base=`cd $(distdir)/=inst && pwd`; \
 	cd $(distdir)/=build \
-	  && ../configure --srcdir=.. --prefix=$$dc_install_base \
+	  && ../configure --with-included-gettext --srcdir=.. --prefix=$$dc_install_base \
 	  && $(MAKE) $(AM_MAKEFLAGS) \
 	  && $(MAKE) $(AM_MAKEFLAGS) dvi \
 	  && $(MAKE) $(AM_MAKEFLAGS) check \

@@ -13,8 +13,12 @@
 #ifndef FC__FCINTL_H
 #define FC__FCINTL_H
 
-#ifdef HAVE_GETTEXT
+#ifdef ENABLE_NLS
 #include <libintl.h>
+
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
 
 #define _(String) gettext(String)
 #define N_(String) (String)

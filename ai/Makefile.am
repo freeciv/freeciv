@@ -2,7 +2,9 @@
 
 noinst_LIBRARIES = libcivai.a
 
-INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../server
+INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../server -I../intl
+
+## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libcivai_a_SOURCES = \
 		advattitude.c	\
