@@ -612,12 +612,12 @@ wonder="Magellan's Expedition"
 government="Democracy"
 
 cities =
- "Madrid", "Toledo", "Leon", "Salamanca",
- "Vigo", "La Coruna", "Oviedo", "Bilbao", "Valladolid",
- "San Sebastian", "Vitoria", "Zaragoza",
+ "Madrid", "Toledo", "León", "Salamanca",
+ "Vigo", "La Coruña", "Oviedo", "Bilbao", "Valladolid",
+ "San Sebastián", "Vitoria", "Zaragoza",
  "Barcelona", "Valencia", "Mallorca",
- "Tenerife", "Santander", "Sevilla", "Granada", "Malaga",
- "Jerez", "Alicante", "Cordoba", "Cadiz"
+ "Tenerife", "Santander", "Sevilla", "Granada", "Málaga",
+ "Jerez", "Alicante", "Córdoba", "Cádiz"
 
 
 [nation_persian]
