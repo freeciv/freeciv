@@ -266,7 +266,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 			 get_improvement_name(building), pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: The %s destroyed %s in %s.", 
-			 get_race_name(cplayer->race), get_improvement_name(building), pcity->name);
+			 get_race_name_plural(cplayer->race),
+                         get_improvement_name(building), pcity->name);
       } else {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		      "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
@@ -498,8 +499,10 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
   punit->type=type;
   punit->id=get_next_id_number();
   punit->owner=pplayer->player_no;
-  punit->x=x;
+  punit->x = map_adjust_x(x); /* was = x, caused segfaults -- Syela */
   punit->y=y;
+  if (y < 0 || y >= map.ysize) printf("Whoa!  Creating %s at illegal loc (%d, %d)\n",
+         get_unit_type(type)->name, x, y);
   punit->goto_dest_x=0;
   punit->goto_dest_y=0;
   
@@ -869,10 +872,11 @@ this is a highlevel routine
 the unit has been killed in combat => all other units on the
 tile dies unless ...
 **************************************************************************/
-void kill_unit(struct player *dest, struct unit *punit)
+void kill_unit(struct unit *pkiller, struct unit *punit)
 {
   int klaf;
   struct city *pcity = map_get_city(punit->x, punit->y);
+  struct player *dest = &game.players[pkiller->owner];
   klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
   if( (pcity) || 
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
@@ -880,28 +884,31 @@ void kill_unit(struct player *dest, struct unit *punit)
     if (pcity) 
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s, in %s",
+		       "Game: You lost a%s %s under an attack from %s's %s, in %s",
 		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name, pcity->name);
+		       get_unit_type(punit->type)->name, dest->name,
+                       unit_name(pkiller->type), pcity->name);
     else
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s",
+		       "Game: You lost a%s %s under an attack from %s's %s",
 		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name);
+		       get_unit_type(punit->type)->name, dest->name,
+                       unit_name(pkiller->type));
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
   }  else {
       notify_player_ex(&game.players[punit->owner], 
 		       punit->x, punit->y, E_UNIT_LOST, 
-		       "Game: You lost %d units under an attack from %s",
-		       klaf, dest->name);
+		       "Game: You lost %d units under an attack from %s's %s",
+		       klaf, dest->name, unit_name(pkiller->type));
       unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
 	notify_player_ex(&game.players[punit2->owner], 
 			 punit->x, punit->y, E_UNIT_LOST,
-			 "Game: You lost a%s %s under an attack from %s",
+			 "Game: You lost a%s %s under an attack from %s's %s",
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
-			 get_unit_type(punit2->type)->name, dest->name);
+			 get_unit_type(punit2->type)->name, dest->name,
+                         unit_name(pkiller->type));
 	send_remove_unit(0, punit2->id);
 	game_remove_unit(punit2->id);
       }

@@ -35,7 +35,7 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
 		 int make_veteran, int homecity_id);
 void send_remove_unit(struct player *pplayer, int unit_id);
 void wipe_unit(struct player *dest, struct unit *punit);
-void kill_unit(struct player *dest, struct unit *punit);
+void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit, int dosend);
 
 void maybe_make_veteran(struct unit *punit);

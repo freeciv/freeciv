@@ -128,7 +128,7 @@ void handle_diplomat_action(struct player *pplayer,
 			 "Game: You have established an embassy in %s",
 			 pcity->name);
 	
-	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "Game: The %s has established an embassy in %s",
+	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "Game: The %s have established an embassy in %s",
 		      get_race_name_plural(pplayer->race),
 		      pcity->name);
       }
@@ -325,20 +325,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   if(punit==plooser) {
     notify_player_ex(&game.players[pwinner->owner], 
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		  "Game: You survived the pathetic attack from a%s %s of the %s.", 
-		  n_if_vowel(*unit_name(punit->type)), 
-		  unit_name(punit->type),  
-		  races[game.players[plooser->owner].race].name);
+		  "Game: Your %s survived the pathetic attack from %s's %s.",
+                  unit_name(pwinner->type),
+		  game.players[plooser->owner].name,
+		  unit_name(punit->type));
     notify_player_ex(&game.players[plooser->owner], 
 		     pdefender->x, pdefender->y, E_NOEVENT, 
-		     "Game: Your attack failed!");
+		     "Game: Your attacking %s failed against %s's %s!",
+                      unit_name(plooser->type),
+		  game.players[pwinner->owner].name,
+		  unit_name(pwinner->type));
     wipe_unit(pplayer, plooser);
   }
   else {
-    kill_unit(pplayer, plooser);
     notify_player_ex(&game.players[pwinner->owner], 
 		     punit->x, punit->y, E_NOEVENT, 
-		     "Game: Your attack was succesful!");
+		     "Game: Your attacking %s was succesful against %s's %s!",
+                      unit_name(pwinner->type),
+		  game.players[plooser->owner].name,
+		  unit_name(plooser->type));
+    kill_unit(pwinner, plooser); /* no longer pplayer - want better msgs -- Syela */
   }
   if (pwinner == punit && unit_flag(punit->type, F_MISSILE)) {
     wipe_unit(pplayer, pwinner);
