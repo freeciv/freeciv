@@ -2091,15 +2091,15 @@ multiple city dialogs.
 GtkWidget *create_cityopt_dialog(char *city_name);
 void cityopt_ok_command_callback(GtkWidget *w, gpointer data);
 void cityopt_cancel_command_callback(GtkWidget *w, gpointer data);
-void cityopt_newcit_triggle_callback(GtkWidget *w, gpointer data);
+void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data);
 
-char *newcitizen_labels[] = { N_("Workers"), N_("Scientists"), N_("Taxmen") };
+char *ncitizen_labels[] = { N_("Elvises"), N_("Scientists"), N_("Taxmen") };
 
 static GtkWidget *cityopt_shell = 0;
-static GtkWidget *cityopt_triggle;
+static GtkWidget *cityopt_radio[3];	/* cityopt_ncitizen_radio */
 static GtkWidget *cityopt_toggles[NUM_CITYOPT_TOGGLES];
 static int cityopt_city_id = 0;
-static int newcitizen_index;
+static int ncitizen_idx;
 
 /****************************************************************
 ...
@@ -2121,14 +2121,14 @@ void cityopt_callback(GtkWidget *w, gpointer data)
 	state);
   }
   if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
-    newcitizen_index = 1;
+    ncitizen_idx = 1;
   } else if (pcity->city_options & (1<<CITYO_NEW_TAXMAN)) {
-    newcitizen_index = 2;
+    ncitizen_idx = 2;
   } else {
-    newcitizen_index = 0;
+    ncitizen_idx = 0;
   }
-  gtk_label_set_text (GTK_LABEL (GTK_BIN (cityopt_triggle)->child),
-	_(newcitizen_labels[newcitizen_index]));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cityopt_radio[ncitizen_idx]),
+			       TRUE);
   
   cityopt_city_id = pcity->id;
 
@@ -2142,8 +2142,10 @@ void cityopt_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 GtkWidget *create_cityopt_dialog(char *city_name)
 {
-  GtkWidget *shell, *label, *ok, *cancel;
+  GtkWidget *shell, *label, *frame, *vbox, *ok, *cancel;
   GtkAccelGroup *accel=gtk_accel_group_new();
+  GSList *group=NULL;
+  int i;
 
   shell = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (shell), _("City Options"));
@@ -2151,13 +2153,22 @@ GtkWidget *create_cityopt_dialog(char *city_name)
   gtk_accel_group_attach(accel, GTK_OBJECT(shell));
 
   label = gtk_label_new (city_name);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
-	label, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, FALSE, FALSE, 0);
 
 
-  cityopt_triggle = gtk_check_button_new_with_label (_("Scientists"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
-	cityopt_triggle, FALSE, FALSE, 0);
+  frame = gtk_frame_new(_("New citizens are"));
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), frame, FALSE, FALSE, 4);
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), vbox);
+
+  for (i=0; i<3; i++) {
+    cityopt_radio[i]=gtk_radio_button_new_with_label(group,
+						_(ncitizen_labels[i]));
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(cityopt_radio[i]), FALSE);
+    group=gtk_radio_button_group(GTK_RADIO_BUTTON(cityopt_radio[i]));
+    gtk_box_pack_start(GTK_BOX(vbox), cityopt_radio[i],
+		       FALSE, FALSE, 0);
+  }
 
   /* NOTE: the ordering here is deliberately out of order;
      want toggles[] to be in enum city_options order, but
@@ -2206,8 +2217,10 @@ GtkWidget *create_cityopt_dialog(char *city_name)
   gtk_signal_connect(GTK_OBJECT(cancel), "clicked",
 	GTK_SIGNAL_FUNC(cityopt_cancel_command_callback), shell);
 
-  gtk_signal_connect(GTK_OBJECT(cityopt_triggle), "toggled",
-	GTK_SIGNAL_FUNC(cityopt_newcit_triggle_callback), NULL);
+  for (i=0; i<3; i++) {
+    gtk_signal_connect(GTK_OBJECT(cityopt_radio[i]), "toggled",
+	GTK_SIGNAL_FUNC(cityopt_newcit_radio_callback), GINT_TO_POINTER(i));
+  }
  
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
@@ -2239,9 +2252,9 @@ void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
     for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {
       if (GTK_TOGGLE_BUTTON(cityopt_toggles[i])->active) new |= (1<<i);
     }
-    if (newcitizen_index == 1) {
+    if (ncitizen_idx == 1) {
       new |= (1<<CITYO_NEW_EINSTEIN);
-    } else if (newcitizen_index == 2) {
+    } else if (ncitizen_idx == 2) {
       new |= (1<<CITYO_NEW_TAXMAN);
     }
     packet.value1 = cityopt_city_id;
@@ -2254,17 +2267,11 @@ void cityopt_ok_command_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
- Changes the label of the toggle widget to between newcitizen_labels
- and increments (mod 3) newcitizen_index.
+ Sets newcitizen_index based on the selected radio button.
 **************************************************************************/
-void cityopt_newcit_triggle_callback(GtkWidget *w, gpointer data)
+void cityopt_newcit_radio_callback(GtkWidget *w, gpointer data)
 {
-  newcitizen_index++;
-  if (newcitizen_index>=3) {
-    newcitizen_index = 0;
-  }
-  gtk_label_set_text (GTK_LABEL (GTK_BIN (cityopt_triggle)->child),
-	_(newcitizen_labels[newcitizen_index]));
+  ncitizen_idx = GPOINTER_TO_INT(data);
 }
 
 /**************************************************************************
