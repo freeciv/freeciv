@@ -768,6 +768,7 @@ void handle_player_revolution(struct player *pplayer)
     pplayer->revolution=1;
   
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -873,6 +874,7 @@ void send_player_info(struct player *src, struct player *dest)
              info.is_connected=game.players[i].is_connected;
              strcpy(info.addr, game.players[i].addr);
 	     info.revolution=game.players[i].revolution;
+	     info.ai=game.players[i].ai.control;
              send_packet_player_info(game.players[o].conn, &info);
 	   }
 }
