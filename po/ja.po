@@ -14749,7 +14749,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1391 data/civ2/buildings.ruleset:1179
 #: data/civ1/buildings.ruleset:1186 data/history/buildings.ruleset:1200
 msgid "A.Smith's Trading Co."
-msgstr "アダム・スミスの貿易会社"
+msgstr "A.スミスの貿易会社"
 
 # ama, clefs
 # was "全ての都市で、都市建造物の維持費1をなくします。"
@@ -14959,7 +14959,7 @@ msgstr "マンハッタン計画"
 #: data/default/buildings.ruleset:1830 data/civ2/buildings.ruleset:1615
 #: data/civ1/buildings.ruleset:1630 data/history/buildings.ruleset:1639
 msgid "Marco Polo's Embassy"
-msgstr "マルコ・ポーロの大使館"
+msgstr "マルコポーロの大使館"
 
 #: data/default/buildings.ruleset:1849 data/civ2/buildings.ruleset:1634
 #: data/civ1/buildings.ruleset:1649 data/history/buildings.ruleset:1658
