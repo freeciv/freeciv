@@ -10,6 +10,96 @@ dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 dnl PARTICULAR PURPOSE.
 
+
+dnl FC_CHECK_X_LIB(LIBRARY, FUNCTION [, ACTION-IF-FOUND [,
+dnl   ACTION-IF-NOT-FOUND]])
+dnl
+dnl This macro is intended to search for X11-related libraries.  It takes the
+dnl following variables for input:
+dnl   LIBS		-- prefixed to all linker lines
+dnl   X_LIBS		-- prefixed to all linker lines (after LIBS)
+dnl   X_EXTRA_LIBS	-- suffixed to all linker lines
+dnl Thus, the trial linker line will be "$LIBS $X_LIBS -l$1 $X_EXTRA_LIBS".
+dnl
+dnl The following variables are output:
+dnl   X_EXTRA_LIBS	-- contains "-l$1 $X_EXTRA_LIBS" if the link succeeds
+dnl
+dnl Thus, the intended usage of this macro is something like this:
+dnl   AC_PATH_XTRA
+dnl   X_LIBS="$X_LIBS $X_PRE_LIBS"
+dnl	dnl Is it just me or is AC_PATH_XTRA broken?
+dnl   FC_CHECK_X_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"))
+dnl   FC_CHECK_X_LIB(Xext, XShapeCombineMask)
+dnl     [etc.]
+dnl   LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
+dnl
+AC_DEFUN(FC_CHECK_X_LIB,
+[AC_MSG_CHECKING([for $2 in X library -l$1])
+dnl Use a cache variable name containing both the library and function name,
+dnl because the test really is for library $1 defining function $2, not
+dnl just for library $1.  Separate tests with the same $1 and different $2s
+dnl may have different results.
+ac_lib_var=`echo $1['_']$2 | sed 'y%./+-%__p_%'`
+AC_CACHE_VAL(ac_cv_lib_$ac_lib_var,
+[ac_save_LIBS="$LIBS"
+LIBS="$LIBS $X_LIBS -l$1 $X_EXTRA_LIBS"
+AC_TRY_LINK(dnl
+ifelse([$2], [main], , dnl Avoid conflicting decl of main.
+[/* Override any gcc2 internal prototype to avoid an error.  */
+]ifelse(AC_LANG, CPLUSPLUS, [#ifdef __cplusplus
+extern "C"
+#endif
+])dnl
+[/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char $2();
+]),
+	    [$2()],
+	    eval "ac_cv_lib_$ac_lib_var=yes",
+	    eval "ac_cv_lib_$ac_lib_var=no")
+LIBS="$ac_save_LIBS"
+])dnl
+if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
+  AC_MSG_RESULT(yes)
+  ifelse([$3], ,
+[changequote(, )dnl
+  ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
+    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
+changequote([, ])dnl
+  AC_DEFINE_UNQUOTED($ac_tr_lib)
+  X_EXTRA_LIBS="-l$1 $X_EXTRA_LIBS"
+], [$3])
+else
+  AC_MSG_RESULT(no)
+ifelse([$4], , , [$4
+])dnl
+fi
+])
+
+
+# Like AC_CONFIG_HEADER, but automatically create stamp file.
+
+AC_DEFUN(AM_CONFIG_HEADER,
+[AC_PREREQ([2.12])
+AC_CONFIG_HEADER([$1])
+dnl When config.status generates a header, we must update the stamp-h file.
+dnl This file resides in the same directory as the config header
+dnl that is generated.  We must strip everything past the first ":",
+dnl and everything past the last "/".
+AC_OUTPUT_COMMANDS(changequote(<<,>>)dnl
+ifelse(patsubst(<<$1>>, <<[^ ]>>, <<>>), <<>>,
+<<test -z "<<$>>CONFIG_HEADERS" || echo timestamp > patsubst(<<$1>>, <<^\([^:]*/\)?.*>>, <<\1>>)stamp-h<<>>dnl>>,
+<<am_indx=1
+for am_file in <<$1>>; do
+  case " <<$>>CONFIG_HEADERS " in
+  *" <<$>>am_file "*<<)>>
+    echo timestamp > `echo <<$>>am_file | sed -e 's%:.*%%' -e 's%[^/]*$%%'`stamp-h$am_indx
+    ;;
+  esac
+  am_indx=`expr "<<$>>am_indx" + 1`
+done<<>>dnl>>)
+changequote([,]))])
+
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
@@ -110,4 +200,40 @@ else
    AC_MSG_RESULT(missing)
 fi
 AC_SUBST($1)])
+
+# Add --enable-maintainer-mode option to configure.
+# From Jim Meyering
+
+# serial 1
+
+AC_DEFUN(AM_MAINTAINER_MODE,
+[AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
+  dnl maintainer-mode is disabled by default
+  AC_ARG_ENABLE(maintainer-mode,
+[  --enable-maintainer-mode enable make rules and dependencies not useful
+                          (and sometimes confusing) to the casual installer],
+      USE_MAINTAINER_MODE=$enableval,
+      USE_MAINTAINER_MODE=no)
+  AC_MSG_RESULT($USE_MAINTAINER_MODE)
+  if test $USE_MAINTAINER_MODE = yes; then
+    MAINT=
+  else
+    MAINT='#M#'
+  fi
+  AC_SUBST(MAINT)dnl
+]
+)
+
+# Define a conditional.
+
+AC_DEFUN(AM_CONDITIONAL,
+[AC_SUBST($1_TRUE)
+AC_SUBST($1_FALSE)
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi])
 

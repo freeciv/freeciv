@@ -1,0 +1,80 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+#ifndef FC_CONFIG_H
+#define FC_CONFIG_H
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define if you don't have vprintf but do have _doprnt.  */
+#undef HAVE_DOPRNT
+
+/* Define if you have the vprintf function.  */
+#undef HAVE_VPRINTF
+
+/* Define as the return type of signal handlers (int or void).  */
+#undef RETSIGTYPE
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define if you can safely include both <sys/time.h> and <time.h>.  */
+#undef TIME_WITH_SYS_TIME
+
+/* Define if your <sys/time.h> declares struct tm.  */
+#undef TM_IN_SYS_TIME
+
+/* Define if the X Window System is missing or not being used.  */
+#undef X_DISPLAY_MISSING
+
+#undef PACKAGE
+#undef VERSION
+#undef MAJOR_VERSION
+#undef MINOR_VERSION
+#undef PATCH_VERSION
+#undef VERSION_STRING
+#undef HAVE_LIBICE
+#undef HAVE_LIBSM
+#undef HAVE_LIBX11
+#undef HAVE_LIBXAW
+#undef HAVE_LIBXEXT
+#undef HAVE_LIBXMU
+#undef HAVE_LIBXPM
+#undef HAVE_LIBXT
+
+/* Define if you have the gethostname function.  */
+#undef HAVE_GETHOSTNAME
+
+/* Define if you have the select function.  */
+#undef HAVE_SELECT
+
+/* Define if you have the socket function.  */
+#undef HAVE_SOCKET
+
+/* Define if you have the strerror function.  */
+#undef HAVE_STRERROR
+
+/* Define if you have the strstr function.  */
+#undef HAVE_STRSTR
+
+/* Define if you have the <X11/xpm.h> header file.  */
+#undef HAVE_X11_XPM_H
+
+/* Define if you have the <sys/ioctl.h> header file.  */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define if you have the <sys/time.h> header file.  */
+#undef HAVE_SYS_TIME_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
+
+/* Define if you have the nls library (-lnls).  */
+#undef HAVE_LIBNLS
+
+/* Define if you have the nsl library (-lnsl).  */
+#undef HAVE_LIBNSL
+
+/* Define if you have the socket library (-lsocket).  */
+#undef HAVE_LIBSOCKET
+
+#endif /* FC_CONFIG_H */

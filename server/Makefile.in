@@ -57,15 +57,18 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+AWK = @AWK@
 CC = @CC@
 CPP = @CPP@
+LN_S = @LN_S@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 bin_PROGRAMS = civserver
-INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
+INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai
 
 civserver_SOURCES = \
 		cityhand.c	\
@@ -83,8 +86,8 @@ civserver_SOURCES = \
 		gotohand.c	\
 		gotohand.h	\
 		handchat.c	\
-		mapgen.c		\
-		mapgen.h		\
+		mapgen.c	\
+		mapgen.h	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\
@@ -93,8 +96,8 @@ civserver_SOURCES = \
 		plrhand.h	\
 		registry.c	\
 		registry.h	\
-		sernet.c		\
-		sernet.h		\
+		sernet.c	\
+		sernet.h	\
 		settlers.c	\
 		settlers.h	\
 		stdinhand.c	\
@@ -109,11 +112,12 @@ civserver_SOURCES = \
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a
 civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) 
+DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -148,7 +152,7 @@ all: Makefile $(PROGRAMS)
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINT@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu server/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)

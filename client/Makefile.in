@@ -57,20 +57,23 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+AWK = @AWK@
 CC = @CC@
 CPP = @CPP@
+LN_S = @LN_S@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 bin_PROGRAMS = civclient
-INCLUDES = -I $(srcdir)/../common -I .
+INCLUDES = -I$(srcdir)/../common -I. $(X_CFLAGS)
 
 BUILT_SOURCES = Freeciv.h
 
 civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
-civclient_LDADD        = ../common/libcivcommon.a
+civclient_LDADD        = ../common/libcivcommon.a  $(X_PRE_LIBS) $(X_LIBS) $(X_EXTRA_LIBS)
 
 civclient_SOURCES = \
 		cityicon.ico freeciv.ico ad2c \
@@ -138,11 +141,12 @@ civclient_SOURCES = \
 		xstuff.c	\
 		xstuff.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) 
+DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -181,7 +185,7 @@ all: Makefile $(PROGRAMS)
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINT@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu client/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
