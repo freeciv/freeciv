@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "POT-Creation-Date: 2002-10-19 15:22+0200\n"
-"PO-Revision-Date: 2003-02-17 22:53+0100\n"
+"PO-Revision-Date: 2003-03-07 11:42+0100\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12372,10 +12372,12 @@ msgstr ""
 " 2. A városok megvédése.\n"
 " 3. Milyen egységeket építsünk elõször?\n"
 " 4. Mezõgazdasági fejlesztések.\n"
-" 5. Városhelyek kijelölése.\n"
-" 6. A városokkal való foglalkozás.\n"
+" 5. Városok helyének kijelölése.\n"
+" 6. Ügyeljünk a városainkra!\n"
 " 7. A világ felfedezése.\n"
-" 8. Mire kell odafigyelni?\n"
+" 8. Dolgok, amiket jó ha észben tartunk.\n"
+" 9. Saját stratégia kialakítása.\n"
+"10. Kapcsolat a többi játékossal (Diplomácia).\n"
 
 #: data/helpdata.txt:551
 msgid ""
@@ -12389,7 +12391,7 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
-" 0. Az elsõ város helyének kiválasztása\n"
+" 0. Az elsõ város helyének kiválasztása.\n"
 "\n"
 "    Kezdjük a játékot egy RÖVID bolyongással a kezdõhely környékén, hogy jó helyet találjunk az elsõ városunknak!  Ne csábítsanak a sárga tetõs kunyhók - lehet hogy barbár törzseket rejtegetnek.  A várost érdemes természeti erõforrások közelébe építeni, és esetleg közel a tengerhez.  Ne feledkezzünk meg arról, hogy az elsõnek megépített város lesz a fõvárosunk!  Elõnyös, ha a fõvárosunk minél jobb helyen van, de az is cél, hogy az elsõ városunkat minél hamarabb alapítsuk meg.  E két szempont között ésszerû egyensúlyt érdemes betartani."
 
@@ -12404,7 +12406,7 @@ msgid ""
 "If you started the game with an explorer unit, use that to explore, "
 "obviously!"
 msgstr ""
-" 1. A környék feltérképezése\n"
+" 1. A környék feltérképezése.\n"
 "\n"
 "    A fõvárosunk megalapítása után harcost kezd el gyártani.  Ezekkel az egységekkel bejárhatjuk, és felfedezhetjük a környéket.  Ne felejtsük el, hogy kockázatos lehet egy várost védelem nélkül hagyni, ezért az elsõ harcost esetleg hagyjuk a városban, és csak a következõvel induljunk el felfedezni.  Ha van felfedezõ egységünk a játék elején, akkor természetesen induljunk el vele felfedezni!"
 
@@ -12418,6 +12420,9 @@ msgid ""
 "defense.  The units most often used for defense are (in order of strength):  "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
+" 2. A városok megvédése.\n"
+"\n"
+"    A játék ezen szakaszában védelemként mindig hagyjunk egy harcost a városainkban!  Ahogy a civilizációnk nagyobb védõerõvel rendelkezõ egységeket fejleszt ki, cseréljük le az elavult egységeinket újakra, hogy városaink védettsége maximális legyen!  A védelemre leggyakrabban használt egységek (erõ szerinti növekvõ sorrendben):  Harcos, Falanx, Lándzsás, Muskétás, Puskás."
 
 #: data/helpdata.txt:581
 #, no-c-format
@@ -12427,7 +12432,7 @@ msgid ""
 "a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  "
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
-msgstr ""
+msgstr "    Ne felejtsük el, hogy bizonyos államformák esetén a katonai egységek javíthatják/ronthatják a közhangulatot, ha városon belül/kívül tartózkodnak! Szintén fontos, hogy a városokban állomásozó egységek 50%-os védelmi bónuszt kapnak.  Amikor új várost alapítunk, a város az elérhetõ legjobb egységet kezdi el építeni a fenti listából."
 
 #: data/helpdata.txt:588
 msgid ""
@@ -12441,6 +12446,9 @@ msgid ""
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
 msgstr ""
+" 3. Milyen egységeket építsünk elõször?\n"
+"\n"
+"    Miután megépítettünk egy vagy két Harcos egységet, kezdjünk el Telepest építeni!  A második Telepessel építhetünk utat és öntözõrendszert a városok körül, a harmadikkal alapíthatunk új várost.  Azt is megtehetjük, hogy a második Telepessel alapítunk új várost, és a harmadikkal fejlesztjük a terepet a városok körül.  Tartsuk szem elõtt, hogy a nagy lakosság növeli a civilizációnk termelékenységét és kutatási sebességét is."
 
 #: data/helpdata.txt:599
 msgid ""
@@ -12451,6 +12459,9 @@ msgid ""
 "Settlers to improve the farmland. The land can be improved with roads, "
 "irrigation, mines, and others."
 msgstr ""
+" 4. Mezõgazdasági fejlesztések.\n"
+"\n"
+"    Minden város körül van egy mûvelhetõ terület, amit élelemtermelésre, termékek gyártására és kereskedelem generálására használhatunk.  Még jobban ki tudjuk használni a területet, ha Telepesekkel felfejlesztjük.  A terepet többek között utak, öntözõrendszerek és bányák építésével fejleszthetjük fel."
 
 #: data/helpdata.txt:607
 msgid ""
@@ -12463,6 +12474,9 @@ msgid ""
 "your opponents will find it harder to locate your city if you don't build it "
 "by the sea."
 msgstr ""
+" 5. Városok helyének kijelölése.\n"
+"\n"
+"    Egy város optimális helyének kiválasztása ízlés dolga.  Például egy tengerpartra helyezett várost könnyebben fel tudnak fedezni az ellenfelek, ugyanakkor tengeri egységek kikõtõjéül is szolgálhat.  (Késõbb általában partmenti védelmet is érdemes kiépíteni bennük.)  A legjobb stratégia talán az, ha mindkét típusú városból építünk néhányat, de vegyük figyelembe, hogy az ellenfelek nehezebben találják meg a városainkat, ha nem építjük õket tenger mellé!"
 
 #: data/helpdata.txt:616
 msgid ""
@@ -12475,20 +12489,23 @@ msgid ""
 "the start of the game, care should be taken to ensure that the citizens are "
 "employed so that they maximise growth, trade and production."
 msgstr ""
+" 6. Ügyeljünk a városainkra!\n"
+"\n"
+"    Minden városhoz tartozik valahány polgár.  A polgárok száma a város lakosságától függ.  A városra kattintva megláthatjuk, hogyan használja ki a város a körülötte lévõ területet.  Polgárainkat hozzárendelhetjük a területekhez, vagy használhatjuk õket tudósként, szórakoztatóként vagy adószedõként.  Különösen a játék elején fontos ügyelnünk arra, hogy polgárainkat úgy alkalmazzuk, hogy ezzel maximalizáljuk a növekedést, a kereskedelmet és a termelést."
 
 #: data/helpdata.txt:626
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
 "be transferred to the other duties mentioned previously."
-msgstr ""
+msgstr "    Ha túl sok élelem termelõdik, leszedhetünk egy polgárt a földekrõl az elfoglalt mezõre kattintva.  Ez a polgár az elõbb említett szolgálatokba helyezhetõ át."
 
 #: data/helpdata.txt:631
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
-msgstr ""
+msgstr "    Ha az összes polgárunkat leszedjük a földekrõl, és jobb egérgombbal klikkelünk a középsõ területre, akkor a gép automatikusan elrendezi polgárainkat az élelemtermelés maximalizálásával."
 
 #: data/helpdata.txt:637
 msgid ""
@@ -12496,7 +12513,7 @@ msgid ""
 "least as many happy citizens as unhappy citizens.  A city where this is not "
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
-msgstr ""
+msgstr "    Egy aranyszabály a városokkal kapcsolatban: mindig legalább annyi boldog polgár legyen mint amennyi boldogtalan!  Azok a városok, ahol ez nincs így, villámmal vannak megjelölve.  Ügyeljünk arra, hogy ez ne történhessen meg, mert a boldogtalan városok semmit sem termelnek, és hamarosan fellázadnak!"
 
 #: data/helpdata.txt:643
 msgid ""
@@ -12509,6 +12526,9 @@ msgid ""
 "it is truly a good idea to make a peace treaty and share the advances you "
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
+" 7. A világ felfedezése.\n"
+"\n"
+"    Miután városainkat seregekkel megerõsítettük, építsünk Evezõs Gályákat a tengerparti városokban!  Ezekkel a hajókkal feltérképezhetjük a világot, ellenségeket és új földrészeket keresve.  Ha civilizációnk egy szigeten van, akkor elég kevesebbet költeni a haderõre, és lehet többet a terjeszkedésre.  Ha közel vagyunk egy ellenfélhez, akkor érdemes vele békeszerzõdést kötni, megosztani egymással a tudományos ismereteket. A diplomáciai egységek ilyenkor nagyon hasznosak, és késõbb ki fognak fizetõdni."
 
 #: data/helpdata.txt:653
 msgid ""
@@ -12522,6 +12542,15 @@ msgid ""
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
+" 8. Dolgok, amiket jó ha észben tartunk.\n"
+"\n"
+"  - Melyik tudományra van éppen szükségünk?\n"
+"\n"
+"  - Mennyire állítottuk az adó-, luxus-, és tudományrátát?\n"
+"\n"
+"  - A szerzõdéseket gyakran megszegik, ezért ne hanyagoljuk el a védelmet...\n"
+"\n"
+"  - Néhány világcsoda elavulttá válhat bizonyos tudományok felfedezésével."
 
 #: data/helpdata.txt:664
 msgid ""
@@ -12535,6 +12564,10 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
+" 9. Saját stratégia kialakítása.\n"
+"\n"
+"    Ezeket az alapelveket alkalmazva már egész jól el lehet igazodni a játékban, különösen a játék elején.  De a fejlõdéshez meg kell ismerni a különbözõ egységek jellemzõit, és azt is, hogy melyik tudomány mire jó. És mindenek elõtt GYAKOROLNI kell!  A Freecivben renkívül sok trükk van, ezért ha még nem játszottál soha hasonló játékot, talán érdemes ellátogatnod a Freeciv weboldalára (http://www.freeciv.org/).\n"
+"Ott több tippet találhatsz a játékhoz, és megtudhatod, hogyan érhetõ el a többi játékos."
 
 #: data/helpdata.txt:675
 msgid ""
@@ -12544,6 +12577,8 @@ msgid ""
 "additional diplomacy that you can take part in with other humans - and no, "
 "we are not talking about using spies and diplomats to incite and steal."
 msgstr ""
+" 10. Kapcsolat a többi játékossal (Diplomácia).\n"
+"    Az emberek és az MI sok dologban különböznek, de a legnagyobb különbség talán az, hogy a többi emberrel diplomáciai tárgyalásokat tudunk folytatni (most nem arról lesz szó, hogyan lehet használni a diplomatákat és a kémeket lázadásszításra és tudománylopásra)."
 
 #: data/helpdata.txt:682
 msgid ""
@@ -12552,7 +12587,7 @@ msgid ""
 "selecting players and clicking on the player with whom you wish to meet.  If "
 "you actually have an embassy (denoted by an X) and the other player is "
 "connected then a diplomacy menu will pop up."
-msgstr ""
+msgstr "    Ha van nagykövetségünk egy másik emberi irányítású játékosnál, akkor kezdeményezhetünk vele diplomáciai találkozót. Ezt úgy tehetjük meg, hogy a `Játék' menüben kiválasztjuk a játékosok menüpontot, és rákattintunk arra a játékosra, akivel találkozni szeretnénk.  Ha van nagykövetségünk a másik játékosnál, és a másik játékos hálózati kapcsolata él, akkor elõjön a diplomácia menü."
 
 #: data/helpdata.txt:689
 msgid ""
@@ -12566,12 +12601,21 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
+"    Ebben a menüben lehet:\n"
+"\n"
+"   - Térképeket cserélni (tengerit vagy teljeset),\n"
+"\n"
+"   - Tudományokat cserélni,\n"
+"\n"
+"   - Városokat cserélni,\n"
+"\n"
+"   - Aranyat adni egymásnak."
 
 #: data/helpdata.txt:699
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
-msgstr ""
+msgstr "    Nemcsak egyforma típusú dolgokat lehet kicserélni!  (Például lehet tudományt adni városért, térképet adni aranyért, stb.)"
 
 #: data/helpdata.txt:703
 msgid ""
@@ -12581,6 +12625,11 @@ msgid ""
 "\n"
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
+"    Néhány megjegyzés:\n"
+"\n"
+"   - Nem cserélheted el a fõvárosodat.\n"
+"\n"
+"   - Nem kérhetsz olyan várost, amit nem látsz a térképen."
 
 #: data/helpdata.txt:709
 msgid ""
@@ -12589,7 +12638,7 @@ msgid ""
 "note: any units in the field and supported by that city are also transfered "
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
-msgstr ""
+msgstr "     Természetesen a város birtokosa akkor is odaadhatja a várost, ha nem látod a térképen, amennyiben a város körüli terület rajta van a térképeden.  Egy fontos megjegyzés: az összes város mezõjén található és város által fenntartott egység is átadódik (ha nem másik városban tartózkodnak).  Ezért gondoljuk végig rendesen cserét, nehogy a másik játékos jobban járjon, mint amire számítunk."
 
 #: data/helpdata.txt:720
 msgid ""
@@ -12642,33 +12691,33 @@ msgid ""
 "science production, etc.  Most improvements require you to pay an upkeep "
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
-msgstr ""
+msgstr "A városfejlesztések a városokban építhetõk, a kereskedelmi bevétel, a tudománytermelés, stb. növelésére.  A legtöbb fejlesztésnél körönként fenntartási költséget kell fizetni.  Ha nem tudjuk fizetni az épület fenntartását, akkor a gép automatikusan eladja."
 
 #: data/helpdata.txt:787
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
-msgstr ""
+msgstr "A tudományos kutatás elengedhetetlen feltétele civilizációnk fejlõdésének.  A tudomány fejlõdése teszi lehetõvé, hogy új katonai egységeket és városfejlesztéseket építsünk."
 
 #: data/helpdata.txt:798
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
-msgstr ""
+msgstr "A világcsodák speciális elõnyöket biztosítanak civilizációnk számára. A világcsodák egyediek, mindegyiket csak egy városban lehet megépíteni."
 
 #: data/helpdata.txt:809
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
-msgstr ""
+msgstr "Az egységeket három célra is használhatjuk: támadásra, védekezésre és felderítésre.  Az, hogy egy adott egység mennyire alkalmas ezen feladatok ellátására, az egység támadóerejétõl, védõerejétõl és sebességétõl függ."
 
 #: data/helpdata.txt:814
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
-msgstr ""
+msgstr "Négy egység-alaptípus van: Szárazföldi, Tengeri, Légi és Helikopter.  (A Helikopterek annyira eltérnek a többi légi egységtõl, hogy érdemesebb õket külön egységtípusnak tekinteni.)"
 
 #: data/helpdata.txt:819
 #, no-c-format
@@ -12684,7 +12733,7 @@ msgid ""
 "Land units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
-msgstr ""
+msgstr "A szárazföldi egységek szárazföldi mezõkön mozoghatnak.  Mozgásukat nehezítheti a terep, de segítheti az út vagy a vasút.  Nem léphetnek óceáni mezõre, kivéve ha egy erre alkalmas tengeri egység szállítja õket.  A tengeren nem támadhatnak és nem védekezhetnek, ilyenkor az õket szállító tengeri egységtõl függnek.  Egyedül a szárazföldi egységekre érvényesek a fennhatósági zónák (zones of control).  A szárazföldön a szárazföldi egységek védmûveket építhetnek maguk köré (fortify), ami 50%-os védelmi bónuszt ad; a városban tartózkodó egységek automatikusan megkapják ezt az 50%-os bónuszt.  Ha egy szárazföldi egység sikeresen megtámad egy városfallal nem rendelkezõ várost, akkor a város lakossága egy polgárral csökken.  A nulla támadóerejû egységek nem katonai egységek: nem kell értük fenntartást fizetni, nincsenek hatással a közhangulatra, nem támadhatnak meg ellenséges egységeket és nem foglalhatnak el városokat."
 
 #: data/helpdata.txt:832
 msgid ""
@@ -12694,7 +12743,7 @@ msgid ""
 "advance of Nuclear Power.  Most sea units can attack units on the coast and "
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
-msgstr ""
+msgstr "A tengeri egységek Óceán típusú mezõkön mozogkatnak, illetve behajózhatnak a tengerparton található városokba.  A tengeri egységek sebességét több világcsoda (Világítótorony, Magellán Expedíciója), és az Atomenergia ismerete is befolyásolja.  A legtöbb egység meg tudja támadni a tengerparton állomásozó egységeket és a tengerparti városokat, de nem foglalhatják el az ellenséges várost (még akkor sem ha védtelen)."
 
 #: data/helpdata.txt:839
 msgid ""
