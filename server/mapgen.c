@@ -59,7 +59,6 @@ static int maxval=0;
 static int forests=0;
 
 struct isledata {
-  int x,y;                        /* upper left corner of the islands */
   int goodies;
   int starters;
 };
@@ -940,171 +939,121 @@ void assign_continent_numbers(void)
 
 /**************************************************************************
  Allocate islands array and fill in values.
- Note this is only use for map.generator<=1, since others
+ Note this is only used for map.generator <= 1 or >= 5, since others
  setups islands and starters explicitly.
 **************************************************************************/
 static void setup_isledata(void)
 {
-  int x;
-  int good, mingood, maxgood;
-  int riches;
-  int starters;
-  int isles, oldisles, goodisles;
-  int guard1=0;
-  int firstcont;
-  int i;
-
-  assert(map.num_continents>0);
+  /* this is an upper bound for the maximum number of
+   * continents which can see a given ocean tile */
+#define CITY_TILES (CITY_MAP_SIZE * CITY_MAP_SIZE) - 4
+  
+  int starters = 0;
+  int min, firstcont, i;
+  
+  assert(map.num_continents > 0);
   
   /* allocate + 1 so can use continent number as index */
-  islands = fc_malloc((map.num_continents+1)*sizeof(struct isledata));
-
-  /* initialize: */
-  for(i=0; i<=map.num_continents; i++) {
-    islands[i].x = islands[i].y = -1;             /* flag */
-    islands[i].goodies = islands[i].starters = 0;
-  }
-
-  /* get x and y positions: (top left) */
-  whole_map_iterate(x, y) {
-    int cont = map_get_continent(x, y);
-    if (islands[cont].x == -1) {
-      islands[cont].x = x;
-      islands[cont].y = y;
-    }
-  } whole_map_iterate_end;
-
-  /* Add up the goodies: for useable ocean, add value to continent
-     for _every_ adjacent land tile.  This is IMO not very good,
-     because it adds potentially many times, and usable sea of
-     distance 2 from land is ignored, but this re-produces the
-     results of the previous method which used flood_fill().  --dwp
-     This is also the correct place to add S_HUT bonus.
-  */
-  whole_map_iterate(x, y) {
-    int cont = map_get_continent(x, y);
-    if (cont != 0) {
-      islands[cont].goodies += is_good_tile(x, y);
-      if (map_has_special(x, y, S_HUT)) {
-	islands[cont].goodies += 0;	/* 3; *//* regression testing */
-      }
-    } else {
-      assert(map_get_terrain(x, y) == T_OCEAN);
-      /* no need to check is_sea_usable(x,y), because will
-         only use for adjacent land (cont1>0) below */
-      {
-	int goodval = is_good_tile(x, y);
-	square_iterate(x, y, 1, x1, y1) {
-	  int cont1 = map_get_continent(x1, y1);
-	  if (cont1 > 0) {
-	    islands[cont1].goodies += goodval;
-	  }
-	}
-	square_iterate_end;
-      }
-    }
-  } whole_map_iterate_end;
+  islands = fc_calloc((map.num_continents + 1), sizeof(struct isledata));
   
-  /* the arctic and the antarctic are continents 1 and 2 for generator>0*/
+  /* the arctic and the antarctic are continents 1 and 2 for generator > 0 */
   if ((map.generator > 0) && map.separatepoles) {
     firstcont = 3;
   } else {
     firstcont = 1;
   }
-  isles = map.num_continents+1;
- 
-  riches=0;
-  for (x=firstcont; x<isles; x++) {
-      riches+=islands[x].goodies;
-  }
-
-  starters= 100; oldisles= isles+1; goodisles= isles;
-  while( starters>game.nplayers && oldisles>goodisles ){
-    freelog(LOG_VERBOSE, "goodisles=%i", goodisles);
-    oldisles= goodisles;
-    maxgood= 1;
-    mingood= riches;
-    good=0; 
-    goodisles=0;
-    starters= 0;
-
-
-    /* goody goody */
-    for (x=firstcont;x<isles;x++) {	  
-      islands[x].starters=0;
-      if ( islands[x].goodies > (riches+oldisles-1)/oldisles ) 
-	{ 
-	  good+=islands[x].goodies; 
-	  goodisles++; 
-	  if(mingood>islands[x].goodies)
-	    mingood= islands[x].goodies;
-	  if(maxgood<islands[x].goodies)
-	    maxgood= islands[x].goodies;
-	}
-    }
   
-    if(mingood+1<maxgood/game.nplayers)
-      mingood= maxgood/game.nplayers; 
-
-    if(goodisles>game.nplayers){
-      /* bloody goodies */   
-      for (x=firstcont;x<isles;x++) {
-	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
-	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
-	    )
-	  { 
-	    good+=islands[x].goodies; 
-	    goodisles++; 
-	    if(mingood>islands[x].goodies)
-	      mingood= islands[x].goodies;
-	  }
+  /* add up all the resources of the map */
+  whole_map_iterate(x, y) {
+    /* number of different continents seen from (x,y) */
+    int seen_conts = 0;
+    /* list of seen continents */
+    int conts[CITY_TILES]; 
+    int j;
+    
+    /* add tile's value to each continent that is within city 
+     * radius distance */
+    map_city_radius_iterate(x, y, x1, y1) {
+      /* (x1,y1) is possible location of a future city which will
+       * be able to get benefit of the tile (x,y) */
+      if (map_get_continent(x1, y1) < firstcont) { 
+        /* (x1, y1) belongs to a non-startable continent */
+        continue;
       }
+      for (j = 0; j < seen_conts; j++) {
+	if (map_get_continent(x1, y1) == conts[j]) {
+          /* Continent of (x1,y1) is already in the list */
+	  break;
+        }
+      }
+      if (j >= seen_conts) { 
+	/* we have not seen this continent yet */
+	assert(seen_conts < CITY_TILES);
+	conts[seen_conts] = map_get_continent(x1, y1);
+	seen_conts++;
+      }
+    } map_city_radius_iterate_end;
+    
+    /* Now actually add the tile's value to all these continents */
+    for (j = 0; j < seen_conts; j++) {
+      islands[conts[j]].goodies += is_good_tile(x, y);
+    }
+  } whole_map_iterate_end;
   
- 
-      /* starters are loosers */
-      for (x=firstcont;x<isles;x++) {
-	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
-	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)) {
-	  freelog(LOG_VERBOSE, "islands[x].goodies=%i",islands[x].goodies);
-	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
-	  if(islands[x].starters == 0) {
-	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
-	  }
-	  starters+= islands[x].starters;
-	}
-      }
-    }
-
-    /* starters are winners */
-    for (x=firstcont;x<isles;x++) {
-      if (islands[x].goodies > (riches+oldisles-1)/oldisles) {
-	assert(islands[x].starters == 0);
-	freelog(LOG_VERBOSE, "islands[x].goodies=%i", islands[x].goodies);
-	islands[x].starters = (islands[x].goodies+guard1)/mingood; 
-	if(islands[x].starters == 0) {
-	  islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
-	}
-	starters+= islands[x].starters;
-      }
-    }
-
-    riches= good;
-    if(starters<game.nplayers){
-      starters= game.nplayers+1;
-      goodisles=oldisles; 
-      oldisles= goodisles+1;
-      riches= (4*riches+3)/3;
-      if(mingood/game.nplayers>5) {
-	guard1+= mingood/game.nplayers;
-      } else {
-	guard1+=5;
-      }
-      freelog(LOG_DEBUG,
-	      _("Map generator: not enough start positions, fixing."));
+  /* now divide the number of desired starting positions among
+   * the continents so that the minimum number of resources per starting 
+   * position is as large as possible */
+  
+  /* set minimum number of resources per starting position to be value of
+   * the best continent */
+  min = 0;
+  for (i = firstcont; i < map.num_continents + 1; i++) {
+    if (min < islands[i].goodies) {
+      min = islands[i].goodies;
     }
   }
-  freelog(LOG_DEBUG, "The map has %i starting positions on %i isles.",
-	  starters, goodisles);
+  
+  /* place as many starting positions as possible with the current minumum
+   * number of resources, if not enough are placed, decrease the minimum */
+  while ((starters < game.nplayers) && (min > 0)) {
+    int nextmin = 0;
+    
+    starters = 0;
+    for (i = firstcont; i <= map.num_continents; i++) {
+      int value = islands[i].goodies;
+      
+      starters += value / min;
+      if (nextmin < (value / (value / min + 1))) {
+        nextmin = value / (value / min + 1);
+      }
+    }
+    
+    freelog(LOG_VERBOSE,
+	    "%d starting positions allocated with\n"
+            "at least %d resouces per starting position; \n",
+            starters, min);
+
+    assert(nextmin < min);
+    /* This choice of next min guarantees that there will be at least 
+     * one more starter on one of the continents */
+    min = nextmin;
+  }
+  
+  if (min == 0) {
+    freelog(LOG_VERBOSE,
+            "If we continue some starting positions will have to have "
+            "access to zero resources (as defined in is_good_tile). \n");
+    freelog(LOG_FATAL,
+            "Cannot create enough starting position and will abort.\n"
+            "Please report this bug at " WEBSITE_URL);
+    abort();
+  } else {
+    for (i = firstcont; i <= map.num_continents; i++) {
+      islands[i].starters = islands[i].goodies / min;
+    }
+  }
+  
+#undef CITY_TILES
 }
 
 /**************************************************************************
