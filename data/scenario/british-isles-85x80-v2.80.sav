@@ -1,8 +1,8 @@
 
 [game]
-version=10702
+version=13702
 server_state=0
-metastring="British Isles v2.77"
+metastring="British Isles v2.80"
 gold=75
 tech=3
 skill_level=5
@@ -39,7 +39,7 @@ ruleset.techs="default"
 ruleset.units="default"
 ruleset.buildings="default"
 ruleset.terrain="default"
-settlers=2
+settlers=3
 explorer=2
 
 
@@ -127,7 +127,7 @@ t035="                                     gm ss mmfmfhhmfhpgfp                 
 t036="                                   hh   f hgm h mssssss   pp                         "
 t037="                                    g  sh ggh f fhhhhpggsppg                         "
 t038="                                    g  g      pppppfffhfhfhhg                        "
-t039="                                       h gm  ghpffggfhmhhhhgg g                      "
+t039="                                       h gm  ghpfffffhmhhhhgg g                      "
 t040="                                       g fh  fhfhhhfhhmffhffgg                       "
 t041="                                             gfhhmhhhfhgmgfggg                       "
 t042="                                            ffmfmhhhhhhhhhffgp                       "
