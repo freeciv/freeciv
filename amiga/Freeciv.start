@@ -1,0 +1,19 @@
+echo "Starting now the server"
+echo "But select a saved game first, or press cancel for a new game"
+
+unset savegame
+set savegame `requestfile NOICONS TITLE="Please select a saved game" POSITIVE="Load this game" NEGATIVE="Start new Game" PATTERN="#?.sav"`
+
+echo "wait 3" >T:temp_freeciv$process
+echo "echo Starting now the client" >>T:temp_freeciv$process
+echo "civclient --tiles default" >>T:temp_freeciv$process
+echo "endcli" >>T:temp_freeciv$process
+newshell FROM T:temp_freeciv$process
+
+if exists "$savegame"
+  civserver -f "$savegame"
+else
+  civserver
+endif
+
+unset savegame
