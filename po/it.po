@@ -11,9 +11,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.12.3-devel\n"
-"POT-Creation-Date: 2002-07-08 17:44+0200\n"
-"PO-Revision-Date: 2002-07-06 17:20+0200\n"
+"Project-Id-Version: Freeciv 1.13.0\n"
+"POT-Creation-Date: 2002-07-09 11:51+0200\n"
+"PO-Revision-Date: 2002-07-09 12:20+0200\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -2249,12 +2249,12 @@ msgstr ""
 
 #: server/savegame.c:131
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Motivo: linea non trovata"
 
 #: server/savegame.c:133
 #, c-format
 msgid "Reason: line too short (expected %d got %d"
-msgstr ""
+msgstr "Motivo: linea troppo corta (prevista %d effettiva %d"
 
 #: server/savegame.c:288
 #, c-format
@@ -6996,9 +6996,8 @@ msgid "_Buy"
 msgstr "Co_mpra"
 
 #: client/gui-gtk-2.0/citydlg.c:817
-#, fuzzy
 msgid "Chang_e"
-msgstr "Cambia"
+msgstr "C_ambia"
 
 #: client/gui-gtk-2.0/citydlg.c:859 client/gui-gtk-2.0/citydlg.c:1948
 #: client/gui-gtk-2.0/citydlg.c:3151 client/gui-gtk/citydlg.c:865
@@ -7216,14 +7215,14 @@ msgid "Upkeep (Total: %d)"
 msgstr "Mantenimento (Totale: %d)"
 
 #: client/gui-gtk-2.0/citydlg.c:2076
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "Unità supportate (%d)"
+msgstr "Unità supportate: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2191
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "Unità presenti (%d)"
+msgstr "Unità presenti: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2218 client/gui-gtk/citydlg.c:2289
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1388
@@ -9916,9 +9915,8 @@ msgstr ""
 "Il tesoro contiene %4$d auri."
 
 #: client/gui-gtk-2.0/repodlgs.c:1106
-#, fuzzy
 msgid "Totals:"
-msgstr "Totali"
+msgstr "Totali:"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:208 client/gui-gtk/spaceshipdlg.c:208
 #: client/gui-win32/spaceshipdlg.c:233 data/Freeciv:1657
@@ -11117,9 +11115,8 @@ msgid "u8Worklistsn"
 msgstr "u8Liste lavorin"
 
 #: client/gui-mui/worklistclass.c:710
-#, fuzzy
 msgid "Accept"
-msgstr "Accetta trattato"
+msgstr "Accetta"
 
 #: client/gui-mui/worklistclass.c:730
 msgid "Current Targets"
