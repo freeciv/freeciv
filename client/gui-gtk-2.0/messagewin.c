@@ -246,7 +246,7 @@ static void meswin_selection_callback(GtkTreeSelection * selection,
   gint row = gtk_tree_selection_get_row(selection);
 
   if (row != -1) {
-    struct message *message = get_message(i);
+    struct message *message = get_message(row);
 
     gtk_widget_set_sensitive(meswin_goto_command, message->location_ok);
     gtk_widget_set_sensitive(meswin_popcity_command, message->city_ok);
@@ -262,7 +262,7 @@ static void meswin_row_activated_callback(GtkTreeView * view,
 					  gpointer data)
 {
   gint row = gtk_tree_path_get_indices(path)[0];
-  struct message *message = get_message(i);
+  struct message *message = get_message(row);
 
   meswin_double_click(row);
 
