@@ -435,9 +435,6 @@ bool city_exists_within_city_radius(int x, int y, bool may_be_on_center);
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
 
-void id_to_info_row(char *buf[], int column_size, int id, bool is_unit,
-		    struct city *pcity);
-
 void city_add_improvement(struct city *pcity,Impr_Type_id impr);
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr);
 

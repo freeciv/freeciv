@@ -1138,7 +1138,8 @@ void change_callback(struct city_dialog *pdialog)
 	
       for(i=0, n=0; i<game.num_impr_types; i++)
 	if(can_build_improvement(pdialog->pcity, i)) {
-	  id_to_info_row(row, sizeof(buf[0]), i, FALSE, pdialog->pcity);
+	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
+	                                 FALSE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}
@@ -1147,7 +1148,8 @@ void change_callback(struct city_dialog *pdialog)
       
       for(i=0; i<game.num_unit_types; i++)
 	if(can_build_unit(pdialog->pcity, i)) {
-	  id_to_info_row(row, sizeof(buf[0]), i, TRUE, pdialog->pcity);
+	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
+	                                 TRUE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}

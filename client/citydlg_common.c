@@ -144,3 +144,77 @@ void get_city_dialog_production(struct city *pcity,
     }
   }
 }
+
+
+/**************************************************************************
+ Pretty sprints the info about a production in 4 columns (name, info,
+ cost, turns to build). The columns must each have a size of
+ column_size bytes.
+**************************************************************************/
+void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
+				    bool is_unit, struct city *pcity)
+{
+  if (is_unit) {
+    struct unit_type *ptype = get_unit_type(id);
+
+    my_snprintf(buf[0], column_size, unit_name(id));
+
+    /* from unit.h get_unit_name() */
+    if (ptype->fuel > 0) {
+      my_snprintf(buf[1], column_size, "%d/%d/%d(%d)",
+		  ptype->attack_strength, ptype->defense_strength,
+		  ptype->move_rate / 3,
+		  (ptype->move_rate / 3) * ptype->fuel);
+    } else {
+      my_snprintf(buf[1], column_size, "%d/%d/%d", ptype->attack_strength,
+		  ptype->defense_strength, ptype->move_rate / 3);
+    }
+    my_snprintf(buf[2], column_size, "%d", ptype->build_cost);
+  } else {
+    /* Total & turns left meaningless on capitalization */
+    if (id == B_CAPITAL) {
+      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      buf[1][0] = '\0';
+      my_snprintf(buf[2], column_size, "---");
+    } else {
+      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+
+      /* from city.c get_impr_name_ex() */
+      if (pcity && wonder_replacement(pcity, id)) {
+	my_snprintf(buf[1], column_size, "*");
+      } else {
+	char *state = "";
+
+	if (is_wonder(id)) {
+	  state = _("Wonder");
+	  if (game.global_wonders[id] != 0) {
+	    state = _("Built");
+	  }
+	  if (wonder_obsolete(id)) {
+	    state = _("Obsolete");
+	  }
+	}
+	my_snprintf(buf[1], column_size, "%s", state);
+      }
+
+      my_snprintf(buf[2], column_size, "%d",
+		  get_improvement_type(id)->build_cost);
+    }
+  }
+
+  /* Add the turns-to-build entry in the 4th position */
+  if (pcity) {
+    if (!is_unit && id == B_CAPITAL) {
+      my_snprintf(buf[3], column_size, "%d/turn", pcity->shield_surplus);
+    } else {
+      int turns = city_turns_to_build(pcity, id, is_unit, FALSE);
+      if (turns < 999) {
+	my_snprintf(buf[3], column_size, "%d", turns);
+      } else {
+	my_snprintf(buf[3], column_size, "%s", _("never"));
+      }
+    }
+  } else {
+    my_snprintf(buf[3], column_size, "---");
+  }
+}

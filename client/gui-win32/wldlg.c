@@ -862,8 +862,9 @@ static void worklist_list_update(struct worklist_editor *peditor)
     }
     assert(!wid_is_worklist(wid));
 
-    id_to_info_row(row, BUFFER_SIZE, wid_id(wid), wid_is_unit(wid),
-                   peditor->pcity);
+    get_city_dialog_production_row(row, BUFFER_SIZE,
+                                   wid_id(wid), wid_is_unit(wid),
+                                   peditor->pcity);
     fcwin_listview_add_row(peditor->worklist,i,COLUMNS,row);
   }
   
@@ -917,8 +918,9 @@ static void targets_list_update(struct worklist_editor *peditor)
       my_snprintf(buf[2], BUFFER_SIZE, "---");
       my_snprintf(buf[3], BUFFER_SIZE, "---");
     } else {
-      id_to_info_row(row, BUFFER_SIZE, wid_id(wid), wid_is_unit(wid),
-                     peditor->pcity);
+      get_city_dialog_production_row(row, BUFFER_SIZE,
+                                     wid_id(wid), wid_is_unit(wid),
+                                     peditor->pcity);
     }
     fcwin_listview_add_row(peditor->avail,i,COLUMNS,row);
   }

@@ -3085,8 +3085,9 @@ static void change_callback(GtkWidget * w, gpointer data)
     cid cid = items[item].cid;
     int row_no;
 
-    id_to_info_row(row, sizeof(buf[0]), cid_id(cid), cid_is_unit(cid),
-		   pdialog->pcity);
+    get_city_dialog_production_row(row, sizeof(buf[0]),
+    	                           cid_id(cid), cid_is_unit(cid),
+    	                           pdialog->pcity);
     row_no = gtk_clist_append(GTK_CLIST(pdialog->change_list), row);
     gtk_clist_set_row_data(GTK_CLIST(pdialog->change_list),
 			   row_no, (gpointer) cid);
