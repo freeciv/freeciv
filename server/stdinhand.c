@@ -831,6 +831,41 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
 /**************************************************************************
 ...
 **************************************************************************/
+static void cmd_reply_no_such_player(enum command_id cmd,
+				     struct player *caller,
+				     char *name,
+				     enum m_pre_result match_result)
+{
+  switch(match_result) {
+  case M_PRE_EMPTY:
+    cmd_reply(cmd, caller, C_SYNTAX,
+	      _("Name is empty, so cannot be a player."));
+    break;
+  case M_PRE_LONG:
+    cmd_reply(cmd, caller, C_SYNTAX,
+	      _("Name is too long, so cannot be a player."));
+    break;
+  case M_PRE_AMBIGUOUS:
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("Player name prefix '%s' is ambiguous."), name);
+    break;
+  case M_PRE_FAIL:
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("No player by the name of '%s'."), name);
+    break;
+  default:
+    cmd_reply(cmd, caller, C_FAIL,
+	      "Unexpected match_result %d (%s) for '%s'.",
+	      match_result, m_pre_description(match_result), name);
+    freelog(LOG_NORMAL,
+	    "Unexpected match_result %d (%s) for '%s'.",
+	    match_result, m_pre_description(match_result), name);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void open_metaserver_connection(struct player *caller)
 {
   server_open_udp();
@@ -1007,19 +1042,13 @@ static void save_command(struct player *caller, char *arg)
 **************************************************************************/
 static void toggle_ai_player(struct player *caller, char *arg)
 {
+  enum m_pre_result match_result;
   struct player *pplayer;
 
-  if (test_player_name(arg) != PNameOk) {
-      cmd_reply(CMD_AITOGGLE, caller, C_SYNTAX,
-	     _("Name '%s' is either empty or too long, so it cannot be an AI."),
-		arg);
-      return;
-  }
+  pplayer = find_player_by_name_prefix(arg, &match_result);
 
-  pplayer=find_player_by_name(arg);
   if (!pplayer) {
-    cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
-	      _("No player by the name of '%s'."), arg);
+    cmd_reply_no_such_player(CMD_AITOGGLE, caller, arg, match_result);
     return;
   }
 
@@ -1040,7 +1069,7 @@ static void toggle_ai_player(struct player *caller, char *arg)
     /* Set the skill level explicitly, because eg: the player skill
        level could have been set as AI, then toggled, then saved,
        then reloaded. */ 
-    set_ai_level(caller, arg, pplayer->ai.skill_level);
+    set_ai_level(caller, pplayer->name, pplayer->ai.skill_level);
   } else {
     notify_player(0, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
@@ -1115,22 +1144,21 @@ static void create_ai_player(struct player *caller, char *arg)
 **************************************************************************/
 static void remove_player(struct player *caller, char *arg)
 {
+  enum m_pre_result match_result;
   struct player *pplayer;
+  char name[MAX_LEN_NAME];
 
-  if (test_player_name(arg) != PNameOk) {
-      cmd_reply(CMD_REMOVE, caller, C_SYNTAX,
-	    _("Name is either empty or too long, so it cannot be a player."));
-      return;
-  }
-
-  pplayer=find_player_by_name(arg);
+  pplayer=find_player_by_name_prefix(arg, &match_result);
   
   if(!pplayer) {
-    cmd_reply(CMD_REMOVE, caller, C_FAIL, _("No player by that name."));
+    cmd_reply_no_such_player(CMD_REMOVE, caller, arg, match_result);
     return;
   }
 
+  strcpy(name, pplayer->name);
   server_remove_player(pplayer);
+  cmd_reply(CMD_REMOVE, caller, C_OK,
+	    _("Removed player %s from the game."), name);
 }
 
 /**************************************************************************
@@ -1288,6 +1316,7 @@ static void cmdlevel_command(struct player *caller, char *str)
   char arg_name[MAX_LEN_CMD+1];	 /* a player name, or "new" */
   char *cptr_s, *cptr_d;	 /* used for string ops */
 
+  enum m_pre_result match_result;
   enum cmdlevel_id level;
   struct player *pplayer;
 
@@ -1386,12 +1415,11 @@ static void cmdlevel_command(struct player *caller, char *str)
     notify_player(0, _("Game: New connections will have access level '%s'."),
 		  cmdlevel_name(level));
   }
-  else if (test_player_name(arg_name) == PNameOk &&
-                (pplayer=find_player_by_name(arg_name))) {
+  else if ((pplayer=find_player_by_name_prefix(arg_name,&match_result))) {
     if (!pplayer->conn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		_("Cannot change command access for unconnected player '%s'."),
-		arg_name);
+		pplayer->name);
       return;
     }
     if (set_cmdlevel(caller,pplayer,level)) {
@@ -1407,10 +1435,7 @@ static void cmdlevel_command(struct player *caller, char *str)
 		pplayer->name);
     }
   } else {
-    cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      _("Cannot change command access for unknown/invalid"
-		" player name '%s'."),
-	      arg_name);
+    cmd_reply_no_such_player(CMD_CMDLEVEL, caller, arg_name, match_result);
   }
 }
 
@@ -1586,6 +1611,7 @@ void set_ai_level_direct(struct player *pplayer, int level)
 ******************************************************************/
 void set_ai_level(struct player *caller, char *name, int level)
 {
+  enum m_pre_result match_result;
   struct player *pplayer;
   int i;
   enum command_id cmd = (level <= 3) ?	CMD_EASY :
@@ -1593,15 +1619,9 @@ void set_ai_level(struct player *caller, char *name, int level)
 					CMD_NORMAL;
     /* kludge - these commands ought to be 'set' options really - rp */
 
-  if (test_player_name(name) == PNameTooLong) {
-    cmd_reply(cmd, caller, C_SYNTAX,
-	      _("Name is too long, so it cannot be a player."));
-    return;
-  }
-
   assert(level > 0 && level < 11);
 
-  pplayer=find_player_by_name(name);
+  pplayer=find_player_by_name_prefix(name, &match_result);
 
   if (pplayer) {
     if (pplayer->ai.control) {
@@ -1612,7 +1632,7 @@ void set_ai_level(struct player *caller, char *name, int level)
       cmd_reply(cmd, caller, C_FAIL,
 		_("%s is not controlled by the AI."), pplayer->name);
     }
-  } else if(test_player_name(name) == PNameEmpty) {
+  } else if(match_result == M_PRE_EMPTY) {
     for (i = 0; i < game.nplayers; i++) {
       pplayer = get_player(i);
       if (pplayer->ai.control) {
@@ -1625,8 +1645,7 @@ void set_ai_level(struct player *caller, char *name, int level)
 	      _("Setting game.skill_level to %d."), level);
     game.skill_level = level;
   } else {
-    cmd_reply(cmd, caller, C_FAIL,
-	      _("%s is not the name of any player."), name);
+    cmd_reply_no_such_player(cmd, caller, name, match_result);
   }
 }
 
@@ -1981,25 +2000,25 @@ void handle_stdin_input(struct player *caller, char *str)
 **************************************************************************/
 void cut_player_connection(struct player *caller, char *playername)
 {
+  enum m_pre_result match_result;
   struct player *pplayer;
 
-  if (test_player_name(playername) != PNameOk) {
-    cmd_reply(CMD_CUT, caller, C_SYNTAX,
-	      _("Name is either empty or too long,"
-		" so it cannot be a player."));
+  pplayer=find_player_by_name_prefix(playername, &match_result);
+
+  if (!pplayer) {
+    cmd_reply_no_such_player(CMD_CUT, caller, playername, match_result);
     return;
   }
 
-  pplayer=find_player_by_name(playername);
-
-  if(pplayer && pplayer->conn) {
+  if(pplayer->conn) {
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
-	       _("Cutting connection to %s."), playername);
+	       _("Cutting connection to %s."), pplayer->name);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
   }
   else {
-    cmd_reply(CMD_CUT, caller, C_FAIL, _("Sorry, no such player connected."));
+    cmd_reply(CMD_CUT, caller, C_FAIL, _("Sorry, %s is not connected."),
+	      pplayer->name);
   }
 }
 

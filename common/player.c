@@ -105,6 +105,30 @@ struct player *find_player_by_name(char *name)
 }
 
 /***************************************************************
+  Find player by name, allowing unambigous prefix (ie abbreviation).
+  Returns NULL if could not match, or if ambiguous or other
+  problem, and fills *result with characterisation of match/non-match
+  (see shared.[ch])
+***************************************************************/
+static const char *pname_accessor(int i) {
+  return game.players[i].name;
+}
+struct player *find_player_by_name_prefix(const char *name,
+					  enum m_pre_result *result)
+{
+  int ind;
+
+  *result = match_prefix(pname_accessor, game.nplayers, MAX_LEN_NAME-1,
+			 mystrncasecmp, name, &ind);
+
+  if (*result < M_PRE_AMBIGUOUS) {
+    return get_player(ind);
+  } else {
+    return NULL;
+  }
+}
+
+/***************************************************************
 Find player by its user name (not player/leader name)
 ***************************************************************/
 struct player *find_player_by_user(char *name)

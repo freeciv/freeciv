@@ -59,6 +59,7 @@ char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);
 int mystrcasecmp(const char *str0, const char *str1);
+int mystrncasecmp(const char *str0, const char *str1, size_t n);
 int string_ptr_compare(const void *first, const void *second);
 
 char *mystrerror(int errnum);
@@ -80,6 +81,33 @@ char *datafilename_required(const char *filename);
 
 void init_nls(void);
 void dont_run_as_root(const char *argv0, const char *fallback);
+
+/*** matching prefixes: ***/
+
+enum m_pre_result {
+  M_PRE_EXACT,		/* matches with exact length */
+  M_PRE_ONLY,		/* only matching prefix */
+  M_PRE_AMBIGUOUS,	/* first of multiple matching prefixes */
+  M_PRE_EMPTY,		/* prefix is empty string (no match) */
+  M_PRE_LONG,		/* prefix is too long (no match) */
+  M_PRE_FAIL,		/* no match at all */
+  M_PRE_LAST		/* flag value */
+};
+
+const char *m_pre_description(enum m_pre_result result);
+
+/* function type to access a name from an index: */
+typedef const char *(*m_pre_accessor_fn_t)(int);
+
+/* function type to compare prefix: */
+typedef int (*m_pre_strncmp_fn_t)(const char *, const char *, size_t n);
+
+enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
+			       size_t n_names,
+			       size_t max_len_name,
+			       m_pre_strncmp_fn_t cmp_fn,
+			       const char *prefix,
+			       int *ind_result);
 
 /*Mac constants-resource IDs*/
 enum DITL_ids{

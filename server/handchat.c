@@ -81,30 +81,19 @@ void handle_chat_msg(struct player *pplayer,
   cp=strchr(packet->message, ':');
 
   if (cp != NULL && (cp != &packet->message[0])) {
-    struct player *pdest=0;
-    int nlen, nmatches=0;
+    enum m_pre_result match_result;
+    struct player *pdest = NULL;
+    int nlen;
     char name[MAX_LEN_NAME];
     char *cpblank;
 
     nlen=MIN(MAX_LEN_NAME-1, cp-packet->message);
     strncpy(name, packet->message, nlen);
     name[nlen]='\0';
-     
-    if(!(pdest=find_player_by_name(name))) {
-      /* no full match,  now look for pre-match */
-      for(i=0; i<game.nplayers; ++i) {
-	int j;
-	for(j=0; j<nlen; ++j)
-	  if(tolower(packet->message[j])!=tolower(game.players[i].name[j]))
-	    break;
-	if(j==nlen) {
-	  ++nmatches;
-	  pdest=&game.players[i];
-	}
-      }
-    }
-			   
-    if(pdest && nmatches<=1) {
+
+    pdest = find_player_by_name_prefix(name, &match_result);
+    
+    if(pdest && match_result < M_PRE_AMBIGUOUS) {
       sprintf(genmsg.message, "->*%s* %s", pdest->name, cp+1+(*(cp+1)==' '));
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       sprintf(genmsg.message, "*%s* %s",
@@ -112,7 +101,7 @@ void handle_chat_msg(struct player *pplayer,
       send_packet_generic_message(pdest->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
-    if(nmatches>=2) {
+    if(match_result == M_PRE_AMBIGUOUS) {
       sprintf(genmsg.message, _("Game: %s is an ambiguous name-prefix."),
 	      name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);

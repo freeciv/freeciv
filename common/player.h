@@ -15,9 +15,10 @@
 
 #include "city.h"
 #include "nation.h"
+#include "shared.h"
+#include "spaceship.h"
 #include "tech.h"
 #include "unit.h"
-#include "spaceship.h"
 
 struct tile;
 
@@ -148,6 +149,8 @@ struct player {
 
 void player_init(struct player *plr);
 struct player *find_player_by_name(char *name);
+struct player *find_player_by_name_prefix(const char *name,
+					  enum m_pre_result *result);
 struct player *find_player_by_user(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);

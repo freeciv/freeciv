@@ -249,7 +249,7 @@ char *textyear(int year)
 
 
 /***************************************************************
-...
+  Compare strings like strcmp(), but ignoring case.
 ***************************************************************/
 int mystrcasecmp(const char *str0, const char *str1)
 {
@@ -258,6 +258,21 @@ int mystrcasecmp(const char *str0, const char *str1)
       return 0;
 
   return tolower(*str0)-tolower(*str1);
+}
+
+/***************************************************************
+  Compare strings like strncmp(), but ignoring case.
+  ie, only compares first n chars.
+***************************************************************/
+int mystrncasecmp(const char *str0, const char *str1, size_t n)
+{
+  size_t i;
+  
+  for(i=0; i<n && tolower(*str0)==tolower(*str1); i++, str0++, str1++)
+    if(*str0=='\0')
+      return 0;
+
+  return (i==n) ? 0 : (tolower(*str0)-tolower(*str1));
 }
 
 /**************************************************************************
@@ -697,3 +712,73 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   }
 #endif
 }
+
+
+/***************************************************************************
+  Return a description string of the result.
+  In English, form of description is suitable to substitute in, eg:
+     prefix is <description>
+***************************************************************************/
+const char *m_pre_description(enum m_pre_result result)
+{
+  static const char * const descriptions[] = {
+    N_("exact match"),
+    N_("only match"),
+    N_("ambiguous"),
+    N_("empty"),
+    N_("too long"),
+    N_("non-match")
+  };
+  assert(result > 0 && result < sizeof(descriptions)/sizeof(descriptions[0]));
+  return _(descriptions[result]);
+}
+
+/***************************************************************************
+  Given n names, with maximum length max_len_name, accessed by
+  accessor_fn(0) to accessor_fn(n-1), look for matching prefix
+  according to given comparison function.
+  Returns type of match or fail, and for return <= M_PRE_AMBIGUOUS
+  sets *ind_result with matching index (or for ambiguous, first match).
+***************************************************************************/
+enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
+			       size_t n_names,
+			       size_t max_len_name,
+			       m_pre_strncmp_fn_t cmp_fn,
+			       const char *prefix,
+			       int *ind_result)
+{
+  int i, len, nmatches;
+
+  len = strlen(prefix);
+  if (len == 0) {
+    return M_PRE_EMPTY;
+  }
+  if (len > max_len_name) {
+    return M_PRE_LONG;
+  }
+
+  nmatches = 0;
+  for(i=0; i<n_names; i++) {
+    const char *name = accessor_fn(i);
+    if (cmp_fn(name, prefix, len)==0) {
+      if (strlen(name) == len) {
+	*ind_result = i;
+	return M_PRE_EXACT;
+      }
+      if (nmatches==0) {
+	*ind_result = i;	/* first match */
+      }
+      nmatches++;
+    }
+  }
+
+  if (nmatches == 1) {
+    return M_PRE_ONLY;
+  } else if (nmatches > 1) {
+    return M_PRE_AMBIGUOUS;
+  } else {
+    return M_PRE_FAIL;
+  }
+}
+
+
