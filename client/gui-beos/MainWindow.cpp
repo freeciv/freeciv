@@ -96,7 +96,7 @@ MainWindow::Init( void )
         viewList->addAtBottom( output );
 
 // outgoing message text line at bottom
-        input = new InputView();
+        input = new InputView( be_plain_font );
         viewList->addAtBottom( input );
 
 	BdhMenuedWindow::Init();

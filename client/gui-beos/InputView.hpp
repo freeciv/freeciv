@@ -8,18 +8,20 @@
 #ifndef INPUTVIEW_H
 #define INPUTVIEW_H
 #include <Message.h>
-#include "TextGridView.h"
+#include <Font.h>
+#include <TextView.h>
 
 class InputView
-	: public TextGridView
+	: public BTextView
 {
 public:
-			InputView();
+			InputView( const BFont *font );
 			~InputView();
-	void	Draw( BRect r );
 	void	AttachedToWindow(void);
-	void	MessageReceived( BMessage *msg );
+	void	KeyDown( const char *bytes, int32 numBytes );
+	void	Clear(void) { SetText(NULL); }
 private:
+	static float	HeightOf( const BFont *font );
 };
 
 #endif // INPUTVIEW_H

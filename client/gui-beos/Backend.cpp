@@ -89,6 +89,10 @@ Backend::MessageReceived( BMessage *msg )
 		}
 		break; // PLEASE_CONNECT_TO
 
+	case INPUTVIEW_GENERATES_TEXT:
+		NOT_FINISHED( "INPUTVIEW_GENERATES_TEXT" );
+		break;
+
 	default:
 		BLooper::MessageReceived(msg);
 		break;

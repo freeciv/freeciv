@@ -89,7 +89,7 @@ LINKER_FLAGS =
 include $(BUILDHOME)/etc/makefile-engine
 
 BEOS_DOCS = README.BeOS ../../COPYING ../../HOWTOPLAY
-BEOS_LIBS = lib/libBdh.so lib/libBdhGame.so
+BEOS_LIBS = lib/libBdh.so lib/libBdhDialog.so lib/libBdhGame.so
 BEOS_EXES = Freeciv
 BEOS_DATA =	data/
 
@@ -111,7 +111,7 @@ Freeciv : $(BEOS_LIBS) ../civclient
 	xres -o $@ Freeciv.rsrc
 	mimeset -f $@
 
-PKGDIR = Freeciv-0.1-x86
+PKGDIR = Freeciv-0.3-x86
 TMPZIP = /tmp/tmp,Freeciv.x86.zip
 pkg : $(BEOS_DOCS) $(BEOS_LIBS) $(BEOS_EXES) $(BEOS_DATA)
 	rm -rf $(PKGDIR) $(TMPZIP)
