@@ -213,18 +213,16 @@ void report_wonders_of_the_world(struct conn_list *dest)
   }
   for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
-      if (!game.global_wonders[i]) {
-	players_iterate(pplayer) {
-	  city_list_iterate(pplayer->cities, pcity2) {
-	    if (pcity2->currently_building == i && !pcity2->is_building_unit) {
-	      cat_snprintf(buffer, sizeof(buffer),
-			   _("(building %s in %s (%s))\n"),
-			   get_improvement_type(i)->name, pcity2->name,
-			   get_nation_name(pplayer->nation));
-	    }
-	  } city_list_iterate_end;
-	} players_iterate_end;
-      }
+      players_iterate(pplayer) {
+	city_list_iterate(pplayer->cities, pcity2) {
+	  if (pcity2->currently_building == i && !pcity2->is_building_unit) {
+	    cat_snprintf(buffer, sizeof(buffer),
+			 _("(building %s in %s (%s))\n"),
+			 get_improvement_type(i)->name, pcity2->name,
+			 get_nation_name(pplayer->nation));
+	  }
+	} city_list_iterate_end;
+      } players_iterate_end;
     }
   }
   page_conn(dest, _("Traveler's Report:"),
