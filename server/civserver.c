@@ -130,6 +130,13 @@ int main(int argc, char *argv[])
   int save_counter=0;
   int log_level=LOG_NORMAL;
 
+  if (!getuid() || !geteuid()) {
+    fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
+	    (argv[0] ? argv[0] : "freeciv_server"));
+    fprintf(stderr,"Use a non-privileged account instead.\n");
+    exit(1);
+  }
+
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 
   /* no  we don't use GNU's getopt or even the "standard" getopt */
