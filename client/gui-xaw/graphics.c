@@ -90,6 +90,32 @@ void load_intro_gfx(void)
 
 
 /***************************************************************************
+return newly allocated sprite cropped from source
+***************************************************************************/
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y,
+			   int width, int height)
+{
+  GC plane_gc;
+  Pixmap mypixmap, mask;
+
+  mypixmap = XCreatePixmap(display, root_window,
+			   width, height, display_depth);
+  XCopyArea(display, source->pixmap, mypixmap, civ_gc, 
+	    x, y, width, height, 0, 0);
+
+  mask = XCreatePixmap(display, root_window, width, height, 1);
+
+  plane_gc = XCreateGC(display, mask, 0, NULL);
+  XCopyArea(display, source->mask, mask, plane_gc, 
+	    x, y, width, height, 0, 0);
+  XFreeGC(display, plane_gc);
+
+  return ctor_sprite_mask(mypixmap, mask, width, height);
+}
+
+
+/***************************************************************************
 ...
 ***************************************************************************/
 void load_tile_gfx(void)
@@ -118,29 +144,12 @@ void load_tile_gfx(void)
   NORMAL_TILE_HEIGHT=big_sprite->height/18;
 
   i=0;
-  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
+  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GC plane_gc;
-      Pixmap mypixmap, mask;
-      
-      mypixmap=XCreatePixmap(display, root_window, NORMAL_TILE_WIDTH, 
-			     NORMAL_TILE_HEIGHT, display_depth);
-      XCopyArea(display, big_sprite->pixmap, mypixmap, civ_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      mask=XCreatePixmap(display, root_window, 
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-
-      plane_gc = XCreateGC(display, mask, 0, NULL);
-
-      XCopyArea(display, big_sprite->mask, mask, plane_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask, NORMAL_TILE_WIDTH,
-                                         NORMAL_TILE_HEIGHT);
-
-      XFreeGC(display, plane_gc);
+      tile_sprites[i++] = crop_sprite(big_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT); 
     }
+  }
 
   if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
      small_sprite->height != SMALL_TILE_HEIGHT*1)  {
@@ -188,30 +197,12 @@ void load_tile_gfx(void)
   }
 
   UNIT_TILES = i;
-  for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT)
+  for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<unit_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GC plane_gc;
-      Pixmap mypixmap, mask;
-      
-      mypixmap=XCreatePixmap(display, root_window,
-			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
-			     display_depth);
-      XCopyArea(display, unit_sprite->pixmap, mypixmap, civ_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      mask=XCreatePixmap(display, root_window,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-
-      plane_gc = XCreateGC(display, mask, 0, NULL);
-
-      XCopyArea(display, unit_sprite->mask, mask, plane_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      XFreeGC(display, plane_gc);
+      tile_sprites[i++] = crop_sprite(unit_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
 
   if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
      roads_sprite->height != NORMAL_TILE_HEIGHT*4)  {
@@ -226,55 +217,24 @@ void load_tile_gfx(void)
     if (row==0) ROAD_TILES = i;
     if (row==2) RAIL_TILES = i;
     for(x=0; x<roads_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GC plane_gc;
-      Pixmap mypixmap, mask;
-      
-      mypixmap=XCreatePixmap(display, root_window,
-			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
-			     display_depth);
-      XCopyArea(display, roads_sprite->pixmap, mypixmap, civ_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      mask=XCreatePixmap(display, root_window,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-
-      plane_gc = XCreateGC(display, mask, 0, NULL);
-
-      XCopyArea(display, roads_sprite->mask, mask, plane_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      XFreeGC(display, plane_gc);
+      tile_sprites[i++] = crop_sprite(roads_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
   }
  
+  if (space_sprite->width != space_sprite->height * 6)  {
+    freelog(LOG_FATAL, "XPM file space.xpm is the wrong width!");
+    freelog(LOG_FATAL, "Expected 6 * height (%d), got %d",
+ 	    space_sprite->height * 6, space_sprite->width);
+    exit(1);
+  }
+
   SPACE_TILES = i;
   
   for (x = 0; x < space_sprite->width; x += space_sprite->height) {
-    GC plane_gc;
-    Pixmap mypixmap, mask;
-
-    mypixmap=XCreatePixmap(display, root_window,
-			   space_sprite->height, space_sprite->height,
-			   display_depth);
-    XCopyArea(display, space_sprite->pixmap, mypixmap, civ_gc, 
-	      x, 0, space_sprite->height, space_sprite->height, 0 ,0);
-    
-    mask=XCreatePixmap(display, root_window,
-		       space_sprite->height, space_sprite->height, 1);
-    
-    plane_gc = XCreateGC(display, mask, 0, NULL);
-    
-    XCopyArea(display, space_sprite->mask, mask, plane_gc, 
-	      x, 0, space_sprite->height, space_sprite->height, 0 ,0);
-    
-    tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
-				       space_sprite->height,
-				       space_sprite->height);
-    
-    XFreeGC(display, plane_gc);
+    tile_sprites[i++] = crop_sprite(space_sprite, x, 0,
+				    space_sprite->height,
+				    space_sprite->height);
   }
 
   if(flags_sprite->width != NORMAL_TILE_WIDTH*14 ||
@@ -287,30 +247,12 @@ void load_tile_gfx(void)
   }
 
   FLAG_TILES = i;
-  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT)
+  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<flags_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GC plane_gc;
-      Pixmap mypixmap, mask;
-      
-      mypixmap=XCreatePixmap(display, root_window,
-			     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
-			     display_depth);
-      XCopyArea(display, flags_sprite->pixmap, mypixmap, civ_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      mask=XCreatePixmap(display, root_window,
-			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-
-      plane_gc = XCreateGC(display, mask, 0, NULL);
-
-      XCopyArea(display, flags_sprite->mask, mask, plane_gc, 
-		x, y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 0 ,0);
-
-      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      XFreeGC(display, plane_gc);
+      tile_sprites[i++] = crop_sprite(flags_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
   
   free_sprite(unit_sprite);
   free_sprite(big_sprite);

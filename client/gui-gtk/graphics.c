@@ -95,6 +95,30 @@ void load_intro_gfx( void )
 
 
 /***************************************************************************
+return newly allocated sprite cropped from source
+***************************************************************************/
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y,
+			   int width, int height)
+{
+  GdkPixmap *mypixmap, *mask;
+
+  mypixmap = gdk_pixmap_new(root_window, width, height, -1);
+
+  gdk_draw_pixmap(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
+		  width, height);
+
+  mask=gdk_pixmap_new(mask_bitmap, width, height, 1);
+  gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
+  	    
+  gdk_draw_pixmap(mask, mask_fg_gc, source->mask, x, y, 0, 0,
+		  width, height);
+  
+  return ctor_sprite_mask(mypixmap, mask, width, height);
+}
+
+
+/***************************************************************************
 ...
 ***************************************************************************/
 void load_tile_gfx(void)
@@ -123,25 +147,12 @@ void load_tile_gfx(void)
   NORMAL_TILE_HEIGHT=big_sprite->height/18;
   
   i=0;
-  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
+  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GdkPixmap *mypixmap, *mask;
-
-      mypixmap = gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH,
-  						  NORMAL_TILE_HEIGHT, -1);
-
-      gdk_draw_pixmap(mypixmap, civ_gc, big_sprite->pixmap, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      mask=gdk_pixmap_new(mask_bitmap, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-      gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-  	    
-      gdk_draw_pixmap(mask, mask_fg_gc, big_sprite->mask, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  
-      tile_sprites[i++] = ctor_sprite_mask( mypixmap, mask,
-  			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
+      tile_sprites[i++] = crop_sprite(big_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
 
   if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
      small_sprite->height != SMALL_TILE_HEIGHT*1)  {
@@ -185,25 +196,12 @@ void load_tile_gfx(void)
   }
 
   UNIT_TILES = i;
-  for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT)
+  for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<unit_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GdkPixmap *mypixmap, *mask;
-    
-      mypixmap = gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH,
-        					  NORMAL_TILE_HEIGHT, -1);
-
-      gdk_draw_pixmap(mypixmap, civ_gc, unit_sprite->pixmap, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      mask=gdk_pixmap_new(mask_bitmap, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-      gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-            
-      gdk_draw_pixmap(mask, mask_fg_gc, unit_sprite->mask, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  
-      tile_sprites[i++]=ctor_sprite_mask(mypixmap, mask,
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      tile_sprites[i++] = crop_sprite(unit_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
 
   if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
      roads_sprite->height != NORMAL_TILE_HEIGHT*4)  {
@@ -218,46 +216,25 @@ void load_tile_gfx(void)
     if (row==0) ROAD_TILES = i;
     if (row==2) RAIL_TILES = i;
     for(x=0; x<roads_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GdkPixmap *mypixmap, *mask;
-
-      mypixmap = gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH,
-  						  NORMAL_TILE_HEIGHT, -1);
-
-      gdk_draw_pixmap(mypixmap, civ_gc, roads_sprite->pixmap, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      mask=gdk_pixmap_new(mask_bitmap, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-      gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-  	    
-      gdk_draw_pixmap(mask, mask_fg_gc, roads_sprite->mask, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  
-      tile_sprites[i++] = ctor_sprite_mask(mypixmap, mask,
-  			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      tile_sprites[i++] = crop_sprite(roads_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
   }
  
+  if (space_sprite->width != space_sprite->height * 6)  {
+    freelog(LOG_FATAL, "XPM file space.xpm is the wrong width!");
+    freelog(LOG_FATAL, "Expected 6 * height (%d), got %d",
+           space_sprite->height * 6, space_sprite->width);
+    exit(1);
+  }
+
   SPACE_TILES = i;
   
   for (x = 0; x < space_sprite->width; x += space_sprite->height) {
-      GdkPixmap *mypixmap, *mask;
-
-      mypixmap = gdk_pixmap_new(root_window, space_sprite->height,
-					     space_sprite->height, -1);
-
-      gdk_draw_pixmap(mypixmap, civ_gc, space_sprite->pixmap, x, 0, 0, 0,
-        	      space_sprite->height, space_sprite->height);
-
-      mask=gdk_pixmap_new(mask_bitmap, space_sprite->height,
-				       space_sprite->height, 1);
-      gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-  	    
-      gdk_draw_pixmap(mask, mask_fg_gc, space_sprite->mask, x, 0, 0, 0,
-        	      space_sprite->height, space_sprite->height);
-  
-      tile_sprites[i++] = ctor_sprite_mask(mypixmap, mask,
-  			  space_sprite->height, space_sprite->height);
-    }
+    tile_sprites[i++] = crop_sprite(space_sprite, x, 0,
+				    space_sprite->height,
+				    space_sprite->height);
+  }
 
   if(flags_sprite->width != NORMAL_TILE_WIDTH*14 ||
      flags_sprite->height != NORMAL_TILE_HEIGHT*2)  {
@@ -269,25 +246,12 @@ void load_tile_gfx(void)
   }
 
   FLAG_TILES = i;
-  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT)
+  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<flags_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      GdkPixmap *mypixmap, *mask;
-
-      mypixmap = gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH,
-  						  NORMAL_TILE_HEIGHT, -1);
-
-      gdk_draw_pixmap(mypixmap, civ_gc, flags_sprite->pixmap, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-
-      mask=gdk_pixmap_new(mask_bitmap, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 1);
-      gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-  	    
-      gdk_draw_pixmap(mask, mask_fg_gc, flags_sprite->mask, x, y, 0, 0,
-        	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  
-      tile_sprites[i++] = ctor_sprite_mask(mypixmap, mask,
-  			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      tile_sprites[i++] = crop_sprite(flags_sprite, x, y,
+				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
   
   free_sprite(unit_sprite);
   free_sprite(big_sprite);
