@@ -491,8 +491,12 @@ void flood_it(int loaded)
   int oldisles, goodisles;
   int guard1=0;
 
-  if (map.generator != 1) return;      /* 2,3 and 4 have fixed number of starters */
-  /* means: goodies is not initialized for 2,3,4. doesn't matter now, since unused*/
+  if (!loaded && map.generator > 1) return;
+  /* 2,3 and 4 have fixed number of starters */
+  /* means: goodies is not initialized for 2,3,4.
+     doesn't matter now, since unused */
+  /* But we still need to initialise the continents on reload,
+     and for scenarios (generator==0) for new game. --dwp */
 
   for (y=0;y<map.ysize;y++)
     for (x=0;x<map.xsize;x++)
