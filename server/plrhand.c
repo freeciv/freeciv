@@ -29,6 +29,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "rand.h"
 #include "registry.h"
 #include "shared.h"
 #include "tech.h"

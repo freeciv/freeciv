@@ -32,6 +32,7 @@
 #include "log.h"
 #include "map.h"
 #include "packets.h"
+#include "rand.h"
 #include "version.h"
 
 #include "chatline_g.h"

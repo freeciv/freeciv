@@ -27,6 +27,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "rand.h"
 #include "shared.h"
 #include "unit.h"
 

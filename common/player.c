@@ -18,6 +18,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "rand.h"
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"

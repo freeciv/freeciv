@@ -58,6 +58,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
+#include "rand.h"
 #include "registry.h"
 #include "shared.h"
 #include "tech.h"
@@ -150,8 +151,6 @@ int nocity_send=0;
 int *nations_avail;
 int *nations_used;
 int num_nations_avail;
-
-int rand_init=0;
 
 /**************************************************************************
 ...
@@ -397,7 +396,7 @@ main_start_players:
     game.randseed = time(NULL) & (MAX_UINT32 >> 1);
   }
  
-  if(!rand_init)
+  if(!myrand_is_init())
     mysrand(game.randseed);
 
   if(is_new_game)

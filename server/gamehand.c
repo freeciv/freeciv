@@ -25,6 +25,7 @@
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
+#include "rand.h"
 #include "registry.h"
 #include "version.h"
 
@@ -40,9 +41,6 @@
 
 extern char metaserver_info_line[];
 extern char metaserver_addr[];
-extern RANDOM_TYPE RandomState[];
-extern int iRandJ, iRandK, iRandX; 
-extern int rand_init;
 
 #define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace2 rulesets"
 
@@ -350,18 +348,20 @@ int game_load(struct section_file *file)
                                                "game.barbarians");
   
   if(has_capability("unirandom", savefile_options)) {
+    RANDOM_STATE rstate;
     game.randseed = secfile_lookup_int(file, "game.randseed");
-    iRandJ = secfile_lookup_int(file,"random.index_J");
-    iRandK = secfile_lookup_int(file,"random.index_K");
-    iRandX = secfile_lookup_int(file,"random.index_X");
+    rstate.j = secfile_lookup_int(file,"random.index_J");
+    rstate.k = secfile_lookup_int(file,"random.index_K");
+    rstate.x = secfile_lookup_int(file,"random.index_X");
     for(i=0;i<8;i++) {
       sprintf(name,"random.table%d",i);
       string=secfile_lookup_str(file,name);
-      sscanf(string,"%8X %8X %8X %8X %8X %8X %8X",&RandomState[7*i],
-	     &RandomState[7*i+1],&RandomState[7*i+2],&RandomState[7*i+3],
-	     &RandomState[7*i+4],&RandomState[7*i+5],&RandomState[7*i+6]);
+      sscanf(string,"%8X %8X %8X %8X %8X %8X %8X", &rstate.v[7*i],
+	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
+	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
     }
-    rand_init=1;
+    rstate.is_init = 1;
+    set_myrand_state(rstate);
   }
 
   strcpy(game.ruleset.techs,
@@ -578,15 +578,17 @@ void game_save(struct section_file *file)
     return; /* want to save scenarios as well */
   }
   if (server_state!=PRE_GAME_STATE) {
-    secfile_insert_int(file,iRandJ,"random.index_J");
-    secfile_insert_int(file,iRandK,"random.index_K");
-    secfile_insert_int(file,iRandX,"random.index_X");
+    RANDOM_STATE rstate = get_myrand_state();
+    assert(rstate.is_init);
+    secfile_insert_int(file, rstate.j, "random.index_J");
+    secfile_insert_int(file, rstate.k, "random.index_K");
+    secfile_insert_int(file, rstate.x, "random.index_X");
 
     for(i=0;i<8;i++) {
       sprintf(name,"random.table%d",i);
-      sprintf(temp,"%8X %8X %8X %8X %8X %8X %8X",RandomState[7*i],
-              RandomState[7*i+1],RandomState[7*i+2],RandomState[7*i+3],
-              RandomState[7*i+4],RandomState[7*i+5],RandomState[7*i+6]);
+      sprintf(temp,"%8X %8X %8X %8X %8X %8X %8X", rstate.v[7*i],
+              rstate.v[7*i+1], rstate.v[7*i+2], rstate.v[7*i+3],
+              rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
       secfile_insert_str(file,temp,name);
     }
      

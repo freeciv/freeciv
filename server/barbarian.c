@@ -33,6 +33,7 @@
 #include "log.h"
 #include "map.h"
 #include "nation.h"
+#include "rand.h"
 #include "tech.h"
 
 #include "civserver.h"

@@ -41,6 +41,8 @@ libcivcommon_a_SOURCES = \
 		player.h	\
 		mem.c           \
 		mem.h		\
+		rand.c		\
+		rand.h		\
 		registry.c	\
 		registry.h	\
 		sbuffer.c	\

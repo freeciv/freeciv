@@ -25,6 +25,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "rand.h"
 #include "shared.h"
 
 #include "mapgen.h"
@@ -706,7 +707,8 @@ void create_start_positions(void)
 **************************************************************************/
 void map_fractal_generate(void)
 {
-  save_restore_random();
+  /* save the current random state: */
+  RANDOM_STATE rstate = get_myrand_state();
  
   if (map.seed==0)
     map.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
@@ -735,7 +737,9 @@ void map_fractal_generate(void)
   
   /* print_map(); */
   make_huts(map.huts);
-  save_restore_random();
+  
+  /* restore previous random state: */
+  set_myrand_state(rstate);
 }
 
 

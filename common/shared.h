@@ -43,9 +43,8 @@
 
 #define WIPEBIT(val, no) ((~(-1<<no))&val)  |   ((  (-1<<(no+1)) &val) >>1)
 
+/* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
-
-typedef unsigned int RANDOM_TYPE;
 
 char *n_if_vowel(char ch);
 char *create_centered_string(char *s);
@@ -60,10 +59,6 @@ int string_ptr_compare(const void *first, const void *second);
 
 char *mystrerror(int errnum);
 void myusleep(unsigned long usec);
-
-RANDOM_TYPE myrand(RANDOM_TYPE size);
-void mysrand(RANDOM_TYPE seed);
-void save_restore_random(void);
 
 char *skip_leading_spaces(char *s);
 void remove_trailing_spaces(char *s);

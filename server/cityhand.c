@@ -25,6 +25,7 @@
 #include "map.h"
 #include "mem.h"
 #include "player.h"
+#include "rand.h"
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"

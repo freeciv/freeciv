@@ -24,6 +24,7 @@
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
+#include "rand.h"
 #include "registry.h"
 
 #include "cityhand.h"
