@@ -80,7 +80,7 @@ contributions to the Freeciv project.
      Davide Pagnin <nigthmare@freeciv.it> (patch)
      Michael Zinn <michaelz@cse.unsw.edu.au> (patch)
      Robert Alan Byer <byer@chef.ourservers.net> (vms update)
-     Daniel Speyer <dspeyer@users.sourceforge.net> (patch)
+     Daniel Speyer <dspeyer@users.sourceforge.net> (patches)
      Christian Knoke <chrisk@enter.de> (patch)
      Andrew Pimlott <andrew@pimlott.ne.mediaone.net> (patch)
      Michael Stefaniuc <mstefani@redhat.de> (patch)
@@ -468,6 +468,7 @@ contributions to the Freeciv project.
      Paul Langemeijer <P.O.Langemeijer@student.utwente.nl>
      Xavier Renaut <xavier@ideasandassociates.com>
      Daniel Speyer <dspeyer@users.sourceforge.net>
+     Pieter J. Kersten <kersten@dia.eur.nl>
 
   Bug reports up to 1.11.4 release:
 
