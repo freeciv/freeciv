@@ -313,7 +313,7 @@ helptext      = _("\
 Only Fundamentalist nations can build Fanatic units.\
 \n\n\
 Fundamentalist nations can maintain Fanatic units without\
- having to pay any shields for upkeep.\ 
+ having to pay any shields for upkeep.\
 ")
 
 [unit_partisan]

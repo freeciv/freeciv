@@ -454,14 +454,14 @@ If a city governed by Fundamentalism is celebrating, it will receive\
 The maximum rate you can set for science, tax or luxuries is 80%.\
 \n\n\
 The maximum effective rate for science is 50%, the surplus is used\
- for collecting tax, and furthermore the science production is
+ for collecting tax, and furthermore the science production is\
  halved.\
 \n\n\
 Cities under Fundamentalism suffer a small amount of corruption.\
 \n\n\
 Improvement that normally convert unhappy citizens to content\
  citizens, produces `tithes' (gold) equivalent to the number\
- of people they would convert, and require no maintenance.
+ of people they would convert, and require no maintenance.\
 ")
 
 ;------------------------------------------------------------------------
