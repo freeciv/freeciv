@@ -39,6 +39,7 @@ client/gui-xaw/ratesdlg.c
 client/gui-xaw/repodlgs.c
 client/gui-xaw/spaceshipdlg.c
 data/Freeciv
+data/helpdata.txt
 data/default/buildings.ruleset
 data/civ2/buildings.ruleset
 data/civ1/buildings.ruleset

@@ -32,14 +32,15 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "registry.h"
 #include "unit.h"
 
 #include "helpdata.h"
 
 
 static const char * const help_type_names[] = {
-  "", "TEXT", "UNIT", "IMPROVEMENT", "WONDER", "TECH", "TERRAIN",
-  "GOVERNMENT", 0
+  "(Any)", "(Text)", "Units", "Improvements", "Wonders",
+  "Techs", "Terrain", "Governments", 0
 };
 
 
@@ -103,7 +104,7 @@ static void insert_generated_table(const char* name, char* outbuf)
   if (0 == strcmp (name, "TerrainAlterations"))
     {
       int i;
-      strcat (outbuf, "Terrain     Road   Irrigation     Mining         Transform\n");
+      strcat (outbuf, _("Terrain     Road   Irrigation     Mining         Transform\n"));
       strcat (outbuf, "---------------------------------------------------------------\n");
       for (i = T_FIRST; i < T_COUNT; i++)
 	{
@@ -132,7 +133,7 @@ static void insert_generated_table(const char* name, char* outbuf)
 	    }
 	}
       strcat (outbuf, "\n");
-      strcat (outbuf, "(Railroads and fortresses require 3 turns, regardless of terrain.)\n");
+      strcat (outbuf, _("(Railroads and fortresses require 3 turns, regardless of terrain.)"));
     }
   return;
 }
@@ -168,18 +169,13 @@ static int help_item_compar(const void *a, const void *b)
 void boot_help_texts(void)
 {
   static int booted = 0;
-  
-  FILE *fs;
-  char *dfname;
-  char buf[512], *p;
-  char expect[32], name[MAX_LEN_NAME+2];
-  char seen[MAX_LAST], *pname;
-  int len;
+
+  struct section_file file, *sf = &file;
+  char *filename;
   struct help_item *pitem = NULL;
-  enum help_page_type current_type = HELP_TEXT;
-  struct genlist category_nodes;
-  struct government *tmp_gov;
-  int i, filter_this;
+  int i, isec;
+  char **sec, **paras;
+  int nsec, npara;
 
   check_help_nodes_init();
   
@@ -194,8 +190,8 @@ void boot_help_texts(void)
     freelog(LOG_VERBOSE, "Rebooting help texts");
   }    
   
-  dfname = datafilename("helpdata.txt");
-  if (dfname == NULL) {
+  filename = datafilename("helpdata.txt");
+  if (filename == NULL) {
     freelog(LOG_NORMAL, "Could not find readable helpdata.txt in data path");
     freelog(LOG_NORMAL, "The data path may be set via"
 	                " the environment variable FREECIV_PATH");
@@ -203,51 +199,47 @@ void boot_help_texts(void)
     freelog(LOG_NORMAL, "Did not read help texts");
     return;
   }
-  fs = fopen(dfname, "r");
-  if (fs == NULL) {
+  if (!section_file_load(sf, filename)) {
     /* this is now unlikely to happen */
     freelog(LOG_NORMAL, "failed reading help-texts");
     return;
   }
 
-  while(1) {
-    fgets(buf, 512, fs);
-    buf[strlen(buf)-1]='\0';
-    if(!strncmp(buf, "%%", 2))
-      continue;
-    len=strlen(buf);
-
-    if (len>0 && buf[0] == '@') {
-      if(current_type==HELP_TEXT) {
-	current_type = -1;
-	for(i=2; help_type_names[i]; i++) {
-	  sprintf(expect, "START_%sS", help_type_names[i]);
-	  if(strcmp(expect,buf+1)==0) {
-	    current_type = i;
-	    break;
-	  }
+  sec = secfile_get_secnames_prefix(sf, "help_", &nsec);
+  
+  for(isec=0; isec<nsec; isec++) {
+    
+    enum help_page_type current_type = HELP_ANY;
+    char *gen_str =
+      secfile_lookup_str_default(sf, NULL, "%s.generate", sec[isec]);
+    
+    if (gen_str) {
+      if (!booted) {
+	continue; /* on initial boot data tables are empty */
+      }
+      current_type = HELP_ANY;
+      for(i=2; help_type_names[i]; i++) {
+	if(strcmp(gen_str, help_type_names[i])==0) {
+	  current_type = i;
+	  break;
 	}
-	if (current_type==-1) {
-	  freelog(LOG_NORMAL, "bad help category \"%s\"", buf+1);
-	  current_type = HELP_TEXT;
-	} else {
-	  genlist_init(&category_nodes);
-	  for(i=0; i<MAX_LAST; i++) {
-	    seen[i] = (booted?0:1); /* on initial boot data tables are empty */
-	  }
-	  freelog(LOG_DEBUG, "Help category %s",
-		  help_type_names[current_type]);
-	}
-      } else {
-	sprintf(expect, "END_%sS", help_type_names[current_type]);
-	if(strcmp(expect,buf+1)!=0) {
-	  freelog(LOG_FATAL, "bad end to help category \"%s\"", buf+1);
-	  exit(1);
-	}
-	/* add defaults for those not seen: */
+      }
+      if (current_type == HELP_ANY) {
+	freelog(LOG_NORMAL, "bad help-generate category \"%s\"", gen_str);
+	continue;
+      }
+      {
+	/* Note these should really fill in pitem->text from auto-gen
+	   data instead of doing it later on the fly, but I don't want
+	   to change that now.  --dwp
+	*/
+	char name[MAX_LEN_NAME+2];
+	struct genlist category_nodes;
+	
+	genlist_init(&category_nodes);
 	if(current_type==HELP_UNIT) {
- 	  for(i=0; i<game.num_unit_types; i++) {
-	    if(!seen[i] && unit_type_exists(i)) {
+	  for(i=0; i<game.num_unit_types; i++) {
+	    if(unit_type_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", unit_name(i));
 	      pitem->topic = mystrdup(name);
@@ -256,8 +248,8 @@ void boot_help_texts(void)
 	    }
 	  }
 	} else if(current_type==HELP_TECH) {
-	  for(i=A_FIRST; i<game.num_tech_types; i++) {                 /* skip A_NONE */
-	    if(!seen[i] && tech_exists(i)) {
+	  for(i=A_FIRST; i<game.num_tech_types; i++) {  /* skip A_NONE */
+	    if(tech_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", advances[i].name);
 	      pitem->topic = mystrdup(name);
@@ -267,7 +259,7 @@ void boot_help_texts(void)
 	  }
 	} else if(current_type==HELP_TERRAIN) {
 	  for(i=T_FIRST; i<T_COUNT; i++) {
-	    if(!seen[i] && *(tile_types[i].terrain_name)) {
+	    if(*(tile_types[i].terrain_name)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", tile_types[i].terrain_name);
 	      pitem->topic = mystrdup(name);
@@ -277,17 +269,15 @@ void boot_help_texts(void)
 	  }
 	} else if(current_type==HELP_GOVERNMENT) {
 	  for(i=0; i<game.government_count; i++) {
-	    if(!seen[i]) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", get_government(i)->name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
-	    }
 	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
 	  for(i=0; i<B_LAST; i++) {
-	    if(!seen[i] && improvement_exists(i) && !is_wonder(i)) {
+	    if(improvement_exists(i) && !is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
@@ -297,7 +287,7 @@ void boot_help_texts(void)
 	  }
 	} else if(current_type==HELP_WONDER) {
 	  for(i=0; i<B_LAST; i++) {
-	    if(!seen[i] && improvement_exists(i) && is_wonder(i)) {
+	    if(improvement_exists(i) && is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", improvement_types[i].name);
 	      pitem->topic = mystrdup(name);
@@ -315,126 +305,36 @@ void boot_help_texts(void)
 	}
 	help_list_iterate_end;
 	genlist_unlink_all(&category_nodes);
-	current_type = HELP_TEXT;
+	continue;
       }
-      continue;
     }
     
-    p=strchr(buf, '#');
-    if(!p) {
-      break;
-    }
-    pname = p;
-    while(*(++pname)==' ')
-      ;
-
-    /* i==-1 is text; filter_this==1 is to be left out, but we have to
-     * read in the help text so we're at the right place
-     */
-    i = -1;
-    filter_this = 0;
-    switch(current_type) {
-    case HELP_UNIT:
-      i = find_unit_type_by_name(pname);
-      if(!unit_type_exists(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering unit type %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_TECH:
-      i = find_tech_by_name(pname);
-      if(!tech_exists(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering tech %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_TERRAIN:
-      i = get_terrain_by_name(pname);
-      if(i >= T_COUNT) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering terrain %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_GOVERNMENT:
-      /* why the #% does find_government_by_name() not return an
-	 integer like all the others??
-      */
-      tmp_gov = find_government_by_name(pname);
-      if(tmp_gov == NULL) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering government %s from help", pname);
-	filter_this = 1;
+    /* It wasn't a "generate" node: */
+    
+    pitem = new_help_item(HELP_TEXT);
+    pitem->topic = mystrdup(_(secfile_lookup_str(sf, "%s.name", sec[isec])));
+    
+    paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec[isec]);
+    
+    long_buffer[0] = '\0';
+    for (i=0; i<npara; i++) {
+      char *para = paras[i];
+      if(strncmp(para, "$", 1)==0) {
+	insert_generated_table(para+1, long_buffer+strlen(long_buffer));
       } else {
-	i = tmp_gov - governments;
+	strcat(long_buffer, _(para));
       }
-      break;
-    case HELP_IMPROVEMENT:
-      i = find_improvement_by_name(pname);
-      if(!improvement_exists(i) || is_wonder(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering city improvement %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    case HELP_WONDER:
-      i = find_improvement_by_name(pname);
-      if(!improvement_exists(i) || !is_wonder(i)) {
-	if(booted)
-	  freelog(LOG_VERBOSE, "Filtering wonder %s from help", pname);
-	filter_this = 1;
-      }
-      break;
-    default:
-      /* nothing */
-      {} /* placate Solaris cc/xmkmf/makedepend */
-    }
-    if(i>=0) {
-      seen[i] = 1;
-    }
-
-    if(!filter_this) {
-      pitem = new_help_item(current_type);
-      pitem->topic = mystrdup(p+1);
-    }
-
-    long_buffer[0]='\0';
-    while(1) {
-      fgets(buf, 512, fs);
-      buf[strlen(buf)-1]='\0';
-      if(!strncmp(buf, "%%", 2))
-	continue;
-      if(!strncmp(buf, "$", 1)) {
-	insert_generated_table (buf+1, long_buffer);
-	continue;
-      }
-      if(!strcmp(buf, "---"))
-	break;
-      if(!filter_this) {
-	strcat(long_buffer, buf);
-	strcat(long_buffer, "\n");
+      if (i!=npara-1) {
+	strcat(long_buffer, "\n\n");
       }
     }
-
-    if(!filter_this) {
-      pitem->text=mystrdup(long_buffer);
-      if(current_type == HELP_TEXT) {
-	genlist_insert(&help_nodes, pitem, -1);
-      } else {
-	genlist_insert(&category_nodes, pitem, -1);
-      }
-    }
+    wordwrap_string(long_buffer, 68);
+    pitem->text=mystrdup(long_buffer);
+    genlist_insert(&help_nodes, pitem, -1);
   }
 
-  if(current_type != HELP_TEXT) {
-    freelog(LOG_FATAL, "Didn't finish help category %s",
-	 help_type_names[current_type]);
-    exit(1);
-  }
-  
-  fclose(fs);
+  section_file_check_unused(sf, filename);
+  section_file_free(sf);
   booted = 1;
   freelog(LOG_VERBOSE, "Booted help texts ok");
 }
