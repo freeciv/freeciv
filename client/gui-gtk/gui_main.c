@@ -32,6 +32,7 @@
 #include "log.h"
 #include "game.h"
 #include "map.h"
+#include "mem.h"
 #include "shared.h"
 #include "version.h"
 
@@ -182,7 +183,7 @@ static void print_usage(const char *argv0)
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
-  char logfile[512]="";
+  char *logfile = NULL;
   char *option=NULL; /* really use as a pointer */
   int loglevel;
   int i;
@@ -221,7 +222,7 @@ static void parse_options(int argc, char **argv)
       exit(0);
       }
     else if ((option = get_option("--log",argv,&i,argc)) != NULL)
-      strcpy(logfile,option);
+      logfile = mystrdup(option); /* never free()d */
     else if ((option = get_option("--name",argv,&i,argc)) != NULL)
       strcpy(name, option);
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
