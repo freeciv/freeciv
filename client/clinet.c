@@ -563,7 +563,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
       pserver->players[j].nation = mystrdup(nation);
     }
 
-    server_list_insert(server_list, pserver);
+    server_list_insert_back(server_list, pserver);
   }
 
   section_file_free(file);
