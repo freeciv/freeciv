@@ -36,6 +36,7 @@
 #include "clinet.h"
 #include "colors.h"
 #include "connectdlg.h"
+#include "control.h"
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "graphics.h"

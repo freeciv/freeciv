@@ -29,12 +29,12 @@
 
 #include "cityrep.h"
 #include "colors.h"
+#include "control.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
-#include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
 

@@ -26,9 +26,9 @@
 
 #include "clinet.h"
 #include "civclient.h"
+#include "control.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
-#include "mapctrl.h"
 #include "mapview.h"
 
 #include "gotodlg.h"

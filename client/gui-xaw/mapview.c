@@ -27,6 +27,7 @@
 
 #include "civclient.h"
 #include "colors.h"
+#include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
@@ -794,6 +795,14 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
     }
     
   }
+}
+
+/**************************************************************************
+ Update (only) the visible part of the map
+**************************************************************************/
+void update_map_canvas_visible(void)
+{
+  update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
 }
 
 /**************************************************************************

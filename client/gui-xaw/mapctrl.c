@@ -39,6 +39,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "colors.h"
+#include "control.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"
@@ -54,30 +55,20 @@ extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
 extern int overview_canvas_store_width, overview_canvas_store_height;
 
-/* unit_focus points to the current unit in focus */
-struct unit *punit_focus;
-
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
 
-/* set high, if the player has selected goto */
-/* actually, set to id of unit goto-ing (id is non-zero) */
-int goto_state;
-
-/* set high, if the player has selected nuke */
-int nuke_state;
-
-void request_move_unit_direction(struct unit *punit, int dx, int dy);
-struct unit *find_best_focus_candidate(void);
-void wakeup_sentried_units(int x, int y);
-
 extern Widget toplevel, main_form, map_canvas;
 extern Widget turn_done_button;
-extern int smooth_move_units;
+extern int smooth_move_units; /* from options.c */
 extern int auto_center_on_unit;
 extern int draw_map_grid;
+
+extern int goto_state; /* from control.c */
+extern int nuke_state;
+extern struct unit *punit_focus;
 
 /**************************************************************************
 ...
@@ -99,658 +90,17 @@ static void name_new_city_callback(Widget w, XtPointer client_data,
 }
 
 /**************************************************************************
-...
+ Popup dialog where the user choose the name of the new city
+ punit = (settler) unit which builds the city
+ suggestname = suggetion of the new city's name
 **************************************************************************/
-void request_unit_goto(void)
+void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
-  struct unit *punit=get_unit_in_focus();
-     
-  if(punit) {
-    goto_state=punit->id;
-    update_unit_info_label(punit);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_unload(struct unit *punit)
-{
-  struct packet_unit_request req;
-
-  if(!get_transporter_capacity(punit)) {
-    append_output_window("Game: You can only unload transporter units.");
-    return;
-  }
-
-  request_unit_wait(punit);    /* RP: unfocus the ship */
-  
-  req.unit_id=punit->id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UNLOAD);
-}
-
-/**************************************************************************
-(RP:) un-sentry all my own sentried units on punit's tile
-**************************************************************************/
-void request_unit_wakeup(struct unit *punit)
-{
-  wakeup_sentried_units(punit->x,punit->y);
-}
-
-void wakeup_sentried_units(int x, int y)
-{
-  unit_list_iterate(map_get_tile(x,y)->units, punit) {
-    if(punit->activity==ACTIVITY_SENTRY && game.player_idx==punit->owner) {
-      request_new_unit_activity(punit, ACTIVITY_IDLE);
-    }
-  }
-  unit_list_iterate_end;
-}
-
-/**************************************************************************
-Player pressed 'b' or otherwise instructed unit to build or add to city.
-If the unit can build a city, we popup the appropriate dialog.
-Otherwise, we just send a packet to the server.
-If this action is not appropriate, the server will respond
-with an appropriate message.  (This is to avoid duplicating
-all the server checks and messages here.)
-**************************************************************************/
-void request_unit_build_city(struct unit *punit)
-{
-  if(can_unit_build_city(punit)) {
-    input_dialog_create(toplevel, "shellnewcityname", 
-			"What should we call our new city?",
-			city_name_suggestion(game.player_ptr),
-			(void*)name_new_city_callback, (XtPointer)punit->id,
-			(void*)name_new_city_callback, (XtPointer)0);
-  }
-  else {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_BUILD_CITY);
-    return;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_move_unit_direction(struct unit *punit, int dx, int dy)
-{
-  int dest_x, dest_y, i;
-  struct unit req_unit;
-  char buf[512];
-
-  dest_x=map_adjust_x(punit->x+dx);
-  dest_y=punit->y+dy;   /* not adjusting on purpose*/
- 
-  /* Now only do caravan stuff here for old servers and a caravan
-     entering an enemy city.  New servers do trade routes to enemy
-     cities automatically, and for friendly cities we wait for the
-     unit to enter the city.  --dwp
-  */
-  if(unit_flag(punit->type, F_CARAVAN)) {
-    struct city *pcity, *phomecity;
-
-    if((pcity=map_get_city(dest_x, dest_y))
-       && pcity->owner != game.player_idx
-       && !has_capability("caravan1", aconnection.capability)
-       && (phomecity=find_city_by_id(punit->homecity))) {
-      if (can_establish_trade_route(phomecity, pcity)) {
-	popup_caravan_dialog(punit, phomecity, pcity);
-	return;
-      } else {
-	append_output_window("Game: You cannot establish a trade route here.");
-	for (i=0;i<4;i++) {
-	  if (phomecity->trade[i]==pcity->id) {
-	    sprintf(buf, "      A traderoute already exists between %s and %s!",
-		    phomecity->name, pcity->name);
-	    append_output_window(buf);
-	    return;
-	  }
-	}
-	if (city_num_trade_routes(phomecity)==4) {
-	  sprintf(buf, "      The city of %s already has 4 trade routes!",
-		  phomecity->name);
-	  append_output_window(buf);
-	  return;
-	} 
-	if (city_num_trade_routes(pcity)==4) {
-	  sprintf(buf, "      The city of %s already has 4 trade routes!",
-		  pcity->name);
-	  append_output_window(buf);
-	  return;
-	}
-	return;
-      }
-    }
-  }
-  else if(unit_flag(punit->type, F_DIPLOMAT) &&
-          is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
-                                       dest_x, dest_y)) {
-    if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
-      popup_diplomat_dialog(punit, dest_x, dest_y);
-    } else {
-      append_output_window("Game: You don't have enough movement left");
-    }
-    return;
-  }
-  
-  req_unit=*punit;
-  req_unit.x=dest_x;
-  req_unit.y=dest_y;
-  send_move_unit(&req_unit);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_new_unit_activity(struct unit *punit, enum unit_activity act)
-{
-  struct unit req_unit;
-  req_unit=*punit;
-  req_unit.activity=act;
-  send_unit_info(&req_unit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_disband(struct unit *punit)
-{
-  struct packet_unit_request req;
-  req.unit_id=punit->id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_DISBAND);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_change_homecity(struct unit *punit)
-{
-  struct city *pcity;
-  
-  if((pcity=map_get_city(punit->x, punit->y))) {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.city_id=pcity->id;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_CHANGE_HOMECITY);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_upgrade(struct unit *punit)
-{
-  struct city *pcity;
-
-  if((pcity=map_get_city(punit->x, punit->y)))  {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.city_id=pcity->id;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UPGRADE);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_auto(struct unit *punit)
-{
-  if (can_unit_do_auto(punit)) {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
-  } else {
-    append_output_window("Game: Only settlers, and military units"
-			 " in cities, can be put in auto-mode.");
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_caravan_action(struct unit *punit, enum packet_type action)
-{
-  struct packet_unit_request req;
-  struct city *pcity = map_get_city(punit->x, punit->y);
-
-  if (!pcity) return;
-  if (!(action==PACKET_UNIT_ESTABLISH_TRADE
-	||(action==PACKET_UNIT_HELP_BUILD_WONDER))) {
-    freelog(LOG_NORMAL, "Bad action (%d) in request_unit_caravan_action",
-	    action);
-    return;
-  }
-  
-  req.unit_id = punit->id;
-  req.city_id = pcity->id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, action);
-}
-
-/**************************************************************************
- Explode nuclear at a tile without enemy units
-**************************************************************************/
-void request_unit_nuke(struct unit *punit)
-{
-  if(!has_capability("nuke", aconnection.capability))
-    return;
-  if(!unit_flag(punit->type, F_NUCLEAR)) {
-    append_output_window("Game: Only nuclear units can do this.");
-    return;
-  }
-  if(!(punit->moves_left))
-    do_unit_nuke(punit);
-  else {
-    nuke_state=1;
-    goto_state=punit->id;
-    update_unit_info_label(punit);
-  }
-}
-
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-
-void key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_unit_nuke(punit_focus);
-}
- 
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if(punit)
-    request_unit_disband(punit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if(punit)
-    request_unit_change_homecity(punit);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(/*!get_unit_in_focus() &&*/ !game.player_ptr->turn_done) {
-      struct packet_generic_message gen_packet;
-    gen_packet.message[0]='\0';
-    send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
-    XtSetSensitive(turn_done_button, FALSE);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
-{
-  int x, y, was_carried, was_teleported;
-     
-  was_carried=(pinfo->movesleft==punit->moves_left && 
-	       (map_get_terrain(punit->x, punit->y)==T_OCEAN ||
-		map_get_terrain(pinfo->x, pinfo->y)==T_OCEAN));
-  
-  was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
-  x=punit->x;
-  y=punit->y;
-  punit->x=-1;  /* focus hack - if we're moving the unit in focus, it wont
-		 * be redrawn on top of the city */
-
-  unit_list_unlink(&map_get_tile(x, y)->units, punit);
-
-  if(!was_carried)
-    refresh_tile_mapcanvas(x, y, 0);
-  
-  if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
-     auto_center_on_unit &&
-     !tile_visible_and_not_on_border_mapcanvas(pinfo->x, pinfo->y))
-    center_tile_mapcanvas(pinfo->x, pinfo->y);
-
-  if(!was_carried && !was_teleported) {
-    int dx=pinfo->x - x;
-    if(dx>1) dx=-1;
-    else if(dx<-1)
-      dx=1;
-    if(smooth_move_units)
-      move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
-    /*else*/
-      refresh_tile_mapcanvas(x, y, 1);
-  }
-    
-  punit->x=pinfo->x;
-  punit->y=pinfo->y;
-  punit->fuel=pinfo->fuel;
-  punit->hp=pinfo->hp;
-  unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
-
-  for(y=punit->y-2; y<punit->y+3; ++y) { 
-    if(y<0 || y>=map.ysize)
-      continue;
-    for(x=punit->x-2; x<punit->x+3; ++x) { 
-      unit_list_iterate(map_get_tile(x, y)->units, pu)
-	if(unit_flag(pu->type, F_SUBMARINE)) {
-	  refresh_tile_mapcanvas(map_adjust_x(pu->x), y, 1);
-	}
-      unit_list_iterate_end
-    }
-  }
-  
-  if(!was_carried)
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
-
-  if(get_unit_in_focus()==punit) update_menus();
-}
-
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-
-void do_unit_nuke(struct unit *punit)
-{
-  struct packet_unit_request req;
- 
-  req.unit_id=punit->id;
-  req.name[0]='\0';
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_NUKE);
-}
- 
-/**************************************************************************
-Toggle display of grid lines on the map
-**************************************************************************/
-void request_toggle_map_grid(void) 
-{
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) return;
-
-  draw_map_grid^=1;
-  update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
-}
-void key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  request_toggle_map_grid();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit=get_unit_in_focus();
-     
-  if(punit) {
-    if(unit_flag(punit->type, F_SETTLERS))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
-    else 
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFY);
-  }
- 
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  request_unit_goto();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit=get_unit_in_focus();
-  if (!punit) return;
-  if (unit_flag(punit->type, F_CARAVAN)) {
-    request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
-  } else {
-    request_unit_build_city(punit);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_unit_unload(punit_focus);
-}
-
-/**************************************************************************
-...
-+**************************************************************************/
-void key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_unit_wakeup(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_wait(struct unit *punit)
-{
-  punit->focus_status=FOCUS_WAIT;
-  if(punit==get_unit_in_focus()) {
-    advance_unit_focus();
-    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_PILLAGE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_unit_wait(get_unit_in_focus());
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_move_done(void)
-{
-  if(get_unit_in_focus()) {
-    get_unit_in_focus()->focus_status=FOCUS_DONE;
-    advance_unit_focus();
-    /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  request_unit_move_done();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit=get_unit_in_focus();
-  
-  if (!punit) return;
-
-  if (unit_flag(punit->type, F_CARAVAN)) {
-    request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
-  }
-  else {
-    if(can_unit_do_activity(punit, ACTIVITY_ROAD))
-      request_new_unit_activity(punit, ACTIVITY_ROAD);
-    else if(can_unit_do_activity(punit, ACTIVITY_RAILROAD))
-      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_unit_auto(punit_focus);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_north(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 0, -1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, -1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, 1, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_south_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 1, 1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_south(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, 0, 1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_south_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, 1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, -1, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_unit_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, -1, -1);
+  input_dialog_create(toplevel, "shellnewcityname",
+    "What should we call our new city?",
+    city_name_suggestion(game.player_ptr),
+    (void*)name_new_city_callback, (XtPointer)punit->id,
+    (void*)name_new_city_callback, (XtPointer)0);
 }
 
 /**************************************************************************
@@ -824,7 +174,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
         if(punit->activity==ACTIVITY_GOTO)  {
           put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
           XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
-	  	        (XtPointer)punit);
+                       (XtPointer)punit);
         }
       } else {
         sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
@@ -846,7 +196,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
 ...
 **************************************************************************/
 void popupinfo_popdown_callback(Widget w, XtPointer client_data,
-				XtPointer call_data)
+        XtPointer call_data)
 {
   struct unit *punit=(struct unit *)client_data;
 
@@ -922,21 +272,20 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
   if(ev->button==Button1) {
     if(unit_list_size(&ptile->units)==1) {
       struct unit *punit=unit_list_get(&ptile->units, 0);
-      if(game.player_idx==punit->owner) { 
-	if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-	  /* struct unit *old_focus=get_unit_in_focus(); */
-	  request_new_unit_activity(punit, ACTIVITY_IDLE);
-	  /* this is now done in set_unit_focus: --dwp */
-	  /* if(old_focus)
-	     refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
-	  set_unit_focus(punit);
-	}
+      if(game.player_idx==punit->owner) {
+        if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+          /* struct unit *old_focus=get_unit_in_focus(); */
+          request_new_unit_activity(punit, ACTIVITY_IDLE);
+          /* this is now done in set_unit_focus: --dwp */
+          /* if(old_focus)
+               refresh_tile_mapcanvas(old_focus->x, old_focus->y, 1); */
+          set_unit_focus(punit);
+        }
       }
-      
     }
     else if(unit_list_size(&ptile->units)>=2) {
       if(unit_list_get(&ptile->units, 0)->owner==game.player_idx)
-	popup_unit_select_dialog(ptile);
+        popup_unit_select_dialog(ptile);
     }
   }
   else if(ev->button==Button2||ev->state&ControlMask)
@@ -944,58 +293,6 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
   else
     center_tile_mapcanvas(xtile, ytile);
 }
-
-/**************************************************************************
-...
-**************************************************************************/
-void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv, 
-			      Cardinal *argc)
-{
-  int xtile, ytile;
-  XButtonEvent *ev=&event->xbutton;
-
-  xtile=ev->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
-  ytile=ev->y/2;
-  
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-     return;
-
-  if(ev->button==Button1 && goto_state) {
-    struct unit *punit;
-
-    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
-      struct packet_unit_request req;
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=xtile;
-      req.y=ytile;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
-    }
-
-    goto_state=0;
-
-    return;
-  }
-  
-  if(ev->button==Button3)
-    center_tile_mapcanvas(xtile, ytile);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void request_center_focus_unit(void)
-{
-  struct unit *punit;
-  
-  if((punit=get_unit_in_focus()))
-    center_tile_mapcanvas(punit->x, punit->y);
-}
-void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  request_center_focus_unit();
-}
-
 
 /**************************************************************************
   Find the "best" city to associate with the selected tile.  
@@ -1104,154 +401,175 @@ void focus_to_next_unit(Widget w, XEvent *event, String *argv,
 }
 
 /**************************************************************************
-note: punit can be NULL
-We make sure that the previous focus unit is refreshed, if necessary,
-_after_ setting the new focus unit (otherwise if the previous unit is
-in a city, the refresh code draws the previous unit instead of the city).
-**************************************************************************/
-void set_unit_focus(struct unit *punit)
-{
-  struct unit *punit_old_focus=punit_focus;
-
-  punit_focus=punit;
-
-  if(punit) {
-    raise_unit_top(punit);
-    if(auto_center_on_unit && 
-       !tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y))
-      center_tile_mapcanvas(punit->x, punit->y);
-
-    punit->focus_status=FOCUS_AVAIL;
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
-    put_cross_overlay_tile(punit->x, punit->y);
-  }
-  
-  /* avoid the old focus unit disappearing: */
-  if (punit_old_focus!=NULL
-      && (punit==NULL || !same_pos(punit_old_focus->x, punit_old_focus->y,
-				   punit->x, punit->y))) {
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
-  }
-
-  update_unit_info_label(punit);
-  update_menus();
-}
-
-/**************************************************************************
-note: punit can be NULL
-Here we don't bother making sure the old focus unit is
-refreshed, as this is only used in special cases where
-thats not necessary.  (I think...) --dwp
-**************************************************************************/
-void set_unit_focus_no_center(struct unit *punit)
-{
-  punit_focus=punit;
-
-  if(punit) {
-    raise_unit_top(punit);
-    refresh_tile_mapcanvas(punit->x, punit->y, 1);
-    punit->focus_status=FOCUS_AVAIL;
-  }
-}
-
-
-
-
-/**************************************************************************
-If there is no unit currently in focus, or if the current unit in
-focus should not be in focus, then get a new focus unit.
-We let GOTO-ing units stay in focus, so that if they have moves left
-at the end of the goto, then they are still in focus.
-**************************************************************************/
-void update_unit_focus(void)
-{
-  if(punit_focus==NULL
-     || (punit_focus->activity!=ACTIVITY_IDLE
-	 && punit_focus->activity!=ACTIVITY_GOTO)
-     || punit_focus->moves_left==0 
-     || punit_focus->ai.control) {
-    advance_unit_focus();
-  }
-}
-
-
-/**************************************************************************
 ...
 **************************************************************************/
-struct unit *get_unit_in_focus(void)
+void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv, 
+			      Cardinal *argc)
 {
-  return punit_focus;
+  int xtile, ytile;
+  XButtonEvent *ev=&event->xbutton;
+
+  xtile=ev->x/2-(map.xsize/2-(map_view_x0+map_canvas_store_twidth/2));
+  ytile=ev->y/2;
+  
+  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+     return;
+
+  if(ev->button==Button1 && goto_state) {
+    struct unit *punit;
+
+    if((punit=unit_list_find(&game.player_ptr->units, goto_state))) {
+      struct packet_unit_request req;
+      req.unit_id=punit->id;
+      req.name[0]='\0';
+      req.x=xtile;
+      req.y=ytile;
+      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+    }
+
+    goto_state=0;
+
+    return;
+  }
+  
+  if(ev->button==Button3)
+    center_tile_mapcanvas(xtile, ytile);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void advance_unit_focus(void)
+void center_on_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  struct unit *punit_old_focus=punit_focus;
-
-  punit_focus=find_best_focus_candidate();
-
-  goto_state=0;
-  nuke_state=0;
-
-  if(!punit_focus) {
-    unit_list_iterate(game.player_ptr->units, punit) {
-      if(punit->focus_status==FOCUS_WAIT)
-	punit->focus_status=FOCUS_AVAIL;
-    }
-    unit_list_iterate_end;
-    punit_focus=find_best_focus_candidate();
-    if (punit_focus == punit_old_focus) {
-      /* we don't want to same unit as before if there are any others */
-      punit_focus=find_best_focus_candidate();
-      if(!punit_focus) {
-	/* but if that is the only choice, take it: */
-	punit_focus=find_best_focus_candidate();
-      }
-    }
-  }
-  
-  /* We have to do this ourselves, and not rely on set_unit_focus(),
-   * because above we change punit_focus directly.
-   */
-  if(punit_old_focus!=NULL && punit_old_focus!=punit_focus)
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, 1);
-
-  set_unit_focus(punit_focus);
+  request_center_focus_unit();
 }
 
 /**************************************************************************
-Find the nearest available unit for focus, excluding the current unit
-in focus (if any).  If the current focus unit is the only possible
-unit, or if there is no possible unit, returns NULL.
+ Enable or disable the turn done button.
+ Should probably some where else.
 **************************************************************************/
-struct unit *find_best_focus_candidate(void)
+void set_turn_done_button_state( int state )
 {
-  struct unit *best_candidate;
-  int best_dist=99999;
-  int x,y;
-
-  if(punit_focus)  {
-    x=punit_focus->x; y=punit_focus->y;
-  } else {
-    get_center_tile_mapcanvas(&x,&y);
-  };
-    
-  best_candidate=NULL;
-  unit_list_iterate(game.player_ptr->units, punit) {
-    if(punit!=punit_focus) {
-      if(punit->focus_status==FOCUS_AVAIL && punit->activity==ACTIVITY_IDLE &&
-	 punit->moves_left && !punit->ai.control) {
-        int d;
-	d=sq_map_distance(punit->x, punit->y, x, y);
-	if(d<best_dist) {
-	  best_candidate=punit;
-	  best_dist=d;
-	}
-      }
-    }
-  }
-  unit_list_iterate_end;
-  return best_candidate;
+  XtSetSensitive(turn_done_button, state);
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_end_turn();
+}
+void xaw_key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_map_grid();
+}
+void xaw_key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_auto();
+}
+void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_build_city();
+}
+void xaw_key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_clean_pollution();
+}
+void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_disband();
+}
+void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_done();
+}
+void xaw_key_unit_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_east();
+}
+void xaw_key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_explore();
+}
+void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_fortify();
+}
+void xaw_key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_goto();
+}
+void xaw_key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_homecity();
+}
+void xaw_key_unit_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_irrigate();
+}
+void xaw_key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_mine();
+}
+void xaw_key_unit_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_north_east();
+}
+void xaw_key_unit_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_north_west();
+}
+void xaw_key_unit_north(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_north();
+}
+void xaw_key_unit_nuke(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_nuke();
+}
+void xaw_key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_pillage();
+}
+void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_road();
+}
+void xaw_key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_sentry();
+}
+void xaw_key_unit_south_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_south_east();
+}
+void xaw_key_unit_south_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_south_west();
+}
+void xaw_key_unit_south(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_south();
+}
+void xaw_key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_transform();
+}
+void xaw_key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_unload();
+}
+void xaw_key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_wait();
+}
+void xaw_key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_wakeup();
+}
+void xaw_key_unit_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_west();
+}
+

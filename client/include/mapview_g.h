@@ -128,6 +128,7 @@ void get_center_tile_mapcanvas(int *x, int *y);
 
 void update_map_canvas(int tile_x, int tile_y, int width, int height,
 		       int write_to_screen);
+void update_map_canvas_visible(void);
 void update_map_canvas_scrollbars(void);
 
 void put_cross_overlay_tile(int x,int y);

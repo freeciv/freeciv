@@ -34,6 +34,7 @@
 
 #include "civclient.h"
 #include "clinet.h"
+#include "control.h" /* get_unit_in_focus */
 #include "mapctrl.h"
 #include "mapview.h"
 

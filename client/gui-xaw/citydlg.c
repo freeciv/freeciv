@@ -41,6 +41,7 @@
 
 #include "cityrep.h"
 #include "colors.h"
+#include "control.h" /* request_xxx and set_unit_focus */
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"

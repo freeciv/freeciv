@@ -28,6 +28,7 @@
 #include "cityrep.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "control.h" /* request_xxx and get_unit_in_focus */
 #include "dialogs.h"
 #include "finddlg.h"
 #include "gotodlg.h"

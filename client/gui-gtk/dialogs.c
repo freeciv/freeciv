@@ -27,8 +27,8 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "control.h"
 #include "gui_stuff.h"
-#include "mapctrl.h"
 #include "mapview.h"
 
 #include "dialogs.h"

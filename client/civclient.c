@@ -37,6 +37,7 @@
 #include "climisc.h"
 #include "clinet_g.h"
 #include "connectdlg_g.h"
+#include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
 #include "gui_main_g.h"

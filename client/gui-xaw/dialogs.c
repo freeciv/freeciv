@@ -34,6 +34,7 @@
 
 #include "chatline.h"
 #include "civclient.h"
+#include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"

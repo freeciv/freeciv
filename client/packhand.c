@@ -31,11 +31,11 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet_g.h"		/* aconnection */
+#include "control.h"
 #include "dialogs_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "helpdlg_g.h"		/* boot_help_texts */
-#include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "messagewin_g.h"
