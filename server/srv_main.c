@@ -1759,7 +1759,7 @@ main_start_players:
       civ_score(pplayer);	/* if we don't, the AI gets really confused */
       if (pplayer->ai.control) {
 	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
-	assess_danger_player(pplayer); /* a slowdown, but a necessary one */
+        /* assess_danger_player(pplayer); */
       }
     } players_iterate_end;
   }
