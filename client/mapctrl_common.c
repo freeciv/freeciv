@@ -17,12 +17,15 @@
 
 #include "combat.h"
 #include "log.h"
+#include "support.h"
 
 #include "agents.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "cma_core.h"
 #include "control.h"
+#include "fcintl.h"
 #include "goto.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
@@ -247,3 +250,110 @@ bool get_chance_to_win(int *att_chance, int *def_chance,
 
   return TRUE;
 }
+
+/************************************************************************
+Text to popup on middle-click
+************************************************************************/
+char* popup_info_text(int xtile, int ytile)
+{
+  static char out[256];
+  char buf[64];
+  struct city *pcity = map_get_city(xtile, ytile);
+  struct tile *ptile = map_get_tile(xtile, ytile);
+  struct unit *punit = find_visible_unit(ptile);
+  char *diplo_adjectives[DS_LAST] = {_("Neutral"), _("Hostile"), _("Ceasefire"),
+				     _("Peaceful"), _("Friendly"), _("Mysterious")};
+  out[0]='\0';
+
+#ifdef DEBUG
+  my_snprintf(out, sizeof(out), _("Location: (%d, %d) [%d]\n"), 
+	      xtile, ytile, ptile->continent); 
+#endif /*DEBUG*/
+  my_snprintf(buf, sizeof(buf), _("Terrain: %s"),
+	      map_get_tile_info_text(xtile, ytile));
+  sz_strlcat(out, buf);
+  my_snprintf(buf, sizeof(buf), _("\nFood/Prod/Trade: %s"),
+	      map_get_tile_fpt_text(xtile, ytile));
+  sz_strlcat(out, buf);
+  if (tile_has_special(ptile, S_HUT)) {
+    sz_strlcat(out, _("\nMinor Tribe Village"));
+  }
+  if (game.borders > 0 && !pcity) {
+    struct player *owner = map_get_owner(xtile, ytile);
+    if (owner == game.player_ptr){
+      sz_strlcat(out, _("\nOur Territory"));
+    } else if (owner) {
+      if (game.player_ptr->diplstates[owner->player_no].type==DS_CEASEFIRE){
+	my_snprintf(buf, sizeof(buf), _("\n%s territory (%d turn ceasefire)"),
+		    get_nation_name(owner->nation),
+		    game.player_ptr->diplstates[owner->player_no].turns_left);
+      }else{
+	my_snprintf(buf, sizeof(buf), _("\nTerritory of the %s %s"),
+		    diplo_adjectives[game.player_ptr->diplstates[owner->player_no].type],
+		    get_nation_name_plural(owner->nation));
+      }
+      sz_strlcat(out, buf);
+    } else {
+      sz_strlcat(out, _("\nUnclaimed territory"));
+    }
+  }
+  if (pcity) {
+      my_snprintf(buf, sizeof(buf), _("\nCity: %s(%s,%s)"), pcity->name,
+		  get_nation_name(city_owner(pcity)->nation),
+		  diplo_adjectives[game.player_ptr->
+				   diplstates[city_owner(pcity)->player_no].type]);
+      sz_strlcat(out, buf);
+      if (city_got_citywalls(pcity)) {
+	sz_strlcat(out, _(" with City Walls"));
+      }
+  } 
+  if (get_tile_infrastructure_set(ptile)) {
+    my_snprintf(buf, sizeof(buf), _("\nInfrastructure: %s"),
+		map_get_infrastructure_text(ptile->special));
+    sz_strlcat(out, buf);
+  }
+  sz_strlcpy(buf, _("\nActivity: "));
+  if (concat_tile_activity_text(buf, sizeof(buf), xtile, ytile)) {
+    sz_strlcat(out, buf);
+  }
+  if (punit && !pcity) {
+    char tmp[64] = {0};
+    struct unit_type *ptype = unit_type(punit);
+    if (punit->owner == game.player_idx) {
+	struct city *pcity;
+	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+	if (pcity)
+	  my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
+      }
+    my_snprintf(buf, sizeof(buf), _("\nUnit: %s(%s%s)"), ptype->name,
+		get_nation_name(unit_owner(punit)->nation), tmp);
+    sz_strlcat(out, buf);
+    if (punit->owner != game.player_idx){
+      struct unit *apunit;
+      if ((apunit = get_unit_in_focus())) {
+	/* chance to win when active unit is attacking the selected unit */
+	int att_chance = unit_win_chance(apunit, punit) * 100;
+	
+	/* chance to win when selected unit is attacking the active unit */
+	int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
+	
+	my_snprintf(buf, sizeof(buf), _("\nChance to win: A:%d%% D:%d%%"),
+		    att_chance, def_chance);
+	sz_strlcat(out, buf);
+      }
+    }
+    my_snprintf(buf, sizeof(buf), _("\nA:%d D:%d FP:%d HP:%d/%d%s"),
+		    ptype->attack_strength, 
+		    ptype->defense_strength, ptype->firepower, punit->hp, 
+		    ptype->hp, punit->veteran ? _(" V") : "");
+    sz_strlcat(out, buf);
+    if (punit->owner == game.player_idx && unit_list_size(&ptile->units) >= 2){
+      my_snprintf(buf, sizeof(buf), _("  (%d more)"),
+		  unit_list_size(&ptile->units) - 1);
+      sz_strlcat(out, buf);
+    }
+  } 
+  return out;
+}
+
+	

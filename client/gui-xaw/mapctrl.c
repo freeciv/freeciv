@@ -31,6 +31,7 @@
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 
+#include "climap.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
@@ -104,80 +105,36 @@ static void popit(int xin, int yin, int xtile, int ytile)
   static struct map_position cross_list[2+1];
   struct map_position *cross_head = cross_list;
   int i;
-  char s[512];
-  struct city *pcity;
   struct unit *punit;
-  struct tile *ptile=map_get_tile(xtile, ytile);
-
+  char *content;
   
-  if(ptile->known>=TILE_KNOWN_FOGGED) {
+  if (tile_get_known(xtile, ytile)>=TILE_KNOWN_FOGGED) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
 				map_canvas, NULL, 0);
-    my_snprintf(s, sizeof(s), _("Terrain: %s"),
-		map_get_tile_info_text(xtile, ytile));
-    XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
-
-    my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
-		map_get_tile_fpt_text(xtile, ytile));
-    XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
-
-    if (tile_has_special(ptile, S_HUT)) {
-      XtCreateManagedWidget(_("Minor Tribe Village"), smeBSBObjectClass,
-			    p, NULL, 0);
-    }
-    
-    if((pcity=map_get_city(xtile, ytile))) {
-      my_snprintf(s, sizeof(s), _("City: %s(%s) %s"), pcity->name,
-		  get_nation_name(city_owner(pcity)->nation),
-		  city_got_citywalls(pcity) ? _("with City Walls") : "");
-      XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
-    }
-
-    if(get_tile_infrastructure_set(ptile)) {
-      sz_strlcpy(s, _("Infrastructure: "));
-      sz_strlcat(s, map_get_infrastructure_text(ptile->special));
-      XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
-    }
-
-    if((punit=find_visible_unit(ptile)) && !pcity) {
-      char cn[64];
-      struct unit_type *ptype=unit_type(punit);
-      cn[0]='\0';
-      if(punit->owner==game.player_idx) {
-	struct city *pcity;
-	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
-	if(pcity)
-	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
+    content = popup_info_text(xtile,ytile);
+    /* content is provided to us as a single string with multiple lines,
+       but xaw doens't support multi-line labels.  So we break it up.
+       We mangle it in the process, but who cares?  It's never going to be
+       used again anyway. */
+    while (1) {
+      char *end = strchr(content, '\n'); 
+      if (end) {
+	*end='\0';
       }
-      my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
-		  get_nation_name(unit_owner(punit)->nation), cn);
-      XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
-
-      if(punit->owner==game.player_idx)  {
-	char uc[64] = "";
-	if(unit_list_size(&ptile->units)>=2) {
-	  my_snprintf(uc, sizeof(uc), _("  (%d more)"),
-		      unit_list_size(&ptile->units) - 1);
-	}
-        my_snprintf(s, sizeof(s),
-		_("A:%d D:%d FP:%d HP:%d/%d%s%s"), ptype->attack_strength, 
-	        ptype->defense_strength, ptype->firepower, punit->hp, 
-	        ptype->hp, punit->veteran?_(" V"):"", uc);
-
-        if(punit->activity==ACTIVITY_GOTO)  {
-	  cross_head->x = goto_dest_x(punit);
-	  cross_head->y = goto_dest_y(punit);
-	  cross_head++;
-        }
+      XtCreateManagedWidget(content, smeBSBObjectClass, p, NULL, 0);
+      if (end) {
+	content = end+1;
       } else {
-        my_snprintf(s, sizeof(s),
-		    _("A:%d D:%d FP:%d HP:%d0%%"), ptype->attack_strength, 
-		    ptype->defense_strength, ptype->firepower, 
-		    (punit->hp*100/ptype->hp + 9)/10 );
+	break;
       }
-      XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
+    punit = find_visible_unit(map_get_tile(xtile, ytile));
+    if (punit && (punit->activity == ACTIVITY_GOTO || punit->connecting)) {
+      cross_head->x = goto_dest_x(punit);
+      cross_head->y = goto_dest_y(punit);
+      cross_head++;
+    }
     cross_head->x = xtile;
     cross_head->y = ytile;
     cross_head++;

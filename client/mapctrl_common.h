@@ -25,6 +25,7 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y);
 void recenter_button_pressed(int canvas_x, int canvas_y);
 void update_turn_done_button_state(void);
 void update_line(int canvas_x, int canvas_y);
+char* popup_info_text(int xtile, int ytile);
 
 bool get_chance_to_win(int *att_chance, int *def_chance,
 		       int map_x, int map_y);

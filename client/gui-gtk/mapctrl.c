@@ -68,140 +68,27 @@ static gint popit_button_release(GtkWidget *w, GdkEventButton *event)
 **************************************************************************/
 static void popit(GdkEventButton *event, int xtile, int ytile)
 {
-  GtkWidget *p, *b;
+  GtkWidget *p;
   static struct map_position cross_list[2 + 1];
   struct map_position *cross_head = cross_list;
   int i;
-  char s[512];
   static struct t_popup_pos popup_pos;
-  struct city *pcity;
   struct unit *punit;
-  struct tile *ptile = map_get_tile(xtile, ytile);
 
   if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
-    b=gtk_vbox_new(FALSE, 0);
-    gtk_container_add(GTK_CONTAINER(p), b);
-
-#ifdef DEBUG    
-    my_snprintf(s, sizeof(s), _("Location: (%d, %d) [%d]"), xtile, ytile, 
-                ptile->continent);
-    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				    "GtkLabel::label", s, NULL);
-#endif /* DEBUG */
-
-    my_snprintf(s, sizeof(s), _("Terrain: %s"),
-		map_get_tile_info_text(xtile, ytile));
-    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				   "GtkLabel::label", s, NULL);
-
-    my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
-		map_get_tile_fpt_text(xtile, ytile));
-    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				    "GtkLabel::label", s, NULL);
-
-    if (tile_has_special(ptile, S_HUT)) {
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", 
-                                     _("Minor Tribe Village"), NULL);
-    }
-
-    pcity = map_get_city(xtile, ytile);
-    if (game.borders > 0 && !pcity) {
-      struct player *owner = map_get_owner(xtile, ytile);
-      if (owner) {
-	my_snprintf(s, sizeof(s), _("Claimed by %s"),
-		    get_nation_name(owner->nation));
-	gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				       "GtkLabel::label", s, NULL);
-      } else {
-	gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				       "GtkLabel::label",
-				       _("Unclaimed territory"), NULL);
-      }
-    }
+    gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(xtile, ytile)));
     
-    if (pcity) {
-      my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
-		  get_nation_name(city_owner(pcity)->nation));
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s, NULL);
-
-      if (city_got_citywalls(pcity)) {
-        gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-		       "GtkLabel::label", _("with City Walls"), NULL);
-      }
+    punit = find_visible_unit(map_get_tile(xtile, ytile));
+    if (punit && (punit->activity == ACTIVITY_GOTO || punit->connecting))  {
+      cross_head->x = goto_dest_x(punit);
+      cross_head->y = goto_dest_y(punit);
+      cross_head++;
     }
-
-    if(get_tile_infrastructure_set(ptile)) {
-      sz_strlcpy(s, _("Infrastructure: "));
-      sz_strlcat(s, map_get_infrastructure_text(ptile->special));
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s, NULL);
-    }
-    
-    sz_strlcpy(s, _("Activity: "));
-    if (concat_tile_activity_text(s, sizeof(s), xtile, ytile)) {
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-		     "GtkLabel::label", s, NULL);
-    }
-    
-    if((punit = find_visible_unit(ptile)) && !pcity) {
-      char cn[64];
-      struct unit_type *ptype = unit_type(punit);
-      cn[0] = '\0';
-      if(punit->owner == game.player_idx) {
-	struct city *pcity;
-	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
-	if(pcity)
-	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
-      }
-      my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
-		  get_nation_name(unit_owner(punit)->nation), cn);
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s, NULL);
-
-      if(punit->owner == game.player_idx)  {
-	char uc[64] = "";
-	if(unit_list_size(&ptile->units) >= 2) {
-	  my_snprintf(uc, sizeof(uc), _("  (%d more)"),
-		      unit_list_size(&ptile->units) - 1);
-	}
-        my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d/%d%s%s"),
-		    ptype->attack_strength, 
-		    ptype->defense_strength, ptype->firepower, punit->hp, 
-		    ptype->hp, punit->veteran ? _(" V") : "", uc);
-
-        if(punit->activity == ACTIVITY_GOTO || punit->connecting)  {
-	  cross_head->x = goto_dest_x(punit);
-	  cross_head->y = goto_dest_y(punit);
-	  cross_head++;
-        }
-      } else {
-	int att_chance, def_chance;
-
-        /* calculate chance to win */
-        if (get_chance_to_win(&att_chance, &def_chance, xtile, ytile)) {
-          my_snprintf(s, sizeof(s), _("Chance to win: A:%d%% D:%d%%"),
-               att_chance, def_chance);
-          gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-                                         "GtkLabel::label", s, NULL);
-        }
-
-        my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
-		    ptype->attack_strength, 
-		    ptype->defense_strength, ptype->firepower, 
-		    (punit->hp * 100 / ptype->hp + 9) / 10);
-      }
-      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", s, NULL);
-    }
-
     cross_head->x = xtile;
     cross_head->y = ytile;
     cross_head++;
 
-    gtk_widget_show_all(b);
 
     cross_head->x = -1;
     for (i = 0; cross_list[i].x >= 0; i++) {
@@ -218,7 +105,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
                        GTK_SIGNAL_FUNC(popupinfo_positioning_callback), 
                        &popup_pos);
 
-    gtk_widget_show(p);
+    gtk_widget_show_all(p);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
     gtk_grab_add(p);
