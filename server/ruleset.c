@@ -1618,8 +1618,8 @@ static void load_ruleset_terrain(struct section_file *file)
       t->defense_bonus = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
 
       output_type_iterate(o) {
-	t->output[o] = secfile_lookup_int(file, "%s.%s", sec[i],
-					  get_output_identifier(o));
+	t->output[o] = secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
+						  get_output_identifier(o));
       } output_type_iterate_end;
 
       for (j = 0; j < MAX_NUM_SPECIALS; j++) {
@@ -1633,8 +1633,8 @@ static void load_ruleset_terrain(struct section_file *file)
 	t->special[j].name = t->special[j].name_orig;
 	output_type_iterate(o) {
 	  t->special[j].output[o]
-	    = secfile_lookup_int(file, "%s.%s_special_%d", sec[i],
-				 get_output_identifier(o), j + 1);
+	    = secfile_lookup_int_default(file, 0, "%s.%s_special_%d", sec[i],
+					 get_output_identifier(o), j + 1);
 	} output_type_iterate_end;
 
 	sz_strlcpy(t->special[j].graphic_str,
