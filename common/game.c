@@ -241,6 +241,7 @@ void game_init(void)
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
   game.spacerace   = GAME_DEFAULT_SPACERACE;
+  game.turnblock   = GAME_DEFAULT_TURNBLOCK;
   game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
   game.fogofwar_old= game.fogofwar;
   game.borders     = GAME_DEFAULT_BORDERS;

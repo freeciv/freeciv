@@ -394,6 +394,8 @@ extern bool is_server;
 
 #define GAME_DEFAULT_SPACERACE       TRUE
 
+#define GAME_DEFAULT_TURNBLOCK       TRUE
+
 #define GAME_DEFAULT_AUTO_AI_TOGGLE  FALSE
 
 #define GAME_DEFAULT_TIMEOUT         0

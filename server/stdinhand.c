@@ -792,7 +792,7 @@ static struct settings_s settings[] = {
 	   N_("If this is set to 1 the game turn is not advanced "
 	      "until all players have finished their turn, including "
 	      "disconnected players."), NULL, 
-	   FALSE)
+	   GAME_DEFAULT_TURNBLOCK)
 
   GEN_BOOL("fixedlength", game.fixedlength, SSET_META, SSET_TO_CLIENT,
 	   N_("Fixed-length turns play mode"),
