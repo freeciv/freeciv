@@ -352,7 +352,7 @@ tiles = { "row", "column", "tag"
  11,  7, "ts.fish"
  11,  8, "ts.horses"
  11,  9, "ts.river_resources"
- 11, 10, "ts.oil"
+ 11, 10, "ts.oil", "ts.arctic_oil"
  11, 11, "ts.tundra_game"
 
   5, 16, "ts.spice"
