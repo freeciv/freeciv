@@ -1016,22 +1016,37 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 **************************************************************************/
 void check_for_full_turn_done(void)
 {
+  bool connected = FALSE;
+
   /* fixedlength is only applicable if we have a timeout set */
   if (game.fixedlength && game.timeout != 0) {
     return;
   }
 
+  /* If there are no connected players, don't automatically advance.  This is
+   * a hack to prevent all-AI games from running rampant.  Note that if
+   * timeout is set to -1 this function call is skipped entirely and the
+   * server will run rampant. */
+  players_iterate(pplayer) {
+    if (pplayer->is_connected) {
+      connected = TRUE;
+      break;
+    }
+  } players_iterate_end;
+  if (!connected) {
+    return;
+  }
+
   phase_players_iterate(pplayer) {
-    if (game.turnblock) {
-      if (!pplayer->ai.control && pplayer->is_alive
-	  && !pplayer->phase_done) {
-        return;
-      }
-    } else {
-      if (pplayer->is_connected && pplayer->is_alive
-	  && !pplayer->phase_done) {
-        return;
-      }
+    if (game.turnblock && !pplayer->ai.control && pplayer->is_alive
+	&& !pplayer->phase_done) {
+      /* If turnblock is enabled check for human players, connected
+       * or not. */
+      return;
+    } else if (pplayer->is_connected && pplayer->is_alive
+	       && !pplayer->phase_done) {
+      /* In all cases, we wait for any connected players. */
+      return;
     }
   } phase_players_iterate_end;
 
