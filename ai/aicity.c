@@ -55,6 +55,26 @@
 #include "aicity.h"
 
 static void ai_manage_city(struct player *pplayer, struct city *pcity);
+
+/**************************************************************************
+  This calculates the usefulness of pcity to us. Note that you can pass
+  another player's ai_data structure here for evaluation by different
+  priorities.
+**************************************************************************/
+int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
+{
+  int i = (pcity->food_surplus * ai->food_priority
+           + pcity->shield_surplus * ai->shield_priority
+           + pcity->luxury_total * ai->trade_priority
+           + pcity->tax_total * ai->trade_priority
+           + pcity->science_total * ai->trade_priority
+           + pcity->ppl_happy[4] * ai->happy_priority
+           - pcity->ppl_unhappy[4] * ai->unhappy_priority
+           - pcity->ppl_angry[4] * ai->angry_priority
+           - pcity->pollution * ai->pollution_priority);
+
+  return i;
+}
      
 /************************************************************************** 
 ...

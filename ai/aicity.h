@@ -18,6 +18,9 @@
 struct player;
 struct city;
 struct ai_choice;
+struct ai_data;
+
+int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 void ai_manage_cities(struct player *pplayer);
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice);

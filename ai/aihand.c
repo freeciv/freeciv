@@ -31,10 +31,13 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "plrhand.h"
 #include "spacerace.h"
+#include "settlers.h" /* amortize */
 #include "unithand.h"
 
 #include "aicity.h"
+#include "aidata.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -303,59 +306,93 @@ static void ai_manage_taxes(struct player *pplayer)
 }
 
 /**************************************************************************
- change the government form, if it can and there is a good reason
+  Change the government form, if it can and there is a good reason.
 **************************************************************************/
 static void ai_manage_government(struct player *pplayer)
 {
-  int goal;
-  int subgoal;
-  int failsafe;
-  
-  goal = game.ai_goal_government;
-  /* Was G_REPUBLIC; need to be REPUBLIC+ to love */
-  
-  /* advantages of DEMOCRACY:
-        partisans, no bribes, no corrup, +1 content if courthouse;
-     disadvantages of DEMOCRACY:
-        doubled unhappiness from attacking units, anarchy 
-     realistically we should allow DEMOC in some circumstances but
-     not yet -- Syela
-  */
-  if (pplayer->government == goal) {
-    freelog(LOG_DEBUG, "ai_man_gov (%s): there %d", pplayer->name, goal);
-    return;
-  }
-  if (can_change_to_government(pplayer, goal)) {
-    freelog(LOG_DEBUG, "ai_man_gov (%s): change %d", pplayer->name, goal);
-    ai_government_change(pplayer, goal);
-    return;
-  }
-  failsafe = 0;
-  while((subgoal = get_government(goal)->subgoal) >= 0) {
-    if (can_change_to_government(pplayer, subgoal)) {
-      freelog(LOG_DEBUG, "ai_man_gov (%s): change sub %d (%d)",
-	      pplayer->name, subgoal, goal);
-      ai_government_change(pplayer, subgoal);
-      break;
+  struct ai_data *ai = ai_data_get(pplayer);
+  int best_gov = 0;
+  int best_val = 0;
+  int really_best_val = 0;
+  int really_best_req = A_NONE;
+  int i;
+  int bonus = 0; /* in percentage */
+  int current_gov = pplayer->government;
+
+  for (i = 0; i < game.government_count; ++i) {
+    struct government *gov = &governments[i];
+    int val = 0;
+    int dist;
+
+    if (i == game.government_when_anarchy) {
+      continue; /* pointless */
     }
-    goal = subgoal;
-    if (++failsafe > game.government_count) {
-      freelog(LOG_ERROR, "Loop in ai_manage_government? (%s)",
-	      pplayer->name);
-      return;
+    pplayer->government = gov->index;
+    check_player_government_rates(pplayer);
+    update_all_effects();
+    city_list_iterate(pplayer->cities, acity) {
+      generic_city_refresh(acity, TRUE);
+      auto_arrange_workers(acity);
+      if (ai_fix_unhappy(acity)) {
+        ai_scientists_taxmen(acity);
+      } 
+    } city_list_iterate_end;
+    city_list_iterate(pplayer->cities, pcity) {
+      val += ai_eval_calc_city(pcity, ai);
+    } city_list_iterate_end;
+
+    /* Bonuses for non-economic abilities */
+    if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
+      bonus += 3; /* WAG */
     }
+    if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
+      bonus -= 1; /* Not really a problem for us */ /* WAG */
+    }
+    if (government_has_flag(gov, G_UNBRIBABLE)) {
+      bonus += 10; /* WAG */
+    }
+    if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
+      bonus += 5; /* WAG */
+    }
+    if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
+      bonus += 8; /* WAG */
+    }
+    if (government_has_flag(gov, G_FANATIC_TROOPS)) {
+      bonus += 3; /* WAG */
+    }
+    if (get_nation_by_idx(pplayer->nation)->goals.government == i) {
+      bonus += 20; /* WAG */
+    }
+
+    val += (val * bonus) / 100;
+
+    dist = MAX(1, num_unknown_techs_for_goal(pplayer, gov->required_tech));
+    val = amortize(val, dist);
+    if (val > best_val && can_change_to_government(pplayer, i)) {
+      best_val = val;
+      best_gov = i;
+    }
+    if (val > really_best_val) {
+      really_best_val = val;
+      really_best_req = gov->required_tech;
+    }
+    freelog(LOG_DEBUG, "%s govt eval %s (dist %d): %d",
+            pplayer->name, gov->name, dist, val);
+  }
+  if (best_gov != current_gov) {
+    ai_government_change(pplayer, best_gov); /* change */
+  } else {
+    pplayer->government = current_gov; /* reset */
   }
 
-  if (pplayer->government == game.government_when_anarchy) {
-    /* if the ai ever intends to stay anarchy, */
-    /* change condition to if( (pplayer->revolution==0) && */
-    if( ((pplayer->revolution<=0) || (pplayer->revolution>5))
-	&& can_change_to_government(pplayer, game.default_government)) {
-      freelog(LOG_DEBUG, "ai_man_gov (%s): change from anarchy",
-	      pplayer->name);
-      ai_government_change(pplayer, game.default_government);
-    }
+  /* Crank up tech want */
+  if (get_invention(pplayer, really_best_req) == TECH_KNOWN) {
+    return; /* already got it! */
   }
+  pplayer->ai.tech_want[really_best_req] += (really_best_val - best_val);
+  freelog(LOG_DEBUG, "%s wants %s with want %d", pplayer->name,
+          advances[really_best_req].name, 
+          pplayer->ai.tech_want[really_best_req]);
 }
 
 /**************************************************************************

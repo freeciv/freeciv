@@ -50,6 +50,15 @@ struct ai_data {
   } stats;
 
   int num_continents; /* last time we updated our continent data */
+
+  /* Dynamic weights used in addition to Syela's hardcoded weights */
+  int shield_priority;
+  int food_priority;
+  int trade_priority;
+  int happy_priority;
+  int unhappy_priority;
+  int angry_priority;
+  int pollution_priority;
 };
 
 void ai_data_turn_init(struct player *pplayer);

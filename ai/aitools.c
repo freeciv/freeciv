@@ -402,16 +402,18 @@ bool is_stack_vulnerable(int x, int y)
 }
 
 /**************************************************************************
-.. change government,pretty fast....
+  Change government, pretty fast...
 **************************************************************************/
 void ai_government_change(struct player *pplayer, int gov)
 {
   struct packet_player_request preq;
-  if (gov == pplayer->government)
+
+  if (gov == pplayer->government) {
     return;
-  preq.government=gov;
-  pplayer->revolution=0;
-  pplayer->government=game.government_when_anarchy;
+  }
+  preq.government = gov;
+  pplayer->revolution = 0;
+  pplayer->government = game.government_when_anarchy;
   handle_player_government(pplayer, &preq);
   pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
 }
@@ -576,80 +578,4 @@ bool ai_assess_military_unhappiness(struct city *pcity,
  
   if (unhap < 0) unhap = 0;
   return unhap > 0;
-}
-
-/**********************************************************************
-  Evaluate a government form, still pretty sketchy.
-
-  This evaluation should be more dynamic (based on players current
-  needs, like expansion, at war, etc, etc). -SKi
-
-  0 is my first attempt at government evaluation
-  1 is new evaluation based on patch from rizos -SKi
-**********************************************************************/
-int ai_evaluate_government (struct player *pplayer, struct government *g)
-{
-  int current_gov      = pplayer->government;
-  int shield_surplus   = 0;
-  int food_surplus     = 0;
-  int trade_prod       = 0;
-  int shield_need      = 0;
-  int food_need        = 0;
-  bool gov_overthrown   = FALSE;
-  int score;
-
-  pplayer->government = g->index;
-
-  city_list_iterate(pplayer->cities, pcity) {
-    city_refresh(pcity);
-
-    /* the lines that follow are copied from ai_manage_city -
-       we don't need the sell_obsolete_buildings */
-    auto_arrange_workers(pcity);
-    if (ai_fix_unhappy (pcity))
-      ai_scientists_taxmen(pcity);
-
-    trade_prod     += pcity->trade_prod;
-    if (pcity->shield_prod > 0)
-      shield_surplus += pcity->shield_surplus;
-    else
-      shield_need    += pcity->shield_surplus;
-    if (pcity->food_surplus > 0)
-      food_surplus   += pcity->food_surplus;
-    else
-      food_need      += pcity->food_surplus;
-
-    if (city_unhappy(pcity)) {
-      /* the following is essential to prevent falling into anarchy */
-      if (pcity->anarchy > 0
-	  && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) 
-        gov_overthrown = TRUE;
-    }
-  } city_list_iterate_end;
-
-  pplayer->government = current_gov;
-
-  /* Restore all cities. */
-  city_list_iterate(pplayer->cities, pcity) {
-    city_refresh(pcity);
-
-    /* the lines that follow are copied from ai_manage_city -
-       we don't need the sell_obsolete_buildings */
-    auto_arrange_workers(pcity);
-    if (ai_fix_unhappy (pcity))
-      ai_scientists_taxmen(pcity);
-  } city_list_iterate_end;
-  sync_cities();
-
-  score =
-    3 * trade_prod
-  + 2 * shield_surplus + 2 * food_surplus
-  - 4 * shield_need - 4 * food_need;
-
-  score = gov_overthrown ? 0 : MAX(score, 0);
-
-  freelog(LOG_DEBUG, "a_e_g (%12s) = score=%3d; trade=%3d; shield=%3d/%3d; "
-                     "food=%3d/%3d;", g->name, score, trade_prod, 
-                     shield_surplus, shield_need, food_surplus, food_need);
-  return score;
 }

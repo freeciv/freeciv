@@ -188,6 +188,20 @@ void ai_data_turn_init(struct player *pplayer) {
       ai->stats.workers[ptile->continent]++;
     }
   } unit_list_iterate_end;
+
+  /* 
+   * Priorities. NEVER set these to zero! Weight values are usually
+   * multiplied by these values, so be careful with them. They are
+   * used in city calculations, and food and shields should be slightly
+   * bigger because we only look at surpluses there.
+   */
+  ai->food_priority = FOOD_WEIGHTING;
+  ai->shield_priority = SHIELD_WEIGHTING;
+  ai->trade_priority = TRADE_WEIGHTING;
+  ai->happy_priority = TRADE_WEIGHTING;
+  ai->unhappy_priority = TRADE_WEIGHTING;
+  ai->angry_priority = TRADE_WEIGHTING * 3; /* danger */
+  ai->pollution_priority = SHIELD_WEIGHTING;
 }
 
 /**************************************************************************
@@ -195,10 +209,11 @@ void ai_data_turn_init(struct player *pplayer) {
 **************************************************************************/
 void ai_data_turn_done(struct player *pplayer) {
   struct ai_data *ai = &aidata[pplayer->player_no];
-  free(ai->explore.continent);
-  free(ai->threats.continent);
-  free(ai->stats.workers);
-  free(ai->stats.cities);
+
+  free(ai->explore.continent); ai->explore.continent = NULL;
+  free(ai->threats.continent); ai->threats.continent = NULL;
+  free(ai->stats.workers);     ai->stats.workers = NULL;
+  free(ai->stats.cities);      ai->stats.cities = NULL;
 }
 
 /**************************************************************************
