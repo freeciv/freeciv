@@ -88,6 +88,10 @@ static int flag_offset_x, flag_offset_y;
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
 
+static int num_valid_tileset_dirs, num_cardinal_tileset_dirs;
+static int num_index_valid, num_index_cardinal;
+static enum direction8 valid_tileset_dirs[8], cardinal_tileset_dirs[8];
+
 static struct {
   enum match_style match_style;
   int count;
@@ -196,6 +200,64 @@ static bool focus_unit_hidden = FALSE;
 static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 					    bool required, const char *what,
 					    const char *name);
+
+/**************************************************************************
+  Return the tileset name of the direction.  This is similar to
+  dir_get_name but you shouldn't change this or all tilesets will break.
+**************************************************************************/
+static const char *dir_get_tileset_name(enum direction8 dir)
+{
+  switch (dir) {
+  case DIR8_NORTH:
+    return "n";
+  case DIR8_NORTHEAST:
+    return "ne";
+  case DIR8_EAST:
+    return "e";
+  case DIR8_SOUTHEAST:
+    return "se";
+  case DIR8_SOUTH:
+    return "s";
+  case DIR8_SOUTHWEST:
+    return "sw";
+  case DIR8_WEST:
+    return "w";
+  case DIR8_NORTHWEST:
+    return "nw";
+  }
+  assert(0);
+  return "";
+}
+
+/****************************************************************************
+  Return TRUE iff the dir is valid in this tileset.
+****************************************************************************/
+static bool is_valid_tileset_dir(enum direction8 dir)
+{
+  if (hex_width > 0) {
+    return dir != DIR8_NORTHEAST && dir != DIR8_SOUTHWEST;
+  } else if (hex_height > 0) {
+    return dir != DIR8_NORTHWEST && dir != DIR8_SOUTHEAST;
+  } else {
+    return TRUE;
+  }
+}
+
+/****************************************************************************
+  Return TRUE iff the dir is cardinal in this tileset.
+
+  "Cardinal", in this sense, means that a tile will share a border with
+  another tile in the direction rather than sharing just a single vertex.
+****************************************************************************/
+static bool is_cardinal_tileset_dir(enum direction8 dir)
+{
+  if (hex_width > 0 || hex_height > 0) {
+    return is_valid_tileset_dir(dir);
+  } else {
+    return (dir == DIR8_NORTH || dir == DIR8_EAST
+	    || dir == DIR8_SOUTH || dir == DIR8_WEST);
+  }
+}
 
 /**********************************************************************
   Returns a static list of tilesets available on the system by
@@ -687,6 +749,7 @@ bool tilespec_read_toplevel(const char *tileset_name)
   char **spec_filenames, **terrains;
   char *file_capstr;
   bool duplicates_ok, is_hex;
+  enum direction8 dir;
 
   fname = tilespec_fullname(tileset_name);
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
@@ -737,6 +800,27 @@ bool tilespec_read_toplevel(const char *tileset_name)
     free(fname);
     return tilespec_read_toplevel(NULL);
   }
+
+  /* Create arrays of valid and cardinal tileset dirs.  These depend
+   * entirely on the tileset, not the topology.  They are also in clockwise
+   * rotational ordering. */
+  num_valid_tileset_dirs = num_cardinal_tileset_dirs = 0;
+  num_index_valid = num_index_cardinal = 2;
+  dir = DIR8_NORTH;
+  do {
+    if (is_valid_tileset_dir(dir)) {
+      valid_tileset_dirs[num_valid_tileset_dirs] = dir;
+      num_index_valid *= 2;
+      num_valid_tileset_dirs++;
+    }
+    if (is_cardinal_tileset_dir(dir)) {
+      cardinal_tileset_dirs[num_cardinal_tileset_dirs] = dir;
+      num_index_cardinal *= 2;
+      num_cardinal_tileset_dirs++;
+    }
+
+    dir = dir_cw(dir);
+  } while (dir != DIR8_NORTH);
 
   NORMAL_TILE_WIDTH = secfile_lookup_int(file, "tilespec.normal_tile_width");
   NORMAL_TILE_HEIGHT = secfile_lookup_int(file, "tilespec.normal_tile_height");
@@ -1002,6 +1086,27 @@ static char *nsew_str(int idx)
 
   sprintf(c, "n%ds%de%dw%d", BOOL_VAL(idx&BIT_NORTH), BOOL_VAL(idx&BIT_SOUTH),
      	                     BOOL_VAL(idx&BIT_EAST),  BOOL_VAL(idx&BIT_WEST));
+  return c;
+}
+
+/****************************************************************************
+  Return a directional string for the cardinal directions.  Normally the
+  binary value 1000 will be converted into "n1e0s0w0".  This is in a
+  clockwise ordering.
+****************************************************************************/
+static const char *cardinal_str(int idx)
+{
+  static char c[64];
+  int i;
+
+  c[0] = '\0';
+  for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+    int value = (idx >> i) & 1;
+
+    snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
+	     dir_get_tileset_name(cardinal_tileset_dirs[i]), value);
+  }
+
   return c;
 }
 
@@ -1314,8 +1419,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.airbase,    "tx.airbase");
   SET_SPRITE(tx.fog,        "tx.fog");
 
-  for(i=0; i<NUM_DIRECTION_NSEW; i++) {
-    my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s", nsew_str(i));
+  for (i = 0; i < num_index_cardinal; i++) {
+    my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s", cardinal_str(i));
     SET_SPRITE(tx.spec_river[i], buffer);
   }
 
@@ -2543,19 +2648,18 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs,
 					 pcity);
 
     if (draw_terrain && contains_special(tspecial, S_RIVER)) {
+      int i;
+
       /* Draw rivers on top of irrigation. */
-      tileno = INDEX_NSEW((contains_special(tspecial_near[DIR8_NORTH],
-					    S_RIVER)
-			   || is_ocean(ttype_near[DIR8_NORTH])),
-			  (contains_special(tspecial_near[DIR8_SOUTH],
-					    S_RIVER)
-			   || is_ocean(ttype_near[DIR8_SOUTH])),
-			  (contains_special(tspecial_near[DIR8_EAST],
-					    S_RIVER)
-			   || is_ocean(ttype_near[DIR8_EAST])),
-			  (contains_special(tspecial_near[DIR8_WEST],
-					    S_RIVER)
-			   || is_ocean(ttype_near[DIR8_WEST])));
+      tileno = 0;
+      for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	enum direction8 dir = cardinal_tileset_dirs[i];
+
+	if (contains_special(tspecial_near[dir], S_RIVER)
+	    || is_ocean(ttype_near[dir])) {
+	  tileno |= 1 << i;
+	}
+      }
       ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
     }
   

@@ -81,8 +81,8 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 
 
 /* This the way directional indices are now encoded: */
-
 #define NUM_DIRECTION_NSEW 		16
+#define MAX_INDEX_CARDINAL 		64
 #define NUM_DIRECTION_CW		256
 
 #define BIT_NORTH (0x01)
@@ -269,7 +269,7 @@ struct named_sprites {
       *airbase,
       *fallout,
       *fog,
-      *spec_river[NUM_DIRECTION_NSEW],
+      *spec_river[MAX_INDEX_CARDINAL],
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
       *river_outlet[4],		/* indexed by enum direction4 */
       /* for non-isometric */
