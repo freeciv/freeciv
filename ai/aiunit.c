@@ -1272,6 +1272,8 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
   struct packet_unit_request req;
+  int tradeval, best_city = 0, best=0;
+
   if (punit->activity != ACTIVITY_IDLE)
     return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
@@ -1284,6 +1286,31 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 	req.unit_id = punit->id;
 	req.city_id = pcity->id;
 	handle_unit_help_build_wonder(pplayer, &req);
+      }
+    }
+     else {
+       pcity=city_list_find_id(&pplayer->cities, punit->homecity);
+       city_list_iterate(pplayer->cities,pdest)
+         if (pcity && can_establish_trade_route(pcity,pdest) && (map_get_continent(pcity->x, pcity->y) == map_get_continent(pdest->x, pdest->y))) {
+           tradeval=trade_between_cities(pcity,pdest);
+           if (tradeval) {
+             if (best < tradeval) {
+               best=tradeval;
+               best_city=pdest->id;
+             }
+           }
+         }
+       city_list_iterate_end;
+       pcity=city_list_find_id(&pplayer->cities, best_city);
+       if (pcity) {
+         if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
+           if (!punit->moves_left) return;
+           auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
+         } else {
+           req.unit_id = punit->id;
+           req.city_id = pcity->id;
+           handle_unit_establish_trade(pplayer, &req);
+        }
       }
     }
   }
