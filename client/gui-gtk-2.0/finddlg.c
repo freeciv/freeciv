@@ -88,6 +88,8 @@ void popup_find_dialog(void)
 			 NULL);
 
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
+    0, GTK_SORT_ASCENDING);
 
   find_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(find_view));
