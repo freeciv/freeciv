@@ -258,6 +258,22 @@ char **race_default_city_names[R_LAST]={
 
 
 /**************************************************************************
+  Set the worker on the citymap.  Also sets the worked field in the map.
+**************************************************************************/
+void set_worker_city(struct city *pcity, int x, int y, 
+		     enum city_tile_type type) 
+{
+  struct tile *ptile=map_get_tile(pcity->x+x-2, pcity->y+y-2);
+  if (pcity->city_map[x][y] == C_TILE_WORKER)
+    ptile->worked = NULL;
+  pcity->city_map[x][y]=type;
+/* this function is called far less than is_worked here */
+/* and these two ifs are a lot less CPU load then the iterates! */
+  if (type == C_TILE_WORKER)
+    ptile->worked = pcity;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 enum city_tile_type get_worker_city(struct city *pcity, int x, int y)
@@ -277,6 +293,23 @@ int is_worker_here(struct city *pcity, int x, int y)
   }
   return (get_worker_city(pcity,x,y)==C_TILE_WORKER); 
 }
+
+/**************************************************************************
+  Convert map coordinate into position in city map
+**************************************************************************/
+int map_to_city_x(struct city *pcity, int x)
+{
+	int t=map.xsize/2;
+	x-=pcity->x;
+	if(x > t) x-=map.xsize;
+	else if(x < -t) x+=map.xsize;
+	return x+2;
+}
+int map_to_city_y(struct city *pcity, int y)
+{
+	return y-pcity->y+2;
+}
+
 /****************************************************************
 ...
 *****************************************************************/
