@@ -5,185 +5,11 @@
 %%
 %% Notice! no line may be more than 68 chars wide: --------------->|
 %%
-#Freeciv
+#About Freeciv
 Freeciv is a turn-based strategy game, in which each player becomes
 the leader of a civilization, fighting to obtain the ultimate goal:
 The extinction of all other civilizations.
----
-#Playing the game
-While every game is different, there's a basic strategy which most 
-players follow, especially at the start of the game.
 
-These steps may vary depending upon the server options, but in
-general, the steps are:
-
- 0. Choosing the first city site.
- 1. Mapping the countryside.
- 2. Defending the cities.
- 3. Units to build first.
- 4. Agriculture improvements.
-
- 5. Where to build?
- 6. Taking care of cities.
- 7. Exploring the world.
- 8. Things to keep in mind.
- 9. Make your own strategy for the game.
- 
- 
- 0. Choosing the first city site.
-
-    Start the game by wandering around BRIEFLY to find a good place
-    to build the first city.  Don't feel tempted to investigate any
-    yellow-roofed villages yet - they might contain barbarian
-    tribes.  Build the city close to resources and perhaps close to
-    the sea.  Keep in mind that the city you build first will be
-    your capitol!  The idea is to balance the time spent looking for
-    a good site, against getting your first city established as
-    early as possible.
-
- 1. Mapping the countryside.
-
-    After the capitol city has been founded, it will start producing
-    a warrior unit.  These units can be used to rove around
-    exploring the countryside.  Remember, it is NOT a good idea to
-    leave a city undefended, so keep the first warrior in the city,
-    and use the following one to explore.
-
- 2. Defending the cities.
-
-    At this point, defend your cities by always leaving a warrior
-    unit in them.  As your civilization develops units with a
-    greater defence strength, replace the obsolete units with new
-    ones to ensure your cities have maximum defence.  The units most
-    often used for defence are (in order of strength):  Warrior,
-    Phalanx, Musketeers, and Riflemen.
-
-    Keep in mind that with some types of government, military units
-    in the city create unhappiness.  Also remember that when a unit
-    is inside a city, its defence strength is doubled.  When a new
-    city is build, the city starts to build a unit with the best
-    defence strength.
-
- 3. Units to build first.
-
-    After building one or two Warrior units, start building
-    Settlers.  The second Settler can be used to build roads and
-    irrigate the farmland close to the city, and the third can be
-    used to build a new city.  Or, you can use the second Settler to
-    build another city, and use the third Settler for agricultural
-    improvements in the farmland around the cities.  Keep in mind
-    that a large population increases both the amount of
-    productivity and the your civilization's research rate.
-
- 4. Agriculture improvements.
-
-    Each city has an area of farmland around it that can be used
-    for growing food, producing goods, and generating trade.  This
-    can be increased by using Settlers to improve the farmland. 
-    The land can be improved with roads, irrigation, mines, and
-    others.
-    
-
- 5. Where to build cities?
-
-    The best location for a city is a matter of taste.  A city which
-    is placed near the sea is easier to spot by opponents, but can
-    also serve as a port for sea-going units.  (They also usually
-    need a harbour defence later on).  The best strategy is to build
-    a few of both, but keep in mind that your opponents will find it
-    harder to locate your city if you don't build it by the sea. 
-
- 6. Taking care of cities.
-
-    Every city has a band of citizens.  The number of citizens
-    depends on the city's population.  When you click on a city, you
-    can see how the farmland around the city is being used.  You can
-    assign your citizens to the farmland, or they can be scientists,
-    entertainers or taxmen.  Especially at the start of the game,
-    care should be taken to ensure that the citizens are employed so
-    that they maximise growth, trade and production.
-
-    If too much food is being generated, a citizen can be taken off
-    the farmland by clicking on the occupied farmland square.  This
-    citizen can then be transferred to the other duties mentioned
-    previously.
-
-    If you move all of your citizens into the city and right-click
-    on the central tile of the farmland, the citizens will be
-    rearranged to maximise food production.
-
-    The golden rule of taking care of a city is that there should be
-    at least as many happy citizens as unhappy citizens.  A city
-    where this is not so is labeled with a lightning bolt.  Take
-    care not to let this happen to any of your cities, as unhappy
-    cities produce nothing, and will soon revolt.
-
- 7. Explore the world.
-
-    Aftr you have fortified your cities with troops, build Triremes
-    in the cities near the sea.  Use the Triremes to map the world
-    in search of opponents and new lands.  If you are on an island,
-    you should spend less on military and more on expansion.  Or if
-    you are located close to an opponent, it is truly a good idea to
-    make a peace treaty and share the Advances you have made.
-    Diplomat units are very useful here, and WILL pay off later.
-
- 8. Things to keep in mind.
-
-    - What the next Advance you'll need is.
-
-    - What your luxury, tax and research rates are currently set to.
-
-    - Treaty are often broken, so don't neglect defence...
-
-    - Some Wonders can be made obsolete by the development of
-      certain advances.
-
- 9. Make your own strategy for the game.      
-
-    These basic concepts will allow you to play the game pretty
-    well, especially in the beginning of the game.  But to improve,
-    you need to study the various units and advances, and PRACTICE,
-    PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't
-    played a simular game before, try consulting the Freeciv WWW
-    pages at http://freeciv.ultraviolet.org
-    You'll find more tips for playing, and details of how to contact
-    other players.
-
----
-#Controls
-Mouse:                                       Keyboard:
-======                                       =========
-                                             a: (A)utosettler
-                                             c: (C)enter on unit 
-Left-click:                                  b: (B)uild City
-  (on city): Pop up city window              D: (D)isband Unit
-  (on unit): Activate unit                   f: (F)ortify
-                                             F: Build (F)ortress
-                                             g: Unit (G)oto
-Center-click:                                h: Change (H)omecity
-             Show tile info                  i: (I)rrigate
-	                                     l: Go/air(l)ift city
-%% I still don't understand this here!!         ^^^^^^^^^^^^^^^^^
-                                             m: (M)ine
-                                             p: clean (p)ollution
-					     P: (P)illage
-                                             r: Build (r)oad
-Right-click:                                 s: (S)entry
-             Center tile in view             u: (U)nload
-                                             w: (W)ait
-					 space: Stay put
-                                        return: Turn done
----
-#Bugs
-If you find any bugs, then please send us a bug report.  You can 
-find our email addresses in the "About" box in the help browser. 
-Helpful details on submitting bug reports, as well as the Freeciv 
-FAQ, can be found on the Freeciv website at:
-
-  http://freeciv.ultraviolet.org
----
-#About
   Original authors:
             Allan Ove Kjeldbjerg - allan@daimi.aau.dk
             Claus Leth Gregersen - leth@daimi.aau.dk
@@ -192,6 +18,13 @@ FAQ, can be found on the Freeciv website at:
   Present administrators:
             Mitch Davis          - mjd@alphalink.com.au
             James Blackwell      - innocent@mercury.merconline.com
+
+If you find any bugs, then please send us a bug report.  You can 
+find our email addresses in the "About" box in the help browser. 
+Helpful details on submitting bug reports, as well as the Freeciv 
+FAQ, can be found on the Freeciv website at:
+
+  http://freeciv.ultraviolet.org
 ---
 #Copying
 
@@ -493,15 +326,180 @@ SUCH DAMAGES.
                      END OF TERMS AND CONDITIONS
                          ------------------
 ---
+#Controls
+Mouse:                                       Keyboard:
+======                                       =========
+                                             a: (A)utosettler
+                                             c: (C)enter on unit 
+Left-click:                                  b: (B)uild City
+  (on city): Pop up city window              D: (D)isband Unit
+  (on unit): Activate unit                   f: (F)ortify
+                                             F: Build (F)ortress
+                                             g: Unit (G)oto
+Center-click:                                h: Change (H)omecity
+             Show tile info                  i: (I)rrigate
+	                                     l: Go/air(l)ift city
+%% I still don't understand this here!!         ^^^^^^^^^^^^^^^^^
+                                             m: (M)ine
+                                             p: clean (p)ollution
+					     P: (P)illage
+                                             r: Build (r)oad
+Right-click:                                 s: (S)entry
+             Center tile in view             u: (U)nload
+                                             w: (W)ait
+					 space: Stay put
+                                        return: Turn done
+---
+#Strategy and tactics
+While every game is different, there's a basic strategy which most 
+players follow, especially at the start of the game.
+
+These steps may vary depending upon the server options, but in
+general, the steps are:
+
+ 0. Choosing the first city site.
+ 1. Mapping the countryside.
+ 2. Defending the cities.
+ 3. Units to build first.
+ 4. Agriculture improvements.
+
+ 5. Where to build?
+ 6. Taking care of cities.
+ 7. Exploring the world.
+ 8. Things to keep in mind.
+ 9. Make your own strategy for the game.
+ 
+ 
+ 0. Choosing the first city site.
+
+    Start the game by wandering around BRIEFLY to find a good place
+    to build the first city.  Don't feel tempted to investigate any
+    yellow-roofed villages yet - they might contain barbarian
+    tribes.  Build the city close to resources and perhaps close to
+    the sea.  Keep in mind that the city you build first will be
+    your capitol!  The idea is to balance the time spent looking for
+    a good site, against getting your first city established as
+    early as possible.
+
+ 1. Mapping the countryside.
+
+    After the capitol city has been founded, it will start producing
+    a warrior unit.  These units can be used to rove around
+    exploring the countryside.  Remember, it is NOT a good idea to
+    leave a city undefended, so keep the first warrior in the city,
+    and use the following one to explore.
+
+ 2. Defending the cities.
+
+    At this point, defend your cities by always leaving a warrior
+    unit in them.  As your civilization develops units with a
+    greater defence strength, replace the obsolete units with new
+    ones to ensure your cities have maximum defence.  The units most
+    often used for defence are (in order of strength):  Warrior,
+    Phalanx, Musketeers, and Riflemen.
+
+    Keep in mind that with some types of government, military units
+    in the city create unhappiness.  Also remember that when a unit
+    is inside a city, its defence strength is doubled.  When a new
+    city is build, the city starts to build a unit with the best
+    defence strength.
+
+ 3. Units to build first.
+
+    After building one or two Warrior units, start building
+    Settlers.  The second Settler can be used to build roads and
+    irrigate the farmland close to the city, and the third can be
+    used to build a new city.  Or, you can use the second Settler to
+    build another city, and use the third Settler for agricultural
+    improvements in the farmland around the cities.  Keep in mind
+    that a large population increases both the amount of
+    productivity and the your civilization's research rate.
+
+ 4. Agriculture improvements.
+
+    Each city has an area of farmland around it that can be used
+    for growing food, producing goods, and generating trade.  This
+    can be increased by using Settlers to improve the farmland. 
+    The land can be improved with roads, irrigation, mines, and
+    others.
+    
+
+ 5. Where to build cities?
+
+    The best location for a city is a matter of taste.  A city which
+    is placed near the sea is easier to spot by opponents, but can
+    also serve as a port for sea-going units.  (They also usually
+    need a harbour defence later on).  The best strategy is to build
+    a few of both, but keep in mind that your opponents will find it
+    harder to locate your city if you don't build it by the sea. 
+
+ 6. Taking care of cities.
+
+    Every city has a band of citizens.  The number of citizens
+    depends on the city's population.  When you click on a city, you
+    can see how the farmland around the city is being used.  You can
+    assign your citizens to the farmland, or they can be scientists,
+    entertainers or taxmen.  Especially at the start of the game,
+    care should be taken to ensure that the citizens are employed so
+    that they maximise growth, trade and production.
+
+    If too much food is being generated, a citizen can be taken off
+    the farmland by clicking on the occupied farmland square.  This
+    citizen can then be transferred to the other duties mentioned
+    previously.
+
+    If you move all of your citizens into the city and right-click
+    on the central tile of the farmland, the citizens will be
+    rearranged to maximise food production.
+
+    The golden rule of taking care of a city is that there should be
+    at least as many happy citizens as unhappy citizens.  A city
+    where this is not so is labeled with a lightning bolt.  Take
+    care not to let this happen to any of your cities, as unhappy
+    cities produce nothing, and will soon revolt.
+
+ 7. Explore the world.
+
+    Aftr you have fortified your cities with troops, build Triremes
+    in the cities near the sea.  Use the Triremes to map the world
+    in search of opponents and new lands.  If you are on an island,
+    you should spend less on military and more on expansion.  Or if
+    you are located close to an opponent, it is truly a good idea to
+    make a peace treaty and share the Advances you have made.
+    Diplomat units are very useful here, and WILL pay off later.
+
+ 8. Things to keep in mind.
+
+    - What the next Advance you'll need is.
+
+    - What your luxury, tax and research rates are currently set to.
+
+    - Treaty are often broken, so don't neglect defence...
+
+    - Some Wonders can be made obsolete by the development of
+      certain advances.
+
+ 9. Make your own strategy for the game.      
+
+    These basic concepts will allow you to play the game pretty
+    well, especially in the beginning of the game.  But to improve,
+    you need to study the various units and advances, and PRACTICE,
+    PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't
+    played a simular game before, try consulting the Freeciv WWW
+    pages at http://freeciv.ultraviolet.org
+    You'll find more tips for playing, and details of how to contact
+    other players.
+
+---
 #City Improvements
 City Improvements are built in each of your cities to improve trade
 revenue, science production, etc.  Each improvement requires you to 
 pay an upkeep every turn.  If you can't afford the upkeep for a 
 building, then it'll be automatically sold.
 %% Hmm, "sold" as in "you get money for it", or is it actually lost?
-%% Does the player get any money back for it, as when they actually sell
-%% an Improvement, or is it lost forever?  If it's lost, then "automatically
-%% sold" should be "lost".
+%% Does the player get any money back for it, as when they actually
+%% sell an Improvement, or is it lost forever?  If it's lost, then
+%% "automatically sold" should be "lost".
 ---
 # Airport
 Allows a city to produce veteran air units.
@@ -545,7 +543,7 @@ Converts all production into taxes income.
 # Cathedral
 A Cathedral makes 3 unhappy citizens content in a city, making it 
 easier to maintain order in that city.  The discovery of COMMUNISM 
-will reduce this by 1, while the discovery of THEOLOGY will increase 
+will reduce this by 1, while the discovery of THEOLOGY will increase
 this by 1.
 ---
 # City Walls
@@ -939,7 +937,7 @@ it boots science in each city by 50%.
 Makes all unhappy citizens content, in the city where it is located.
 ---
 # Statue of Liberty
-Allows you to choose any Government without the transition period of 
+Allows you to choose any Government without the transition period of
 Anarchy.
 ---
 # Sun Tzu's War Academy
@@ -1026,8 +1024,8 @@ TIP: A very fast unit, which is very useful for hunting down enemy
    by moving into another player's city.
 
  - Diplomats can also try to sabotage enemy production, or steal
-   an Advance from an enemy city.  (An Advance can only be stolen once
-   per city).
+   an Advance from an enemy city.  (An Advance can only be stolen
+   once per city).
 
  - A diplomat can also bribe an enemy unit, if that unit is the only
    one on its square.
@@ -1169,7 +1167,8 @@ weakest unit.
 %% This is for XEmacs.  It sets up the indentation.
 %% The paragraph-separate thing isn't working right.  Can someone
 %% tell me how to set things up so fill-paragraph (M-q) treats
-%% lines starting with # and % and - as delimiters of the area to fill?
+%% lines starting with # and % and - as delimiters of the area to
+%% fill?
 %% Local Variables:
 %% mode: indented-text
 %% fill-column: 68
