@@ -676,6 +676,8 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   struct unit *ferryboat;
   int boatid, bx, by;
   int id = punit->id;
+  int near;
+  int nav = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
 
   if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
   else {
@@ -807,13 +809,16 @@ gx, gy, v, x, y, v2, d, b);*/
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
     }
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
-    for (i = -7; i <= 7; i++) {
-      for (j = -7; j <= 7; j++) { /* hope this is far enough -- Syela */
+    for (j = -11; j <= 11; j++) { /* hope this is far enough -- Syela */
+      y = punit->y + j;
+      if (y < 0 || y > map.ysize) continue;
+      for (i = -11; i <= 11; i++) {
         x = map_adjust_x(punit->x + i);
-        y = map_adjust_y(punit->y + j);
         w = 0;
+        near = (MAX((MAX(i, -i)),(MAX(j, -j))));
         if (!is_already_assigned(punit, pplayer, x, y) &&
-            map_get_terrain(x, y) != T_OCEAN) {
+            map_get_terrain(x, y) != T_OCEAN &&
+            (near < 8 || (nav && map_get_continent(x, y) != co))) {
           if (!goto_is_sane(pplayer, punit, x, y, 1)) {
             if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
             else if (boatid) {
@@ -934,9 +939,6 @@ void initialize_infrastructure_cache(struct city *pcity)
 as punits arrive at adjacent tiles and start laying road -- Syela */
     pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
   }
-  pplayer->ai.warmth = WARMING_FACTOR * civ_population(pplayer) * 5 *
-                       game.globalwarming / (map.xsize * map.ysize *
-                       map.landpercent * 2); /* threat of warming */
 }
 
 /************************************************************************** 
@@ -954,6 +956,10 @@ void auto_settlers_player(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity)
     initialize_infrastructure_cache(pcity); /* saves oodles of time -- Syela */
   city_list_iterate_end;
+  pplayer->ai.warmth = WARMING_FACTOR * total_player_citizens(pplayer) * 10 *
+                       (game.globalwarming + game.heating) / (map.xsize *
+                        map.ysize * map.landpercent * 2); /* threat of warming */
+/*printf("Warmth = %d, game.globalwarming=%d\n", pplayer->ai.warmth, game.globalwarming);*/
   unit_list_iterate(pplayer->units, punit) {
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {
