@@ -1945,7 +1945,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
       } /* if (!next) */
     } /* if (name) */
     remove_leading_trailing_spaces(cities[j]);
-    city_names[j].name = mystrdup(cities[j]);
+    city_names[j].name = convert_data_string_malloc(cities[j]);
     if (check_name(city_names[j].name)) {
       /* The ruleset contains a name that is too long.  This shouldn't
 	 happen - if it does, the author should get immediate feedback */
@@ -1997,7 +1997,7 @@ static void load_ruleset_nations(struct section_file *file)
     }
     pl->leader_count = dim;
     for(j = 0; j < dim; j++) {
-      pl->leader_name[j] = mystrdup(leaders[j]);
+      pl->leader_name[j] = convert_data_string_malloc(leaders[j]);
       if (check_name(leaders[j])) {
 	pl->leader_name[j][MAX_LEN_NAME - 1] = 0;
       }

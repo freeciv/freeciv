@@ -296,6 +296,12 @@ if test x"$MINGW32" = "xyes"; then
   CFLAGS="$CFLAGS -fnative-struct"
 fi
 
+dnl Check for libiconv (which is usually included in glibc, but may be
+dnl distributed separately) and other locale related functions.
+AM_ICONV
+AM_LIBCHARSET
+AM_LANGINFO_CODESET
+
 dnl Check and choose clients
 if test x$client != xno; then
 

@@ -28,6 +28,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef HAVE_ICONV
+#include <iconv.h>
+#ifdef HAVE_LIBCHARSET
+#include <libcharset.h>
+#else
+#ifdef HAVE_LANGINFO_CODESET
+#include <langinfo.h>
+#endif
+#endif
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -1222,4 +1232,110 @@ bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
     vec2++;
   }
   return FALSE;
+}
+
+#ifdef HAVE_ICONV
+/***************************************************************************
+  Convert the text.  This assumes 'from' is an 8-bit charset.
+***************************************************************************/
+static char *convert_string_malloc(const char *text,
+				   const char *from, const char *to)
+{
+  iconv_t cd;
+  size_t from_len = strlen(text) + 1, to_len = from_len;
+  char *result;
+
+  cd = iconv_open(to, from);
+  if (cd == (iconv_t) (-1)) {
+    freelog(LOG_ERROR,
+	    _("String conversion from %s not possible.  You may\n"
+	      "want to set your local encoding manually by setting\n"
+	      "the environment variable $FREECIV_LOCAL_ENCODING."
+	      "Proceeding anyway..."),
+	    from);
+    return mystrdup(text); /* The best we can do? */
+  }
+
+  do {
+    size_t flen = from_len, tlen = to_len, res;
+    const char *mytext = text;
+    char *myresult;
+
+    result = fc_malloc(to_len);
+
+    myresult = result;
+
+    /* Since we may do multiple translations, we may need to reset iconv
+     * in between. */
+    iconv(cd, NULL, NULL, NULL, NULL);
+
+    res = iconv(cd, (ICONV_CONST char **)&mytext, &flen, &myresult, &tlen);
+    if (res == (size_t) (-1)) {
+      if (errno != E2BIG) {
+	/* Invalid input. */
+	freelog(LOG_ERROR,
+		_("The string '%s' is not valid: %s. Ruleset files must\n"
+		  "be encoded as %s; you can change this by setting\n"
+		  "$FREECIV_DATA_ENCODING."),
+		text, strerror(errno), from);
+	free(result);
+	iconv_close(cd);
+	return mystrdup(text); /* The best we can do? */
+      }
+    } else {
+      /* Success. */
+      iconv_close(cd);
+
+      /* There may be wasted space here.  But we don't want to call
+       * mystrdup on result since it might not be in an 8-bit charset. */
+      return result;
+    }
+
+    /* Not enough space; try again. */
+    free(result);
+    to_len *= 2;
+  } while (TRUE);
+}
+#endif
+
+/***************************************************************************
+  We convert from the charset used by the rulesets into the local encoding.
+***************************************************************************/
+char *convert_data_string_malloc(const char *text)
+{
+#ifdef HAVE_ICONV
+  char *local_encoding;
+  char *data_encoding;
+  char target[128];
+
+  data_encoding = getenv("FREECIV_DATA_ENCODING");
+  if (!data_encoding) {
+    /* Currently the rulesets are in latin1 (ISO-8859-1). */
+    data_encoding = "ISO-8859-1";
+  }
+
+  local_encoding = getenv("FREECIV_LOCAL_ENCODING");
+  if (!local_encoding) {
+#ifdef HAVE_LIBCHARSET
+    local_encoding = locale_charset();
+#else
+#ifdef HAVE_LANGINFO_CODESET
+    local_encoding = nl_langinfo(CODESET);
+#else
+    local_encoding = "";
+#endif
+#endif
+    my_snprintf(target, sizeof(target), "%s//TRANSLIT", local_encoding);
+    local_encoding = target;
+  }
+
+  return convert_string_malloc(text, data_encoding, local_encoding);
+#else
+  freelog(LOG_ERROR,
+	  _("You are running Freeciv without using iconv.  Unless\n"
+	    "you are using the latin1 character set, some characters\n"
+	    "may not be displayed properly.  You can download iconv\n"
+	    "at http://gnu.org/."));
+  return mystrdup(text);
+#endif
 }

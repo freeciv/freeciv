@@ -65,7 +65,7 @@ EXTRA_DIST=	acconfig.old			\
 		debian/rules			\
 		debian/watch			\
 		m4/ac_path_lib.m4		\
-		m4/codeset.m4			\
+		m4/locale.m4			\
 		m4/debug.m4			\
 		m4/esd.m4			\
 		m4/gettext.m4			\
