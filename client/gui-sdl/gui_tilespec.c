@@ -294,7 +294,6 @@ void tilespec_setup_city_icons(void)
  */
 void tilespec_setup_theme(void)
 {
-  int i;
   char buf[80];	/* I hope this is enought :) */
 
   pTheme = MALLOC(sizeof(struct Theme));
