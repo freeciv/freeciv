@@ -629,8 +629,9 @@ void handle_player_government(struct player *pplayer,
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     pplayer->economic.science = MIN (100 - pplayer->economic.luxury,
 				     get_government_max_rate (pplayer->government));
-    pplayer->economic.tax = 100 - (pplayer->economic.luxury +
-				   pplayer->economic.science);
+    pplayer->economic.tax = MIN(100 - (pplayer->economic.luxury + pplayer->economic.science),
+				get_government_max_rate (pplayer->government));
+    pplayer->economic.luxury = 100 - pplayer->economic.science - pplayer->economic.tax;
   }
 
   check_player_government_rates(pplayer);

@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -295,30 +296,32 @@ void player_limit_to_government_rates(struct player *pplayer)
   }
 
   maxrate = get_government_max_rate(pplayer->government);
-
+  surplus = 0;
   if (pplayer->economic.luxury > maxrate) {
-    surplus = pplayer->economic.luxury - maxrate;
+    surplus += pplayer->economic.luxury - maxrate;
     pplayer->economic.luxury = maxrate;
-    if (pplayer->economic.science >= pplayer->economic.tax)
-      pplayer->economic.science += surplus;
-    else
-      pplayer->economic.tax += surplus;
   }
   if (pplayer->economic.tax > maxrate) {
-    surplus = pplayer->economic.tax - maxrate;
+    surplus += pplayer->economic.tax - maxrate;
     pplayer->economic.tax = maxrate;
-    if (pplayer->economic.science >= pplayer->economic.luxury)
-      pplayer->economic.science += surplus;
-    else
-      pplayer->economic.luxury += surplus;
   }
   if (pplayer->economic.science > maxrate) {
-    surplus = pplayer->economic.science - maxrate;
+    surplus += pplayer->economic.science - maxrate;
     pplayer->economic.science = maxrate;
-    if (pplayer->economic.tax >= pplayer->economic.luxury)
-      pplayer->economic.tax += surplus;
-    else
-      pplayer->economic.luxury += surplus;
+  }
+
+  assert(surplus % 10 == 0);
+  while (surplus > 0) {
+    if (pplayer->economic.science < maxrate) {
+      pplayer->economic.science += 10;
+    } else if (pplayer->economic.tax < maxrate) {
+      pplayer->economic.tax += 10;
+    } else if (pplayer->economic.luxury < maxrate) {
+      pplayer->economic.luxury += 10;
+    } else {
+      abort();
+    }
+    surplus -= 10;
   }
 
   return;
