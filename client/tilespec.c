@@ -1283,8 +1283,9 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   if(map_has_special(pcity->x, pcity->y, S_FALLOUT))
     *sprs++ = sprites.tx.fallout;
 
-  if(city_unhappy(pcity))
+  if (pcity->client.unhappy) {
     *sprs++ = sprites.city.disorder;
+  }
 
   if(tile_get_known(pcity->x, pcity->y) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
@@ -1318,8 +1319,9 @@ int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity)
 
   *sprs++ = get_city_sprite(pcity);
 
-  if (city_unhappy(pcity))
+  if (pcity->client.unhappy) {
     *sprs++ = sprites.city.disorder;
+  }
 
   return sprs - save_sprs;
 }

@@ -387,6 +387,7 @@ struct packet_short_city {
   char name[MAX_LEN_NAME];
   int size;			/* uint8 */
   bool happy;			/* boolean */
+  bool unhappy;			/* boolean */
   bool capital;			/* boolean */
   bool walls;			/* boolean */
   bool occupied;		/* boolean */

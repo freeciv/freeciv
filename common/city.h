@@ -257,8 +257,9 @@ struct city {
 
   struct {
     /* Only used at the client (the serer is omniscient). */
-    bool occupied;	
-  } client;      
+    bool occupied;
+    bool happy, unhappy;
+  } client;
 
   int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */

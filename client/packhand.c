@@ -457,10 +457,12 @@ void handle_city_info(struct packet_city_info *packet)
                                    &need_effect_update);
   } impr_type_iterate_end;
 
-  /* Since we can see inside the city, just determine the occupied status
-   * from the units present. */
+  /* Since we can see inside the city, just determine the client status
+   * from what we know. */
   pcity->client.occupied =
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+  pcity->client.happy = city_happy(pcity);
+  pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view() && 
            pcity->owner==game.player_idx && popup_new_cities) 
@@ -597,15 +599,19 @@ void handle_short_city(struct packet_short_city *packet)
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */
   pcity->client.occupied = packet->occupied;
+  pcity->client.happy = packet->happy;
+  pcity->client.unhappy = packet->unhappy;
 
+  pcity->ppl_happy[4] = 0;
+  pcity->ppl_content[4] = 0;
+  pcity->ppl_unhappy[4] = 0;
+  pcity->ppl_angry[4] = 0;
   if (packet->happy) {
-    pcity->ppl_happy[4]   = pcity->size;
-    pcity->ppl_unhappy[4] = 0;
-    pcity->ppl_angry[4]   = 0;
-  } else {
-    pcity->ppl_happy[4]   = 0;
+    pcity->ppl_happy[4] = pcity->size;
+  } else if (packet->unhappy) {
     pcity->ppl_unhappy[4] = pcity->size;
-    pcity->ppl_angry[4]   = 0;
+  } else {
+    pcity->ppl_content[4] = pcity->size;
   }
 
   if (city_is_new) {
@@ -629,7 +635,7 @@ void handle_short_city(struct packet_short_city *packet)
     int i;
     int x, y;
 
-    pcity->ppl_elvis          = pcity->size;
+    pcity->ppl_elvis          = 0;
     pcity->ppl_scientist      = 0;
     pcity->ppl_taxman         = 0;
     for (i = 0; i < NUM_TRADEROUTES; i++) {

@@ -1318,29 +1318,25 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
   struct city *pcity = map_get_city(x, y);
 
-  packet->id=pdcity->id;
-  packet->owner=pdcity->owner;
-  packet->x=x;
-  packet->y=y;
+  packet->id = pdcity->id;
+  packet->owner = pdcity->owner;
+  packet->x = x;
+  packet->y = y;
   sz_strlcpy(packet->name, pdcity->name);
 
-  packet->size=pdcity->size;
-  if (map_is_known_and_seen(x, y, pplayer)) {
-    /* Since the tile is visible the player can see the tile,
-       and if it didn't actually have a city pdcity would be NULL */
-    assert(pcity != NULL);
-    packet->happy = !city_unhappy(pcity);
-  } else {
-    packet->happy = TRUE;
-  }
+  packet->size = pdcity->size;
 
-  if (pcity && pcity->id == pdcity->id && city_got_building(pcity, B_PALACE))
+  if (pcity && pcity->id == pdcity->id
+      && city_got_building(pcity, B_PALACE)) {
     packet->capital = TRUE;
-  else
+  } else {
     packet->capital = FALSE;
+  }
 
   packet->walls = pdcity->has_walls;
   packet->occupied = pdcity->occupied;
+  packet->happy = pdcity->happy;
+  packet->unhappy = pdcity->unhappy;
 
   if (pcity && player_has_traderoute_with_city(pplayer, pcity)) {
     packet->tile_trade = pcity->tile_trade;
@@ -1659,13 +1655,16 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
    * unit list to check the occupied status. */
   bool occupied =
     (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+  bool happy = city_happy(pcity), unhappy = city_unhappy(pcity);
  
   if (pdcity
       && pdcity->id == pcity->id
       && strcmp(pdcity->name, pcity->name) == 0
       && pdcity->size == pcity->size
       && pdcity->has_walls == city_got_citywalls(pcity)
-      && pdcity->occupied == occupied 
+      && pdcity->occupied == occupied
+      && pdcity->happy == happy
+      && pdcity->unhappy == unhappy
       && pdcity->owner == pcity->owner) {
     return FALSE;
   }
@@ -1683,6 +1682,8 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   pdcity->size = pcity->size;
   pdcity->has_walls = city_got_citywalls(pcity);
   pdcity->occupied = occupied;
+  pdcity->happy = happy;
+  pdcity->unhappy = unhappy;
   pdcity->owner = pcity->owner;
 
   return TRUE;

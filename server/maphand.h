@@ -27,6 +27,7 @@ struct dumb_city{
   int id;
   bool has_walls;
   bool occupied;
+  bool happy, unhappy;
   char name[MAX_LEN_NAME];
   unsigned short size;
   unsigned char owner;
