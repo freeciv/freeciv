@@ -146,7 +146,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			advances[pclause->value].name);
 
 	  notify_embassies(pdest,pgiver,
-			   _("Game: The %s have aquired %s from the %s"),
+			   _("Game: The %s have aquired %s from the %s."),
 			   get_nation_name_plural(pdest->nation),
 			   advances[pclause->value].name,
 			   get_nation_name_plural(pgiver->nation));

@@ -732,7 +732,7 @@ static void hut_get_tech(struct unit *punit)
 
     notify_embassies(pplayer, (struct player *)0,
 		     _("Game: The %s have aquired %s"
-		       " from ancient scrolls of wisdom"),
+		       " from ancient scrolls of wisdom."),
 		     get_nation_name_plural(pplayer->nation), tech_name);
 
     found_new_tech(pplayer,new_tech,0,1);
