@@ -17,7 +17,7 @@ void popup_help_dialog(int item);
 void popup_help_dialog_string(char *item);
 void boot_help_texts(void);
 
-#define HELP_PLAYING_ITEM "Playing the game"
+#define HELP_PLAYING_ITEM "Strategy and tactics"
 #define HELP_CONTROLS_ITEM "Controls"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"
 #define HELP_UNITS_ITEM "Units"
