@@ -57,6 +57,187 @@ extern struct advance advances[];
 
 extern int did_advance_tech_this_year;
 
+/************************************************************************
+ cr_entry = return an entry (one column for one city) for the city report
+ These return ptrs to filled in static strings.
+ Note the returned string may not be exactly the right length; that
+ is handled later.
+*************************************************************************/
+
+static char *cr_entry_cityname(struct city *pcity)
+{
+  return pcity->name;
+}
+
+static char *cr_entry_size(struct city *pcity)
+{
+  static char buf[8];
+  sprintf(buf, "%2d", pcity->size);
+  return buf;
+}
+
+static char *cr_entry_hstate_concise(struct city *pcity)
+{
+  static char buf[4];
+  sprintf(buf, "%s", (city_celebrating(pcity) ? "*" :
+		      (city_unhappy(pcity) ? "X" : " ")));
+  return buf;
+}
+
+static char *cr_entry_hstate_verbose(struct city *pcity)
+{
+  static char buf[16];
+  sprintf(buf, "%s", (city_celebrating(pcity) ? "Rapture" :
+		      (city_unhappy(pcity) ? "Disorder" : "Peace")));
+  return buf;
+}
+
+static char *cr_entry_workers(struct city *pcity)
+{
+  static char buf[32];
+  sprintf(buf, "%d/%d/%d",
+	  pcity->ppl_happy[4],
+	  pcity->ppl_content[4],
+	  pcity->ppl_unhappy[4]);
+  return buf;
+}
+
+static char *cr_entry_specialists(struct city *pcity)
+{
+  static char buf[32];
+  sprintf(buf, "%d/%d/%d",
+  	  pcity->ppl_elvis,
+          pcity->ppl_scientist,
+          pcity->ppl_taxman);
+  return buf;
+}
+
+static char *cr_entry_resources(struct city *pcity)
+{
+  static char buf[32];
+  sprintf(buf, "%d/%d/%d",
+	  pcity->food_surplus, 
+	  pcity->shield_surplus, 
+	  pcity->trade_prod);
+  return buf;
+}
+
+static char *cr_entry_output(struct city *pcity)
+{
+  static char buf[32];
+  sprintf(buf, "%+d/%d/%d",
+	  city_gold_surplus(pcity),
+	  pcity->luxury_total,
+	  pcity->science_total);
+  return buf;
+}
+
+static char *cr_entry_food(struct city *pcity)
+{
+  static char buf[32];
+  sprintf(buf,"%d/%d",
+	  pcity->food_stock,
+	  pcity->size * game.foodbox);
+  return buf;
+}
+
+static char *cr_entry_pollution(struct city *pcity)
+{
+  static char buf[8];
+  sprintf(buf,"%3d", pcity->pollution);
+  return buf;
+}
+
+static char *cr_entry_num_trade(struct city *pcity)
+{
+  static char buf[8];
+  sprintf(buf,"%d", city_num_trade_routes(pcity));
+  return buf;
+}
+
+static char *cr_entry_building(struct city *pcity)
+{
+  static char buf[64];
+  if(pcity->is_building_unit)
+    sprintf(buf, "%s(%d/%d/%d)", 
+            get_unit_type(pcity->currently_building)->name,
+	    pcity->shield_stock,
+	    get_unit_type(pcity->currently_building)->build_cost,
+	    city_buy_cost(pcity));
+  else
+    sprintf(buf, "%s(%d/%d/%d)", 
+	    get_imp_name_ex(pcity, pcity->currently_building),
+	    pcity->shield_stock,
+	    get_improvement_type(pcity->currently_building)->build_cost,
+	    city_buy_cost(pcity));
+  return buf;
+}
+
+/* City report options (which columns get shown)
+ * To add a new entry, you should just have to:
+ * - add a function like those above
+ * - add an entry in the city_report_specs[] table
+ */
+
+struct city_report_spec {
+  int show;			/* modify this to customize */
+  int width;			/* -1 means variable; rightmost only */
+  int space;			/* number of leading spaces (see below) */
+  char *title1;
+  char *title2;
+  char *explanation;
+  char *(*func)(struct city*);
+};
+
+/* Note on space: you can do spacing and alignment in various ways;
+   you can avoid explicit space between columns if they are bracketted,
+   but the problem is that with a configurable report you don't know
+   what's going to be next to what.
+*/
+
+struct city_report_spec city_report_specs[] = {
+  { 1, 15, 0, "",  "Name",            "City Name",
+                                      cr_entry_cityname },
+  { 0,  2, 1, "",  "Sz",              "Size",
+                                      cr_entry_size },
+  { 1,  8, 1, "",  "State",           "Rapture/Peace/Disorder",
+                                      cr_entry_hstate_verbose },
+  { 0,  1, 1, "",  "",                "Concise *=Rapture, X=Disorder",
+                                      cr_entry_hstate_concise },
+  { 1,  8, 1, "Workers", "H/C/U",     "Workers: Happy, Content, Unhappy",
+                                      cr_entry_workers },
+  { 0,  7, 1, "Special", "E/S/T",     "Entertainers, Scientists, Taxmen",
+                                      cr_entry_specialists },
+  { 1, 10, 1, "Surplus", "F/P/T",     "Surplus: Food, Production, Trade",
+                                      cr_entry_resources },
+  { 1, 10, 1, "Economy", "G/L/S",     "Economy: Gold, Luxuries, Science",
+                                      cr_entry_output },
+  { 0,  1, 1, "n", "T",               "Number of Trade Routes",
+                                      cr_entry_num_trade },
+  { 1,  7, 1, "Food", "Stock",        "Food Stock",
+                                      cr_entry_food },
+  { 0,  3, 1, "", "Pol",              "Pollution",
+                                      cr_entry_pollution },
+  { 1, -1, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
+                                      "Currently Building",
+                                      cr_entry_building }
+};
+
+#define NUM_CREPORT_COLS \
+         sizeof(city_report_specs)/sizeof(city_report_specs[0])
+
+/******************************************************************/
+Widget config_shell;
+Widget config_toggle[NUM_CREPORT_COLS];
+
+void create_city_report_config_dialog(void);
+void popup_city_report_config_dialog(void);
+void config_ok_command_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data);
+
+
+/******************************************************************/
+
 void create_science_dialog(int make_modal);
 void science_close_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
@@ -96,6 +277,8 @@ void city_change_callback(Widget w, XtPointer client_data,
 			  XtPointer call_data);
 void city_list_callback(Widget w, XtPointer client_data, 
 			XtPointer call_data);
+void city_config_callback(Widget w, XtPointer client_data, 
+			  XtPointer call_data);
 
 Widget city_form;
 Widget city_dialog_shell;
@@ -103,7 +286,7 @@ Widget city_label;
 Widget city_viewport;
 Widget city_list, city_list_label;
 Widget city_center_command, city_popup_command, city_buy_command,
-       city_refresh_command;
+       city_refresh_command, city_config_command;
 Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
@@ -201,51 +384,56 @@ static char *get_report_title(char *report_name)
 /****************************************************************
  Create the text for a line in the city report
 *****************************************************************/
-static void get_city_text(struct city *pcity,char *text)
+static void get_city_text(struct city *pcity, char *text)
 {
-  char impro[64];
-  char happytext[32];
-  char statetext[32];
-  char outputtext[32];
-  char foodtext[32];
-  
-  if(pcity->is_building_unit)
-    sprintf(impro, "%s(%d/%d/%d)", 
-            get_unit_type(pcity->currently_building)->name,
-	    pcity->shield_stock,
-	    get_unit_type(pcity->currently_building)->build_cost,
-	    city_buy_cost(pcity));
-  else
-    sprintf(impro, "%s(%d/%d/%d)", 
-	    get_imp_name_ex(pcity, pcity->currently_building),
-	    pcity->shield_stock,
-	    get_improvement_type(pcity->currently_building)->build_cost,
-	    city_buy_cost(pcity));
-              
-  sprintf(happytext, "%s(%d/%d/%d)",
-	  city_celebrating(pcity) ? "Rapture" :
-	   (city_unhappy(pcity) ? "Disorder" : "Peace"),
-	  pcity->ppl_happy[4],
-	  pcity->ppl_content[4],
-	  pcity->ppl_unhappy[4]);
- 
-  sprintf(statetext, "(%d/%d/%d)",
-	  pcity->food_surplus, 
-	  pcity->shield_surplus, 
-	  pcity->trade_prod);
+  struct city_report_spec *spec;
+  int i;
 
-  sprintf(outputtext, "(%+d/%d/%d)",
-	  city_gold_surplus(pcity),
-	  pcity->luxury_total,
-	  pcity->science_total);
+  text[0] = '\0';		/* init for strlen */
+  for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
+    if(spec->show) {
+      if(spec->space>0) {
+	sprintf(text+strlen(text), "%*s", spec->space, " ");
+      }
+      if(spec->width>0) {
+	sprintf(text+strlen(text), "%-*s",
+		spec->width, (spec->func)(pcity));
+      } else {
+	sprintf(text+strlen(text), "%s",
+		(spec->func)(pcity));
+      }
+    }
+  }
+}
 
-  sprintf(foodtext,"(%d/%d)",
-	  pcity->food_stock,
-	  pcity->size * game.foodbox);
+/****************************************************************
+ Return text line for the column headers for the city report
+*****************************************************************/
+static char *get_city_table_header(void)
+{
+  static char text[400];
+  struct city_report_spec *spec;
+  int i, j;
 
-  sprintf(text, "%-15s %-16s%-12s%-12s%-10s%s", 
-          pcity->name,
-          happytext, statetext, outputtext, foodtext, impro);
+  text[0] = '\0';		/* init for strlen */
+  for(j=0; j<=1; j++) {
+    for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
+      if(spec->show) {
+	if(spec->space>0) {
+	  sprintf(text+strlen(text), "%*s", spec->space, " ");
+	}
+	if(spec->width>0) {
+	  sprintf(text+strlen(text), "%-*s", spec->width,
+		  (j==0?spec->title1:spec->title2));
+	} else {
+	  sprintf(text+strlen(text), "%s", 
+		  (j==0?spec->title1:spec->title2));
+	}
+      }
+    }
+    if (j==0) strcat(text, "\n");
+  }
+  return text;
 }
 
 /****************************************************************
@@ -693,6 +881,8 @@ void create_city_report_dialog(int make_modal)
   city_list_label = XtVaCreateManagedWidget("reportcitylistlabel", 
 				            labelWidgetClass, 
 				            city_form,
+					    XtNlabel,
+					    get_city_table_header(),
 				            NULL);
   city_viewport = XtVaCreateManagedWidget("reportcityviewport", 
 				          viewportWidgetClass, 
@@ -738,11 +928,17 @@ void create_city_report_dialog(int make_modal)
 					     city_form,
 					     NULL);
 
+  city_config_command = XtVaCreateManagedWidget("reportcityconfigcommand",
+						commandWidgetClass,
+						city_form,
+						NULL);
+
   XtAddCallback(close_command, XtNcallback, city_close_callback, NULL);
   XtAddCallback(city_center_command, XtNcallback, city_center_callback, NULL);
   XtAddCallback(city_popup_command, XtNcallback, city_popup_callback, NULL);
   XtAddCallback(city_buy_command, XtNcallback, city_buy_callback, NULL);
   XtAddCallback(city_refresh_command, XtNcallback, city_refresh_callback, NULL);
+  XtAddCallback(city_config_command, XtNcallback, city_config_callback, NULL);
   XtAddCallback(city_list, XtNcallback, city_list_callback, NULL);
   
   XtRealizeWidget(city_dialog_shell);
@@ -883,6 +1079,9 @@ void city_buy_callback(Widget w, XtPointer client_data,
   }
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void city_refresh_callback(Widget w, XtPointer client_data, XtPointer call_data)
 { /* added by Syela - I find this very useful */
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
@@ -948,6 +1147,15 @@ void city_popup_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
+void city_config_callback(Widget w, XtPointer client_data,
+			  XtPointer call_data)
+{
+  popup_city_report_config_dialog();
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void city_report_dialog_update(void)
 {
   if(delay_report_update) return;
@@ -979,6 +1187,8 @@ void city_report_dialog_update(void)
     xaw_set_label(city_label, report_title);
     free(report_title);
 
+    xaw_set_label(city_list_label, get_city_table_header());
+    
     if (city_popupmenu) {
       XtDestroyWidget(city_popupmenu);
       city_popupmenu = 0;
@@ -1536,3 +1746,112 @@ void activeunits_report_dialog_update(void)
     XtVaSetValues(activeunits_label, XtNwidth, width, NULL); 
   }
 }
+
+/****************************************************************
+
+                      CITY REPORT CONFIGURE DIALOG
+ 
+****************************************************************/
+
+/****************************************************************
+... 
+*****************************************************************/
+void popup_city_report_config_dialog(void)
+{
+  int i;
+
+  if(config_shell)
+    return;
+  
+  create_city_report_config_dialog();
+
+  for(i=1; i<NUM_CREPORT_COLS; i++) {
+    XtVaSetValues(config_toggle[i],
+		  XtNstate, city_report_specs[i].show,
+		  XtNlabel, city_report_specs[i].show?"Yes":"No", NULL);
+  }
+
+  xaw_set_relative_position(toplevel, config_shell, 25, 25);
+  XtPopup(config_shell, XtGrabNone);
+  /* XtSetSensitive(main_form, FALSE); */
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void create_city_report_config_dialog(void)
+{
+  Widget config_form, config_label, config_ok_command;
+  Widget config_optlabel=0, above;
+  struct city_report_spec *spec;
+  char buf[64];
+  int i;
+  
+  config_shell = XtCreatePopupShell("cityconfig", 
+				    transientShellWidgetClass,
+				    toplevel, NULL, 0);
+
+  config_form = XtVaCreateManagedWidget("cityconfigform", 
+				        formWidgetClass, 
+				        config_shell, NULL);   
+
+  config_label = XtVaCreateManagedWidget("cityconfiglabel", 
+					 labelWidgetClass, 
+					 config_form, NULL);   
+
+  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+    sprintf(buf, "%-32s", spec->explanation);
+    above = (i==1)?config_label:config_optlabel;
+
+    config_optlabel = XtVaCreateManagedWidget("cityconfiglabel", 
+					      labelWidgetClass,
+					      config_form,
+					      XtNlabel, buf,
+					      XtNfromVert, above,
+					      NULL);
+    
+    config_toggle[i] = XtVaCreateManagedWidget("cityconfigtoggle", 
+					       toggleWidgetClass, 
+					       config_form,
+					       XtNfromVert, above,
+					       XtNfromHoriz, config_optlabel,
+					       NULL);
+  }
+
+  config_ok_command = XtVaCreateManagedWidget("cityconfigokcommand", 
+					      commandWidgetClass,
+					      config_form,
+					      XtNfromVert, config_optlabel,
+					      NULL);
+  
+  XtAddCallback(config_ok_command, XtNcallback, 
+		config_ok_command_callback, NULL);
+
+  for(i=1; i<NUM_CREPORT_COLS; i++) 
+    XtAddCallback(config_toggle[i], XtNcallback, toggle_callback, NULL);
+  
+  XtRealizeWidget(config_shell);
+
+  xaw_horiz_center(config_label);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void config_ok_command_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data)
+{
+  struct city_report_spec *spec;
+  Boolean b;
+  int i;
+  
+  XtDestroyWidget(config_shell);
+
+  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+    XtVaGetValues(config_toggle[i], XtNstate, &b, NULL);
+    spec->show = b;
+  }
+  config_shell=0;
+  city_report_dialog_update();
+}
+

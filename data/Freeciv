@@ -1152,7 +1152,6 @@ Freeciv*reportcitylabel.bottom:             chainTop
 Freeciv*reportcitylabel.left:               chainLeft
 Freeciv*reportcitylabel.right:              chainRight
 
-Freeciv*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 Freeciv*reportcitylistlabel.justify:            left
 Freeciv*reportcitylistlabel.width:              600
 Freeciv*reportcitylistlabel.font:		 6x13
@@ -1230,6 +1229,35 @@ Freeciv*reportcityrefreshcommand.top:         chainBottom
 Freeciv*reportcityrefreshcommand.bottom:      chainBottom
 Freeciv*reportcityrefreshcommand.left:        chainLeft
 Freeciv*reportcityrefreshcommand.right:       chainLeft
+
+Freeciv*reportcityconfigcommand.label:       Configure
+Freeciv*reportcityconfigcommand.fromVert:    reportcityviewport
+Freeciv*reportcityconfigcommand.fromHoriz:   reportcityrefreshcommand
+Freeciv*reportcityconfigcommand.top:         chainBottom
+Freeciv*reportcityconfigcommand.bottom:      chainBottom
+Freeciv*reportcityconfigcommand.left:        chainLeft
+Freeciv*reportcityconfigcommand.right:       chainLeft
+
+!
+! City report configure dialog
+!
+Freeciv*cityconfig.title:        Configure City Report
+
+Freeciv*cityconfig*Label.background:   lightblue
+Freeciv*cityconfig*Toggle.background:  cyan
+
+Freeciv*cityconfiglabel.label:         Set columns shown
+Freeciv*cityconfiglabel.borderWidth:   0
+
+Freeciv*cityconfigoptlabel.label:        Solid unit background color
+Freeciv*cityconfigoptlabel.borderWidth:  0
+
+Freeciv*cityconfigtoggle.internalHeight: 0
+Freeciv*cityconfigtoggle.shapeStyle:     ShapeOval
+Freeciv*cityconfigtoggle.label:          Yes
+
+Freeciv*cityconfigokcommand.label:       Close
+
 
 !
 !
