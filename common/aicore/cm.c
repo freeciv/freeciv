@@ -303,6 +303,20 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 }
 
 /****************************************************************************
+  Return the number of specialists currently allocated by the result.
+****************************************************************************/
+static int get_num_specialists(const struct cm_result *const result)
+{
+  int sp, count = 0;
+
+  for (sp = 0; sp < SP_COUNT; sp++) {
+    count += result->specialists[sp];
+  }
+
+  return count;
+}
+
+/****************************************************************************
  Returns TRUE iff is the result has the required surplus and the city
  isn't in disorder and the city is happy if this is required.
 *****************************************************************************/
@@ -312,9 +326,8 @@ static bool is_valid_result(const struct cm_parameter *const parameter,
   int i;
 
   if (!parameter->allow_specialists
-      && (result->specialists[SP_ELVIS] + result->specialists[SP_SCIENTIST]
-	  + result->specialists[SP_TAXMAN]) >
-      MAX(0,cache3.pcity->size - cache3.fields_available_total)) {
+      && (get_num_specialists(result)
+	  > MAX(0, cache3.pcity->size - cache3.fields_available_total))) {
     return FALSE;
   }
 
@@ -606,10 +619,7 @@ static void real_fill_out_result(struct city *pcity,
 	  pcity->id);
 
   /* Do checks */
-  if (pcity->size !=
-      (worker + result->specialists[SP_ELVIS]
-       + result->specialists[SP_SCIENTIST]
-       + result->specialists[SP_TAXMAN])) {
+  if (pcity->size != worker + get_num_specialists(result)) {
     print_city(pcity);
     print_result(pcity, result);
     assert(0);
