@@ -378,6 +378,184 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
 }
 
 /**************************************************************************
+  Draw the unique tile for the given map position, in non-isometric view.
+  The coordinates have not been normalized, and are not guaranteed to be
+  real (we have to draw unreal tiles too).
+**************************************************************************/
+static void put_tile(int map_x, int map_y)
+{
+  int canvas_x, canvas_y;
+
+  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
+	    map_x, map_y, canvas_x, canvas_y);
+    put_one_tile(map_x, map_y, canvas_x, canvas_y);
+  }
+}
+
+/**************************************************************************
+  Draw the unique tile for the given map position, in isometric view.
+  The coordinates have not been normalized, and are not guaranteed to be
+  real (we have to draw unreal tiles too).
+**************************************************************************/
+static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
+{
+  int canvas_x, canvas_y;
+
+  if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
+    freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d), draw %x",
+	    map_x, map_y, canvas_x, canvas_y, draw);
+    put_one_tile_iso(map_x, map_y, canvas_x, canvas_y, draw);
+  }
+}
+
+/**************************************************************************
+  Update (refresh) the map canvas starting at the given tile (in map
+  coordinates) and with the given dimensions (also in map coordinates).
+
+  In non-iso view, this is easy.  In iso view, we have to use the
+  Painter's Algorithm to draw the tiles in back first.  When we draw
+  a tile, we tell the GUI which part of the tile to draw - which is
+  necessary unless we have an extra buffering step.
+
+  After refreshing the backing store tile-by-tile, we write the store
+  out to the display if write_to_screen is specified.
+
+  x, y, width, and height are in map coordinates; they need not be
+  normalized or even real.
+**************************************************************************/
+void update_map_canvas(int x, int y, int width, int height, 
+		       bool write_to_screen)
+{
+  freelog(LOG_DEBUG,
+	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
+	  x, y, width, height, write_to_screen);
+
+  if (is_isometric) {
+    int x_itr, y_itr, i;
+
+    /* First refresh the tiles above the area to remove the old tiles'
+     * overlapping graphics. */
+    put_tile_iso(x - 1, y - 1, D_B_LR); /* top_left corner */
+
+    for (i = 0; i < height - 1; i++) { /* left side - last tile. */
+      put_tile_iso(x - 1, y + i, D_MB_LR);
+    }
+    put_tile_iso(x - 1, y + height - 1, D_TMB_R); /* last tile left side. */
+
+    for (i = 0; i < width - 1; i++) {
+      /* top side */
+      put_tile_iso(x + i, y - 1, D_MB_LR);
+    }
+    if (width > 1) {
+      /* last tile top side. */
+      put_tile_iso(x + width - 1, y - 1, D_TMB_L);
+    } else {
+      put_tile_iso(x + width - 1, y - 1, D_MB_L);
+    }
+
+    /* Now draw the tiles to be refreshed, from the top down to get the
+     * overlapping areas correct. */
+    for (x_itr = x; x_itr < x + width; x_itr++) {
+      for (y_itr = y; y_itr < y + height; y_itr++) {
+	put_tile_iso(x_itr, y_itr, D_FULL);
+      }
+    }
+
+    /* Then draw the tiles underneath to refresh the parts of them that
+     * overlap onto the area just drawn. */
+    put_tile_iso(x, y + height, D_TM_R);  /* bottom side */
+    for (i = 1; i < width; i++) {
+      int x1 = x + i;
+      int y1 = y + height;
+      put_tile_iso(x1, y1, D_TM_R);
+      put_tile_iso(x1, y1, D_T_L);
+    }
+
+    put_tile_iso(x + width, y, D_TM_L); /* right side */
+    for (i=1; i < height; i++) {
+      int x1 = x + width;
+      int y1 = y + i;
+      put_tile_iso(x1, y1, D_TM_L);
+      put_tile_iso(x1, y1, D_T_R);
+    }
+
+    put_tile_iso(x + width, y + height, D_T_LR); /* right-bottom corner */
+
+
+    /* Draw the goto lines on top of the whole thing. This is done last as
+     * we want it completely on top. */
+    for (x_itr = x - 1; x_itr <= x + width; x_itr++) {
+      for (y_itr = y - 1; y_itr <= y + height; y_itr++) {
+	int x1 = x_itr;
+	int y1 = y_itr;
+	if (normalize_map_pos(&x1, &y1)) {
+	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
+	    if (get_drawn(x1, y1, dir)) {
+	      draw_segment(x1, y1, dir);
+	    }
+	  } adjc_dir_iterate_end;
+	}
+      }
+    }
+
+
+    /* Lastly draw our changes to the screen. */
+    if (write_to_screen) {
+      int canvas_start_x, canvas_start_y;
+
+      /* top left corner */
+      get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+
+      /* top left corner in isometric view */
+      canvas_start_x -= height * NORMAL_TILE_WIDTH / 2;
+
+      /* because of where get_canvas_xy() sets canvas_x */
+      canvas_start_x += NORMAL_TILE_WIDTH / 2;
+
+      /* And because units fill a little extra */
+      canvas_start_y -= NORMAL_TILE_HEIGHT / 2;
+
+      /* Here we draw a rectangle that includes the updated tiles.  This
+       * method can fail if the area wraps off one side of the screen and
+       * back to the other (although this will not be a problem for
+       * update_map_canvas_visible(). */
+      flush_mapcanvas(canvas_start_x, canvas_start_y,
+		      (height + width) * NORMAL_TILE_WIDTH / 2,
+		      (height + width) * NORMAL_TILE_HEIGHT / 2
+		      + NORMAL_TILE_HEIGHT / 2);
+    }
+
+  } else {
+    /* not isometric */
+    int map_x, map_y;
+
+    for (map_y = y; map_y < y + height; map_y++) {
+      for (map_x = x; map_x < x + width; map_x++) {
+	/*
+	 * We don't normalize until later because we want to draw
+	 * black tiles for unreal positions.
+	 */
+	put_tile(map_x, map_y);
+      }
+    }
+
+    if (write_to_screen) {
+      int canvas_x, canvas_y;
+
+      /* Here we draw a rectangle that includes the updated tiles.  This
+       * method can fail if the area wraps off one side of the screen and
+       * back to the other (although this will not be a problem for
+       * update_map_canvas_visible(). */
+      get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      flush_mapcanvas(canvas_x, canvas_y,
+		      width * NORMAL_TILE_WIDTH,
+		      height * NORMAL_TILE_HEIGHT);
+    }
+  }
+}
+
+/**************************************************************************
  Update (only) the visible part of the map
 **************************************************************************/
 void update_map_canvas_visible(void)

@@ -598,38 +598,37 @@ void map_canvas_resize(void)
 }
 
 /**************************************************************************
-...
+  Draw the given map tile at the given canvas position in non-isometric
+  view.
 **************************************************************************/
-void update_map_canvas(int x, int y, int width, int height, 
-		       bool write_to_screen)
+void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
 {
-  int map_x, map_y;
+  pixmap_put_tile(map_canvas_store, map_x, map_y,
+		  canvas_x, canvas_y, FALSE);
+}
 
-  for (map_y = y; map_y < y + height; map_y++) {
-    for (map_x = x; map_x < x + width; map_x++) {
-      int canvas_x, canvas_y;
+/**************************************************************************
+  Draw the given map tile at the given canvas position in isometric
+  view.
+**************************************************************************/
+void put_one_tile_iso(int map_x, int map_y, int canvas_x, int canvas_y,
+                     enum draw_type draw)
+{
+  /* PORTME */
+  assert(0);
+}
 
-      /*
-       * We don't normalize until later because we want to draw
-       * black tiles for unreal positions.
-       */
-      if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
-	pixmap_put_tile(map_canvas_store, map_x, map_y,
-			canvas_x, canvas_y, 0);
-      }
-    }
-  }
-
-  if (write_to_screen) {
-    int canvas_x, canvas_y;
-
-    get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
-	      civ_gc, 
-	      canvas_x, canvas_y,
-	      width*NORMAL_TILE_WIDTH, height*NORMAL_TILE_HEIGHT,
-	      canvas_x, canvas_y);
-  }
+/**************************************************************************
+  Flush the given part of the canvas buffer (if there is one) to the
+  screen.
+**************************************************************************/
+void flush_mapcanvas(int canvas_x, int canvas_y,
+		     int pixel_width, int pixel_height)
+{
+  XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
+	    civ_gc, 
+	    canvas_x, canvas_y, pixel_width, pixel_height,
+	    canvas_x, canvas_y);
 }
 
 /**************************************************************************

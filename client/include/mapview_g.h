@@ -38,8 +38,12 @@ void center_tile_mapcanvas(int x, int y);
 
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 
-void update_map_canvas(int x, int y, int width, int height,
-		       bool write_to_screen);
+void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y);
+void put_one_tile_iso(int map_x, int map_y, int canvas_x, int canvas_y,
+		      enum draw_type draw);
+void flush_mapcanvas(int canvas_x, int canvas_y,
+		     int pixel_width, int pixel_height);
+
 void update_map_canvas_scrollbars(void);
 
 void put_cross_overlay_tile(int x,int y);

@@ -184,17 +184,34 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
-  Update (refresh) the map canvas starting at the given tile (in map
-  coordinates) and with the given dimensions (also in map coordinates).
-
-  This function contains a lot of the drawing logic.  It is very similar
-  in each GUI.
+  Draw the given map tile at the given canvas position in non-isometric
+  view.
 **************************************************************************/
-void update_map_canvas(int tile_x, int tile_y, int width, int height,
-		       bool write_to_screen)
+void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Draw the given map tile at the given canvas position in isometric
+  view.
+**************************************************************************/
+void put_one_tile_iso(int map_x, int map_y, int canvas_x, int canvas_y,
+                     enum draw_type draw)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Flush the given part of the canvas buffer (if there is one) to the
+  screen.
+**************************************************************************/
+void flush_mapcanvas(int canvas_x, int canvas_y,
+		     int pixel_width, int pixel_height)
+{
+  /* PORTME */
+}
+
 
 /**************************************************************************
   Update (refresh) the locations of the mapview scrollbars (if it uses

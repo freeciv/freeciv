@@ -882,19 +882,24 @@ void put_one_tile_full(GdkDrawable *pm, int x, int y,
 }
 
 /**************************************************************************
-Only used for isometric view.
+  Draw the given map tile at the given canvas position in non-isometric
+  view.
 **************************************************************************/
-static void put_one_tile(int x, int y, enum draw_type draw)
+void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y)
 {
-  int canvas_x, canvas_y;
+  pixmap_put_tile(map_canvas_store, map_x, map_y, canvas_x, canvas_y,
+		  FALSE);
+}
+
+/**************************************************************************
+  Draw the given map tile at the given canvas position in isometric
+  view.
+**************************************************************************/
+void put_one_tile_iso(int x, int y, int canvas_x, int canvas_y,
+		      enum draw_type draw)
+{
   int height, width, height_unit;
   int offset_x, offset_y, offset_y_unit;
-
-  if (!tile_visible_mapcanvas(x, y)) {
-    freelog(LOG_DEBUG, "dropping %d,%d", x, y);
-    return;
-  }
-  freelog(LOG_DEBUG, "putting %d,%d draw %x", x, y, draw);
 
   width = (draw & D_TMB_L) && (draw & D_TMB_R) ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2;
   if (!(draw & D_TMB_L))
@@ -916,163 +921,28 @@ static void put_one_tile(int x, int y, enum draw_type draw)
   else
     offset_y_unit = 0;
 
-  /* returns whether the tile is visible. */
-  if (get_canvas_xy(x, y, &canvas_x, &canvas_y)) {
-    if (normalize_map_pos(&x, &y)) {
-      pixmap_put_tile_iso(map_canvas_store, x, y, canvas_x, canvas_y, 0,
-			  offset_x, offset_y, offset_y_unit,
-			  width, height, height_unit,
-			  draw);
-    } else {
-      pixmap_put_black_tile_iso(map_canvas_store, canvas_x, canvas_y,
-				offset_x, offset_y,
-				width, height);
-    }
+  if (normalize_map_pos(&x, &y)) {
+    pixmap_put_tile_iso(map_canvas_store, x, y, canvas_x, canvas_y, 0,
+			offset_x, offset_y, offset_y_unit,
+			width, height, height_unit,
+			draw);
+  } else {
+    pixmap_put_black_tile_iso(map_canvas_store, canvas_x, canvas_y,
+			      offset_x, offset_y,
+			      width, height);
   }
 }
 
 /**************************************************************************
-Refresh and draw to sceen all the tiles in a rectangde width,height (as
-seen in overhead ciew) with the top corner at x,y.
-All references to "left","right", "top" and "bottom" refer to the sides of
-the rectangle width, height as it would be seen in top-down view, unless
-said otherwise.
-The trick is to draw tiles furthest up on the map first, since we will be
-drawing on top of them when we draw tiles further down.
-
-Works by first refreshing map_canvas_store and then drawing the result to
-the screen.
+  Flush the given part of the canvas buffer (if there is one) to the
+  screen.
 **************************************************************************/
-void update_map_canvas(int x, int y, int width, int height, 
-		       bool write_to_screen)
+void flush_mapcanvas(int canvas_x, int canvas_y,
+		     int pixel_width, int pixel_height)
 {
-  freelog(LOG_DEBUG,
-	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
-	  x, y, width, height, write_to_screen);
-
-  if (is_isometric) {
-    int i;
-    int x_itr, y_itr;
-
-    /*** First refresh the tiles above the area to remove the old tiles'
-	 overlapping gfx ***/
-    put_one_tile(x-1, y-1, D_B_LR); /* top_left corner */
-
-    for (i=0; i<height-1; i++) { /* left side - last tile. */
-      int x1 = x - 1;
-      int y1 = y + i;
-      put_one_tile(x1, y1, D_MB_LR);
-    }
-    put_one_tile(x-1, y+height-1, D_TMB_R); /* last tile left side. */
-
-    for (i=0; i<width-1; i++) { /* top side */
-      int x1 = x + i;
-      int y1 = y - 1;
-      put_one_tile(x1, y1, D_MB_LR);
-    }
-    if (width > 1) /* last tile top side. */
-      put_one_tile(x+width-1, y-1, D_TMB_L);
-    else
-      put_one_tile(x+width-1, y-1, D_MB_L);
-
-    /*** Now draw the tiles to be refreshed, from the top down to get the
-	 overlapping areas correct ***/
-    for (x_itr = x; x_itr < x+width; x_itr++) {
-      for (y_itr = y; y_itr < y+height; y_itr++) {
-	put_one_tile(x_itr, y_itr, D_FULL);
-      }
-    }
-
-    /*** Then draw the tiles underneath to refresh the parts of them that
-	 overlap onto the area just drawn ***/
-    put_one_tile(x, y+height, D_TM_R);  /* bottom side */
-    for (i=1; i<width; i++) {
-      int x1 = x + i;
-      int y1 = y + height;
-      put_one_tile(x1, y1, D_TM_R);
-      put_one_tile(x1, y1, D_T_L);
-    }
-
-    put_one_tile(x+width, y, D_TM_L); /* right side */
-    for (i=1; i < height; i++) {
-      int x1 = x + width;
-      int y1 = y + i;
-      put_one_tile(x1, y1, D_TM_L);
-      put_one_tile(x1, y1, D_T_R);
-    }
-
-    put_one_tile(x+width, y+height, D_T_LR); /* right-bottom corner */
-
-
-    /*** Draw the goto line on top of the whole thing. Done last as
-	 we want it completely on top. ***/
-    /* Drawing is cheap; we just draw all the lines.
-       Perhaps this should be optimized, though... */
-    for (x_itr = x-1; x_itr <= x+width; x_itr++) {
-      for (y_itr = y-1; y_itr <= y+height; y_itr++) {
-	int x1 = x_itr;
-	int y1 = y_itr;
-	if (normalize_map_pos(&x1, &y1)) {
-	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
-	    if (get_drawn(x1, y1, dir)) {
-	      really_draw_segment(x1, y1, dir, FALSE, TRUE);
-	    }
-	  } adjc_dir_iterate_end;
-	}
-      }
-    }
-
-
-    /*** Lastly draw our changes to the screen. ***/
-    if (write_to_screen) {
-      int canvas_start_x, canvas_start_y;
-      get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y); /* top left corner */
-      /* top left corner in isometric view */
-      canvas_start_x -= height * NORMAL_TILE_WIDTH/2;
-
-      /* because of where get_canvas_xy() sets canvas_x */
-      canvas_start_x += NORMAL_TILE_WIDTH/2;
-
-      /* And because units fill a little extra */
-      canvas_start_y -= NORMAL_TILE_HEIGHT/2;
-
-      /* here we draw a rectangle that includes the updated tiles. */
-      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		      canvas_start_x, canvas_start_y,
-		      canvas_start_x, canvas_start_y,
-		      (height + width) * NORMAL_TILE_WIDTH/2,
-		      (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2);
-    }
-
-  } else { /* is_isometric */
-    int map_x, map_y;
-
-    for (map_y = y; map_y < y + height; map_y++) {
-      for (map_x = x; map_x < x + width; map_x++) {
-	int canvas_x, canvas_y;
-
-	/*
-	 * We don't normalize until later because we want to draw
-	 * black tiles for unreal positions.
-	 */
-	if (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)) {
-	  pixmap_put_tile(map_canvas_store,
-			  map_x, map_y, canvas_x, canvas_y, 0);
-	}
-      }
-    }
-
-    if (write_to_screen) {
-      int canvas_x, canvas_y;
-
-      get_canvas_xy(x, y, &canvas_x, &canvas_y);
-      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-		      canvas_x, canvas_y,
-		      canvas_x, canvas_y,
-		      width*NORMAL_TILE_WIDTH,
-		      height*NORMAL_TILE_HEIGHT);
-    }
-  }
+  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		  canvas_x, canvas_y, canvas_x, canvas_y,
+		  pixel_width, pixel_height);
 }
 
 /**************************************************************************
