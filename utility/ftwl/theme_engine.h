@@ -36,7 +36,8 @@ struct te_screen {
   struct keybinding_list *keybindings;
 };
 
-void te_init(const char *theme);
+void te_init(const char *theme, char *example_file);
+void te_init_colormodel(struct section_file *file);
 struct section_file *te_open_themed_file(const char *name);
 struct te_screen *te_get_screen(struct sw_widget *parent_window,
 				const char *screen_name,

@@ -59,11 +59,13 @@ struct button_callback {
 
 static char *current_theme;
 static char current_res[30];
+static int theme_bytes_per_pixel;
 
 /*************************************************************************
-  ...
+  Initialize theme engine and look for theme directory containing the
+  given example file.
 *************************************************************************/
-void te_init(const char *theme)
+void te_init(const char *theme, char *example_file)
 {
   struct ct_size size;
   be_screen_get_size(&size);
@@ -73,8 +75,8 @@ void te_init(const char *theme)
   my_snprintf(current_res, sizeof(current_res), "%dx%d", size.width,
 	      size.height);
 
-  my_snprintf(filename, sizeof(filename), "themes/%s/%s/mapview.screen",
-	      current_theme, current_res);
+  my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
+	      current_theme, current_res, example_file);
   if (!datafilename(filename)) {
     freelog(LOG_FATAL, "ERROR: There is no theme '%s' in resolution '%s'.",
 	    current_theme, current_res);
@@ -83,11 +85,19 @@ void te_init(const char *theme)
 }
 
 /*************************************************************************
+  Initialize colour model from a palette file.
+*************************************************************************/
+void te_init_colormodel(struct section_file *file)
+{
+  theme_bytes_per_pixel = secfile_lookup_int(file, "meta.bpp") / 8;
+}
+
+/*************************************************************************
   ...
 *************************************************************************/
 struct Sprite *te_load_gfx(const char *filename)
 {
-  const int prefixes=6;
+  const int prefixes = 6;
   char prefix[prefixes][512];
   int i;
 
@@ -100,12 +110,10 @@ struct Sprite *te_load_gfx(const char *filename)
   my_snprintf(prefix[4], sizeof(prefix[4]), "themes/");
   my_snprintf(prefix[5], sizeof(prefix[5]), "%s", "");
 
-  //printf("searching for '%s' in:\n",filename);
   for (i = 0; i < prefixes; i++) {
     char fullname[512];
     char *tmp;
 
-    //printf("  '%s'\n",prefix[i]);
     my_snprintf(fullname, sizeof(fullname), "%s%s", prefix[i], filename);
 
     tmp = datafilename(fullname);
@@ -123,15 +131,15 @@ struct Sprite *te_load_gfx(const char *filename)
 *************************************************************************/
 static bool str_color_to_be_color(be_color *col, const char *s)
 {
-  int values[3];
+  int values[theme_bytes_per_pixel];
   int i;
 
-  if (strlen(s) != 9 || s[0] != '#') {
+  if (strlen(s) != (theme_bytes_per_pixel * 2 + 1) || s[0] != '#') {
     return FALSE;
   }
 
   s++;
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < theme_bytes_per_pixel; i++) {
     char b[3];
     int scanned;
 
@@ -143,6 +151,7 @@ static bool str_color_to_be_color(be_color *col, const char *s)
     assert(scanned == 1);
     s += 2;
   }
+  /* FIXME: this needs to be generalized for other bitdepths */
   *col = be_get_color(values[0], values[1], values[2]);
   return TRUE;
 }
