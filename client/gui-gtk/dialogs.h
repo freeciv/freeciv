@@ -26,6 +26,7 @@ struct button_descr {
   bool sensitive;
 };
 
+void popup_revolution_dialog(void);
 void message_dialog_button_set_sensitive(GtkWidget * shl, const char *bname,
 					 bool state);
 

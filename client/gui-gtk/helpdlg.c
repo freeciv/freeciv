@@ -932,28 +932,28 @@ static void help_update_terrain(const struct help_item *pitem,
 	    tile_types[i].trade);
     gtk_set_label(help_tlabel[0][4], buf);
 
-    if (*(tile_types[i].special_1_name)) {
+    if (*(tile_types[i].special[0].name)) {
       sprintf(buf, _("%s F/R/T:"),
-	      tile_types[i].special_1_name);
+	       tile_types[i].special[0].name);
       gtk_set_label(help_tlabel[1][0], buf);
       sprintf(buf, "%d/%d/%d",
-	      tile_types[i].food_special_1,
-	      tile_types[i].shield_special_1,
-	      tile_types[i].trade_special_1);
+	      tile_types[i].special[0].food,
+	      tile_types[i].special[0].shield,
+	      tile_types[i].special[0].trade);
       gtk_set_label(help_tlabel[1][1], buf);
     } else {
       gtk_set_label(help_tlabel[1][0], "");
       gtk_set_label(help_tlabel[1][1], "");
     }
 
-    if (*(tile_types[i].special_2_name)) {
+    if (*(tile_types[i].special[1].name)) {
       sprintf(buf, _("%s F/R/T:"),
-	      tile_types[i].special_2_name);
+	      tile_types[i].special[1].name);
       gtk_set_label(help_tlabel[1][3], buf);
       sprintf(buf, "%d/%d/%d",
-	      tile_types[i].food_special_2,
-	      tile_types[i].shield_special_2,
-	      tile_types[i].trade_special_2);
+	      tile_types[i].special[1].food,
+	      tile_types[i].special[1].shield,
+	      tile_types[i].special[1].trade);
       gtk_set_label(help_tlabel[1][4], buf);
     } else {
       gtk_set_label(help_tlabel[1][3], "");
