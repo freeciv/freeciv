@@ -1617,7 +1617,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
 
 static int unit_can_be_retired(struct unit *punit)
 {
-  int x, y;
+  int x, y, x1;
 
   if( punit->fuel ) {   /* fuel abused for barbarian life span */
     punit->fuel--;
@@ -1632,9 +1632,9 @@ static int unit_can_be_retired(struct unit *punit)
     for(y = punit->y - 3; y < punit->y + 4; y++) { 
       if( y < 0 || y > map.ysize )
         continue;
-      x = map_adjust_x(x);
-      if( is_enemy_city_tile(x,y,punit->owner) ||
-          is_enemy_unit_tile(x,y,punit->owner) )
+      x1 = map_adjust_x(x);
+      if( is_enemy_city_tile(x1,y,punit->owner) ||
+          is_enemy_unit_tile(x1,y,punit->owner) )
         return 0;
     }
 
