@@ -23,7 +23,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
-#include "repodlgs.h"
+
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -38,6 +38,7 @@
 #include "gui_main.h"
 #include "helpdlg.h"
 #include "optiondlg.h"    
+#include "repodlgs.h"
 
 static HWND economy_dlg;
 static HWND activeunits_dlg;
