@@ -375,9 +375,15 @@ void handle_unit_build_city(struct player *pplayer,
   }  
 
   if(!punit->moves_left)  {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: %s unit has no moves left to %s city."),
-		     unit_name, (pcity ? _("add to") : _("build")));
+    if (pcity) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: %s unit has no moves left to add to %s."),
+		       unit_name, pcity->name);
+    } else {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: %s unit has no moves left to build city."),
+		       unit_name);
+    }
     return;
   }
     
