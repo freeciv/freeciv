@@ -834,7 +834,11 @@ void secfile_insert_bool(struct section_file *my_section_file,
 
   pentry=section_file_insert_internal(my_section_file, buf);
 
-  assert(val == TRUE || val == FALSE);
+  if (val != TRUE && val != FALSE) {
+    freelog(LOG_ERROR, "Trying to insert a non-boolean (%d) at key %s",
+	    (int) val, buf);
+    val = TRUE;
+  }
 
   pentry->ivalue = val ? 1 : 0;
   pentry->svalue = NULL;
@@ -962,7 +966,11 @@ bool secfile_lookup_bool(struct section_file *my_section_file,
     exit(EXIT_FAILURE);
   }
 
-  assert(pentry->ivalue == 0 || pentry->ivalue == 1);
+  if (pentry->ivalue != 0 && pentry->ivalue != 1) {
+    freelog(LOG_ERROR, "Value read for key %s isn't boolean: %d", buf,
+	    pentry->ivalue);
+    pentry->ivalue = 1;
+  }
   
   return pentry->ivalue != 0;
 }
@@ -992,7 +1000,11 @@ bool secfile_lookup_bool_default(struct section_file *my_section_file,
     exit(EXIT_FAILURE);
   }
 
-  assert(pentry->ivalue == 0 || pentry->ivalue == 1);
+  if (pentry->ivalue != 0 && pentry->ivalue != 1) {
+    freelog(LOG_ERROR, "Value read for key %s isn't boolean: %d", buf,
+	    pentry->ivalue);
+    pentry->ivalue = 1;
+  }
   
   return pentry->ivalue != 0;
 }

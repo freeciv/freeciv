@@ -755,7 +755,11 @@ static unsigned char *put_uint32(unsigned char *buffer, int val)
 **************************************************************************/
 static unsigned char *put_bool8(unsigned char *buffer, bool val)
 {
-  assert(val == TRUE || val == FALSE);
+  if (val != TRUE && val != FALSE) {
+    freelog(LOG_ERROR, "Trying to send a non-boolean: %d", (int) val);
+    val = TRUE;
+  }
+
   return put_uint8(buffer, val ? 1 : 0);
 }
 
@@ -764,7 +768,11 @@ static unsigned char *put_bool8(unsigned char *buffer, bool val)
 **************************************************************************/
 static unsigned char *put_bool32(unsigned char *buffer, bool val)
 {
-  assert(val == TRUE || val == FALSE);
+  if (val != TRUE && val != FALSE) {
+    freelog(LOG_ERROR, "Trying to send a non-boolean: %d", (int) val);
+    val = TRUE;
+  }
+
   return put_uint32(buffer, val ? 1 : 0);
 }
 
@@ -1020,7 +1028,12 @@ static void iget_bool8(struct pack_iter *piter, bool * val)
   int ival;
 
   iget_uint8(piter, &ival);
-  assert(ival == 0 || ival == 1);
+
+  if (ival != 0 && ival != 1) {
+    freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
+    ival = 1;
+  }
+
   *val = (ival != 0);
 }
 
@@ -1032,7 +1045,12 @@ static void iget_bool32(struct pack_iter *piter, bool * val)
   int ival;
 
   iget_uint32(piter, &ival);
-  assert(ival == 0 || ival == 1);
+
+  if (ival != 0 && ival != 1) {
+    freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
+    ival = 1;
+  }
+
   *val = (ival != 0);
 }
 
