@@ -149,55 +149,50 @@ gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 *****************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  GtkWidget *notify_dialog_shell;
-  GtkWidget *notify_label, *notify_headline, *notify_scrolled;
+  GtkWidget *shell;
+  GtkWidget *label, *headline_label, *sw;
   
-  notify_dialog_shell = gtk_dialog_new_with_buttons(caption,
-  	GTK_WINDOW(toplevel),
+  shell = gtk_dialog_new_with_buttons(
+	caption,
+	GTK_WINDOW(toplevel),
 	GTK_DIALOG_MODAL,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(notify_dialog_shell),
-				  GTK_RESPONSE_CLOSE);
-  g_signal_connect(notify_dialog_shell, "response",
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
+  g_signal_connect(shell, "response",
 		   G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(notify_dialog_shell, "destroy",
+  g_signal_connect(shell, "destroy",
 		   G_CALLBACK(deleted_callback), NULL);
-  gtk_widget_set_name(notify_dialog_shell, "Freeciv");
+  gtk_widget_set_name(shell, "Freeciv");
 
-  gtk_container_border_width( GTK_CONTAINER(GTK_DIALOG(notify_dialog_shell)->vbox), 5 );
+  gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), 5);
 
-  gtk_widget_realize(notify_dialog_shell);
+  headline_label = gtk_label_new(headline);   
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox),
+		     headline_label, FALSE, FALSE, 0);
+  gtk_widget_set_name(headline_label, "notify label");
 
-  notify_headline = gtk_label_new( headline);   
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
-	notify_headline, FALSE, FALSE, 0 );
-  gtk_widget_set_name(notify_headline, "notify label");
+  gtk_label_set_justify(GTK_LABEL(headline_label), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_alignment(GTK_MISC(headline_label), 0.0, 0.0);
 
-  gtk_label_set_justify( GTK_LABEL( notify_headline ), GTK_JUSTIFY_LEFT );
-  gtk_misc_set_alignment(GTK_MISC(notify_headline), 0.0, 0.0);
-
-  notify_scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(notify_scrolled),
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  notify_label = gtk_label_new( lines );  
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (notify_scrolled),
-					notify_label);
+  label = gtk_label_new(lines);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
 
-  gtk_widget_set_name(notify_label, "notify label");
-  gtk_label_set_justify( GTK_LABEL( notify_label ), GTK_JUSTIFY_LEFT );
-  gtk_misc_set_alignment(GTK_MISC(notify_label), 0.0, 0.0);
+  gtk_widget_set_name(label, "notify label");
+  gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
-	notify_scrolled, TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), sw, TRUE, TRUE, 0);
 
-  gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->action_area );
+  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 
-  gtk_widget_set_usize(notify_dialog_shell, -1, 265);
-  gtk_set_relative_position (toplevel, notify_dialog_shell, 10, 10);
-  gtk_widget_show( notify_dialog_shell );
+  gtk_widget_set_size_request(shell, -1, 265);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_present(GTK_WINDOW(shell));
 }
 
 /****************************************************************

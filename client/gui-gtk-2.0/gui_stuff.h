@@ -35,7 +35,7 @@ typedef struct
 
 #define TREE_ITER_PTR(x)	(&(x).it)
 
-void itree_begin(GtkTreeStore *store, ITree *it);
+void itree_begin(GtkTreeModel *model, ITree *it);
 gboolean itree_end(ITree *it);
 void itree_next(ITree *it);
 void itree_get(ITree *it, ...);

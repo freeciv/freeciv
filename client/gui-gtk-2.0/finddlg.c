@@ -115,7 +115,7 @@ void popup_find_dialog(void)
   gtk_tree_view_focus(GTK_TREE_VIEW(find_view));
 
   gtk_widget_show_all(sw);
-  gtk_widget_show(find_dialog_shell);
+  gtk_window_present(GTK_WINDOW(find_dialog_shell));
 }
 
 
@@ -131,10 +131,18 @@ static void update_find_dialog(GtkListStore *store)
   gtk_list_store_clear(store);
 
   for(i = 0; i < game.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pcity) 
+    city_list_iterate(game.players[i].cities, pcity) {
+	GValue value = { 0, };
+
 	gtk_list_store_append(store, &it);
-	gtk_list_store_set(store, &it, 0, pcity->name, 1, pcity, -1);
-    city_list_iterate_end;
+
+	g_value_init(&value, G_TYPE_STRING);
+	g_value_set_static_string(&value, pcity->name);
+	gtk_list_store_set_value(store, &it, 0, &value);
+	g_value_unset(&value);
+
+	gtk_list_store_set(store, &it, 1, pcity, -1);
+    } city_list_iterate_end;
   }
 }
 

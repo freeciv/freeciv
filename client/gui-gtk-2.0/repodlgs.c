@@ -125,13 +125,13 @@ void update_report_dialogs(void)
 void popup_science_dialog(bool make_modal)
 {
   if(!science_dialog_shell) {
-    science_dialog_shell_is_modal=make_modal;
+    science_dialog_shell_is_modal = make_modal;
     
     create_science_dialog(make_modal);
     gtk_set_relative_position(toplevel, science_dialog_shell, 10, 10);
-
-    gtk_widget_show( science_dialog_shell );
   }
+
+  gtk_window_present(GTK_WINDOW(science_dialog_shell));
 }
 
 
@@ -142,23 +142,28 @@ void create_science_dialog(bool make_modal)
 {
   GtkWidget *frame, *hbox, *w;
   int i;
-  char text[512];
 
   science_dialog_shell = gtk_dialog_new_with_buttons(_("Science"),
-  	GTK_WINDOW(toplevel),
-	(make_modal ? GTK_DIALOG_MODAL : 0),
+  	NULL,
+	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(science_dialog_shell),
 	GTK_RESPONSE_CLOSE);
+
+  if (make_modal) {
+    gtk_window_set_transient_for(GTK_WINDOW(science_dialog_shell),
+				 GTK_WINDOW(toplevel));
+    gtk_window_set_modal(GTK_WINDOW(science_dialog_shell), TRUE);
+  }
+
   g_signal_connect(science_dialog_shell, "response",
 		   G_CALLBACK(gtk_widget_destroy), NULL);
   g_signal_connect(science_dialog_shell, "destroy",
 		   G_CALLBACK(gtk_widget_destroyed), &science_dialog_shell);
 
-  my_snprintf(text, sizeof(text), "no text set yet");
-  science_label = gtk_label_new(text);
+  science_label = gtk_label_new("no text set yet");
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
         science_label, FALSE, FALSE, 0 );
@@ -395,10 +400,15 @@ void science_dialog_update(void)
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for(i=0; i<g_list_length(sorting_list); i++) {
     GtkTreeIter it;
+    GValue value = { 0, };
 
     j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
     gtk_list_store_append(science_model[i%4], &it);
-    gtk_list_store_set(science_model[i%4], &it, 0, advances[j].name, -1);
+
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, advances[j].name);
+    gtk_list_store_set_value(science_model[i%4], &it, 0, &value);
+    g_value_unset(&value);
   }
   g_list_free(sorting_list);
   sorting_list = NULL;
@@ -769,9 +779,9 @@ void popup_activeunits_report_dialog(bool make_modal)
     
     create_activeunits_report_dialog(make_modal);
     gtk_set_relative_position(toplevel, activeunits_dialog_shell, 10, 10);
-
-    gtk_window_present(GTK_WINDOW(activeunits_dialog_shell));
   }
+
+  gtk_window_present(GTK_WINDOW(activeunits_dialog_shell));
 }
 
 
@@ -837,14 +847,19 @@ void create_activeunits_report_dialog(bool make_modal)
     titles = intl_slist(AU_COL, titles_);
 
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),
 	GTK_RESPONSE_CLOSE);
-  gtk_window_set_modal(GTK_WINDOW(activeunits_dialog_shell), make_modal);
+
+  if (make_modal) {
+    gtk_window_set_transient_for(GTK_WINDOW(activeunits_dialog_shell),
+				 GTK_WINDOW(toplevel));
+    gtk_window_set_modal(GTK_WINDOW(activeunits_dialog_shell), TRUE);
+  }
 
   activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
   activeunits_report_dialog_update();
@@ -1007,6 +1022,7 @@ void activeunits_report_dialog_update(void)
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
     GtkTreeIter it;
+    GValue value = { 0, };
 
     gtk_list_store_clear(activeunits_store);
 
@@ -1035,13 +1051,16 @@ void activeunits_report_dialog_update(void)
 	
         gtk_list_store_append(activeunits_store, &it);
 	gtk_list_store_set(activeunits_store, &it,
-		0, unit_name(i),
 		1, can,
 		2, unitarray[i].building_count,
 		3, unitarray[i].active_count,
 		4, unitarray[i].upkeep_shield,
 		5, unitarray[i].upkeep_food,
 		6, TRUE, -1);
+	g_value_init(&value, G_TYPE_STRING);
+	g_value_set_static_string(&value, unit_name(i));
+	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
+	g_value_unset(&value);
 
 	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
@@ -1054,22 +1073,28 @@ void activeunits_report_dialog_update(void)
 
     gtk_list_store_append(activeunits_store, &it);
     gtk_list_store_set(activeunits_store, &it,
-	    0, "",
 	    1, FALSE,
 	    2, 0,
 	    3, 0,
 	    4, 0,
 	    5, 0,
 	    6, FALSE, -1);
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, "");
+    gtk_list_store_set_value(activeunits_store, &it, 0, &value);
+    g_value_unset(&value);
 
     gtk_list_store_append(activeunits_store, &it);
     gtk_list_store_set(activeunits_store, &it,
-    	    0, "Totals:",
 	    1, FALSE,
     	    2, unittotals.building_count,
     	    3, unittotals.active_count,
     	    4, unittotals.upkeep_shield,
     	    5, unittotals.upkeep_food,
 	    6, FALSE, -1);
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, "Totals:");
+    gtk_list_store_set_value(activeunits_store, &it, 0, &value);
+    g_value_unset(&value);
   }
 }

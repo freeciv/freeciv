@@ -29,7 +29,7 @@
 
 /*************************************************************************/
 static GtkWidget *shell;
-static GtkTreeStore *model[NUM_LISTS];
+static GtkListStore *model[NUM_LISTS];
 
 static GtkWidget *create_messageopt_dialog(void);
 static void messageopt_command_callback(GtkWidget *w, gint response_id);
@@ -81,21 +81,27 @@ static GtkWidget *create_messageopt_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), form, TRUE, TRUE, 5);
 
   for (n=0; n<NUM_LISTS; n++) {
-    model[n] = gtk_tree_store_new(5,
+    model[n] = gtk_list_store_new(5,
      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_INT);
   }
 
   for (i=0; i<E_LAST; i++)  {
     GtkTreeIter it;
+    GValue value = { 0, };
 
     n = (i % NUM_LISTS);
 
-    gtk_tree_store_append(model[n], &it, NULL);
-    gtk_tree_store_set(model[n], &it,
-    	3, get_message_text(sorted_events[i]), 4, sorted_events[i], -1);
+    gtk_list_store_append(model[n], &it);
+
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, get_message_text(sorted_events[i]));
+    gtk_list_store_set_value(model[n], &it, 3, &value);
+    g_value_unset(&value);
+
+    gtk_list_store_set(model[n], &it, 4, sorted_events[i], -1);
 
     for (j=0; j<NUM_MW; j++) {
-      gtk_tree_store_set(model[n], &it,
+      gtk_list_store_set(model[n], &it,
         j, messages_where[sorted_events[i]] & (1<<j), -1);
     }
   }
@@ -176,7 +182,9 @@ static void messageopt_command_callback(GtkWidget *w, gint response_id)
     }
 
     for (n=0; n<NUM_LISTS; n++) {
-      for (itree_begin(model[n], &it); !itree_end(&it); itree_next(&it)) {
+      GtkTreeModel *pmodel = GTK_TREE_MODEL(model[n]);
+
+      for (itree_begin(pmodel, &it); !itree_end(&it); itree_next(&it)) {
         for (j=0; j<NUM_MW; j++) {
           itree_get(&it, j, &toggle, 4, &i, -1);
 
@@ -208,7 +216,7 @@ static void item_toggled(GtkCellRendererToggle *cell,
   gtk_tree_model_get_iter(model, &it, path);
   gtk_tree_model_get(model, &it, column, &toggle, -1);
   toggle ^= 1;
-  gtk_tree_store_set(GTK_TREE_STORE(model), &it, column, toggle, -1);
+  gtk_list_store_set(GTK_LIST_STORE(model), &it, column, toggle, -1);
 
   gtk_tree_path_free(path);
 }

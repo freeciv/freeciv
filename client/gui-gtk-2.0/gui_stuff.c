@@ -45,18 +45,18 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 {
   gint x=0, y=0;
   
-  if (!GTK_WIDGET_REALIZED (ref))
-    gtk_widget_realize (ref);
-  if (!GTK_WIDGET_NO_WINDOW (ref))
-    gdk_window_get_root_origin (ref->window, &x, &y);
+  if (!GTK_WIDGET_REALIZED(ref))
+    gtk_widget_realize(ref);
+  if (!GTK_WIDGET_NO_WINDOW(ref))
+    gdk_window_get_origin(ref->window, &x, &y);
 
-  x=x+px*ref->requisition.width/100;
-  y=y+py*ref->requisition.height/100;
+  x += px*ref->allocation.width/100;
+  y += py*ref->allocation.height/100;
 
-  if (!GTK_WIDGET_REALIZED (w))
-    gtk_widget_realize (w);
-  if (GTK_IS_WINDOW (w))
-    gtk_widget_set_uposition (w, x, y);
+  if (!GTK_WIDGET_REALIZED(w))
+    gtk_widget_realize(w);
+  if (GTK_IS_WINDOW(w))
+    gdk_window_move(w->window, x, y);
 }
 
 
@@ -151,9 +151,9 @@ char **intl_slist(int n, char **s)
 /****************************************************************
 ...
 *****************************************************************/
-void itree_begin(GtkTreeStore *store, ITree *it)
+void itree_begin(GtkTreeModel *model, ITree *it)
 {
-  it->model = GTK_TREE_MODEL(store);
+  it->model = model;
   it->end = !gtk_tree_model_get_iter_first(it->model, &it->it);
 }
 

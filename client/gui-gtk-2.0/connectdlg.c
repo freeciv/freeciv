@@ -263,8 +263,8 @@ void gui_server_connect(void)
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
 
   gtk_widget_set_size_request(dialog, 450, 250);
-  gtk_set_relative_position(toplevel, dialog, 50, 50);
-  gtk_widget_show(dialog);
+  gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_present(GTK_WINDOW(dialog));
 
   gtk_widget_grab_focus(iname);
 }
