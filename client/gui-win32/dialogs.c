@@ -1370,10 +1370,9 @@ void popup_bribe_dialog(struct unit *punit)
                 _("Bribing the unit costs %d gold.\n"
                   "Treasury contains %d gold."), 
                 punit->bribe_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(root_window, /*"diplomatnogolddialog"*/_("Traitors Demand 
-Too Much!"), buf,
-                        _("Darn"), diplomat_bribe_no_callback, 0, 
-                        0);
+    popup_message_dialog(root_window, /*"diplomatnogolddialog"*/
+	    	_("Traitors Demand Too Much!"), buf, _("Darn"),
+		diplomat_bribe_no_callback, 0, 0);
   }
 }
 
