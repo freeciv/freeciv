@@ -887,6 +887,7 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
           ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
           ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
           ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
+          test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
           case "$ac_given_srcdir" in
             .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
             /*) top_srcdir="$ac_given_srcdir" ;;
@@ -894,9 +895,9 @@ return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", ""
           esac
           if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
             rm -f "$ac_dir/POTFILES"
-            echo creating "$ac_dir/POTFILES"
+            test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
             sed -e "/^#/d" -e "/^[ 	]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," -e "\$s/\(.*\) \\\\/\1/" < "$ac_given_srcdir/$ac_dir/POTFILES.in" > "$ac_dir/POTFILES"
-            echo creating "$ac_dir/Makefile"
+            test -n "$as_me" && echo "$as_me: creating $ac_dir/Makefile" || echo "creating $ac_dir/Makefile"
             sed -e "/POTFILES =/r $ac_dir/POTFILES" "$ac_dir/Makefile.in" > "$ac_dir/Makefile"
           fi
           ;;
