@@ -3,13 +3,13 @@
 # This translation is covered by the GNU General Public License Version 2.
 # Zoltán Bárdosi <hck@lkg.rulez.org>, 1999.
 # Gábor Dukai <dukai@EUnet.yu>, 2000.
-# Gábor Takács <tg330@hszk.bme.hu>, 2001, 2002.
+# Gábor Takács <tg330@hszk.bme.hu>, 2001-2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
-"PO-Revision-Date: 2002-12-09 20:16+0100\n"
+"POT-Creation-Date: 2003-09-11 19:48-0400\n"
+"PO-Revision-Date: 2003-09-17 11:54+0200\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -326,6 +326,9 @@ msgid ""
 "want to set your local encoding manually by setting\n"
 "the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
 msgstr ""
+"A(z) %s karakterkészletbõl nem lehetséges a sztringkonverzió.\n"
+"Kézileg a $FREECIV_LOCAL_ENCODING környezeti változóval állíthatod be\n"
+"a helyi kódolásodat. Folytatás..."
 
 #: common/shared.c:1277
 #, c-format
@@ -334,6 +337,9 @@ msgid ""
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
 msgstr ""
+"A(z) '%s' sztring érvénytelen: %s. A szabálykészlet fájloknak\n"
+"%s kódolásban kell lenniük; ezt a $FREECIV_DATA_ENCODING környezeti változóval\n"
+"változtathatod meg."
 
 #: common/shared.c:1343
 msgid ""
@@ -342,6 +348,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
 msgstr ""
+"Az iconv függvénykönyvtár nélkül futtatod a Freecivet.\n"
+"Bizonyos karakterek hibásan jelenhetnek meg, hacsak nem latin1\n"
+"karakterkészletet használsz. Az iconv-ot a \n"
+"http://gnu.org/-ról töltheted le."
 
 #: common/support.c:149
 #, c-format
@@ -1556,9 +1566,9 @@ msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Játék: A(z) %s kapcsolatnév-prefix nem egyértelmû."
 
 #: server/handchat.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "%s to allies: %s"
-msgstr "A(z) %s államformája mostantól %s"
+msgstr "%s a szövetségeseknek: %s"
 
 #: server/handchat.c:281
 #, c-format
@@ -2407,25 +2417,25 @@ msgstr "A(z) %s ûrhajó megérkezett az Alpha Centaurira."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "A játék döntetlenül végzõdött a játékidõ letelte miatt"
 
 #: server/srv_main.c:230 server/srv_main.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "Átalakít %s tereptípusra"
+msgstr "Gyõtött a(z) %s csapat"
 
 #: server/srv_main.c:240 server/srv_main.c:241
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "A játék %s gyõzelmével végzõdött"
 
 #: server/srv_main.c:246 server/srv_main.c:247
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "A játék döntetlenül végzõdött"
 
 #: server/srv_main.c:269 server/srv_main.c:270
 msgid "Game ended in allied victory"
-msgstr ""
+msgstr "A játék szövetséges gyõzelemmel végzõdött"
 
 #: server/srv_main.c:390
 #, c-format
@@ -3846,13 +3856,12 @@ msgid "Set server option."
 msgstr "Szerverbeállítások értékének megadása."
 
 #: server/stdinhand.c:1077
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <játékosnév>"
+msgstr "team <játékos> [csapat]"
 
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "Játékos csapatának beállítása."
 
 #: server/stdinhand.c:1079
 msgid ""
@@ -3860,7 +3869,7 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr ""
+msgstr "Beállítja, hogy egy játékos melyik csapathoz tartozzon.  Ha nem adunk meg csapatot, akkor a játékost csapat nélkülivé tesszük. Használj \"\"-t, ha a nevek whitespace karaktert tartalmaznak. A csapat tagjai szövetségesként kezdenek, közös a térképük és a követségeik, együtt harcolnak a gyõzelemért. A csapat pontszáma a csapattagok pontszámának az átlaga."
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -4638,29 +4647,26 @@ msgid "description"
 msgstr "leírás"
 
 #: server/stdinhand.c:2682
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "A játék elkezdõdése után nem lehet MI játékosokat hozzáadni."
+msgstr "A játék elkezdõdése után nem lehet csapatot változtatni."
 
 #: server/stdinhand.c:2692
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "Definiálatlan argumentum.  Használat: set <beállítás> <érték>."
+msgstr "Definiálatlan argumentum.  Használat: team <játékos> [csapat]."
 
 #: server/stdinhand.c:2708
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "%s játékos mostantól csapat nélküli."
 
 #: server/stdinhand.c:2714
-#, fuzzy
 msgid "Bad team name."
-msgstr "Játék befejezése."
+msgstr "Rossz csapatnév."
 
 #: server/stdinhand.c:2718
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "A(z) %s vesztettek egy %s egységet a(z) %s támadása miatt"
+msgstr "%s játékos csapata mostantól %s."
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -4866,23 +4872,23 @@ msgid ""
 msgstr ""
 "Üdv - ez itt a Freeciv szerver bevezetõ súgószövege.\n"
 "\n"
-"Van két fontos, szerverrel kapcsolatos fogalom: a parancsok és a "
-"beállítások.\n"
+"A szerverrel kapcsolatban két fontos fogalmat érdemes megemlíteni: a "
+"parancsokat és a beállításokat.\n"
 "A parancsok (ilyen pl. a 'help' is) valamilyen tevékenységet végeztetnek a "
 "szerverrel.\n"
-"Bizonyos parancsok egy vagy több paramétert is várnak (szóközökkel "
-"elválasztva).\n"
-"Sok esetben a parancsok és argumentumaik is rövidíthetõk.\n"
-"A beállítások olyan értékek, amelyek futás közben vezérlik a szervert.\n"
+"Bizonyos parancsok egy vagy több, szóközökkel határolt paramétert is "
+"várnak.\n"
+"Sok esetben a parancsok és azok argumentumai is rövidíthetõk.\n"
+"A beállítások olyan értékek, amelyek futás közben irányítják a szervert.\n"
 "\n"
-"Ha többet szeretnél megtudni a parancsokról és beállításokról,\n"
+"Ha több információt szeretnél megtudni a parancsokról és beállításokról,\n"
 "írd be, hogy 'help help'!\n"
 "\n"
 "A türelmetlenek számára következzen a legfontosabb parancsok listája!\n"
-"  show   -  beállítások megjelenítése\n"
-"  set    -  beállítások megváltoztatása\n"
-"  start  -  játék indítása, miután a játékosok csatlakoztak\n"
-"  save   -  játékállás elmentése\n"
+"  show   -  a beállítások pillanatnyi értékének megjelenítése\n"
+"  set    -  beállítások értékének megváltoztatása\n"
+"  start  -  játék indítása miután a játékosok csatlakoztak\n"
+"  save   -  pillanatnyi játékállás elmentése\n"
 "  quit   -  kilépés"
 
 #: server/stdinhand.c:3406 server/stdinhand.c:3409
@@ -6503,18 +6509,16 @@ msgid "End Turn when done moving"
 msgstr "Automatikus kör vége a lépések befejezésekor"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "Alt/Meta használata a gyorsbillentyûknél (csak GTK)"
+msgstr "Alt/Meta használata a gyorsbillentyûknél (csak GTK+)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Térkép görgetõsávjainak megjelenítése (csak GTK)"
+msgstr "Térkép görgetõsávjainak megjelenítése (csak GTK+)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "A párbeszédablakok mindig felül maradjanak (Csak GTK+2.0)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -7133,9 +7137,8 @@ msgid "Pollution:"
 msgstr "Szennyezés:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
-msgstr "Általános _jellemzõk"
+msgstr "_Áttekintés"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
 #: client/gui-gtk/citydlg.c:2954 client/gui-gtk/wldlg.c:310
@@ -7152,7 +7155,7 @@ msgstr "Várostérkép"
 
 #: client/gui-gtk-2.0/citydlg.c:648
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Az épület eladásához nyomj ENTERT, vagy kattints duplán!"
 
 #: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk-2.0/citydlg.c:753
 #: client/gui-mui/citydlg.c:1646
@@ -7166,14 +7169,12 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d kör"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
-#, fuzzy
 msgid "_Improvements:"
-msgstr "Fejlesztések"
+msgstr "_Fejlesztések:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "Termelés"
+msgstr "_Termelés"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7186,18 +7187,16 @@ msgid "_Happiness"
 msgstr "Köz_hangulat"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
-msgstr "CMA"
+msgstr "C_MA"
 
 #: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
 msgstr "Ke_reskedelmi kapcsolatok"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Beállítások _mentése"
+msgstr "_Beállítások"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7241,14 +7240,12 @@ msgid "Disband if build settler at size 1"
 msgstr "A város feloszlatása, ha 1-es méretnél legyártott egy telepest"
 
 #: client/gui-gtk-2.0/citydlg.c:906
-#, fuzzy
 msgid "Overview page"
-msgstr "Általános jellemzõk fül"
+msgstr "Áttekintés fül"
 
 #: client/gui-gtk-2.0/citydlg.c:907
-#, fuzzy
 msgid "Production page"
-msgstr "Termelés"
+msgstr "Termelés fül"
 
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
@@ -7266,14 +7263,13 @@ msgid "Trade Routes page"
 msgstr "Kereskedelmi kapcsolatok fül"
 
 #: client/gui-gtk-2.0/citydlg.c:911
-#, fuzzy
 msgid "This Settings page"
-msgstr "Egyéb beállítások fül"
+msgstr "Ez a beállítások fül"
 
 #: client/gui-gtk-2.0/citydlg.c:912 client/gui-gtk/citydlg.c:1266
 #: client/gui-mui/citydlg.c:1464
 msgid "Last active page"
-msgstr "Utolsó aktív fül"
+msgstr "Legutóbbi aktív fül"
 
 #: client/gui-gtk-2.0/citydlg.c:939 client/gui-gtk/citydlg.c:1330
 #: client/gui-mui/citydlg.c:1721 client/gui-win32/citydlg.c:2199
@@ -7291,19 +7287,16 @@ msgid "Next time open"
 msgstr "Legközelebb mi legyen aktív"
 
 #: client/gui-gtk-2.0/citydlg.c:999
-#, fuzzy
 msgid "City"
-msgstr "Várostérkép"
+msgstr "Város"
 
 #: client/gui-gtk-2.0/citydlg.c:1006
-#, fuzzy
 msgid "_Rename..."
-msgstr "Átnevezés"
+msgstr "Át_nevezés..."
 
 #: client/gui-gtk-2.0/citydlg.c:1140
-#, fuzzy
 msgid "_List present units..."
-msgstr "Jelenlévõ egységek ki_listázása"
+msgstr "Jelenlévõ egységek ki_listázása..."
 
 #: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
@@ -7340,14 +7333,14 @@ msgid "blocked"
 msgstr "blokkolt"
 
 #: client/gui-gtk-2.0/citydlg.c:1683
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units %d"
-msgstr "Eltartott egységek: %d"
+msgstr "Eltartott egységek %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
-msgstr "Jelenlévõ egységek: %d"
+msgstr "Jelenlévõ egységek %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
@@ -7367,9 +7360,9 @@ msgid "No trade routes exist."
 msgstr "Nincs kereskedelmi kapcsolat."
 
 #: client/gui-gtk-2.0/citydlg.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Összes kereskedelem a kereskedelmi kapcsolatokból: %d"
+msgstr "Összes kereskedelem a kereskedelmi kapcsolatokból %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
@@ -7518,14 +7511,12 @@ msgid "_Change"
 msgstr "_Átállítás"
 
 #: client/gui-gtk-2.0/cityrep.c:555
-#, fuzzy
 msgid "_Select"
-msgstr "Kiválasztás"
+msgstr "_Kiválasztás"
 
 #: client/gui-gtk-2.0/cityrep.c:559
-#, fuzzy
 msgid "S_how"
-msgstr "_Megjelenítés..."
+msgstr "_Megjelenítés"
 
 #: client/gui-gtk-2.0/cityrep.c:636 client/gui-gtk-2.0/menu.c:624
 #: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:455
@@ -7759,7 +7750,7 @@ msgstr " Kapcsolódás a Freeciv szerverhez"
 #: client/gui-gtk/menu.c:680 client/gui-mui/connectdlg.c:224
 #: client/gui-win32/menu.c:341
 msgid "_Connect"
-msgstr "_Bekapcsolódik"
+msgstr "_Kapcsolódás"
 
 #: client/gui-gtk-2.0/connectdlg.c:177 client/gui-gtk/connectdlg.c:150
 #: client/gui-win32/connectdlg.c:363 data/Freeciv:68
@@ -7767,19 +7758,16 @@ msgid "Freeciv Server Selection"
 msgstr "Freeciv szerver választás"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
-#, fuzzy
 msgid "_Name:"
-msgstr "_Név"
+msgstr "_Név:"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
-#, fuzzy
 msgid "_Host:"
-msgstr "_Szerver"
+msgstr "_Szerver:"
 
 #: client/gui-gtk-2.0/connectdlg.c:228
-#, fuzzy
 msgid "_Port:"
-msgstr "_Port"
+msgstr "_Port:"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:205
 #: client/gui-mui/connectdlg.c:177 client/gui-win32/connectdlg.c:363
@@ -7928,9 +7916,8 @@ msgid "Select Advance to Steal"
 msgstr "Melyik tudományt lopjuk el?"
 
 #: client/gui-gtk-2.0/dialogs.c:541
-#, fuzzy
 msgid "_Advances:"
-msgstr "Technológiák"
+msgstr "_Technológiák:"
 
 #: client/gui-gtk-2.0/dialogs.c:584 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
@@ -8181,14 +8168,12 @@ msgid "Unit selection"
 msgstr "Egységválasztás"
 
 #: client/gui-gtk-2.0/dialogs.c:1729
-#, fuzzy
 msgid "_Ready all"
-msgstr "Mindenki készenlétbe"
+msgstr "_Mindenkit készenlétbe"
 
 #: client/gui-gtk-2.0/dialogs.c:1737
-#, fuzzy
 msgid "_Sentry idle"
-msgstr "A tétlen egységek õrködjenek (_s)"
+msgstr "A tétlenek õrködjenek (_s)"
 
 #: client/gui-gtk-2.0/dialogs.c:1778 client/gui-gtk/dialogs.c:1919
 #: data/Freeciv:3034
@@ -8196,14 +8181,12 @@ msgid "What Nation Will You Be?"
 msgstr "Melyik nemzet leszel?"
 
 #: client/gui-gtk-2.0/dialogs.c:1800
-#, fuzzy
 msgid "Select a nation"
-msgstr "Válassz célt"
+msgstr "Válassz népet"
 
 #: client/gui-gtk-2.0/dialogs.c:1827
-#, fuzzy
 msgid "_Nations:"
-msgstr "Nép:"
+msgstr "_Népek:"
 
 #: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
@@ -8217,24 +8200,20 @@ msgid "Nation"
 msgstr "Nép"
 
 #: client/gui-gtk-2.0/dialogs.c:1890
-#, fuzzy
 msgid "_Leader:"
-msgstr "Vezetõ:"
+msgstr "_Vezetõ:"
 
 #: client/gui-gtk-2.0/dialogs.c:1897
-#, fuzzy
 msgid "_Female"
-msgstr "Lány"
+msgstr "_Nõ"
 
 #: client/gui-gtk-2.0/dialogs.c:1902
-#, fuzzy
 msgid "_Male"
-msgstr "Fiú"
+msgstr "_Férfi"
 
 #: client/gui-gtk-2.0/dialogs.c:1929
-#, fuzzy
 msgid "_City Styles:"
-msgstr "_Városstílus"
+msgstr "_Városstílusok:"
 
 #: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
@@ -8270,14 +8249,12 @@ msgid "Sea-map"
 msgstr "Hajózási térkép"
 
 #: client/gui-gtk-2.0/diplodlg.c:214
-#, fuzzy
 msgid "_Maps"
-msgstr "Térképek"
+msgstr "_Térképek"
 
 #: client/gui-gtk-2.0/diplodlg.c:242
-#, fuzzy
 msgid "_Advances"
-msgstr "Technológiák"
+msgstr "Tech_nológiák"
 
 #: client/gui-gtk-2.0/diplodlg.c:292 client/gui-gtk-2.0/menu.c:706
 #: client/gui-gtk/menu.c:707 client/gui-win32/menu.c:354
@@ -8285,14 +8262,12 @@ msgid "_Cities"
 msgstr "_Városok"
 
 #: client/gui-gtk-2.0/diplodlg.c:301
-#, fuzzy
 msgid "_Give shared vision"
-msgstr "Közös látvány biztosítása"
+msgstr "Közös _látvány biztosítása"
 
 #: client/gui-gtk-2.0/diplodlg.c:331
-#, fuzzy
 msgid "_Pacts"
-msgstr "Egyezmények"
+msgstr "_Egyezmények"
 
 #: client/gui-gtk-2.0/diplodlg.c:429 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
@@ -8305,23 +8280,20 @@ msgid "_Cancel meeting"
 msgstr "Találkozó _megszakítása"
 
 #: client/gui-gtk-2.0/diplodlg.c:445
-#, fuzzy
 msgid "Accept _treaty"
-msgstr "Egyezmény elfogadása"
+msgstr "Egyezmény e_lfogadása"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
-#, fuzzy
 msgid "C_lauses:"
-msgstr "_Bezárás"
+msgstr "_Cikkelyek:"
 
 #: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
-#, fuzzy
 msgid "_Gold:"
-msgstr "Arany:"
+msgstr "_Arany:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Cikkely _hozzáadása..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8336,9 +8308,8 @@ msgid "Find City"
 msgstr "Városkeresés"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "Városok"
+msgstr "_Városok:"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:238
 #: client/gui-win32/ratesdlg.c:301
@@ -8372,9 +8343,8 @@ msgid "Goto/Airlift Unit"
 msgstr "Menj/Repülj"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
-msgstr "Légi szállítás"
+msgstr "_Légi szállítás"
 
 #: client/gui-gtk-2.0/gotodlg.c:145 client/gui-gtk-2.0/mapview.c:440
 #: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:440
@@ -8383,9 +8353,8 @@ msgid "Select destination"
 msgstr "Válassz célt"
 
 #: client/gui-gtk-2.0/gotodlg.c:188
-#, fuzzy
 msgid "Show _All Cities"
-msgstr "Összes város"
+msgstr "Ö_sszes város megjelenítése"
 
 #: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
@@ -8405,8 +8374,7 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"A Freeciv szabad szoftver, szabadon továbbadható bizonyos feltételek "
-"mellett.\n"
+"A Freeciv szabad szoftver, szabadon továbbadható bizonyos feltételek betartása mellett.\n"
 "(Lásd a \"Másolás\" pontot a Súgó menüben.)\n"
 "És most.. Adj nekik! :)"
 
@@ -8928,7 +8896,7 @@ msgstr " V"
 #: client/gui-gtk-2.0/mapctrl.c:184
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Gyõzelmi esélyek: T:%d%% V:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
 #: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
@@ -9622,9 +9590,8 @@ msgid "Name"
 msgstr "Név"
 
 #: client/gui-gtk-2.0/plrdlg.c:161 client/gui-gtk/plrdlg.c:123
-#, fuzzy
 msgid "Team"
-msgstr "Templom"
+msgstr "Csapat"
 
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9652,14 +9619,12 @@ msgid "Host"
 msgstr "Szerver"
 
 #: client/gui-gtk-2.0/plrdlg.c:169
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Körök"
+msgstr "Tétlen körök"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
-#, fuzzy
 msgid "_Player"
-msgstr "_Játékosok"
+msgstr "_Játékos"
 
 #: client/gui-gtk-2.0/plrdlg.c:277 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -9845,7 +9810,7 @@ msgstr "_Kilövés"
 
 #: client/gui-gtk-2.0/wldlg.c:137
 msgid "new"
-msgstr ""
+msgstr "új"
 
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/wldlg.c:161
 #: client/gui-win32/wldlg.c:293
@@ -9853,9 +9818,8 @@ msgid "Edit worklists"
 msgstr "Munkatervek szerkesztése"
 
 #: client/gui-gtk-2.0/wldlg.c:257
-#, fuzzy
 msgid "_Worklists:"
-msgstr "_Munkaterv"
+msgstr "_Munkatervek:"
 
 #: client/gui-gtk-2.0/wldlg.c:822 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:309 client/gui-gtk/wldlg.c:315
@@ -9876,19 +9840,16 @@ msgid "Source _Tasks:"
 msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:902
-#, fuzzy
 msgid "Show _Future Targets"
-msgstr "Mutasd a jövõbeli célokat"
+msgstr "Mutasd a _jövõbeli célokat"
 
 #: client/gui-gtk-2.0/wldlg.c:956
-#, fuzzy
 msgid "Target _Worklist:"
-msgstr "_Munkaterv"
+msgstr "Cél_munkaterv"
 
 #: client/gui-gtk-2.0/wldlg.c:974
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "Lehetséges Munkatervek"
+msgstr "Globális munkaterv _hozzáadása"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -10274,12 +10235,12 @@ msgstr "Nemed:"
 #: client/gui-gtk/dialogs.c:2001 client/gui-mui/dialogs.c:1709
 #: client/gui-win32/dialogs.c:494
 msgid "Male"
-msgstr "Fiú"
+msgstr "Férfi"
 
 #: client/gui-gtk/dialogs.c:2007 client/gui-mui/dialogs.c:1710
 #: client/gui-win32/dialogs.c:496 data/Freeciv:3059
 msgid "Female"
-msgstr "Lány"
+msgstr "Nõ"
 
 #: client/gui-gtk/dialogs.c:2029 client/gui-win32/dialogs.c:500
 msgid "Select your city style"
@@ -12266,7 +12227,7 @@ msgstr "Válaszd ki a nemed:"
 
 #: data/Freeciv:3058
 msgid "Male  "
-msgstr "Fiú   "
+msgstr "Férfi   "
 
 #: data/Freeciv:3065
 msgid "Select city style:"
@@ -12669,10 +12630,12 @@ msgstr ""
 " 2. A városok megvédése.\n"
 " 3. Milyen egységeket építsünk elõször?\n"
 " 4. Mezõgazdasági fejlesztések.\n"
-" 5. Városhelyek kijelölése.\n"
-" 6. A városokkal való foglalkozás.\n"
+" 5. Városok helyének kijelölése.\n"
+" 6. Ügyeljünk a városainkra!\n"
 " 7. A világ felfedezése.\n"
-" 8. Mire kell odafigyelni?\n"
+" 8. Dolgok, amiket jó ha észben tartunk.\n"
+" 9. Saját stratégia kialakítása.\n"
+"10. Kapcsolat a többi játékossal (Diplomácia).\n"
 
 #: data/helpdata.txt:551
 msgid ""
@@ -12686,6 +12649,16 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
+" 0. Az elsõ város helyének kiválasztása.\n"
+"\n"
+"    Kezdjük a játékot egy RÖVID bolyongással a kezdõhely környékén, hogy jó "
+"helyet találjunk az elsõ városunknak!  Ne csábítsanak a sárga tetõs kunyhók "
+"- lehet hogy barbár törzseket rejtegetnek.  A várost érdemes természeti "
+"erõforrások közelébe építeni, és esetleg közel a tengerhez.  Ne feledkezzünk "
+"meg arról, hogy az elsõnek megépített város lesz a fõvárosunk!  Elõnyös, ha "
+"a fõvárosunk minél jobb helyen van, de az is cél, hogy az elsõ városunkat "
+"minél hamarabb alapítsuk meg.  E két szempont között ésszerû egyensúlyt "
+"érdemes betartani."
 
 #: data/helpdata.txt:562
 msgid ""
@@ -12698,6 +12671,14 @@ msgid ""
 "If you started the game with an explorer unit, use that to explore, "
 "obviously!"
 msgstr ""
+" 1. A környék feltérképezése.\n"
+"\n"
+"    A fõvárosunk megalapítása után harcost kezd el gyártani.  Ezekkel az "
+"egységekkel bejárhatjuk, és felfedezhetjük a környéket.  Ne felejtsük el, "
+"hogy kockázatos lehet egy várost védelem nélkül hagyni, ezért az elsõ "
+"harcost esetleg hagyjuk a városban, és csak a következõvel induljunk el "
+"felfedezni.  Ha van felfedezõ egységünk a játék elején, akkor természetesen "
+"induljunk el vele felfedezni!"
 
 #: data/helpdata.txt:571
 msgid ""
@@ -12709,6 +12690,14 @@ msgid ""
 "defense.  The units most often used for defense are (in order of strength):  "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
+" 2. A városok megvédése.\n"
+"\n"
+"    A játék ezen szakaszában védelemként mindig hagyjunk egy harcost a "
+"városainkban!  Ahogy a civilizációnk nagyobb védõerõvel rendelkezõ "
+"egységeket fejleszt ki, cseréljük le az elavult egységeinket újakra, hogy "
+"városaink védettsége maximális legyen!  A védelemre leggyakrabban használt "
+"egységek (erõ szerinti növekvõ sorrendben):  Harcos, Falanx, Lándzsás, "
+"Muskétás, Puskás."
 
 #: data/helpdata.txt:581
 #, no-c-format
@@ -12719,6 +12708,11 @@ msgid ""
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
 msgstr ""
+"    Ne felejtsük el, hogy bizonyos államformák esetén a katonai egységek "
+"javíthatják/ronthatják a közhangulatot, ha városon belül/kívül tartózkodnak! "
+"Szintén fontos, hogy a városokban állomásozó egységek 50%-os védelmi bónuszt "
+"kapnak.  Amikor új várost alapítunk, a város az elérhetõ legjobb egységet "
+"kezdi el építeni a fenti listából."
 
 #: data/helpdata.txt:588
 msgid ""
@@ -12732,6 +12726,14 @@ msgid ""
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
 msgstr ""
+" 3. Milyen egységeket építsünk elõször?\n"
+"\n"
+"    Miután megépítettünk egy vagy két Harcos egységet, kezdjünk el Telepest "
+"építeni!  A második Telepessel építhetünk utat és öntözõrendszert a városok "
+"körül, a harmadikkal alapíthatunk új várost.  Azt is megtehetjük, hogy a "
+"második Telepessel alapítunk új várost, és a harmadikkal fejlesztjük a "
+"terepet a városok körül.  Tartsuk szem elõtt, hogy a nagy lakosság növeli a "
+"civilizációnk termelékenységét és kutatási sebességét is."
 
 #: data/helpdata.txt:599
 msgid ""
@@ -12742,6 +12744,12 @@ msgid ""
 "Settlers to improve the farmland. The land can be improved with roads, "
 "irrigation, mines, and others."
 msgstr ""
+" 4. Mezõgazdasági fejlesztések.\n"
+"\n"
+"    Minden város körül van egy mûvelhetõ terület, amit élelemtermelésre, "
+"termékek gyártására és kereskedelem generálására használhatunk.  Még jobban "
+"ki tudjuk használni a területet, ha Telepesekkel felfejlesztjük.  A terepet "
+"többek között utak, öntözõrendszerek és bányák építésével fejleszthetjük fel."
 
 #: data/helpdata.txt:607
 msgid ""
@@ -12754,6 +12762,15 @@ msgid ""
 "your opponents will find it harder to locate your city if you don't build it "
 "by the sea."
 msgstr ""
+" 5. Városok helyének kijelölése.\n"
+"\n"
+"    Egy város optimális helyének kiválasztása ízlés dolga.  Például egy "
+"tengerpartra helyezett várost könnyebben fel tudnak fedezni az ellenfelek, "
+"ugyanakkor tengeri egységek kikõtõjéül is szolgálhat.  (Késõbb általában "
+"partmenti védelmet is érdemes kiépíteni bennük.)  A legjobb stratégia talán "
+"az, ha mindkét típusú városból építünk néhányat, de vegyük figyelembe, hogy "
+"az ellenfelek nehezebben találják meg a városainkat, ha nem építjük õket "
+"tenger mellé!"
 
 #: data/helpdata.txt:616
 msgid ""
@@ -12766,6 +12783,15 @@ msgid ""
 "the start of the game, care should be taken to ensure that the citizens are "
 "employed so that they maximise growth, trade and production."
 msgstr ""
+" 6. Ügyeljünk a városainkra!\n"
+"\n"
+"    Minden városhoz tartozik valahány polgár.  A polgárok száma a város "
+"lakosságától függ.  A városra kattintva megláthatjuk, hogyan használja ki a "
+"város a körülötte lévõ területet.  Polgárainkat hozzárendelhetjük a "
+"területekhez, vagy használhatjuk õket tudósként, szórakoztatóként vagy "
+"adószedõként.  Különösen a játék elején fontos ügyelnünk arra, hogy "
+"polgárainkat úgy alkalmazzuk, hogy ezzel maximalizáljuk a növekedést, a "
+"kereskedelmet és a termelést."
 
 #: data/helpdata.txt:626
 msgid ""
@@ -12773,6 +12799,9 @@ msgid ""
 "farmland by clicking on the occupied farmland square.  This citizen can then "
 "be transferred to the other duties mentioned previously."
 msgstr ""
+"    Ha túl sok élelem termelõdik, leszedhetünk egy polgárt a földekrõl az "
+"elfoglalt mezõre kattintva.  Ez a polgár az elõbb említett szolgálatokba "
+"helyezhetõ át."
 
 #: data/helpdata.txt:631
 msgid ""
@@ -12780,6 +12809,9 @@ msgid ""
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
 msgstr ""
+"    Ha az összes polgárunkat leszedjük a földekrõl, és jobb egérgombbal "
+"klikkelünk a középsõ területre, akkor a gép automatikusan elrendezi "
+"polgárainkat az élelemtermelés maximalizálásával."
 
 #: data/helpdata.txt:637
 msgid ""
@@ -12788,6 +12820,10 @@ msgid ""
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
+"    Egy aranyszabály a városokkal kapcsolatban: mindig legalább annyi boldog "
+"polgár legyen mint amennyi boldogtalan!  Azok a városok, ahol ez nincs így, "
+"villámmal vannak megjelölve.  Ügyeljünk arra, hogy ez ne történhessen meg, "
+"mert a boldogtalan városok semmit sem termelnek, és hamarosan fellázadnak!"
 
 #: data/helpdata.txt:643
 msgid ""
@@ -12800,6 +12836,15 @@ msgid ""
 "it is truly a good idea to make a peace treaty and share the advances you "
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
+" 7. A világ felfedezése.\n"
+"\n"
+"    Miután városainkat seregekkel megerõsítettük, építsünk Evezõs Gályákat a "
+"tengerparti városokban!  Ezekkel a hajókkal feltérképezhetjük a világot, "
+"ellenségeket és új földrészeket keresve.  Ha civilizációnk egy szigeten van, "
+"akkor elég kevesebbet költeni a haderõre, és lehet többet a terjeszkedésre.  "
+"Ha közel vagyunk egy ellenfélhez, akkor érdemes vele békeszerzõdést kötni, "
+"megosztani egymással a tudományos ismereteket. A diplomáciai egységek "
+"ilyenkor nagyon hasznosak, és késõbb ki fognak fizetõdni."
 
 #: data/helpdata.txt:653
 msgid ""
@@ -12813,6 +12858,16 @@ msgid ""
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
+" 8. Dolgok, amiket jó ha észben tartunk.\n"
+"\n"
+"  - Melyik tudományra van éppen szükségünk?\n"
+"\n"
+"  - Mennyire állítottuk az adó-, luxus-, és tudományrátát?\n"
+"\n"
+"  - A szerzõdéseket gyakran megszegik, ezért ne hanyagoljuk el a "
+"védelmet...\n"
+"\n"
+"  - Néhány világcsoda elavulttá válhat bizonyos tudományok felfedezésével."
 
 #: data/helpdata.txt:664
 msgid ""
@@ -12826,6 +12881,16 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
+" 9. Saját stratégia kialakítása.\n"
+"\n"
+"    Ezeket az alapelveket alkalmazva már egész jól el lehet igazodni a "
+"játékban, különösen a játék elején.  De a fejlõdéshez meg kell ismerni a "
+"különbözõ egységek jellemzõit, és azt is, hogy melyik tudomány mire jó. És "
+"mindenek elõtt GYAKOROLNI kell!  A Freecivben renkívül sok trükk van, ezért "
+"ha még nem játszottál soha hasonló játékot, talán érdemes ellátogatnod a "
+"Freeciv weboldalára (http://www.freeciv.org/).\n"
+"Ott több tippet találhatsz a játékhoz, és megtudhatod, hogyan érhetõ el a "
+"többi játékos."
 
 #: data/helpdata.txt:675
 msgid ""
@@ -12835,6 +12900,11 @@ msgid ""
 "additional diplomacy that you can take part in with other humans - and no, "
 "we are not talking about using spies and diplomats to incite and steal."
 msgstr ""
+" 10. Kapcsolat a többi játékossal (Diplomácia).\n"
+"    Az emberek és az MI sok dologban különböznek, de a legnagyobb különbség "
+"talán az, hogy a többi emberrel diplomáciai tárgyalásokat tudunk folytatni "
+"(most nem arról lesz szó, hogyan lehet használni a diplomatákat és a kémeket "
+"lázadásszításra és tudománylopásra)."
 
 #: data/helpdata.txt:682
 msgid ""
@@ -12844,6 +12914,12 @@ msgid ""
 "you actually have an embassy (denoted by an X) and the other player is "
 "connected then a diplomacy menu will pop up."
 msgstr ""
+"    Ha van nagykövetségünk egy másik emberi irányítású játékosnál, akkor "
+"kezdeményezhetünk vele diplomáciai találkozót. Ezt úgy tehetjük meg, hogy a "
+"`Játék' menüben kiválasztjuk a játékosok menüpontot, és rákattintunk arra a "
+"játékosra, akivel találkozni szeretnénk.  Ha van nagykövetségünk a másik "
+"játékosnál, és a másik játékos hálózati kapcsolata él, akkor elõjön a "
+"diplomácia menü."
 
 #: data/helpdata.txt:689
 msgid ""
@@ -12857,12 +12933,23 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
+"    Ebben a menüben lehet:\n"
+"\n"
+"   - Térképeket cserélni (tengerit vagy teljeset),\n"
+"\n"
+"   - Tudományokat cserélni,\n"
+"\n"
+"   - Városokat cserélni,\n"
+"\n"
+"   - Aranyat adni egymásnak."
 
 #: data/helpdata.txt:699
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
 msgstr ""
+"    Nemcsak egyforma típusú dolgokat lehet kicserélni!  (Például lehet "
+"tudományt adni városért, térképet adni aranyért, stb.)"
 
 #: data/helpdata.txt:703
 msgid ""
@@ -12872,6 +12959,11 @@ msgid ""
 "\n"
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
+"    Néhány megjegyzés:\n"
+"\n"
+"   - Nem cserélheted el a fõvárosodat.\n"
+"\n"
+"   - Nem kérhetsz olyan várost, amit nem látsz a térképen."
 
 #: data/helpdata.txt:709
 msgid ""
@@ -12881,6 +12973,12 @@ msgid ""
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
 msgstr ""
+"     Természetesen a város birtokosa akkor is odaadhatja a várost, ha nem "
+"látod a térképen, amennyiben a város körüli terület rajta van a térképeden.  "
+"Egy fontos megjegyzés: az összes város mezõjén található és város által "
+"fenntartott egység is átadódik (ha nem másik városban tartózkodnak).  Ezért "
+"gondoljuk végig rendesen cserét, nehogy a másik játékos jobban járjon, mint "
+"amire számítunk."
 
 #: data/helpdata.txt:720
 msgid ""
@@ -12934,18 +13032,27 @@ msgid ""
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
 msgstr ""
+"A városfejlesztések a városokban építhetõk, a kereskedelmi bevétel, a "
+"tudománytermelés, stb. növelésére.  A legtöbb fejlesztésnél körönként "
+"fenntartási költséget kell fizetni.  Ha nem tudjuk fizetni az épület "
+"fenntartását, akkor a gép automatikusan eladja."
 
 #: data/helpdata.txt:787
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr ""
+"A tudományos kutatás elengedhetetlen feltétele civilizációnk fejlõdésének.  "
+"A tudomány fejlõdése teszi lehetõvé, hogy új katonai egységeket és "
+"városfejlesztéseket építsünk."
 
 #: data/helpdata.txt:798
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
 msgstr ""
+"A világcsodák speciális elõnyöket biztosítanak civilizációnk számára. A "
+"világcsodák egyediek, mindegyiket csak egy városban lehet megépíteni."
 
 #: data/helpdata.txt:809
 msgid ""
@@ -12953,6 +13060,9 @@ msgid ""
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
 msgstr ""
+"Az egységeket három célra is használhatjuk: támadásra, védekezésre és "
+"felderítésre.  Az, hogy egy adott egység mennyire alkalmas ezen feladatok "
+"ellátására, az egység támadóerejétõl, védõerejétõl és sebességétõl függ."
 
 #: data/helpdata.txt:814
 msgid ""
@@ -12960,6 +13070,9 @@ msgid ""
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
 msgstr ""
+"Négy egység-alaptípus van: Szárazföldi, Tengeri, Légi és Helikopter.  (A "
+"Helikopterek annyira eltérnek a többi légi egységtõl, hogy érdemesebb õket "
+"külön egységtípusnak tekinteni.)"
 
 #: data/helpdata.txt:819
 #, no-c-format
@@ -12976,6 +13089,19 @@ msgid ""
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
 msgstr ""
+"A szárazföldi egységek szárazföldi mezõkön mozoghatnak.  Mozgásukat "
+"nehezítheti a terep, de segítheti az út vagy a vasút.  Nem léphetnek óceáni "
+"mezõre, kivéve ha egy erre alkalmas tengeri egység szállítja õket.  A "
+"tengeren nem támadhatnak és nem védekezhetnek, ilyenkor az õket szállító "
+"tengeri egységtõl függnek.  Egyedül a szárazföldi egységekre érvényesek a "
+"fennhatósági zónák (zones of control).  A szárazföldön a szárazföldi "
+"egységek védmûveket építhetnek maguk köré (fortify), ami 50%-os védelmi "
+"bónuszt ad; a városban tartózkodó egységek automatikusan megkapják ezt az "
+"50%-os bónuszt.  Ha egy szárazföldi egység sikeresen megtámad egy "
+"városfallal nem rendelkezõ várost, akkor a város lakossága egy polgárral "
+"csökken.  A nulla támadóerejû egységek nem katonai egységek: nem kell értük "
+"fenntartást fizetni, nincsenek hatással a közhangulatra, nem támadhatnak meg "
+"ellenséges egységeket és nem foglalhatnak el városokat."
 
 #: data/helpdata.txt:832
 msgid ""
@@ -12986,6 +13112,12 @@ msgid ""
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
 msgstr ""
+"A tengeri egységek Óceán típusú mezõkön mozogkatnak, illetve behajózhatnak a "
+"tengerparton található városokba.  A tengeri egységek sebességét több "
+"világcsoda (Világítótorony, Magellán Expedíciója), és az Atomenergia "
+"ismerete is befolyásolja.  A legtöbb egység meg tudja támadni a tengerparton "
+"állomásozó egységeket és a tengerparti városokat, de nem foglalhatják el az "
+"ellenséges várost (még akkor sem ha védtelen)."
 
 #: data/helpdata.txt:839
 msgid ""
@@ -13158,7 +13290,7 @@ msgstr ""
 
 #: data/helpdata.txt:940
 msgid "The firepower of the attacker and defender are also modified."
-msgstr ""
+msgstr "A támadó és a védõ tûzereje nem változik, 1 marad."
 
 #: data/helpdata.txt:942
 msgid ""
@@ -17364,12 +17496,3 @@ msgstr "Zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zuluk"
-
-#~ msgid "Chang_e"
-#~ msgstr "_Átállítás"
-
-#~ msgid " What Nation Will You Be?"
-#~ msgstr " Melyik nemzet leszel?"
-
-#~ msgid "Game: "
-#~ msgstr "Játék: "
