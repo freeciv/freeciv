@@ -262,8 +262,8 @@ struct packet_city_info {
   int is_building_unit;
   int currently_building;
 
-  unsigned char improvements[B_LAST+1];
-  unsigned char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
+  char improvements[B_LAST+1];
+  char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];
 
   int did_buy, did_sell;
   int was_happy;
