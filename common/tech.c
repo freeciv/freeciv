@@ -81,8 +81,7 @@ bool is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
   if (tech == goal) {
     return FALSE;
   } else {
-    return TEST_BIT(pplayer->research.inventions[goal].
-		    required_techs[tech / 8], tech % 8);
+    return BV_ISSET(pplayer->research.inventions[goal].required_techs, tech);
   }
 }
 
@@ -103,8 +102,7 @@ static void build_required_techs_helper(struct player *pplayer,
   }
 
   /* Mark the tech as required for the goal */
-  pplayer->research.inventions[goal].required_techs[tech / 8] |=
-      (1 << (tech % 8));
+  BV_SET(pplayer->research.inventions[goal].required_techs, tech);
 
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
     freelog(LOG_FATAL, _("tech \"%s\": requires itself"),
@@ -124,8 +122,7 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 {
   int counter;
 
-  memset(pplayer->research.inventions[goal].required_techs, 0,
-	 sizeof(pplayer->research.inventions[goal].required_techs));
+  BV_CLR_ALL(pplayer->research.inventions[goal].required_techs);
 
   if (get_invention(pplayer, goal) == TECH_KNOWN) {
     pplayer->research.inventions[goal].num_required_techs = 0;

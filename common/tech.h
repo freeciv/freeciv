@@ -105,6 +105,8 @@ struct advance {
   int num_reqs;
 };
 
+BV_DEFINE(tech_vector, A_LAST);
+
 enum tech_state get_invention(struct player *pplayer, Tech_Type_id tech);
 void set_invention(struct player *pplayer, Tech_Type_id tech,
 		   enum tech_state value);

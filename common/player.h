@@ -87,7 +87,7 @@ struct player_research {
      * cached values. Updated from build_required_techs (which is
      * called by update_research).
      */
-    unsigned char required_techs[(A_LAST + 7) / 8];
+    tech_vector required_techs;
     int num_required_techs, bulbs_required;
   } inventions[A_LAST];
 
