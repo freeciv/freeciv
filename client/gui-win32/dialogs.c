@@ -388,7 +388,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	  }
 	  break;
 	case ID_RACESDLG_QUIT:
-	  exit(EXIT_SUCCESS);
+	  ui_exit();
 	  break;
 	case ID_RACESDLG_DISCONNECT:
 	  popdown_races_dialog();

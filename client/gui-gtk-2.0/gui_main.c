@@ -1464,7 +1464,7 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_YES) {
-    exit(EXIT_SUCCESS);
+    ui_exit();
   }
 }
 

@@ -2117,8 +2117,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     dsend_packet_nation_select_req(&aconnection, selected_nation,
 				   selected_sex, s, selected_city_style);
   } else if (response == GTK_RESPONSE_CLOSE) {
-    exit(EXIT_SUCCESS);
-
+    ui_exit();
   } else {
     popdown_races_dialog();
     disconnect_from_server();

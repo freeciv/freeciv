@@ -2282,7 +2282,7 @@ static void races_buttons_callback(GtkWidget *w, gpointer data)
   char *s;
 
   if(w == races_quit_command) {
-    exit(EXIT_SUCCESS);
+    ui_exit();
   } else if(w == races_disc_command) {
     popdown_races_dialog();
     disconnect_from_server();

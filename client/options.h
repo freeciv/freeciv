@@ -26,6 +26,7 @@ extern char default_sound_plugin_name[512];
 
 /** Local Options: **/
 
+extern bool save_options_on_exit;
 extern bool solid_color_behind_units;
 extern bool sound_bell_at_new_turn;
 extern int smooth_move_unit_msec;

@@ -325,6 +325,9 @@ void ui_exit(void)
   my_shutdown_network();
 
   client_game_free();
+  if (save_options_on_exit) {
+    save_options();
+  }
 
   exit(EXIT_SUCCESS);
 }
