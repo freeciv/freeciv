@@ -287,6 +287,29 @@ void do_sell_building(struct player *pplayer, struct city *pcity, int id)
 /**************************************************************************
 ...
 **************************************************************************/
+void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
+{  
+  if (pcity->did_sell) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		  "Game: You have already sold something here this turn.");
+    return;
+  }
+
+  if (!can_sell_building(pcity, id))
+    return;
+
+  pcity->did_sell=1;
+  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		   "Game: You sell %s for %d credits.", 
+		   get_improvement_name(id), 
+		   improvement_value(id));
+  do_sell_building(pplayer, pcity, id);
+
+  city_refresh(pcity);
+  send_city_info(pplayer, pcity, 1);
+  send_player_info(pplayer, pplayer);
+}
+
 void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
 {
   struct city *pcity;
@@ -294,25 +317,7 @@ void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
   if (!pcity || !player_owns_city(pplayer, pcity) 
       || preq->build_id>=B_LAST) 
     return;
-  
-  if (pcity->did_sell) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		  "Game: You have already sold something here this turn.");
-    return;
-  }
- if (!can_sell_building(pcity, preq->build_id))
-   return;
-
-  pcity->did_sell=1;
-  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		   "Game: You sell %s for %d credits.", 
-		   get_improvement_name(preq->build_id), 
-		   improvement_value(preq->build_id));
-  do_sell_building(pplayer, pcity, preq->build_id);
-
-  city_refresh(pcity);
-  send_city_info(pplayer, pcity, 1);
-  send_player_info(pplayer, pplayer);
+  really_handle_city_sell(pplayer, pcity, preq->build_id);
 }
 
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
