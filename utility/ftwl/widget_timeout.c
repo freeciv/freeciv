@@ -20,11 +20,31 @@
 
 #include <assert.h>
 #include <stdio.h>
+
+#ifdef HAVE_GETTIMEOFDAY
 #include <sys/time.h>
+#include <unistd.h>
+#endif
+
+#ifdef HAVE_FTIME
+# include <sys/timeb.h>
+#endif
 
 #include "widget_p.h"
 
 #include "mem.h"
+
+#ifndef HAVE_GETTIMEOFDAY
+#ifdef HAVE_FTIME
+static void gettimeofday(struct timeval *tv, void *dummy)
+{
+  struct timeb tp;
+  ftime(&tp);
+  tv->tv_usec = tp.millitm * 1000;
+  tv->tv_sec = tp.time;
+}
+#endif
+#endif
 
 struct callback {
   int id;
