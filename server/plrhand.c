@@ -803,20 +803,26 @@ void handle_player_rates(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Set the player to be researching the given tech.
+
+  If there are enough accumulated research points, the tech may be
+  acquired immediately.
 **************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
   choose_tech(pplayer, tech);
   send_player_info(pplayer, pplayer);
 
-  /* Notify Team members */
+  /* Notify Team members.  Note that the the player may not necessarily
+   * be researching the tech that has been set: if there were enough
+   * research points then research will finish immediately and the
+   * player will start researching the "next" tech (probably A_NONE). */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-       && aplayer->research.researching != tech
+	&& aplayer->research.researching != pplayer->research.researching
        && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
        && aplayer->is_alive) {
-      handle_player_research(aplayer, tech);
+      handle_player_research(aplayer, pplayer->research.researching);
     }
   } players_iterate_end;
 }
