@@ -188,24 +188,29 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 {
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
-  int item, cids_used, num_selected_cities=0;
-  struct city *selected_cities[200];
+  int item, cids_used, num_selected_cities = 0;
+  struct city **selected_cities = NULL;
 
   if (change_prod) {
     int j;
     HWND hList = GetDlgItem(hCityRep, ID_CITYREP_LIST);
 
-    for (j = 0; j < selcount; j++) {
-      selected_cities[j] = (struct city *) ListBox_GetItemData(hList,
-							       selitems
-							       [j]);
-    }
     num_selected_cities = selcount;
+    selected_cities =
+	fc_malloc(sizeof(*selected_cities) * num_selected_cities);
+    
+    for (j = 0; j < num_selected_cities; j++) {
+      selected_cities[j] = (struct city *) ListBox_GetItemData(hList,
+							       selitems[j]);
+    }
   }
 
   cids_used = collect_cids1(cids, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
+  if (selected_cities) {
+    free(selected_cities);
+  }
   name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
   for (item = 0; item < cids_used; item++) {

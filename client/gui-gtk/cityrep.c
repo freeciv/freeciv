@@ -26,6 +26,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "mem.h"
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
@@ -200,22 +201,30 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
   int item, cids_used, num_selected_cities = 0;
-  struct city *selected_cities[200];
+  struct city **selected_cities = NULL;
 
   if (change_prod) {
     GList *selection = GTK_CLIST(city_list)->selection;
+    int i;
 
     g_assert(selection);
-    for (; selection; selection = g_list_next(selection)) {
-      selected_cities[num_selected_cities] = city_from_glist(selection);
-      num_selected_cities++;
-      assert(num_selected_cities < ARRAY_SIZE(selected_cities));
+    
+    num_selected_cities = g_list_length(selection);
+    selected_cities =
+	fc_malloc(sizeof(*selected_cities) * num_selected_cities);
+
+    for (i = 0; i < num_selected_cities; i++) {
+      selected_cities[i] = city_from_glist(selection);
+      selection = g_list_next(selection);
     }
   }
 
   cids_used = collect_cids1(cids, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
+  if (selected_cities) {
+    free(selected_cities);
+  }
   name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
   for (item = 0; item < cids_used; item++) {
