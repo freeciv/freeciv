@@ -951,6 +951,11 @@ struct packet_ruleset_terrain {
   int mining_time;
   enum tile_terrain_type transform_result;
   int transform_time;
+  int rail_time;
+  int airbase_time;
+  int fortress_time;
+  int clean_pollution_time;
+  int clean_fallout_time;
   char helptext[MAX_LEN_PACKET];
 };
 

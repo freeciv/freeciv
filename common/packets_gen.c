@@ -26122,7 +26122,7 @@ void lsend_packet_ruleset_building(struct conn_list *dest, const struct packet_r
 
 #define cmp_packet_ruleset_terrain_100 cmp_const
 
-BV_DEFINE(packet_ruleset_terrain_100_fields, 33);
+BV_DEFINE(packet_ruleset_terrain_100_fields, 38);
 
 static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct connection *pc, enum packet_type type)
 {
@@ -26243,6 +26243,21 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     dio_get_uint8(&din, (int *) &real_packet->transform_time);
   }
   if (BV_ISSET(fields, 32)) {
+    dio_get_uint8(&din, (int *) &real_packet->rail_time);
+  }
+  if (BV_ISSET(fields, 33)) {
+    dio_get_uint8(&din, (int *) &real_packet->airbase_time);
+  }
+  if (BV_ISSET(fields, 34)) {
+    dio_get_uint8(&din, (int *) &real_packet->fortress_time);
+  }
+  if (BV_ISSET(fields, 35)) {
+    dio_get_uint8(&din, (int *) &real_packet->clean_pollution_time);
+  }
+  if (BV_ISSET(fields, 36)) {
+    dio_get_uint8(&din, (int *) &real_packet->clean_fallout_time);
+  }
+  if (BV_ISSET(fields, 37)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -26407,9 +26422,29 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  differ = (old->rail_time != real_packet->rail_time);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 32);}
+
+  differ = (old->airbase_time != real_packet->airbase_time);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 33);}
+
+  differ = (old->fortress_time != real_packet->fortress_time);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 34);}
+
+  differ = (old->clean_pollution_time != real_packet->clean_pollution_time);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 35);}
+
+  differ = (old->clean_fallout_time != real_packet->clean_fallout_time);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 36);}
+
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 37);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26514,6 +26549,21 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->transform_time);
   }
   if (BV_ISSET(fields, 32)) {
+    dio_put_uint8(&dout, real_packet->rail_time);
+  }
+  if (BV_ISSET(fields, 33)) {
+    dio_put_uint8(&dout, real_packet->airbase_time);
+  }
+  if (BV_ISSET(fields, 34)) {
+    dio_put_uint8(&dout, real_packet->fortress_time);
+  }
+  if (BV_ISSET(fields, 35)) {
+    dio_put_uint8(&dout, real_packet->clean_pollution_time);
+  }
+  if (BV_ISSET(fields, 36)) {
+    dio_put_uint8(&dout, real_packet->clean_fallout_time);
+  }
+  if (BV_ISSET(fields, 37)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 
