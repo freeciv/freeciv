@@ -47,6 +47,7 @@ static GtkWidget *players_close_command;
 static GtkWidget *players_int_command;
 static GtkWidget *players_meet_command;
 static GtkWidget *players_war_command;
+static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 
 static int list_index_to_player_index[MAX_NUM_PLAYERS];
@@ -56,12 +57,13 @@ static void create_players_dialog(void);
 static void players_button_callback(GtkWidget *w, gpointer data);
 static void players_meet_callback(GtkWidget *w, gpointer data);
 static void players_war_callback(GtkWidget *w, gpointer data);
+static void players_vision_callback(GtkWidget *w, gpointer data);
 static void players_intel_callback(GtkWidget *w, gpointer data);
 static void players_list_callback(GtkWidget *w, gint row, gint column);
 static void players_list_ucallback(GtkWidget *w, gint row, gint column);
 static void players_sship_callback(GtkWidget *w, gpointer data);
 
-#define NUM_COLOUMS 8
+#define NUM_COLOUMS 9
 
 static int delay_plrdlg_update=0;
 
@@ -102,8 +104,9 @@ void popup_players_dialog(void)
 void create_players_dialog(void)
 {
   static gchar *titles_[NUM_COLOUMS] = { N_("Name"), N_("Nation"), N_("Embassy"),
-			       N_("Dipl.State"), N_("Reputation"),
-			       N_("State"), N_("Host"), N_("Idle") };
+					 N_("Dipl.State"), N_("Vision"),
+					 N_("Reputation"), N_("State"),
+					 N_("Host"), N_("Idle") };
   static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -150,6 +153,12 @@ void create_players_dialog(void)
 	players_war_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(players_war_command, GTK_CAN_DEFAULT);
 
+  players_vision_command=gtk_accelbutton_new(_("_Withdraw vision"), accel);
+  gtk_widget_set_sensitive(players_vision_command, FALSE);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
+	players_vision_command, TRUE, TRUE, 0);
+  GTK_WIDGET_SET_FLAGS(players_vision_command, GTK_CAN_DEFAULT);
+
   players_sship_command=gtk_accelbutton_new(_("_Spaceship"), accel);
   gtk_widget_set_sensitive(players_sship_command, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
@@ -170,6 +179,9 @@ void create_players_dialog(void)
 
   gtk_signal_connect(GTK_OBJECT(players_war_command), "clicked",
 		GTK_SIGNAL_FUNC(players_war_callback), NULL);
+
+  gtk_signal_connect(GTK_OBJECT(players_vision_command), "clicked",
+		GTK_SIGNAL_FUNC(players_vision_callback), NULL);
 
   gtk_signal_connect(GTK_OBJECT(players_int_command), "clicked",
 		GTK_SIGNAL_FUNC(players_intel_callback), NULL);
@@ -257,10 +269,11 @@ void update_players_dialog(void)
       row[1] = get_nation_name(game.players[i].nation);
       row[2] = get_embassy_status(game.player_ptr, &game.players[i]);
       row[3] = dsbuf;
-      row[4] = repbuf;
-      row[5] = statebuf;
-      row[6] = (char*)player_addr_hack(&game.players[i]);  /* Fixme */
-      row[7] = idlebuf;
+      row[4] = get_vision_status(game.player_ptr, &game.players[i]);
+      row[5] = repbuf;
+      row[6] = statebuf;
+      row[7] = (char*)player_addr_hack(&game.players[i]);  /* Fixme */
+      row[8] = idlebuf;
 
       gtk_clist_append(GTK_CLIST(players_list), row);
 
@@ -293,6 +306,11 @@ void players_list_callback(GtkWidget *w, gint row, gint column)
   default:
     gtk_widget_set_sensitive(players_war_command, game.player_idx != player_index);
   }
+
+  if (game.player_ptr->gives_shared_vision & (1<<pplayer->player_no))
+    gtk_widget_set_sensitive(players_vision_command, TRUE);
+  else
+    gtk_widget_set_sensitive(players_vision_command, FALSE);
 
   if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
     if(pplayer->is_connected)
@@ -369,6 +387,29 @@ void players_war_callback(GtkWidget *w, gpointer data)
 
     pa.value = player_index;
     send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+				&pa);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void players_vision_callback(GtkWidget *w, gpointer data)
+{
+  GList *selection = GTK_CLIST(players_list)->selection;
+  gint row;
+  int player_index;
+
+  if (!selection)
+    return;
+  else {
+    struct packet_generic_integer pa;    
+
+    row = (gint)selection->data;
+    player_index = list_index_to_player_index[row];
+
+    pa.value = player_index;
+    send_packet_generic_integer(&aconnection, PACKET_PLAYER_REMOVE_VISION,
 				&pa);
   }
 }

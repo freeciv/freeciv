@@ -179,6 +179,10 @@ static void update_player_aliveness(struct player *pplayer)
         gamelog(GAMELOG_GENO, "%s civilization destroyed",
                 get_nation_name(pplayer->nation));
       }
+      players_iterate(pplayer2) {
+	if (pplayer->gives_shared_vision & (1<<pplayer2->player_no))
+	  remove_shared_vision(pplayer, pplayer2);
+      } players_iterate_end;
       map_know_and_see_all(pplayer);
     }
   }
@@ -921,7 +925,9 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       
       for (j = 0; j < MAX_NUM_WORKLISTS; j++)
 	copy_worklist(&info.worklists[j], &game.players[i].worklists[j]);
-      
+
+      info.gives_shared_vision = game.players[i].gives_shared_vision;
+
       lsend_packet_player_info(dest, &info);
     }
   }

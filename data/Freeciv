@@ -429,8 +429,26 @@ Freeciv*dipgoldlabel1.bottom:            chainTop
 Freeciv*dipgoldlabel1.left:              chainLeft
 Freeciv*dipgoldlabel1.right:             chainLeft
 
+Freeciv*dipvisionbutton0.label:         _("Shared vision")
+Freeciv*dipvisionbutton0.fromVert:      dipgoldlabel0
+Freeciv*dipvisionbutton0.foreground:    white
+Freeciv*dipvisionbutton0.background:    blue
+Freeciv*dipvisionbutton0.top:           chainTop
+Freeciv*dipvisionbutton0.bottom:        chainTop
+Freeciv*dipvisionbutton0.left:          chainLeft
+Freeciv*dipvisionbutton0.right:         chainLeft
+
+Freeciv*dipvisionbutton1.label:         _("Shared vision")
+Freeciv*dipvisionbutton1.fromVert:      dipgoldlabel1
+Freeciv*dipvisionbutton1.foreground:    white
+Freeciv*dipvisionbutton1.background:    blue
+Freeciv*dipvisionbutton1.top:           chainTop
+Freeciv*dipvisionbutton1.bottom:        chainTop
+Freeciv*dipvisionbutton1.left:          chainLeft
+Freeciv*dipvisionbutton1.right:         chainLeft
+
 Freeciv*dippactmenubutton.label:         _("Pacts")
-Freeciv*dippactmenubutton.fromVert:      dipgoldinput0
+Freeciv*dippactmenubutton.fromVert:      dipvisionbutton0
 Freeciv*dippactmenubutton.foreground:    white
 Freeciv*dippactmenubutton.background:    blue
 Freeciv*dippactmenubutton.top:           chainTop
@@ -3082,7 +3100,7 @@ Freeciv*playerslabel.bottom:             chainTop
 Freeciv*playerslabel.left:               chainLeft
 Freeciv*playerslabel.right:              chainRight
 Freeciv*playerslabel.label: _("\
-Name             Nation       Embassy  Dipl.State      Reputation    State    Host")
+Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host")
 
 Freeciv*playerslist.fromVert:            playerslabel
 Freeciv*playerslist.forceColumns:        true
@@ -3125,8 +3143,16 @@ Freeciv*playerswarcommand.bottom:          chainBottom
 Freeciv*playerswarcommand.left:            chainLeft
 Freeciv*playerswarcommand.right:           chainRight
 
+Freeciv*playersvisioncommand.label:           _("Withdraw vision")
+Freeciv*playersvisioncommand.fromHoriz:       playerswarcommand
+Freeciv*playersvisioncommand.fromVert:        playerslist
+Freeciv*playersvisioncommand.top:             chainBottom
+Freeciv*playersvisioncommand.bottom:          chainBottom
+Freeciv*playersvisioncommand.left:            chainLeft
+Freeciv*playersvisioncommand.right:           chainRight
+
 Freeciv*playerssshipcommand.label:          _("Spaceship")
-Freeciv*playerssshipcommand.fromHoriz:      playerswarcommand
+Freeciv*playerssshipcommand.fromHoriz:      playersvisioncommand
 Freeciv*playerssshipcommand.fromVert:       playerslist
 Freeciv*playerssshipcommand.top:            chainBottom
 Freeciv*playerssshipcommand.bottom:         chainBottom

@@ -73,7 +73,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
 " event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
-" indef_impr_types worklist_true_ids"
+" indef_impr_types worklist_true_ids shared_vision"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -123,6 +123,9 @@ const char * const our_capability = our_capability_internal;
    their true values (units are no longer B_LAST + unit_id).  A flag
    field is added to discriminate between unit and improvement and to
    specify the end of the list.
+
+   "shared_vision" is the ability to negotiate and display info about
+   shared vision.
 */
 
 void init_our_capability(void)

@@ -1093,6 +1093,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_CONNECT:
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);
     break;
+  case PACKET_PLAYER_REMOVE_VISION:
+    handle_player_remove_vision(pplayer, (struct packet_generic_integer *)packet);
+    break;
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));

@@ -79,6 +79,8 @@ struct Diplomacy_dialog {
   Widget dip_gold_label1;
   Widget dip_gold_input0;
   Widget dip_gold_input1;
+  Widget dip_vision_button0;
+  Widget dip_vision_button1;
   Widget dip_pact_menubutton;
   
   Widget dip_label;
@@ -130,6 +132,8 @@ void diplomacy_dialog_peace_callback(Widget w, XtPointer client_data,
 					XtPointer call_data);
 void diplomacy_dialog_alliance_callback(Widget w, XtPointer client_data,
 					XtPointer call_data);
+void diplomacy_dialog_vision_callback(Widget w, XtPointer client_data,
+				      XtPointer call_data);
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 
@@ -475,6 +479,31 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   XtNlabel, buf,
 						   NULL);
 
+
+  pdialog->dip_vision_button0 =
+    I_L(XtVaCreateManagedWidget("dipvisionbutton0",
+				commandWidgetClass, 
+				pdialog->dip_form0,
+				NULL));
+  if (plr0->gives_shared_vision & (1<<plr1->player_no)
+      || !has_capability("shared_vision", aconnection.capability))
+    XtSetSensitive(pdialog->dip_vision_button0, FALSE);
+
+  pdialog->dip_vision_button1 =
+    I_L(XtVaCreateManagedWidget("dipvisionbutton1",
+				commandWidgetClass, 
+				pdialog->dip_form1,
+				NULL));
+  if (plr1->gives_shared_vision & (1<<plr0->player_no)
+      || !has_capability("shared_vision", aconnection.capability))
+    XtSetSensitive(pdialog->dip_vision_button1, FALSE);
+
+  XtAddCallback(pdialog->dip_vision_button0, XtNcallback, 
+		diplomacy_dialog_vision_callback, (XtPointer)pdialog);
+  XtAddCallback(pdialog->dip_vision_button1, XtNcallback, 
+		diplomacy_dialog_vision_callback, (XtPointer)pdialog);
+
+
   pdialog->dip_pact_menubutton=
     I_L(XtVaCreateManagedWidget("dippactmenubutton",
 				menuButtonWidgetClass,
@@ -770,6 +799,28 @@ void diplomacy_dialog_seamap_callback(Widget w, XtPointer client_data,
   pa.plrno0=pdialog->treaty.plr0->player_no;
   pa.plrno1=pdialog->treaty.plr1->player_no;
   pa.clause_type=CLAUSE_SEAMAP;
+  pa.plrno_from=pgiver->player_no;
+  pa.value=0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_vision_callback(Widget w, XtPointer client_data, 
+				   XtPointer call_data)
+{
+  struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)client_data;
+  struct packet_diplomacy_info pa;
+  struct player *pgiver;
+  
+  pgiver = w==pdialog->dip_vision_button0 ? 
+    pdialog->treaty.plr0 : pdialog->treaty.plr1;
+  
+  pa.plrno0=pdialog->treaty.plr0->player_no;
+  pa.plrno1=pdialog->treaty.plr1->player_no;
+  pa.clause_type=CLAUSE_VISION;
   pa.plrno_from=pgiver->player_no;
   pa.value=0;
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,

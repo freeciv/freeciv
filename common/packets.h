@@ -112,6 +112,7 @@ enum packet_type {
   PACKET_RULESET_GAME,
   PACKET_CONN_INFO,
   PACKET_SHORT_CITY,
+  PACKET_PLAYER_REMOVE_VISION,
   PACKET_LAST  /* leave this last */
 };
 
@@ -456,6 +457,7 @@ struct packet_player_info {
   int ai;
   int is_barbarian;
   struct worklist worklists[MAX_NUM_WORKLISTS];
+  unsigned int gives_shared_vision;
 
   /* Remove following when "conn_info" capability removed: */
   char addr[MAX_LEN_ADDR];

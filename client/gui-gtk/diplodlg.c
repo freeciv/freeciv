@@ -66,6 +66,8 @@ struct Diplomacy_dialog {
   GtkWidget *dip_gold_entry0;
   GtkWidget *dip_gold_entry1;
   GtkWidget *dip_pact_menu;
+  GtkWidget *dip_vision_button0;
+  GtkWidget *dip_vision_button1;
 
   GtkWidget *dip_label;
   GtkWidget *dip_clauselabel;
@@ -98,6 +100,7 @@ void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
+void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static gint diplomacy_dialog_mbutton_callback(GtkWidget *w, GdkEvent *event);
@@ -415,6 +418,26 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox1),
 	pdialog->dip_gold_frame1, FALSE,FALSE,2);
 
+
+  pdialog->dip_vision_button0=gtk_button_new_with_label(_("Give shared vision"));
+  gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0), pdialog->dip_vision_button0,
+		     FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button0), "clicked",
+		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
+		     (gpointer)pdialog);
+  if (plr0->gives_shared_vision & (1<<plr1->player_no)
+      || !has_capability("shared_vision", aconnection.capability))
+    gtk_widget_set_sensitive(pdialog->dip_vision_button0, FALSE);
+
+  pdialog->dip_vision_button1=gtk_button_new_with_label(_("Give shared vision"));
+  gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox1), pdialog->dip_vision_button1,
+		     FALSE, FALSE, 2);
+  gtk_signal_connect(GTK_OBJECT(pdialog->dip_vision_button1), "clicked",
+		     GTK_SIGNAL_FUNC(diplomacy_dialog_vision_callback),
+		     (gpointer)pdialog);
+  if (plr1->gives_shared_vision & (1<<plr0->player_no)
+      || !has_capability("shared_vision", aconnection.capability))
+    gtk_widget_set_sensitive(pdialog->dip_vision_button1, FALSE);
 
   /* Start of pact button insertion */
 
@@ -746,6 +769,32 @@ void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
+{
+  struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
+  struct packet_diplomacy_info pa;
+  struct player *pgiver;
+
+  if (!has_capability("shared_vision", aconnection.capability)) {
+    append_output_window("clause not added as the server does not"
+			 "have the capability");
+    return;
+  }
+
+  pgiver = (w == pdialog->dip_vision_button0) ? 
+    pdialog->treaty.plr0 : pdialog->treaty.plr1;
+
+  pa.plrno0 = pdialog->treaty.plr0->player_no;
+  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.clause_type = CLAUSE_VISION;
+  pa.plrno_from = pgiver->player_no;
+  pa.value = 0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
 
 
 /****************************************************************

@@ -156,6 +156,8 @@ struct player {
   struct conn_list connections;	       /* will replace conn */
   struct worklist worklists[MAX_NUM_WORKLISTS];
   struct player_tile *private_map;
+  unsigned int gives_shared_vision; /* bitvector those that give you shared vision */
+  unsigned int really_gives_vision; /* takes into account that p3 may see what p1 has via p2 */
 };
 
 void player_init(struct player *plr);

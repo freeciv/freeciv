@@ -99,6 +99,8 @@ void player_init(struct player *plr)
     init_worklist(&plr->worklists[i]);
     plr->worklists[i].is_valid = 0;
   }
+  plr->gives_shared_vision = 0;
+  plr->really_gives_vision = 0;
 }
 
 /***************************************************************

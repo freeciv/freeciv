@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "capability.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -224,7 +225,13 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pdest, _("Game: You agree on an alliance with %s."),
 			pgiver->name);
 	  break;          
-
+	case CLAUSE_VISION:
+	  give_shared_vision(pgiver, pdest);
+	  notify_player(pgiver, _("Game: You give shared vision to %s."),
+			pdest->name);
+	  notify_player(pgiver, _("Game: %s give you shared vision."),
+			pdest->name);
+	  break;
 	}
 	
       }
@@ -271,7 +278,8 @@ void handle_diplomacy_create_clause(struct player *pplayer,
 {
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver;
-  
+  int capability;
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
@@ -289,6 +297,24 @@ void handle_diplomacy_create_clause(struct player *pplayer,
     struct city *pcity = find_city_by_id(packet->value);
     if (pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1->player_no))
       give_citymap_from_player_to_player(pcity, plr0, plr1);
+  }
+
+  capability = 1;
+  conn_list_iterate(plr0->connections, pconn) {
+    if (!has_capability("shared_vision", pconn->capability))
+      capability = 0;
+  } conn_list_iterate_end;
+  conn_list_iterate(plr1->connections, pconn) {
+    if (!has_capability("shared_vision", pconn->capability))
+      capability = 0;
+  } conn_list_iterate_end;
+  if (packet->clause_type == CLAUSE_VISION
+      && !capability) {
+    notify_player(plr0, "Game: shared vision clause not added as not all"
+		  "connected clients have the capability");
+    notify_player(plr1, "Game: shared vision clause not added as not all"
+		  "connected clients have the capability");
+    return;
   }
 
   if((ptreaty=find_treaty(plr0, plr1))) {

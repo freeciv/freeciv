@@ -1196,7 +1196,16 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
 		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
   }
-  
+
+  {
+    char vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS+1];
+
+    for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
+      vision[i] = plr->gives_shared_vision & (1 << i) ? '1' : '0';
+    vision[i] = '\0';
+    secfile_insert_str(file, vision, "player%d.gives_shared_vision", plrno);
+  }
+
   secfile_insert_int(file, ship->state, "player%d.spaceship.state", plrno);
 
   if (ship->state != SSHIP_NONE) {
@@ -1776,6 +1785,24 @@ void game_load(struct section_file *file)
       }
     }
   }
+
+  /* We do this here since if the did it in player_load, player 1
+     would try to unfog (unloaded) player 2's map when player 1's units
+     were loaded */
+  players_iterate(pplayer) {
+    pplayer->really_gives_vision = 0;
+    pplayer->gives_shared_vision = 0;
+  } players_iterate_end;
+  players_iterate(pplayer) {
+    char *vision;
+    int plrno = pplayer->player_no;
+    vision = secfile_lookup_str_default(file, NULL, "player%d.gives_shared_vision",
+					plrno);
+    if (vision)
+      for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
+	if (vision[i] == '1')
+	  give_shared_vision(pplayer, get_player(i));
+  } players_iterate_end;
 
   initialize_globals();
   apply_unit_ordering();

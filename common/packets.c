@@ -242,6 +242,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_NAME_SUGGEST_REQ:
   case PACKET_ADVANCE_FOCUS:
   case PACKET_PLAYER_CANCEL_PACT:
+  case PACKET_PLAYER_REMOVE_VISION:
     return receive_packet_generic_integer(pc);
     
   case PACKET_ALLOC_NATION:
@@ -1664,6 +1665,10 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
     cptr = put_worklist(cptr, &pinfo->worklists[i], pc);
   }
 
+  if (pc && has_capability("shared_vision", pc->capability)) {
+    cptr=put_uint32(cptr, pinfo->gives_shared_vision);
+  }
+
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1736,6 +1741,12 @@ receive_packet_player_info(struct connection *pc)
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
     iget_worklist(&iter, &pinfo->worklists[i], pc);
+  }
+
+  if (pc && has_capability("shared_vision", pc->capability)) {
+    iget_uint32(&iter, &pinfo->gives_shared_vision);
+  } else {
+    pinfo->gives_shared_vision = 0;
   }
 
   pack_iter_end(&iter, pc);
