@@ -83,7 +83,10 @@ void real_append_output_window(const char *input_string)
   char *newout, *rmcr, *astring = mystrdup(input_string);
 
   if (!m_width) {
-    XFontStruct *out_font;
+    /* Sometimes XtVaGetValues has garbage for the XtNfont; see PR#6452.
+     * In this case it's safest if the value is initialized to NULL. */
+    XFontStruct *out_font = NULL;
+
     XtVaGetValues(outputwindow_text, XtNfont, &out_font, NULL);
     if (out_font)
       m_width=XTextWidth(out_font, "M", 1);
