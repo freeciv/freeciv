@@ -26,3 +26,5 @@
 /civclient
 /civserver
 /.deps
+/*.sav
+/*.sav.gz
