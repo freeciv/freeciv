@@ -788,9 +788,10 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
     }
 
     /* Strongly prefer players we are at war with already. */
-    if (pplayers_non_attack(pplayer, aplayer)) {
+    if (!pplayers_at_war(pplayer, aplayer)) {
       war_desire[aplayer->player_no] /= 2;
     }
+    
     PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Against %s we have war desire "
             "%d ", aplayer->name, war_desire[aplayer->player_no]);
 
