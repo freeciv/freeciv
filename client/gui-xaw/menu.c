@@ -558,7 +558,7 @@ static void government_menu_callback(Widget w, XtPointer client_data,
     popup_worklists_dialog(game.player_ptr);
     break;
   case MENU_GOVERNMENT_REVOLUTION:
-    popup_revolution_dialog();
+    popup_revolution_dialog(game.government_when_anarchy);
     break;
   }
 }

@@ -1241,8 +1241,9 @@ static void revolution_callback_no(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(void)
+void popup_revolution_dialog(int government)
 {
+  assert(government == game.government_when_anarchy);
   popup_message_dialog(toplevel, "revolutiondialog", 
 		       _("You say you wanna revolution?"),
 		       revolution_callback_yes, 0, 0,
