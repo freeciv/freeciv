@@ -2772,8 +2772,7 @@ Does: 1) updates  the units homecity and the city it enters/leaves (the
          cities happiness varies). This also takes into account if the
 	 unit enters/leaves a fortress.
       2) handles any huts at the units destination.
-      3) awakes any sentried units on neightboring tiles.
-      4) updates adjacent cities' unavailable tiles.
+      3) updates adjacent cities' unavailable tiles.
 
 FIXME: Sometimes it is not neccesary to send cities because the goverment
        doesn't care if a unit is away or not.
@@ -2790,9 +2789,6 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 
   if (punit->homecity != 0)
     homecity = find_city_by_id(punit->homecity);
-
-  wakeup_neighbor_sentries(punit);
-  maybe_make_first_contact(dest_x, dest_y, unit_owner(punit));
 
   if (tocity)
     handle_unit_enter_city(punit, tocity);
@@ -3017,6 +3013,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 	     unit_type(punit)->vision_range);
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
+  wakeup_neighbor_sentries(punit);
+  maybe_make_first_contact(dest_x, dest_y, unit_owner(punit));
 
   conn_list_do_unbuffer(&pplayer->connections);
 
