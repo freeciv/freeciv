@@ -8457,7 +8457,7 @@ msgstr "永眠"
 #: client/plrdlg_common.c:214
 #, fuzzy
 msgid "?Player:Name"
-msgstr "指導者名(_L)"
+msgstr "プレイヤー名"
 
 #: client/plrdlg_common.c:215 client/gui-gtk-2.0/connectdlg.c:902
 #: client/gui-gtk-2.0/dialogs.c:1672 client/gui-gtk/plrdlg.c:140
@@ -8482,7 +8482,7 @@ msgstr "チーム"
 #: client/plrdlg_common.c:220
 #, fuzzy
 msgid "Attitude"
-msgstr "起こす"
+msgstr "態度"
 
 #: client/plrdlg_common.c:221 client/gui-gtk/plrdlg.c:142
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/plrdlg.c:341
@@ -8539,9 +8539,8 @@ msgid "?nation:Mysterious"
 msgstr "未接触の国"
 
 #: client/text.c:141
-#, fuzzy
 msgid "?nation:Friendly(team)"
-msgstr "同盟国"
+msgstr "同盟国(チーム)"
 
 #: client/text.c:143 client/gui-sdl/dialogs.c:959 client/gui-sdl/mapview.c:683
 msgid "?city:Neutral"
@@ -9753,9 +9752,8 @@ msgid "Choose Saved Game to Load"
 msgstr "ロードするセーブファイルを選択"
 
 #: client/gui-gtk-2.0/connectdlg.c:605
-#, fuzzy
 msgid "Welcome to Freeciv"
-msgstr "Freeciv のクライアント"
+msgstr "Freecivの世界へようこそ!"
 
 #: client/gui-gtk-2.0/connectdlg.c:626 client/gui-sdl/connectdlg.c:1028
 #: client/gui-win32/connectdlg.c:731
@@ -9805,9 +9803,8 @@ msgid "_Connect to Network Game"
 msgstr "ネットワークゲームへ接続(_C)"
 
 #: client/gui-gtk-2.0/connectdlg.c:849
-#, fuzzy
 msgid "Number of players (Including AI):"
-msgstr "プレイヤーの数"
+msgstr "プレイヤーの数(AIも含む)"
 
 #: client/gui-gtk-2.0/connectdlg.c:865
 msgid "AI skill level:"
@@ -10481,9 +10478,8 @@ msgid "Use Alt/Meta for accelerators"
 msgstr "Alt/Meta でアクセラレータ"
 
 #: client/gui-gtk-2.0/gui_main.c:131 client/gui-gtk/gui_main.c:129
-#, fuzzy
 msgid "Show Map Scrollbars"
-msgstr "地図のスクロールバーを表示(GTKのみ)"
+msgstr "地図のスクロールバーを表示"
 
 # ntaka
 #: client/gui-gtk-2.0/gui_main.c:132 client/gui-gtk/gui_main.c:130
@@ -10502,7 +10498,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:135 client/gui-sdl/optiondlg.c:634
 msgid "Fullscreen Mode"
-msgstr ""
+msgstr "フルスクリーン表示"
 
 #: client/gui-gtk-2.0/gui_main.c:434 client/gui-gtk-2.0/gui_main.c:987
 #: client/gui-gtk/gui_main.c:381 client/gui-gtk/gui_main.c:853
@@ -10925,19 +10921,16 @@ msgid "Game"
 msgstr "ゲーム(G)"
 
 #: client/gui-gtk-2.0/menu.c:609
-#, fuzzy
 msgid "Local _Options"
-msgstr "ローカル設定"
+msgstr "ローカル設定(_O)"
 
 #: client/gui-gtk-2.0/menu.c:611
-#, fuzzy
 msgid "_Message Options"
-msgstr "メッセージ設定"
+msgstr "メッセージ設定(_M)"
 
 #: client/gui-gtk-2.0/menu.c:613
-#, fuzzy
 msgid "Sa_ve Settings"
-msgstr "設定を保存"
+msgstr "設定を保存(_V)"
 
 #: client/gui-gtk-2.0/menu.c:617
 #, fuzzy
@@ -10960,9 +10953,8 @@ msgid "Save Game _As..."
 msgstr "ゲームを保存する"
 
 #: client/gui-gtk-2.0/menu.c:631
-#, fuzzy
 msgid "_End Game"
-msgstr "ゲーム終了"
+msgstr "ゲーム終了(_E)"
 
 #: client/gui-gtk-2.0/menu.c:635
 #, fuzzy
@@ -11016,9 +11008,8 @@ msgstr "作業リスト(_W)"
 #: client/gui-gtk-2.0/menu.c:666 client/gui-gtk/menu.c:629
 #: client/gui-gtk/menu.c:631 client/gui-gtk/menu.c:634
 #: client/gui-win32/menu.c:304
-#, fuzzy
 msgid "_Change Government"
-msgstr "政治体制(_G)"
+msgstr "政治体制の変更(_C)"
 
 #: client/gui-gtk-2.0/menu.c:663 client/gui-win32/menu.c:305
 msgid "_Revolution"
