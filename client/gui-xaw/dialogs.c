@@ -1367,10 +1367,7 @@ void popup_government_dialog(void)
 static void revolution_callback_yes(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  struct packet_player_request packet;
-
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
-  
+  start_revolution();
   destroy_message_dialog(w);
 }
 

@@ -39,6 +39,7 @@
 #include "clinet.h"
 #include "control.h"
 #include "options.h"
+#include "packhand.h"
 #include "tilespec.h"
 
 #include "chatline.h"
@@ -1301,9 +1302,7 @@ void popup_government_dialog(void)
 *****************************************************************/
 static void revolution_callback_yes(gpointer data)
 {
-  struct packet_player_request packet;
-
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
+  start_revolution();
 }
 
 /****************************************************************

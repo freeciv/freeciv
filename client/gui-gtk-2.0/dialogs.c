@@ -46,6 +46,7 @@
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
+#include "packhand.h"
 #include "tilespec.h"
 
 #include "dialogs.h"
@@ -1236,9 +1237,7 @@ void popup_revolution_dialog(void)
   }
 
   if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-    struct packet_player_request packet;
-
-    send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
+    start_revolution();
   }
   gtk_widget_destroy(shell);
 }

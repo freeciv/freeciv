@@ -1250,6 +1250,19 @@ void set_government_choice(int government)
 }
 
 /**************************************************************************
+  Begin a revolution by telling the server to start it.  This also clears
+  the current government choice.
+**************************************************************************/
+void start_revolution(void)
+{
+  struct packet_player_request packet;
+
+  government_selected = FALSE;
+  send_packet_player_request(&aconnection, &packet,
+			     PACKET_PLAYER_REVOLUTION);
+}
+
+/**************************************************************************
   Choose the government after a revolution completes, either by taking the
   government that the player has already specified or by popping up a
   dialog to ask.

@@ -47,6 +47,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "packhand.h"
 
 #include "colors.h"
 
@@ -3681,10 +3682,7 @@ static struct SMALL_DLG *pRevolutionDlg = NULL;
 **************************************************************************/
 static int revolution_dlg_ok_callback(struct GUI *pButton)
 {
-  struct packet_player_request packet;
-
-  send_packet_player_request(&aconnection, &packet,
-			     PACKET_PLAYER_REVOLUTION);
+  start_revolution();
 
   popdown_revolution_dialog();
   

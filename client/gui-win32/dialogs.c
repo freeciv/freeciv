@@ -34,16 +34,18 @@
 #include "rand.h"
 #include "support.h"
  
-#include "chatline.h"
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "tilespec.h"
+#include "packhand.h"
+
+#include "chatline.h"
+#include "dialogs.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "tilespec.h"
 #include "gui_main.h" 
                              
-#include "dialogs.h"
 #define POPUP_MESSAGEDLG_IDBASE 500
 #define UNITSELECT_CLOSE 300
 #define UNITSELECT_READY_ALL 301
@@ -876,10 +878,7 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
 *****************************************************************/
 static void revolution_callback_yes(HWND w, void * data)
 {
-  struct packet_player_request packet;
- 
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
- 
+  start_revolution();
   destroy_message_dialog(w);
 }
  

@@ -45,6 +45,7 @@
 #include "gui_main.h"
 #include "mapview.h"
 #include "options.h"
+#include "packhand.h"
 
 #include "muistuff.h"
 #include "mapclass.h"
@@ -55,8 +56,7 @@
 *****************************************************************/
 void request_player_revolution(void)
 {
-  struct packet_player_request packet;
-  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_REVOLUTION);
+  start_revolution();
 }
 /****************************************************************
  ...

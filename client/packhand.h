@@ -75,5 +75,6 @@ void set_reports_thaw_request(int request_id);
 
 void target_government_init(void);
 void set_government_choice(int government);
+void start_revolution(void);
 
 #endif /* FC__PACKHAND_H */
