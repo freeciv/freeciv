@@ -85,7 +85,7 @@ char *city_productions_font_name;
 int num_tiles_explode_unit=0;
 
 static int roadstyle;
-int fogstyle;
+enum fog_style fogstyle;
 
 static int flag_offset_x, flag_offset_y;
 static int unit_offset_x, unit_offset_y;
@@ -867,8 +867,9 @@ bool tilespec_read_toplevel(const char *tileset_name)
 
   roadstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
 					 "tilespec.roadstyle");
-  fogstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
-					"tilespec.fogstyle");
+  fogstyle
+    = secfile_lookup_int_default(file, is_isometric ? FOG_AUTO : FOG_SPRITE,
+				 "tilespec.fogstyle");
   darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
   if (darkness_style < DARKNESS_NONE
       || darkness_style > DARKNESS_CARD_FULL
@@ -1928,7 +1929,7 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
    sprs->type = DRAWN_SPRITE,					\
    sprs->data.sprite.style = draw_style,			\
    sprs->data.sprite.sprite = s,				\
-   sprs->data.sprite.foggable = (draw_fog && fogstyle == 0),	\
+   sprs->data.sprite.foggable = (draw_fog && fogstyle == FOG_AUTO),	\
    sprs->data.sprite.offset_x = x_offset,			\
    sprs->data.sprite.offset_y = y_offset,			\
    sprs++)
@@ -2833,9 +2834,9 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
     break;
 
   case LAYER_FOG:
-    if (fogstyle == 1 && draw_fog_of_war
+    if (fogstyle == FOG_SPRITE && draw_fog_of_war
 	&& ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
-      /* With fogstyle 1, fog is done this way. */
+      /* With FOG_SPRITE, fog is done this way. */
       ADD_SPRITE_SIMPLE(sprites.tx.fog);
     }
     break;

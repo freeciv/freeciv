@@ -301,7 +301,14 @@ struct named_sprites {
 };
 
 extern struct named_sprites sprites;
-extern int fogstyle;
+
+/* Don't reorder this enum since tilesets depend on it. */
+enum fog_style {
+  FOG_AUTO, /* Fog is automatically appended by the code. */
+  FOG_SPRITE, /* A single fog sprite is provided by the tileset (tx.fog). */
+  FOG_NONE /* No fog. */
+};
+extern enum fog_style fogstyle;
 
 struct Sprite *get_citizen_sprite(struct citizen_type type,
 				  int citizen_index,
