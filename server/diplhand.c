@@ -418,9 +418,9 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   } conn_list_iterate_end;
   if (packet->clause_type == CLAUSE_VISION
       && !capability) {
-    notify_player(plr0, "Game: shared vision clause not added as not all"
+    notify_player(plr0, "Game: shared vision clause not added as not all "
 		  "connected clients have the capability");
-    notify_player(plr1, "Game: shared vision clause not added as not all"
+    notify_player(plr1, "Game: shared vision clause not added as not all "
 		  "connected clients have the capability");
     return;
   }
