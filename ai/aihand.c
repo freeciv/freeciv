@@ -304,7 +304,7 @@ void ai_manage_taxes(struct player *pplayer)
       }
     }
     for (i = 0; i <= 10; i++) {
-      m = ((n * 100 - pcity->trade_prod * city_tax_bonus(pcity) + 1999) / 2000);
+      m = ((n * 100 - pcity->trade_prod * city_tax_bonus(pcity) * i + 1999) / 2000);
       elvises[i] += waste[m];
     }
   city_list_iterate_end;
