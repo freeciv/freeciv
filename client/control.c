@@ -1282,15 +1282,18 @@ void request_unit_move_done(void)
 
 /**************************************************************************
   Called to have the client move a unit from one location to another,
-  updating the graphics if necessary.
+  updating the graphics if necessary.  The caller must redraw the target
+  location after the move.
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct unit *target_unit)
 {
   int x, y;
-  bool was_teleported;
-  
+  bool was_teleported, do_animation;
+
   was_teleported = !is_tiles_adjacent(punit->x, punit->y,
 				      target_unit->x, target_unit->y);
+  do_animation = (!was_teleported && smooth_move_unit_msec > 0);
+
   x = punit->x;
   y = punit->y;
 
@@ -1303,10 +1306,6 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
-  if (punit->transported_by == -1) {
-    refresh_tile_mapcanvas(x, y, FALSE);
-  }
-  
   if (game.player_idx == punit->owner
       && auto_center_on_unit
       && !unit_has_orders(punit)
@@ -1317,40 +1316,26 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     center_tile_mapcanvas(target_unit->x, target_unit->y);
   }
 
-  if (punit->transported_by == -1 && !was_teleported) {
-    int dx, dy;
+  if (punit->transported_by == -1) {
+    /* We have to refresh the tile before moving.  This will draw
+     * the tile without the unit (because it was unlinked above). */
+    refresh_tile_mapcanvas(x, y, FALSE);
 
-    map_distance_vector(&dx, &dy, punit->x, punit->y,
-                        target_unit->x, target_unit->y);
-    if (smooth_move_unit_msec > 0) {
+    if (do_animation) {
+      int dx, dy;
+
+      /* For the duration of the animation the unit exists at neither
+       * tile. */
+      map_distance_vector(&dx, &dy, punit->x, punit->y,
+			  target_unit->x, target_unit->y);
       move_unit_map_canvas(punit, x, y, dx, dy);
     }
-    refresh_tile_mapcanvas(x, y, FALSE);
   }
     
   punit->x = target_unit->x;
   punit->y = target_unit->y;
 
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
-
-  square_iterate(punit->x, punit->y, 2, x, y) {
-    bool refresh = FALSE;
-    unit_list_iterate(map_get_tile(x, y)->units, pu) {
-      if (unit_flag(pu, F_PARTIAL_INVIS)) {
-	refresh = TRUE;
-	goto out;
-      }
-    } unit_list_iterate_end;
-  out:
-    if (refresh) {
-      refresh_tile_mapcanvas(x, y, FALSE);
-    }
-  } square_iterate_end;
-  
-  if (punit->transported_by == -1
-      && tile_get_known(punit->x, punit->y) == TILE_KNOWN) {
-    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
-  }
 
   if (punit_focus == punit) update_menus();
 }

@@ -1095,6 +1095,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       /* Show where the unit is going. */
       do_move_unit(punit, packet_unit);
+      if (punit->transported_by != -1) {
+	repaint_unit = TRUE;
+      }
 
       if(pcity)  {
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
@@ -1137,8 +1140,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  process_caravan_arrival(punit);
 	}
       }
-      
-      repaint_unit = FALSE;
+
     }  /*** End of Change position. ***/
 
     if (punit->unhappiness != packet_unit->unhappiness) {
