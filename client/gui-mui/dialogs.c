@@ -872,6 +872,16 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
   }
 }
 
+/****************************************************************
+...
+*****************************************************************/
+int diplomat_dialog_is_open(void)
+{
+  return 0;  /* FIXME */
+}
+
+
+/****************************************************************/
 
 static int caravan_dialog;
 
@@ -982,6 +992,15 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
   popup_message_dialog_args(main_wnd, "Your Caravan Has Arrived",
                             buf,msg_dlg);
 }
+
+/****************************************************************
+...
+*****************************************************************/
+int caravan_dialog_is_open(void)
+{
+  return caravan_dialog;
+}
+
 
 /****************************************************************
  Callback for a government button
@@ -1858,54 +1877,3 @@ void races_toggles_set_sensitive(int bits1, int bits2)
      return;
 */
 }
-
-/****************************************************************
-...
-*****************************************************************/
-void process_caravan_arrival(struct unit *punit)
-{
-  static struct genlist arrival_queue;
-  static int is_init_arrival_queue = 0;
-  int *p_id;
-
-  /* arrival_queue is a list of individually malloc-ed ints with
-     punit.id values, for units which have arrived. */
-
-  if (!is_init_arrival_queue) {
-    genlist_init(&arrival_queue);
-    is_init_arrival_queue = 1;
-  }
-
-  if (punit) {
-    p_id = fc_malloc(sizeof(int));
-    *p_id = punit->id;
-    genlist_insert(&arrival_queue, p_id, -1);
-  }
-
-  /* There can only be one dialog at a time: */
-  if (caravan_dialog) {
-    return;
-  }
-  
-  while (genlist_size(&arrival_queue)) {
-    int id;
-    
-    p_id = genlist_get(&arrival_queue, 0);
-    genlist_unlink(&arrival_queue, p_id);
-    id = *p_id;
-    free(p_id);
-    punit = unit_list_find(&game.player_ptr->units, id);
-
-    if (punit && (unit_can_help_build_wonder_here(punit)
-		  || unit_can_est_traderoute_here(punit))
-	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
-      struct city *pcity_dest = map_get_city(punit->x, punit->y);
-      struct city *pcity_homecity = find_city_by_id(punit->homecity);
-      if (pcity_dest && pcity_homecity) {
-	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
-	return;
-      }
-    }
-  }
-}
-

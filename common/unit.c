@@ -492,9 +492,17 @@ int is_water_unit(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_military_unit(struct unit *this_unit)
+int is_military_unit(struct unit *punit)
 {
-  return (unit_flag(this_unit->type, F_NONMIL) == 0);
+  return (unit_flag(punit->type, F_NONMIL) == 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_diplomat_unit(struct unit *punit)
+{
+  return (unit_flag(punit->type, F_DIPLOMAT));
 }
 
 /**************************************************************************
@@ -1449,4 +1457,12 @@ enum unit_role_id unit_role_from_str(char *s)
     }
   }
   return L_LAST;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct player *unit_owner(struct unit *punit)
+{
+  return (&game.players[punit->owner]);
 }

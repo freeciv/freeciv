@@ -59,6 +59,9 @@ struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 void blink_active_unit(void);
 
+void process_caravan_arrival(struct unit *punit);
+void process_diplomat_arrival(struct unit *punit, struct city *pcity);
+
 void key_cancel_action(void);
 void key_city_names_toggle(void);
 void key_city_productions_toggle(void);

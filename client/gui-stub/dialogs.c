@@ -58,10 +58,24 @@ popup_caravan_dialog(struct unit *punit,
 	/* PORTME */
 }
 
+int
+caravan_dialog_is_open(void)
+{
+	/* PORTME */
+	return 0;
+}
+
 void
 popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 {
 	/* PORTME */
+}
+
+int
+diplomat_dialog_is_open(void)
+{
+	/* PORTME */
+	return 0;
 }
 
 void
@@ -90,12 +104,6 @@ popup_pillage_dialog(struct unit *punit, int may_pillage)
 
 void
 popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
-{
-	/* PORTME */
-}
-
-void
-process_caravan_arrival(struct unit *punit)
 {
 	/* PORTME */
 }

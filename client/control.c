@@ -19,6 +19,7 @@
 #include "capability.h"
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
@@ -292,6 +293,113 @@ void blink_active_unit(void)
 }
 
 /**************************************************************************
+  Add punit to queue of caravan arrivals, and popup a window for the
+  next arrival in the queue, if there is not already a popup, and
+  re-checking that a popup is appropriate.
+  If punit is NULL, just do for the next arrival in the queue.
+**************************************************************************/
+void process_caravan_arrival(struct unit *punit)
+{
+  static struct genlist arrival_queue;
+  static int is_init_arrival_queue = 0;
+  int *p_id;
+
+  /* arrival_queue is a list of individually malloc-ed ints with
+     punit.id values, for units which have arrived. */
+
+  if (!is_init_arrival_queue) {
+    genlist_init(&arrival_queue);
+    is_init_arrival_queue = 1;
+  }
+
+  if (punit) {
+    p_id = fc_malloc(sizeof(int));
+    *p_id = punit->id;
+    genlist_insert(&arrival_queue, p_id, -1);
+  }
+
+  /* There can only be one dialog at a time: */
+  if (caravan_dialog_is_open()) {
+    return;
+  }
+  
+  while (genlist_size(&arrival_queue)) {
+    int id;
+    
+    p_id = genlist_get(&arrival_queue, 0);
+    genlist_unlink(&arrival_queue, p_id);
+    id = *p_id;
+    free(p_id);
+    punit = unit_list_find(&game.player_ptr->units, id);
+
+    if (punit && (unit_can_help_build_wonder_here(punit)
+		  || unit_can_est_traderoute_here(punit))
+	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
+      struct city *pcity_dest = map_get_city(punit->x, punit->y);
+      struct city *pcity_homecity = find_city_by_id(punit->homecity);
+      if (pcity_dest && pcity_homecity) {
+	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
+	return;
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Add punit/pcity to queue of diplomat arrivals, and popup a window for
+  the next arrival in the queue, if there is not already a popup, and
+  re-checking that a popup is appropriate.
+  If punit is NULL, just do for the next arrival in the queue.
+**************************************************************************/
+void process_diplomat_arrival(struct unit *punit, struct city *pcity)
+{
+  static struct genlist arrival_queue;
+  static int is_init_arrival_queue = 0;
+  int *p_ids;
+
+  /* arrival_queue is a list of individually malloc-ed int[2]s with
+     punit.id and pcity.id values, for units which have arrived. */
+
+  if (!is_init_arrival_queue) {
+    genlist_init(&arrival_queue);
+    is_init_arrival_queue = 1;
+  }
+
+  if (punit && pcity) {
+    p_ids = fc_malloc(2*sizeof(int));
+    p_ids[0] = punit->id;
+    p_ids[1] = pcity->id;
+    genlist_insert(&arrival_queue, p_ids, -1);
+  }
+
+  /* There can only be one dialog at a time: */
+  if (diplomat_dialog_is_open()) {
+    return;
+  }
+
+  while (genlist_size(&arrival_queue)) {
+    int unit_id, city_id;
+
+    p_ids = genlist_get(&arrival_queue, 0);
+    genlist_unlink(&arrival_queue, p_ids);
+    unit_id = p_ids[0];
+    city_id = p_ids[1];
+    free(p_ids);
+    punit = unit_list_find(&game.player_ptr->units, unit_id);
+    pcity = find_city_by_id(city_id);
+
+    if(punit && pcity && unit_flag(punit->type, F_DIPLOMAT) &&
+       is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
+				    pcity->x, pcity->y) &&
+       diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
+			      pcity->x, pcity->y)) {
+      popup_diplomat_dialog(punit, pcity->x, pcity->y);
+      return;
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void request_unit_goto(void)
@@ -388,7 +496,10 @@ void request_unit_build_city(struct unit *punit)
   No need to do caravan-specific stuff here any more: server does trade
   routes to enemy cities automatically, and for friendly cities we wait
   for the unit to enter the city.  --dwp
-  
+
+  No need to do diplomat-specific stuff here any more: server notifies
+  client whenever diplomat attempts to enter enemy city.  --jjm
+
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dx, int dy)
 {
@@ -397,18 +508,7 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
 
   dest_x=map_adjust_x(punit->x+dx);
   dest_y=punit->y+dy;   /* not adjusting on purpose*/   /* why? --dwp */
- 
-  if(unit_flag(punit->type, F_DIPLOMAT) &&
-          is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
-                                       dest_x, dest_y)) {
-    if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
-      popup_diplomat_dialog(punit, dest_x, dest_y);
-    } else {
-      append_output_window(_("Game: You don't have enough movement left."));
-    }
-    return;
-  }
-  
+
   req_unit=*punit;
   req_unit.x=dest_x;
   req_unit.y=dest_y;

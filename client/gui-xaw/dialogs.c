@@ -168,6 +168,7 @@ int unit_to_use_to_pillage;
 int caravan_city_id;
 int caravan_unit_id;
 
+int diplomat_dialog_open = 0;
 int diplomat_id;
 int diplomat_target_id;
 
@@ -390,7 +391,7 @@ static void diplomat_bribe_yes_callback(Widget w, XtPointer client_data,
   req.target_id=diplomat_target_id;
 
   send_packet_diplomat_action(&aconnection, &req);
-  
+
   destroy_message_dialog(w);
 }
 
@@ -454,7 +455,8 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 				       XtPointer call_data)
 {
   destroy_message_dialog(w);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     struct packet_diplomat_action req;
@@ -467,6 +469,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -475,9 +478,9 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 static void diplomat_embassy_callback(Widget w, XtPointer client_data, 
 				      XtPointer call_data)
 {
- 
   destroy_message_dialog(w);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
@@ -489,16 +492,18 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+  process_diplomat_arrival(NULL, NULL);
 }
+
 /****************************************************************
 ...
 *****************************************************************/
 static void diplomat_investigate_callback(Widget w, XtPointer client_data, 
 					  XtPointer call_data)
 {
- 
   destroy_message_dialog(w);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
@@ -510,22 +515,23 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+  process_diplomat_arrival(NULL, NULL);
 }
+
 /****************************************************************
 ...
 *****************************************************************/
 static void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
 				       XtPointer call_data)
 {
-
   struct packet_diplomat_action req;
-  
+
   req.action_type=SPY_SABOTAGE_UNIT;
   req.diplomat_id=diplomat_id;
   req.target_id=diplomat_target_id;
-  
+
   send_packet_diplomat_action(&aconnection, &req);
-  
+
   destroy_message_dialog(w);
 }
 
@@ -535,20 +541,21 @@ static void spy_sabotage_unit_callback(Widget w, XtPointer client_data,
 static void spy_poison_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data)
 {
-  
   destroy_message_dialog(w);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
-    
+
     req.action_type=SPY_POISON;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
-    
+
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -558,19 +565,21 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data)
 {
   destroy_message_dialog(w);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     struct packet_diplomat_action req;
-    
+
     req.action_type=DIPLOMAT_STEAL;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
     req.value=0;
-    
+
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -579,11 +588,12 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
 static void spy_close_tech_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-
   if(spy_tech_shell_is_modal)
-     XtSetSensitive(main_form, TRUE);
-   XtDestroyWidget(spy_tech_shell);
-   spy_tech_shell=0;
+    XtSetSensitive(main_form, TRUE);
+  XtDestroyWidget(spy_tech_shell);
+  spy_tech_shell=0;
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -592,11 +602,12 @@ static void spy_close_tech_callback(Widget w, XtPointer client_data,
 static void spy_close_sabotage_callback(Widget w, XtPointer client_data, 
 					XtPointer call_data)
 {
-
   if(spy_sabotage_shell_is_modal)
-     XtSetSensitive(main_form, TRUE);
-   XtDestroyWidget(spy_sabotage_shell);
-   spy_sabotage_shell=0;
+    XtSetSensitive(main_form, TRUE);
+  XtDestroyWidget(spy_sabotage_shell);
+  spy_sabotage_shell=0;
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -644,6 +655,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   
   if(!steal_advance){
     freelog(LOG_NORMAL, "Bug in spy steal tech code");
+    process_diplomat_arrival(NULL, NULL);
     return;
   }
   
@@ -658,6 +670,8 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
 
     send_packet_diplomat_action(&aconnection, &req);
   }
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -671,6 +685,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   
   if(!sabotage_improvement){
     freelog(LOG_NORMAL, "Bug in spy sabotage code");
+    process_diplomat_arrival(NULL, NULL);
     return;
   }
   
@@ -685,6 +700,8 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
 
     send_packet_diplomat_action(&aconnection, &req);
   }
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -875,6 +892,7 @@ has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
+  diplomat_dialog_open=0;
 
   if(!spy_tech_shell){
     Position x, y;
@@ -901,6 +919,7 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
 				      XtPointer call_data)
 {
   destroy_message_dialog(w);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -952,6 +971,8 @@ static void diplomat_incite_yes_callback(Widget w, XtPointer client_data,
   send_packet_diplomat_action(&aconnection, &req);
   
   destroy_message_dialog(w);
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -961,6 +982,8 @@ static void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 					XtPointer call_data)
 {
   destroy_message_dialog(w);
+
+  process_diplomat_arrival(NULL, NULL);
 }
 
 
@@ -974,6 +997,7 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
   struct packet_generic_integer packet;
 
   destroy_message_dialog(w);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) && 
      (pcity=find_city_by_id(diplomat_target_id))) { 
@@ -1017,8 +1041,10 @@ void popup_incite_dialog(struct city *pcity)
 static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 {
   destroy_message_dialog(w);
-}
+  diplomat_dialog_open=0;
 
+  process_diplomat_arrival(NULL, NULL);
+}
 
 
 /****************************************************************
@@ -1029,17 +1055,20 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
   struct city *pcity;
   struct unit *ptunit;
   Widget shl;
+  char buf[128];
 
   diplomat_id=punit->id;
-  
+
   if((pcity=map_get_city(dest_x, dest_y))){
-    
-    /* Spy/Diplomat acting against a city */ 
-    
+    /* Spy/Diplomat acting against a city */
+
     diplomat_target_id=pcity->id;
+    my_snprintf(buf, sizeof(buf),
+		_("Your %s has arrived at %s.\nWhat is your command?"),
+		unit_name(punit->type), pcity->name);
+
     if(!unit_flag(punit->type, F_SPY)){
-      shl=popup_message_dialog(toplevel, "diplomatdialog", 
-		       _("Sir, the diplomat is waiting for your command"),
+      shl=popup_message_dialog(toplevel, "diplomatdialog", buf,
 			       diplomat_embassy_callback, 0, 1,
 			       diplomat_investigate_callback, 0, 1,
 			       diplomat_sabotage_callback, 0, 1,
@@ -1059,8 +1088,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
     }else{
-      shl=popup_message_dialog(toplevel, "spydialog", 
-			       _("Sir, the spy is waiting for your command"),
+      shl=popup_message_dialog(toplevel, "spydialog", buf,
 			       diplomat_embassy_callback, 0,  1,
 			       diplomat_investigate_callback, 0, 1,
 			       spy_poison_callback,0, 1,
@@ -1083,6 +1111,8 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
     }
+
+    diplomat_dialog_open=1;
   }else{ 
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
       /* Spy/Diplomat acting against a unit */
@@ -1106,6 +1136,14 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
     }
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+int diplomat_dialog_is_open(void)
+{
+  return diplomat_dialog_open;
 }
 
 
@@ -1199,6 +1237,14 @@ void popup_caravan_dialog(struct unit *punit,
   
   if(!unit_can_help_build_wonder(punit, pdestcity))
     XtSetSensitive(XtNameToWidget(caravan_dialog, "*button1"), FALSE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+int caravan_dialog_is_open(void)
+{
+  return BOOL_VAL(caravan_dialog);
 }
 
 
@@ -2352,57 +2398,4 @@ void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
 
-}
-
-/**************************************************************************
-  Add punit to queue of caravan arrivals, and popup a window for the
-  next arrival in the queue, if there is not already a popup, and
-  re-checking that a popup is appropriate.
-  If punit is NULL, just do for the next arrival in the queue.
-**************************************************************************/
-void process_caravan_arrival(struct unit *punit)
-{
-  static struct genlist arrival_queue;
-  static int is_init_arrival_queue = 0;
-  int *p_id;
-
-  /* arrival_queue is a list of individually malloc-ed ints with
-     punit.id values, for units which have arrived. */
-
-  if (!is_init_arrival_queue) {
-    genlist_init(&arrival_queue);
-    is_init_arrival_queue = 1;
-  }
-
-  if (punit) {
-    p_id = fc_malloc(sizeof(int));
-    *p_id = punit->id;
-    genlist_insert(&arrival_queue, p_id, -1);
-  }
-
-  /* There can only be one dialog at a time: */
-  if (caravan_dialog) {
-    return;
-  }
-  
-  while (genlist_size(&arrival_queue)) {
-    int id;
-    
-    p_id = genlist_get(&arrival_queue, 0);
-    genlist_unlink(&arrival_queue, p_id);
-    id = *p_id;
-    free(p_id);
-    punit = unit_list_find(&game.player_ptr->units, id);
-
-    if (punit && (unit_can_help_build_wonder_here(punit)
-		  || unit_can_est_traderoute_here(punit))
-	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
-      struct city *pcity_dest = map_get_city(punit->x, punit->y);
-      struct city *pcity_homecity = find_city_by_id(punit->homecity);
-      if (pcity_dest && pcity_homecity) {
-	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
-	return;
-      }
-    }
-  }
 }

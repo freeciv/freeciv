@@ -857,6 +857,17 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return handle_unit_establish_trade(pplayer, &req);
   }
   
+  if (is_diplomat_unit(punit) && (pcity = map_get_city(dest_x, dest_y)))
+    if (city_owner(pcity) != unit_owner(punit)) {
+      struct packet_diplomat_action packet;
+      send_unit_info(unit_owner(punit), punit);
+      packet.target_id = pcity->id;
+      packet.diplomat_id = punit->id;
+      packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
+      send_packet_diplomat_action(unit_owner(punit)->conn, &packet);
+      return 0;
+    }
+
   pdefender=get_defender(pplayer, punit, dest_x, dest_y);
 
   if(pdefender && pdefender->owner!=punit->owner) {

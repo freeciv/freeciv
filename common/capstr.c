@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
-ocean_reclamation"
+ocean_reclamation +dipl_cli_pop_dlg"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -84,6 +84,9 @@ ocean_reclamation"
 
    "ocean_reclamation" is protocol extension for allowing changing ocean
    tiles into "land" (non-ocean) tiles.
+
+   "dipl_cli_pop_dlg" is protocol extension for notification to client
+   of need to popup diplomat dialog.
 */
 
 void init_our_capability(void)

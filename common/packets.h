@@ -131,7 +131,7 @@ enum spaceship_action_type {
 };
 
 /*********************************************************
-  diplomat action!
+  diplomacy action!
 *********************************************************/
 struct packet_diplomacy_info {
   int plrno0, plrno1;

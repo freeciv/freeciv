@@ -334,6 +334,10 @@ void handle_packet_input(char *packet, int type)
   case PACKET_SABOTAGE_LIST:
     handle_sabotage_list((struct packet_sabotage_list *)packet);
     break;
+
+  case PACKET_DIPLOMAT_ACTION:
+    handle_diplomat_action((struct packet_diplomat_action *)packet);
+    break;
     
   default:
     freelog(LOG_FATAL, _("Received unknown packet from server!"));

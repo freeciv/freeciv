@@ -74,6 +74,10 @@ enum diplomat_actions {
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 
+enum diplomat_client_actions {
+  DIPLOMAT_CLIENT_POPUP_DIALOG
+};
+
 struct unit_ai {
   int control;
   int ai_role;
@@ -267,7 +271,8 @@ int can_unit_do_auto(struct unit *punit);
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int get_unit_tile_pillage_set(int x, int y);
 int unit_value(Unit_Type_id id);
-int is_military_unit(struct unit *this_unit);           /* !set !dip !cara */
+int is_military_unit(struct unit *punit);           /* !set !dip !cara */
+int is_diplomat_unit(struct unit *punit);
 int is_ground_threat(struct player *pplayer, struct unit *punit);
 int is_square_threatened(struct player *pplayer, int x, int y);
 int is_field_unit(struct unit *this_unit);              /* ships+aero */
@@ -316,5 +321,6 @@ void role_unit_precalcs(void);
 int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
 Unit_Type_id best_role_unit(struct city *pcity, int role);
+struct player *unit_owner(struct unit *punit);
 
 #endif  /* FC__UNIT_H */
