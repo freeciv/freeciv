@@ -5,11 +5,8 @@ pkgdatadir = $(datadir)/@PACKAGE@/scenario
 
 pkgdata_DATA =          \
 	british-isles-85x80-v2.77.sav \
-	earth-160x90-v1.sav \
 	earth-160x90-v2.sav \
-	earth-80x50-v1.sav \
 	earth-80x50-v2.sav \
-	europe-200x100-v1.sav \
 	europe-200x100-v2.sav \
 	hagworld-120x60-v1.2.sav \
 	iberian-peninsula-136x100-v1.0.sav
