@@ -145,7 +145,7 @@ void intel_create_dialog(struct player *p)
 
   for (i = 0; i < ARRAY_SIZE(table_text); i++) {
     if (table_text[i]) {
-      label = gtk_label_new(table_text[i]);
+      label = gtk_label_new(_(table_text[i]));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach(GTK_TABLE(table), label,
 	  0, 1, i, i+1, GTK_FILL, GTK_FILL|GTK_EXPAND, 0, 0);

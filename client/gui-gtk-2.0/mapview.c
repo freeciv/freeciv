@@ -231,7 +231,7 @@ void update_unit_info_label(struct unit *punit)
 
     if (ptype->veteran[punit->veteran].name[0] != '\0') {
       sz_strlcat(buffer, " (");
-      sz_strlcat(buffer, ptype->veteran[punit->veteran].name);
+      sz_strlcat(buffer, _(ptype->veteran[punit->veteran].name));
       sz_strlcat(buffer, ")");
     }
 
