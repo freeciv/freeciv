@@ -12,10 +12,6 @@ flag="f.switzerland"
 flag_alt = "-"
 city_style = "European"
 
-attack=1
-expand=1
-civilized=0
-advisors=100,100,100,100,100,100,100
 init_techs=""
 
 tech_goals = "Democracy", "Iron Working", "Trade", "Engineering",

@@ -26,10 +26,6 @@ ruler_titles = { "government",      "male_title",       "female_title"
                  "Communism",      _("First Secretary"), _("First Secretary")
                }
 
-attack     = 2
-expand     = 0
-civilized  = 2
-advisors   = 100,100,100,100,100,100,100
 init_techs = ""
 
 tech_goals = "The Republic", "Iron Working", "Gunpowder", "Explosives",
