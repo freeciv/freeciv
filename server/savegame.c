@@ -573,7 +573,33 @@ static void player_load(struct player *plr, int plrno,
   sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
-  plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
+
+  /* 1.15 and later versions store nations by name.  Try that first. */
+  p = secfile_lookup_str_default(file, NULL, "player%d.nation", plrno);
+  if (!p)
+  {
+    /*
+     * Otherwise read as a pre-1.15 savefile with numeric nation indexes.
+     * This random-looking order is from the old nations/ruleset file.
+     * Use it to convert old-style nation indices to name strings.
+     * The idea is not to be dependent on the order in which nations 
+     * get read into the registry.
+     */
+    const char *name_order[] = {
+      "roman", "babylonian", "german", "egyptian", "american", "greek",
+      "indian", "russian", "zulu", "french", "aztec", "chinese", "english",
+      "mongol", "turk", "spanish", "persian", "arab", "carthaginian", "inca",
+      "viking", "polish", "hungarian", "danish", "dutch", "swedish",
+      "japanese", "portuguese", "finnish", "sioux", "czech","australian",
+      "welsh", "korean", "scottish", "israeli", "argentine", "canadian",
+      "ukrainian", "lithuanian", "kenyan", "dunedain", "vietnamese", "thai",
+      "mordor", "bavarian", "brazilian", "irish", "cornish", "italian",
+      "filipino", "estonian", "latvian", "boer", "silesian", "singaporean",
+      "chilean", "catalan", "croatian", "slovenian", "serbian",
+    };
+    p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
+  }
+  plr->nation = find_nation_by_name(p);
 
   /* not all players have teams */
   if (section_file_lookup(file, "player%d.team", plrno)) {
@@ -1258,6 +1284,9 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
+  secfile_insert_str(file, get_nation_name(plr->nation),
+		     "player%d.nation", plrno);
+  /* 1.15 and later won't use the race field, they key on the nation string */
   secfile_insert_int(file, plr->nation, "player%d.race", plrno);
   if (plr->team != TEAM_NONE) {
     secfile_insert_str(file, (char *) team_get_by_id(plr->team)->name, 
