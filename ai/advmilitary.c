@@ -495,7 +495,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       } else if (k > 0 && (shore || m == LAND_MOVING) &&
                 unit_types[i].tech_requirement != A_LAST) {
         if (m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
-        l = k * (k + pplayer->research.researchpoints) * game.techlevel /
+        l = k * (k + pplayer->research.researchpoints) * game.researchcost /
          (game.year > 0 ? 2 : 4); /* cost (shield equiv) of gaining these techs */
         l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
@@ -557,7 +557,7 @@ static void process_attacker_want(struct player *pplayer,
          (k || !can_build_unit_direct(pcity, unit_types[i].obsoleted_by)) &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
-      l = k * (k + pplayer->research.researchpoints) * game.techlevel;
+      l = k * (k + pplayer->research.researchpoints) * game.researchcost;
       if (game.year > 0) l /= 2;
       else l /= 4; /* cost (shield equiv) of gaining these techs */
       l /= city_list_size(&pplayer->cities);

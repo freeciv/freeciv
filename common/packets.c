@@ -1855,7 +1855,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(buffer+2, PACKET_GAME_INFO);
   cptr=put_uint16(cptr, pinfo->gold);
   cptr=put_uint32(cptr, pinfo->tech);
-  cptr=put_uint8(cptr, pinfo->techlevel);
+  cptr=put_uint8(cptr, pinfo->researchcost);
 
   cptr=put_uint32(cptr, pinfo->skill_level);
   cptr=put_uint16(cptr, pinfo->timeout);
@@ -1922,7 +1922,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 
   iget_uint16(&iter, &pinfo->gold);
   iget_uint32(&iter, &pinfo->tech);
-  iget_uint8(&iter, &pinfo->techlevel);
+  iget_uint8(&iter, &pinfo->researchcost);
   iget_uint32(&iter, &pinfo->skill_level);
   iget_uint16(&iter, &pinfo->timeout);
   iget_uint32(&iter, &pinfo->end_year);

@@ -444,7 +444,7 @@ static void get_player_landarea(struct claim_map *pcmap, struct player *pplayer,
 int research_time(struct player *pplayer)
 {
   int timemod=(game.year>0) ? 2:1;
-  return timemod*pplayer->research.researchpoints*game.techlevel;
+  return timemod*pplayer->research.researchpoints*game.researchcost;
 }
 
 /**************************************************************************
@@ -674,26 +674,26 @@ void game_remove_city(struct city *pcity)
 void game_init(void)
 {
   int i;
-  game.is_new_game = 1;
-  game.globalwarming=0;
-  game.warminglevel=8;
-  game.nuclearwinter=0;
-  game.coolinglevel=8;
-  game.gold        = GAME_DEFAULT_GOLD;
-  game.tech        = GAME_DEFAULT_TECHLEVEL;
-  game.skill_level = GAME_DEFAULT_SKILL_LEVEL;
-  game.timeout     = GAME_DEFAULT_TIMEOUT;
-  game.tcptimeout  = GAME_DEFAULT_TCPTIMEOUT;
-  game.netwait     = GAME_DEFAULT_NETWAIT;
-  game.last_ping   = 0;
-  game.pingtimeout = GAME_DEFAULT_PINGTIMEOUT;
-  game.end_year    = GAME_DEFAULT_END_YEAR;
-  game.year        = GAME_START_YEAR;
-  game.min_players = GAME_DEFAULT_MIN_PLAYERS;
-  game.max_players = GAME_DEFAULT_MAX_PLAYERS;
+  game.is_new_game   = 1;
+  game.globalwarming = 0;
+  game.warminglevel  = 8;
+  game.nuclearwinter = 0;
+  game.coolinglevel  = 8;
+  game.gold          = GAME_DEFAULT_GOLD;
+  game.tech          = GAME_DEFAULT_TECHLEVEL;
+  game.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
+  game.timeout       = GAME_DEFAULT_TIMEOUT;
+  game.tcptimeout    = GAME_DEFAULT_TCPTIMEOUT;
+  game.netwait       = GAME_DEFAULT_NETWAIT;
+  game.last_ping     = 0;
+  game.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
+  game.end_year      = GAME_DEFAULT_END_YEAR;
+  game.year          = GAME_START_YEAR;
+  game.min_players   = GAME_DEFAULT_MIN_PLAYERS;
+  game.max_players  = GAME_DEFAULT_MAX_PLAYERS;
   game.aifill      = GAME_DEFAULT_AIFILL;
   game.nplayers=0;
-  game.techlevel   = GAME_DEFAULT_RESEARCHLEVEL;
+  game.researchcost = GAME_DEFAULT_RESEARCHCOST;
   game.diplcost    = GAME_DEFAULT_DIPLCOST;
   game.diplchance  = GAME_DEFAULT_DIPLCHANCE;
   game.freecost    = GAME_DEFAULT_FREECOST;

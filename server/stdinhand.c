@@ -394,9 +394,9 @@ static struct settings_s settings[] = {
     game.ruleset.game, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.game) },
 
-  { "researchspeed", &game.techlevel, NULL, NULL,
+  { "researchcost", &game.researchcost, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
+    GAME_MIN_RESEARCHCOST, GAME_MAX_RESEARCHCOST, GAME_DEFAULT_RESEARCHCOST,
     N_("Points required to gain a new advance"),
     N_("This affects how quickly players can research new technology.") },
 

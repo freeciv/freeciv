@@ -66,7 +66,7 @@ struct civ_game {
   time_t turn_start;
   int end_year;
   int year;
-  int techlevel;
+  int researchcost; /* Multiplier on cost of new research */
   int diplcost, freecost, conquercost;
   int diplchance;
   int cityfactor;
@@ -272,9 +272,9 @@ extern struct civ_game game;
 #define GAME_MIN_AIFILL              0
 #define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
 
-#define GAME_DEFAULT_RESEARCHLEVEL   10
-#define GAME_MIN_RESEARCHLEVEL       4
-#define GAME_MAX_RESEARCHLEVEL       100
+#define GAME_DEFAULT_RESEARCHCOST	   10
+#define GAME_MIN_RESEARCHCOST	       4
+#define GAME_MAX_RESEARCHCOST        100
 
 #define GAME_DEFAULT_DIPLCOST        0
 #define GAME_MIN_DIPLCOST            0

@@ -788,7 +788,7 @@ struct packet_game_info {
   int gold;
   int civstyle;
   int tech;
-  int techlevel;
+  int researchcost;
   int skill_level;
   int timeout;
   int end_year;

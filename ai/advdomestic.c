@@ -411,7 +411,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
       if (id == B_CURE)
         values[id] = building_value(1, pcity, val);
       if (id == B_DARWIN) /* this is a one-time boost, not constant */
-        values[id] = ((research_time(pplayer) * 2 + game.techlevel) * t -
+        values[id] = ((research_time(pplayer) * 2 + game.researchcost) * t -
                     pplayer->research.researched * t) / MORT;
       if (id == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
         values[id] = (research_time(pplayer) * (100 - game.freecost)) * t *

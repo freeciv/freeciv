@@ -196,7 +196,7 @@ void send_game_info(struct conn_list *dest)
   
   ginfo.gold=game.gold;
   ginfo.tech=game.tech;
-  ginfo.techlevel=game.techlevel;
+  ginfo.researchcost=game.researchcost;
   ginfo.skill_level=game.skill_level;
   ginfo.timeout=game.timeout;
   ginfo.end_year=game.end_year;

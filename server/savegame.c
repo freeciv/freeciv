@@ -1705,7 +1705,9 @@ void game_load(struct section_file *file)
       game.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
     game.timeout       = secfile_lookup_int(file, "game.timeout");
     game.end_year      = secfile_lookup_int(file, "game.end_year");
-    game.techlevel     = secfile_lookup_int(file, "game.techlevel");
+    game.researchcost  = secfile_lookup_int(file, "game.researchcost");
+    if (game.researchcost == 0)
+      game.researchcost = secfile_lookup_int(file, "game.techlevel");
     game.year          = secfile_lookup_int(file, "game.year");
     game.min_players   = secfile_lookup_int(file, "game.min_players");
     game.max_players   = secfile_lookup_int(file, "game.max_players");
@@ -2046,7 +2048,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.timeout, "game.timeout");
   secfile_insert_int(file, game.end_year, "game.end_year");
   secfile_insert_int(file, game.year, "game.year");
-  secfile_insert_int(file, game.techlevel, "game.techlevel");
+  secfile_insert_int(file, game.researchcost, "game.researchcost");
   secfile_insert_int(file, game.min_players, "game.min_players");
   secfile_insert_int(file, game.max_players, "game.max_players");
   secfile_insert_int(file, game.nplayers, "game.nplayers");

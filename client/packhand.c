@@ -949,7 +949,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   int i, boot_help;
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
-  game.techlevel=pinfo->techlevel;
+  game.researchcost=pinfo->researchcost;
   game.skill_level=pinfo->skill_level;
   game.timeout=pinfo->timeout;
 
