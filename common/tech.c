@@ -164,6 +164,8 @@ void update_research(struct player *pplayer)
   Tech_Type_id i;
   enum tech_flag_id flag;
 
+  assert(get_invention(pplayer, A_NONE) == TECH_KNOWN);
+
   for (i = 0; i < game.num_tech_types; i++) {
     if (!tech_exists(i)) {
       set_invention(pplayer, i, TECH_UNKNOWN);
