@@ -44,7 +44,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       int x, int y, bool citymode,
 			       int *solid_bg);
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
-			   int citymode, int *solid_bg, struct player **pplayer);
+			   bool citymode, int *solid_bg, struct player **pplayer);
 int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit, int *solid_bg);
 int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity);
 
@@ -62,8 +62,10 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 #define BIT_EAST  (0x04)
 #define BIT_WEST  (0x08)
 
-#define INDEX_NSEW(n,s,e,w) ((!!(n))*BIT_NORTH | (!!(s))*BIT_SOUTH | \
-                             (!!(e))*BIT_EAST  | (!!(w))*BIT_WEST)
+#define INDEX_NSEW(n,s,e,w) (((n) ? BIT_NORTH : 0) | \
+                             ((s) ? BIT_SOUTH : 0) | \
+                             ((e) ? BIT_EAST  : 0) | \
+                             ((w) ? BIT_WEST  : 0))
 
 #define NUM_TILES_PROGRESS 8
 #define NUM_TILES_CITIZEN 11

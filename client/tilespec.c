@@ -771,12 +771,12 @@ void tilespec_setup_tile_type(int id)
   }
 
   for (i=0; i<2; i++) {
-    char *name = i ? tt->special_2_name : tt->special_1_name;
-    if (name[0]) {
+    char *name = (i != 0) ? tt->special_2_name : tt->special_1_name;
+    if (name[0] != '\0') {
       tt->special[i].sprite
 	= lookup_sprite_tag_alt(tt->special[i].graphic_str,
 				tt->special[i].graphic_alt,
-				name[0], "tile_type special", name);
+				name[0] != '\0', "tile_type special", name);
       assert(tt->special[i].sprite != NULL);
     } else {
       tt->special[i].sprite = NULL;
@@ -1097,7 +1097,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
   *solid_bg = 0;
 
-  if (!tile_get_known(x, y))
+  if (tile_get_known(x, y) == TILE_UNKNOWN)
     return -1;
 
   pcity = map_get_city(x, y);
@@ -1284,7 +1284,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     int x1, y1, other;
 
     if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir]))
-      other = tile_get_known(x1, y1) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
+      other = (tile_get_known(x1, y1) != TILE_UNKNOWN) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
     else
       other = ttype_near[dir];
     dither[dir] = get_dither(ttype, other);
@@ -1441,34 +1441,34 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   }
 
   if((contains_special(tspecial, S_ROAD) || contains_special(tspecial, S_RAILROAD)) && draw_roads_rails) {
-    int n, s, e, w;
+    bool n, s, e, w;
 
     n = contains_special(tspecial_near[DIR8_NORTH], S_RAILROAD);
     s = contains_special(tspecial_near[DIR8_SOUTH], S_RAILROAD);
     e = contains_special(tspecial_near[DIR8_EAST], S_RAILROAD);
     w = contains_special(tspecial_near[DIR8_WEST], S_RAILROAD);
-    rail_card_count = n + s + e + w;
+    rail_card_count = (n ? 1 : 0) + (s ? 1 : 0) + (e ? 1 : 0) + (w ? 1 : 0);
     rail_card_tileno = INDEX_NSEW(n,s,e,w);
     
     n = contains_special(tspecial_near[DIR8_NORTH], S_ROAD);
     s = contains_special(tspecial_near[DIR8_SOUTH], S_ROAD);
     e = contains_special(tspecial_near[DIR8_EAST], S_ROAD);
     w = contains_special(tspecial_near[DIR8_WEST], S_ROAD);
-    road_card_count = n + s + e + w;
+    road_card_count = (n ? 1 : 0) + (s ? 1 : 0) + (e ? 1 : 0) + (w ? 1 : 0);
     road_card_tileno = INDEX_NSEW(n,s,e,w);
     
     n = contains_special(tspecial_near[DIR8_NORTHEAST], S_RAILROAD);
     s = contains_special(tspecial_near[DIR8_SOUTHWEST], S_RAILROAD);
     e = contains_special(tspecial_near[DIR8_SOUTHEAST], S_RAILROAD);
     w = contains_special(tspecial_near[DIR8_NORTHWEST], S_RAILROAD);
-    rail_semi_count = n + s + e + w;
+    rail_semi_count = (n ? 1 : 0) + (s ? 1 : 0) + (e ? 1 : 0) + (w ? 1 : 0);
     rail_semi_tileno = INDEX_NSEW(n,s,e,w);
     
     n = contains_special(tspecial_near[DIR8_NORTHEAST], S_ROAD);
     s = contains_special(tspecial_near[DIR8_SOUTHWEST], S_ROAD);
     e = contains_special(tspecial_near[DIR8_SOUTHEAST], S_ROAD);
     w = contains_special(tspecial_near[DIR8_NORTHWEST], S_ROAD);
-    road_semi_count = n + s + e + w;
+    road_semi_count = (n ? 1 : 0) + (s ? 1 : 0) + (e ? 1 : 0) + (w ? 1 : 0);
     road_semi_tileno = INDEX_NSEW(n,s,e,w);
 
     if(contains_special(tspecial, S_RAILROAD)) {
@@ -1531,14 +1531,14 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       int adjacent = rail_card_tileno;
       if (draw_diagonal_roads)
 	adjacent |= rail_semi_tileno;
-      if (!adjacent)
+      if (adjacent == 0)
 	*sprs++ = sprites.rail.isolated;
     }
     else if (contains_special(tspecial, S_ROAD)) {
       int adjacent = (rail_card_tileno | road_card_tileno);
       if (draw_diagonal_roads)
 	adjacent |= (rail_semi_tileno | road_semi_tileno);
-      if (!adjacent)
+      if (adjacent == 0)
 	*sprs++ = sprites.road.isolated;
     }
   }
@@ -1559,7 +1559,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
      * way we won't get the "unknown" dither along the edge of the
      * map.
      */
-    int known[4];
+    bool known[4];
 
     for (dir = 0; dir < 4; dir++) {
       int x1, y1;
@@ -1574,7 +1574,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 	INDEX_NSEW(!known[DIR4_NORTH], !known[DIR4_SOUTH],
 		   !known[DIR4_EAST], !known[DIR4_WEST]);
 
-    if (tileno) 
+    if (tileno != 0) 
       *sprs++ = sprites.tx.darkness[tileno];
   }
 
@@ -1669,15 +1669,16 @@ void tilespec_setup_city_tiles(int style)
 {
   tilespec_setup_style_tile(style, city_styles[style].graphic);
 
-  if( !city_styles[style].tiles_num ) {  /* no tiles found, try alternate */
-
+  if (city_styles[style].tiles_num == 0) {
+    /* no tiles found, try alternate */
     freelog(LOG_NORMAL, "No tiles for %s style, trying alternate %s style",
             city_styles[style].graphic, city_styles[style].graphic_alt);
 
     tilespec_setup_style_tile(style, city_styles[style].graphic_alt);
   }
 
-  if( !city_styles[style].tiles_num ) {  /* no alternate, use default */
+  if (city_styles[style].tiles_num == 0) {
+      /* no alternate, use default */
 
     freelog(LOG_NORMAL,
 	    "No tiles for alternate %s style, using default tiles",
@@ -1762,7 +1763,7 @@ enum color_std overview_tile_color(int x, int y)
   struct unit *punit;
   struct city *pcity;
 
-  if(!tile_get_known(x, y)) {
+  if (tile_get_known(x, y) == TILE_UNKNOWN) {
     color=COLOR_STD_BLACK;
   } else if((pcity=map_get_city(x, y))) {
     if(pcity->owner==game.player_idx)
