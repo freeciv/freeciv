@@ -432,7 +432,7 @@ int main (int argc, char ** argv)
   return (0);
 }
   ],
-  [fc_x_proto_NARROWPROTO=$1])
+  [fc_x_proto_NARROWPROTO=$1], [], [:])
 CFLAGS="$fc_x_save_CFLAGS"
 AC_LANG_RESTORE
 ])
