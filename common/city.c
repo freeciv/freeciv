@@ -262,6 +262,128 @@ const char *get_output_name(Output_type_id output)
 }
 
 /**************************************************************************
+  Return the effect for the production bonus for this output type.
+**************************************************************************/
+static inline enum effect_type get_output_bonus_effect(Output_type_id otype)
+{
+  switch (otype) {
+  case O_SHIELD:
+    return EFT_PROD_BONUS;
+  case O_GOLD:
+    return EFT_TAX_BONUS;
+  case O_LUXURY:
+    return EFT_LUXURY_BONUS;
+  case O_SCIENCE:
+    return EFT_SCIENCE_BONUS;
+  case O_FOOD:
+  case O_TRADE:
+    return EFT_LAST;
+  case O_LAST:
+    break;
+  }
+
+  assert(0);
+  return EFT_LAST;
+}
+
+/**************************************************************************
+  Return the effect for waste reduction for this output type.
+**************************************************************************/
+static inline enum effect_type get_output_waste_effect(Output_type_id otype)
+{
+  switch (otype) {
+  case O_SHIELD:
+    return EFT_WASTE_PCT;
+  case O_TRADE:
+    return EFT_CORRUPT_PCT;
+  case O_FOOD:
+  case O_GOLD:
+  case O_LUXURY:
+  case O_SCIENCE:
+    return EFT_LAST;
+  case O_LAST:
+    break;
+  }
+
+  assert(0);
+  return EFT_LAST;
+}
+
+/**************************************************************************
+  Return the effect for add-tile city bonuses for this output type.
+**************************************************************************/
+static inline enum effect_type get_output_add_tile_effect(Output_type_id o)
+{
+  switch (o) {
+  case O_FOOD:
+    return EFT_FOOD_ADD_TILE;
+  case O_SHIELD:
+    return EFT_PROD_ADD_TILE;
+  case O_TRADE:
+    return EFT_TRADE_ADD_TILE;
+  case O_GOLD:
+  case O_LUXURY:
+  case O_SCIENCE:
+    return EFT_LAST;
+  case O_LAST:
+    break;
+  }
+
+  assert(0);
+  return EFT_LAST;
+}
+
+/**************************************************************************
+  Return the effect for inc-tile city bonuses for this output type.
+**************************************************************************/
+static inline enum effect_type get_output_inc_tile_effect(Output_type_id o)
+{
+  switch (o) {
+  case O_FOOD:
+    return EFT_FOOD_INC_TILE;
+  case O_SHIELD:
+    return EFT_PROD_INC_TILE;
+  case O_TRADE:
+    return EFT_TRADE_INC_TILE;
+  case O_GOLD:
+  case O_LUXURY:
+  case O_SCIENCE:
+    return EFT_LAST;
+  case O_LAST:
+    break;
+  }
+
+  assert(0);
+  return EFT_LAST;
+}
+
+/**************************************************************************
+  Return the effect for per-tile city bonuses for this output type.
+**************************************************************************/
+static inline enum effect_type get_output_per_tile_effect(Output_type_id o)
+{
+  switch (o) {
+  case O_FOOD:
+    return EFT_FOOD_PER_TILE;
+  case O_SHIELD:
+    return EFT_PROD_PER_TILE;
+  case O_TRADE:
+    return EFT_TRADE_PER_TILE;
+  case O_GOLD:
+  case O_LUXURY:
+  case O_SCIENCE:
+    return EFT_LAST;
+  case O_LAST:
+    break;
+  }
+
+  assert(0);
+  return EFT_LAST;
+}
+
+
+
+/**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
 **************************************************************************/
 void set_worker_city(struct city *pcity, int city_x, int city_y,
@@ -643,18 +765,12 @@ static int base_get_output_tile(const struct tile *ptile,
     int before_penalty = (is_celebrating
 			  ? g->celeb_output_before_penalty[otype]
 			  : g->output_before_penalty[otype]);
-    enum effect_type add[O_MAX] = {EFT_FOOD_ADD_TILE, EFT_PROD_ADD_TILE,
-				   EFT_TRADE_ADD_TILE, EFT_LAST, EFT_LAST,
-				   EFT_LAST};
-    enum effect_type inc[O_MAX] = {EFT_FOOD_INC_TILE, EFT_PROD_INC_TILE,
-				   EFT_TRADE_INC_TILE, EFT_LAST, EFT_LAST,
-				   EFT_LAST};
-    enum effect_type per[O_MAX] = {EFT_FOOD_PER_TILE, EFT_PROD_PER_TILE,
-				   EFT_TRADE_PER_TILE, EFT_LAST, EFT_LAST,
-				   EFT_LAST};
+    enum effect_type add = get_output_add_tile_effect(otype);
+    enum effect_type inc = get_output_inc_tile_effect(otype);
+    enum effect_type per = get_output_per_tile_effect(otype);
 
-    if (add[otype] != EFT_LAST) {
-      prod += get_city_tile_bonus(pcity, ptile, add[otype]);
+    if (add != EFT_LAST) {
+      prod += get_city_tile_bonus(pcity, ptile, add);
     }
 
     /* Government & effect bonus/penalty. */
@@ -662,13 +778,13 @@ static int base_get_output_tile(const struct tile *ptile,
       prod += (is_celebrating
 	    ? g->celeb_output_inc_tile[otype]
 	    : g->output_inc_tile[otype]);
-      if (inc[otype] != EFT_LAST) {
-	prod += get_city_tile_bonus(pcity, ptile, inc[otype]);
+      if (inc != EFT_LAST) {
+	prod += get_city_tile_bonus(pcity, ptile, inc);
       }
     }
 
-    if (per[otype] != EFT_LAST) {
-      prod += (prod * get_city_tile_bonus(pcity, ptile, per[otype])) / 100;
+    if (per != EFT_LAST) {
+      prod += (prod * get_city_tile_bonus(pcity, ptile, per)) / 100;
     }
 
     if (before_penalty > 0 && prod > before_penalty) {
@@ -1499,13 +1615,11 @@ static int content_citizens(struct player *pplayer)
 **************************************************************************/
 int get_city_output_bonus(const struct city *pcity, Output_type_id otype)
 {
-  enum effect_type eft[] = {EFT_LAST, EFT_PROD_BONUS, EFT_LAST,
-			    EFT_TAX_BONUS, EFT_LUXURY_BONUS,
-			    EFT_SCIENCE_BONUS};
+  enum effect_type eft = get_output_bonus_effect(otype);
   int bonus = 100;
 
-  if (eft[otype] != EFT_LAST) {
-    bonus += get_city_bonus(pcity, eft[otype]);
+  if (eft != EFT_LAST) {
+    bonus += get_city_bonus(pcity, eft);
   }
 
   if (otype == O_SCIENCE
@@ -2147,8 +2261,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
   unsigned int val;
   int penalty = 0;
   struct gov_waste *waste = &g->waste[otype];
-  enum effect_type eft[] = {EFT_LAST, EFT_WASTE_PCT, EFT_CORRUPT_PCT,
-			    EFT_LAST, EFT_LAST, EFT_LAST};
+  enum effect_type eft = get_output_waste_effect(otype);
 
   if (otype == O_TRADE) {
     /* FIXME: special case for trade: it is affected by notradesize and
@@ -2185,8 +2298,8 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
   /* Now calculate the final waste.  Ordered to reduce integer
    * roundoff errors. */
   val = total * MAX(dist, 1) * waste->level;
-  if (eft[otype] != EFT_LAST) {
-    val -= (val * get_city_bonus(pcity, eft[otype])) / 100;
+  if (eft != EFT_LAST) {
+    val -= (val * get_city_bonus(pcity, eft)) / 100;
   }
   val /= 100 * 100; /* Level is a % multiplied by 100 */
   val = CLIP(penalty, val, total);
