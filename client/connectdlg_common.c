@@ -219,8 +219,8 @@ bool client_start_server(void)
   } 
 
   /* a reasonable number of tries */ 
-  while(connect_to_server(user_username(), "localhost", server_port, 
-                          buf, sizeof(buf)) == -1) {
+  while (connect_to_server(user_name, "localhost", server_port, 
+                           buf, sizeof(buf)) == -1) {
     myusleep(WAIT_BETWEEN_TRIES);
 
     if (connect_tries++ > NUMBER_OF_TRIES) {
