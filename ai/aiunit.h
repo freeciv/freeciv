@@ -62,9 +62,9 @@ bool find_beachhead(struct unit *punit, int dest_x, int dest_y,
                     int *x, int *y);
 
 int build_cost_balanced(Unit_Type_id type);
-int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
-				     int moves_left, int hp);
-int unit_belligerence_basic(struct unit *punit);
+int unittype_att_rating(Unit_Type_id type, bool veteran,
+                        int moves_left, int hp);
+int unit_att_rating(struct unit *punit);
 int unit_vulnerability_virtual(struct unit *punit);
 int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
 				int x, int y, bool fortified, bool veteran,
@@ -76,7 +76,7 @@ bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
 Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
                                 int role, int want);
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-			 struct ai_choice *choice, int role, int want);
+                         struct ai_choice *choice, int role, int want);
 void update_simple_ai_types(void);
 
 #define simple_ai_unit_type_iterate(m_i)                                      \

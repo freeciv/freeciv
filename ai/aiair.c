@@ -118,7 +118,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   }
 
   /* Attack value of our unit
-  unit_attack = unit_belligerence_basic(punit) / 10;
+  unit_attack = unit_att_rating(punit) / 10;
   Punish unhealthy units 
   unit_attack = unit_attack * punit->hp / unit_type(punit)->hp;
   */

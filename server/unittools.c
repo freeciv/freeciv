@@ -1317,7 +1317,7 @@ bool enemies_at(struct unit *punit, int x, int y)
     unit_list_iterate(map_get_tile(x1, y1)->units, enemy) {
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) &&
 	  can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
-	a += unit_belligerence_basic(enemy);
+	a += unit_att_rating(enemy);
 	if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */
           return TRUE;

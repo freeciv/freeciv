@@ -808,40 +808,41 @@ static bool stay_and_defend(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Attack rating of this kind of unit.
 **************************************************************************/
-int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
-				     int moves_left, int hp)
+int unittype_att_rating(Unit_Type_id type, bool veteran,
+                        int moves_left, int hp)
 {
-  return (base_get_attack_power(type, veteran, moves_left) * hp *
-	  get_unit_type(type)->firepower / POWER_DIVIDER);
+  return base_get_attack_power(type, veteran, moves_left) * hp
+         * get_unit_type(type)->firepower / POWER_DIVIDER;
 }
 
 /********************************************************************** 
-  ...
+  Attack rating of this particular unit right now.
 ***********************************************************************/
-static int unit_belligerence_primitive(struct unit *punit)
+static int unit_att_rating_now(struct unit *punit)
 {
-  return (base_unit_belligerence_primitive(punit->type, punit->veteran,
-					   punit->moves_left, punit->hp));
+  return unittype_att_rating(punit->type, punit->veteran,
+                             punit->moves_left, punit->hp);
 }
 
 /********************************************************************** 
-  ...
+  Attack rating of this particular unit assuming that it has a
+  complete move left.
 ***********************************************************************/
-int unit_belligerence_basic(struct unit *punit)
+int unit_att_rating(struct unit *punit)
 {
-  return (base_unit_belligerence_primitive(punit->type, punit->veteran,
-					   SINGLE_MOVE, punit->hp));
+  return unittype_att_rating(punit->type, punit->veteran,
+                             SINGLE_MOVE, punit->hp);
 }
 
 /********************************************************************** 
-  ...
+  Square of the previous function - used in actual computations.
 ***********************************************************************/
-static int unit_belligerence(struct unit *punit)
+static int unit_att_rating_sq(struct unit *punit)
 {
-  int v = unit_belligerence_basic(punit);
-  return(v * v);
+  int v = unit_att_rating(punit);
+  return v * v;
 }
 
 /********************************************************************** 
@@ -891,16 +892,16 @@ static int unit_vulnerability(struct unit *punit, struct unit *pdef)
 }
 
 /********************************************************************** 
-  ...
+  Total attack power of the units in this square.
 ***********************************************************************/
 static int stack_attack_value(int x, int y)
 {
   int val = 0;
   struct tile *ptile = map_get_tile(x, y);
   unit_list_iterate(ptile->units, aunit)
-    val += unit_belligerence_basic(aunit);
+    val += unit_att_rating(aunit);
   unit_list_iterate_end;
-  return(val);
+  return val;
 }
 
 /**************************************************************************
@@ -952,7 +953,8 @@ static void reinforcements_cost_and_value(struct unit *punit, int x, int y,
     unit_list_iterate(ptile->units, aunit) {
       if (aunit != punit
 	  && pplayers_allied(unit_owner(punit), unit_owner(aunit))) {
-        int val = (unit_belligerence_basic(aunit));
+        int val = unit_att_rating(aunit);
+
         if (val != 0) {
           *value += val;
           *cost += unit_type(aunit)->build_cost;
@@ -981,7 +983,7 @@ static int reinforcements_value(struct unit *punit, int x, int y)
 **************************************************************************/
 static bool is_my_turn(struct unit *punit, struct unit *pdef)
 {
-  int val = unit_belligerence_primitive(punit), cur, d;
+  int val = unit_att_rating_now(punit), cur, d;
   struct tile *ptile;
 
   CHECK_UNIT(punit);
@@ -997,7 +999,7 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 				    pdef->y, FALSE, FALSE);
       if (d == 0)
 	return TRUE;		/* Thanks, Markus -- Syela */
-      cur = unit_belligerence_primitive(aunit) *
+      cur = unit_att_rating_now(aunit) *
 	  get_virtual_defense_power(punit->type, pdef->type, pdef->x,
 				    pdef->y, FALSE, FALSE) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE))
@@ -1028,7 +1030,7 @@ If value <= 0 is returned, (dest_x, dest_y) is set to actual punit's position.
 static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
 {
   struct player *pplayer = unit_owner(punit);
-  int bellig = unit_belligerence_primitive(punit);
+  int attack_power = unit_att_rating_now(punit);
   int x = punit->x, y = punit->y;
   int best = 0;
   int stack_size = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
@@ -1087,7 +1089,8 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
       } else {
         /* See description of kill_desire() about this variables. */
         int vuln = unit_vulnerability(punit, pdef);
-        int attack = reinforcements_value(punit, pdef->x, pdef->y) + bellig;
+        int attack = reinforcements_value(punit, pdef->x, pdef->y)
+                     + attack_power;
         int benefit = unit_type(pdef)->build_cost;
         int loss = unit_type(punit)->build_cost;
         
@@ -1103,7 +1106,7 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
           benefit = (benefit * punit->hp) / unit_type(punit)->hp;
         }
         
-        /* If we have non-zero belligerence... */
+        /* If we have non-zero attack rating... */
         if (attack > 0 && is_my_turn(punit, pdef)) {
           int desire;
 
@@ -1338,9 +1341,8 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
     /* Assume enemy will build another defender, add it's attack strength */
     int d_type = ai_choose_defender_versus(dcity, punit->type);
     danger += 
-      base_unit_belligerence_primitive(d_type, 
-                                       do_make_unit_veteran(dcity, d_type), 
-                                       SINGLE_MOVE, unit_types[d_type].hp);
+      unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
+                          SINGLE_MOVE, unit_types[d_type].hp);
   }
   danger *= POWER_DIVIDER;
 
@@ -1895,7 +1897,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                            int *x, int *y)
 {
   /* basic attack */
-  int attack_value = unit_belligerence_basic(punit);
+  int attack_value = unit_att_rating(punit);
   /* Enemy defence rating */
   int vuln;
   /* Benefit from killing the target */
@@ -1973,7 +1975,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
         if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
-          pcity->ai.attack += unit_belligerence_basic(aunit);
+          pcity->ai.attack += unit_att_rating(aunit);
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
       }
@@ -2192,7 +2194,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
     } city_list_iterate_end;
 
-    attack = unit_belligerence(punit);
+    attack = unit_att_rating_sq(punit);
     /* I'm not sure the following code is good but it seems to be adequate. 
      * I am deliberately not adding ferryboat code to the unit_list_iterate. 
      * -- Syela */

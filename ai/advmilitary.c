@@ -292,7 +292,7 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
     return 0;
   }
 
-  danger = unit_belligerence_basic(punit);
+  danger = unit_att_rating(punit);
   if (sailing && city_got_building(pcity, B_COASTAL)) danger /= 2;
   if (is_air_unit(punit) && city_got_building(pcity, B_SAM)) danger /= 2;
 
@@ -783,8 +783,9 @@ static void process_attacker_want(struct city *pcity,
       /* See description of kill_desire() for info about this variables. */
       int bcost = unit_types[unit_type].build_cost;
       int vuln;
-      int attack = base_unit_belligerence_primitive(unit_type, will_be_veteran,
-                     SINGLE_MOVE, unit_types[unit_type].hp);
+      int attack = unittype_att_rating(unit_type, will_be_veteran,
+                                       SINGLE_MOVE,
+                                       unit_types[unit_type].hp);
       /* Values to be computed */
       int desire, want;
       
@@ -975,7 +976,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     return;
   }
   
-  attack = unit_belligerence_basic(myunit);
+  attack = unit_att_rating(myunit);
   if (acity) {
     attack += acity->ai.attack;
   }
