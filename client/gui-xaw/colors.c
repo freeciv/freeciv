@@ -74,30 +74,6 @@ struct rgbtriple {
 
 unsigned long colors_standard[COLOR_STD_LAST];
 
-
-#ifdef UNUSED
-/*************************************************************
-  If there's an error when allocating colors, this function
-  is called to create a private colormap.
-*************************************************************/
-static void color_error(void)
-{
-  static int using_private_cmap;
-  
-  if(using_private_cmap) {
-    freelog(LOG_FATAL, _("Private colormap ran out of entries -  exiting."));
-    exit(EXIT_FAILURE);
-  }
-  else {
-    freelog(LOG_NORMAL,
-	    _("Ran out of colors -  trying with a private colormap.")); 
-    cmap=XCopyColormapAndFree(display, cmap);
-    XtVaSetValues(toplevel, XtNcolormap, cmap, NULL);
-    using_private_cmap=1;
-  }
-}
-#endif
-
 /*************************************************************
 ...
 *************************************************************/

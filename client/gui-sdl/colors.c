@@ -70,12 +70,6 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
   {0, 200, 0, 150},		/* Quick info (green) */
 };
 
-void color_error(void)
-{
-  freelog(LOG_DEBUG, "color_error : PORT ME");
-}
-
-
 /**************************************************************************
   Initialize colors for the game.
 **************************************************************************/

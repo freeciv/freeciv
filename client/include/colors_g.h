@@ -34,6 +34,5 @@ enum Display_color_type {
 enum Display_color_type get_visual(void);
 void init_color_system(void);
 void free_color_system(void);
-void color_error(void);
 
 #endif  /* FC__COLORS_G_H */
