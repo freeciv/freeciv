@@ -2630,7 +2630,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
 
-  if (ptile && ptile->known == TILE_UNKNOWN) {
+  if (ptile && tile_get_known(map_x, map_y) == TILE_UNKNOWN) {
     ADD_BG(COLOR_STD_BLACK);
     return sprs - save_sprs;
   }
@@ -2744,7 +2744,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
   }
 
   if (!is_isometric && draw_fog_of_war
-      && ptile && ptile->known == TILE_KNOWN_FOGGED) {
+      && ptile && tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED) {
     /* Fogging in non-iso is done this way. */
     ADD_SPRITE_SIMPLE(sprites.tx.fog);
   }
