@@ -1973,6 +1973,10 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
 
   ADD_SPRITE_FULL(unit_type(punit)->sprite);
 
+  if (sprites.unit.loaded && punit->transported_by != -1) {
+    ADD_SPRITE_FULL(sprites.unit.loaded);
+  }
+
   if(punit->activity!=ACTIVITY_IDLE) {
     struct Sprite *s = NULL;
     switch(punit->activity) {
@@ -2060,10 +2064,6 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
 
   if (stack || punit->occupy) {
     ADD_SPRITE_FULL(sprites.unit.stack);
-  }
-
-  if (sprites.unit.loaded && punit->transported_by != -1) {
-    ADD_SPRITE_FULL(sprites.unit.loaded);
   }
 
   if (sprites.unit.vet_lev[punit->veteran]) {
