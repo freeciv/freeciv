@@ -85,7 +85,7 @@ static int highest_cost;
 /**************************************************************************
 ...
 **************************************************************************/
-void init_queue(void)
+static void init_queue(void)
 {
   int i;
   static int is_initialized = 0;
