@@ -109,7 +109,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
   GtkWidget *p, *b;
   static struct map_position cross_list[2+1];
   struct map_position *cross_head = cross_list;
-  int i;
+  int i, count=0;
+  int popx, popy;
   char s[512];
   struct city *pcity;
   struct unit *punit;
@@ -123,11 +124,13 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				   "GtkLabel::label", s,
 				   NULL);
+    count++;
 
     if(ptile->special&S_HUT) {
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", _("Minor Tribe Village"),
 				     NULL);
+      count++;
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
@@ -136,6 +139,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
+      count++;
     }
 
     if(get_tile_infrastructure_set(ptile)) {
@@ -144,6 +148,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
+      count++;
     }
     
     if((punit=player_find_visible_unit(game.player_ptr, ptile)) && !pcity) {
@@ -161,6 +166,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
+      count++;
 
       if(punit->owner==game.player_idx)  {
 	char uc[64] = "";
@@ -183,6 +189,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
+      count++;
     }
 
     cross_head->x = xtile;
@@ -199,7 +206,12 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 		       GTK_SIGNAL_FUNC(popupinfo_popdown_callback),
 		       cross_list);
 
-    gtk_widget_popup(p, event->x_root, event->y_root);
+    /* displace popup so as not to obscure it by the mouse cursor */
+    popx= event->x_root+16;
+    popy= event->y_root-(8*count);
+    if( popy<0 )
+      popy= 0;      
+    gtk_widget_popup(p, popx, popy);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
     gtk_grab_add(p);
