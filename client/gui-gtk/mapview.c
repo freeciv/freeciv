@@ -1647,17 +1647,19 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 void put_nuke_mushroom_pixmaps(int x, int y)
 {
   if (is_isometric) {
-    /* Do I get points for style? */
-    char boom[] = "Really Loud BOOM!!!";
-    int w = gdk_string_width(city_productions_font, boom);
     int canvas_x, canvas_y;
+    struct Sprite *mysprite = sprites.explode.iso_nuke;
+
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    draw_shadowed_string(map_canvas->window, main_font,
-			 toplevel->style->black_gc,
-			 toplevel->style->white_gc,
-			 canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			 canvas_y + NORMAL_TILE_HEIGHT,
-			 boom);
+    canvas_x += NORMAL_TILE_WIDTH/2 - mysprite->width/2;
+    canvas_y += NORMAL_TILE_HEIGHT/2 - mysprite->height/2;
+
+    pixmap_put_overlay_tile(map_canvas->window, canvas_x, canvas_y,
+			    mysprite);
+
+    gdk_flush();
+    sleep(1);
+
     update_map_canvas_visible();
   } else {
     int x_itr, y_itr;

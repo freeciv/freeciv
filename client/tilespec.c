@@ -500,10 +500,14 @@ static void tilespec_lookup_sprite_tags(void)
     }
   }
 
-  for(i=0; i<3; i++) {
-    for(j=0; j<3; j++) {
-      my_snprintf(buffer, sizeof(buffer), "explode.nuke_%d%d", i, j);
-      SET_SPRITE(explode.nuke[i][j], buffer);
+  if (is_isometric) {
+    SET_SPRITE(explode.iso_nuke, "explode.iso_nuke");
+  } else {
+    for(i=0; i<3; i++) {
+      for(j=0; j<3; j++) {
+	my_snprintf(buffer, sizeof(buffer), "explode.nuke_%d%d", i, j);
+	SET_SPRITE(explode.nuke[i][j], buffer);
+      }
     }
   }
 

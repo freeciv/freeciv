@@ -105,6 +105,7 @@ struct named_sprites {
   struct {
     struct Sprite *nuke[3][3];	         /* row, column, from top-left */
     struct Sprite **unit;
+    struct Sprite *iso_nuke;
   } explode;
   struct {
     struct Sprite
