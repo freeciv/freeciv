@@ -2593,23 +2593,26 @@ void handle_stdin_input(struct connection *caller, char *str)
       int i;
 
       /* Sanity check scenario */
-      if (map.fixed_start_positions && game.max_players > map.num_start_positions) {
-	freelog(LOG_VERBOSE, _("Reduced maxplayers from %i to %i to fit "
-			       "to the number of start positions."),
-		game.max_players, map.num_start_positions);
-	game.max_players = map.num_start_positions;
-      }
+      if (game.is_new_game) {
+	if (map.fixed_start_positions
+	    && game.max_players > map.num_start_positions) {
+	  freelog(LOG_VERBOSE, _("Reduced maxplayers from %i to %i to fit "
+				 "to the number of start positions."),
+		  game.max_players, map.num_start_positions);
+	  game.max_players = map.num_start_positions;
+	}
 
-      if (game.nplayers > game.max_players) {
-	/* Because of the way player ids are renumbered during
-	   server_remove_player() this is correct */
-	while (game.nplayers > game.max_players)
-	  server_remove_player(get_player(game.max_players));
+	if (game.nplayers > game.max_players) {
+	  /* Because of the way player ids are renumbered during
+	     server_remove_player() this is correct */
+	  while (game.nplayers > game.max_players)
+	    server_remove_player(get_player(game.max_players));
 
-	freelog(LOG_VERBOSE, _("Had to cut down the number of players to the "
-			       "number of map start positions, there must be "
-			       "something wrong with the savegame or you "
-			       "adjusted the maxplayers value."));
+	  freelog(LOG_VERBOSE, _("Had to cut down the number of players to the "
+				 "number of map start positions, there must be "
+				 "something wrong with the savegame or you "
+				 "adjusted the maxplayers value."));
+	}
       }
 
       for (i=0;i<game.nplayers;i++) {
