@@ -345,7 +345,7 @@ void send_game_info(struct conn_list *dest)
     ginfo.great_wonders[i] = game.great_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.timeout != 0) {
+  if (game.timeout > 0) {
     ginfo.seconds_to_phasedone
       = game.seconds_to_phase_done - read_timer_seconds(game.phase_timer);
   } else {
@@ -423,7 +423,7 @@ int update_timeout(void)
 **************************************************************************/
 void increase_timeout_because_unit_moved(void)
 {
-  if (game.timeout != 0 && game.timeoutaddenemymove > 0) {
+  if (game.timeout > 0 && game.timeoutaddenemymove > 0) {
     double maxsec = (read_timer_seconds(game.phase_timer)
 		     + (double)game.timeoutaddenemymove);
 

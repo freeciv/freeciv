@@ -499,7 +499,7 @@ int sniff_packets(void)
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
-      if (game.timeout != 0
+      if (game.timeout > 0
 	  && read_timer_seconds(game.phase_timer) > game.seconds_to_phase_done
 	  && server_state == RUN_GAME_STATE) {
 	con_prompt_off();
@@ -670,7 +670,7 @@ int sniff_packets(void)
   }
   con_prompt_off();
 
-  if (game.timeout != 0
+  if (game.timeout > 0
       && read_timer_seconds(game.phase_timer) > game.seconds_to_phase_done) {
     return 0;
   }
