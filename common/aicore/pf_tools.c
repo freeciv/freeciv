@@ -283,8 +283,12 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     die("unknown move_type");
   }
 
-  parameter->zoc_used = (unit_type(punit)->move_type == LAND_MOVING
-			 && !unit_flag(punit, F_IGZOC));
+  if (unit_type(punit)->move_type == LAND_MOVING 
+      && !unit_flag(punit, F_IGZOC)) {
+    parameter->get_zoc = is_my_zoc;
+  } else {
+    parameter->get_zoc = NULL;
+  }
 
   if (unit_flag(punit, F_TRIREME)
       && base_trireme_loss_pct(unit_owner(punit)) > 0) {
@@ -323,7 +327,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     die("Unsupported move_type");
   }
 
-  parameter->zoc_used = FALSE;
+  parameter->get_zoc = NULL;
 
   if (unit_flag(punit, F_TRIREME)
       && base_trireme_loss_pct(unit_owner(punit)) > 0) {

@@ -205,17 +205,18 @@ static void init_node(struct pf_map *pf_map, struct pf_node * node,
     node->behavior = TB_NORMAL;
   }
 
-  if (params->zoc_used) {
+  if (params->get_zoc) {
     struct tile *tile = map_get_tile(x, y);
     bool my_zoc = (tile->city || tile->terrain == T_OCEAN
-		   || is_my_zoc(params->owner, x, y));
-    bool allied = (is_allied_unit_tile(tile, params->owner) != NULL);
-    bool enemy = (is_enemy_unit_tile(tile, params->owner) != NULL);
+		   || params->get_zoc(params->owner, x, y));
+    /* ZoC rules cannot prevent us from moving into/attacking an occupied 
+     * tile.  Other rules can, but we don't care about them here. */ 
+    bool occupied = (unit_list_size(&(map_get_tile(x, y)->units)) > 0
+                     || map_get_city(x, y));
 
-    /* if my zoc 2 else if allied 1 else 0 */
-    /* Essentially, enemy tile is like allied tile, we should be allowed
-     * to go there (attack), but not to leave, necessarily */
-    node->zoc_number = (my_zoc ? 2 : ((allied || enemy) ? 1 : 0));
+    /* 2 means can move unrestricted from/into it, 
+     * 1 means can move unrestricted into it, but not necessarily from it */
+    node->zoc_number = (my_zoc ? 2 : (occupied ? 1 : 0));
   }
 
   /* Evaluate the extra cost of the destination */
@@ -279,7 +280,7 @@ bool pf_next(struct pf_map *pf_map)
       }
 
       /* Is the move ZOC-ok? */
-      if (pf_map->params->zoc_used
+      if (pf_map->params->get_zoc
 	  && !(node->zoc_number > 1 || node1->zoc_number > 0)) {
 	continue;
       }
@@ -834,7 +835,7 @@ static bool danger_iterate_map(struct pf_map *pf_map)
       }
 
       /* Is the move ZOC-ok? */
-      if (pf_map->params->zoc_used
+      if (pf_map->params->get_zoc
 	  && !(node->zoc_number > 1 || node1->zoc_number > 2)) {
 	continue;
       }

@@ -125,8 +125,9 @@
  * we won't be able to leave (at least alive).
  * 
  * There are few other options in the path-finding, including "omniscience" 
- * (if true, all tiles are assumed to be KNOWN) and "zoc_used" (if true, we 
- * will consider restrictions imposed by zones of control upon our movements).
+ * (if true, all tiles are assumed to be KNOWN) and "get_zoc" callback (if 
+ * not NULL, we will consider restrictions imposed upon our movements by 
+ * zones of control).
  *
  *  
  * FORMULAE:
@@ -298,7 +299,6 @@ struct pf_parameter {
 
   struct player *owner;
 
-  bool zoc_used;		/* Do we care about zones of control? */
   bool omniscience;		/* Do we care if the tile is visible? */
 
   enum turn_mode turn_mode;	/* See definitions. */
@@ -323,11 +323,20 @@ struct pf_parameter {
   int (*get_EC) (int x, int y, enum known_type known,
 		 struct pf_parameter * param);
 
+  /* Although the rules governing ZoC are universal, the amount of
+   * information available at server and client is different. To 
+   * compensate for it, we might need to supply our own version 
+   * of "common" is_my_zoc.  Also AI might need to partially ignore 
+   * ZoC for strategic planning purposes (take into account enemy cities 
+   * but not units for example).
+   * If this callback is NULL, ZoC are ignored.*/
+  bool (*get_zoc) (struct player *pplayer, int x, int y);
+
   /* If this callback is non-NULL and returns TRUE this position is
    * dangerous. The unit will never end a turn at a dangerous
    * position. Can be NULL. */
-   bool(*is_pos_dangerous) (int x, int y, enum known_type,
-			    struct pf_parameter * param);
+  bool (*is_pos_dangerous) (int x, int y, enum known_type,
+                            struct pf_parameter * param);
 
   /* User provided data. Can be used to attach arbitrary information
    * to the map. */

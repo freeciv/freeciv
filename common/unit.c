@@ -1145,20 +1145,41 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile,
 }
 
 /**************************************************************************
-  Is this square controlled by the unit's owner?
+  Is this square controlled by the pplayer?
 
-  Here "is_my_zoc" means essentially a square which is
-  *not* adjacent to an enemy unit on a land tile.
-  (Or, currently, an enemy city even if empty.)
+  Here "is_my_zoc" means essentially a square which is *not* adjacent to an
+  enemy unit on a land tile.
 
   Note this function only makes sense for ground units.
+
+  Since this function is also used in the client, it has to deal with some
+  client-specific features, like FoW and the fact that the client cannot 
+  see units inside enemy cities.
 **************************************************************************/
-bool is_my_zoc(struct player *unit_owner, int x0, int y0)
+bool is_my_zoc(struct player *pplayer, int x0, int y0)
 {
   square_iterate(x0, y0, 1, x1, y1) {
-    if (!is_ocean(map_get_terrain(x1, y1))
-	&& is_non_allied_unit_tile(map_get_tile(x1, y1), unit_owner))
+    struct tile *ptile = map_get_tile(x1, y1);
+    
+    if (is_ocean(ptile->terrain)) {
+      continue;
+    }
+    if (is_non_allied_unit_tile(ptile, pplayer)) {
+      /* Note: in the client, the above function will return NULL 
+       * if there is a city there, even if the city is occupied */
       return FALSE;
+    }
+    
+    if (!is_server) {
+      struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
+
+      if (pcity 
+          && (pcity->occupied 
+              || map_get_known2(x1, y1, pplayer) == TILE_KNOWN_FOGGED)) {
+        /* If the city is fogged, we assume it's occupied */
+        return FALSE;
+      }
+    }
   } square_iterate_end;
 
   return TRUE;
