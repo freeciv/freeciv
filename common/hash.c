@@ -98,7 +98,8 @@
 
 #include "hash.h"
 
-#define FULL_RATIO 0.75		/* resize when above this */
+#define FULL_RATIO 0.75         /* consider expanding when above this */
+#define MIN_RATIO 0.24          /* shrink when below this */
 
 enum Bucket_State { BUCKET_UNUSED=0, BUCKET_USED, BUCKET_DELETED };
 
@@ -147,50 +148,19 @@ static void zero_htable(struct hash_table *h)
   h->frozen = 0;
 }
 
-/**************************************************************************
-  A supplied hash function appropriate to nul-terminated strings.
-  Anyone know a good one?
-**************************************************************************/
-/* plenty of primes, not too small, in random order: */
-static unsigned int coeff[] = { 113, 59, 23, 73, 31, 79, 97, 103, 67, 109,
-				71, 89, 53, 37, 101, 41, 29, 43, 13, 61,
-				107, 47, 83, 17 };
-#define NCOEFF (sizeof(coeff)/sizeof(coeff[0]))
-unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets)
-{
-  const char *key = (const char*)vkey;
-  unsigned int result=0;
-  int i;
-
-  for(i=0; *key; i++, key++) {
-    if (i == NCOEFF) {
-      i = 0;
-    }
-    result *= (unsigned int)5;
-    result += coeff[i] * (unsigned int)(*key);
-  }
-  return (result % num_buckets);
-}
 
 /**************************************************************************
-  A supplied function for comparison of nul-terminated strings:
-**************************************************************************/
-int hash_fcmp_string(const void *vkey1, const void *vkey2)
-{
-  return strcmp((const char*)vkey1, (const char*)vkey2);
-}
-
-/**************************************************************************
-  A supplied hash function where key is pointer to int.
+  A supplied hash function where key is pointer to int.  
+  Prefers table sizes that are prime numbers.
 **************************************************************************/
 unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets)
 {
   const unsigned int key = (unsigned int) *(const int*)vkey;
-  return (key * 107U) % num_buckets;
+  return (key % num_buckets);
 }
 
 /**************************************************************************
-  A supplied function for comparison of pointers to unsigned ints:
+  A supplied function for comparison of pointers to int:
 **************************************************************************/
 int hash_fcmp_int(const void *vkey1, const void *vkey2)
 {
@@ -202,22 +172,101 @@ int hash_fcmp_int(const void *vkey1, const void *vkey2)
 
 
 /**************************************************************************
-  Calculate a "reasonable" number of buckets for a given number
-  of entries.  Use a power of 2 (not sure how important), with
-  first power of 2 which is larger than num_entries, then extra
-  factor of 2 for breathing space.  Say minimum of 32.
+  A supplied hash function appropriate to nul-terminated strings.
+  Prefers table sizes that are prime numbers.
+**************************************************************************/
+unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets)
+{
+  const char *key = (const char*)vkey;
+  unsigned long result=0;
+
+  for(; *key; ++key) {
+    result *= 5; 
+    result += *key;
+  }
+  result &= 0xFFFFFFFF; /* To make results independant of sizeof(long) */
+  return (result % num_buckets);
+}
+
+/**************************************************************************
+  A supplied function for comparison of nul-terminated strings:
+**************************************************************************/
+int hash_fcmp_string(const void *vkey1, const void *vkey2)
+{
+  return strcmp((const char*)vkey1, (const char*)vkey2);
+}
+
+
+/**************************************************************************
+  A supplied hash function which operates on the key pointer values
+  themselves; this way a void* (or, with casting, a long) can be used
+  as a key, and also without having allocated space for it.
+**************************************************************************/
+unsigned int hash_fval_keyval(const void *vkey, unsigned int num_buckets)
+{
+  unsigned long result = ((unsigned long)vkey);
+  return (result % num_buckets);
+}
+
+/**************************************************************************
+  A supplied function for comparison of the raw void pointers (or,
+  with casting, longs)
+**************************************************************************/
+int hash_fcmp_keyval(const void *vkey1, const void *vkey2)
+{
+  /* Simplicity itself. */
+  return (vkey1 < vkey2) ? -1 : (vkey1 > vkey2) ? 1 : 0;
+}
+
+
+/**************************************************************************
+  A bunch of prime numbers close to successive elements of the
+  sequence A_n=3*2^n; to be used for table sizes.
+**************************************************************************/
+#define MIN_BUCKETS 29 /* historical purposes */
+static const unsigned long ht_sizes[] =
+{
+  MIN_BUCKETS,          53,         97,           193, 
+  389,       769,       1543,       3079,         6151,     
+  12289,     24593,     49157,      98317,        196613,    
+  393241,    786433,    1572869,    3145739,      6291469,   
+  12582917,  25165843,  50331653,   100663319,    201326611, 
+  402653189, 805306457, 1610612741, 3221225473ul, 4294967291ul
+};
+#define NSIZES (sizeof(ht_sizes)/sizeof(ht_sizes[0]))
+
+/**************************************************************************
+  Calculate a "reasonable" number of buckets for a given number of
+  entries.  Gives a prime number far from powers of 2 (see ht_sizes
+  above; this allows for simpler hash-functions), allowing at least a
+  factor of 2 from the given number of entries for breathing room.
+***************************************************************************
+  Generalized restrictions on the behavior of this function:
+  * calc_appropriate_nbuckets(x) >= MIN_BUCKETS
+  * calc_appropriate_nbuckets(x) * MIN_RATIO < x  whenever 
+    x > MIN_BUCKETS * MIN_RATIO
+  * calc_appropriate_nbuckets(x) * FULL_RATIO > x
+  This one is more of a recommendation, to ensure enough free space:
+  * calc_appropriate_nbuckets(x) >= 2 * x
 **************************************************************************/
 static unsigned int calc_appropriate_nbuckets(unsigned int num_entries)
 {
-  unsigned int pow2;
-  
-  pow2 = 2;
-  while (num_entries) {
-    num_entries >>= 1;
-    pow2 <<= 1;
+  const unsigned long *pframe=&ht_sizes[0], *pmid;
+  int fsize=NSIZES-1, lpart;
+
+  num_entries <<= 1; /* breathing room */
+
+  while (fsize > 0) {
+    lpart = fsize >> 1;
+    pmid = pframe + lpart;
+    if (*pmid < num_entries) {
+      pframe = pmid + 1;
+      fsize = fsize - lpart - 1;
+    } else {
+      fsize = lpart;
+    }
   }
-  if (pow2 < 32) pow2 = 32;
-  return pow2;
+  return *pframe;
 }
 
 /**************************************************************************
@@ -319,12 +368,15 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
 }
 
 /**************************************************************************
-  Call this when an entry might be added: resizes the hash table if
-  seems like a good idea.  Count deleted entries in check because
-  efficiency may be degraded if there are too many deleted entries.
-  But not for appropriate new size. (?)
+  Call this when an entry might be added or deleted: resizes the hash
+  table if seems like a good idea.  Count deleted entries in check
+  because efficiency may be degraded if there are too many deleted
+  entries.  But for determining new size, ignore deleted entries,
+  since they'll be removed by rehashing.
 **************************************************************************/
-static void hash_maybe_resize(struct hash_table *h)
+#define hash_maybe_expand(htab) hash_maybe_resize((htab),1)
+#define hash_maybe_shrink(htab) hash_maybe_resize((htab),0)
+static void hash_maybe_resize(struct hash_table *h, int expandingp)
 {
   unsigned int num_used, limit, new_nbuckets;
 
@@ -332,15 +384,29 @@ static void hash_maybe_resize(struct hash_table *h)
     return;
   }
   num_used = h->num_entries + h->num_deleted;
-  limit = FULL_RATIO * h->num_buckets;
-  if (num_used < limit) {
-    return;
+  if (expandingp) {
+    limit = FULL_RATIO * h->num_buckets;
+    if (num_used < limit) {
+      return;
+    }
+  } else {
+    if (h->num_buckets <= MIN_BUCKETS) {
+      return;
+    }
+    limit = MIN_RATIO * h->num_buckets;
+    if (h->num_entries > limit) {
+      return;
+    }
   }
-  new_nbuckets = calc_appropriate_nbuckets(2*h->num_entries);
-  freelog(LOG_DEBUG, "Resizing hash table "
-	  "(used %u del %u nbuck %u used %u limit %u new %u)",
-	  h->num_entries, h->num_deleted, h->num_buckets,
-	  num_used, limit, new_nbuckets);
+  
+  new_nbuckets = calc_appropriate_nbuckets(h->num_entries);
+  
+  freelog(LOG_DEBUG, "%s hash table "
+	  "(entry %u del %u used %u nbuck %u new %u %slimit %u)",
+	  (new_nbuckets<h->num_buckets) ? "Shrinking" :
+	  (new_nbuckets>h->num_buckets) ? "Expanding" : "Rehashing",
+	  h->num_entries, h->num_deleted, num_used, 
+	  h->num_buckets, new_nbuckets, expandingp?"up":"dn", limit);
   hash_resize_table(h, new_nbuckets);
 }
 
@@ -404,7 +470,7 @@ int hash_insert(struct hash_table *h, const void *key, const void *data)
   struct hash_bucket *bucket;
   int hash_val;
 
-  hash_maybe_resize(h);
+  hash_maybe_expand(h);
   hash_val = HASH_VAL(h, key);
   bucket = internal_lookup(h, key, hash_val);
   if (bucket->used == BUCKET_USED) {
@@ -433,7 +499,7 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
   int hash_val;
   const void *ret;
     
-  hash_maybe_resize(h);
+  hash_maybe_expand(h);
   hash_val = HASH_VAL(h, key);
   bucket = internal_lookup(h, key, hash_val);
   if (bucket->used == BUCKET_USED) {
@@ -459,8 +525,10 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
 **************************************************************************/
 void *hash_delete_entry(struct hash_table *h, const void *key)
 {
-  struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
+  struct hash_bucket *bucket;
 
+  hash_maybe_shrink(h);  
+  bucket = internal_lookup(h, key, HASH_VAL(h,key));
   if (bucket->used == BUCKET_USED) {
     const void *ret = bucket->data;
     zero_hbucket(bucket);
