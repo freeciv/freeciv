@@ -55,11 +55,9 @@
 
 static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
-static void wakeup_neighbor_sentries(struct player *pplayer,
-				     int cent_x, int cent_y);
 static void update_unit_activity(struct player *pplayer, struct unit *punit,
 				 struct genlist_iterator *iter);
-
+static void wakeup_neighbor_sentries(struct unit *punit);
 static int upgrade_would_strand(struct unit *punit, int upgrade_type);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
@@ -2048,6 +2046,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
   maybe_make_first_contact(x, y, punit->owner);
+  wakeup_neighbor_sentries(punit);
 
   /* The unit may have changed the available tiles in nearby cities. */
   map_city_radius_iterate(x, y, x1, y1) {
@@ -2795,23 +2794,29 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 /*****************************************************************
   Will wake up any neighboring enemy sentry units
 *****************************************************************/
-static void wakeup_neighbor_sentries(struct player *pplayer,
-				     int cent_x, int cent_y)
+static void wakeup_neighbor_sentries(struct unit *punit)
 {
-  int x,y;
+  int x, y;
+  /* There may be sentried units with a sightrange>3, but we don't
+     wake them up if the punit is farther away than 3. */
+  square_iterate(punit->x, punit->y, 3, x, y) {
+    unit_list_iterate(map_get_tile(x, y)->units, penemy) {
+      int range = get_unit_type(penemy->type)->vision_range;
+      enum unit_move_type move_type = get_unit_type(penemy->type)->move_type;
+      enum tile_terrain_type terrain = map_get_terrain(x, y);
 
-  for (x = cent_x-1;x <= cent_x+1;x++)
-    for (y = cent_y-1;y <= cent_y+1;y++)
-      if ((x != cent_x)||(y != cent_y)) {
- 	unit_list_iterate(map_get_tile(x,y)->units, punit) {
- 	  if (!players_allied(pplayer->player_no, punit->owner)
- 	      && punit->activity == ACTIVITY_SENTRY) {
- 	    set_unit_activity(punit, ACTIVITY_IDLE);
- 	    send_unit_info(0,punit);
-  	  }
-  	}
- 	unit_list_iterate_end;
+      if (!players_allied(punit->owner, penemy->owner)
+	  && penemy->activity == ACTIVITY_SENTRY
+	  && map_get_known_and_seen(punit->x, punit->y, penemy->owner)
+	  && range >= real_map_distance(punit->x, punit->y, x, y)
+	  && player_can_see_unit(unit_owner(penemy), punit)
+	  /* on board transport; don't awaken */
+	  && !(move_type == LAND_MOVING && terrain == T_OCEAN)) {
+	set_unit_activity(penemy, ACTIVITY_IDLE);
+	send_unit_info(0, penemy);
       }
+    } unit_list_iterate_end;
+  } square_iterate_end;
 }
 
 /**************************************************************************
@@ -2837,7 +2842,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   if (punit->homecity)
     homecity = find_city_by_id(punit->homecity);
 
-  wakeup_neighbor_sentries(pplayer, dest_x, dest_y);
+  wakeup_neighbor_sentries(punit);
   maybe_make_first_contact(dest_x, dest_y, punit->owner);
 
   if (tocity)
