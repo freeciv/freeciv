@@ -439,31 +439,44 @@ bool tile_visible_mapcanvas(int map_x, int map_y)
 **************************************************************************/
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
 {
-  if (is_isometric) {
-    int canvas_x, canvas_y;
+  int canvas_x, canvas_y;
+  int xmin, ymin, xmax, ymax, xsize, ysize, scroll_x, scroll_y;
+  const int border_x = (is_isometric ? NORMAL_TILE_WIDTH / 2
+			: 2 * NORMAL_TILE_WIDTH);
+  const int border_y = (is_isometric ? NORMAL_TILE_HEIGHT / 2
+			: 2 * NORMAL_TILE_HEIGHT);
+  bool same = (is_isometric == topo_has_flag(TF_ISO));
 
-    /* The border consists of the half-tile on the left and top of the
-     * screen, and the 1.5-tiles on the right and bottom. */
-    return (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)
-	    && canvas_x > NORMAL_TILE_WIDTH / 2
-	    && canvas_x < mapview_canvas.width - 3 * NORMAL_TILE_WIDTH / 2
-	    && canvas_y >= NORMAL_TILE_HEIGHT
-	    && canvas_y < mapview_canvas.height - 3 * NORMAL_TILE_HEIGHT / 2);
-  } else {
-    int x0 = mapview_canvas.map_x0, y0 = mapview_canvas.map_y0;
-    int twidth = mapview_canvas.tile_width;
-    int theight = mapview_canvas.tile_height;
+  get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
 
-    /* The border consists of the two tiles on the edge of the
-     * mapview.  But we take into account the border of the map. */
-    return ((map_y > y0 + 2 || (map_y >= y0 && y0 == 0))
-	    && (map_y < y0 + theight - 2
-		|| (map_y < y0 + theight
-		    && (y0 + theight - EXTRA_BOTTOM_ROW == map.ysize)))
-	    && ((map_x >= x0 + 2 && map_x < x0 + twidth - 2)
-		|| (map_x + map.xsize >= x0 + 2
-		    && (map_x + map.xsize < x0 + twidth - 2))));
+  if (!map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
+    /* The tile isn't visible at all. */
+    return FALSE;
   }
+
+  /* For each direction: if the tile is too close to the mapview border
+   * in that direction, and scrolling can get us any closer to the
+   * border, then it's a border tile.  We can only really check the
+   * scrolling when the mapview window lines up with the map. */
+  if (canvas_x < border_x
+      && (!same || scroll_x > xmin || topo_has_flag(TF_WRAPX))) {
+    return FALSE;
+  }
+  if (canvas_y < border_y
+      && (!same || scroll_y > ymin || topo_has_flag(TF_WRAPY))) {
+    return FALSE;
+  }
+  if (canvas_x + NORMAL_TILE_WIDTH > mapview_canvas.width - border_x
+      && (!same || scroll_x + xsize >= xmax || topo_has_flag(TF_WRAPX))) {
+    return FALSE;
+  }
+  if (canvas_y + NORMAL_TILE_HEIGHT > mapview_canvas.height - border_y
+      && (!same || scroll_y + ysize >= ymax || topo_has_flag(TF_WRAPY))) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
