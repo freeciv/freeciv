@@ -1070,7 +1070,7 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 {
   if (tile_get_known(ptile) != TILE_UNKNOWN) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
-		    get_drawable_unit(ptile, citymode),
+		    get_drawable_unit(tileset, ptile, citymode),
 		    ptile->city, canvas_x, canvas_y, citymode);
   }
 }

@@ -410,18 +410,18 @@ double blink_active_unit(void)
   static struct unit *pblinking_unit;
   static struct timer *blink_timer = NULL;
 
-  const double blink_time = get_focus_unit_toggle_timeout();
+  const double blink_time = get_focus_unit_toggle_timeout(tileset);
   struct unit *punit = punit_focus;
   bool need_update = FALSE;
 
   if (punit) {
     if (punit != pblinking_unit) {
       pblinking_unit = punit;
-      reset_focus_unit_state();
+      reset_focus_unit_state(tileset);
       need_update = TRUE;
     } else {
       if (read_timer_seconds(blink_timer) > blink_time) {
-	toggle_focus_unit_state();
+	toggle_focus_unit_state(tileset);
 	need_update = TRUE;
       }
     }

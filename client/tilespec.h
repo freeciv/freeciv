@@ -134,10 +134,11 @@ int fill_sprite_array(struct tileset *t,
 enum color_std player_color(const struct player *pplayer);
 enum color_std overview_tile_color(struct tile *ptile);
 
-double get_focus_unit_toggle_timeout(void);
-void reset_focus_unit_state(void);
-void toggle_focus_unit_state(void);
-struct unit *get_drawable_unit(struct tile *ptile,
+double get_focus_unit_toggle_timeout(struct tileset *t);
+void reset_focus_unit_state(struct tileset *t);
+void toggle_focus_unit_state(struct tileset *t);
+struct unit *get_drawable_unit(struct tileset *t,
+			       struct tile *ptile,
 			       const struct city *citymode);
 
 
