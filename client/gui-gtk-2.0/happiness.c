@@ -95,7 +95,6 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   int i;
   struct happiness_dialog *pdialog;
   GtkWidget *vbox;
-  /* GtkAccelGroup *accel=gtk_accel_group_new(); */
 
   pdialog = fc_malloc(sizeof(struct happiness_dialog));
   pdialog->pcity = pcity;

@@ -110,7 +110,7 @@ struct city_dialog {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *tradelist;
-    GtkWidget *progress_label;
+    GtkWidget *production_bar;
     GtkWidget *improvement_list;
     GtkWidget *buy_command;
 
@@ -128,6 +128,10 @@ struct city_dialog {
 
     GtkWidget *info_label[NUM_INFO_FIELDS];
   } overview;
+ 
+  struct { 
+    GtkWidget *production_bar;
+  } production;
 
   struct {
     GtkWidget *map_canvas;
@@ -531,14 +535,14 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *top, *vbox, *page, *align;
   GtkWidget *hbox, *ebox;
-  GtkWidget *frame, *table, *label, *sw, *view;
+  GtkWidget *frame, *table, *label, *sw, *view, *bar;
   GtkCellRenderer *rend;
   GtkListStore *store;
 
   char *tab_title = _("Overview");
 
   page = gtk_vbox_new(FALSE, 0);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 2);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
 
   label = gtk_label_new(tab_title);
 
@@ -671,9 +675,19 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 		   G_CALLBACK(impr_callback), pdialog);
 
   label = g_object_new(GTK_TYPE_LABEL,
+		       "label", _("Production:"),
+		       "xalign", 0.0, "yalign", 0.5, NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+  
+  bar = gtk_progress_bar_new();
+  pdialog->overview.production_bar = bar;
+  gtk_box_pack_start(GTK_BOX(vbox), bar, FALSE, FALSE, 0);
+  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
+
+  label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", view,
-		       "label", _("_Improvement"),
+		       "label", _("_Improvements:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
@@ -755,7 +769,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 2);
 
   bar = gtk_progress_bar_new();
-  pdialog->overview.progress_label = bar;
+  pdialog->production.production_bar = bar;
   gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
@@ -787,6 +801,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   char *tab_title = _("Happiness");
 
   page = gtk_hbox_new(FALSE, 6);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
 
   label = gtk_label_new(tab_title);
 
@@ -794,11 +809,11 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 
   pdialog->happiness.widget = gtk_vbox_new(FALSE, 0);
 
-  gtk_box_pack_start(GTK_BOX(page), pdialog->happiness.widget, TRUE, TRUE,
+  gtk_box_pack_start(GTK_BOX(page), pdialog->happiness.widget, FALSE, FALSE,
 		     0);
 
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE,
+		     get_top_happiness_display(pdialog->pcity), FALSE, FALSE,
 		     0);
 
   vbox = gtk_vbox_new(FALSE, 0);
@@ -1504,11 +1519,17 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	      worklist_is_empty(&pcity->worklist) ? "" : " (+)",
 	      buf);
   gtk_progress_bar_set_fraction(
-	GTK_PROGRESS_BAR(pdialog->overview.progress_label), pct);
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pdialog->overview.progress_label),
-			    buf2);
-  /* work around GTK+ bug. */
-  gtk_widget_queue_resize(pdialog->overview.progress_label);
+    GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
+  gtk_progress_bar_set_fraction(
+    GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
+  gtk_progress_bar_set_text(
+    GTK_PROGRESS_BAR(pdialog->overview.production_bar), buf2);
+  gtk_progress_bar_set_text(
+    GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
+
+  /* work around GTK+ refresh bug. */
+  gtk_widget_queue_resize(pdialog->overview.production_bar);
+  gtk_widget_queue_resize(pdialog->production.production_bar);
 }
 
 /****************************************************************
@@ -1648,7 +1669,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   pdialog->overview.supported_unit_no = n;
 
 
-  my_snprintf(buf, sizeof(buf), _("Supported unit %d"), n);
+  my_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.supported_units_frame), buf);
 }
 
@@ -1741,7 +1762,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   pdialog->overview.present_unit_no = n;
 
 
-  my_snprintf(buf, sizeof(buf), _("Present unit %d"), n);
+  my_snprintf(buf, sizeof(buf), _("Present units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame), buf);
 }
 

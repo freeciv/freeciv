@@ -155,6 +155,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   pdialog = fc_malloc(sizeof(struct cma_dialog));
   pdialog->pcity = pcity;
   pdialog->shell = gtk_vbox_new(FALSE, 0);
+  gtk_container_set_border_width(GTK_CONTAINER(pdialog->shell), 8);
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(cma_dialog_destroy_callback), pdialog);
 
@@ -162,11 +163,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_object_ref(pdialog->tips);
   gtk_object_sink(GTK_OBJECT(pdialog->tips));
 
-  frame = gtk_frame_new(_("Citizen Management Agent"));
-  gtk_box_pack_start(GTK_BOX(pdialog->shell), frame, TRUE, TRUE, 0);
-
   page = gtk_hbox_new(FALSE, 12);
-  gtk_container_add(GTK_CONTAINER(frame), page);
+  gtk_box_pack_start(GTK_BOX(pdialog->shell), page, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_box_pack_start(GTK_BOX(page), vbox, TRUE, TRUE, 0);
