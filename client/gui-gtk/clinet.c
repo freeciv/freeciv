@@ -278,12 +278,12 @@ int get_meta_list(GtkWidget *list, char *errbuf)
       GET_FIELD(players);
       GET_FIELD(metastring);
 
-      snprintf(row[0], 64, "%s", name);
-      snprintf(row[1], 64, "%s", port);
-      snprintf(row[2], 64, "%s", version);
-      snprintf(row[3], 64, "%s", status);
-      snprintf(row[4], 64, "%s", players);
-      snprintf(row[5], 64, "%s", metastring);
+      sprintf(row[0], "%.63s", name);
+      sprintf(row[1], "%.63s", port);
+      sprintf(row[2], "%.63s", version);
+      sprintf(row[3], "%.63s", status);
+      sprintf(row[4], "%.63s", players);
+      sprintf(row[5], "%.63s", metastring);
 
       gtk_clist_append(GTK_CLIST(list), row);
     }
