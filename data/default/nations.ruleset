@@ -375,8 +375,8 @@ cities =
 
 name=_("French")
 plural=_("?plural:French")
-leader="Napoleon", "Louis XIV", "Charles de Gaulle"
-leader_sex="Male", "Male", "Male"
+leader="Napoleon", "Louis XIV", "Charles de Gaulle", "Vercingetorix", "Chlodwig"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.france"
 flag_alt = "-"
 city_style = "European"
@@ -797,6 +797,9 @@ leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
 flag="f.poland"
 flag_alt = "-"
 city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Fundamentalism",  _("Prymas"),       _("Prymas")
+               }
 
 attack=2
 expand=1
@@ -1254,8 +1257,8 @@ cities =
 
 name=_("Korean")
 plural=_("?plural:Koreans")
-leader="T'aejong"
-leader_sex="Male"
+leader="T'aejong", "Kim Ir Sen", "Pak Dzonghyi", "Wang Gon"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.korea"
 flag_alt = "-"
 city_style = "European"
