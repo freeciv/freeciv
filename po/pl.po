@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2002-11-11 07:35+0100\n"
+"POT-Creation-Date: 2002-11-18 07:07+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -226,19 +226,19 @@ msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Wojna"
 
 #: common/player.c:527 client/gui-gtk-2.0/diplodlg.c:444
-#: client/gui-gtk/diplodlg.c:519 client/gui-mui/diplodlg.c:623
+#: client/gui-gtk/diplodlg.c:521 client/gui-mui/diplodlg.c:623
 #: client/gui-win32/diplodlg.c:295 client/gui-xaw/diplodlg.c:512
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Zawieszenie broni"
 
 #: common/player.c:528 client/gui-gtk-2.0/diplodlg.c:449
-#: client/gui-gtk/diplodlg.c:524 client/gui-mui/diplodlg.c:627
+#: client/gui-gtk/diplodlg.c:526 client/gui-mui/diplodlg.c:627
 #: client/gui-win32/diplodlg.c:296 client/gui-xaw/diplodlg.c:516
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Pokój"
 
 #: common/player.c:529 client/gui-gtk-2.0/diplodlg.c:454
-#: client/gui-gtk/diplodlg.c:529 client/gui-mui/diplodlg.c:631
+#: client/gui-gtk/diplodlg.c:531 client/gui-mui/diplodlg.c:631
 #: client/gui-win32/diplodlg.c:297 client/gui-xaw/diplodlg.c:520
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Sojusz"
@@ -247,85 +247,85 @@ msgstr "?diplomatic_state:Sojusz"
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Brak kontaktu"
 
-#: common/shared.c:158
+#: common/shared.c:162
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Pusty argument dla \"%s\".\n"
 
-#: common/shared.c:162
+#: common/shared.c:166
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Brakuje argumentu dla \"%s\".\n"
 
-#: common/shared.c:409
+#: common/shared.c:413
 #, c-format
 msgid "%d BC"
 msgstr "%d p.n.e."
 
-#: common/shared.c:411
+#: common/shared.c:415
 #, c-format
 msgid "%d AD"
 msgstr "%d n.e."
 
-#: common/shared.c:756
+#: common/shared.c:760
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH jest ustawione, ale puste; u¿ywam domy¶lnej warto¶ci."
 
-#: common/shared.c:860
+#: common/shared.c:864
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nie mo¿na czytaæ z katalogu danych %s: %s."
 
-#: common/shared.c:990
+#: common/shared.c:994
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "¦cie¿ka danych mo¿e byæ ustawiana przy pomocy zmiennej ¶rodowiskowej "
 "FREECIV_PATH."
 
-#: common/shared.c:992
+#: common/shared.c:996
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Bie¿±ca ¶cie¿ka danych to: \"%s\""
 
-#: common/shared.c:994
+#: common/shared.c:998
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Wymagany jest plik \"%s\"... koñczê pracê!"
 
-#: common/shared.c:1111
+#: common/shared.c:1115
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: B³±d fatalny: próbujesz mnie uruchomiæ jako administrator!\n"
 
-#: common/shared.c:1113
+#: common/shared.c:1117
 msgid "Use a non-privileged account instead.\n"
 msgstr "U¿yj do tego konta normalnego u¿ytkownika.\n"
 
-#: common/shared.c:1129
+#: common/shared.c:1133
 msgid "exact match"
 msgstr "dok³adnie pasuj±ce"
 
-#: common/shared.c:1130
+#: common/shared.c:1134
 msgid "only match"
 msgstr "tylko pasuj±ce"
 
-#: common/shared.c:1131
+#: common/shared.c:1135
 msgid "ambiguous"
 msgstr "dwuznaczne"
 
-#: common/shared.c:1132
+#: common/shared.c:1136
 msgid "empty"
 msgstr "puste"
 
-#: common/shared.c:1133
+#: common/shared.c:1137
 msgid "too long"
 msgstr "za d³ugie"
 
-#: common/shared.c:1134
+#: common/shared.c:1138
 msgid "non-match"
 msgstr "nie-pasuje"
 
-#: common/shared.c:1197
+#: common/shared.c:1201
 msgid "'Cause civilization should be free!"
 msgstr "Bo cywilizacja powinna byæ wolna!"
 
@@ -500,7 +500,7 @@ msgstr "Gra: %s przerwali budowê cudu %s w mie¶cie %s."
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Gra: %s rozpoczêli budowê %s w mie¶cie %s."
 
-#: ai/aicity.c:715
+#: ai/aicity.c:711
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Gra: %s sprzedaje niepotrzebne %s za %d z³ota."
@@ -5599,7 +5599,7 @@ msgstr "?pollution:Zan"
 #
 #: client/cityrepdata.c:233
 msgid "?corruption:Cor"
-msgstr "?corruption:Cor"
+msgstr "?corruption:Kor"
 
 #: client/cityrepdata.c:233
 msgid "Corruption"
@@ -6049,7 +6049,7 @@ msgstr "* Jest liczona jako jednostka 'konna'.\n"
 
 #: client/helpdata.c:658
 msgid "* A missile unit: gets used up in making an attack.\n"
-msgstr "* Jednostka pocisku: jest wykorzystywana przy ataku.\n"
+msgstr "* Jednostka pocisku: jest tracona podczas ataku.\n"
 
 #: client/helpdata.c:660
 msgid "* Making an attack ends this unit's turn.\n"
@@ -6219,7 +6219,7 @@ msgstr "Domy¶lna nazwa u¿ytkownika"
 
 #: client/options.c:84
 msgid "Default server"
-msgstr "Domy¶lny metaserwer"
+msgstr "Domy¶lny serwer"
 
 #: client/options.c:85
 msgid "Default server's port"
@@ -7464,8 +7464,8 @@ msgstr "Po_ka¿..."
 
 #: client/gui-gtk-2.0/cityrep.c:600 client/gui-gtk-2.0/diplodlg.c:378
 #: client/gui-gtk-2.0/diplodlg.c:390 client/gui-gtk-2.0/menu.c:626
-#: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:453
-#: client/gui-gtk/diplodlg.c:465 client/gui-gtk/menu.c:625
+#: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:455
+#: client/gui-gtk/diplodlg.c:467 client/gui-gtk/menu.c:625
 #: client/gui-mui/diplodlg.c:479 client/gui-mui/diplodlg.c:514
 #: client/gui-mui/diplodlg.c:595 client/gui-mui/diplodlg.c:605
 #: client/gui-mui/gui_main.c:227 client/gui-win32/diplodlg.c:608
@@ -8240,19 +8240,19 @@ msgstr "Nale¿y wybraæ styl twych miast."
 msgid "You must type a legal name."
 msgstr "Nale¿y wpisaæ poprawne imiê."
 
-#: client/gui-gtk-2.0/diplodlg.c:272 client/gui-gtk/diplodlg.c:347
+#: client/gui-gtk-2.0/diplodlg.c:272 client/gui-gtk/diplodlg.c:349
 #: data/Freeciv:268
 msgid "The following clauses have been agreed upon:"
 msgstr "Zgodzono siê na nastêpuj±ce punkty:"
 
-#: client/gui-gtk-2.0/diplodlg.c:285 client/gui-gtk/diplodlg.c:360
+#: client/gui-gtk-2.0/diplodlg.c:285 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
 #: data/Freeciv:227
 msgid "Diplomacy meeting"
 msgstr "Spotkanie dyplomatyczne"
 
 #: client/gui-gtk-2.0/diplodlg.c:294 client/gui-gtk-2.0/diplodlg.c:302
-#: client/gui-gtk/diplodlg.c:369 client/gui-gtk/diplodlg.c:377
+#: client/gui-gtk/diplodlg.c:371 client/gui-gtk/diplodlg.c:379
 #: client/gui-mui/diplodlg.c:637 client/gui-mui/diplodlg.c:638
 #: client/gui-win32/diplodlg.c:604 client/gui-win32/diplodlg.c:651
 #: client/gui-xaw/diplodlg.c:344 client/gui-xaw/diplodlg.c:352
@@ -8261,21 +8261,21 @@ msgid "The %s offerings"
 msgstr "%se propozycje"
 
 #: client/gui-gtk-2.0/diplodlg.c:315 client/gui-gtk-2.0/diplodlg.c:333
-#: client/gui-gtk/diplodlg.c:390 client/gui-gtk/diplodlg.c:408
+#: client/gui-gtk/diplodlg.c:392 client/gui-gtk/diplodlg.c:410
 #: client/gui-win32/diplodlg.c:148 client/gui-xaw/diplodlg.c:371
 #: client/gui-xaw/diplodlg.c:389
 msgid "World-map"
 msgstr "Mapa ¦wiata"
 
 #: client/gui-gtk-2.0/diplodlg.c:320 client/gui-gtk-2.0/diplodlg.c:338
-#: client/gui-gtk/diplodlg.c:395 client/gui-gtk/diplodlg.c:413
+#: client/gui-gtk/diplodlg.c:397 client/gui-gtk/diplodlg.c:415
 #: client/gui-win32/diplodlg.c:143 client/gui-xaw/diplodlg.c:375
 #: client/gui-xaw/diplodlg.c:393
 msgid "Sea-map"
 msgstr "Mapa morska"
 
 #: client/gui-gtk-2.0/diplodlg.c:326 client/gui-gtk-2.0/diplodlg.c:344
-#: client/gui-gtk/diplodlg.c:401 client/gui-gtk/diplodlg.c:419
+#: client/gui-gtk/diplodlg.c:403 client/gui-gtk/diplodlg.c:421
 #: client/gui-mui/diplodlg.c:477 client/gui-mui/diplodlg.c:512
 #: client/gui-mui/diplodlg.c:539 client/gui-mui/diplodlg.c:557
 #: client/gui-win32/diplodlg.c:606 client/gui-win32/diplodlg.c:653
@@ -8284,7 +8284,7 @@ msgid "Maps"
 msgstr "Mapy"
 
 #: client/gui-gtk-2.0/diplodlg.c:352 client/gui-gtk-2.0/diplodlg.c:364
-#: client/gui-gtk/diplodlg.c:427 client/gui-gtk/diplodlg.c:439
+#: client/gui-gtk/diplodlg.c:429 client/gui-gtk/diplodlg.c:441
 #: client/gui-mui/diplodlg.c:478 client/gui-mui/diplodlg.c:513
 #: client/gui-mui/diplodlg.c:575 client/gui-mui/diplodlg.c:585
 #: client/gui-win32/diplodlg.c:607 client/gui-win32/diplodlg.c:654
@@ -8293,7 +8293,7 @@ msgid "Advances"
 msgstr "Wynalazki"
 
 #: client/gui-gtk-2.0/diplodlg.c:407 client/gui-gtk-2.0/diplodlg.c:414
-#: client/gui-gtk/diplodlg.c:482 client/gui-gtk/diplodlg.c:489
+#: client/gui-gtk/diplodlg.c:484 client/gui-gtk/diplodlg.c:491
 #: client/gui-mui/diplodlg.c:639 client/gui-mui/diplodlg.c:640
 #: client/gui-win32/diplodlg.c:610 client/gui-win32/diplodlg.c:657
 #: client/gui-xaw/diplodlg.c:466 client/gui-xaw/diplodlg.c:473
@@ -8302,19 +8302,19 @@ msgid "Gold(max %d)"
 msgstr "Z³oto(maks %d)"
 
 #: client/gui-gtk-2.0/diplodlg.c:422 client/gui-gtk-2.0/diplodlg.c:431
-#: client/gui-gtk/diplodlg.c:497 client/gui-gtk/diplodlg.c:506
+#: client/gui-gtk/diplodlg.c:499 client/gui-gtk/diplodlg.c:508
 #: client/gui-mui/diplodlg.c:484 client/gui-mui/diplodlg.c:519
 #: client/gui-win32/diplodlg.c:614 client/gui-win32/diplodlg.c:661
 msgid "Give shared vision"
 msgstr "Daj widok dzielony"
 
-#: client/gui-gtk-2.0/diplodlg.c:461 client/gui-gtk/diplodlg.c:536
+#: client/gui-gtk-2.0/diplodlg.c:461 client/gui-gtk/diplodlg.c:538
 #: client/gui-mui/diplodlg.c:485 client/gui-mui/diplodlg.c:616
 #: client/gui-win32/diplodlg.c:616 data/Freeciv:450
 msgid "Pacts"
 msgstr "Pakty"
 
-#: client/gui-gtk-2.0/diplodlg.c:470 client/gui-gtk/diplodlg.c:545
+#: client/gui-gtk-2.0/diplodlg.c:470 client/gui-gtk/diplodlg.c:547
 #: client/gui-win32/diplodlg.c:622 client/gui-xaw/diplodlg.c:526
 #, c-format
 msgid ""
@@ -8331,7 +8331,7 @@ msgstr ""
 "%s %s %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:500 client/gui-gtk-2.0/diplodlg.c:509
-#: client/gui-gtk/diplodlg.c:575 client/gui-gtk/diplodlg.c:584
+#: client/gui-gtk/diplodlg.c:577 client/gui-gtk/diplodlg.c:586
 #: client/gui-mui/diplodlg.c:641 client/gui-mui/diplodlg.c:642
 #: client/gui-win32/diplodlg.c:634 client/gui-win32/diplodlg.c:639
 #: client/gui-xaw/diplodlg.c:566 client/gui-xaw/diplodlg.c:577
@@ -8339,22 +8339,22 @@ msgstr ""
 msgid "%s view:"
 msgstr "Widok %s:"
 
-#: client/gui-gtk-2.0/diplodlg.c:518 client/gui-gtk/diplodlg.c:593
+#: client/gui-gtk-2.0/diplodlg.c:518 client/gui-gtk/diplodlg.c:595
 #: client/gui-mui/diplodlg.c:506 data/Freeciv:324
 msgid "Erase clause"
 msgstr "Wyma¿ klauzulê"
 
-#: client/gui-gtk-2.0/diplodlg.c:522 client/gui-gtk/diplodlg.c:597
+#: client/gui-gtk-2.0/diplodlg.c:522 client/gui-gtk/diplodlg.c:599
 #: client/gui-win32/diplodlg.c:669 data/Freeciv:459
 msgid "Accept treaty"
 msgstr "Zatwierd¼ traktat"
 
-#: client/gui-gtk-2.0/diplodlg.c:527 client/gui-gtk/diplodlg.c:602
+#: client/gui-gtk-2.0/diplodlg.c:527 client/gui-gtk/diplodlg.c:604
 #: client/gui-win32/diplodlg.c:670 data/Freeciv:468
 msgid "Cancel meeting"
 msgstr "Przerwij spotkanie"
 
-#: client/gui-gtk-2.0/diplodlg.c:902 client/gui-gtk/diplodlg.c:977
+#: client/gui-gtk-2.0/diplodlg.c:902 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:995
 msgid "Game: Invalid amount of gold specified."
@@ -10083,7 +10083,7 @@ msgid "Disconnect"
 msgstr "Roz³±cz"
 
 #
-#: client/gui-gtk/diplodlg.c:224 client/gui-gtk/diplodlg.c:304
+#: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
 msgid "more"
 msgstr "wiêcej"
 
@@ -12010,7 +12010,7 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Freeciv u¿ywa kilku jêzyków narodowych.\n"
+"Freeciv u¿ywa kilku jêzyków.\n"
 "Przeczytaj rozdzia³ 'Native Language Support' pliku README w celu uzyskania "
 "instrukcji, jak u¿ywaæ wybrany jêzyk.\n"
 "\n"
@@ -12076,7 +12076,7 @@ msgstr ""
 "AI nie powoduje zawsze przejêcia kontroli przez cz³owieka. Zale¿y to od "
 "niezale¿nej opcji serwera. Je¶li utracisz po³±czenie, do ponownego "
 "po³±czenia u¿yj imienia w³adcy, które wybra³e¶, a nie swojego nick'a. Je¿eli "
-"serwer raportuje do metaserwera, to imiona graczy mog± zostaæ tam znalezione."
+"serwer raportuje do metaserwera, to twoje imie bêdzie tam widoczne."
 
 #: data/helpdata.txt:431
 msgid ""
@@ -15528,8 +15528,9 @@ msgstr ""
 "\n"
 "Ludzie s± najczê¶ciej gotowi umrzeæ za to, w co wierz±.\n"
 "\n"
-"Podczas monarchii miasto mo¿e utrzymywaæ za darmo 10 jednostek militarnych, "
-"ka¿de kolejne kosztuj± jedn± tarczkê. Fanatycy nic nie kosztuj±.\n"
+"Podczas fundamentalizmu miasto mo¿e utrzymywaæ za darmo 10 jednostek "
+"militarnych, ka¿de kolejne kosztuj± jedn± tarczkê. Fanatycy nic nie "
+"kosztuj±.\n"
 "\n"
 "Osadnicy zu¿ywaj± 2 ¿ywno¶ci na turê.\n"
 "\n"
