@@ -173,7 +173,7 @@ void srv_init(void)
 
   srvarg.quitidle = 0;
 
-  *(srvarg.metaserver_servername) = '\0';
+  srvarg.extra_metaserver_info[0] = '\0';
 
   /* mark as initialized */
   has_been_srv_init = TRUE;

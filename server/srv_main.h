@@ -34,8 +34,8 @@ struct server_arguments {
   char *gamelog_filename;
   char *load_filename;
   char *script_filename;
-  /* server name for metaserver to use for us */
-  char metaserver_servername[64];
+  /* extra info for the metaserver */
+  char extra_metaserver_info[256];
   /* quit if there no players after a given time interval */
   int quitidle;
 };

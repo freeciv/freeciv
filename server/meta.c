@@ -310,10 +310,11 @@ bool send_server_info_to_metaserver(bool do_send, bool reset_timer)
     cat_snprintf(desc, sizeof(desc), N_("Waiting"));
   }
   cat_snprintf(desc, sizeof(desc), "\n");
-  cat_snprintf(desc, sizeof(desc), "%s\n", srvarg.metaserver_servername);
+  cat_snprintf(desc, sizeof(desc), "%s\n", "UNSET");
   cat_snprintf(desc, sizeof(desc), "%d\n", srvarg.port);
   cat_snprintf(desc, sizeof(desc), "%d\n", num_nonbarbarians);
-  cat_snprintf(desc, sizeof(desc), "%s", srvarg.metaserver_info_line);
+  cat_snprintf(desc, sizeof(desc), "%s %s", srvarg.metaserver_info_line,
+	       srvarg.extra_metaserver_info);
 
   /* now build the info block */
   info[0]='\0';

@@ -99,9 +99,9 @@ int main(int argc, char *argv[])
 	showhelp = TRUE;
 	break;
       }
-    } else if ((option = get_option("--server", argv, &inx, argc)))
-      sz_strlcpy(srvarg.metaserver_servername, option);
-    else if ((option = get_option("--debug", argv, &inx, argc))) {
+    } else if ((option = get_option("--info", argv, &inx, argc))) {
+      sz_strlcpy(srvarg.extra_metaserver_info, option);
+    } else if ((option = get_option("--debug", argv, &inx, argc))) {
       srvarg.loglevel = log_parse_level_str(option);
       if (srvarg.loglevel == -1) {
 	srvarg.loglevel = LOG_NORMAL;
@@ -128,22 +128,23 @@ int main(int argc, char *argv[])
 
   if (showhelp) {
     fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
-    fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
-    fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));
-    fprintf(stderr, _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
-    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fprintf(stderr, _("  -m, --meta\t\tSend info to metaserver\n"));
-    fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
-    fprintf(stderr, _("  -s, --server HOST\tList this server as host HOST\n"));
-    fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
 #ifdef DEBUG
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
 		      " or 4:file1,min,max:...)\n"));
 #else
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
+    fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
+    fprintf(stderr, _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
+    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+    fprintf(stderr, _("  -i, --info INFO\tExtra info for the metaserver\n"));
+    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fprintf(stderr, _("  -m, --meta\t\tnotify metaserver and send server's info\n"));
+    fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
+
+    fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));
+    fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
+    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(EXIT_SUCCESS);
