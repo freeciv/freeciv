@@ -30,8 +30,10 @@ endif
 
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
+# Freeciv.rc was originally for gui-gtk but is also used by gui-sdl
 EXTRA_DIST = \
 	Freeciv	\
+	freeciv.rc	\
 	freeciv.rc-2.0	\
 	isophex.tilespec	\
 	isotrident.tilespec \
