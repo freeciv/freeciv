@@ -343,6 +343,9 @@ int find_ferry(struct unit *punit, int cap, struct pf_path **path)
 
   TODO: A big one is rendezvous points.  When this is implemented, we won't
   have to be at the coast to ask for a boat to come to us.
+
+  You MUST have warmap created before calling this function in order for 
+  find_beachhead to work here. This requirement should be removed.
 ****************************************************************************/
 bool ai_gothere(struct player *pplayer, struct unit *punit,
                 int dest_x, int dest_y)
