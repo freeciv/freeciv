@@ -16,7 +16,7 @@ pkgdata_DATA =          \
 	terrain2.png	\
 	tiles.png	\
 	tiles.spec	\
-	units.png	\
-	units.spec
+	unitextras.png	\
+	unitextras.spec
 
 EXTRA_DIST = $(pkgdata_DATA)

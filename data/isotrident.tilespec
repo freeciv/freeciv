@@ -31,6 +31,10 @@ darkness_style = 1
 flag_offset_x = 17
 flag_offset_y = 11
 
+; offset the units by this amount when drawing units
+unit_offset_x = 21
+unit_offset_y = 13
+
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
 
@@ -51,7 +55,8 @@ files =
   "isotrident/terrain2.spec",
   "isotrident/tiles.spec",
   "misc/small.spec",
-  "isotrident/units.spec",
+  "trident/units.spec",
+  "isotrident/unitextras.spec",
   "misc/flags.spec",
   "misc/buildings.spec",
   "misc/space.spec",

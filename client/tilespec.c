@@ -86,7 +86,9 @@ int num_tiles_explode_unit=0;
 
 static int roadstyle;
 int fogstyle;
+
 static int flag_offset_x, flag_offset_y;
+static int unit_offset_x, unit_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -879,6 +881,10 @@ bool tilespec_read_toplevel(const char *tileset_name)
 					     "tilespec.flag_offset_x");
   flag_offset_y = secfile_lookup_int_default(file, 0,
 					     "tilespec.flag_offset_y");
+  unit_offset_x = secfile_lookup_int_default(file, 0,
+					     "tilespec.unit_offset_x");
+  unit_offset_y = secfile_lookup_int_default(file, 0,
+					     "tilespec.unit_offset_y");
 
   c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
   city_names_font = mystrdup(c);
@@ -2002,7 +2008,8 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
-  ADD_SPRITE_FULL(unit_type(punit)->sprite);
+  ADD_SPRITE(unit_type(punit)->sprite, DRAW_FULL, TRUE,
+	     unit_offset_x, unit_offset_y);
 
   if (sprites.unit.loaded && punit->transported_by != -1) {
     ADD_SPRITE_FULL(sprites.unit.loaded);
