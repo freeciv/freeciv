@@ -77,7 +77,7 @@ void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
         j = MAX(y - orig_y, i);
       else
         j = MAX(orig_y - y, i);
-      j *= 3;
+      j *= 3; /* can be speed up */
       if (j < maxcost) j = maxcost;
       if (j > 255) j = 255;
       if (which == LAND_MOVING) warmap.cost[x][y] = j; /* one if by land */
