@@ -53,7 +53,7 @@ static RANDOM_STATE rand_state;
 /*************************************************************************
   Returns a new random value from the sequence, in the interval 0 to
   (size-1) inclusive, and updates global state for next call.
-  size==0 means result will be within 0 to MAX_UINT32 inclusive.
+  This means that if size <= 1 the function will always return 0.
 
   Once we calculate new_rand below uniform (we hope) between 0 and
   MAX_UINT32 inclusive, need to reduce to required range.  Using
@@ -79,14 +79,23 @@ static RANDOM_STATE rand_state;
 *************************************************************************/
 RANDOM_TYPE myrand(RANDOM_TYPE size) 
 {
-  RANDOM_TYPE new_rand, divisor=1, max=MAX_UINT32;
+  RANDOM_TYPE new_rand, divisor, max;
   int bailout = 0;
 
   assert(rand_state.is_init);
     
-  if (size>1) {
-    divisor = MAX_UINT32/size;
+  if (size > 1) {
+    divisor = MAX_UINT32 / size;
     max = size * divisor - 1;
+  } else {
+    /* size == 0 || size == 1 */
+
+    /* 
+     * These assignments are only here to make the compiler
+     * happy. Since each usage is guarded with a if(size>1).
+     */
+    max = MAX_UINT32;
+    divisor = 1;
   }
 
   do {
@@ -104,14 +113,13 @@ RANDOM_TYPE myrand(RANDOM_TYPE size)
       break;
     }
 
-  } while (new_rand > max && size > 1);
+  } while (size > 1 && new_rand > max);
 
   if (size > 1) {
     new_rand /= divisor;
-  } else if (size == 1) {
+  } else {
     new_rand = 0;
   }
-  /* else leave it "raw" */
 
   /* freelog(LOG_DEBUG, "rand(%u) = %u", size, new_rand); */
 
@@ -145,7 +153,7 @@ void mysrand(RANDOM_TYPE seed)
      * problems even using divisor.
      */
     for (i=0; i<10000; i++) {
-      (void) myrand(0);
+      (void) myrand(MAX_UINT32);
     }
 } 
 
