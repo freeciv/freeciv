@@ -208,9 +208,11 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_MSG_OPTIONS:
     popup_messageopt_dialog();
     break;
+#ifdef DEBUG
   case MENU_GAME_RELOAD_TILESET:
     tilespec_reread(NULL);
     break;
+#endif
   case MENU_GAME_SAVE_OPTIONS_ON_EXIT:
     if (save_options_on_exit ^ GTK_CHECK_MENU_ITEM(widget)->active) {
       save_options_on_exit ^= 1;
