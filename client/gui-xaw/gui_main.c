@@ -187,7 +187,7 @@ Widget more_arrow_label;
 Window root_window;
 
 /* this pixmap acts as a backing store for the map_canvas widget */
-Pixmap map_canvas_store;
+Pixmap map_canvas_store = 0;
 int map_canvas_store_twidth, map_canvas_store_theight;
 
 /* this pixmap acts as a backing store for the overview_canvas widget */
@@ -266,7 +266,6 @@ void ui_main(int argc, char *argv[])
   int i;
   Pixmap icon_pixmap; 
   XtTranslations TextFieldTranslations;
-  Dimension w,h;
 
   parse_options(argc, argv);
 
@@ -420,13 +419,7 @@ void ui_main(int argc, char *argv[])
   x_interval_id=XtAppAddTimeOut(app_context, 500,
 				(XtTimerCallbackProc)timer_callback, NULL);
 
-  XtVaGetValues(map_canvas, XtNheight, &h, XtNwidth, &w, NULL);
-  map_canvas_store_twidth=w/NORMAL_TILE_WIDTH;
-  map_canvas_store_theight=h/NORMAL_TILE_HEIGHT;
-  map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas), 
-				 map_canvas_store_twidth*NORMAL_TILE_WIDTH,
-				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
-				 display_depth);
+  map_canvas_resize();
 
   overview_canvas_store=0;
   set_overview_dimensions(80, 50);

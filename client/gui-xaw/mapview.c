@@ -771,14 +771,13 @@ void refresh_overview_viewrect(void)
 void map_canvas_expose(Widget w, XEvent *event, Region exposed, 
 		       void *client_data)
 {
-  Dimension height, width;
+  Dimension width, height;
   int tile_width, tile_height;
 
-  XtVaGetValues(w, XtNheight, &height, XtNwidth, &width, NULL);
-
+  XtVaGetValues(w, XtNwidth, &width, XtNheight, &height, NULL);
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
-  
+
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(!intro_gfx_sprite)  load_intro_gfx();
     if(height!=scaled_intro_pixmap_height || width!=scaled_intro_pixmap_width) {
@@ -792,50 +791,40 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
       scaled_intro_pixmap_width=width;
       scaled_intro_pixmap_height=height;
     }
-    
+
     if(scaled_intro_pixmap)
        XCopyArea(display, scaled_intro_pixmap, XtWindow(map_canvas),
 		 civ_gc,
 		 event->xexpose.x, event->xexpose.y,
 		 event->xexpose.width, event->xexpose.height,
 		 event->xexpose.x, event->xexpose.y);
+
+    if(map_canvas_store_twidth !=tile_width ||
+       map_canvas_store_theight!=tile_height) { /* resized? */
+      map_canvas_resize();
+    }
     return;
   }
   if(scaled_intro_pixmap) {
     XFreePixmap(display, scaled_intro_pixmap);
     scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
   }
-  
-  if(map.xsize) { /* do we have a map at all */
-    int tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-    int tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
 
+  if(map.xsize) { /* do we have a map at all */
     if(map_canvas_store_twidth !=tile_width ||
        map_canvas_store_theight!=tile_height) { /* resized? */
-      
-      XFreePixmap(display, map_canvas_store);
-      
-      map_canvas_store_twidth=tile_width;
-      map_canvas_store_theight=tile_height;
+      map_canvas_resize();
 
-      
-      map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas), 
-				     tile_width*NORMAL_TILE_WIDTH,
-				     tile_height*NORMAL_TILE_HEIGHT,
- 				     display_depth);
-				     
       XFillRectangle(display, map_canvas_store, fill_bg_gc, 0, 0, 
 		     NORMAL_TILE_WIDTH*map_canvas_store_twidth,
 		     NORMAL_TILE_HEIGHT*map_canvas_store_theight);
-      
+
       update_map_canvas(0, 0, map_canvas_store_twidth,
 			map_canvas_store_theight, 1);
-      
+
       update_map_canvas_scrollbars();
       refresh_overview_viewrect();
-
-    }
-    else {
+    } else {
       XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
 		civ_gc,
 		event->xexpose.x, event->xexpose.y,
@@ -844,6 +833,26 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
     }
   }
   refresh_overview_canvas();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void map_canvas_resize(void)
+{
+  Dimension width, height;
+
+  if (map_canvas_store)
+    XFreePixmap(display, map_canvas_store);
+
+  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
+  map_canvas_store_twidth=((width-1)/NORMAL_TILE_WIDTH)+1;
+  map_canvas_store_theight=((height-1)/NORMAL_TILE_HEIGHT)+1;
+
+  map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas),
+				 map_canvas_store_twidth*NORMAL_TILE_WIDTH,
+				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
+				 display_depth);
 }
 
 /**************************************************************************
