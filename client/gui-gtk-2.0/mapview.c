@@ -587,7 +587,10 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
-  struct canvas canvas_store = {.type = CANVAS_PIXCOMM, .v.pixcomm = p};
+  struct canvas canvas_store;
+
+  canvas_store.type = CANVAS_PIXCOMM;
+  canvas_store.v.pixcomm = p;
 
   gtk_pixcomm_freeze(p);
   gtk_pixcomm_clear(p);
@@ -606,8 +609,11 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 **************************************************************************/
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
-  struct canvas store = {.type = CANVAS_PIXCOMM, .v.pixcomm = p};
+  struct canvas store;
  
+  store.type = CANVAS_PIXCOMM;
+  store.v.pixcomm = p;
+
   gtk_pixcomm_freeze(p);
 
   put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
