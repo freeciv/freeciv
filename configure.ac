@@ -521,6 +521,9 @@ if test x$server = xtrue; then
         AC_CHECK_LIB(socket, connect, SERVER_LIBS="-lsocket $SERVER_LIBS")
     fi
 
+    dnl Some systems (e.g., BeOS) need this lib
+    AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")
+
     dnl Readline library and header files.
     FC_HAS_READLINE()
 

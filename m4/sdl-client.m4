@@ -49,6 +49,16 @@ AC_DEFUN(FC_SDL_CLIENT,
 
     if test "$found_client" = yes; then
       client=sdl
+
+      dnl Check for libiconv (which is usually included in glibc, but may
+      dnl be distributed separately).
+      AM_ICONV
+
+      dnl Check for some other libraries - needed under BeOS for instance.
+      dnl These should perhaps be checked for in all cases?
+      AC_CHECK_LIB(socket, connect, CLIENT_LIBS="-lsocket $CLIENT_LIBS")
+      AC_CHECK_LIB(bind, gethostbyaddr, CLIENT_LIBS="-lbind $CLIENT_LIBS")
+
     elif test "$client" = "sdl"; then
       AC_MSG_ERROR([specified client 'sdl' not configurable (SDL >= 1.1.4 is needed)])
     fi
