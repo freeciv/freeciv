@@ -872,18 +872,18 @@ void ui_main(int argc, char **argv)
 
   fill_bg_gc = gdk_gc_new(root_window);
 
-  if (is_isometric) {
-    thin_line_gc = gdk_gc_new(root_window);
-    thick_line_gc = gdk_gc_new(root_window);
-    gdk_gc_set_line_attributes(thin_line_gc, 1,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-    gdk_gc_set_line_attributes(thick_line_gc, 2,
-			       GDK_LINE_SOLID,
-			       GDK_CAP_NOT_LAST,
-			       GDK_JOIN_MITER);
-  }
+  /* These are used in isometric view only, but are always created because
+   * the tileset can change at runtime. */
+  thin_line_gc = gdk_gc_new(root_window);
+  thick_line_gc = gdk_gc_new(root_window);
+  gdk_gc_set_line_attributes(thin_line_gc, 1,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes(thick_line_gc, 2,
+			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
 
   fill_tile_gc = gdk_gc_new(root_window);
   gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
