@@ -1333,7 +1333,8 @@ void player_restore_units(struct player *pplayer)
 	wipe_unit(0, punit);
       }
     } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
-	       !is_coastline(punit->x, punit->y)) {
+	       !is_coastline(punit->x, punit->y) &&
+	       (map_get_terrain(punit->x, punit->y) == T_OCEAN)) {
       if (lighthouse_effect == -1) {
 	lighthouse_effect = player_owns_active_wonder(pplayer, B_LIGHTHOUSE);
       }
