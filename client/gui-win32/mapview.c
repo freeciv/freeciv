@@ -733,19 +733,17 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
                                          struct Sprite *ssprite,
                                          bool fog)
 {
-  if (!ssprite || !width || !height)
+  if (!ssprite)
     return;
   
-  draw_sprite_part(ssprite,hdc,canvas_x+offset_x,canvas_y+offset_y,
-		   MIN(width, MAX(0,ssprite->width-offset_x)),
-		   MIN(height, MAX(0,ssprite->height-offset_y)),
-		   offset_x,offset_y);
+  draw_sprite_part(ssprite, hdc, canvas_x, canvas_y,
+		   ssprite->width, ssprite->height,
+		   0, 0);
 
   if (fog) {
-    draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
-		  MIN(width, MAX(0,ssprite->width-offset_x)),
-		  MIN(height, MAX(0,ssprite->height-offset_y)),
-		  offset_x,offset_y,ssprite); 
+    draw_fog_part(hdc, canvas_x, canvas_y,
+		  ssprite->width, ssprite->height,
+		  0, 0, ssprite); 
     
   }
   
@@ -804,8 +802,8 @@ void canvas_put_sprite(struct canvas *pcanvas,
   } else {
     hdc = pcanvas->hdc;
   }
-  draw_sprite_part(sprite, hdx, canvas_x, canvas_y,
-		   sprite->width, sprite->height, 0, 0, sprite);
+  draw_sprite_part(sprite, hdc, canvas_x, canvas_y,
+		   sprite->width, sprite->height, 0, 0);
   if (pcanvas->bitmap) {
     SelectObject(hdc, old);
     DeleteDC(hdc);
