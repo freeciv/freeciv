@@ -900,7 +900,7 @@ static void setup_widgets(void)
   gtk_widget_set_size_request(sw, 600, 100);
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  label = gtk_label_new_with_mnemonic("_Chat");
+  label = gtk_label_new_with_mnemonic(_("_Chat"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
 
   text = gtk_text_view_new();
@@ -932,7 +932,7 @@ static void setup_widgets(void)
   g_signal_connect(inputline, "focus_out_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
 
-  label = gtk_label_new_with_mnemonic("_Messages");
+  label = gtk_label_new_with_mnemonic(_("_Messages"));
   messages = create_meswin_area();
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), messages, label);
 
