@@ -553,7 +553,7 @@ static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
 {
   int y,x;
   struct city *pcity;
-  struct canvas_store store = {citydlgdc, pdialog->map_bmp};
+  struct canvas_store store = {citydlgdc, NULL};
 
   pcity=pdialog->pcity;
   for(y=0; y<CITY_MAP_SIZE; y++)
