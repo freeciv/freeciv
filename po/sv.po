@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.39-1.14-9\n"
-"POT-Creation-Date: 2003-08-12 19:43+0200\n"
+"POT-Creation-Date: 2003-09-11 18:21-0400\n"
 "PO-Revision-Date: 2003-08-12 19:49+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -1991,8 +1991,7 @@ msgstr "forskningsfart"
 msgid "Literacy"
 msgstr "läskunnighet"
 
-#: server/report.c:106 client/gui-gtk-2.0/citydlg.c:741
-#: client/gui-mui/citydlg.c:1538
+#: server/report.c:106 client/gui-mui/citydlg.c:1538
 msgid "Production"
 msgstr "tillverkning"
 
@@ -5683,10 +5682,9 @@ msgstr "?corruption:Mut"
 msgid "Corruption"
 msgstr "Mutning"
 
-#: client/cityrepdata.c:235 client/gui-gtk-2.0/citydlg.c:843
-#: client/gui-gtk-2.0/cityrep.c:1177 client/gui-gtk-2.0/cityrep.c:1321
-#: client/gui-gtk/cityrep.c:531 client/gui-gtk/cityrep.c:903
-#: client/gui-mui/citydlg.c:1453
+#: client/cityrepdata.c:235 client/gui-gtk-2.0/cityrep.c:1177
+#: client/gui-gtk-2.0/cityrep.c:1321 client/gui-gtk/cityrep.c:531
+#: client/gui-gtk/cityrep.c:903 client/gui-mui/citydlg.c:1453
 msgid "CMA"
 msgstr "Stadsförvaltning"
 
@@ -6989,7 +6987,8 @@ msgid "Pollution:"
 msgstr "Förorening:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-msgid "Overview"
+#, fuzzy
+msgid "_Overview"
 msgstr "Översikt"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
@@ -7024,27 +7023,33 @@ msgstr "%d/%d %d omgångar"
 msgid "_Improvements:"
 msgstr "Stadsförbättr_ingar:"
 
+#: client/gui-gtk-2.0/citydlg.c:741
+#, fuzzy
+msgid "Pro_duction"
+msgstr "tillverkning"
+
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
 #: client/gui-mui/citydlg.c:1544 client/gui-mui/cityrep.c:391
 msgid "_Buy"
 msgstr "_Köp"
 
-#: client/gui-gtk-2.0/citydlg.c:792 client/gui-gtk-2.0/happiness.c:104
-#: client/gui-gtk/happiness.c:101 client/gui-mui/citydlg.c:1452
-#: client/gui-mui/citydlg.c:1589 client/gui-win32/citydlg.c:810
-#: client/gui-win32/happiness.c:90 client/gui-xaw/menu.c:225
-#: data/helpdata.txt:1273
-msgid "Happiness"
-msgstr "Lycklighet"
+#: client/gui-gtk-2.0/citydlg.c:792 client/gui-gtk/citydlg.c:1134
+msgid "_Happiness"
+msgstr "_Lycklighet"
 
-#: client/gui-gtk-2.0/citydlg.c:863 client/gui-mui/citydlg.c:1454
-#: client/gui-win32/citydlg.c:811 data/Freeciv:2166
-msgid "Trade Routes"
-msgstr "Handelsvägar"
+#: client/gui-gtk-2.0/citydlg.c:843
+#, fuzzy
+msgid "C_MA"
+msgstr "Stadsförvaltning"
+
+#: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
+msgid "_Trade Routes"
+msgstr "Handels_vägar"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-msgid "Settings"
+#, fuzzy
+msgid "_Settings"
 msgstr "Inställningar"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
@@ -8011,74 +8016,74 @@ msgstr "Anslut"
 msgid "Choose unit activity:"
 msgstr "Välj vår handling:"
 
-#: client/gui-gtk-2.0/dialogs.c:1691 client/gui-gtk/dialogs.c:1694
+#: client/gui-gtk-2.0/dialogs.c:1693 client/gui-gtk/dialogs.c:1694
 msgid "Unit selection"
 msgstr "Enhetsval"
 
-#: client/gui-gtk-2.0/dialogs.c:1727
+#: client/gui-gtk-2.0/dialogs.c:1729
 msgid "_Ready all"
 msgstr "Gö_r alla tillgängliga"
 
-#: client/gui-gtk-2.0/dialogs.c:1735
+#: client/gui-gtk-2.0/dialogs.c:1737
 msgid "_Sentry idle"
 msgstr "_Sätt overksamma enheter på vakt"
 
-#: client/gui-gtk-2.0/dialogs.c:1776 client/gui-gtk/dialogs.c:1919
+#: client/gui-gtk-2.0/dialogs.c:1778 client/gui-gtk/dialogs.c:1919
 #: data/Freeciv:3034
 msgid "What Nation Will You Be?"
 msgstr "Vilken folkstam vill du styra?"
 
-#: client/gui-gtk-2.0/dialogs.c:1798
+#: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Välj en folkstam"
 
-#: client/gui-gtk-2.0/dialogs.c:1825
+#: client/gui-gtk-2.0/dialogs.c:1827
 msgid "_Nations:"
 msgstr "_Folkstammar:"
 
-#: client/gui-gtk-2.0/dialogs.c:1840 client/gui-gtk-2.0/plrdlg.c:159
+#: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
 msgid "Flag"
 msgstr "Flagga"
 
-#: client/gui-gtk-2.0/dialogs.c:1844 client/gui-gtk-2.0/plrdlg.c:160
+#: client/gui-gtk-2.0/dialogs.c:1846 client/gui-gtk-2.0/plrdlg.c:160
 #: client/gui-gtk/plrdlg.c:123 client/gui-mui/plrdlg.c:165
 #: client/gui-win32/plrdlg.c:354
 msgid "Nation"
 msgstr "stat"
 
-#: client/gui-gtk-2.0/dialogs.c:1888
+#: client/gui-gtk-2.0/dialogs.c:1890
 msgid "_Leader:"
 msgstr "_Ledare:"
 
-#: client/gui-gtk-2.0/dialogs.c:1895
+#: client/gui-gtk-2.0/dialogs.c:1897
 msgid "_Female"
 msgstr "_Kvinna"
 
-#: client/gui-gtk-2.0/dialogs.c:1900
+#: client/gui-gtk-2.0/dialogs.c:1902
 msgid "_Male"
 msgstr "_Man"
 
-#: client/gui-gtk-2.0/dialogs.c:1927
+#: client/gui-gtk-2.0/dialogs.c:1929
 msgid "_City Styles:"
 msgstr "Stads_utseenden:"
 
-#: client/gui-gtk-2.0/dialogs.c:2276 client/gui-gtk/dialogs.c:2287
+#: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
 msgid "You must select a nation."
 msgstr "Du måste välja en folkstam"
 
-#: client/gui-gtk-2.0/dialogs.c:2281 client/gui-gtk/dialogs.c:2292
+#: client/gui-gtk-2.0/dialogs.c:2283 client/gui-gtk/dialogs.c:2292
 #: client/gui-xaw/dialogs.c:2349
 msgid "You must select your sex."
 msgstr "Du måste välja ett kön."
 
-#: client/gui-gtk-2.0/dialogs.c:2286 client/gui-gtk/dialogs.c:2297
+#: client/gui-gtk-2.0/dialogs.c:2288 client/gui-gtk/dialogs.c:2297
 #: client/gui-xaw/dialogs.c:2354
 msgid "You must select your city style."
 msgstr "Du måste välja ett stadsutseende."
 
-#: client/gui-gtk-2.0/dialogs.c:2299 client/gui-gtk/dialogs.c:2310
+#: client/gui-gtk-2.0/dialogs.c:2301 client/gui-gtk/dialogs.c:2310
 #: client/gui-mui/dialogs.c:1637 client/gui-win32/dialogs.c:328
 #: client/gui-xaw/dialogs.c:2368
 msgid "You must type a legal name."
@@ -8135,11 +8140,15 @@ msgstr "God_ta avtal"
 msgid "C_lauses:"
 msgstr "Sats_er:"
 
-#: client/gui-gtk-2.0/diplodlg.c:520 client/gui-gtk-2.0/diplodlg.c:572
+#: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
 msgid "_Gold:"
 msgstr "_Guld:"
 
-#: client/gui-gtk-2.0/diplodlg.c:833 client/gui-gtk/diplodlg.c:992
+#: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
+msgid "_Add Clause..."
+msgstr ""
+
+#: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:995
 msgid "Game: Invalid amount of gold specified."
@@ -8240,6 +8249,13 @@ msgstr ""
 "Skatt:%d Överflöd:%d Forskning:%d\n"
 "Forskar fram %s: %d/%d\n"
 "Regeringsform: %s"
+
+#: client/gui-gtk-2.0/happiness.c:104 client/gui-gtk/happiness.c:101
+#: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
+#: client/gui-win32/citydlg.c:810 client/gui-win32/happiness.c:90
+#: client/gui-xaw/menu.c:225 data/helpdata.txt:1273
+msgid "Happiness"
+msgstr "Lycklighet"
 
 #: client/gui-gtk-2.0/happiness.c:249 client/gui-gtk/happiness.c:252
 #: client/gui-mui/citydlg.c:2339 client/gui-win32/happiness.c:193
@@ -9749,17 +9765,9 @@ msgstr "Visa _närvarande enheter"
 msgid "_Worklist"
 msgstr "_Arbetslista"
 
-#: client/gui-gtk/citydlg.c:1134
-msgid "_Happiness"
-msgstr "_Lycklighet"
-
 #: client/gui-gtk/citydlg.c:1188
 msgid "CM_A"
 msgstr "St_adsförvaltning"
-
-#: client/gui-gtk/citydlg.c:1210
-msgid "_Trade Routes"
-msgstr "Handels_vägar"
 
 #: client/gui-gtk/citydlg.c:1220
 msgid "Established trade routes"
@@ -10461,6 +10469,11 @@ msgstr "Sköldar"
 #: client/gui-mui/citydlg.c:1449 client/gui-win32/citydlg.c:809
 msgid "City Overview"
 msgstr "Stadsöversikt"
+
+#: client/gui-mui/citydlg.c:1454 client/gui-win32/citydlg.c:811
+#: data/Freeciv:2166
+msgid "Trade Routes"
+msgstr "Handelsvägar"
 
 #: client/gui-mui/citydlg.c:1455 client/gui-win32/citydlg.c:812
 msgid "Misc. Settings"
@@ -15587,8 +15600,8 @@ msgstr "kommunism"
 msgid "Comrade"
 msgstr "Kamrat"
 
-#: data/default/governments.ruleset:357 data/civ2/governments.ruleset:356
-#: data/history/governments.ruleset:357
+#: data/default/governments.ruleset:357
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15600,7 +15613,7 @@ msgid ""
 "considered to be only 10 squares away when computing the cost of inciting a "
 "revolt (see Units, Diplomat).\n"
 "\n"
-"Settlers consume 2 food per turn under Communism.\n"
+"Settlers consume 1 food per turn under Communism.\n"
 "\n"
 "If a city governed by Communism is celebrating, it will receive a bonus of 1 "
 "trade in each square which already produces at least 1 trade.  See Happiness "
@@ -15803,6 +15816,62 @@ msgstr ""
 "regeringen. Krigsenheter under folkstyre kunna ej mutas, och fientliga "
 "budbärare och spejare kunna ej anstifta uppror i folkstyrda städer."
 
+#: data/civ2/governments.ruleset:356 data/history/governments.ruleset:357
+msgid ""
+"A Communist government is based on the ideal that all people are equal.  All "
+"goods are owned by the state, rather than by private citizens.  Communism "
+"gives a balance between military and commercial styles of government.\n"
+"\n"
+"Under Communism, corruption does not vary by distance from the capital; all "
+"cities (including the capital) have a modest amount of corruption.  In "
+"addition, Communist cities more than 10 squares away from the capital are "
+"considered to be only 10 squares away when computing the cost of inciting a "
+"revolt (see Units, Diplomat).\n"
+"\n"
+"Settlers consume 2 food per turn under Communism.\n"
+"\n"
+"If a city governed by Communism is celebrating, it will receive a bonus of 1 "
+"trade in each square which already produces at least 1 trade.  See Happiness "
+"for details.\n"
+"\n"
+"The maximum rate you can set for science, tax or luxuries is 80%.\n"
+"\n"
+"Diplomats and Spies created under Communism are always veterans.\n"
+"\n"
+"Under Communism, your cities can support up to 3 military units without "
+"paying shields for upkeep.  (Additional units require 1 production shield "
+"each.)\n"
+"\n"
+"You impose limited but efficient martial law under Communism.  Each military "
+"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
+"content."
+msgstr ""
+"En kommunistisk regering grundar sig på idealet att alla människor är "
+"jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. "
+"Kommunism ger en avvägning mellan krigiskt och ekonomiskt regeringsslag.\n"
+"\n"
+"Under kommunism ändras inte mutningen beroende på avståndet till "
+"huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom "
+"betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som "
+"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp "
+"(se \"enheter\", \"budbärare\").\n"
+"\n"
+"Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
+"\n"
+"Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
+"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"\n"
+"Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
+"forskning är 70%.\n"
+"\n"
+"Budbärare och spejare som skapas under kommunism är alltid erfarna.\n"
+"\n"
+"Under kommunism kan varje stad understödja upp till 3 krigsenheter utan att "
+"betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
+"\n"
+"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
+"i en stad, upp till 3, håller 2 otillfredställda medborgare nöjda."
+
 #: data/civ2/governments.ruleset:390 data/default/techs.ruleset:236
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
 #: data/history/techs.ruleset:236
@@ -15953,6 +16022,7 @@ msgstr ""
 "i en stad, upp till 3, håller 1 otillfredställd medborgare nöjd."
 
 #: data/civ1/governments.ruleset:354
+#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15964,7 +16034,7 @@ msgid ""
 "considered to be only 10 squares away when computing the cost of inciting a "
 "revolt (see Units, Diplomat).\n"
 "\n"
-"Settlers consume 2 food per turn under Communism.\n"
+"Settlers consume 1 food per turn under Communism.\n"
 "\n"
 "If a city governed by Communism is celebrating, it will receive a bonus of 1 "
 "trade in each square which already produces at least 1 trade.  See Happiness "
@@ -15976,9 +16046,9 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You impose limited but efficient martial law under Communism.  Each military "
-"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
-"content."
+"You may impose martial law under Anarchy: each military unit inside a city "
+"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
+"act content, and will not cause disorder.)"
 msgstr ""
 "En kommunistisk regering grundar sig på idealet att alla människor är "
 "jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. "
