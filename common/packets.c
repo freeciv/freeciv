@@ -314,12 +314,17 @@ void *get_packet_from_connection(struct connection *pc,
 {
   int len_read;
   int whole_packet_len;
-  int type;
+  union {
+    enum packet_type type;
+    int itype;
+  } utype;
   struct data_in din;
 #ifdef USE_COMPRESSION
   bool compressed_packet = FALSE;
   int header_size = 0;
 #endif
+
+  assert(sizeof(utype.type) == sizeof(utype.itype));
 
   *presult = FALSE;
 
@@ -412,16 +417,16 @@ void *get_packet_from_connection(struct connection *pc,
   }
 #endif
 
-  dio_get_uint8(&din, (int *) (&type));
+  dio_get_uint8(&din, &utype.itype);
 
   freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d",
-	  get_packet_name(type), type, whole_packet_len);
+	  get_packet_name(utype.type), utype.itype, whole_packet_len);
 
-  *ptype= (enum packet_type)type;
+  *ptype = utype.type;
   *presult = TRUE;
 
   if (pc->incoming_packet_notify) {
-    pc->incoming_packet_notify(pc, type, whole_packet_len);
+    pc->incoming_packet_notify(pc, utype.type, whole_packet_len);
   }
 
 #if PACKET_SIZE_STATISTICS 
@@ -432,8 +437,8 @@ void *get_packet_from_connection(struct connection *pc,
     } packets_stats[PACKET_LAST];
     static int packet_counter = 0;
 
-    int packet_type = type;
-    int size = len;
+    int packet_type = utype.itype;
+    int size = whole_packet_len;
 
     if (!packet_counter) {
       int i;
@@ -471,7 +476,7 @@ void *get_packet_from_connection(struct connection *pc,
     }
   }
 #endif
-  return get_packet_from_connection_helper(pc, type);
+  return get_packet_from_connection_helper(pc, utype.type);
 }
 
 /**************************************************************************
