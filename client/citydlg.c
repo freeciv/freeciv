@@ -199,16 +199,17 @@ void refresh_city_dialog(struct city *pcity)
     city_dialog_update_storage(pdialog);
     city_dialog_update_pollution(pdialog);
   }
-  city_report_dialog_update(); /* ard's fix */
-  trade_report_dialog_update();
-
-  /* Set the buttons we do not want live while a Diplomat investigates */
-  
-  if(pdialog && pcity->owner != game.player_idx) {
-    XtSetSensitive(pdialog->buy_command, FALSE);
-    XtSetSensitive(pdialog->change_command, FALSE);
-    XtSetSensitive(pdialog->sell_command, FALSE);
-    XtSetSensitive(pdialog->rename_command, FALSE);
+  if(pcity->owner == game.player_idx)  {
+    city_report_dialog_update(); /* ard's fix */
+    trade_report_dialog_update();
+  } else {
+    if(pdialog)  {
+      /* Set the buttons we do not want live while a Diplomat investigates */
+      XtSetSensitive(pdialog->buy_command, FALSE);
+      XtSetSensitive(pdialog->change_command, FALSE);
+      XtSetSensitive(pdialog->sell_command, FALSE);
+      XtSetSensitive(pdialog->rename_command, FALSE);
+    }
   }
 }
 
