@@ -75,8 +75,7 @@ void global_warming(int effect)
 
   k = map.xsize * map.ysize;
   while(effect && k--) {
-    x = myrand(map.xsize);
-    y = myrand(map.ysize);
+    rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
       if (is_terrain_ecologically_wet(x, y)) {
 	switch (map_get_terrain(x, y)) {
@@ -132,8 +131,7 @@ void nuclear_winter(int effect)
 
   k =map.xsize * map.ysize;
   while(effect && k--) {
-    x = myrand(map.xsize);
-    y = myrand(map.ysize);
+    rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
       switch (map_get_terrain(x, y)) {
       case T_JUNGLE:

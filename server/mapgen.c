@@ -199,8 +199,7 @@ static void make_forests(void)
   int forestsize=25;
   forestsize=(map.xsize*map.ysize*map.forestsize)/1000;
    do {
-    x=myrand(map.xsize);
-    y=myrand(map.ysize);
+    rand_map_pos(&x, &y);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
       make_forest(x,y, hmap(x, y), 25);
     }
@@ -227,8 +226,7 @@ static void make_swamps(void)
   for (swamps=0;swamps<map.swampsize;) {
     forever++;
     if (forever>1000) return;
-    y=myrand(map.ysize);
-    x=myrand(map.xsize);
+    rand_map_pos(&x, &y);
     if (map_get_terrain(x, y)==T_GRASSLAND && hmap(x, y)<(maxval*60)/100) {
       map_set_terrain(x, y, T_SWAMP);
       cartesian_adjacent_iterate(x, y, x1, y1) {
@@ -672,11 +670,10 @@ static void make_rivers(void)
 	 iteration_counter < RIVERS_MAXTRIES) {
 
     /* Don't start any rivers at the poles. */
-    y = myrand(map.ysize - 2) + 1; 
+    do {
+      rand_map_pos(&x, &y);
+    } while (y == 0 || y == map.ysize-1);
 
-    /* Any x-coordinate is valid. */
-    x = myrand(map.xsize);
- 
     /* Check if it is suitable to start a river on the current tile.
      */
     if (
@@ -1140,8 +1137,7 @@ void create_start_positions(void)
   assert(game.nplayers<=nr+sum);
 
   while (nr<game.nplayers) {
-    x=myrand(map.xsize);
-    y=myrand(map.ysize); 
+    rand_map_pos(&x, &y);
     if (islands[(int)map_get_continent(x, y)].starters) {
       j++;
       if (!is_starter_close(x, y, nr, dist)) {
@@ -1309,7 +1305,10 @@ static void mapgenerator1(void)
   } whole_map_iterate_end;
 
   for (i=0;i<1500;i++) {
-    height_map[myrand(map.ysize*map.xsize)]+=myrand(5000);
+    int x, y;
+
+    rand_map_pos(&x, &y);
+    hmap(x, y) += myrand(5000);
     if (!(i%100)) {
       smooth_map(); 
     }
@@ -1381,8 +1380,7 @@ static void make_huts(int number)
   int x,y,l;
   int count=0;
   while ((number*map.xsize*map.ysize)/2000 && count++<map.xsize*map.ysize*2) {
-    x=myrand(map.xsize);
-    y=myrand(map.ysize);
+    rand_map_pos(&x, &y);
     l=myrand(6);
     if (map_get_terrain(x, y)!=T_OCEAN && 
 	( map_get_terrain(x, y)!=T_ARCTIC || l<3 )
@@ -1545,8 +1543,7 @@ static long int checkmass;
 static int place_island(void)
 {
   int x, y, xo, yo, i=0;
-  yo = myrand(map.ysize);
-  xo = myrand(map.xsize);
+  rand_map_pos(&xo, &yo);
 
   /* this helps a lot for maps with high landmass */
   for (y = n, x = w ; y < s && x < e ; y++, x++) {

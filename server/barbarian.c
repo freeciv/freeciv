@@ -324,8 +324,10 @@ static void try_summon_barbarians(void)
   struct city *pc;
   struct player *barbarians, *victim;
 
-  x = myrand(map.xsize);
-  y = 1 + myrand(map.ysize-2);  /* No uprising on North or South Pole */
+  /* No uprising on North or South Pole */
+  do {
+    rand_map_pos(&x, &y);
+  } while (y == 0 || y == map.ysize - 1);
 
   if( !(pc = dist_nearest_city(NULL, x, y, 1, 0)) )       /* any city */
     return;

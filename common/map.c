@@ -1373,6 +1373,18 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
 }
 
 /**************************************************************************
+ Random square anywhere on the map.  Only normal positions (for which
+ is_normal_map_pos returns true) will be found.
+**************************************************************************/
+void rand_map_pos(int *x, int *y)
+{
+  do {
+    *x = myrand(map.xsize);
+    *y = myrand(map.ysize);
+  } while (!is_normal_map_pos(*x, *y));
+}
+
+/**************************************************************************
 Return the debugging name of the direction.
 **************************************************************************/
 const char *dir_get_name(enum direction8 dir)
