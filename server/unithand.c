@@ -914,9 +914,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return FALSE;
   }
 
-  if (unit_flag(punit, F_CARAVAN)
-      && pcity
-      && pcity->owner != punit->owner
+  if (unit_flag(punit, F_TRADE_ROUTE) && pcity && pcity->owner != punit->owner
       && !pplayers_allied(city_owner(pcity), unit_owner(punit))
       && punit->homecity != 0) {
     struct packet_unit_request req;
@@ -1145,7 +1143,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   struct city *pcity_dest;
 
   punit = player_find_unit_by_id(pplayer, req->unit_id);
-  if (!punit || !unit_flag(punit, F_CARAVAN))
+  if (!punit || !unit_flag(punit, F_HELP_WONDER))
     return;
 
   pcity_dest = find_city_by_id(req->city_id);
@@ -1189,7 +1187,7 @@ bool handle_unit_establish_trade(struct player *pplayer,
   int revenue;
   
   punit = player_find_unit_by_id(pplayer, req->unit_id);
-  if (!punit || !unit_flag(punit, F_CARAVAN))
+  if (!punit || !unit_flag(punit, F_TRADE_ROUTE))
     return FALSE;
     
   pcity_homecity=player_find_city_by_id(pplayer, punit->homecity);

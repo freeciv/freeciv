@@ -324,8 +324,8 @@ bool ai_manage_explorer(struct unit *punit)
          * and caravans can. */
         /* FIXME/TODO: special flag for this? --pasky */
         /* FIXME: either comment or code is wrong here :-) --pasky */
-        if (map_get_city(x1, y1) && (unit_flag(punit, F_DIPLOMAT) ||
-                                     unit_flag(punit, F_CARAVAN)))
+        if (map_get_city(x1, y1) && (unit_flag(punit, F_DIPLOMAT) 
+                                     || unit_flag(punit, F_TRADE_ROUTE)))
           continue;
 
         if (is_barbarian(pplayer) && map_has_special(x1, y1, S_HUT))
@@ -1676,7 +1676,9 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
       unit_list_iterate(aplayer->units, aunit)
         if (map_get_city(aunit->x, aunit->y)) continue; /* already dealt with it */
         if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) continue;
-        if (unit_flag(aunit, F_CARAVAN) && punit->id == 0) continue; /* kluge */
+        if ((unit_flag(aunit, F_HELP_WONDER) || unit_flag(aunit, F_TRADE_ROUTE))
+             && punit->id == 0) 
+          continue; /* kluge */
         if (ai_fuzzy(pplayer, TRUE) &&
 	    (aunit == get_defender(punit, aunit->x, aunit->y) &&
            ((is_ground_unit(punit) &&
@@ -1848,30 +1850,32 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   if (punit->activity != ACTIVITY_IDLE)
     return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
-    if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) &&
-	build_points_left(pcity) > (pcity->shield_surplus*2)) {
+    if ((pcity = wonder_on_continent(pplayer, 
+                                     map_get_continent(punit->x, punit->y))) 
+        && unit_flag(punit, F_HELP_WONDER)
+        && build_points_left(pcity) > (pcity->shield_surplus * 2)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
-        if (punit->moves_left == 0) return;
-	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
+        if (punit->moves_left == 0) 
+          return;
+        auto_settler_do_goto(pplayer, punit, pcity->x, pcity->y);
         handle_unit_activity_request(punit, ACTIVITY_IDLE);
       } else {
-      /*
-       * We really don't want to just drop all caravans in immediately.
-       * Instead, we want to aggregate enough caravans to build instantly.
-       * -AJS, 990704
-       */
-	req.unit_id = punit->id;
-	req.city_id = pcity->id;
-	handle_unit_help_build_wonder(pplayer, &req);
+        /*
+         * We really don't want to just drop all caravans in immediately.
+         * Instead, we want to aggregate enough caravans to build instantly.
+         * -AJS, 990704
+         */
+        req.unit_id = punit->id;
+        req.city_id = pcity->id;
+        handle_unit_help_build_wonder(pplayer, &req);
       }
-    }
-     else {
+    } else {
        /* A caravan without a home?  Kinda strange, but it might happen.  */
        pcity=player_find_city_by_id(pplayer, punit->homecity);
-       city_list_iterate(pplayer->cities,pdest)
-         if (pcity
-             && can_establish_trade_route(pcity, pdest)
-             && map_get_continent(pcity->x, pcity->y) == map_get_continent(pdest->x, pdest->y)) {
+       city_list_iterate(pplayer->cities,pdest) {
+         if (pcity && can_establish_trade_route(pcity, pdest)
+             && map_get_continent(pcity->x, pcity->y) 
+                                == map_get_continent(pdest->x, pdest->y)) {
            tradeval=trade_between_cities(pcity, pdest);
            if (tradeval != 0) {
              if (best < tradeval) {
@@ -1880,12 +1884,14 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
              }
            }
          }
-       city_list_iterate_end;
-       pcity=player_find_city_by_id(pplayer, best_city);
+       } city_list_iterate_end;
+
+       pcity = player_find_city_by_id(pplayer, best_city);
+
        if (pcity) {
          if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
            if (punit->moves_left == 0) return;
-           auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
+           auto_settler_do_goto(pplayer, punit, pcity->x, pcity->y);
          } else {
            req.unit_id = punit->id;
            req.city_id = pcity->id;
@@ -2123,12 +2129,17 @@ static bool unit_can_be_retired(struct unit *punit)
 /**************************************************************************
  manage one unit
  Careful: punit may have been destroyed upon return from this routine!
+
+ Gregor: This function is a very limited approach because if a unit has
+ several flags the first one in order of appearance in this function
+ will be used.
 **************************************************************************/
 static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
   /* retire useless barbarian units here, before calling the management
      function */
   if( is_barbarian(pplayer) ) {
+    /* Todo: should be configurable */
     if( unit_can_be_retired(punit) && myrand(100) > 90 ) {
       wipe_unit(punit);
       return;
@@ -2154,7 +2165,8 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     if (punit->moves_left == 0) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
     return;
-  } else if (unit_flag(punit, F_CARAVAN)) {
+  } else if (unit_flag(punit, F_TRADE_ROUTE)
+             || unit_flag(punit, F_HELP_WONDER)) {
     ai_manage_caravan(pplayer, punit);
     return;
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
@@ -2173,6 +2185,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   }
   /* should never get here */
+  assert(0);
 }
 
 /**************************************************************************

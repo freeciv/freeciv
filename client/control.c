@@ -1597,9 +1597,8 @@ void key_unit_build_city(void)
 **************************************************************************/
 void key_unit_build_wonder(void)
 {
-  if(get_unit_in_focus())
-    if(unit_flag(punit_focus, F_CARAVAN))
-      request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
+  if (get_unit_in_focus() && unit_flag(punit_focus, F_HELP_WONDER))
+    request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
 }
 
 /**************************************************************************
@@ -1788,9 +1787,8 @@ void key_unit_sentry(void)
 **************************************************************************/
 void key_unit_traderoute(void)
 {
-  if(get_unit_in_focus())
-    if(unit_flag(punit_focus, F_CARAVAN))
-      request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
+  if (get_unit_in_focus() && unit_flag(punit_focus, F_TRADE_ROUTE))
+    request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
 }
 
 /**************************************************************************

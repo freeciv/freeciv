@@ -331,8 +331,10 @@ void ai_eval_buildings(struct city *pcity)
       if (!unit_type_flag(acity->currently_building, F_NONMIL) &&
           unit_types[acity->currently_building].move_type == LAND_MOVING)
         j += prod;
-      else if (unit_type_flag(acity->currently_building, F_CARAVAN) &&
-        built_elsewhere(acity, B_SUNTZU)) j += prod; /* this also stops flip-flops */
+      else if (unit_type_flag(acity->currently_building, F_HELP_WONDER) 
+               && built_elsewhere(acity, B_SUNTZU)) {
+             j += prod; /* this also stops flip-flops */
+      }
     } else if (acity->currently_building == B_BARRACKS || /* this stops flip-flops */
              acity->currently_building == B_BARRACKS2 ||
              acity->currently_building == B_BARRACKS3 ||
@@ -712,7 +714,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_CARAVAN)
+    if (unit_flag(punit, F_HELP_WONDER)
         && map_get_continent(punit->x, punit->y) == continent)
       caravans++;
   } unit_list_iterate_end;
@@ -720,7 +722,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
     if (acity->is_building_unit
-        && unit_type_flag(acity->currently_building, F_CARAVAN)
+        && unit_type_flag(acity->currently_building, F_HELP_WONDER)
         && acity->shield_stock >=
              get_unit_type(acity->currently_building)->build_cost
         && map_get_continent(acity->x, acity->y) == continent)
@@ -730,7 +732,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Check all wonders in our cities being built, if one isn't worth a little
    * help */
   city_list_iterate(pplayer->cities, acity) {  
-    unit_type = best_role_unit(pcity, F_CARAVAN);
+    unit_type = best_role_unit(pcity, F_HELP_WONDER);
     
     /* If we are building wonder there, the city is on same continent, we
      * aren't in that city (stopping building wonder in order to build caravan
@@ -761,12 +763,12 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
                                     : get_unit_type(unit_type)->move_rate);
       want -= dist;
       
-      unit_type = get_role_unit(F_CARAVAN, 0);
+      unit_type = get_role_unit(F_HELP_WONDER, 0);
       if (can_build_unit_direct(pcity, unit_type)) {
         if (want > choice->want) {
           choice->want = want;
           choice->type = CT_NONMIL;
-          ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, dist / 2);
+          ai_choose_role_unit(pplayer, pcity, choice, F_HELP_WONDER, dist / 2);
         }
       } else {
         int tech_req = get_unit_type(unit_type)->tech_requirement;
@@ -790,7 +792,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* FIXME: rather !is_valid_choice() --rwetmore */
   if (choice->want == 0) {
     /* Oh dear, better think of something! */
-    unit_type = best_role_unit(pcity, F_CARAVAN);
+    unit_type = best_role_unit(pcity, F_TRADE_ROUTE);
     
     if (unit_type == U_LAST) {
       unit_type = best_role_unit(pcity, F_DIPLOMAT);

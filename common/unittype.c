@@ -40,9 +40,9 @@ static const char *move_type_names[] = {
   "Land", "Sea", "Heli", "Air"
 };
 static const char *flag_names[] = {
-  "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
-  "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
-  "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
+  "TradeRoute" ,"HelpWonder", "Missile", "IgZOC", "NonMil", "IgTer", 
+  "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
+  "AEGIS", "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
   "AddToCity", "Fanatic"

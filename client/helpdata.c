@@ -607,9 +607,11 @@ void helptext_unit(char *buf, int i, const char *user_text)
 		  utype->transport_capacity), utype->transport_capacity);
     }
   }
-  if (unit_type_flag(i, F_CARAVAN)) {
-    sprintf(buf+strlen(buf),
-	    _("* Can establish trade routes and help build wonders.\n"));
+  if (unit_type_flag(i, F_TRADE_ROUTE)) {
+    sprintf(buf + strlen(buf), _("* Can establish trade routes.\n"));
+  }
+  if (unit_type_flag(i, F_HELP_WONDER)) {
+    sprintf(buf + strlen(buf), _("* Can help build wonders.\n"));
   }
   if (unit_type_flag(i, F_CITIES)) {
     sprintf(buf+strlen(buf), _("* Can build new cities.\n"));

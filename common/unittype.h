@@ -77,7 +77,8 @@ typedef enum unit_class_id Unit_Class_id;
    (It is easier to go from i to (1<<i) than the reverse.)
 */
 enum unit_flag_id { 
-  F_CARAVAN=0,
+  F_TRADE_ROUTE=0,
+  F_HELP_WONDER,
   F_MISSILE,   
   F_IGZOC,     
   F_NONMIL,      

@@ -1094,7 +1094,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
   } else {
     wonder_continent = 0;
   }
-  freight = best_role_unit(pcity, F_CARAVAN);
+  freight = best_role_unit(pcity, F_HELP_WONDER);
   moverate = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;

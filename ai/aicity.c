@@ -84,7 +84,7 @@ bool ai_city_build_peaceful_unit(struct city *pcity)
   Unit_Type_id i;
 
   if (is_building_other_wonder(pcity)) {
-    i = best_role_unit(pcity, F_CARAVAN);
+    i = best_role_unit(pcity, F_HELP_WONDER);
     if (i < U_LAST) {
       ai_do_build_unit(pcity, i);
       return TRUE;
@@ -431,8 +431,11 @@ static void ai_new_spend_gold(struct player *pplayer)
 	/* nothing */
       } else if (bestchoice.type != 0 && bestchoice.type < 3 && /* not a defender */
         buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
-        if (unit_type_flag(bestchoice.choice, F_CARAVAN) &&
-            pplayer->ai.maxbuycost < 100) pplayer->ai.maxbuycost = 100;
+        if ((unit_type_flag(bestchoice.choice, F_TRADE_ROUTE) 
+             || unit_type_flag(bestchoice.choice, F_HELP_WONDER)) 
+            && pplayer->ai.maxbuycost < 100) {
+          pplayer->ai.maxbuycost = 100;
+        }
       }
 #ifdef GRAVEDANGERWORKS
       else if (bestchoice.type == 3 && pcity->size == 1 &&
@@ -468,11 +471,16 @@ static void ai_new_spend_gold(struct player *pplayer)
           } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
 /* possibly upgrade units here */
         } /* end panic subroutine */
-        if (is_unit_choice_type(bestchoice.type) &&
-            unit_type_flag(bestchoice.choice, F_CARAVAN)) {
-          if (buycost > pplayer->ai.maxbuycost)
+        if (is_unit_choice_type(bestchoice.type) 
+            /* considering Syela's comment, F_TRADE_ROUTE should not be here.
+             * leaving for cleanup crew consideration -mck */
+            && (unit_type_flag(bestchoice.choice, F_TRADE_ROUTE)
+                || unit_type_flag(bestchoice.choice, F_HELP_WONDER))) {
+          if (buycost > pplayer->ai.maxbuycost) {
             pplayer->ai.maxbuycost = buycost;
-/* Gudy reminded me AI was slow to build wonders, I thought of the above -- Syela */
+          }
+            /* Gudy reminded me AI was slow to build wonders, 
+             * I thought of the above -- Syela */
         }
         if (bestchoice.type == CT_BUILDING) {
           switch (bestchoice.choice) {

@@ -185,11 +185,11 @@ bool unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y))
     return FALSE;
 
-  return unit_flag(punit, F_CARAVAN)
-    && punit->owner==pcity->owner
-    && !pcity->is_building_unit
-    && is_wonder(pcity->currently_building)
-    && pcity->shield_stock < improvement_value(pcity->currently_building);
+  return unit_flag(punit, F_HELP_WONDER)
+         && punit->owner == pcity->owner
+         && !pcity->is_building_unit
+         && is_wonder(pcity->currently_building)
+         && pcity->shield_stock < improvement_value(pcity->currently_building);
 }
 
 
@@ -210,7 +210,7 @@ bool unit_can_est_traderoute_here(struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 
-  if (!unit_flag(punit, F_CARAVAN)) return FALSE;
+  if (!unit_flag(punit, F_TRADE_ROUTE)) return FALSE;
   pdestcity = map_get_city(punit->x, punit->y);
   if (!pdestcity) return FALSE;
   phomecity = find_city_by_id(punit->homecity);

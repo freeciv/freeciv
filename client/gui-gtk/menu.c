@@ -1055,7 +1055,7 @@ void update_menus(void)
 						     punit->x, punit->y)));
       menus_set_sensitive("<main>/_Orders/Explode Nuclear",
 			  unit_flag(punit, F_NUCLEAR));
-      if (unit_flag(punit, F_CARAVAN))
+      if (unit_flag(punit, F_HELP_WONDER))
 	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
       else if (unit_flag(punit, F_CITIES)) {
 	if (map_get_city(punit->x, punit->y))
@@ -1066,7 +1066,7 @@ void update_menus(void)
       else 
 	menus_rename("<main>/_Orders/_Build City", _("_Build City"));
  
-      if (unit_flag(punit, F_CARAVAN))
+      if (unit_flag(punit, F_TRADE_ROUTE))
 	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
       else if (unit_flag(punit, F_SETTLERS)) {
 	if (map_has_special(punit->x, punit->y, S_ROAD)) {
