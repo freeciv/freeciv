@@ -60,7 +60,7 @@ static void alloc_standard_colors (void)
   int i;
 
   for (i=0, cmap=gtk_widget_get_default_colormap (); i<COLOR_STD_LAST; i++) {
-    colors_standard[i]       = g_malloc(sizeof(GdkColor));
+    colors_standard[i]       = fc_malloc(sizeof(GdkColor));
 
     colors_standard[i]->red  = colors_standard_rgb[i].r<<8;
     colors_standard[i]->green= colors_standard_rgb[i].g<<8;

@@ -785,17 +785,15 @@ struct city *transfer_city(struct player *ptaker,
     no_units = unit_list_size(&old_city_units);
     if (no_units > 0) {
       resolve_list = fc_malloc((no_units + 1) * sizeof(struct map_position));
-      if (resolve_list) {
-	i = 0;
-	unit_list_iterate(old_city_units, punit) {
-	  resolve_list[i].x = punit->x;
-	  resolve_list[i].y = punit->y;
-	  i++;
-	} unit_list_iterate_end;
-	resolve_list[i].x = pcity->x;
-	resolve_list[i].y = pcity->y;
-	assert(i == no_units);
-      }
+      i = 0;
+      unit_list_iterate(old_city_units, punit) {
+	resolve_list[i].x = punit->x;
+	resolve_list[i].y = punit->y;
+	i++;
+      } unit_list_iterate_end;
+      resolve_list[i].x = pcity->x;
+      resolve_list[i].y = pcity->y;
+      assert(i == no_units);
     }
   }
 

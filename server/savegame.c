@@ -209,7 +209,7 @@ free().
 ***************************************************************/
 static char *quote_block(const void *const data, int length)
 {
-  char *buffer = malloc(length * 3 + 10);
+  char *buffer = fc_malloc(length * 3 + 10);
   int offset, i;
 
   sprintf(buffer, "%d:", length);

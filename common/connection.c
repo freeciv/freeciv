@@ -297,17 +297,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 	  return 0;
 	}
       } else {
-        if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
-	  if (delayed_disconnect) {
-	    pc->delayed_disconnect = 1;
-	    return 1;
-	  } else {
-	    if (close_callback) {
-	      (*close_callback)(pc);
-	    }
-	    return 0;
-	  }
-	}
+	buf->data = fc_realloc(buf->data, buf->nsize);
       }
     }
     memcpy(buf->data + buf->ndata, data, len);
@@ -455,12 +445,8 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
   buf->ndata = 0;
   buf->do_buffer_sends = 0;
   buf->nsize = 10*MAX_LEN_PACKET;
-  if (!(buf->data = fc_malloc(buf->nsize))) {
-    free(buf);
-    return NULL;
-  } else {
-    return buf;
-  }
+  buf->data = fc_malloc(buf->nsize);
+  return buf;
 }
 
 /**************************************************************************
