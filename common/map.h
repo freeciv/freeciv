@@ -207,6 +207,7 @@ void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void tile_init(struct tile *ptile);
 enum known_type tile_is_known(int x, int y);
+int check_coords(int *x, int *y);
 int is_real_tile(int x, int y);
 int normalize_map_pos(int *x, int *y);
 void rand_neighbour(int x0, int y0, int *x, int *y);

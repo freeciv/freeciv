@@ -77,7 +77,8 @@ int diplomat_can_do_action(struct unit *pdiplomat,
   if(!is_diplomat_action_available(pdiplomat, action, destx, desty))
     return 0;
 
-  if(!is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty))
+  if(!is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty)
+     && !same_pos(pdiplomat->x, pdiplomat->y, destx, desty))
     return 0;
 
   if(!pdiplomat->moves_left)
@@ -180,11 +181,15 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity)
 **************************************************************************/
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
 {
-  return unit_flag(punit->type, F_CARAVAN) &&
-    is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y) &&
-    punit->owner==pcity->owner && !pcity->is_building_unit  && 
-    is_wonder(pcity->currently_building) &&
-    (pcity->shield_stock < improvement_value(pcity->currently_building));
+  if (!is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)
+      && !same_pos(punit->x, punit->y, pcity->x, pcity->y))
+    return 0;
+
+  return unit_flag(punit->type, F_CARAVAN)
+    && punit->owner==pcity->owner
+    && !pcity->is_building_unit
+    && is_wonder(pcity->currently_building)
+    && pcity->shield_stock < improvement_value(pcity->currently_building);
 }
 
 

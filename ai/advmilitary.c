@@ -183,6 +183,10 @@ static int assess_distance(struct city *pcity, struct unit *punit, int m,
 			   int boatid, int boatdist, int boatspeed)
 {
   int x, y, dist;
+
+  if (same_pos(punit->x, punit->y, pcity->x, pcity->y))
+    return 0;
+
   if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = SINGLE_MOVE;
   else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
   else if (!is_ground_unit(punit))

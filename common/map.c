@@ -1030,12 +1030,12 @@ int map_move_cost(struct unit *punit, int x, int y)
 ***************************************************************/
 int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 {
-  x0 = map_adjust_x(x0);
-  x1 = map_adjust_x(x1);
-  if (same_pos(x0, y0, x1, y1))
-    return 1;
-  return (((x0<=x1+1 && x0>=x1-1) || (x0==0 && x1==map.xsize-1) ||
-	   (x0==map.xsize-1 && x1==0)) && (y0<=y1+1 && y0>=y1-1));
+  adjc_iterate(x0, y0, x, y) {
+    if (x == x1 && y == y1)
+      return 1;
+  } adjc_iterate_end;
+
+  return 0;
 }
 
 
@@ -1175,6 +1175,26 @@ int same_pos(int x1, int y1, int x2, int y2)
 {
   return (map_adjust_x(x1) == map_adjust_x(x2)
 	  && map_adjust_y(y1) == map_adjust_y(y2)); 
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int check_coords(int *x, int *y)
+{
+  int save_x = *x, save_y = *y;
+
+  if (!normalize_map_pos(x, y)) {
+    freelog(LOG_ERROR, "%d, %d is not a real tile!", *x, *y);
+    *x = map_adjust_x(*x);
+    *y = map_adjust_y(*y);
+    return 0;
+  }
+
+  if (*x != save_x || *y != save_y)
+    freelog(LOG_ERROR, "Had to adjust coords %d, %d", *x, *y);
+
+  return 1;
 }
 
 /***************************************************************

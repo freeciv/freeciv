@@ -60,6 +60,9 @@ void handle_unit_goto_tile(struct player *pplayer,
 {
   struct unit *punit;
 
+  if (!check_coords(&req->x, &req->y))
+    return;
+
   if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     punit->goto_dest_x=req->x;
     punit->goto_dest_y=req->y;
@@ -87,6 +90,9 @@ void handle_unit_connect(struct player *pplayer,
 		          struct packet_unit_connect *req)
 {
   struct unit *punit;
+
+  if (!check_coords(&req->dest_x, &req->dest_y))
+    return;
 
   if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     if (can_unit_do_connect (punit, req->activity_type)) {
@@ -488,8 +494,17 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
-      punit->ai.control=0;
-      handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
+      if (!check_coords(&pinfo->x, &pinfo->y))
+	return;
+
+      if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
+	punit->ai.control = 0;
+	handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
+      } else {
+	/* This can happen due to lag, so don't complain too loudly */
+	freelog(LOG_DEBUG, "tiles are not adjacent, unit pos %d,%d trying "
+		"to go to  %d,%d!\n", punit->x, punit->y, pinfo->x, pinfo->y);
+      }
     }
     else if(punit->activity!=pinfo->activity ||
 	    punit->activity_target!=pinfo->activity_target ||
@@ -506,6 +521,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
     }
   }
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -513,8 +529,11 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 {
   struct unit *punit;
 
+  if (!check_coords(&pmove->x, &pmove->y))
+    return;
+
   punit=player_find_unit_by_id(pplayer, pmove->unid);
-  if(punit)  {
+  if (punit && is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
     handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
   }
 }
@@ -914,12 +933,15 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return 0;
   }
 
-  /* this occurs often during lag, and to the AI due to some quirks -- Syela */
-  if (same_pos(punit->x, punit->y, dest_x, dest_y))
+  if (!check_coords(&dest_x, &dest_y))
     return 0;
- 
+
   if (do_airline(punit, dest_x, dest_y))
     return 1;
+
+  /* this occurs often during lag, and to the AI due to some quirks -- Syela */
+  if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y))
+    return 0;
 
   if (unit_flag(punit->type, F_CARAVAN)
       && pcity
@@ -1149,7 +1171,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 {
   struct unit *punit;
   struct city *pcity_dest;
-    
+
   punit = player_find_unit_by_id(pplayer, req->unit_id);
   if (!punit || !unit_flag(punit->type, F_CARAVAN))
     return;
@@ -1158,7 +1180,8 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest))
     return;
 
-  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
+  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
+      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
     return;
 
   if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
@@ -1202,7 +1225,8 @@ int handle_unit_establish_trade(struct player *pplayer,
   if(!pcity_homecity || !pcity_dest)
     return 0;
     
-  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
+  if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
+      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
     return 0;
 
   if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
@@ -1228,7 +1252,7 @@ int handle_unit_establish_trade(struct player *pplayer,
 		       _("      The city of %s already has 4 trade routes!"),
 		       pcity_homecity->name);
       return 0;
-    } 
+    }
     if (city_num_trade_routes(pcity_dest)==4) {
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		       _("      The city of %s already has 4 trade routes!"),

@@ -2766,10 +2766,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
 
-  if (!is_real_tile(dest_x, dest_y)) {
-    freelog(LOG_ERROR, "Trying to move to non-adjusted tile pos. Trying to adjust...");
-    assert(normalize_map_pos(&dest_x, &dest_y));
-  }
+  assert(check_coords(&dest_x, &dest_y));
 
   conn_list_do_buffer(&pplayer->connections);
 
