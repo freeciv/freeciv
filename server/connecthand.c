@@ -191,6 +191,8 @@ static void reject_new_connection(const char *msg, struct connection *pconn)
   packet.you_can_join = FALSE;
   sz_strlcpy(packet.capability, our_capability);
   sz_strlcpy(packet.message, msg);
+  packet.challenge_file[0] = '\0';
+  packet.conn_id = -1;
   send_packet_server_join_reply(pconn, &packet);
   freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
