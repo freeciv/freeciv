@@ -392,15 +392,15 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
   Whether player could build this improvement, assuming they had
   the tech req, and assuming a city with the right pre-reqs etc.
 *****************************************************************/
-int could_player_eventually_build_improvement(struct player *p, enum improvement_type_id id)
+int could_player_eventually_build_improvement(struct player *p,
+					      enum improvement_type_id id)
 {
   if (!improvement_exists(id))
     return 0;
 
-  /* You can't build an improvement if it's tech requirement is
-     Never. */
-  if (improvement_types[id].tech_requirement == A_LAST)
-    return 0;
+  /* You can't build an improvement if it's tech requirement is Never. */
+  /*   if (improvement_types[id].tech_requirement == A_LAST) return 0; */
+  /* This is what "exists" means, done by improvement_exists() above --dwp */
   
   if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
     if (!game.global_wonders[B_APOLLO]) {
