@@ -58,6 +58,8 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
+  } else if (is_military_unit(punit)) {
+    ai_manage_military(pplayer,punit); 
   } else {
     
   }
@@ -280,8 +282,121 @@ struct city *wonder_on_continent(struct player *pplayer, int cont)
   city_list_iterate_end;
   return NULL;
 }
-
 /**************************************************************************
+decides what to do with a military unit.
+**************************************************************************/
+
+void ai_manage_military(struct player *pplayer,struct unit *punit)
+{
+switch (punit->ai.ai_role)
+   {
+   case AIUNIT_NONE:
+      ai_military_findjob(pplayer, punit);
+      break;
+   case AIUNIT_AUTO_SETTLER:
+      punit->ai.ai_role = AIUNIT_NONE; 
+      break;
+   case AIUNIT_BUILD_CITY:
+      punit->ai.ai_role = AIUNIT_NONE; 
+      break;
+   case AIUNIT_DEFEND_HOME:
+      ai_military_gohome(pplayer, punit);
+      break;
+   case AIUNIT_ATTACK:
+      ai_military_attack(pplayer, punit);
+      break;
+   case AIUNIT_FORTIFY:
+      ai_military_gohome(pplayer, punit);
+      break;
+   case AIUNIT_RUNAWAY: 
+      break;
+   case AIUNIT_ESCORT: 
+      break;
+   }
+}
+
+
+void ai_military_findjob(struct player *pplayer,struct unit *punit)
+{
+if (ai_military_findtarget(pplayer,punit))
+   {
+   punit->ai.ai_role=AIUNIT_ATTACK;
+   }
+else 
+   {
+   punit->ai.ai_role=AIUNIT_NONE;
+   }
+}
+
+
+void ai_military_gohome(struct player *pplayer,struct unit *punit)
+{
+struct city *pcity;
+if (punit->homecity)
+   {
+   pcity=find_city_by_id(punit->homecity);
+   printf("GOHOME (%d)(%d,%d)C(%d,%d)\n",punit->id,punit->x,punit->y,pcity->x,pcity->y);
+   if ((punit->x == pcity->x)&&(punit->y == pcity->y))
+      {
+      printf("INHOUSE. GOTO AI_NONE(%d)\n", punit->id);
+      punit->ai.ai_role=AIUNIT_NONE;
+      }
+   else
+      {
+      printf("GOHOME(%d,%d)\n",punit->goto_dest_x,punit->goto_dest_y);
+      punit->goto_dest_x=pcity->x;
+      punit->goto_dest_y=pcity->y;
+      punit->activity=ACTIVITY_GOTO;
+      punit->activity_count=0;
+      }
+   }
+else
+   {
+   punit->ai.ai_role=ACTIVITY_FORTIFY;
+   }
+}
+
+
+void ai_military_attack(struct player *pplayer,struct unit *punit)
+{
+int dist_city;
+int dist_unit;
+struct city *pcity;
+struct unit *penemyunit;
+
+if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y))
+   {
+   dist_city=map_distance(punit->x,punit->y, pcity->x, pcity->y);
+   
+   punit->goto_dest_x=pcity->x;
+   punit->goto_dest_y=pcity->y;
+   punit->activity=ACTIVITY_GOTO;
+   punit->activity_count=0;
+   printf("unit %d of kill city(%d,%d)\n",punit->id,punit->goto_dest_x,punit->goto_dest_y);
+   }
+if (penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y))
+   {
+   dist_unit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
+   if (dist_unit < dist_city)
+      {
+      punit->goto_dest_x=penemyunit->x;
+      punit->goto_dest_y=penemyunit->y;
+      punit->activity=ACTIVITY_GOTO;
+      punit->activity_count=0;
+      printf("unit %d to kill unit(%d,%d) instead\n",punit->id,punit->goto_dest_x,punit->goto_dest_y);
+      }
+   }
+   
+/* We should never get here. If we have, someone boo-booed */
+if (!(dist_city||dist_unit))
+   {      
+   punit->ai.ai_role=AIUNIT_NONE;
+   }
+}
+
+
+
+/*************************************************************************
 ...
 **************************************************************************/
 void ai_manage_caravan(struct player *pplayer, struct unit *punit)

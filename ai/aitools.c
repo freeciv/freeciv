@@ -26,7 +26,9 @@
 #include <plrhand.h>
 #include <aitools.h>
 #include <aiunit.h>
+
 void ai_calculate_city_value(int isle);
+int ai_military_findtarget(struct player *pplayer,struct unit *punit);
 
 
 struct ai_map_struct ai_map;
@@ -265,7 +267,56 @@ void ai_update_player_island_info(struct player *pplayer)
   unit_list_iterate_end;
 }
 
+/**************************************************************************
+..... can we find a military target?........
+**************************************************************************/
+int ai_military_findtarget(struct player *pplayer,struct unit *punit)
+{
+struct city *pcity;
+struct unit *penemyunit;
+
+int myreturn=0;
+int agression=0;
+int closestcity;
+int closestunit;
+
+/* Pick out units that have attack=defense or better */
+agression=10*(get_attack_power(punit)/10+1-get_defense_power(punit)/10);
+if (agression<0) { agression=0; }
+else { agression+=5; }
+
+pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y); 
+penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y); 
+closestcity=map_distance(punit->x,punit->y,pcity->x,pcity->y);
+if (pcity)
+   {
+   if (closestcity < agression*2 )
+      {
+      myreturn=1;
+      }
+   }
+if (penemyunit)
+   {
+   closestunit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
+    if (closestunit < agression*2 )
+      {
+      myreturn=1;
+      }
+   }
+if (punit->homecity && closestcity+closestunit > agression*2)
+   {
+   myreturn=0;
+   }
+else 
+   {
+   myreturn=1;
+   }
+return(myreturn);
+}
+
 /* -----------------------------GOVERNMENT------------------------------ */
+
+
 
 /**************************************************************************
 .. change government,pretty fast....
