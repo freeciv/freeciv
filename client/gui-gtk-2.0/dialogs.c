@@ -1733,7 +1733,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
 
-    pix = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
     unit_select_commands[i]=gtk_button_new();
     gtk_widget_set_sensitive(unit_select_commands[i],
@@ -1744,9 +1744,6 @@ void popup_unit_select_dialog(struct tile *ptile)
     gtk_box_pack_start(GTK_BOX(hbox),unit_select_commands[i],
        FALSE, FALSE, 0);
 
-    if (flags_are_transparent) {
-       gtk_pixcomm_clear(GTK_PIXCOMM(pix), FALSE);
-    }
     put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
 
     unit_select_labels[i]=gtk_label_new(buffer);

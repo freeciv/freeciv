@@ -471,7 +471,7 @@ static void setup_widgets(void)
 
   overview_canvas = gtk_drawing_area_new();
 
-  gtk_widget_set_events(overview_canvas, GDK_EXPOSURE_MASK
+  gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			       | GDK_BUTTON_PRESS_MASK );
 
   gtk_widget_set_size_request(overview_canvas, 160, 100);
@@ -499,7 +499,7 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(frame), vbox);
 
   ebox = gtk_event_box_new();
-  gtk_widget_set_events(ebox, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
   gtk_box_pack_start(GTK_BOX(vbox), ebox, FALSE, FALSE, 0);
 
@@ -523,7 +523,7 @@ static void setup_widgets(void)
   /* citizens for taxrates */
   for (i = 0; i < 10; i++) {
     ebox = gtk_event_box_new();
-    gtk_widget_set_events(ebox, GDK_BUTTON_PRESS_MASK);
+    gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
     gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
 
@@ -599,9 +599,7 @@ static void setup_widgets(void)
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
-  unit_pixmap = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, 
-                                UNIT_TILE_HEIGHT);
-  gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
+  unit_pixmap = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   unit_pixmap_button = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
@@ -610,8 +608,7 @@ static void setup_widgets(void)
                    GINT_TO_POINTER(-1));
 
   for(i = 0; i < num_units_below; i++) {
-    unit_below_pixmap[i] = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
-                                           UNIT_TILE_HEIGHT);
+    unit_below_pixmap[i] = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     unit_below_pixmap_button[i] = gtk_event_box_new();
     gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
                       unit_below_pixmap[i]);
@@ -622,9 +619,6 @@ static void setup_widgets(void)
       
     gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
                               i, i + 1, 1, 2);
-    gtk_widget_set_size_request(unit_below_pixmap[i],
-				UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
   }
 
   more_arrow_pixmap = gtk_image_new_from_pixmap(sprites.right_arrow->pixmap,
@@ -642,8 +636,13 @@ static void setup_widgets(void)
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
   map_canvas = gtk_drawing_area_new();
+  
+  for (i = 0; i < 5; i++) {
+    gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
+			 colors_standard[COLOR_STD_BLACK]);
+  }
 
-  gtk_widget_set_events(map_canvas, GDK_EXPOSURE_MASK
+  gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK
                                    |GDK_KEY_PRESS_MASK
                                    |GDK_POINTER_MOTION_MASK);
@@ -661,6 +660,9 @@ static void setup_widgets(void)
 
   g_signal_connect(map_canvas, "expose_event",
                    G_CALLBACK(map_canvas_expose), NULL);
+
+  g_signal_connect(map_canvas, "configure_event",
+                   G_CALLBACK(map_canvas_configure), NULL);
 
   g_signal_connect(map_canvas, "motion_notify_event",
                    G_CALLBACK(move_mapcanvas), NULL);
@@ -775,7 +777,7 @@ void ui_main(int argc, char **argv)
   GdkBitmap *icon_bitmap;
   GtkStyle *has_resources;
   PangoLanguage *lang;
-
+       
   /* set networking string conversion callbacks */
   set_put_conv_callback(put_conv);
   set_iget_conv_callback(iget_conv);
@@ -885,11 +887,6 @@ void ui_main(int argc, char **argv)
 
   timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
-  map_canvas_store = gdk_pixmap_new(root_window,
-                                 map_canvas_store_twidth * NORMAL_TILE_WIDTH,
-                                 map_canvas_store_theight * NORMAL_TILE_HEIGHT,
-                                 -1);
-
   overview_canvas_store = gdk_pixmap_new(root_window,
                                          overview_canvas_store_width,
                                          overview_canvas_store_height, -1);
@@ -935,14 +932,16 @@ void set_unit_icon(int idx, struct unit *punit)
     w = unit_below_pixmap[idx];
     unit_ids[idx] = punit ? punit->id : 0;
   }
-  
+
+  gtk_pixcomm_freeze(GTK_PIXCOMM(w));
+
   if (punit) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(w), FALSE);
     put_unit_gpixmap(punit, GTK_PIXCOMM(w));
   } else {
-    gtk_pixcomm_clear(GTK_PIXCOMM(w), TRUE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(w));
   }
   
+  gtk_pixcomm_thaw(GTK_PIXCOMM(w));
 }
 
 /**************************************************************************

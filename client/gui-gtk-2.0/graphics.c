@@ -349,22 +349,23 @@ void create_overlay_unit(GtkWidget *pixcomm, int i)
     case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
     default:	      bg_color = COLOR_STD_BLACK;  break;
   }
-  gtk_pixcomm_fill(GTK_PIXCOMM(pixcomm), colors_standard[bg_color], FALSE);
+  gtk_pixcomm_freeze(GTK_PIXCOMM(pixcomm));
+  gtk_pixcomm_fill(GTK_PIXCOMM(pixcomm), colors_standard[bg_color]);
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
     struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), flag, 0, 0, FALSE);
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), flag, 0, 0);
   }
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
     struct Sprite *s=get_unit_type(i)->sprite;
 
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), s, 0, 0, FALSE);
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), s, 0, 0);
   }
-  gtk_pixcomm_changed(GTK_PIXCOMM(pixcomm));
+  gtk_pixcomm_thaw(GTK_PIXCOMM(pixcomm));
 }
 
 /***************************************************************************

@@ -88,7 +88,7 @@ static void put_overlay_tile_gpixmap(GtkPixcomm *p,
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
 static void put_line(GdkDrawable *pm, int x, int y, int dir);
-static void show_city_descriptions(GdkRectangle *area);
+static void show_city_descriptions(void);
 
 static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
 				 int canvas_x, int canvas_y,
@@ -903,93 +903,108 @@ void refresh_overview_viewrect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
+static bool map_center = TRUE;
+
+gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
+			      gpointer data)
 {
-  gint height, width;
   int tile_width, tile_height;
-  gboolean map_resized;
-  static int exposed_once = 0;
 
-  gdk_window_get_size(w->window, &width, &height);
+  tile_width = (ev->width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
+  tile_height = (ev->height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
 
-  tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-  tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
-
-  map_resized=FALSE;
-  if(map_canvas_store_twidth !=tile_width ||
-     map_canvas_store_theight!=tile_height) { /* resized? */
-    gdk_pixmap_unref(map_canvas_store);
+  if (map_canvas_store) {
+    g_object_unref(map_canvas_store);
+  } else {
+    map_canvas_store_twidth  = -1;
+    map_canvas_store_theight = -1;
+  }
   
-    map_canvas_store_twidth=tile_width;
-    map_canvas_store_theight=tile_height;
-/*
-    gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas),
-  		    map_canvas_store_twidth,
-  		    map_canvas_store_theight);
-*/
-    map_canvas_store= gdk_pixmap_new( map_canvas->window,
-  		    tile_width*NORMAL_TILE_WIDTH,
-  		    tile_height*NORMAL_TILE_HEIGHT,
-  		    -1 );
+  if (map_canvas_store_twidth !=tile_width ||
+      map_canvas_store_theight!=tile_height) { /* resized? */
+
+    map_canvas_store_twidth  = tile_width;
+    map_canvas_store_theight = tile_height;
+
+    map_canvas_store = gdk_pixmap_new(ev->window,
+				      tile_width  * NORMAL_TILE_WIDTH,
+				      tile_height * NORMAL_TILE_HEIGHT,
+				      -1);
 
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE,
-		       0, 0,
-		       NORMAL_TILE_WIDTH*map_canvas_store_twidth,
-		       NORMAL_TILE_HEIGHT*map_canvas_store_theight);
+    gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE, 0, 0, -1, -1);
     update_map_canvas_scrollbars_size();
-    map_resized=TRUE;
   }
 
-  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     if (!intro_gfx_sprite) {
       load_intro_gfx();
     }
-    if (!scaled_intro_sprite || height != scaled_intro_sprite->height
-	|| width != scaled_intro_sprite->width) {
-      if (scaled_intro_sprite) {
-	free_sprite(scaled_intro_sprite);
-      }
-	
-      scaled_intro_sprite = sprite_scale(intro_gfx_sprite, width, height);
-    }
-    
+
     if (scaled_intro_sprite) {
-      gdk_draw_pixmap(map_canvas->window, civ_gc,
-		      scaled_intro_sprite->pixmap, ev->area.x,
-		      ev->area.y, ev->area.x, ev->area.y,
-		      ev->area.width, ev->area.height);
+      free_sprite(scaled_intro_sprite);
     }
-  }
-  else
-  {
+
+    scaled_intro_sprite = sprite_scale(intro_gfx_sprite, ev->width, ev->height);
+  } else {
     if (scaled_intro_sprite) {
       free_sprite(scaled_intro_sprite);
       scaled_intro_sprite = NULL;
     }
 
-    if(map.xsize) { /* do we have a map at all */
-      if(map_resized) {
-	update_map_canvas_visible();
+    if (map.xsize) { /* do we have a map at all */
+      update_map_canvas_visible();
+      update_map_canvas_scrollbars();
+      refresh_overview_viewrect();
+    }
+  }
+  return TRUE;
+}
 
-	update_map_canvas_scrollbars();
+/**************************************************************************
+...
+**************************************************************************/
+gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
+{
+  static bool cleared = FALSE;
 
-    	refresh_overview_viewrect();
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    if (scaled_intro_sprite) {
+      gdk_draw_pixmap(map_canvas->window, civ_gc,
+		      scaled_intro_sprite->pixmap,
+		      ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+		      ev->area.width, ev->area.height);
+      cleared = FALSE;
+    } else {
+      if (!cleared) {
+        gtk_widget_queue_draw(w);
+	cleared = TRUE;
       }
-      else {
-	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
+    }
+    map_center = TRUE;
+  }
+  else
+  {
+    if (map.xsize) { /* do we have a map at all */
+      gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
 		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-		ev->area.width, ev->area.height );
-	show_city_descriptions(&ev->area);
+		ev->area.width, ev->area.height);
+      show_city_descriptions();
+      cleared = FALSE;
+    } else {
+      if (!cleared) {
+        gtk_widget_queue_draw(w);
+	cleared = TRUE;
       }
     }
     refresh_overview_canvas();
+
+    if (!map_center) {
+      center_on_something();
+      map_center = FALSE;
+    }
   }
 
-  if (!exposed_once) {
-    center_on_something();
-    exposed_once = 1;
-  }
   return TRUE;
 }
 
@@ -1303,7 +1318,7 @@ void update_map_canvas_visible(void)
 		      map_canvas_store_twidth,map_canvas_store_theight, TRUE);
   }
 
-  show_city_descriptions(NULL);
+  show_city_descriptions();
 }
 
 /**************************************************************************
@@ -1380,7 +1395,7 @@ static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_descriptions(GdkRectangle *area)
+static void show_city_descriptions()
 {
   PangoLayout *layout;
 
@@ -1388,8 +1403,6 @@ static void show_city_descriptions(GdkRectangle *area)
     return;
 
   layout = pango_layout_new(gdk_pango_context_get());
-  gdk_gc_set_clip_rectangle(toplevel->style->black_gc, area);
-  gdk_gc_set_clip_rectangle(toplevel->style->white_gc, area);
 
   if (is_isometric ) {
     int x, y;
@@ -1457,12 +1470,14 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
   int solid_bg;
   int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
+  gtk_pixcomm_freeze(p);
+  gtk_pixcomm_clear(p);
+
   if (count) {
     int i;
 
     if (solid_bg) {
-      gtk_pixcomm_fill(p, colors_standard[player_color(unit_owner(punit))],
-		       FALSE);
+      gtk_pixcomm_fill(p, colors_standard[player_color(unit_owner(punit))]);
     }
 
     for (i=0;i<count;i++) {
@@ -1471,7 +1486,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
     }
   }
 
-  gtk_pixcomm_changed(GTK_PIXCOMM(p));
+  gtk_pixcomm_thaw(p);
 }
 
 
@@ -1486,6 +1501,8 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
   int upkeep_food = CLIP(0, punit->upkeep_food, 2);
   int unhappy = CLIP(0, punit->unhappiness, 2);
  
+  gtk_pixcomm_freeze(p);
+
   /* draw overlay pixmaps */
   if (punit->upkeep > 0)
     put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.shield);
@@ -1493,6 +1510,8 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
     put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.food[upkeep_food-1]);
   if (unhappy > 0)
     put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.unhappy[unhappy-1]);
+
+  gtk_pixcomm_thaw(p);
 }
 
 /**************************************************************************
@@ -1580,8 +1599,7 @@ static void put_overlay_tile_gpixmap(GtkPixcomm *p, int canvas_x, int canvas_y,
   if (!ssprite)
     return;
 
-  gtk_pixcomm_copyto (p, ssprite, canvas_x, canvas_y,
-		FALSE);
+  gtk_pixcomm_copyto(p, ssprite, canvas_x, canvas_y);
 }
 
 /**************************************************************************

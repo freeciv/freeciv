@@ -52,9 +52,10 @@ struct _GtkPixcomm
 {
   GtkMisc misc;
   
+  guint freeze_count;
+
   gint w, h;
-  GdkBitmap *mask;
-  GdkPixmap *pixmap;
+  GArray *actions;
 };
 
 struct _GtkPixcommClass
@@ -64,13 +65,14 @@ struct _GtkPixcommClass
 
 
 GtkType	   gtk_pixcomm_get_type	 (void) G_GNUC_CONST;
-GtkWidget* gtk_pixcomm_new	 (GdkWindow *window, gint width, gint height);
+GtkWidget* gtk_pixcomm_new	 (gint width, gint height);
 void       gtk_pixcomm_copyto	 (GtkPixcomm *pixcomm, SPRITE *src,
-				  gint x, gint y, gboolean refresh);
-void       gtk_pixcomm_changed	 (GtkPixcomm *pixcomm);
-void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm, gboolean refresh);
-void	   gtk_pixcomm_fill	 (GtkPixcomm *pixcomm, GdkColor *color,
-				  gboolean refresh);
+				  gint x, gint y);
+void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm);
+void	   gtk_pixcomm_fill	 (GtkPixcomm *pixcomm, GdkColor *color);
+
+void	   gtk_pixcomm_freeze	 (GtkPixcomm *pixcomm);
+void	   gtk_pixcomm_thaw	 (GtkPixcomm *pixcomm);
 
 
 #ifdef __cplusplus

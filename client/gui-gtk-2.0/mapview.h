@@ -31,6 +31,8 @@ SPRITE *get_citizen_sprite(int frame);
 
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
+gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
+			      gpointer data);
 
 void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y, 
 			  int food, int shield, int trade);

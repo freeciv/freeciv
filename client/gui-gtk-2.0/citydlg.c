@@ -643,11 +643,10 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   pdialog->overview.map_canvas = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(align), pdialog->overview.map_canvas);
-  gtk_widget_set_events(pdialog->overview.map_canvas, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_add_events(pdialog->overview.map_canvas, GDK_BUTTON_PRESS_MASK);
 
-  pdialog->overview.map_canvas_pixmap = gtk_pixcomm_new(root_window,
-							canvas_width,
-							canvas_height);
+  pdialog->overview.map_canvas_pixmap =
+	gtk_image_new_from_pixmap(pdialog->map_canvas_store, NULL);
   gtk_container_add(GTK_CONTAINER(pdialog->overview.map_canvas),
 		    pdialog->overview.map_canvas_pixmap);
 
@@ -690,14 +689,14 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
 
     pdialog->overview.supported_unit_boxes[i] = gtk_event_box_new();
-    gtk_widget_set_events(pdialog->overview.supported_unit_boxes[i],
+    gtk_widget_add_events(pdialog->overview.supported_unit_boxes[i],
 			  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     gtk_box_pack_start(GTK_BOX(hbox),
 		       pdialog->overview.supported_unit_boxes[i], TRUE,
 		       TRUE, 0);
 
     pdialog->overview.supported_unit_pixmaps[i] =
-	gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, unit_height);
+	gtk_pixcomm_new(UNIT_TILE_WIDTH, unit_height);
     gtk_container_add(GTK_CONTAINER
 		      (pdialog->overview.supported_unit_boxes[i]),
 		      pdialog->overview.supported_unit_pixmaps[i]);
@@ -747,14 +746,14 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   for (i = 0; i < MINI_NUM_UNITS; i++) {
     pdialog->overview.present_unit_boxes[i] = gtk_event_box_new();
-    gtk_widget_set_events(pdialog->overview.present_unit_boxes[i],
+    gtk_widget_add_events(pdialog->overview.present_unit_boxes[i],
 			  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     gtk_box_pack_start(GTK_BOX(hbox),
 		       pdialog->overview.present_unit_boxes[i], TRUE, TRUE,
 		       0);
 
     pdialog->overview.present_unit_pixmaps[i] =
-	gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+	gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER
 		      (pdialog->overview.present_unit_boxes[i]),
 		      pdialog->overview.present_unit_pixmaps[i]);
@@ -960,7 +959,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
 
   for (num = 0, i = 0; i < NUM_UNITS_SHOWN; i++) {
     pdialog->unit.supported_unit_boxes[i] = gtk_event_box_new();
-    gtk_widget_set_events(pdialog->unit.supported_unit_boxes[i],
+    gtk_widget_add_events(pdialog->unit.supported_unit_boxes[i],
 			  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     gtk_box_pack_start(GTK_BOX(hbox_row[num++]),
 		       pdialog->unit.supported_unit_boxes[i], TRUE, TRUE,
@@ -970,7 +969,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
       num = 0;
 
     pdialog->unit.supported_unit_pixmaps[i] =
-	gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
+	gtk_pixcomm_new(UNIT_TILE_WIDTH,
 			NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT / 2);
     gtk_container_add(GTK_CONTAINER(pdialog->unit.supported_unit_boxes[i]),
 		      pdialog->unit.supported_unit_pixmaps[i]);
@@ -1020,7 +1019,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
 
   for (num = 0, i = 0; i < NUM_UNITS_SHOWN; i++) {
     pdialog->unit.present_unit_boxes[i] = gtk_event_box_new();
-    gtk_widget_set_events(pdialog->unit.present_unit_boxes[i],
+    gtk_widget_add_events(pdialog->unit.present_unit_boxes[i],
 			  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
     gtk_box_pack_start(GTK_BOX(hbox_row[num++]),
 		       pdialog->unit.present_unit_boxes[i], TRUE, TRUE, 0);
@@ -1030,7 +1029,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
 
 
     pdialog->unit.present_unit_pixmaps[i] =
-	gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+	gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER(pdialog->unit.present_unit_boxes[i]),
 		      pdialog->unit.present_unit_pixmaps[i]);
     pdialog->unit.present_unit_ids[i] = -1;
@@ -1155,11 +1154,10 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 
   pdialog->happiness.map_canvas = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(align), pdialog->happiness.map_canvas);
-  gtk_widget_set_events(pdialog->happiness.map_canvas, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_add_events(pdialog->happiness.map_canvas, GDK_BUTTON_PRESS_MASK);
 
-  pdialog->happiness.map_canvas_pixmap = gtk_pixcomm_new(root_window,
-							 canvas_width,
-							 canvas_height);
+  pdialog->happiness.map_canvas_pixmap =
+	gtk_image_new_from_pixmap(pdialog->map_canvas_store, NULL);
   gtk_container_add(GTK_CONTAINER(pdialog->happiness.map_canvas),
 		    pdialog->happiness.map_canvas_pixmap);
   gtk_signal_connect(GTK_OBJECT(pdialog->happiness.map_canvas),
@@ -1421,6 +1419,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   pdialog->rename_shell = NULL;
   pdialog->happiness.map_canvas = NULL;         /* make sure NULL if spy */
   pdialog->happiness.map_canvas_pixmap = NULL;  /* ditto */
+  pdialog->map_canvas_store = gdk_pixmap_new(root_window, canvas_width,
+					     canvas_height, -1);
 
 
   pdialog->shell = gtk_dialog_new();
@@ -1465,10 +1465,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
 
   ebox = gtk_event_box_new();
-  gtk_widget_set_events(ebox, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
   gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 0);
   pdialog->citizen_pixmap =
-      gtk_pixcomm_new(root_window, SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
+      gtk_pixcomm_new(SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
 		      SMALL_TILE_HEIGHT);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
   gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
@@ -1551,9 +1551,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   gtk_signal_connect(GTK_OBJECT(pdialog->shell), "key_press_event",
 		     GTK_SIGNAL_FUNC(keyboard_handler), pdialog);
 
-  pdialog->map_canvas_store = gdk_pixmap_new(root_window, canvas_width,
-					     canvas_height, -1);
-
   dialog_list_insert(&dialog_list, pdialog);
 
   impr_type_iterate(i) {
@@ -1627,41 +1624,44 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   }
   pdialog->cwidth = width;
 
-  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap), TRUE);
+  gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->citizen_pixmap));
+  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
 
   i = 0;	/* tracks the # of the citizen we are currently placing. */
   for (n = 0; n < pcity->ppl_happy[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(5 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(5 + i % 2), i * width, 0);
   }
 
   for (n = 0; n < pcity->ppl_content[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(3 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(3 + i % 2), i * width, 0);
   }
 
   for (n = 0; n < pcity->ppl_unhappy[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(7 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(7 + i % 2), i * width, 0);
   }
 
   pdialog->first_elvis = i;
   for (n = 0; n < pcity->ppl_elvis; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(0), i * width, 0, TRUE);
+		       get_citizen_sprite(0), i * width, 0);
   }
 
   pdialog->first_scientist = i;
   for (n = 0; n < pcity->ppl_scientist; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(1), i * width, 0, TRUE);
+		       get_citizen_sprite(1), i * width, 0);
   }
 
   pdialog->first_taxman = i;
   for (n = 0; n < pcity->ppl_taxman; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(2), i * width, 0, TRUE);
+		       get_citizen_sprite(2), i * width, 0);
   }
+  gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->citizen_pixmap));
+
 /*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
 /*                           !cma_is_city_under_agent(pcity, NULL));*/
 }
@@ -2025,21 +2025,15 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->overview.supported_unit_pixmaps[i]),
-			FALSE);
-
+    gtk_pixcomm_freeze(GTK_PIXCOMM
+		       (pdialog->overview.supported_unit_pixmaps[i]));
     put_unit_gpixmap(punit,
-		     GTK_PIXCOMM(pdialog->
-				 overview.supported_unit_pixmaps[i]));
+		     GTK_PIXCOMM(pdialog->overview.supported_unit_pixmaps[i]));
     put_unit_gpixmap_city_overlays(punit,
 				   GTK_PIXCOMM(pdialog->
 					       overview.supported_unit_pixmaps
 					       [i]));
-
-    gtk_pixcomm_changed(GTK_PIXCOMM
-			(pdialog->overview.supported_unit_pixmaps[i]));
+    gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->overview.supported_unit_pixmaps[i]));
 
     pdialog->overview.supported_unit_ids[i] = punit->id;
 
@@ -2059,8 +2053,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   }
 
   for (; i < MINI_NUM_UNITS; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM
-		      (pdialog->overview.supported_unit_pixmaps[i]), TRUE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.supported_unit_pixmaps[i]));
     pdialog->overview.supported_unit_ids[i] = 0;
     gtk_widget_set_sensitive(pdialog->overview.supported_unit_boxes[i],
 			     FALSE);
@@ -2076,19 +2069,14 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->unit.supported_unit_pixmaps[i]), FALSE);
-
+    gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]));
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]));
     put_unit_gpixmap_city_overlays(punit,
 				   GTK_PIXCOMM(pdialog->
 					       unit.supported_unit_pixmaps
 					       [i]));
-
-    gtk_pixcomm_changed(GTK_PIXCOMM
-			(pdialog->unit.supported_unit_pixmaps[i]));
+    gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]));
 
     pdialog->unit.supported_unit_ids[i] = punit->id;
 
@@ -2105,8 +2093,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   }
 
   for (; i < NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]),
-		      TRUE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.supported_unit_pixmaps[i]));
     pdialog->unit.supported_unit_ids[i] = 0;
     gtk_widget_set_sensitive(pdialog->unit.supported_unit_boxes[i], FALSE);
   }
@@ -2168,17 +2155,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM
-			(pdialog->overview.present_unit_pixmaps[i]),
-			FALSE);
-
     put_unit_gpixmap(punit,
-		     GTK_PIXCOMM(pdialog->
-				 overview.present_unit_pixmaps[i]));
-
-    gtk_pixcomm_changed(GTK_PIXCOMM
-			(pdialog->overview.present_unit_pixmaps[i]));
+		     GTK_PIXCOMM(pdialog->overview.present_unit_pixmaps[i]));
 
     pdialog->overview.present_unit_ids[i] = punit->id;
 
@@ -2197,8 +2175,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 			     TRUE);
   }
   for (; i < MINI_NUM_UNITS; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM
-		      (pdialog->overview.present_unit_pixmaps[i]), TRUE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.present_unit_pixmaps[i]));
     pdialog->overview.present_unit_ids[i] = 0;
     gtk_widget_set_sensitive(pdialog->overview.present_unit_boxes[i],
 			     FALSE);
@@ -2214,15 +2191,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
        ITERATOR_NEXT(myiter), i++) {
     punit = (struct unit *) ITERATOR_PTR(myiter);
 
-    if (flags_are_transparent)
-      gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
-			FALSE);
-
     put_unit_gpixmap(punit,
 		     GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]));
-
-    gtk_pixcomm_changed(GTK_PIXCOMM
-			(pdialog->unit.present_unit_pixmaps[i]));
 
     pdialog->unit.present_unit_ids[i] = punit->id;
 
@@ -2238,8 +2208,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     gtk_widget_set_sensitive(pdialog->unit.present_unit_boxes[i], TRUE);
   }
   for (; i < NUM_UNITS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]),
-		      TRUE);
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->unit.present_unit_pixmaps[i]));
     pdialog->unit.present_unit_ids[i] = 0;
     gtk_widget_set_sensitive(pdialog->unit.present_unit_boxes[i], FALSE);
   }
@@ -2845,25 +2814,9 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev)
 *****************************************************************/
 static void draw_map_canvas(struct city_dialog *pdialog)
 {
-  struct Sprite tmp;
-
-  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.map_canvas_pixmap),
-		    TRUE);
+  gtk_widget_queue_draw(pdialog->overview.map_canvas_pixmap);
   if (pdialog->happiness.map_canvas_pixmap) {	/* in case of spy */
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->happiness.map_canvas_pixmap),
-		      TRUE);
-  }
-
-  tmp.pixmap = pdialog->map_canvas_store;
-  tmp.has_mask = 0;
-  tmp.width = canvas_width;
-  tmp.height = canvas_height;
-
-  gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->overview.map_canvas_pixmap),
-		     &tmp, 0, 0, TRUE);
-  if (pdialog->happiness.map_canvas_pixmap) {	/* in case of spy */
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.map_canvas_pixmap),
-		       &tmp, 0, 0, TRUE);
+    gtk_widget_queue_draw(pdialog->happiness.map_canvas_pixmap);
   }
 }
 
@@ -3553,7 +3506,7 @@ static void close_city_dialog(struct city_dialog *pdialog)
   if (pdialog->rename_shell)
     gtk_widget_destroy(pdialog->rename_shell);
 
-  gdk_pixmap_unref(pdialog->map_canvas_store);
+  g_object_unref(pdialog->map_canvas_store);
 
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);
