@@ -252,7 +252,7 @@ static void players_meet(void)
     if (can_meet_with_player(&game.players[playerno])) {
       request_diplomacy_init_meeting(game.player_idx, playerno);
     } else {
-      append_output_window(_("Game: You need an embassy to establish a "
+      append_output_window(_("You need an embassy to establish a "
                              "diplomatic meeting."));
     }
   }

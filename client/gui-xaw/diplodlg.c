@@ -945,7 +945,7 @@ void diplodlg_key_gold(Widget w)
       XtVaSetValues(w, XtNstring, "", NULL);
     }
     else
-      append_output_window(_("Game: Invalid amount of gold specified."));
+      append_output_window(_("Invalid amount of gold specified."));
   }
 }
 

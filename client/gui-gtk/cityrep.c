@@ -966,7 +966,7 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
     /* What are we changing to? */
     selection_to = GTK_CLIST(city_change_all_to_list)->selection;
     if (!selection_to) {
-      append_output_window(_("Game: Select a unit or improvement"
+      append_output_window(_("Select a unit or improvement"
 			     " to change production to."));
       return;
     } else {

@@ -843,7 +843,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 					     CLAUSE_GOLD, amount);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(w), 0.0);
   } else {
-    append_output_window(_("Game: Invalid amount of gold specified."));
+    append_output_window(_("Invalid amount of gold specified."));
   }
 }
 

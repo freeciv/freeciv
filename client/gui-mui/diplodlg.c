@@ -379,7 +379,7 @@ static void diplomacy_gold( struct Diplomacy_data *data)
   if(amount>=0 && amount<=game.players[data->playerno].economic.gold)
   {
     request_diplomacy_create_clause(&pdialog->treaty, CLAUSE_GOLD, data->playerno,amount);
-  } else append_output_window(_("Game: Invalid amount of gold specified."));
+  } else append_output_window(_("Invalid amount of gold specified."));
 }
 
 /****************************************************************

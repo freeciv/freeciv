@@ -418,7 +418,7 @@ static int gold_callback(struct GUI *pWidget)
 					     CLAUSE_GOLD, amount);
     
   } else {
-    append_output_window(_("Game: Invalid amount of gold specified."));
+    append_output_window(_("Invalid amount of gold specified."));
   }
   
   if(amount || !pWidget->string16->text) {

@@ -259,7 +259,7 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
 					pgiver->player_no,
 					CLAUSE_GOLD, amount);
      } else {
-       append_output_window(_("Game: Invalid amount of gold specified."));
+       append_output_window(_("Invalid amount of gold specified."));
      }
   }
 }

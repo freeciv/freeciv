@@ -907,7 +907,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 					       CLAUSE_GOLD, amount);
       gtk_entry_set_text(GTK_ENTRY(w), "");
     } else {
-      append_output_window(_("Game: Invalid amount of gold specified."));
+      append_output_window(_("Invalid amount of gold specified."));
     }
   }
 }

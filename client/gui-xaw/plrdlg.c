@@ -363,7 +363,7 @@ void players_meet_callback(Widget w, XtPointer client_data,
       dsend_packet_diplomacy_init_meeting_req(&aconnection, player_index);
     }
     else {
-      append_output_window(_("Game: You need an embassy to establish"
+      append_output_window(_("You need an embassy to establish"
 			     " a diplomatic meeting."));
     }
   }
