@@ -17,6 +17,7 @@ if test "x$enable_debug" = "xyes"; then
 else
   if test "x$enable_debug" = "xno"; then
     AC_DEFINE(NDEBUG, 1, [Define if you want no debug support.])
+    EXTRA_GCC_DEBUG_CFLAGS="-O3 -fomit-frame-pointer"
   fi
 fi
 ])
