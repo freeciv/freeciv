@@ -1487,7 +1487,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
 
   if (moves_left >= 0) {
     /* Override default full MP */
-    punit->moves_left = moves_left;
+    punit->moves_left = MIN(moves_left, unit_move_rate(punit));
   }
 
   /* Assume that if moves_left < 0 then the unit is "fresh",
