@@ -15,6 +15,14 @@
 
 #include "unittype.h"
 
+/*
+ * attack_strength and defense_strength are multiplied by POWER_FACTOR
+ * to yield the base of attack_power and defense_power.
+ *
+ * The constant may be changed since it isn't externally visible used.
+ */
+#define POWER_FACTOR	10
+
 struct unit;
 struct player;
 
@@ -34,6 +42,7 @@ bool unit_behind_sdi(struct unit *punit);
 struct city *sdi_defense_close(struct player *owner, int x, int y);
 
 int get_attack_power(struct unit *punit);
+int base_get_attack_power(Unit_Type_id type, bool veteran, int moves_left);
 int get_defense_power(struct unit *punit);
 int get_total_defense_power(struct unit *attacker, struct unit *defender);
 int get_simple_defense_power(Unit_Type_id d_type, int x, int y);

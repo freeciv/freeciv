@@ -14,6 +14,15 @@
 #define FC__AIUNIT_H
 
 #include "unittype.h"
+#include "combat.h"
+
+/*
+ * To prevent integer overflows the product "power * hp * firepower"
+ * is divided by POWER_DIVIDER.
+ *
+ * The constant may be changed since it isn't externally visible used.
+ */
+#define POWER_DIVIDER 	(POWER_FACTOR * 3)
 
 struct player;
 struct city;
@@ -33,6 +42,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y);
 
 int build_cost_balanced(Unit_Type_id type);
+int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
+				     int moves_left, int hp);
 int unit_belligerence_basic(struct unit *punit);
 int unit_belligerence(struct unit *punit);
 int unit_vulnerability_basic(struct unit *punit, struct unit *pdef);

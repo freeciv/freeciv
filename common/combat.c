@@ -236,20 +236,33 @@ struct city *sdi_defense_close(struct player *owner, int x, int y)
 }
 
 /**************************************************************************
- returns the attack power, modified by moves left, and veteran status.
+ Convenience wrapper for base_get_attack_power.
 **************************************************************************/
 int get_attack_power(struct unit *punit)
 {
+  return base_get_attack_power(punit->type, punit->veteran,
+			       punit->moves_left);
+}
+
+/**************************************************************************
+ Returns the attack power, modified by moves left, and veteran
+ status. Set moves_left to SINGLE_MOVE to disable the reduction of
+ power caused by tired units.
+**************************************************************************/
+int base_get_attack_power(Unit_Type_id type, bool veteran, int moves_left)
+{
   int power;
-  power=unit_type(punit)->attack_strength*10;
-  if (punit->veteran) {
-    power *= 3;
-    power /= 2;
+
+  power = get_unit_type(type)->attack_strength * POWER_FACTOR;
+  if (veteran) {
+    /* Veterans get +50% bonus. */
+    power = (power * 3) / 2;
   }
-  if (unit_flag(punit, F_IGTIRED)) return power;
-  if ( punit->moves_left < SINGLE_MOVE )
-     return (power*punit->moves_left)/SINGLE_MOVE;
-    return power;
+
+  if (!unit_type_flag(type, F_IGTIRED) && moves_left < SINGLE_MOVE) {
+    power = (power * moves_left) / SINGLE_MOVE;
+  }
+  return power;
 }
 
 /**************************************************************************
@@ -264,7 +277,7 @@ int get_defense_power(struct unit *punit)
   if (!punit || punit->type<0 || punit->type>=U_LAST
       || punit->type>=game.num_unit_types)
     abort();
-  power=unit_type(punit)->defense_strength*10;
+  power = unit_type(punit)->defense_strength * POWER_FACTOR;
   if (punit->veteran) {
     power *= 3;
     power /= 2;

@@ -561,20 +561,23 @@ static bool stay_and_defend_city(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+int base_unit_belligerence_primitive(Unit_Type_id type, bool veteran,
+				     int moves_left, int hp)
+{
+  return (base_get_attack_power(type, veteran, moves_left) * hp *
+	  get_unit_type(type)->firepower / POWER_DIVIDER);
+}
+
 static int unit_belligerence_primitive(struct unit *punit)
 {
-  int v;
-  v = get_attack_power(punit) * punit->hp * 
-            unit_type(punit)->firepower / 30;
-  return(v);
+  return (base_unit_belligerence_primitive(punit->type, punit->veteran,
+					   punit->moves_left, punit->hp));
 }
 
 int unit_belligerence_basic(struct unit *punit)
 {
-  int v;
-  v = unit_type(punit)->attack_strength * (punit->veteran ? 15 : 10) * 
-          punit->hp * unit_type(punit)->firepower / 30;
-  return(v);
+  return (base_unit_belligerence_primitive(punit->type, punit->veteran,
+					   SINGLE_MOVE, punit->hp));
 }
 
 int unit_belligerence(struct unit *punit)
@@ -1079,7 +1082,7 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
-  int id, x, y, boatid = 0, bx = 0, by = 0, j;
+  int id, x, y, boatid = 0, bx = 0, by = 0;
   struct unit *ferryboat;
   struct unit *def;
   struct city *dcity;
@@ -1097,9 +1100,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     d_val = stack_attack_value(dest_x, dest_y) * 30;
     if ((dcity = map_get_city(dest_x, dest_y))) {
       d_type = ai_choose_defender_versus(dcity, punit->type);
-      j = unit_types[d_type].hp * (do_make_unit_veteran(dcity, d_type) ? 15 : 10) *
-          unit_types[d_type].attack_strength;
-      d_val += j;
+      d_val += base_get_attack_power(d_type,
+				     do_make_unit_veteran(dcity, d_type),
+				     SINGLE_MOVE) * unit_types[d_type].hp;
     }
     d_val /= (unit_type(punit)->move_rate / SINGLE_MOVE);
     if (unit_flag(punit, F_IGTER)) d_val /= 1.5;

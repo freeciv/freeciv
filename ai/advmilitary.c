@@ -161,19 +161,14 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
   int v;
   bool sailing;
-  struct unit_type *ptype;
 
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return(0);
   sailing = is_sailing_unit(punit);
   if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
 
-  ptype = unit_type(punit);
-/* get_attack_power will be wrong if moves_left == 1 || == 2 */
-  v = ptype->attack_strength * 10 * punit->hp * ptype->firepower;
-  if (punit->veteran) v += v/2;
+  v = unit_belligerence_basic(punit);
   if (sailing && city_got_building(pcity, B_COASTAL)) v /= 2;
   if (is_air_unit(punit) && city_got_building(pcity, B_SAM)) v /= 2;
-  v /= 30; /* rescaling factor to stop the overflow nonsense */
   return(v);
 }
 
@@ -562,6 +557,9 @@ static void process_attacker_want(struct player *pplayer,
          (k || !can_build_unit_direct(pcity, unit_types[i].obsoleted_by)) &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
+      bool will_be_veteran = (m == LAND_MOVING
+			      || player_knows_improvement_tech(pplayer,
+							       B_PORT));
 
       /* cost (shield equiv) of gaining these techs */
       l = total_bulbs_required_for_goal(pplayer,
@@ -571,10 +569,8 @@ static void process_attacker_want(struct player *pplayer,
       l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 
-      a = unit_types[i].attack_strength *  ((m == LAND_MOVING ||
-          player_knows_improvement_tech(pplayer, B_PORT)) ? 15 : 10) *
-             unit_types[i].firepower * unit_types[i].hp;
-      a /= 30; /* scaling factor to prevent integer overflows */
+      a = base_unit_belligerence_primitive(i, will_be_veteran, SINGLE_MOVE,
+					   unit_types[i].hp);
       if (acity) a += acity->ai.a;
       a *= a;
       /* b is unchanged */
@@ -705,9 +701,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
     v = myunit->type;
     vet = myunit->veteran;
 
-    a = unit_types[v].attack_strength * (vet ? 15 : 10) *
-             unit_types[v].firepower * myunit->hp;
-    a /= 30; /* scaling factor to prevent integer overflows */
+    a = unit_belligerence_basic(myunit);
     if (acity) a += acity->ai.a;
     a *= a;
 
