@@ -3,13 +3,6 @@
 # FC_WIN32_CLIENT
 # Test for Win32 and needed libraries for gui-win32
 
-AC_DEFUN(FC_NO_CLIENT,
-[
-  if test "$client" = "$1"; then
-    AC_MSG_ERROR([specified client '$1' not configurable ($2)])
-  fi
-])
-
 AC_DEFUN(FC_WIN32_CLIENT,
 [
   if test "$client" = "win32" || test "$client" = "yes" ; then
