@@ -14,7 +14,9 @@
 #define FC__COLORS_H
 
 #include "colors_g.h"
+
 extern HPEN pen_std[COLOR_STD_LAST];
 extern HBRUSH brush_std[COLOR_STD_LAST];
+extern LONG rgb_std[COLOR_STD_LAST];
 
 #endif  /* FC__COLORS_H */

@@ -121,6 +121,8 @@
 
 #ifndef RC_INVOKED
 #include "gui_main_g.h"
+extern HFONT main_font;
+extern HFONT city_descriptions_font;
 extern HFONT font_8courier;
 extern HFONT font_12courier;
 extern HFONT font_12arial;

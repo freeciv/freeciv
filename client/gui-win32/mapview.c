@@ -51,6 +51,9 @@
 
 extern HCURSOR cursors[];
 
+static HFONT *fonts[FONT_COUNT] = {&main_font,
+				   &city_descriptions_font};
+
 static struct Sprite *indicator_sprite[3];
 
 static HBITMAP intro_gfx;
@@ -136,6 +139,8 @@ void canvas_free(struct canvas *store)
   free(store);
 }
 
+static bool overview_canvas_init = FALSE;
+static bool mapview_canvas_init = FALSE;
 static struct canvas overview_canvas;
 static struct canvas mapview_canvas;
 
@@ -144,11 +149,14 @@ static struct canvas mapview_canvas;
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
-  overview_canvas.type = CANVAS_WINDOW;
-  overview_canvas.hdc = NULL;
-  overview_canvas.bmp = NULL;
-  overview_canvas.wnd = root_window;
-  overview_canvas.tmp = NULL;
+  if (!overview_canvas_init) {
+    overview_canvas.type = CANVAS_WINDOW;
+    overview_canvas.hdc = NULL;
+    overview_canvas.bmp = NULL;
+    overview_canvas.wnd = root_window;
+    overview_canvas.tmp = NULL;
+    overview_canvas_init = TRUE;
+  }
   return &overview_canvas;
 }
 
@@ -157,11 +165,13 @@ struct canvas *get_overview_window(void)
 ****************************************************************************/
 struct canvas *get_mapview_window(void)
 {
-  mapview_canvas.type = CANVAS_WINDOW;
-  mapview_canvas.hdc = NULL;
-  mapview_canvas.bmp = NULL;
-  mapview_canvas.wnd = map_window;
-  mapview_canvas.tmp = NULL;
+  if (!mapview_canvas_init) {
+    mapview_canvas.type = CANVAS_WINDOW;
+    mapview_canvas.hdc = NULL;
+    mapview_canvas.bmp = NULL;
+    mapview_canvas.wnd = map_window;
+    mapview_canvas.tmp = NULL;
+  }
   return &mapview_canvas;
 }
 
@@ -179,6 +189,73 @@ void canvas_copy(struct canvas *dst, struct canvas *src,
 
   canvas_release_hdc(src);
   canvas_release_hdc(dst);
+}
+
+/****************************************************************************
+  Return the size of the given text in the given font.  This size should
+  include the ascent and descent of the text.  Either of width or height
+  may be NULL in which case those values simply shouldn't be filled out.
+****************************************************************************/
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
+{
+  RECT rc;
+  HDC hdc;
+
+  /* Might as well get the mapview window. */
+  hdc = canvas_get_hdc(get_mapview_window());
+
+  DrawText(hdc, text, strlen(text), &rc, DT_CALCRECT);
+
+  canvas_release_hdc(get_mapview_window());
+
+  if (width) {
+    *width = rc.right - rc.left + 1;
+  }
+  if (height) {
+    *height = rc.bottom - rc.top + 1;
+  }
+}
+
+/****************************************************************************
+  Draw the text onto the canvas in the given color and font.  The canvas
+  position does not account for the ascent of the text; this function must
+  take care of this manually.  The text will not be NULL but may be empty.
+
+  FIXME: handle different fonts.
+****************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, enum color_std color,
+		     const char *text)
+{
+  RECT rc;
+  HDC hdc;
+  HGDIOBJ temp;
+
+  hdc = canvas_get_hdc(pcanvas);
+
+  temp = SelectObject(hdc, *fonts[font]);
+
+  SetBkMode(hdc, TRANSPARENT);
+
+  rc.left = canvas_x;
+  rc.right = canvas_x + 20;
+  rc.top = canvas_y + 1;
+  rc.bottom = canvas_y + 21;
+
+  SetTextColor(hdc, RGB(0, 0, 0));
+  DrawText(hdc, text, strlen(text), &rc, DT_NOCLIP);
+
+  rc.left++;
+  rc.right++;
+  rc.top--;
+  rc.bottom--;
+  SetTextColor(hdc, rgb_std[color]);
+  DrawText(hdc, text, strlen(text), &rc, DT_NOCLIP);
+
+  SelectObject(hdc, temp);
+
+  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************
@@ -511,95 +588,6 @@ update_city_descriptions(void)
 {
   update_map_canvas_visible();   
       
-}
-
-/**************************************************************************
-  If necessary, clear the city descriptions out of the buffer.
-**************************************************************************/
-void prepare_show_city_descriptions(void)
-{
-  /* Nothing to do */
-}
-
-/****************************************************************************
-  Draw a description for the given city.  This description may include the
-  name, turns-to-grow, production, and city turns-to-build (depending on
-  client options).
-
-  (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
-  width and height of the text block (centered directly underneath the
-  city's tile).
-****************************************************************************/
-void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		    struct city *pcity, int *width, int *height)
-{
-  char buffer[500];
-  int y_offset;
-  HDC hdc;
-
-  hdc = canvas_get_hdc(pcanvas);
-  SetBkMode(hdc,TRANSPARENT);
-
-  *width = *height = 0;
-
-  y_offset = canvas_y + NORMAL_TILE_HEIGHT;
-  if (draw_city_names && pcity->name) {
-    RECT rc;
-
-    /* FIXME: draw city growth as well, using
-     * get_city_mapview_name_and_growth() */
-
-    DrawText(hdc, pcity->name, strlen(pcity->name), &rc, DT_CALCRECT);
-    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
-    rc.right = rc.left + 20;
-    rc.bottom -= rc.top;
-    rc.top = y_offset;
-    rc.bottom += rc.top;
-    SetTextColor(hdc, RGB(0, 0, 0));
-    DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
-	     DT_NOCLIP | DT_CENTER);
-    rc.left++;
-    rc.top--;
-    rc.right++;
-    rc.bottom--;
-    SetTextColor(hdc, RGB(255, 255, 255));
-    DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
-	     DT_NOCLIP | DT_CENTER);
-
-    *width = rc.right - rc.left + 1;
-    *height = rc.bottom - rc.top + 2;
-
-    y_offset = rc.bottom + 2;
-  }
-
-  if (draw_city_productions && pcity->owner == game.player_idx) {
-    RECT rc;
-
-    get_city_mapview_production(pcity, buffer, sizeof(buffer));
-      
-    DrawText(hdc, buffer, strlen(buffer), &rc, DT_CALCRECT);
-    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
-    rc.right = rc.left + 20;
-    rc.bottom -= rc.top;
-    rc.top = y_offset;
-    rc.bottom += rc.top; 
-    SetTextColor(hdc, RGB(0, 0, 0));
-    DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
-    rc.left++;
-    rc.top--;
-    rc.right++;
-    rc.bottom--;
-    SetTextColor(hdc, RGB(255, 255, 255));
-    DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
-
-    *width = MAX(*width, rc.right - rc.left + 1);
-    *height += rc.bottom - rc.top + 1;
-  }
-
-  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************

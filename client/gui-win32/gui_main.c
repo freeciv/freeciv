@@ -86,6 +86,9 @@ int overview_win_width;
 int overview_win_height;
 static int net_input=-1;
 
+int city_names_font_size = 0, city_productions_font_size = 0;
+HFONT main_font;
+HFONT city_descriptions_font;
 
 extern int seconds_to_turndone;   
 
@@ -129,8 +132,37 @@ struct callback_list *callbacks;
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  freelog(LOG_ERROR, "Unimplemented set_city_names_font_sizes.");
-  /* PORTME */
+  LOGFONT lf;
+  HDC hdc;
+
+  city_names_font_size = my_city_names_font_size;
+  city_productions_font_size = my_city_productions_font_size;
+
+  lf.lfWidth = 0;
+  lf.lfEscapement = 0;
+  lf.lfOrientation = 0;
+  lf.lfWeight = FW_SEMIBOLD;
+  lf.lfItalic = FALSE;
+  lf.lfUnderline = FALSE;
+  lf.lfStrikeOut = FALSE;
+  lf.lfCharSet = DEFAULT_CHARSET;
+  lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
+  lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+  lf.lfQuality = DEFAULT_QUALITY;
+  lf.lfPitchAndFamily = DEFAULT_PITCH;
+  strcpy(lf.lfFaceName, "");
+
+  hdc = GetDC(root_window);
+
+  lf.lfHeight = -MulDiv(city_names_font_size, GetDeviceCaps(hdc, LOGPIXELSY),
+			72);
+  main_font = CreateFontIndirect(&lf);
+
+  lf.lfHeight = -MulDiv(city_productions_font_size,
+			GetDeviceCaps(hdc, LOGPIXELSY), 72);
+  city_descriptions_font = CreateFontIndirect(&lf);
+
+  ReleaseDC(root_window, hdc);
 }
 
 BOOL have_AlphaBlend = FALSE;
