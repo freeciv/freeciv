@@ -218,13 +218,10 @@ int food_weighting(int n)
 
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed)
 { /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
-  int a;
   int i, j, k;
   struct player *plr;
 
   plr = city_owner(pcity);
-
-  a = get_race(plr)->attack;
 
   i = get_food_tile(x, y, pcity);
   if (foodneed > 0) i += 9 * (MIN(i, foodneed));
@@ -236,9 +233,8 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   if (prodneed > 0) j += 9 * (MIN(j, prodneed));
   j /= 100;
   k = get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
-      (city_tax_bonus(pcity) * plr->economic.tax +
-       city_science_bonus(pcity) * plr->economic.science +
-       100 * plr->economic.luxury) / 10000;
+      (city_tax_bonus(pcity) * (plr->economic.tax + plr->economic.luxury) +
+       city_science_bonus(pcity) * plr->economic.science) / 10000;
   return(i + j + k);
 }  
 
