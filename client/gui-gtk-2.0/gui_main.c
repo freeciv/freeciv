@@ -162,7 +162,7 @@ client_option gui_options[] = {
 		  N_("Disabling this will turn off the unit and building "
 		     "icons in the worklist dialog and the production "
 		     "tab of the city dialog."),
-		  COC_INTERFACE),
+		  COC_GRAPHICS),
   GEN_BOOL_OPTION(fullscreen_mode, N_("Fullscreen Mode"),
 		  N_("If this option is set then the game will be played in "
 		     "fullscreen mode. There are some known bugs with "
@@ -173,12 +173,6 @@ client_option gui_options[] = {
 		  N_("If this option is enabled then report dialogs will "
 		     "be shown as separate tabs rather than in popup "
 		     "dialogs."),
-		  COC_INTERFACE),
-  GEN_BOOL_OPTION(solid_unit_icon_bg,
-		  N_("Solid unit icon background color in city dialog"),
-		  N_("If this is enabled then units will be shown in the "
-		     "city dialog production tab with a color-coded "
-		     "solid background."),
 		  COC_INTERFACE),
   GEN_BOOL_OPTION(better_fog,
 		  N_("Better fog-of-war drawing"),

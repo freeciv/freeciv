@@ -359,7 +359,7 @@ static const char *cr_entry_building(const struct city *pcity,
   static char buf[128];
   const char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
-    concise_city_production ? "*" : _("(worklist)");
+    concise_city_production ? "+" : _("(worklist)");
 	
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",

@@ -374,7 +374,6 @@ void free_sprite(SPRITE * s)
 ***************************************************************************/
 void create_overlay_unit(struct canvas *pcanvas, int i)
 {
-  enum color_std bg_color;
   int x1, x2, y1, y2;
   int width, height;
   struct unit_type *type = get_unit_type(i);
@@ -392,18 +391,6 @@ void create_overlay_unit(struct canvas *pcanvas, int i)
     /* Guess */
     width = UNIT_TILE_WIDTH;
     height = UNIT_TILE_HEIGHT;
-  }
-
-  if (solid_unit_icon_bg) {
-    /* Give tile a background color, based on the type of unit */
-    switch (type->move_type) {
-      case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
-      case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
-      case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
-      case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
-      default:	      bg_color = COLOR_STD_BLACK;  break;
-    }
-    canvas_put_rectangle(pcanvas, bg_color, 0, 0, width, height);
   }
 
   /* Finally, put a picture of the unit in the tile */
