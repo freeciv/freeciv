@@ -1,14 +1,45 @@
 =======================
-Welcome to Freeciv 1.13
+Welcome to Freeciv 1.14
 =======================
 
-This is release 1.13.0.
+This is release 1.14.0.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.13.0
+ - Unique city names, you no longer can name your cities the same,
+   and you can enforce unique city names globally (optional).
+ - A new map generator (generator 5) which creates pretty fractal
+   maps.
+ - You can load savegames from the server prompt.
+ - You can save client commandline defaults.
+ - Specialists are taken from content citizens first, instead of from
+   unhappy citizens first. This makes it more difficult to quell unrest
+   using taxmen and scientists.
+ - You now start with no technologies by default, and angry citizens 
+   are enabled by default, although they will rarely make an apperance.
+ - The algorithm used for calculating the effects of tax settings has
+   been changed. It is now no longer possible to get 100% effect from 
+   60% choice of tax goal.
+ - A new, historically more correct version of the rulesets included.
+ - There is an option to require several turns of rapture/celebration 
+   before it takes effect. See "show rapturedelay" in server.
+ - The sequence of some end of turn activities have been regrouped.
+ - Several AI improvements. It should now build and buy units and 
+   buildings slightly more intelligently.
+ - Many internal code improvements that will lead to more features
+   later.
+ - /fix and /unfix commands to stop modifications after game has
+   started.
+ - The server commands "rulesout", "log", "freestyle" and "crash" 
+   have been removed, while "rfcstyle" now toggles between rfcstyle
+   and freestyle.
+ - civ2 ruleset now more accurately reflects civ2 deity level defaults.
+ - A truly massive amount of bugfixes.
 
 WHAT'S CHANGED SINCE 1.12.0
 
