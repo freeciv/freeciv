@@ -1852,34 +1852,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
 }
 
 /**************************************************************************
-  A helper function for send_info_to_onlookers below.  
-  Checks if a unit can be seen by pplayer at (x,y).
-  A player can see a unit if he:
-  (a) can see the tile AND
-  (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
-  (c) the unit is not in an unallied city
-
-  TODO: the name is confusingly similar to player_can_see_unit_at_location
-  But we need to rename p_c_s_u_a_t because it is really 
-  is_unit_visible_to_player_at.
-**************************************************************************/
-static bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-                                   int x, int y)
-{
-  if (!pplayer) {
-    freelog(LOG_ERROR, "NULL pointer in can_player_see_unit_at");
-    return FALSE;
-  } else {
-    bool see_tile = map_is_known_and_seen(x, y, pplayer);
-    bool see_unit = player_can_see_unit_at_location(pplayer, punit, x, y);
-    bool not_in_city = (pplayers_allied(unit_owner(punit), pplayer)
-			|| !map_get_city(x, y));
-
-    return (see_tile && see_unit && not_in_city);
-  }
-}
-
-/**************************************************************************
   Send the unit into to those connections in dest which can see the units
   at it's position, or the specified (x,y) (if different).
   Eg, use x and y as where the unit came from, so that the info can be

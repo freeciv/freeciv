@@ -239,6 +239,10 @@ void handle_unit_combat(struct packet_unit_combat *packet)
     }
   }
 
+  /* Combat has occurred with a unit that is out of sight.  The server has
+   * to tell us that unit exists, but it won't tell us when it's gone away.
+   * So we have to remove it ourselves, otherwise we'll end up with a
+   * phantom (incorrect/imaginary) unit. */
   if (punit0 && !(tile_get_known(punit0->x, punit0->y) == TILE_KNOWN)) {
     client_remove_unit(punit0);
   }
@@ -997,19 +1001,22 @@ void handle_unit_info(struct packet_unit_info *packet)
       old_x = punit->x;
       old_y = punit->y;
       moved = TRUE;
-      
-      if(tile_get_known(packet->x, packet->y) == TILE_KNOWN
-         && player_can_see_unit_at_location(game.player_ptr, punit, 
-                                            packet->x, packet->y)) {
-	do_move_unit(punit, packet);
-	update_unit_focus();
-      }
-      else {
-	do_move_unit(punit, packet); /* nice to see where a unit is going */
+
+      /* Show where the unit is going. */
+      do_move_unit(punit, packet);
+
+      if (!can_player_see_unit_at(game.player_ptr, punit, 
+				  packet->x, packet->y)) {
+        /* The unit has moved out of sight; the server won't send us any
+	 * more updates about it.  Remove it so we don't get stuck with
+	 * a phantom (incorrect/imaginary) unit. */
 	client_remove_unit(punit);
 	refresh_tile_mapcanvas(packet->x, packet->y, FALSE);
         return;
       }
+
+      update_unit_focus();
+
       if(pcity)  {
 	/* Unit moved out of a city - update the occupied status.  The
 	 * logic is a little shaky since it's not clear whether we can

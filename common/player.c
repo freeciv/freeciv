@@ -257,6 +257,29 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   return player_can_see_unit_at_location(pplayer, punit, punit->x, punit->y);
 }
 
+/**************************************************************************
+  A helper function for send_info_to_onlookers below.  
+  Checks if a unit can be seen by pplayer at (x,y).
+  A player can see a unit if he:
+  (a) can see the tile AND
+  (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
+  (c) the unit is not in an unallied city
+
+  TODO: the name is confusingly similar to player_can_see_unit_at_location
+  But we need to rename p_c_s_u_a_t because it is really 
+  is_unit_visible_to_player_at or player_ignores_unit_invisibility_at.
+**************************************************************************/
+bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
+                            int x, int y)
+{
+  bool see_tile = (map_get_known2(x, y, pplayer) == TILE_KNOWN);
+  bool see_unit = player_can_see_unit_at_location(pplayer, punit, x, y);
+  struct city *pcity = map_get_city(x, y);
+  bool in_city = (pcity && !pplayers_allied(unit_owner(punit), pplayer));
+  
+  return (see_tile && see_unit && !in_city);
+}
+
 /***************************************************************
  If the specified player owns the city with the specified id,
  return pointer to the city struct.  Else return NULL.

@@ -226,6 +226,8 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit);
 bool player_can_see_unit_at_location(struct player *pplayer, 
                                      struct unit *punit, 
                                      int x, int y);
+bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
+                            int x, int y);
 
 bool player_owns_city(struct player *pplayer, struct city *pcity);
 
