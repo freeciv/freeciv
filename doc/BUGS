@@ -14,10 +14,6 @@ This lists only the most obvious bugs.  For a complete list, see:
 KNOWN BUGS:
 ===========
 
- - Some lines containing special characters will show up blank if
-   your locale is set to "C". As a workaround set your locale to
-   something else, like "en_US".
-
  - Your CMA settings are only sent to the server when you press
    turn done, and therefore changes you make to CMA in the same
    turn as you save a game will be lost.

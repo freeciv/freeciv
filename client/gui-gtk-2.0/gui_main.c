@@ -846,6 +846,12 @@ void ui_init(void)
     const gchar *charset;
 
     g_get_charset(&charset);
+
+    if (!strcmp(charset, "ANSI_X3.4-1968")
+	|| !strcmp(charset, "ASCII")) {
+      charset = "ISO-8859-1";
+    }
+    
     network_charset = mystrdup(charset);
   }
 
