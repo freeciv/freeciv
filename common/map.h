@@ -256,8 +256,6 @@ extern struct tile_type tile_types[T_LAST];
    The values given are adjusted.
    You should make sure that the arguments passed to the macro are adjusted,
    or you could have some very nasty intermediate errors.
-   The results are returned through ARG_x_itr and ARG_y_itr,
-   which must already be defined.
 
    Internally it works by for a given distance
    1) assume y positive and iterate over x
