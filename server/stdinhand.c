@@ -44,7 +44,7 @@ struct proto_settings {
 struct proto_settings settings[] = {
   { "xsize", "Width of map in squares", 
     &map.xsize, 0,  
-    MAP_MIN_WIDTH, MAP_MAX_HEIGHT, MAP_DEFAULT_WIDTH},
+    MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH},
 
   { "ysize", "Height of map in squares", 
     &map.ysize, 0,
