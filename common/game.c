@@ -19,6 +19,11 @@
 #include <map.h>
 #include <city.h>
 #include <shared.h>
+#include <log.h>
+
+#ifndef DEBUG
+#define DEBUG 0
+#endif
 
 void dealloc_id(int id);
 extern int is_server;
@@ -276,12 +281,26 @@ struct unit *game_find_unit_by_id(int unit_id)
 void game_remove_unit(int unit_id)
 {
   struct unit *punit;
+
+  if (DEBUG) flog(LOG_DEBUG, "game_remove_unit %d", unit_id);
+  
   if((punit=game_find_unit_by_id(unit_id))) {
     struct city *pcity;
 
+    if (DEBUG) {
+      flog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+	   unit_id, get_race_name(get_player(punit->owner)->race),
+	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
+    }
+    
     pcity=player_find_city_by_id(get_player(punit->owner), punit->homecity);
     if(pcity)
       unit_list_unlink(&pcity->units_supported, punit);
+    
+    if (pcity && DEBUG) {
+      flog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+    }
 
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     unit_list_unlink(&game.players[punit->owner].units, punit);
@@ -298,6 +317,13 @@ void game_remove_unit(int unit_id)
 void game_remove_city(struct city *pcity)
 {
   int x,y;
+  
+  if (DEBUG) {
+    flog(LOG_DEBUG, "game_remove_city %d", pcity->id);
+    flog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
+  }
+  
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }

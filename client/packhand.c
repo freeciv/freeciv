@@ -33,6 +33,9 @@ extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
 
 /**************************************************************************
 ...
@@ -221,6 +224,12 @@ void handle_city_info(struct packet_city_info *packet)
   
   if(!city_is_new && pcity->owner==game.player_idx)
     refresh_city_dialog(pcity);
+
+  if(DEBUG && city_is_new) {
+    flog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
+	 get_race_name(city_owner(pcity)->race),
+	 pcity->name, pcity->id, pcity->x, pcity->y);
+  }
 }
 
 /**************************************************************************
@@ -463,6 +472,13 @@ void handle_unit_info(struct packet_unit_info *packet)
     
     if((pcity=game_find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
+
+    if (DEBUG) {
+      flog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
+	   get_race_name(get_player(punit->owner)->race),
+	   unit_name(punit->type), punit->x, punit->y, punit->id,
+	   punit->homecity, (pcity ? pcity->name : "(unknown)"));
+    }
     
     /* this is ugly - prevent unit from being drawn if it's moved into
      * screen by a transporter - only works for ground_units.. yak */
