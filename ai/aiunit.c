@@ -265,14 +265,6 @@ bool ai_manage_explorer(struct unit *punit)
   int move_rate = unit_move_rate(punit);
   /* Range of unit's vision */
   int range;
-  struct ai_data *ai = ai_data_get(pplayer);
-
-  /* (AI) Abort if all is explored on this continent */
-  if (pplayer->ai.control && is_ground_unit(punit) 
-      && map_get_terrain(x, y) != T_OCEAN
-      && !ai->explore.continent[map_get_continent(x, y)]) {
-    return FALSE;
-  }
 
   /* Get the range */
   /* FIXME: The vision range should NOT take into account watchtower benefit.
@@ -560,12 +552,13 @@ bool ai_manage_explorer(struct unit *punit)
   if (pplayer->ai.control) {
     /* Unit's homecity */
     struct city *pcity = find_city_by_id(punit->homecity);
-
     /* No homecity? Find one! */
     if (!pcity) {
       pcity = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, FALSE);
       if (pcity) {
         struct packet_unit_request packet;
+        CITY_LOG(LOG_DEBUG, pcity, "we became home to an exploring %s",
+                 unit_name(punit->type));
         packet.unit_id = punit->id;
         packet.city_id = pcity->id;
         packet.x = punit->x;
@@ -583,6 +576,8 @@ bool ai_manage_explorer(struct unit *punit)
         /* Sea travel */
         if (find_boat(pplayer, &x, &y, 0) == 0) {
           punit->ai.ferryboat = -1;
+          UNIT_LOG(LOG_DEBUG, punit, "exploring unit wants a boat, going home");
+          ai_military_gohome(pplayer, punit); /* until then go home */
         } else {
           enum goto_result result;
           UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by boat");
