@@ -1292,7 +1292,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
        pcity=city_list_find_id(&pplayer->cities, punit->homecity);
        city_list_iterate(pplayer->cities,pdest)
          if (pcity && can_establish_trade_route(pcity,pdest) && (map_get_continent(pcity->x, pcity->y) == map_get_continent(pdest->x, pdest->y))) {
-           tradeval=trade_between_cities(pcity,pdest);
+           tradeval=trade_between_cities(pcity, pdest);
            if (tradeval) {
              if (best < tradeval) {
                best=tradeval;
