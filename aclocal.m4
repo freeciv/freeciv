@@ -500,6 +500,8 @@ AC_DEFUN(FC_CHECK_NGETTEXT_RUNTIME,
 [
 templibs="$LIBS"
 LIBS="$1 $LIBS"
+templang="$LANG"
+LANG="de_DE"
 AC_TRY_RUN([
 /*
  * Check to make sure that ngettext works at runtime. Specifically,
@@ -513,7 +515,6 @@ AC_TRY_RUN([
 
 int main(int argc, char *argv[])
 {
-  setenv("LANG", "de_DE", 1);
   setlocale(LC_ALL, "");
 
   if (strcmp(ngettext("unit", "units", 1), "unit") == 0 &&
@@ -531,6 +532,7 @@ int main(int argc, char *argv[])
 [AC_MSG_RESULT(unknown: cross-compiling)
   [$2]])
 LIBS="$templibs"
+LANG="$templang"
 ])
 
 dnl @synopsis AC_FUNC_VSNPRINTF
