@@ -1,3 +1,8 @@
+Mon Jun  8 00:07:53 PDT 1998  Trent Piepho <xyzzy@u.washington.edu>
+        
+        Changed unit stats to match civ2.  Biggest change was knights
+	HP reduce to 10 from 20.
+
 Sat Jun  6 13:52:34 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
 
 	Released 1.6.2.

@@ -142,7 +142,6 @@ struct unit_type {
   int graphics;
   enum unit_move_type move_type;
   int build_cost;
-  int flags;
   int attack_strength;
   int defense_strength;
   int move_rate;
@@ -153,6 +152,7 @@ struct unit_type {
   int firepower;
   int obsoleted_by;
   int fuel;
+  int flags;
 };
 
 
