@@ -36,18 +36,18 @@ general, the steps are:
     to build the first city.  Don't feel tempted to investigate any
     yellow-roofed villages yet - they might contain barbarian
     tribes.  Build the city close to resources and perhaps close to
-    the sea.  Keep in mind that the city you build first will be your
-    capitol!  The idea is to balance the time spent looking for a
-    good site, against getting your first city established as early
-    as possible.
+    the sea.  Keep in mind that the city you build first will be
+    your capitol!  The idea is to balance the time spent looking for
+    a good site, against getting your first city established as
+    early as possible.
 
  1. Mapping the countryside.
 
     After the capitol city has been founded, it will start producing
-    a warrior unit.  These units can be used to rove around exploring
-    the countryside.  Remember, it is NOT a good idea to leave a
-    city undefended, so keep the first warrior in the city, and use
-    the following one to explore.
+    a warrior unit.  These units can be used to rove around
+    exploring the countryside.  Remember, it is NOT a good idea to
+    leave a city undefended, so keep the first warrior in the city,
+    and use the following one to explore.
 
  2. Defending the cities.
 
@@ -1124,7 +1124,7 @@ TIP 2: You may be involved in a situation where you've invaded an
 %% Not implemented, simply too powerful.
 ---
 # Partisan
-A number of partisans are granted free when a enemy conquers your
+A number of partisans are granted free when an enemy conquers your
 city.
 ---
 # Phalanx
