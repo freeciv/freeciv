@@ -63,6 +63,7 @@
 #undef ESD
 #undef SDL
 #undef WINMM
+#undef HAVE_GETTIMEOFDAY
 @BOTTOM@
 
 #endif /* FC_CONFIG_H */

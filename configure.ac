@@ -577,9 +577,12 @@ AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
 AC_FUNC_VSNPRINTF
 
-AC_CHECK_FUNCS(fileno gethostname getpwuid gettimeofday inet_aton \
+AC_CHECK_FUNCS(fileno gethostname getpwuid inet_aton \
                select snooze strerror strcasecmp strncasecmp \
                strlcat strlcpy strstr usleep vsnprintf uname)
+
+AC_MSG_CHECKING(for working gettimeofday)
+  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY),)
 
 dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
 dnl deliberate.
