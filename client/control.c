@@ -71,6 +71,17 @@ void handle_advance_focus(struct packet_generic_integer *packet)
 }
 
 /**************************************************************************
+Center on the focus unit, if off-screen and auto_center_on_unit is true.
+**************************************************************************/
+void auto_center_on_focus_unit(void)
+{
+  if (punit_focus &&
+      auto_center_on_unit &&
+      !tile_visible_and_not_on_border_mapcanvas(punit_focus->x, punit_focus->y))
+    center_tile_mapcanvas(punit_focus->x, punit_focus->y);
+}
+
+/**************************************************************************
 note: punit can be NULL
 We make sure that the previous focus unit is refreshed, if necessary,
 _after_ setting the new focus unit (otherwise if the previous unit is
@@ -83,9 +94,7 @@ void set_unit_focus(struct unit *punit)
   punit_focus=punit;
 
   if(punit) {
-    if(auto_center_on_unit && 
-       !tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y))
-      center_tile_mapcanvas(punit->x, punit->y);
+    auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
     refresh_tile_mapcanvas(punit->x, punit->y, 1);

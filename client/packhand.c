@@ -329,9 +329,9 @@ void handle_new_year(struct packet_new_year *ppacket)
   update_info_label();
 
   player_set_unit_focus_status(game.player_ptr);
-  
   update_unit_focus();
-    
+  auto_center_on_focus_unit();
+
   update_unit_info_label(get_unit_in_focus());
 
   seconds_to_turndone=game.timeout;

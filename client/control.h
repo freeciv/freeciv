@@ -52,6 +52,7 @@ void request_toggle_city_productions(void);
 
 void wakeup_sentried_units(int x, int y);
 
+void auto_center_on_focus_unit(void);
 void advance_unit_focus(void);
 struct unit *get_unit_in_focus(void);
 void set_unit_focus(struct unit *punit);

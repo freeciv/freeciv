@@ -2049,7 +2049,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
     int more_to_explore = ai_manage_explorer(pplayer, punit);
     if (more_to_explore && player_find_unit_by_id(pplayer, id))
       handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
-    else return;
+    else
+      return;
   }
 
   if (activity==ACTIVITY_PILLAGE) {
