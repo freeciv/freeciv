@@ -21,6 +21,8 @@ struct section_file;
 struct connection;
 struct conn_list;
 
+enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
+
 void server_player_init(struct player *pplayer, int initmap);
 void server_remove_player(struct player *pplayer);
 void begin_player_turn(struct player *pplayer);
@@ -85,5 +87,8 @@ void unassociate_player_connection(struct player *plr, struct connection *pconn)
 
 void shuffle_players(void);
 struct player *shuffled_player(int i);
+
+enum plr_info_level player_info_level(struct player *plr,
+                                      struct player *receiver);
 
 #endif  /* FC__PLRHAND_H */

@@ -385,6 +385,11 @@ void handle_diplomacy_init(struct player *pplayer,
     
     pa.plrno0=plr0->player_no;
     pa.plrno1=plr1->player_no;
+
+    /* Send at least INFO_MEETING level information */
+    send_player_info(plr0, plr1);
+    send_player_info(plr1, plr0);
+
     lsend_packet_diplomacy_info(&plr0->connections,
 				PACKET_DIPLOMACY_INIT_MEETING, &pa);
 

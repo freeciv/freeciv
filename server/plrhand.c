@@ -30,6 +30,7 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplhand.h"
 #include "gamelog.h"
 #include "maphand.h"
 #include "sernet.h"
@@ -44,6 +45,14 @@
 #include "plrhand.h"
 
 static void update_player_aliveness(struct player *pplayer);
+
+static void package_player_common(struct player *plr,
+                                  struct packet_player_info *packet);
+
+static void package_player_info(struct player *plr,
+                                struct packet_player_info *packet,
+                                struct player *receiver,
+                                enum plr_info_level min_info_level);
 
 /**************************************************************************
 ...
@@ -868,69 +877,30 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 **************************************************************************/
 void send_player_info_c(struct player *src, struct conn_list *dest)
 {
-  int i, j;
-
-  for(i=0; i<game.nplayers; i++) {    /* srcs  */
-    if(!src || &game.players[i]==src) {
+  players_iterate(pplayer) {
+    if(!src || pplayer==src) {
       struct packet_player_info info;
-      info.playerno=i;
-      sz_strlcpy(info.name, game.players[i].name);
-      info.nation=game.players[i].nation;
-      info.is_male=game.players[i].is_male;
 
-      info.gold=game.players[i].economic.gold;
-      info.tax=game.players[i].economic.tax;
-      info.science=game.players[i].economic.science;
-      info.luxury=game.players[i].economic.luxury;
-      info.government=game.players[i].government;
-      info.embassy=game.players[i].embassy;
-      info.city_style=game.players[i].city_style;
+      package_player_common(pplayer, &info);
 
-      info.reputation=game.players[i].reputation;
-      for(j=0; j<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; j++) {
-	info.diplstates[j].type=game.players[i].diplstates[j].type;
-	info.diplstates[j].turns_left=game.players[i].diplstates[j].turns_left;
-	info.diplstates[j].has_reason_to_cancel =
-	  game.players[i].diplstates[j].has_reason_to_cancel;
-      }
+      conn_list_iterate(*dest, pconn) {
 
-      info.researched=game.players[i].research.researched;
-      info.researchpoints=game.players[i].research.researchpoints;
-      info.researching=game.players[i].research.researching;
-      info.tech_goal=game.players[i].ai.tech_goal;
-      for(j=0; j<game.num_tech_types; j++)
-	info.inventions[j]=game.players[i].research.inventions[j]+'0';
-      info.inventions[j]='\0';
-      info.future_tech=game.players[i].future_tech;
-      info.turn_done=game.players[i].turn_done;
-      info.nturns_idle=game.players[i].nturns_idle;
-      info.is_alive=game.players[i].is_alive;
-      info.is_connected=game.players[i].is_connected;
-      info.revolution=game.players[i].revolution;
-      info.ai=game.players[i].ai.control;
-      info.is_barbarian=game.players[i].ai.is_barbarian;
+        /* Observer for all players. */
+        if (!pconn->player && pconn->observer)
+          package_player_info(pplayer, &info, 0, INFO_FULL);
 
-      /* Remove when "conn_info" capability removed: now sent in
-       * conn_info packet.  For old clients (conditional in packets.c)
-       * use player_addr_hack() and capstr of first connection:
-       */
-      sz_strlcpy(info.addr, player_addr_hack(&game.players[i]));
-      if (conn_list_size(&game.players[i].connections)) {
-	sz_strlcpy(info.capability,
-		   conn_list_get(&game.players[i].connections, 0)->capability);
-      } else {
-	info.capability[0] = '\0';
-      }
-      /* Remove to here */
-      
-      for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-	copy_worklist(&info.worklists[j], &game.players[i].worklists[j]);
+        /* Client not yet attached to player. */
+        else if (!pconn->player)
+          package_player_info(pplayer, &info, 0, INFO_MINIMUM);
 
-      info.gives_shared_vision = game.players[i].gives_shared_vision;
+        /* Player clients (including one player observers) */
+        else
+          package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
 
-      lsend_packet_player_info(dest, &info);
+        send_packet_player_info(pconn, &info);
+      } conn_list_iterate_end;
     }
-  }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -944,6 +914,139 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 void send_player_info(struct player *src, struct player *dest)
 {
   send_player_info_c(src, (dest ? &dest->connections : &game.est_connections));
+}
+
+/**************************************************************************
+ Package player information that is always sent.
+**************************************************************************/
+static void package_player_common(struct player *plr,
+                                  struct packet_player_info *packet)
+{
+  packet->playerno=plr->player_no;
+  sz_strlcpy(packet->name, plr->name);
+  packet->nation=plr->nation;
+  packet->is_male=plr->is_male;
+  packet->city_style=plr->city_style;
+
+  packet->is_alive=plr->is_alive;
+  packet->is_connected=plr->is_connected;
+  packet->ai=plr->ai.control;
+  packet->is_barbarian=plr->ai.is_barbarian;
+  packet->reputation=plr->reputation;
+
+  packet->turn_done=plr->turn_done;
+  packet->nturns_idle=plr->nturns_idle;
+
+  /* Remove when "conn_info" capability removed: now sent in
+   * conn_info packet.  For old clients (conditional in packets.c)
+   * use player_addr_hack() and capstr of first connection:
+   */
+  sz_strlcpy(packet->addr, player_addr_hack(plr));
+  if (conn_list_size(&plr->connections)) {
+    sz_strlcpy(packet->capability,
+               conn_list_get(&plr->connections, 0)->capability);
+  } else {
+  packet->capability[0] = '\0';
+  }
+  /* Remove to here */
+}
+
+/**************************************************************************
+ Package player info dependant on info_level.
+**************************************************************************/
+static void package_player_info(struct player *plr,
+                                struct packet_player_info *packet,
+                                struct player *receiver,
+                                enum plr_info_level min_info_level)
+{
+  int i;
+  enum plr_info_level info_level;
+
+  info_level = player_info_level(plr, receiver);
+  if (info_level < min_info_level)
+    info_level = min_info_level;
+
+  if (info_level >= INFO_MEETING) {
+    packet->gold            = plr->economic.gold;
+    for(i=0; i<game.num_tech_types; i++)
+      packet->inventions[i] = plr->research.inventions[i]+'0';
+    packet->inventions[i]   = '\0';
+    packet->government      = plr->government;
+  } else {
+    packet->gold            = 0;
+    for(i=0; i<game.num_tech_types; i++)
+      packet->inventions[i] = '0';
+    packet->inventions[i]   = '\0';
+    packet->government      = G_MAGIC;
+  }
+
+  if (info_level >= INFO_EMBASSY) {
+    packet->tax             = plr->economic.tax;
+    packet->science         = plr->economic.science;
+    packet->luxury          = plr->economic.luxury;
+    packet->researched      = plr->research.researched;
+    packet->researchpoints  = plr->research.researchpoints;
+    packet->researching     = plr->research.researching;
+    packet->future_tech     = plr->future_tech;
+    if (plr->revolution)
+      packet->revolution    = 1;
+    else
+      packet->revolution    = 0;
+  } else {
+    packet->tax             = 0;
+    packet->science         = 0;
+    packet->luxury          = 0;
+    packet->researched      = 0;
+    packet->researchpoints  = 0;
+    packet->researching     = A_NONE;
+    packet->future_tech     = 0;
+    packet->revolution      = 0;
+  }
+
+  if (info_level >= INFO_FULL) {
+    packet->embassy=plr->embassy;
+    packet->gives_shared_vision = plr->gives_shared_vision;
+    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+      packet->diplstates[i].type       = plr->diplstates[i].type;
+      packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
+      packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
+    }
+    packet->tech_goal       = plr->ai.tech_goal;
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+      copy_worklist(&packet->worklists[i], &plr->worklists[i]);
+  } else {
+    if (!receiver || !player_has_embassy(plr, receiver))
+      packet->embassy  = 0;
+    else
+      packet->embassy  = 1 << receiver->player_no;
+    if (!receiver || !(plr->gives_shared_vision & (1<<receiver->player_no)))
+      packet->gives_shared_vision = 0;
+    else
+      packet->gives_shared_vision = 1 << receiver->player_no;
+    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+      packet->diplstates[i].type       = DS_NEUTRAL;
+      packet->diplstates[i].turns_left = 0;
+      packet->diplstates[i].has_reason_to_cancel = 0;
+    }
+    packet->tech_goal       = A_NONE;
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+      init_worklist(&packet->worklists[i]);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+enum plr_info_level player_info_level(struct player *plr,
+                                      struct player *receiver)
+{
+  if (plr == receiver)
+    return INFO_FULL;
+  if (receiver && player_has_embassy(receiver, plr))
+    return INFO_EMBASSY;
+  if (receiver && find_treaty(plr, receiver))
+    return INFO_MEETING;
+  return INFO_MINIMUM;
 }
 
 /**************************************************************************
