@@ -729,8 +729,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
 	_("No %s could be sold"), get_improvement_name(i));
   }
-  g_signal_connect_swapped(shell, "response",
-                           G_CALLBACK(gtk_widget_destroy), GTK_OBJECT(shell));
+  g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
   gtk_window_present(GTK_WINDOW(shell));
 }
@@ -986,7 +985,6 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
   int        ut1, ut2;
   gint       row;
   GtkWidget *shell;
-  gint       res;
 
   switch (response_id) {
     case 1:     break;
@@ -1014,11 +1012,10 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
 	game.player_ptr->economic.gold);
   gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
-  res = gtk_dialog_run(GTK_DIALOG(shell));
-
-  if (res == GTK_RESPONSE_YES) {
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
     send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
   }
+
   gtk_widget_destroy(shell);
 }
 
