@@ -403,16 +403,17 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 
   /* First try to kill off the specialists */
   while (pop_loss > 0 && city_specialists(pcity) > 0) {
-    if (pcity->specialists[SP_TAXMAN] > 0) {
-      pcity->specialists[SP_TAXMAN]--;
-    } else if (pcity->specialists[SP_SCIENTIST] > 0) {
-      pcity->specialists[SP_SCIENTIST]--;
-    } else {
-      assert(pcity->specialists[SP_ELVIS] > 0);
-      pcity->specialists[SP_ELVIS]--; 
+    Specialist_type_id sp;
+
+    for (sp = SP_COUNT - 1; sp >= 0; sp--) {
+      if (pcity->specialists[sp] > 0) {
+	pcity->specialists[sp]--;
+	pop_loss--;
+	break;
+      }
     }
-    pop_loss--;
   }
+  assert(pop_loss == 0 || city_specialists(pcity) == 0);
 
   /* we consumed all the pop_loss in specialists */
   if (pop_loss == 0) {

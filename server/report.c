@@ -492,19 +492,15 @@ static int get_unhappypop(struct player *pplayer)
   return pplayer->score.unhappy;
 }
 
-static int get_taxmen(struct player *pplayer)
+static int get_specialists(struct player *pplayer)
 {
-  return pplayer->score.specialists[SP_TAXMAN];
-}
+  int count = 0;
 
-static int get_scientists(struct player *pplayer)
-{
-  return pplayer->score.specialists[SP_SCIENTIST];
-}
+  specialist_type_iterate(sp) {
+    count += pplayer->score.specialists[sp];
+  } specialist_type_iterate_end;
 
-static int get_elvis(struct player *pplayer)
-{
-  return pplayer->score.specialists[SP_ELVIS];
+  return count;
 }
 
 static int get_gov(struct player *pplayer)
@@ -901,9 +897,7 @@ static void log_civ_score(void)
     {"happypop",        get_happypop},
     {"contentpop",      get_contentpop},
     {"unhappypop",      get_unhappypop},
-    {"taxmen",          get_taxmen},
-    {"scientists",      get_scientists},
-    {"elvis",           get_elvis},
+    {"specialists",     get_specialists},
     {"gov",             get_gov},
     {"corruption",      get_corruption} /* new 1.11.5 tags end here */
   };
