@@ -111,6 +111,7 @@ dnl that is already protected by ifdef CHRONO, and is for selective
 dnl developer use only -- dwp
 
 dnl export where the datadir is going to be installed
-CPPFLAGS="$CPPFLAGS -DFREECIV_DATADIR=\\\"\$(pkgdatadir)\\\""
+AC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
+AC_DEFINE_UNQUOTED(FREECIV_DATADIR, "$FREECIV_DATADIR")
 
 AC_OUTPUT(Makefile data/Makefile common/Makefile ai/Makefile client/Makefile server/Makefile)

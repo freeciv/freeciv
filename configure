@@ -2964,7 +2964,18 @@ done
 
 
 
-CPPFLAGS="$CPPFLAGS -DFREECIV_DATADIR=\\\"\$(pkgdatadir)\\\""
+
+        FREECIV_DATADIR="$datadir/freeciv"
+        FREECIV_DATADIR=`(
+            test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+            test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
+            eval echo \""$FREECIV_DATADIR"\"
+        )`
+
+cat >> confdefs.h <<EOF
+#define FREECIV_DATADIR "$FREECIV_DATADIR"
+EOF
+
 
 trap '' 1 2 15
 cat > confcache <<\EOF
