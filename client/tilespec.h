@@ -82,6 +82,7 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 /* This the way directional indices are now encoded: */
 
 #define NUM_DIRECTION_NSEW 		16
+#define NUM_DIRECTION_CW		256
 
 #define BIT_NORTH (0x01)
 #define BIT_SOUTH (0x02)
@@ -92,6 +93,24 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
                              ((s) ? BIT_SOUTH : 0) | \
                              ((e) ? BIT_EAST  : 0) | \
                              ((w) ? BIT_WEST  : 0))
+
+#define CW_NORTH     (0x01)
+#define CW_NORTHEAST (0x02)
+#define CW_EAST      (0x04)
+#define CW_SOUTHEAST (0x08)
+#define CW_SOUTH     (0x10)
+#define CW_SOUTHWEST (0x20)
+#define CW_WEST      (0x40)
+#define CW_NORTHWEST (0x80)
+
+#define INDEX_CW(n, ne, e, se, s, sw, w, nw) (((n)  ? CW_NORTH     : 0)	  \
+					      | ((ne) ? CW_NORTHEAST : 0) \
+					      | ((e)  ? CW_EAST      : 0) \
+					      | ((se) ? CW_SOUTHEAST : 0) \
+					      | ((s)  ? CW_SOUTH     : 0) \
+					      | ((sw) ? CW_SOUTHWEST : 0) \
+					      | ((w)  ? CW_WEST      : 0) \
+					      | ((nw) ? CW_NORTHWEST : 0))
 
 #define NUM_TILES_PROGRESS 8
 #define NUM_TILES_CITIZEN CITIZEN_LAST
@@ -178,7 +197,8 @@ struct named_sprites {
       *diagonal[NUM_DIRECTION_NSEW],     /* first unused */
       /* for roadstyle 0 and 1 */
       *isolated,
-      *corner[NUM_DIRECTION_NSEW]; /* only diagonal directions used */
+      *corner[NUM_DIRECTION_NSEW], /* only diagonal directions used */
+      *total[NUM_DIRECTION_CW];     /* includes all possibilities */
   } road, rail;
   struct {
     struct Sprite **unit;

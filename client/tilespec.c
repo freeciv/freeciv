@@ -1007,6 +1007,23 @@ static char *nsew_str(int idx)
      	                     BOOL_VAL(idx&BIT_EAST),  BOOL_VAL(idx&BIT_WEST));
   return c;
 }
+
+/****************************************************************************
+  Do the same thing as nsew_str, except including all the cardinal and 
+  diagonal directions.
+  The returned string is a pointer to static memory.
+****************************************************************************/
+static char *cw_str(int idx)
+{
+  static char c[21]; /* strlen(<this next string>) + 1 == 21 */
+
+  sprintf(c, "n%dne%de%dse%ds%dsw%dw%dnw%d",
+	  BOOL_VAL(idx & CW_NORTH), BOOL_VAL(idx & CW_NORTHEAST),
+	  BOOL_VAL(idx & CW_EAST), BOOL_VAL(idx & CW_SOUTHEAST),
+	  BOOL_VAL(idx & CW_SOUTH), BOOL_VAL(idx & CW_SOUTHWEST),
+	  BOOL_VAL(idx & CW_WEST), BOOL_VAL(idx & CW_NORTHWEST));
+  return c;
+}
      
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag) do {                       \
@@ -1103,9 +1120,11 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(spaceship.fuel,         "spaceship.fuel");
   SET_SPRITE(spaceship.propulsion,   "spaceship.propulsion");
 
-  /* Isolated road graphics are used by roadstyle 0 and 1. */
-  SET_SPRITE(road.isolated, "r.road_isolated");
-  SET_SPRITE(rail.isolated, "r.rail_isolated");
+  /* Isolated road graphics are used by roadstyle 0 and 1*/
+  if (roadstyle == 0 || roadstyle == 1) {
+    SET_SPRITE(road.isolated, "r.road_isolated");
+    SET_SPRITE(rail.isolated, "r.rail_isolated");
+  }
   
   if (roadstyle == 0) {
     /* Roadstyle 0 has just 8 additional sprites for both road and rail:
@@ -1124,8 +1143,8 @@ static void tilespec_lookup_sprite_tags(void)
       my_snprintf(buffer, sizeof(buffer), "r.rail_%s", dir_name);
       SET_SPRITE(rail.dir[i], buffer);
     }
-  } else {
-    /* Roadstyle 1 has 32 addidional sprites for both road and rail:
+  } else if (roadstyle == 1) {
+    /* Roadstyle 1 has 32 additional sprites for both road and rail:
      * 16 each for cardinal and diagonal directions.  Each set
      * of 16 provides a NSEW-indexed sprite to provide connectors for
      * all rails in the cardinal/diagonal directions.  The 0 entry is
@@ -1142,6 +1161,16 @@ static void tilespec_lookup_sprite_tags(void)
 
       my_snprintf(buffer, sizeof(buffer), "r.d_rail_%s", nsew_str(i));
       SET_SPRITE(rail.diagonal[i], buffer);
+    }
+  } else {
+    /* Roadstyle 2 includes 256 sprites, one for every possibility.
+     * Just go around clockwise, with all combinations. */
+    for (i = 0; i < NUM_DIRECTION_CW; i++) {
+      my_snprintf(buffer, sizeof(buffer), "r.road_%s", cw_str(i));
+      SET_SPRITE(road.total[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "r.rail_%s", cw_str(i));
+      SET_SPRITE(rail.total[i], buffer);
     }
   }
 
@@ -2046,7 +2075,7 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 	}
       }
     }
-  } else {
+  } else if (roadstyle == 1) {
     /* With roadstyle 1, we draw one sprite for cardinal road connections,
      * one sprite for diagonal road connections, and the same for rail.
      * This means we need about 4x more sprites than in style 0, but up to
@@ -2092,13 +2121,51 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 	ADD_SPRITE_SIMPLE(sprites.rail.diagonal[rail_diagonal_tileno]);
       }
     }
+  } else {
+    /* Roadstyle 2 is a very simple method that lets us simply retrieve 
+     * entire finished tiles, with a bitwise index of the presence of
+     * roads in each direction. */
+
+    /* Draw roads first */
+    if (road) {
+      int road_tileno = INDEX_CW(draw_road[DIR8_NORTH],
+      				 draw_road[DIR8_NORTHEAST],
+      				 draw_road[DIR8_EAST],
+      				 draw_road[DIR8_SOUTHEAST],
+      				 draw_road[DIR8_SOUTH],
+      				 draw_road[DIR8_SOUTHWEST],
+      				 draw_road[DIR8_WEST],
+      				 draw_road[DIR8_NORTHWEST]);
+
+      if (road_tileno != 0 || draw_single_road) {
+        ADD_SPRITE_SIMPLE(sprites.road.total[road_tileno]);
+      }
+    }
+
+    /* Then draw rails over roads. */
+    if (rail) {
+      int rail_tileno = INDEX_CW(draw_rail[DIR8_NORTH],
+      				 draw_rail[DIR8_NORTHEAST],
+      				 draw_rail[DIR8_EAST],
+      				 draw_rail[DIR8_SOUTHEAST],
+      				 draw_rail[DIR8_SOUTH],
+      				 draw_rail[DIR8_SOUTHWEST],
+      				 draw_rail[DIR8_WEST],
+      				 draw_rail[DIR8_NORTHWEST]);
+
+      if (rail_tileno != 0 || draw_single_rail) {
+        ADD_SPRITE_SIMPLE(sprites.rail.total[rail_tileno]);
+      }
+    }
   }
 
-  /* Draw isolated rail/road separately (styles 0 and 1). */
-  if (draw_single_rail) {
-    ADD_SPRITE_SIMPLE(sprites.rail.isolated);
-  } else if (draw_single_road) {
-    ADD_SPRITE_SIMPLE(sprites.road.isolated);
+  /* Draw isolated rail/road separately (styles 0 and 1 only). */
+  if (roadstyle == 0 || roadstyle == 1) { 
+    if (draw_single_rail) {
+      ADD_SPRITE_SIMPLE(sprites.rail.isolated);
+    } else if (draw_single_road) {
+      ADD_SPRITE_SIMPLE(sprites.road.isolated);
+    }
   }
 
   /* Draw rail corners over roads (styles 0 and 1). */
