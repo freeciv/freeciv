@@ -315,6 +315,5 @@ void players_sship_callback(GtkWidget *w, gpointer data)
   row=(gint)selection->data;
   player_index = list_index_to_player_index[row];
 
-  if(player_has_embassy(game.player_ptr, &game.players[player_index]))
-    popup_spaceship_dialog(&game.players[player_index]);
+  popup_spaceship_dialog(&game.players[player_index]);
 }
