@@ -39,8 +39,9 @@ int flog(int level, char *message, ...)
 {
   static char bufbuf[2][512];
   static int whichbuf=0;
-  static int repeated=0;
-  static int mask=1;
+  static unsigned int repeated=0; /* total times current message repeated */
+  static unsigned int next=1;	/* next total to print update */
+  static unsigned int prev=0;	/* total on last update */
 
   if(level<=log_level) {
     va_list args;
@@ -59,20 +60,24 @@ int flog(int level, char *message, ...)
     vsprintf(bufbuf[whichbuf], message, args);
     if(0==strncmp(bufbuf[0],bufbuf[1],511)){
       repeated++;
-      if(repeated&mask){
-	fprintf(fs, "%d: message repeated %d times\n", level, mask );
-	mask<<=1;if(mask<=0) mask=1;
-	repeated-= mask;
+      if(repeated==next){
+	fprintf(fs, "%d: last message repeated %d times (total %d repeats)\n",
+		level, repeated-prev, repeated);
+	prev=repeated;
+	next<<=1;
+	if(next==2) next=4;
       }
     }else{
-      if(repeated>0){
-	fprintf(fs, "%d: message repeated %d times\n", level, repeated );	
-	repeated=0;
+      if(repeated>0 && repeated!=prev){
+	fprintf(fs, "%d: last message repeated %d times (total %d repeats)\n",
+		level, repeated-prev, repeated);	
       }
-      mask=1;
+      repeated=0;
+      next=1;
+      prev=0;
       fprintf(fs, "%d: %s\n", level, bufbuf[whichbuf]);
     }
-    whichbuf= (whichbuf+1)&1;
+    whichbuf= !whichbuf;
     fflush(fs);
     if(log_filename)
       fclose(fs);

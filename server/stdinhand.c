@@ -518,6 +518,8 @@ void handle_stdin_input(char *str)
     create_ai_player(arg);
   else if (!strcmp("crash", command))
     crash_and_burn();
+  else if (!strcmp("log", command)) /* undocumented */
+    flog(LOG_NORMAL, "%s", arg);
 /*  else if (!strcmp("easy", command))
     set_ai_level(arg, 3);               not fair to tease people like this -- Syela */
   else if (!strcmp("normal", command))
