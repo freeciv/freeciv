@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
   int h=0, v=0, n=0;
   char *log_filename=NULL;
   char *load_filename=NULL;
+  char *script_filename=NULL;
   int i;
   int save_counter;
 
@@ -153,6 +154,15 @@ int main(int argc, char *argv[])
 	break;
       }
     }
+    else if(!strcmp("-r", argv[i]) || !strcmp("--read", argv[i])) { 
+      if (++i<argc)
+	script_filename=argv[i];
+      else {
+	fprintf(stderr, "Error: read script not specified.\n");
+	h=1;
+	break;
+      }
+    }
     else if(!strcmp("-s", argv[i]) || !strcmp("--server", argv[i])) { 
       if(++i<argc) 
       	strcpy(metaserver_servername,argv[i]);
@@ -180,6 +190,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -l, --log F\t\t\tUse F as logfile\n");
     fprintf(stderr, "  -n, --nometa\t\t\tDon't send info to Metaserver\n");
     fprintf(stderr, "  -p, --port N\t\t\tconnect to port N\n");
+    fprintf(stderr, "  -r, --read\t\t\tRead startup script\n");
     fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
     fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
     exit(0);
@@ -239,6 +250,10 @@ int main(int argc, char *argv[])
   /* accept new players, wait for serverop to start..*/
   log(LOG_NORMAL, "Now accepting new client connections");
   server_state=PRE_GAME_STATE;
+
+  if (script_filename)
+    read_init_script(script_filename);
+
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
 
@@ -388,6 +403,28 @@ int is_game_over()
 /**************************************************************************
 ...
 **************************************************************************/
+
+read_init_script(char *script_filename)
+{
+  FILE *script_file;
+  char buffer[512];
+
+  script_file = fopen(script_filename,"r");
+  if (script_file)
+    {
+      /* the size 511 is set as to not overflow buffer in handle_stdin_input */
+      while(fgets(buffer,511,script_file))
+	handle_stdin_input(buffer);
+      fclose(script_file);
+    }
+  else
+    fprintf(stderr,"Could not open script file '%s'.\n",script_filename);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
 void send_server_info_to_metaserver(int do_send)
 {
   static int time_last_send;
