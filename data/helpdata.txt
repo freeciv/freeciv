@@ -1090,6 +1090,8 @@ where it is built.
 ---
 # Leonardo's Workshop
 Upgrades one obsolete unit per game turn.
+
+Variant 1: Upgrades all obsolete units each turn.
 ---
 # Lighthouse
 Gives all sea units 1 additional movement point and eliminates the

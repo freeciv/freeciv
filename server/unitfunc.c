@@ -718,11 +718,12 @@ land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
-  int leonardo=0;
+  int leonardo, leonardo_variant;
   int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
   int upgrade_type, done;
 
   leonardo = player_owns_active_wonder(pplayer, B_LEONARDO);
+  leonardo_variant = improvement_variant(B_LEONARDO);
 
   /* get Leonardo out of the way first: */
   if (leonardo) {
@@ -738,7 +739,7 @@ void player_restore_units(struct player *pplayer)
 		      unit_types[upgrade_type].name);
 	punit->type = upgrade_type;
 	punit->veteran = 0;
-	leonardo = 0;
+	leonardo = leonardo_variant;
       }
     }
     unit_list_iterate_end;
