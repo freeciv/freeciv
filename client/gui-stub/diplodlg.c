@@ -32,3 +32,9 @@ handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
 {
 	/* PORTME */
 }
+
+void
+close_all_diplomacy_dialogs(void)
+{
+	/* PORTME */
+}
