@@ -74,13 +74,21 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
   
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-    if(pclause->type==CLAUSE_GOLD && pclause->from==pfrom) {
+    if(pclause->type==type
+       && pclause->from==pfrom
+       && pclause->value==val) {
+      /* same clause already there */
+      return 0;
+    }
+    if(type==CLAUSE_GOLD
+       && pclause->type==CLAUSE_GOLD
+       && pclause->from==pfrom) {
+      /* gold clause there, different value */
+      ptreaty->accept0=0;
+      ptreaty->accept1=0;
       pclause->value=val;
       return 1;
     }
-    else if(pclause->type==type && pclause->from==pfrom &&
-	    pclause->value==val)
-      return 0;
   }
    
   pclause=malloc(sizeof(struct Clause));
