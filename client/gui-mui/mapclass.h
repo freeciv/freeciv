@@ -59,6 +59,7 @@ struct MUIP_Map_ExplodeUnit {ULONG MethodID; struct unit *punit;};
 #define MUIA_SpaceShip_Ship       (TAG_USER+0x1235000) /* N... struct player_spaceship * */
 
 #define MUIA_Sprite_Sprite				(TAG_USER+0x1234800) /* NS.. struct Sprite * */
+#define MUIA_Sprite_Transparent	(TAG_USER+0x1234801) /* N... BOOL */
 
 #define MUIA_Unit_Unit						(TAG_USER+0x1234900) /* NS.. struct unit * */
 #define MUIA_Unit_Upkeep					(TAG_USER+0x1234901) /* N... BOOL */

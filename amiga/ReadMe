@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.7 => Freeciv 1.9.3-devel
+Short:     Amiga Version 1.8 => Freeciv 1.10.0
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.7 => Freeciv 1.9.3-devel
+Kurz:      Amiga Version 1.8 => Freeciv 1.10.0
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.7
+Version:   1.8
 
 Introduction
 ~~~~~~~~~~~~
@@ -32,14 +32,14 @@ Following combinations seem to work:
 Please contact me if you use other datatypes and Freeciv works correctly
 with them.
 
-Also always use the latest guigfx.library. The current version is 16.2
+Also always use the latest guigfx.library. The current version is 17.1
 and this can be found at:
  http://209.201.55.167/binarydistillery/guigfx/guigfxlib.lha.
 or Aminet
 
 Render.library can be found at
  http://209.201.55.167/binarydistillery/renderlib/renderlib.lha
-Again. guigfx.library version 16.2 needs at least render.library
+Again. guigfx.library version 17.1 needs at least render.library
 version 30. Other (newer) guigfx libraries may require later versions.
 
 Please also let Freeciv open on a big enough screen. A screen with the
@@ -86,6 +86,12 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.8 (21.02.2000)
+ - corresponds to Freeciv 1.10.0
+ - new layout of the select nations window
+ - smaller fixes
+ - second Aminet release
+
 Version 1.7 (05.02.2000)
  - corresponds to Freeciv 1.9.3-devel
  - worklist support added

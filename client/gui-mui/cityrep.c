@@ -69,9 +69,10 @@ static void get_city_text(struct city *pcity, char *buf[])
     char *text;
 
     buf[i][0] = '\0';
+/*
     if (!spec->show)
       continue;
-
+*/
     text = (spec->func) (pcity);
     if (text)
     {

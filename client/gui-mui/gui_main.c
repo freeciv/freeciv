@@ -798,8 +798,8 @@ static int init_gui(void)
 
   app = ApplicationObject,
     MUIA_Application_Title, "Freeciv Client",
-    MUIA_Application_Version, "$VER: civclient 1.6" __AMIGADATE__,
-    MUIA_Application_Copyright, "©1999 by Sebastian Bauer",
+    MUIA_Application_Version, "$VER: civclient 1.8" __AMIGADATE__,
+    MUIA_Application_Copyright, "©1999,2000 by Sebastian Bauer",
     MUIA_Application_Author, "Sebastian Bauer",
     MUIA_Application_Description, "Client for Freeciv",
     MUIA_Application_Base, "CIVCLIENT",

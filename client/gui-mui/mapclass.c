@@ -1877,7 +1877,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		Map_MakeContextBarlabel(menu_title);
 	      }
 
-	      if (can_unit_do_connect(punit, ACTIVITY_IDLE))
+	      if (can_unit_do_connect(focus, ACTIVITY_IDLE))
 	      {
 		Map_MakeContextItem(menu_title, "Connect to this location", PACK_USERDATA(focus, UNIT_CONNECT_TO));
 	      }
@@ -2462,6 +2462,7 @@ Object *MakeBorderSprite(struct Sprite *sprite)
 struct Sprite_Data
 {
   struct Sprite *sprite;
+  ULONG transparent;
 };
 
 
@@ -2477,9 +2478,13 @@ STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
     {
       switch (ti->ti_Tag)
       {
-      case MUIA_Sprite_Sprite:
-	data->sprite = (struct Sprite *) ti->ti_Data;
-	break;
+	case  MUIA_Sprite_Sprite:
+	      data->sprite = (struct Sprite *) ti->ti_Data;
+	      break;
+
+	case  MUIA_Sprite_Transparent:
+	      data->transparent = ti->ti_Data;
+	      break;
       }
     }
   }
@@ -2502,10 +2507,11 @@ STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
   {
     switch (ti->ti_Tag)
     {
-    case MUIA_Sprite_Sprite:
-      data->sprite = (struct Sprite *) ti->ti_Data;
-      MUI_Redraw(o, MADF_DRAWUPDATE);
-      break;
+      case  MUIA_Sprite_Sprite:
+	    data->sprite = (struct Sprite *) ti->ti_Data;
+	    if (data->transparent) MUI_Redraw(o, MADF_DRAWOBJECT);
+	    else MUI_Redraw(o, MADF_DRAWUPDATE);
+            break;
     }
   }
 
@@ -2539,7 +2545,10 @@ STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl, o, (Msg) msg);
-  put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
+  if (data->transparent)
+    put_sprite_overlay(_rp(o), data->sprite, _mleft(o), _mtop(o));
+  else
+    put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
   return 0;
 }
 

@@ -1559,7 +1559,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 }
 
 
-STATIC STRPTR nation_entries[64];
+/*STATIC STRPTR nation_entries[64];*/
 STATIC STRPTR styles_entries[64];
 STATIC int styles_basic_index[64];
 STATIC int styles_basic_nums;
@@ -1567,7 +1567,8 @@ STATIC int styles_basic_nums;
 Object *nations_wnd;
 Object *nations_leader_string;
 Object *nations_leader_poplist;
-Object *nations_nation_cycle;
+Object *nations_nation_listview;
+Object *nations_flag_sprite;
 Object *nations_sex_radio;
 Object *nations_styles_cycle;
 
@@ -1580,7 +1581,9 @@ static void nations_nation_active(void)
   int i, leader_count;
   char **leaders;
   Object *list = (Object*)xget(nations_leader_poplist,MUIA_Popobject_Object);
-  LONG nation = xget(nations_nation_cycle,MUIA_Cycle_Active);
+  LONG nation = xget(nations_nation_listview,MUIA_List_Active);
+
+  set(nations_flag_sprite, MUIA_Sprite_Sprite, get_nation_by_idx(nation)->flag_sprite);
 
   leaders = get_nation_leader_names( nation, &leader_count);
   setstring(nations_leader_string, leaders[0]);
@@ -1606,7 +1609,7 @@ static void nations_ok(void)
   char *s;
   struct packet_alloc_nation packet;
 
-  selected = xget(nations_nation_cycle, MUIA_Cycle_Active);
+  selected = xget(nations_nation_listview, MUIA_List_Active);
   selected_sex = xget(nations_sex_radio, MUIA_Radio_Active);
   selected_style = xget(nations_styles_cycle, MUIA_Cycle_Active);
   s = getstring(nations_leader_string);
@@ -1644,7 +1647,7 @@ static void nations_disconnect(void)
 __asm __saveds static void nations_obj2str( register __a2 Object *list, register __a1 Object *str, register __a0 struct Hook *hook)
 {
   char *x;
-  LONG nation = xget(nations_nation_cycle,MUIA_Cycle_Active);
+  LONG nation = xget(nations_nation_listview,MUIA_List_Active);
   DoMethod(list,MUIM_List_GetEntry,MUIV_List_GetEntry_Active,&x);
   set(str,MUIA_String_Contents,x);
   if(x) set(nations_sex_radio, MUIA_Radio_Active, get_nation_leader_sex(nation,x)?0:1);
@@ -1698,7 +1701,8 @@ void popup_races_dialog(void)
 
     styles_basic_nums = 0;
 
-    for(i=0;i<game.playable_nation_count && i<64;i++) nation_entries[i] = get_nation_name(i);
+/*    for(i=0;i<game.playable_nation_count && i<64;i++) nation_entries[i] = get_nation_name(i);
+*/
     for(i=0;i<game.styles_count && i<64;i++)
     {
       if(city_styles[i].techreq == A_NONE)
@@ -1712,30 +1716,49 @@ void popup_races_dialog(void)
     styles_entries[styles_basic_nums] = NULL;
 
     nations_wnd = WindowObject,
-        MUIA_Window_Title,  "What Nation Will You Be?",
+        MUIA_Window_Title,  "Freeciv - Select a Nation",
+        MUIA_Window_ID, 'SNAT',
         WindowContents, VGroup,
             Child, HGroup,
-                Child, MakeLabel("_Nation"),
-                Child, nations_nation_cycle = MakeCycle("_Nation",nation_entries),
-                End,
-            Child, HGroup,
-                Child, MakeLabel("_Leader Name"),
-                Child, nations_leader_poplist = PopobjectObject,
-                    MUIA_Popstring_String, nations_leader_string = MakeString(NULL,40),
-                    MUIA_Popstring_Button, PopButton(MUII_PopUp),
-                    MUIA_Popobject_ObjStrHook, &objstr_hook,
-                    MUIA_Popobject_StrObjHook, &strobj_hook,
-                    MUIA_Popobject_Object, list = ListviewObject,
-                        MUIA_Listview_List, ListObject,
-                            InputListFrame,
-                            End,
-                        End,
+		Child, nations_nation_listview = ListviewObject,
+		    MUIA_HorizWeight, 50,
+		    MUIA_CycleChain, 1,
+		    MUIA_Listview_List, ListObject,
+			InputListFrame,
+			End,
+		    End,
+
+		Child, VGroup,
+		    Child, HVSpace,
+		    Child, HGroup,
+		    	Child, HVSpace,
+		    	Child, nations_flag_sprite = SpriteObject,
+		    	    MUIA_Sprite_Sprite,get_nation_by_idx(0)->flag_sprite,
+		    	    MUIA_Sprite_Transparent, TRUE,
+		    	    End,
+		    	Child, HVSpace,
+			End,
+	            Child, HGroup,
+        	        Child, MakeLabel("_Leader Name"),
+	                Child, nations_leader_poplist = PopobjectObject,
+        	            MUIA_Popstring_String, nations_leader_string = MakeString(NULL,40),
+                	    MUIA_Popstring_Button, PopButton(MUII_PopUp),
+	                    MUIA_Popobject_ObjStrHook, &objstr_hook,
+        	            MUIA_Popobject_StrObjHook, &strobj_hook,
+                	    MUIA_Popobject_Object, list = ListviewObject,
+                        	MUIA_Listview_List, ListObject,
+	                            InputListFrame,
+        	                    End,
+                	        End,
+	                    End,
+        	        Child, nations_sex_radio = MakeRadio(NULL,sex_labels),
+                	End,
+	            Child, HGroup,
+        	        Child, MakeLabel("_City Style"),
+                	Child, nations_styles_cycle = MakeCycle("_City Style",styles_entries),
+                	End,
+		    Child, HVSpace,
                     End,
-                Child, nations_sex_radio = MakeRadio(NULL,sex_labels),
-                End,
-            Child, HGroup,
-                Child, MakeLabel("_City Style"),
-                Child, nations_styles_cycle = MakeCycle("_City Style",styles_entries),
                 End,
             Child, HGroup,
                 Child, nations_ok_button = MakeButton("_Ok"),
@@ -1747,12 +1770,20 @@ void popup_races_dialog(void)
 
     if(nations_wnd)
     {
-      DoMethod(nations_nation_cycle, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, nations_nation_active);
+      DoMethod(nations_nation_listview, MUIM_List_Clear);
+      for(i=0;i<game.playable_nation_count && i<64;i++)
+	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Bottom);
+
+      DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, nations_nation_active);
       DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, nations_ok);
       DoMethod(nations_disconnect_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, nations_disconnect);
+      DoMethod(nations_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &standart_hook, nations_disconnect);
+
       DoMethod(nations_quit_button, MUIM_Notify, MUIA_Pressed, FALSE, app,2,MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
       DoMethod(list,MUIM_Notify,MUIA_Listview_DoubleClick,TRUE, nations_leader_poplist,2,MUIM_Popstring_Close,TRUE);
       DoMethod(app, OM_ADDMEMBER, nations_wnd);
+
+      set(nations_nation_listview, MUIA_List_Active, 0);
     }
   }
 
