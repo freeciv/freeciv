@@ -21,8 +21,8 @@ options="1.10.1"
 ; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
-; *** For details of this file's format, ***
-; *** see the default buildings.ruleset. ***
+; /*** For details of this file's format, ***/
+; /*** see the default buildings.ruleset. ***/
 
 [building_airport]
 name		= _("Airport")

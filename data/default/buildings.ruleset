@@ -14,6 +14,8 @@
 description="Default buildings data for Freeciv"
 options="1.10.1"
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual buildings, one per section.
 ; (Buildings = City Improvements and Wonders)
 ;
@@ -192,6 +194,8 @@ options="1.10.1"
 ; }		  (All effects in list(s) are cumulative.)
 ; helptext	= optional help text string; should escape all raw
 ;		  newlines so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
 
 [building_airport]
 name		= _("Airport")
