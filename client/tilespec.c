@@ -2641,13 +2641,18 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
 
+  /* Unit drawing is disabled if the view options is turned off, but only
+   * if we're drawing on the mapview. */
+  bool do_draw_unit = (punit && (draw_units || !ptile
+				 || (draw_focus_unit && pfocus == punit)));
+
   if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
     return sprs - save_sprs;
   }
 
   /* Set up background color. */
   if (solid_color_behind_units) {
-    if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
+    if (do_draw_unit) {
       ADD_BG(player_color(unit_owner(punit)));
     } else if (pcity && draw_cities) {
       ADD_BG(player_color(city_owner(pcity)));
@@ -2771,7 +2776,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
 	       FALSE, 0, 0);
   }
 
-  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
+  if (do_draw_unit) {
     bool stacked = ptile && (unit_list_size(&ptile->units) > 1);
     bool backdrop = !pcity;
 
