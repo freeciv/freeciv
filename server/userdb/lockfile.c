@@ -99,6 +99,7 @@ bool create_lock(void)
   freelog(LOG_VERBOSE, "FILE_LOCKING not available"); 
 #endif /* HAS_FILE_LOCKING */
 
+  freelog(LOG_DEBUG, "Unable to create lock");
   remove(FC_LOCK_FILE);
   return FALSE;
 }
