@@ -1004,7 +1004,7 @@ static void player_load(struct player *plr, int plrno,
 	    abort();
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
-	    if (goto_buf_ptr == '\0')
+	    if (*goto_buf_ptr == '\0')
 	      abort();
 	  }
 	  goto_buf_ptr++;
@@ -1017,7 +1017,7 @@ static void player_load(struct player *plr, int plrno,
 	    abort();
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
-	    if (goto_buf_ptr == '\0')
+	    if (*goto_buf_ptr == '\0')
 	      abort();
 	  }
 	  goto_buf_ptr++;
