@@ -17,7 +17,8 @@
 
 
 /************************************************************************
-  ...
+  Initialize a genlist.
+  This should be called before the genlist is used in any other way.
 ************************************************************************/
 void genlist_init(struct genlist *pgenlist)
 {
@@ -31,15 +32,19 @@ void genlist_init(struct genlist *pgenlist)
 
 
 /************************************************************************
-  ...
+  Returns the number of elements stored in the genlist.
 ************************************************************************/
 int genlist_size(struct genlist *pgenlist)
 {
   return pgenlist->nelements;
 }
 
+
 /************************************************************************
-  ...
+  Returns the user-data pointer stored in the genlist at the position
+  given by 'idx'.  For idx out of range (including an empty list),
+  returns 0 (the dataptr of null_link).
+  Recall 'idx' can be -1 meaning the last element.
 ************************************************************************/
 void *genlist_get(struct genlist *pgenlist, int idx)
 {
@@ -49,9 +54,10 @@ void *genlist_get(struct genlist *pgenlist, int idx)
 }
 
 
-
 /************************************************************************
-  ...
+  Frees all the internal data used by the genlist (but doesn't touch
+  the user-data).  At the end the state of the genlist will be the
+  same as when genlist_init() is called on a new genlist.
 ************************************************************************/
 void genlist_unlink_all(struct genlist *pgenlist)
 {
@@ -68,13 +74,13 @@ void genlist_unlink_all(struct genlist *pgenlist)
 
     pgenlist->nelements=0;
   }
-
 }
 
 
-
 /************************************************************************
-  ...
+  Remove an element of the genlist with the specified user-data pointer
+  given by 'punlink'.  If there is no such element, does nothing.
+  If there are multiple such elements, removes the first one.
 ************************************************************************/
 void genlist_unlink(struct genlist *pgenlist, void *punlink)
 {
@@ -98,14 +104,16 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink)
       pgenlist->nelements--;
     }
   }
-
 }
 
 
-
-
 /************************************************************************
-  ...
+  Insert a new element in the list, at position 'pos', with the specified
+  user-data pointer 'data'.  Existing elements at >= pos are moved one
+  space to the "right".  Recall 'pos' can be -1 meaning add at the
+  end of the list.  For an empty list pos has no effect.
+  A bad 'pos' value for a non-empty list is treated as -1 (is this
+  a good idea?)
 ************************************************************************/
 void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
@@ -125,23 +133,26 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
     struct genlist_link *plink=fc_malloc(sizeof(struct genlist_link));
     plink->dataptr=data;
 
-
     if(pos==0) {
       plink->next=pgenlist->head_link;
       plink->prev=&pgenlist->null_link;
       pgenlist->head_link->prev=plink;
       pgenlist->head_link=plink;
     }
-    else if(pos==-1) {
+    else if(pos<=-1 || pos>=pgenlist->nelements) {
       plink->next=&pgenlist->null_link;
       plink->prev=pgenlist->tail_link;
       pgenlist->tail_link->next=plink;
       pgenlist->tail_link=plink;
     }
     else {
-      struct genlist_link *pre_insert_link; 
-      pre_insert_link=find_genlist_position(pgenlist, pos);
-      pre_insert_link->next->prev=plink;
+      struct genlist_link *left, *right;     /* left and right of new element */
+      right = find_genlist_position(pgenlist, pos);
+      left = right->prev;
+      plink->next = right;
+      plink->prev = left;
+      right->prev = plink;
+      left->next = plink;
     }
   }
 
@@ -149,7 +160,10 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 }
 
 /************************************************************************
-  ...
+  Initialize a genlist_iterator, for specified genlist and position
+  of initial element.  If pos is out of range the link will be null_link
+  (which will generally be interpreted as the iterator being finished).
+  Recall 'pos' can be -1 meaning the last element.
 ************************************************************************/
 void genlist_iterator_init(struct genlist_iterator *iter,
 				struct genlist *pgenlist, int pos)
@@ -159,23 +173,22 @@ void genlist_iterator_init(struct genlist_iterator *iter,
 }
 
 
-
-
-
 /************************************************************************
-  ...
+  Returns a pointer to the genlist link structure at the specified
+  position.  Recall 'pos' -1 refers to the last position.
+  For pos out of range returns the null_link.
+  Traverses list either forwards or backwards for best efficiency.
 ************************************************************************/
 struct genlist_link *
 find_genlist_position(struct genlist *pgenlist, int pos)
 {
   struct genlist_link *plink;
 
-
   if(pos==0)
     return pgenlist->head_link;
   else if(pos==-1)
     return pgenlist->tail_link;
-  else if(pos>=pgenlist->nelements)
+  else if(pos<-1 || pos>=pgenlist->nelements)
     return &pgenlist->null_link;
 
   if(pos<pgenlist->nelements/2)   /* fastest to do forward search */
