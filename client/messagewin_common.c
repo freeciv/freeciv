@@ -109,7 +109,7 @@ void add_notify_window(struct packet_generic_message *packet)
   char *game_prefix2 = _("Game: ");
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
-  char *s = fc_malloc(strlen(packet->message) + min_msg_len);
+  char *s = fc_malloc(MAX(strlen(packet->message), min_msg_len) + 1);
   int i, nspc;
 
   change = TRUE;
@@ -137,6 +137,7 @@ void add_notify_window(struct packet_generic_message *packet)
   messages[messages_total].event = packet->event;
   messages[messages_total].descr = s;
   messages[messages_total].location_ok = (packet->x != -1 && packet->y != -1);
+  messages[messages_total].visited = FALSE;
   messages_total++;
 
   /* 
@@ -171,6 +172,14 @@ struct message *get_message(int message_index)
 int get_num_messages(void)
 {
   return messages_total;
+}
+
+/**************************************************************************
+ Sets the visited-state of a message
+**************************************************************************/
+void set_message_visited_state(int message_index, bool state)
+{
+  messages[message_index].visited = state;
 }
 
 /**************************************************************************

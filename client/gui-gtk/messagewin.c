@@ -93,6 +93,7 @@ static void meswin_visited_item (gint n)
 {
   gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
 						meswin_visited_style);
+  set_message_visited_state(n, TRUE);
 }
 
 /****************************************************************
@@ -102,6 +103,7 @@ static void meswin_not_visited_item (gint n)
 {
   gtk_clist_set_row_style (GTK_CLIST (meswin_list), n,
 						meswin_not_visited_style);
+  set_message_visited_state(n, FALSE);
 }
 
 /****************************************************************
@@ -221,7 +223,11 @@ void real_update_meswin_dialog(void)
 
   for (i = 0; i < num; i++) {
     gtk_clist_append(GTK_CLIST(meswin_list), &get_message(i)->descr);
-    meswin_not_visited_item(i);
+    if(get_message(i)->visited) {
+      meswin_visited_item(i);
+    } else {
+      meswin_not_visited_item(i);
+    }
   }
 
   gtk_clist_thaw(GTK_CLIST(meswin_list));

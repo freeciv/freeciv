@@ -20,7 +20,7 @@ struct message {
   char *descr;
   int x, y;
   enum event_type event;
-  bool location_ok, city_ok;
+  bool location_ok, city_ok, visited;
 };
 
 void meswin_freeze(void);
@@ -33,6 +33,7 @@ void add_notify_window(struct packet_generic_message *packet);
 
 struct message *get_message(int message_index);
 int get_num_messages(void);
+void set_message_visited_state(int message_index, bool state);
 void meswin_popup_city(int message_index);
 void meswin_goto(int message_index);
 void meswin_double_click(int message_index);
