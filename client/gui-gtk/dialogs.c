@@ -1789,8 +1789,6 @@ void popup_races_dialog(void)
 void popdown_races_dialog(void)
 {
   if (races_dialog_shell) {
-    int i;
-
     gtk_widget_set_sensitive(top_vbox, TRUE);
 
     /* while dialog is being destroyed, it will toggle the race_toggle 
