@@ -361,8 +361,8 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
 
   pcity->did_sell=1;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		   "Game: You sell %s for %d credits.", 
-		   get_improvement_name(id), 
+		   "Game: You sell %s in %s for %d credits.", 
+		   get_improvement_name(id), pcity->name,
 		   improvement_value(id));
   do_sell_building(pplayer, pcity, id);
 
