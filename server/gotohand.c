@@ -493,7 +493,7 @@ and independently I can worry about optimizing them. -- Syela */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         tm = warmap.seacost[x][y] + c;
         if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
-            (pplayer->ai.control || !same_pos(x1, y1, dest_x, dest_y)) &&
+            (pplayer->ai.control) &&
             tm >= punit->moves_left - (get_transporter_capacity(punit) >
             unit_types[punit->type].attack_strength ? 3 : 2) &&
             enemies_at(punit, x1, y1)) {
