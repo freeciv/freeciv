@@ -68,17 +68,14 @@ char current_tileset[512];
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
-int NORMAL_TILE_WIDTH;
-int NORMAL_TILE_HEIGHT;
-int UNIT_TILE_WIDTH;
-int UNIT_TILE_HEIGHT;
-int SMALL_TILE_WIDTH;
-int SMALL_TILE_HEIGHT;
-
 int OVERVIEW_TILE_SIZE = 2;
 
 static bool is_isometric;
 static int hex_width, hex_height;
+
+static int normal_tile_width, normal_tile_height;
+static int full_tile_width, full_tile_height;
+static int small_sprite_width, small_sprite_height;
 
 static int city_names_font_size, city_productions_font_size;
 
@@ -217,6 +214,64 @@ bool tileset_is_isometric(void)
 int tileset_hex_width(void)
 {
   return hex_width;
+}
+/****************************************************************************
+  Return the tile width of the current tileset.  This is the tesselation
+  width of the tiled plane.
+****************************************************************************/
+int tileset_tile_width(void)
+{
+  return normal_tile_width;
+}
+
+/****************************************************************************
+  Return the tile height of the current tileset.  This is the tesselation
+  height of the tiled plane.
+****************************************************************************/
+int tileset_tile_height(void)
+{
+  return normal_tile_height;
+}
+
+/****************************************************************************
+  Return the full tile width of the current tileset.  This is the maximum
+  width that any mapview sprite will have.
+
+  Note: currently this is always equal to the tile width.
+****************************************************************************/
+int tileset_full_tile_width(void)
+{
+  return full_tile_width;
+}
+
+/****************************************************************************
+  Return the full tile height of the current tileset.  This is the maximum
+  height that any mapview sprite will have.  This may be greater than the
+  tile width in which case the extra area is above the "normal" tile.
+****************************************************************************/
+int tileset_full_tile_height(void)
+{
+  return full_tile_height;
+}
+
+/****************************************************************************
+  Return the small sprite width of the current tileset.  The small sprites
+  are used for various theme graphics (e.g., citymap citizens/specialists
+  as well as panel indicator icons).
+****************************************************************************/
+int tileset_small_sprite_width(void)
+{
+  return small_sprite_width;
+}
+
+/****************************************************************************
+  Return the small sprite height of the current tileset.  The small sprites
+  are used for various theme graphics (e.g., citymap citizens/specialists
+  as well as panel indicator icons).
+****************************************************************************/
+int tileset_small_sprite_height(void)
+{
+  return small_sprite_height;
 }
 
 /****************************************************************************
@@ -872,17 +927,19 @@ bool tilespec_read_toplevel(const char *tileset_name)
   num_index_valid = 1 << num_valid_tileset_dirs;
   num_index_cardinal = 1 << num_cardinal_tileset_dirs;
 
-  NORMAL_TILE_WIDTH = secfile_lookup_int(file, "tilespec.normal_tile_width");
-  NORMAL_TILE_HEIGHT = secfile_lookup_int(file, "tilespec.normal_tile_height");
+  normal_tile_width = secfile_lookup_int(file, "tilespec.normal_tile_width");
+  normal_tile_height = secfile_lookup_int(file, "tilespec.normal_tile_height");
   if (is_isometric) {
-    UNIT_TILE_WIDTH = NORMAL_TILE_WIDTH;
-    UNIT_TILE_HEIGHT = 3 * NORMAL_TILE_HEIGHT/2;
+    full_tile_width = NORMAL_TILE_WIDTH;
+    full_tile_height = 3 * NORMAL_TILE_HEIGHT / 2;
   } else {
-    UNIT_TILE_WIDTH = NORMAL_TILE_WIDTH;
-    UNIT_TILE_HEIGHT = NORMAL_TILE_HEIGHT;
+    full_tile_width = NORMAL_TILE_WIDTH;
+    full_tile_height = NORMAL_TILE_HEIGHT;
   }
-  SMALL_TILE_WIDTH = secfile_lookup_int(file, "tilespec.small_tile_width");
-  SMALL_TILE_HEIGHT = secfile_lookup_int(file, "tilespec.small_tile_height");
+  small_sprite_width
+    = secfile_lookup_int(file, "tilespec.small_tile_width");
+  small_sprite_height
+    = secfile_lookup_int(file, "tilespec.small_tile_height");
   freelog(LOG_VERBOSE, "tile sizes %dx%d, %d%d unit, %d%d small",
 	  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,

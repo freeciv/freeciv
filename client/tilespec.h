@@ -396,12 +396,12 @@ extern char *minimap_intro_filename;
  *     - NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT are even
  */
 
-extern int NORMAL_TILE_WIDTH;
-extern int NORMAL_TILE_HEIGHT;
-extern int UNIT_TILE_WIDTH;
-extern int UNIT_TILE_HEIGHT;
-extern int SMALL_TILE_WIDTH;
-extern int SMALL_TILE_HEIGHT;
+#define NORMAL_TILE_WIDTH tileset_tile_width()
+#define NORMAL_TILE_HEIGHT tileset_tile_height()
+#define UNIT_TILE_WIDTH tileset_full_tile_width()
+#define UNIT_TILE_HEIGHT tileset_full_tile_height()
+#define SMALL_TILE_WIDTH tileset_small_sprite_width()
+#define SMALL_TILE_HEIGHT tileset_small_sprite_height()
 
 /* The overview tile width and height are defined in terms of the base
  * size.  For iso-maps the width is twice the height since "natural"
@@ -417,6 +417,12 @@ extern int num_tiles_explode_unit;
 bool tileset_is_isometric(void);
 int tileset_hex_width(void);
 int tileset_hex_height(void);
+int tileset_tile_width(void);
+int tileset_tile_height(void);
+int tileset_full_tile_width(void);
+int tileset_full_tile_height(void);
+int tileset_small_sprite_width(void);
+int tileset_small_sprite_height(void);
 
 struct Sprite *load_sprite(const char *tag_name);
 void unload_sprite(const char *tag_name);
