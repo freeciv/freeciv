@@ -30,6 +30,7 @@
 
 extern struct move_cost_map warmap;
 signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+unsigned short int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
 
 /**************************************************************************
@@ -699,6 +700,7 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int near;
   int nav = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
   struct ai_choice choice; /* for nav want only */
+  int n = pplayer->player_no;
 
   choice.type = 1;
   choice.choice = U_CARAVEL;
@@ -728,7 +730,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
       y = map_adjust_y(pcity->y + j - 2);
       if (map_get_continent(x, y) == co &&
           warmap.cost[x][y] <= THRESHOLD * m &&
-          !enemies_at(punit, x, y) && /* helps some, not nearly enough */
+          (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
           !is_already_assigned(punit, pplayer, x, y)) {
 /* calling is_already_assigned once instead of four times for obvious reasons */
 /* structure is much the same as it once was but subroutines are not -- Syela */
@@ -846,11 +848,13 @@ gx, gy, v, x, y, v2, d, b);*/
         near = (MAX((MAX(i, -i)),(MAX(j, -j))));
         if (!is_already_assigned(punit, pplayer, x, y) &&
             map_get_terrain(x, y) != T_OCEAN &&
+          (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
             (near < 8 || map_get_continent(x, y) != co)) {
           if (ferryboat) { /* already aboard ship, can use real warmap */
             if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
             else z = warmap.seacost[x][y] * m / unit_types[ferryboat->type].move_rate;
-          } else if (!goto_is_sane(pplayer, punit, x, y, 1)) {
+          } else if (!goto_is_sane(pplayer, punit, x, y, 1) ||
+                warmap.cost[x][y] > THRESHOLD * m) { /* for Rome->Carthage */
             if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
             else if (boatid) {
               if (!punit->id && mycity->id == boatid) w = 1;
@@ -919,6 +923,9 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
   if (gx!=-1 && gy!=-1) {
       map_get_tile(gx, gy)->assigned =
         map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+  } else if (pplayer->ai.control) { /* settler has no purpose */
+    /* possibly add Gilligan's Island here */
+    ;
   }
 
   if (!punit->id) { /* has to be before we try to send_unit_info()! -- Syela */
@@ -959,10 +966,8 @@ ferryboat->id, punit->x, punit->y, gx, gy);*/
         } /* need to zero pass & ferryboat at some point. */
       }
       if (goto_is_sane(pplayer, punit, gx, gy, 1) && punit->moves_left &&
-         ((!ferryboat) || other_passengers(punit) ||
-          is_tiles_adjacent(punit->x, punit->y, gx, gy))) {
-/* Two settlers on a boat led to boats yo-yoing back and forth.
-Therefore we need to let them disembark at this point. -- Syela */
+         ((!ferryboat) || (is_tiles_adjacent(punit->x, punit->y, gx, gy) &&
+          could_unit_move_to_tile(punit, punit->x, punit->y, gx, gy)))) {
         auto_settler_do_goto(pplayer, punit, gx, gy);
         if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
         punit->ai.ferryboat = 0;
@@ -1073,14 +1078,64 @@ void assign_settlers()
   }
 }
 
+void assign_region(int x, int y, int n, int d, int s)
+{
+  int i, j;
+  for (j = MAX(0, y - d); j <= MIN(map.ysize - 1, y + d); j++) {
+    for (i = x - d; i <= x + d; i++) {
+      if (!s || is_terrain_near_tile(i, j, T_OCEAN))
+        territory[map_adjust_x(i)][j] &= (1<<n);
+    }
+  }
+}
+
+void assign_territory_player(struct player *pplayer)
+{
+  int n = pplayer->player_no;
+  unit_list_iterate(pplayer->units, punit)
+    if (unit_types[punit->type].attack_strength) {
+/* I could argue that phalanxes aren't really a threat, but ... */
+      if (is_sailing_unit(punit)) {
+        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / 3, 1);
+      } else if (is_ground_unit(punit)) {
+        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate /
+             (unit_flag(punit->type, F_IGTER) ? 1 : 3), 0);
+/* I realize this is not the most accurate, but I don't want to iterate
+road networks 100 times/turn, and I can't justifiably abort when I encounter
+already assigned territory.  If anyone has a reasonable alternative that won't
+noticeably slow the game, feel free to replace this else{}  -- Syela */
+      } else {
+        assign_region(punit->x, punit->y, n, 1 + unit_types[punit->type].move_rate / 3, 0);
+      } 
+    }
+  unit_list_iterate_end;
+  city_list_iterate(pplayer->cities, pcity)
+    assign_region(pcity->x, pcity->y, n, 3, 0);
+  city_list_iterate_end;
+}
+
+void assign_territory()
+{ /* this funct is supposed to keep settlers out of enemy territory -- Syela */
+  int i, x, y;
+  for (x = 0; x < map.xsize; x++)
+    for (y = 0; y < map.xsize; y++)
+      territory[x][y] = 65535;
+
+  for (i = 0; i < game.nplayers; i++) {
+    assign_territory_player(&game.players[i]);
+  }
+/* an actual territorial assessment a la AI algorithms for go might be
+appropriate here.  I'm not sure it's necessary, so it's not here yet. -- Syela */
+}  
+
 /**************************************************************************
   Do the auto_settler stuff for all the players. 
-  TODO: This should be moved into the update_player loop i think
 **************************************************************************/
 void auto_settlers()
 {
   int i;
   assign_settlers();
+  assign_territory();
   for (i = 0; i < game.nplayers; i++) {
     auto_settlers_player(&game.players[i]);
   }
