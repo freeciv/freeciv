@@ -1176,7 +1176,7 @@ void update_menus(void)
                           can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menus_set_sensitive("<main>/_Orders/_Connect/_Road",
                           can_unit_do_connect(punit, ACTIVITY_ROAD));
-      menus_set_sensitive("<main>/_Orders/_Connect/_Rail",
+      menus_set_sensitive("<main>/_Orders/_Connect/Rai_l",
                           can_unit_do_connect(punit, ACTIVITY_RAILROAD));
       menus_set_sensitive("<main>/_Orders/_Connect/_Irrigate",
                           can_unit_do_connect(punit, ACTIVITY_IRRIGATE));
