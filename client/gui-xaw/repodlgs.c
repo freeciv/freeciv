@@ -109,7 +109,7 @@ int delay_report_update=0;
 /******************************************************************
  Turn off updating of reports
 *******************************************************************/
-void report_update_delay_on()
+void report_update_delay_on(void)
 {
   delay_report_update=1;
 }
@@ -117,7 +117,7 @@ void report_update_delay_on()
 /******************************************************************
  Turn on updating of reports
 *******************************************************************/
-void report_update_delay_off()
+void report_update_delay_off(void)
 {
   delay_report_update=0;
 }

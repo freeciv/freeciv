@@ -506,7 +506,7 @@ struct city *sdi_defense_close(int owner, int x, int y)
 /**************************************************************************
   returns a unit type for the goodie huts
 **************************************************************************/
-int find_a_unit_type()
+int find_a_unit_type(void)
 {
   int which[U_LAST];
   int i, num=0, iunit;

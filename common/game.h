@@ -114,7 +114,7 @@ void game_remove_city(struct city *pcity);
 int research_time(struct player *pplayer);
 int total_player_citizens(struct player *pplayer);
 int civ_score(struct player *pplayer);
-void initialize_globals();
+void initialize_globals(void);
 
 struct player *get_player(int player_id);
 

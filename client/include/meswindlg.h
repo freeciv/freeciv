@@ -10,17 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MESWINDLG__H
-#define __MESWINDLG__H
+#ifndef FC__MESWINDLG__H
+#define FC__MESWINDLG__H
 
 #include "packets.h"
 
-void popup_meswin_dialog();
-void update_meswin_dialog();
-void clear_notify_window();
+void popup_meswin_dialog(void);
+void update_meswin_dialog(void);
+void clear_notify_window(void);
 void add_notify_window(struct packet_generic_message *packet);
 
-void meswin_update_delay_on();
-void meswin_update_delay_off();
+void meswin_update_delay_on(void);
+void meswin_update_delay_off(void);
      
 #endif

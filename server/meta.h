@@ -48,8 +48,8 @@ The info string should look like this:
 
 /* Returns true if able to send */
 int send_to_metaserver(char *desc, char *info);
-void server_close_udp();
-void server_open_udp();
+void server_close_udp(void);
+void server_open_udp(void);
 
 #define PACKET_UDP_PCKT 2
 

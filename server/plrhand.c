@@ -338,7 +338,7 @@ void demographics_report(struct player *pplayer)
 }
 
 /* create a log file of the civilizations so you can see what was happening */
-void log_civ_score()
+void log_civ_score(void)
 { /* never shall we fail to define void functions as void!! -- Syela */
   int i,j,fom; /* fom == figure-of-merit */
   static FILE *fp = NULL;
@@ -414,7 +414,7 @@ void log_civ_score()
   fflush(fp);
 }
 
-void make_history_report()
+void make_history_report(void)
 {
   static int report=0;
   static int time_to_report=20;
@@ -444,7 +444,7 @@ void make_history_report()
 ...
 **************************************************************************/
 
-void show_ending()
+void show_ending(void)
 {
   int i;
   char buffer[4096];

@@ -66,10 +66,9 @@
 #include <console.h>
 #include <capstr.h>
 
-void show_ending();
-void end_game();
-void before_end_year(); /* main() belongs at the bottom of files!! -- Syela */
-int end_turn();
+void end_game(void);
+void before_end_year(void); /* main() belongs at the bottom of files!! -- Syela */
+int end_turn(void);
 void start_new_game(void);
 void init_new_game(void);
 void send_game_state(struct player *dest, int state);
@@ -77,7 +76,7 @@ int find_highest_used_id(void);
 void send_all_info(struct player *dest);
 void shuffle_players(void);
 void ai_start_turn(void);
-int is_game_over();
+int is_game_over(void);
 void read_init_script(char *script_filename);
 
 extern struct connection connections[];
@@ -495,7 +494,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-int is_game_over()
+int is_game_over(void)
 {
   int alive = 0;
   int i;
@@ -625,7 +624,7 @@ int find_highest_used_id(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void do_apollo_program()
+void do_apollo_program(void)
 {
   int cityid;
   int i;
@@ -647,7 +646,7 @@ void do_apollo_program()
 /**************************************************************************
 ...
 **************************************************************************/
-void update_pollution()
+void update_pollution(void)
 {
   int x,y,count=0;
   
@@ -677,7 +676,7 @@ void update_pollution()
 /**************************************************************************
 ...
 **************************************************************************/
-void before_end_year()
+void before_end_year(void)
 {
   int i;
   for (i=0; i<game.nplayers; i++) {
@@ -688,7 +687,7 @@ void before_end_year()
 /**************************************************************************
 ...
 **************************************************************************/
-void shuffle_players()
+void shuffle_players(void)
 {
   int i, pos;
   struct player *tmpplr;
@@ -706,7 +705,7 @@ void shuffle_players()
   }
 }
 
-void ai_start_turn()
+void ai_start_turn(void)
 {
   int i;
 
@@ -719,7 +718,7 @@ void ai_start_turn()
   }
 }
 
-int end_turn()
+int end_turn(void)
 {
   int i;
   
@@ -755,7 +754,7 @@ int end_turn()
 ...
 **************************************************************************/
 
-void end_game()
+void end_game(void)
 {
 }
 
@@ -1433,7 +1432,7 @@ generate_ai_players() - Selects a race for players created with server's
    and appropriate name for each.
 **************************************************************************/
 
-void generate_ai_players()
+void generate_ai_players(void)
 {
   int i,player,race;
   char player_name[MAX_LENGTH_NAME];

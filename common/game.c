@@ -298,7 +298,7 @@ void game_init(void)
   game.player_ptr=&game.players[0];
 }
 
-void initialize_globals()
+void initialize_globals(void)
 {
   int i,j;
   struct player *plr;

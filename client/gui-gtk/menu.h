@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MENU_H
-#define __MENU_H
+#ifndef FC__MENU_H
+#define FC__MENU_H
 
 #include <gtk/gtk.h>
 

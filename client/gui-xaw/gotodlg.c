@@ -175,7 +175,7 @@ void popup_goto_dialog(void)
   XtVaSetValues(goto_viewport, XtNforceBars, True, NULL);
 }
 
-struct city *get_selected_city()
+struct city *get_selected_city(void)
 {
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(goto_list);

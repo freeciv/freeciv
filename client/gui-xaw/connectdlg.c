@@ -169,7 +169,7 @@ void connect_meta_callback(Widget w, XtPointer client_data,
   create_meta_dialog();
 }
 
-void create_meta_dialog()
+void create_meta_dialog(void)
 {
   Widget shell, form, label, list, update, close;
   Dimension width;

@@ -37,7 +37,7 @@ void dealloc_id(int id);
 int is_id_allocated(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
-void generate_ai_players();
+void generate_ai_players(void);
 void pick_ai_player_name(enum race_type race, char *newname);
 int mark_race_as_used(int race);
 void announce_ai_player(struct player *pplayer);

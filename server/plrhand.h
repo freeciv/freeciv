@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __PLRHAND_H
-#define __PLRHAND_H
+#ifndef FC__PLRHAND_H
+#define FC__PLRHAND_H
 
 #include "attribute.h"
 
@@ -57,12 +57,12 @@ int choose_goal_tech(struct player *plr);
 void wonders_of_the_world(struct player *pplayer);
 void demographics_report(struct player *pplayer);
 void top_five_cities(struct player *pplayer);
-void make_history_report();
+void make_history_report(void);
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
-void show_ending();
+void show_ending(void);
 void player_load(struct player *plr, int plrno, struct section_file *file);
 void player_save(struct player *plr, int plrno, struct section_file *file);
 
-#endif
+#endif  /* FC__PLRHAND_H */

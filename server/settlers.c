@@ -1223,7 +1223,7 @@ void assign_settlers_player(struct player *pplayer)
   unit_list_iterate_end;
 }
 
-void assign_settlers()
+void assign_settlers(void)
 {
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
@@ -1271,7 +1271,7 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
   city_list_iterate_end;
 }
 
-void assign_territory()
+void assign_territory(void)
 { /* this funct is supposed to keep settlers out of enemy territory -- Syela */
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
@@ -1288,7 +1288,7 @@ appropriate here.  I'm not sure it's necessary, so it's not here yet. -- Syela *
 /**************************************************************************
   Do the auto_settler stuff for all the players. 
 **************************************************************************/
-void auto_settlers()
+void auto_settlers(void)
 {
   int i;
   assign_settlers();

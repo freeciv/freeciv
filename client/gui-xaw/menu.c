@@ -225,7 +225,7 @@ void menu_entry_rename(struct Menu *pmenu, enum MenuID id, char *s);
 /****************************************************************
 ...
 *****************************************************************/
-void update_menus()
+void update_menus(void)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     XtVaSetValues(reports_menu->button, XtNsensitive, False, NULL);

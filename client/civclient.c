@@ -63,7 +63,7 @@ void handle_unit_combat(struct packet_unit_combat *packet);
 void handle_game_state(struct packet_generic_integer *packet);
 void handle_nuke_tile(struct packet_nuke_tile *packet);
 void handle_page_msg(struct packet_generic_message *packet);
-void handle_before_new_year();
+void handle_before_new_year(void);
 void handle_remove_player(struct packet_generic_integer *packet);
 void handle_ruleset_unit(struct packet_ruleset_unit *packet);
 void handle_ruleset_tech(struct packet_ruleset_tech *packet);

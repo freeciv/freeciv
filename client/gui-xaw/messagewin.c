@@ -73,7 +73,7 @@ static int delay_meswin_update=0;
 /******************************************************************
  Turn off updating of message window
 *******************************************************************/
-void meswin_update_delay_on()
+void meswin_update_delay_on(void)
 {
   delay_meswin_update=1;
 }
@@ -81,7 +81,7 @@ void meswin_update_delay_on()
 /******************************************************************
  Turn on updating of message window
 *******************************************************************/
-void meswin_update_delay_off()
+void meswin_update_delay_off(void)
 {
   delay_meswin_update=0;
 }
@@ -222,7 +222,7 @@ static void meswin_allocate(void)
 ...
 **************************************************************************/
 
-void clear_notify_window()
+void clear_notify_window(void)
 {
   int i;
   meswin_allocate();

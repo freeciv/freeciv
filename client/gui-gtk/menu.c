@@ -684,7 +684,7 @@ void menus_rename(char *path, char *s)
 /****************************************************************
 ...
 *****************************************************************/
-void update_menus()
+void update_menus(void)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     menus_set_sensitive("<main>/Reports", FALSE);

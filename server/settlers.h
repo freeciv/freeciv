@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __SETTLERS_H
-#define __SETTLERS_H
+#ifndef FC__SETTLERS_H
+#define FC__SETTLERS_H
 
 #include "unit.h"
 
@@ -19,7 +19,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit,
 			 int x, int y);
 int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
 void auto_settlers_player(struct player *pplayer); 
-void auto_settlers();
+void auto_settlers(void);
 int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
 #define MORT 24
@@ -49,7 +49,4 @@ void initialize_infrastructure_cache(struct city *pcity);
 void contemplate_settling(struct player *pplayer, struct city *pcity);
 struct unit *other_passengers(struct unit *punit);
 
-#endif
-
-
-
+#endif   /* FC__SETTLERS_H */

@@ -16,7 +16,7 @@
 struct city;
 
 void popup_city_report_dialog(int make_modal);
-void city_report_dialog_update();
+void city_report_dialog_update(void);
 void city_report_dialog_update_city(struct city *pcity);
 
 /* These are wanted to save/load options; use wrappers rather than

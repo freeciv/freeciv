@@ -33,7 +33,7 @@ void mapgenerator1(void);
 void mapgenerator2(void);
 void mapgenerator3(void);
 void mapgenerator4(void);
-void smooth_map();
+void smooth_map(void);
 void adjust_map(int minval);
 
 int *height_map;
@@ -97,7 +97,7 @@ void make_mountains(int thill)
  add arctic and tundra squares in the arctic zone. 
  (that is the top 10%, and low 10% of the map)
 **************************************************************************/
-void make_polar()
+void make_polar(void)
 {
   int y,x;
 
@@ -171,7 +171,7 @@ void make_forest(int x, int y, int height, int diff)
   makeforest calls make_forest with random grassland locations until there
   has been made enough forests. (the map.forestsize value controls this) 
 **************************************************************************/
-void make_forests()
+void make_forests(void)
 {
   int x,y;
   int forestsize=25;
@@ -198,7 +198,7 @@ void make_forests()
   and with 50% chance each of it's neighbour squares will be converted to
   swamp aswell
 **************************************************************************/
-void make_swamps()
+void make_swamps(void)
 {
   int x,y,i;
   int forever=0;
@@ -228,7 +228,7 @@ void make_swamps()
   we choose a random coordinate in the equator zone and if it's a grassland
   square we call make_desert with this coordinate, we try this 1000 times
 **************************************************************************/
-void make_deserts()
+void make_deserts(void)
 {
   int x,y,i,j;
   i=map.deserts;
@@ -315,7 +315,7 @@ int make_river(int x,int y)
   to stop this potentially never ending loop a miss counts as a river of 
   length one 
 **************************************************************************/
-void make_rivers()
+void make_rivers(void)
 {
   int x,y,i;
   i=0;
@@ -334,7 +334,7 @@ void make_rivers()
   make_plains converts 50% of the remaining grassland to plains, this should
   maybe be lowered to 30% or done in batches, like the swamps?
 **************************************************************************/
-void make_plains()
+void make_plains(void)
 {
   int x,y;
   for (y=0;y<map.ysize;y++)
@@ -349,7 +349,7 @@ void make_plains()
   So this procedure converts the second line and the second last line to
   ocean, and 50% of the 3rd and 3rd last line to ocean. 
 **************************************************************************/
-void make_passable()
+void make_passable(void)
 {
   int x;
   
@@ -369,7 +369,7 @@ void make_passable()
  so we put in a hill here and there, where it gets too 'clean' 
 **************************************************************************/
 
-void make_fair()
+void make_fair(void)
 {
   int x,y;
   for (y=2;y<map.ysize-3;y++) 
@@ -393,7 +393,7 @@ void make_fair()
   1) with map.landpercent it generates a ocean/grassland map 
   2) it then calls the above functions to generate the different terrains
 **************************************************************************/
-void make_land()
+void make_land(void)
 {
   int x, y;
   int tres=(maxval*map.landpercent)/100;
@@ -446,7 +446,7 @@ int tiny_island(int x, int y)
 /**************************************************************************
   removes all 1x1 islands
 **************************************************************************/
-void filter_land()
+void filter_land(void)
 {
   int x,y;
   
@@ -726,7 +726,8 @@ void map_fractal_generate(void)
  a parameter changes.
  It will be called again at game start, too.
 **************************************************************************/
-void adjust_terrain_param(){
+void adjust_terrain_param(void)
+{
   int total;
 
   /*!PS: I don't have the time to have several test runs */
@@ -889,7 +890,7 @@ void mapgenerator1(void)
   out the differences in the heightmap.
 **************************************************************************/
 
-void smooth_map()
+void smooth_map(void)
 {
   int x,y;
   int mx,my,px,py;
@@ -1036,7 +1037,7 @@ static long int checkmass;
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int placeisland()
+static int placeisland(void)
 {
   int x, y, xo, yo, i=0;
   yo = myrand(map.ysize)+n-s;
@@ -1220,7 +1221,7 @@ static void makeisland(int islemass, int starters)
 /**************************************************************************
   fill ocean and make polar
 **************************************************************************/
-static void initworld()
+static void initworld(void)
 {
   int x, y;
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
@@ -1252,7 +1253,7 @@ static void initworld()
 /**************************************************************************
   island base map generators
 **************************************************************************/
-void mapgenerator2()
+void mapgenerator2(void)
 {
   int i;
   int spares= 1; 
@@ -1295,7 +1296,7 @@ void mapgenerator2()
 
 /* On popular demand, this tries to mimick the generator 3 */
 /* as best as possible */
-void mapgenerator3()
+void mapgenerator3(void)
 {
   int spares= 1;
   int j=0;
@@ -1373,7 +1374,7 @@ void mapgenerator3()
 
 }
 
-void mapgenerator4()
+void mapgenerator4(void)
 {
   int bigweight=70;
   int spares= 1;
