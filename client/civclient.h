@@ -13,23 +13,20 @@
 #ifndef FC__CIVCLIENT_H
 #define FC__CIVCLIENT_H
 
-#include "packets.h"
-#include "game.h"
+#include "packets.h"		/* enum report_type */
+#include "game.h"		/* enum client_states */
 
 void handle_packet_input(char *packet, int type);
-void user_ended_turn(void);
-void handle_tile_info(struct packet_tile_info *packet);
-void handle_player_info(struct packet_player_info *packet);
-void handle_game_info(struct packet_game_info *packet);
-void handle_map_info(struct packet_map_info *pinfo);
-void handle_select_nation(struct packet_generic_values *packet);
-void handle_unit_info(struct packet_unit_info *packet);
-void handle_chat_msg(struct packet_generic_message *packet);
+
 void send_unit_info(struct unit *punit);
+void send_move_unit(struct unit *punit);
 void send_report_request(enum report_type type);
+
+void user_ended_turn(void);
+
 void set_client_state(enum client_states newstate);
 enum client_states get_client_state(void);
+
 extern int turn_gold_difference;
-void send_move_unit(struct unit *punit);
 
 #endif  /* FC__CIVCLIENT_H */
