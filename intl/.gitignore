@@ -1,3 +1,4 @@
 /Makefile
-/libintl.h
-/po2tbl.sed
+/ref-del.sed
+/ref-add.sed
+/charset.alias
