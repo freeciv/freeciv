@@ -32,8 +32,8 @@
 */
 
 enum packet_type {
-  PACKET_REQUEST_JOIN_GAME,
-  PACKET_JOIN_GAME_REPLY,
+  PACKET_LOGIN_REQUEST,
+  PACKET_LOGIN_REPLY,
   PACKET_PROCESSING_STARTED,
   PACKET_PROCESSING_FINISHED,
   PACKET_SERVER_SHUTDOWN,
@@ -392,7 +392,7 @@ struct packet_short_city {
  (can only add long name at end, to avoid problems with
  connection to/from older versions)
 *********************************************************/
-struct packet_req_join_game {
+struct packet_login_request {
   char short_name[MAX_LEN_USERNAME];
   int major_version;
   int minor_version;
@@ -406,13 +406,12 @@ struct packet_req_join_game {
 /*********************************************************
  ... and the server replies.
 *********************************************************/
-struct packet_join_game_reply {
-  bool you_can_join;             /* true/false */
+struct packet_login_reply {
+  bool you_can_login;             /* true/false */
   char message[MAX_LEN_MSG];
   char capability[MAX_LEN_CAPSTR];
   int conn_id;			/* clients conn id as known in server */
 };
-
 
 /*********************************************************
 ...
@@ -988,15 +987,14 @@ int send_packet_unit_info(struct connection *pc,
 			  const struct packet_unit_info *req);
 struct packet_unit_info *receive_packet_unit_info(struct connection *pc);
 
-int send_packet_req_join_game(struct connection *pc, 
-			      const struct packet_req_join_game *request);
-struct packet_req_join_game *receive_packet_req_join_game(struct 
+int send_packet_login_request(struct connection *pc, 
+			      const struct packet_login_request *request);
+struct packet_login_request *receive_packet_login_request(struct 
 							  connection *pc);
 
-int send_packet_join_game_reply(struct connection *pc, 
-			        const struct packet_join_game_reply *reply);
-struct packet_join_game_reply *receive_packet_join_game_reply(struct 
-							      connection *pc);
+int send_packet_login_reply(struct connection *pc, 
+                            const struct packet_login_reply *reply);
+struct packet_login_reply *receive_packet_login_reply(struct connection *pc);
 
 int send_packet_alloc_nation(struct connection *pc, 
 			     const struct packet_alloc_nation *packet);

@@ -47,15 +47,15 @@ static void reject_new_player(char *msg, struct connection *pconn);
 **************************************************************************/
 static void join_game_accept(struct connection *pconn, bool rejoin)
 {
-  struct packet_join_game_reply packet;
+  struct packet_login_reply packet;
   struct player *pplayer = pconn->player;
 
   assert(pplayer != NULL);
-  packet.you_can_join = TRUE;
+  packet.you_can_login = TRUE;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message),
               "%s %s.", (rejoin?"Welcome back":"Welcome"), pplayer->name);
-  send_packet_join_game_reply(pconn, &packet);
+  send_packet_login_reply(pconn, &packet);
   pconn->established = TRUE;
   conn_list_insert_back(&game.est_connections, pconn);
   conn_list_insert_back(&game.game_connections, pconn);
@@ -160,12 +160,12 @@ void accept_new_player(char *name, struct connection *pconn)
 **************************************************************************/
 static void reject_new_player(char *msg, struct connection *pconn)
 {
-  struct packet_join_game_reply packet;
+  struct packet_login_reply packet;
   
-  packet.you_can_join = FALSE;
+  packet.you_can_login = FALSE;
   sz_strlcpy(packet.capability, our_capability);
   sz_strlcpy(packet.message, msg);
-  send_packet_join_game_reply(pconn, &packet);
+  send_packet_login_reply(pconn, &packet);
 }
   
 /**************************************************************************
@@ -222,8 +222,8 @@ static bool set_unique_conn_name(struct connection *pconn, const char *req_name)
 Returns 0 if the clients gets rejected and the connection should be
 closed. Returns 1 if the client get accepted.
 **************************************************************************/
-bool handle_request_join_game(struct connection *pconn, 
-                              struct packet_req_join_game *req)
+bool handle_login_request(struct connection *pconn, 
+                          struct packet_login_request *req)
 {
   struct player *pplayer;
   char msg[MAX_LEN_MSG];

@@ -698,9 +698,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   if (!packet)
     return TRUE;
 
-  if (type == PACKET_REQUEST_JOIN_GAME) {
-    bool result = handle_request_join_game(pconn,
-					  (struct packet_req_join_game *) packet);
+  if (type == PACKET_LOGIN_REQUEST) {
+    bool result = handle_login_request(pconn,
+                                       (struct packet_login_request *) packet);
     free(packet);
     return result;
   }

@@ -176,7 +176,7 @@ int get_server_address(const char *hostname, int port, char *errbuf,
 **************************************************************************/
 int try_to_connect(char *user_name, char *errbuf, int errbufsize)
 {
-  struct packet_req_join_game req;
+  struct packet_login_request req;
 
   if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
@@ -224,7 +224,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   sz_strlcpy(req.capability, our_capability);
   sz_strlcpy(req.name, user_name);
   
-  send_packet_req_join_game(&aconnection, &req);
+  send_packet_login_request(&aconnection, &req);
 
   return 0;
 }

@@ -115,14 +115,14 @@ static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_join_game_reply(struct packet_join_game_reply *packet)
+void handle_login_reply(struct packet_login_reply *packet)
 {
   char msg[MAX_LEN_MSG];
   char *s_capability = aconnection.capability;
 
   sz_strlcpy(aconnection.capability, packet->capability);
 
-  if (packet->you_can_join) {
+  if (packet->you_can_login) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = TRUE;
     game.conn_id = packet->conn_id;

@@ -15,7 +15,7 @@
 
 #include "packets.h"
 
-void handle_join_game_reply(struct packet_join_game_reply *packet);
+void handle_login_reply(struct packet_login_reply *packet);
 
 void handle_tile_info(struct packet_tile_info *packet);
 void handle_player_info(struct packet_player_info *pinfo);

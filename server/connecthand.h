@@ -15,11 +15,12 @@
 
 struct connection;
 struct conn_list;
-struct packet_req_join_game;
+struct packet_login_request;
 struct player;
 
-bool handle_request_join_game(struct connection *pconn,
-                              struct packet_req_join_game *req);
+bool handle_login_request(struct connection *pconn,
+                          struct packet_login_request *req);
+
 void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 

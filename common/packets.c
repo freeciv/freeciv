@@ -271,11 +271,11 @@ void *get_packet_from_connection(struct connection *pc,
 
   switch(type) {
 
-  case PACKET_REQUEST_JOIN_GAME:
-    return receive_packet_req_join_game(pc);
+  case PACKET_LOGIN_REQUEST:
+    return receive_packet_login_request(pc);
 
-  case PACKET_JOIN_GAME_REPLY:
-    return receive_packet_join_game_reply(pc);
+  case PACKET_LOGIN_REPLY:
+    return receive_packet_login_reply(pc);
 
   case PACKET_SERVER_SHUTDOWN:
     return receive_packet_generic_message(pc);
@@ -1608,10 +1608,10 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_req_join_game(struct connection *pc,
-			      const struct packet_req_join_game *request)
+int send_packet_login_request(struct connection *pc,
+			      const struct packet_login_request *request)
 {
-  SEND_PACKET_START(PACKET_REQUEST_JOIN_GAME);
+  SEND_PACKET_START(PACKET_LOGIN_REQUEST);
 
   dio_put_string(&dout, request->short_name);
   dio_put_uint32(&dout, request->major_version);
@@ -1625,14 +1625,40 @@ int send_packet_req_join_game(struct connection *pc,
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+struct packet_login_request *receive_packet_login_request(struct connection *pc)
+{
+  RECEIVE_PACKET_START(packet_login_request, packet);
+
+  dio_get_string(&din, packet->short_name, sizeof(packet->short_name));
+  dio_get_uint32(&din, &packet->major_version);
+  dio_get_uint32(&din, &packet->minor_version);
+  dio_get_uint32(&din, &packet->patch_version);
+  dio_get_string(&din, packet->capability, sizeof(packet->capability));
+  if (dio_input_remaining(&din) > 0) {
+    dio_get_string(&din, packet->name, sizeof(packet->name));
+  } else {
+    sz_strlcpy(packet->name, packet->short_name);
+  }
+  if (dio_input_remaining(&din) > 0) {
+    dio_get_string(&din, packet->version_label, sizeof(packet->version_label));
+  } else {
+    packet->version_label[0] = '\0';
+  }
+
+  RECEIVE_PACKET_END(packet);
+}
+
+/**************************************************************************
 Fills in conn.id automatically, no need to set in packet_join_game_reply.
 **************************************************************************/
-int send_packet_join_game_reply(struct connection *pc,
-				const struct packet_join_game_reply *reply)
+int send_packet_login_reply(struct connection *pc,
+                            const struct packet_login_reply *reply)
 {
-  SEND_PACKET_START(PACKET_JOIN_GAME_REPLY);
+  SEND_PACKET_START(PACKET_LOGIN_REPLY);
 
-  dio_put_bool32(&dout, reply->you_can_join);
+  dio_put_bool32(&dout, reply->you_can_login);
   dio_put_string(&dout, reply->message);
   dio_put_string(&dout, reply->capability);
 
@@ -1642,6 +1668,28 @@ int send_packet_join_game_reply(struct connection *pc,
   }
 
   SEND_PACKET_END;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_login_reply *receive_packet_login_reply(struct connection *pc)
+{
+  RECEIVE_PACKET_START(packet_login_reply, packet);
+
+  dio_get_bool32(&din, &packet->you_can_login);
+  dio_get_string(&din, packet->message, sizeof(packet->message));
+  dio_get_string(&din, packet->capability, sizeof(packet->capability));
+
+  /* This must stay even at new releases! */
+  /* NOTE: pc doesn't yet have capability filled in!  Use packet value: */
+  if (has_capability("conn_info", packet->capability)) {
+    dio_get_uint32(&din, &packet->conn_id);
+  } else {
+    packet->conn_id = 0;
+  }
+
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -1679,56 +1727,6 @@ int send_packet_generic_integer(struct connection *pc, enum packet_type type,
   dio_put_uint32(&dout, packet->value);
 
   SEND_PACKET_END;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_req_join_game *
-receive_packet_req_join_game(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_req_join_game, packet);
-
-  dio_get_string(&din, packet->short_name, sizeof(packet->short_name));
-  dio_get_uint32(&din, &packet->major_version);
-  dio_get_uint32(&din, &packet->minor_version);
-  dio_get_uint32(&din, &packet->patch_version);
-  dio_get_string(&din, packet->capability, sizeof(packet->capability));
-  if (dio_input_remaining(&din) > 0) {
-    dio_get_string(&din, packet->name, sizeof(packet->name));
-  } else {
-    sz_strlcpy(packet->name, packet->short_name);
-  }
-  if (dio_input_remaining(&din) > 0) {
-    dio_get_string(&din, packet->version_label, sizeof(packet->version_label));
-  } else {
-    packet->version_label[0] = '\0';
-  }
-
-  RECEIVE_PACKET_END(packet);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct packet_join_game_reply *
-receive_packet_join_game_reply(struct connection *pc)
-{
-  RECEIVE_PACKET_START(packet_join_game_reply, packet);
-
-  dio_get_bool32(&din, &packet->you_can_join);
-  dio_get_string(&din, packet->message, sizeof(packet->message));
-  dio_get_string(&din, packet->capability, sizeof(packet->capability));
-
-  /* This must stay even at new releases! */
-  /* NOTE: pc doesn't yet have capability filled in!  Use packet value: */
-  if (has_capability("conn_info", packet->capability)) {
-    dio_get_uint32(&din, &packet->conn_id);
-  } else {
-    packet->conn_id = 0;
-  }
-
-  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************

@@ -44,10 +44,10 @@ void lsend_packet_move_unit(struct conn_list *dest,
 			  const struct packet_move_unit *request);
 void lsend_packet_unit_info(struct conn_list *dest,
 			  const struct packet_unit_info *req);
-void lsend_packet_req_join_game(struct conn_list *dest, 
-			      const struct packet_req_join_game *request);
-void lsend_packet_join_game_reply(struct conn_list *dest, 
-			        const struct packet_join_game_reply *reply);
+void lsend_packet_login_request(struct conn_list *dest, 
+			      const struct packet_login_request *request);
+void lsend_packet_login_reply(struct conn_list *dest, 
+                            const struct packet_login_reply *reply);
 void lsend_packet_alloc_nation(struct conn_list *dest, 
 			     const struct packet_alloc_nation *packet);
 void lsend_packet_generic_message(struct conn_list *dest, enum packet_type type,

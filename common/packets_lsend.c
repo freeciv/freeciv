@@ -133,19 +133,19 @@ void lsend_packet_unit_info(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_req_join_game(struct conn_list *dest, 
-			      const struct packet_req_join_game *request)
+void lsend_packet_login_request(struct conn_list *dest, 
+			      const struct packet_login_request *request)
 {
   conn_list_iterate(*dest, pconn)
-    send_packet_req_join_game(pconn, request);
+    send_packet_login_request(pconn, request);
   conn_list_iterate_end;
 }
 
-void lsend_packet_join_game_reply(struct conn_list *dest, 
-			        const struct packet_join_game_reply *reply)
+void lsend_packet_login_reply(struct conn_list *dest, 
+                            const struct packet_login_reply *reply)
 {
   conn_list_iterate(*dest, pconn)
-    send_packet_join_game_reply(pconn, reply);
+    send_packet_login_reply(pconn, reply);
   conn_list_iterate_end;
 }
 

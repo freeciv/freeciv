@@ -255,8 +255,8 @@ int main(int argc, char *argv[])
 void handle_packet_input(void *packet, int type)
 {
   switch(type) {
-  case PACKET_JOIN_GAME_REPLY:
-    handle_join_game_reply((struct packet_join_game_reply *)packet);
+  case PACKET_LOGIN_REPLY:
+    handle_login_reply((struct packet_login_reply *)packet);
     break;
 
   case PACKET_SERVER_SHUTDOWN:
