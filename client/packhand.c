@@ -653,7 +653,7 @@ void handle_chat_msg(struct packet_generic_message *packet)
     add_notify_window(packet);
   if ((where & MW_POPUP) &&
       (!game.player_ptr->ai.control || ai_popup_windows))
-    popup_notify_goto_dialog("Popup Request", packet->message, 
+    popup_notify_goto_dialog(_("Popup Request"), packet->message, 
 			     packet->x, packet->y);
 }
  
