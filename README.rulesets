@@ -132,6 +132,9 @@ self-explanatory.  A few points:
 Properties of units and advances are now fairly well generalised.
 Properties of buildings are still rather inflexible.
 
+NOTE:  There is much in the rulesets that is not completely
+implemented.  Be sure to read Restrictions and Limitations, below.
+
 ----------------------------------------------------------------------
 The civstyle option:
 --------------------
@@ -169,6 +172,63 @@ Examples of problems which have not been fixed:
 
 Hopefully this situation can be improved in the future, but the more 
 flexible the rules, the harder to write a good AI...
+
+----------------------------------------------------------------------
+Restrictions and Limitations:
+-----------------------------
+
+units.ruleset:
+
+  Unused entries:
+
+    - uk_gold
+
+  Restrictions:
+
+    - At least one unit with role "FirstBuild" must be available
+      from the start (i.e., tech_req = "None").
+
+    - There must be units for these roles:
+      - "Explorer"
+      - "FerryBoat"
+      - "Hut"
+      - "Barbarian"
+      - "BarbarianLeader"
+      - "BarbarianBuild"
+      - "BarbarianBoat"  (move_type must be "Sea")
+      - "BarbarianSea"
+
+    - There must be at least one unit with flag "Cities".
+
+    - Every unit with flag "Cities" must have also flag "Settlers".
+
+  Limitations:
+
+    - These unit flag combinations won't work:
+      - "Diplomat" and "Caravan"
+
+buildings.ruleset:
+
+  Unused entries:
+
+    - bldg_req
+    - terr_gate
+    - spec_gate
+    - equiv_range
+    - equiv_repl
+    - effect
+
+nations.ruleset:
+
+  Unused entries:
+
+    - attack
+    - expand
+    - civilized
+    - advisors
+    - tech_goals
+    - wonder
+    - government
 
 ----------------------------------------------------------------------
 Implementation details:
