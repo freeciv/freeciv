@@ -449,8 +449,7 @@ static void city_dialog_update_information(HWND *info_label,
 	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
 	      pcity->surplus[O_TRADE]);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
-	      pcity->prod[O_GOLD],
-	      city_gold_surplus(pcity, pcity->prod[O_GOLD]));
+	      pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
   my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
 	      pcity->prod[O_LUXURY]);
 

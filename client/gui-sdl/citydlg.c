@@ -2966,7 +2966,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   /* gold label */
   my_snprintf(cBuf, sizeof(cBuf), _("Gold: %d (%d) per turn"),
-	      city_gold_surplus(pCity, pcity->prod[O_GOLD]), pCity->prod[O_GOLD]);
+	      pCity->surplus[O_GOLD], pCity->prod[O_GOLD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
@@ -2981,7 +2981,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw coins */
-  count = city_gold_surplus(pCity, pcity->prod[O_GOLD]);
+  count = pcity->surplus[O_GOLD];
   if (count) {
 
     if (count > 0) {
@@ -3012,8 +3012,8 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* upkeep label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep : %d"), pCity->prod[O_GOLD] -
-	      city_gold_surplus(pCity, pcity->prod[O_GOLD]));
+  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep : %d"),
+	      pCity->prod[O_GOLD] - pcity->surplus[O_GOLD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_UNKEEP);
@@ -3028,7 +3028,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw upkeep */
-  count = city_gold_surplus(pCity, pcity->prod[O_GOLD]);
+  count = pcity->surplus[O_GOLD];
   if (pCity->prod[O_GOLD] - count) {
 
     dest.x = pWindow->size.x + 423;

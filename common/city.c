@@ -1083,24 +1083,33 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 }
 
 /*************************************************************************
-  Calculate amount of gold remaining in city after paying for buildings 
-  and units.  Does not count capitalization.
+  Calculate how much is needed to pay for buildings in this city.
 *************************************************************************/
-int city_gold_surplus(const struct city *pcity, int tax_total)
+int city_building_upkeep(const struct city *pcity, Output_type_id otype)
 {
   int cost = 0;
 
-  built_impr_iterate(pcity, i) {
-    cost += improvement_upkeep(pcity, i);
-  } built_impr_iterate_end;
+  if (otype == O_GOLD) {
+    built_impr_iterate(pcity, i) {
+      cost += improvement_upkeep(pcity, i);
+    } built_impr_iterate_end;
+  }
+
+  return cost;
+}
+
+/*************************************************************************
+  Calculate how much is needed to pay for units in this city.
+*************************************************************************/
+int city_unit_upkeep(const struct city *pcity, Output_type_id otype)
+{
+  int cost = 0;
 
   unit_list_iterate(pcity->units_supported, punit) {
-    /* FIXME: unlike food and shields, gold upkeep isn't subtracted off of
-     * the surplus directly when calculating unit support. */
-    cost += punit->upkeep[O_GOLD];
+    cost += punit->upkeep[otype];
   } unit_list_iterate_end;
 
-  return tax_total - cost;
+  return cost;
 }
 
 /**************************************************************************
@@ -1767,7 +1776,11 @@ static void set_tax_surplus(struct city *pcity)
 {
   pcity->surplus[O_SCIENCE] = pcity->prod[O_SCIENCE];
   pcity->surplus[O_LUXURY] = pcity->prod[O_LUXURY];
-  pcity->surplus[O_GOLD] = city_gold_surplus(pcity, pcity->prod[O_GOLD]);
+
+  /* Does not count capitalization. */
+  pcity->surplus[O_GOLD] = pcity->prod[O_GOLD];
+  pcity->surplus[O_GOLD] -= city_building_upkeep(pcity, O_GOLD);
+  pcity->surplus[O_GOLD] -= city_unit_upkeep(pcity, O_GOLD);
 }
 
 /**************************************************************************

@@ -400,7 +400,7 @@ int player_get_expected_income(const struct player *pplayer)
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
     /* Gold suplus accounts for imcome plus building and unit upkeep. */
-    income += city_gold_surplus(pcity, pcity->prod[O_GOLD]);
+    income += pcity->surplus[O_GOLD];
 
     /* Capitalization income. */
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {

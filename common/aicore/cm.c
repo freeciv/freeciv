@@ -2070,7 +2070,7 @@ void cm_print_city(const struct city *pcity)
   freelog(LOG_NORMAL, "  trade   = %3d", pcity->surplus[O_TRADE]);
 
   freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->prod[O_GOLD],
-          city_gold_surplus(pcity, pcity->prod[O_GOLD]));
+	  pcity->surplus[O_GOLD]);
   freelog(LOG_NORMAL, "  luxury  = %3d", pcity->prod[O_LUXURY]);
   freelog(LOG_NORMAL, "  science = %3d", pcity->prod[O_SCIENCE]);
 }

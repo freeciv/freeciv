@@ -363,7 +363,8 @@ const char *get_output_name(Output_type_id output);
 
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
-int city_gold_surplus(const struct city *pcity, int tax_total);
+int city_building_upkeep(const struct city *pcity, Output_type_id otype);
+int city_unit_upkeep(const struct city *pcity, Output_type_id otype);
 int city_buy_cost(const struct city *pcity);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
