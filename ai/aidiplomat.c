@@ -681,6 +681,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
         }
       }
     }
+    pf_destroy_path(path);
   }
   pf_destroy_map(map);
 }
