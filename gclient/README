@@ -1,0 +1,23 @@
+=== Friday, 19th June 1998
+
+This is an early beta version of a FreeCiv client for GTK+.  It has been
+done to work with freeciv-1.6.3.
+
+It was coded by Vasco Costa <vasc@camoes.rnl.ist.utl.pt> in 3 long days of
+late day & night hair pulling...  they said it couldn't be done and here it is!
+
+It uses some main window designs by Ethan Fischer <allanon@u.washington.edu>.
+
+
+=== Todo
+
+	Design lots of dialogs: city dialog, trade dialog, etc.
+	Handle diplomacy packets.
+	Make tech trees.
+	Serious code cleanups.
+	Lots of other stuff i can't really remember right now.
+
+Enjoy!
+
+
+- Vasco
