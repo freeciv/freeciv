@@ -106,7 +106,6 @@ void popup_players_dialog(void)
   }
 }
 
-
 /*
  * Sort plrs by column...
  */
@@ -158,6 +157,9 @@ void create_players_dialog(void)
   if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
 
   players_dialog_shell = gtk_dialog_new();
+  gtk_box_set_homogeneous(GTK_BOX
+			  (GTK_DIALOG(players_dialog_shell)->action_area),
+			  0);
   gtk_signal_connect( GTK_OBJECT(players_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(players_button_callback),NULL);
   gtk_accel_group_attach(accel, GTK_OBJECT(players_dialog_shell));
