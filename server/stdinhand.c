@@ -956,7 +956,7 @@ typedef enum {
 **************************************************************************/
 static PlayerNameStatus test_player_name(char* name)
 {
-  int len = strlen(name);
+  size_t len = strlen(name);
 
   if (len == 0) {
       return PNameEmpty;
@@ -2560,7 +2560,7 @@ static void show_command(struct connection *caller, char *str)
   char buf[MAX_LEN_CONSOLE_LINE];
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd,i,len1;
-  int clen = 0;
+  size_t clen = 0;
 
   for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++) {
     /* nothing */
@@ -3122,7 +3122,7 @@ static void show_help_command(struct connection *caller,
   if (cmd->synopsis) {
     /* line up the synopsis lines: */
     const char *syn = _("Synopsis: ");
-    int synlen = strlen(syn);
+    size_t synlen = strlen(syn);
     char prefix[40];
 
     my_snprintf(prefix, sizeof(prefix), "%*s", synlen, " ");

@@ -2060,7 +2060,7 @@ static void load_ruleset_nations(struct section_file *file)
      * Read terrain-specific city names. 
      */    
     for (type = T_FIRST; type < T_COUNT; type++) {
-      int k;
+      size_t k;
       char namebuf[MAX_LEN_NAME];
 
       /*

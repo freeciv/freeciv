@@ -49,7 +49,7 @@ void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n)
   ath_minnum(&tthis->vector, n);
 }
 
-int SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
+size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
 {
   return tthis->vector.n;
 }

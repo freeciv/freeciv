@@ -210,7 +210,8 @@ free().
 static char *quote_block(const void *const data, int length)
 {
   char *buffer = fc_malloc(length * 3 + 10);
-  int offset, i;
+  size_t offset;
+  int i;
 
   sprintf(buffer, "%d:", length);
   offset = strlen(buffer);
@@ -1572,7 +1573,8 @@ static void player_save(struct player *plr, int plrno,
     char *quoted = quote_block(plr->attribute_block.data,
 			       plr->attribute_block.length);
     char part[PART_SIZE + 1];
-    int current_part_nr, parts, bytes_left;
+    int current_part_nr, parts;
+    size_t bytes_left;
 
     secfile_insert_int(file, plr->attribute_block.length,
 		       "player%d.attribute_block_length", plrno);
@@ -1586,7 +1588,7 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.attribute_block_parts", plrno);
 
     for (current_part_nr = 0; current_part_nr < parts; current_part_nr++) {
-      int size_of_current_part = MIN(bytes_left, PART_SIZE);
+      size_t size_of_current_part = MIN(bytes_left, PART_SIZE);
 
       assert(bytes_left);
 

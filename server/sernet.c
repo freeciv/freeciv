@@ -517,7 +517,7 @@ int sniff_packets(void)
       }
       continue;
 #else  /* !HAVE_LIBREADLINE */
-      int didget;
+      ssize_t didget;
       char buf[BUF_SIZE+1];
       
       if((didget=read(0, buf, BUF_SIZE))==-1) {

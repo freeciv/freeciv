@@ -65,7 +65,7 @@ SPECVEC_VECTOR {
 
 void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis);
 void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis, int n);
-int  SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis);
+size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis);
 SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis, int index);
 void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis);
 

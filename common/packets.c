@@ -108,9 +108,9 @@ static void iget_bool32(struct pack_iter *piter, bool *val);
 static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop);
 static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop);
 
-static void iget_string(struct pack_iter *piter, char *mystring, int navail);
-static void iget_bit_string(struct pack_iter *piter, char *str, int navail);
-static void iget_city_map(struct pack_iter *piter, char *str, int navail);
+static void iget_string(struct pack_iter *piter, char *mystring, size_t navail);
+static void iget_bit_string(struct pack_iter *piter, char *str, size_t navail);
+static void iget_city_map(struct pack_iter *piter, char *str, size_t navail);
 static void iget_tech_list(struct pack_iter *piter, int *techs);
 
 /* Use the above iget versions instead of the get versions below,
@@ -1154,7 +1154,7 @@ unsigned char *put_string(unsigned char *buffer, const char *mystring)
   mystring can be NULL, in which case just advance piter, and ignore
   navail.  If mystring is non-NULL, navail must be greater than 0.
 **************************************************************************/
-static void iget_string(struct pack_iter *piter, char *mystring, int navail)
+static void iget_string(struct pack_iter *piter, char *mystring, size_t navail)
 {
   unsigned char *c;
   int ps_len;			/* length in packet, not including null */
@@ -1222,7 +1222,7 @@ static unsigned char *put_city_map(unsigned char *buffer, char *str)
   memory available in str.  That is, reverse the encoding of put_city_map().
   str can be NULL, meaning to just read past city_map.
 **************************************************************************/
-static void iget_city_map(struct pack_iter *piter, char *str, int navail)
+static void iget_city_map(struct pack_iter *piter, char *str, size_t navail)
 {
   static const int index[20]=
       {1,2,3, 5,6,7,8,9, 10,11, 13,14, 15,16,17,18,19, 21,22,23 };
@@ -1269,11 +1269,12 @@ static void iget_city_map(struct pack_iter *piter, char *str, int navail)
 **************************************************************************/
 static unsigned char *put_bit_string(unsigned char *buffer, char *str)
 {
-  int i,b,n;
-  int data;
+  int b, data;
+  size_t i, n = strlen(str);
 
-  n=strlen(str);
-  *buffer++=n;
+  assert(n < UCHAR_MAX);
+
+  *buffer++ = (unsigned char) n;
   for(i=0;i<n;)  {
     data=0;
     for(b=0;b<8 && i<n;b++,i++)
@@ -1294,7 +1295,7 @@ static unsigned char *put_bit_string(unsigned char *buffer, char *str)
   but directly mapipulating piter->ptr), but I couldn't be bothered
   trying to get everything (including short_packet) correct. --dwp
 **************************************************************************/
-static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
+static void iget_bit_string(struct pack_iter *piter, char *str, size_t navail)
 {
   int npack;			/* number claimed in packet */
   int i;			/* iterate the bytes */

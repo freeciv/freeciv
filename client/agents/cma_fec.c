@@ -101,7 +101,7 @@ void cmafec_set_fe_parameter(struct city *pcity,
 *****************************************************************/
 void cmafec_get_fe_parameter(struct city *pcity, struct cma_parameter *dest)
 {
-  int len;
+  size_t len;
   struct cma_parameter parameter;
 
   /* our fe_parameter could be stale. our agents parameter is uptodate */

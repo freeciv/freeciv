@@ -21,15 +21,15 @@
 
 struct astring {
   char *str;			/* the string */
-  int n;			/* size most recently requested */
-  int n_alloc;			/* total allocated */
+  size_t n;			/* size most recently requested */
+  size_t n_alloc;		/* total allocated */
 };
 
 struct athing {
   void *ptr;			/* the data */
-  int size;			/* size of one object */
-  int n;			/* number most recently requested */
-  int n_alloc;			/* total number allocated */
+  size_t size;			/* size of one object */
+  size_t n;			/* number most recently requested */
+  size_t n_alloc;		/* total number allocated */
 };
 
 /* Can assign this in variable declaration to initialize:
@@ -39,11 +39,11 @@ struct athing {
 #define ASTRING_INIT  { NULL, 0, 0 }
 
 void astr_init(struct astring *astr);
-void astr_minsize(struct astring *astr, int n);
+void astr_minsize(struct astring *astr, size_t n);
 void astr_free(struct astring *astr);
 
-void ath_init(struct athing *ath, int size);
-void ath_minnum(struct athing *ath, int n);
+void ath_init(struct athing *ath, size_t size);
+void ath_minnum(struct athing *ath, size_t n);
 void ath_free(struct athing *ath);
 
 /* Returns a pointer to the nth (0-based) element in the given athing. Does

@@ -110,7 +110,7 @@ struct sbuffer *sbuf_new(void)
 /**************************************************************************
   Get a new initialized sbuffer, specifying buffer size:
 **************************************************************************/
-struct sbuffer *sbuf_new_size(int size)
+struct sbuffer *sbuf_new_size(size_t size)
 {
   struct sbuffer *sb;
 
@@ -129,7 +129,7 @@ struct sbuffer *sbuf_new_size(int size)
 /**************************************************************************
   malloc: size here must be less than sb->size.
 **************************************************************************/
-void *sbuf_malloc(struct sbuffer *sb, int size)
+void *sbuf_malloc(struct sbuffer *sb, size_t size)
 {
   char *ret;
   

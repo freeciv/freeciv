@@ -61,12 +61,11 @@ void astr_init(struct astring *astr)
   The actual amount allocated may be larger than n, and is stored
   in astr->n_alloc.
 ***********************************************************************/
-void astr_minsize(struct astring *astr, int n)
+void astr_minsize(struct astring *astr, size_t n)
 {
   int n1;
   
   assert(astr != NULL);
-  assert(astr->n_alloc>=0);
   
   astr->n = n;
   if (n <= astr->n_alloc) {
@@ -88,7 +87,6 @@ void astr_free(struct astring *astr)
   struct astring zero_astr = ASTRING_INIT;
 
   assert(astr != NULL);
-  assert(astr->n_alloc>=0);
   
   if (astr->n_alloc > 0) {
     assert(astr->str != NULL);
@@ -102,7 +100,7 @@ void astr_free(struct astring *astr)
   Initialize the struct; size is the size of one "object",
   or use 1 if you just want "bytes".
 ***********************************************************************/
-void ath_init(struct athing *ath, int size)
+void ath_init(struct athing *ath, size_t size)
 {
   assert(ath != NULL);
   ath->ptr = NULL;
@@ -117,12 +115,11 @@ void ath_init(struct athing *ath, int size)
   The actual amount allocated may be larger than n, and is stored
   in ath->n_alloc.
 ***********************************************************************/
-void ath_minnum(struct athing *ath, int n)
+void ath_minnum(struct athing *ath, size_t n)
 {
   int n1;
   
   assert(ath != NULL);
-  assert(ath->n_alloc>=0);
   assert(ath->size>0);
   
   ath->n = n;
@@ -142,10 +139,9 @@ void ath_minnum(struct athing *ath, int n)
 ***********************************************************************/
 void ath_free(struct athing *ath)
 {
-  int size;
+  size_t size;
 
   assert(ath != NULL);
-  assert(ath->n_alloc>=0);
   size = ath->size;
   
   if (ath->n_alloc > 0) {

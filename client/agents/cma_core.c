@@ -1568,7 +1568,7 @@ static void handle_city(struct city *pcity)
 {
   struct cma_parameter parameter;
   struct cma_result result;
-  int len;
+  size_t len;
   bool handled;
   int i;
 
@@ -1801,10 +1801,8 @@ bool cma_is_city_under_agent(struct city *pcity,
 			    struct cma_parameter *parameter)
 {
   struct cma_parameter my_parameter;
-  int len;
-
-  len = attr_city_get(ATTR_CITY_CMA_PARAMETER, pcity->id,
-		      sizeof(struct cma_parameter), &my_parameter);
+  size_t len = attr_city_get(ATTR_CITY_CMA_PARAMETER, pcity->id,
+			     sizeof(struct cma_parameter), &my_parameter);
 
   if (len == 0) {
     return FALSE;

@@ -39,7 +39,7 @@
   name, assume connection name is a "modified" player name and don't use
   both (eg "(1-Shaka)" instead of "Shaka (1-Shaka)").  
 **************************************************************************/
-static void form_chat_name(struct connection *pconn, char *buffer, int len)
+static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
 {
   struct player *pplayer = pconn->player;
 

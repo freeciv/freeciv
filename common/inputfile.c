@@ -317,7 +317,7 @@ bool inf_at_eof(struct inputfile *inf)
 static bool check_include(struct inputfile *inf)
 {
   const char *include_prefix = "*include";
-  static int len = 0;
+  static size_t len = 0;
   char *bare_name, *full_name, *c;
   struct inputfile *new_inf, temp;
 
