@@ -542,7 +542,6 @@ void start_game(void)
 
   server_state=SELECT_RACES_STATE; /* loaded ??? */
   force_end_of_sniff = TRUE;
-  game.turn_start = time(NULL);
 }
 
 /**************************************************************************
@@ -1992,6 +1991,10 @@ main_start_players:
     } players_iterate_end;
   }
   
+  /* We want to reset the timer as late as possible but before the info is
+   * sent to the clients */
+  game.turn_start = time(NULL);
+
   lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
   send_all_info(&game.game_connections);
   lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);

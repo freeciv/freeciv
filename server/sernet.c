@@ -348,8 +348,10 @@ int sniff_packets(void)
   if(year!=game.year) {
     if (server_state == RUN_GAME_STATE) year=game.year;
   }
-  if (game.timeout == 0)
+  if (game.timeout == 0) {
+    /* Just in case someone sets timeout we keep game.turn_start updated */
     game.turn_start = time(NULL);
+  }
   
   while(TRUE) {
     con_prompt_on();		/* accepting new input */
@@ -482,8 +484,10 @@ int sniff_packets(void)
 #endif /* !__VMS */
       }
     }
-    if (game.timeout == 0)
+    if (game.timeout == 0) {
+      /* Just in case someone sets timeout we keep game.turn_start updated */
       game.turn_start = time(NULL);
+    }
 
     if(FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
       continue;
