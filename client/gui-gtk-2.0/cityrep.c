@@ -67,7 +67,6 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 				    GtkTreeViewColumn *col, gpointer data);
 
 static void city_buy_callback(GtkWidget *w, gpointer data);
-static void city_refresh_callback(GtkWidget *w, gpointer data);
 static void city_selection_changed_callback(GtkTreeSelection *selection);
 
 static void create_select_menu(GtkWidget *item);
@@ -824,11 +823,6 @@ static void create_city_report_dialog(bool make_modal)
   g_signal_connect(w, "clicked", G_CALLBACK(city_buy_callback), NULL);
   city_buy_command = w;
 
-  w = gtk_stockbutton_new(GTK_STOCK_REFRESH, _("_Refresh"));
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
-	w, FALSE, TRUE, 0);
-  g_signal_connect(w, "clicked", G_CALLBACK(city_refresh_callback), NULL);
-
   gtk_dialog_add_button(GTK_DIALOG(city_dialog_shell),
 			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
@@ -999,36 +993,6 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
              && is_wonder(pcity->currently_building)) ) {
       itree_select(city_selection, &it);
     }
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void refresh_iterate(GtkTreeModel *model, GtkTreePath *path,
-			    GtkTreeIter *it, gpointer data)
-{
-  gint id;
-
-  *(gboolean *)data = TRUE;
-  gtk_tree_model_get(model, it, 1, &id, -1);
-
-  dsend_packet_city_refresh(&aconnection, id);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_refresh_callback(GtkWidget * w, gpointer data)
-{
-  /* added by Syela - I find this very useful */
-  gboolean found = FALSE;
-
-  gtk_tree_selection_selected_foreach(city_selection, refresh_iterate,
-				      &found);
-
-  if (!found) {
-    dsend_packet_city_refresh(&aconnection, 0);
   }
 }
 

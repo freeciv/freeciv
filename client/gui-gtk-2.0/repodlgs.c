@@ -100,7 +100,7 @@ static GtkListStore *activeunits_store;
 static GtkTreeSelection *activeunits_selection;
 
 enum {
-  ACTIVEUNITS_NEAREST = 1, ACTIVEUNITS_UPGRADE, ACTIVEUNITS_REFRESH
+  ACTIVEUNITS_NEAREST = 1, ACTIVEUNITS_UPGRADE
 };
 
 static int activeunits_dialog_shell_is_modal;
@@ -1002,10 +1002,6 @@ void create_activeunits_report_dialog(bool make_modal)
   gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
       				    ACTIVEUNITS_UPGRADE, FALSE);	
 
-  command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
-  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
-			       command, ACTIVEUNITS_REFRESH);
-
   gtk_dialog_add_button(GTK_DIALOG(activeunits_dialog_shell),
 			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
@@ -1108,9 +1104,6 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
     case ACTIVEUNITS_NEAREST:
     case ACTIVEUNITS_UPGRADE:
       break;
-    case ACTIVEUNITS_REFRESH:
-      activeunits_report_dialog_update();
-      return;
     default:
       gtk_widget_destroy(activeunits_dialog_shell);
       return;
