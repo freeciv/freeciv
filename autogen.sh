@@ -3,7 +3,7 @@
 
 # This is a kludge to make Gentoo behave and select the 
 # correct version of automake to use.
-WANT_AUTOMAKE=1.8
+export WANT_AUTOMAKE=1.8
 
 DIE=0
 package=freeciv
