@@ -264,11 +264,13 @@ Check for any free space on pplayer's transporters at (x,y).
 **************************************************************************/
 int is_transporter_with_free_space(struct player *pplayer, int x, int y)
 {
+  struct tile *ptile = map_get_tile(x, y);
   int availability = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (punit->owner == pplayer->player_no) {
-      if (is_ground_units_transport(punit))
+      if (is_ground_units_transport(punit)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
 	availability += get_transporter_capacity(punit);
       else if (is_ground_unit(punit))
 	availability--;
@@ -280,16 +282,17 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-Check for enough pplayer's transporters to carry pplayer's ground units at (x,y).
-(Return true if capacity of transporters >= number of ground units.)
+Returns the number of free spaces for ground units. Can be 0 or negative.
 **************************************************************************/
-int is_enough_transporter_space(struct player *pplayer, int x, int y)
+int ground_unit_transporter_capacity(int x, int y, int playerid)
 {
   int availability = 0;
+  struct tile *ptile = map_get_tile(x, y);
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->owner == pplayer->player_no) {
-      if (is_ground_units_transport(punit))
+    if (punit->owner == playerid) {
+      if (is_ground_units_transport(punit)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
 	availability += get_transporter_capacity(punit);
       else if (is_ground_unit(punit))
 	availability--;
@@ -297,100 +300,7 @@ int is_enough_transporter_space(struct player *pplayer, int x, int y)
   }
   unit_list_iterate_end;
 
-  return (availability >= 0 ? 1 : 0);
-}
-
-
-/**************************************************************************
- can't use the unit_list_iterate macro here
-**************************************************************************/
-void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list)
-{
-  struct genlist_iterator myiter;
-  struct unit_list *srclist;
-  int cargo;
-  
-  unit_list_init(list);
-    
-  srclist=&map_get_tile(ptran->x, ptran->y)->units;
-  
-  genlist_iterator_init(&myiter, &srclist->list, 0);
-  
-  cargo=get_transporter_capacity(ptran);
-  
-  for(; cargo && ITERATOR_PTR(myiter);) {
-    struct unit *punit=(struct unit *)ITERATOR_PTR(myiter);
-    ITERATOR_NEXT(myiter);
-    if(((is_ground_unit(punit) && is_ground_units_transport(ptran))
-	|| (is_air_unit(punit) && unit_flag(ptran->type, F_CARRIER))
-	|| (unit_flag(punit->type, F_MISSILE)
-	    && unit_flag(ptran->type, F_MISSILE_CARRIER)))
-       && (!map_get_city(punit->x, punit->y)
-	   || punit->activity==ACTIVITY_SENTRY)) {
-      unit_list_unlink(srclist, punit);
-      unit_list_insert(list, punit);
-      cargo--;
-    }
-  }
-}
-
-/**************************************************************************
- Get the _minimum_ cargo list, taking into account cities, other boats.
- Eg, for when unit is disbanded, or supporting city captured.
- Note: for Carriers and Subs the minimum list is defined as empty:
- the planes/missiles will still be in the air and have a chance to
- get to safety.
- Note: this modifies the map units list, so iterators beware.
-**************************************************************************/
-void transporter_min_cargo_to_unitlist(struct unit *ptran,
-				       struct unit_list *list)
-{
-  int x = ptran->x;
-  int y = ptran->y;
-  int this_capacity = get_transporter_capacity(ptran);
-  struct unit_list *srclist;
-  int tile_capacity, tile_ncargo, nlost;
-  
-  unit_list_init(list);
-
-  if (!is_sailing_unit(ptran)
-      || !is_ground_units_transport(ptran)
-      || (map_get_terrain(x, y) != T_OCEAN) /* includes cities */ ) {
-    return;
-  }
-
-  srclist = &map_get_tile(x,y)->units;
-
-  /* this iteration is non-destructive; just counting: */
-  tile_capacity = 0;
-  tile_ncargo = 0;
-  unit_list_iterate((*srclist), punit) {
-    if (is_sailing_unit(punit)
-        && !is_ground_units_transport(ptran)) {
-      tile_capacity += get_transporter_capacity(punit);
-    } else if (is_ground_unit(punit)) {
-      tile_ncargo++;
-    }
-  }
-  unit_list_iterate_end;
-
-  tile_capacity -= this_capacity;
-  nlost = tile_ncargo - tile_capacity;
-
-  if (nlost <= 0) {
-    return;
-  }
-
-  /* actually, unit_list_iterate _is_ safe for this */
-  unit_list_iterate((*srclist), punit) {
-    if(is_ground_unit(punit)) {
-      unit_list_unlink(srclist, punit);
-      unit_list_insert(list, punit);
-      nlost--;
-      if (nlost==0) break;
-    }
-  }
-  unit_list_iterate_end;
+  return availability;
 }
 
 /**************************************************************************
@@ -406,9 +316,19 @@ int get_transporter_capacity(struct unit *punit)
 **************************************************************************/
 int is_ground_units_transport(struct unit *punit)
 {
-return (get_transporter_capacity(punit)
-	&& !unit_flag(punit->type, F_MISSILE_CARRIER)
-	&& !unit_flag(punit->type, F_CARRIER));
+  return (get_transporter_capacity(punit)
+	  && !unit_flag(punit->type, F_MISSILE_CARRIER)
+	  && !unit_flag(punit->type, F_CARRIER));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_air_units_transport(struct unit *punit)
+{
+  return (get_transporter_capacity(punit)
+	  && (unit_flag(punit->type, F_MISSILE_CARRIER)
+	      || unit_flag(punit->type, F_CARRIER)));
 }
 
 /**************************************************************************
@@ -1464,17 +1384,20 @@ Returns the number of free spaces for missiles. Can be 0 or negative.
 **************************************************************************/
 int missile_carrier_capacity(int x, int y, int playerid)
 {
+  struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
   int airall = 0;
   int totalcap;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (punit->owner == playerid) {
-      if (unit_flag(punit->type, F_CARRIER)) {
+      if (unit_flag(punit->type, F_CARRIER)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	airall += get_transporter_capacity(punit);
 	continue;
       }
-      if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+      if (unit_flag(punit->type, F_MISSILE_CARRIER)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	misonly += get_transporter_capacity(punit);
 	continue;
       }
@@ -1502,16 +1425,19 @@ Can be 0 or negative.
 **************************************************************************/
 int airunit_carrier_capacity(int x, int y, int playerid)
 {
+  struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
   int airall = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (punit->owner == playerid) {
-      if (unit_flag(punit->type, F_CARRIER)) {
+      if (unit_flag(punit->type, F_CARRIER)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	airall += get_transporter_capacity(punit);
 	continue;
       }
-      if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+      if (unit_flag(punit->type, F_MISSILE_CARRIER)
+	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN)) {
 	misonly += get_transporter_capacity(punit);
 	continue;
       }

@@ -115,6 +115,7 @@ struct unit {
   int moved;
   int paradropped;
   int connecting;
+  int transported_by;
 };
 
 /* Unit "special effects" flags:
@@ -293,9 +294,10 @@ struct unit_type *get_unit_type(Unit_Type_id id);
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int is_transporter_with_free_space(struct player *pplayer, int x, int y);
-int is_enough_transporter_space(struct player *pplayer, int x, int y);
+int ground_unit_transporter_capacity(int x, int y, int playerid);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
+int is_air_units_transport(struct unit *punit);
 int missile_carrier_capacity(int x, int y, int playerid);
 int airunit_carrier_capacity(int x, int y, int playerid);
 
@@ -304,9 +306,6 @@ int utype_food_cost(struct unit_type *ut, struct government *g);
 int utype_happy_cost(struct unit_type *ut, struct government *g);
 int utype_gold_cost(struct unit_type *ut, struct government *g);
 
-void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);
-void transporter_min_cargo_to_unitlist(struct unit *ptran,
-				       struct unit_list *list);
 int unit_flag(Unit_Type_id id, int flag);
 int unit_has_role(Unit_Type_id id, int role);
 int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);

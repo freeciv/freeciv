@@ -2296,7 +2296,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					    plrno, i);
     punit->paradropped=secfile_lookup_int_default(file, 0, "player%d.u%d.paradropped",
                                                   plrno, i);
-
+    punit->transported_by=secfile_lookup_int_default(file, -1, "player%d.u%d.transported_by",
+                                                  plrno, i);
     /* Initialize upkeep values: these are hopefully initialized
        elsewhere before use (specifically, in city_support(); but
        fixme: check whether always correctly initialized?).
@@ -2612,6 +2613,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_int(file, punit->moved, "player%d.u%d.moved", plrno, i);
     secfile_insert_int(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
+    secfile_insert_int(file, punit->transported_by,
+		       "player%d.u%d.transported_by", plrno, i);
   }
   unit_list_iterate_end;
 

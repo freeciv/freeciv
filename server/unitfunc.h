@@ -52,7 +52,7 @@ void wipe_unit(struct player *dest, struct unit *punit);
 void wipe_unit_safe(struct player *dest, struct unit *punit,
 		    struct genlist_iterator *iter);
 void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
-		    struct genlist_iterator *iter, int wipe_cargo);
+			 struct genlist_iterator *iter, int wipe_cargo);
 
 void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit);
@@ -66,16 +66,17 @@ int get_virtual_defense_power(int a_type, int d_type, int x, int y);
 void do_nuke_tile(int x, int y);
 void do_nuclear_explosion(int x, int y);
 int try_move_unit(struct unit *punit, int dest_x, int dest_y); 
-int do_airline(struct unit *punit, int x, int y);
-int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y);
+int do_airline(struct unit *punit, int dest_x, int dest_y);
+int do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
 void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
 void send_all_known_units(struct player *dest);
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
-int handle_unit_move_consequences(struct unit *punit, int src_x, int src_y,
-				  int dest_x, int dest_y, int enter_hut);
+int move_unit(struct unit *punit, const int dest_x, const int dest_y,
+	      int transport_units, int take_from_land, int move_cost);
+void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
 
 char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
 char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);

@@ -58,7 +58,7 @@ void handle_unit_goto_tile(struct player *pplayer,
 			   struct packet_unit_request *req)
 {
   struct unit *punit;
-  
+
   if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     punit->goto_dest_x=req->x;
     punit->goto_dest_y=req->y;
@@ -66,7 +66,13 @@ void handle_unit_goto_tile(struct player *pplayer,
     set_unit_activity(punit, ACTIVITY_GOTO);
 
     send_unit_info(0, punit);
-      
+
+    /* Normally units on goto does not pick up extra units, even if
+       the units are in a city and are sentried. But if we just started
+       the goto We want to take them with us, so we do this. */
+    if (get_transporter_capacity(punit))
+      assign_units_to_transporter(punit, 1);
+
     do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);  
   }
 }
@@ -774,24 +780,6 @@ int handle_unit_enter_hut(struct unit *punit)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static void transporter_cargo_move_to_tile(struct unit_list *units, int x, int y)
-{
-  unit_list_iterate(*units, punit) {
-    /* cancel activities when transport moves
-       otherwise could carry activity to tile where it is illegal */
-    if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_SENTRY) {
-      set_unit_activity(punit, ACTIVITY_IDLE);
-      send_unit_info(0, punit);
-    }
-    punit->x=x;
-    punit->y=y;
-    unit_list_insert_back(&map_get_tile(x, y)->units, punit);
-  } unit_list_iterate_end;
-}
-
-/**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
 **************************************************************************/
@@ -942,76 +930,15 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   /******* ok now move the unit *******/
   if(can_unit_move_to_tile(punit, dest_x, dest_y, igzoc) &&
      try_move_unit(punit, dest_x, dest_y)) {
-    int src_x, src_y, ok;
-    struct unit_list cargolist;
-    int transport_units = 1;
- 
-    connection_do_buffer(pplayer->conn);
+    int src_x = punit->x;
+    int src_y = punit->y;
+    int move_cost = map_move_cost(punit, dest_x, dest_y);
+    /* The ai should assign the relevant units itself, but for now leave this */
+    int take_from_land = punit->activity == ACTIVITY_IDLE || pplayer->ai.control;
+    int survived;
 
-    src_x = punit->x; src_y = punit->y;
-
-    if (punit->ai.ferryboat) {
-      struct unit *ferryboat;
-      ferryboat = unit_list_find(&psrctile->units, punit->ai.ferryboat);
-      if (ferryboat) {
-	freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
-		punit->id, punit->ai.ferryboat);
-        ferryboat->ai.passenger = 0;
-        punit->ai.ferryboat = 0;
-      }
-    }
-
-    /* A transporter should not take units with it when on an attack goto -- fisch */
-    if ((punit->activity == ACTIVITY_GOTO) &&
-	get_defender(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y) &&
-	psrctile->terrain != T_OCEAN) {
-      transport_units = 0;
-    }
-
-    unit_list_unlink(&psrctile->units, punit);
-    if (get_transporter_capacity(punit) && transport_units) {
-      transporter_cargo_to_unitlist(punit, &cargolist);
-
-      unit_list_iterate(cargolist, pcarried) { 
-	pcarried->x = dest_x;
-	pcarried->y = dest_y;
-	send_unit_info_to_onlookers(0, pcarried,src_x,src_y);
-	handle_unit_move_consequences(pcarried, src_x, src_y, dest_x, dest_y, 0);
-      }
-      unit_list_iterate_end;
-    }
-
-    punit->moves_left -= map_move_cost(punit, dest_x, dest_y);
-    if (punit->moves_left < 0)
-      punit->moves_left = 0;
-
-    punit->x = dest_x;
-    punit->y = dest_y;
-
-    /* set activity to sentry if boarding a ship */
-    if (is_ground_unit(punit) &&
-	pdesttile->terrain == T_OCEAN &&
-	!(pplayer->ai.control)) {
-      set_unit_activity(punit, ACTIVITY_SENTRY);
-    }
-
-    unit_list_insert(&pdesttile->units, punit);
-
-    if (get_transporter_capacity(punit) && transport_units) {
-      transporter_cargo_move_to_tile(&cargolist, punit->x, punit->y);
-      genlist_unlink_all(&cargolist.list); 
-    }
-
-    /***** ok entered new tile *****/
-
-    punit->moved = 1;
-
-    send_unit_info_to_onlookers(0, punit, src_x, src_y);
-    ok = handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y, 1);
-
-    connection_do_unbuffer(pplayer->conn);
-
-    if (!ok) /* has it been killed? then exit here */
+    survived = move_unit(punit, dest_x, dest_y, 1, take_from_land, move_cost);
+    if (!survived)
       return 1;
 
     /* bodyguard code */
@@ -1030,9 +957,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 	handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
       }
     }
-
     return 1;
-  } else { /* Move failed */
+  } else {
     return 0;
   }
 }
@@ -1381,11 +1307,10 @@ void handle_unit_nuke(struct player *pplayer,
 void handle_unit_paradrop_to(struct player *pplayer, 
                      struct packet_unit_request *req)
 {
-  struct unit *punit;
+  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
   
-  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
-    do_paradrop(pplayer,punit,req->x, req->y);
-  }
+  if (punit)
+    do_paradrop(punit, req->x, req->y);
 }
 
 /**************************************************************************

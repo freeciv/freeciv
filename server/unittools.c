@@ -79,7 +79,6 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc)
     if(ptile->terrain==T_OCEAN &&
        !is_transporter_with_free_space(&game.players[punit->owner], x, y))
 	return 0;
-
     /* Moving from ocean */
     if(ptile2->terrain==T_OCEAN) {
       /* Can't attack a city from ocean unless marines */
@@ -702,36 +701,29 @@ struct unit *is_enemy_unit_on_tile(int x, int y, int owner)
 
 /**************************************************************************
 Teleport punit to city at cost specified.  Returns success.
-(If specified cost is <0, then teleportation costs all movement.)
+(If specified cost is -1, then teleportation costs all movement.)
                          - Kris Bubendorfer
 **************************************************************************/
 int teleport_unit_to_city(struct unit *punit, struct city *pcity,
-			  int mov_cost, int verbose)
+			  int move_cost, int verbose)
 {
-  int src_x = punit->x,src_y = punit->y;
-  if(pcity->owner == punit->owner){
-    unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-    punit->x = pcity->x;
-    punit->y = pcity->y;
-    if((mov_cost < 0) || (punit->moves_left < mov_cost))
-      punit->moves_left = 0;
-    else
-      punit->moves_left -= mov_cost;
-    
-    unit_list_insert(&map_get_tile(pcity->x, pcity->y)->units, punit);
-    send_unit_info_to_onlookers(0, punit, src_x,src_y);
-    handle_unit_move_consequences(punit, src_x, src_y, pcity->x, pcity->y, 1);
-
+  int src_x = punit->x;
+  int src_y = punit->y;
+  int dest_x = pcity->x;
+  int dest_y = pcity->y;
+  if (pcity->owner == punit->owner){
     freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
-	    get_player(punit->owner)->name, unit_name(punit->type),
+	    unit_owner(punit)->name, unit_name(punit->type),
 	    src_x, src_y, pcity->name);
     if (verbose) {
-      notify_player(get_player(punit->owner),
+      notify_player(unit_owner(punit),
 		    _("Game: Teleported your %s from (%d, %d) to %s."),
 		    unit_name(punit->type), src_x, src_y, pcity->name);
     }
 
-    return 1;
+    if (move_cost == -1)
+      move_cost = punit->moves_left;
+    return move_unit(punit, dest_x, dest_y, 0, 0, move_cost);
   }
   return 0;
 }
@@ -824,7 +816,7 @@ void resolve_unit_stack(int x, int y, int verbose)
   punit = unit_list_get(&map_get_tile(x, y)->units, 0);
 
   if(punit && map_get_terrain(x, y) == T_OCEAN) {
-    while(!is_enough_transporter_space(get_player(punit->owner), x, y)) {
+    while(ground_unit_transporter_capacity(x, y, punit->owner) < 0) {
       unit_list_iterate(map_get_tile(x, y)->units, vunit) {
 	if(is_ground_unit(vunit)) {
 	  struct city *vcity =
