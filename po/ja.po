@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2003-11-08 22:03-0800\n"
-"PO-Revision-Date: 2003-11-10 12:25+0900\n"
+"PO-Revision-Date: 2003-11-11 17:20+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -7473,7 +7473,6 @@ msgid "Game: "
 msgstr "Game: %s"
 
 #: client/options.c:93
-#, fuzzy
 msgid "Default player's login name"
 msgstr "デフォルトプレイヤーのユーザ名"
 
@@ -7560,12 +7559,10 @@ msgid "End Turn when done moving"
 msgstr "移動を終えた時ターンを終了"
 
 #: client/options.c:121
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
 msgstr "Alt/Meta でアクセラレータ(GTKのみ)"
 
 #: client/options.c:122
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
 msgstr "地図のスクロールバーを表示(GTKのみ)"
 
@@ -8218,9 +8215,10 @@ msgstr "情報"
 msgid "City map"
 msgstr "都市地図"
 
+# ntaka
 #: client/gui-gtk-2.0/citydlg.c:666
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "建造物を売り払うにはENTERキーを押すかダブルクリックして下さい"
 
 #: client/gui-gtk-2.0/citydlg.c:684 client/gui-gtk-2.0/citydlg.c:766
 #: client/gui-mui/citydlg.c:1570
@@ -8386,12 +8384,12 @@ msgid "blocked"
 msgstr "拡大不能"
 
 #: client/gui-gtk-2.0/citydlg.c:1674
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units %d"
 msgstr "援助されている部隊: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1769
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
 msgstr "都市にいる部隊: %d"
 
@@ -10393,11 +10391,12 @@ msgstr "移動(_G)"
 msgid "Go\\/Airlift to City"
 msgstr "都市へ移動\\/空輸"
 
+# ntaka
 #: client/gui-gtk-2.0/menu.c:720 client/gui-gtk/menu.c:721
 #: client/gui-sdl/menu.c:432 client/gui-win32/menu.c:346
 #: client/gui-xaw/menu.c:188
 msgid "Return to nearest city"
-msgstr ""
+msgstr "近くの都市へ戻る"
 
 #: client/gui-gtk-2.0/menu.c:724 client/gui-mui/gui_main.c:262
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:190
