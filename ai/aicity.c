@@ -383,8 +383,9 @@ static void ai_new_spend_gold(struct player *pplayer)
 		   unit_types[bestchoice.choice].name);
               notify_player(pplayer, _("Game: %s disbanded in %s."),
 			    unit_types[punit->type].name, pcity->name);
+	      /* FIXME: should be handled in server... */
               pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
-              send_city_info(pplayer, pcity, 0);
+              send_city_info(pplayer, pcity);
               wipe_unit(pplayer, punit);
             }
           }
@@ -1051,6 +1052,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))
       ai_scientists_taxmen(acity);
     freelog(LOG_DEBUG, "Readjusting workers in %s", acity->name);
-    send_city_info(city_owner(acity), acity, 1);
+    /* FIXME: should be handled seperately, and in server... */
+    send_city_info(city_owner(acity), acity);
   city_list_iterate_end;
 }

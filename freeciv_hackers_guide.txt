@@ -277,6 +277,16 @@ to the client when the value shifts between zero and non-zero, no
 redundant packages are sent. You can even switch fog of war on/off
 in game just by adding/subtracting 1 to all the tiles.
 
+We only send city and terrain updates to the players who can see the
+tile. So a city (or improvement) can exist in a square that is known and
+fogged and not be shown on the map. Likewise, you can see a city in a
+fogged square even if the city doesn't exist (it will be removed when
+you see the tile again). This is done by 1) only sending info to players
+who can see a tile 2) keeping track of what info has been sent so the
+game can be saved. For the purpose of 2) each player has a map on the
+server (consisting of player_tile's and dumb_city's) where the relevant
+information is kept.
+
 [An alternative solution would be to give each tile a list
 of the units and cities that observe it. IMO this would not be any
 easier than just counting, and would have no benefits. The current
@@ -289,14 +299,6 @@ drawn at each tile. -PU [Removed, but we still send the tiles. It
 seemed wise to remove it as it was really misused in the clients with
 people calling tile_is_known(x,y), which would return true for
 TILE_KNOWN_NODRAW... -Thue]]
-
-[Right now tile updating (terrain and cities, not units) are sent to
-players even if they see the tile as fogged. If we were to have real
-fog of war each player would have his own map on the server with the
-tiles as he sees them. This should be done. This will also be cleaner
-as the number of maps can be malloc'ed. The values of the seen vectors
-should be moved here, as they are currently statically allocated to
-MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS]
 
 [The barbarians and the ai take their map info directly from the server,
 so they can currently ignore fog of war, and they do so. I really think

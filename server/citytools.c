@@ -592,7 +592,7 @@ int wants_to_be_bigger(struct city *pcity)
  * If verbose is true, send extra messages to players detailing what
  * happens to all the units.  --dwp
  *
- * If statement added to see if the owner of pcity is the same as vcity. If so,
+ * "if" statement added to see if the owner of pcity is the same as vcity. If so,
  * then the city is disbanded and not bought, and we only need to evaluate the
  * units supported by the city, and not those actually present.
  * - Thue <thue.kristensen@get2net.dk>
@@ -603,7 +603,7 @@ int wants_to_be_bigger(struct city *pcity)
  */
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
-			 int kill_outside, int verbose)
+			 int kill_outside, int verbose, int resolve_stack)
 {
   int x = vcity->x;
   int y = vcity->y;
@@ -628,6 +628,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
    * cities or maybe destroyed */
   unit_list_iterate(vcity->units_supported, vunit) {
     struct city* new_home_city = map_get_city(vunit->x, vunit->y);
+    x = vunit->x; y = vunit->y;
     if(new_home_city) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
@@ -661,7 +662,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     }else if((kill_outside < 0) ||
 	     ((kill_outside > 0) &&
 	      (real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside))) {
-
       freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
 	      unit_name(vunit->type), vunit->x, vunit->y,
 	      pvictim->name, pplayer->name);
@@ -676,7 +676,14 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 		       vunit->hp);
     }
     wipe_unit_spec_safe(0, vunit, NULL, 0);
-  } unit_list_iterate_end;
+    
+    if (resolve_stack) {
+    /* Now make sure that if we just deleted a transporter the carried units are
+       not left floating in the water */
+      resolve_unit_stack(x,y,1);
+    }
+  }
+  unit_list_iterate_end;
 }
 
 
@@ -723,7 +730,7 @@ static struct player *split_player(struct player *pplayer)
   
   /* make a new player */
 
-  player_init(cplayer);
+  server_player_init(cplayer);
   
   /* select a new name and nation for the copied player. */
 
@@ -938,10 +945,14 @@ void civil_war(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     if (!city_got_building(pcity, B_PALACE)) {
       if (i >= j || (i > 0 && myrand(2))) {
-	
-	/* Transfer city and units supported by this city to the new owner */
-      
-	if(!(pnewcity = transfer_city(cplayer,pplayer,pcity))){
+	/* Transfer city and units supported by this city to the new owner
+
+	 We do NOT resolve stack conflicts here, but rather later.
+	 Reason: if we have a transporter from one city which is carrying
+	 a unit from another city, and both cities join the rebellion. We
+	 resolved stack conflicts for each city we would teleport the first
+	 of the units we met since the other would have another owner */
+	if(!(pnewcity = transfer_city(cplayer, pplayer, pcity, -1, 0, 1))){
 	   freelog(LOG_VERBOSE,
 		   "Transfer city returned no city - aborting civil war.");
 	   return;
@@ -951,32 +962,20 @@ void civil_war(struct player *pplayer)
 		pnewcity->name, cplayer->name);
 	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
 		      pnewcity->name,cplayer->name);
-	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
-	transfer_city_units(cplayer, pplayer, pnewcity, pcity, -1, 0);
-	remove_city(pcity); /* don't forget this! */
-	map_set_city(pnewcity->x, pnewcity->y, pnewcity);
-
-	reestablish_city_trade_routes(pnewcity);
-	city_check_workers(cplayer,pnewcity);
-	update_map_with_city_workers(pnewcity);
-	city_refresh(pnewcity);
-	initialize_infrastructure_cache(pnewcity);
-	send_city_info(0, pnewcity, 0);
 	i--;
       }
     }
     j--;
   }
   city_list_iterate_end;
-  
-  /* Resolve Stack conflicts */
 
   i = 0;
-
+  
   unit_list_iterate(pplayer->units, punit) 
     resolve_unit_stack(punit->x, punit->y, 0);
   unit_list_iterate_end;
-  
+
+
   notify_player(0,
 		_("Game: The capture of %s's capital and the destruction "
 		  "of the empire's administrative\n"
@@ -985,29 +984,17 @@ void civil_war(struct player *pplayer)
 		  "      and the upstart %s now holds power in %d "
 		  "rebel provinces."),
 		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
-    
 }  
 
 
-/* 
- * Transfers pcity from dest, srcplayer.  No units are moved.  This
- * is vanila.  It is now used for incite, and I suspect it could
- * be used to trade cities in the diplomatic section too.
- *
- *  - Kris Bubendorfer
- *
- * Note that the old city is not yet destroyed, which means we
- * can't yet transfer (re-establish) the trade routes for
- * the new city.  (Though the new city struct has the same
- * traderoute data as the old city.)  Thus you should call
- *    reestablish_trade_routes(p_new_city);
- * sometime _after_ calling
- *    remove_city(p_old_city);
- * after this function.  --dwp
- *
- */
+/***************************************************************
+Handles all transactions in relation to transferring a city.
+the three last arguments are passed to transfer_city_units,
+which is called in the middle of the function.
+***************************************************************/
 struct city *transfer_city(struct player *pplayer, struct player *cplayer,
-			   struct city *pcity)
+			   struct city *pcity, int kill_outside,
+			   int transfer_unit_verbose, int resolve_stack)
 {
   struct city *pnewcity;
   int i;
@@ -1031,13 +1018,43 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
     if (is_wonder(i) && city_got_building(pnewcity, i))
       game.global_wonders[i] = pnewcity->id;
   }
-  pnewcity->owner=pplayer->player_no;
+  pnewcity->owner = pplayer->player_no;
   unit_list_init(&pnewcity->units_supported);
   city_list_insert(&pplayer->cities, pnewcity);
 
-  give_citymap_from_player_to_player(pnewcity, cplayer, pplayer);
-
   map_unfog_city_area(pnewcity);
+
+  transfer_city_units(pplayer, cplayer, pnewcity, pcity,
+		      kill_outside, transfer_unit_verbose, resolve_stack);
+  remove_city(pcity);
+  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
+
+  reestablish_city_trade_routes(pnewcity); 
+  city_check_workers(pplayer ,pnewcity);
+  update_map_with_city_workers(pnewcity);
+  city_refresh(pnewcity);
+  initialize_infrastructure_cache(pnewcity);
+  send_city_info(0, pnewcity);
+  
+  if (terrain_control.may_road &&
+      (player_knows_techs_with_flag (pplayer, TF_RAILROAD)) &&
+      (!player_knows_techs_with_flag (cplayer, TF_RAILROAD)) &&
+      (!(map_get_special (pnewcity->x, pnewcity->y) & S_RAILROAD))) {
+    notify_player (pplayer,
+		   _("Game: The people in %s are stunned by your"
+		     " technological insight!\n"
+		     "      Workers spontaneously gather and upgrade"
+		     " the city with railroads."),
+		   pnewcity->name);
+    map_set_special (pnewcity->x, pnewcity->y, S_RAILROAD);
+    send_tile_info (0, pnewcity->x, pnewcity->y);
+  }
+
+  /* We lose visibility as the old city is removed, and if the square isn't
+     shown here the old owner will never get told about the new city */
+  update_dumb_city(cplayer, pnewcity);
+  send_city_info(cplayer, pnewcity);
+
   return pnewcity;
 }
 

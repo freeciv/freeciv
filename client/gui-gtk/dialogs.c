@@ -437,8 +437,8 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
-
 }
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -457,7 +457,6 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
     
     send_packet_diplomat_action(&aconnection, &req);
   }
-
 }
 /****************************************************************
 ...
@@ -866,18 +865,35 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 }
 
 /****************************************************************
-...
+ Requests up-to-date list of improvements, the return of
+ which will trigger the popup_sabotage_dialog() function.
 *****************************************************************/
-static void spy_sabotage_popup(GtkWidget *w, gpointer data)
+static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
-  struct city *pvcity = find_city_by_id(diplomat_target_id);
-  
   destroy_message_dialog(w);
 
+  if(find_unit_by_id(diplomat_id) &&
+     (find_city_by_id(diplomat_target_id))) {
+    struct packet_diplomat_action req;
+
+    req.action_type = SPY_GET_SABOTAGE_LIST;
+    req.diplomat_id = diplomat_id;
+    req.target_id = diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+}
+
+/****************************************************************
+ Pops-up the Spy sabotage dialog, upon return of list of
+ available improvements requested by the above function.
+*****************************************************************/
+void popup_sabotage_dialog(struct city *pcity)
+{
   if(!spy_sabotage_shell){
     spy_sabotage_shell_is_modal=1;
 
-    create_improvements_list(game.player_ptr, pvcity, spy_sabotage_shell_is_modal);
+    create_improvements_list(game.player_ptr, pcity, spy_sabotage_shell_is_modal);
     gtk_set_relative_position (toplevel, spy_sabotage_shell, 10, 10);
 
     gtk_widget_show(spy_sabotage_shell);
@@ -929,7 +945,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...  Popup the yes/no dialog for inciting, since we know the cost now
+Popup the yes/no dialog for inciting, since we know the cost now
 *****************************************************************/
 void popup_incite_dialog(struct city *pcity)
 {
@@ -1007,7 +1023,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  			      _("Establish _Embassy"), diplomat_embassy_callback, 0,
  			      _("_Investigate City (free)"), diplomat_investigate_callback, 0,
  			      _("_Poison City"), spy_poison_callback,0,
- 			      _("Industrial _Sabotage"), spy_sabotage_popup, 0,
+ 			      _("Industrial _Sabotage"), spy_request_sabotage_list, 0,
  			      _("Steal _Technology"), spy_steal_popup, 0,
  			      _("Incite a _Revolt"), diplomat_incite_callback, 0,
  			      _("_Cancel"), diplomat_cancel_callback, 0,

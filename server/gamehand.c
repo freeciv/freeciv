@@ -494,7 +494,12 @@ void game_load(struct section_file *file)
   for(i=0; i<game.nplayers; i++) {
     player_load(&game.players[i], i, file); 
   }
-  
+  /* Since the cities must be placed on the map to put them on the
+     player map we do this afterwards */
+  for(i=0; i<game.nplayers; i++) {
+    player_map_load(&game.players[i], i, file); 
+  }  
+
   initialize_globals();
   apply_unit_ordering();
 

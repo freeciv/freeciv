@@ -77,6 +77,12 @@ popup_bribe_dialog(struct unit *punit)
 }
 
 void
+popup_sabotage_dialog(struct city *pcity)
+{
+	/* PORTME */
+}
+
+void
 popup_pillage_dialog(struct unit *punit, int may_pillage)
 {
 	/* PORTME */

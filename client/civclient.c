@@ -330,6 +330,10 @@ void handle_packet_input(char *packet, int type)
   case PACKET_CITY_NAME_SUGGESTION:
     handle_city_name_suggestion((struct packet_city_name_suggestion *)packet);
     break;
+
+  case PACKET_SABOTAGE_LIST:
+    handle_sabotage_list((struct packet_sabotage_list *)packet);
+    break;
     
   default:
     freelog(LOG_FATAL, _("Received unknown packet from server!"));

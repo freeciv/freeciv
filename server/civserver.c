@@ -666,6 +666,7 @@ static void send_all_info(struct player *dest)
   send_player_info(0, dest);
   send_spaceship_info(0, dest);
   send_all_known_tiles(dest);
+  send_all_known_cities(dest);
   send_all_known_units(dest);
 }
 
@@ -714,6 +715,7 @@ static void do_apollo_program(void)
     } else {
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
+      send_all_known_cities(pplayer);
     }
   }
 }
@@ -1408,7 +1410,7 @@ void accept_new_player(char *name, struct connection *pconn)
 {
   struct player *pplayer = &game.players[game.nplayers];
 
-  player_init(pplayer);
+  server_player_init(pplayer);
   /* sometimes needed if players connect/disconnect to avoid
    * inheriting stale AI status etc
    */
@@ -1805,9 +1807,14 @@ static void announce_ai_player (struct player *pplayer) {
 static void enable_fog_of_war_player(struct player *pplayer)
 {
   int x,y;
+  struct tile *ptile;
   for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.ysize; y++)
-      map_get_tile(x,y)->seen[pplayer->player_no] -= 1;
+    for (y = 0; y < map.ysize; y++) {
+      ptile = map_get_tile(x,y);
+      ptile->seen[pplayer->player_no]--;
+      if (ptile->seen[pplayer->player_no] == 0)
+	update_player_tile_last_seen(pplayer, x, y);
+    }
   send_all_known_tiles(pplayer);
 }
 
@@ -1830,10 +1837,17 @@ static void disable_fog_of_war_player(struct player *pplayer)
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       map_get_tile(x,y)->seen[pplayer->player_no] += 1;
+      if (map_get_known(x, y, pplayer)) {
+	struct city *pcity = map_get_city(x,y);
+	reality_check_city(pplayer, x, y);
+	if (pcity)
+	  update_dumb_city(pplayer, pcity);
+      }
     }
   }
   send_all_known_tiles(pplayer);
   send_all_known_units(pplayer);
+  send_all_known_cities(pplayer);
 }
 
 /*************************************************************************

@@ -455,7 +455,8 @@ static void ai_manage_taxes(struct player *pplayer)
         unit_list_iterate_end;
       }
     } /* end if we can't meet payroll */
-    send_city_info(city_owner(pcity), pcity, 1);
+    /* FIXME: this shouldn't be here, but in the server... */
+    send_city_info(city_owner(pcity), pcity);
   city_list_iterate_end;
 }
 

@@ -878,7 +878,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   ptile=map_get_tile(abs_x0, abs_y0);
   punit=get_unit_in_focus();
 
-  if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN_FOGGED) {
+  if(abs_y0>=map.ysize || ptile->known == TILE_UNKNOWN) {
     return 0;
   }
 

@@ -505,7 +505,6 @@ static int is_wet(struct player *pplayer, int x, int y)
   enum tile_terrain_type t;
   enum tile_special_type s;
 
-  /*FIXME: this info could be outdated as we only check known and not know_and_seen*/
   if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return 0;
 
   t=map_get_terrain(x,y);

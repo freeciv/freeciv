@@ -49,7 +49,7 @@ int player_owns_city(struct player *pplayer, struct city *pcity)
 }
 
 /***************************************************************
-...
+In the server you must use server_player_init
 ***************************************************************/
 void player_init(struct player *plr)
 {

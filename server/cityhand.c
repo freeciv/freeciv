@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,10 +41,14 @@
 #include "plrhand.h"
 #include "settlers.h"
 #include "unitfunc.h"
+#include "unittools.h"
 
 #include "aicity.h"
 
 #include "cityhand.h"
+
+static void package_dumb_city(struct player* pplayer, int x, int y,
+			      struct packet_city_info *packet);
 
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 
@@ -188,14 +193,13 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->tax_bonus = 100;
   pcity->science_bonus = 100;
   map_set_city(pcity->x, pcity->y, pcity);
-  
+
   unit_list_init(&pcity->units_supported);
   city_list_insert(&pplayer->cities, pcity);
   add_city_to_minimap(pcity->x, pcity->y);
 
 /* it is possible to build a city on a tile that is already worked */
 /* this will displace the worker on the newly-built city's tile -- Syela */
-
   city_map_iterate(x, y) { /* usurping the parameters x, y */
     othercity = map_get_city(pcity->x+x-2, pcity->y+y-2);
     if (othercity && othercity != pcity) {
@@ -204,14 +208,15 @@ void create_city(struct player *pplayer, int x, int y, char *name)
         add_adjust_workers(othercity); /* will place the displaced */
         city_refresh(othercity); /* may be unnecessary; can't hurt */
       } else set_worker_city(othercity, 4 - x, 4 - y, C_TILE_UNAVAILABLE);
-      send_city_info(city_owner(othercity), othercity, 1);
+      send_city_info(city_owner(othercity), othercity);
     }
   }
- 
+
   city_check_workers(pplayer, pcity);
   auto_arrange_workers(pcity); /* forces a worker onto (2,2), thus the above */
 
   city_refresh(pcity);
+
   city_incite_cost(pcity);
   initialize_infrastructure_cache(pcity);
   reset_move_costs(pcity->x, pcity->y);
@@ -224,8 +229,7 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
   map_unfog_city_area(pcity);
 
   send_adjacent_cities(pcity);
-  send_city_info(0, pcity, 0);
-/* fnord -- Syela */
+  send_city_info(0, pcity);
 }
 
 /**************************************************************************
@@ -272,7 +276,7 @@ void handle_city_change_specialist(struct player *pplayer,
   }
 
   city_refresh(pcity);
-  send_city_info(pplayer, pcity, 0);
+  send_city_info(pplayer, pcity);
 }
 
 /**************************************************************************
@@ -297,7 +301,7 @@ void handle_city_make_specialist(struct player *pplayer,
     pcity->ppl_elvis++;
     city_refresh(pcity);
     send_adjacent_cities(pcity);
-    send_city_info(pplayer, pcity, 0);
+    send_city_info(pplayer, pcity);
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: you don't have a worker here.")); 
@@ -345,7 +349,7 @@ void handle_city_make_worker(struct player *pplayer,
   
   city_refresh(pcity);
   send_adjacent_cities(pcity);
-  send_city_info(pplayer, pcity, 1);
+  send_city_info(pplayer, pcity);
 }
 
 /**************************************************************************
@@ -381,7 +385,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
   do_sell_building(pplayer, pcity, id);
 
   city_refresh(pcity);
-  send_city_info(pplayer, pcity, 1);
+  send_city_info(0, pcity); /* If we sold the walls the other players should see it */
   send_player_info(pplayer, pplayer);
 }
 
@@ -458,7 +462,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
                    pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
 		   _("Game: %s bought in %s for %d gold."), 
 		   name, pcity->name, cost);
-  send_city_info(pplayer, pcity, 1);
+  send_city_info(pplayer, pcity);
   send_player_info(pplayer,pplayer);
   connection_do_unbuffer(pplayer->conn);
 }
@@ -473,7 +477,7 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
 
   copy_worklist(pcity->worklist, &preq->worklist);
 
-  send_city_info(pplayer, pcity, 1);
+  send_city_info(pplayer, pcity);
 }
 
 /**************************************************************************
@@ -492,7 +496,7 @@ void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *
   pcity=find_city_by_id(preq->value);
   if (pcity) {
     city_refresh(pcity);
-    send_city_info(pplayer, pcity, 1);
+    send_city_info(pplayer, pcity);
   } else if (!preq->value) global_city_refresh(pplayer);
 }
 
@@ -605,7 +609,7 @@ void handle_city_change(struct player *pplayer,
 		      preq->is_build_id_unit_id, E_NOEVENT);
 
   city_refresh(pcity);
-  send_city_info(pplayer, pcity, 1);
+  send_city_info(pplayer, pcity);
 }
 
 /**************************************************************************
@@ -626,7 +630,7 @@ void handle_city_rename(struct player *pplayer,
     /* more sanity tests! any existing city with that name? */
     sz_strlcpy(pcity->name, cp);
     city_refresh(pcity);
-    send_city_info(pplayer, pcity, 1);
+    send_city_info(0, pcity);
   }
   else
     notify_player(pplayer, _("Game: %s is not a valid name."), preq->name);
@@ -644,7 +648,7 @@ void handle_city_options(struct player *pplayer,
   /* We don't need to send the full city info, since no other properties
    * depend on the attack options. --dwp
    * Otherwise could do:
-   *   send_city_info(pplayer, pcity, 1);
+   *   send_city_info(pplayer, pcity);
    */
   send_packet_generic_values(pplayer->conn, PACKET_CITY_OPTIONS, preq);
 }
@@ -668,7 +672,7 @@ void send_player_cities(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
     city_refresh(pcity);
-    send_city_info(pplayer, pcity, 0);
+    send_city_info(pplayer, pcity);
   }
   city_list_iterate_end;
 }
@@ -691,7 +695,7 @@ void send_adjacent_cities(struct city *pcity)
 	  if((pcity2->x <= x2 || pcity2->x >= x1) && 
 	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
 	    city_check_workers(city_owner(pcity2),pcity2);
-	    send_city_info(city_owner(pcity2), pcity2, 0);
+	    send_city_info(city_owner(pcity2), pcity2);
 	  }
       city_list_iterate_end;
     }
@@ -702,7 +706,7 @@ void send_adjacent_cities(struct city *pcity)
 	  if((pcity2->x <= x2 && pcity2->x >= x1) && 
 	     (pcity2->y >= y1 && pcity2->y <= y2) )  {
 	    city_check_workers(city_owner(pcity2),pcity2);
-	    send_city_info(city_owner(pcity2), pcity2, 0);
+	    send_city_info(city_owner(pcity2), pcity2);
 	  }
       city_list_iterate_end;
     }
@@ -710,80 +714,75 @@ void send_adjacent_cities(struct city *pcity)
 }
 
 /**************************************************************************
-...
+A wrapper. Yes I know that in most cases the x and y of the city is
+unpacked and then the city is found again, but as the function isn't used
+that much the advantage of not cut-pasting code is worth it.
 **************************************************************************/
-void send_city_info(struct player *dest, struct city *pcity, int dosend)
+void send_city_info(struct player *dest, struct city *pcity)
 {
-  int i, o, x, y;
-  char *p;
-  struct packet_city_info packet;
-  if (nocity_send && dest) 
-    return;
-  packet.id=pcity->id;
-  packet.owner=pcity->owner;
-  packet.x=pcity->x;
-  packet.y=pcity->y;
-  sz_strlcpy(packet.name, pcity->name);
+  send_city_info_at_tile(dest, pcity->x, pcity->y);
+}
 
-  packet.size=pcity->size;
-  packet.ppl_happy=pcity->ppl_happy[4];
-  packet.ppl_content=pcity->ppl_content[4];
-  packet.ppl_unhappy=pcity->ppl_unhappy[4];
-  packet.ppl_elvis=pcity->ppl_elvis;
-  packet.ppl_scientist=pcity->ppl_scientist;
-  packet.ppl_taxman=pcity->ppl_taxman;
-  for (i=0;i<4;i++)  {
-    packet.trade[i]=pcity->trade[i];
-    packet.trade_value[i]=pcity->trade_value[i];
+/**************************************************************************
+Send info about a city. If the player can see the city we update the city
+info first. If not we just use the info from the players private map.
+If (dest == NULL) it is considered a broadcast, and info is sent to all
+players who observe the tile. This may only be used if there actually is a
+city at the tile.
+Sometimes a player's map contain a city that doesn't actually exist. Use
+reality_check_city(pplayer, x,y) to update that. Remember to NOT send info
+about a city to a player who thinks the tile contains another city. If you
+want to update the clients info of the tile you must use
+reality_check_city(pplayer, x, y) first. This is generally taken care of
+automatically when a tile becomes visible.
+**************************************************************************/
+void send_city_info_at_tile(struct player *dest, int x, int y)
+{
+  int o;
+  struct city *pcity = map_get_city(x,y);
+  struct player *powner = NULL;
+  struct packet_city_info packet;
+  struct dumb_city *pdcity;
+  if (pcity)
+    powner = city_owner(pcity);
+
+  if (!dest && !pcity)
+    freelog(LOG_FATAL, "You can't broadcast a nonexistent city (at %i,%i)\n",x,y);
+
+  /* nocity_send is used to inhibit sending cities to the owner between turn updates */
+  if (pcity && (!dest || powner == dest) && !nocity_send) {
+    /* send all info to the owner */
+    update_dumb_city(powner, pcity);
+    package_city(pcity, &packet);
+    send_packet_city_info(powner->conn, &packet);
   }
 
-  packet.food_prod=pcity->food_prod;
-  packet.food_surplus=pcity->food_surplus;
-  packet.shield_prod=pcity->shield_prod;
-  packet.shield_surplus=pcity->shield_surplus;
-  packet.trade_prod=pcity->trade_prod;
-  packet.corruption=pcity->corruption;
-  
-  packet.luxury_total=pcity->luxury_total;
-  packet.tax_total=pcity->tax_total;
-  packet.science_total=pcity->science_total;
-  
-  packet.food_stock=pcity->food_stock;
-  packet.shield_stock=pcity->shield_stock;
-  packet.pollution=pcity->pollution;
-
-  packet.city_options=pcity->city_options;
-  
-  packet.is_building_unit=pcity->is_building_unit;
-  packet.currently_building=pcity->currently_building;
-  copy_worklist(&packet.worklist, pcity->worklist);
-  packet.diplomat_investigate=(dosend < 0 ? 1 : 0);
-
-/* I'm declaring dosend < 0 to be a flag value to send the
-investigate packet.  If this offends anyone, feel free to
-rewrite send_city_info as a wrapper or something -- Syela */
-
-  packet.airlift=pcity->airlift;
-  packet.did_buy=pcity->did_buy;
-  packet.did_sell=pcity->did_sell;
-  packet.was_happy=pcity->was_happy;
-  p=packet.city_map;
-  for(y=0; y<CITY_MAP_SIZE; y++)
-    for(x=0; x<CITY_MAP_SIZE; x++)
-      *p++=get_worker_city(pcity, x, y)+'0';
-  *p='\0';
-
-  p=packet.improvements;
-  for(i=0; i<B_LAST; i++)
-    *p++=(pcity->improvements[i]) ? '1' : '0';
-  *p='\0';
-  
-  for(o=0; o<game.nplayers; o++) {           /* dests */
-    if(nocity_send && pcity->owner==o) continue;
-    if(!dest || &game.players[o]==dest) {
-      if(dosend > 0 || map_get_known(pcity->x, pcity->y, &game.players[o])) {
-	send_packet_city_info(game.players[o].conn, &packet);
+  if (dest && powner != dest) { /* send info to specific player. */
+    if (map_get_known_and_seen(x, y, dest)) {
+      if (pcity) { /* it's there and we see it; update and send */
+	update_dumb_city(dest, pcity);
+	package_dumb_city(dest, x, y, &packet);
+	send_packet_city_info(dest->conn, &packet);
       }
+    } else { /* not seen; send old info */
+      pdcity = map_get_player_tile(dest, x, y)->city;
+      if (pdcity) {
+	package_dumb_city(dest, x, y, &packet);
+	send_packet_city_info(dest->conn, &packet);
+      }
+    }
+  }
+
+  /* send to all (we just sent to the owner).
+     This is only used if there actually is a city (checked above) */
+  if(!dest) {
+    for(o=0; o<game.nplayers; o++) {
+      if(pcity->owner==o) continue; /* allready send above */
+      if(map_get_known_and_seen(pcity->x, pcity->y, &game.players[o])) {
+	update_dumb_city(&game.players[o], pcity);
+	package_dumb_city(&game.players[o], pcity->x, pcity->y, &packet);
+	send_packet_city_info(game.players[o].conn, &packet);
+      } /* broadcast is only used to send to players that can see the tile */
     }
   }
 }
@@ -811,32 +810,60 @@ void remove_trade_route(int c1, int c2)
 }
 
 /**************************************************************************
-...
+FIXME: should be in the same file as transfer_city
 **************************************************************************/
 void remove_city(struct city *pcity)
 {
   int o, x, y;
-  struct packet_generic_integer packet;
+  struct player *pplayer = city_owner(pcity);
+
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
-          get_nation_name_plural(game.players[pcity->owner].nation),
+          get_nation_name_plural(pplayer->nation),
           pcity->name,pcity->x,pcity->y);
-  while(unit_list_size(&pcity->units_supported)) {
-    wipe_unit(0, unit_list_get(&pcity->units_supported,0));
+
+  /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
+     But I couldn't see a nice way to make them use the same code */
+  unit_list_iterate(pcity->units_supported, punit) {
+    struct city *new_home_city = map_get_city(punit->x, punit->y);
+    x = punit->x; y = punit->y;
+    if(new_home_city && new_home_city != pcity) {
+      /* unit is in another city: make that the new homecity,
+	 unless that city is actually the same city (happens if disbanding) */
+      freelog(LOG_VERBOSE, "Changed homecity of %s in %s",
+	      unit_name(punit->type), new_home_city->name);
+      notify_player(pplayer, _("Game: Changed homecity of %s in %s."),
+		    unit_name(punit->type), new_home_city->name);
+      create_unit_full(pplayer, x, y,
+		       punit->type, punit->veteran, new_home_city->id,
+		       punit->moves_left, punit->hp);
+    }
+
+    wipe_unit_spec_safe(0, punit, NULL, 1);
+    resolve_unit_stack(x,y,1);
   }
+  unit_list_iterate_end;
+
   for (o=0; o<4; o++)
     remove_trade_route(pcity->trade[o], pcity->id); 
-  packet.value=pcity->id;
-  for(o=0; o<game.nplayers; o++)           /* dests */
-    send_packet_generic_integer(game.players[o].conn,
-				PACKET_REMOVE_CITY,&packet);
+
+  x = pcity->x;
+  y = pcity->y;
+
   remove_city_from_cache(pcity->id);
-  dealloc_id(pcity->id);
-  x = pcity->x; y = pcity->y;
+
+  /* dealloc_id(pcity->id); We do NOT dealloc cityID's as the cities may still be
+     alive in the client. As the number of romoved cities is small the leak is
+     acceptable. */
+
 /* DO NOT remove city from minimap here. -- Syela */
   
-  map_fog_city_area(pcity);
-
   game_remove_city(pcity);
+
+  for(o=0; o<game.nplayers; o++)           /* dests */
+    if (map_get_known_and_seen(x,y,&game.players[o]))
+      reality_check_city(&game.players[o], x, y);
+  map_fog_pseudo_city_area(pplayer, x, y);
+
   reset_move_costs(x, y);
 }
 
@@ -859,7 +886,6 @@ void update_map_with_city_workers(struct city *pcity)
 The following has to be called every time a city, pcity, has changed
 owner to update the city's traderoutes.
 **************************************************************************/
-
 void reestablish_city_trade_routes(struct city *pcity) 
 {
   int i;
@@ -874,4 +900,221 @@ void reestablish_city_trade_routes(struct city *pcity)
       }
     }
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void package_city(struct city *pcity, struct packet_city_info *packet)
+{
+  int i, x, y;
+  char *p;
+  packet->id=pcity->id;
+  packet->owner=pcity->owner;
+  packet->x=pcity->x;
+  packet->y=pcity->y;
+  sz_strlcpy(packet->name, pcity->name);
+
+  packet->size=pcity->size;
+  packet->ppl_happy=pcity->ppl_happy[4];
+  packet->ppl_content=pcity->ppl_content[4];
+  packet->ppl_unhappy=pcity->ppl_unhappy[4];
+  packet->ppl_elvis=pcity->ppl_elvis;
+  packet->ppl_scientist=pcity->ppl_scientist;
+  packet->ppl_taxman=pcity->ppl_taxman;
+  for (i=0;i<4;i++)  {
+    packet->trade[i]=pcity->trade[i];
+    packet->trade_value[i]=pcity->trade_value[i];
+  }
+
+  packet->food_prod=pcity->food_prod;
+  packet->food_surplus=pcity->food_surplus;
+  packet->shield_prod=pcity->shield_prod;
+  packet->shield_surplus=pcity->shield_surplus;
+  packet->trade_prod=pcity->trade_prod;
+  packet->corruption=pcity->corruption;
+  
+  packet->luxury_total=pcity->luxury_total;
+  packet->tax_total=pcity->tax_total;
+  packet->science_total=pcity->science_total;
+  
+  packet->food_stock=pcity->food_stock;
+  packet->shield_stock=pcity->shield_stock;
+  packet->pollution=pcity->pollution;
+
+  packet->city_options=pcity->city_options;
+  
+  packet->is_building_unit=pcity->is_building_unit;
+  packet->currently_building=pcity->currently_building;
+  copy_worklist(&packet->worklist, pcity->worklist);
+  packet->diplomat_investigate=0;
+
+  packet->airlift=pcity->airlift;
+  packet->did_buy=pcity->did_buy;
+  packet->did_sell=pcity->did_sell;
+  packet->was_happy=pcity->was_happy;
+  p=packet->city_map;
+  for(y=0; y<CITY_MAP_SIZE; y++)
+    for(x=0; x<CITY_MAP_SIZE; x++)
+      *p++=get_worker_city(pcity, x, y)+'0';
+  *p='\0';
+
+  p=packet->improvements;
+  for(i=0; i<B_LAST; i++)
+    *p++=(pcity->improvements[i]) ? '1' : '0';
+  *p='\0';
+}
+
+/**************************************************************************
+This fills out a package from a players dumb_city.
+FIXME: we should make a new package and let the client fill in the dummy
+info itself
+**************************************************************************/
+void package_dumb_city(struct player* pplayer, int x, int y,
+		       struct packet_city_info *packet)
+{
+  int i;
+  char *p;
+  struct dumb_city *pdcity = map_get_player_tile(pplayer,x,y)->city;
+  struct city *pcity;
+  packet->id=pdcity->id;
+  packet->owner=pdcity->owner;
+  packet->x=x;
+  packet->y=y;
+  sz_strlcpy(packet->name, pdcity->name);
+
+  packet->size=pdcity->size;
+  packet->ppl_happy=0;
+  if (map_get_known_and_seen(x,y,pplayer)) {
+    /* Since the tile is visible the player can see the tile,
+       and if it didn't actually have a city pdcity would be NULL */
+    pcity = map_get_tile(x,y)->city;
+    if (pcity->ppl_happy[4]>=pcity->ppl_unhappy[4]) {
+      packet->ppl_content=pdcity->size;
+      packet->ppl_unhappy=0;
+    } else {
+      packet->ppl_content=0;
+      packet->ppl_unhappy=pdcity->size;
+    }
+  } else {
+    packet->ppl_content=pdcity->size;
+    packet->ppl_unhappy=0;
+  }
+  packet->ppl_elvis=pdcity->size;
+  packet->ppl_scientist=0;
+  packet->ppl_taxman=0;
+  for (i=0;i<4;i++)  {
+    packet->trade[i]=0;
+    packet->trade_value[i]=0;
+  }
+
+  packet->food_prod=0;
+  packet->food_surplus=0;
+  packet->shield_prod=0;
+  packet->shield_surplus=0;
+  packet->trade_prod=0;
+  packet->corruption=0;
+  
+  packet->luxury_total=0;
+  packet->tax_total=0;
+  packet->science_total=0;
+  
+  packet->food_stock=0;
+  packet->shield_stock=0;
+  packet->pollution=0;
+
+  packet->city_options=0;
+  
+  packet->is_building_unit=0;
+  packet->currently_building=0;
+  init_worklist(&packet->worklist);
+  packet->diplomat_investigate=0;
+
+  packet->airlift=0;
+  packet->did_buy=0;
+  packet->did_sell=0;
+  packet->was_happy=0;
+
+  p=packet->improvements;
+
+  for(i=0; i<B_LAST; i++)
+    *p++ = '0';
+
+  if ((pcity = map_get_city(x,y)) && pcity->id == pdcity->id &&
+      city_got_building(pcity,  B_PALACE))
+    packet->improvements[B_PALACE] = '1';
+
+  if (pdcity->has_walls)
+    packet->improvements[B_CITY] = '1';
+
+  *p='\0';
+
+  p=packet->city_map;
+  for(y=0; y<CITY_MAP_SIZE; y++) /* (Mis)use of function parameters */
+    for(x=0; x<CITY_MAP_SIZE; x++)
+      *p++=C_TILE_EMPTY+'0';
+  *p='\0';
+}
+
+/**************************************************************************
+updates a players knowledge about a city. If the player_tile allready
+contains a city it must be the same city (avoid problems by allways calling
+reality_check city first)
+**************************************************************************/
+void update_dumb_city(struct player *pplayer, struct city *pcity)
+{
+  struct player_tile *plrtile = map_get_player_tile(pplayer,pcity->x,pcity->y);
+  struct dumb_city *pdcity;
+  if (!plrtile->city) {
+    plrtile->city = fc_malloc(sizeof(struct dumb_city));
+    plrtile->city->id = pcity->id;
+  }
+  pdcity = plrtile->city;
+  if (pdcity->id != pcity->id)
+    freelog(LOG_FATAL, "Trying to update old city (wrong ID) at %i,%i for player %s",
+	    pcity->x, pcity->y, pplayer->name);
+  sz_strlcpy(pdcity->name, pcity->name);
+  pdcity->size = pcity->size;
+  pdcity->has_walls = city_got_citywalls(pcity);
+  pdcity->owner = pcity->owner;
+}
+
+/**************************************************************************
+Removes outdated (nonexistant) cities from a player
+**************************************************************************/
+void reality_check_city(struct player *pplayer,int x, int y)
+{
+  struct packet_generic_integer packet;
+  struct city *pcity;
+  struct dumb_city *pdcity = map_get_player_tile(pplayer,x,y)->city;
+
+  if (pdcity) {
+    pcity = map_get_tile(x,y)->city;
+    if (!pcity || (pcity && pcity->id != pdcity->id)) {
+      packet.value=pdcity->id;
+      send_packet_generic_integer(pplayer->conn,PACKET_REMOVE_CITY,&packet);
+      free(pdcity);
+      map_get_player_tile(pplayer,x,y)->city = NULL;
+    }
+  }
+}
+
+/**************************************************************************
+dest can be NULL meaning all players
+**************************************************************************/
+void send_all_known_cities(struct player *dest)
+{
+  int o;
+
+  for(o=0; o<game.nplayers; o++)           /* dests */
+    if(!dest || &game.players[o]==dest) {
+      int x, y;
+      struct player *pplayer=&game.players[o];
+      connection_do_buffer(pplayer->conn);
+      for(y=0; y<map.ysize; y++)
+        for(x=0; x<map.xsize; x++)
+          if(map_get_player_tile(pplayer,x,y)->city)
+            send_city_info_at_tile(pplayer, x, y);
+      connection_do_unbuffer(pplayer->conn);
+    }
 }

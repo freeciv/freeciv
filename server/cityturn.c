@@ -397,7 +397,7 @@ void global_city_refresh(struct player *pplayer)
   connection_do_buffer(pplayer->conn);
   city_list_iterate(pplayer->cities, pcity)
     city_refresh(pcity);
-    send_city_info(pplayer, pcity, 1);
+    send_city_info(pplayer, pcity);
   city_list_iterate_end;
   connection_do_unbuffer(pplayer->conn);
 }
@@ -714,7 +714,7 @@ void auto_arrange_workers(struct city *pcity)
   pcity->ppl_elvis=workers;
 
   city_refresh(pcity);
-  send_city_info(city_owner(pcity), pcity, 1);
+  send_city_info(city_owner(pcity), pcity);
 }
 
 /**************************************************************************
@@ -763,11 +763,11 @@ void city_auto_remove_worker(struct city *pcity)
   } 
   auto_arrange_workers(pcity);
   city_refresh(pcity);
-  send_city_info(&game.players[pcity->owner], pcity, 0);
+  send_city_info(city_owner(pcity), pcity);
 }
 
 /**************************************************************************
-...
+Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
 static void city_increase_size(struct city *pcity)
 {
@@ -856,7 +856,6 @@ static void city_increase_size(struct city *pcity)
       ai_scientists_taxmen(pcity);
 
   connection_do_buffer(city_owner(pcity)->conn);
-  send_city_info(&game.players[pcity->owner], pcity, 0);
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_GROWTH,
                    _("Game: %s grows to size %d."), pcity->name, pcity->size);
   connection_do_unbuffer(city_owner(pcity)->conn);
@@ -1483,7 +1482,7 @@ void city_incite_cost(struct city *pcity)
 }
 
 /**************************************************************************
- called every turn, for every city. 
+ called every turn, for every city.
 **************************************************************************/
 static int update_city_activity(struct player *pplayer, struct city *pcity)
 {
@@ -1584,7 +1583,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     check_pollution(pcity);
     city_incite_cost(pcity);
 
-    send_city_info(0, pcity, 0);
+    send_city_info(0, pcity);
     if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
 		       _("Game: The people have overthrown your %s, "
@@ -1633,7 +1632,7 @@ static void disband_city(struct city *pcity)
 	      pcity->id, -1);
 
   /* shift all the units supported by pcity (including the new settler) to rcity */
-  transfer_city_units(pplayer, pplayer, rcity, pcity, -1, 1);
+  transfer_city_units(pplayer, pplayer, rcity, pcity, -1, 1, 0);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
 		   _("Game: %s is disbanded into %s."), 

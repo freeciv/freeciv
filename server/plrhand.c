@@ -14,8 +14,9 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
+#include <ctype.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -56,6 +57,9 @@
 #include "aiunit.h"
 
 #include "plrhand.h"
+
+static char dec2hex[] = "0123456789abcdef"; /* FIXME: copied from maphand.c */
+static char terrain_chars[] = "adfghjm prstu";
 
 enum historian_type {
         HISTORIAN_RICHEST=0, 
@@ -1292,8 +1296,6 @@ void show_map_to_all(void)
   for (i=0;i<game.nplayers;i++) {
     pplayer = &game.players[i];
     map_know_and_see_all(pplayer);
-    send_all_known_tiles(pplayer);
-    send_all_known_units(pplayer);
   }
 }
 
@@ -1382,8 +1384,6 @@ static void update_player_aliveness(struct player *pplayer)
                 get_nation_name(pplayer->nation));
       }
       map_know_and_see_all(pplayer);
-      send_all_known_tiles(pplayer);
-      send_all_known_units(pplayer);
     }
   }
 }
@@ -1956,6 +1956,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   char *p;
   char *savefile_options = " ";
 
+  player_map_allocate(plr);
+
   if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
       || (game.version > 10604))
     savefile_options = secfile_lookup_str(file,"savefile.options");  
@@ -2286,7 +2288,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->paradropped=secfile_lookup_int_default(file, 0, "player%d.u%d.paradropped",
                                                   plrno, i);
 
-    /* allocate the units contribution to fog of war */
+    /* allocate the unit's contribution to fog of war */
     unfog_area(&game.players[punit->owner],
 	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
 
@@ -2294,7 +2296,167 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
   }
+}
 
+/********************************************************************** 
+The private map for fog of war
+***********************************************************************/
+void player_map_load(struct player *plr, int plrno, struct section_file *file)
+{
+  int x,y,i;
+
+  /* load map if:
+     1) it from a fog of war build
+     2) fog of war was on (otherwise the private map wasn't saved)
+     3) is not from a "unit only" fog of war save file
+  */
+  if (secfile_lookup_int_default(file, -1, "game.fogofwar") != -1
+      && game.fogofwar == 1
+      && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1) {
+    /* get the terrain type */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_t%03d", plrno, y);
+      for(x=0; x<map.xsize; x++) {
+	char *pch;
+	if(!(pch=strchr(terrain_chars, terline[x]))) {
+	  freelog(LOG_FATAL, "unknown terrain type (map.t) in map "
+		  "at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
+	  exit(1);
+	}
+	map_get_player_tile(plr, x, y)->terrain=pch-terrain_chars;
+      }
+    }
+    
+    /* get lower 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_l%03d",plrno, y);
+      
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	
+	if(isxdigit(ch)) {
+	  map_get_player_tile(plr, x, y)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
+	else
+	  map_get_player_tile(plr, x, y)->special=S_NO_SPECIAL;
+      }
+    }
+    
+    /* get upper 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_u%03d", plrno, y);
+      
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	
+	if(isxdigit(ch)) {
+	  map_get_player_tile(plr, x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
+      }
+    }
+    
+    /* get "next" 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str_default(file, NULL, "player%d.map_n%03d", plrno, y);
+      
+      if (terline) {
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+	  
+	  if(isxdigit(ch)) {
+	    map_get_player_tile(plr,x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	  } else if(ch!=' ') {
+	    freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
+		    "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	    exit(1);
+	  }
+	}
+      }
+    }
+    
+    
+    /* get lower 4 bits of updated flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_ua%03d",plrno, y);
+      
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	map_get_player_tile(plr, x, y)->last_updated = ch-(isdigit(ch) ? '0' : ('a'-10));
+      }
+    }
+    
+    /* get upper 4 bits of updated flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_ub%03d", plrno, y);
+      
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+	map_get_player_tile(plr, x, y)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
+      }
+    }
+    
+    /* get "next" 4 bits of updated flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_uc%03d", plrno, y);
+      
+      if (terline) {
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+	  map_get_player_tile(plr, x, y)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
+	}
+      }
+    }
+    
+    /* get "last" 4 bits of updated flags */
+    for(y=0; y<map.ysize; y++) {
+      char *terline=secfile_lookup_str(file, "player%d.map_ud%03d", plrno, y);
+      
+      if (terline) {
+	for(x=0; x<map.xsize; x++) {
+	  char ch=terline[x];
+	  map_get_player_tile(plr, x, y)->last_updated |= (ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
+	}
+      }
+    }
+    
+    {
+      int j;
+      struct dumb_city *pdcity;
+      i = secfile_lookup_int(file, "player%d.total_ncities", plrno);
+      for (j = 0; j < i; j++) {
+	pdcity = fc_malloc(sizeof(struct dumb_city));
+	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
+	x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
+	y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
+	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
+	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
+	pdcity->has_walls = secfile_lookup_int(file, "player%d.dc%d.has_walls", plrno, j);    
+	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
+	map_get_player_tile(plr, x, y)->city = pdcity;
+	alloc_id(pdcity->id);
+      }
+    }
+  } else {
+    /* We have an old savegame or fog of war was turned off; the players private
+       knowledge is set to be what he could see without fog of war */
+    for(y=0; y<map.ysize; y++)
+      for(x=0; x<map.xsize; x++)
+	if (map_get_known(x, y, plr)) {
+	  struct city *pcity = map_get_city(x,y);
+	  update_player_tile_last_seen(plr, x, y);
+	  update_tile_knowledge(plr, x, y);
+	  if (pcity)
+	    update_dumb_city(plr, pcity);
+	}
+  }
 }
 
 /***************************************************************
@@ -2302,9 +2464,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 ***************************************************************/
 void player_save(struct player *plr, int plrno, struct section_file *file)
 {
-  int i, j;
+  int i, j, x, y;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
+  char *pbuf=fc_malloc(map.xsize+1);
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -2495,8 +2658,108 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 
   }
   city_list_iterate_end;
+
+  /********** Put the players private map **********/
+ /* Otherwise the player can see all, and there's no reason to save the private map. */
+  if (game.fogofwar) {
+    /* put the terrain type */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=terrain_chars[map_get_player_tile(plr, x, y)->terrain];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_t%03d", plrno, y);
+    }
+    
+    /* put lower 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+      pbuf[x]=dec2hex[map_get_player_tile(plr, x, y)->special&0xf];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_l%03d",plrno,  y);
+    }
+    
+    /* put upper 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_player_tile(plr, x, y)->special&0xf0)>>4];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_u%03d", plrno,  y);
+    }
+    
+    /* put "next" 4 bits of special flags */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_player_tile(plr, x, y)->special&0xf00)>>8];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_n%03d", plrno, y);
+    }
+    
+    /* put lower 4 bits of updated */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[map_get_player_tile(plr ,x, y)->last_updated&0xf];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_ua%03d",plrno,  y);
+    }
+    
+    /* put upper 4 bits of updated */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_player_tile(plr ,x, y)->last_updated&0xf0)>>4];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_ub%03d", plrno,  y);
+    }
+    
+    /* put "next" 4 bits of updated */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_player_tile(plr, x, y)->last_updated&0xf00)>>8];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_uc%03d", plrno, y);
+    }
+    
+    /* put "yet next" 4 bits of updated */
+    for(y=0; y<map.ysize; y++) {
+      for(x=0; x<map.xsize; x++)
+	pbuf[x]=dec2hex[(map_get_player_tile(plr, x, y)->last_updated&0xf000)>>12];
+      pbuf[x]='\0';
+      
+      secfile_insert_str(file, pbuf, "player%d.map_ud%03d", plrno, y);
+    }
+    
+    free(pbuf);
+    
+    if (1) {
+      struct dumb_city *pdcity;
+      i = 0;
+      
+      for (x = 0; x < map.xsize; x++)
+	for (y = 0; y < map.ysize; y++)
+	  if ((pdcity = map_get_player_tile(plr,x,y)->city)) {
+	    secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno, i);
+	    secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
+	    secfile_insert_int(file, y, "player%d.dc%d.y", plrno, i);
+	    secfile_insert_str(file, pdcity->name, "player%d.dc%d.name", plrno, i);
+	    secfile_insert_int(file, pdcity->size, "player%d.dc%d.size", plrno, i);
+	    secfile_insert_int(file, pdcity->has_walls, "player%d.dc%d.has_walls", plrno, i);    
+	    secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner", plrno, i);
+	    i++;
+	  }
+    }
+    secfile_insert_int(file, i, "player%d.total_ncities", plrno);
+  }
 }
 
+/********************************************************************** 
+...
+***********************************************************************/
 void server_remove_player(struct player *pplayer)
 {
   struct packet_generic_integer pack;
@@ -2538,4 +2801,13 @@ void server_remove_player(struct player *pplayer)
 	  ptile->known=WIPEBIT(ptile->known, idx);
       }
   }
+}
+
+/********************************************************************** 
+...
+***********************************************************************/
+void server_player_init(struct player *pplayer)
+{
+  player_map_allocate(pplayer);
+  player_init(pplayer);
 }

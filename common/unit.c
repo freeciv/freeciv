@@ -164,7 +164,8 @@ int is_diplomat_action_available(struct unit *pdiplomat,
   struct city *pcity=map_get_city(destx, desty);
 
   if(pcity) {  
-    if(pcity->owner!=pdiplomat->owner) {
+    if(pcity->owner!=pdiplomat->owner &&
+       real_map_distance(pdiplomat->x, pdiplomat->y, pcity->x, pcity->y) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)
         return 1;
       if(action==DIPLOMAT_EMBASSY &&
@@ -184,6 +185,8 @@ int is_diplomat_action_available(struct unit *pdiplomat,
         return 1;
       if(action==DIPLOMAT_ANY_ACTION)
         return 1;
+      if (action==SPY_GET_SABOTAGE_LIST && unit_flag(pdiplomat->type, F_SPY))
+	return 1;
     }
   } else {
     struct tile *ptile=map_get_tile(destx, desty);

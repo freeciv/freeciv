@@ -193,26 +193,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
 	  
-	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity))){
+	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity,-1,1,1))){
 	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
 	  }
-	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
-	  transfer_city_units(pdest, pgiver, pnewcity, pcity, -1, 1);
-	  remove_city(pcity); /* don't forget this! */
-	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
-	  
-	  reestablish_city_trade_routes(pnewcity); 
-	  city_check_workers(pdest ,pnewcity);
-	  update_map_with_city_workers(pnewcity);
-	  city_refresh(pnewcity);
-	  initialize_infrastructure_cache(pnewcity);
-	  send_city_info(0, pnewcity, 0);
-	  
-	  unit_list_iterate(pdest->units, punit) 
-	    resolve_unit_stack(punit->x, punit->y, 1);
-	  unit_list_iterate_end;
-
 	  break;
 	}
 	}
@@ -275,10 +259,9 @@ void handle_diplomacy_create_clause(struct player *pplayer,
    *                           - Kris Bubendorfer
    */
 
-  /*FIXME: might be unneccesary because creating the city will show us*/
   if(packet->clause_type == CLAUSE_CITY){
     struct city *pcity = find_city_by_id(packet->value);
-    if(pcity && !map_get_known(pcity->x, pcity->y, plr1))
+    if(pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1))
       show_area(plr1, pcity->x, pcity->y,2);
   }
 

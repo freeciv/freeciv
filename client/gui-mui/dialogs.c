@@ -657,6 +657,15 @@ static void spy_sabotage(struct popup_message_data *data)
 }
 
 /****************************************************************
+ Pops-up the Spy sabotage dialog, upon return of list of
+ available improvements requested by the above function.
+*****************************************************************/
+void popup_sabotage_dialog(struct city *pcity)
+{
+  /* FIXME (and, FIX the above function) */
+}
+
+/****************************************************************
  Callback for Steal button
 *****************************************************************/
 static void spy_steal(struct popup_message_data *data)

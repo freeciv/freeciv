@@ -106,7 +106,9 @@ enum packet_type {
   PACKET_RULESET_NATION,
   PACKET_UNIT_PARADROP_TO,
   PACKET_RULESET_CITY,
-  PACKET_UNIT_CONNECT
+  PACKET_UNIT_CONNECT,
+  PACKET_SABOTAGE_LIST,
+  PACKET_LAST  /* leave this last */
 };
 
 enum report_type {
@@ -752,6 +754,12 @@ struct socket_packet_buffer {
   unsigned char data[10*MAX_LEN_PACKET];
 };
 
+struct packet_sabotage_list
+{
+  int diplomat_id;
+  int city_id;
+  char improvements[B_LAST+1];
+};
 
 
 struct connection {
@@ -961,6 +969,11 @@ int send_packet_city_name_suggestion(struct connection *pc,
 				     struct packet_city_name_suggestion *packet);
 struct packet_city_name_suggestion *
 receive_packet_city_name_suggestion(struct connection *pc);
+
+int send_packet_sabotage_list(struct connection *pc,
+			      struct packet_sabotage_list *packet);
+struct packet_sabotage_list *
+receive_packet_sabotage_list(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);

@@ -18,11 +18,25 @@
 struct player;
 struct section_file;
 
+struct dumb_city{
+  int id;
+  char name[MAX_LEN_NAME];
+  unsigned short size;
+  unsigned char has_walls;
+  unsigned char owner;
+};
+
+struct player_tile{
+  enum tile_terrain_type terrain;
+  enum tile_special_type special;
+  unsigned short seen;
+  struct dumb_city* city;
+  short last_updated;
+};
+
 void global_warming(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
-void give_citymap_from_player_to_player(struct city *pcity,
-					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct player *dest);
 void send_tile_info(struct player *dest, int x, int y);
 void unfog_area(struct player *pplayer, int x, int y, int len);
@@ -40,7 +54,6 @@ void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
 void map_fog_city_area(struct city *pcity);
 void map_unfog_city_area(struct city *pcity);
 void remove_unit_sight_points(struct unit *punit);
-void update_tile_if_seen(int x, int y);
 void show_area(struct player *pplayer,int x, int y, int len);
 void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y);
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
@@ -58,5 +71,9 @@ void map_clear_sent(int x, int y, struct player *pplayer);
 void map_know_all(struct player *pplayer);
 void map_know_and_see_all(struct player *pplayer);
 void set_unknown_tiles_to_unsent(struct player *pplayer);
+void player_map_allocate(struct player *pplayer);
+struct player_tile *map_get_player_tile(struct player *pplayer,int x, int y);
+void update_tile_knowledge(struct player *pplayer,int x, int y);
+void update_player_tile_last_seen(struct player *pplayer, int x, int y);
 
 #endif  /* FC__MAPHAND_H */

@@ -339,6 +339,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_NAME_SUGGESTION:
     return receive_packet_city_name_suggestion(pc);
 
+  case PACKET_SABOTAGE_LIST:
+    return receive_packet_sabotage_list(pc);
+
   default:
     freelog(LOG_NORMAL, "unknown packet type received");
     remove_packet_from_buffer(&pc->buffer);
@@ -3093,6 +3096,45 @@ receive_packet_city_name_suggestion(struct connection *pc)
 
   iget_uint16(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_sabotage_list(struct connection *pc,
+			      struct packet_sabotage_list *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr = put_uint8(buffer+2, PACKET_SABOTAGE_LIST);
+
+  cptr = put_uint16(cptr, packet->diplomat_id);
+  cptr = put_uint16(cptr, packet->city_id);
+  cptr = put_bit_string(cptr, (char *)packet->improvements);
+
+  put_uint16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_sabotage_list *
+receive_packet_sabotage_list(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_sabotage_list *packet=
+    fc_malloc(sizeof(struct packet_sabotage_list));
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint16(&iter, &packet->diplomat_id);
+  iget_uint16(&iter, &packet->city_id);
+  iget_bit_string(&iter, (char*)packet->improvements,
+		  sizeof(packet->improvements));
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

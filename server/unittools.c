@@ -343,10 +343,11 @@ get best defending unit which is NOT owned by pplayer
 struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
 			  int x, int y)
 {
-  struct unit *bestdef = 0;
+  struct unit *bestdef = NULL, *debug_unit = NULL;
   int unit_d, bestvalue=-1, ct=0;
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    debug_unit = punit;
     if (pplayer->player_no==punit->owner)
       return 0;
     ct++;
@@ -359,7 +360,10 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
     }
   }
   unit_list_iterate_end;
-  if(ct&&!bestdef) freelog(LOG_NORMAL, "Get_def bugged at (%d,%d)", x, y);
+  if(ct&&!bestdef)
+    freelog(LOG_NORMAL, "Get_def bugged at (%d,%d). The most likely course"
+	    " is a unit on an ocean square without a transport. The owner"
+	    " of the unit is %s", x, y, game.players[debug_unit->owner].name);
   return bestdef;
 }
 
@@ -694,7 +698,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
 {
   int src_x = punit->x,src_y = punit->y;
   if(pcity->owner == punit->owner){
-    teleport_unit_sight_points(punit->x,punit->y,pcity->x,pcity->y,punit);
+    teleport_unit_sight_points(src_x, src_y, pcity->x, pcity->y, punit);
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     punit->x = pcity->x;
     punit->y = pcity->y;
@@ -729,8 +733,11 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
 
 void resolve_unit_stack(int x, int y, int verbose)
 {
-  struct unit *punit = unit_list_get(&map_get_tile(x, y)->units, 0);
-  struct unit *cunit = is_enemy_unit_on_tile(x, y, punit->owner);
+  struct unit *punit = unit_list_get(&map_get_tile(x, y)->units, 0), *cunit;
+
+  if (!punit)
+    return;
+  cunit = is_enemy_unit_on_tile(x, y, punit->owner);
   
   while(punit && cunit){
     struct city *pcity = find_closest_owned_city(get_player(punit->owner), x, y);

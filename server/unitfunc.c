@@ -125,7 +125,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update clients. */
   city_refresh (pcity);  
-  send_city_info (0, pcity, 0);
+  send_city_info (0, pcity);
 
   /* Now lets see if the spy survives. */
   diplomat_escape (pplayer, pdiplomat, pcity);
@@ -145,6 +145,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity)
 {
   struct player *cplayer;
+  struct packet_city_info packet;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -155,8 +156,12 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   freelog (LOG_DEBUG, "investigate: unit: %d", pdiplomat->id);
 
-  /* Send city info to investigator's player. */
-  send_city_info (pplayer, pcity, -1);   /* flag value for investigation */
+  /* Send city info to investigator's player.
+     As this is a special case we bypass send_city_info*/
+  update_dumb_city(pplayer, pcity);
+  package_city(pcity, &packet);
+  packet.diplomat_investigate = 1;
+  send_packet_city_info(pplayer->conn, &packet);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -170,6 +175,32 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   } else {
     send_unit_info (pplayer, pdiplomat);
   }
+}
+
+/******************************************************************************
+  Get list of improvements from city (for purposes of sabotage).
+
+  - Only a Spy can get a a city's sabotage list.
+
+  - Always successful; returns list.
+
+  - Spies always survive.
+****************************************************************************/
+void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
+			   struct city *pcity)
+{
+  struct packet_sabotage_list packet;
+  int i;
+  char *p;
+
+  /* Send city improvements info to player. */
+  p = packet.improvements;
+  for(i=0; i<B_LAST; i++)
+    *p++=(pcity->improvements[i]) ? '1' : '0';
+  *p='\0';
+  packet.diplomat_id = pdiplomat->id;
+  packet.city_id = pcity->id;
+  send_packet_sabotage_list(pplayer->conn, &packet);
 }
 
 /******************************************************************************
@@ -742,45 +773,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
    * Transfer city and units supported by this city (that
    * are within one square of the city) to the new owner.
    */
-  pnewcity = transfer_city (pplayer, cplayer, pcity);
-  pnewcity->shield_stock = 0;
-  transfer_city_units (pplayer, cplayer, pnewcity, pcity, 1, 1);
-  remove_city (pcity);  /* don't forget this! */
-
-  /* Resolve stack conflicts. */
-  unit_list_iterate (pplayer->units, punit)
-    resolve_unit_stack (punit->x, punit->y, 1);
-  unit_list_iterate_end;
+  pcity->shield_stock = 0;
+  pnewcity = transfer_city (pplayer, cplayer, pcity, 1, 1, 1);
 
   /* You get a technology advance, too! */
   get_a_tech (pplayer, cplayer);
-
-  /* Update the map at the city's location. */
-  map_set_city (pnewcity->x, pnewcity->y, pnewcity);
-  if (terrain_control.may_road &&
-      (player_knows_techs_with_flag (pplayer, TF_RAILROAD)) &&
-      (!player_knows_techs_with_flag (cplayer, TF_RAILROAD)) &&
-      (!(map_get_special (pnewcity->x, pnewcity->y) & S_RAILROAD))) {
-    notify_player (pplayer,
-		   _("Game: The people in %s are stunned by your"
-		     " technological insight!\n"
-		     "      Workers spontaneously gather and upgrade"
-		     " the city with railroads."),
-		   pnewcity->name);
-    map_set_special (pnewcity->x, pnewcity->y, S_RAILROAD);
-    send_tile_info (0, pnewcity->x, pnewcity->y);
-  }
-
-  /* Update city stuff. */
-  reestablish_city_trade_routes (pnewcity);
-  city_check_workers (pplayer, pnewcity);
-  update_map_with_city_workers (pnewcity);
-  city_refresh (pnewcity);
-  initialize_infrastructure_cache (pnewcity);
-
-  /* Update clients. */
-  send_city_info (0, pnewcity, 0);
-  send_player_info (pplayer, pplayer);
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
@@ -1004,7 +1001,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update clients. */
-  send_city_info (0, pcity, 0);
+  send_city_info (0, pcity);
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
@@ -1945,7 +1942,7 @@ void do_nuke_tile(int x, int y)
     if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
       pcity->size/=2;
       auto_arrange_workers(pcity);
-      send_city_info(0, pcity, 0);
+      send_city_info(0, pcity);
     }
   }
   else if ((map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
@@ -2009,8 +2006,8 @@ int do_airline(struct unit *punit, int x, int y)
 
   connection_do_buffer(game.players[punit->owner].conn);
   send_unit_info(&game.players[punit->owner], punit);
-  send_city_info(&game.players[city1->owner], city1, 0);
-  send_city_info(&game.players[city2->owner], city2, 0);
+  send_city_info(city_owner(city1), city1);
+  send_city_info(city_owner(city2), city2);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		   _("Game: %s transported succesfully."),
 		   unit_name(punit->type));
@@ -2061,12 +2058,12 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
                 send_unit_info(0, punit);
 
                 if(start_city) {
-                  send_city_info(pplayer, start_city, 0);
+                  send_city_info(pplayer, start_city);
                 }
 
                 if(dest_city) {
                   handle_unit_enter_city(pplayer, dest_city);
-                  send_city_info(&game.players[dest_city->owner], dest_city, 0);
+                  send_city_info(city_owner(dest_city), dest_city);
                 }
 
                 punit->moved = 1;
@@ -2112,6 +2109,7 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
   called when a player conquers a city, remove buildings (not wonders and 
   always palace) with game.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
+  FIXME: this should be in citytools
 **************************************************************************/
 void raze_city(struct city *pcity)
 {
@@ -2137,6 +2135,7 @@ void raze_city(struct city *pcity)
   if target has more techs than pplayer, pplayer will get a random of these
   the clients will both be notified.
   I have notified only those with embassies in pplayer's country - adm4
+  FIXME: this should be in plrhand
 **************************************************************************/
 void get_a_tech(struct player *pplayer, struct player *target)
 {
@@ -2311,7 +2310,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
     if (pcity) {
        server_remove_unit(punit);
        city_refresh(pcity);
-       send_city_info(dest, pcity, 0);
+       send_city_info(dest, pcity);
     } else {
       /* can this happen? --dwp */
       freelog(LOG_NORMAL, "Can't find homecity of unit at (%d,%d)",

@@ -22,6 +22,7 @@ struct tile;
 void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname, int state);
 GtkWidget *popup_message_dialog(GtkWidget *parent, char *shellname, char *text,
 				...);
+
 void destroy_message_dialog(GtkWidget *button);
 
 void destroy_me_callback(GtkWidget *w, gpointer data);

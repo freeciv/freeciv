@@ -512,9 +512,9 @@ static struct settings_s settings[] = {
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_FOGOFWAR, GAME_MAX_FOGOFWAR, GAME_DEFAULT_FOGOFWAR,
     N_("Whether to enable fog of war"),
-    N_("If this is set to 1, only those units within the sightrange of your own "
-       "units will be revealed to you.  You will still see terrain changes, such "
-       "as roads, on all discovered land.") },
+    N_("If this is set to 1, only those units and cities within the sightrange "
+       "of your own units and cities will be revealed to you. You will not see "
+       "new cities or terrain changes in squares not observed.") },
 
   { "diplchance", &game.diplchance,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,

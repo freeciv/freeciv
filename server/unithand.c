@@ -269,6 +269,12 @@ void handle_diplomat_action(struct player *pplayer,
 	diplomat_get_tech(pplayer, pdiplomat, pcity, packet->value);
       }
       break;
+    case SPY_GET_SABOTAGE_LIST:
+      if(pcity && diplomat_can_do_action(pdiplomat, SPY_GET_SABOTAGE_LIST,
+					 pcity->x, pcity->y)) {
+	spy_get_sabotage_list(pplayer, pdiplomat, pcity);
+      }
+      break;
     }
   }
 }
@@ -309,7 +315,7 @@ void handle_unit_disband_safe(struct player *pplayer,
   if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
     if ((pcity=map_get_city(punit->x, punit->y))) {
       pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
-      send_city_info(pplayer, pcity, 0);
+      send_city_info(pplayer, pcity);
     }
     wipe_unit_safe(pplayer, punit, iter);
   }
@@ -363,7 +369,7 @@ void handle_unit_build_city(struct player *pplayer,
       if (!add_adjust_workers(pcity))
 	auto_arrange_workers(pcity);
       wipe_unit(0, punit);
-      send_city_info(pplayer, pcity, 0);
+      send_city_info(0, pcity);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       _("Game: %s added to aid %s in growing."), 
 		       unit_name, pcity->name);
@@ -420,6 +426,7 @@ void handle_unit_build_city(struct player *pplayer,
       map_set_special(punit->x, punit->y, S_RAILROAD);
   }
   send_tile_info(0, punit->x, punit->y);
+
   create_city(pplayer, punit->x, punit->y, name);
   server_remove_unit(punit);
 }
@@ -534,7 +541,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     pcity->size--;
     city_auto_remove_worker(pcity);
     city_refresh(pcity);
-    send_city_info(0, pcity, 0);
+    send_city_info(0, pcity);
   }
   if (unit_flag(punit->type, F_ONEATTACK)) 
     punit->moves_left = 0;
@@ -1057,7 +1064,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 
   wipe_unit(0, punit);
   send_player_info(pplayer, pplayer);
-  send_city_info(pplayer, pcity_dest, 0);
+  send_city_info(pplayer, pcity_dest);
   connection_do_unbuffer(pplayer->conn);
 }
 
@@ -1129,8 +1136,8 @@ int handle_unit_establish_trade(struct player *pplayer,
   send_player_info(pplayer, pplayer);
   city_refresh(pcity_homecity);
   city_refresh(pcity_dest);
-  send_city_info(pplayer, pcity_homecity, 0);
-  send_city_info(city_owner(pcity_dest), pcity_dest, 0);
+  send_city_info(pplayer, pcity_homecity);
+  send_city_info(city_owner(pcity_dest), pcity_dest);
   connection_do_unbuffer(pplayer->conn);
   return 1;
 }
@@ -1140,145 +1147,101 @@ int handle_unit_establish_trade(struct player *pplayer,
 **************************************************************************/
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
-  int i, n, old_id;
+  int i, n, do_civil_war = 0;
   int coins;
   struct player *cplayer;
-  if(pplayer->player_no!=pcity->owner) {
-    struct city *pnewcity;
-    cplayer=&game.players[pcity->owner];
-    pcity->size--;
+  struct city *pnewcity;
 
-    /* If a capital is captured, then spark off a civil war 
-       - Kris Bubendorfer
-       Also check spaceships --dwp
-    */
+  if(pplayer->player_no==pcity->owner)
+    return;
 
-    if(city_got_building(pcity, B_PALACE)
-       && ((cplayer->spaceship.state == SSHIP_STARTED)
-	   || (cplayer->spaceship.state == SSHIP_LAUNCHED))) {
-      spaceship_lost(cplayer);
-    }
-
-    if(city_got_building(pcity, B_PALACE) 
-       && city_list_size(&cplayer->cities) >= game.civilwarsize 
-       && game.nplayers < game.nation_count
-       && game.civilwarsize < GAME_MAX_CIVILWARSIZE) {
-      n = 0;
-      for( i = 0; i < game.nplayers; i++ ) {
-	if(!is_barbarian(&game.players[i])) {
-	  n++;
-	}
-      }
-      if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer)) {
-	civil_war(cplayer);
-      }
-    }
-
-    if (pcity->size<1) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       _("Game: You destroy %s completely."), pcity->name);
-      notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		    _("Game: %s has been destroyed by %s."), 
-		    pcity->name, pplayer->name);
-      gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
-              pcity->name,
-              get_nation_name(game.players[pcity->owner].nation),
-	      pcity->x,pcity->y,
-              get_nation_name_plural(pplayer->nation));
-      remove_city_from_minimap(pcity->x, pcity->y);
-      remove_city(pcity);
-      return;
-    }
-    city_auto_remove_worker(pcity);
-    coins=cplayer->economic.gold;
-    coins=myrand((coins/20)+1)+(coins*(pcity->size))/200;
-    pplayer->economic.gold+=coins;
-    cplayer->economic.gold-=coins;
-    send_player_info(cplayer, cplayer);
-    if (pcity->original != pplayer->player_no) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       _("Game: You conquer %s, your lootings accumulate"
-			 " to %d gold!"), 
-		       pcity->name, coins);
-      notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		       _("Game: %s conquered %s and looted %d gold"
-			 " from the city."),
-		       pplayer->name, pcity->name, coins);
-      gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
-              pcity->name,
-              get_nation_name(game.players[pcity->owner].nation),
-	      pcity->x,pcity->y,
-              get_nation_name_plural(pplayer->nation));
- 
-    } else {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       _("Game: You have liberated %s!!"
-			 " lootings accumulate to %d gold."),
-		       pcity->name, coins);
-      
-      notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		       _("Game: %s liberated %s and looted %d gold"
-			 " from the city."),
-		       pplayer->name, pcity->name, coins);
-      gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
-              pcity->name,
-              get_nation_name(game.players[pcity->owner].nation),
-	      pcity->x,pcity->y,
-              get_nation_name_plural(pplayer->nation));
-
-    }
-    get_a_tech(pplayer, cplayer);
-
-    pnewcity=fc_malloc(sizeof(struct city));
-    make_partisans(pcity);
-    *pnewcity=*pcity;
-    remove_city(pcity);
-
-    /* now set things up for the new owner */
-    
-    old_id = pnewcity->id;
-    pnewcity->id=get_next_id_number();
-    
-    add_city_to_cache(pnewcity);
-    for (i = 0; i < B_LAST; i++) {
-      if (is_wonder(i) && city_got_building(pnewcity, i))
-        game.global_wonders[i] = pnewcity->id;
-    } 
-    pnewcity->owner=pplayer->player_no;
-
-    unit_list_init(&pnewcity->units_supported);
-    city_list_insert(&pplayer->cities, pnewcity);
-    
-    map_set_city(pnewcity->x, pnewcity->y, pnewcity);
-
-    if (terrain_control.may_road &&
-       (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) &&
-       (!player_knows_techs_with_flag(cplayer, TF_RAILROAD)) &&
-       (!(map_get_special(pnewcity->x,pnewcity->y)&S_RAILROAD))) {
-      notify_player(pplayer,
-		    _("Game: The people in %s are stunned by your"
-		      " technological insight!\n"
-		      "      Workers spontaneously gather and upgrade"
-		      " the city with railroads."),
-		    pnewcity->name);
-      map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
-      send_tile_info(0, pnewcity->x, pnewcity->y);
-    }
-
-    raze_city(pnewcity);
-
-    map_unfog_city_area(pnewcity);
-
-    reestablish_city_trade_routes(pnewcity); 
-
-/* relocate workers of tiles occupied by enemy units */ 
-    city_check_workers(pplayer,pnewcity);  
-    update_map_with_city_workers(pnewcity);
-    city_refresh(pnewcity);
-    initialize_infrastructure_cache(pnewcity);
-    send_city_info(0, pnewcity, 0);
-    send_player_info(pplayer, pplayer);
+  cplayer=city_owner(pcity);
+  
+  /* If a capital is captured, then spark off a civil war 
+     - Kris Bubendorfer
+     Also check spaceships --dwp
+  */
+  if(city_got_building(pcity, B_PALACE)
+     && ((cplayer->spaceship.state == SSHIP_STARTED)
+	 || (cplayer->spaceship.state == SSHIP_LAUNCHED))) {
+    spaceship_lost(cplayer);
   }
+  
+  if(city_got_building(pcity, B_PALACE) 
+     && city_list_size(&cplayer->cities) >= game.civilwarsize 
+     && game.nplayers < game.nation_count
+     && game.civilwarsize < GAME_MAX_CIVILWARSIZE) {
+    n = 0;
+    for( i = 0; i < game.nplayers; i++ )
+      if(!is_barbarian(&game.players[i]))
+	n++;
+    if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer))
+      do_civil_war = 1;
+  }
+  
+  pcity->size--;
+  if (pcity->size<1) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		     _("Game: You destroy %s completely."), pcity->name);
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
+		     _("Game: %s has been destroyed by %s."), 
+		     pcity->name, pplayer->name);
+    gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
+	    pcity->name,
+	    get_nation_name(game.players[pcity->owner].nation),
+	    pcity->x,pcity->y,
+	    get_nation_name_plural(pplayer->nation));
+    remove_city_from_minimap(pcity->x, pcity->y);
+    remove_city(pcity);
+    return;
+  }
+
+  city_auto_remove_worker(pcity);
+  coins=cplayer->economic.gold;
+  coins=myrand((coins/20)+1)+(coins*(pcity->size))/200;
+  pplayer->economic.gold+=coins;
+  cplayer->economic.gold-=coins;
+  send_player_info(cplayer, cplayer);
+  if (pcity->original != pplayer->player_no) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     _("Game: You conquer %s, your lootings accumulate"
+		       " to %d gold!"), 
+		     pcity->name, coins);
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
+		     _("Game: %s conquered %s and looted %d gold"
+		       " from the city."),
+		     pplayer->name, pcity->name, coins);
+    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
+	    pcity->name,
+	    get_nation_name(game.players[pcity->owner].nation),
+	    pcity->x,pcity->y,
+	    get_nation_name_plural(pplayer->nation));
+    
+  } else {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     _("Game: You have liberated %s!!"
+		       " lootings accumulate to %d gold."),
+		     pcity->name, coins);
+    
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
+		     _("Game: %s liberated %s and looted %d gold"
+		       " from the city."),
+		     pplayer->name, pcity->name, coins);
+    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
+	    pcity->name,
+	    get_nation_name(game.players[pcity->owner].nation),
+	    pcity->x,pcity->y,
+	    get_nation_name_plural(pplayer->nation));
+  }
+
+  get_a_tech(pplayer, cplayer);
+  make_partisans(pcity);
+
+  pnewcity = transfer_city(pplayer, cplayer, pcity , 0, 0, 1);
+  raze_city(pnewcity);
+
+  if (do_civil_war)
+    civil_war(cplayer);
 }
 
 /**************************************************************************

@@ -20,7 +20,8 @@ struct city;
 
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);
-void send_city_info(struct player *dest, struct city *pcity, int dosend);
+void send_city_info(struct player *dest, struct city *pcity);
+void send_city_info_at_tile(struct player *dest, int x, int y);
 void send_adjacent_cities(struct city *pcity);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
@@ -58,5 +59,9 @@ void handle_city_options(struct player *pplayer,
 void handle_city_name_suggest_req(struct player *pplayer,
 				  struct packet_generic_integer *packet);
 char *city_name_suggestion(struct player *pplayer);
+void reality_check_city(struct player *pplayer,int x, int y);
+void update_dumb_city(struct player *pplayer, struct city *pcity);
+void send_all_known_cities(struct player *dest);
+void package_city(struct city *pcity, struct packet_city_info *packet);
 
 #endif  /* FC__CITYHAND_H */
