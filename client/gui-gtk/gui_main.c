@@ -363,6 +363,8 @@ gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_t:			key_city_workers(widget,event);	break;
     default:							return FALSE;
     }
+
+    gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
     return TRUE;
 }
 
