@@ -21,7 +21,7 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
 
-EXTRA_DIST=	acconfig.h			\
+EXTRA_DIST=	acconfig.old			\
 		autogen.sh 			\
 		civ				\
 		config.mac.h			\
