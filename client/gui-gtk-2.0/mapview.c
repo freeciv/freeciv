@@ -882,15 +882,12 @@ static void fog_sprite(struct Sprite *sprite)
     for (y = 0; y < sprite->height; y++) {
       guint32 pixel =  gdk_image_get_pixel(ftile, x, y);
 
-      guint8 red = (((pixel & ftile->visual->red_mask) << 
-		     (32 - ftile->visual->red_shift 
-		      - ftile->visual->red_prec)) >> 24) / 2; 
-      guint8 green = (((pixel & ftile->visual->green_mask) <<
-		       (32 - ftile->visual->green_shift 
-			- ftile->visual->green_prec)) >> 24) / 2;
-      guint8 blue = (((pixel & ftile->visual->blue_mask) <<
-		      (32 - ftile->visual->blue_shift 
-		       - ftile->visual->blue_prec)) >> 24) / 2;
+      guint8 red = ((pixel & ftile->visual->red_mask)
+		    >> ftile->visual->red_shift) / 2;
+      guint8 green = ((pixel & ftile->visual->green_mask)
+		      >> ftile->visual->green_shift) / 2;
+      guint8 blue = ((pixel & ftile->visual->blue_mask)
+		     >> ftile->visual->blue_shift) / 2;
       guint32 result = red << ftile->visual->red_shift
 	| green << ftile->visual->green_shift          
 	| blue << ftile->visual->blue_shift;
