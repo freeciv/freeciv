@@ -582,15 +582,7 @@ static int base_get_shields_tile(const struct tile *ptile,
 {
   enum tile_special_type spec_t = map_get_special(ptile);
   Terrain_type_id tile_t = ptile->terrain;
-  int s;
-
-  if (contains_special(spec_t, S_SPECIAL_1)) {
-    s = get_tile_type(tile_t)->special[0].shield;
-  } else if (contains_special(spec_t, S_SPECIAL_2)) {
-    s = get_tile_type(tile_t)->special[1].shield;
-  } else {
-    s = get_tile_type(tile_t)->shield;
-  }
+  int s = get_tile_shield_base(ptile);
 
   if (contains_special(spec_t, S_MINE)) {
     s += get_tile_type(tile_t)->mining_shield_incr;
@@ -687,15 +679,7 @@ static int base_get_trade_tile(const struct tile *ptile,
 {
   enum tile_special_type spec_t = map_get_special(ptile);
   Terrain_type_id tile_t = ptile->terrain;
-  int t;
-
-  if (contains_special(spec_t, S_SPECIAL_1)) {
-    t = get_tile_type(tile_t)->special[0].trade;
-  } else if (contains_special(spec_t, S_SPECIAL_2)) {
-    t = get_tile_type(tile_t)->special[1].trade;
-  } else {
-    t = get_tile_type(tile_t)->trade;
-  }
+  int t = get_tile_trade_base(ptile);
 
   if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
     t += terrain_control.river_trade_incr;
@@ -798,7 +782,7 @@ static int base_get_food_tile(const struct tile *ptile,
   const Terrain_type_id tile_t = ptile->terrain;
   struct tile_type *type = get_tile_type(tile_t);
   struct tile tile;
-  int f;
+  int f = get_tile_food_base(ptile);
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
 			   && tile_t == type->irrigation_result
 			   && terrain_control.may_irrigate);
@@ -814,14 +798,6 @@ static int base_get_food_tile(const struct tile *ptile,
     if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
       tile.special |= S_FARMLAND;
     }
-  }
-
-  if (contains_special(tile.special, S_SPECIAL_1)) {
-    f = type->special[0].food;
-  } else if (contains_special(tile.special, S_SPECIAL_2)) {
-    f = type->special[1].food;
-  } else {
-    f = type->food;
   }
 
   if (contains_special(tile.special, S_IRRIGATION)) {
