@@ -14,21 +14,16 @@
 #
 #***********************************************************************/
 
-DIR=`dirname $0`
+# Find absolute paths for srcdir and builddir.
+BUILDDIR="@abs_top_builddir@"
+SRCDIR="@abs_top_srcdir@"
 
-# Use cd + pwd instead of manual concatentation in case of absolute paths
-if [ "x$FREECIV_PATH" == "x" ] ; then
-  export FREECIV_PATH="$(cd $DIR ; cd @top_srcdir@/data ; pwd)"
-else
-  export FREECIV_PATH="$FREECIV_PATH:$(cd $DIR ; cd @top_srcdir@/data ; pwd)"
-fi
-
-[ -x $DIR/server/civserver ] && EXE=$DIR/server/civserver
-[ -x $DIR/civserver ] && EXE=$DIR/civserver
+[ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/civserver
+[ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/civserver
 
 if [ "$EXE" = "" ]; then
   echo $0: Unable to find civserver.
   exit 1
 fi
 
-exec $EXE ${1+"$@"}
+cd $SRCDIR && exec $EXE ${1+"$@"}
