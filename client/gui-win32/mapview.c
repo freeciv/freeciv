@@ -73,14 +73,10 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int offset_x, int offset_y, int offset_y_unit,
                                 int width, int height, int height_unit,
                                 enum draw_type draw);
-static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
-				bool write_to_screen, bool force);
 static void dither_tile(HDC hdc, struct Sprite **dither,
                         int canvas_x, int canvas_y,
                         int offset_x, int offset_y,
                         int width, int height, bool fog);
-static void put_line(HDC hdc, int x, int y, 
-		     int dir, bool write_to_screen);
 static void draw_rates(HDC hdc);
 
 
@@ -903,61 +899,6 @@ static void dither_tile(HDC hdc, struct Sprite **dither,
 }
 
 /**************************************************************************
-draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store
-FIXME: We currently always draw the line.
-Only used for isometric view.
-**************************************************************************/
-static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
-                                bool write_to_screen, bool force)
-{
-
-  HPEN old;
-  int dest_x, dest_y, is_real;
-  int canvas_start_x, canvas_start_y;
-  int canvas_end_x, canvas_end_y;
-
-  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-  assert(is_real);
-
-  /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
-     horizontal line when we refresh the tile below-between. */
-  get_canvas_xy(src_x, src_y, &canvas_start_x, &canvas_start_y);
-  get_canvas_xy(dest_x, dest_y, &canvas_end_x, &canvas_end_y);
-  canvas_start_x += NORMAL_TILE_WIDTH/2;
-  canvas_start_y += NORMAL_TILE_HEIGHT/2-1;
-  canvas_end_x += NORMAL_TILE_WIDTH/2;
-  canvas_end_y += NORMAL_TILE_HEIGHT/2-1;
-
-  /* somewhat hackish way of solving the problem where draw from a tile on
-     one side of the screen out of the screen, and the tile we draw to is
-     found to be on the other side of the screen. */
-  if (abs(canvas_end_x - canvas_start_x) > NORMAL_TILE_WIDTH
-      || abs(canvas_end_y - canvas_start_y) > NORMAL_TILE_HEIGHT)
-    return;
-  
-  old=SelectObject(mapstoredc, pen_std[COLOR_STD_CYAN]);
-  /* draw it! */
-  MoveToEx(mapstoredc,canvas_start_x,canvas_start_y,NULL);
-  LineTo(mapstoredc,canvas_end_x,canvas_end_y);
-  SelectObject(mapstoredc,old);
-  if (write_to_screen) {
-    HDC hdc;
-    hdc=GetDC(map_window);
-    
-    old=SelectObject(hdc, pen_std[COLOR_STD_CYAN]);
-    
-    MoveToEx(hdc,canvas_start_x,canvas_start_y,NULL);
-    LineTo(hdc,canvas_end_x,canvas_end_y);
-    SelectObject(hdc,old);
-    ReleaseDC(map_window,hdc);
-  }
-  return;
-}
-
-
-
-/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_overlay_tile_draw(HDC hdc,
@@ -1116,6 +1057,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
     hdc = GetDC(root_window);
   }
 
+  /* FIXME: set line type (size). */
   old_pen = SelectObject(hdc, pen_std[color]);
   MoveToEx(hdc, start_x, start_y, NULL);
   LineTo(hdc, start_x + dx, start_y + dy);
@@ -1366,73 +1308,6 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                  offset_x, offset_y_unit,
                                  width, height_unit, fog);
   
-}
-
-
-
-/**************************************************************************
-Not used in isometric view.
-**************************************************************************/
-static void put_line(HDC hdc, int x, int y, 
-		     int dir, bool write_to_screen)
-{
-  HPEN old;
-  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
-  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
-  canvas_src_x += NORMAL_TILE_WIDTH/2;
-  canvas_src_y += NORMAL_TILE_HEIGHT/2;
-  DIRSTEP(canvas_dest_x, canvas_dest_y, dir);
-  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * canvas_dest_x) / 2;
-  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * canvas_dest_y) / 2;
- 
-  old=SelectObject(hdc,pen_std[COLOR_STD_CYAN]);
-  MoveToEx(hdc,canvas_src_x,
-	   canvas_src_y,
-	   NULL);
-  LineTo(hdc,canvas_dest_x,
-	 canvas_dest_y);
-  SelectObject(hdc,old);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void draw_segment(int src_x, int src_y, int dir)
-{
-  HDC hdc;
-
-  assert(get_drawn(src_x, src_y, dir) > 0);
-
-  if (is_isometric) {
-    HDC mapstoredc = CreateCompatibleDC(NULL);
-    HBITMAP old = SelectObject(mapstoredc, mapstorebitmap);
-
-    really_draw_segment(mapstoredc, src_x, src_y, dir, TRUE, FALSE);
-    SelectObject(mapstoredc, old);
-    DeleteDC(mapstoredc);
-  } else {
-    int dest_x, dest_y, is_real;
-    HBITMAP old;
-    HDC mapstoredc;
-    is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-    assert(is_real);
-
-    mapstoredc=CreateCompatibleDC(NULL);
-    old=SelectObject(mapstoredc,mapstorebitmap);
-    hdc=GetDC(map_window);
-    if (tile_visible_mapcanvas(src_x, src_y)) {
-      put_line(mapstoredc, src_x, src_y, dir,0);
-      put_line(hdc, src_x, src_y, dir,1);
-    }
-    if (tile_visible_mapcanvas(dest_x, dest_y)) {
-      put_line(mapstoredc, dest_x, dest_y, DIR_REVERSE(dir),0);
-      put_line(hdc, dest_x, dest_y, DIR_REVERSE(dir),1);
-    }
-    ReleaseDC(map_window,hdc);
-    SelectObject(mapstoredc,old);
-    DeleteDC(mapstoredc);
-  }
 }
 
 /**************************************************************************

@@ -1383,6 +1383,121 @@ bool show_unit_orders(struct unit *punit)
   }
 }
 
+#define ABS(x) (((x) >= 0) ? (x) : -(x))
+
+/****************************************************************************
+  Put a segment on the mapview (in iso-view only).  The segment is drawn
+  from the source tile to the adjacent tile in the given direction.
+
+  This method is faster than the one used for non-iso view, but there are
+  two drawbacks:
+  1.  Since each line spans multiple tiles, updating a single tile is
+      harder (see update_map_canvas).
+  2.  We don't know where the map wraps, so we have problems when we reach
+      the wrapping point.  On very large mapviews this means segments might
+      not be drawn near the wrapping points.
+****************************************************************************/
+static void draw_segment_iso(int src_x, int src_y, enum direction8 dir)
+{
+  int dest_x, dest_y;
+  bool is_visible1, is_visible2;
+  int canvas_src_x, canvas_src_y;
+  int canvas_dest_x, canvas_dest_y;
+
+  if (!MAPSTEP(dest_x, dest_y, src_x, src_y, dir)) {
+    assert(0);
+    return;
+  }
+
+  /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
+     horizontal line when we refresh the tile below-between. */
+  is_visible1
+    = map_to_canvas_pos(&canvas_src_x, &canvas_src_y, src_x, src_y);
+  is_visible2
+    = map_to_canvas_pos(&canvas_dest_x, &canvas_dest_y, dest_x, dest_y);
+
+  if (!is_visible1 && !is_visible2) {
+    return; /* No need to draw anything. */
+  }
+
+  canvas_src_x += NORMAL_TILE_WIDTH/2;
+  canvas_src_y += NORMAL_TILE_HEIGHT/2-1;
+  canvas_dest_x += NORMAL_TILE_WIDTH/2;
+  canvas_dest_y += NORMAL_TILE_HEIGHT/2-1;
+
+  /* HACK: sometimes we draw from a source tile on one side of the screen
+   * to a destination tile on the other side.  In this case we don't want
+   * to draw garbage.  Instead we just don't draw the line at all.  Note
+   * that the non-iso-view method of drawing doesn't have this problem. */
+  if (abs(canvas_dest_x - canvas_src_x) > NORMAL_TILE_WIDTH
+      || abs(canvas_dest_y - canvas_src_y) > NORMAL_TILE_HEIGHT)
+    return;
+
+  /* draw it! */
+  canvas_put_line(mapview_canvas.store, COLOR_STD_CYAN, LINE_GOTO,
+		  canvas_src_x, canvas_src_y,
+		  canvas_dest_x - canvas_src_x,
+		  canvas_dest_y - canvas_src_y);
+  dirty_rect(MIN(canvas_src_x, canvas_dest_x) - 1,
+	     MIN(canvas_src_y, canvas_dest_y) - 1,
+	     ABS(canvas_dest_x - canvas_src_x) + 2,
+	     ABS(canvas_dest_y - canvas_src_y) + 2);
+}
+
+/****************************************************************************
+  Put a half-segment (in non-iso view only).  The segment goes from the
+  given tile *toward* the adjacent tile in the given direction.  However
+  it only goes the the edge of the source tile.  Thus only one tile is
+  spanned (making updates of single tiles easier) but two lines must be
+  drawn to get a single segment (meaning more work & slower).
+****************************************************************************/
+static void put_line(int x, int y, enum direction8 dir)
+{
+  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
+
+  if (!map_to_canvas_pos(&canvas_src_x, &canvas_src_y, x, y)) {
+    return;
+  }
+  canvas_src_x += NORMAL_TILE_WIDTH/2;
+  canvas_src_y += NORMAL_TILE_HEIGHT/2;
+  DIRSTEP(canvas_dest_x, canvas_dest_y, dir);
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * canvas_dest_x) / 2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * canvas_dest_y) / 2;
+
+  canvas_put_line(mapview_canvas.store, COLOR_STD_CYAN, LINE_GOTO,
+		  canvas_src_x, canvas_src_y,
+		  canvas_dest_x - canvas_src_x,
+		  canvas_dest_y - canvas_src_y);
+
+  dirty_rect(MIN(canvas_src_x, canvas_dest_x) - 1,
+	     MIN(canvas_src_y, canvas_dest_y) - 1,
+	     ABS(canvas_dest_x - canvas_src_x) + 2,
+	     ABS(canvas_dest_y - canvas_src_y) + 2);
+}
+
+/****************************************************************************
+  Draw a goto line at the given location and direction.  The line goes from
+  the source tile to the adjacent tile in the given direction.
+****************************************************************************/
+void draw_segment(int src_x, int src_y, enum direction8 dir)
+{
+  if (is_isometric) {
+    draw_segment_iso(src_x, src_y, dir);
+  } else {
+    int dest_x, dest_y, is_real;
+
+    is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+    assert(is_real);
+
+    if (tile_visible_mapcanvas(src_x, src_y)) {
+      put_line(src_x, src_y, dir);
+    }
+    if (tile_visible_mapcanvas(dest_x, dest_y)) {
+      put_line(dest_x, dest_y, DIR_REVERSE(dir));
+    }
+  }
+}
+
 /**************************************************************************
   Remove the line from src_x, src_y in the given direction, and redraw
   the change if necessary.

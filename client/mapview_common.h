@@ -14,6 +14,7 @@
 #ifndef FC__MAPVIEW_COMMON_H
 #define FC__MAPVIEW_COMMON_H
 
+#include "map.h"
 #include "shared.h"		/* bool type */
 
 #include "colors_g.h"
@@ -188,6 +189,7 @@ void update_map_canvas_visible(void);
 void show_city_descriptions(void);
 bool show_unit_orders(struct unit *punit);
 
+void draw_segment(int src_x, int src_y, enum direction8 dir);
 void undraw_segment(int src_x, int src_y, int dir);
 
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 

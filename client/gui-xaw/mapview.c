@@ -56,7 +56,6 @@
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
-static void put_line(Pixmap pm, int x, int y, int dir);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -493,9 +492,22 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
-  GC gc;
+  GC gc = NULL;
 
-  gc = (ltype == LINE_BORDER ? border_line_gc : civ_gc);
+  switch (ltype) {
+  case LINE_NORMAL:
+    gc = civ_gc;
+    break;
+  case LINE_BORDER:
+    gc = border_line_gc;
+    break;
+  case LINE_TILE_FRAME:
+  case LINE_GOTO:
+    /* TODO: differentiate these. */
+    gc = civ_gc;
+    break;
+  }
+
   XSetForeground(display, gc, colors_standard[color]);
   XDrawLine(display, pcanvas->pixmap, gc,
 	    start_x, start_y, start_x + dx, start_y + dy);
@@ -874,45 +886,6 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 
   set_mapview_scroll_pos(scroll_x, scroll_y);
   update_map_canvas_scrollbars();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void put_line(Pixmap pm, int x, int y, int dir)
-{
-  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
-  (void) map_to_canvas_pos(&canvas_src_x, &canvas_src_y, x, y);
-  canvas_src_x += NORMAL_TILE_WIDTH/2;
-  canvas_src_y += NORMAL_TILE_HEIGHT/2;
-  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
-  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
-
-  XSetForeground(display, civ_gc, colors_standard[COLOR_STD_CYAN]);
-
-  XDrawLine(display, pm, civ_gc, canvas_src_x, canvas_src_y,
-	    canvas_dest_x, canvas_dest_y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void draw_segment(int src_x, int src_y, int dir)
-{
-  int dest_x, dest_y, is_real;
-
-  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-  assert(is_real);
-
-  if (tile_visible_mapcanvas(src_x, src_y)) {
-    put_line(map_canvas_store, src_x, src_y, dir);
-    put_line(XtWindow(map_canvas), src_x, src_y, dir);
-  }
-
-  if (tile_visible_mapcanvas(dest_x, dest_y)) {
-    put_line(map_canvas_store, dest_x, dest_y, DIR_REVERSE(dir));
-    put_line(XtWindow(map_canvas), dest_x, dest_y, DIR_REVERSE(dir));
-  }
 }
 
 /**************************************************************************

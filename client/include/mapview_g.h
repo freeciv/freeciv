@@ -77,7 +77,6 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y);
 
-void draw_segment(int src_x, int src_y, int dir);
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);
 void tileset_changed(void);
 
