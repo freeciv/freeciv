@@ -1362,8 +1362,6 @@ static bool read_player_info_techs(struct player *pplayer,
     enum tech_state oldstate = pplayer->research.inventions[i].state;
     enum tech_state newstate = inventions[i] - '0';
 
-    //freelog(LOG_NORMAL, " [%d] %d -> %d", i, oldstate, newstate);
-
     pplayer->research.inventions[i].state = newstate;
     if (newstate != oldstate
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
@@ -1507,6 +1505,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   poptechup = (pplayer->research.researching != pinfo->researching
                || pplayer->ai.tech_goal != pinfo->tech_goal);
+  pplayer->research.bulbs_last_turn = pinfo->bulbs_last_turn;
   pplayer->research.bulbs_researched = pinfo->bulbs_researched;
   pplayer->research.techs_researched = pinfo->techs_researched;
   pplayer->research.researching=pinfo->researching;
@@ -2130,8 +2129,6 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
     return;
   }
   a = &advances[p->id];
-
-  //freelog(LOG_NORMAL, "tech: %s %d %d %d",p->name,p->id,p->req[0],p->req[1]);
 
   sz_strlcpy(a->name, p->name);
   sz_strlcpy(a->graphic_str, p->graphic_str);

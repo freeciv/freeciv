@@ -268,6 +268,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 
 	  break;
+	case CLAUSE_TEAM:
+          /* Limitation: Only for teams */
+          if (pother->team == TEAM_NONE || pother->team != pplayer->team) {
+            freelog(LOG_ERROR, "Attempted to make team in-game!");
+            goto cleanup;
+          }
+          break;
 	case CLAUSE_ALLIANCE:
           /* We need to recheck this way since things might have
            * changed. */
@@ -343,7 +350,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
 	do_dipl_cost(pdest);
 
-	found_new_tech(pdest, pclause->value, FALSE, TRUE);
+	found_new_tech(pdest, pclause->value, FALSE, TRUE, A_NONE);
 	break;
       case CLAUSE_GOLD:
 	notify_player(pdest, _("Game: You get %d gold."), pclause->value);
@@ -429,6 +436,47 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
+      case CLAUSE_TEAM:
+        notify_player_ex(pgiver, -1, -1, E_TREATY_ALLIANCE,
+                         _("Game: You start a research pool with %s."),
+                         pdest->name);
+        notify_player_ex(pdest, -1, -1, E_TREATY_ALLIANCE,
+                         _("Game: You start a research pool with %s."),
+                         pgiver->name);
+        /* We must share and average research */
+        {
+          int average = (pplayer->research.bulbs_researched
+                         + pother->research.bulbs_researched) / 2;
+          int average2 = (pplayer->research.bulbs_researched_before
+                          + pother->research.bulbs_researched_before) / 2;
+          int tech;
+ 
+          for (tech = 0; tech < A_LAST; tech++) {
+            if (!tech_exists(tech)) {
+              continue;
+            }
+            if (get_invention(pplayer, tech) != TECH_KNOWN
+                && get_invention(pother, tech) == TECH_KNOWN) {
+              found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+            }
+            if (get_invention(pother, tech) != TECH_KNOWN
+                && get_invention(pplayer, tech) == TECH_KNOWN) {
+              found_new_tech(pother, tech, FALSE, TRUE, A_NONE);
+            }
+          }
+          pplayer->research.bulbs_researched = average;
+          pother->research.bulbs_researched = average;
+          pother->research.researching = pplayer->research.researching;
+          pother->research.changed_from = pplayer->research.changed_from;
+          pplayer->research.bulbs_researched_before = average2;
+          pother->research.bulbs_researched_before = average2;
+          pother->ai.tech_goal = pplayer->ai.tech_goal;
+        }
+        pgiver->diplstates[pdest->player_no].type = DS_TEAM;
+        pdest->diplstates[pgiver->player_no].type = DS_TEAM;
+        check_city_workers(pplayer);
+        check_city_workers(pother);
+        break;
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);
 	notify_player_ex(pgiver, -1, -1, E_TREATY_SHARED_VISION,

@@ -680,7 +680,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     do_conquer_cost (pplayer);
-    found_new_tech (pplayer, target, FALSE, TRUE);
+    found_new_tech (pplayer, target, FALSE, TRUE, A_NONE);
     /* Report it. */
     notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_THEFT,
 		     _("Game: Your %s stole %s from %s."),

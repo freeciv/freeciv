@@ -323,6 +323,7 @@ struct packet_player_info {
   int tax;
   int science;
   int luxury;
+  int bulbs_last_turn;
   int bulbs_researched;
   int techs_researched;
   int researching;

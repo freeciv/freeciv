@@ -329,27 +329,6 @@ Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 }
 
 /**************************************************************************
- Returns number of turns to advance (assuming current state of
- civilization).
-**************************************************************************/
-int tech_turns_to_advance(struct player *pplayer)
-{
-  /* The number of bulbs the civilization produces every turn. */
-  int current_output = 0;
-
-  city_list_iterate(pplayer->cities, pcity) {
-    current_output += pcity->science_total;
-  } city_list_iterate_end;
-
-  if (current_output <= 0) {
-    return FC_INFINITY;
-  }
-
-  return ((total_bulbs_required(pplayer) + current_output - 1)
-	  / current_output);
-}
-
-/**************************************************************************
   Returns the number of bulbs which are required to finished the
   currently researched tech denoted by
   pplayer->research.researching. This is _NOT_ the number of bulbs

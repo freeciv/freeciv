@@ -206,12 +206,21 @@ void ai_next_tech_goal(struct player *pplayer)
 }
 
 /**************************************************************************
-  ...
+  Key AI research function. Disable if we are in a team with human team
+  mates in a research pool.
 **************************************************************************/
 void ai_manage_tech(struct player *pplayer)
 {
   struct ai_choice choice, gol;
   int penalty;
+
+  players_iterate(aplayer) {
+    const struct player_diplstate *ds = pplayer_get_diplstate(pplayer, aplayer);
+
+    if (ds->type == DS_TEAM) {
+      return;
+    }
+  } players_iterate_end;
 
   penalty = (pplayer->got_tech ? 0 : pplayer->research.bulbs_researched);
 

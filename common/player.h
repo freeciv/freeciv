@@ -64,6 +64,7 @@ struct player_economic {
 };
 
 struct player_research {
+  int bulbs_last_turn;    /* # bulbs researched last turn only */
   int bulbs_researched;   /* # bulbs reseached for the current tech */    
   int techs_researched;   /* # techs the player has researched/acquired */
   /* 
@@ -153,6 +154,7 @@ enum diplstate_type {
   DS_PEACE,
   DS_ALLIANCE,
   DS_NO_CONTACT,
+  DS_TEAM,
   DS_LAST	/* leave this last */
 };
 

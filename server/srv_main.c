@@ -1657,7 +1657,7 @@ main_start_players:
      players_iterate(pdest) {
       if (pplayer->team == pdest->team && pplayer->team != TEAM_NONE
           && pplayer->player_no != pdest->player_no) {
-        pplayer->diplstates[pdest->player_no].type = DS_ALLIANCE;
+        pplayer->diplstates[pdest->player_no].type = DS_TEAM;
         give_shared_vision(pplayer, pdest);
         pplayer->embassy |= (1 << pdest->player_no);
       }

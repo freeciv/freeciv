@@ -352,6 +352,7 @@ void update_city_activities(struct player *pplayer)
   int gold;
   gold=pplayer->economic.gold;
   pplayer->got_tech = FALSE;
+  pplayer->research.bulbs_last_turn = 0;
   city_list_iterate(pplayer->cities, pcity)
      update_city_activity(pplayer, pcity);
   city_list_iterate_end;
@@ -981,11 +982,13 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
       do_free_cost(pplayer);
       first = pplayer->research.researching;
-      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
+      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE, 
+                     A_NONE);
 
       do_free_cost(pplayer);
       second = pplayer->research.researching;
-      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
+      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE,
+                     A_NONE);
 
       (void) mystrlcpy(buffer, get_tech_name(pplayer, first),
 		       sizeof(buffer));

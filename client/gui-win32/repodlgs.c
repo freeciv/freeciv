@@ -33,6 +33,7 @@
  
 #include "cityrep.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
 #include "gui_main.h"
@@ -97,15 +98,7 @@ science_dialog_update(void)
   if (!science_dlg) return;            
   report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
-  turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  if (turns_to_advance == FC_INFINITY) {
-    my_snprintf(rate, sizeof(rate), _("\n(no research)"));
-  } else {
-    my_snprintf(rate, sizeof(rate),
-		PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
-		    turns_to_advance), turns_to_advance);
-  }
-  sz_strlcat(text, rate);
+  sz_strlcat(text, science_dialog_text());
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));
   for (i=A_FIRST;i<game.num_tech_types;i++)

@@ -583,7 +583,8 @@ const char *diplstate_text(const enum diplstate_type type)
     N_("?diplomatic_state:Cease-fire"),
     N_("?diplomatic_state:Peace"),
     N_("?diplomatic_state:Alliance"),
-    N_("?diplomatic_state:Never met")
+    N_("?diplomatic_state:Never met"),
+    N_("?diplomatic_state:Team")
   };
 
   if (type < DS_LAST) {
@@ -631,7 +632,7 @@ bool pplayers_allied(const struct player *pplayer,
   if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
   }
-  return (ds == DS_ALLIANCE);
+  return (ds == DS_ALLIANCE || ds == DS_TEAM);
 }
 
 /***************************************************************

@@ -123,6 +123,7 @@ char *get_nearest_city_text(struct city *pcity, int sq_dist,
 			    char *buf, size_t bufsz);
 
 const char *unit_description(struct unit *punit);
+const char *science_dialog_text(void);
 
 void cityrep_buy(struct city *pcity);
 void common_taxrates_callback(int i);

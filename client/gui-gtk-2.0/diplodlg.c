@@ -86,6 +86,7 @@ static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -345,6 +346,18 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
+
+    if (plr0->team != TEAM_NONE && plr0->team == plr1->team) {
+      const struct player_diplstate *ds = pplayer_get_diplstate(plr0, plr1);
+
+      item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Team"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(diplomacy_dialog_team_callback), pdialog);
+      if (ds->type == DS_TEAM) {
+        gtk_widget_set_sensitive(item, FALSE);
+      }
+    }
 
     item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -749,6 +762,14 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data)
+{
+  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_TEAM);
 }
 
 /****************************************************************

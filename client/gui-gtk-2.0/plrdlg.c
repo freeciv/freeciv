@@ -484,6 +484,7 @@ static void build_row(GtkTreeIter *it, int i)
      state_col = colors_standard[COLOR_STD_RED];
      break;
    case DS_ALLIANCE:
+   case DS_TEAM:
      state_col = colors_standard[COLOR_STD_GROUND];
      break;
    default:

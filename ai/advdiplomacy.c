@@ -204,6 +204,10 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } players_iterate_end;
   break;
 
+  case CLAUSE_TEAM:
+    worth = 1;
+    break;
+
   case CLAUSE_ALLIANCE:
   case CLAUSE_PEACE:
   case CLAUSE_CEASEFIRE:
@@ -986,6 +990,9 @@ void ai_diplomacy_actions(struct player *pplayer)
     }
 
     switch (ds) {
+    case DS_TEAM:
+      ai_share_techs(pplayer, aplayer);
+      break;
     case DS_ALLIANCE:
       if ((pplayer->team != TEAM_NONE && aplayer->team == pplayer->team)
           || (target && (!pplayers_at_war(pplayer, target)

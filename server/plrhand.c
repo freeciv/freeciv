@@ -148,7 +148,7 @@ void great_library(struct player *pplayer)
 			   advances[i].name);
 
 	  do_free_cost(pplayer);
-	  found_new_tech(pplayer, i, FALSE, FALSE);
+	  found_new_tech(pplayer, i, FALSE, FALSE, A_NONE);
 	  break;
 	}
       } tech_type_iterate_end;
@@ -264,12 +264,13 @@ void kill_player(struct player *pplayer) {
 }
 
 /**************************************************************************
-Player has a new technology (from somewhere)
-was_discovery is passed on to upgrade_city_rails
-Logging & notification is not done here as it depends on how the tech came.
+  Player has a new technology (from somewhere). was_discovery is passed 
+  on to upgrade_city_rails. Logging & notification is not done here as 
+  it depends on how the tech came. If next_tech is other than A_NONE, this 
+  is the next tech to research.
 **************************************************************************/
 void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
-		    bool saving_bulbs)
+		    bool saving_bulbs, int next_tech)
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
@@ -342,7 +343,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     plr->ai.tech_goal = A_UNSET;
   }
 
-  if (tech_found==plr->research.researching) {
+  if (tech_found == plr->research.researching && next_tech == A_NONE) {
     /* need to pick new tech to research */
 
     int saved_bulbs = plr->research.bulbs_researched;
@@ -378,6 +379,12 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     }
     if (saving_bulbs) {
       plr->research.bulbs_researched = saved_bulbs;
+    }
+  } else if (tech_found == plr->research.researching && next_tech > A_NONE) {
+    /* Next target already determined. We always save bulbs. */
+    plr->research.researching = next_tech;
+    if (plr->research.bulbs_researched > 0) {
+      plr->research.bulbs_researched = 0;
     }
   }
 
@@ -432,6 +439,26 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       } players_iterate_end;
     }
   }
+
+  /* Update Team */
+  if (next_tech > A_NONE) {
+    /* Avoid unnecessary recursion. */
+    return;
+  }
+  players_iterate(aplayer) {
+    if (plr != aplayer
+        && plr->diplstates[aplayer->player_no].type == DS_TEAM
+        && aplayer->is_alive
+        && get_invention(aplayer, tech_found) != TECH_KNOWN) {
+      notify_player_ex(aplayer, -1, -1, E_TECH_LEARNED,
+                       _("Game: Learned %s in cooperation with %s. "
+                         "Scientists choose to research %s."),
+                       advances[tech_found].name, plr->name,
+                       get_tech_name(plr, plr->research.researching));
+      found_new_tech(aplayer, tech_found, was_discovery, saving_bulbs,
+                     plr->research.researching);
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -471,7 +498,7 @@ static void tech_researched(struct player* plr)
   }
 
   /* do all the updates needed after finding new tech */
-  found_new_tech(plr, plr->research.researching, TRUE, FALSE);
+  found_new_tech(plr, plr->research.researching, TRUE, FALSE, A_NONE);
 }
 
 /**************************************************************************
@@ -481,7 +508,18 @@ void update_tech(struct player *plr, int bulbs)
 {
   int excessive_bulbs;
 
-  plr->research.bulbs_researched += bulbs;
+  /* count our research contribution this turn */
+  plr->research.bulbs_last_turn += bulbs;
+
+  players_iterate(pplayer) {
+    if (pplayer == plr) {
+      pplayer->research.bulbs_researched += bulbs;
+    } else if (pplayer->diplstates[plr->player_no].type == DS_TEAM
+               && pplayer->is_alive) {
+      /* Share with union partner(s). We'll get in return later. */
+      pplayer->research.bulbs_researched += bulbs;
+    }
+  } players_iterate_end;
   
   excessive_bulbs =
       (plr->research.bulbs_researched - total_bulbs_required(plr));
@@ -523,7 +561,6 @@ static bool choose_goal_tech(struct player *plr)
   }
   return FALSE;
 }
-
 
 /**************************************************************************
 ...
@@ -702,7 +739,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_nation_name_plural(target->nation));
 
   do_conquer_cost(pplayer);
-  found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
+  found_new_tech(pplayer, stolen_tech, FALSE, TRUE, A_NONE);
 }
 
 /**************************************************************************
@@ -759,6 +796,16 @@ void handle_player_research(struct player *pplayer, int tech)
 {
   choose_tech(pplayer, tech);
   send_player_info(pplayer, pplayer);
+
+  /* Notify Team members */
+  players_iterate(aplayer) {
+    if (pplayer != aplayer
+       && aplayer->research.researching != tech
+       && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
+       && aplayer->is_alive) {
+      handle_player_research(aplayer, tech);
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -768,6 +815,16 @@ void handle_player_tech_goal(struct player *pplayer, int tech)
 {
   choose_tech_goal(pplayer, tech);
   send_player_info(pplayer, pplayer);
+
+  /* Notify Team members */
+  players_iterate(aplayer) {
+    if (pplayer != aplayer
+        && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
+        && aplayer->is_alive
+        && aplayer->ai.tech_goal != tech) {
+      handle_player_tech_goal(aplayer, tech);
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -901,8 +958,10 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     return;
   }
 
-  /* can't break a pact with a team member */
-  if (pplayer->team != TEAM_NONE && pplayer->team == pplayer2->team) {
+  /* Can't break alliance with a team member, but can reduce a team
+   * research to an alliance for stand-alone research. */
+  if (pplayer->team != TEAM_NONE && pplayer->team == pplayer2->team
+      && old_type != DS_TEAM) {
     return;
   }
 
@@ -939,6 +998,10 @@ repeat_break_treaty:
   case DS_ALLIANCE:
     new_type = DS_PEACE;
     reppenalty = GAME_MAX_REPUTATION/4;
+    break;
+  case DS_TEAM:
+    new_type = DS_ALLIANCE;
+    reppenalty = 0;
     break;
   default:
     freelog(LOG_VERBOSE, "non-pact diplstate in handle_player_cancel_pact");
@@ -1303,6 +1366,14 @@ static void package_player_info(struct player *plr,
     }
   }
 
+  /* Make absolutely sure - in case you lose your embassy! */
+  if (info_level >= INFO_EMBASSY 
+      || pplayer_get_diplstate(plr, receiver)->type == DS_TEAM) {
+    packet->bulbs_last_turn = plr->research.bulbs_last_turn;
+  } else {
+    packet->bulbs_last_turn = 0;
+  }
+
   /* Send most civ info about the player only to players who have an
    * embassy. */
   if (info_level >= INFO_EMBASSY) {
@@ -1341,7 +1412,8 @@ static void package_player_info(struct player *plr,
    * A_NONE. */
   packet->inventions[A_NONE] = plr->research.inventions[A_NONE].state + '0';
 
-  if (info_level >= INFO_FULL) {
+  if (info_level >= INFO_FULL
+      || plr->diplstates[receiver->player_no].type == DS_TEAM) {
     packet->tech_goal       = plr->ai.tech_goal;
   } else {
     packet->tech_goal       = A_UNSET;

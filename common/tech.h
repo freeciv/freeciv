@@ -121,8 +121,6 @@ bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(const char *s);
 Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 
-int tech_turns_to_advance(struct player *pplayer);
-
 int total_bulbs_required(struct player *pplayer);
 int base_total_bulbs_required(struct player *pplayer,Tech_Type_id tech);
 bool techs_have_fixed_costs(void);

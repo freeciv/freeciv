@@ -112,6 +112,7 @@ static void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
+static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data);
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -478,6 +479,19 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_alliance_callback),(gpointer)pdialog);
 
+  if (plr0->team != TEAM_NONE && plr0->team == plr1->team) {
+    const struct player_diplstate *ds = pplayer_get_diplstate(plr0, plr1);
+
+    item = gtk_menu_item_new_with_label(Q_("?diplomatic_state:Team"));
+    gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu), item);
+    gtk_signal_connect(GTK_OBJECT(item), "activate",
+                     GTK_SIGNAL_FUNC(diplomacy_dialog_team_callback), 
+                     (gpointer)pdialog);
+    if (ds->type == DS_TEAM) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+  }
+
   gtk_widget_show_all(pdialog->dip_pact_menu);
 
   button=gtk_button_new_with_label(_("Pacts"));
@@ -754,6 +768,14 @@ static void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
 static void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
 {
   diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void diplomacy_dialog_team_callback(GtkWidget *w, gpointer data)
+{
+  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_TEAM);
 }
 
 /****************************************************************

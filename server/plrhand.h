@@ -62,8 +62,8 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 
-void found_new_tech(struct player *plr, int tech_found, bool was_discovery, 
-		    bool saving_bulbs);
+void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
+                    bool saving_bulbs, int next_tech);
 void found_new_future_tech(struct player *pplayer);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech);

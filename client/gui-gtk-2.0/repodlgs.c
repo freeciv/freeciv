@@ -32,6 +32,7 @@
 
 #include "cityrep.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "control.h"
 #include "dialogs.h"
@@ -379,27 +380,18 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 void science_dialog_update(void)
 {
   if(science_dialog_shell) {
-  char text[512];
   int i, j, hist;
+  char text[512];
   GtkWidget *item;
   GList *sorting_list = NULL;
   gdouble pct;
-  int turns_to_advance;
   int steps;
 
-  if(is_report_dialogs_frozen()) return;
-
-  turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  if (turns_to_advance == FC_INFINITY) {
-    my_snprintf(text, sizeof(text), _("Research speed: no research"));
-  } else {
-    my_snprintf(text, sizeof(text),
-		PL_("Research speed: %d turn/advance",
-		    "Research speed: %d turns/advance", turns_to_advance),
-		turns_to_advance);
+  if (is_report_dialogs_frozen()) {
+    return;
   }
 
-  gtk_set_label(science_label, text);
+  gtk_set_label(science_label, (char *)science_dialog_text());
 
   for (i=0; i<4; i++) {
     gtk_list_store_clear(science_model[i]);

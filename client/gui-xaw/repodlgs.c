@@ -41,6 +41,7 @@
 #include "support.h"
 
 #include "cityrep.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "dialogs.h"
 #include "gui_main.h"
@@ -144,11 +145,11 @@ char *get_report_title(char *report_name)
 /****************************************************************
 ...
 ****************************************************************/
-static char *get_report_title_plus(char *report_name, char *additional)
+static char *get_report_title_plus(char *report_name, const char *additional)
 {
   char buf[512];
   
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s%s"),
+  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s\n%s"),
 	      report_name,
 	      get_government_name(game.player_ptr->government),
 	      get_nation_name_plural(game.player_ptr->nation),
@@ -240,7 +241,6 @@ void create_science_dialog(bool make_modal)
   tech_list_names_ptrs[j]=0;
   qsort(tech_list_names_ptrs, j, sizeof(char *), compare_strings_ptrs);
   num_list = j;
-  /* printf("science list num: %d\n", num_list); */
   
   science_dialog_shell =
     I_T(XtVaCreatePopupShell("sciencepopup", 
@@ -474,19 +474,9 @@ void science_dialog_update(void)
     static char *tech_list_names_ptrs[A_LAST+1];
     int j, flag;
     size_t i;
-    char rate_text[128];
     char *report_title;
-    int turns_to_advance;
     
-    turns_to_advance = tech_turns_to_advance(game.player_ptr);
-    if (turns_to_advance == FC_INFINITY) {
-      my_snprintf(rate_text, sizeof(rate_text), _("\n(no research)"));
-    } else {
-      my_snprintf(rate_text, sizeof(rate_text),
-		  PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
-		      turns_to_advance), turns_to_advance);
-    }
-    report_title=get_report_title_plus(_("Science"), rate_text);
+    report_title = get_report_title_plus(_("Science"), science_dialog_text());
     xaw_set_label(science_label, report_title);
     free(report_title);
 

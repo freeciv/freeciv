@@ -417,7 +417,7 @@ void player_restore_units(struct player *pplayer)
         if (maybe_make_veteran(punit)) {
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_BECAME_VET,
                            _("Game: Your %s survived on the high seas "
-	                   "and became more experienced."), 
+	                   "and became more experienced!"), 
                            unit_name(punit->type));
         }
       }
@@ -674,7 +674,7 @@ static void update_unit_activity(struct unit *punit)
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
        && maybe_settler_become_veteran(punit)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_BECAME_VET,
-	_("Game: Your %s became more experienced."), unit_name(punit->type));
+	_("Game: Your %s became more experienced!"), unit_name(punit->type));
     }
     
   }
@@ -2312,7 +2312,7 @@ static void hut_get_tech(struct unit *punit)
 
   do_free_cost(pplayer);
   if (!is_future_tech(new_tech)) {
-    found_new_tech(pplayer, new_tech, FALSE, TRUE);
+    found_new_tech(pplayer, new_tech, FALSE, TRUE, A_NONE);
   } else {
     found_new_future_tech(pplayer);
   }

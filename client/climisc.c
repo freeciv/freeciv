@@ -279,12 +279,18 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_ALLIANCE:
     my_snprintf(buf, bufsiz, _("The parties create an alliance"));
     break;
+  case CLAUSE_TEAM:
+    my_snprintf(buf, bufsiz, _("The parties resume the research pool"));
+    break;
   case CLAUSE_VISION:
     my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
 		get_nation_name_plural(pclause->from->nation));
     break;
   default:
-    if (bufsiz > 0) *buf = '\0';
+    assert(FALSE);
+    if (bufsiz > 0) {
+      *buf = '\0';
+    }
     break;
   }
 }
@@ -1180,6 +1186,58 @@ void cityrep_buy(struct city *pcity)
 		name, value, game.player_ptr->economic.gold);
     append_output_window(buf);
   }
+}
+
+/**************************************************************************
+  Returns the text to display in the science dialog.
+**************************************************************************/
+const char *science_dialog_text()
+{
+  int turns_to_advance;
+  static char text[512];
+  struct player *plr = game.player_ptr;
+  int ours = 0, theirs = 0;
+
+  /* Sum up science */
+  players_iterate(pplayer) {
+    enum diplstate_type ds = pplayer_get_diplstate(plr, pplayer)->type;
+
+    if (plr == pplayer) {
+      city_list_iterate(pplayer->cities, pcity) {
+        ours += pcity->science_total;
+      } city_list_iterate_end;
+    } else if (ds == DS_TEAM) {
+      theirs += pplayer->research.bulbs_last_turn;
+    }
+  } players_iterate_end;
+
+  if (ours == 0 && theirs == 0) {
+    my_snprintf(text, sizeof(text), _("Progress: no research"));
+    return text;
+  }
+  if (ours < 0 || theirs < 0) {
+    die("Negative science in science_dialog_text");
+  }
+  turns_to_advance = (total_bulbs_required(plr) + ours + theirs - 1)
+                     / (ours + theirs);
+  if (theirs == 0) {
+    /* Simple version, no techpool */
+    my_snprintf(text, sizeof(text),
+                PL_("Progress: %d turn/advance (%d pts/turn)",
+                    "Progress: %d turns/advance (%d pts/turn)",
+                    turns_to_advance),
+                turns_to_advance, ours);
+  } else {
+    /* Techpool version */
+    my_snprintf(text, sizeof(text),
+                PL_("Progress: %d turn/advance (%d pts/turn, "
+                    "%d pts/turn from team)",
+                    "Progress: %d turns/advance (%d pts/turn, "
+                    "%d pts/turn from team)",
+                    turns_to_advance),
+                turns_to_advance, ours, theirs);
+  }
+  return text;
 }
 
 void common_taxrates_callback(int i)
