@@ -15,6 +15,7 @@
 
 #include <stdlib.h>		/* size_t */
 #include <string.h>		/* memset */
+#include <time.h>		/* time_t */
 
 #ifdef HAVE_CONFIG_H
 #ifndef FC_CONFIG_H            /* this should be defined in config.h */
