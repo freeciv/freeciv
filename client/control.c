@@ -110,7 +110,7 @@ void set_unit_focus(struct unit *punit)
     auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
-    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
     if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
       punit->activity = ACTIVITY_IDLE;
@@ -124,7 +124,7 @@ void set_unit_focus(struct unit *punit)
   if (punit_old_focus
       && (!punit || !same_pos(punit_old_focus->x, punit_old_focus->y,
 				   punit->x, punit->y))) {
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, TRUE);
+    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, FALSE);
   }
 
   update_unit_info_label(punit);
@@ -215,7 +215,7 @@ void advance_unit_focus(void)
    * because above we change punit_focus directly.
    */
   if(punit_old_focus && punit_old_focus!=punit_focus)
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, TRUE);
+    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, FALSE);
 
   set_unit_focus(punit_focus);
 
@@ -1176,7 +1176,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
   if(!pinfo->carried)
-    refresh_tile_mapcanvas(x, y, was_teleported);
+    refresh_tile_mapcanvas(x, y, FALSE);
   
   if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
      auto_center_on_unit && punit->activity!=ACTIVITY_SENTRY &&
@@ -1190,7 +1190,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
       dx=1;
     if(smooth_move_units)
       move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
-    refresh_tile_mapcanvas(x, y, TRUE);
+    refresh_tile_mapcanvas(x, y, FALSE);
   }
     
   punit->x=pinfo->x;
@@ -1209,12 +1209,12 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     } unit_list_iterate_end;
   out:
     if (refresh) {
-      refresh_tile_mapcanvas(x, y, TRUE);
+      refresh_tile_mapcanvas(x, y, FALSE);
     }
   } square_iterate_end;
   
   if(!pinfo->carried && tile_get_known(punit->x,punit->y) == TILE_KNOWN)
-    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
   if(get_unit_in_focus()==punit) update_menus();
 }

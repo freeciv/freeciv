@@ -507,6 +507,83 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   DeleteDC(mapstoredc);
 }
 
+#define MAX_DIRTY_RECTS 20
+static int num_dirty_rects = 0;
+static struct {
+  int x, y, w, h;
+} dirty_rects[MAX_DIRTY_RECTS];
+bool is_flush_queued = FALSE;
+
+/**************************************************************************
+  A callback invoked as a result of a timer event, this function simply
+  flushes the mapview canvas.
+**************************************************************************/
+static VOID CALLBACK unqueue_flush(HWND hwnd, UINT uMsg, UINT idEvent,
+				   DWORD dwTime)
+{
+  flush_dirty();
+  is_flush_queued = FALSE;
+}
+
+/**************************************************************************
+  Called when a region is marked dirty, this function queues a flush event
+  to be handled later.  The flush may end up being done by freeciv before
+  then, in which case it will be a wasted call.
+**************************************************************************/
+static void queue_flush(void)
+{
+  if (!is_flush_queued) {
+    SetTimer(root_window, 4, 0, unqueue_flush);
+    is_flush_queued = TRUE;
+  }
+}
+
+/**************************************************************************
+  Mark the rectangular region as 'dirty' so that we know to flush it
+  later.
+**************************************************************************/
+void dirty_rect(int canvas_x, int canvas_y,
+		int pixel_width, int pixel_height)
+{
+  if (num_dirty_rects < MAX_DIRTY_RECTS) {
+    dirty_rects[num_dirty_rects].x = canvas_x;
+    dirty_rects[num_dirty_rects].y = canvas_y;
+    dirty_rects[num_dirty_rects].w = pixel_width;
+    dirty_rects[num_dirty_rects].h = pixel_height;
+    num_dirty_rects++;
+    queue_flush();
+  }
+}
+
+/**************************************************************************
+  Mark the entire screen area as "dirty" so that we can flush it later.
+**************************************************************************/
+void dirty_all(void)
+{
+  num_dirty_rects = MAX_DIRTY_RECTS;
+  queue_flush();
+}
+
+/**************************************************************************
+  Flush all regions that have been previously marked as dirty.  See
+  dirty_rect and dirty_all.  This function is generally called after we've
+  processed a batch of drawing operations.
+**************************************************************************/
+void flush_dirty(void)
+{
+  if (num_dirty_rects == MAX_DIRTY_RECTS) {
+    flush_mapcanvas(0, 0, map_win_width, map_win_height);
+  } else {
+    int i;
+
+    for (i = 0; i < num_dirty_rects; i++) {
+      flush_mapcanvas(dirty_rects[i].x, dirty_rects[i].y,
+		      dirty_rects[i].w, dirty_rects[i].h);
+    }
+  }
+  num_dirty_rects = 0;
+}
+
 /**************************************************************************
 
 **************************************************************************/

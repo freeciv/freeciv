@@ -99,12 +99,7 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
     }
 
     if (write_to_screen) {
-      int canvas_start_x, canvas_start_y;
-
-      get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
-      canvas_start_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-      flush_mapcanvas(canvas_start_x, canvas_start_y,
-		      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      flush_dirty();
     }
   }
   overview_update_tile(x, y);
@@ -610,6 +605,8 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 void update_map_canvas(int x, int y, int width, int height, 
 		       bool write_to_screen)
 {
+  int canvas_start_x, canvas_start_y;
+
   freelog(LOG_DEBUG,
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
 	  x, y, width, height, write_to_screen);
@@ -684,31 +681,25 @@ void update_map_canvas(int x, int y, int width, int height,
 
 
     /* Lastly draw our changes to the screen. */
-    if (write_to_screen) {
-      int canvas_start_x, canvas_start_y;
+    /* top left corner */
+    get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
 
-      /* top left corner */
-      get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+    /* top left corner in isometric view */
+    canvas_start_x -= height * NORMAL_TILE_WIDTH / 2;
 
-      /* top left corner in isometric view */
-      canvas_start_x -= height * NORMAL_TILE_WIDTH / 2;
+    /* because of where get_canvas_xy() sets canvas_x */
+    canvas_start_x += NORMAL_TILE_WIDTH / 2;
 
-      /* because of where get_canvas_xy() sets canvas_x */
-      canvas_start_x += NORMAL_TILE_WIDTH / 2;
+    /* And because units fill a little extra */
+    canvas_start_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
 
-      /* And because units fill a little extra */
-      canvas_start_y -= NORMAL_TILE_HEIGHT / 2;
-
-      /* Here we draw a rectangle that includes the updated tiles.  This
-       * method can fail if the area wraps off one side of the screen and
-       * back to the other (although this will not be a problem for
-       * update_map_canvas_visible(). */
-      flush_mapcanvas(canvas_start_x, canvas_start_y,
-		      (height + width) * NORMAL_TILE_WIDTH / 2,
-		      (height + width) * NORMAL_TILE_HEIGHT / 2
-		      + NORMAL_TILE_HEIGHT / 2);
-    }
-
+    /* Here we draw a rectangle that includes the updated tiles.  This
+     * method can fail if the area wraps off one side of the screen and
+     * back to the other. */
+    dirty_rect(canvas_start_x, canvas_start_y,
+	       (height + width) * NORMAL_TILE_WIDTH / 2,
+	       (height + width) * NORMAL_TILE_HEIGHT / 2
+	       + NORMAL_TILE_HEIGHT / 2);
   } else {
     /* not isometric */
     int map_x, map_y;
@@ -723,18 +714,20 @@ void update_map_canvas(int x, int y, int width, int height,
       }
     }
 
-    if (write_to_screen) {
-      int canvas_x, canvas_y;
+    /* Here we draw a rectangle that includes the updated tiles.  This
+     * method can fail if the area wraps off one side of the screen and
+     * back to the other. */
+    get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+    dirty_rect(canvas_start_x, canvas_start_y,
+	       width * NORMAL_TILE_WIDTH,
+	       height * NORMAL_TILE_HEIGHT);
+  }
 
-      /* Here we draw a rectangle that includes the updated tiles.  This
-       * method can fail if the area wraps off one side of the screen and
-       * back to the other (although this will not be a problem for
-       * update_map_canvas_visible(). */
-      get_canvas_xy(x, y, &canvas_x, &canvas_y);
-      flush_mapcanvas(canvas_x, canvas_y,
-		      width * NORMAL_TILE_WIDTH,
-		      height * NORMAL_TILE_HEIGHT);
-    }
+  if (write_to_screen) {
+    /* We never want a partial flush; that would leave the screen in an
+     * inconsistent state.  If the caller tells us to write_to_screen we
+     * simply flush everything immediately. */
+    flush_dirty();
   }
 }
 
@@ -743,6 +736,8 @@ void update_map_canvas(int x, int y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
+  dirty_all();
+
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
        invisible tiles will not be drawn. */
@@ -759,8 +754,6 @@ void update_map_canvas_visible(void)
   }
 
   show_city_descriptions();
-
-  flush_mapcanvas(0, 0, mapview_canvas.width, mapview_canvas.height);
 }
 
 /**************************************************************************
@@ -833,10 +826,10 @@ void undraw_segment(int src_x, int src_y, int dir)
     update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
 		      src_x == dest_x ? 1 : 2,
 		      src_y == dest_y ? 1 : 2,
-		      TRUE);
+		      FALSE);
   } else {
-    refresh_tile_mapcanvas(src_x, src_y, TRUE);
-    refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+    refresh_tile_mapcanvas(src_x, src_y, FALSE);
+    refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
 
     if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
       if (dir == DIR8_NORTHEAST) {
@@ -845,12 +838,12 @@ void undraw_segment(int src_x, int src_y, int dir)
 	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_EAST)) {
 	  assert(0);
 	}
-	refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+	refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
       } else if (dir == DIR8_SOUTHWEST) {	/* the same */
 	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_SOUTH)) {
 	  assert(0);
 	}
-	refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+	refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
       }
     }
   }
@@ -881,6 +874,8 @@ void move_unit_map_canvas(struct unit *punit,
   if (!normalize_map_pos(&dest_x, &dest_y)) {
     assert(0);
   }
+
+  flush_dirty();
 
   if (player_can_see_unit(game.player_ptr, punit) &&
       (tile_visible_mapcanvas(map_x, map_y) ||
@@ -1086,6 +1081,8 @@ void unqueue_mapview_updates(void)
     update_city_descriptions();
   }
   needed_updates = UPDATE_NONE;
+
+  flush_dirty();
 }
 
 /**************************************************************************

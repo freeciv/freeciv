@@ -427,6 +427,34 @@ void update_map_canvas(int x, int y, int width, int height,
 }
 
 /**************************************************************************
+  Mark the rectangular region as 'dirty' so that we know to flush it
+  later.
+**************************************************************************/
+void dirty_rect(int canvas_x, int canvas_y,
+		int pixel_width, int pixel_height)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Mark the entire screen area as "dirty" so that we can flush it later.
+**************************************************************************/
+void dirty_all(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Flush all regions that have been previously marked as dirty.  See
+  dirty_rect and dirty_all.  This function is generally called after we've
+  processed a batch of drawing operations.
+**************************************************************************/
+void flush_dirty(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
  Update display of descriptions associated with cities on the main map.
 **************************************************************************/
 void update_city_descriptions(void)

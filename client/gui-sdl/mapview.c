@@ -78,7 +78,6 @@
 #include "mapview.h"
 
 extern char *pDataPath;
-extern SDL_Event *pFlush_User_Event;
 
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0
@@ -240,7 +239,7 @@ void flush_rect(SDL_Rect rect)
 static bool is_flush_queued = FALSE;
 
 /**************************************************************************
-  A callback invoked as a result of gtk_idle_add, this function simply
+  A callback invoked as a result of a FLUSH event, this function simply
   flushes the mapview canvas.
 **************************************************************************/
 void unqueue_flush(void)
@@ -251,14 +250,23 @@ void unqueue_flush(void)
 
 /**************************************************************************
   Called when a region is marked dirty, this function queues a flush event
-  to be handled later by GTK.  The flush may end up being done
+  to be handled later by SDL.  The flush may end up being done
   by freeciv before then, in which case it will be a wasted call.
 **************************************************************************/
 static void queue_flush(void)
 {
   if (!is_flush_queued) {
-    SDL_PushEvent(pFlush_User_Event);
-    is_flush_queued = TRUE;
+    if (SDL_PushEvent(pFlush_User_Event) == 0) {
+      is_flush_queued = TRUE;
+    } else {
+      /* We don't want to set is_flush_queued in this case, since then
+       * the flush code would simply stop working.  But this means the
+       * below message may be repeated many times. */
+      freelog(LOG_ERROR,
+	      _("The SDL event buffer is full; you may see drawing errors\n"
+		"as a result.  If you see this message often, please\n"
+		"report it to freeciv-dev@freeciv.org."));
+    }
   }
 }
 
@@ -282,7 +290,6 @@ void sdl_dirty_rect(SDL_Rect Rect)
 {
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
     Main.rects[Main.rects_count++] = Rect;
-    
   }
 }
 

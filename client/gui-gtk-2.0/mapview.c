@@ -794,6 +794,45 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 }
 
 /**************************************************************************
+  Mark the rectangular region as "dirty" so that we know to flush it
+  later.
+**************************************************************************/
+void dirty_rect(int canvas_x, int canvas_y,
+		int pixel_width, int pixel_height)
+{
+  /* GDK gives an error if we invalidate out-of-bounds parts of the
+     window. */
+  GdkRectangle rect = {MAX(canvas_x, 0), MAX(canvas_y, 0),
+		       MIN(pixel_width,
+			   map_canvas->allocation.width - canvas_x),
+		       MIN(pixel_height,
+			   map_canvas->allocation.height - canvas_y)};
+
+  gdk_window_invalidate_rect(map_canvas->window, &rect, FALSE);
+}
+
+/**************************************************************************
+  Mark the entire screen area as "dirty" so that we can flush it later.
+**************************************************************************/
+void dirty_all(void)
+{
+  GdkRectangle rect = {0, 0, map_canvas->allocation.width,
+		       map_canvas->allocation.height};
+
+  gdk_window_invalidate_rect(map_canvas->window, &rect, FALSE);
+}
+
+/**************************************************************************
+  Flush all regions that have been previously marked as dirty.  See
+  dirty_rect and dirty_all.  This function is generally called after we've
+  processed a batch of drawing operations.
+**************************************************************************/
+void flush_dirty(void)
+{
+  gdk_window_process_updates(map_canvas->window, FALSE);
+}
+
+/**************************************************************************
  Update display of descriptions associated with cities on the main map.
 **************************************************************************/
 void update_city_descriptions(void)

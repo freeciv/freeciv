@@ -53,4 +53,6 @@ extern Uint32 SDL_Client_Flags;
 
 void add_autoconnect_to_timer(void);
 
+extern SDL_Event *pFlush_User_Event;
+
 #endif	/* FC__GUI_MAIN_H */

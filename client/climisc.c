@@ -111,7 +111,7 @@ void client_remove_unit(struct unit *punit)
 	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
   }
 
-  refresh_tile_mapcanvas(x, y, TRUE);
+  refresh_tile_mapcanvas(x, y, FALSE);
 }
 
 /**************************************************************************
@@ -142,7 +142,7 @@ void client_remove_city(struct city *pcity)
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();
-  refresh_tile_mapcanvas(x, y, TRUE);
+  refresh_tile_mapcanvas(x, y, FALSE);
 }
 
 /**************************************************************************

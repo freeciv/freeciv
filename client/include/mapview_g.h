@@ -52,6 +52,10 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 		  int start_x, int start_y, int dx, int dy);
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
+void dirty_rect(int canvas_x, int canvas_y,
+		int pixel_width, int pixel_height);
+void dirty_all(void);
+void flush_dirty(void);
 
 void update_map_canvas_scrollbars(void);
 

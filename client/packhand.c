@@ -190,6 +190,7 @@ void handle_remove_unit(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_nuke_tile(struct packet_nuke_tile *packet)
 {
+  flush_dirty();
   put_nuke_mushroom_pixmaps(packet->x, packet->y);
 }
 
@@ -223,14 +224,15 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 		       unit_type(punit1)->sound_fight_alt);
 
       if (do_combat_animation) {
+	flush_dirty();
 	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
       } else {
 	punit0->hp = hp0;
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_tile_mapcanvas(punit0->x, punit0->y, TRUE);
-	refresh_tile_mapcanvas(punit1->x, punit1->y, TRUE);
+	refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
+	refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
       }
     }
   }
@@ -503,7 +505,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 		      CITY_MAP_SIZE, CITY_MAP_SIZE, FALSE);
     queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
   } else {
-    refresh_tile_mapcanvas(pcity->x, pcity->y, TRUE);
+    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
   }
 
   if (city_workers_display==pcity)  {
@@ -914,7 +916,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
       if(punit->owner==game.player_idx) 
         refresh_unit_city_dialogs(punit);
-      /*      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+      /*      refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
        *      update_unit_pix_label(punit);
        *      update_unit_focus();
        */
@@ -982,7 +984,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       else {
 	do_move_unit(punit, packet); /* nice to see where a unit is going */
 	client_remove_unit(punit);
-	refresh_tile_mapcanvas(packet->x, packet->y, TRUE);
+	refresh_tile_mapcanvas(packet->x, packet->y, FALSE);
         return;
       }
       if(pcity)  {
@@ -1052,7 +1054,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     /*fog of war*/
     if (!(tile_get_known(punit->x,punit->y) == TILE_KNOWN)) {
       client_remove_unit(punit);
-      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+      refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
     }
     agents_unit_changed(punit);
   }
@@ -1093,7 +1095,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   }
 
   if(repaint_unit)
-    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
 
   if (check_focus || get_unit_in_focus() == NULL)
     update_unit_focus(); 
@@ -1705,14 +1707,14 @@ void handle_tile_info(struct packet_tile_info *packet)
 
     /* the tile itself */
     if (tile_changed || old_known!=ptile->known)
-      refresh_tile_mapcanvas(x, y, TRUE);
+      refresh_tile_mapcanvas(x, y, FALSE);
 
     /* if the terrain or the specials of the tile
        have changed it affects the adjacent tiles */
     if (tile_changed) {
       adjc_iterate(x, y, x1, y1) {
 	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, TRUE);
+	  refresh_tile_mapcanvas(x1, y1, FALSE);
       }
       adjc_iterate_end;
       return;
@@ -1723,7 +1725,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
       cartesian_adjacent_iterate(x, y, x1, y1) {
 	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, TRUE);
+	  refresh_tile_mapcanvas(x1, y1, FALSE);
       }
       cartesian_adjacent_iterate_end;
     }
