@@ -520,20 +520,15 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
     return 0;
 
   {
-    int dir;
-    int x, y;
     struct player *owner = unit_owner(punit);
 
-    for (dir = 0; dir < 8; dir++) {
-      x = map_adjust_x(src_x + DIR_DX[dir]);
-      y = map_adjust_y(src_y + DIR_DY[dir]);
-
+    adjc_dir_iterate(src_x, src_y, x, y, dir) {
       if (!dir_ok(dest_x, dest_y, punit->goto_dest_x, punit->goto_dest_y, dir))
 	continue;
       if ((map_get_terrain(x, y) != T_OCEAN)
 	  && is_enemy_unit_tile(map_get_tile(x, y), owner))
 	return 0;
-    }
+    } adjc_dir_iterate_end;
     return 0;
   }
 }
@@ -601,7 +596,7 @@ static int find_the_shortest_path(struct unit *punit,
 				  enum goto_move_restriction restriction)
 {
   struct player *pplayer = unit_owner(punit);
-  int igter, x, y, x1, y1, dir;
+  int igter, x, y;
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_type(punit)->move_type;
@@ -659,15 +654,10 @@ static int find_the_shortest_path(struct unit *punit,
 
     /* Try to move to all tiles adjacent to x,y. The coordinats of the tile we
        try to move to are x1,y1 */
-    for (dir = 0; dir < 8; dir++) {
+    adjc_dir_iterate(x, y, x1, y1, dir) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	  && !DIR_IS_CARDINAL(dir)) continue;
 
-      x1 = x + DIR_DX[dir];
-      y1 = y + DIR_DY[dir];
-      if (!normalize_map_pos(&x1, &y1))
-	continue;
-      
       pdesttile = map_get_tile(x1, y1);
 
       switch (move_type) {
@@ -842,7 +832,7 @@ static int find_the_shortest_path(struct unit *punit,
 	/* Make sure we stop searching when we have no hope of finding a shorter path */
         maxcost = total_cost + 1;
       }
-    } /* end  for (dir = 0; dir < 8; dir++) */
+    } adjc_dir_iterate_end;
   }
 
   freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), cost = %d", 
@@ -863,15 +853,11 @@ static int find_the_shortest_path(struct unit *punit,
     if (!get_from_mapqueue(&x, &y))
       break;
 
-    for (dir = 0; dir < 8; dir++) {
+    adjc_dir_iterate(x, y, x1, y1, dir) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	  && !DIR_IS_CARDINAL(dir)) continue;
 
       if (local_vector[x][y] & (1<<dir)) {
-	x1 = x + DIR_DX[dir];
-	y1 = y + DIR_DY[dir];
-	if (!normalize_map_pos(&x1, &y1))
-	  continue;
 	move_cost = (move_type == SEA_MOVING) ? warmap.seacost[x1][y1] : warmap.cost[x1][y1];
 
         add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
@@ -881,7 +867,7 @@ static int find_the_shortest_path(struct unit *punit,
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
 		dir_get_name(DIR_REVERSE(dir)), x1, y1, x, y);
       }
-    }
+    } adjc_dir_iterate_end;
   }
 
   return 1;
@@ -902,7 +888,7 @@ static int find_a_direction(struct unit *punit,
 			    enum goto_move_restriction restriction,
 			    const int dest_x, const int dest_y)
 {
-  int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
+  int k, d[8], n, a, best = 0, d0, d1, h0, h1, u, c;
   struct tile *ptile, *adjtile;
   int nearland;
   struct city *pcity;
@@ -915,18 +901,18 @@ static int find_a_direction(struct unit *punit,
 
   /* If we can get to the destination rigth away there is nothing to be gained
      from going round in little circles to move across desirable squares */
-  for (k = 0; k < 8; k++) {
-    if (warmap.vector[punit->x][punit->y] & (1 << k)
+  adjc_dir_iterate(punit->x, punit->y, x, y, dir) {
+    if (warmap.vector[punit->x][punit->y] & (1 << dir)
 	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
-	     && !DIR_IS_CARDINAL(k))) {
-      x = map_adjust_x(punit->x + DIR_DX[k]);
-      y = map_adjust_y(punit->y + DIR_DY[k]);
+	     && !DIR_IS_CARDINAL(dir))) {
       if (x == dest_x && y == dest_y)
-	return k;
+	return dir;
     }
-  }
+  } adjc_dir_iterate_end;
 
-  for (k = 0; k < 8; k++) {
+  memset(d, 0, sizeof(d));
+
+  adjc_dir_iterate(punit->x, punit->y, x, y, k) {
     if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && !DIR_IS_CARDINAL(k))
       continue;
 
@@ -936,8 +922,6 @@ static int find_a_direction(struct unit *punit,
         c = map_get_tile(punit->x, punit->y)->move_cost[k];
       else c = 3;
       if (unit_flag(punit, F_IGTER) && c) c = 1;
-      x = map_adjust_x(punit->x + DIR_DX[k]);
-      y = map_adjust_y(punit->y + DIR_DY[k]);
       if (passenger) {
 	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
 		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
@@ -975,8 +959,8 @@ static int find_a_direction(struct unit *punit,
 
       nearland = 0;
       if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) nearland++;
-      for (n = 0; n < 8; n++) {
-        adjtile = map_get_tile(x + DIR_DX[n], y + DIR_DY[n]);
+      adjc_iterate(x, y, tmp_x, tmp_y) {
+	adjtile = map_get_tile(tmp_x, tmp_y);
         if (adjtile->terrain != T_OCEAN) nearland++;
         if (!((adjtile->known)&(1u<<punit->owner))) {
           if (punit->moves_left <= c) d[k] -= (d[k]/16); /* Avoid the unknown */
@@ -992,16 +976,17 @@ static int find_a_direction(struct unit *punit,
             }
           unit_list_iterate_end;
         } /* end this-tile-is-seen else */
-      } /* end tiles-adjacent-to-dest for */
+      } adjc_iterate_end;
  
       if (unit_flag(punit, F_TRIREME) && !nearland) {
         if (punit->moves_left < 6) d[k] = -1; /* Tired of Kaput!! -- Syela */
         else if (punit->moves_left == 6) {
-          for (n = 0; n < 8; n++) {
-            if ((warmap.vector[x][y]&(1<<n))) {
-              if (is_coastline(x + DIR_DX[n], y + DIR_DY[n])) nearland++;
-            }
-          }
+	  adjc_dir_iterate(x, y, tmp_x, tmp_y, n) {
+	    if ((warmap.vector[x][y] & (1 << n))) {
+	      if (is_coastline(tmp_x, tmp_y))
+		nearland++;
+	    }
+	  } adjc_dir_iterate_end;
           if (!nearland) d[k] = 1;
         }
       }
@@ -1014,7 +999,7 @@ static int find_a_direction(struct unit *punit,
 		best, punit->x, punit->y, x, y);
       }
     } /* end is-a-valid-vector */
-  } /* end for */
+  } adjc_dir_iterate_end;
 
   if (!best) {
     return(-1);
@@ -1035,28 +1020,26 @@ Basic checks as to whether a GOTO is possible.
 int goto_is_sane(struct unit *punit, int x, int y, int omni)
 {  
   struct player *pplayer = unit_owner(punit);
-  int k, possible = 0;
+  int possible = 0;
   if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) &&
       (omni || map_get_known_and_seen(x, y, pplayer))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
       if (ground_unit_transporter_capacity(x, y, pplayer) > 0) {
-        for (k = 0; k < 8; k++) {
-          if (map_get_continent(punit->x, punit->y) ==
-              map_get_continent(x + DIR_DX[k], y + DIR_DY[k]))
-            possible++;
-        }
+	adjc_iterate(punit->x, punit->y, tmp_x, tmp_y) {
+	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y))
+	    possible++;
+	} adjc_iterate_end;
       }
     } else { /* going to a land tile */
       if (map_get_continent(punit->x, punit->y) ==
             map_get_continent(x, y))
          possible++;
       else {
-        for (k = 0; k < 8; k++) {
-          if (map_get_continent(punit->x + DIR_DX[k], punit->y + DIR_DY[k]) ==
-              map_get_continent(x, y))
-            possible++;
-        }
+	adjc_iterate(punit->x, punit->y, tmp_x, tmp_y) {
+	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y))
+	    possible++;
+	} adjc_iterate_end;
       }
     }
     return(possible);
@@ -1133,7 +1116,8 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
   /* This has the side effect of marking the warmap with the possible paths */
   if (find_the_shortest_path(punit, waypoint_x, waypoint_y, restriction)) {
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
-      int last_tile;
+      int last_tile, is_real;
+
       if (!punit->moves_left)
 	return;
 
@@ -1146,8 +1130,9 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       }
 
       freelog(LOG_DEBUG, "Going %s", dir_get_name(dir));
-      x = map_adjust_x(punit->x + DIR_DX[dir]);
-      y = punit->y + DIR_DY[dir]; /* no need to adjust this */
+      is_real = MAPSTEP(x, y, punit->x, punit->y, dir);
+      assert(is_real);
+
       penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
 
       if (!punit->moves_left)
@@ -1544,7 +1529,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
  TRYFULL:
   freelog(LOG_DEBUG, "didn't work. Lets try full");
   {
-    int x1, y1, dir, cost;
+    int cost;
     struct unit *penemy;
 
     init_warmap(src_x, src_y, AIR_MOVING);
@@ -1555,11 +1540,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 	  || warmap.cost[dest_x][dest_y] != MAXCOST) /* found route */
 	break;
 
-      for (dir = 0; dir < 8; dir++) {
-	x1 = x + DIR_DX[dir];
-	y1 = y + DIR_DY[dir];
-	if (!normalize_map_pos(&x1, &y1))
-	  continue;
+      adjc_dir_iterate(x, y, x1, y1, dir) {
 	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
 	  continue; /* No need for all the calculations */
 
@@ -1572,7 +1553,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 	    add_to_mapqueue(cost, x1, y1);
 	  }
 	}
-      } /* end for */
+      } adjc_dir_iterate_end;
     }
 
     freelog(LOG_DEBUG, "movecost: %i", warmap.cost[dest_x][dest_y]);

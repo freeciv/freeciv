@@ -1294,13 +1294,10 @@ static void put_line(Pixmap pm, int x, int y, int dir)
 **************************************************************************/
 void draw_segment(int src_x, int src_y, int dir)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
 
-  dest_x = src_x + DIR_DX[dir];
-  dest_y = src_y + DIR_DY[dir];
-
-  assert(is_real_tile(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
+  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+  assert(is_real);
 
   /* A previous line already marks the place */
   if (get_drawn(src_x, src_y, dir)) {
@@ -1327,9 +1324,11 @@ penalty so I will be lazy...
 **************************************************************************/
 void undraw_segment(int src_x, int src_y, int dir)
 {
-  int dest_x = src_x + DIR_DX[dir];
-  int dest_y = src_y + DIR_DY[dir];
+  int dest_x, dest_y, is_real;
   int drawn = get_drawn(src_x, src_y, dir);
+
+  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+  assert(is_real);
 
   assert(drawn > 0);
   /* If we walk on a path twice it looks just like walking on it once. */
@@ -1340,8 +1339,6 @@ void undraw_segment(int src_x, int src_y, int dir)
 
   decrement_drawn(src_x, src_y, dir);
   refresh_tile_mapcanvas(src_x, src_y, 1);
-  assert(is_real_tile(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
   refresh_tile_mapcanvas(dest_x, dest_y, 1);
   if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
     if (dir == DIR8_NORTHEAST) {

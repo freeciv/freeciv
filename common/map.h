@@ -204,6 +204,16 @@ void reset_move_costs(int x, int y);
 #define map_inx(x,y) \
   ((x)+(y)*map.xsize)
 
+#define DIRSTEP(dest_x, dest_y, dir)	\
+(    (dest_x) = DIR_DX[(dir)],      	\
+     (dest_y) = DIR_DY[(dir)])
+
+#define MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
+(    DIRSTEP(dest_x, dest_y, dir),			\
+     (dest_x) += (src_x),		   		\
+     (dest_y) += (src_y),   				\
+     normalize_map_pos(&(dest_x), &(dest_y)))
+
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
@@ -392,8 +402,9 @@ extern struct tile_type tile_types[T_LAST];
                   || MACRO_center_y == map.ysize-1                            \
                   || MACRO_center_x == map.xsize-1);                          \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
-    y_itr = MACRO_center_y + DIR_DY[dir_itr];                                 \
-    x_itr = MACRO_center_x + DIR_DX[dir_itr];                                 \
+    DIRSTEP(x_itr, y_itr, dir_itr);                                           \
+    x_itr += MACRO_center_x;                                                  \
+    y_itr += MACRO_center_y;                                                  \
     if (MACRO_border) {                                                       \
       if (!normalize_map_pos(&x_itr, &y_itr))                                 \
 	continue;                                                             \

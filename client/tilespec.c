@@ -1109,23 +1109,22 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     tspecial |= S_RIVER;
   }
 
-  for (dir=0; dir<8; dir++) {
-    int x1 = x + DIR_DX[dir];
-    int y1 = y + DIR_DY[dir];
-    if (normalize_map_pos(&x1, &y1)) {
-      ttype_near[dir] = map_get_terrain(x1, y1);
-      tspecial_near[dir] = map_get_special(x1, y1);
+  for (dir = 0; dir < 8; dir++) {
+    ttype_near[dir] = T_UNKNOWN;
+    tspecial_near[dir] = S_NO_SPECIAL;
+  } 
 
-      /* hacking away the river here... */
-      if (ttype_near[dir] == T_RIVER) {
-	ttype_near[dir] = T_GRASSLAND;
-	tspecial_near[dir] |= S_RIVER;
-      }
-    } else {
-      ttype_near[dir] = T_UNKNOWN;
-      tspecial_near[dir] = S_NO_SPECIAL;
+  adjc_dir_iterate(x, y, x1, y1, dir) {
+    ttype_near[dir] = map_get_terrain(x1, y1);
+    tspecial_near[dir] = map_get_special(x1, y1);
+
+    /* hacking away the river here... */
+    if (ttype_near[dir] == T_RIVER) {
+      ttype_near[dir] = T_GRASSLAND;
+      tspecial_near[dir] |= S_RIVER;
     }
-  }
+  } adjc_dir_iterate_end;
+
   ttype_north      = ttype_near[DIR8_NORTH];
   ttype_north_east = ttype_near[DIR8_NORTHEAST];
   ttype_east       = ttype_near[DIR8_EAST];

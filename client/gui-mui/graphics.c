@@ -846,8 +846,9 @@ void put_line(struct RastPort *rp, int dest_x, int dest_y, int x, int y, int dir
   get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
   canvas_src_x += NORMAL_TILE_WIDTH/2;
   canvas_src_y += NORMAL_TILE_HEIGHT/2;
-  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
-  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
+  DIRSTEP(canvas_dest_x, canvas_dest_y, dir);
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * canvas_dest_x) / 2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * canvas_dest_y) / 2;
 
   SetAPen(rp,GetColorPen(COLOR_STD_CYAN));
   Move(rp,canvas_src_x+dest_x, canvas_src_y+dest_y);
@@ -1025,14 +1026,12 @@ Only used for isometric view.
 void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
                          int src_x, int src_y, int dir, int force)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
   int canvas_start_x, canvas_start_y;
   int canvas_end_x, canvas_end_y;
 
-  dest_x = src_x + DIR_DX[dir];
-  dest_y = src_y + DIR_DY[dir];
-  assert(is_real_tile(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
+  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+  assert(is_real);
 
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */

@@ -1358,16 +1358,11 @@ void update_map_canvas(int x, int y, int width, int height,
 	int x1 = x_itr;
 	int y1 = y_itr;
 	if (normalize_map_pos(&x1, &y1)) {
-	  int dir;
-	  for (dir = 0; dir < 8; dir++) {
+	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
 	    if (get_drawn(x1, y1, dir)) {
-	      int x2 = x1 + DIR_DX[dir];
-	      int y2 = y1 + DIR_DY[dir];
-	      if (normalize_map_pos(&x2, &y2)) {
-		really_draw_segment(x1, y1, dir, 0, 1);
-	      }
+	      really_draw_segment(x1, y1, dir, 0, 1);
 	    }
-	  }
+	  } adjc_dir_iterate_end;
 	}
       }
     }
@@ -1937,16 +1932,14 @@ Only used for isometric view.
 static void really_draw_segment(int src_x, int src_y, int dir,
 				int write_to_screen, int force)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, is_real;
   int canvas_start_x, canvas_start_y;
   int canvas_end_x, canvas_end_y;
 
   gdk_gc_set_foreground(thick_line_gc, colors_standard[COLOR_STD_CYAN]);
 
-  dest_x = src_x + DIR_DX[dir];
-  dest_y = src_y + DIR_DY[dir];
-  assert(is_real_tile(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
+  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+  assert(is_real);
 
   /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
      horizontal line when we refresh the tile below-between. */
@@ -1986,13 +1979,10 @@ void draw_segment(int src_x, int src_y, int dir)
       really_draw_segment(src_x, src_y, dir, 1, 0);
     }
   } else {
-    int dest_x, dest_y;
+    int dest_x, dest_y, is_real;
 
-    dest_x = src_x + DIR_DX[dir];
-    dest_y = src_y + DIR_DY[dir];
-
-    assert(is_real_tile(dest_x, dest_y));
-    normalize_map_pos(&dest_x, &dest_y);
+    is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+    assert(is_real);
 
     /* A previous line already marks the place */
     if (get_drawn(src_x, src_y, dir)) {
@@ -2019,14 +2009,12 @@ map_canvas_store.
 **************************************************************************/
 void undraw_segment(int src_x, int src_y, int dir)
 {
+  int dest_x, dest_y, is_real;
+
+  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
+  assert(is_real);
+
   if (is_isometric) {
-    int dest_x, dest_y;
-
-    dest_x = src_x + DIR_DX[dir];
-    dest_y = src_y + DIR_DY[dir];
-    assert(is_real_tile(dest_x, dest_y));
-    normalize_map_pos(&dest_x, &dest_y);
-
     assert(get_drawn(src_x, src_y, dir));
     decrement_drawn(src_x, src_y, dir);
 
@@ -2038,8 +2026,6 @@ void undraw_segment(int src_x, int src_y, int dir)
 			1);
     }
   } else {
-    int dest_x = src_x + DIR_DX[dir];
-    int dest_y = src_y + DIR_DY[dir];
     int drawn = get_drawn(src_x, src_y, dir);
 
     assert(drawn > 0);
@@ -2051,8 +2037,6 @@ void undraw_segment(int src_x, int src_y, int dir)
 
     decrement_drawn(src_x, src_y, dir);
     refresh_tile_mapcanvas(src_x, src_y, 1);
-    assert(is_real_tile(dest_x, dest_y));
-    normalize_map_pos(&dest_x, &dest_y);
     refresh_tile_mapcanvas(dest_x, dest_y, 1);
     if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
       if (dir == DIR8_NORTHEAST) {
@@ -2083,8 +2067,9 @@ static void put_line(GdkDrawable *pm, int x, int y, int dir)
   get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
   canvas_src_x += NORMAL_TILE_WIDTH/2;
   canvas_src_y += NORMAL_TILE_HEIGHT/2;
-  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
-  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
+  DIRSTEP(canvas_dest_x, canvas_dest_y, dir);
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * canvas_dest_x) / 2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * canvas_dest_y) / 2;
 
   gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_CYAN]);
 

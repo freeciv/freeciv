@@ -616,17 +616,16 @@ This function returns pointer to the correct char.
 ***********************************************************************/
 static unsigned char *get_drawn_char(int x, int y, int dir)
 {
-  int x1, y1;
+  int x1, y1, is_real;
 
   /* Replace with check for is_normal_tile later */  
   assert(is_real_tile(x, y));
   normalize_map_pos(&x, &y);
 
-  x1 = x + DIR_DX[dir];
-  y1 = y + DIR_DY[dir];
+  is_real = MAPSTEP(x1, y1, x, y, dir);
+
   /* It makes no sense to draw a goto line to a non-existant tile. */
-  assert(is_real_tile(x1, y1));
-  normalize_map_pos(&x1, &y1);
+  assert(is_real);
 
   if (dir >= 4) {
     x = x1;
@@ -661,7 +660,9 @@ void decrement_drawn(int x, int y, int dir)
 ***********************************************************************/
 int get_drawn(int x, int y, int dir)
 {
-  if (!is_real_tile(x + DIR_DX[dir], y + DIR_DY[dir]))
+  int dummy_x, dummy_y;
+
+  if (!MAPSTEP(dummy_x, dummy_y, x, y, dir))
     return 0;
 
   return *get_drawn_char(x, y, dir);

@@ -1059,7 +1059,6 @@ static void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
 ***************************************************************/
 void reset_move_costs(int x, int y)
 {
-  int dir, x1, y1;
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
@@ -1069,21 +1068,17 @@ void reset_move_costs(int x, int y)
   tile0 = map_get_tile(x, y);
   debug_log_move_costs("Resetting move costs for", x, y, tile0);
 
-  for (dir = 0; dir < 8; dir++) {
-    x1 = x + DIR_DX[dir];
-    y1 = y + DIR_DY[dir];
-    if (normalize_map_pos(&x1, &y1)) {
-      tile1 = map_get_tile(x1, y1);
-      tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
-						x1, y1, maxcost);
-      /* reverse: not at all obfuscated now --dwp */
-      tile1->move_cost[DIR_REVERSE(dir)] =
-	  tile_move_cost_ai(tile1, tile0, x1, y1, x, y, maxcost);
-    } else {
-      /* trying to move off the screen. */
-      tile0->move_cost[dir] = maxcost;
-    }
-  }
+  /* trying to move off the screen is the default */
+  memset(tile0->move_cost, maxcost, sizeof(tile0->move_cost));
+
+  adjc_dir_iterate(x, y, x1, y1, dir) {
+    tile1 = map_get_tile(x1, y1);
+    tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+					      x1, y1, maxcost);
+    /* reverse: not at all obfuscated now --dwp */
+    tile1->move_cost[DIR_REVERSE(dir)] =
+	tile_move_cost_ai(tile1, tile0, x1, y1, x, y, maxcost);
+  } adjc_dir_iterate_end;
   debug_log_move_costs("Reset move costs for", x, y, tile0);
 }
 
@@ -1103,19 +1098,17 @@ void initialize_move_costs(void)
 
   whole_map_iterate(x, y) {
     struct tile *tile0, *tile1;
-    int x1, y1;
     tile0 = map_get_tile(x, y);
-    for (dir = 0; dir < 8; dir++) {
-      x1 = x + DIR_DX[dir];
-      y1 = y + DIR_DY[dir];
-      if (normalize_map_pos(&x1, &y1)) {
-	tile1 = map_get_tile(x1, y1);
-	tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
-						  x1, y1, maxcost);
-      } else {
-	tile0->move_cost[dir] = maxcost;
-      }
+
+    /* trying to move off the screen is the default */
+    memset(tile0->move_cost, maxcost, sizeof(tile0->move_cost));
+
+    adjc_dir_iterate(x, y, x1, y1, dir) {
+      tile1 = map_get_tile(x1, y1);
+      tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
+						x1, y1, maxcost);
     }
+    adjc_dir_iterate_end;
   } whole_map_iterate_end;
 }
 
@@ -1371,10 +1364,9 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
    * 8 tries to find a valid direction. */
   for (n = 8; n > 0; n--) {
     enum direction8 choice = (enum direction8) myrand(n);
-    *x = x0 + DIR_DX[dirs[choice]];
-    *y = y0 + DIR_DY[dirs[choice]];
 
-    if (normalize_map_pos(x, y))	/* this neighbour's OK */
+    /* this neighbour's OK */
+    if (MAPSTEP(*x, *y, x0, y0, dirs[choice]))
       return;
 
     /* Choice was bad, so replace it with the last direction in the list.
@@ -1420,16 +1412,13 @@ Return the direction which is needed for a step on the map from
 **************************************************************************/
 int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
 {
-  int dir;
-
   assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
 
-  for (dir = 0; dir < 8; dir++) {
-    int x1 = start_x + DIR_DX[dir];
-    int y1 = start_y + DIR_DY[dir];
-    if (normalize_map_pos(&x1, &y1) && x1 == end_x && y1 == end_y)
+  adjc_dir_iterate(start_x, start_y, x1, y1, dir) {
+    if (x1 == end_x && y1 == end_y)
       return dir;
-  }
+  } adjc_dir_iterate_end;
+
   assert(0);
   return -1;
 }
