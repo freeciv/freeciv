@@ -53,6 +53,7 @@ struct civ_game {
   int civstyle;
   int gold;
   int settlers, explorer;
+  int dispersion;
   int tech;
   int skill_level;
   int timeout;
@@ -211,13 +212,17 @@ extern struct civ_game game;
 #define GAME_MIN_EXPLORER        0
 #define GAME_MAX_EXPLORER        10
 
+#define GAME_DEFAULT_DISPERSION  0
+#define GAME_MIN_DISPERSION      0
+#define GAME_MAX_DISPERSION      10
+
 #define GAME_DEFAULT_TECHLEVEL   3
 #define GAME_MIN_TECHLEVEL       0
 #define GAME_MAX_TECHLEVEL       50
 
 #define GAME_DEFAULT_UNHAPPYSIZE 4
-#define GAME_MIN_UNHAPPYSIZE 1
-#define GAME_MAX_UNHAPPYSIZE 6
+#define GAME_MIN_UNHAPPYSIZE     1
+#define GAME_MAX_UNHAPPYSIZE     6
 
 #define GAME_DEFAULT_END_YEAR    2000
 #define GAME_MIN_END_YEAR        GAME_START_YEAR

@@ -264,11 +264,18 @@ static struct settings_s settings[] = {
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS,
     N_("Number of initial settlers per player"), "" },
-    
+
   { "explorer", &game.explorer,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER,
     N_("Number of initial explorers per player"), "" },
+
+  { "dispersion", &game.dispersion,
+    SSET_GAME_INIT, SSET_TO_CLIENT,
+    GAME_MIN_DISPERSION, GAME_MAX_DISPERSION, GAME_DEFAULT_DISPERSION,
+    N_("Area where initial units are located"),
+    N_("This is half the length of a side of the square within "
+       "which the initial units are dispersed.") },
 
   { "gold", &game.gold,
     SSET_GAME_INIT, SSET_TO_CLIENT,

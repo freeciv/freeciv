@@ -741,9 +741,10 @@ void game_init(void)
   game.freecost    = GAME_DEFAULT_FREECOST;
   game.conquercost = GAME_DEFAULT_CONQUERCOST;
   game.settlers    = GAME_DEFAULT_SETTLERS;
+  game.explorer    = GAME_DEFAULT_EXPLORER;
+  game.dispersion  = GAME_DEFAULT_DISPERSION;
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
-  game.explorer    = GAME_DEFAULT_EXPLORER;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
   game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;

@@ -38,6 +38,7 @@
 #include "plrhand.h"
 #include "ruleset.h"
 #include "unitfunc.h"
+#include "unittools.h"
 
 #include "gamehand.h"
 
@@ -53,7 +54,8 @@ diplchance_percent"
 void init_new_game(void)
 {
   int i, j, x, y;
-  int vx, vy;
+  int vx, vy, dx, dy;
+  Unit_Type_id utype;
   int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
   
   if (!map.fixed_start_positions) {
@@ -111,34 +113,52 @@ void init_new_game(void)
     }
     free(pos_used);
   }
-  
-  for(i=0; i<game.nplayers; i++) {
-    x=map.start_positions[start_pos[i]].x;
-    y=map.start_positions[start_pos[i]].y;
-    /* For scenarios, huts may coincide with player starts;
-       remove any such hut: */
-    if(map_get_special(x,y)&S_HUT) {
-      map_clear_special(x,y,S_HUT);
-      freelog(LOG_VERBOSE, "Removed hut on start position for %s",
-	      game.players[i].name);
-    }
 
-    /* Expose visible area. */
-    for(vx=1; vx*vx <= game.rgame.init_vis_radius_sq; vx++) {
-      for(vy=1; vy*vy <= game.rgame.init_vis_radius_sq; vy++) {
-	if(vx*vx+vy*vy <= game.rgame.init_vis_radius_sq) {
-	  show_area(&game.players[i], x-vx+1, y-vy+1, 1);
-	  show_area(&game.players[i], x+vx-1, y-vy+1, 1);
-	  show_area(&game.players[i], x-vx+1, y+vy-1, 1);
-	  show_area(&game.players[i], x+vx-1, y+vy-1, 1);
+  /* Loop over all players, creating their initial units... */
+  for (i = 0; i < game.nplayers; i++) {
+    /* Start positions are warranted to be land. */
+    x = map.start_positions[start_pos[i]].x;
+    y = map.start_positions[start_pos[i]].y;
+    /* Loop over all initial units... */
+    for (j = 0; j < (game.settlers + game.explorer); j++) {
+      /* Determine a place to put the unit within the dispersion area.
+         (Always put first unit on start position.) */
+      if ((game.dispersion <= 0) || (j == 0)) {
+	dx = x;
+	dy = y;
+      } else {
+	do {
+	  dx = x + myrand (2*game.dispersion+1) - game.dispersion;
+	  dy = y + myrand (2*game.dispersion+1) - game.dispersion;
+	  dx = map_adjust_x(dx);
+	} while (!(is_real_tile(dx, dy) &&
+		   map_same_continent(x, y, dx, dy) &&
+		   (map_get_terrain(dx, dy) != T_OCEAN) &&
+		   !is_non_allied_unit_tile(map_get_tile(dx, dy),
+					    game.players[i].player_no)));
+      }
+      /* For scenarios, huts may coincide with player starts;
+	 remove any such hut: */
+      if (map_get_special(dx, dy) & S_HUT) {
+        map_clear_special(dx, dy, S_HUT);
+        freelog(LOG_VERBOSE, "Removed hut on start position for %s",
+		game.players[i].name);
+      }
+      /* Expose visible area. */
+      for (vx = 1; (vx * vx) <= game.rgame.init_vis_radius_sq; vx++) {
+	for (vy = 1; (vy * vy) <= game.rgame.init_vis_radius_sq; vy++) {
+	  if (((vx *vx) + (vy *vy)) <= game.rgame.init_vis_radius_sq) {
+	    show_area(&game.players[i], dx-vx+1, dy-vy+1, 1);
+	    show_area(&game.players[i], dx+vx-1, dy-vy+1, 1);
+	    show_area(&game.players[i], dx-vx+1, dy+vy-1, 1);
+	    show_area(&game.players[i], dx+vx-1, dy+vy-1, 1);
+	  }
 	}
       }
+      /* Create the unit of an appropriate type. */
+      utype = get_role_unit((j < game.settlers) ? F_CITIES : L_EXPLORER, 0);
+      create_unit(&game.players[i], dx, dy, utype, 0, 0, -1);
     }
-
-    for (j=0;j<game.settlers;j++) 
-      create_unit(&game.players[i], x, y, get_role_unit(F_CITIES,0), 0, 0, -1);
-    for (j=0;j<game.explorer;j++) 
-      create_unit(&game.players[i], x, y, get_role_unit(L_EXPLORER,0), 0, 0, -1);
   }
 }
 
@@ -455,13 +475,16 @@ void game_load(struct section_file *file)
     if (game.version >= 10300) {
       game.settlers = secfile_lookup_int(file, "game.settlers");
       game.explorer = secfile_lookup_int(file, "game.explorer");
+      game.dispersion =
+	secfile_lookup_int_default(file, GAME_DEFAULT_DISPERSION, "game.dispersion");
 
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
       map.generator = secfile_lookup_int(file, "map.generator");
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
-      map.grasssize = secfile_lookup_int_default(file, MAP_DEFAULT_GRASS, "map.grasssize");
+      map.grasssize =
+	secfile_lookup_int_default(file, MAP_DEFAULT_GRASS, "map.grasssize");
       map.swampsize = secfile_lookup_int(file, "map.swampsize");
       map.deserts = secfile_lookup_int(file, "map.deserts");
       map.riverlength = secfile_lookup_int(file, "map.riverlength");
@@ -646,6 +669,7 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_int(file, game.settlers, "game.settlers");
     secfile_insert_int(file, game.explorer, "game.explorer");
+    secfile_insert_int(file, game.dispersion, "game.dispersion");
     secfile_insert_int(file, map.seed, "map.seed");
     secfile_insert_int(file, map.landpercent, "map.landpercent");
     secfile_insert_int(file, map.riches, "map.riches");
