@@ -1168,6 +1168,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 {
   struct government *g = get_gov_pplayer(pplayer);
   int space_part;
+  int city_built_city_builder;
 
   while (pcity->shield_surplus<0) {
     unit_list_iterate(pcity->units_supported, punit) {
@@ -1270,7 +1271,10 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       }
     } 
   } else {
+    city_built_city_builder = 0;
+
     upgrade_unit_prod(pcity);
+
     /* FIXME: F_CITIES should be changed to any unit
      * that 'contains' 1 (or more) pop -- sjolie
      */
@@ -1290,8 +1294,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	  return 1;
 
 	}
-	pcity->size--;
-	city_auto_remove_worker(pcity);
+	city_built_city_builder = 1;
       }
       
       pcity->turn_last_built = game.year;
@@ -1302,6 +1305,12 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 		  pcity->id, -1);
       /* to eliminate micromanagement, we only subtract the unit's cost */
       pcity->shield_stock-=unit_value(pcity->currently_building); 
+
+      if (city_built_city_builder) {
+	pcity->size--;
+	city_auto_remove_worker(pcity);
+      }
+
       notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
 		       _("Game: %s is finished building %s."), 
 		       pcity->name, 
