@@ -59,6 +59,8 @@
 #undef HAVE_OPENTRANSPORT
 #undef PATH_SEPARATOR
 #undef OPTION_FILE_NAME
+#undef ESD
+#undef SDL
 
 @BOTTOM@
 
