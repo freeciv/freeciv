@@ -545,10 +545,10 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 			   "Sir, the diplomat is waiting for your command",
 			   diplomat_bribe_callback, 0,
 			   diplomat_embassy_callback, 0,
-			   spy_poison_callback, 0,
 			   diplomat_sabotage_callback, 0,
 			   diplomat_steal_callback, 0,
 			   diplomat_incite_callback, 0,
+			   spy_poison_callback, 0,
                            diplomat_cancel_callback, 0,
 			   0);
   
@@ -556,13 +556,13 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
   if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
-  if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
   if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
+    XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
   if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+    XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
   if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+    XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+  if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
     XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
 }
 

@@ -148,6 +148,7 @@ Freeciv.iconName: Freeciv
 *dform.button3.background: blue
 *dform.button4.background: blue
 *dform.button5.background: blue
+*dform.button6.background: blue
 
 *dform.button0.foreground: white
 *dform.button1.foreground: white
@@ -155,6 +156,7 @@ Freeciv.iconName: Freeciv
 *dform.button3.foreground: white
 *dform.button4.foreground: white
 *dform.button5.foreground: white
+*dform.button6.foreground: white
 
 !
 ! generic input dialog
@@ -1577,8 +1579,11 @@ Freeciv.iconName: Freeciv
 *diplomatdialog.*.button4.label:     Incite a revolt
 *diplomatdialog.*.button4.fromVert:  dlabel
 *diplomatdialog.*.button4.fromHoriz: button3
-*diplomatdialog.*.button5.label:     Cancel
-*diplomatdialog.*.button5.fromVert:  button0
+*diplomatdialog.*.button5.label:     Poison City
+*diplomatdialog.*.button5.fromVert:  dlabel
+*diplomatdialog.*.button5.fromHoriz: button4
+*diplomatdialog.*.button6.label:     Cancel
+*diplomatdialog.*.button6.fromVert:  button0
 
 
 
