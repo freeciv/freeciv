@@ -193,7 +193,7 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   int want = 0;
 
   virtualunit = create_unit_virtual(pplayer, pcity, best_type, veteran);
-  want = ai_hunter_findjob(pplayer, virtualunit);
+  want = ai_hunter_manage(pplayer, virtualunit);
   destroy_unit_virtual(virtualunit);
   if (want > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri hunter w/ want %d", want);
@@ -235,126 +235,18 @@ void ai_hunter_choice(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-  Does this unit qualify as a hunter? FIXME: Should also check for
-  combat damage? Or should repair code preempt this code? Just saying
-  FALSE for damaged units does NOT work.
+  Does this unit qualify as a hunter?
 **************************************************************************/
 bool ai_hunter_qualify(struct player *pplayer, struct unit *punit)
 {
-  struct unit_type *punittype = get_unit_type(punit->type);
-
   if (is_barbarian(pplayer)
-      || !(is_sailing_unit(punit) || is_ground_unit(punit))
-      || punittype->move_rate < 2 * SINGLE_MOVE
-      || ATTACK_POWER(punit) <= 1
       || punit->owner != pplayer->player_no) {
     return FALSE;
   }
-  if (unit_flag(punit, F_PARTIAL_INVIS)) {
+  if (unit_has_role(punit->type, L_HUNTER)) {
     return TRUE;
   }
-  /* TODO: insert better algo here */
-  return IS_ATTACKER(punit);
-}
-
-/**************************************************************************
-  Return want for making this (possibly virtual) unit into a hunter. Sets
-  punit->ai.target to target's id.
-**************************************************************************/
-int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
-{
-  int best_id = -1, best_val = -1;
-
-  assert(!is_barbarian(pplayer));
-  assert(pplayer->is_alive);
-
-  players_iterate(aplayer) {
-    if (!aplayer->is_alive || !is_player_dangerous(pplayer, aplayer)) {
-      continue;
-    }
-    /* Note that we need not (yet) be at war with aplayer */
-    unit_list_iterate(aplayer->units, target) {
-      struct tile *ptile = target->tile;
-      int dist1, dist2, stackthreat = 0, stackcost = 0;
-      struct unit *defender;
-
-      if (ptile->city
-          || TEST_BIT(target->ai.hunted, pplayer->player_no)
-          || (!is_ocean(ptile->terrain) && is_sailing_unit(punit))
-          || (is_ocean(ptile->terrain) && is_ground_unit(punit))
-          || (!is_sailing_unit(target) && is_sailing_unit(punit))
-          || (is_sailing_unit(target) && !is_sailing_unit(punit))
-          || !goto_is_sane(punit, target->tile, TRUE)) {
-        /* Can't hunt this one. */
-        continue;
-      }
-      if (target->ai.cur_pos && target->ai.prev_pos) {
-        dist1 = real_map_distance(punit->tile, *target->ai.cur_pos);
-        dist2 = real_map_distance(punit->tile, *target->ai.prev_pos);
-      } else {
-        dist1 = dist2 = 0;
-      }
-      UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s(%d, %d) id %d "
-               "dist1 %d dist2 %d",
-	       unit_type(target)->name, TILE_XY(target->tile),
-               target->id, dist1, dist2);
-      /* We can't attack units stationary in cities. */
-      if (map_get_city(target->tile) 
-          && (dist2 == 0 || dist1 == dist2)) {
-        continue;
-      }
-      /* We can't chase if we aren't faster or on intercept vector */
-      if (unit_type(punit)->move_rate < unit_type(target)->move_rate
-          && dist1 >= dist2) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
-                 unit_type(target)->name,
-		 target->ai.prev_pos ? (*target->ai.prev_pos)->x : -1,
-                 target->ai.prev_pos ? (*target->ai.prev_pos)->y : -1,
-                 TILE_XY(target->tile));
-        continue;
-      }
-      unit_list_iterate(ptile->units, sucker) {
-        stackthreat += ATTACK_POWER(sucker);
-        if (unit_flag(sucker, F_DIPLOMAT)) {
-          stackthreat += 500;
-        }
-        stackcost += unit_type(sucker)->build_cost;
-      } unit_list_iterate_end;
-      defender = get_defender(punit, target->tile);
-      if (stackcost < unit_type(punit)->build_cost
-          && unit_win_chance(punit, defender) < 0.6) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "chickening out from attacking %s"
-                 "(%d, %d)", unit_type(defender)->name,
-                 TILE_XY(defender->tile));
-        continue;
-      }
-      stackthreat *= 9; /* WAG */
-      stackthreat += stackcost;
-      stackthreat /= real_map_distance(punit->tile, target->tile) + 1;
-      UNIT_LOG(LOGLEVEL_HUNT, punit, "considering hunting %s's %s(%d, %d) id "
-               "id %d with want %d, dist1 %d, dist2 %d", 
-               unit_owner(defender)->name, unit_type(defender)->name, 
-               TILE_XY(defender->tile), defender->id, stackthreat, dist1,
-               dist2);
-      /* TO DO: probably ought to WAG down targets of players we are not (yet)
-       * at war with */
-      /* Ok, now we FINALLY have a candidate */
-      if (stackthreat > best_val) {
-        best_val = stackthreat;
-        best_id = target->id;
-      }
-    } unit_list_iterate_end;
-  } players_iterate_end;
-
-  punit->ai.target = best_id;
-  if (best_val < MORT) {
-    /* Safety against silly missions. Unset our role. */
-    best_val = -1;
-  } else {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "suggest chasing %d with want %d",
-             best_id, best_val);
-  }
-  return best_val;
+  return FALSE;
 }
 
 /**************************************************************************
@@ -435,68 +327,186 @@ static void ai_hunter_try_launch(struct player *pplayer,
 }
 
 /**************************************************************************
-  Manage a hunter unit. We assume it has AIUNIT_HUNTER role and a valid
-  target in punit->ai.hunt.
-
-  Returns FALSE if we could not use unit. If we return TRUE, unit might
-  be dead.
+  Calculate desire to crush this target.
 **************************************************************************/
-bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
+static void ai_hunter_juiciness(struct player *pplayer, struct unit *punit,
+                                struct unit *target, int *stackthreat,
+                                int *stackcost)
 {
-  struct unit *target = find_unit_by_id(punit->ai.target);
-  int sanity_own = punit->id;
-  int sanity_target;
+  *stackthreat = 0;
+  *stackcost = 0;
 
-  CHECK_UNIT(punit);
-  assert(punit->ai.ai_role == AIUNIT_HUNTER);
+  unit_list_iterate(target->tile->units, sucker) {
+    *stackthreat += ATTACK_POWER(sucker);
+    if (unit_flag(sucker, F_GAMELOSS)) {
+      *stackcost += 1000;
+      *stackthreat += 5000;
+    }
+    if (unit_flag(sucker, F_DIPLOMAT)) {
+      *stackthreat += 500; /* extra threatening */
+    }
+    *stackcost += unit_type(sucker)->build_cost;
+  } unit_list_iterate_end;
 
-  /* Check that target is valid. */
-  if (!target
-      || !goto_is_sane(punit, target->tile, TRUE)
-      || map_get_city(target->tile)
-      || !is_player_dangerous(pplayer, unit_owner(target))) {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "target vanished");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-    return FALSE;
-  }
-  UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %d(%d, %d)",
-	   target->id, TILE_XY(target->tile));
-  sanity_target = target->id;
+  *stackthreat *= 9; /* WAG - reduced by distance later */
+  *stackthreat += *stackcost;
+}
 
-  /* Check if we can nuke it */
-  ai_hunter_try_launch(pplayer, punit, target);
-  /* Check if we have nuked it */
-  if (target != find_unit_by_id(sanity_target)) {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-    return TRUE;
-  }
+/**************************************************************************
+  Manage a (possibly virtual) hunter. Return the want for building a 
+  hunter like this. If we return 0, then we have nothing to do with
+  the hunter. If we return -1, then we succeeded, and can try again.
+  If we return > 0 then we are hunting but ran out of moves (this is
+  also used for construction want).
 
-  /* Go towards it. */
-  if (!ai_unit_goto(punit, target->tile)) {
-    return TRUE;
-  }
+  We try to keep track of our original target, but also opportunistically
+  snatch up closer targts if they are better.
 
-  /* Check if we can nuke it now */
-  ai_hunter_try_launch(pplayer, punit, target);
-  if (target != find_unit_by_id(sanity_target)) {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-    return TRUE;
-  }
+  We set punit->ai.target to target's id.
+**************************************************************************/
+int ai_hunter_manage(struct player *pplayer, struct unit *punit)
+{
+  bool is_virtual = (punit->id == 0);
+  struct pf_parameter parameter;
+  struct pf_map *map;
+  int limit = unit_move_rate(punit) * 6;
+  struct unit *original_target = find_unit_by_id(punit->ai.target);
+  int original_threat = 0, original_cost = 0;
 
-  /* If we are adjacent - RAMMING SPEED! */
-  if (is_tiles_adjacent(punit->tile, target->tile)) {
-    ai_unit_attack(punit, target->tile);
-  }
+  assert(!is_barbarian(pplayer));
+  assert(pplayer->is_alive);
 
-  if (!find_unit_by_id(sanity_own)) {
-    return TRUE;
-  }
-  if (target != find_unit_by_id(sanity_target)) {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  pft_fill_unit_parameter(&parameter, punit);
+  map = pf_create_map(&parameter);
+
+  if (original_target) {
+    ai_hunter_juiciness(pplayer, punit, original_target, 
+                        &original_threat, &original_cost);
   }
 
-  return TRUE;
+  pf_iterator(map, pos) {
+    /* End faster if we have a target */
+    if (pos.total_MC > limit) {
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "gave up finding hunt target");
+      pf_destroy_map(map);
+      return 0;
+    }
+    unit_list_iterate_safe(pos.tile->units, target) {
+      struct player *aplayer = unit_owner(target);
+      int dist1, dist2, stackthreat = 0, stackcost = 0;
+      int sanity_target = target->id;
+
+      /* Note that we need not (yet) be at war with aplayer */
+      if (!is_player_dangerous(pplayer, aplayer)) {
+        continue;
+      }
+      if (pos.tile->city
+          || !can_unit_attack_tile(punit, pos.tile)
+          || TEST_BIT(target->ai.hunted, pplayer->player_no)) {
+        /* Can't hunt this one.  The bit is cleared in the beginning
+         * of each turn. */
+        continue;
+      }
+      if (!unit_flag(target, F_DIPLOMAT)
+          && get_transporter_capacity(target) == 0
+          && !unit_flag(target, F_GAMELOSS)) {
+        /* Won't hunt this one. */
+        continue;
+      }
+
+      /* Figure out whether unit is coming closer */
+      if (target->ai.cur_pos && target->ai.prev_pos) {
+        dist1 = real_map_distance(punit->tile, *target->ai.cur_pos);
+        dist2 = real_map_distance(punit->tile, *target->ai.prev_pos);
+      } else {
+        dist1 = dist2 = 0;
+      }
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s(%d, %d) id %d "
+               "dist1 %d dist2 %d",
+	       unit_type(target)->name, TILE_XY(target->tile),
+               target->id, dist1, dist2);
+
+      /* We can't chase if we aren't faster or on intercept vector */
+      if (unit_type(punit)->move_rate < unit_type(target)->move_rate
+          && dist1 >= dist2) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
+                 unit_type(target)->name,
+		 target->ai.prev_pos ? (*target->ai.prev_pos)->x : -1,
+                 target->ai.prev_pos ? (*target->ai.prev_pos)->y : -1,
+                 TILE_XY(target->tile));
+        continue;
+      }
+
+      /* Calculate juiciness of target, compare with existing target,
+       * if any. */
+      ai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
+      stackcost *= unit_win_chance(punit, get_defender(punit, target->tile));
+      if (stackcost < unit_type(punit)->build_cost) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)", 
+                 target->id, stackcost, unit_type(punit)->build_cost);
+        continue; /* Too expensive */
+      }
+      stackthreat /= pos.total_MC + 1;
+      if (!is_virtual 
+          && original_target != target
+          && original_threat > stackthreat) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "Unit %d is not worse than %d", 
+                 target->id, original_target->id);
+        continue; /* The threat we found originally was worse than this! */
+      }
+      if (stackthreat < unit_type(punit)->build_cost) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is not worth it", target->id);
+        continue; /* Not worth it */
+      }
+
+      UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %s's %s(%d, %d) "
+               "id %d with want %d, dist1 %d, dist2 %d", 
+               unit_owner(target)->name, unit_type(target)->name, 
+               TILE_XY(target->tile), target->id, stackthreat, dist1,
+               dist2);
+      /* Ok, now we FINALLY have a target worth destroying! */
+      punit->ai.target = target->id;
+      if (is_virtual) {
+        pf_destroy_map(map);
+        return stackthreat;
+      }
+
+      /* This assigns missiles to us */
+      ai_unit_new_role(punit, AIUNIT_HUNTER, target->tile);
+
+      /* Check if we can nuke it */
+      ai_hunter_try_launch(pplayer, punit, target);
+
+      /* Check if we have nuked it */
+      if (target != find_unit_by_id(sanity_target)) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
+        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        pf_destroy_map(map);
+        return -1; /* try again */
+      }
+
+      /* Go towards it. */
+      if (!ai_unit_execute_path(punit, pf_get_path(map, target->tile))) {
+        pf_destroy_map(map);
+        return 0;
+      }
+
+      /* Check if we can nuke it now */
+      ai_hunter_try_launch(pplayer, punit, target);
+      if (target != find_unit_by_id(sanity_target)) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
+        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        pf_destroy_map(map);
+        return -1; /* try again */
+      }
+
+      pf_destroy_map(map);
+      punit->ai.done = TRUE;
+      return stackthreat; /* still have work to do */
+    } unit_list_iterate_safe_end;
+  } pf_iterator_end;
+
+  UNIT_LOG(LOGLEVEL_HUNT, punit, "ran out of map finding hunt target");
+  pf_destroy_map(map);
+  return 0; /* found nothing */
 }

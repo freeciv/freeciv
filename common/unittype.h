@@ -152,6 +152,7 @@ enum unit_role_id {
   L_SETTLERS,		/* can improve terrain */
   L_GAMELOSS,		/* loss results in loss of game */
   L_DIPLOMAT,		/* can do diplomat actions */
+  L_HUNTER,             /* AI hunter type unit */
   L_LAST
 };
 #define L_MAX 64

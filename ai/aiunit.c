@@ -994,19 +994,6 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
-  /* Make unit a seahunter? */
-  if (punit->ai.ai_role == AIUNIT_HUNTER) {
-    return; /* Continue mission. */
-  }
-  if (ai_hunter_qualify(pplayer, punit)) {
-    UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
-    if (ai_hunter_findjob(pplayer, punit) > 0) {
-      UNIT_LOG(LOGLEVEL_HUNT, punit, "set as HUNTER");
-      ai_unit_new_role(punit, AIUNIT_HUNTER, NULL);
-      return;
-    }
-  }
-
   if (unit_role_defender(punit->type)) {
     /* 
      * This is a defending unit that doesn't need to stay put.
@@ -1930,6 +1917,28 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
      we must make sure that previously reserved ferry is freed. */
   aiferry_clear_boat(punit);
 
+  /* Try hunting with this unit */
+  if (ai_hunter_qualify(pplayer, punit)) {
+    int result, sanity = punit->id;
+
+    UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
+    result = ai_hunter_manage(pplayer, punit);
+    if (!find_unit_by_id(sanity)) {
+      return; /* died */
+    }
+    if (result == -1) {
+      (void) ai_hunter_manage(pplayer, punit); /* More carnage */
+      return;
+    } else if (result >= 1) {
+      return; /* Done moving */
+    } else if (punit->ai.ai_role == AIUNIT_HUNTER) {
+      /* This should be very rare */
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    }
+  } else if (punit->ai.ai_role == AIUNIT_HUNTER) {
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  }
+
   /* Do we have a specific job for this unit? If not, we default
    * to attack. */
   ai_military_findjob(pplayer, punit);
@@ -1956,10 +1965,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     ai_manage_hitpoint_recovery(punit);
     break;
   case AIUNIT_HUNTER:
-    if (!ai_hunter_manage(pplayer, punit)) {
-      /* Try something else */
-      ai_military_bodyguard(pplayer, punit);
-    }
+    assert(FALSE); /* dealt with above */
     break;
   default:
     assert(FALSE);

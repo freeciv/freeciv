@@ -53,7 +53,7 @@ static const char *role_names[] = {
   "Ferryboat", "Barbarian", "BarbarianTech", "BarbarianBoat",
   "BarbarianBuild", "BarbarianBuildTech", "BarbarianLeader",
   "BarbarianSea", "BarbarianSeaTech", "Cities", "Settlers",
-  "GameLoss", "Diplomat"
+  "GameLoss", "Diplomat", "Hunter"
 };
 static const char *unit_class_names[] = {
   "Air",

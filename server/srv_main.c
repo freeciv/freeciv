@@ -607,6 +607,11 @@ static void end_phase(void)
 
   /* AI end of turn activities */
   auto_settlers_init();
+  players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      punit->ai.hunted = 0;
+    } unit_list_iterate_end;
+  } players_iterate_end;
   phase_players_iterate(pplayer) {
     if (pplayer->ai.control) {
       ai_settler_init(pplayer);
