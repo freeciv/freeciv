@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-12-02 09:20+0100\n"
+"POT-Creation-Date: 2003-12-02 12:27-0500\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -1893,8 +1893,7 @@ msgstr "Gra: %s spotkani! Rz±dzi nimi %s."
 #: server/plrhand.c:1733
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr "Niestety wojna domowa nie mo¿e siê odbyæ(gracz %s). Za "
-"du¿o graczy"
+msgstr "Niestety wojna domowa nie mo¿e siê odbyæ(gracz %s). Za du¿o graczy"
 
 #: server/plrhand.c:1755
 #, c-format
@@ -18214,4 +18213,3 @@ msgstr "Zuluski"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "Zulusi"
-

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
+"POT-Creation-Date: 2003-12-02 12:27-0500\n"
 "PO-Revision-Date: 2001-07-14 23:42GMT\n"
 "Last-Translator: Michael Stefaniuc <mstefani@redhat.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -389,7 +389,7 @@ msgstr "Transformeazã"
 msgid "Patrol"
 msgstr "Patruleazã"
 
-#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1801
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
 #: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
@@ -1057,7 +1057,7 @@ msgstr ""
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:169
+#: server/diplhand.c:169 server/diplhand.c:258
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
@@ -1089,87 +1089,87 @@ msgstr ""
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr ""
 
-#: server/diplhand.c:260 server/diplhand.c:264
+#: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 
-#: server/diplhand.c:289
+#: server/diplhand.c:296
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr ""
 
-#: server/diplhand.c:293
+#: server/diplhand.c:300
 #, fuzzy, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Joc: %si au obþinut %s de la %s."
 
-#: server/diplhand.c:298
+#: server/diplhand.c:305
 #, fuzzy, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "Joc: Aþi obþinut %s de la %s."
 
-#: server/diplhand.c:308
+#: server/diplhand.c:315
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Joc: Aþi primit %d galbeni."
 
-#: server/diplhand.c:314
+#: server/diplhand.c:321
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Joc: Aþi primit harta lumi a %slor."
 
-#: server/diplhand.c:319
+#: server/diplhand.c:326
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Joc: Aþi primit harta maritimã a %slor."
 
-#: server/diplhand.c:334
+#: server/diplhand.c:341
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Joc: Aþi obþinut oraºul %s de la %s."
 
-#: server/diplhand.c:338
+#: server/diplhand.c:345
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Joc: Aþi cedat oraºul %s %slor"
 
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:357 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr ""
 
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:369 server/diplhand.c:372
 #, fuzzy, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Joc: Tratat de pace semnat cu %s."
 
-#: server/diplhand.c:374 server/diplhand.c:377
+#: server/diplhand.c:381 server/diplhand.c:384
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Joc: Tratat de alianzã încheiat cu %s."
 
-#: server/diplhand.c:385
+#: server/diplhand.c:392
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr ""
 
-#: server/diplhand.c:388
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr ""
 
-#: server/diplhand.c:489
+#: server/diplhand.c:496
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr ""
 
-#: server/diplhand.c:495
+#: server/diplhand.c:502
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr ""
 
-#: server/diplhand.c:538
+#: server/diplhand.c:545
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr ""
 
@@ -1842,19 +1842,24 @@ msgstr ""
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Joc: Aþi fãcut contact cu %si conduºi de %s."
 
-#: server/plrhand.c:1748
+#: server/plrhand.c:1733
+#, c-format
+msgid "Could not throw %s into civil war - too many players"
+msgstr ""
+
+#: server/plrhand.c:1755
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
 
-#: server/plrhand.c:1768
+#: server/plrhand.c:1775
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr ""
 
-#: server/plrhand.c:1791
+#: server/plrhand.c:1801
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -4994,7 +4999,7 @@ msgstr ""
 "Joc: Zborul dvs deasupra tribului i-a speriat pe locuitori, care în panicã\n"
 "     au fugit în toate direcþile."
 
-#: server/unittools.c:3118
+#: server/unittools.c:3096
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6595,7 +6600,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:145
 msgid "Cleared output window."
 msgstr ""
 
@@ -6875,89 +6880,89 @@ msgstr "%s%d nemulþumiþi"
 msgid "blocked"
 msgstr ""
 
-#: client/gui-gtk-2.0/citydlg.c:1683
+#: client/gui-gtk-2.0/citydlg.c:1684
 #, fuzzy, c-format
 msgid "Supported units %d"
 msgstr "Unitãþi întreþinute"
 
-#: client/gui-gtk-2.0/citydlg.c:1777
+#: client/gui-gtk-2.0/citydlg.c:1779
 #, fuzzy, c-format
 msgid "Present units %d"
 msgstr "Unitãþi prezente"
 
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:1803 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk-2.0/citydlg.c:1806 client/gui-gtk/citydlg.c:2300
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, fuzzy, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "%s ne plãteºte %d galbeni"
 
-#: client/gui-gtk-2.0/citydlg.c:1810 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:1812 client/gui-gtk/citydlg.c:2306
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1421
 msgid "No trade routes exist."
 msgstr ""
 
-#: client/gui-gtk-2.0/citydlg.c:1813
+#: client/gui-gtk-2.0/citydlg.c:1815
 #, c-format
 msgid "Total trade from trade route %d"
 msgstr ""
 
-#: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
+#: client/gui-gtk-2.0/citydlg.c:1932 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "_Centreazã"
 
-#: client/gui-gtk-2.0/citydlg.c:1936 client/gui-gtk-2.0/citydlg.c:1988
+#: client/gui-gtk-2.0/citydlg.c:1938 client/gui-gtk-2.0/citydlg.c:1990
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
 msgstr "_Activeazã unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:1942 client/gui-gtk-2.0/citydlg.c:1994
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-2.0/citydlg.c:1996
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
 msgstr "Activeazã unitatea, închide _dialogul"
 
-#: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-2.0/citydlg.c:2022
+#: client/gui-gtk-2.0/citydlg.c:1950 client/gui-gtk-2.0/citydlg.c:2024
 #: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1675 client/gui-win32/citydlg.c:1707
 msgid "_Disband unit"
 msgstr "_Dizolvã unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2000 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1703
 msgid "_Sentry unit"
 msgstr "_Þine poziþia"
 
-#: client/gui-gtk-2.0/citydlg.c:2011 client/gui-gtk/citydlg.c:2517
+#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1705
 msgid "_Fortify unit"
 msgstr "_Fortificã unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2028 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2520
 #: client/gui-win32/citydlg.c:1709
 msgid "Make new _homecity"
 msgstr "Nou oraº _natal"
 
-#: client/gui-gtk-2.0/citydlg.c:2038 client/gui-gtk/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2040 client/gui-gtk/citydlg.c:2522
 #: client/gui-win32/citydlg.c:1711
 msgid "_Upgrade unit"
 msgstr "_Modernizeazã unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2229 client/gui-gtk/citydlg.c:2695
+#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk/citydlg.c:2695
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1621
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Din pãcate nu pot moderniza %s."
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
@@ -6965,7 +6970,7 @@ msgstr "Din pãcate nu pot moderniza %s."
 msgid "Upgrade Unit!"
 msgstr "Modernizeazã Unitatea!"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
 #: client/gui-xaw/citydlg.c:2120
 #, c-format
@@ -6976,7 +6981,7 @@ msgstr ""
 "Modernizeazã %s în %s pentru %d galbeni?\n"
 "Trezoreria conþine %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2250 client/gui-gtk-2.0/repodlgs.c:1007
+#: client/gui-gtk-2.0/citydlg.c:2252 client/gui-gtk-2.0/repodlgs.c:1007
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/repodlgs.c:905
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/repodlgs.c:586
@@ -6984,7 +6989,7 @@ msgstr ""
 msgid "Upgrade Obsolete Units"
 msgstr "Modernizeazã unitãþile învechite"
 
-#: client/gui-gtk-2.0/citydlg.c:2265 client/gui-gtk/citydlg.c:2716
+#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1884 client/gui-win32/citydlg.c:1641
 #: client/gui-xaw/citydlg.c:2130
 #, c-format
@@ -6995,7 +7000,7 @@ msgstr ""
 "Modernizarea a %s în %s costã %d galbeni.\n"
 "Trezoreria conþine %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2417 client/gui-gtk/citydlg.c:2900
+#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1046 client/gui-win32/citydlg.c:1034
 #: client/gui-xaw/citydlg.c:2050
 #, c-format
@@ -7006,7 +7011,7 @@ msgstr ""
 "Vreþi sã cumpãraþi %s pentru %d galbeni?\n"
 "Tresoreria conþine %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk-2.0/citydlg.c:2436
+#: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2438
 #: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/citydlg.c:1059
 #: client/gui-win32/citydlg.c:1037 client/gui-win32/citydlg.c:1046
@@ -7014,7 +7019,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Cumparã!"
 
-#: client/gui-gtk-2.0/citydlg.c:2433 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk-2.0/citydlg.c:2435 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1056 client/gui-win32/citydlg.c:1043
 #: client/gui-xaw/citydlg.c:2059
 #, c-format
@@ -7025,25 +7030,25 @@ msgstr ""
 "%s costã %d galbeni.\n"
 "Tresoreria conþine %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2466 client/gui-gtk/citydlg.c:3167
+#: client/gui-gtk-2.0/citydlg.c:2468 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1084 client/gui-win32/citydlg.c:1092
 #: client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Vinde %s pentru %d galbeni?"
 
-#: client/gui-gtk-2.0/citydlg.c:2470 client/gui-gtk/citydlg.c:3171
+#: client/gui-gtk-2.0/citydlg.c:2472 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1089 client/gui-win32/citydlg.c:1097
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Vinde!"
 
-#: client/gui-gtk-2.0/citydlg.c:2548 client/gui-gtk/citydlg.c:3329
+#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3329
 #: client/gui-win32/citydlg.c:1356 data/Freeciv:524
 msgid "Rename City"
 msgstr "Redenumeºte oraºul"
 
-#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3331
+#: client/gui-gtk-2.0/citydlg.c:2552 client/gui-gtk/citydlg.c:3331
 #: client/gui-win32/citydlg.c:1357 client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "Care sã fie numele oraºului?"

@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
-"POT-Creation-Date: 2003-10-20 12:57-0400\n"
+"POT-Creation-Date: 2003-12-02 12:27-0500\n"
 "PO-Revision-Date: 2003-11-23 15:20+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -367,10 +367,10 @@ msgid ""
 "you are using the latin1 character set, some characters\n"
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
-msgstr "iconv 無しでも Freeciv を楽しむことが出来ます。"
-"しかし、もしあなたが latin1 のエンコーディングを使っていない場合には、"
-"いくつかの文字が表示されないかもしれません。"
-"iconv は、http://gnu.org/ からダウンロードすることができます。"
+msgstr ""
+"iconv 無しでも Freeciv を楽しむことが出来ます。しかし、もしあなたが latin1 の"
+"エンコーディングを使っていない場合には、いくつかの文字が表示されないかもしれ"
+"ません。iconv は、http://gnu.org/ からダウンロードすることができます。"
 
 #: common/support.c:149
 #, c-format
@@ -428,7 +428,7 @@ msgstr "変更"
 msgid "Patrol"
 msgstr "パトロール"
 
-#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1801
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
 #: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
@@ -1116,7 +1116,7 @@ msgid "You are not owner of %s, you can't accept treaty."
 msgstr "%sの所有者ではないので、条約は承認できません。"
 
 # yasu
-#: server/diplhand.c:169
+#: server/diplhand.c:169 server/diplhand.c:258
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Game: 首都(%s)が要求されましたので条約を承認できません。"
@@ -1152,101 +1152,101 @@ msgstr ""
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Game: %s はもう %s を所有してません! 条約は破棄されました。"
 
-#: server/diplhand.c:260 server/diplhand.c:264
+#: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Game: %sは約束した金を持っていません! 条約は破棄されました。"
 
 # yasu
-#: server/diplhand.c:289
+#: server/diplhand.c:296
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Game: %sの知識を得ました。"
 
-#: server/diplhand.c:293
+#: server/diplhand.c:300
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Game: %1$sは%3$sから%2$sを得ました。"
 
-#: server/diplhand.c:298
+#: server/diplhand.c:305
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%1$sは%3$sから%2$sを習得しました(条約)"
 
 # yasu
-#: server/diplhand.c:308
+#: server/diplhand.c:315
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Game: 金 %d を得ました。"
 
 # yasu
-#: server/diplhand.c:314
+#: server/diplhand.c:321
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Game: %s の世界地図を得ました。"
 
 # yasu
-#: server/diplhand.c:319
+#: server/diplhand.c:326
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Game: %s の海図を得ました。"
 
 # yasu
-#: server/diplhand.c:334
+#: server/diplhand.c:341
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Game: 都市 %s を %s から得ました。"
 
 # yasu
-#: server/diplhand.c:338
+#: server/diplhand.c:345
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Game: 都市 %s を %s に与えました。"
 
 # yasu
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:357 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Game: %s との停戦に合意しました。"
 
 # yasu
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:369 server/diplhand.c:372
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Game: %s との和平条約に合意しました。"
 
 # yasu
-#: server/diplhand.c:374 server/diplhand.c:377
+#: server/diplhand.c:381 server/diplhand.c:384
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Game: %s との同盟に合意しました。"
 
 # yasu
-#: server/diplhand.c:385
+#: server/diplhand.c:392
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Gme: %s と視界の共有を許可しました。"
 
 # yasu
-#: server/diplhand.c:388
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Game: %s の視界の共有を許可されました。"
 
 # yasu
-#: server/diplhand.c:489
+#: server/diplhand.c:496
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Game: %s は会合を中止しました。"
 
 # yasu
-#: server/diplhand.c:495
+#: server/diplhand.c:502
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Game: %s との会合は中止されました。"
 
 # yasu
-#: server/diplhand.c:538
+#: server/diplhand.c:545
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr "AI が支配しているプレイヤーは外交会合に参加できません。"
 
@@ -1974,8 +1974,13 @@ msgstr "Game: %sはゲームを中止させられました。"
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
+#: server/plrhand.c:1733
+#, c-format
+msgid "Could not throw %s into civil war - too many players"
+msgstr ""
+
 # yasu
-#: server/plrhand.c:1748
+#: server/plrhand.c:1755
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1983,13 +1988,13 @@ msgid ""
 msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
 # yasu
-#: server/plrhand.c:1768
+#: server/plrhand.c:1775
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
 # clefs
-#: server/plrhand.c:1791
+#: server/plrhand.c:1801
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -3854,7 +3859,6 @@ msgstr ""
 "ます。チームのプレイヤーは、プレイヤーの平均得点で決まるチームの勝利を目指し"
 "て一緒に戦います。"
 
-
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
 msgstr "fix <オプション名>"
@@ -5446,7 +5450,7 @@ msgstr "Game: 友好的な放浪者があなたに感銘し、部隊に加わりました。"
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Game: 飛行物体を見て部族は驚き、逃走しました。"
 
-#: server/unittools.c:3118
+#: server/unittools.c:3096
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -7008,7 +7012,7 @@ msgstr ""
 "      生産物の完成: %s"
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:145
 msgid "Cleared output window."
 msgstr "出力ウィンドウを消去しました。"
 
@@ -7260,90 +7264,90 @@ msgstr " - 幸福"
 msgid "blocked"
 msgstr "拡大不能"
 
-#: client/gui-gtk-2.0/citydlg.c:1683
-#,  c-format
+#: client/gui-gtk-2.0/citydlg.c:1684
+#, c-format
 msgid "Supported units %d"
 msgstr "援助されている部隊: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1777
+#: client/gui-gtk-2.0/citydlg.c:1779
 #, c-format
 msgid "Present units %d"
 msgstr "都市にいる部隊: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
+#: client/gui-gtk-2.0/citydlg.c:1803 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:1804 client/gui-gtk/citydlg.c:2300
+#: client/gui-gtk-2.0/citydlg.c:1806 client/gui-gtk/citydlg.c:2300
 #: client/gui-mui/citydlg.c:2164 client/gui-win32/citydlg.c:1415
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "%sとの交易は、交易%dです。\n"
 
-#: client/gui-gtk-2.0/citydlg.c:1810 client/gui-gtk/citydlg.c:2306
+#: client/gui-gtk-2.0/citydlg.c:1812 client/gui-gtk/citydlg.c:2306
 #: client/gui-mui/citydlg.c:2170 client/gui-win32/citydlg.c:1421
 msgid "No trade routes exist."
 msgstr "交易路は存在しません。"
 
-#: client/gui-gtk-2.0/citydlg.c:1813
+#: client/gui-gtk-2.0/citydlg.c:1815
 #, c-format
 msgid "Total trade from trade route %d"
 msgstr "交易路による合計交易: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
+#: client/gui-gtk-2.0/citydlg.c:1932 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
 msgid "Cen_ter"
 msgstr "中心へ(_T)"
 
-#: client/gui-gtk-2.0/citydlg.c:1936 client/gui-gtk-2.0/citydlg.c:1988
+#: client/gui-gtk-2.0/citydlg.c:1938 client/gui-gtk-2.0/citydlg.c:1990
 #: client/gui-gtk/citydlg.c:2481 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
 msgstr "部隊を起こす(_A)"
 
-#: client/gui-gtk-2.0/citydlg.c:1942 client/gui-gtk-2.0/citydlg.c:1994
+#: client/gui-gtk-2.0/citydlg.c:1944 client/gui-gtk-2.0/citydlg.c:1996
 #: client/gui-gtk/citydlg.c:2482 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
 msgstr "部隊を起こし、閉じる(_C)"
 
-#: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-2.0/citydlg.c:2022
+#: client/gui-gtk-2.0/citydlg.c:1950 client/gui-gtk-2.0/citydlg.c:2024
 #: client/gui-gtk/citydlg.c:2484 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1675 client/gui-win32/citydlg.c:1707
 msgid "_Disband unit"
 msgstr "部隊解散(_D)"
 
-#: client/gui-gtk-2.0/citydlg.c:2000 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2002 client/gui-gtk/citydlg.c:2515
 #: client/gui-win32/citydlg.c:1703
 msgid "_Sentry unit"
 msgstr "見張り番(_S)"
 
 # yasu
-#: client/gui-gtk-2.0/citydlg.c:2011 client/gui-gtk/citydlg.c:2517
+#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk/citydlg.c:2517
 #: client/gui-win32/citydlg.c:1705
 msgid "_Fortify unit"
 msgstr "防御姿勢(_F)"
 
-#: client/gui-gtk-2.0/citydlg.c:2028 client/gui-gtk/citydlg.c:2520
+#: client/gui-gtk-2.0/citydlg.c:2030 client/gui-gtk/citydlg.c:2520
 #: client/gui-win32/citydlg.c:1709
 msgid "Make new _homecity"
 msgstr "住人にする(_H)"
 
-#: client/gui-gtk-2.0/citydlg.c:2038 client/gui-gtk/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:2040 client/gui-gtk/citydlg.c:2522
 #: client/gui-win32/citydlg.c:1711
 msgid "_Upgrade unit"
 msgstr "新型にする(_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:2229 client/gui-gtk/citydlg.c:2695
+#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk/citydlg.c:2695
 #: client/gui-mui/dialogs.c:1864 client/gui-win32/citydlg.c:1621
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "すみません。%sを新型にできません。"
 
-#: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/citydlg.c:2270
+#: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
 #: client/gui-mui/dialogs.c:1865 client/gui-mui/dialogs.c:1889
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
@@ -7351,7 +7355,7 @@ msgstr "すみません。%sを新型にできません。"
 msgid "Upgrade Unit!"
 msgstr "新型にする"
 
-#: client/gui-gtk-2.0/citydlg.c:2246 client/gui-gtk/citydlg.c:2704
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
 #: client/gui-xaw/citydlg.c:2120
 #, c-format
@@ -7362,7 +7366,7 @@ msgstr ""
 "%sを%sへ金%dで新型にしますか?\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2250 client/gui-gtk-2.0/repodlgs.c:1007
+#: client/gui-gtk-2.0/citydlg.c:2252 client/gui-gtk-2.0/repodlgs.c:1007
 #: client/gui-gtk/citydlg.c:2709 client/gui-gtk/repodlgs.c:905
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
 #: client/gui-win32/citydlg.c:1634 client/gui-win32/repodlgs.c:586
@@ -7371,7 +7375,7 @@ msgid "Upgrade Obsolete Units"
 msgstr "旧型部隊を新型にする"
 
 # ama, clefs
-#: client/gui-gtk-2.0/citydlg.c:2265 client/gui-gtk/citydlg.c:2716
+#: client/gui-gtk-2.0/citydlg.c:2267 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1884 client/gui-win32/citydlg.c:1641
 #: client/gui-xaw/citydlg.c:2130
 #, c-format
@@ -7382,7 +7386,7 @@ msgstr ""
 "%1$sを%2$sへ新型にするには金%3$dが必要です。\n"
 "現在の資金は%4$dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2417 client/gui-gtk/citydlg.c:2900
+#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk/citydlg.c:2900
 #: client/gui-mui/citydlg.c:1046 client/gui-win32/citydlg.c:1034
 #: client/gui-xaw/citydlg.c:2050
 #, c-format
@@ -7393,7 +7397,7 @@ msgstr ""
 "%sを金%dで買いますか?\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2419 client/gui-gtk-2.0/citydlg.c:2436
+#: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2438
 #: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/citydlg.c:1059
 #: client/gui-win32/citydlg.c:1037 client/gui-win32/citydlg.c:1046
@@ -7401,7 +7405,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "買う!"
 
-#: client/gui-gtk-2.0/citydlg.c:2433 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk-2.0/citydlg.c:2435 client/gui-gtk/citydlg.c:2910
 #: client/gui-mui/citydlg.c:1056 client/gui-win32/citydlg.c:1043
 #: client/gui-xaw/citydlg.c:2059
 #, c-format
@@ -7412,25 +7416,25 @@ msgstr ""
 "%sの費用は金%dです。\n"
 "現在の資金は%dです。"
 
-#: client/gui-gtk-2.0/citydlg.c:2466 client/gui-gtk/citydlg.c:3167
+#: client/gui-gtk-2.0/citydlg.c:2468 client/gui-gtk/citydlg.c:3167
 #: client/gui-mui/citydlg.c:1084 client/gui-win32/citydlg.c:1092
 #: client/gui-xaw/citydlg.c:2487
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "金%2$dで%1$sを売りますか?"
 
-#: client/gui-gtk-2.0/citydlg.c:2470 client/gui-gtk/citydlg.c:3171
+#: client/gui-gtk-2.0/citydlg.c:2472 client/gui-gtk/citydlg.c:3171
 #: client/gui-mui/citydlg.c:1089 client/gui-win32/citydlg.c:1097
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "売る"
 
-#: client/gui-gtk-2.0/citydlg.c:2548 client/gui-gtk/citydlg.c:3329
+#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3329
 #: client/gui-win32/citydlg.c:1356 data/Freeciv:524
 msgid "Rename City"
 msgstr "都市名の変更"
 
-#: client/gui-gtk-2.0/citydlg.c:2550 client/gui-gtk/citydlg.c:3331
+#: client/gui-gtk-2.0/citydlg.c:2552 client/gui-gtk/citydlg.c:3331
 #: client/gui-win32/citydlg.c:1357 client/gui-xaw/citydlg.c:1392
 msgid "What should we rename the city to?"
 msgstr "新しい都市名を何と名づけますか?"

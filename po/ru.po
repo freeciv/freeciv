@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
-"POT-Creation-Date: 2003-12-02 14:15+0300\n"
+"POT-Creation-Date: 2003-12-02 12:27-0500\n"
 "PO-Revision-Date: 2003-12-02 14:44+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -164,8 +164,8 @@ msgstr "Радиация"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr ""
-"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла "
-"%s"
+"Не хватает памяти при совершении операции %s - %lu байтов в строке %d файла %"
+"s"
 
 #: common/packets.c:3059
 msgid ""

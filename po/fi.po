@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-12 19:53+0200\n"
+"POT-Creation-Date: 2003-12-02 12:27-0500\n"
 "PO-Revision-Date: 2003-11-12 19:55+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:263
@@ -1095,7 +1095,7 @@ msgstr "Yrit‰t antaa kaupungin, jota ei en‰‰ ole. Et voi hyv‰ksy‰ sopimusta."
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr "%s ei ole sinun, et voi hyv‰ksy‰ sopimusta."
 
-#: server/diplhand.c:169
+#: server/diplhand.c:169 server/diplhand.c:258
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Peli: Vastapuoli haluaa p‰‰kaupunkisi (%s). Et voi hyv‰ksy‰ sopimusta."
@@ -1128,88 +1128,88 @@ msgstr ""
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Peli: %s eiv‰t en‰‰ omista kaupunkia %s! Sopimus peruutettu!"
 
-#: server/diplhand.c:260 server/diplhand.c:264
+#: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 "Peli: %s eiv‰t kykene maksamaan sovittua kultam‰‰r‰‰! Sopimus peruutettu!"
 
-#: server/diplhand.c:289
+#: server/diplhand.c:296
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Peli: Saat uutta tietoa: %s opittu."
 
-#: server/diplhand.c:293
+#: server/diplhand.c:300
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Peli: %s saivat edistysaskeleen %s, luovuttajina %s."
 
-#: server/diplhand.c:298
+#: server/diplhand.c:305
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s saavat lahjoituksen %s yhteistyˆkumppaniltaan %s"
 
-#: server/diplhand.c:308
+#: server/diplhand.c:315
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Peli: Saat %d kultaa."
 
-#: server/diplhand.c:314
+#: server/diplhand.c:321
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Peli: %s n‰ytt‰v‰t maailmankarttansa."
 
-#: server/diplhand.c:319
+#: server/diplhand.c:326
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Peli: %s n‰ytt‰v‰t merikarttansa."
 
-#: server/diplhand.c:334
+#: server/diplhand.c:341
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Peli: %2$s antoivat kaupungin %1$s sinulle."
 
-#: server/diplhand.c:338
+#: server/diplhand.c:345
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Peli: %2$s saavat sinulta kaupungin %1$s."
 
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:357 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Peli: Sin‰ ja %s sovitte tulitauosta."
 
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:369 server/diplhand.c:372
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Peli: Sin‰ ja %s sovitte rauhasta."
 
-#: server/diplhand.c:374 server/diplhand.c:377
+#: server/diplhand.c:381 server/diplhand.c:384
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Peli: %s on nyt liittolaisesi."
 
-#: server/diplhand.c:385
+#: server/diplhand.c:392
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Peli: %s n‰kev‰t nyt sen mit‰ sin‰kin."
 
-#: server/diplhand.c:388
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Peli: %s jakaa n‰kym‰ns‰ kanssasi."
 
-#: server/diplhand.c:489
+#: server/diplhand.c:496
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Peli: %s peruuttivat tapaamisen!"
 
-#: server/diplhand.c:495
+#: server/diplhand.c:502
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Peli: %s ei voikaan tavata sinua..."
 
-#: server/diplhand.c:538
+#: server/diplhand.c:545
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr ""
 "AI:n ohjaamat pelaajat eiv‰t voi osallistua diplomaattisiin kokouksiin."
@@ -1922,7 +1922,12 @@ msgstr "Peli: %s on poistettu pelist‰."
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Peli: Kohdattu %s ja hallitsijansa %s."
 
-#: server/plrhand.c:1748
+#: server/plrhand.c:1733
+#, c-format
+msgid "Could not throw %s into civil war - too many players"
+msgstr ""
+
+#: server/plrhand.c:1755
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1930,12 +1935,12 @@ msgid ""
 msgstr ""
 "Peli: Sis‰llissota syttyy, %s nimitet‰‰n kapinallisten valtioiden johtajaksi."
 
-#: server/plrhand.c:1768
+#: server/plrhand.c:1775
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Peli: %s julistaa, ett‰ %s on sen liittolainen."
 
-#: server/plrhand.c:1791
+#: server/plrhand.c:1801
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
