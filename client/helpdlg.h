@@ -13,8 +13,12 @@
 #ifndef __HELPDLG__H
 #define __HELPDLG__H
 
+enum help_page_type { HELP_ANY, HELP_TEXT, HELP_UNIT, HELP_IMPROVEMENT,
+		      HELP_WONDER, HELP_TECH };
+
 void popup_help_dialog(int item);
 void popup_help_dialog_string(char *item);
+void popup_help_dialog_typed(char *item, enum help_page_type);
 void boot_help_texts(void);
 
 #define HELP_PLAYING_ITEM "Strategy and tactics"
@@ -29,9 +33,5 @@ void boot_help_texts(void);
 #define HELP_HAPPINESS_ITEM "Happiness"
 #define HELP_COPYING_ITEM "Copying"
 #define HELP_ABOUT_ITEM "About"
-
-#define TREE_NODE_UNKNOWN_TECH_BG "red"
-#define TREE_NODE_KNOWN_TECH_BG "green"
-#define TREE_NODE_REACHABLE_TECH_BG "yellow"
 
 #endif

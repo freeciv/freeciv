@@ -445,7 +445,7 @@ void science_change_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE)
-    popup_help_dialog_string(advances[to].name);
+    popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else
     {  
       sprintf(current_text, "Researching %s: %d/%d",
@@ -474,7 +474,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE)
-    popup_help_dialog_string(advances[to].name);
+    popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else {  
     sprintf(goal_text, "Goal: %s (%d steps)",
 	    advances[to].name, tech_goal_turns(game.player_ptr, to));
@@ -513,9 +513,9 @@ void science_help_callback(Widget w, XtPointer client_data,
   if (b == TRUE)
     {
       if(ret->list_index!=XAW_LIST_NONE)
-	popup_help_dialog_string(ret->string);
+	popup_help_dialog_typed(ret->string, HELP_TECH);
       else
-	popup_help_dialog_string("Technology research");
+	popup_help_dialog_string(HELP_TECHS_ITEM);
     }
 }
 

@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -1508,28 +1509,19 @@ void change_help_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   ret=XawListShowCurrent(pdialog->change_list);
   if(ret->list_index!=XAW_LIST_NONE) {
-    char *str;
-    int i,max;
-    
-    str = mystrdup(ret->string);
-    max = strlen(str);
-    for(i=0;i<max;i++) {
-      if(str[i] == '(' || str[i] == '[') {
-	str[i] = '\0';
-	break;
-      }
+    int idx = pdialog->change_list_ids[ret->list_index];
+    int is_unit = (ret->list_index >= pdialog->change_list_no_improvements);
+
+    if (is_unit) {
+      popup_help_dialog_typed(get_unit_type(idx)->name, HELP_UNIT);
+    } else if(is_wonder(idx)) {
+      popup_help_dialog_typed(get_improvement_name(idx), HELP_WONDER);
+    } else {
+      popup_help_dialog_typed(get_improvement_name(idx), HELP_IMPROVEMENT);
     }
-    
-    max = strlen(str);
-    if(str[max-1]==' ')
-      str[max-1]='\0';
-    
-    printf("<<%s>>\n", str);
-    popup_help_dialog_string(str);
-    free(str);
   }
   else
-    popup_help_dialog_string("City Improvements");
+    popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
 }
 
 

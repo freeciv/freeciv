@@ -298,7 +298,6 @@ void free_sprite(struct Sprite *s)
 Pixmap create_overlay_unit(int i)
 {
   Pixmap pm;
-  struct Sprite *s=get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES);
   
   pm=XCreatePixmap(display, root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
   if(use_solid_color_behind_units)  {
@@ -310,12 +309,15 @@ Pixmap create_overlay_unit(int i)
 	          flag->width,flag->height, 0,0);
   };
 
-  XSetClipOrigin(display,civ_gc,0,0);
-  XSetClipMask(display,civ_gc,s->mask);
-  XCopyArea(display, s->pixmap, pm, civ_gc,
-  	    0,0, s->width,s->height, 0,0 );
-  XSetClipMask(display,civ_gc,None);
+  if(i<U_LAST) {
+    struct Sprite *s=get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES);
 
+    XSetClipOrigin(display,civ_gc,0,0);
+    XSetClipMask(display,civ_gc,s->mask);
+    XCopyArea(display, s->pixmap, pm, civ_gc,
+	      0,0, s->width,s->height, 0,0 );
+    XSetClipMask(display,civ_gc,None);
+  }
   return(pm);
 }
 

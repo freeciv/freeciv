@@ -38,7 +38,6 @@
 #include <packhand.h>
 #include <menu.h>
 #include <connectdlg.h>
-#include <helpdlg.h>
 
 
 char server_host[512];
@@ -84,7 +83,7 @@ int main(int argc, char *argv[])
 {
   /*  audio_init(); */
   game_init();
-  boot_help_texts();
+  /* boot_help_texts(); */  /* moved into x_main so after log_init */
   x_main(argc, argv);
   return 0;
   /*  audio_term(); */

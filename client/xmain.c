@@ -51,6 +51,7 @@
 #include <resources.h>
 #include <gotodlg.h>
 #include <connectdlg.h>
+#include <helpdlg.h>
 
 AppResources appResources;
 
@@ -329,6 +330,8 @@ void x_main(int argc, char *argv[])
   else
     server_port=DEFAULT_SOCK_PORT;
   
+  boot_help_texts();		/* after log_init */
+
   display = XtDisplay(toplevel);
   screen_number=XScreenNumberOfScreen(XtScreen(toplevel));
   display_depth=DefaultDepth(display, screen_number);

@@ -3,8 +3,13 @@
 %% The number of spaces after the "#" indicates nesting level when 
 %% displayed in the online help.
 %%
+%% Lines starting with '@' indicate the help category, which
+%% applies until the next such line.
+%% Categories are: TEXT, UNIT, IMPROVEMENT, WONDER, TECH
+%%
 %% Notice! no line may be more than 68 chars wide: --------------->|
 %%
+@TEXT
 #About
 Freeciv is a turn-based strategy game, in which each player becomes
 the leader of a civilization, fighting to obtain the ultimate goal:
@@ -504,6 +509,7 @@ building, then it'll be automatically sold.
 %% "automatically sold" should be "lost".
 %%  --> It's sold for money.  See pay_for_buildings() in cityturn.c.
 ---
+@IMPROVEMENT
 # Airport
 Allows a city to produce veteran air units.  Also, damaged air units
 which stay in town for one turn are completely restored.
@@ -663,6 +669,9 @@ non-nuclear missiles.
 # Sewer System
 Allows a city to grow beyond size 12.
 ---
+# Solar Plant
+This improvement has not been implemented.
+---
 # Stock Exchange
 Together with a Marketplace and a Bank, a Stock Exchange boosts
 trade and luxury production in a city by 150%.
@@ -683,11 +692,13 @@ and the Oracle, 4 citizens are made content.
 Together with a library, a University increases the knowledge
 production of a city by 100%.
 ---
+@TEXT
 #Technology
 Research into technology is a necessity for improving the ability of
 your civilization to develop new military units and city
 improvements.
 ---
+@TECH
 # Advanced Flight
 ---
 # Alphabet
@@ -867,11 +878,13 @@ The first player to research philosophy gets an immediate advance.
 ---
 # Writing
 ---
+@TEXT
 #Wonders of the World
 Each Wonder has specific benefits for your civilization.
 Each Wonder is unique and is placed in the city which 
 constructed it.
 ---
+@WONDER
 # A.Smith's Trading Co.
 City Improvements which have an upkeep of 1, are free of upkeep.
 ---
@@ -890,6 +903,9 @@ Makes one unhappy citizen content in all cities
 ---
 # Darwin's Voyage
 Gives two immediate technology advances.
+---
+# Eiffel Tower
+This wonder has not been implemented.
 ---
 # Great Library
 The civilization which builds the Great Library gets every Advance
@@ -930,6 +946,9 @@ Gives all sea units 2 additional moves.
 # Manhattan Project
 Allow all players with sufficient knowledge to create Nuclear units.
 ---
+# Marco Polo's Embassy
+This wonder has not been implemented.
+---
 # Michelangelo's Chapel
 Counts as having a Cathedral in each of your cities.
 It makes 3 unhappy citizens content in the city.
@@ -965,6 +984,7 @@ Units regains one extra hitpoint per turn.
 Reduces unhappiness for military units outside city by 2 under
 Democracy.  Reduced by 1 under all other form governments.
 ---
+@TEXT
 #Units
 Units can be used for three purposes: Attack, Defense, and
 Reconnaissance.  How useful a particular Unit is for each of these
@@ -1012,11 +1032,12 @@ lose a small amount of health for every turn not spent in a city,
 unless you have the United Nations wonder.  Unlike other air units,
 Helicopters can capture enemy cities.
 ---
+@UNIT
 # AEGIS Cruiser
-Doubles defence against missiles and aircraft.
+%% Doubles defence against missiles and aircraft.
 ---
 # Alpine Troops
-Alpine Troops treat all squares as if they have roads.
+%% Alpine Troops treat all squares as if they have roads.
 ---
 # Archers
 ---
@@ -1027,27 +1048,27 @@ Alpine Troops treat all squares as if they have roads.
 # Battleship
 ---
 # Bomber
-If a Bomber is not able to refuel in a city or on a Carrier unit by
-the end of its second turn, it runs out of fuel and is lost.
+%% If a Bomber is not able to refuel in a city or on a Carrier unit by
+%% the end of its second turn, it runs out of fuel and is lost.
 ---
 # Cannon
 ---
 # Caravan
-Used to establish trade routes and help build Wonders.  Caravans
-ignore the zone of control.
-Every Caravan that is used to build a Wonder will add 50
-shields towards the production of the Wonder.
+%% Used to establish trade routes and help build Wonders.  Caravans
+%% ignore the zone of control.
+Every Caravan that is used to build a Wonder will add 50 shields
+towards the production of the Wonder.
 
 TIP: A well-known strategy is to build Wonders in one turn, by
      stockpiling a stack of Caravans, then bringing them all
      into the city where the Wonder is to be built.
 ---
 # Caravel
-This unit can convey up to 3 land-based units across water.
+%% This unit can convey up to 3 land-based units across water.
 ---
 # Carrier
-The Carrier can carry up to 8 airborne Units.
-
+%% The Carrier can carry up to 8 airborne Units.
+%%
 TIP: Guard Carriers with a handful of fast-moving ships and a
      battleship, as losing a fully-equipped Carrier is VERY
      painful and expensive.
@@ -1059,16 +1080,16 @@ TIP: Guard Carriers with a handful of fast-moving ships and a
 # Chariot
 ---
 # Cruise Missile
-If a Cruise Missile is unable to end its turn in a city or on a
-Carrier or Submarine unit, it runs out of fuel and is lost.
-
+%% If a Cruise Missile is unable to end its turn in a city or on a
+%% Carrier or Submarine unit, it runs out of fuel and is lost.
+%% 
 TIP: A handful of these can successfully keep the waters around
      your treasured homeland free of enemy ships.
 ---
 # Cruiser
-%%---
-%%# Crusaders
-%% Crusaders are removed, so leaving them here is just confusing
+---
+# Crusaders
+This unit has not been implemented.
 ---
 # Destroyer
 TIP: A very fast unit, which is very useful for hunting down enemy
@@ -1087,22 +1108,22 @@ TIP: A very fast unit, which is very useful for hunting down enemy
 
  - Diplomats can even start a revolution in an enemy city and turn
    it into your own, if you have the money!
-
- - Diplomats ignore the zone of control.
-%% Should include entry for zoc, and a cross-reference here.
+%%
+%%  - Diplomats ignore the zone of control.
+%% %% Should include entry for zoc, and a cross-reference here.
 
  - In some game strategies, hordes of Diplomats can be used to wreak
    havoc on the enemy.  Little wonder that Diplomats are often
    viewed with suspicion and fear!
 ---
 # Dragoons
-%%---
-%%# Elephants
-%%We've chosen not to implement these fierce animals.
+---
+# Elephants
+We've chosen not to implement these fierce animals.
 ---
 # Engineers
-Just like Settlers, except these guys work twice as fast and move
-twice as fast. 
+Engineers are just like Settlers, except they work twice as fast and
+move twice as fast. 
 
 TIP 1: Upgrade Settlers to Engineers when possible, as Engineers
        require the same resources as ordinary Settlers.
@@ -1112,27 +1133,28 @@ TIP 2: If you manage to build Leonardo's Workshop, research
        your Settler units will be upgraded for free.
 ---
 # Explorer
-Treats all terrain as if it had roads and ignores any zone of
-control.  A very useful unit for mapping unknown territory.
-%%---
-%%# Fanatics
-%% This unit isn't in the game.  They are even fiercer animals than 
-%% the Elephant!! :-)
+%% Treats all terrain as if it had roads and ignores any zone of
+%% control. 
+Explorers are very useful for mapping unknown territory.
+---
+# Fanatics
+This unit isn't in the game.  
+%% They are even fiercer animals than the Elephant!! :-)
 ---
 # Fighter
-If a Fighter is unable to end its turn in a city or on a Carrier 
-unit, it runs out of fuel and is lost.  Fighters (and Stealth
-Fighters) are the only units which can attack enemy air units.
+%% If a Fighter is unable to end its turn in a city or on a Carrier 
+%% unit, it runs out of fuel and is lost.  Fighters (and Stealth
+%% Fighters) are the only units which can attack enemy air units.
 ---
 # Freight
-Used to establish trade routes, or help build Wonders.  The Freight
-unit replaces the Caravan, and moves at twice the speed.
+%% Used to establish trade routes, or help build Wonders. 
+The Freight unit replaces the Caravan, and moves at twice the speed.
 ---
 # Frigate
-This unit can convey up to 2 land-based units across water.
+%% This unit can convey up to 2 land-based units across water.
 ---
 # Galleon
-This unit can convey up to 4 land-based units across water.
+%% This unit can convey up to 4 land-based units across water.
 ---
 # Helicopter
 The Helicopter is a very powerful unit, as it can both fly and
@@ -1143,7 +1165,7 @@ have the United Nations wonder.
 # Horsemen
 ---
 # Howitzer
-This unit ignores the effect of City Walls.
+%% This unit ignores the effect of City Walls.
 ---
 # Ironclad
 ---
@@ -1152,7 +1174,7 @@ This unit ignores the effect of City Walls.
 # Legion
 ---
 # Marines
-Marines can attack enemy cities from sea units on Ocean squares.
+%% Marines can attack enemy cities from sea units on Ocean squares.
 ---
 # Mech. Inf.
 This unit has the strongest defence strength of any land unit, but
@@ -1161,8 +1183,8 @@ is only available near the very end of the technology tree.
 # Musketeers
 ---
 # Nuclear
-If a Nuclear unit is unable to end its turn in a city or on a
-Carrier or Submarine unit, it runs out of fuel and is lost.
+%% If a Nuclear unit is unable to end its turn in a city or on a
+%% Carrier or Submarine unit, it runs out of fuel and is lost.
 On impact, the blast will destroy any unit in a 3x3-square area,
 including friendly units.  When striking a city, the city size is
 halved, and the surrounding squares are polluted.
@@ -1177,14 +1199,15 @@ TIP 2: You may be involved in a situation where you've invaded an
        and/or Engineers next to the city and have them ready to fix
        the pollution on the same turn it occurs!  This minimises the
        chance of global warming.  Eco-friendly nukes!
-%%---
-%%# Paratroopers
-%% Not implemented, simply too powerful.
+---
+# Paratroopers
+Not implemented.  (Considered too powerful?)
 ---
 # Partisan
-Treats all terrain as if it had roads and ignores any zone of
-control.  A number of partisans are granted free when an enemy
-conquers your city, but only under these conditions:
+%% Treats all terrain as if it had roads and ignores any zone of
+%% control.
+A number of partisans are granted free when an enemy conquers your 
+city, but only under these conditions:
 
  - Guerilla Warfare must be known by at least 1 player.
 
@@ -1197,8 +1220,8 @@ conquers your city, but only under these conditions:
 # Phalanx
 ---
 # Pikemen
-The defence of these units is doubled if attacked by horseback
-units (other than Cavalry).
+%% The defence of these units is doubled if attacked by horseback
+%% units (other than Cavalry).
 ---
 # Riflemen
 ---
@@ -1229,33 +1252,34 @@ A spy can also be of aid on the battlefield - sabotaging enemy units
 as well as bribing them to change allegiance.
 ---
 # Stealth Bomber
-An improved Bomber, with more firepower and a higher movement
+An improved Bomber, with improved attack and a higher movement
 radius.
 ---
 # Stealth Fighter
-An improved Fighter, with more firepower and a higher movement
+An improved Fighter, with improved attack and a higher movement
 radius.
 ---
 # Submarine
-This unit is invisible unless the enemy is very close.  It can
-carry up to 8 missiles.  Submarines cannot make shore bombardments
-against enemy land units or cities.  
+This unit is invisible unless the enemy is very close.  It cannot 
+make shore bombardments against enemy land units or cities.  
+%% It can carry up to 8 missiles.  
 
 Submarines have a very high strategic value, but have a weak 
 defence.
 ---
 # Transport
-This unit can convey up to 8 land-based units across water.
+%% This unit can convey up to 8 land-based units across water.
 ---
 # Trireme
-This unit can convey up to 2 land-based units across water.
-Special: Triremes have a 50% risk of being lost at sea unless they
-end their turn next to a coast or in a port.
+%% This unit can convey up to 2 land-based units across water.
+Triremes have a 50% risk of being lost at sea unless they end their
+turn next to a coast or in a port.
 ---
 # Warriors
 This unit may be built from the start of the game.  It is the
 weakest unit.
 ---
+@TEXT
 #Combat
 %% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-30.
 When one unit attacks another unit, either the attacker will be
@@ -1520,7 +1544,7 @@ TIP 2: Scientific advancement requires high levels of trade, which
        you can; gaining advanced technology early in the game puts
        you at an advantage.
 ---
-# Anarchy (Gov)
+# Anarchy
 Anarchy is simply the absence of any recognizable government.
 Citizens are disorganized and unproductive, and will spent all
 income as quickly as possible, rather than paying taxes or 
@@ -1542,7 +1566,7 @@ You may impose martial law under Anarchy: each military unit inside
 a city will keep one unhappy citizen content.  (Or at least, unhappy
 citizens will act content, and will not cause disorder.)
 ---
-# Despotism (Gov)
+# Despotism
 Under Despotism, you are the absolute ruler of your people.  Your
 control over your citizens is maintained largely by martial law.
 
@@ -1563,9 +1587,7 @@ You may impose martial law under Despotism: each military unit
 inside a city will keep one unhappy citizen content.  (Or at least,
 unhappy citizens will act content, and will not cause disorder.)
 ---
-%% If we just use the string "Monarchy" then the help dialog mixes this
-%% text with the technology tree from "Monarchy" the technology. :-(
-# Monarchy (Gov)
+# Monarchy
 Under Monarchy, a king or queen serves as a hereditary figurehead
 for your government.
 
@@ -1582,7 +1604,7 @@ You may impose limited martial law under Monarchy: each military
 unit in a city, up to a maximum of 3, will keep one unhappy citizen
 content.
 ---
-# Communism (Gov)
+# Communism
 A Communist government is based on the ideal that all people are
 equal.  All goods are owned by the state, rather than by private
 citizens.  Communism gives a balance between military and commercial
@@ -1606,7 +1628,7 @@ You impose limited but efficient martial law under Communism.  Each
 military unit inside a city, up to a maximum of 3, will keep 2
 unhappy citizens content.
 ---
-# Republic (Gov)
+# Republic
 Under a Republican government, citizens hold an election to select a
 representative who will govern them; since elected leaders must
 remain popular to remain in control, citizens are given a greater
@@ -1634,7 +1656,7 @@ aggressive units:
 The citizens of a city will tolerate 1 aggressive unit; subsequent
 units will generate 1 unhappy citizen each.
 ---
-# Democracy (Gov)
+# Democracy
 Under Democracy, citizens govern directly by voting on issues.
 Democracy offers the highest possible level of trade, but also
 offers the most potential for unhappiness.  There is no corruption
