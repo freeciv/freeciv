@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-26 14:23+0100\n"
+"PO-Revision-Date: 2005-01-26 20:39+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -66,17 +66,17 @@ msgstr ""
 #: common/effects.c:795
 #: common/effects.c:810
 msgid "World-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Celosvětové efekty jsou podporovány pouze pro divy světa."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:830
 msgid "Player-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Efekty pro háče jsou podporovány pouze pro divy světa."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:851
 msgid "Island-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Ostrovní efekty jsou podporovány pouze pro divy světa."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:925
@@ -764,7 +764,7 @@ msgstr ""
 #: ai/advdiplomacy.c:258
 #, c-format
 msgid "*%s (AI)* %s leads our alliance. You must contact and make peace with him first."
-msgstr ""
+msgstr "*%s (PO)* %s vede naši alianci. Musíte je kontaktovat a nejdříve uzavřít příměří s nimi."
 
 #: ai/advdiplomacy.c:269
 #, c-format
@@ -2921,7 +2921,7 @@ msgstr "Hra: %s zaútočili na na naše spojence %s! Zrušili jsme alianci s agr
 #: server/plrhand.c:1270
 #, c-format
 msgid "Game: Your team mate %s declared war on %s. You are obligated to cancel alliance with %s."
-msgstr ""
+msgstr "Hra: Váš týmový spoluhráč %s vyhlásil válku %s. Jsme povinni zrušit alianci s %s."
 
 #: server/plrhand.c:1673
 #, c-format
@@ -3218,7 +3218,7 @@ msgstr "Lituji, ale demografický přehled není k dispozici."
 #: server/report.c:734
 #, c-format
 msgid "The %s of the %s"
-msgstr ""
+msgstr "%s %s"
 
 #: server/report.c:1094
 #, fuzzy, c-format
@@ -3306,9 +3306,9 @@ msgstr "Skupina %s obsahuje špatný rozsah: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1344
-#, c-format
+#, fuzzy, c-format
 msgid "Building %s lists unknown effect type: \"%s\" (%s)"
-msgstr ""
+msgstr "Stavba %s má neznámý typ předpokladu: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1355
@@ -5872,12 +5872,12 @@ msgstr ""
 #: server/unithand.c:1166
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
-msgstr ""
+msgstr "Hra: Náš %s pomohl se stavbou %s v %s (%d zbývá)."
 
 #: server/unithand.c:1168
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d surplus)."
-msgstr ""
+msgstr "Hra: Náš %s pomohl se stavbou %s v %s (%d přebytek)."
 
 #: server/unithand.c:1212
 #, c-format
@@ -8251,9 +8251,9 @@ msgid "Sold %d %s for %d gold."
 msgstr "Prodáno %d %s za %d zlatých."
 
 #: client/repodlgs_common.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be sold."
-msgstr "Nelze vytvořit spojení."
+msgstr "Žádný %s nebyl prodán."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:354
@@ -8628,7 +8628,7 @@ msgstr "%6d.%02d ms"
 #: client/text.c:709
 #, c-format
 msgid "%s of the %s"
-msgstr ""
+msgstr "%s %s"
 
 #: client/text.c:730
 msgid "Buildings: "
@@ -9770,7 +9770,7 @@ msgstr "_Objevy:"
 #: client/gui-xaw/dialogs.c:833
 #, fuzzy
 msgid "At Spy's Discretion"
-msgstr "Začít ve _sloupci:"
+msgstr "Diplomatické/špionážní akce"
 
 #: client/gui-gtk-2.0/dialogs.c:583
 #: client/gui-gtk/dialogs.c:781
@@ -11867,7 +11867,7 @@ msgstr "Zmenšit"
 #: client/gui-gtk/messagedlg.c:100
 #, fuzzy
 msgid "Mes"
-msgstr "_Zpráva:"
+msgstr "Zpr:"
 
 #: client/gui-gtk-2.0/messagedlg.c:138
 #: client/gui-gtk/messagedlg.c:102
@@ -12412,9 +12412,8 @@ msgid "Target _Worklist:"
 msgstr "Cílový _Seznam prací:"
 
 #: client/gui-gtk-2.0/wldlg.c:1198
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "Přidat do hlavního seznamu kategorií"
+msgstr "_Přidat do globálního seznamu prací"
 
 #: client/gui-gtk-2.0/wldlg.c:1214
 msgid "Chan_ge Production"
@@ -14320,9 +14319,8 @@ msgid "Trade Report..."
 msgstr "Obchodní bilance..."
 
 #: client/gui-mui/gui_main.c:281
-#, fuzzy
 msgid "Military Report..."
-msgstr "Cestovatelé tvrdí:"
+msgstr "Vojenský přehled..."
 
 #: client/gui-mui/gui_main.c:284
 #: client/gui-xaw/menu.c:222
@@ -14983,11 +14981,13 @@ msgid "No trade routes exist.\n"
 msgstr "Neexistují obchodní cesty.\n"
 
 #: client/gui-xaw/citydlg.c:1437
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Total trade %d Trade/Year\n"
-msgstr "První rok nájezdů"
+msgstr ""
+"\n"
+"Celkem obchod %d Obchod/Rok\n"
 
 #: client/gui-xaw/citydlg.c:1781
 #, c-format
@@ -15318,11 +15318,13 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:196
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s  -  %s%s\n"
 "\n"
-msgstr "%s ve městě %s (%s)\n"
+msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:199
 #, c-format
@@ -15370,9 +15372,9 @@ msgid "<table border=1><tr><th>Terrain</th>"
 msgstr "<table border=1><tr><th>Terén</th>"
 
 #: manual/civmanual.c:222
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
-msgstr "Přebytek: Jídlo, Produkce, Obchod"
+msgstr "<th>Jídlo/ Štít/ Obchod</th>"
 
 #: manual/civmanual.c:223
 #, c-format
@@ -20897,9 +20899,8 @@ msgid "Danish"
 msgstr "Dán"
 
 #: data/nation/danish.ruleset:4
-#, fuzzy
 msgid "?plural:Danes"
-msgstr "?plural:Afgánský"
+msgstr "?plural:Dánové"
 
 #. TRANS: The third letter in "Blatand" should be
 #: data/nation/danish.ruleset:9
@@ -20929,14 +20930,12 @@ msgid "The Men of the West from J.R.R. Tolkien's Middle Earth fantasies."
 msgstr "Lidé ze západu z J.R.R. Tolkienovy Středozemě."
 
 #: data/nation/dutch.ruleset:3
-#, fuzzy
 msgid "Dutch"
-msgstr "Holandština"
+msgstr "Holandský"
 
 #: data/nation/dutch.ruleset:4
-#, fuzzy
 msgid "?plural:Dutch"
-msgstr "Holandská"
+msgstr "Holanďané"
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
