@@ -85,7 +85,7 @@ struct units_entry {
   int active_count;
   int upkeep_shield;
   int upkeep_food;
-  /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+  int upkeep_gold;
   int building_count;
   int soonest_completions;
 };
@@ -108,8 +108,8 @@ static void get_units_report_data(struct units_entry *entries,
       total->upkeep_shield += pUnit->upkeep;
       entries[pUnit->type].upkeep_food += pUnit->upkeep_food;
       total->upkeep_food += pUnit->upkeep_food;
-/*    entries[pUnit->type].upkeep_gold += pUnit->upkeep_gold;
-      total->upkeep_gold += pUnit->upkeep_gold; */
+      entries[pUnit->type].upkeep_gold += pUnit->upkeep_gold;
+      total->upkeep_gold += pUnit->upkeep_gold;
     }
   } unit_list_iterate_end;
     
@@ -412,7 +412,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   h += pBuf->size.h;
   pBuf->size.w = pText1->w + 6;
   add_to_gui_list(ID_LABEL, pBuf);
-	
+  /* ---------------------------------------------- */
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_shield);
 	
   pStr = create_str16_from_char(cBuf, 10);
@@ -422,7 +422,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 	
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
-	
+  /* ---------------------------------------------- */	
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_food);
 	
   pStr = create_str16_from_char(cBuf, 10);
@@ -432,7 +432,17 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 	
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
+  /* ---------------------------------------------- */	
+  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep_gold);
 	
+  pStr = create_str16_from_char(cBuf, 10);
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+	
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+	
+  pBuf->size.w = pText1->w;
+  add_to_gui_list(ID_LABEL, pBuf);
+  /* ---------------------------------------------- */	
   my_snprintf(cBuf, sizeof(cBuf), "%d", total->building_count);
 	
   pStr = create_str16_from_char(cBuf, 10);
@@ -455,7 +465,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       /* ----------- */
       pBuf = create_iconlabel(GET_SURF(pUnit->sprite), pWindow->dst, NULL,
 			WF_DRAW_THEME_TRANSPARENT);
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
       hh = pBuf->size.h;
@@ -474,7 +484,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         pBuf->string16->fgcol = color;
       }
       pBuf->string16->style &= ~SF_CENTER;
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf , WF_HIDDEN);
       }
       hh = MAX(hh, pBuf->size.h);
@@ -487,7 +497,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
       hh = MAX(hh, pBuf->size.h);
@@ -500,7 +510,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
       						WF_DRAW_THEME_TRANSPARENT);
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
       hh = MAX(hh, pBuf->size.h);
@@ -513,14 +523,27 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 						WF_DRAW_THEME_TRANSPARENT);
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
 	
       hh = MAX(hh, pBuf->size.h);
       pBuf->size.w = pText1->w;
       add_to_gui_list(MAX_ID - i, pBuf);
+
+      /* ----------- */
+      my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].upkeep_gold);
+      pStr = create_str16_from_char(cBuf, 10);
+      pStr->style |= SF_CENTER;
+      pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
+						WF_DRAW_THEME_TRANSPARENT);
+      if(count > 72) {
+	set_wflag(pBuf, WF_HIDDEN);
+      }
 	
+      hh = MAX(hh, pBuf->size.h);
+      pBuf->size.w = pText1->w;
+      add_to_gui_list(MAX_ID - i, pBuf);      
       /* ----------- */
       if(units[i].building_count > 0) {
 	my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].building_count);
@@ -531,7 +554,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
       hh = MAX(hh, pBuf->size.h);
@@ -551,7 +574,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
 	
-      if(count > 63) {
+      if(count > 72) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
       hh = MAX(hh, pBuf->size.h);
@@ -559,23 +582,23 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - i, pBuf);
 
       
-      count += 7;
+      count += 8;
       h += (hh/2);
     }
   } unit_type_iterate_end;
     
   pUnitsDlg->pBeginWidgetList = pBuf;
   w = (UNIT_TILE_WIDTH * 2 + name_w + 15) +
-		(3 * pText1->w + 36) + (pText2->w + 16) + (pText5->w + 6) + 2;
+		(4 * pText1->w + 46) + (pText2->w + 16) + (pText5->w + 6) + 2;
   if(count) {
     pUnitsDlg->pBeginActiveWidgetList = pBuf;
     pUnitsDlg->pEndActiveWidgetList = pLast->prev;
-    if(count > 70) {
+    if(count > 80) {
       pUnitsDlg->pActiveWidgetList = pUnitsDlg->pEndActiveWidgetList;
       if(pUnitsDlg->pScroll) {
 	pUnitsDlg->pScroll->count = count;
       }
-      ww = create_vertical_scrollbar(pUnitsDlg, 7, 10, TRUE, TRUE);
+      ww = create_vertical_scrollbar(pUnitsDlg, 8, 10, TRUE, TRUE);
       w += ww;
       h = (hh + 9 * (hh/2) + 10) + WINDOW_TILE_HIGH + 1 + FRAME_WH;
     } else {
@@ -634,6 +657,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.y = pWindow->size.y + dst.y;
   
   /* total food cost widget */
+  pBuf = pBuf->prev;
+  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 10;
+  pBuf->size.y = pWindow->size.y + dst.y;
+  
+  /* total gold cost widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 10;
   pBuf->size.y = pWindow->size.y + dst.y;
@@ -703,6 +731,21 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
   SDL_BlitSurface(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
   
+  /* gold cost background and label */
+  dst.x = w + ww + 10;
+  w = dst.x;
+  dst.y = WINDOW_TILE_HIGH + 2;
+  dst.w = ww;
+  dst.h = h - WINDOW_TILE_HIGH - 2 - FRAME_WH - 2;
+  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  
+  putframe(pWindow->theme, dst.x , dst.y,
+			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  
+  dst.y = WINDOW_TILE_HIGH + 4;
+  dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
+  SDL_BlitSurface(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst);
+  
   /* building count background and label */
   dst.x = w + ww + 10;
   dst.y = WINDOW_TILE_HIGH + 2;
@@ -770,6 +813,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 10;
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      
+      pBuf = pBuf->prev;
+      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 10;
+      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
 
       start_y += (hh>>1);
       if(pBuf == pUnitsDlg->pBeginActiveWidgetList) {
@@ -789,11 +836,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* ----------------------------------- */
   redraw_group(pUnitsDlg->pBeginWidgetList, pWindow, 0);
   sdl_dirty_rect(pWindow->size);
-  
-  
-  flush_dirty();
-  
-  
+    
+  flush_dirty();  
 }
 
 /**************************************************************************
@@ -3216,6 +3260,10 @@ void update_report_dialogs(void)
   }
 }
 
+/* ===================================================================== */
+/* ======================== Endgame Report ============================= */
+/* ===================================================================== */
+
 /****************************************************************
   Show a dialog with player statistics at endgame.
   TODO: Display all statistics in packet_endgame_report.
@@ -3239,5 +3287,4 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
   popup_notify_dialog(_("Final Report:"),
                       _("The Greatest Civilizations in the world."),
                       buffer);
-} 
-
+}

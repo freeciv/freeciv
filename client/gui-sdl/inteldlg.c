@@ -34,6 +34,7 @@
 #include "gui_string.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "spaceshipdlg.h"
 
 #include "inteldlg.h"
 
@@ -44,11 +45,20 @@ static int intel_window_dlg_callback(struct GUI *pWindow)
   return std_move_window_group_callback(pIntel_Dlg->pBeginWidgetList, pWindow);
 }
 
-static int tech_callback(struct GUI *pWindow)
+static int tech_callback(struct GUI *pWidget)
 {
   /* get tech help - PORT ME */
   return -1;
 }
+
+static int spaceship_callback(struct GUI *pWidget)
+{
+  struct player *pPlayer = pWidget->data.player;
+  popdown_intel_dialog();
+  popup_spaceship_dialog(pPlayer);
+  return -1;
+}
+
 
 static int exit_intel_dlg_callback(struct GUI *pWidget)
 {
@@ -97,7 +107,7 @@ void popup_intel_dialog(struct player *pPlayer)
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   				(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
   SDL_SetColorKey(pBuf->theme,
-        SDL_SRCCOLORKEY|SDL_RLEACCEL, pBuf->theme->format->colorkey);
+        SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_intel_dlg_callback;
@@ -105,7 +115,6 @@ void popup_intel_dialog(struct player *pPlayer)
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_BUTTON, pBuf);
-  pLast = pBuf;
   /* ---------- */
   
   pLogo = GET_SURF(get_nation_by_idx(pPlayer->nation)->flag_sprite);
@@ -114,7 +123,21 @@ void popup_intel_dialog(struct player *pPlayer)
   pText1 = ZoomSurface(pLogo, 4.0 , 4.0, 1);
   FREESURFACE(pLogo);
   pLogo = pText1;
-  
+  SDL_SetColorKey(pLogo,
+        SDL_SRCCOLORKEY|SDL_RLEACCEL, getpixel(pLogo, pLogo->w - 1, pLogo->h - 1));
+	
+  pBuf = create_icon2(pLogo, pWindow->dst,
+	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING|WF_FREE_THEME));
+  pBuf->action = spaceship_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->data.player = pPlayer;
+  my_snprintf(cBuf, sizeof(cBuf),
+	      _("Intelligence Information about %s Spaceship"), 
+	      				get_nation_name(pPlayer->nation));
+  pBuf->string16 = create_str16_from_char(cBuf, 12);
+	
+  add_to_gui_list(ID_ICON, pBuf);
+	
   /* ---------- */
   my_snprintf(cBuf, sizeof(cBuf),
 	      _("Intelligence Information for the %s Empire"), 
@@ -153,8 +176,8 @@ void popup_intel_dialog(struct player *pPlayer)
     
   /* ---------- */
   col = w / (GET_SURF(advances[A_FIRST].sprite)->w + 4);
-  col = MAX(4, col);
   n = 0;
+  pLast = pBuf;
   for(i = A_FIRST; i<game.num_tech_types; i++) {
     if(get_invention(pPlayer, i) == TECH_KNOWN &&
       tech_is_available(game.player_ptr, i) &&
@@ -188,7 +211,7 @@ void popup_intel_dialog(struct player *pPlayer)
       h += (2 * pBuf->size.h + 10);
     } else {
       count = 0;
-      if(n > 4) {
+      if(n > col) {
 	h += pBuf->size.h;
       }
       h += (10 + pBuf->size.h);
@@ -211,6 +234,11 @@ void popup_intel_dialog(struct player *pPlayer)
   
   resize_window(pWindow, NULL, NULL, w, h);
   
+  /* exit button */
+  pBuf = pWindow->prev; 
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+  pBuf->size.y = pWindow->size.y;
+  
   dst.x = (pWindow->size.w - pText1->w) / 2;
   dst.y = WINDOW_TILE_HIGH + 12;
   
@@ -218,24 +246,19 @@ void popup_intel_dialog(struct player *pPlayer)
   dst.y += pText1->h + 10;
   FREESURFACE(pText1);
   
-  dst.x = (pWindow->size.w - (pLogo->w + 10 + pInfo->w)) / 2;
-  SDL_BlitSurface(pLogo, NULL, pWindow->theme, &dst);
-  dst.x += pLogo->w + 10;
-  FREESURFACE(pLogo);
+  /* space ship button */
+  pBuf = pBuf->prev;
+  dst.x = (pWindow->size.w - (pBuf->size.w + 10 + pInfo->w)) / 2;
+  pBuf->size.x = pWindow->size.x + dst.x;
+  pBuf->size.y = pWindow->size.y + dst.y;
   
+  dst.x += pBuf->size.w + 10;  
   SDL_BlitSurface(pInfo, NULL, pWindow->theme, &dst);
   dst.y += pInfo->h + 10;
   FREESURFACE(pInfo);
-    
-  
+      
   /* --------------------- */
-  
-  /* exit button */
-  pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
-  pBuf->size.y = pWindow->size.y;
-  
-  
+    
   if(n) {
     
     dst.x = FRAME_WH + 5;
@@ -243,7 +266,7 @@ void popup_intel_dialog(struct player *pPlayer)
     dst.y += pText2->h + 2;
     FREESURFACE(pText2);
     
-    setup_vertical_widgets_position(4,
+    setup_vertical_widgets_position(col,
 	pWindow->size.x + FRAME_WH,
 	pWindow->size.y + dst.y,
 	  0, 0, pIntel_Dlg->pBeginActiveWidgetList,

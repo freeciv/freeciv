@@ -6030,7 +6030,7 @@ struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
     pCBox->theme = pTheme->CBOX_Unsell_Icon;
   }
 
-  set_wflag(pCBox, (WF_FREE_STRING | WF_FREE_GFX | WF_FREE_DATA | flags));
+  set_wflag(pCBox, (WF_FREE_STRING | WF_FREE_GFX | WF_FREE_PRIVATE_DATA | flags));
   set_wstate(pCBox, FC_WS_DISABLED);
   set_wtype(pCBox, WT_CHECKBOX);
   pCBox->mod = KMOD_NONE;
@@ -6038,7 +6038,7 @@ struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
   pTmp->state = state;
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
-  pCBox->data.cbox = pTmp;
+  pCBox->private_data.cbox = pTmp;
   
   pCBox->size.w = pCBox->theme->w / 4;
   pCBox->size.h = pCBox->theme->h;
@@ -6069,7 +6069,7 @@ struct GUI * create_textcheckbox(SDL_Surface *pDest, bool state,
   }
     
   pIcon = create_icon_from_theme(pSurf, 0);
-  pCBox = create_iconlabel(pIcon, pDest, pStr, (flags | WF_FREE_DATA));
+  pCBox = create_iconlabel(pIcon, pDest, pStr, (flags | WF_FREE_PRIVATE_DATA));
 
   pStr->style &= ~SF_CENTER;
 
@@ -6080,7 +6080,7 @@ struct GUI * create_textcheckbox(SDL_Surface *pDest, bool state,
   pTmp->state = state;
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
-  pCBox->data.cbox = pTmp;
+  pCBox->private_data.cbox = pTmp;
   
   return pCBox;
 }
@@ -6094,13 +6094,13 @@ int set_new_checkbox_theme(struct GUI *pCBox ,
     return -1;
   }
   
-  if(!pCBox->data.cbox) {
-    pCBox->data.cbox = MALLOC(sizeof(struct CHECKBOX));
-    set_wflag(pCBox, WF_FREE_DATA);
-    pCBox->data.cbox->state = FALSE;
+  if(!pCBox->private_data.cbox) {
+    pCBox->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    set_wflag(pCBox, WF_FREE_PRIVATE_DATA);
+    pCBox->private_data.cbox->state = FALSE;
   }
   
-  pTmp = pCBox->data.cbox;
+  pTmp = pCBox->private_data.cbox;
   pTmp->pTRUE_Theme = pTrue;
   pTmp->pFALSE_Theme = pFalse;
   if(pTmp->state) {
@@ -6113,18 +6113,18 @@ int set_new_checkbox_theme(struct GUI *pCBox ,
 
 void togle_checkbox(struct GUI *pCBox)
 {
-  if(pCBox->data.cbox->state) {
-    pCBox->theme = pCBox->data.cbox->pFALSE_Theme;
-    pCBox->data.cbox->state = FALSE;
+  if(pCBox->private_data.cbox->state) {
+    pCBox->theme = pCBox->private_data.cbox->pFALSE_Theme;
+    pCBox->private_data.cbox->state = FALSE;
   } else {
-    pCBox->theme = pCBox->data.cbox->pTRUE_Theme;
-    pCBox->data.cbox->state = TRUE;
+    pCBox->theme = pCBox->private_data.cbox->pTRUE_Theme;
+    pCBox->private_data.cbox->state = TRUE;
   }
 }
 
 bool get_checkbox_state(struct GUI *pCBox)
 {
-  return pCBox->data.cbox->state;
+  return pCBox->private_data.cbox->state;
 }
 
 int redraw_textcheckbox(struct GUI *pCBox)

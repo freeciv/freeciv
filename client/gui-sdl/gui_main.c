@@ -226,6 +226,10 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
             send_report_request(REPORT_DEMOGRAPHIC);
           return ID_ERROR;
 	    
+	  case SDLK_F12:
+            popup_spaceship_dialog(game.player_ptr);
+          return ID_ERROR;
+	  
 	  default:
 	  return ID_ERROR;
 	}

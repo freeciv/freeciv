@@ -68,11 +68,11 @@ void handle_diplomacy_accept_treaty(struct packet_diplomacy_info *pa)
     pLabel = pClauses_Dlg->pEndWidgetList->prev->prev;
   }
 
-  pLabel->data.cbox->state = !pLabel->data.cbox->state;
-  if(pLabel->data.cbox->state) {
-    pThm = pLabel->data.cbox->pTRUE_Theme;
+  pLabel->private_data.cbox->state = !pLabel->private_data.cbox->state;
+  if(pLabel->private_data.cbox->state) {
+    pThm = pLabel->private_data.cbox->pTRUE_Theme;
   } else {
-    pThm = pLabel->data.cbox->pFALSE_Theme;
+    pThm = pLabel->private_data.cbox->pFALSE_Theme;
   }
       
   src.w = pThm->w / 4;
@@ -155,13 +155,13 @@ void handle_diplomacy_create_clause(struct packet_diplomacy_info *pa)
   
   pStr = create_str16_from_char(cBuf, 12);
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-	(WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
+   (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
       
   if(pa->plrno_from != game.player_idx) {
      pBuf->string16->style |= SF_CENTER_RIGHT;  
   }
 
-  pBuf->data.cbox = MALLOC(sizeof(struct CONTAINER));
+  pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
   pBuf->data.cont->id0 = pa->plrno_from;
   pBuf->data.cont->id1 = (int)pa->clause_type;
   pBuf->data.cont->value = pa->value;
@@ -242,14 +242,14 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
     
   /* update state icons */
   pBuf = pClauses_Dlg->pEndWidgetList->prev;
-  if(pBuf->data.cbox->state) {
-    pBuf->data.cbox->state = FALSE;
-    src.w = pBuf->data.cbox->pFALSE_Theme->w / 4;
-    src.h = pBuf->data.cbox->pFALSE_Theme->h;
+  if(pBuf->private_data.cbox->state) {
+    pBuf->private_data.cbox->state = FALSE;
+    src.w = pBuf->private_data.cbox->pFALSE_Theme->w / 4;
+    src.h = pBuf->private_data.cbox->pFALSE_Theme->h;
     
-    SDL_SetAlpha(pBuf->data.cbox->pFALSE_Theme, 0x0, 0x0);
-    SDL_BlitSurface(pBuf->data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
-    SDL_SetAlpha(pBuf->data.cbox->pFALSE_Theme, SDL_SRCALPHA, 255);
+    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, 0x0, 0x0);
+    SDL_BlitSurface(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
+    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, SDL_SRCALPHA, 255);
     
     if(redraw) {
       redraw_widget(pBuf);
@@ -258,14 +258,14 @@ void handle_diplomacy_remove_clause(struct packet_diplomacy_info *pa)
   }
   
   pBuf = pBuf->prev;
-  if(pBuf->data.cbox->state) {
-    pBuf->data.cbox->state = FALSE;
-    src.w = pBuf->data.cbox->pFALSE_Theme->w / 4;
-    src.h = pBuf->data.cbox->pFALSE_Theme->h;
+  if(pBuf->private_data.cbox->state) {
+    pBuf->private_data.cbox->state = FALSE;
+    src.w = pBuf->private_data.cbox->pFALSE_Theme->w / 4;
+    src.h = pBuf->private_data.cbox->pFALSE_Theme->h;
     
-    SDL_SetAlpha(pBuf->data.cbox->pFALSE_Theme, 0x0, 0x0);
-    SDL_BlitSurface(pBuf->data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
-    SDL_SetAlpha(pBuf->data.cbox->pFALSE_Theme, SDL_SRCALPHA, 255);
+    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, 0x0, 0x0);
+    SDL_BlitSurface(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
+    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, SDL_SRCALPHA, 255);
   
     if(redraw) {
       redraw_widget(pBuf);
@@ -841,13 +841,13 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     pBuf = create_iconlabel(
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
 		pWindow->dst, pStr,
-		(WF_ICON_ABOVE_TEXT|WF_FREE_DATA|WF_FREE_THEME|
+		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
 						WF_DRAW_THEME_TRANSPARENT));
 						
-    pBuf->data.cbox = MALLOC(sizeof(struct CHECKBOX));
-    pBuf->data.cbox->state = FALSE;
-    pBuf->data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
-    pBuf->data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
+    pBuf->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox->state = FALSE;
+    pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
+    pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
     
     add_to_gui_list(ID_ICON, pBuf);
     
@@ -858,12 +858,12 @@ void handle_diplomacy_init_meeting(struct packet_diplomacy_info *pa)
     pBuf = create_iconlabel(
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
 		pWindow->dst, pStr,
-		(WF_ICON_ABOVE_TEXT|WF_FREE_DATA|WF_FREE_THEME|
+		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
     						WF_DRAW_THEME_TRANSPARENT));
-    pBuf->data.cbox = MALLOC(sizeof(struct CHECKBOX));
-    pBuf->data.cbox->state = FALSE;
-    pBuf->data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
-    pBuf->data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
+    pBuf->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox->state = FALSE;
+    pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
+    pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
     add_to_gui_list(ID_ICON, pBuf);
     /* ============================================================= */
     

@@ -2772,7 +2772,7 @@ void popup_sabotage_dialog(struct city *pCity)
   
   add_to_gui_list(MAX_ID - B_LAST, pBuf);
     
-  w = MAX(w , pBuf->size.w);
+  w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
   /* ----------- */
   
@@ -3581,7 +3581,7 @@ void popup_unit_connect_dialog(struct unit *pUnit, int dest_x, int dest_y)
   pBuf = create_themeicon(ResizeSurface( pTheme->CANCEL_Icon ,
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
-  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+  		(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   SDL_SetColorKey(pBuf->theme,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   

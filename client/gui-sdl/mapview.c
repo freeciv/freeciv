@@ -1728,6 +1728,24 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
       des = copy;	    
     }
   }
+  
+  /* draw current occupy status */
+  if (pUnit->owner == game.player_idx && get_transporter_capacity(pUnit) > 0) {
+    
+    des.y += NORMAL_TILE_HEIGHT / 2;
+    copy = des;
+    
+    if (pUnit->occupy >= 10) {
+      SDL_BlitSurface(GET_SURF(sprites.city.size_tens[pUnit->occupy / 10]),
+	      NULL, pDest, &des);
+      des = copy;
+    }
+
+    SDL_BlitSurface(GET_SURF(sprites.city.size[pUnit->occupy % 10]),
+		    NULL, pDest, &des);
+
+  }
+  
 }
 
 /**************************************************************************

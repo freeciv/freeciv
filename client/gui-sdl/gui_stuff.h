@@ -40,20 +40,21 @@
 enum WFlags {
   WF_HIDDEN				= (1<<10),	/* 1024 */
   WF_FREE_GFX	 			= (1<<11),	/* 2048 */
-  WF_FREE_THEME			= (1<<12),	/* 4096 */
+  WF_FREE_THEME				= (1<<12),	/* 4096 */
   WF_FREE_STRING			= (1<<13),	/* 8192 */
   WF_FREE_DATA			 	= (1<<14),	/* 16384 */
-  WF_ICON_ABOVE_TEXT			= (1<<15),	/* 32768 */
-  WF_ICON_UNDER_TEXT			= (1<<16),	/* 65536 */
-  WF_ICON_CENTER			= (1<<17),	/* 131072 */
-  WF_ICON_CENTER_RIGHT			= (1<<18),	/* 262144 */
-  WF_DRAW_THEME_TRANSPARENT		= (1<<19),	/* 524288 */
-  WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<20),	/* 1048576 */
-  WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<21),	/* 2097152 */
-  WF_WIDGET_HAS_INFO_LABEL		= (1<<22),	/* 4194304 */
-  WF_SELLECT_WITHOUT_BAR		= (1<<23),	/* 8388608 */
-  WF_PASSWD_EDIT			= (1<<24),
-  WF_EDIT_LOOP				= (1<<25)
+  WF_FREE_PRIVATE_DATA			= (1<<15),	/* 32768 */
+  WF_ICON_ABOVE_TEXT			= (1<<16),	/* 32768 */
+  WF_ICON_UNDER_TEXT			= (1<<17),	/* 65536 */
+  WF_ICON_CENTER			= (1<<18),	/* 131072 */
+  WF_ICON_CENTER_RIGHT			= (1<<19),	/* 262144 */
+  WF_DRAW_THEME_TRANSPARENT		= (1<<20),	/* 524288 */
+  WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<21),	/* 1048576 */
+  WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<22),	/* 2097152 */
+  WF_WIDGET_HAS_INFO_LABEL		= (1<<23),	/* 4194304 */
+  WF_SELLECT_WITHOUT_BAR		= (1<<24),	/* 8388608 */
+  WF_PASSWD_EDIT			= (1<<25),
+  WF_EDIT_LOOP				= (1<<26)
 };
 
 /* Widget states */
@@ -123,6 +124,9 @@ struct CHECKBOX {
   bool state;
 };
 
+struct SMALL_DLG;
+struct ADVANCED_DLG;
+  
 struct GUI {
   struct GUI *next;
   struct GUI *prev;
@@ -135,12 +139,18 @@ struct GUI {
   /* data/information/transport pointers */
   union {
     struct CONTAINER *cont;
-    struct CHECKBOX *cbox;
     struct city *city;
     struct unit *unit;
     struct player *player;
     void *ptr;
   } data;
+  
+  union {
+    struct CHECKBOX *cbox;
+    struct SMALL_DLG *small;
+    struct ADVANCED_DLG *adv;
+    void *ptr;
+  } private_data;
   
   Uint32 state_types_flags;	/* "packed" widget info */
 
@@ -426,14 +436,17 @@ do {								\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_THEME) == WF_FREE_THEME) {	\
     if (get_wtype(pGUI) == WT_CHECKBOX) {			\
-      FREESURFACE(pGUI->data.cbox->pTRUE_Theme);		\
-      FREESURFACE(pGUI->data.cbox->pFALSE_Theme);		\
+      FREESURFACE(pGUI->private_data.cbox->pTRUE_Theme);		\
+      FREESURFACE(pGUI->private_data.cbox->pFALSE_Theme);		\
     } else {							\
       FREESURFACE(pGUI->theme);				\
     }								\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {	\
     FREE(pGUI->data.ptr);					\
+  }								\
+  if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) { 	\
+    FREE(pGUI->private_data.ptr);				\
   }								\
   FREE(pGUI);							\
 } while(0)
