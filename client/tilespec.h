@@ -121,7 +121,8 @@ struct named_sprites {
       *dir[8],     /* first used! */
       /* for non-isometric */
       *cardinal[NUM_DIRECTION_NSEW],     /* first unused */
-      *diagonal[NUM_DIRECTION_NSEW];     /* first unused */
+      *diagonal[NUM_DIRECTION_NSEW],     /* first unused */
+      *corner[NUM_DIRECTION_NSEW]; /* only diagonal directions used */
   } road, rail;
   struct {
     struct Sprite *nuke[3][3];	         /* row, column, from top-left */

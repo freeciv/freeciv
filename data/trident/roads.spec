@@ -108,4 +108,12 @@ tiles = { "row", "column", "tag"
   3, 13, "r.d_rail_n1s1e0w1"
   3, 14, "r.d_rail_n0s1e1w1"
   3, 15, "r.d_rail_n1s1e1w1"
+
+; Rail corners
+
+  2, 16, "r.c_rail_nw"
+  2, 17, "r.c_rail_ne"
+  3, 16, "r.c_rail_sw"
+  3, 17, "r.c_rail_se"
+
 }

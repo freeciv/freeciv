@@ -613,6 +613,10 @@ static char *nsew_str(int idx)
        assert(sprites.field != NULL);                          \
     } while(FALSE)
 
+/* Sets sprites.field to tag, or NULL if not available */
+#define SET_SPRITE_OPT(field, tag) \
+  sprites.field = hash_lookup_data(sprite_hash, tag)
+
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
   freeciv always requires. 
@@ -710,6 +714,16 @@ static void tilespec_lookup_sprite_tags(void)
       SET_SPRITE(rail.diagonal[i], buffer);
     }
   }
+
+  SET_SPRITE_OPT(rail.corner[DIR8_NORTHWEST], "r.c_rail_nw");
+  SET_SPRITE_OPT(rail.corner[DIR8_NORTHEAST], "r.c_rail_ne");
+  SET_SPRITE_OPT(rail.corner[DIR8_SOUTHWEST], "r.c_rail_sw");
+  SET_SPRITE_OPT(rail.corner[DIR8_SOUTHEAST], "r.c_rail_se");
+
+  SET_SPRITE_OPT(road.corner[DIR8_NORTHWEST], "r.c_road_nw");
+  SET_SPRITE_OPT(road.corner[DIR8_NORTHEAST], "r.c_road_ne");
+  SET_SPRITE_OPT(road.corner[DIR8_SOUTHWEST], "r.c_road_sw");
+  SET_SPRITE_OPT(road.corner[DIR8_SOUTHEAST], "r.c_road_se");
 
   if (is_isometric) {
     SET_SPRITE(explode.iso_nuke, "explode.iso_nuke");
@@ -1336,6 +1350,118 @@ static bool can_blend_hills_and_mountains(enum tile_terrain_type ttype,
   }
 }
 
+/**************************************************************************
+  Add any corner road tiles to the sprite array.
+**************************************************************************/
+static struct Sprite **fill_road_corner_sprites(struct Sprite **sprs,
+	enum tile_special_type tspecial,
+	enum tile_special_type *tspecial_near)
+{
+  bool road, road_near[8], rail, rail_near[8];
+  enum direction8 dir;
+
+  if (!draw_roads_rails || !(draw_diagonal_roads || is_isometric)) {
+    /* We're not supposed to draw roads/rails here. */
+    /* HACK: draw_diagonal_roads is not checked in iso view. */
+    return sprs;
+  }
+
+  /* Roads going diagonally adjacent to this tile need to be
+   * partly drawn on this tile. */
+  road = contains_special(tspecial, S_ROAD);
+  rail = contains_special(tspecial, S_RAILROAD);
+  for (dir = 0; dir < 8; dir++) {
+    road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
+    rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
+  }
+
+  /* Draw the corner sprite if:
+   *   - There is a diagonal road (not rail!) between two adjacent tiles.
+   *   - There is no diagonal road (not rail!) that intersects this road.
+   * The logic is simple: roads are drawn underneath railrods, but are
+   * not always covered by them (even in the corners!).  But if a railroad
+   * connects two tiles, only the railroad (no road) is drawn between
+   * those tiles.
+   */
+  if (sprites.road.corner[DIR8_NORTHEAST]
+      && (road_near[DIR8_NORTH] && road_near[DIR8_EAST]
+	  && !(rail_near[DIR8_NORTH] && rail_near[DIR8_EAST]))
+      && !(road && road_near[DIR8_NORTHEAST]
+	   && !(rail && rail_near[DIR8_NORTHEAST]))) {
+    *sprs++ = sprites.road.corner[DIR8_NORTHEAST];
+  }
+  if (sprites.road.corner[DIR8_NORTHWEST]
+      && (road_near[DIR8_NORTH] && road_near[DIR8_WEST]
+	  && !(rail_near[DIR8_NORTH] && rail_near[DIR8_WEST]))
+      && !(road && road_near[DIR8_NORTHWEST]
+	   && !(rail && rail_near[DIR8_NORTHWEST]))) {
+    *sprs++ = sprites.road.corner[DIR8_NORTHWEST];
+  }
+  if (sprites.road.corner[DIR8_SOUTHEAST]
+      && (road_near[DIR8_SOUTH] && road_near[DIR8_EAST]
+	  && !(rail_near[DIR8_SOUTH] && rail_near[DIR8_EAST]))
+      && !(road && road_near[DIR8_SOUTHEAST]
+	   && !(rail && rail_near[DIR8_SOUTHEAST]))) {
+    *sprs++ = sprites.road.corner[DIR8_SOUTHEAST];
+  }
+  if (sprites.road.corner[DIR8_SOUTHWEST]
+      && (road_near[DIR8_SOUTH] && road_near[DIR8_WEST]
+	  && !(rail_near[DIR8_SOUTH] && rail_near[DIR8_WEST]))
+      && !(road && road_near[DIR8_SOUTHWEST]
+	   && !(rail && rail_near[DIR8_SOUTHWEST]))) {
+    *sprs++ = sprites.road.corner[DIR8_SOUTHWEST];
+  }
+
+  return sprs;
+}
+
+/**************************************************************************
+  Add any corner rail tiles to the sprite array.
+**************************************************************************/
+static struct Sprite **fill_rail_corner_sprites(struct Sprite **sprs,
+	enum tile_special_type tspecial,
+	enum tile_special_type *tspecial_near)
+{
+  bool rail, rail_near[8];
+  enum direction8 dir;
+
+  if (!draw_roads_rails || !(draw_diagonal_roads || is_isometric)) {
+    /* We're not supposed to draw roads/rails here. */
+    /* HACK: draw_diagonal_roads is not checked in iso view. */
+    return sprs;
+  }
+
+  /* Rails going diagonally adjacent to this tile need to be
+   * partly drawn on this tile. */
+  rail = contains_special(tspecial, S_RAILROAD);
+  for (dir = 0; dir < 8; dir++) {
+    rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
+  }
+
+  if (sprites.rail.corner[DIR8_NORTHEAST]
+      && rail_near[DIR8_NORTH] && rail_near[DIR8_EAST]
+      && !(rail && rail_near[DIR8_NORTHEAST])) {
+    *sprs++ = sprites.rail.corner[DIR8_NORTHEAST];
+  }
+  if (sprites.rail.corner[DIR8_NORTHWEST]
+      && rail_near[DIR8_NORTH] && rail_near[DIR8_WEST]
+      && !(rail && rail_near[DIR8_NORTHWEST])) {
+    *sprs++ = sprites.rail.corner[DIR8_NORTHWEST];
+  }
+  if (sprites.rail.corner[DIR8_SOUTHEAST]
+      && rail_near[DIR8_SOUTH] && rail_near[DIR8_EAST]
+      && !(rail && rail_near[DIR8_SOUTHEAST])) {
+    *sprs++ = sprites.rail.corner[DIR8_SOUTHEAST];
+  }
+  if (sprites.rail.corner[DIR8_SOUTHWEST]
+      && rail_near[DIR8_SOUTH] && rail_near[DIR8_WEST]
+      && !(rail && rail_near[DIR8_SOUTHWEST])) {
+    *sprs++ = sprites.rail.corner[DIR8_SOUTHWEST];
+  }
+
+  return sprs;
+}
+
 /**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
@@ -1494,6 +1620,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     }
   } else {
     if (draw_roads_rails) {
+      /* Draw road corners underneath rails. */
+      sprs = fill_road_corner_sprites(sprs, tspecial, tspecial_near);
+
       if (contains_special(tspecial, S_RAILROAD)) {
       	bool found = FALSE;
 
@@ -1523,6 +1652,9 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 	if (!found && !pcity)
 	  *sprs++ = sprites.road.isolated;
       }
+
+      /* Draw rail corners over roads. */
+      sprs = fill_rail_corner_sprites(sprs, tspecial, tspecial_near);
     }
 
     if (contains_special(tspecial, S_HUT) && draw_specials)
@@ -1686,6 +1818,9 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     else *sprs++=sprites.tx.irrigation;
   }
 
+  /* Draw road corners under rails. */
+  sprs = fill_road_corner_sprites(sprs, tspecial, tspecial_near);
+
   if((contains_special(tspecial, S_ROAD) || contains_special(tspecial, S_RAILROAD)) && draw_roads_rails) {
     bool n, s, e, w;
 
@@ -1757,6 +1892,9 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       }
     }
   }
+
+  /* Draw rail corners over roads. */
+  sprs = fill_rail_corner_sprites(sprs, tspecial, tspecial_near);
 
   if(draw_specials) {
     if (contains_special(tspecial, S_SPECIAL_1))
