@@ -214,7 +214,7 @@ void update_info_label( void )
 {
   char buffer	[512];
   int  d;
-  int  sun, flake;
+  int  sol, flake;
 
   gtk_frame_set_label(GTK_FRAME(main_frame_civ_name),
 		      get_nation_name(game.player_ptr->nation));
@@ -230,10 +230,10 @@ void update_info_label( void )
 
   gtk_set_label(main_label_info, buffer);
 
-  sun = client_warming_sprite();
+  sol = client_warming_sprite();
   flake = client_cooling_sprite();
   set_indicator_icons(client_research_sprite(),
-		      sun,
+		      sol,
 		      flake,
 		      game.player_ptr->government);
 
@@ -276,7 +276,7 @@ void update_info_label( void )
   my_snprintf(buffer, sizeof(buffer),
 	      _("Shows the progress of global warming:\n"
 		"%d."),
-	      sun);
+	      sol);
   gtk_tooltips_set_tip(main_tips, sun_ebox, buffer, "");
 
   my_snprintf(buffer, sizeof(buffer),
