@@ -16,9 +16,11 @@
 
 #include <unistd.h>
 
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
 
 #include "capability.h"
 #include "log.h"
@@ -1882,7 +1884,7 @@ void flush_connection_send_buffer(struct connection *pc)
 {
   if(pc) {
     if(pc->send_buffer.ndata) {
-      if(write(pc->sock, pc->send_buffer.data, pc->send_buffer.ndata)!=
+      if(write(pc->sock, (const char *)pc->send_buffer.data, pc->send_buffer.ndata)!=
 	 pc->send_buffer.ndata) {
 	freelog(LOG_NORMAL, "failed writing data to socket");
       }
@@ -1910,7 +1912,7 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
       }
     }
     else {
-      if(write(pc->sock, data, len)!=len) {
+      if(write(pc->sock, (const char *)data, len)!=len) {
 	freelog(LOG_NORMAL, "failed writing data to socket");
 	return -1;
       }
@@ -1933,7 +1935,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 {
   int didget;
 
-  if((didget=read(sock, buffer->data+buffer->ndata, 
+  if((didget=read(sock, (char *)(buffer->data+buffer->ndata), 
 		  MAX_PACKET_SIZE-buffer->ndata))<=0)
     return -1;
  

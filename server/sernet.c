@@ -17,10 +17,12 @@
 #include <errno.h>
 
 #include <unistd.h>
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
 #include <sys/signal.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <pwd.h>
+#endif
 
 #if defined(AIX) || defined(__EMX__)
 #include <sys/select.h>
@@ -28,11 +30,13 @@
 
 #include <signal.h>
 
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
 #include <sys/socket.h>
 #include <netdb.h>
 #include <sys/uio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
 
 #include "log.h"
 #include "packets.h"
@@ -47,9 +51,15 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 
 struct connection connections[MAX_CONNECTIONS];
+
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network globals */
+TEndpointInfo serv_info;
+EndpointRef serv_ep;
+#else
 int sock;
 extern int errno;
 extern int port;
+#endif
 extern int force_end_of_sniff;
 
 extern enum server_states server_state;

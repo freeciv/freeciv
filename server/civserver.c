@@ -22,7 +22,11 @@
 #include <time.h>
 
 #include <unistd.h>
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
+#include <bool.h> /*from STL, but works w/ c*/
+#else
 #include <sys/types.h>
+#endif
 
 #ifdef __EMX__
 #include <netdb.h>
@@ -131,7 +135,12 @@ int rand_init=0;
 /**************************************************************************
 ...
 **************************************************************************/
+#if (defined(GENERATING68K) || defined(GENERATINGPPC))
+				/* mac doesn't have comand line */
+int main(void)
+#else 
 int main(int argc, char *argv[])
+#endif
 {
   int h=0, v=0, n=1;
   char *log_filename=NULL;
@@ -141,19 +150,95 @@ int main(int argc, char *argv[])
   int i;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
-
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* Mac vars */
+  OSErr err;
+  DialogPtr  optptr;
+  bool done;
+#endif
+#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac code */
   if (!getuid() || !geteuid()) {
     fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
 	    (argv[0] ? argv[0] : "freeciv_server"));
     fprintf(stderr,"Use a non-privileged account instead.\n");
     exit(1);
   }
+#endif
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* Mac Options */
+  optptr=GetNewDialog(128,nil,(WindowPtr)-1);
+  err=SetDialogDefaultItem(optptr, 2);
+  if (err != 0)
+  {
+    exit(1); /*we don't have an error log yet so I just bomb.  Is this corect?*/
+  }
+  err=SetDialogTracksCursor(optptr, true);
+  if (err != 0)
+  {
+    exit(1);
+  }
+    
+  while(!done)
+  {
+    Str255 the_string;
+    short the_item, the_type;
+    Handle the_handle;
+    Rect the_rect;
+    OSErr  err;
+    long temp;
+    ModalDialog(0, &the_item);
+    switch (the_item)
+    {
+      case 1:
+        done = true;
+      break;
+      case 2:
+        exit(0);
+      break;
+      case 4:
+        GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
+        GetIText( the_handle, (unsigned char *)load_filename);
+      break;
+      case 6:
+        GetDItem( optptr, 6, &the_type, &the_handle, &the_rect);
+        GetIText( the_handle, (unsigned char *)gamelog_filename);
+      break;
+      case 8:
+        GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
+        GetIText( the_handle, (unsigned char *)log_filename);
+      break;
+      case 10:
+        GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
+        GetIText( the_handle, (unsigned char *)script_filename);
+      break;
+      case 12:
+        GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);
+        GetIText( the_handle, the_string);
+        StringToNum( the_string, &temp);
+        if (temp>0)
+          port=temp;
+      break;
+      case 13:
+        GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);
+        n=GetCtlValue((ControlHandle)the_handle);
+        SetCtlValue((ControlHandle)the_handle, !n);
+      break;
+      case 15:
+      case 16:
+      case 17:
+        GetDItem(optptr, (loglevel+15), &the_type, &the_handle, &the_rect);
+        SetCtlValue((ControlHandle)the_handle, false);
+        loglevel=the_item-15;
+        GetDItem(optptr, the_item, &the_type, &the_handle, &the_rect);
+        SetCtlValue((ControlHandle)the_handle, true);
+      break;
+    }
+  }
+  DisposeDialog(optptr);
+#else	/* non-mac options */  
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
-  
   i=1;
   while(i<argc) {
     if(!strcmp("-f", argv[i]) || !strcmp("--file", argv[i])) { 
@@ -246,7 +331,8 @@ int main(int argc, char *argv[])
     }
     i++;
   }
-    
+#endif	/* end option selector */
+  
   if(v && !h) {
     fprintf(stderr, FREECIV_NAME_VERSION "\n");
     exit(0);
@@ -281,10 +367,18 @@ int main(int argc, char *argv[])
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
+#if (defined(GENERATING68K) || defined(GENERATINGPPC))	/* mac beta notice */
+  con_puts(C_COMMENT, "");
+  con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
+  con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");
+  con_puts(C_COMMENT, "for new versions of this project.");
+  con_puts(C_COMMENT, "");
+#endif
 #if IS_BETA_VERSION
   con_write(C_COMMENT, "Freeciv 1.8 will be released "
 	    "third week of March at %s", WEBSITE_URL);
 #endif
+  
   con_flush();
 
   init_our_capability();

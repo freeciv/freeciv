@@ -20,8 +20,12 @@
 #include <ctype.h>
 #include <assert.h>
 
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
+#include <events.h> /* for WaitNextEvent() */
+#else
 #include <sys/time.h>
 #include <sys/types.h>
+#endif
 #include <unistd.h>
 
 #include "log.h"
@@ -282,6 +286,11 @@ char *mystrerror(int errnum)
 ***************************************************************/
 void myusleep(unsigned long usec)
 {
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac timeshare function */
+  EventRecord the_event;  /* dummy var for timesharing */
+  WaitNextEvent(0, &the_event, GetCaretTime(), nil); /* this is suposed to
+     give other application procseor time for the mac*/
+#else
 #ifndef HAVE_USLEEP
   struct timeval tv;
 
@@ -290,6 +299,7 @@ void myusleep(unsigned long usec)
   select(0, NULL, NULL, NULL, &tv);
 #else
   usleep(usec);
+#endif
 #endif
 }
 

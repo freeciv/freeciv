@@ -65,4 +65,10 @@ char *user_home_dir(void);
 char *datafilename(char *filename);
 char *datafilename_required(char *filename);
 
+/*Mac constants-resource IDs*/
+enum DITL_ids{
+  kChatDITL=133,
+  kCityDITL=140
+};
+
 #endif  /* FC__SHARED_H */

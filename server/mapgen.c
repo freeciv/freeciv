@@ -16,7 +16,6 @@
 #include <assert.h>
 
 #include <time.h>
-#include <sys/time.h>
 
 #include "game.h"
 #include "log.h"
