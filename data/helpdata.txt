@@ -469,6 +469,7 @@ Keyboard:\n\
   f: build (f)ortress  (settler/engineer units)\n\
   F: open (F)ind City dialog\n\
   g: unit (g)oto  (then left-click mouse to select destination)\n\
+  g: add a (g)oto waypoint (when in goto mode)\n\
   h: change (h)omecity  (to city at current location)\n\
   i: build (i)rrigation/farmland  (settler/engineer units; may convert terr)\n\
   l: go/air(l)ift to city\n\
@@ -481,6 +482,7 @@ Keyboard:\n\
   p: (p)aradrop  (paratroop units)\n\
   P: (P)illage terrain alteration\n\
   q: unit patrol  (then left-click mouse to select destination)\n\
+  q: add a patrol waypoint (when in patrol mode)\n\
   r: build (r)oad/railroad  (settler/engineer units)\n\
   r: establish trade (r)oute  (caravan units)\n\
   R: incite a (R)evolution\n\
