@@ -2,7 +2,7 @@
 # Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Denis Bodor <dbodor@linuxmag-france.org>, 1999.
-# Freeciv french team <freeciv-fr@club.voila.fr>, 2000.
+# Freeciv french team <freeciv-fr@egroups.fr>, 2000.
 #
 #
 #, fuzzy
@@ -240,7 +240,7 @@ msgstr "%s : Erreur fatale : vous essayez de m'exécuter en tant que super-utilis
 
 #: common/shared.c:723
 msgid "Use a non-privileged account instead.\n"
-msgstr "Utilisez un compte non privilégié à la place.\n"
+msgstr "Utilisez plutôt un compte non privilégié.\n"
 
 #: common/shared.c:740
 msgid "exact match"
@@ -374,11 +374,11 @@ msgstr "Décembre"
 #: common/version.c:49
 #, c-format
 msgid ""
-"THIS IS A BÊTA VERSION\n"
+"THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
-"CECI EST UNE VERSION BETA\n"
+"CECI EST UNE VERSION BÊTA\n"
 "Freeciv %s sortira en\n"
 "%s, sur %s"
 
@@ -739,11 +739,11 @@ msgstr "  -l, --log FICHIER\t\tSauver les journaux dans FICHIER\n"
 
 #: server/civserver.c:254
 msgid "  -m, --meta\t\tSend info to metaserver\n"
-msgstr "  -m, --meta\t\t\tEnvoyer l'information au Métaserveur\n"
+msgstr "  -m, --meta\t\t\tEnvoyer l'information au métaserveur\n"
 
 #: server/civserver.c:255
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr "  -M, --Metaserver A\t\tRègle l'adresse du metaserveur sur A\n"
+msgstr "  -M, --Metaserver A\t\tRègle l'adresse du métaserveur sur A\n"
 
 #: server/civserver.c:256
 msgid "  -s, --server HOST\tList this server as host HOST\n"
@@ -780,7 +780,7 @@ msgstr "Impossible de charger le fichier de sauvegarde : %s"
 #: server/civserver.c:326
 #, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr "Envoi d'information au Metaserveur [%s]"
+msgstr "Envoi d'information au métaserveur [%s]"
 
 #. accept new players, wait for serverop to start..
 #: server/civserver.c:334
@@ -1247,7 +1247,7 @@ msgstr "Nombre de départs (%d) est inférieur au nombre maximum de joueurs (\"max
 
 #: server/meta.c:160
 msgid "Not reporting to the metaserver in this game."
-msgstr "Pas de rapport au Metaserveur pour cette partie."
+msgstr "Pas de rapport au métaserveur pour cette partie."
 
 #: server/meta.c:189
 #, c-format
@@ -1257,7 +1257,7 @@ msgstr "Erreur lors de l'ouverture d'OpenTransport (id: %g)"
 #: server/meta.c:205
 #, c-format
 msgid "Metaserver: bad address: [%s]."
-msgstr "Metaserveur: erreur d'adresse [%s]."
+msgstr "Métaserveur: erreur d'adresse [%s]."
 
 #: server/plrhand.c:74
 #, c-format
@@ -1796,7 +1796,7 @@ msgstr "Jeu : à cause de la capture de la capitale de %s, le vaisseau spatial de
 #: server/spacerace.c:373
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr "Jeu : le vaisseau spatial des %s est arrivé sur Alpha Centauri."
+msgstr "Jeu : le vaisseau spatial des %s est arrivé sur Alpha du Centaure."
 
 #: server/stdinhand.c:147
 msgid "Map width in squares"
@@ -2795,7 +2795,7 @@ msgstr "Le métaserveur est dorénavant '%s'."
 
 #: server/stdinhand.c:1411
 msgid "Metaserver address set."
-msgstr "Metaserveur: adresse positionnée"
+msgstr "Métaserveur: adresse positionnée"
 
 #: server/stdinhand.c:1483
 msgid "The game cannot be saved before it is started."
@@ -4304,7 +4304,7 @@ msgstr "  -s, --sound F\tLire les informations sur le son dans le fichier F\n"
 
 #: client/civclient.c:117
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -m, --meta M\t\tSe connecter au metaserveur M\n"
+msgstr "  -m, --meta M\t\tSe connecter au métaserveur M\n"
 
 #: client/civclient.c:146
 #, c-format
@@ -8391,7 +8391,7 @@ msgstr "Si le nombre d'habitants mécontents dans une ville excède le nombre d'ha
 # AR disorder ?
 #: data/helpdata.txt:1192
 msgid "However, if the number of happy citizens in a city is at least as great as the number of content citizens, and you have no unhappy citizens in that city, and the city has at least 3 citizens, then the city celebrates.  This is designated by the term \"Rapture\" on the City Report.  The effects of celebration vary depending on your government type:"
-msgstr "Par contre, si le nombre de gens heureux dans une ville est supérieur ou égal au nombre de gens contents, s'il n'y a aucun malheureux dans cette ville, et si la ville compte au moins 5 habitants, alors la ville organise une célébration. Ceci est désigné par le terme \"Extase\" dans le Rapport de Ville. Les effets de la célébration varient selon le type de gouvernement:"
+msgstr "Par contre, si le nombre de gens heureux dans une ville est supérieur ou égal au nombre de gens contents, s'il n'y a aucun mécontent dans cette ville, et si la ville compte au moins 5 habitants, alors la ville organise une célébration. Ceci est désigné par le terme \"Extase\" dans le Rapport de Ville. Les effets de la célébration varient selon le type de gouvernement:"
 
 #: data/helpdata.txt:1199
 msgid " - Under Anarchy or Despotism, you will not suffer the normal production penalty for squares which produce more than 2 units of any resource (food, shields or trade)."
@@ -8514,7 +8514,7 @@ msgstr "Colisée"
 
 #: data/default/buildings.ruleset:473
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electricity.)"
-msgstr "Amuse les citoyens de la ville, rendant 3 citoyens malheureux contents(quatre après la découverte de l'électricité)."
+msgstr "Amuse les citoyens de la ville, rendant contents 3 citoyens mécontents (quatre après la découverte de l'électricité)."
 
 #: data/civ1/buildings.ruleset:312 data/civ2/buildings.ruleset:295 data/default/buildings.ruleset:481
 msgid "Courthouse"
@@ -8812,7 +8812,7 @@ msgstr "Temple"
 
 #: data/civ1/buildings.ruleset:1041 data/civ2/buildings.ruleset:1028 data/default/buildings.ruleset:1233
 msgid "Makes one unhappy citizen content.  Both the Mysticism advance and the Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 citizens are made content."
-msgstr "Rend content un habitant malheureux. Le Mysticisme et la merveille de l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus contents."
+msgstr "Rend content un habitant mécontent. Le Mysticisme et la merveille de l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus contents."
 
 #: data/civ1/buildings.ruleset:1048 data/civ1/techs.ruleset:559 data/civ2/buildings.ruleset:1035 data/civ2/techs.ruleset:559 data/default/buildings.ruleset:1240 data/default/techs.ruleset:559
 msgid "University"
@@ -8904,7 +8904,7 @@ msgstr "Jardins Suspendus"
 
 #: data/civ1/buildings.ruleset:1303 data/civ2/buildings.ruleset:1290 data/default/buildings.ruleset:1497
 msgid "Makes one content citizen happy in every city. Makes two extra content citizens happy in the city containing the Hanging Gardens (that is, a total of 3).  In the unlikely event where there are no content citizens to get the effect of Hanging Gardens, the wonder applies to unhappy citizens (making them content instead)."
-msgstr "Rend heureux un habitant content dans chaque ville. Rend heureux deux habitants contents dans la ville possédant les Jardins Suspendus (soit un total de 3). Dans le cas où il n'y aurait pas d'habitants contents pour bénéficier des effets des Jardins Suspendus, cette merveille agit sur les habitants malheureux (les rendant contents)."
+msgstr "Rend heureux un habitant content dans chaque ville. Rend heureux deux habitants contents dans la ville possédant les Jardins Suspendus (soit un total de 3). Dans le cas où il n'y aurait pas d'habitants contents pour bénéficier des effets des Jardins Suspendus, cette merveille agit sur les habitants mécontents (les rendant contents)."
 
 #: data/civ1/buildings.ruleset:1312 data/civ2/buildings.ruleset:1299 data/default/buildings.ruleset:1506
 msgid "Hoover Dam"
@@ -8935,7 +8935,7 @@ msgstr "Cathédrale J.S. Bach"
 
 #: data/civ2/buildings.ruleset:1368 data/default/buildings.ruleset:1576
 msgid "Makes two unhappy citizens content in every city."
-msgstr "Transforme deux citoyens malheureux de chaque ville en citoyens contents ."
+msgstr "Transforme deux citoyens mécontents de chaque ville en citoyens contents ."
 
 #: data/civ1/buildings.ruleset:1392 data/civ2/buildings.ruleset:1373 data/default/buildings.ruleset:1581
 msgid "King Richard's Crusade"
@@ -9067,7 +9067,7 @@ msgstr "Ceci n'est pas une bâtiment normal. Son effet est que la production de l
 
 #: data/civ2/buildings.ruleset:289
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electronics.)"
-msgstr "Amuse les citoyens de la ville, rendant 3 citoyens malheureux contents(quatre après la découverte de l'Électronique)."
+msgstr "Amuse les citoyens de la ville, rendant contents 3 citoyens mécontents (quatre après la découverte de l'Électronique)."
 
 #: data/civ2/buildings.ruleset:414
 msgid ""
@@ -9117,7 +9117,7 @@ msgstr "Avec une caserne, chaque unité construite dans une ville aura automatiqu
 
 #: data/civ1/buildings.ruleset:231
 msgid "A Cathedral makes 4 unhappy citizens content in a city, making it easier to maintain order in that city."
-msgstr "Une Cathédrale rend 4 citoyens malheureux de la ville contents, ce qui simplifie le maintien de l'ordre dans la ville."
+msgstr "Une Cathédrale rend contents 4 citoyens mécontents de la ville, ce qui simplifie le maintien de l'ordre dans la ville."
 
 #: data/civ1/buildings.ruleset:258
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against ground, sea, and helicopter units.  They are ineffective against non-helicopter airborne units as well as Artillery.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
@@ -9125,7 +9125,7 @@ msgstr "Les remparts rendent la défense des villes plus facile. Ils triplent la 
 
 #: data/civ1/buildings.ruleset:307
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
-msgstr "Amuse les citoyens de la ville, rendant 3 citoyens malheureux contents."
+msgstr "Amuse les citoyens de la ville, rendant contents 3 citoyens mécontents."
 
 #: data/civ1/buildings.ruleset:431
 msgid ""
@@ -9167,7 +9167,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:1386
 msgid "Makes two unhappy citizens content in every city of yours on the same continent where the wonder is built."
-msgstr "Rend contents deux citoyens malheureux dans chacune de vos villes qui se trouve sur le continent où la merveille a été construite."
+msgstr "Rend contents deux citoyens mécontents dans chacune de vos villes qui se trouve sur le continent où la merveille a été construite."
 
 #: data/civ1/buildings.ruleset:1483
 msgid "Gives all sea units 1 additional movement point."
@@ -9232,7 +9232,7 @@ msgid ""
 msgstr ""
 "L'Anarchie est l'absence totale de réel gouvernement. Les citoyens sont désorganisés et non productifs; ils dépenseront tout leur revenu aussi vite que possible, plutôt que de payer des taxes ou conduire des recherches scientifiques.\n"
 "\n"
-"L'Anarchie génère un peu moins de corruption que le despotisme, mais crée un peu plus de malheureux.\n"
+"L'Anarchie génère un peu moins de corruption que le despotisme, mais crée un peu plus de mécontents.\n"
 "\n"
 "Les colons consomment 1 nourriture par jour sous l'Anarchie. Les cases qui produisent normalement plus de 2 unités de nourriture, minerai, ou commerce souffrent d'une pénalité de 1 unité (par exemple, une prairie irriguée qui offre normalement 3 unités de nourritures  n'en offrira plus que 2). Cette pénalité ne s'applique pas dans une ville en fête; cf Bonheur.\n"
 "\n"
@@ -9276,7 +9276,7 @@ msgstr ""
 "\n"
 "Sous un régime despotique, chacune de vos villes peut supporter un nombre d'unités militaires égal à sa taille sans payer aucune ressource pour les soutenir (chaque unité supplémentaire nécessite 1 point de production).\n"
 "\n"
-"Vous pouvez imposer la loi martiale sous le Despotisme : chaque unité militaire à l'intérieur de la ville rendra content un habitant malheureux (ou, tout au moins, les citoyens malheureux ne causeront pas de troubles)."
+"Vous pouvez imposer la loi martiale sous le Despotisme : chaque unité militaire à l'intérieur de la ville rendra content un habitant mécontent (ou, tout au moins, les citoyens mécontents ne causeront pas de troubles)."
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367 data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367 data/default/governments.ruleset:244 data/default/techs.ruleset:367
 msgid "Monarchy"
@@ -9318,7 +9318,7 @@ msgstr ""
 "\n"
 "Sous une Monarchie, chacune de vos villes peut supporter jusqu'à 3 unités militaires sans payer aucune ressource pour les soutenir (chaque unité supplémentaire requiert un point de production).\n"
 "\n"
-"Vous pouvez imposer une loi martiale limitée : chaque unité militaire à l'intérieur d'une ville rendra content un habitant malheureux, dans la limite de 3 habitants."
+"Vous pouvez imposer une loi martiale limitée : chaque unité militaire à l'intérieur d'une ville rendra content un habitant mécontent, dans la limite de 3 habitants."
 
 #: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139 data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139 data/default/governments.ruleset:314 data/default/techs.ruleset:139
 msgid "Communism"
@@ -9358,7 +9358,7 @@ msgstr ""
 "\n"
 "Sous le Communisme, chacune de vos villes peut supporter jusqu'à 3 unités militaires sans payer aucune ressource pour la soutenir. (les unités supplémentaires en demandent chacune 1).\n"
 "\n"
-"Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais efficace : chaque unité militaire à l'intérieur de la ville rendra contents 2 habitants malheureux, dans la limite de 3 unités."
+"Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais efficace : chaque unité militaire à l'intérieur de la ville rendra contents 2 habitants mécontents, dans la limite de 3 unités."
 
 #: data/civ1/governments.ruleset:386 data/civ2/governments.ruleset:441 data/default/governments.ruleset:391
 msgid "Republic"
@@ -9488,7 +9488,7 @@ msgstr ""
 "\n"
 "Sous un régime despotique, chacune de vos villes peut supporter un nombre d'unités militaires égal à sa taille sans payer aucune ressource pour les soutenir. (chaque unité supplémentaire nécessite 1 point de production).\n"
 "\n"
-"Vous pouvez imposer la loi martiale sous le Despotisme : chaque unité militaire à l'intérieur de la ville rendra content un habitant malheureux (ou tout au moins, les citoyens malheureux ne causeront pas de troubles)."
+"Vous pouvez imposer la loi martiale sous le Despotisme : chaque unité militaire à l'intérieur de la ville rendra content un habitant mécontent (ou tout au moins, les citoyens mécontents ne causeront pas de troubles)."
 
 #: data/civ1/governments.ruleset:286
 msgid ""
@@ -9512,7 +9512,7 @@ msgstr ""
 "\n"
 "Sous une Monarchie, chacune de vos villes peut supporter jusqu'à 3 unités militaires sans payer aucune ressource pour les soutenir. (chaque unité supplémentaire requiert un point de production).\n"
 "\n"
-"Vous pouvez imposer une loi martiale limitée : chaque unité militaire à l'intérieur d'une ville rendra content un habitant malheureux, dans la limite de 3 habitants."
+"Vous pouvez imposer une loi martiale limitée : chaque unité militaire à l'intérieur d'une ville rendra content un habitant mécontent, dans la limite de 3 habitants."
 
 #: data/civ1/governments.ruleset:354
 msgid ""
@@ -9542,7 +9542,7 @@ msgstr ""
 "\n"
 "Sous le Communisme, chacune de vos villes peut supporter jusqu'à 3 unités militaires sans payer aucune ressource pour la soutenir. (les unités supplémentaires en demandent chacune 1).\n"
 "\n"
-"Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais efficace : chaque unité militaire à l'intérieur de la ville rendra contents 2 habitants malheureux, dans la limite de 3 unités (6 habitants)."
+"Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais efficace : chaque unité militaire à l'intérieur de la ville rendra contents 2 habitants mécontents, dans la limite de 3 unités (6 habitants)."
 
 #: data/civ1/governments.ruleset:429
 msgid ""
@@ -9885,7 +9885,7 @@ msgstr "Furtivité"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499 data/default/techs.ruleset:499
 msgid "Steam Engine"
-msgstr "Machine à vapeur"
+msgstr "Moteur à vapeur"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505 data/default/techs.ruleset:505
 msgid "Steel"
@@ -11486,7 +11486,7 @@ msgstr "?plural:Zoulous"
 #~ msgstr "Course à l'Espace"
 
 #~ msgid "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy citizens content in each city."
-#~ msgstr "Produit les mêmes effets que la présence d'une Cathédrale dans chacune de vos villes. Cela rend 3 citoyens malheureux contents dans chaque ville."
+#~ msgstr "Produit les mêmes effets que la présence d'une Cathédrale dans chacune de vos villes. Cela rend contents 3 citoyens mécontents dans chaque ville."
 
 #~ msgid ""
 #~ "This unit is invisible unless it is next to an enemy unit or city. It cannot make shore bombardments against enemy land units or cities.\n"
