@@ -224,7 +224,7 @@ static int rank_population(struct player *pplayer)
   return place;
 }
 
-static struct player *best_population()
+static struct player *best_population(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -250,7 +250,7 @@ static int rank_landarea(struct player *pplayer)
   return place;
 }
 
-static struct player *best_landarea()
+static struct player *best_landarea(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -276,7 +276,7 @@ static int rank_settledarea(struct player *pplayer)
   return place;
 }
 
-static struct player *best_settledarea()
+static struct player *best_settledarea(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -307,7 +307,7 @@ static int rank_research(struct player *pplayer)
   return place;
 }
 
-static struct player *best_research()
+static struct player *best_research(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -346,7 +346,7 @@ static int rank_literacy(struct player *pplayer)
   return place;
 }
 
-static struct player *best_literacy()
+static struct player *best_literacy(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -372,7 +372,7 @@ static int rank_production(struct player *pplayer)
   return place;
 }
 
-static struct player *best_production()
+static struct player *best_production(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -398,7 +398,7 @@ static int rank_economics(struct player *pplayer)
   return place;
 }
 
-static struct player *best_economics()
+static struct player *best_economics(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -424,7 +424,7 @@ static int rank_pollution(struct player *pplayer)
   return place;
 }
 
-static struct player *best_pollution()
+static struct player *best_pollution(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
@@ -455,7 +455,7 @@ static int rank_mil_service(struct player *pplayer)
   return place;
 }
 
-static struct player *best_mil_service()
+static struct player *best_mil_service(void)
 {
   struct player *pplayer = &game.players[0];
   int i;
