@@ -171,7 +171,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	    break;
 	  }
 	  
-	  notify_player(pdest, "Game: You recieve city of %s from %s",
+	  notify_player(pdest, "Game: You receive city of %s from %s",
 			pcity->name, pgiver->name);
 	  
 	  notify_player(pgiver, "Game: You give city of %s to %s",

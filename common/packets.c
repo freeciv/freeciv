@@ -101,33 +101,33 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   switch(type) {
 
   case PACKET_REQUEST_JOIN_GAME:
-    return recieve_packet_req_join_game(pc);
+    return receive_packet_req_join_game(pc);
 
   case PACKET_JOIN_GAME_REPLY:
-    return recieve_packet_join_game_reply(pc);
+    return receive_packet_join_game_reply(pc);
 
   case PACKET_SERVER_SHUTDOWN:
-    return recieve_packet_generic_message(pc);
+    return receive_packet_generic_message(pc);
 
   case PACKET_UNIT_INFO:
-    return recieve_packet_unit_info(pc);
+    return receive_packet_unit_info(pc);
 
    case PACKET_CITY_INFO:
-    return recieve_packet_city_info(pc);
+    return receive_packet_city_info(pc);
 
   case PACKET_MOVE_UNIT:
-    return recieve_packet_move_unit(pc);
+    return receive_packet_move_unit(pc);
 
   case PACKET_TURN_DONE:
-    return recieve_packet_generic_message(pc);
+    return receive_packet_generic_message(pc);
 
   case PACKET_BEFORE_NEW_YEAR:
-    return recieve_packet_before_new_year(pc);
+    return receive_packet_before_new_year(pc);
   case PACKET_NEW_YEAR:
-    return recieve_packet_new_year(pc);
+    return receive_packet_new_year(pc);
 
   case PACKET_TILE_INFO:
-    return recieve_packet_tile_info(pc);
+    return receive_packet_tile_info(pc);
 
   case PACKET_SELECT_RACE:
   case PACKET_REMOVE_UNIT:
@@ -137,26 +137,26 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_REMOVE_PLAYER:  
   case PACKET_CITY_REFRESH:
   case PACKET_INCITE_INQ:
-    return recieve_packet_generic_integer(pc);
+    return receive_packet_generic_integer(pc);
     
   case PACKET_ALLOC_RACE:
-    return recieve_packet_alloc_race(pc);
+    return receive_packet_alloc_race(pc);
 
   case PACKET_SHOW_MESSAGE:
-    return recieve_packet_generic_message(pc);
+    return receive_packet_generic_message(pc);
 
   case PACKET_PLAYER_INFO:
-    return recieve_packet_player_info(pc);
+    return receive_packet_player_info(pc);
 
   case PACKET_GAME_INFO:
-    return recieve_packet_game_info(pc);
+    return receive_packet_game_info(pc);
 
   case PACKET_MAP_INFO:
-    return recieve_packet_map_info(pc);
+    return receive_packet_map_info(pc);
 
   case PACKET_CHAT_MSG:
   case PACKET_PAGE_MSG:
-    return recieve_packet_generic_message(pc);
+    return receive_packet_generic_message(pc);
     
   case PACKET_CITY_SELL:
   case PACKET_CITY_BUY:
@@ -165,14 +165,14 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CITY_MAKE_WORKER:
   case PACKET_CITY_CHANGE_SPECIALIST:
   case PACKET_CITY_RENAME:
-    return recieve_packet_city_request(pc);
+    return receive_packet_city_request(pc);
 
   case PACKET_PLAYER_RATES:
   case PACKET_PLAYER_REVOLUTION:
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
-    return recieve_packet_player_request(pc);
+    return receive_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
   case PACKET_UNIT_DISBAND:
@@ -184,15 +184,15 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_UNIT_UNLOAD:
   case PACKET_UNIT_UPGRADE:
   case PACKET_UNIT_NUKE:
-    return recieve_packet_unit_request(pc);
+    return receive_packet_unit_request(pc);
   case PACKET_UNITTYPE_UPGRADE:
-    return recieve_packet_unittype_info(pc);
+    return receive_packet_unittype_info(pc);
   case PACKET_UNIT_COMBAT:
-    return recieve_packet_unit_combat(pc);
+    return receive_packet_unit_combat(pc);
   case PACKET_NUKE_TILE:
-    return recieve_packet_nuke_tile(pc);
+    return receive_packet_nuke_tile(pc);
   case PACKET_DIPLOMAT_ACTION:
-    return recieve_packet_diplomat_action(pc);
+    return receive_packet_diplomat_action(pc);
 
   case PACKET_DIPLOMACY_INIT_MEETING:
   case PACKET_DIPLOMACY_CREATE_CLAUSE:
@@ -200,24 +200,24 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_DIPLOMACY_CANCEL_MEETING:
   case PACKET_DIPLOMACY_ACCEPT_TREATY:
   case PACKET_DIPLOMACY_SIGN_TREATY:
-    return recieve_packet_diplomacy_info(pc);
+    return receive_packet_diplomacy_info(pc);
 
   case PACKET_INCITE_COST:
   case PACKET_CITY_OPTIONS:
-    return recieve_packet_generic_values(pc);
+    return receive_packet_generic_values(pc);
 
   case PACKET_RULESET_TECH:
-    return recieve_packet_ruleset_tech(pc);
+    return receive_packet_ruleset_tech(pc);
   case PACKET_RULESET_UNIT:
-    return recieve_packet_ruleset_unit(pc);
+    return receive_packet_ruleset_unit(pc);
   case PACKET_RULESET_BUILDING:
-    return recieve_packet_ruleset_building(pc);
+    return receive_packet_ruleset_building(pc);
 
   case PACKET_SPACESHIP_INFO:
-    return recieve_packet_spaceship_info(pc);
+    return receive_packet_spaceship_info(pc);
 
   case PACKET_SPACESHIP_ACTION:
-    return recieve_packet_spaceship_action(pc);
+    return receive_packet_spaceship_action(pc);
 
   default:
     freelog(LOG_NORMAL, "unknown packet type received");
@@ -428,7 +428,7 @@ int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 ...
 **************************************************************************/
 struct packet_diplomacy_info *
-recieve_packet_diplomacy_info(struct connection *pc)
+receive_packet_diplomacy_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_diplomacy_info *preq=
@@ -469,7 +469,7 @@ int send_packet_diplomat_action(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_diplomat_action *
-recieve_packet_diplomat_action(struct connection *pc)
+receive_packet_diplomat_action(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_diplomat_action *preq=
@@ -507,7 +507,7 @@ int send_packet_nuke_tile(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_nuke_tile *
-recieve_packet_nuke_tile(struct connection *pc)
+receive_packet_nuke_tile(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_nuke_tile *preq=
@@ -549,7 +549,7 @@ int send_packet_unit_combat(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_unit_combat *
-recieve_packet_unit_combat(struct connection *pc)
+receive_packet_unit_combat(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unit_combat *preq=
@@ -592,7 +592,7 @@ int send_packet_unit_request(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_unit_request *
-recieve_packet_unit_request(struct connection *pc)
+receive_packet_unit_request(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unit_request *preq=
@@ -635,7 +635,7 @@ int send_packet_player_request(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_player_request *
-recieve_packet_player_request(struct connection *pc)
+receive_packet_player_request(struct connection *pc)
 {
   unsigned char *cptr;
 	int length;
@@ -684,7 +684,7 @@ int send_packet_city_request(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_city_request *
-recieve_packet_city_request(struct connection *pc)
+receive_packet_city_request(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_city_request *preq=
@@ -753,7 +753,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
 ...
 **************************************************************************/
 struct packet_player_info *
-recieve_packet_player_info(struct connection *pc)
+receive_packet_player_info(struct connection *pc)
 {
   unsigned char *cptr;
   int length;
@@ -857,7 +857,7 @@ int send_packet_game_info(struct connection *pc,
 /*************************************************************************
 ...
 **************************************************************************/
-struct packet_game_info *recieve_packet_game_info(struct connection *pc)
+struct packet_game_info *receive_packet_game_info(struct connection *pc)
 {
   int i;
   unsigned char *cptr;
@@ -930,7 +930,7 @@ int send_packet_map_info(struct connection *pc,
 /*************************************************************************
 ...
 **************************************************************************/
-struct packet_map_info *recieve_packet_map_info(struct connection *pc)
+struct packet_map_info *receive_packet_map_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_map_info *pinfo=
@@ -951,7 +951,7 @@ struct packet_map_info *recieve_packet_map_info(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_tile_info *
-recieve_packet_tile_info(struct connection *pc)
+receive_packet_tile_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_tile_info *packet=
@@ -970,7 +970,7 @@ recieve_packet_tile_info(struct connection *pc)
 }
 
 struct packet_unittype_info *
-recieve_packet_unittype_info(struct connection *pc)
+receive_packet_unittype_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unittype_info *packet=
@@ -1035,7 +1035,7 @@ int send_packet_unittype_info(struct connection *pc, int type, int action)
 ...
 **************************************************************************/
 struct packet_before_new_year *
-recieve_packet_before_new_year(struct connection *pc)
+receive_packet_before_new_year(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_before_new_year *packet=
@@ -1154,7 +1154,7 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
 ...
 **************************************************************************/
 struct packet_city_info *
-recieve_packet_city_info(struct connection *pc)
+receive_packet_city_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_city_info *packet=
@@ -1225,7 +1225,7 @@ recieve_packet_city_info(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_unit_info *
-recieve_packet_unit_info(struct connection *pc)
+receive_packet_unit_info(struct connection *pc)
 {
   unsigned char *cptr;
   int pack;
@@ -1265,7 +1265,7 @@ recieve_packet_unit_info(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_new_year *
-recieve_packet_new_year(struct connection *pc)
+receive_packet_new_year(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_new_year *packet=
@@ -1303,7 +1303,7 @@ int send_packet_move_unit(struct connection *pc, struct
 /**************************************************************************
 ...
 **************************************************************************/
-struct packet_move_unit *recieve_packet_move_unit(struct connection *pc)
+struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_move_unit *packet=
@@ -1396,7 +1396,7 @@ int send_packet_generic_integer(struct connection *pc, int type,
 ...
 **************************************************************************/
 struct packet_req_join_game *
-recieve_packet_req_join_game(struct connection *pc)
+receive_packet_req_join_game(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_req_join_game *packet=
@@ -1425,7 +1425,7 @@ recieve_packet_req_join_game(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_join_game_reply *
-recieve_packet_join_game_reply(struct connection *pc)
+receive_packet_join_game_reply(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_join_game_reply *packet=
@@ -1447,7 +1447,7 @@ recieve_packet_join_game_reply(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_generic_message *
-recieve_packet_generic_message(struct connection *pc)
+receive_packet_generic_message(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_generic_message *packet=
@@ -1470,7 +1470,7 @@ recieve_packet_generic_message(struct connection *pc)
 ...
 **************************************************************************/
 struct packet_generic_integer *
-recieve_packet_generic_integer(struct connection *pc)
+receive_packet_generic_integer(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_generic_integer *packet=
@@ -1504,7 +1504,7 @@ int send_packet_alloc_race(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_alloc_race *
-recieve_packet_alloc_race(struct connection *pc)
+receive_packet_alloc_race(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_alloc_race *packet=
@@ -1542,7 +1542,7 @@ int send_packet_generic_values(struct connection *pc, int type,
 ...
 **************************************************************************/
 struct packet_generic_values *
-recieve_packet_generic_values(struct connection *pc)
+receive_packet_generic_values(struct connection *pc)
 {
   unsigned char *cptr;
   int length;
@@ -1599,7 +1599,7 @@ int send_packet_ruleset_unit(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_ruleset_unit *
-recieve_packet_ruleset_unit(struct connection *pc)
+receive_packet_ruleset_unit(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_unit *packet=
@@ -1655,7 +1655,7 @@ int send_packet_ruleset_tech(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_ruleset_tech *
-recieve_packet_ruleset_tech(struct connection *pc)
+receive_packet_ruleset_tech(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_tech *packet=
@@ -1700,7 +1700,7 @@ int send_packet_ruleset_building(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_ruleset_building *
-recieve_packet_ruleset_building(struct connection *pc)
+receive_packet_ruleset_building(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_building *packet=
@@ -1759,7 +1759,7 @@ int send_packet_spaceship_info(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_spaceship_info *
-recieve_packet_spaceship_info(struct connection *pc)
+receive_packet_spaceship_info(struct connection *pc)
 {
   int tmp;
   unsigned char *cptr;
@@ -1823,7 +1823,7 @@ int send_packet_spaceship_action(struct connection *pc,
 ...
 **************************************************************************/
 struct packet_spaceship_action *
-recieve_packet_spaceship_action(struct connection *pc)
+receive_packet_spaceship_action(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_spaceship_action *packet=

@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __PACKETS_H
-#define __PACKETS_H
+#ifndef FC__PACKETS_H
+#define FC__PACKETS_H
 
 #include "player.h"
 #include "spaceship.h"
@@ -548,7 +548,7 @@ unsigned char *get_string(unsigned char *buffer, char *mystring);
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       struct packet_diplomacy_info *packet);
 struct packet_diplomacy_info *
-recieve_packet_diplomacy_info(struct connection *pc);
+receive_packet_diplomacy_info(struct connection *pc);
 
 
 
@@ -556,135 +556,135 @@ recieve_packet_diplomacy_info(struct connection *pc);
 int send_packet_diplomat_action(struct connection *pc, 
 				struct packet_diplomat_action *packet);
 struct packet_diplomat_action *
-recieve_packet_diplomat_action(struct connection *pc);
+receive_packet_diplomat_action(struct connection *pc);
 
 int send_packet_nuke_tile(struct connection *pc, 
 			  struct packet_nuke_tile *packet);
 struct packet_nuke_tile *
-recieve_packet_nuke_tile(struct connection *pc);
+receive_packet_nuke_tile(struct connection *pc);
 
 
 int send_packet_unit_combat(struct connection *pc, 
 			    struct packet_unit_combat *packet);
 struct packet_unit_combat *
-recieve_packet_unit_combat(struct connection *pc);
+receive_packet_unit_combat(struct connection *pc);
 
 
 int send_packet_tile_info(struct connection *pc, 
 			 struct packet_tile_info *pinfo);
-struct packet_tile_info *recieve_packet_tile_info(struct connection *pc);
+struct packet_tile_info *receive_packet_tile_info(struct connection *pc);
 
 int send_packet_map_info(struct connection *pc, 
 			  struct packet_map_info *pinfo);
-struct packet_map_info *recieve_packet_map_info(struct connection *pc);
+struct packet_map_info *receive_packet_map_info(struct connection *pc);
 
 int send_packet_game_info(struct connection *pc, 
 			  struct packet_game_info *pinfo);
-struct packet_game_info *recieve_packet_game_info(struct connection *pc);
+struct packet_game_info *receive_packet_game_info(struct connection *pc);
 
 
-struct packet_player_info *recieve_packet_player_info(struct connection *pc);
+struct packet_player_info *receive_packet_player_info(struct connection *pc);
 int send_packet_player_info(struct connection *pc, 
 			    struct packet_player_info *pinfo);
 
 
 int send_packet_new_year(struct connection *pc, 
 			 struct packet_new_year *request);
-struct packet_new_year *recieve_packet_new_year(struct connection *pc);
+struct packet_new_year *receive_packet_new_year(struct connection *pc);
 
 int send_packet_move_unit(struct connection *pc, 
 			  struct packet_move_unit *request);
-struct packet_move_unit *recieve_packet_move_unit(struct connection *pc);
+struct packet_move_unit *receive_packet_move_unit(struct connection *pc);
 
 
 int send_packet_unit_info(struct connection *pc,
 			  struct packet_unit_info *req);
-struct packet_unit_info *recieve_packet_unit_info(struct connection *pc);
+struct packet_unit_info *receive_packet_unit_info(struct connection *pc);
 
 int send_packet_req_join_game(struct connection *pc, 
 			      struct packet_req_join_game *request);
-struct packet_req_join_game *recieve_packet_req_join_game(struct 
+struct packet_req_join_game *receive_packet_req_join_game(struct 
 							  connection *pc);
 
 int send_packet_join_game_reply(struct connection *pc, 
 			       struct packet_join_game_reply *reply);
-struct packet_join_game_reply *recieve_packet_join_game_reply(struct 
+struct packet_join_game_reply *receive_packet_join_game_reply(struct 
 							      connection *pc);
 
 int send_packet_alloc_race(struct connection *pc, 
 			   struct packet_alloc_race *packet);
-struct packet_alloc_race *recieve_packet_alloc_race(struct connection *pc);
+struct packet_alloc_race *receive_packet_alloc_race(struct connection *pc);
 
 
 int send_packet_generic_message(struct connection *pc, int type,
 				struct packet_generic_message *message);
-struct packet_generic_message *recieve_packet_generic_message(struct 
+struct packet_generic_message *receive_packet_generic_message(struct 
 							      connection *pc);
 
 int send_packet_generic_integer(struct connection *pc, int type,
 				struct packet_generic_integer *packet);
-struct packet_generic_integer *recieve_packet_generic_integer(struct 
+struct packet_generic_integer *receive_packet_generic_integer(struct 
 							      connection *pc);
 
 
 int send_packet_city_info(struct connection *pc,struct packet_city_info *req);
-struct packet_city_info *recieve_packet_city_info(struct connection *pc);
+struct packet_city_info *receive_packet_city_info(struct connection *pc);
 
 int send_packet_city_request(struct connection *pc, 
 			     struct packet_city_request *packet, enum packet_type);
 struct packet_city_request *
-recieve_packet_city_request(struct connection *pc);
+receive_packet_city_request(struct connection *pc);
 
 
 int send_packet_player_request(struct connection *pc, 
 			       struct packet_player_request *packet,
 			       enum packet_type req_type);
 struct packet_player_request *
-recieve_packet_player_request(struct connection *pc);
+receive_packet_player_request(struct connection *pc);
 
 struct packet_unit_request *
-recieve_packet_unit_request(struct connection *pc);
+receive_packet_unit_request(struct connection *pc);
 int send_packet_unit_request(struct connection *pc, 
 			     struct packet_unit_request *packet,
 			     enum packet_type req_type);
 
 int send_packet_before_new_year(struct connection *pc);
-struct packet_before_new_year *recieve_packet_before_new_year(struct connection *pc);
+struct packet_before_new_year *receive_packet_before_new_year(struct connection *pc);
 
 int send_packet_unittype_info(struct connection *pc, int type, int action);
-struct packet_unittype_info *recieve_packet_unittype_info(struct connection *pc);
+struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
 
 int send_packet_ruleset_unit(struct connection *pc,
 			     struct packet_ruleset_unit *packet);
 struct packet_ruleset_unit *
-recieve_packet_ruleset_unit(struct connection *pc);
+receive_packet_ruleset_unit(struct connection *pc);
 
 int send_packet_ruleset_tech(struct connection *pc,
 			     struct packet_ruleset_tech *packet);
 struct packet_ruleset_tech *
-recieve_packet_ruleset_tech(struct connection *pc);
+receive_packet_ruleset_tech(struct connection *pc);
 
 int send_packet_ruleset_building(struct connection *pc,
 			     struct packet_ruleset_building *packet);
 struct packet_ruleset_building *
-recieve_packet_ruleset_building(struct connection *pc);
+receive_packet_ruleset_building(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 
 int send_packet_generic_values(struct connection *pc, int type,
 			       struct packet_generic_values *req);
 struct packet_generic_values *
-recieve_packet_generic_values(struct connection *pc);
+receive_packet_generic_values(struct connection *pc);
 
 int send_packet_spaceship_info(struct connection *pc,
 			       struct packet_spaceship_info *packet);
 struct packet_spaceship_info *
-recieve_packet_spaceship_info(struct connection *pc);
+receive_packet_spaceship_info(struct connection *pc);
 
 int send_packet_spaceship_action(struct connection *pc,
 				 struct packet_spaceship_action *packet);
 struct packet_spaceship_action *
-recieve_packet_spaceship_action(struct connection *pc);
+receive_packet_spaceship_action(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
@@ -692,5 +692,5 @@ void flush_connection_send_buffer(struct connection *pc);
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
 
-#endif
+#endif  /* FC__PACKETS_H */
 
