@@ -210,7 +210,7 @@ static void kingdom_menu_callback(gpointer callback_data,
     popup_find_dialog();
     break;
   case MENU_KINGDOM_WORKLISTS:
-    popup_worklists_report(game.player_ptr);
+    popup_worklists_report();
     break;
   case MENU_KINGDOM_REVOLUTION:
     popup_revolution_dialog();

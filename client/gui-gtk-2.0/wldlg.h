@@ -53,9 +53,9 @@ struct worklist_editor {
 };
 
 /* The global worklist view */
-void popup_worklists_report(struct player *pplr);
-
-/* An individual worklist */
+void popup_worklists_report(void); /*XXX*/
+/*
+** An individual worklist **
 struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 					       struct city *pcity,
 					       void *user_data,
@@ -71,5 +71,8 @@ GtkWidget *popup_worklist(struct worklist *pwl, struct city *pcity,
 
 void update_worklist_editor(struct worklist_editor *peditor);
 void commit_worklist(struct worklist_editor *peditor);
+*/
+GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity);
+void refresh_worklist(struct worklist *pwl);
 
 #endif				/* FC__WLDLG_H */
