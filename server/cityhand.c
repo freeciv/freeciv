@@ -55,6 +55,9 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_short_city *packet);
 static void remove_trade_route(int c1, int c2); 
 
+char **misc_city_names; 
+int num_misc_city_names;
+
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 
 So use can_establish_Trade_route first.
@@ -105,7 +108,6 @@ char *city_name_suggestion(struct player *pplayer)
 {
   char **nptr;
   int i, j;
-  static int n_misc = -1;
   static char tempname[MAX_LEN_NAME];
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -117,15 +119,13 @@ char *city_name_suggestion(struct player *pplayer)
       return *nptr;
   }
 
-  if (n_misc == -1)
-    for (n_misc = 0; misc_city_names[n_misc]; n_misc++)
-      ;
-
-  if (n_misc > 0) {
-    j = myrand(n_misc);
+  if (num_misc_city_names > 0) {
+    j = myrand(num_misc_city_names);
   
-    for (i=0; i<n_misc; i++) {
-      if (j >= n_misc) j = 0;
+    for (i = 0; i < num_misc_city_names; i++) {
+      if (j >= num_misc_city_names) {
+	j = 0;
+      }
       if (!game_find_city_by_name(misc_city_names[j])) 
 	return misc_city_names[j];
       j++;

@@ -239,9 +239,6 @@ extern struct citystyle *city_styles;
     TYPED_LIST_ITERATE(struct city, citylist, pcity)
 #define city_list_iterate_end  LIST_ITERATE_END
 
-
-extern char **misc_city_names;
-
 /* properties */
 
 struct player *city_owner(struct city *pcity);

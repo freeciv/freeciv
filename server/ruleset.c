@@ -14,10 +14,11 @@
 #include <config.h>
 #endif
 
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "capability.h"
 #include "city.h"
@@ -35,6 +36,13 @@
 #include "unit.h"
 
 #include "ruleset.h"
+
+static const char name_too_long[] = N_("Name \"%s\" too long; truncating.");
+#define check_name(name) check_strlen(name, MAX_LEN_NAME, _(name_too_long))
+#define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, _(name_too_long))
+
+extern char **misc_city_names;
+extern int num_misc_city_names;
 
 static void openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
@@ -90,16 +98,16 @@ static void send_ruleset_game(struct conn_list *dest);
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
   "subdir" = "default", "civ1", "custom", ...
-  "whichset" = "techs", "units", "buildings", "terrain" (...)
+  "whichset" = "techs", "units", "buildings", "terrain", ...
   Calls exit(1) on failure.
   This no longer returns the full filename opened; used secfile_filename()
   if you want it.
 **************************************************************************/
 static void openload_ruleset_file(struct section_file *file,
-				   char *subdir, char *whichset)
+				  char *subdir, char *whichset)
 {
-  char filename1[512], filename2[512], *dfilename;
-  char sfilename[512];
+  char filename1[PATH_MAX + 1], filename2[PATH_MAX + 1], *dfilename;
+  char sfilename[PATH_MAX + 1];
 
   my_snprintf(filename1, sizeof(filename1), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename1);
@@ -107,9 +115,9 @@ static void openload_ruleset_file(struct section_file *file,
     my_snprintf(filename2, sizeof(filename2), "%s/%s.ruleset", subdir, whichset);
     dfilename = datafilename(filename2);
     if (!dfilename) {
-      freelog(LOG_FATAL, _("Could not find readable ruleset file \"%s\""),
-	      filename1);
-      freelog(LOG_FATAL, _("or \"%s\" in data path."), filename2);
+      freelog(LOG_FATAL,
+	      _("Could not find readable ruleset"
+		" file \"%s\" or \"%s\" in data path."), filename1, filename2);
       freelog(LOG_FATAL, _("The data path may be set via"
 			   " the environment variable FREECIV_PATH."));
       freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
@@ -369,7 +377,7 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
 }
 
 /**************************************************************************
- Lookup a terrain name in the tile_types array; return its index.
+  Look up a terrain name in the tile_types array and return its index.
 **************************************************************************/
 static enum tile_terrain_type lookup_terrain(char *name, int tthis)
 {
@@ -426,10 +434,11 @@ static void load_tech_names(struct section_file *file)
   sz_strlcpy(advances[A_NONE].name, "None");
 
   game.num_tech_types = num_techs + 1; /* includes A_NONE */
-  a = &advances[A_FIRST];
 
-  for( i=0; i<num_techs; i++ ) {
-    sz_strlcpy(a->name, secfile_lookup_str(file, "%s.name", sec[i]));
+  a = &advances[A_FIRST];
+  for (i = 0; i < num_techs; i++ ) {
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
+    name_strlcpy(a->name, name);
     a++;
   }
 }
@@ -533,7 +542,6 @@ static void load_unit_names(struct section_file *file)
 {
   char **sec;
   int nval, i;
-  struct unit_type *u;
   const char *filename = secfile_filename(file);
 
   section_file_lookup(file,"datafile.description"); /* unused */
@@ -551,9 +559,9 @@ static void load_unit_names(struct section_file *file)
     exit(1);
   }
   game.num_unit_types = nval;
-  for( i=0; i<game.num_unit_types; i++ ) {
-    u = &unit_types[i];
-    sz_strlcpy(u->name, secfile_lookup_str(file, "%s.name", sec[i]));
+  for (i = 0; i < game.num_unit_types; i++ ) {
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
+    name_strlcpy(unit_types[i].name, name);
   }
 }
 
@@ -839,7 +847,6 @@ static void load_building_names(struct section_file *file)
 {
   char **sec;
   int nval, i;
-  struct impr_type *b;
   const char *filename = secfile_filename(file);
 
   section_file_lookup(file,"datafile.description"); /* unused */
@@ -864,10 +871,10 @@ static void load_building_names(struct section_file *file)
   /* REMOVE TO HERE when gen-impr implemented. */
   game.num_impr_types = nval;
 
-  for (i=0; i<game.num_impr_types; i++) {
-    b = &improvement_types[i];
-    sz_strlcpy(b->name, secfile_lookup_str(file, "%s.name", sec[i]));
-    b->name_orig[0] = '\0';
+  for (i = 0; i < game.num_impr_types; i++) {
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
+    name_strlcpy(improvement_types[i].name, name);
+    improvement_types[i].name_orig[0] = 0;
   }
 }
 
@@ -1187,7 +1194,6 @@ static void load_ruleset_buildings(struct section_file *file)
 **************************************************************************/
 static void load_terrain_names(struct section_file *file)
 {
-  struct tile_type *t;
   int nval, i;
   char **sec;
   const char *filename = secfile_filename(file);
@@ -1204,14 +1210,13 @@ static void load_terrain_names(struct section_file *file)
       exit(1);
     }
 
-  for (i = T_FIRST; i < T_COUNT; i++)
-    {
-      t = &(tile_types[i]);
-
-      sz_strlcpy(t->terrain_name,
-		 secfile_lookup_str(file, "%s.terrain_name", sec[i]));
-      if (0 == strcmp(t->terrain_name, "unused")) *(t->terrain_name) = '\0';
+  for (i = T_FIRST; i < T_COUNT; i++) {
+    char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
+    name_strlcpy(tile_types[i].terrain_name, name);
+    if (0 == strcmp(tile_types[i].terrain_name, "unused")) {
+      tile_types[i].terrain_name[0] = 0;
     }
+  }
 }
 
 /**************************************************************************
@@ -1291,6 +1296,8 @@ static void load_ruleset_terrain(struct section_file *file)
 
   for (i = T_FIRST; i < T_COUNT; i++)
     {
+      char *s1_name;
+      char *s2_name;
       t = &(tile_types[i]);
 
       sz_strlcpy(t->graphic_str,
@@ -1305,15 +1312,15 @@ static void load_ruleset_terrain(struct section_file *file)
       t->shield = secfile_lookup_int(file, "%s.shield", sec[i]);
       t->trade = secfile_lookup_int(file, "%s.trade", sec[i]);
 
-      sz_strlcpy(t->special_1_name,
-		 secfile_lookup_str(file, "%s.special_1_name", sec[i]));
+      s1_name = secfile_lookup_str(file, "%s.special_1_name", sec[i]);
+      name_strlcpy(t->special_1_name, s1_name);
       if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
       t->food_special_1 = secfile_lookup_int(file, "%s.food_special_1", sec[i]);
       t->shield_special_1 = secfile_lookup_int(file, "%s.shield_special_1", sec[i]);
       t->trade_special_1 = secfile_lookup_int(file, "%s.trade_special_1", sec[i]);
 
-      sz_strlcpy(t->special_2_name,
-		 secfile_lookup_str(file, "%s.special_2_name", sec[i]));
+      s2_name = secfile_lookup_str(file, "%s.special_2_name", sec[i]);
+      name_strlcpy(t->special_2_name, s2_name);
       if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
       t->food_special_2 = secfile_lookup_int(file, "%s.food_special_2", sec[i]);
       t->shield_special_2 = secfile_lookup_int(file, "%s.shield_special_2", sec[i]);
@@ -1361,7 +1368,6 @@ static void load_ruleset_terrain(struct section_file *file)
 **************************************************************************/
 static void load_government_names(struct section_file *file)
 {
-  struct government *g = NULL;
   int nval, i;
   char **sec;
   const char *filename = secfile_filename(file);
@@ -1385,9 +1391,9 @@ static void load_government_names(struct section_file *file)
 
   /* first fill in government names so find_government_by_name will work -SKi */
   for(i = 0; i < game.government_count; i++) {
-    g = &governments[i];
-    sz_strlcpy(g->name, secfile_lookup_str(file, "%s.name", sec[i]));
-    g->index = i;
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
+    name_strlcpy(governments[i].name, name);
+    governments[i].index = i;
   }
 }
 
@@ -1683,13 +1689,13 @@ static char *check_leader_names(int pos)
   for( k = 0; k < nation->leader_count; k++) {
     leader = nation->leader_name[k];
     for( i=0; i<k; i++ ) {
-      if( !strcmp(leader, nation->leader_name[i]) )
+      if( 0 == strcmp(leader, nation->leader_name[i]) )
           return leader;
     }
     for( j = 0; j < pos; j++) {
       n = get_nation_by_idx(j);
       for( i=0; i < n->leader_count; i++) {
-        if( !strcmp(leader, n->leader_name[i]) )
+        if( 0 == strcmp(leader, n->leader_name[i]) )
           return leader;
       }
     }
@@ -1704,7 +1710,6 @@ static void load_nation_names(struct section_file *file)
 {
   char **sec;
   int i, j;
-  struct nation_type *pl;
 
   section_file_lookup(file,"datafile.description"); /* unused */
 
@@ -1712,27 +1717,35 @@ static void load_nation_names(struct section_file *file)
   game.playable_nation_count = game.nation_count - 1;
   freelog(LOG_VERBOSE, "There are %d nations defined", game.playable_nation_count);
 
-  if ( game.playable_nation_count >= MAX_NUM_NATIONS
-       || game.playable_nation_count == 0) {
-    freelog(LOG_FATAL, "There must be between 1 and %d nations", MAX_NUM_NATIONS);
+  if (game.playable_nation_count < 0) {
+    freelog(LOG_FATAL,
+	    "There must be at least one nation defined; number is %d",
+	    game.playable_nation_count);
     exit(1);
+  } else if (game.playable_nation_count >= MAX_NUM_NATIONS) {
+    freelog(LOG_ERROR,
+	    "There are too many nations; only using %d of %d available.",
+	    MAX_NUM_NATIONS - 1, game.playable_nation_count);
+    game.playable_nation_count = MAX_NUM_NATIONS - 1;
   }
   alloc_nations(game.nation_count);
 
   for( i=0; i<game.nation_count; i++) {
-    pl = get_nation_by_idx(i);
-    sz_strlcpy(pl->name, secfile_lookup_str(file, "%s.name", sec[i]));
-    sz_strlcpy(pl->name_plural, secfile_lookup_str(file, "%s.plural", sec[i]));
+    char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
+    char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
+    struct nation_type *pl = get_nation_by_idx(i);
 
-    /* check if nation name is not already defined */
-    for( j=0; j<i; j++) {
-      if( !strcmp(get_nation_name(j), pl->name) ) {
-        freelog(LOG_FATAL, "Nation %s already defined in section nation%d", pl->name, j);
-        exit(1);
-      }
-      if( !strcmp(get_nation_name_plural(j), pl->name_plural) ) {
-        freelog(LOG_FATAL, "Nation %s already defined in section nation%d", 
-                pl->name_plural, j);
+    name_strlcpy(pl->name, name);
+    name_strlcpy(pl->name_plural, name_plural);
+
+    /* Check if nation name is already defined. */
+    for(j = 0; j < i; j++) {
+      if (0 == strcmp(get_nation_name(j), pl->name)
+	  || 0 == strcmp(get_nation_name_plural(j), pl->name_plural)) {
+        freelog(LOG_FATAL,
+		"Nation %s (the %s) defined twice; "
+		"in section nation%d and section nation%d",
+		pl->name, pl->name_plural, j, i);
         exit(1);
       }
     }
@@ -1748,7 +1761,7 @@ static void load_ruleset_nations(struct section_file *file)
   struct nation_type *pl;
   struct government *gov;
   int *res, dim, val, i, j, nval;
-  char temp_name[MAX_LEN_NAME], male[MAX_LEN_NAME], female[MAX_LEN_NAME];
+  char temp_name[MAX_LEN_NAME];
   char **cities, **techs, **leaders, **sec;
   const char *filename = secfile_filename(file);
 
@@ -1762,37 +1775,51 @@ static void load_ruleset_nations(struct section_file *file)
     /* nation leaders */
 
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec[i]);
-    if( dim<1 || dim > MAX_NUM_LEADERS ) {
-      freelog(LOG_FATAL, "Nation %s: number of leaders must be 1-%d", pl->name, 
-              MAX_NUM_LEADERS);
+    if (dim > MAX_NUM_LEADERS) {
+      freelog(LOG_ERROR, "Nation %s: too many leaders; only using %d of %d",
+	      pl->name, MAX_NUM_LEADERS, dim);
+      dim = MAX_NUM_LEADERS;
+    } else if (dim < 1) {
+      freelog(LOG_FATAL,
+	      "Nation %s: number of leaders is %d; at least one is required.",
+	      pl->name, dim);
       exit(1);
     }
     pl->leader_count = dim;
-    for( j=0; j<dim; j++) {
+    for(j = 0; j < dim; j++) {
       pl->leader_name[j] = mystrdup(leaders[j]);
+      if (check_name(leaders[j])) {
+	pl->leader_name[j][MAX_LEN_NAME - 1] = 0;
+      }
     }
     free(leaders);
 
     /* check if leader name is not already defined */
     if( (bad_leader=check_leader_names(i)) ) {
-        freelog(LOG_FATAL, "Nation %s leader %s already defined", pl->name, bad_leader);
+        freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
+		pl->name, bad_leader);
         exit(1);
     }
     /* read leaders'sexes */
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader_sex", sec[i]);
-    if( dim != pl->leader_count ) {
-      freelog(LOG_FATAL, "Nation %s: leader sex count not equal to number of leaders",
-              pl->name);
+    if (dim != pl->leader_count) {
+      freelog(LOG_FATAL,
+	      "Nation %s: the leader sex count (%d) "
+	      "is not equal to the number of leaders (%d)",
+              pl->name, dim, pl->leader_count);
       exit(1);
     }
-    for(j=0; j<dim; j++) {
-      if( strcmp(leaders[j], "Male")==0 )
+    for (j = 0; j < dim; j++) {
+      if (0 == mystrcasecmp(leaders[j], "Male")) {
         pl->leader_is_male[j] = 1;
-      else if( strcmp(leaders[j], "Female")==0 )
+      } else if (0 == mystrcasecmp(leaders[j], "Female")) {
         pl->leader_is_male[j] = 0;
-      else {
-        freelog( LOG_FATAL, "Nation %s leader sex must be Male or Female", pl->name);
-        exit(1);
+      } else {
+        freelog(LOG_ERROR,
+		"Nation %s, leader %s: sex must be either Male or Female; "
+		"assuming Male",
+		pl->name, pl->leader_name[j]);
+	pl->leader_is_male[j] = 1;
       }
     }
     free(leaders);
@@ -1807,18 +1834,28 @@ static void load_ruleset_nations(struct section_file *file)
     /* Ruler titles */
 
     j = -1;
-    while((g = secfile_lookup_str_default(file, NULL, "%s.ruler_titles%d.government",
-					  sec[i], ++j))) {
-      sz_strlcpy(male, secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
-					  sec[i], j));
-      sz_strlcpy(female, secfile_lookup_str(file,
-					    "%s.ruler_titles%d.female_title",
-					    sec[i], j));
-      if( (gov = find_government_by_name(g)) != NULL ) {
-        set_ruler_title(gov, i, male, female);
-      }
-      else {
-        freelog(LOG_VERBOSE,"Nation %s, government %s not found", pl->name, g);
+    while ((g = secfile_lookup_str_default(file, NULL,
+					   "%s.ruler_titles%d.government",
+					   sec[i], ++j))) {
+      char *male_name;
+      char *female_name;
+      
+      male_name = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
+				     sec[i], j);
+      female_name = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
+				       sec[i], j);
+
+      gov = find_government_by_name(g);
+      if (gov != NULL) {
+	check_name(male_name);
+	check_name(female_name);
+	/* Truncation is handled by set_ruler_title(). */
+	set_ruler_title(gov, i, male_name, female_name);
+      } else {
+	/* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
+	   ruleset file with variety of government ruleset files: */
+        freelog(LOG_VERBOSE,
+		"Nation %s: government %s not found", pl->name, g);
       }
     }
 
@@ -1827,15 +1864,25 @@ static void load_ruleset_nations(struct section_file *file)
     sz_strlcpy(temp_name,
 	       secfile_lookup_str_default(file, "-", "%s.city_style", sec[i]));
     pl->city_style = get_style_by_name(temp_name);
-    if( pl->city_style == -1 ) {
-      freelog( LOG_NORMAL, "Nation %d city style %s not known, using default", 
-                          i, temp_name);
+    if (pl->city_style == -1) {
+      freelog(LOG_NORMAL,
+	      "Nation %s: city style %s is unknown, using default.", 
+	      pl->name_plural, temp_name);
       pl->city_style = 0;
     }
-    if( city_styles[pl->city_style].techreq != A_NONE ) {
-      freelog( LOG_FATAL, "Nation %d city style %s is not available from beginning", 
-                          i, temp_name);
-      exit(1);
+
+    while (city_styles[pl->city_style].techreq != A_NONE) {
+      if (pl->city_style == 0) {
+	freelog(LOG_FATAL,
+	       "Nation %s: the default city style is not available "
+	       "from the beginning", pl->name);
+	/* Note that we can't use temp_name here. */
+	exit(1);
+      }
+      freelog(LOG_ERROR,
+	      "Nation %s: city style %s is not available from beginning; "
+	      "using default.", pl->name, temp_name);
+      pl->city_style = 0;
     }
 
     /* AI stuff */
@@ -1845,10 +1892,10 @@ static void load_ruleset_nations(struct section_file *file)
     pl->civilized = secfile_lookup_int_default(file, 2, "%s.civilized", sec[i]);
 
     res = secfile_lookup_int_vec(file, &dim, "%s.advisors", sec[i]);
-    if( dim != ADV_LAST ) {
-      freelog( LOG_FATAL, "Nation %d number of advisors must be %d but is %d", 
-               i, ADV_LAST, dim);
-      exit(1); 
+    if (dim != ADV_LAST) {
+      freelog(LOG_FATAL, "Nation %s: number of advisors must be %d but is %d", 
+	      pl->name_plural, ADV_LAST, dim);
+      exit(1);
     }
     for ( j=0; j<ADV_LAST; j++) 
       pl->advisors[j] = res[j];
@@ -1863,14 +1910,16 @@ static void load_ruleset_nations(struct section_file *file)
 	      MAX_NUM_TECH_GOALS, dim, pl->name_plural);
       dim = MAX_NUM_TECH_GOALS;
     }
+    /* Below LOG_VERBOSE rather than LOG_ERROR so that can use single
+       nation ruleset file with variety of tech ruleset files: */
     for( j=0; j<dim; j++) {
       val = find_tech_by_name(techs[j]);
       if(val == A_LAST) {
-	freelog(LOG_VERBOSE, "Didn't match goal tech %d \"%s\" for %s",
-		j, techs[j], pl->name);
-      } else if(!tech_exists(val)) {
-	freelog(LOG_VERBOSE, "Goal tech %d \"%s\" for %s doesn't exist",
-		j, techs[j], pl->name);
+	freelog(LOG_VERBOSE, "Could not match tech goal \"%s\" for the %s",
+		techs[j], pl->name_plural);
+      } else if (!tech_exists(val)) {
+	freelog(LOG_VERBOSE, "Goal tech \"%s\" for the %s doesn't exist",
+		techs[j], pl->name_plural);
 	val = A_LAST;
       }
       if(val != A_LAST && val != A_NONE) {
@@ -1890,6 +1939,8 @@ static void load_ruleset_nations(struct section_file *file)
 
     sz_strlcpy(temp_name, secfile_lookup_str(file, "%s.wonder", sec[i]));
     val = find_improvement_by_name(temp_name);
+    /* Below LOG_VERBOSE rather than LOG_ERROR so that can use single
+       nation ruleset file with variety of building ruleset files: */
     /* for any problems, leave as B_LAST */
     if(val == B_LAST) {
       freelog(LOG_VERBOSE, "Didn't match goal wonder \"%s\" for %s", temp_name, pl->name);
@@ -1906,6 +1957,8 @@ static void load_ruleset_nations(struct section_file *file)
     sz_strlcpy(temp_name, secfile_lookup_str(file, "%s.government", sec[i]));
     gov = find_government_by_name(temp_name);
     if(gov == NULL) {
+      /* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
+	 ruleset file with variety of government ruleset files: */
       freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
 	      temp_name, pl->name);
       val = game.government_when_anarchy;  /* flag value (no goal) (?) */
@@ -1919,8 +1972,11 @@ static void load_ruleset_nations(struct section_file *file)
     cities = secfile_lookup_str_vec(file, &dim, "%s.cities", sec[i]);
     pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
     pl->default_city_names[dim] = NULL;
-    for ( j=0; j<dim; j++) {
+    for (j = 0; j < dim; j++) {
       pl->default_city_names[j] = mystrdup(cities[j]);
+      if (check_name(cities[j])) {
+	pl->default_city_names[j][MAX_LEN_NAME - 1] = 0;
+      }
     }
     if(cities) free(cities);
   }
@@ -1929,12 +1985,17 @@ static void load_ruleset_nations(struct section_file *file)
   /* read miscellaneous city names */
 
   cities = secfile_lookup_str_vec(file, &dim, "misc.cities");
-  misc_city_names = fc_calloc(dim+1, sizeof(char*));
-  for ( j=0; j<dim; j++) {
+  misc_city_names = fc_calloc(dim, sizeof(char*));
+
+  for (j = 0; j < dim; j++) {
     misc_city_names[j] = mystrdup(cities[j]);
+    if (check_name(cities[j])) {
+      misc_city_names[j][MAX_LEN_NAME - 1] = 0;
+    }
   }
-  misc_city_names[dim] = NULL;
-  if(cities) free(cities);
+  num_misc_city_names = dim;
+
+  if (cities) free(cities);
 
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -1956,9 +2017,9 @@ static void load_citystyle_names(struct section_file *file)
   city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
 
   /* Get names, so can lookup for replacements: */
-  for( i=0; i<game.styles_count; i++) {
-    sz_strlcpy(city_styles[i].name, 
-               secfile_lookup_str(file, "%s.name", styles[i]));
+  for (i = 0; i < game.styles_count; i++) {
+    char *style_name = secfile_lookup_str(file, "%s.name", styles[i]);
+    name_strlcpy(city_styles[i].name, style_name);
   }
 }
 

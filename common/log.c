@@ -222,7 +222,7 @@ For repeat message, may wait and print instead
 Calls log_callback if non-null, else prints to stderr.
 **************************************************************************/
 #define MAX_LEN_LOG_LINE 512
-void vreal_freelog(int level, char *message, va_list ap)
+void vreal_freelog(int level, const char *message, va_list ap)
 {
   static char bufbuf[2][MAX_LEN_LOG_LINE];
   char buf[MAX_LEN_LOG_LINE];
@@ -288,7 +288,7 @@ void vreal_freelog(int level, char *message, va_list ap)
       fclose(fs);
   }
 }
-void real_freelog(int level, char *message, ...)
+void real_freelog(int level, const char *message, ...)
 {
   va_list ap;
   va_start(ap, message);

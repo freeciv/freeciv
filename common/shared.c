@@ -450,6 +450,30 @@ char *end_of_strn(char *str, int *nleft)
 }
 
 /********************************************************************** 
+  Check the length of the given string.  If the string is too long,
+  log errmsg, which should be a string in printf-format taking up to
+  two arguments: the string and the length.
+**********************************************************************/ 
+int check_strlen(const char *str, size_t len, const char *errmsg)
+{
+  if (strlen(str) >= len) {
+    freelog(LOG_ERROR, errmsg, str, len);
+    return 1;
+  }
+  return 0;
+}
+
+/********************************************************************** 
+  Call check_strlen() on str and then strlcpy() it into buffer.
+**********************************************************************/
+size_t loud_strlcpy(char *buffer, const char *str, size_t len,
+		   const char *errmsg)
+{
+  check_strlen(str, len, errmsg);
+  return mystrlcpy(buffer, str, len);
+}
+
+/********************************************************************** 
  cat_snprintf is like a combination of my_snprintf and mystrlcat;
  it does snprintf to the end of an existing string.
  

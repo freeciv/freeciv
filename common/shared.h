@@ -74,6 +74,13 @@ void remove_leading_trailing_spaces(char *s);
 void remove_trailing_char(char *s, char trailing);
 int wordwrap_string(char *s, int len);
 
+int check_strlen(const char *str, size_t len, const char *errmsg);
+size_t loud_strlcpy(char *buffer, const char *str, size_t len,
+		   const char *errmsg);
+/* Convenience macro. */
+#define sz_loud_strlcpy(buffer, str, errmsg) \
+    loud_strlcpy(buffer, str, sizeof(buffer), errmsg)
+
 char *end_of_strn(char *str, int *nleft);
 int cat_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));

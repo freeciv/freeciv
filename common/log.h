@@ -54,9 +54,9 @@ int log_parse_level_str(char *level_str);
 void log_init(char *filename, int initial_level, log_callback_fn callback);
 void log_set_level(int level);
 
-void real_freelog(int level, char *message, ...)
+void real_freelog(int level, const char *message, ...)
                   fc__attribute((format (printf, 2, 3)));
-void vreal_freelog(int level, char *message, va_list ap);
+void vreal_freelog(int level, const char *message, va_list ap);
 
 
 /* A static (per-file) function to use/update the above per-file vars.

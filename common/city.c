@@ -49,10 +49,7 @@ int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2] =
   { 3, 4 }, { 1, 4 }
 };
 
-char **misc_city_names; 
-
 struct citystyle *city_styles = NULL;
-
 
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
