@@ -614,8 +614,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
 **************************************************************************/
 static void calculate_city_clusters(struct player *pplayer)
 {
-  struct pf_map *map;
-  struct pf_parameter parameter;
   Unit_Type_id unittype;
   struct unit *ghost;
   int range;
@@ -635,6 +633,9 @@ static void calculate_city_clusters(struct player *pplayer)
   range = unit_move_rate(ghost) * 4;
 
   city_list_iterate(pplayer->cities, pcity) {
+    struct pf_parameter parameter;
+    struct pf_map *map;
+
     ghost->tile = pcity->tile;
     pft_fill_unit_parameter(&parameter, ghost);
     map = pf_create_map(&parameter);
@@ -652,6 +653,8 @@ static void calculate_city_clusters(struct player *pplayer)
         pcity->ai.downtown++;
       }
     } pf_iterator_end;
+
+    pf_destroy_map(map);
   } city_list_iterate_end;
 
   destroy_unit_virtual(ghost);
@@ -701,6 +704,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
     }
   } pf_iterator_end;
 
+  pf_destroy_map(map);
   destroy_unit_virtual(ghost);
 }
 
