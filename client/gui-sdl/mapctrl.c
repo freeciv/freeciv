@@ -496,8 +496,7 @@ void Init_MapView(void)
   /* show/hide log window button */
   /* this button was created in "Init_Log_Window(...)" function */
   pBuf =
-      get_widget_pointer_form_main_list
-      (ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
+      get_widget_pointer_form_main_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
   move_widget_to_front_of_gui_list(pBuf);
 
   pBuf->size.x = 166;

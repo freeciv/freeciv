@@ -448,7 +448,7 @@ void ui_init(void)
   init_sdl(SDL_INIT_VIDEO);
 #endif
 
-  fprintf(stderr, _("Using Video Output: %s\n"),
+  freelog(LOG_NORMAL, _("Using Video Output: %s"),
 	  SDL_VideoDriverName(device, sizeof(device)));
 
   set_data_path();

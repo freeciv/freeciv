@@ -248,15 +248,23 @@ void science_dialog_update(void)
   }
 
   dest.h = pColb_Surface->h + 4;
-
+  
   SDL_FillRectAlpha(Main.screen, &dest, &color);
 
   putframe(Main.screen, dest.x - 1, dest.y - 1, dest.x + dest.w,
-	   dest.y + dest.h, 0x0);
-
-  cost =
+  	dest.y + dest.h, 0x0);
+  
+  if ( cost > 286 )
+  {
+    cost =
       286.0 * ((float) game.player_ptr->research.bulbs_researched / cost);
-
+  }
+  else
+  {
+    cost =
+      (float)cost * ((float)game.player_ptr->research.bulbs_researched/cost);
+  }
+  
   dest.y += 2;
   for (i = 0; i < cost; i++) {
     SDL_BlitSurface(pColb_Surface, NULL, Main.screen, &dest);
@@ -293,7 +301,7 @@ void science_dialog_update(void)
   /* draw separator line */
   dest.x = pEndScienceDlg->prev->size.x;
   dest.y =
-      pEndScienceDlg->prev->size.y + pEndScienceDlg->prev->size.h + 10;
+      pEndScienceDlg->prev->size.y + pEndScienceDlg->prev->size.h + 20;
 
   putline(Main.screen, dest.x, dest.y, dest.x + 365, dest.y, 0x0);
   dest.y += 10;
@@ -401,10 +409,7 @@ static int change_research(struct GUI *pWidget)
   redraw_icon2(pWidget);
   refresh_rect(pWidget->size);
 
-  pStr =
-      create_str16_from_char(_
-			     ("What should we focus on now?"),
-			     12);
+  pStr = create_str16_from_char(_("What should we focus on now?"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 40, 30, 0);
@@ -422,7 +427,7 @@ static int change_research(struct GUI *pWidget)
       if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
 	continue;
       }
-
+      /* create surface with alpha chanell -> RGBA */
       pSurf = SDL_CreateRGBSurface(SDL_SWSURFACE, 100, 200,
 				   32, 0x000000ff, 0x0000ff00, 0x00ff0000,
 				   0xff000000);
@@ -561,13 +566,37 @@ static int change_research(struct GUI *pWidget)
 
   pBeginChangeTechDlg = pBuf;
 
-  if (count > 4) {
-    count = (count + 3) / 4;
-    w = 408 + DOUBLE_FRAME_WH;
-    h = WINDOW_TILE_HIGH + 1 + count * 202 + FRAME_WH;
+  if ( count > 10 )
+  {
+    i = 6;
+    if ( count > 12 ) abort();
+  }
+  else
+  {
+    if ( count > 8 )
+    {
+      i = 5;
+    }
+    else
+    {
+      if ( count > 6 )
+      {
+        i = 4;
+      }
+      else
+      {
+	i = count;
+      }
+    }
+  }
+  
+  if (count > i) {
+    count = (count + (i-1)) / i;
+    w = i * 102 + 2 + DOUBLE_FRAME_WH;
+    h = WINDOW_TILE_HIGH + 1 + count * 202 + 2 + FRAME_WH;
   } else {
-    w = count * 104 + DOUBLE_FRAME_WH;
-    h = WINDOW_TILE_HIGH + 1 + 202 + FRAME_WH;
+    w = count * 102 + 2 + DOUBLE_FRAME_WH;
+    h = WINDOW_TILE_HIGH + 1 + 202 + 2 + FRAME_WH;
   }
 
   pWindow->size.x = (Main.screen->w - w) / 2;
@@ -586,13 +615,13 @@ static int change_research(struct GUI *pWidget)
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
   pBuf = pBuf->prev;
 
-  w = 1;
+  w = 0;
   while (1) {
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w - 2;
     pBuf->size.y = pBuf->next->size.y;
     w++;
 
-    if (w == 5) {
+    if (w == i) {
       w = 0;
       pBuf->size.x = pWindow->size.x + FRAME_WH;
       pBuf->size.y += pBuf->size.h - 2;
@@ -868,10 +897,10 @@ void popup_science_dialog(bool make_modal)
   pEndScienceDlg = pWindow;
 
   pWindow->size.x = (Main.screen->w - 400) / 2;
-  pWindow->size.y = (Main.screen->h - 240) / 2;
+  pWindow->size.y = (Main.screen->h - 250) / 2;
 
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), 400, 240);
+		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), 400, 250);
   /*
    pLogo = get_logo_gfx();
    if ( resize_window( pWindow , pLogo , NULL , 400, 240 ) )
@@ -905,7 +934,7 @@ void popup_science_dialog(bool make_modal)
 
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y =
-      pWindow->size.y + WINDOW_TILE_HIGH + 60 + pBuf->size.h + 20;
+      pWindow->size.y + WINDOW_TILE_HIGH + 60 + pBuf->size.h + 25;
 
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pBuf);
 
