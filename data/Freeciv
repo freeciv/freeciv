@@ -981,6 +981,19 @@ Freeciv*optionpopup*Toggle.shapeStyle:  ShapeOval
 
 Freeciv*optionlabel.label:             Set local options
 Freeciv*optionlabel.borderWidth:       0
+!Freeciv*optionlabel.top:               chainTop
+!Freeciv*optionlabel.bottom:            chainTop
+!Freeciv*optionlabel.left:              chainLeft
+!Freeciv*optionlabel.right:             chainLeft
+
+!Freeciv*optionpopup*Toggle.top:        chainTop
+!Freeciv*optionpopup*Toggle.bottom:     chainTop
+!Freeciv*optionpopup*Toggle.left:       chainLeft
+!Freeciv*optionpopup*Toggle.right:      chainLeft
+!Freeciv*optionpopup*Label.top:         chainTop
+!Freeciv*optionpopup*Label.bottom:      chainTop
+!Freeciv*optionpopup*Label.left:        chainLeft
+!Freeciv*optionpopup*Label.right:       chainLeft
 
 Freeciv*option_use_solid_color_behind_units_label.label:           Solid unit background color
 Freeciv*option_use_solid_color_behind_units_label.borderWidth:     0
@@ -1072,8 +1085,20 @@ Freeciv*option_center_when_popup_city_toggle.fromVert:	option_draw_diagonal_road
 Freeciv*option_center_when_popup_city_toggle.fromHoriz:	option_center_when_popup_city_label
 Freeciv*option_center_when_popup_city_toggle.internalHeight: 0
 
-Freeciv*optionokcommand.label:          Close
+Freeciv*optionokcommand.label:          Ok
 Freeciv*optionokcommand.fromVert:       option_center_when_popup_city_label
+!Freeciv*optionokcommand.top:            chainBottom
+!Freeciv*optionokcommand.bottom:         chainBottom
+!Freeciv*optionokcommand.left:           chainLeft
+!Freeciv*optionokcommand.right:          chainLeft
+
+Freeciv*optioncancelcommand.label:      Cancel
+Freeciv*optioncancelcommand.fromVert:   option_center_when_popup_city_label
+Freeciv*optioncancelcommand.fromHoriz:  optionokcommand
+!Freeciv*optioncancelcommand.top:        chainBottom
+!Freeciv*optioncancelcommand.bottom:     chainBottom
+!Freeciv*optioncancelcommand.left:       chainLeft
+!Freeciv*optioncancelcommand.right:      chainLeft
 
 !
 ! The message options dialog

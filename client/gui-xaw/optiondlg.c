@@ -52,6 +52,8 @@ void create_option_dialog(void);
 
 void option_ok_command_callback(Widget w, XtPointer client_data, 
 			        XtPointer call_data);
+void option_cancel_command_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data);
 
 /****************************************************************
 ... 
@@ -81,7 +83,7 @@ void popup_option_dialog(void)
 void create_option_dialog(void)
 {
   Widget option_form, option_label;
-  Widget option_ok_command;
+  Widget option_ok_command, option_cancel_command;
   client_option *o;
   char res_name[255];  /* is this big enough? */
   
@@ -115,9 +117,14 @@ void create_option_dialog(void)
 					      commandWidgetClass,
 					      option_form,
 					      NULL);
+  option_cancel_command = XtVaCreateManagedWidget("optioncancelcommand", 
+						  commandWidgetClass,
+						  option_form,
+						  NULL);
   XtAddCallback(option_ok_command, XtNcallback, 
 		option_ok_command_callback, NULL);
-
+  XtAddCallback(option_cancel_command, XtNcallback, 
+		option_cancel_command_callback, NULL);
 
   XtRealizeWidget(option_dialog_shell);
 
@@ -155,3 +162,12 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(option_dialog_shell);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void option_cancel_command_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
+{
+  XtSetSensitive(main_form, TRUE);
+  XtDestroyWidget(option_dialog_shell);
+}
