@@ -49,9 +49,9 @@ struct client_goto_map {
   int src_x, src_y;
 };
 
-#define MOVE_COST(x, y) (goto_map.tiles[map_inx(x, y)].move_cost)
-#define VECTOR(x, y) (goto_map.tiles[map_inx(x, y)].vector)
-#define DRAWN(x, y, dir) (goto_map.tiles[map_inx(x, y)].drawn[(dir)])
+#define MOVE_COST(x, y) (goto_map.tiles[map_pos_to_index(x, y)].move_cost)
+#define VECTOR(x, y) (goto_map.tiles[map_pos_to_index(x, y)].vector)
+#define DRAWN(x, y, dir) (goto_map.tiles[map_pos_to_index(x, y)].drawn[dir])
 
 static void undraw_line(void);
 static unsigned char *get_drawn_char(int x, int y, int dir);

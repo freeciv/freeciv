@@ -224,10 +224,11 @@ void reset_move_costs(int x, int y);
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
-#define map_inx(x,y) \
-  (CHECK_MAP_POS((x),(y)), (x)+(y)*map.xsize)
+#define map_pos_to_index(map_x, map_y)        \
+  (CHECK_MAP_POS((map_x), (map_y)),           \
+   (map_x) + (map_y) * map.xsize)
 
-/* index_to_map_pos(int *, int *, int) inverts map_inx */
+/* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
 #define index_to_map_pos(pmap_x, pmap_y, index) \
   (CHECK_INDEX(index),                          \
    *(pmap_x) = (index) % map.xsize,             \

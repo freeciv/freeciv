@@ -777,14 +777,14 @@ static bool find_the_shortest_path(struct unit *punit,
 
       /* Add the route to our warmap if it is worth keeping */
       if (total_cost < maxcost) {
-	if (warmap_cost[map_inx(x1, y1)] > total_cost) {
-	  warmap_cost[map_inx(x1, y1)] = total_cost;
+	if (warmap_cost[map_pos_to_index(x1, y1)] > total_cost) {
+	  warmap_cost[map_pos_to_index(x1, y1)] = total_cost;
 	  add_to_mapqueue(total_cost, x1, y1);
 	  local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
 		  dir_get_name(dir), x, y, x1, y1, total_cost);
-	} else if (warmap_cost[map_inx(x1, y1)] == total_cost) {
+	} else if (warmap_cost[map_pos_to_index(x1, y1)] == total_cost) {
 	  local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",

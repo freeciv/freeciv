@@ -151,11 +151,12 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 	{
 	  printf (".know (%d)\n  ", p);
 	  WRITE_MAP_DATA("%c",
-			 TEST_BIT(pcmap->claims[map_inx(x, y)].know,
+			 TEST_BIT(pcmap->claims[map_pos_to_index(x, y)].know,
 				  p) ? 'X' : '-');
 	  printf (".cities (%d)\n  ", p);
 	  WRITE_MAP_DATA("%c",
-			 TEST_BIT(pcmap->claims[map_inx(x, y)].cities,
+			 TEST_BIT(pcmap->
+				  claims[map_pos_to_index(x, y)].cities,
 				  p) ? 'O' : '-');
 	}
     }
@@ -163,13 +164,13 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
   printf ("Turn %d (%c)...\n", turn, when_char (turn));
 
   printf (".whom\n  ");
-  WRITE_MAP_DATA((pcmap->claims[map_inx(x, y)].whom ==
+  WRITE_MAP_DATA((pcmap->claims[map_pos_to_index(x, y)].whom ==
 		  32) ? "%c" : "%X",
-		 (pcmap->claims[map_inx(x, y)].whom ==
-		  32) ? '-' : pcmap->claims[map_inx(x, y)].whom);
+		 (pcmap->claims[map_pos_to_index(x, y)].whom ==
+		  32) ? '-' : pcmap->claims[map_pos_to_index(x, y)].whom);
 
   printf (".when\n  ");
-  WRITE_MAP_DATA("%c", when_char(pcmap->claims[map_inx(x, y)].when));
+  WRITE_MAP_DATA("%c", when_char(pcmap->claims[map_pos_to_index(x, y)].when));
 }
 
 #endif
@@ -206,7 +207,7 @@ static void build_landarea_map_new(struct claim_map *pcmap)
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->x, pcity->y, x, y) {
-	int i = map_inx(x, y);
+	int i = map_pos_to_index(x, y);
 	pcmap->claims[i].cities |= (1u << pcity->owner);
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
@@ -228,7 +229,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
   nextedge = pcmap->edges;
 
   whole_map_iterate(x, y) {
-    int i = map_inx(x, y);
+    int i = map_pos_to_index(x, y);
     pclaim = &(pcmap->claims[i]);
     ptile = &(map.tiles[i]);
 
@@ -306,12 +307,12 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
     for (accum = 0; thisedge->x >= 0; thisedge++) {
       x = thisedge->x;
       y = thisedge->y;
-      i = map_inx (x, y);
+      i = map_pos_to_index (x, y);
       owner = pcmap->claims[i].whom;
 
       if (owner != no_owner) {
 	adjc_iterate(x, y, mx, my) {
-	  j = map_inx(mx, my);
+	  j = map_pos_to_index(mx, my);
 	  pclaim = &(pcmap->claims[j]);
 
 	  if (TEST_BIT(pclaim->know, owner)) {

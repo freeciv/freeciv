@@ -32,8 +32,8 @@
 #include "mapgen.h"
 
 /* Wrapper for easy access.  It's a macro so it can be a lvalue. */
-#define hmap(x, y) (height_map[map_inx(x, y)])
-#define rmap(x, y) (river_map[map_inx(x, y)])
+#define hmap(x, y) (height_map[map_pos_to_index(x, y)])
+#define rmap(x, y) (river_map[map_pos_to_index(x, y)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -1303,7 +1303,7 @@ static void smooth_map(void)
 
     if (height_sum < 0)
       height_sum = 0;
-    new_hmap[map_inx(x, y)] = height_sum / counter;
+    new_hmap[map_pos_to_index(x, y)] = height_sum / counter;
   } whole_map_iterate_end;
 
   memcpy(height_map, new_hmap, sizeof(int) * map.xsize * map.ysize);

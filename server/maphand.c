@@ -805,7 +805,7 @@ bool map_get_known(int x, int y, struct player *pplayer)
 ***************************************************************/
 bool map_get_known_and_seen(int x, int y, struct player *pplayer)
 {
-  int offset = map_inx(x, y);
+  int offset = map_pos_to_index(x, y);
 
   return TEST_BIT((map.tiles + offset)->known, pplayer->player_no)
       && ((pplayer->private_map + offset)->seen != 0);
@@ -996,7 +996,7 @@ static void player_tile_init(int x, int y, struct player *pplayer)
 ***************************************************************/
 struct player_tile *map_get_player_tile(int x, int y, struct player *pplayer)
 {
-  return pplayer->private_map + map_inx(x, y);
+  return pplayer->private_map + map_pos_to_index(x, y);
 }
 
 /***************************************************************

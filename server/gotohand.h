@@ -57,8 +57,8 @@ struct move_cost_map {
 
 extern struct move_cost_map warmap;
 
-#define WARMAP_COST(x, y) (warmap.cost[map_inx((x), (y))])
-#define WARMAP_SEACOST(x, y) (warmap.seacost[map_inx((x), (y))])
-#define WARMAP_VECTOR(x, y) (warmap.vector[map_inx((x), (y))])
+#define WARMAP_COST(x, y) (warmap.cost[map_pos_to_index(x, y)])
+#define WARMAP_SEACOST(x, y) (warmap.seacost[map_pos_to_index(x, y)])
+#define WARMAP_VECTOR(x, y) (warmap.vector[map_pos_to_index(x, y)])
 
 #endif  /* FC__GOTOHAND_H */
