@@ -17,6 +17,7 @@ void report_update_delay_on();
 void report_update_delay_off();
 void city_report_dialog_update();
 void science_dialog_update(void);
+void city_report_dialog_update_city(struct city *pcity);
 void update_report_dialogs();
 void popup_science_dialog(int make_modal);
 void popup_city_report_dialog(int make_modal);

@@ -1209,7 +1209,8 @@ Freeciv.iconName: Freeciv
 *reportcityform.left:                chainLeft
 *reportcityform.right:               chainRight
 
-*reportcitylabel.width:              500
+*reportcitylabel.width:              600
+*reportcitylabel.resizable:          True
 *reportcitylabel.justify:            center
 *reportcitylabel.borderWidth:        0
 *reportcitylabel.background:         lightblue
@@ -1218,7 +1219,7 @@ Freeciv.iconName: Freeciv
 *reportcitylabel.left:               chainLeft
 *reportcitylabel.right:              chainRight
 
-*reportcitylistlabel.resizable:          true
+*reportcitylistlabel.resizable:          True
 *reportcitylistlabel.justify:            left
 *reportcitylistlabel.borderWidth:        1
 *reportcitylistlabel.background:         grey
@@ -1228,6 +1229,7 @@ Freeciv.iconName: Freeciv
 *reportcitylistlabel.left:               chainLeft
 *reportcitylistlabel.right:              chainRight
 *reportcitylistlabel.fromVert:           reportcitylabel
+*reportcitylistlabel.horizDistance:      20
 *reportcitylistlabel.label:Name              Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 
 *reportcityviewport.fromVert: reportcitylistlabel
@@ -1246,7 +1248,7 @@ Freeciv.iconName: Freeciv
 *reportcitylist.defaultColumns:      1
 *reportcitylist.verticalList:        true
 *reportcitylist.background:          cyan
-*reportcitylist.resizable:           true
+*reportcitylist.resizable:           False
 
 *reportcityclosecommand.label:       Close
 *reportcityclosecommand.fromVert:    reportcityviewport

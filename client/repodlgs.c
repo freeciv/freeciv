@@ -181,7 +181,7 @@ void update_report_dialogs(void)
 /****************************************************************
 ...
 ****************************************************************/
-char *get_report_title(char *report_name)
+static char *get_report_title(char *report_name)
 {
   char buf[512];
   
@@ -196,6 +196,55 @@ char *get_report_title(char *report_name)
   return create_centered_string(buf);
 }
 
+/****************************************************************
+ Create the text for a line in the city report
+*****************************************************************/
+static void get_city_text(struct city *pcity,char *text)
+{
+  char impro[64];
+  char happytext[32];
+  char statetext[32];
+  char outputtext[32];
+  char foodtext[32];
+  
+  if(pcity->is_building_unit)
+    sprintf(impro, "%s(%d/%d/%d)", 
+            get_unit_type(pcity->currently_building)->name,
+	    pcity->shield_stock,
+	    get_unit_type(pcity->currently_building)->build_cost,
+	    city_buy_cost(pcity));
+  else
+    sprintf(impro, "%s(%d/%d/%d)", 
+	    get_imp_name_ex(pcity, pcity->currently_building),
+	    pcity->shield_stock,
+	    get_improvement_type(pcity->currently_building)->build_cost,
+	    city_buy_cost(pcity));
+              
+  sprintf(happytext, "%s(%d/%d/%d)",
+	  city_celebrating(pcity) ? "Rapture" :
+	   (city_unhappy(pcity) ? "Disorder" : "Peace"),
+	  pcity->ppl_happy[4],
+	  pcity->ppl_content[4],
+	  pcity->ppl_unhappy[4]);
+ 
+  sprintf(statetext, "(%d/%d/%d)",
+	  pcity->food_surplus, 
+	  pcity->shield_surplus, 
+	  pcity->trade_prod);
+
+  sprintf(outputtext, "(%+d/%d/%d)",
+	  city_gold_surplus(pcity),
+	  pcity->luxury_total,
+	  pcity->science_total);
+
+  sprintf(foodtext,"(%d/%d)",
+	  pcity->food_stock,
+	  pcity->size * game.foodbox);
+
+  sprintf(text, "%-15s %-16s%-12s%-12s%-10s%s", 
+          pcity->name,
+          happytext, statetext, outputtext, foodtext, impro);
+}
 
 /****************************************************************
 ...
@@ -746,7 +795,6 @@ void city_list_callback(Widget w, XtPointer client_data,
     }
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -882,7 +930,6 @@ void city_popup_callback(Widget w, XtPointer client_data,
   }
 }
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -890,75 +937,27 @@ void city_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(city_dialog_shell) {
-    int i;
+    int i=0;
     Dimension width; 
     static char *city_list_names_ptrs[MAX_CITIES_SHOWN+1];
     static char city_list_names[MAX_CITIES_SHOWN][200];
-    struct genlist_iterator myiter;
     char *report_title;
-    char happytext[32];
-    char statetext[32];
-    char outputtext[32];
-    char foodtext[32];
+
     report_title=get_report_title("City Advisor");
     xaw_set_label(city_label, report_title);
     free(report_title);
-    if (city_popupmenu)
-      {
-	XtDestroyWidget(city_popupmenu);
-	city_popupmenu = 0;
-      }    
-    genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-    
-     for(i=0; ITERATOR_PTR(myiter) && i<MAX_CITIES_SHOWN; 
-	 i++, ITERATOR_NEXT(myiter)) {
-       char impro[64];
-       struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
 
-       if(pcity->is_building_unit)
-	 sprintf(impro, "%s(%d/%d/%d)", 
-		 get_unit_type(pcity->currently_building)->name,
-		 pcity->shield_stock,
-		 get_unit_type(pcity->currently_building)->build_cost,
-		 city_buy_cost(pcity));
-       else
-	 sprintf(impro, "%s(%d/%d/%d)", 
-		 get_imp_name_ex(pcity, pcity->currently_building),
-		 pcity->shield_stock,
-		 get_improvement_type(pcity->currently_building)->build_cost,
-		 city_buy_cost(pcity));
-              
-       sprintf(happytext, "%s(%d/%d/%d)",
-               city_celebrating(pcity) ? "Rapture" :
-	         (city_unhappy(pcity) ? "Disorder" : "Peace"),
-	       pcity->ppl_happy[4],
-	       pcity->ppl_content[4],
-	       pcity->ppl_unhappy[4]);
- 
-       sprintf(statetext, "(%d/%d/%d)",
-	       pcity->food_surplus, 
-	       pcity->shield_surplus, 
-	       pcity->trade_prod);
+    if (city_popupmenu) {
+      XtDestroyWidget(city_popupmenu);
+      city_popupmenu = 0;
+    }    
 
-       sprintf(outputtext, "(%+d/%d/%d)",
-	       city_gold_surplus(pcity),
-	       pcity->luxury_total,
-	       pcity->science_total);
-
-       sprintf(foodtext,"(%d/%d)",
-               pcity->food_stock,
-	       pcity->size * game.foodbox);
-
-       sprintf(city_list_names[i], "%-15s %-16s%-12s%-12s%-10s%s", 
-	       pcity->name,
-	       happytext,
-	       statetext,
-	       outputtext,
-	       foodtext,
-	       impro);
-       city_list_names_ptrs[i]=city_list_names[i];
-       cities_in_list[i]=pcity->id;
-     }
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      get_city_text(pcity,city_list_names[i]);
+      city_list_names_ptrs[i]=city_list_names[i];
+      cities_in_list[i]=pcity->id;
+      i++;
+    } city_list_iterate_end;
     if(i==0) {
       strcpy(city_list_names[0], 
 	     "                                                             ");
@@ -966,28 +965,57 @@ void city_report_dialog_update(void)
       i=1;
       cities_in_list[0]=0;
     }
-    city_list_names_ptrs[i]=0;
+    city_list_names_ptrs[i]=NULL;
     /* Lists are independently sorted, but stay in sync as long as
        the city info strings (in city_list_names) start with the
-        city name.
-    */
+       city name.  */
     qsort(city_list_names_ptrs,i,sizeof(char *),(void *)string_ptr_compare);
     qsort(cities_in_list,i,sizeof(int),(void *)city_name_compare);
 
-    XawListChange(city_list, city_list_names_ptrs, 0, 0, 1);
+    XawListChange(city_list, city_list_names_ptrs, i, 0, 1);
 
-
-    XtVaGetValues(city_list, XtNwidth, &width, NULL);
+    XtVaGetValues(city_list, XtNlongest, &width, NULL);
     /* I don't know the proper way to set the width of this viewport widget.
        Someone who knows is more than welcome to fix this */
-    XtVaSetValues(city_viewport, XtNwidth, width+45, NULL); 
-    XtVaSetValues(city_list_label, XtNwidth, width+45, NULL); 
+    XtVaSetValues(city_viewport, XtNwidth, width+25, NULL); 
+    XtVaSetValues(city_list_label, XtNwidth, width+10, NULL);
+    XtVaSetValues(city_label, XtNwidth, width+25, NULL);
     XtSetSensitive(city_change_command, FALSE);
     XtSetSensitive(city_center_command, FALSE);
     XtSetSensitive(city_popup_command, FALSE);
     XtSetSensitive(city_buy_command, FALSE);
   }
-  
+}
+
+/****************************************************************
+  Update the text for a single city in the city report
+*****************************************************************/
+void city_report_dialog_update_city(struct city *pcity)
+{
+  int i;
+
+  for(i=0; cities_in_list[i]; i++)  {
+    if(cities_in_list[i]==pcity->id)  {
+      int n;
+      String *list;
+      Dimension w;
+
+      XtVaGetValues(city_list, XtNnumberStrings, &n, XtNlist, &list, NULL);
+      if(strncmp(pcity->name,list[i],strlen(pcity->name))) break;
+      get_city_text(pcity,list[i]);
+
+      /* It seems really inefficient to regenerate the whole list just to
+         change one line.  It's also annoying to have to set the size
+	 of each widget explicitly, since Xt is supposed to handle that. */
+      XawListChange(city_list, list, n, 0, 1);
+      XtVaGetValues(city_list, XtNlongest, &w, NULL);
+      XtVaSetValues(city_viewport, XtNwidth, w+25, NULL);
+      XtVaSetValues(city_list_label, XtNwidth, w+10, NULL);
+      XtVaSetValues(city_label, XtNwidth, w+25, NULL);
+      return;
+    };
+  }
+  city_report_dialog_update();
 }
 
 /****************************************************************

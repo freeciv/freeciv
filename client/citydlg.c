@@ -200,7 +200,7 @@ void refresh_city_dialog(struct city *pcity)
     city_dialog_update_pollution(pdialog);
   }
   if(pcity->owner == game.player_idx)  {
-    city_report_dialog_update(); /* ard's fix */
+    city_report_dialog_update_city(pcity);
     trade_report_dialog_update();
   } else {
     if(pdialog)  {
