@@ -26,6 +26,7 @@ endif
 ALL_ESD_FILES=audio_esd.c audio_esd.h
 ALL_SDL_FILES=audio_sdl.c audio_sdl.h
 ALL_WINMM_FILES=audio_winmm.c audio_winmm.h
+ALL_AMIGA_FILES=audio_amiga.c audio_amiga.h
 
 if ESD
 ESD_FILES=$(ALL_ESD_FILES)
@@ -103,7 +104,8 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		\
 		$(ALL_ESD_FILES)                 \
 		$(ALL_SDL_FILES)                 \
-		$(ALL_WINMM_FILES)
+		$(ALL_WINMM_FILES)		 \
+		$(ALL_AMIGA_FILES)
 
 
 ## This is usually false, so "include" is not recursed into 
