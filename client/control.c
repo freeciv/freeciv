@@ -115,6 +115,7 @@ void set_unit_focus(struct unit *punit)
     if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
       punit->activity = ACTIVITY_IDLE;
       punit->ai.control = FALSE;
+      refresh_unit_city_dialogs(punit);
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
