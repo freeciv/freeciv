@@ -540,16 +540,15 @@ void dirty_rect(int canvas_x, int canvas_y,
 
 /**************************************************************************
   Mark the entire screen area as "dirty" so that we can flush it later.
+  It is called by client common code.
 **************************************************************************/
 void dirty_all(void)
 {
   struct ct_rect rect;
 
   sw_widget_get_bounds(mapview_canvas_window, &rect);
-
-  //freelog(LOG_NORMAL, "dirty_all(...)");
-  sw_window_canvas_background_region_needs_repaint(mapview_canvas_window, &rect);
-  /* PORTME */
+  sw_window_canvas_background_region_needs_repaint(mapview_canvas_window, 
+                                                   &rect);
 }
 
 /**************************************************************************
@@ -584,8 +583,6 @@ void update_city_descriptions(void)
 **************************************************************************/
 void prepare_show_city_descriptions(void)
 {
-  freelog(LOG_DEBUG, "prepare_show_city_descriptions");
-  
   widget_list_iterate(city_descr_windows, widget) {
     widget_list_unlink(&city_descr_windows, widget);
     sw_widget_destroy(widget);
@@ -698,7 +695,10 @@ static void tile_list_select_callback(struct sw_widget *widget, void *data)
 }
 
 /**************************************************************************
-  ...
+  Show the detaildisplay information - the information displayed when
+  you click on a tile, city or unit.
+
+  FIXME: The number '35' below should be calculated from tile width.
 **************************************************************************/
 static void tile_list_select(int new_index)
 {
@@ -774,8 +774,8 @@ static void update_focus_tile_list(void)
     item->info_text=mystrdup(mapview_get_terrain_info_text(ptile));
   }
 
-  if(map_get_city(ptile)) {
-      struct city *pcity=map_get_city(ptile);
+  if (map_get_city(ptile)) {
+    struct city *pcity=map_get_city(ptile);
     struct tile_list_item *item = &tile_list.item[tile_list.items];
 
     tile_list.items++;
@@ -784,9 +784,9 @@ static void update_focus_tile_list(void)
     item->unselected = city_to_osda(pcity);
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
-    item->pcity=pcity;
+    item->pcity = pcity;
     item->tooltip = mystrdup(mapview_get_city_tooltip_text(pcity));
-    item->info_text=mystrdup(mapview_get_city_info_text(pcity));
+    item->info_text = mystrdup(mapview_get_city_info_text(pcity));
   }
 
   unit_list_iterate(ptile->units, punit) {
@@ -798,17 +798,17 @@ static void update_focus_tile_list(void)
     item->unselected = unit_to_osda(punit);
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
-    item->punit=punit;
+    item->punit = punit;
 
     item->tooltip = mystrdup(mapview_get_unit_tooltip_text(punit));
-    item->info_text=mystrdup(mapview_get_unit_info_text(punit));
+    item->info_text = mystrdup(mapview_get_unit_info_text(punit));
   } unit_list_iterate_end;
 
-  if(tile_list.items>1) {
-      /* Take the city or unit */
-      tile_list_select(1);
-  }else{
-      tile_list_select(0);
+  if (tile_list.items > 1) {
+    /* Take the city or unit */
+    tile_list_select(1);
+  } else {
+    tile_list_select(0);
   }
 }
 
@@ -950,7 +950,9 @@ static void action_button_callback(struct sw_widget *widget, void *data)
 }
 
 /**************************************************************************
-  ...
+  glibc's scanf is localised. As such it will parse "1.345" as 1345 
+  with the german locale and not as 1.345.  The theme files should be
+  locale independent, and therefore since function is needed.
 **************************************************************************/
 static bool is_float(char *str, double *dest)
 {
@@ -980,7 +982,8 @@ static bool is_float(char *str, double *dest)
 }
 
 /**************************************************************************
-  ...
+  Handle keypresses.  This is where we carry out mapview scrolling with
+  arrow keys etc..
 **************************************************************************/
 static void action_callback(const char *action)
 {
@@ -1086,7 +1089,7 @@ static void action_callback(const char *action)
 }
 
 /**************************************************************************
-  ...
+  Read theme files and store their results for quick lookup.
 **************************************************************************/
 static void read_properties(void)
 {
@@ -1243,7 +1246,7 @@ static const char *info_get_value(const char *id)
 }
 
 /**************************************************************************
-  ...
+  Initialize map canvas.
 **************************************************************************/
 void popup_mapcanvas(void)
 {
@@ -1301,7 +1304,7 @@ void popdown_mapcanvas(void)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
-
+  /* ?? */
 }
 
 /**************************************************************************
@@ -1335,11 +1338,11 @@ static void unshow_actions(void)
 
   for (i = 0; i < actions_shown.actions; i++) {
     sw_window_remove(actions_shown.action[i].widget);
-    actions_shown.action[i].widget=NULL;
+    actions_shown.action[i].widget = NULL;
     free(actions_shown.action[i].name);
-    actions_shown.action[i].name=NULL;
+    actions_shown.action[i].name = NULL;
     free(actions_shown.action[i].tooltip);
-    actions_shown.action[i].tooltip=NULL;
+    actions_shown.action[i].tooltip = NULL;
   }
 }
 
@@ -1363,13 +1366,13 @@ static const char *format_shortcut(const char *action)
 }
 
 #define ADD(x) \
-  actions_shown.action[actions_shown.actions].name=mystrdup(x);\
-  actions_shown.action[actions_shown.actions].enabled=TRUE;\
+  actions_shown.action[actions_shown.actions].name = mystrdup(x);\
+  actions_shown.action[actions_shown.actions].enabled = TRUE;\
   actions_shown.actions++;
 
 #define ADD_DIS(x) \
-  actions_shown.action[actions_shown.actions].name=mystrdup(x);\
-  actions_shown.action[actions_shown.actions].enabled=FALSE;\
+  actions_shown.action[actions_shown.actions].name = mystrdup(x);\
+  actions_shown.action[actions_shown.actions].enabled = FALSE;\
   actions_shown.actions++;
 
 #define X(x,y) 				\
@@ -1571,8 +1574,8 @@ void mapview_update_actions(void)
 ****************************************************************************/
 void gui_flush(void)
 {
-    /* TESTME */
-    sw_paint_all();
+  /* TESTME */
+  sw_paint_all();
 }
 
 /**************************************************************************
