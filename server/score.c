@@ -361,9 +361,9 @@ static void get_player_landarea(struct claim_map *pcmap,
 }
 
 /**************************************************************************
-  Return the civilization score (a numerical value) for the player.
+  Calculates the civilization score for the player.
 **************************************************************************/
-int civ_score(struct player *pplayer)
+void calc_civ_score(struct player *pplayer)
 {
   struct city *pcity;
   int landarea, settledarea;
@@ -394,7 +394,7 @@ int civ_score(struct player *pplayer)
     if (pplayer->player_no == game.nplayers - 1) {
       free_landarea_map(&cmap);
     }
-    return 0;
+    return;
   }
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -456,11 +456,31 @@ int civ_score(struct player *pplayer)
     pplayer->score.spaceship += (int)(100 * pplayer->spaceship.habitation
 				      * pplayer->spaceship.success_rate);
   }
+}
 
+/**************************************************************************
+  Return the civilization score (a numerical value) for the player.
+**************************************************************************/
+int get_civ_score(const struct player *pplayer)
+{
   /* We used to count pplayer->score.happy here too, but this is too easily
    * manipulated by players at the endyear. */
   return (total_player_citizens(pplayer)
 	  + pplayer->score.techs * 2
 	  + pplayer->score.wonders * 5
 	  + pplayer->score.spaceship);
+}
+
+/**************************************************************************
+  Return the total number of citizens in the player's nation.
+**************************************************************************/
+int total_player_citizens(const struct player *pplayer)
+{
+  return (pplayer->score.happy
+	  + pplayer->score.content
+	  + pplayer->score.unhappy
+	  + pplayer->score.angry
+	  + pplayer->score.scientists
+	  + pplayer->score.elvis
+	  + pplayer->score.taxmen);
 }

@@ -281,7 +281,6 @@ void game_renumber_players(int plrno);
 
 void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
-int total_player_citizens(struct player *pplayer);
 void initialize_globals(void);
 
 void translate_data_names(void);

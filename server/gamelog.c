@@ -147,7 +147,7 @@ void gamelog_save(void) {
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
-      rank[count].value = civ_score(pplayer);
+      rank[count].value = get_civ_score(pplayer);
       rank[count].idx = pplayer->player_no;
       size[count].value = total_player_citizens(pplayer);
       size[count].idx = pplayer->player_no;
