@@ -3460,14 +3460,18 @@ void game_load(struct section_file *file)
 
     /* Update all city information.  This must come after all cities are
      * loaded (in player_load) but before player (dumb) cities are loaded
-     * (in player_map_load).  Cities are refreshed twice to account for
-     * trade routes: the first refresh initializes all cities tile_trade
-     * values; the second correctly updates all trade routes. */
+     * (in player_map_load).
+     *
+     * This is a bit ugly since generic_city_refresh assumes a city that
+     * has already been refreshed at some point (even if it's out of date).
+     * Here we follow the simplest method of just refreshing all cities,
+     * and updating trade routes at the same time.  This could lead to memory
+     * issues because the refresh might look at some data of another city
+     * that hasn't itself been refreshed yet.  However this shouldn't cause
+     * any problems because in the end all cities are refreshed once (or
+     * more) and recursive dependencies are all taken care of. */
     cities_iterate(pcity) {
-      generic_city_refresh(pcity, FALSE, NULL);
-    } cities_iterate_end;
-    cities_iterate(pcity) {
-      generic_city_refresh(pcity, FALSE, NULL);
+      generic_city_refresh(pcity, TRUE, NULL);
     } cities_iterate_end;
 
     /* Since the cities must be placed on the map to put them on the

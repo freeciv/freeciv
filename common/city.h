@@ -212,6 +212,9 @@ struct city {
   /* the people */
   int size;
 
+  /* Tile output, regardless of if the tile is actually worked. */
+  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_MAX];
+
   /* How the citizens feel:
      ppl_*[0] is distribution before any of the modifiers below.
      ppl_*[1] is distribution after luxury.
@@ -487,7 +490,7 @@ void city_remove_improvement(struct city *pcity, Impr_Type_id impr);
 
 /* city update functions */
 void generic_city_refresh(struct city *pcity,
-			  bool refresh_trade_route_cities,
+			  bool full_refresh,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit));
 void adjust_city_free_cost(int *num_free, int *this_cost);

@@ -1673,15 +1673,12 @@ bool city_built_last_turn(const struct city *pcity)
 static inline void get_worked_tile_output(const struct city *pcity,
 					  int *output)
 {
-  bool is_celebrating = base_city_celebrating(pcity);
-
   memset(output, 0, O_COUNT * sizeof(*output));
   
   city_map_iterate(x, y) {
-    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+    if (pcity->city_map[x][y] == C_TILE_WORKER) {
       output_type_iterate(o) {
-	output[o] += base_city_get_output_tile(x, y, pcity,
-					       is_celebrating, o);
+	output[o] += pcity->tile_output[x][y][o];
       } output_type_iterate_end;
     }
   } city_map_iterate_end;
@@ -1727,6 +1724,26 @@ static inline void set_city_bonuses(struct city *pcity)
   output_type_iterate(o) {
     pcity->bonus[o] = get_city_output_bonus(pcity, o);
   } output_type_iterate_end;
+}
+
+/****************************************************************************
+  This function sets all the values in the pcity->tile_output[] array. This
+  should be called near the beginning of generic_city_refresh.  It doesn't
+  depend on anything else in the refresh and doesn't change when workers are
+  moved around (but does change when buildings are built, etc.).
+****************************************************************************/
+static inline void set_city_tile_output(struct city *pcity)
+{
+  bool is_celebrating = base_city_celebrating(pcity);
+
+  /* Any unreal tiles are skipped - these values should have been memset
+   * to 0 when the city was created. */
+  city_map_checked_iterate(pcity->tile, x, y, ptile) {
+    output_type_iterate(o) {
+      pcity->tile_output[x][y][o]
+	= base_city_get_output_tile(x, y, pcity, is_celebrating, o);
+    } output_type_iterate_end;
+  } city_map_checked_iterate_end;
 }
 
 /**************************************************************************
@@ -2189,16 +2206,34 @@ static inline void city_support(struct city *pcity,
 }
 
 /**************************************************************************
-...
+  Refreshes the internal cached data in the city structure.
+
+  There are two possible levels of refresh: a partial refresh and a full
+  refresh.  A partial refresh is faster but can only be used in a few
+  places.
+
+  A full refresh updates all cached data: including but not limited to
+  ppl_happy[], surplus[], waste[], citizen_base[], usage[], trade[],
+  bonus[], and tile_output[].
+
+  A partial refresh will not update tile_output[] or bonus[].  These two
+  values do not need to be recalculated when moving workers around or when
+  a trade route has changed.  A partial refresh will also not refresh any
+  cities that have trade routes with us.  Any time a partial refresh is
+  done it should be considered temporary: when finished, the city should
+  be reverted to its original state.
 **************************************************************************/
 void generic_city_refresh(struct city *pcity,
-			  bool refresh_trade_route_cities,
+			  bool full_refresh,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit))
 {
   int prev_tile_trade = pcity->citizen_base[O_TRADE];
 
-  set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
+  if (full_refresh) {
+    set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
+    set_city_tile_output(pcity); /* Calculate the tile_output[] values. */
+  }
   get_citizen_output(pcity, pcity->citizen_base); /* Calculate output from citizens. */
   set_city_production(pcity);
   citizen_happy_size(pcity);
@@ -2211,7 +2246,7 @@ void generic_city_refresh(struct city *pcity,
   unhappy_city_check(pcity);
   set_surpluses(pcity);
 
-  if (refresh_trade_route_cities
+  if (full_refresh
       && pcity->citizen_base[O_TRADE] != prev_tile_trade) {
     int i;
 
@@ -2448,6 +2483,7 @@ struct city *create_city_virtual(const struct player *pplayer,
   pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
   pcity->size = 1;
+  memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = 0;
   } specialist_type_iterate_end;
