@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
 #if IS_BETA_VERSION
-  printf("Freeciv 1.8 will be released second week of March at http://www.freeciv.org\n");
+  printf("Freeciv 1.8 will be released third week of March at http://www.freeciv.org\n");
 #endif
   fflush(stdout);
 
