@@ -102,15 +102,19 @@ struct terrain_drawing_data {
   char *name;
   char *mine_tag;
 
-  bool is_blended;
-  bool is_layered;
-  int match_type;
-  enum cell_type cell_type;
+  int num_layers; /* Can only be 1 or 2. */
+  struct {
+    int match_type;
+    enum cell_type cell_type;
 
-  struct Sprite *base;
-  struct Sprite *match[NUM_DIRECTION_NSEW];
-  struct Sprite *cells[8][4]; /* 4 = up down left right */
+    struct Sprite *base;
+    struct Sprite *match[NUM_DIRECTION_NSEW];
+    struct Sprite *cells[8][4]; /* 4 = up down left right */
+  } layer[2];
+
+  bool is_blended;
   struct Sprite *blend[4]; /* indexed by a direction4 */
+
   struct Sprite *special[2];
   struct Sprite *mine;
 };

@@ -120,20 +120,21 @@ file under the graphc and graphic_alt flags.)
   is_blended            : If set, this terrain will be blended with adjacent
                           terrains.  Blending is done civ2-style with a
                           dither mask.  Only iso-view currently supports
-                          blending.  Only the base graphic will be dithered.
+                          blending.  Only the base graphic will be blended.
+                          Blending is drawn on top of the first layer (see
+                          below).
                           The blending mask has sprite t.dither_tile.
-  is_layered            : If set, this terrain will be drawn layered.  The
-                          base sprite will be drawn underneath (possibly
-                          blended) with a matched sprite on top.  This option
-                          only makes sense if a match_type is set.  Only
-                          iso-view currently supports layering.
-  match_type            : If 0, no terrain matching will be done and the base
-                          sprite will be drawn for the terrain.  If non-zero,
-                          then terrain matching will be done.  A matched
-                          sprite will be chosen that matches all cardinally
-                          adjacent tiles whose terrain has the same
+  num_layers            : The number of layers in the terrain.  This value
+                          must be either 1 or 2.  Each layer is drawn
+                          separately.  The layerN options below control the
+                          drawing of each layer (N should be either 0 or 1).
+  layerN_match_type     : If 0 or unset, no terrain matching will be done and
+                          the base sprite will be drawn for the terrain.  If
+                          non-zero, then terrain matching will be done.  A
+                          matched sprite will be chosen that matches all
+                          cardinally adjacent tiles whose terrain has the same
                           match_type.
-  cell_type             : With traditional tilesets each tile is drawn using
+  layerN_cell_type      : With traditional tilesets each tile is drawn using
                           one sprite.  Which sprite to use may be specified
                           using a match_type, and there may be multiple layers
                           (each having one sprite).  This method corresponds
@@ -174,8 +175,8 @@ Examples:
   ; t.grassland is needed; it will be drawn blended.
   [terrain_grassland]
   is_blended = 1
-  is_layered = 0
-  match_type = 0
+  num_layers = 1
+  layer0_match_type = 0
 
   ; This specifies a civ1-like mountain tile.  16 sprites
   ; t.mountains_n0s0e0w0 ... t.mountains_n1s1e1w1 are needed.  One of them
@@ -183,8 +184,8 @@ Examples:
   ; has this match_type, adjacent mountains will match.
   [terrain_mountains]
   is_blended = 0
-  is_layered = 0
-  match_type = 7
+  num_layers = 1
+  layer0_match_type = 7
 
   ; This specifies a civ2-like hills tile.  A base sprite t.hills will be
   ; needed, plus 16 matching sprites.  The base sprite will be drawn,
@@ -193,11 +194,17 @@ Examples:
   ; sprite).
   [terrain_hills]
   is_blended = 1
-  is_layered = 1
-  match_type = 8
+  num_layers = 2
+  layer0_match_type = 0
+  layer1_match_type = 8
 
-The exception to the above rule is the ocean terrain.  Although it should
-have an entry in the tilespec file it is drawn according to hard-coded rules.
+  ; This specifies a civ2-like ocean tile.  Ocean is drawn via a cell-based
+  ; system as explained above.
+  [terrain_ocean]
+  is_blended = 1
+  num_layers = 1
+  layer0_match_type = 6
+  layer0_cell_type = "rect"
 
 ----------------------------------------------------------------------
 Individual spec files:

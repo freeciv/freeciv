@@ -64,70 +64,59 @@ files =
 
 [terrain_arctic]
 is_blended = 0
-is_layered = 0
-match_type = 1
+num_layers = 1
+layer0_match_type = 1
 mine_sprite = "tx.oil_mine"
 
 [terrain_desert]
 is_blended = 0
-is_layered = 0
-match_type = 2
+num_layers = 1
+layer0_match_type = 2
 mine_sprite = "tx.oil_mine"
 
 [terrain_forest]
 is_blended = 0
-is_layered = 0
-match_type = 3
+num_layers = 1
+layer0_match_type = 3
 
 [terrain_grassland]
 is_blended = 0
-is_layered = 0
-match_type = 3
+num_layers = 1
+layer0_match_type = 3
 
 [terrain_hills]
 is_blended = 0
-is_layered = 0
-match_type = 4
+num_layers = 1
+layer0_match_type = 4
 mine_sprite = "tx.mine"
 
 [terrain_jungle]
 is_blended = 0
-is_layered = 0
-match_type = 5
+num_layers = 1
+layer0_match_type = 5
 
 [terrain_mountains]
 is_blended = 0
-is_layered = 0
-match_type = 6
+num_layers = 1
+layer0_match_type = 6
 mine_sprite = "tx.mine"
 
-; ocean has special handling
 [terrain_ocean]
 is_blended = 0
-is_layered = 0
-match_type = 7
+num_layers = 1
+layer0_match_type = 7
 
 [terrain_plains]
 is_blended = 0
-is_layered = 0
-match_type = 8
+num_layers = 1
+layer0_match_type = 8
 
 [terrain_swamp]
 is_blended = 0
-is_layered = 0
-match_type = 9
+num_layers = 1
+layer0_match_type = 9
 
 [terrain_tundra]
 is_blended = 0
-is_layered = 0
-match_type = 10
-
-[terrain_unknown]
-is_blended = 0
-is_layered = 0
-match_type = 11
-
-[terrain_t_river]
-is_blended = 0
-is_layered = 0
-match_type = 7
+num_layers = 1
+layer0_match_type = 10
