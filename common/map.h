@@ -231,7 +231,7 @@ void reset_move_costs(int x, int y);
 #define index_to_map_pos(pmap_x, pmap_y, index) \
   (CHECK_INDEX(index),                          \
    *(pmap_x) = (index) % map.xsize,             \
-   *(pmap_y) = (index) / map.ysize)
+   *(pmap_y) = (index) / map.xsize)
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
