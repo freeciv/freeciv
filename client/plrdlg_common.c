@@ -223,9 +223,9 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, "vision"},
   {TRUE, COL_TEXT, N_("Reputation"), col_reputation, NULL, "reputation"},
   {TRUE, COL_TEXT, N_("State"), col_state, NULL, "state"},
-  {TRUE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, "host"},
-  {TRUE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, "idle"},
-  {TRUE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, "ping"}
+  {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, "host"},
+  {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, "idle"},
+  {FALSE, COL_RIGHT_TEXT, N_("Ping"), get_ping_time_text, NULL, "ping"}
 };
 
 const int num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);

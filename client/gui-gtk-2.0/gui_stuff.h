@@ -51,4 +51,58 @@ gint gtk_tree_selection_get_row(GtkTreeSelection *selection);
 void gtk_tree_view_focus(GtkTreeView *view);
 void setup_dialog(GtkWidget *shell, GtkWidget *parent);
 
+
+
+enum gui_dialog_type {
+  GUI_DIALOG_WINDOW,
+  GUI_DIALOG_TAB
+};
+
+struct gui_dialog;
+
+typedef void (*GUI_DIALOG_RESPONSE_FUN)(struct gui_dialog *, int);
+
+struct gui_dialog
+{
+  /* public. */
+  GtkWidget *vbox;
+  GtkWidget *action_area;
+
+  /* private. */
+  enum gui_dialog_type type;
+
+  union {
+    GtkWidget *window;
+    struct {
+      GtkWidget *label;
+      GtkWidget *notebook;
+      gulong handler_id;
+    } tab;
+  } v;
+
+  struct gui_dialog **source;
+
+  GUI_DIALOG_RESPONSE_FUN response_callback;
+};
+
+void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook);
+void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
+GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
+    const char *text, int response);
+GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
+    const char *stock, const char *text, int response);
+void gui_dialog_set_default_size(struct gui_dialog *dlg,
+    int width, int height);
+void gui_dialog_set_title(struct gui_dialog *dlg, const char *title);
+void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
+    int response, bool setting);
+void gui_dialog_show_all(struct gui_dialog *dlg);
+void gui_dialog_present(struct gui_dialog *dlg);
+void gui_dialog_raise(struct gui_dialog *dlg);
+void gui_dialog_alert(struct gui_dialog *dlg);
+void gui_dialog_destroy(struct gui_dialog *dlg);
+GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg);
+void gui_dialog_response_set_callback(struct gui_dialog *dlg,
+    GUI_DIALOG_RESPONSE_FUN fun);
+
 #endif  /* FC__GUI_STUFF_H */

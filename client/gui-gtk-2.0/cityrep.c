@@ -63,12 +63,11 @@ enum city_operation_type {
 static void create_city_report_dialog(bool make_modal);
 static void city_model_init(void);
 
-static void city_center_callback(GtkWidget *w, gpointer data);
-static void city_popup_callback(GtkWidget *w, gpointer data);
 static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 				    GtkTreeViewColumn *col, gpointer data);
 
-static void city_buy_callback(GtkWidget *w, gpointer data);
+static void city_command_callback(struct gui_dialog *dlg, int response);
+
 static void city_selection_changed_callback(GtkTreeSelection *selection);
 
 static void create_select_menu(GtkWidget *item);
@@ -77,7 +76,11 @@ static void create_last_menu(GtkWidget *item);
 static void create_first_menu(GtkWidget *item);
 static void create_next_menu(GtkWidget *item);
 
-static GtkWidget *city_dialog_shell=NULL;
+static struct gui_dialog *city_dialog_shell = NULL;
+
+enum {
+  CITY_CENTER = 1, CITY_POPUP, CITY_BUY
+};
 
 static GtkWidget *city_view;
 static GtkTreeSelection *city_selection;
@@ -162,13 +165,21 @@ void popup_city_report_dialog(bool make_modal)
     city_dialog_shell_is_modal = make_modal;
     
     create_city_report_dialog(make_modal);
-    gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
 
     select_menu_cached = FALSE;
   }
 
-  gtk_window_present(GTK_WINDOW(city_dialog_shell));
+  gui_dialog_present(city_dialog_shell);
   hilite_cities_from_canvas();
+}
+
+/****************************************************************
+ Raises the city report dialog.
+****************************************************************/
+void raise_city_report_dialog(void)
+{
+  popup_city_report_dialog(FALSE);
+  gui_dialog_raise(city_dialog_shell);
 }
 
 /****************************************************************
@@ -177,7 +188,7 @@ void popup_city_report_dialog(bool make_modal)
 void popdown_city_report_dialog(void)
 {
   if (city_dialog_shell) {
-    gtk_widget_destroy(city_dialog_shell);
+    gui_dialog_destroy(city_dialog_shell);
   }
 }
 
@@ -767,52 +778,37 @@ static void create_city_report_dialog(bool make_modal)
   GtkWidget *w, *sw, *menubar;
   int i;
   
-  city_dialog_shell = gtk_dialog_new_with_buttons(_("Cities"),
-  	NULL,
-	0,
-	NULL);
-  setup_dialog(city_dialog_shell, toplevel);
-  gtk_window_set_default_size(GTK_WINDOW(city_dialog_shell), -1, 420);
-  gtk_dialog_set_default_response(GTK_DIALOG(city_dialog_shell),
-				  GTK_RESPONSE_CLOSE);
+  gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(city_dialog_shell, _("Cities"));
 
-  if (make_modal) {
-    gtk_window_set_transient_for(GTK_WINDOW(city_dialog_shell),
-				 GTK_WINDOW(toplevel));
-    gtk_window_set_modal(GTK_WINDOW(city_dialog_shell), TRUE);
-  }
+  gui_dialog_set_default_size(city_dialog_shell, -1, 420);
 
-  g_signal_connect(city_dialog_shell, "response",
-		   G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(city_dialog_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &city_dialog_shell);
+  gui_dialog_response_set_callback(city_dialog_shell,
+      city_command_callback);
 
   /* menubar */
   menubar = create_city_report_menubar();
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(city_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(city_dialog_shell->vbox),
 	menubar, FALSE, FALSE, 0);
 
   /* buttons */
-  w = gtk_stockbutton_new(GTK_STOCK_ZOOM_FIT, _("Cen_ter"));
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
-	w, FALSE, TRUE, 0);
-  g_signal_connect(w, "clicked", G_CALLBACK(city_center_callback), NULL);
+  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_FIT,
+      _("Cen_ter"), CITY_CENTER);
   city_center_command = w;
 
-  w = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Popup"));
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
-	w, FALSE, TRUE, 0);
-  g_signal_connect(w, "clicked", G_CALLBACK(city_popup_callback), NULL);
+  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_IN,
+      _("_Popup"), CITY_POPUP);
   city_popup_command = w;
 
-  w = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Buy"));
-  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
-	w, FALSE, TRUE, 0);
-  g_signal_connect(w, "clicked", G_CALLBACK(city_buy_callback), NULL);
+  w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_EXECUTE,
+      _("_Buy"), CITY_BUY);
   city_buy_command = w;
 
-  gtk_dialog_add_button(GTK_DIALOG(city_dialog_shell),
+  gui_dialog_add_button(city_dialog_shell,
 			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+
+  gui_dialog_set_default_response(city_dialog_shell,
+				  GTK_RESPONSE_CLOSE);
 
   /* tree view */
   for (i=0; i<NUM_CREPORT_COLS; i++)
@@ -853,15 +849,14 @@ static void create_city_report_dialog(bool make_modal)
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), city_view);
 
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(city_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(city_dialog_shell->vbox),
 	sw, TRUE, TRUE, 0);
 
-  gtk_widget_show_all(GTK_DIALOG(city_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(city_dialog_shell)->action_area);
   city_model_init();
+  gui_dialog_show_all(city_dialog_shell);
 
   city_selection_changed_callback(city_selection);
 }
@@ -1000,14 +995,6 @@ static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void city_buy_callback(GtkWidget *w, gpointer data)
-{
-  gtk_tree_selection_selected_foreach(city_selection, buy_iterate, NULL);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void center_iterate(GtkTreeModel *model, GtkTreePath *path,
 			   GtkTreeIter *it, gpointer data)
 {
@@ -1017,14 +1004,6 @@ static void center_iterate(GtkTreeModel *model, GtkTreePath *path,
   gtk_tree_model_get(model, it, 0, &res, -1);
   pcity = res;
   center_tile_mapcanvas(pcity->tile);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_center_callback(GtkWidget *w, gpointer data)
-{
-  gtk_tree_selection_selected_foreach(city_selection, center_iterate, NULL);
 }
 
 /****************************************************************
@@ -1049,9 +1028,22 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void city_popup_callback(GtkWidget *w, gpointer data)
+static void city_command_callback(struct gui_dialog *dlg, int response)
 {
-  gtk_tree_selection_selected_foreach(city_selection, popup_iterate, NULL);
+  switch (response) {
+  case CITY_CENTER:
+    gtk_tree_selection_selected_foreach(city_selection, center_iterate, NULL);
+    break;
+  case CITY_POPUP:
+    gtk_tree_selection_selected_foreach(city_selection, popup_iterate, NULL);
+    break;
+  case CITY_BUY:
+    gtk_tree_selection_selected_foreach(city_selection, buy_iterate, NULL);
+    break;
+  default:
+    gui_dialog_destroy(dlg);
+    break;
+  }
 }
 
 /****************************************************************
