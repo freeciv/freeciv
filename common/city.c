@@ -96,13 +96,19 @@ int get_citymap_xy(const struct city *pcity, const int x, const int y,
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type) 
 {
-  struct tile *ptile=map_get_tile(pcity->x+city_x-2, pcity->y+city_y-2);
-  if (pcity->city_map[city_x][city_y] == C_TILE_WORKER)
-    if (ptile->worked == pcity)
-      ptile->worked = NULL;
-  pcity->city_map[city_x][city_y] = type;
-  if (type == C_TILE_WORKER)
-    ptile->worked = pcity;
+  int map_x = pcity->x + city_x - CITY_MAP_SIZE/2;
+  int map_y = pcity->y + city_y - CITY_MAP_SIZE/2;
+  if (normalize_map_pos(&map_x, &map_y)) {
+    struct tile *ptile = map_get_tile(map_x, map_y);
+    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER)
+      if (ptile->worked == pcity)
+	ptile->worked = NULL;
+    pcity->city_map[city_x][city_y] = type;
+    if (type == C_TILE_WORKER)
+      ptile->worked = pcity;
+  } else{
+    pcity->city_map[city_x][city_y] = type;
+  }
 }
 
 /**************************************************************************
@@ -741,16 +747,15 @@ int city_get_food_tile(int x, int y, struct city *pcity)
 **************************************************************************/
 int city_can_be_built_here(int x, int y)
 {
-  int dx, dy;
-
-  if(map_get_terrain(x, y)==T_OCEAN)
+  if (map_get_terrain(x, y) == T_OCEAN)
     return 0;
 
   /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
-  for (dx = -game.rgame.min_dist_bw_cities+1; dx < game.rgame.min_dist_bw_cities; dx++)
-    for (dy = -game.rgame.min_dist_bw_cities+1; dy < game.rgame.min_dist_bw_cities; dy++)
-      if (map_get_city(x + dx, y + dy))
-	return 0;
+  square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {
+    if (map_get_city(x1, y1)) {
+      return 0;
+    }
+  } square_iterate_end;
 
   return 1;
 }

@@ -49,7 +49,7 @@ int unit_move_rate(struct unit *punit)
       val+=SINGLE_MOVE;
     if(player_owns_active_wonder(pplayer, B_MAGELLAN)) 
       val += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST)*3;
+    val += player_knows_techs_with_flag(pplayer,TF_BOAT_FAST) * SINGLE_MOVE;
     if (val < 2 * SINGLE_MOVE)
       val = 2 * SINGLE_MOVE;
   }
@@ -876,13 +876,14 @@ char *unit_activity_text(struct unit *punit)
        f=((punit->fuel)-1);
        if(punit->moves_left%SINGLE_MOVE) {
 	 if(punit->moves_left/SINGLE_MOVE>0) {
-	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/3", moves_str,
+	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/%d", moves_str,
 		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
-		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE);
+		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE,
+		       SINGLE_MOVE);
 	 } else {
-	   my_snprintf(text, sizeof(text), "%s: (%d)%d/3", moves_str,
+	   my_snprintf(text, sizeof(text), "%s: (%d)%d/%d", moves_str,
 		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
-		       punit->moves_left%SINGLE_MOVE);
+		       punit->moves_left%SINGLE_MOVE, SINGLE_MOVE);
 	 }
        } else {
 	 my_snprintf(text, sizeof(text), "%s: (%d)%d", moves_str,
@@ -892,11 +893,13 @@ char *unit_activity_text(struct unit *punit)
      } else {
        if(punit->moves_left%SINGLE_MOVE) {
 	 if(punit->moves_left/SINGLE_MOVE>0) {
-	   my_snprintf(text, sizeof(text), "%s: %d %d/3", moves_str,
-		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE);
+	   my_snprintf(text, sizeof(text), "%s: %d %d/%d", moves_str,
+		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE,
+		       SINGLE_MOVE);
 	 } else {
 	   my_snprintf(text, sizeof(text),
-		       "%s: %d/3", moves_str, punit->moves_left%SINGLE_MOVE);
+		       "%s: %d/%d", moves_str, punit->moves_left%SINGLE_MOVE,
+		       SINGLE_MOVE);
 	 }
        } else {
 	 my_snprintf(text, sizeof(text),
