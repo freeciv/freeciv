@@ -342,7 +342,7 @@ msgstr "Můžete vylepšit pouze jednotky ve svých městech."
 #: common/unit.c:1897
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr ""
+msgstr "vylepšení tohoto %s by vylodilo převážené jednotky"
 
 #: common/unittype.c:315
 msgid " and "
@@ -808,12 +808,12 @@ msgstr ""
 #: server/autoattack.c:166
 #, c-format
 msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
-msgstr ""
+msgstr "Hra: Auto-útok: %2$s hráče %1$s jsou příliš obtížný nepřítel (%3$s)"
 
 #: server/autoattack.c:195
 #, c-format
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
-msgstr ""
+msgstr "Hra: Auto-útok: %s %s útočí na %s %s"
 
 #: server/barbarian.c:156
 #, c-format
@@ -954,7 +954,7 @@ msgstr "Hra: Založil(a) jste město %s"
 #: server/citytools.c:1096
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
-msgstr "Hra: Změněno domovské město jednotky %s ve městě %s."
+msgstr "Hra: Změněno domovské město jednotky %s na město %s."
 
 #: server/citytools.c:1126
 #, c-format
@@ -1017,19 +1017,19 @@ msgstr "Hra: %s staví %s."
 #: server/citytools.c:2121
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
-msgstr ""
+msgstr "Hra: Prodal(a) jste %s v %s (nyní ve vnitrozemí) za %d zlatých."
 
 #: server/cityturn.c:120
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Hra: %s prodává %s (zastaralé) za %d."
 
-#: server/cityturn.c:298
+#: server/cityturn.c:327
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Hra: Oznámení: Div světa %s ve městě %s bude dokončen v příštím kole."
 
-#: server/cityturn.c:331
+#: server/cityturn.c:360
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
@@ -1358,12 +1358,12 @@ msgid ""
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
-"Tento příkaz zahájí hru.  V případě nové hry by měl být použit poté co se "
+"Tento příkaz zahájí hru.  V případě nové hry by měl být použit poté, co se "
 "přihlásili všichni lidští hráči, byli vytvořeni všichni hráči počítačoví a "
-"byly provedeny všechny změny nastvení voleb serveru.  Po 'start'u si každý "
-"hráč vybere svůj národ a hra se rozeběhne.  Tento příkaz je také nutný pro "
+"byly provedeny všechny změny nastavení voleb serveru.  Po 'start'u si každý "
+"hráč vybere svůj národ a hra se rozběhne.  Tento příkaz je také nutný pro "
 "opětovné rozběhnutí uložené hry, která byla právě nahrána.  Jakmile se hra "
-"rozeběhne nemá již tento příkaz smysl a není proto nadále dostupný."
+"rozběhne nemá již tento příkaz smysl a není proto nadále dostupný."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -1495,7 +1495,7 @@ msgstr "Zobrazí aktuální skóre."
 msgid ""
 "For each connected client, pops up a window showing the current player "
 "scores."
-msgstr ""
+msgstr "Zobrazí okna s aktuálním skóre pro všechny připojené hráče."
 
 #: server/commands.c:105
 msgid "wall <message>"
@@ -1515,7 +1515,7 @@ msgstr "vote yes|no [vote číslo]"
 
 #: server/commands.c:112
 msgid "Cast a vote."
-msgstr ""
+msgstr "Hlasovat."
 
 #: server/commands.c:114
 #, no-c-format
@@ -1550,7 +1550,7 @@ msgstr "set <jméno-volby> <hodnota>"
 
 #: server/commands.c:132
 msgid "Set server option."
-msgstr "Nastvena možnost serveru."
+msgstr "Nastavena možnost serveru."
 
 #: server/commands.c:135
 msgid "team <player> [team]"
@@ -1655,7 +1655,7 @@ msgstr "take [název-spojení ] <jméno-hráče>"
 
 #: server/commands.c:187
 msgid "Take over a player's place in the game."
-msgstr "Zabrat hráčovo místo ve hře."
+msgstr "Převzít hráčovo místo ve hře."
 
 #: server/commands.c:188
 msgid ""
@@ -2317,7 +2317,7 @@ msgstr "Hra: Je Vám objasněna znalost technologie %s."
 #: server/diplhand.c:361
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
-msgstr ""
+msgstr "Hra: %s získali %s od %s."
 
 #: server/diplhand.c:373
 #, c-format
@@ -2362,7 +2362,7 @@ msgstr "Hra: Dohodl(a) jste se na alianci s hráčem %s."
 #: server/diplhand.c:458 server/diplhand.c:461
 #, c-format
 msgid "Game: You start a research pool with %s."
-msgstr ""
+msgstr "Hra: Zahájili jste společný výzkum s %s."
 
 #: server/diplhand.c:501
 #, c-format
@@ -2440,7 +2440,7 @@ msgstr "Hra: Váš %1$s neuspěl při sabotáži jednotky %3$s hráče %2$s."
 #: server/diplomats.c:367
 #, c-format
 msgid "Game: Your %s succeeded in sabotaging %s's %s."
-msgstr "Hra: Váš %1$s uspěl při sabotáži jdnotky %3$s hráče %2$s."
+msgstr "Hra: Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
 
 #: server/diplomats.c:372
 #, c-format
@@ -2454,7 +2454,7 @@ msgstr "Hra: Nemůžete uplácet jednotky tohoto národa."
 #: server/diplomats.c:436
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "Hra: Nemátek dostatek peněz na uplacení jednotky %2$s hráče %1$s."
+msgstr "Hra: Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
 
 #: server/diplomats.c:445
 #, c-format
@@ -2484,7 +2484,7 @@ msgstr "Hra: Váš %s byl chycen při pokusu o krádež technologie ve městě %
 #: server/diplomats.c:574
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
-msgstr ""
+msgstr "Hra: %2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
 
 #: server/diplomats.c:607
 #, c-format
@@ -2494,7 +2494,7 @@ msgstr "Hra: Ve městě %s nabyla nalezena žádná nová technologie."
 #: server/diplomats.c:644
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr ""
+msgstr "Hra: Váš %s nenašel kradenou technologii %s ve městě %s."
 
 #: server/diplomats.c:665
 #, c-format
@@ -2504,7 +2504,7 @@ msgstr "Hra: Váš %s ukradl technologii budoucnosti %d hráči %s."
 #: server/diplomats.c:669
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
-msgstr ""
+msgstr "Hra: %3$s hráče %2$s ukradl technologii budoucnosti %1$d od %4$s."
 
 #: server/diplomats.c:682
 #, c-format
@@ -2567,7 +2567,7 @@ msgstr "Hra: %2$s (%1$s) chycen při pokusu o sabotáž ve městě %3$s!"
 #: server/diplomats.c:934
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "Hra: Váš %s nenalezl ve městě %s nic co by stálo za sabotáž."
+msgstr "Hra: Váš %s nenalezl ve městě %s nic, co by stálo za sabotáž."
 
 #: server/diplomats.c:976
 #, c-format
@@ -2587,7 +2587,7 @@ msgstr "Hra: Váš %s byl úspěšný a zničil probíhající stavbu %s ve měs
 #: server/diplomats.c:1015
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr ""
+msgstr "Hra: Stavba %s ve městě %s byla zničena, podezřelý je %s."
 
 #: server/diplomats.c:1036
 #, c-format
@@ -3087,7 +3087,7 @@ msgstr "Herodotův"
 
 #: server/report.c:61
 msgid "Thucydides'"
-msgstr "Thucydidésův"
+msgstr "Thukydidův"
 
 #: server/report.c:62
 msgid "Pliny the Elder's"
@@ -3442,7 +3442,7 @@ msgstr "'%c' nemůže být použit jako identifikátor terénu, je rezervovaný.
 #: server/ruleset.c:1720
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr "Terén %s má neznámý flag %s"
+msgstr "Terén %s má neznámý příznak %s"
 
 #: server/ruleset.c:3223
 msgid "Loading rulesets"
@@ -3606,15 +3606,15 @@ msgstr "Všechny"
 
 #: server/settings.c:40
 msgid "Vital"
-msgstr ""
+msgstr "Životní"
 
 #: server/settings.c:41
 msgid "Situational"
-msgstr ""
+msgstr "Situační"
 
 #: server/settings.c:42
 msgid "Rare"
-msgstr ""
+msgstr "Řídký"
 
 #: server/settings.c:55
 msgid "notradesize must be always smaller than fulltradesize; keeping old value."
@@ -3708,7 +3708,7 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 msgstr ""
-"Freeciv mapy jsou vždy dvourozměrné. Mohou propojeny ve směrech sever-jih a "
+"Freeciv mapy jsou vždy dvourozměrné. Mohou být propojeny ve směrech sever-jih a "
 "východ-západ pro plochou mapu, válec nebo toroid. Individuální dlaždice map "
 "jsou čtyřúhelníkové nebo šestiúhelníkové, s klasickým nebo izometrickým "
 "zobrazením - to záleží na použité sadě dlaždic.\n"
@@ -4258,11 +4258,11 @@ msgstr ""
 "Pokud je nastaveno na 100, útočící jednotka se vždy přesune na místo, na které útočí, "
 "když vyhraje (a nezbydou tam žádní neřátelé). Hodnota mezi 0 a 100 je použita jako procentuální šance na \"obsazení\" místa."
 
-#: server/settings.c:646
+#: server/settings.c:644
 msgid "Reduce city population after attack"
 msgstr "Snížit počet obyvatel po útoku"
 
-#: server/settings.c:647
+#: server/settings.c:645
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -4271,18 +4271,18 @@ msgid ""
 "  4 = heli\n"
 "  8 = air"
 msgstr ""
-"Tento flag indikuje, když je populace města snížena po úspěšném útoku "
-"nepřátelské jednotky, záleží na jejím typu (OR-ováno):\n"
+"Tento příznak indikuje, zda je populace města snížena po úspěšném útoku "
+"nepřátelské jednotky, v závislosti na jejím typu (OR-ováno):\n"
 "  1 = pozemní\n"
 "  2 = námořní\n"
 "  4 = helikoptéry\n"
 "  8 = letectvo"
 
-#: server/settings.c:659
+#: server/settings.c:657
 msgid "Range of vision for units in a fortress"
 msgstr "Rozhled jednotek v pevnosti"
 
-#: server/settings.c:660
+#: server/settings.c:658
 msgid ""
 "If set to 1, it has no effect. If 2 or larger, the vision range of a unit "
 "inside a fortress is set to this value, if the necessary invention has been "
@@ -4294,11 +4294,11 @@ msgstr ""
 "výzkum již učiněn. Tento výzkum má příznak 'Watchtover' v technických "
 "pravidlech. Viz též wtowerevision."
 
-#: server/settings.c:671
+#: server/settings.c:669
 msgid "Extra vision range for units in a fortress"
 msgstr "Dodatečný rozhled jednotek v pevnosti"
 
-#: server/settings.c:672
+#: server/settings.c:670
 msgid ""
 "If set to 0, it has no effect. If larger than 0, the vision range of a unit "
 "is raised by this value, if the unit is inside a fortress and the invention "
@@ -4367,11 +4367,11 @@ msgstr ""
 "\n"
 "Vždy můžete využít diplomacii mezi hráči svého týmu."
 
-#: server/settings.c:713
+#: server/settings.c:711
 msgid "Allowed city names"
 msgstr "Povolená jména měst"
 
-#: server/settings.c:714
+#: server/settings.c:712
 msgid ""
 "0 = There are no restrictions: players can have multiple cities with the "
 "same names.\n"
@@ -4396,11 +4396,11 @@ msgstr ""
 "3 = Jako nastavení 2, ale hráči není dovoleno používat výchozí jména měst "
 "jiných národů, pokud toto není výchozí i pro jeho národ."
 
-#: server/settings.c:742
+#: server/settings.c:740
 msgid "Barbarian appearance frequency"
 msgstr "Četnost barbarských nájezdů"
 
-#: server/settings.c:743
+#: server/settings.c:741
 msgid ""
 "0 = no barbarians \n"
 "1 = barbarians only in huts \n"
@@ -4631,11 +4631,11 @@ msgstr ""
 "Použití společně s příkazem \"timeoutincrease\" umožňuje dynamické změny "
 "délky kola. V DEBUG serverech znamená hodnota -1 testovací režim autogame."
 
-#: server/settings.c:907
+#: server/settings.c:905
 msgid "Seconds to let a client's network connection block"
 msgstr "Doba blokování spojení s klientem"
 
-#: server/settings.c:908
+#: server/settings.c:906
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -4644,11 +4644,11 @@ msgstr ""
 "TCP spojení bude ukončeno, pokud je blokováno déle než udává tato volba. "
 "Nula znamená, že není použit žádný limit."
 
-#: server/settings.c:917
+#: server/settings.c:915
 msgid "Max seconds for network buffers to drain"
 msgstr "Max sekund pro vyprázdnění síťových bufferů"
 
-#: server/settings.c:918
+#: server/settings.c:916
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -4701,11 +4701,11 @@ msgstr ""
 "uplyne čas potřebný pro jedno kolo, bez ohledu na to zda hráči stiskli "
 "\"Konec tahu\"."
 
-#: server/settings.c:957
+#: server/settings.c:955
 msgid "What is in the Demographics report"
 msgstr "Co obsahuje Demografický přehled"
 
-#: server/settings.c:958
+#: server/settings.c:956
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -4745,11 +4745,11 @@ msgstr ""
 "    b = zobraz sloupec \"nejlepší národ\"\n"
 "Pořadí těchto znaků není důležité, ale jejich velikost ano."
 
-#: server/settings.c:982
+#: server/settings.c:980
 msgid "Turns per auto-save"
 msgstr "Počet kol před automatickým uložením"
 
-#: server/settings.c:983
+#: server/settings.c:981
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
@@ -4757,11 +4757,11 @@ msgstr ""
 "Hra bude uložena jednou za uvedený počet kol. Nula znamená automaticky "
 "neukládat."
 
-#: server/settings.c:993 server/settings.c:1004
+#: server/settings.c:991 server/settings.c:1002
 msgid "Savegame compression level"
 msgstr "Úroveň komprimace ukládaných her"
 
-#: server/settings.c:994 server/settings.c:1005
+#: server/settings.c:992 server/settings.c:1003
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
@@ -4772,11 +4772,11 @@ msgstr ""
 "trvá déle. Pokud nebyl tento server zkompilován s podporou knihovny zlib, "
 "bude maximální povolená hodnota nula."
 
-#: server/settings.c:1016
+#: server/settings.c:1014
 msgid "Auto-save name prefix"
 msgstr "Předpona automaticky ukládaných her"
 
-#: server/settings.c:1017
+#: server/settings.c:1015
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
 "setting sets the <prefix> part."
@@ -4784,11 +4784,11 @@ msgstr ""
 "Automaticky ukládané hry budou mít jméno ve tvaru \"<předpona><rok>.sav\". "
 "Tato volba ovlivňuje část <předpona>."
 
-#: server/settings.c:1024
+#: server/settings.c:1022
 msgid "Whether to log player statistics"
 msgstr "Logovat statistiky hráčů"
 
-#: server/settings.c:1025
+#: server/settings.c:1023
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn. These statistics can be used to create power graphs after "
@@ -4798,11 +4798,11 @@ msgstr ""
 "souboru \"civscore.log\" na konci každého tahu.  Tyto statistiky lze použít "
 "pro konstrukci grafů na konci hry."
 
-#: server/settings.c:1032
+#: server/settings.c:1030
 msgid "Detail level for logging game events"
 msgstr "Úroveň logování událostí ve hře"
 
-#: server/settings.c:1033
+#: server/settings.c:1031
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option). Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
@@ -5556,11 +5556,11 @@ msgstr ""
 
 #: server/stdinhand.c:2100
 msgid "There are no votes going on."
-msgstr ""
+msgstr "Neprobíhá žádné hlasovaní."
 
 #: server/stdinhand.c:2121
 msgid "No legal last vote."
-msgstr ""
+msgstr "Žádné předchozí platné hlasování."
 
 #: server/stdinhand.c:2126
 msgid "Value must be integer."
@@ -5940,7 +5940,7 @@ msgstr "Nelze zahájit hru: hra již běží."
 #: server/stdinhand.c:3616
 #, c-format
 msgid "Cutting connection %s."
-msgstr "Režu spojení %s."
+msgstr "Ruším spojení s %s."
 
 #: server/stdinhand.c:3635
 msgid ""
@@ -6284,7 +6284,7 @@ msgstr "      Město %s již má %d lepší obchodní cesty!"
 #: server/unithand.c:1282 server/unithand.c:1293
 #, c-format
 msgid "Game: Sorry, %s has canceled the trade route from %s to your city %s."
-msgstr ""
+msgstr "Hra: Lituji, %s zrušil obchodní cestu z %s do Vašeho města %s."
 
 #: server/unithand.c:1325
 #, c-format
@@ -6303,7 +6303,7 @@ msgstr "Hra: Jednotka %s vylepšena zdarma na %s%s."
 #: server/unittools.c:267
 #, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr ""
+msgstr "Nedostatek zlata. %s zrušeni."
 
 #: server/unittools.c:312
 #, c-format
@@ -6318,7 +6318,7 @@ msgstr "Hra: Jednotka %s se ztratila na moři."
 #: server/unittools.c:337
 #, c-format
 msgid "Game: Your %s survived on the high seas and became more experienced!"
-msgstr ""
+msgstr "Hra: Vaše %s přežila na moři a stala se zkušenější!"
 
 #: server/unittools.c:348
 #, c-format
@@ -6338,7 +6338,7 @@ msgstr "Hra: Jednotce %s došlo palivo."
 #: server/unittools.c:580
 #, c-format
 msgid "Game: Your %s became more experienced!"
-msgstr ""
+msgstr "Hra: Váš %s se stal zkušenější!"
 
 #: server/unittools.c:842
 #, c-format
@@ -6554,7 +6554,7 @@ msgstr "Hra: Přelet nad osadou vyděsil její obyvatele, kteří se v hrůze ro
 #: server/unittools.c:2794
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
-msgstr ""
+msgstr "Hra: %s zrušili přesun, protože narazili cestou na jednotky."
 
 #: server/unittools.c:2837
 #, c-format
@@ -6564,7 +6564,7 @@ msgstr "Hra: Jednotka %s přerušila hlídku neboť narazila na cizí jednotku."
 #: server/unittools.c:2910
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
-msgstr ""
+msgstr "Hra: Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
 #: server/unittools.c:2956
 #, c-format
@@ -6859,7 +6859,7 @@ msgstr "?Happy workers:Š"
 
 #: client/cityrepdata.c:423
 msgid "Workers: Happy"
-msgstr ""
+msgstr "Pracovníci: Šťastní"
 
 #: client/cityrepdata.c:425
 msgid "?Content workers:C"
@@ -6867,7 +6867,7 @@ msgstr "?Content workers:P"
 
 #: client/cityrepdata.c:425
 msgid "Workers: Content"
-msgstr ""
+msgstr "Pracovníci: Spokojení"
 
 #: client/cityrepdata.c:427
 msgid "?Unhappy workers:U"
@@ -6875,7 +6875,7 @@ msgstr "?Unhappy workers:N"
 
 #: client/cityrepdata.c:427
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "Pracovníci: Nešťastní"
 
 #: client/cityrepdata.c:429
 msgid "?Angry workers:A"
@@ -6883,7 +6883,7 @@ msgstr "?Angry workers:H"
 
 #: client/cityrepdata.c:429
 msgid "Workers: Angry"
-msgstr ""
+msgstr "Pracovníci: Rozlobení"
 
 #: client/cityrepdata.c:431
 msgid "Special"
@@ -14893,7 +14893,7 @@ msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
 msgstr ""
-"Ikdyž je kadá hra jiná, základní strategii, zejména na začátku hry, používá "
+"I když je každá hra jiná, základní strategii, zejména na začátku hry, používá "
 "většina hráčů."
 
 #: data/helpdata.txt:565
@@ -15016,8 +15016,8 @@ msgid ""
 msgstr ""
 " 3. Rozhodování, které jednotky postavit nejdříve.\n"
 "\n"
-"    Až si postavíte pár bojovníků, začněte stavit jednotku Osadníci.  Druhý "
-"Osadník může Ti stavit cesty, zavlažování. Třetí založí další město. Nebo "
+"    Až si postavíte pár bojovníků, začněte stavět jednotku Osadníci. Druhý "
+"Osadník ti může stavit cesty, zavlažování. Třetí založí další město. Nebo "
 "druhý založí město a třetí bude stavět cesty. V každém případě zvýšení "
 "populace znamená jak vyšší produktivitu tak rychlost výzkumu."
 
@@ -15033,8 +15033,8 @@ msgstr ""
 " 4. Budování zemědělských staveb.\n"
 "\n"
 "    Kolem každého města je oblast, kterou město může použít k "
-"produkcipotravin zboží nebo obchodu. Produkce může být zvýšena Osadníky "
-"(později i pracovníky), když vylepší příslušné místo o cesty zavlažování "
+"produkci potravin zboží nebo obchodu. Produkce může být zvýšena Osadníky "
+"(později i pracovníky), když vylepší příslušné místo o cesty, zavlažování "
 "nebo doly."
 
 #: data/helpdata.txt:636
@@ -15050,8 +15050,8 @@ msgid ""
 msgstr ""
 " 5. Rozhodování kde stavět města.\n"
 "\n"
-"    Nejlepší místo pro město je otázka chuti. Město blízko moře uvidí brzo "
-"protivník, ale zase může poskytovat přístav pro lodě. (později budete "
+"    Nejlepší místo pro město je otázka vkusu. Město blízko moře uvidí brzo "
+"protivník, ale zase může poskytovat přístav pro lodě. (Později budete "
 "potřebovat asi i pobřežní obranu)  Nejlepší je postavit od každého trochu, "
 "ale protivníkovi se budou města hledat hůř, pokud nebudou u moře."
 
@@ -15141,7 +15141,7 @@ msgstr ""
 "  - Jaký další vynález potřebuji.\n"
 "  - Jak jsou nastaveny daně/luxus/výzkum.\n"
 "  - Mírové smlouvy jsou občas zrušeny. Nezapomínej na obranu.\n"
-"  - Některé divy světa nezestárnou vlivem vývoje."
+"  - Některé divy světa zestárnou vlivem vývoje."
 
 #: data/helpdata.txt:693
 msgid ""
@@ -15158,7 +15158,7 @@ msgstr ""
 " 9. Volba vlastní strategie pro hru.\n"
 "\n"
 "    Tyto základní postupy Vám umožní hrát celkem dobře, zejména v začátku "
-"hry. Na zlepšení však musíte studovat jednotlivé jednotky a vynálezu a "
+"hry. Na zlepšení však musíte studovat jednotlivé jednotky a vynálezy a "
 "TRÉNOVAT, TRÉNOVAT, TRÉNOVAT!  Freeciv má hodně možností, takže pokud jste "
 "nehráli podobnou hru dříve, navštivte stránky Freeciv na http://www.freeciv."
 "org/\n"
@@ -15196,7 +15196,7 @@ msgid ""
 msgstr ""
 "    zde můžete vybrat:\n"
 "\n"
-"   - Výměnu map (Jen moře nebo i celé mapy),\n"
+"   - Výměnu map (jen moře nebo i celé mapy),\n"
 "\n"
 "   - Směnit vynálezy,\n"
 "\n"
@@ -15224,7 +15224,7 @@ msgstr ""
 "\n"
 "    - Nemůžeš prodat hlaví město.\n"
 "\n"
-"   - Pokud město na mapě není vidět, nemůže být požadováno."
+"   - Pokud město není na mapě vidět, nemůže být požadováno."
 
 #: data/helpdata.txt:734
 msgid ""
@@ -15234,8 +15234,8 @@ msgid ""
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
 msgstr ""
-"    Samozřejmě, majitel města Ti ho může dát. V takovém případě je ukázána i "
-"část mapy kolem. Důležitá poznámka: Všechny jednotky ve městě a jednotky ním "
+"    Samozřejmě, majitel města ti ho může dát. V takovém případě je ukázána i "
+"část mapy kolem. Důležitá poznámka: Všechny jednotky ve městě a jednotky jím "
 "podporované jsou taktéž převedeny s vyjimkou jednotek v jiných městech.  "
 "Takže se ujistěte, že s městem nedáte víc, než jste chtěli."
 
@@ -15347,7 +15347,7 @@ msgid ""
 "unique and is placed in the city which constructed it."
 msgstr ""
 "Každý div světa má svůj vlastní přínos. Každý div je jedinečný a je umístěn "
-"ve městě, ketré ho postavilo."
+"ve městě, které ho postavilo."
 
 #: data/helpdata.txt:834
 msgid ""
@@ -15365,7 +15365,7 @@ msgid ""
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
 msgstr ""
-"Ve hře jsou čtyři základní typy jednotek: Pozemní, Námořní Vzdušné a "
+"Ve hře jsou čtyři základní typy jednotek: Pozemní, Námořní, Vzdušné a "
 "Vrtulníky. (Vrtulníky jsou dostatečně odlišné od ostatních vzdušných "
 "jednotek, že je jednodušší je považovat za zvláštní skupinu.)"
 
@@ -15384,9 +15384,9 @@ msgid ""
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
 msgstr ""
-"Pozemní jednotky se pohybuji... po zemi, různý terén je zpomaluje a jsou "
+"Pozemní jednotky se pohybují po zemi, různý terén je zpomaluje a jsou "
 "schopné využít cesty nebo železnice.  Nemohou se pohybovat po moři s "
-"vyjímkou přepravy lodí. V takovém případě ale nemohou útočit nebo se samy "
+"výjimkou přepravy lodí. V takovém případě ale nemohou útočit nebo se samy "
 "bránit a jsou odkázány na schopnosti lodi. Jen pozemní jednotky spadají do "
 "zón kontroly. Na zemi se tyto jednotky mohou opevnit, čímž získaji 50% bonus "
 "k obraně. Ve městě tento bonus dostávají bez ohledu na to, zda-li se "
@@ -16797,7 +16797,7 @@ msgid ""
 "whatever spaceship you might have."
 msgstr ""
 "Palác udělá z města hlavní město a centrum státní správy. Korupce v "
-"ostatních městech je úměrná vzdálenosti od hlavního města s vyjímkou "
+"ostatních městech je úměrná vzdálenosti od hlavního města s výjimkou "
 "Demokracie a Socialismu. Cena vyprovokování revoluce ve městě taky záleží na "
 "vzdálenosti od hlavního města. (pod všemi typy státní správy)\n"
 "\n"
@@ -16898,7 +16898,7 @@ msgid ""
 "nuclear air units."
 msgstr ""
 "Zdvojnásobí obranyschopnost všem jednotkám ve městě proti leteckým "
-"jednotkám. (s vyjímkou jaderných zbraní)"
+"jednotkám. (s výjimkou jaderných zbraní)"
 
 #: data/default/buildings.ruleset:1012 data/civ2/buildings.ruleset:943
 #: data/civ1/buildings.ruleset:718 data/history/buildings.ruleset:958
@@ -18137,7 +18137,7 @@ msgstr ""
 " - Jednotky s útočnou silou vyšší jak 0, které nejsou ve městě nebo v "
 "pevnosti maximalně 3 políčka od přátelského města.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici. \n"
 "\n"
 "Obyvatelé budou tolerovat jednu agresivní jednotku. Každá další učiní "
@@ -18223,7 +18223,7 @@ msgstr ""
 "pevnosti maximalně 3 políčka od přátelského města učiní nespokojenými 2 "
 "obyvatele.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici, vyvolají každá jednoho "
 "nespokojeného. \n"
 "\n"
@@ -18541,7 +18541,7 @@ msgstr ""
 " - Jednotky s útočnou silou vyšší jak 0, které nejsou ve městě nebo v "
 "pevnosti maximalně 3 políčka od přátelského města.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici. \n"
 "\n"
 "Obyvatelé budou tolerovat jednu agresivní jednotku. Každá další učiní "
@@ -18603,7 +18603,7 @@ msgstr ""
 "pevnosti maximalně 3 políčka od přátelského města učiní nespokojenými 2 "
 "obyvatele.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici, vyvolají každá jednoho "
 "nespokojeného. \n"
 "\n"
@@ -18789,7 +18789,7 @@ msgstr ""
 " - Jednotky s útočnou silou vyšší jak 0, které nejsou ve městě nebo v "
 "pevnosti maximalně 3 políčka od přátelského města.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici. \n"
 "\n"
 "Obyvatelé budou tolerovat jednu agresivní jednotku. Každá další učiní "
@@ -18845,7 +18845,7 @@ msgstr ""
 "pevnosti maximalně 3 políčka od přátelského města učiní nespokojenými 2 "
 "obyvatele.\n"
 "\n"
-" - letecké jednotky (včetně raket a vrtulníků s vyjímkou stíhaček) s útočnou "
+" - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s útočnou "
 "silou vyšší jak 0, bez ohledu na jejich pozici, vyvolají každá jednoho "
 "nespokojeného. \n"
 "\n"
