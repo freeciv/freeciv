@@ -1,0 +1,253 @@
+
+Effects can currently be assigned (via rulesets) to nations, techs, 
+governments, and improvments. Coming soon should be unit effects.
+
+Some effects are not suitable for certain assignments. This will be 
+especially true for unit effects. Unit effects are restricted to Local range.
+
+.type may be one of:
+
+"Adv_Parasite"	- gains advances known by AMOUNT other players
+
+"Airlift"	- allows airlift of units to/from a city
+
+"Any_Government"- allows player to choose any government form
+
+"Barb_Attack"	- multiplies attack by AMOUNT percent against
+		  barbarian units
+
+"Barb_Defend"	- multiplies defense by AMOUNT percent against
+		  barbarian units
+
+"Capital_City"	- marks the capital city of a nation (only one city
+		  may be the capital at any one time -- building a
+		  "Capital_City"  improvement in a different city
+		  causes the destruction of a previously existing
+                  "Capital_City" improvement)
+
+"Capital_Exists"- indicates a capital city exists for a nation.
+
+"Enable_Nuke"	- allows production of nuclear units
+
+"Enable_Space"	- allows production of "Space_Part" improvements
+		  This must be either a "Player" or "World" ranged effect.
+
+"Enemy_Peaceful"- enemies forced to offer cease-fire or peace
+
+"Food_Add_Tile"	- each worked tile produces AMOUNT additional food
+
+"Food_Bonus"	- food production is increased by AMOUNT percent
+		  (all Food_Bonus' are summed before being applied)
+
+"Food_Inc_Tile"	- each worked tile that is already producing some
+		  food produces AMOUNT additional food
+
+"Food_Per_Tile"	- increases food generated on each worked tile
+		  by AMOUNT percent
+
+"Give_Imm_Adv"	- immediately gain AMOUNT advances when built
+
+"Growth_Food"	- food left after cities grow or shrink is AMOUNT
+		  percent of the capacity of the city's foodbox
+
+"Have_Embassies"- like having embassies with all other players
+
+"Improve_Rep"	- improves reputation by AMOUNT percent
+
+"Luxury_Bonus"	- luxury production increased by AMOUNT percent
+		  (all Luxury_Bonus' are summed before being applied)
+
+"Luxury_Pct"	- increases luxury production by AMOUNT percent
+
+"Make_Content"	- makes AMOUNT unhappy citizens content
+
+"Make_Content_Mil"- makes AMOUNT per unit of unhappy citizens caused
+		  by units outside of a city content
+
+"Make_Content_Pct"- increase "Make_Content" by AMOUNT percent
+
+"Make_Happy"	- makes AMOUNT content citizens happy
+
+"May_Declare_War"- allowed to declare war at least AMOUNT percent
+		  of the time
+
+"No_Anarchy"	- eliminates anarchy period between governments
+
+"No_Sink_Deep"	- prevent certain sea units from sinking in deep sea
+
+"Nuke_Proof"	- nuclear attacks will fail within AMOUNT distance
+
+"Pollu_Adj"	- multiplies pollution by AMOUNT percent
+		  (all Pollu_Adj's are summed before being applied)
+
+"Pollu_Adj_Pop"	- multiplies pollution caused by population by AMOUNT
+		  percent
+		  (all Pollu_Adj_Pop's are summed before being applied)
+
+"Pollu_Adj_Prod"- multiplies pollution caused by shield production by
+		  AMOUNT percent
+		  (all Pollu_Adj_Prod's are summed before being applied)
+
+"Pollu_Set"	- sets pollution to AMOUNT; override all other effects
+		  (all Pollu_Set's are summed before being applied)
+
+"Pollu_Set_Pop"	- sets pollution caused by population to AMOUNT;
+		  override all other effects
+		  (all Pollu_Set_Pop's are summed before being applied)
+
+"Pollu_Set_Prod"- sets pollution caused by shield production to AMOUNT;
+		  override all other effects
+		  (all Pollu_Set_Prod's are summed before being applied)
+
+"Prod_Add_Tile"	- each worked tile produces AMOUNT additional shield
+		  production
+
+"Prod_Bonus"	- shield production is increased by AMOUNT percent
+		  (all Prod_Bonus' are summed before being applied)
+
+"Prod_Inc_Tile"	- each worked tile that is already producing some
+		  shields produces AMOUNT additional shields
+
+"Prod_Per_Tile"	- increases shield production generated on each worked
+		  tile by AMOUNT percent
+
+"Prod_To_Gold"	- convert production to gold at AMOUNT percent rate
+
+"Reduce_Corrupt"- reduces corruption by AMOUNT percent
+
+"Reduce_Waste"	- reduces waste by AMOUNT percent
+
+"Reveal_Cities"	- make all city tiles known
+
+"Reveal_Map"	- make entire map known
+
+"Revolt_Dist"	- multiplies effective distance to the capital by
+		  AMOUNT percent for purpose of computing revolt cost
+
+"Science_Bonus"	- science research is increased by AMOUNT percent
+		  (all Science_Bonus' are summed before being applied)
+
+"Science_Pct"	- increases science research by AMOUNT percent
+
+"Size_Unlimit"	- cities not affected will not grow beyond AMOUNT
+
+"Slow_Nuke_Winter"- reduces the effect of terrain with fallout within
+		  range on nuclear winter by AMOUNT percent
+
+"Slow_Global_Warm"- reduces the effect of polluted terrain within
+		  range on global warming by AMOUNT percent
+
+"Space_Part"	- a part of a spaceship; per AMOUNT:
+		  1 = structural, 2 = component, 3 = module
+                  this is a "Local" ranged effect. It (for now) applies
+                  to improvements which cannot be built unless "Enable_Space"
+                  is felt.
+
+"Spy_Resistant"	- if a spy specifies a target for sabotage,
+		  then she  has an AMOUNT percent chance to fail
+		  (all Spy_Resistant's are summed before being applied)
+
+"Tax_Bonus"	- tax revenues are increased by AMOUNT percent
+		  (all Tax_Bonus' are summed before being applied)
+
+"Tax_Pct"	- increases tax revenues by AMOUNT percent
+
+"Trade_Add_Tile"- each worked tile produces AMOUNT additional trade
+
+"Trade_Bonus"	- trade generated is increased by AMOUNT percent
+		  (all Trade_Bonus' are summed before being applied)
+
+"Trade_Inc_Tile"- each worked tile that is already producing some
+		  trade produces AMOUNT additional trade
+
+"Trade_Per_Tile"- increases trade generated on each worked tile
+		  by AMOUNT percent
+
+"Trade_Route_Pct"- increases trade from trade routes by AMOUNT percent
+
+"Unit_Defend"	- multiplies defense by AMOUNT percent against units
+		  of class .aff_unit
+
+"Unit_Move"	- adds AMOUNT of movement points to units of class
+		  .aff_unit
+
+"Unit_No_Lose_Pop"- no population lost when a defending unit in a city
+		  is defeated by a unit of class .aff_unit
+
+"Unit_Recover"	- units of class .aff_unit recover AMOUNT extra
+		  hitpoints per turn
+
+"Unit_Repair"	- units of class .aff_unit that stay in a city for one
+		  turn without moving have all their hitpoints fully
+		  restored
+
+"Unit_Vet_Combat"- chance of units of class .aff_unit becoming veteran
+		  after a successful combat becomes AMOUNT percent
+
+"Unit_Veteran"	- all units of class .aff_unit produced are veteran
+		  units
+
+"Upgrade_One_Step"- upgrade one obsolete unit per turn, stepping to each
+		  intermediate type; chance to upgrade each unit is
+		  AMOUNT percent
+
+"Upgrade_One_Leap"- upgrade one obsolete unit per turn, leaping to most
+		  advanced type; chance to upgrade each unit is AMOUNT
+		  percent
+
+"Upgrade_All_Step"- upgrade all obsolete units each turn, stepping to
+		  each intermediate type; chance to upgrade each unit
+		  is AMOUNT percent
+
+"Upgrade_All_Leap"- upgrade all obsolete units each turn, leaping to
+		  most advanced type; chance to upgrade each unit is
+		  AMOUNT percent
+
+"Upkeep_Free"	- improvements with AMOUNT or less upkeep cost become
+		  free to upkeep (others are unaffected)
+
+.range may be one of: 
+ "None", "Local", "City", "Island", "Player", "World"
+
+.amount	   = integral AMOUNT parameter for many effects
+	    (must be in the range -32767 to 32767)
+.survives  = 1 if effect survives destruction (wonders only)
+	    (if unspecified, 0 (doesn't survive) is assumed)
+.cond_bldg = must have this building in same city for effect
+	    (if unspecified, effect not conditional on building)
+.cond_nat  = must be this nation for effect
+                   (if unspecified, effect not conditional on nation)
+.cond_gov  = must be in this government for effect
+	    (if unspecified, effect not conditional on government)
+.cond_adv  = must know this advance for effect
+	    (if unspecified, effect not conditional on advance)
+.cond_eff  = must be affected by this effect for effect
+	    (if unspecified, effect not conditional on other effect)
+.aff_unit  = affects only those units of this class; one of:
+             "Air", "Helicopter", "Land", "Missile", "Nuclear", "Sea"
+	    (if unspecified, may affect units of all classes)
+.aff_terr  = affects only those squares of this terrain type
+	    (if unspecified, may affect all squares; if "None",
+	     affects no squares (unless aff_spec allows it to))
+.aff_spec  = affects only those squares with this special type
+	    (if unspecified, may affect all squares; if "None",
+	     affects no squares (unless aff_terr allows it to))
+
+
+All effects in list(s) are cumulative.
+
+
+An example:
+
+effect	=
+    { "type",		"range",	"amount",	"aff_unit"
+      "Unit_Veteran", 	"City", 	"",		"Air"
+      "Unit_Repair", 	"City", 	"",		"Air"
+      "Airlift", 	"City"
+      "Unit_Move", 	"Player", 	1, 		"Sea"
+      "No_Sink_Deep", 	"Player"
+
+    }
+
+See data/default/buildings.ruleset for more examples.
+
