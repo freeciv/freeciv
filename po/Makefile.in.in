@@ -77,8 +77,6 @@ all: all-@USE_NLS@
 all-yes: $(CATALOGS)
 all-no:
 
-$(CATALOGS): $(PACKAGE).pot
-
 # Note: Target 'all' must not depend on target '$(srcdir)/$(PACKAGE).pot',
 # otherwise packages like GCC can not be built if only parts of the source
 # have been downloaded.
