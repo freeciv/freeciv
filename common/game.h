@@ -78,6 +78,8 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int spacerace;
+  int turnblock;
+  
   int num_unit_types;
 
   int government_count;

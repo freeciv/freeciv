@@ -1070,11 +1070,18 @@ int check_for_full_turn_done(void)
 {
   int i;
 
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].conn && game.players[i].is_alive && 
-       !game.players[i].turn_done) {
-      return 0;
+  for(i=0; i<game.nplayers; i++) {
+    if (game.turnblock) {
+      if (!game.players[i].ai.control && game.players[i].is_alive &&
+          !game.players[i].turn_done)
+        return 0;
+    } else {
+      if(game.players[i].conn && game.players[i].is_alive && 
+         !game.players[i].turn_done) {
+        return 0;
+      }
     }
+  }
   force_end_of_sniff=1;
   return 1;
 }
@@ -1198,6 +1205,26 @@ static void introduce_game_to_player(struct player *pplayer)
     notify_player(pplayer, "Welcome to the %s Server",
 		  FREECIV_NAME_VERSION);
   }
+
+  /* tell who we're waiting on to end the game turn */
+  if (game.turnblock) {
+    for(i=0; i<game.nplayers;++i) {
+      if (game.players[i].is_alive &&
+          !game.players[i].ai.control &&
+          !game.players[i].turn_done) {
+
+         /* skip current player */
+         if (&game.players[i] == pplayer) {
+           continue;
+         }
+
+         notify_player(pplayer,
+                       "turn-blocking game play: waiting on %s to finish turn...",
+                       game.players[i].name);
+      }
+    }
+  }
+
   if (server_state==RUN_GAME_STATE) {
     /* if the game is running, players can just view the Players menu?  --dwp */
     return;

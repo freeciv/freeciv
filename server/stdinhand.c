@@ -444,6 +444,13 @@ static struct settings_s settings[] = {
     "  If all players have not hit \"end turn\" before this time is up, then the\n"
     "  turn ends automatically.  Zero means there is no timeout." },
 
+  { "turnblock", &game.turnblock,
+    SSET_META, SSET_TO_CLIENT,
+    0, 1, 0,
+    "Turn-blocking game play mode",
+    "  If this is set to 1 the game turn is not advanced until all players have\n"
+    "  finished their turn, including disconnected players." },
+  
   { "demography", NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
@@ -484,7 +491,7 @@ static struct settings_s settings[] = {
     "  Only applies if the game log feature is enabled (with the -g command line\n"
     "  option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging,\n"
     "  40=debuging logging." },
-  
+
   { NULL, NULL,
     SSET_LAST, SSET_SERVER_ONLY,
     0, 0, 0,
