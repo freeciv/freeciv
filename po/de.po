@@ -7038,7 +7038,7 @@ msgstr "Ergebnisse"
 
 #: client/gui-gtk/cma_fe.c:219
 msgid "Minimal Surplus"
-msgstr "Geringfügigger Überschuß"
+msgstr "min. Überschuß"
 
 #: client/gui-gtk/cma_fe.c:222
 msgid "Factor"
@@ -7070,7 +7070,7 @@ msgstr "sowie Beispiele"
 
 #: client/gui-gtk/cma_fe.c:398
 msgid "see README.cma."
-msgstr "stehen in README.cma"
+msgstr "stehen in docs/README.cma.de"
 
 #: client/gui-gtk/cma_fe.c:472
 msgid "new preset"
