@@ -564,6 +564,15 @@ static struct settings_s settings[] = {
 	     "the maximum distance from any city specified."), NULL,
 	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 
+  GEN_INT("diplomacy", game.diplomacy, SSET_RULES, SSET_TO_CLIENT,
+	  N_("The ability to do diplomacy with other players"),
+	  N_("If set to 0 (default), diplomacy is enabled for all.\n"
+	     "If set to 1, diplomacy is only allowed between human players.\n"
+	     "If set to 2, diplomacy is only allowed between AI players.\n"
+             "If set to 3, diplomacy is disabled for all.\n"
+             "You can always do diplomacy with players on your team."), NULL,
+	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
+
   GEN_INT("citynames", game.allowed_city_names, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Allowed city names"),
 	  N_("If set to 0, there are no restrictions: players can have "

@@ -228,6 +228,7 @@ void send_game_info(struct conn_list *dest)
   ginfo.heating = game.heating;
   ginfo.nuclearwinter = game.nuclearwinter;
   ginfo.cooling = game.cooling;
+  ginfo.diplomacy = game.diplomacy;
   ginfo.techpenalty = game.techpenalty;
   ginfo.foodbox = game.foodbox;
   ginfo.civstyle = game.civstyle;

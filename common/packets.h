@@ -883,6 +883,7 @@ struct packet_game_info {
   int global_wonders[B_LAST];
   int foodbox;
   int techpenalty;
+  int diplomacy;
   bool spacerace;
   /* the following values are computed each time packet_game_info is sent */
   int seconds_to_turndone;

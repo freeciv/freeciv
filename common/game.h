@@ -161,6 +161,7 @@ struct civ_game {
   int allowed_city_names;
 
   int borders;		/* distance of border from city; 0=disabled. */
+  int diplomacy;        /* who can do it */
 
   char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
@@ -319,6 +320,10 @@ extern bool is_server;
 #define GAME_DEFAULT_BORDERS         7
 #define GAME_MIN_BORDERS             0
 #define GAME_MAX_BORDERS             24
+
+#define GAME_DEFAULT_DIPLOMACY       0
+#define GAME_MIN_DIPLOMACY           0
+#define GAME_MAX_DIPLOMACY           3
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1

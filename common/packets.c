@@ -1062,6 +1062,9 @@ int send_packet_game_info(struct connection *pc,
   for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
     dio_put_uint16(&dout, pinfo->global_wonders[i]);
 
+  if (has_capability("dip", pc->capability)) {
+    dio_put_uint8(&dout, pinfo->diplomacy);
+  }
   dio_put_uint8(&dout, pinfo->techpenalty);
   dio_put_uint8(&dout, pinfo->foodbox);
   dio_put_uint8(&dout, pinfo->civstyle);
@@ -1110,6 +1113,9 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
     dio_get_uint16(&din, &pinfo->global_wonders[i]);
 
+  if (has_capability("dip", pc->capability)) {
+    dio_get_uint8(&din, &pinfo->diplomacy);
+  }
   dio_get_uint8(&din, &pinfo->techpenalty);
   dio_get_uint8(&din, &pinfo->foodbox);
   dio_get_uint8(&din, &pinfo->civstyle);

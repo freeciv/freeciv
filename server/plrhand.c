@@ -1442,9 +1442,14 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
 
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
+    /* Set default new diplomatic state depending on game.diplomacy
+     * server setting. Default is zero, which gives DS_NEUTRAL. */
+    enum diplstate_type dipstate = diplomacy_possible(pplayer1,pplayer2)
+                                    ? DS_NEUTRAL : DS_WAR;
+
     pplayer1->diplstates[player2].type
       = pplayer2->diplstates[player1].type
-      = DS_NEUTRAL;
+      = dipstate;
     notify_player_ex(pplayer1, x, y,
 		     E_FIRST_CONTACT,
 		     _("Game: You have made contact with the %s, ruled by %s."),

@@ -79,7 +79,7 @@ const char * const our_capability = our_capability_internal;
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
                    "+diplomacy2 +citizens_style +root_tech auth " \
-                   "+nat_ulimit +retake +goto_pack borders"
+                   "+nat_ulimit +retake +goto_pack borders dip"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -142,6 +142,9 @@ const char * const our_capability = our_capability_internal;
  * map.xsize/map.ysize to mark the end of the goto chunk.
  *
  * "borders" is support for national borders.
+ * 
+ * "dip" is support for reporting the state of ability to do 
+ *  diplomacy restrictions (see game.diplomacy)
  */
 
 void init_our_capability(void)

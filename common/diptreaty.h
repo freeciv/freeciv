@@ -45,6 +45,7 @@ struct Treaty {
   struct clause_list clauses;
 };
 
+bool diplomacy_possible(struct player *pplayer, struct player *aplayer);
 bool could_meet_with_player(struct player *pplayer, struct player *aplayer);
 bool could_intel_with_player(struct player *pplayer, struct player *aplayer);
 

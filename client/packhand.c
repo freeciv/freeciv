@@ -1166,6 +1166,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.researchcost=pinfo->researchcost;
   game.skill_level=pinfo->skill_level;
   game.timeout=pinfo->timeout;
+  game.diplomacy = pinfo->diplomacy;
 
   game.end_year=pinfo->end_year;
   game.year=pinfo->year;
