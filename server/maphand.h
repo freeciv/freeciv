@@ -18,7 +18,7 @@
 struct player;
 struct section_file;
 
-void relight_square_if_known(struct player *pplayer, int x, int y);
+void relight_square_if_known(int x, int y);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct player *dest);

@@ -56,7 +56,7 @@ void global_warming(int effect)
 	  effect--;
 	  map_set_terrain(x, y, T_JUNGLE);
           reset_move_costs(x, y);
-          relight_square_if_known(0, x, y);
+          relight_square_if_known(x, y);
 	  break;
 	case T_DESERT:
 	case T_PLAINS:
@@ -66,7 +66,7 @@ void global_warming(int effect)
 	  map_clear_special(x, y, S_FARMLAND);
 	  map_clear_special(x, y, S_IRRIGATION);
           reset_move_costs(x, y);
-          relight_square_if_known(0, x, y);
+          relight_square_if_known(x, y);
 	  break;
 	default:
 	  break;
@@ -79,7 +79,7 @@ void global_warming(int effect)
 	  effect--;
 	  map_set_terrain(x, y, T_DESERT);
           reset_move_costs(x, y);
-          relight_square_if_known(0, x, y);
+          relight_square_if_known(x, y);
 	  break;
 	default:
 	  break;
@@ -176,7 +176,7 @@ void send_tile_info(struct player *dest, int x, int y, enum known_type type)
 /**************************************************************************
 ...
 **************************************************************************/
-void relight_square_if_known(struct player *pplayer, int x, int y)
+void relight_square_if_known(int x, int y)
 {
   int o;
   for(o=0; o<game.nplayers; o++) {
