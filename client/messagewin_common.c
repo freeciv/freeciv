@@ -110,7 +110,7 @@ void add_notify_window(struct packet_generic_message *packet)
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
   char *s = fc_malloc(strlen(packet->message) + min_msg_len);
-  size_t nspc;
+  int nspc;
 
   change = TRUE;
 
