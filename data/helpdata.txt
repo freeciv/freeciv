@@ -883,6 +883,7 @@ points) loses. \
 ; from 0 to (A+D-1), and the comparison is ">=D", not ">D".  The
 ; odds are the same both ways, but I think my explanation may be a
 ; little simpler for non-programmers who may be reading this. */
+; /* xgettext:no-c-format */
 _("\
 Whichever unit survives the fight has a chance of becoming a \
 veteran, if it was not a veteran already.  If the winner's \
@@ -916,7 +917,8 @@ strength is increased to 20.25.\
 Strength values inside the game are actually multiplied by 10, with \
 fractions dropped, so the attacker's strength is 80, and the \
 defender's strength is 202.\
-"), _("\
+"), ; /* xgettext:no-c-format */
+_("\
 Each round of combat, a random number between 1 and 282 is \
 generated.  If the number is greater than 202 (about a 28% chance), \
 the defender loses 1 hit point.  Otherwise (about a 72% chance), the \
@@ -955,7 +957,8 @@ unit inside a city, so its total strength is 22.5.\
 "), _("\
 Internally, the values used for attacker and defender strength are \
 180 and 225, respectively.\
-"), _("\
+"), ; /* xgettext:no-c-format */
+_("\
 Each round, a random number from 1 to 405 is generated.  If it is \
 greater than 225 (about a 44% chance) the defender loses 2 hit \
 points (the attacker's firepower is 2).  Otherwise, the attacker \
