@@ -70,4 +70,17 @@ void genlist_iterator_init(struct genlist_iterator *iter,
 #define LIST_ITERATE_END  }}
 
 
+/* Same, but iterate backwards: */
+#define TYPED_LIST_ITERATE_REV(atype, typed_list, var) {   \
+  struct genlist_iterator myiter;                          \
+  atype *var;                                              \
+  genlist_iterator_init(&myiter, &(typed_list).list, -1);  \
+  for(; ITERATOR_PTR(myiter);) {                           \
+    var=(atype *)ITERATOR_PTR(myiter);                     \
+    ITERATOR_PREV(myiter);
+ 
+/* Balance for above: */ 
+#define LIST_ITERATE_REV_END  }}
+
+
 #endif  /* FC__GENLIST_H */
