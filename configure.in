@@ -483,44 +483,8 @@ if test x$client != xno; then
     AC_MSG_ERROR(could not guess which client to compile)
   fi
 
-  dnl Add esound support to client
-  ESD_VERSION=0.0.20
-  AM_PATH_ESD($ESD_VERSION, :, ESD=no)
-  if test "x$ESD" != "xno"; then
-     SOUND_CFLAGS="$SOUND_CFLAGS $ESD_CFLAGS"
-     SOUND_LIBS="$SOUND_LIBS $ESD_LIBS"
-     AC_DEFINE(ESD)
-     AC_MSG_CHECKING(building ESOUND support)
-     AC_MSG_RESULT(yes)
-  fi
-
-  dnl Add SDL support to client
-  SDL_VERSION=1.0.0
-  AM_PATH_SDL($SDL_VERSION, :, SDL = no)
-  if test "x$SDL" != "xno"; then
-    AC_CHECK_HEADER(SDL/SDL_mixer.h, SDL_mixer_h=1, SDL_mixer_h=0)
-    AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, SDL_mixer=yes)
-    AC_MSG_CHECKING(building SDL_mixer support)
-    if test "x$SDL_mixer_h" = "x1"; then
-      if test "x$SDL_mixer" = "xyes"; then
-        SOUND_CFLAGS="$SOUND_CFLAGS $SDL_CFLAGS"
-        SOUND_LIBS="$SOUND_LIBS $SDL_LIBS -lSDL_mixer"
-        AC_DEFINE(SDL)
-        AC_MSG_RESULT(yes)
-      else
-        AC_MSG_RESULT([no, found header but not library!])
-      fi
-    else
-      AC_MSG_RESULT([no, install SDL_mixer first: http://www.libsdl.org/projects/SDL_mixer/index.html])
-    fi
-  fi
-  
-  dnl Add WinMM sound support to client
-  if test x"$MINGW32" = "xyes"; then
-    SOUND_LIBS="$SOUND_LIBS -lwinmm"
-    AC_DEFINE(WINMM)    
-    WINMM="yes"
-  fi
+  dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, ESD, SDL & WINMM
+  FC_CHECK_SOUND()
 
   gui_sources="gui-$client"
 fi
@@ -529,9 +493,9 @@ AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
 AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
-AM_CONDITIONAL(ESD, test "$ESD" != "no")
-AM_CONDITIONAL(SDL, test "$SDL_mixer" = "yes")
-AM_CONDITIONAL(WINMM, test "$WINMM" = "yes")
+AM_CONDITIONAL(ESD, test x"$ESD" = "xyes")
+AM_CONDITIONAL(SDL, test x"$SDL_mixer" = "xyes")
+AM_CONDITIONAL(WINMM, test x"$WINMM" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")

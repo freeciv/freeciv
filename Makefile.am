@@ -82,6 +82,7 @@ EXTRA_DIST=	acconfig.h			\
 		m4/progtest.m4			\
 		m4/readline.m4			\
 		m4/sdl.m4			\
+		m4/sound.m4			\
 		m4/vsnprintf.m4			\
 		m4/x.213			\
 		m4/x.252			\
