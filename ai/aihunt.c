@@ -435,8 +435,6 @@ bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
   int sanity_own = punit->id;
   int sanity_target;
 
-  logdebug_suppress_warning; /* had to put it somewhere */
-
   CHECK_UNIT(punit);
   assert(punit->ai.ai_role == AIUNIT_HUNTER);
 
