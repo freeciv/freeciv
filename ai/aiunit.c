@@ -899,6 +899,10 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
         || unit_type(buddy)->move_type != unit_type(punit)->move_type) { 
       continue;
     }
+    if (punit->tile->city
+        && punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
+      continue; /* Do not run away from defense duty! */
+    }
     dist = unit_move_turns(punit, buddy->tile);
     def = (toughness - unit_def_rating_basic_sq(buddy));
     if (def <= 0) {
@@ -921,7 +925,17 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
    city_list_iterate(pplayer->cities, mycity) {
     if (!goto_is_sane(punit, mycity->tile, TRUE)
         || mycity->ai.urgency == 0) {
-      continue; 
+      continue;
+    }
+    if (punit->tile->city
+        && (punit->tile->city->ai.grave_danger > 0
+            || punit->tile->city->ai.urgency > mycity->ai.urgency
+            || ((punit->tile->city->ai.danger > mycity->ai.danger
+                 || punit->ai.ai_role == AIUNIT_DEFEND_HOME)
+                && mycity->ai.grave_danger == 0))) {
+      /* Do not yoyo between cities in need of defense. Chances are
+       * we'll be between cities when we are needed the most! */
+      continue;
     }
     dist = unit_move_turns(punit, mycity->tile);
     def = (mycity->ai.danger - assess_defense_quadratic(mycity));
@@ -1746,16 +1760,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     }
   }
   if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
-    struct city *pcity = map_get_city(punit->tile);
-
-    if (pcity) {
-      punit->ai.done = TRUE;
-      UNIT_LOG(LOG_DEBUG, punit, "could not find work");
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-    } else {
-      UNIT_LOG(LOG_DEBUG, punit, "we are homeless and useless :(");
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-    }
+    ai_military_defend(pplayer, punit);
   }
 }
 
