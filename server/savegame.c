@@ -607,8 +607,21 @@ static void player_load(struct player *plr, int plrno,
 
   plr->future_tech=secfile_lookup_int(file, "player%d.futuretech", plrno);
 
+  /* We use default values for bulbs_researched_before, changed_from
+   * and got_tech to preserve backwards-compatability with save files
+   * that didn't store this information. */
   plr->research.bulbs_researched=secfile_lookup_int(file, 
 					     "player%d.researched", plrno);
+  plr->research.bulbs_researched_before =
+	  secfile_lookup_int_default(file, 0,
+				     "player%d.researched_before", plrno);
+  plr->research.changed_from =
+	  secfile_lookup_int_default(file, -1,
+				     "player%d.research_changed_from",
+				     plrno);
+  plr->got_tech = secfile_lookup_bool_default(file, FALSE,
+					      "player%d.research_got_tech",
+					      plrno);
   plr->research.techs_researched=secfile_lookup_int(file, 
 					     "player%d.researchpoints", plrno);
   plr->research.researching=secfile_lookup_int(file, 
@@ -1243,6 +1256,12 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_int(file, plr->research.bulbs_researched, 
 		     "player%d.researched", plrno);
+  secfile_insert_int(file, plr->research.bulbs_researched_before,
+		     "player%d.researched_before", plrno);
+  secfile_insert_bool(file, plr->got_tech,
+		      "player%d.research_got_tech", plrno);
+  secfile_insert_int(file, plr->research.changed_from,
+		     "player%d.research_changed_from", plrno);
   secfile_insert_int(file, plr->research.techs_researched,
 		     "player%d.researchpoints", plrno);
   secfile_insert_int(file, plr->research.researching,
