@@ -105,7 +105,7 @@ static int selected_nation;
 static int selected_sex;
 static int selected_city_style;
 
-static int is_showing_government_dialog;
+static bool is_showing_government_dialog;
 
 static int is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
@@ -1018,7 +1018,7 @@ bool caravan_dialog_is_open(void)
 static void government_callback(GtkWidget *w, gpointer data)
 {
   dsend_packet_player_government(&aconnection, GPOINTER_TO_INT(data));
-  is_showing_government_dialog=0;
+  is_showing_government_dialog = FALSE;
 }
 
 
@@ -1032,15 +1032,13 @@ void popup_government_dialog(int governments,
   GtkWidget *dshell, *dlabel, *vbox;
 
   if(!is_showing_government_dialog) {
-    is_showing_government_dialog=1;
+    is_showing_government_dialog = TRUE;
   
     dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
     setup_dialog(dshell, toplevel);
-    gtk_window_set_transient_for(GTK_WINDOW(dshell), GTK_WINDOW(toplevel));
     g_object_set(GTK_WINDOW(dshell),
       "title", _("Choose Your New Government"),
       "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
-      "modal", TRUE,
       NULL);
 
     g_signal_connect(
