@@ -1979,7 +1979,7 @@ main_start_players:
   show_map_to_all();
   notify_player(NULL, _("Game: The game is over..."));
   gamelog(GAMELOG_NORMAL, _("The game is over!"));
-  save_game_auto();
+  if (game.save_nturns > 0) save_game_auto();
 
   while (server_state == GAME_OVER_STATE) {
     force_end_of_sniff = FALSE;
