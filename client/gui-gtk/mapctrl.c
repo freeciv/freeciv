@@ -179,10 +179,10 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  my_snprintf(uc, sizeof(uc), _("  (%d more)"),
 		      unit_list_size(&ptile->units) - 1);
 	}
-        my_snprintf(s, sizeof(s), "A:%d D:%d FP:%d HP:%d/%d%s%s",
+        my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d/%d%s%s"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, punit->hp, 
-		    ptype->hp, punit->veteran?" V":"", uc);
+		    ptype->hp, punit->veteran?_(" V"):"", uc);
 
         if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
 	  cross_head->x = punit->goto_dest_x;
@@ -190,7 +190,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
-        my_snprintf(s, sizeof(s), "A:%d D:%d FP:%d HP:%d0%%",
+        my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
 		    ptype->attack_strength, 
 		    ptype->defense_strength, ptype->firepower, 
 		    (punit->hp*100/ptype->hp + 9)/10 );
