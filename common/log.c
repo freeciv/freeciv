@@ -46,6 +46,12 @@ int log_parse_level_str(char *level_str)
   int n = 0;			/* number of filenames */
   int i;
   int level;
+  
+#ifdef DEBUG
+  const int max_level = LOG_DEBUG;
+#else
+  const int max_level = LOG_VERBOSE;
+#endif
 
   /* re-entrant: */
   logd_num_files = 0;
@@ -63,18 +69,14 @@ int log_parse_level_str(char *level_str)
   }
   if (n == 0) {
     level = atoi(level_str);
-    #ifdef DEBUG
-    if (level >= LOG_FATAL && level <= LOG_DEBUG) {
-    #else
-    if (level >= LOG_FATAL && level <= LOG_VERBOSE) {
-    #endif
+    if (level >= LOG_FATAL && level <= max_level) {
       return level;
     } else {
       fprintf(stderr, "Bad log level %d in \"%s\".\n", level, level_str);
-      #ifndef DEBUG
-      if (level == LOG_DEBUG)
-      fprintf(stderr, "Freeciv must be compiled with the DEBUG flag to use LOG_DEBUG\n");
-      #endif
+      if (level == LOG_DEBUG && max_level < LOG_DEBUG) {
+	fprintf(stderr, "Freeciv must be compiled with the DEBUG flag"
+		" to use debug level %d\n", LOG_DEBUG);
+      }
       return -1;
     }
   }
