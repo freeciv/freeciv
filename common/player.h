@@ -53,7 +53,7 @@ enum handicap_type {
   H_TARGETS=512, /* can't target anything it doesn't know exists */
   H_HUTS=1024, /* doesn't know which unseen tiles have huts on them */
   H_FOG=2048, /* can't see through fog of war */
-  H_NOPLANES=4096, /* doesn't build planes */
+  H_NOPLANES=4096 /* doesn't build planes */
 };
 
 struct player_economic {

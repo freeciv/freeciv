@@ -124,11 +124,11 @@ static const char *get_token_table_end(struct inputfile *inf);
 static const char *get_token_comma(struct inputfile *inf);
 static const char *get_token_value(struct inputfile *inf);
 
-struct {
+static struct {
   const char *name;
   get_token_fn_t func;
 }
-static tok_tab[INF_TOK_LAST] =
+tok_tab[INF_TOK_LAST] =
 {
   { "section_name", get_token_section_name },
   { "entry_name",   get_token_entry_name },
