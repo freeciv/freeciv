@@ -2130,8 +2130,7 @@ static bool vote_command(struct connection *caller, char *str,
       }
     }
     if (which > last_vote || !vote || vote->command[0] == '\0') {
-      cmd_reply(CMD_VOTE, caller, C_FAIL, _("No such vote (%d), last is "
-                "%d"), which, last_vote);
+      cmd_reply(CMD_VOTE, caller, C_FAIL, _("No such vote (%d)."), which);
       goto cleanup;
     }
     if (strcmp(arg[0], "yes") == 0) {
