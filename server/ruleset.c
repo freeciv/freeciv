@@ -15,7 +15,6 @@
 #endif
 
 #include <ctype.h>
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,9 +36,9 @@
 
 #include "ruleset.h"
 
-static const char name_too_long[] = N_("Name \"%s\" too long; truncating.");
-#define check_name(name) check_strlen(name, MAX_LEN_NAME, _(name_too_long))
-#define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, _(name_too_long))
+static const char name_too_long[] = "Name \"%s\" too long; truncating.";
+#define check_name(name) check_strlen(name, MAX_LEN_NAME, name_too_long)
+#define name_strlcpy(dst, src) sz_loud_strlcpy(dst, src, name_too_long)
 
 extern char **misc_city_names;
 extern int num_misc_city_names;
@@ -106,8 +105,8 @@ static void send_ruleset_game(struct conn_list *dest);
 static void openload_ruleset_file(struct section_file *file,
 				  char *subdir, char *whichset)
 {
-  char filename1[PATH_MAX + 1], filename2[PATH_MAX + 1], *dfilename;
-  char sfilename[PATH_MAX + 1];
+  char filename1[512], filename2[512], *dfilename;
+  char sfilename[512];
 
   my_snprintf(filename1, sizeof(filename1), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename1);
