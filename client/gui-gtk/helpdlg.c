@@ -433,7 +433,7 @@ void create_tech_tree(GtkCTree *ctree, int tech, int levels,
     strcpy(label, "Removed");
     bg = COLOR_STD_RED;
     l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
-				NULL, NULL, NULL, NULL, TRUE, FALSE);
+				NULL, NULL, NULL, NULL, TRUE, TRUE);
     gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
     return;
   }
@@ -452,7 +452,7 @@ void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   leaf = (advances[tech].req[0] == A_NONE && advances[tech].req[1] == A_NONE);
 
   l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
-				 NULL, NULL, NULL, NULL, leaf, FALSE);
+				 NULL, NULL, NULL, NULL, leaf, TRUE);
   gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
 
   if ( --levels <= 0 )
