@@ -450,7 +450,9 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
       }
     }
   }
-  return (*xp!=0 || *yp!=0);
+  if (*xp == 0 && *yp == 0) return 0;
+  else return(city_tile_value(pcity, *xp, *yp, foodneed +
+      get_food_tile(*xp, *yp, pcity), prodneed + get_shields_tile(*xp, *yp, pcity)));
 }
 /**************************************************************************
 ...
@@ -481,21 +483,23 @@ int free_tiles(struct city *pcity)
 **************************************************************************/
 void make_elvises(struct city *pcity)
 {
-  int xp, yp;
+  int xp, yp, wtbb, elviscost;
   pcity->ppl_elvis += (pcity->ppl_taxman + pcity->ppl_scientist);
   pcity->ppl_taxman = 0;
   pcity->ppl_scientist = 0;
   city_refresh(pcity);
  
-  if (pcity->size < 8 || 
-      (city_got_building(pcity, B_AQUEDUCT) && pcity->size < 12)) 
-    return;
-  if (city_got_building(pcity, B_SEWER))
-    return;
-  while (pcity->food_surplus > 0 || !city_happy(pcity)) { /* scientists don't party */
-    if (ai_find_elvis_pos(pcity, &xp, &yp)) {
+  wtbb = wants_to_be_bigger(pcity);
+/*  if (wtbb) return; */
+
+  while (1) {
+    if (elviscost = ai_find_elvis_pos(pcity, &xp, &yp)) {
       if (get_food_tile(xp, yp, pcity) > pcity->food_surplus)
 	break;
+      if (get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))
+	break; /* scientists don't party */
+      if (wtbb && elviscost >= 24)
+        break; /* no benefit here! */
       set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
       pcity->ppl_elvis++;
       city_refresh(pcity);
