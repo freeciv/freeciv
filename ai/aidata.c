@@ -32,6 +32,9 @@
 #include "settlers.h"
 #include "unittools.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
@@ -43,7 +46,209 @@
 
 #include "aidata.h"
 
+/*
+ * Whether the movemap positions are computed by ignoring xones of control.
+ * Ignoring zones of control means that positions that are temporarilly blocked
+ * by units are marked as accessible; this is sensible for destinations several
+ * turns away.
+ */
+#define MOVEMAP_IGZOC TRUE
+
 static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+
+/**************************************************************************
+  Fill movemap with data.  This consumes a lot of CPU.
+**************************************************************************/
+void ai_data_movemap_init(void)
+{
+  movemap = fc_calloc(sizeof(*movemap), MAP_INDEX_SIZE);
+  whole_map_iterate(ptile) {
+    unsigned int r;
+
+    for (r = 0; r < MOVEMAP_RANGE; r++) {
+      movemap_vector_init(&MOVEMAP(ptile).range[r]);
+    }
+  } whole_map_iterate_end;
+}
+
+/**************************************************************************
+  Dealloc.
+**************************************************************************/
+void ai_data_movemap_done(void)
+{
+  /* Clean the slate */
+  whole_map_iterate(ptile) {
+    unsigned int r;
+
+    for (r = 0; r < MOVEMAP_RANGE; r++) {
+      movemap_vector_free(&MOVEMAP(ptile).range[r]);
+    }
+  } whole_map_iterate_end;
+
+  free(movemap);
+}
+
+/**************************************************************************
+  Insert unit into list unless it is already there. Expensive operation
+  but necessary.
+**************************************************************************/
+static inline void movemap_insert(struct movemap_vector *vector,
+				  struct unit *punit)
+{
+  bool has_already = FALSE;
+
+  movemap_vector_iterate((*vector), check) {
+    if (check == punit->id) {
+      has_already = TRUE;
+      break;
+    }
+  } movemap_vector_iterate_end;
+  if (!has_already) {
+    movemap_vector_append(vector, &punit->id);
+  }
+}
+
+/**************************************************************************
+  Check where passengers onboard ferries can go.
+  ptile1:
+    landing tile
+  id:
+    unit ID of ferry
+  delay:
+    the number of turns of  land movement lost because of movement of
+    the ferry and disembarking.
+
+  We have to check that we don't accidentially insert a unit into a vector
+  where it already exists. This is cumbersome but I see no other way.
+**************************************************************************/
+static void movemap_check_ferry(struct tile *ptile1, int id,
+				const unsigned int delay)
+{
+  struct unit *ferry = find_unit_by_id(id);
+
+  if (get_transporter_occupancy(ferry) > 0
+      && is_sailing_unit(ferry)) {
+    struct tile *ptile = ferry->tile;
+
+    unit_list_iterate(ptile->units, passenger) {
+      struct pf_map *pfmap;
+      struct pf_parameter parameter;
+      int moverate = unit_move_rate(passenger);
+
+      if (!is_ground_unit(passenger)
+          || passenger->transported_by != ferry->id) {
+        continue;
+      }
+      pft_fill_unit_attack_param(&parameter, passenger);
+      if (MOVEMAP_IGZOC) {
+	parameter.get_zoc = NULL;
+      }
+      parameter.start_tile = ptile1; /* Suppose it landed right here... */
+      pfmap = pf_create_map(&parameter);
+      pf_iterator(pfmap, pos) {
+	const unsigned int when = (pos.total_MC - 1) / moverate + delay;
+
+	if (when < MOVEMAP_RANGE) {
+	  movemap_insert(&MOVEMAP(pos.tile).range[when], passenger);
+	}
+	/* else too far */
+      } pf_iterator_end;
+      pf_destroy_map(pfmap);
+    } unit_list_iterate_end;
+  }
+}
+
+/**************************************************************************
+  The movemap structure is a quick way to find threats on the map.  Use
+  the iterators defined in the header file to iterate over units that
+  can reach a tile in one or two turns (as specified).  We correctly 
+  calculate in the possibility of travel by ferry.
+
+  This function fills the movemap with data.  It is rather CPU intensive.
+**************************************************************************/
+void ai_data_movemap_recalculate(void)
+{
+  /* Clean the slate */
+  whole_map_iterate(ptile) {
+    unsigned int r;
+    for (r = 0; r < MOVEMAP_RANGE; r++) {
+      movemap_vector_free(&MOVEMAP(ptile).range[r]);
+    }
+  } whole_map_iterate_end;
+
+  players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      struct pf_map *pfmap;
+      struct pf_parameter parameter;
+      int moverate = unit_move_rate(punit);
+
+      if (get_transporter_occupancy(punit) > 0
+          && is_sailing_unit(punit)) {
+        pft_fill_unit_overlap_param(&parameter, punit);
+      } else {
+        pft_fill_unit_attack_param(&parameter, punit);
+      }
+      if (MOVEMAP_IGZOC) {
+	parameter.get_zoc = NULL;
+      }
+      pfmap = pf_create_map(&parameter);
+      pf_iterator(pfmap, pos) {
+	const unsigned int when = (pos.total_MC - 1) / moverate;
+
+	if (when < MOVEMAP_RANGE) {
+	  movemap_vector_append(&MOVEMAP(pos.tile).range[when], &punit->id);
+	}
+	/* else too far */
+      } pf_iterator_end;
+      pf_destroy_map(pfmap);
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
+  /* Now do ferries. This is ugly, but correct. I gave up on beating
+   * pf into submission. It is also probably very very slow. */
+  whole_map_iterate(ptile) {
+    unsigned int r;
+
+    if (is_ocean(map_get_terrain(ptile))) {
+      continue;
+    }
+    /* Check all ferries that can land on this spot. */
+    for (r = 0; r < MOVEMAP_RANGE - game.slow_invasions; r++) {
+      const unsigned int delay = r + game.slow_invasions;
+
+      movemap_vector_iterate(MOVEMAP(ptile).range[r], id) {
+	movemap_check_ferry(ptile, id, delay);
+      } movemap_vector_iterate_end;
+    }
+  } whole_map_iterate_end;
+}
+
+/**************************************************************************
+  According to the movemap, how many turns will it take for a unit
+  to reach a destination tile? Returns a value <= MOVEMAP_RANGE + 1;
+  a value of MOVEMAP_RANGE + 1 indicates the unit is outside movemap range.
+**************************************************************************/
+unsigned int movemap_turns(struct unit *punit, struct tile *dest)
+{
+  unsigned int r;
+
+  unit_list_iterate(dest->units, aunit) {
+    if (punit == aunit) {
+      return 0;
+    }
+  } unit_list_iterate_end;
+
+  for (r = 0; r < MOVEMAP_RANGE; r++) {
+    movemap_iterate(dest, r, aunit) {
+      if (punit == aunit) {
+	return r + 1;
+      }
+    } movemap_iterate_end;
+  }
+
+  /* else out of movemap range */
+  return MOVEMAP_RANGE + 1;
+}
 
 /**************************************************************************
   Precalculates some important data about the improvements in the game

@@ -515,6 +515,7 @@ static void begin_phase(bool is_new_phase)
   freelog(LOG_DEBUG, "Begin phase");
 
   conn_list_do_buffer(game.game_connections);
+  ai_data_movemap_init();
 
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;
@@ -1901,6 +1902,7 @@ main_start_players:
 
   initialize_move_costs(); /* this may be the wrong place to do this */
   init_settlers(); /* create minimap and other settlers.c data */
+  ai_data_movemap_init();
 
   if (!game.is_new_game) {
     players_iterate(pplayer) {
@@ -1933,6 +1935,9 @@ main_start_players:
 
   /*** Where the action is. ***/
   main_loop();
+
+  /* Clean up some AI game data. */
+  ai_data_movemap_done();
 }
 
 /**************************************************************************
