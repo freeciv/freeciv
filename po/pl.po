@@ -1348,7 +1348,7 @@ msgstr "Gra: Przeprowadzono bunt w mie¶cie %s, teraz ty nim rz±dzisz!"
 #: server/diplomats.c:798
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
-msgstr "Gra: Miasto %s siê zbuntowa³o, %s teraz nim rz±dz±."
+msgstr "Gra: Miasto %s siê zbuntowa³o dziêki wp³ywom %sego wywiadu."
 
 #: server/diplomats.c:876
 #, c-format
