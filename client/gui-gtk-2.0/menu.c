@@ -78,7 +78,7 @@ enum MenuID {
   MENU_GAME_SAVE_QUICK, 
   MENU_GAME_OUTPUT_LOG,
   MENU_GAME_CLEAR_OUTPUT,
-  MENU_GAME_DISCONNECT,
+  MENU_GAME_LEAVE,
   MENU_GAME_QUIT,
   
   MENU_GOVERNMENT_TAX_RATE,
@@ -170,6 +170,22 @@ enum MenuID {
 
 
 /****************************************************************
+  This is response callback for a dialog with a message:
+  Leaving a local game will end it!
+****************************************************************/
+static void leave_local_game_response(GtkWidget* dialog, gint response)
+{
+  gtk_widget_destroy(dialog);
+  if (response == GTK_RESPONSE_OK) {
+    /* It might be killed already */
+    if (aconnection.used) {
+      /* It will also kill the server */
+      disconnect_from_server();
+    }
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void game_menu_callback(gpointer callback_data,
@@ -203,8 +219,19 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_CLEAR_OUTPUT:
     clear_output_window();
     break;
-  case MENU_GAME_DISCONNECT:
-    disconnect_from_server();
+  case MENU_GAME_LEAVE:
+    if (is_server_running()) {
+      GtkWidget* dialog = gtk_message_dialog_new(NULL,
+                             GTK_DIALOG_DESTROY_WITH_PARENT,
+			     GTK_MESSAGE_WARNING,
+			     GTK_BUTTONS_OK_CANCEL,
+			     _("Leaving a local game will end it!"));
+      g_signal_connect(dialog, "response", 
+                        G_CALLBACK(leave_local_game_response), NULL);
+      gtk_widget_show_all(dialog);
+    } else {
+      disconnect_from_server();
+    }
     break;
   case MENU_GAME_QUIT:
     exit(EXIT_SUCCESS);
@@ -624,8 +651,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
   { "/" N_("Game") "/sep6",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("_Disconnect"),		NULL,
-	game_menu_callback,	MENU_GAME_DISCONNECT					},
+  { "/" N_("Game") "/" N_("L_eave"),		NULL,
+	game_menu_callback,	MENU_GAME_LEAVE					},
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
@@ -1074,7 +1101,7 @@ void update_menus(void)
 		      aconnection.established);
   menus_set_sensitive("<main>/_Game/_Initial Server Options", 
 		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_Disconnect", aconnection.established);
+  menus_set_sensitive("<main>/_Game/L_eave", aconnection.established);
 
   if (!can_client_change_view()) {
     menus_set_sensitive("<main>/_Reports", FALSE);
