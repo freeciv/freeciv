@@ -1343,7 +1343,7 @@ void popup_government_dialog(void)
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  for (i=0; i < game.government_count; ++i) {
+  for (i = 0; i < game.government_count; i++) {
     if (i == game.government_when_anarchy) continue;
     can_change = can_change_to_government(game.player_ptr, i);
     button = XtVaCreateManagedWidget("button", commandWidgetClass, form,

@@ -154,13 +154,13 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
   xoffset=0;
   xremsum=dst_w/2;
 
-  for(x=0; x<dst_w; ++x) {
+  for (x = 0; x < dst_w; x++) {
     xoffset_table[x]=xoffset;
     xoffset+=xadd;
     xremsum+=xremadd;
     if(xremsum>=dst_w) {
       xremsum-=dst_w;
-      ++xoffset;
+      xoffset++;
     }
   }
 
@@ -169,7 +169,7 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
   yoffset=0;
   yremsum=dst_h/2; 
 
-  for(y=0; y<dst_h; ++y) {
+  for (y = 0; y < dst_h; y++) {
     psrc_data=xi_src->data + (yoffset * xi_src->bytes_per_line);
     pdst_data=xi_dst->data + (y * xi_dst->bytes_per_line);
 
@@ -195,7 +195,7 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
     yremsum+=yremadd;
     if(yremsum>=dst_h) {
       yremsum-=dst_h;
-      ++yoffset;
+      yoffset++;
     }
   }
 
@@ -211,14 +211,14 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
 void put_line_8(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 {
   int x;
-  for(x=0; x<dst_w; ++x)
+  for (x = 0; x < dst_w; x++)
     *pdst++=*(psrc+xoffset_table[x]+0);
 }
 
 void put_line_16(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 {
   int x;
-  for(x=0; x<dst_w; ++x) {
+  for (x = 0; x < dst_w; x++) {
     *pdst++=*(psrc+2*xoffset_table[x]+0);
     *pdst++=*(psrc+2*xoffset_table[x]+1);
   }
@@ -227,7 +227,7 @@ void put_line_16(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 {
   int x;
-  for(x=0; x<dst_w; ++x) {
+  for (x = 0; x < dst_w; x++) {
     *pdst++=*(psrc+3*xoffset_table[x]+0);
     *pdst++=*(psrc+3*xoffset_table[x]+1);
     *pdst++=*(psrc+3*xoffset_table[x]+2);
@@ -237,7 +237,7 @@ void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
 {
   int x;
-  for(x=0; x<dst_w; ++x) {
+  for (x = 0; x < dst_w; x++) {
     *pdst++=*(psrc+4*xoffset_table[x]+0);
     *pdst++=*(psrc+4*xoffset_table[x]+1);
     *pdst++=*(psrc+4*xoffset_table[x]+2);

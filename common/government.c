@@ -135,7 +135,7 @@ struct government *find_government_by_name(const char *name)
 {
   int i;
 
-  for (i = 0; i < game.government_count; ++i) {
+  for (i = 0; i < game.government_count; i++) {
     if (mystrcasecmp(governments[i].name, name) == 0) {
       return &governments[i];
     }

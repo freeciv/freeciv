@@ -51,7 +51,7 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
       bool b;
       int i;
       
-      for (o=options; o->name; ++o) {
+      for (o = options; o->name; o++) {
 	switch (o->type) {
 	case COT_BOOL:
 	  b = *(o->p_bool_value);
@@ -115,7 +115,7 @@ static void create_option_dialog(void)
   hbox=fcwin_hbox_new(option_dialog,FALSE);
   vbox=fcwin_vbox_new(option_dialog,TRUE);
   vbox_labels=fcwin_vbox_new(option_dialog,TRUE);
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
       fcwin_box_add_static(vbox_labels,_(o->description),
@@ -176,7 +176,7 @@ void popup_option_dialog(void)
   if (!option_dialog)
     create_option_dialog();
 
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
       Button_SetCheck((HWND)(o->p_gui_data),

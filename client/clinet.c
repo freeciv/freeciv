@@ -535,8 +535,10 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 	port = 80;
       }
       s[0] = '\0';
-      ++s;
-      while (my_isdigit(s[0])) {++s;}
+      s++;
+      while (my_isdigit(s[0])) {
+	s++;
+      }
     } else {
       port = 80;
       if (!(s = strchr(server,'/'))) {
@@ -546,7 +548,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 
     if (s[0] == '/') {
       s[0] = '\0';
-      ++s;
+      s++;
     } else if (s[0] != '\0') {
       (void) mystrlcpy(errbuf, _("Invalid $http_proxy value, cannot "
 				 "find separating '/'"), n_errbuf);

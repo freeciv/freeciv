@@ -94,7 +94,7 @@ enum cmdlevel_id cmdlevel_named(const char *token)
   enum cmdlevel_id i;
   size_t len = strlen(token);
 
-  for (i = 0; i < ALLOW_NUM; ++i) {
+  for (i = 0; i < ALLOW_NUM; i++) {
     if (strncmp(levelnames[i], token, len) == 0) {
       return i;
     }

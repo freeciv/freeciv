@@ -477,13 +477,13 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   xoffset = 0;
   xremsum = new_w / 2;
 
-  for (x = 0; x < new_w; ++x) {
+  for (x = 0; x < new_w; x++) {
     xoffset_table[x] = xoffset;
     xoffset += xadd;
     xremsum += xremadd;
     if (xremsum >= new_w) {
       xremsum -= new_w;
-      ++xoffset;
+      xoffset++;
     }
   }
 
@@ -498,8 +498,8 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
     dst->mask = gdk_pixmap_new(root_window, new_w, new_h, 1);
     gdk_draw_rectangle(dst->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
 
-    for (y = 0; y < new_h; ++y) {
-      for (x = 0; x < new_w; ++x) {
+    for (y = 0; y < new_h; y++) {
+      for (x = 0; x < new_w; x++) {
 	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
 	gdk_image_put_pixel(xi_dst, x, y, pixel);
 
@@ -512,14 +512,14 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
       yremsum += yremadd;
       if (yremsum >= new_h) {
 	yremsum -= new_h;
-	++yoffset;
+	yoffset++;
       }
     }
 
     gdk_image_destroy(xb_src);
   } else {
-    for (y = 0; y < new_h; ++y) {
-      for (x = 0; x < new_w; ++x) {
+    for (y = 0; y < new_h; y++) {
+      for (x = 0; x < new_w; x++) {
 	pixel = gdk_image_get_pixel(xi_src, xoffset_table[x], yoffset);
 	gdk_image_put_pixel(xi_dst, x, y, pixel);
       }
@@ -528,7 +528,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
       yremsum += yremadd;
       if (yremsum >= new_h) {
 	yremsum -= new_h;
-	++yoffset;
+	yoffset++;
       }
     }
   }

@@ -344,7 +344,7 @@ static int video_callback(struct GUI *pWidget)
   }
 
   /* create modes buttons */
-  for (i = 0; pModes[i]; ++i) {
+  for (i = 0; pModes[i]; i++) {
 
     pTmpGui = create_icon_button_from_unichar(NULL, pModes[i], 14, 0);
 

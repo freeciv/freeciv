@@ -2569,7 +2569,7 @@ static void send_ruleset_governments(struct conn_list *dest)
   struct government *g;
   int i, j;
 
-  for (i = 0; i < game.government_count; ++i) {
+  for (i = 0; i < game.government_count; i++) {
     g = &governments[i];
 
     /* send one packet_government */

@@ -872,8 +872,7 @@ static int init_gui(void)
 #ifdef ENABLE_NLS
   struct NewMenu *nm;
 
-  for(nm = MenuData; nm->nm_Type != NM_END; ++nm)
-  {
+  for (nm = MenuData; nm->nm_Type != NM_END; nm++) {
     if(nm->nm_Label != NM_BARLABEL)
       nm->nm_Label = _(nm->nm_Label);
   }

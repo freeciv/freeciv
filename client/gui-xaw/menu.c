@@ -811,7 +811,7 @@ int is_menu_item_active(enum MenuIndex menu, enum MenuID id)
   struct Menu *pmenu = menus[menu];
   int i;
 
-  for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
+  for (i = 0; pmenu->entries[i].id != MENU_END_OF_LIST; i++) {
     if(pmenu->entries[i].id==id) {
       return XtIsSensitive(pmenu->entries[i].w);
     }
@@ -841,13 +841,13 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
   /* Calculate the longest string in this menu so if the font
    * is fixed then we will know where to put the accelerator key.- Serrada */
   litem=lacel=0;
-  for(i=0; entries[i].id != MENU_END_OF_LIST; ++i) {
+  for (i = 0; entries[i].id != MENU_END_OF_LIST; i++) {
     if (entries[i].id != MENU_SEPARATOR_LINE) {
       lstr=strlen(entries[i].acel);
       if (lacel<lstr) {
 	lacel=lstr;
       }
-      for(j=0; entries[i].text[j]; ++j) {
+      for (j = 0; entries[i].text[j]; j++) {
 	xlt=_(entries[i].text[j]);
 	lstr=strlen(xlt);
 	if (strstr(xlt, "%s")) {
@@ -874,7 +874,7 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
   mymenu->shell=XtCreatePopupShell("menu", simpleMenuWidgetClass, 
 				   mymenu->button, NULL, 0);
 
-  for(i=0; entries[i].id != MENU_END_OF_LIST; ++i) {
+  for (i = 0; entries[i].id != MENU_END_OF_LIST; i++) {
     if (entries[i].id == MENU_SEPARATOR_LINE) {
       entries[i].w = XtCreateManagedWidget(NULL, smeLineObjectClass, 
 					   mymenu->shell, NULL, 0);
@@ -899,7 +899,7 @@ void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr)
   int i;
   char *item;
 
-  for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
+  for (i = 0; pmenu->entries[i].id != MENU_END_OF_LIST; i++) {
     if(pmenu->entries[i].id==id) {
       item=menu_entry_text(menu, i, var, terr);
       XtVaSetValues(pmenu->entries[i].w, XtNlabel, item, NULL);
@@ -916,7 +916,7 @@ void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s)
   struct Menu *pmenu = menus[menu];
   int i;
 
-  for(i=0; pmenu->entries[i].id != MENU_END_OF_LIST; ++i) {
+  for (i = 0; pmenu->entries[i].id != MENU_END_OF_LIST; i++) {
     if(pmenu->entries[i].id==id) {
       XtSetSensitive(pmenu->entries[i].w, (s ? True : False));
       return;

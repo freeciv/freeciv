@@ -41,8 +41,7 @@ static void message_option_ok(void)
 {
   LONG i, j;
 
-  for(i = 0; i < E_LAST; ++i)
-  {
+  for (i = 0; i < E_LAST; i++) {
     j = 0;
     if(xget(message_option_objects[i].Out, MUIA_Selected)) j |= MW_OUTPUT;
     if(xget(message_option_objects[i].Mes, MUIA_Selected)) j |= MW_MESSAGES;
@@ -96,41 +95,40 @@ void popup_messageopt_dialog(void)
 
     if(option_wnd)
     {
-      for(i = 0; i < 2 && !err; ++i)
-      {
-        if((o = MakeLabel("")))     DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel(_("Out:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel(_("Mes:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel(_("Pop:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
+      for (i = 0; i < 2 && !err; i++) {
+        if((o = MakeLabel("")))     DoMethod(group[i], OM_ADDMEMBER, o); else err++;
+        if((o = MakeLabel(_("Out:")))) DoMethod(group[i], OM_ADDMEMBER, o); else err++;
+        if((o = MakeLabel(_("Mes:")))) DoMethod(group[i], OM_ADDMEMBER, o); else err++;
+        if((o = MakeLabel(_("Pop:")))) DoMethod(group[i], OM_ADDMEMBER, o); else err++;
       }
       for(i=0; i < E_LAST && !err; i++)
       {
         if((o = MakeLabelLeft(get_message_text(sorted_events[i]))))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, o);
         else
-          ++err;
+          err++;
 
         if((message_option_objects[i].Out = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Out);
         else
-          ++err;
+          err++;
 
         if((message_option_objects[i].Mes = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Mes);
         else
-          ++err;
+          err++;
 
         if((message_option_objects[i].Pop = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Pop);
         else
-          ++err;
+          err++;
       }
       if(E_LAST & 1) /* uneven number of entries */
       {
         if((o = MakeLabel("")))
           DoMethod(group[0], OM_ADDMEMBER, o);
         else
-          ++err;
+          err++;
       }
 
       if(!err)
@@ -150,8 +148,7 @@ void popup_messageopt_dialog(void)
 
   if(option_wnd)
   {
-    for(i = 0; i < E_LAST; ++i)
-    {
+    for (i = 0; i < E_LAST; i++) {
       setcheckmark(message_option_objects[i].Out, messages_where[sorted_events[i]] & MW_OUTPUT);
       setcheckmark(message_option_objects[i].Mes, messages_where[sorted_events[i]] & MW_MESSAGES);
       setcheckmark(message_option_objects[i].Pop, messages_where[sorted_events[i]] & MW_POPUP);

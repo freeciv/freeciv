@@ -185,7 +185,7 @@ unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets)
   const char *key = (const char*)vkey;
   unsigned long result=0;
 
-  for(; *key != '\0'; ++key) {
+  for (; *key != '\0'; key++) {
     result *= 5; 
     result += *key;
   }

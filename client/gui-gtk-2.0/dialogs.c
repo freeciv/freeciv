@@ -1194,7 +1194,7 @@ void popup_government_dialog(void)
     gtk_container_add(GTK_CONTAINER(dlabel), vbox);
     gtk_container_border_width(GTK_CONTAINER(vbox), 5);
 
-    for (i=0; i<game.government_count; ++i) {
+    for (i = 0; i < game.government_count; i++) {
       struct government *g = &governments[i];
 
       if (i != game.government_when_anarchy) {

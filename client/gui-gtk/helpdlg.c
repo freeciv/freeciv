@@ -858,7 +858,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
     } unit_type_iterate_end;
 
-    for(j=0; j<game.num_tech_types; ++j) {
+    for (j = 0; j < game.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE) {
           hbox = gtk_hbox_new(FALSE, 0);
@@ -1063,7 +1063,9 @@ static void help_update_dialog(const struct help_item *pitem)
 
   /* figure out what kind of item is required for pitem ingo */
 
-  for(top=pitem->topic; *top==' '; ++top);
+  for (top = pitem->topic; *top == ' '; top++) {
+    /* nothing */
+  }
 
   gtk_widget_hide_all(help_box);
   gtk_text_freeze(GTK_TEXT(help_text));

@@ -414,13 +414,14 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
   idx = 0;
   help_list_iterate(help_nodes, ptmp) {
     char *p=ptmp->topic;
-    while(*p==' ')
-      ++p;
+    while (*p == ' ') {
+      p++;
+    }
     if(strcmp(name, p)==0 && (htype==HELP_ANY || htype==ptmp->type)) {
       pitem = ptmp;
       break;
     }
-    ++idx;
+    idx++;
   }
   help_list_iterate_end;
   

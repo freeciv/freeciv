@@ -845,7 +845,7 @@ Uint16 **get_list_modes(Uint32 flags)
     pUniStringArray = CALLOC(i + 1, sizeof(Uint16 *));
 
     /* fill array */
-    for (i = 0; pModes[i]; ++i) {
+    for (i = 0; pModes[i]; i++) {
       sprintf(__buf, "%dx%d", pModes[i]->w, pModes[i]->h);
       pUniStringArray[i] = convert_to_utf16(__buf);
       freelog(LOG_DEBUG, _("Add %s"), __buf);

@@ -797,7 +797,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 			   0,FALSE,FALSE,5);
     } unit_type_iterate_end;
 
-    for(j=0; j<game.num_tech_types; ++j) {
+    for (j = 0; j < game.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
         if(advances[j].req[1]==A_NONE) {
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
@@ -860,7 +860,9 @@ static void help_update_dialog(const struct help_item *pitem)
   char *top;
   /* figure out what kind of item is required for pitem ingo */
 
-  for(top=pitem->topic; *top==' '; ++top);
+  for (top = pitem->topic; *top == ' '; top++) {
+    /* nothing */
+  }
   SetWindowText(helpdlg_text,"");
 
   switch(pitem->type) {

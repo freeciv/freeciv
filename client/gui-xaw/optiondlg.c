@@ -70,7 +70,7 @@ void popup_option_dialog(void)
 
   create_option_dialog();
 
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
       XtVaSetValues((Widget) o->p_gui_data, XtNstate, *(o->p_bool_value),
@@ -260,7 +260,7 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   client_option *o;
   XtPointer dp;
 
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
       b = *(o->p_bool_value);

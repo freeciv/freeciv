@@ -902,7 +902,7 @@ void game_renumber_players(int plrno)
 {
   int i;
 
-  for(i=plrno; i<game.nplayers-1; ++i) {
+  for (i = plrno; i < game.nplayers - 1; i++) {
     game.players[i]=game.players[i+1];
     game.players[i].player_no=i;
     conn_list_iterate(game.players[i].connections, pconn)

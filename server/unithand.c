@@ -184,7 +184,7 @@ void handle_upgrade_unittype_request(struct player * const pplayer,
 	  /* Only units in cities can be upgraded. */
           if (pcity && pcity->owner == player_no) {
             upgrade_unit(punit, to_unittype);
-            ++number_of_upgraded_units;
+	    number_of_upgraded_units++;
             if ((pplayer->economic.gold -= cost) < cost) {
 	      /* We can't upgrade any more units. */
               break;

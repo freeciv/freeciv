@@ -924,7 +924,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 		get_unit_type(j)->name);
     } unit_type_iterate_end;
 
-    for(j=0; j<game.num_tech_types; ++j) {
+    for (j = 0; j < game.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE)
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"), 
@@ -1102,7 +1102,9 @@ static void help_update_dialog(const struct help_item *pitem)
 
   /* figure out what kind of item is required for pitem ingo */
 
-  for(top=pitem->topic; *top==' '; ++top);
+  for (top = pitem->topic; *top == ' '; top++) {
+    /* nothing */
+  }
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
@@ -1156,7 +1158,7 @@ static int help_tree_destroy_children(Widget w)
 		XtNnumChildren, &cnt,
 		NULL);
 
-  for(; cnt>0; --cnt, ++children) {
+  for (; cnt > 0; cnt--, children++) {
     if(XtIsSubclass(*children, commandWidgetClass)) {
       Widget par;
       XtVaGetValues(*children, XtNtreeParent, &par, NULL);

@@ -205,9 +205,9 @@ void test_random1(int n)
       didchange = (new_value != old_value);
       if (i > 1) {		/* have olddidchange */
 	if (didchange != olddidchange) {
-	  ++behaviourchange;
+	  behaviourchange++;
 	} else {
-	  ++behavioursame;
+	  behavioursame++;
 	}
       }
       olddidchange = didchange;

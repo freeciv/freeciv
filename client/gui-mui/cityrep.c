@@ -91,7 +91,7 @@ HOOKPROTONH(cityrep_display, int, char **array, struct city *pcity)
           sz_strlcat(buf[j], city_report_specs[i].title2);
       }
       array[j] = buf[j];
-      ++j;
+      j++;
     }
   }
   return 0;
@@ -263,7 +263,7 @@ static void cityrep_configure_ok(void)
   LONG i, j = 0;
 
   buffer[j++] = ','; /* the name! */
-  for(i = 1; i < NUM_CREPORT_COLS; ++i)
+  for(i = 1; i < NUM_CREPORT_COLS; i++)
   {
     if((city_report_specs[i].show = xget(cityrep_configure_objects[i], MUIA_Selected)))
       buffer[j++] = ',';
@@ -315,12 +315,12 @@ static void cityrep_configure(void)
         if((o = MakeLabel(city_report_specs[i].explanation)))
           DoMethod(group, OM_ADDMEMBER, o);
         else
-          ++err;
+          err++;
 
         if((cityrep_configure_objects[i] = MakeCheck(city_report_specs[i].explanation, FALSE)))
           DoMethod(group, OM_ADDMEMBER, cityrep_configure_objects[i]);
         else
-          ++err;
+          err++;
       }
       if(!err)
       {
@@ -339,7 +339,7 @@ static void cityrep_configure(void)
 
   if(config_wnd)
   {
-    for(i = 0; i < NUM_CREPORT_COLS; ++i)
+    for (i = 0; i < NUM_CREPORT_COLS; i++)
       setcheckmark(cityrep_configure_objects[i], city_report_specs[i].show);
     set(config_wnd, MUIA_Window_Open, TRUE);
   }
@@ -357,7 +357,7 @@ static void create_city_report_dialog(void)
   LONG i, j = 0;
 
   format[j++] = ','; /* the name! */
-  for(i = 1; i < NUM_CREPORT_COLS; ++i)
+  for (i = 1; i < NUM_CREPORT_COLS; i++)
   {
     if(city_report_specs[i].show)
       format[j++] = ',';

@@ -1339,7 +1339,7 @@ void popup_city_production_dialog(struct city *pcity)
         DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 1, MUIV_NList_Insert_Bottom);
 
         if (i == pcity->currently_building && !pcity->is_building_unit)
-         current = ++pos;
+         current = pos++;
 
         pos++;
       }
@@ -1359,7 +1359,7 @@ void popup_city_production_dialog(struct city *pcity)
         DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 10000, MUIV_NList_Insert_Bottom);
 
         if(i == pcity->currently_building && pcity->is_building_unit)
-         current = ++pos;
+         current = pos++;
 
         pos++;
       }
