@@ -544,13 +544,6 @@ static int total_activity_targeted(int x, int y, enum unit_activity act,
   return total;
 }
 
-/**************************************************************************
-  Returns the speed of a settler.
-**************************************************************************/
-int get_settler_speed(struct unit *punit) {
-   return (10 * unit_type(punit)->veteran[punit->veteran].power_fact);
-}
-
 /***************************************************************************
   Maybe settler/worker gains a veteran level?
 ****************************************************************************/
@@ -579,7 +572,6 @@ static void update_unit_activity(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
-  int mr = unit_move_rate(punit);
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
@@ -588,20 +580,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
     /*  We don't need the activity_count for the above */
-    if (punit->moves_left > 0) {
-      /* 
-       * To allow a settler to begin a task with no moves left without
-       * it counting toward the time to finish 
-       */
-
-      /* update settler activity 
-       * note that all activity costs are multiplied
-       * by a factor of 10. */
-      punit->activity_count +=
-	      (mr * get_settler_speed(punit)) / SINGLE_MOVE;
-    } else if (mr == 0) {
-      punit->activity_count += get_settler_speed(punit);
-    }
+    punit->activity_count += get_settler_speed(punit);
 
     /* settler may become veteran when doing something useful */
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY

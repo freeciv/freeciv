@@ -269,6 +269,9 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target);
+int get_settler_speed(struct unit *punit);
+int get_turns_for_activity_at(struct unit *punit,
+			      enum unit_activity activity, int x, int y);
 bool can_unit_do_auto(struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 enum tile_special_type get_unit_tile_pillage_set(int x, int y);

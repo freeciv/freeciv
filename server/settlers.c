@@ -1102,50 +1102,52 @@ static int evaluate_improvements(struct unit *punit,
 
 	/* now, consider various activities... */
 
-	time = (map_build_irrigation_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
-	  mv_turns;
+	time = mv_turns
+	  + get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, x, y);
 	consider_settler_action(pplayer, ACTIVITY_IRRIGATE, -1,
 				pcity->ai.irrigate[i][j], oldv, in_use, time,
 				&best_newv, &best_oldv, best_act, gx, gy,
 				x, y);
 
 	if (unit_flag(punit, F_TRANSFORM)) {
-	  time = (map_transform_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
-	    mv_turns;
+	  time = mv_turns
+	    + get_turns_for_activity_at(punit, ACTIVITY_TRANSFORM, x, y);
 	  consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
 				  pcity->ai.transform[i][j], oldv, in_use, time,
 				  &best_newv, &best_oldv, best_act, gx, gy,
 				  x, y);
 	}
 
-	time = (map_build_mine_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
-	  mv_turns;
+	time = mv_turns
+	  + get_turns_for_activity_at(punit, ACTIVITY_MINE, x, y);
 	consider_settler_action(pplayer, ACTIVITY_MINE, -1,
 				pcity->ai.mine[i][j], oldv, in_use, time,
 				&best_newv, &best_oldv, best_act, gx, gy,
 				x, y);
 
 	if (!map_has_special(x, y, S_ROAD)) {
-	  time = (map_build_road_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
-	    mv_turns;
+	  time = mv_turns
+	    + get_turns_for_activity_at(punit, ACTIVITY_ROAD, x, y);
 	  consider_settler_action(pplayer, ACTIVITY_ROAD,
 				  road_bonus(x, y, S_ROAD) * 5,
 				  pcity->ai.road[i][j], oldv, in_use, time,
 				  &best_newv, &best_oldv, best_act, gx, gy,
 				  x, y);
 
-	  time = (map_build_rail_time(x, y) * SINGLE_MOVE
-		  + map_build_road_time(x, y) * SINGLE_MOVE
-		  + mv_rate - 1)/mv_rate + mv_turns;
-	  consider_settler_action(pplayer, ACTIVITY_ROAD,
-				  road_bonus(x, y, S_RAILROAD) * 3,
-				  pcity->ai.railroad[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+	  if (can_rr) {
+	    /* Count road time plus rail time. */
+	    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, x, y);
+	    consider_settler_action(pplayer, ACTIVITY_ROAD,
+				    road_bonus(x, y, S_RAILROAD) * 3,
+				    pcity->ai.railroad[i][j], oldv,
+				    in_use, time,
+				    &best_newv, &best_oldv, best_act, gx, gy,
+				    x, y);
+	  }
 	} else if (!map_has_special(x, y, S_RAILROAD)
 		   && can_rr) {
-	  time = (map_build_rail_time(x, y) *SINGLE_MOVE
-		  + mv_rate - 1)/mv_rate + mv_turns;
+	  time = mv_turns
+	    + get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, x, y);
 	  consider_settler_action(pplayer, ACTIVITY_RAILROAD,
 				  road_bonus(x, y, S_RAILROAD) * 3,
 				  pcity->ai.railroad[i][j], oldv, in_use, time,
@@ -1154,8 +1156,8 @@ static int evaluate_improvements(struct unit *punit,
 	} /* end S_ROAD else */
 
 	if (map_has_special(x, y, S_POLLUTION)) {
-	  time = (map_clean_pollution_time(x, y) * SINGLE_MOVE
-		  + mv_rate - 1)/mv_rate + mv_turns;
+	  time = mv_turns
+	    + get_turns_for_activity_at(punit, ACTIVITY_POLLUTION, x, y);
 	  consider_settler_action(pplayer, ACTIVITY_POLLUTION,
 				  pplayer->ai.warmth,
 				  pcity->ai.detox[i][j], oldv, in_use, time,
@@ -1164,8 +1166,8 @@ static int evaluate_improvements(struct unit *punit,
 	}
       
 	if (map_has_special(x, y, S_FALLOUT)) {
-	  time = (map_clean_fallout_time(x, y) * SINGLE_MOVE
-		  + mv_rate - 1)/mv_rate + mv_turns;
+	  time = mv_turns
+	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, x, y);
 	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,
 				  pplayer->ai.warmth,
 				  pcity->ai.derad[i][j], oldv, in_use, time,

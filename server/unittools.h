@@ -34,7 +34,6 @@ bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
-int get_settler_speed(struct unit *punit);
 
 /* various */
 char *get_location_str_in(struct player *pplayer, int x, int y);

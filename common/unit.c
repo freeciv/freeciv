@@ -518,6 +518,42 @@ bool can_unit_change_homecity(struct unit *punit)
 }
 
 /**************************************************************************
+  Returns the speed of a settler.  This depends on the veteran level and
+  the adjusted move_rate of the settler (which depends on HP).
+**************************************************************************/
+int get_settler_speed(struct unit *punit)
+{
+  int fact = get_unit_type(punit->type)->veteran[punit->veteran].power_fact;
+
+  /* The speed of the settler depends on its adjusted move_rate, not on
+   * the number of moves actually remaining. */
+  int move_rate = unit_move_rate(punit); /* Never less than SINGLE_MOVE */
+
+  /* All settler actions are multiplied by 10. */
+  return 10 * fact * move_rate / SINGLE_MOVE;
+}
+
+/**************************************************************************
+  Return the estimated number of turns for the worker unit to start and
+  complete the activity at the given location.  This assumes no other
+  worker units are helping out.
+**************************************************************************/
+int get_turns_for_activity_at(struct unit *punit,
+			      enum unit_activity activity, int x, int y)
+{
+  /* This is just an approximation since the speed depends on the unit's
+   * HP, which may change. */
+  int speed = get_settler_speed(punit);
+  int time = map_activity_time(activity, x, y);
+
+  if (time >= 0 && speed >= 0) {
+    return (time - 1) / speed + 1; /* round up */
+  } else {
+    return FC_INFINITY;
+  }
+}
+
+/**************************************************************************
 Return whether the unit can be put in auto-mode.
 (Auto-settler for settlers, auto-attack for military units.)
 **************************************************************************/
