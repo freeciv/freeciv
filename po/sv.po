@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.35\n"
-"POT-Creation-Date: 2002-09-30 21:11+0200\n"
-"PO-Revision-Date: 2002-09-29 20:18+0200\n"
+"Project-Id-Version: 0.36\n"
+"POT-Creation-Date: 2002-10-05 16:16+0200\n"
+"PO-Revision-Date: 2002-10-06 10:38+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -2096,35 +2096,41 @@ msgstr "."
 msgid "th"
 msgstr "."
 
-#: server/report.c:535 server/report.c:553
+#: server/report.c:542
+msgid "Demography string contains invalid characters. Try \"help demography\"."
+msgstr ""
+"Demografisträngen innehåller otillåtna tecken. Försök med \"help demography"
+"\"."
+
+#: server/report.c:582 server/report.c:600
 msgid "Demographics Report:"
 msgstr "Demografi:"
 
-#: server/report.c:536
+#: server/report.c:583
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Ledsen, demografiredogörelsen är otillgänglig."
 
-#: server/report.c:540
+#: server/report.c:587
 #, c-format
 msgid "The %s of the %s"
 msgstr "%2$ss %1$s"
 
-#: server/report.c:1010
+#: server/report.c:1057
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
 msgstr[0] "%2d: De %s %s värderades till %d\n"
 msgstr[1] "%2d: De %s %s värderades till %d\n"
 
-#: server/report.c:1019
+#: server/report.c:1066
 msgid "Final Report:"
 msgstr "Slutredogörelse:"
 
-#: server/report.c:1019
+#: server/report.c:1066
 msgid "Progress Scores:"
 msgstr "Framgångsvärde:"
 
-#: server/report.c:1020
+#: server/report.c:1067
 msgid "The Greatest Civilizations in the world."
 msgstr "Den största civilisationen i världen."
 
@@ -2629,23 +2635,23 @@ msgstr "Spel: Spelet är över..."
 msgid "The game is over!"
 msgstr "Spelet är över!"
 
-#: server/stdinhand.c:176
+#: server/stdinhand.c:178
 msgid "Number of players is higher than requested value, keeping old value"
 msgstr "Antal spelare är högre än efterfrågat värde, behåller gammalt värde"
 
-#: server/stdinhand.c:216
+#: server/stdinhand.c:218
 msgid "Map width in squares"
 msgstr "Kartbredd i rutor"
 
-#: server/stdinhand.c:220
+#: server/stdinhand.c:222
 msgid "Map height in squares"
 msgstr "Karthöjd i rutor"
 
-#: server/stdinhand.c:227
+#: server/stdinhand.c:229
 msgid "Method used to generate map"
 msgstr "Medod använd för att skapa kartan"
 
-#: server/stdinhand.c:228
+#: server/stdinhand.c:230
 msgid ""
 "1 = standard, with random continents;\n"
 "2 = equally sized large islands with one player each, and twice that many\n"
@@ -2670,61 +2676,61 @@ msgstr ""
 "Anmärkning: värdena 2,3 och 4 skapar \"rättvisare\" (men tråkigare) kartor.\n"
 "(Noll anger scenariokarta.)"
 
-#: server/stdinhand.c:247
+#: server/stdinhand.c:249
 msgid "Presence or absence of 1x1 islands"
 msgstr "Tillåt 1×1-öar"
 
-#: server/stdinhand.c:248
+#: server/stdinhand.c:250
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr "0 = inga 1×1-öar; 1 = vanligtvis några 1x1-öar"
 
-#: server/stdinhand.c:252
+#: server/stdinhand.c:254
 msgid "Whether the poles are separate continents"
 msgstr "Huruvida poler är skilda från övriga världsdelar"
 
-#: server/stdinhand.c:253
+#: server/stdinhand.c:255
 msgid "0 = continents may attach to poles; 1 = poles will be separate"
 msgstr ""
 "0 = poler kan hänga samman med övriga världsdelar, 1= poler är avskilda"
 
-#: server/stdinhand.c:258
+#: server/stdinhand.c:260
 msgid "Amount of land vs ocean"
 msgstr "Mängd land i förhållande till hav"
 
-#: server/stdinhand.c:262
+#: server/stdinhand.c:264
 msgid "Amount of hills/mountains"
 msgstr "Mängd kullar/berg"
 
-#: server/stdinhand.c:263
+#: server/stdinhand.c:265
 msgid ""
 "Small values give flat maps, higher values give more hills and mountains."
 msgstr "Små värden ger flata kartor, högre värden ger fler kullar och berg."
 
-#: server/stdinhand.c:268
+#: server/stdinhand.c:270
 msgid "Amount of river squares"
 msgstr "Mängd flodrutor"
 
-#: server/stdinhand.c:272
+#: server/stdinhand.c:274
 msgid "Amount of grass squares"
 msgstr "Mängd gräslandsrutor"
 
-#: server/stdinhand.c:276
+#: server/stdinhand.c:278
 msgid "Amount of forest squares"
 msgstr "Mängd skogsrutor"
 
-#: server/stdinhand.c:280
+#: server/stdinhand.c:282
 msgid "Amount of swamp squares"
 msgstr "Mängd sumprutor"
 
-#: server/stdinhand.c:284
+#: server/stdinhand.c:286
 msgid "Amount of desert squares"
 msgstr "Mängd ökenrutor"
 
-#: server/stdinhand.c:288
+#: server/stdinhand.c:290
 msgid "Map generation random seed"
 msgstr "Frö för slummpmässigt skapande av kartan"
 
-#: server/stdinhand.c:289
+#: server/stdinhand.c:291
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time, to give a random map."
@@ -2732,19 +2738,19 @@ msgstr ""
 "Samma frö kommer alltid att skapa samma karta; för noll (standardvärdet) "
 "väljs frö baserat på tiden, för att skapa en slumpmässig karta."
 
-#: server/stdinhand.c:300
+#: server/stdinhand.c:302
 msgid "General random seed"
 msgstr "Allmänt frö för slumptal"
 
-#: server/stdinhand.c:301
+#: server/stdinhand.c:303
 msgid "For zero (the default) a seed will be chosen based on the time."
 msgstr "För noll (standardvärdet) väljs frö baserat på tiden."
 
-#: server/stdinhand.c:306
+#: server/stdinhand.c:308
 msgid "Amount of \"special\" resource squares"
 msgstr "Mängd rutor med \"särskilda\" tillgångar"
 
-#: server/stdinhand.c:307
+#: server/stdinhand.c:309
 msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
@@ -2752,15 +2758,15 @@ msgstr ""
 "Särksilda tillgångar förbättrar det grundläggande landskapsslag som de "
 "befinner sig på. Servervariabelns skala är tusendelar."
 
-#: server/stdinhand.c:313
+#: server/stdinhand.c:315
 msgid "Amount of huts (minor tribe villages)"
 msgstr "Mängd mindre stambyar"
 
-#: server/stdinhand.c:322
+#: server/stdinhand.c:324
 msgid "Minimum number of players"
 msgstr "Minsta möjliga antal spelare"
 
-#: server/stdinhand.c:323
+#: server/stdinhand.c:325
 msgid ""
 "There must be at least this many players (connected players or AI's) before "
 "the game can start."
@@ -2768,11 +2774,11 @@ msgstr ""
 "Minst så här många spelare (mänskliga eller datorstyrda) måste finnas innan "
 "spelet kan börja."
 
-#: server/stdinhand.c:329
+#: server/stdinhand.c:331
 msgid "Maximum number of players"
 msgstr "Största möjliga antal spelare"
 
-#: server/stdinhand.c:330
+#: server/stdinhand.c:332
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -2782,11 +2788,11 @@ msgstr ""
 "spelet. När så här många spelare är anslutna under förspelet avvisas alla "
 "ytterligare spelare som försöker ansluta."
 
-#: server/stdinhand.c:338
+#: server/stdinhand.c:340
 msgid "Number of players to fill to with AI's"
 msgstr "Antal spelare att fylla ut till med datorstyrda"
 
-#: server/stdinhand.c:339
+#: server/stdinhand.c:341
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
@@ -2796,19 +2802,19 @@ msgstr ""
 "ytterligare datorstyrda spelare för att öka antalet spelare till värdet av "
 "denna servervalmöjlighet."
 
-#: server/stdinhand.c:349
+#: server/stdinhand.c:351
 msgid "Number of initial settlers per player"
 msgstr "Antal inledande bosättare per spelare"
 
-#: server/stdinhand.c:353
+#: server/stdinhand.c:355
 msgid "Number of initial explorers per player"
 msgstr "Antal inledande utforskare per spelare"
 
-#: server/stdinhand.c:357
+#: server/stdinhand.c:359
 msgid "Area where initial units are located"
 msgstr "Yta där inledande enheter befinner sig"
 
-#: server/stdinhand.c:358
+#: server/stdinhand.c:360
 msgid ""
 "This is half the length of a side of the square within which the initial "
 "units are dispersed."
@@ -2816,27 +2822,27 @@ msgstr ""
 "Detta är halva längden av sidan på rutan inom vilken de inledande enheterna "
 "är utspridda."
 
-#: server/stdinhand.c:363
+#: server/stdinhand.c:365
 msgid "Starting gold per player"
 msgstr "Inledande guld per spelare"
 
-#: server/stdinhand.c:367
+#: server/stdinhand.c:369
 msgid "Number of initial advances per player"
 msgstr "Antal inledande framsteg per spelare"
 
-#: server/stdinhand.c:371
+#: server/stdinhand.c:373
 msgid "Points required to gain a new advance"
 msgstr "Forskningsvärde för att få nytt framsteg"
 
-#: server/stdinhand.c:372
+#: server/stdinhand.c:374
 msgid "This affects how quickly players can research new technology."
 msgstr "Detta påverkar hur snabbt spelare kan forska fram nya teknologier."
 
-#: server/stdinhand.c:378
+#: server/stdinhand.c:380
 msgid "Percentage penalty when changing tech"
 msgstr "Procent straffavgift vid byte av teknologi"
 
-#: server/stdinhand.c:379
+#: server/stdinhand.c:381
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points.  This "
@@ -2846,11 +2852,11 @@ msgstr ""
 "positivt forskningsvärde förlorar man så här många procent av det. Detta "
 "gäller ej om man just gjort ett framsteg denna omgång."
 
-#: server/stdinhand.c:387
+#: server/stdinhand.c:389
 msgid "Penalty when getting tech from treaty"
 msgstr "Straffavgift vid anskaffning av teknologi genom avtal"
 
-#: server/stdinhand.c:388
+#: server/stdinhand.c:390
 msgid ""
 "For each advance you gain from a diplomatic treaty, you lose research points "
 "equal to this percentage of the cost to research an new advance.  You can "
@@ -2861,11 +2867,11 @@ msgstr ""
 "forska fram ett nytt framsteg. Forskningsvärdet kan bli negativ efter detta "
 "i fall att kostnaden är nollskild."
 
-#: server/stdinhand.c:395
+#: server/stdinhand.c:397
 msgid "Penalty when getting tech from conquering"
 msgstr "Straffavgift vid anskaffning av teknologi genom erövring"
 
-#: server/stdinhand.c:396
+#: server/stdinhand.c:398
 msgid ""
 "For each advance you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research an new advance.  You "
@@ -2876,11 +2882,11 @@ msgstr ""
 "kostnaden att forska fram ett nytt framsteg. Forskningsvärdet kan bli "
 "negativ efter detta i fall att kostnaden är nollskild."
 
-#: server/stdinhand.c:404
+#: server/stdinhand.c:406
 msgid "Penalty when getting a free tech"
 msgstr "Straffavgift vid erhållande av teknologi utan kostnad"
 
-#: server/stdinhand.c:405
+#: server/stdinhand.c:407
 msgid ""
 "For each advance you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from the Great Library), you lose "
@@ -2894,15 +2900,15 @@ msgstr ""
 "Forskningsvärdet kan bli negativt efter detta i fall att kostnaden är "
 "nollskild."
 
-#: server/stdinhand.c:414
+#: server/stdinhand.c:416
 msgid "Food required for a city to grow"
 msgstr "Mat som krävs för att en stad skall växa"
 
-#: server/stdinhand.c:418
+#: server/stdinhand.c:420
 msgid "Percentage food lost when need aqueduct"
 msgstr "Procent man förlorad när vattenledning behövs"
 
-#: server/stdinhand.c:419
+#: server/stdinhand.c:421
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
@@ -2912,11 +2918,11 @@ msgstr ""
 "(eller ett avloppssystem), förlorar den så här många procent av sitt "
 "matförråd (eller hälften så mycket om den har sädeslager)."
 
-#: server/stdinhand.c:427
+#: server/stdinhand.c:429
 msgid "Minimum city size to get full trade"
 msgstr "Minsta stadsstorlek för full handel"
 
-#: server/stdinhand.c:428
+#: server/stdinhand.c:430
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
@@ -2928,11 +2934,11 @@ msgstr ""
 "och minskar gradvis till 0% (ingen begränsning förutom vanlig mutning) för "
 "städer av storlek fulltradesize. Se även notradesize."
 
-#: server/stdinhand.c:437
+#: server/stdinhand.c:439
 msgid "Maximum size of a city without trade"
 msgstr "Största storleken för en stad utan handel"
 
-#: server/stdinhand.c:438
+#: server/stdinhand.c:440
 msgid ""
 "All the cities of smaller or equal size to this do not produce trade at all. "
 "The produced trade increases gradually for cities larger than notradesize "
@@ -2941,11 +2947,11 @@ msgstr ""
 "Alla städer <= detta värde ger ingen handel alls. Handeln öker gradvis för "
 "städer > notradesize och < fulltradesize. Se även fulltradesize."
 
-#: server/stdinhand.c:447
+#: server/stdinhand.c:449
 msgid "City size before people become unhappy"
 msgstr "Stadsstorlek innan folk blir otillfredställda"
 
-#: server/stdinhand.c:448
+#: server/stdinhand.c:450
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
@@ -2955,11 +2961,11 @@ msgstr ""
 "cityfactor."
 
 #
-#: server/stdinhand.c:455
+#: server/stdinhand.c:457
 msgid "Whether angry citizens are enabled"
 msgstr "Huruvida ilskna medborgare tillämpas"
 
-#: server/stdinhand.c:456
+#: server/stdinhand.c:458
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
@@ -2969,11 +2975,11 @@ msgstr ""
 "otillfredställda innan någon annan medborgargrupp tas med i beräkningen. Se "
 "även unhappysize, cityfactor och governments."
 
-#: server/stdinhand.c:463
+#: server/stdinhand.c:465
 msgid "Number of cities for higher unhappiness"
 msgstr "Antal städer för högre otillfredställdhet"
 
-#: server/stdinhand.c:464
+#: server/stdinhand.c:466
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
 "extra citizen is unhappy before other adjustments; see also unhappysize.  "
@@ -2985,11 +2991,11 @@ msgstr ""
 "även unhappysize. Detta förutsätter folkstyre; för andra regeringar "
 "uppträder denna inverkan redan vid lägre antal städer."
 
-#: server/stdinhand.c:472
+#: server/stdinhand.c:474
 msgid "Minimum distance between cities (move distance)"
 msgstr "Minsta avståndet mellan städer"
 
-#: server/stdinhand.c:473
+#: server/stdinhand.c:475
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
 "citymindist distance. For example, if citymindist is 3, there have to be at "
@@ -3001,11 +3007,11 @@ msgstr ""
 "exempel är 3 så måste det vara minst 2 tomma rutor mellan två städer. Om det "
 "är satt till 0 (standard) så används värdet i regeluppsättningen i stället."
 
-#: server/stdinhand.c:483
+#: server/stdinhand.c:485
 msgid "Number of turns between rapture effect"
 msgstr "Antal omgångar mellan verkning av firande"
 
-#: server/stdinhand.c:484
+#: server/stdinhand.c:486
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after rapturing n+1 turns."
@@ -3013,11 +3019,11 @@ msgstr ""
 "Sätter antalet omgångar mellan stadstillväxt orsakad av firande. Om satt "
 "till n så växer staden efter att ha firat i n + 1 omgång(ar)."
 
-#: server/stdinhand.c:490
+#: server/stdinhand.c:492
 msgid "Chance for conquered building destruction"
 msgstr "Sannolikhet att erövrad byggnad förstörs"
 
-#: server/stdinhand.c:491
+#: server/stdinhand.c:493
 msgid ""
 "When a player conquers a city, each City Improvement has this percentage "
 "chance to be destroyed."
@@ -3025,11 +3031,11 @@ msgstr ""
 "När en spelare erövrar en stad, har varje stadsförbättring denna sannolikhet "
 "att bli förstörd."
 
-#: server/stdinhand.c:496
+#: server/stdinhand.c:498
 msgid "Style of Civ rules"
 msgstr "Stil för civ-regler"
 
-#: server/stdinhand.c:497
+#: server/stdinhand.c:499
 msgid ""
 "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
 "Currently this option affects the following rules:\n"
@@ -3042,11 +3048,11 @@ msgstr ""
 "  - Apolloprogrammet visar hela kartan i Civ2, men endast städer i Civ1.\n"
 "Se även README.rulesets."
 
-#: server/stdinhand.c:504
+#: server/stdinhand.c:506
 msgid "Chance of moving into tile after attack"
 msgstr "Sannolikhet att flytta sig till ruta efter angrepp"
 
-#: server/stdinhand.c:505
+#: server/stdinhand.c:507
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place).  "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -3059,11 +3065,11 @@ msgstr ""
 "rutan om de vinner över den sista fientliga enheten där. Värden mellan 0 och "
 "100 ger varierande sannolikhet områdets \"besätts\"."
 
-#: server/stdinhand.c:515
+#: server/stdinhand.c:517
 msgid "Reduce city population after attack"
 msgstr "Minska stads storlek efter lyckat angrepp"
 
-#: server/stdinhand.c:516
+#: server/stdinhand.c:518
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -3079,11 +3085,11 @@ msgstr ""
 "  4 = heli\n"
 "  8 = luft"
 
-#: server/stdinhand.c:527
+#: server/stdinhand.c:529
 msgid "Range of vision for units in a fortress"
 msgstr "Siktvidd för enheter i fästningar."
 
-#: server/stdinhand.c:528
+#: server/stdinhand.c:530
 msgid ""
 "watchtower vision range: If set to 1, it has no effect. If 2 or larger, the "
 "vision range of a unit inside a fortress is set to this value, if the "
@@ -3096,11 +3102,11 @@ msgstr ""
 "teknologin har erhållits. Denna teknologi bestäms av flaggan \"Watchtower\"\n"
 "i regeluppsättningen för teknologier. Se även wtowerevision."
 
-#: server/stdinhand.c:539
+#: server/stdinhand.c:541
 msgid "Extra vision range for units in a fortress"
 msgstr "Ytterliggare siktvidd för enheter i fästningar"
 
-#: server/stdinhand.c:540
+#: server/stdinhand.c:542
 msgid ""
 "watchtower extra vision range: If set to 0, it has no effect. If larger than "
 "0, the visionrange of a unit is raised by this value, if the unit is inside "
@@ -3114,11 +3120,11 @@ msgstr ""
 "i regelfilen för teknologier. Det största värdet av wtowervision och \n"
 "wtowerevision kommer att användas. Se även wtowervision."
 
-#: server/stdinhand.c:551
+#: server/stdinhand.c:553
 msgid "Allowed city names"
 msgstr "Tillåtna stadsnamn"
 
-#: server/stdinhand.c:552
+#: server/stdinhand.c:554
 msgid ""
 "If set to 0, there are no restrictions: players can have multiple cities "
 "with the same names. If set to 1, city names have to be unique to a player: "
@@ -3134,11 +3140,11 @@ msgstr ""
 "får en spelare inte välja ett namn som finns uppräknat i regeluppsättningen "
 "som tillhörande en annan folkstam."
 
-#: server/stdinhand.c:578
+#: server/stdinhand.c:580
 msgid "Barbarian appearance frequency"
 msgstr "Barbarfrekvens"
 
-#: server/stdinhand.c:579
+#: server/stdinhand.c:581
 msgid ""
 "0 - no barbarians \n"
 "1 - barbarians only in huts \n"
@@ -3152,19 +3158,19 @@ msgstr ""
 "3 - hög barbarfrekvens \n"
 "4 - vandrande horder, massor av barbarer"
 
-#: server/stdinhand.c:589
+#: server/stdinhand.c:591
 msgid "Barbarian onset year"
 msgstr "Barbarernas inträdesår"
 
-#: server/stdinhand.c:590
+#: server/stdinhand.c:592
 msgid "Barbarians will not appear before this year."
 msgstr "Barbarer dyker inte upp före detta år."
 
-#: server/stdinhand.c:595
+#: server/stdinhand.c:597
 msgid "Whether to enable fog of war"
 msgstr "Gör krigsdimma verksamt"
 
-#: server/stdinhand.c:596
+#: server/stdinhand.c:598
 msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -3174,11 +3180,11 @@ msgstr ""
 "ens egna enheter och städer. Man kan inte se nya städer, om städer har växt "
 "eller landskapsförändringar."
 
-#: server/stdinhand.c:603
+#: server/stdinhand.c:605
 msgid "Chance in diplomat/spy contests"
 msgstr "Sannolikhet mellan budbärare och spejare"
 
-#: server/stdinhand.c:605
+#: server/stdinhand.c:607
 #, no-c-format
 msgid ""
 "A Diplomat or Spy acting against a city which has one or more defending "
@@ -3197,19 +3203,19 @@ msgstr ""
 "vanligtvis dubbelt så starka som budbärare, erfarna enheter är 50% starkare "
 "än oerfarna."
 
-#: server/stdinhand.c:617
+#: server/stdinhand.c:619
 msgid "Whether to allow space race"
 msgstr "Tillåt rymdkapplöpning"
 
-#: server/stdinhand.c:618
+#: server/stdinhand.c:620
 msgid "If this option is 1, players can build spaceships."
 msgstr "Om denna valmöjlighet sätts till 1, kan spelare bygga rymdskepp."
 
-#: server/stdinhand.c:623
+#: server/stdinhand.c:625
 msgid "Minimum number of cities for civil war"
 msgstr "Minsta antal städer för inbördeskrig"
 
-#: server/stdinhand.c:624
+#: server/stdinhand.c:626
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
 "player's capital is captured.  If this option is set to the maximum value, "
@@ -3219,11 +3225,11 @@ msgstr ""
 "dennes huvudstad faller. Om denna valmöjlighet är satt till sitt största "
 "värde, är inbördeskrig helt avstängda."
 
-#: server/stdinhand.c:632
+#: server/stdinhand.c:634
 msgid "Rebuild palace if capital is conquered"
 msgstr "Bygg nytt slott om huvudstad förloras"
 
-#: server/stdinhand.c:633
+#: server/stdinhand.c:635
 msgid ""
 "If this is set to 1 when the capital is conquered, palace is automatically "
 "rebuilt for free in another randomly choosed city, regardless on the "
@@ -3234,22 +3240,22 @@ msgstr ""
 "bland de städer man har kvar. Man behöver inte ha kunstap om murning för att "
 "få ett nytt slott."
 
-#: server/stdinhand.c:640
+#: server/stdinhand.c:642
 msgid "Whether to use natural city names"
 msgstr "Huruvida naturliga stadsnamn ska användas"
 
-#: server/stdinhand.c:641
+#: server/stdinhand.c:643
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "Om detta är valt avgörs stadsnamnen efter det omgivande landskapet."
 
 #
-#: server/stdinhand.c:653
+#: server/stdinhand.c:655
 msgid "What connections are allowed"
 msgstr "Vilka anslutningar är tillåtna"
 
-#: server/stdinhand.c:654
+#: server/stdinhand.c:656
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization, or \"player\".  Clients will only be permitted to "
@@ -3298,11 +3304,11 @@ msgstr ""
 "Stödet för flera anslutningar och iakttagaranslutningar är för tillfället "
 "under utprovning."
 
-#: server/stdinhand.c:684
+#: server/stdinhand.c:686
 msgid "Whether AI-status toggles with connection"
 msgstr "Växla datorstyrningsläge för anslutning"
 
-#: server/stdinhand.c:685
+#: server/stdinhand.c:687
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -3310,15 +3316,15 @@ msgstr ""
 "Om detta är satt till 1, stängs datorstyrning av när en spelare ansluter, "
 "och sätts på när en spelare kopplar från."
 
-#: server/stdinhand.c:690
+#: server/stdinhand.c:692
 msgid "Year the game ends"
 msgstr "Spelets slutår"
 
-#: server/stdinhand.c:695 server/stdinhand.c:704
+#: server/stdinhand.c:697 server/stdinhand.c:706
 msgid "Maximum seconds per turn"
 msgstr "Högsta möjliga antalet sekunder per omgång"
 
-#: server/stdinhand.c:696
+#: server/stdinhand.c:698
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In DEBUG servers, a "
@@ -3331,7 +3337,7 @@ msgstr ""
 "självständigt. Använd detta med \\\"timeoutincrease\\\" för att ha en "
 "självförändrande tidsgräns."
 
-#: server/stdinhand.c:705
+#: server/stdinhand.c:707
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. Use this with the "
@@ -3342,11 +3348,11 @@ msgstr ""
 "tidsbegränsas. Använd detta tillsammans med kommandot \"timeoutincrease\" "
 "för att ha en självförändrande tidsgräns."
 
-#: server/stdinhand.c:713
+#: server/stdinhand.c:715
 msgid "Seconds to let a client connection block"
 msgstr "Sekunder att låta en klientanslutning spärra"
 
-#: server/stdinhand.c:714
+#: server/stdinhand.c:716
 msgid ""
 "If a TCP connection is blocking for a time greater than this value, then the "
 "TCP connection is closed. Zero means there is no timeout beyond that "
@@ -3356,11 +3362,11 @@ msgstr ""
 "0 betyder att det inte finns någon tidsgräns utöver den som finns is själva "
 "TCProtokollets implementering."
 
-#: server/stdinhand.c:721
+#: server/stdinhand.c:723
 msgid "Max seconds for TCP buffers to drain"
 msgstr "Högsta möjliga antalet sekunder för tömmning av TCP-buffer"
 
-#: server/stdinhand.c:722
+#: server/stdinhand.c:724
 msgid ""
 "The civserver will wait for upto the value of this parameter in seconds, for "
 "all client connection TCP buffers to unblock. Zero means the server will not "
@@ -3370,11 +3376,11 @@ msgstr ""
 "att alla klientanslutningars TCP-buffrar ospärras. 0 betyter att servern "
 "inte kommer att vänta alls."
 
-#: server/stdinhand.c:729
+#: server/stdinhand.c:731
 msgid "Maximum seconds between PINGs"
 msgstr "Högsta antalet sekunder mellan PING"
 
-#: server/stdinhand.c:730
+#: server/stdinhand.c:732
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses. If a client doesn't reply with a PONG before the next server "
@@ -3384,11 +3390,11 @@ msgstr ""
 "ofta. Om en klient inte svarar med ett PONG före nästa PING-förfrågning "
 "kopplas klienten bort."
 
-#: server/stdinhand.c:737
+#: server/stdinhand.c:739
 msgid "Turn-blocking game play mode"
 msgstr "Omgångsblockerande spelsätt"
 
-#: server/stdinhand.c:738
+#: server/stdinhand.c:740
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -3396,11 +3402,11 @@ msgstr ""
 "Om detta sätts till 1 avslutas omgången inte förrän alla spelare har "
 "avslutat sin omgång, även frånkopplade spelare."
 
-#: server/stdinhand.c:744
+#: server/stdinhand.c:746
 msgid "Fixed-length turns play mode"
 msgstr "Omgångar har fast längd"
 
-#: server/stdinhand.c:745
+#: server/stdinhand.c:747
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
@@ -3408,11 +3414,11 @@ msgstr ""
 "Om detta är satt till 1 avslutas inte omgångar förrän tiden har löpt ut, "
 "oavsett om spelare har tryckt på \"Avsluta omgång\"."
 
-#: server/stdinhand.c:751
+#: server/stdinhand.c:753
 msgid "What is in the Demographics report"
 msgstr "Vad som finns i demografiredogörelsen"
 
-#: server/stdinhand.c:752
+#: server/stdinhand.c:754
 msgid ""
 "This should be a string of characters, each of which specifies the the "
 "inclusion of a line of information in the Demographics report.\n"
@@ -3439,11 +3445,11 @@ msgstr ""
 "    b = visa kolumnen \"bästa stat\"\n"
 "(Dessa teckens skiftläge har betydelse men inte deras ordning.)"
 
-#: server/stdinhand.c:769
+#: server/stdinhand.c:772
 msgid "Turns per auto-save"
 msgstr "Omgångar mellan självständiga sparningar"
 
-#: server/stdinhand.c:770
+#: server/stdinhand.c:773
 msgid ""
 "The game will be automatically saved per this number of turns.\n"
 "Zero means never auto-save."
@@ -3451,11 +3457,11 @@ msgstr ""
 "Spelet kommer att sparas av sig självt var \"saveturns\"-te omgång.\n"
 "Noll betyder att spelet aldrig sparas av sig självt."
 
-#: server/stdinhand.c:779 server/stdinhand.c:789
+#: server/stdinhand.c:782 server/stdinhand.c:792
 msgid "Savegame compression level"
 msgstr "Packningsläge för sparade spel"
 
-#: server/stdinhand.c:780 server/stdinhand.c:790
+#: server/stdinhand.c:783 server/stdinhand.c:793
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format).  "
 "Larger values will give better compression but take longer.  If the maximum "
@@ -3465,11 +3471,11 @@ msgstr ""
 "värden ger bättre packning men tar längre tid. Om det högsta tillåtna värdet "
 "är noll, kompilerades servern inte med zlib."
 
-#: server/stdinhand.c:800
+#: server/stdinhand.c:803
 msgid "Auto-save name prefix"
 msgstr "Förstavelse vid självständig sparning"
 
-#: server/stdinhand.c:801
+#: server/stdinhand.c:804
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\".\n"
 "This setting sets the <prefix> part."
@@ -3477,11 +3483,11 @@ msgstr ""
 "Självständigt sparade spel kommer att ha namnet \"<förstavelse><år>.sav\".\n"
 "Denna inställning sätter <förstavelse>-delen."
 
-#: server/stdinhand.c:807
+#: server/stdinhand.c:810
 msgid "Whether to log player statistics"
 msgstr "Logga spelarstatistik"
 
-#: server/stdinhand.c:808
+#: server/stdinhand.c:811
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn.  These statistics can be used to create power graphs after "
@@ -3490,11 +3496,11 @@ msgstr ""
 "Om satt till 1, läggs spelarstatistik till i filen \"civscore.log\" varje "
 "omgång. Denna statistik kan användas för att skapa styrkegrafer efter spelet."
 
-#: server/stdinhand.c:814
+#: server/stdinhand.c:817
 msgid "Detail level for logging game events"
 msgstr "Hur utförligt spelhändelser loggas"
 
-#: server/stdinhand.c:815
+#: server/stdinhand.c:818
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
@@ -3504,11 +3510,11 @@ msgstr ""
 "kommandoradsargumentet -g). Lägen: 0=ingen loggning, 20=standardloggning, "
 "30=utförlig loggning, 40=avlusningsloggning."
 
-#: server/stdinhand.c:987
+#: server/stdinhand.c:990
 msgid "Start the game, or restart after loading a savegame."
 msgstr "Sätt i gång ett nytt eller sparat spel."
 
-#: server/stdinhand.c:988
+#: server/stdinhand.c:991
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -3528,7 +3534,7 @@ msgstr ""
 "ha någon verkan."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1001
+#: server/stdinhand.c:1004
 msgid ""
 "help\n"
 "help commands\n"
@@ -3542,11 +3548,11 @@ msgstr ""
 "help <kommandonamn>\n"
 "help <valmöjlighetsnamn>"
 
-#: server/stdinhand.c:1006
+#: server/stdinhand.c:1009
 msgid "Show help about server commands and server options."
 msgstr "Visa hjälp om serverkommandon och servervalmöjligheter."
 
-#: server/stdinhand.c:1007
+#: server/stdinhand.c:1010
 msgid ""
 "With no arguments gives some introductory help.  With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options.  "
@@ -3562,11 +3568,11 @@ msgstr ""
 "innehåller hjälpen information om det nuvarande värdet och standardvärdet. "
 "Förkortningar för argument kan användas i entydiga fall."
 
-#: server/stdinhand.c:1020
+#: server/stdinhand.c:1023
 msgid "Show a list of players or connections."
 msgstr "Visa en lista över spelare eller anslutningar."
 
-#: server/stdinhand.c:1021
+#: server/stdinhand.c:1024
 msgid ""
 "Show a list of players, or a list of connections to the server.  The "
 "argument may be abbreviated, and defaults to 'players' if absent."
@@ -3574,20 +3580,20 @@ msgstr ""
 "Visa en lista över spelare, eller en lista över anslutningar till servern. "
 "Argumentet kan förkortas, och är \"players\" som standard om det saknas."
 
-#: server/stdinhand.c:1026
+#: server/stdinhand.c:1029
 msgid "Quit the game and shutdown the server."
 msgstr "Lämna spelet och avsluta servern."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1030
+#: server/stdinhand.c:1033
 msgid "cut <connection-name>"
 msgstr "cut <anslutningsnamn>"
 
-#: server/stdinhand.c:1031
+#: server/stdinhand.c:1034
 msgid "Cut a client's connection to server."
 msgstr "Bryter en klients anslutning till servern."
 
-#: server/stdinhand.c:1032
+#: server/stdinhand.c:1035
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game.  If the game has not yet started that client's player is removed "
@@ -3600,7 +3606,7 @@ msgstr ""
 "tar emot anslutningsnamn, inte spelarnamn."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1039
+#: server/stdinhand.c:1042
 msgid ""
 "explain\n"
 "explain <option-name>"
@@ -3608,11 +3614,11 @@ msgstr ""
 "explain\n"
 "explain <valmöjlighetsnamn>"
 
-#: server/stdinhand.c:1041
+#: server/stdinhand.c:1044
 msgid "Explain server options."
 msgstr "Förklara servervalmöjligheter."
 
-#: server/stdinhand.c:1042
+#: server/stdinhand.c:1045
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility.  With no arguments it gives a list of "
@@ -3626,7 +3632,7 @@ msgstr ""
 "<valmöjlighetsnamn>\")."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1049
+#: server/stdinhand.c:1052
 msgid ""
 "show\n"
 "show <option-name>\n"
@@ -3636,11 +3642,11 @@ msgstr ""
 "show <valmöjlighetsnamn>\n"
 "show <valmöjlighetsförstavelse>"
 
-#: server/stdinhand.c:1052
+#: server/stdinhand.c:1055
 msgid "Show server options."
 msgstr "Visa servervalmöjligheter."
 
-#: server/stdinhand.c:1053
+#: server/stdinhand.c:1056
 msgid ""
 "With no arguments, shows all server options (or available options, when used "
 "by clients).  With an argument, show only the named option, or options with "
@@ -3651,11 +3657,11 @@ msgstr ""
 "kommandot endast den nämnda valmöjligheten, eller valmöjligheter med nämnd "
 "förstavelse."
 
-#: server/stdinhand.c:1059
+#: server/stdinhand.c:1062
 msgid "Show current scores."
 msgstr "Visa nuvarande värdering."
 
-#: server/stdinhand.c:1060
+#: server/stdinhand.c:1063
 msgid ""
 "For each connected client, pops up a window showing the current player "
 "scores."
@@ -3663,48 +3669,48 @@ msgstr ""
 "Öppnar ett fönster som visar spelarnas nuvarande värdering för varje "
 "ansluten klient."
 
-#: server/stdinhand.c:1064
+#: server/stdinhand.c:1067
 msgid "wall <message>"
 msgstr "wall <meddelande>"
 
-#: server/stdinhand.c:1065
+#: server/stdinhand.c:1068
 msgid "Send message to all connections."
 msgstr "Skickar meddelanden till alla klienter."
 
-#: server/stdinhand.c:1066
+#: server/stdinhand.c:1069
 msgid ""
 "For each connected client, pops up a window showing the message entered."
 msgstr "Öppnar ett fönster som visar meddelandet hos varje ansluten klient."
 
-#: server/stdinhand.c:1070
+#: server/stdinhand.c:1073
 msgid "set <option-name> <value>"
 msgstr "set <valmöjlighetsnamn> <värde>"
 
-#: server/stdinhand.c:1071
+#: server/stdinhand.c:1074
 msgid "Set server option."
 msgstr "Sätter servervalmöjlighet."
 
-#: server/stdinhand.c:1074
+#: server/stdinhand.c:1077
 msgid "fix <option-name>"
 msgstr "fix <servervalmöjlighetsnamn>"
 
-#: server/stdinhand.c:1075
+#: server/stdinhand.c:1078
 msgid "Make server option unchangeable during game."
 msgstr "Gör servervalmöjlighet oändringsbar under spelets gång."
 
-#: server/stdinhand.c:1078
+#: server/stdinhand.c:1081
 msgid "unfix <option-name>"
 msgstr "unfix <servervalmöjlighetsnamn>"
 
-#: server/stdinhand.c:1079
+#: server/stdinhand.c:1082
 msgid "Make server option changeable during game."
 msgstr "Gör servervalmöjlighet ändringsbar under spelets gång."
 
-#: server/stdinhand.c:1082
+#: server/stdinhand.c:1085
 msgid "rulesetdir <directory>"
 msgstr "rulesetdir <katalog>"
 
-#: server/stdinhand.c:1083
+#: server/stdinhand.c:1086
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
@@ -3712,24 +3718,24 @@ msgstr ""
 "Välj en ny katalog för regeluppsättning eller ändringssamling. Att anropa "
 "detta utan argument visar den valda regeluppsättningen."
 
-#: server/stdinhand.c:1089
+#: server/stdinhand.c:1092
 msgid "This command is not currently implemented."
 msgstr "Detta kommando är ännu ej inbyggt."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1093
+#: server/stdinhand.c:1096
 msgid "metainfo <meta-line>"
 msgstr "metainfo <metarad>"
 
-#: server/stdinhand.c:1094
+#: server/stdinhand.c:1097
 msgid "Set metaserver info line."
 msgstr "Sätt metaserverinformationsraden."
 
-#: server/stdinhand.c:1100
+#: server/stdinhand.c:1103
 msgid "Control metaserver connection."
 msgstr "Styr metaserveranslutning."
 
-#: server/stdinhand.c:1101
+#: server/stdinhand.c:1104
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver.\n"
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -3742,40 +3748,40 @@ msgstr ""
 "metaservern."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1107
+#: server/stdinhand.c:1110
 msgid "metaserver <address>"
 msgstr "metaserver <adress>"
 
-#: server/stdinhand.c:1108
+#: server/stdinhand.c:1111
 msgid "Set address for metaserver to report to."
 msgstr "Sätt adressen till metaservern att meddela till."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1112
+#: server/stdinhand.c:1115
 msgid "aitoggle <player-name>"
 msgstr "aitoggle <spelarnamn>"
 
-#: server/stdinhand.c:1113
+#: server/stdinhand.c:1116
 msgid "Toggle AI status of player."
 msgstr "Växla datorstyrningsstatus för spelare."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1117
+#: server/stdinhand.c:1120
 msgid "create <player-name>"
 msgstr "create <spelarnamn>"
 
-#: server/stdinhand.c:1118
+#: server/stdinhand.c:1121
 msgid "Create an AI player with a given name."
 msgstr "Skapa en datorstyrd spelare med ett givet namn."
 
-#: server/stdinhand.c:1119
+#: server/stdinhand.c:1122
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr ""
 "Kommandot \"create\" är endast tillgängligt innan spelet har satts i gång."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1124
+#: server/stdinhand.c:1127
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -3783,11 +3789,11 @@ msgstr ""
 "easy\n"
 "easy <spelarnamn>"
 
-#: server/stdinhand.c:1126
+#: server/stdinhand.c:1129
 msgid "Set one or all AI players to 'easy'."
 msgstr "Sätter en eller alla datorstyrda spelare till \"easy\"."
 
-#: server/stdinhand.c:1127
+#: server/stdinhand.c:1130
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -3799,7 +3805,7 @@ msgstr ""
 "skicklighetsläget för endast den spelaren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1133
+#: server/stdinhand.c:1136
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -3807,11 +3813,11 @@ msgstr ""
 "normal\n"
 "normal <spelarnamn>"
 
-#: server/stdinhand.c:1135
+#: server/stdinhand.c:1138
 msgid "Set one or all AI players to 'normal'."
 msgstr "Sätter en eller alla datorstyrda spelare till \"normal\"."
 
-#: server/stdinhand.c:1136
+#: server/stdinhand.c:1139
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -3823,7 +3829,7 @@ msgstr ""
 "kommandot skicklighetsläget för endast den spelaren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1142
+#: server/stdinhand.c:1145
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -3831,11 +3837,11 @@ msgstr ""
 "hard\n"
 "hard <spelarnamn>"
 
-#: server/stdinhand.c:1144
+#: server/stdinhand.c:1147
 msgid "Set one or all AI players to 'hard'."
 msgstr "Sätter en eller alla datorstyrda spelare till \"hard\"."
 
-#: server/stdinhand.c:1145
+#: server/stdinhand.c:1148
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -3847,7 +3853,7 @@ msgstr ""
 "skicklighetsläget för endast den spelaren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1152
+#: server/stdinhand.c:1155
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -3855,11 +3861,11 @@ msgstr ""
 "experimental\n"
 "experimental <spelarnamn>"
 
-#: server/stdinhand.c:1154
+#: server/stdinhand.c:1157
 msgid "Set one or all AI players to 'experimental'."
 msgstr "Sätter en eller alla datorstyrda spelare till \"experimental\"."
 
-#: server/stdinhand.c:1155
+#: server/stdinhand.c:1158
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -3872,7 +3878,7 @@ msgstr ""
 "sätter kommandot skicklighetsläget för endast den spelaren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1164
+#: server/stdinhand.c:1167
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -3886,11 +3892,11 @@ msgstr ""
 "cmdlevel <läge> first\n"
 "cmdlevel <läge> <anslutninsnamn>"
 
-#: server/stdinhand.c:1169
+#: server/stdinhand.c:1172
 msgid "Query or set command access level access."
 msgstr "Fråga om eller sätt kommandoåtkomstläget."
 
-#: server/stdinhand.c:1170
+#: server/stdinhand.c:1173
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -3929,11 +3935,11 @@ msgstr ""
 "obetrodd person skulle kunna återansluta med samma namn. Lägg märke till att "
 "detta kommando nu tar emot anslutningsnamn, inte spelarnamn."
 
-#: server/stdinhand.c:1193
+#: server/stdinhand.c:1196
 msgid "Grab the 'first come' command access level."
 msgstr "Ta kommandoåtkomstläget \"first come\"."
 
-#: server/stdinhand.c:1194
+#: server/stdinhand.c:1197
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
@@ -3942,15 +3948,15 @@ msgstr ""
 "kommandoåtkomstläge \"first come\", är detta kommandot för att ta den."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1199
+#: server/stdinhand.c:1202
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <omgång> <omgångsökning> <värde> <värdefaktor>"
 
-#: server/stdinhand.c:1200
+#: server/stdinhand.c:1203
 msgid "See \"help timeoutincrease\"."
 msgstr "Se \"help timeoutincrease\"."
 
-#: server/stdinhand.c:1201
+#: server/stdinhand.c:1204
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -3964,24 +3970,24 @@ msgstr ""
 "Använd detta kommando tillsammans med \"timeout\". Standardvärdena är 0 0 0 "
 "1."
 
-#: server/stdinhand.c:1207
+#: server/stdinhand.c:1210
 msgid "End the game."
 msgstr "Avsluta spelet."
 
-#: server/stdinhand.c:1208
+#: server/stdinhand.c:1211
 msgid "This command ends the game immediately."
 msgstr "Detta kommando avslutar spelet omedelbart."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1212
+#: server/stdinhand.c:1215
 msgid "remove <player-name>"
 msgstr "remove <spelarnamn>"
 
-#: server/stdinhand.c:1213
+#: server/stdinhand.c:1216
 msgid "Fully remove player from game."
 msgstr "Ta bort spelare fullständigt från spelet."
 
-#: server/stdinhand.c:1214
+#: server/stdinhand.c:1217
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -3990,7 +3996,7 @@ msgstr ""
 "städer och enheter. Använd med försiktighet!"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1219
+#: server/stdinhand.c:1222
 msgid ""
 "save\n"
 "save <file-name>"
@@ -3998,11 +4004,11 @@ msgstr ""
 "save\n"
 "save <filnamn>"
 
-#: server/stdinhand.c:1221
+#: server/stdinhand.c:1224
 msgid "Save game to file."
 msgstr "Sparar spelet till fil."
 
-#: server/stdinhand.c:1222
+#: server/stdinhand.c:1225
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -4019,7 +4025,7 @@ msgstr ""
 "och använd kommandot \"start\" när alla spelare har återanslutit sig."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1231
+#: server/stdinhand.c:1234
 msgid ""
 "load\n"
 "load <file-name>"
@@ -4027,11 +4033,11 @@ msgstr ""
 "load\n"
 "load <filnamn>"
 
-#: server/stdinhand.c:1233
+#: server/stdinhand.c:1236
 msgid "Load game from file."
 msgstr "Laddar spel från fil."
 
-#: server/stdinhand.c:1234
+#: server/stdinhand.c:1237
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -4041,209 +4047,209 @@ msgstr ""
 "data från filen.\n"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1239
+#: server/stdinhand.c:1242
 msgid "read <file-name>"
 msgstr "read <filnamn>"
 
-#: server/stdinhand.c:1240
+#: server/stdinhand.c:1243
 msgid "Process server commands from file."
 msgstr "Utför serverkommandon från fil."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1244
+#: server/stdinhand.c:1247
 msgid "write <file-name>"
 msgstr "write <filnamn>"
 
-#: server/stdinhand.c:1245
+#: server/stdinhand.c:1248
 msgid "Write current settings as server commands to file."
 msgstr "Skriv nuvarande inställningar som serverkommandon till fil."
 
-#: server/stdinhand.c:1249
+#: server/stdinhand.c:1252
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Ändra serverutdata mellan \"RFC-stil\" och vanlig stil."
 
-#: server/stdinhand.c:1359
+#: server/stdinhand.c:1362
 msgid "(ambiguous)"
 msgstr "(flertydigt)"
 
-#: server/stdinhand.c:1360 client/packhand.c:1000
+#: server/stdinhand.c:1363 client/packhand.c:1000
 msgid "(unknown)"
 msgstr "(okänd)"
 
-#: server/stdinhand.c:1436
+#: server/stdinhand.c:1439
 msgid "Name is empty, so cannot be a player."
 msgstr "Namnet är tomt, så det kan inte vara en spelare."
 
-#: server/stdinhand.c:1440
+#: server/stdinhand.c:1443
 msgid "Name is too long, so cannot be a player."
 msgstr "Namnet för långt, så det kan inte vara en spelare."
 
-#: server/stdinhand.c:1444
+#: server/stdinhand.c:1447
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Spelarnamnsförstavelsen \"%s\" är flertydig."
 
-#: server/stdinhand.c:1448
+#: server/stdinhand.c:1451
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Ingen spelare med namnet \"%s\"."
 
-#: server/stdinhand.c:1452 server/stdinhand.c:1487
+#: server/stdinhand.c:1455 server/stdinhand.c:1490
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Oväntat match_result %d (%s) för \"%s\"."
 
-#: server/stdinhand.c:1471
+#: server/stdinhand.c:1474
 msgid "Name is empty, so cannot be a connection."
 msgstr "Namnet är tomt, så det kan inte vara en anslutning."
 
-#: server/stdinhand.c:1475
+#: server/stdinhand.c:1478
 msgid "Name is too long, so cannot be a connection."
 msgstr "Namnet är för långt, så det kan inte vara en anslutning."
 
-#: server/stdinhand.c:1479
+#: server/stdinhand.c:1482
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Anslutningsnamnsförstavelsen \"%s\" är flertydig."
 
-#: server/stdinhand.c:1483
+#: server/stdinhand.c:1486
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Ingen anslutning med namnet \"%s\"."
 
-#: server/stdinhand.c:1502
+#: server/stdinhand.c:1505
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Öppna metaserveranslutning till [%s]."
 
-#: server/stdinhand.c:1514
+#: server/stdinhand.c:1517
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Stäng metaserveranslutning till [%s]."
 
-#: server/stdinhand.c:1528
+#: server/stdinhand.c:1531
 msgid "Metaserver connection is open."
 msgstr "Metaserveranslutning är öppen."
 
-#: server/stdinhand.c:1531
+#: server/stdinhand.c:1534
 msgid "Metaserver connection is closed."
 msgstr "Metaserveranslutning är stängd."
 
-#: server/stdinhand.c:1539
+#: server/stdinhand.c:1542
 msgid "Metaserver connection is already open."
 msgstr "Metaserveranslutning är redan öppen."
 
-#: server/stdinhand.c:1547
+#: server/stdinhand.c:1550
 msgid "Metaserver connection is already closed."
 msgstr "Metaserveranslutning är redan stängd."
 
-#: server/stdinhand.c:1551
+#: server/stdinhand.c:1554
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argumentet måste vara \"u\", \"up\", \"down\" eller \"?\"."
 
-#: server/stdinhand.c:1563
+#: server/stdinhand.c:1566
 msgid "Not reporting to the metaserver."
 msgstr "Meddelar ej metaservern."
 
-#: server/stdinhand.c:1565
+#: server/stdinhand.c:1568
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "Metaserverinformationssträng satt till \"%s\"."
 
-#: server/stdinhand.c:1580
+#: server/stdinhand.c:1583
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver är nu [%s]."
 
-#: server/stdinhand.c:1653
+#: server/stdinhand.c:1656
 msgid "The game cannot be saved before it is started."
 msgstr "Spelet kan inte sparas förrän det pågår."
 
-#: server/stdinhand.c:1667
+#: server/stdinhand.c:1670
 msgid "Cannot toggle a barbarian player."
 msgstr "Kan inte växla en barbarspelare."
 
-#: server/stdinhand.c:1673
+#: server/stdinhand.c:1676
 #, c-format
 msgid "Game: %s is now AI-controlled."
 msgstr "Spel: %s är nu datorstyrd."
 
-#: server/stdinhand.c:1675
+#: server/stdinhand.c:1678
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s är nu datorstyrd."
 
-#: server/stdinhand.c:1690
+#: server/stdinhand.c:1693
 #, c-format
 msgid "Game: %s is now human."
 msgstr "Spel: %s är nu mänsklig."
 
-#: server/stdinhand.c:1692
+#: server/stdinhand.c:1695
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s är nu under mänsklig styrning."
 
-#: server/stdinhand.c:1730
+#: server/stdinhand.c:1733
 msgid "Can't add AI players once the game has begun."
 msgstr "Kan inte lägga till datorstyrda spelare under spelets gång."
 
-#: server/stdinhand.c:1737
+#: server/stdinhand.c:1740
 msgid "Can't add more players, server is full."
 msgstr "Kan inte lägga till fler spelare, servern är full."
 
-#: server/stdinhand.c:1743
+#: server/stdinhand.c:1746
 msgid "Can't use an empty name."
 msgstr "Kan inte använda ett tomt namn."
 
-#: server/stdinhand.c:1750
+#: server/stdinhand.c:1753
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Det namnet överskrider det högsta möjliga antalet tecken, %d."
 
-#: server/stdinhand.c:1757
+#: server/stdinhand.c:1760
 msgid "A player already exists by that name."
 msgstr "En spelare med det namnet finns redan."
 
-#: server/stdinhand.c:1766
+#: server/stdinhand.c:1769
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Fel vid skapande av ny datorstyrd spelare: %s."
 
-#: server/stdinhand.c:1794
+#: server/stdinhand.c:1797
 msgid "Players cannot be removed once the game has started."
 msgstr "Spelare kan inte tas bort under spelets gång."
 
-#: server/stdinhand.c:1802
+#: server/stdinhand.c:1805
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Tog bort spelare %s från spelet."
 
-#: server/stdinhand.c:1812
+#: server/stdinhand.c:1815
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Ledsen, kommandot \"%s\" är inte inbyggt än."
 
-#: server/stdinhand.c:1830
+#: server/stdinhand.c:1833
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Laddar skriptfil: %s"
 
-#: server/stdinhand.c:1842
+#: server/stdinhand.c:1845
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Kunde inte läsa kommandoradsskriptfilen \"%s\"."
 
-#: server/stdinhand.c:1844
+#: server/stdinhand.c:1847
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Kunde inte läsa skriptfilen \"%s\"."
 
-#: server/stdinhand.c:1933
+#: server/stdinhand.c:1936
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Kunde inte skriva skriptfilen \"%s\"."
 
-#: server/stdinhand.c:1961
+#: server/stdinhand.c:1964
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -4252,12 +4258,12 @@ msgstr ""
 "Kan inte minska kommandoåtkomstläget \"%s\" för anslutningen \"%s\"; du har "
 "endast \"%s\"."
 
-#: server/stdinhand.c:1969
+#: server/stdinhand.c:1972
 #, c-format
 msgid "Game: You now have access level '%s'."
 msgstr "Spel: Du har kommandoåtkomstläget \"%s\"."
 
-#: server/stdinhand.c:2017
+#: server/stdinhand.c:2020
 #, c-format
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
@@ -4266,299 +4272,299 @@ msgstr ""
 "Spel: Vem som helst kan ta kommandoåtkomstläget \"%s\" nu genom att ge "
 "kommandot \"first level\"."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2053
 msgid "Command access levels in effect:"
 msgstr "Verksamma kommandoåtkomstlägen:"
 
-#: server/stdinhand.c:2058
+#: server/stdinhand.c:2061
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Kommandoåtkomstläget för nya anslutningar: %s"
 
-#: server/stdinhand.c:2061
+#: server/stdinhand.c:2064
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Kommandoåtkomstläget för den första spelaren som tar det: %s"
 
-#: server/stdinhand.c:2070
+#: server/stdinhand.c:2073
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Fel: kommandoåtkomstläget måste vara en av \"none\", \"info\", \"ctrl\" "
 "eller \"hack\"."
 
-#: server/stdinhand.c:2075
+#: server/stdinhand.c:2078
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 "Kan inte öka kommandoåtkomstläget till \"%s\"; du själv har endast \"%s\"."
 
-#: server/stdinhand.c:2099 server/stdinhand.c:2156
+#: server/stdinhand.c:2102 server/stdinhand.c:2159
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Kommandoåtkomstläge satt till \"%s\" för anslutning %s."
 
-#: server/stdinhand.c:2103 server/stdinhand.c:2160
+#: server/stdinhand.c:2106 server/stdinhand.c:2163
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Kommandoåtkomstläge kunde inte sättas till \"%s\" för anslutning %s."
 
-#: server/stdinhand.c:2112 server/stdinhand.c:2126
+#: server/stdinhand.c:2115 server/stdinhand.c:2129
 #, c-format
 msgid "Default command access level set to '%s'."
 msgstr "Standardkommandoåtkomstläge satt till \"%s\"."
 
-#: server/stdinhand.c:2114
+#: server/stdinhand.c:2117
 #, c-format
 msgid "Game: All players now have access level '%s'."
 msgstr "Spel: Alla spelare har nu kommandoåtkomstläge \"%s\"."
 
-#: server/stdinhand.c:2119 server/stdinhand.c:2134
+#: server/stdinhand.c:2122 server/stdinhand.c:2137
 #, c-format
 msgid "'First come' command access level also raised to '%s'."
 msgstr "Även kommandoåtkomstläget \"first come\" har höjts till \"%s\"."
 
-#: server/stdinhand.c:2129
+#: server/stdinhand.c:2132
 #, c-format
 msgid "Game: New connections will have access level '%s'."
 msgstr "Spel: Nya anslutningar kommer att ha kommandoåtkomstläge \"%s\"."
 
-#: server/stdinhand.c:2141
+#: server/stdinhand.c:2144
 #, c-format
 msgid "'First come' command access level set to '%s'."
 msgstr "Kommandoåtkomstläget \"first come\" har satts till \"%s\"."
 
-#: server/stdinhand.c:2144
+#: server/stdinhand.c:2147
 #, c-format
 msgid "Game: 'First come' command access level set to '%s'."
 msgstr "Spel: Kommandoåtkomstläget \"first come\" har satts till \"%s\"."
 
-#: server/stdinhand.c:2149
+#: server/stdinhand.c:2152
 #, c-format
 msgid "Default command access level also lowered to '%s'."
 msgstr "Även standardkommandoåtkomstläget har sänkts till \"%s\"."
 
-#: server/stdinhand.c:2179
+#: server/stdinhand.c:2182
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "Kommandot \"firstlevel\" har ingen verkan från serverns kommandorad."
 
-#: server/stdinhand.c:2182
+#: server/stdinhand.c:2185
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Du har redan kommandoåtkomstläget \"%s\" eller bättre."
 
-#: server/stdinhand.c:2186
+#: server/stdinhand.c:2189
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Någon annan har redan kommandoåtkomstläget \"%s\" eller bättre."
 
-#: server/stdinhand.c:2191
+#: server/stdinhand.c:2194
 #, c-format
 msgid "Your command access level has been increased to '%s'."
 msgstr "Ditt kommandoåtkomstläge har höjts till \"%s\"."
 
-#: server/stdinhand.c:2193
+#: server/stdinhand.c:2196
 #, c-format
 msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
 msgstr "Spel: Anslutningen \"%s\" har tagit kommandoåtkomstläget \"%s\"."
 
-#: server/stdinhand.c:2224
+#: server/stdinhand.c:2227
 #, c-format
 msgid "Invalid argument %d."
 msgstr "\"%d\" är ett ogiltigt argument"
 
-#: server/stdinhand.c:2231
+#: server/stdinhand.c:2234
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
 "Användning: timeoutincrease <omgång> <omgångsökning> <värde> <värdefaktor."
 
-#: server/stdinhand.c:2237
+#: server/stdinhand.c:2240
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Självförändrande omgångstidsgräns satt till %d %d %d %d"
 
-#: server/stdinhand.c:2275 server/stdinhand.c:2278
+#: server/stdinhand.c:2278 server/stdinhand.c:2281
 msgid "Option:"
 msgstr "Valmöjlighet:"
 
-#: server/stdinhand.c:2288 server/stdinhand.c:3348
+#: server/stdinhand.c:2291 server/stdinhand.c:3351
 msgid "Description:"
 msgstr "Beskrivning:"
 
-#: server/stdinhand.c:2293
+#: server/stdinhand.c:2296
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: server/stdinhand.c:2294
+#: server/stdinhand.c:2297
 msgid "changeable"
 msgstr "ändringsbar"
 
-#: server/stdinhand.c:2294
+#: server/stdinhand.c:2297
 msgid "fixed"
 msgstr "fast"
 
-#: server/stdinhand.c:2300
+#: server/stdinhand.c:2303
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Värde: %d, Minsta möjliga: 0, Standard: %d, Högsta möjliga: 1"
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2308
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Värde: %d, Minsta möjliga: %d, Standard: %d, Högsta möjliga: %d"
 
-#: server/stdinhand.c:2311
+#: server/stdinhand.c:2314
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Värde \"%s\", Standard: \"%s\""
 
-#: server/stdinhand.c:2330
+#: server/stdinhand.c:2333
 msgid "Explanations are available for the following server options:"
 msgstr "Förklaringar är tillgängliga för följande servervalmöjligheter:"
 
-#: server/stdinhand.c:2372
+#: server/stdinhand.c:2375
 msgid "No explanation for that yet."
 msgstr "Ingen förklaring för detta än."
 
-#: server/stdinhand.c:2375 server/stdinhand.c:2686 server/stdinhand.c:2832
+#: server/stdinhand.c:2378 server/stdinhand.c:2689 server/stdinhand.c:2835
 msgid "Ambiguous option name."
 msgstr "Flertydigt valmöjlighetsnamn."
 
-#: server/stdinhand.c:2390
+#: server/stdinhand.c:2393
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Serverhandhavare: %s"
 
-#: server/stdinhand.c:2407
+#: server/stdinhand.c:2410
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20svärde  (minsta, största)"
 
-#: server/stdinhand.c:2407 server/stdinhand.c:2559
+#: server/stdinhand.c:2410 server/stdinhand.c:2562
 msgid "Option"
 msgstr "Valmöjlighet"
 
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2412
 msgid "Server Options (initial)"
 msgstr "Servervalmöjligheter (från början)"
 
-#: server/stdinhand.c:2410
+#: server/stdinhand.c:2413
 msgid "Server Options (ongoing)"
 msgstr "Servervalmöjligheter (pågående)"
 
-#: server/stdinhand.c:2459
+#: server/stdinhand.c:2462
 #, c-format
 msgid "%s is now %s."
 msgstr "%s är nu %s."
 
-#: server/stdinhand.c:2489
+#: server/stdinhand.c:2492
 #, c-format
 msgid "Game: Player '%s' now has skill level '%s'."
 msgstr "Spel: Spelare \"%s\" har nu skicklighet \"%s\"."
 
-#: server/stdinhand.c:2493
+#: server/stdinhand.c:2496
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s är inte datorstyrd."
 
-#: server/stdinhand.c:2501
+#: server/stdinhand.c:2504
 #, c-format
 msgid "Game: AI players now have skill level '%s'."
 msgstr "Spel: Datorstyrda spelare har nu skicklighet \"%s\"."
 
-#: server/stdinhand.c:2533
+#: server/stdinhand.c:2536
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Ledsen, du har inte åtkomst att visa valmöjligheten \"%s\"."
 
-#: server/stdinhand.c:2538
+#: server/stdinhand.c:2541
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Okänd valmöjlighet \"%s\"."
 
-#: server/stdinhand.c:2555
+#: server/stdinhand.c:2558
 msgid "+ means you may change the option"
 msgstr "+ betyder att du kan ändra valmöjligheten"
 
-#: server/stdinhand.c:2556
+#: server/stdinhand.c:2559
 msgid "= means the option is on its default value"
 msgstr "= betyder att valmöjligheten har sitt standardvärde"
 
-#: server/stdinhand.c:2559
+#: server/stdinhand.c:2562
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s värde  (minsta,största)"
 
-#: server/stdinhand.c:2562
+#: server/stdinhand.c:2565
 msgid "description"
 msgstr "beskrivning"
 
-#: server/stdinhand.c:2681
+#: server/stdinhand.c:2684
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Obestämt argument. Användning: set <valmöjlighet> <värde>."
 
-#: server/stdinhand.c:2691
+#: server/stdinhand.c:2694
 msgid "You are not allowed to set this option."
 msgstr "Du har inte tillåtelse att sätta denna valmöjlighet."
 
-#: server/stdinhand.c:2696
+#: server/stdinhand.c:2699
 msgid "This setting can't be modified after the game has started."
 msgstr "Denna inställning kan inte ändras under spelets gång."
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2704
 msgid ""
 "This setting is protected from being modified after the game has started."
 msgstr "Denna inställning är skyddad från förändring under spelets gång."
 
-#: server/stdinhand.c:2714 server/stdinhand.c:2736
+#: server/stdinhand.c:2717 server/stdinhand.c:2739
 msgid "Value must be an integer."
 msgstr "Värdet måste vara ett heltal."
 
-#: server/stdinhand.c:2717
+#: server/stdinhand.c:2720
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Värde utanför spännvidd (minsta: 0, största: 1)."
 
-#: server/stdinhand.c:2728 server/stdinhand.c:2750
+#: server/stdinhand.c:2731 server/stdinhand.c:2753
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Valmöjlighet: %s har satts till %d."
 
-#: server/stdinhand.c:2739
+#: server/stdinhand.c:2742
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Värde utanför spännvidd (minsta: %d, största: %d)."
 
-#: server/stdinhand.c:2760
+#: server/stdinhand.c:2763
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Strängvärde är för långt. Användning: set <valmöjlighet> <värde>."
 
-#: server/stdinhand.c:2770
+#: server/stdinhand.c:2773
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Valmöjlighet %s har satts till \"%s\"."
 
-#: server/stdinhand.c:2810
+#: server/stdinhand.c:2813
 msgid "This command may only be used before the game has started."
 msgstr "Detta kommando kan endast användas innan spelet har satts i gång."
 
-#: server/stdinhand.c:2820
+#: server/stdinhand.c:2823
 #, c-format
 msgid "Need an argument.  Usage: %s <option-name>."
 msgstr ""
 "Behöver ett argument. Användning: %s <servervalmöjlighetsnamn> <värde>."
 
-#: server/stdinhand.c:2829
+#: server/stdinhand.c:2832
 msgid "Unknown option name."
 msgstr "Okänt servervalmöjlighetsnamn."
 
-#: server/stdinhand.c:2839
+#: server/stdinhand.c:2842
 #, c-format
 msgid "Option '%s' can never be modified after the game has started."
 msgstr "Servervalmöjligheten \"%s\" kan aldrig ändras under spelets gång."
 
-#: server/stdinhand.c:2846
+#: server/stdinhand.c:2849
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not prevent it from being "
@@ -4567,7 +4573,7 @@ msgstr ""
 "Du får inte sätta servervalmöjligheten \"%s\", så du får heller inte hindra "
 "den från att sättas."
 
-#: server/stdinhand.c:2849
+#: server/stdinhand.c:2852
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not allow it to be set, "
@@ -4576,99 +4582,99 @@ msgstr ""
 "Du får inte sätta servervalmöjligheten \"%s\", så du får heller inte tillåta "
 "att den sätts."
 
-#: server/stdinhand.c:2858
+#: server/stdinhand.c:2861
 #, c-format
 msgid "Option: '%s' now cannot be modified after the game has started."
 msgstr "Servervalmöjliget: nu kan \"%s\" inte ändras under spelets gång."
 
-#: server/stdinhand.c:2862
+#: server/stdinhand.c:2865
 #, c-format
 msgid "Option: '%s' may now be modified after the game has started."
 msgstr "Servervalmöjlighet: nu kan \"%s\" ändras under spelets gång."
 
-#: server/stdinhand.c:2878
+#: server/stdinhand.c:2881
 msgid "Usage: load <filename>"
 msgstr "Användning: load <filnamn>"
 
-#: server/stdinhand.c:2883
+#: server/stdinhand.c:2886
 msgid "Can't load a game while another is running."
 msgstr "Kan inte öppna ett spel när ett annat pågår."
 
-#: server/stdinhand.c:2891
+#: server/stdinhand.c:2894
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Kunde inte ladda sparfil: %s"
 
-#: server/stdinhand.c:2895
+#: server/stdinhand.c:2898
 #, c-format
 msgid "Loading saved game: %s..."
 msgstr "Öppnar sparat spel: %s..."
 
-#: server/stdinhand.c:2939
+#: server/stdinhand.c:2942
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Den nuvarande katalogen för regeluppsättningar är \"%s\"."
 
-#: server/stdinhand.c:2946
+#: server/stdinhand.c:2949
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Kunde inte hitta regeluppsättningskatalogen \"%s\""
 
-#: server/stdinhand.c:2950
+#: server/stdinhand.c:2953
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Regeluppsättningskatalog satt till \"%s\""
 
-#: server/stdinhand.c:3001
+#: server/stdinhand.c:3004
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Ledsen, du har inte tillåtelse att använda serverkommandon."
 
-#: server/stdinhand.c:3036
+#: server/stdinhand.c:3039
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Varning: \"%s\" tolkat som \"%s\", men det är flertydigt. Försök med \"%shelp"
 "\"."
 
-#: server/stdinhand.c:3041
+#: server/stdinhand.c:3044
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Okänt kommando. Försök med \"%shelp\"."
 
-#: server/stdinhand.c:3047
+#: server/stdinhand.c:3050
 msgid "You are not allowed to use this command."
 msgstr "Du har inte tillåtelse att använda detta kommando."
 
-#: server/stdinhand.c:3154
+#: server/stdinhand.c:3157
 msgid "The game must be running before you can see the score."
 msgstr "Spelet måste pågå för att man ska kunna se värderingen."
 
-#: server/stdinhand.c:3214
+#: server/stdinhand.c:3217
 msgid "Not enough players, game will not start."
 msgstr "Inte tillräckligt många spelare, spelet kommer inte att sättas i gång."
 
-#: server/stdinhand.c:3218
+#: server/stdinhand.c:3221
 msgid "You're not associated with a player and the game is starting. Bye."
 msgstr "Du är inte förknippad med en spelare och spelet börjar. Hejdå."
 
-#: server/stdinhand.c:3229
+#: server/stdinhand.c:3232
 msgid "Cannot start the game: it is already running."
 msgstr "Kan inte sätta i gång spelet: det är pågår redan."
 
-#: server/stdinhand.c:3238
+#: server/stdinhand.c:3241
 msgid "Cannot end the game: no game running."
 msgstr "Kan inte avsluta spelet: inget spel pågår."
 
-#: server/stdinhand.c:3266
+#: server/stdinhand.c:3269
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Bryter anslutningen till %s."
 
-#: server/stdinhand.c:3276
+#: server/stdinhand.c:3279
 msgid "Goodbye."
 msgstr "Hejdå."
 
-#: server/stdinhand.c:3289
+#: server/stdinhand.c:3292
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -4706,110 +4712,118 @@ msgstr ""
 "  save   -  spara nuvarande spel\n"
 "  quit   -  avsluta"
 
-#: server/stdinhand.c:3324 server/stdinhand.c:3327
+#: server/stdinhand.c:3327 server/stdinhand.c:3330
 msgid "Command:"
 msgstr "Kommando:"
 
-#: server/stdinhand.c:3331
+#: server/stdinhand.c:3334
 msgid "Synopsis: "
 msgstr "Sammanfattning: "
 
-#: server/stdinhand.c:3340
+#: server/stdinhand.c:3343
 #, c-format
 msgid "Level: %s"
 msgstr "Läge: %s"
 
-#: server/stdinhand.c:3365
+#: server/stdinhand.c:3368
 msgid "The following server commands are available:"
 msgstr "Följande serverkommandon är tillgängliga:"
 
-#: server/stdinhand.c:3440
+#: server/stdinhand.c:3443
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Hjälpargumentet \"%s\" är flertydigt."
 
-#: server/stdinhand.c:3445
+#: server/stdinhand.c:3448
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Ingen träff för hjälpargument \"%s\"."
 
-#: server/stdinhand.c:3503
+#: server/stdinhand.c:3506
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Otillåtet argument för list: \"%s\". Försök med \"%shelp list\"."
 
-#: server/stdinhand.c:3535
+#: server/stdinhand.c:3538
 msgid "List of players:"
 msgstr "Lista över spelare:"
 
-#: server/stdinhand.c:3539
+#: server/stdinhand.c:3542
 msgid "<no players>"
 msgstr "<inga spelare>"
 
-#: server/stdinhand.c:3560
+#: server/stdinhand.c:3563
 #, c-format
 msgid "username %s, "
 msgstr "användarnamn %s, "
 
-#: server/stdinhand.c:3564 data/nation/barbarian.ruleset:3
+#: server/stdinhand.c:3567 data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "barbarisk"
 
-#: server/stdinhand.c:3566
+#: server/stdinhand.c:3569
 msgid "AI"
 msgstr "datorstyrd"
 
-#: server/stdinhand.c:3568
+#: server/stdinhand.c:3571
 msgid "Human"
 msgstr "mänsklig"
 
-#: server/stdinhand.c:3571
+#: server/stdinhand.c:3574
 msgid ", Dead"
 msgstr ", död"
 
-#: server/stdinhand.c:3574
+#: server/stdinhand.c:3577
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", skicklighetsläge %s"
 
-#: server/stdinhand.c:3578
+#: server/stdinhand.c:3581
 #, c-format
 msgid ", nation %s"
 msgstr ", folkstam %s"
 
-#: server/stdinhand.c:3586
+#: server/stdinhand.c:3589
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d anslutning:"
 msgstr[1] " %d anslutningar:"
 
-#: server/stdinhand.c:3592
+#: server/stdinhand.c:3595
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr " %s från %s (kommandoåtkomstläge %s), bufsize=%dkb"
 
-#: server/stdinhand.c:3597
+#: server/stdinhand.c:3600
 msgid " (observer mode)"
 msgstr " (iakktagningsläge)"
 
-#: server/stdinhand.c:3613
+#: server/stdinhand.c:3616
 msgid "List of connections to server:"
 msgstr "Lista över anslutningar till servern:"
 
-#: server/stdinhand.c:3617
+#: server/stdinhand.c:3620
 msgid "<no connections>"
 msgstr "<inga anslutningar>"
 
-#: server/stdinhand.c:3641
+#: server/stdinhand.c:3644
 msgid ""
 "notradesize must be always smaller than fulltradesize, keeping old value."
 msgstr "notradesize måste alltid vara < fulltradesize, behåller gammalt värde."
 
-#: server/stdinhand.c:3654
+#: server/stdinhand.c:3657
 msgid ""
 "fulltradesize must be always bigger than notradesize, keeping old value."
 msgstr "fulltradesize måste alltid vara > notradesize, behåller gammalt värde."
+
+#: server/stdinhand.c:3712
+msgid ""
+"Allowed connections string contains invalid\n"
+"characters.  Try \"help allowconnect\"."
+msgstr ""
+"Tillåtna-anslutningar-strängen innehåller otillåtna\n"
+"tecken. Försök med \"help allowconnect\"."
 
 #: server/unithand.c:159
 #, c-format
@@ -11976,7 +11990,7 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.35 av den svenska översättningen av Freeciv. Den "
+"Detta är version 0.36 av den svenska översättningen av Freeciv. Den "
 "innehåller vissa fel som ännu inte kan rättas till, eftersom det kräver "
 "omfattande arbete på programmeringssidan, utanför den svenska "
 "översättningen. Exempel på sådana fel är versal/gemen och böjningsformer av "
@@ -11990,6 +12004,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.36; 2002-10-06\n"
+"  Uppdateringar.\n"
 "Version 0.35; 2002-09-30\n"
 "  Uppdateringar.\n"
 "Version 0.34; 2002-09-12\n"
