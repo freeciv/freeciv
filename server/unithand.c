@@ -440,9 +440,10 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control=0;
-      handle_unit_move_request(pplayer, punit, pinfo->x, pinfo->y);
+      handle_unit_move_request(pplayer, punit, pinfo->x, pinfo->y, FALSE);
     }
-    else if(punit->activity!=pinfo->activity || punit->activity_target!=pinfo->activity_target ||
+    else if(punit->activity!=pinfo->activity ||
+	    punit->activity_target!=pinfo->activity_target ||
 	    punit->ai.control==1) {
       /* Treat change in ai.control as change in activity, so
        * idle autosettlers behave correctly when selected --dwp
@@ -462,7 +463,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 
   punit=unit_list_find(&pplayer->units, pmove->unid);
   if(punit)  {
-    handle_unit_move_request(pplayer, punit, pmove->x, pmove->y);
+    handle_unit_move_request(pplayer, punit, pmove->x, pmove->y, FALSE);
   }
 }
 /**************************************************************************
@@ -621,7 +622,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     int old_moves = punit->moves_left;
     int full_moves = unit_move_rate (punit);
     punit->moves_left = full_moves;
-    if (handle_unit_move_request (pplayer, punit, def_x, def_y)) {
+    if (handle_unit_move_request (pplayer, punit, def_x, def_y, FALSE)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
 	punit->moves_left = 0;
@@ -795,7 +796,7 @@ static void wakeup_neighbor_sentries(struct player *pplayer,
   could be done, false if it couldn't for some reason.
 **************************************************************************/
 int handle_unit_move_request(struct player *pplayer, struct unit *punit,
-			      int dest_x, int dest_y)
+			      int dest_x, int dest_y, int igzoc)
 {
   int unit_id, transport_units = 1, ok;
   struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
@@ -890,7 +891,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: %s ending move early to stay out of trouble."),
 		     unit_types[punit->type].name);
-  } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
+  } else if(can_unit_move_to_tile(punit, dest_x, dest_y, igzoc) &&
+	    try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
 
     if((pcity=map_get_city(dest_x, dest_y))) {
@@ -990,7 +992,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
           handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_IDLE);
 	  /* may be fortifying, have to FIX this eventually -- Syela */
 	  success = handle_unit_move_request(pplayer, bodyguard,
-					     dest_x, dest_y);
+					     dest_x, dest_y, igzoc);
 	  freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
 		  unit_types[bodyguard->type].name, src_x, src_y,
 		  dest_x, dest_y, success);

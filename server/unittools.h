@@ -16,7 +16,7 @@
 #include "packets.h"
 #include "unit.h"
 
-int can_unit_move_to_tile(struct unit *punit, int x, int y);
+int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc);
 int is_enemy_city_tile(int x, int y, int owner);
 int is_friendly_city_tile(int x, int y, int owner);
 int is_enemy_unit_tile(int x, int y, int owner);

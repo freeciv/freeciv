@@ -53,9 +53,9 @@
      with free capacity
   5) marines are the only units that can attack from a ocean square
   6) naval units can only be moved to ocean squares or city squares
-  7) if there is no enemy units blocking (zoc)
+  7) if there is no enemy units blocking (zoc) [or igzoc is true]
 **************************************************************************/
-int can_unit_move_to_tile(struct unit *punit, int x, int y)
+int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc)
 {
   struct tile *ptile,*ptile2;
   int zoc;
@@ -103,7 +103,7 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
       if(!is_friendly_city_tile(x,y,punit->owner))
 	return 0;
   } 
-  zoc = zoc_ok_move(punit, x, y);
+  zoc = igzoc || zoc_ok_move(punit, x, y);
   if (!zoc) 
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		     _("Game: %s can only move into your own zone of control."),

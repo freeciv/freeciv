@@ -40,7 +40,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 				struct unit *pdefender);
 int handle_unit_enter_hut(struct unit *punit);
 int handle_unit_move_request(struct player *pplayer, struct unit *punit,
-			      int dest_x, int dest_y);
+			      int dest_x, int dest_y, int igzoc);
 void handle_unit_help_build_wonder(struct player *pplayer, 
 				   struct packet_unit_request *req);
 int handle_unit_establish_trade(struct player *pplayer, 

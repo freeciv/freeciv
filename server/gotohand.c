@@ -886,7 +886,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       y = punit->y + jj[k]; /* no need to adjust this */
 
       if(!punit->moves_left) return;
-      if(!handle_unit_move_request(pplayer, punit, x, y)) {
+      if(!handle_unit_move_request(pplayer, punit, x, y, FALSE)) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if(punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
