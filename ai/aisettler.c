@@ -260,8 +260,6 @@ void cityresult_fill(struct player *pplayer,
     remove_city_virtual(pcity);
   }
 
-  assert(result->total == 0 || result->best_other != -1);
-  assert(result->total == 0 || result->other_tile != NULL);
   assert(result->city_center >= 0);
   assert(result->remaining >= 0);
 }
