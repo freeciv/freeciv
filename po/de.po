@@ -2343,15 +2343,15 @@ msgstr "Spiel: Nach dem Start kann das Raumschiff nicht mehr geändert werden."
 
 #: server/spacerace.c:220
 msgid "Game: You don't have any unplaced Space Structurals!"
-msgstr "Spiel: Keine losen Verbindungsstücke vorhanden!"
+msgstr "Spiel: Keine losen Raumschiffkörper vorhanden!"
 
 #: server/spacerace.c:225
 msgid "Game: That Space Structural would not be connected!"
-msgstr "Spiel: Dieses Verbindungsstück kann nicht angebracht werden!"
+msgstr "Spiel: Dieser Raumschiffkörper kann nicht angebracht werden!"
 
 #: server/spacerace.c:239 server/spacerace.c:258
 msgid "Game: You don't have any unplaced Space Components!"
-msgstr "Spiel: Keine losen Komponenten vorhanden!"
+msgstr "Spiel: Keine losen Raumschiffkomponenten vorhanden!"
 
 #: server/spacerace.c:244
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
@@ -2366,7 +2366,7 @@ msgstr ""
 
 #: server/spacerace.c:278 server/spacerace.c:298 server/spacerace.c:318
 msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "Spiel: Keine losen Module mehr vorhanden!"
+msgstr "Spiel: Keine losen Raumschiffmodule mehr vorhanden!"
 
 #: server/spacerace.c:283
 msgid ""
@@ -12545,7 +12545,6 @@ msgstr ""
 " Shift-Links-Klick:        Arbeiter umverteilen (in der Hauptkarte)"
 
 #: data/helpdata.txt:440
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -12604,18 +12603,18 @@ msgid ""
 msgstr ""
 "Tastatur:\n"
 "=========\n"
-"  a: Selbständig arbeiten (Siedler)\n"
+"  a: Selbständig arbeiten (Siedler und Ingenieure)\n"
 "  a: Selbständig angreifen (Truppen)\n"
-"  b: Stadt erbauen (Siedler)\n"
+"  b: Stadt erbauen (Siedler und Ingenieure)\n"
 "  b: Zum Bau eines Weltwunders beitragen (Karawanen)\n"
 "  c: Ansicht auf die Einheit zentrieren\n"
-"  C: Durchgehende Straße/Eisenbahn u.a. anlegen (Siedler)\n"
+"  C: Durchgehende Straße/Eisenbahn u.a. anlegen (Siedler und Ingenieure)\n"
 "      (Ziel per Mausklick bestimmen)\n"
 "  d: diplomatische Aktionen (Diplomaten/Spione)\n"
 "  D: Einheit auflösen\n"
 "  e: Fliegerhorst bauen\n"
 "  f: Einheit eingraben (Truppen)\n"
-"  f: Festung errichten (Siedler)\n"
+"  f: Festung errichten (Siedler und Ingenieure)\n"
 "  F: Dialog zur Stadtsuche öffnen\n"
 "  g: gehe nach (Ziel per Mausklick bestimmen)\n"
 "  h: Standort zur neuen Heimatstadt machen\n"
@@ -13335,8 +13334,8 @@ msgstr ""
 "einem U-Boot landen. Die Anzahl der Runden, nach denen aufgetankt werden "
 "muß, ist unterschiedlich. Wie die Marineeinheiten sind auch "
 "Luftwaffeneinheiten nicht in der Lage, feindliche Städte einzunehmen. "
-"Außerhalb von Städten können Luftwaffeneinheiten nur von Jägern angegriffen "
-"werden."
+"Außerhalb von Städten können Luftwaffeneinheiten nur von Jagdflugzeugen "
+"angegriffen werden."
 
 #: data/helpdata.txt:854
 msgid ""
@@ -13532,7 +13531,7 @@ msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
-"- Wenn ein Jäger einen Hubschrauber angreift, wird die Feuerkraft des "
+"- Wenn ein Jagdflugzeug einen Hubschrauber angreift, wird die Feuerkraft des "
 "Hubschraubers auf 1 reduziert."
 
 #: data/helpdata.txt:951
@@ -14283,8 +14282,8 @@ msgstr ""
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
 "'Apollo Programm' fertiggestellt hat. Außerdem werden für die Fertigung der "
 "Raumschiffteile bestimmte Kenntnisse verlangt. Einzelheiten finden sich bei "
-"'Stadterweiterungen' unter den Punkten 'Verbindungsstücke', 'Komponenten' "
-"und 'Module'."
+"'Stadterweiterungen' unter den Punkten 'Raumschiffkörper', 'Raumschiffkomponenten' "
+"und 'Raumschiffmodule'."
 
 #: data/helpdata.txt:1371
 msgid ""
@@ -14821,7 +14820,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:922
 #: data/default/buildings.ruleset:1051 data/history/buildings.ruleset:942
 msgid "Space Component"
-msgstr "Komponenten"
+msgstr "Raumschiffkomponenten"
 
 #: data/civ1/buildings.ruleset:950 data/civ2/buildings.ruleset:941
 #: data/default/buildings.ruleset:1072 data/history/buildings.ruleset:961
@@ -14843,7 +14842,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:960 data/civ2/buildings.ruleset:951
 #: data/default/buildings.ruleset:1082 data/history/buildings.ruleset:971
 msgid "Space Module"
-msgstr "Module"
+msgstr "Raumschiffmodule"
 
 #: data/civ1/buildings.ruleset:979 data/civ2/buildings.ruleset:970
 #: data/default/buildings.ruleset:1103 data/history/buildings.ruleset:990
@@ -14864,14 +14863,14 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Die Module sind die teuersten Raumschiffsteile. Es gibt drei verschiedene "
+"Die Raumschiffmodule sind die teuersten Raumschiffsteile. Es gibt drei verschiedene "
 "Typen:\n"
 "\n"
 "- Passagiermodul für 10.000 Passagiere\n"
 "- Lebenserhaltungsmodul enthält Vorräte für ein Passagiermodul\n"
-"- Solarzellen versorgt zwei andere Module mit Energie\n"
+"- Solarzellen versorgt zwei andere Raumschiffmodule mit Energie\n"
 "\n"
-"Es können je 4 Module gebaut werden.\n"
+"Es können je 4 Raumschiffmodule gebaut werden.\n"
 "\n"
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
 "'Apollo Programm' fertiggestellt hat."
@@ -14879,7 +14878,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:998 data/civ2/buildings.ruleset:989
 #: data/default/buildings.ruleset:1122 data/history/buildings.ruleset:1009
 msgid "Space Structural"
-msgstr "Verbindungsstücke"
+msgstr "Raumschiffkörper"
 
 #: data/civ1/buildings.ruleset:1017 data/civ2/buildings.ruleset:1008
 #: data/default/buildings.ruleset:1143 data/history/buildings.ruleset:1028
@@ -14891,8 +14890,8 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Verbindungsstücke werden gebraucht, um die anderen Raumschiffteile "
-"miteinander zu verbinden. Es können bis zu 32 Verbindungsstücke gebaut "
+"Raumschiffkörper werden gebraucht, um die anderen Raumschiffteile "
+"miteinander zu verbinden. Es können bis zu 32 Raumschiffkörper gebaut "
 "werden.\n"
 "\n"
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
@@ -15036,7 +15035,7 @@ msgstr "Das Forschungstempo der Stadt wird um 50% gesteigert."
 #: data/civ1/buildings.ruleset:1261 data/civ2/buildings.ruleset:1254
 #: data/default/buildings.ruleset:1408 data/history/buildings.ruleset:1275
 msgid "Cure For Cancer"
-msgstr "das Krebs-Zentrum"
+msgstr "Krebsheilung"
 
 #: data/civ1/buildings.ruleset:1280 data/civ2/buildings.ruleset:1273
 #: data/default/buildings.ruleset:1429 data/history/buildings.ruleset:1294
@@ -15783,7 +15782,6 @@ msgid "Comrade"
 msgstr "Genosse"
 
 #: data/default/governments.ruleset:402
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15814,20 +15812,18 @@ msgid ""
 "content."
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
-"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. \n"
-"Die geringe Korruption ist nicht von der Entfernung zur Hauptstadt "
-"abhängig.\n"
-"Diplomaten und Spione haben immer Veteran-Status.\n"
-"\n"
-"Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
-"\n"
-"Keine der Quoten (Wissenschaft, Steuern, Luxus) kann 80 % übersteigen.\n"
-"\n"
+"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. "
+"Der Kommunismus ermöglicht ein Gleichgewicht zwischen militärisch und "
+"wirtschaftlich orientierter Staatsführung.\n\n"
+"Es gint eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt "
+"abhängig ist.\n\n"
+"Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n\n"
+"Die Quoten für Wissenschaft, Steuern und Luxus können 80 % nicht übersteigen.\n\n"
+"Neue Diplomaten und Spione haben immer Veteranenstatus.\n\n"
 "Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
-"weitere Einheit kostet 1 Schild.\n"
-"\n"
-"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 2 Unzufriedenen "
-"zufrieden."
+"weitere Einheit kostet 1 Schild Unterhalt pro Runde.\n\n"
+"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten innerhalb einer Stadt "
+"macht 2 Unzufriedene zufrieden."
 
 #: data/civ1/governments.ruleset:431 data/civ2/governments.ruleset:524
 #: data/default/governments.ruleset:437 data/history/governments.ruleset:436
@@ -15886,7 +15882,7 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder befestigten "
 "Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten Stadt.\n"
 "In einer Republik zählen alle stationierte Einheiten außer Landeinheiten als "
@@ -15961,7 +15957,7 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder einer "
 "befestigten Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten "
 "Stadt.\n"
@@ -15974,7 +15970,6 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/civ2/governments.ruleset:166 data/history/governments.ruleset:167
-#, fuzzy
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -15998,21 +15993,18 @@ msgid ""
 "act content, and will not cause disorder.)"
 msgstr ""
 "Anarchie ist einfach die Abwesenheit jeder Regierung. Die Bürger sind "
-"unorganisiert und unproduktiv und geben lieber ihr gesamtes Einkommen aus, "
-"als Steuern zu bezahlen oder Forschung zu finanzieren.\n"
-"In einer Anarchie gibt es weniger Korruption als unter einer Diktatur, aber "
-"größere Unzufriedenheit.\n"
-"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
-"Von allen Feldern, die mehr als 2 Einheiten produzieren, wird 1 Einheit "
-"abgezogen.\n"
-"\n"
+"unorganisiert und unproduktiv und geben ihr gesamtes Einkommen sofort "
+"aus, anstatt Steuern zu bezahlen oder Forschung zu finanzieren.\n\n"
+"In einer Anarchie gibt es etwas weniger Korruption und Müll als unter einer "
+"Diktatur, aber eine etwas größere Unzufriedenheit.\n\n"
+"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde. Felder, die mehr als "
+"2 Schilder, Nahrung oder Handel produzieren, haben eine um 1 Einheit "
+"verringerte Produktion, es sei denn, die Stadt feiert (siehe Zufriedenheit).\n\n"
 "Jede Stadt kann eine ihrer Größe entsprechende Anzahl an Militäreinheiten "
-"ohne Kosten unterhalten. Jede weitere Einheit kostet 1 Schild.\n"
-"\n"
+"ohne Kosten unterhalten. Jede weitere Einheit kostet 1 Schild.\n\n"
 "Kriegsrecht gilt: Jede Militäreinheit macht 1 Unzufriedenen zufrieden."
 
 #: data/civ2/governments.ruleset:244 data/history/governments.ruleset:245
-#, fuzzy
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -16036,14 +16028,15 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Diktatur ist absolute Herrschaft. Die Kontrolle wird hauptsächlich durch "
-"militärische Macht ausgeübt.\n"
+"Diktatur ist absolute Herrschaft. Die Kontrolle der Bevölkerung wird  "
+"hauptsächlich durch das Kriegsrecht sichergestellt.\n"
 "\n"
-"Diktaturen sind von allen Staatsformen am meisten von Korruption betroffen.\n"
+"Diktaturen sind von allen Staatsformen am meisten von Korruption und "
+"Müll betroffen.\n"
 "\n"
-"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
-"Von allen Feldern, die mehr als 2 Einheiten produzieren, wird 1 Einheit "
-"abgezogen.\n"
+"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde. Felder, die mehr als "
+"2 Schilder, Nahrung oder Handel produzieren, haben eine um 1 Einheit "
+"verringerte Produktion, es sei denn, die Stadt feiert (siehe Zufriedenheit).\n"
 "\n"
 "Keine der Quoten (Wissenschaft, Steuern, Luxus) kann 60 % übersteigen.\n"
 "\n"
@@ -16053,7 +16046,6 @@ msgstr ""
 "Kriegsrecht gilt: Jede Militäreinheit macht 1 Unzufriedenen zufrieden."
 
 #: data/civ2/governments.ruleset:323
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -16079,7 +16071,8 @@ msgstr ""
 "In einer (konstitutionellen) Monarchie ist der König der erbliche "
 "Repräsentant des Staates.\n"
 "\n"
-"In einer Monarchie gibt es genauso wenig Korruption wie in einer Republik.\n"
+"In einer Monarchie sind Korruption und Müll ebenso gering wie in einer "
+"Republik.\n"
 "\n"
 "Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
 "\n"
@@ -16092,7 +16085,6 @@ msgstr ""
 "zufrieden."
 
 #: data/civ2/governments.ruleset:401
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16124,8 +16116,8 @@ msgid ""
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
 "gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. \n"
-"Die geringe Korruption ist nicht von der Entfernung zur Hauptstadt "
-"abhängig.\n"
+"Die moderate Korruption und Müll sind nicht von der Entfernung zur "
+"Hauptstadt abhängig.\n"
 "Diplomaten und Spione haben immer Veteran-Status.\n"
 "\n"
 "Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
@@ -16153,7 +16145,6 @@ msgid "High Priestess"
 msgstr "Hohe Priesterin"
 
 #: data/civ2/governments.ruleset:487
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -16201,14 +16192,13 @@ msgstr ""
 "der Rest gebraucht wird, um die Steuern einzutreiben. Außerdem wird "
 "Forschung nur mit der halben Geschwindigkeit vorgenommen.\n"
 "\n"
-"Es gibt geringfügige Korruption.\n"
+"Es gibt geringfügige Korruption und Müll.\n"
 "\n"
 "(Stadt-)erweiterungen, die unter anderen Regierungsformen unzufriedene "
 "Bürger zufrieden stellen, produzieren in fundamentalistischen Staaten Gold "
 "und benötigen keinen Erhaltungsaufwand."
 
 #: data/civ2/governments.ruleset:575 data/history/governments.ruleset:487
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16243,7 +16233,7 @@ msgstr ""
 "bleiben, haben die Bürger größere Freiheiten. Bürger unter Republik werden "
 "somit schnell unzufrieden, erwirtschaften aber einen hohen Handelsertrag.\n"
 "\n"
-"In einer Republik gibt es nur wenig Korruption \n"
+"In einer Republik gibt es nur wenig Korruption und Müll\n"
 "\n"
 "Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde. Felder mit "
 "mindestens einem Handelspunkt erhalten einen zusätzlichen.\n"
@@ -16253,14 +16243,13 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder befestigten "
 "Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten Stadt.\n"
 "In einer Republik zählen alle stationierte Einheiten außer Landeinheiten als "
 "Kampfeinheiten."
 
 #: data/civ2/governments.ruleset:665 data/history/governments.ruleset:576
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -16299,7 +16288,7 @@ msgstr ""
 "höchstmögliche Handelsaufkommen, hat dafür aber auch am meisten mit der "
 "Unzufriedenheit zu kämpfen.\n"
 "\n"
-"Es gibt keine Korruption.\n"
+"Es gibt keine Korruption und keinen Müll.\n"
 "\n"
 "Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde. Felder mit "
 "mindestens einem Handelspunkt erhalten einen zusätzlichen.\n"
@@ -16309,7 +16298,7 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder einer "
 "befestigten Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten "
 "Stadt.\n"
@@ -16474,7 +16463,7 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit außer der ersten verursacht 1 Unzufriedenen.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder einer "
 "befestigten Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten "
 "Stadt.\n"
@@ -16525,7 +16514,7 @@ msgstr ""
 "Militäreinheiten kosten 1 Schild pro Einheit.\n"
 "\n"
 "Jede Kampfeinheit verursacht 2 Unzufriedene.\n"
-"Kampfeinheiten sind alle Einheiten außer Jägern mit einer Angriffstärke "
+"Kampfeinheiten sind alle Einheiten außer Jagdflugzeugen mit einer Angriffstärke "
 "größer 0; ausgenommen sind Einheiten innerhalb einer Stadt oder einer "
 "befestigten Stellung innerhalb von 3 Feldern im Umkreis einer befreundeten "
 "Stadt.\n"
@@ -16538,7 +16527,6 @@ msgstr ""
 "Dauert ein Aufruhr länger als zwei Runden, löst er eine Revolution aus."
 
 #: data/history/governments.ruleset:324
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -16564,7 +16552,8 @@ msgstr ""
 "In einer (konstitutionellen) Monarchie ist der König der erbliche "
 "Repräsentant des Staates.\n"
 "\n"
-"In einer Monarchie gibt es genauso wenig Korruption wie in einer Republik.\n"
+"In einer Monarchie gibt es genauso wenig Korruption und Müll wie in einer "
+"Republik.\n"
 "\n"
 "Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
 "\n"
@@ -16577,7 +16566,6 @@ msgstr ""
 "zufrieden."
 
 #: data/history/governments.ruleset:402
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16609,7 +16597,7 @@ msgid ""
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
 "gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. \n"
-"Die geringe Korruption ist nicht von der Entfernung zur Hauptstadt "
+"Die geringe Korruption und Müll sind nicht von der Entfernung zur Hauptstadt "
 "abhängig.\n"
 "Diplomaten und Spione haben immer Veteran-Status.\n"
 "\n"
@@ -16666,7 +16654,7 @@ msgstr "Brückenbau"
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
 #: data/default/techs.ruleset:123 data/history/techs.ruleset:104
 msgid "Bronze Working"
-msgstr "Bronzebearbeitung"
+msgstr "Bronzeverarbeitung"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
 #: data/default/techs.ruleset:131 data/history/techs.ruleset:110
@@ -16796,7 +16784,7 @@ msgstr "Patentierung"
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
 #: data/default/techs.ruleset:363 data/history/techs.ruleset:284
 msgid "Iron Working"
-msgstr "Eisenbearbeitung"
+msgstr "Eisenverarbeitung"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
 #: data/default/techs.ruleset:371 data/history/techs.ruleset:290
@@ -16831,7 +16819,7 @@ msgstr "Kartographie"
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
 #: data/default/techs.ruleset:427 data/history/techs.ruleset:332
 msgid "Masonry"
-msgstr "Mauern"
+msgstr "Mauerbau"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
 #: data/default/techs.ruleset:435 data/history/techs.ruleset:338
@@ -17573,7 +17561,7 @@ msgstr "Haubitze"
 #: data/civ1/units.ruleset:858 data/civ2/units.ruleset:884
 #: data/default/units.ruleset:948 data/history/units.ruleset:951
 msgid "Fighter"
-msgstr "Jäger"
+msgstr "Jagdflugzeug"
 
 #: data/civ1/units.ruleset:886 data/civ2/units.ruleset:912
 #: data/default/units.ruleset:976 data/history/units.ruleset:979
@@ -17606,7 +17594,7 @@ msgstr "Tarnkappenjäger"
 #: data/history/units.ruleset:1067
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
-"Ein verbesserter Jäger mit höherer Angriffsstärke und größerem Aktionsradius."
+"Ein verbessertes Jagdflugzeug mit höherer Angriffsstärke und größerem Aktionsradius."
 
 #: data/civ1/units.ruleset:970 data/civ2/units.ruleset:1006
 #: data/default/units.ruleset:1070 data/history/units.ruleset:1073
@@ -17857,12 +17845,12 @@ msgstr ""
 #: data/civ1/units.ruleset:1528 data/civ2/units.ruleset:1596
 #: data/default/units.ruleset:1660 data/history/units.ruleset:1663
 msgid "Freight"
-msgstr "Laster"
+msgstr "Lastwagen"
 
 #: data/civ2/units.ruleset:1622 data/default/units.ruleset:1686
 #: data/history/units.ruleset:1689
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "Der Laster ersetzt die Karawane und ist doppelt so schnell."
+msgstr "Der Lastwagen ersetzt die Karawane und ist doppelt so schnell."
 
 #: data/civ1/units.ruleset:1556 data/civ2/units.ruleset:1627
 #: data/default/units.ruleset:1691 data/history/units.ruleset:1694
@@ -18462,6 +18450,9 @@ msgid ""
 "AD, only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
 msgstr ""
+"England wurde im späten 9. Jahrhundert von Alfred dem Großen von Wessex "
+"vereinigt, um nur ein Jahrhundert später von Wilhelm von der Normandie "
+"erobert zu werden - die letzte erfolgreiche Invasion dieses Landes."
 
 # EH: historisch. Sollte nicht übersetzt werden.
 #: data/nation/english.ruleset:19
@@ -18486,6 +18477,8 @@ msgid ""
 "Estonia is a small country on the south shore of the estern Baltic Sea.  Its "
 "people and language are closely related to those of Finland."
 msgstr ""
+"Estland ist ein kleines Land an der Südküste des östlichen Teils der "
+"Ostsee. Das Volk und die Sprache sind eng mit Finnland verwandt."
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -18500,6 +18493,9 @@ msgid ""
 "After centuries of Spanish rule, the Phillipines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
+"Nach Jahrhunderten unter spanischer Regierung wurden die Phillipinen 1898 "
+"an Amerika übertragen. Sie erhielten 1935 das Selbstverwaltungsrecht und "
+"1946 die Unabhängigkeit."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -18514,6 +18510,8 @@ msgid ""
 "Finland is a small, cold country on the northen fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
 msgstr ""
+"Finnland ist ein kleines, kaltes Land am Nordrand Europas, bekannt für den "
+"Export von Holz, Mobiltelefonen und Betriebssystemen von Weltklasse."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -18553,7 +18551,7 @@ msgstr "?plural:Griechen"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr ""
+msgstr "Die alten Griechen, zwischen Mykene und der römischen Eroberung."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -18579,6 +18577,11 @@ msgid ""
 "a few decades before the Spanish conquistadores arrived in their part of the "
 "world in the mid-1500s AD."
 msgstr ""
+"Die Inka waren ein amerindisches Volk in den nördlichen Anden und eroberten "
+"ein Reich, das sich vom heutigen Südchile an der Westküste von Südamerika "
+"bis fast zum Äquator erstreckte. Dummerweise taten sie es nur wenige "
+"Jahrzehnte bevor die spanischen Eroberer Mitte des 15. Jahrhunderts in "
+"ihrem Teil der Welt eintrafen."
 
 #: data/nation/inca.ruleset:18
 msgid "Warlord"
@@ -18618,6 +18621,10 @@ msgid ""
 "cantons in British Palestine, and has gradually expanded through winning a "
 "series of wars launched against it in 1948, 1967 and 1973."
 msgstr ""
+"Die israelische Nation wurde 1948 als Sammlung einiger verteilter "
+"Gebiete im britischen Palästina gegründet, und hat sich während einer "
+"Reihe von Kriegen, die 1948, 1967 und 1973 gegen sie geführt wurden, "
+"deutlich erweitert."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -18634,6 +18641,10 @@ msgid ""
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
 msgstr ""
+"Italien vereinigte sich 1870 nach Jahrzehnten von Ränkekämpfen. Bis 1922 "
+"war es eine Monarchie unter dem Königshaus der Savoyer, danach ein "
+"faschistischer Staat bis 1945, als von den Siegern des zweiten Weltkrieges "
+"eine Demokratie errichtet wurde."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -18685,6 +18696,9 @@ msgid ""
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
+"Litauen ist ein kleines Land an der Südküste der Nordsee, nordöstlich "
+"Polens. Litauisch ist die archaischte und komplexeste der nördlichen "
+"indogermanischen Sprachen."
 
 #: data/nation/lithuanian.ruleset:15
 msgid "Great Duke"
@@ -18709,6 +18723,10 @@ msgid ""
 "continent of Asia.  They became notorious for the utter ruthlessness in "
 "warfare."
 msgstr ""
+"In den Jahrhunderten nach ihrer Vereinigung durch Genghis Khan eroberten "
+"die Mongolen das größte Reich in der menschlichen Geschichte, das fast "
+"ganz Asien einschloß. Sie waren berüchtigt für ihre schreckliche "
+"Grausamkeit im Kampf."
 
 #: data/nation/mongol.ruleset:16
 msgid "Khan"
@@ -18731,6 +18749,8 @@ msgid ""
 "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
 "fantasies."
 msgstr ""
+"Die Armeen des Dunklen Herrschers Sauron, aus J.R.R. Tolkien's "
+"Mittelerde-Fantasien."
 
 #: data/nation/mordor.ruleset:15
 msgid "Overlord"
@@ -18753,6 +18773,8 @@ msgid ""
 "The first Persan (Achmaenid) Empire lasted from 55BC-330BC; the second "
 "(Sassanid) from 226AD-642AD."
 msgstr ""
+"Das erste persische (achämenidische) Reich existierte von 330-55 v. Chr.; "
+"das zweite (sassanidische) Reich von 226-642 n. Chr."
 
 #: data/nation/persian.ruleset:15
 msgid "Shah"
@@ -18799,6 +18821,8 @@ msgid ""
 "Portugal founded the first of the great mercantile empires in the 1400s on "
 "the shipbuilding advances funded by Prince Henry the Navigator."
 msgstr ""
+"Portugal gründete das erste große Handelsreich im 15. Jahrhundert auf "
+"seinen Vorsprung im Schiffsbau, durch Prinz Heinrich der Navigator."
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -18852,6 +18876,9 @@ msgid ""
 "displaced the native Picts, was an independent kingdom from around 1034AD to "
 "the the Union of Crowns with England in 1701."
 msgstr ""
+"Schottland, das ursprünglich von irischen Räubern besiedelt wurde, die die "
+"dort lebenden Pikten umsiedelten, war von 1034 bis zur Vereinigung mit der "
+"Krone von England 1710 ein unabhängiges Königreich."
 
 #: data/nation/scottish.ruleset:19
 msgid "First Minister"
@@ -18885,6 +18912,8 @@ msgid ""
 "Silesia is a region of southern Poland that was at one time an independent "
 "kingdom."
 msgstr ""
+"Schlesien ist ein Gebiet in Südpolen, das einmal ein unabhängiges "
+"Königreich gebildet hatte."
 
 #: data/nation/silesian.ruleset:15 data/nation/welsh.ruleset:21
 msgid "Prince"
