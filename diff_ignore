@@ -12,6 +12,8 @@
 *.rej
 *.swp
 *.wav
+*_gen.c
+*_gen.h
 *~
 .#*
 .deps
