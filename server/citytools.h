@@ -53,7 +53,8 @@ int city_tax_bonus(struct city *pcity);
 int wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
-			 struct city *pcity, struct city *vcity, int kill_outside);
+			 struct city *pcity, struct city *vcity,
+			 int kill_outside, int verbose);
 void civil_war(struct player *pplayer);
 struct city *transfer_city(struct player *pplayer, struct player *cplayer, struct city *pcity);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y);

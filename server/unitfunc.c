@@ -473,13 +473,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   pnewcity = transfer_city(pplayer,cplayer,pcity);
   pnewcity->shield_stock=0; /* this is not done automatically */ 
-  transfer_city_units(pplayer, cplayer, pnewcity, pcity, 0);
+  transfer_city_units(pplayer, cplayer, pnewcity, pcity, 0, 1);
   remove_city(pcity);  /* don't forget this! */
 
   /* Resolve Stack conflicts */
 
   unit_list_iterate(pplayer->units, punit) 
-    resolve_unit_stack(punit->x, punit->y);
+    resolve_unit_stack(punit->x, punit->y, 1);
   unit_list_iterate_end;
   
   /* buying a city should result in getting new tech from the victim too */

@@ -48,5 +48,5 @@ int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost);
 struct unit *is_enemy_unit_on_tile(int x, int y, int owner);
-void resolve_unit_stack(int x, int y);
+void resolve_unit_stack(int x, int y, int verbose);
 #endif

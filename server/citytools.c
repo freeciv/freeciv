@@ -598,11 +598,13 @@ int wants_to_be_bigger(struct city *pcity)
  * area around them is lightened.
  *
  * - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
+ *
+ * If verbose is true, send extra messages to players detailing what
+ * happens to all the units.  --dwp
  */
-
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
-			 int kill_outside)
+			 int kill_outside, int verbose)
 {
   int x = vcity->x;
   int y = vcity->y;
@@ -610,7 +612,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Transfer units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
     flog(LOG_DEBUG,"Transfered %s in %s from %s to %s", unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
-    if (0) {  /* too verbose --dwp */
+    if (verbose) {
       notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
 		    unit_name(vunit->type), vcity->name,
 		    pvictim->name, pplayer->name);
@@ -627,11 +629,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     if(new_home_city)  {
       /* unit is in another city: make that the new homecity */
       
-      flog(LOG_DEBUG,"Transfered %s in %s from %s to %s", unit_name(vunit->type), new_home_city->name, pvictim->name, pplayer->name);
-      if (0) {  /* too verbose --dwp */
-	notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
-		      unit_name(vunit->type), new_home_city->name,
-		      pvictim->name, pplayer->name);
+      flog(LOG_DEBUG,"Changed homecity of %s's %s in %s",
+	   pvictim->name, unit_name(vunit->type), new_home_city->name);
+      if (verbose) {
+	notify_player(pvictim, "Game: Changed homecity of %s in %s",
+		      unit_name(vunit->type), new_home_city->name);
       }
       create_unit_full(pvictim, vunit->x, vunit->y, vunit->type, 
 		       vunit->veteran, new_home_city->id, vunit->moves_left,
@@ -640,7 +642,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     }else if(!kill_outside){
       
       flog(LOG_DEBUG,"Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
-      if (0) {  /* too verbose --dwp */
+      if (verbose) {
 	notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s",
 		      unit_name(vunit->type), x, y,
 		      pvictim->name, pplayer->name);
@@ -848,7 +850,7 @@ void civil_war(struct player *pplayer)
 	flog(LOG_DEBUG,"%s declares allegiance to %s",pnewcity->name,cplayer->name);
 	notify_player(pplayer, "Game: %s declares allegiance to %s",pnewcity->name,cplayer->name);
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
-	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0);
+	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0, 0);
 	remove_city(pcity); /* don't forget this! */
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
@@ -868,7 +870,7 @@ void civil_war(struct player *pplayer)
   i = 0;
 
   unit_list_iterate(pplayer->units, punit) 
-    resolve_unit_stack(punit->x, punit->y);
+    resolve_unit_stack(punit->x, punit->y, 0);
   unit_list_iterate_end;
   
   notify_player(0, "Game: The capture of %s's capital and the destruction of the empire's administrative\n      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n      and the upstart %s now holds power in %d rebel provinces.", pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
