@@ -2117,4 +2117,12 @@ void tileset_changed(void)
 {
   reset_city_dialogs();
   reset_unit_table();
+
+  /* single_tile is originally allocated in gui_main.c. */
+  gdk_pixmap_unref(single_tile_pixmap);
+  single_tile_pixmap_width = UNIT_TILE_WIDTH;
+  single_tile_pixmap_height = UNIT_TILE_HEIGHT;
+  single_tile_pixmap = gdk_pixmap_new(root_window, 
+				      single_tile_pixmap_width,
+				      single_tile_pixmap_height, -1);
 }
