@@ -420,22 +420,6 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 }
 
 /**************************************************************************
-Returns false if you are going the in opposite direction of the destination.
-The 3 directions most opposite the one to the target is considered wrong.
-**************************************************************************/
-static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
-{
-  int diff_x, diff_y, dx, dy, scalar_product;
-
-  map_distance_vector(&diff_x, &diff_y, src_x, src_y, dest_x, dest_y);
-
-  DIRSTEP(dx, dy, dir);
-  scalar_product = diff_x * dx + diff_y * dy;
-
-  return scalar_product >= 0;
-}
-
-/**************************************************************************
 Return the direction that takes us most directly to dest_x,dest_y.
 The direction is a value for use in DIR_DX[] and DIR_DY[] arrays.
 
@@ -467,28 +451,32 @@ static int straightest_direction(int src_x, int src_y, int dest_x, int dest_y)
 }
 
 /**************************************************************************
-Can we move between for ZOC? (only for land units). Includes a speciel case
-only relevant for GOTOs (see below). 
+Can we move between for ZOC? (only for land units). Includes a special
+case only relevant for GOTOs (see below). came_from is a bit-vector
+containing the directions we could have come from.
 **************************************************************************/
 static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
-		       int dest_x, int dest_y)
+		       int dest_x, int dest_y, unsigned char came_from)
 {
   if (can_step_taken_wrt_to_zoc
       (punit->type, unit_owner(punit), src_x, src_y, dest_x, dest_y))
     return 1;
 
-  /* Both positions are currently enemy ZOC. Since the AI depend on it's
-     units bumping into enemies while on GOTO it need to be able to plot
-     a course which attacks enemy units.
-     This code makes sure that if there is a unit in the way that the GOTO
-     made a path over (attack), the unit's ZOC effect (which is now
-     irrelevant, it is dead) doesn't have any effect.
-     If this wasn't here a path involving two enemy units would not be
-     found by the algoritm.
-
-     FIXME: We currently use dir_ok to asses where we came from; it would
-     be more correct if the function was passed the direction we actually
-     came from (dir) */
+  /* 
+   * Both positions are currently enemy ZOC. Since the AI depend on
+   * it's units bumping into enemies while on GOTO it need to be able
+   * to plot a course which attacks enemy units.
+   *
+   * This code makes sure that if there is a unit in the way that the
+   * GOTO made a path over (attack), the unit's ZOC effect (which is
+   * now irrelevant, it is dead) doesn't have any effect.
+   *
+   * That is, if there is a unit standing on a tile that we (possibly)
+   * came from, we will not take it into account.
+   *
+   * If this wasn't here a path involving two enemy units would not be
+   * found by the algoritm.
+   */
 
   /* If we just started the GOTO the enemy unit blocking ZOC on the tile
      we come from is still alive. */
@@ -501,13 +489,15 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
     struct player *owner = unit_owner(punit);
 
     adjc_dir_iterate(src_x, src_y, x, y, dir) {
-      if (!dir_ok(dest_x, dest_y, punit->goto_dest_x, punit->goto_dest_y, dir))
-	continue;
-      if ((map_get_terrain(x, y) != T_OCEAN)
-	  && is_enemy_unit_tile(map_get_tile(x, y), owner))
+      /* if we didn't come from there */
+      if ((1 << dir & came_from) == 0 && (map_get_terrain(x, y) != T_OCEAN)
+	  /* and there is an enemy there */
+	  && is_enemy_unit_tile(map_get_tile(x, y), owner)) {
+	/* then it counts in the zoc claculation */
 	return 0;
+      }
     } adjc_dir_iterate_end;
-    return 0;
+    return 1;
   }
 }
 
@@ -521,10 +511,14 @@ We start with a list with only one tile (the
 starttile), and then tries to move in each of the 8 directions from there.
 This then gives us more tiles to more from. Repeat until we meet the
 destination or there is no remaining tiles.
+All possible paths coming out of the starttile are stored in local_vector.
+After we've reached the destination, only the paths connecting starttile
+with the destination are copied from local_vector to the warmap's vector.
+
 Whenever we reach a tile we see how many movepoints it took to get there,
 and compare it to eventual previous moves to the tile. If the route is
 faster or just as fast we mark the direction from which we came on the
-destination tile. (via a vector local to this function). If we come to a
+local_vector array and also record the new movecost. If we come to a
 tile we have meet before, and the cost of the route we have taken is
 smaller than the previous one we add the tile to the list again, to get
 the tiles it leads to updated etc. The change in move_cost for the tile
@@ -693,8 +687,9 @@ static int find_the_shortest_path(struct unit *punit,
 	    else
 	      move_cost = SINGLE_MOVE;
 	  }
-	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
+	} else if (!goto_zoc_ok(punit, x, y, x1, y1, local_vector[x][y])) {
 	  continue;
+	}
 
 	if (restriction == GOTO_MOVE_STRAIGHTEST && dir == straight_dir)
 	  move_cost /= SINGLE_MOVE;
