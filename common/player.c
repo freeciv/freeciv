@@ -402,7 +402,8 @@ int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
 
 /**************************************************************************
   Return the expected net income of the player this turn.  This includes
-  tax revenue and upkeep, but not one-time purchases or found gold.
+  tax revenue and upkeep, but not one-time purchases or found gold.  Does
+  not depend on pcity->total_tax being set correctly.
 **************************************************************************/
 int player_get_expected_income(struct player *pplayer)
 {
@@ -410,8 +411,13 @@ int player_get_expected_income(struct player *pplayer)
 
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
-    /* Tax income. */
-    income += pcity->tax_total;
+    int lux, tax, sci, trade = pcity->trade_prod;
+
+    get_tax_income(pplayer, trade, &sci, &lux, &tax);
+    income += tax;
+    income += pcity->specialists[SP_TAXMAN]
+            * game.rgame.specialists[SP_TAXMAN].bonus;
+    income += get_city_tithes_bonus(pcity);
 
     /* Improvement upkeep. */
     impr_type_iterate(impr_id) {

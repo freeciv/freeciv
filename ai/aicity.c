@@ -566,10 +566,12 @@ void ai_manage_cities(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     if (CITY_EMERGENCY(pcity)) {
+      auto_arrange_workers(pcity); /* this usually helps */
+    }
+    if (CITY_EMERGENCY(pcity)) {
       /* Fix critical shortages or unhappiness */
       resolve_city_emergency(pplayer, pcity);
     }
-    auto_arrange_workers(pcity);
     ai_sell_obsolete_buildings(pcity);
     sync_cities();
   } city_list_iterate_end;

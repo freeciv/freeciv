@@ -20,11 +20,13 @@ struct city;
 struct player;
 struct unit;
 struct conn_list;
+struct cm_result;
 
 void city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
+void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr);
 
 bool city_reduce_size(struct city *pcity, int pop_loss);
 void send_global_city_turn_notifications(struct conn_list *dest);

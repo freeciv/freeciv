@@ -27,6 +27,8 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "cm.h"
+
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
@@ -38,6 +40,7 @@
 #include "advspace.h"
 #include "aicity.h"
 #include "aidata.h"
+#include "ailog.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -58,6 +61,8 @@
   /U2 Lemon.
 ******************************************************************************/
 
+#define LOGLEVEL_TAX LOG_DEBUG
+
 /**************************************************************************
  handle spaceship related stuff
 **************************************************************************/
@@ -76,86 +81,147 @@ static void ai_manage_spaceship(struct player *pplayer)
 }
 
 /**************************************************************************
-  Refresh all cities of the given player.  This function is only used by 
-  AI so we keep it here. 
-
-  Do not send_unit_info because it causes client to blink.
-**************************************************************************/
-static void ai_player_cities_refresh(struct player *pplayer)
-{
-  city_list_iterate(pplayer->cities, pcity) {
-    generic_city_refresh(pcity, TRUE, NULL);
-  } city_list_iterate_end;
-}
-
-/**************************************************************************
   Set tax/science/luxury rates.
 
-  TODO: Add support for luxuries: select the luxury rate at which all 
-  cities are content and the trade output (minus what is consumed by 
-  luxuries) is maximal.
+  TODO: Add general support for luxuries: select the luxury rate at which 
+  all cities are content and the trade output (minus what is consumed by 
+  luxuries) is maximal.  For this we need some more information from the 
+  city management code.
 
   TODO: Audit the use of pplayer->ai.maxbuycost in the code elsewhere,
   then add support for it here.
-
-  TODO: Add support for rapture, needs to be coordinated for entire
-  empire.
 **************************************************************************/
 static void ai_manage_taxes(struct player *pplayer) 
 {
   int maxrate = (ai_handicap(pplayer, H_RATES) 
                  ? get_government_max_rate(pplayer->government) : 100);
+  bool celebrate = TRUE;
+  int can_celebrate = 0, total_cities = 0;
+  struct government *g = get_gov_pplayer(pplayer);
 
-  /* Otherwise stupid problems arise */
-  assert(maxrate >= 50);
+  /* Find minimum tax rate which gives us a positive balance. We assume
+   * that we want science most and luxuries least here, and reverse or 
+   * modify this assumption later. on */
 
-  /* Add proper support for luxury here */
-  pplayer->economic.luxury = 0;
-  /* After this moment don't touch luxury, it's optimal! */
+  /* First set tax to the minimal available number */
+  pplayer->economic.science = maxrate; /* Assume we want science here */
+  pplayer->economic.tax = MAX(0, 100 - maxrate * 2); /* If maxrate < 50% */
+  pplayer->economic.luxury = (100 - pplayer->economic.science
+                             - pplayer->economic.tax); /* Spillover */
 
-  if (ai_wants_no_science(pplayer)) {
-    /* Maximum tax, leftovers into science */
-    pplayer->economic.tax = MIN(maxrate, 100 - pplayer->economic.luxury);
-    pplayer->economic.science = (100 - pplayer->economic.tax
-                                 - pplayer->economic.luxury);
-    ai_player_cities_refresh(pplayer);
-  } else {
-    /* Set tax to the bare minimum which allows positive balance */
+  /* Now find the minimum tax with positive balance */
+  while(pplayer->economic.tax < maxrate
+        && (pplayer->economic.science > 0
+            || pplayer->economic.luxury > 0)) {
 
-    /* First set tax to the minimal available number */
-    pplayer->economic.science = MIN(maxrate, 100 - pplayer->economic.luxury);
-    pplayer->economic.tax = (100 - pplayer->economic.science
-                             - pplayer->economic.luxury);
-    ai_player_cities_refresh(pplayer);
-
-    /* Now find the minimum tax with positive balance */
-    while(pplayer->economic.tax < maxrate 
-          && pplayer->economic.science > 10) {
-
-      if (player_get_expected_income(pplayer) < 0) {
-        pplayer->economic.tax += 10;
-        pplayer->economic.science -= 10;
-        ai_player_cities_refresh(pplayer);
+    if (player_get_expected_income(pplayer) < 0) {
+      pplayer->economic.tax += 10;
+      if (pplayer->economic.luxury > 0) {
+        pplayer->economic.luxury -= 10;
       } else {
-        /* Ok, got positive balance */
-        if (pplayer->economic.gold < ai_gold_reserve(pplayer)) {
-          /* Need to refill coffers, increase tax a bit */
-          pplayer->economic.tax += 10;
-          pplayer->economic.science -= 10;
-          ai_player_cities_refresh(pplayer);
-        }
-        /* Done! Break the while loop */
-        break;
+        pplayer->economic.science -= 10;
       }
-
+    } else {
+      /* Ok, got positive balance */
+      if (pplayer->economic.gold < ai_gold_reserve(pplayer)) {
+        /* Need to refill coffers, increase tax a bit */
+        pplayer->economic.tax += 10;
+        if (pplayer->economic.luxury > 0) {
+          pplayer->economic.luxury -= 10;
+        } else {
+          pplayer->economic.science -= 10;
+        }
+      }
+      /* Done! Break the while loop */
+      break;
     }
-
   }
 
-  freelog(LOG_DEBUG, "%s rates: Sci %d Lux%d Tax %d NetIncome %d",
-          pplayer->name, pplayer->economic.science,
+  /* Should we celebrate? */
+  /* TODO: In the future, we should check if we should 
+   * celebrate for other reasons than growth. Currently 
+   * this is ignored. Maybe we need ruleset AI hints. */
+  if (government_has_flag(g, G_RAPTURE_CITY_GROWTH)) {
+    int luxrate = pplayer->economic.luxury;
+    int scirate = pplayer->economic.science;
+    struct cm_parameter cmp;
+    struct cm_result cmr;
+
+    while (pplayer->economic.luxury < maxrate
+           && pplayer->economic.science > 0) {
+      pplayer->economic.luxury += 10;
+      pplayer->economic.science -= 10;
+    }
+
+    memset(&cmp, 0, sizeof(struct cm_parameter));
+    cmp.require_happy = TRUE;    /* note this one */
+    cmp.allow_disorder = FALSE;
+    cmp.allow_specialists = TRUE;
+    cmp.factor_target = FT_SURPLUS;
+    cmp.factor[FOOD] = 20;
+    cmp.minimal_surplus[GOLD] = -FC_INFINITY;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      cm_clear_cache(pcity);
+      cm_query_result(pcity, &cmp, &cmr); /* burn some CPU */
+
+      total_cities++;
+
+      if (cmr.found_a_valid
+          && pcity->food_surplus > 0
+          && pcity->size >= g->rapture_size
+          && (pcity->size < game.aqueduct_size
+              || city_got_building(pcity, B_AQUEDUCT))
+          && (pcity->size < game.sewer_size
+              || city_got_building(pcity, B_SEWER))) {
+        pcity->ai.celebrate = TRUE;
+        can_celebrate++;
+      } else {
+        pcity->ai.celebrate = FALSE;
+      }
+    } city_list_iterate_end;
+    /* If more than half our cities can celebrate, go for it! */
+    celebrate = (can_celebrate * 2 > total_cities);
+    if (celebrate) {
+      freelog(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", pplayer->name);
+      city_list_iterate(pplayer->cities, pcity) {
+        if (pcity->ai.celebrate == TRUE) {
+          freelog(LOGLEVEL_TAX, "setting %s to celebrate", pcity->name);
+          cm_query_result(pcity, &cmp, &cmr);
+          apply_cmresult_to_city(pcity, &cmr);
+          generic_city_refresh(pcity, TRUE, NULL);
+          if (cmr.found_a_valid && !city_happy(pcity)) {
+            CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
+          }
+        }
+      } city_list_iterate_end;
+    } else {
+      pplayer->economic.luxury = luxrate;
+      pplayer->economic.science = scirate;
+    }
+  }
+
+  if (!celebrate && pplayer->economic.luxury < maxrate) {
+    /* TODO: Add general luxury code here. */
+  }
+
+  /* Ok, we now have the desired tax and luxury rates. Do we really want
+   * science? If not, swap it with tax if it is bigger. */
+  if (ai_wants_no_science(pplayer)
+      && pplayer->economic.science > pplayer->economic.tax) {
+    int science = pplayer->economic.science;
+    /* Swap science and tax */
+    pplayer->economic.science = pplayer->economic.tax;
+    pplayer->economic.tax = science;
+  }
+
+  assert(pplayer->economic.tax + pplayer->economic.luxury 
+         + pplayer->economic.science == 100);
+  freelog(LOGLEVEL_TAX, "%s rates: Sci %d Lux%d Tax %d NetIncome %d "
+          "celeb=(%d/%d)", pplayer->name, pplayer->economic.science,
           pplayer->economic.luxury, pplayer->economic.tax,
-          player_get_expected_income(pplayer));
+          player_get_expected_income(pplayer), can_celebrate, total_cities);
+  send_player_info(pplayer, pplayer);
 }
 
 /**************************************************************************
@@ -167,6 +233,8 @@ static void ai_manage_taxes(struct player *pplayer)
   necessary tech more.  The best of the available governments is recorded 
   in goal.revolution.  We record the want of each government, and only
   recalculate this data every ai->govt_reeval_turns turns.
+
+  Note: Call this _before_ doing taxes!
 **************************************************************************/
 void ai_best_government(struct player *pplayer)
 {
@@ -197,6 +265,7 @@ void ai_best_government(struct player *pplayer)
        * this is a rather big CPU operation, we'd rather not. */
       check_player_government_rates(pplayer);
       city_list_iterate(pplayer->cities, acity) {
+        acity->ai.celebrate = FALSE;
         generic_city_refresh(acity, TRUE, NULL);
         auto_arrange_workers(acity);
       } city_list_iterate_end;

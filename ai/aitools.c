@@ -635,6 +635,9 @@ void ai_government_change(struct player *pplayer, int gov)
   pplayer->government = game.government_when_anarchy;
   handle_player_government(pplayer, gov);
   pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
+  city_list_iterate(pplayer->cities, pcity) {
+    auto_arrange_workers(pcity); /* update cities */
+  } city_list_iterate_end;
 }
 
 /**************************************************************************

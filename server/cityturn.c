@@ -143,6 +143,31 @@ void remove_obsolete_buildings(struct player *pplayer)
 }
 
 /**************************************************************************
+  Rearrange workers according to a cm_result struct.
+**************************************************************************/
+void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
+{
+  int i;
+
+  /* Now apply results */
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
+    if (pcity->city_map[x][y] == C_TILE_WORKER
+        && !is_city_center(x, y)
+        && !cmr->worker_positions_used[x][y]) {
+      server_remove_worker_city(pcity, x, y);
+    }
+    if (pcity->city_map[x][y] != C_TILE_WORKER
+        && !is_city_center(x, y)
+        && cmr->worker_positions_used[x][y]) {
+      server_set_worker_city(pcity, x, y);
+    }
+  } city_map_checked_iterate_end;
+  for (i = 0; i < SP_COUNT; i++) {
+    pcity->specialists[i] = cmr->specialists[i];
+  }
+}
+
+/**************************************************************************
   You need to call sync_cities so that the affected cities are synced with 
   the client.
 **************************************************************************/
@@ -151,7 +176,6 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_parameter cmp;
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
-  int i;
 
   /* HACK: make sure everything is up-to-date before continuing.  This may
    * result in recursive calls to auto_arrange_workers, but it's better
@@ -244,22 +268,7 @@ void auto_arrange_workers(struct city *pcity)
   }
   assert(cmr.found_a_valid);
 
-  /* Now apply results */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
-    if (pcity->city_map[x][y] == C_TILE_WORKER
-	&& !is_city_center(x, y)
-	&& !cmr.worker_positions_used[x][y]) {
-      server_remove_worker_city(pcity, x, y);
-    }
-    if (pcity->city_map[x][y] != C_TILE_WORKER
-	&& !is_city_center(x, y)
-	&& cmr.worker_positions_used[x][y]) {
-      server_set_worker_city(pcity, x, y);
-    }
-  } city_map_checked_iterate_end;
-  for (i = 0; i < SP_COUNT; i++) {
-    pcity->specialists[i] = cmr.specialists[i];
-  }
+  apply_cmresult_to_city(pcity, &cmr);
 
   sanity_check_city(pcity);
 
