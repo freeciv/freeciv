@@ -16,7 +16,10 @@
 #include "packets.h"
 #include "city.h"
 
-/* after much trial and error, I'm pretty sure these are finally right -- Syela */
+/* citycache */
+void initialize_city_cache(void);
+void add_city_to_cache(struct city *pcity);
+void remove_city_from_cache(int id);
 
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);

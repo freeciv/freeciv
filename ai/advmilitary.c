@@ -72,7 +72,6 @@ int assess_defense_igwall(struct city *pcity)
 
 int assess_danger(struct city *pcity)
 {
-  struct unit *punit;
   int i, danger = 0, v, dist, con, m;
   int danger2 = 0; /* linear for walls */
   int danger3 = 0; /* linear for coastal */
@@ -289,6 +288,7 @@ void process_attacker_want(struct player *pplayer, struct city *pcity, int b, in
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;
     if (j != A_LAST) k = pplayer->ai.tech_turns[j];
+    else k = 0; /* stupid -Wall -Werror -- Syela */
     if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST && k &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
@@ -386,7 +386,7 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
       }
     } /* end dealing with cities */
 
-    if (aunit) {
+    else {
       m = 0;
       pdef = aunit; /* we KNOW this is the get_defender -- Syela */
 
@@ -481,9 +481,8 @@ e, dist, c);
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice)
 {
-  int def, danger, dist, ag, v, urgency, vet, m, n;
-  struct unit *aunit, *myunit = 0, *pdef = 0;
-  struct city *acity;
+  int def, danger, v, urgency;
+  struct unit *myunit = 0;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct unit virtualunit;
   choice->choice = 0;

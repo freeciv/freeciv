@@ -224,7 +224,8 @@ int server_open_socket(void)
 
   opt=1; 
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
-		(const char*)&opt, sizeof(opt))) {
+		(char*)&opt, sizeof(opt))) {
+/*		(const char*)&opt, sizeof(opt))) {      gave me warnings -- Syela */
     log(LOG_FATAL, "setsockopt failed: %s", strerror(errno));
   }
 

@@ -1,7 +1,7 @@
 "*gotAppDefFile:                       True",
 "*server:                              localhost",
 "*port:                                5555",
-"*version:                             1.6.3",
+"*version:                             1.6.4",
 "*connectdialog.*.title: Connect to FreeCiv Server",
 "*connectdialog.cform.background: lightblue",
 "*connectdialog.*.cheadline.label: Freeciv Server Selection",

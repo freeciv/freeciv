@@ -11,6 +11,8 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <stdio.h>
+#include <string.h>
+
 #include <settlers.h>
 #include <packets.h>
 #include <map.h>
@@ -19,6 +21,10 @@
 #include <aiunit.h>
 #include <gotohand.h>
 #include <assert.h>
+#include <cityhand.h>
+#include <unithand.h>
+#include <unitfunc.h>
+#include <maphand.h>
 
 extern struct move_cost_map warmap;
 signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
@@ -160,7 +166,7 @@ int city_desirability(int x, int y)
   int worst, b2, best, ii, jj, val, cur;
   int d = 0;
   int a, i0, j0; /* need some temp variables */
-  int temp, tmp;
+  int temp=0, tmp=0;
   int debug = 0;
   int g = 1;
   struct tile *ptile;
@@ -230,7 +236,7 @@ int city_desirability(int x, int y)
 
   if (pcity) { /* quick-n-dirty immigration routine -- Syela */
     n = pcity->size;
-    best = 0;
+    best = 0; ii = 0; jj = 0; /* blame -Wall -Werror for these */
     city_map_iterate(i, j) {
       cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
             (shield[i][j] + mine[i][j]) +
@@ -262,7 +268,7 @@ printf("City value (%d, %d) = %d, har = %d, f = %d\n", x, y, val, har, f);
 
   for (n = 1; n <= 20 && f > 0; n++) {
     for (a = 1; a; a--) {
-      best = 0; worst = -1; b2 = 0;
+      best = 0; worst = -1; b2 = 0; i0 = 0; j0 = 0; ii = 0; jj = 0;
       city_map_iterate(i, j) {
         cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
               (shield[i][j] + mine[i][j]) +
@@ -416,7 +422,9 @@ int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, 
 
 /* all of the benefit and ai_calc routines rewritten by Syela */
 /* to conform with city_tile_value and related calculations elsewhere */
-/* all of these functions are VERY CPU-inefficient and will later be optimized. */
+/* all of these functions are VERY CPU-inefficient and are being cached */
+/* I don't really want to rewrite them and possibly screw them up. */
+/* The cache should keep the CPU increase linear instead of quadratic. -- Syela */
 
 int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
 {
@@ -511,9 +519,9 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j)
   if (ptile->terrain != T_OCEAN && (ptile->terrain != T_RIVER ||
       get_invention(pplayer, A_BRIDGE) == TECH_KNOWN) &&
       !(ptile->special&S_ROAD)) {
-    map_set_special(x, y, S_ROAD);
+    ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
     m = city_tile_value(pcity, i, j, 0, 0);
-    map_clear_special(x, y, S_ROAD);
+    ptile->special&=~S_ROAD;
     return(m);
   } else return(0);
 }
@@ -528,9 +536,9 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
       get_invention(pplayer, A_RAILROAD) == TECH_KNOWN &&
       !(ptile->special&S_RAILROAD)) {
     if (ptile->special&S_ROAD) {
-      map_set_special(x, y, S_RAILROAD);
+      ptile->special|=S_RAILROAD;
       m = city_tile_value(pcity, i, j, 0, 0);
-      map_clear_special(x, y, S_RAILROAD);
+      ptile->special&=~S_RAILROAD;
       return(m);
     } else {
       map_set_special(x, y, S_ROAD | S_RAILROAD);
@@ -707,7 +715,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
         if (w > val && (i != 2 || j != 2)) val = w;
 /* perhaps I should just subtract w rather than val but I prefer this -- Syela */
 
-	v2 = ai_calc_irrigate(pcity, pplayer, i, j);
+	v2 = pcity->ai.irrigate[i][j];
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {
           d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
@@ -721,7 +729,7 @@ gx, gy, v, x, y, v2, d, b);*/
 	  v=v2; gx=x; gy=y;
         }
 
-	v2 = ai_calc_mine(pcity, pplayer, i, j);
+	v2 = pcity->ai.mine[i][j];
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {    
           d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
@@ -736,7 +744,7 @@ gx, gy, v, x, y, v2, d, b);*/
         }
 
         if (!(map_get_tile(x,y)->special&S_ROAD)) {
-  	  v2 = ai_calc_road(pcity, pplayer, i, j);
+  	  v2 = pcity->ai.road[i][j];
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
 /* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
@@ -752,7 +760,7 @@ gx, gy, v, x, y, v2, d, b);*/
 	    v=v2; gx=x; gy=y;
           }
 
-	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+	  v2 = pcity->ai.railroad[i][j];
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
           if (b > 0) {    
@@ -765,7 +773,7 @@ gx, gy, v, x, y, v2, d, b);*/
 	    v=v2; gx=x; gy=y;
           }
         } else {
-	  v2 = ai_calc_railroad(pcity, pplayer, i, j);
+	  v2 = pcity->ai.railroad[i][j];
           if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
           b = (v2 - val)<<6; /* arbitrary, for rounding errors */
           if (b > 0) {    
@@ -779,7 +787,7 @@ gx, gy, v, x, y, v2, d, b);*/
           }
         } /* end else */
 
-	v2 = ai_calc_pollution(pcity, pplayer, i, j);
+	v2 = pcity->ai.detox[i][j];
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {    
           d = (3 * 3 + z + m - 1) / m + z;
@@ -811,10 +819,10 @@ gx, gy, v, x, y, v2, d, b);*/
         w = 0;
         if (!is_already_assigned(punit, pplayer, x, y) &&
             map_get_terrain(x, y) != T_OCEAN) {
-          if (!goto_is_sane(pplayer, punit, x, y)) {
+          if (!goto_is_sane(pplayer, punit, x, y, 1)) {
             if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
             else if (boatid) {
-              if (!punit->id && mycity->id == d) w = 1;
+              if (!punit->id && mycity->id == boatid) w = 1;
               z = warmap.cost[bx][by] + real_map_distance(bx, by, x, y) + m;
             } else if (punit->id || !is_terrain_near_tile(mycity->x,
                         mycity->y, T_OCEAN)) z = 9999;
@@ -876,12 +884,12 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
       add_city_to_minimap(gx, gy);
     } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
     if (!same_pos(gx, gy, punit->x, punit->y)) {
-      if (!goto_is_sane(pplayer, punit, gx, gy)) {
+      if (!goto_is_sane(pplayer, punit, gx, gy, 1)) {
         punit->ai.ferryboat = find_boat(pplayer, punit, &x, &y);
 printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);
         if (!same_pos(x, y, punit->x, punit->y)) {
           auto_settler_do_goto(pplayer, punit, x, y);
-          if (!unit_list_find(&pplayer->units, id)) return; /* died */
+          if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
         }
         ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
                    punit->ai.ferryboat);
@@ -896,7 +904,7 @@ printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);
         } /* need to zero pass & ferryboat at some point. */
       } else { /* not looking for BOAT */
        auto_settler_do_goto(pplayer, punit,gx, gy);
-       if (!unit_list_find(&pplayer->units, id)) return; /* died */
+       if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
        punit->ai.ferryboat = 0;
       }
     }
@@ -915,6 +923,23 @@ printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);
       return(0);
     }
   }
+  return(0);
+}
+
+void initialize_infrastructure_cache(struct player *pplayer)
+{
+  int i, j;
+  city_list_iterate(pplayer->cities, pcity)
+    city_map_iterate(i, j) {
+      pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j);
+      pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
+      pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
+      pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
+/* gonna handle road_bo dynamically for now since it can change
+as punits arrive at adjacent tiles and start laying road -- Syela */
+      pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
+    }
+  city_list_iterate_end;
 }
 
 /************************************************************************** 
@@ -929,6 +954,7 @@ void auto_settlers_player(struct player *pplayer)
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec; 
 #endif
+  initialize_infrastructure_cache(pplayer); /* saves oodles of time -- Syela */
   unit_list_iterate(pplayer->units, punit) {
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {

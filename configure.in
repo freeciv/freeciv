@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
 AC_INIT(common/game.c)
-AM_INIT_AUTOMAKE(freeciv,1.6.3)
+AM_INIT_AUTOMAKE(freeciv,1.6.4)
 
 dnl Evaluate options. Example:
 dnl AC_ARG_ENABLE(debug,

@@ -36,6 +36,7 @@
 #include <aiunit.h>
 #include <aicity.h>
 #include <aitech.h>
+#include <settlers.h>
 extern struct advance advances[];
 extern struct player_race races[];
 
@@ -587,7 +588,7 @@ int update_tech(struct player *plr, int bulbs)
   }
 
   if (old==A_RAILROAD) {
-    struct city_list cl=plr->cities;
+/*    struct city_list cl=plr->cities; -- unused? */
     struct genlist_iterator myiter;
     genlist_iterator_init(&myiter, &plr->cities.list, 0);
     notify_player(plr, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
@@ -972,6 +973,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
  
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
+    add_city_to_cache(pcity);
     pcity->owner=plrno;
     pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     pcity->y=secfile_lookup_int(file, "player%d.c%d.y", plrno, i);

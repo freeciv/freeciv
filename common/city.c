@@ -18,7 +18,6 @@
 #include <city.h>
 #include <tech.h>
 
-
 /****************************************************************
 all the city improvements
 use get_improvement_type(id) to access the array
@@ -286,7 +285,7 @@ int wonder_replacement(struct city *pcity, enum improvement_type_id id)
       return 1;
     break;
   case B_POLICE:
-    if (city_affected_by_wonder(pcity, B_POLICE))
+    if (city_affected_by_wonder(pcity, B_WOMENS))
       return 1;
     break;
   case B_RESEARCH:
@@ -315,6 +314,7 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
   sprintf(buffer, "%s(%c)", get_improvement_type(id)->name, state); 
   return buffer;
 }
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -812,22 +812,9 @@ int city_celebrating(struct city *pcity)
   return (pcity->size>=5 && pcity->was_happy/* city_happy(pcity)*/);
 }
 
-/***************************************************************
-...
-***************************************************************/
-struct city *find_city_by_id(int id)
-{
-  int i;
-
-  for(i=0; i<game.nplayers; i++) {
-    struct city *pcity;
-    
-    if((pcity=city_list_find_id(&game.players[i].cities, id)))
-      return pcity;
-  }
-  return 0;
-}
-
+/* find_city_by_id has been removed from common.  The old version is now
+client-only, and the caching version is server only.  This is because I
+don't fully comprehend the client and don't want to mess anything up. -- Syela */
 
 /**************************************************************************
 ...

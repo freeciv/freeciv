@@ -21,6 +21,8 @@ void generate_warmap(struct city *pcity, struct unit *punit);
 
 #include <map.h> /* just to allow MAP_MAX_ to be used */
 
+int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
+
 struct move_cost_map {
   unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
   unsigned char seacost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];

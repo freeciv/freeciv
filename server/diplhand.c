@@ -124,7 +124,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pdest, "Game: You are taught the knowledge of %s",
 			advances[pclause->value].name);
 	  if (pclause->value==A_RAILROAD) {
-	    struct city_list cl=pdest->cities;
+/*	    struct city_list cl=pdest->cities; -- unused? */
 	    struct genlist_iterator myiter;
 	    genlist_iterator_init(&myiter, &pdest->cities.list, 0);
 	    notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");

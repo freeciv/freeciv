@@ -37,8 +37,13 @@ int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j);
 int in_city_radius(int x, int y);
+int is_ok_city_spot(int x, int y); /* laughable, really. */
 int make_dy(int y1, int y2);
 int make_dx(int x1, int x2);
+void generate_minimap(void);
+void remove_city_from_minimap(int x, int y);
+void add_city_to_minimap(int x, int y);
+void locally_zero_minimap(int x, int y); /* I should imp this someday -- Syela */
 
 #endif
 

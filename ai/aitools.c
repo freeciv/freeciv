@@ -32,7 +32,6 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
 {
   struct player *pplay;
   struct city *pc=NULL;
-  struct city *pcity=NULL;
   int i;
   int dist=40;
   for(i=0; i<game.nplayers; i++) {
@@ -58,7 +57,6 @@ struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y)
 {
   struct player *pplay;
   struct unit *pu=NULL;
-  struct unit *punit=NULL;
   int i;
   int dist=40;
   for(i=0; i<game.nplayers; i++) {

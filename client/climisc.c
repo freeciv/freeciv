@@ -131,3 +131,8 @@ void log_output_window(void)
   fclose(flog);
   append_output_window("Export complete.");
 }
+
+struct city *find_city_by_id(int id)
+{ /* no idea where this belongs either */
+  return(game_find_city_by_id(id));
+}

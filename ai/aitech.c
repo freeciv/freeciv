@@ -221,7 +221,7 @@ void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 
 void calculate_tech_turns(struct player *pplayer)
 {
-  int i, j;
+  int i;
   memset(pplayer->ai.tech_turns, 0, sizeof(pplayer->ai.tech_turns));
   for (i = A_NONE + 1; i < A_LAST; i++) {
     pplayer->ai.tech_turns[i] = tech_goal_turns(pplayer, i);

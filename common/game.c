@@ -198,7 +198,7 @@ int civ_score(struct player *pplayer)
   unit_list_iterate_end;
   
   for (i=0;i<B_LAST;i++) {
-    if (is_wonder(i) && (pcity=find_city_by_id(game.global_wonders[i])) && 
+    if (is_wonder(i) && (pcity=game_find_city_by_id(game.global_wonders[i])) && 
 	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
   }
@@ -480,6 +480,6 @@ city_name_compare() - Does a string compare on the names of two cities
 int city_name_compare(const void *first,const void *second)
 {
 
-    return mystrcasecmp((find_city_by_id(*(int *)first))->name,
-                  (find_city_by_id(*(int *)second))->name);
+    return mystrcasecmp((game_find_city_by_id(*(int *)first))->name,
+                  (game_find_city_by_id(*(int *)second))->name);
 }

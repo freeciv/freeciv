@@ -232,8 +232,8 @@ void ai_spend_gold(struct player *pplayer, int gold)
 void ai_manage_taxes(struct player *pplayer) 
 { /* total rewrite by Syela */
   int gnow = pplayer->economic.gold;
-  int sad = 0, trade = 0, m, n, i, expense = 0, best, tot;
-  int x, y, waste[40]; /* waste with N elvises */
+  int sad = 0, trade = 0, m, n, i, expense = 0, tot;
+  int waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 

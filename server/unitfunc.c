@@ -143,7 +143,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: %s diplomat stole %s in %s.", 
 		   pplayer->name, advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
-    struct city_list cl=pplayer->cities;
+/*    struct city_list cl=pplayer->cities;*/
     struct genlist_iterator myiter;
     genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
     notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.", pcity->name);
@@ -306,6 +306,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
   }
 
   pnewcity->id=get_next_id_number();
+  add_city_to_cache(pnewcity);
   for (i = 0; i < B_LAST; i++) {
     if (is_wonder(i) && city_got_building(pnewcity, i))
       game.global_wonders[i] = pnewcity->id;

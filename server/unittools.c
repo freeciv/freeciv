@@ -48,8 +48,6 @@
 int can_unit_move_to_tile(struct unit *punit, int x, int y)
 {
   struct tile *ptile,*ptile2;
-  struct unit_list *punit_list;
-  struct unit *punit2;
   int zoc;
 
   if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
@@ -154,6 +152,7 @@ int is_friendly_city_tile(int x, int y, int owner)
 **************************************************************************/
 int is_sailing_unit_tile(int x, int y)
 {
+  if (map_get_terrain(x, y) != T_OCEAN) return 0;
   unit_list_iterate(map_get_tile(x,y)->units, punit) 
     if (is_sailing_unit(punit)) 
       return 1;
@@ -259,7 +258,7 @@ int hp_gain_coord(struct unit *punit)
     hp=get_unit_type(punit->type)->hp/4;
   else
     hp=0;
-  if((pcity=game_find_city_by_coor(punit->x,punit->y))) {
+  if((pcity=map_get_city(punit->x,punit->y))) {
     if ((city_got_barracks(pcity) && is_ground_unit(punit)) ||
 	(city_got_building(pcity, B_AIRPORT) && is_air_unit(punit)) || 
 	(city_got_building(pcity, B_AIRPORT) && is_heli_unit(punit)) || 
@@ -287,7 +286,6 @@ int hp_gain_coord(struct unit *punit)
 int rate_unit(struct unit *punit, struct unit *against)
 {
   int val;
-  struct city *pcity=map_get_city(punit->x, punit->y);
 
   if(!punit) return 0;
   val = get_total_defense_power(against,punit);
@@ -369,7 +367,7 @@ int unit_behind_walls(struct unit *punit)
 {
   struct city *pcity;
   
-  if((pcity=game_find_city_by_coor(punit->x,punit->y)))
+  if((pcity=map_get_city(punit->x, punit->y)))
     return city_got_citywalls(pcity);
   
   return 0;
@@ -389,7 +387,9 @@ int unit_on_fortress(struct unit *punit)
 int unit_behind_coastal(struct unit *punit)
 {
   struct city *pcity;
-  return ((pcity=game_find_city_by_coor(punit->x, punit->y)) && city_got_building(pcity, B_COASTAL));
+  if((pcity=map_get_city(punit->x, punit->y)))
+    return city_got_building(pcity, B_COASTAL);
+  return 0;
 }
 
 /**************************************************************************
@@ -398,7 +398,9 @@ int unit_behind_coastal(struct unit *punit)
 int unit_behind_sam(struct unit *punit)
 {
   struct city *pcity;
-  return ((pcity=game_find_city_by_coor(punit->x, punit->y)) && city_got_building(pcity, B_SAM));
+  if((pcity=map_get_city(punit->x, punit->y)))
+    return city_got_building(pcity, B_SAM);
+  return 0;
 }
 
 /**************************************************************************
@@ -407,7 +409,9 @@ int unit_behind_sam(struct unit *punit)
 int unit_behind_sdi(struct unit *punit)
 {
   struct city *pcity;
-  return ((pcity=game_find_city_by_coor(punit->x, punit->y)) && city_got_building(pcity, B_SDI));
+  if((pcity=map_get_city(punit->x, punit->y)))
+    return city_got_building(pcity, B_SDI);
+  return 0;
 }
 
 /**************************************************************************
@@ -419,7 +423,7 @@ struct city *sdi_defense_close(int owner, int x, int y)
   int lx, ly;
   for (lx=x-2;lx<x+3;lx++)
     for (ly=y-2;ly<y+3;ly++) {
-      pcity=game_find_city_by_coor(lx,ly);
+      pcity=map_get_city(lx,ly);
       if (pcity && (pcity->owner!=owner) && city_got_building(pcity, B_SDI))
 	return pcity;
     }

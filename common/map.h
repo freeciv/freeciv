@@ -110,6 +110,8 @@ struct tile *map_get_tile(int x, int y);
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
+void reset_move_costs(int x, int y);
+void initialize_move_costs(void);
 
 #define map_adjust_x(X) \
  (((X)<0) ?  (X)+map.xsize : (((X)>=map.xsize) ? (X)-map.xsize : (X)))

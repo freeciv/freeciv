@@ -33,6 +33,7 @@
 #include <events.h>
 #include <shared.h>
 #include <aiunit.h>
+#include <settlers.h>
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
@@ -461,7 +462,7 @@ void handle_unit_enter_hut(struct unit *punit)
                         "Game: You gain knowledge about %s.", 
                         advances[pplayer->research.researching].name);
        if (pplayer->research.researching==A_RAILROAD) {
-         struct city_list cl=pplayer->cities;
+/*         struct city_list cl=pplayer->cities;*/
          struct genlist_iterator myiter;
          genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
          notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
@@ -751,6 +752,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     old_id = pnewcity->id;
 
     pnewcity->id=get_next_id_number();
+    add_city_to_cache(pnewcity);
     for (i = 0; i < B_LAST; i++) {
       if (is_wonder(i) && city_got_building(pnewcity, i))
         game.global_wonders[i] = pnewcity->id;

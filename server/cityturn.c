@@ -32,6 +32,8 @@
 #include <events.h>
 #include <aicity.h>
 #include <aitools.h> /* for ai_advisor_choose_building/ai_choice */
+#include <settlers.h>
+#include <advdomestic.h>
 
 static void set_trade_prod(struct city *pcity);
 static void set_tax_income(struct city *pcity);
@@ -117,7 +119,6 @@ Modify the incomes according to various buildings.
 **************************************************************************/
 void add_buildings_effect(struct city *pcity)
 {
-  int tmp=0;
   int tax_bonus, science_bonus;
   int shield_bonus;
 
@@ -573,7 +574,7 @@ int  add_adjust_workers(struct city *pcity)
   int toplace;
   int foodneed;
   int prodneed = 0;
-  int x,y,bx,by;
+  int x,y;
   city_map_iterate(x, y) 
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
       iswork++;
@@ -600,7 +601,6 @@ void auto_arrange_workers(struct city *pcity)
 {
   int workers=pcity->size;
   int taxwanted,sciwanted;
-  int bx,by;
   int x,y;
   int foodneed, prodneed, gov;
 

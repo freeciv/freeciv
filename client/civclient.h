@@ -30,5 +30,6 @@ void send_report_request(enum report_type type);
 void set_client_state(enum client_states newstate);
 enum client_states get_client_state(void);
 extern int turn_gold_difference;
+void send_move_unit(struct unit *punit);
 
 #endif

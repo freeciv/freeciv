@@ -11,6 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <stdio.h>
+#include <string.h>
 
 #include <aitools.h>
 #include <map.h>
@@ -22,6 +23,7 @@
 #include <cityhand.h>
 #include <aicity.h>
 #include <aiunit.h>
+#include <settlers.h>
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 

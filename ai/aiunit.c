@@ -36,6 +36,7 @@
 #include <gotohand.h>
 #include <citytools.h>
 #include <assert.h>
+#include <settlers.h>
 
 void ai_manage_ferryboat(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
@@ -73,8 +74,8 @@ void ai_manage_units(struct player *pplayer)
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 { /* this is smarter than the old one, but much slower too. -- Syela */
-  int i, j, d, f, x, y, con, dest_x, dest_y, best = 255, cur, a, b, ct = 3;
-  int id = punit->id;
+  int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best = 255, cur, a, b, ct = 3;
+/*  int id = punit->id; - we can't go BOOM anymore as this is now written */
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
@@ -262,7 +263,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_dest_y = aunit->y;
       punit->activity = ACTIVITY_GOTO;
       do_unit_goto(pplayer,punit);
-      if (punit = unit_list_find(&pplayer->units, id))
+      if ((punit = unit_list_find(&pplayer->units, id)))
         set_unit_activity(punit, ACTIVITY_IDLE);
       return;
     }
@@ -321,7 +322,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
       break;
   }
 
-  if (punit = find_unit_by_id(id)) {
+  if ((punit = find_unit_by_id(id))) {
     if (punit->activity != ACTIVITY_IDLE) /* leaving units on GOTO is BAD news! */
       handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
 
@@ -460,7 +461,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
   struct city *pcity = NULL, *acity = NULL;
   struct unit *aunit;
   int val;
-  int d = 0, def = 0, bestd = 0;
+  int d = 0, def = 0;
 
 /* tired of AI abandoning its cities! -- Syela */
   if (punit->homecity) {
@@ -525,7 +526,7 @@ unit_types[punit->type].name, pcity->name, assess_defense(pcity), def, pcity->ai
 void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
 struct city *pcity;
-int dest, dest_x, dest_y;
+int dest_x, dest_y;
 if (punit->homecity)
    {
    pcity=find_city_by_id(punit->homecity);
@@ -598,7 +599,7 @@ nearest vulnerable enemy unit or city */
                 warmap.cost[acity->x][acity->y] < maxd) ||
             (is_sailing_unit(punit) &&
                 warmap.seacost[acity->x][acity->y] < maxd)) {
-          if (pdef = get_defender(pplayer, punit, acity->x, acity->y))
+          if ((pdef = get_defender(pplayer, punit, acity->x, acity->y)))
             vul = unit_vulnerability(punit, pdef);
           else vul = 0;
 /* probably ought to make empty cities less enticing. -- Syela */
@@ -646,7 +647,6 @@ nearest vulnerable enemy unit or city */
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
   int dest_x, dest_y; 
-  struct city *pcity;
   int id, flag, went, ct = 10;
 
   if (punit->activity!=ACTIVITY_GOTO) {
@@ -663,7 +663,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
           return; /* Jane, stop this crazy thing! */
         } else if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
 /* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
-          if (went = ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
+          if ((went = ai_military_gothere(pplayer, punit, dest_x, dest_y))) {
             if (went > 0) flag = punit->moves_left;
             else punit = 0;
           } /* else we're having ZOC hell and need to break out of the loop */

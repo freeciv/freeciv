@@ -94,6 +94,8 @@ struct ai_city {
   struct ai_choice choice; /* to spend gold in the right place only */
   int downtown; /* distance from neighbours, for locating wonders wisely */
   int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
+  signed short int detox[5][5], mine[5][5], irrigate[5][5], road[5][5], railroad[5][5];
+/* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
 };
 
 struct city {
@@ -150,7 +152,6 @@ struct city_list {
 
 extern struct improvement_type improvement_types[B_LAST];
 
-
 /* initial functions */
 
 char *city_name_suggestion(struct player *pplayer);
@@ -202,6 +203,8 @@ int trade_between_cities(struct city *pc1, struct city *pc2);
 
 /* list functions */
 struct city *find_city_by_id(int id);
+/* this funct is no longer in this module, but leaving it proto'd
+here saves more headaches than you can imagine -- Syela */
 struct city *find_city_by_name(int id);
 void city_list_init(struct city_list *This);
 struct city *city_list_get(struct city_list *This, int index);

@@ -51,6 +51,7 @@
 #include <advmilitary.h>
 #include <aihand.h>
 #include <capability.h>
+#include <settlers.h>
 
 void show_ending();
 void end_game();
@@ -291,6 +292,7 @@ int main(int argc, char *argv[])
   }
 
   initialize_move_costs(); /* this may be the wrong place to do this */
+  initialize_city_cache(); /* probably not needed, better to be safe */
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!is_new_game) {
@@ -319,13 +321,14 @@ int main(int argc, char *argv[])
     shuffle_players();
 /* printf("Aistartturn\n"); */
     ai_start_turn();
-/* printf("Autosettlers\n"); */
-    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
 /* printf("sniffingpackets\n"); */
     while(sniff_packets()==1);
-/* printf("Endturn\n"); */
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
+/* printf("Autosettlers\n"); */
+    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
+/* moved after sniff_packets for even more efficiency.  What a guy I am. -- Syela */
+/* printf("Endturn\n"); */
     end_turn();
 /* printf("Gamenextyear\n"); */
     game_next_year();
@@ -559,7 +562,7 @@ void ai_start_turn()
 
 int end_turn()
 {
-  int i, pos;
+  int i;
   before_end_year();
   nocity_send = 1;
 
@@ -1047,7 +1050,7 @@ void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  if(pplayer=find_player_by_name(req->name)) {
+  if((pplayer=find_player_by_name(req->name))) {
     if(!pplayer->conn) {
       /* can I use accept_new_player here?? mjd */
       struct packet_join_game_reply packet;

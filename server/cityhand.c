@@ -31,6 +31,44 @@
 #include <plrhand.h>
 #include <events.h>
 #include <aicity.h>
+#include <settlers.h>
+
+/* Cityptr cache, saves enormous amounts of CPU time. -- Syela */
+struct stupid {
+  struct city *ptr;
+};
+
+struct stupid *citycache;
+int citycachesize = 0;
+
+void initialize_city_cache(void)
+{
+  ;
+}
+
+void reallocate_cache(int id)
+{
+  citycache = (struct stupid *)realloc(citycache, sizeof(struct stupid) * (id + 1024));
+  for (; citycachesize < id + 1024; citycachesize++)
+    citycache[citycachesize].ptr = NULL;
+}
+
+void add_city_to_cache(struct city *pcity)
+{
+  if (pcity->id >= citycachesize) reallocate_cache(pcity->id);
+  citycache[pcity->id].ptr = pcity;
+}
+
+void remove_city_from_cache(int id)
+{
+  citycache[id].ptr = 0;
+}
+
+struct city *find_city_by_id(int id)
+{
+  if (id > 0) return(citycache[id].ptr);
+  else return(0);
+}
 
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 
@@ -79,6 +117,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity=(struct city *)malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
+  add_city_to_cache(pcity);
   pcity->owner=pplayer->player_no;
   pcity->x=x;
   pcity->y=y;
@@ -590,6 +629,7 @@ void remove_city(struct city *pcity)
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   }
+  remove_city_from_cache(pcity->id);
   remove_city_from_minimap(x, y);
   game_remove_city(pcity->id);
 }

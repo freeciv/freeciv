@@ -37,6 +37,8 @@ void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq);
 void handle_player_research(struct player *pplayer,
 			    struct packet_player_request *preq);
+void handle_player_tech_goal(struct player *pplayer,
+                            struct packet_player_request *preq);
 void researchprogress(int plr);
 int update_tech(struct player *plr, int bulbs);
 void set_invention(struct player *plr, int tech, int value);

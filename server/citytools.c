@@ -29,6 +29,8 @@
 #include <shared.h>
 #include <plrhand.h>
 #include <events.h>
+#include <unitfunc.h>
+#include <settlers.h>
 
 /****************************************************************
 ...

@@ -37,6 +37,8 @@
 #include <advleader.h>
 #include <advmilitary.h>
 #include <advdomestic.h>
+#include <gotohand.h>
+
 int ai_fix_unhappy(struct city *pcity);
 void ai_manage_city(struct player *pplayer, struct city *);
 void ai_scientists_taxmen(struct city *pcity);
@@ -150,8 +152,6 @@ void ai_manage_buildings(struct player *pplayer)
 void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice bestchoice, curchoice;
-  int def = city_get_defenders(pcity);
-  int set = city_get_settlers(pcity);
 
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
@@ -358,7 +358,6 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
 
 void ai_manage_cities(struct player *pplayer)
 { 
-  int dist;
   pplayer->ai.maxbuycost = 0;
 
   city_list_iterate(pplayer->cities, pcity)
@@ -678,7 +677,7 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 int ai_make_elvis(struct city *pcity)
 {
   int xp, yp, val;
-  if (val = ai_find_elvis_pos(pcity, &xp, &yp)) {
+  if ((val = ai_find_elvis_pos(pcity, &xp, &yp))) {
     set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
     pcity->ppl_elvis++;
     city_refresh(pcity); /* this lets us call ai_make_elvis in luxury routine */
@@ -708,7 +707,7 @@ void make_elvises(struct city *pcity)
   city_refresh(pcity);
  
   while (1) {
-    if (elviscost = ai_find_elvis_pos(pcity, &xp, &yp)) {
+    if ((elviscost = ai_find_elvis_pos(pcity, &xp, &yp))) {
       if (get_food_tile(xp, yp, pcity) > pcity->food_surplus)
 	break;
       if (get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))

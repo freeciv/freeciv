@@ -17,8 +17,8 @@
 /* different patch versions are compatible */
 #define MAJOR_VERSION  1
 #define MINOR_VERSION  6
-#define PATCH_VERSION  3
-#define VERSION_STRING "1.6.3"
+#define PATCH_VERSION  4
+#define VERSION_STRING "1.6.4"
 
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
 

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
 #include <map.h>
 #include <game.h>
@@ -34,8 +35,6 @@ int warnodes;
 
 void add_to_stack(int x, int y)
 {
-  int i;
-  struct stack_element tmp;
   warstack[warstacksize].x = x;
   warstack[warstacksize].y = y;
   warstacksize++;
@@ -74,8 +73,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
-  struct tile *tile0, *tile1;
-  struct city *acity;
+  struct tile *tile0;
 
   if (pcity) { orig_x = pcity->x; orig_y = pcity->y; }
   else { orig_x = punit->x; orig_y = punit->y; }
@@ -163,10 +161,7 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
 { /* this WAS can_unit_move_to_tile with the notifys removed -- Syela */
 /* but is now a little more complicated to allow non-adjacent tiles */
   struct tile *ptile,*ptile2;
-  struct unit_list *punit_list;
-  struct unit *punit2;
   struct city *pcity;
-  int zoc;
 
   if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
     return 0;
@@ -308,7 +303,7 @@ int dir_ect(int x0, int y0, int x1, int y1, int k)
 int find_the_shortest_path(struct player *pplayer, struct unit *punit,
                            int dest_x, int dest_y)
 {
-  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
+/*  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };*/
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int igter = 0, xx[3], yy[3], x, y, i, j, k, tm, c;
@@ -537,7 +532,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit)
   int x, y, k;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
+/*  char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };*/
 
   int id=punit->id;
 
