@@ -219,7 +219,7 @@ void popup_players_dialog(void)
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
-  int i, n = 0, w = 0, h;
+  int i, n, w = 0, h;
   double a, b, r;
   struct player *pPlayer;
   
@@ -252,6 +252,8 @@ void popup_players_dialog(void)
   
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
+  
+  n = 0;
   for(i=0; i<game.nplayers; i++) {
     if(is_barbarian(get_player(i))) {
       continue;
@@ -325,6 +327,9 @@ void popup_players_dialog(void)
   pStr->render = 3;
   pStr->backcol.unused = 128;
   for(i = 1; i<DS_LAST; i++) {
+      if(i==DS_NO_CONTACT) {
+	continue;
+      }
       pStr->text = convert_to_utf16(diplstate_text(i));
       switch (i) {
         case DS_WAR:
@@ -337,7 +342,7 @@ void popup_players_dialog(void)
 	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_GROUND));
         break;
 	case DS_ALLIANCE:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_GROUND));
+	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
 	break;
 	case DS_NEUTRAL:
 	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_BLACK));
@@ -368,14 +373,16 @@ void popup_players_dialog(void)
   pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r;
   
   n = 1;
-  do{
-    pBuf = pBuf->prev;
-    b = M_PI_2 + n * a;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 - r * cos(b) - pBuf->size.w / 2;
-    pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r * sin(b);
-    n++;
-  } while(pBuf != pPlayers_Dlg->pBeginWidgetList);
-
+  if(pBuf != pPlayers_Dlg->pBeginWidgetList) {
+    do{
+      pBuf = pBuf->prev;
+      b = M_PI_2 + n * a;
+      pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 - r * cos(b) - pBuf->size.w / 2;
+      pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r * sin(b);
+      n++;
+    } while(pBuf != pPlayers_Dlg->pBeginWidgetList);
+  }
+  
   update_players_dialog();
   
 }
@@ -429,7 +436,9 @@ static int player_nation_callback(struct GUI *pWidget)
       }
     break;
     default:
-      popup_diplomacy_dialog(pPlayer);
+      if(pPlayer->player_no != game.player_idx) {
+        popup_diplomacy_dialog(pPlayer);
+      }
     break;
   }
   

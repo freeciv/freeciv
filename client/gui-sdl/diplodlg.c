@@ -1111,7 +1111,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 		  pplayer_get_diplstate(game.player_ptr, pPlayer)->type;
   
   if(!can_meet_with_player(pPlayer)) {
-    if(type == DS_WAR) {
+    if(type == DS_WAR || pPlayer == game.player_ptr) {
       flush_dirty();
       return;
     } else {
