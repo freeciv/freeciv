@@ -92,7 +92,6 @@
 
 #include "civserver.h"
 
-/* main() belongs at the bottom of files!! -- Syela */
 static void before_end_year(void);
 static int end_turn(void);
 static void send_all_info(struct player *dest);
