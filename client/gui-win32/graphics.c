@@ -366,6 +366,8 @@ void init_fog_bmp(void)
   HBITMAP old;
   HDC hdc;
   HBITMAP fog;
+  if (!is_isometric)
+    return;
   hdc=CreateCompatibleDC(NULL);
   fog=CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
   old=SelectObject(hdc,fog);
@@ -551,7 +553,8 @@ void draw_sprite_part(struct Sprite *sprite,HDC hdc,
 void draw_fog_part(HDC hdc,int x, int y,int w, int h,
 		   int xsrc, int ysrc)
 {
-  draw_sprite_part(&fog_sprite,hdc,x,y,w,h,xsrc,ysrc);
+  if (is_isometric)
+    draw_sprite_part(&fog_sprite,hdc,x,y,w,h,xsrc,ysrc);
 }
 
 /**************************************************************************
