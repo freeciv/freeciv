@@ -849,6 +849,10 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     }
   }
 
+  if (pwinner == punit && punit->activity != ACTIVITY_IDLE) {
+    /* Ensure we remove ACTIVITY_GOTO here */
+    set_unit_activity(punit, ACTIVITY_IDLE);
+  }
   send_unit_info(NULL, pwinner);
 }
 
