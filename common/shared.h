@@ -101,6 +101,7 @@ char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
 char *mystrdup(char *);
 int mystrcasecmp(char *str0, char *str1);
+char *mystrerror(int errnum);
 RANDOM_TYPE myrand(int size);
 void mysrand(RANDOM_TYPE seed);
 int string_ptr_compare(const void *first, const void *second);

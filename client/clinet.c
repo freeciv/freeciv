@@ -96,12 +96,12 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   signal (SIGPIPE, SIG_IGN);
   
   if((aconnection.sock = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, strerror(errno));
+    strcpy(errbuf, mystrerror(errno));
     return -1;
   }
   
   if(connect(aconnection.sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
-    strcpy(errbuf, strerror(errno));
+    strcpy(errbuf, mystrerror(errno));
     close(aconnection.sock);
     return -1;
   }
@@ -193,12 +193,12 @@ int get_meta_list(char *server, char **list, char *errbuf)
   addr.sin_port = htons(80);
   
   if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    strcpy(errbuf, strerror(errno));
+    strcpy(errbuf, mystrerror(errno));
     return -1;
   }
   
   if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
-    strcpy(errbuf, strerror(errno));
+    strcpy(errbuf, mystrerror(errno));
     close(s);
     return -1;
   }

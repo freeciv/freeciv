@@ -253,6 +253,21 @@ int string_ptr_compare(const void *first, const void *second)
    return mystrcasecmp(*((char **)first), *((char **)second));
 }
 
+/***************************************************************
+...
+***************************************************************/
+char *mystrerror(int errnum)
+{
+#if defined(HAVE_STRERROR) || !defined(HAVE_CONFIG_H)
+  /* if we have real strerror() or if we're not using configure */
+  return strerror(errnum);
+#else
+  static char buf[64];
+  sprintf(buf, "error %d (compiled without strerror)", errnum);
+  return buf;
+#endif
+}
+
 
 /*************************************************************************
    The following random number generator can be found in _The Art of 

@@ -219,7 +219,7 @@ int server_open_socket(void)
   signal (SIGPIPE, SIG_IGN);
   
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-    flog(LOG_FATAL, "socket failed: %s", strerror(errno));
+    flog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
     exit(1);
   }
 
@@ -227,16 +227,16 @@ int server_open_socket(void)
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
 		(char*)&opt, sizeof(opt))) {
 /*		(const char*)&opt, sizeof(opt))) {      gave me warnings -- Syela */
-    flog(LOG_FATAL, "setsockopt failed: %s", strerror(errno));
+    flog(LOG_FATAL, "setsockopt failed: %s", mystrerror(errno));
   }
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
-    flog(LOG_FATAL, "bind failed: %s", strerror(errno));
+    flog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
     exit(1);
   }
 
   if(listen(sock, MAX_CONNECTIONS) < 0) {
-    flog(LOG_FATAL, "listen failed: %s", strerror(errno));
+    flog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
     exit(1);
   }
 
