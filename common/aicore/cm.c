@@ -463,8 +463,8 @@ static void print_combination(struct city *pcity,
 static void copy_stats(struct city *pcity, struct cm_result *result)
 {
   result->production[FOOD] = pcity->food_prod;
-  result->production[SHIELD] = pcity->shield_prod;
-  result->production[TRADE] = pcity->trade_prod;
+  result->production[SHIELD] = pcity->shield_prod + pcity->shield_waste;
+  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
 
   result->surplus[FOOD] = pcity->food_surplus;
   result->surplus[SHIELD] = pcity->shield_surplus;
