@@ -1127,30 +1127,33 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
     put_overlay_tile_gpixmap(p, 0, 1, sprites.upkeep.unhappy[unhappy-1]);
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
 void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
 {
   int x, y;
-  
-  for(y=0; y<3; y++)
+
+  for(y=0; y<3; y++) {
     for(x=0; x<3; x++) {
+      int map_x = map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH;
+      int map_y = map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT;
       struct Sprite *mysprite = sprites.explode.nuke[y][x];
 
-      gdk_draw_pixmap( map_canvas->window, civ_gc, mysprite->pixmap,
-		0, 0,
-		map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH, 
-		map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT,
-		NORMAL_TILE_WIDTH,
-		NORMAL_TILE_HEIGHT );
+      gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+		      map_x, map_y, 0, 0,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
+      gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+		      0, 0, map_x, map_y,
+		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
+  }
 
-  gdk_flush ();
+  gdk_flush();
   sleep(1);
 
-  update_map_canvas(map_canvas_adjust_x(abs_x0-1), 
+  update_map_canvas(map_canvas_adjust_x(abs_x0-1),
                     map_canvas_adjust_y(abs_y0-1),
 		    3, 3, 1);
 }
