@@ -233,7 +233,6 @@ void handle_unit_build_city(struct player *pplayer,
 
       send_remove_unit(0, req->unit_id);
       map_set_special(punit->x, punit->y, S_ROAD);
-      map_set_special(punit->x, punit->y, S_IRRIGATION);
       if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
 	map_set_special(punit->x, punit->y, S_RAILROAD);
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
