@@ -1274,8 +1274,7 @@ void handle_player_remove_vision(struct player *pplayer,
     return;
   }
   pplayer2 = get_player(packet->value);
-  if (pplayer == pplayer2 || !pplayer2->is_alive
-      || !gives_shared_vision(pplayer, pplayer2)) {
+  if (pplayer == pplayer2 || !gives_shared_vision(pplayer, pplayer2)) {
     return;
   }
 
