@@ -1814,7 +1814,7 @@ void put_city_workers(struct city *pcity, int color)
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
     /* stipple the area */
-    if (!(i == 2 && j == 2)) {
+    if (!is_city_center(i, j)) {
       if (worked == C_TILE_EMPTY) {
 	gdk_gc_set_stipple(fill_tile_gc, gray25);
       } else if (worked == C_TILE_WORKER) {

@@ -1216,7 +1216,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	{
 	  enum city_tile_type t = get_worker_city(pcity, i, j);
 
-	  if (!(i==2 && j==2))
+	  if (!is_city_center(i, j))
 	  {
 	    int pix_x = (x + i - 2) * get_normal_tile_width() + _mleft(o);
 	    int pix_y = (y + j - 2) * get_normal_tile_height() + _mtop(o);

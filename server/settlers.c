@@ -221,17 +221,22 @@ static int city_desirability(struct player *pplayer, int x, int y)
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
       food[i][j] = (get_tile_food_base(ptile) - 2) * MORT;
-      if (i == 2 && j == 2) food[i][j] += 2 * MORT;
+      if (is_city_center(i, j)) {
+	food[i][j] += 2 * MORT;
+      }
       if (ptype->irrigation_result == ptile->terrain && con2 == con) {
-        if (ptile->special&S_IRRIGATION || (i == 2 && j == 2))
+	if (ptile->special & S_IRRIGATION || is_city_center(i, j)) {
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr;
+	}
         else if (is_water_adjacent_to_tile(map_x, map_y) &&
                  ptile->terrain != T_HILLS)
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr - 9; /* KLUGE */
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
       } else if (ptile->terrain == T_OCEAN && har) food[i][j] += MORT; /* harbor */
       shield[i][j] = get_tile_shield_base(ptile) * sh;
-      if (i == 2 && j == 2 && !shield[i][j]) shield[i][j] = sh;
+      if (is_city_center(i, j) && !shield[i][j]) {
+	shield[i][j] = sh;
+      }
       if (ptile->terrain == T_OCEAN && har) shield[i][j] += sh;
 /* above line is not sufficiently tested.  AI was building on shores, but not
 as far out in the ocean as possible, which limits growth in the very long
@@ -244,8 +249,9 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
 	mine[i][j] = sh * ptype->mining_shield_incr - 300; /* KLUGE */
       trade[i][j] = get_tile_trade_base(ptile) * t;
       if (ptype->road_trade_incr > 0) {
-        if (ptile->special&S_ROAD || (i == 2 && j == 2))
+	if (ptile->special & S_ROAD || is_city_center(i, j)) {
 	  road[i][j] = t * ptype->road_trade_incr;
+	}
         else if (con2 == con)
           road[i][j] = t * ptype->road_trade_incr - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
       }
@@ -262,7 +268,11 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
       cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
             (shield[i][j] + mine[i][j]) +
             (trade[i][j] + road[i][j]);
-      if (cur > best && (i != 2 || j != 2)) { best = cur; ii = i; jj = j; }
+      if (cur > best && !is_city_center(i, j)) {
+	best = cur;
+	ii = i;
+	jj = j;
+      }
     } city_map_iterate_end;
     if (!best) return(0);
     val = (shield[ii][jj] + mine[ii][jj]) +
@@ -302,12 +312,20 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
         cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
               (shield[i][j] + mine[i][j]) +
               (trade[i][j] + road[i][j]);
-        if (!taken[i][j]) {
-          if (cur > best) { b2 = best; best = cur; ii = i; jj = j; }
-          else if (cur > b2) b2 = cur;
-        } else if (i != 2 || j != 2) {
-          if (cur < worst || worst < 0) { worst = cur; i0 = i; j0 = j; }
-        }
+	if (!taken[i][j]) {
+	  if (cur > best) {
+	    b2 = best;
+	    best = cur;
+	    ii = i;
+	    jj = j;
+	  } else if (cur > b2) {
+	    b2 = cur;
+	  }
+	} else if (!is_city_center(i, j) && (cur < worst || worst < 0)) {
+	  worst = cur;
+	  i0 = i;
+	  j0 = j;
+	}
       } city_map_iterate_end;
       if (!best) break;
       cur = amortize((shield[ii][jj] + mine[ii][jj]) +

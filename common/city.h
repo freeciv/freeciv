@@ -342,20 +342,19 @@ int get_food_tile(int x, int y);    /* food   on spot */
 /* city map functions */
 
 int is_valid_city_coords(const int city_x, const int city_y);
-int base_map_to_city_map(int *local_city_map_x,
-			       int *local_city_map_y, int city_center_x,
-			       int city_center_y, int map_x, int map_y);
+int is_city_center(int city_x, int city_y);
+int base_map_to_city_map(int *city_map_x, int *city_map_y,
+			 int city_center_x, int city_center_y, int map_x,
+			 int map_y);
+int map_to_city_map(int *city_map_x, int *city_map_y,
+		    const struct city *const pcity, int map_x, int map_y);
 
-int map_to_city_map(int *local_city_map_x, int *local_city_map_y,
-			  const struct city *const pcity, int map_x,
-			  int map_y);
+int base_city_map_to_map(int *map_x, int *map_y, int city_center_x,
+			 int city_center_y, int city_map_x,
+			 int city_map_y);
+int city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
+		    int city_map_x, int city_map_y);
 
-int base_city_map_to_map(int *map_x, int *map_y,
-			       int city_center_x, int city_center_y,
-			       int local_city_map_x, int local_city_map_y);
-int city_map_to_map(int *map_x, int *map_y,
-			  const struct city *const pcity,
-			  int local_city_map_x, int local_city_map_y);
 int city_get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
 int city_get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
 int city_get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */

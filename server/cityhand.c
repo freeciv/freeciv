@@ -116,7 +116,7 @@ void handle_city_make_specialist(struct player *pplayer,
   if(!pcity) 
     return;
   if (!player_owns_city(pplayer, pcity))  return;
-  if (preq->worker_x==2 && preq->worker_y==2) {
+  if (is_city_center(preq->worker_x, preq->worker_y)) {
     auto_arrange_workers(pcity);
     sync_cities();
     return;
@@ -150,7 +150,7 @@ void handle_city_make_worker(struct player *pplayer,
   if (!pcity)
     return;
 
-  if (preq->worker_x==CITY_MAP_SIZE/2 && preq->worker_y==CITY_MAP_SIZE/2) {
+  if (is_city_center(preq->worker_x, preq->worker_y)) {
     auto_arrange_workers(pcity);
     sync_cities();
     return;

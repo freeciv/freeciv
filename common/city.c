@@ -93,6 +93,15 @@ int is_valid_city_coords(const int city_x, const int city_y)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+int is_city_center(int city_x, int city_y)
+{
+  return (city_x == (CITY_MAP_SIZE / 2))
+      && (city_y == (CITY_MAP_SIZE / 2));
+}
+
+/**************************************************************************
 Finds the city map coordinate for a given map position and a city
 center. Returns whether the map position is inside of the city map.
 **************************************************************************/
@@ -560,7 +569,7 @@ int city_get_shields_tile(int x, int y, struct city *pcity)
   if (spec_t & S_FALLOUT)
     s-=(s*terrain_control.fallout_shield_penalty)/100;
 
-  if (s<game.rgame.min_city_center_shield && x==2 && y==2)
+  if (s < game.rgame.min_city_center_shield && is_city_center(x, y))
     s=game.rgame.min_city_center_shield;
 
   return s;
@@ -656,7 +665,7 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
       t-=(t*terrain_control.fallout_trade_penalty)/100;
   }
 
-  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
+  if (t < game.rgame.min_city_center_trade && is_city_center(x, y))
     t=game.rgame.min_city_center_trade;
 
   return t;
@@ -719,7 +728,8 @@ int city_get_food_tile(int x, int y, struct city *pcity)
   tile_t = map_get_terrain(map_x, map_y);
 
   type=get_tile_type(tile_t);
-  city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result
+  city_auto_water = (is_city_center(x, y)
+		     && tile_t == type->irrigation_result
 		     && terrain_control.may_irrigate);
 
   if (spec_t & S_SPECIAL_1) 
@@ -755,7 +765,7 @@ int city_get_food_tile(int x, int y, struct city *pcity)
   if (spec_t & S_FALLOUT)
     f-=(f*terrain_control.fallout_food_penalty)/100;
 
-  if (f<game.rgame.min_city_center_food && x==2 && y==2)
+  if (f < game.rgame.min_city_center_food && is_city_center(x, y))
     f=game.rgame.min_city_center_food;
 
   return f;

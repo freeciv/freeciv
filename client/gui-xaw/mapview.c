@@ -1178,7 +1178,7 @@ void put_city_workers(struct city *pcity, int color)
     enum city_tile_type worked = get_worker_city(pcity, i, j);
 
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    if (!(i == 2 && j == 2)) {
+    if (!is_city_center(i, j)) {
       if (worked == C_TILE_EMPTY) {
 	XSetStipple(display, fill_tile_gc, gray25);
       } else if (worked == C_TILE_WORKER) {

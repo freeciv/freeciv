@@ -854,7 +854,7 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   *xp = 0;
   *yp = 0;
   city_map_iterate(x, y) {
-    if (x==2 && y==2)
+    if (is_city_center(x, y))
       continue; 
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       if (*xp==0 && *yp==0) { 

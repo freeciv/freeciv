@@ -202,7 +202,9 @@ int worst_worker_tile_value(struct city *pcity)
 {
   int worst = 0, tmp;
   city_map_iterate(x, y) {
-    if ((x != 2 || y != 2) && get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+    if (is_city_center(x, y))
+      continue;
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
       if (tmp < worst || !worst) worst = tmp;
     }
@@ -217,7 +219,7 @@ int best_worker_tile_value(struct city *pcity)
 {
   int best = 0, tmp;
   city_map_iterate(x, y) {
-    if ((x == 2 && y == 2) ||
+    if (is_city_center(x, y) ||
 	(get_worker_city(pcity, x, y) == C_TILE_WORKER) ||
 	can_place_worker_here(pcity, x, y)) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
@@ -1688,7 +1690,7 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
   ptile = map_get_tile(map_x, map_y);
 
   if (is_enemy_unit_tile(ptile, city_owner(pcity))
-      && (city_x != CITY_MAP_SIZE/2 || city_y != CITY_MAP_SIZE/2))
+      && !is_city_center(city_x, city_y))
     return 0;
 
   if (!map_get_known(map_x, map_y, city_owner(pcity)))

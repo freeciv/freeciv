@@ -268,8 +268,8 @@ void auto_arrange_workers(struct city *pcity)
   int foodneed, prodneed;
 
   city_map_iterate(x, y) {
-    if (get_worker_city(pcity, x, y)==C_TILE_WORKER
-	&& (x != CITY_MAP_SIZE/2 || y != CITY_MAP_SIZE/2))
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER
+	&& !is_city_center(x, y))
       server_remove_worker_city(pcity, x, y);
   } city_map_iterate_end;
   
@@ -1100,25 +1100,29 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void check_pollution(struct city *pcity)
 {
-  int x,y;
   int k=100;
   if (pcity->pollution && myrand(100)<=pcity->pollution) {
     while (k) {
       /* place pollution somewhere in city radius */
-      x=myrand(5)-2;
-      y=myrand(5)-2;
-      if ( ( x != -2 && x != 2 ) || ( y != -2 && y != 2 ) ) {
-	x = pcity->x + x;
-	y = pcity->y + y;
-	nearest_real_pos(&x, &y);
-	if ( (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
-	     (!(map_get_special(x,y)&S_POLLUTION)) ) { 
-	  map_set_special(x,y, S_POLLUTION);
-	  send_tile_info(0, x, y);
-	  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_POLLUTION,
-			   _("Game: Pollution near %s."), pcity->name);
-	  return;
-	}
+      int cx = myrand(CITY_MAP_SIZE);
+      int cy = myrand(CITY_MAP_SIZE);
+      int mx, my;
+
+      /* if is a corner tile or not a real map position */
+      if (!is_valid_city_coords(cx, cy)
+	  || !city_map_to_map(&mx, &my, pcity, cx, cy)) {
+	continue;
+      }
+
+      if ((map_get_terrain(mx, my) != T_OCEAN
+	   && map_get_terrain(mx, my) <= T_TUNDRA)
+	  && (!(map_get_special(mx, my) & S_POLLUTION))) {
+	map_set_special(mx, my, S_POLLUTION);
+	send_tile_info(0, mx, my);
+	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+			 E_POLLUTION, _("Game: Pollution near %s."),
+			 pcity->name);
+	return;
       }
       k--;
     }
