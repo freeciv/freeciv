@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+#ifdef WIN32_NATIVE
+#include <windows.h>	/* LoadLibrary() */
+#endif
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -159,6 +163,15 @@ int main(int argc, char *argv[])
   int ui_options = 0;
   bool ui_separator = FALSE;
   char *option=NULL;
+
+  /* Load win32 post-crash debugger */
+#ifdef WIN32_NATIVE
+# ifndef NDEBUG
+  if (LoadLibrary("exchndl.dll") == NULL) {
+    fprintf(stderr, "exchndl.dll could not be loaded");
+  }
+# endif
+#endif
 
   init_nls();
   audio_init();
