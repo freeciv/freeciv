@@ -186,7 +186,7 @@ city_from_glist(GList* list)
 /****************************************************************
 ...
 *****************************************************************/
-typedef gboolean TestCityFunc(struct city *, gint);
+typedef gboolean (*TestCityFunc)(struct city *, gint);
 
 /****************************************************************
 ...
@@ -244,7 +244,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
   cid cid = GPOINTER_TO_INT(data);
   gint i;
   GtkObject *parent = GTK_OBJECT(w->parent);
-  TestCityFunc *test_func = gtk_object_get_data(parent, "freeciv_test_func");
+  TestCityFunc test_func = gtk_object_get_data(parent, "freeciv_test_func");
   gboolean change_prod = 
     GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_prod"));
 
@@ -850,7 +850,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   submenu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
   append_impr_or_unit_to_menu(submenu, FALSE, TRUE, FALSE,
-			     (TestCityFunc*)city_got_building);
+			      city_got_building);
 
   gtk_widget_show_all(menu);
   
