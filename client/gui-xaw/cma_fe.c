@@ -180,7 +180,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
                                 XtNfromVert, prev,
                                 XtNvertDistance, 1,
                                 XtNlabel, (i == O_COUNT) ? 
-                                  _("Celebrate") : cm_get_stat_name(i),
+                                  _("Celebrate") : get_output_name(i),
                                 NULL));
     prev = stat_surplus_label[i];
   }
@@ -222,7 +222,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
                                 XtNfromVert, prev,
                                 XtNvertDistance, 1,
                                 XtNlabel, (i == O_COUNT) ?
-                                  _("Celebrate") : cm_get_stat_name(i),
+                                  _("Celebrate") : get_output_name(i),
                                 NULL));
     prev = stat_factor_label[i];
   }
@@ -694,14 +694,14 @@ static void update_stat_labels(bool is_valid)
 
   output_type_iterate(i) {
     my_snprintf(buf, sizeof(buf), "%-9s%3d",
-                cm_get_stat_name(i),
+                get_output_name(i),
                 minimal_surplus[i]);
     xaw_set_label(stat_surplus_label[i], buf);
   } output_type_iterate_end;
 
   output_type_iterate(i) {
     my_snprintf(buf, sizeof(buf), "%-9s%3d",
-                cm_get_stat_name(i),
+                get_output_name(i),
                 factors[i]);
     xaw_set_label(stat_factor_label[i], buf);
   } output_type_iterate_end;

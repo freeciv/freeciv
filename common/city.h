@@ -363,6 +363,11 @@ extern Output_type_id num_output_types;
 }
 
 
+/* output type functions */
+
+const char *get_output_identifier(Output_type_id output);
+const char *get_output_name(Output_type_id output);
+
 /* properties */
 
 struct player *city_owner(const struct city *pcity);

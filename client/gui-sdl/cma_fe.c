@@ -857,7 +857,7 @@ void popup_city_cma_dialog(struct city *pCity)
     
   /* ---------- */
   output_type_iterate(i) {
-    copy_chars_to_string16(pStr, cm_get_stat_name(i));
+    copy_chars_to_string16(pStr, get_output_name(i));
     pText[i] = create_text_surf_from_str16(pStr);
     text_w = MAX(text_w, pText[i]->w);
     

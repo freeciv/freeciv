@@ -1506,7 +1506,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
   output_type_iterate(stat) {
     if (production[stat] < state->min_production[stat]) {
       freelog(LOG_PRUNE_BRANCH, "--- pruning: insufficient %s (%d < %d)",
-	      cm_get_stat_name(stat), production[stat],
+	      get_output_name(stat), production[stat],
 	      state->min_production[stat]);
       return FALSE;
     }
@@ -1816,32 +1816,6 @@ void cm_query_result(struct city *pcity,
 
   cm_find_best_solution(state, param, result);
   cm_free_state(state);
-}
-
-
-/****************************************************************************
-  Return a translated name for the stat type.
-*****************************************************************************/
-const char *cm_get_stat_name(Output_type_id stat)
-{
-  switch (stat) {
-  case O_FOOD:
-    return _("Food");
-  case O_SHIELD:
-    return _("Shield");
-  case O_TRADE:
-    return _("Trade");
-  case O_GOLD:
-    return _("Gold");
-  case O_LUXURY:
-    return _("Luxury");
-  case O_SCIENCE:
-    return _("Science");
-  case O_LAST:
-    break;
-  }
-  die("Unknown stat value in cm_get_stat_name: %d", stat);
-  return NULL;
 }
 
 /**************************************************************************
@@ -2164,6 +2138,6 @@ void cm_print_result(const struct city *pcity,
 
   output_type_iterate(i) {
     freelog(LOG_NORMAL, "print_result:  %10s surplus=%d",
-        cm_get_stat_name(i), result->surplus[i]);
+        get_output_name(i), result->surplus[i]);
   } output_type_iterate_end;
 }

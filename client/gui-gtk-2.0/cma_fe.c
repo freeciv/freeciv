@@ -244,7 +244,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
 
   output_type_iterate(i) {
-    label = gtk_label_new(cm_get_stat_name(i));
+    label = gtk_label_new(get_output_name(i));
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i + 1, i + 2);
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 

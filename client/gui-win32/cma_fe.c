@@ -214,7 +214,7 @@ static void create_cma_sliders(struct cma_dialog *pdialog,
   fcwin_box_add_static(vbox[1], _("Minimal Surplus"), 0, SS_LEFT, TRUE, TRUE, 0);
   fcwin_box_add_static(vbox[2], _("Factor"), 0, SS_LEFT, TRUE, TRUE, 0);
   output_type_iterate(i) {
-    cmagui_add_slider(pdialog, win, vbox, FALSE, cm_get_stat_name(i), i);
+    cmagui_add_slider(pdialog, win, vbox, FALSE, get_output_name(i), i);
   } output_type_iterate_end;
   cmagui_add_slider(pdialog, win, vbox, TRUE, _("Celebrate"), i);
 }

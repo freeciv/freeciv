@@ -74,7 +74,6 @@ void cm_query_result(struct city *pcity,
 void cm_clear_cache(struct city *pcity);
 
 /***************** utility methods *************************************/
-const char *cm_get_stat_name(Output_type_id stat);
 bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 			    const struct cm_parameter *const p2);
 void cm_copy_parameter(struct cm_parameter *dest,

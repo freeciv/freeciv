@@ -206,6 +206,60 @@ void generate_city_map_indices(void)
   cm_init_citymap();
 }
 
+
+/****************************************************************************
+  Return an id string for the output type.  This string can be used
+  internally by rulesets and tilesets and should not be changed or
+  translated.
+*****************************************************************************/
+const char *get_output_identifier(Output_type_id output)
+{
+  switch (output) {
+  case O_FOOD:
+    return "food";
+  case O_SHIELD:
+    return "shield";
+  case O_TRADE:
+    return "trade";
+  case O_GOLD:
+    return "gold";
+  case O_LUXURY:
+    return "luxury";
+  case O_SCIENCE:
+    return "science";
+  case O_LAST:
+    break;
+  }
+  die("Unknown output type in get_output_id: %d", output);
+  return NULL;
+}
+
+/****************************************************************************
+  Return a translated name for the output type.  This name should only be
+  used for user display.
+*****************************************************************************/
+const char *get_output_name(Output_type_id output)
+{
+  switch (output) {
+  case O_FOOD:
+    return _("Food");
+  case O_SHIELD:
+    return _("Shield");
+  case O_TRADE:
+    return _("Trade");
+  case O_GOLD:
+    return _("Gold");
+  case O_LUXURY:
+    return _("Luxury");
+  case O_SCIENCE:
+    return _("Science");
+  case O_LAST:
+    break;
+  }
+  die("Unknown output type in get_output_name: %d", output);
+  return NULL;
+}
+
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
 **************************************************************************/
