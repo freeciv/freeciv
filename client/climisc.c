@@ -763,8 +763,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
       if (cost < 0) {
 	my_snprintf(pitem->descr, sizeof(pitem->descr), "%s (XX)", name);
       } else {
-	my_snprintf(pitem->descr, sizeof(pitem->descr),
-		    "%s (%d)", name, cost);
+	my_snprintf(pitem->descr, sizeof(pitem->descr), "%s (%d)", name, cost);
       }
     } else {
       mystrlcpy(pitem->descr, name, sizeof(pitem->descr));
