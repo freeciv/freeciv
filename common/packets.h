@@ -325,7 +325,7 @@ struct packet_city_info {
   char name[MAX_LEN_NAME];
 
   int size;
-  int ppl_happy, ppl_content, ppl_unhappy;
+  int ppl_happy[5], ppl_content[5], ppl_unhappy[5];
   int ppl_elvis, ppl_scientist, ppl_taxman;
   int food_prod, food_surplus;
   int shield_prod, shield_surplus;

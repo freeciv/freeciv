@@ -74,7 +74,7 @@ const char * const our_capability = our_capability_internal;
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
 " event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
 " indef_impr_types worklist_true_ids shared_vision activity_patrol" \
-" gen_granary_size"
+" gen_granary_size happiness_display"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -133,6 +133,11 @@ const char * const our_capability = our_capability_internal;
 
    "gen_granary_size" adds the option to change the way the size of the 
    food storage box is calculated.
+
+   "happiness_display" is the ability of the client to show a detailed
+   breakdown of a city's happiness components.  Previously, only 
+   ppl_happy[4] etc. were sent to the client.  Now all components have 
+   to be sent.
 */
 
 void init_our_capability(void)

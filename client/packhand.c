@@ -307,9 +307,11 @@ void handle_city_info(struct packet_city_info *packet)
   sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
-  pcity->ppl_happy[4]=packet->ppl_happy;
-  pcity->ppl_content[4]=packet->ppl_content;
-  pcity->ppl_unhappy[4]=packet->ppl_unhappy;
+  for (i=0;i<5;i++) {
+    pcity->ppl_happy[i]=packet->ppl_happy[i];
+    pcity->ppl_content[i]=packet->ppl_content[i];
+    pcity->ppl_unhappy[i]=packet->ppl_unhappy[i];
+  }
   pcity->ppl_elvis=packet->ppl_elvis;
   pcity->ppl_scientist=packet->ppl_scientist;
   pcity->ppl_taxman=packet->ppl_taxman;

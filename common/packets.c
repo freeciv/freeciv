@@ -2210,9 +2210,17 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_string(cptr, req->name);
   
   cptr=put_uint8(cptr, req->size);
-  cptr=put_uint8(cptr, req->ppl_happy);
-  cptr=put_uint8(cptr, req->ppl_content);
-  cptr=put_uint8(cptr, req->ppl_unhappy);
+if (pc && has_capability("happiness_display", pc->capability)) {
+  for(data=0;data<5;data++) {
+    cptr=put_uint8(cptr, req->ppl_happy[data]);
+    cptr=put_uint8(cptr, req->ppl_content[data]);
+    cptr=put_uint8(cptr, req->ppl_unhappy[data]);
+  }
+} else {
+  cptr=put_uint8(cptr, req->ppl_happy[4]);
+  cptr=put_uint8(cptr, req->ppl_content[4]);
+  cptr=put_uint8(cptr, req->ppl_unhappy[4]);
+}
   cptr=put_uint8(cptr, req->ppl_elvis);
   cptr=put_uint8(cptr, req->ppl_scientist);
   cptr=put_uint8(cptr, req->ppl_taxman);
@@ -2293,9 +2301,22 @@ receive_packet_city_info(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   
   iget_uint8(&iter, &packet->size);
-  iget_uint8(&iter, &packet->ppl_happy);
-  iget_uint8(&iter, &packet->ppl_content);
-  iget_uint8(&iter, &packet->ppl_unhappy);
+if (pc && has_capability("happiness_display", pc->capability)) {
+  for(data=0;data<5;data++) {
+    iget_uint8(&iter, &packet->ppl_happy[data]);
+    iget_uint8(&iter, &packet->ppl_content[data]);
+    iget_uint8(&iter, &packet->ppl_unhappy[data]);
+  }
+} else {
+  for(data=0;data<4;data++) {
+    packet->ppl_happy[data]   = 0;
+    packet->ppl_content[data] = packet->size;
+    packet->ppl_unhappy[data] = 0;
+  } 
+  iget_uint8(&iter, &packet->ppl_happy[4]);
+  iget_uint8(&iter, &packet->ppl_content[4]);
+  iget_uint8(&iter, &packet->ppl_unhappy[4]);
+}
   iget_uint8(&iter, &packet->ppl_elvis);
   iget_uint8(&iter, &packet->ppl_scientist);
   iget_uint8(&iter, &packet->ppl_taxman);
@@ -2388,13 +2409,15 @@ int send_packet_short_city(struct connection *pc,
     old.y                  = req->y;
     sz_strlcpy(old.name, req->name);
     old.size               = req->size;
-    old.ppl_happy          = 0;
-    if (req->happy) {
-      old.ppl_content        = req->size;
-      old.ppl_unhappy        = 0;
-    } else {
-      old.ppl_content        = 0;
-      old.ppl_unhappy        = req->size;
+    for (i=0;i<5;i++) {
+      old.ppl_happy[i]          = 0;
+      if (req->happy) {
+	old.ppl_content[i]        = req->size;
+	old.ppl_unhappy[i]        = 0;
+      } else {
+	old.ppl_content[i]        = 0;
+	old.ppl_unhappy[i]        = req->size;
+      }
     }
     old.ppl_elvis          = req->size;
     old.ppl_scientist      = 0;

@@ -1465,9 +1465,11 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   sz_strlcpy(packet->name, pcity->name);
 
   packet->size=pcity->size;
-  packet->ppl_happy=pcity->ppl_happy[4];
-  packet->ppl_content=pcity->ppl_content[4];
-  packet->ppl_unhappy=pcity->ppl_unhappy[4];
+  for (i=0;i<5;i++) {
+    packet->ppl_happy[i]=pcity->ppl_happy[i];
+    packet->ppl_content[i]=pcity->ppl_content[i];
+    packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
+  }
   packet->ppl_elvis=pcity->ppl_elvis;
   packet->ppl_scientist=pcity->ppl_scientist;
   packet->ppl_taxman=pcity->ppl_taxman;
