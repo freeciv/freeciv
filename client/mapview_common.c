@@ -2454,16 +2454,15 @@ void set_overview_dimensions(int width, int height)
 {
   int shift = 0; /* used to calculate shift in iso view */
 
-  /* Set the scale of the overview map.  Note, since only the width is
-   * used to calculate the overview scale you can end up with a really
-   * tall or short overview if your map is unusually sized. */
-
-  OVERVIEW_TILE_SIZE = (120 / width) + 1;
+  /* Set the scale of the overview map.  This attempts to limit the overview
+   * to 120 pixels wide or high. */
   if (MAP_IS_ISOMETRIC) {
-    OVERVIEW_TILE_SIZE = MAX(120 / width, 1);
+    OVERVIEW_TILE_SIZE = MIN(MAX(120 / width, 1), 120 / height + 1);
 
     /* Clip half tile left and right.  See comment in map_to_overview_pos. */
     shift = (!topo_has_flag(TF_WRAPX) ? -OVERVIEW_TILE_SIZE : 0);
+  } else {
+    OVERVIEW_TILE_SIZE = MIN(120 / width + 1, 120 / height + 1);
   }
 
   overview.height = OVERVIEW_TILE_HEIGHT * height;
