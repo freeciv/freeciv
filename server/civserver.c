@@ -1379,11 +1379,10 @@ static void handle_alloc_nation(struct player *pplayer,
   if( nations_used == game.playable_nation_count ) {   /* barb */
     for(i=0; i<game.nplayers; i++) {
       if( game.players[i].nation == MAX_NUM_NATIONS ) {
-        reject_new_player(_("Sorry, you can't play."
-			    "  There are no nations left."),
-			  game.players[i].conn);
-	freelog(LOG_NORMAL, _("Game full - %s was rejected."),
-		game.players[i].name);    
+	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
+		game.players[i].name);
+	notify_player(&game.players[i],
+		      _("Game: Sorry, there are no nations left."));
 	server_remove_player(&game.players[i]);
       }
     }
@@ -1421,14 +1420,11 @@ static void send_select_nation(struct player *pplayer)
  pconn->player should be set and non-NULL.
  'rejoin' is whether this is a new player, or re-connection.
  Prints a log message, and notifies other players.
- 
- Fixme: needs further revision for multi-connect case.
 **************************************************************************/
 static void join_game_accept(struct connection *pconn, int rejoin)
 {
   struct packet_join_game_reply packet;
   struct player *pplayer = pconn->player;
-  const char *format;
 
   assert(pplayer);
   packet.you_can_join = 1;
@@ -1440,21 +1436,13 @@ static void join_game_accept(struct connection *pconn, int rejoin)
   conn_list_insert_back(&game.est_connections, pconn);
   conn_list_insert_back(&game.game_connections, pconn);
 
-  if (rejoin) {
-    freelog(LOG_NORMAL, _("<%s@%s> has rejoined the game."),
-	    pplayer->name, pplayer->addr);
-  } else {
-    freelog(LOG_NORMAL, _("<%s@%s> has joined the game."),
-	    pplayer->name, pplayer->addr);
-  }
-  if (rejoin) {
-    format = _("Game: Player <%s@%s> has reconnected.");
-  } else {
-    format = _("Game: Player <%s@%s> has connected.");
-  }
+  freelog(LOG_NORMAL, _("%s has joined as player %s."),
+	  pconn->name, pplayer->name);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn!=pconn) {
-      notify_conn(&aconn->self, format, pplayer->name, pplayer->addr);
+      notify_conn(&aconn->self,
+		  _("Game: Connection %s from %s has joined as player %s."),
+		  pconn->name, pconn->addr, pplayer->name);
     }
   }
   conn_list_iterate_end;
@@ -1462,14 +1450,13 @@ static void join_game_accept(struct connection *pconn, int rejoin)
 
 /**************************************************************************
  Introduce connection/client/player to server, and notify of other players.
- Needs further work for multi-connects.
 **************************************************************************/
 static void introduce_game_to_connection(struct connection *pconn)
 {
   struct conn_list *dest;
   char hostname[512];
   struct player *cplayer;
-  int i, nconn, nother, nbarb;
+  int i;
 
   if (pconn == NULL) {
     return;
@@ -1503,40 +1490,12 @@ static void introduce_game_to_connection(struct connection *pconn)
     /* if the game is running, players can just view the Players menu?  --dwp */
     return;
   }
-  for(nbarb=0, nconn=0, i=0; i<game.nplayers; ++i) {
-    nconn += (game.players[i].is_connected);
-    nbarb += is_barbarian(&game.players[i]);
-  }
-  if (nconn != 1) {
-    notify_conn(dest, _("There are currently %d players connected:"), nconn);
-  } else {
-    notify_conn(dest, _("There is currently 1 player connected:"));
-  }
-  for(i=0; i<game.nplayers; ++i) {
-    cplayer = &game.players[i];
-    if (cplayer->is_connected) {
-      notify_conn(dest, "  <%s@%s>%s", cplayer->name, cplayer->addr,
-		  ((!cplayer->is_alive) ? _(" (R.I.P.)")
-		   :cplayer->ai.control ? _(" (AI mode)") : ""));
-    }
-  }
-  nother = game.nplayers - nconn - nbarb;
-  if (nother > 0) {
-    if (nother == 1) {
-      notify_conn(dest, _("There is 1 other player:"));
-    } else {
-      notify_conn(dest, _("There are %d other players:"), nother);
-    }
-    for(i=0; i<game.nplayers; ++i) {
-      cplayer = &game.players[i];
-      if( is_barbarian(cplayer) ) continue;
-      if (!cplayer->is_connected) {
-	notify_conn(dest, "  %s%s", cplayer->name, 
-		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
-		     :cplayer->ai.control ? _(" (an AI player)") : ""));
-      }
-    }
-  }
+
+  /* Just use output of server command 'list' to inform about other
+   * players and player-connections:
+   */
+  show_players(pconn);
+
   /* notify_conn(dest, "Waiting for the server to start the game."); */
   /* I would put this here, but then would need another message when
      the game is started. --dwp */
@@ -1615,12 +1574,17 @@ static void handle_request_join_game(struct connection *pconn,
 
   if (!find_conn_by_name(req->name)) {
     sz_strlcpy(pconn->name, req->name);
-    /* else leave made-up name */
+    freelog(LOG_NORMAL, _("Connection request from %s from %s"),
+	    req->name, pconn->addr);
+  } else {
+    /* leave made-up name */
+    freelog(LOG_NORMAL,
+	    _("Connection request from %s from %s (connection named %s)"),
+	    req->name, pconn->addr, pconn->name);
   }
   
-  freelog(LOG_NORMAL,
-	  _("Connection request from %s with client version %d.%d.%d%s"),
-	  req->name, req->major_version, req->minor_version,
+  freelog(LOG_NORMAL, _("%s has client version %d.%d.%d%s"),
+	  pconn->name, req->major_version, req->minor_version,
 	  req->patch_version, req->version_label);
   freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
   freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
@@ -1636,8 +1600,8 @@ static void handle_request_join_game(struct connection *pconn,
 	    req->major_version, req->minor_version,
 	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities."),
-	    req->name);
+    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
+	    pconn->name);
     close_connection(pconn);
     return;
   }
@@ -1652,8 +1616,8 @@ static void handle_request_join_game(struct connection *pconn,
 	    req->major_version, req->minor_version,
 	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities"),
-	    req->name);
+    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
+	    pconn->name);
     close_connection(pconn);
     return;
   }
@@ -1667,8 +1631,8 @@ static void handle_request_join_game(struct connection *pconn,
 	  reject_new_player(_("Sorry, no observation of barbarians "
 			      "this game."), pconn);
 	  freelog(LOG_NORMAL,
-		  _("No observation of barbarians - %s was rejected."),
-		  req->name);
+		  _("%s was rejected: No observation of barbarians."),
+		  pconn->name);
 	  close_connection(pconn);
 	  return;
 	}
@@ -1678,8 +1642,8 @@ static void handle_request_join_game(struct connection *pconn,
 	  reject_new_player(_("Sorry, no observation of dead players "
 			      "this game."), pconn);
 	  freelog(LOG_NORMAL,
-		  _("No observation of dead players - %s was rejected."),
-		  req->name);
+		  _("%s was rejected: No observation of dead players."),
+		  pconn->name);
 	  close_connection(pconn);
 	  return;
 	}
@@ -1689,8 +1653,8 @@ static void handle_request_join_game(struct connection *pconn,
 	  reject_new_player(_("Sorry, no observation of AI players "
 			      "this game."), pconn);
 	  freelog(LOG_NORMAL,
-		  _("No observation of AI players - %s was rejected."),
-		  req->name);
+		  _("%s was rejected: No observation of AI players."),
+		  pconn->name);
 	  close_connection(pconn);
 	  return;
 	}
@@ -1700,8 +1664,8 @@ static void handle_request_join_game(struct connection *pconn,
 	  reject_new_player(_("Sorry, no reconnections to human-mode players "
 			      "this game."), pconn);
 	  freelog(LOG_NORMAL,
-		  _("No reconnection to human players - %s was rejected."),
-		  req->name);
+		  _("%s was rejected: No reconnection to human players."),
+		  pconn->name);
 	  close_connection(pconn);
 	  return;
 	}
@@ -1722,52 +1686,46 @@ static void handle_request_join_game(struct connection *pconn,
       return;
     }
 
+    /* The player exists but is already connected. */
     if(server_state==PRE_GAME_STATE) {
-      if(game.nplayers==game.max_players) {
-	reject_new_player(_("Sorry, you can't join.  The game is full."), pconn);
-	freelog(LOG_NORMAL, _("Game full - %s was rejected."), req->name);    
-	close_connection(pconn);
-        return;
-      }
-      else {
-	/* Used to have here: accept_new_player(req->name, pconn); 
-	 * but duplicate names cause problems even in PRE_GAME_STATE
-	 * because they are used to identify players for various
-	 * server commands. --dwp
-	 */
-	reject_new_player(_("Sorry, someone else already has that name."),
-			  pconn);
-	freelog(LOG_NORMAL, _("%s was rejected, name already used."), req->name);
-	close_connection(pconn);
-
-        return;
-      }
+      /* Duplicate names cause problems even in PRE_GAME_STATE
+       * because they are used to identify players for various
+       * server commands. --dwp
+       */
+      reject_new_player(_("Sorry, someone else already has that name."),
+			pconn);
+      freelog(LOG_NORMAL, _("%s was rejected: Name %s already used."),
+	      pconn->name, req->name);
+      close_connection(pconn);
+      
+      return;
     }
-
-    my_snprintf(msg, sizeof(msg),
-		_("You can't join the game.  %s is already connected."), 
-		pplayer->name);
-    reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected."), pplayer->name);
-    close_connection(pconn);
-
-    return;
+    else {
+      my_snprintf(msg, sizeof(msg), _("Sorry, %s is already connected."), 
+		  pplayer->name);
+      reject_new_player(msg, pconn);
+      freelog(LOG_NORMAL, _("%s was rejected: %s already connected."),
+	      pconn->name, pplayer->name);
+      close_connection(pconn);
+      return;
+    }
   }
 
   /* unknown name */
 
   if(server_state!=PRE_GAME_STATE) {
-    reject_new_player(_("Sorry, you can't join.  The game is already running."),
-		      pconn);
-    freelog(LOG_NORMAL, _("Game running - %s was rejected."), req->name);
+    reject_new_player(_("Sorry, the game is already running."), pconn);
+    freelog(LOG_NORMAL, _("%s was rejected: Game running and unknown name %s."),
+	    pconn->name, req->name);
     close_connection(pconn);
 
     return;
   }
 
   if(game.nplayers==game.max_players) {
-    reject_new_player(_("Sorry, you can't join.  The game is full."), pconn);
-    freelog(LOG_NORMAL, _("game full - %s was rejected."), req->name);    
+    reject_new_player(_("Sorry, the game is full."), pconn);
+    freelog(LOG_NORMAL, _("%s was rejected: Maximum number of players reached."),
+	    pconn->name);    
     close_connection(pconn);
 
     return;
@@ -1776,8 +1734,8 @@ static void handle_request_join_game(struct connection *pconn,
   if(!(strchr(game.allow_connect, 'N')
        || strchr(game.allow_connect, 'n'))) {
     reject_new_player(_("Sorry, no new players this game."), pconn);
-    freelog(LOG_NORMAL, _("No connections as new player - %s was rejected."),
-	    req->name);
+    freelog(LOG_NORMAL, _("%s was rejected: No connections as new player."),
+	    pconn->name);
     close_connection(pconn);
     return;
   }

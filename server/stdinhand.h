@@ -20,11 +20,12 @@ struct player;
 #define SERVER_COMMAND_PREFIX '/'
   /* the character to mark chatlines as server commands */
 
-extern void handle_stdin_input(struct connection *caller, char *str);
-extern void report_server_options(struct conn_list *dest, int which);
-extern void set_ai_level_direct(struct player *pplayer, int level);
-extern void set_ai_level_directer(struct player *pplayer, int level);
-extern void read_init_script(char *script_filename);
+void handle_stdin_input(struct connection *caller, char *str);
+void report_server_options(struct conn_list *dest, int which);
+void set_ai_level_direct(struct player *pplayer, int level);
+void set_ai_level_directer(struct player *pplayer, int level);
+void read_init_script(char *script_filename);
+void show_players(struct connection *caller);
 
 void toggle_ai_player_direct(struct connection *caller, struct player *subject);
 

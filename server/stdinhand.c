@@ -69,7 +69,6 @@ static void cut_client_connection(struct connection *caller, char *playername);
 static void quit_game(struct connection *caller);
 static void show_help(struct connection *caller, char *arg);
 static void show_list(struct connection *caller, char *arg);
-static void show_players(struct connection *caller);
 static void show_connections(struct connection *caller);
 static void set_ai_level(struct connection *caller, char *name, int level);
 
@@ -2959,7 +2958,7 @@ static void show_list(struct connection *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_players(struct connection *caller)
+void show_players(struct connection *caller)
 {
   char buf[512], buf2[512];
   int i, n;
