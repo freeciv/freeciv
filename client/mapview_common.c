@@ -214,7 +214,7 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 				    + mapview_canvas.tile_width)) {
       *canvas_x = map_x + map.xsize - mapview_canvas.map_x0;
     } else {
-      *canvas_x = -1;
+      *canvas_x = map_x - mapview_canvas.map_x0;
     }
 
     *canvas_y = map_y - mapview_canvas.map_y0;
@@ -235,6 +235,8 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 **************************************************************************/
 bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 {
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+
   if (is_isometric) {
     /* The basic operation here is a simple pi/4 rotation; however, we
      * have to first scale because the tiles have different width and
@@ -261,13 +263,13 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
      *
      * For another example of this math, see canvas_pos_to_city_pos().
      */
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-
     *map_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *map_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
   } else {			/* is_isometric */
-    *map_x = canvas_x / NORMAL_TILE_WIDTH;
-    *map_y = canvas_y / NORMAL_TILE_HEIGHT;
+    /* We use DIVIDE so that we will get the correct result even
+     * for negative (off-canvas) coordinates. */
+    *map_x = DIVIDE(canvas_x, W);
+    *map_y = DIVIDE(canvas_y, H);
   }
 
   *map_x += mapview_canvas.map_x0;
