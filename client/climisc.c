@@ -119,7 +119,7 @@ void client_remove_city(int city_id)
     int x=pcity->x;
     int y=pcity->y;
     popdown_city_dialog(pcity);
-    game_remove_city(city_id);
+    game_remove_city(pcity);
     refresh_tile_mapcanvas(x, y, 1);
   }
 }
