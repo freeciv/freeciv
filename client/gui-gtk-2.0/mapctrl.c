@@ -49,6 +49,8 @@
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
 
+struct tmousepos { int x, y; };
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -61,7 +63,49 @@ static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 }
 
 /**************************************************************************
-...
+  Put the popup on a smart position, after the real size of the widget is
+  known: left of the cursor if within the right half of the map, and vice
+  versa; displace the popup so as not to obscure it by the mouse cursor;
+  stay always within the map if possible. 
+**************************************************************************/
+static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc, 
+					   gpointer data)
+{
+  struct tmousepos *mousepos = data;
+  gint x, y;
+  struct tile *ptile;
+
+  ptile = canvas_pos_to_tile(mousepos->x, mousepos->y);
+  if (tile_to_canvas_pos(&x, &y, ptile)) {
+    gint minx, miny, maxx, maxy;
+
+    gdk_window_get_origin(map_canvas->window, &minx, &miny);
+    maxx = minx + map_canvas->allocation.width;
+    maxy = miny + map_canvas->allocation.height;
+
+    if (x > mapview_canvas.width/2) {
+      /* right part of the map */
+      x += minx;
+      y += miny + (NORMAL_TILE_HEIGHT - alloc->height)/2;
+
+      y = CLIP(miny, y, maxy - alloc->height);
+
+      gtk_window_move(GTK_WINDOW(w), x - alloc->width, y);
+    } else {
+      /* left part of the map */
+      x += minx + NORMAL_TILE_WIDTH;
+      y += miny + (NORMAL_TILE_HEIGHT - alloc->height)/2;
+
+      y = CLIP(miny, y, maxy - alloc->height);
+
+      gtk_window_move(GTK_WINDOW(w), x, y);
+    }
+  }
+}
+
+/**************************************************************************
+  Popup a label with information about the tile, unit, city, when the user
+  used the middle mouse button on the map.
 **************************************************************************/
 static void popit(GdkEventButton *event, struct tile *ptile)
 {
@@ -69,7 +113,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
   static struct tile *cross_list[2 + 1];
   struct tile **cross_head = cross_list;
   int i;
-  int popx, popy;
+  static struct tmousepos mousepos;
   struct unit *punit;
   bool is_orders;
 
@@ -78,7 +122,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
     gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(ptile)));
-    
+
     punit = find_visible_unit(ptile);
 
     is_orders = show_unit_orders(punit);
@@ -98,12 +142,13 @@ static void popit(GdkEventButton *event, struct tile *ptile)
 		     G_CALLBACK(popupinfo_popdown_callback),
 		     GINT_TO_POINTER(is_orders));
 
-    /* displace popup so as not to obscure it by the mouse cursor */
-    popx= event->x_root + 16;
-    popy= event->y_root;
-    if (popy < 0)
-      popy = 0;      
-    gtk_window_move(GTK_WINDOW(p), popx, popy);
+    mousepos.x = event->x;
+    mousepos.y = event->y;
+
+    g_signal_connect(p, "size-allocate",
+		     G_CALLBACK(popupinfo_positioning_callback), 
+		     &mousepos);
+
     gtk_widget_show_all(p);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
