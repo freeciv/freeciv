@@ -202,7 +202,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   pdialog->shell =
     gtk_dialog_new_with_buttons(pplayer->name,
-				NULL,
+				GTK_WINDOW(toplevel),
 				0,
 				NULL);
   gtk_widget_set_name(pdialog->shell, "Freeciv");

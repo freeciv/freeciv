@@ -64,7 +64,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname,
   
   shell = gtk_dialog_new_with_buttons(dialogname,
         parent,
-        0,
+        GTK_DIALOG_DESTROY_WITH_PARENT,
         NULL);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 

@@ -197,12 +197,13 @@ void create_players_dialog(void)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   players_dialog_shell = gtk_dialog_new_with_buttons(_("Players"),
-    NULL,
+    GTK_WINDOW(toplevel),
     0,
     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
     NULL);
   gtk_window_set_type_hint(GTK_WINDOW(players_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  gtk_window_set_default_size(GTK_WINDOW(players_dialog_shell), -1, 270);
 
   g_signal_connect(players_dialog_shell, "destroy",
     G_CALLBACK(players_destroy_callback), NULL);
@@ -253,7 +254,6 @@ void create_players_dialog(void)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 		                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_widget_set_size_request(sw, -1, 200);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
   menubar = gtk_menu_bar_new();
