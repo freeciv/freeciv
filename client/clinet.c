@@ -48,21 +48,12 @@
 #include <sys/select.h>
 #endif
 
-#ifdef HAVE_NETDB_H
-#include <netdb.h>
-#endif
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
-
 #include "capstr.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "mem.h"
+#include "netintf.h"
 #include "packets.h"
 #include "support.h"
 #include "version.h"
@@ -74,10 +65,6 @@
 #include "packhand.h"
 
 #include "clinet.h"
-
-#ifndef INADDR_NONE
-#define INADDR_NONE     0xffffffff
-#endif
 
 struct connection aconnection;
 
@@ -120,10 +107,8 @@ static void close_socket_callback(struct connection *pc)
 int connect_to_server(char *name, char *hostname, int port,
 		      char *errbuf, int n_errbuf)
 {
-  /* use name to find TCPIP address of server */
+  /* use name to find TCP/IP address of server */
   struct sockaddr_in src;
-  struct hostent *ph;
-  long address;
   struct packet_req_join_game req;
 
   if(port==0)
@@ -132,21 +117,9 @@ int connect_to_server(char *name, char *hostname, int port,
   if(!hostname)
     hostname="localhost";
   
-  if(isdigit((size_t)*hostname)) {
-    if((address = inet_addr(hostname)) == INADDR_NONE) {
-      mystrlcpy(errbuf, _("Invalid hostname"), n_errbuf);
-      return -1;
-    }
-    src.sin_addr.s_addr = address;
-    src.sin_family = AF_INET;
-  }
-  else if ((ph = gethostbyname(hostname)) == NULL) {
+  if (!fc_lookup_host(hostname, &src)) {
     mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return -1;
-  }
-  else {
-    src.sin_family = ph->h_addrtype;
-    memcpy((char *) &src.sin_addr, ph->h_addr, ph->h_length);
   }
   
   src.sin_port = htons(port);
@@ -247,7 +220,6 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 {
   struct server_list *server_list;
   struct sockaddr_in addr;
-  struct hostent *ph;
   int s;
   FILE *f;
   char *proxy_url;
@@ -305,12 +277,9 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     urlpath = s;
   }
 
-  if ((ph = gethostbyname(server)) == NULL) {
+  if (!fc_lookup_host(server, &addr)) {
     mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return NULL;
-  } else {
-    addr.sin_family = ph->h_addrtype;
-    memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
   }
   
   addr.sin_port = htons(port);

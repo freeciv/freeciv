@@ -27,11 +27,27 @@
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NETDB_H
+#include <netdb.h>
+#endif 
 
 #include "log.h"
 #include "support.h"
 
 #include "netintf.h"
+
+#ifndef INADDR_NONE
+#define INADDR_NONE 0xffffffff
+#endif
 
 /***************************************************************
 ...
@@ -63,4 +79,32 @@ void my_nonblock(int sockfd)
 #else
   freelog(LOG_DEBUG, "NONBLOCKING_SOCKETS not available");
 #endif
+}
+
+/***************************************************************************
+  Look up the given host and fill in *sock.  Note that the caller
+  should fill in the port number (sock->sin_port).
+***************************************************************************/
+int fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
+{
+  struct hostent *hp;
+
+  sock->sin_family = AF_INET;
+
+#ifdef HAVE_INET_ATON
+  if (inet_aton(hostname, &sock->sin_addr)) {
+    return 1;
+  }
+#else
+  if ((sock->sin_addr.s_addr = inet_addr(hostname)) != INADDR_NONE) {
+    return 1;
+  }
+#endif
+  hp = gethostbyname(hostname);
+  if (hp == NULL || hp->h_addrtype != AF_INET) {
+    return 0;
+  }
+
+  memcpy(&sock->sin_addr, hp->h_addr, hp->h_length);
+  return 1;
 }

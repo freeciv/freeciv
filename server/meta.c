@@ -47,15 +47,6 @@ The info string should look like this:
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
-#ifdef HAVE_NETDB_H
-#include <netdb.h>
-#endif 
 
 #ifdef HAVE_OPENTRANSPORT
 #include <OpenTransport.h>
@@ -64,6 +55,7 @@ The info string should look like this:
 
 #include "fcintl.h"
 #include "log.h"
+#include "netintf.h"
 #include "packets.h"
 #include "support.h"
 #include "timing.h"
@@ -73,10 +65,6 @@ The info string should look like this:
 #include "srv_main.h"
 
 #include "meta.h"
-
-#ifndef INADDR_NONE
-#define INADDR_NONE     0xffffffff
-#endif
 
 int server_is_open=0;
 
@@ -209,7 +197,6 @@ void server_open_udp(void)
   InetHostInfo hinfo;
 #else
   struct sockaddr_in cli_addr, serv_addr;
-  struct hostent *hp;
 #endif
   
   /*
@@ -228,15 +215,8 @@ void server_open_udp(void)
     bad=true;
   }
 #else
-  memset(&serv_addr, 0, sizeof(serv_addr));
-  serv_addr.sin_addr.s_addr = inet_addr(servername);
-  if ((bad = (serv_addr.sin_addr.s_addr == INADDR_NONE))) {
-    if (!(bad = ((hp = gethostbyname(servername)) == NULL))) {
-      memcpy(&serv_addr.sin_addr.s_addr, hp->h_addr, hp->h_length);
-    }
-  }
-  serv_addr.sin_family      = AF_INET;
-  serv_addr.sin_port        = htons(srvarg.metaserver_port);
+  bad = !fc_lookup_host(servername, &serv_addr);
+  serv_addr.sin_port = htons(srvarg.metaserver_port);
 #endif
   if (bad) {
     freelog(LOG_ERROR, _("Metaserver: bad address: [%s]."), servername);

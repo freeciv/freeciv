@@ -34,6 +34,9 @@
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
 
 #ifdef FD_ZERO
 #define MY_FD_ZERO FD_ZERO
@@ -42,5 +45,6 @@
 #endif
 
 void my_nonblock(int sockfd);
+int fc_lookup_host(const char *hostname, struct sockaddr_in *sock);
 
 #endif  /* FC__NETINTF_H */
