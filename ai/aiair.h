@@ -13,6 +13,13 @@
 #ifndef FC__AIAIR_H
 #define FC__AIAIR_H
 
+#include "shared.h"		/* bool type */
+
+struct ai_choice;
+struct city;
+struct government;
+struct player;
+struct unit;
 
 void ai_manage_airunit(struct player *pplayer, struct unit *punit);
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 

@@ -20,6 +20,8 @@ struct city;
 struct Clause;
 struct player;
 struct player_spaceship;
+struct unit;
+
 typedef int cid;
 typedef int wid;
 

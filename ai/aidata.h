@@ -13,6 +13,11 @@
 #ifndef FC__AIDATA_H
 #define FC__AIDATA_H
 
+#include "shared.h"		/* bool type */
+
+struct player;
+struct unit;
+
 /* 
  * This file and aidata.c contains global data structures for the AI
  * and some of the functions that fill them with useful values at the 
