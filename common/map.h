@@ -216,6 +216,8 @@ enum known_type tile_is_known(int x, int y);
 int check_coords(int *x, int *y);
 int is_real_tile(int x, int y);
 int normalize_map_pos(int *x, int *y);
+void nearest_real_pos(int *x, int *y);
+
 void rand_neighbour(int x0, int y0, int *x, int *y);
 
 int is_water_adjacent_to_tile(int x, int y);
@@ -423,7 +425,8 @@ will give you the tile as shown below.
 |-+-+-|
 |5|6|7|
 -------
- */
+Note that you must normalize x1 and y1 yourself.
+*/
 
 enum direction8 {
   /* FIXME: DIR8 is used to avoid conflict with

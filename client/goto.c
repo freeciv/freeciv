@@ -324,7 +324,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
     /* Try to move to all tiles adjacent to x,y. The coordinats of the
        tile we try to move to are x1,y1 */
     adjc_dir_iterate(x, y, x1, y1, dir) {
-      if (restriction == GOTO_MOVE_CARDINAL_ONLY && !DIR_IS_CARDINAL(dir))
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
+	  && !DIR_IS_CARDINAL(dir))
 	continue;
 
       pdesttile = map_get_tile(x1, y1);
@@ -452,12 +453,9 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	abort();
 	break;
       } /****** end switch ******/
-    } 
-    adjc_dir_iterate_end;
+    } adjc_dir_iterate_end;
   } /* end while */
 }
-
-
 
 /**************************************************************************
 Insert a point and draw the line on the map.
@@ -703,6 +701,7 @@ static void undraw_one(void)
   }
 
   /* undraw the line segment */
+
   dir = get_direction_for_step(line_x, line_y, dest_x, dest_y);
   undraw_segment(line_x, line_y, dir);
 
@@ -752,7 +751,8 @@ so we find the common part.
 ***********************************************************************/
 static int find_route(int x, int y)
 {
-  int i, first_index, last_x, last_y;
+  int last_x, last_y;
+  int i, first_index;
 
   if (route == NULL) {
     route = fc_malloc(route_length * sizeof(struct map_position));
@@ -786,8 +786,8 @@ static int find_route(int x, int y)
       route_index++;
       return find_route(new_x, new_y); /* how about recoding freeciv in MosML? */
     }
-  } 
-  adjc_dir_iterate_end;
+  } adjc_dir_iterate_end;
+
   assert(0); /* should find direction... */
   return -1; /* why can't the compiler figure out that create_goto_map()
 		will newer create a vector that leads to a pos without a

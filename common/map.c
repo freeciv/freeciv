@@ -76,6 +76,16 @@ static const char *tile_special_type_names[] =
 extern int is_server;
 
 /***************************************************************
+...
+***************************************************************/
+int get_tile_infrastructure_set(struct tile * ptile)
+{
+  return
+    ptile->special &
+    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS | S_AIRBASE);
+}
+
+/***************************************************************
   Return a (static) string with terrain name;
   eg: "Hills"
   eg: "Hills (Coals)"
@@ -167,34 +177,33 @@ int map_is_empty(void)
   return map.tiles==0;
 }
 
-
 /***************************************************************
  put some sensible values into the map structure
  Also initialize special void_tile.
 ***************************************************************/
 void map_init(void)
 {
-  map.xsize=MAP_DEFAULT_WIDTH;
-  map.ysize=MAP_DEFAULT_HEIGHT;
-  map.seed=MAP_DEFAULT_SEED;
-  map.riches=MAP_DEFAULT_RICHES;
-  map.is_earth=0;
-  map.huts=MAP_DEFAULT_HUTS;
-  map.landpercent=MAP_DEFAULT_LANDMASS;
-  map.grasssize=MAP_DEFAULT_GRASS;
-  map.swampsize=MAP_DEFAULT_SWAMPS;
-  map.deserts=MAP_DEFAULT_DESERTS;
-  map.mountains=MAP_DEFAULT_MOUNTAINS;
-  map.riverlength=MAP_DEFAULT_RIVERS;
-  map.forestsize=MAP_DEFAULT_FORESTS;
-  map.generator=MAP_DEFAULT_GENERATOR;
-  map.tiles=0;
-  map.num_continents = 0;
-  map.num_start_positions=0;
-  map.fixed_start_positions=0;
-  map.have_specials = 0;
-  map.have_rivers_overlay = 0;
-  map.have_huts = 0;
+  map.xsize                 = MAP_DEFAULT_WIDTH;
+  map.ysize                 = MAP_DEFAULT_HEIGHT;
+  map.seed                  = MAP_DEFAULT_SEED;
+  map.riches                = MAP_DEFAULT_RICHES;
+  map.is_earth              = 0;
+  map.huts                  = MAP_DEFAULT_HUTS;
+  map.landpercent           = MAP_DEFAULT_LANDMASS;
+  map.grasssize             = MAP_DEFAULT_GRASS;
+  map.swampsize             = MAP_DEFAULT_SWAMPS;
+  map.deserts               = MAP_DEFAULT_DESERTS;
+  map.mountains             = MAP_DEFAULT_MOUNTAINS;
+  map.riverlength           = MAP_DEFAULT_RIVERS;
+  map.forestsize            = MAP_DEFAULT_FORESTS;
+  map.generator             = MAP_DEFAULT_GENERATOR;
+  map.tiles                 = NULL;
+  map.num_continents        = 0;
+  map.num_start_positions   = 0;
+  map.fixed_start_positions = 0;
+  map.have_specials         = 0;
+  map.have_rivers_overlay   = 0;
+  map.have_huts             = 0;
 
   tile_init(&void_tile);
 }
@@ -245,11 +254,8 @@ enum tile_terrain_type get_terrain_by_name(char * name)
 ***************************************************************/
 char *get_terrain_name(enum tile_terrain_type type)
 {
-  if (type < T_COUNT) {
-    return get_tile_type(type)->terrain_name;
-  } else {
-    return NULL;
-  }
+  assert(type < T_COUNT);
+  return tile_types[type].terrain_name;
 }
 
 /***************************************************************
@@ -257,13 +263,13 @@ char *get_terrain_name(enum tile_terrain_type type)
 ***************************************************************/
 enum tile_special_type get_special_by_name(char * name)
 {
-  int inx;
+  int i;
   enum tile_special_type st = 1;
 
-  for (inx = 0; inx < ARRAY_SIZE(tile_special_type_names); inx++) {
-    if (0 == strcmp(name, tile_special_type_names[inx])) {
+  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
+    if (0 == strcmp(name, tile_special_type_names[i]))
       return st;
-    }
+      
     st <<= 1;
   }
 
@@ -275,11 +281,11 @@ enum tile_special_type get_special_by_name(char * name)
 ***************************************************************/
 const char *get_special_name(enum tile_special_type type)
 {
-  int inx;
+  int i;
 
-  for (inx = 0; inx < ARRAY_SIZE(tile_special_type_names); inx++) {
+  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
     if (type & 0x1) {
-      return tile_special_type_names[inx];
+      return tile_special_type_names[i];
     }
     type >>= 1;
   }
@@ -590,22 +596,12 @@ int get_tile_shield_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_trade_base(struct tile * ptile)
 {
-  if(ptile->special&S_SPECIAL_1) 
-    return (tile_types[ptile->terrain].trade_special_1);
-  else if(ptile->special&S_SPECIAL_2) 
-    return (tile_types[ptile->terrain].trade_special_2);
+  if (ptile->special & S_SPECIAL_1)
+    return tile_types[ptile->terrain].trade_special_1;
+  else if (ptile->special & S_SPECIAL_2)
+    return tile_types[ptile->terrain].trade_special_2;
   else
-    return (tile_types[ptile->terrain].trade);
-}
-
-/***************************************************************
-...
-***************************************************************/
-int get_tile_infrastructure_set(struct tile * ptile)
-{
-  return
-    ptile->special &
-    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS | S_AIRBASE);
+    return tile_types[ptile->terrain].trade;
 }
 
 /***************************************************************
@@ -1121,23 +1117,20 @@ int is_tiles_adjacent(int x0, int y0, int x1, int y1)
   return 0;
 }
 
-
-
 /***************************************************************
 ...
 ***************************************************************/
 void tile_init(struct tile *ptile)
 {
-  ptile->terrain=T_UNKNOWN;
-  ptile->special=S_NO_SPECIAL;
-  ptile->known=0;
-  ptile->sent=0;
-  ptile->city=NULL;
+  ptile->terrain  = T_UNKNOWN;
+  ptile->special  = S_NO_SPECIAL;
+  ptile->known    = 0;
+  ptile->sent     = 0;
+  ptile->city     = NULL;
   unit_list_init(&ptile->units);
-  ptile->worked = NULL; /* pointer to city working tile */
+  ptile->worked   = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
 }
-
 
 /***************************************************************
 ...
@@ -1145,9 +1138,9 @@ void tile_init(struct tile *ptile)
 struct tile *map_get_tile(int x, int y)
 {
   if (!normalize_map_pos(&x, &y))
-    return &void_tile;		/* accurate fix by Syela */
+    return &void_tile; /* accurate fix by Syela */
   else
-    return map.tiles + x + y * map.xsize;
+    return map.tiles + map_inx(x, y);
 }
 
 /***************************************************************
@@ -1285,8 +1278,7 @@ int check_coords(int *x, int *y)
 
   if (!normalize_map_pos(x, y)) {
     freelog(LOG_ERROR, "%d, %d is not a real tile!", *x, *y);
-    *x = map_adjust_x(*x);
-    *y = map_adjust_y(*y);
+    nearest_real_pos(x, y);
     return 0;
   }
 
@@ -1296,28 +1288,42 @@ int check_coords(int *x, int *y)
   return 1;
 }
 
-/***************************************************************
-If we just adjust we might light a tile twice; That would be a
-Mayor problem with fog of war
-***************************************************************/
 int is_real_tile(int x, int y)
 {
   return 0 <= y && y < map.ysize;
 }
 
 /**************************************************************************
-Normalizes the map position. Returns TRUE if it is valid, false otherwise.
+Normalizes the map position. Returns TRUE if it is real, FALSE otherwise.
 **************************************************************************/
-int normalize_map_pos(int *x, int *y) {
-  if (*y < 0 || *y >= map.ysize)
-    return FALSE;
-
+int normalize_map_pos(int *x, int *y)
+{
   while (*x < 0)
     *x += map.xsize;
   while (*x >= map.xsize)
     *x -= map.xsize;
 
+  if (!is_real_tile(*x, *y))
+    return FALSE;
+
   return TRUE;
+}
+
+/**************************************************************************
+Twiddle *x and *y to point the the nearest real tile, and ensure that the
+position is normalized.
+**************************************************************************/
+void nearest_real_pos(int *x, int *y)
+{
+  if (*y < 0)
+    *y = 0;
+  else if (*y >= map.ysize)
+    *y = map.ysize - 1;
+  
+  while (*x < 0)
+    *x += map.xsize;
+  while (*x >= map.xsize)
+    *x -= map.xsize;
 }
 
 /**************************************************************************

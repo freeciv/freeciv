@@ -1107,7 +1107,9 @@ static void check_pollution(struct city *pcity)
       x=myrand(5)-2;
       y=myrand(5)-2;
       if ( ( x != -2 && x != 2 ) || ( y != -2 && y != 2 ) ) {
-	x=map_adjust_x(pcity->x+x); y=map_adjust_y(pcity->y+y);
+	x = pcity->x + x;
+	y = pcity->y + y;
+	nearest_real_pos(&x, &y);
 	if ( (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
 	     (!(map_get_special(x,y)&S_POLLUTION)) ) { 
 	  map_set_special(x,y, S_POLLUTION);

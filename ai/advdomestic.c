@@ -90,6 +90,7 @@ static int building_value(int max, struct city *pcity, int val)
 static int ocean_workers(struct city *pcity)
 {
   int i = 0;
+
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
     if (map_get_terrain(mx, my) == T_OCEAN) {
       /* this is a kluge; wasn't getting enough harbors because often
@@ -99,31 +100,34 @@ static int ocean_workers(struct city *pcity)
       if (is_worker_here(pcity, cx, cy))
 	i++;
     }
-  }
-  city_map_checked_iterate_end;
-  return (i / 2);
+  } city_map_checked_iterate_end;
+  return i / 2;
 }
 
 static int road_trade(struct city *pcity)
 {
   int i = 0;
+
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-    if (map_get_special(mx, my) & S_ROAD && is_worker_here(pcity, cx, cy))
+    if (map_get_special(mx, my) & S_ROAD
+	&& is_worker_here(pcity, cx, cy))
       i++;
-  }
-  city_map_checked_iterate_end;
-  return(i); 
+  } city_map_checked_iterate_end;
+
+  return i; 
 }
 
 static int farmland_food(struct city *pcity)
 {
   int i = 0;
+
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
     if (map_get_special(mx, my) & S_FARMLAND
-	&& is_worker_here(pcity, cx, cy)) i++;
-  } 
-  city_map_checked_iterate_end;
-  return(i); 
+	&& is_worker_here(pcity, cx, cy))
+      i++;
+  } city_map_checked_iterate_end;
+
+  return i; 
 }
 
 static int pollution_cost(struct player *pplayer, struct city *pcity,

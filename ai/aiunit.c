@@ -685,10 +685,9 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
         best = 1; *dest_y = y1; *dest_x = x1;
       } /* next to nothing is better than nothing */
     }
-  }
-  adjc_iterate_end;
+  } adjc_iterate_end;
 
-  return(best);
+  return best;
 }
 
 /*************************************************************************
@@ -743,32 +742,40 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
   adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;
     t = map_get_terrain(x1, y1);
-    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
+    if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) {
+      /* accessible beachhead */
       adjc_iterate(x1, y1, x2, y2) {
-	if (map_get_terrain(x2, y2) == T_OCEAN) {
-	  if (is_my_zoc(unit_owner(punit), x2, y2)) {
-	    ok++;
-	    goto OK;		/* out of adjc_iterate */
-	  }
-	}
-      }
-      adjc_iterate_end;
-      OK:
+	if (map_get_terrain(x2, y2) == T_OCEAN
+	    && is_my_zoc(unit_owner(punit), x2, y2)) {
+	  ok++;
+	  goto OK;
 
-      if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
+	  /* FIXME: The above used to be "break; out of adjc_iterate",
+	  but this is incorrect since the current adjc_iterate() is
+	  implemented as two nested loops.  */
+	}
+      } adjc_iterate_end;
+    OK:
+
+      if (ok) {
+	/* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
 	if (map_get_special(x1, y1) & S_RIVER)
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
-            unit_types[punit->type].move_rate) ok *= 8;
+            unit_types[punit->type].move_rate)
+	  ok *= 8;
         ok += (6 * THRESHOLD - warmap.seacost[x1][y1]);
-        if (ok > best) { best = ok; *x = x1; *y = y1; }
+        if (ok > best) {
+	  best = ok;
+	  *x = x1;
+	  *y = y1;
+	}
       }
     }
-  }
-  adjc_iterate_end;
+  } adjc_iterate_end;
 
-  return(best);
+  return best;
 }
 
 /**************************************************************************
@@ -778,22 +785,23 @@ So this finds the nearest land tile on the same continent as the city.
 **************************************************************************/
 static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y)
 {
-  int best_xx = punit->x, best_yy = punit->y;
+  int best_x = punit->x;
+  int best_y = punit->y;
   int dist = 100;
-  int search_dist = real_map_distance( pc->x, pc->y, punit->x, punit->y );
+  int search_dist = real_map_distance(pc->x, pc->y, punit->x, punit->y) - 1;
+  
+  square_iterate(punit->x, punit->y, search_dist, xx, yy) {
+    if (map_same_continent(xx, yy, pc->x, pc->y)
+        && real_map_distance(punit->x, punit->y, xx, yy) < dist) {
 
-  square_iterate(punit->x, punit->y, search_dist - 1, xx, yy) {
-    if (map_same_continent(xx, yy, pc->x, pc->y) &&
-	real_map_distance(punit->x, punit->y, xx, yy) < dist) {
       dist = real_map_distance(punit->x, punit->y, xx, yy);
-      best_xx = xx;
-      best_yy = yy;
+      best_x = xx;
+      best_y = yy;
     }
-  }
-  square_iterate_end;
+  } square_iterate_end;
 
-  *x = best_xx;
-  *y = best_yy;
+  *x = best_x;
+  *y = best_y;
 }
 
 /**************************************************************************

@@ -64,36 +64,41 @@ enum city_options {
    Some places in the code hardcodes this number (yet). */
 #define CITY_MAP_SIZE 5
 
-/* Iterate a city map. x and y will be elements of [0,CITY_MAP_SIZE). */
-#define city_map_iterate(x, y) \
-{ \
-  int x, y; \
-  for (y=0;y<CITY_MAP_SIZE;y++) \
-    for (x=0;x<CITY_MAP_SIZE;x++) \
+/* Iterate a city map */
+
+#define city_map_iterate(x, y)                     \
+{                                                  \
+  int x, y;                                        \
+  for (y = 0; y < CITY_MAP_SIZE; y++)              \
+    for (x = 0; x < CITY_MAP_SIZE; x++)            \
       if (! ((x == 0 || x == (CITY_MAP_SIZE-1)) && \
 	     (y == 0 || y == (CITY_MAP_SIZE-1))) )
 
-#define city_map_iterate_end \
+#define city_map_iterate_end                       \
 }
+
+/* Iterate a city map, from the center (the city) outwards */
 
 extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];
 
 /* Iterate a city map, from the center (the city) outwards. x and y
-   will be elements of [0,CITY_MAP_SIZE). */
-#define city_map_iterate_outwards(x, y) { \
-  int x, y; \
-  int city_map_iterate_outwards_index; \
-  for \
-  ( \
-    city_map_iterate_outwards_index = 0; \
-    city_map_iterate_outwards_index < (CITY_MAP_SIZE*CITY_MAP_SIZE)-4; \
-    city_map_iterate_outwards_index++ \
-  ) \
-  { \
+   will be elements of [0, CITY_MAP_SIZE). */
+#define city_map_iterate_outwards(x, y) {                                      \
+  int x, y;                                                                    \
+  int city_map_iterate_outwards_index;                                         \
+  for                                                                          \
+  (                                                                            \
+    city_map_iterate_outwards_index = 0;                                       \
+    city_map_iterate_outwards_index < (CITY_MAP_SIZE*CITY_MAP_SIZE)-4;         \
+    city_map_iterate_outwards_index++                                          \
+  )                                                                            \
+  {                                                                            \
     x = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][0]; \
     y = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][1];
 
-#define city_map_iterate_outwards_end } }
+#define city_map_iterate_outwards_end                                          \
+  }                                                                            \
+}
 
 /*
  * Iterate a city map in checked real map coordinates. The center of
@@ -120,25 +125,23 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
 	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
 
 
-/* Iterate a city radius in map coordinates; skip non-existant
-   squares. */
-#define map_city_radius_iterate(city_x, city_y, x_itr, y_itr) \
-{ \
-  int x_itr, y_itr; \
-  int MCMI_x, MCMI_y; \
-  for (MCMI_x=0; MCMI_x<CITY_MAP_SIZE; MCMI_x++) { \
-    for (MCMI_y=0; MCMI_y<CITY_MAP_SIZE; MCMI_y++) { \
-      if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1)) \
+#define map_city_radius_iterate(city_x, city_y, x_itr, y_itr)     \
+{                                                                 \
+  int x_itr, y_itr;                                               \
+  int MCMI_x, MCMI_y;                                             \
+  for (MCMI_x = 0; MCMI_x < CITY_MAP_SIZE; MCMI_x++) {            \
+    for (MCMI_y = 0; MCMI_y < CITY_MAP_SIZE; MCMI_y++) {          \
+      if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1))         \
 	     && (MCMI_y == 0 || MCMI_y == (CITY_MAP_SIZE-1))) ) { \
-	x_itr = city_x + MCMI_x - CITY_MAP_SIZE/2; \
-        y_itr = city_y + MCMI_y - CITY_MAP_SIZE/2; \
-        if (!normalize_map_pos(&x_itr, &y_itr)) \
+	x_itr = city_x + MCMI_x - CITY_MAP_SIZE/2;                \
+        y_itr = city_y + MCMI_y - CITY_MAP_SIZE/2;                \
+        if (!normalize_map_pos(&x_itr, &y_itr))                   \
 	  continue;
 
-#define map_city_radius_iterate_end \
-      } \
-    } \
-  } \
+#define map_city_radius_iterate_end                               \
+      }                                                           \
+    }                                                             \
+  }                                                               \
 }
 
 

@@ -766,8 +766,9 @@ int is_ok_city_spot(int x, int y)
 **************************************************************************/
 int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
 {
-  punit->goto_dest_x=map_adjust_x(x);
-  punit->goto_dest_y=map_adjust_y(y);
+  nearest_real_pos(&x, &y);
+  punit->goto_dest_x = x;
+  punit->goto_dest_y = y;
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(0, punit);
   do_unit_goto(punit, GOTO_MOVE_ANY, 0);

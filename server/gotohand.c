@@ -360,8 +360,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	freelog(LOG_FATAL, "Bad/unimplemented move_type in really_generate_warmap().");
 	abort();
       }
-    } 
-    adjc_dir_iterate_end;
+    } adjc_dir_iterate_end;
   }
 
   freelog(LOG_DEBUG, "Generated warmap for (%d,%d).",
@@ -990,7 +989,8 @@ static int find_a_direction(struct unit *punit,
         c = map_get_tile(punit->x, punit->y)->move_cost[k];
       else c = 3;
       if (unit_flag(punit->type, F_IGTER) && c) c = 1;
-      x = map_adjust_x(punit->x + DIR_DX[k]); y = map_adjust_y(punit->y + DIR_DY[k]);
+      x = map_adjust_x(punit->x + DIR_DX[k]);
+      y = map_adjust_y(punit->y + DIR_DY[k]);
       if (passenger) {
 	freelog(LOG_DEBUG, "%d@(%d,%d) evaluating (%d,%d)[%d/%d]",
 		punit->id, punit->x, punit->y, x, y, c, punit->moves_left);
