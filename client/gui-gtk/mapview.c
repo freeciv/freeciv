@@ -366,15 +366,17 @@ void update_unit_pix_label(struct unit *punit)
   /* what initialises these statics? */
   static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
   static int utemplate = U_LAST;
+  static int uhp = -1;
   static int showing_arrow=0;
   struct genlist_iterator myiter;
   
   if(punit) {
-    if(punit->type!=utemplate || punit->activity!=uactivity) {
+    if(punit->type!=utemplate || punit->activity!=uactivity || punit->hp!=uhp) {
       gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), FALSE); /* STG */
       put_unit_gpixmap(punit, GTK_PIXCOMM(unit_pixmap), 0, 0);
       utemplate=punit->type;
       uactivity=punit->activity;
+      uhp=punit->hp;
     }
     genlist_iterator_init(&myiter, 
 			  &(map_get_tile(punit->x, punit->y)->units.list), 0);
@@ -429,6 +431,7 @@ void update_unit_pix_label(struct unit *punit)
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
     utemplate=U_LAST;
     uactivity=ACTIVITY_UNKNOWN;
+    uhp = -1;
     for(i=0; i<num_units_below; i++) {
       gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
       unit_ids[i]=0;

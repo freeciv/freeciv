@@ -451,8 +451,9 @@ void handle_unit_info(struct packet_unit_info *packet)
       if(punit->owner==game.player_idx) 
         refresh_unit_city_dialogs(punit);
       /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
-      update_unit_pix_label(punit);
-      update_unit_focus(); */
+       *      update_unit_pix_label(punit);
+       *      update_unit_focus();
+       */
 
       /* These two lines force the menus to be updated as appropriate when
 	 the unit activity changes. */
@@ -503,7 +504,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
       else {
 	do_move_unit(punit, packet); /* nice to see where a unit is going */
-	game_remove_unit(punit->id);
+	client_remove_unit(punit->id);
 	refresh_tile_mapcanvas(packet->x, packet->y, 1);
         return;
       }

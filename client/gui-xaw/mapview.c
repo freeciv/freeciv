@@ -108,6 +108,8 @@ int force_full_repaint;
 /* adjusted depending on tile size: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
+int unit_ids[MAX_NUM_UNITS_BELOW];
+
 extern int goto_state;
 extern int paradrop_state;
 extern int nuke_state;
@@ -338,18 +340,19 @@ void update_unit_pix_label(struct unit *punit)
   /* what initialises these statics? */
   static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
   static int utemplate = U_LAST;
-  static int unit_ids[MAX_NUM_UNITS_BELOW];
+  static int uhp = -1;
   static int showing_arrow=0;
   struct genlist_iterator myiter;
   
   if(punit) {
-    if(punit->type!=utemplate || punit->activity!=uactivity) {
+    if(punit->type!=utemplate || punit->activity!=uactivity || punit->hp!=uhp) {
       if (flags_are_transparent)
         XawPixcommClear(unit_pix_canvas); /* STG */
       put_unit_pixmap(punit, XawPixcommPixmap(unit_pix_canvas), 0, 0);
       xaw_expose_now(unit_pix_canvas);
       utemplate=punit->type;
       uactivity=punit->activity;
+      uhp=punit->hp;
     }
     genlist_iterator_init(&myiter, 
 			  &(map_get_tile(punit->x, punit->y)->units.list), 0);
@@ -405,6 +408,7 @@ void update_unit_pix_label(struct unit *punit)
     XawPixcommClear(unit_pix_canvas);
     utemplate=U_LAST;
     uactivity=ACTIVITY_UNKNOWN;
+    uhp = -1;
     for(i=0; i<num_units_below; i++) {
       XawPixcommClear(unit_below_canvas[i]);
       unit_ids[i]=0;

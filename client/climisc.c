@@ -72,18 +72,25 @@ void client_remove_unit(int unit_id)
     int x=punit->x;
     int y=punit->y;
     int hc=punit->homecity;
+    struct unit *ufocus = get_unit_in_focus();
 
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	   unit_id, get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, hc);
     
-    if(punit==get_unit_in_focus()) {
+    if(punit==ufocus) {
       set_unit_focus_no_center(0);
       game_remove_unit(unit_id);
       advance_unit_focus();
     }
-    else
+    else {
+      /* calculate before punit disappears, use after punit removed: */
+      int update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
       game_remove_unit(unit_id);
+      if (update) {
+	update_unit_pix_label(ufocus);
+      }
+    }
 
     if((pcity=map_get_city(x, y)))
       refresh_city_dialog(pcity);

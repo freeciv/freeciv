@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -68,6 +69,7 @@ AppResources appResources;
 extern String fallback_resources[];
 
 extern int num_units_below;
+extern int unit_ids[MAX_NUM_UNITS_BELOW];
 
 
 static void setup_widgets(void);
@@ -464,6 +466,24 @@ void ui_main(int argc, char *argv[])
   XtAppMainLoop(app_context);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void unit_icon_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data) 
+{
+  struct unit *punit;
+  int i = (size_t)client_data;
+
+  assert(i>=0 && i<num_units_below);
+  if (unit_ids[i] == 0) /* no unit displayed at this place */
+    return;
+  punit=find_unit_by_id(unit_ids[i]);
+  if(punit) { /* should always be true at this point */
+     request_new_unit_activity(punit, ACTIVITY_IDLE);
+     set_unit_focus(punit);
+  }
+}
 
 /**************************************************************************
 ...
@@ -592,6 +612,8 @@ void setup_widgets(void)
 						   XtNwidth, NORMAL_TILE_WIDTH,
 						   XtNheight, NORMAL_TILE_HEIGHT,
 						   NULL);
+    XtAddCallback(unit_below_canvas[i], XtNcallback, unit_icon_callback,
+		  (XtPointer)i);  
   }
 
   more_arrow_label =
