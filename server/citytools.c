@@ -997,9 +997,6 @@ void create_city(struct player *pplayer, const int x, const int y,
   city_list_insert(&pplayer->cities, pcity);
   add_city_to_minimap(x, y);
 
-  /* Update the national borders. */
-  map_update_borders_city_change(pcity);
-
   /* it is possible to build a city on a tile that is already worked
    * this will displace the worker on the newly-built city's tile -- Syela */
   for (y_itr = 0; y_itr < CITY_MAP_SIZE; y_itr++) {
@@ -1011,6 +1008,10 @@ void create_city(struct player *pplayer, const int x, const int y,
 	pcity->city_map[x_itr][y_itr] = C_TILE_UNAVAILABLE;
     }
   }
+
+  /* Update the national borders.  This updates the citymap tile
+   * status and so must be done after the above. */
+  map_update_borders_city_change(pcity);
 
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
   auto_arrange_workers(pcity);
