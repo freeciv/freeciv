@@ -68,7 +68,7 @@ static void fill_entry(struct section_file *sf,
 int userdb_check_password(struct connection *pconn, 
 		          const char *password, int len)
 {
-  return (strncmp(pconn->server.password, password, len) == 0) ? 1 : 0;
+  return (strcmp(pconn->server.password, password) == 0) ? 1 : 0;
 }
 
 /**************************************************************************
