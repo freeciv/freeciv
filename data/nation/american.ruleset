@@ -4,7 +4,7 @@ name=_("American")
 plural=_("?plural:Americans")
 class=_("Modern")
 legend=_("Formally named the United States of America.  Independent from \
-Great Britain after a revolution in 1776-1783 AD.")
+Great Britain after a revolution in 1776-1783AD.")
 leader="George Washington",
        "John Adams",
        "Thomas Jefferson", 

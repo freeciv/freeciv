@@ -3,7 +3,7 @@
 name=_("Bavarian")
 plural=_("?plural:Bavarians")
 class=_("Historical")
-legend=_("Bavaria, before national unification in 1870, was one of the \
+legend=_("Bavaria, before national unification in 1870AD, was one of the \
 largest of the German kingdoms.") 
 leader = "Tassilo III", "Welf I", "Ludwig II", "Maximilian", "Adelheid",
          "Max II Emanuel", "Joseph"

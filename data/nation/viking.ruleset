@@ -4,7 +4,7 @@ name=_("Viking")
 plural=_("?plural:Vikings")
 class=_("Historical")
 legend=_("The Vikings raided and traded along the coasts of Europe \
-between 800 and 1100. Viking raids eventually became the rulers of \
+between 800AD and 1100AD. Viking raids eventually became the rulers of \
 Normandy, Russia, and a short-lived kingdom in Sicily.")
 leader="Erik Blodøks", "Harald Hårfagre", "Hrolf Gangr", "Rollo",
        "Gro Harlem Brundtland", "Haakon VII", "Aud Ivarsdottr"

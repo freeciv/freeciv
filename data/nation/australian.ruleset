@@ -3,8 +3,8 @@
 name=_("Australian")
 plural=_("?plural:Australians")
 class=_("Modern")
-legend=_("Australia was founded as a British penal colony in 1788. It is the \
-only country on earth to occupy an entire continent.")
+legend=_("Australia was founded as a British penal colony in 1788AD. It is \
+the only country on earth to occupy an entire continent.")
 leader="Robert Menzies"
 leader_sex="Male"
 flag="f.australia"
