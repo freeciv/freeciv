@@ -11,6 +11,10 @@ AC_DEFUN(FC_GTK2_CLIENT,
         client="gtk-2.0"
         CLIENT_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
         CLIENT_LIBS="$GTK_LIBS"
+        if test x"$MINGW32" = "xyes"; then
+          dnl Required to compile gtk2 on Windows platform
+          CFLAGS="$CFLAGS -mms-bitfields"
+        fi
       ],
       [
         FC_NO_CLIENT([gtk-2.0], [GTK+-2.0 libraries not found])
