@@ -87,6 +87,7 @@ static int net_input=-1;
 
 extern int seconds_to_turndone;   
 
+bool better_fog = TRUE;
 
 const static RECT textwin_size={0,1,0,100};
 
@@ -94,7 +95,8 @@ struct fcwin_box *main_win_box;
 struct fcwin_box *output_box;
 
 client_option gui_options[] = {
-  /* None. */
+  GEN_BOOL_OPTION(better_fog,
+		  N_("Better fog-of-war drawing"))
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
