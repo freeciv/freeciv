@@ -71,6 +71,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 #define RAMPAGE_ANYTHING                 1
 #define RAMPAGE_HUT_OR_BETTER        99998
 #define RAMPAGE_FREE_CITY_OR_BETTER  99999
+#define BODYGUARD_RAMPAGE_THRESHOLD (SHIELD_WEIGHTING * 4)
 static bool ai_military_rampage(struct unit *punit, int thresh_adj, 
                                 int thresh_move);
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
@@ -1116,6 +1117,8 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "to meet charge %s#%d@(%d,%d){%d}",
              unit_type(aunit)->name, aunit->id, aunit->x, aunit->y,
              aunit->ai.bodyguard);
+  } else if (acity) {
+    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "to guard %s", acity->name);
   }
 
   if (!same_pos(punit->x, punit->y, x, y)) {
@@ -1125,13 +1128,12 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
       /* can't possibly get there to help */
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
-  } else {
-    /* I had these guys set to just fortify, which is so dumb. -- Syela
-     * Instead we can attack adjacent units and maybe even pick up some free 
-     * cities! */
-    (void) ai_military_rampage(punit, 40 * SHIELD_WEIGHTING, 
-                               RAMPAGE_FREE_CITY_OR_BETTER);
   }
+  /* I had these guys set to just fortify, which is so dumb. -- Syela
+   * Instead we can attack adjacent units and maybe even pick up some free 
+   * cities! */
+  (void) ai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD,
+                             RAMPAGE_FREE_CITY_OR_BETTER);
 }
 
 /*************************************************************************
