@@ -5,7 +5,7 @@
 #
 # === Authors
 #
-#   Vasco Costa		<vasc@rnl.ist.utl.pt>	1999, 2000.
+#   Vasco Costa		<vasc@rnl.ist.utl.pt>	1999-2002.
 #
 msgid ""
 msgstr ""
@@ -21,7 +21,7 @@ msgstr ""
 
 #: common/city.c:262
 msgid "?redundant:*"
-msgstr ""
+msgstr "?redundante:*"
 
 #: common/city.c:263
 msgid "?obsolete:O"
@@ -38,7 +38,7 @@ msgstr "?maravilha:m"
 #: common/connection.c:481
 #, c-format
 msgid "%s from %s"
-msgstr "%s @ %s"
+msgstr "%s@%s"
 
 #: common/connection.c:487
 msgid " (connection incomplete)"
@@ -447,8 +447,8 @@ msgid ""
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
-"ESTA É UMA VERSÃO BETA\n"
-"O Freeciv %s será lançado em\n"
+"ESTÁ A UTILIZAR UMA VERSÃO BETA\n"
+"O Freeciv %s será lançado\n"
 "%s, em %s"
 
 #: ai/aicity.c:209 server/citytools.c:1838
@@ -891,12 +891,12 @@ msgstr "Erro: opção desconhecida '%s'\n"
 #: server/civserver.c:125
 #, c-format
 msgid "This is the server for %s"
-msgstr "Este é o servidor do %s"
+msgstr "Servidor %s"
 
 #: server/civserver.c:126
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Para mais informações sobre o Freeciv pode consultar %s"
+msgstr "Para mais informações sobre o Freeciv consulte %s"
 
 #: client/civclient.c:124 server/civserver.c:130
 #, c-format
@@ -978,7 +978,7 @@ msgstr "Ok. Estilo normal seleccionado."
 
 #: server/console.c:200
 msgid "For introductory help, type 'help'."
-msgstr "Para ter alguma ajuda inicial, escreva 'help'."
+msgstr "Para obter ajuda, escreva 'help'."
 
 #: server/diplhand.c:148
 #, c-format
@@ -2283,9 +2283,9 @@ msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Já existe um jogador de nome '%s'.  Por favor escolha outro nome."
 
 #: server/srv_main.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is the %s ruler %s."
-msgstr "%s é o governante %s %s."
+msgstr "Jogo: %s é o governante %s %s."
 
 #: server/srv_main.c:978
 #, c-format
@@ -2354,7 +2354,7 @@ msgstr "Pedido de ligação de %s em %s (nome de ligação %s)"
 #: server/srv_main.c:1221
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
-msgstr "%s tem um cliente de versão %d.%d.%d%s"
+msgstr "%s tem um cliente da versão %d.%d.%d%s"
 
 #: server/srv_main.c:1231
 #, c-format
@@ -3322,10 +3322,10 @@ msgid ""
 msgstr ""
 "Sem argumentos dá alguma ajuda introdutória.  Com o argumento \"commands\" "
 "ou \"options\" dá respectivamente uma lista de todos os comandos ou opções.  "
-"Caso contrário o argumento é tomado como um nome de comando ou opção, é dada "
-"ajuda para esse comando ou opção.  Para as opções, a informação de ajuda "
-"inclui os valores actual e por defeito para essa opção.  O argumento pode "
-"ser abreviado quando não for ambíguo."
+"Caso contrário o argumento é tomado como um nome de comando ou opção e é dada "
+"a ajuda relevante.  Para as opções, a informação de ajuda inclui os valores "
+"actual e por defeito para essa opção.  O argumento pode ser abreviado quando "
+"não for ambíguo."
 
 #: server/stdinhand.c:966
 msgid "Show a list of players or connections."
@@ -4318,7 +4318,6 @@ msgid "Goodbye."
 msgstr "Adeus."
 
 #: server/stdinhand.c:3144
-#, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -4340,18 +4339,18 @@ msgid ""
 msgstr ""
 "Bemvindo - este é o texto de ajuda introdutório para o servidor Freeciv.\n"
 "\n"
-"Os Comandos e as Opções são dois conceitos importantes do servidor.\n"
-"Comandos, como 'help', são utilizados para interagir com o servidor.\n"
-"Alguns comandos recebem um ou mais parâmetros, separados por espaços.\n"
+"Comandos e Opções são dois conceitos importantes do servidor.\n"
+"Os Comandos, como 'help', são utilizados para interagir com o servidor.\n"
+"Alguns comandos recebem um ou mais argumentos, separados por espaços.\n"
 "Em muitos casos os comandos e os seus argumentos podem ser abreviados.\n"
-"Opções são valores que controlam o servidor enquanto está activo.\n"
+"As Opções são parâmetros que controlam o servidor enquanto está activo.\n"
 "\n"
-"Para descobrir como conseguir mais informações sobre comandos e opções,\n"
-"use 'help help'.\n"
+"Para mais informações sobre comandos e opções, escreva 'help help'.\n"
+"\n"
 "Para os impacientes, os comandos principais são:\n"
-"  show   -  para ver as opções correntes\n"
-"  set    -  para mudar opções\n"
-"  start  -  para iniciar o jogo uma vez que os jogadores se liguem\n"
+"  show   -  para ver as opções actuais\n"
+"  set    -  para mudar as opções\n"
+"  start  -  para iniciar o jogo após os jogadores se terem ligado\n"
 "  save   -  para gravar o jogo actual\n"
 "  quit   -  para sair"
 
@@ -4389,7 +4388,7 @@ msgstr ""
 
 #: server/stdinhand.c:3390
 msgid "List of players:"
-msgstr "Lista dos jogadores:"
+msgstr "Jogadores:"
 
 #: server/stdinhand.c:3394
 msgid "<no players>"
@@ -4410,9 +4409,8 @@ msgid "AI"
 msgstr ""
 
 #: server/stdinhand.c:3423
-#, fuzzy
 msgid "Human"
-msgstr "Hétman"
+msgstr "Humano"
 
 #: server/stdinhand.c:3426
 msgid ", Dead"
@@ -4429,9 +4427,8 @@ msgid ", nation %s"
 msgstr " toneladas"
 
 #: server/stdinhand.c:3440
-#, fuzzy
 msgid " 1 connection:"
-msgstr "Perdi a ligação com %s."
+msgstr " 1 ligação:"
 
 #: server/stdinhand.c:3442
 #, fuzzy, c-format
@@ -4441,7 +4438,7 @@ msgstr "Perdi a ligação com %s."
 #: server/stdinhand.c:3448
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr ""
+msgstr "  %s@%s (nível de acesso %s), bufsize=%dkb"
 
 #: server/stdinhand.c:3453
 #, fuzzy
@@ -6419,14 +6416,13 @@ msgid "Food:"
 msgstr "Comida:"
 
 #: client/gui-gtk/citydlg.c:554
-#, fuzzy
 msgid "Prod:"
-msgstr "Ouro:"
+msgstr "Produção:"
 
 #: client/gui-gtk/citydlg.c:555 client/gui-mui/citydlg.c:1396
 #: client/gui-mui/citydlg.c:1619
 msgid "Trade:"
-msgstr "Comércio"
+msgstr "Comércio:"
 
 #: client/gui-gtk/citydlg.c:557 client/gui-mui/citydlg.c:1401
 #: client/gui-mui/citydlg.c:1616 client/gui-mui/gamedlgs.c:221
@@ -6440,24 +6436,21 @@ msgstr "Ciência:"
 
 #: client/gui-gtk/citydlg.c:559 client/gui-mui/citydlg.c:1406
 msgid "Granary:"
-msgstr "Celeiro"
+msgstr "Celeiro:"
 
 #: client/gui-gtk/citydlg.c:560 client/gui-mui/citydlg.c:1408
-#, fuzzy
 msgid "Change in:"
-msgstr "Muda"
+msgstr "Cresce em:"
 
 #: client/gui-gtk/citydlg.c:561 client/gui-mui/citydlg.c:1411
-#, fuzzy
 msgid "Corruption:"
-msgstr "Corrupção"
+msgstr "Corrupção:"
 
 #: client/gui-gtk/citydlg.c:562 client/gui-mui/citydlg.c:1413
 msgid "Pollution:"
 msgstr "Poluição:"
 
 #: client/gui-gtk/citydlg.c:607
-#, fuzzy
 msgid "City improvements"
 msgstr "Construções"
 
@@ -6471,14 +6464,12 @@ msgid "City _Overview"
 msgstr "Serviço Militar"
 
 #: client/gui-gtk/citydlg.c:635 client/gui-win32/citydlg.c:833
-#, fuzzy
 msgid "City info"
-msgstr "Cidade nº %d"
+msgstr "Informações"
 
 #: client/gui-gtk/citydlg.c:641 client/gui-win32/citydlg.c:852
-#, fuzzy
 msgid "City map"
-msgstr "Mapa da Cidade"
+msgstr "Mapa"
 
 #: client/gui-gtk/citydlg.c:723 client/gui-gtk/citydlg.c:779
 #: client/gui-gtk/citydlg.c:1002 client/gui-gtk/citydlg.c:1061
@@ -6501,15 +6492,13 @@ msgid "_Buy"
 msgstr "_Compra"
 
 #: client/gui-gtk/citydlg.c:833
-#, fuzzy
 msgid "C_hange"
-msgstr "Muda"
+msgstr "_Muda"
 
 #: client/gui-gtk/citydlg.c:875 client/gui-gtk/citydlg.c:1993
 #: client/gui-gtk/citydlg.c:3279 client/gui-win32/citydlg.c:857
-#, fuzzy
 msgid "Sell"
-msgstr "_Vende"
+msgstr "Vende"
 
 #: client/gui-gtk/citydlg.c:908 client/gui-gtk/menu.c:709
 #: client/gui-gtk/menu.c:752 client/gui-win32/menu.c:354
@@ -6570,9 +6559,8 @@ msgid "_Misc. Settings"
 msgstr "_Gravar Opções"
 
 #: client/gui-gtk/citydlg.c:1255
-#, fuzzy
 msgid "Entertainers"
-msgstr "Engenheiros"
+msgstr "Artistas"
 
 #: client/gui-gtk/citydlg.c:1256 client/gui-mui/citydlg.c:1433
 #: client/gui-win32/citydlg.c:2161 client/gui-xaw/citydlg.c:2587
@@ -6606,7 +6594,7 @@ msgstr " unidade"
 
 #: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2166
 msgid "Disband if build settler at size 1"
-msgstr "Dissolve se contruir colono com tamanho 1"
+msgstr "Dissolve ao contruir colono qd tem tamanho 1"
 
 #: client/gui-gtk/citydlg.c:1269
 msgid "City Overview page"
@@ -6722,17 +6710,17 @@ msgstr "(lista de tarefas)"
 #: client/gui-gtk/citydlg.c:1988
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr ""
+msgstr "Manutenção (Total: %d)"
 
 #: client/gui-gtk/citydlg.c:2137
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units (%d)"
-msgstr "Unidades suportadas"
+msgstr "Unidades suportadas (%d)"
 
 #: client/gui-gtk/citydlg.c:2272
 #, c-format
 msgid "Present units (%d)"
-msgstr ""
+msgstr "Unidades presentes (%d)"
 
 #: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2127
 #: client/gui-win32/citydlg.c:1386
@@ -6975,9 +6963,9 @@ msgid "Sell It!"
 msgstr "Vende!"
 
 #: client/gui-gtk/citydlg.c:3289
-#, fuzzy, c-format
+#, c-format
 msgid "Sell (worth %d gold)"
-msgstr "Vendo %s por %d moedas?"
+msgstr "Vende por %d moedas"
 
 #: client/gui-gtk/citydlg.c:3391 client/gui-win32/citydlg.c:1330
 #: data/Freeciv:524
@@ -7305,7 +7293,7 @@ msgstr ""
 #: client/gui-gtk/connectdlg.c:129 client/gui-mui/connectdlg.c:159
 #: client/gui-win32/connectdlg.c:365
 msgid "Server Name"
-msgstr "Servidor"
+msgstr "Máquina"
 
 #: client/gui-gtk/connectdlg.c:129 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:365 data/Freeciv:87
@@ -7332,16 +7320,16 @@ msgstr "Jogadores"
 #: client/gui-gtk/connectdlg.c:130 client/gui-mui/connectdlg.c:164
 #: client/gui-win32/connectdlg.c:366
 msgid "Comment"
-msgstr "Comentário"
+msgstr "Obs."
 
 #: client/gui-gtk/connectdlg.c:144
 msgid " Connect to Freeciv Server"
-msgstr "Ligar ao Servidor Freeciv"
+msgstr "Ligue-se a um Servidor Freeciv"
 
 #: client/gui-gtk/connectdlg.c:150 client/gui-win32/connectdlg.c:364
 #: data/Freeciv:68
 msgid "Freeciv Server Selection"
-msgstr "Selecção de Servidor Freeciv"
+msgstr "Servidor Freeciv"
 
 #: client/gui-gtk/connectdlg.c:161 client/gui-mui/citydlg.c:1602
 #: client/gui-win32/connectdlg.c:387
@@ -7350,7 +7338,7 @@ msgstr "Nome:"
 
 #: client/gui-gtk/connectdlg.c:169 client/gui-win32/connectdlg.c:389
 msgid "Host:"
-msgstr "Servidor:"
+msgstr "Máquina:"
 
 #: client/gui-gtk/connectdlg.c:177 client/gui-win32/connectdlg.c:391
 msgid "Port:"
@@ -7691,11 +7679,11 @@ msgstr " Que Nação Deseja Controlar?"
 
 #: client/gui-gtk/dialogs.c:1932 client/gui-win32/dialogs.c:461
 msgid "Select nation and name"
-msgstr "Escolha a nação e o nome"
+msgstr "Escolha uma nação e um nome"
 
 #: client/gui-gtk/dialogs.c:1970 client/gui-win32/dialogs.c:472
 msgid "Select your sex"
-msgstr "Escolha o seu sexo"
+msgstr "Sexo"
 
 #: client/gui-gtk/dialogs.c:1977 client/gui-mui/dialogs.c:1710
 #: client/gui-win32/dialogs.c:474
@@ -7709,7 +7697,7 @@ msgstr "Feminino"
 
 #: client/gui-gtk/dialogs.c:2004 client/gui-win32/dialogs.c:480
 msgid "Select your city style"
-msgstr "Escolha o estilo das suas cidades"
+msgstr "Estilo de construção"
 
 #: client/gui-gtk/dialogs.c:2026 client/gui-gtk/gamedlgs.c:306
 #: client/gui-gtk/inputdlg.c:100 client/gui-gtk/messagedlg.c:116
@@ -7906,9 +7894,9 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"O Freeciv é software gratuito e você pode distribuir cópias dele\n"
-"sob certas condições; Veja o item \"Copying\" no menu de Ajuda.\n"
-"Agora.. Torne-lhes a vida num inferno!"
+"O Freeciv é software livre. Pode distribuir cópias deste\n"
+"sob certas condições. Veja o item \"Copying\" no menu de Ajuda.\n"
+"Agora... Rebente-os do mapa!"
 
 #: client/gui-gtk/gui_main.c:1010 client/gui-xaw/gui_main.c:686
 #, fuzzy, c-format
@@ -8380,7 +8368,7 @@ msgstr ""
 #: client/gui-gtk/mapctrl.c:246 client/gui-win32/mapctrl.c:418
 #: data/Freeciv:516
 msgid "Build New City"
-msgstr "Constrói Nova Cidade"
+msgstr "Construção de Nova Cidade"
 
 #: client/gui-gtk/mapctrl.c:247 client/gui-mui/mapctrl.c:82
 #: client/gui-win32/mapctrl.c:419 client/gui-xaw/mapctrl.c:94
@@ -8431,7 +8419,7 @@ msgstr "Opções das Mensa_gens"
 
 #: client/gui-gtk/menu.c:555 client/gui-win32/menu.c:278
 msgid "_Save Settings"
-msgstr "_Gravar Opções"
+msgstr "_Grava Opções"
 
 #: client/gui-gtk/menu.c:559 client/gui-win32/menu.c:280
 msgid "Server Opt _initial"
@@ -8443,11 +8431,11 @@ msgstr "_Opções correntes do servidor"
 
 #: client/gui-gtk/menu.c:565 client/gui-win32/menu.c:283
 msgid "_Export Log"
-msgstr "Gravar _Registo"
+msgstr "_Exporta texto"
 
 #: client/gui-gtk/menu.c:567 client/gui-win32/menu.c:284
 msgid "_Clear Log"
-msgstr "_Apagar Registo"
+msgstr "Limpa _consola"
 
 #: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1777
 #: client/gui-win32/menu.c:286
@@ -10188,7 +10176,7 @@ msgid ""
 "Trade:   %2d (%+2d)"
 msgstr ""
 "Comida:  %2d (%+2d)\n"
-"Prod:    %2d (%+2d)\n"
+"Produção:%2d (%+2d)\n"
 "Comércio:%2d (%+2d)"
 
 #: client/gui-win32/citydlg.c:415
@@ -15448,11 +15436,11 @@ msgstr "?plural:Bávaros"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Boer"
+msgstr "Bóer"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "?plural:Boeres"
+msgstr "?plural:Bóeres"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -15547,18 +15535,16 @@ msgid "Gran Bruixa"
 msgstr "Grande Bruxa"
 
 #: data/nation/chilean.ruleset:3
-#, fuzzy
 msgid "Chilean"
-msgstr "Chefe"
+msgstr "Chileno"
 
 #: data/nation/chilean.ruleset:4
-#, fuzzy
 msgid "?plural:Chileans"
-msgstr "?plural:Chineses"
+msgstr "?plural:Chilenos"
 
 #: data/nation/chilean.ruleset:16
 msgid "Captain General"
-msgstr ""
+msgstr "Capitão General"
 
 #: data/nation/chilean.ruleset:17 data/nation/french.ruleset:12
 msgid "Archbishop"
