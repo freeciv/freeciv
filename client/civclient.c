@@ -204,6 +204,7 @@ int main(int argc, char *argv[])
 
   ui_init();
   my_init_network();
+  chatline_common_init();
   init_messages_where();
   init_city_report_data();
   init_player_dlg_common();

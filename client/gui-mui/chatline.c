@@ -34,7 +34,11 @@
 #include "gui_main.h"
 #include "muistuff.h"
 
-void real_append_output_window(const char *astring)
+/**************************************************************************
+  Appends the string to the chat output window.  The string should be
+  inserted on its own line, although it will have no newline.
+**************************************************************************/
+void real_append_output_window(const char *astring, int conn_id)
 {
   DoMethod(main_output_listview, MUIM_NList_Insert, astring, -2, MUIV_List_Insert_Bottom);
   set(main_output_listview,MUIA_NList_First,  MUIV_NList_First_Bottom);

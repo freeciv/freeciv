@@ -1145,6 +1145,7 @@ void vnotify_conn_ex(struct conn_list *dest, int x, int y,
   
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, vargs);
   genmsg.event = event;
+  genmsg.conn_id = -1;
 
   conn_list_iterate(*dest, pconn) {
     if (server_state >= RUN_GAME_STATE
@@ -1239,12 +1240,15 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 {
   struct packet_chat_msg genmsg;
   va_list args;
+
   va_start(args, format);
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
   va_end(args);
+
   genmsg.x = -1;
   genmsg.y = -1;
   genmsg.event = E_NOEVENT;
+  genmsg.conn_id = -1;
 
   players_iterate(other_player) {
     if (player_has_embassy(other_player, pplayer)

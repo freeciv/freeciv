@@ -860,7 +860,7 @@ void create_event(int x, int y, enum event_type event,
   my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  handle_chat_msg(message, x, y, event);
+  handle_chat_msg(message, x, y, event, aconnection.id);
 }
 
 /**************************************************************************

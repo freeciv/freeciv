@@ -13,8 +13,9 @@
 #ifndef FC__DIPLODLG_G_H
 #define FC__DIPLODLG_G_H
 
-#include "diptreaty.h"
 #include "shared.h"
+
+#include "diptreaty.h"
 
 void handle_diplomacy_init_meeting(int counterpart, int initiated_from);
 void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from);

@@ -102,7 +102,8 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_chat_msg *)packet)->message,
       ((struct packet_chat_msg *)packet)->x,
       ((struct packet_chat_msg *)packet)->y,
-      ((struct packet_chat_msg *)packet)->event);
+      ((struct packet_chat_msg *)packet)->event,
+      ((struct packet_chat_msg *)packet)->conn_id);
     return TRUE;
 
   case PACKET_CITY_REMOVE:

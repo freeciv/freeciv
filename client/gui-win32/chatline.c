@@ -85,18 +85,19 @@ static void append_output_window_real(const char *astring)
 }
 
 /**************************************************************************
-
+  Appends the string to the chat output window.  The string should be
+  inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring) 
-     /* We need to add \r to lineends */ 
+void real_append_output_window(const char *astring, int conn_id)
 {
-
   const char *str;
   char *str2;
   char buf[512];
+
   str=astring;
   while((str2=strchr(str,'\n')))
     {
+      /* HACK: We need to add \r to lineends. */
       strncpy(buf,str,str2-str);
       buf[str2-str]=0;
       strcat(buf,"\r\n");

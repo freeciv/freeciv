@@ -55,6 +55,8 @@ const char blank_addr_str[] = "---.---.---.---";
    neccesary as removing a random connection while we are iterating through
    a connection list might corrupt the list. */
 int delayed_disconnect = 0;
+
+struct connection *current_connection;
   
 /**************************************************************************
   Command access levels for client-side use; at present, they are only

@@ -4116,7 +4116,7 @@ void dlsend_packet_nuke_tile_info(struct conn_list *dest, int x, int y)
 
 #define cmp_packet_chat_msg_100 cmp_const
 
-BV_DEFINE(packet_chat_msg_100_fields, 4);
+BV_DEFINE(packet_chat_msg_100_fields, 5);
 
 static struct packet_chat_msg *receive_packet_chat_msg_100(struct connection *pc, enum packet_type type)
 {
@@ -4151,6 +4151,9 @@ static struct packet_chat_msg *receive_packet_chat_msg_100(struct connection *pc
   }
   if (BV_ISSET(fields, 3)) {
     dio_get_sint16(&din, (int *) &real_packet->event);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_get_uint8(&din, (int *) &real_packet->conn_id);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -4211,6 +4214,10 @@ static int send_packet_chat_msg_100(struct connection *pc, const struct packet_c
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
+  differ = (old->conn_id != real_packet->conn_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
   if (different == 0 && !force_send_of_unchanged) {
 
   if (real_packet != packet) {
@@ -4232,6 +4239,9 @@ static int send_packet_chat_msg_100(struct connection *pc, const struct packet_c
   }
   if (BV_ISSET(fields, 3)) {
     dio_put_sint16(&dout, real_packet->event);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->conn_id);
   }
 
 
@@ -4314,7 +4324,7 @@ void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg 
   } conn_list_iterate_end;
 }
 
-int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event)
+int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event, int conn_id)
 {
   struct packet_chat_msg packet, *real_packet = &packet;
 
@@ -4322,11 +4332,12 @@ int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int
   real_packet->x = x;
   real_packet->y = y;
   real_packet->event = event;
+  real_packet->conn_id = conn_id;
   
   return send_packet_chat_msg(pc, real_packet);
 }
 
-void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event)
+void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event, int conn_id)
 {
   struct packet_chat_msg packet, *real_packet = &packet;
 
@@ -4334,6 +4345,7 @@ void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, 
   real_packet->x = x;
   real_packet->y = y;
   real_packet->event = event;
+  real_packet->conn_id = conn_id;
   
   lsend_packet_chat_msg(dest, real_packet);
 }

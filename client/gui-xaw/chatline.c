@@ -55,25 +55,28 @@ void chatline_key_send(Widget w)
 }
 
 /**************************************************************************
- this is properly a bad way to append to a text widget. Using the 
- "useStringInPlace" resource and doubling mem alloc'ing would be better.  
- Nope - tried it and many other variations and it wasn't any better. 
- I'll replace this widget with a widget supportting hyperlinks later, so
- leth's forget the problem.
-
- There seems to be an Xaw problem with doing both wrap and scroll:
- its supposed to automatically scroll to end when we change the insertion
- point, but if a line is wrapped the scroll lags behind a line, and
- stays behind on subsequent additions, until the too-long line scrolls
- off the top.  (I tried setting the insert position to the last char,
- instead of the start of line as below, but that didn't help.)  So we
- split the line ourselves.  I'm just using a fixed length split; should
- perhaps check and use width of output window (but font size?)  -dwp
-
- Now uses window's font size and width.  Assumes fixed-width font.  --jjm
+  Appends the string to the chat output window.  The string should be
+  inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *input_string)
+void real_append_output_window(const char *astring, int conn_id)
 {
+  /* this is properly a bad way to append to a text widget. Using the 
+   * "useStringInPlace" resource and doubling mem alloc'ing would be better.  
+   * Nope - tried it and many other variations and it wasn't any better. 
+   * I'll replace this widget with a widget supportting hyperlinks later, so
+   * leth's forget the problem.
+   *
+   * There seems to be an Xaw problem with doing both wrap and scroll:
+   * its supposed to automatically scroll to end when we change the insertion
+   * point, but if a line is wrapped the scroll lags behind a line, and
+   * stays behind on subsequent additions, until the too-long line scrolls
+   * off the top.  (I tried setting the insert position to the last char,
+   * instead of the start of line as below, but that didn't help.)  So we
+   * split the line ourselves.  I'm just using a fixed length split; should
+   * perhaps check and use width of output window (but font size?)  -dwp
+   *
+   * Now uses window's font size and width.  Assumes fixed-width font.  --jjm
+   */
   static int m_width=0;
 
   Dimension windowwth;

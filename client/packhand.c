@@ -849,9 +849,11 @@ static void play_sound_for_event(enum event_type type)
 }  
   
 /**************************************************************************
-...
+  Handle a message packet.  This includes all messages - both
+  in-game messages and chats from other players.
 **************************************************************************/
-void handle_chat_msg(char *message, int x, int y, enum event_type event)
+void handle_chat_msg(char *message, int x, int y,
+		     enum event_type event, int conn_id)
 {
   int where = MW_OUTPUT;	/* where to display the message */
   
@@ -863,7 +865,7 @@ void handle_chat_msg(char *message, int x, int y, enum event_type event)
   }
 
   if (BOOL_VAL(where & MW_OUTPUT)) {
-    append_output_window(message);
+    append_output_window_full(message, conn_id);
   }
   if (BOOL_VAL(where & MW_MESSAGES)) {
     add_notify_window(message, x, y, event);

@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "astring.h"
+#include "log.h"
 #include "packets.h"
 #include "support.h"
 
@@ -26,6 +27,27 @@
 
 #include "chatline_common.h"
 #include "clinet.h"
+
+/* Stored up buffer of lines for the chatline */
+struct remaining {
+  char *text;
+  int conn_id;
+};
+#define SPECLIST_TAG remaining
+#include "speclist.h"
+#define remaining_list_iterate(rlist, pline) \
+  TYPED_LIST_ITERATE(struct remaining, rlist, pline)
+#define remaining_list_iterate_end LIST_ITERATE_END
+
+static struct remaining_list remains;
+
+/**************************************************************************
+  Initialize data structures.
+**************************************************************************/
+void chatline_common_init(void)
+{
+  remaining_list_init(&remains);
+}
 
 /**************************************************************************
   Send the message as a chat to the server.
@@ -36,7 +58,6 @@ void send_chat(const char *message)
 }
 
 static int frozen_level = 0;
-static struct astring remaining = ASTRING_INIT;
 
 /**************************************************************************
   Turn on buffering, using a counter so that calls may be nested.
@@ -46,9 +67,7 @@ void output_window_freeze()
   frozen_level++;
 
   if (frozen_level == 1) {
-    assert(remaining.str == NULL);
-    astr_minsize(&remaining, 1);
-    remaining.str[0] = '\0';
+    assert(remaining_list_size(&remains) == 0);
   }
 }
 
@@ -63,11 +82,12 @@ void output_window_thaw()
   assert(frozen_level >= 0);
 
   if (frozen_level == 0) {
-    if (remaining.n > 2) {
-      /* +1 to skip the initial '\n' */
-      append_output_window(remaining.str + 1);
-    }
-    astr_free(&remaining);
+    remaining_list_iterate(remains, pline) {
+      append_output_window_full(pline->text, pline->conn_id);
+      free(pline->text);
+      free(pline);
+    } remaining_list_iterate_end;
+    remaining_list_unlink_all(&remains);
   }
 }
 
@@ -83,24 +103,26 @@ void output_window_force_thaw()
 }
 
 /**************************************************************************
-...
+  Add a line of text to the output ("chatline") window.
 **************************************************************************/
 void append_output_window(const char *astring)
 {
+  append_output_window_full(astring, -1);
+}
+
+/**************************************************************************
+  Same as above, but here we know the connection id of the sender of the
+  text in question.
+**************************************************************************/
+void append_output_window_full(const char *astring, int conn_id)
+{
   if (frozen_level == 0) {
-    real_append_output_window(astring);
+    real_append_output_window(astring, conn_id);
   } else {
-    /* 
-     * len_src doesn't include the trailing '\0'
-     * len_dst does include the trailing '\0'
-     */
-    size_t len_src = strlen(astring), len_dst = remaining.n;
+    struct remaining *premain = fc_malloc(sizeof(*premain));
 
-    /* +1 for the "\n" */
-    astr_minsize(&remaining, len_dst + 1 + len_src);
-    remaining.str[len_dst - 1] = '\n';
-
-    /* +1 for the "\0" */
-    memcpy(&remaining.str[len_dst], astring, len_src + 1);
+    remaining_list_insert(&remains, premain);
+    premain->text = mystrdup(astring);
+    premain->conn_id = conn_id;
   }
 }

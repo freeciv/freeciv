@@ -129,11 +129,12 @@ void popup_input_line(void)
 }
 
 /**************************************************************************
-  Appends the string to the chat output window.
-  Curretn it is wraper to message subsystem.
+  Appends the string to the chat output window.  The string should be
+  inserted on its own line, although it will have no newline.
 **************************************************************************/
-void real_append_output_window(const char *astring)
+void real_append_output_window(const char *astring, int conn_id)
 {
+  /* Currently this is a wrapper to the message subsystem. */
   if (pConnDlg) {
     Uint16 *pUniStr;
     size_t n = strlen(astring);

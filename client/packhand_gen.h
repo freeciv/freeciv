@@ -34,7 +34,7 @@ struct packet_game_info;
 void handle_game_info(struct packet_game_info *packet);
 void handle_map_info(int xsize, int ysize, int topology_id);
 void handle_nuke_tile_info(int x, int y);
-void handle_chat_msg(char *message, int x, int y, enum event_type event);
+void handle_chat_msg(char *message, int x, int y, enum event_type event, int conn_id);
 void handle_city_remove(int city_id);
 struct packet_city_info;
 void handle_city_info(struct packet_city_info *packet);

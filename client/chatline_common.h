@@ -17,7 +17,10 @@
 
 void send_chat(const char *message);
 
+void chatline_common_init(void);
+
 void append_output_window(const char *astring);
+void append_output_window_full(const char *astring, int conn_id);
 
 void output_window_freeze(void);
 void output_window_thaw(void);
