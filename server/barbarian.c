@@ -372,9 +372,10 @@ static void try_summon_barbarians(void)
   }
   freelog(LOG_DEBUG, "Barbarians are willing to fight");
 
-  if (map_has_special(x, y, S_HUT)) { /* remove the hut in place of uprising */
-    map_clear_special(x,y,S_HUT);
-    send_tile_info(NULL, x, y);
+  if (map_has_special(xu, yu, S_HUT)) {
+    /* remove the hut in place of uprising */
+    map_clear_special(xu, yu, S_HUT);
+    send_tile_info(NULL, xu, yu);
   }
 
   if (!is_ocean(map_get_terrain(xu,yu))) {
@@ -408,7 +409,8 @@ static void try_summon_barbarians(void)
 			    -1, -1, ptrans);
   }
 
-  unit_list_iterate(map_get_tile(x, y)->units, punit2) {
+  /* Is this necessary?  create_unit_full already sends unit info. */
+  unit_list_iterate(map_get_tile(xu, yu)->units, punit2) {
     send_unit_info(NULL, punit2);
   } unit_list_iterate_end;
 
