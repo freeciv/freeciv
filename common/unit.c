@@ -393,7 +393,8 @@ bool is_diplomat_unit(const struct unit *punit)
   Return TRUE iff the player should consider this unit to be a threat on
   the ground.
 **************************************************************************/
-static bool is_ground_threat(struct player *pplayer, const struct unit *punit)
+static bool is_ground_threat(const struct player *pplayer,
+			     const struct unit *punit)
 {
   return (pplayers_at_war(pplayer, unit_owner(punit))
 	  && (unit_flag(punit, F_DIPLOMAT)
@@ -404,7 +405,8 @@ static bool is_ground_threat(struct player *pplayer, const struct unit *punit)
   Return TRUE iff this tile is threatened from any threatening ground unit
   within 2 tiles.
 **************************************************************************/
-bool is_square_threatened(struct player *pplayer, const struct tile *ptile)
+bool is_square_threatened(const struct player *pplayer,
+			  const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
@@ -453,7 +455,7 @@ bool kills_citizen_after_attack(const struct unit *punit)
   Return TRUE iff this unit may be disbanded to add its pop_cost to a
   city at its current location.
 **************************************************************************/
-bool can_unit_add_to_city(struct unit *punit)
+bool can_unit_add_to_city(const struct unit *punit)
 {
   return (test_unit_add_or_build_city(punit) == AB_ADD_OK);
 }
@@ -462,7 +464,7 @@ bool can_unit_add_to_city(struct unit *punit)
   Return TRUE iff this unit is capable of building a new city at its
   current location.
 **************************************************************************/
-bool can_unit_build_city(struct unit *punit)
+bool can_unit_build_city(const struct unit *punit)
 {
   return (test_unit_add_or_build_city(punit) == AB_BUILD_OK);
 }
@@ -471,7 +473,7 @@ bool can_unit_build_city(struct unit *punit)
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
 **************************************************************************/
-bool can_unit_add_or_build_city(struct unit *punit)
+bool can_unit_add_or_build_city(const struct unit *punit)
 {
   enum add_build_city_result r = test_unit_add_or_build_city(punit);
 
@@ -483,7 +485,8 @@ bool can_unit_add_or_build_city(struct unit *punit)
   its current location, and return a 'result' value telling what is
   allowed.
 **************************************************************************/
-enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
+enum add_build_city_result test_unit_add_or_build_city(const struct unit *
+						       punit)
 {
   struct city *pcity = map_get_city(punit->tile);
   bool is_build = unit_flag(punit, F_CITIES);
@@ -1307,7 +1310,7 @@ Returns true if the tile contains an allied unit and only allied units.
 containing units from B and C will return false)
 **************************************************************************/
 struct unit *is_allied_unit_tile(const struct tile *ptile,
-				 struct player *pplayer)
+				 const struct player *pplayer)
 {
   struct unit *punit = NULL;
 
@@ -1326,7 +1329,7 @@ struct unit *is_allied_unit_tile(const struct tile *ptile,
  is there an enemy unit on this tile?
 **************************************************************************/
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
-				struct player *pplayer)
+				const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (pplayers_at_war(unit_owner(punit), pplayer))
@@ -1341,7 +1344,7 @@ struct unit *is_enemy_unit_tile(const struct tile *ptile,
  is there an non-allied unit on this tile?
 **************************************************************************/
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-				     struct player *pplayer)
+				     const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (!pplayers_allied(unit_owner(punit), pplayer))
@@ -1356,7 +1359,7 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
  is there an unit we have peace or ceasefire with on this tile?
 **************************************************************************/
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-				     struct player *pplayer)
+				     const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (pplayers_non_attack(unit_owner(punit), pplayer))
@@ -1379,7 +1382,7 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
   client-specific features, like FoW and the fact that the client cannot 
   see units inside enemy cities.
 **************************************************************************/
-bool is_my_zoc(struct player *pplayer, const struct tile *ptile0)
+bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
   square_iterate(ptile0, 1, ptile) {
     if (is_ocean(ptile->terrain)) {
@@ -1426,7 +1429,7 @@ bool unit_type_really_ignores_zoc(Unit_Type_id type)
   6. The spot you're moving from or to is in your ZOC
 **************************************************************************/
 bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
-			       struct player *unit_owner,
+			       const struct player *unit_owner,
 			       const struct tile *src_tile,
 			       const struct tile *dst_tile)
 {
@@ -1549,7 +1552,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
   10) there is no non-allied unit blocking (zoc) [or igzoc is true]
 **************************************************************************/
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
-					     struct player *unit_owner,
+					     const struct player *unit_owner,
 					     enum unit_activity activity,
 					     const struct tile *pfromtile,
 					     const struct tile *ptotile,
@@ -1627,7 +1630,7 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
   to know more.  The AI code uses base_trireme_loss_pct and
   base_unsafe_terrain_loss_pct directly.
 **************************************************************************/
-int unit_loss_pct(struct player *pplayer, const struct tile *ptile,
+int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
 		  const struct unit *punit)
 {
   int loss_pct = 0;
@@ -1657,7 +1660,8 @@ int unit_loss_pct(struct player *pplayer, const struct tile *ptile,
   Triremes have a varying loss percentage based on tech and veterancy
   level.
 **************************************************************************/
-int base_trireme_loss_pct(struct player *pplayer, const struct unit *punit)
+int base_trireme_loss_pct(const struct player *pplayer,
+			  const struct unit *punit)
 {
   if (get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
     return 0;
@@ -1673,7 +1677,7 @@ int base_trireme_loss_pct(struct player *pplayer, const struct unit *punit)
 /**************************************************************************
   All units except air units have a flat 15% chance of being lost.
 **************************************************************************/
-int base_unsafe_terrain_loss_pct(struct player *pplayer,
+int base_unsafe_terrain_loss_pct(const struct player *pplayer,
 				 const struct unit *punit)
 {
   return is_air_unit(punit) ? 0 : 15;
@@ -1687,27 +1691,30 @@ A unit is *not* aggressive if one or more of following is true:
 - inside a city
 - ground unit inside a fortress within 3 squares of a friendly city
 **************************************************************************/
-bool unit_being_aggressive(struct unit *punit)
+bool unit_being_aggressive(const struct unit *punit)
 {
-  if (!is_attack_unit(punit))
+  if (!is_attack_unit(punit)) {
     return FALSE;
-  if (map_get_city(punit->tile))
+  }
+  if (map_get_city(punit->tile)) {
     return FALSE;
+  }
   if (game.borders > 0
       && game.happyborders
       && map_get_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
   }
   if (is_ground_unit(punit) &&
-      map_has_special(punit->tile, S_FORTRESS))
+      map_has_special(punit->tile, S_FORTRESS)) {
     return !is_unit_near_a_friendly_city (punit);
+  }
   
   return TRUE;
 }
 
-/*
- * Returns true if given activity is some kind of building/cleaning.
- */
+/**************************************************************************
+  Returns true if given activity is some kind of building/cleaning.
+**************************************************************************/
 bool is_build_or_clean_activity(enum unit_activity activity)
 {
   switch (activity) {

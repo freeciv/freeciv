@@ -261,7 +261,8 @@ enum tile_special_type get_unit_tile_pillage_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(const struct unit *punit);
-bool is_square_threatened(struct player *pplayer, const struct tile *ptile);
+bool is_square_threatened(const struct player *pplayer,
+			  const struct tile *ptile);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 bool is_sailing_unit(const struct unit *punit);
@@ -270,10 +271,11 @@ bool is_heli_unit(const struct unit *punit);
 bool is_ground_unit(const struct unit *punit);
 #define COULD_OCCUPY(punit) \
   ((is_ground_unit(punit) || is_heli_unit(punit)) && is_military_unit(punit))
-bool can_unit_add_to_city (struct unit *punit);
-bool can_unit_build_city (struct unit *punit);
-bool can_unit_add_or_build_city (struct unit *punit);
-enum add_build_city_result test_unit_add_or_build_city(struct unit *punit);
+bool can_unit_add_to_city (const struct unit *punit);
+bool can_unit_build_city (const struct unit *punit);
+bool can_unit_add_or_build_city (const struct unit *punit);
+enum add_build_city_result test_unit_add_or_build_city(const struct unit *
+						       punit);
 bool kills_citizen_after_attack(const struct unit *punit);
 
 const char *unit_activity_text(const struct unit *punit);
@@ -292,23 +294,25 @@ int airunit_carrier_capacity(const struct tile *ptile,
 struct player *unit_owner(const struct unit *punit);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
-				 struct player *pplayer);
+				 const struct player *pplayer);
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
-				struct player *pplayer);
+				const struct player *pplayer);
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-				     struct player *pplayer);
+				     const struct player *pplayer);
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-				     struct player *pplayer);
+				     const struct player *pplayer);
 
-int unit_loss_pct(struct player *pplayer, const struct tile *ptile,
+int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
 		  const struct unit *punit);
-int base_trireme_loss_pct(struct player *pplayer, const struct unit *punit);
-int base_unsafe_terrain_loss_pct(struct player *pplayer,
+int base_trireme_loss_pct(const struct player *pplayer,
+			  const struct unit *punit);
+int base_unsafe_terrain_loss_pct(const struct player *pplayer,
 				 const struct unit *punit);
 
-bool is_my_zoc(struct player *unit_owner, const struct tile *ptile);
-bool unit_being_aggressive(struct unit *punit);
-bool can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
+bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
+bool unit_being_aggressive(const struct unit *punit);
+bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
+			       const struct player *unit_owner,
 			       const struct tile *src_tile,
 			       const struct tile *dst_tile);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
@@ -317,7 +321,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
 bool can_unit_move_to_tile(const struct unit *punit, const struct tile *ptile,
 			   bool igzoc);
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
-					     struct player *unit_owner,
+					     const struct player *unit_owner,
 					     enum unit_activity activity,
 					     const struct tile *src_tile,
 					     const struct tile *dst_tile,

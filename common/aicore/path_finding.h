@@ -332,7 +332,7 @@ struct pf_parameter {
    * ZoC for strategic planning purposes (take into account enemy cities 
    * but not units for example).
    * If this callback is NULL, ZoC are ignored.*/
-  bool (*get_zoc) (struct player *pplayer, const struct tile *ptile);
+  bool (*get_zoc) (const struct player *pplayer, const struct tile *ptile);
 
   /* If this callback is non-NULL and returns TRUE this position is
    * dangerous. The unit will never end a turn at a dangerous
