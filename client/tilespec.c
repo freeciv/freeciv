@@ -30,12 +30,14 @@
 #include "fcintl.h"
 #include "game.h" /* for fill_xxx */
 #include "government.h"
+#include "hash.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "nation.h"
 #include "player.h"
 #include "registry.h"
+#include "sbuffer.h"
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
@@ -67,28 +69,15 @@ int num_tiles_explode_unit=0;
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
 
-/* The list of sprites (as used to be in graphics.c)
-   Plus an athing to keep track of currently allocated size.
-   (reallocs are ok, because the pointers we keep are
-   the things stored by tile_sprites, not pointers into
-   the tile_sprites array itself).
+static struct hash_table *sprite_hash = 0;
+/*
+   This hash table sprite_hash maps tilespec tags to tile Sprite pointers.
+   This is kept permanently after setup, for doing lookups on ruleset
+   information (including on reconnections etc).
 */
-static struct Sprite **tile_sprites;
-static struct athing atile_sprites;   /* .ptr is tile_sprites */
 
-/* Use an internal section_file to store the tiles index numbers
-   corresponding to each tag.  Use section_file purely to get
-   hashing functionality.  (Should really have separate hashing
-   stuff, and use that, but this works for now.)
-
-   This is kept permanently after setup, for doing lookups
-   on ruleset information (including on reconnections etc).
-
-   The entries are simply the tags from the tile spec files,
-   with integer values corresponding to index in tile_sprites.
-*/
-static struct section_file tag_sf;
-
+static struct sbuffer *sprite_key_sb;
+/* used to allocate keys for sprite_hash */
 
 #define TILESPEC_CAPSTR "+tilespec2 duplicates_ok"
 /*
@@ -105,41 +94,6 @@ static struct section_file tag_sf;
    +spec2          -  basic format, required
 */
 
-
-/***************************************************************************
-  Crop sprite for source and store in global tile_sprites.
-  Reallocates tile_sprites as required, using an athing to
-  keep track.  (Note this is not as bad as it sounds: we
-  are only reallocing the pointers to sprites, not the sprites
-  themselves.)
-  Returns index to this sprite in tile_sprites.
-***************************************************************************/
-static int crop_sprite_to_tiles(struct Sprite *source,
-				int x, int y, int dx, int dy)
-{
-  assert(source);
-  
-  if (tile_sprites==NULL) {
-    ath_init(&atile_sprites, sizeof(struct Sprite*));
-  }
-  ath_minnum(&atile_sprites, atile_sprites.n+1);
-  tile_sprites = atile_sprites.ptr;
-  tile_sprites[atile_sprites.n-1] = crop_sprite(source, x, y, dx, dy);
-  return atile_sprites.n-1;
-}
-
-/**********************************************************************
-  Reallocs tile_sprites exactly to current size;
-  Do this at the end to avoid "permanent" waste.
-***********************************************************************/
-static void final_realloc_tile_sprites(void)
-{
-  atile_sprites.ptr = fc_realloc(atile_sprites.ptr,
-				 atile_sprites.size*atile_sprites.n);
-  atile_sprites.n_alloc = atile_sprites.n;
-  tile_sprites = atile_sprites.ptr;
-}
-  
 
 /**********************************************************************
   Gets full filename for tilespec file, based on input name.
@@ -187,7 +141,7 @@ static char *tilespec_fullname(const char *tileset_name)
 /**********************************************************************
   Checks options in filename match what we require and support.
   Die if not.
-  which should be "tilespec" or "spec".
+  'which' should be "tilespec" or "spec".
 ***********************************************************************/
 static void check_tilespec_capabilities(struct section_file *file,
 					const char *which,
@@ -304,21 +258,19 @@ void tilespec_read_toplevel(const char *tileset_name)
 
 /**********************************************************************
   Load one specfile and specified xpm file; splits xpm into tiles,
-  and save indices in tag_sf.
+  and save sprites in sprite_hash.
 ***********************************************************************/
 static void tilespec_load_one(const char *spec_filename)
 {
   struct section_file the_file, *file = &the_file;
-  struct Sprite *big_sprite = NULL;
+  struct Sprite *big_sprite = NULL, *small_sprite;
   char *gfx_filename,*gfx_current_fileext;
   char **gridnames, **tags, **gfx_fileexts;
   int num_grids, num_tags;
   int i, j, k;
   int x_top_left, y_top_left, dx, dy;
   int row, column;
-  int idx, x1, y1;
-
-  freelog(LOG_DEBUG, "loading spec %s", spec_filename);
+  int x1, y1;
 
   freelog(LOG_DEBUG, "loading spec %s", spec_filename);
   if (!section_file_load(file, spec_filename)) {
@@ -379,10 +331,13 @@ static void tilespec_load_one(const char *spec_filename)
 
       x1 = x_top_left + column * dx;
       y1 = y_top_left + row * dy;
-      idx = crop_sprite_to_tiles(big_sprite, x1, y1, dx, dy);
+      small_sprite = crop_sprite(big_sprite, x1, y1, dx, dy);
 
       for(k=0; k<num_tags; k++) {
-	secfile_insert_int(&tag_sf, idx, "%s", tags[k]);
+	/* don't free old sprite, since could be multiple tags
+	   pointing to it */
+	hash_replace(sprite_hash, sbuf_strdup(sprite_key_sb, tags[k]),
+		     small_sprite);
       }
       free(tags);
     }
@@ -409,9 +364,9 @@ static char *nsew_str(int idx)
   return c;
 }
      
-/* Note very safe, but convenient: */
+/* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag) \
-    sprites.field = tile_sprites[secfile_lookup_int(&tag_sf, "%s", (tag))]
+    sprites.field = hash_lookup_data(sprite_hash, tag);
 
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
@@ -423,7 +378,7 @@ static void tilespec_lookup_sprite_tags(void)
   char dir_char[] = "nsew";
   int i, j;
   
-  assert(secfilehash_hashash(&tag_sf));
+  assert(sprite_hash);
 
   SET_SPRITE(treaty_thumb[0], "treaty.disagree_thumb_down");
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
@@ -480,9 +435,12 @@ static void tilespec_lookup_sprite_tags(void)
   }
 
   num_tiles_explode_unit = 0;
-  while (section_file_lookup(&tag_sf, "explode.unit_%d", num_tiles_explode_unit))
-    num_tiles_explode_unit++;
-
+  do {
+    my_snprintf(buffer, sizeof(buffer), "explode.unit_%d",
+		num_tiles_explode_unit++);
+  } while (hash_key_exists(sprite_hash, buffer));
+  num_tiles_explode_unit--;
+    
   if (num_tiles_explode_unit==0) {
     sprites.explode.unit = NULL;
   } else {
@@ -580,7 +538,7 @@ static void tilespec_lookup_sprite_tags(void)
 /**********************************************************************
   Load the tiles; requires tilespec_read_toplevel() called previously.
   Leads to tile_sprites being allocated and filled with pointers
-  to sprites.   Also sets up and populates tag_sf, and calls func
+  to sprites.   Also sets up and populates sprite_hash, and calls func
   to initialize 'sprites' structure.
 ***********************************************************************/
 void tilespec_load_tiles(void)
@@ -588,15 +546,12 @@ void tilespec_load_tiles(void)
   int i;
   
   assert(num_spec_files>0);
-  section_file_init(&tag_sf);
+  sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  sprite_key_sb = sbuf_new();
 
   for(i=0; i<num_spec_files; i++) {
     tilespec_load_one(spec_filenames[i]);
   }
-  final_realloc_tile_sprites();
-
-  secfilehash_build(&tag_sf, 1);
-  /* section_file_save(&tag_sf, "_debug_tilespec"); */
 
   tilespec_lookup_sprite_tags();
 }
@@ -609,29 +564,24 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 					    int required, const char *what,
 					    const char *name)
 {
+  struct Sprite *sp;
   int loglevel = required ? LOG_NORMAL : LOG_DEBUG;
-  int i;
   
-  /* (should get tag_sf before connection) */
-  if (!secfilehash_hashash(&tag_sf)) {
-    freelog(LOG_FATAL, "attempt to lookup for %s %s before tag_sf setup",
+  /* (should get sprite_hash before connection) */
+  if (!sprite_hash) {
+    freelog(LOG_FATAL, "attempt to lookup for %s %s before sprite_hash setup",
 	    what, name);
     exit(1);
   }
 
-  /* real values are always non-negative: */
-  i = secfile_lookup_int_default(&tag_sf, -1, "%s", tag);
-  if (i != -1) {
-    assert(i>=0 && i<atile_sprites.n);
-    return tile_sprites[i];
-  }
+  sp = hash_lookup_data(sprite_hash, tag);
+  if (sp) return sp;
   
-  i = secfile_lookup_int_default(&tag_sf, -1, "%s", alt);
-  if (i != -1) {
-    assert(i>=0 && i<atile_sprites.n);
+  sp = hash_lookup_data(sprite_hash, alt);
+  if (sp) {
     freelog(loglevel, "Using alternate graphic %s (instead of %s) for %s %s",
 	    alt, tag, what, name);
-    return tile_sprites[i];
+    return sp;
   }
   
   freelog(loglevel, "Don't have graphics tags %s or %s for %s %s",
@@ -1175,15 +1125,17 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
 ***********************************************************************/
 static void tilespec_setup_style_tile(int style, char *graphics)
 {
+  struct Sprite *sp;
+  char buffer[128];
   int j;
-  int sprite_idx;
 
   city_styles[style].tiles_num = 0;
 
   for(j=0; j<32 && city_styles[style].tiles_num < MAX_CITY_TILES; j++) {
-    sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_%d", graphics, j);
-    if( sprite_idx != -1 ) {
-      sprites.city.tile[style][city_styles[style].tiles_num] = tile_sprites[sprite_idx];
+    my_snprintf(buffer, sizeof(buffer), "%s_%d", graphics, j);
+    sp = hash_lookup_data(sprite_hash, buffer);
+    if (sp) {
+      sprites.city.tile[style][city_styles[style].tiles_num] = sp;
       city_styles[style].tresh[city_styles[style].tiles_num] = j;
       city_styles[style].tiles_num++;
       freelog(LOG_DEBUG, "Found tile %s_%d", graphics, j);
@@ -1194,18 +1146,22 @@ static void tilespec_setup_style_tile(int style, char *graphics)
     return;
 
   /* the wall tile */
-  sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_wall", graphics);
-  if( sprite_idx != -1 )
-    sprites.city.tile[style][city_styles[style].tiles_num] = tile_sprites[sprite_idx];
-  else
+  my_snprintf(buffer, sizeof(buffer), "%s_wall", graphics);
+  sp = hash_lookup_data(sprite_hash, buffer);
+  if (sp) {
+    sprites.city.tile[style][city_styles[style].tiles_num] = sp;
+  } else {
     freelog(LOG_NORMAL, "Warning: no wall tile for graphic %s", graphics);
+  }
 
   /* occupied tile */
-  sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_occupied", graphics);
-  if( sprite_idx != -1 )
-    sprites.city.tile[style][city_styles[style].tiles_num+1] = tile_sprites[sprite_idx];
-  else
+  my_snprintf(buffer, sizeof(buffer), "%s_occupied", graphics);
+  sp = hash_lookup_data(sprite_hash, buffer);
+  if (sp) {
+    sprites.city.tile[style][city_styles[style].tiles_num+1] = sp;
+  } else {
     freelog(LOG_NORMAL, "Warning: no occupied tile for graphic %s", graphics);
+  }
 }
 
 /**********************************************************************
@@ -1231,11 +1187,11 @@ void tilespec_setup_city_tiles(int style)
             city_styles[style].graphic_alt);
 
     sprites.city.tile[style][0] =
-      tile_sprites[secfile_lookup_int( &tag_sf, "cd.city")];
+      hash_lookup_data(sprite_hash, "cd.city");
     sprites.city.tile[style][1] =
-      tile_sprites[secfile_lookup_int( &tag_sf, "cd.city_wall")];
+      hash_lookup_data(sprite_hash, "cd.city_wall");
     sprites.city.tile[style][2] =
-      tile_sprites[secfile_lookup_int( &tag_sf, "cd.occupied")];
+      hash_lookup_data(sprite_hash, "cd.occupied");
     city_styles[style].tiles_num = 1;
     city_styles[style].tresh[0] = 0;
   }
