@@ -956,33 +956,13 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Kingdom", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
     menus_set_sensitive("<main>/_Orders", FALSE);
-
-    menus_set_sensitive("<main>/_Game/_Local Options", FALSE);
-    menus_set_sensitive("<main>/_Game/Messa_ge Options", FALSE);
-    menus_set_sensitive("<main>/_Game/_Save Settings", FALSE);
-    menus_set_sensitive("<main>/_Game/Server Opt _initial", TRUE);
-    menus_set_sensitive("<main>/_Game/Server Opt _ongoing", TRUE);
-    menus_set_sensitive("<main>/_Game/_Export Log", TRUE);
-    menus_set_sensitive("<main>/_Game/_Clear Log", TRUE);
-    menus_set_sensitive("<main>/_Game/_Disconnect", TRUE);
-
-  }
-  else {
+  } else {
     struct unit *punit;
     menus_set_sensitive("<main>/_Reports", TRUE);
     menus_set_sensitive("<main>/_Kingdom", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
     menus_set_sensitive("<main>/_Orders", TRUE);
   
-    menus_set_sensitive("<main>/_Game/_Local Options", TRUE);
-    menus_set_sensitive("<main>/_Game/Messa_ge Options", TRUE);
-    menus_set_sensitive("<main>/_Game/_Save Settings", TRUE);
-    menus_set_sensitive("<main>/_Game/Server Opt _initial", TRUE);
-    menus_set_sensitive("<main>/_Game/Server Opt _ongoing", TRUE);
-    menus_set_sensitive("<main>/_Game/_Export Log", TRUE);
-    menus_set_sensitive("<main>/_Game/_Clear Log", TRUE);
-    menus_set_sensitive("<main>/_Game/_Disconnect", TRUE);
-
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
