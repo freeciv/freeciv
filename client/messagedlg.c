@@ -49,7 +49,7 @@ static char *message_text[E_LAST]={
   "City Celebrating         ",
   "City Normal              ",
   "City Growth              ",
-  "City Needs Aqueducts     ",
+  "City Needs Aqueduct      ",
   "Famine in City           ",
   "City Captured/Destroyed  ",
   "Building Unavailable Item",
@@ -60,16 +60,20 @@ static char *message_text[E_LAST]={
   "Forced Improvement Sale  ",
   "Production Upgraded      ",
   "Unit Built               ",
-  "Unit Destroyed           ",
-  "Unit Wins Battle         ",
+  "Unit Defender Destroyed  ",
+  "Unit Defender Survived   ",
   "Collapse to Anarchy      ",
-  "Diplomat Actions         ",
+  "Diplomat Actions - Enemy ",
   "Tech from Great Library  ",
   "Player Destroyed         ",		/* E_DESTROYED */
   "Improvement Bought       ",		/* E_IMP_BUY */
   "Improvement Sold         ",		/* E_IMP_SOLD */
   "Unit Bought              ",		/* E_UNIT_BUY */
   "Wonder Stopped           ",		/* E_WONDER_STOPPED */
+  "City Needs Aq Being Built",	        /* E_CITY_AQ_BUILDING */
+  "Diplomat Actions - Own   ",          /* E_MY_DIPLOMAT */
+  "Unit Attack Failed       ",          /* E_UNIT_LOST_ATT */
+  "Unit Attack Succeeded    ",          /* E_UNIT_WIN_ATT */
 };
 
 
@@ -78,10 +82,15 @@ static char *message_text[E_LAST]={
 *****************************************************************/
 void init_messages_where(void)
 {
+  int out_only[] = {E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
+		    E_UNIT_LOST_ATT, E_UNIT_WIN_ATT};
   int i;
 
   for(i=0; i<E_LAST; i++) {
     messages_where[i] = MW_OUTPUT | MW_MESSAGES;
+  }
+  for(i=0; i<sizeof(out_only)/sizeof(int); i++) {
+    messages_where[out_only[i]] = MW_OUTPUT;
   }
 }
 

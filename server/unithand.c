@@ -249,7 +249,7 @@ void handle_diplomat_action(struct player *pplayer,
 	
 	pplayer->embassy|=(1<<pcity->owner);
 	send_player_info(pplayer, pplayer);
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 			 "Game: You have established an embassy in %s",
 			 pcity->name);
 	
@@ -445,7 +445,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     packet.x=pdefender->x;
     packet.y=pdefender->y;
     if ((pcity=sdi_defense_close(punit->owner, pdefender->x, pdefender->y))) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
 		       "Game: Your Nuclear missile was shot down by SDI defences, what a waste.");
       notify_player_ex(&game.players[pcity->owner], 
 		       pdefender->x, pdefender->y, E_UNIT_WIN, 
@@ -516,26 +516,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		  game.players[plooser->owner].name,
 		  unit_name(punit->type));
     if (incity) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
 		     "Game: Your attacking %s failed against %s's %s at %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), incity->name);
     else if (nearcity2 && is_tiles_adjacent(pdefender->x, pdefender->y,
       nearcity2->x, nearcity2->y)) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
 		     "Game: Your attacking %s failed against %s's %s outside %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), nearcity2->name);
     else if (nearcity2) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
 		     "Game: Your attacking %s failed against %s's %s near %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), nearcity2->name);
     else notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
 		     "Game: Your attacking %s failed against %s's %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
@@ -544,26 +544,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   }
   else {
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN, 
+		     punit->x, punit->y, E_UNIT_WIN_ATT, 
 		     "Game: Your attacking %s was successful against %s's %s at %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), incity->name);
     else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y,
        nearcity1->x, nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN, 
+		     punit->x, punit->y, E_UNIT_WIN_ATT, 
 		     "Game: Your attacking %s was successful against %s's %s outside %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), nearcity1->name);
     else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN, 
+		     punit->x, punit->y, E_UNIT_WIN_ATT, 
 		     "Game: Your attacking %s was successful against %s's %s near %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), nearcity1->name);
     else notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN, 
+		     punit->x, punit->y, E_UNIT_WIN_ATT, 
 		     "Game: Your attacking %s was successful against %s's %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,

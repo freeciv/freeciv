@@ -747,8 +747,15 @@ void city_increase_size(struct city *pcity)
   
   if (!city_got_building(pcity, B_AQUEDUCT)
       && pcity->size>=game.aqueduct_size) {/* need aqueduct */
-    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-	  "Game: %s needs Aqueducts to grow any further", pcity->name);
+    if (!pcity->is_building_unit && pcity->currently_building == B_AQUEDUCT) {
+      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
+		       "Game: %s needs Aqueduct (being built) "
+		       "to grow any further", pcity->name);
+    } else {
+      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
+		       "Game: %s needs Aqueduct to grow any further",
+		       pcity->name);
+    }
     /* Granary can only hold so much */
     pcity->food_stock = (pcity->size * game.foodbox *
 			 (100 - game.aqueductloss/(1+has_granary))) / 100;
@@ -757,8 +764,15 @@ void city_increase_size(struct city *pcity)
 
   if (!city_got_building(pcity, B_SEWER)
       && pcity->size>=game.sewer_size) {/* need sewer */
-    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-      "Game: %s needs Sewer system to grow any further", pcity->name);
+    if (!pcity->is_building_unit && pcity->currently_building == B_SEWER) {
+      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQ_BUILDING,
+		       "Game: %s needs Sewer system (being built) "
+		       "to grow any further", pcity->name);
+    } else {
+      notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
+		       "Game: %s needs Sewer system to grow any further",
+		       pcity->name);
+    }
     /* Granary can only hold so much */
     pcity->food_stock = (pcity->size * game.foodbox *
 			 (100 - game.aqueductloss/(1+has_granary))) / 100; 
