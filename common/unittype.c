@@ -305,14 +305,16 @@ const char *get_units_with_flag_string(int flag)
 }
 
 /**************************************************************************
-...
+  Return whether this player can upgrade this unit type (to any other
+  unit type).
 **************************************************************************/
-int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
+int can_upgrade_unittype(const struct player *pplayer, Unit_Type_id id)
 {
   Unit_Type_id best_upgrade = -1;
 
-  if (!can_player_build_unit_direct(pplayer, id))
+  if (!can_player_build_unit_direct(pplayer, id)) {
     return -1;
+  }
   while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(pplayer, id)) {
       best_upgrade = id;
@@ -328,8 +330,8 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
   other attributes (like nation or government type) of the player the unit
   belongs to.
 **************************************************************************/
-int unit_upgrade_price(const struct player *const pplayer,
-		       const Unit_Type_id from, const Unit_Type_id to)
+int unit_upgrade_price(const struct player *pplayer,
+		       Unit_Type_id from, Unit_Type_id to)
 {
   return unit_buy_gold_cost(to, unit_disband_shields(from));
 }
@@ -444,15 +446,16 @@ Whether player can build given unit somewhere,
 ignoring whether unit is obsolete and assuming the
 player has a coastal city.
 **************************************************************************/
-bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
+bool can_player_build_unit_direct(const struct player *p, Unit_Type_id id)
 {
   Impr_Type_id impr_req;
   Tech_Type_id tech_req;
 
   CHECK_UNIT_TYPE(id);
   if (unit_type_flag(id, F_NUCLEAR)
-      && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0)
+      && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0) {
     return FALSE;
+  }
   if (unit_type_flag(id, F_NOBUILD)) {
     return FALSE;
   }
@@ -464,8 +467,9 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
       && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS)) {
     return FALSE;
   }
-  if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
+  if (get_invention(p,unit_types[id].tech_requirement) != TECH_KNOWN) {
     return FALSE;
+  }
   if (unit_type_flag(id, F_UNIQUE)) {
     /* FIXME: This could be slow if we have lots of units. We could
      * consider keeping an array of unittypes updated with this info 
@@ -493,10 +497,11 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 Whether player can build given unit somewhere;
 returns 0 if unit is obsolete.
 **************************************************************************/
-bool can_player_build_unit(struct player *p, Unit_Type_id id)
-{  
-  if (!can_player_build_unit_direct(p, id))
+bool can_player_build_unit(const struct player *p, Unit_Type_id id)
+{
+  if (!can_player_build_unit_direct(p, id)) {
     return FALSE;
+  }
   while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
@@ -510,7 +515,8 @@ Whether player can _eventually_ build given unit somewhere -- ie,
 returns 1 if unit is available with current tech OR will be available
 with future tech.  returns 0 if unit is obsolete.
 **************************************************************************/
-bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
+bool can_player_eventually_build_unit(const struct player *p,
+				      Unit_Type_id id)
 {
   CHECK_UNIT_TYPE(id);
   if (unit_type_flag(id, F_NOBUILD)) {
@@ -635,7 +641,8 @@ Returns U_LAST if none match. "Best" means highest unit type id.
 
 TODO: Cache the result per player?
 **************************************************************************/
-Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role)
+Unit_Type_id best_role_unit_for_player(const struct player *pplayer,
+				       int role)
 {
   int j;
 
@@ -656,7 +663,8 @@ Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role)
   Return first unit the player can build, with given role/flag.
   Returns U_LAST if none match.  Used eg when placing starting units.
 **************************************************************************/
-Unit_Type_id first_role_unit_for_player(struct player *pplayer, int role)
+Unit_Type_id first_role_unit_for_player(const struct player *pplayer,
+					int role)
 {
   int j;
 
