@@ -1423,7 +1423,7 @@ static void generate_ai_players(void)
       pplayer->is_male = (myrand(2) == 1);
     }
     announce_ai_player(pplayer);
-    set_ai_level_direct(pplayer, pplayer->ai.skill_level);
+    set_ai_level_directer(pplayer, pplayer->ai.skill_level);
   }
   (void) send_server_info_to_metaserver(META_INFO);
 }
