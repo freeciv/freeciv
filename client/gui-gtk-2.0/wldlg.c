@@ -763,7 +763,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   gtk_table_attach(GTK_TABLE(table), label, 3, 4, 0, 1,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
-  check = gtk_check_button_new_with_mnemonic(_("Ad_vanced"));
+  check = gtk_check_button_new_with_mnemonic(_("Show _Future Targets"));
   gtk_table_attach(GTK_TABLE(table), check, 4, 5, 0, 1,
 		   0, GTK_FILL, 0, 0);
   g_signal_connect(check, "toggled", G_CALLBACK(advanced_callback), ptr);
@@ -816,12 +816,14 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
-  bbox = gtk_hbox_new(FALSE, 0);
+  bbox = gtk_hbutton_box_new();
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_container_set_border_width(GTK_CONTAINER(bbox), 6);
   gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
   
   menubar = gtk_menu_bar_new();
-  gtk_box_pack_start(GTK_BOX(bbox), menubar, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(bbox), menubar);
+  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), menubar, TRUE);
 
   menu = gtk_menu_new();
   
@@ -833,11 +835,10 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), ptr);
 
   button = gtk_button_new_from_stock(GTK_STOCK_HELP);
-  gtk_box_pack_end(GTK_BOX(bbox), button, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(help_callback), src_view);
 
-  
   ptr->src_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view));
   ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
   gtk_tree_selection_set_mode(ptr->dst_selection, GTK_SELECTION_MULTIPLE);
