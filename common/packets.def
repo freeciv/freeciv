@@ -352,7 +352,6 @@ PACKET_GAME_INFO=15; is-info,sc
   UINT8 angrycitizen;
   UINT8 techpenalty;
   UINT8 foodbox;
-  UINT8 civstyle;
   UINT8 diplomacy;
 
   BOOL spacerace;

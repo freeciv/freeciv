@@ -8,5 +8,4 @@ set startunits cc
 rulesetdir civ2
 #
 # Minor civ2 rules:
-set civstyle 2
 set borders 0

@@ -221,7 +221,6 @@ void game_init(void)
   game.killcitizen = GAME_DEFAULT_KILLCITIZEN;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
   game.techpenalty = GAME_DEFAULT_TECHPENALTY;
-  game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
   game.spacerace   = GAME_DEFAULT_SPACERACE;
   game.turnblock   = GAME_DEFAULT_TURNBLOCK;

@@ -3048,6 +3048,7 @@ void game_load(struct section_file *file)
   char** technology_order = NULL;
   int technology_order_size = 0;
   const char* name;
+  int civstyle = 0;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)
@@ -3148,7 +3149,7 @@ void game_load(struct section_file *file)
       (void) section_file_lookup(file, "game.farmfood");
     }
     if (game.version >= 10300) {
-      game.civstyle = secfile_lookup_int_default(file, 0, "game.civstyle");
+      civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
       game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
     }
 
@@ -3240,11 +3241,10 @@ void game_load(struct section_file *file)
 	secfile_lookup_int_default(file, game.allowed_city_names,
 				   "game.allowed_city_names"); 
 
-    if(game.civstyle == 1) {
+    if(civstyle == 1) {
       string = "civ1";
     } else {
       string = "default";
-      game.civstyle = GAME_DEFAULT_CIVSTYLE;
     }
 
     if (!has_capability("rulesetdir", savefile_options)) {
@@ -3675,7 +3675,9 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.foodbox, "game.foodbox");
   secfile_insert_int(file, game.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.razechance, "game.razechance");
-  secfile_insert_int(file, game.civstyle, "game.civstyle");
+
+  /* Write civstyle for compatibility with old servers */
+  secfile_insert_int(file, 2, "game.civstyle");
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
   secfile_insert_str(file, game.save_name, "game.save_name");
   secfile_insert_int(file, game.aifill, "game.aifill");

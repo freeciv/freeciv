@@ -624,15 +624,6 @@ struct settings_s settings[] = {
 	     "percentage chance to be destroyed."), NULL, 
 	  GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE)
 
-  GEN_INT("civstyle", game.civstyle,
-	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Style of Civ rules"),
-	  N_("Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-	     "Currently this option affects the following rules:\n"
-	     "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-	     "See also README.rulesets."), NULL,
-	  GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE)
-
   GEN_INT("occupychance", game.occupychance,
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Chance of moving into tile after attack"),

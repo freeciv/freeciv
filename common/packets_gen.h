@@ -130,7 +130,6 @@ struct packet_game_info {
   int angrycitizen;
   int techpenalty;
   int foodbox;
-  int civstyle;
   int diplomacy;
   bool spacerace;
   int global_advances[A_LAST];

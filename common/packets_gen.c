@@ -3395,7 +3395,7 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
 
 #define cmp_packet_game_info_100 cmp_const
 
-BV_DEFINE(packet_game_info_100_fields, 30);
+BV_DEFINE(packet_game_info_100_fields, 29);
 
 static struct packet_game_info *receive_packet_game_info_100(struct connection *pc, enum packet_type type)
 {
@@ -3624,19 +3624,11 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->civstyle = readin;
-    }
-  }
-  if (BV_ISSET(fields, 26)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
       real_packet->diplomacy = readin;
     }
   }
-  real_packet->spacerace = BV_ISSET(fields, 27);
-  if (BV_ISSET(fields, 28)) {
+  real_packet->spacerace = BV_ISSET(fields, 26);
+  if (BV_ISSET(fields, 27)) {
     
     for (;;) {
       int i;
@@ -3657,7 +3649,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 28)) {
     
     for (;;) {
       int i;
@@ -3812,17 +3804,13 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 24);}
 
-  differ = (old->civstyle != real_packet->civstyle);
+  differ = (old->diplomacy != real_packet->diplomacy);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 25);}
 
-  differ = (old->diplomacy != real_packet->diplomacy);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
-
   differ = (old->spacerace != real_packet->spacerace);
   if(differ) {different++;}
-  if(packet->spacerace) {BV_SET(fields, 27);}
+  if(packet->spacerace) {BV_SET(fields, 26);}
 
 
     {
@@ -3838,7 +3826,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 27);}
 
 
     {
@@ -3854,7 +3842,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 28);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -3938,13 +3926,10 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->foodbox);
   }
   if (BV_ISSET(fields, 25)) {
-    dio_put_uint8(&dout, real_packet->civstyle);
-  }
-  if (BV_ISSET(fields, 26)) {
     dio_put_uint8(&dout, real_packet->diplomacy);
   }
-  /* field 27 is folded into the header */
-  if (BV_ISSET(fields, 28)) {
+  /* field 26 is folded into the header */
+  if (BV_ISSET(fields, 27)) {
   
     {
       int i;
@@ -3960,7 +3945,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       dio_put_uint8(&dout, 255);
     } 
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 28)) {
   
     {
       int i;

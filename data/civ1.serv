@@ -8,7 +8,6 @@ set startunits c
 rulesetdir civ1
 #
 # Minor civ1 rules:
-set civstyle 1
 set borders 0
 #
 # Optional:

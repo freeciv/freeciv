@@ -59,7 +59,6 @@ struct civ_game {
   bool is_new_game;		/* 1 for games never started */
   int version;
   char id[MAX_ID_LEN];		/* server only */
-  int civstyle;
   int gold;
   char start_units[MAX_LEN_STARTUNIT];
   int dispersion;

@@ -326,7 +326,6 @@ void send_game_info(struct conn_list *dest)
   ginfo.diplomacy = game.diplomacy;
   ginfo.techpenalty = game.techpenalty;
   ginfo.foodbox = game.foodbox;
-  ginfo.civstyle = game.civstyle;
   ginfo.spacerace = game.spacerace;
   ginfo.unhappysize = game.unhappysize;
   ginfo.angrycitizen = game.angrycitizen;
