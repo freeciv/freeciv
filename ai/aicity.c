@@ -57,15 +57,15 @@
  * (city_here) that exist within a given city list. */
 #define city_range_iterate(city_here, list, range, city)            \
 {                                                                   \
-  Continent_id continent = map_get_continent(pcity->tile);	    \
+  Continent_id continent = map_get_continent(city_here->tile);	    \
   city_list_iterate(list, city) {                                   \
     if ((range == EFR_CITY && city == city_here)                    \
-        || (range == EFR_LOCAL && acity == city_here)               \
+        || (range == EFR_LOCAL && city == city_here)                \
         || (range == EFR_CONTINENT                                  \
             && map_get_continent(city->tile) == continent)	    \
         || (range == EFR_PLAYER)) {
 #define city_range_iterate_end \
-  } } } city_list_iterate_end;
+  } } city_list_iterate_end; }
 
 #define CITY_EMERGENCY(pcity)                        \
  (pcity->shield_surplus < 0 || city_unhappy(pcity)   \
