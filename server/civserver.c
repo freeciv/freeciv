@@ -288,6 +288,11 @@ int main(int argc, char *argv[])
   init_our_capability();
   game_init();
 
+  /* load a script file */
+
+  if (script_filename)
+    read_init_script(script_filename);
+
   /* load a saved game */
   
   if(load_filename) {
@@ -313,7 +318,7 @@ int main(int argc, char *argv[])
 	    read_timer_seconds_free(loadtimer),
 	    read_timer_seconds_free(uloadtimer));
   }
-  
+
   /* init network */  
   init_connections(); 
   server_open_socket();
@@ -328,9 +333,6 @@ int main(int argc, char *argv[])
   /* accept new players, wait for serverop to start..*/
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   server_state=PRE_GAME_STATE;
-
-  if (script_filename)
-    read_init_script(script_filename);
 
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
