@@ -34,7 +34,6 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
 #define THRESHOLD 12
 
 
-int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
 
 struct move_cost_map {

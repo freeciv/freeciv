@@ -1187,3 +1187,18 @@ int is_real_tile(int x, int y)
 {
   return y >= 0 && y < map.ysize;
 }
+
+/**************************************************************************
+Normalizes the map position. Returns TRUE if it is valid, false otherwise.
+**************************************************************************/
+int normalize_map_pos(int *x, int *y) {
+  if (*y < 0 || *y >= map.ysize)
+    return FALSE;
+
+  if (*x < 0)
+    *x += map.xsize;
+  else if (*x >= map.xsize)
+    *x -= map.xsize;
+
+  return TRUE;
+}

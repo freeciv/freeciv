@@ -24,7 +24,7 @@ enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_PILLAGE };
 
 void ai_manage_units(struct player *pplayer); 
-
+int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 

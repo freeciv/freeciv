@@ -21,6 +21,7 @@ int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc)
 struct city *is_enemy_city_tile(struct tile *ptile, int playerid);
 struct city *is_allied_city_tile(struct tile *ptile, int playerid);
 struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
+struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
 struct unit *is_allied_unit_tile(struct tile *ptile, int playerid);
 struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
 struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);

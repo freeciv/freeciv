@@ -52,6 +52,108 @@ extern struct move_cost_map warmap;
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader);
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
 
+/**************************************************************************
+  Similar to is_my_zoc(), but with some changes:
+  - destination (x0,y0) need not be adjacent?
+  - don't care about some directions?
+  
+  Note this function only makes sense for ground units.
+**************************************************************************/
+static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
+{
+  /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
+  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+  int ax, ay, k;
+  int owner=myunit->owner;
+
+  assert(is_ground_unit(myunit));
+  
+  if (same_pos(x0, y0, myunit->x, myunit->y))
+    return 0; /* can't be my zoc */
+  if (is_tiles_adjacent(x0, y0, myunit->x, myunit->y)
+      && !is_non_allied_unit_tile(map_get_tile(x0, y0), owner))
+    return 0;
+
+  for (k = 0; k < 8; k++) {
+    ax = map_adjust_x(myunit->x + ii[k]);
+    ay = map_adjust_y(myunit->y + jj[k]);
+    
+    if (map_get_terrain(ax,ay)!=T_OCEAN
+	&& is_non_allied_unit_tile(map_get_tile(ax,ay),owner))
+      return 0;
+  }
+  
+  return 1;
+  /* return was -1 as a flag value; I've moved -1 value into
+   * could_unit_move_to_tile(), since that's where it becomes
+   * distinct/relevant --dwp
+   */
+}
+
+/**************************************************************************
+  this WAS can_unit_move_to_tile with the notifys removed -- Syela 
+  but is now a little more complicated to allow non-adjacent tiles
+  returns:
+    0 if can't move
+    1 if zoc_ok
+   -1 if zoc could be ok?
+**************************************************************************/
+int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
+{
+  struct tile *ptile,*ptile2;
+  struct city *pcity;
+
+  if(punit->activity!=ACTIVITY_IDLE &&
+     punit->activity!=ACTIVITY_GOTO && !punit->connecting)
+    return 0;
+
+  if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
+    return 0;
+  
+  if(!is_tiles_adjacent(x0, y0, x, y))
+    return 0; 
+
+  if(is_non_allied_unit_tile(map_get_tile(x,y),punit->owner))
+    return 0;
+
+  ptile=map_get_tile(x, y);
+  ptile2=map_get_tile(x0, y0);
+  if(is_ground_unit(punit)) {
+    /* Check condition 4 */
+    if(ptile->terrain==T_OCEAN &&
+       ground_unit_transporter_capacity(x, y, punit->owner) <= 0)
+	return 0;
+
+    /* Moving from ocean */
+    if(ptile2->terrain==T_OCEAN) {
+      /* Can't attack a city from ocean unless marines */
+      if(!unit_flag(punit->type, F_MARINES)
+	 && is_enemy_city_tile(map_get_tile(x, y), punit->owner)) {
+	return 0;
+      }
+    }
+  } else if(is_sailing_unit(punit)) {
+    if(ptile->terrain!=T_OCEAN && ptile->terrain!=T_UNKNOWN)
+      if(!is_allied_city_tile(map_get_tile(x, y), punit->owner))
+	return 0;
+  } 
+
+  pcity = map_get_city(x, y);
+  if (pcity && !is_allied_city_tile(map_get_tile(x, y), punit->owner)) {
+    if (is_air_unit(punit) || !is_military_unit(punit)) {
+      return 0;  
+    }
+  }
+
+  if (zoc_ok_move_gen(punit, x0, y0, x, y))
+    return 1;
+  else if (could_be_my_zoc(punit, x0, y0))
+    return -1;	/* flag value  */
+  else
+    return 0;
+}
+
 /********************************************************************** 
   This is a much simplified form of assess_defense (see advmilitary.c),
   but which doesn't use pcity->ai.wallvalue and just returns a boolean
