@@ -165,7 +165,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  struct city *pnewcity = NULL;
 
 	  if (!pcity) {
-	    freelog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.");
+	    freelog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.",
+		    pclause->value);
 	    break;
 	  }
 	  

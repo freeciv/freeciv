@@ -1182,7 +1182,8 @@ static void makeisland(int islemass, int starters)
       balance = 0;
     }
 
-    freelog(LOG_DEBUG,"ini=%d,plc=%d,bal=%d,tot=%d",islemass,i,balance,checkmass);
+    freelog(LOG_DEBUG, "ini=%d, plc=%d, bal=%ld, tot=%ld",
+	    islemass, i, balance, checkmass);
 
     i *= tilefactor;
     riverbuck += map.riverlength / 10 * i;

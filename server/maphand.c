@@ -434,8 +434,8 @@ void map_tiles_load(struct section_file *file)
     for(x=0; x<map.xsize; x++) {
       char *pch;
       if(!(pch=strchr(terrain_chars, terline[x]))) {
-	freelog(LOG_FATAL, "unknown terrain type in map at position (%d,%d)",
-	    x, y, terline[x]);
+ 	freelog(LOG_FATAL, "unknown terrain type (map.t) in map "
+		"at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
 	exit(1);
       }
       map_get_tile(x, y)->terrain=pch-terrain_chars;
@@ -464,11 +464,11 @@ void map_load(struct section_file *file)
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
 
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
+ 	    "at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
       else
@@ -483,11 +483,11 @@ void map_load(struct section_file *file)
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
 
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown special flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
+		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
     }
@@ -498,11 +498,11 @@ void map_load(struct section_file *file)
     char *terline=secfile_lookup_str(file, "map.a%03d", y);
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown known flag (map.a) in map "
+		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
       else
@@ -515,11 +515,11 @@ void map_load(struct section_file *file)
     char *terline=secfile_lookup_str(file, "map.b%03d", y);
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown known flag (map.b) in map "
+		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
     }
@@ -530,11 +530,11 @@ void map_load(struct section_file *file)
     char *terline=secfile_lookup_str(file, "map.c%03d", y);
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown known flag (map.c) in map "
+		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
     }
@@ -546,11 +546,11 @@ void map_load(struct section_file *file)
     for(x=0; x<map.xsize; x++) {
       char ch=terline[x];
 
-      if(isxdigit(ch))
+      if(isxdigit(ch)) {
 	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-      else if(ch!=' ') {
-	freelog(LOG_FATAL, "unknown known flag(lower) in map at position(%d,%d)",
-	    x, y, ch);
+      } else if(ch!=' ') {
+ 	freelog(LOG_FATAL, "unknown known flag (map.d) in map "
+		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
       }
     }
