@@ -879,9 +879,6 @@ static void player_load(struct player *plr, int plrno,
     improvement_status_init(pcity->improvements,
 			    ARRAY_SIZE(pcity->improvements));
 
-    /* Initialise city's vector of improvement effects. */
-    ceff_vector_init(&pcity->effects);
-
     impr_type_iterate(x) {
       if (*p != '\0' && *p++=='1') {
         city_add_improvement(pcity,x);
@@ -2052,8 +2049,6 @@ void game_load(struct section_file *file)
     for(i=0; i<game.nplayers; i++) {
       player_load(&game.players[i], i, file); 
     }
-
-    update_island_impr_effect(-1, map.num_continents);
 
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */

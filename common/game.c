@@ -621,8 +621,6 @@ void game_remove_city(struct city *pcity)
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
 
-  ceff_vector_free(&pcity->effects);
-
   city_map_checked_iterate(pcity->x, pcity->y, x, y, mx, my) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
@@ -697,9 +695,6 @@ void game_init(void)
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.nbarbarians = 0;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
-
-  geff_vector_init(&game.effects);
-  ceff_vector_init(&game.destroyed_effects);
 
   game.heating     = 0;
   game.cooling     = 0;
@@ -776,8 +771,6 @@ static void game_remove_all_players(void)
 ***************************************************************/
 void game_free(void)
 {
-  geff_vector_free(&game.effects);
-  ceff_vector_free(&game.destroyed_effects);
   game_remove_all_players();
   map_free();
   idex_free();
@@ -886,8 +879,10 @@ void game_remove_player(struct player *pplayer)
     pplayer->attribute_block.data = NULL;
   }
 
-  geff_vector_free(&pplayer->effects);
-  player_free_island_imprs(pplayer);
+  if (pplayer->island_improv) {
+    free(pplayer->island_improv);
+    pplayer->island_improv = NULL;
+  }
 
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit);
@@ -1017,39 +1012,6 @@ void translate_data_names(void)
 
 #undef name_strlcpy
 
-}
-
-/***************************************************************
-  Redimensions the lists of island-range improvements and
-  effects (from oldmax to maxcont) for all players
-  N.B. On initialisation, oldmax = -1
-***************************************************************/
-void update_island_impr_effect(int oldmax, int maxcont)
-{
-  int i;
-
-  players_iterate(plr) {
-    /* First do improvements with island-wide equiv_range. */
-    plr->island_improv=(Impr_Status *)fc_realloc(plr->island_improv,
-      	      	      	  (maxcont+1)*game.num_impr_types);
-    for (i=oldmax+1;i<=maxcont;i++) {
-      improvement_status_init(&plr->island_improv[i * game.num_impr_types],
-			      game.num_impr_types);
-    }
-
-    /* Next, do the island-wide effects. */
-    if (plr->island_effects) {
-      for (i=maxcont+1; i<=oldmax; i++) {
-        geff_vector_free(&plr->island_effects[i]);
-      }
-    }
-    plr->island_effects=(struct geff_vector *)fc_realloc(plr->island_effects,
-      	      	      	  (maxcont+1)*sizeof(struct geff_vector));
-    for (i=oldmax+1; i<=maxcont; i++) {
-      geff_vector_init(&plr->island_effects[i]);
-    }
-    plr->max_continent = maxcont;
-  } players_iterate_end;
 }
 
 /***************************************************************

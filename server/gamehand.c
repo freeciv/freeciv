@@ -153,12 +153,6 @@ void init_new_game(void)
 
   /* Initialise list of improvements with world-wide equiv_range */
   improvement_status_init(game.improvements, ARRAY_SIZE(game.improvements));
-
-  /* Free vector of effects with world-wide range. */
-  geff_vector_free(&game.effects);
-
-  /* Free vector of destroyed effects */
-  ceff_vector_free(&game.destroyed_effects);
 }
 
 /**************************************************************************

@@ -190,13 +190,7 @@ struct player {
   Impr_Status improvements[B_LAST]; /* improvements with equiv_range==Player */
   Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
 			 	 [map.num_continents][game.num_impr_types] */
-  struct geff_vector effects;		/* effects with range==Player */
-  struct geff_vector *island_effects;	/* effects with range==Island */
 
-  /* 
-   * Size of the island_improv and island_effects arrays.
-   */
-  int max_continent;
   int num_continents;
 
   struct {
@@ -206,8 +200,6 @@ struct player {
 };
 
 void player_init(struct player *plr);
-void player_init_island_imprs(struct player *plr, int numcont);
-void player_free_island_imprs(struct player *plr);
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);

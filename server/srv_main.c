@@ -2057,7 +2057,6 @@ main_start_players:
 
   if (map.num_continents == 0) {
     assign_continent_numbers();
-    update_island_impr_effect(-1, map.num_continents);
   }
 
   gamelog_map();

@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include "astring.h"
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"

@@ -1023,9 +1023,6 @@ void create_city(struct player *pplayer, const int x, const int y,
   improvement_status_init(pcity->improvements,
 			  ARRAY_SIZE(pcity->improvements));
 
-  /* Initialise city's vector of improvement effects. */
-  ceff_vector_init(&pcity->effects);
-
   if (!pplayer->capital) {
     pplayer->capital = TRUE;
     city_add_improvement(pcity,B_PALACE);

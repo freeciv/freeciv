@@ -411,9 +411,6 @@ void handle_city_info(struct packet_city_info *packet)
     /* Initialise list of improvements with city/building wide equiv_range. */
     improvement_status_init(pcity->improvements,
 			    ARRAY_SIZE(pcity->improvements));
-
-    /* Initialise city's vector of improvement effects. */
-    ceff_vector_init(&pcity->effects);
   }
   copy_worklist(&pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
@@ -596,9 +593,6 @@ void handle_short_city(struct packet_short_city *packet)
     /* Initialise list of improvements with city/building wide equiv_range. */
     improvement_status_init(pcity->improvements,
 			    ARRAY_SIZE(pcity->improvements));
-
-    /* Initialise city's vector of improvement effects. */
-    ceff_vector_init(&pcity->effects);
   }
 
   update_improvement_from_packet(pcity, B_PALACE, packet->capital,
@@ -1066,7 +1060,6 @@ void handle_map_info(struct packet_map_info *pinfo)
   map.is_earth=pinfo->is_earth;
 
   map_allocate();
-  update_island_impr_effect(-1, 0);
   init_client_goto();
   
   set_overview_dimensions(map.xsize, map.ysize);
@@ -1099,11 +1092,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   if (!can_client_change_view()) {
     improvement_status_init(game.improvements,
 			    ARRAY_SIZE(game.improvements));
-
-    /* Free vector of effects with a worldwide range. */
-    geff_vector_free(&game.effects);
-    /* Free vector of destroyed effects. */
-    ceff_vector_free(&game.destroyed_effects);
 
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];
@@ -1190,10 +1178,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct player *pplayer = &game.players[pinfo->playerno];
 
   sz_strlcpy(pplayer->name, pinfo->name);
-
-  if (!pplayer->island_improv) {   /* initialise new player */
-    client_init_player(pplayer);
-  }
 
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
@@ -1607,7 +1591,6 @@ void handle_tile_info(struct packet_tile_info *packet)
       map_set_continent(x, y, NULL, 0);
     } whole_map_iterate_end;
     map.num_continents = game.player_ptr->num_continents = 0;
-    update_island_impr_effect(-1, 0);
     whole_map_iterate(x, y) {
       if ((tile_get_known(x, y) >= TILE_KNOWN_FOGGED) &&
 	  (map_get_terrain(x, y) != T_OCEAN))

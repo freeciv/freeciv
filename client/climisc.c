@@ -59,14 +59,6 @@ used throughout the client.
 /**************************************************************************
 ...
 **************************************************************************/
-void client_init_player(struct player *plr)
-{
-  player_init_island_imprs(plr, map.num_continents);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void client_remove_player(int plrno)
 {
   game_remove_player(get_player(plrno));

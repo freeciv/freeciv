@@ -170,36 +170,9 @@ struct impr_effect {
   enum tile_special_type aff_spec; /* S_* bit mask of specials affected */
 };
 
-/* Status of a city's improvement effects 
- * (a bitfield: bit 0 set = first effect active, etc.) */
-typedef unsigned Eff_Status;
-
 /* Maximum number of effects per improvement 
  * (this should not be more than the number of bits in the Eff_Status type) */
 #define MAX_EFFECTS 16
-
-/* Keeps track of which improvement effects are active in a city.  */
-struct eff_city {
-  Impr_Type_id impr;   /* The ID of the improvement that confers the effects;
-			* if B_LAST, then this instance is unused and ready
-			* to be freed (or replaced with a new improvement */
-  Eff_Status active;   /* Which of the actual impr_effect effects are active */
-};
-
-/* Copy of eff_city effect activity for effects with Player-, Island-,
- * and World- ranges */
-struct eff_global {
-  struct eff_city eff; /* Should be updated whenever the corresponding
-			* structure in the improvement's home city is
-			* modified. N.B. Keep this first in the structure
-                        * so that a (struct eff_city) cast works */
-  int cityid;	       /* ID of the city that owns the improvment (if -1,
-			* then the effect has survived the city destruction,
-			* and should therefore be placed in the savefile) */
-
-  /* N.B. Could add further fields here for effects created by things
-   * other than city improvements - e.g. certain government types */
-};
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
@@ -230,28 +203,11 @@ struct impr_type {
 
 extern struct impr_type improvement_types[B_LAST];
 
-/* get 'struct ceff_vector' and related functions: */
-#define SPECVEC_TAG ceff
-#define SPECVEC_TYPE struct eff_city
-#include "specvec.h"
-
-/* get 'struct geff_vector' and related functions: */
-#define SPECVEC_TAG geff
-#define SPECVEC_TYPE struct eff_global
-#include "specvec.h"
-
 /* improvement effect functions */
 enum effect_range effect_range_from_str(const char *str);
 const char *effect_range_name(enum effect_range id);
 enum effect_type effect_type_from_str(const char *str);
 const char *effect_type_name(enum effect_type id);
-
-void get_effect_vectors(struct ceff_vector *ceffs[],
-			struct geff_vector *geffs[],
-			Impr_Type_id impr, struct city *pcity);
-void update_global_effect(struct city *pcity, struct eff_city *effect);
-struct eff_city *append_ceff(struct ceff_vector *x);
-struct eff_global *append_geff(struct geff_vector *x);
 
 /* improvement functions */
 void improvements_free(void);
@@ -279,10 +235,6 @@ bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 
 /* city related improvement functions */
 void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
-struct geff_vector *get_eff_world(void);
-struct geff_vector *get_eff_player(struct player *plr);
-struct geff_vector *get_eff_island(int cont, struct player *plr);
-struct ceff_vector *get_eff_city(struct city *pcity);
 
 /* Iterates over all improvements. Creates a new variable names m_i
  * with type Impr_Type_id which holds the id of the current improvement. */

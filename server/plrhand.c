@@ -1325,11 +1325,10 @@ before the x and y sizes have been determined
 ***********************************************************************/
 void server_player_init(struct player *pplayer, bool initmap)
 {
-  if (initmap)
+  if (initmap) {
     player_map_allocate(pplayer);
+  }
   player_init(pplayer);
-
-  player_init_island_imprs(pplayer, map.num_continents);
 }
 
 /********************************************************************** 
