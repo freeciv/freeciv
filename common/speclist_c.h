@@ -74,6 +74,11 @@ void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *tthis)
   genlist_unlink_all(&tthis->list);
 }
 
+void SPECLIST_FOO(_list_sort) (SPECLIST_LIST * tthis, int (*compar) (const void *, const void *))
+{
+  genlist_sort(&tthis->list, compar);
+}
+
 #undef SPECLIST_TAG
 #undef SPECLIST_TYPE
 #undef SPECLIST_PASTE_

@@ -37,6 +37,8 @@
       void foo_list_insert_back(struct foo_list *This, foo_t *pfoo);
       void foo_list_unlink(struct foo_list *This, foo_t *pfoo);
       void foo_list_unlink_all(struct foo_list *This);
+      void foo_list_sort(struct foo_list *This, 
+         int (*compar)(const void *, const void *));
 
    You should also define yourself:  (this file cannot do this for you)
    
@@ -81,6 +83,7 @@ void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
 void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
 void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *This, SPECLIST_TYPE *pfoo);
 void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *This);
+void SPECLIST_FOO(_list_sort) (SPECLIST_LIST *This, int (*compar)(const void *, const void *));
 
 #undef SPECLIST_TAG
 #undef SPECLIST_TYPE
