@@ -124,6 +124,8 @@ static void establish_new_connection(struct connection *pconn)
     attach_connection_to_player(pconn, pplayer);
 
     if (server_state == RUN_GAME_STATE) {
+      /* Player and other info is only updated when the game is running.
+       * See the comment in lost_connection_to_client(). */
       send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
       send_rulesets(dest);
       send_all_info(dest);
@@ -590,7 +592,13 @@ void lost_connection_to_client(struct connection *pconn)
   unattach_connection_from_player(pconn);
 
   send_conn_info_remove(&pconn->self, &game.est_connections);
-  send_player_info(pplayer, NULL);
+  if (server_state == RUN_GAME_STATE) {
+    /* Player info is only updated when the game is running; this must be
+     * done consistently or the client will end up with inconsistent errors.
+     * At other times, the conn info (send_conn_info) is used by the client
+     * to display player information.  See establish_new_connection(). */
+    send_player_info(pplayer, NULL);
+  }
   notify_if_first_access_level_is_available();
 
   /* Cancel diplomacy meetings */

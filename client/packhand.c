@@ -1360,11 +1360,14 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_connected = pinfo->is_connected;
 
-  if (pplayer->is_connected
-      || get_client_state() == CLIENT_GAME_RUNNING_STATE
-      || get_client_state() == CLIENT_GAME_OVER_STATE) {
-    new_tech = read_player_info_techs(pplayer, pinfo->inventions);
-  }
+  /* If the server sends out player information at the wrong time, it is
+   * likely to give us inconsistent player tech information, causing a
+   * sanity-check failure within this function.  Fixing this at the client
+   * end is very tricky; it's hard to figure out when to read the techs
+   * and when to ignore them.  The current solution is that the server should
+   * only send the player info out at appropriate times - e.g., while the
+   * game is running. */
+  new_tech = read_player_info_techs(pplayer, pinfo->inventions);
 
   poptechup = (pplayer->research.researching != pinfo->researching
                || pplayer->ai.tech_goal != pinfo->tech_goal);
