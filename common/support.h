@@ -23,6 +23,10 @@
 #include <stdlib.h>		/* size_t */
 #include <stdarg.h>
 
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
 #include "attribute.h"
 
 int mystrcasecmp(const char *str0, const char *str1);
@@ -42,5 +46,9 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));
 
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
+
+#ifndef FD_ZERO
+#define FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
+#endif
 
 #endif  /* FC__SUPPORT_H */

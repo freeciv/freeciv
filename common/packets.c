@@ -3520,9 +3520,7 @@ static int write_socket_data(struct connection *pc,
     fd_set writefs;
     struct timeval tv;
 
-#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
-
-    MY_FD_ZERO(&writefs);
+    FD_ZERO(&writefs);
     FD_SET(pc->sock, &writefs);
 
     tv.tv_sec = 2; tv.tv_usec = 0;

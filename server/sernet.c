@@ -74,8 +74,6 @@
 
 #include "sernet.h"
 
-#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
-
 struct connection connections[MAX_NUM_CONNECTIONS];
 
 #ifdef GENERATING_MAC      /* mac network globals */
@@ -151,7 +149,7 @@ int sniff_packets(void)
     tv.tv_sec=1;
     tv.tv_usec=0;
     
-    MY_FD_ZERO(&readfs);
+    FD_ZERO(&readfs);
     FD_SET(0, &readfs);	
     FD_SET(sock, &readfs);
     max_desc=sock;
