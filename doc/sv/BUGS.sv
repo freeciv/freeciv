@@ -11,10 +11,19 @@ information om att anmäla programfel.
 Listan innehåller endast de tydligaste programfelen. För en
 fullständig lista, se:
 
-    http://www.freeciv.org/cgi-bin/bugs
+    http://rt.freeciv.org/
 
 KÄNDA PROGRAMFEL:
 =================
+
+ - I XAW-klienten fungerar inte valmöjligheten -t för val av
+   rutbildsuppsättningar. Använd --tiles i stället i detta fall.
+
+ - Visningen av enheter i fältet under "Avsluta omgång"-knappen är
+   lite felaktig. Datorstyrda spelare kan flytta enheter utan att
+   fältet uppdateras. Så man kan till exempel se 3 - 4 enheter där när
+   det skall vara endast 1. Se ärende PR#2625 för ytterligare
+   upplysningar (på engelska).
 
  - Stadsförvaltningsinställningarna skickas endast till servern när
    man trycker på "Avsluta omgång". Ändringarna som man gör i
@@ -38,7 +47,16 @@ KÄNDA PROGRAMFEL:
 
  - Ibland är det för många framsteg i "Mål"-menyn i
    forskningsredogörelsen så att menyn sträcker sig utanför skärmens
-   underkant så att man inte kan välja alla framsteg. 
+   underkant så att man inte kan välja alla framsteg. Detta berör
+   endast GTK+-1.2-klienten.
+
+ - Alla valmöjligheter som ges till klienten vidarebefordras även till
+   användargränssnittet. Detta innebär att när valmöjligheter är lika
+   så stör de varandra. Detta orsakar problem för valmöjligheten -d
+   och i bland -t vid användande av XAW-klienten. Problemet kan
+   undvikas genom att använda de långa versionerna i stället (--debug
+   och --tiles i detta fall). Se ärende PR#1752 för ytterligare
+   upplysningar (på engelska).
 
  - I bland kan man få meddelandena
    {ss} player for sample <01> not found
@@ -65,7 +83,7 @@ KÄNDA PROGRAMFEL:
  - Forskningsdialogen uppdateras inte när man lär sig en teknologi.
    Man måste stänga och öppna den.
 
- - I GTK-klienten förekommer i bland skräp i området nära den lilla
+ - I GTK+-klienten förekommer i bland skräp i området nära den lilla
    kartan.
 
  - Triremer hanteras inte bra i självständigt läge.
@@ -83,15 +101,16 @@ KÄNDA PROGRAMFEL:
    spelaren varje omgång. Detta ger i bland sken av att datorn gör 2
    drag.
 
- - Xaw-klienten fungerar inte bra ben KDEs fönsterhanterare. Försök
-   med gtk-klienten eller en annan fönsterhanterare.
+ - XAW-klienten fungerar inte bra ben KDEs fönsterhanterare. Försök
+   med GTK+-klienten eller en annan fönsterhanterare.
 
 ANMÄLA PROGRAMFEL
 =================
 
-(Om det är ett fel i en översättning ska det anmälas till översättaren
-för språket i fråga. Se <http://www.freeciv.org/l10n.phtml> för namn
-på och epostadresser till översättarna.)
+Om det är ett fel i en översättning ska det anmälas till översättaren
+för språket i fråga. För svenska är det "Erik Sigra", "sigra@home.se".
+Se <http://www.freeciv.org/l10n.phtml> för namn på och epostadresser
+till övriga översättare.
 
 Så här gör man:
 
