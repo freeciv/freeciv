@@ -1261,6 +1261,19 @@ static char *convert_string_malloc(const char *text,
     const char *mytext = text;
     char *myresult;
 
+    if (to_len > 1000000) {
+      /* Avoid unterminated loop. */
+      /* NOTE: same as error message above. */
+      freelog(LOG_ERROR,
+	      _("String conversion from %s not possible.  You may\n"
+		"want to set your local encoding manually by setting\n"
+		"the environment variable $FREECIV_LOCAL_ENCODING."
+		"Proceeding anyway..."),
+	      from);
+      iconv_close(cd);
+      return mystrdup(text);
+    }
+
     result = fc_malloc(to_len);
 
     myresult = result;
@@ -1325,6 +1338,11 @@ char *convert_data_string_malloc(const char *text)
     local_encoding = "";
 #endif
 #endif
+    if (strcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
+	|| strcasecmp(local_encoding, "ASCII") == 0) {
+      /* HACK: Use latin1 instead of ascii. */
+      local_encoding = "ISO-8859-1";
+    }
     my_snprintf(target, sizeof(target), "%s//TRANSLIT", local_encoding);
     local_encoding = target;
   }
