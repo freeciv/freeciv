@@ -928,7 +928,8 @@ void notify_player_ex(struct player *pplayer, int x, int y, int event, char *for
   genmsg.event = event;
   for(i=0; i<game.nplayers; i++)
     if(!pplayer || pplayer==&game.players[i]) {
-      if (map_get_known(x, y, &game.players[i])) {
+      if (server_state >= RUN_GAME_STATE
+	  && map_get_known(x, y, &game.players[i])) {
 	genmsg.x = x;
 	genmsg.y = y;
       } else {
