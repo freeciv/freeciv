@@ -234,14 +234,18 @@ void reset_move_costs(int x, int y);
 
 #ifdef DEBUG
 #define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
+#define CHECK_NATIVE_POS(x, y) assert((x) >= 0 && (x) < map.xsize \
+				      && (y) >= 0 && (y) < map.ysize)
 #define CHECK_INDEX(index) assert((index) >= 0 && (index) < MAX_MAP_INDEX)
 #else
 #define CHECK_MAP_POS(x,y) ((void)0)
+#define CHECK_NATIVE_POS(x, y) ((void)0)
 #define CHECK_INDEX(index) ((void)0)
 #endif
 
 #define native_pos_to_index(nat_x, nat_y)                                   \
-  ((nat_x) + (nat_y) * map.xsize)
+  (CHECK_NATIVE_POS((nat_x,), (nat_y)),					    \
+   (nat_x) + (nat_y) * map.xsize)
 #define index_to_native_pos(pnat_x, pnat_y, index)                          \
   (*(pnat_x) = (index) % map.xsize,                                         \
    *(pnat_y) = (index) / map.xsize)
