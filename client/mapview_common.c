@@ -122,12 +122,15 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 }
 
 /****************************************************************************
-  Translate from map to gui coordinate systems.
+  Translate from a cartesian system to the GUI system.  This function works
+  on vectors, meaning it can be passed a (dx,dy) pair and will return the
+  change in GUI coordinates corresponding to this vector.  It is thus more
+  general than map_to_gui_pos.
 
-  GUI coordinates are comparable to canvas coordinates but extend in all
-  directions.  gui(0,0) == map(0,0).
+  Note that a gui_to_map_vector function is not possible, since the
+  resulting map vector may differ based on the origin of the gui vector.
 ****************************************************************************/
-static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
+void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy)
 {
   if (is_isometric) {
     /*
@@ -141,12 +144,25 @@ static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
      * 789                4 8
      *                     7
      */
-    *gui_x = (map_x - map_y) * NORMAL_TILE_WIDTH / 2;
-    *gui_y = (map_x + map_y) * NORMAL_TILE_HEIGHT / 2;
+    *gui_dx = (map_dx - map_dy) * NORMAL_TILE_WIDTH / 2;
+    *gui_dy = (map_dx + map_dy) * NORMAL_TILE_HEIGHT / 2;
   } else {
-    *gui_x = map_x * NORMAL_TILE_HEIGHT;
-    *gui_y = map_y * NORMAL_TILE_WIDTH;
+    *gui_dx = map_dx * NORMAL_TILE_HEIGHT;
+    *gui_dy = map_dy * NORMAL_TILE_WIDTH;
   }
+}
+
+/****************************************************************************
+  Translate from map to gui coordinate systems.
+
+  GUI coordinates are comparable to canvas coordinates but extend in all
+  directions.  gui(0,0) == map(0,0).
+****************************************************************************/
+static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
+{
+  /* Since the GUI origin is the same as the map origin we can just do a
+   * vector conversion. */
+  map_to_gui_vector(gui_x, gui_y, map_x, map_y);
 }
 
 /****************************************************************************
@@ -1870,14 +1886,7 @@ void move_unit_map_canvas(struct unit *punit,
 
     assert(smooth_move_unit_msec > 0);
 
-    /* See map_to_canvas_pos for an explanation. */
-    if (is_isometric) {
-      canvas_dx = (dx - dy) * NORMAL_TILE_WIDTH / 2;
-      canvas_dy = (dx + dy) * NORMAL_TILE_HEIGHT / 2;
-    } else {
-      canvas_dx = NORMAL_TILE_WIDTH * dx;
-      canvas_dy = NORMAL_TILE_HEIGHT * dy;
-    }
+    map_to_gui_vector(&canvas_dx, &canvas_dy, dx, dy);
 
     map_to_canvas_pos(&start_x, &start_y, map_x, map_y);
     if (is_isometric) {

@@ -226,6 +226,7 @@ enum update_type {
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
+void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy);
 bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y);
 bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y);
 

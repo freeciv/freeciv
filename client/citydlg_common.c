@@ -61,22 +61,13 @@ This converts a city coordinate position to citymap canvas coordinates
 **************************************************************************/
 bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 {
-  if (is_isometric) {
-    /*
-     * The top-left corner is in the center of tile (-2, 2).  However,
-     * we're looking for the top-left corner of the tile, so we
-     * subtract off half a tile in each direction.  For a more
-     * rigorous example, see map_pos_to_canvas_pos().
-     */
-    int iso_x = (city_x - city_y) + (2 * CITY_MAP_RADIUS);
-    int iso_y = (city_x + city_y) - (0);
+  const int x0 = CITY_MAP_RADIUS, y0 = CITY_MAP_RADIUS;
+  const int width = get_citydlg_canvas_width();
+  const int height = get_citydlg_canvas_height();
 
-    *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
-    *canvas_y = (iso_y - 1) * NORMAL_TILE_HEIGHT / 2;
-  } else {
-    *canvas_x = city_x * NORMAL_TILE_WIDTH;
-    *canvas_y = city_y * NORMAL_TILE_HEIGHT;
-  }
+  map_to_gui_vector(canvas_x, canvas_y, city_x - x0, city_y - y0);
+  *canvas_x += (width - NORMAL_TILE_WIDTH) / 2;
+  *canvas_y += (height - NORMAL_TILE_HEIGHT) / 2;
 
   if (!is_valid_city_coords(city_x, city_y)) {
     assert(FALSE);
