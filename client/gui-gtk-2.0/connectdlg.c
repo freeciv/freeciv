@@ -257,8 +257,6 @@ void gui_server_connect(void)
   g_signal_connect(update, "clicked",
 		   G_CALLBACK(meta_update_callback), NULL);
 
-  gtk_widget_grab_focus(iname);
-
   g_signal_connect(iname, "activate", G_CALLBACK(connect_callback), NULL);
   g_signal_connect(ihost, "activate", G_CALLBACK(connect_callback), NULL);
   g_signal_connect(iport, "activate", G_CALLBACK(connect_callback), NULL);
@@ -268,6 +266,8 @@ void gui_server_connect(void)
   gtk_widget_set_size_request(dialog, 450, 250);
   gtk_set_relative_position(toplevel, dialog, 50, 50);
   gtk_widget_show(dialog);
+
+  gtk_widget_grab_focus(iname);
 }
 
 /**************************************************************************
