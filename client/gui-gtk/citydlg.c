@@ -852,6 +852,9 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       message_dialog_button_set_sensitive(wd, "button3", FALSE);
     }
+    if (punit->homecity == pcity->id) {
+      message_dialog_button_set_sensitive(wd, "button5", FALSE);
+    }
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
       message_dialog_button_set_sensitive(wd, "button6", FALSE);
     }

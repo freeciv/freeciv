@@ -1372,6 +1372,9 @@ void present_units_callback(Widget w, XtPointer client_data,
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
     }
+    if (punit->homecity == pcity->id) {
+      XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
+    }
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
