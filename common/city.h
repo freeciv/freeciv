@@ -99,7 +99,7 @@ struct ai_city {
 /* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
   signed short int tile_value[5][5]; /* caching these will help too. */
   int settler_want; /* so we can contemplate with warmap fresh and decide later */
-  int a, f; /* information on people coming to kill us, for attack co-ordination */
+  int a, f, invasion; /* who's coming to kill us, for attack co-ordination */
 };
 
 struct city {
