@@ -22,7 +22,6 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <gdk_imlib.h>
 
 #include "fcintl.h"
 #include "game.h"
