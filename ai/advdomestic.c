@@ -32,79 +32,120 @@
 #include "advdomestic.h"
 
 
+/**************************************************************************
+Get value of best usable tile on city map.
+**************************************************************************/
 static int ai_best_tile_value(struct city *pcity)
 {
-  int bx, by, food, best, cur;
+  int best = 0;
+  int food;
 
-/* food = (pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity); */
-  food = 0; /* simply works better as far as I can tell */
-  do {
-    bx=0;
-    by=0;
-    best = 0;
-    city_map_iterate(x, y) {
-      if(can_place_worker_here(pcity, x, y)) {
-        if ((cur = city_tile_value(pcity, x, y, food, 0)) > best) {
-          bx=x;
-          by=y;
-          best = cur;
-        }
+  /* food = (pcity->size * 2 - get_food_tile(2,2, pcity)) + settler_eats(pcity); */
+  /* Following simply works better, as far as I can tell. */
+  food = 0;
+  
+  city_map_iterate(x, y) {
+    if (can_place_worker_here(pcity, x, y)) {
+      int value = city_tile_value(pcity, x, y, food, 0);
+      
+      if (value > best) {
+	best = value;
       }
-    } city_map_iterate_end;
-  } while(0);
-  if (bx || by)
-     return(best);
-  return 0;
+    }
+  } city_map_iterate_end;
+  
+  return best;
 }
 
-static int building_value(int max, struct city *pcity, int val)
+/**************************************************************************
+Returns the value (desire to build it) of the improvement for keeping
+of order in the city.
+
+Improvements which increase happiness have two benefits. They can prevent
+cities from falling into disorder, and free the population changed into elvis
+specialists (so you can work tiles with value like tileval with them).  Happy
+is number of people the improvement would make happy.
+
+This function lets you decide if the happiness improvement such as the Temple,
+Cathedral or WoW is worth the cost of the elvises keeping your citizens content
+or the cost of the potential disorder (basically how much citizens would be
+unhappy * SADVAL).
+
+Note that an elvis citizen is a parasite. The fewer you have, the more
+food/prod/trade your city produces.
+**************************************************************************/
+static int impr_happy_val(int happy, struct city *pcity, int tileval)
 {
-  int i, j = 0;
+  /* How much one rebeling citizen counts - 16 is debatable value */
+#define SADVAL 16
+  /* Number of elvises in the city */
   int elvis = pcity->ppl_elvis;
-  int sad = pcity->ppl_unhappy[0]; /* yes, I'm sure about that! */
-  int bored = pcity->ppl_content[4]; /* this I'm not sure of anymore */
+  /* Raw number of unhappy people */
+  int sad = pcity->ppl_unhappy[0];
+  /* Final number of content people */
+  int content = pcity->ppl_content[4];
+  /* Resulting value */
+  int value = 0;
 
-  if (pcity->ppl_content[1] < pcity->ppl_content[0]) /* should fix the above */
-    bored += pcity->ppl_content[0] - pcity->ppl_content[1];
+  /* Count people made happy by luxury as content. */
+  if (pcity->ppl_content[1] < pcity->ppl_content[0])
+    content += pcity->ppl_content[0] - pcity->ppl_content[1];
 
-  i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
-  sad += i; /* if units are making us unhappy, count that too. */
-  sad += pcity->ppl_angry[0] * 2; /* angry citizens has to count double!? */
+  /* If units are making us unhappy, count that too. */
+  sad += pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
+  /* Angry citizens have to be counted double, as you have to first make them
+   * unhappy and then content. */
+  sad += pcity->ppl_angry[0] * 2;
+  
   freelog(LOG_DEBUG, "In %s, unh[0] = %d, unh[4] = %d, sad = %d",
 	  pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
 
-  i = max;
-  while (i && elvis) { i--; elvis--; j += val; }
-  while (i && sad) { i--; sad--; j += 16; }
+  /* The cost of the elvises. */
+  while (happy && elvis) { happy--; elvis--; value += tileval; }
+  /* The cost of the rebels. */
+  while (happy && sad) { happy--; sad--; value += SADVAL; }
+  
+  /* Desperately seeking Colosseum - we need happy improvements urgently. */
   if (city_unhappy(pcity))
-    j += 16 * (sad + bored); /* Desperately seeking Colosseum */
-  while (i) { i--; j += 16; } /* 16 is debatable value */
-  /* using (i && bored) led to a lack of foresight,
-     especially re: Chapel -- Syela */
-  freelog(LOG_DEBUG, "%s: %d elvis %d sad %d bored %d size %d max %d val",
+    value += SADVAL * (sad + content);
+  
+  /* Usage of (happy && content) led to a lack of foresight, especially
+   * re: Chapel -- Syela */
+  while (happy) { happy--; value += SADVAL; }
+  
+  freelog(LOG_DEBUG, "%s: %d elvis %d sad %d content %d size %d val",
 		pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
-		pcity->ppl_content[4], pcity->size, max, j);
+		pcity->ppl_content[4], pcity->size, value);
 
-  return(j);
+  return value;
+#undef SADVAL
 }
 
+/**************************************************************************
+Return a weighted value for a city's Ocean tiles
+(i.e. based on the total number and number actively worked).
+**************************************************************************/
 static int ocean_workers(struct city *pcity)
 {
   int i = 0;
 
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
     if (map_get_terrain(mx, my) == T_OCEAN) {
-      /* this is a kluge; wasn't getting enough harbors because often
-         everyone was stuck farming grassland. */
+      /* This is a kluge; wasn't getting enough harbors because often
+       * everyone was stuck farming grassland. */
       i++;
 
       if (is_worker_here(pcity, cx, cy))
 	i++;
     }
   } city_map_checked_iterate_end;
+  
   return i / 2;
 }
 
+/**************************************************************************
+Number of road tiles actively worked.
+**************************************************************************/
 static int road_trade(struct city *pcity)
 {
   int i = 0;
@@ -118,6 +159,9 @@ static int road_trade(struct city *pcity)
   return i; 
 }
 
+/**************************************************************************
+Number of farmland tiles actively worked.
+**************************************************************************/
 static int farmland_food(struct city *pcity)
 {
   int i = 0;
@@ -131,52 +175,93 @@ static int farmland_food(struct city *pcity)
   return i; 
 }
 
-static int pollution_cost(struct player *pplayer, struct city *pcity,
-			  Impr_Type_id id)
+/**************************************************************************
+Pollution benefit or cost of given improvement.
+
+Positive return value: less pollution if this improvement would be built
+Negative return value: more pollution if this improvement would be built
+Bigger absolute value means greater effect, naturally.
+**************************************************************************/
+static int pollution_benefit(struct player *pplayer, struct city *pcity,
+			     Impr_Type_id impr_type)
 {
-  int p = 0, a, b, c, tmp = 0;
+  /* Generated pollution */
+  int pollution = 0;
+  /* Production bonus of improvement */
+  int prodbonus = 0;
+  /* How seriously we should take it */
+  int weight;
+  /* Pollution cost */
+  int cost = 0;
 
+  /* Count total production of worked tiles, that's base of pollution value. */
   city_map_iterate(x, y) {
-    if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
-      p += city_get_shields_tile(x, y, pcity);
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+      pollution += city_get_shields_tile(x, y, pcity);
     }
-  } 
-  city_map_iterate_end;
+  } city_map_iterate_end;
 
-  if (city_got_building(pcity, B_FACTORY) || id == B_FACTORY) {
-    if (city_got_building(pcity, B_MFG) || id == B_MFG) tmp = 100;
-    else tmp = 50;
+  /* Count production bonuses generated by various buildings. */
+  if (city_got_building(pcity, B_FACTORY) || impr_type == B_FACTORY) {
+    prodbonus += 50;
+    if (city_got_building(pcity, B_MFG) || impr_type == B_MFG) {
+      prodbonus *= 2;
+    }
   }
-  if (city_affected_by_wonder(pcity, B_HOOVER) || id == B_HOOVER ||
-      city_got_building(pcity, B_POWER) || id == B_POWER ||
-      city_got_building(pcity, B_HYDRO) || id == B_HYDRO ||
-      city_got_building(pcity, B_NUCLEAR) || id == B_NUCLEAR) tmp *= 1.5;
-  p = p * (tmp + 100) / 100;
 
-  if (city_got_building(pcity, B_RECYCLING) || id == B_RECYCLING) p /= 3;
-  else if (city_got_building(pcity, B_HYDRO) ||
-           city_affected_by_wonder(pcity, B_HOOVER) ||
-           city_got_building(pcity, B_NUCLEAR) ||
-           id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
-
-  if (!city_got_building(pcity, B_MASS) && id != B_MASS) {
-    p += (player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)*
-    pcity->size)/4;
+  /* Count bonuses for that production bonuses ;-). */
+  if (city_affected_by_wonder(pcity, B_HOOVER) || impr_type == B_HOOVER ||
+      city_got_building(pcity, B_POWER) || impr_type == B_POWER ||
+      city_got_building(pcity, B_HYDRO) || impr_type == B_HYDRO ||
+      city_got_building(pcity, B_NUCLEAR) || impr_type == B_NUCLEAR) {
+    prodbonus = (prodbonus * 3) / 2;
   }
-  p -= 20;
-  if (p < 0) p = 0;
-  b = (POLLUTION_WEIGHTING + pplayer->ai.warmth)*64;
+  
+  /* And now apply the bonuses. */
+  pollution = pollution * (prodbonus + 100) / 100;
+
+  /* Count buildings which reduce the pollution. */
+  if (city_got_building(pcity, B_RECYCLING) || impr_type == B_RECYCLING)
+    pollution /= 3;
+  
+  else if (city_got_building(pcity, B_HYDRO) || impr_type == B_HYDRO ||
+           city_affected_by_wonder(pcity, B_HOOVER) || impr_type == B_HOOVER ||
+           city_got_building(pcity, B_NUCLEAR) || impr_type == B_NUCLEAR)
+    pollution /= 2;
+
+  /* Count technologies which affect the pollution. */
+  if (! city_got_building(pcity, B_MASS) && impr_type != B_MASS) {
+    pollution +=
+      (player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC) *
+       pcity->size) / 4;
+  }
+  
+  /* Heuristic? */
+  pollution -= 20;
+  if (pollution < 0) pollution = 0;
+  
+  weight = (POLLUTION_WEIGHTING + pplayer->ai.warmth) * 64;
+  
+  /* Base is cost of actual pollution. */
+  
   if (pcity->pollution > 0) {
-    a = amortize(b, 100 / pcity->pollution);
-    c = ((a * b) / (MAX(1, b - a)))/64;
+    int amortized = amortize(weight, 100 / pcity->pollution);
+    
+    cost = ((amortized * weight) / (MAX(1, weight - amortized))) / 64;
+    
     freelog(LOG_DEBUG, "City: %s, Pollu: %d, cost: %d, Id: %d, P: %d",
-	    pcity->name, pcity->pollution, c, id, p);
-  } else c = 0;
-  if (p) {
-    a = amortize(b, 100 / p);
-    c -= ((a * b) / (MAX(1, b - a)))/64;
-  } 
-  return(c); /* benefit or cost of this building */
+	    pcity->name, pcity->pollution, cost, impr_type, pollution);
+  }
+  
+  /* Subtract cost of future pollution. */
+  
+  if (pollution) {
+    int amortized = amortize(weight, 100 / pollution);
+  
+    cost -= ((amortized * weight) / (MAX(1, weight - amortized))) / 64;
+  }
+  
+  return cost;
 }
  
 void ai_eval_buildings(struct city *pcity)
@@ -274,10 +359,10 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 
   if (could_build_improvement(pcity, B_CATHEDRAL) && 
       (improvement_variant(B_MICHELANGELO)==1 || !built_elsewhere(pcity, B_MICHELANGELO)))
-    values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
+    values[B_CATHEDRAL] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
   else if (tech_exists(game.rtech.cathedral_plus) &&
 	   get_invention(pplayer, game.rtech.cathedral_plus) != TECH_KNOWN)
-    values[B_CATHEDRAL] = building_value(4, pcity, val) - building_value(3, pcity, val);
+    values[B_CATHEDRAL] = impr_happy_val(4, pcity, val) - impr_happy_val(3, pcity, val);
 
 /* old wall code depended on danger, was a CPU hog and didn't really work anyway */
 /* it was so stupid, AI wouldn't start building walls until it was in danger */
@@ -294,21 +379,21 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_SAM] = 50; /* WAG */
 
   if (could_build_improvement(pcity, B_COLOSSEUM))
-    values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
+    values[B_COLOSSEUM] = impr_happy_val(get_colosseum_power(pcity), pcity, val);
   else if (tech_exists(game.rtech.colosseum_plus) &&
 	   get_invention(pplayer, game.rtech.colosseum_plus) != TECH_KNOWN)
-    values[B_COLOSSEUM] = building_value(4, pcity, val) - building_value(3, pcity, val);
+    values[B_COLOSSEUM] = impr_happy_val(4, pcity, val) - impr_happy_val(3, pcity, val);
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {
     if (g->corruption_level == 0) {
-      values[B_COURTHOUSE] += building_value (1, pcity, val);
+      values[B_COURTHOUSE] += impr_happy_val (1, pcity, val);
     } else {
       values[B_COURTHOUSE] = (pcity->corruption * t)/2;
     }
   }
   
   if (could_build_improvement(pcity, B_FACTORY))
-    values[B_FACTORY] = (prod/2) + pollution_cost(pplayer, pcity, B_FACTORY);
+    values[B_FACTORY] = (prod/2) + pollution_benefit(pplayer, pcity, B_FACTORY);
   
   if (could_build_improvement(pcity, B_GRANARY) &&
       !(improvement_variant(B_PYRAMIDS)==0 &&
@@ -319,7 +404,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_HARBOUR] = food * ocean_workers(pcity) * hunger;
 
   if (could_build_improvement(pcity, B_HYDRO) && !built_elsewhere(pcity, B_HOOVER))
-    values[B_HYDRO] = ((needpower * prod)/4) + pollution_cost(pplayer, pcity, B_HYDRO);
+    values[B_HYDRO] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_HYDRO);
 
   if (could_build_improvement(pcity, B_LIBRARY))
     values[B_LIBRARY] = sci/2;
@@ -334,16 +419,16 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
                      city_got_building(pcity, B_POWER) ||
                      city_affected_by_wonder(pcity, B_HOOVER)) ?
                      (prod * 3)/4 : prod/2) +
-                     pollution_cost(pplayer, pcity, B_MFG);
+                     pollution_benefit(pplayer, pcity, B_MFG);
 
   if (could_build_improvement(pcity, B_NUCLEAR))
-    values[B_NUCLEAR] = ((needpower * prod)/4) + pollution_cost(pplayer, pcity, B_NUCLEAR);
+    values[B_NUCLEAR] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_NUCLEAR);
 
   if (could_build_improvement(pcity, B_OFFSHORE)) /* ignoring pollu.  FIX? */
     values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
 
   if (could_build_improvement(pcity, B_POWER))
-    values[B_POWER] = ((needpower * prod)/4) + pollution_cost(pplayer, pcity, B_POWER);
+    values[B_POWER] = ((needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_POWER);
 
   if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
     values[B_RESEARCH] = sci/2;
@@ -393,16 +478,16 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_SUPERMARKET] = farmland_food(pcity) * food * hunger;
 
   if (could_build_improvement(pcity, B_TEMPLE))
-    values[B_TEMPLE] = building_value(get_temple_power(pcity), pcity, val);
+    values[B_TEMPLE] = impr_happy_val(get_temple_power(pcity), pcity, val);
 
   if (could_build_improvement(pcity, B_UNIVERSITY))
     values[B_UNIVERSITY] = sci/2;
 
   if (could_build_improvement(pcity, B_MASS))
-    values[B_MASS] = pollution_cost(pplayer, pcity, B_MASS);
+    values[B_MASS] = pollution_benefit(pplayer, pcity, B_MASS);
 
   if (could_build_improvement(pcity, B_RECYCLING))
-    values[B_RECYCLING] = pollution_cost(pplayer, pcity, B_RECYCLING);
+    values[B_RECYCLING] = pollution_benefit(pplayer, pcity, B_RECYCLING);
 
 /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
 /* military advisor will deal with CITY and PORT */
@@ -420,7 +505,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
       if (id == B_COPERNICUS)
         values[id] = sci/2;
       if (id == B_CURE)
-        values[id] = building_value(1, pcity, val);
+        values[id] = impr_happy_val(1, pcity, val);
 
       /* this is a one-time boost, not constant */
       if (id == B_DARWIN) {
@@ -443,12 +528,12 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela */
 
       if (id == B_HANGING) /* will add the global effect to this. */
-        values[id] = building_value(3, pcity, val) -
-                    building_value(1, pcity, val);
+        values[id] = impr_happy_val(3, pcity, val) -
+                    impr_happy_val(1, pcity, val);
       if (id == B_HOOVER && !city_got_building(pcity, B_HYDRO) &&
                            !city_got_building(pcity, B_NUCLEAR))
         values[id] = (city_got_building(pcity, B_POWER) ? 0 :
-               (needpower * prod)/4) + pollution_cost(pplayer, pcity, B_HOOVER);
+               (needpower * prod)/4) + pollution_benefit(pplayer, pcity, B_HOOVER);
       if (id == B_ISAAC)
         values[id] = sci;
       if (id == B_LEONARDO) {
@@ -464,7 +549,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         } unit_list_iterate_end;
       }
       if (id == B_BACH)
-        values[id] = building_value(2, pcity, val);
+        values[id] = impr_happy_val(2, pcity, val);
       if (id == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
         values[id] = (pcity->size + 1) * SHIELD_WEIGHTING;
       if (id == B_MICHELANGELO) {
@@ -472,11 +557,11 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         if (improvement_variant(B_MICHELANGELO)==0 &&
 	    !city_got_building(pcity, B_CATHEDRAL)) {
 	  /* Assumes Mich will act as the Cath that is not in this city. */
-          values[id] = building_value(get_cathedral_power(pcity), pcity, val);
+          values[id] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
 	} else if (improvement_variant(B_MICHELANGELO)==1 &&
 		   city_got_building(pcity, B_CATHEDRAL)) {
 	  /* Assumes Mich will double the power of the Cath that is in this city. */
-          values[id] = building_value(get_cathedral_power(pcity), pcity, val);
+          values[id] = impr_happy_val(get_cathedral_power(pcity), pcity, val);
 	}
       }
 
@@ -486,16 +571,16 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
       if (id == B_ORACLE) {
         if (city_got_building(pcity, B_TEMPLE)) {
           if (get_invention(pplayer, game.rtech.temple_plus) == TECH_KNOWN)
-            values[id] = building_value(2, pcity, val);
+            values[id] = impr_happy_val(2, pcity, val);
           else {
-            values[id] = building_value(4, pcity, val) - building_value(1, pcity, val);
-            values[id] += building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[id] = impr_happy_val(4, pcity, val) - impr_happy_val(1, pcity, val);
+            values[id] += impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
 /* The += has nothing to do with oracle, just the tech_Want of mysticism! */
           }
         } else {
           if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
-            values[id] = building_value(2, pcity, val) - building_value(1, pcity, val);
-            values[id] += building_value(2, pcity, val) - building_value(1, pcity, val);
+            values[id] = impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
+            values[id] += impr_happy_val(2, pcity, val) - impr_happy_val(1, pcity, val);
           }
         }
       }
@@ -506,7 +591,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
       if (id == B_SETI && !city_got_building(pcity, B_RESEARCH))
         values[id] = sci/2;
       if (id == B_SHAKESPEARE)
-        values[id] = building_value(pcity->size, pcity, val);
+        values[id] = impr_happy_val(pcity->size, pcity, val);
       if (id == B_SUNTZU)
         values[id] = bar;
       if (id == B_WOMENS) {
