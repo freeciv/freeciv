@@ -223,7 +223,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  move_cost = 3;
         else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
-	  move_cost = 3;
+	  move_cost = (ptile->move_cost[dir] ? 3 : 0);
         else if (punit)
 	  move_cost = MIN(ptile->move_cost[dir], unit_types[punit->type].move_rate);
 	/* else c = ptile->move_cost[k]; 
