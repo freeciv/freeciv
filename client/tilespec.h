@@ -26,6 +26,8 @@ struct Sprite;			/* opaque; gui-dep */
 struct unit;
 struct player;
 
+const char **get_tileset_list(void);
+
 void tilespec_read_toplevel(const char *tileset_name);
 void tilespec_load_tiles(void);
 

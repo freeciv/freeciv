@@ -17,12 +17,15 @@
 
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
+#include "audio.h"
 #include "support.h"
 #include "fcintl.h"
 #include "log.h"
 #include "capability.h"
+#include "mem.h"
 #include "shared.h"
 #include "registry.h"
 #include "audio_none.h"
@@ -45,7 +48,8 @@
 
 #include "audio.h"
 
-#define MAX_NUM_PLUGINS        3
+#define MAX_NUM_PLUGINS		3
+#define SNDSPEC_SUFFIX		".soundspec"
 
 /* keep it open throughout */
 static struct section_file tagstruct, *tagfile = &tagstruct;
@@ -53,6 +57,43 @@ static struct section_file tagstruct, *tagfile = &tagstruct;
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
+
+/**********************************************************************
+  Returns a static, NULL-terminated list of all sound plugins
+  available on the system.  This function is unfortunately similar to
+  audio_get_all_plugin_names().
+***********************************************************************/
+const char **get_soundplugin_list(void)
+{
+  static const char* plugin_list[MAX_NUM_PLUGINS + 1];
+  int i;
+  
+  for (i = 0; i < num_plugins_used; i++) {
+    plugin_list[i] = plugins[i].name;
+  }
+  assert(i <= MAX_NUM_PLUGINS);
+  plugin_list[i] = NULL;
+
+  return plugin_list;
+}
+
+/**********************************************************************
+  Returns a static list of soundsets available on the system by
+  searching all data directories for files matching SNDSPEC_SUFFIX.
+  The list is NULL-terminated.
+***********************************************************************/
+const char **get_soundset_list(void)
+{
+  static const char **audio_list = NULL;
+
+  if (!audio_list) {
+    /* Note: this means you must restart the client after installing a new
+       soundset. */
+    audio_list = datafilelist(SNDSPEC_SUFFIX);
+  }
+
+  return audio_list;
+}
 
 /**************************************************************************
   Add a plugin.
@@ -129,15 +170,45 @@ void audio_init()
 }
 
 /**************************************************************************
+  Returns the filename for the given soundset. Returns NULL if
+  soundset couldn't be found. Caller has to free the return value.
+**************************************************************************/
+static const char *soundspec_fullname(const char *soundset_name)
+{
+  char *soundset_default = "stdsounds";	/* Do not i18n! */
+  char *fname = fc_malloc(strlen(soundset_name) + strlen(SNDSPEC_SUFFIX) + 1);
+  char *dname;
+
+  sprintf(fname, "%s%s", soundset_name, SNDSPEC_SUFFIX);
+
+  dname = datafilename(fname);
+  free(fname);
+
+  if (dname) {
+    return mystrdup(dname);
+  }
+
+  if (strcmp(soundset_name, soundset_default) == 0) {
+    /* avoid endless recursion */
+    return NULL;
+  }
+
+  freelog(LOG_ERROR, _("Couldn't find soundset \"%s\" trying \"%s\"."),
+	  soundset_name, soundset_default);
+  return soundspec_fullname(soundset_default);
+}
+
+/**************************************************************************
   Initialize audio system and autoselect a plugin
 **************************************************************************/
 void audio_real_init(const char *const spec_name,
 		     const char *const prefered_plugin_name)
 {
-  char *filename, *file_capstr;
+  const char *filename;
+  char *file_capstr;
   char us_capstr[] = "+soundspec";
 
-  if (!strcmp(prefered_plugin_name, "none")) {
+  if (strcmp(prefered_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
     freelog(LOG_VERBOSE, _("Proceeding with sound support disabled"));
     tagfile = NULL;
@@ -161,7 +232,7 @@ void audio_real_init(const char *const spec_name,
     exit(EXIT_FAILURE);
   }
   freelog(LOG_VERBOSE, "Initializing sound using %s...", spec_name);
-  filename = datafilename(spec_name);
+  filename = soundspec_fullname(spec_name);
   if (!filename) {
     freelog(LOG_ERROR, _("Cannot find sound spec-file \"%s\"."), spec_name);
     freelog(LOG_ERROR, _("To get sound you need to download a sound set!"));
@@ -192,6 +263,8 @@ void audio_real_init(const char *const spec_name,
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(EXIT_FAILURE);
   }
+
+  free((void *) filename);
 
   atexit(audio_shutdown);
 

@@ -22,9 +22,12 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
+#include <X11/Xaw/List.h>
 #include <X11/Xaw/Command.h>
+#include <X11/Xaw/MenuButton.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/Scrollbar.h>
+#include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Toggle.h>     
 
@@ -77,7 +80,8 @@ void popup_option_dialog(void)
       XtVaSetValues((Widget) o->p_gui_data, XtNstring, valstr, NULL);
       break;
     case COT_STR:
-      XtVaSetValues((Widget) o->p_gui_data, XtNstring,
+      XtVaSetValues((Widget) o->p_gui_data,
+		    o->p_string_vals ? "label" : XtNstring,
 		    o->p_string_value, NULL);
       break;
     }
@@ -90,6 +94,18 @@ void popup_option_dialog(void)
 
 
 
+/****************************************************************
+  Callback to change the entry for a string option that has
+  a fixed list of possible entries.
+*****************************************************************/
+static void stropt_change_callback(Widget w,
+				   XtPointer client_data,
+				   XtPointer call_data)
+{
+  char* val = (char*)client_data;
+
+  XtVaSetValues(XtParent(XtParent(w)), "label", val, NULL);
+}
 
 /****************************************************************
 ...
@@ -151,8 +167,42 @@ void create_option_dialog(void)
 				NULL);
       XtAddCallback(prev_widget, XtNcallback, toggle_callback, NULL);
       break;
-    case COT_INT:
     case COT_STR:
+      if (o->p_string_vals) {
+	int i;
+	const char **vals = (*o->p_string_vals)();
+	Widget popupmenu;
+
+	prev_widget = XtVaCreateManagedWidget(o->name,
+					      menuButtonWidgetClass,
+					      option_form,
+					      XtNfromHoriz, longest_label,
+					      XtNfromVert, o->p_gui_data,
+					      NULL);
+
+	popupmenu = XtVaCreatePopupShell("menu",
+					 simpleMenuWidgetClass,
+					 prev_widget,
+					 NULL);
+
+	for (i = 0; vals[i]; i++) {
+	  Widget entry = XtVaCreateManagedWidget(vals[i], smeBSBObjectClass,
+						 popupmenu, NULL);
+	  XtAddCallback(entry, XtNcallback, stropt_change_callback,
+			(XtPointer)(vals[i]));
+	}
+
+	if (i == 0) {
+          /* We could disable this if there was just one possible choice,
+             too, but for values that are uninitialized (empty) this
+             would be confusing. */
+	  XtSetSensitive(prev_widget, FALSE);
+	}
+
+	break;
+      }
+      /* else fall through */
+    case COT_INT:
       prev_widget =
 	XtVaCreateManagedWidget("input", asciiTextWidgetClass, option_form,
 				XtNfromHoriz, longest_label,
@@ -219,7 +269,9 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
       sscanf(dp, "%d", o->p_int_value);
       break;
     case COT_STR:
-      XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
+      XtVaGetValues(o->p_gui_data,
+		    o->p_string_vals ? "label" : XtNstring,
+		    &dp, NULL);
       mystrlcpy(o->p_string_value,dp,o->string_length);
       break;
     }

@@ -378,9 +378,16 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
       sscanf(dp, "%d", o->p_int_value);
       break;
     case COT_STR:
-      mystrlcpy(o->p_string_value, 
-                gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)), 
-	        o->string_length);
+      if (o->p_string_vals) {
+	mystrlcpy(o->p_string_value,
+		  gtk_entry_get_text(GTK_ENTRY
+				     (GTK_COMBO(o->p_gui_data)->entry)),
+		  o->string_length);
+      } else {
+	mystrlcpy(o->p_string_value,
+		  gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)),
+		  o->string_length);
+      }
       break;
     }
   }
@@ -440,7 +447,11 @@ static void create_option_dialog(void)
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
       gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
-      o->p_gui_data = gtk_entry_new();
+      if (o->p_string_vals) {
+        o->p_gui_data = gtk_combo_new();
+      } else {
+        o->p_gui_data = gtk_entry_new();
+      }
       gtk_widget_set_usize(o->p_gui_data, 150, 0);
       gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
       break;
@@ -473,7 +484,22 @@ void popup_option_dialog(void)
       gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), valstr);
       break;
     case COT_STR:
-      gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), o->p_string_value);
+      if (o->p_string_vals) {
+	int i;
+	GList *items = NULL;
+	const char **vals = (*o->p_string_vals) ();
+
+	for (i = 0; vals[i]; i++) {
+	  if (strcmp(vals[i], o->p_string_value) == 0) {
+	    continue;
+	  }
+	  items = g_list_append(items, (gpointer) vals[i]);
+	}
+	items = g_list_prepend(items, (gpointer) o->p_string_value);
+	gtk_combo_set_popdown_strings(GTK_COMBO(o->p_gui_data), items);
+      } else {
+	gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), o->p_string_value);
+      }
       break;
     }
   }

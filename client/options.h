@@ -60,6 +60,12 @@ typedef struct {
   char *p_string_value;
   size_t string_length;
 
+  /* 
+   * A function to return a static NULL-terminated list of possible
+   * string values, or NULL for none. 
+   */
+  const char **(*p_string_vals)(void);
+
   /* volatile */
   void *p_gui_data;
 } client_option;

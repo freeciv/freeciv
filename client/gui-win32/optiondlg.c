@@ -55,8 +55,11 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  sscanf(dp, "%d", o->p_int_value);
 	  break;
 	case COT_STR:
-	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
-	  mystrlcpy(o->p_string_value, dp, o->string_length);
+	  if (!o->p_gui_data) {
+	    break;
+	  }
+	  GetWindowText((HWND) (o->p_gui_data), o->p_string_value,
+			o->string_length);
 	  break;
 	}
       }
@@ -109,9 +112,29 @@ static void create_option_dialog(void)
     case COT_STR:
       fcwin_box_add_static(vbox_labels,_(o->description),
 			   0,SS_LEFT,TRUE,TRUE,0);
-      o->p_gui_data=(void *)
-	fcwin_box_add_edit(vbox,"",40,0,0,TRUE,TRUE,0);
-      break;
+      if (o->p_string_vals) {
+	const char **vals = (*o->p_string_vals)();
+
+	if (!vals[0]) {
+	  fcwin_box_add_static(vbox, o->p_string_value, 0, SS_LEFT,
+			       TRUE, TRUE, 0);
+	  o->p_gui_data = NULL;
+	} else {
+	  int j;
+
+	  o->p_gui_data =
+	      fcwin_box_add_combo(vbox, 5, 0,
+				  WS_VSCROLL | CBS_DROPDOWNLIST | CBS_SORT,
+				  TRUE, TRUE, 0);
+	  for (j = 0; vals[j]; j++) {
+	    ComboBox_AddString(o->p_gui_data, vals[j]);
+	  }
+	}
+      } else {
+	o->p_gui_data =
+	    (void *) fcwin_box_add_edit(vbox, "", 40, 0, 0, TRUE, TRUE, 0);
+	break;
+      }
     } 
   }
   fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,0);
@@ -144,7 +167,21 @@ void popup_option_dialog(void)
       SetWindowText((HWND)(o->p_gui_data), valstr);
       break;
     case COT_STR:
-      SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
+      if (!o->p_gui_data) {
+	break;
+      }
+
+      if (o->p_string_vals) {
+	int i =
+	    ComboBox_FindStringExact(o->p_gui_data, 0, o->p_string_value);
+
+	if (i == CB_ERR) {
+	  i = ComboBox_AddString(o->p_gui_data, o->p_string_value);
+	}
+	ComboBox_SetCurSel(o->p_gui_data, i);
+      } else {
+	SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
+      }
       break;
     }
   }

@@ -50,6 +50,8 @@
 
 #include "tilespec.h"
 
+#define TILESPEC_SUFFIX ".tilespec"
+
 char *main_intro_filename;
 char *minimap_intro_filename;
 
@@ -115,6 +117,24 @@ static bool focus_unit_hidden = FALSE;
 static bool no_backdrop = FALSE;
 
 /**********************************************************************
+  Returns a static list of tilesets available on the system by
+  searching all data directories for files matching TILESPEC_SUFFIX.
+  The list is NULL-terminated.
+***********************************************************************/
+const char **get_tileset_list(void)
+{
+  static const char **tileset_list = NULL;
+
+  if (!tileset_list) {
+    /* Note: this means you must restart the client after installing a new
+       tileset. */
+    tileset_list = datafilelist(TILESPEC_SUFFIX);
+  }
+
+  return tileset_list;
+}
+
+/**********************************************************************
   Gets full filename for tilespec file, based on input name.
   Returned data is allocated, and freed by user as required.
   Input name may be null, in which case uses default.
@@ -135,12 +155,14 @@ static char *tilespec_fullname(const char *tileset_name)
   if (tileset_name[0] == '\0') {
     tileset_name = tileset_default;
   }
-  fname = fc_malloc(strlen(tileset_name)+16);
-  sprintf(fname, "%s.tilespec", tileset_name);
+
+  fname = fc_malloc(strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1);
+  sprintf(fname, "%s%s", tileset_name, TILESPEC_SUFFIX);
   
   dname = datafilename(fname);
+  free(fname);
+
   if (dname) {
-    free(fname);
     return mystrdup(dname);
   }
 
@@ -149,7 +171,6 @@ static char *tilespec_fullname(const char *tileset_name)
     exit(EXIT_FAILURE);
   }
   freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
-  free(fname);
   return tilespec_fullname(tileset_default);
 }
 

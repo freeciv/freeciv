@@ -28,6 +28,9 @@ struct audio_plugin {
   bool (*play) (const char *const tag, const char *const path, bool repeat);
 };
 
+const char **get_soundplugin_list(void);
+const char **get_soundset_list(void);
+
 void audio_init(void);
 void audio_real_init(const char *const spec_name,
 		     const char *const prefered_plugin_name);

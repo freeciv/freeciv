@@ -15,10 +15,13 @@
 #endif
 
 #include <assert.h>
+#include <dirent.h>
+#include <errno.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -718,117 +721,243 @@ char *user_username(void)
 }
 
 /***************************************************************************
-  Returns a filename to access the specified file from a data directory;
-  The file may be in any of the directories in the data path, which is
-  specified internally or may be set as the environment variable
-  $FREECIV_PATH.  (A separated list of directories, where the separator
-  itself can specified internally.)
-  '~' at the start of a component (provided followed by '/' or '\0')
-  is expanded as $HOME.
+  Returns a list of data directory paths, in the order in which they should
+  be searched.  These paths are specified internally or may be set as the
+  environment variable $FREECIV_PATH (a separated list of directories,
+  where the separator itself is specified internally, platform-dependent).
+  '~' at the start of a component (provided followed by '/' or '\0') is
+  expanded as $HOME.
+
+  The returned value is a static NULL-terminated list of strings.
+
+  num_dirs, if not NULL, will be set to the number of entries in the list.
+***************************************************************************/
+static const char **get_data_dirs(int *num_dirs)
+{
+  char *path, *path2, *tok;
+  static int num = 0;
+  static const char **dirs = NULL;
+
+  /* The first time this function is called it will search and
+   * allocate the directory listing.  Subsequently we will already
+   * know the list and can just return it. */
+  if (dirs) {
+    if (num_dirs) {
+      *num_dirs = num;
+    }
+    return dirs;
+  }
+
+  path = getenv("FREECIV_PATH");
+  if (!path) {
+    path = DEFAULT_DATA_PATH;
+  } else if (*path == '\0') {
+    freelog(LOG_ERROR, _("FREECIV_PATH is set but empty; "
+			 "using default path instead."));
+    path = DEFAULT_DATA_PATH;
+  }
+  assert(path != NULL);
+  
+  path2 = mystrdup(path);	/* something we can strtok */
+    
+  tok = strtok(path2, PATH_SEPARATOR);
+  do {
+    int i;			/* strlen(tok), or -1 as flag */
+
+    tok = skip_leading_spaces(tok);
+    remove_trailing_spaces(tok);
+    if (strcmp(tok, "/") != 0) {
+      remove_trailing_char(tok, '/');
+    }
+      
+    i = strlen(tok);
+    if (tok[0] == '~') {
+      if (i > 1 && tok[1] != '/') {
+	freelog(LOG_ERROR, "For \"%s\" in data path cannot expand '~'"
+		" except as '~/'; ignoring", tok);
+	i = 0;   /* skip this one */
+      } else {
+	char *home = user_home_dir();
+
+	if (!home) {
+	  freelog(LOG_VERBOSE,
+		  "No HOME, skipping data path component %s", tok);
+	  i = 0;
+	} else {
+	  int len = strlen(home) + i;	   /* +1 -1 */
+	  char *tmp = fc_malloc(len);
+
+	  my_snprintf(tmp, len, "%s%s", home, tok + 1);
+	  tok = tmp;
+	  i = -1;		/* flag to free tok below */
+	}
+      }
+    }
+
+    if (i != 0) {
+      /* We could check whether the directory exists and
+       * is readable etc?  Don't currently. */
+      num++;
+      dirs = fc_realloc(dirs, num * sizeof(char*));
+      dirs[num - 1] = mystrdup(tok);
+      freelog(LOG_VERBOSE, "Data path component (%d): %s", num - 1, tok);
+      if (i == -1) {
+	free(tok);
+	tok = NULL;
+      }
+    }
+
+    tok = strtok(NULL, PATH_SEPARATOR);
+  } while(tok);
+
+  /* NULL-terminate the list. */
+  dirs = fc_realloc(dirs, (num + 1) * sizeof(char*));
+  dirs[num] = NULL;
+
+  free(path2);
+  
+  if (num_dirs) {
+    *num_dirs = num;
+  }
+  return dirs;
+}
+
+/***************************************************************************
+  Returns a NULL-terminated list of filenames in the data directories
+  matching the given suffix.
+
+  The list is allocated when the function is called; it should either
+  be stored permanently or de-allocated (by free'ing each element and
+  the whole list).
+
+  The suffixes are removed from the filenames before the list is
+  returned.
+***************************************************************************/
+const char **datafilelist(const char* suffix)
+{
+  const char **dirs = get_data_dirs(NULL);
+  char **file_list = NULL;
+  int num_matches = 0;
+  int list_size = 0;
+  int dir_num, i, j;
+  size_t suffix_len = strlen(suffix);
+
+  assert(!strchr(suffix, '/'));
+
+  /* First assemble a full list of names. */
+  for (dir_num = 0; dirs[dir_num]; dir_num++) {
+    DIR* dir;
+    struct dirent *entry;
+
+    /* Open the directory for reading. */
+    dir = opendir(dirs[dir_num]);
+    if (!dir) {
+      if (errno == ENOENT) {
+	freelog(LOG_VERBOSE, "Skipping non-existing data directory %s.",
+		dirs[dir_num]);
+      } else {
+	freelog(LOG_ERROR, _("Could not read data directory %s: %s."),
+		dirs[dir_num], strerror(errno));
+      }
+      continue;
+    }
+
+    /* Scan all entries in the directory. */
+    while ((entry = readdir(dir))) {
+      size_t len = strlen(entry->d_name);
+
+      /* Make sure the file name matches. */
+      if (len > suffix_len
+	  && strcmp(suffix, entry->d_name + len - suffix_len) == 0) {
+	/* Strdup the entry so we can safely write to it. */
+	char *match = mystrdup(entry->d_name);
+
+	/* Make sure the list is big enough; grow exponentially to keep
+	   constant ammortized overhead. */
+	if (num_matches >= list_size) {
+	  list_size = list_size > 0 ? list_size * 2 : 10;
+	  file_list = fc_realloc(file_list, list_size * sizeof(*file_list));
+	}
+
+	/* Clip the suffix. */
+	match[len - suffix_len] = '\0';
+
+	file_list[num_matches++] = mystrdup(match);
+
+	free(match);
+      }
+    }
+
+    closedir(dir);
+  }
+
+  /* Sort the list. */
+  qsort(file_list, num_matches, sizeof(*file_list), compare_strings_ptrs);
+
+  /* Remove duplicates (easy since it's sorted). */
+  i = j = 0;
+  while (j < num_matches) {
+    char *this = file_list[j];
+
+    for (j++; j < num_matches && strcmp(this, file_list[j]) == 0; j++) {
+      free(file_list[j]);
+    }
+
+    file_list[i] = this;
+
+    i++;
+  }
+  num_matches = i;
+
+  /* NULL-terminate the whole thing. */
+  file_list = fc_realloc(file_list, (num_matches + 1) * sizeof(*file_list));
+  file_list[num_matches] = NULL;
+
+  return (const char **)file_list;
+}
+
+/***************************************************************************
+  Returns a filename to access the specified file from a data
+  directory by searching all data directories (as specified by
+  get_data_dirs) for the file.
 
   If the specified 'filename' is NULL, the returned string contains
-  the effective data path.  (But this should probably only be used
-  for debug output.)
+  the effective data path.  (But this should probably only be used for
+  debug output.)
   
   Returns NULL if the specified filename cannot be found in any of the
-  data directories.  (A file is considered "found" if it can be read-opened.)
-  The returned pointer points to static memory, so this function can
-  only supply one filename at a time.
+  data directories.  (A file is considered "found" if it can be
+  read-opened.)  The returned pointer points to static memory, so this
+  function can only supply one filename at a time.
 ***************************************************************************/
 char *datafilename(const char *filename)
 {
-  static char *path = NULL;
-  static int num_dirs = 0;
-  static char **dirs = NULL;
+  int num_dirs, i;
+  const char **dirs = get_data_dirs(&num_dirs);
   static struct astring realfile = ASTRING_INIT;
-  int i;
-
-  if (!path) {
-    char *tok;
-    char *path2;
-
-    path = getenv("FREECIV_PATH");
-    if (!path) {
-      path = DEFAULT_DATA_PATH;
-    } else if (*path == '\0') {
-      freelog(LOG_ERROR, _("FREECIV_PATH is set but empty; "
-			   "using default path instead."));
-      path = DEFAULT_DATA_PATH;
-    }
-    assert(path != NULL);
-
-    path2 = mystrdup(path);	/* something we can strtok */
-    
-    tok = strtok(path2, PATH_SEPARATOR);
-    do {
-      int i;			/* strlen(tok), or -1 as flag */
-      
-      tok = skip_leading_spaces(tok);
-      remove_trailing_spaces(tok);
-      if (strcmp(tok, "/")!=0) {
-	remove_trailing_char(tok, '/');
-      }
-      
-      i = strlen(tok);
-      if (tok[0] == '~') {
-	if (i>1 && tok[1] != '/') {
-	  freelog(LOG_ERROR, "For \"%s\" in data path cannot expand '~'"
-		              " except as '~/'; ignoring", tok);
-	  i = 0;   /* skip this one */
-	} else {
-	  char *home = user_home_dir();
-	  if (!home) {
-	    freelog(LOG_VERBOSE,
-		    "No HOME, skipping data path component %s", tok);
-	    i = 0;
-	  } else {
-	    int len = strlen(home) + i;	   /* +1 -1 */
-	    char *tmp = fc_malloc(len);
-	    my_snprintf(tmp, len, "%s%s", home, tok+1);
-	    tok = tmp;
-	    i = -1;		/* flag to free tok below */
-	  }
-	}
-      }
-      if (i != 0) {
-	/* We could check whether the directory exists and
-	 * is readable etc?  Don't currently. */
-	num_dirs++;
-	dirs = fc_realloc(dirs, num_dirs*sizeof(char*));
-	dirs[num_dirs-1] = mystrdup(tok);
-	freelog(LOG_VERBOSE, "Data path component (%d): %s", num_dirs-1, tok);
-	if (i == -1) {
-	  free(tok);
-	  tok = NULL;
-	}
-      }
-
-      tok = strtok(NULL, PATH_SEPARATOR);
-    } while(tok);
-
-    free(path2);
-  }
 
   if (!filename) {
-    int len = 1;		/* in case num_dirs==0 */
-    int seplen = strlen(PATH_SEPARATOR);
-    for(i=0; i<num_dirs; i++) {
-      len += strlen(dirs[i]) + MAX(1,seplen);    /* separator or '\0' */
+    size_t len = 1;		/* in case num_dirs==0 */
+    size_t seplen = strlen(PATH_SEPARATOR);
+
+    for (i = 0; i < num_dirs; i++) {
+      len += strlen(dirs[i]) + MAX(1, seplen);	/* separator or '\0' */
     }
     astr_minsize(&realfile, len);
     realfile.str[0] = '\0';
-    for(i=0; i<num_dirs; i++) {
+
+    for (i = 0; i < num_dirs; i++) {
       (void) mystrlcat(realfile.str, dirs[i], len);
-      if(i != num_dirs-1) {
+      if (i < num_dirs) {
 	(void) mystrlcat(realfile.str, PATH_SEPARATOR, len);
       }
     }
     return realfile.str;
   }
   
-  for(i=0; i<num_dirs; i++) {
+  for (i = 0; i < num_dirs; i++) {
     FILE *fp;			/* see if we can open the file */
-    int len = strlen(dirs[i]) + strlen(filename) + 2;
+    size_t len = strlen(dirs[i]) + strlen(filename) + 2;
     
     astr_minsize(&realfile, len);
     my_snprintf(realfile.str, len, "%s/%s", dirs[i], filename);

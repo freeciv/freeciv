@@ -125,6 +125,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
 
 char *user_home_dir(void);
 char *user_username(void);
+const char **datafilelist(const char *suffix);
 char *datafilename(const char *filename);
 char *datafilename_required(const char *filename);
 
