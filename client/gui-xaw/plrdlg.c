@@ -157,14 +157,16 @@ void create_players_dialog(void)
 void update_players_dialog(void)
 {
    if(players_dialog_shell) {
-    int i;
+    int i,j;
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     
-    for(i=0; i<game.nplayers; i++) {
+    for(i=0,j=0; i<game.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32];
       
+      if(is_barbarian(&game.players[i]))
+        continue;
       if(game.players[i].nturns_idle>3)
 	sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle-1);
       else
@@ -187,7 +189,7 @@ void update_players_dialog(void)
 	sprintf(namebuf,"*%-15s",game.players[i].name);
       else
         sprintf(namebuf,"%-16s",game.players[i].name);
-      sprintf(namelist_text[i], "%-16s %-12s    %c     %-6s   %-15s%s", 
+      sprintf(namelist_text[j], "%-16s %-12s    %c     %-6s   %-15s%s", 
 	      namebuf,
 	      get_nation_name(game.players[i].nation), 
 	      player_has_embassy(game.player_ptr, &game.players[i]) ? 'X':' ',
@@ -195,10 +197,11 @@ void update_players_dialog(void)
 	      game.players[i].addr, 
 	      idlebuf);
 	 
-      namelist_ptrs[i]=namelist_text[i];
+      namelist_ptrs[j]=namelist_text[j];
+      j++;
     }
     
-    XawListChange(players_list, namelist_ptrs, game.nplayers, 0, True);
+    XawListChange(players_list, namelist_ptrs, j, 0, True);
 
     XtVaGetValues(players_list, XtNwidth, &width, NULL);
     XtVaSetValues(players_label, XtNwidth, width, NULL); 

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "barbarian.h"
 #include "city.h"
 #include "events.h"
 #include "fcintl.h"
@@ -268,6 +269,15 @@ void handle_diplomat_action(struct player *pplayer,
 	  wipe_unit(0, pdiplomat);
 	  break;
 	}
+
+        if(is_barbarian(&game.players[pcity->owner])) {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+			   _("Game: Your %s was executed in %s by primitive %s."),
+			   unit_name(pdiplomat->type),
+			   pcity->name, get_nation_name_plural(pplayer->nation));
+	  wipe_unit(0, pdiplomat);
+	  break;
+        }
 	
 	pplayer->embassy|=(1<<pcity->owner);
 	send_player_info(pplayer, pplayer);
@@ -570,8 +580,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
        map_get_known(pdefender->x, pdefender->y, &game.players[o]))
       send_packet_unit_combat(game.players[o].conn, &combat);
 
-  nearcity1 = dist_nearest_city(get_player(pwinner->owner), pdefender->x, pdefender->y);
-  nearcity2 = dist_nearest_city(get_player(plooser->owner), pdefender->x, pdefender->y);
+  nearcity1 = dist_nearest_city(get_player(pwinner->owner), pdefender->x, pdefender->y, 0, 0);
+  nearcity2 = dist_nearest_city(get_player(plooser->owner), pdefender->x, pdefender->y, 0, 0);
   
   if(punit==plooser) {
     /* The attacker lost */
@@ -719,7 +729,7 @@ int handle_unit_enter_hut(struct unit *punit)
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: A band of friendly mercenaries"
 		       " joins your cause."));
-    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(),
+    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(L_HUT,L_HUT_TECH),
 		0, punit->homecity, -1);
     break;
   case 10:
@@ -727,11 +737,12 @@ int handle_unit_enter_hut(struct unit *punit)
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: An abandoned village is here."));
     else {
+      ok = unleash_barbarians(pplayer, punit->x, punit->y);
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Your unit has been slaughtered by a band"
-			 " of cowardly barbarians."));
-      wipe_unit(pplayer, punit);
-      ok = 0;
+		       _("Game: You have unleashed a hord of barbarians!"));
+      if(!ok)
+        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: Your unit has been killed by barbarians."));
     }
     break;
   case 11:
@@ -794,6 +805,11 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
   struct city *pcity;
+
+  /* barbarians shouldn't enter huts */
+  if(is_barbarian(pplayer) && (map_get_tile(dest_x, dest_y)->special&S_HUT)) {
+    return 0;
+  }
 
   if (same_pos(punit->x, punit->y, dest_x, dest_y)) return 0;
 /* this occurs often during lag, and to the AI due to some quirks -- Syela */
@@ -1132,7 +1148,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     if(city_got_building(pcity, B_PALACE) 
        && city_list_size(&cplayer->cities) >= game.civilwarsize 
        && game.nplayers < game.nation_count
-       && game.nplayers < MAX_NUM_PLAYERS
+       && game.nplayers < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS
        && game.civilwarsize < GAME_MAX_CIVILWARSIZE
        && civil_war_triggered(cplayer))
       civil_war(cplayer);

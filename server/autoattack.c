@@ -46,7 +46,7 @@
 
 #include "autoattack.h"
 
-extern struct player *shuffled[MAX_NUM_PLAYERS];    /* civserver.c */
+extern struct player *shuffled[];    /* civserver.c */
 
 
 static struct unit *search_best_target(struct player *pplayer,

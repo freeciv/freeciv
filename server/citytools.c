@@ -693,11 +693,11 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
 
 static struct player *split_player(struct player *pplayer)
 {
-  int *nations_used, i, num_nations_avail=game.nation_count, pick;
+  int *nations_used, i, num_nations_avail=game.playable_nation_count, pick;
   int newplayer = game.nplayers;
   struct player *cplayer = &game.players[newplayer];
 
-  nations_used = fc_calloc(game.nation_count,sizeof(int));
+  nations_used = fc_calloc(game.playable_nation_count,sizeof(int));
   
   /* make a new player */
 
@@ -705,18 +705,20 @@ static struct player *split_player(struct player *pplayer)
   
   /* select a new name and nation for the copied player. */
 
-  for(i=0; i<game.nation_count;i++){ 
+  for(i=0; i<game.playable_nation_count;i++){
     nations_used[i]=i;
   }
 
   for(i = 0; i < game.nplayers; i++){
-    nations_used[game.players[i].nation] = -1;
-    num_nations_avail--;
+    if( game.players[i].nation < game.playable_nation_count ) {
+      nations_used[game.players[i].nation] = -1;
+      num_nations_avail--;
+    }
   }
 
   pick = myrand(num_nations_avail);
 
-  for(i=0; i<game.nation_count; i++){ 
+  for(i=0; i<game.playable_nation_count; i++){ 
     if(nations_used[i] != -1)
       pick--;
     if(pick < 0) break;

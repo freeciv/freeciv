@@ -32,7 +32,8 @@ extern int is_server;
 int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 {
   return (pplayer->embassy & (1<<pplayer2->player_no)) ||
-         (player_owns_active_wonder(pplayer, B_MARCO) && pplayer != pplayer2);
+         (player_owns_active_wonder(pplayer, B_MARCO) &&
+          pplayer != pplayer2 && !is_barbarian(pplayer2));
 }
 
 /****************************************************************
@@ -70,6 +71,7 @@ void player_init(struct player *plr)
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;
   plr->ai.expand = 100;
+  plr->ai.is_barbarian = 0;
   plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
@@ -322,4 +324,9 @@ enum cmdlevel_id cmdlevel_named (char *token)
   }
 
   return ALLOW_UNRECOGNIZED;
+}
+
+int is_barbarian(struct player *pplayer)
+{
+  return (pplayer->ai.is_barbarian > 0);
 }

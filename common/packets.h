@@ -395,6 +395,7 @@ struct packet_player_info {
   char addr[MAX_LEN_ADDR];
   int revolution;
   int ai;
+  int is_barbarian;
   char capability[MAX_LEN_CAPSTR];
 };
 
@@ -464,6 +465,7 @@ struct packet_ruleset_control {
   int default_government;
   int government_count;
   int nation_count;
+  int playable_nation_count;
   int style_count;
 };
 

@@ -424,6 +424,15 @@ static struct settings_s settings[] = {
     "  See also README.rulesets and the techs, units, buildings and terrain\n"
     "  options.") },
 
+  { "barbarians", &game.barbarians,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_BARBARIAN, GAME_MAX_BARBARIAN, GAME_DEFAULT_BARBARIAN,
+    N_("Barbarian appearance frequency"),
+    N_("  0 - barbarians only in huts \n"
+    "  1 - normal rate of barbarian appearance \n"
+    "  2 - frequent barbarian uprising \n"
+    "  3 - raging hordes, lots of barbarians") },
+
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
  * to duplicate its previous behaviour (and note diplchance is only used
@@ -953,6 +962,13 @@ static void toggle_ai_player(struct player *caller, char *arg)
 	      _("No player by the name of '%s'."), arg);
     return;
   }
+
+  if(is_barbarian(pplayer)) {
+    cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
+	      _("Cannot toggle a barbarian player."));
+    return;
+  }
+
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
     notify_player(0, _("Game: %s is now AI-controlled."), pplayer->name);
@@ -1403,7 +1419,7 @@ void report_server_options(struct player *pplayer, int which)
 /******************************************************************
   Set an AI level and related quantities, with no feedback.
 ******************************************************************/
-static void set_ai_level_directer(struct player *pplayer, int level)
+void set_ai_level_directer(struct player *pplayer, int level)
 {
   pplayer->ai.handicap = handicap_of_skill_level(level);
   pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
@@ -1957,6 +1973,7 @@ void show_players(struct player *caller)
   else
   {
     for(i=0; i<game.nplayers; i++) {
+      if (is_barbarian(&game.players[i])) continue;
       if (game.players[i].ai.control) {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,

@@ -18,7 +18,8 @@
 
 struct government;
 
-struct city *dist_nearest_city(struct player *pplayer, int x, int y);
+struct city *dist_nearest_city(struct player *pplayer, int x, int y,
+                               int everywhere, int enemy);
 
 void ai_government_change(struct player *pplayer, int gov);
 

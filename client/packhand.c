@@ -717,6 +717,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_connected=pinfo->is_connected;
   strcpy(pplayer->addr, pinfo->addr);
 
+  pplayer->ai.is_barbarian=pinfo->is_barbarian;
   pplayer->revolution=pinfo->revolution;
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;
@@ -1061,6 +1062,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   free_nations(game.nation_count);
   game.nation_count = packet->nation_count;
   alloc_nations(game.nation_count);
+  game.playable_nation_count = packet->playable_nation_count;
 
   tilespec_free_city_tiles(game.styles_count);
   free(city_styles);

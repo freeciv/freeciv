@@ -31,7 +31,7 @@
 #include "spacerace.h"
 
 /* use shuffled order from civserver.c: */
-extern struct player *shuffled[MAX_NUM_PLAYERS];
+extern struct player *shuffled[];
 
 /**********************************************************************
 Calculate and fill in the derived quantities about the spaceship.

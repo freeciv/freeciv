@@ -1619,7 +1619,7 @@ void create_races_dialog(void)
   XtTranslations textfieldtranslations;
 
   maxracelen = 0;
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     len = strlen(get_nation_name(i));
     maxracelen = MAX(maxracelen, len);
   }
@@ -1645,14 +1645,14 @@ void create_races_dialog(void)
 					       NULL);   
 
   free(races_toggles);
-  races_toggles = fc_calloc(game.nation_count,sizeof(Widget));
+  races_toggles = fc_calloc(game.playable_nation_count,sizeof(Widget));
 
   races_toggles[0]=XtVaCreateManagedWidget("racestoggle0", 
 					   toggleWidgetClass, 
 					   races_toggles_form,
 					   XtNlabel, maxracename,
 					   NULL);
-  if( game.nation_count > 1 )
+  if( (game.playable_nation_count) > 1 )
     races_toggles[1]=XtVaCreateManagedWidget("racestoggle1", 
 					     toggleWidgetClass, 
 					     races_toggles_form,
@@ -1662,7 +1662,7 @@ void create_races_dialog(void)
 					     races_toggles[0],
 					     XtNlabel, maxracename,
 					     NULL);
-  if( game.nation_count > 2 )
+  if( (game.playable_nation_count) > 2 )
     races_toggles[2]=XtVaCreateManagedWidget("racestoggle2", 
 					     toggleWidgetClass, 
 					     races_toggles_form,
@@ -1673,7 +1673,7 @@ void create_races_dialog(void)
 					     XtNlabel, maxracename,
 					     NULL);
 
-  for( i = 1; i < (game.nation_count+2)/3; i++) {
+  for( i = 1; i < (game.playable_nation_count+2)/3; i++) {
     int idx = i*3;
     char buf[64];
     sprintf(buf, "racestoggle%d", idx);
@@ -1686,7 +1686,7 @@ void create_races_dialog(void)
 					       races_toggles[idx-3],
 					       XtNlabel, maxracename,
 					       NULL);
-    for( j=0,idx=i*3+1; (j<2) && (idx<game.nation_count); idx++,j++) {
+    for( j=0,idx=i*3+1; (j<2) && (idx<game.playable_nation_count); idx++,j++) {
       sprintf(buf, "racestoggle%d", idx);
       races_toggles[idx]=XtVaCreateManagedWidget(buf,
 						 toggleWidgetClass, 
@@ -1871,7 +1871,7 @@ void create_races_dialog(void)
   }
 
 
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     XtAddCallback(races_toggles[i], XtNcallback, 
 		  races_toggles_callback, (XtPointer) 0);
   }
@@ -1889,7 +1889,7 @@ void create_races_dialog(void)
 
   XtRealizeWidget(races_dialog_shell);
 
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     XtVaSetValues(races_toggles[i], XtNlabel, (XtArgVal)get_nation_name(i), NULL);
   }
 
@@ -1922,7 +1922,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits1;
 
-  for(i=0; i<game.nation_count && i<32; i++) {
+  for(i=0; i<game.playable_nation_count && i<32; i++) {
     if(mybits&1)
       XtSetSensitive(races_toggles[i], FALSE);
     else
@@ -1932,7 +1932,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits2;
 
-  for(i=32; i<game.nation_count; i++) {
+  for(i=32; i<game.playable_nation_count; i++) {
     if(mybits&1)
       XtSetSensitive(races_toggles[i], FALSE);
     else
@@ -1960,7 +1960,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
   char **leaders;
   Widget entry;
 
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     if(w==races_toggles[i]) {
       leaders = get_nation_leader_names(i, &leader_count);
 
@@ -2036,13 +2036,13 @@ int races_buttons_get_current(void)
   int i;
   XtPointer dp, yadp;
 
-  if(game.nation_count==1)
+  if((game.playable_nation_count)==1)
     return 0;
 
   if(!(dp=XawToggleGetCurrent(races_toggles[0])))
     return -1;
 
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     XtVaGetValues(races_toggles[i], XtNradioData, &yadp, NULL);
     if(dp==yadp)
       return i;

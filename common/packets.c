@@ -1220,6 +1220,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint8(cptr, pinfo->revolution);
   cptr=put_uint8(cptr, pinfo->tech_goal);
   cptr=put_uint8(cptr, pinfo->ai?1:0);
+  cptr=put_uint8(cptr, pinfo->is_barbarian);
 
   /* if (pc && has_capability("clientcapabilities", pc->capability)) */
   cptr=put_string(cptr, pinfo->capability);
@@ -1269,6 +1270,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->revolution);
   iget_uint8(&iter, &pinfo->tech_goal);
   iget_uint8(&iter, &pinfo->ai);
+  iget_uint8(&iter, &pinfo->is_barbarian);
 
   /* if (has_capability("clientcapabilities", pc->capability)) */
   iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
@@ -2074,6 +2076,7 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->num_tech_types);
  
   cptr=put_uint8(cptr, packet->nation_count);
+  cptr=put_uint8(cptr, packet->playable_nation_count);
   cptr=put_uint8(cptr, packet->style_count);
 
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
@@ -2112,6 +2115,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->num_tech_types);
 
   iget_uint8(&iter, &packet->nation_count);
+  iget_uint8(&iter, &packet->playable_nation_count);
   iget_uint8(&iter, &packet->style_count);
 
   iget_tech_list(&iter, packet->rtech.partisan_req);

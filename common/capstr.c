@@ -68,11 +68,13 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9 river_help_text"
+#define CAPABILITY "+1.9 river_help_text +barbarians"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
    "river_help_text" is protocol extension for Civ2-style river help text.
+
+   "barbarians" is protocol extension for Barbarians.
 */
 
 void init_our_capability(void)

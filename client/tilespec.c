@@ -1224,8 +1224,10 @@ void tilespec_free_city_tiles(int count)
   since still limited to less than 14.  Could possibly improve
   to allow players to choose their preferred color etc.
   Return is really "enum color_std".
+  A hack added to avoid returning more that COLOR_STD_RACE13.
+  But really there should be more colors available -- jk.
 ***********************************************************************/
 int player_color(struct player *pplayer)
 {
-  return COLOR_STD_RACE0 + pplayer->player_no;
+  return COLOR_STD_RACE0 + (pplayer->player_no % MAX_NUM_PLAYERS);
 }

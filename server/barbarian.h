@@ -10,19 +10,29 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__STDINHAND_H
-#define FC__STDINHAND_H
 
-#include "player.h"		/* struct player; enum cmdlevel_id */
+#ifndef FC__BARBARIAN_H
+#define FC__BARBARIAN_H
 
-#define SERVER_COMMAND_PREFIX '/'
-  /* the character to mark chatlines as server commands */
+#include "player.h"
 
-void handle_stdin_input(struct player *caller, char *str);
-void report_server_options(struct player *pplayer, int which);
-void set_ai_level_direct(struct player *pplayer, int level);
-void set_ai_level_directer(struct player *pplayer, int level);
+#define MIN_UNREST_DIST   5
+#define MAX_UNREST_DIST   8
 
-extern enum cmdlevel_id default_access_level;
+#define UPRISE_CIV_SIZE  10
+#define UPRISE_CIV_MORE  30
+#define UPRISE_CIV_MOST  50
 
-#endif /* FC__STDINHAND_H */
+#define LAND_BARBARIAN    1
+#define SEA_BARBARIAN     2
+
+#define BARBARIAN_LIFE    5
+
+#define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */
+
+int unleash_barbarians(struct player* vict, int x, int y);
+void summon_barbarians();
+int is_land_barbarian(struct player *pplayer);
+int is_sea_barbarian(struct player *pplayer);
+
+#endif  /* FC__BARBARIAN_H */

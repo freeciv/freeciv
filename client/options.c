@@ -94,6 +94,7 @@ char *message_text[E_LAST]={
   N_("Unit Attack Succeeded    "),          /* E_UNIT_WIN_ATT */
   N_("Suggest Growth Throttling"),          /* E_CITY_GRAN_THROTTLE */
   N_("Spaceship Events         "),          /* E_SPACESHIP */
+  N_("Barbarian Uprising       ")           /* E_UPRISING  */
 };
 
 /**************************************************************************

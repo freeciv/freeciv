@@ -30,6 +30,7 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "barbarian.h"
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -1199,6 +1200,9 @@ void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id type, i
   /* Probably not correct when unit changed owner (e.g. bribe) */
   punit->paradropped = 0;
 
+  if( is_barbarian(pplayer) )
+    punit->fuel = BARBARIAN_LIFE;
+
   send_unit_info(0, punit, 0);
 }
 
@@ -1628,16 +1632,22 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 }
 
 /**************************************************************************
-  called when a player conquers a city, remove buildings (not wonders and always palace) with game.razechance% chance
+  called when a player conquers a city, remove buildings (not wonders and 
+  always palace) with game.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
 **************************************************************************/
 void raze_city(struct city *pcity)
 {
-  int i;
+  int i, razechance = game.razechance;
   pcity->improvements[B_PALACE]=0;
+
+  /* land barbarians are more likely to destroy city improvements */
+  if( is_land_barbarian(&game.players[pcity->owner]) )
+    razechance += 30;
+
   for (i=0;i<B_LAST;i++) {
     if (city_got_building(pcity, i) && !is_wonder(i) 
-	&& (myrand(100) < game.razechance)) {
+	&& (myrand(100) < razechance)) {
       pcity->improvements[i]=0;
     }
   }
@@ -1867,7 +1877,20 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   struct player *destroyer = get_player(pkiller->owner);
   char *loc_str   = get_location_str_in(pplayer, punit->x, punit->y, ", ");
   int  num_killed = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
+  int ransom;
   
+  /* barbarian leader ransom hack */
+  if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER) &&
+     (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
+     ransom = (pplayer->economic.gold >= 100)?100:pplayer->economic.gold;
+     notify_player_ex(destroyer, pkiller->x, pkiller->y, E_UNIT_WIN_ATT,
+		     _("Game: Barbarian leader captured, %d gold ransom paid."),
+                     ransom);
+     destroyer->economic.gold += ransom;
+     pplayer->economic.gold -= ransom;
+     send_player_info(destroyer,0);   /* let me see my new money :-) */
+  }
+
   if( (incity) || 
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
       (num_killed == 1)) {
@@ -1979,7 +2002,7 @@ static char *get_location_str(struct player *pplayer, int x, int y,
       sprintf(buffer, _("%sin %s"), prefix, incity->name);
     }
   } else {
-    nearcity = dist_nearest_city(pplayer, x, y);
+    nearcity = dist_nearest_city(pplayer, x, y, 0, 0);
     if (nearcity) {
       if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
 	sprintf(buffer, _("%soutside %s"), prefix, nearcity->name);

@@ -224,7 +224,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendOk", "Hut"
+roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
 
 [unit_pikemen]
 name          = _("Pikemen")
@@ -270,7 +270,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "DefendGood", "FirstBuild", "HutTech"
+roles         = "DefendGood", "FirstBuild", "HutTech",
+                "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 
 [unit_fanatics]
 name          = _("Fanatics")
@@ -316,7 +317,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer", "IgZOC"
-roles         = "DefendGood", "Partisan"
+roles         = "DefendGood", "Partisan", "BarbarianTech"
 
 [unit_alpine_troops]
 name          = _("Alpine Troops")
@@ -385,7 +386,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Marines"
-roles         = "DefendOk"
+roles         = "DefendOk", "BarbarianSeaTech"
 
 [unit_paratroopers]
 name          = _("Paratroopers")
@@ -459,7 +460,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast", "Hut"
+roles         = "AttackFast", "Hut", "Barbarian"
 
 [unit_chariot]
 name          = _("Chariot")
@@ -551,7 +552,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast", "HutTech"
+roles         = "AttackFast", "HutTech", "BarbarianTech",
+                "BarbarianBuildTech", "BarbarianSeaTech"
 
 [unit_dragoons]
 name          = _("Dragoons")
@@ -574,7 +576,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
-roles         = "AttackFast"
+roles         = "AttackFast", "BarbarianBuildTech", "BarbarianSeaTech"
 
 [unit_civ2_cavalry]
 name          = "Civ2-Cavalry"  ; no i18n
@@ -666,7 +668,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackStrong"
+roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
 
 [unit_civ2_artillery]
 name          = "Civ2-Artillery"  ; no i18n
@@ -873,7 +875,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "Ferryboat"
+roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_galleon]
 name          = _("Galleon")
@@ -896,7 +898,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "Ferryboat"
+roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_frigate]
 name          = _("Frigate")
@@ -1322,6 +1324,33 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer", "IgZOC", "NonMil"
 roles         = "Explorer"
+
+[unit_barbarian_leader]
+name          = _("Barbarian Leader")
+move_type     = "Land"
+tech_req      = "None"
+obsolete_by   = "Settlers"    ; Ugly hack, to prevent anyone from building it
+graphic       = "u.diplomat"
+graphic_alt   = "-"
+build_cost    = 40
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil"
+roles         = "BarbarianLeader"
+helptext      = _("\
+When barbarian leader is killed on a tile without any defending units, \
+the 100 gold ransom is paid, but only to land units.\
+")
 
 [u_specials]
 partisan_req = "" ; "Gunpowder","Communism"

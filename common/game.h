@@ -17,6 +17,7 @@
 #include "player.h"
 
 #define MAX_LEN_DEMOGRAPHY  16
+#define MAX_NUM_BARBARIANS   2
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -53,11 +54,12 @@ struct civ_game {
   int civilwarsize;
   int min_players, max_players, nplayers;
   int aifill;
+  int barbarians;
   int unhappysize;
   char *startmessage;
   int player_idx;
   struct player *player_ptr;
-  struct player players[MAX_NUM_PLAYERS];   
+  struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];   
   int global_advances[A_LAST];             /* a counter */
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
@@ -89,6 +91,7 @@ struct civ_game {
   int ai_goal_government;	/* kludge */
 
   int nation_count;
+  int playable_nation_count;
   int styles_count;
 
   struct {
@@ -249,6 +252,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_TIMEOUT          0
 #define GAME_MIN_TIMEOUT              0
 #define GAME_MAX_TIMEOUT            999
+
+#define GAME_DEFAULT_BARBARIAN       1
+#define GAME_MIN_BARBARIAN           0
+#define GAME_MAX_BARBARIAN           3
 
 #define GAME_DEFAULT_RULESET         "default"
 

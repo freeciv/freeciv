@@ -385,6 +385,7 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
       case E_MY_DIPLOMAT:
       case E_UNIT_LOST_ATT:
       case E_UNIT_WIN_ATT:
+      case E_UPRISING:
 	meswin_goto_callback (meswin_goto_command, NULL);
 	break;
       default:

@@ -20,7 +20,8 @@ struct ai_choice;
 
 enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
-                    AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE};
+                    AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
+                    AIUNIT_PILLAGE };
 
 void ai_manage_units(struct player *pplayer); 
 

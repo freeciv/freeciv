@@ -1135,6 +1135,33 @@ cities = "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide",
          "Albury", "Bathurst", "Dubbo","Mackay"
 
 
+;
+; barbarians MUST go last
+;
+
+[nation_barbarian]
+
+name="Barbarian"
+plural="Barbarians"
+leader="Genseric", "Alaric", "Teodoric", "Herman"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.barbarian"
+flag_alt = "-"
+city_style = "European"
+
+attack=0
+expand=0
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "-"
+wonder = "-"
+government = "Despotism"
+
+cities = "Mordor"
+
+; nothing more needed for barbarians
+
 
 [misc]
 

@@ -164,6 +164,14 @@ enum unit_role_id {
   L_ATTACK_FAST,        /* quick attacking unit (Horse..Armor) (unused)*/
   L_ATTACK_STRONG,      /* powerful attacking unit (Catapult..) (unused) */
   L_FERRYBOAT,	        /* is useful for ferrying (AI) */
+  L_BARBARIAN,          /* barbarians unit, land only */
+  L_BARBARIAN_TECH,     /* barbarians unit, global tech required */
+  L_BARBARIAN_BOAT,     /* barbarian boat */
+  L_BARBARIAN_BUILD,    /* what barbarians should build */
+  L_BARBARIAN_BUILD_TECH, /* barbarians build when global tech */
+  L_BARBARIAN_LEADER,   /* barbarian leader */
+  L_BARBARIAN_SEA,      /* sea raider unit */
+  L_BARBARIAN_SEA_TECH, /* sea raider unit, global tech required */
   L_LAST
 };
 

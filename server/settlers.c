@@ -1287,7 +1287,7 @@ void auto_settlers_player(struct player *pplayer)
 
 static void assign_settlers_player(struct player *pplayer)
 {
-  short i = 1<<pplayer->player_no;
+  int i = 1<<pplayer->player_no;
   struct tile *ptile;
   unit_list_iterate(pplayer->units, punit)
     if (unit_flag(punit->type, F_SETTLERS)) {

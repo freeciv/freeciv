@@ -197,7 +197,7 @@ Allocates, fills and returns a land area claim map.
 Call free_landarea_map(&cmap) to free allocated memory.
 **************************************************************************/
 
-static int no_owner = MAX_NUM_PLAYERS;
+static int no_owner = MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS;
 
 /* allocate and clear claim map; determine city radii */
 
@@ -533,6 +533,14 @@ int civ_score(struct player *pplayer)
   pplayer->score.mfg=0;                         /* done */
   pplayer->score.literacy=0;
   pplayer->score.spaceship=0;
+
+  if (is_barbarian(pplayer)) {
+    if (pplayer->player_no == (game.nplayers - 1)) {
+      free_landarea_map(&cmap);
+    }
+    return 0;
+  }
+
   city_list_iterate(pplayer->cities, pcity) {
     pplayer->score.happy+=pcity->ppl_happy[4];
     pplayer->score.content+=pcity->ppl_content[4];
@@ -728,6 +736,7 @@ void game_init(void)
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
   game.spacerace   = GAME_DEFAULT_SPACERACE;
+  game.barbarians  = GAME_DEFAULT_BARBARIAN;
   game.heating     = 0;
   game.scenario    = 0;
   strcpy(game.save_name, "civgame");
@@ -754,7 +763,7 @@ void game_init(void)
 
   map_init();
   
-  for(i=0; i<MAX_NUM_PLAYERS; i++)
+  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
     game.global_advances[i]=0;

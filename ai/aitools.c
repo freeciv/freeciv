@@ -39,18 +39,31 @@
    dist_nearest_enemy_city, respaced so I can read it and therefore
    debug it into something useful. -- Syela
 */
-struct city *dist_nearest_city(struct player *pplayer, int x, int y)
+
+/**************************************************************************
+This looks for the nearest city:
+If (x,y) is the land, it looks for cities only on the same continent
+unless (everywhere != 0)
+If (enemy != 0) it looks only for enemy cities
+If (pplayer != NULL) it looks for cities known to pplayer
+**************************************************************************/
+
+struct city *dist_nearest_city(struct player *pplayer, int x, int y,
+                               int everywhere, int enemy)
 { 
   struct player *pplay;
   struct city *pc=NULL;
   int i;
   int dist = MAX(map.xsize / 2, map.ysize);
   int con = map_get_continent(x, y);
+
   for(i = 0; i < game.nplayers; i++) {
     pplay = &game.players[i];
+    if(enemy && pplay == pplayer) continue;
+
     city_list_iterate(pplay->cities, pcity)
       if (real_map_distance(x, y, pcity->x, pcity->y) < dist &&
-         (!con || con == map_get_continent(pcity->x, pcity->y)) &&
+         (everywhere || !con || con == map_get_continent(pcity->x, pcity->y)) &&
          (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
         dist = real_map_distance(x, y, pcity->x, pcity->y);
         pc = pcity;

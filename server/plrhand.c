@@ -97,7 +97,7 @@ static void historian_generic(enum historian_type which_news)
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].is_alive) {
+    if (game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       switch(which_news) {
       case HISTORIAN_RICHEST:
 	size[j].value=game.players[i].economic.gold;
@@ -120,7 +120,7 @@ static void historian_generic(enum historian_type which_news)
       }
       size[j].idx=i;
       j++;
-    } /* else the player is dead */
+    } /* else the player is dead or barbarian */
   }
   qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
@@ -217,7 +217,8 @@ static int rank_population(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.population>basis)
+    if (game.players[i].score.population>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -228,7 +229,8 @@ static struct player *best_population()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.population > pplayer->score.population) {
+    if(game.players[i].score.population > pplayer->score.population &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -241,7 +243,8 @@ static int rank_landarea(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.landarea>basis)
+    if (game.players[i].score.landarea>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -252,7 +255,8 @@ static struct player *best_landarea()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.landarea > pplayer->score.landarea) {
+    if(game.players[i].score.landarea > pplayer->score.landarea &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -265,7 +269,8 @@ static int rank_settledarea(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.settledarea>basis)
+    if (game.players[i].score.settledarea>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -276,7 +281,8 @@ static struct player *best_settledarea()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.settledarea > pplayer->score.settledarea) {
+    if(game.players[i].score.settledarea > pplayer->score.settledarea &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -294,7 +300,8 @@ static int rank_research(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_research(&game.players[i])>basis)
+    if (rank_calc_research(&game.players[i])>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -305,7 +312,8 @@ static struct player *best_research()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_research(&game.players[i]) > rank_calc_research(pplayer)) {
+    if(rank_calc_research(&game.players[i]) > rank_calc_research(pplayer) &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -331,7 +339,8 @@ static int rank_literacy(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_literacy(&game.players[i])>basis)
+    if (rank_calc_literacy(&game.players[i])>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -342,7 +351,8 @@ static struct player *best_literacy()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_literacy(&game.players[i]) > rank_calc_literacy(pplayer)) {
+    if(rank_calc_literacy(&game.players[i]) > rank_calc_literacy(pplayer) &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -355,7 +365,8 @@ static int rank_production(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.mfg>basis)
+    if (game.players[i].score.mfg>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -366,7 +377,8 @@ static struct player *best_production()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.mfg > pplayer->score.mfg) {
+    if(game.players[i].score.mfg > pplayer->score.mfg &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -379,7 +391,8 @@ static int rank_economics(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.bnp>basis)
+    if (game.players[i].score.bnp>basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -390,7 +403,8 @@ static struct player *best_economics()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.bnp > pplayer->score.bnp) {
+    if(game.players[i].score.bnp > pplayer->score.bnp &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -403,7 +417,8 @@ static int rank_pollution(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (game.players[i].score.pollution<basis)
+    if (game.players[i].score.pollution<basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -414,7 +429,8 @@ static struct player *best_pollution()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(game.players[i].score.pollution < pplayer->score.pollution) {
+    if(game.players[i].score.pollution < pplayer->score.pollution &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -432,7 +448,8 @@ static int rank_mil_service(struct player *pplayer)
   int place=1;
   int i;
   for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_mil_service(&game.players[i])<basis)
+    if (rank_calc_mil_service(&game.players[i])<basis &&
+	!is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -443,7 +460,8 @@ static struct player *best_mil_service()
   struct player *pplayer = &game.players[0];
   int i;
   for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_mil_service(&game.players[i]) < rank_calc_mil_service(pplayer)) {
+    if(rank_calc_mil_service(&game.players[i]) < rank_calc_mil_service(pplayer) &&
+       !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -1074,6 +1092,10 @@ static void log_civ_score(void)
 	  fprintf (fp, "%s\n", endmark);
 	  for (n = 0; n < game.nplayers; n++)
 	    {
+	      if (is_barbarian (&(game.players[n])))
+		{
+		  break;
+		}
 	      fprintf (fp, "%d %s\n", n, game.players[n].name);
 	    }
 	  fprintf (fp, "%s\n", endmark);
@@ -1096,6 +1118,10 @@ static void log_civ_score(void)
     {
       for (n = 0; n < game.nplayers; n++)
 	{
+	  if (is_barbarian (&(game.players[n])))
+	    {
+	      break;
+	    }
 	  switch (i)
 	    {
 	    case 0:
@@ -1182,7 +1208,8 @@ void make_history_report(void)
   static int report=0;
   static int time_to_report=20;
   int i;
-  for (i=0;i<game.nplayers;i++) 
+
+  for (i=0;i<game.nplayers;i++)
     civ_score(&game.players[i]);
 
   if (game.scorelog)
@@ -1223,6 +1250,7 @@ void show_ending(void)
   qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
+    if( is_barbarian(&game.players[i]) ) continue;
     sprintf(buf2, _("%2d: The %s %s scored %d points\n"), i+1, _(greatness[i]),
 	    get_nation_name_plural(game.players[size[i].idx].nation),
 	    size[i].value);
@@ -1328,11 +1356,12 @@ static void update_player_aliveness(struct player *pplayer)
     if(unit_list_size(&pplayer->units)==0 && 
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
-      notify_player_ex(0, 0,0, E_DESTROYED, _("Game: The %s are no more!"), 
-		       get_nation_name_plural(pplayer->nation));
-      gamelog(GAMELOG_GENO, "%s civilization destroyed",
-              get_nation_name(pplayer->nation));
-
+      if( !is_barbarian(pplayer) ) {
+        notify_player_ex(0, 0,0, E_DESTROYED, _("Game: The %s are no more!"), 
+		         get_nation_name_plural(pplayer->nation));
+        gamelog(GAMELOG_GENO, "%s civilization destroyed",
+                get_nation_name(pplayer->nation));
+      }
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
     }
@@ -1833,6 +1862,7 @@ void send_player_info(struct player *src, struct player *dest)
              strcpy(info.addr, game.players[i].addr);
 	     info.revolution=game.players[i].revolution;
 	     info.ai=game.players[i].ai.control;
+	     info.is_barbarian=game.players[i].ai.is_barbarian;
 	     if(game.players[i].conn)
 	       strcpy(info.capability,game.players[i].conn->capability);
 	     
@@ -1885,6 +1915,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   if (plr->ai.control && plr->ai.skill_level==0) {
     plr->ai.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
   }
+  plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
+                                                    plrno);
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
@@ -2152,6 +2184,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);
   secfile_insert_int(file, plr->ai.skill_level,
 		     "player%d.ai.skill_level", plrno);
+  secfile_insert_int(file, plr->ai.is_barbarian, "player%d.ai.is_barbarian", plrno);
   secfile_insert_int(file, plr->economic.gold, "player%d.gold", plrno);
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);

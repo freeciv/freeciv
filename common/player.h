@@ -93,6 +93,7 @@ struct player_ai {
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
+  int is_barbarian;
 };
 
 /**************************************************************************
@@ -171,5 +172,7 @@ int ai_fuzzy(struct player *pplayer, int normal_decision);
 
 char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named (char *token);
+
+int is_barbarian(struct player *pplayer);
 
 #endif  /* FC__PLAYER_H */

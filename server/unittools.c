@@ -533,20 +533,30 @@ struct city *sdi_defense_close(int owner, int x, int y)
 }
 
 /**************************************************************************
-  returns a unit type for the goodie huts
+  returns a unit type with a given role, use -1 if you don't want a tech 
+  role. Always try tech role and only if not available, return role unit.
 **************************************************************************/
-int find_a_unit_type(void)
+int find_a_unit_type(int role, int role_tech)
 {
   int which[U_LAST];
   int i, num=0, iunit;
 
-  for(i=0; i<num_role_units(L_HUT); i++) {
-    which[num++] = get_role_unit(L_HUT, i);
+  if( role_tech == -1 ) {
+    for(i=0; i<num_role_units(role); i++) {
+      which[num++] = get_role_unit(role, i);
+    }
+    return which[myrand(num)];
   }
-  for(i=0; i<num_role_units(L_HUT_TECH); i++) {
-    iunit = get_role_unit(L_HUT_TECH, i);
-    if (game.global_advances[get_unit_type(iunit)->tech_requirement]) {
+
+  for(i=0; i<num_role_units(role_tech); i++) {
+    iunit = get_role_unit(role_tech, i);
+    if (game.global_advances[get_unit_type(iunit)->tech_requirement] >= 2) {
       which[num++] = iunit;
+    }
+  }
+  if(num==0) {
+    for(i=0; i<num_role_units(role); i++) {
+      which[num++] = get_role_unit(role, i);
     }
   }
   return which[myrand(num)];

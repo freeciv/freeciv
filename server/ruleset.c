@@ -693,6 +693,32 @@ static void load_ruleset_units(char *ruleset_subdir)
 	 u->name, filename);
     exit(1);
   }
+  if(num_role_units(L_BARBARIAN)==0) {
+    freelog(LOG_FATAL, "No role=barbarian units? (%s)", filename);
+    exit(1);
+  }
+  if(num_role_units(L_BARBARIAN_LEADER)==0) {
+    freelog(LOG_FATAL, "No role=barbarian leader units? (%s)", filename);
+    exit(1);
+  }
+  if(num_role_units(L_BARBARIAN_BUILD)==0) {
+    freelog(LOG_FATAL, "No role=barbarian build units? (%s)", filename);
+    exit(1);
+  }
+  if(num_role_units(L_BARBARIAN_BOAT)==0) {
+    freelog(LOG_FATAL, "No role=barbarian ship units? (%s)", filename);
+    exit(1);
+  }
+  if(num_role_units(L_BARBARIAN_SEA)==0) {
+    freelog(LOG_FATAL, "No role=sea raider barbarian units? (%s)", filename);
+    exit(1);
+  }
+  u = &unit_types[get_role_unit(L_BARBARIAN_BOAT,0)];
+  if(u->move_type != SEA_MOVING) {
+    freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
+            u->name, filename);
+    exit(1);
+  }
 
   /* pre-calculate game.rtech.nav (tech for non-trireme ferryboat) */
   game.rtech.nav = A_LAST;
@@ -1000,7 +1026,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
    * all players governments here, if they have not been previously
    * set (eg by loading game).
    */
-  for(i=0; i<MAX_NUM_PLAYERS; i++) {
+  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     if (game.players[i].government == G_MAGIC) {
       game.players[i].government = game.default_government;
     }
@@ -1236,6 +1262,7 @@ static void send_ruleset_control(struct player *dest)
   packet.num_tech_types = game.num_tech_types;
 
   packet.nation_count = game.nation_count;
+  packet.playable_nation_count = game.playable_nation_count;
   packet.style_count = game.styles_count;
 
   for(to=0; to<game.nplayers; to++) {           /* dests */
@@ -1285,18 +1312,18 @@ static void load_ruleset_nations(char *ruleset_subdir)
   struct government *gov;
   int *res, dim, val, i, j;
   char temp_name[MAX_LEN_NAME], male[MAX_LEN_NAME], female[MAX_LEN_NAME];
-  char **cities, **techs, **leaders;
+  char **cities, **techs, **leaders, **sec;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "nations");
   datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
-  i=0; /* this here check how many nations are */
-  while( strlen(secfile_lookup_str_default(&file, "", "nation%d.name", i++)) );
-  game.nation_count = i-1;
-  freelog(LOG_VERBOSE, "There are %d nations defined", game.nation_count);
-  
-  if ( game.nation_count >= MAX_NUM_NATIONS || game.nation_count == 0) {
+  sec = secfile_get_secnames_prefix(&file, "nation", &game.nation_count);
+  game.playable_nation_count = game.nation_count - 1;
+  freelog(LOG_VERBOSE, "There are %d nations defined", game.playable_nation_count);
+
+  if ( game.playable_nation_count >= MAX_NUM_NATIONS
+       || game.playable_nation_count == 0) {
     freelog(LOG_FATAL, "There can must be between 1 and %d nations", MAX_NUM_NATIONS);
     exit(1);    
   }
@@ -1307,9 +1334,9 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* nation name and leaders */
 
-    strcpy( pl->name, secfile_lookup_str(&file, "nation%d.name", i));
-    strcpy( pl->name_plural, secfile_lookup_str(&file, "nation%d.plural", i));
-    leaders = secfile_lookup_str_vec(&file, &dim, "nation%d.leader", i);
+    strcpy( pl->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    strcpy( pl->name_plural, secfile_lookup_str(&file, "%s.plural", sec[i]));
+    leaders = secfile_lookup_str_vec(&file, &dim, "%s.leader", sec[i]);
     if( dim<1 || dim > MAX_NUM_LEADERS ) {
       freelog(LOG_FATAL, "Nation %s: number of leaders must be 1-%d", pl->name, 
               MAX_NUM_LEADERS);
@@ -1339,7 +1366,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
         exit(1);
     }
     /* read leaders'sexes */
-    leaders = secfile_lookup_str_vec(&file, &dim, "nation%d.leader_sex", i);
+    leaders = secfile_lookup_str_vec(&file, &dim, "%s.leader_sex", sec[i]);
     if( dim != pl->leader_count ) {
       freelog(LOG_FATAL, "Nation %s: leader sex count not equal to number of leaders",
               pl->name);
@@ -1360,19 +1387,19 @@ static void load_ruleset_nations(char *ruleset_subdir)
     /* Flags */
 
     strcpy(pl->flag_graphic_str,
-	   secfile_lookup_str(&file, "nation%d.flag", i));
+	   secfile_lookup_str(&file, "%s.flag", sec[i]));
     strcpy(pl->flag_graphic_alt,
-	   secfile_lookup_str(&file, "nation%d.flag_alt", i));
+	   secfile_lookup_str(&file, "%s.flag_alt", sec[i]));
 
     /* Ruler titles */
 
     j = -1;
-    while((g = secfile_lookup_str_default(&file, NULL, "nation%d.ruler_titles%d.government",
-					  i, ++j))) {
-      strncpy(male, secfile_lookup_str(&file, "nation%d.ruler_titles%d.male_title", i, j),
+    while((g = secfile_lookup_str_default(&file, NULL, "%s.ruler_titles%d.government",
+					  sec[i], ++j))) {
+      strncpy(male, secfile_lookup_str(&file, "%s.ruler_titles%d.male_title", sec[i], j),
               sizeof(male)-1);
       male[sizeof(male)-1] = '\0';
-      strncpy(female, secfile_lookup_str(&file, "nation%d.ruler_titles%d.female_title", i, j),
+      strncpy(female, secfile_lookup_str(&file, "%s.ruler_titles%d.female_title", sec[i], j),
               sizeof(female)-1); 
       female[sizeof(female)-1] = '\0';
       if( (gov = find_government_by_name(g)) != NULL ) {
@@ -1385,8 +1412,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* City styles */
 
-    strcpy(temp_name,
-           secfile_lookup_str_default(&file, "-", "nation%d.city_style", i));
+    strcpy(temp_name, secfile_lookup_str_default(&file, "-", "%s.city_style", sec[i]));
     pl->city_style = get_style_by_name(temp_name);
     if( pl->city_style == -1 ) {
       freelog( LOG_NORMAL, "Nation %d city style %s not known, using default", 
@@ -1401,11 +1427,11 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* AI stuff */
 
-    pl->attack = secfile_lookup_int_default(&file, 2, "nation%d.attack", i);
-    pl->expand = secfile_lookup_int_default(&file, 2, "nation%d.expand", i);
-    pl->civilized = secfile_lookup_int_default(&file, 2, "nation%d.civilized", i);
+    pl->attack = secfile_lookup_int_default(&file, 2, "%s.attack", sec[i]);
+    pl->expand = secfile_lookup_int_default(&file, 2, "%s.expand", sec[i]);
+    pl->civilized = secfile_lookup_int_default(&file, 2, "%s.civilized", sec[i]);
 
-    res = secfile_lookup_int_vec(&file, &dim, "nation%d.advisors", i);
+    res = secfile_lookup_int_vec(&file, &dim, "%s.advisors", sec[i]);
     if( dim != ADV_LAST ) {
       freelog( LOG_FATAL, "Nation %d number of advisors must be %d but is %d", 
                i, ADV_LAST, dim);
@@ -1417,7 +1443,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* AI techs */
 
-    techs = secfile_lookup_str_vec(&file, &dim, "nation%d.tech_goals", i);
+    techs = secfile_lookup_str_vec(&file, &dim, "%s.tech_goals", sec[i]);
     if( dim > MAX_NUM_TECH_GOALS ) {
       freelog( LOG_VERBOSE, "Only %d techs can used from %d defined for nation %s",
                MAX_NUM_TECH_GOALS, dim, pl->name_plural);
@@ -1448,7 +1474,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* AI wonder & government */
 
-    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.wonder", i));
+    strcpy( temp_name, secfile_lookup_str(&file, "%s.wonder", sec[i]));
     val = find_improvement_by_name(temp_name);
     /* for any problems, leave as B_LAST */
     if(val == B_LAST) {
@@ -1463,7 +1489,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
     pl->goals.wonder = val;
     freelog(LOG_DEBUG, "%s wonder goal %d %s", pl->name, val, temp_name);
 
-    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.government", i));
+    strcpy( temp_name, secfile_lookup_str(&file, "%s.government", sec[i]));
     gov = find_government_by_name(temp_name);
     if(gov == NULL) {
       freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
@@ -1476,7 +1502,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
 
     /* read city names */
 
-    cities = secfile_lookup_str_vec(&file, &dim, "nation%d.cities", i);
+    cities = secfile_lookup_str_vec(&file, &dim, "%s.cities", sec[i]);
     pl->default_city_names = fc_calloc(dim+1, sizeof(char*));
     pl->default_city_names[dim] = NULL;
     for ( j=0; j<dim; j++) {
@@ -1485,6 +1511,7 @@ static void load_ruleset_nations(char *ruleset_subdir)
     }
     if(cities) free(cities);
   }
+  free(sec);
 
   /* read miscellaneous city names */
 

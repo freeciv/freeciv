@@ -65,6 +65,7 @@
 #include "version.h"
 
 #include "autoattack.h"
+#include "barbarian.h"
 #include "cityhand.h"
 #include "cityturn.h"
 #include "console.h"
@@ -127,7 +128,7 @@ char metaserver_addr[256];
 /* server name for metaserver to use for us */
 char metaserver_servername[64]="";
 
-struct player *shuffled[MAX_NUM_PLAYERS];
+struct player *shuffled[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -339,15 +340,15 @@ int main(int argc, char *argv[])
     /* otherwise rulesets were loaded when savegame was loaded */
   }
 
-  nations_avail = fc_calloc( game.nation_count, sizeof(int));
-  nations_used = fc_calloc( game.nation_count, sizeof(int));
+  nations_avail = fc_calloc( game.playable_nation_count, sizeof(int));
+  nations_used = fc_calloc( game.playable_nation_count, sizeof(int));
 
 main_start_players:
 
   send_rulesets(0);
 
-  num_nations_avail = game.nation_count;
-  for(i=0; i<game.nation_count; i++) {
+  num_nations_avail = game.playable_nation_count;
+  for(i=0; i<game.playable_nation_count; i++) {
       nations_avail[i]=i;
       nations_used[i]=i;
   }
@@ -466,6 +467,9 @@ main_start_players:
     
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
+    freelog(LOG_DEBUG, "Season of native unrests");
+    summon_barbarians(); /* wild guess really, no idea where to put it, but
+                            I want to give them chance to move their units */
     freelog(LOG_DEBUG, "Autosettlers");
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
     /* moved after sniff_packets for even more efficiency.
@@ -741,6 +745,9 @@ static void shuffle_players(void)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void ai_start_turn(void)
 {
   int i;
@@ -1172,7 +1179,7 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
   mark_nation_as_used(packet->nation_no);
 
   /* if there's no nation left, reject remaining players, sorry */
-  if( nations_used == game.nation_count ) {
+  if( nations_used == game.playable_nation_count ) {   /* barb */
     for(i=0; i<game.nplayers; i++) {
       if( game.players[i].nation == MAX_NUM_NATIONS ) {
         reject_new_player(_("Sorry, you can't play."
@@ -1258,7 +1265,7 @@ static void introduce_game_to_player(struct player *pplayer)
 {
   char hostname[512];
   struct player *cplayer;
-  int i, nconn, nother;
+  int i, nconn, nother, nbarb;
   
   if (!pplayer->conn)
     return;
@@ -1295,8 +1302,9 @@ static void introduce_game_to_player(struct player *pplayer)
     /* if the game is running, players can just view the Players menu?  --dwp */
     return;
   }
-  for(nconn=0, i=0; i<game.nplayers; ++i) {
+  for(nbarb=0, nconn=0, i=0; i<game.nplayers; ++i) {
     nconn += (game.players[i].is_connected);
+    nbarb += is_barbarian(&game.players[i]);
   }
   if (nconn != 1) {
     notify_player(pplayer, _("There are currently %d players connected:"),
@@ -1312,7 +1320,7 @@ static void introduce_game_to_player(struct player *pplayer)
 		     :cplayer->ai.control ? _(" (AI mode)") : ""));
     }
   }
-  nother = game.nplayers - nconn;
+  nother = game.nplayers - nconn - nbarb;
   if (nother > 0) {
     if (nother == 1) {
       notify_player(pplayer, _("There is 1 other player:"));
@@ -1321,6 +1329,7 @@ static void introduce_game_to_player(struct player *pplayer)
     }
     for(i=0; i<game.nplayers; ++i) {
       cplayer = &game.players[i];
+      if( is_barbarian(cplayer) ) continue;
       if (!cplayer->is_connected) {
 	notify_player(pplayer, "  %s%s", cplayer->name, 
 		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
@@ -1567,7 +1576,7 @@ static void generate_ai_players(void)
       continue;
     }
 
-    for (nation = 0; nation < game.nation_count; nation++) {
+    for (nation = 0; nation < game.playable_nation_count; nation++) {
       if ( check_nation_leader_name( nation, game.players[player].name ) )
         if(nations_used[nation] != -1) {
            game.players[player].nation=mark_nation_as_used(nation);
@@ -1577,7 +1586,7 @@ static void generate_ai_players(void)
         }
     }
 
-    if(nation == game.nation_count) {
+    if(nation == game.playable_nation_count) {
       game.players[player].nation=
               mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
       game.players[player].is_male=myrand(2);
@@ -1590,11 +1599,11 @@ static void generate_ai_players(void)
   /* Create and pick nation and name for AI players needed to bring the
      total number of players == game.aifill */
 
-  if( game.nation_count < game.aifill ) {
-    game.aifill = game.nation_count;
+  if( game.playable_nation_count < game.aifill ) {
+    game.aifill = game.playable_nation_count;
     freelog( LOG_NORMAL,
 	     _("Nation count smaller than aifill; aifill reduced to %d."),
-             game.nation_count);
+             game.playable_nation_count);
   }
 
   for(;game.nplayers < game.aifill;) {

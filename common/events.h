@@ -49,6 +49,7 @@ enum {
   E_UNIT_WIN_ATT,
   E_CITY_GRAN_THROTTLE,
   E_SPACESHIP,
+  E_UPRISING,
   E_LAST
 };
 

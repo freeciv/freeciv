@@ -27,6 +27,7 @@
 #include "timing.h"
 #include "unit.h"
 
+#include "barbarian.h"
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -45,6 +46,8 @@
 #include "aiunit.h"
 
 extern struct move_cost_map warmap;
+
+static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader);
 
 int unit_move_turns(struct unit *punit, int x, int y)
 {
@@ -110,32 +113,34 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   generate_warmap(map_get_city(x, y), punit); /* CPU-expensive but worth it -- Syela */
 /* otherwise did not understand about bays and did really stupid things! */
 
-/* BEGIN PART ONE: Look for huts.  Ground units ONLY. */
-  if (is_ground_unit(punit)) { /* boats don't hunt huts */
-    for (d = 1; d <= lmt; d++) {
-      for (i = 0 - d; i <= d; i++) {
-        f = 1;
-        if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
-        for (j = 0 - d; j <= d; j += f) {
-          if (map_get_tile(x + i, y + j)->special & S_HUT &&
-          warmap.cost[map_adjust_x(x + i)][y + j] < best &&
-          (!ai_handicap(pplayer, H_HUTS) || map_get_known(x+i, y+j, pplayer)) &&
-          map_get_continent(x + i, y + j) == con &&
-          tile_is_accessible(punit, x+i, y+j) && ai_fuzzy(pplayer,1)) {
-            dest_x = map_adjust_x(x + i);
-            dest_y = y + j;
-            best = warmap.cost[dest_x][dest_y];
-          }
-        }
-      }
-    } /* end for D */
-  }
-  if (best <= lmt * 3) {
-    punit->goto_dest_x = dest_x;
-    punit->goto_dest_y = dest_y;
-    set_unit_activity(punit, ACTIVITY_GOTO);
-    do_unit_goto(pplayer, punit);
-    return; /* maybe have moves left but I want to return anyway. */
+/* BEGIN PART ONE: Look for huts.  Non-Barbarian Ground units ONLY. */
+  if (!is_barbarian(pplayer)) {
+    if (is_ground_unit(punit)) { /* boats don't hunt huts */
+      for (d = 1; d <= lmt; d++) {
+	for (i = 0 - d; i <= d; i++) {
+	  f = 1;
+	  if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
+	  for (j = 0 - d; j <= d; j += f) {
+	    if (map_get_tile(x + i, y + j)->special & S_HUT &&
+		warmap.cost[map_adjust_x(x + i)][y + j] < best &&
+		(!ai_handicap(pplayer, H_HUTS) || map_get_known(x+i, y+j, pplayer)) &&
+		map_get_continent(x + i, y + j) == con &&
+		tile_is_accessible(punit, x+i, y+j) && ai_fuzzy(pplayer,1)) {
+	      dest_x = map_adjust_x(x + i);
+	      dest_y = y + j;
+	      best = warmap.cost[dest_x][dest_y];
+	    }
+	  }
+	}
+      } /* end for D */
+    }
+    if (best <= lmt * 3) {
+      punit->goto_dest_x = dest_x;
+      punit->goto_dest_y = dest_y;
+      set_unit_activity(punit, ACTIVITY_GOTO);
+      do_unit_goto(pplayer, punit);
+      return; /* maybe have moves left but I want to return anyway. */
+    }
   }
 
 /* END PART ONE */
@@ -152,8 +157,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
       for (j = -1; j <= 1; j++) {
         ok = (unit_flag(punit->type, F_TRIREME) ? 0 : 1);
         if (map_get_continent(x + i, y + j) == con &&
-        !is_enemy_unit_tile(x + i, y + j, punit->owner) &&
-        !map_get_city(x + i, y + j)) {
+	    !is_enemy_unit_tile(x + i, y + j, punit->owner) &&
+	    !map_get_city(x + i, y + j)) {
           cur = 0;
           for (a = i - 1; a <= i + 1; a++) {
             for (b = j - 1; b <= j + 1; b++) {
@@ -167,7 +172,9 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
             }
           }
           if (ok && (cur > best || (cur == best && myrand(2))) &&
-              could_unit_move_to_tile(punit, punit->x, punit->y, x+i, y+j)) {
+              could_unit_move_to_tile(punit, punit->x, punit->y, x+i, y+j) &&
+	      !(is_barbarian(pplayer) &&
+		(map_get_tile(x+i, y+j)->special & S_HUT))) {
             dest_x = map_adjust_x(x + i);
             dest_y = y + j;
             best = cur;
@@ -190,15 +197,17 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       if (map_get_continent(x, y) == con && map_get_known(x, y, pplayer) &&
-         !is_enemy_unit_tile(x, y, punit->owner) && !map_get_city(x, y) &&
-         tile_is_accessible(punit, x, y)) {
+	  !is_enemy_unit_tile(x, y, punit->owner) && !map_get_city(x, y) &&
+	  tile_is_accessible(punit, x, y)) {
         cur = 0;
         for (a = -1; a <= 1; a++)
           for (b = -1; b <= 1; b++)
             if (!map_get_known(x + a, y + b, pplayer)) cur++;
         if (cur) {
           cur += 9 * (THRESHOLD - unit_move_turns(punit, x, y));
-          if (cur > best || (cur == best && myrand(2))) {
+          if ((cur > best || (cur == best && myrand(2))) &&
+	      !(is_barbarian(pplayer) &&
+		(map_get_tile(x, y)->special & S_HUT))) {
             dest_x = map_adjust_x(x);
             dest_y = y;
             best = cur;
@@ -416,6 +425,16 @@ static int is_my_turn(struct unit *punit, struct unit *pdef)
   return(1);
 }
 
+/*************************************************************************
+This looks at tiles neighbouring the unit to find something to kill or
+explore. It prefers tiles in the following order:
+1. Undefended cities
+2. Huts
+3. Enemy units weaker than the unit
+4. Land barbarians also like unfrastructure tiles (for later pillage)
+If none of the following is there, nothing is chosen.
+**************************************************************************/
+
 /* work of Syela - mostly to fix the ZOC/goto strangeness */
 static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
 				  int *dest_x, int *dest_y)
@@ -498,12 +517,18 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
       }
       if (map_get_tile(x1, y1)->special & S_HUT && best < 99999 &&
           could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) &&
+          !is_barbarian(&game.players[punit->owner]) &&
 /*          zoc_ok_move(punit, x1, y1) && !is_sailing_unit(punit) &&*/
           punit->ai.ai_role != AIUNIT_ESCORT && /* makes life easier */
           !punit->ai.charge && /* above line seems not to work. :( */
           punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
         best = 99998; *dest_y = y1; *dest_x = x1;
       }
+      if( is_land_barbarian(pplayer) && best == 0 &&
+          get_tile_infrastructure_set(map_get_tile(x1, y1)) &&
+          could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) ) {
+        best = 1; *dest_y = y1; *dest_x = x1;
+      } /* next to nothing is better than nothing */
     }
   }
   return(best);
@@ -581,6 +606,37 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
   return(best);
 }
 
+/**************************************************************************
+find_beachhead() works only when city is not further that 1 tile from
+the sea. But Sea Raiders might want to attack cities inland.
+So this finds the nearest land tile on the same continent as the city.
+**************************************************************************/
+
+static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y)
+{
+  int i, j;
+  int xx, yy, best_xx = punit->x, best_yy = punit->y;
+  int dist = 100;
+  int far = real_map_distance( pc->x, pc->y, punit->x, punit->y );
+
+  for( i = 1-far; i < far; i++ )
+    for( j = 1-far; j < far; j++ ) {
+      xx = map_adjust_x(punit->x + i);
+      yy = map_adjust_y(punit->y + j);
+      if( map_same_continent( xx, yy, pc->x, pc->y ) &&
+          real_map_distance( punit->x, punit->y, xx, yy ) < dist ) {
+        dist = real_map_distance( punit->x, punit->y, xx, yy );
+        best_xx = xx; best_yy = yy;
+      }
+    }
+  *x = best_xx;
+  *y = best_yy;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
 static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 			       int dest_x, int dest_y)
 {
@@ -620,6 +676,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
         punit->ai.bodyguard = -1;
     } else if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
+      punit->ai.bodyguard = 0;
+
+    if( is_barbarian(pplayer) )  /* barbarians must have more currage */
       punit->ai.bodyguard = 0;
 /* end protection subroutine */
 
@@ -815,6 +874,16 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
       } /* end if home */
     } /* end if home is in danger */
   } /* end if we have a home */
+
+  /* keep barbarians aggresive and primitive */
+  if( is_barbarian(pplayer) ) {
+     if( get_tile_infrastructure_set(map_get_tile(punit->x,punit->y)) &&
+         is_land_barbarian(pplayer) )
+       punit->ai.ai_role = AIUNIT_PILLAGE;  /* land barbarians pillage */
+     else
+       punit->ai.ai_role = AIUNIT_ATTACK;
+     return;
+  }
 
   if (punit->ai.charge) { /* I am a bodyguard */
     aunit = unit_list_find(&pplayer->units, punit->ai.charge);
@@ -1217,6 +1286,12 @@ static int find_nearest_friendly_port(struct unit *punit)
   return 1;
 }
 
+/*************************************************************************
+This seems to do the attack. First find victim on the neighbouring tiles.
+If no enemies nearby find_something_to_kill() anywhere else. If there is
+nothing to kill, sailing units go home, others explore.
+**************************************************************************/
+
 void ai_military_attack(struct player *pplayer,struct unit *punit)
 { /* rewritten by Syela - old way was crashy and not smart (nor is this) */
   int dest_x, dest_y; 
@@ -1234,7 +1309,29 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
 /* nothing to kill.  Adjacency is something for us to kill later. */
           if (is_sailing_unit(punit)) {
             if (find_nearest_friendly_port(punit)) do_unit_goto(pplayer, punit);
-          } else ai_manage_explorer(pplayer, punit); /* nothing else to do */
+          } else {
+            ai_manage_explorer(pplayer, punit); /* nothing else to do */
+            /* you can still have some moves left here, but barbarians should
+               not sit helplessly, but advance towards nearest known enemy city */
+            if( punit->moves_left && is_barbarian(pplayer) ) {
+              struct city *pc;
+              int fx, fy;
+              freelog(LOG_DEBUG,"Barbarians looking for target");
+              if( (pc = dist_nearest_city(pplayer, punit->x, punit->y, 0, 1)) ) {
+                if( map_get_terrain(punit->x,punit->y) != T_OCEAN ) {
+                  freelog(LOG_DEBUG,"Marching to city");
+                  ai_military_gothere(pplayer, punit, pc->x, pc->y);
+                }
+                else {
+                  /* sometimes find_beachhead is not enough */
+                  if( !find_beachhead(punit, pc->x, pc->y, &fx, &fy) )
+                    find_city_beach(pc, punit, &fx, &fy);           
+                  freelog(LOG_DEBUG,"Sailing to city");
+                  ai_military_gothere(pplayer, punit, fx, fy);
+                }
+              }
+            }
+          }
           return; /* Jane, stop this crazy thing! */
         } else if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
 /* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
@@ -1316,6 +1413,13 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   }
 }
 
+/**************************************************************************
+This seems to manage the ferryboat. When it carries units on their way
+to invade something, it goes there. If it carries other units, it returns home.
+When empty, it tries to find some units to carry or goes home or explores.
+Military units handled by ai_manage_military()
+**************************************************************************/
+
 static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 { /* It's about 12 feet square and has a capacity of almost 1000 pounds.
      It is well constructed of teak, and looks seaworthy. */
@@ -1360,9 +1464,18 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     } else {
       freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
+      if(is_barbarian(pplayer)) /* just in case */
+        ai_manage_explorer(pplayer, punit);
     }
     return;
   }
+
+  /* check if barbarian boat is empty and so not needed - the crew has landed */
+  if( is_barbarian(pplayer) && unit_list_size(&map_get_tile(punit->x, punit->y)->units)<2 ) {
+    wipe_unit(pplayer,punit);
+    return;
+  }
+
 /* ok, not carrying anyone, even the ferryman */
   punit->ai.passenger = 0;
   freelog(LOG_DEBUG, "Ferryboat %d@(%d, %d) is lonely.",
@@ -1439,7 +1552,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
-  
+
 #ifdef DEBUG
   {
     struct city *pcity;
@@ -1472,6 +1585,10 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
     case AIUNIT_ESCORT: 
       ai_military_bodyguard(pplayer, punit);
       break;
+    case AIUNIT_PILLAGE:
+      handle_unit_activity_request(pplayer, punit, ACTIVITY_PILLAGE);
+      return; /* when you pillage, you have moves left, avoid later fortify */
+      break;
     case AIUNIT_EXPLORE:
       ai_manage_explorer(pplayer, punit);
       break;
@@ -1486,13 +1603,64 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
       if (unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
           punit->ai.ferryboat))
         handle_unit_activity_request(pplayer, punit, ACTIVITY_SENTRY);
-      else handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
+      else 
+        handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
     } /* better than doing nothing */
   }
 }
 
+/**************************************************************************
+  Barbarian units may disband spontaneously if their age is more then 5,
+  they are not in cities, and they are far from any enemy units. It is to 
+  remove barbarians that do not engage into any activity for a long time.
+**************************************************************************/
+
+static int unit_can_be_retired(struct unit *punit)
+{
+  int x, y;
+
+  if( punit->fuel ) {   /* fuel abused for barbarian life span */
+    punit->fuel--;
+    return 0;
+  }
+
+  if( is_friendly_city_tile( punit->x, punit->y, punit->owner) )
+    return 0;
+
+  /* check if there is enemy nearby */
+  for(x = punit->x - 3; x < punit->x + 4; x++)
+    for(y = punit->y - 3; y < punit->y + 4; y++) { 
+      if( y < 0 || y > map.ysize )
+        continue;
+      x = map_adjust_x(x);
+      if( is_enemy_city_tile(x,y,punit->owner) ||
+          is_enemy_unit_tile(x,y,punit->owner) )
+        return 0;
+    }
+
+  return 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
 void ai_manage_unit(struct player *pplayer, struct unit *punit) 
 {
+  /* retire useless barbarian units here, before calling the management
+     function */
+  if( is_barbarian(pplayer) ) {
+    if( unit_can_be_retired(punit) && myrand(100) > 90 ) {
+      wipe_unit(0,punit);
+      return;
+    }
+    if( !is_military_unit(punit)
+	&& !unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
+      freelog(LOG_VERBOSE, "Barbarians picked up non-military unit.");
+      return;
+    }
+  }
+
   if ((unit_flag(punit->type, F_DIPLOMAT))
       || (unit_flag(punit->type, F_SPY))) {
     return;
@@ -1507,6 +1675,8 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
+  } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
+    ai_manage_barbarian_leader(pplayer, punit);
   } else if (get_transporter_capacity(punit)) {
     ai_manage_ferryboat(pplayer, punit);
   } else if (is_military_unit(punit)) {
@@ -1618,3 +1788,113 @@ int is_ai_simple_military(int type)
     && !unit_flag(type, F_SUBMARINE) /* not caught by capacity for civ1 */
     && !(get_unit_type(type)->transport_capacity >= 8);
 }
+
+/*************************************************************************
+Barbarian leader tries to stack with other barbarian units, and if it's
+not possible it runs away. When on coast, it may disappear with 33% chance.
+**************************************************************************/
+
+static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
+{
+  int con = map_get_continent(leader->x, leader->y), i, x, y, dx, dy,
+    safest = 0, safest_x = leader->x, safest_y = leader->y;
+  struct unit *closest_unit = NULL;
+  int dist, mindist = 10000;
+
+  if (leader->moves_left == 0 || 
+      (map_get_terrain(leader->x, leader->y) != T_OCEAN &&
+       unit_list_size(&(map_get_tile(leader->x, leader->y)->units)) > 1) ) {
+      handle_unit_activity_request(pplayer, leader, ACTIVITY_SENTRY);
+      return;
+  }
+  /* the following takes much CPU time and could be avoided */
+  generate_warmap(map_get_city(leader->x, leader->y), leader);
+
+  /* duck under own units */
+  unit_list_iterate(pplayer->units, aunit) {
+    if (unit_has_role(aunit->type, L_BARBARIAN_LEADER)
+	|| !is_ground_unit(aunit)
+	|| map_get_continent(aunit->x, aunit->y) != con)
+      continue;
+
+    if (warmap.cost[aunit->x][aunit->y] < mindist) {
+      mindist = warmap.cost[aunit->x][aunit->y];
+      closest_unit = aunit;
+    }
+  } unit_list_iterate_end;
+
+  if (closest_unit != NULL
+      && !same_pos(closest_unit->x, closest_unit->y, leader->x, leader->y)
+      && map_same_continent(leader->x, leader->y, closest_unit->x, closest_unit->y)) {
+    auto_settler_do_goto(pplayer, leader, closest_unit->x, closest_unit->y);
+    handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+    return; /* sticks better to own units with this -- jk */
+  }
+
+  freelog(LOG_DEBUG, "Barbarian leader needs to flee");
+  mindist = 1000000;
+  closest_unit = NULL;
+  for (i = 0; i < game.nplayers; i++) {
+    unit_list_iterate(game.players[i].units, aunit) {
+      if (is_military_unit(aunit)
+	  && is_ground_unit(aunit)
+	  && map_get_continent(aunit->x, aunit->y) == con) {
+	/* questionable assumption: aunit needs as many moves to reach us as we
+	   need to reach it */
+	dist = warmap.cost[aunit->x][aunit->y] - unit_move_rate(aunit);
+	if (dist < mindist) {
+	  freelog(LOG_DEBUG, "Barbarian leader: closest enemy is %s at %d, %d, dist %d",
+                  unit_name(aunit->type), aunit->x, aunit->y, dist);
+	  mindist = dist;
+	  closest_unit = aunit;
+	}
+      }
+    } unit_list_iterate_end;
+  }
+
+  /* Disappearance - 33% chance on coast, when older than barbarian life span */
+  if( is_at_coast(leader->x, leader->y) && !leader->fuel) {
+    if(myrand(3) == 0) {
+      freelog(LOG_DEBUG, "Barbarian leader disappeared at %d %d", leader->x, leader->y);
+      wipe_unit(pplayer,leader);
+      return;
+    }
+  }
+
+  if (closest_unit == NULL) {
+    handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+    freelog(LOG_DEBUG, "Barbarian leader: No enemy.");
+    return;
+  }
+
+  generate_warmap(map_get_city(closest_unit->x, closest_unit->y), closest_unit);
+
+  do {
+    freelog(LOG_DEBUG, "Barbarian leader: moves left: %d\n", leader->moves_left);
+    for (dx = -1; dx <= 1; dx++) {
+      for (dy = -1; dy <= 1; dy++) {
+	x = map_adjust_x(leader->x + dx);
+	y = map_adjust_x(leader->y + dy);
+
+	if (warmap.cost[x][y] > safest
+	    && can_unit_move_to_tile(leader, x, y)) {
+	  safest = warmap.cost[x][y];
+	  freelog(LOG_DEBUG, "Barbarian leader: safest is %d, %d, safeness %d",
+                  x, y, safest);
+	  safest_x = x;
+	  safest_y = y;
+	}
+      }
+    }
+
+    if (same_pos(leader->x, leader->y, safest_x, safest_y)) {
+      freelog(LOG_DEBUG, "Barbarian leader reached the safest position.");
+      handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+      return;
+    }
+
+    freelog(LOG_DEBUG, "Fleeing to %d, %d.", safest_x, safest_y);
+    auto_settler_do_goto(pplayer, leader, safest_x, safest_y);
+  } while (leader->moves_left > 0);
+}
+

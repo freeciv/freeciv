@@ -1614,13 +1614,13 @@ void create_races_dialog(void)
 
   /* ------- nation name toggles ------- */
 
-  races_toggles_form = gtk_table_new( 3, (game.nation_count+2)/3, FALSE );
+  races_toggles_form = gtk_table_new( 3, (game.playable_nation_count+2)/3, FALSE );
   gtk_container_add( GTK_CONTAINER( f ), races_toggles_form );
 
   free(races_toggles);
-  races_toggles = fc_calloc( game.nation_count, sizeof(GtkWidget*) );
+  races_toggles = fc_calloc( game.playable_nation_count, sizeof(GtkWidget*) );
 
-  for(i=0; i<game.nation_count; i++) {
+  for(i=0; i<game.playable_nation_count; i++) {
     races_toggles[i]= gtk_radio_button_new_with_label( group, get_nation_name(i) );
     gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( races_toggles[i] ), FALSE );
     group = gtk_radio_button_group( GTK_RADIO_BUTTON( races_toggles[i] ) );
@@ -1718,7 +1718,7 @@ void create_races_dialog(void)
 
   /* ------- connect callback functions ------- */
 
-  for(i=0; i<game.nation_count; i++)
+  for(i=0; i<game.playable_nation_count; i++)
 	gtk_signal_connect( GTK_OBJECT( races_toggles[i] ), "toggled",
 	    GTK_SIGNAL_FUNC( races_toggles_callback ), NULL );
 
@@ -1781,7 +1781,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits1;
 
-  for(i=0; i<game.nation_count && i<32; i++) {
+  for(i=0; i<game.playable_nation_count && i<32; i++) {
     if(mybits&1)
       gtk_widget_set_sensitive( races_toggles[i], FALSE );
     else
@@ -1791,7 +1791,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits2;
 
-  for(i=32; i<game.nation_count; i++) {
+  for(i=32; i<game.playable_nation_count; i++) {
     if(mybits&1)
       gtk_widget_set_sensitive( races_toggles[i], FALSE );
     else
@@ -1829,7 +1829,7 @@ void races_toggles_callback( GtkWidget *w, gpointer data )
   g_list_free(leader_strings);
   leader_strings = 0;
 
-  for(i=0; i<game.nation_count; i++)
+  for(i=0; i<game.playable_nation_count; i++)
     if(w==races_toggles[i]) {
       leaders = get_nation_leader_names( i, &leader_count);
       for( j=0; j<leader_count; j++) {

@@ -55,7 +55,9 @@ static char *flag_names[] = {
 static char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
   "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
-  "Ferryboat"
+  "Ferryboat", "Barbarian", "BarbarianTech", "BarbarianBoat",
+  "BarbarianBuild", "BarbarianBuildTech", "BarbarianLeader",
+  "BarbarianSea", "BarbarianSeaTech"
 };
 
 /***************************************************************

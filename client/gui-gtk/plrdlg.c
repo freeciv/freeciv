@@ -163,6 +163,8 @@ void update_players_dialog(void)
     for(i=0; i<game.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32];
       
+      if(is_barbarian(&game.players[i]))
+        continue;
       if(game.players[i].nturns_idle>3)
 	sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle-1);
       else

@@ -180,20 +180,50 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   bestchoice.want   = 0;
   bestchoice.type   = 0;
 
+  if( is_barbarian(pplayer) ) {    /* always build best attack unit */
+    int i, iunit, bestunit = -1, bestattack = 0;
+    for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
+      iunit = get_role_unit(L_BARBARIAN_BUILD, i);
+      if (get_unit_type(iunit)->attack_strength > bestattack) {
+	bestunit = iunit;
+	bestattack = get_unit_type(iunit)->attack_strength;
+      }
+    }
+    for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
+      iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
+      if (game.global_advances[get_unit_type(iunit)->tech_requirement]
+	  && get_unit_type(iunit)->attack_strength > bestattack) {
+	bestunit = iunit;
+	bestattack = get_unit_type(iunit)->attack_strength;
+      }
+    }
+    if (bestunit != -1) {
+      bestchoice.choice = bestunit;
+      bestchoice.want   = 101;
+      bestchoice.type   = 2;
+    }
+    else {
+      freelog(LOG_VERBOSE, "Barbarians don't know what to build!\n");
+    }
+  }
+  else {
+
 /* obsolete code destroyed */
 /*  military_advisor_choose_build(pplayer, pcity, &curchoice); */
 /* this is now handled in manage_city thanks to our friend ->ai.choice */
 /*  copy_if_better_choice(&curchoice, &bestchoice); */
-  copy_if_better_choice(&pcity->ai.choice, &bestchoice);
 
-  if (bestchoice.want <= 100 || !pcity->ai.urgency) { /* soldier at 101 cannot be denied */
-    domestic_advisor_choose_build(pplayer, pcity, &curchoice);
-    copy_if_better_choice(&curchoice, &bestchoice);
+    copy_if_better_choice(&pcity->ai.choice, &bestchoice);
+
+    if (bestchoice.want <= 100 || !pcity->ai.urgency) { /* soldier at 101 cannot be denied */
+      domestic_advisor_choose_build(pplayer, pcity, &curchoice);
+      copy_if_better_choice(&curchoice, &bestchoice);
+    }
+
+    pcity->ai.choice.choice = bestchoice.choice; /* we want to spend gold later */
+    pcity->ai.choice.want = bestchoice.want; /* so that we spend it in the right city */
+    pcity->ai.choice.type = bestchoice.type; /* instead of the one atop the list */
   }
-
-  pcity->ai.choice.choice = bestchoice.choice; /* we want to spend gold later */
-  pcity->ai.choice.want = bestchoice.want; /* so that we spend it in the right city */
-  pcity->ai.choice.type = bestchoice.type; /* instead of the one atop the list */
 
 /* type 0 = building, 1 = non-mil unit, 2 = attacker, 3 = defender */
 

@@ -8,6 +8,8 @@ INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl
 civserver_SOURCES = \
 		autoattack.c	\
 		autoattack.h	\
+		barbarian.c	\
+		barbarian.h	\
 		cityhand.c	\
 		cityhand.h	\
 		citytools.c	\
