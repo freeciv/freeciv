@@ -41,6 +41,30 @@ static void handle_alloc_failure(size_t size, const char *called_as,
       (unsigned long) size, line, file);
 }
 
+/****************************************************************************
+  Check the size for sanity.  The program will exit rather than allocate a
+  dangerously large amount of memory.
+****************************************************************************/
+static void sanity_check_size(size_t size, const char *called_as,
+			      int line, const char *file)
+{
+  /* We're not allowed to allocate more than 20 Mb - the program will exit
+   * if someone tries.  This is a sanity measure since some parts of the code
+   * could try to allocate unboundedly large amounts of memory if given the
+   * wrong input. */
+  const size_t max_alloc_size = 20 * (1 << 20);
+
+  if (size == 0) {
+    freelog(LOG_VERBOSE, "Warning: %s with size %lu at line %d of %s",
+	    called_as, (unsigned long)size, line, file);
+  } else if (size > max_alloc_size) {
+    die("Overly large request in %s with size %lu > %lu at line %d of %s",
+        called_as, (unsigned long)size, (unsigned long)max_alloc_size,
+        line, file);
+  }
+}
+
+
 /**********************************************************************
  Function used by fc_malloc macro, malloc() replacement
  No need to check return value.
@@ -49,14 +73,11 @@ void *fc_real_malloc(size_t size,
 		     const char *called_as, int line, const char *file)
 {
   void *ptr;
+
+  sanity_check_size(size, called_as, line, file);
     
-  if(size==0) {
-    freelog(LOG_NORMAL, "Warning: %s with size %lu at line %d of %s",
-	    called_as, (unsigned long)size, line, file);
-    return NULL;
-  }
   ptr = malloc(size);
-  if(!ptr) {
+  if (!ptr) {
     handle_alloc_failure(size, called_as, line, file);
   }
   return ptr;
@@ -71,17 +92,14 @@ void *fc_real_realloc(void *ptr, size_t size,
 {
   void *new_ptr;
   
-  if(!ptr) {
+  if (!ptr) {
     return fc_real_malloc(size, called_as, line, file);
   }
-  if(size==0) {
-    freelog(LOG_NORMAL, "Warning: %s with size %lu at line %d of %s",
-	    called_as, (unsigned long)size, line, file);
-    free(ptr);
-    return NULL;
-  }
+
+  sanity_check_size(size, called_as, line, file);
+
   new_ptr = realloc(ptr, size);
-  if(!new_ptr) {
+  if (!new_ptr) {
     handle_alloc_failure(size, called_as, line, file);
   }
   return new_ptr;
@@ -115,7 +133,8 @@ void *fc_real_calloc(size_t nelem, size_t elsize,
 char *real_mystrdup(const char *str, 
 		    const char *called_as, int line, const char *file)
 {
-  char *dest = (char *)fc_real_malloc(strlen(str)+1, called_as, line, file);
+  char *dest = fc_real_malloc(strlen(str)+1, called_as, line, file);
+
   /* no need to check whether dest is non-NULL! */
   strcpy(dest, str);
   return dest;
