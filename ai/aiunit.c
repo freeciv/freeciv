@@ -57,6 +57,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_gohome(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
+static struct unit *ai_military_rampage(struct unit *punit, int threshold);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_can_defend(Unit_Type_id type);
@@ -555,23 +556,23 @@ bool ai_manage_explorer(struct unit *punit)
     /* No homecity? Find one! */
     if (!pcity) {
       pcity = find_closest_owned_city(pplayer, punit->x, punit->y, FALSE, NULL);
-      if (pcity) {
-        struct packet_unit_request packet;
+      if (pcity && ai_unit_make_homecity(punit, pcity)) {
         CITY_LOG(LOG_DEBUG, pcity, "we became home to an exploring %s",
                  unit_name(punit->type));
-        packet.unit_id = punit->id;
-        packet.city_id = pcity->id;
-        packet.x = punit->x;
-        packet.y = punit->y;
-        packet.name[0] = '\0';
-        handle_unit_change_homecity(pplayer, &packet);
       }
     }
 
     if (pcity && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       if (map_get_continent(pcity->x, pcity->y) == continent) {
         UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by foot");
-        ai_military_gohome(pplayer, punit);
+        if (punit->homecity != 0) {
+          ai_military_gohome(pplayer, punit);
+        } else {
+          /* Also try take care of deliberately homeless units */
+          punit->goto_dest_x = pcity->x;
+          punit->goto_dest_y = pcity->y;
+          do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+        }
       } else {
         /* Sea travel */
         if (find_boat(pplayer, &x, &y, 0) == 0) {
@@ -631,7 +632,6 @@ static bool stay_and_defend_city(struct unit *punit)
   bool has_defense = FALSE;
 
   if (!pcity) return FALSE;
-  if (pcity->id == punit->homecity) return FALSE;
   if (pcity->owner != punit->owner) return FALSE;
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef) {
@@ -643,19 +643,13 @@ static bool stay_and_defend_city(struct unit *punit)
   } unit_list_iterate_end;
  
   /* Guess I better stay / you can live at home now */
-  if (!has_defense) {
-    struct packet_unit_request packet;
-
-    /* Very important, or will not stay -- Syela */
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME);
-    
+  if (!has_defense && pcity->ai.danger > 0) {
     /* change homecity to this city */
-    /* FIXME: it is stupid to change homecity if the unit has no homecity
-       in advance or the new city does not have enough shields to support it */
-    packet.unit_id = punit->id;
-    packet.city_id = pcity->id;
-    handle_unit_change_homecity(unit_owner(punit), &packet);
-    return TRUE;
+    if (ai_unit_make_homecity(punit, pcity)) {
+      /* Very important, or will not stay -- Syela */
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME);
+      return TRUE;
+    }
   }
   return FALSE;
 }
@@ -929,9 +923,9 @@ Returns value of the victim which has been chosen:
 
 If value <= 0 is returned, (dest_x, dest_y) is set to actual punit's position.
 **************************************************************************/
-static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
-                                  int *dest_x, int *dest_y)
+static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
 {
+  struct player *pplayer = unit_owner(punit);
   int bellig = unit_belligerence_primitive(punit);
   int x = punit->x, y = punit->y;
   int best = 0;
@@ -1063,6 +1057,23 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
 }
 
 /*************************************************************************
+  Find and kill anything adjacent to us that we don't like with a 
+  given threshold until we have run out of juicy targets or movement. 
+  Wraps ai_military_findvictim().
+**************************************************************************/
+static struct unit *ai_military_rampage(struct unit *punit, int threshold)
+{
+  int x, y, id = punit->id;
+
+  while (punit && punit->moves_left
+         && ai_military_findvictim(punit, &x, &y) >= threshold) {
+    ai_unit_attack(punit, x, y);
+    punit = find_unit_by_id(id);
+  }
+  return punit;
+}
+
+/*************************************************************************
   If we are not covering our charge's ass, go do it now. Also check if we
   can kick some ass, which is always nice.
 **************************************************************************/
@@ -1108,12 +1119,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     }
   } else {
     /* I had these guys set to just fortify, which is so dumb. -- Syela */
-    int i = ai_military_findvictim(pplayer, punit, &x, &y);
-    freelog(LOG_DEBUG, "Stationary escort @(%d,%d) received %d best @(%d,%d)",
-	    punit->x, punit->y, i, x, y);
-    if (i >= 40 * SHIELD_WEIGHTING) { ai_unit_attack(punit, x, y); }
-    /* otherwise don't bother, but free cities are free cities and must be 
-       snarfed. -- Syela */
+    punit = ai_military_rampage(punit, 40 * SHIELD_WEIGHTING);
   }
 
   /* is this insanity supposed to be a sanity check? -- per */
@@ -1561,7 +1567,6 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
 static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity;
-  int dest_x, dest_y;
   if (punit->homecity != 0){
     pcity=find_city_by_id(punit->homecity);
     freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
@@ -1570,10 +1575,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
       ai_unit_new_role(punit, AIUNIT_NONE);
       /* aggro defense goes here -- Syela */
-      if (ai_military_findvictim(pplayer, punit, &dest_x, &dest_y) > 1) {
-        assert(dest_x != punit->x || dest_y != punit->y);
-        ai_unit_attack(punit, dest_x, dest_y); /* might bash someone */
-      }
+      punit = ai_military_rampage(punit, 2); /* 2 is better than pillage */
     } else {
       freelog(LOG_DEBUG, "GOHOME(%d,%d)",
 		   punit->goto_dest_x, punit->goto_dest_y);
@@ -1935,80 +1937,99 @@ static bool find_nearest_friendly_port(struct unit *punit)
 }
 
 /*************************************************************************
-This seems to do the attack. First find victim on the neighbouring tiles.
-If no enemies nearby find_something_to_kill() anywhere else. If there is
-nothing to kill, sailing units go home, others explore.
+  This does the attack until we have used up all our movement, unless we
+  should safeguard a city. First we rampage on adjacent tiles, then we go
+  looking for trouble elsewhere. If there is nothing to kill, sailing units 
+  go home, others explore while barbs go berserk.
 **************************************************************************/
-static void ai_military_attack(struct player *pplayer,struct unit *punit)
+static void ai_military_attack(struct player *pplayer, struct unit *punit)
 {
   int dest_x, dest_y; 
-  int id;
-  bool flag;
-  int went, ct = 10;
+  int id = punit->id;
+  int ct = 10;
 
-  if (punit->activity!=ACTIVITY_GOTO) {
-    id = punit->id;
-    do {
-      flag = FALSE;
-      ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);  
-      if (dest_x == punit->x && dest_y == punit->y) {
-/* no one to bash here.  Will try to move onward */
-        find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
-        if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
-/* nothing to kill.  Adjacency is something for us to kill later. */
-          if (is_sailing_unit(punit)) {
-	    if (find_nearest_friendly_port(punit)
-		&& do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
-	      return;
-	    }
-          } else {
-            ai_manage_explorer(punit); /* nothing else to do */
-            /* you can still have some moves left here, but barbarians should
-               not sit helplessly, but advance towards nearest known enemy city */
-	    punit = find_unit_by_id(id);   /* unit might die while exploring */
-            if( punit && punit->moves_left > 0 && is_barbarian(pplayer) ) {
-              struct city *pc;
-              int fx, fy;
-              freelog(LOG_DEBUG,"Barbarians looking for target");
-              if( (pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE)) ) {
-                if( map_get_terrain(punit->x,punit->y) != T_OCEAN ) {
-                  freelog(LOG_DEBUG,"Marching to city");
-                  ai_military_gothere(pplayer, punit, pc->x, pc->y);
-                }
-                else {
-                  /* sometimes find_beachhead is not enough */
-		  if (find_beachhead(punit, pc->x, pc->y, &fx, &fy) == 0)
-                    find_city_beach(pc, punit, &fx, &fy);           
-                  freelog(LOG_DEBUG,"Sailing to city");
-                  ai_military_gothere(pplayer, punit, fx, fy);
-                }
-              }
-            }
-          }
-          return; /* Jane, stop this crazy thing! */
-        } else if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
-/* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
-          if ((went = ai_military_gothere(pplayer, punit, dest_x, dest_y)) != 0) {
-	    if (went > 0) {
-	      flag = punit->moves_left > 0;
-	    } else {
-	      punit = NULL;
-	    }
-          } /* else we're having ZOC hell and need to break out of the loop */
-        } /* else nothing to kill */
-      } else { /* goto does NOT work for fast units */
-	freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
-		      pplayer->name, unit_type(punit)->name,
-		      punit->x, punit->y, dest_x, dest_y); 
+  assert(punit);
+  if (punit->activity == ACTIVITY_GOTO) {
+    return;
+  }
+
+  /* Main attack loop */
+  do {
+    /* First find easy adjacent enemies; 2 is better than pillage */
+    if (!(punit = ai_military_rampage(punit, 2))) {
+      return; /* we died */
+    }
+
+    if (stay_and_defend_city(punit)) {
+      /* This city needs defending, don't go outside! */
+      UNIT_LOG(LOG_DEBUG, punit, "stayed to defend %s", 
+               map_get_city(punit->x, punit->y)->name);
+      return;
+    }
+
+    /* Then find enemies the hard way */
+    find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
+    if (!same_pos(punit->x, punit->y, dest_x, dest_y)) {
+      if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
+        (void) ai_military_gothere(pplayer, punit, dest_x, dest_y);
+      } else { 
+        /* Close combat. fstk sometimes want us to attack an adjacent
+         * enemy that rampage wouldn't */
+        freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
+                pplayer->name, unit_type(punit)->name,
+	        punit->x, punit->y, dest_x, dest_y);
         ai_unit_attack(punit, dest_x, dest_y);
-        punit = find_unit_by_id(id);
-        if (punit) flag = punit->moves_left > 0; else flag = FALSE;
       }
-      if (punit)
-         if (stay_and_defend_city(punit)) return;
-      ct--; /* infinite loops from railroads must be stopped */
-    } while (flag && ct > 0); /* want units to attack multiple times */
-  } /* end if */
+    } else {
+      /* No worthy enemies found, so abort loop */
+      ct = 0;
+    }
+
+    if (!(punit = find_unit_by_id(id))) {
+      return; /* we died */
+    }
+    ct--; /* infinite loops from railroads must be stopped */
+  } while (punit->moves_left > 0 && ct > 0);
+
+  /* Cleanup phase */
+  if (punit->moves_left == 0) {
+    return;
+  }
+  if (is_sailing_unit(punit)
+      && find_nearest_friendly_port(punit)) {
+    /* Sail somewhere */
+    do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+  } else if (!is_barbarian(pplayer)) {
+    /* Nothing else to do. Worst case, this function
+       will send us back home */
+    ai_manage_explorer(punit);
+  } else {
+    /* You can still have some moves left here, but barbarians should
+       not sit helplessly, but advance towards nearest known enemy city */
+    struct city *pc;
+    int fx, fy;
+    UNIT_LOG(LOG_DEBUG, punit, "Barbarian didn't get enough targets from fstk");
+    if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
+      if (map_get_terrain(punit->x,punit->y) != T_OCEAN) {
+        UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
+        ai_military_gothere(pplayer, punit, pc->x, pc->y);
+      } else {
+        /* sometimes find_beachhead is not enough */
+        if (find_beachhead(punit, pc->x, pc->y, &fx, &fy) == 0) {
+          find_city_beach(pc, punit, &fx, &fy);
+          freelog(LOG_DEBUG, "Barbarian sailing to city");
+          ai_military_gothere(pplayer, punit, fx, fy);
+       }
+      }
+    }
+  }
+  if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
+    struct city *pcity = map_get_city(punit->x, punit->y);
+    if (pcity && pcity->id == punit->homecity) {
+      /* We're needlessly idle in our homecity */
+      UNIT_LOG(LOG_DEBUG, punit, "fstk could not find work for me!");
+    }
+  }
 }
 
 /*************************************************************************
@@ -2207,9 +2228,9 @@ decides what to do with a military unit.
 **************************************************************************/
 static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
-  int id;
+  int id = punit->id;
 
-  id = punit->id;
+  assert(punit);
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -2229,7 +2250,8 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     }
   }
 #endif
-  
+
+  assert(punit);  
   switch (punit->ai.ai_role) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:

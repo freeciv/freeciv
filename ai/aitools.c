@@ -51,6 +51,32 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task)
 }
 
 /**************************************************************************
+  Try to make pcity our new homecity. Fails if we can't upkeep it. Assumes
+  success from server.
+**************************************************************************/
+bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
+{
+  if (punit->homecity == 0 && !unit_has_role(punit->type, L_EXPLORER)) {
+    /* This unit doesn't pay any upkeep while it doesn't have a homecity,
+     * so it would be stupid to give it one. There can also be good reasons
+     * why it doesn't have a homecity. */
+    /* However, until we can do something more useful with them, we
+       will assign explorers to a city so that they can be disbanded for 
+       the greater good -- Per */
+    return FALSE;
+  }
+  if (pcity->shield_surplus - unit_type(punit)->shield_cost >= 0
+      && pcity->food_surplus - unit_type(punit)->food_cost >= 0) {
+    struct packet_unit_request packet;
+    packet.unit_id = punit->id;
+    packet.city_id = pcity->id;
+    handle_unit_change_homecity(unit_owner(punit), &packet);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
   Move a bodyguard along with another unit. We assume that unit has already
   been moved to (x, y) which is a valid, safe coordinate, and that our
   bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
@@ -176,7 +202,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
     return FALSE;
   }
 
-  /* Try not to end move next to an enemy */
+  /* Try not to end move next to an enemy if we can avoid it by waiting */
   if (punit->moves_left <= map_move_cost(punit, x, y)
       && unit_type(punit)->move_rate > map_move_cost(punit, x, y)
       && enemies_at(punit, x, y)
