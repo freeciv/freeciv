@@ -19,6 +19,7 @@ Makefile
 Makefile.in
 POTFILES
 TAGS
+acinclude.m4
 aclocal.m4
 cat-id-tbl.c
 charset.alias
@@ -28,10 +29,12 @@ civgame*.sav
 civgame.log
 civserver
 config.cache
+config.guess
 config.h
 config.h.in
 config.log
 config.status
+config.sub
 configure
 core
 freeciv-*.tar.gz

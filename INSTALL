@@ -57,6 +57,25 @@ out whether your system is suitable.  If in doubt, just try it.
 
    The output should include "GNU Make" somewhere.
 
+The CVS version has additional requirements. A release version
+contains the generated files.
+
+ - The programs from GNU gettext version 0.10.38 or better
+
+   Especial the xgettext program is required to create the *.gmo
+   files which aren't included in the CVS tree.
+
+ - GNU autoconf version 2.13
+
+   Autoconf is required to create configure from configure.in. 
+
+   Please sent every feedback (good or bad) on using a version other
+   then 2.13 to <freeciv-dev@freeciv.org>.
+
+ - GNU automake version 1.4 or better
+
+   Automake is required to create the various Makefile.in from
+   Makefile.am.
 
 1. Prerequisites for the clients:
 =================================
@@ -183,9 +202,21 @@ will need to have the appropriate "development" packages installed.
 If you are going to make these yourself, build and install them in the
 following order: Glib, Gtk+, Imlib.
 
+2a. Generating the Makefile for CVS versions:
+=============================================
 
-2. Generating the Makefile:
-===========================
+This step is only needed for CVS versions.
+
+To create the makefile just type
+
+ % ./autogen.sh
+
+This will create the configure script and will run it. All parameters
+of autogen.sh are passed to configure. Read the next section about the
+parameters which can be passed to configure.
+
+2b. Generating the Makefile for release versions:
+=================================================
 
 Before you compile Freeciv, you must generate a Makefile.  This makefile
 is configured to suit the features available on your machine.

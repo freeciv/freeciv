@@ -18,7 +18,9 @@
 # The contents of the svn:ignore property on the branch root.
 /config.cache
 /Makefile
+/Makefile.in
 /config.h
+/config.h.in
 /config.log
 /config.status
 /stamp-h
