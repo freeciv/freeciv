@@ -145,6 +145,7 @@ void create_players_dialog(void)
   static gchar **titles;
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
+  GtkWidget *sw;
 
   /* initialises the indexes, necessary for update_players_dialog */
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
@@ -155,6 +156,8 @@ void create_players_dialog(void)
   if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
 
   players_dialog_shell = gtk_dialog_new();
+  gtk_window_set_default_size(GTK_WINDOW(players_dialog_shell), -1, 270);
+
   gtk_box_set_homogeneous(GTK_BOX
 			  (GTK_DIALOG(players_dialog_shell)->action_area),
 			  0);
@@ -169,8 +172,12 @@ void create_players_dialog(void)
   for(i=0; i<NUM_COLUMNS; i++)
     gtk_clist_set_column_auto_resize (GTK_CLIST (players_list), i, TRUE);
 
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(sw), players_list);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox),
-	players_list, TRUE, TRUE, 0);
+	sw, TRUE, TRUE, 0);
 
   players_close_command=gtk_accelbutton_new(_("C_lose"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
