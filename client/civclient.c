@@ -259,11 +259,12 @@ void set_client_state(enum client_states newstate)
       game_remove_all_players();
 /*      XtUnmapWidget(toplevel);
       XtMapWidget(toplevel);*/
-      gui_server_connect();
     }
     
     update_menus();
   }
+  if(client_state==CLIENT_PRE_GAME_STATE)
+    gui_server_connect();
 }
 
 
