@@ -15,10 +15,10 @@
 
 #include "dialogs_g.h"
 
-void popup_revolution_dialog(void);
 HWND popup_message_dialog(HWND parent, char *dialogname,
 			  const char *text, ...);
 void destroy_message_dialog(HWND dlg);
+void popup_revolution_dialog(int government);
 void message_dialog_button_set_sensitive(HWND dlg,int id,int state);
 BOOL unitselect_init(HINSTANCE hInstance);
 #endif  /* FC__DIALOGS_H */
