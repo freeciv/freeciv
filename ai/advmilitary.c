@@ -41,20 +41,48 @@ void military_advisor_choose_tech(struct player *pplayer,
   /* this function haven't been implemented yet */
 }
 
-int assess_defense_backend(struct city *pcity, int igwall)
-{
-  int v, def;
+int assess_defense_quadratic(struct city *pcity)
+{ /* Need positive feedback in m_a_c_b and bodyguard routines. -- Syela */
+  int v, def, l;
+  int igwall = 0; /* this can be an arg if needed, but seems unneeded */
   def = 0;
+  for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) ;
+/* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    v = get_defense_power(punit) * punit->hp * get_unit_type(punit->type)->firepower;
-    v /= 20; /* divides reasonably well, should stop overflows */
-/* actually is *= 1.5 for city, then /= 30 for scale - don't be confused */
-/* just trying to minimize calculations and thereby rounding errors -- Syela */
-    v *= v;
+    v = get_defense_power(punit) * punit->hp *
+        (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
+    v /= (is_ground_unit(punit) ? 20 : 30);
     if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
-      v *= pcity->ai.wallvalue; v /= 10;
+      v *= l; v /= 10;
     }
     if (is_military_unit(punit)) def += v;
+  unit_list_iterate_end;
+  if (def > 1<<12) printf("Very large def in assess_defense_quadratic: %d in %s\n",
+    def, pcity->name);
+  if (def > 1<<15) def = 1<<15; /* more defense than we know what to do with! */
+  return(def * def);
+}
+
+int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
+{ /* one unit only, mostly for findjob; handling boats correctly 980803 -- Syela */
+  int v;
+  v = get_defense_power(punit) * punit->hp *
+      (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
+  v /= (is_ground_unit(punit) ? 20 : 30);
+  v *= v;
+  if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
+    v *= pcity->ai.wallvalue; v /= 10;
+  }
+  if (is_military_unit(punit)) return(v);
+  return(0);
+}
+
+int assess_defense_backend(struct city *pcity, int igwall)
+{ /* Most of the time we don't need/want positive feedback. -- Syela */
+  int def;
+  def = 0;
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    def += assess_defense_unit(pcity, punit, igwall);
   unit_list_iterate_end;
   /* def is an estimate of our total defensive might */
   /* now with regard to the IGWALL nature of the units threatening us -- Syela */
@@ -161,7 +189,7 @@ int assess_danger(struct city *pcity)
 
         if (!igwall) danger2 += v * m / dist;
         else if (is_sailing_unit(punit)) danger3 += v * m / dist;
-        else if (is_air_unit(punit)) danger4 += v * m / dist;
+        else if (is_air_unit(punit) && punit->type != U_NUCLEAR) danger4 += v * m / dist;
         if (unit_flag(punit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
         if (punit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
           if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
@@ -210,6 +238,7 @@ which seems to work acceptably. -- Syela */
     else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
   }
 /* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
+/* update 980803; COASTAL seems to work; still don't know about SAM. -- Syela */
   if (pcity->ai.building_want[B_SAM] > 0 && danger4) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_SAM] = 100 + urgency;
@@ -242,6 +271,7 @@ int unit_desirability(int i, int def)
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
   if (unit_flag(i, F_IGTER) && !def) cur *= 3;
   if (unit_flag(i, F_PIKEMEN) && def) cur *= 1.5;
+  if (unit_types[i].move_type == LAND_MOVING && def) cur *= 1.5;
   return(cur);  
 }
 
@@ -592,9 +622,10 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* TODO: recognize units that can DEFEND_HOME but are in the field. -- Syela */
 
   urgency = assess_danger(pcity); /* calling it now, rewriting old wall code */
-  def = assess_defense(pcity); /* has to be AFTER assess_danger thanks to wallvalue */
+  def = assess_defense_quadratic(pcity); /* has to be AFTER assess_danger thanks to wallvalue */
+/* changing to quadratic to stop AI from building piles of small units -- Syela */
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
-/* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
+/*printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def);*/
 
   if (danger) { /* otherwise might be able to wait a little longer to defend */
 /* old version had danger -= def in it, which was necessary before disband/upgrade
@@ -637,9 +668,9 @@ code was added and walls got built, but now danger -= def would be very bad -- S
     }
   } /* ok, don't need to defend */
 
-  memset(&virtualunit, 0, sizeof(&virtualunit));
-/* this memset appears not to work, since I had to manually zero id
-to avoid horrible bugging.  Remind me not to trust memset with -O2. -- Syela */
+  memset(&virtualunit, 0, sizeof(struct unit));
+/* this memset didn't work because of syntax that
+the intrepid David Pfitzner discovered was in error. -- Syela */
   virtualunit.owner = pplayer->player_no;
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
