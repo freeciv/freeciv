@@ -52,6 +52,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef HAVE_FTIME
+# include <sys/timeb.h>
+#endif
+
 #include "log.h"
 #include "mem.h"
 #include "shared.h"		/* TRUE, FALSE */
@@ -90,6 +94,8 @@ struct timer {
     clock_t c;
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval tv;
+#elif HAVE_FTIME
+    struct timeb tp;
 #else
     time_t t;
 #endif
@@ -126,7 +132,7 @@ static void report_gettimeofday_failed(struct timer *t)
   }
   t->use = TIMER_IGNORE;
 }
-#else
+#elif !defined HAVE_FTIME
 /********************************************************************** 
   Report if time() returns -1, but only the first time.
   Ignore this timer from now on.
@@ -260,6 +266,8 @@ void start_timer(struct timer *t)
       report_gettimeofday_failed(t);
       return;
     }
+#elif defined HAVE_FTIME
+    ftime(&t->start.tp);
 #else
     t->start.t = time(NULL);
     if (t->start.t == (time_t) -1) {
@@ -324,6 +332,21 @@ void stop_timer(struct timer *t)
       t->usec -= sec * N_USEC_PER_SEC;
     }
     t->start.tv = now;
+#elif defined HAVE_FTIME
+    struct timeb now;
+
+    ftime(&now);
+    t->usec += 1000 * ((long)now.millitm - (long)t->start.tp.millitm);
+    t->sec += now.time - t->start.tp.time;
+    if (t->usec < 0) {
+      t->usec += N_USEC_PER_SEC;
+      t->sec -= 1.0;
+    } else if (t->usec >= N_USEC_PER_SEC) {
+      long sec = t->usec / N_USEC_PER_SEC;
+      t->sec += sec;
+      t->usec -= sec * N_USEC_PER_SEC;
+    }
+    t->start.tp = now;
 #else
     time_t now = time(NULL);
     if (now == (time_t) -1) {
@@ -407,6 +430,19 @@ void usleep_since_timer_start(struct timer *t, long usec)
 
   if (wait_usec > 0)
     myusleep(wait_usec);
+#elif HAVE_FTIME
+  struct timeb now;
+  long elapsed_usec, wait_usec;
+
+  ftime(&now);
+
+  elapsed_usec = (now.time - t->start.tp.time) * N_USEC_PER_SEC
+    + (now.millitm - t->start.tp.millitm);
+  wait_usec = usec - elapsed_usec;
+
+  if (wait_usec > 0) {
+    myusleep(wait_usec);
+  }
 #else
   myusleep(usec);
 #endif
