@@ -899,8 +899,12 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
 		       _("Game: You can't attack there."));
       return 0;
     };
-  } else if (punit->ai.bodyguard > 0 && (bodyguard = unit_list_find(&map_get_tile(punit->x,
-      punit->y)->units, punit->ai.bodyguard)) && !bodyguard->moves_left) {
+  } else if (pplayer->ai.control &&
+	     punit->ai.bodyguard > 0 &&
+	     (bodyguard =
+	      unit_list_find(&map_get_tile(punit->x, punit->y)->units,
+			     punit->ai.bodyguard)) &&
+	     !bodyguard->moves_left) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: %s doesn't want to leave its bodyguard."),
 		     unit_types[punit->type].name);
@@ -1004,7 +1008,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     if (!ok) return 1;
     
     /* bodyguard code */
-    if(unit_list_find(&pplayer->units, unit_id)) {
+    if(pplayer->ai.control &&
+       unit_list_find(&pplayer->units, unit_id)) {
       if (punit->ai.bodyguard > 0) {
         bodyguard = unit_list_find(&(map_get_tile(src_x, src_y)->units),
                     punit->ai.bodyguard);
