@@ -2282,7 +2282,11 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
     pl->class = mystrdup(_("Other"));
   }
 
-  pl->legend = mystrdup(p->legend);
+  if (p->legend[0] != '\0') {
+    pl->legend = mystrdup(_(p->legend));
+  } else {
+    pl->legend = mystrdup("");
+  }
 
   tilespec_setup_nation_flag(p->id);
 }
