@@ -361,7 +361,7 @@ void demographics_report(struct player *pplayer)
   sprintf(buf2, "%-20s:%d Tons (%s)\n", "Pollution", pplayer->score.pollution, number_to_string(rank_pollution(pplayer)));
   strcat(buffer, buf2);
   
-  page_player(pplayer, "Demographics report.       ", buffer);
+  page_player(pplayer, "Demographics Report.       ", buffer);
 }
 
 void make_history_report()
