@@ -544,7 +544,7 @@ void remove_obsolete_buildings(struct player *pplayer)
 	 && !is_wonder(i) 
 	 && improvement_obsolete(pplayer, i)) {
 	do_sell_building(pplayer, pcity, i);
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
 			 "Game: %s is selling %s (obsolete) for %d", 
 			 pcity->name, get_improvement_name(i), 
 			 improvement_value(i)/2);

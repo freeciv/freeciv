@@ -224,7 +224,7 @@ void handle_diplomat_action(struct player *pplayer,
 					 pcity->x, pcity->y)) {
 	if(pdiplomat->foul){
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   "Game: Your Spy has been executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable.",pcity->name, get_race_name_plural(pplayer->race));
+			   "Game: Your spy was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable.",pcity->name, get_race_name_plural(pplayer->race));
 	  
 	  notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "You executed a spy the %s had sent to establish an embassy in %s",
 			   get_race_name_plural(pplayer->race),
@@ -240,9 +240,9 @@ void handle_diplomat_action(struct player *pplayer,
 			 "Game: You have established an embassy in %s",
 			 pcity->name);
 	
-	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "Game: The %s have established an embassy in %s",
-		      get_race_name_plural(pplayer->race),
-		      pcity->name);
+	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, 
+			 "Game: The %s have established an embassy in %s",
+		         get_race_name_plural(pplayer->race), pcity->name);
       }
       wipe_unit(0, pdiplomat);
       break;
@@ -418,10 +418,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     packet.x=pdefender->x;
     packet.y=pdefender->y;
     if ((pcity=sdi_defense_close(punit->owner, pdefender->x, pdefender->y))) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, "Game: Your Nuclear missile has been shot down by SDI, what a waste.");
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
+		       "Game: Your Nuclear missile was shot down by SDI defences, what a waste.");
       notify_player_ex(&game.players[pcity->owner], 
-		       pdefender->x, pdefender->y, E_NOEVENT, 
-             "Game: The nuclear attack on %s was avoided by your SDI defense",
+		       pdefender->x, pdefender->y, E_UNIT_WIN, 
+		       "Game: The nuclear attack on %s was avoided by your SDI defense.",
 		       pcity->name); 
       wipe_unit(0, punit);
       return;
@@ -488,26 +489,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 		  game.players[plooser->owner].name,
 		  unit_name(punit->type));
     if (incity) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_NOEVENT, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST, 
 		     "Game: Your attacking %s failed against %s's %s at %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), incity->name);
     else if (nearcity2 && is_tiles_adjacent(pdefender->x, pdefender->y,
       nearcity2->x, nearcity2->y)) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_NOEVENT, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST, 
 		     "Game: Your attacking %s failed against %s's %s outside %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), nearcity2->name);
     else if (nearcity2) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_NOEVENT, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST, 
 		     "Game: Your attacking %s failed against %s's %s near %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), nearcity2->name);
     else notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_NOEVENT, 
+		     pdefender->x, pdefender->y, E_UNIT_LOST, 
 		     "Game: Your attacking %s failed against %s's %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
@@ -516,26 +517,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   }
   else {
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_NOEVENT, 
+		     punit->x, punit->y, E_UNIT_WIN, 
 		     "Game: Your attacking %s was successful against %s's %s at %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), incity->name);
     else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y,
        nearcity1->x, nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_NOEVENT, 
+		     punit->x, punit->y, E_UNIT_WIN, 
 		     "Game: Your attacking %s was successful against %s's %s outside %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), nearcity1->name);
     else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_NOEVENT, 
+		     punit->x, punit->y, E_UNIT_WIN, 
 		     "Game: Your attacking %s was successful against %s's %s near %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), nearcity1->name);
     else notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_NOEVENT, 
+		     punit->x, punit->y, E_UNIT_WIN, 
 		     "Game: Your attacking %s was successful against %s's %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
@@ -950,17 +951,19 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     send_player_info(cplayer, cplayer);
     if (pcity->original != pplayer->player_no) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You conquer %s, your lootings accumulate to %d gold", 
+		       "Game: You conquer %s, your lootings accumulate to %d gold!", 
 		       pcity->name, coins);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		       "Game: %s conquered %s and looted %d gold from the city.",
 		       pplayer->name, pcity->name, coins);
     } else {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You have liberated %s!! lootings accumulate to %d gold", 		       pcity->name, coins);
+		       "Game: You have liberated %s!! lootings accumulate to %d gold.",
+		       pcity->name, coins);
       
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		       "Game: %s liberated %s and looted %d gold from the city.",		       pplayer->name, pcity->name, coins);
+		       "Game: %s liberated %s and looted %d gold from the city.",
+		       pplayer->name, pcity->name, coins);
     }
 
     pnewcity=(struct city *)malloc(sizeof(struct city));

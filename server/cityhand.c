@@ -290,7 +290,8 @@ void handle_city_make_specialist(struct player *pplayer,
     send_adjacent_cities(pcity);
     send_city_info(pplayer, pcity, 0);
   } else {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, "Game: you don't have a worker here"); 
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		     "Game: you don't have a worker here"); 
   }
 }
 
@@ -364,7 +365,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
     return;
 
   pcity->did_sell=1;
-  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+  notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		   "Game: You sell %s in %s for %d credits.", 
 		   get_improvement_name(id), pcity->name,
 		   improvement_value(id));
@@ -425,12 +426,16 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     pcity->shield_stock=total; /* AI wants this -- Syela */
     pcity->did_buy=1; /* !PS: no need to set buy flag otherwise */
   }
-  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		   "Game: %s bought for %d", name, cost); 
-  
   city_refresh(pcity);
+  
+  connection_do_buffer(pplayer->conn);
+  notify_player_ex(pplayer, pcity->x, pcity->y, 
+                   pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
+		   "Game: %s bought in %s for %d gold.", 
+		   name, pcity->name, cost);
   send_city_info(pplayer, pcity, 1);
   send_player_info(pplayer,pplayer);
+  connection_do_unbuffer(pplayer->conn);
 }
 
 /**************************************************************************
@@ -478,7 +483,7 @@ void handle_city_change(struct player *pplayer,
   }
 
    if(!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
-     notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+     notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
 		   "Game: The %s have stopped building The %s in %s.",
 		   get_race_name_plural(pplayer->race),
 		   get_imp_name_ex(pcity, pcity->currently_building),
@@ -499,7 +504,7 @@ void handle_city_change(struct player *pplayer,
     pcity->is_building_unit=0;
     
     if(is_wonder(preq->build_id)) {
-      notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		       "Game: The %s have started building The %s.",
 		       get_race_name_plural(pplayer->race),
 		       get_imp_name_ex(pcity, pcity->currently_building));

@@ -44,6 +44,7 @@ extern int message_values[E_LAST];
 int message_filter[E_LAST]={
   1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1};
 
 static char *message_text[E_LAST]={
@@ -70,7 +71,12 @@ static char *message_text[E_LAST]={
   "Collapse to Anarchy      ",
   "Diplomat Actions         ",
   "Tech from Great Library  ",
-  "Player Destroyed         "};
+  "Player Destroyed         ",		/* E_DESTROYED */
+  "Improvement Bought       ",		/* E_IMP_BUY */
+  "Improvement Sold         ",		/* E_IMP_SOLD */
+  "Unit Bought              ",		/* E_UNIT_BUY */
+  "Wonder Stopped           ",		/* E_WONDER_STOPPED */
+};
 
 
 /******************************************************************/

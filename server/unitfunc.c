@@ -72,8 +72,9 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     "Game: Your spy poisoned the water supply of %s.", pcity->name);
     
-    notify_player_ex(cplayer, pcity->x, pcity->y, E_NOEVENT,
-		     "Game: %s is suspected of poisoning the water supply of %s.",pplayer->name, pcity->name);
+    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+		     "Game: %s is suspected of poisoning the water supply of %s.",
+		     pplayer->name, pcity->name);
     
     diplomat_leave_city(pplayer, pdiplomat, pcity);
     city_refresh(pcity);  
@@ -113,6 +114,10 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct un
   
   if(pvictim && pvictim->hp > 1){
     pvictim->hp = pvictim->hp >> 1;
+    notify_player_ex(get_player(pvictim->owner), 
+    		     pvictim->x, pvictim->y, E_DIPLOMATED,
+		     "Your %s was sabotaged by %s!", 
+		     unit_name(pvictim->type), pplayer->name);
     send_unit_info(0, pvictim, 0);
   }
   
@@ -154,7 +159,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
       pplayer->economic.gold-=pvictim->bribe_cost;
       notify_player_ex(&game.players[pvictim->owner], 
 		    pvictim->x, pvictim->y, E_DIPLOMATED, 
-		    "Game: One of your units was bribed!");
+		    "Game: Your %s was bribed by %s.",
+		    unit_name(pvictim->type),pplayer->name);
       notify_player_ex(pplayer, pvictim->x, pvictim->y, E_NOEVENT, 
 		    "Game: Succeeded in bribing the enemy unit.");
       
@@ -212,11 +218,12 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
  			 "Game: Your diplomat stole Future Tech. %d from %s",
  			 ++(pplayer->future_tech), target->name);
  	notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 			 "Game: %s diplomat stole Future Tech. %d in %s.", 
- 			 pplayer->name, pplayer->future_tech, pcity->name);
+ 			 "Game: A%s %s diplomat stole Future Tech. %d from %s.", 
+			 n_if_vowel(get_race_name(pplayer->race)[0]),
+			 get_race_name(pplayer->race), pplayer->future_tech, 
+			 pcity->name);
  	return;
       } else {
- 	
  	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
  			 "Game: No new technology found in %s", pcity->name);
  	return;
@@ -224,9 +231,10 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     
     if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
- 		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
+ 		       "Game: Your diplomat was caught in the attempt of stealing technology from %s.", pcity->name);
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 		       "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
+ 		       "Game: %s's diplomat failed to steal technology from %s",
+		       pplayer->name, pcity->name);
       wipe_unit(0,pdiplomat);
       return;
     }
@@ -247,9 +255,10 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     
     if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-  		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
+  		       "Game: Your spy was caught in the attempt of stealing technology from %s.", pcity->name);
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 		       "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
+ 		       "Game: %s's spy was caught stealing technology from %s", 
+		       pplayer->name, pcity->name);
       wipe_unit(0,pdiplomat);
       return;
     }
@@ -260,7 +269,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: Your diplomat stole %s from %s",
 		   advances[i].name, target->name); 
   notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
-		   "Game: %s diplomat stole %s in %s.", 
+		   "Game: %s's diplomat stole %s from %s.", 
 		   pplayer->name, advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
     /*    struct city_list cl=pplayer->cities;*/
@@ -311,9 +320,12 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, str
 	/* Attacking Spy/Diplomat dies (N-1:N) */
 	
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-			 "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
+			 "Game: Your spy was eliminated by a defending spy in %s.", 
+			 pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: A%s spy has been eliminated while infiltrating %s.", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
+			 "Game: A%s %s spy was eliminated while infiltrating %s.", 
+			 n_if_vowel(get_race_name(cplayer->race)[0]), 
+			 get_race_name(cplayer->race), pcity->name);
 	wipe_unit(0, pdiplomat);
 	return 0;
       } else {
@@ -358,7 +370,7 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       }
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
+		       "Game: Your spy has successfully completed her mission and returned unharmed to %s.", spyhome->name);
       
       if(pdiplomat->moves_left > 3)
 	pdiplomat->moves_left -= 3;
@@ -403,7 +415,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
     notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: A%s spy has been eliminated in %s..", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
+		     "Game: A%s %s spy has been eliminated in %s.", 
+		     n_if_vowel(get_race_name(cplayer->race)[0]), 
+		     get_race_name(cplayer->race), pcity->name);
     wipe_unit(0, pdiplomat);
     return;
   }
@@ -422,7 +436,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
 		   "Game: Revolt incited in %s, you now rule the city!", 
 		   pcity->name);
   notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		   "Game: %s has revolted, %s influence suspected", pcity->name, get_race_name(pplayer->race));
+		   "Game: %s has revolted, %s influence suspected", pcity->name, 
+		   get_race_name(pplayer->race));
   pnewcity=(struct city *)malloc(sizeof(struct city));
   *pnewcity=*pcity;
 
@@ -517,10 +532,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
       else
 	prod=get_improvement_name(pcity->currently_building);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: Your Diplomat succeeded destroying the production of %s in %s", 
+		       "Game: Your diplomat succeeded in destroying the production of %s in %s", 
 		       prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		       "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
+		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
 		       prod, pcity->name, get_race_name_plural(pplayer->race));
       
       break;
@@ -538,19 +553,19 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 	}
 	if (i<10) {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   "Game: Your Diplomat destroyed %s in %s.", 
+			   "Game: Your diplomat destroyed the %s in %s.", 
 			   get_improvement_name(building), pcity->name);
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			   "Game: The %s destroyed %s in %s.", 
+			   "Game: The %s destroyed the %s in %s.", 
 			   get_race_name_plural(pplayer->race),
 			   get_improvement_name(building), pcity->name);
 	} else {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 			   "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			   "Game: You caught a%s %s diplomat in industrial sabotage!",
+			   "Game: You caught a%s %s diplomat attempting sabotage in %s!",
 			   n_if_vowel(get_race_name(pplayer->race)[0]),
-			   get_race_name(pplayer->race));
+			   get_race_name(pplayer->race), pcity->name);
 	  
 	  wipe_unit(0, pdiplomat);
 	  return;
@@ -575,11 +590,12 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 	/* Lost */
 	
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			 "Game: Your Spy was caught in the attempt of sabotage!");
+			 "Game: Your spy was caught in the attempt of sabotage!");
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: You caught a%s %s Spy attempting sabotage of %s!",
+			 "Game: You caught a%s %s spy attempting to sabotage the %s in %s!",
 			 n_if_vowel(get_race_name(pplayer->race)[0]),
-			 get_race_name(pplayer->race),get_improvement_name(improvement));
+			 get_race_name(pplayer->race), 
+			 get_improvement_name(improvement), pcity->name);
 	
 	wipe_unit(0, pdiplomat);
 	return;
@@ -597,17 +613,17 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
       else
 	prod=get_improvement_name(pcity->currently_building);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: Your Spy succeeded destroying the production of %s in %s", 
+		       "Game: Your spy succeeded in destroying the production of %s in %s", 
 		       prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		       "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
+		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
 		       prod, pcity->name, get_race_name_plural(pplayer->race));
             
     }else{
       pcity->improvements[improvement]=0;
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: Your Spy destroyed %s in %s.", 
+		       "Game: Your spy destroyed %s in %s.", 
 		       get_improvement_name(improvement), pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 		       "Game: The %s destroyed %s in %s.", 
