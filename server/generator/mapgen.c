@@ -1003,8 +1003,12 @@ void map_fractal_generate(bool autosize)
   /* save the current random state: */
   RANDOM_STATE rstate = get_myrand_state();
  
-  if (map.seed==0)
+  if (map.seed == 0) {
+    /* Create a "random" map seed.  Note the call to myrand() which will
+     * depend on the game seed. */
     map.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
+    freelog(LOG_DEBUG, "Setting map.seed:%d", map.seed);
+  }
 
   mysrand(map.seed);
 
