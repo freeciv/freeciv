@@ -98,8 +98,8 @@ static struct unit *search_best_target(struct player *pplayer,
     }
     freelog(LOG_DEBUG,  "defender is %s", unit_name(enemy->type));
 
-    if (!is_city_option_set(pcity, unit_type(enemy)->move_type - 1 +
-			    CITYO_ATT_LAND)) {
+    if (!is_city_option_set(pcity, CITYO_ATT_LAND
+			    + unit_type(enemy)->move_type - 1)) {
       freelog(LOG_DEBUG, "wrong target type");
       continue;
     }

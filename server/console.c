@@ -84,7 +84,7 @@ void con_log_init(const char *log_filename, int log_level)
 /************************************************************************
 Write to console without line-break, don't print prompt.
 ************************************************************************/
-int con_dump(int i, const char *message, ...)
+int con_dump(enum rfc_status rfc_status, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
@@ -96,8 +96,8 @@ int con_dump(int i, const char *message, ...)
   if(console_prompt_is_showing) {
     printf("\n");
   }
-  if ((console_rfcstyle) && (i >= 0)) {
-    printf("%.3d %s", i, buf);
+  if ((console_rfcstyle) && (rfc_status >= 0)) {
+    printf("%.3d %s", rfc_status, buf);
   } else {
     printf("%s", buf);
   }
@@ -108,7 +108,7 @@ int con_dump(int i, const char *message, ...)
 /************************************************************************
 Write to console and add line-break, and show prompt if required.
 ************************************************************************/
-void con_write(int i, const char *message, ...)
+void con_write(enum rfc_status rfc_status, const char *message, ...)
 {
   static char buf[MAX_LEN_CONSOLE_LINE];
   va_list args;
@@ -117,7 +117,7 @@ void con_write(int i, const char *message, ...)
   my_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
 
-  con_puts(i, buf);
+  con_puts(rfc_status, buf);
 }
 
 /************************************************************************
@@ -127,13 +127,13 @@ The real reason for this is because __attribute__ complained
 with con_write(C_COMMENT,"") of "warning: zero-length format string";
 this allows con_puts(C_COMMENT,"");
 ************************************************************************/
-void con_puts(int i, const char *str)
+void con_puts(enum rfc_status rfc_status, const char *str)
 {
   if(console_prompt_is_showing) {
     printf("\n");
   }
-  if ((console_rfcstyle) && (i >= 0)) {
-    printf("%.3d %s\n", i, str);
+  if ((console_rfcstyle) && (rfc_status >= 0)) {
+    printf("%.3d %s\n", rfc_status, str);
   } else {
     printf("%s\n", str);
   }
