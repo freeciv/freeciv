@@ -560,13 +560,13 @@ void popdown_economy_report_dialog(void)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  static gchar *titles_[4] = {
+  static char *titles[4] = {
     N_("Building Name"),
     N_("Count"),
     N_("Cost"),
     N_("U Total")
   };
-  static gchar **titles;
+  static bool titles_done;
   int i;
 
   static GType model_types[4] = {
@@ -577,8 +577,7 @@ void create_economy_report_dialog(bool make_modal)
   };
   GtkWidget *view, *sw;
 
-  if (!titles)
-    titles = intl_slist(4, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
   economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
   	NULL,
@@ -841,7 +840,7 @@ static void activeunits_cell_data_func(GtkTreeViewColumn *col,
 *****************************************************************/
 void create_activeunits_report_dialog(bool make_modal)
 {
-  static gchar *titles_[AU_COL] = {
+  static char *titles[AU_COL] = {
     N_("Unit Type"),
     N_("U"),
     N_("In-Prog"),
@@ -849,7 +848,7 @@ void create_activeunits_report_dialog(bool make_modal)
     N_("Shield"),
     N_("Food")
   };
-  static gchar **titles;
+  static bool titles_done;
   int i;
 
   static GType model_types[AU_COL+1] = {
@@ -864,8 +863,7 @@ void create_activeunits_report_dialog(bool make_modal)
   GtkWidget *view, *sw;
   GtkWidget *refresh_command;
 
-  if (!titles)
-    titles = intl_slist(AU_COL, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
   	NULL,

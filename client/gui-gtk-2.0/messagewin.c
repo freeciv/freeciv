@@ -148,14 +148,13 @@ static void meswin_cell_data_func(GtkTreeViewColumn *col,
 *****************************************************************/
 static void create_meswin_dialog(void)
 {
-  static gchar *titles_[1] = { N_("Messages") };
-  static gchar **titles;
+  static char *titles[1] = { N_("Messages") };
+  static bool titles_done;
   GtkCellRenderer *renderer;
   GtkTreeViewColumn *col;
   GtkWidget *view, *sw;
 
-  if (!titles)
-    titles = intl_slist(1, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   meswin_dialog_shell = gtk_dialog_new_with_buttons(_("Messages"),
   	NULL,

@@ -22,7 +22,7 @@ void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
 
-char **intl_slist(int n, char **s);
+void intl_slist(int n, char **s, bool *done);
 
 /* the standard GTK+ 2.0 API is braindamaged. this is slightly better! */
 

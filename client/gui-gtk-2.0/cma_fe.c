@@ -132,8 +132,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   struct cm_parameter param;
   GtkWidget *frame, *page, *hbox, *label, *table;
   GtkWidget *vbox, *scrolledwindow, *hscale;
-  static gchar *preset_title_[] = { N_("Presets") };
-  static gchar **preset_title = NULL;
+  static char *preset_title[] = { N_("Presets") };
+  static bool preset_title_done;
   int i;
 
   cmafec_get_fe_parameter(pcity, &param);
@@ -141,9 +141,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   pdialog->pcity = pcity;
   pdialog->shell = gtk_vbox_new(FALSE, 0);
 
-  if (!preset_title) {
-    preset_title = intl_slist(1, preset_title_);
-  }
+  intl_slist(ARRAY_SIZE(preset_title), preset_title, &preset_title_done);
 
   frame = gtk_frame_new(_("Citizen Management Agent"));
   gtk_box_pack_start(GTK_BOX(pdialog->shell), frame, TRUE, TRUE, 0);
@@ -383,17 +381,15 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
       gtk_clist_insert(GTK_CLIST(pdialog->preset_list), i, row);
     }
   } else {
-    static char *info_message_[4] = {
+    static char *info_message[4] = {
       N_("For information on:"),
       N_("CMA and presets"),
       N_("including sample presets,"),
       N_("see README.cma.")
     };
-    static char **info_message = NULL;
+    static bool info_message_done;
 
-    if (!info_message) {
-      info_message = intl_slist(4, info_message_);
-    }
+    intl_slist(ARRAY_SIZE(info_message), info_message, &info_message_done);
 
     for (i = 0; i < 4; i++) {
       mystrlcpy(buf[0], info_message[i], BUFFER_SIZE);
