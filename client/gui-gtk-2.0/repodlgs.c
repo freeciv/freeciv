@@ -1103,7 +1103,7 @@ void activeunits_report_dialog_update(void)
     	    5, unittotals.upkeep_food,
 	    6, FALSE, -1);
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, "Totals:");
+    g_value_set_static_string(&value, _("Totals:"));
     gtk_list_store_set_value(activeunits_store, &it, 0, &value);
     g_value_unset(&value);
   }
