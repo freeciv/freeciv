@@ -116,8 +116,6 @@ static int city_style_ridx[64];       /* translation table the other way        
                                /* they in fact limit the num of styles to 64 */
 static int b_s_num; /* number of basic city styles, i.e. those that you can start with */
 
-static int unit_to_use_to_pillage;
-
 static int caravan_city_id;
 static int caravan_unit_id;
 
@@ -127,16 +125,19 @@ static int diplomat_target_id;
 
 static GtkWidget *caravan_dialog;
 
-static int unit_to_use_to_connect;
-static int connect_unit_x;
-static int connect_unit_y;
+static bool government_dialog_is_open = FALSE;
 
-struct callback_info {
-  GtkWidget *parent;
-  void (*close_callback) (gpointer);
-  gpointer user_data;
+struct pillage_data {
+  int unit_id;
+  enum tile_special_type what;
 };
 
+struct connect_data {
+  int unit_id;
+  int dest_x, dest_y;
+  enum unit_activity what;
+};
+		     
 /****************************************************************
 ...
 *****************************************************************/
@@ -1187,6 +1188,9 @@ static void government_callback(gpointer data)
 
   packet.government = GPOINTER_TO_INT(data);
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_GOVERNMENT);
+
+  assert(government_dialog_is_open);
+  government_dialog_is_open = FALSE;
 }
 
 /****************************************************************
@@ -1196,7 +1200,10 @@ void popup_government_dialog(void)
 {
   int num, i, j;
   struct button_descr *buttons;
-  GtkWidget *dialog;
+
+  if (government_dialog_is_open) {
+    return;
+  }
 
   assert(game.government_when_anarchy >= 0
 	 && game.government_when_anarchy < game.government_count);
@@ -1219,10 +1226,10 @@ void popup_government_dialog(void)
     j++;
   }
 
-  dialog =
-      base_popup_message_dialog(top_vbox, _("Choose Your New Government"),
-				_("Select government type:"), NULL, NULL,
-				num, buttons);
+  government_dialog_is_open = TRUE;
+  base_popup_message_dialog(top_vbox, _("Choose Your New Government"),
+			    _("Select government type:"), NULL, NULL,
+			    num, buttons);
 }
 
 /****************************************************************
@@ -1253,14 +1260,24 @@ void popup_revolution_dialog(void)
 *****************************************************************/
 static void pillage_callback(gpointer data)
 {
-  struct unit *punit = find_unit_by_id(unit_to_use_to_pillage);
+  struct pillage_data *pdata = data;
+  struct unit *punit = find_unit_by_id(pdata->unit_id);
 
   if (!punit) {
     return;
   }
 
-  request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-				     GPOINTER_TO_INT(data));
+  request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, pdata->what);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void pillage_close_callback(gpointer data)
+{
+  struct pillage_data *pillage_datas = data;
+
+  free(pillage_datas);
 }
 
 /****************************************************************
@@ -1273,8 +1290,7 @@ void popup_pillage_dialog(struct unit *punit,
   int i, num = 1;
   enum tile_special_type tmp = may_pillage;
   struct button_descr *buttons;
-
-  unit_to_use_to_pillage = punit->id;
+  struct pillage_data *datas;
 
   while (tmp != S_NO_SPECIAL) {
     enum tile_special_type what = get_preferred_pillage(tmp);
@@ -1283,13 +1299,17 @@ void popup_pillage_dialog(struct unit *punit,
     num++;
   }
   buttons = fc_malloc(sizeof(struct button_descr) * num);
+  datas = fc_malloc(sizeof(struct pillage_data) * num);
 
   for (i = 0; i < num - 1; i++) {
     enum tile_special_type what = get_preferred_pillage(may_pillage);
 
+    datas[i].unit_id = punit->id;
+    datas[i].what = what;
+
     buttons[i].text = get_special_name(what);
     buttons[i].callback = pillage_callback;
-    buttons[i].data = GINT_TO_POINTER(what);
+    buttons[i].data = &datas[i];
     buttons[i].sensitive = TRUE;
 
     may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
@@ -1299,7 +1319,7 @@ void popup_pillage_dialog(struct unit *punit,
 
   base_popup_message_dialog(top_vbox, _("What To Pillage"),
 			    _("Select what to pillage:"),
-			    dummy_close_callback, NULL, num, buttons);
+			    pillage_close_callback, datas, num, buttons);
 }
 
 /****************************************************************
@@ -1307,16 +1327,15 @@ handle buttons in unit connect dialog
 *****************************************************************/
 static void unit_connect_callback(gpointer data)
 {
-  struct unit *punit = find_unit_by_id(unit_to_use_to_connect);
+  struct connect_data *pdata = data;
 
-  if (punit) {
+  if (find_unit_by_id(pdata->unit_id)) {
     struct packet_unit_connect req;
-    int activity = GPOINTER_TO_INT(data);
 
-    req.activity_type = activity;
-    req.unit_id = punit->id;
-    req.dest_x = connect_unit_x;
-    req.dest_y = connect_unit_y;
+    req.activity_type = pdata->what;
+    req.unit_id = pdata->unit_id;
+    req.dest_x = pdata->dest_x;
+    req.dest_y = pdata->dest_y;
     send_packet_unit_connect(&aconnection, &req);
   }
 }
@@ -1326,11 +1345,14 @@ static void unit_connect_callback(gpointer data)
 *****************************************************************/
 static void unit_connect_close_callback(gpointer data)
 {
-  struct unit *punit = find_unit_by_id(unit_to_use_to_connect);
+  struct connect_data *connect_datas = data;
+  struct unit *punit = find_unit_by_id(connect_datas[0].unit_id);
 
   if (punit) {
     update_unit_info_label(punit);
   }
+
+  free(connect_datas);
 }
 
 /****************************************************************
@@ -1341,11 +1363,8 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   /* +1 for cancel button */
   int j, num = 1;
   struct button_descr *buttons;
-  int activity;
-
-  unit_to_use_to_connect = punit->id;
-  connect_unit_x = dest_x;
-  connect_unit_y = dest_y;
+  enum unit_activity activity;
+  struct connect_data *datas;
 
   for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
     if (!can_unit_do_connect(punit, activity)) {
@@ -1355,6 +1374,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   }
 
   buttons = fc_malloc(sizeof(struct button_descr) * num);
+  datas = fc_malloc(sizeof(struct connect_data) * num);
 
   j = 0;
   for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
@@ -1362,9 +1382,14 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
       continue;
     }
 
+    datas[j].unit_id = punit->id;
+    datas[j].dest_x = dest_x;
+    datas[j].dest_y = dest_y;
+    datas[j].what = activity;
+
     buttons[j].text = get_activity_text(activity);
     buttons[j].callback = unit_connect_callback;
-    buttons[j].data = GINT_TO_POINTER(activity);
+    buttons[j].data = &datas[j];
     buttons[j].sensitive = TRUE;
     j++;
   }
@@ -1374,7 +1399,8 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
 
   base_popup_message_dialog(top_vbox, _("Connect"),
 			    _("Choose unit activity:"),
-			    unit_connect_close_callback, NULL, num, buttons);
+			    unit_connect_close_callback, datas, num,
+			    buttons);
 }
 
 /****************************************************************
