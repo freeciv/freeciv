@@ -2672,9 +2672,10 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.forced_science = packet->forced_science;
   game.rgame.forced_luxury = packet->forced_luxury;
   game.rgame.forced_gold = packet->forced_gold;
-  game.rgame.min_city_center_food = packet->min_city_center_food;
-  game.rgame.min_city_center_shield = packet->min_city_center_shield;
-  game.rgame.min_city_center_trade = packet->min_city_center_trade;
+  game.rgame.min_city_center_output[O_FOOD] = packet->min_city_center_food;
+  game.rgame.min_city_center_output[O_SHIELD]
+    = packet->min_city_center_shield;
+  game.rgame.min_city_center_output[O_TRADE] = packet->min_city_center_trade;
   game.rgame.min_dist_bw_cities = packet->min_dist_bw_cities;
   game.rgame.init_vis_radius_sq = packet->init_vis_radius_sq;
   game.rgame.hut_overflight = packet->hut_overflight;

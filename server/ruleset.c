@@ -2644,12 +2644,12 @@ static void load_ruleset_game()
   (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
-  game.rgame.min_city_center_food =
-    secfile_lookup_int(&file, "civstyle.min_city_center_food");
-  game.rgame.min_city_center_shield =
-    secfile_lookup_int(&file, "civstyle.min_city_center_shield");
-  game.rgame.min_city_center_trade =
-    secfile_lookup_int(&file, "civstyle.min_city_center_trade");
+  output_type_iterate(o) {
+    game.rgame.min_city_center_output[o]
+      = secfile_lookup_int_default(&file, 0,
+				   "civstyle.min_city_center_%s",
+				   get_output_identifier(o));
+  } output_type_iterate_end;
 
   /* if the server variable citymindist is set (!= 0) the ruleset
      setting is overwritten by citymindist */
@@ -3171,9 +3171,10 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.forced_science = game.rgame.forced_science;
   misc_p.forced_luxury = game.rgame.forced_luxury;
   misc_p.forced_gold = game.rgame.forced_gold;
-  misc_p.min_city_center_food = game.rgame.min_city_center_food;
-  misc_p.min_city_center_shield = game.rgame.min_city_center_shield;
-  misc_p.min_city_center_trade = game.rgame.min_city_center_trade;
+  misc_p.min_city_center_food = game.rgame.min_city_center_output[O_FOOD];
+  misc_p.min_city_center_shield
+    = game.rgame.min_city_center_output[O_SHIELD];
+  misc_p.min_city_center_trade = game.rgame.min_city_center_output[O_TRADE];
   misc_p.min_dist_bw_cities = game.rgame.min_dist_bw_cities;
   misc_p.init_vis_radius_sq = game.rgame.init_vis_radius_sq;
   misc_p.hut_overflight = game.rgame.hut_overflight;

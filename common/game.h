@@ -203,9 +203,7 @@ struct civ_game {
     int forced_science; /* only relevant if !changable_tax */
     int forced_luxury;
     int forced_gold;
-    int min_city_center_food;
-    int min_city_center_shield;
-    int min_city_center_trade;
+    int min_city_center_output[O_MAX];
     int min_dist_bw_cities;
     int init_vis_radius_sq;
     int hut_overflight;

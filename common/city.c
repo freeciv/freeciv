@@ -622,7 +622,7 @@ static int base_get_shields_tile(const struct tile *ptile,
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
-    s = MAX(s, game.rgame.min_city_center_shield);
+    s = MAX(s, game.rgame.min_city_center_output[O_SHIELD]);
   }
 
   return s;
@@ -725,7 +725,7 @@ static int base_get_trade_tile(const struct tile *ptile,
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
-    t = MAX(t, game.rgame.min_city_center_trade);
+    t = MAX(t, game.rgame.min_city_center_output[O_TRADE]);
   }
 
   return t;
@@ -836,7 +836,7 @@ static int base_get_food_tile(const struct tile *ptile,
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
-    f = MAX(f, game.rgame.min_city_center_food);
+    f = MAX(f, game.rgame.min_city_center_output[O_FOOD]);
   }
 
   return f;
