@@ -1677,7 +1677,8 @@ static int unit_can_be_retired(struct unit *punit)
 }
 
 /**************************************************************************
-...
+ manage one unit
+ Careful: punit may have been destroyed upon return from this routine!
 **************************************************************************/
 
 static void ai_manage_unit(struct player *pplayer, struct unit *punit,
@@ -1705,25 +1706,32 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit,
        This unit is a bodyguard against enemy diplomats.
        Right now I don't know how to use bodyguards! (17/12/98) (--NB)
     */
-  }
-  else if (unit_flag(punit->type, F_SETTLERS)
-           ||unit_flag(punit->type, F_CITIES)) {
+    return;
+  } else if (unit_flag(punit->type, F_SETTLERS)
+	     ||unit_flag(punit->type, F_CITIES)) {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
+    return;
   } else if (unit_flag(punit->type, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
+    return;
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
     ai_manage_barbarian_leader(pplayer, punit);
+    return;
   } else if (get_transporter_capacity(punit)) {
     ai_manage_ferryboat(pplayer, punit);
+    return;
   } else if (is_military_unit(punit)) {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_military(pplayer,punit); 
+    return;
   } else {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_explorer(pplayer, punit); /* what else could this be? -- Syela */
+    return;
   }
-  /* Careful Unit maybe void here */
+  /* should never get here */
+  freelog(LOG_DEBUG, "Error: At end of ai_manage_unit().");
 }
 
 /**************************************************************************
