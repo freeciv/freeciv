@@ -641,7 +641,7 @@ void create_economy_report_dialog(int make_modal)
 					 economy_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Ecomony"));
+  report_title=get_report_title(_("Economy"));
   economy_label = XtVaCreateManagedWidget("reporteconomylabel", 
 				       labelWidgetClass, 
 				       economy_form,
