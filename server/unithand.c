@@ -691,9 +691,12 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y)
 {
   int unit_id;
-  struct unit *pdefender, *ferryboat, *bodyguard;
+  struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
-  
+
+  if (same_pos(punit->x, punit->y, dest_x, dest_y)) return 0;
+/* this occurs often during lag, and to the AI due to some quirks -- Syela */
+ 
   unit_id=punit->id;
   if (do_airline(punit, dest_x, dest_y))
     return 1;
@@ -711,7 +714,19 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			 "Game: Aborting GOTO for AI attack procedures.");
         return 0;
       } else {
-        if (pplayer->ai.control && punit->ai.passenger) abort();
+        if (pplayer->ai.control && punit->ai.passenger) {
+/* still trying to track down this weird bug.  I can't find anything in
+my own code that seems responsible, so I'm guessing that recycling ids
+is the source of the problem.  Hopefully we won't abort() now. -- Syela */
+          passenger = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
+              punit->ai.passenger);
+          if (passenger) {
+            if (get_transporter_capacity(punit)) abort();
+            else printf("%s#%d@(%d,%d) thinks %s#%d is a passenger?\n",
+               unit_name(punit->type), punit->id, punit->x, punit->y,
+               unit_name(passenger->type), passenger->id);
+          }
+        }
 	handle_unit_attack_request(pplayer, punit, pdefender);
         return 1;
       };
@@ -1024,7 +1039,7 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
 				  enum unit_activity new_activity)
 {
   if((punit->moves_left>0 || punit->activity==ACTIVITY_GOTO ||
-      new_activity == ACTIVITY_EXPLORE) && 
+      punit->activity==ACTIVITY_EXPLORE) && 
      can_unit_do_activity(punit, new_activity)) {
     punit->activity=new_activity;
     punit->activity_count=0;
