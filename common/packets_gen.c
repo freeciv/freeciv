@@ -3197,7 +3197,7 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->type = readin;
     }
   }
@@ -3303,7 +3303,7 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
   dio_put_uint8(&dout, real_packet->y);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->type);
+    dio_put_sint16(&dout, real_packet->type);
   }
   if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->known);
@@ -28970,7 +28970,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->terr_gate[i] = readin;
     }
       }
@@ -29338,7 +29338,7 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       int i;
 
       for (i = 0; i < real_packet->terr_gate_count; i++) {
-        dio_put_uint8(&dout, real_packet->terr_gate[i]);
+        dio_put_sint16(&dout, real_packet->terr_gate[i]);
       }
     } 
   }
@@ -29503,7 +29503,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->id = readin;
     }
   }
@@ -29645,7 +29645,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->irrigation_result = readin;
     }
   }
@@ -29669,7 +29669,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->mining_result = readin;
     }
   }
@@ -29693,7 +29693,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->transform_result = readin;
     }
   }
@@ -29941,7 +29941,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->id);
+    dio_put_sint16(&dout, real_packet->id);
   }
   if (BV_ISSET(fields, 1)) {
   DIO_BV_PUT(&dout, packet->flags);
@@ -30013,7 +30013,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->road_time);
   }
   if (BV_ISSET(fields, 24)) {
-    dio_put_uint8(&dout, real_packet->irrigation_result);
+    dio_put_sint16(&dout, real_packet->irrigation_result);
   }
   if (BV_ISSET(fields, 25)) {
     dio_put_uint8(&dout, real_packet->irrigation_food_incr);
@@ -30022,7 +30022,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->irrigation_time);
   }
   if (BV_ISSET(fields, 27)) {
-    dio_put_uint8(&dout, real_packet->mining_result);
+    dio_put_sint16(&dout, real_packet->mining_result);
   }
   if (BV_ISSET(fields, 28)) {
     dio_put_uint8(&dout, real_packet->mining_shield_incr);
@@ -30031,7 +30031,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->mining_time);
   }
   if (BV_ISSET(fields, 30)) {
-    dio_put_uint8(&dout, real_packet->transform_result);
+    dio_put_sint16(&dout, real_packet->transform_result);
   }
   if (BV_ISSET(fields, 31)) {
     dio_put_uint8(&dout, real_packet->transform_time);

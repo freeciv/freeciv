@@ -78,7 +78,8 @@ const char * const our_capability = our_capability_internal;
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
                    "+city_map startunits +turn_last_built +happyborders " \
-                   "+connid +love2 +ocean_num +govclean +orders3 +rev_fin"
+                   "+connid +love2 +ocean_num +govclean +orders3 +rev_fin " \
+                   "+terr16"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -147,6 +148,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "rev_fin" means the revolution_finishes value replaces the revolution
  * value.
+ *
+ * "terr16" is 16-bit terrain values
  */
 
 void init_our_capability(void)
