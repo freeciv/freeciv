@@ -51,9 +51,6 @@
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
-/* contains the x0, y0 coordinates of the upper left corner block */
-int map_view_x0, map_view_y0;
-
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);

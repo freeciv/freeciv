@@ -52,9 +52,6 @@
 
 #include "mapview.h"
 
-/* contains the x0, y0 coordinates of the upper left corner block */
-int map_view_x0, map_view_y0;
-
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
 static void put_line(Pixmap pm, int x, int y, int dir);

@@ -23,8 +23,8 @@ struct unit;
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
 struct canvas {
-#if 0 /* These values are still in the GUI. */
   int map_x0, map_y0;
+#if 0 /* These values are still in the GUI. */
   int width, height;
   int tile_width, tile_height;
 #endif

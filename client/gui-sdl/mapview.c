@@ -78,9 +78,9 @@
 
 extern char *pDataPath;
 
-/* contains the x0, y0 , coordinates of the upper
-   left corner view block */
-static int map_view_x0, map_view_y0;
+/* These values are stored in the mapview_canvas struct now. */
+#define map_view_x0 mapview_canvas.map_x0
+#define map_view_y0 mapview_canvas.map_y0
 
 static Uint8 Mini_map_cell_w, Mini_map_cell_h;
 

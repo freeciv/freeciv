@@ -52,7 +52,8 @@ void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_ptr);
 
-extern int map_view_x0;
-extern int map_view_y0;
+/* These values are stored in the mapview_canvas struct now. */
+#define map_view_x0 mapview_canvas.map_x0
+#define map_view_y0 mapview_canvas.map_y0
 
 #endif  /* FC__MAPVIEW_H */

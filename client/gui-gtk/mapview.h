@@ -52,7 +52,8 @@ void pixmap_put_sprite_full(GdkDrawable *pixmap,
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
-/* contains the x0, y0 coordinates of the upper left corner block */
-extern int map_view_x0, map_view_y0;
+/* These values are stored in the mapview_canvas struct now. */
+#define map_view_x0 mapview_canvas.map_x0
+#define map_view_y0 mapview_canvas.map_y0
 
 #endif  /* FC__MAPVIEW_H */

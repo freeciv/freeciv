@@ -31,8 +31,11 @@ void map_expose(HDC hdc);
 void overview_expose(HDC hdc);
 void map_handle_hscroll(int pos);
 void map_handle_vscroll(int pos);
-extern int map_view_x;
-extern int map_view_y;
 extern int map_view_width;
 extern int map_view_height;
+
+/* These values are stored in the mapview_canvas struct now. */
+#define map_view_x mapview_canvas.map_x0
+#define map_view_y mapview_canvas.map_y0
+
 #endif  /* FC__MAPVIEW_H */
