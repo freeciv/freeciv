@@ -608,7 +608,8 @@ void economy_report_dialog_update(void)
 {
   int tax, total;
   char *report_title;
-  struct improvement_entry entries[B_LAST];
+  static struct improvement_entry entries[B_LAST];
+  int i, entries_used = 0;
 
   if (delay_report_update)
     return;

@@ -106,9 +106,9 @@ SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DI
 
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
-CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
+CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/audio.o ${OBJDIR}client/audio_none.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
  ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o \
- ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o ${OBJDIR}client/agents/agents.o ${OBJDIR}client/agents/cma_core.o ${OBJDIR}client/agents/cma_fec.o
+ ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/repodlgs_common.o ${OBJDIR}client/tilespec.o ${OBJDIR}client/agents/agents.o ${OBJDIR}client/agents/cma_core.o ${OBJDIR}client/agents/cma_fec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
  ${INC}${FREECIV_DIR}client/include ${INC}${FREECIV_DIR}client/agents
 
@@ -465,6 +465,12 @@ ${OBJDIR}server/unittools.o: ${FREECIV_DIR}server/unittools.c
 ${OBJDIR}client/attribute.o: ${FREECIV_DIR}client/attribute.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/attribute.c ${CLIENTDIRS} ${TO}$@
 
+${OBJDIR}client/audio.o: ${FREECIV_DIR}client/audio.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/audio.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/audio_none.o: ${FREECIV_DIR}client/audio_none.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/audio_none.c ${CLIENTDIRS} ${TO}$@
+
 ${OBJDIR}client/citydlg_common.o: ${FREECIV_DIR}client/citydlg_common.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/citydlg_common.c ${CLIENTDIRS} ${TO}$@
 
@@ -497,6 +503,9 @@ ${OBJDIR}client/options.o: ${FREECIV_DIR}client/options.c
 
 ${OBJDIR}client/packhand.o: ${FREECIV_DIR}client/packhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/packhand.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/repodlgs_common.o: ${FREECIV_DIR}client/repodlgs_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/repodlgs_common.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/tilespec.o: ${FREECIV_DIR}client/tilespec.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/tilespec.c ${CLIENTDIRS} ${TO}$@

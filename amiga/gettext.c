@@ -324,3 +324,7 @@ char *setlocale(int a, char *b)
 {
   return "C";
 }
+
+void textdomain(char *package)
+{
+}
