@@ -289,9 +289,20 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
   struct city *old_pcity, *new_pcity =
       player_find_city_by_id(pplayer, city_id);
 
-  if (!punit || !new_pcity) {
+  if (!punit || !new_pcity || city_id == punit->homecity) {
     return;
   }
+  if (!same_pos(punit->tile, new_pcity->tile)) {
+    freelog(LOG_ERROR,
+            "%s's %s (%d) is at (%d,%d), but tried to make "
+	    "%s at (%d,%d) its homecity.",
+            pplayer->name,
+            unit_name(punit->type), unit_id, punit->tile->x,
+            punit->tile->y, new_pcity->name, new_pcity->tile->x,
+            new_pcity->tile->y);
+    return;
+  }
+
   old_pcity = player_find_city_by_id(pplayer, punit->homecity);
 
   unit_list_insert(&new_pcity->units_supported, punit);
