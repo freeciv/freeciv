@@ -41,8 +41,8 @@ void ai_manage_units(struct player *pplayer)
 {
 /* printf("Managing units for %s\n", pplayer->name);  */
   unit_list_iterate(pplayer->units, punit)
-/* printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); 
-      ai_manage_unit(pplayer, punit);   */
+/* printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
+      ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
 /*  printf("Managed units successfully.\n");  */
 }
