@@ -1466,6 +1466,10 @@ static void tilespec_lookup_sprite_tags(void)
       const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
       int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
+      if (!darkness) {
+	freelog(LOG_FATAL, "Sprite tx.darkness missing.");
+	exit(EXIT_FAILURE);
+      }
       for (i = 0; i < 4; i++) {
 	sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
 					     offsets[i][1], W / 2, H / 2,
