@@ -23,14 +23,15 @@
 #
 # 2003年11月から主に私が訳すことになりました。
 #
-# GTK2 でビルドすると変なところがあったのですが、なかなか日本語訳の
-# 更新が無かった事から、澤田氏に連絡してみたりしている内に、
+# 以前はGTK2 でビルドすると変なところがあったのですが、なかなか
+# 日本語訳の更新が無かった事から、澤田氏に連絡してみたりしている内に、
 # まあ色々あって私が代わりに訳す事になった次第です。
 #
 # 大分更新しましたが、それでも変な所があると思います。
 # (というか沢山ありそうな気もしますが。)
 # お気付きになられた点がありましたら、気兼ね無く連絡してください。
-# 特に AI diplomacy 関連、各国の伝説(紹介文)関連は、
+# 特に GTK+-2.0 以外のクライアントに関することや、
+# 各国の指導者の役職に関する訳(Pierwszy Sekretarz とか、Ah とか)などは、
 # こういう訳の方が良いというのがありましたら、ぜひとも教えて下さい。
 # 変な文章が多いと思われますので。
 # ( ntaka とある所は私の訳もしくは私が大きく変更したところです。
@@ -42,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
 "POT-Creation-Date: 2003-10-20 12:57-0400\n"
-"PO-Revision-Date: 2003-11-16 14:05+0900\n"
+"PO-Revision-Date: 2003-11-21 17:40+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -372,13 +373,17 @@ msgid ""
 "$FREECIV_DATA_ENCODING."
 msgstr ""
 
+# ntaka
 #: common/shared.c:1363
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
 "you are using the latin1 character set, some characters\n"
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
-msgstr ""
+msgstr "iconv 無しでも Freeciv を楽しむことが出来ます。"
+"しかし、もしあなたが latin1 のエンコーディングを使っていない場合には、"
+"いくつかの文字が表示されないかもしれません。"
+"iconv は、http://gnu.org/ からダウンロードすることができます。"
 
 #: common/support.c:149
 #, c-format
@@ -3841,12 +3846,12 @@ msgstr "サーバオプションを設定する。"
 
 #: server/stdinhand.c:1077
 msgid "team <player> [team]"
-msgstr "team <プレイヤー名> [チーム名]"
+msgstr "team <プレイヤー> [チーム]"
 
 # ntaka
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr "プレイヤーのチームへの加盟、脱退、またはチームの変更をする。"
+msgstr "プレイヤーの所属チームを変更、追加、削除する。"
 
 # ntaka
 #: server/stdinhand.c:1079
@@ -3855,13 +3860,13 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr "プレイヤーをあるチームの一員として設定します。もし所属チームを"
-"特定しないのであれば、そのプレイヤーは所属チーム無しとします。"
-"チーム名は、\"\"で囲むことで途中に空白のあるチーム名にすることもできます。"
-"チームとは、ゲーム開始時点から同盟を組んでいるものとするプレイヤーたちの"
-"グループのことで、視界の共有、大使館の設置、またチームとしての勝利のため"
-"ともに闘うことなどをします。勝利したときのスコアは、"
-"チーム内のメンバーで貢献度によって分けられます。"
+msgstr ""
+"プレイヤーをチームのメンバとして設定します。チームが指定されなければ、プレイ"
+"ヤーは所属チームなしになります。名前に空白を含む時は \"\" を使って下さい。"
+"チームは最初から同盟を組んでいるプレイヤーのグループで、視界・大使館を共有し"
+"ます。チームのプレイヤーは、プレイヤーの平均得点で決まるチームの勝利を目指し"
+"て一緒に戦います。"
+
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -4644,7 +4649,7 @@ msgstr "不正なチーム名です。"
 #: server/stdinhand.c:2718
 #, c-format
 msgid "Player %s set to team %s."
-msgstr "%1$s はチーム %2$s に所属しました。"
+msgstr "プレイヤー %s はチーム %s に所属します。"
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -9868,7 +9873,7 @@ msgstr "作業リスト(_W)"
 
 #: client/gui-gtk/citydlg.c:1188
 msgid "CM_A"
-msgstr "CM_A"
+msgstr "CMA(_A)"
 
 #: client/gui-gtk/citydlg.c:1220
 msgid "Established trade routes"
@@ -17510,9 +17515,10 @@ msgstr "議長"
 msgid "Chairperson"
 msgstr "議長"
 
+# ntaka 大統領でいいのだろうか?
 #: data/nation/brazilian.ruleset:17
 msgid "Director-President"
-msgstr ""
+msgstr "大統領"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -17563,13 +17569,15 @@ msgstr "Rei"
 msgid "Reina"
 msgstr "Reina"
 
+# ntaka 私には何のことだか?
 #: data/nation/catalan.ruleset:17
 msgid "Arquebisbe"
-msgstr ""
+msgstr "Arquebisbe"
 
+# ntaka 私には何のことだか?
 #: data/nation/catalan.ruleset:17
 msgid "Gran Bruixa"
-msgstr ""
+msgstr "Gran Bruixa"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -17581,7 +17589,7 @@ msgstr "チリ民族"
 
 #: data/nation/chilean.ruleset:16
 msgid "Captain General"
-msgstr ""
+msgstr "Captain General"
 
 # clefs
 #: data/nation/chilean.ruleset:17 data/nation/french.ruleset:12
@@ -17590,7 +17598,7 @@ msgstr "大司教"
 
 #: data/nation/chilean.ruleset:18
 msgid "Supreme Director"
-msgstr ""
+msgstr "Supreme Director"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -17927,23 +17935,24 @@ msgstr "ポーランド民族"
 
 #: data/nation/polish.ruleset:15
 msgid "Dyktator"
-msgstr ""
+msgstr "独裁者"
 
 #: data/nation/polish.ruleset:15
 msgid "Dyktatorka"
-msgstr ""
+msgstr "独裁者"
 
 #: data/nation/polish.ruleset:16
 msgid "Prymas"
-msgstr ""
+msgstr "Prymas"
 
 #: data/nation/polish.ruleset:18
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "Pierwszy Sekretarz"
 
+# ntaka President のポーランド語だよね???
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
 msgid "Prezydent"
-msgstr ""
+msgstr "大統領"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -18032,9 +18041,10 @@ msgstr "シンガポール人"
 msgid "?plural:Singaporeans"
 msgstr "シンガポール民族"
 
+# ntaka Yap Ah Loy という人がいたらしいが、、、
 #: data/nation/singaporean.ruleset:26
 msgid "Ah"
-msgstr ""
+msgstr "Ah"
 
 #: data/nation/singaporean.ruleset:27 data/nation/turk.ruleset:14
 msgid "Sultan"
