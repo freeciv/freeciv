@@ -14,13 +14,16 @@
 #
 #***********************************************************************/
 
-# Find absolute paths for srcdir and builddir.
 BUILDDIR=`dirname $0`
 
-# make absolute
-BUILDDIR=`cd $BUILDDIR;pwd`
+# Use cd + pwd instead of manual concatentation in case of absolute paths
+BUILDDATA=$(cd $BUILDDIR/data ; pwd)
+SRCDATA=$(cd $BUILDDIR ; cd @top_srcdir@/data ; pwd)
 
-SRCDIR="$BUILDDIR/@top_srcdir@"
+if [ "x$FREECIV_PATH" = "x" ] ; then
+  FREECIV_PATH=".:data:~/.freeciv"
+fi
+export FREECIV_PATH="$FREECIV_PATH:$BUILDDATA:$SRCDATA"
 
 [ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/civserver
 [ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/civserver
@@ -30,4 +33,4 @@ if [ "$EXE" = "" ]; then
   exit 1
 fi
 
-cd $SRCDIR && exec $EXE ${1+"$@"}
+exec $EXE ${1+"$@"}
