@@ -72,6 +72,7 @@ void client_remove_unit(struct unit *punit)
   struct tile *ptile = punit->tile;
   int hc = punit->homecity;
   struct unit *ufocus = get_unit_in_focus();
+  struct unit old_unit = *punit;
 
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
@@ -115,7 +116,7 @@ void client_remove_unit(struct unit *punit)
 	    TILE_XY(pcity->tile));
   }
 
-  refresh_tile_mapcanvas(ptile, FALSE);
+  refresh_unit_mapcanvas(&old_unit, ptile, TRUE, FALSE);
 }
 
 /**************************************************************************
@@ -125,6 +126,7 @@ void client_remove_city(struct city *pcity)
 {
   bool effect_update;
   struct tile *ptile = pcity->tile;
+  struct city old_city = *pcity;
 
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	  get_nation_name(city_owner(pcity)->nation), TILE_XY(ptile));
@@ -145,7 +147,7 @@ void client_remove_city(struct city *pcity)
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();
-  refresh_tile_mapcanvas(ptile, FALSE);
+  refresh_city_mapcanvas(&old_city, ptile, TRUE, FALSE);
 }
 
 /**************************************************************************

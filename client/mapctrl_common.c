@@ -294,7 +294,7 @@ void toggle_tile_hilite(struct tile *ptile)
     return;
   }
 
-  refresh_tile_mapcanvas(ptile, TRUE);
+  refresh_tile_mapcanvas(ptile, FALSE, TRUE);
 }
 
 /**************************************************************************

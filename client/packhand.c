@@ -296,8 +296,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
-	refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
+	refresh_unit_mapcanvas(punit0, punit0->tile, TRUE, FALSE);
+	refresh_unit_mapcanvas(punit1, punit1->tile, TRUE, FALSE);
       }
     }
   }
@@ -586,7 +586,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 
 
   if (can_client_change_view()) {
-    refresh_tile_mapcanvas(pcity->tile, FALSE);
+    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
   }
 
   if (city_workers_display==pcity)  {
@@ -1203,7 +1203,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if (repaint_unit) {
-    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
+    refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
   }
 
   if ((check_focus || get_unit_in_focus() == NULL) &&
@@ -1955,7 +1955,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   if (can_client_change_view()) {
     /* the tile itself (including the necessary parts of adjacent tiles) */
     if (tile_changed || old_known!=ptile->known) {
-      refresh_tile_mapcanvas(ptile, FALSE);
+      refresh_tile_mapcanvas(ptile, TRUE, FALSE);
     }
   }
 

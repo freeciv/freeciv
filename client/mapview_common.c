@@ -74,8 +74,10 @@ enum update_type {
 /* A tile update has a tile associated with it as well as an area type.
  * See unqueue_mapview_updates for a thorough explanation. */
 enum tile_update_type {
-  TILE_UPDATE_TILE,
+  TILE_UPDATE_TILE_SINGLE,
+  TILE_UPDATE_TILE_FULL,
   TILE_UPDATE_UNIT,
+  TILE_UPDATE_CITY_DESC,
   TILE_UPDATE_CITYMAP,
   TILE_UPDATE_COUNT
 };
@@ -87,9 +89,14 @@ static void unqueue_mapview_updates(bool write_to_screen);
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
-void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
+void refresh_tile_mapcanvas(struct tile *ptile,
+			    bool full_refresh, bool write_to_screen)
 {
-  queue_mapview_tile_update(ptile, TILE_UPDATE_TILE);
+  if (full_refresh) {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_TILE_FULL);
+  } else {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_TILE_SINGLE);
+  }
   if (write_to_screen) {
     unqueue_mapview_updates(TRUE);
   }
@@ -99,9 +106,9 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
  Refreshes a single unit on the map canvas.
 **************************************************************************/
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
-			    bool write_to_screen)
+			    bool full_refresh, bool write_to_screen)
 {
-  if (unit_type_flag(punit->type, F_CITIES)) {
+  if (full_refresh && unit_type_flag(punit->type, F_CITIES)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
   } else {
     queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
@@ -1115,7 +1122,7 @@ void toggle_unit_color(struct unit *punit)
     color_index = (color_index + 1) % NUM_CITY_COLORS;
   }
 
-  refresh_unit_mapcanvas(punit, punit->tile, FALSE);
+  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 }
 
 /****************************************************************************
@@ -1730,15 +1737,7 @@ static int max_desc_width = 0, max_desc_height = 0;
 **************************************************************************/
 void update_city_description(struct city *pcity)
 {
-  int canvas_x, canvas_y;
-
-  /* We update the entire map canvas area that this city description
-   * might be covering.  This may, for instance, redraw other city
-   * descriptions that overlap with this one. */
-  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
-  update_map_canvas(canvas_x - (max_desc_width - NORMAL_TILE_WIDTH) / 2,
-		    canvas_y + NORMAL_TILE_HEIGHT,
-		    max_desc_width, max_desc_height);
+  queue_mapview_tile_update(pcity->tile, TILE_UPDATE_CITY_DESC);
 }
 
 /**************************************************************************
@@ -1883,8 +1882,8 @@ void undraw_segment(struct tile *src_tile, enum direction8 dir)
     assert(0);
     return;
   }
-  refresh_tile_mapcanvas(src_tile, FALSE);
-  refresh_tile_mapcanvas(dst_tile, FALSE);
+  refresh_tile_mapcanvas(src_tile, FALSE, FALSE);
+  refresh_tile_mapcanvas(dst_tile, FALSE, FALSE);
 }
 
 /****************************************************************************
@@ -1908,10 +1907,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     if (myrand(diff0 + diff1) < diff0) {
       punit0->hp--;
-      refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
+      refresh_unit_mapcanvas(punit0, punit0->tile, FALSE, FALSE);
     } else {
       punit1->hp--;
-      refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
+      refresh_unit_mapcanvas(punit1, punit1->tile, FALSE, FALSE);
     }
 
     unqueue_mapview_updates(TRUE);
@@ -1923,7 +1922,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   if (num_tiles_explode_unit > 0
       && tile_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->tile)) {
-    refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE);
+    refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE, FALSE);
     unqueue_mapview_updates(FALSE);
     canvas_copy(mapview.tmp_store, mapview.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
@@ -1955,8 +1954,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   set_units_in_combat(NULL, NULL);
-  refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
-  refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
+  refresh_unit_mapcanvas(punit0, punit0->tile, TRUE, FALSE);
+  refresh_unit_mapcanvas(punit1, punit1->tile, TRUE, FALSE);
 }
 
 /**************************************************************************
@@ -2274,8 +2273,10 @@ void unqueue_mapview_updates(bool write_to_screen)
   const struct {
     int dx, dy, w, h;
   } area[TILE_UPDATE_COUNT] = {
+    {0, 0, W, H},
     {-W / 2, -H / 2, 2 * W, 2 * H},
     {(W - UW) / 2, H - UH, UW, UH},
+    {-(max_desc_width - W) / 2, H, max_desc_width, max_desc_height},
     {-(city_width - W) / 2, -(city_height - H) / 2, city_width, city_height}
   };
 

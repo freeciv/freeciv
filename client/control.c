@@ -168,7 +168,7 @@ void set_unit_focus(struct unit *punit)
     auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
-    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
+    refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 
     if (unit_has_orders(punit)) {
       /* Clear the focus unit's orders. */
@@ -184,7 +184,8 @@ void set_unit_focus(struct unit *punit)
   /* avoid the old focus unit disappearing: */
   if (punit_old_focus
       && (!punit || !same_pos(punit_old_focus->tile, punit->tile))) {
-    refresh_unit_mapcanvas(punit_old_focus, punit_old_focus->tile, FALSE);
+    refresh_unit_mapcanvas(punit_old_focus, punit_old_focus->tile,
+			   TRUE, FALSE);
   }
 
   update_unit_info_label(punit);
@@ -422,7 +423,14 @@ double blink_active_unit(void)
       /* If we lag, we don't try to catch up.  Instead we just start a
        * new blink_time on every update. */
       blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
-      refresh_unit_mapcanvas(punit, punit->tile, TRUE);
+
+      /* HACK: since this is called so often we're careful to only do the
+       * minimal refresh. */
+      if (sprites.unit.select[0]) {
+	refresh_tile_mapcanvas(punit->tile, FALSE, TRUE);
+      } else {
+	refresh_unit_mapcanvas(punit, punit->tile, FALSE, TRUE);
+      }
     }
 
     return blink_time - read_timer_seconds(blink_timer);
@@ -1427,7 +1435,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    refresh_unit_mapcanvas(punit, ptile, FALSE);
+    refresh_unit_mapcanvas(punit, ptile, TRUE, FALSE);
 
     if (do_animation) {
       int dx, dy;

@@ -203,9 +203,10 @@ extern bool can_slide;
   }									    \
 }
 
-void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen);
+void refresh_tile_mapcanvas(struct tile *ptile,
+			    bool full_refresh, bool write_to_screen);
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
-			    bool write_to_screen);
+			    bool full_refresh, bool write_to_screen);
 void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen);
 

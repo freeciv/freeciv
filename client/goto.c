@@ -210,8 +210,8 @@ static void update_last_part(struct tile *ptile)
   }
 
   /* Refresh tiles so turn information is shown. */
-  refresh_tile_mapcanvas(old_tile, FALSE);
-  refresh_tile_mapcanvas(ptile, FALSE);
+  refresh_tile_mapcanvas(old_tile, FALSE, FALSE);
+  refresh_tile_mapcanvas(ptile, FALSE, FALSE);
 }
 
 /********************************************************************** 
