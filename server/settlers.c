@@ -894,7 +894,7 @@ static int evaluate_city_building(struct unit *punit,
 				  struct unit **ferryboat)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
-  int newv, b, moves = 0;
+  int best_newv = 0, best_moves = 0;
   struct player *pplayer = unit_owner(punit);
   bool nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
   int ucont              = map_get_continent(punit->x, punit->y);
@@ -903,7 +903,6 @@ static int evaluate_city_building(struct unit *punit,
   int food_cost          = unit_foodbox_cost(punit);
 
   int boatid, bx = 0, by = 0;	/* as returned by find_boat */
-  int best_newv = 0;
   enemy_mask my_enemies = enemies[pplayer->player_no]; /* optimalization */
 
   if (pplayer->ai.control)
@@ -924,7 +923,8 @@ static int evaluate_city_building(struct unit *punit,
   square_iterate(punit->x, punit->y, 11, x, y) {
     int near = real_map_distance(punit->x, punit->y, x, y);
     bool w_virtual = FALSE;	/* I'm no entirely sure what this is --dwp */
-    int mv_cost;
+    int b, mv_cost, newv, moves = 0;
+
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& map_get_terrain(x, y) != T_OCEAN
 	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
@@ -1012,6 +1012,7 @@ static int evaluate_city_building(struct unit *punit,
 #endif
       } else if (newv > best_newv) {
 	best_newv = newv;
+	best_moves = moves;
 	if (w_virtual) {
 	  *gx = -1; *gy = -1;
 	} else {
@@ -1022,9 +1023,10 @@ static int evaluate_city_building(struct unit *punit,
   } square_iterate_end;
 
   freelog(LOG_DEBUG,
-	"%s (%d, %d) wants city at (%d, %d) with want %d, distance %d moves",
+	"%s %d(%d, %d) wants city at (%d, %d) with want %d, distance %d moves",
 	(punit->id != 0 ? unit_type(punit)->name : mycity->name), 
-	punit->x, punit->y, *gx, *gy, best_newv, moves);
+	(punit->id != 0 ? punit->id : mycity->id), 
+	punit->x, punit->y, *gx, *gy, best_newv, best_moves);
   return best_newv;
 }
 
