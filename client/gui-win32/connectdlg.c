@@ -36,6 +36,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
+#include "connectdlg_common.h"
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
@@ -87,7 +88,7 @@ static struct t_server_button server_buttons[]={{NULL,N_("Start Game"),
 						 "quit"},
 						{NULL,N_("Get Score"),
 						 "score"}};
-static HANDLE server_process=INVALID_HANDLE_VALUE;
+extern HANDLE server_process;
 static HANDLE stdin_pipe[2];
 static HANDLE stdout_pipe[2];
 static HANDLE stderr_pipe[2];
@@ -98,48 +99,7 @@ static HWND main_menu;
 static char saved_games_dirname[MAX_PATH+1]=".";
 
 static void new_game_callback(HWND w,void * data);
-/**************************************************************************
-  Tests if the client has started the server.
-**************************************************************************/
-static int is_server_running()
-{
-  return (server_process!=INVALID_HANDLE_VALUE);
-}
 
-/**************************************************************************
-  Kills the server if the client has started it (atexit handler)
-**************************************************************************/
-static void kill_server()
-{
-  if (is_server_running()) {
-    TerminateProcess(server_process,0);
-    CloseHandle(server_process);
-    server_process=INVALID_HANDLE_VALUE;
-  }
-}
-
-/**************************************************************************
- Finds the lowest port which can be used for the 
- server (starting at the default 5555)
-**************************************************************************/
-static int min_free_port()
-{
-  int port, n, s;
-  struct sockaddr_in tmp;
-
-  s=socket(AF_INET, SOCK_STREAM, 0);
-  n=INADDR_ANY;
-  port=5554; /* make looping convinient */
-  do {
-    port++;
-    memset(&tmp,0,sizeof(struct sockaddr_in));
-    tmp.sin_family=AF_INET;
-    tmp.sin_port=htons(port);
-    memcpy(&tmp.sin_addr, &n, sizeof(long));
-  } while( bind(s,(struct sockaddr*) &tmp, sizeof(struct sockaddr_in)) );
-  my_closesocket(s);
-  return(port);
-}
 
 
 /*************************************************************************
@@ -788,7 +748,7 @@ static void create_server_window()
 			server_output,
 			TRUE,TRUE,5);
   fcwin_set_box(server_window,vbox);
-  atexit(kill_server);
+  atexit(client_kill_server);
 }
 
 /**************************************************************************
@@ -1229,7 +1189,7 @@ static void join_game_callback(HWND w,void *data)
 **************************************************************************/
 void gui_server_connect()
 {
-  kill_server();
+  client_kill_server();
   remove_server_control_buttons();
   if (server_window)
     ShowWindow(server_window,SW_HIDE);
