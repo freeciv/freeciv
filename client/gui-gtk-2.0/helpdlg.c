@@ -304,6 +304,7 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   button = gtk_button_new();
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+  gtk_widget_set_name(label, "help link");
   gtk_container_add(GTK_CONTAINER(button), label);
   gtk_widget_show(button);
   g_signal_connect_swapped(button, "clicked",
@@ -319,14 +320,9 @@ static GtkWidget *help_slink_new(const gchar *txt, enum help_page_type type)
 {
   GtkWidget *button, *label;
 
-  button = gtk_button_new_with_label(txt);
-  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  label = GTK_BIN(button)->child;
-  gtk_widget_set_name(label, "help link");
-  gtk_widget_show(button);
-  g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(help_hyperlink_callback), label);
-  g_object_set_data(G_OBJECT(label), "page_type", GUINT_TO_POINTER(type));
+  label = gtk_label_new(txt);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+  button = help_hyperlink_new(label, type);
   return button;
 }
 
@@ -519,7 +515,6 @@ static void create_help_dialog(void)
     if (i==5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
       gtk_table_attach_defaults(GTK_TABLE(help_itable), button, i, i+1, 0, 1);
-      gtk_widget_set_name(help_ilabel[i], "help link");
     } else {
       gtk_table_attach_defaults(GTK_TABLE(help_itable),
 			        help_ilabel[i], i, i+1, 0, 1);
@@ -538,7 +533,6 @@ static void create_help_dialog(void)
     if (i==3 || i==5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
       gtk_table_attach_defaults(GTK_TABLE(help_wtable), button, i, i+1, 0, 1);
-      gtk_widget_set_name(help_wlabel[i], "help link");
     } else {
       gtk_table_attach_defaults(GTK_TABLE(help_wtable),
 			        help_wlabel[i], i, i+1, 0, 1);
@@ -564,7 +558,6 @@ static void create_help_dialog(void)
 
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
 					    button, i, i+1, j, j+1);
-        gtk_widget_set_name(help_ulabel[j][i], "help link");
       } else {
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
 			          help_ulabel[j][i], i, i+1, j, j+1);

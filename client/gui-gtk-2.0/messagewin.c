@@ -139,10 +139,10 @@ static void meswin_cell_data_func(GtkTreeViewColumn *col,
 
   if (b) {
     g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_ITALIC,
-		 "foreground", "blue", "weight", PANGO_WEIGHT_NORMAL, NULL);
+		 "weight", PANGO_WEIGHT_NORMAL, NULL);
   } else {
     g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_NORMAL,
-		 "foreground", "black", "weight", PANGO_WEIGHT_BOLD, NULL);
+		 "weight", PANGO_WEIGHT_BOLD, NULL);
   }
 }
 					     

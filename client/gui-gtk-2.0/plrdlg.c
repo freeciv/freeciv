@@ -529,13 +529,13 @@ static void build_row(GtkTreeIter *it, int i)
    /* now add some eye candy ... */
    switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
    case DS_WAR:
-     weight = PANGO_WEIGHT_BOLD;
-     style = PANGO_STYLE_NORMAL;
+     weight = PANGO_WEIGHT_NORMAL;
+     style = PANGO_STYLE_ITALIC;
      break;
    case DS_ALLIANCE:
    case DS_TEAM:
-     weight = PANGO_WEIGHT_NORMAL;
-     style = PANGO_STYLE_ITALIC;
+     weight = PANGO_WEIGHT_BOLD;
+     style = PANGO_STYLE_NORMAL;
      break;
    default:
      weight = PANGO_WEIGHT_NORMAL;
