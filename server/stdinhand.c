@@ -630,6 +630,17 @@ static struct settings_s settings[] = {
 	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
 	  GAME_DEFAULT_ONSETBARBARIAN)
 
+  GEN_INT("revolen", game.revolution_length, SSET_RULES_FLEXIBLE,
+	  SSET_TO_CLIENT,
+	  N_("Length in turns of revolution"),
+	  N_("When changing government an intermission"
+             " period of the specified length, in turns,"
+             " occur."
+             " Setting this value to 0 will give a random"
+             " length of 1-6 turns."), NULL, 
+	  GAME_MIN_REVOLUTION_LENGTH, GAME_MAX_REVOLUTION_LENGTH, 
+	  GAME_DEFAULT_REVOLUTION_LENGTH)
+
   GEN_BOOL("fogofwar", game.fogofwar, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
 	  N_("Whether to enable fog of war"),
 	  N_("If this is set to 1, only those units and cities within "

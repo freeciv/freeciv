@@ -233,6 +233,7 @@ struct civ_game {
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
+  int revolution_length; /* 0=> random length, else the fixated length */
 };
 
 /* Unused? */
@@ -484,6 +485,10 @@ extern bool is_server;
 #define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
 #define GAME_MIN_ALLOWED_CITY_NAMES 0
 #define GAME_MAX_ALLOWED_CITY_NAMES 3
+
+#define GAME_DEFAULT_REVOLUTION_LENGTH 0
+#define GAME_MIN_REVOLUTION_LENGTH 0
+#define GAME_MAX_REVOLUTION_LENGTH 50
 
 #define GAME_START_YEAR -4000
 

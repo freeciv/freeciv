@@ -162,8 +162,9 @@ has ended.
 **************************************************************************/
 void update_revolution(struct player *pplayer)
 {
-  if(pplayer->revolution > 0) 
+  if (pplayer->revolution > 0) {
     pplayer->revolution--;
+  }
 }
 
 /**************************************************************************
@@ -838,8 +839,9 @@ void handle_player_government(struct player *pplayer, int government)
     return;
   }
 
-  if((pplayer->revolution<=5) && (pplayer->revolution>0))
+  if (pplayer->revolution <= 5 && pplayer->revolution > 0) {
     return;
+  }
 
   pplayer->government = government;
   notify_player(pplayer, _("Game: %s now governs the %s as a %s."), 
@@ -869,12 +871,16 @@ void handle_player_government(struct player *pplayer, int government)
 **************************************************************************/
 void handle_player_revolution(struct player *pplayer)
 {
-  if ((pplayer->revolution<=5) &&
-      (pplayer->revolution>0) &&
-      ( pplayer->government==game.government_when_anarchy))
+  if (pplayer->revolution <= 5
+      && pplayer->revolution > 0
+      && pplayer->government == game.government_when_anarchy) {
     return;
-
-  pplayer->revolution=myrand(5)+1;
+  }
+  if (game.revolution_length == 0) {
+    pplayer->revolution = myrand(5) + 1;
+  } else {
+    pplayer->revolution = game.revolution_length;
+  }
   pplayer->government=game.government_when_anarchy;
   notify_player_ex(pplayer, -1, -1, E_REVOLT_START,
 		   _("Game: The %s have incited a revolt!"),

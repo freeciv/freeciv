@@ -252,6 +252,7 @@ void game_init(void)
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.nbarbarians = 0;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
+  game.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
 
   game.heating     = 0;
   game.cooling     = 0;
