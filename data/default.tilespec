@@ -37,4 +37,5 @@ files =
   "trident/flags.spec",
   "trident/roads.spec",
   "misc/space.spec",
-  "misc/treaty.spec"
+  "misc/treaty.spec",
+  "trident/cities.spec"

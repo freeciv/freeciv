@@ -4,11 +4,12 @@
 pkgdatadir = $(datadir)/@PACKAGE@/default
 
 pkgdata_DATA =          \
+	buildings.ruleset \
+	cities.ruleset	\
+	governments.ruleset \
+	nations.ruleset	\
 	terrain.ruleset	\
 	techs.ruleset	\
-	governments.ruleset \
-	units.ruleset	\
-	buildings.ruleset \
-	nations.ruleset
+	units.ruleset
 
 EXTRA_DIST = $(pkgdata_DATA)

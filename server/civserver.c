@@ -1156,6 +1156,7 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
   game.players[player_no].nation=packet->nation_no;
   strcpy(game.players[player_no].name, packet->name);
   game.players[player_no].is_male=packet->is_male;
+  game.players[player_no].city_style=packet->city_style;
 
   /* tell the other players, that the nation is now unavailable */
   nations_used = 0;
@@ -1547,6 +1548,7 @@ static void generate_ai_players(void)
       if ( check_nation_leader_name( nation, game.players[player].name ) )
         if(nations_used[nation] != -1) {
            game.players[player].nation=mark_nation_as_used(nation);
+           game.players[player].city_style = get_nation_city_style(nation);
            game.players[player].is_male=get_nation_leader_sex(nation, game.players[player].name);
            break;
         }
@@ -1579,6 +1581,7 @@ static void generate_ai_players(void)
      if ((game.nplayers == i+1) && 
          !strcmp(player_name,game.players[i].name)) {
            game.players[i].nation=nation;
+           game.players[i].city_style = get_nation_city_style(nation);
 	   game.players[i].ai.control = !game.players[i].ai.control;
 	   game.players[i].ai.skill_level = game.skill_level;
            if( check_nation_leader_name(nation,player_name) )

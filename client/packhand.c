@@ -661,6 +661,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.luxury=pinfo->luxury;
   pplayer->government=pinfo->government;
   pplayer->embassy=pinfo->embassy;
+  pplayer->city_style=pinfo->city_style;
 
   for(i=0; i<game.num_tech_types; i++)
     pplayer->research.inventions[i]=pinfo->inventions[i]-'0';
@@ -1045,6 +1046,12 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   free_nations(game.nation_count);
   game.nation_count = packet->nation_count;
   alloc_nations(game.nation_count);
+
+  tilespec_free_city_tiles(game.styles_count);
+  free(city_styles);
+  game.styles_count = packet->style_count;
+  city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
+  tilespec_alloc_city_tiles(game.styles_count);
 }
 
 /**************************************************************************
@@ -1339,8 +1346,27 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
     strcpy(pl->leader_name[i], p->leader_name[i]);
     pl->leader_is_male[i] = p->leader_sex[i];
   }
+  pl->city_style = p->city_style;
 
   tilespec_setup_nation_flag(p->id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_city(struct packet_ruleset_city *packet)
+{
+  int id;
+
+  id = packet->style_id;
+  city_styles[id].techreq = packet->techreq;
+  city_styles[id].replaced_by = packet->replaced_by;
+
+  strcpy(city_styles[id].name, packet->name);
+  strcpy(city_styles[id].graphic, packet->graphic);
+  strcpy(city_styles[id].graphic_alt, packet->graphic_alt);
+
+  tilespec_setup_city_tiles(id);
 }
 
 /**************************************************************************

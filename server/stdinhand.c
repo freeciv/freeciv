@@ -320,6 +320,15 @@ static struct settings_s settings[] = {
     "  will be initialized from this file.  See also README.rulesets.",
     game.ruleset.nations, GAME_DEFAULT_RULESET },
 
+  { "cities", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing cities.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"cities.ruleset\".  The file is used to initialize\n"
+    "  city data (such as city style).  See also README.rulesets.",
+    game.ruleset.cities, GAME_DEFAULT_RULESET },
+
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,

@@ -311,6 +311,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_ruleset_government_ruler_title(pc);
   case PACKET_RULESET_NATION:
     return receive_packet_ruleset_nation(pc);
+  case PACKET_RULESET_CITY:
+    return receive_packet_ruleset_city(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -454,7 +456,6 @@ static unsigned char *get_uint16(unsigned char *buffer, int *val)
 /**************************************************************************
 ...
 **************************************************************************/
-#ifdef SIGNED_INT_FUNCTIONS
 static unsigned char *get_sint16(unsigned char *buffer, int *val)
 {
   if(val) {
@@ -468,7 +469,6 @@ static unsigned char *get_sint16(unsigned char *buffer, int *val)
   }
   return buffer+2;
 }
-#endif
 
 /**************************************************************************
 ...
@@ -590,7 +590,6 @@ static void iget_uint16(struct pack_iter *piter, int *val)
   Sets *val to zero for short packets.
   val can be NULL meaning just read past.
 **************************************************************************/
-#ifdef SIGNED_INT_FUNCTIONS
 static void iget_sint16(struct pack_iter *piter, int *val)
 {
   assert(piter);
@@ -604,7 +603,7 @@ static void iget_sint16(struct pack_iter *piter, int *val)
     swab_puint16(val);
   }
 }
-#endif
+
 /**************************************************************************
   Like get_uint32, but using a pack_iter.
   Also does byte swapping if required.
@@ -1199,6 +1198,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint8(cptr, pinfo->is_male);
   cptr=put_uint8(cptr, pinfo->government);
   cptr=put_uint32(cptr, pinfo->embassy);
+  cptr=put_uint8(cptr, pinfo->city_style);
   cptr=put_uint8(cptr, pinfo->nation);
   cptr=put_uint8(cptr, pinfo->turn_done?1:0);
   cptr=put_uint16(cptr, pinfo->nturns_idle);
@@ -1247,6 +1247,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter,  &pinfo->is_male);
   iget_uint8(&iter,  &pinfo->government);
   iget_uint32(&iter,  &pinfo->embassy);
+  iget_uint8(&iter,  &pinfo->city_style);
   iget_uint8(&iter,  &pinfo->nation);
   iget_uint8(&iter,  &pinfo->turn_done);
   iget_uint16(&iter,  &pinfo->nturns_idle);
@@ -1971,6 +1972,7 @@ int send_packet_alloc_nation(struct connection *pc,
   cptr=put_uint32(cptr, packet->nation_no);
   cptr=put_string(cptr, packet->name);
   cptr=put_uint8(cptr,packet->is_male);
+  cptr=put_uint8(cptr,packet->city_style);
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1991,6 +1993,7 @@ receive_packet_alloc_nation(struct connection *pc)
   iget_uint32(&iter, &packet->nation_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_uint8(&iter, &packet->is_male);
+  iget_uint8(&iter, &packet->city_style);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2071,6 +2074,7 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->num_tech_types);
  
   cptr=put_uint8(cptr, packet->nation_count);
+  cptr=put_uint8(cptr, packet->style_count);
 
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
 
@@ -2108,6 +2112,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->num_tech_types);
 
   iget_uint8(&iter, &packet->nation_count);
+  iget_uint8(&iter, &packet->style_count);
 
   iget_tech_list(&iter, packet->rtech.partisan_req);
 
@@ -2728,6 +2733,7 @@ int send_packet_ruleset_nation(struct connection *pc,
     cptr=put_string(cptr, packet->leader_name[i]);
     cptr=put_uint8(cptr, packet->leader_sex[i]);
   }
+  cptr=put_uint8(cptr, packet->city_style);
 
   put_uint16(buffer, cptr-buffer);
 
@@ -2758,11 +2764,60 @@ receive_packet_ruleset_nation(struct connection *pc)
     iget_string(&iter, packet->leader_name[i], sizeof(packet->leader_name[i]));
     iget_uint8(&iter, &packet->leader_sex[i]);
   }
+  iget_uint8(&iter, &packet->city_style);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
   return packet;
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_city(struct connection *pc,
+                             struct packet_ruleset_city *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_uint8(buffer+2, PACKET_RULESET_CITY);
+
+  cptr=put_uint8(cptr, packet->style_id);
+  cptr=put_uint8(cptr, packet->techreq);
+  cptr=put_sint16(cptr, packet->replaced_by);           /* I may send -1 */
+
+  cptr=put_string(cptr, packet->name);
+  cptr=put_string(cptr, packet->graphic);
+  cptr=put_string(cptr, packet->graphic_alt);
+
+  put_uint16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_city *
+receive_packet_ruleset_city(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_city *packet=
+    fc_malloc(sizeof(struct packet_ruleset_city));
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint8(&iter, &packet->style_id);
+  iget_uint8(&iter, &packet->techreq);
+  iget_sint16(&iter, &packet->replaced_by);           /* may be -1 */
+
+  iget_string(&iter, packet->name, MAX_LEN_NAME);
+  iget_string(&iter, packet->graphic, MAX_LEN_NAME);
+  iget_string(&iter, packet->graphic_alt, MAX_LEN_NAME);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
 
 /**************************************************************************
 ...

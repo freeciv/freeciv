@@ -4,10 +4,11 @@ Freeciv Rulesets, by David Pfitzner, dwp@mso.anu.edu.au
 
 Quickstart:
 -----------
- Rulesets allow modifiable sets of data for units, advances, 
- improvements, and wonders, without requiring recompilation, in a way
- which is consistent across a network and through savegames.  (In the
- future there could be other categories of rulesets, eg governments?)
+ Rulesets allow modifiable sets of data for units, advances, terrain,
+ improvements, wonders, cities and governments, without requiring
+ recompilation, in a way which is consistent across a network and
+ through savegames.  (In the future there could be other categories of
+ rulesets.)
 
 - To play freeciv normally: don't do anything special; the new
   features all have defaults which give the standard freeciv 
@@ -41,11 +42,12 @@ of "./ser -r data/civ1.serv" just reads a file which sets these
 options (as well as a few of the standard server options).  
 The new server options are:
 
-        terrain, techs, units, buildings.
+        techs, governments, units,
+        buildings, terrain, nations, cities.
 
 They are special server options in that they take string values, but 
 otherwise the behave like normal server options.  Eg, try the server 
-command "help techs".
+command "explain techs".
 
 For each of these options, the value of the option specifies a 
 subdirectory of the freeciv data directory, containing a file
@@ -53,17 +55,23 @@ name techs.ruleset, units.ruleset, or buildings.ruleset, respectively.
 
 Eg, the commands:
    
-	set terrain civ2
 	set techs default 
+	set governments default 
 	set units civ1
 	set buildings custom
+	set terrain civ2
+	set nations default 
+	set cities default 
 
 would specify the files:
 
-	data/civ2/terrain.ruleset
 	data/default/techs.ruleset
+	data/default/governments.ruleset
 	data/civ1/units.ruleset
 	data/custom/buildings.ruleset
+	data/civ2/terrain.ruleset
+	data/default/nations.ruleset
+	data/default/cities.ruleset
 
 (This is just an example, and may not give very sensible rules; the
 directory data/custom and the file data/custom/buildings.ruleset do 
@@ -72,10 +80,10 @@ not exist in standard freeciv.)
 The ruleset files in the data directory are user-editable, so you can
 modify them to create modified or custom rulesets (without having to
 recompile freeciv).  It is suggested that you _don't_ edit the 
-existing files in the "default", "civ1" and "civ2" directories, but
-rather copy them to another directory and edit the copies.  This is so
-that its clear when you are using modified rules and not the standard
-ones.
+existing files in the "default", "classic", "civ1" and "civ2"
+directories, but rather copy them to another directory and edit the
+copies.  This is so that its clear when you are using modified rules
+and not the standard ones.
 
 The format used in the ruleset files should be fairly 
 self-explanatory.  A few points:

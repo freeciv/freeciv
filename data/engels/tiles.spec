@@ -378,16 +378,9 @@ tiles = { "row", "column", "tag"
  12,  9, "tx.mine"
  12, 10, "tx.oil_mine"
  12, 11, "tx.pollution"
- 12, 12, "tx.city"
- 12, 13, "tx.city_walls"
  12, 14, "tx.village"
  12, 15, "tx.fortress"
  13, 16, "tx.airbase"
-
-; City-related icons:
-
-  9, 16, "city.occupied" 
- 16, 14, "city.disorder"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 

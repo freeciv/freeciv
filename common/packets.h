@@ -101,7 +101,8 @@ enum packet_type {
   PACKET_CITY_NAME_SUGGEST_REQ,
   PACKET_CITY_NAME_SUGGESTION,
   PACKET_RULESET_NATION,
-  PACKET_UNIT_PARADROP_TO
+  PACKET_UNIT_PARADROP_TO,
+  PACKET_RULESET_CITY
 };
 
 enum report_type {
@@ -346,6 +347,7 @@ struct packet_alloc_nation {
   Nation_Type_id nation_no;
   char name[MAX_LEN_NAME];
   int is_male;
+  int city_style;
 };
 
 
@@ -378,6 +380,7 @@ struct packet_player_info {
   int is_male;
   int government;
   int embassy;
+  int city_style;
   int nation;
   int turn_done, nturns_idle;
   int is_alive;
@@ -461,6 +464,7 @@ struct packet_ruleset_control {
   int default_government;
   int government_count;
   int nation_count;
+  int style_count;
 };
 
 /*********************************************************
@@ -642,6 +646,16 @@ struct packet_ruleset_nation {
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   int leader_sex[MAX_NUM_LEADERS];
+  int city_style;
+};
+
+struct packet_ruleset_city {
+  int style_id;
+  char name[MAX_LEN_NAME];
+  char graphic[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+  int techreq;
+  int replaced_by;
 };
 
 /*********************************************************
@@ -888,6 +902,11 @@ int send_packet_ruleset_nation(struct connection *pc,
 			       struct packet_ruleset_nation *packet);
 struct packet_ruleset_nation *
 receive_packet_ruleset_nation(struct connection *pc);
+
+int send_packet_ruleset_city(struct connection *pc,
+			     struct packet_ruleset_city *packet);
+struct packet_ruleset_city *
+receive_packet_ruleset_city(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 

@@ -88,6 +88,7 @@ struct civ_game {
   int government_when_anarchy;
 
   int nation_count;
+  int styles_count;
 
   struct {
     char techs[MAX_LEN_NAME];
@@ -96,6 +97,7 @@ struct civ_game {
     char terrain[MAX_LEN_NAME];
     char governments[MAX_LEN_NAME];
     char nations[MAX_LEN_NAME];
+    char cities[MAX_LEN_NAME];
   } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {

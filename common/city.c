@@ -60,6 +60,8 @@ struct improvement_type improvement_types[B_LAST];
 
 char **misc_city_names; 
 
+struct citystyle *city_styles = NULL;
+
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
 **************************************************************************/
@@ -1075,4 +1077,38 @@ int citygov_free_gold(struct city *pcity, struct government *gov)
   } else {
     return gov->free_gold;
   }
+}
+
+/**************************************************************************
+Evaluate which style should be used to draw a city.
+**************************************************************************/
+int get_city_style(struct city *pcity)
+{
+  int replac, style;
+
+  struct player *plr = &game.players[pcity->owner];
+  style = plr->city_style;
+
+  while( ((replac = city_styles[style].replaced_by) != -1) &&
+         (get_invention( plr, city_styles[replac].techreq) == TECH_KNOWN) ) {
+    style = replac;
+  }
+  return style;
+}
+
+/**************************************************************************
+Get index to city_styles for style name.
+**************************************************************************/
+int get_style_by_name(char *style_name)
+{
+  int i;
+
+  for( i=0; i<game.styles_count; i++) {
+    if( !strcmp(style_name,city_styles[i].name) ) 
+      break;
+  }
+  if( i < game.styles_count )
+    return i;
+  else
+    return -1;
 }

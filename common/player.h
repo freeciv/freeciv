@@ -130,6 +130,7 @@ struct player {
   int revolution;
   int capital; /* bool used to give player capital in first city. */
   int embassy;
+  int city_style;
   struct unit_list units;
   struct city_list cities;
   struct player_score score;

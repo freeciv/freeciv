@@ -63,6 +63,7 @@ void player_init(struct player *plr)
   strcpy(plr->addr, "---.---.---.---");
   plr->is_alive=1;
   plr->embassy=0;
+  plr->city_style=0;            /* should be first basic style */
   plr->ai.control=0;
   plr->ai.tech_goal = A_NONE;
   plr->ai.handicap = 0;

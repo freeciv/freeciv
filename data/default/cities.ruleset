@@ -1,0 +1,48 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set cities <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+[datafile]
+description="Cities data for Freeciv"
+options="1.8.2"
+
+;
+; City styles define the way cities are drawn
+;
+; graphic     = group of tiles to use, see cities spec for
+;               more info on city tiles
+; tech        = technology required for style to be used
+; replaced_by = which style replaced this one
+
+[citystyle_european]
+name        = "European"
+graphic     = "city.european"
+graphic_alt = "-"
+tech        = "None"
+replaced_by = "Industrial"
+
+[citystyle_classical]
+name        = "Classical"
+graphic     = "city.classical"
+graphic_alt = "-"
+tech        = "None"
+replaced_by = "Industrial"
+
+[citystyle_industrial]
+name        = "Industrial"
+graphic     = "city.industrial"
+graphic_alt = "-"
+tech        = "Railroad"
+replaced_by = "Modern"
+
+[citystyle_modern]
+name        = "Modern"
+graphic     = "city.modern"
+graphic_alt = "-"
+tech        = "Automobile"
+replaced_by = "-"

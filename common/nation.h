@@ -34,6 +34,7 @@ struct nation_type {
   int  leader_count;
   char *leader_name[MAX_NUM_LEADERS];
   int  leader_is_male[MAX_NUM_LEADERS];
+  int city_style;
   char **default_city_names;
   struct Sprite *flag_sprite;
 
@@ -70,5 +71,6 @@ struct nation_type *get_nation_by_idx(Nation_Type_id nation);
 int check_nation_leader_name(Nation_Type_id nation, char *name);
 struct nation_type *alloc_nations(int num);
 void free_nations(int num);
+int get_nation_city_style(Nation_Type_id nation);
 
 #endif  /* FC__NATION_H */

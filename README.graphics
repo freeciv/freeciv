@@ -102,7 +102,8 @@ standard tags:
   gov.	      government types
   unit.	      unit overlays: hp, stack, activities (goto, fortify etc)
   upkeep.     unit upkeep and unhappiness
-  city.	      city related (city size, tile-prod., disorder, occupied)
+  city.	      city related (city, size, sq.-prod., disorder, occupied)
+  cd.	      city defaults
   citizen.    citizens, including specialists
   explode.    explosion graphics (nuke explosion)
   spaceship.  spaceship components

@@ -471,7 +471,6 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(unit.hp_bar[i], buffer);
   }
 
-  SET_SPRITE(city.occupied, "city.occupied");
   SET_SPRITE(city.disorder, "city.disorder");
 
   for(i=0; i<NUM_TILES_DIGITS; i++) {
@@ -502,8 +501,6 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.mine,       "tx.mine");
   SET_SPRITE(tx.oil_mine,   "tx.oil_mine");
   SET_SPRITE(tx.pollution,  "tx.pollution");
-  SET_SPRITE(tx.city,       "tx.city");
-  SET_SPRITE(tx.city_walls, "tx.city_walls");
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
   SET_SPRITE(tx.airbase,    "tx.airbase");
@@ -528,6 +525,8 @@ static void tilespec_lookup_sprite_tags(void)
       SET_SPRITE(tx.denmark[i][j], buffer);
     }
   }
+
+  sprites.city.tile = 0;       /* no place to initialize this variable */
 }
 
 /**********************************************************************
@@ -693,6 +692,41 @@ static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
   return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
 }
 
+/**************************************************************************
+Return the sprite needed to draw the city
+**************************************************************************/
+static struct Sprite *get_city_sprite(struct city *pcity)
+{
+  int size, style;
+
+  style = get_city_style(pcity);    /* get style and match the best tile */
+                                    /* based on city size                */
+  for( size=0; size < city_styles[style].tiles_num; size++)
+    if( pcity->size < city_styles[style].tresh[size]) 
+      break;
+  return sprites.city.tile[style][size-1];
+}
+
+/**************************************************************************
+Return the sprite needed to draw the city wall
+**************************************************************************/
+static struct Sprite *get_city_wall_sprite(struct city *pcity)
+{
+  int style = get_city_style(pcity);
+
+  return sprites.city.tile[style][city_styles[style].tiles_num];
+}
+
+/**************************************************************************
+Return the sprite needed to draw the occupied tile
+**************************************************************************/
+static struct Sprite *get_city_occupied_sprite(struct city *pcity)
+{
+  int style = get_city_style(pcity);
+
+  return sprites.city.tile[style][city_styles[style].tiles_num+1];
+}
+
 /**********************************************************************
   Fill in the sprite array for the city
 ***********************************************************************/
@@ -705,10 +739,13 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
     *sprs++ = get_city_nation_flag_sprite(pcity);
   } else *sprs++ = NULL;
   
-  *sprs++ = (city_got_citywalls(pcity)? sprites.tx.city_walls : sprites.tx.city);
-
   if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
-    *sprs++ = sprites.city.occupied;
+    *sprs++ = get_city_occupied_sprite(pcity);
+
+  *sprs++ = get_city_sprite(pcity);
+
+  if(city_got_citywalls(pcity))
+    *sprs++ = get_city_wall_sprite(pcity);
 
   if(pcity->size>=10)
     *sprs++ = sprites.city.size_tens[pcity->size/10];
@@ -1075,6 +1112,103 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   return sprs - save_sprs;
 }
 
+/**********************************************************************
+  Set city tiles sprite values; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+static void tilespec_setup_style_tile(int style, char *graphics)
+{
+  int j;
+  int sprite_idx;
+
+  city_styles[style].tiles_num = 0;
+
+  for(j=0; j<32 && city_styles[style].tiles_num < MAX_CITY_TILES; j++) {
+    sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_%d", graphics, j);
+    if( sprite_idx != -1 ) {
+      sprites.city.tile[style][city_styles[style].tiles_num] = tile_sprites[sprite_idx];
+      city_styles[style].tresh[city_styles[style].tiles_num] = j;
+      city_styles[style].tiles_num++;
+      freelog(LOG_DEBUG, "Found tile %s_%d", graphics, j);
+    }
+  }
+
+  if(city_styles[style].tiles_num == 0)      /* don't waste more time */
+    return;
+
+  /* the wall tile */
+  sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_wall", graphics);
+  if( sprite_idx != -1 )
+    sprites.city.tile[style][city_styles[style].tiles_num] = tile_sprites[sprite_idx];
+  else
+    freelog(LOG_NORMAL, "Warning: no wall tile for graphic %s", graphics);
+
+  /* occupied tile */
+  sprite_idx = secfile_lookup_int_default( &tag_sf, -1, "%s_occupied", graphics);
+  if( sprite_idx != -1 )
+    sprites.city.tile[style][city_styles[style].tiles_num+1] = tile_sprites[sprite_idx];
+  else
+    freelog(LOG_NORMAL, "Warning: no occupied tile for graphic %s", graphics);
+}
+
+/**********************************************************************
+  Set city tiles sprite values; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+void tilespec_setup_city_tiles(int style)
+{
+  tilespec_setup_style_tile(style, city_styles[style].graphic);
+
+  if( !city_styles[style].tiles_num ) {  /* no tiles found, try alternate */
+
+    freelog(LOG_NORMAL, "No tiles for %s style, trying alternate %s style",
+            city_styles[style].graphic, city_styles[style].graphic_alt);
+
+    tilespec_setup_style_tile(style, city_styles[style].graphic_alt);
+  }
+
+  if( !city_styles[style].tiles_num ) {  /* no alternate, use default */
+
+    freelog(LOG_NORMAL,
+	    "No tiles for alternate %s style, using default tiles",
+            city_styles[style].graphic_alt);
+
+    sprites.city.tile[style][0] =
+      tile_sprites[secfile_lookup_int( &tag_sf, "cd.city")];
+    sprites.city.tile[style][1] =
+      tile_sprites[secfile_lookup_int( &tag_sf, "cd.city_wall")];
+    sprites.city.tile[style][2] =
+      tile_sprites[secfile_lookup_int( &tag_sf, "cd.occupied")];
+    city_styles[style].tiles_num = 1;
+    city_styles[style].tresh[0] = 0;
+  }
+}
+
+/**********************************************************************
+  alloc memory for city tiles sprites
+***********************************************************************/
+void tilespec_alloc_city_tiles(int count)
+{
+  int i;
+
+  sprites.city.tile = fc_calloc( count, sizeof(struct Sprite**) );
+
+  for( i=0; i<count; i++ ) 
+    sprites.city.tile[i] = fc_calloc(MAX_CITY_TILES+2, sizeof(struct Sprite*));
+}
+
+/**********************************************************************
+  alloc memory for city tiles sprites
+***********************************************************************/
+void tilespec_free_city_tiles(int count)
+{
+  int i;
+
+  for( i=0; i<count; i++ ) 
+    free(sprites.city.tile[i]);
+
+  free (sprites.city.tile);
+}
 
 /**********************************************************************
   Not sure which module to put this in...

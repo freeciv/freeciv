@@ -32,6 +32,9 @@ void tilespec_setup_unit_type(int id);
 void tilespec_setup_tile_type(int id);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);
+void tilespec_setup_city_tiles(int id);
+void tilespec_alloc_city_tiles(int count);
+void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
@@ -116,7 +119,8 @@ struct named_sprites {
       *size_tens[NUM_TILES_DIGITS],		/* first unused */
       *tile_foodnum[NUM_TILES_DIGITS],
       *tile_shieldnum[NUM_TILES_DIGITS],
-      *tile_tradenum[NUM_TILES_DIGITS];
+      *tile_tradenum[NUM_TILES_DIGITS],
+      ***tile;
   } city;
   struct {
     struct Sprite *attention;
@@ -128,8 +132,6 @@ struct named_sprites {
       *mine,
       *oil_mine,
       *pollution,
-      *city,
-      *city_walls,
       *village,
       *fortress,
       *airbase,

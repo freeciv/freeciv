@@ -270,6 +270,10 @@ void handle_packet_input(char *packet, int type)
     handle_ruleset_nation((struct packet_ruleset_nation *)packet);
     break;
 
+  case PACKET_RULESET_CITY:
+    handle_ruleset_city((struct packet_ruleset_city *)packet);
+    break;
+    
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;

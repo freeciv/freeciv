@@ -55,6 +55,7 @@ leader="Caesar", "August", "Livia", "Trajan", "Constantin"
 leader_sex="Male", "Male", "Female", "Male", "Male"
 flag = "f.italy"
 flag_alt = "-"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Dictator"),     _("Dictator")
@@ -97,6 +98,7 @@ leader="Hammurabi", "Sargon", "Nabuchadnezzar"
 leader_sex="Male", "Male", "Male"
 flag = "f.iraq_old"
 flag_alt = "-"
+city_style = "Classical"
 
 attack=0
 expand=0
@@ -125,6 +127,7 @@ leader="Frederick", "Otto", "Wilhelm"
 leader_sex="Male", "Male", "Male"
 flag="f.germany"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Chancellor"),   _("Chancellor")
                  "Fundamentalism",  _("Archbishop"),   _("Archbishop")
@@ -164,6 +167,7 @@ leader="Ramesses", "Cleopatra", "Tutanhamon", "Hatshepsut", "Nefertiti", "Cheops
 leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
 flag="f.egypt"
 flag_alt = "-"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Pharaoh"),       _("Pharaoh")
@@ -197,6 +201,7 @@ leader="Lincoln", "Washington", "Franklin D. Roosevelt",
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="f.usa"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Republic",        _("Speaker"),      _("Speaker")
                  "Fundamentalism",  _("Reverend"),     _("Reverend")
@@ -233,6 +238,7 @@ leader="Alexander", "Perikles", "Leonidas"
 leader_sex="Male", "Male", "Male"
 flag="f.greece"
 flag_alt = "-"
+city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -269,6 +275,7 @@ leader="Gandhi", "Ashoka", "Chandragupta", "Indhira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.india"
 flag_alt = "-"
+city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Maharaja"),     _("Maharaja")
@@ -298,6 +305,7 @@ leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter the Great", "Anne"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"
 flag_alt = "-"
+city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Czar"),         _("Czarina")
@@ -331,6 +339,7 @@ leader="Shaka"
 leader_sex="Male"
 flag="f.south_africa"
 flag_alt = "f.rwanda"  ; used previously
+city_style = "European"
 
 attack=2
 expand=1
@@ -357,6 +366,7 @@ leader="Napoleon", "Louis XIV", "Charles de Gaulle"
 leader_sex="Male", "Male", "Male"
 flag="f.france"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Premier"),      _("Premier")
                  "Fundamentalism",  _("Archbishop"),   _("Archbishop")
@@ -387,6 +397,7 @@ leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.mexico"
 flag_alt = "-"
+city_style = "Classical"
 
 attack=1
 expand=0
@@ -414,6 +425,7 @@ leader="Mao", "Cixi"
 leader_sex="Male", "Female"
 flag="f.china"
 flag_alt = "-"
+city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Communism",       _("Chairman"),     _("Chairperson")
                }
@@ -443,6 +455,7 @@ leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII", 
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.united_kingdom"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                  "Fundamentalism",  _("Lord Protector"), _("Lady Protector")
@@ -473,6 +486,7 @@ leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Khan"),         _("Khan")
                  "Monarchy",        _("Great Khan"),   _("Great Khan")
@@ -503,6 +517,7 @@ leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad", "Selim", 
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.turkey"
 flag_alt = "-"
+city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Sultan"),       _("Sultan")
@@ -535,6 +550,7 @@ leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
 leader_sex="Male", "Female", "Male", "Female", "Male"
 flag="f.spain"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -564,6 +580,7 @@ leader="Cyrus", "Darius", "Xerxes", "Ardashir"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.iran"
 flag_alt = "-"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Shah"),         _("Shah")
@@ -595,6 +612,7 @@ leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin"
 leader_sex="Male", "Male", "Male", "Male"
 flag ="f.arab"
 flag_alt = "-"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Caliph"),       _("Caliph")
@@ -625,6 +643,7 @@ leader="Hannibal", "Hasdrubal", "Hamilcar", "Dido"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.tunisia"
 flag_alt = "-"
+city_style = "Classical"
 
 attack=2
 expand=1
@@ -653,6 +672,7 @@ leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"
 flag_alt = "-"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Warlord"),      _("Warlord")
@@ -685,6 +705,7 @@ leader="Erik the Bloodaxe", "Harald"
 leader_sex="Male", "Male"
 flag="f.norway"
 flag_alt = "f.denmark"  ; Now used by Danish
+city_style = "European"
 
 attack=2
 expand=2
@@ -716,6 +737,7 @@ leader="Mieszko", "Jadwiga", "Jan Sobieski"
 leader_sex="Male", "Female", "Male"
 flag="f.poland"
 flag_alt = "-"
+city_style = "European"
 
 attack=2
 expand=1
@@ -743,6 +765,7 @@ leader="Arpad", "Stephen", "Bela", "Mary", "Louis the Great"
 leader_sex="Male", "Male", "Male", "Female", "Male"
 flag="f.hungary"
 flag_alt = "-"
+city_style = "European"
 
 attack=2
 expand=0
@@ -768,6 +791,7 @@ leader="Valdemar", "Knut", "Margaret"
 leader_sex="Male", "Male", "Female"
 flag="f.denmark"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -799,6 +823,7 @@ leader="Willem", "Beatrix"
 leader_sex="Male", "Female"
 flag="f.holland"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -841,6 +866,7 @@ leader="Gustav Vasa", "Erik", "Karl", "Christine"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.sweden"
 flag_alt = "-"
+city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
@@ -871,6 +897,7 @@ leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.japan"
 flag_alt = "-"
+city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Shogun"),         _("Shogun")

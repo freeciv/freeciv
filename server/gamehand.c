@@ -374,6 +374,8 @@ int game_load(struct section_file *file)
 				    "game.ruleset.governments"));
   strcpy(game.ruleset.nations,
          secfile_lookup_str_default(file, "default", "game.ruleset.nations"));
+  strcpy(game.ruleset.cities,
+         secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
 
 
   strcpy(game.demography,
@@ -544,6 +546,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.terrain, "game.ruleset.terrain");
   secfile_insert_str(file, game.ruleset.governments, "game.ruleset.governments");
   secfile_insert_str(file, game.ruleset.nations, "game.ruleset.nations");
+  secfile_insert_str(file, game.ruleset.cities, "game.ruleset.cities");
   secfile_insert_str(file, game.demography, "game.demography");
 
   if (1) {

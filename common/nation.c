@@ -179,3 +179,10 @@ void free_nations(int num)
   free(nations);
 }
 
+/***************************************************************
+Returns nation's city style
+***************************************************************/
+int get_nation_city_style(Nation_Type_id nation)
+{
+  return nations[nation].city_style;
+}

@@ -1612,7 +1612,8 @@ void send_player_info(struct player *src, struct player *dest)
              info.luxury=game.players[i].economic.luxury;
 	     info.government=game.players[i].government;             
 	     info.embassy=game.players[i].embassy;             
-             
+             info.city_style=game.players[i].city_style;
+
 	     info.researched=game.players[i].research.researched;
              info.researchpoints=game.players[i].research.researchpoints;
              info.researching=game.players[i].research.researching;
@@ -1661,7 +1662,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
-   
+  plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
+                                             "player%d.city_style", plrno);
+
   strcpy(plr->addr, "---.---.---.---");
 
   plr->nturns_idle=0;
@@ -1935,6 +1938,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
    
+  secfile_insert_int(file, plr->city_style, "player%d.city_style", plrno);
   secfile_insert_int(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_int(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_int(file, plr->ai.control, "player%d.ai.control", plrno);

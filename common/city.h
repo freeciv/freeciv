@@ -189,6 +189,23 @@ struct city {
   struct ai_city ai;
 };
 
+/* city drawing styles */
+
+#define MAX_CITY_TILES 8
+
+struct citystyle {
+  char name[MAX_LEN_NAME];
+  char graphic[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+  int techreq;                  /* tech required to use a style      */
+  int replaced_by;              /* index to replacing style          */
+                                /* client side-only:                 */
+  int tresh[MAX_CITY_TILES];    /* treshholds - what city size to use a tile */
+  int tiles_num;                /* number of "normal" city tiles,    */
+};                              /* not incl. wall and occupied tiles */
+
+extern struct citystyle *city_styles;
+
 /* get 'struct city_list' and related functions: */
 #define SPECLIST_TAG city
 #define SPECLIST_TYPE struct city
@@ -282,5 +299,9 @@ int citygov_free_shield(struct city *pcity, struct government *gov);
 int citygov_free_happy(struct city *pcity, struct government *gov);
 int citygov_free_food(struct city *pcity, struct government *gov);
 int citygov_free_gold(struct city *pcity, struct government *gov);
+
+/* city style functions */
+int get_city_style(struct city *pcity);
+int get_style_by_name(char *);
 
 #endif  /* FC__CITY_H */

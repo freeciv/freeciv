@@ -4,6 +4,8 @@
 pkgdatadir = $(datadir)/@PACKAGE@/trident
 
 pkgdata_DATA =          \
+	cities.xpm	\
+	cities.spec	\
 	flags.xpm	\
 	flags.spec	\
 	roads.xpm	\

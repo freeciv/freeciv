@@ -69,6 +69,8 @@ static Widget *races_toggles=NULL;
 static Widget races_leader_form, races_leader;
 static Widget races_leader_pick_popupmenu, races_leader_pick_menubutton;
 static Widget races_sex_toggles[2], races_sex_form, races_sex_label;
+static Widget races_style_form, races_style_label;
+static Widget *races_style_toggles=NULL;
 static Widget races_action_form;
 static Widget races_ok_command, races_disconnect_command, races_quit_command;
 
@@ -124,6 +126,7 @@ static void create_races_dialog(void);
 static void races_leader_set_values(int race, int lead);
 static int races_buttons_get_current(void);
 static int races_sex_buttons_get_current(void);
+static int races_style_buttons_get_current(void);
 static void races_sex_buttons_set_current(int i);
 
 static void races_toggles_callback(Widget w, XtPointer client_data, 
@@ -142,6 +145,16 @@ void unit_select_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data);
 void unit_select_all_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
+
+
+/******************************************************************/
+static int city_style_idx[64];     /* translation table basic style->city_style  */
+static int city_style_ridx[64];    /* translation table the other way            */
+                                   /* they in fact limit the num of styles to 64 */
+static int b_s_num; /* num basic city styles, i.e. those that you can start with */
+
+
+/******************************************************************/
 
 int is_showing_government_dialog;
 
@@ -1743,10 +1756,90 @@ void create_races_dialog(void)
 				races_sex_toggles[0], 
 				NULL));
 
+  /* find out styles that can be used at the game beginning */
+  for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
+    if(city_styles[i].techreq == A_NONE) {
+      city_style_idx[b_s_num] = i;
+      city_style_ridx[i] = b_s_num;
+      b_s_num++;
+    }
+  }
+
+  races_style_label = XtVaCreateManagedWidget("racesstylelabel", 
+					      labelWidgetClass, 
+					      races_form,
+					      XtNfromVert, races_sex_form, 
+					      NULL);  
+
+  races_style_form = XtVaCreateManagedWidget("racesstyleform", 
+					       formWidgetClass, 
+					       races_form, 
+					       XtNfromVert, races_style_label, 
+					       NULL);   
+
+  free(races_style_toggles);
+  races_style_toggles = fc_calloc(b_s_num,sizeof(Widget));
+
+  races_style_toggles[0]=XtVaCreateManagedWidget("racesstyle0", 
+					   toggleWidgetClass, 
+					   races_style_form,
+					   XtNlabel, maxracename,
+					   NULL);
+  if( b_s_num > 1 )
+    races_style_toggles[1]=XtVaCreateManagedWidget("racesstyle1", 
+					     toggleWidgetClass, 
+					     races_style_form,
+					     XtNradioGroup, 
+					     races_style_toggles[0],
+					     XtNfromHoriz,
+					     races_style_toggles[0],
+					     XtNlabel, maxracename,
+					     NULL);
+  if( b_s_num > 2 )
+    races_style_toggles[2]=XtVaCreateManagedWidget("racesstyle2", 
+					     toggleWidgetClass, 
+					     races_style_form,
+					     XtNradioGroup, 
+					     races_style_toggles[1],
+					     XtNfromHoriz,
+					     races_style_toggles[1],
+					     XtNlabel, maxracename,
+					     NULL);
+
+  for( i = 1; i < (b_s_num+2)/3; i++) {
+    int idx = i*3;
+    char buf[64];
+    sprintf(buf, "racesstyle%d", idx);
+    races_style_toggles[idx]=XtVaCreateManagedWidget(buf, 
+					       toggleWidgetClass, 
+					       races_style_form,
+					       XtNradioGroup, 
+					       races_style_toggles[idx-1],
+					       XtNfromVert,
+					       races_style_toggles[idx-3],
+					       XtNlabel, maxracename,
+					       NULL);
+    for( j=0,idx=i*3+1; (j<2) && (idx<b_s_num); idx++,j++) {
+      sprintf(buf, "racesstyle%d", idx);
+      races_style_toggles[idx]=XtVaCreateManagedWidget(buf,
+						 toggleWidgetClass, 
+						 races_style_form,
+						 XtNradioGroup, 
+						 races_style_toggles[idx-1],
+						 XtNfromVert,
+						 races_style_toggles[idx-3],
+						 XtNfromHoriz,
+						 races_style_toggles[idx-1],
+						 XtNlabel, maxracename,
+					         NULL);
+    }
+  }
+
+
   races_action_form = XtVaCreateManagedWidget("racesactionform",
 					      formWidgetClass,
 					      races_form,
-					      XtNfromVert, races_sex_form,
+					      XtNfromVert, races_style_form,
 					      NULL);
 
   races_ok_command =
@@ -1793,11 +1886,16 @@ void create_races_dialog(void)
 
 
   XtSetKeyboardFocus(races_form, races_leader);
-  
+
   XtRealizeWidget(races_dialog_shell);
-  
+
   for(i=0; i<game.nation_count; i++) {
     XtVaSetValues(races_toggles[i], XtNlabel, (XtArgVal)get_nation_name(i), NULL);
+  }
+
+  for(i=0; i<b_s_num; i++) {
+    XtVaSetValues(races_style_toggles[i], XtNlabel,
+		  (XtArgVal)city_styles[city_style_idx[i]].name, NULL);
   }
 
   x_simulate_button_click(races_toggles[0]);
@@ -1889,6 +1987,11 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 
       races_leader_set_values(i, 0);
 
+      x_simulate_button_click
+      (
+       races_style_toggles[city_style_ridx[get_nation_city_style(i)]]
+      );
+
       return;
     }
   }
@@ -1971,6 +2074,29 @@ int races_sex_buttons_get_current(void)
 /**************************************************************************
 ...
 **************************************************************************/
+int races_style_buttons_get_current(void)
+{
+  int i;
+  XtPointer dp, yadp;
+
+  if(b_s_num==1)
+    return 0;
+
+  if(!(dp=XawToggleGetCurrent(races_style_toggles[0])))
+    return -1;
+
+  for(i=0; i<b_s_num; i++) {
+    XtVaGetValues(races_style_toggles[i], XtNradioData, &yadp, NULL);
+    if(dp==yadp)
+      return i;
+  }
+
+  return -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void races_sex_buttons_set_current(int i)
 {
   XtPointer dp;
@@ -1986,7 +2112,7 @@ void races_sex_buttons_set_current(int i)
 void races_ok_command_callback(Widget w, XtPointer client_data, 
 			       XtPointer call_data)
 {
-  int selected, selected_sex;
+  int selected, selected_sex, selected_style;
   XtPointer dp;
 
   struct packet_alloc_nation packet;
@@ -2001,11 +2127,18 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
     return;
   }
 
+  if((selected_style=races_style_buttons_get_current())==-1) {
+    append_output_window("You must select your city style.");
+    return;
+  }
+
   XtVaGetValues(races_leader, XtNstring, &dp, NULL);
 
   /* perform a minimum of sanity test on the name */
   packet.nation_no=selected;
+  packet.city_style = get_nation_city_style(packet.nation_no);
   packet.is_male = selected_sex? 0: 1;     /* first button is male */
+  packet.city_style = city_style_idx[selected_style];
   strncpy(packet.name, (char*)dp, MAX_LEN_NAME);
   packet.name[MAX_LEN_NAME-1]='\0';
   

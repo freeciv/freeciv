@@ -57,6 +57,7 @@ static void send_ruleset_buildings(struct player *dest);
 static void send_ruleset_terrain(struct player *dest);
 static void send_ruleset_governments(struct player *dest);
 static void send_ruleset_nations(struct player *dest);
+static void send_ruleset_cities(struct player *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -1199,6 +1200,7 @@ static void send_ruleset_control(struct player *dest)
   packet.num_tech_types = game.num_tech_types;
 
   packet.nation_count = game.nation_count;
+  packet.style_count = game.styles_count;
 
   for(to=0; to<game.nplayers; to++) {           /* dests */
     if(dest==0 || get_player(to)==dest) {
@@ -1345,6 +1347,22 @@ static void load_ruleset_nations(char *ruleset_subdir)
       }
     }
 
+    /* City styles */
+
+    strcpy(temp_name,
+           secfile_lookup_str_default(&file, "-", "nation%d.city_style", i));
+    pl->city_style = get_style_by_name(temp_name);
+    if( pl->city_style == -1 ) {
+      freelog( LOG_NORMAL, "Nation %d city style %s not known, using default", 
+                          i, temp_name);
+      pl->city_style = 0;
+    }
+    if( city_styles[pl->city_style].techreq != A_NONE ) {
+      freelog( LOG_FATAL, "Nation %d city style %s is not available from beginning", 
+                          i, temp_name);
+      exit(1);
+    }
+
     /* AI stuff */
 
     pl->attack = secfile_lookup_int_default(&file, 2, "nation%d.attack", i);
@@ -1442,6 +1460,62 @@ static void load_ruleset_nations(char *ruleset_subdir)
   }
   misc_city_names[dim] = NULL;
   if(cities) free(cities);
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+}
+
+/**************************************************************************
+Load cities.ruleset file
+**************************************************************************/
+static void load_ruleset_cities(char *ruleset_subdir)
+{
+  struct section_file file;
+  char *filename, *datafile_options;
+  char **styles, **replacements, temp_str[64];
+  int i, nval;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "cities");
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  /* The names: */
+  styles = secfile_get_secnames_prefix(&file, "citystyle_", &nval);
+  game.styles_count = nval;
+  city_styles = fc_calloc( game.styles_count, sizeof(struct citystyle) );
+
+  replacements = fc_calloc(nval, sizeof(char*));
+  for( i=0; i<game.styles_count; i++) {
+    strcpy( city_styles[i].name, 
+            secfile_lookup_str(&file, "%s.name", styles[i]) );
+    strcpy( city_styles[i].graphic, 
+            secfile_lookup_str(&file, "%s.graphic", styles[i]) );
+    strcpy( city_styles[i].graphic_alt, 
+            secfile_lookup_str(&file, "%s.graphic_alt", styles[i]) );
+    city_styles[i].techreq = lookup_tech(&file, styles[i], "tech", 1,
+                                         filename, city_styles[i].name);
+    strcpy( temp_str,
+            secfile_lookup_str(&file, "%s.replaced_by", styles[i]) );
+    replacements[i] = fc_malloc(strlen(temp_str)+1);
+    strcpy(replacements[i], temp_str);
+  }
+  free(styles);
+
+  /* convert 'replaced_by' style names to numbers */
+  for( i=0; i<nval; i++) {
+    if( !strcmp(replacements[i],"-") ) 
+      city_styles[i].replaced_by = -1;
+    else {
+      city_styles[i].replaced_by = get_style_by_name(replacements[i]);
+      if(city_styles[i].replaced_by == -1) {
+        freelog(LOG_FATAL, "Style %s replacement %s not found",
+                city_styles[i].name, replacements[i]);
+        exit(1);
+      }
+    }
+    free(replacements[i]);
+  }
+  free(replacements);
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
@@ -1733,6 +1807,7 @@ static void send_ruleset_nations(struct player *dest)
       strcpy(packet.leader_name[i], n->leader_name[i]);
       packet.leader_sex[i] = n->leader_is_male[i];
     }
+    packet.city_style = n->city_style;
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
@@ -1745,10 +1820,36 @@ static void send_ruleset_nations(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
+static void send_ruleset_cities(struct player *dest)
+{
+  int to, k;
+  struct packet_ruleset_city city_p;
+
+  for( k=0; k<game.styles_count; k++) {
+    city_p.style_id = k;
+    city_p.techreq = city_styles[k].techreq;
+    city_p.replaced_by = city_styles[k].replaced_by;
+
+    strcpy(city_p.name, city_styles[k].name);
+    strcpy(city_p.graphic, city_styles[k].graphic);
+    strcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
+
+    for(to=0; to<game.nplayers; to++) {           /* dests */
+      if(dest==0 || get_player(to)==dest) {
+        send_packet_ruleset_city(get_player(to)->conn, &city_p);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+...  
+**************************************************************************/
 void load_rulesets(void)
 {
   freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
+  load_ruleset_cities(game.ruleset.cities);
   load_ruleset_governments(game.ruleset.governments);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
@@ -1777,7 +1878,8 @@ void send_rulesets(struct player *dest)
   send_ruleset_buildings(dest);
   send_ruleset_terrain(dest);
   send_ruleset_nations(dest);
-  
+  send_ruleset_cities(dest);
+
   for(to=0; to<game.nplayers; to++) {
     if(dest==0 || get_player(to)==dest) {
       connection_do_unbuffer(get_player(to)->conn);

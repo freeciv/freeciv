@@ -740,6 +740,7 @@ void game_init(void)
   strcpy(game.ruleset.terrain, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
   strcpy(game.ruleset.nations, GAME_DEFAULT_RULESET);
+  strcpy(game.ruleset.cities, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   game.num_unit_types = 0;
   game.num_tech_types = 0;
