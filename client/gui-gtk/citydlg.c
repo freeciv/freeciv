@@ -862,12 +862,12 @@ void trade_callback(GtkWidget *w, gpointer data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-	sprintf(bptr, _("%32s: %2d Gold/Year\n"),
+	sprintf(bptr, _("%32s: %2d Trade/Year\n"),
 		      pcity->name, pdialog->pcity->trade_value[i]);
 	bptr += strlen(bptr);
       }
       else {
-	sprintf(bptr, _("%32s: %2d Gold/Year\n"), _("Unknown"),
+	sprintf(bptr, _("%32s: %2d Trade/Year\n"), _("Unknown"),
 		      pdialog->pcity->trade_value[i]);
 	bptr += strlen(bptr);
       }
@@ -876,7 +876,7 @@ void trade_callback(GtkWidget *w, gpointer data)
   if(!x)
     sprintf(bptr, _("No trade routes exist.\n"));
   else
-    sprintf(bptr, _("\nTotal trade %d Gold/Year\n"),total);
+    sprintf(bptr, _("\nTotal trade %d Trade/Year\n"),total);
 
   popup_message_dialog(pdialog->shell, 
 		       /*"citytradedialog"*/ _("Trade Routes"), 
