@@ -217,9 +217,9 @@ bool handle_login_request(struct connection *pconn,
 
   /* Name-sanity check: could add more checks? */
   if (strlen(req->username) == 0 || my_isdigit(req->username[0])
-      || strcasecmp(req->username, "all") == 0
-      || strcasecmp(req->username, "none") == 0
-      || strcasecmp(req->username, ANON_USER_NAME) == 0) {
+      || mystrcasecmp(req->username, "all") == 0
+      || mystrcasecmp(req->username, "none") == 0
+      || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
     my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
     freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),

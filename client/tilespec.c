@@ -753,9 +753,9 @@ bool tilespec_read_toplevel(const char *tileset_name)
       cell_type
 	= secfile_lookup_str_default(file, "single", "%s.layer%d_cell_type",
 				     terrains[i], l);
-      if (strcasecmp(cell_type, "single") == 0) {
+      if (mystrcasecmp(cell_type, "single") == 0) {
 	terr->layer[l].cell_type = CELL_SINGLE;
-      } else if (strcasecmp(cell_type, "rect") == 0) {
+      } else if (mystrcasecmp(cell_type, "rect") == 0) {
 	terr->layer[l].cell_type = CELL_RECT;
       } else {
 	freelog(LOG_ERROR, "Unknown cell type %s for %s.",
