@@ -526,18 +526,28 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
 			Impr_Type_id impr, struct city *pcity)
 {
   struct impr_effect *ie;
-  int i;
+  int j, i;
+  int effects[EFR_LAST];
 
   assert(pcity && impr>=0 && impr<game.num_impr_types);
 
-  i=0;
+  for (i=0; i<EFR_LAST; i++)
+    effects[i]=FALSE;
+
   if ((ie=improvement_types[impr].effect)) {
     for (; ie->type<EFT_LAST; ie++) {
-      switch (ie->range) {
-      case EFR_ISLAND:	geffs[i++]=get_eff_island(pcity);		break;
-      case EFR_PLAYER:	geffs[i++]=get_eff_player(city_owner(pcity));	break;
-      case EFR_WORLD:	geffs[i++]=get_eff_world();			break;
-      default:								break;
+      effects[ie->range]=TRUE;
+    }
+  }
+
+  i=0;
+  for (j=0; j<EFR_LAST; j++) {
+    if (effects[j]) {
+      switch (j) {
+      case EFR_ISLAND: geffs[i++]=get_eff_island(pcity);	      break;
+      case EFR_PLAYER: geffs[i++]=get_eff_player(city_owner(pcity));  break;
+      case EFR_WORLD:  geffs[i++]=get_eff_world();		      break;
+      default:  						      break;
       }
     }
   }
