@@ -132,6 +132,7 @@ char *message_text[E_LAST]={
   N_("Diplomatic Incident      "),	/* E_DIPL_INCIDENT */
   N_("First Contact            "),	/* E_FIRST_CONTACT */
   N_("City May Soon Grow       "),	/* E_CITY_MAY_SOON_GROW */
+  N_("Wonder Made Obsolete     "),      /* E_WONDER_OBSOLETE */
 };
 
 /**************************************************************************

@@ -1433,15 +1433,33 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   int philohack=0;
   int was_first=0;
   int saved_bulbs;
+  int wonder;
+  struct city *pcity;
+  struct player *pplayer;
 
   plr->got_tech=1;
   plr->research.researchpoints++;
   was_first = !game.global_advances[tech_found];
-  if (was_first)
+  if (was_first) {
     gamelog(GAMELOG_TECH,_("%s are first to learn %s"),
 	    get_nation_name_plural(plr->nation),
 	    advances[tech_found].name
 	    );
+    /* Alert the owners of any wonders that have been made obsolete */
+    for (wonder = 0; wonder < B_LAST; wonder++)
+      if (game.global_wonders[wonder] && is_wonder(wonder) &&
+	  improvement_types[wonder].obsolete_by == tech_found &&
+	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
+	pplayer = city_owner(pcity);
+	if (pplayer->conn)
+	  notify_player_ex(pplayer, 0, 0,
+	      has_capability("event_wonder_obsolete", pplayer->conn->capability)
+	      ?  E_WONDER_OBSOLETE : E_NOEVENT,
+	      _("Game: Discovery of %s OBSOLETES %s in %s!"), 
+	      advances[tech_found].name, get_improvement_name(wonder),
+	      pcity->name);
+      }
+  }
     
   if (tech_found==game.rtech.get_bonus_tech && was_first)
     philohack=1;

@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
-" game_ruleset nuclear_fallout land_channel_requirement"
+" game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -91,6 +91,10 @@ const char * const our_capability = our_capability_internal;
    "land_channel_requirement" extends the protocol for the requirement
    of a minimum number of ocean tiles adjacent to a land tile wished to
    be changed to ocean.
+
+   "event_wonder_obsolete" is a message event type, letting players know
+   when one of their wonders has been made obsolete by a tech advance
+   anywhere in the world.
 */
 
 void init_our_capability(void)
