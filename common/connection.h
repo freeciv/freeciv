@@ -241,6 +241,7 @@ enum cmdlevel_id cmdlevel_named(const char *token);
 
 typedef void (*CLOSE_FUN) (struct connection *pc);
 void close_socket_set_callback(CLOSE_FUN fun);
+CLOSE_FUN close_socket_get_callback(void);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 void flush_connection_send_buffer_all(struct connection *pc);

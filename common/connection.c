@@ -118,6 +118,14 @@ void close_socket_set_callback(CLOSE_FUN fun)
 }
 
 /**************************************************************************
+  Return the the close_callback.
+**************************************************************************/
+CLOSE_FUN close_socket_get_callback(void)
+{
+  return close_callback;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
