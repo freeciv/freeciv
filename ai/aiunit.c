@@ -498,18 +498,15 @@ Handle eXplore mode of a unit (explorers are always in eXplore mode for AI) -
 explores unknown territory, finds huts.
 
 Returns whether there is any more territory to be explored.
+
+TODO: Convert to using new Path Finding, thus unifying Parts 1 and 2 (in 
+doing so one should aim to break the PF-loop early, to avoid slow-down).
 **************************************************************************/
 bool ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* The position of the unit; updated inside the function */
   int x = punit->x, y = punit->y;
-
-  /* Idle unit, since otherwise handle_unit_move_request fails!
-   * TODO: Fix it and remove this idling */
-  if (punit->activity != ACTIVITY_IDLE) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  }
 
   /* 
    * PART 1: Move into unexplored territory
@@ -549,18 +546,22 @@ bool ai_manage_explorer(struct unit *punit)
       /* We can die because easy AI may stumble on huts and so disappear 
        * in the wilderness - unit_id is used to check this */
       int unit_id = punit->id;
-      bool broken = TRUE; /* failed movement */
+      bool move_success;
 
       /* Some tile has unexplored territory adjacent, let's move there. */
       
       /* ai_unit_move for AI players, handle_unit_move_request for humans */
-      if ((pplayer->ai.control && ai_unit_move(punit, best_x, best_y))
-          || (!pplayer->ai.control 
-              && handle_unit_move_request(punit, best_x, best_y, 
-                                          FALSE, FALSE))) {
-        x = punit->x;
-        y = punit->y;
-        broken = FALSE;
+      if (pplayer->ai.control) {
+        move_success = ai_unit_move(punit, best_x, best_y);
+      } else {
+        /* Need to idle unit otherwise handle_unit_move_request fails.
+         * We can use ai_unit_goto, but it's a bit wasteful here... */
+
+        if (punit->activity != ACTIVITY_IDLE) {
+          handle_unit_activity_request(punit, ACTIVITY_IDLE);
+        }
+        move_success = handle_unit_move_request(punit, best_x, best_y, 
+                                                FALSE, FALSE);
       }
       
       if (!player_find_unit_by_id(pplayer, unit_id)) {
@@ -568,9 +569,17 @@ bool ai_manage_explorer(struct unit *punit)
         return FALSE;
       }
 
-      if (broken) { break; } /* a move failed, so danger of endless loop */
+      if (move_success) { 
+        /* We moved, update our current position */
+        x = punit->x;
+        y = punit->y;
+      } else {
+        /* Move failed, break to avoid an endless loop */
+        break; 
+      }
+
     } else {
-      /* Everything is already explored. */
+      /* Everything immediately beside us is already explored. */
       break;
     }
   }
