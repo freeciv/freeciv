@@ -1641,13 +1641,17 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   struct player_tile *plrtile = map_get_player_tile(pcity->x, pcity->y,
 						    pplayer);
   struct dumb_city *pdcity = plrtile->city;
-
+  /* pcity->occupied isn't used at the server, so we go straight to the
+   * unit list to check the occupied status. */
+  bool occupied =
+    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+ 
   if (pdcity
       && pdcity->id == pcity->id
       && strcmp(pdcity->name, pcity->name) == 0
       && pdcity->size == pcity->size
       && pdcity->has_walls == city_got_citywalls(pcity)
-      && pdcity->occupied == pcity->occupied 
+      && pdcity->occupied == occupied 
       && pdcity->owner == pcity->owner) {
     return FALSE;
   }
@@ -1664,8 +1668,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
   pdcity->has_walls = city_got_citywalls(pcity);
-  pdcity->occupied =
-      (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+  pdcity->occupied = occupied;
   pdcity->owner = pcity->owner;
 
   return TRUE;
