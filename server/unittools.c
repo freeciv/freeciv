@@ -1694,8 +1694,6 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 /**************************************************************************
  creates a unit, and set it's initial values, and put it into the right 
  lists.
- TODO: Maybe this procedure should refresh its homecity? so it'll show up 
- immediately on the clients? (refresh_city + send_city_info)
 **************************************************************************/
 
 /* This is a wrapper */
@@ -1803,6 +1801,17 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
       update_city_tile_status_map(pcity, x, y);
     }
   } map_city_radius_iterate_end;
+
+  /* Refresh the unit's homecity. */
+  {
+    struct city *pcity = find_city_by_id(homecity_id);
+    if (pcity) {
+      assert(city_owner(pcity) == pplayer);
+      city_refresh(pcity);
+      send_city_info(pplayer, pcity);
+    }
+  }
+
   sync_cities();
 
   return punit;
