@@ -134,7 +134,7 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);   
 
-  if (game.player_ptr->research.researching!=A_NONE)
+  if (p->research.researching!=A_NONE)
     sprintf(buf, "Researching: %s(%d/%d)", 
            advances[p->research.researching].name,
            p->research.researched, 
