@@ -771,7 +771,7 @@ void city_populate(struct city *pcity)
 ...
 **************************************************************************/
 int advisor_choose_build(struct city *pcity)
-{ /* this function isn't docked very well.  WTF is the return value? -- Syela */
+{ /* Old stuff that I obsoleted deleted. -- Syela */
   struct ai_choice choice;
   int i;
   int id=-1;
@@ -785,16 +785,7 @@ int advisor_choose_build(struct city *pcity)
   id = choice.choice;
   want = choice.want;
 
-  if (id == B_CAPITAL)
-    return 0; /* we won't build this.  therefore exit, 0 = undecided */
-  if (pcity->currently_building == id && !pcity->is_building_unit)
-    return 1; /* we're already building this.  1 = decided */
- 
-  if (id!=-1 && id != B_LAST) {
-    if (is_wonder(id) && is_building_other_wonder(pcity)) {
-      return 0;
-    } /* one wonder per continent.  therefore exit, 0 = undecided */
-
+  if (id!=-1 && id != B_LAST && want > 0) {
     if(is_wonder(id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		    "Game: The %s have started building The %s in %s.",
@@ -803,10 +794,9 @@ int advisor_choose_build(struct city *pcity)
     }
     pcity->currently_building=id;
     pcity->is_building_unit=0;
-    return 1; /* making a wonder.  return value = 1 */
+    return 1; /* making something.  return value = 1 */
   }
-/*  if (city_owner(pcity)->ai.control) return 0; */
-/* No longer needed, was creating finished building X / now building X bug */
+
   for (i=0;i<B_LAST;i++)
     if(can_build_improvement(pcity, i)) { /* build something random, undecided */
       pcity->currently_building=i;
