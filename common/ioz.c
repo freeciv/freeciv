@@ -73,7 +73,11 @@ fz_FILE *fz_fopen(const char *filename, const char *in_mode,
 {
   fz_FILE *fp;
   char mode[64];
-  
+
+  if (!is_reg_file(filename)) {
+    return NULL;
+  }
+
   fp = (fz_FILE *)fc_malloc(sizeof(*fp));
   sz_strlcpy(mode, in_mode);
 

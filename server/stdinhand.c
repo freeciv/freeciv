@@ -1775,28 +1775,28 @@ static void rename_player(struct connection *caller, char *arg)
 }
 
 /**************************************************************************
-...
+  Returns FALSE iff there was an error.
 **************************************************************************/
-void read_init_script(struct connection *caller, char *script_filename)
+bool read_init_script(struct connection *caller, char *script_filename)
 {
   FILE *script_file;
-  char buffer[MAX_LEN_CONSOLE_LINE];
 
   freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
-  script_file = fopen(script_filename,"r");
-
-  if (script_file) {
-
+ 
+  if (is_reg_file(script_filename)
+      && (script_file = fopen(script_filename, "r"))) {
+    char buffer[MAX_LEN_CONSOLE_LINE];
     /* the size is set as to not overflow buffer in handle_stdin_input */
     while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file))
       handle_stdin_input((struct connection *)NULL, buffer);
     fclose(script_file);
-
+    return TRUE;
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
 	_("Cannot read command line scriptfile '%s'."), script_filename);
     freelog(LOG_ERROR,
 	_("Could not read script file '%s'."), script_filename);
+    return FALSE;
   }
 }
 

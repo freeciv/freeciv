@@ -48,6 +48,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>		/* usleep, fcntl, gethostname */
@@ -473,3 +475,14 @@ char *my_read_console(void)
 }
 
 #endif
+
+/**********************************************************************
+  Returns TRUE iff the file is a regular file or a link to a regular
+  file.
+***********************************************************************/
+bool is_reg_file(const char *name)
+{
+  struct stat tmp;
+
+  return stat(name, &tmp) == 0 && S_ISREG(tmp.st_mode);
+}

@@ -1814,8 +1814,10 @@ void srv_main(void)
   server_state=PRE_GAME_STATE;
 
   /* load a script file */
-  if (srvarg.script_filename)
-    read_init_script(NULL,srvarg.script_filename);
+  if (srvarg.script_filename
+      && !read_init_script(NULL, srvarg.script_filename)) {
+    exit(EXIT_FAILURE);
+  }
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state==PRE_GAME_STATE)
