@@ -74,9 +74,11 @@ effect		=
 	"Size_Unlimit", "City", 10
     }
 ; FIXME: use this help text when gen-impr implemented...
+; /* (ignore for gettext until fixed)
 ; helptext	= _("\
 ; Allows a city to grow larger than size 10.\
 ; ")
+; */
 
 [building_bank]
 name		= _("Bank")

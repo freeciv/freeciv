@@ -258,10 +258,12 @@ effect		=
 	"Size_Unlimit", "City", 8
     }
 ; FIXME: use this help text when gen-impr implemented...
+; /* (ignore for gettext until fixed)
 ; helptext	= _("\
 ; Allows a city to grow larger than size 8.  A Sewer System is also\
 ;  required for a city to grow larger than size 12.\
 ; ")
+; */
 
 [building_bank]
 name		= _("Bank")
@@ -1001,10 +1003,12 @@ effect		=
 	"Size_Unlimit", "City", 12, "Aqueduct"
     }
 ; FIXME: use this help text when gen-impr implemented...
+; /* (ignore for gettext until fixed)
 ; helptext	= _("\
 ; Allows a city to grow larger than size 12.  An Aqueduct is first\
 ;  required for a city to grow larger than size 8.\
 ; ")
+; */
 
 [building_solar_plant]
 name		= _("Solar Plant")
