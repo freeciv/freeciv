@@ -1,0 +1,41 @@
+First off all :
+
+ -  Large part of graphic and SDL gfx code come from Michael Speck and his "LGeneral"
+    Great Thaks for his job... and J dont known if he agree to I use his graphic
+    but LGeneral is on GPL ...
+     
+ -  zoom functions come from SDL_gfx-2.0 lib and it is on LGPL licence.
+    I won't use new lib only to this functions.
+    AA_ZoomSurfaceFastRGBA(...) funtion and some others in this file are 
+    my invention.
+
+ -  DON'T USE WITH SDL SOUND OUTPUT.
+    I don't have time to integrate this futures with my client, and both
+     call 'SDL_Init(...) and 'SDL_Quit()'. 
+
+ -  For now only isometric tiles are suportet with size 64x32 ( there is ugly
+    hack in code )    
+
+ -  City graphics come from Tim F. Smith (yoohootim@hotmail.com) GPL.
+ 
+Requirements:
+
+SDL
+SDL_ttf
+SDL_image
+
+To compile use:
+
+autogen.sh
+configure --enable-client=sdl
+make
+and pray :)
+
+And finaly:
+
+This code is in pre-pre-pre-pre alpha state and is efect of my madness. :)
+
+In Game:
+    - use <Right Shift>+Enter to show input dialog.
+    - in left top screen corrner is option button.
+    
