@@ -614,7 +614,7 @@ int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, 
 int unit_defensiveness(struct unit *punit)
 {
 /* assert get_attack_power(punit); */
-  return get_defense_power(punit) * punit->hp / get_attack_power(punit) /
+  return get_defense_power(punit) * punit->hp / MAX(get_attack_power(punit),1) /
     get_unit_type(punit->type)->move_rate / (unit_flag(punit->type, F_IGTER) ? 3 : 1);
 }
 
