@@ -159,7 +159,7 @@ void tilespec_setup_city_icons(void)
   my_snprintf(cBuf, sizeof(cBuf) ,"%s%s", pDataPath, "theme/default/city_icons.png");
 
   pBuf = load_surf(cBuf);
-  assert( pBuf );
+  assert(pBuf != NULL);
     
   crop_rect.x = 1;
   crop_rect.y = 1;
@@ -266,7 +266,7 @@ void tilespec_setup_city_icons(void)
   my_snprintf(cBuf, sizeof(cBuf) ,"%s%s", pDataPath, "theme/default/city_pollution.png");
 
   pIcons->pPollution = load_surf(cBuf);
-  assert( pIcons->pPollution );
+  assert(pIcons->pPollution != NULL);
   
   SDL_SetColorKey(pIcons->pPollution, SDL_SRCCOLORKEY | SDL_RLEACCEL,
 		  getpixel(pIcons->pPollution, 0, 0));
@@ -275,7 +275,7 @@ void tilespec_setup_city_icons(void)
 
   pIcons->pPolice = load_surf(cBuf);
 
-  assert( pIcons->pPolice );
+  assert(pIcons->pPolice != NULL);
   
   SDL_SetColorKey(pIcons->pPolice, SDL_SRCCOLORKEY | SDL_RLEACCEL,
 		  getpixel(pIcons->pPolice, 1, 0));
@@ -625,7 +625,7 @@ void tilespec_setup_theme(void)
   
   my_snprintf(buf,sizeof(buf), "%s/theme/default/dither_mask.png", pDataPath );	  
   pDitherMask = load_surf(buf);
-  assert(pDitherMask);	  
+  assert(pDitherMask != NULL);	  
   
   return;
 }

@@ -316,12 +316,11 @@ static void add_to_log_list(SDL_String16 * pString16)
 **************************************************************************/
 static void scaling(Uint16 new_count)
 {
-  float fStep, fStep10;
+  float fStep;
   struct GUI *pVert =
       get_widget_pointer_form_main_list(ID_CHATLINE_VSCROLLBAR);
 
   fStep = maxpix / (new_count - 1);
-  fStep10 = maxpix / log10(new_count);
   if (pVert->size.h > 10) {
     if (tmp) {
       tmp -= fStep * 0.5;

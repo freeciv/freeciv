@@ -3897,6 +3897,14 @@ void togle_checkbox(struct GUI *pCBox)
   }
 }
 
+bool get_checkbox_state(struct GUI *pCBox)
+{
+  if (pCBox->theme == pTheme->CBOX_Sell_Icon) {
+    return TRUE;
+  }
+  return FALSE; 
+}
+
 int redraw_textcheckbox(struct GUI *pCBox)
 {
   int ret;

@@ -266,6 +266,7 @@ struct GUI *create_textcheckbox(bool state, SDL_String16 *pStr,
 				Uint32 flags);
 struct GUI *create_checkbox(bool state, Uint32 flags);
 void togle_checkbox(struct GUI *pCBox);
+bool get_checkbox_state(struct GUI *pCBox);
 int redraw_textcheckbox(struct GUI *pCBox);
 
 #define set_wstate(pWidget, state )		\

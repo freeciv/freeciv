@@ -212,19 +212,21 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 
     break;
   case 1:
-    pText = TTF_RenderUNICODE_Solid(pString->font,
+  {
+    SDL_Surface *pTmp = TTF_RenderUNICODE_Solid(pString->font,
 				    pString->text, pString->forecol);
-#if 0
+
     if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
       freelog(LOG_ERROR,
 	      _("Error in SDL_create_str16_surf: Couldn't convert text "
 		"to display format: %s"), SDL_GetError());
       pText = pTmp;
-      goto END;
+    } else {
+      FREESURFACE( pTmp );
     }
-#endif
-
-    break;
+    
+  }
+  break;
   case 2:
     pText = TTF_RenderUNICODE_Blended(pString->font,
 				      pString->text, pString->forecol);
@@ -285,8 +287,8 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 
   /* create and fill surface */
   pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
-  color = getpixel(pTmp[0], 0, 0);
-
+  color = pTmp[0]->format->colorkey;
+  
   switch (pString->render) {
   case 1:
     SDL_FillRect(pText, NULL, color);

@@ -31,6 +31,7 @@
 #include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
+#include "support.h"
 
 #include "gui_mem.h"
 
@@ -118,7 +119,7 @@ static int change_mode_callback(struct GUI *pWidget)
 {
 
   char __buf[50] = "";
-
+  int mode;
   Uint32 tmp_flags = Main.screen->flags;
   struct GUI *pWindow =
       pBeginMainOptionsWidgetList->prev->prev->prev->prev;
@@ -127,14 +128,16 @@ static int change_mode_callback(struct GUI *pWidget)
   SDL_Rect **pModes_Rect =
       SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
 
-
+  mode = 0;
   while (pWindow) {
 
     if (get_wstate(pWindow) == WS_DISABLED) {
-      set_wstate(pWindow, WS_NORMAL);
+      if (pModes_Rect[mode]) {
+        set_wstate(pWindow, WS_NORMAL);
+      }
       break;
     }
-
+    mode++;
     pWindow = pWindow->prev;
   }
 
@@ -147,18 +150,23 @@ static int change_mode_callback(struct GUI *pWidget)
     tmp_flags ^= SDL_RESIZABLE;
   }
 
-  set_video_mode(pModes_Rect[MAX_ID - pWidget->ID]->w,
-		 pModes_Rect[MAX_ID - pWidget->ID]->h, tmp_flags);
-
+  mode = MAX_ID - pWidget->ID;
+  
+  if ( pModes_Rect[mode] )
+  {
+    set_video_mode(pModes_Rect[mode]->w, pModes_Rect[mode]->h, tmp_flags);
+  } else {
+    set_video_mode(640, 480, tmp_flags);
+  }
 
 
   /* change setting label */
   if (Main.screen->flags & SDL_FULLSCREEN) {
-    sprintf(__buf, _("Current Setup\nFullscreen %dx%d"),
+    my_snprintf(__buf, sizeof(__buf), _("Current Setup\nFullscreen %dx%d"),
 	    Main.screen->w, Main.screen->h);
   } else {
-    sprintf(__buf, _("Current Setup\n%dx%d"), Main.screen->w,
-	    Main.screen->h);
+    my_snprintf(__buf, sizeof(__buf), _("Current Setup\n%dx%d"),
+	    Main.screen->w, Main.screen->h);
   }
 
   FREE(pBeginMainOptionsWidgetList->prev->string16->text);
@@ -234,22 +242,50 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 
   SDL_Client_Flags ^= CF_TOGGLED_FULLSCREEN;
 
-
-  while (pModes_Rect[i]->w != Main.screen->w) {
+  while (pModes_Rect[i] && pModes_Rect[i]->w != Main.screen->w) {
     i++;
   }
 
-  pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
+  if (pModes_Rect[i])
+  {
+    pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
 
-  if (get_wstate(pTmp) == WS_DISABLED) {
-    set_wstate(pTmp, WS_NORMAL);
+    if (get_wstate(pTmp) == WS_DISABLED) {
+      set_wstate(pTmp, WS_NORMAL);
+    } else {
+      set_wstate(pTmp, WS_DISABLED);
+    }
+
+    redraw_ibutton(pTmp);
+    
+    if (!pModes_Rect[i+1])
+    {
+      add_refresh_rect(pTmp->size);
+      if (get_checkbox_state(pWidget)) {
+        set_wstate(pTmp->prev, WS_DISABLED);
+      } else {
+        set_wstate(pTmp->prev, WS_NORMAL);
+      }
+      redraw_ibutton(pTmp->prev);
+      add_refresh_rect(pTmp->prev->size);
+      refresh_rects();
+    } else {
+      refresh_rect(pTmp->size);
+    }
   } else {
-    set_wstate(pTmp, WS_DISABLED);
+    
+    pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
+
+    if (get_checkbox_state(pWidget)||(Main.screen->w == 640)) {
+      set_wstate(pTmp, WS_DISABLED);
+    } else {
+      set_wstate(pTmp, WS_NORMAL);
+    }
+
+    redraw_ibutton(pTmp);
+    refresh_rect(pTmp->size);
   }
-
-  redraw_ibutton(pTmp);
-  refresh_rect(pTmp->size);
-
+  
   return -1;
 }
 
@@ -338,11 +374,7 @@ static int video_callback(struct GUI *pWidget)
   pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 45;
 
   add_to_gui_list(ID_OPTIONS_TOGGLE_FULLSCREEN_CHECKBOX, pTmpGui);
-
-  while (pModes_Rect[i]->w == Main.screen->w) {
-    i++;
-  }
-
+  
   /* create modes buttons */
   for (i = 0; pModes[i]; i++) {
 
@@ -364,6 +396,29 @@ static int video_callback(struct GUI *pWidget)
     add_to_gui_list((MAX_ID - i), pTmpGui);
   }
 
+  if ((i == 1)&&(pModes_Rect[0]->w > 640))
+  {
+    pTmpGui = create_icon_button_from_unichar(NULL,
+			    convert_to_utf16("640x480"), 14, 0);
+
+    if (len) {
+      pTmpGui->size.w = len;
+    } else {
+      pTmpGui->size.w += 6;
+      len = pTmpGui->size.w;
+    }
+    
+    if(!(Main.screen->flags & SDL_FULLSCREEN)&&(Main.screen->w != 640))
+    {
+      set_wstate(pTmpGui, WS_NORMAL);
+    }
+
+    pTmpGui->action = change_mode_callback;
+
+    /* ugly hack */
+    add_to_gui_list((MAX_ID - 1), pTmpGui);
+  }
+  
   pBeginOptionsWidgetList = pTmpGui;
 
   /* set start positions */

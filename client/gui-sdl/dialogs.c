@@ -943,7 +943,8 @@ void popup_advanced_terrain_dialog(int x , int y)
   struct GUI *pWindow = NULL, *pBuf = NULL;
   struct tile *pTile;
   struct city *pCity;
-  SDL_String16 *pStr;  
+  SDL_String16 *pStr;
+  SDL_Rect area;
   char cBuf[255]; 
   int n , w = 0, h , units_h = 0, canvas_x , canvas_y ;
   
@@ -1308,6 +1309,9 @@ void popup_advanced_terrain_dialog(int x , int y)
   pBuf->size.w = w;
   h = pBuf->size.h;
   
+  area.x = 10;
+  area.h = 2;
+  
   pBuf = pBuf->prev;
   while( TRUE )
   {
@@ -1326,9 +1330,11 @@ void popup_advanced_terrain_dialog(int x , int y)
       FREESURFACE( pBuf->theme );
       pBuf->size.h = h;
       pBuf->theme = create_surf( w , h , SDL_SWSURFACE );
-      SDL_FillRect( pBuf->theme ,
-	      &((SDL_Rect){ 10 , pBuf->size.h / 2 - 1 , pBuf->size.w - 20 , 2}),
-	      0x64 );
+    
+      area.y = pBuf->size.h / 2 - 1;
+      area.w = pBuf->size.w - 20;
+      
+      SDL_FillRect( pBuf->theme , &area, 64 );
       SDL_SetColorKey( pBuf->theme , SDL_SRCCOLORKEY|SDL_RLEACCEL , 0x0 );
     }
     

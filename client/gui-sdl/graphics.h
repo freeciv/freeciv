@@ -26,7 +26,7 @@
 
 #include "graphics_g.h"
 
-#define	RECT_LIMIT	50
+#define	RECT_LIMIT	80
 
 struct Sprite {
   struct SDL_Surface;

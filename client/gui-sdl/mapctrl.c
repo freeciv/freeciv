@@ -208,12 +208,10 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
 
   set_wstate(pMap, WS_NORMAL);
 
-  /* clear area */
-  if (pMap->gfx) {
-    blit_entire_src(pMap->gfx, Main.screen, pMap->size.x, pMap->size.y);
-    add_refresh_rect(pMap->size);
+  if (pFocus) {
+    undraw_order_widgets();
   }
-
+  
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
     /* Hide MiniMap */
 
@@ -221,9 +219,15 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
 
     SDL_Client_Flags &= ~CF_MINI_MAP_SHOW;
+    
+      /* clear area */
+    if (pMap->gfx) {
+      blit_entire_src(pMap->gfx, Main.screen, pMap->size.x, pMap->size.y);
+      add_refresh_rect(pMap->size);
+    }
 
     pMap->size.w = HIDDEN_MINI_MAP_W;
-
+    
     set_new_mini_map_window_pos(pMap);
 
   } else {
@@ -233,15 +237,13 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     pMap->size.w = MINI_MAP_W;
     set_new_mini_map_window_pos(pMap);
   }
+  
 
-  if (pFocus) {
-    undraw_order_widgets();
-  }
-
-  /* allocate new background area */
+  /* allocate new background area *
   FREESURFACE(pMap->gfx);
   pMap->gfx = crop_rect_from_screen(pMap->size);
-
+*/
+  
   refresh_overview_viewrect();
 
   if (pFocus) {
@@ -474,6 +476,21 @@ void Init_MapView(void)
   pBuf = create_window(NULL, MINI_MAP_W, MINI_MAP_H, 0);
   pBuf->size.x = 0;
   pBuf->size.y = Main.screen->h - MINI_MAP_H;
+  
+  pBuf->theme = create_surf( MINI_MAP_W , MINI_MAP_H , SDL_SWSURFACE );
+/*  pBuf->theme = SDL_DisplayFormatAlpha( pIcon_theme );
+  FREESURFACE(pIcon_theme);*/
+     
+  draw_frame(pBuf->theme, 0, 0, pBuf->size.w, pBuf->size.h);
+  
+  pIcon_theme = ResizeSurface(pTheme->Block, 30,
+					pBuf->size.h - DOUBLE_FRAME_WH, 1);
+  
+  blit_entire_src( pIcon_theme , pBuf->theme ,
+			pBuf->size.w - FRAME_WH - pIcon_theme->w, FRAME_WH );
+  FREESURFACE(pIcon_theme);  
+
+  
   add_to_gui_list(ID_MINI_MAP_WINDOW, pBuf);
 
   /* new turn button */

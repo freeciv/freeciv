@@ -57,7 +57,7 @@
 #include "tilespec.h"
 
 #include "graphics.h"
-
+#include "gui_zoom.h"
 #include "gui_main.h"
 
 #include "goto_cursor.xbm"
@@ -1323,11 +1323,14 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 	
   if ( pRect && ( pRect->x < - pRect->w || pRect->x >= pSurface->w ||
 	         pRect->y < - pRect->h || pRect->y >= pSurface->h ) )
-     return -2;	
-  if (pColor->unused == 255) {
+  {
+     return -2;
+  }
+  
+  if (pColor->unused == 255 )
+  {
     return SDL_FillRect(pSurface, pRect,
-			SDL_MapRGB(pSurface->format, pColor->r, pColor->g,
-				   pColor->b));
+	SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b));
   }
 
   switch (pSurface->format->BytesPerPixel) {
@@ -1363,7 +1366,11 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
 {
   SDL_Rect dest = { x, y, w, h };
-  if ( !x && !y && !w && !h ) return refresh_fullscreen();
+  if ( !x && !y &&
+    (!w || w == Main.screen->w ) && ( !h || h == Main.screen->h ))
+  {  
+    return refresh_fullscreen();
+  }
   if (correct_rect_region(&dest))
     SDL_UpdateRect(Main.screen, dest.x, dest.y, dest.w, dest.h);
   return;
@@ -1675,10 +1682,18 @@ SDL_Surface *get_city_gfx(void)
 void draw_intro_gfx(void)
 {
   SDL_Surface *pIntro = get_intro_gfx();
-  /* draw intro gfx center in screen */
+  
+  if(pIntro->w != Main.screen->w)
+  {
+    SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
+    FREESURFACE(pIntro);
+    pIntro = pTmp;
+  }
+  /* draw intro gfx center in screen *
   blit_entire_src(pIntro, Main.screen,
 		  ((Main.screen->w - pIntro->w) >> 1),
-		  ((Main.screen->h - pIntro->h) >> 1));
+		  ((Main.screen->h - pIntro->h) >> 1));*/
+  SDL_BlitSurface(pIntro, NULL, Main.screen , NULL );
   FREESURFACE(pIntro);
 }
 

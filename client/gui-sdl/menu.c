@@ -73,8 +73,9 @@
 
 static struct GUI *pBeginOrderWidgetList;
 static struct GUI *pEndOrderWidgetList;
-
-
+static struct GUI *pOrder_Mine_Button;
+static struct GUI *pOrder_Irrigation_Button;
+  
 #define local_show(ID)                                                \
   clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID ), \
 	      WF_HIDDEN)
@@ -592,7 +593,8 @@ add_to_gui_list(ID_UNIT_ORDER_PILLAGE, pBuf);
   pBuf->string16 = create_str16_from_char(_("Build Mine"), 10);
   pBuf->key = SDLK_m;
   add_to_gui_list(ID_UNIT_ORDER_MINE, pBuf);
-
+  pOrder_Mine_Button = pBuf;
+  
   pBuf = create_themeicon(pTheme->OIrigation_Icon,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -601,6 +603,8 @@ add_to_gui_list(ID_UNIT_ORDER_PILLAGE, pBuf);
   pBuf->key = SDLK_i;
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, pBuf);
   pBuf->string16 = create_str16_from_char(_("Build Irrigation (I)"), 10);
+  pOrder_Irrigation_Button = pBuf;
+
 
   pBuf = create_themeicon(pTheme->Order_Icon,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
@@ -807,34 +811,51 @@ void update_menus(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
-	local_show(ID_UNIT_ORDER_IRRIGATE);
+	
+	switch (map_get_terrain(pUnit->x, pUnit->y)) {
+	  /* set Crop Forest Icon */
+	case T_FOREST:
+	case T_JUNGLE:
+	  pOrder_Irrigation_Button->theme = pTheme->OCropForest_Icon;
+	  break;
+	  /* set Irrigation Icon */
+	default:
+	  pOrder_Irrigation_Button->theme = pTheme->OIrigation_Icon;
+	  break;
+	}
+
+	/*show( ID_UNIT_ORDER_MINE ); */
+	clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
+	
       } else {
 	local_hide(ID_UNIT_ORDER_IRRIGATE);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
-	struct GUI *pOrder_Button =
-	    get_widget_pointer_form_main_list(ID_UNIT_ORDER_MINE);
+
+
 	switch (map_get_terrain(pUnit->x, pUnit->y)) {
 	  /* set Crop Forest Icon */
+	  /* set Irrigate Icon -> make swamp*/
 	case T_FOREST:
-	case T_JUNGLE:
-	  pOrder_Button->theme = pTheme->OCropForest_Icon;
+	  pOrder_Mine_Button->theme = pTheme->OIrigation_Icon;
+
 	  break;
-	  /* set Forest Icon */
+	  /* set Forest Icon -> plant Forrest*/
+	case T_JUNGLE:
 	case T_PLAINS:
 	case T_GRASSLAND:
 	case T_SWAMP:
-	  pOrder_Button->theme = pTheme->OForest_Icon;
+	  pOrder_Mine_Button->theme = pTheme->OForest_Icon;
 	  break;
 	  /* set Mining Icon */
 	default:
-	  pOrder_Button->theme = pTheme->OMine_Icon;
+	  pOrder_Mine_Button->theme = pTheme->OMine_Icon;
 	  break;
 	}
 
 	/*show( ID_UNIT_ORDER_MINE ); */
-	clear_wflag(pOrder_Button, WF_HIDDEN);
+	clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
       } else {
 	local_hide(ID_UNIT_ORDER_MINE);
       }
