@@ -221,7 +221,7 @@ void update_goto_dialog(Widget goto_list)
   }
 
   if(ncities_total) {
-    qsort(city_name_ptrs,ncities_total,sizeof(char *),(void *)string_ptr_compare);
+    qsort(city_name_ptrs,ncities_total,sizeof(char *),string_ptr_compare);
     XawListChange(goto_list, city_name_ptrs, ncities_total, 0, True);
   }
 }

@@ -460,7 +460,6 @@ int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
     return (city_affected_by_wonder(pcity, B_LIGHTHOUSE) || city_got_building(pcity, B_PORT));
   else
     return city_got_building(pcity, B_AIRPORT);
-  return 0;
 }
 
 /**************************************************************************

@@ -77,7 +77,7 @@ struct civ_game {
   int techpenalty;
   int razechance;
   int scorelog;
-  RANDOM_TYPE randseed;
+  int randseed;
   int aqueduct_size;
   int sewer_size;
 };

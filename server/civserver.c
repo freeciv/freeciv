@@ -319,7 +319,7 @@ int main(int argc, char *argv[])
   if(!game.randseed) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
-    game.randseed = (unsigned int) time(NULL) & (MAX_UINT32 >> 1);
+    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
   }
  
   if(!rand_init)

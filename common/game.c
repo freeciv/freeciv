@@ -108,6 +108,7 @@ void set_civ1_style(void)
 {
   set_civ2_style();
   return; /* this return should be removed when the stuff below is correct */
+#if 0				/* avoid line-not-reached warnings */
   remove_tech(A_SEAFARING);
   remove_tech(A_GUERILLA);
   remove_tech(A_ENVIRONMENTALISM);
@@ -124,6 +125,7 @@ void set_civ1_style(void)
   /* etc */
   set_building_req(B_MICHELANGELO, A_THEOLOGY, A_COMMUNISM);
   /* etc */
+#endif
 }
 
 /**************************************************************************
