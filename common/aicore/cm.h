@@ -53,7 +53,6 @@ struct cm_parameter {
 struct cm_result {
   bool found_a_valid, disorder, happy;
 
-  int production[NUM_STATS];
   int surplus[NUM_STATS];
 
   bool worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];

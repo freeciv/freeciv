@@ -345,19 +345,9 @@ const char *cmafec_get_result_descr(struct city *pcity,
     for (j = 0; j < RESULT_COLUMNS; j++)
       my_snprintf(buf[j], BUFFER_SIZE, "---");
   } else {
-    my_snprintf(buf[0], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[FOOD], result->surplus[FOOD]);
-    my_snprintf(buf[1], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[SHIELD], result->surplus[SHIELD]);
-    my_snprintf(buf[2], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[TRADE], result->surplus[TRADE]);
-
-    my_snprintf(buf[3], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[GOLD], result->surplus[GOLD]);
-    my_snprintf(buf[4], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[LUXURY], result->surplus[LUXURY]);
-    my_snprintf(buf[5], BUFFER_SIZE, "%3d(%+3d)",
-		result->production[SCIENCE], result->surplus[SCIENCE]);
+    for (j = 0; j < NUM_STATS; j++) {
+      my_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
+    }
 
     my_snprintf(buf[6], BUFFER_SIZE, "%d/%d/%d/%d%s",
 		pcity->size -
@@ -386,9 +376,8 @@ const char *cmafec_get_result_descr(struct city *pcity,
 		"    People (W/E/S/T): %s\n"
 		"          City grows: %s\n"
 		"Production completed: %s"),
-	      buf[9],
-	      buf[0], buf[3],
-	      buf[1], buf[4], buf[2], buf[5], buf[6], buf[7], buf[8]);
+	      buf[9], buf[FOOD], buf[GOLD], buf[SHIELD], buf[LUXURY],
+	      buf[TRADE], buf[SCIENCE], buf[6], buf[7], buf[8]);
 
   freelog(LOG_DEBUG, "\n%s", buffer);
   return buffer;

@@ -163,7 +163,7 @@ static struct {
 
   struct secondary_stat {
     bool is_valid;
-    short int production, surplus;
+    short int surplus;
   } *secondary_stats;
   struct city_status {
     bool is_valid, disorder, happy;
@@ -427,9 +427,8 @@ void cm_print_result(const struct city *pcity,
 
   for (i = 0; i < NUM_STATS; i++) {
     freelog(LOG_NORMAL,
-	    "print_result:  %10s production=%d surplus=%d",
-	    cm_get_stat_name(i), result->production[i],
-	    result->surplus[i]);
+	    "print_result:  %10s surplus=%d",
+	    cm_get_stat_name(i), result->surplus[i]);
   }
 }
 
@@ -462,21 +461,12 @@ static void print_combination(struct city *pcity,
 void cm_copy_result_from_city(const struct city *pcity,
 			      struct cm_result *result)
 {
-  result->production[FOOD] = pcity->food_prod;
-  result->production[SHIELD] = pcity->shield_prod + pcity->shield_waste;
-  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
-
   result->surplus[FOOD] = pcity->food_surplus;
   result->surplus[SHIELD] = pcity->shield_surplus;
   result->surplus[TRADE] = pcity->trade_prod;
-
-  result->production[GOLD] = pcity->tax_total;
-  result->production[LUXURY] = pcity->luxury_total;
-  result->production[SCIENCE] = pcity->science_total;
-
   result->surplus[GOLD] = city_gold_surplus(pcity);
-  result->surplus[LUXURY] = result->production[LUXURY];
-  result->surplus[SCIENCE] = result->production[SCIENCE];
+  result->surplus[LUXURY] = pcity->luxury_total;
+  result->surplus[SCIENCE] = pcity->science_total;
 
   result->disorder = city_unhappy(pcity);
   result->happy = city_happy(pcity);
@@ -528,16 +518,14 @@ static void update_cache2(struct city *pcity,
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p = get_secondary_stat(result->production[TRADE],
+    p = get_secondary_stat(result->surplus[TRADE],
 			   result->specialists[SP_SCIENTIST],
 			   SP_SCIENTIST);
     if (!p->is_valid) {
-      p->production = result->production[SCIENCE];
       p->surplus = result->surplus[SCIENCE];
       p->is_valid = TRUE;
     } else {
-      assert(p->production == result->production[SCIENCE] &&
-	     p->surplus == result->surplus[SCIENCE]);
+      assert(p->surplus == result->surplus[SCIENCE]);
     }
   }
 
@@ -546,34 +534,30 @@ static void update_cache2(struct city *pcity,
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p = get_secondary_stat(result->production[TRADE],
+    p = get_secondary_stat(result->surplus[TRADE],
 			   result->specialists[SP_TAXMAN],
 			   SP_TAXMAN);
     if (!p->is_valid && !result->disorder) {
-      p->production = result->production[GOLD];
       p->surplus = result->surplus[GOLD];
       p->is_valid = TRUE;
     } else {
-      assert(p->production == result->production[GOLD] &&
-	     p->surplus == result->surplus[GOLD]);
+      assert(p->surplus == result->surplus[GOLD]);
     }
   }
 
-  p = get_secondary_stat(result->production[TRADE],
+  p = get_secondary_stat(result->surplus[TRADE],
 			 result->specialists[SP_ELVIS],
 			 SP_ELVIS);
   if (!p->is_valid) {
-    p->production = result->production[LUXURY];
     p->surplus = result->surplus[LUXURY];
     p->is_valid = TRUE;
   } else {
     if (!result->disorder) {
-      assert(p->production == result->production[LUXURY] &&
-	     p->surplus == result->surplus[LUXURY]);
+      assert(p->surplus == result->surplus[LUXURY]);
     }
   }
 
-  q = get_city_status(result->production[LUXURY],
+  q = get_city_status(result->surplus[LUXURY],
 		      cm_count_worker(pcity, result));
   if (!q->is_valid) {
     q->disorder = result->disorder;
@@ -656,10 +640,10 @@ static void real_fill_out_result(struct city *pcity,
 	  "sci=%d lux=%d tax=%d dis=%s happy=%s",
 	  cm_count_worker(pcity, result), result->specialists[SP_ELVIS],
 	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN],
-	  result->production[TRADE],
-	  result->production[SCIENCE],
-	  result->production[LUXURY],
-	  result->production[GOLD],
+	  result->surplus[TRADE],
+	  result->surplus[SCIENCE],
+	  result->surplus[LUXURY],
+	  result->surplus[GOLD],
 	  result->disorder ? "yes" : "no", result->happy ? "yes" : "no");
   update_cache2(pcity, result);
 }
@@ -834,42 +818,37 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
      * all_entertainer result
      */
     for (i = 0; i < NUM_PRIMARY_STATS; i++) {
-      result->production[i] =
-	  base_combination->all_entertainer.production[i];
       result->surplus[i] = base_combination->all_entertainer.surplus[i];
     }
 
-    p = get_secondary_stat(result->production[TRADE],
+    p = get_secondary_stat(result->surplus[TRADE],
 			   result->specialists[SP_SCIENTIST],
 			   SP_SCIENTIST);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
-      result->production[SCIENCE] = p->production;
       result->surplus[SCIENCE] = p->surplus;
     }
 
-    p = get_secondary_stat(result->production[TRADE],
+    p = get_secondary_stat(result->surplus[TRADE],
 			   result->specialists[SP_TAXMAN],
 			   SP_TAXMAN);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
-      result->production[GOLD] = p->production;
       result->surplus[GOLD] = p->surplus;
     }
 
-    p = get_secondary_stat(result->production[TRADE],
+    p = get_secondary_stat(result->surplus[TRADE],
 			   result->specialists[SP_ELVIS],
 			   SP_ELVIS);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
-      result->production[LUXURY] = p->production;
       result->surplus[LUXURY] = p->surplus;
     }
 
-    q = get_city_status(result->production[LUXURY],
+    q = get_city_status(result->surplus[LUXURY],
 			base_combination->worker);
     if (!q->is_valid) {
       got_all = FALSE;
@@ -1343,7 +1322,7 @@ static void optimize_final(struct city *pcity,
     for (i = 0; i < MAX_COMBINATIONS; i++) {
       struct combination *current =
 	  &cache3.results[fields_used].combinations[i];
-      int stat, major_fitness, minor_fitness;
+      int major_fitness, minor_fitness;
       struct cm_result result;
 
       if (!current->is_valid) {
@@ -1355,19 +1334,6 @@ static void optimize_final(struct city *pcity,
       /* this will set the all_entertainer result */
       fill_out_result(pcity, &result, current, 0, 0);
 
-      /*
-       * Check. The actual production can be bigger because of city
-       * improvements such a Factory.
-       */
-      for (stat = 0; stat < NUM_PRIMARY_STATS; stat++) {
-	if (result.production[stat] < current->production2[stat]) {
-	  freelog(LOG_NORMAL, "expected:");
-	  print_combination(pcity, current);
-	  freelog(LOG_NORMAL, "got:");
-	  cm_print_result(pcity, &result);
-	  assert(0);
-	}
-      }
 
       /*
        * the secondary stats aren't calculated yet but we want to use

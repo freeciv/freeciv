@@ -98,25 +98,17 @@ static bool results_are_equal(struct city *pcity,
 			     const struct cm_result *const result1,
 			     const struct cm_result *const result2)
 {
+  enum cm_stat stat;
+
   T(disorder);
   T(happy);
   T(specialists[SP_ELVIS]);
   T(specialists[SP_SCIENTIST]);
   T(specialists[SP_TAXMAN]);
 
-  T(production[FOOD]);
-  T(production[SHIELD]);
-  T(production[TRADE]);
-  T(production[GOLD]);
-  T(production[LUXURY]);
-  T(production[SCIENCE]);
-
-  T(surplus[FOOD]);
-  T(surplus[SHIELD]);
-  T(surplus[TRADE]);
-  T(surplus[GOLD]);
-  T(surplus[LUXURY]);
-  T(surplus[SCIENCE]);
+  for (stat = 0; stat < NUM_STATS; stat++) {
+    T(surplus[stat]);
+  }
 
   my_city_map_iterate(pcity, x, y) {
     if (result1->worker_positions_used[x][y] !=
