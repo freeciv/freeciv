@@ -423,8 +423,9 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *label, *table;
-  int i;
+  GtkWidget *label, *notebook, *align, *table[COC_MAX];
+  int i, len[COC_MAX];
+  GtkSizeGroup *group[COC_MAX];
 
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
   	NULL,
@@ -441,58 +442,74 @@ static void create_option_dialog(void)
 		   G_CALLBACK(option_ok_command_callback), NULL);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
 
-  table = gtk_table_new(num_options, 2, FALSE);
+  notebook = gtk_notebook_new();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
-		     table, FALSE, FALSE, 0);
+		     notebook, FALSE, FALSE, 0);
 
-  i = 0;
+  for (i = 0; i < COC_MAX; i++) {
+    label = gtk_label_new_with_mnemonic(client_option_class_names[i]);
+    align = gtk_alignment_new(0.0, 0.0, 1.0, 0.0);
+    gtk_container_set_border_width(GTK_CONTAINER(align), 8);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), align, label);
+
+    table[i] = gtk_table_new(num_options, 2, FALSE);
+    gtk_table_set_col_spacings(GTK_TABLE(table[i]), 2);
+    gtk_container_add(GTK_CONTAINER(align), table[i]);
+
+    group[i] = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+
+    len[i] = 0;
+  }
+
   client_options_iterate(o) {
+    i = len[o->category];
     switch (o->type) {
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL | GTK_EXPAND,
-		       0, 0);
-      o->p_gui_data = (void *)gtk_check_button_new();
-      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
-		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
-		       0, 0);
+      gtk_table_attach(GTK_TABLE(table[o->category]), label,
+		       0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND, 0, 0);
+      o->p_gui_data = gtk_check_button_new();
+      gtk_table_attach(GTK_TABLE(table[o->category]), o->p_gui_data,
+		       1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
       break;
     case COT_INT:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL | GTK_EXPAND,
-		       0, 0);
+      gtk_table_attach(GTK_TABLE(table[o->category]), label,
+		       0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND, 0, 0);
       o->p_gui_data = gtk_entry_new();
       gtk_entry_set_max_length(GTK_ENTRY(o->p_gui_data), 5);
       gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 45, -1);
-      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
-		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
-		       0, 0);
+      gtk_table_attach(GTK_TABLE(table[o->category]), o->p_gui_data,
+		       1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
       break;
     case COT_STR:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
-		       GTK_FILL, GTK_FILL | GTK_EXPAND,
-		       0, 0);
+      gtk_table_attach(GTK_TABLE(table[o->category]), label,
+		       0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND, 0, 0);
       if (o->p_string_vals) {
         o->p_gui_data = gtk_combo_new();
       } else {
         o->p_gui_data = gtk_entry_new();
       }
       gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 150, -1);
-      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
-		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
-		       0, 0);
+      gtk_table_attach(GTK_TABLE(table[o->category]), o->p_gui_data,
+		       1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
       break;
     }
-    i++;
+    gtk_size_group_add_widget(group[o->category], label);
+    len[o->category]++;
   } client_options_iterate_end;
 
-  gtk_widget_show_all( GTK_DIALOG( option_dialog_shell )->vbox );
+  gtk_widget_show_all(GTK_DIALOG(option_dialog_shell)->vbox);
 }
 
 /****************************************************************

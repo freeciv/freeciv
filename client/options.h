@@ -58,7 +58,8 @@ enum client_option_type {
 enum client_option_class {
   COC_GRAPHICS,
   COC_INTERFACE,
-  COC_MISCELLANEOUS
+  COC_MISCELLANEOUS,
+  COC_MAX
 };
 
 extern const char *client_option_class_names[];

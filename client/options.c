@@ -77,6 +77,12 @@ bool show_task_icons = TRUE;
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
 
+const char *client_option_class_names[COC_MAX] = {
+  N_("Graphics"),
+  N_("Interface"),
+  N_("Miscellaneous")
+};
+
 static client_option common_options[] = {
   GEN_BOOL_OPTION(save_options_on_exit,
 		  N_("Save the options when exiting the game"),
