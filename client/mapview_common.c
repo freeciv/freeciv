@@ -1641,32 +1641,10 @@ void move_unit_map_canvas(struct unit *punit,
 
     assert(smooth_move_unit_msec > 0);
 
+    /* See map_to_canvas_pos for an explanation. */
     if (is_isometric) {
-      if (dx == 0) {
-	canvas_dx = -NORMAL_TILE_WIDTH / 2 * dy;
-	canvas_dy = NORMAL_TILE_HEIGHT / 2 * dy;
-      } else if (dy == 0) {
-	canvas_dx = NORMAL_TILE_WIDTH / 2 * dx;
-	canvas_dy = NORMAL_TILE_HEIGHT / 2 * dx;
-      } else {
-	if (dx > 0) {
-	  if (dy > 0) {
-	    canvas_dx = 0;
-	    canvas_dy = NORMAL_TILE_HEIGHT;
-	  } else { /* dy < 0 */
-	    canvas_dx = NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  }
-	} else { /* dx < 0 */
-	  if (dy > 0) {
-	    canvas_dx = -NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  } else { /* dy < 0 */
-	    canvas_dx = 0;
-	    canvas_dy = -NORMAL_TILE_HEIGHT;
-	  }
-	}
-      }
+      canvas_dx = (dx - dy) * NORMAL_TILE_WIDTH / 2;
+      canvas_dy = (dx + dy) * NORMAL_TILE_HEIGHT / 2;
     } else {
       canvas_dx = NORMAL_TILE_WIDTH * dx;
       canvas_dy = NORMAL_TILE_HEIGHT * dy;
