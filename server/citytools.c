@@ -1132,7 +1132,7 @@ void remove_city(struct city *pcity)
       notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
 		       _("Game: When %s was disbanded your %s could not "
 			 "get out, and it was therefore stranded."),
-		       unit_type(punit)->name, pcity->name);
+		       pcity->name, unit_type(punit)->name);
       wipe_unit(punit);
     }
     /* We just messed with the unit list. Avoid trouble by starting over.
