@@ -240,14 +240,12 @@ int city_get_buildings(struct city *pcity)
 ... find a good (bad) tile to remove
 **************************************************************************/
 
-int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by)
+int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
 {
-  int foodneed;
-/*  foodneed = 2 - pcity->food_surplus + get_food_tile(x, y, pcity); */
-/* yes, I really tried that.  No, it doesn't work if city is disorderly. */
-  foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
-  foodneed -= pcity->food_prod; /* much more robust now -- Syela */
-  return(better_tile(pcity, bx, by, x, y, foodneed, 0));
+  foodneed += MAX(get_food_tile(x, y, pcity), get_food_tile(bx, by, pcity));
+  prodneed += MAX(get_shields_tile(x, y, pcity), get_shields_tile(bx, by, pcity));
+
+  return(better_tile(pcity, bx, by, x, y, foodneed, prodneed));
 /* backwards on purpose, because we're looking for the worst tile */
 }
 
@@ -419,7 +417,19 @@ void ai_manage_city(struct player *pplayer, struct city *pcity)
 
 int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
-  int x,y;
+  int x,y, foodneed, prodneed, gov;
+
+  foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  foodneed -= pcity->food_prod; /* much more robust now -- Syela */
+  prodneed = 0;
+  prodneed -= pcity->shield_prod;
+  unit_list_iterate(pcity->units_supported, punit)
+    if (is_military_unit(punit)) prodneed++;
+  unit_list_iterate_end;
+  gov = get_government(pcity->owner);
+  if (gov == G_DESPOTISM) prodneed -= pcity->size;
+  if (gov == G_MONARCHY || gov == G_COMMUNISM) prodneed -= 3;
+
   *xp = 0;
   *yp = 0;
   city_map_iterate(x, y) {
@@ -430,7 +440,7 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 	*xp=x;
 	*yp=y;
       } else {
-	if (worst_elvis_tile(pcity, x, y, *xp, *yp)) {
+	if (worst_elvis_tile(pcity, x, y, *xp, *yp, foodneed, prodneed)) {
 	  *xp=x;
 	  *yp=y;
 	}

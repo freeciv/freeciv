@@ -498,10 +498,10 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
   return(dest);
 }
  
-void ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, int dest_y)
+int ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x, int dest_y)
 {
-  int id;
-  id = punit->id;
+  int id, x, y;
+  id = punit->id; x = punit->x; y = punit->y;
   if (!(dest_x == punit->x && dest_y == punit->y)) {
     punit->goto_dest_x = dest_x;
     punit->goto_dest_y = dest_y;
@@ -512,7 +512,9 @@ void ai_military_gothere(struct player *pplayer, struct unit *punit, int dest_x,
   }
   if (unit_list_find(&pplayer->units, id)) { /* didn't die */
     punit->ai.ai_role = AIUNIT_NONE; /* in case we need to change */
+    if (x != punit->x || y != punit->y) return 1;
   }
+  return 0; /* either died or couldn't move */
 }
 
 
@@ -613,9 +615,9 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
         if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y)) {
           if (!is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
             dest_x = pcity->x; dest_y = pcity->y;
-            ai_military_gothere(pplayer, punit, dest_x, dest_y);
-            punit = find_unit_by_id(id);
-            if (punit) flag = punit->moves_left; else flag = 0;
+            if (ai_military_gothere(pplayer, punit, dest_x, dest_y)) {
+              flag = punit->moves_left;
+            } /* else we're having ZOC hell and need to break out of the loop */
           } /* else printf("Adjacency.\n"); */
         }
       } else { /* goto does NOT work for fast units */
