@@ -32,7 +32,6 @@ server/meta.c
 server/plrhand.c
 server/report.c
 server/ruleset.c
-server/rulesout.c
 server/savegame.c
 server/sernet.c
 server/spacerace.c
