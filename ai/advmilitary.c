@@ -913,17 +913,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   freelog(LOG_DEBUG, "Assessed danger for %s = %d, Def = %d",
 	  pcity->name, danger, def);
 
-  if (pcity->ai.diplomat_threat) {
-  /* if I put a && (danger < def), if def = 0 and there is a little enemy unit
-     near, ai will ignore the diplomat threat.
-     On the other hand, if there is a joined attach of diplomats and
-     classic military units , ai will build a diplomat as last defender.
-     With the actual functions asses_danger and assess_danger_unit,
-     I can't know in which case I am.
-     The confusion is between the actual threat and the virtual threat. 
-     How many units may I loose at this turn and
-     how many units may I loose during next turns? (17/12/98) (--NB)
-  */
+  if ((pcity->ai.diplomat_threat) && (def)){
+  /* It's useless to build a diplomat as the last defender of a town. --nb */ 
 
     int u = best_role_unit(pcity, F_DIPLOMAT);
     if (u<U_LAST) {
