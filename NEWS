@@ -8,50 +8,66 @@ true for 1.7.2. David is keeping on the real good work. The Freeciv
 team salutes you.
 
 In this pre-1.8.0, they are many enhancements: civil war, space race,
-log of the game and many other pleasant things.
+log of the game, and many other pleasant things.
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
 
-We have tried to improve graphics of freeciv with 2 beautifull
-tiles sets. In next version, we hope to include 
-- Gtk client. (certain)
+We have tried to improve the graphics of freeciv with 2 beautiful
+tiles sets.  In the next version, we hope to include:
+- Gtk+ client, as well as the current Xaw client. (certain)
 - Improved server commands. (certain)
-- Race selection. (possible)
-- Wonders tiles. ( Already drawn but not used yet )
-- For projects see www.freeciv.org.
+- Configurable races. (possible)
+- Wonders tiles. (Already drawn but not used yet)
+- For other projects see <http://www.freeciv.org>.
+
+Freeciv has a new manual!  The manual is too big to include in the
+freeciv distribution, so it is available separately at the Freeciv 
+web site and by ftp.
+
+Freeciv also has a map editor!  It is called Civworld, and is also
+available separately at the freeciv ftp site.
 
 WHAT'S CHANGED SINCE 1.7.2:
 
-- Space race ! Be the first to build a space ship and colonize alpha-centauri. 
-- Civil war ! Taking the ennemy capital may split his empire. Halph of his towns
-will join another leader !
-- Two tiles sets in this release ! The 'big' one is from Ralph Engel. I hope you
-will enjoy them. The second one is an enhancement of the classic ones. 
-The server option -tiles allows to choose directory relative to DATADIR 
-environnement variable. Now, diagonal roads and railroads are drawn.
-- Units in a town can be put in auto attach mode. In this mode, they will
-try to destroy ennemy units passing by. 
-- Mapgen 4 is a new map generator which generates map with 2 players on
-each island.
-- City can be clause of diplomaty treaties. You can exchange, sell or 
-buy cities. 
-- Ai builds diplomats against ennemy diplomats.
-- Settlers and engineers can do teamwork. With enough man power, All terrain 
-improvements can be done real fast.
-- With engineers, the terrain type can be changed. For example, hill
-can be turned into plain.
-- Hit points only increase if unit hasn't moved. 
-- Gamelog option. The whole history of a game is stored in the gamelog file. 
-- Changes to earth-160x90.sav, earth-80x50.sav and europe.sav
-- Cleanup of the server options.
-- Additionnal american city names.
-- Some spelling mystakes were corrected.
-- The game can't segfault loading a wrong tileset.
-- One can select a unit with 0 move left.
-- Cleanup of helpdata.txt
-- Clean up of the code.
-- Change the order of libraries for IRIX and cygwin.
+ - Space race!  Be the first player to build a space ship and colonize 
+   Alpha Centauri. 
+ - Civil war!  Capturing the enemy capital may split his empire.  Half 
+   of his towns will join a new AI leader!
+ - Two tile sets in this release! The "big" ones are from Ralph Engels.  
+   I hope you will enjoy them.  The second set is an enhancement of the 
+   classic tiles.  The server option -tiles allows to choose a subdirectory 
+   of the data directory to use different tiles.  (The data directory can 
+   be set with the DATADIR environment variable.)  Also, diagonal roads 
+   and railroads are now drawn.  Changed some of the national flags 
+   (especially changed Soviet flag to the Russian flag for Russians).
+ - Rulesets can be used to customise units, advances, wonders, and 
+   improvements without recompiling -- see README.rulesets.
+ - Units in a town can be put in auto-attack mode.  In this mode, they 
+   will attack any enemy units which come nearby.
+ - New city options for each city, controlling whether new citizens are 
+   workers or specialists, whether to allow disbanding a size 1 city by 
+   building a settler, and options for units on auto-attack mode in the 
+   city.
+ - Mapgen 4 (selected with the server command "set generator 4") is a new 
+   map generator which generates a map with 2 players on each island.
+ - Cities can be a traded in diplomatic treaties.  This effectively allows 
+   you to exchange, sell or buy cities. 
+ - The AI now builds diplomats to defend against enemy diplomats.
+ - Settlers and engineers can do teamwork.  With enough manpower, all 
+   terrain improvements can be done fast!
+ - With engineers, the terrain type can be changed using the new Transform
+   command ('O').  For example, hills can be turned into plains.
+ - Units only regenerate hit points if they have not moved at all for a 
+   full turn.
+ - Gamelog option.  The whole history of a game can be stored in the 
+   gamelog file. 
+ - One can select a unit with 0 moves left from the main map.
+ - City workers can be adjusted from the main map, with shift+button1.
+ - Changed the order of libraries to fix problems on IRIX and Cygwin.
+ - Changed the client-server protocol to use network byte order.
+ - Other bug fixes and code and help text cleanups.
+
 
 WHAT'S CHANGED SINCE 1.7.1:
 
@@ -82,7 +98,6 @@ WHAT'S CHANGED SINCE 1.7.1:
  - New server options randseed and aqueductloss.
  - Many other enhancements and bug fixes.
   
-
 WHAT'S CHANGED SINCE 1.7.0:
 
  - Removed two C++-style comments, the most reported problem with 1.7.0!
@@ -125,8 +140,8 @@ WHAT'S CHANGED SINCE 1.6.3:
 
 REPORTING A BUG:
 
-Freeciv 1.7 is the first stable release since 1.6.3, and is considered
-bug-free enough for everyday use.
+Freeciv 1.8.0 is a "stable" release and is considered bug-free enough 
+for everyday use.
 
 However if you do find one, please report it (or other problems) to
 the freeciv-dev mailing list.  For instructions on how to do this, see:
@@ -138,8 +153,6 @@ KNOWN BUGS:
  - The easy AI is not easy enough.  If the AI is beating you up early
    in the game, try setting the "generator" server option to 2 or 3.
  - The hard AI is not hard enough, and still does some stupid things.
-   It's particularly susceptible to Diplomat attacks -- this is being
-   worked on.
  - If you scroll to the bottom of the map, sometimes the bottom row
    of squares is not fully visible.  As a work-around, try adjusting
    the size of the client window.
@@ -147,8 +160,9 @@ KNOWN BUGS:
    are not quite right.  (In particular when you first reload a game
    they don't appear straight away.)
  - A new server prompt is unnecessarily displayed for every turn.
- - Possibly problems with tax/trade/science icons.
 
 THINGS TO DO:
 
- - Alliances, the Space Race, and more!!
+As well as the plans mentioned above for the next release, other
+projects in the pipeline are:  Alliances, Internationalisation
+(that is, multi-language support), City Plans, and more!
