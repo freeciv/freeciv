@@ -168,19 +168,21 @@ struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y,
 			   int width, int height)
 {
-  GdkPixmap *mypixmap, *mask;
+  GdkPixmap *mypixmap, *mask = NULL;
 
   mypixmap = gdk_pixmap_new(root_window, width, height, -1);
 
   gdk_draw_pixmap(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
 		  width, height);
 
-  mask=gdk_pixmap_new(mask_bitmap, width, height, 1);
-  gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
-  	    
-  gdk_draw_pixmap(mask, mask_fg_gc, source->mask, x, y, 0, 0,
-		  width, height);
-  
+  if (source->has_mask) {
+    mask = gdk_pixmap_new(mask_bitmap, width, height, 1);
+    gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
+
+    gdk_draw_pixmap(mask, mask_fg_gc, source->mask,
+		    x, y, 0, 0, width, height);
+  }
+
   return ctor_sprite_mask(mypixmap, mask, width, height);
 }
 
@@ -275,11 +277,12 @@ SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask,
     SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
     mysprite->pixmap	= mypixmap;
-    mysprite->mask	= mask;
+
+    mysprite->has_mask = (mask != NULL);
+    mysprite->mask = mask;
 
     mysprite->width	= width;
     mysprite->height	= height;
-    mysprite->has_mask	= 1;
 
     return mysprite;
 }
@@ -305,6 +308,7 @@ char **gfx_fileextensions(void)
   static char *ext[] =
   {
     "xpm",
+    "png",
     NULL
   };
 
