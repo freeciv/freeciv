@@ -303,7 +303,17 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   }
 
   cfood = food[2][2] + irrig[2][2];
-  if (cfood == 0) return(0); /* no starving cities, thank you! -- Syela */
+  if (cfood < 2) {
+    /* no starving cities, thank you! -- Syela */
+    /* This used to be zero, but I increased the limit to two to avoid
+     * some common pathological behaviour. An optimal algorithm should
+     * not need such a limitation, but the algorithm used here is far
+     * from optimal, hence this hack. The problem is that the AI often
+     * builds cities that are unable to produce settlers, which is
+     * a lethal mistake. -- Per */
+    return 0;
+  }
+
   val = cfood * FOOD_WEIGHTING + /* this needs to be here, strange as it seems */
           (shield[2][2] + mine[2][2]) +
           (trade[2][2] + road[2][2]);
