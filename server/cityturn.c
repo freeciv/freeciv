@@ -779,12 +779,12 @@ void city_increase_size(struct city *pcity)
     return;
   }
 
+  pcity->size++;
   if (has_granary)
-    pcity->food_stock = (pcity->size + 1) * (game.foodbox / 2);
+    pcity->food_stock = (pcity->size * game.foodbox) / 2;
   else
     pcity->food_stock = 0;
   
-  pcity->size++;
   if (!add_adjust_workers(pcity))
     auto_arrange_workers(pcity);
 
