@@ -40,7 +40,6 @@
 #include "helpdlg.h"
 
 
-#define	HELP_UNIT_FONT		"-*-times-bold-r-*-*-14-*-*-*-*-*-*-*"
 #define	HELP_TEXT_FONT		"-*-fixed-medium-r-*-*-14-*-*-*-*-*-iso8859-*"
 
 
@@ -662,10 +661,7 @@ void create_help_dialog(void)
 
 
 
-  style = gtk_style_new();
-  gdk_font_unref (style->font);
-  style->font = gdk_font_load( HELP_UNIT_FONT );
-  gdk_font_ref (style->font);
+  style = gtk_style_new( );
   style->fg[GTK_STATE_NORMAL] = *colors_standard[COLOR_STD_RED];
 
 
