@@ -177,9 +177,9 @@ int tech_goal_turns_rec(struct player *plr, int goal)
 **************************************************************************/
 int tech_goal_turns(struct player *plr, int goal)
 {
-  int, res;
+  int res,i;
   for (i = 0; i < A_LAST; i++) 
-    if (get_invention(plr, goal) <> TECH_KNOWN) 
+    if (get_invention(plr, goal) != TECH_KNOWN) 
       set_invention(plr, goal, TECH_UNKNOWN);
   res = tech_goals_turns_rec(plr, goal);
   update_research(plr);
