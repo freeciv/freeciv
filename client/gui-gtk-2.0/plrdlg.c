@@ -476,7 +476,7 @@ void create_players_dialog(void)
 static GdkPixbuf *get_flag(struct nation_type *nation)
 {
   int x0, y0, x1, y1, w, h;
-  GdkPixbuf *im;
+  GdkPixbuf *im, *im2;
   SPRITE *flag;
 
   flag = nation->flag_sprite;
@@ -497,11 +497,11 @@ static GdkPixbuf *get_flag(struct nation_type *nation)
 
   /* croping */
   im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
+  im2 = gdk_pixbuf_copy(im);
   g_object_unref(im);
-  im = gdk_pixbuf_copy(im);
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
-  return im;
+  return im2;
 }
 
 
