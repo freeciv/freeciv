@@ -171,6 +171,13 @@ static char *cr_entry_building(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_corruption(struct city *pcity)
+{
+  static char buf[8];
+  sprintf(buf,"%3d", pcity->corruption);
+  return buf;
+}
+
 /* City report options (which columns get shown)
  * To add a new entry, you should just have to:
  * - add a function like those above
@@ -224,6 +231,8 @@ static struct city_report_spec city_report_specs[] = {
 				      FUNC_TAG(food) },
   { 0, -3, 1, "", "Pol",	      "Pollution",
 				      FUNC_TAG(pollution) },
+  { 0, -3, 1, "", "Cor",              "Corruption",
+                                      FUNC_TAG(corruption) },
   { 1,  0, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
 				      "Currently Building",
 				      FUNC_TAG(building) }
