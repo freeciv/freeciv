@@ -25,6 +25,7 @@
 
 #include "fcintl.h"
 #include "mem.h"
+#include "support.h"
 
 #include "colors.h"
 #include "options.h"
@@ -428,6 +429,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook)
     {
       GtkWidget *hbox, *label, *image, *button;
       gint w, h;
+      char buf[256];
 
       gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &w, &h);
 
@@ -442,6 +444,9 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook)
       gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
       g_signal_connect_swapped(button, "clicked",
 	  G_CALLBACK(gui_dialog_destroy), dlg);
+
+      my_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), "Ctrl+W");
+      gtk_tooltips_set_tip(main_tips, button, buf, "");
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
       gtk_widget_set_size_request(button, w, h);
