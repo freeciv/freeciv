@@ -29,7 +29,7 @@ struct player;
 
 #define MAX_LEN_PACKET   4096
 #define MAX_LEN_CAPSTR    512
-#define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 32)
+#define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 128)
 
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
