@@ -18,6 +18,7 @@ pkgdata_DATA = \
 		bavarian.ruleset \
 		belgian.ruleset \
 		boer.ruleset \
+		bosnia.ruleset \
 		brazilian.ruleset \
 		canadian.ruleset \
 		carthaginian.ruleset \
@@ -91,7 +92,4 @@ pkgdata_DATA = \
 		zulu.ruleset 
 
 EXTRA_DIST = $(pkgdata_DATA) Makefile.am.sh
-
-Makefile.am: Makefile.am.sh $(shell echo *.ruleset)
-	sh Makefile.am.sh >Makefile.am
 

@@ -33,6 +33,7 @@ sprites =
 		"f.bavarian", "flags/bavarian"
 		"f.belgium", "flags/belgium"
 		"f.boer", "flags/boer"			; old south african
+		"f.bosnia", "flags/bosnia"
 		"f.brasil", "flags/brasil"
 		"f.bulgaria", "flags/bulgaria"
 		"f.canada", "flags/canada"

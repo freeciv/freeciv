@@ -1,0 +1,45 @@
+[nation_bosnia]
+
+name=_("Bosnia & Herzegovina")
+plural=_("?plural:Bosnians")
+class=_("Modern")
+leader="Kulin Ban", "Ban Stjepan", "Kotromanic", "Tvrtko",
+       "Stjepan Tvrtko I", "Prijezda I", "Stjepan Tomas",
+       "Filipovic Nikola", "Avdo Humo", "Seid Maglajlija",
+       "Alija", "Beg Gradascevic", "Bijedic Demal"
+leader_sex="Male", "Male", "Male", "Male",
+           "Male", "Male", "Male",
+           "Male","Male", "Male",
+           "Male", "Male", "Male"
+flag="f.bosnia"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+        	 "Monarchy",        _("King"),         _("Queen")
+                 "Republic",        _("President"),    _("President")
+                 "Democracy",       _("President"),    _("President")
+               }
+
+init_techs=""
+init_buildings=""
+
+tech_goals="The Republic", "Navigation", "Iron Working", "Gunpowder",
+           "Explosives"
+wonder="Sun Tzu's War Academy"
+government="Republic"
+ciwilwar_nations="croatian", "serbian"
+
+cities =
+  "Sarajevo", "Banja Luka", "Tuzla", "Bihac", "Travnik", "Zenica",
+  "Jajce", "Doboj", "Mostar", "Maglaj", "Gracanica", "Bosanski Novi",
+  "Bijeljina", "Trebinje", "Gorazde", "Livno", "Prijedor",
+  "Cazin", "Derventa", "Konjic", "Modrica", "Bosanska Krupa", "Vitez",
+  "Olovo", "Visoko", "Lukavac", "Gradacac", "Kakanj", "Bosanska Dubica",
+  "Bosanski Brod", "Brcko", "Bugojno", "Gornji Vakuf", "Donji Vakuf",
+  "Kljuc", "Jablanica", "Sanski Most", "Srebrenica", "Gradiska",
+  "Bosanski Samac", "Bosanski Brod", "Neum", "Zivinice", "Banovici",       "Kiseljak","Fojnica", "Visegrad", "Stolac", "Ciluk", "Siroki Brijeg",
+  "Capljina", "Tesanj", "Teslic", "Soko", "Zepce",
+  "Zavidovici", "Orasje", "Mrkonjic Grad", "Bosanski Petrovac",            "Prozor", "Kozarac", "Posusije", "Foca", "Busovaca",
+  "Srebrenik","Titov Drvar", "Otoka", "Pale", "Turbe", "Grude",
+  "Kalesija", "Ljubija", "Crni Lug", "Zepa", "Kulen Vakuf"

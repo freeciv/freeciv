@@ -119,6 +119,7 @@ options="1.9"
 *include "nation/sumerian.ruleset"
 *include "nation/taiwanese.ruleset"
 *include "nation/phoenician.ruleset"
+*include "nation/bosnia.ruleset"
 
 ;
 ; observer and barbarians MUST go last in THIS order
