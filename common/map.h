@@ -97,6 +97,7 @@ expand with government bonuses??
 
 struct tile_type {
   char terrain_name[MAX_LEN_NAME];     /* "" if unused */
+  char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct Sprite *sprite[NUM_DIRECTION_NSEW];
@@ -109,11 +110,13 @@ struct tile_type {
   int trade;
 
   char special_1_name[MAX_LEN_NAME];   /* "" if none */
+  char special_1_name_orig[MAX_LEN_NAME]; /* untranslated copy */
   int food_special_1;
   int shield_special_1;
   int trade_special_1;
 
   char special_2_name[MAX_LEN_NAME];   /* "" if none */
+  char special_2_name_orig[MAX_LEN_NAME]; /* untranslated copy */
   int food_special_2;
   int shield_special_2;
   int trade_special_2;

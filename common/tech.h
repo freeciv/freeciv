@@ -60,6 +60,7 @@ enum tech_flag_id {
 
 struct advance {
   char name[MAX_LEN_NAME];
+  char name_orig[MAX_LEN_NAME];	      /* untranslated */
   int req[2];
   unsigned int flags;
   char *helptext;

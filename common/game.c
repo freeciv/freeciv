@@ -10,18 +10,26 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "player.h"
 #include "shared.h"
 #include "spaceship.h"
+#include "tech.h"
+#include "unit.h"
 
 #include "game.h"
 
@@ -894,3 +902,58 @@ struct player *get_player(int player_id)
 }
 
 
+/***************************************************************
+  For various data, copy eg .name to .name_orig and put
+  translated version in .name
+  (These could be in the separate modules, but since they are
+  all almost the same, and all needed together, it seems a bit
+  easier to just do them all here.)
+***************************************************************/
+void translate_data_names(void)
+{
+  int i, j;
+  
+  for (i=0; i<game.num_tech_types; i++) {
+    struct advance *this = &advances[i];
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+  }
+  for (i=0; i<game.num_unit_types; i++) {
+    struct unit_type *this = &unit_types[i];
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+  }
+  for (i=0; i<B_LAST; i++) {
+    struct improvement_type *this = &improvement_types[i];
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+  }
+  for (i=T_FIRST; i<T_COUNT; i++) {
+    struct tile_type *this = &tile_types[i];
+    strcpy(this->terrain_name_orig, this->terrain_name);
+    strcpy(this->terrain_name, _(this->terrain_name_orig));
+    strcpy(this->special_1_name_orig, this->special_1_name);
+    strcpy(this->special_1_name, _(this->special_1_name_orig));
+    strcpy(this->special_2_name_orig, this->special_2_name);
+    strcpy(this->special_2_name, _(this->special_2_name_orig));
+  }
+  for (i=0; i<game.government_count; i++) {
+    struct government *this = &governments[i];
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+    for(j=0; j<this->num_ruler_titles; j++) {
+      struct ruler_title *that = &this->ruler_titles[j];
+      strcpy(that->male_title_orig, that->male_title);
+      strcpy(that->male_title, _(that->male_title_orig));
+      strcpy(that->female_title_orig, that->female_title);
+      strcpy(that->female_title, _(that->female_title_orig));
+    }
+  }
+  for (i=0; i<game.nation_count; i++) {
+    struct nation_type *this = get_nation_by_idx(i);
+    strcpy(this->name_orig, this->name);
+    strcpy(this->name, _(this->name_orig));
+    strcpy(this->name_plural_orig, this->name_plural);
+    strcpy(this->name_plural, _(this->name_plural_orig));
+  }
+}

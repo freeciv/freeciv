@@ -141,6 +141,8 @@ int total_player_citizens(struct player *pplayer);
 int civ_score(struct player *pplayer);
 void initialize_globals(void);
 
+void translate_data_names(void);
+
 struct player *get_player(int player_id);
 
 extern struct civ_game game;

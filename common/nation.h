@@ -37,6 +37,10 @@ struct nation_type {
   char **default_city_names;
   struct Sprite *flag_sprite;
 
+  /* untranslated copies: */
+  char name_orig[MAX_LEN_NAME];
+  char name_plural_orig[MAX_LEN_NAME];
+
   /* AI hints */
   int attack;               /* c 0 = optimize for food, 2 =  optimize for prod  */
                             /* c0 = large amount of buildings, 2 = units */

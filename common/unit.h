@@ -169,6 +169,7 @@ enum unit_role_id {
 
 struct unit_type {
   char name[MAX_LEN_NAME];
+  char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct Sprite *sprite;

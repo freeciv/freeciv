@@ -39,6 +39,7 @@ enum improvement_type_id {
 
 struct improvement_type {
   char name[MAX_LEN_NAME];
+  char name_orig[MAX_LEN_NAME];	      /* untranslated */
   int is_wonder;
   int tech_requirement;
   int build_cost;

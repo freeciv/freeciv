@@ -48,6 +48,10 @@ struct ruler_title
   int  nation;
   char male_title[MAX_LEN_NAME];
   char female_title[MAX_LEN_NAME];
+  
+  /* untranslated copies: */
+  char male_title_orig[MAX_LEN_NAME];    
+  char female_title_orig[MAX_LEN_NAME];
 };
 
 /* This is struct government itself.  All information about
@@ -57,6 +61,7 @@ struct government
 {
   int   index;			/* index into governments[] array */
   char  name[MAX_LEN_NAME];	/* government name */
+  char  name_orig[MAX_LEN_NAME]; /* untranslated copy */
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */

@@ -1458,7 +1458,7 @@ static void send_ruleset_units(struct player *dest)
 
   for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
     packet.id = u-unit_types;
-    strcpy(packet.name, u->name);
+    strcpy(packet.name, u->name_orig);
     strcpy(packet.graphic_str, u->graphic_str);
     strcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
@@ -1503,7 +1503,7 @@ static void send_ruleset_techs(struct player *dest)
 
   for(a=advances; a<advances+game.num_tech_types; a++) {
     packet.id = a-advances;
-    strcpy(packet.name, a->name);
+    strcpy(packet.name, a->name_orig);
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.flags = a->flags;
@@ -1528,7 +1528,7 @@ static void send_ruleset_buildings(struct player *dest)
 
   for(b=improvement_types; b<improvement_types+B_LAST; b++) {
     packet.id = b-improvement_types;
-    strcpy(packet.name, b->name);
+    strcpy(packet.name, b->name_orig);
     packet.is_wonder = b->is_wonder;
     packet.tech_requirement = b->tech_requirement;
     packet.build_cost = b->build_cost;
@@ -1568,7 +1568,7 @@ static void send_ruleset_terrain(struct player *dest)
 
       packet.id = i;
 
-      strcpy (packet.terrain_name, t->terrain_name);
+      strcpy (packet.terrain_name, t->terrain_name_orig);
       strcpy(packet.graphic_str, t->graphic_str);
       strcpy(packet.graphic_alt, t->graphic_alt);
 
@@ -1579,12 +1579,12 @@ static void send_ruleset_terrain(struct player *dest)
       packet.shield = t->shield;
       packet.trade = t->trade;
 
-      strcpy (packet.special_1_name, t->special_1_name);
+      strcpy (packet.special_1_name, t->special_1_name_orig);
       packet.food_special_1 = t->food_special_1;
       packet.shield_special_1 = t->shield_special_1;
       packet.trade_special_1 = t->trade_special_1;
 
-      strcpy (packet.special_2_name, t->special_2_name);
+      strcpy (packet.special_2_name, t->special_2_name_orig);
       packet.food_special_2 = t->food_special_2;
       packet.shield_special_2 = t->shield_special_2;
       packet.trade_special_2 = t->trade_special_2;
@@ -1681,7 +1681,7 @@ static void send_ruleset_governments(struct player *dest)
     gov.hints = g->hints;
     gov.num_ruler_titles = g->num_ruler_titles;
 
-    strcpy(gov.name, g->name);
+    strcpy(gov.name, g->name_orig);
     strcpy(gov.graphic_str, g->graphic_str);
     strcpy(gov.graphic_alt, g->graphic_alt);
     
@@ -1724,8 +1724,8 @@ static void send_ruleset_nations(struct player *dest)
   for( k=0; k<game.nation_count; k++) {
     n = get_nation_by_idx(k);
     packet.id = k;
-    strcpy(packet.name, n->name);
-    strcpy(packet.name_plural, n->name_plural);
+    strcpy(packet.name, n->name_orig);
+    strcpy(packet.name_plural, n->name_plural_orig);
     strcpy(packet.graphic_str, n->flag_graphic_str);
     strcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;
@@ -1754,6 +1754,7 @@ void load_rulesets(void)
   load_ruleset_buildings(game.ruleset.buildings);
   load_ruleset_nations(game.ruleset.nations);
   load_ruleset_terrain(game.ruleset.terrain);
+  translate_data_names();
 }
 
 /**************************************************************************
