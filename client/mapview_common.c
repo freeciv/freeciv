@@ -1376,20 +1376,47 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
 {
   enum direction8 dir;
 
-  if (!draw_map_grid) {
-    return;
-  }
+  if (draw_map_grid) {
+    for (dir = 0; dir < 8; dir++) {
+      int start_x, start_y, end_x, end_y;
 
-  for (dir = 0; dir < 8; dir++) {
-    int start_x, start_y, end_x, end_y;
+      if (get_tile_boundaries(dir, 0, 1,
+			      &start_x, &start_y, &end_x, &end_y)) {
+	canvas_put_line(pcanvas,
+			get_grid_color(ptile, dir),
+			LINE_NORMAL,
+			canvas_x + start_x, canvas_y + start_y,
+			end_x - start_x, end_y - start_y);
+      }
+    }
+  } else if (draw_city_outlines) {
+    for (dir = 0; dir < 8; dir++) {
+      int start_x, start_y, end_x, end_y, dummy_x, dummy_y;
+      struct tile *tile2 = mapstep(ptile, dir);
+      struct unit *pfocus;
+      enum color_std color = COLOR_STD_LAST;
 
-    if (get_tile_boundaries(dir, 0, 1,
-			    &start_x, &start_y, &end_x, &end_y)) {
-      canvas_put_line(pcanvas,
-		      get_grid_color(ptile, dir),
-		      LINE_NORMAL,
-		      canvas_x + start_x, canvas_y + start_y,
-		      end_x - start_x, end_y - start_y);
+      if (tile2
+	  && get_tile_boundaries(dir, 0, 1,
+				 &start_x, &start_y, &end_x, &end_y)) {
+	if (XOR(player_in_city_radius(game.player_ptr, ptile),
+		player_in_city_radius(game.player_ptr, tile2))) {
+	  color = COLOR_STD_WHITE;
+	} else if ((pfocus = get_unit_in_focus())
+		   && unit_flag(pfocus, F_CITIES)
+		   && city_can_be_built_here(pfocus->tile, pfocus)
+		   && XOR(base_map_to_city_map(&dummy_x, &dummy_y,
+					       pfocus->tile, ptile),
+			  base_map_to_city_map(&dummy_x, &dummy_y,
+					       pfocus->tile, tile2))) {
+	  color = COLOR_STD_RED;
+	}
+	if (color != COLOR_STD_LAST) {
+	  canvas_put_line(pcanvas, color, LINE_NORMAL,
+			  canvas_x + start_x, canvas_y + start_y,
+			  end_x - start_x, end_y - start_y);
+	}
+      }
     }
   }
 }

@@ -407,6 +407,9 @@ bool is_valid_city_coords(const int city_x, const int city_y);
 bool map_to_city_map(int *city_map_x, int *city_map_y,
 		     const struct city *const pcity,
 		     const struct tile *ptile);
+bool base_map_to_city_map(int *city_map_x, int *city_map_y,
+			  const struct tile *city_tile,
+			  const struct tile *map_tile);
 
 struct tile *base_city_map_to_map(const struct tile *city_center_tile,
 				  int city_map_x, int city_map_y);

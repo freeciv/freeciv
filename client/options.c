@@ -210,6 +210,7 @@ client_option *options;
 
 /** View Options: **/
 
+bool draw_city_outlines = TRUE;
 bool draw_map_grid = FALSE;
 bool draw_city_names = TRUE;
 bool draw_city_growth = TRUE;

@@ -119,6 +119,7 @@ extern client_option gui_options[];
 
 /** View Options: **/
 
+extern bool draw_city_outlines;
 extern bool draw_map_grid;
 extern bool draw_city_names;
 extern bool draw_city_growth;

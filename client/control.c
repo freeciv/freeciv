@@ -1104,6 +1104,19 @@ void request_unit_pillage(struct unit *punit)
 }
 
 /**************************************************************************
+ Toggle display of city outlines on the map
+**************************************************************************/
+void request_toggle_city_outlines(void) 
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_city_outlines = !draw_city_outlines;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of grid lines on the map
 **************************************************************************/
 void request_toggle_map_grid(void) 
@@ -1392,23 +1405,24 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     center_tile_mapcanvas(target_unit->tile);
   }
 
+  /* Set the tile before the movement animation is done, so that everything
+   * drawn there will be up-to-date. */
+  punit->tile = target_unit->tile;
+
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
+    refresh_unit_mapcanvas(punit, ptile, FALSE);
 
     if (do_animation) {
       int dx, dy;
 
       /* For the duration of the animation the unit exists at neither
        * tile. */
-      map_distance_vector(&dx, &dy, punit->tile,
-			  target_unit->tile);
+      map_distance_vector(&dx, &dy, ptile, target_unit->tile);
       move_unit_map_canvas(punit, ptile, dx, dy);
     }
   }
-    
-  punit->tile = target_unit->tile;
 
   unit_list_prepend(punit->tile->units, punit);
 
@@ -2095,6 +2109,14 @@ void key_unit_transform(void)
       can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM)) {
     request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
   }
+}
+
+/**************************************************************************
+  Toggle drawing of city outlines.
+**************************************************************************/
+void key_city_outlines_toggle(void)
+{
+  request_toggle_city_outlines();
 }
 
 /**************************************************************************

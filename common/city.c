@@ -75,9 +75,9 @@ bool is_valid_city_coords(const int city_x, const int city_y)
   Finds the city map coordinate for a given map position and a city
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/
-static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-				 const struct tile *city_tile,
-				 const struct tile *map_tile)
+bool base_map_to_city_map(int *city_map_x, int *city_map_y,
+			  const struct tile *city_tile,
+			  const struct tile *map_tile)
 {
   map_distance_vector(city_map_x, city_map_y, city_tile, map_tile);
   *city_map_x += CITY_MAP_RADIUS;

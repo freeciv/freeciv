@@ -90,6 +90,7 @@ enum MenuID {
   MENU_GOVERNMENT_WORKLISTS,
   MENU_GOVERNMENT_REVOLUTION,
 
+  MENU_VIEW_SHOW_CITY_OUTLINES,
   MENU_VIEW_SHOW_MAP_GRID,
   MENU_VIEW_SHOW_NATIONAL_BORDERS,
   MENU_VIEW_SHOW_CITY_NAMES,
@@ -284,6 +285,11 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
 			       GtkWidget *widget)
 {
   switch(callback_action) {
+  case MENU_VIEW_SHOW_CITY_OUTLINES:
+    if (draw_city_outlines ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      key_city_outlines_toggle();
+    }
+    break;
   case MENU_VIEW_SHOW_MAP_GRID:
     if (draw_map_grid ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_map_grid_toggle();
