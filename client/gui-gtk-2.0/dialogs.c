@@ -38,6 +38,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "control.h"
 #include "gui_main.h"
@@ -87,13 +88,21 @@ static int         improvement_type[B_LAST+1];
 static int         sabotage_improvement = 0;
 
 /******************************************************************/
+#define NUM_SELECT_UNIT_COLS 4
+#define SELECT_UNIT_READY  1
+#define SELECT_UNIT_SENTRY 2
 
-#define MAX_SELECT_UNITS 100
-static GtkWidget  *unit_select_dialog_shell;
-static GtkWidget  *unit_select_commands[MAX_SELECT_UNITS];
-static GtkWidget  *unit_select_labels[MAX_SELECT_UNITS];
-static int         unit_select_ids[MAX_SELECT_UNITS];
-static int         unit_select_no;
+struct unit_select_node {
+  GtkWidget *cmd;
+  GtkWidget *pix;
+};
+
+static GtkWidget *unit_select_dialog_shell;
+static GtkWidget *unit_select_table;
+static struct unit_select_node *unit_select_nodes;
+static int unit_select_no;
+static struct tile *unit_select_ptile;
+static GtkTooltips *unit_select_tips;
 
 static int races_buttons_get_current(void);
 static int sex_buttons_get_current(void);
@@ -1554,25 +1563,6 @@ void destroy_message_dialog(GtkWidget *button)
   gtk_widget_destroy(button->parent->parent);
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-static void unit_select_all_callback(GtkWidget *w, gpointer data)
-{
-  int i;
-
-  gtk_widget_destroy(unit_select_dialog_shell);
-  
-  for(i=0; i<unit_select_no; i++) {
-    struct unit *punit = player_find_unit_by_id(game.player_ptr,
-						unit_select_ids[i]);
-    if(punit) {
-      set_unit_focus(punit);
-    }
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1587,27 +1577,150 @@ static void unit_select_callback(GtkWidget *w, int id)
   gtk_widget_destroy(unit_select_dialog_shell);
 }
 
-static int number_of_columns(int n)
-{
-#if 0
-  /* This would require libm, which isn't worth it for this one little
-   * function.  Since MAX_SELECT_UNITS is 100 already, the ifs
-   * work fine.  */
-  double sqrt(); double ceil();
-  return ceil(sqrt((double)n/5.0));
-#else
-  assert(MAX_SELECT_UNITS == 100);
-  if(n<=5) return 1;
-  else if(n<=20) return 2;
-  else if(n<=45) return 3;
-  else if(n<=80) return 4;
-  else return 5;
-#endif
-}
+/**************************************************************************
+...
+**************************************************************************/
 static int number_of_rows(int n)
 {
-  int c=number_of_columns(n);
-  return (n+c-1)/c;
+  return (n-1)/NUM_SELECT_UNIT_COLS+1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void refresh_unit_select_dialog(void)
+{
+  if (unit_select_dialog_shell) {
+    struct tile *ptile;
+    int i, n, r;
+
+    ptile = unit_select_ptile;
+
+    n = unit_list_size(&ptile->units);
+    r = number_of_rows(n);
+
+    for (i=n; i<unit_select_no; i++) {
+      gtk_widget_destroy(unit_select_nodes[i].cmd);
+    }
+
+    gtk_table_resize(GTK_TABLE(unit_select_table), r, NUM_SELECT_UNIT_COLS);
+
+    unit_select_nodes =
+      fc_realloc(unit_select_nodes, n * sizeof(*unit_select_nodes));
+
+    for (i=unit_select_no; i<n; i++) {
+      GtkWidget *cmd, *pix;
+
+      cmd = gtk_button_new();
+      unit_select_nodes[i].cmd = cmd;
+
+      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      unit_select_nodes[i].pix = pix;
+
+      gtk_container_add(GTK_CONTAINER(cmd), pix);
+      gtk_table_attach_defaults(GTK_TABLE(unit_select_table),
+                                cmd,
+				(i/r), (i/r)+1,
+				(i%r), (i%r)+1);
+    }
+
+    gtk_tooltips_disable(unit_select_tips);
+
+    for (i=0; i<n; i++) {
+      GtkWidget *cmd, *pix;
+      struct unit *punit = unit_list_get(&ptile->units, i);
+
+      cmd = unit_select_nodes[i].cmd;
+      pix = unit_select_nodes[i].pix;
+
+      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
+
+      g_signal_handlers_disconnect_matched(cmd,
+        G_SIGNAL_MATCH_FUNC,
+        0, 0, NULL, unit_select_callback, NULL);
+
+      g_signal_connect(cmd, "clicked",
+        G_CALLBACK(unit_select_callback), GINT_TO_POINTER(punit->id));
+
+      gtk_tooltips_set_tip(unit_select_tips,
+        cmd, unit_description(punit), "");
+
+      gtk_widget_show(pix);
+      gtk_widget_show(cmd);
+    }
+
+    gtk_tooltips_enable(unit_select_tips);
+
+    unit_select_no = n;
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void unit_select_destroy_callback(GtkObject *object, gpointer data)
+{
+  if (unit_select_tips) {
+    g_object_unref(unit_select_tips);
+  }
+  unit_select_tips = NULL;
+
+  if (unit_select_nodes) {
+    free(unit_select_nodes);
+  }
+  unit_select_nodes = NULL;
+
+  unit_select_no = 0;
+
+  unit_select_dialog_shell = NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
+{
+  struct tile *ptile = unit_select_ptile;
+
+  switch (rid) {
+  case SELECT_UNIT_READY:
+    {
+      struct unit *pmyunit = NULL;
+
+      unit_list_iterate(ptile->units, punit) {
+        if (game.player_idx == punit->owner) {
+          /* Activate this unit. */
+          pmyunit = punit;
+          request_new_unit_activity(punit, ACTIVITY_IDLE);
+        }
+      } unit_list_iterate_end;
+
+      if (pmyunit) {
+        /* Put the focus on one of the activated units. */
+        set_unit_focus(pmyunit);
+      }
+    }
+    break;
+
+  case SELECT_UNIT_SENTRY:
+    {
+      unit_list_iterate(ptile->units, punit) {
+        if (game.player_idx == punit->owner) {
+          if ((punit->activity == ACTIVITY_IDLE) &&
+              !punit->ai.control &&
+              can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+            request_new_unit_activity(punit, ACTIVITY_SENTRY);
+          }
+        }
+      } unit_list_iterate_end;
+    }
+    break;
+
+  default:
+    break;
+  }
+  
+  gtk_widget_destroy(unit_select_dialog_shell);
 }
 
 /****************************************************************
@@ -1615,93 +1728,68 @@ static int number_of_rows(int n)
 *****************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
 {
-  int i,n,r;
-  char buffer[512];
-  GtkWidget *pix, *hbox, *table;
-  GtkWidget *unit_select_all_command, *unit_select_close_command;
+  if (!unit_select_dialog_shell) {
+    GtkWidget *shell, *align, *table;
+    GtkWidget *ready_cmd, *sentry_cmd, *close_cmd;
 
-  if (!unit_select_dialog_shell){
-  unit_select_dialog_shell = gtk_dialog_new_with_buttons(_("Unit selection"),
-    GTK_WINDOW(toplevel),
-    GTK_DIALOG_MODAL,
-    NULL);
+    shell = gtk_dialog_new_with_buttons(_("Unit selection"),
+      GTK_WINDOW(toplevel),
+      0,
+      NULL);
+    unit_select_dialog_shell = shell;
 
-  g_signal_connect(unit_select_dialog_shell, "destroy",
-    G_CALLBACK(gtk_widget_destroyed), &unit_select_dialog_shell);
-  gtk_window_set_position(GTK_WINDOW(unit_select_dialog_shell),
-    GTK_WIN_POS_MOUSE);
+    unit_select_tips = gtk_tooltips_new();
+    g_object_ref(unit_select_tips);
+    gtk_object_sink(GTK_OBJECT(unit_select_tips));
 
-  n = MIN(MAX_SELECT_UNITS, unit_list_size(&ptile->units));
-  r = number_of_rows(n);
+    g_signal_connect(shell, "destroy",
+      G_CALLBACK(unit_select_destroy_callback), NULL);
+    gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+    g_signal_connect(shell, "response",
+      G_CALLBACK(unit_select_cmd_callback), NULL);
 
-  table=gtk_table_new(r, number_of_columns(n), FALSE);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(unit_select_dialog_shell)->vbox),
-	table);  
+    align = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
+    gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), align);
 
-  for(i=0; i<n; i++) {
-    struct unit *punit=unit_list_get(&ptile->units, i);
-    struct unit_type *punittemp=unit_type(punit);
-    struct city *pcity;
+    table = gtk_table_new(NUM_SELECT_UNIT_COLS, 0, FALSE);
+    gtk_table_set_row_spacings(GTK_TABLE(table), 2);
+    gtk_table_set_col_spacings(GTK_TABLE(table), 2);
+    gtk_container_add(GTK_CONTAINER(align), table);
+    unit_select_table = table;
 
-    hbox = gtk_hbox_new(FALSE,10);
-    gtk_table_attach_defaults(GTK_TABLE(table), hbox, 
-				(i/r), (i/r)+1,
-				(i%r), (i%r)+1);
-    gtk_container_border_width(GTK_CONTAINER(hbox),5);
+    gtk_widget_show(align);
+    gtk_widget_show(table);
 
-    unit_select_ids[i]=punit->id;
+    ready_cmd =
+    gtk_dialog_add_button(GTK_DIALOG(shell),
+      _("_Ready all"), SELECT_UNIT_READY);
 
-    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
+    gtk_button_box_set_child_secondary(
+      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
+      ready_cmd, TRUE);
 
-    my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
-	    punittemp->name, 
-	    pcity ? pcity->name : "",
-	    unit_activity_text(punit));
+    sentry_cmd =
+    gtk_dialog_add_button(GTK_DIALOG(shell),
+      _("_Sentry idle"), SELECT_UNIT_SENTRY);
 
-    pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    gtk_button_box_set_child_secondary(
+      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
+      sentry_cmd, TRUE);
 
-    unit_select_commands[i]=gtk_button_new();
-    gtk_widget_set_sensitive(unit_select_commands[i],
-       can_unit_do_activity(punit, ACTIVITY_IDLE) );
-    gtk_widget_set_usize(unit_select_commands[i],
-			 UNIT_TILE_WIDTH+4, UNIT_TILE_HEIGHT+4);
-    gtk_container_add(GTK_CONTAINER(unit_select_commands[i]), pix);
-    gtk_box_pack_start(GTK_BOX(hbox),unit_select_commands[i],
-       FALSE, FALSE, 0);
+    close_cmd =
+    gtk_dialog_add_button(GTK_DIALOG(shell),
+      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
+    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
 
-    unit_select_labels[i]=gtk_label_new(buffer);
-    gtk_box_pack_start(GTK_BOX(hbox),unit_select_labels[i],
-       FALSE, FALSE, 0);
-
-    g_signal_connect(unit_select_commands[i], "clicked",
-      G_CALLBACK(unit_select_callback), GINT_TO_POINTER(punit->id));
+    gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
+    gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
   }
-  unit_select_no=i;
 
+  unit_select_ptile = ptile;
+  refresh_unit_select_dialog();
 
-  unit_select_all_command =
-  gtk_dialog_add_button(GTK_DIALOG(unit_select_dialog_shell),
-    _("Ready all"), GTK_RESPONSE_NONE);
-
-  unit_select_close_command =
-  gtk_dialog_add_button(GTK_DIALOG(unit_select_dialog_shell),
-    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-
-  gtk_dialog_set_default_response(GTK_DIALOG(unit_select_dialog_shell),
-    GTK_RESPONSE_CLOSE);
-
-  g_signal_connect(unit_select_all_command, "clicked",
-    G_CALLBACK(unit_select_all_callback), NULL);
-  g_signal_connect_swapped(unit_select_close_command, "clicked",
-    G_CALLBACK(gtk_widget_destroy), unit_select_dialog_shell);
-
-  gtk_widget_show_all(GTK_DIALOG(unit_select_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(unit_select_dialog_shell)->action_area);
-
-  gtk_widget_show(unit_select_dialog_shell);
-  }
+  gtk_window_present(GTK_WINDOW(unit_select_dialog_shell));
 }
 
 
