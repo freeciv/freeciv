@@ -1546,7 +1546,8 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     set_ai_level(caller, pplayer->name, pplayer->ai.skill_level);
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
-    assess_danger_player(pplayer);
+    if (server_state == RUN_GAME_STATE)
+      assess_danger_player(pplayer);
     neutralize_ai_player(pplayer);
   } else {
     notify_player(0, _("Game: %s is now human."), pplayer->name);
