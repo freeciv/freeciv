@@ -638,25 +638,28 @@ struct city *sdi_defense_close(int owner, int x, int y)
 int find_a_unit_type(int role, int role_tech)
 {
   int which[U_LAST];
-  int i, num=0, iunit;
+  int i, num=0;
 
-  if( role_tech == -1 ) {
-    for(i=0; i<num_role_units(role); i++) {
-      which[num++] = get_role_unit(role, i);
-    }
-    return which[myrand(num)];
-  }
-
-  for(i=0; i<num_role_units(role_tech); i++) {
-    iunit = get_role_unit(role_tech, i);
-    if (game.global_advances[get_unit_type(iunit)->tech_requirement] >= 2) {
-      which[num++] = iunit;
+  if (role_tech != -1) {
+    for(i=0; i<num_role_units(role_tech); i++) {
+      int iunit = get_role_unit(role_tech, i);
+      if (game.global_advances[get_unit_type(iunit)->tech_requirement] >= 2) {
+	which[num++] = iunit;
+      }
     }
   }
   if(num==0) {
     for(i=0; i<num_role_units(role); i++) {
       which[num++] = get_role_unit(role, i);
     }
+  }
+  if(num==0) {
+    /* Ruleset code should ensure there is at least one unit for each
+     * possibly-required role, or check before calling this function.
+     */
+    freelog(LOG_FATAL, "No unit types in find_a_unit_type(%d,%d)!",
+	    role, role_tech);
+    abort();
   }
   return which[myrand(num)];
 }

@@ -691,13 +691,136 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 }
 
 /**************************************************************************
+  Get gold from entering a hut.
+**************************************************************************/
+static void hut_get_gold(struct unit *punit, int cred)
+{
+  struct player *pplayer = unit_owner(punit);
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+		   _("Game: You found %d gold."), cred);
+  pplayer->economic.gold += cred;
+}
+
+/**************************************************************************
+  Get a tech from entering a hut.
+**************************************************************************/
+static void hut_get_tech(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int res_ed, res_ing, new_tech;
+  
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		   _("Game: You found ancient scrolls of wisdom."));
+
+  /* Save old values, choose tech, then restore old values: */
+  res_ed = pplayer->research.researched;
+  res_ing = pplayer->research.researching;
+  
+  choose_random_tech(pplayer);
+  new_tech = pplayer->research.researching;
+  
+  pplayer->research.researched = res_ed;
+  pplayer->research.researching = res_ing;
+ 
+  if (new_tech!=A_NONE) {
+    const char *tech_name = advances[new_tech].name;
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: You gain knowledge about %s."), tech_name);
+
+    gamelog(GAMELOG_TECH,"%s discover %s (Hut)",
+	    get_nation_name_plural(pplayer->nation), tech_name);
+
+    notify_embassies(pplayer, (struct player *)0,
+		     _("Game: The %s have aquired %s"
+		       " from ancient scrolls of wisdom"),
+		     get_nation_name_plural(pplayer->nation), tech_name);
+
+    found_new_tech(pplayer,new_tech,0,1);
+  }
+  else {
+    pplayer->future_tech++;
+    notify_player(pplayer,
+		  _("Game: You gain knowledge about Future Tech. %d."),
+		  pplayer->future_tech);
+    pplayer->research.researchpoints++; /* don't call found_new_tech() */
+  }
+  do_free_cost(pplayer);
+}
+
+/**************************************************************************
+  Get a mercenary unit from entering a hut.
+**************************************************************************/
+static void hut_get_mercenaries(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		   _("Game: A band of friendly mercenaries joins your cause."));
+  create_unit(pplayer, punit->x, punit->y, find_a_unit_type(L_HUT,L_HUT_TECH),
+	      0, punit->homecity, -1);
+}
+
+/**************************************************************************
+  Get barbarians from hut, unless close to a city.
+  Unit may die: returns 1 if unit is alive after, or 0 if it was killed.
+**************************************************************************/
+static int hut_get_barbarians(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int ok = 1;
+
+  if (in_city_radius(punit->x, punit->y)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: An abandoned village is here."));
+  }
+  else {
+    /* save coords in case unit dies */
+    int punit_x = punit->x;
+    int punit_y = punit->y;
+    
+    ok = unleash_barbarians(pplayer, punit_x, punit_y);
+    
+    notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+		     ok ?
+		     _("Game: You have unleashed a horde of barbarians!") :
+		     _("Game: Your unit has been killed by barbarians."));
+  }
+  return ok;
+}
+
+/**************************************************************************
+  Get new city from hut, or settlers (nomads) if terrain is poor.
+**************************************************************************/
+static void hut_get_city(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  
+  if (is_ok_city_spot(punit->x, punit->y)) {
+    /* Fixme: message? */
+    if (terrain_control.may_road) {
+      map_set_special(punit->x, punit->y, S_ROAD);
+      if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
+	map_set_special(punit->x, punit->y, S_RAILROAD);
+    }
+    send_tile_info(0, punit->x, punit->y);
+
+    create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
+  } else {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Friendly nomads are impressed by you,"
+		       " and join you."));
+    create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
+		0, punit->homecity, -1);
+  }
+}
+
+/**************************************************************************
 Return 1 if unit is alive, and 0 if it was killed
 **************************************************************************/
 int handle_unit_enter_hut(struct unit *punit)
 {
-  struct player *pplayer=&game.players[punit->owner];
+  struct player *pplayer = unit_owner(punit);
   int ok = 1;
-  int cred;
 
   if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
     return ok;
@@ -715,112 +838,28 @@ int handle_unit_enter_hut(struct unit *punit)
 
   switch (myrand(12)) {
   case 0:
-    cred = 25;
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		     _("Game: You found %d gold."), cred);
-    pplayer->economic.gold += cred;
+    hut_get_gold(punit, 25);
     break;
-  case 1:
-  case 2:
-  case 3:
-    cred = 50;
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You found %d gold."), cred);
-    pplayer->economic.gold+=50;
+  case 1: case 2: case 3:
+    hut_get_gold(punit, 50);
     break;
   case 4:
-    cred = 100;
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You found %d gold."), cred); 
-    pplayer->economic.gold += cred;
+    hut_get_gold(punit, 100);
     break;
-  case 5:
-  case 6:
-  case 7:
-/*this function is hmmm a hack */
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You found ancient scrolls of wisdom.")); 
-    {
-      int res=pplayer->research.researched;
-      int wasres=pplayer->research.researching;
-      int new_tech;
-
-      choose_random_tech(pplayer);
-      new_tech=pplayer->research.researching;
-      pplayer->research.researched=res;
-      pplayer->research.researching=wasres;
- 
-      if (new_tech!=A_NONE) {
-	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: You gain knowledge about %s."), 
-			 advances[new_tech].name);
-
-	gamelog(GAMELOG_TECH,"%s discover %s (Hut)",
-		get_nation_name_plural(pplayer->nation),advances[new_tech].name
-		);
-
-	notify_embassies(pplayer, (struct player *)0,
-		  _("Game: The %s have aquired %s from ancient scrolls of wisdom"),
-		  get_nation_name_plural(pplayer->nation),
-		  advances[new_tech].name);
-
-	found_new_tech(pplayer,new_tech,0,1);
-      }
-      else {
-       pplayer->future_tech++;
-       notify_player(pplayer,
-                     _("Game: You gain knowledge about Future Tech. %d."),
-                     pplayer->future_tech);
-       pplayer->research.researchpoints++; /* don't call found_new_tech() */
-      }
-      
-      do_free_cost(pplayer);
-    }
+  case 5: case 6: case 7:
+    hut_get_tech(punit);
     break;
-  case 8:
-  case 9:
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: A band of friendly mercenaries"
-		       " joins your cause."));
-    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(L_HUT,L_HUT_TECH),
-		0, punit->homecity, -1);
+  case 8: case 9:
+    hut_get_mercenaries(punit);
     break;
   case 10:
-    if (in_city_radius(punit->x, punit->y))
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: An abandoned village is here."));
-    else {
-      int punit_x, punit_y;
-
-      punit_x = punit->x;
-      punit_y = punit->y;
-      ok = unleash_barbarians(pplayer, punit_x, punit_y);
-      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
-		       ok ?
-		         _("Game: You have unleashed a horde of barbarians!") :
-		         _("Game: Your unit has been killed by barbarians."));
-    }
+    ok = hut_get_barbarians(punit);
     break;
   case 11:
-    if (is_ok_city_spot(punit->x, punit->y)) {
-      if (terrain_control.may_road) {
-	map_set_special(punit->x, punit->y, S_ROAD);
-	if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
-	  map_set_special(punit->x, punit->y, S_RAILROAD);
-      }
-      send_tile_info(0, punit->x, punit->y);
-
-      create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
-    } else {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Friendly nomads are impressed by you,"
-			 " and join you."));
-      create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
-		  0, punit->homecity, -1);
-    }
+    hut_get_city(punit);
     break;
   }
-  send_player_info(pplayer, pplayer);
+  send_player_info(pplayer, pplayer);       /* eg, gold */
   return ok;
 }
 
