@@ -30,6 +30,7 @@
 #include <SDL/SDL.h>
 
 #include "climap.h" /* for tile_get_known() */
+#include "combat.h"
 #include "fcintl.h"
 #include "log.h"
 #include "game.h"
@@ -72,6 +73,7 @@
 
 #include "mapview.h"
 #include "mapctrl.h"
+#include "mapctrl_common.h"
 #include "options.h"
 #include "optiondlg.h"
 #include "tilespec.h"
@@ -115,7 +117,11 @@ void put_window_near_map_tile(struct GUI *pWindow,
   if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
     if (canvas_x + NORMAL_TILE_WIDTH + window_width >= pWindow->dst->w)
     {
-      pWindow->size.x = canvas_x - window_width;
+      if (canvas_x - window_width < 0) {
+	pWindow->size.x = (pWindow->dst->w - window_width) / 2;
+      } else {
+	pWindow->size.x = canvas_x - window_width;
+      }
     } else {
       pWindow->size.x = canvas_x + NORMAL_TILE_WIDTH;
     }
@@ -181,7 +187,27 @@ void popdown_all_game_dialogs(void)
 
 /* ======================================================================= */
 
+/**************************************************************************
+  Find the my unit's (focus) chance of success at attacking/defending the
+  given enemy unit.  Return FALSE if the values cannot be determined (e.g., no
+  units given).
+**************************************************************************/
+static bool sdl_get_chance_to_win(int *att_chance, int *def_chance,
+		       		struct unit *enemy_unit, struct unit *my_unit)
+{
+  
+  if (!my_unit || !enemy_unit) {
+    return FALSE;
+  }
 
+  /* chance to win when active unit is attacking the selected unit */
+  *att_chance = unit_win_chance(my_unit, enemy_unit) * 100;
+
+  /* chance to win when selected unit is attacking the active unit */
+  *def_chance = (1.0 - unit_win_chance(enemy_unit, my_unit)) * 100;
+
+  return TRUE;
+}
 
 /**************************************************************************
   Popup a dialog to display information about an event that has a
@@ -592,7 +618,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 {
   struct GUI *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
-  struct unit *pUnit = NULL;
+  struct unit *pUnit = NULL, *pFocus = get_unit_in_focus();
   struct unit_type *pUnitType;
   char cBuf[255];  
   int i, w = 0, h, n;
@@ -641,15 +667,34 @@ void popup_unit_select_dialog(struct tile *ptile)
     pUnit = unit_list_get(&ptile->units, i);
     pUnitType = unit_type(pUnit);
         
-    my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
+    if(pUnit->owner == game.player_idx) {
+      my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             pUnitType->name,
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / 3),
+            (pUnitType->move_rate / SINGLE_MOVE),
 	    unit_activity_text(pUnit));
-    
+    } else {
+      int att_chance, def_chance;
+      
+      my_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
+            get_nation_by_plr(unit_owner(pUnit))->name,
+            (pUnit->veteran ? _("Veteran") : ""),
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / SINGLE_MOVE),
+      	    pUnitType->firepower,
+	    (pUnit->hp * 100 / pUnitType->hp + 9) / 10);
+      
+      /* calculate chance to win */
+      if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus)) {
+          cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+               att_chance, def_chance);
+      }
+    }
     
     create_active_iconlabel(pBuf, pWindow->dst,
     		pStr, cBuf, unit_select_callback);
@@ -658,7 +703,9 @@ void popup_unit_select_dialog(struct tile *ptile)
     
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    if(pUnit->owner == game.player_idx) {
+      set_wstate(pBuf, FC_WS_NORMAL);
+    }
     
     if (i > 14)
     {
@@ -746,7 +793,7 @@ static void popdown_terrain_info_dialog(void)
 /**************************************************************************
   Popdown terrain information dialog.
 **************************************************************************/
-static int exit_terrain_info_dialog( struct GUI *pButton )
+static int exit_terrain_info_dialog(struct GUI *pButton)
 {
   popdown_terrain_info_dialog();
   return -1;
@@ -838,7 +885,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
     return;
   }
       
-  pSurf = get_terrain_surface(x , y);
+  pSurf = get_terrain_surface(x, y);
   pTerrain_Info_Dlg = MALLOC(sizeof(struct SMALL_DLG));
     
   /* ----------- */  
@@ -1141,7 +1188,7 @@ void popup_advanced_terrain_dialog(int x , int y)
   struct CONTAINER *pCont;
   char cBuf[255]; 
   int n, w = 0, h, units_h = 0;
-  
+    
   if (pAdvanced_Terrain_Dlg) {
     return;
   }
@@ -1153,10 +1200,10 @@ void popup_advanced_terrain_dialog(int x , int y)
   
   if (!n && !pCity && !pFocus_Unit)
   {
-    popup_terrain_info_dialog(NULL, pTile , x , y);
+    popup_terrain_info_dialog(NULL, pTile, x, y);
     return;
   }
-  
+    
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
   is_unit_move_blocked = TRUE;
     
@@ -1345,7 +1392,7 @@ void popup_advanced_terrain_dialog(int x , int y)
   {
     int i;
     struct unit *pUnit;
-    struct unit_type *pUnitType;
+    struct unit_type *pUnitType = NULL;
     units_h = 0;  
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
@@ -1355,19 +1402,26 @@ void popup_advanced_terrain_dialog(int x , int y)
     /* ---------- */
     if (n > 1)
     {
+      struct unit *pDefender, *pAttacker;
       struct GUI *pLast = pBuf;
+	
+      pDefender = (pFocus_Unit ? get_defender(pFocus_Unit, x, y) : NULL);
+      pAttacker = (pFocus_Unit ? get_attacker(pFocus_Unit, x, y) : NULL);
       for(i=0; i<n; i++) {
         pUnit = unit_list_get(&pTile->units, i);
+	if (pUnit == pFocus_Unit) {
+	  continue;
+	}
         pUnitType = unit_type(pUnit);
         if(pUnit->owner == game.player_idx) {
           my_snprintf(cBuf , sizeof(cBuf),
-            _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
+            _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             pUnitType->name,
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / 3),
+            (pUnitType->move_rate / SINGLE_MOVE),
 	    unit_activity_text(pUnit));
     
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -1376,18 +1430,34 @@ void popup_advanced_terrain_dialog(int x , int y)
           set_wstate(pBuf, FC_WS_NORMAL);
 	  add_to_gui_list(ID_LABEL, pBuf);
 	} else {
-	  my_snprintf(cBuf , sizeof(cBuf),
-            _("%s %s(%d,%d,%d) %s"),
-            pUnit->veteran ? _("Veteran") : "" ,
+	  int att_chance, def_chance;
+	  
+          my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+            get_nation_by_plr(unit_owner(pUnit))->name,
+            (pUnit->veteran ? _("Veteran") : ""),
             pUnitType->name,
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / 3),
-	    get_nation_name(get_player(pUnit->owner)->nation));
+            (pUnitType->move_rate / SINGLE_MOVE),
+      	    pUnitType->firepower,
+	    ((pUnit->hp * 100) / pUnitType->hp));
     
-	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	       cBuf, NULL);
-                  
+          /* calculate chance to win */
+          if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
+            cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+               att_chance, def_chance);
+	  }
+	  
+	  if (pAttacker && pAttacker == pUnit) {
+	    pStr->fgcol = *(get_game_colorRGB(COLOR_STD_RED));
+	  } else {
+	    if (pDefender && pDefender == pUnit) {
+	      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_GROUND));
+	    }
+	  }
+	  
+	  create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+          
 	  add_to_gui_list(ID_LABEL, pBuf);
 	}
 	    
@@ -1417,48 +1487,31 @@ void popup_advanced_terrain_dialog(int x , int y)
       
     }
     else
-    {
+    { /* n == 1 */
       /* one unit - give orders */
       pUnit = unit_list_get(&pTile->units, 0);
       pUnitType = unit_type(pUnit);
-      
-      if (pCity && pCity->owner == game.player_idx)
-      {
-        my_snprintf(cBuf , sizeof(cBuf),
-            _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
+      if (pUnit != pFocus_Unit) {
+        if ((pCity && pCity->owner == game.player_idx) ||
+	   (pUnit->owner == game.player_idx))
+        {
+          my_snprintf(cBuf, sizeof(cBuf),
+            _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             pUnitType->name,
             pUnitType->attack_strength,
             pUnitType->defense_strength,
-            (pUnitType->move_rate / 3),
+            (pUnitType->move_rate / SINGLE_MOVE),
 	    unit_activity_text(pUnit));
     
-	create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    		cBuf, adv_unit_select_callback);
-	
-        set_wstate(pBuf , FC_WS_NORMAL);
-	
-        add_to_gui_list(MAX_ID - pUnit->id , pBuf);
-    
-        w = MAX(w , pBuf->size.w);
-        units_h += pBuf->size.h;
-      } else {
-        if(pUnit->owner != game.player_idx) {
-	  my_snprintf(cBuf , sizeof(cBuf),
-            _("%s %s(%d,%d,%d) %s"),
-            pUnit->veteran ? _("Veteran") : "" ,
-            pUnitType->name,
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            (pUnitType->move_rate / 3),
-	    get_nation_name(get_player(pUnit->owner)->nation));
-    
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	       cBuf, NULL);
-                  
-	  add_to_gui_list(ID_LABEL, pBuf);
-  
+	    		cBuf, adv_unit_select_callback);
+	  pBuf->data.unit = pUnit;
+          set_wstate(pBuf, FC_WS_NORMAL);
+	
+          add_to_gui_list(ID_LABEL, pBuf);
+    
           w = MAX(w, pBuf->size.w);
           units_h += pBuf->size.h;
 	  /* ---------------- */
@@ -1467,14 +1520,45 @@ void popup_advanced_terrain_dialog(int x , int y)
     
           add_to_gui_list(ID_SEPARATOR, pBuf);
           h += pBuf->next->size.h;
+        } else {
+	  int att_chance, def_chance;
+	
+          my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+            get_nation_by_plr(unit_owner(pUnit))->name,
+            (pUnit->veteran ? _("Veteran") : ""),
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / SINGLE_MOVE),
+      	    pUnitType->firepower,
+	    ((pUnit->hp * 100) / pUnitType->hp));
+    
+	    /* calculate chance to win */
+            if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
+              cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+                 att_chance, def_chance);
+	    }
 	  
-	}
+	    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+                  
+	    add_to_gui_list(ID_LABEL, pBuf);
+  
+            w = MAX(w, pBuf->size.w);
+            units_h += pBuf->size.h;
+	    /* ---------------- */
+	    /* separator */
+            pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
+    
+            add_to_gui_list(ID_SEPARATOR, pBuf);
+            h += pBuf->next->size.h;
+	
+        }
       }
       /* ---------------- */
       my_snprintf(cBuf, sizeof(cBuf),
-            _("View Civiliopedia entry for %s"), pUnitType->name );
+            _("View Civiliopedia entry for %s"), pUnitType->name);
     
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,	cBuf , NULL);
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,	cBuf, NULL);
       pBuf->data.ptr = (void *)pUnitType;
       pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
       
@@ -4199,6 +4283,9 @@ static void change_nation_label(void)
   
   pTmp_Surf = make_flag_surface_smaler(GET_SURF(pNation->flag_sprite));
   pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 5.0, 5.0, 1);
+  SDL_SetColorKey(pTmp_Surf_zoomed, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    		getpixel(pTmp_Surf_zoomed, pTmp_Surf_zoomed->w - 1,
+  						pTmp_Surf_zoomed->h - 1));
   FREESURFACE(pTmp_Surf);
   FREESURFACE(pLabel->theme);
   
@@ -4308,6 +4395,9 @@ void popup_races_dialog(void)
     
     pTmp_Surf = make_flag_surface_smaler(GET_SURF(pNation->flag_sprite));
     pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 3.0, 3.0, 1);
+    SDL_SetColorKey(pTmp_Surf_zoomed, SDL_SRCCOLORKEY,
+    		getpixel(pTmp_Surf_zoomed, pTmp_Surf_zoomed->w - 1,
+  						pTmp_Surf_zoomed->h - 1));
     SDL_SetAlpha(pTmp_Surf_zoomed, 0x0, 0x0);
     FREESURFACE(pTmp_Surf);
 
@@ -4388,6 +4478,9 @@ void popup_races_dialog(void)
   pTmp_Surf = make_flag_surface_smaler(
   		GET_SURF(get_nation_by_idx(pSetup->nation)->flag_sprite));
   pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 5.0, 5.0, 1);
+  SDL_SetColorKey(pTmp_Surf_zoomed, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    		getpixel(pTmp_Surf_zoomed, pTmp_Surf_zoomed->w - 1,
+  						pTmp_Surf_zoomed->h - 1));
   FREESURFACE(pTmp_Surf);
   
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,

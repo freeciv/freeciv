@@ -2235,8 +2235,9 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText;
-  SDL_Surface *Surf_Array[5], **pBuf_Array;
-  SDL_Rect src, dst;
+  SDL_Surface *Surf_Array[10], **pBuf_Array;
+  SDL_Rect dst;
+  SDL_Color color = {255, 255, 255, 255};
   int w, h;
   
   pSurf = create_surf(100, 200, SDL_SWSURFACE);
@@ -2246,18 +2247,18 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
       
   if (game.player_ptr->research.researching == tech_id)
   {
-    SDL_FillRect(pSurf, NULL,
-		   SDL_MapRGBA(pSurf->format, 255, 255, 255, 180));
+    color.unused = 180;
   } else {
-    SDL_FillRect(pSurf, NULL,
-		   SDL_MapRGBA(pSurf->format, 255, 255, 255, 128));
+    color.unused = 128;
   }
 
+  SDL_FillRect(pSurf, NULL,
+	SDL_MapRGBA(pSurf->format, color.r, color.g, color.b, color.unused));
   putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1, 0xFF000000);
   pText = create_text_surf_smaller_that_w(pStr, pSurf->w - 4);
 
   /* draw name tech text */
-  dst.x = (100 - pText->w) / 2;
+  dst.x = (pSurf->w - pText->w) / 2;
   dst.y = 25;
   SDL_BlitSurface(pText, NULL, pSurf, &dst);
 
@@ -2267,7 +2268,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 
   /* draw tech icon */
   pText = GET_SURF(advances[tech_id].sprite);
-  dst.x = (100 - pText->w) / 2;
+  dst.x = (pSurf->w - pText->w) / 2;
   SDL_BlitSurface(pText, NULL, pSurf, &dst);
 
   dst.y += pText->w + 10;
@@ -2283,9 +2284,9 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 
   if (w) {
     if (w >= 2) {
-      dst.x = (100 - 2 * Surf_Array[0]->w) / 2;
+      dst.x = (pSurf->w - 2 * Surf_Array[0]->w) / 2;
     } else {
-      dst.x = (100 - Surf_Array[0]->w) / 2;
+      dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
     }
 
     /* draw iprvm. icons */
@@ -2296,11 +2297,11 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
       dst.x += (*pBuf_Array)->w;
       w--;
       h++;
-      if (h == 2) {
+      if (!(h % 2)) {
         if (w >= 2) {
-          dst.x = (100 - 2 * (*pBuf_Array)->w) / 2;
+          dst.x = (pSurf->w - 2 * (*pBuf_Array)->w) / 2;
         } else {
-          dst.x = (100 - (*pBuf_Array)->w) / 2;
+          dst.x = (pSurf->w - (*pBuf_Array)->w) / 2;
         }
         dst.y += (*pBuf_Array)->h;
         h = 0;
@@ -2309,7 +2310,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
     }	/* while */
     dst.y += Surf_Array[0]->h + 10;
   } /* if (w) */
-  
+  /* -------------------------------------------------------- */
   w = 0;
   unit_type_iterate(un) {
     pUnit = get_unit_type(un);
@@ -2319,32 +2320,51 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
   } unit_type_iterate_end;
 
   if (w) {
-    src = get_smaller_surface_rect(Surf_Array[0]);
-    if (w >= 2) {
-      dst.x = (100 - 2 * src.w) / 2;
+    if (w < 2) {
+      /* w == 1 */
+      if (Surf_Array[0]->w > 64) {
+	float zoom = 64.0 / Surf_Array[0]->w;
+	SDL_Surface *pZoomed = ZoomSurface(Surf_Array[0], zoom, zoom, 1);
+	
+	dst.x = (pSurf->w - pZoomed->w) / 2;
+	SDL_BlitSurface(pZoomed, NULL, pSurf, &dst);
+	FREESURFACE(pZoomed);
+      } else {
+        dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
+        SDL_BlitSurface(Surf_Array[0], NULL, pSurf, &dst);
+      }
     } else {
-      dst.x = (100 - src.w) / 2;
-    }
-
-    pBuf_Array = Surf_Array;
-    h = 0;
-    while (w) {
-      src = get_smaller_surface_rect(*pBuf_Array);
-      SDL_BlitSurface(*pBuf_Array, &src, pSurf, &dst);
-      dst.x += src.w + 2;
-      w--;
-      h++;
-      if (h == 2) {
-        if (w >= 2) {
-          dst.x = (100 - 2 * src.w) / 2;
-        } else {
-          dst.x = (100 - src.w) / 2;
-        }
-        dst.y += src.h + 2;
-        h = 0;
-      }	/* h == 2 */
-      pBuf_Array++;
-    }	/* while */
+      float zoom;
+      
+      if (w > 2) {
+	zoom = 38.0 / Surf_Array[0]->w;
+      } else {
+	zoom = 45.0 / Surf_Array[0]->w;
+      }
+      dst.x = (pSurf->w - (Surf_Array[0]->w * 2) * zoom - 2) / 2;
+      pBuf_Array = Surf_Array;
+      h = 0;
+      while (w) {
+	SDL_Surface *pZoomed = ZoomSurface((*pBuf_Array), zoom, zoom, 1);
+	
+	SDL_SetColorKey(pZoomed, SDL_SRCCOLORKEY, get_first_pixel(pZoomed));
+        SDL_BlitSurface(pZoomed, NULL, pSurf, &dst);
+        dst.x += pZoomed->w + 2;
+        w--;
+        h++;
+        if (!(h % 2)) {
+          if (w >= 2) {
+	    dst.x = (pSurf->w - 2 * pZoomed->w - 2 ) / 2;
+          } else {
+	    dst.x = (pSurf->w - pZoomed->w) / 2;
+          }
+	  dst.y += pZoomed->h + 2;
+          h = 0;
+        }	/* h == 2 */
+        pBuf_Array++;
+	FREESURFACE(pZoomed);
+      }	/* while */
+    } /* w > 1 */
   }/* if (w) */
   
   
@@ -2453,7 +2473,7 @@ void science_dialog_update(void)
 
     /* ------------------------------------- */
     dest.x = pWindow->prev->size.x;
-
+    /* separator */
     putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
 
     dest.y += 6;
@@ -2528,16 +2548,26 @@ void science_dialog_update(void)
     unit_type_iterate(un) {
       pUnit = get_unit_type(un);
       if (pUnit->tech_requirement == game.player_ptr->research.researching) {
-        src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
-        SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
-        dest.x += src.w + 2;
+	if (GET_SURF(pUnit->sprite)->w > 64) {
+	  float zoom = 64.0 / GET_SURF(pUnit->sprite)->w;
+	  SDL_Surface *pZoomed =
+	  	ZoomSurface(GET_SURF(pUnit->sprite), zoom, zoom, 1);
+	  src = get_smaller_surface_rect(pZoomed);
+	  SDL_BlitSurface(pZoomed, &src, pWindow->dst, &dest);
+	  FREESURFACE(pZoomed);
+          dest.x += src.w + 2;
+	} else {
+          src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+          SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
+          dest.x += src.w + 2;
+	}
       }
     } unit_type_iterate_end;
   
     /* -------------------------------- */
     /* draw separator line */
     dest.x = pWindow->prev->size.x;
-    dest.y = pWindow->prev->size.y + pWindow->prev->size.h + 20;
+    dest.y = pWindow->prev->size.y + pWindow->prev->size.h + 35;
 
     putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
     dest.y += 10;
@@ -2576,9 +2606,19 @@ void science_dialog_update(void)
       unit_type_iterate(un) {
         pUnit = get_unit_type(un);
         if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
-          src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
-          SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
-          dest.x += src.w + 2;
+	  if (GET_SURF(pUnit->sprite)->w > 64) {
+	    float zoom = 64.0 / GET_SURF(pUnit->sprite)->w;
+	    SDL_Surface *pZoomed =
+	  	ZoomSurface(GET_SURF(pUnit->sprite), zoom, zoom, 1);
+	    src = get_smaller_surface_rect(pZoomed);
+	    SDL_BlitSurface(pZoomed, &src, pWindow->dst, &dest);
+	    FREESURFACE(pZoomed);
+            dest.x += src.w + 2;
+	  } else {
+            src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+            SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
+            dest.x += src.w + 2;
+	  }
         }
       } unit_type_iterate_end;
     }
@@ -2657,7 +2697,7 @@ static int change_research_goal_dialog_callback(struct GUI *pWindow)
 **************************************************************************/
 static int change_research(struct GUI *pWidget)
 {
-  struct GUI *pBuf = NULL; /* FIXME: possibly uninitialized */
+  struct GUI *pBuf = NULL;
   struct GUI *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
@@ -2752,10 +2792,10 @@ static int change_research(struct GUI *pWidget)
   
   if (count > i) {
     count = (count + (i-1)) / i;
-    w = MAX( w, (i * 102 + 2 + DOUBLE_FRAME_WH));
+    w = MAX(w, (i * 102 + 2 + DOUBLE_FRAME_WH));
     h = WINDOW_TILE_HIGH + 1 + count * 202 + 2 + FRAME_WH;
   } else {
-    w = MAX( w , (count * 102 + 2 + DOUBLE_FRAME_WH));
+    w = MAX(w , (count * 102 + 2 + DOUBLE_FRAME_WH));
     h = WINDOW_TILE_HIGH + 1 + 202 + 2 + FRAME_WH;
   }
 
@@ -3059,15 +3099,15 @@ void popup_science_dialog(bool make_modal)
   pStr = create_str16_from_char(_("Science"), 12);
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 400, 225, 0);
+  pWindow = create_window(NULL, pStr, 400, 260, 0);
   pScienceDlg->pEndWidgetList = pWindow;
 
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = science_dialog_callback;
   pWindow->size.x = (Main.screen->w - 400) / 2;
-  pWindow->size.y = (Main.screen->h - 225) / 2;
+  pWindow->size.y = (Main.screen->h - 260) / 2;
   pWindow->size.w = 400;
-  pWindow->size.h = 225;
+  pWindow->size.h = 260;
   set_wstate(pWindow, FC_WS_NORMAL);
   
   pLogo = get_logo_gfx();
@@ -3124,7 +3164,7 @@ void popup_science_dialog(bool make_modal)
 
   pBuf->size.x = pWindow->size.x + 16;
   pBuf->size.y =
-      pWindow->size.y + WINDOW_TILE_HIGH + 60 + pBuf->size.h + 25;
+      pWindow->size.y + WINDOW_TILE_HIGH + 60 + pBuf->size.h + 45;
 
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pBuf);
 
@@ -3134,8 +3174,8 @@ void popup_science_dialog(bool make_modal)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey( pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+  SDL_SetColorKey( pBuf->theme,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   pBuf->action = popdown_science_dialog;
   set_wstate(pBuf, FC_WS_NORMAL);

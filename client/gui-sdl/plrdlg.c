@@ -331,7 +331,7 @@ void popup_players_dialog(void)
   pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
     
   pWindow->action = players_window_dlg_callback;
-  set_wstate(pWindow , FC_WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
     
   add_to_gui_list(ID_WINDOW, pWindow);
   pPlayers_Dlg->pEndWidgetList = pWindow;
@@ -341,7 +341,8 @@ void popup_players_dialog(void)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   				(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  
+  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    						get_first_pixel(pBuf->theme));
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -409,6 +410,8 @@ void popup_players_dialog(void)
     pLogo = GET_SURF(get_nation_by_idx(pPlayer->nation)->flag_sprite);
     pLogo = make_flag_surface_smaler(pLogo);
     pZoomed = ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1);
+    SDL_SetColorKey(pZoomed, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    			getpixel(pZoomed, pZoomed->w - 1, pZoomed->h - 1));
     FREESURFACE(pLogo);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
@@ -419,7 +422,7 @@ void popup_players_dialog(void)
     if(!pPlayer->is_alive) {
       pStr = create_str16_from_char("R.I.P" , 10);
       pStr->style |= TTF_STYLE_BOLD;
-      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
+      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_WHITE));
       pLogo = create_text_surf_from_str16(pStr);
       FREESTRING16(pStr);
 	
@@ -454,6 +457,8 @@ void popup_players_dialog(void)
   pWindow->size.y = (Main.screen->h - h) / 2;
   
   resize_window(pWindow, NULL, NULL, w, h);
+  
+  putframe(pWindow->theme, 0, 0, w - 1, h - 1, 0xFFFFFFFF);
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -611,8 +616,8 @@ void popup_players_nations_dialog(void)
   pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
     
   pWindow->action = players_nations_window_dlg_callback;
-  set_wstate(pWindow , FC_WS_NORMAL);
-  w = MAX(w , pWindow->size.w);
+  set_wstate(pWindow, FC_WS_NORMAL);
+  w = MAX(w, pWindow->size.w);
   
   add_to_gui_list(ID_WINDOW, pWindow);
   pShort_Players_Dlg->pEndWidgetList = pWindow;
@@ -622,7 +627,8 @@ void popup_players_nations_dialog(void)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   				(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  
+  SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    						get_first_pixel(pBuf->theme));
   w += pBuf->size.w + 10;
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

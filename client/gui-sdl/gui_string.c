@@ -40,7 +40,7 @@
 #include "gui_string.h"
 
 #define DEFAULT_PTSIZE	18
-#define FONT_WITH_PATH "stdfont.ttf"
+#define FONT_NAME "stdfont.ttf"
 
 /* =================================================== */
 
@@ -329,8 +329,8 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 				     w, count * pTmp[0]->h, pTmp[0]->flags);
       SDL_FillRect(pText, NULL,
       	SDL_MapRGBA(pText->format,
-	      pString->bgcol.r,pString->bgcol.g,
-      		pString->bgcol.b,pString->bgcol.unused));
+	      pString->bgcol.r, pString->bgcol.g,
+      		pString->bgcol.b, pString->bgcol.unused));
     break;  
   default:
     pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
@@ -592,7 +592,7 @@ static TTF_Font * load_font(Uint16 ptsize)
   }
 
   if(!pFont_with_FullPath) {
-    char *path = datafilename(FONT_WITH_PATH);
+    char *path = datafilename(FONT_NAME);
     if(!path) {
       die(_("Couldn't find stdfont.ttf file. Please link/copy/move any"
             "unicode ttf font to data dir as stdfont.ttf"));
@@ -604,7 +604,7 @@ static TTF_Font * load_font(Uint16 ptsize)
   /* Load Font */
   if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
     freelog(LOG_ERROR,
-	    _("Error in load_font2: Couldn't load %d pt font from %s: %s"),
+	    _("Error in load_font: Couldn't load %d pt font from %s: %s"),
 	    ptsize, pFont_with_FullPath, SDL_GetError());
     return font_tmp;
   }
@@ -644,7 +644,7 @@ void unload_font(Uint16 ptsize)
 
   if (Sizeof_Font_TAB == 0) {
     freelog(LOG_ERROR,
-	 _("Error in unload_font2: Trying unload from empty Font ARRAY"));
+	 _("Error in unload_font: Trying unload from empty Font ARRAY"));
     return;
   }
 
@@ -658,7 +658,7 @@ void unload_font(Uint16 ptsize)
 
   if (index == Sizeof_Font_TAB) {
     freelog(LOG_ERROR,
-	    _("Error in unload_font2: Trying unload Font which is "
+	    _("Error in unload_font: Trying unload Font which is "
 	      "not include in Font ARRAY"));
     return;
   }

@@ -243,17 +243,16 @@ static int city_dlg_callback(struct GUI *pWindow)
 SEND:
   {
     enum specialist_type to;
-
     switch (type) {
-    case SP_TAXMAN:
-      to = SP_SCIENTIST;
-      break;
-    case SP_SCIENTIST:
-      to = SP_ELVIS;
-      break;
-    default: /* SP_ELVIS */
-      to = SP_TAXMAN;
-      break;
+      case SP_TAXMAN:
+        to = SP_SCIENTIST;
+        break;
+      case SP_SCIENTIST:
+        to = SP_ELVIS;
+        break;
+      default: /* SP_ELVIS */
+        to = SP_TAXMAN;
+        break;
     }
 
     city_change_specialist(pCityDlg->pCity, type, to);
@@ -816,6 +815,13 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
 
   put_unit_pixmap_draw(pUnit, pSurf, 0, 3);
 
+  if (pSurf->w > 64) {
+    float zoom = 64.0 / pSurf->w;
+    SDL_Surface *pZoomed = ZoomSurface(pSurf, zoom, zoom, 1);
+    FREESURFACE(pSurf);
+    pSurf = pZoomed;
+  }
+  
   if (support) {
     i = pUnit->upkeep + pUnit->upkeep_food +
 	pUnit->upkeep_gold + pUnit->unhappiness;

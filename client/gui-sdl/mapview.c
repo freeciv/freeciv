@@ -2111,6 +2111,19 @@ void real_blink_active_unit(void)
         flush_mapcanvas(area.x, area.y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
           
       } else {
+	
+	if (reset_anim) {
+	  bool un = draw_units, unf = draw_focus_unit;
+	  
+	  draw_units = FALSE;
+	  draw_focus_unit = FALSE;
+	  
+	  draw_map_cell(Main.map, canvas_x, canvas_y, pUnit->x, pUnit->y, 0);
+	  
+	  draw_units = un;
+	  draw_focus_unit = unf;
+	}
+	
         /* refresh clear area */
         area.w = UNIT_TILE_WIDTH;
         area.h = UNIT_TILE_HEIGHT;
@@ -2212,6 +2225,9 @@ void draw_unit_animation_frame(struct unit *punit,
     SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY|SDL_RLEACCEL,
 			    SDL_MapRGB(pUnit_Surf->format, 255, 0, 255));
     put_unit_pixmap_draw(punit, pUnit_Surf, 0, 0);
+    if (punit->owner != game.player_idx) {
+      rebuild_focus_anim_frames();
+    }
   }
   else
   {
@@ -2624,7 +2640,7 @@ SDL_Surface * get_terrain_surface(int x , int y)
   SDL_Surface *pSurf = create_surf(UNIT_TILE_WIDTH,
 			           UNIT_TILE_HEIGHT,
 			           SDL_SWSURFACE);
-  int fg = draw_fog_of_war,
+  bool fg = draw_fog_of_war,
      ci = draw_cities ,
      tr = draw_terrain ,
      rr = draw_roads_rails,
