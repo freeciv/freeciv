@@ -12,7 +12,13 @@ else
 SSUBDIRS =
 endif
 
-SUBDIRS=	data common $(SSUBDIRS) $(CSUBDIRS)
+if MAKE_DATA
+DSUBDIRS = data
+else
+DSUBDIRS =
+endif
+
+SUBDIRS=	$(DSUBDIRS) common $(SSUBDIRS) $(CSUBDIRS)
 
 EXTRA_DIST=	AUTHORS COPYING ChangeLog HOWTOPLAY \
 		INSTALL Imakefile Makefile.in Makefile.noimake \

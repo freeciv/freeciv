@@ -74,6 +74,16 @@ AC_ARG_ENABLE(server,
 esac], [server=true])
 AM_CONDITIONAL(SERVER, test x$server = xtrue)
 
+AC_ARG_ENABLE(make_data,
+[  --disable-make-data     do not recurse make into data directories
+                          ok to disable unless you will make install],
+[case "${enableval}" in
+  yes) make_data=true ;;
+  no)  make_data=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-make-data) ;;
+esac], [make_data=true])
+AM_CONDITIONAL(MAKE_DATA, test x$make_data = xtrue)
+
 AC_ARG_ENABLE(cvs_deps,
  	[  --disable-cvs-deps      remove cvs-source deps calcs, which require gmake,gcc],,
 	enable_cvs_deps="maybe"
