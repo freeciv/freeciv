@@ -2,8 +2,8 @@
 
 name=_("Dutch")
 plural=_("?plural:Dutch")
-leader="Willem", "Beatrix"
-leader_sex="Male", "Female"
+leader="Willem", "Maurits", "Emma", "Wilhelmina", "Juliana", "Beatrix"
+leader_sex="Male", "Male", "Female", "Female", "Female", "Female"
 flag="f.netherlands"
 flag_alt = "f.holland"
 city_style = "European"
@@ -25,20 +25,18 @@ government="Democracy"
 ;later important towns added at the end
 
 cities =
- "Amsterdam", "Utrecht", "Leiden", "Haarlem", "Delft", "Alkmaar",
- "Hoorn", "Enkhuizen", "'s-Gravenhage", "Dordt", "Gouda", "Naarden",
- "Rotterdam", "Schiedam", "Vlaardingen",
- "Middelburg", "Goes", "Veere", "Vlissingen",
- "Deventer", "Kampen", "Zutphen", "Zwolle", "Arnhem", "Amersfoort",
- "Groningen", "Leeuwarden", "Dokkum", "Sneek", "Stavoren", "Franeker",
- "Breda", "'s-Hertogenbosch", "Nijmegen", "Venlo", "Roermond", "Maastricht",
- "Helmond", "Eindhoven", "Bergen op Zoom", "Hulst", "Batavia", "Willemstad",
- "Tilburg", "Enschede", "Hengelo", "Almelo", "Oss",
- "Heerlen", "Sittard", "Geleen", "Weert",
- "Apeldoorn", "Ede", "Wageningen", "Veenendaal",
- "Assen", "Emmen", "Hoogeveen", "Drachten", "Delfzijl", "Veendam",
- "Zaandam", "Beverwijk", "Velsen", "Purmerend", "Hilversum", "Bussum",
- "Alphen a/d Rijn", "Zoetermeer", "Woerden", "Capelle a/d IJssel",
- "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
-
-
+  "Amsterdam", "Utrecht", "Leiden", "Haarlem", "Delft", "Alkmaar",
+  "Hoorn", "Enkhuizen", "'s-Gravenhage", "Dordrecht", "Gouda", "Naarden",
+  "Rotterdam", "Delfshaven", "Schiedam", "Vlaardingen",
+  "Middelburg", "Goes", "Veere", "Vlissingen", "Brouwershaven",
+  "Deventer", "Kampen", "Zutphen", "Zwolle", "Arnhem", "Amersfoort",
+  "Groningen", "Leeuwarden", "Dokkum", "Sneek", "Stavoren", "Franeker",
+  "Breda", "'s-Hertogenbosch", "Nijmegen", "Venlo", "Roermond", "Maastricht",
+  "Helmond", "Eindhoven", "Bergen op Zoom", "Hulst", "Batavia", "Willemstad",
+  "Tilburg", "Enschede", "Hengelo", "Almelo", "Oss",
+  "Heerlen", "Sittard", "Geleen", "Weert",
+  "Apeldoorn", "Ede", "Wageningen", "Veenendaal",
+  "Assen", "Emmen", "Hoogeveen", "Drachten", "Delfzijl", "Veendam",
+  "Zaandam", "Beverwijk", "Velsen", "Purmerend", "Hilversum", "Bussum",
+  "Alphen a/d Rijn", "Zoetermeer", "Woerden", "Capelle a/d IJssel",
+  "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
