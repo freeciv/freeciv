@@ -95,9 +95,9 @@ void create_option_dialog(void)
 {
   Widget option_form, option_label;
   Widget option_ok_command, option_cancel_command;
-  Widget option_value, longest_label=0;
+  Widget prev_widget, longest_label = 0;
   client_option *o;
-  long len, longest_len = 0;
+  size_t longest_len = 0;
   
   option_dialog_shell =
     I_T(XtCreatePopupShell("optionpopup", transientShellWidgetClass,
@@ -111,57 +111,64 @@ void create_option_dialog(void)
     I_L(XtVaCreateManagedWidget("optionlabel", labelWidgetClass, 
 				option_form, NULL));
 
-  option_value = option_label; /* init the prev-Widget */
-  for (o=options; o->name; ++o) {
+  prev_widget = option_label; /* init the prev-Widget */
+  for (o = options; o->name; o++) {
     const char *descr = _(o->description);
-    option_value = 
-      XtVaCreateManagedWidget("label", labelWidgetClass, option_form,
-			      XtNlabel, descr,
-			      XtNfromVert, option_value,
-			      NULL);
-    len = strlen(descr);
-    if (len > longest_len) {
-      longest_len = len;
-      longest_label = option_value;
-    }
-    /* Remember widget so we can reset the vertical position; need to
+    size_t len = strlen(descr);
+
+    /* 
+     * Remember widget so we can reset the vertical position; need to
      * do this because labels and toggles etc have different heights.
      */
-    o->p_gui_data = (void*) option_value; 
+    o->p_gui_data = (void *) prev_widget;
+
+    prev_widget = 
+      XtVaCreateManagedWidget("label", labelWidgetClass, option_form,
+			      XtNlabel, descr,
+			      XtNfromVert, prev_widget,
+			      NULL);
+    if (len > longest_len) {
+      longest_len = len;
+      longest_label = prev_widget;
+    }
   }
 
-  option_value = option_label; /* init the prev-Widget */
-  for (o=options; o->name; ++o) {
-    XtVaSetValues((Widget) o->p_gui_data, XtNfromVert, option_value, NULL);
+  for (o = options; o->name; o++) {
+    /* 
+     * At the start of the loop o->p_gui_data will contain the widget
+     * which is above the label widget which is associated with this
+     * option.
+     */
     switch (o->type) {
     case COT_BOOL:
-      option_value =
+      prev_widget =
 	XtVaCreateManagedWidget("toggle", toggleWidgetClass, option_form,
 				XtNfromHoriz, longest_label,
-				XtNfromVert, option_value,
+				XtNfromVert, o->p_gui_data,
 				NULL);
-      XtAddCallback(option_value, XtNcallback, toggle_callback, NULL);
+      XtAddCallback(prev_widget, XtNcallback, toggle_callback, NULL);
       break;
     case COT_INT:
-      option_value =
+      prev_widget =
 	XtVaCreateManagedWidget("input", asciiTextWidgetClass, option_form,
 				XtNfromHoriz, longest_label,
-				XtNfromVert, option_value,
+				XtNfromVert, o->p_gui_data,
 				NULL);
       break;
     }
+
     /* store the final widget */
-    o->p_gui_data = (void*) option_value;
+    o->p_gui_data = (void *) prev_widget;
   }
 
   option_ok_command =
     I_L(XtVaCreateManagedWidget("optionokcommand", commandWidgetClass,
-				option_form, XtNfromVert, option_value,
+				option_form, XtNfromVert, prev_widget,
 				NULL));
   
   option_cancel_command =
     I_L(XtVaCreateManagedWidget("optioncancelcommand", commandWidgetClass,
-				option_form, XtNfromVert, option_value,
+				option_form, XtNfromVert, prev_widget,
 				NULL));
 	
   XtAddCallback(option_ok_command, XtNcallback, 
