@@ -303,7 +303,7 @@ int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
     return 1;
   if (is_allied_unit_tile(ptotile, punit->owner))
     return 1;
-  if (pfromtile->city || is_allied_city_tile(ptotile, punit->owner))
+  if (pfromtile->city || ptotile->city)
     return 1;
   if (map_get_terrain(x1,y1)==T_OCEAN)
     return 1;
