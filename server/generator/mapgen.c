@@ -1200,7 +1200,7 @@ static struct tile *get_random_map_position_from_state(
 					       const struct gen234_state
 					       *const pstate)
 {
-  int xn, yn, x, y;
+  int xn, yn;
 
   assert((pstate->e - pstate->w) > 0);
   assert((pstate->e - pstate->w) < map.xsize);
@@ -1210,11 +1210,7 @@ static struct tile *get_random_map_position_from_state(
   xn = pstate->w + myrand(pstate->e - pstate->w);
   yn = pstate->n + myrand(pstate->s - pstate->n);
 
-  NATIVE_TO_MAP_POS(&x, &y, xn, yn);
-  if (!normalize_map_pos(&x, &y)) {
-    die("Invalid map operation.");
-  }
-  return map_pos_to_tile(x, y);
+  return native_pos_to_tile(xn, yn);
 }
 
 /**************************************************************************
@@ -1357,23 +1353,13 @@ static bool place_island(struct gen234_state *pstate)
   for (yn = pstate->n, xn = pstate->w;
        yn < pstate->s && xn < pstate->e;
        yn++, xn++) {
-    int map_x, map_y, map_x0, map_y0;
-    struct tile *tile1, *tile0;
+    struct tile *tile0 = native_pos_to_tile(xn, yn);
+    struct tile *tile1 = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
+					    yn + ptile->nat_y - pstate->n);
 
-    NATIVE_TO_MAP_POS(&map_x0, &map_y0, xn, yn);
-    NATIVE_TO_MAP_POS(&map_x, &map_y,
-		      xn + ptile->nat_x - pstate->w,
-		      yn + ptile->nat_y - pstate->n);
-
-    if (!normalize_map_pos(&map_x0, &map_y0)) {
-      assert(0);
+    if (!tile0 || !tile1) {
       return FALSE;
     }
-    tile0 = map_pos_to_tile(map_x0, map_y0);
-    if (!normalize_map_pos(&map_x, &map_y)) {
-      return FALSE;
-    }
-    tile1 = map_pos_to_tile(map_x, map_y);
     if (hmap(tile0) != 0 && is_near_land(tile1)) {
       return FALSE;
     }
@@ -1381,23 +1367,13 @@ static bool place_island(struct gen234_state *pstate)
 		       
   for (yn = pstate->n; yn < pstate->s; yn++) {
     for (xn = pstate->w; xn < pstate->e; xn++) {
-      int map_x, map_y, map_x0, map_y0;
-      struct tile *tile1, *tile0;
+      struct tile *tile0 = native_pos_to_tile(xn, yn);
+      struct tile *tile1 = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
+					      yn + ptile->nat_y - pstate->n);
 
-      NATIVE_TO_MAP_POS(&map_x0, &map_y0, xn, yn);
-      NATIVE_TO_MAP_POS(&map_x, &map_y,
-			xn + ptile->nat_x - pstate->w,
-			yn + ptile->nat_y - pstate->n);
-
-      if (!normalize_map_pos(&map_x0, &map_y0)) {
-	assert(0);
+      if (!tile0 || !tile1) {
 	return FALSE;
       }
-      tile0 = map_pos_to_tile(map_x0, map_y0);
-      if (!normalize_map_pos(&map_x, &map_y)) {
-	return FALSE;
-      }
-      tile1 = map_pos_to_tile(map_x, map_y);
       if (hmap(tile0) != 0 && is_near_land(tile1)) {
 	return FALSE;
       }
@@ -1407,17 +1383,9 @@ static bool place_island(struct gen234_state *pstate)
   for (yn = pstate->n; yn < pstate->s; yn++) {
     for (xn = pstate->w; xn < pstate->e; xn++) {
       if (hmap(native_pos_to_tile(xn, yn)) != 0) {
-	int map_x, map_y;
-	struct tile *tile1;
-
-	NATIVE_TO_MAP_POS(&map_x, &map_y,
-			  xn + ptile->nat_x - pstate->w,
-			  yn + ptile->nat_y - pstate->n);
-
-	if (!normalize_map_pos(&map_x, &map_y)) {
-	  assert(0);
-	}
-	tile1 = map_pos_to_tile(map_x, map_y);
+	struct tile *tile1
+	  = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
+			       yn + ptile->nat_y - pstate->n);
 
 	checkmass--; 
 	if (checkmass <= 0) {

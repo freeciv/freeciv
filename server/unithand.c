@@ -73,12 +73,13 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile);
 void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct tile *ptile = map_pos_to_tile(x, y);
 
-  if (!is_normal_map_pos(x, y) || !punit) {
+  if (!ptile || !punit) {
     return;
   }
 
-  punit->goto_tile = map_pos_to_tile(x, y);
+  punit->goto_tile = ptile;
 
   set_unit_activity(punit, ACTIVITY_GOTO);
 
@@ -535,13 +536,12 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct tile *ptile;
+  struct tile *ptile = map_pos_to_tile(x, y);
 
-  if (!is_normal_map_pos(x, y) || !punit) {
+  if (!ptile || !punit) {
     return;
   }
 
-  ptile = map_pos_to_tile(x, y);
   if (!is_tiles_adjacent(punit->tile, ptile)) {
     return;
   }
@@ -1559,12 +1559,13 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x,
 			     int y)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct tile *ptile = map_pos_to_tile(x, y);
   
-  if (!punit || !is_normal_map_pos(x, y)) {
+  if (!punit || !ptile) {
     return;
   }
 
-  (void) do_paradrop(punit, map_pos_to_tile(x, y));
+  (void) do_paradrop(punit, ptile);
 }
 
 /**************************************************************************

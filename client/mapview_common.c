@@ -1868,10 +1868,10 @@ void move_unit_map_canvas(struct unit *punit,
 
   dest_x = src_tile->x + dx;
   dest_y = src_tile->y + dy;
-  if (!normalize_map_pos(&dest_x, &dest_y)) {
+  dest_tile = map_pos_to_tile(dest_x, dest_y);
+  if (!dest_tile) {
     return;
   }
-  dest_tile = map_pos_to_tile(dest_x, dest_y);
 
   if (tile_visible_mapcanvas(src_tile)
       || tile_visible_mapcanvas(dest_tile)) {

@@ -367,10 +367,10 @@ gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
 
   overview_to_map_pos(&xtile, &ytile, ev->x, ev->y);
-  if (!normalize_map_pos(&xtile, &ytile)) {
+  ptile = map_pos_to_tile(xtile, ytile);
+  if (!ptile) {
     return TRUE;
   }
-  ptile = map_pos_to_tile(xtile, ytile);
   
   if (can_client_change_view() && ev->button == 3) {
     center_tile_mapcanvas(ptile);

@@ -231,8 +231,7 @@ void init_new_game(void)
       do {
 	x = p.tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
 	y = p.tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
-      } while (!(normalize_map_pos(&x, &y)
-		 && (ptile = map_pos_to_tile(x, y))
+      } while (!((ptile = map_pos_to_tile(x, y))
 		 && map_get_continent(p.tile) == map_get_continent(ptile)
 		 && !is_ocean(map_get_terrain(ptile))
 		 && !is_non_allied_unit_tile(ptile, pplayer)));

@@ -461,7 +461,7 @@ extern struct terrain_misc terrain_control;
     if (_is_border && !normalize_map_pos(&_x_itr, &_y_itr)) {		    \
       continue;								    \
     }									    \
-    tile_itr = map_pos_to_tile(_x_itr, _y_itr);
+    tile_itr = map.tiles + map_pos_to_index(_x_itr, _y_itr);
 
 #define iterate_outward_dxy_end						    \
   }                                                                         \

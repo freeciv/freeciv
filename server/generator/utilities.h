@@ -48,16 +48,15 @@
     for (i = -___dist; i <= ___dist; i++) {				\
       ___x = _center_tile->nat_x + (___Xaxe ? i : 0);			\
       ___y = _center_tile->nat_y + (___Xaxe ? 0 : i);			\
-      if(!normalize_nat_pos(&___x, &___y)) {				\
+      iter_tile = native_pos_to_tile(___x, ___y);			\
+      if (!iter_tile) {							\
 	continue;							\
-      };								\
-      iter_tile = native_pos_to_tile(___x, ___y);
+      }
 
 #define iterate_axe_end \
     } \
 } 
 
-bool normalize_nat_pos(int *x, int  *y);
 bool is_normal_nat_pos(int x, int y);
 
 /* int maps tools */

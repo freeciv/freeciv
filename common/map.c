@@ -381,11 +381,34 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
   DIRSTEP(x, y, dir);
   x += ptile->x;
   y += ptile->y;
-  if (!normalize_map_pos(&x, &y)) {
+
+  return map_pos_to_tile(x, y);
+}
+
+/****************************************************************************
+  Return the tile for the given native position, with wrapping.
+
+  This is a backend function used by map_pos_to_tile and native_pos_to_tile.
+  It is called extremely often so it is made inline.
+****************************************************************************/
+static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
+{
+  /* If the position is out of range in a non-wrapping direction, it is
+   * unreal. */
+  if (!((topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
+	&& (topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
     return NULL;
   }
 
-  return map_pos_to_tile(x, y);
+  /* Wrap in X and Y directions, as needed. */
+  if (topo_has_flag(TF_WRAPX)) {
+    nat_x = FC_WRAP(nat_x, map.xsize);
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    nat_y = FC_WRAP(nat_y, map.ysize);
+  }
+
+  return map.tiles + native_pos_to_index(nat_x, nat_y);
 }
 
 /****************************************************************************
@@ -393,10 +416,15 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
 ****************************************************************************/
 struct tile *map_pos_to_tile(int map_x, int map_y)
 {
-  int index = map_pos_to_index(map_x, map_y);
+  int nat_x, nat_y;
 
-  CHECK_INDEX(index);
-  return map.tiles + index;
+  if (!map.tiles) {
+    return NULL;
+  }
+
+  /* Normalization is best done in native coordinates. */
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
+  return base_native_pos_to_tile(nat_x, nat_y);
 }
 
 /****************************************************************************
@@ -404,10 +432,11 @@ struct tile *map_pos_to_tile(int map_x, int map_y)
 ****************************************************************************/
 struct tile *native_pos_to_tile(int nat_x, int nat_y)
 {
-  int index = native_pos_to_index(nat_x, nat_y);
+  if (!map.tiles) {
+    return NULL;
+  }
 
-  CHECK_INDEX(index);
-  return map.tiles + index;
+  return base_native_pos_to_tile(nat_x, nat_y);
 }
 
 /****************************************************************************
@@ -415,8 +444,17 @@ struct tile *native_pos_to_tile(int nat_x, int nat_y)
 ****************************************************************************/
 struct tile *index_to_tile(int index)
 {
-  CHECK_INDEX(index);
-  return map.tiles + index;
+  if (!map.tiles) {
+    return NULL;
+  }
+
+  if (index >= 0 && index < MAX_MAP_INDEX) {
+    return map.tiles + index;
+  } else {
+    /* Unwrapped index coordinates are impossible, so the best we can do is
+     * return NULL. */
+    return NULL;
+  }
 }
 
 /**************************************************************************
@@ -1387,9 +1425,10 @@ on the map.
 **************************************************************************/
 bool is_normal_map_pos(int x, int y)
 {
-  int x1 = x, y1 = y;
+  int nat_x, nat_y;
 
-  return (normalize_map_pos(&x1, &y1) && (x1 == x) && (y1 == y));
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, x, y);
+  return nat_x >= 0 && nat_x < map.xsize && nat_y >= 0 && nat_y < map.ysize;
 }
 
 /**************************************************************************
@@ -1402,29 +1441,15 @@ bool is_normal_map_pos(int x, int y)
 **************************************************************************/
 bool normalize_map_pos(int *x, int *y)
 {
-  int nat_x, nat_y;
+  struct tile *ptile = map_pos_to_tile(*x, *y);
 
-  /* Normalization is best done in native coordinatees. */
-  MAP_TO_NATIVE_POS(&nat_x, &nat_y, *x, *y);
-
-  /* If the position is out of range in a non-wrapping direction, it is
-   * unreal. */
-  if (!((topo_has_flag(TF_WRAPX) || (nat_x >= 0 && nat_x < map.xsize))
-	&& (topo_has_flag(TF_WRAPY) || (nat_y >= 0 && nat_y < map.ysize)))) {
+  if (ptile) {
+    *x = ptile->x;
+    *y = ptile->y;
+    return TRUE;
+  } else {
     return FALSE;
   }
-
-  /* Wrap in X and Y directions, as needed. */
-  if (topo_has_flag(TF_WRAPX)) {
-    nat_x = FC_WRAP(nat_x, map.xsize);
-  }
-  if (topo_has_flag(TF_WRAPY)) {
-    nat_y = FC_WRAP(nat_y, map.ysize);
-  }
-
-  /* Now transform things back to map coordinates. */
-  NATIVE_TO_MAP_POS(x, y, nat_x, nat_y);
-  return TRUE;
 }
 
 /**************************************************************************
@@ -1443,10 +1468,6 @@ struct tile *nearest_real_tile(int x, int y)
     nat_y = CLIP(0, nat_y, map.ysize - 1);
   }
   NATIVE_TO_MAP_POS(&x, &y, nat_x, nat_y);
-
-  if (!normalize_map_pos(&x, &y)) {
-    assert(FALSE);
-  }
 
   return map_pos_to_tile(x, y);
 }

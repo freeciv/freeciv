@@ -273,10 +273,10 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
   }
 
   overview_to_map_pos(&map_x, &map_y, event->xbutton.x, event->xbutton.y);
-  if (!normalize_map_pos(&map_x, &map_y)) {
+  ptile = map_pos_to_tile(map_x, map_y);
+  if (!ptile) {
     return;
   }
-  ptile = map_pos_to_tile(map_x, map_y);
 
   if(ev->button==Button1)
     do_map_click(ptile, SELECT_POPUP);

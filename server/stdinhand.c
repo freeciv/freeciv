@@ -2146,6 +2146,7 @@ static bool debug_command(struct connection *caller, char *str,
     }
   } else if (strcmp(arg[0], "city") == 0) {
     int x, y;
+    struct tile *ptile;
     struct city *pcity;
 
     if (ntokens != 3) {
@@ -2156,11 +2157,11 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
-    if (!is_normal_map_pos(x, y)) {
+    if (!(ptile = map_pos_to_tile(x, y))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
-    pcity = map_get_city(map_pos_to_tile(x, y));
+    pcity = ptile->city;
     if (!pcity) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("No city at this coordinate."));
       goto cleanup;
@@ -2176,6 +2177,7 @@ static bool debug_command(struct connection *caller, char *str,
     }
   } else if (strcmp(arg[0], "units") == 0) {
     int x, y;
+    struct tile *ptile;
 
     if (ntokens != 3) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);
@@ -2185,11 +2187,11 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
-    if (!is_normal_map_pos(x, y)) {
+    if (!(ptile = map_pos_to_tile(x, y))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
-    unit_list_iterate(map_pos_to_tile(x, y)->units, punit) {
+    unit_list_iterate(ptile->units, punit) {
       if (punit->debug) {
         punit->debug = FALSE;
         cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),

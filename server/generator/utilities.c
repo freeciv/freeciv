@@ -137,17 +137,6 @@ void adjust_int_map(int *int_map, int int_map_max)
     } whole_map_iterate_end;
   }
 }
-bool normalize_nat_pos(int *x, int  *y) 
-{
-    int map_x, map_y;
-    bool return_value;
-
-    NATIVE_TO_MAP_POS(&map_x, &map_y, *x, *y);
-    return_value = normalize_map_pos(&map_x, &map_y);
-    MAP_TO_NATIVE_POS(x, y, map_x, map_y);
-
-    return return_value;
-}
 
 bool is_normal_nat_pos(int x, int y)
 {

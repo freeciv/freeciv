@@ -114,10 +114,10 @@ enum update_type {
 	_map_x = GRI_x_itr;						    \
 	_map_y = GRI_y_itr;						    \
       }									    \
-      if (!normalize_map_pos(&_map_x, &_map_y)) {			    \
+      ptile = map_pos_to_tile(_map_x, _map_y);				    \
+      if (!ptile) {							    \
 	continue;							    \
-      }									    \
-      ptile = map_pos_to_tile(_map_x, _map_y);
+      }
 
 #define gui_rect_iterate_end						    \
     }									    \

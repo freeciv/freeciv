@@ -107,11 +107,7 @@ struct tile *base_city_map_to_map(const struct tile *city_tile,
   x = city_tile->x + city_map_x - CITY_MAP_SIZE / 2;
   y = city_tile->y + city_map_y - CITY_MAP_SIZE / 2;
 
-  if (normalize_map_pos(&x, &y)) {
-    return map_pos_to_tile(x, y);
-  } else {
-    return NULL;
-  }
+  return map_pos_to_tile(x, y);
 }
 
 /**************************************************************************

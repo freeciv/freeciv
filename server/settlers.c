@@ -559,20 +559,19 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
   bool has_road[12], is_slow[12];
   int dx[12] = {-1,  0,  1, -1, 1, -1, 0, 1,  0, -2, 2, 0};
   int dy[12] = {-1, -1, -1,  0, 0,  1, 1, 1, -2,  0, 0, 2};
-  bool is_border = is_border_tile(ptile, 2);
   
   assert(special == S_ROAD || special == S_RAILROAD);
 
   for (i = 0; i < 12; i++) {
-    int x1 = ptile->x + dx[i], y1 = ptile->y + dy[i];
-    if (is_border && !normalize_map_pos(&x1, &y1)) {
+    struct tile *tile1 = map_pos_to_tile(ptile->x + dx[i], ptile->y + dy[i]);
+
+    if (!tile1) {
       has_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      struct tile *ptile = map_pos_to_tile(x1, y1);
-      struct tile_type *ptype = get_tile_type(ptile->terrain);
+      struct tile_type *ptype = get_tile_type(tile1->terrain);
 
-      has_road[i] = tile_has_special(ptile, special);
+      has_road[i] = tile_has_special(tile1, special);
 
       /* If TRUE, this value indicates that this tile does not need
        * a road connector.  This is set for terrains which cannot have
@@ -580,7 +579,7 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
       is_slow[i] = (ptype->road_time == 0 || ptype->road_time > 5);
 
       if (!has_road[i]) {
-	unit_list_iterate(ptile->units, punit) {
+	unit_list_iterate(tile1->units, punit) {
 	  if (punit->activity == ACTIVITY_ROAD 
               || punit->activity == ACTIVITY_RAILROAD) {
 	    /* If a road is being built here, consider as if it's already
