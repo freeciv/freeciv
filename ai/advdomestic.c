@@ -299,7 +299,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {
     values[B_COURTHOUSE] = (pcity->corruption * t)/2;
-    if (gov == G_DEMOCRACY) values[B_COLOSSEUM] += building_value(1, pcity, val);
+    if (gov == G_DEMOCRACY) values[B_COURTHOUSE] += building_value(1, pcity, val);
   }
   
   if (could_build_improvement(pcity, B_FACTORY))
