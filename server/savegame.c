@@ -1468,6 +1468,14 @@ static void load_player_units(struct player *plr, int plrno,
       punit->goto_tile = NULL;
     }
 
+    punit->ai.passenger
+      = secfile_lookup_int_default(file, 0, "player%d.u%d.passenger", plrno, i);
+    punit->ai.ferryboat
+      = secfile_lookup_int_default(file, 0, "player%d.u%d.ferryboat", plrno, i);
+    punit->ai.charge
+      = secfile_lookup_int_default(file, 0, "player%d.u%d.charge", plrno, i);
+    punit->ai.bodyguard
+      = secfile_lookup_int_default(file, 0, "player%d.u%d.bodyguard", plrno, i);
     punit->ai.control
       = secfile_lookup_bool(file, "player%d.u%d.ai", plrno, i);
     punit->hp = secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
@@ -2636,6 +2644,13 @@ static void player_save(struct player *plr, int plrno,
     }
 
     secfile_insert_bool(file, punit->ai.control, "player%d.u%d.ai", plrno, i);
+    secfile_insert_int(file, punit->ai.passenger, "player%d.u%d.passenger", 
+                       plrno, i);
+    secfile_insert_int(file, punit->ai.ferryboat, "player%d.u%d.ferryboat", 
+                       plrno, i);
+    secfile_insert_int(file, punit->ai.charge, "player%d.u%d.charge", plrno, i);
+    secfile_insert_int(file, punit->ai.bodyguard, "player%d.u%d.bodyguard", 
+                       plrno, i);
     secfile_insert_int(file, punit->ord_map, "player%d.u%d.ord_map", plrno, i);
     secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_bool(file, punit->moved, "player%d.u%d.moved", plrno, i);
