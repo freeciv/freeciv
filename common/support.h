@@ -34,6 +34,10 @@ void myusleep(unsigned long usec);
 size_t mystrlcpy(char *dest, const char *src, size_t n);
 size_t mystrlcat(char *dest, const char *src, size_t n);
 
+/* convenience macros for use when dest is a char ARRAY: */
+#define sz_strlcpy(dest,src) mystrlcpy((dest),(src),sizeof(dest))
+#define sz_strlcat(dest,src) mystrlcat((dest),(src),sizeof(dest))
+
 int my_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));
 
