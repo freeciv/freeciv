@@ -4,6 +4,10 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv.
 
+There may be a localized version of this file in the ./doc directory,
+named INSTALL.<locale> (e.g., INSTALL.de).
+
+
 0. Prerequisites:
 =================
 

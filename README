@@ -21,6 +21,10 @@ Although the graphics are not as polished as those in Civilization II,
 the rules are very complete, and our multiplayer and networking code is
 excellent.
 
+There may be a localized version of this file in the ./doc directory,
+named README.<locale> (e.g., README.de).
+
+
 Web site:
 =========
 
