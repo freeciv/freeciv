@@ -396,13 +396,13 @@ tiles = { "row", "column", "tag"
  11, 13, "unit.sentry"
  11, 14, "unit.goto"
  11, 15, "unit.mine"
- 11, 16, "unit.pollution",
-	 "unit.pillage"
+ 11, 16, "unit.pollution"
  11, 17, "unit.road"
  11, 18, "unit.irrigate"
  11, 19, "unit.fortify",
          "unit.fortress"
- 
+ 12, 17, "unit.pillage"
+
 ; Unit hit-point bars: approx percent of hp remaining
 
  16,  0, "unit.hp_100"
