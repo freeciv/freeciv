@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-05-20 15:58+0200\n"
-"PO-Revision-Date: 2003-05-20 16:02+0200\n"
+"POT-Creation-Date: 2003-06-02 09:48+0200\n"
+"PO-Revision-Date: 2003-06-02 09:52+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -165,65 +165,65 @@ msgstr ""
 "De server waarmee u verbinding probeerde te maken is te oud (1.12.0 of "
 "eerder). Probeert u volgende keer alstublieft een andere server. Tot ziens."
 
-#: common/player.c:475
+#: common/player.c:498
 msgid "Spotless"
 msgstr "Onberispelijk"
 
-#: common/player.c:477
+#: common/player.c:500
 msgid "Excellent"
 msgstr "Uitstekend"
 
-#: common/player.c:479
+#: common/player.c:502
 msgid "Honorable"
 msgstr "Eerbaar"
 
-#: common/player.c:481
+#: common/player.c:504
 msgid "Questionable"
 msgstr "Dubieus"
 
-#: common/player.c:483
+#: common/player.c:506
 msgid "Dishonorable"
 msgstr "Oneerbaar"
 
-#: common/player.c:485
+#: common/player.c:508
 msgid "Poor"
 msgstr "Slecht"
 
-#: common/player.c:487
+#: common/player.c:510
 msgid "Despicable"
 msgstr "Verachtelijk"
 
-#: common/player.c:489
+#: common/player.c:512
 msgid "Atrocious"
 msgstr "Gruwelijk"
 
-#: common/player.c:499
+#: common/player.c:522
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutraal"
 
-#: common/player.c:500
+#: common/player.c:523
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Oorlog"
 
-#: common/player.c:501 client/gui-gtk-2.0/diplodlg.c:330
+#: common/player.c:524 client/gui-gtk-2.0/diplodlg.c:330
 #: client/gui-gtk/diplodlg.c:461 client/gui-mui/diplodlg.c:636
 #: client/gui-win32/diplodlg.c:309 client/gui-xaw/diplodlg.c:525
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Wapenstilstand"
 
-#: common/player.c:502 client/gui-gtk-2.0/diplodlg.c:335
+#: common/player.c:525 client/gui-gtk-2.0/diplodlg.c:335
 #: client/gui-gtk/diplodlg.c:466 client/gui-mui/diplodlg.c:640
 #: client/gui-win32/diplodlg.c:310 client/gui-xaw/diplodlg.c:529
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Vrede"
 
-#: common/player.c:503 client/gui-gtk-2.0/diplodlg.c:340
+#: common/player.c:526 client/gui-gtk-2.0/diplodlg.c:340
 #: client/gui-gtk/diplodlg.c:471 client/gui-mui/diplodlg.c:644
 #: client/gui-win32/diplodlg.c:311 client/gui-xaw/diplodlg.c:533
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alliantie"
 
-#: common/player.c:504
+#: common/player.c:527
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Nooit ontmoet"
 
@@ -352,7 +352,7 @@ msgstr "Op Wacht"
 msgid "Pillage"
 msgstr "Plunder"
 
-#: common/unit.c:556 client/gui-win32/gotodlg.c:164 data/Freeciv:1126
+#: common/unit.c:556 client/gui-win32/gotodlg.c:164 data/Freeciv:1115
 msgid "Goto"
 msgstr "Ga naar"
 
@@ -467,17 +467,17 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:239 server/citytools.c:1752
+#: ai/aicity.c:240 server/citytools.c:1752
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:248 server/citytools.c:1794
+#: ai/aicity.c:249 server/citytools.c:1794
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 
-#: ai/aicity.c:684
+#: ai/aicity.c:685
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
@@ -780,7 +780,7 @@ msgstr ""
 "Spel: %s kan %s van de werklijst niet bouwen; techniek nog niet "
 "beschikbaar.  Uitstellen..."
 
-#: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:875
+#: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:881
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Productie van %s is opgewaardeerd naar %s in %s."
@@ -806,114 +806,114 @@ msgstr ""
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %s's werklijst is nu leeg."
 
-#: server/cityturn.c:894
+#: server/cityturn.c:900
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan %s niet onderhouden, eenheid opgeheven."
 
-#: server/cityturn.c:926
+#: server/cityturn.c:932
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s is %s aan het bouwen, die niet meer beschikbaar is."
 
-#: server/cityturn.c:962
+#: server/cityturn.c:968
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: De %s zijn klaar met het bouwen van %s in %s."
 
-#: server/cityturn.c:966 server/cityturn.c:972
+#: server/cityturn.c:972 server/cityturn.c:978
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s hebben %s in %s gebouwd"
 
-#: server/cityturn.c:978
+#: server/cityturn.c:984
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:985
+#: server/cityturn.c:991
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s versnelt onderzoek, u krijgt 2 onmiddelijke vooruitgangen."
 
-#: server/cityturn.c:1001
+#: server/cityturn.c:1007
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spel: De %s hebben %s en %s verkregen van de %s."
 
-#: server/cityturn.c:1008
+#: server/cityturn.c:1014
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: De %s zijn begonnen met het bouwen van een ruimteschip!"
 
-#: server/cityturn.c:1051
+#: server/cityturn.c:1057
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan %s nog niet bouwen."
 
-#: server/cityturn.c:1078
+#: server/cityturn.c:1084
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1082
+#: server/cityturn.c:1088
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s heeft %s in %s (%i,%i) gebouwd"
 
-#: server/cityturn.c:1121
+#: server/cityturn.c:1127
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Onderhoud van %s in %s niet meer op te brengen, gebouw verkocht!"
 
-#: server/cityturn.c:1157
+#: server/cityturn.c:1163
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Verontreiniging bij %s."
 
-#: server/cityturn.c:1289
+#: server/cityturn.c:1295
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: Festival ter ere van %s in %s."
 
-#: server/cityturn.c:1297
+#: server/cityturn.c:1303
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: Festival ter ere van %s afgezegd in %s."
 
-#: server/cityturn.c:1329
+#: server/cityturn.c:1335
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Burgelijke onlusten in %s."
 
-#: server/cityturn.c:1332
+#: server/cityturn.c:1338
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: BURGELIJKE ONLUSTEN GAAN DOOR in %s."
 
-#: server/cityturn.c:1338
+#: server/cityturn.c:1344
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Orde hersteld in %s."
 
-#: server/cityturn.c:1346
+#: server/cityturn.c:1352
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spel: De bevolking heeft uw %s omvergeworpen, uw land is in verwarring."
 
-#: server/cityturn.c:1370
+#: server/cityturn.c:1376
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spel: %s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
-#: server/cityturn.c:1387
+#: server/cityturn.c:1393
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s is ontbonden in %s."
 
-#: server/cityturn.c:1389
+#: server/cityturn.c:1395
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) ontbonden in %s door de %s"
@@ -1143,116 +1143,134 @@ msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
 "Spel: Uw hoofdstad (%s) wordt gevraagd, u kunt het verdrag niet accepteren."
 
-#: server/diplhand.c:187
+#: server/diplhand.c:187 server/diplhand.c:291
+#, c-format
+msgid ""
+"Game: You are at war with one of %s's allies - an alliance with %s is "
+"impossible."
+msgstr ""
+"Spel: U bent in oorlog met één van %s's geallieerden - een alliantie met %s "
+"is onmogelijk."
+
+#: server/diplhand.c:194 server/diplhand.c:287
+#, c-format
+msgid ""
+"Game: %s is at war with one of your allies - an alliance with %s is "
+"impossible."
+msgstr ""
+"Spel: %s is in oorlog met één van uw geallieerden - een alliantie met %s "
+"is onmogelijk."
+
+#: server/diplhand.c:203
 msgid "Game: You don't have enough gold, you can't accept treaty."
 msgstr "Spel: U hebt niet genoeg goud, u kunt het verdrag niet accepteren."
 
-#: server/diplhand.c:219 server/diplhand.c:224
+#: server/diplhand.c:235 server/diplhand.c:240
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
 msgstr[0] "Spel: Men is een verdrag met %d clausule overeengekomen."
 msgstr[1] "Spel: Men is een verdrag met %d clausules overeengekomen."
 
-#: server/diplhand.c:228
+#: server/diplhand.c:244
 #, c-format
 msgid "%s and %s agree to a treaty"
 msgstr "%s en %s sluiten een verdrag"
 
-#: server/diplhand.c:243 server/diplhand.c:247
+#: server/diplhand.c:259 server/diplhand.c:263
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Spel: Eén van de steden die %s weggeeft is vernietigd! Verdrag verbroken!"
 
-#: server/diplhand.c:254 server/diplhand.c:259
+#: server/diplhand.c:270 server/diplhand.c:275
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Spel: De %s besturen niet langer %s! Verdrag verbroken!"
 
-#: server/diplhand.c:269 server/diplhand.c:273
+#: server/diplhand.c:300 server/diplhand.c:304
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 "Spel: De %s hebben de beloofde hoeveelheid goud niet! Verdrag verbroken!"
 
-#: server/diplhand.c:298
+#: server/diplhand.c:329
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Spel: U bent onderwezen in de kennis van %s."
 
-#: server/diplhand.c:302
+#: server/diplhand.c:333
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Spel: De %s hebben %s verkregen van de %s."
 
-#: server/diplhand.c:307
+#: server/diplhand.c:338
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s verwerven %s (Verdrag) van %s"
 
-#: server/diplhand.c:317
+#: server/diplhand.c:348
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Spel: U krijgt %d goud."
 
-#: server/diplhand.c:323
+#: server/diplhand.c:354
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Spel: U krijgt %s's wereldkaart."
 
-#: server/diplhand.c:328
+#: server/diplhand.c:359
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Spel: U krijgt %s's zeekaart."
 
-#: server/diplhand.c:343
+#: server/diplhand.c:374
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Spel: U ontvangt de stad %s van %s."
 
-#: server/diplhand.c:347
+#: server/diplhand.c:378
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Spel: U geeft de stad %s aan %s."
 
-#: server/diplhand.c:359 server/diplhand.c:362
+#: server/diplhand.c:390 server/diplhand.c:393
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Spel: U gaat akkoord met een wapenstilstand met %s."
 
-#: server/diplhand.c:371 server/diplhand.c:374
+#: server/diplhand.c:402 server/diplhand.c:405
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Spel: U gaat akkoord met een vredesverdrag met %s."
 
-#: server/diplhand.c:383 server/diplhand.c:386
+#: server/diplhand.c:414 server/diplhand.c:417
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Spel: U gaat akkoord met het sluiten van een alliantie met %s."
 
-#: server/diplhand.c:394
+#: server/diplhand.c:425
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Spel: U geeft gedeelde waarneming aan %s."
 
-#: server/diplhand.c:397
+#: server/diplhand.c:428
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Spel: %s geeft u gedeelde waarneming."
 
-#: server/diplhand.c:509
+#: server/diplhand.c:543
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Spel: %s heeft de vergadering afgezegd!"
 
-#: server/diplhand.c:515
+#: server/diplhand.c:549
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Spel: Ontmoeting met %s afgezegd."
 
-#: server/diplhand.c:558
+#: server/diplhand.c:592
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr ""
 "KI-bestuurde spelers kunnen niet deelnemen aan diplomatieke vergaderingen."
@@ -1851,7 +1869,7 @@ msgstr "Luxe"
 #: client/gui-mui/repodlgs.c:281 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/repodlgs.c:98 client/gui-xaw/menu.c:203
 #: client/gui-xaw/repodlgs.c:256 client/gui-xaw/repodlgs.c:497
-#: data/Freeciv:1362
+#: data/Freeciv:1353
 msgid "Science"
 msgstr "Wetenschap"
 
@@ -1900,12 +1918,12 @@ msgstr "Spel: Wetenschapswaarde overschreidt het maximum voor %s; aangepast."
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:838
+#: server/plrhand.c:844
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s geven ons niet langer gedeelde waarneming!"
 
-#: server/plrhand.c:873
+#: server/plrhand.c:881
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1913,12 +1931,12 @@ msgstr ""
 "De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de %"
 "s."
 
-#: server/plrhand.c:883
+#: server/plrhand.c:892
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spel: Uw reputatie is nu %s."
 
-#: server/plrhand.c:887
+#: server/plrhand.c:896
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1926,12 +1944,12 @@ msgstr ""
 "Spel: De senaat besluit tot ontbinding in plaats van uw acties nog langer te "
 "ondersteunen."
 
-#: server/plrhand.c:919
+#: server/plrhand.c:937
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spel: De diplomatieke toestand tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:925
+#: server/plrhand.c:943
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1940,26 +1958,26 @@ msgstr ""
 "Spel: %s beëindigde de politieke overeenkomst! De diplomatieke toestand "
 "tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:1302
+#: server/plrhand.c:1336
 #, c-format
 msgid "Removing player %s."
 msgstr "Verwijder speler %s."
 
-#: server/plrhand.c:1303
+#: server/plrhand.c:1337
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd!"
 
-#: server/plrhand.c:1306
+#: server/plrhand.c:1340
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:1349 server/plrhand.c:1353
+#: server/plrhand.c:1383 server/plrhand.c:1387
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
-#: server/plrhand.c:1678
+#: server/plrhand.c:1712
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1968,12 +1986,12 @@ msgstr ""
 "Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van "
 "de rebellerende staten."
 
-#: server/plrhand.c:1698
+#: server/plrhand.c:1732
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s verklaart alliantie aan %s."
 
-#: server/plrhand.c:1712
+#: server/plrhand.c:1746
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2318,18 +2336,18 @@ msgstr ""
 "Aantal startplaatsen (%d) is lager dan max_players (%d), ik verlaag "
 "max_players."
 
-#: server/savegame.c:1775
+#: server/savegame.c:1786
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Opgeslagen spel te oud; tenminste versie 1.9.0 is nodig."
 
-#: server/savegame.c:1942
+#: server/savegame.c:1953
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Het opgeslagen spel gebruikt de klassieke spelregelset die niet langer "
 "ondersteund wordt."
 
-#: server/savegame.c:1951
+#: server/savegame.c:1962
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5088,7 +5106,7 @@ msgstr "Spel: Alleen %s kunnen aanvallen vanuit zee."
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
-#: server/unithand.c:906 server/unittools.c:2141
+#: server/unithand.c:906 server/unittools.c:2142
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
@@ -5174,199 +5192,199 @@ msgid ""
 msgstr ""
 "Spel: Uw %s van %s is aangekomen in %s en brengt %d in goud en onderzoek op."
 
-#: server/unittools.c:326
+#: server/unittools.c:327
 #, c-format
 msgid "Game: %s has upgraded %s to %s%s."
 msgstr "Spel: %s heeft %s opgewaardeerd naar %s%s."
 
-#: server/unittools.c:485
+#: server/unittools.c:486
 #, c-format
 msgid "Game: Your %s has run out of hit points."
 msgstr "Spel: Uw %s heeft geen slagpunten meer."
 
-#: server/unittools.c:487
+#: server/unittools.c:488
 #, c-format
 msgid "%s lose a %s (out of hp)"
 msgstr "%s verliezen een %s (geen kracht meer)"
 
-#: server/unittools.c:498
+#: server/unittools.c:499
 #, c-format
 msgid "Game: Your %s has been lost on the high seas."
 msgstr "Spel: Uw %s is verloren gegaan op de diepzee."
 
-#: server/unittools.c:500
+#: server/unittools.c:501
 #, c-format
 msgid "%s Trireme lost at sea"
 msgstr "%s Trireem verloren op diepzee"
 
-#: server/unittools.c:528
+#: server/unittools.c:529
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Spel: Uw %s is teruggekeerd om te tanken."
 
-#: server/unittools.c:553
+#: server/unittools.c:554
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Spel: Uw %s heeft geen brandstof meer."
 
-#: server/unittools.c:555
+#: server/unittools.c:556
 #, c-format
 msgid "%s lose a %s (fuel)"
 msgstr "%s verliest een %s (brandstof)"
 
-#: server/unittools.c:991
+#: server/unittools.c:992
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Verplaatste uw %s in verband met het veranderen van land naar zee bij "
 "(%d, %d)."
 
-#: server/unittools.c:1014
+#: server/unittools.c:1015
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Uw %s aan boord gestuurd vanwege de verandering van land naar zee bij "
 "(%d, %d)."
 
-#: server/unittools.c:1030
+#: server/unittools.c:1031
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Spel: Uw %s ontbonden vanwege de verandering van land naar zee bij (%d, %d)."
 
-#: server/unittools.c:1054
+#: server/unittools.c:1055
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Verplaatste uw %s vanwege de verandering van zee naar land bij (%d, %"
 "d)."
 
-#: server/unittools.c:1076
+#: server/unittools.c:1077
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Uw %s afgemeerd vanwege de verandering van zee naar land bij (%d, %d)."
 
-#: server/unittools.c:1092
+#: server/unittools.c:1093
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Uw %s ontbonden vanwege de verandering van zee naar land bij (%d, %d)."
 
-#: server/unittools.c:1125
+#: server/unittools.c:1126
 #, c-format
 msgid " at %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1127
+#: server/unittools.c:1128
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: server/unittools.c:1134
+#: server/unittools.c:1135
 #, c-format
 msgid " outside %s"
 msgstr " buiten %s"
 
-#: server/unittools.c:1137
+#: server/unittools.c:1138
 #, c-format
 msgid " near %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1342
+#: server/unittools.c:1343
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 
-#: server/unittools.c:1366
+#: server/unittools.c:1367
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
-#: server/unittools.c:1685
+#: server/unittools.c:1686
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: %s verloren toen %s verloren ging."
 
-#: server/unittools.c:1688
+#: server/unittools.c:1689
 #, c-format
 msgid "%s lose %s when %s lost"
 msgstr "%s verloren %s toen %s verloren ging"
 
-#: server/unittools.c:1735
+#: server/unittools.c:1736
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 
-#: server/unittools.c:1752
+#: server/unittools.c:1753
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1755 server/unittools.c:1799
+#: server/unittools.c:1756 server/unittools.c:1800
 #, c-format
 msgid "%s lose %s to the %s"
 msgstr "De %s verliezen %s aan de %s"
 
-#: server/unittools.c:1780
+#: server/unittools.c:1781
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Spel: U verloor %d eenheid onder een aanval van %s's %s%s."
 msgstr[1] "Spel: U verloor %d eenheden onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1795
+#: server/unittools.c:1796
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s."
 
-#: server/unittools.c:1996
+#: server/unittools.c:1997
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spel: Uw %s is geatomiseerd door %s."
 
-#: server/unittools.c:1998 server/unittools.c:2014
+#: server/unittools.c:1999 server/unittools.c:2015
 msgid "yourself"
 msgstr "uzelf"
 
-#: server/unittools.c:2002
+#: server/unittools.c:2003
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spel: %s's %s is geatomiseerd."
 
-#: server/unittools.c:2012
+#: server/unittools.c:2013
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spel: %s is geatomiseerd door %s."
 
-#: server/unittools.c:2019
+#: server/unittools.c:2020
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spel: U atomiseerde %s."
 
-#: server/unittools.c:2056
+#: server/unittools.c:2057
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Spel: %s heeft een kernraket tot ontploffing gebracht."
 
-#: server/unittools.c:2094
+#: server/unittools.c:2095
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s succesvol overgeplaatst."
 
-#: server/unittools.c:2118
+#: server/unittools.c:2119
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2127
+#: server/unittools.c:2128
 msgid "Game: The destination location is not known."
 msgstr "Spel: De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2150
+#: server/unittools.c:2151
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5374,69 +5392,69 @@ msgstr ""
 "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
 "(%i)."
 
-#: server/unittools.c:2162
+#: server/unittools.c:2163
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Uw %s is in de oceaan geland en ging verloren."
 
-#: server/unittools.c:2175
+#: server/unittools.c:2176
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2198
+#: server/unittools.c:2199
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: U vond %d goud."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2225
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spel: U hebt %s ontdekt in oude boekrollen met wijsheid."
 
-#: server/unittools.c:2226
+#: server/unittools.c:2227
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s ontdekken %s (Hut)"
 
-#: server/unittools.c:2228
+#: server/unittools.c:2229
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spel: De %s hebben %s verkregen van oude boekrollen met wijsheid."
 
-#: server/unittools.c:2248
+#: server/unittools.c:2249
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 
-#: server/unittools.c:2265
+#: server/unittools.c:2266
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2278
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U hebt een horde barbaren ontketend!"
 
-#: server/unittools.c:2280
+#: server/unittools.c:2281
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Uw %s is vermoord door barbaren!"
 
-#: server/unittools.c:2296
+#: server/unittools.c:2297
 msgid "Game: You found a friendly city."
 msgstr "Spel: U heeft een bevriende stad gevonden."
 
-#: server/unittools.c:2301
+#: server/unittools.c:2302
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vriendelijke nomaden zijn door u geïmponeerd en sluiten zich bij u aan."
 
-#: server/unittools.c:2326
+#: server/unittools.c:2327
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:2977
+#: server/unittools.c:2978
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5770,7 +5788,7 @@ msgstr "Beste verdedigende eenheden"
 #: client/gui-win32/repodlgs.c:699 client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:145 client/gui-xaw/menu.c:200
 #: client/gui-xaw/menu.c:221 client/gui-xaw/repodlgs.c:894
-#: client/gui-xaw/repodlgs.c:1082 data/Freeciv:1840 data/helpdata.txt:811
+#: client/gui-xaw/repodlgs.c:1082 data/Freeciv:1839 data/helpdata.txt:811
 msgid "Units"
 msgstr "Eenheden"
 
@@ -5829,7 +5847,7 @@ msgstr "Overcapaciteit: Handel"
 #: client/cityrepdata.c:469 client/gui-gtk-2.0/repodlgs.c:594
 #: client/gui-gtk/repodlgs.c:589 client/gui-win32/repodlgs.c:315
 #: client/gui-xaw/menu.c:202 client/gui-xaw/repodlgs.c:638
-#: client/gui-xaw/repodlgs.c:787 data/Freeciv:1765
+#: client/gui-xaw/repodlgs.c:787 data/Freeciv:1763
 msgid "Economy"
 msgstr "Economie"
 
@@ -7345,7 +7363,7 @@ msgid "Happiness"
 msgstr "Geluk"
 
 #: client/gui-gtk-2.0/citydlg.c:884 client/gui-mui/citydlg.c:1447
-#: client/gui-win32/citydlg.c:783 data/Freeciv:2166
+#: client/gui-win32/citydlg.c:783 data/Freeciv:2175
 msgid "Trade Routes"
 msgstr "Handelsroutes"
 
@@ -7558,7 +7576,7 @@ msgstr "Sorry: kan %s niet opwaarderen."
 #: client/gui-gtk/citydlg.c:2689 client/gui-gtk/citydlg.c:2712
 #: client/gui-mui/dialogs.c:1864 client/gui-mui/dialogs.c:1888
 #: client/gui-win32/citydlg.c:1568 client/gui-win32/citydlg.c:1592
-#: data/Freeciv:2419
+#: data/Freeciv:2428
 msgid "Upgrade Unit!"
 msgstr "Waardeer Eenheid Op!"
 
@@ -7577,7 +7595,7 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:2701 client/gui-gtk/repodlgs.c:944
 #: client/gui-mui/dialogs.c:1877 client/gui-mui/repodlgs.c:773
 #: client/gui-win32/citydlg.c:1580 client/gui-win32/repodlgs.c:579
-#: data/Freeciv:2408
+#: data/Freeciv:2417
 msgid "Upgrade Obsolete Units"
 msgstr "Waardeer Verouderde Eenheden Op"
 
@@ -7607,7 +7625,7 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:2915 client/gui-gtk/citydlg.c:2925
 #: client/gui-mui/citydlg.c:1037 client/gui-mui/citydlg.c:1047
 #: client/gui-win32/citydlg.c:996 client/gui-win32/citydlg.c:1005
-#: data/Freeciv:2155 data/Freeciv:2185
+#: data/Freeciv:2164 data/Freeciv:2194
 msgid "Buy It!"
 msgstr "Koop Het!"
 
@@ -7631,12 +7649,12 @@ msgstr "%s verkopen voor %d goud?"
 
 #: client/gui-gtk-2.0/citydlg.c:2479 client/gui-gtk/citydlg.c:3182
 #: client/gui-mui/citydlg.c:1077 client/gui-win32/citydlg.c:1056
-#: data/Freeciv:2174
+#: data/Freeciv:2183
 msgid "Sell It!"
 msgstr "Verkoop Het!"
 
 #: client/gui-gtk-2.0/citydlg.c:2557 client/gui-gtk/citydlg.c:3341
-#: client/gui-win32/citydlg.c:1315 data/Freeciv:524
+#: client/gui-win32/citydlg.c:1315
 msgid "Rename City"
 msgstr "Hernoem Stad"
 
@@ -7666,8 +7684,8 @@ msgstr "_Toon..."
 #: client/gui-mui/gui_main.c:227 client/gui-win32/diplodlg.c:629
 #: client/gui-win32/diplodlg.c:676 client/gui-win32/menu.c:313
 #: client/gui-xaw/cityrep.c:226 client/gui-xaw/cityrep.c:536
-#: client/gui-xaw/menu.c:144 client/gui-xaw/menu.c:199 data/Freeciv:368
-#: data/Freeciv:377 data/Freeciv:1510
+#: client/gui-xaw/menu.c:144 client/gui-xaw/menu.c:199 data/Freeciv:370
+#: data/Freeciv:379 data/Freeciv:1505
 msgid "Cities"
 msgstr "Steden"
 
@@ -7699,7 +7717,7 @@ msgstr "Wereldwonder"
 
 #: client/gui-gtk-2.0/cityrep.c:1206 client/gui-gtk/cityrep.c:859
 #: client/gui-gtk/gotodlg.c:122 client/gui-win32/cityrep.c:440
-#: client/gui-win32/gotodlg.c:168 data/Freeciv:1141
+#: client/gui-win32/gotodlg.c:168 data/Freeciv:1130
 msgid "All Cities"
 msgstr "Alle Steden"
 
@@ -7857,7 +7875,7 @@ msgid "_Connect"
 msgstr "Maak _verbinding"
 
 #: client/gui-gtk-2.0/connectdlg.c:177 client/gui-gtk/connectdlg.c:172
-#: client/gui-win32/connectdlg.c:364 data/Freeciv:68
+#: client/gui-win32/connectdlg.c:364 data/Freeciv:70
 msgid "Freeciv Server Selection"
 msgstr "Freeciv Server Keuze"
 
@@ -7875,7 +7893,7 @@ msgstr "_Poort:"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:227
 #: client/gui-mui/connectdlg.c:178 client/gui-win32/connectdlg.c:364
-#: data/Freeciv:98
+#: data/Freeciv:100
 msgid "Metaserver"
 msgstr "Metaserver"
 
@@ -7886,7 +7904,7 @@ msgstr "Servernaam"
 
 #: client/gui-gtk-2.0/connectdlg.c:265 client/gui-gtk/connectdlg.c:151
 #: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:365
-#: data/Freeciv:87
+#: data/Freeciv:89
 msgid "Port"
 msgstr "Poort"
 
@@ -7904,7 +7922,7 @@ msgstr "Status"
 #: client/gui-gtk/connectdlg.c:152 client/gui-gtk/plrdlg.c:162
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:366 client/gui-win32/plrdlg.c:359
-#: client/gui-xaw/menu.c:201 data/Freeciv:3092 data/Freeciv:3093
+#: client/gui-xaw/menu.c:201 data/Freeciv:3107 data/Freeciv:3108
 msgid "Players"
 msgstr "Spelers"
 
@@ -7974,7 +7992,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:318 client/gui-gtk/dialogs.c:449
 #: client/gui-mui/dialogs.c:227 client/gui-win32/dialogs.c:1409
-#: data/Freeciv:2354 data/Freeciv:2367
+#: data/Freeciv:2363 data/Freeciv:2376
 msgid "Bribe Enemy Unit"
 msgstr "Koop Vijandelijke Eenheid Om"
 
@@ -7993,13 +8011,13 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:458 client/gui-gtk/dialogs.c:1024
 #: client/gui-mui/dialogs.c:236 client/gui-mui/dialogs.c:522
 #: client/gui-win32/dialogs.c:1419 client/gui-win32/dialogs.c:1618
-#: data/Freeciv:2389
+#: data/Freeciv:2398
 msgid "Traitors Demand Too Much!"
 msgstr "Verraders Vragen Teveel!"
 
 #: client/gui-gtk-2.0/dialogs.c:505 client/gui-gtk/dialogs.c:731
 #: client/gui-mui/dialogs.c:328 client/gui-win32/dialogs.c:1309
-#: data/Freeciv:2220 data/Freeciv:2253 data/Freeciv:2270
+#: data/Freeciv:2229 data/Freeciv:2262 data/Freeciv:2279
 msgid "Steal Technology"
 msgstr "Steel Technologie"
 
@@ -8009,7 +8027,7 @@ msgstr "_Steel"
 
 #: client/gui-gtk-2.0/dialogs.c:522 client/gui-gtk/dialogs.c:724
 #: client/gui-mui/dialogs.c:332 client/gui-win32/dialogs.c:1319
-#: data/Freeciv:2285
+#: data/Freeciv:2294
 msgid "Select Advance to Steal"
 msgstr "Kies Vooruitgang om te Stelen"
 
@@ -8027,7 +8045,7 @@ msgstr "Naar Spions Eigen Inzicht"
 
 #: client/gui-gtk-2.0/dialogs.c:664 client/gui-gtk/dialogs.c:830
 #: client/gui-mui/dialogs.c:425 client/gui-win32/dialogs.c:1523
-#: data/Freeciv:2312
+#: data/Freeciv:2321
 msgid "Sabotage Improvements"
 msgstr "Saboteer Verbeteringen"
 
@@ -8037,7 +8055,7 @@ msgstr "_Saboteer"
 
 #: client/gui-gtk-2.0/dialogs.c:681 client/gui-gtk/dialogs.c:823
 #: client/gui-mui/dialogs.c:429 client/gui-win32/dialogs.c:1533
-#: data/Freeciv:2327
+#: data/Freeciv:2336
 msgid "Select Improvement to Sabotage"
 msgstr "Kies te Saboteren Verbeteringen"
 
@@ -8072,7 +8090,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:855 client/gui-gtk/dialogs.c:1015
 #: client/gui-mui/dialogs.c:513 client/gui-win32/dialogs.c:1610
-#: data/Freeciv:2378
+#: data/Freeciv:2387
 msgid "Incite a Revolt!"
 msgstr "Ontketen een Opstand!"
 
@@ -8140,7 +8158,7 @@ msgstr "Blijf _doorgaan"
 
 #: client/gui-gtk-2.0/dialogs.c:963 client/gui-gtk/dialogs.c:1111
 #: client/gui-mui/dialogs.c:912 client/gui-win32/dialogs.c:1680
-#: data/Freeciv:2234
+#: data/Freeciv:2243
 msgid "Choose Your Spy's Strategy"
 msgstr "Kies Uw Spions Strategie"
 
@@ -8161,7 +8179,7 @@ msgstr "Industrieële _Sabotage"
 
 #: client/gui-gtk-2.0/dialogs.c:1004 client/gui-gtk/dialogs.c:1146
 #: client/gui-mui/dialogs.c:947 client/gui-win32/dialogs.c:1711
-#: data/Freeciv:2365
+#: data/Freeciv:2374
 msgid "Subvert Enemy Unit"
 msgstr "Werp Vijandelijke Eenheid Omver"
 
@@ -8200,7 +8218,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:1092 client/gui-gtk/dialogs.c:1222
 #: client/gui-mui/dialogs.c:1074 client/gui-win32/dialogs.c:1048
-#: data/Freeciv:2194
+#: data/Freeciv:2203
 msgid "Your Caravan Has Arrived"
 msgstr "Uw Karavaan Is Aangekomen"
 
@@ -8221,7 +8239,7 @@ msgstr "Kies Uw Nieuwe Regering"
 
 #: client/gui-gtk-2.0/dialogs.c:1160 client/gui-gtk/dialogs.c:1295
 #: client/gui-mui/dialogs.c:1139 client/gui-win32/dialogs.c:953
-#: data/Freeciv:2429
+#: data/Freeciv:2438
 msgid "Select government type:"
 msgstr "Kies regeringsvorm:"
 
@@ -8233,31 +8251,31 @@ msgstr "U zegt dat u een revolutie wilt?"
 
 #: client/gui-gtk-2.0/dialogs.c:1232 client/gui-gtk/dialogs.c:1314
 #: client/gui-mui/dialogs.c:1160 client/gui-win32/dialogs.c:901
-#: data/Freeciv:2397
+#: data/Freeciv:2406
 msgid "Revolution!"
 msgstr "Revolutie!"
 
 #: client/gui-gtk-2.0/dialogs.c:1283 client/gui-gtk/dialogs.c:1384
-#: client/gui-win32/dialogs.c:1785 data/Freeciv:2435
+#: client/gui-win32/dialogs.c:1785 data/Freeciv:2444
 msgid "What To Pillage"
 msgstr "Wat Te Plunderen"
 
 #: client/gui-gtk-2.0/dialogs.c:1284 client/gui-gtk/dialogs.c:1385
 #: client/gui-mui/dialogs.c:1234 client/gui-win32/dialogs.c:1792
-#: data/Freeciv:2437
+#: data/Freeciv:2446
 msgid "Select what to pillage:"
 msgstr "Kies wat te plunderen:"
 
 #: client/gui-gtk-2.0/dialogs.c:1354 client/gui-gtk/connectdlg.c:255
 #: client/gui-gtk/dialogs.c:1464 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:414 client/gui-win32/dialogs.c:1995
-#: client/gui-xaw/menu.c:182 data/Freeciv:95 data/Freeciv:2445
+#: client/gui-xaw/menu.c:182 data/Freeciv:97 data/Freeciv:2454
 msgid "Connect"
 msgstr "Maak verbinding"
 
 #: client/gui-gtk-2.0/dialogs.c:1355 client/gui-gtk/dialogs.c:1465
 #: client/gui-mui/dialogs.c:1324 client/gui-win32/dialogs.c:2002
-#: data/Freeciv:2447
+#: data/Freeciv:2456
 msgid "Choose unit activity:"
 msgstr "Kies actie voor eenheid:"
 
@@ -8274,7 +8292,7 @@ msgid "_Sentry idle"
 msgstr "Zet ongebruikte eenheden op _wacht"
 
 #: client/gui-gtk-2.0/dialogs.c:1777 client/gui-gtk/dialogs.c:2003
-#: data/Freeciv:3034
+#: data/Freeciv:3047
 msgid "What Nation Will You Be?"
 msgstr "Welke Natie Wilt U Zijn?"
 
@@ -8381,7 +8399,7 @@ msgstr "Verdragen"
 
 #: client/gui-gtk-2.0/diplodlg.c:443 client/gui-gtk/diplodlg.c:302
 #: client/gui-mui/diplodlg.c:483 client/gui-win32/diplodlg.c:617
-#: data/Freeciv:227
+#: data/Freeciv:229
 msgid "Diplomacy meeting"
 msgstr "Diplomatieke ontmoeting"
 
@@ -8409,7 +8427,7 @@ msgstr "Spel: Ongeldige hoeveelheid goud opgegeven."
 
 #: client/gui-gtk-2.0/finddlg.c:67 client/gui-gtk/finddlg.c:62
 #: client/gui-mui/finddlg.c:96 client/gui-win32/finddlg.c:116
-#: client/gui-xaw/menu.c:122 data/Freeciv:1071
+#: client/gui-xaw/menu.c:122 data/Freeciv:1058
 msgid "Find City"
 msgstr "Zoek Stad"
 
@@ -8425,7 +8443,7 @@ msgstr "Kies belasting-, luxe- en wetenschapswaarden"
 #: client/gui-gtk-2.0/gamedlgs.c:269 client/gui-gtk-2.0/gamedlgs.c:289
 #: client/gui-gtk-2.0/gamedlgs.c:309 client/gui-gtk/gamedlgs.c:262
 #: client/gui-gtk/gamedlgs.c:282 client/gui-gtk/gamedlgs.c:302
-#: data/Freeciv:1307 data/Freeciv:1325 data/Freeciv:1344
+#: data/Freeciv:1298 data/Freeciv:1316 data/Freeciv:1335
 msgid "Lock"
 msgstr "Op slot"
 
@@ -8438,13 +8456,13 @@ msgstr "%s max waarde: %d%%"
 
 #: client/gui-gtk-2.0/gamedlgs.c:437 client/gui-gtk/gamedlgs.c:451
 #: client/gui-mui/gamedlgs.c:321 client/gui-win32/optiondlg.c:108
-#: data/Freeciv:1229
+#: data/Freeciv:1220
 msgid "Set local options"
 msgstr "Zet lokale opties"
 
 #: client/gui-gtk-2.0/gotodlg.c:123 client/gui-gtk/gotodlg.c:93
 #: client/gui-mui/gotodlg.c:157 client/gui-win32/gotodlg.c:152
-#: client/gui-win32/gotodlg.c:160 data/Freeciv:1108
+#: client/gui-win32/gotodlg.c:160 data/Freeciv:1096
 msgid "Goto/Airlift Unit"
 msgstr "Ga naar/Vlieg Eenheid"
 
@@ -8472,13 +8490,13 @@ msgid "_Connected Users:"
 msgstr "_Verbonden gebruikers:"
 
 #: client/gui-gtk-2.0/gui_main.c:847 client/gui-gtk/gui_main.c:658
-#: client/gui-win32/gui_main.c:388 data/Freeciv:2553
+#: client/gui-win32/gui_main.c:388 data/Freeciv:2562
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
 #: client/gui-gtk-2.0/gui_main.c:959 client/gui-gtk/gui_main.c:762
 #: client/gui-mui/gui_main.c:1028 client/gui-win32/gui_main.c:439
-#: data/Freeciv:2744
+#: data/Freeciv:2753
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -8644,12 +8662,12 @@ msgstr "Wereldwonderen: "
 #: client/gui-gtk/helpdlg.c:90 client/gui-gtk/helpdlg.c:94
 #: client/gui-mui/helpdlg.c:486 client/gui-mui/helpdlg.c:502
 #: client/gui-win32/helpdlg.c:79 client/gui-win32/helpdlg.c:82
-#: client/gui-win32/helpdlg.c:86 data/Freeciv:609 data/Freeciv:751
+#: client/gui-win32/helpdlg.c:86 data/Freeciv:596 data/Freeciv:738
 msgid "Cost:"
 msgstr "Prijs:"
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk/helpdlg.c:87
-#: client/gui-mui/helpdlg.c:488 client/gui-win32/helpdlg.c:79 data/Freeciv:626
+#: client/gui-mui/helpdlg.c:488 client/gui-win32/helpdlg.c:79 data/Freeciv:613
 msgid "Upkeep:"
 msgstr "Onderhoud:"
 
@@ -8659,7 +8677,7 @@ msgstr "Onderhoud:"
 #: client/gui-mui/helpdlg.c:490 client/gui-mui/helpdlg.c:504
 #: client/gui-mui/helpdlg.c:569 client/gui-win32/helpdlg.c:79
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
-#: data/Freeciv:667
+#: data/Freeciv:654
 msgid "Requirement:"
 msgstr "Benodigd:"
 
@@ -8667,22 +8685,22 @@ msgstr "Benodigd:"
 #: client/gui-gtk/helpdlg.c:90 client/gui-gtk/helpdlg.c:98
 #: client/gui-mui/helpdlg.c:506 client/gui-mui/helpdlg.c:571
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
-#: data/Freeciv:705
+#: data/Freeciv:692
 msgid "Obsolete by:"
 msgstr "Verouderd door:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-gtk/helpdlg.c:94
-#: client/gui-mui/helpdlg.c:553 client/gui-win32/helpdlg.c:86 data/Freeciv:768
+#: client/gui-mui/helpdlg.c:553 client/gui-win32/helpdlg.c:86 data/Freeciv:755
 msgid "Attack:"
 msgstr "Aanval:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-gtk/helpdlg.c:95
-#: client/gui-mui/helpdlg.c:555 client/gui-win32/helpdlg.c:87 data/Freeciv:786
+#: client/gui-mui/helpdlg.c:555 client/gui-win32/helpdlg.c:87 data/Freeciv:773
 msgid "Defense:"
 msgstr "Verdediging:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-gtk/helpdlg.c:95
-#: client/gui-mui/helpdlg.c:557 client/gui-win32/helpdlg.c:87 data/Freeciv:804
+#: client/gui-mui/helpdlg.c:557 client/gui-win32/helpdlg.c:87 data/Freeciv:791
 msgid "Move:"
 msgstr "Beweging:"
 
@@ -8692,17 +8710,17 @@ msgid "FirePower:"
 msgstr "Vuurkracht:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97 client/gui-gtk/helpdlg.c:96
-#: client/gui-mui/helpdlg.c:563 client/gui-win32/helpdlg.c:88 data/Freeciv:849
+#: client/gui-mui/helpdlg.c:563 client/gui-win32/helpdlg.c:88 data/Freeciv:836
 msgid "Hitpoints:"
 msgstr "Slagkracht:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk/helpdlg.c:97
-#: client/gui-mui/helpdlg.c:565 client/gui-win32/helpdlg.c:89 data/Freeciv:885
+#: client/gui-mui/helpdlg.c:565 client/gui-win32/helpdlg.c:89 data/Freeciv:872
 msgid "Basic Upkeep:"
 msgstr "Basis Onderhoud:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk/helpdlg.c:97
-#: client/gui-mui/helpdlg.c:559 client/gui-win32/helpdlg.c:89 data/Freeciv:867
+#: client/gui-mui/helpdlg.c:559 client/gui-win32/helpdlg.c:89 data/Freeciv:854
 msgid "Vision:"
 msgstr "Zicht:"
 
@@ -8791,7 +8809,7 @@ msgid "None"
 msgstr "Geen"
 
 #: client/gui-gtk-2.0/helpdlg.c:420 client/gui-gtk/helpdlg.c:445
-#: client/gui-win32/helpdlg.c:424 data/Freeciv:549
+#: client/gui-win32/helpdlg.c:424 data/Freeciv:536
 msgid "Freeciv Help Browser"
 msgstr "Freeciv Handleiding"
 
@@ -8865,7 +8883,7 @@ msgstr "+%d Hulp. / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:76 client/gui-gtk/inteldlg.c:81
 #: client/gui-mui/inteldlg.c:111 client/gui-win32/inteldlg.c:85
-#: data/Freeciv:156
+#: data/Freeciv:158
 msgid "Foreign Intelligence Report"
 msgstr "Buitenlands Spionage Rapport"
 
@@ -9017,7 +9035,7 @@ msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "A:%d V:%d VK:%d SP:%d0%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:267 client/gui-gtk/mapctrl.c:278
-#: client/gui-win32/mapctrl.c:380 data/Freeciv:516
+#: client/gui-win32/mapctrl.c:380
 msgid "Build New City"
 msgstr "Bouw Nieuwe Stad"
 
@@ -9110,7 +9128,7 @@ msgstr "_Spel"
 #: client/gui-gtk/menu.c:572 client/gui-gtk/menu.c:574
 #: client/gui-gtk/menu.c:576 client/gui-gtk/menu.c:578
 #: client/gui-gtk/menu.c:580 client/gui-gtk/menu.c:582
-#: client/gui-gtk/menu.c:584 client/gui-mui/gui_main.c:190 data/Freeciv:1967
+#: client/gui-gtk/menu.c:584 client/gui-mui/gui_main.c:190 data/Freeciv:1970
 msgid "Game"
 msgstr "Spel"
 
@@ -9173,7 +9191,7 @@ msgstr "_Koninkrijk"
 #: client/gui-gtk/menu.c:591 client/gui-gtk/menu.c:593
 #: client/gui-gtk/menu.c:595 client/gui-gtk/menu.c:597
 #: client/gui-gtk/menu.c:599 client/gui-gtk/menu.c:601
-#: client/gui-gtk/menu.c:603 client/gui-mui/gui_main.c:205 data/Freeciv:1968
+#: client/gui-gtk/menu.c:603 client/gui-mui/gui_main.c:205 data/Freeciv:1971
 msgid "Kingdom"
 msgstr "Koninkrijk"
 
@@ -9230,7 +9248,7 @@ msgstr "_Bekijk"
 #: client/gui-gtk/menu.c:644 client/gui-gtk/menu.c:646
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:650
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:654
-#: client/gui-mui/gui_main.c:213 data/Freeciv:1969
+#: client/gui-mui/gui_main.c:213 data/Freeciv:1972
 msgid "View"
 msgstr "Bekijk"
 
@@ -9344,7 +9362,7 @@ msgstr "_Opdrachten"
 #: client/gui-gtk/menu.c:705 client/gui-gtk/menu.c:707
 #: client/gui-gtk/menu.c:709 client/gui-gtk/menu.c:711
 #: client/gui-gtk/menu.c:713 client/gui-gtk/menu.c:715
-#: client/gui-gtk/menu.c:717 client/gui-gtk/menu.c:719 data/Freeciv:1970
+#: client/gui-gtk/menu.c:717 client/gui-gtk/menu.c:719 data/Freeciv:1973
 msgid "Orders"
 msgstr "Opdrachten"
 
@@ -9487,7 +9505,7 @@ msgstr "_Rapporten"
 #: client/gui-gtk/menu.c:732 client/gui-gtk/menu.c:734
 #: client/gui-gtk/menu.c:736 client/gui-gtk/menu.c:738
 #: client/gui-gtk/menu.c:740 client/gui-gtk/menu.c:742
-#: client/gui-gtk/menu.c:744 client/gui-gtk/menu.c:746 data/Freeciv:1971
+#: client/gui-gtk/menu.c:744 client/gui-gtk/menu.c:746 data/Freeciv:1974
 msgid "Reports"
 msgstr "Rapporten"
 
@@ -9570,8 +9588,8 @@ msgstr "_Help"
 #: client/gui-gtk/wldlg.c:501 client/gui-mui/gui_main.c:282
 #: client/gui-mui/helpdlg.c:284 client/gui-mui/repodlgs.c:294
 #: client/gui-win32/citydlg.c:1175 client/gui-win32/repodlgs.c:273
-#: client/gui-win32/wldlg.c:718 data/Freeciv:1972 data/Freeciv:2040
-#: data/Freeciv:2123 data/Freeciv:2129
+#: client/gui-win32/wldlg.c:718 data/Freeciv:1975 data/Freeciv:2045
+#: data/Freeciv:2132 data/Freeciv:2138
 msgid "Help"
 msgstr "Help"
 
@@ -9707,7 +9725,7 @@ msgstr "_Auto Aanval"
 
 #: client/gui-gtk-2.0/messagedlg.c:61 client/gui-gtk/messagedlg.c:78
 #: client/gui-mui/messagedlg.c:68 client/gui-win32/messagedlg.c:175
-#: client/gui-xaw/menu.c:105 data/Freeciv:1250
+#: client/gui-xaw/menu.c:105 data/Freeciv:1241
 msgid "Message Options"
 msgstr "Bericht Opties"
 
@@ -9741,12 +9759,12 @@ msgstr "Pop"
 #: client/gui-gtk/messagewin.c:129 client/gui-gtk/messagewin.c:141
 #: client/gui-mui/messagewin.c:130 client/gui-mui/messagewin.c:197
 #: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:207
-#: data/Freeciv:3172 data/Freeciv:3173 data/Freeciv:3182
+#: data/Freeciv:3188 data/Freeciv:3189 data/Freeciv:3198
 msgid "Messages"
 msgstr "Berichten"
 
 #: client/gui-gtk-2.0/plrdlg.c:159 client/gui-gtk/plrdlg.c:138
-#: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:353 data/Freeciv:71
+#: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:353 data/Freeciv:73
 msgid "Name"
 msgstr "Naam"
 
@@ -9775,7 +9793,7 @@ msgid "Reputation"
 msgstr "Reputatie"
 
 #: client/gui-gtk-2.0/plrdlg.c:169 client/gui-gtk/plrdlg.c:140
-#: client/gui-mui/plrdlg.c:173 client/gui-win32/plrdlg.c:355 data/Freeciv:79
+#: client/gui-mui/plrdlg.c:173 client/gui-win32/plrdlg.c:355 data/Freeciv:81
 msgid "Host"
 msgstr "Host"
 
@@ -9836,7 +9854,7 @@ msgid "Researching"
 msgstr "Onderzoeken"
 
 #: client/gui-gtk-2.0/repodlgs.c:190 client/gui-gtk/repodlgs.c:187
-#: client/gui-win32/repodlgs.c:277 data/Freeciv:1423
+#: client/gui-win32/repodlgs.c:277 data/Freeciv:1416
 msgid "Goal"
 msgstr "Doel"
 
@@ -9889,12 +9907,12 @@ msgid "Total Cost:"
 msgstr "Totale Kosten:"
 
 #: client/gui-gtk-2.0/repodlgs.c:658 client/gui-gtk/repodlgs.c:616
-#: client/gui-win32/repodlgs.c:462 data/Freeciv:1821
+#: client/gui-win32/repodlgs.c:462 data/Freeciv:1820
 msgid "Sell Obsolete"
 msgstr "Verkoop Verouderd"
 
 #: client/gui-gtk-2.0/repodlgs.c:663 client/gui-gtk/repodlgs.c:622
-#: client/gui-win32/repodlgs.c:464 data/Freeciv:1829
+#: client/gui-win32/repodlgs.c:464 data/Freeciv:1828
 msgid "Sell All"
 msgstr "Verkoop Alles"
 
@@ -10110,7 +10128,7 @@ msgstr "Stadsnaam"
 
 #: client/gui-gtk/citydlg.c:1384 client/gui-gtk/wldlg.c:225
 #: client/gui-win32/citydlg.c:897 client/gui-win32/wldlg.c:309
-#: data/Freeciv:1942 data/Freeciv:2964
+#: data/Freeciv:1945
 msgid "Rename"
 msgstr "Hernoem"
 
@@ -10150,7 +10168,7 @@ msgstr "Totale opbrengst van handelsroutes: %d"
 
 #: client/gui-gtk/citydlg.c:2469 client/gui-gtk/citydlg.c:2502
 #: client/gui-win32/citydlg.c:1614 client/gui-win32/citydlg.c:1642
-#: data/Freeciv:1163 data/Freeciv:1199
+#: data/Freeciv:1152 data/Freeciv:1188
 msgid "Unit Commands"
 msgstr "Eenheid opdrachten"
 
@@ -10178,8 +10196,8 @@ msgstr "_Annuleer"
 #: client/gui-mui/dialogs.c:523 client/gui-win32/citydlg.c:1006
 #: client/gui-win32/citydlg.c:1569 client/gui-win32/citydlg.c:1593
 #: client/gui-win32/dialogs.c:1419 client/gui-win32/dialogs.c:1604
-#: client/gui-win32/dialogs.c:1619 data/Freeciv:2187 data/Freeciv:2391
-#: data/Freeciv:2421
+#: client/gui-win32/dialogs.c:1619 data/Freeciv:2196 data/Freeciv:2400
+#: data/Freeciv:2430
 msgid "Darn"
 msgstr "Verdorie"
 
@@ -10210,7 +10228,7 @@ msgid "_No"
 msgstr "_Nee"
 
 #: client/gui-gtk/citydlg.c:2987 client/gui-win32/citydlg.c:1160
-#: data/Freeciv:2014
+#: data/Freeciv:2017
 msgid "Change Production"
 msgstr "Verander Productie"
 
@@ -10235,7 +10253,7 @@ msgstr "Geen Eenheden Beschikbaar"
 msgid "No Wonders Available"
 msgstr "Geen Wonderen Beschikbaar"
 
-#: client/gui-gtk/cityrep.c:575
+#: client/gui-gtk/cityrep.c:575 data/Freeciv:1589
 msgid "Change All..."
 msgstr "Verander Alles..."
 
@@ -10261,24 +10279,24 @@ msgstr ""
 "Spel: Kies een eenheid of verbetering om de productie in te veranderen."
 
 #: client/gui-gtk/cityrep.c:1003 client/gui-win32/cityrep.c:745
-#: data/Freeciv:1693
+#: data/Freeciv:1689
 msgid "From:"
 msgstr "Van:"
 
 #: client/gui-gtk/cityrep.c:1004 client/gui-win32/cityrep.c:753
-#: data/Freeciv:1703
+#: data/Freeciv:1699
 msgid "To:"
 msgstr "In:"
 
 #: client/gui-gtk/cityrep.c:1032 client/gui-win32/cityrep.c:737
-#: data/Freeciv:1687
+#: data/Freeciv:1683
 msgid "Change Production Everywhere"
 msgstr "Verander Productie Overal"
 
 #: client/gui-gtk/cityrep.c:1132 client/gui-win32/citydlg.c:870
 #: client/gui-win32/citydlg.c:1171 client/gui-win32/cityrep.c:749
-#: client/gui-win32/cityrep.c:883 data/Freeciv:1383 data/Freeciv:1585
-#: data/Freeciv:1739 data/Freeciv:2028 data/Freeciv:2976
+#: client/gui-win32/cityrep.c:883 data/Freeciv:1374 data/Freeciv:1581
+#: data/Freeciv:1737 data/Freeciv:2033
 msgid "Change"
 msgstr "Verander"
 
@@ -10292,19 +10310,19 @@ msgstr "Verander"
 #: client/gui-win32/gotodlg.c:170 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:334
 #: client/gui-win32/wldlg.c:727 client/gui-xaw/inputdlg.c:110
-#: data/Freeciv:1096 data/Freeciv:1151 data/Freeciv:1193 data/Freeciv:1213
-#: data/Freeciv:1243 data/Freeciv:1276 data/Freeciv:1354 data/Freeciv:1502
-#: data/Freeciv:1754 data/Freeciv:2034 data/Freeciv:2111 data/Freeciv:2228
-#: data/Freeciv:2263 data/Freeciv:2372 data/Freeciv:2440 data/Freeciv:2450
+#: data/Freeciv:1084 data/Freeciv:1140 data/Freeciv:1182 data/Freeciv:1202
+#: data/Freeciv:1234 data/Freeciv:1267 data/Freeciv:1345 data/Freeciv:1497
+#: data/Freeciv:1752 data/Freeciv:2039 data/Freeciv:2120 data/Freeciv:2237
+#: data/Freeciv:2272 data/Freeciv:2381 data/Freeciv:2449 data/Freeciv:2459
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: client/gui-gtk/cityrep.c:1383 data/Freeciv:1668
+#: client/gui-gtk/cityrep.c:1383 data/Freeciv:1664
 msgid "Configure Cities Report"
 msgstr "Stel Steden Rapport in"
 
 #: client/gui-gtk/cityrep.c:1386 client/gui-mui/cityrep.c:273
-#: client/gui-win32/cityrep.c:127 data/Freeciv:1673
+#: client/gui-win32/cityrep.c:127 data/Freeciv:1669
 msgid "Set columns shown"
 msgstr "Stel zichtbare kolommen in"
 
@@ -10324,11 +10342,11 @@ msgstr "Stel zichtbare kolommen in"
 #: client/gui-win32/plrdlg.c:369 client/gui-win32/repodlgs.c:287
 #: client/gui-win32/repodlgs.c:460 client/gui-win32/repodlgs.c:714
 #: client/gui-win32/spaceshipdlg.c:246 client/gui-win32/wldlg.c:307
-#: data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533
-#: data/Freeciv:578 data/Freeciv:1441 data/Freeciv:1554 data/Freeciv:1650
-#: data/Freeciv:1681 data/Freeciv:1814 data/Freeciv:1888 data/Freeciv:1930
-#: data/Freeciv:2295 data/Freeciv:2337 data/Freeciv:2959 data/Freeciv:3122
-#: data/Freeciv:3205
+#: data/Freeciv:147 data/Freeciv:197 data/Freeciv:501 data/Freeciv:520
+#: data/Freeciv:565 data/Freeciv:1436 data/Freeciv:1550 data/Freeciv:1646
+#: data/Freeciv:1677 data/Freeciv:1813 data/Freeciv:1888 data/Freeciv:1933
+#: data/Freeciv:2304 data/Freeciv:2346 data/Freeciv:2972 data/Freeciv:3138
+#: data/Freeciv:3222
 msgid "Close"
 msgstr "Sluit"
 
@@ -10369,14 +10387,14 @@ msgid "Port:"
 msgstr "Poort:"
 
 #: client/gui-gtk/connectdlg.c:244 client/gui-win32/connectdlg.c:410
-#: data/Freeciv:138
+#: data/Freeciv:140
 msgid "Update"
 msgstr "Bijwerken"
 
 #: client/gui-gtk/connectdlg.c:261 client/gui-gtk/dialogs.c:2258
 #: client/gui-mui/gui_main.c:203 client/gui-win32/connectdlg.c:416
-#: client/gui-win32/dialogs.c:555 client/gui-xaw/menu.c:115 data/Freeciv:102
-#: data/Freeciv:3080
+#: client/gui-win32/dialogs.c:555 client/gui-xaw/menu.c:115 data/Freeciv:104
+#: data/Freeciv:3095
 msgid "Quit"
 msgstr "Einde"
 
@@ -10385,12 +10403,12 @@ msgid "Message:"
 msgstr "Bericht:"
 
 #: client/gui-gtk/dialogs.c:389 client/gui-win32/dialogs.c:185
-#: data/Freeciv:507
+#: data/Freeciv:509
 msgid "Goto and Close"
 msgstr "Ga naar en Sluit"
 
 #: client/gui-gtk/dialogs.c:754 client/gui-win32/dialogs.c:1323
-#: data/Freeciv:2301
+#: data/Freeciv:2310
 msgid "Steal"
 msgstr "Steel"
 
@@ -10400,12 +10418,12 @@ msgid "NONE"
 msgstr "GEEN"
 
 #: client/gui-gtk/dialogs.c:852 client/gui-win32/dialogs.c:1537
-#: data/Freeciv:2343
+#: data/Freeciv:2352
 msgid "Sabotage"
 msgstr "Saboteer"
 
 #: client/gui-gtk/dialogs.c:1806 client/gui-win32/dialogs.c:710
-#: data/Freeciv:534
+#: data/Freeciv:521
 msgid "Ready all"
 msgstr "Activeer alle"
 
@@ -10435,7 +10453,7 @@ msgid "Male"
 msgstr "Mannelijk"
 
 #: client/gui-gtk/dialogs.c:2173 client/gui-mui/dialogs.c:1709
-#: client/gui-win32/dialogs.c:526 data/Freeciv:3059
+#: client/gui-win32/dialogs.c:526 data/Freeciv:3074
 msgid "Female"
 msgstr "Vrouwelijk"
 
@@ -10452,16 +10470,16 @@ msgstr "Kies uw stads-stijl"
 #: client/gui-gtk/wldlg.c:485 client/gui-win32/dialogs.c:552
 #: client/gui-win32/messagedlg.c:215 client/gui-win32/ratesdlg.c:333
 #: client/gui-win32/wldlg.c:726 client/gui-xaw/inputdlg.c:103
-#: data/Freeciv:1241 data/Freeciv:1274 data/Freeciv:1351 data/Freeciv:1499
+#: data/Freeciv:1232 data/Freeciv:1265 data/Freeciv:1342 data/Freeciv:1494
 msgid "Ok"
 msgstr "Ok"
 
 #: client/gui-gtk/dialogs.c:2253 client/gui-mui/gui_main.c:201
-#: client/gui-win32/dialogs.c:553 client/gui-xaw/menu.c:114 data/Freeciv:3078
+#: client/gui-win32/dialogs.c:553 client/gui-xaw/menu.c:114 data/Freeciv:3093
 msgid "Disconnect"
 msgstr "Verbinding Verbreken"
 
-#: client/gui-gtk/diplodlg.c:289 data/Freeciv:268
+#: client/gui-gtk/diplodlg.c:289 data/Freeciv:270
 msgid "The following clauses have been agreed upon:"
 msgstr "Over de volgende clausules bestaat overeenstemming:"
 
@@ -10477,7 +10495,7 @@ msgstr "De aanbiedingen van de %s"
 #: client/gui-mui/diplodlg.c:490 client/gui-mui/diplodlg.c:525
 #: client/gui-mui/diplodlg.c:552 client/gui-mui/diplodlg.c:570
 #: client/gui-win32/diplodlg.c:627 client/gui-win32/diplodlg.c:674
-#: data/Freeciv:332 data/Freeciv:341
+#: data/Freeciv:334 data/Freeciv:343
 msgid "Maps"
 msgstr "Kaarten"
 
@@ -10485,7 +10503,7 @@ msgstr "Kaarten"
 #: client/gui-mui/diplodlg.c:491 client/gui-mui/diplodlg.c:526
 #: client/gui-mui/diplodlg.c:588 client/gui-mui/diplodlg.c:598
 #: client/gui-win32/diplodlg.c:628 client/gui-win32/diplodlg.c:675
-#: data/Freeciv:350 data/Freeciv:359
+#: data/Freeciv:352 data/Freeciv:361
 msgid "Advances"
 msgstr "Vooruitgangen"
 
@@ -10505,7 +10523,7 @@ msgstr "Geven gedeelde waarneming"
 
 #: client/gui-gtk/diplodlg.c:478 client/gui-mui/diplodlg.c:498
 #: client/gui-mui/diplodlg.c:629 client/gui-win32/diplodlg.c:637
-#: data/Freeciv:450
+#: data/Freeciv:452
 msgid "Pacts"
 msgstr "Verdragen"
 
@@ -10534,27 +10552,27 @@ msgid "%s view:"
 msgstr "%s bekijk:"
 
 #: client/gui-gtk/diplodlg.c:535 client/gui-mui/diplodlg.c:519
-#: data/Freeciv:324
+#: data/Freeciv:326
 msgid "Erase clause"
 msgstr "Verwijder clausule"
 
 #: client/gui-gtk/diplodlg.c:539 client/gui-win32/diplodlg.c:690
-#: data/Freeciv:459
+#: data/Freeciv:461
 msgid "Accept treaty"
 msgstr "Accepteer verdrag"
 
 #: client/gui-gtk/diplodlg.c:544 client/gui-win32/diplodlg.c:691
-#: data/Freeciv:468
+#: data/Freeciv:470
 msgid "Cancel meeting"
 msgstr "Annuleer ontmoeting"
 
 #: client/gui-gtk/finddlg.c:71 client/gui-win32/finddlg.c:123
-#: data/Freeciv:1072
+#: data/Freeciv:1059
 msgid "Select a city:"
 msgstr "Kies een stad:"
 
 #: client/gui-gtk/finddlg.c:93 client/gui-win32/cityrep.c:880
-#: client/gui-win32/finddlg.c:127 data/Freeciv:1089 data/Freeciv:1561
+#: client/gui-win32/finddlg.c:127 data/Freeciv:1077 data/Freeciv:1557
 msgid "Center"
 msgstr "Centreer"
 
@@ -10679,7 +10697,7 @@ msgid "Upgrade"
 msgstr "Waardeer op"
 
 #: client/gui-gtk/repodlgs.c:862 client/gui-win32/cityrep.c:885
-#: client/gui-win32/repodlgs.c:718 data/Freeciv:1601 data/Freeciv:1746
+#: client/gui-win32/repodlgs.c:718 data/Freeciv:1597 data/Freeciv:1744
 #: data/Freeciv:1903
 msgid "Refresh"
 msgstr "Ververs"
@@ -10688,9 +10706,9 @@ msgstr "Ververs"
 #: client/gui-win32/repodlgs.c:580 client/gui-xaw/citydlg.c:2544
 #: client/gui-xaw/cityrep.c:652 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:248
-#: client/gui-xaw/wldlg.c:1226 data/Freeciv:2143 data/Freeciv:2157
-#: data/Freeciv:2176 data/Freeciv:2356 data/Freeciv:2380 data/Freeciv:2399
-#: data/Freeciv:2410
+#: client/gui-xaw/wldlg.c:1226 data/Freeciv:2152 data/Freeciv:2166
+#: data/Freeciv:2185 data/Freeciv:2365 data/Freeciv:2389 data/Freeciv:2408
+#: data/Freeciv:2419
 msgid "Yes"
 msgstr "Ja"
 
@@ -10698,8 +10716,8 @@ msgstr "Ja"
 #: client/gui-win32/repodlgs.c:582 client/gui-xaw/citydlg.c:2544
 #: client/gui-xaw/cityrep.c:652 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:248
-#: client/gui-xaw/wldlg.c:1226 data/Freeciv:2159 data/Freeciv:2178
-#: data/Freeciv:2358 data/Freeciv:2382 data/Freeciv:2401 data/Freeciv:2412
+#: client/gui-xaw/wldlg.c:1226 data/Freeciv:2168 data/Freeciv:2187
+#: data/Freeciv:2367 data/Freeciv:2391 data/Freeciv:2410 data/Freeciv:2421
 msgid "No"
 msgstr "Nee"
 
@@ -10709,7 +10727,7 @@ msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d"
 msgstr "Totalen:                    %s%9d%s%9d%s%9d%s%9d"
 
 #: client/gui-gtk/spaceshipdlg.c:220 client/gui-win32/spaceshipdlg.c:247
-#: data/Freeciv:1657
+#: data/Freeciv:1653
 msgid "Launch"
 msgstr "Lanceer"
 
@@ -10717,17 +10735,17 @@ msgstr "Lanceer"
 msgid "Available worklists"
 msgstr "Beschikbare werklijsten"
 
-#: client/gui-gtk/wldlg.c:216 client/gui-win32/wldlg.c:308 data/Freeciv:1936
+#: client/gui-gtk/wldlg.c:216 client/gui-win32/wldlg.c:308 data/Freeciv:1939
 msgid "Edit"
 msgstr "Wijzig"
 
-#: client/gui-gtk/wldlg.c:235 client/gui-win32/wldlg.c:310 data/Freeciv:1951
-#: data/Freeciv:2087
+#: client/gui-gtk/wldlg.c:235 client/gui-win32/wldlg.c:310 data/Freeciv:1954
+#: data/Freeciv:2096
 msgid "Insert"
 msgstr "Toevoegen"
 
-#: client/gui-gtk/wldlg.c:244 client/gui-win32/wldlg.c:311 data/Freeciv:1957
-#: data/Freeciv:2093
+#: client/gui-gtk/wldlg.c:244 client/gui-win32/wldlg.c:311 data/Freeciv:1960
+#: data/Freeciv:2102
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -10735,15 +10753,15 @@ msgstr "Verwijderen"
 msgid "Production worklist"
 msgstr "Productie werklijst"
 
-#: client/gui-gtk/wldlg.c:353 client/gui-win32/wldlg.c:699 data/Freeciv:2052
+#: client/gui-gtk/wldlg.c:353 client/gui-win32/wldlg.c:699 data/Freeciv:2057
 msgid "Current worklist"
 msgstr "Huidige werklijst"
 
-#: client/gui-gtk/wldlg.c:385 client/gui-win32/wldlg.c:704 data/Freeciv:2099
+#: client/gui-gtk/wldlg.c:385 client/gui-win32/wldlg.c:704 data/Freeciv:2108
 msgid "Up"
 msgstr "Omhoog"
 
-#: client/gui-gtk/wldlg.c:389 client/gui-win32/wldlg.c:705 data/Freeciv:2105
+#: client/gui-gtk/wldlg.c:389 client/gui-win32/wldlg.c:705 data/Freeciv:2114
 msgid "Down"
 msgstr "Omlaag"
 
@@ -10777,7 +10795,7 @@ msgstr "lege werklijst"
 
 #: client/gui-gtk/wldlg.c:1353 client/gui-mui/citydlg.c:1444
 #: client/gui-mui/worklistclass.c:159 client/gui-win32/citydlg.c:781
-#: client/gui-win32/wldlg.c:950 client/gui-win32/wldlg.c:996 data/Freeciv:2978
+#: client/gui-win32/wldlg.c:950 client/gui-win32/wldlg.c:996
 msgid "Worklist"
 msgstr "Werklijst"
 
@@ -10865,7 +10883,7 @@ msgstr "Stadsgroei:"
 msgid "Production completed:"
 msgstr "Productie gereed:"
 
-#: client/gui-mui/citydlg.c:1676 data/Freeciv:2966
+#: client/gui-mui/citydlg.c:1676 data/Freeciv:2979
 #: data/default/techs.ruleset:733 data/civ2/techs.ruleset:553
 #: data/civ1/techs.ruleset:553 data/history/techs.ruleset:562
 msgid "Trade"
@@ -10936,7 +10954,7 @@ msgid "Server Selection"
 msgstr "Server Keuze"
 
 #: client/gui-mui/connectdlg.c:192 client/gui-win32/connectdlg.c:377
-#: data/Freeciv:63
+#: data/Freeciv:65
 msgid "Connect to Freeciv Server"
 msgstr "Maak verbinding met Freeciv Server"
 
@@ -10981,7 +10999,7 @@ msgstr "Steel _technologie"
 msgid "Incite a _revolt"
 msgstr "Ontketen een o_pstand"
 
-#: client/gui-mui/dialogs.c:845 data/Freeciv:2208
+#: client/gui-mui/dialogs.c:845 data/Freeciv:2217
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Kies uw Diplomaats Strategie"
 
@@ -11317,7 +11335,7 @@ msgid "Demographics"
 msgstr "Volkenkunde"
 
 #: client/gui-mui/gui_main.c:280 client/gui-win32/plrdlg.c:375
-#: client/gui-xaw/menu.c:209 data/Freeciv:3161
+#: client/gui-xaw/menu.c:209 data/Freeciv:3177
 msgid "Spaceship"
 msgstr "Ruimteschip"
 
@@ -11370,7 +11388,7 @@ msgstr ""
 "Kon hoofdvenster niet openen (Gfx geheugenprobleem of schermgrootte te "
 "klein)\n"
 
-#: client/gui-mui/helpdlg.c:561 data/Freeciv:832
+#: client/gui-mui/helpdlg.c:561 data/Freeciv:819
 msgid "Firepower:"
 msgstr "Vuurkracht:"
 
@@ -11429,7 +11447,7 @@ msgid "Tile %s"
 msgstr "Vlak: %s"
 
 #: client/gui-mui/mapclass.c:1651 client/gui-win32/messagewin.c:151
-#: data/Freeciv:3220
+#: data/Freeciv:3237
 msgid "Popup City"
 msgstr "Popup Stad"
 
@@ -11458,7 +11476,7 @@ msgstr "Ga naar deze locatie"
 msgid "Disband"
 msgstr "Ontbind"
 
-#: client/gui-mui/mapclass.c:2945 data/Freeciv:1185
+#: client/gui-mui/mapclass.c:2945 data/Freeciv:1174
 msgid "Make new homecity"
 msgstr "Verhuis naar deze stad"
 
@@ -11707,15 +11725,15 @@ msgstr ""
 "Wetenschap: %2d"
 
 #: client/gui-win32/citydlg.c:868 client/gui-win32/cityrep.c:882
-#: data/Freeciv:1577
+#: data/Freeciv:1573
 msgid "Buy"
 msgstr "Koop"
 
-#: client/gui-win32/citydlg.c:901 data/Freeciv:2968
+#: client/gui-win32/citydlg.c:901 data/Freeciv:2981
 msgid "Activate Units"
 msgstr "Activeer Eenheid"
 
-#: client/gui-win32/citydlg.c:904 data/Freeciv:2970
+#: client/gui-win32/citydlg.c:904
 msgid "Unit List"
 msgstr "Eenhedenlijst"
 
@@ -11755,11 +11773,11 @@ msgstr "Spel: Kies een eenheid of verbetering om productie van te veranderen."
 msgid "Game: That's the same thing!"
 msgstr "Spel: Dat is hetzelfde!"
 
-#: client/gui-win32/cityrep.c:881 data/Freeciv:1569
+#: client/gui-win32/cityrep.c:881 data/Freeciv:1565
 msgid "Popup"
 msgstr "Popup"
 
-#: client/gui-win32/cityrep.c:884 data/Freeciv:1593
+#: client/gui-win32/cityrep.c:884
 msgid "Change All"
 msgstr "Verander Alles"
 
@@ -11767,7 +11785,7 @@ msgstr "Verander Alles"
 msgid "Select"
 msgstr "Kies"
 
-#: client/gui-win32/cityrep.c:887 data/Freeciv:1609
+#: client/gui-win32/cityrep.c:887
 msgid "Configure"
 msgstr "Instellingen"
 
@@ -11889,7 +11907,7 @@ msgstr "De naam van uw leider"
 msgid "Select your sex"
 msgstr "Kies uw sexe"
 
-#: client/gui-win32/gotodlg.c:166 data/Freeciv:1133
+#: client/gui-win32/gotodlg.c:166 data/Freeciv:1122
 msgid "Airlift"
 msgstr "Vlieg naar"
 
@@ -11906,15 +11924,15 @@ msgstr "Transf_ormeer naar Heuvels"
 msgid "Transform to %s"
 msgstr "Transformeer naar %s"
 
-#: client/gui-win32/messagewin.c:149 data/Freeciv:3212
+#: client/gui-win32/messagewin.c:149 data/Freeciv:3229
 msgid "Goto location"
 msgstr "Ga naar locatie"
 
-#: client/gui-win32/plrdlg.c:370 data/Freeciv:3129
+#: client/gui-win32/plrdlg.c:370 data/Freeciv:3145
 msgid "Intelligence"
 msgstr "Inlichtingen"
 
-#: client/gui-win32/plrdlg.c:371 data/Freeciv:3137
+#: client/gui-win32/plrdlg.c:371 data/Freeciv:3153
 msgid "Meet"
 msgstr "Ontmoet"
 
@@ -11922,7 +11940,7 @@ msgstr "Ontmoet"
 msgid "Cancel Treaty"
 msgstr "Verbreek Verdrag"
 
-#: client/gui-win32/plrdlg.c:373 data/Freeciv:3153
+#: client/gui-win32/plrdlg.c:373 data/Freeciv:3169
 msgid "Withdraw vision"
 msgstr "Ontneem waarneming"
 
@@ -12216,11 +12234,11 @@ msgstr "Doel: %s (%d stappen)"
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalen:                    %9d%9d%9d%9d"
 
-#: data/Freeciv:116
+#: data/Freeciv:118
 msgid "Metaserver List"
 msgstr "Metaserver Lijst"
 
-#: data/Freeciv:119
+#: data/Freeciv:121
 msgid ""
 "Server Name                         Port  Version     Status  Players  "
 "Comment"
@@ -12228,79 +12246,79 @@ msgstr ""
 "Server Naam                         Poort Versie      Status  Spelers  "
 "Commentaar"
 
-#: data/Freeciv:432 data/Freeciv:441
+#: data/Freeciv:434 data/Freeciv:443
 msgid "Shared vision"
 msgstr "Gedeelde waarneming"
 
-#: data/Freeciv:531
+#: data/Freeciv:518
 msgid "Select Unit(s)"
 msgstr "Kies Eenhe(i)d(en)"
 
-#: data/Freeciv:645 data/Freeciv:724
+#: data/Freeciv:632 data/Freeciv:711
 msgid "Variant:"
 msgstr "Variant:"
 
-#: data/Freeciv:905
+#: data/Freeciv:892
 msgid "Movement/Defense:"
 msgstr "Beweging/Verdediging:"
 
-#: data/Freeciv:924
+#: data/Freeciv:911
 msgid "Food/Resources/Trade:"
 msgstr "Voeding/Bronnen/Handel:"
 
-#: data/Freeciv:985
+#: data/Freeciv:972
 msgid "Road Result/Time:"
 msgstr "Weg Resultaat/Tijd:"
 
-#: data/Freeciv:1005
+#: data/Freeciv:992
 msgid "Irrig. Result/Time:"
 msgstr "Irrigatie Resultaat/Tijd:"
 
-#: data/Freeciv:1026
+#: data/Freeciv:1013
 msgid "Mine Result/Time:"
 msgstr "Mijnbouw Resultaat/Tijd:"
 
-#: data/Freeciv:1046
+#: data/Freeciv:1033
 msgid "Trans. Result/Time:"
 msgstr "Transformatie Resultaat/Tijd:"
 
-#: data/Freeciv:1109
+#: data/Freeciv:1097
 msgid "Select destination:"
 msgstr "Kies bestemming:"
 
-#: data/Freeciv:1165 data/Freeciv:1201
+#: data/Freeciv:1154 data/Freeciv:1190
 msgid "Activate unit"
 msgstr "Activeer eenheid"
 
-#: data/Freeciv:1169 data/Freeciv:1205
+#: data/Freeciv:1158 data/Freeciv:1194
 msgid "Activate unit, close dialog"
 msgstr "Activeer eenheid, sluit dialoog"
 
-#: data/Freeciv:1173
+#: data/Freeciv:1162
 msgid "Sentry unit"
 msgstr "Zet eenheid op wacht"
 
-#: data/Freeciv:1177
+#: data/Freeciv:1166
 msgid "Fortify unit"
 msgstr "Fortificeer eenheid"
 
-#: data/Freeciv:1181 data/Freeciv:1209
+#: data/Freeciv:1170 data/Freeciv:1198
 msgid "Disband unit"
 msgstr "Ontbind eenheid"
 
-#: data/Freeciv:1189
+#: data/Freeciv:1178
 msgid "Upgrade unit"
 msgstr "Waardeer eenheid op"
 
-#: data/Freeciv:1220
+#: data/Freeciv:1209
 msgid "Options"
 msgstr "Opties"
 
-#: data/Freeciv:1260
+#: data/Freeciv:1251
 msgid "Where to Display Messages"
 msgstr "Waar berichten te tonen"
 
-#: data/Freeciv:1261
+#: data/Freeciv:1252
 msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
@@ -12308,175 +12326,199 @@ msgstr ""
 "Uit = Uitvoervenster, Ber = Berichtenvenster,\n"
 "Pop = Popup individueel venster"
 
-#: data/Freeciv:1272
+#: data/Freeciv:1263
 msgid " Out Mes Pop"
 msgstr "Uit Ber Pop"
 
-#: data/Freeciv:1283
+#: data/Freeciv:1274
 msgid "Rates"
 msgstr "Waarden"
 
-#: data/Freeciv:1285
+#: data/Freeciv:1276
 msgid "Select tax, luxury and science rates:"
 msgstr "Kies belasting-, luxe- en wetenschapswaarden:"
 
-#: data/Freeciv:1391
+#: data/Freeciv:1384
 msgid "Help:"
 msgstr "Help:"
 
-#: data/Freeciv:1451 data/Freeciv:2972
+#: data/Freeciv:1446
 msgid "City Options"
 msgstr "Stads Opties"
 
-#: data/Freeciv:1461
+#: data/Freeciv:1456
 msgid "Make new citizens into:     "
 msgstr "Verander nieuwe stedelingen in:    "
 
-#: data/Freeciv:1469
+#: data/Freeciv:1464
 msgid "Disband if build settler at size 1:"
 msgstr "Verlaat als kolonisten gebouwd bij grootte 1:"
 
-#: data/Freeciv:1475
+#: data/Freeciv:1470
 msgid "Auto-attack vs land units:         "
 msgstr "Auto-aanval vs land-eenheden:      "
 
-#: data/Freeciv:1481
+#: data/Freeciv:1476
 msgid "Auto-attack vs sea units:          "
 msgstr "Auto-aanval vs zee-eenheden:       "
 
-#: data/Freeciv:1487
+#: data/Freeciv:1482
 msgid "Auto-attack vs air units:          "
 msgstr "Auto-aanval vs lucht-eenheden:     "
 
-#: data/Freeciv:1493
+#: data/Freeciv:1488
 msgid "Auto-attack vs helicopters:        "
 msgstr "Auto-attack vs helicopters:        "
 
-#: data/Freeciv:1792
+#: data/Freeciv:1605
+msgid "Configure..."
+msgstr "Instellen..."
+
+#: data/Freeciv:1790
 msgid "Building Name       Count Cost Total"
 msgstr "Gebouw   Naam       Aantal Kosten Totaal"
 
-#: data/Freeciv:1867
+#: data/Freeciv:1866
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
 msgstr "Eenheid Type          Opwaarderen In-Ontw. Actief  Schild    Voeding"
 
-#: data/Freeciv:1947
+#: data/Freeciv:1950
 msgid "Rename worklist"
 msgstr "Hernoem werklijst"
 
-#: data/Freeciv:2016
+#: data/Freeciv:2019
 msgid "Select new production"
 msgstr "Kies nieuwe productie"
 
-#: data/Freeciv:2050
+#: data/Freeciv:2055
 msgid "Production Worklist"
 msgstr "Productie Werklijst"
 
-#: data/Freeciv:2059
+#: data/Freeciv:2064
 msgid "Available targets"
 msgstr "Beschikbare doelen"
 
-#: data/Freeciv:2081
+#: data/Freeciv:2090
 msgid "Prepend"
 msgstr "Als eerste"
 
-#: data/Freeciv:2117
+#: data/Freeciv:2126
 msgid "  Ok  "
 msgstr "  Ok  "
 
-#: data/Freeciv:2135
+#: data/Freeciv:2144
 msgid "Show future targets:"
 msgstr "Toon toekomstige doelen:"
 
-#: data/Freeciv:2196
+#: data/Freeciv:2205
 msgid "Establish traderoute"
 msgstr "Maak handelsroute"
 
-#: data/Freeciv:2198
+#: data/Freeciv:2207
 msgid "Help build Wonder"
 msgstr "Help Wonder te bouwen"
 
-#: data/Freeciv:2201 data/Freeciv:2225 data/Freeciv:2260
+#: data/Freeciv:2210 data/Freeciv:2234 data/Freeciv:2269
 msgid "Keep moving"
 msgstr "Blijf doorgaan"
 
-#: data/Freeciv:2213 data/Freeciv:2239
+#: data/Freeciv:2222 data/Freeciv:2248
 msgid "Establish Embassy"
 msgstr "Vestig Ambassade"
 
-#: data/Freeciv:2215
+#: data/Freeciv:2224
 msgid "Investigate City"
 msgstr "Onderzoek Stad"
 
-#: data/Freeciv:2218
+#: data/Freeciv:2227
 msgid "Sabotage City"
 msgstr "Saboteer stad"
 
-#: data/Freeciv:2223 data/Freeciv:2256
+#: data/Freeciv:2232 data/Freeciv:2265
 msgid "Incite a Revolt"
 msgstr "Begin een Opstand"
 
-#: data/Freeciv:2242
+#: data/Freeciv:2251
 msgid "Investigate City (free)"
 msgstr "Onderzoek Stad (gratis)"
 
-#: data/Freeciv:2246
+#: data/Freeciv:2255
 msgid "Poison City"
 msgstr "Vergiftig Stad"
 
-#: data/Freeciv:2249
+#: data/Freeciv:2258
 msgid "Industrial Sabotage"
 msgstr "Industrieële Sabotage"
 
-#: data/Freeciv:2369
+#: data/Freeciv:2378
 msgid "Sabotage Enemy Unit"
 msgstr "Saboteer Vijandelijke Eenheid"
 
-#: data/Freeciv:2427
+#: data/Freeciv:2436
 msgid "Your New Government"
 msgstr "Uw Nieuwe Regering"
 
-#: data/Freeciv:2957
+#: data/Freeciv:2970
 msgid " Sell "
 msgstr " Verkoop "
 
-#: data/Freeciv:2974
+#: data/Freeciv:2977
+msgid "Rename..."
+msgstr "Hernoem..."
+
+#: data/Freeciv:2983
+msgid "Unit List..."
+msgstr "Eenhedenlijst..."
+
+#: data/Freeciv:2985
+msgid "City Options..."
+msgstr "Stadsopties..."
+
+#: data/Freeciv:2987
 msgid " Buy "
 msgstr " Koop "
 
-#: data/Freeciv:2980
+#: data/Freeciv:2989
+msgid "Change..."
+msgstr "Verander..."
+
+#: data/Freeciv:2991
+msgid "Worklist..."
+msgstr "Werklijst..."
+
+#: data/Freeciv:2993
 msgid "Supported units:"
 msgstr "Ondersteunde eenheden:"
 
-#: data/Freeciv:3003
+#: data/Freeciv:3016
 msgid "Units present:"
 msgstr "Aanwezige eenheden:"
 
-#: data/Freeciv:3039
+#: data/Freeciv:3052
 msgid "Select nation and name:"
 msgstr "Kies natie en naam:"
 
-#: data/Freeciv:3052
+#: data/Freeciv:3065
 msgid "Pick Name"
 msgstr "Kies Naam"
 
-#: data/Freeciv:3054
+#: data/Freeciv:3069
 msgid "Select your sex:"
 msgstr "Kies uw sexe:"
 
-#: data/Freeciv:3058
+#: data/Freeciv:3073
 msgid "Male  "
 msgstr "Man   "
 
-#: data/Freeciv:3065
+#: data/Freeciv:3080
 msgid "Select city style:"
 msgstr "Kies stadsstijl:"
 
-#: data/Freeciv:3076
+#: data/Freeciv:3091
 msgid " Ok "
 msgstr " Ok "
 
-#: data/Freeciv:3109
+#: data/Freeciv:3124
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
@@ -12484,7 +12526,7 @@ msgstr ""
 "Naam             Natie        Ambass.  Dipl.Toestand   Waarnmg  "
 "Reputatie     Toestand Host"
 
-#: data/Freeciv:3145
+#: data/Freeciv:3161
 msgid "Cancel pact"
 msgstr "Verbreek verdrag"
 
