@@ -47,10 +47,11 @@
 bool pplayer_can_ally(struct player *p1, struct player *p2)
 {
   players_iterate(pplayer) {
+    enum diplstate_type ds = pplayer_get_diplstate(p1, pplayer)->type;
     if (pplayer != p1
         && pplayer != p2
         && pplayers_allied(p2, pplayer)
-        && pplayers_at_war(p1, pplayer)
+        && ds == DS_WAR /* do not count 'never met' as war here */
         && pplayer->is_alive) {
       return FALSE;
     }

@@ -967,6 +967,10 @@ repeat_break_treaty:
        * war against all of B's allies. Yes, A gets the blame. */
       packet.id = other->player_no;
       packet.value1 = CLAUSE_LAST;
+      notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+		       _("Game: %s has attacked one of your allies! "
+                         "The alliance brings you into the war as well."),
+                       pplayer->name);
       handle_player_cancel_pact(pplayer, &packet);
     }
   } players_iterate_end;
