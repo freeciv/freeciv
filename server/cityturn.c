@@ -942,8 +942,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
       int i;
 
-      notify_player(pplayer, _("Game: %s boosts research, "
-			       "you gain %d immediate advances."),
+      notify_player(pplayer, PL_("Game: %s boosts research; "
+			         "you gain %d immediate advance.",
+				 "Game: %s boosts research; "
+			         "you gain %d immediate advances.",
+				 mod),
 		    improvement_types[pcity->currently_building].name, mod);
 
       for (i = 0; i < mod; i++) {
