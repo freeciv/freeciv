@@ -1137,7 +1137,7 @@ void dlsend_packet_server_join_reply(struct conn_list *dest, bool you_can_join, 
   sz_strlcpy(real_packet->capability, capability);
   real_packet->conn_id = conn_id;
   
-  return lsend_packet_server_join_reply(dest, real_packet);
+  lsend_packet_server_join_reply(dest, real_packet);
 }
 
 static unsigned int hash_packet_authentication_req_100(const void *vkey, unsigned int num_buckets)
@@ -1316,7 +1316,7 @@ void dlsend_packet_authentication_req(struct conn_list *dest, enum authenticatio
   real_packet->type = type;
   sz_strlcpy(real_packet->message, message);
   
-  return lsend_packet_authentication_req(dest, real_packet);
+  lsend_packet_authentication_req(dest, real_packet);
 }
 
 static unsigned int hash_packet_authentication_reply_100(const void *vkey, unsigned int num_buckets)
@@ -1749,7 +1749,7 @@ void dlsend_packet_nations_selected_info(struct conn_list *dest, int num_nations
     }
   }
   
-  return lsend_packet_nations_selected_info(dest, real_packet);
+  lsend_packet_nations_selected_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_nation_select_req_100(const void *vkey, unsigned int num_buckets)
@@ -2161,7 +2161,7 @@ void dlsend_packet_game_state(struct conn_list *dest, int value)
 
   real_packet->value = value;
   
-  return lsend_packet_game_state(dest, real_packet);
+  lsend_packet_game_state(dest, real_packet);
 }
 
 static unsigned int hash_packet_endgame_report_100(const void *vkey, unsigned int num_buckets)
@@ -3731,7 +3731,7 @@ void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, bool i
   real_packet->is_earth = is_earth;
   real_packet->topology_id = topology_id;
   
-  return lsend_packet_map_info(dest, real_packet);
+  lsend_packet_map_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_nuke_tile_info_100(const void *vkey, unsigned int num_buckets)
@@ -3910,7 +3910,7 @@ void dlsend_packet_nuke_tile_info(struct conn_list *dest, int x, int y)
   real_packet->x = x;
   real_packet->y = y;
   
-  return lsend_packet_nuke_tile_info(dest, real_packet);
+  lsend_packet_nuke_tile_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_chat_msg_100(const void *vkey, unsigned int num_buckets)
@@ -4130,7 +4130,7 @@ void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, 
   real_packet->y = y;
   real_packet->event = event;
   
-  return lsend_packet_chat_msg(dest, real_packet);
+  lsend_packet_chat_msg(dest, real_packet);
 }
 
 static unsigned int hash_packet_chat_msg_req_100(const void *vkey, unsigned int num_buckets)
@@ -4448,7 +4448,7 @@ void dlsend_packet_city_remove(struct conn_list *dest, int city_id)
 
   real_packet->city_id = city_id;
   
-  return lsend_packet_city_remove(dest, real_packet);
+  lsend_packet_city_remove(dest, real_packet);
 }
 
 static unsigned int hash_packet_city_info_100(const void *vkey, unsigned int num_buckets)
@@ -7428,7 +7428,7 @@ void dlsend_packet_city_incite_info(struct conn_list *dest, int city_id, int cos
   real_packet->city_id = city_id;
   real_packet->cost = cost;
   
-  return lsend_packet_city_incite_info(dest, real_packet);
+  lsend_packet_city_incite_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_city_name_suggestion_req_100(const void *vkey, unsigned int num_buckets)
@@ -7758,7 +7758,7 @@ void dlsend_packet_city_name_suggestion_info(struct conn_list *dest, int unit_id
   real_packet->unit_id = unit_id;
   sz_strlcpy(real_packet->name, name);
   
-  return lsend_packet_city_name_suggestion_info(dest, real_packet);
+  lsend_packet_city_name_suggestion_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_city_sabotage_list_100(const void *vkey, unsigned int num_buckets)
@@ -7961,7 +7961,7 @@ void dlsend_packet_city_sabotage_list(struct conn_list *dest, int diplomat_id, i
     }
   }
   
-  return lsend_packet_city_sabotage_list(dest, real_packet);
+  lsend_packet_city_sabotage_list(dest, real_packet);
 }
 
 static unsigned int hash_packet_player_remove_100(const void *vkey, unsigned int num_buckets)
@@ -8128,7 +8128,7 @@ void dlsend_packet_player_remove(struct conn_list *dest, int player_id)
 
   real_packet->player_id = player_id;
   
-  return lsend_packet_player_remove(dest, real_packet);
+  lsend_packet_player_remove(dest, real_packet);
 }
 
 static unsigned int hash_packet_player_info_100(const void *vkey, unsigned int num_buckets)
@@ -9586,7 +9586,7 @@ void dlsend_packet_player_attribute_chunk(struct conn_list *dest, int offset, in
     }
   }
   
-  return lsend_packet_player_attribute_chunk(dest, real_packet);
+  lsend_packet_player_attribute_chunk(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_remove_100(const void *vkey, unsigned int num_buckets)
@@ -9753,7 +9753,7 @@ void dlsend_packet_unit_remove(struct conn_list *dest, int unit_id)
 
   real_packet->unit_id = unit_id;
   
-  return lsend_packet_unit_remove(dest, real_packet);
+  lsend_packet_unit_remove(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_info_100(const void *vkey, unsigned int num_buckets)
@@ -10610,7 +10610,7 @@ void dlsend_packet_unit_combat_info(struct conn_list *dest, int attacker_unit_id
   real_packet->defender_hp = defender_hp;
   real_packet->make_winner_veteran = make_winner_veteran;
   
-  return lsend_packet_unit_combat_info(dest, real_packet);
+  lsend_packet_unit_combat_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_move_100(const void *vkey, unsigned int num_buckets)
@@ -13445,7 +13445,7 @@ void dlsend_packet_unit_bribe_info(struct conn_list *dest, int unit_id, int cost
   real_packet->unit_id = unit_id;
   real_packet->cost = cost;
   
-  return lsend_packet_unit_bribe_info(dest, real_packet);
+  lsend_packet_unit_bribe_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_type_upgrade_100(const void *vkey, unsigned int num_buckets)
@@ -13959,7 +13959,7 @@ void dlsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, int diplom
   real_packet->diplomat_id = diplomat_id;
   real_packet->target_id = target_id;
   
-  return lsend_packet_unit_diplomat_popup_dialog(dest, real_packet);
+  lsend_packet_unit_diplomat_popup_dialog(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_change_activity_100(const void *vkey, unsigned int num_buckets)
@@ -14462,7 +14462,7 @@ void dlsend_packet_diplomacy_init_meeting(struct conn_list *dest, int counterpar
   real_packet->counterpart = counterpart;
   real_packet->initiated_from = initiated_from;
   
-  return lsend_packet_diplomacy_init_meeting(dest, real_packet);
+  lsend_packet_diplomacy_init_meeting(dest, real_packet);
 }
 
 static unsigned int hash_packet_diplomacy_cancel_meeting_req_100(const void *vkey, unsigned int num_buckets)
@@ -14792,7 +14792,7 @@ void dlsend_packet_diplomacy_cancel_meeting(struct conn_list *dest, int counterp
   real_packet->counterpart = counterpart;
   real_packet->initiated_from = initiated_from;
   
-  return lsend_packet_diplomacy_cancel_meeting(dest, real_packet);
+  lsend_packet_diplomacy_cancel_meeting(dest, real_packet);
 }
 
 static unsigned int hash_packet_diplomacy_create_clause_req_100(const void *vkey, unsigned int num_buckets)
@@ -15179,7 +15179,7 @@ void dlsend_packet_diplomacy_create_clause(struct conn_list *dest, int counterpa
   real_packet->type = type;
   real_packet->value = value;
   
-  return lsend_packet_diplomacy_create_clause(dest, real_packet);
+  lsend_packet_diplomacy_create_clause(dest, real_packet);
 }
 
 static unsigned int hash_packet_diplomacy_remove_clause_req_100(const void *vkey, unsigned int num_buckets)
@@ -15566,7 +15566,7 @@ void dlsend_packet_diplomacy_remove_clause(struct conn_list *dest, int counterpa
   real_packet->type = type;
   real_packet->value = value;
   
-  return lsend_packet_diplomacy_remove_clause(dest, real_packet);
+  lsend_packet_diplomacy_remove_clause(dest, real_packet);
 }
 
 static unsigned int hash_packet_diplomacy_accept_treaty_req_100(const void *vkey, unsigned int num_buckets)
@@ -15900,7 +15900,7 @@ void dlsend_packet_diplomacy_accept_treaty(struct conn_list *dest, int counterpa
   real_packet->I_accepted = I_accepted;
   real_packet->other_accepted = other_accepted;
   
-  return lsend_packet_diplomacy_accept_treaty(dest, real_packet);
+  lsend_packet_diplomacy_accept_treaty(dest, real_packet);
 }
 
 static unsigned int hash_packet_diplomacy_cancel_pact_100(const void *vkey, unsigned int num_buckets)
@@ -16241,7 +16241,7 @@ void dlsend_packet_page_msg(struct conn_list *dest, const char *message, enum ev
   sz_strlcpy(real_packet->message, message);
   real_packet->event = event;
   
-  return lsend_packet_page_msg(dest, real_packet);
+  lsend_packet_page_msg(dest, real_packet);
 }
 
 static unsigned int hash_packet_report_req_100(const void *vkey, unsigned int num_buckets)
@@ -16886,7 +16886,7 @@ void dlsend_packet_conn_ping_info(struct conn_list *dest, int connections, int *
     }
   }
   
-  return lsend_packet_conn_ping_info(dest, real_packet);
+  lsend_packet_conn_ping_info(dest, real_packet);
 }
 
 static struct packet_conn_ping *receive_packet_conn_ping_100(struct connection *pc, enum packet_type type)
@@ -17318,7 +17318,7 @@ void dlsend_packet_new_year(struct conn_list *dest, int year, int turn)
   real_packet->year = year;
   real_packet->turn = turn;
   
-  return lsend_packet_new_year(dest, real_packet);
+  lsend_packet_new_year(dest, real_packet);
 }
 
 static struct packet_spaceship_launch *receive_packet_spaceship_launch_100(struct connection *pc, enum packet_type type)

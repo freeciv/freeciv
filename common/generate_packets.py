@@ -1184,7 +1184,7 @@ class Packet:
 
 %(fill)s
   
-  return lsend_%(name)s(dest, real_packet);
+  lsend_%(name)s(dest, real_packet);
 }
 
 '''%self.get_dict(vars())
