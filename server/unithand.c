@@ -1191,13 +1191,20 @@ static void handle_unit_activity_dependencies(struct unit *punit,
     }
     break;
   case ACTIVITY_EXPLORE:
+    punit->ai.control = TRUE;
     if (punit->moves_left > 0) {
       int id = punit->id;
       bool more_to_explore = ai_manage_explorer(punit);
-      /* ai_manage_explorer sets the activity to idle, so we reset it */
-      if (more_to_explore && (punit = find_unit_by_id(id))) {
-	set_unit_activity(punit, ACTIVITY_EXPLORE);
-	send_unit_info(NULL, punit);
+
+      if ((punit = find_unit_by_id(id))) {
+	if (more_to_explore) {
+	  /* ai_manage_explorer sets the activity to idle, so we reset
+	   * it. */
+	  set_unit_activity(punit, ACTIVITY_EXPLORE);
+	  send_unit_info(NULL, punit);
+	} else {
+	  punit->ai.control = FALSE;
+	}
       }
     }
     break;

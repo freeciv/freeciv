@@ -57,6 +57,12 @@ bool draw_goto_line = TRUE;
 static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
 
+/*
+ * This variable is TRUE iff a NON-AI controlled unit was focused this
+ * turn.
+ */
+bool non_ai_unit_focus;
+
 /*************************************************************************/
 
 static struct unit *find_best_focus_candidate(void);
@@ -214,11 +220,23 @@ void advance_unit_focus(void)
 
   set_unit_focus(punit_focus);
 
-  /* Handle auto-turn-done mode:  If a unit was in focus (did move),
-   * but now none are (no more to move), then fake a Turn Done keypress.
+  /* 
+   * Is the unit which just lost focus a non-AI unit? If yes this
+   * enables the auto end turn. 
    */
-  if(auto_turn_done && punit_old_focus && !punit_focus)
+  if (punit_old_focus && !punit_old_focus->ai.control) {
+    non_ai_unit_focus = TRUE;
+  }
+
+  /* 
+   * Handle auto-turn-done mode: If a unit was in focus (did move),
+   * but now none are (no more to move) and there was at least one
+   * non-AI unit this turn which was focused, then fake a Turn Done
+   * keypress.
+   */
+  if (auto_turn_done && punit_old_focus && !punit_focus && non_ai_unit_focus) {
     key_end_turn();
+  }
 }
 
 /**************************************************************************
