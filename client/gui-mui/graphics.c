@@ -516,8 +516,8 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
                                LONG xDest, LONG yDest, LONG xSize, LONG ySize, 
                                struct BitMap *maskBitMap, LONG xMask, LONG yMask)
 {
-#ifdef DISABLED
   int use_cgfx = 0;
+
   if (CyberGfxBase)
   {
     if (GetCyberMapAttr(destBitMap,CYBRMATTR_ISCYBERGFX))
@@ -531,12 +531,9 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 
   if (!use_cgfx)
   {
-#endif
     BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
     BltBitMap(maskBitMap,xMask,yMask,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
     BltBitMap((struct BitMap *)srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
-// Doesn't work for > 8 bit screens yet
-#ifdef DISABLED
   } else
   {
     APTR src_handle;
@@ -583,7 +580,7 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 	  int signifant_bits;
 
 	  x = xMask;
-	  mask = mask_address + yMask * (mask_width/8) + ((x/32)*4) - 4;
+	  mask = mask_address + yMask * (mask_width/8) + ((x/32)*4);
 	  src = src_address + ySrc * src_bytesperrow + xSrc * src_bytesperpix;
 	  dest = dest_address + yDest * dest_bytesperrow + xDest * dest_bytesperpix;
 
@@ -591,15 +588,18 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
 	  {
 	    signifant_bits = 32 - (x % 32);
 	    mask_val = *(ULONG*)mask;
-	    for (i=signifant_bits-1;i>=0 && (x - xMask)<xSize;i++)
+
+	    for (i=signifant_bits-1;i>=0 && (x - xMask)<xSize;i--)
 	    {
 	      if (mask_val & (1UL << i))
 	      {
 	      	if (dest_bytesperpix == 2)
 	      	{
-	      	  *((UWORD*)dest) = 0xffff; /* *((UWORD*)src); */
+	      	  *((UWORD*)dest) = *((UWORD*)src);
 	      	} else if (dest_bytesperpix == 3)
 	      	{
+	      	  *((UWORD*)dest) = *((UWORD*)src);
+	      	  *((UBYTE*)dest+2) = *((UBYTE*)src+2);
 	      	} else if (dest_bytesperpix == 4)
 	      	{
 	      	  *((ULONG*)dest) = *((ULONG*)src);
@@ -621,7 +621,6 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
       UnLockBitMap(src_handle);
     }
   }
-#endif
 }
 
 HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
@@ -659,7 +658,9 @@ VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, str
     LONG src_depth = GetBitMapAttr(srcBitMap,BMA_DEPTH);
     struct Rectangle rect;
     struct BltMaskHook hook;
-		
+
+    if (src_depth>8) src_depth = 8; /* struct BitMap is not big enough */
+
     /* Define the destination rectangle in the rastport */
     rect.MinX = xDest;
     rect.MinY = yDest;
@@ -719,6 +720,8 @@ static void put_sprite_overlay_total_with_different_mask(struct RastPort *rp, st
       struct ExtBltMaskHook hook;
       struct Rectangle rect;
       LONG src_depth = GetBitMapAttr(bmap,BMA_DEPTH);
+
+      if (src_depth>8) src_depth = 8; /* struct BitMap is not big enough */
 
       /* Initialize a bitmap where all plane pointers points to the mask */
       InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(maskbmap,BMA_WIDTH),GetBitMapAttr(maskbmap,BMA_HEIGHT));
