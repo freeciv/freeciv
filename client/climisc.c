@@ -30,6 +30,11 @@ used throughout the client.
 
 extern Widget outputwindow_text;
 
+#ifndef FREECIV_DATADIR
+#define FREECIV_DATADIR "data"
+#endif
+
+
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -45,7 +50,7 @@ char *datafilename(char *filename)
       if(datadir[i] == '/')
 	datadir[i] = '\0';
     } else {
-      datadir = "data";		/* correct if not 'data' is the default */
+      datadir = FREECIV_DATADIR; /* correct if not 'data' is the default */
     };
   };
   sprintf(realfile,"%s/%s",datadir,filename);
