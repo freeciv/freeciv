@@ -94,7 +94,7 @@ Roger Tucker - roger.tucker@wcom.com
 Enjoy...
 
 ------------------------------glibconfig.h_vms----------------------------
-/* glibconfig.h_vms handcrafted from the glibconfig.h.win32
+/* glibconfig.h_vms handcrafted from the glibconfig.h.win32 */
 
 #ifndef GLIBCONFIG_H
 #define GLIBCONFIG_H
