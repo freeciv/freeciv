@@ -76,7 +76,7 @@ static void close_socket_nomessage(struct connection *pc)
 {
   pc->used = 0;
   pc->established = 0;
-  close(pc->sock);
+  my_closesocket(pc->sock);
 
   /* make sure not to use these accidently: */
   free_socket_packet_buffer(pc->buffer);
@@ -134,7 +134,8 @@ int connect_to_server(char *name, char *hostname, int port,
   
   if(connect(aconnection.sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
     mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
-    close(aconnection.sock);
+    my_closesocket(aconnection.sock);
+    aconnection.sock = -1;
     return -1;
   }
 
@@ -289,7 +290,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   
   if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) < 0) {
     mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
-    close(s);
+    my_closesocket(s);
     return NULL;
   }
 
@@ -315,7 +316,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
       fwrite(str,1,i,f);
     fflush(f);
 
-    close(s);
+    my_closesocket(s);
 
     fseek(f,0,SEEK_SET);
   }

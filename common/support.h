@@ -49,4 +49,10 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
 
 int my_gethostname(char *buf, size_t len);
 
+#ifdef SOCKET_ZERO_ISNT_STDIN
+/* Support for console I/O in case SOCKET_ZERO_ISNT_STDIN. */
+void my_init_console(void);
+char *my_read_console(void);
+#endif
+
 #endif  /* FC__SUPPORT_H */

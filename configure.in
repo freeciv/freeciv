@@ -195,6 +195,17 @@ if test x`$UNAME -s` = xBeOS ; then
   AC_SUBST(ARFLAGS)
 fi
 
+dnl Windows-specific settings
+AC_MINGW32
+if test x"$MINGW32" = "xyes"; then
+  AC_DEFINE(SOCKET_ZERO_ISNT_STDIN)
+  AC_DEFINE(ALWAYS_ROOT)
+  AC_DEFINE(WIN32_NATIVE)
+  AC_DEFINE(HAVE_WINSOCK)
+  SERVER_LIBS="-lwsock32"
+  CFLAGS="$CFLAGS -fnative-struct"
+fi
+
 dnl Check and choose clients
 if test x$client != xno; then
 
@@ -419,9 +430,14 @@ fi
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
-                 sys/select.h sys/signal.h sys/socket.h sys/termio.h \
-		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h fcntl.h)
+AC_CHECK_HEADERS(fcntl.h sys/time.h sys/types.h unistd.h)
+dnl Avoid including the unix emulation layer if we build mingw executables
+dnl There would be type conflicts between winsock and bsd/unix includes
+if test "x$MINGW32" != "xyes"; then
+  AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
+                   sys/select.h sys/signal.h sys/socket.h sys/termio.h \
+                   sys/uio.h termios.h)
+fi
 if test x$client = xxaw; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
@@ -440,9 +456,15 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday inet_aton select \
-               snooze strerror strcasecmp strncasecmp strlcat \
-               strlcpy strstr usleep vsnprintf)
+
+AC_CHECK_FUNCS(fileno gethostname getpwuid gettimeofday inet_aton \
+               select snooze strerror strcasecmp strncasecmp \
+               strlcat strlcpy strstr usleep vsnprintf)
+
+dnl Windows fdopen does not work with sockets.
+if test "x$MINGW32" != "xyes"; then
+  AC_CHECK_FUNCS(fdopen)
+fi
 
 dnl We would AC_CHECK_FUNCS for socket as well, except it is complicated
 dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,

@@ -44,6 +44,12 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
+int my_readsocket(int sock, void *buf , size_t size);
+int my_writesocket(int sock, const void *buf, size_t size); 
+void my_closesocket(int sock);
+void my_init_network(void);         
+void my_shutdown_network(void);
+
 void my_nonblock(int sockfd);
 int fc_lookup_host(const char *hostname, struct sockaddr_in *sock);
 

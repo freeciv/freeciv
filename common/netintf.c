@@ -40,6 +40,9 @@
 #ifdef HAVE_NETDB_H
 #include <netdb.h>
 #endif 
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
 
 #include "log.h"
 #include "support.h"
@@ -50,8 +53,69 @@
 #define INADDR_NONE 0xffffffff
 #endif
 
+
 /***************************************************************
-...
+  Read from a socket.
+***************************************************************/
+int my_readsocket(int sock, void *buf, size_t size)
+{
+#ifdef HAVE_WINSOCK
+  return recv(sock, buf, size, 0);
+#else
+  return read(sock, buf, size);
+#endif
+}
+
+/***************************************************************
+  Write to a socket.
+***************************************************************/
+int my_writesocket(int sock, const void *buf, size_t size)
+{
+#ifdef HAVE_WINSOCK
+  return send(sock, buf, size, 0);
+#else
+  return write(sock, buf, size);
+#endif
+}
+
+/***************************************************************
+  Close a socket.
+***************************************************************/
+void my_closesocket(int sock)
+{
+#ifdef HAVE_WINSOCK
+  closesocket(sock);
+#else
+  close(sock);
+#endif
+}
+
+/***************************************************************
+  Initialize network stuff.
+***************************************************************/
+void my_init_network(void)
+{
+#ifdef HAVE_WINSOCK
+  WSADATA wsa;
+
+  if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
+    freelog(LOG_ERROR, "no useable WINSOCK.DLL: %s", mystrerror(errno));
+  }
+#endif
+}
+
+/***************************************************************
+  Shutdown network stuff.
+***************************************************************/
+void my_shutdown_network(void)
+{
+#ifdef HAVE_WINSOCK
+  WSACleanup();
+#endif
+}
+
+/***************************************************************
+  Set socket to non-blocking.
 ***************************************************************/
 void my_nonblock(int sockfd)
 {

@@ -39,6 +39,9 @@
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #endif
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
 
 #include "capability.h"
 #include "capstr.h"
@@ -50,6 +53,7 @@
 #include "map.h"
 #include "mem.h"
 #include "nation.h"
+#include "netintf.h"
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
@@ -188,6 +192,8 @@ void srv_main(void)
   if (!has_been_srv_init) {
     srv_init();
   }
+
+  my_init_network();
 
   con_log_init(srvarg.log_filename, srvarg.loglevel);
   gamelog_init(srvarg.gamelog_filename);
@@ -489,6 +495,8 @@ main_start_players:
   }
 
   server_close_udp();
+
+  my_shutdown_network();
 
   return;
 }

@@ -32,6 +32,10 @@
 #include <sys/select.h>
 #endif
 
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
+
 #include "fcintl.h"
 #include "game.h"		/* game.all_connections */
 #include "log.h"
@@ -122,8 +126,8 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 {
   int didget;
 
-  didget=read(sock, (char *)(buffer->data+buffer->ndata), 
-	      MAX_LEN_PACKET-buffer->ndata);
+  didget=my_readsocket(sock, (char *)(buffer->data+buffer->ndata),
+		       MAX_LEN_PACKET-buffer->ndata);
 
   if (didget > 0) {
     buffer->ndata+=didget;
@@ -176,7 +180,8 @@ static int write_socket_data(struct connection *pc,
 
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
-      if((nput=write(pc->sock, (const char *)buf->data+start, nblock)) == -1) {
+      if((nput=my_writesocket(pc->sock, 
+			      (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
 	  break;

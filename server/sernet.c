@@ -56,6 +56,9 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
 
 #ifdef HAVE_LIBREADLINE
 #include <readline/readline.h>
@@ -142,8 +145,8 @@ void close_connection(struct connection *pconn)
   conn_list_unlink(&game.all_connections, pconn);
   conn_list_unlink(&game.est_connections, pconn);
   conn_list_unlink(&game.game_connections, pconn);
-  
-  close(pconn->sock);
+
+  my_closesocket(pconn->sock);
   pconn->used = 0;
   pconn->established = 0;
   pconn->player = NULL;
@@ -166,7 +169,7 @@ void close_connections_and_socket(void)
       close_connection(&connections[i]);
     }
   }
-  close(sock);
+  my_closesocket(sock);
 
 #ifdef HAVE_LIBREADLINE
   if (history_file) {
@@ -276,8 +279,7 @@ int sniff_packets(void)
   struct timeval tv;
   static int year;
 #ifdef SOCKET_ZERO_ISNT_STDIN
-  char buf[BUF_SIZE+1];
-  char *bufptr = buf;
+  char *bufptr;    
 #endif
 
   con_prompt_init();
@@ -323,20 +325,22 @@ int sniff_packets(void)
       con_prompt_off();
       return 2;
     }
-    
+
     tv.tv_sec=1;
     tv.tv_usec=0;
-    
+
     MY_FD_ZERO(&readfs);
     MY_FD_ZERO(&writefs);
     MY_FD_ZERO(&exceptfs);
-#ifndef SOCKET_ZERO_ISNT_STDIN
+#ifdef SOCKET_ZERO_ISNT_STDIN
+    my_init_console();
+#else
     FD_SET(0, &readfs);	
 #endif
     FD_SET(sock, &readfs);
     FD_SET(sock, &exceptfs);
     max_desc=sock;
-    
+
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
@@ -348,7 +352,7 @@ int sniff_packets(void)
       }
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
-    
+
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0,0);
       if((game.timeout) 
@@ -370,10 +374,9 @@ int sniff_packets(void)
 	  continue;
       }
 #else  /* !__VMS */
-#ifdef SOCKET_ZERO_ISNT_STDIN
-    if (feof(stdin))
-#endif
+#ifndef SOCKET_ZERO_ISNT_STDIN
       continue;
+#endif /* SOCKET_ZERO_ISNT_STDIN */
 #endif /* !__VMS */
     }
     if (!game.timeout)
@@ -396,7 +399,12 @@ int sniff_packets(void)
 	close_socket_callback(pconn);
       }
     }
-#ifndef SOCKET_ZERO_ISNT_STDIN
+#ifdef SOCKET_ZERO_ISNT_STDIN
+    if ((bufptr = my_read_console())) {
+      con_prompt_enter();	/* will need a new prompt, regardless */
+      handle_stdin_input((struct connection *)NULL, bufptr);
+    }
+#else  /* !SOCKET_ZERO_ISNT_STDIN */
     if(FD_ISSET(0, &readfs)) {    /* input from server operator */
 #ifdef HAVE_LIBREADLINE
       rl_callback_read_char();
@@ -418,22 +426,10 @@ int sniff_packets(void)
       handle_stdin_input((struct connection *)NULL, buf);
 #endif /* !HAVE_LIBREADLINE */
     }
-#else  /* SOCKET_ZERO_ISNT_STDIN */
-    if(!feof(stdin)) {    /* input from server operator */
-      /* fetch chars until \n or run out of space in buffer */
-      while ((*bufptr=fgetc(stdin)) != EOF) {
-          if (*bufptr == '\n') *bufptr = '\0';
-          if (*bufptr == '\0') {
-              bufptr = buf;
-              con_prompt_enter(); /* will need a new prompt, regardless */
-              handle_stdin_input((struct connection *)NULL, buf);
-              break;
-          }
-          if ((bufptr-buf) <= BUF_SIZE) bufptr++; /* prevent overrun */
-      }
-    }
-#endif /* SOCKET_ZERO_ISNT_STDIN */
-    else {                             /* input from a player */
+    else
+#endif /* !SOCKET_ZERO_ISNT_STDIN */
+     
+    {                             /* input from a player */
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
   	struct connection *pconn = &connections[i];
 	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {

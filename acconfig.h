@@ -15,6 +15,8 @@
  *
  *   ALWAYS_ROOT and following correspond to entries used by
  *   hand-written config.h files, and are not set by configure.
+ *   (Exception:  Some, however, may be set in the platform-
+ *    specific parts of configure.)
  */
 
 #undef MAJOR_VERSION
@@ -45,15 +47,17 @@
 #undef FUNCPROTO
 #undef NARROWPROTO
 #undef HAVE_LIBREADLINE
+#undef NONBLOCKING_SOCKETS
+#undef HAVE_FCNTL
+#undef HAVE_IOCTL
 #undef ALWAYS_ROOT
+#undef WIN32_NATIVE
+#undef HAVE_WINSOCK
+#undef SOCKET_ZERO_ISNT_STDIN
 #undef STRICT_WINDOWS
 #undef GENERATING_MAC
 #undef HAVE_OPENTRANSPORT
 #undef PATH_SEPARATOR
-#undef SOCKET_ZERO_ISNT_STDIN
-#undef NONBLOCKING_SOCKETS
-#undef HAVE_FCNTL
-#undef HAVE_IOCTL
 #undef OPTION_FILE_NAME
 
 @BOTTOM@

@@ -52,6 +52,7 @@
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "messagewin_g.h"
+#include "netintf.h"
 #include "options.h"
 #include "packhand.h"
 #include "plrdlg_g.h"
@@ -85,7 +86,6 @@ static void client_remove_all_cli_conn(void);
 /**************************************************************************
 ...
 **************************************************************************/
-
 int main(int argc, char *argv[])
 {
   int i;
@@ -159,6 +159,9 @@ int main(int argc, char *argv[])
     sz_strlcpy(name, user_username());
   }
 
+  /* initialization */
+
+  my_init_network();
   init_messages_where();
   init_our_capability();
   game_init();
@@ -170,7 +173,14 @@ int main(int argc, char *argv[])
   boot_help_texts();
   tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
 
+  /* run gui-specific client */
+
   ui_main(argc, argv);
+
+  /* termination */
+
+  my_shutdown_network();
+
   return 0;
 }
 

@@ -561,7 +561,12 @@ char *user_username(void)
   }
 #endif
   username = fc_malloc(MAX_LEN_NAME);
+
+#ifdef ALWAYS_ROOT
+  my_snprintf(username, MAX_LEN_NAME, "name");
+#else
   my_snprintf(username, MAX_LEN_NAME, "name%d", (int)getuid());
+#endif
   freelog(LOG_VERBOSE, "fake username is %s", username);
   return username;
 }

@@ -47,6 +47,9 @@ The info string should look like this:
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
 
 #ifdef HAVE_OPENTRANSPORT
 #include <OpenTransport.h>
@@ -152,7 +155,7 @@ static int send_to_metaserver(char *desc, char *info)
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
-  write(sockfd, buffer, cptr-buffer);
+  my_writesocket(sockfd, buffer, cptr-buffer);
 #endif
   return 1;
 }
@@ -169,7 +172,7 @@ void server_close_udp(void)
 #else
   if(sockfd<=0)
     return;
-  close(sockfd);
+  my_closesocket(sockfd);
   sockfd=0;
 #endif
 }
@@ -361,3 +364,4 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   clear_timer_start(time_since_last_send);
   return send_to_metaserver(desc, info);
 }
+

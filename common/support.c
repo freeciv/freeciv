@@ -70,12 +70,21 @@
 #include <sys/select.h>
 #endif
 
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
+#ifdef WIN32_NATIVE
+#include <process.h>
+#include <windows.h>
+#endif
+
 #ifdef GENERATING_MAC
 #include <events.h>		/* for WaitNextEvent() */
 #endif
 
 #include "fcintl.h"
 #include "mem.h"
+#include "netintf.h"
 
 #include "support.h"
 
@@ -455,3 +464,87 @@ int my_gethostname(char *buf, size_t len)
   return -1;
 #endif
 }
+
+#ifdef SOCKET_ZERO_ISNT_STDIN
+/**********************************************************************
+  Support for console I/O in case SOCKET_ZERO_ISNT_STDIN.
+***********************************************************************/
+
+#define MYBUFSIZE 100
+static char mybuf[MYBUFSIZE+1];
+
+/**********************************************************************/
+
+#ifdef WIN32_NATIVE
+static HANDLE mythread = INVALID_HANDLE_VALUE;
+
+static DWORD WINAPI thread_proc(LPVOID data)
+{
+  if (fgets(mybuf, MYBUFSIZE, stdin)) {
+    char *s;
+    if ((s = strchr(mybuf, '\n')))
+      *s = '\0';
+  }
+  return 0;
+}
+#endif
+
+/**********************************************************************
+  Initialize console I/O in case SOCKET_ZERO_ISNT_STDIN.
+***********************************************************************/
+void my_init_console(void)
+{
+#ifdef WIN32_NATIVE
+  unsigned int threadid;
+
+  if (mythread != INVALID_HANDLE_VALUE)
+    return;
+
+  mybuf[0] = '\0';
+  mythread = (HANDLE)_beginthreadex(NULL, 0, thread_proc, NULL, 0, &threadid);
+#else
+  static int initialized = 0;
+  if (!initialized) {
+    initialized = 1;
+#ifdef HAVE_FILENO
+    my_nonblock(fileno(stdin));
+#endif
+  }
+#endif
+}
+
+/**********************************************************************
+  Read a line from console I/O in case SOCKET_ZERO_ISNT_STDIN.
+
+  This returns a pointer to a statically allocated buffer.
+  Subsequent calls to my_read_console() or my_init_console() will
+  overwrite it.
+***********************************************************************/
+char *my_read_console(void)
+{
+#ifdef WIN32_NATIVE
+  if (WaitForSingleObject(mythread, 0) == WAIT_OBJECT_0) {
+    CloseHandle(mythread);
+    mythread = INVALID_HANDLE_VALUE;
+    return mybuf;
+  }
+  return NULL;
+#else
+  if (!feof(stdin)) {    /* input from server operator */
+    static char *bufptr = mybuf;
+    /* fetch chars until \n, or run out of space in buffer */
+    /* blocks if my_nonblock() in my_init_console() failed */
+    while ((*bufptr = fgetc(stdin)) != EOF) {
+      if (*bufptr == '\n') *bufptr = '\0';
+      if (*bufptr == '\0') {
+	bufptr = mybuf;
+	return mybuf;
+      }
+      if ((bufptr - mybuf) <= MYBUFSIZE) bufptr++; /* prevent overrun */
+    }
+  }
+  return NULL;
+#endif
+}
+
+#endif
