@@ -403,7 +403,7 @@ empty get to refresh and defend themselves.  How totally stupid. */
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
       
-    if(++save_counter>=game.save_nturns) {
+    if(++save_counter>=game.save_nturns && game.save_nturns>0) {
       save_counter=0;
       save_game();
     }
