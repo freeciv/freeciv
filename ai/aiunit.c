@@ -2145,7 +2145,11 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     (void) ai_unit_goto(punit, pcity->x, pcity->y);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
-    (void) ai_manage_explorer(punit);
+    if (ai_manage_explorer(punit)) {
+      UNIT_LOG(LOG_DEBUG, punit, "nothing else to do, so exploring");
+    } else {
+      UNIT_LOG(LOG_DEBUG, punit, "nothing to do - no more exploring either");
+    }
   } else {
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
@@ -2378,7 +2382,7 @@ static bool ai_ferry_find_interested_city(struct unit *pferry)
                  "has just started building", pcity->name);
         continue;
       }
-        
+
       unit_list_iterate(map_get_tile(pos.x, pos.y)->units, aunit) {
 	if (aunit != pferry && aunit->owner == pferry->owner
             && unit_has_role(aunit->type, L_FERRYBOAT)) {
@@ -2520,6 +2524,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
+     UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
      ai_manage_military(pplayer, punit);
      return;
   }
@@ -2527,22 +2532,31 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone.");
   ai_set_passenger(punit, NULL);
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
   CHECK_UNIT(punit);
 
   /* Try to find passengers */
   if (ai_ferry_findcargo(punit)) {
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo");
     ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
     return;
   }
 
   /* Try to find a city that needs a ferry */
   if (ai_ferry_find_interested_city(punit)) {
-    (void) ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
-    return;
+    if (same_pos(punit->x, punit->y, goto_dest_x(punit), goto_dest_y(punit))) {
+      UNIT_LOG(LOGLEVEL_FERRY, punit, "staying in city that needs us");
+      return;
+    } else {
+      UNIT_LOG(LOGLEVEL_FERRY, punit, "going to city that needs us");
+      (void) ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
+      return;
+    }
   }
 
+  UNIT_LOG(LOGLEVEL_FERRY, punit, "Passing control of ferry to explorer code");
   (void) ai_manage_explorer(punit);
-  
+
   if (punit->moves_left > 0) {
     struct city *pcity = find_nearest_safe_city(punit);
     if (pcity) {
