@@ -27,14 +27,6 @@
 .. AI got some tech goals, and should try to fulfill them. 
 **************************************************************************/
 
-int ai_tech_goal_turns(struct player *pplayer, int i)
-{
-#ifndef TECH_TURNS_IS_FIXED
-  return(tech_goal_turns(pplayer, i));
-#endif
-  return pplayer->ai.tech_turns[i];
-}
-
 /**************************************************************************
 .. calculate next government wish.
 **************************************************************************/
@@ -68,6 +60,7 @@ int get_government_tech(struct player *plr)
   }
   return 0; /* to make compiler happy */
 }
+
 int get_wonder_tech(struct player *plr)
 {
   int building;
@@ -80,7 +73,6 @@ int get_wonder_tech(struct player *plr)
     return 0;
   return tech;
 }
-
 
 void ai_next_tech_goal_default(struct player *pplayer, 
 			       struct ai_choice *choice)
@@ -132,97 +124,102 @@ void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
   }    
 }
 
+/* Syela-code starts here ................................. */
+
 void find_prerequisites(struct player *pplayer, int i, int *prereq)
 {
   /* add tech_want[i] / j to all subtechs */
   int t1 = advances[i].req[0];
   int t2 = advances[i].req[1];
-  if (get_invention(pplayer, t1) == TECH_REACHABLE) prereq[t1]++;
+  if (get_invention(pplayer, t1) != TECH_KNOWN) prereq[t1]++;
   if (get_invention(pplayer, t1) == TECH_UNKNOWN)
         find_prerequisites(pplayer, t1, prereq);
-  if (get_invention(pplayer, t2) == TECH_REACHABLE) prereq[t2]++;
+  if (get_invention(pplayer, t2) != TECH_KNOWN) prereq[t2]++;
   if (get_invention(pplayer, t2) == TECH_UNKNOWN)
         find_prerequisites(pplayer, t2, prereq);
 }
 
-void ai_select_tech(struct player *pplayer, struct ai_choice *choice)
+void ai_select_tech(struct player *pplayer, struct ai_choice *choice, struct ai_choice *gol)
 {
   int i, j, k;
   int values[A_LAST];
+  int goal_values[A_LAST];
   int prereq[A_LAST];
+  unsigned char cache[A_LAST][A_LAST];
+  
   int c = MAX(1, city_list_size(&pplayer->cities));
   memset(values, 0, sizeof(values));
+  memset(goal_values, 0, sizeof(goal_values));
+  memset(cache, 0, sizeof(cache));
   for (i = A_NONE; i < A_LAST; i++) {
-    if (pplayer->ai.tech_want[i]) {
-/*      printf("%s wants %s with desire %d.\n", pplayer->name,
-           advances[i].name, pplayer->ai.tech_want[i]); */
-      j = ai_tech_goal_turns(pplayer, i);
-      if (j == 1) values[i] += pplayer->ai.tech_want[i];
-      else if (j) {
-        memset(prereq, 0, sizeof(prereq));
-        find_prerequisites(pplayer, i, prereq);
-        for (k = A_NONE; k < A_LAST; k++) {
-           if (prereq[k]) values[k] += pplayer->ai.tech_want[i] / j;
+    j = pplayer->ai.tech_turns[i];
+    if (j) { /* if we already got it we don't want it */
+      values[i] += pplayer->ai.tech_want[i];
+      memset(prereq, 0, sizeof(prereq));
+      find_prerequisites(pplayer, i, prereq);
+      for (k = A_NONE; k < A_LAST; k++) {
+        if (prereq[k]) {
+          cache[i][k]++;
+          values[k] += pplayer->ai.tech_want[i] / j;
         }
       }
     }
   }
-  j = 0;
+
   for (i = A_NONE; i < A_LAST; i++) {
-    values[i] /= c;
-    if (values[i] > values[j]) j = i;
+    if (pplayer->ai.tech_turns[i]) {
+      for (k = A_NONE; k < A_LAST; k++) {
+        if (cache[i][k]) {
+          goal_values[i] += values[k];
+        }
+      }
+      goal_values[i] += values[i];
+/* this is the best I could do.  It still sometimes does freaky stuff like
+setting goal to Republic and learning Monarchy, but that's what it's supposed
+to be doing; it just looks strange. -- Syela */
+      goal_values[i] /= pplayer->ai.tech_turns[i];
+/*if (pplayer->ai.tech_turns[i]<6)
+printf("%s: want = %d, value = %d, goal_value = %d\n", advances[i].name,
+pplayer->ai.tech_want[i], values[i], goal_values[i]);*/
+    } else goal_values[i] = 0;
+  }
+
+  j = 0; k = 0;
+  for (i = A_NONE; i < A_LAST; i++) {
+    if (values[i] > values[j] && get_invention(pplayer, i) == TECH_REACHABLE) j = i;
+    if (goal_values[i] > goal_values[k]) k = i;
   }
 /*  printf("%s wants %s with desire %d (%d).\n", pplayer->name,
     advances[j].name, values[j], pplayer->ai.tech_want[j]); */
-  choice->choice = j;
-  choice->want = values[j];
-  choice->type = values[pplayer->research.researching]; /* hijacking this ...
+  if (choice) {
+    choice->choice = j;
+    choice->want = values[j] / c;
+    choice->type = values[pplayer->research.researching] / c; /* hijacking this ...
                                           in order to leave tech_wants alone */
+  }
+
+  if (gol) {
+    gol->choice = k;
+    gol->want = goal_values[k] / c;
+    gol->type = goal_values[pplayer->ai.tech_goal] / c;
+/*printf("Gol->choice = %s, gol->want = %d, goal_value = %d, c = %d\n",
+advances[gol->choice].name, gol->want, goal_values[k], c);*/
+  }
   return;
 }
 
-
-/**************************************************************************
-... this funct is unreliable.  don't use if avoidable. -- Syela
-void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice) 
+void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
-  int i, best = A_NONE;
-  int values[A_LAST];
-  int c = MAX(1, city_list_size(&pplayer->cities));
-  for (i = A_NONE; i < A_LAST; i++) {
-    values[i] = tech_want_rec(pplayer, i);
-    update_research(pplayer);
-  }
-  for (i = A_NONE; i < A_LAST; i++) {
-    if (get_invention(pplayer, i) != TECH_KNOWN) {
-      values[i] /= (ai_tech_goal_turns(pplayer, i) * c);
-      if (values[i] > values[best]) best = i;
-    }
-  }
-  printf("%s wants %s with desire %d.\n", pplayer->name,
-      advances[best].name, values[best]);
-  choice->choice = best;
-  choice->want = values[best] / c;
+  ai_select_tech(pplayer, 0, choice);
 }
-**************************************************************************/
 
 void calculate_tech_turns(struct player *pplayer)
 {
-  int i, j, t1, t2;
-#ifndef TECH_TURNS_IS_FIXED
-  return;
-#endif
+  int i, j;
   memset(pplayer->ai.tech_turns, 0, sizeof(pplayer->ai.tech_turns));
-  for (i = 1; i < A_LAST; i++) { /* skipping A_NONE */
+  for (i = A_NONE + 1; i < A_LAST; i++) {
     pplayer->ai.tech_turns[i] = tech_goal_turns(pplayer, i);
-  } /* calculating this a LOT less often than military_advise_tech would. -- Syela */
-}
-
-
-void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice) 
-{
-  calculate_tech_turns(pplayer); /* probably important. */
-  ai_select_tech(pplayer, choice);
+  }
 }
 
 void ai_next_tech_goal(struct player *pplayer)
@@ -232,6 +229,7 @@ void ai_next_tech_goal(struct player *pplayer)
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
 
+  calculate_tech_turns(pplayer);
   ai_select_tech_goal(pplayer, &curchoice);
   copy_if_better_choice(&curchoice, &bestchoice); /* not dealing with the rest */
 
@@ -257,36 +255,28 @@ void ai_next_tech_goal(struct player *pplayer)
     pplayer->ai.tech_goal = bestchoice.choice;
 }
 
- 
-int tech_want_rec(struct player *plr, int goal)
-{
-  if (goal <= A_NONE || goal >= A_LAST ||
-      get_invention(plr, goal) == TECH_KNOWN ||
-      get_invention(plr, goal) == TECH_MARKED)
-    return 0;
-  set_invention(plr, goal, TECH_MARKED);
-  return (tech_want_rec(plr, advances[goal].req[0]) +
-          tech_want_rec(plr, advances[goal].req[1]) +
-          plr->ai.tech_want[goal]);
-}
-
 void ai_manage_tech(struct player *pplayer)
 {
-  struct ai_choice choice;
+  struct ai_choice choice, gol;
   int penalty;
 
   penalty = (pplayer->got_tech ? 0 : pplayer->research.researched);
-  if (penalty + pplayer->research.researched > research_time(pplayer))
-    return; /* this is a kluge */
 
-  ai_select_tech(pplayer, &choice);
+  ai_select_tech(pplayer, &choice, &gol);
   if (choice.choice != pplayer->research.researching) {
-    if ((choice.want - choice.type) > penalty) { /* changing */
+    if ((choice.want - choice.type) > penalty &&             /* changing */
+   penalty + pplayer->research.researched <= research_time(pplayer)) {
       printf("%s switching from %s to %s with penalty of %d.\n",
         pplayer->name, advances[pplayer->research.researching].name,
         advances[choice.choice].name, penalty);
       choose_tech(pplayer, choice.choice);
     }
   }
-/* crossing my fingers on this one! -- Syela */
+/* crossing my fingers on this one! -- Syela (seems to have worked!) */
+  if (gol.choice != pplayer->ai.tech_goal) {
+    printf("%s changing goal from %s (want = %d) to %s (want = %d)\n",
+pplayer->name, advances[pplayer->ai.tech_goal].name, gol.type,
+advances[gol.choice].name, gol.want);
+    choose_tech_goal(pplayer, gol.choice);
+  }
 }
