@@ -51,6 +51,7 @@ extern int render_sprites(APTR drawhandle);
 extern void real_free_sprite(struct Sprite *sprite);
 extern void cleanup_sprites(void);
 extern void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode);
+void put_line(struct RastPort *rp, int dest_x, int dest_y, int x, int y, int dir);
 extern void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1);
 extern void put_sprite_overlay(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y);
 extern void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG height);

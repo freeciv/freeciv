@@ -33,7 +33,7 @@
 #include "options.h"
 
 #include "control.h"
-
+#include "goto.h"
 #include "graphics.h"
 #include "mapview.h"
 #include "muistuff.h"
@@ -541,6 +541,23 @@ void put_city_output_tile(struct RastPort *rp, int food, int shield, int trade, 
   put_sprite_overlay(rp, sprites.city.tile_tradenum[trade], destx, desty);
 }
 
+/**************************************************************************
+Not used in isometric view.
+**************************************************************************/
+void put_line(struct RastPort *rp, int dest_x, int dest_y, int x, int y, int dir)
+{
+  int canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y;
+  get_canvas_xy(x, y, &canvas_src_x, &canvas_src_y);
+  canvas_src_x += NORMAL_TILE_WIDTH/2;
+  canvas_src_y += NORMAL_TILE_HEIGHT/2;
+  canvas_dest_x = canvas_src_x + (NORMAL_TILE_WIDTH * DIR_DX[dir])/2;
+  canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * DIR_DY[dir])/2;
+
+  SetAPen(rp,2); /* was CYAN */
+  Move(rp,canvas_src_x+dest_x, canvas_src_y+dest_y);
+  Draw(rp,canvas_dest_x+dest_x, canvas_dest_y+dest_y);
+}
+
 /****************************************************************
  Draw a unit into the rastport at location x1,y1
 *****************************************************************/
@@ -663,14 +680,13 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
     put_black_tile(rp, canvas_x, canvas_y);
   }
 
-/*
   if (!citymode) {
     /* put any goto lines on the tile. */
     if (y >= 0 && y < map.ysize) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
 	if (get_drawn(x, y, dir)) {
-	  put_line(map_canvas_store, x, y, dir);
+	  put_line(rp, 0,0,x, y, dir);
 	}
       }
     }
@@ -682,10 +698,10 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
       if (normalize_map_pos(&line_x, &line_y)
 	  && get_drawn(line_x, line_y, 2)) {
 	/* it is really only one pixel in the top right corner */
-	put_line(map_canvas_store, line_x, line_y, 2);
+	put_line(rp, 0,0,line_x, line_y, 2);
       }
     }
-  }*/
+  }
 }
 
 /***************************************************************************

@@ -37,6 +37,7 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "goto.h"
 #include "gui_main.h"
 #include "inputdlg.h"
 #include "mapview.h"
@@ -104,5 +105,32 @@ int main_map_click(struct Map_Click **click)
 
   do_map_click(xtile, ytile);
   return 0;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+void update_line(int window_x, int window_y)
+{
+  int x, y, old_x, old_y;
+
+  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+      && draw_goto_line) {
+    get_map_xy(window_x, window_y, &x, &y);
+
+    get_line_dest(&old_x, &old_y);
+    if (old_x != x || old_y != y) {
+      draw_line(x, y);
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void create_line_at_mouse_pos(void)
+{
+  update_line(xget(main_map_area,MUIA_Map_MouseX),xget(main_map_area,MUIA_Map_MouseY));
 }
 

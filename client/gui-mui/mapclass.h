@@ -77,8 +77,9 @@ struct MUIP_Map_ShowCityDescriptions {ULONG MethodID;};
 struct MUIP_Map_PutCityWorkers  {ULONG MethodID; struct city *pcity; LONG color;};
 struct MUIP_Map_PutCrossTile    {ULONG MethodID; LONG abs_x0; LONG abs_y0;};
 struct MUIP_Map_ExplodeUnit     {ULONG MethodID; struct unit *punit;};
-struct MUIP_Map_DrawSegment     {ULONG MethodID; LONG src_x; LONG src_y; LONG dest_x; LONG dest_y;};
-struct MUIP_Map_UndrawSegment   {ULONG MethodID; LONG src_x; LONG src_y; LONG dest_x; LONG dest_y;};
+
+struct MUIP_Map_DrawSegment     {ULONG MethodID; LONG src_x; LONG src_y; LONG dir;};
+struct MUIP_Map_UndrawSegment   {ULONG MethodID; LONG src_x; LONG src_y; LONG dir;};
 
 #define MUIA_CityMap_City               (TAG_USER+0x1234700) /* N... struct city * */
 #define MUIA_CityMap_Click              (TAG_USER+0x1234701) /* ...N struct Map_Click * */

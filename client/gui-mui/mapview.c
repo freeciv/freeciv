@@ -688,9 +688,8 @@ draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
 map_canvas_store
 **************************************************************************/
 void draw_segment(int src_x, int src_y, int dir)
-/*void draw_segment(int src_x, int src_y, int dest_x, int dest_y)*/
 {
-//  DoMethod(main_map_area, MUIM_Map_DrawSegment, src_x, src_y, dest_x, dest_y);
+  DoMethod(main_map_area, MUIM_Map_DrawSegment, src_x, src_y, dir);
 }
 
 /**************************************************************************
@@ -698,31 +697,7 @@ remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
 map_canvas_store.
 **************************************************************************/
 void undraw_segment(int src_x, int src_y, int dir)
-/*void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)*/
 {
-//  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dest_x, dest_y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void update_line(int x, int y)
-{
-/*  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-      && draw_goto_line) {
-
-    if (line_dest_x != x || line_dest_y != y) {
-      undraw_line();
-      draw_line(x, y);
-    }
-  }*/
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void create_line_at_mouse_pos(void)
-{
-  update_line(xget(main_map_area,MUIA_Map_MouseX),xget(main_map_area,MUIA_Map_MouseY));
+  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dir);
 }
 
