@@ -317,13 +317,13 @@ void select_imp_or_unit_callback(GtkWidget *w, gpointer data)
 
       g_assert(selection);
   
+      if (is_unit)
+	number -= B_LAST;
+	  
       for(; selection; selection = g_list_next(selection))
 	{
 	  struct packet_city_request packet;
 
-	  if (is_unit)
-	    number -= B_LAST;
-	  
 	  packet.city_id=city_from_glist(selection)->id;
 	  packet.name[0]='\0';
 	  packet.worklist.name[0] = '\0';
