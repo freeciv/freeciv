@@ -42,6 +42,7 @@
 #include "spacerace.h"
 #include "srv_main.h"
 #include "unittools.h"
+#include "unithand.h"
 
 #include "advdomestic.h"
 #include "aicity.h"
@@ -898,10 +899,13 @@ static void city_distribute_surplus_shields(struct player *pplayer,
   while (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (utype_shield_cost(unit_type(punit), g) > 0) {
+	struct packet_unit_request packet;
+
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, unit_type(punit)->name);
-	wipe_unit_safe(punit, &myiter);
+        packet.unit_id = punit->id;
+        handle_unit_disband(pplayer, &packet);
 	break;
       }
     }

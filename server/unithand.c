@@ -398,8 +398,6 @@ void handle_unit_change_homecity(struct player *pplayer,
   Disband a unit.  If its in a city, add 1/2 of the worth of the unit
   to the city's shield stock for the current production.
   "iter" may be NULL, see wipe_unit_safe for details.
-  NOTE: AI calls do_unit_disband_safe directly, but player calls
-  of course handle_unit_disband_safe
 **************************************************************************/
 static void do_unit_disband_safe(struct city *pcity, struct unit *punit,
 				 struct genlist_iterator *iter)
