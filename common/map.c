@@ -487,7 +487,7 @@ bool is_starter_close(int x, int y, int nr, int dist)
   
   /* don't want them starting on the poles unless the poles are
      connected to more land: */
-  if (map_get_continent(x, y) <= 2 && map.generator != 0
+  if (map_get_continent(x, y, NULL) <= 2 && map.generator != 0
       && map.separatepoles) {
     return TRUE;
   }
@@ -496,7 +496,7 @@ bool is_starter_close(int x, int y, int nr, int dist)
   for (i=0;i<nr;i++) {
     int x1 = map.start_positions[i].x;
     int y1 = map.start_positions[i].y;
-    if (map_get_continent(x, y) == map_get_continent(x1, y1)
+    if (map_get_continent(x, y, NULL) == map_get_continent(x1, y1, NULL)
 	&& real_map_distance(x, y, x1, y1) < dist) {
       return TRUE;
     }
@@ -1168,23 +1168,6 @@ struct tile *map_get_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-signed short map_get_continent(int x, int y)
-{
-  return MAP_TILE(x, y)->continent;
-}
-
-/***************************************************************
-...
-***************************************************************/
-void map_set_continent(int x, int y, int val)
-{
-  MAP_TILE(x, y)->continent = val;
-}
-
-
-/***************************************************************
-...
-***************************************************************/
 enum tile_terrain_type map_get_terrain(int x, int y)
 {
   return MAP_TILE(x, y)->terrain;
@@ -1263,6 +1246,118 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 
   if (contains_special(spe, S_ROAD) || contains_special(spe, S_RAILROAD)) {
     reset_move_costs(x, y);
+  }
+}
+
+/**************************************************************************
+  Recursively renumber the client continent at (x,y) with continent
+  number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
+  known land tiles with the same previous continent ('old').
+
+  Note: because of renumbering, you cannot count on a tile's number being 
+  same from one move to the next. you should always use map_get_continent()
+**************************************************************************/
+static void renumber_continent(int x, int y, struct player *pplayer,
+                               int newnumber)
+{
+  int old;
+
+  if(!normalize_map_pos(&x, &y)) {
+    return;
+  }
+
+  old = map_get_continent(x, y, pplayer);
+
+  map_set_continent(x, y, pplayer, newnumber);
+  adjc_iterate(x, y, i, j) {
+    if (map_get_known(i, j, pplayer)
+        && map_get_terrain(i, j) != T_OCEAN
+        && map_get_continent(i, j, pplayer) == old) {
+      freelog(LOG_DEBUG,
+              " renumbering continent %d to %d at (%d %d) for %s", old,
+              newnumber, i, j, pplayer->name);
+      renumber_continent(i, j, pplayer, newnumber);
+    }
+  } adjc_iterate_end;
+}
+
+#define MAX_NUM_CONT 65535   /* max portable value in unsigned short */
+
+/**************************************************************************
+  Recycle a continent number.
+  
+  Example: say you have 5 continents, and you discover that 3 is actually
+  same continent as 1. Then 3 will be renamed to 1 in renumber_contients()
+  and then this function renames continent 5 to 3.
+**************************************************************************/
+static void recycle_continent_num(struct player *pplayer, int cont)
+{
+
+  freelog(LOG_DEBUG, " recycling continent number: setting %d to %d...",
+          pplayer->num_continents, cont);
+
+  /* if we renumbered away the last continent, we don't need to do anything */
+  if (cont == pplayer->num_continents) {
+    return;
+  }
+
+  whole_map_iterate(x, y) {
+    if (map_get_continent(x, y, pplayer) == pplayer->num_continents) {
+      map_set_continent(x, y, pplayer, cont);
+    }
+  } whole_map_iterate_end;
+}
+
+
+/**************************************************************************
+  Update continent numbers when (x,y) becomes known (if (x,y) land).
+  Check neighbouring known land tiles: the first continent number
+  found becomes the continent value of this tile.  Any other continents
+  found are numbered to this continent (ie, continents are merged)
+  and previous continent values are recycled.  If no neighbours are
+  numbered, use a new number. 
+**************************************************************************/
+void update_continents(int x, int y, struct player *pplayer)
+{
+  int con = 0, first_adj_con = -1;
+
+  if (map_get_tile(x, y)->terrain == T_OCEAN) {
+    return;
+  }
+
+  adjc_iterate(x, y, i, j) {
+    if (map_get_known(i, j, pplayer) && map_get_terrain(i, j) != T_OCEAN) {
+      con = map_get_continent(i, j, pplayer);
+
+      /* does the adjacent tile have a number? */
+      if (con > 0) {
+        if (first_adj_con == -1) {
+          /* this is the first adjacent tile with a number */
+          map_set_continent(x, y, pplayer, con);
+          first_adj_con = con;
+        } else if (con != first_adj_con) {
+          /* we found two tiles (adjacent to this one) that aren't the same */
+          /* TODO: this could be optimized if con == num_continents */
+          freelog(LOG_DEBUG,
+                  " renumbering continent %d to %d at (%d %d) for %s", con,
+                  first_adj_con, i, j, pplayer->name);
+          renumber_continent(i, j, pplayer, first_adj_con);
+          recycle_continent_num(pplayer, con);
+          first_adj_con = -1;
+          pplayer->num_continents--;
+        }
+      }
+    }
+  } adjc_iterate_end;
+
+  /* don't get a new one if the tile's already been counted */
+  if (first_adj_con == -1 && map_get_continent(x, y, pplayer) == 0) {
+    assert(pplayer->num_continents < MAX_NUM_CONT);
+
+    map_set_continent(x, y, pplayer, ++pplayer->num_continents);
+
+    freelog(LOG_DEBUG, " new continent %d at (%d %d) for %s",
+            map_get_continent(x, y, pplayer), x, y, pplayer->name);
   }
 }
 

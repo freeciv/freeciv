@@ -63,6 +63,7 @@
 #include "wldlg.h"
 
 #include "citydlg_common.h"
+#include "climap.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "options.h"

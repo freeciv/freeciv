@@ -1057,19 +1057,7 @@ static void ensure_invalid_cache2(struct city *pcity, int total_tile_trade)
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pc2 = find_city_by_id(pcity->trade[i]);
 
-    if (pc2) {
-      int bonus = (total_tile_trade + pc2->tile_trade + 4) / 8;
-
-      /* Double if on different continents. */
-      if (map_get_continent(pcity->x, pcity->y) !=
-	  map_get_continent(pc2->x, pc2->y)) {bonus *= 2;
-      }
-
-      if (pcity->owner == pc2->owner) {
-	bonus /= 2;
-      }
-      total_trade += bonus;
-    }
+    total_trade += trade_between_cities(pcity, pc2);
   }
 
   /*

@@ -29,7 +29,7 @@ used throughout the client.
 #include <unistd.h>
 #endif
 
-#include "astring.h"
+/*#include "astring.h"*/
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
@@ -43,6 +43,7 @@ used throughout the client.
 #include "cityrep_g.h"
 #include "civclient.h"
 #include "chatline_g.h"
+#include "climap.h"
 #include "clinet.h"
 #include "control.h"
 #include "mapview_g.h"
@@ -55,150 +56,12 @@ used throughout the client.
 
 #include "climisc.h"
 
-static void renumber_island_impr_effect(int old, int newnumber);
-
-#define MAX_NUM_CONT 32767   /* max portable value in signed short */
-
-/* Static data used to keep track of continent numbers in client:
- * maximum value used, and array of recycled values which can be used.
- * (Could used signed short, but int is easier and storage here will
- * be fairly small.)
- */
-static int max_cont_used = 0;
-static struct athing recyc_conts;   /* .n is number available */
-static bool recyc_init = FALSE;	    /* for first init of recyc_conts */
-static int *recyc_ptr = NULL;	    /* set to recyc_conts.ptr (void* vs int*) */
-
-/**************************************************************************
-  Initialise above data, or re-initialize (eg, new map).
-**************************************************************************/
-void climap_init_continents(void)
-{
-  if (!recyc_init) {
-    /* initialize with size first time: */
-    ath_init(&recyc_conts, sizeof(int));
-    recyc_init = TRUE;
-  }
-  update_island_impr_effect(-1, 0);
-  ath_free(&recyc_conts);
-  recyc_ptr = NULL;
-  max_cont_used = 0;
-}
-
-/**************************************************************************
-  Recycle a continent number.
-  (Ie, number is no longer used, and may be re-used later.)
-**************************************************************************/
-static void recycle_continent_num(int cont)
-{
-  assert(cont>0 && cont<=max_cont_used);          /* sanity */
-  ath_minnum(&recyc_conts, recyc_conts.n+1);
-  recyc_ptr = recyc_conts.ptr;
-  recyc_ptr[recyc_conts.n-1] = cont;
-  freelog(LOG_DEBUG, "clicont: recycling %d (max %d recyc %d)",
-	  cont, max_cont_used, (unsigned int)recyc_conts.n);
-}
-
-/**************************************************************************
-  Obtain an unused continent number: a recycled number if available,
-  or increase the maximum.
-**************************************************************************/
-static int new_continent_num(void)
-{
-  int ret;
-  
-  if (recyc_conts.n>0) {
-    ret = recyc_ptr[--recyc_conts.n];
-  } else {
-    assert(max_cont_used<MAX_NUM_CONT);
-    ret = ++max_cont_used;
-    update_island_impr_effect(max_cont_used-1, max_cont_used);
-  }
-  freelog(LOG_DEBUG, "clicont: new %d (max %d, recyc %d)",
-	  ret, max_cont_used, (unsigned int)recyc_conts.n);
-  return ret;
-}
-
-/**************************************************************************
-  Recursively renumber the client continent at (x,y) with continent
-  number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
-  known land tiles with the same previous continent ('old').
-**************************************************************************/
-static void climap_renumber_continent(int x, int y, int newnumber)
-{
-  int old;
-
-  if( !normalize_map_pos(&x, &y) )
-    return;
-
-  old = map_get_continent(x,y);
-
-  /* some sanity checks: */
-  assert(tile_get_known(x,y) >= TILE_KNOWN_FOGGED);
-  assert(map_get_terrain(x,y) != T_OCEAN);
-  assert(old>0 && old<=max_cont_used);
-  
-  renumber_island_impr_effect(old, newnumber);
-
-  map_set_continent(x,y,newnumber);
-  adjc_iterate(x, y, i, j) {
-    if (tile_get_known(i, j) >= TILE_KNOWN_FOGGED
-	&& map_get_terrain(i, j) != T_OCEAN
-	&& map_get_continent(i, j) == old) {
-      climap_renumber_continent(i, j, newnumber);
-    }
-  }
-  adjc_iterate_end;
-}
-
-/**************************************************************************
-  Update continent numbers when (x,y) becomes known (if (x,y) land).
-  Check neighbouring known land tiles: the first continent number
-  found becomes the continent value of this tile.  Any other continents
-  found are numbered to this continent (ie, continents are merged)
-  and previous continent values are recycled.  If no neighbours are
-  numbered, use a new number. 
-**************************************************************************/
-void climap_update_continents(int x, int y)
-{
-  struct tile *ptile = map_get_tile(x,y);
-  int con, this_con;
-
-  if(ptile->terrain == T_OCEAN) return;
-
-  this_con = -1;
-  adjc_iterate(x, y, i, j) {
-    if (tile_get_known(i, j) >= TILE_KNOWN_FOGGED
-	&& map_get_terrain(i, j) != T_OCEAN) {
-      con = map_get_continent(i, j);
-      if (con > 0) {
-	if (this_con == -1) {
-	  ptile->continent = this_con = con;
-	} else if (con != this_con) {
-	  freelog(LOG_DEBUG,
-		  "renumbering client continent %d to %d at (%d %d)", con,
-		  this_con, x, y);
-	  climap_renumber_continent(i, j, this_con);
-	  recycle_continent_num(con);
-	}
-      }
-    }
-  }
-  adjc_iterate_end;
-
-  if(this_con==-1) {
-    ptile->continent = new_continent_num();
-    freelog(LOG_DEBUG, "new client continent %d at (%d %d)",
-	    ptile->continent, x, y);
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
 void client_init_player(struct player *plr)
 {
-  player_init_island_imprs(plr, max_cont_used);
+  player_init_island_imprs(plr, map.num_continents);
 }
 
 /**************************************************************************
@@ -466,20 +329,6 @@ int client_cooling_sprite(void)
 		((NUM_TILES_PROGRESS / 2) - 1));
   }
   return index;
-}
-
-/************************************************************************
- A tile's "known" field is used by the server to store whether _each_
- player knows the tile.  Client-side, it's used as an enum known_type
- to track whether the tile is known/fogged/unknown.
-
- Judicious use of this function also makes things very convenient for
- civworld, since it uses both client and server-style storage; since it
- uses the stock tilespec.c file, this function serves as a wrapper.
-*************************************************************************/
-enum known_type tile_get_known(int x, int y)
-{
-  return (enum known_type) map_get_tile(x, y)->known;
 }
 
 /**************************************************************************
@@ -1036,58 +885,6 @@ int num_present_units_in_city(struct city *pcity)
   }
 
   return unit_list_size(plist);
-}
-
-/**************************************************************************
-  Moves all improvements from the 'old' continent to the 'new' one.
-**************************************************************************/
-void renumber_island_impr_effect(int old, int newnumber)
-{
-  int i;
-  bool changed = FALSE;
-
-  players_iterate(plr) {
-    Impr_Status *oldimpr, *newimpr;
-    struct geff_vector *oldv, *newv;
-    struct eff_global *olde, *newe;
-
-    assert(plr->island_improv != NULL);
-    oldimpr=&plr->island_improv[game.num_impr_types*old];
-    newimpr=&plr->island_improv[game.num_impr_types*newnumber];
-
-    oldv=&plr->island_effects[old];
-    newv=&plr->island_effects[newnumber];
-
-    /* First move any island-range effects to the new vector. */
-    for (i=0; i<geff_vector_size(oldv); i++) {
-      olde=geff_vector_get(oldv, i);
-
-      if (olde->eff.impr!=B_LAST) {
-	changed=TRUE;
-	newe = append_geff(newv);
-	newe->eff	 = olde->eff;
-	newe->cityid	 = olde->cityid;
-	olde->eff.impr	 = B_LAST;   /* Mark the old entry as unused. */
-      }
-    }
-
-    /* Now move all city improvements across. */
-    impr_type_iterate(i) {
-      if (oldimpr[i]!=I_NONE) {
-	newimpr[i]=oldimpr[i];
-	oldimpr[i]=I_NONE;
-
-	/* Obsolete or redundant buildings don't change the effects. */
-	if (newimpr[i]==I_ACTIVE) {
-	  changed=TRUE;  
-	}
-      }
-    } impr_type_iterate_end;
-  } players_iterate_end;
-
-  /* If anything was changed, then we need to update the effects. */
-  if (changed)
-    update_all_effects();
 }
 
 /**************************************************************************

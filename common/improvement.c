@@ -342,7 +342,7 @@ static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
 
   if (pcity) {
     implist[EFR_CITY]=pcity->improvements;
-    cont = map_get_continent(pcity->x,pcity->y);
+    cont = map_get_continent(pcity->x, pcity->y, pplayer);
   }
 
   if (pplayer) {
@@ -599,8 +599,8 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
     }
   }
 
-  cont = map_get_continent(pcity->x, pcity->y);
   plr = city_owner(pcity);
+  cont = map_get_continent(pcity->x, pcity->y, plr);
 
   i=0;
   for (j=0; j<EFR_LAST; j++) {
@@ -630,8 +630,8 @@ void update_global_effect(struct city *pcity, struct eff_city *effect)
   int i, j, cont;
   struct player *plr;
 
-  cont = map_get_continent(pcity->x, pcity->y);
   plr = city_owner(pcity);
+  cont = map_get_continent(pcity->x, pcity->y, plr);
 
   effs[0] = get_eff_island(cont, plr);
   effs[1] = get_eff_player(plr);

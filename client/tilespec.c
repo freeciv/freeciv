@@ -43,7 +43,7 @@
 #include "unit.h"
 
 #include "civclient.h" /* for get_client_state() */
-#include "climisc.h" /* for tile_get_known() */
+#include "climap.h" /* for tile_get_known() */
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
 #include "mapview_g.h" /* for update_map_canvas_visible */

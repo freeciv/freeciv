@@ -403,14 +403,15 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
 { 
   struct city *pc=NULL;
   int dist = MAX(map.xsize / 2, map.ysize);
-  int con = map_get_continent(x, y);
+  int con = map_get_continent(x, y, NULL);
 
   players_iterate(pplay) {
     if ((enemy) && (pplayer) && (!pplayers_at_war(pplayer,pplay))) continue;
 
     city_list_iterate(pplay->cities, pcity)
       if (real_map_distance(x, y, pcity->x, pcity->y) < dist &&
-         (everywhere || con == 0 || con == map_get_continent(pcity->x, pcity->y)) &&
+         (everywhere || con == 0 || con == 
+          map_get_continent(pcity->x, pcity->y, NULL)) &&
          (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
         dist = real_map_distance(x, y, pcity->x, pcity->y);
         pc = pcity;

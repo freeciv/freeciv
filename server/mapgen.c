@@ -883,7 +883,7 @@ static void remove_tiny_islands(void)
     if (is_tiny_island(x, y)) {
       map_set_terrain(x, y, T_OCEAN);
       map_clear_special(x, y, S_RIVER);
-      map_set_continent(x, y, 0);
+      map_set_continent(x, y, NULL, 0);
     }
   } whole_map_iterate_end;
 }
@@ -895,10 +895,10 @@ static void remove_tiny_islands(void)
 static void assign_continent_flood(int x, int y, int nr)
 {
   if (y<0 || y>=map.ysize)              return;
-  if (map_get_continent(x, y) != 0)     return;
+  if (map_get_continent(x, y, NULL) != 0)     return;
   if (map_get_terrain(x, y) == T_OCEAN) return;
 
-  map_set_continent(x, y, nr);
+  map_set_continent(x, y, NULL, nr);
 
   adjc_iterate(x, y, x1, y1) {
     assign_continent_flood(x1, y1, nr);
@@ -919,7 +919,7 @@ void assign_continent_numbers(void)
   int isle = 1;
 
   whole_map_iterate(x, y) {
-    map_set_continent(x, y, 0);
+    map_set_continent(x, y, NULL, 0);
   } whole_map_iterate_end;
 
   if (map.generator != 0) {
@@ -929,7 +929,8 @@ void assign_continent_numbers(void)
   }
       
   whole_map_iterate(x, y) {
-    if (map_get_continent(x, y) == 0 && map_get_terrain(x, y) != T_OCEAN) {
+    if (map_get_continent(x, y, NULL) == 0 
+        && map_get_terrain(x, y) != T_OCEAN) {
       assign_continent_flood(x, y, isle++);
     }
   } whole_map_iterate_end;
@@ -972,12 +973,12 @@ static void setup_isledata(void)
     map_city_radius_iterate(x, y, x1, y1) {
       /* (x1,y1) is possible location of a future city which will
        * be able to get benefit of the tile (x,y) */
-      if (map_get_continent(x1, y1) < firstcont) { 
+      if (map_get_continent(x1, y1, NULL) < firstcont) { 
         /* (x1, y1) belongs to a non-startable continent */
         continue;
       }
       for (j = 0; j < seen_conts; j++) {
-	if (map_get_continent(x1, y1) == conts[j]) {
+	if (map_get_continent(x1, y1, NULL) == conts[j]) {
           /* Continent of (x1,y1) is already in the list */
 	  break;
         }
@@ -985,7 +986,7 @@ static void setup_isledata(void)
       if (j >= seen_conts) { 
 	/* we have not seen this continent yet */
 	assert(seen_conts < CITY_TILES);
-	conts[seen_conts] = map_get_continent(x1, y1);
+	conts[seen_conts] = map_get_continent(x1, y1, NULL);
 	seen_conts++;
       }
     } map_city_radius_iterate_end;
@@ -1085,10 +1086,10 @@ void create_start_positions(void)
 
   while (nr<game.nplayers) {
     rand_map_pos(&x, &y);
-    if (islands[(int)map_get_continent(x, y)].starters != 0) {
+    if (islands[(int)map_get_continent(x, y, NULL)].starters != 0) {
       j++;
       if (!is_starter_close(x, y, nr, dist)) {
-	islands[(int)map_get_continent(x, y)].starters--;
+	islands[(int)map_get_continent(x, y, NULL)].starters--;
 	map.start_positions[nr].x=x;
 	map.start_positions[nr].y=y;
 	nr++;
@@ -1444,7 +1445,7 @@ static void fill_island(int coast, long int *bucket,
   while (i > 0 && (failsafe--) > 0) {
     get_random_map_position_from_state(&x, &y, pstate);
 
-    if (map_get_continent(x, y) == pstate->isleindex &&
+    if (map_get_continent(x, y, NULL) == pstate->isleindex &&
 	map_get_terrain(x, y) == T_GRASSLAND) {
 
       /* the first condition helps make terrain more contiguous,
@@ -1497,7 +1498,7 @@ static void fill_island_rivers(int coast, long int *bucket,
 
   while (i > 0 && (failsafe--) > 0) {
     get_random_map_position_from_state(&x, &y, pstate);
-    if (map_get_continent(x, y) == pstate->isleindex &&
+    if (map_get_continent(x, y, NULL) == pstate->isleindex &&
 	map_get_terrain(x, y) == T_GRASSLAND) {
 
       /* the first condition helps make terrain more contiguous,
@@ -1571,7 +1572,7 @@ static bool place_island(struct gen234_state *pstate)
 	}
 
         map_set_terrain(map_x, map_y, T_GRASSLAND);
-	map_set_continent(map_x, map_y, pstate->isleindex);
+	map_set_continent(map_x, map_y, NULL,  pstate->isleindex);
         i++;
       }
     }
@@ -1763,20 +1764,20 @@ static void initworld(struct gen234_state *pstate)
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x, y, T_OCEAN);
-      map_set_continent(x, y, 0);
+      map_set_continent(x, y, NULL, 0);
     }
   for (x = 0 ; x < map.xsize; x++) {
     map_set_terrain(x, 0, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-    map_set_continent(x, 0, 1);
+    map_set_continent(x, 0, NULL, 1);
     if (myrand(9) == 0) {
       map_set_terrain(x, 1, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-      map_set_continent(x, 1, 1);
+      map_set_continent(x, 1, NULL, 1);
     }
     map_set_terrain(x, map.ysize-1, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-    map_set_continent(x, map.ysize-1, 2);
+    map_set_continent(x, map.ysize-1, NULL, 2);
     if (myrand(9) == 0) {
       map_set_terrain(x, map.ysize-2, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-      map_set_continent(x, map.ysize-2, 2);
+      map_set_continent(x, map.ysize-2, NULL, 2);
     }
   }
   map.num_continents = 2;

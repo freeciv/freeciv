@@ -46,6 +46,7 @@
 #include "cityrep_g.h"
 #include "civclient.h"
 #include "climisc.h"
+#include "climap.h"
 #include "clinet.h"		/* aconnection */
 #include "control.h"
 #include "dialogs_g.h"
@@ -1065,7 +1066,7 @@ void handle_map_info(struct packet_map_info *pinfo)
   map.is_earth=pinfo->is_earth;
 
   map_allocate();
-  climap_init_continents();
+  update_island_impr_effect(-1, 0);
   init_client_goto();
   
   set_overview_dimensions(map.xsize, map.ysize);
@@ -1597,19 +1598,20 @@ void handle_tile_info(struct packet_tile_info *packet)
        old_known == TILE_UNKNOWN && ptile->terrain != T_OCEAN) ||
       ((old_terrain == T_OCEAN) && (ptile->terrain != T_OCEAN))) {
     /* new knowledge or new land -- update can handle incrementally */
-    climap_update_continents(packet->x, packet->y);
+    update_continents(packet->x, packet->y, game.player_ptr);
+    map.num_continents = game.player_ptr->num_continents;
   } else if (old_known >= TILE_KNOWN_FOGGED &&
 	     ((old_terrain != T_OCEAN) && (ptile->terrain == T_OCEAN))) {
     /* land changed into ocean -- rebuild continents map from scratch */
     whole_map_iterate(x, y) {
-      map_set_continent(x, y, 0);
-    }
-    whole_map_iterate_end;
-    climap_init_continents();
+      map_set_continent(x, y, NULL, 0);
+    } whole_map_iterate_end;
+    map.num_continents = game.player_ptr->num_continents = 0;
+    update_island_impr_effect(-1, 0);
     whole_map_iterate(x, y) {
       if ((tile_get_known(x, y) >= TILE_KNOWN_FOGGED) &&
 	  (map_get_terrain(x, y) != T_OCEAN))
-	climap_update_continents(x, y);
+	update_continents(x, y, game.player_ptr);
     }
     whole_map_iterate_end;
   }

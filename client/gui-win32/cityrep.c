@@ -603,8 +603,8 @@ static void list_sameisland_select(HWND hLst)
 	{
 	  struct city *selectedcity;
 	  selectedcity=(struct city *)ListBox_GetItemData(hLst,cityids[j]);
-          if (map_get_continent(pcity->x, pcity->y)
-              == map_get_continent(selectedcity->x, selectedcity->y))
+          if (map_get_continent(pcity->x, pcity->y, NULL)
+              == map_get_continent(selectedcity->x, selectedcity->y, NULL))
 	    {    
 	      ListBox_SetSel(hLst,TRUE,i);
 	      break;

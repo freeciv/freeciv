@@ -28,6 +28,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "civclient.h"
+#include "climap.h"
 #include "clinet.h"
 #include "climisc.h"
 #include "colors.h"

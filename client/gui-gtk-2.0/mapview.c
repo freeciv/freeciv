@@ -35,6 +35,7 @@
 #include "timing.h"
 
 #include "civclient.h"
+#include "climap.h"
 #include "climisc.h"
 #include "colors.h"
 #include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */

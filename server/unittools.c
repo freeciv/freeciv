@@ -676,107 +676,6 @@ static int total_activity_targeted(int x, int y, enum unit_activity act,
 }
 
 /**************************************************************************
-  For each city adjacent to (x,y), check if landlocked.  If so, sell all
-  improvements in the city that depend upon being next to an ocean tile.
-  (Should be called after any ocean to land terrain changes.
-  Assumes no city at (x,y).)
-
-  N.B. Now uses info from buildings.ruleset to decide which buildings
-  to sell. In theory this could (should?) be generalised to sell
-  relevant buildings after any change of terrain/special type 
-**************************************************************************/
-static void city_landlocked_sell_coastal_improvements(int x, int y)
-{
-  adjc_iterate(x, y, x1, y1) {
-    struct city *pcity = map_get_city(x1, y1);
-
-    if (pcity && !is_terrain_near_tile(x1, y1, T_OCEAN)) {
-      struct player *pplayer = city_owner(pcity);
-
-      /* Sell all buildings (but not Wonders) that must be next to the ocean */
-      built_impr_iterate(pcity, impr) {
-        int i = 0;
-
-        if (is_wonder(impr)) {
-          continue;
-        }
-
-        while (improvement_types[impr].terr_gate[i] != T_OCEAN
-               && improvement_types[impr].terr_gate[i] != T_LAST) {
-          i++;
-        }
-
-        if (improvement_types[impr].terr_gate[i] == T_OCEAN
-            && !city_has_terr_spec_gate(pcity, impr)) {
-	  do_sell_building(pplayer, pcity, impr);
-	  notify_player_ex(pplayer, x1, y1, E_IMP_SOLD,
-			   _("Game: You sell %s in %s (now landlocked)"
-			     " for %d gold."),
-			   get_improvement_name(impr), pcity->name,
-			   improvement_value(impr));
-	}
-      } built_impr_iterate_end;
-    }
-  } adjc_iterate_end;
-}
-
-/**************************************************************************
-  Set the tile to be a river if required.
-  It's required if one of the tiles nearby would otherwise be part of a
-  river to nowhere.
-  For simplicity, I'm assuming that this is the only exit of the river,
-  so I don't need to trace it across the continent.  --CJM
-  Also, note that this only works for R_AS_SPECIAL type rivers.  --jjm
-**************************************************************************/
-static void ocean_to_land_fix_rivers(int x, int y)
-{
-  /* clear the river if it exists */
-  map_clear_special(x, y, S_RIVER);
-
-  cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_has_special(x1, y1, S_RIVER)) {
-      bool ocean_near = FALSE;
-      cartesian_adjacent_iterate(x1, y1, x2, y2) {
-	if (map_get_terrain(x2, y2) == T_OCEAN)
-	  ocean_near = TRUE;
-      } cartesian_adjacent_iterate_end;
-      if (!ocean_near) {
-	map_set_special(x, y, S_RIVER);
-	return;
-      }
-    }
-  } cartesian_adjacent_iterate_end;
-}
-
-/**************************************************************************
-  Checks for terrain change between ocean and land.  Handles side-effects.
-  (Should be called after any potential ocean/land terrain changes.)
-  Also, returns an enum ocean_land_change, describing the change, if any.
-**************************************************************************/
-enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
-
-static enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
-					      enum tile_terrain_type oldter)
-{
-  enum tile_terrain_type newter = map_get_terrain(x, y);
-
-  if ((oldter == T_OCEAN) && (newter != T_OCEAN)) {
-    /* ocean to land ... */
-    ocean_to_land_fix_rivers(x, y);
-    city_landlocked_sell_coastal_improvements(x, y);
-    assign_continent_numbers();
-    gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
-    return OLC_OCEAN_TO_LAND;
-  } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
-    /* land to ocean ... */
-    assign_continent_numbers();
-    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
-    return OLC_LAND_TO_OCEAN;
-  }
-  return OLC_NONE;
-}
-
-/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -1303,7 +1202,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
     value = get_virtual_defense_power(U_LAST, u_type, x1, y1, FALSE, FALSE);
     value *= 10;
 
-    if (ptile->continent != map_get_continent(pcity->x, pcity->y))
+    if (ptile->continent != map_get_continent(pcity->x, pcity->y, NULL))
       value /= 2;
 
     value -= myrand(value/3);

@@ -25,7 +25,7 @@
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "climisc.h"
+#include "climap.h"
 #include "dialogs_g.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"

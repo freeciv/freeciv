@@ -14,7 +14,6 @@
 #define FC__CLIMISC_H
 
 #include "shared.h"		/* MAX_LEN_NAME */
-#include "terrain.h"		/* enum known_type */
 
 struct city;
 struct Clause;
@@ -30,8 +29,6 @@ void client_remove_player(int plrno);
 void client_remove_city(struct city *pcity);
 void client_remove_unit(struct unit *punit);
 
-void climap_init_continents(void);
-void climap_update_continents(int x, int y);
 void client_change_all(cid x, cid y);
 
 void format_duration(char *buffer, int buffer_size, int duration);
@@ -45,7 +42,6 @@ int client_research_sprite(void);
 int client_warming_sprite(void);
 int client_cooling_sprite(void);
 
-enum known_type tile_get_known(int x, int y);
 void center_on_something(void);
 
 int concat_tile_activity_text(char *buf, int buf_size, int x, int y);

@@ -197,6 +197,7 @@ struct player {
    * Size of the island_improv and island_effects arrays.
    */
   int max_continent;
+  int num_continents;
 
   struct {
     int length;

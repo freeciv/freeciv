@@ -31,6 +31,7 @@
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "gamelog.h"
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
@@ -850,6 +851,7 @@ static void map_change_own_seen(int x, int y, struct player *pplayer,
 void map_set_known(int x, int y, struct player *pplayer)
 {
   map_get_tile(x, y)->known |= (1u<<pplayer->player_no);
+  update_continents(x, y, pplayer);
 }
 
 /***************************************************************
@@ -969,6 +971,7 @@ static void player_tile_init(int x, int y, struct player *pplayer)
 
   plrtile->terrain = T_UNKNOWN;
   plrtile->special = S_NO_SPECIAL;
+  plrtile->continent = 0;
   plrtile->city = NULL;
 
   plrtile->seen = 0;
@@ -988,12 +991,11 @@ static void player_tile_init(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-struct player_tile *map_get_player_tile(int x, int y,
-					struct player *pplayer)
+struct player_tile *map_get_player_tile(int x, int y, struct player *pplayer)
 {
   return pplayer->private_map + map_inx(x, y);
 }
- 
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -1001,9 +1003,30 @@ void update_tile_knowledge(struct player *pplayer, int x, int y)
 {
   struct tile *ptile = map_get_tile(x, y);
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
+  bool was_land = (plrtile->terrain != T_OCEAN && 
+                   plrtile->terrain != T_UNKNOWN);
 
   plrtile->terrain = ptile->terrain;
   plrtile->special = ptile->special;
+
+  /* a rare case that happens when we transform land to ocean.
+   * we need to update continent numbers correctly.
+   * this will only be a problem if we now have two continents where
+   * we only had one before the transform. the check is nasty and the
+   * case is rare, so simply renumber everything. */
+  if (was_land && ptile->terrain == T_OCEAN &&
+      map_get_known_and_seen(x, y, pplayer)) {
+    whole_map_iterate(x1, y1) {
+      map_set_continent(x1, y1, pplayer, 0);
+    } whole_map_iterate_end;
+    pplayer->num_continents = 0;
+
+    whole_map_iterate(x1, y1) {
+      if (map_get_known(x1, y1, pplayer)) { 
+        update_continents(x1, y1, pplayer);
+      }
+    } whole_map_iterate_end;
+  }
 }
 
 /***************************************************************
@@ -1349,4 +1372,94 @@ bool is_coast_seen(int x, int y, struct player *pplayer)
   } square_iterate_end; /* around x,y */
 
   return FALSE;
+}
+
+/***************************************************************
+...
+***************************************************************/
+unsigned short map_get_continent(int x, int y, struct player *pplayer)
+{
+  if (pplayer) {
+    return map_get_player_tile(x, y, pplayer)->continent;
+  } else {
+    return map_get_tile(x, y)->continent;
+  }
+}
+
+/***************************************************************
+...
+***************************************************************/
+void map_set_continent(int x, int y, struct player *pplayer, int val)
+{
+  if (pplayer) {
+    map_get_player_tile(x, y, pplayer)->continent = val;
+  } else {
+    map_get_tile(x, y)->continent = val;
+  }
+}
+
+/**************************************************************************
+  Set the tile to be a river if required.
+  It's required if one of the tiles nearby would otherwise be part of a
+  river to nowhere.
+  For simplicity, I'm assuming that this is the only exit of the river,
+  so I don't need to trace it across the continent.  --CJM
+  Also, note that this only works for R_AS_SPECIAL type rivers.  --jjm
+**************************************************************************/
+static void ocean_to_land_fix_rivers(int x, int y)
+{
+  /* clear the river if it exists */
+  map_clear_special(x, y, S_RIVER);
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_has_special(x1, y1, S_RIVER)) {
+      bool ocean_near = FALSE;
+      cartesian_adjacent_iterate(x1, y1, x2, y2) {
+        if (map_get_terrain(x2, y2) == T_OCEAN)
+          ocean_near = TRUE;
+      } cartesian_adjacent_iterate_end;
+      if (!ocean_near) {
+        map_set_special(x, y, S_RIVER);
+        return;
+      }
+    }
+  } cartesian_adjacent_iterate_end;
+}
+
+/**************************************************************************
+  Checks for terrain change between ocean and land.  Handles side-effects.
+  (Should be called after any potential ocean/land terrain changes.)
+  Also, returns an enum ocean_land_change, describing the change, if any.
+**************************************************************************/
+enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
+                                                enum tile_terrain_type oldter)
+{
+  enum tile_terrain_type newter = map_get_terrain(x, y);
+
+  if ((oldter == T_OCEAN) && (newter != T_OCEAN)) {
+    /* ocean to land ... */
+    ocean_to_land_fix_rivers(x, y);
+    city_landlocked_sell_coastal_improvements(x, y);
+
+    /* change continent numbers */
+    assign_continent_numbers();
+    players_iterate(pplayer) {
+      if (map_get_known_and_seen(x, y, pplayer)) {
+        update_continents(x, y, pplayer);
+      }
+    } players_iterate_end;
+
+    gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
+    return OLC_OCEAN_TO_LAND;
+  } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
+    /* land to ocean ... */
+
+    /* player-specific continent update is taken 
+     * care of in update_tile_knowledge() */
+    assign_continent_numbers();
+
+    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
+    return OLC_LAND_TO_OCEAN;
+  }
+  return OLC_NONE;
 }

@@ -60,10 +60,9 @@ struct tile {
 			   Not used on the client side. */
   int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
-  signed short continent;
+  unsigned short continent;
   signed char move_cost[8]; /* don't know if this helps! */
 };
-
 
 /****************************************************************
 miscellaneous terrain information
@@ -197,9 +196,14 @@ bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir);
 int get_direction_for_step(int start_x, int start_y, int end_x, int end_y);
 
-void map_set_continent(int x, int y, int val);
-signed short map_get_continent(int x, int y);
+/* these 3 functions are listed here but defined in client/climap.c and
+ * server/maphand.c as the client references ptile and the server
+ * references plrtile */
+void map_set_continent(int x, int y, struct player *pplayer, int val);
+unsigned short map_get_continent(int x, int y, struct player *pplayer);
+bool map_get_known(int x, int y, struct player *pplayer);
 
+void update_continents(int x, int y, struct player *pplayer);
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 

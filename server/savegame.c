@@ -1184,12 +1184,15 @@ static void player_map_load(struct player *plr, int plrno,
     /* This shouldn't be neccesary if the savegame was consistent, but there
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
     whole_map_iterate(x, y) {
-      if (map_get_known_and_seen(x, y, get_player(plrno))) {
+      if (map_get_known_and_seen(x, y, plr)) {
 	update_tile_knowledge(plr, x, y);
 	reality_check_city(plr, x, y);
 	if (map_get_city(x, y)) {
 	  update_dumb_city(plr, map_get_city(x, y));
 	}
+        update_continents(x, y, plr);
+      } else if (map_get_known(x, y, plr)) {
+        update_continents(x, y, plr);
       }
     } whole_map_iterate_end;
 
@@ -1204,6 +1207,7 @@ static void player_map_load(struct player *plr, int plrno,
 	update_tile_knowledge(plr, x, y);
 	if (pcity)
 	  update_dumb_city(plr, pcity);
+        update_continents(x, y, plr);
       }
     } whole_map_iterate_end;
   }

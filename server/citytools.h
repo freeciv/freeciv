@@ -93,5 +93,6 @@ bool update_city_tile_status_map(struct city *pcity, int map_x, int map_y);
 void sync_cities(void);
 bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
 void check_city_workers(struct player *pplayer);
+void city_landlocked_sell_coastal_improvements(int x, int y);
 
 #endif  /* FC__CITYTOOLS_H */

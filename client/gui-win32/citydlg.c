@@ -31,6 +31,7 @@
 #include "shared.h"
 #include "support.h"
  
+#include "climap.h"
 #include "climisc.h"
 #include "cityrep.h"
 #include "colors.h"

@@ -37,6 +37,7 @@
 #include "timing.h"
 
 #include "civclient.h"
+#include "climap.h"
 #include "climisc.h"
 #include "citydlg.h"
 #include "control.h"

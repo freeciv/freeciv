@@ -39,6 +39,7 @@
 #include "cma_fec.h" 
 #include "colors.h"
 #include "control.h"
+#include "climap.h"
 #include "clinet.h"
 #include "dialogs.h"
 #include "graphics.h"

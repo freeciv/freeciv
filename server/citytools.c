@@ -479,7 +479,10 @@ bool is_building_other_wonder(struct city *pc)
 {
   struct player *pplayer = city_owner(pc);
   city_list_iterate(pplayer->cities, pcity) 
-    if ((pc != pcity) && !(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == map_get_continent(pc->x, pc->y))
+    if ((pc != pcity) && !(pcity->is_building_unit) 
+        && is_wonder(pcity->currently_building) 
+        && map_get_continent(pcity->x, pcity->y, pplayer) 
+             == map_get_continent(pc->x, pc->y, pplayer))
       return TRUE;
   city_list_iterate_end;
   return FALSE;
@@ -2074,4 +2077,49 @@ void check_city_workers(struct player *pplayer)
     } city_map_iterate_end;
   } city_list_iterate_end;
   sync_cities();
+}
+
+/**************************************************************************
+  For each city adjacent to (x,y), check if landlocked.  If so, sell all
+  improvements in the city that depend upon being next to an ocean tile.
+  (Should be called after any ocean to land terrain changes.
+  Assumes no city at (x,y).)
+
+  N.B. Now uses info from buildings.ruleset to decide which buildings
+  to sell. In theory this could (should?) be generalised to sell
+  relevant buildings after any change of terrain/special type 
+**************************************************************************/
+void city_landlocked_sell_coastal_improvements(int x, int y)
+{
+  adjc_iterate(x, y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+
+    if (pcity && !is_terrain_near_tile(x1, y1, T_OCEAN)) {
+      struct player *pplayer = city_owner(pcity);
+
+      /* Sell all buildings (but not Wonders) that must be next to the ocean */
+      built_impr_iterate(pcity, impr) {
+        int i = 0;
+
+        if (is_wonder(impr)) {
+          continue;
+        }
+
+        while (improvement_types[impr].terr_gate[i] != T_OCEAN
+               && improvement_types[impr].terr_gate[i] != T_LAST) {
+          i++;
+        }
+
+        if (improvement_types[impr].terr_gate[i] == T_OCEAN
+            && !city_has_terr_spec_gate(pcity, impr)) {
+          do_sell_building(pplayer, pcity, impr);
+          notify_player_ex(pplayer, x1, y1, E_IMP_SOLD,
+                           _("Game: You sell %s in %s (now landlocked)"
+                             " for %d gold."),
+                           get_improvement_name(impr), pcity->name,
+                           improvement_value(impr)); 
+        }
+      } built_impr_iterate_end;
+    }
+  } adjc_iterate_end;
 }

@@ -29,6 +29,7 @@
 #include "citydlg.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "climap.h"
 #include "climisc.h"
 #include "colors.h"
 #include "control.h"

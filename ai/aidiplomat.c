@@ -313,7 +313,7 @@ static struct city *find_city_to_diplomat(struct player *pplayer, int x,
   int incite_cost = 0; /* incite cost */
   int move_cost = 0; /* move cost */
   int best_dist = MAX(map.xsize, map.ysize);
-  int continent = map_get_continent(x, y);
+  int continent = map_get_continent(x, y, NULL);
   bool dipldef; /* whether target is protected by diplomats */
   bool handicap = ai_handicap(pplayer, H_TARGETS);
   struct city *ctarget = NULL;
@@ -336,7 +336,7 @@ static struct city *find_city_to_diplomat(struct player *pplayer, int x,
         /* Target is not visible */
         continue; 
       }
-      if (continent != map_get_continent(acity->x, acity->y)) { 
+      if (continent != map_get_continent(acity->x, acity->y, NULL)) { 
         /* Diplomats don't do sea travel yet */
         continue; 
       }
@@ -376,12 +376,12 @@ static struct city *ai_diplomat_defend(struct player *pplayer, int x, int y,
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;
   struct city *ctarget = NULL;
-  int continent = map_get_continent(x, y);
+  int continent = map_get_continent(x, y, NULL);
 
   city_list_iterate(pplayer->cities, acity) {
     int dipls;
 
-    if (continent != map_get_continent(acity->x, acity->y)) {
+    if (continent != map_get_continent(acity->x, acity->y, NULL)) {
       continue;
     }
 
