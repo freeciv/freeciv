@@ -1546,7 +1546,8 @@ attack=0
 expand=0
 civilized=2
 advisors=100,100,100,100,100,100,100
-tech_goals = "Feudalism", "Republic", "Gunpowder", "Explosives", "Guerilla Warfare"
+tech_goals = "Feudalism", "The Republic", "Gunpowder", "Explosives",
+             "Guerilla Warfare"
 wonder= "Great Wall"
 government = "Communism"
 
@@ -1571,7 +1572,8 @@ attack=1
 expand=2
 civilized=1
 advisors=100,100,100,100,100,100,100
-tech_goals = "Republic", "Engeneering", "Invention", "Railroad", "Explosives"
+tech_goals = "The Republic", "Engeneering", "Invention", "Railroad",
+             "Explosives"
 wonder= "Marco Polo's Embassy"
 government = "Democracy"
 
