@@ -28,8 +28,6 @@ void mapctrl_btn_wakeup(XEvent *event);
 void focus_to_next_unit(void);
 void center_on_unit(void);
 
-void update_line(int window_x, int window_y);
-
 extern int city_workers_color;
 
 #endif  /* FC__MAPCTRL_H */

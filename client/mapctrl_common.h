@@ -18,5 +18,6 @@
 
 bool get_turn_done_button_state(void);
 void update_turn_done_button_state(void);
+void update_line(int canvas_x, int canvas_y);
 
 #endif /* FC__MAPVIEW_COMMON_H */

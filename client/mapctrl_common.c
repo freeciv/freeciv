@@ -17,6 +17,8 @@
 
 #include "agents.h"
 #include "civclient.h"
+#include "control.h"
+#include "goto.h"
 #include "log.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
@@ -74,6 +76,24 @@ void update_turn_done_button_state()
       send_turn_done();
     } else {
       update_turn_done_button(TRUE);
+    }
+  }
+}
+
+/**************************************************************************
+  Update the goto/patrol line to the given map canvas location.
+**************************************************************************/
+void update_line(int canvas_x, int canvas_y)
+{
+  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+      && draw_goto_line) {
+    int x, y, old_x, old_y;
+
+    get_map_xy(canvas_x, canvas_y, &x, &y);
+
+    get_line_dest(&old_x, &old_y);
+    if (!same_pos(old_x, old_y, x, y)) {
+      draw_line(x, y);
     }
   }
 }

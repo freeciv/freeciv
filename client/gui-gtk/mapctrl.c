@@ -335,24 +335,6 @@ void create_line_at_mouse_pos(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_line(int window_x, int window_y)
-{
-  int x, y, old_x, old_y;
-
-  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-      && draw_goto_line) {
-    get_map_xy(window_x, window_y, &x, &y);
-
-    get_line_dest(&old_x, &old_y);
-    if (!same_pos(old_x, old_y, x, y)) {
-      draw_line(x, y);
-    }
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
 {
   update_line(event->x, event->y);

@@ -26,7 +26,6 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean move_mapcanvas(GtkWidget *widget, GdkEventMotion *event, gpointer data);
-void update_line(int window_x, int window_y);
 
 void center_on_unit(void);
 void focus_to_next_unit(void);
