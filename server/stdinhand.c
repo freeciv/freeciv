@@ -1026,10 +1026,8 @@ static struct command commands[] = {
    /* translate <> only */
    N_("save <file-name>"),
    N_("Save game to file."),
-   N_("Save the current game to a file.  Currently there may be some problems "
-      "with saving the game before it has been started.  "
-      "To reload a savegame created by 'save', "
-      "start the server with the command-line argument:\n"
+   N_("Save the current game to a file.  To reload a savegame created "
+      "by 'save', start the server with the command-line argument:\n"
       "    --file <filename>\n"
       "and use the 'start' command once players have reconnected.")
   },

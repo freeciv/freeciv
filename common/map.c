@@ -181,6 +181,7 @@ void map_init(void)
   map.num_start_positions=0;
   map.fixed_start_positions=0;
   map.have_specials = 0;
+  map.have_rivers_overlay = 0;
 
   tile_init(&void_tile);
 }

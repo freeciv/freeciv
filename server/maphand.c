@@ -50,6 +50,7 @@ static int map_get_sent(int x, int y, struct player *pplayer);
 static void map_set_sent(int x, int y, struct player *pplayer);
 static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
+static void map_rivers_overlay_save(struct section_file *file);
 
 static char dec2hex[] = "0123456789abcdef";
 static struct player_tile *player_tiles[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
@@ -503,11 +504,9 @@ void map_save(struct section_file *file)
    */
   secfile_insert_int(file, map.is_earth, "map.is_earth");
 
-  if(map.num_start_positions>0) {
-    for(i=0; i<game.nation_count; i++) {
-      secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
-      secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
-    }
+  for(i=0; i<map.num_start_positions; i++) {
+    secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
+    secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
   }
     
   /* put the terrain type */
@@ -519,7 +518,10 @@ void map_save(struct section_file *file)
     secfile_insert_str(file, pbuf, "map.t%03d", y);
   }
 
-  if(!map.have_specials) {
+  if (!map.have_specials) {
+    if (map.have_rivers_overlay) {
+      map_rivers_overlay_save(file);
+    }
     free(pbuf);
     return;
   }
@@ -851,6 +853,28 @@ void map_rivers_overlay_load(struct section_file *file)
       }
     }
   }
+  map.have_rivers_overlay = 1;
+}
+
+/***************************************************************
+  Save the rivers overlay map; this is a special case to allow
+  re-saving scenarios which have rivers overlay data.  This
+  only applies if don't have rest of specials.
+***************************************************************/
+static void map_rivers_overlay_save(struct section_file *file)
+{
+  char *pbuf = fc_malloc(map.xsize+1);
+  int x, y;
+  
+  /* put "next" 4 bits of special flags */
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++) {
+      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
+    }
+    pbuf[x]='\0';
+    secfile_insert_str(file, pbuf, "map.n%03d", y);
+  }
+  free(pbuf);
 }
 
 /**************************************************************************

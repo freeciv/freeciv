@@ -1,8 +1,9 @@
 
 [game]
-version=10702
+version=11105
 server_state=0
 metastring="Scenario v1: Earth(Large)"
+metaserver="meta.freeciv.org"
 gold=50
 tech=3
 skill_level=5
@@ -15,34 +16,49 @@ max_players=14
 nplayers=0
 globalwarming=0
 warminglevel=8
+nuclearwinter=0
+coolinglevel=8
 unhappysize=5
 cityfactor=15
 civilwarsize=10
 diplcost=100
 freecost=0
 conquercost=0
-rail_food=0
-rail_prod=50
-rail_trade=0
 foodbox=10
 techpenalty=100
 razechance=20
 civstyle=2
 save_nturns=10
+save_name="civgame"
 aifill=0
 scorelog=0
+fogofwar=1
 spacerace=0
-diplchance=3
+auto_ai_toggle=0
+diplchance=80
 aqueductloss=0
-;randseed=0
+killcitizen=1
+turnblock=0
+fixedlength=0
+barbarians=2
+onsetbarbs=-2000
+occupychance=0
 ruleset.techs="default"
 ruleset.units="default"
 ruleset.buildings="default"
+ruleset.terrain="classic"
+ruleset.governments="default"
+ruleset.nations="default"
+ruleset.cities="default"
+ruleset.game="default"
+demography="NASRLPEMOqrb"
 settlers=2
 explorer=2
+dispersion=0
+randseed=0
 
 [savefile]
-options="1.7 startoptions spacerace rulesets startpos"
+options="1.7 startoptions spacerace2 rulesets diplchance_percent startpos"
 
 [map]
 width=160

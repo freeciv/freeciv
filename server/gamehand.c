@@ -45,8 +45,12 @@
 extern char metaserver_info_line[];
 extern char metaserver_addr[];
 
-#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace2 rulesets \
-diplchance_percent"
+/* Following does not include "unirandom", used previously; add it if
+ * appropriate.  (Code no longer looks at "unirandom", but should still
+ * include it when appropriate for maximum savegame compatibility.)
+ */
+#define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
+  " diplchance_percent"
 
 /**************************************************************************
 ...
@@ -341,13 +345,10 @@ void game_load(struct section_file *file)
   game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
 
   if (game.version >= 10100) {
-    game.cityfactor = secfile_lookup_int(file, "game.cityfactor");
-    game.civilwarsize =
-      secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
-				 "game.civilwarsize");
-    game.diplcost   = secfile_lookup_int(file, "game.diplcost");
-    game.freecost   = secfile_lookup_int(file, "game.freecost");
-    game.conquercost   = secfile_lookup_int(file, "game.conquercost");
+    game.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
+    game.diplcost    = secfile_lookup_int(file, "game.diplcost");
+    game.freecost    = secfile_lookup_int(file, "game.freecost");
+    game.conquercost = secfile_lookup_int(file, "game.conquercost");
     game.foodbox     = secfile_lookup_int(file, "game.foodbox");
     game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
     game.razechance  = secfile_lookup_int(file, "game.razechance");
@@ -370,8 +371,9 @@ void game_load(struct section_file *file)
 
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
      game.version) to determine which variables you can expect to 
-     find in a savegame file.  Or alternatively you can use
-     secfile_lookup_int_default() or secfile_lookup_str_default().
+     find in a savegame file.  Or even better (IMO --dwp) is to use
+     section_file_lookup(), secfile_lookup_int_default(),
+     secfile_lookup_str_default(), etc.
   */
 
   sz_strlcpy(game.save_name,
@@ -384,6 +386,10 @@ void game_load(struct section_file *file)
 
   game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
   game.fogofwar_old = game.fogofwar;
+  
+  game.civilwarsize =
+    secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
+			       "game.civilwarsize");
   
   if(has_capability("diplchance_percent", savefile_options)) {
     game.diplchance = secfile_lookup_int_default(file, game.diplchance,
@@ -416,9 +422,11 @@ void game_load(struct section_file *file)
   game.occupychance = secfile_lookup_int_default(file, game.occupychance,
   						 "game.occupychance");
   
-  if(has_capability("unirandom", savefile_options)) {
+  game.randseed = secfile_lookup_int_default(file, game.randseed,
+					     "game.randseed");
+  
+  if (section_file_lookup(file, "random.index_J")) {
     RANDOM_STATE rstate;
-    game.randseed = secfile_lookup_int(file, "game.randseed");
     rstate.j = secfile_lookup_int(file,"random.index_J");
     rstate.k = secfile_lookup_int(file,"random.index_K");
     rstate.x = secfile_lookup_int(file,"random.index_X");
@@ -597,37 +605,39 @@ void game_save(struct section_file *file)
 {
   int i;
   int version;
-  char temp[100], temp1[100], *temp2;
+  char options[512];
+  char temp[B_LAST+1];
 
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
-  secfile_insert_int(file, (int) server_state, "game.server_state");
+
+  /* Game state: once the game is no longer a new game (ie, has been
+   * started the first time), it should always be considered a running
+   * game for savegame purposes:
+   */
+  secfile_insert_int(file, (int) (game.is_new_game ? server_state :
+				  RUN_GAME_STATE), "game.server_state");
+  
   secfile_insert_str(file, metaserver_info_line, "game.metastring");
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
-
-  if(server_state!=PRE_GAME_STATE) {
-    secfile_insert_str(file, SAVEFILE_OPTIONS, "savefile.options");
-  } else { /* cut out unirandom, and insert startpos if necessary */
-    sz_strlcpy(temp, SAVEFILE_OPTIONS);
-    temp2=strtok(temp," ");
-    *temp1='\0';
-    while(temp2 != NULL) {
-      /* we don't have unirandom in settings and scenarios */
-      if(strcmp(temp2,"unirandom")!=0) {
-        sz_strlcat(temp1, " ");
-        sz_strlcat(temp1, temp2);
-      }
-      temp2=strtok(NULL," ");
-    }
-    if(map.num_start_positions>0) {
-      sz_strlcat(temp1, " startpos");
-    }
-    if(map.have_specials) {
-      sz_strlcat(temp1, " specials");
-    }
-    secfile_insert_str(file, temp1+1, "savefile.options");
+  
+  sz_strlcpy(options, SAVEFILE_OPTIONS);
+  if (myrand_is_init()) {
+    sz_strlcat(options, " unirandom");   /* backward compat */
   }
-
+  if (game.is_new_game) {
+    if (map.num_start_positions>0) {
+      sz_strlcat(options, " startpos");
+    }
+    if (map.have_specials) {
+      sz_strlcat(options, " specials");
+    }
+    if (map.have_rivers_overlay && !map.have_specials) {
+      sz_strlcat(options, " riversoverlay");
+    }
+  }
+  secfile_insert_str(file, options, "savefile.options");
+  
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");
@@ -699,14 +709,12 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
   } 
-  if ((server_state==PRE_GAME_STATE) && game.is_new_game) {
-    return; /* want to save scenarios as well */
-  }
-  if (server_state!=PRE_GAME_STATE) {
+
+  secfile_insert_int(file, game.randseed, "game.randseed");
+  
+  if (myrand_is_init()) {
     RANDOM_STATE rstate = get_myrand_state();
     assert(rstate.is_init);
-
-    secfile_insert_int(file, game.randseed, "game.randseed");
 
     secfile_insert_int(file, rstate.j, "random.index_J");
     secfile_insert_int(file, rstate.k, "random.index_K");
@@ -721,9 +729,15 @@ void game_save(struct section_file *file)
 		  rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
       secfile_insert_str(file, vec, name);
     }
-     
   }
 
+  if (!map_is_empty())
+    map_save(file);
+  
+  if ((server_state==PRE_GAME_STATE) && game.is_new_game) {
+    return; /* want to save scenarios as well */
+  }
+  
   /* destroyed wonders: */
   for(i=0; i<B_LAST; i++) {
     if (is_wonder(i) && game.global_wonders[i]!=0
@@ -740,7 +754,4 @@ void game_save(struct section_file *file)
   
   for(i=0; i<game.nplayers; i++)
     player_save(&game.players[i], i, file);
-
-  map_save(file);
-
 }

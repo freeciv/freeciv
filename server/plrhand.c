@@ -2326,8 +2326,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
      game.version) to determine which variables you can expect to 
-     find in a savegame file.  Or alternatively you can use
-     secfile_lookup_int_default() or secfile_lookup_str_default().
+     find in a savegame file.  Or even better (IMO --dwp) is to use
+     section_file_lookup(), secfile_lookup_int_default(),
+     secfile_lookup_str_default(), etc.
   */
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
