@@ -1385,7 +1385,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   boot_help = (can_client_change_view()
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
-  if (game.timeout != 0 && pinfo->seconds_to_phasedone != 0) {
+  if (game.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
     set_seconds_to_turndone(pinfo->seconds_to_phasedone);
   }
   if (boot_help) {

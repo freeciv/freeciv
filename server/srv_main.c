@@ -566,7 +566,9 @@ static void begin_phase(bool is_new_phase)
 
   sanity_check();
 
-  game.phase_start = time(NULL);
+  game.seconds_to_phase_done = (double)game.timeout;
+  game.phase_timer = renew_timer_start(game.phase_timer,
+				       TIMER_USER, TIMER_ACTIVE);
   send_game_info(NULL);
 }
 

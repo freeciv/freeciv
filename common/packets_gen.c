@@ -3459,10 +3459,10 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
   }
   if (BV_ISSET(fields, 4)) {
     {
-      int readin;
-    
-      dio_get_uint32(&din, &readin);
-      real_packet->seconds_to_phasedone = readin;
+      int tmp;
+      
+      dio_get_uint32(&din, &tmp);
+      real_packet->seconds_to_phasedone = (float)(tmp) / 10000.0;
     }
   }
   if (BV_ISSET(fields, 5)) {
@@ -3922,7 +3922,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint32(&dout, real_packet->skill_level);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint32(&dout, real_packet->seconds_to_phasedone);
+    dio_put_uint32(&dout, (int)(real_packet->seconds_to_phasedone * 10000));
   }
   if (BV_ISSET(fields, 5)) {
     dio_put_uint32(&dout, real_packet->timeout);

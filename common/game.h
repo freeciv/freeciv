@@ -20,6 +20,7 @@
 #endif
 
 #include "shared.h"
+#include "timing.h"
 
 #include "connection.h"		/* struct conn_list */
 #include "fc_types.h"
@@ -76,7 +77,8 @@ struct civ_game {
   time_t last_ping;
   int pingtimeout;
   int pingtime;
-  time_t phase_start;
+  double seconds_to_phase_done; /* Set at start of each phase. */
+  struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
   int end_year;
   int year;
   int turn;

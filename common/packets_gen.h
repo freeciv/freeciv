@@ -109,7 +109,7 @@ struct packet_game_info {
   int tech;
   int researchcost;
   int skill_level;
-  int seconds_to_phasedone;
+  float seconds_to_phasedone;
   int timeout;
   int turn;
   int phase;

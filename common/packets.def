@@ -342,7 +342,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 researchcost;
   UINT32 skill_level;
 
-  UINT32 seconds_to_phasedone;
+  FLOAT seconds_to_phasedone;
   UINT32 timeout;
   TURN turn;
   PHASE phase;

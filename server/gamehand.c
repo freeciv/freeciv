@@ -346,11 +346,11 @@ void send_game_info(struct conn_list *dest)
   /* the following values are computed every
      time a packet_game_info packet is created */
   if (game.timeout != 0) {
-    ginfo.seconds_to_phasedone =
-	game.phase_start + game.timeout - time(NULL);
+    ginfo.seconds_to_phasedone
+      = game.seconds_to_phase_done - read_timer_seconds(game.phase_timer);
   } else {
     /* unused but at least initialized */
-    ginfo.seconds_to_phasedone = -1;
+    ginfo.seconds_to_phasedone = -1.0;
   }
 
   conn_list_iterate(dest, pconn) {
@@ -414,8 +414,8 @@ int update_timeout(void)
 }
 
 /**************************************************************************
-  adjusts game.phase_start when enemy moves a unit, we see it and the 
-  remaining timeout is smaller than the timeoutaddenemymove option.
+  adjusts game.seconds_to_turn_done when enemy moves a unit, we see it and
+  the remaining timeout is smaller than the timeoutaddenemymove option.
 
   It's possible to use a similar function to do that per-player.  In
   theory there should be a separate timeout for each player and the
@@ -424,12 +424,11 @@ int update_timeout(void)
 void increase_timeout_because_unit_moved(void)
 {
   if (game.timeout != 0 && game.timeoutaddenemymove > 0) {
-    int seconds_to_turndone;
-    time_t now = time(NULL); /* Only call this once */
+    double maxsec = (read_timer_seconds(game.phase_timer)
+		     + (double)game.timeoutaddenemymove);
 
-    seconds_to_turndone = game.phase_start + game.timeout - now;
-    if (seconds_to_turndone < game.timeoutaddenemymove){
-      game.phase_start = now - game.timeout + game.timeoutaddenemymove;
+    if (maxsec > game.seconds_to_phase_done) {
+      game.seconds_to_phase_done = maxsec;
       send_game_info(NULL);
     }	
   }
