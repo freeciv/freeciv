@@ -2740,7 +2740,6 @@ and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
 {
-  int o;
   struct packet_generic_integer packet;
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *phomecity = find_city_by_id(punit->homecity);
@@ -2752,9 +2751,8 @@ static void server_remove_unit(struct unit *punit)
      as the client automatically removes any units in a fogged square, and
      the send_unit_info() only sends units who are in non-fogged square.
      Leaving for now. */
-  for (o=0; o<game.nplayers; o++)
-    send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_UNIT,
-				&packet);
+  lsend_packet_generic_integer(&game.game_connections, PACKET_REMOVE_UNIT,
+			       &packet);
 
   game_remove_unit(punit->id);  
 
@@ -3105,12 +3103,12 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
     punit->hp=get_unit_type(to_unit)->hp;
   }
 
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
   punit->type = to_unit;
   unfog_area(pplayer,punit->x,punit->y, get_unit_type(to_unit)->vision_range);
   fog_area(pplayer,punit->x,punit->y,range);
   send_unit_info(0, punit);
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************
@@ -3506,7 +3504,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
 
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
 
   if (punit->ai.ferryboat) {
     struct unit *ferryboat;
@@ -3593,7 +3591,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
 
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 
   if (map_get_tile(dest_x, dest_y)->special&S_HUT)
     return handle_unit_enter_hut(punit);

@@ -185,11 +185,11 @@ void give_map_from_player_to_player(struct player *pfrom, struct player *pdest)
 {
   int x, y;
 
-  connection_do_buffer(pdest->conn);
+  conn_list_do_buffer(&pdest->connections);
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)
       give_tile_info_from_player_to_player(pfrom, pdest, x, y);
-  connection_do_unbuffer(pdest->conn);
+  conn_list_do_unbuffer(&pdest->connections);
 }
 
 /**************************************************************************
@@ -199,13 +199,13 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 {
   int x, y;
 
-  connection_do_buffer(pdest->conn);
+  conn_list_do_buffer(&pdest->connections);
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)
       if(map_get_terrain(x, y)==T_OCEAN) {
 	give_tile_info_from_player_to_player(pfrom, pdest, x, y);
       }
-  connection_do_unbuffer(pdest->conn);
+  conn_list_do_unbuffer(&pdest->connections);
 }
 
 /**************************************************************************
@@ -216,11 +216,11 @@ void give_citymap_from_player_to_player(struct city *pcity,
 {
   int x, y;
 
-  connection_do_buffer(pdest->conn);
+  conn_list_do_buffer(&pdest->connections);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     give_tile_info_from_player_to_player(pfrom, pdest, x, y);
   } map_city_radius_iterate_end;
-  connection_do_unbuffer(pdest->conn);
+  conn_list_do_unbuffer(&pdest->connections);
 }
 
 /**************************************************************************

@@ -120,7 +120,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
     return;
   }
   cost = unit_upgrade_price(pplayer, packet->type, to_unit);
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
     if (cost > pplayer->economic.gold)
       break;
@@ -132,7 +132,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
     }
   }
   unit_list_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
   if (upgraded > 0) {
     notify_player(pplayer, _("Game: %d %s upgraded to %s for %d gold."), 
 		  upgraded, unit_types[packet->type].name, 
@@ -182,29 +182,36 @@ void handle_unit_upgrade_request(struct player *pplayer,
 
 
 /***************************************************************
-...  Tell the client the cost of inciting a revolt
-     or bribing a unit
+  Tell the client the cost of inciting a revolt or bribing a unit.
+  Only send result back to the requesting connection, no all
+  connections for that player.
 ***************************************************************/
-void handle_incite_inq(struct player *pplayer,
+void handle_incite_inq(struct connection *pconn,
 		       struct packet_generic_integer *packet)
 {
+  struct player *pplayer = pconn->player;
   struct city *pcity=find_city_by_id(packet->value);
   struct unit *punit=find_unit_by_id(packet->value);
   struct packet_generic_values req;
 
+  if (!pplayer) {
+    freelog(LOG_NORMAL, "Incite inquiry from non-player %s",
+	    conn_description(pconn));
+    return;
+  }
   if(pcity)  {
     city_incite_cost(pcity);
     req.id=packet->value;
     req.value1=pcity->incite_revolt_cost;
     if(pplayer->player_no == pcity->original) req.value1/=2;
-    send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
+    send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
     return;
   }
   if(punit)  {
     punit->bribe_cost = unit_bribe_cost(punit);
     req.id=packet->value;
     req.value1=punit->bribe_cost;
-    send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
+    send_packet_generic_values(pconn, PACKET_INCITE_COST, &req);
   }
 }
 
@@ -537,8 +544,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       return;
     } 
 
-    for(o=0; o<game.nplayers; o++)
-      send_packet_nuke_tile(game.players[o].conn, &packet);
+    lsend_packet_nuke_tile(&game.game_connections, &packet);
     
     do_nuclear_explosion(def_x, def_y);
     return;
@@ -588,7 +594,12 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   for(o=0; o<game.nplayers; o++)
     if(map_get_known_and_seen(punit->x, punit->y, o) ||
        map_get_known_and_seen(def_x, def_y, o))
-      send_packet_unit_combat(game.players[o].conn, &combat);
+      lsend_packet_unit_combat(&game.players[o].connections, &combat);
+  conn_list_iterate(game.game_connections, pconn) {
+    if (!pconn->player && pconn->observer) {
+      send_packet_unit_combat(pconn, &combat);
+    }
+  } conn_list_iterate_end;
 
   nearcity1 = dist_nearest_city(get_player(pwinner->owner), def_x, def_y, 0, 0);
   nearcity2 = dist_nearest_city(get_player(plooser->owner), def_x, def_y, 0, 0);
@@ -1066,7 +1077,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
     pcity_dest->shield_stock = improvement_value(pcity_dest->currently_building);
   }
 
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		   _("Game: Your %s helps build the %s in %s (%d remaining)."), 
 		   unit_name(punit->type),
@@ -1077,7 +1088,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   wipe_unit(punit);
   send_player_info(pplayer, pplayer);
   send_city_info(pplayer, pcity_dest);
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************
@@ -1136,7 +1147,7 @@ int handle_unit_establish_trade(struct player *pplayer,
   }
   
   revenue = establish_trade_route(pcity_homecity, pcity_dest);
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		   _("Game: Your %s from %s has arrived in %s,"
 		   " and revenues amount to %d in gold and research."), 
@@ -1150,7 +1161,7 @@ int handle_unit_establish_trade(struct player *pplayer,
   city_refresh(pcity_dest);
   send_city_info(pplayer, pcity_homecity);
   send_city_info(city_owner(pcity_dest), pcity_dest);
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
   return 1;
 }
 

@@ -13,11 +13,15 @@
 #ifndef FC__CITYHAND_H
 #define FC__CITYHAND_H
 
-#include "packets.h"
-
 struct player;
 struct city;
+struct connection;
 struct conn_list;
+
+struct packet_city_info;
+struct packet_city_request;
+struct packet_generic_integer;
+struct packet_generic_values;
 
 void create_city(struct player *pplayer, const int x, const int y, char *name);
 void remove_city(struct city *pcity);
@@ -57,7 +61,7 @@ void reestablish_city_trade_routes(struct city *pcity);
 
 void handle_city_options(struct player *pplayer,
  			 struct packet_generic_values *preq);
-void handle_city_name_suggest_req(struct player *pplayer,
+void handle_city_name_suggest_req(struct connection *pconn,
 				  struct packet_generic_integer *packet);
 char *city_name_suggestion(struct player *pplayer);
 void reality_check_city(struct player *pplayer,int x, int y);

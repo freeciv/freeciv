@@ -395,14 +395,18 @@ int city_refresh(struct city *pcity)
   return (city_happy(pcity) && pcity->was_happy);
 }
 
+/**************************************************************************
+...
+called on government change or wonder completion or stuff like that -- Syela
+**************************************************************************/
 void global_city_refresh(struct player *pplayer)
-{ /* called on government change or wonder completion or stuff like that -- Syela */
-  connection_do_buffer(pplayer->conn);
+{
+  conn_list_do_buffer(&pplayer->connections);
   city_list_iterate(pplayer->cities, pcity)
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
   city_list_iterate_end;
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************

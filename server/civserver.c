@@ -1213,7 +1213,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_city_refresh(pplayer, (struct packet_generic_integer *)packet);
     break;
   case PACKET_INCITE_INQ:
-    handle_incite_inq(pplayer, (struct packet_generic_integer *)packet);
+    handle_incite_inq(pconn, (struct packet_generic_integer *)packet);
     break;
   case PACKET_UNIT_UPGRADE:
     handle_unit_upgrade_request(pplayer, (struct packet_unit_request *)packet);
@@ -1228,7 +1228,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_unit_nuke(pplayer, (struct packet_unit_request *)packet);
     break;
   case PACKET_CITY_NAME_SUGGEST_REQ:
-    handle_city_name_suggest_req(pplayer,
+    handle_city_name_suggest_req(pconn,
 				 (struct packet_generic_integer *)packet);
     break;
   case PACKET_UNIT_PARADROP_TO:

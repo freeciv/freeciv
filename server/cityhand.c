@@ -489,14 +489,14 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
   city_refresh(pcity);
   
-  connection_do_buffer(pplayer->conn);
+  conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity->x, pcity->y, 
                    pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
 		   _("Game: %s bought in %s for %d gold."), 
 		   name, pcity->name, cost);
   send_city_info(pplayer, pcity);
   send_player_info(pplayer,pplayer);
-  connection_do_unbuffer(pplayer->conn);
+  conn_list_do_unbuffer(&pplayer->connections);
 }
 
 /**************************************************************************
@@ -674,19 +674,26 @@ void handle_city_options(struct player *pplayer,
    * Otherwise could do:
    *   send_city_info(pplayer, pcity);
    */
-  send_packet_generic_values(pplayer->conn, PACKET_CITY_OPTIONS, preq);
+  lsend_packet_generic_values(&pplayer->connections, PACKET_CITY_OPTIONS, preq);
 }
 
 /**************************************************************************
-...
+  Send city_name_suggestion packet back to requesting conn, with
+  suggested name and with same id which was passed in (either unit id
+  for city builder or existing city id for rename, we don't care here).
 **************************************************************************/
-void handle_city_name_suggest_req(struct player *pplayer,
+void handle_city_name_suggest_req(struct connection *pconn,
 				  struct packet_generic_integer *packet)
 {
   struct packet_city_name_suggestion reply;
+  if (!pconn->player) {
+    freelog(LOG_NORMAL, "City-name suggestion request from non-player %s",
+	    conn_description(pconn));
+    return;
+  }
   reply.id = packet->value;
-  sz_strlcpy(reply.name, city_name_suggestion(pplayer));
-  send_packet_city_name_suggestion(pplayer->conn, &reply);
+  sz_strlcpy(reply.name, city_name_suggestion(pconn->player));
+  send_packet_city_name_suggestion(pconn, &reply);
 }
 
 /**************************************************************************

@@ -1162,7 +1162,8 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
   else if (punit->moves_left) {
     struct packet_generic_integer packet;
     packet.value = punit->id;
-    send_packet_generic_integer(pplayer->conn, PACKET_ADVANCE_FOCUS, &packet);
+    lsend_packet_generic_integer(&pplayer->connections,
+				 PACKET_ADVANCE_FOCUS, &packet);
   }
 
   punit->connecting=0;

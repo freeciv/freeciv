@@ -2634,16 +2634,13 @@ static void cut_player_connection(struct player *caller, char *playername)
 **************************************************************************/
 static void quit_game(struct player *caller)
 {
-  int i;
   struct packet_generic_message gen_packet;
   gen_packet.message[0]='\0';
   
-  for(i=0; i<game.nplayers; i++)
-    send_packet_generic_message(game.players[i].conn, PACKET_SERVER_SHUTDOWN,
-				&gen_packet);
-  close_connections_and_socket();
-
   cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
+  lsend_packet_generic_message(&game.all_connections, PACKET_SERVER_SHUTDOWN,
+			       &gen_packet);
+  close_connections_and_socket();
   exit(0);
 }
 

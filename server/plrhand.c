@@ -1753,10 +1753,10 @@ void handle_player_rates(struct player *pplayer,
     gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i", 
 	    get_nation_name_plural(pplayer->nation), preq->tax, 
 	    preq->luxury, preq->science);
-    connection_do_buffer(pplayer->conn);
+    conn_list_do_buffer(&pplayer->connections);
     send_player_info(pplayer, pplayer);
     global_city_refresh(pplayer);
-    connection_do_unbuffer(pplayer->conn);
+    conn_list_do_unbuffer(&pplayer->connections);
   }
 }
 
@@ -3158,7 +3158,6 @@ void server_player_init(struct player *pplayer, int initmap)
 void server_remove_player(struct player *pplayer)
 {
   struct packet_generic_integer pack;
-  int o, idx;
 
   /* Not allowed after a game has started */
   if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
@@ -3168,20 +3167,20 @@ void server_remove_player(struct player *pplayer)
   }
 
   notify_player(pplayer, _("Game: You've been removed from the game!"));
-  if (pplayer->conn) {
-    struct connection *pconn = pplayer->conn;  /* save */
+
+  /* Note it is ok to remove the _current_ item in a list_iterate: */
+  conn_list_iterate(pplayer->connections, pconn) {
     unassociate_player_connection(pplayer, pconn);
     close_connection(pconn);
   }
-  notify_player(0, _("Game: %s has been removed from the game."),
-		pplayer->name);
+  conn_list_iterate_end;
   
-  idx=pplayer->player_no;
+  notify_conn(&game.est_connections,
+	      _("Game: %s has been removed from the game."), pplayer->name);
+  
   pack.value=pplayer->player_no;
-
-  for(o=0; o<game.nplayers; o++)
-    send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_PLAYER,
-				&pack);
+  lsend_packet_generic_integer(&game.est_connections,
+			       PACKET_REMOVE_PLAYER, &pack);
 
   game_remove_player(pplayer->player_no);
   game_renumber_players(pplayer->player_no);

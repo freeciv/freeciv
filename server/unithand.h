@@ -58,7 +58,7 @@ void handle_unit_nuke(struct player *pplayer,
 void handle_unit_paradrop_to(struct player *pplayer, 
                      struct packet_unit_request *req);
 void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
-void handle_incite_inq(struct player *pplayer,
+void handle_incite_inq(struct connection *pconn,
 		       struct packet_generic_integer *packet);
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
 		  int carried, int select_it, enum unit_info_use packet_use,
