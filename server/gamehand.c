@@ -32,125 +32,171 @@
 #include "gamehand.h"
 
 
-/**************************************************************************
-...
-**************************************************************************/
-void init_new_game(void)
+/****************************************************************************
+  Initialize the game.id variable to a random string of characters.
+****************************************************************************/
+static void init_game_id(void)
 {
   static const char chars[] =
-      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  int i, j, x, y;
-  int dx, dy;
-  Unit_Type_id utype;
-  int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  int i;
 
   for (i = 0; i < sizeof(game.id) - 1; i++) {
     game.id[i] = chars[myrand(sizeof(chars) - 1)];
   }
   game.id[i] = '\0';
+}
 
+/****************************************************************************
+  Place a starting unit for the player.
+****************************************************************************/
+static void place_starting_unit(int x, int y, struct player *pplayer,
+				enum unit_flag_id role)
+{
+  Unit_Type_id utype;
+
+  assert(!is_non_allied_unit_tile(map_get_tile(x, y), pplayer));
+
+  /* For scenarios or dispersion, huts may coincide with player starts (in 
+   * other cases, huts are avoided as start positions).  Remove any such hut,
+   * and make sure to tell the client, since we may have already sent this
+   * tile (with the hut) earlier: */
+  if (map_has_special(x, y, S_HUT)) {
+    map_clear_special(x, y, S_HUT);
+    send_tile_info(NULL, x, y);
+    freelog(LOG_VERBOSE, "Removed hut on start position for %s",
+	    pplayer->name);
+  }
+
+  /* Expose visible area. */
+  circle_iterate(x, y, game.rgame.init_vis_radius_sq, cx, cy) {
+    show_area(pplayer, cx, cy, 0);
+  } circle_iterate_end;
+
+  /* Create the unit of an appropriate type. */
+  utype = get_role_unit(role, 0);
+  (void) create_unit(pplayer, x, y, utype, FALSE, 0, -1);
+}
+
+/****************************************************************************
+  Swap two map positions.
+****************************************************************************/
+static void swap_map_positions(struct map_position *a,
+			       struct map_position *b)
+{
+  struct map_position tmp;
+
+  tmp = *a;
+  *a = *b;
+  *b = tmp;
+}
+
+/****************************************************************************
+  Initialize a new game: place the players' units onto the map, etc.
+****************************************************************************/
+void init_new_game(void)
+{
+  init_game_id();
+
+  /* Shuffle starting positions around so that they match up with the
+   * desired players. */
   if (!map.fixed_start_positions) {
-    /* except in a scenario which provides them,
-       shuffle the start positions around... */
-    assert(game.nplayers==map.num_start_positions);
-    for (i=0; i<game.nplayers;i++) { /* no advantage to the romans!! */
-      j=myrand(game.nplayers);
-      x=map.start_positions[j].x;
-      y=map.start_positions[j].y;
-      map.start_positions[j].x=map.start_positions[i].x;
-      map.start_positions[j].y=map.start_positions[i].y;
-      map.start_positions[i].x=x;
-      map.start_positions[i].y=y;
-    }
-    for(i=0; i<game.nplayers; i++) {
-      start_pos[i] = i;
-    } 
+    /* With non-fixed starting positions, just randomize the order.  This
+     * avoids giving an advantage to lower-numbered players. */
+    assert(game.nplayers == map.num_start_positions);
+    players_iterate(pplayer) {
+      swap_map_positions(&map.start_positions[pplayer->player_no],
+			 &map.start_positions[myrand(game.nplayers)]);
+    } players_iterate_end;
   } else {
-  /* In a scenario, choose starting positions by nation.
-     If there are too few starts for number of nations, assign
-     to nations with specific starts first, then assign rest
-     to random from remainder.  (Would be better to label start
-     positions by nation etc, but this will do for now. --dwp)
-  */
+    /* In a scenario, choose starting positions by nation.  If there are too
+     * few starts for number of nations, assign to nations with specific
+     * starts first, then assign the rest to random from remainder.  (It
+     * would be better to label start positions by nation etc, but this will
+     * do for now.)
+     *
+     * NOTE: map.num_start_positions may be very high.
+     *
+     * FIXME: this method is broken since it assumes nations have a constant
+     * id, which is generally not true. */
     const int npos = map.num_start_positions;
-    bool *pos_used = fc_calloc(npos, sizeof(bool));
-    int nrem = npos;		/* remaining unused starts */
-    
-    for(i=0; i<game.nplayers; i++) {
-      int nation = game.players[i].nation;
+    int nrem = npos, player_no;
+    bool *pos_used = fc_calloc(map.num_start_positions, sizeof(*pos_used));
+    Nation_Type_id start_pos[MAX_NUM_PLAYERS];
+
+    /* Match nation 0 to starting position 0, and so on.  This needs an
+     * explicit for loop to guarantee the proper ordering. */
+    assert(game.nplayers <= map.num_start_positions);
+    for (player_no = 0; player_no < game.nplayers; player_no++) {
+      Nation_Type_id nation = game.players[player_no].nation;
+
       if (nation < npos) {
-	start_pos[i] = nation;
+	start_pos[player_no] = nation;
 	pos_used[nation] = TRUE;
 	nrem--;
       } else {
-	start_pos[i] = npos;
+	start_pos[player_no] = NO_NATION_SELECTED;
       }
     }
-    for(i=0; i<game.nplayers; i++) {
-      if (start_pos[i] == npos) {
-	int k;
-	assert(nrem>0);
+
+    /* Now randomize the unchosen nations. */
+    players_iterate(pplayer) {
+      if (start_pos[pplayer->player_no] == NO_NATION_SELECTED) {
+	int j, k;
+
+	assert(nrem > 0);
 	k = myrand(nrem);
-	for(j=0; j<npos; j++) {
-	  if (!pos_used[j] && (0==k--)) {
-	    start_pos[i] = j;
+	for (j = 0; j < npos; j++) {
+	  if (!pos_used[j] && (0 == k--)) {
+	    start_pos[pplayer->player_no] = j;
 	    pos_used[j] = TRUE;
 	    nrem--;
 	    break;
 	  }
 	}
-	assert(start_pos[i] != npos);
+	assert(start_pos[pplayer->player_no] != NO_NATION_SELECTED);
       }
-    }
+    } players_iterate_end;
+
+    /* Finally reorder the starting positions to match. */
+    players_iterate(pplayer) {
+      swap_map_positions(&map.start_positions[start_pos[pplayer->player_no]],
+			 &map.start_positions[pplayer->player_no]);
+    } players_iterate_end;
+
     free(pos_used);
-    pos_used = NULL;
   }
 
   /* Loop over all players, creating their initial units... */
-  for (i = 0; i < game.nplayers; i++) {
-    /* Start positions are warranted to be land. */
-    x = map.start_positions[start_pos[i]].x;
-    y = map.start_positions[start_pos[i]].y;
-    /* Loop over all initial units... */
-    for (j = 0; j < (game.settlers + game.explorer); j++) {
-      /* Determine a place to put the unit within the dispersion area.
-         (Always put first unit on start position.) */
-      if ((game.dispersion <= 0) || (j == 0)) {
-	dx = x;
-	dy = y;
-      } else {
-	bool is_real;
+  players_iterate(pplayer) {
+    struct map_position pos = map.start_positions[pplayer->player_no];
 
-	do {
-	  dx = x + myrand(2 * game.dispersion + 1) - game.dispersion;
-	  dy = y + myrand(2 * game.dispersion + 1) - game.dispersion;
-	  is_real = normalize_map_pos(&dx, &dy);
-	} while (!(is_real
-		   && map_get_continent(x, y) == map_get_continent(dx, dy)
-		   && !is_ocean(map_get_terrain(dx, dy))
-		   && !is_non_allied_unit_tile(map_get_tile(dx, dy),
-					       get_player(i))));
-      }
-      /* For scenarios or dispersion, huts may coincide with player
-	 starts (in other cases, huts are avoided as start positions).
-	 Remove any such hut, and make sure to tell the client, since
-	 we may have already sent this tile (with the hut) earlier:
-      */
-      if (map_has_special(dx, dy, S_HUT)) {
-        map_clear_special(dx, dy, S_HUT);
-	send_tile_info(NULL, dx, dy);
-        freelog(LOG_VERBOSE, "Removed hut on start position for %s",
-		game.players[i].name);
-      }
-      /* Expose visible area. */
-      circle_iterate(dx, dy, game.rgame.init_vis_radius_sq, cx, cy) {
-	show_area(&game.players[i], cx, cy, 0);
-      } circle_iterate_end;
+    /* Place the first unit. */
+    assert(game.settlers > 0);
+    place_starting_unit(pos.x, pos.y, pplayer, F_CITIES);
+  } players_iterate_end;
+
+  /* Place all other units. */
+  players_iterate(pplayer) {
+    struct map_position p = map.start_positions[pplayer->player_no];
+    int i, x, y;
+
+    for (i = 1; i < (game.settlers + game.explorer); i++) {
+      do {
+	x = p.x + myrand(2 * game.dispersion + 1) - game.dispersion;
+	y = p.y + myrand(2 * game.dispersion + 1) - game.dispersion;
+      } while (!(normalize_map_pos(&x, &y)
+		 && map_get_continent(p.x, p.y) == map_get_continent(x, y)
+		 && !is_ocean(map_get_terrain(x, y))
+		 && !is_non_allied_unit_tile(map_get_tile(x, y),
+					     pplayer)));
+
+
       /* Create the unit of an appropriate type. */
-      utype = get_role_unit((j < game.settlers) ? F_CITIES : L_EXPLORER, 0);
-      (void) create_unit(&game.players[i], dx, dy, utype, FALSE, 0, -1);
+      place_starting_unit(x, y, pplayer,
+			  (i < game.settlers) ? F_CITIES : L_EXPLORER);
     }
-  }
+  } players_iterate_end;
 
   /* Initialise list of improvements with world-wide equiv_range */
   improvement_status_init(game.improvements, ARRAY_SIZE(game.improvements));
