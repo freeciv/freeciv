@@ -1309,7 +1309,9 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_connected = pinfo->is_connected;
 
-  if (pplayer->is_connected) {
+  if (pplayer->is_connected
+      || get_client_state() == CLIENT_GAME_RUNNING_STATE
+      || get_client_state() == CLIENT_GAME_OVER_STATE) {
     read_player_info_techs(pplayer, pinfo->inventions);
   }
 
