@@ -2562,4 +2562,6 @@ bool map_canvas_resized(int width, int height)
 **************************************************************************/
 void init_mapcanvas_and_overview(void)
 {
+  /* Create a dummy map to make sure mapview_canvas.store is never NULL. */
+  map_canvas_resized(1, 1);
 }
