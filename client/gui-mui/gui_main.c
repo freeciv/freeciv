@@ -890,6 +890,7 @@ static int init_gui(void)
                         End,
                     End,
                 End,
+            Child, BalanceObject, End,
             Child, NListviewObject,
                 MUIA_Weight, 30,
                 MUIA_NListview_NList, main_output_listview = NListObject,
