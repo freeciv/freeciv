@@ -2970,7 +2970,7 @@ void load_command(struct connection *caller, char *arg)
     return;
   }
 
-  /* attempt to load the file */
+  /* attempt to parse the file */
 
   if (!section_file_load_nodup(&file, arg)) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Couldn't load savefile: %s"), arg);
@@ -4095,6 +4095,7 @@ static bool is_server_option(int start)
 Commands that may be followed by a filename
 **************************************************************************/
 static const int filename_cmd[] = {
+  CMD_LOAD,
   CMD_SAVE,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,

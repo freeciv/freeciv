@@ -374,7 +374,9 @@ static bool check_include(struct inputfile *inf)
   while (*c != '\0' && my_isspace(*c)) c++;
 
   if (*c != '\"') {
-    inf_die(inf, "Did not find opening doublequote for '*include' line");
+    inf_log(inf, LOG_ERROR, 
+            "Did not find opening doublequote for '*include' line");
+    return FALSE;
   }
   c++;
   inf->cur_line_pos = c - inf->cur_line.str;
@@ -382,7 +384,9 @@ static bool check_include(struct inputfile *inf)
   bare_name = c;
   while (*c != '\0' && *c != '\"') c++;
   if (*c != '\"') {
-    inf_die(inf, "Did not find closing doublequote for '*include' line");
+    inf_log(inf, LOG_ERROR, 
+            "Did not find closing doublequote for '*include' line");
+    return FALSE;
   }
   *c++ = '\0';
   inf->cur_line_pos = c - inf->cur_line.str;
@@ -390,14 +394,15 @@ static bool check_include(struct inputfile *inf)
   /* check rest of line is well-formed: */
   while (*c != '\0' && my_isspace(*c) && !is_comment(*c)) c++;
   if (!(*c=='\0' || is_comment(*c))) {
-    inf_die(inf, "Junk after filename for '*include' line");
+    inf_log(inf, LOG_ERROR, "Junk after filename for '*include' line");
+    return FALSE;
   }
   inf->cur_line_pos = inf->cur_line.n-1;
 
   full_name = inf->datafn(bare_name);
   if (!full_name) {
-    freelog(LOG_FATAL, "Could not find included file \"%s\"", bare_name);
-    inf_die(inf, NULL);
+    freelog(LOG_ERROR, "Could not find included file \"%s\"", bare_name);
+    return FALSE;
   }
 
   /* avoid recursion: (first filename may not have the same path,
@@ -406,8 +411,9 @@ static bool check_include(struct inputfile *inf)
     struct inputfile *inc = inf;
     do {
       if (inc->filename && strcmp(full_name, inc->filename)==0) {
-	freelog(LOG_FATAL, "Recursion trap on '*include' for \"%s\"", full_name);
-	inf_die(inf, NULL);
+        freelog(LOG_ERROR, 
+                "Recursion trap on '*include' for \"%s\"", full_name);
+        return FALSE;
       }
     } while((inc=inc->included_from));
   }
@@ -473,7 +479,8 @@ static bool read_a_line(struct inputfile *inf)
       if (inf->in_string) {
 	/* Note: Don't allow multi-line strings to cross "include"
 	   boundaries */
-	inf_die(inf, "Multi-line string went to end-of-file");
+	inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
+        return FALSE;
       }
       if (inf->included_from) {
 	/* Pop the include, and get next line from file above instead. */
@@ -532,8 +539,7 @@ static void assign_flag_token(struct astring *astr, char val)
   current line number etc.  Message can be NULL: then just logs
   information on where we are in the file.
 ***********************************************************************/
-static void inf_log(struct inputfile *inf, int loglevel,
-		    const char *message)
+void inf_log(struct inputfile *inf, int loglevel, const char *message)
 {
   assert_sanity(inf);
 
@@ -560,12 +566,9 @@ static void inf_log(struct inputfile *inf, int loglevel,
   }
 }
 
-void inf_die(struct inputfile *inf, const char *message)
-{
-  inf_log(inf, LOG_FATAL, message);
-  die(message);
-}
-
+/********************************************************************** 
+  ...
+***********************************************************************/
 static void inf_warn(struct inputfile *inf, const char *message)
 {
   inf_log(inf, LOG_NORMAL, message);
@@ -610,9 +613,9 @@ static const char *get_token(struct inputfile *inf,
 	freelog(LOG_DEBUG, "inputfile: did not find %s", name);
       }
     } else {
-      /* inf_die etc should be varargs... */
-      freelog(LOG_FATAL, "Did not find required token: %s", name);
-      inf_die(inf, NULL);
+      /* should be varargs... */
+      freelog(LOG_ERROR, "Did not find required token: %s", name);
+      return NULL;
     }
   }
   return c;
@@ -877,7 +880,9 @@ static const char *get_token_value(struct inputfile *inf)
     
     if (!read_a_line(inf)) {
       /* shouldn't happen */
-      inf_die(inf, "Bad return for multi-line string from read_a_line");
+      inf_log(inf, LOG_ERROR, 
+              "Bad return for multi-line string from read_a_line");
+      return NULL;
     }
     c = start = inf->cur_line.str;
   }

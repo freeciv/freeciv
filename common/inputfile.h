@@ -49,6 +49,6 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type);
 const char *inf_token_required(struct inputfile *inf, enum inf_token_type type);
 int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type);
 
-void inf_die(struct inputfile *inf, const char *message);
+void inf_log(struct inputfile *inf, int loglevel, const char *message);
 
 #endif  /* FC__INPUTFILE_H */

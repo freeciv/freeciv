@@ -404,7 +404,8 @@ static bool section_file_read_dup(struct section_file *sf,
     tok = inf_token(inf, INF_TOK_SECTION_NAME);
     if (tok) {
       if (table_state) {
-	inf_die(inf, "new section during table");
+	inf_log(inf, LOG_ERROR, "new section during table");
+        return FALSE;
       }
       /* Check if we already have a section with this name.
 	 (Could ignore this and have a duplicate sections internally,
@@ -431,11 +432,13 @@ static bool section_file_read_dup(struct section_file *sf,
       continue;
     }
     if (!psection) {
-      inf_die(inf, "data before first section");
+      inf_log(inf, LOG_ERROR, "data before first section");
+      return FALSE;
     }
     if (inf_token(inf, INF_TOK_TABLE_END)) {
       if (!table_state) {
-	inf_die(inf, "misplaced \"}\"");
+	inf_log(inf, LOG_ERROR, "misplaced \"}\"");
+        return FALSE;
       }
       (void) inf_token_required(inf, INF_TOK_EOL);
       table_state = FALSE;
@@ -446,7 +449,10 @@ static bool section_file_read_dup(struct section_file *sf,
       do {
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	tok = inf_token_required(inf, INF_TOK_VALUE);
+	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+          return FALSE;
+        }
+
 	if (i<columns_tab.n) {
 	  astr_minsize(&entry_name, base_name.n + 10 + columns[i].n);
 	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
@@ -469,7 +475,10 @@ static bool section_file_read_dup(struct section_file *sf,
       continue;
     }
     
-    tok = inf_token_required(inf, INF_TOK_ENTRY_NAME);
+    if (!(tok = inf_token_required(inf, INF_TOK_ENTRY_NAME))) {
+      return FALSE;
+    }
+
     /* need to store tok before next calls: */
     astr_minsize(&base_name, strlen(tok)+1);
     strcpy(base_name.str, tok);
@@ -481,9 +490,12 @@ static bool section_file_read_dup(struct section_file *sf,
       do {
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	tok = inf_token_required(inf, INF_TOK_VALUE);
+	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+          return FALSE;
+        }
 	if( tok[0] != '\"' ) {
-	  inf_die(inf, "table column header non-string");
+	  inf_log(inf, LOG_ERROR, "table column header non-string");
+          return FALSE;
 	}
 	{ 	/* expand columns_tab: */
 	  int j, n_prev;
@@ -509,7 +521,9 @@ static bool section_file_read_dup(struct section_file *sf,
     do {
       i++;
       inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-      tok = inf_token_required(inf, INF_TOK_VALUE);
+      if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+        return FALSE;
+      }
       if (i==0) {
 	pentry = new_entry(sb, base_name.str, tok);
       } else {
