@@ -1275,35 +1275,6 @@ bool enemies_at(struct unit *punit, int x, int y)
 }
 
 /**************************************************************************
-Disband given unit because of a stack conflict.
-**************************************************************************/
-void disband_stack_conflict_unit(struct unit *punit, bool verbose)
-{
-  freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
-	  unit_owner(punit)->name, unit_name(punit->type),
-	  punit->x, punit->y);
-  /* Too cheesy way to kill an enemy player */
-  if (unit_flag(punit, F_GAMELOSS)) {
-    struct city *toc =
-          find_closest_owned_city(unit_owner(punit),
-              punit->x, punit->y, FALSE, NULL);
-    assert(toc != NULL);
-    notify_player_ex(unit_owner(punit), punit->x, punit->y, E_UNIT_WIN,
-        _("%s narrowly escaped death and fled to %s"), 
-        unit_name(punit->type), toc->name);
-    teleport_unit_to_city(punit, toc, -1, TRUE);
-    return;
-  }
-  /* remove it */
-  if (verbose) {
-    notify_player(unit_owner(punit),
-		  _("Game: Disbanded your %s at (%d, %d)."),
-		  unit_name(punit->type), punit->x, punit->y);
-  }
-  wipe_unit(punit);
-}
-
-/**************************************************************************
 Teleport punit to city at cost specified.  Returns success.
 (If specified cost is -1, then teleportation costs all movement.)
                          - Kris Bubendorfer
@@ -1335,7 +1306,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 /**************************************************************************
   Teleport or remove a unit due to stack conflict.
 **************************************************************************/
-static void bounce_unit(struct unit *punit, bool verbose)
+void bounce_unit(struct unit *punit, bool verbose)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = find_closest_owned_city(pplayer, punit->x, punit->y,
@@ -1344,7 +1315,13 @@ static void bounce_unit(struct unit *punit, bool verbose)
   if (pcity) {
     (void) teleport_unit_to_city(punit, pcity, 0, verbose);
   } else {
-    disband_stack_conflict_unit(punit, verbose);
+    /* remove it */
+    if (verbose) {
+      notify_player(unit_owner(punit),
+                    _("Game: Disbanded your %s at (%d, %d)."),
+                    unit_name(punit->type), punit->x, punit->y);
+    }
+    wipe_unit(punit);
   }
 }
 

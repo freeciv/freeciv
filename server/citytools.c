@@ -641,14 +641,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	unit_list_unlink(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
-        struct city *vcity = find_closest_owned_city(unit_owner(vunit), x, y,
-                                                     is_sailing_unit(vunit), 
-                                                     NULL);
-        if (vcity) {
-          (void)teleport_unit_to_city(vunit, vcity, 0, verbose);
-        } else {
-          disband_stack_conflict_unit(vunit, verbose);
-        }
+        bounce_unit(vunit, verbose);
       }
     } unit_list_iterate_end;
   }
