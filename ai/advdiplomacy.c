@@ -199,13 +199,17 @@ static bool ai_players_can_agree_on_ceasefire(struct player* player1,
   Calculate a price of a tech.
   Note that both AI players always evaluate the tech worth symetrically
   This eases tech exchange.
+  is_dangerous returns ig the giver is afraid of giving that tech
+  (the taker should evaluate it normally, but giver should never give that)
 **********************************************************************/
 static int compute_tech_sell_price(struct player* giver, struct player* taker,
-				int tech_id)
+				int tech_id, bool* is_dangerous)
 {
     int worth;
     
     worth = ai_goldequiv_tech(taker, tech_id);
+    
+    *is_dangerous = FALSE;
     
     /* Share and expect being shared brotherly between allies */
     if (pplayers_allied(giver, taker)) {
@@ -232,7 +236,7 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
       /* Don't risk it falling into enemy hands */
       if (pplayers_allied(taker, eplayer) &&
           is_player_dangerous(giver, eplayer)) {
-        return BIG_NUMBER;
+        *is_dangerous = TRUE;
       }
       
       if (pplayers_allied(taker, eplayer) &&
@@ -262,6 +266,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
   bool give = (pplayer == pclause->from);
   int giver;
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
+  bool is_dangerous;
 
   assert(pplayer != aplayer);
   
@@ -273,9 +278,14 @@ static int ai_goldequiv_clause(struct player *pplayer,
   case CLAUSE_ADVANCE:
     
     if (give) {
-      worth -= compute_tech_sell_price(pplayer, aplayer, pclause->value);
+      worth -= compute_tech_sell_price(pplayer, aplayer, pclause->value,
+                                       &is_dangerous);
+      if (is_dangerous) {
+        return -BIG_NUMBER;
+      }
     } else if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
-      worth += compute_tech_sell_price(aplayer, pplayer, pclause->value);
+      worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
+                                       &is_dangerous);
     }
 
   break;
@@ -955,6 +965,7 @@ static void suggest_tech_exchange(struct player* player1,
                                   struct player* player2)
 {
   int worth[game.num_tech_types];
+  bool is_dangerous;
     
   tech_type_iterate(tech) {
     if (tech == A_NONE) {
@@ -963,13 +974,23 @@ static void suggest_tech_exchange(struct player* player1,
     }
     if (get_invention(player1, tech) == TECH_KNOWN) {
       if (get_invention(player2, tech) != TECH_KNOWN) {
-        worth[tech] = -compute_tech_sell_price(player1, player2, tech);
+        worth[tech] = -compute_tech_sell_price(player1, player2, tech,
+	                                       &is_dangerous);
+	if (is_dangerous) {
+	  /* don't try to exchange */
+	  worth[tech] = 0;
+	}
       } else {
         worth[tech] = 0;
       }
     } else {
       if (get_invention(player2, tech) == TECH_KNOWN) {
-        worth[tech] = compute_tech_sell_price(player2, player1, tech);
+        worth[tech] = compute_tech_sell_price(player2, player1, tech,
+	                                      &is_dangerous);
+	if (is_dangerous) {
+	  /* don't try to exchange */
+	  worth[tech] = 0;
+	}
       } else {
         worth[tech] = 0;
       }
