@@ -11,7 +11,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 1.9.0\n"
+"Project-Id-Version: freeciv 1.12.0\n"
 "POT-Creation-Date: 2001-06-30 20:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stig E Sandø <stig@ii.uib.no>\n"
@@ -592,7 +592,7 @@ msgstr " fra arbeidslisten"
 #: server/citytools.c:1799
 #, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Spill: %s bygger nå %s."
+msgstr "Spill: %s bygger nå %s%s."
 
 #: server/citytools.c:1803
 #, c-format
@@ -737,7 +737,7 @@ msgstr "Spill: Forurensning nær %s."
 #: server/cityturn.c:1651
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Spill: Din fødselsdag feires i %2$s."
+msgstr "Spill: Den nasjonale '%s-dagen' feires i %s."
 
 #: server/cityturn.c:1659
 #, c-format
@@ -2247,7 +2247,7 @@ msgstr "Beklager, noen andre bruker allerede det navnet."
 #: server/srv_main.c:1306
 #, c-format
 msgid "%s was rejected: Name %s already used."
-msgstr "%s ble bortvist: Navnet allerede brukt."
+msgstr "%s ble bortvist: Navnet %s er allerede brukt."
 
 #: server/srv_main.c:1313
 #, c-format
@@ -4446,7 +4446,7 @@ msgstr ""
 #: server/unittools.c:2320
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
-msgstr "Spill: Dine fallskjermhoppere havnet i havet og gikk tapt."
+msgstr "Spill: Dine %s utførte et fallskjermhopp ut i øde hav og druknet alle sammen."
 
 #: server/unittools.c:2331
 #, c-format
@@ -4514,11 +4514,11 @@ msgstr ""
 
 #: client/cityrepdata.c:68
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "?city_state:Glede"
 
 #: client/cityrepdata.c:69
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "?city_state:Uro"
 
 #: client/cityrepdata.c:70
 msgid "?city_state:Peace"
@@ -4612,11 +4612,11 @@ msgstr "Økonomi: Gull, Luksus, Forskning"
 
 #: client/cityrepdata.c:215
 msgid "n"
-msgstr "n"
+msgstr "#"
 
 #: client/cityrepdata.c:215
 msgid "T"
-msgstr ""
+msgstr "H"
 
 #: client/cityrepdata.c:215
 msgid "Number of Trade Routes"
@@ -7704,12 +7704,11 @@ msgid "Travel time:     %5.1f years"
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:262
-#, fuzzy
 msgid "Travel time:        N/A     "
-msgstr "Byen er normal           "
+msgstr "Reisetid:           N/A     "
 
 #: client/gui-gtk/spaceshipdlg.c:270 client/gui-xaw/spaceshipdlg.c:271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -7719,13 +7718,13 @@ msgid ""
 "Success prob.:   %5d %%\n"
 "Year of arrival: %8s"
 msgstr ""
-"Befolkning:       1234\n"
-"Support:           100 %\n"
-"Energi:            100 %\n"
-"Vekt:            12345 tonn\n"
-"Reisetid:         1234 år\n"
-"Suksess sanns.:    100 %\n"
-"Ankomstår:        1234 e.Kr"
+"Befolkning:       %5d\n"
+"Support:          %5d %%\n"
+"Energi:           %5d %%\n"
+"Vekt:             %5d tonn\n"
+"%s\n"
+"Suksess sanns.:   %5d %%\n"
+"Ankomstår:        %8s"
 
 #: client/gui-gtk/wldlg.c:161 data/Freeciv:1915
 msgid "Available worklists"
@@ -7965,7 +7964,6 @@ msgid "Connect to Freeciv Server"
 msgstr "Kople til Freeciv server"
 
 #: client/gui-mui/connectdlg.c:195 client/gui-mui/connectdlg.c:196
-#, fuzzy
 msgid "_Name"
 msgstr "_Navn"
 
@@ -8148,9 +8146,8 @@ msgid "Server opt initial..."
 msgstr "Server Opt. initielle..."
 
 #: client/gui-mui/gui_main.c:238
-#, fuzzy
 msgid "Server opt ongoing..."
-msgstr "Server Opt pågående..."
+msgstr "Server-innstillinger pågående..."
 
 #: client/gui-mui/gui_main.c:239 client/gui-xaw/menu.c:110
 msgid "Export Log"
@@ -8161,14 +8158,12 @@ msgid "Clear Log"
 msgstr "Rens logg"
 
 #: client/gui-mui/gui_main.c:246
-#, fuzzy
 msgid "Tax Rate..."
 msgstr "Skattenivå..."
 
 #: client/gui-mui/gui_main.c:248
-#, fuzzy
 msgid "Find City..."
-msgstr "Finn by"
+msgstr "Finn by..."
 
 #: client/gui-mui/gui_main.c:249
 msgid "Worklists..."
@@ -8192,7 +8187,7 @@ msgstr "Byproduksjon"
 
 #: client/gui-mui/gui_main.c:261
 msgid "Road & Rails"
-msgstr ""
+msgstr "Vei & Togskinner"
 
 #: client/gui-mui/gui_main.c:272 client/gui-xaw/menu.c:146
 msgid "Center View"
@@ -8340,7 +8335,6 @@ msgid "Freeciv Client"
 msgstr "Freeciv klient"
 
 #: client/gui-mui/gui_main.c:941
-#, fuzzy
 msgid "Client for Freeciv"
 msgstr "Klient for Freeciv"
 
@@ -8397,7 +8391,6 @@ msgid "Cost: %ld"
 msgstr "Kostnad: %ld"
 
 #: client/gui-mui/helpdlg.c:750
-#, fuzzy
 msgid " wonder"
 msgstr " underverk"
 
@@ -8406,7 +8399,6 @@ msgid " improvement"
 msgstr " forbedringer"
 
 #: client/gui-mui/helpdlg.c:768
-#, fuzzy
 msgid " unit"
 msgstr " enhet"
 
@@ -8422,7 +8414,7 @@ msgstr "Forsvar: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:867 client/gui-mui/helpdlg.c:881
 #: client/gui-mui/helpdlg.c:897
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
@@ -8433,9 +8425,9 @@ msgstr ""
 "Handel: %d"
 
 #: client/gui-mui/mapclass.c:1774
-#, fuzzy, c-format
+#, c-format
 msgid "City %s"
-msgstr "By: %s"
+msgstr "By %s"
 
 #: client/gui-mui/mapclass.c:1776
 #, c-format
@@ -8452,7 +8444,6 @@ msgid "Popup City"
 msgstr "Vis by"
 
 #: client/gui-mui/mapclass.c:1837
-#, fuzzy
 msgid "Wake up"
 msgstr "Våkne"
 
@@ -8490,9 +8481,9 @@ msgid "off"
 msgstr "av"
 
 #: client/gui-mui/mapview.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Population: %s"
-msgstr "Befolkning"
+msgstr "Befolkning: %s"
 
 #: client/gui-mui/mapview.c:221
 #, c-format
@@ -8532,7 +8523,6 @@ msgid "Trade Report"
 msgstr "Handelsrapport"
 
 #: client/gui-mui/repodlgs.c:582
-#, fuzzy
 msgid "Sell _Obsolete"
 msgstr "Selg f_oreldede"
 
@@ -11055,7 +11045,7 @@ msgstr "Isak Newtons Universitet"
 #: data/default/buildings.ruleset:1553
 #, c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr "Øker forskningen i byen det er bygget med 100%."
+msgstr "Øker forskningen i byen det er bygget med 100%%."
 
 #: data/civ1/buildings.ruleset:1362 data/civ2/buildings.ruleset:1350
 #: data/default/buildings.ruleset:1558
@@ -11232,9 +11222,8 @@ msgid ""
 msgstr ""
 
 #: data/default/buildings.ruleset:1954
-#, fuzzy
 msgid "Coinage"
-msgstr "Kopierer"
+msgstr "Kapitalisering"
 
 #: data/default/buildings.ruleset:1979
 msgid ""
@@ -13039,9 +13028,8 @@ msgid "?plural:Babylonians"
 msgstr "?plural:babylonerne"
 
 #: data/nation/barbarian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbarians"
-msgstr "?plural:bayere"
+msgstr "?plural:barbarene"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -13508,12 +13496,10 @@ msgid "?plural:Polish"
 msgstr "?plural:polakkene"
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktator"
 msgstr "Diktator"
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktatorka"
 msgstr "Diktator"
 
@@ -13534,7 +13520,6 @@ msgid "Pierwszy Sekretarz"
 msgstr ""
 
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
-#, fuzzy
 msgid "Prezydent"
 msgstr "President"
 
@@ -13587,9 +13572,8 @@ msgid "?plural:Scots"
 msgstr "?plural:skottene"
 
 #: data/nation/scottish.ruleset:15
-#, fuzzy
 msgid "First Minister"
-msgstr "Statsminister"
+msgstr "Førsteminister"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -13668,19 +13652,16 @@ msgid "?plural:Spanish"
 msgstr "?plural:spanjolene"
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudillo"
-msgstr "Radio"
+msgstr ""
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudilla"
-msgstr "kanadisk"
+msgstr ""
 
 #: data/nation/spanish.ruleset:14
-#, fuzzy
 msgid "Cardinal"
-msgstr "Tsarina"
+msgstr "Kardinal"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
