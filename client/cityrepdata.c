@@ -156,9 +156,9 @@ static char *cr_entry_building(struct city *pcity)
     int cost;
 
     if (turns < 999) {
-      snprintf(time, sizeof(time), "%d", turns);
+      my_snprintf(time, sizeof(time), "%d", turns);
     } else {
-      snprintf(time, sizeof(time), "-");
+      my_snprintf(time, sizeof(time), "-");
     }
 
     if(pcity->is_building_unit) {
