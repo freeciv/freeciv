@@ -7766,7 +7766,7 @@ msgstr "* Każdy gracz może posiadać tylko jeden egzemplarz tej jednostki.\n"
 #: client/helpdata.c:617
 #, c-format
 msgid "* Requires %d population to build.\n"
-msgstr "* Jednostka wymaga %d populacji w mieście, w które ją buduje.\n"
+msgstr "* Jednostka wymaga %d populacji w mieście, które ją buduje.\n"
 
 #: client/helpdata.c:623
 #, c-format
@@ -7810,17 +7810,17 @@ msgstr "* Nie można rozproszyć.\n"
 #: client/helpdata.c:649
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr "* Może zostać rozwiązana w mieście, aby odzyskać 50%% wartości w postaci tarczek.\n"
+msgstr "* Jednostka może zostać rozwiązana w mieście, aby odzyskać 50%% wartości w postaci tarczek.\n"
 
 #: client/helpdata.c:653
 #, c-format
 msgid "* Can build new cities.\n"
-msgstr "* Może zakładać nowe miasta.\n"
+msgstr "* Potrafi zakładać nowe miasta.\n"
 
 #: client/helpdata.c:656
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr "* Potrafi powiększać miasta mniejsze od %2$d o %1$d populacji.\n"
+msgstr "* Potrafi powiększać miasta nie większe niż %2$d o %1$d populacji.\n"
 
 #: client/helpdata.c:664
 #, c-format
@@ -7835,7 +7835,7 @@ msgstr "* Potrafi budować kopalnie.\n"
 #: client/helpdata.c:666
 #, c-format
 msgid "* Can build irrigation on tiles.\n"
-msgstr "* Może zakładać nowe miasta.\n"
+msgstr "* Potrafi budować nawodnienie.\n"
 
 #: client/helpdata.c:671
 #, c-format
@@ -7860,12 +7860,12 @@ msgstr "* Potrafi budować fortece.\n"
 #: client/helpdata.c:691
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr "* Potrafi budować fortece (jeśli odkryto %s).\n"
+msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
 
 #: client/helpdata.c:695
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr "* Potrafi budować fortece (jeśli odkryto %s).\n"
+msgstr "* Potrafi budować fortece (Jeśli odkryto %s).\n"
 
 #: client/helpdata.c:701
 #, c-format
@@ -7890,12 +7890,12 @@ msgstr "* Potrafi budować bazy lotnicze.\n"
 #: client/helpdata.c:713
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr "* Może się fortyfikować, przez co otrzymuje 50%% dodatkowej siły obrony,\n"
+msgstr "* Potrafi się fortyfikować, przez co otrzymuje 50%% dodatkowej siły obrony.\n"
 
 #: client/helpdata.c:717
 #, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr "* Może niszczyć infrastrukturę terenów.\n"
+msgstr "* Potrafi niszczyć infrastrukturę terenów.\n"
 
 #: client/helpdata.c:721
 #, c-format
@@ -7920,7 +7920,7 @@ msgstr "* Jednostka nie może być przekupiona.\n"
 #: client/helpdata.c:734
 #, c-format
 msgid "* Can attack enemy air units.\n"
-msgstr "* Może atakować jednostki powietrzne przeciwnika.\n"
+msgstr "* Potrafi atakować jednostki powietrzne przeciwnika.\n"
 
 #: client/helpdata.c:737
 #, c-format
@@ -7961,7 +7961,7 @@ msgstr "* Jest liczona jako jednostka 'konna'.\n"
 #: client/helpdata.c:762
 #, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
-msgstr "* Jednostka pocisku: jest wykorzystywana przy ataku.\n"
+msgstr "* Jednostka pocisku: jest tracona podczas ataku.\n"
 
 #: client/helpdata.c:764
 #, c-format
@@ -17486,14 +17486,14 @@ msgstr ""
 
 #: data/helpdata.txt:1000
 msgid " Modifying Combat Rules"
-msgstr "Zmienianie zasadach walki"
+msgstr "Zmienianie zasad walki"
 
 #: data/helpdata.txt:1001
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
-"Zmienianie zasadach walki\n"
+"Zmienianie zasad walki\n"
 "-------------------------"
 
 #: data/helpdata.txt:1002
