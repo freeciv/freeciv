@@ -801,7 +801,7 @@ static GtkItemFactoryEntry menu_items[]	=
 
   Path should include underscores like in the menu itself.
 *****************************************************************/
-static const char *translate_menu_path(const char *path, int remove_uline)
+static const char *translate_menu_path(const char *path, bool remove_uline)
 {
 #ifndef ENABLE_NLS
   static char res[100];
@@ -867,8 +867,9 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
 
   item_factory=gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", accel);
    
-  for(i=0; i<nmenu_items; i++) {
-    menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path, 0));
+  for (i = 0; i < nmenu_items; i++) {
+    menu_items[i].path =
+	mystrdup(translate_menu_path(menu_items[i].path, FALSE));
   }
   
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
@@ -890,7 +891,7 @@ static void menus_set_sensitive(const char *path, int sensitive)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR,
@@ -910,7 +911,7 @@ static void menus_set_active(const char *path, int active)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
 
   if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR,
@@ -931,7 +932,7 @@ static void menus_set_shown(const char *path, int shown)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
@@ -955,7 +956,7 @@ static void menus_rename(const char *path, char *s)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path, 1);
+  path = translate_menu_path(path, TRUE);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
@@ -992,12 +993,12 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", FALSE);
   } else {
     struct unit *punit;
-    GtkWidget *parent, *item;
-    const char *path;
+    GtkWidget *item;
+    const char *path =
+	translate_menu_path("<main>/_Kingdom/_Government", TRUE);
+    GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
-    path = translate_menu_path("<main>/_Kingdom/_Government", 1);
-
-    if ((parent = gtk_item_factory_get_widget(item_factory, path))) {
+    if (parent) {
       int i;
       GList *iter, *iter_next;
 
