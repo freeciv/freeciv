@@ -141,14 +141,19 @@ static int dangerfunct(int v, int m, int dist)
 
 static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
-  int v = get_unit_type(punit->type)->attack_strength * 10;
-  if (punit->veteran) v *= 1.5;
-  if (unit_flag(punit->type, F_SUBMARINE)) v = 0;
-  if (is_sailing_unit(punit) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) v = 0;
+  int v, sailing;
+  struct unit_type *ptype;
+
+  if (unit_flag(punit->type, F_SUBMARINE)) return(0);
+  sailing = is_sailing_unit(punit);
+  if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
+
+  ptype=get_unit_type(punit->type);
 /* get_attack_power will be wrong if moves_left == 1 || == 2 */
-  v *= punit->hp * get_unit_type(punit->type)->firepower;
-  if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v /= 2;
-  if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v /= 2;
+  v = ptype->attack_strength * 10 * punit->hp * ptype->firepower;
+  if (punit->veteran) v += v/2;
+  if (sailing && city_got_building(pcity, B_COASTAL)) v /= 2;
+  if (is_air_unit(punit) && city_got_building(pcity, B_SAM)) v /= 2;
   v /= 30; /* rescaling factor to stop the overflow nonsense */
   return(v);
 }
