@@ -1011,7 +1011,8 @@ struct player *unit_owner(struct unit *punit)
 /**************************************************************************
 Returns the number of free spaces for missiles. Can be 0 or negative.
 **************************************************************************/
-int missile_carrier_capacity(int x, int y, int playerid)
+int missile_carrier_capacity(int x, int y, int playerid,
+			     int count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
@@ -1031,7 +1032,8 @@ int missile_carrier_capacity(int x, int y, int playerid)
 	continue;
       }
       /* Don't count units which have enough fuel (>1) */
-      if (is_air_unit(punit) && punit->fuel <= 1) {
+      if (is_air_unit(punit)
+	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
 	if (unit_flag(punit->type, F_MISSILE))
 	  misonly--;
 	else
@@ -1053,7 +1055,8 @@ int missile_carrier_capacity(int x, int y, int playerid)
 Returns the number of free spaces for airunits (includes missiles).
 Can be 0 or negative.
 **************************************************************************/
-int airunit_carrier_capacity(int x, int y, int playerid)
+int airunit_carrier_capacity(int x, int y, int playerid,
+			     int count_units_with_extra_fuel)
 {
   struct tile *ptile = map_get_tile(x, y);
   int misonly = 0;
@@ -1072,7 +1075,8 @@ int airunit_carrier_capacity(int x, int y, int playerid)
 	continue;
       }
       /* Don't count units which have enough fuel (>1) */
-      if (is_air_unit(punit) && punit->fuel <= 1) {
+      if (is_air_unit(punit)
+	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
 	if (unit_flag(punit->type, F_MISSILE))
 	  misonly--;
 	else

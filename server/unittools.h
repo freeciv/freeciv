@@ -66,8 +66,6 @@ int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
 			  int verbose);
 void resolve_unit_stack(int x, int y, int verbose);
-int is_airunit_refuel_point(int x, int y, int playerid,
-			    Unit_Type_id type, int unit_is_on_tile);
 
 
 /* creation/deletion/upgrading */

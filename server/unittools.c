@@ -67,6 +67,8 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 						 int x, int y, int missile);
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
+int is_airunit_refuel_point(int x, int y, int playerid,
+			    Unit_Type_id type, int unit_is_on_tile);
 
 /**************************************************************************
   used to find the best defensive unit on a square
@@ -2025,12 +2027,12 @@ int is_airunit_refuel_point(int x, int y, int playerid,
     return 1;
 
   if (unit_flag(type, F_MISSILE)) {
-    int cap = missile_carrier_capacity(x, y, playerid);
+    int cap = missile_carrier_capacity(x, y, playerid, 0);
     if (unit_is_on_tile)
       cap++;
     return cap>0;
   } else {
-    int cap = airunit_carrier_capacity(x, y, playerid);
+    int cap = airunit_carrier_capacity(x, y, playerid, 0);
     if (unit_is_on_tile)
       cap++;
     return cap>0;
@@ -2821,8 +2823,8 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	}
       } unit_list_iterate_end;
     } else { /** We are in the open. All units must have a transport if possible **/
-      int aircap = airunit_carrier_capacity(x, y, playerid);
-      int miscap = missile_carrier_capacity(x, y, playerid);
+      int aircap = airunit_carrier_capacity(x, y, playerid, 1);
+      int miscap = missile_carrier_capacity(x, y, playerid, 1);
 
       /* Not enough capacity. Take anything we can */
       if ((aircap < capacity || miscap < capacity)

@@ -170,8 +170,10 @@ int ground_unit_transporter_capacity(int x, int y, int playerid);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
 int is_air_units_transport(struct unit *punit);
-int missile_carrier_capacity(int x, int y, int playerid);
-int airunit_carrier_capacity(int x, int y, int playerid);
+int missile_carrier_capacity(int x, int y, int playerid,
+			     int count_units_with_extra_fuel);
+int airunit_carrier_capacity(int x, int y, int playerid,
+			     int count_units_with_extra_fuel);
 
 struct player *unit_owner(struct unit *punit);
 
