@@ -49,8 +49,10 @@ the extinction of all other civilizations.\
 ", _("\
   Present administrators: \
 "), "\
-             Thue Janus Kristensen  - thue@diku.dk\n\
-             Anthony J. Stuckey     - stuckey@jaka.ece.uiuc.edu\
+             Anthony J. Stuckey  - astuckey@imsa.edu\n\
+             Raimar Falke        - rf13@inf.tu-dresden.de\n\
+             Mike Kaufman        - kaufman@orion.physics.wisc.edu\n\
+             Per I. Mathisen     - per@leftist.net\
 ", _("\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
