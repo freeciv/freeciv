@@ -690,13 +690,17 @@ static void setup_widgets(void)
   overview_canvas = gtk_drawing_area_new();
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
-        			       | GDK_BUTTON_PRESS_MASK);
+        			        |GDK_BUTTON_PRESS_MASK
+				        |GDK_POINTER_MOTION_MASK);
 
   gtk_widget_set_size_request(overview_canvas, 160, 100);
   gtk_container_add(GTK_CONTAINER(align), overview_canvas);
 
   g_signal_connect(overview_canvas, "expose_event",
         	   G_CALLBACK(overview_canvas_expose), NULL);
+
+  g_signal_connect(overview_canvas, "motion_notify_event",
+        	   G_CALLBACK(move_overviewcanvas), NULL);
 
   g_signal_connect(overview_canvas, "button_press_event",
         	   G_CALLBACK(butt_down_overviewcanvas), NULL);

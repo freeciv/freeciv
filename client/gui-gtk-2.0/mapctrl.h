@@ -23,7 +23,8 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev);
 
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
-gboolean move_mapcanvas(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
+gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
 
 void center_on_unit(void);
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);

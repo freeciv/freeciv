@@ -202,16 +202,34 @@ void create_line_at_mouse_pos(void)
   int x, y;
 
   gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
-
-  update_line(x, y);
+  if (x >= 0 && y >= 0
+      && x < mapview_canvas.width && y < mapview_canvas.width) {
+    update_line(x, y);
+  } else {
+    gdk_window_get_pointer(overview_canvas->window, &x, &y, 0);
+    if (x >= 0 && y >= 0
+	&& x < OVERVIEW_TILE_WIDTH * map.xsize
+	&& y < OVERVIEW_TILE_WIDTH * map.ysize) {
+      overview_update_line(x, y);
+    }
+  }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-gboolean move_mapcanvas(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
-  update_line(event->x, event->y);
+  update_line(ev->x, ev->y);
+  return TRUE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
+{
+  overview_update_line(ev->x, ev->y);
   return TRUE;
 }
 
