@@ -172,6 +172,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(page), vbox, TRUE, TRUE, 0);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
@@ -366,7 +368,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   /* fill in result label */
   cm_query_result(pcity, &param, &result);
   gtk_label_set_text(GTK_LABEL(pdialog->result_label),
-		     (char *) cmafec_get_result_descr(pcity, &result, &param));
+		     cmafec_get_result_descr(pcity, &result, &param));
 
   /* if called from a hscale, we _don't_ want to do this */
   if (refresh != DONT_REFRESH_HSCALES) {
@@ -383,7 +385,8 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
       gtk_tree_path_append_index(path, preset_index);
 
       allow_refreshes = 0;
-      gtk_tree_selection_select_path(pdialog->selection, path);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(pdialog->preset_list), path,
+			       NULL, FALSE);
       allow_refreshes = 1;
 
       gtk_tree_path_free(path);
@@ -417,11 +420,15 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
 
   /* Append the presets */
   if (cmafec_preset_num()) {
+    gtk_tooltips_disable(pdialog->tips);
+
     for (i = 0; i < cmafec_preset_num(); i++) {
       mystrlcpy(buf, cmafec_preset_get_descr(i), sizeof(buf));
       gtk_list_store_append(pdialog->store, &it);
       gtk_list_store_set(pdialog->store, &it, 0, buf, -1);
     }
+  } else {
+    gtk_tooltips_enable(pdialog->tips);
   }
 }
 
