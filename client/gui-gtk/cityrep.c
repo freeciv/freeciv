@@ -30,7 +30,6 @@
 #include <mapview.h>
 #include <citydlg.h>
 #include <optiondlg.h>
-#include <log.h>
 #include <cityrep.h>
 #include <options.h>
 

@@ -31,7 +31,6 @@
 #include <dialogs.h>
 #include <chatline.h>
 #include <cityrep.h>
-#include <log.h>
 #include <options.h>
 
 extern	GtkWidget *toplevel;

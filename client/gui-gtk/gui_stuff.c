@@ -17,8 +17,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <log.h>
-
 extern GdkWindow *root_window;
 
 extern GdkGC *mask_fg_gc;

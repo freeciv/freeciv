@@ -171,7 +171,8 @@ void parse_options(int *argc, char **argv[])
     if (password)
       strcpy(name, password->pw_name);
     else {
-      freelog(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
+      /* freelog not yet initialised here --dwp */
+      fprintf(stderr, "Your getpwuid call failed.  Please report this.");
       strcpy(name, "operator 00000");
       sprintf(name+9, "%05i",(int)getuid());
    }

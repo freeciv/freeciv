@@ -23,7 +23,6 @@
 #include <mapview.h>
 #include <map.h>
 #include <graphics.h>
-#include <log.h>
 #include <colors.h>
 #include <unit.h>
 #include <game.h>

@@ -15,7 +15,6 @@
 #include <string.h>
 
 #include <chatline.h>
-#include <log.h>
 #include <packets.h>
 #include <clinet.h>
 #include <gui_stuff.h>

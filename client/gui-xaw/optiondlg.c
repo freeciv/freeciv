@@ -38,7 +38,6 @@
 #include <events.h>
 #include <chatline.h>
 #include <cityrep.h>
-#include <log.h>
 #include <options.h>
 
 extern Widget toplevel, main_form;

@@ -23,7 +23,6 @@
 #include <game.h>
 #include <civclient.h>
 #include <graphics.h>
-#include <log.h>
 #include <mapview.h>
 #include <colors.h>
 #include <mapctrl.h>
