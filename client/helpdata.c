@@ -492,52 +492,31 @@ const struct help_item *help_iter_next(void)
   have been built (or are being built and by who/where?)
 *****************************************************************/
 
-/****************************************************************
-  Write misc dynamic text for improvements (not wonders).
-  user_text is written after some extra, and before others.
-*****************************************************************/
-void helptext_improvement(char *buf, int which, const char *user_text)
+/**************************************************************************
+  Write dynamic text for improvements (not wonders).  This includes
+  the ruleset helptext as well as any automatically generated text.
+
+  user_text, if non-NULL, will be appended to the text.
+**************************************************************************/
+void helptext_improvement(char *buf, Impr_Type_id which,
+			  const char *user_text)
 {
   struct impr_type *imp = &improvement_types[which];
   
-  assert(buf&&user_text);
+  assert(buf);
   buf[0] = '\0';
-  if(which==B_AQUEDUCT) {
-    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
-	    game.aqueduct_size);
-    if(improvement_exists(B_SEWER)) {
-      char *s = improvement_types[B_SEWER].name;
-      sprintf(buf+strlen(buf),
-	      _("(The %s improvement is also required for a city to grow"
-		" larger than size %d.)  "), s, game.sewer_size);
-    }
-    strcat(buf,"\n");
-  }
-  if(which==B_SEWER) {
-    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
-	   game.sewer_size);
-  }
   if (imp->helptext[0] != '\0') {
     sprintf(buf + strlen(buf), "%s  ", _(imp->helptext));
   }
-  if(which==B_BARRACKS
-     && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
-     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
-    sprintf(buf+strlen(buf),
-	   _("\n\nNote that discovering %s or %s will obsolete"
-	   " any existing %s.  "),
-	   advances[improvement_types[B_BARRACKS].obsolete_by].name,
-	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
-	   improvement_types[B_BARRACKS].name);
+  if (tech_exists(improvement_types[which].obsolete_by)) {
+    sprintf(buf + strlen(buf), "\n\n");
+    sprintf(buf + strlen(buf),
+	    _("The discovery of %s will make %s obsolete."),
+	    advances[improvement_types[which].obsolete_by].name,
+	    improvement_types[which].name);
+    sprintf(buf + strlen(buf), "  ");
   }
-  if(which==B_BARRACKS2
-     && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
-    sprintf(buf+strlen(buf),
-	   _("\n\nThe discovery of %s will make %s obsolete.  "),
-	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
-	   improvement_types[B_BARRACKS2].name);
-  }
-  if (strcmp(user_text, "")!=0) {
+  if (user_text && user_text[0] != '\0') {
     sprintf(buf+strlen(buf), "\n\n%s", user_text);
   }
   wordwrap_string(buf, 68);
