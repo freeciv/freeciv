@@ -2298,6 +2298,17 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
   send_conn_info_arg(src, dest, 1);
 }
 
+/**************************************************************************
+  Convenience function to return "reply" destination connection list
+  for player: pplayer->current_conn if set, else pplayer->connections.
+**************************************************************************/
+struct conn_list *player_reply_dest(struct player *pplayer)
+{
+  return (pplayer->current_conn ?
+	  &pplayer->current_conn->self :
+	  &pplayer->connections);
+}
+
 /***************************************************************
 ...
 ***************************************************************/

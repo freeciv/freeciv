@@ -234,7 +234,6 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 			   struct city *pcity)
 {
   struct packet_sabotage_list packet;
-  struct conn_list *dest;
   int i;
   char *p;
 
@@ -245,10 +244,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
-  dest = (pplayer->current_conn ?
-	  &pplayer->current_conn->self :
-	  &pplayer->connections);
-  lsend_packet_sabotage_list(dest, &packet);
+  lsend_packet_sabotage_list(player_reply_dest(pplayer), &packet);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_GET_SABOTAGE_LIST, pplayer, NULL, pcity);
