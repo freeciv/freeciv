@@ -33,6 +33,7 @@
 #include <X11/Xaw/Viewport.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "mem.h"
@@ -100,8 +101,8 @@ static char *cr_entry_hstate_concise(struct city *pcity)
 static char *cr_entry_hstate_verbose(struct city *pcity)
 {
   static char buf[16];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? "Rapture" :
-		      (city_unhappy(pcity) ? "Disorder" : "Peace")));
+  sprintf(buf, "%s", (city_celebrating(pcity) ? _("Rapture") :
+		      (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
   return buf;
 }
 
@@ -235,32 +236,36 @@ struct city_report_spec {
 */
 
 static struct city_report_spec city_report_specs[] = {
-  { 1,-15, 0, "",  "Name",            "City Name",
+  { 1,-15, 0, "",  N_("Name"),        N_("City Name"),
                                       FUNC_TAG(cityname) },
-  { 0,  2, 1, "",  "Sz",              "Size",
+  { 0,  2, 1, "",  N_("Sz"),          N_("Size"),
                                       FUNC_TAG(size) },
-  { 1, -8, 1, "",  "State",           "Rapture/Peace/Disorder",
+  { 1, -8, 1, "",  N_("State"),       N_("Rapture/Peace/Disorder"),
                                       FUNC_TAG(hstate_verbose) },
-  { 0,  1, 1, "",  "",                "Concise *=Rapture, X=Disorder",
+  { 0,  1, 1, "",  "",                N_("Concise *=Rapture, X=Disorder"),
                                       FUNC_TAG(hstate_concise) },
-  { 1,  8, 1, "Workers", "H/C/U",     "Workers: Happy, Content, Unhappy",
+  { 1,  8, 1, N_("Workers"), N_("H/C/U"),
+                                      N_("Workers: Happy, Content, Unhappy"),
                                       FUNC_TAG(workers) },
-  { 0,  7, 1, "Special", "E/S/T",     "Entertainers, Scientists, Taxmen",
+  { 0,  7, 1, N_("Special"), N_("E/S/T"),
+                                      N_("Entertainers, Scientists, Taxmen"),
                                       FUNC_TAG(specialists) },
-  { 1, 10, 1, "Surplus", "F/P/T",     "Surplus: Food, Production, Trade",
+  { 1, 10, 1, N_("Surplus"), N_("F/P/T"),
+                                      N_("Surplus: Food, Production, Trade"),
                                       FUNC_TAG(resources) },
-  { 1, 10, 1, "Economy", "G/L/S",     "Economy: Gold, Luxuries, Science",
+  { 1, 10, 1, N_("Economy"), N_("G/L/S"),
+                                      N_("Economy: Gold, Luxuries, Science"),
                                       FUNC_TAG(output) },
-  { 0,  1, 1, "n", "T",               "Number of Trade Routes",
+  { 0,  1, 1, "n", "T",               N_("Number of Trade Routes"),
                                       FUNC_TAG(num_trade) },
-  { 1,  7, 1, "Food", "Stock",        "Food Stock",
+  { 1,  7, 1, N_("Food"), N_("Stock"), N_("Food Stock"),
                                       FUNC_TAG(food) },
-  { 0,  3, 1, "", "Pol",              "Pollution",
+  { 0,  3, 1, "", N_("Pol"),          N_("Pollution"),
                                       FUNC_TAG(pollution) },
-  { 0,  3, 1, "", "Cor",              "Corruption",
+  { 0,  3, 1, "", N_("Cor"),          N_("Corruption"),
                                       FUNC_TAG(corruption) },
-  { 1,  0, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
-                                      "Currently Building",
+  { 1,  0, 1, N_("Currently Building"), N_("(Stock,Target,Buy Cost)"),
+                                      N_("Currently Building"),
                                       FUNC_TAG(building) }
 };
 
@@ -374,7 +379,7 @@ static char *get_city_table_header(void)
 	sprintf(text+strlen(text), "%*s", spec->space, " ");
 
       sprintf(text+strlen(text), "%*s", spec->width,
-	      (j?spec->title2:spec->title1));
+	      (j?_(spec->title2):_(spec->title1)));
     }
     if (j==0) strcat(text, "\n");
   }
@@ -437,7 +442,7 @@ void create_city_report_dialog(int make_modal)
 				      city_dialog_shell,
 				      NULL);   
 
-  report_title=get_report_title("City Advisor");
+  report_title=get_report_title(_("City Advisor"));
   city_label = XtVaCreateManagedWidget("reportcitylabel", 
 				       labelWidgetClass, 
 				       city_form,
@@ -645,7 +650,7 @@ void city_buy_callback(Widget w, XtPointer client_data,
 	}
       else
 	{
-	  sprintf(buf, "Game: %s costs %d gold and you only have %d gold.",
+	  sprintf(buf, _("Game: %s costs %d gold and you only have %d gold."),
 		  name,value,game.player_ptr->economic.gold);
 	  append_output_window(buf);
 	}
@@ -773,7 +778,7 @@ void city_report_dialog_update(void)
       for(j=n_prev; j<n_alloc; j++)  city_list_text[j] = malloc(128);
     }
        
-    report_title=get_report_title("City Advisor");
+    report_title=get_report_title(_("City Advisor"));
     xaw_set_label(city_label, report_title);
     free(report_title);
 
@@ -888,7 +893,7 @@ void popup_city_report_config_dialog(void)
   for(i=1; i<NUM_CREPORT_COLS; i++) {
     XtVaSetValues(config_toggle[i],
 		  XtNstate, city_report_specs[i].show,
-		  XtNlabel, city_report_specs[i].show?"Yes":"No", NULL);
+		  XtNlabel, city_report_specs[i].show?_("Yes"):_("No"), NULL);
   }
 
   xaw_set_relative_position(city_dialog_shell, config_shell, 25, 25);
@@ -920,7 +925,7 @@ void create_city_report_config_dialog(void)
 					     config_form, NULL));
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    sprintf(buf, "%-32s", spec->explanation);
+    sprintf(buf, "%-32s", _(spec->explanation));
     above = (i==1)?config_label:config_optlabel;
 
     config_optlabel = XtVaCreateManagedWidget("cityconfiglabel", 
@@ -1282,7 +1287,7 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
     }
 
   sprintf (msgbuf,
-	   "Game: Changing production of every %s into %s.",
+	   _("Game: Changing production of every %s into %s."),
 	   state->fr_list[state->fr_index],
 	   state->to_list[state->to_index]);
   append_output_window (msgbuf);

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +21,7 @@
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "government.h"
 #include "log.h"
 #include "map.h"
@@ -77,8 +82,11 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
     /* Moving from ocean */
     if(ptile2->terrain==T_OCEAN) {
       /* Can't attack a city from ocean unless marines */
-      if(!unit_flag(punit->type, F_MARINES) && is_enemy_city_tile(x,y,punit->owner)) {
-        notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT, "Game: Only Marines can attack from sea.");
+      if(!unit_flag(punit->type, F_MARINES)
+	 && is_enemy_city_tile(x,y,punit->owner)) {
+        notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
+			 E_NOEVENT,
+			 _("Game: Only Marines can attack from sea."));
 	return 0;
       }
     }
@@ -90,7 +98,8 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
   zoc = zoc_ok_move(punit, x, y);
   if (!zoc) 
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
-    "Game: %s can only move into your own zone of control.", unit_types[punit->type].name);
+		     _("Game: %s can only move into your own zone of control."),
+		     unit_types[punit->type].name);
   return zoc;
 }
 
@@ -707,7 +716,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 	      x, y,ccity->name);
       if (verbose) {
 	notify_player(get_player(cunit->owner),
-		      "Game: Teleported your %s from (%d, %d) to %s",
+		      _("Game: Teleported your %s from (%d, %d) to %s"),
 		      unit_name(cunit->type), x, y,ccity->name);
       }
     }else{
@@ -717,7 +726,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 	      x, y, pcity->name);
       if (verbose) {
 	notify_player(get_player(punit->owner),
-		      "Game: Teleported your %s from (%d, %d) to %s",
+		      _("Game: Teleported your %s from (%d, %d) to %s"),
 		      unit_name(punit->type), x, y, pcity->name);
       }
     }
@@ -744,10 +753,10 @@ void resolve_unit_stack(int x, int y, int verbose)
 		get_player(vunit->owner)->name, unit_name(vunit->type),
 		vcity->name, x, y);
 	if (verbose) {
-	  notify_player(get_player(vunit->owner), "Game: Teleported your"
-			" %s to %s as there is no transport space on"
-			" square (%d, %d)", unit_name(vunit->type),
-			vcity->name, x, y);
+	  notify_player(get_player(vunit->owner),
+			_("Game: Teleported your %s to %s as there is"
+			  " no transport space on square (%d, %d)"),
+			unit_name(vunit->type), vcity->name, x, y);
 	}
       }
     }

@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -45,10 +50,10 @@ char *map_get_tile_info_text(int x, int y)
   struct tile *ptile=map_get_tile(x, y);
   
   sprintf(s, "%s%s",
-	  (ptile->special&S_POLLUTION ? "Polluted " : ""),
+	  (ptile->special&S_POLLUTION ? _("Polluted ") : ""),
 	  tile_types[ptile->terrain].terrain_name);
   if(ptile->special&S_RIVER) 
-    sprintf(s+strlen(s), "/River");
+    sprintf(s+strlen(s), "/%s", _("River"));
   if(ptile->special&S_SPECIAL_1) 
     sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_1_name);
   else if(ptile->special&S_SPECIAL_2) 
@@ -531,19 +536,19 @@ char *map_get_infrastructure_text(int spe)
   *s = '\0';
 
   if(spe&S_ROAD)
-    strcat(s, "Road/");
+    sprintf(s+strlen(s), "%s/", _("Road"));
   if(spe&S_RAILROAD)
-    strcat(s, "Railroad/");
+    sprintf(s+strlen(s), "%s/", _("Railroad"));
   if(spe&S_IRRIGATION)
-    strcat(s, "Irrigation/");
+    sprintf(s+strlen(s), "%s/", _("Irrigation"));
   if(spe&S_FARMLAND)
-    strcat(s, "Farmland/");
+    sprintf(s+strlen(s), "%s/", _("Farmland"));
   if(spe&S_MINE)
-    strcat(s, "Mine/");
+    sprintf(s+strlen(s), "%s/", _("Mine"));
   if(spe&S_FORTRESS)
-    strcat(s, "Fortress/");
+    sprintf(s+strlen(s), "%s/", _("Fortress"));
   if(spe&S_AIRBASE)
-    strcat(s, "Airbase/");
+    sprintf(s+strlen(s), "%s/", _("Airbase"));
 
   if(*s)
     *(s+strlen(s)-1)='\0';

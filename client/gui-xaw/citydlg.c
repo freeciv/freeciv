@@ -2242,7 +2242,7 @@ void cityopt_cancel_command_callback(Widget w, XtPointer client_data,
 void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
 					XtPointer call_data);
 
-char *newcitizen_labels[] = { "Workers", "Scientists", "Taxmen" };
+char *newcitizen_labels[] = { N_("Workers"), N_("Scientists"), N_("Taxmen") };
 
 static Widget cityopt_shell = 0;
 static Widget cityopt_triggle;
@@ -2268,7 +2268,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
   for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
     state = (pcity->city_options & (1<<i));
     XtVaSetValues(cityopt_toggles[i], XtNstate, state,
-		  XtNlabel, state?"Yes":"No", NULL);
+		  XtNlabel, state?_("Yes"):_("No"), NULL);
   }
   if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
     newcitizen_index = 1;
@@ -2278,7 +2278,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
     newcitizen_index = 0;
   }
   XtVaSetValues(cityopt_triggle, XtNstate, 1,
-		XtNlabel, newcitizen_labels[newcitizen_index],
+		XtNlabel, _(newcitizen_labels[newcitizen_index]),
 		NULL);
   
   cityopt_city_id = pcity->id;
@@ -2433,7 +2433,7 @@ void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
     newcitizen_index = 0;
   }
   XtVaSetValues(cityopt_triggle, XtNstate, 1,
-		XtNlabel, newcitizen_labels[newcitizen_index],
+		XtNlabel, _(newcitizen_labels[newcitizen_index]),
 		NULL);
 }
 

@@ -27,6 +27,7 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "mem.h"
@@ -250,13 +251,20 @@ void add_notify_window(struct packet_generic_message *packet)
 {
   char *s;
   int nspc;
+  char *game_prefix1 = "Game: ";
+  char *game_prefix2 = _("Game: ");
+  int gp_len1 = strlen(game_prefix1);
+  int gp_len2 = strlen(game_prefix2);
   
   meswin_allocate();
   s = fc_malloc(strlen(packet->message) + 50);
-  if (!strncmp(packet->message, "Game: ", 6)) 
-   strcpy(s, packet->message + 6);
-  else
+  if (!strncmp(packet->message, game_prefix1, gp_len1)) {
+    strcpy(s, packet->message + gp_len1);
+  } else if(!strncmp(packet->message, game_prefix2, gp_len2)) {
+    strcpy(s, packet->message + gp_len2);
+  } else {
     strcpy(s, packet->message);
+  }
 
   nspc=50-strlen(s);
   if(nspc>0)

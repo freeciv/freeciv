@@ -109,10 +109,13 @@ static void select_help_item_string(const char *item,
 *****************************************************************/
 static void set_title_topic(char *topic)
 {
-  if(!strcmp(topic, "Freeciv") || !strcmp(topic, "About"))
+  if(!strcmp(topic, "Freeciv")
+     || !strcmp(topic, "About")
+     || !strcmp(topic, _("About"))) {
     gtk_frame_set_label(GTK_FRAME(help_frame), FREECIV_NAME_VERSION);
-  else
+  } else {
     gtk_frame_set_label(GTK_FRAME(help_frame), topic);
+  }
   return;
 }
 

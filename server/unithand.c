@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -74,7 +79,7 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   int to_unit;
   int upgraded = 0;
   if ((to_unit =can_upgrade_unittype(pplayer, packet->type)) == -1) {
-    notify_player(pplayer, "Game: illegal package, can't upgrade %s (yet).", 
+    notify_player(pplayer, _("Game: illegal package, can't upgrade %s (yet)."), 
 		  unit_types[packet->type].name);
     return;
   }
@@ -94,12 +99,12 @@ void handle_upgrade_unittype_request(struct player *pplayer,
   }
   unit_list_iterate_end;
   if (upgraded > 0) {
-    notify_player(pplayer, "Game: %d %s upgraded to %s for %d credits", 
+    notify_player(pplayer, _("Game: %d %s upgraded to %s for %d credits"), 
 		  upgraded, unit_types[packet->type].name, 
 		  unit_types[to_unit].name, cost * upgraded);
     send_player_info(pplayer, pplayer);
   } else {
-    notify_player(pplayer, "Game: No units could be upgraded.");
+    notify_player(pplayer, _("Game: No units could be upgraded."));
   }
 }
 
@@ -118,17 +123,18 @@ void handle_unit_upgrade_request(struct player *pplayer,
   if(!(pcity=find_city_by_id(packet->city_id))) return;
 
   if(punit->x!=pcity->x || punit->y!=pcity->y)  {
-    notify_player(pplayer, "Game: illegal move, unit not in city!");
+    notify_player(pplayer, _("Game: illegal move, unit not in city!"));
     return;
   }
   if((to_unit=can_upgrade_unittype(pplayer, punit->type)) == -1) {
-    notify_player(pplayer, "Game: illegal package, can't upgrade %s (yet).", 
+    notify_player(pplayer, _("Game: illegal package, can't upgrade %s (yet)."), 
 		  unit_types[punit->type].name);
     return;
   }
   cost = unit_upgrade_price(pplayer, punit->type, to_unit);
   if(cost > pplayer->economic.gold) {
-    notify_player(pplayer, "Game: Insufficient funds, upgrade costs %d", cost);
+    notify_player(pplayer, _("Game: Insufficient funds, upgrade costs %d"),
+		  cost);
     return;
   }
   pplayer->economic.gold -= cost;
@@ -137,7 +143,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
   punit->type = to_unit;
   send_unit_info(0, punit, 0);
   send_player_info(pplayer, pplayer);
-  notify_player(pplayer, "Game: Unit upgraded to %s for %d credits", 
+  notify_player(pplayer, _("Game: Unit upgraded to %s for %d credits"), 
 		unit_types[to_unit].name, cost);
 }
 
@@ -244,9 +250,17 @@ void handle_diplomat_action(struct player *pplayer,
 					 pcity->x, pcity->y)) {
 	if(pdiplomat->foul){
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			   "Game: Your spy was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable.",pcity->name, get_nation_name_plural(pplayer->nation));
+			   _("Game: Your %s was executed in %s on suspicion"
+			     " of spying.  The %s welcome future diplomatic"
+			     " efforts providing the Ambassador is reputable."),
+			   unit_name(pdiplomat->type),
+			   pcity->name, get_nation_name_plural(pplayer->nation));
 	  
-	  notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, "You executed a spy the %s had sent to establish an embassy in %s",
+	  notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y,
+			   E_DIPLOMATED,
+			   _("You executed a %s the %s had sent to establish"
+			     " an embassy in %s"),
+			   unit_name(pdiplomat->type),
 			   get_nation_name_plural(pplayer->nation),
 			   pcity->name);
 	  
@@ -257,11 +271,12 @@ void handle_diplomat_action(struct player *pplayer,
 	pplayer->embassy|=(1<<pcity->owner);
 	send_player_info(pplayer, pplayer);
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 "Game: You have established an embassy in %s",
+			 _("Game: You have established an embassy in %s"),
 			 pcity->name);
 	
-	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, 
-			 "Game: The %s have established an embassy in %s",
+	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y,
+			 E_DIPLOMATED, 
+			 _("Game: The %s have established an embassy in %s"),
 		         get_nation_name_plural(pplayer->nation), pcity->name);
         gamelog(GAMELOG_EMBASSY,"%s establish an embassy in %s (%s) (%i,%i)\n",
                 get_nation_name_plural(pplayer->nation),
@@ -362,15 +377,17 @@ void handle_unit_build_city(struct player *pplayer,
   pcity = map_get_city(punit->x, punit->y);
   
   if (!unit_flag(punit->type, F_SETTLERS)) {
+    char *us = get_units_with_flag_string(F_SETTLERS);
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: Only Settlers or Engineers can build or add to a city.");
+		     _("Game: Only %s can build or add to a city."), us);
+    free(us);
     return;
   }  
 
   if(!punit->moves_left)  {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: %s unit has no moves left to %s city.",
-		     unit_name, (pcity?"add to":"build"));
+		     _("Game: %s unit has no moves left to %s city."),
+		     unit_name, (pcity ? _("add to") : _("build")));
     return;
   }
     
@@ -382,19 +399,19 @@ void handle_unit_build_city(struct player *pplayer,
       wipe_unit(0, punit);
       send_city_info(pplayer, pcity, 0);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: %s added to aid %s in growing", 
+		       _("Game: %s added to aid %s in growing"), 
 		       unit_name, pcity->name);
     } else {
       if(pcity->size > 8) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 "Game: %s is too big to add %s.",
+			 _("Game: %s is too big to add %s."),
 			 pcity->name, unit_name);
       }
       else if(improvement_exists(B_AQUEDUCT)
 	 && !city_got_building(pcity, B_AQUEDUCT) 
 	 && pcity->size >= game.aqueduct_size) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 "Game: %s needs %s to grow, so you cannot add %s.",
+			 _("Game: %s needs %s to grow, so you cannot add %s."),
 			 pcity->name, get_improvement_name(B_AQUEDUCT),
 			 unit_name);
       }
@@ -402,7 +419,7 @@ void handle_unit_build_city(struct player *pplayer,
 	      && !city_got_building(pcity, B_SEWER)
 	      && pcity->size >= game.sewer_size) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 "Game: %s needs %s to grow, so you cannot add %s.",
+			 _("Game: %s needs %s to grow, so you cannot add %s."),
 			 pcity->name, get_improvement_name(B_SEWER),
 			 unit_name);
       }
@@ -411,7 +428,7 @@ void handle_unit_build_city(struct player *pplayer,
 	freelog(LOG_NORMAL, "Cannot add %s to %s for unknown reason",
 		unit_name, pcity->name);
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 "Game: cannot add %s to %s.",
+			 _("Game: cannot add %s to %s."),
 			 unit_name, pcity->name);
       }
     }
@@ -420,13 +437,13 @@ void handle_unit_build_city(struct player *pplayer,
     
   if(!can_unit_build_city(punit)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		    "Game: Can't place city here.");
+		       _("Game: Can't place city here."));
       return;
   }
       
   if(!(name=get_sane_name(req->name))) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		     "Game: Let's not build a city with such a stupid name.");
+		     _("Game: Let's not build a city with such a stupid name."));
     return;
   }
 
@@ -503,10 +520,12 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     packet.y=pdefender->y;
     if ((pcity=sdi_defense_close(punit->owner, pdefender->x, pdefender->y))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
-		       "Game: Your Nuclear missile was shot down by SDI defences, what a waste.");
+		       _("Game: Your Nuclear missile was shot down by"
+			 " SDI defences, what a waste."));
       notify_player_ex(&game.players[pcity->owner], 
 		       pdefender->x, pdefender->y, E_UNIT_WIN, 
-		       "Game: The nuclear attack on %s was avoided by your SDI defense.",
+		       _("Game: The nuclear attack on %s was avoided by"
+			 " your SDI defense."),
 		       pcity->name); 
       wipe_unit(0, punit);
       return;
@@ -562,8 +581,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 
     notify_player_ex(get_player(pwinner->owner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		     "Game: Your %s%s survived the pathetic attack"
-		     " from %s's %s.",
+		     _("Game: Your %s%s survived the pathetic attack"
+		     " from %s's %s."),
 		     unit_name(pwinner->type), 
 		     get_location_str_in(get_player(pwinner->owner),
 					 pwinner->x, pwinner->y, " "),
@@ -572,7 +591,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     
     notify_player_ex(get_player(plooser->owner),
 		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
-		     "Game: Your attacking %s failed against %s's %s%s!",
+		     _("Game: Your attacking %s failed against %s's %s%s!"),
 		     unit_name(plooser->type),
 		     get_player(pwinner->owner)->name,
 		     unit_name(pwinner->type),
@@ -591,7 +610,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 
     notify_player_ex(get_player(pwinner->owner), 
 		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     "Game: Your attacking %s was successful against %s's %s%s!",
+		     _("Game: Your attacking %s was successful"
+		       " against %s's %s%s!"),
 		     unit_name(pwinner->type),
 		     get_player(plooser->owner)->name,
 		     unit_name(plooser->type),
@@ -615,6 +635,7 @@ int handle_unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer=&game.players[punit->owner];
   int ok = 1;
+  int cred;
 
   if ((game.civstyle==1) && is_air_unit(punit)) {
     return ok;
@@ -625,34 +646,38 @@ int handle_unit_enter_hut(struct unit *punit)
 
   if ((game.civstyle==2) && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: Your overflight frightens the tribe; they scatter in terror.");
+		     _("Game: Your overflight frightens the tribe;"
+		       " they scatter in terror."));
     return ok;
   }
 
   switch (myrand(12)) {
   case 0:
+    cred = 25;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-		     "Game: You found 25 credits.");
-    pplayer->economic.gold+=25;
+		     _("Game: You found %d credits."), cred);
+    pplayer->economic.gold += cred;
     break;
   case 1:
   case 2:
   case 3:
+    cred = 50;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		  "Game: You found 50 credits.");
+		     _("Game: You found %d credits."), cred);
     pplayer->economic.gold+=50;
     break;
   case 4:
+    cred = 100;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: You found 100 credits."); 
-    pplayer->economic.gold+=100;
+		     _("Game: You found %d credits."), cred); 
+    pplayer->economic.gold += cred;
     break;
   case 5:
   case 6:
   case 7:
 /*this function is hmmm a hack */
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		  "Game: You found ancient scrolls of wisdom."); 
+		     _("Game: You found ancient scrolls of wisdom.")); 
     {
       int res=pplayer->research.researched;
       int wasres=pplayer->research.researching;
@@ -662,7 +687,7 @@ int handle_unit_enter_hut(struct unit *punit)
       pplayer->research.researchpoints++;
       if (pplayer->research.researching!=A_NONE) {
        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                        "Game: You gain knowledge about %s.", 
+                        _("Game: You gain knowledge about %s."), 
                         advances[pplayer->research.researching].name);
        if (tech_flag(pplayer->research.researching,TF_RAILROAD)) {
 	 upgrade_city_rails(pplayer, 1);
@@ -672,7 +697,7 @@ int handle_unit_enter_hut(struct unit *punit)
       else {
        pplayer->future_tech++;
        notify_player(pplayer,
-                     "Game: You gain knowledge about Future Tech. %d.",
+                     _("Game: You gain knowledge about Future Tech. %d."),
                      pplayer->future_tech);
       }
       remove_obsolete_buildings(pplayer);
@@ -691,16 +716,19 @@ int handle_unit_enter_hut(struct unit *punit)
   case 8:
   case 9:
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: A band of friendly mercenaries joins your cause.");
-    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(), 0, punit->homecity, -1);
+		     _("Game: A band of friendly mercenaries"
+		       " joins your cause."));
+    create_unit(pplayer, punit->x, punit->y, find_a_unit_type(),
+		0, punit->homecity, -1);
     break;
   case 10:
     if (in_city_radius(punit->x, punit->y))
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: An abandoned village is here.");
+		       _("Game: An abandoned village is here."));
     else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: Your unit has been slaughtered by a band of cowardly barbarians.");
+		       _("Game: Your unit has been slaughtered by a band"
+			 " of cowardly barbarians."));
       wipe_unit(pplayer, punit);
       ok = 0;
     }
@@ -717,7 +745,8 @@ int handle_unit_enter_hut(struct unit *punit)
       create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
     } else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		   "Game: Friendly nomads are impressed by you, and join you.");
+		       _("Game: Friendly nomads are impressed by you,"
+			 " and join you."));
       create_unit(pplayer, punit->x, punit->y, get_role_unit(F_SETTLERS,0),
 		  0, punit->homecity, -1);
     }
@@ -789,12 +818,12 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     if(can_unit_attack_tile(punit,dest_x , dest_y)) {
       if(punit->moves_left<=0)  {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 "Game: This unit has no moves left.");
+			 _("Game: This unit has no moves left."));
         return 0;
       } else if (pplayer->ai.control && punit->activity == ACTIVITY_GOTO) {
 /* DO NOT Auto-attack.  Findvictim routine will decide if we should. */
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 "Game: Aborting GOTO for AI attack procedures.");
+			 _("Game: Aborting GOTO for AI attack procedures."));
         return 0;
       } else {
         if (pplayer->ai.control && punit->ai.passenger) {
@@ -814,7 +843,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
         }
         if (get_unit_type(punit->type)->attack_strength == 0) {
           char message[MAX_LEN_NAME + 64];
-          sprintf(message, "Game: A %s cannot attack other units.",
+          sprintf(message, _("Game: A %s cannot attack other units."),
                            unit_name(punit->type));
           notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
                            message);
@@ -825,13 +854,14 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       };
     } else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: You can't attack there.");
+		       _("Game: You can't attack there."));
       return 0;
     };
   } else if (punit->ai.bodyguard > 0 && (bodyguard = unit_list_find(&map_get_tile(punit->x,
       punit->y)->units, punit->ai.bodyguard)) && !bodyguard->moves_left) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-       "Game: %s doesn't want to leave its bodyguard.", unit_types[punit->type].name);
+		     _("Game: %s doesn't want to leave its bodyguard."),
+		     unit_types[punit->type].name);
   } else if (pplayer->ai.control && punit->moves_left <=
              map_move_cost(punit, dest_x, dest_y) &&
              unit_types[punit->type].move_rate >
@@ -840,8 +870,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
              !enemies_at(punit, punit->x, punit->y)) {
 /* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-       "Game: %s ending move early to stay out of trouble.",
-       unit_types[punit->type].name);
+		     _("Game: %s ending move early to stay out of trouble."),
+		     unit_types[punit->type].name);
   } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
     
@@ -849,7 +879,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       if (pcity->owner!=punit->owner &&  
 	  (is_air_unit(punit) || !is_military_unit(punit))) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 "Game: Only ground troops can take over a city.");
+			 _("Game: Only ground troops can take over a city."));
 	return 0;
       }
     }
@@ -990,7 +1020,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
 
   connection_do_buffer(pplayer->conn);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		   "Game: Your %s helps build the %s in %s. (%d remaining)", 
+		   _("Game: Your %s helps build the %s in %s. (%d remaining)"), 
 		   unit_name(punit->type),
 		   get_improvement_type(pcity_dest->currently_building)->name,
 		   pcity_dest->name, 
@@ -1031,25 +1061,26 @@ int handle_unit_establish_trade(struct player *pplayer,
   if (!can_establish_trade_route(pcity_homecity, pcity_dest)) {
     int i;
     notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		     "Game: Sorry. Your %s cannot establish a trade route here!",
+		     _("Game: Sorry. Your %s cannot establish"
+		       " a trade route here!"),
 		     unit_name(punit->type));
     for (i=0;i<4;i++) {
       if (pcity_homecity->trade[i]==pcity_dest->id) {
 	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		      "      A traderoute already exists between %s and %s!",
+		      _("      A traderoute already exists between %s and %s!"),
 		      pcity_homecity->name, pcity_dest->name);
 	return 0;
       }
     }
     if (city_num_trade_routes(pcity_homecity)==4) {
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       "      The city of %s already has 4 trade routes!",
+		       _("      The city of %s already has 4 trade routes!"),
 		       pcity_homecity->name);
       return 0;
     } 
     if (city_num_trade_routes(pcity_dest)==4) {
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       "      The city of %s already has 4 trade routes!",
+		       _("      The city of %s already has 4 trade routes!"),
 		       pcity_dest->name);
       return 0;
     }
@@ -1059,8 +1090,8 @@ int handle_unit_establish_trade(struct player *pplayer,
   revenue = establish_trade_route(pcity_homecity, pcity_dest);
   connection_do_buffer(pplayer->conn);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		   "Game: Your %s has arrived in %s,"
-		   " and revenues amount to %d in gold.", 
+		   _("Game: Your %s has arrived in %s,"
+		   " and revenues amount to %d in gold."), 
 		   unit_name(punit->type), pcity_dest->name, revenue);
   wipe_unit(0, punit);
   pplayer->economic.gold+=revenue;
@@ -1106,9 +1137,9 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 
     if (pcity->size<1) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: You destroy %s completely.", pcity->name);
+		       _("Game: You destroy %s completely."), pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		    "Game: %s has been destroyed by %s", 
+		    _("Game: %s has been destroyed by %s"), 
 		    pcity->name, pplayer->name);
       gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
               pcity->name,
@@ -1128,10 +1159,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     send_player_info(cplayer, cplayer);
     if (pcity->original != pplayer->player_no) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You conquer %s, your lootings accumulate to %d gold!", 
+		       _("Game: You conquer %s, your lootings accumulate"
+			 " to %d gold!"), 
 		       pcity->name, coins);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		       "Game: %s conquered %s and looted %d gold from the city.",
+		       _("Game: %s conquered %s and looted %d gold"
+			 " from the city."),
 		       pplayer->name, pcity->name, coins);
       gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
               pcity->name,
@@ -1141,11 +1174,13 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
  
     } else {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You have liberated %s!! lootings accumulate to %d gold.",
+		       _("Game: You have liberated %s!!"
+			 " lootings accumulate to %d gold."),
 		       pcity->name, coins);
       
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
-		       "Game: %s liberated %s and looted %d gold from the city.",
+		       _("Game: %s liberated %s and looted %d gold"
+			 " from the city."),
 		       pplayer->name, pcity->name, coins);
       gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
               pcity->name,
@@ -1181,7 +1216,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
        (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) &&
        (!player_knows_techs_with_flag(cplayer, TF_RAILROAD)) &&
        (!(map_get_special(pnewcity->x,pnewcity->y)&S_RAILROAD))) {
-      notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+      notify_player(pplayer,
+		    _("Game: The people in %s are stunned by your"
+		      " technological insight!\n"
+		      "      Workers spontaneously gather and upgrade"
+		      " the city with railroads."),
+		    pnewcity->name);
       map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
       send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
     }

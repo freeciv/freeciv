@@ -324,14 +324,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 					       pdialog->dip_main_form, 
 					       NULL);
   
-  sprintf(buf, "The %s offerings", get_nation_name(plr0->nation));
+  sprintf(buf, _("The %s offerings"), get_nation_name(plr0->nation));
   pdialog->dip_headline0=XtVaCreateManagedWidget("dipheadline0", 
 						 labelWidgetClass, 
 						 pdialog->dip_form0, 
 						 XtNlabel, buf,
 						 NULL);   
 
-  sprintf(buf, "The %s offerings", get_nation_name(plr1->nation));
+  sprintf(buf, _("The %s offerings"), get_nation_name(plr1->nation));
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadline1", 
 						 labelWidgetClass, 
 						 pdialog->dip_form1, 
@@ -349,10 +349,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 pdialog->dip_map_menubutton0, 
 				 NULL);
   
-  entry=XtVaCreateManagedWidget("World-map", smeBSBObjectClass, popupmenu, NULL);
-  XtAddCallback(entry, XtNcallback, diplomacy_dialog_map_callback, (XtPointer)pdialog);
-  entry=XtVaCreateManagedWidget("Sea-map", smeBSBObjectClass, popupmenu, NULL);
-  XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback, (XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("World-map"), smeBSBObjectClass,
+				popupmenu, NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_map_callback,
+		(XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("Sea-map"), smeBSBObjectClass,
+				popupmenu, NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback,
+		(XtPointer)pdialog);
   
   pdialog->dip_map_menubutton1 =
     I_L(XtVaCreateManagedWidget("dipmapmenubutton1", 
@@ -363,10 +367,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 simpleMenuWidgetClass, 
 				 pdialog->dip_map_menubutton1, 
 				 NULL);
-  entry=XtVaCreateManagedWidget("World-map", smeBSBObjectClass, popupmenu, NULL);
-  XtAddCallback(entry, XtNcallback, diplomacy_dialog_map_callback, (XtPointer)pdialog);
-  entry=XtVaCreateManagedWidget("Sea-map", smeBSBObjectClass, popupmenu, NULL);
-  XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback, (XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("World-map"), smeBSBObjectClass,
+				popupmenu, NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_map_callback,
+		(XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("Sea-map"), smeBSBObjectClass,
+				popupmenu, NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_seamap_callback,
+		(XtPointer)pdialog);
   
 
   pdialog->dip_tech_menubutton0 =
@@ -451,7 +459,9 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   NULL);
 
   
-  sprintf(buf, "This Eternal Treaty\nmarks the results of the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s",
+  sprintf(buf, _("This Eternal Treaty\n"
+		 "marks the results of the diplomatic work between\n"
+		 "The %s %s %s\nand\nThe %s %s %s"),
 	  get_nation_name(plr0->nation),
 	  get_ruler_title(plr0->government, plr0->is_male, plr0->nation),
 	  plr0->name,
@@ -586,26 +596,26 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     
     switch(pclause->type) {
      case CLAUSE_ADVANCE:
-      sprintf(pdialog->clauselist_strings[i], "The %s give %s",
+      sprintf(pdialog->clauselist_strings[i], _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      advances[pclause->value].name);
       break;
     case CLAUSE_CITY:
-      sprintf(pdialog->clauselist_strings[i], "The %s give %s",
+      sprintf(pdialog->clauselist_strings[i], _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
-      sprintf(pdialog->clauselist_strings[i], "The %s give %d gold",
+      sprintf(pdialog->clauselist_strings[i], _("The %s give %d gold"),
 	      get_nation_name_plural(pclause->from->nation),
 	      pclause->value);
       break;
      case CLAUSE_MAP: 
-      sprintf(pdialog->clauselist_strings[i], "The %s give their worldmap",
+      sprintf(pdialog->clauselist_strings[i], _("The %s give their worldmap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
      case CLAUSE_SEAMAP: 
-      sprintf(pdialog->clauselist_strings[i], "The %s give their seamap",
+      sprintf(pdialog->clauselist_strings[i], _("The %s give their seamap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
     }
@@ -882,6 +892,6 @@ void diplo_dialog_returnkey(Widget w, XEvent *event, String *params,
       XtVaSetValues(w, XtNstring, "", NULL);
     }
     else
-      append_output_window("Game: Invalid amount of gold specified");
+      append_output_window(_("Game: Invalid amount of gold specified"));
   }
 }

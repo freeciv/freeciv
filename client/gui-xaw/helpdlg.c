@@ -123,11 +123,13 @@ extern char long_buffer[64000];	      /* helpdata.c */
 *****************************************************************/
 static void set_title_topic(const struct help_item *pitem)
 {
-  if(!strcmp(pitem->topic, "Freeciv") || 
-     !strcmp(pitem->topic, "About"))
+  if(!strcmp(pitem->topic, "Freeciv")
+     || !strcmp(pitem->topic, "About")
+     || !strcmp(pitem->topic, _("About"))) {
     xaw_set_label(help_title, FREECIV_NAME_VERSION);
-  else
-  xaw_set_label(help_title, pitem->topic);
+  } else {
+    xaw_set_label(help_title, pitem->topic);
+  }
 }
 
 
@@ -269,7 +271,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   
   if(tech==A_LAST ||
      (advances[tech].req[0]==A_LAST && advances[tech].req[1]==A_LAST))  {
-    strcpy(label,"Removed");
+    strcpy(label, _("Removed"));
     bg=TREE_NODE_REMOVED_TECH_BG;
     l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
 			      tree,
@@ -776,7 +778,7 @@ static void help_update_improvement(const struct help_item *pitem,
     sprintf(buf, "%d ", imp->variant);
     xaw_set_label(help_improvement_variant_data, buf);
     if (imp->tech_requirement == A_LAST) {
-      xaw_set_label(help_improvement_req_data, "(Never)");
+      xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_requirement].name);
@@ -787,7 +789,7 @@ static void help_update_improvement(const struct help_item *pitem,
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_upkeep_data, "0 ");
     xaw_set_label(help_improvement_variant_data,"0 ");
-    xaw_set_label(help_improvement_req_data, "(Never)");
+    xaw_set_label(help_improvement_req_data, _("(Never)"));
     create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
   }
   set_title_topic(pitem);
@@ -812,7 +814,7 @@ static void help_update_wonder(const struct help_item *pitem,
     sprintf(buf, "%d ", imp->variant);
     xaw_set_label(help_wonder_variant_data, buf);
     if (imp->tech_requirement == A_LAST) {
-      xaw_set_label(help_improvement_req_data, "(Never)");
+      xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_requirement].name);
@@ -825,8 +827,8 @@ static void help_update_wonder(const struct help_item *pitem,
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_wonder_variant_data, "0 ");
-    xaw_set_label(help_improvement_req_data, "(Never)");
-    xaw_set_label(help_wonder_obsolete_data, "None");
+    xaw_set_label(help_improvement_req_data, _("(Never)"));
+    xaw_set_label(help_wonder_obsolete_data, _("None"));
     create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3); 
   }
   set_title_topic(pitem);
@@ -861,14 +863,14 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_visrange_data, buf);
     xaw_set_label(help_unit_upkeep_data, helptext_unit_upkeep_str(i));
     if(utype->tech_requirement==A_LAST) {
-      xaw_set_label(help_improvement_req_data, "(Never)");
+      xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advances[utype->tech_requirement].name);
     }
     create_tech_tree(help_tech_tree, 0, utype->tech_requirement, 3);
     if(utype->obsoleted_by==-1) {
-      xaw_set_label(help_wonder_obsolete_data, "None");
+      xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,
 		    get_unit_type(utype->obsoleted_by)->name);
@@ -885,9 +887,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_fp_data, "0 ");
     xaw_set_label(help_unit_hp_data, "0 ");
     xaw_set_label(help_unit_visrange_data, "0 ");
-    xaw_set_label(help_improvement_req_data, "(Never)");
+    xaw_set_label(help_improvement_req_data, _("(Never)"));
     create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
-    xaw_set_label(help_wonder_obsolete_data, "None");
+    xaw_set_label(help_wonder_obsolete_data, _("None"));
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
   xaw_set_bitmap(help_unit_tile, create_overlay_unit(i));
@@ -911,26 +913,26 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
     for(j=0; j<B_LAST; ++j) {
       if(i==improvement_types[j].tech_requirement) 
-	sprintf(buf+strlen(buf), "Allows %s.\n",
+	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
     }
     for(j=0; j<game.num_unit_types; ++j) {
       if(i==get_unit_type(j)->tech_requirement) 
-	sprintf(buf+strlen(buf), "Allows %s.\n", 
+	sprintf(buf+strlen(buf), _("Allows %s.\n"), 
 		get_unit_type(j)->name);
     }
 
     for(j=0; j<game.num_tech_types; ++j) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE)
-	  sprintf(buf+strlen(buf), "Allows %s.\n", 
+	  sprintf(buf+strlen(buf), _("Allows %s.\n"), 
 		  advances[j].name);
 	else
-	  sprintf(buf+strlen(buf), "Allows %s (with %s).\n", 
+	  sprintf(buf+strlen(buf), _("Allows %s (with %s).\n"), 
 		  advances[j].name, advances[advances[j].req[1]].name);
       }
       if(i==advances[j].req[1]) {
-	sprintf(buf+strlen(buf), "Allows %s (with %s).\n", 
+	sprintf(buf+strlen(buf), _("Allows %s (with %s).\n"), 
 		advances[j].name, advances[advances[j].req[0]].name);
       }
     }
@@ -977,7 +979,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_1_name))
 	{
-	  sprintf (buf, "%s F/R/T:",
+	  sprintf (buf, _("%s F/R/T:"),
 		   tile_types[i].special_1_name);
 	  xaw_set_label (help_terrain_special_1, buf);
 	  sprintf (buf, "%d/%d/%d",
@@ -992,7 +994,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_2_name))
 	{
-	  sprintf (buf, "%s F/R/T:",
+	  sprintf (buf, _("%s F/R/T:"),
 		   tile_types[i].special_2_name);
 	  xaw_set_label (help_terrain_special_2, buf);
 	  sprintf (buf, "%d/%d/%d",
@@ -1007,27 +1009,27 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (tile_types[i].road_trade_incr > 0)
 	{
-	  sprintf (buf, "+%d Trade / %d",
+	  sprintf (buf, _("+%d Trade / %d"),
 		   tile_types[i].road_trade_incr,
 		   tile_types[i].road_time);
 	}
       else if (tile_types[i].road_time > 0)
 	{
-	  sprintf (buf, "no extra / %d",
+	  sprintf (buf, _("no extra / %d"),
 		   tile_types[i].road_time);
 	}
       else
 	{
-	  strcpy (buf, "n/a");
+	  strcpy (buf, _("n/a"));
 	}
       xaw_set_label (help_terrain_road_result_time_data, buf);
 
-      strcpy (buf, "n/a");
+      strcpy (buf, _("n/a"));
       if (tile_types[i].irrigation_result == i)
 	{
 	  if (tile_types[i].irrigation_food_incr > 0)
 	    {
-	      sprintf (buf, "+%d Food / %d",
+	      sprintf (buf, _("+%d Food / %d"),
 		       tile_types[i].irrigation_food_incr,
 		       tile_types[i].irrigation_time);
 	    }
@@ -1040,12 +1042,12 @@ static void help_update_terrain(const struct help_item *pitem,
 	}
       xaw_set_label (help_terrain_irrigation_result_time_data, buf);
 
-      strcpy (buf, "n/a");
+      strcpy (buf, _("n/a"));
       if (tile_types[i].mining_result == i)
 	{
 	  if (tile_types[i].mining_shield_incr > 0)
 	    {
-	      sprintf (buf, "+%d Res. / %d",
+	      sprintf (buf, _("+%d Res. / %d"),
 		       tile_types[i].mining_shield_incr,
 		       tile_types[i].mining_time);
 	    }
@@ -1064,7 +1066,7 @@ static void help_update_terrain(const struct help_item *pitem,
 		   tile_types[tile_types[i].transform_result].terrain_name,
 		   tile_types[i].transform_time);
 	} else {
-	  strcpy (buf, "n/a");
+	  strcpy (buf, _("n/a"));
 	}
       xaw_set_label (help_terrain_transform_result_time_data, buf);
     }

@@ -190,8 +190,8 @@ int main(int argc, char *argv[])
     else if ((option = get_option("--gamelog",argv,&i,argc)) != NULL)
         gamelog_filename=option;
     else if(is_option("--nometa", argv[i])) { 
-      fprintf(stderr, "Warning: the %s option is obsolete.  "
-	              "Use -m to enable the metaserver.\n", argv[i]);
+      fprintf(stderr, _("Warning: the %s option is obsolete.  "
+	              "Use -m to enable the metaserver.\n"), argv[i]);
       h=1;
     }
     else if(is_option("--meta", argv[i]))
@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
     else if(is_option("--version",argv[i])) 
       v=1;
     else {
-      fprintf(stderr, "Error: unknown option '%s'\n", argv[i]);
+      fprintf(stderr, _("Error: unknown option '%s'\n"), argv[i]);
       h=1;
       break;
     }
@@ -232,27 +232,27 @@ int main(int argc, char *argv[])
   }
 
   con_write(C_VERSION, _("This is the server for %s"), FREECIV_NAME_VERSION);
-  con_write(C_COMMENT, "You can learn a lot about Freeciv at %s",
+  con_write(C_COMMENT, _("You can learn a lot about Freeciv at %s"),
 	    WEBSITE_URL);
 
   if(h) {
-    fprintf(stderr, "  -f, --file F\t\tLoad saved game F\n");
-    fprintf(stderr, "  -g, --gamelog F\tUse F as game logfile\n");
-    fprintf(stderr, "  -h, --help\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -l, --log F\t\tUse F as logfile\n");
-    fprintf(stderr, "  -m, --meta\t\tSend info to Metaserver\n");
-    fprintf(stderr, "  -M, --Metaserver\tSet Metaserver address.\n");
-    fprintf(stderr, "  -p, --port N\t\tconnect to port N\n");
-    fprintf(stderr, "  -r, --read\t\tRead startup script\n");
-    fprintf(stderr, "  -s, --server H\tList this server as host H\n");
+    fprintf(stderr, _("  -f, --file F\t\tLoad saved game F\n"));
+    fprintf(stderr, _("  -g, --gamelog F\tUse F as game logfile\n"));
+    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+    fprintf(stderr, _("  -l, --log F\t\tUse F as logfile\n"));
+    fprintf(stderr, _("  -m, --meta\t\tSend info to Metaserver\n"));
+    fprintf(stderr, _("  -M, --Metaserver\tSet Metaserver address.\n"));
+    fprintf(stderr, _("  -p, --port N\t\tconnect to port N\n"));
+    fprintf(stderr, _("  -r, --read\t\tRead startup script\n"));
+    fprintf(stderr, _("  -s, --server H\tList this server as host H\n"));
 #ifdef DEBUG
-    fprintf(stderr, "  -d, --debug N\t\tSet debug log level (0,1,2,3,"
-	                                "or 3:file1,min,max:...)\n");
+    fprintf(stderr, _("  -d, --debug N\t\tSet debug log level (0,1,2,3,"
+	                                "or 3:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, "  -d, --debug N\t\tSet debug log level (0,1,2)\n");
+    fprintf(stderr, _("  -d, --debug N\t\tSet debug log level (0,1,2)\n"));
 #endif
-    fprintf(stderr, "  -v, --version\t\tPrint the version number\n");
-    fprintf(stderr, "Report bugs to <%s>.\n", BUG_EMAIL_ADDRESS);
+    fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(0);
   }
 
@@ -269,8 +269,8 @@ int main(int argc, char *argv[])
   con_puts(C_COMMENT, "");
 #endif
 #if IS_BETA_VERSION
-  con_write(C_COMMENT, "Freeciv 1.9 will be released "
-	    "early October, at %s", WEBSITE_URL);
+  con_write(C_COMMENT, _("Freeciv 1.9 will be released "
+			 "early October, at %s"), WEBSITE_URL);
 #endif
   
   con_flush();
@@ -285,11 +285,11 @@ int main(int argc, char *argv[])
     struct timer *loadtimer, *uloadtimer;
     struct section_file file;
     
-    freelog(LOG_NORMAL,"Loading saved game: %s", load_filename);
+    freelog(LOG_NORMAL, _("Loading saved game: %s"), load_filename);
     loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
     uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     if(!section_file_load(&file, load_filename)) { 
-      freelog(LOG_FATAL, "Couldn't load savefile: %s", load_filename);
+      freelog(LOG_FATAL, _("Couldn't load savefile: %s"), load_filename);
       exit(1);
     }
     game.scenario=game_load(&file);
@@ -315,7 +315,7 @@ int main(int argc, char *argv[])
   init_connections(); 
   server_open_socket();
   if(no_meta==0) {
-    freelog(LOG_NORMAL, "Sending info to metaserver[%s %d]",
+    freelog(LOG_NORMAL, _("Sending info to metaserver[%s %d]"),
 	    metaserver_addr, METASERVER_PORT);
     server_open_udp(); /* open socket for meta server */ 
   }
@@ -323,7 +323,7 @@ int main(int argc, char *argv[])
   send_server_info_to_metaserver(1,0);
   
   /* accept new players, wait for serverop to start..*/
-  freelog(LOG_NORMAL, "Now accepting new client connections");
+  freelog(LOG_NORMAL, _("Now accepting new client connections"));
   server_state=PRE_GAME_STATE;
 
   if (script_filename)
@@ -375,7 +375,8 @@ main_start_players:
       if(i>0) {
 	server_state=RUN_GAME_STATE;
       } else {
-	con_write(C_COMMENT, "Last player has disconnected: will need to restart.");
+	con_write(C_COMMENT,
+		  _("Last player has disconnected: will need to restart."));
 	server_state=PRE_GAME_STATE;
 	while(server_state==PRE_GAME_STATE) {
 	  sniff_packets();
@@ -501,7 +502,7 @@ main_start_players:
 
   show_ending();
   
-  notify_player(0, "Game: The game is over..");
+  notify_player(0, _("Game: The game is over..."));
 
   while(server_state==GAME_OVER_STATE) {
     force_end_of_sniff=0;
@@ -543,7 +544,7 @@ static void read_init_script(char *script_filename)
       fclose(script_file);
     }
   else
-    freelog(LOG_NORMAL, "Could not open script file '%s'.",script_filename);
+    freelog(LOG_NORMAL, _("Could not open script file '%s'."), script_filename);
 }
 
 /**************************************************************************
@@ -699,8 +700,10 @@ static void update_pollution(void)
       global_warming(map.xsize/10+map.ysize/10+game.globalwarming*5);
       game.globalwarming=0;
       send_all_known_tiles(0);
-      notify_player_ex(0, 0,0, E_WARMING, "Game: Global warming has occurred!");
-      notify_player(0, "Game: Coastlines have been flooded and vast ranges of grassland have become deserts.");
+      notify_player_ex(0, 0,0, E_WARMING,
+		       _("Game: Global warming has occurred!"));
+      notify_player(0, _("Game: Coastlines have been flooded and vast ranges "
+			 "of grassland have become deserts."));
       game.warminglevel+=4;
     }
   }
@@ -795,9 +798,9 @@ void save_game(char *filename)
   game_save(&file);
   
   if(!section_file_save(&file, filename))
-    con_write(C_FAIL, "Failed saving game as %s", filename);
+    con_write(C_FAIL, _("Failed saving game as %s"), filename);
   else
-    con_write(C_OK, "Game saved as %s", filename);
+    con_write(C_OK, _("Game saved as %s"), filename);
 
   section_file_free(&file);
 }
@@ -823,11 +826,11 @@ static void save_game_auto(void)
 void start_game(void)
 {
   if(server_state!=PRE_GAME_STATE) {
-    con_puts(C_SYNTAX, "the game is already running.");
+    con_puts(C_SYNTAX, _("the game is already running."));
     return;
   }
 
-  con_puts(C_OK, "starting game.");
+  con_puts(C_OK, _("starting game."));
 
   server_state=SELECT_RACES_STATE; /* loaded ??? */
   force_end_of_sniff=1;
@@ -1139,13 +1142,13 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
        if (!strcmp(game.players[i].name,packet->name) && 
             game.players[i].nation != MAX_NUM_NATIONS) { 
        notify_player(&game.players[player_no],
-		     "Another player named '%s' has already joined the game.  "
-		     "Please choose another name.", packet->name);
+		     _("Another player named '%s' has already joined the game.  "
+		       "Please choose another name."), packet->name);
        send_select_nation(&game.players[player_no]);
        return;
     }
 
-  freelog(LOG_NORMAL, "%s is the %s ruler %s", game.players[player_no].name, 
+  freelog(LOG_NORMAL, _("%s is the %s ruler %s"), game.players[player_no].name, 
       get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
@@ -1172,8 +1175,10 @@ static void handle_alloc_nation(int player_no, struct packet_alloc_nation *packe
   if( nations_used == game.nation_count ) {
     for(i=0; i<game.nplayers; i++) {
       if( game.players[i].nation == MAX_NUM_NATIONS ) {
-        reject_new_player("Sorry you can't play. There's no nation left.", game.players[i].conn);
-	freelog(LOG_NORMAL, "Game full - %s was rejected.", game.players[i].name);    
+        reject_new_player(_("Sorry you can't play. There's no nation left."),
+			  game.players[i].conn);
+	freelog(LOG_NORMAL, _("Game full - %s was rejected."),
+		game.players[i].name);    
 	server_remove_player(&game.players[i]);
       }
     }
@@ -1223,13 +1228,24 @@ static void join_game_accept(struct player *pplayer, int rejoin)
   sprintf(packet.message, "%s %s.", (rejoin?"Welcome back":"Welcome"),
 				     pplayer->name);
   send_packet_join_game_reply(pplayer->conn, &packet);
-  freelog(LOG_NORMAL, "<%s@%s> has %sjoined the game.",
-	  pplayer->name, pplayer->addr, (rejoin?"re":""));
+  if (rejoin) {
+    freelog(LOG_NORMAL, _("<%s@%s> has rejoined the game."),
+	    pplayer->name, pplayer->addr);
+  } else {
+    freelog(LOG_NORMAL, _("<%s@%s> has joined the game."),
+	    pplayer->name, pplayer->addr);
+  }
   for(i=0; i<game.nplayers; ++i) {
     if (pplayer != &game.players[i]) {
-      notify_player(&game.players[i],
-	  	    "Game: Player <%s@%s> has %sconnected.",
-		    pplayer->name, pplayer->addr, (rejoin?"re":""));
+      if (rejoin) {
+	notify_player(&game.players[i],
+		      _("Game: Player <%s@%s> has reconnected."),
+		      pplayer->name, pplayer->addr);
+      } else {
+	notify_player(&game.players[i],
+		      _("Game: Player <%s@%s> has connected."),
+		      pplayer->name, pplayer->addr);
+      }
     }
   }
 }
@@ -1247,10 +1263,10 @@ static void introduce_game_to_player(struct player *pplayer)
     return;
   
   if (gethostname(hostname, 512)==0) {
-    notify_player(pplayer, "Welcome to the %s Server running at %s", 
+    notify_player(pplayer, _("Welcome to the %s Server running at %s"), 
 		  FREECIV_NAME_VERSION, hostname);
   } else {
-    notify_player(pplayer, "Welcome to the %s Server",
+    notify_player(pplayer, _("Welcome to the %s Server"),
 		  FREECIV_NAME_VERSION);
   }
 
@@ -1267,7 +1283,8 @@ static void introduce_game_to_player(struct player *pplayer)
          }
 
          notify_player(pplayer,
-                       "turn-blocking game play: waiting on %s to finish turn...",
+                       _("turn-blocking game play: "
+			 "waiting on %s to finish turn..."),
                        game.players[i].name);
       }
     }
@@ -1281,31 +1298,32 @@ static void introduce_game_to_player(struct player *pplayer)
     nconn += (game.players[i].is_connected);
   }
   if (nconn != 1) {
-    notify_player(pplayer, "There are currently %d players connected:", nconn);
+    notify_player(pplayer, _("There are currently %d players connected:"),
+		  nconn);
   } else {
-    notify_player(pplayer, "There is currently 1 player connected:");
+    notify_player(pplayer, _("There is currently 1 player connected:"));
   }
   for(i=0; i<game.nplayers; ++i) {
     cplayer = &game.players[i];
     if (cplayer->is_connected) {
       notify_player(pplayer, "  <%s@%s>%s", cplayer->name, cplayer->addr,
-		    ((!cplayer->is_alive) ? " (R.I.P.)"
-		     :cplayer->ai.control ? " (AI mode)" : ""));
+		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
+		     :cplayer->ai.control ? _(" (AI mode)") : ""));
     }
   }
   nother = game.nplayers - nconn;
   if (nother > 0) {
     if (nother == 1) {
-      notify_player(pplayer, "There is 1 other player:");
+      notify_player(pplayer, _("There is 1 other player:"));
     } else {
-      notify_player(pplayer, "There are %d other players:", nother);
+      notify_player(pplayer, _("There are %d other players:"), nother);
     }
     for(i=0; i<game.nplayers; ++i) {
       cplayer = &game.players[i];
       if (!cplayer->is_connected) {
 	notify_player(pplayer, "  %s%s", cplayer->name, 
-		    ((!cplayer->is_alive) ? " (R.I.P.)"
-		     :cplayer->ai.control ? " (an AI player)" : ""));
+		    ((!cplayer->is_alive) ? _(" (R.I.P.)")
+		     :cplayer->ai.control ? _(" (an AI player)") : ""));
       }
     }
   }
@@ -1336,8 +1354,9 @@ void accept_new_player(char *name, struct connection *pconn)
     strcpy(pplayer->addr, pconn->addr); 
     join_game_accept(pplayer, 0);
   } else {
-    freelog(LOG_NORMAL, "%s has been added as an AI-controlled player.", name);
-    notify_player(0, "Game: %s has been added as an AI-controlled player.",
+    freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
+	    name);
+    notify_player(0, _("Game: %s has been added as an AI-controlled player."),
 		  name);
   }
 
@@ -1372,37 +1391,39 @@ static void handle_request_join_game(struct connection *pconn,
   char msg[MAX_LEN_MSG];
   
   freelog(LOG_NORMAL,
-	  "Connection request from %s with client version %d.%d.%d%s",
+	  _("Connection request from %s with client version %d.%d.%d%s"),
 	  req->name, req->major_version, req->minor_version,
 	  req->patch_version, req->version_label);
   freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
-  freelog(LOG_VERBOSE, "Server Caps: %s", our_capability);
+  freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
   strcpy(pconn->capability, req->capability);
   
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
-    sprintf(msg, "The client is missing a capability that this server needs.\n"
-	    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
-	    "  Upgrading may help!",
+    sprintf(msg, _("The client is missing a capability that this server needs.\n"
+		   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
+		   "  Upgrading may help!"),
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
 	    req->major_version, req->minor_version,
 	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
+    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities"),
+	    req->name);
     close_connection(pconn);
     return;
   }
 
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(req->capability, our_capability)) {
-    sprintf(msg, "The server is missing a capability that the client needs.\n"
-	    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
-	    "  Upgrading may help!",
+    sprintf(msg, _("The server is missing a capability that the client needs.\n"
+		   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
+		   "  Upgrading may help!"),
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
 	    req->major_version, req->minor_version,
 	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
+    freelog(LOG_NORMAL, _("%s was rejected: mismatched capabilities"),
+	    req->name);
     close_connection(pconn);
     return;
   }
@@ -1426,8 +1447,8 @@ static void handle_request_join_game(struct connection *pconn,
 
     if(server_state==PRE_GAME_STATE) {
       if(game.nplayers==game.max_players) {
-	reject_new_player("Sorry you can't join. The game is full.", pconn);
-	freelog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
+	reject_new_player(_("Sorry you can't join. The game is full."), pconn);
+	freelog(LOG_NORMAL, _("game full - %s was rejected."), req->name);    
 	close_connection(pconn);
         return;
       }
@@ -1437,19 +1458,19 @@ static void handle_request_join_game(struct connection *pconn,
 	 * because they are used to identify players for various
 	 * server commands. --dwp
 	 */
-	reject_new_player("Sorry, someone else already has that name.",
+	reject_new_player(_("Sorry, someone else already has that name."),
 			  pconn);
-	freelog(LOG_NORMAL, "%s was rejected, name already used.", req->name);
+	freelog(LOG_NORMAL, _("%s was rejected, name already used."), req->name);
 	close_connection(pconn);
 
         return;
       }
     }
 
-    sprintf(msg, "You can't join the game. %s is already connected.", 
+    sprintf(msg, _("You can't join the game. %s is already connected."), 
 	    pplayer->name);
     reject_new_player(msg, pconn);
-    freelog(LOG_NORMAL, "%s was rejected.", pplayer->name);
+    freelog(LOG_NORMAL, _("%s was rejected."), pplayer->name);
     close_connection(pconn);
 
     return;
@@ -1458,9 +1479,9 @@ static void handle_request_join_game(struct connection *pconn,
   /* unknown name */
 
   if(server_state!=PRE_GAME_STATE) {
-    reject_new_player("Sorry you can't join. The game is already running.",
+    reject_new_player(_("Sorry you can't join. The game is already running."),
 		      pconn);
-    freelog(LOG_NORMAL, "game running - %s was rejected.", req->name);
+    freelog(LOG_NORMAL, _("game running - %s was rejected."), req->name);
     lost_connection_to_player(pconn);
     close_connection(pconn);
 
@@ -1468,8 +1489,8 @@ static void handle_request_join_game(struct connection *pconn,
   }
 
   if(game.nplayers==game.max_players) {
-    reject_new_player("Sorry you can't join. The game is full.", pconn);
-    freelog(LOG_NORMAL, "game full - %s was rejected.", req->name);    
+    reject_new_player(_("Sorry you can't join. The game is full."), pconn);
+    freelog(LOG_NORMAL, _("game full - %s was rejected."), req->name);    
     close_connection(pconn);
 
     return;
@@ -1491,9 +1512,9 @@ void lost_connection_to_player(struct connection *pconn)
       game.players[i].conn=NULL;
       game.players[i].is_connected=0;
       strcpy(game.players[i].addr, "---.---.---.---");
-      freelog(LOG_NORMAL, "lost connection to %s", game.players[i].name);
+      freelog(LOG_NORMAL, _("lost connection to %s"), game.players[i].name);
       send_player_info(&game.players[i], 0);
-      notify_player(0, "Game: Lost connection to %s", game.players[i].name);
+      notify_player(0, _("Game: Lost connection to %s"), game.players[i].name);
 
       if(is_new_game && (server_state==PRE_GAME_STATE ||
 			 server_state==SELECT_RACES_STATE))
@@ -1502,7 +1523,7 @@ void lost_connection_to_player(struct connection *pconn)
       return;
     }
 
-  freelog(LOG_FATAL, "lost connection to unknown");
+  freelog(LOG_FATAL, _("lost connection to unknown"));
 }
 
 /**************************************************************************
@@ -1538,7 +1559,8 @@ static void generate_ai_players(void)
        continue;
 
     if( num_nations_avail == 0 ) {
-      freelog( LOG_NORMAL, "Run out of nations. AI controlled player %s not created.",
+      freelog( LOG_NORMAL,
+	       _("Run out of nations. AI controlled player %s not created."),
                game.players[player].name );
       server_remove_player(&game.players[player]);
       continue;
@@ -1569,7 +1591,8 @@ static void generate_ai_players(void)
 
   if( game.nation_count < game.aifill ) {
     game.aifill = game.nation_count;
-    freelog( LOG_NORMAL, "Nation count smaller than aifill. Aifill reduced to %d",
+    freelog( LOG_NORMAL,
+	     _("Nation count smaller than aifill; aifill reduced to %d"),
              game.nation_count);
   }
 
@@ -1591,7 +1614,8 @@ static void generate_ai_players(void)
            announce_ai_player(&game.players[i]);
 	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         } else
-	  con_write(C_FAIL, "Error creating new ai player: %s\n", player_name);
+	  con_write(C_FAIL, _("Error creating new ai player: %s\n"),
+		    player_name);
    }
 
   send_server_info_to_metaserver(1,0);
@@ -1627,7 +1651,7 @@ void pick_ai_player_name (Nation_Type_id nation, char *newname)
        }
      }
      while(find_player_by_name(tempname)) {
-       sprintf(tempname,"Player %d",playernumber++);
+       sprintf(tempname, _("Player %d"), playernumber++);
      }
    }
    strcpy(newname,tempname);
@@ -1643,7 +1667,7 @@ void pick_ai_player_name (Nation_Type_id nation, char *newname)
 static int mark_nation_as_used (int nation) 
 {
   if(num_nations_avail <= 0) {/* no more unused nation */
-      freelog(LOG_FATAL, "Argh! ran out of nations!");
+      freelog(LOG_FATAL, _("Argh! ran out of nations!"));
       exit(1);
   }
 
@@ -1660,13 +1684,13 @@ static int mark_nation_as_used (int nation)
 static void announce_ai_player (struct player *pplayer) {
    int i;
 
-   freelog(LOG_NORMAL, "AI is controlling the %s ruled by %s",
+   freelog(LOG_NORMAL, _("AI is controlling the %s ruled by %s"),
                     get_nation_name_plural(pplayer->nation),
                     pplayer->name);
 
    for(i=0; i<game.nplayers; ++i)
      notify_player(&game.players[i],
-  	     "Game: %s rules the %s.", pplayer->name,
+  	     _("Game: %s rules the %s."), pplayer->name,
                     get_nation_name_plural(pplayer->nation));
 
 }

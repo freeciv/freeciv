@@ -596,7 +596,7 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
   spy_tech_shell = 0l;
   
   if(!steal_advance){
-    freelog(LOG_NORMAL,"Bug in spy steal tech code.\n");
+    freelog(LOG_NORMAL,"Bug in spy steal tech code.");
     return;
   }
   
@@ -622,7 +622,7 @@ static void spy_sabotage_callback(GtkWidget *w, gpointer data)
   spy_sabotage_shell = 0l;
   
   if(!sabotage_improvement){
-    printf(_("Bug in spy sabotage code\n"));
+    freelog(LOG_NORMAL, "Bug in spy sabotage code");
     return;
   }
   

@@ -27,6 +27,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/List.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -90,7 +91,7 @@ void intel_create_dialog(struct player *p)
 				 formWidgetClass, 
 				 intel_dialog_shell, NULL);
   
-  sprintf(buf, "Intelligence Information for the %s Empire", 
+  sprintf(buf, _("Intelligence Information for the %s Empire"), 
 	  get_nation_name(p->nation));
   
   title=XtVaCreateManagedWidget("inteltitlelabel", 
@@ -99,7 +100,7 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);
   
-  sprintf(buf, "Ruler: %s %s", 
+  sprintf(buf, _("Ruler: %s %s"), 
 	  get_ruler_title(p->government, p->is_male, p->nation), p->name);
   XtVaCreateManagedWidget("intelnamelabel", 
 			  labelWidgetClass, 
@@ -107,49 +108,50 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);   
   
-  sprintf(buf, "Government: %s", get_government_name(p->government));
+  sprintf(buf, _("Government: %s"), get_government_name(p->government));
   XtVaCreateManagedWidget("intelgovlabel", 
 			  labelWidgetClass, 
 			  form, 
 			  XtNlabel, buf,
 			  NULL);   
   
-  sprintf(buf, "Gold: %d", p->economic.gold);
+  sprintf(buf, _("Gold: %d"), p->economic.gold);
   XtVaCreateManagedWidget("intelgoldlabel", 
 			  labelWidgetClass, 
 			  form, 
 			  XtNlabel, buf,
 			  NULL);   
 
-  sprintf(buf, "Tax: %d%%", p->economic.tax);
+  sprintf(buf, _("Tax: %d%%"), p->economic.tax);
   XtVaCreateManagedWidget("inteltaxlabel", 
 			  labelWidgetClass, 
 			  form, 
 			  XtNlabel, buf,
 			  NULL);   
 
-  sprintf(buf, "Science: %d%%", p->economic.science);
+  sprintf(buf, _("Science: %d%%"), p->economic.science);
   XtVaCreateManagedWidget("intelscilabel", 
 			  labelWidgetClass, 
 			  form, 
 			  XtNlabel, buf,
 			  NULL);   
 
-  sprintf(buf, "Luxury: %d%%", p->economic.luxury);
+  sprintf(buf, _("Luxury: %d%%"), p->economic.luxury);
   XtVaCreateManagedWidget("intelluxlabel", 
 			  labelWidgetClass, 
 			  form, 
 			  XtNlabel, buf,
 			  NULL);   
 
-  if (p->research.researching!=A_NONE)
-    sprintf(buf, "Researching: %s(%d/%d)", 
+  if (p->research.researching!=A_NONE) {
+    sprintf(buf, _("Researching: %s(%d/%d)"), 
            advances[p->research.researching].name,
            p->research.researched, 
            research_time(p));
-  else
-    sprintf(buf, "Researching Future Tech. %d: %d/%d",
+  } else {
+    sprintf(buf, _("Researching Future Tech. %d: %d/%d"),
            ((p->future_tech)+1),p->research.researched,research_time(p));
+  }
 
   XtVaCreateManagedWidget("intelreslabel", 
 			  labelWidgetClass, 
@@ -158,7 +160,7 @@ void intel_create_dialog(struct player *p)
 			  NULL);   
 
   pcity = find_palace(p);
-  sprintf(buf, "Capital: %s", (pcity==NULL)?"(Unknown)":pcity->name);
+  sprintf(buf, _("Capital: %s"), (pcity==NULL)?_("(Unknown)"):pcity->name);
   XtVaCreateManagedWidget("intelcapitallabel", 
 			  labelWidgetClass, 
 			  form, 

@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -105,7 +110,7 @@ char *city_name_suggestion(struct player *pplayer)
   }
 
   for (i = 0; i < 1000;i++ ) {
-    sprintf(tempname, "city %d", i);
+    sprintf(tempname, _("city %d"), i);
     if (!game_find_city_by_name(tempname)) 
       return tempname;
   }
@@ -284,7 +289,7 @@ void handle_city_make_specialist(struct player *pplayer,
     send_city_info(pplayer, pcity, 0);
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		     "Game: you don't have a worker here"); 
+		     _("Game: you don't have a worker here")); 
   }
 }
 
@@ -350,7 +355,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
 {  
   if (pcity->did_sell) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		  "Game: You have already sold something here this turn.");
+		  _("Game: You have already sold something here this turn."));
     return;
   }
 
@@ -359,7 +364,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
 
   pcity->did_sell=1;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
-		   "Game: You sell %s in %s for %d credits.", 
+		   _("Game: You sell %s in %s for %d credits."), 
 		   get_improvement_name(id), pcity->name,
 		   improvement_value(id));
   do_sell_building(pplayer, pcity, id);
@@ -387,25 +392,25 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
  
   if (pcity->did_buy > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		  "Game: You have already bought this turn.");
+		  _("Game: You have already bought this turn."));
     return;
   }
 
   if (pcity->did_buy < 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		  "Game: Cannot buy in city created this turn.");
+		  _("Game: Cannot buy in city created this turn."));
     return;
   }
 
   if (!pcity->is_building_unit && pcity->currently_building==B_CAPITAL)  {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-                     "Game: You don't buy Capitalization!");
+                     _("Game: You don't buy Capitalization!"));
     return;
   }
 
   if (pcity->is_building_unit && pcity->anarchy) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: Can't buy units when city is in disorder.");
+		     _("Game: Can't buy units when city is in disorder."));
     return;
   }
 
@@ -430,7 +435,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   connection_do_buffer(pplayer->conn);
   notify_player_ex(pplayer, pcity->x, pcity->y, 
                    pcity->is_building_unit?E_UNIT_BUY:E_IMP_BUY,
-		   "Game: %s bought in %s for %d gold.", 
+		   _("Game: %s bought in %s for %d gold."), 
 		   name, pcity->name, cost);
   send_city_info(pplayer, pcity, 1);
   send_player_info(pplayer,pplayer);
@@ -478,13 +483,13 @@ void handle_city_change(struct player *pplayer,
      return;
   if (pcity->did_buy && pcity->shield_stock) { /* did_buy > 0 should be same -- Syela */
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		     "Game: You have bought this turn, can't change.");
+		     _("Game: You have bought this turn, can't change."));
     return;
   }
 
    if(!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
-		   "Game: The %s have stopped building The %s in %s.",
+		   _("Game: The %s have stopped building The %s in %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_imp_name_ex(pcity, pcity->currently_building),
 		   pcity->name);
@@ -505,7 +510,7 @@ void handle_city_change(struct player *pplayer,
     
     if(is_wonder(preq->build_id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-		       "Game: The %s have started building The %s in %s.",
+		       _("Game: The %s have started building The %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_imp_name_ex(pcity, pcity->currently_building),
 		       pcity->name);
@@ -537,7 +542,7 @@ void handle_city_rename(struct player *pplayer,
     send_city_info(pplayer, pcity, 1);
   }
   else
-    notify_player(pplayer, "Game: %s is not a valid name.", preq->name);
+    notify_player(pplayer, _("Game: %s is not a valid name."), preq->name);
 }
 
 /**************************************************************************

@@ -10,11 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "government.h"
 #include "log.h"
 #include "map.h"
@@ -588,7 +593,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	    unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
     if (verbose) {
-      notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
+      notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s"),
 		    unit_name(vunit->type), vcity->name,
 		    pvictim->name, pplayer->name);
     }
@@ -608,7 +613,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	freelog(LOG_VERBOSE, "Changed homecity of %s's %s in %s",
 	     pvictim->name, unit_name(vunit->type), new_home_city->name);
 	if(verbose) {
-	  notify_player(pvictim, "Game: Changed homecity of %s in %s",
+	  notify_player(pvictim, _("Game: Changed homecity of %s in %s"),
 			unit_name(vunit->type), new_home_city->name);
 	}
       } else {
@@ -616,7 +621,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	     unit_name(vunit->type), new_home_city->name,
 	     pvictim->name, city_owner(new_home_city)->name);
 	if (verbose) {
-	  notify_player(pvictim, "Game: Transfered %s in %s from %s to %s",
+	  notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s"),
 			unit_name(vunit->type), new_home_city->name,
 			pvictim->name, pplayer->name);
 	}
@@ -630,7 +635,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
 	      unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
       if (verbose) {
-	notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s",
+	notify_player(pvictim,
+		      _("Game: Transfered %s at (%d, %d) from %s to %s"),
 		      unit_name(vunit->type), x, y,
 		      pvictim->name, pplayer->name);
       }
@@ -879,7 +885,10 @@ void civil_war(struct player *pplayer)
   freelog(LOG_VERBOSE,
 	  "%s's nation is thrust into civil war, created AI player %s",
 	  pplayer->name, cplayer->name);
-  notify_player(pplayer, "Game: Your nation is thrust into civil war, %s is declared the leader of the rebel states.", cplayer->name);
+  notify_player(pplayer,
+		_("Game: Your nation is thrust into civil war, "
+		  " %s is declared the leader of the rebel states."),
+		cplayer->name);
 
   i = city_list_size(&pplayer->cities)/2;   /* number to flip */
   j = city_list_size(&pplayer->cities);	    /* number left to process */
@@ -897,7 +906,7 @@ void civil_war(struct player *pplayer)
 	
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pnewcity->name, cplayer->name);
-	notify_player(pplayer, "Game: %s declares allegiance to %s",
+	notify_player(pplayer, _("Game: %s declares allegiance to %s"),
 		      pnewcity->name,cplayer->name);
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
 	transfer_city_units(cplayer, pplayer, pnewcity, pcity, 0, 0);
@@ -925,7 +934,14 @@ void civil_war(struct player *pplayer)
     resolve_unit_stack(punit->x, punit->y, 0);
   unit_list_iterate_end;
   
-  notify_player(0, "Game: The capture of %s's capital and the destruction of the empire's administrative\n      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n      and the upstart %s now holds power in %d rebel provinces.", pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
+  notify_player(0,
+		_("Game: The capture of %s's capital and the destruction "
+		  "of the empire's administrative\n"
+		  "      structures have sparked a civil war.  "
+		  "Opportunists have flocked to the rebel cause,\n"
+		  "      and the upstart %s now holds power in %d "
+		  "rebel provinces."),
+		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
     
 }  
 

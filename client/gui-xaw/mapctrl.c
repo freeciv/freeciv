@@ -122,23 +122,24 @@ static void popit(int xin, int yin, int xtile, int ytile)
 
   
   if(ptile->known>=TILE_KNOWN) {
-    Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass, map_canvas, NULL, 0);
-    sprintf(s, "Terrain: %s", map_get_tile_info_text(xtile, ytile));
+    Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
+				map_canvas, NULL, 0);
+    sprintf(s, _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
     if(ptile->special&S_HUT) {
-      XtCreateManagedWidget("Minor Tribe Village", smeBSBObjectClass,
+      XtCreateManagedWidget(_("Minor Tribe Village"), smeBSBObjectClass,
 			    p, NULL, 0);
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
-      sprintf(s, "City: %s(%s)", pcity->name, 
+      sprintf(s, _("City: %s(%s)"), pcity->name, 
 	      get_nation_name(game.players[pcity->owner].nation));
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
     if(get_tile_infrastructure_set(ptile)) {
-      strcpy(s, "Infrastructure: ");
+      strcpy(s, _("Infrastructure: "));
       strcat(s, map_get_infrastructure_text(ptile->special));
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
@@ -153,17 +154,17 @@ static void popit(int xin, int yin, int xtile, int ytile)
 	if(pcity)
 	  sprintf(cn, "/%s", pcity->name);
       }
-      sprintf(s, "Unit: %s(%s%s)", ptype->name, 
+      sprintf(s, _("Unit: %s(%s%s)"), ptype->name, 
 	      get_nation_name(game.players[punit->owner].nation), cn);
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
       if(punit->owner==game.player_idx)  {
 	char uc[64] = "";
 	if(unit_list_size(&ptile->units)>=2)
-	  sprintf(uc, "  (%d more)", unit_list_size(&ptile->units) - 1);
-        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength, 
+	  sprintf(uc, _("  (%d more)"), unit_list_size(&ptile->units) - 1);
+        sprintf(s, _("A:%d D:%d FP:%d HP:%d/%d%s%s"), ptype->attack_strength, 
 	        ptype->defense_strength, ptype->firepower, punit->hp, 
-	        ptype->hp, punit->veteran?" V":"", uc);
+	        ptype->hp, punit->veteran?_(" V"):"", uc);
 
         if(punit->activity==ACTIVITY_GOTO)  {
 	  cross_head->x = punit->goto_dest_x;
@@ -171,7 +172,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
 	  cross_head++;
         }
       } else {
-        sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
+        sprintf(s, _("A:%d D:%d FP:%d HP:%d0%%"), ptype->attack_strength, 
 	  ptype->defense_strength, ptype->firepower, 
 	  (punit->hp*100/ptype->hp + 9)/10 );
       };

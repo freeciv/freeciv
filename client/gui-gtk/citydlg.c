@@ -862,12 +862,12 @@ void trade_callback(GtkWidget *w, gpointer data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
-	sprintf(bptr, "%32s: %2d Gold/Year\n",
+	sprintf(bptr, _("%32s: %2d Gold/Year\n"),
 		      pcity->name, pdialog->pcity->trade_value[i]);
 	bptr += strlen(bptr);
       }
       else {
-	sprintf(bptr, "%32s: %2d Gold/Year\n",_("Unknown"),
+	sprintf(bptr, _("%32s: %2d Gold/Year\n"), _("Unknown"),
 		      pdialog->pcity->trade_value[i]);
 	bptr += strlen(bptr);
       }

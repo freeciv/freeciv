@@ -726,7 +726,7 @@ static int create_advances_list(struct player *pplayer,
   /* Now populate the list */
   
   j = 0;
-  advances_can_steal[j] = "NONE";
+  advances_can_steal[j] = _("NONE");
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
@@ -812,7 +812,7 @@ static int create_improvements_list(struct player *pplayer,
   /* Now populate the list */
   
   j = 0;
-  improvements_can_sabotage[j] = "City Production";
+  improvements_can_sabotage[j] = _("City Production");
   improvement_type[j++] = -1;
 
   for(i=0; i<B_LAST; i++) 

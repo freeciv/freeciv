@@ -26,6 +26,7 @@
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -165,22 +166,22 @@ void update_players_dialog(void)
       char idlebuf[32], statebuf[32], namebuf[32];
       
       if(game.players[i].nturns_idle>3)
-	sprintf(idlebuf, "(idle %d turns)", game.players[i].nturns_idle-1);
+	sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle-1);
       else
 	idlebuf[0]='\0';
       
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
 	  if(game.players[i].turn_done)
-	    strcpy(statebuf, "done");
+	    strcpy(statebuf, _("done"));
 	  else
-	    strcpy(statebuf, "moving");
+	    strcpy(statebuf, _("moving"));
 	}
 	else
 	  statebuf[0]='\0';
       }
       else
-	strcpy(statebuf, "R.I.P");
+	strcpy(statebuf, _("R.I.P"));
        
       if(game.players[i].ai.control)
 	sprintf(namebuf,"*%-15s",game.players[i].name);
@@ -276,7 +277,8 @@ void players_meet_callback(Widget w, XtPointer client_data,
 				 &pa);
     }
     else {
-      append_output_window("Game: You need an embassy to establish a diplomatic meeting.");
+      append_output_window(_("Game: You need an embassy to establish"
+			     " a diplomatic meeting."));
     }
   }
 }

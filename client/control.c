@@ -467,7 +467,7 @@ void request_unit_nuke(struct unit *punit)
 void request_unit_paradrop(struct unit *punit)
 {
   if(!unit_flag(punit->type, F_PARATROOPERS)) {
-    append_output_window("Game: Only paratrooper units can do this.");
+    append_output_window(_("Game: Only paratrooper units can do this."));
     return;
   }
   if(!can_unit_paradropped(punit))

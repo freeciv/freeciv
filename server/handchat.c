@@ -10,10 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -108,7 +113,7 @@ void handle_chat_msg(struct player *pplayer,
       return;
     }
     if(nmatches>=2) {
-      sprintf(genmsg.message, "Game: %s is an ambiguous name-prefix", name);
+      sprintf(genmsg.message, _("Game: %s is an ambiguous name-prefix"), name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }
@@ -117,7 +122,7 @@ void handle_chat_msg(struct player *pplayer,
      */
     cpblank=strchr(packet->message, ' ');
     if (!cpblank || (cp < cpblank)) {
-      sprintf(genmsg.message, "Game: there's no player by the name %s", name);
+      sprintf(genmsg.message, _("Game: there's no player by the name %s"), name);
       send_packet_generic_message(pplayer->conn, PACKET_CHAT_MSG, &genmsg);
       return;
     }

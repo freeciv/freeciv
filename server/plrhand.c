@@ -21,6 +21,7 @@
 
 #include "capability.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -61,11 +62,12 @@ enum historian_type {
         HISTORIAN_LARGEST=4};
 
 static char *historian_message[]={
-    "Herodot's report on the RICHEST Civilizations in the World.",
-    "Herodot's report on the most ADVANCED Civilizations in the World.",
-    "Herodot's report on the most MILITARIZED Civilizations in the World.",
-    "Herodot's report on the HAPPIEST Civilizations in the World.",
-    "Herodot's report on the LARGEST Civilizations in the World."};
+    N_("Herodot's report on the RICHEST Civilizations in the World."),
+    N_("Herodot's report on the most ADVANCED Civilizations in the World."),
+    N_("Herodot's report on the most MILITARIZED Civilizations in the World."),
+    N_("Herodot's report on the HAPPIEST Civilizations in the World."),
+    N_("Herodot's report on the LARGEST Civilizations in the World.")
+};
 
 static void update_player_aliveness(struct player *pplayer);
 
@@ -81,9 +83,9 @@ static int secompare(const void *a, const void *b)
 }
 
 static char *greatness[] = {
-  "Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious",
-  "Worthless", "Pathetic", "Useless","Useless","Useless","Useless",
-  "Useless","Useless"
+  N_("Magnificent"),  N_("Glorious"), N_("Great"), N_("Decent"),
+  N_("Mediocre"), N_("Hilarious"), N_("Worthless"), N_("Pathetic"),
+  N_("Useless"), "Useless", "Useless", "Useless", "Useless", "Useless"
 };
 
 static void historian_generic(enum historian_type which_news)
@@ -123,13 +125,14 @@ static void historian_generic(enum historian_type which_news)
   qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<j;i++) {
-    sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i],  
+    sprintf(buf2, _("%2d: The %s %s\n"), i+1, _(greatness[i]),
 	    get_nation_name_plural(game.players[size[i].idx].nation));
     strcat(buffer,buf2);
   }
   free(size);
-  page_player_generic(0,"Historian Publishes!",historian_message[which_news],
-	  buffer, BROADCAST_EVENT);
+  page_player_generic(0, _("Historian Publishes!"),
+		      _(historian_message[which_news]),
+		      buffer, BROADCAST_EVENT);
 
 }
 
@@ -169,15 +172,15 @@ void top_five_cities(struct player *pplayer)
   for (i=0;i<5;i++) {
     pcity=find_city_by_id(size[i].idx);
     if (pcity) { 
-      sprintf(buf2, "%2d: The %s City of %s of size %d, with %d wonders\n", i+1,  
-	      get_nation_name(city_owner(pcity)->nation),pcity->name, 
+      sprintf(buf2, _("%2d: The %s City of %s of size %d, with %d wonders\n"),
+	      i+1, get_nation_name(city_owner(pcity)->nation),pcity->name, 
 	      pcity->size, nr_wonders(pcity));
       strcat(buffer, buf2);
     }
   }
   free(size);
-  page_player(pplayer, "Traveler's Report:",
-	      "The Five Greatest Cities in the World!", buffer);
+  page_player(pplayer, _("Traveler's Report:"),
+	      _("The Five Greatest Cities in the World!"), buffer);
 }
 
 void wonders_of_the_world(struct player *pplayer)
@@ -190,18 +193,18 @@ void wonders_of_the_world(struct player *pplayer)
   for (i=0;i<B_LAST;i++) {
     if(is_wonder(i) && game.global_wonders[i]) {
       if((pcity=find_city_by_id(game.global_wonders[i]))) {
-	sprintf(buf2, "%s in %s (%s)\n",
+	sprintf(buf2, _("%s in %s (%s)\n"),
 		get_imp_name_ex(pcity, i), pcity->name,
 		get_nation_name(game.players[pcity->owner].nation));
       } else {
-	sprintf(buf2, "%s has been DESTROYED\n",
+	sprintf(buf2, _("%s has been DESTROYED\n"),
 		get_improvement_type(i)->name);
       }
       strcat(buffer, buf2);
     }
   }
-  page_player(pplayer, "Traveler's Report:",
-	      "Wonders of the World", buffer);
+  page_player(pplayer, _("Traveler's Report:"),
+	      _("Wonders of the World"), buffer);
 }
 
 /**************************************************************************
@@ -363,22 +366,22 @@ static char *number_to_ordinal_string(int num, int parens)
   switch (num)
     {
     case 1:
-      sprintf (buf, fmt, num, "st");
+      sprintf (buf, fmt, num, _("st"));
       break;
     case 2:
-      sprintf (buf, fmt, num, "nd");
+      sprintf (buf, fmt, num, _("nd"));
       break;
     case 3:
-      sprintf (buf, fmt, num, "rd");
+      sprintf (buf, fmt, num, _("rd"));
       break;
     default:
       if (num > 0)
 	{
-	  sprintf (buf, fmt, num, "th");
+	  sprintf (buf, fmt, num, _("th"));
 	}
       else
 	{
-	  strcpy (buf, parens ? "(??th)" : "??th");
+	  strcpy (buf, parens ? _("(??th)") : _("??th"));
 	}
       break;
     }
@@ -458,7 +461,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (pplayer->score.landarea),
-				" sq. mi."));
+				_(" sq. mi.")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -473,7 +476,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (pplayer->score.settledarea),
-				" sq. mi."));
+				_(" sq. mi.")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -518,7 +521,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (pplayer->score.mfg),
-				" M tons"));
+				_(" M tons")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -533,7 +536,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (pplayer->score.bnp),
-				" M goods"));
+				_(" M goods")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -548,7 +551,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (rank_calc_mil_service(pplayer)),
-				" months"));
+				_(" months")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -563,7 +566,7 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  outptr = strchr (outptr, '\0');
 	  sprintf (outptr, fmt_quan,
 		   value_units (int_to_text (pplayer->score.pollution),
-				" tons"));
+				_(" tons")));
 	}
       if (selcols & DEM_COL_RANK)
 	{
@@ -588,17 +591,17 @@ void demographics_report(struct player *pplayer)
   static char *fmt_name = "%-18s";
   static struct dem_key keytable[] =
   {
-    { DEM_KEY_ROW_POPULATION,       "Population",       DEM_ROW },
-    { DEM_KEY_ROW_LAND_AREA,        "Land Area",        DEM_ROW },
-    { DEM_KEY_ROW_SETTLED_AREA,     "Settled Area",     DEM_ROW },
-    { DEM_KEY_ROW_RESEARCH_SPEED,   "Research Speed",   DEM_ROW },
-    { DEM_KEY_ROW_LITERACY,         "Literacy",         DEM_ROW },
-    { DEM_KEY_ROW_PRODUCTION,       "Production",       DEM_ROW },
-    { DEM_KEY_ROW_ECONOMICS,        "Economics",        DEM_ROW },
-    { DEM_KEY_ROW_MILITARY_SERVICE, "Military Service", DEM_ROW },
-    { DEM_KEY_ROW_POLLUTION,        "Pollution",        DEM_ROW },
-    { DEM_KEY_COL_QUANTITY,         "",                 DEM_COL_QUANTITY },
-    { DEM_KEY_COL_RANK,             "",                 DEM_COL_RANK }
+    { DEM_KEY_ROW_POPULATION,       N_("Population"),       DEM_ROW },
+    { DEM_KEY_ROW_LAND_AREA,        N_("Land Area"),        DEM_ROW },
+    { DEM_KEY_ROW_SETTLED_AREA,     N_("Settled Area"),     DEM_ROW },
+    { DEM_KEY_ROW_RESEARCH_SPEED,   N_("Research Speed"),   DEM_ROW },
+    { DEM_KEY_ROW_LITERACY,         N_("Literacy"),         DEM_ROW },
+    { DEM_KEY_ROW_PRODUCTION,       N_("Production"),       DEM_ROW },
+    { DEM_KEY_ROW_ECONOMICS,        N_("Economics"),        DEM_ROW },
+    { DEM_KEY_ROW_MILITARY_SERVICE, N_("Military Service"), DEM_ROW },
+    { DEM_KEY_ROW_POLLUTION,        N_("Pollution"),        DEM_ROW },
+    { DEM_KEY_COL_QUANTITY,         "",                     DEM_COL_QUANTITY },
+    { DEM_KEY_COL_RANK,             "",                     DEM_COL_RANK }
   };
 
   anyrows = FALSE;
@@ -621,13 +624,13 @@ void demographics_report(struct player *pplayer)
   if (!anyrows || (selcols == DEM_NONE))
     {
       page_player (pplayer,
-		   "Demographics Report:",
-		   "Sorry, the Demographics report is unavailable.",
+		   _("Demographics Report:"),
+		   _("Sorry, the Demographics report is unavailable."),
 		   "");
       return;
     }
 
-  sprintf (civbuf, "The %s of the %s",
+  sprintf (civbuf, _("The %s of the %s"),
 	   get_government_name (pplayer->government),
 	   get_nation_name_plural (pplayer->nation));
 
@@ -637,7 +640,7 @@ void demographics_report(struct player *pplayer)
 	  (keytable[inx].flag == DEM_ROW))
 	{
 	  outptr = strchr (outptr, '\0');
-	  sprintf (outptr, fmt_name, keytable[inx].name);
+	  sprintf (outptr, fmt_name, _(keytable[inx].name));
 	  outptr = strchr (outptr, '\0');
 	  dem_line_item (outptr, pplayer, keytable[inx].key, selcols);
 	  outptr = strchr (outptr, '\0');
@@ -645,7 +648,7 @@ void demographics_report(struct player *pplayer)
 	}
     }
 
-  page_player (pplayer, "Demographics Report:", civbuf, buffer);
+  page_player (pplayer, _("Demographics Report:"), civbuf, buffer);
 }
 
 /**************************************************************************
@@ -1041,13 +1044,14 @@ void show_ending(void)
   qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: The %s %s scored %d points\n",i+1, greatness[i],  
-            get_nation_name_plural(game.players[size[i].idx].nation), size[i].value);
+    sprintf(buf2, _("%2d: The %s %s scored %d points\n"), i+1, _(greatness[i]),
+	    get_nation_name_plural(game.players[size[i].idx].nation),
+	    size[i].value);
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Final Report:",
-	      "The Greatest Civilizations in the world.", buffer);
+  page_player(0, _("Final Report:"),
+	      _("The Greatest Civilizations in the world."), buffer);
 
 }
 
@@ -1066,8 +1070,11 @@ static void great_library(struct player *pplayer)
       for (i=0;i<game.num_tech_types;i++) {
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
 	    && game.global_advances[i]>=2) {
-	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
-	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_nation_name_plural(pplayer->nation),advances[i].name);
+	  notify_player_ex(pplayer,0,0, E_TECH_GAIN,
+			   _("Game: %s acquired from The Great Library!"),
+			   advances[i].name);
+	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",
+		  get_nation_name_plural(pplayer->nation),advances[i].name);
 
 	  if (tech_flag(i,TF_RAILROAD)) {
 	    upgrade_city_rails(pplayer, 0);
@@ -1083,12 +1090,16 @@ static void great_library(struct player *pplayer)
     }
     if (get_invention(pplayer, pplayer->research.researching)==TECH_KNOWN) {
       if (choose_goal_tech(pplayer)) {
-	notify_player(pplayer, "Game: Our scientist now focus on %s, goal is %s", advances[pplayer->research.researching].name,
-		 advances[pplayer->ai.tech_goal].name );
+	notify_player(pplayer,
+		      _("Game: Our scientist now focus on %s, goal is %s"),
+		      advances[pplayer->research.researching].name,
+		      advances[pplayer->ai.tech_goal].name );
 	
       } else {
 	choose_random_tech(pplayer);
-	notify_player(pplayer, "Game: Our scientist has choosen to research %s",       advances[pplayer->research.researching].name);
+	notify_player(pplayer,
+		      _("Game: Our scientist has choosen to research %s"),
+		      advances[pplayer->research.researching].name);
       }
     }
   }
@@ -1115,7 +1126,7 @@ void update_player_activities(struct player *pplayer)
   if (pplayer->ai.control) {
     ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
   }
-  notify_player(pplayer, "Year: %s", textyear(game.year));
+  notify_player(pplayer, _("Year: %s"), textyear(game.year));
   great_library(pplayer);
   update_revolution(pplayer);
   player_restore_units(pplayer);
@@ -1138,7 +1149,7 @@ static void update_player_aliveness(struct player *pplayer)
     if(unit_list_size(&pplayer->units)==0 && 
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
-      notify_player_ex(0, 0,0, E_DESTROYED, "Game: The %s are no more!", 
+      notify_player_ex(0, 0,0, E_DESTROYED, _("Game: The %s are no more!"), 
 		       get_nation_name_plural(pplayer->nation));
       gamelog(GAMELOG_GENO, "%s civilization destroyed",
               get_nation_name(pplayer->nation));
@@ -1183,42 +1194,48 @@ int update_tech(struct player *plr, int bulbs)
 
   if (choose_goal_tech(plr)) {
     notify_player(plr, 
-		  "Game: Learned %s. Our scientists focus on %s, goal is %s",
+		  _("Game: Learned %s. Our scientists focus on %s, goal is %s"),
 		  advances[old].name, 
 		  advances[plr->research.researching].name,
 		  advances[plr->ai.tech_goal].name);
   } else {
     choose_random_tech(plr);
     if (plr->research.researching!=A_NONE && old != A_NONE)
-      notify_player(plr, "Game: Learned %s. Scientists choose to research %s.",
+      notify_player(plr,
+		    _("Game: Learned %s. Scientists choose to research %s."),
 		    advances[old].name,
 		    advances[plr->research.researching].name);
     else if (old != A_NONE)
-      notify_player(plr, "Game: Learned %s. Scientists choose to research Future Tech. 1.",
+      notify_player(plr,
+		    _("Game: Learned %s. Scientists choose to research "
+		      "Future Tech. 1."),
 		    advances[old].name);
     else {
       plr->future_tech++;
       notify_player(plr,
-                   "Game: Learned Future Tech. %d. Researching Future Tech. %d.", plr->future_tech,(plr->future_tech)+1);
+                   _("Game: Learned Future Tech. %d. "
+		     "Researching Future Tech. %d."),
+		    plr->future_tech,(plr->future_tech)+1);
     }
 
   }
   for (i = 0; i<game.nplayers;i++) {
     if (player_has_embassy(&game.players[i], plr))  {
       if (old != A_NONE)
-        notify_player(&game.players[i], "Game: The %s have researched %s.", 
+        notify_player(&game.players[i], _("Game: The %s have researched %s."), 
                       get_nation_name_plural(plr->nation),
                       advances[old].name);
       else
         notify_player(&game.players[i],
-                      "Game: The %s have researched Future Tech. %d.", 
+                      _("Game: The %s have researched Future Tech. %d."), 
                       get_nation_name_plural(plr->nation),
                       plr->future_tech);
     }
   }
 
   if (philohack) {
-    notify_player(plr, "Game: Great philosophers from all the world joins your civilization, you get an immediate advance");
+    notify_player(plr, _("Game: Great philosophers from all the world join "
+			 "your civilization, you get an immediate advance"));
     update_tech(plr, 1000000);
   }
 
@@ -1307,7 +1324,7 @@ void choose_tech(struct player *plr, int tech)
 
 void choose_tech_goal(struct player *plr, int tech)
 {
-  notify_player(plr, "Game: Technology goal is %s.", advances[tech].name);
+  notify_player(plr, _("Game: Technology goal is %s."), advances[tech].name);
   plr->ai.tech_goal = tech;
 }
 
@@ -1343,7 +1360,7 @@ void handle_player_rates(struct player *pplayer,
   if (server_state!=RUN_GAME_STATE) {
     freelog(LOG_NORMAL, "received player_rates packet from %s before start",
 	    pplayer->name);
-    notify_player(pplayer, "Game: cannot change rates before game start.");
+    notify_player(pplayer, _("Game: cannot change rates before game start."));
     return;
   }
 	
@@ -1356,12 +1373,12 @@ void handle_player_rates(struct player *pplayer,
   if (preq->tax>maxrate || preq->luxury>maxrate || preq->science>maxrate) {
     char *rtype;
     if (preq->tax > maxrate)
-      rtype = "Tax";
+      rtype = _("Tax");
     else if (preq->luxury > maxrate)
-      rtype = "Luxury";
+      rtype = _("Luxury");
     else
-      rtype = "Science";
-    notify_player(pplayer, "Game: %s rate exceeds the max rate for %s.",
+      rtype = _("Science");
+    notify_player(pplayer, _("Game: %s rate exceeds the max rate for %s."),
                   rtype, get_government_name(pplayer->government));
   } else {
     pplayer->economic.tax=preq->tax;
@@ -1411,7 +1428,7 @@ void handle_player_government(struct player *pplayer,
     return;
 
   pplayer->government=preq->government;
-  notify_player(pplayer, "Game: %s now governs the %s as a %s.", 
+  notify_player(pplayer, _("Game: %s now governs the %s as a %s."), 
 		pplayer->name, 
   	        get_nation_name_plural(pplayer->nation),
 		get_government_name(preq->government));  
@@ -1437,7 +1454,7 @@ void handle_player_revolution(struct player *pplayer)
     return;
   pplayer->revolution=myrand(5)+1;
   pplayer->government=game.government_when_anarchy;
-  notify_player(pplayer, "Game: The %s have incited a revolt!", 
+  notify_player(pplayer, _("Game: The %s have incited a revolt!"), 
 		get_nation_name(pplayer->nation));
   gamelog(GAMELOG_REVOLT,"The %s revolt!",
                 get_nation_name(pplayer->nation));
@@ -1471,7 +1488,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.luxury += surplus;
       notify_player(pplayer,
-             "Game: Tax rate exceeded the max rate for %s. Adjusted.", 
+             _("Game: Tax rate exceeded the max rate for %s. Adjusted."), 
                     get_government_name(pplayer->government));
   }
   if (pplayer->economic.science > maxrate) {
@@ -1482,7 +1499,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.luxury += surplus;
       notify_player(pplayer,
-             "Game: Science rate exceeded the max rate for %s. Adjusted.", 
+             _("Game: Science rate exceeded the max rate for %s. Adjusted."), 
                     get_government_name(pplayer->government));
   }
   if (pplayer->economic.luxury > maxrate) {
@@ -1493,7 +1510,7 @@ void check_player_government_rates(struct player *pplayer)
       else
          pplayer->economic.science += surplus;
       notify_player(pplayer,
-             "Game: Luxury rate exceeded the max rate for %s. Adjusted.", 
+             _("Game: Luxury rate exceeded the max rate for %s. Adjusted."), 
                     get_government_name(pplayer->government));
   }
 
@@ -1578,7 +1595,7 @@ void page_player_generic(struct player *pplayer, char *caption, char *headline,
 
   if(strlen(caption)+1+strlen(headline)+1+strlen(lines) >=
      sizeof(genmsg.message)) {
-    freelog(LOG_NORMAL, "Message too long in page_player_generic!!");
+    freelog(LOG_NORMAL, _("Message too long in page_player_generic!!"));
     return;
   }
   strcpy(genmsg.message, caption);
@@ -2112,11 +2129,11 @@ void server_remove_player(struct player *pplayer)
   struct packet_generic_integer pack;
   int o, x, y, idx;
   
-  notify_player(pplayer, "Game: You've been removed from the game!");
+  notify_player(pplayer, _("Game: You've been removed from the game!"));
   if(pplayer->conn)
     close_connection(pplayer->conn);
   pplayer->conn=NULL;
-  notify_player(0, "Game: %s has been removed from the game", pplayer->name);
+  notify_player(0, _("Game: %s has been removed from the game"), pplayer->name);
   check_for_full_turn_done();
   
   idx=pplayer->player_no;

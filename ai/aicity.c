@@ -10,6 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +20,7 @@
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -201,7 +205,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
       (bestchoice.type || bestchoice.choice != pcity->currently_building))
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
-                   "Game: The %s have stopped building The %s in %s.",
+                   _("Game: The %s have stopped building The %s in %s."),
                    get_nation_name_plural(pplayer->nation),
                    get_imp_name_ex(pcity, pcity->currently_building),
                    pcity->name);
@@ -210,7 +214,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
                  pcity->currently_building != bestchoice.choice) &&
                  is_wonder(bestchoice.choice)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-                    "Game: The %s have started building The %s in %s.",
+                    _("Game: The %s have started building The %s in %s."),
                     get_nation_name_plural(city_owner(pcity)->nation),
                     get_imp_name_ex(pcity, bestchoice.choice), pcity->name);
       pcity->currently_building = bestchoice.choice;
@@ -304,8 +308,10 @@ static void ai_new_spend_gold(struct player *pplayer)
               pplayer->economic.gold -= cost;
               if (punit->hp==get_unit_type(punit->type)->hp)
                 punit->hp=get_unit_type(id)->hp;
-              notify_player(pplayer, "Game: %s upgraded to %s in %s for %d credits",
-                unit_types[punit->type].name, unit_types[id].name, pcity->name, cost);
+              notify_player(pplayer,
+			    _("Game: %s upgraded to %s in %s for %d credits"),
+			    unit_types[punit->type].name, unit_types[id].name,
+			    pcity->name, cost);
               punit->type = id;
               send_unit_info(0, punit, 0);
               send_player_info(pplayer, pplayer);
@@ -328,8 +334,8 @@ static void ai_new_spend_gold(struct player *pplayer)
 	      freelog(LOG_VERBOSE, "%s disbanding %s in %s to help get %s",
 		   pplayer->name, unit_types[punit->type].name, pcity->name,
 		   unit_types[bestchoice.choice].name);
-              notify_player(pplayer, "Game: %s disbanded in %s.",
-                unit_types[punit->type].name, pcity->name);
+              notify_player(pplayer, _("Game: %s disbanded in %s."),
+			    unit_types[punit->type].name, pcity->name);
               pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
               send_city_info(pplayer, pcity, 0);
               wipe_unit(pplayer, punit);
@@ -430,8 +436,9 @@ static void ai_new_spend_gold(struct player *pplayer)
         pplayer->economic.gold -= cost;
         if (punit->hp==get_unit_type(punit->type)->hp)
           punit->hp=get_unit_type(id)->hp;
-        notify_player(pplayer, "Game: %s upgraded to %s in %s for %d credits",
-          unit_types[punit->type].name, unit_types[id].name, pcity->name, cost);
+        notify_player(pplayer, _("Game: %s upgraded to %s in %s for %d credits"),
+		      unit_types[punit->type].name, unit_types[id].name,
+		      pcity->name, cost);
         punit->type = id;
         send_unit_info(0, punit, 0);
         send_player_info(pplayer, pplayer);
@@ -754,7 +761,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
        && (wonder_replacement(pcity, i) || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
-		       "Game: %s is selling %s (not needed) for %d", 
+		       _("Game: %s is selling %s (not needed) for %d"), 
 		       pcity->name, get_improvement_name(i), 
 		       improvement_value(i)/2);
       return; /* max 1 building each turn */

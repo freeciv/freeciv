@@ -35,6 +35,7 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -374,22 +375,25 @@ void ui_main(int argc, char *argv[])
   XSetErrorHandler(myerr);*/
 
   if(appResources.version==NULL)  {
-    freelog(LOG_FATAL, "No version number in resources");
-    freelog(LOG_FATAL, "You probably have an old (circa V1.0) Freeciv resource file somewhere");
+    freelog(LOG_FATAL, _("No version number in resources"));
+    freelog(LOG_FATAL, _("You probably have an old (circa V1.0)"
+			 " Freeciv resource file somewhere"));
     exit(1);
   }
 
   /* TODO: Use capabilities here instead of version numbers */
-  if(strncmp(appResources.version, VERSION_STRING,strlen(appResources.version))) {
-    freelog(LOG_FATAL, "Game version does not match Resource version");
-    freelog(LOG_FATAL, "Game version: %s - Resource version: %s", 
-	VERSION_STRING, appResources.version);
-    freelog(LOG_FATAL, "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults");
+  if(strncmp(appResources.version, VERSION_STRING,
+	     strlen(appResources.version))) {
+    freelog(LOG_FATAL, _("Game version does not match Resource version"));
+    freelog(LOG_FATAL, _("Game version: %s - Resource version: %s"), 
+	    VERSION_STRING, appResources.version);
+    freelog(LOG_FATAL, _("You might have an old Freeciv resourcefile"
+			 " in /usr/lib/X11/app-defaults"));
     exit(1);
   }
   
   if(!appResources.gotAppDefFile) {
-    freelog(LOG_NORMAL, "Using fallback resources - which is OK");
+    freelog(LOG_NORMAL, _("Using fallback resources - which is OK"));
   }
 
   if(appResources.name) {
@@ -429,7 +433,7 @@ void ui_main(int argc, char *argv[])
 
   
   if(display_color_type!=COLOR_DISPLAY) {
-    freelog(LOG_FATAL, "only color displays are supported for now...");
+    freelog(LOG_FATAL, _("only color displays are supported for now..."));
     /*    exit(1); */
   }
   
@@ -454,7 +458,7 @@ void ui_main(int argc, char *argv[])
 
     main_font_struct=XLoadQueryFont(display, city_names_font);
     if(main_font_struct==0) {
-      freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
+      freelog(LOG_FATAL, _("failed loading font: %s"), city_names_font);
       exit(1);
     }
     values.foreground = colors_standard[COLOR_STD_WHITE];
@@ -800,7 +804,12 @@ static void show_info_popup(Widget w, XEvent *event, String *argv,
     Dimension w, h;
     char buf[512];
     
-    sprintf(buf, "%s People\nYear: %s\nGold: %d\nNet Income: %d\nTax:%d Lux:%d Sci:%d\nResearching %s: %d/%d",
+    sprintf(buf, _("%s People\n"
+		   "Year: %s\n"
+		   "Gold: %d\n"
+		   "Net Income: %d\n"
+		   "Tax:%d Lux:%d Sci:%d\n"
+		   "Researching %s: %d/%d"),
 	    int_to_text(civ_population(game.player_ptr)),
 	    textyear(game.year),
 	    game.player_ptr->economic.gold,

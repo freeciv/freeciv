@@ -24,6 +24,7 @@
 #include "canvas.h"
 #include "pixcomm.h"
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
@@ -235,7 +236,10 @@ void update_info_label(void)
 {
   char buffer[512]; int d;
   
-  sprintf(buffer, "%s People\nYear: %s\nGold: %d\nTax:%d Lux:%d Sci:%d",
+  sprintf(buffer, _("%s People\n"
+		    "Year: %s\n"
+		    "Gold: %d\n"
+		    "Tax:%d Lux:%d Sci:%d"),
 	  int_to_text(civ_population(game.player_ptr)),
 	  textyear(game.year),
 	  game.player_ptr->economic.gold,
@@ -275,9 +279,9 @@ void update_unit_info_label(struct unit *punit)
     pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
     sprintf(buffer, "%s %s\n%s\n%s\n%s", 
 	    get_unit_type(punit->type)->name,
-	    (punit->veteran) ? "(veteran)" : "",
+	    (punit->veteran) ? _("(veteran)") : "",
 	    (goto_state==punit->id) ? 
-	    "Select destination" : unit_activity_text(punit), 
+	    _("Select destination") : unit_activity_text(punit), 
 	    map_get_tile_info_text(punit->x, punit->y),
 	    pcity ? pcity->name : "");
     xaw_set_label(unit_info_label, buffer);

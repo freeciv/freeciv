@@ -10,10 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -273,9 +278,17 @@ void upgrade_city_rails(struct player *pplayer, int discovery)
   connection_do_buffer(pplayer->conn);
 
   if (discovery) {
-    notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+    notify_player(pplayer,
+		  _("Game: New hope sweeps like fire through the country as "
+		    "the discovery of railroad is announced.\n"
+		    "      Workers spontaneously gather and upgrade all "
+		    "cities with railroads."));
   } else {
-    notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+    notify_player(pplayer,
+		  _("Game: The people are pleased to hear that your "
+		    "scientists finally know about railroads.\n"
+		    "      Workers spontaneously gather and upgrade all "
+		    "cities with railroads."));
   }
   
   city_list_iterate(pplayer->cities, pcity) {
@@ -423,7 +436,7 @@ void map_startpos_load(struct section_file *file)
   map.num_start_positions = i;
 
   if (map.num_start_positions < MAX_NUM_PLAYERS) {
-    freelog(LOG_FATAL, "Too few starts %d (need at least %d)",
+    freelog(LOG_FATAL, _("Too few starts %d (need at least %d)"),
 	    map.num_start_positions, MAX_NUM_PLAYERS);
     exit(1);
   }

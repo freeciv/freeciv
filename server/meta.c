@@ -60,6 +60,7 @@ The info string should look like this:
 #include <OpenTptInternet.h>
 #endif
 
+#include "fcintl.h"
 #include "packets.h"
 #include "console.h"
 #include "meta.h"
@@ -148,8 +149,8 @@ void server_open_udp(void)
 	 && ((hp = gethostbyname(servername)) == NULL));
 #endif
   if (bad) {
-    perror("Metaserver: address error");
-    con_puts(C_METAERROR,"Not reporting to the metaserver in this game.");
+    perror(_("Metaserver: address error"));
+    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
   }
@@ -167,8 +168,8 @@ void server_open_udp(void)
   bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0);
 #endif
   if (bad) {
-    perror("metaserver: can't open datagram socket");
-    con_puts(C_METAERROR, "Not reporting to the metaserver in this game.");
+    perror(_("metaserver: can't open datagram socket"));
+    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
   }
@@ -187,8 +188,8 @@ void server_open_udp(void)
   bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0);
 #endif
   if (bad) {
-    perror("metaserver: can't bind local address");
-    con_puts(C_METAERROR, "Not reporting to the metaserver in this game.");
+    perror(_("metaserver: can't bind local address"));
+    con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
   }

@@ -10,9 +10,14 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -98,9 +103,11 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 				 packet);
       
       
-      notify_player(plr0, "Game: A treaty containing %d clauses was agreed upon",
+      notify_player(plr0,
+		    _("Game: A treaty containing %d clauses was agreed upon"),
 		    genlist_size(&ptreaty->clauses));
-      notify_player(plr1, "Game: A treaty containing %d clauses was agreed upon",
+      notify_player(plr1,
+		    _("Game: A treaty containing %d clauses was agreed upon"),
 		    genlist_size(&ptreaty->clauses));
       gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
 	      get_nation_name_plural(plr0->nation),
@@ -116,9 +123,11 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
 	if(pclause->type==CLAUSE_GOLD && pgiver->economic.gold<pclause->value) {
 	  
-	  notify_player(plr0, "Game: The %s don't have the promised amount of gold! Treaty canceled!",
+	  notify_player(plr0, _("Game: The %s don't have the promised amount "
+				"of gold! Treaty canceled!"),
 			get_nation_name_plural(pgiver->nation));
-	  notify_player(plr1, "Game: The %s don't have the promised amount of gold! Treaty canceled!",
+	  notify_player(plr1, _("Game: The %s don't have the promised amount "
+				"of gold! Treaty canceled!"),
 			get_nation_name_plural(pgiver->nation));
 	  goto cleanup;
 	}
@@ -134,7 +143,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	
 	switch(pclause->type) {
 	 case CLAUSE_ADVANCE:
-	  notify_player(pdest, "Game: You are taught the knowledge of %s",
+	  notify_player(pdest, _("Game: You are taught the knowledge of %s"),
 			advances[pclause->value].name);
 	  if (tech_flag(pclause->value,TF_RAILROAD)) {
 	    upgrade_city_rails(pdest, 0);
@@ -149,18 +158,18 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  pdest->research.researchpoints++;
 	  break;
 	 case CLAUSE_GOLD:
-	  notify_player(pdest, "Game: You get %d gold", pclause->value);
+	  notify_player(pdest, _("Game: You get %d gold"), pclause->value);
 	  pgiver->economic.gold-=pclause->value;
 	  pdest->economic.gold+=pclause->value;
 	  break;
 	 case CLAUSE_MAP:
 	  give_map_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, "Game: You receive %s's worldmap",
+	  notify_player(pdest, _("Game: You receive %s's worldmap"),
 			pgiver->name);
 	  break;
 	 case CLAUSE_SEAMAP:
 	  give_seamap_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, "Game: You receive %s's seamap",
+	  notify_player(pdest, _("Game: You receive %s's seamap"),
 			pgiver->name);
 	  break;
 	case CLAUSE_CITY:{
@@ -168,15 +177,16 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  struct city *pnewcity = NULL;
 
 	  if (!pcity) {
-	    freelog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.",
+	    freelog(LOG_NORMAL,
+		    _("Treaty city id %d not found - skipping clause."),
 		    pclause->value);
 	    break;
 	  }
 	  
-	  notify_player(pdest, "Game: You receive city of %s from %s",
+	  notify_player(pdest, _("Game: You receive city of %s from %s"),
 			pcity->name, pgiver->name);
 	  
-	  notify_player(pgiver, "Game: You give city of %s to %s",
+	  notify_player(pgiver, _("Game: You give city of %s to %s"),
 			pcity->name, pdest->name);
 	  
 	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity))){
@@ -298,7 +308,7 @@ void handle_diplomacy_cancel_meeting(struct player *pplayer,
     send_packet_diplomacy_info(theother->conn, 
 			       PACKET_DIPLOMACY_CANCEL_MEETING, 
 			       packet);
-    notify_player(theother, "Game: %s canceled the meeting!", 
+    notify_player(theother, _("Game: %s canceled the meeting!"), 
 		  pplayer->name);
     genlist_unlink(&treaties, ptreaty);
     free(ptreaty);

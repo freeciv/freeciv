@@ -22,6 +22,7 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/AsciiText.h>
 
+#include "fcintl.h"
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"		/* wordwrap_string() */
@@ -116,12 +117,12 @@ void log_output_window(void)
   String theoutput;
   FILE *fp;
   
-  append_output_window("Exporting output window to civgame.log ...");
+  append_output_window(_("Exporting output window to civgame.log ..."));
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
   fp = fopen("civgame.log", "w"); /* should allow choice of name? */
   fprintf(fp, "%s", theoutput);
   fclose(fp);
-  append_output_window("Export complete.");
+  append_output_window(_("Export complete."));
 }
 
 /**************************************************************************
@@ -129,6 +130,6 @@ void log_output_window(void)
 **************************************************************************/
 void clear_output_window(void)
 {
-  XtVaSetValues(outputwindow_text, XtNstring, "Cleared output window.", NULL);
+  XtVaSetValues(outputwindow_text, XtNstring, _("Cleared output window."), NULL);
 }
 

@@ -213,13 +213,13 @@ struct server_list *create_server_list(char *errbuf)
 
   if ((proxy_url = getenv("http_proxy"))) {
     if (strncmp(proxy_url,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid $http_proxy value, must start with 'http://'");
+      strcpy(errbuf, _("Invalid $http_proxy value, must start with 'http://'"));
       return NULL;
     }
     strncpy(urlbuf,proxy_url,511);
   } else {
     if (strncmp(metaserver,"http://",strlen("http://"))) {
-      strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
+      strcpy(errbuf, _("Invalid metaserver URL, must start with 'http://'"));
       return NULL;
     }
     strncpy(urlbuf,metaserver,511);
@@ -247,7 +247,7 @@ struct server_list *create_server_list(char *errbuf)
       s[0] = '\0';
       ++s;
     } else if (s[0]) {
-      strcpy(errbuf, "Invalid $http_proxy value, cannot find separating '/'");
+      strcpy(errbuf, _("Invalid $http_proxy value, cannot find separating '/'"));
       /* which is obligatory if more characters follow */
       return NULL;
     }
@@ -255,7 +255,7 @@ struct server_list *create_server_list(char *errbuf)
   }
 
   if ((ph = gethostbyname(server)) == NULL) {
-    strcpy(errbuf, "Failed looking up host");
+    strcpy(errbuf, _("Failed looking up host"));
     return NULL;
   } else {
     addr.sin_family = ph->h_addrtype;

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -18,6 +22,7 @@
 #include <stdarg.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -123,12 +128,12 @@ static struct settings_s settings[] = {
   { "xsize", &map.xsize,
     SSET_MAP_SIZE, SSET_TO_CLIENT,
     MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH,
-    "Map width in squares", "" },
+    N_("Map width in squares"), "" },
   
   { "ysize", &map.ysize,
     SSET_MAP_SIZE, SSET_TO_CLIENT,
     MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT,
-    "Map height in squares", "" }, 
+    N_("Map height in squares"), "" }, 
 
 /* Map generation parameters: once we have a map these are of historical
  * interest only, and cannot be changed.
@@ -136,8 +141,8 @@ static struct settings_s settings[] = {
   { "generator", &map.generator, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
-    "Method used to generate map",
-    "  1 = standard, with random continents;\n"
+    N_("Method used to generate map"),
+    N_("  1 = standard, with random continents;\n"
     "  2 = equally sized large islands with one player each, and twice\n"
     "      that many smaller islands;\n"
     "  3 = equally sized large islands with one player each, and a number\n"
@@ -146,50 +151,50 @@ static struct settings_s settings[] = {
     "      (or one with three players for an odd number of players), and\n"
     "      additional smaller islands.\n"
     "  Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
-    "  (Zero indicates a scenario map.)" },
+    "  (Zero indicates a scenario map.)") },
 
   { "landmass", &map.landpercent,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS,
-    "Amount of land vs ocean", "" },
+    N_("Amount of land vs ocean"), "" },
 
   { "mountains", &map.mountains,
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS,
-    "Amount of hills/mountains",
-    "  Small values give flat maps, higher values give more hills and mountains."},
+    N_("Amount of hills/mountains"),
+    N_("  Small values give flat maps, higher values give more hills and mountains.")},
 
   { "rivers", &map.riverlength, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS,
-    "Amount of river squares", "" },
+    N_("Amount of river squares"), "" },
 
   { "grass", &map.grasssize, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS,
-    "Amount of grass squares", "" },
+    N_("Amount of grass squares"), "" },
 
   { "forests", &map.forestsize, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS,
-    "Amount of forest squares", "" },
+    N_("Amount of forest squares"), "" },
 
   { "swamps", &map.swampsize, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS,
-    "Amount of swamp squares", "" },
+    N_("Amount of swamp squares"), "" },
     
   { "deserts", &map.deserts, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS,
-    "Amount of desert squares", "" },
+    N_("Amount of desert squares"), "" },
 
   { "seed", &map.seed, 
     SSET_MAP_GEN, SSET_SERVER_ONLY,
     MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED,
-    "Map generation random seed",
-    "  The same seed will always produce the same map; for zero (the default)\n"
-    "  a seed will be chosen based on the time, to give a random map." },
+    N_("Map generation random seed"),
+    N_("  The same seed will always produce the same map; for zero (the default)\n"
+    "  a seed will be chosen based on the time, to give a random map.") },
 
 /* Map additional stuff: huts and specials.  randseed also goes here
  * because huts and specials are the first time the randseed gets used (?)
@@ -199,20 +204,20 @@ static struct settings_s settings[] = {
   { "randseed", &game.randseed, 
     SSET_MAP_ADD, SSET_SERVER_ONLY,
     GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED,
-    "General random seed",
-    "  For zero (the default) a seed will be chosen based on the time." },
+    N_("General random seed"),
+    N_("  For zero (the default) a seed will be chosen based on the time.") },
 
   { "specials", &map.riches, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
-    "Amount of \"special\" resource squares", 
-    "  Special resources improve the basic terrain type they are on.\n" 
-    "  The server variable's scale is parts per thousand." },
+    N_("Amount of \"special\" resource squares"), 
+    N_("  Special resources improve the basic terrain type they are on.\n" 
+    "  The server variable's scale is parts per thousand.") },
 
   { "huts", &map.huts, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS,
-    "Amount of huts (minor tribe villages)", "" },
+    N_("Amount of huts (minor tribe villages)"), "" },
 
 /* Options affecting numbers of players and AI players.  These only
  * affect the start of the game and can not be adjusted after that.
@@ -222,24 +227,24 @@ static struct settings_s settings[] = {
   { "minplayers", &game.min_players,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS,
-    "Minimum number of players",
-    "  There must be at least this many players (connected players or AI's)\n"
-    "  before the game can start." },
+    N_("Minimum number of players"),
+    N_("  There must be at least this many players (connected players or AI's)\n"
+    "  before the game can start.") },
   
   { "maxplayers", &game.max_players,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
-    "Maximum number of players",
-    "  For new games, the game will start automatically if/when this number of\n"
-    "  players are connected or (for AI's) created." },
+    N_("Maximum number of players"),
+    N_("  For new games, the game will start automatically if/when this number of\n"
+    "  players are connected or (for AI's) created.") },
 
   { "aifill", &game.aifill, 
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL,
-    "Number of players to fill to with AI's",
-    "  If there are fewer than this many players when the game starts, extra AI\n"
+    N_("Number of players to fill to with AI's"),
+    N_("  If there are fewer than this many players when the game starts, extra AI\n"
     "  players will be created to increase the total number of players to the\n"
-    "  value of this option." },
+    "  value of this option.") },
 
 /* Game initialization parameters (only affect the first start of the game,
  * and not reloads).  Can not be changed after first start of game.
@@ -247,176 +252,176 @@ static struct settings_s settings[] = {
   { "settlers", &game.settlers,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS,
-    "Number of initial settlers per player", "" },
+    N_("Number of initial settlers per player"), "" },
     
   { "explorer", &game.explorer,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER,
-    "Number of initial explorers per player", "" },
+    N_("Number of initial explorers per player"), "" },
 
   { "gold", &game.gold,
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD,
-    "Starting gold per player", "" },
+    N_("Starting gold per player"), "" },
 
   { "techlevel", &game.tech, 
     SSET_GAME_INIT, SSET_TO_CLIENT,
     GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL,
-    "Number of initial advances per player", "" },
+    N_("Number of initial advances per player"), "" },
 
 /* Various rules: these cannot be changed once the game has started. */
   { "techs", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing techs.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing techs.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"techs.ruleset\".  The advances (technologies) present in\n"
-    "  the game will be initialized from this file.  See also README.rulesets.",
+    "  the game will be initialized from this file.  See also README.rulesets."),
     game.ruleset.techs, GAME_DEFAULT_RULESET },
 
   { "governments", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing governments.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing governments.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"governments.ruleset\".  The government types available in\n"
-    "  the game will be initialized from this file.  See also README.rulesets.",
+    "  the game will be initialized from this file.  See also README.rulesets."),
     game.ruleset.governments, GAME_DEFAULT_RULESET },
 
   { "units", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing units.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing units.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"units.ruleset\".  The unit types present in the game will\n"
-    "  be initialized from this file.  See also README.rulesets.",
+    "  be initialized from this file.  See also README.rulesets."),
     game.ruleset.units, GAME_DEFAULT_RULESET },
 
   { "buildings", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing buildings.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing buildings.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"buildings.ruleset\".  The building types (City Improvements\n"
     "  and Wonders) in the game will be initialized from this file.\n"
-    "  See also README.rulesets.",
+    "  See also README.rulesets."),
     game.ruleset.buildings, GAME_DEFAULT_RULESET },
 
   { "terrain", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing terrain.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing terrain.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"terrain.ruleset\".  The terrain types present in the game\n"
-    "  will be initialized from this file.  See also README.rulesets.",
+    "  will be initialized from this file.  See also README.rulesets."),
     game.ruleset.terrain, GAME_DEFAULT_RULESET },
 
   { "nations", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing nations.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing nations.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"nations.ruleset\".  The nations present in the game\n"
-    "  will be initialized from this file.  See also README.rulesets.",
+    "  will be initialized from this file.  See also README.rulesets."),
     game.ruleset.nations, GAME_DEFAULT_RULESET },
 
   { "cities", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
-    "Data subdir containing cities.ruleset",
-    "  This should specify a subdirectory of the data directory, containing a\n"
+    N_("Data subdir containing cities.ruleset"),
+    N_("  This should specify a subdirectory of the data directory, containing a\n"
     "  file called \"cities.ruleset\".  The file is used to initialize\n"
-    "  city data (such as city style).  See also README.rulesets.",
+    "  city data (such as city style).  See also README.rulesets."),
     game.ruleset.cities, GAME_DEFAULT_RULESET },
 
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
-    "Points required to gain a new advance",
-    "  This affects how quickly players can research new technology." },
+    N_("Points required to gain a new advance"),
+    N_("  This affects how quickly players can research new technology.") },
 
   { "techpenalty", &game.techpenalty,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY,
-    "Percentage penalty when changing tech",
-    "  If you change your current research technology, and you have positive\n"
+    N_("Percentage penalty when changing tech"),
+    N_("  If you change your current research technology, and you have positive\n"
     "  research points, you lose this percentage of those research points.\n"
-    "  This does not apply if you have just gained tech this turn." },
+    "  This does not apply if you have just gained tech this turn.") },
 
   { "diplcost", &game.diplcost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST,
-    "Penalty when getting tech from treaty",
-    "  For each advance you gain from a diplomatic treaty, you lose research\n"
+    N_("Penalty when getting tech from treaty"),
+    N_("  For each advance you gain from a diplomatic treaty, you lose research\n"
     "  points equal to this percentage of the cost to research an new advance.\n"
-    "  You can end up with negative research points if this is non-zero." },
+    "  You can end up with negative research points if this is non-zero.") },
 
   { "conquercost", &game.conquercost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST,
-    "Penalty when getting tech from conquering",
-    "  For each advance you gain by conquering an enemy city, you lose research\n"
+    N_("Penalty when getting tech from conquering"),
+    N_("  For each advance you gain by conquering an enemy city, you lose research\n"
     "  points equal to this percentage of the cost to research an new advance."
-    "  You can end up with negative research points if this is non-zero." },
+    "  You can end up with negative research points if this is non-zero.") },
   
   { "freecost", &game.freecost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST,
-    "Penalty when getting a free tech",
-    "  For each advance you gain \"for free\" (other than covered by diplcost\n"
+    N_("Penalty when getting a free tech"),
+    N_("  For each advance you gain \"for free\" (other than covered by diplcost\n"
     "  or conquercost: specifically, from huts or from the Great Library), you\n"
     "  lose research points equal to this percentage of the cost to research a\n"
     "  new advance.  You can end up with negative research points if this is\n"
-    "  non-zero." },
+    "  non-zero.") },
 
   { "foodbox", &game.foodbox, 
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,
-    "Food required for a city to grow", "" },
+    N_("Food required for a city to grow"), "" },
 
   { "aqueductloss", &game.aqueductloss,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS,
-    "Percentage food lost when need aqueduct",
-    "  If a city would expand, but it can't because it needs an Aqueduct\n"
+    N_("Percentage food lost when need aqueduct"),
+    N_("  If a city would expand, but it can't because it needs an Aqueduct\n"
     "  (or Sewer System), it loses this percentage of its foodbox (or half\n"
-    "  that amount if it has a Granary)." },
+    "  that amount if it has a Granary).") },
   
   { "unhappysize", &game.unhappysize,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
-    "City size before people become unhappy",
-    "  Before other adjustments, the first unhappysize citizens in a city are\n"
-    "  happy, and subsequent citizens are unhappy. See also cityfactor." },
+    N_("City size before people become unhappy"),
+    N_("  Before other adjustments, the first unhappysize citizens in a city are\n"
+    "  happy, and subsequent citizens are unhappy. See also cityfactor.") },
 
   { "cityfactor", &game.cityfactor,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,
-    "Number of cities for higher unhappiness",
-    "  When the number of cities a player owns is greater than cityfactor, one\n"
+    N_("Number of cities for higher unhappiness"),
+    N_("  When the number of cities a player owns is greater than cityfactor, one\n"
     "  extra citizen is unhappy before other adjustments; see also unhappysize.\n"
     "  This assumes a Democracy; for other governments the effect occurs at\n"
-    "  smaller numbers of cities." },
+    "  smaller numbers of cities.") },
 
   { "razechance", &game.razechance,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
-    "Chance for conquered building destruction",
-    "  When a player conquers a city, each City Improvement has this percentage\n"
-    "  chance to be destroyed." },
+    N_("Chance for conquered building destruction"),
+    N_("  When a player conquers a city, each City Improvement has this percentage\n"
+    "  chance to be destroyed.") },
 
   { "civstyle", &game.civstyle,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
-    "Style of Civ rules",
-    "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
+    N_("Style of Civ rules"),
+    N_("  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
     "  Currently this option affects the following rules:\n"
     "    - Civ2 exposes more area at the very start of a new game.\n"
     "    - Civ2 allows the player to pick which improvement to pillage.\n"
     "    - In Civ2, cities cannot be built next to each other.\n"
     "    - In Civ2, overflight of a hut causes it to disappear.\n"
     "  See also README.rulesets and the techs, units, buildings and terrain\n"
-    "  options." },
+    "  options.") },
 
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
@@ -426,26 +431,26 @@ static struct settings_s settings[] = {
   { "diplchance", &game.diplchance,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
-    "Chance (1 in N) for diplomat/spy contests",
-    "  A diplomat (or spy) acting against a city which has one or more defending\n"
+    N_("Chance (1 in N) for diplomat/spy contests"),
+    N_("  A diplomat (or spy) acting against a city which has one or more defending\n"
     "  diplomats (or spies) has a one in diplchance chance to defeat each such\n"
     "  defender.  Also, the chance of a spy returning from a successful mission\n"
-    "  is one in diplchance.  (Diplomats never return.)" },
+    "  is one in diplchance.  (Diplomats never return.)") },
 
   { "spacerace", &game.spacerace,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
-    "Whether to allow space race",
-    "  If this option is 1, players can build spaceships.  The current AI does not\n"
-    "  build spaceships, so this is probably only useful for multiplayer games." },
+    N_("Whether to allow space race"),
+    N_("  If this option is 1, players can build spaceships.  The current AI does not\n"
+    "  build spaceships, so this is probably only useful for multiplayer games.") },
 
   { "civilwarsize", &game.civilwarsize,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,
-    "Minimum number of cities for civil war",
-    "  A civil war is triggered if a player has at least this many cities and\n"
+    N_("Minimum number of cities for civil war"),
+    N_("  A civil war is triggered if a player has at least this many cities and\n"
     "  the player's capital is captured.  If this option is set to the maximum\n"
-    "  value, civil wars are turned off altogether." },
+    "  value, civil wars are turned off altogether.") },
 
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
@@ -457,27 +462,27 @@ static struct settings_s settings[] = {
   { "endyear", &game.end_year,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR,
-    "Year the game ends", "" },
+    N_("Year the game ends"), "" },
 
   { "timeout", &game.timeout,
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
-    "Maximum seconds per turn",
-    "  If all players have not hit \"end turn\" before this time is up, then the\n"
-    "  turn ends automatically.  Zero means there is no timeout." },
+    N_("Maximum seconds per turn"),
+    N_("  If all players have not hit \"end turn\" before this time is up, then the\n"
+    "  turn ends automatically.  Zero means there is no timeout.") },
 
   { "turnblock", &game.turnblock,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,
-    "Turn-blocking game play mode",
-    "  If this is set to 1 the game turn is not advanced until all players have\n"
-    "  finished their turn, including disconnected players." },
+    N_("Turn-blocking game play mode"),
+    N_("  If this is set to 1 the game turn is not advanced until all players have\n"
+    "  finished their turn, including disconnected players.") },
   
   { "demography", NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
-    "What is in the Demographics report",
-    "  This should be a string of characters, each of which specifies the\n"
+    N_("What is in the Demographics report"),
+    N_("  This should be a string of characters, each of which specifies the\n"
     "  the inclusion of a line of information in the Demographics report.\n"
     "  The characters and their meanings are:\n"
     "      N = include Population           P = include Production\n"
@@ -488,31 +493,31 @@ static struct settings_s settings[] = {
     "  Additionally, the following characters control whether or not certain\n"
     "  columns are displayed in the report:\n"
     "      q = display \"quantity\" column    r = display \"rank\" column\n"
-    "  (The order of these characters is not significant, but their case is.)",
+    "  (The order of these characters is not significant, but their case is.)"),
     game.demography, GAME_DEFAULT_DEMOGRAPHY },
 
   { "saveturns", &game.save_nturns,
     SSET_META, SSET_SERVER_ONLY,
     0, 200, 10,
-    "Turns per auto-save",
-    "  The game will be automatically saved per this number of turns.\n"
-    "  Zero means never auto-save." },
+    N_("Turns per auto-save"),
+    N_("  The game will be automatically saved per this number of turns.\n"
+    "  Zero means never auto-save.") },
 
   { "scorelog", &game.scorelog,
     SSET_META, SSET_SERVER_ONLY,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,
-    "Whether to log player statistics",
-    "  If this is set to 1, player statistics are appended to the file\n"
+    N_("Whether to log player statistics"),
+    N_("  If this is set to 1, player statistics are appended to the file\n"
     "  \"civscore.log\" every turn.  These statistics can be used to create\n"
-    "  power graphs after the game." },
+    "  power graphs after the game.") },
 
   { "gamelog", &gamelog_level,
     SSET_META, SSET_SERVER_ONLY,
     0, 40, 20,
-    "Detail level for logging game events",
-    "  Only applies if the game log feature is enabled (with the -g command line\n"
+    N_("Detail level for logging game events"),
+    N_("  Only applies if the game log feature is enabled (with the -g command line\n"
     "  option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging,\n"
-    "  40=debuging logging." },
+    "  40=debuging logging.") },
 
   { NULL, NULL,
     SSET_LAST, SSET_SERVER_ONLY,
@@ -776,8 +781,8 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
   char line[MAX_LEN_CMD];
   va_list ap;
   char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
-                  cmd == CMD_AMBIGUOUS ? "(ambiguous)" :
-                  cmd == CMD_UNRECOGNIZED ? "(unknown)" :
+                  cmd == CMD_AMBIGUOUS ? _("(ambiguous)") :
+                  cmd == CMD_UNRECOGNIZED ? _("(unknown)") :
 			"(?!?)";  /* this case is a bug! */
 
   va_start(ap,format);
@@ -809,11 +814,12 @@ static void meta_command(struct player *caller, char *arg)
   metaserver_info_line[256-1]='\0';
   if (send_server_info_to_metaserver(1,0) == 0) {
     cmd_reply(CMD_META, caller, C_METAERROR,
-	      "Not reporting to the metaserver.");
+	      _("Not reporting to the metaserver."));
   } else {
-    notify_player(0,"Metaserver infostring set to '%s'", metaserver_info_line);
+    notify_player(0, _("Metaserver infostring set to '%s'"),
+		  metaserver_info_line);
     cmd_reply(CMD_META, caller, C_OK,
-	      "Metaserver info string set.", arg);
+	      _("Metaserver info string set."), arg);
   }
 }
 
@@ -826,9 +832,9 @@ static void close_udp_safe(struct player *caller)
   if (send_server_info_to_metaserver(1,1))
   {
     server_close_udp();
-    notify_player(0,"Close metaserver connection to '%s'", metaserver_addr);
+    notify_player(0, _("Close metaserver connection to '%s'"), metaserver_addr);
     cmd_reply(CMD_META, caller, C_OK,
-	      "Metaserver connection closed.");
+	      _("Metaserver connection closed."));
   }
 }
 
@@ -844,9 +850,9 @@ static void set_metaserver(struct player *caller, char *arg)
   server_open_udp(); 
   if (send_server_info_to_metaserver(1,0))
   { 
-    notify_player(0,"Metaserver is now '%s'", metaserver_addr);
+    notify_player(0, _("Metaserver is now '%s'"), metaserver_addr);
     cmd_reply(CMD_META, caller, C_OK,
-	      "Metaserver connection opened.");
+	      _("Metaserver connection opened."));
   }
 }
 
@@ -919,7 +925,7 @@ static void save_command(struct player *caller, char *arg)
 {
   if (server_state==SELECT_RACES_STATE) {
     cmd_reply(CMD_SAVE, caller, C_SYNTAX,
-	      "The game cannot be saved before it is started.");
+	      _("The game cannot be saved before it is started."));
     return;
   }
   save_game(arg);
@@ -934,7 +940,7 @@ static void toggle_ai_player(struct player *caller, char *arg)
 
   if (test_player_name(arg) != PNameOk) {
       cmd_reply(CMD_AITOGGLE, caller, C_SYNTAX,
-		"Name '%s' is either empty or too long, so it cannot be an AI.",
+	     _("Name '%s' is either empty or too long, so it cannot be an AI."),
 		arg);
       return;
   }
@@ -942,14 +948,14 @@ static void toggle_ai_player(struct player *caller, char *arg)
   pplayer=find_player_by_name(arg);
   if (!pplayer) {
     cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
-	      "No player by the name of '%s'.", arg);
+	      _("No player by the name of '%s'."), arg);
     return;
   }
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
-    notify_player(0, "Game: %s is now AI-controlled.", pplayer->name);
+    notify_player(0, _("Game: %s is now AI-controlled."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
-	      "%s is now under AI control.", pplayer->name);
+	      _("%s is now under AI control."), pplayer->name);
     if (pplayer->ai.skill_level==0) {
       pplayer->ai.skill_level = game.skill_level;
     }
@@ -958,9 +964,9 @@ static void toggle_ai_player(struct player *caller, char *arg)
        then reloaded. */ 
     set_ai_level(caller, arg, pplayer->ai.skill_level);
   } else {
-    notify_player(0, "Game: %s is now human.", pplayer->name);
+    notify_player(0, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
-	      "%s is now under human control.", pplayer->name);
+	      _("%s is now under human control."), pplayer->name);
 
     /* because the hard AI `cheats' with government rates but humans shouldn't */
     check_player_government_rates(pplayer);
@@ -979,34 +985,34 @@ static void create_ai_player(struct player *caller, char *arg)
   if (server_state!=PRE_GAME_STATE)
   {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-	"Can't add AI players once the game has begun.");
+	      _("Can't add AI players once the game has begun."));
     return;
   }
 
   if (game.nplayers==game.max_players) 
   {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
-	"Can't add more players, server is full.");
+	      _("Can't add more players, server is full."));
     return;
   }
 
   if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
   {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX, "Can't use an empty name.");
+    cmd_reply(CMD_CREATE, caller, C_SYNTAX, _("Can't use an empty name."));
     return;
   }
 
   if (PNameStatus == PNameTooLong)
   {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-	"The name exceeds the maximum of 9 chars.");
+	      _("The name exceeds the maximum of %d chars."), MAX_LEN_NAME-1);
     return;
   }
 
   if ((pplayer=find_player_by_name(arg)))
   {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
-	"A player already exists by that name.");
+	      _("A player already exists by that name."));
     return;
   }
 
@@ -1015,14 +1021,14 @@ static void create_ai_player(struct player *caller, char *arg)
   if (!pplayer)
   {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
-	"Error creating new ai player: %s.", arg);
+	      _("Error creating new ai player: %s."), arg);
     return;
   }
 
   pplayer->ai.control = !pplayer->ai.control;
   pplayer->ai.skill_level = game.skill_level;
   cmd_reply(CMD_CREATE, caller, C_OK,
-	"Created new AI player: %s.", pplayer->name);
+	    _("Created new AI player: %s."), pplayer->name);
 }
 
 
@@ -1035,14 +1041,14 @@ static void remove_player(struct player *caller, char *arg)
 
   if (test_player_name(arg) != PNameOk) {
       cmd_reply(CMD_REMOVE, caller, C_SYNTAX,
-		"Name is either empty or too long, so it cannot be a player.");
+	    _("Name is either empty or too long, so it cannot be a player."));
       return;
   }
 
   pplayer=find_player_by_name(arg);
   
   if(!pplayer) {
-    cmd_reply(CMD_REMOVE, caller, C_FAIL, "No player by that name.");
+    cmd_reply(CMD_REMOVE, caller, C_FAIL, _("No player by that name."));
     return;
   }
 
@@ -1052,10 +1058,18 @@ static void remove_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
-static void rename_player(struct player *caller, char *arg)
+static void generic_not_implemented(struct player *caller, char *cmd)
 {
   cmd_reply(CMD_RENAME, caller, C_FAIL,
-	"Sorry, the 'rename' command is not implemented yet.");
+	    _("Sorry, the '%s' command is not implemented yet."), cmd);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void rename_player(struct player *caller, char *arg)
+{
+  generic_not_implemented(caller, "rename");
 }
 
 /**************************************************************************
@@ -1063,8 +1077,7 @@ static void rename_player(struct player *caller, char *arg)
 **************************************************************************/
 static void read_command(struct player *caller, char *arg)
 {
-  cmd_reply(CMD_READ, caller, C_FAIL,
-	"Sorry, the 'read' command is not implemented yet.");
+  generic_not_implemented(caller, "read");
 }
 
 /**************************************************************************
@@ -1072,8 +1085,7 @@ static void read_command(struct player *caller, char *arg)
 **************************************************************************/
 static void write_command(struct player *caller, char *arg)
 {
-  cmd_reply(CMD_WRITE, caller, C_FAIL,
-	"Sorry, the 'write' command is not implemented yet.");
+  generic_not_implemented(caller, "write");
 }
 
 /**************************************************************************
@@ -1091,15 +1103,15 @@ static int set_cmdlevel(struct player *caller, struct player *pplayer,
        ALLOW_HACK can take away ALLOW_HACK from others... --dwp
     */
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-	      "cannot decrease command level '%s' for player '%s',"
-	      " you only have '%s'",
+	      _("cannot decrease command level '%s' for player '%s',"
+		" you only have '%s'"),
 	      cmdlevel_name(access_level(pplayer)),
 	      pplayer->name,
 	      cmdlevel_name(access_level(caller)));
     return 0;
   } else {
     pplayer->conn->access_level = level;
-    notify_player(pplayer, "Game: you now have access level '%s'",
+    notify_player(pplayer, _("Game: you now have access level '%s'"),
 		  cmdlevel_name(level));
     return 1;
   }
@@ -1130,7 +1142,7 @@ static void cmdlevel_command(struct player *caller, char *str)
     /* no level name supplied; list the levels */
     int i;
 
-    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "Command levels in effect:");
+    cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, _("Command levels in effect:"));
 
     for (i = 0; i < game.nplayers; ++i) {
       struct player *pplayer = &game.players[i];
@@ -1145,7 +1157,7 @@ static void cmdlevel_command(struct player *caller, char *str)
       }
     }
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
-	      "Default command level for new connections: %s",
+	      _("Default command level for new connections: %s"),
 	      cmdlevel_name(default_access_level));
     return;
   }
@@ -1154,12 +1166,14 @@ static void cmdlevel_command(struct player *caller, char *str)
 
   if ((level = cmdlevel_named(arg_level)) == ALLOW_UNRECOGNIZED) {
     cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
-      "error: command level must be one of 'none', 'info', 'ctrl', or 'hack'");
+	      _("error: command level must be one of"
+		" 'none', 'info', 'ctrl', or 'hack'"));
     return;
   } else if (caller && level > access_level(caller)) {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-      "cannot increase command level to '%s', you only have '%s' yourself",
-	arg_level, cmdlevel_name(access_level(caller)));
+	      _("cannot increase command level to '%s',"
+		" you only have '%s' yourself"),
+	      arg_level, cmdlevel_name(access_level(caller)));
     return;
   }
 
@@ -1184,12 +1198,12 @@ static void cmdlevel_command(struct player *caller, char *str)
       if (pplayer->conn) {
 	if (set_cmdlevel(caller, pplayer, level)) {
 	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    "command access level set to '%s' for player %s",
+	    _("command access level set to '%s' for player %s"),
 	    cmdlevel_name(level),
 	    pplayer->name);
 	} else {
 	  cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	    "command access level could not be set to '%s' for player %s",
+	    _("command access level could not be set to '%s' for player %s"),
 	    cmdlevel_name(level),
 	    pplayer->name);
 	}
@@ -1197,42 +1211,43 @@ static void cmdlevel_command(struct player *caller, char *str)
     }
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      "default command access level set to '%s'",
+	      _("default command access level set to '%s'"),
 	      cmdlevel_name(level));
-    notify_player(0,"Game: all players now have access level '%s'",
+    notify_player(0, _("Game: all players now have access level '%s'"),
 		  cmdlevel_name(level));
   }
   else if (strcmp(arg_name,"new") == 0) {
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      "default command access level set to '%s'",
+	      _("default command access level set to '%s'"),
 	      cmdlevel_name(level));
-    notify_player(0,"Game: new connections will have access level '%s'",
+    notify_player(0, _("Game: new connections will have access level '%s'"),
 		  cmdlevel_name(level));
   }
   else if (test_player_name(arg_name) == PNameOk &&
                 (pplayer=find_player_by_name(arg_name))) {
     if (!pplayer->conn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-		"cannot change command access for unconnected player '%s'",
+		_("cannot change command access for unconnected player '%s'"),
 		arg_name);
       return;
     }
     if (set_cmdlevel(caller,pplayer,level)) {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		"command access level set to '%s' for player %s",
+		_("command access level set to '%s' for player %s"),
 		cmdlevel_name(level),
 		pplayer->name);
     } else {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		"command access level could not be set to '%s' for player %s",
+		_("command access level could not be set to '%s' for player %s"),
 		cmdlevel_name(level),
 		pplayer->name);
     }
   } else {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
-      "cannot change command access for unknown/invalid player name '%s'",
-        arg_name);
+	      _("cannot change command access for unknown/invalid"
+		" player name '%s'"),
+	      arg_name);
   }
 }
 
@@ -1275,22 +1290,22 @@ static void explain_option(struct player *caller, char *str)
   if (*command) {
     cmd=lookup_option(command);
     if (cmd==-1) {
-      cmd_reply(CMD_EXPLAIN, caller, C_FAIL, "No explanation for that yet.");
+      cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("No explanation for that yet."));
       return;
     }
     else if (cmd==-2) {
-      cmd_reply(CMD_EXPLAIN, caller, C_FAIL, "Ambiguous option name.");
+      cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return;
     }
     else {
       struct settings_s *op = &settings[cmd];
 
       cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		"Option: %s", op->name);
+		_("Option: %s"), op->name);
       cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		"Description: %s.", op->short_help);
+		_("Description: %s."), _(op->short_help));
       if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-	char *line_by_line = mystrdup(op->extra_help);
+	char *line_by_line = mystrdup(_(op->extra_help));
 	char *line = line_by_line;
 	char *line_end;
 	while ((line_end = strchr(line,'\n'))) {
@@ -1302,22 +1317,22 @@ static void explain_option(struct player *caller, char *str)
 	free(line_by_line);
       }
       cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		"Status: %s", (sset_is_changeable(cmd)
-			       ? "changeable" : "fixed"));
+		_("Status: %s"), (sset_is_changeable(cmd)
+				  ? _("changeable") : _("fixed")));
       if (SETTING_IS_INT(op)) {
  	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		  "Value: %d, Minimum: %d, Default: %d, Maximum: %d",
+		  _("Value: %d, Minimum: %d, Default: %d, Maximum: %d"),
 		  *(op->value), op->min_value, op->default_value, op->max_value);
       } else {
  	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		  "Value: \"%s\", Default: \"%s\"",
+		  _("Value: \"%s\", Default: \"%s\""),
 		  op->svalue, op->default_svalue);
       }
     }
   } else {
     cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, horiz_line);
     cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-	"Explanations are available for the following server options:");
+	_("Explanations are available for the following server options:"));
     cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, horiz_line);
     if(caller == NULL && con_get_style()) {
       for (i=0;settings[i].name;i++) {
@@ -1355,10 +1370,10 @@ void report_server_options(struct player *pplayer, int which)
   char title[128];
   char *caption;
   buffer[0]=0;
-  sprintf(title, "%-20svalue  (min , max)", "Option");
+  sprintf(title, _("%-20svalue  (min , max)"), _("Option"));
   caption = (which == 1) ?
-    "Server Options (initial)" :
-    "Server Options (ongoing)";
+    _("Server Options (initial)") :
+    _("Server Options (ongoing)");
 
   for (i=0;settings[i].name;i++) {
     struct settings_s *op = &settings[i];
@@ -1399,7 +1414,7 @@ static void set_ai_level_directer(struct player *pplayer, int level)
 void set_ai_level_direct(struct player *pplayer, int level)
 {
   set_ai_level_directer(pplayer,level);
-  con_write(C_OK, "%s is now %s.",
+  con_write(C_OK, _("%s is now %s."),
 	pplayer->name, name_of_skill_level(level));
 }
 
@@ -1417,7 +1432,7 @@ void set_ai_level(struct player *caller, char *name, int level)
 
   if (test_player_name(name) == PNameTooLong) {
     cmd_reply(cmd, caller, C_SYNTAX,
-	      "Name is too long, so it cannot be a player.");
+	      _("Name is too long, so it cannot be a player."));
     return;
   }
 
@@ -1429,10 +1444,10 @@ void set_ai_level(struct player *caller, char *name, int level)
     if (pplayer->ai.control) {
       set_ai_level_directer(pplayer, level);
       cmd_reply(cmd, caller, C_OK,
-		"%s is now %s.", pplayer->name, name_of_skill_level(level));
+		_("%s is now %s."), pplayer->name, name_of_skill_level(level));
     } else {
       cmd_reply(cmd, caller, C_FAIL,
-		"%s is not controlled by the AI.", pplayer->name);
+		_("%s is not controlled by the AI."), pplayer->name);
     }
   } else if(test_player_name(name) == PNameEmpty) {
     for (i = 0; i < game.nplayers; i++) {
@@ -1440,21 +1455,21 @@ void set_ai_level(struct player *caller, char *name, int level)
       if (pplayer->ai.control) {
 	set_ai_level_directer(pplayer, level);
 	cmd_reply(cmd, caller, C_OK,
-		  "%s is now %s.", pplayer->name, name_of_skill_level(level));
+		  _("%s is now %s."), pplayer->name, name_of_skill_level(level));
       }
     }
     cmd_reply(cmd, caller, C_OK,
-	      "Setting game.skill_level to %d.", level);
+	      _("Setting game.skill_level to %d."), level);
     game.skill_level = level;
   } else {
     cmd_reply(cmd, caller, C_FAIL,
-	      "%s is not the name of any player.", name);
+	      _("%s is not the name of any player."), name);
   }
 }
 
 static void crash_and_burn(struct player *caller)
 {
-  cmd_reply(CMD_CRASH, caller, C_GENFAIL, "Crashing and burning.");
+  cmd_reply(CMD_CRASH, caller, C_GENFAIL, _("Crashing and burning."));
   /* Who is General Failure and why is he crashing and
      burning my computer? :) -- Per */
    assert(0);
@@ -1479,12 +1494,12 @@ static void show_command(struct player *caller, char *str)
   if (*command) {
     cmd=lookup_option(command);
     if (cmd==-1) {
-      cmd_reply(CMD_SHOW, caller, C_FAIL, "Unknown option '%s'.", command);
+      cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), command);
       return;
     }
     else if (cmd==-2) {
       cmd_reply(CMD_SHOW, caller, C_FAIL,
-		"Ambiguous option name '%s'.", command);
+		_("Ambiguous option name '%s'."), command);
       return;
     }
   } else {
@@ -1497,12 +1512,12 @@ static void show_command(struct player *caller, char *str)
   /* under SSET_MAX_LEN, so it fits into 80 cols more easily - rp */
 
   cmd_reply_show(horiz_line);
-  cmd_reply_show("+ means you may change the option");
-  cmd_reply_show("= means the option is on its default value");
+  cmd_reply_show(_("+ means you may change the option"));
+  cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
   len1 = sprintf(buf,
-	"%-*s value  (min,max)       ", OPTION_NAME_SPACE, "Option");
-  sprintf(&buf[len1], "description");
+	_("%-*s value  (min,max)       "), OPTION_NAME_SPACE, _("Option"));
+  sprintf(&buf[len1], _("description"));
   cmd_reply_show(buf);
   cmd_reply_show(horiz_line);
 
@@ -1533,7 +1548,7 @@ static void show_command(struct player *caller, char *str)
       } else {
         sprintf(&buf[strlen(buf)], " ");
       }
-      sprintf(&buf[strlen(buf)], op->short_help);
+      sprintf(&buf[strlen(buf)], _(op->short_help));
       cmd_reply_show(buf);
       buf[0] = '\0';
     }
@@ -1564,22 +1579,22 @@ static void set_command(struct player *caller, char *str)
   cmd=lookup_option(command);
   if (cmd==-1) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
-	      "Undefined argument.  Usage: set <option> <value>.");
+	      _("Undefined argument.  Usage: set <option> <value>."));
     return;
   }
   else if (cmd==-2) {
     cmd_reply(CMD_SET, caller, C_SYNTAX,
-	      "Ambiguous option name.");
+	      _("Ambiguous option name."));
     return;
   }
   if (!may_set_option(caller,cmd)) {
      cmd_reply(CMD_SET, caller, C_FAIL,
-	       "You are not allowed to set this option.");
+	       _("You are not allowed to set this option."));
     return;
   }
   if (!sset_is_changeable(cmd)) {
     cmd_reply(CMD_SET, caller, C_BOUNCE,
-	      "This setting can't be modified after the game has started.");
+	      _("This setting can't be modified after the game has started."));
     return;
   }
 
@@ -1589,31 +1604,31 @@ static void set_command(struct player *caller, char *str)
     val = atoi(arg);
     if (val >= op->min_value && val <= op->max_value) {
       *(op->value) = val;
-      cmd_reply(CMD_SET, caller, C_OK, "Option: %s has been set to %d.", 
+      cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
 		settings[cmd].name, val);
       if (sset_is_to_client(cmd)) {
-	notify_player(0, "Option: %s has been set to %d.", 
+	notify_player(0, _("Option: %s has been set to %d."), 
 		      settings[cmd].name, val);
 	/* canonify map generator settings( all of which are int ) */
 	adjust_terrain_param();
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-	"Value out of range. Usage: set <option> <value>.");
+	_("Value out of range. Usage: set <option> <value>."));
     }
   } else {
     if (strlen(arg)<MAX_LEN_NAME) {
       strcpy(op->svalue, arg);
       cmd_reply(CMD_SET, caller, C_OK,
-		"Option: %s has been set to \"%s\".",
+		_("Option: %s has been set to \"%s\"."),
 		settings[cmd].name, arg);
       if (sset_is_to_client(cmd)) {
-	notify_player(0, "Option: %s has been set to \"%s\".", 
+	notify_player(0, _("Option: %s has been set to \"%s\"."), 
 		      settings[cmd].name, arg);
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-		"String value too long.  Usage: set <option> <value>.");
+		_("String value too long.  Usage: set <option> <value>."));
     }
   }
 }
@@ -1635,7 +1650,7 @@ void handle_stdin_input(struct player *caller, char *str)
   /* if the caller may not use any commands at all, don't waste any time */
   if (may_use_nothing(caller)) {
     cmd_reply(CMD_HELP, caller, C_FAIL,
-	"Sorry, you are not allowed to use server commands.");
+	_("Sorry, you are not allowed to use server commands."));
      return;
   }
 
@@ -1662,16 +1677,18 @@ void handle_stdin_input(struct player *caller, char *str)
   if (cmd == CMD_AMBIGUOUS) {
     cmd = command_named(command,1);
     cmd_reply(cmd, caller, C_SYNTAX,
-	"Warning: '%s' interpreted as '%s', but it is ambiguous. Try '%shelp'.",
+	_("Warning: '%s' interpreted as '%s', but it is ambiguous."
+	  " Try '%shelp'."),
 	command, commands[cmd].name, caller?"/":"");
   } else if (cmd == CMD_UNRECOGNIZED) {
     cmd_reply(cmd, caller, C_SYNTAX,
-	"Unknown command.  Try '%shelp'.", caller?"/":"");
+	_("Unknown command.  Try '%shelp'."), caller?"/":"");
     return;
   }
   if (!may_use(caller, cmd)) {
     assert(caller);
-    cmd_reply(cmd, caller, C_FAIL, "You are not allowed to use this command.");
+    cmd_reply(cmd, caller, C_FAIL,
+	      _("You are not allowed to use this command."));
     return;
   }
 
@@ -1748,7 +1765,7 @@ void handle_stdin_input(struct player *caller, char *str)
       show_ending();
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
-		"The game must be running before you can see the score");
+		_("The game must be running before you can see the score"));
     }
     break;
   case CMD_READ:
@@ -1777,14 +1794,14 @@ void handle_stdin_input(struct player *caller, char *str)
 
       if (plrs<game.min_players) {
         cmd_reply(cmd,caller, C_FAIL,
-		  "Not enough players, game will not start.");
+		  _("Not enough players, game will not start."));
       } else {
         start_game();
       }
     }
     else {
       cmd_reply(cmd,caller, C_FAIL,
-		"Cannot start the game: it is already running.");
+		_("Cannot start the game: it is already running."));
     }
     break;
   case CMD_NUM:
@@ -1804,8 +1821,9 @@ void cut_player_connection(struct player *caller, char *playername)
   struct player *pplayer;
 
   if (test_player_name(playername) != PNameOk) {
-    cmd_reply(CMD_CUT, caller, C_SYNTAX, "Name is either empty or too long,"
-	      " so it cannot be a player.");
+    cmd_reply(CMD_CUT, caller, C_SYNTAX,
+	      _("Name is either empty or too long,"
+		" so it cannot be a player."));
     return;
   }
 
@@ -1813,12 +1831,12 @@ void cut_player_connection(struct player *caller, char *playername)
 
   if(pplayer && pplayer->conn) {
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
-	       "cutting connection to %s", playername);
+	       _("cutting connection to %s"), playername);
     close_connection(pplayer->conn);
     pplayer->conn=NULL;
   }
   else {
-    cmd_reply(CMD_CUT, caller, C_FAIL, "uh, no such player connected");
+    cmd_reply(CMD_CUT, caller, C_FAIL, _("uh, no such player connected"));
   }
 }
 
@@ -1852,71 +1870,72 @@ void show_help(struct player *caller)
     cmd_reply(CMD_HELP, caller, C_COMMENT, string)
 
   cmd_reply_help(CMD_HELP,
-	"Available commands: (P=player, M=message, F=file, L=level, T=topic, O=option)");
+		 _("Available commands: (P=player, M=message, F=file,"
+		   " L=level, T=topic, O=option)"));
   cmd_reply_help(CMD_HELP, horiz_line);
   cmd_reply_help(CMD_AITOGGLE,
-	"ai P            - toggles AI on player");
+	_("ai P            - toggles AI on player"));
   cmd_reply_help(CMD_CMDLEVEL,
-	"cmdlevel        - see current command levels");
+	_("cmdlevel        - see current command levels"));
   cmd_reply_help(CMD_CMDLEVEL,
-	"cmdlevel L      - sets command access level to L for all players");
+	_("cmdlevel L      - sets command access level to L for all players"));
   cmd_reply_help(CMD_CMDLEVEL,
-	"cmdlevel L new  - sets command access level to L for new connections");
+      _("cmdlevel L new  - sets command access level to L for new connections"));
   cmd_reply_help(CMD_CMDLEVEL,
-	"cmdlevel L P    - sets command access level to L for player P");
+	_("cmdlevel L P    - sets command access level to L for player P"));
   cmd_reply_help(CMD_CREATE,
-	"create P        - creates an AI player");
+	_("create P        - creates an AI player"));
   cmd_reply_help(CMD_CUT,
-	"cut P           - cut connection to player");
+	_("cut P           - cut connection to player"));
   cmd_reply_help(CMD_EASY,
-	"easy            - All AI players will be easy");
+	_("easy            - All AI players will be easy"));
   cmd_reply_help(CMD_EASY,
-	"easy P          - AI player will be easy");
+	_("easy P          - AI player will be easy"));
   cmd_reply_help(CMD_EXPLAIN,
-	"explain         - help on server options");
+	_("explain         - help on server options"));
   cmd_reply_help(CMD_EXPLAIN,
-	"explain T       - help on a particular server option");
+	_("explain T       - help on a particular server option"));
   cmd_reply_help(CMD_HARD,
-	"hard            - All AI players will be hard");
+	_("hard            - All AI players will be hard"));
   cmd_reply_help(CMD_HARD,
-	"hard P          - AI player will be hard");
+	_("hard P          - AI player will be hard"));
   cmd_reply_help(CMD_HELP,
-	"help            - this help text");
+	_("help            - this help text"));
   cmd_reply_help(CMD_LIST,
-	"list            - list players");
+	_("list            - list players"));
   cmd_reply_help(CMD_META,
-	"meta M          - Set meta-server infoline to M");
+	_("meta M          - Set meta-server infoline to M"));
   cmd_reply_help(CMD_METASERVER,
-	"metaserver A    - Game are reported to address A");
+	_("metaserver A    - Game are reported to address A"));
   cmd_reply_help(CMD_NOMETA,
-	"nometa          - Close connection to the metaserver");
+	_("nometa          - Close connection to the metaserver"));
   cmd_reply_help(CMD_NORMAL,
-	"normal          - All AI players will be normal");
+	_("normal          - All AI players will be normal"));
   cmd_reply_help(CMD_NORMAL,
-	"normal P        - AI player will be normal");
+	_("normal P        - AI player will be normal"));
   cmd_reply_help(CMD_QUIT,
-	"quit            - quit game and shutdown server");
+	_("quit            - quit game and shutdown server"));
   cmd_reply_help(CMD_REMOVE,
-	"remove P        - fully remove player from game");
+	_("remove P        - fully remove player from game"));
   cmd_reply_help(CMD_SAVE,
-	"save F          - save game as file F");
+	_("save F          - save game as file F"));
   cmd_reply_help(CMD_SCORE,
-	"score           - show current score");
+	_("score           - show current score"));
   cmd_reply_help(CMD_SET,
-	"set             - set options");
+	_("set             - set options"));
   cmd_reply_help(CMD_SHOW,
-	"show            - list current server options");
+	_("show            - list current server options"));
   cmd_reply_help(CMD_SHOW,
-	"show O          - list current value of server option O");
+	_("show O          - list current value of server option O"));
   if(server_state==PRE_GAME_STATE) {
     cmd_reply_help(CMD_START,
-	"start           - start game");
+	_("start           - start game"));
   } else {
     cmd_reply_help(CMD_START,
-	"start           - start game (unavailable: already running)");
+	_("start           - start game (unavailable: already running)"));
   }
   cmd_reply_help(CMD_HELP,
-	"Abbreviations are allowed.");
+	_("Abbreviations are allowed."));
 #undef cmd_reply_help
 }
 
@@ -1927,24 +1946,24 @@ void show_players(struct player *caller)
 {
   int i;
   
-  cmd_reply(CMD_LIST, caller, C_COMMENT, "List of players:");
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of players:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
   if (game.nplayers == 0)
-    cmd_reply(CMD_LIST, caller, C_WARNING, "<no players>");
+    cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));
   else
   {
     for(i=0; i<game.nplayers; i++) {
       if (game.players[i].ai.control) {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s (AI, %s) is being observed from %s",
+		_("%s (AI, %s) is being observed from %s"),
 		game.players[i].name,
 		name_of_skill_level(game.players[i].ai.skill_level),
 		game.players[i].addr);
 	} else {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s (AI, %s) is not being observed",
+		_("%s (AI, %s) is not being observed"),
 		game.players[i].name,
 		name_of_skill_level(game.players[i].ai.skill_level));
 	}
@@ -1952,13 +1971,13 @@ void show_players(struct player *caller)
       else {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s (human, %s) is connected from %s",
+		_("%s (human, %s) is connected from %s"),
 		game.players[i].name,
                 game.players[i].username,
 		game.players[i].addr);
 	} else {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s is not connected",
+		_("%s is not connected"),
 		game.players[i].name);
 	}
       }

@@ -144,7 +144,7 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
 	if (*i < argc - 1) 
 	  (*i)++;
 	else {
-          fprintf(stderr, "Missing argument for %s\n", option_name);
+          fprintf(stderr, _("Missing argument for %s\n"), option_name);
           exit(1);
 	  }
 	}
@@ -284,7 +284,7 @@ char *mystrerror(int errnum)
   return strerror(errnum);
 #else
   static char buf[64];
-  sprintf(buf, "error %d (compiled without strerror)", errnum);
+  sprintf(buf, _("error %d (compiled without strerror)"), errnum);
   return buf;
 #endif
 }
@@ -675,11 +675,11 @@ char *datafilename_required(const char *filename)
   if (dname) {
     return dname;
   } else {
-    freelog(LOG_FATAL, "Could not find readable file \"%s\" in data path",
+    freelog(LOG_FATAL, _("Could not find readable file \"%s\" in data path"),
 	    filename);
-    freelog(LOG_FATAL, "The data path may be set via"
-	               " the environment variable FREECIV_PATH");
-    freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
+    freelog(LOG_FATAL, _("The data path may be set via"
+			 " the environment variable FREECIV_PATH"));
+    freelog(LOG_FATAL, _("Current data path is: \"%s\""), datafilename(NULL));
     exit(1);
   }
 }
@@ -713,9 +713,10 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   return;
 #else
   if (getuid()==0 || geteuid()==0) {
-    fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
+    fprintf(stderr,
+	    _("%s: Fatal error: you're trying to run me as superuser!\n"),
 	    (argv0 ? argv0 : fallback ? fallback : "freeciv"));
-    fprintf(stderr,"Use a non-privileged account instead.\n");
+    fprintf(stderr, _("Use a non-privileged account instead.\n"));
     exit(1);
   }
 #endif

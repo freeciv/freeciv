@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "government.h"
 #include "log.h"
 #include "map.h"
@@ -74,10 +79,12 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
     } 
     
     notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		     "Game: Your spy poisoned the water supply of %s.", pcity->name);
+		     _("Game: Your %s poisoned the water supply of %s."),
+		     unit_name(pdiplomat->type), pcity->name);
     
     notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: %s is suspected of poisoning the water supply of %s.",
+		     _("Game: %s is suspected of poisoning the water supply"
+		       " of %s."),
 		     pplayer->name, pcity->name);
     
     diplomat_leave_city(pplayer, pdiplomat, pcity);
@@ -120,7 +127,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct un
     pvictim->hp /= 2;
     notify_player_ex(get_player(pvictim->owner), 
     		     pvictim->x, pvictim->y, E_DIPLOMATED,
-		     "Your %s was sabotaged by %s!", 
+		     _("Your %s was sabotaged by %s!"), 
 		     unit_name(pvictim->type), pplayer->name);
     send_unit_info(0, pvictim, 0);
   }
@@ -132,14 +139,18 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct un
     /* Attacking Spy/Diplomat dies (N-1:N) chance */
     
     notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT,
-		     "Game: Your spy was captured after completing her mission.");
+		     _("Game: Your %s was captured after completing"
+		       " her mission."),
+		     unit_name(pdiplomat->type));
     wipe_unit(0, pdiplomat);
   } else {
     
     /* Survived (1:N) chance */
     
     notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT,
-		     "Game: Your spy has successfully completed her mission.");
+		     _("Game: Your %s has successfully completed"
+		       " her mission."),
+		     unit_name(pdiplomat->type));
     
   }
 }
@@ -164,15 +175,15 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if(pplayer->economic.gold>=pvictim->bribe_cost) {
     if(government_has_flag(get_gov_iplayer(pvictim->owner), G_UNBRIBABLE))
       notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
-	"Game: You can't bribe a unit from this nation.");
+		       _("Game: You can't bribe a unit from this nation."));
     else {
       pplayer->economic.gold-=pvictim->bribe_cost;
       notify_player_ex(&game.players[pvictim->owner], 
 		    pvictim->x, pvictim->y, E_DIPLOMATED, 
-		    "Game: Your %s was bribed by %s.",
+		    _("Game: Your %s was bribed by %s."),
 		    unit_name(pvictim->type),pplayer->name);
       notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
-		    "Game: Your %s succeeded in bribing %s's %s.",
+		    _("Game: Your %s succeeded in bribing %s's %s."),
 		    unit_name(pdiplomat->type),
 		    get_player(pvictim->owner)->name,
 		    unit_name(pvictim->type));
@@ -228,27 +239,32 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     if (!j) {
       if (target->future_tech > pplayer->future_tech) {
  	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
- 			 "Game: Your diplomat stole Future Tech. %d from %s",
+ 			 _("Game: Your %s stole Future Tech. %d from %s"),
+			 unit_name(pdiplomat->type),
  			 ++(pplayer->future_tech), target->name);
  	notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 			 "Game: A%s %s diplomat stole Future Tech. %d from %s.", 
+ 			 _("Game: A%s %s %s stole Future Tech. %d"
+			   " from %s."), 
 			 n_if_vowel(get_nation_name(pplayer->nation)[0]),
-			 get_nation_name(pplayer->nation), pplayer->future_tech, 
-			 pcity->name);
+			 get_nation_name(pplayer->nation),
+			 unit_name(pdiplomat->type),
+			 pplayer->future_tech, pcity->name);
  	return;
       } else {
  	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
- 			 "Game: No new technology found in %s", pcity->name);
+ 			 _("Game: No new technology found in %s"), pcity->name);
  	return;
       }
     }
     
     if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
- 		       "Game: Your diplomat was caught in the attempt of stealing technology from %s.", pcity->name);
+ 		       _("Game: Your %s was caught in the attempt of"
+			 " stealing technology from %s."),
+		       unit_name(pdiplomat->type), pcity->name);
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 		       "Game: %s's diplomat failed to steal technology from %s",
-		       pplayer->name, pcity->name);
+ 		       _("Game: %s's %s failed to steal technology from %s"),
+		       pplayer->name, unit_name(pdiplomat->type), pcity->name);
       wipe_unit(0,pdiplomat);
       return;
     }
@@ -269,10 +285,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     
     if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-  		       "Game: Your spy was caught in the attempt of stealing technology from %s.", pcity->name);
+  		       _("Game: Your %s was caught in the attempt of"
+			 " stealing technology from %s."),
+		       unit_name(pdiplomat->type), pcity->name);
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
- 		       "Game: %s's spy was caught stealing technology from %s", 
-		       pplayer->name, pcity->name);
+ 		       _("Game: %s's %s was caught stealing technology"
+			 " from %s"), 
+		       pplayer->name, unit_name(pdiplomat->type), pcity->name);
       wipe_unit(0,pdiplomat);
       return;
     }
@@ -280,11 +299,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     
   pcity->steal=1;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		   "Game: Your %s stole %s from %s",
+		   _("Game: Your %s stole %s from %s"),
 		   unit_name(pdiplomat->type),
 		   advances[i].name, target->name); 
   notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
-		   "Game: %s's %s stole %s from %s.", 
+		   _("Game: %s's %s stole %s from %s."), 
 		   pplayer->name, unit_name(pdiplomat->type),
 		   advances[i].name, pcity->name); 
   if (tech_flag(i,TF_RAILROAD)) {
@@ -334,14 +353,14 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 	/* Attacking Spy/Diplomat dies (N-1:N) */
 	
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 "Game: Your %s was eliminated"
-			 " by a defending %s in %s.", 
+			 _("Game: Your %s was eliminated"
+			   " by a defending %s in %s."), 
 			 unit_name(pdiplomat->type),
 			 unit_name(punit->type),
 			 pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: A%s %s %s was eliminated"
-			 " while infiltrating %s.", 
+			 _("Game: A%s %s %s was eliminated"
+			   " while infiltrating %s."), 
 			 n_if_vowel(get_nation_name(pplayer->nation)[0]), 
 			 get_nation_name(pplayer->nation),
 			 unit_name(pdiplomat->type),
@@ -353,8 +372,8 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 	/* Defending Spy/Diplomat dies (1:N) */
 	
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: Your %s has been eliminated defending"
-			 " against a %s in %s.",
+			 _("Game: Your %s has been eliminated defending"
+			   " against a %s in %s."),
 			 unit_name(punit->type),
 			 unit_name(pdiplomat->type),
 			 pcity->name);
@@ -381,7 +400,9 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       /* Attacking Spy/Diplomat dies (N-1:N) chance */
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: Your spy was captured after completing her mission in %s.", pcity->name);
+		       _("Game: Your %s was captured after completing"
+			 " her mission in %s."),
+		       unit_name(pdiplomat->type), pcity->name);
     } else {
 
       /* Survived (1:N) chance */
@@ -394,7 +415,9 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       }
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: Your spy has successfully completed her mission and returned unharmed to %s.", spyhome->name);
+		       _("Game: Your %s has successfully completed"
+			 " her mission and returned unharmed to %s."),
+		       unit_name(pdiplomat->type), spyhome->name);
       
        /* being teleported costs 1 move */
       
@@ -429,7 +452,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     return;
   if(government_has_flag(get_gov_pplayer(cplayer), G_UNBRIBABLE)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You can't subvert a city from this nation.");
+		       _("Game: You can't subvert a city from this nation."));
       return;
   }
   
@@ -443,7 +466,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   
   if (pplayer->economic.gold < revolt_cost) { 
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: You don't have enough credits to subvert %s.", pcity->name);
+		     _("Game: You don't have enough credits to subvert %s."),
+		     pcity->name);
     
     return;
   }
@@ -459,11 +483,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     city_auto_remove_worker(pcity);
   }
   notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		   "Game: Revolt incited in %s, you now rule the city!", 
+		   _("Game: Revolt incited in %s, you now rule the city!"), 
 		   pcity->name);
   notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		   "Game: %s has revolted, %s influence suspected", pcity->name, 
-		   get_nation_name(pplayer->nation));
+		   _("Game: %s has revolted, %s influence suspected"),
+		   pcity->name, get_nation_name(pplayer->nation));
 
   /* Transfer city and units supported by this city to the new owner */
 
@@ -488,7 +512,12 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
       (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) &&
       (!player_knows_techs_with_flag(cplayer, TF_RAILROAD)) &&
       (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
-    notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+    notify_player(pplayer,
+		  _("Game: The people in %s are stunned by your"
+		    " technological insight!\n"
+		    "      Workers spontaneously gather and upgrade"
+		    " the city with railroads."),
+		  pnewcity->name);
     map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
     send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
   }
@@ -544,11 +573,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
       else
 	prod=get_improvement_name(pcity->currently_building);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		       "Game: Your diplomat succeeded in destroying the production of %s in %s", 
-		       prod, pcity->name);
+		       _("Game: Your %s succeeded in destroying"
+			 " the production of %s in %s"), 
+		       unit_name(pdiplomat->type), prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
-		       prod, pcity->name, get_nation_name_plural(pplayer->nation));
+		       _("Game: The production of %s was destroyed in %s,"
+			 " %s are suspected."), 
+		       prod, pcity->name,
+		       get_nation_name_plural(pplayer->nation));
       
       break;
     case 1:
@@ -565,19 +597,24 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 	}
 	if (i<10) {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			   "Game: Your diplomat destroyed the %s in %s.", 
+			   _("Game: Your %s destroyed the %s in %s."), 
+			   unit_name(pdiplomat->type),
 			   get_improvement_name(building), pcity->name);
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			   "Game: The %s destroyed the %s in %s.", 
+			   _("Game: The %s destroyed the %s in %s."), 
 			   get_nation_name_plural(pplayer->nation),
 			   get_improvement_name(building), pcity->name);
 	} else {
 	  notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			   "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
+			   _("Game: Your %s was caught in the attempt"
+			     " of industrial sabotage!"),
+			   unit_name(pdiplomat->type));
 	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			   "Game: You caught a%s %s diplomat attempting sabotage in %s!",
+			   _("Game: You caught a%s %s %s attempting"
+			     " sabotage in %s!"),
 			   n_if_vowel(get_nation_name(pplayer->nation)[0]),
-			   get_nation_name(pplayer->nation), pcity->name);
+			   get_nation_name(pplayer->nation),
+			   unit_name(pdiplomat->type), pcity->name);
 	  
 	  wipe_unit(0, pdiplomat);
 	  return;
@@ -597,7 +634,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 
     if (is_wonder(improvement) || improvement == B_PALACE) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		 "Game: You cannot sabotage a wonder or a Palace!");
+		 _("Game: You cannot sabotage a wonder or a Palace!"));
 	return;
     }
 
@@ -609,11 +646,15 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 	/* Lost */
 	
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-			 "Game: Your spy was caught in the attempt of sabotage!");
+			 _("Game: Your %s was caught in the attempt"
+			   " of sabotage!"),
+			 unit_name(pdiplomat->type));
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: You caught a%s %s spy attempting to sabotage the %s in %s!",
+			 _("Game: You caught a%s %s %s attempting"
+			   " to sabotage the %s in %s!"),
 			 n_if_vowel(get_nation_name(pplayer->nation)[0]),
-			 get_nation_name(pplayer->nation), 
+			 get_nation_name(pplayer->nation),
+			 unit_name(pdiplomat->type),
 			 get_improvement_name(improvement), pcity->name);
 	
 	wipe_unit(0, pdiplomat);
@@ -632,20 +673,25 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
       else
 	prod=get_improvement_name(pcity->currently_building);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		       "Game: Your spy succeeded in destroying the production of %s in %s", 
+		       _("Game: Your %s succeeded in destroying"
+			 " the production of %s in %s"),
+		       unit_name(pdiplomat->type),
 		       prod, pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		       "Game: The production of %s was destroyed in %s, %s are suspected.", 
-		       prod, pcity->name, get_nation_name_plural(pplayer->nation));
+		       _("Game: The production of %s was destroyed in %s,"
+			 " %s are suspected."), 
+		       prod, pcity->name,
+		       get_nation_name_plural(pplayer->nation));
             
     }else{
       pcity->improvements[improvement]=0;
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		       "Game: Your spy destroyed %s in %s.", 
+		       _("Game: Your %s destroyed %s in %s."),
+		       unit_name(pdiplomat->type),
 		       get_improvement_name(improvement), pcity->name);
       notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		       "Game: The %s destroyed %s in %s.", 
+		       _("Game: The %s destroyed %s in %s."), 
 		       get_nation_name_plural(pplayer->nation),
 		       get_improvement_name(improvement), pcity->name);
       
@@ -738,7 +784,7 @@ void player_restore_units(struct player *pplayer)
 	if (punit->hp==get_unit_type(punit->type)->hp) 
 	  punit->hp = get_unit_type(upgrade_type)->hp;
 	notify_player(pplayer,
-		      "Game: Leonardo's workshop has upgraded %s to %s%s",
+		      _("Game: Leonardo's workshop has upgraded %s to %s%s"),
 		      get_unit_type(punit->type)->name,
 		      get_unit_type(upgrade_type)->name,
 		      get_location_str_in(pplayer, punit->x, punit->y, ", "));
@@ -770,7 +816,7 @@ void player_restore_units(struct player *pplayer)
 	 them too.  --dwp  */
       send_remove_unit(0, punit->id);
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-		       "Game: Your %s has run out of hit points",
+		       _("Game: Your %s has run out of hit points"),
 		       unit_name(punit->type));
       gamelog(GAMELOG_UNITF, "%s lose a %s (out of hp)", 
 	      get_nation_name_plural(pplayer->nation),
@@ -809,7 +855,7 @@ void player_restore_units(struct player *pplayer)
       if(punit->fuel<=0) {
 	send_remove_unit(0, punit->id);
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-			 "Game: Your %s has run out of fuel",
+			 _("Game: Your %s has run out of fuel"),
 			 unit_name(punit->type));
 	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
 		get_nation_name_plural(pplayer->nation),
@@ -823,7 +869,8 @@ void player_restore_units(struct player *pplayer)
       }
       if ((!lighthouse_effect) && (myrand(100) >= 50)) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-			 "Game: Your Trireme has been lost on the high seas");
+			 _("Game: Your %s has been lost on the high seas"),
+			 unit_name(punit->type));
 	gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
 		get_nation_name_plural(pplayer->nation));
 	wipe_unit_safe(pplayer, punit, &myiter);
@@ -1482,7 +1529,7 @@ int do_airline(struct unit *punit, int x, int y)
   send_city_info(&game.players[city1->owner], city1, 0);
   send_city_info(&game.players[city2->owner], city2, 0);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
-		   "Game: unit transported succesfully.");
+		   _("Game: unit transported succesfully."));
   connection_do_unbuffer(game.players[punit->owner].conn);
 
   punit->moved=1;
@@ -1545,28 +1592,29 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
             }
       	    else {
     	        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-                  "Game: Too far for this unit.");
+				 _("Game: Too far for this unit."));
             }
           }
       	  else {
     	      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-                 "Game: Cannot paradrop because there are enemy units on the destination location.");
+			       _("Game: Cannot paradrop because there are"
+				 " enemy units on the destination location."));
           }
         }
         else {
           notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-            "Game: Cannot paradrop into ocean.");
+			   _("Game: Cannot paradrop into ocean."));
         }
       }
       else {
         notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-          "Game: The destination location is not known.");
+			 _("Game: The destination location is not known."));
       }
     }
   }
   else {
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
-      "Game: This unit type can not be paradropped.");
+		     _("Game: This unit type can not be paradropped."));
   }
 
   if(!paradropped)
@@ -1613,10 +1661,11 @@ void get_a_tech(struct player *pplayer, struct player *target)
   }
   if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
-      notify_player(pplayer, "Game: You acquire Future Tech %d from %s",
-                   ++(pplayer->future_tech), target->name);
-      notify_player(target, "Game: %s discovered Future Tech. %d in the city.", 
-                   pplayer->name, pplayer->future_tech);
+      notify_player(pplayer, _("Game: You acquire Future Tech %d from %s"),
+		    ++(pplayer->future_tech), target->name);
+      notify_player(target,
+		    _("Game: %s discovered Future Tech. %d in the city."), 
+		    pplayer->name, pplayer->future_tech);
     }
     return;
   }
@@ -1639,9 +1688,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
   update_research(pplayer);
   do_conquer_cost(pplayer);
   pplayer->research.researchpoints++;
-  notify_player(pplayer, "Game: You acquired %s from %s",
+  notify_player(pplayer, _("Game: You acquired %s from %s"),
 		advances[i].name, target->name); 
-  notify_player(target, "Game: %s discovered %s in the city.", pplayer->name, 
+  notify_player(target, _("Game: %s discovered %s in the city."), pplayer->name, 
 		advances[i].name); 
   if (tech_flag(i,TF_RAILROAD)) {
     upgrade_city_rails(pplayer, 0);
@@ -1749,7 +1798,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
       }
       notify_player_ex(get_player(punit2->owner), 
 		       punit2->x, punit2->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s when %s lost",
+		       _("Game: You lost a%s %s when %s lost"),
 		       n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		       get_unit_type(punit2->type)->name,
 		       get_unit_type(punit->type)->name);
@@ -1820,7 +1869,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
       (num_killed == 1)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
-		     "Game: You lost a%s %s under an attack from %s's %s%s",
+		     _("Game: You lost a%s %s under an attack from %s's %s%s"),
 		     n_if_vowel(get_unit_type(punit->type)->name[0]),
 		     get_unit_type(punit->type)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
@@ -1835,13 +1884,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   }
   else {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
-		     "Game: You lost %d units under an attack from %s's %s%s",
+		     _("Game: You lost %d units under an attack from %s's %s%s"),
 		     num_killed, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
 	notify_player_ex(&game.players[punit2->owner], 
 			 punit2->x, punit2->y, E_UNIT_LOST,
-			 "Game: You lost a%s %s under an attack from %s's %s",
+			 _("Game: You lost a%s %s under an attack from %s's %s"),
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
 			 get_unit_type(punit2->type)->name, destroyer->name,
                          unit_name(pkiller->type));
@@ -1920,17 +1969,17 @@ static char *get_location_str(struct player *pplayer, int x, int y,
   incity = map_get_city(x, y);
   if (incity) {
     if (use_at) {
-      sprintf(buffer, "%sat %s", prefix, incity->name);
+      sprintf(buffer, _("%sat %s"), prefix, incity->name);
     } else {
-      sprintf(buffer, "%sin %s", prefix, incity->name);
+      sprintf(buffer, _("%sin %s"), prefix, incity->name);
     }
   } else {
     nearcity = dist_nearest_city(pplayer, x, y);
     if (nearcity) {
       if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
-	sprintf(buffer, "%soutside %s", prefix, nearcity->name);
+	sprintf(buffer, _("%soutside %s"), prefix, nearcity->name);
       } else {
-	sprintf(buffer, "%snear %s", prefix, nearcity->name);
+	sprintf(buffer, _("%snear %s"), prefix, nearcity->name);
       }
     } else {
       strcpy(buffer, "");

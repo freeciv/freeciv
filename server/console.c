@@ -10,14 +10,19 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "log.h"
 
 #include "civserver.h"
+
 #include "console.h"
 
 static int console_show_prompt=0;
@@ -153,9 +158,9 @@ void con_set_style( int i )
 {
   console_rfcstyle = i;
   if (console_rfcstyle) 
-    con_puts(C_OK, "Ok. RFC-style set.");
+    con_puts(C_OK, _("Ok. RFC-style set."));
   else
-    con_puts(C_OK, "Ok. Standard style set.");
+    con_puts(C_OK, _("Ok. Standard style set."));
 }
 
 /************************************************************************
@@ -174,7 +179,7 @@ void con_prompt_on(void)
   static int first = 1;
   if (first) {
     con_puts(C_COMMENT, "");
-    con_puts(C_COMMENT, "Get a list of the available commands with 'help'.");
+    con_puts(C_COMMENT, _("Get a list of the available commands with 'help'."));
     first = 0;
   }
   console_show_prompt=1;

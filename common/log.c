@@ -10,11 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "mem.h"
+
 #include "log.h"
 
 int log_level;
@@ -72,10 +78,10 @@ int log_parse_level_str(char *level_str)
     if (level >= LOG_FATAL && level <= max_level) {
       return level;
     } else {
-      fprintf(stderr, "Bad log level %d in \"%s\".\n", level, level_str);
+      fprintf(stderr, _("Bad log level %d in \"%s\".\n"), level, level_str);
       if (level == LOG_DEBUG && max_level < LOG_DEBUG) {
-	fprintf(stderr, "Freeciv must be compiled with the DEBUG flag"
-		" to use debug level %d\n", LOG_DEBUG);
+	fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag"
+			  " to use debug level %d\n"), LOG_DEBUG);
       }
       return -1;
     }
@@ -85,7 +91,7 @@ int log_parse_level_str(char *level_str)
   if (c[0] == '3' && c[1] == ':') {
     level = 3;
   } else {
-    fprintf(stderr, "Badly formed log level argument \"%s\".\n", level_str);
+    fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     return -1;
   }
   logd_num_files = n;
@@ -97,7 +103,7 @@ int log_parse_level_str(char *level_str)
 #define FRETURN(x) do { free(dup); return (x); } while(0)
   
   if (tok==NULL) {
-    fprintf(stderr, "Badly formed log level argument \"%s\".\n", level_str);
+    fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     FRETURN(-1);
   }
   i = 0;
@@ -117,7 +123,7 @@ int log_parse_level_str(char *level_str)
       }
     }
     if(strlen(tok)==0) {
-      fprintf(stderr, "Empty filename in log level argument \"%s\".\n",
+      fprintf(stderr, _("Empty filename in log level argument \"%s\".\n"),
 	      level_str);
       FRETURN(-1);
     }
@@ -127,7 +133,7 @@ int log_parse_level_str(char *level_str)
   } while(tok != NULL);
 
   if (i!=logd_num_files) {
-    fprintf(stderr, "Badly formed log level argument \"%s\".\n", level_str);
+    fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     FRETURN(-1);
   }
   FRETURN(level);
@@ -220,7 +226,7 @@ void vreal_freelog(int level, char *message, va_list ap)
 
     if(log_filename) {
       if(!(fs=fopen(log_filename, "a"))) {
-	fprintf(stderr, "couldn't open logfile: %s for appending.\n", 
+	fprintf(stderr, _("couldn't open logfile: %s for appending.\n"), 
 		log_filename);
 	exit(1);
       }
@@ -232,9 +238,9 @@ void vreal_freelog(int level, char *message, va_list ap)
     if(level==prev_level && 0==strncmp(bufbuf[0],bufbuf[1],511)){
       repeated++;
       if(repeated==next){
-	sprintf(buf, "last message repeated %d times", repeated-prev);
+	sprintf(buf, _("last message repeated %d times"), repeated-prev);
 	if (repeated>2) {
-	  sprintf(buf+strlen(buf), " (total %d repeats)", repeated);
+	  sprintf(buf+strlen(buf), _(" (total %d repeats)"), repeated);
 	}
 	log_write(fs, prev_level, buf);
 	prev=repeated;
@@ -247,12 +253,12 @@ void vreal_freelog(int level, char *message, va_list ap)
 	  log_write(fs, prev_level, bufbuf[!whichbuf]);
 	} else {
 	  if(repeated-prev==1) {
-	    strcpy(buf, "last message repeated once");
+	    strcpy(buf, _("last message repeated once"));
 	  } else {
-	    sprintf(buf, "last message repeated %d times",  repeated-prev);
+	    sprintf(buf, _("last message repeated %d times"), repeated-prev);
 	  }
 	  if (repeated>2) {
-	    sprintf(buf+strlen(buf), " (total %d repeats)", repeated);
+	    sprintf(buf+strlen(buf), _(" (total %d repeats)"), repeated);
 	  }
 	  log_write(fs, prev_level, buf);
 	}

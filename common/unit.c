@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>		/* free */
 #include <string.h>
 #include <assert.h>
 
 #include "astring.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -654,8 +659,9 @@ char *get_units_with_flag_string(int flag)
       strcat(astr.str,unitname);
 
       if(count==1) {
-        astr_minsize(&astr,astr.n+strlen(" and "));
-        strcat(astr.str," and ");
+	char *and_str = _(" and ");
+        astr_minsize(&astr,astr.n+strlen(and_str));
+        strcat(astr.str, and_str);
       }
       else {
         if(count != 0) {
@@ -1015,7 +1021,7 @@ char *unit_description(struct unit *punit)
 
   sprintf(buffer, "%s%s\n%s\n%s", 
 	  get_unit_type(punit->type)->name, 
-	  punit->veteran ? " (veteran)" : "",
+	  punit->veteran ? _(" (veteran)") : "",
 	  unit_activity_text(punit), 
 	  pcity ? pcity->name : "");
 
@@ -1028,71 +1034,74 @@ char *unit_description(struct unit *punit)
 char *unit_activity_text(struct unit *punit)
 {
   static char text[64];
+  char *moves_str;
    
   switch(punit->activity) {
    case ACTIVITY_IDLE:
+     moves_str = _("Moves");
      if(is_air_unit(punit)) {
        int rate,f;
        rate=get_unit_type(punit->type)->move_rate/3;
        f=((punit->fuel)-1);
        if(punit->moves_left%3) {
         if(punit->moves_left/3>0)
-          sprintf(text, "Moves: (%d)%d %d/3",
+          sprintf(text, "%s: (%d)%d %d/3", moves_str,
                   ((rate*f)+(punit->moves_left/3)),
                   punit->moves_left/3, punit->moves_left%3);
         else
-          sprintf(text, "Moves: (%d)%d/3",
+          sprintf(text, "%s: (%d)%d/3", moves_str,
                   ((rate*f)+(punit->moves_left/3)),
                   punit->moves_left%3);
        }
        else
-        sprintf(text, "Moves: (%d)%d", rate*f+punit->moves_left/3,
+        sprintf(text, "%s: (%d)%d", moves_str,
+		rate*f+punit->moves_left/3,
                 punit->moves_left/3);
      }
      else {
        if(punit->moves_left%3) {
         if(punit->moves_left/3>0)
-          sprintf(text, "Moves: %d %d/3", punit->moves_left/3, 
-                  punit->moves_left%3);
+          sprintf(text, "%s: %d %d/3", moves_str,
+		  punit->moves_left/3, punit->moves_left%3);
         else
-          sprintf(text, "Moves: %d/3", punit->moves_left%3);
+          sprintf(text, "%s: %d/3", moves_str, punit->moves_left%3);
        }
        else
-        sprintf(text, "Moves: %d", punit->moves_left/3);
+        sprintf(text, "%s: %d", moves_str, punit->moves_left/3);
      }
      return text;
    case ACTIVITY_POLLUTION:
-    return "Pollution";
+    return _("Pollution");
    case ACTIVITY_ROAD:
-    return "Road";
+    return _("Road");
    case ACTIVITY_RAILROAD:
-    return "Railroad";
+    return _("Railroad");
    case ACTIVITY_MINE: 
-    return "Mine";
+    return _("Mine");
     case ACTIVITY_IRRIGATE:
-    return "Irrigation";
+    return _("Irrigation");
    case ACTIVITY_TRANSFORM:
-    return "Transform";
+    return _("Transform");
    case ACTIVITY_FORTIFY:
-    return "Fortify";
+    return _("Fortify");
    case ACTIVITY_AIRBASE:
-    return "Airbase";
+    return _("Airbase");
    case ACTIVITY_FORTRESS:
-    return "Fortress";
+    return _("Fortress");
    case ACTIVITY_SENTRY:
-    return "Sentry";
+    return _("Sentry");
    case ACTIVITY_PILLAGE:
      if(punit->activity_target == 0) {
-       return "Pillage";
+       return _("Pillage");
      } else {
-       strcpy(text, "Pillage: ");
-       strcat(text, map_get_infrastructure_text(punit->activity_target));
+       sprintf(text, "%s: %s", _("Pillage"),
+	       map_get_infrastructure_text(punit->activity_target));
        return (text);
      }
    case ACTIVITY_GOTO:
-    return "Goto";
+    return _("Goto");
    case ACTIVITY_EXPLORE:
-    return "Explore";
+    return _("Explore");
    default:
     freelog(LOG_FATAL, "Unknown unit activity:%d in unit_activity_text()", punit->activity);
     exit(0);

@@ -210,17 +210,17 @@ void create_science_dialog(int make_modal)
   char *report_title;
   
   if (game.player_ptr->research.researching!=A_NONE)
-    sprintf(current_text, "Researching %s: %d/%d",
+    sprintf(current_text, _("Researching %s: %d/%d"),
            advances[game.player_ptr->research.researching].name,
            game.player_ptr->research.researched,
            research_time(game.player_ptr));
   else
-    sprintf(current_text, "Researching Future Tech. %d: %d/%d",
+    sprintf(current_text, _("Researching Future Tech. %d: %d/%d"),
            ((game.player_ptr->future_tech)+1),
            game.player_ptr->research.researched,
            research_time(game.player_ptr));
 
-  sprintf(goal_text, "Goal: %s (%d steps)",
+  sprintf(goal_text, _("Goal: %s (%d steps)"),
 	  advances[game.player_ptr->ai.tech_goal].name,
           tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   
@@ -245,7 +245,7 @@ void create_science_dialog(int make_modal)
 					 science_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title("Science Advisor");
+  report_title=get_report_title(_("Science Advisor"));
   science_label = XtVaCreateManagedWidget("sciencelabel", 
 					  labelWidgetClass, 
 					  science_form,
@@ -380,7 +380,7 @@ void science_change_callback(Widget w, XtPointer client_data,
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else
     {  
-      sprintf(current_text, "Researching %s: %d/%d",
+      sprintf(current_text, _("Researching %s: %d/%d"),
 	      advances[to].name, game.player_ptr->research.researched, 
 	      research_time(game.player_ptr));
   
@@ -408,7 +408,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
   if (b == TRUE)
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
   else {  
-    sprintf(goal_text, "Goal: %s (%d steps)",
+    sprintf(goal_text, _("Goal: %s (%d steps)"),
 	    advances[to].name, tech_goal_turns(game.player_ptr, to));
 
     XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
@@ -477,18 +477,18 @@ void science_dialog_update(void)
     size_t i;
     char *report_title;
     
-    report_title=get_report_title("Science Advisor");
+    report_title=get_report_title(_("Science Advisor"));
     xaw_set_label(science_label, report_title);
     free(report_title);
 
     
     if (game.player_ptr->research.researching!=A_NONE)
-      sprintf(text, "Researching %s: %d/%d",
+      sprintf(text, _("Researching %s: %d/%d"),
 	      advances[game.player_ptr->research.researching].name,
 	      game.player_ptr->research.researched,
 	      research_time(game.player_ptr));
     else
-      sprintf(text, "Researching Future Tech. %d: %d/%d",
+      sprintf(text, _("Researching Future Tech. %d: %d/%d"),
              ((game.player_ptr->future_tech)+1),
              game.player_ptr->research.researched,
              research_time(game.player_ptr));
@@ -496,7 +496,7 @@ void science_dialog_update(void)
     
     xaw_set_label(science_current_label, text);
 
-    sprintf(text, "Goal: %s (%d steps)",
+    sprintf(text, _("Goal: %s (%d steps)"),
 	    advances[game.player_ptr->ai.tech_goal].name,
             tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
 
@@ -742,11 +742,12 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
     };
   };
   if(count)  {
-    sprintf(str,"Sold %d %s for %d gold",count,get_improvement_name(i),gold);
+    sprintf(str, _("Sold %d %s for %d gold"), count,
+	    get_improvement_name(i), gold);
   } else {
-    sprintf(str,"No %s could be sold",get_improvement_name(i));
+    sprintf(str, _("No %s could be sold"), get_improvement_name(i));
   };
-  popup_notify_dialog("Sell-Off:","Results",str);
+  popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
   return;
 }
 
@@ -765,7 +766,7 @@ void trade_report_dialog_update(void)
     char trade_total[48];
     struct city *pcity;
     
-    report_title=get_report_title("Trade Advisor");
+    report_title=get_report_title(_("Trade Advisor"));
     xaw_set_label(trade_label, report_title);
     free(report_title);
     total = 0;
@@ -803,7 +804,7 @@ void trade_report_dialog_update(void)
     }
     trade_list_names_ptrs[k]=NULL;
 
-    sprintf(trade_total, "Income:%6d    Total Costs: %6d", tax, total); 
+    sprintf(trade_total, _("Income:%6d    Total Costs: %6d"), tax, total); 
     xaw_set_label(trade_label2, trade_total); 
     
     XawListChange(trade_list, trade_list_names_ptrs, 0, 0, 1);
@@ -895,7 +896,7 @@ void create_activeunits_report_dialog(int make_modal)
 				       labelWidgetClass, 
 				       activeunits_form,
                                        XtNlabel, 
-				       "Totals: ...", 
+				       _("Totals: ..."), 
 				       NULL);
 
   close_command =
@@ -1066,7 +1067,7 @@ void activeunits_report_dialog_update(void)
     char *report_title;
     char activeunits_total[100];
     
-    report_title=get_report_title("Military Report");
+    report_title=get_report_title(_("Military Report"));
     xaw_set_label(activeunits_label, report_title);
     free(report_title);
 
@@ -1117,7 +1118,7 @@ void activeunits_report_dialog_update(void)
     }
 
     sprintf(activeunits_total,
-	    "Totals:                     %9d%9d%9d%9d",
+	    _("Totals:                     %9d%9d%9d%9d"),
 	    unittotals.building_count, unittotals.active_count,
 	    unittotals.upkeep_shield, unittotals.upkeep_food);
     xaw_set_label(activeunits_label2, activeunits_total); 
