@@ -1,6 +1,37 @@
 ## Process this file with automake to produce Makefile.in
 
-pkgdata_DATA = \
+if CLIENT
+COMMON_CLIENT_FILES = \
+	isotrident.tilespec \
+	trident.tilespec \
+	trident_shields.tilespec \
+	helpdata.txt
+if CLIENT_GUI_XAW
+CLIENT_EXTRA_FILES = Freeciv
+endif
+if CLIENT_GUI_GTK
+CLIENT_EXTRA_FILES = freeciv.rc
+endif
+if CLIENT_GUI_GTK_2_0
+CLIENT_EXTRA_FILES = freeciv.rc-2.0
+endif
+CLIENT_FILES = $(COMMON_CLIENT_FILES) $(CLIENT_EXTRA_FILES)
+else
+CLIENT_FILES =
+endif
+
+if SERVER
+SERVER_FILES = \
+	civ1.serv \
+	civ2.serv \
+	history.serv
+else
+SERVER_FILES =
+endif
+
+pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
+
+EXTRA_DIST = \
 	Freeciv	\
 	freeciv.rc	\
 	freeciv.rc-2.0	\
@@ -12,6 +43,16 @@ pkgdata_DATA = \
 	civ2.serv	\
 	history.serv
 
-EXTRA_DIST = $(pkgdata_DATA)
+if CLIENT
+CLIENTDATADIRS = misc flags isotrident trident 
+else
+CLIENTDATADIRS = 
+endif
 
-SUBDIRS = misc flags isotrident trident default civ1 civ2 scenario nation history
+if SERVER
+SERVERDATADIRS = default civ1 civ2 scenario nation history
+else
+SERVERDATADIRS = 
+endif
+
+SUBDIRS = $(CLIENTDATADIRS) $(SERVERDATADIRS)
