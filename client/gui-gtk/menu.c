@@ -644,7 +644,8 @@ static const char *translate_menu_path(const char *path)
   return path;
 #else
   static struct astring in, out, tmp;   /* these are never free'd */
-  char *tok, *s, *t;
+  char *tok, *s, *trn, *t;
+  int len;
 
   /* copy to in so can modify with strtok: */
   astr_minsize(&in, strlen(path)+1);
@@ -655,13 +656,15 @@ static const char *translate_menu_path(const char *path)
 
   s = in.str;
   while ((tok=strtok(s, "/")) != NULL) {
-    int len = strlen(tok);
+    len = strlen(tok);
     freelog(LOG_DEBUG, "tok \"%s\", len %d", tok, len);
     if (len && tok[0] == '<' && tok[len-1] == '>') {
       t = tok;
     } else {
-      astr_minsize(&tmp, len+2);
-      sprintf(tmp.str, "/%s", _(tok));
+      trn = _(tok);
+      len = strlen(trn) + 1;	/* string plus leading '/' */
+      astr_minsize(&tmp, len+1);
+      sprintf(tmp.str, "/%s", trn);
       t = tmp.str;
       len = strlen(t);
     }
