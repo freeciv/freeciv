@@ -1669,7 +1669,6 @@ void server_remove_player(struct player *pplayer)
     }
   } conn_list_iterate_end;
 
-  ai_data_done(pplayer);
   game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);
 }

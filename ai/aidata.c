@@ -453,7 +453,11 @@ void ai_data_init(struct player *pplayer)
   int i;
 
   ai->govt_reeval = 0;
-  ai->government_want = fc_calloc(game.government_count + 1, sizeof(int));
+  ai->government_want = fc_realloc(ai->government_want,
+				   ((game.government_count + 1)
+				    * sizeof(*ai->government_want)));
+  memset(ai->government_want, 0,
+	 (game.government_count + 1) * sizeof(*ai->government_want));
 
   ai->diplomacy.target = NULL;
   ai->diplomacy.strategy = WIN_OPEN;
@@ -476,14 +480,4 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
     ai->diplomacy.player_intel[i].warned_about_space = 0;
   }
-}
-
-/**************************************************************************
-  Deinitialize data
-**************************************************************************/
-void ai_data_done(struct player *pplayer)
-{
-  struct ai_data *ai = &aidata[pplayer->player_no];
-
-  free(ai->government_want);
 }
