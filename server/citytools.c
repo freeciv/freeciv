@@ -851,7 +851,9 @@ void civil_war(struct player *pplayer)
 	remove_city(pcity); /* don't forget this! */
 	map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
+	reestablish_city_trade_routes(pnewcity);
 	city_check_workers(cplayer,pnewcity);
+	update_map_with_city_workers(pnewcity);
 	city_refresh(pnewcity);
 	initialize_infrastructure_cache(pnewcity);
 	send_city_info(0, pnewcity, 0);
@@ -881,12 +883,21 @@ void civil_war(struct player *pplayer)
  * be used to trade cities in the diplomatic section too.
  *
  *  - Kris Bubendorfer
+ *
+ * Note that the old city is not yet destroyed, which means we
+ * can't yet transfer (re-establish) the trade routes for
+ * the new city.  (Though the new city struct has the same
+ * traderoute data as the old city.)  Thus you should call
+ *    reestablish_trade_routes(p_new_city);
+ * sometime _after_ calling
+ *    remove_city(p_old_city);
+ * after this function.  --dwp
+ *
  */
-
 struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 			   struct city *pcity)
 {
-  struct city *pnewcity, *pc2;
+  struct city *pnewcity;
   int i;
 
   if (!pcity)
@@ -901,14 +912,9 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   pnewcity=(struct city *)malloc(sizeof(struct city));
   *pnewcity=*pcity;
 
-  for (i=0;i<4;i++) {
-    pc2=find_city_by_id(pnewcity->trade[i]);
-    if (can_establish_trade_route(pnewcity, pc2))    
-      establish_trade_route(pnewcity, pc2);
-  }
-
   pnewcity->id=get_next_id_number();
   add_city_to_cache(pnewcity);
+
   for (i = 0; i < B_LAST; i++) {
     if (is_wonder(i) && city_got_building(pnewcity, i))
       game.global_wonders[i] = pnewcity->id;

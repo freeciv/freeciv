@@ -985,7 +985,6 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
   int i, x, y, old_id;
   int coins;
-  struct city *pc2;
   struct player *cplayer;
   if(pplayer->player_no!=pcity->owner) {
     struct city *pnewcity;
@@ -1063,16 +1062,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     make_partisans(pcity);
     *pnewcity=*pcity;
     remove_city(pcity);
-    for (i=0;i<4;i++) {
-      pc2=find_city_by_id(pnewcity->trade[i]);
-      if (can_establish_trade_route(pnewcity, pc2))    
-	establish_trade_route(pnewcity, pc2);
-    }
+
     /* now set things up for the new owner */
     
     old_id = pnewcity->id;
-
     pnewcity->id=get_next_id_number();
+    
     add_city_to_cache(pnewcity);
     for (i = 0; i < B_LAST; i++) {
       if (is_wonder(i) && city_got_building(pnewcity, i))
@@ -1104,6 +1099,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
         }
       }
     }
+
+    reestablish_city_trade_routes(pnewcity); 
 
 /* relocate workers of tiles occupied by enemy units */ 
     city_check_workers(pplayer,pnewcity);  

@@ -675,7 +675,7 @@ void remove_city(struct city *pcity)
           get_race_name_plural(game.players[pcity->owner].race),
           pcity->name,pcity->x,pcity->y);
   for (o=0; o<4; o++)
-    remove_trade_route(pcity->trade[0], pcity->id);
+    remove_trade_route(pcity->trade[o], pcity->id); 
   packet.value=pcity->id;
   for(o=0; o<game.nplayers; o++)           /* dests */
     send_packet_generic_integer(game.players[o].conn,
@@ -693,7 +693,8 @@ void remove_city(struct city *pcity)
 
 
 /**************************************************************************
-...
+The following has to be called every time a city, pcity, has changed 
+owner to update the tile->worked pointer.
 **************************************************************************/
 
 void update_map_with_city_workers(struct city *pcity)
@@ -703,4 +704,25 @@ void update_map_with_city_workers(struct city *pcity)
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
 	       set_worker_city(pcity, x, y, C_TILE_WORKER);
        }
+}
+
+/**************************************************************************
+The following has to be called every time a city, pcity, has changed
+owner to update the city's traderoutes.
+**************************************************************************/
+
+void reestablish_city_trade_routes(struct city *pcity) 
+{
+  int i;
+  struct city *oldtradecity;
+
+  for (i=0;i<4;i++) {
+    if (pcity->trade[i]) {
+      oldtradecity=find_city_by_id(pcity->trade[i]);
+      pcity->trade[i]=0;
+      if (can_establish_trade_route(pcity, oldtradecity)) {   
+         establish_trade_route(pcity, oldtradecity);
+      }
+    }
+  }
 }

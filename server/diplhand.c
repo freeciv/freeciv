@@ -192,6 +192,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  remove_city(pcity); /* don't forget this! */
 	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 	  
+	  reestablish_city_trade_routes(pnewcity); 
 	  city_check_workers(pdest ,pnewcity);
 	  update_map_with_city_workers(pnewcity);
 	  city_refresh(pnewcity);

@@ -496,6 +496,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
   }
 
+  reestablish_city_trade_routes(pnewcity); 
+
   city_check_workers(pplayer,pnewcity);
   update_map_with_city_workers(pnewcity);
   city_refresh(pnewcity);
