@@ -14,6 +14,7 @@ EXTRA_DIST =			\
 	README.attributes 	\
 	README.cma		\
 	README.effects		\
+	README.ftwl		\
 	README.graphics		\
 	README.rulesets		\
 	README.sound		\
