@@ -45,6 +45,7 @@
 #include "ruleset.h"
 #include "spacerace.h"
 #include "srv_main.h"
+#include "stdinhand.h"
 #include "unittools.h"
 
 #include "aicity.h"
@@ -626,14 +627,20 @@ static void player_load(struct player *plr, int plrno,
      * from A_FUTURE (which shouldn't ever be here anyway). */
     plr->ai.tech_goal = A_UNSET;
   }
+  /* Some sane defaults */
   plr->ai.handicap = 0;		/* set later */
   plr->ai.fuzzy = 0;		/* set later */
   plr->ai.expand = 100;		/* set later */
+  plr->ai.science_cost = 100;	/* set later */
   plr->ai.skill_level =
     secfile_lookup_int_default(file, game.skill_level,
 			       "player%d.ai.skill_level", plrno);
   if (plr->ai.control && plr->ai.skill_level==0) {
     plr->ai.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
+  }
+  if (plr->ai.control) {
+    /* Set AI parameters */
+    set_ai_level_directer(plr, plr->ai.skill_level);
   }
 
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);

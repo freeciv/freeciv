@@ -137,6 +137,8 @@ struct player_ai {
   int skill_level;		/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
+  int science_cost;             /* Cost in bulbs to get new tech, relative
+                                   to non-AI players (100: Equal cost) */
   int warmth; /* threat of global warming */
   enum barbarian_type barbarian_type;
 };

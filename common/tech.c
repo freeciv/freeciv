@@ -458,6 +458,14 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     die("Invalid tech_leakage %d", game.rgame.tech_leakage);
   }
 
+  /* Assign a science penalty to the AI at easier skill levels.  This code
+   * can also be adpoted to create an extra-hard AI skill level where the AI
+   * gets science benefits */
+  if (pplayer->ai.control) {
+    assert(pplayer->ai.science_cost > 0);
+    cost = (cost * pplayer->ai.science_cost) / 100;
+  }
+
   /* If we have many players, tech cost may drop to 0.  */
   if (cost == 0) {
     cost = 1;

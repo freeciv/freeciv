@@ -975,6 +975,7 @@ enum command_id {
   CMD_TAKE,
   CMD_CREATE,
   CMD_AWAY,
+  CMD_NOVICE,
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
@@ -1163,6 +1164,15 @@ static const struct command commands[] = {
       "away"),
    N_("Set yourself in away mode. The AI will watch your back."),
    N_("The AI will govern your nation but do minimal changes."),
+  },
+  {"novice",	ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
+   N_("novice\n"
+      "novice <player-name>"),
+   N_("Set one or all AI players to 'novice'."),
+   N_("With no arguments, sets all AI players to skill level 'novice', and "
+      "sets the default level for any new AI players to 'novice'.  With an "
+      "argument, sets the skill level for that player only.")
   },
   {"easy",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -1639,7 +1649,7 @@ static void metaserver_command(struct connection *caller, char *arg)
 ***************************************************************/
 static const char *name_of_skill_level(int level)
 {
-  const char *nm[11] = { "UNUSED", "away", "UNKNOWN", "easy",
+  const char *nm[11] = { "UNUSED", "away", "novice", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
 			 "UNKNOWN", "UNKNOWN", "experimental" };
   
@@ -1654,7 +1664,8 @@ static int handicap_of_skill_level(int level)
 {
   int h[11] = { -1,
 		H_AWAY,
-		H_NONE,
+ /* novice */   H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
+                        | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE,
  /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE,
 		H_NONE,
@@ -1676,10 +1687,26 @@ level (1 to 10).  See ai_fuzzy() in common/player.c
 **************************************************************************/
 static int fuzzy_of_skill_level(int level)
 {
-  int f[11] = { -1, 0, 0, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
+  int f[11] = { -1, 0, 400/*novice*/, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
   
   assert(level>0 && level<=10);
   return f[level];
+}
+
+/**************************************************************************
+Return the AI's science development cost; a science development cost of 100
+means that the AI develops science at the same speed as a human; a science
+development cost of 200 means that the AI develops science at half the speed
+of a human, and a sceence development cost of 50 means that the AI develops
+science twice as fast as the human
+**************************************************************************/
+static int science_cost_of_skill_level(int level) 
+{
+  int x[11] = { -1, 100, 250/*novice*/, 100/*easy*/, 100, 100, 100, 100, 
+                100, 100, 100 };
+  
+  assert(level>0 && level<=10);
+  return x[level];
 }
 
 /**************************************************************************
@@ -1689,7 +1716,8 @@ compared to defaults.  0 means _never_ build new cities, > 100 means to
 **************************************************************************/
 static int expansionism_of_skill_level(int level)
 {
-  int x[11] = { -1, 100, 100, 10/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
+  int x[11] = { -1, 100, 10/*novice*/, 10/*easy*/, 100, 100, 100, 100, 
+                100, 100, 100 };
   
   assert(level>0 && level<=10);
   return x[level];
@@ -1952,7 +1980,9 @@ static void write_init_script(char *script_filename)
 	cmdlevel_name(first_access_level));
 
     fprintf(script_file, "%s\n",
-	(game.skill_level <= 3) ?	"easy" :
+        (game.skill_level == 1) ?       "away" :
+	(game.skill_level == 2) ?	"novice" :
+	(game.skill_level == 3) ?	"easy" :
 	(game.skill_level == 5) ?	"medium" :
 	(game.skill_level < 10) ?	"hard" :
 					"experimental");
@@ -2510,6 +2540,7 @@ void set_ai_level_directer(struct player *pplayer, int level)
   pplayer->ai.handicap = handicap_of_skill_level(level);
   pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
   pplayer->ai.expand = expansionism_of_skill_level(level);
+  pplayer->ai.science_cost = science_cost_of_skill_level(level);
   pplayer->ai.skill_level = level;
 }
 
@@ -2521,6 +2552,7 @@ static enum command_id cmd_of_level(int level)
 {
   switch(level) {
     case 1 : return CMD_AWAY;
+    case 2 : return CMD_NOVICE;
     case 3 : return CMD_EASY;
     case 5 : return CMD_NORMAL;
     case 7 : return CMD_HARD;
@@ -3433,6 +3465,9 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_AWAY:
     set_away(caller, arg);
     break;
+  case CMD_NOVICE:
+    set_ai_level(caller, arg, 2);
+    break;
   case CMD_EASY:
     set_ai_level(caller, arg, 3);
     break;
@@ -4212,6 +4247,7 @@ Commands that may be followed by a player name
 static const int player_cmd[] = {
   CMD_RENAME,
   CMD_AITOGGLE,
+  CMD_NOVICE,
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
