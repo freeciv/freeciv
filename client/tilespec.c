@@ -483,11 +483,16 @@ static void tilespec_lookup_sprite_tags(void)
   while (section_file_lookup(&tag_sf, "explode.unit_%d", num_tiles_explode_unit))
     num_tiles_explode_unit++;
 
-  sprites.explode.unit = fc_calloc(num_tiles_explode_unit, sizeof(struct Sprite *));
+  if (num_tiles_explode_unit==0) {
+    sprites.explode.unit = NULL;
+  } else {
+    sprites.explode.unit = fc_calloc(num_tiles_explode_unit,
+				     sizeof(struct Sprite *));
 
-  for (i = 0; i < num_tiles_explode_unit; i++) {
-    my_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
-    SET_SPRITE(explode.unit[i], buffer);
+    for (i = 0; i < num_tiles_explode_unit; i++) {
+      my_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
+      SET_SPRITE(explode.unit[i], buffer);
+    }
   }
 
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
