@@ -699,8 +699,9 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
       gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
         POINTER_COLUMN, &pcity, -1);
 
-      if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
+      if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) {
 	gtk_tree_selection_select_iter(city_selection, &it);
+      }
     } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
   }
 }
@@ -708,37 +709,36 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static gboolean
-city_select_same_island_callback(GtkWidget *w, gpointer data)
+static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
+				GtkTreeIter *iter, gpointer data)
 {
-#if 0
-  gint i;
-  GList *selection = GTK_CLIST(city_list)->selection;
-  GList *copy = NULL;
+  GtkTreeIter it;
+  struct city *selectedcity;
 
-  for(; selection; selection = g_list_next(selection))
-    copy = g_list_append (copy, city_from_glist(selection));
+  gtk_tree_model_get(GTK_TREE_MODEL(city_model), iter,
+		     POINTER_COLUMN, &selectedcity, -1);
 
-  for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
-    {
-      struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list),i);
-      GList *current = copy;
-      
-      for(; current; current = g_list_next(current))
-	{
-	  struct city* selectedcity = current->data;
-          if (map_get_continent(pcity->x, pcity->y)
-              == map_get_continent(selectedcity->x, selectedcity->y))
-	    {
-	      gtk_clist_select_row(GTK_CLIST(city_list),i,0);
-	      break;
-	    }
-	}
+  if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    struct city *pcity;
+
+    do {
+      gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
+        POINTER_COLUMN, &pcity, -1);
+
+      if (map_get_continent(pcity->x, pcity->y)
+              == map_get_continent(selectedcity->x, selectedcity->y)) {
+	gtk_tree_selection_select_iter(city_selection, &it);
+      }
+    } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
   }
+}
 
-  g_list_free(copy);
-#endif
-  return TRUE;
+/****************************************************************
+...
+*****************************************************************/
+static void city_select_same_island_callback(GtkMenuItem *item, gpointer data)
+{
+  gtk_tree_selection_selected_foreach(city_selection,same_island_iterate,NULL);
 }
       
 /****************************************************************
