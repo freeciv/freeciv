@@ -155,11 +155,13 @@ static char *cr_entry_building(struct city *pcity)
     if(pcity->is_building_unit) {
       name = get_unit_type(pcity->currently_building)->name;
       cost = get_unit_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building, TRUE);
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  TRUE, TRUE);
     } else {
       name = get_impr_name_ex(pcity, pcity->currently_building);
       cost = get_improvement_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building, FALSE);
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  FALSE, TRUE);
     }
     my_snprintf(buf, sizeof(buf), "%s (%d/%d/%d/%d)%s",
 		name,

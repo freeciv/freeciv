@@ -1222,15 +1222,16 @@ int city_change_production_penalty(struct city *pcity,
  Calculates the turns which are needed to build the requested
  improvement in the city.  GUI Independent.
 **************************************************************************/
-int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
+int city_turns_to_build(struct city *pcity, int id, int id_is_unit,
+                        int include_shield_stock )
 {
   int city_shield_surplus = pcity->shield_surplus;
-  int city_shield_stock =
-    city_change_production_penalty(pcity, id, id_is_unit, FALSE);
+  int city_shield_stock = include_shield_stock ?
+      city_change_production_penalty(pcity, id, id_is_unit, FALSE) : 0;
   int improvement_cost = id_is_unit ?
     get_unit_type(id)->build_cost : get_improvement_type(id)->build_cost;
 
-  if (city_shield_stock >= improvement_cost) {
+  if (include_shield_stock && (city_shield_stock >= improvement_cost)) {
     return 1;
   } else if (city_shield_surplus > 0) {
     return
@@ -1345,6 +1346,78 @@ int city_granary_size(int city_size)
 {
   return (game.rgame.granary_food_ini * game.foodbox) +
     (game.rgame.granary_food_inc * city_size * game.foodbox) / 100;
+}
+
+/****************************************************************
+ Pretty sprints the info about a production in 4 columns (name, info,
+ cost, turns to build). The columns must each have a size of
+ column_size bytes.
+*****************************************************************/
+void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
+		    struct city *pcity)
+{
+  if (is_unit) {
+    struct unit_type *ptype;
+
+    my_snprintf(buf[0], column_size, unit_name(id));
+
+    /* from unit.h get_unit_name() */
+    ptype = get_unit_type(id);
+    if (ptype->fuel) {
+      my_snprintf(buf[1], column_size, "%d/%d/%d(%d)",
+		  ptype->attack_strength, ptype->defense_strength,
+		  ptype->move_rate / 3,
+		  (ptype->move_rate / 3) * ptype->fuel);
+    } else {
+      my_snprintf(buf[1], column_size, "%d/%d/%d",
+		  ptype->attack_strength, ptype->defense_strength,
+		  ptype->move_rate / 3);
+    }
+    my_snprintf(buf[2], column_size, "%d", ptype->build_cost);
+
+    if (pcity) {
+      my_snprintf(buf[3], column_size, "%d",
+		  city_turns_to_build(pcity, id, TRUE, FALSE));
+    } else {
+      buf[3][0] = 0;
+    }
+  } else {
+    /* Total & turns left meaningless on capitalization */
+    if (id == B_CAPITAL) {
+      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      buf[1][0] = '\0';
+      my_snprintf(buf[2], column_size, "---");
+      my_snprintf(buf[3], column_size, "---");
+    } else {
+
+      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+
+      /* from city.c get_impr_name_ex() */
+      if (pcity && wonder_replacement(pcity, id)) {
+	my_snprintf(buf[1], column_size, "*");
+      } else {
+	char *state = "";
+
+	if (is_wonder(id)) {
+	  state = _("Wonder");
+	  if (game.global_wonders[id])
+	    state = _("Built");
+	  if (wonder_obsolete(id))
+	    state = _("Obsolete");
+	}
+	my_snprintf(buf[1], column_size, state);
+      }
+
+      my_snprintf(buf[2], column_size, "%d",
+		  get_improvement_type(id)->build_cost);
+      if (pcity) {
+	my_snprintf(buf[3], column_size, "%d",
+		    city_turns_to_build(pcity, id, FALSE, FALSE));
+      } else {
+	buf[3][0] = 0;
+      }
+    }
+  }
 }
 
 /**************************************************************************

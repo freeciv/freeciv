@@ -503,7 +503,8 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 	  }
 
 	  my_snprintf(cost, sizeof(cost), "%d", get_unit_type(which)->build_cost);
-	  my_snprintf(rounds, sizeof(rounds), "%d", city_turns_to_build(pcity, which, TRUE));
+	  my_snprintf(rounds, sizeof(rounds), "%d",
+		      city_turns_to_build(pcity, which, TRUE, TRUE));
 	}
       }
     }
@@ -535,7 +536,8 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
       if (which != B_CAPITAL)
       {
 	my_snprintf(cost, sizeof(cost), "%d", get_improvement_type(which)->build_cost);
-	my_snprintf(rounds, sizeof(rounds), "%d", city_turns_to_build(pcity, which, FALSE));
+	my_snprintf(rounds, sizeof(rounds), "%d",
+		    city_turns_to_build(pcity, which, FALSE, TRUE));
       }
       else
       {
@@ -1488,7 +1490,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   if (pcity->is_building_unit)
   {
-    turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
+    turns = city_turns_to_build(pcity, pcity->currently_building,
+				TRUE, TRUE);
     shield = pcity->shield_stock;
     max_shield = get_unit_type(pcity->currently_building)->build_cost;
 
@@ -1510,7 +1513,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     }
     else
     {
-      turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  FALSE, TRUE);
       shield = pcity->shield_stock;
       max_shield = get_improvement_type(pcity->currently_building)->build_cost;
 

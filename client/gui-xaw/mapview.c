@@ -847,7 +847,7 @@ static void show_city_descriptions(void)
 	  char buffer[512];
 
 	  turns = city_turns_to_build(pcity, pcity->currently_building,
-				      pcity->is_building_unit);
+				      pcity->is_building_unit, TRUE);
 
 	  if (pcity->is_building_unit) {
 	    punit_type = get_unit_type(pcity->currently_building);

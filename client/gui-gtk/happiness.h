@@ -10,15 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CITYDLG_H
-#define FC__CITYDLG_H
-
 #include <gtk/gtk.h>
+#include "citydlg.h"
 
-#include "citydlg_g.h"
-
-enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
-  HAPPINESS_PAGE, TRADE_PAGE, MISC_PAGE
-};
-
-#endif				/* FC__CITYDLG_H */
+GtkWidget *get_top_happiness_display(struct city *pcity);
+void close_happiness_dialog(struct city *pcity);
+void refresh_happiness_dialog(struct city *pcity);

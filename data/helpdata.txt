@@ -505,6 +505,27 @@ player named 'foo'; player names can be abbreviated.\
 and executed, if you have the required access rights.\
 ")
 
+[help_worklist_editor]
+name = _("Worklist Editor")
+text = _("\
+The worklist editor is used to edit both worklists for each city (from the \
+city dialog) and global worklists. Using this editor You can create lists \
+specifying what to build in the turns to come.\
+"), _("\
+To add an item to the worklist, double-click the desired item in the list \
+of available items. You can also press the Help button to get help on the \
+selected item. Pressing Help with no item selected will display this page.\
+"), _("\
+To remove an item from the worklist simply double-click the item to remove. \
+Use the buttons below the worklist to move items up and/or down in the list.\
+"), _("\
+Keyboard shortcuts: Home to focus the worklist, End to focus the available \
+list, Up/Down arrows to select previous/next item \
+in worklist or available list, PageUp/Down to move items up/down \
+in the worklist, Insert to insert items from the available list into \
+the worklist and Delete to delete the selected item from the worklist.\
+")
+
 [help_strategy_and_tactics]
 name = _("Strategy and tactics")
 text = _("\

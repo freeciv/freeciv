@@ -625,6 +625,42 @@ int cid_id(cid cid)
   return (cid >= B_LAST) ? (cid - B_LAST) : cid;
 }
 
+wid wid_encode(int is_unit, int is_worklist, int id)
+{
+  assert(!is_unit || !is_worklist);
+
+  if (is_unit)
+    return id + B_LAST;
+  if (is_worklist)
+    return id + B_LAST + U_LAST;
+  return id;
+}
+
+int wid_is_unit(wid wid)
+{
+  assert(wid != WORKLIST_END);
+
+  return (wid >= B_LAST && wid < B_LAST + U_LAST);
+}
+
+int wid_is_worklist(wid wid)
+{
+  assert(wid != WORKLIST_END);
+
+  return (wid >= B_LAST + U_LAST);
+}
+
+int wid_id(wid wid)
+{
+  assert(wid != WORKLIST_END);
+
+  if (wid >= B_LAST + U_LAST)
+    return wid - (B_LAST + U_LAST);
+  if (wid >= B_LAST)
+    return wid - B_LAST;
+  return wid;
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -810,8 +846,7 @@ int collect_cids2(cid * dest_cids)
  */
 int collect_cids3(cid * dest_cids)
 {
-  int cids_used = 0;
-  int id;
+  int id, cids_used = 0;
 
   for (id = 0; id < B_LAST; id++) {
     if (can_player_build_improvement(game.player_ptr, id)) {
@@ -827,4 +862,159 @@ int collect_cids3(cid * dest_cids)
     }
   }
   return cids_used;
+}
+
+/*
+ * Collect the cids of all targets which can be build by this city or
+ * in general.
+ */
+int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
+{
+  int id, cids_used = 0;
+
+  for (id = 0; id < game.num_impr_types; id++) {
+    int can_build = can_player_build_improvement(game.player_ptr, id);
+    int can_eventually_build =
+	could_player_eventually_build_improvement(game.player_ptr, id);
+
+    /* If there's a city, can the city build the improvement? */
+    if (pcity) {
+      can_build = can_build && can_build_improvement(pcity, id);
+      can_eventually_build = can_eventually_build &&
+	  can_eventually_build_improvement(pcity, id);
+    }
+
+    if ((advanced_tech && can_eventually_build) ||
+	(!advanced_tech && can_build)) {
+      dest_cids[cids_used] = cid_encode(0, id);
+      cids_used++;
+    }
+  }
+
+  for (id = 0; id < game.num_unit_types; id++) {
+    int can_build = can_player_build_unit(game.player_ptr, id);
+    int can_eventually_build =
+	can_player_eventually_build_unit(game.player_ptr, id);
+
+    /* If there's a city, can the city build the unit? */
+    if (pcity) {
+      can_build = can_build && can_build_unit(pcity, id);
+      can_eventually_build = can_eventually_build &&
+	  can_eventually_build_unit(pcity, id);
+    }
+
+    if ((advanced_tech && can_eventually_build) ||
+	(!advanced_tech && can_build)) {
+      dest_cids[cids_used] = cid_encode(1, id);
+      cids_used++;
+    }
+  }
+  return cids_used;
+}
+
+/*
+ * Collect the cids of all improvements which are built in the given city.
+ */
+int collect_cids5(cid * dest_cids, struct city *pcity)
+{
+  int id, cids_used = 0;
+
+  assert(pcity);
+
+  for (id = 0; id < game.num_impr_types; id++) {
+    if (pcity->improvements[id]) {
+      dest_cids[cids_used] = cid_encode(0, id);
+      cids_used++;
+    }
+  }
+
+  return cids_used;
+}
+
+/*
+ * Collect the wids of all possible targets of the given city.
+ */
+int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first, 
+                  int advanced_tech)
+{
+  cid cids[U_LAST + B_LAST];
+  int item, cids_used, wids_used = 0;
+  struct item items[U_LAST + B_LAST];
+
+  /* Fill in the global worklists now?                      */
+  /* perhaps judicious use of goto would be good here? -mck */
+  if (wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
+    int i;
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+      if (game.player_ptr->worklists[i].is_valid) {
+	dest_wids[wids_used] = wid_encode(0, 1, i);
+	wids_used++;
+      }
+    }
+  }
+
+  /* Fill in improvements and units */
+  cids_used = collect_cids4(cids, pcity, advanced_tech);
+  name_and_sort_items(cids, cids_used, items, 0);
+
+  for (item = 0; item < cids_used; item++) {
+    cid cid = items[item].cid;
+    dest_wids[wids_used] = wid_encode(cid_is_unit(cid), 0, cid_id(cid));
+    wids_used++;
+  }
+
+  /* we didn't fill in the global worklists above */
+  if (!wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
+    int i;
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+      if (game.player_ptr->worklists[i].is_valid) {
+        dest_wids[wids_used] = wid_encode(0, 1, i);
+        wids_used++;
+      }
+    }
+  }
+
+  return wids_used;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int num_supported_units_in_city(struct city *pcity)
+{
+  int i = 0;
+  struct unit_list *plist;
+
+  if (pcity->owner != game.player_idx) {
+    plist = &pcity->info_units_supported;
+  } else {
+    plist = &pcity->units_supported;
+  }
+
+  unit_list_iterate(*plist, punit) {
+    i++;
+  } unit_list_iterate_end;
+
+  return i;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int num_present_units_in_city(struct city *pcity)
+{
+  int i = 0;
+  struct unit_list *plist;
+
+  if (pcity->owner != game.player_idx) {
+    plist = &pcity->info_units_present;
+  } else {
+    plist = &map_get_tile(pcity->x, pcity->y)->units;
+  }
+
+  unit_list_iterate(*plist, punit) {
+    i++;
+  } unit_list_iterate_end;
+
+  return i;
 }

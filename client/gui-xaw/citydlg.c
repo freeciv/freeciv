@@ -292,10 +292,12 @@ static void get_contents_of_progress(struct city_dialog *pdialog,
     stock = pcity->shield_stock;
     if(pcity->is_building_unit) {
       cost = get_unit_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building, TRUE);
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  TRUE, TRUE);
     } else {
       cost = get_improvement_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building, FALSE);
+      turns = city_turns_to_build(pcity, pcity->currently_building,
+				  FALSE, TRUE);
     }
   }
 
@@ -2362,7 +2364,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 		    "%s (XX)",
 		    get_impr_name_ex(pdialog->pcity, i));
       } else {
-	turns = city_turns_to_build (pdialog->pcity, i, FALSE);
+	turns = city_turns_to_build(pdialog->pcity, i, FALSE, TRUE);
 	my_snprintf(pdialog->change_list_names[n],
 		    sizeof(pdialog->change_list_names[n]),
 		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
@@ -2379,7 +2381,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   for(i=0; i<game.num_unit_types; i++)
     if(can_build_unit(pdialog->pcity, i)) {
-      turns = city_turns_to_build (pdialog->pcity, i, TRUE);
+      turns = city_turns_to_build(pdialog->pcity, i, TRUE, TRUE);
       my_snprintf(pdialog->change_list_names[n],
 		  sizeof(pdialog->change_list_names[n]),
 		  turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),

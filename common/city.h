@@ -327,7 +327,8 @@ int city_got_citywalls(struct city *pcity);
 int wonder_replacement(struct city *pcity, Impr_Type_id id);
 int city_change_production_penalty(struct city *pcity,
 				   int target, int is_unit, int apply_it);
-int city_turns_to_build(struct city *pcity, int id, int id_is_unit);
+int city_turns_to_build(struct city *pcity, int id, int id_is_unit,
+                        int include_shield_stock );
 
 /* textual representation of buildings */
 
@@ -415,6 +416,9 @@ int city_exists_within_city_radius(int x, int y, int may_be_on_center);
 
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
+
+void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
+		    struct city *pcity);
 
 void city_add_improvement(struct city *pcity,Impr_Type_id impr);
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr);

@@ -323,7 +323,8 @@ void send_global_city_turn_notifications(struct conn_list *dest)
       /* can_player_build_improvement() checks whether wonder is build
 	 elsewhere (or destroyed) */
       if (!pcity->is_building_unit && is_wonder(pcity->currently_building)
-	  && (city_turns_to_build(pcity, pcity->currently_building, 0) <= 1)
+	  && (city_turns_to_build(pcity, pcity->currently_building, 0, 1)
+	      <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
 	notify_conn_ex(dest, pcity->x, pcity->y,
 		       E_CITY_WONDER_WILL_BE_BUILT,
