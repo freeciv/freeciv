@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-19 08:49+0100\n"
-"PO-Revision-Date: 2005-01-31 19:19+0100\n"
+"PO-Revision-Date: 2005-02-01 18:55+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1004,12 +1004,12 @@ msgstr ""
 #: server/citytools.c:1071
 #, c-format
 msgid "%s lose %s (%i,%i)"
-msgstr ""
+msgstr "%s prohra %s (%i,%i)"
 
 #: server/citytools.c:947
 #, c-format
 msgid "%s (%i, %i) founded by the %s"
-msgstr ""
+msgstr "%s (%i, %i) založeno %s"
 
 #: server/citytools.c:1040
 #, c-format
@@ -1214,9 +1214,9 @@ msgstr "Hra: %s dokončili stavbu %s ve městě %s."
 
 #: server/cityturn.c:944
 #: server/cityturn.c:950
-#, c-format
+#, fuzzy, c-format
 msgid "%s build %s in %s"
-msgstr ""
+msgstr "Pouze v %s: %s\n"
 
 #: server/cityturn.c:956
 #, c-format
@@ -1258,9 +1258,9 @@ msgid "Game: %s is finished building %s."
 msgstr "Hra: Město %s dokončilo stavbu %s."
 
 #: server/cityturn.c:1081
-#, c-format
+#, fuzzy, c-format
 msgid "%s build %s in %s (%i,%i)"
-msgstr ""
+msgstr "Pouze v %s: %s\n"
 
 #: server/cityturn.c:1127
 #, c-format
@@ -1314,9 +1314,9 @@ msgid "Game: %s is disbanded into %s."
 msgstr "Hra: Město %s je zrušeno a z jeho obyvatel jsou jednotky %s."
 
 #: server/cityturn.c:1414
-#, c-format
+#, fuzzy, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
-msgstr ""
+msgstr "Krok do po instrukci"
 
 #: server/civserver.c:92
 #, c-format
@@ -1560,7 +1560,7 @@ msgstr "Hlasovat."
 #: server/commands.c:114
 #, no-c-format
 msgid "A player with info level access issuing a control level command starts a new vote for the command.  The /vote command followed by \"yes\" or \"no\", and optionally a vote number, gives your vote.  If you do not add a vote number, your vote applies to the latest command.  You can only suggest one vote at a time.  The vote will pass immediately if more than half of the players vote for it, or fail immediately if at least half of the players vote against it.  If one full turn elapses the vote may pass in any case if nobody votes against it."
-msgstr ""
+msgstr "Hráč s přístupovou úrovní info může použít příkazy pro hlasování.  Příkaz /vote následovaný \"yes\" nebo \"no\" a volitelně číslem hlasování provede vaše hlasování.  Pokud nechcete zadávat číslo, vaše hlasování se vztáhne k poslednímu příkazu.  Můžete navrhnout jen jedno hlasování.  Hlasování projde, pokud více než polovina hráčů halsuje pro, nebo okamžitě neprojde, pokud více jak polovina hráčů hlasuje proti.  Pokud proběhne jedno celé kolo, hlasování projde, i když proti němu někdo hlasuje."
 
 #: server/commands.c:125
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
@@ -1691,7 +1691,7 @@ msgstr "Pozorovat hráče nebo celou hru."
 
 #: server/commands.c:196
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to observe a player. If you're not one of these, only the [player-name] argument is allowed. If the console gives no player-name or the connection uses no arguments, then the connection is attached to a global observer."
-msgstr ""
+msgstr "Pouze konzole a spojení s příkazovou úrovní 'hack' mohou ostatním spojením povolit pozorování hráče. Pokud nemáte ani jedno z toho, můžete použít pouze argument [jméno-hráče]. Pokud v konzoli nezadáte jméno hráče nebo spojení nepoužije argumenty, pak je spojení napojeno na globálního pozorovatele."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:204
@@ -2260,7 +2260,7 @@ msgstr "Hra: %s získali %s od %s."
 #: server/diplhand.c:368
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
-msgstr ""
+msgstr "%s získali %s (Dohoda) od %s"
 
 #: server/diplhand.c:378
 #, c-format
@@ -2324,7 +2324,7 @@ msgstr "%s se dohodli na alianci s %s."
 #: server/diplhand.c:466
 #, c-format
 msgid "Game: You start a research pool with %s."
-msgstr ""
+msgstr "Hra: Zahájili jsme společný výzkum s %s."
 
 #: server/diplhand.c:505
 #, c-format
@@ -2337,9 +2337,9 @@ msgid "Game: %s gives you shared vision."
 msgstr "Hra: Hráč %s vám dovolil nahlížet do svých map."
 
 #: server/diplhand.c:510
-#, c-format
+#, fuzzy, c-format
 msgid "%s share vision with %s"
-msgstr ""
+msgstr "Sdílet s ostatními společnostmi"
 
 #: server/diplhand.c:648
 #, c-format
@@ -2378,7 +2378,7 @@ msgstr "Hra: Váš %s byl popraven v %s s obviněním ze špionáže.  %s uvíta
 #: server/diplomats.c:263
 #, c-format
 msgid "You executed a %s the %s had sent to establish an embassy in %s for being untrustworthy"
-msgstr ""
+msgstr "Provedli jsme %s %s a měli poslat zřídit ambasádu v %s pro zvýšení důvěryhosnosti"
 
 #: server/diplomats.c:274
 #, c-format
@@ -2953,7 +2953,7 @@ msgstr "Hra: %s ovládá nyní %s jako %s."
 #: server/plrhand.c:879
 #, c-format
 msgid "%s form a %s"
-msgstr ""
+msgstr "%s zformovali %s"
 
 #: server/plrhand.c:927
 #, c-format
@@ -2992,7 +2992,7 @@ msgstr "%s nám již neposkytuje sdílené vidění!"
 #: server/plrhand.c:1186
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr ""
+msgstr "Senát souhlasil s vaším návrhem kvůli neustálým provokacím ze strany %s."
 
 #: server/plrhand.c:1198
 #, c-format
@@ -3001,7 +3001,7 @@ msgstr "Hra: Vaše reputace je nyní %s."
 
 #: server/plrhand.c:1203
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
-msgstr ""
+msgstr "Hra: Senát rozhodl proti, raději než by podporoval nadále vaše akce."
 
 #: server/plrhand.c:1234
 #, c-format
@@ -4130,7 +4130,7 @@ msgstr "Pokud je nastaveno na 0, boj je ve stylu Civ1/2(pokud útočíš, zůst�
 
 #: server/settings.c:650
 msgid "Turn on/off server-side autoattack"
-msgstr ""
+msgstr "Zapnutí/vypnutí serverového autoútoku"
 
 #: server/settings.c:651
 msgid "If set to on, units with move left will automatically consider attacking enemy units that move adjacent to them."
@@ -6174,7 +6174,7 @@ msgstr "Ztráta %s znamená prohru ve hře! Buďte příště více opatrnějš�
 #: server/unittools.c:1537
 #, c-format
 msgid "Player %s lost a game loss unit and died"
-msgstr ""
+msgstr "Hráč %s prohrál hru ztrátou jednotky a smrtí"
 
 #: server/unittools.c:1625
 #, c-format
@@ -6187,9 +6187,9 @@ msgid "Game: %s lost when %s was lost."
 msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
 
 #: server/unittools.c:1635
-#, c-format
+#, fuzzy, c-format
 msgid "%s lose %s when %s lost"
-msgstr ""
+msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
 
 #: server/unittools.c:1693
 #, c-format
@@ -6203,9 +6203,9 @@ msgstr "Hra: %s ztracena při útoku %s %s%s."
 
 #: server/unittools.c:1713
 #: server/unittools.c:1757
-#, c-format
+#, fuzzy, c-format
 msgid "%s lose %s to the %s"
-msgstr ""
+msgstr "Odkazuje na : %s\n"
 
 #: server/unittools.c:1738
 #, c-format
@@ -7087,7 +7087,7 @@ msgstr "Jednající vytvořili alianci"
 
 #: client/climisc.c:282
 msgid "The parties resume the research pool"
-msgstr ""
+msgstr "Partneři obnovili společný výzkum"
 
 #: client/climisc.c:285
 #, c-format
@@ -7727,7 +7727,7 @@ msgstr "Hra: "
 
 #: client/options.c:82
 msgid "Save the options when exiting the game"
-msgstr ""
+msgstr "Uloží nastavení při ukončení hry"
 
 #: client/options.c:83
 msgid "Default player's login name"
@@ -12709,7 +12709,7 @@ msgstr "_Ne"
 #: data/Freeciv.in:2455
 #: data/Freeciv.in:2485
 msgid "Darn"
-msgstr ""
+msgstr "Sakra"
 
 #: client/gui-gtk/citydlg.c:2820
 #: client/gui-win32/citydlg.c:1054
@@ -13762,7 +13762,7 @@ msgstr "Tahů"
 #: client/gui-mui/dialogs.c:1748
 #: client/gui-mui/dialogs.c:1772
 msgid "_Darn"
-msgstr ""
+msgstr "_Sakra"
 
 #: client/gui-mui/citydlg.c:1235
 msgid "Freeciv - Cityproduction"
@@ -14602,6 +14602,9 @@ msgid ""
 "(%d turn/advance)%s\n"
 "(%d turns/advance)"
 msgstr ""
+"%s\n"
+"(%d tah/objev)%s\n"
+"(%d tahů/objev)"
 
 #: client/gui-mui/repodlgs.c:326
 #: client/gui-mui/repodlgs.c:327
