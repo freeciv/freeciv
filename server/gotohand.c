@@ -59,6 +59,8 @@ static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest
 
 /* These are used for all GOTO's */
 
+/* A byte must be able to hold this value i.e. is must be less than
+   256. */
 #define MAXCOST 255
 #define MAXARRAYS 10000
 #define ARRAYLENGTH 10
@@ -207,12 +209,12 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
   switch (move_type) {
   case LAND_MOVING:
     for (x = 0; x < map.xsize; x++)
-      memset(warmap.cost[x], 255, map.ysize*sizeof(unsigned char));
+      memset(warmap.cost[x], MAXCOST, map.ysize*sizeof(unsigned char));
     warmap.cost[orig_x][orig_y] = 0;
     break;
   case SEA_MOVING:
     for (x = 0; x < map.xsize; x++)
-      memset(warmap.seacost[x], 255, map.ysize*sizeof(unsigned char));
+      memset(warmap.seacost[x], MAXCOST, map.ysize*sizeof(unsigned char));
     warmap.seacost[orig_x][orig_y] = 0;
     break;
   default:
@@ -240,7 +242,7 @@ static void init_refuel(
 This creates a movecostmap (warmap), which is a two-dimentional array
 corresponding to the real map. The value of a position is the number of
 moves it would take to get there. If the function found no route the cost
-is 255. (the value it is initialized with)
+is MAXCOST. (the value it is initialized with)
 For sea units we let the map overlap onto the land one field, to allow
 transporters and shore bombardment (ships can target the shore).
 This map does NOT take enemy units onto account, nor ZOC.
@@ -630,7 +632,7 @@ static int find_the_shortest_path(struct unit *punit,
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_types[punit->type].move_type;
-  int maxcost = 255;
+  int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
   static unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
@@ -882,7 +884,7 @@ static int find_the_shortest_path(struct unit *punit,
 	break;
 
       default:
-	move_cost = 255;	/* silence compiler warning */
+	move_cost = MAXCOST;	/* silence compiler warning */
 	freelog(LOG_FATAL, "Bad move_type in find_the_shortest_path().");
 	abort();
 	break;
@@ -899,7 +901,7 @@ static int find_the_shortest_path(struct unit *punit,
   freelog(LOG_DEBUG, "GOTO: (%d, %d) -> (%d, %d), cost = %d", 
 	  orig_x, orig_y, dest_x, dest_y, maxcost - 1);
 
-  if (maxcost == 255)
+  if (maxcost == MAXCOST)
     return 0; /* No route */
 
   /*** Succeeded. The vector at the destination indicates which way we get there.
@@ -1604,7 +1606,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
     while (get_from_mapqueue(&x, &y)) {
       if (warmap.cost[x][y] > moves /* no chance */
-	  || warmap.cost[dest_x][dest_y] != 255) /* found route */
+	  || warmap.cost[dest_x][dest_y] != MAXCOST) /* found route */
 	break;
 
       for (dir = 0; dir < 8; dir++) {
@@ -1615,7 +1617,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
 	  continue; /* No need for all the calculations */
 
-	if (warmap.cost[x1][y1] == 255) {
+	if (warmap.cost[x1][y1] == MAXCOST) {
 	  ptile = map_get_tile(x1, y1);
 	  penemy = is_non_allied_unit_tile(ptile, pplayer);
 	  if (!penemy
