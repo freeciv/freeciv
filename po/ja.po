@@ -41,7 +41,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-09 22:21-0700\n"
-"PO-Revision-Date: 2004-09-11 00:55+0900\n"
+"PO-Revision-Date: 2004-09-11 12:15+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -3840,13 +3840,12 @@ msgid "Geological"
 msgstr "地形"
 
 #: server/settings.c:29
-#, fuzzy
 msgid "Ecological"
-msgstr "経済"
+msgstr "環境"
 
 #: server/settings.c:30
 msgid "Sociological"
-msgstr ""
+msgstr "社会"
 
 #: server/settings.c:31
 msgid "Economic"
@@ -3863,7 +3862,7 @@ msgstr "科学"
 #: server/settings.c:34
 #, fuzzy
 msgid "Internal"
-msgstr "インダストリアル"
+msgstr "インターナル"
 
 #: server/settings.c:35
 msgid "Networking"
@@ -3885,9 +3884,8 @@ msgid "None"
 msgstr "なし"
 
 #: server/settings.c:39 client/gui-gtk/dialogs.c:1858
-#, fuzzy
 msgid "All"
-msgstr "可能"
+msgstr "全て"
 
 #: server/settings.c:40
 #, fuzzy
@@ -3897,7 +3895,7 @@ msgstr "首都:"
 #: server/settings.c:41
 #, fuzzy
 msgid "Situational"
-msgstr "公衆衛生"
+msgstr "状況"
 
 #: server/settings.c:42
 #, fuzzy
@@ -4151,9 +4149,8 @@ msgstr ""
 "になるまで AI プレイヤーで穴埋めされます。"
 
 #: server/settings.c:402
-#, fuzzy
 msgid "List of player's initial units"
-msgstr "都市にいる部隊をリスト(_L)"
+msgstr "開始時にプレイヤーが所持する部隊"
 
 #: server/settings.c:403
 msgid ""
@@ -4346,9 +4343,8 @@ msgstr ""
 "政治体制では、都市の数は少なくなります。"
 
 #: server/settings.c:551
-#, fuzzy
 msgid "Minimum distance between cities"
-msgstr "都市間の最小(移動)距離"
+msgstr "都市間の最小距離"
 
 #: server/settings.c:552
 #, fuzzy
@@ -4478,7 +4474,7 @@ msgstr ""
 
 #: server/settings.c:637
 msgid "National border's radius"
-msgstr ""
+msgstr "国境線の半径"
 
 #: server/settings.c:638
 msgid ""
@@ -4488,9 +4484,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:646
-#, fuzzy
 msgid "Units inside borders cause no unhappiness"
-msgstr "戦場の軍事部隊は不幸の原因になるかもしれません。"
+msgstr "部隊が国境線内にいるときは不幸をもたらさない"
 
 #: server/settings.c:647
 msgid ""
@@ -5008,7 +5003,7 @@ msgstr "Game: 宇宙船にはすでに最大限の生命維持モジュールがあります。"
 # yasu
 #: server/spacerace.c:317
 msgid ""
-"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+"Game: Your spaceship already has the maximum number of Soar Panel Modules!"
 msgstr "Game: 宇宙船にはすでに最大限の太陽電池モジュールがあります。"
 
 # yasu
@@ -8702,18 +8697,17 @@ msgstr "%sの"
 msgid "from %s"
 msgstr "%2$sからの%1$s"
 
-# yasu
+# yasu ntaka
 #: client/text.c:410
-#, fuzzy
 msgid "Progress: no research"
-msgstr "発展スコア:"
+msgstr "研究: なし"
 
 #: client/text.c:418
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "研究: %dターン/発見 (%dポイント/ターン)"
+msgstr[1] "研究: %dターン/発見 (%dポイント/ターン)"
 
 #: client/text.c:423
 #, c-format
@@ -9740,14 +9734,13 @@ msgstr "活躍中"
 #: client/gui-gtk-2.0/connectdlg.c:482
 #, fuzzy
 msgid "Dead"
-msgstr ", 死亡"
+msgstr "死亡"
 
 #: client/gui-gtk-2.0/connectdlg.c:537
 msgid "Loading..."
 msgstr "ロード中..."
 
 #: client/gui-gtk-2.0/connectdlg.c:593
-#, fuzzy
 msgid "Choose Saved Game to Load"
 msgstr "ロードするセーブファイルを選択"
 
@@ -9761,19 +9754,16 @@ msgid "Start New Game"
 msgstr "新しいゲームの開始"
 
 #: client/gui-gtk-2.0/connectdlg.c:633
-#, fuzzy
 msgid "Load Saved Game"
-msgstr "保存されたゲームのロード(_L)"
+msgstr "保存されたゲームのロード"
 
 #: client/gui-gtk-2.0/connectdlg.c:640
-#, fuzzy
 msgid "Connect to Network Game"
-msgstr "ネットワークゲームへ接続(_C)"
+msgstr "ネットワークゲームへ接続"
 
 #: client/gui-gtk-2.0/connectdlg.c:781
-#, fuzzy
 msgid "Game _Options"
-msgstr "都市オプション"
+msgstr "ゲームの設定(_O)"
 
 #: client/gui-gtk-2.0/connectdlg.c:793
 msgid "_Start"
@@ -10943,28 +10933,24 @@ msgid "Server O_ptions"
 msgstr "サーバオプションを表示する。"
 
 #: client/gui-gtk-2.0/menu.c:623
-#, fuzzy
 msgid "_Save Game"
-msgstr "ゲーム保存"
+msgstr "ゲームを保存(_S)"
 
 #: client/gui-gtk-2.0/menu.c:626
-#, fuzzy
 msgid "Save Game _As..."
-msgstr "ゲームを保存する"
+msgstr "ゲームを別名で保存...(_A)"
 
 #: client/gui-gtk-2.0/menu.c:631
 msgid "_End Game"
 msgstr "ゲーム終了(_E)"
 
 #: client/gui-gtk-2.0/menu.c:635
-#, fuzzy
 msgid "E_xport Log"
-msgstr "ログの保存"
+msgstr "ログの保存(_X)"
 
 #: client/gui-gtk-2.0/menu.c:637
-#, fuzzy
 msgid "Clear _Log"
-msgstr "ログの消去"
+msgstr "ログの消去(_L)"
 
 #: client/gui-gtk-2.0/menu.c:643 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1718
@@ -14931,9 +14917,8 @@ msgid "Show cursors animation"
 msgstr "戦闘アニメを表示"
 
 #: client/gui-sdl/optiondlg.c:1545 client/gui-xaw/menu.c:139
-#, fuzzy
 msgid "National Borders"
-msgstr "建設できる不思議"
+msgstr "国境線"
 
 #: client/gui-sdl/optiondlg.c:1625
 msgid "Draw city map grid"
