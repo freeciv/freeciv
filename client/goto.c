@@ -322,12 +322,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	    continue;
 	  else
 	    move_cost = 3;
-	} else if (psrctile->terrain == T_OCEAN)
-	  move_cost = 3;
-	else if (igter)
+	} else if (psrctile->terrain == T_OCEAN) {
+	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost;
+	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
+	} else if (igter) {
 	  move_cost = (psrctile->move_cost[dir] ? 1 : 0);
-	else
+	} else {
 	  move_cost = MIN(psrctile->move_cost[dir], unit_types[punit->type].move_rate);
+	}
 
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  /* Don't go into the unknown. 9 is an arbitrary deterrent. */
