@@ -939,7 +939,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     /* Spy/Diplomat acting against a city */ 
     
     diplomat_target_id=pcity->id;
-    if(punit->type != U_SPY){
+    if(!unit_flag(punit->type, F_SPY)){
       shl=popup_message_dialog(toplevel, "diplomatdialog", 
 			       "Sir, the diplomat is waiting for your command",
 			       diplomat_embassy_callback, 0,
@@ -992,7 +992,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       diplomat_target_id=ptunit->id;
 
       shl=popup_message_dialog(toplevel, "spybribedialog", 
-      			       punit->type!=U_SPY?
+      			       (!unit_flag(punit->type, F_SPY))?
 			       "Sir, the diplomat is waiting for your command":
 			       "Sir, the spy is waiting for your command",
 			       diplomat_bribe_callback, 0,

@@ -256,9 +256,9 @@ content to let it remain that way for now. -- Syela 980805 */
 
           if (!igwall) danger2 += v * m / dist;
           else if (is_sailing_unit(funit)) danger3 += v * m / dist;
-          else if (is_air_unit(funit) && funit->type != U_NUCLEAR) danger4 += v * m / dist;
+          else if (is_air_unit(funit) && !unit_flag(funit->type, F_NUCLEAR)) danger4 += v * m / dist;
           if (unit_flag(funit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-          if (funit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
+          if (!unit_flag(funit->type, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
             v = dangerfunct(v, m, dist);
             danger += v;
             if (igwall) badmojo += v;
@@ -299,9 +299,9 @@ content to let it remain that way for now. -- Syela 980805 */
 
         if (!igwall) danger2 += v * m / dist;
         else if (is_sailing_unit(punit)) danger3 += v * m / dist;
-        else if (is_air_unit(punit) && punit->type != U_NUCLEAR) danger4 += v * m / dist;
+        else if (is_air_unit(punit) && !unit_flag(punit->type, F_NUCLEAR)) danger4 += v * m / dist;
         if (unit_flag(punit->type, F_MISSILE)) danger5 += v * m / MAX(m, dist);
-        if (punit->type != U_NUCLEAR) { /* only SDI helps against NUCLEAR */
+        if (!unit_flag(punit->type, F_NUCLEAR)) { /* only SDI helps against NUCLEAR */
           v = dangerfunct(v, m, dist);
           danger += v;
           if (igwall) badmojo += v;
@@ -577,7 +577,7 @@ void kill_something_with(struct player *pplayer, struct city *pcity,
     harborcity++;
 
   ferryboat = unit_list_find(&pplayer->units, boatid);
-  if (ferryboat) boatspeed = (ferryboat->type == U_TRIREME ? 6 : 12);
+  if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, A_NAVIGATION) != TECH_KNOWN ? 6 : 12);
 
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);

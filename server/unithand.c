@@ -412,7 +412,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     punit->moves_left=0;
   
 
-  if(punit->type==U_NUCLEAR) {
+  if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
     packet.x=pdefender->x;

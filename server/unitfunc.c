@@ -58,7 +58,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
   
   struct player *cplayer = city_owner(pcity);
   
-  if(pdiplomat->type == U_SPY){
+  if(unit_flag(pdiplomat->type, F_SPY)){
     if(!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
       return;  /* failed against defending diplomats/spies */
     
@@ -95,7 +95,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct
   if (pcity) {
     send_city_info(pplayer, pcity, -1); /* flag value for investigation */
   } /* why isn't the following if in this if?? -- Syela */
-  if (pdiplomat->type != U_SPY)
+  if (!unit_flag(pdiplomat->type, F_SPY))
     wipe_unit(0, pdiplomat);
 }
 
@@ -200,7 +200,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   
   /* If tech is specified, then a spy chose the tech to steal.  Diplomats can't do this */
   
-  if(pdiplomat->type != U_SPY || !tech){  
+  if(!unit_flag(pdiplomat->type, F_SPY) || !tech){  
     for (i=1;i<A_LAST;i++) {
       if (get_invention(pplayer, i)!=TECH_KNOWN && get_invention(target, i)== TECH_KNOWN) {
  	j++;
@@ -339,7 +339,7 @@ city.  A diplomats always dies, a spy has a 1/game.diplchance
 void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 			 struct city *pcity)
 {
-  if (pdiplomat->type == U_SPY) {
+  if (unit_flag(pdiplomat->type, F_SPY)) {
     if (myrand(game.diplchance)) {
       
       /* Attacking Spy/Diplomat dies (N-1:N) chance */
@@ -505,7 +505,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
     return;  /* failed against defending diplomats/spies */
 
 
-  if(pdiplomat->type != U_SPY){ 
+  if(!unit_flag(pdiplomat->type, F_SPY)) {
 
     /* If advance to steal is not specified for a spy or unit is a diplomat*/
 
@@ -766,7 +766,7 @@ void player_restore_units(struct player *pplayer)
 			 unit_name(punit->type));
 	wipe_unit(0, punit);
       }
-    } else if (punit->type==U_TRIREME && (lighthouse_effect!=1) &&
+    } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
 	       !is_coastline(punit->x, punit->y)) {
       if (lighthouse_effect == -1) {
 	lighthouse_effect = player_owns_active_wonder(pplayer, B_LIGHTHOUSE);
@@ -1009,7 +1009,7 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
      to establish an embassy.
   */
 
-  if(moves_left != -1 && punit->type == U_SPY)
+  if(moves_left != -1 && unit_flag(punit->type, F_SPY))
     punit->foul=1;
   else
     punit->foul=0;

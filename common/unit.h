@@ -145,6 +145,9 @@ struct unit {
 #define F_SUBMARINE    (1<<14)
 #define F_SETTLERS     (1<<15)
 #define F_DIPLOMAT     (1<<16)
+#define F_TRIREME      (1<<17)     /* Trireme sinking effect */
+#define F_NUCLEAR      (1<<18)     /* Nuclear attack effect */
+#define F_SPY          (1<<19)     /* Enhanced spy abilities */
 struct unit_type {
   char name[MAX_LENGTH_NAME];
   int graphics;

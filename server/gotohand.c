@@ -449,7 +449,7 @@ punit->goto_dest_x, punit->goto_dest_y);*/
         }
       } else {
         if (tile0->move_cost[k] != -3) c = maxcost;
-        else if (punit->type == U_TRIREME && !is_coastline(xx[i], yy[j])) c = 7;
+        else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(xx[i], yy[j])) c = 7;
         else c = 3;
 /* I want to disable these totally but for some reason it bugs. -- Syela */
         c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
@@ -596,7 +596,7 @@ punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
         } /* end this-tile-is-seen else */
       } /* end tiles-adjacent-to-dest for */
  
-      if (punit->type == U_TRIREME && !nearland) {
+      if (unit_flag(punit->type, F_TRIREME) && !nearland) {
         if (punit->moves_left < 6) d[k] = -1; /* Tired of Kaput!! -- Syela */
         else if (punit->moves_left == 6) {
           for (n = 0; n < 8; n++) {

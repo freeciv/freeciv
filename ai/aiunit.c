@@ -141,7 +141,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     x = punit->x; y = punit->y;
     for (i = -1; i <= 1; i++) {
       for (j = -1; j <= 1; j++) {
-        ok = (punit->type == U_TRIREME ? 0 : 1);
+        ok = (unit_flag(punit->type, F_TRIREME) ? 0 : 1);
         if (map_get_continent(x + i, y + j) == con &&
         !is_enemy_unit_tile(x + i, y + j, punit->owner) &&
         !map_get_city(x + i, y + j)) {
@@ -961,7 +961,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   if (ferryboat) really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
                        ferryboat, SEA_MOVING);
 
-  if (ferryboat) boatspeed = (ferryboat->type == U_TRIREME ? 6 : 12);
+  if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, A_NAVIGATION) != TECH_KNOWN ? 6 : 12);
 
   if (is_ground_unit(punit) && !punit->id &&

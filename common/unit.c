@@ -55,7 +55,7 @@ struct unit_type unit_types[U_LAST]={
   {"Helicopter",    44, HELI_MOVING,100,  10,  3,  6*3, A_COMBINED,    2,  0, 20, 2, -1, 0,F_ONEATTACK |F_FIELDUNIT},
   {"Stealth Fighter",47,AIR_MOVING,  80,   8,  4, 14*3, A_STEALTH,     2,  0, 20, 2, -1, 1,F_FIELDUNIT| F_FIGHTER},
   {"Stealth Bomber",46, AIR_MOVING, 160,  14,  5, 12*3, A_STEALTH,     2,  0, 20, 2, -1, 2,F_FIELDUNIT|F_ONEATTACK},
-  {"Trireme",       27, SEA_MOVING,  40,   1,  1,  3*3, A_MAPMAKING,   1,  2, 10, 1, U_CARAVEL, 0,F_FIELDUNIT},
+  {"Trireme",       27, SEA_MOVING,  40,   1,  1,  3*3, A_MAPMAKING,   1,  2, 10, 1, U_CARAVEL, 0,F_FIELDUNIT | F_TRIREME},
   {"Caravel",       23, SEA_MOVING,  40,   2,  1,  3*3, A_NAVIGATION,  1,  3, 10, 1, U_GALLEON, 0,0},
   {"Galleon",       35, SEA_MOVING,  40,   0,  2,  4*3, A_MAGNETISM,   1,  4, 20, 1, U_TRANSPORT, 0,0},
   {"Frigate",       13, SEA_MOVING,  50,   4,  2,  4*3, A_MAGNETISM,   1,  2, 20, 1, U_IRONCLAD, 0,F_FIELDUNIT},
@@ -68,9 +68,9 @@ struct unit_type unit_types[U_LAST]={
   {"Carrier",        6, SEA_MOVING, 160,   1,  9,  5*3, A_ADVANCED,    2,  8, 40, 2, -1, 0,F_FIELDUNIT|F_CARRIER},
   {"Transport",     26, SEA_MOVING,  50,   0,  3,  5*3, A_INDUSTRIALIZATION,2, 8, 30, 1, -1, 0,0},
   {"Cruise Missile",30, AIR_MOVING,  60,  18,  0, 12*3, A_ROCKETRY,    1,  0, 10, 3, -1, 1,F_FIELDUNIT | F_MISSILE | F_ONEATTACK},
-  {"Nuclear",       20, AIR_MOVING, 160,  99,  0, 16*3, A_ROCKETRY,    1,  0, 10, 1, -1, 1,F_FIELDUNIT | F_ONEATTACK | F_MISSILE},
+  {"Nuclear",       20, AIR_MOVING, 160,  99,  0, 16*3, A_ROCKETRY,    1,  0, 10, 1, -1, 1,F_FIELDUNIT | F_ONEATTACK | F_MISSILE | F_NUCLEAR},
   {"Diplomat",      11, LAND_MOVING, 30,   0,  0,  2*3, A_WRITING,     1,  0, 10, 1, U_SPY, 0,F_DIPLOMAT | F_IGZOC | F_NONMIL},
-  {"Spy",           41, LAND_MOVING, 30,   0,  0,  3*3, A_ESPIONAGE,   2,  0, 10, 1, -1, 0,F_DIPLOMAT | F_IGZOC | F_NONMIL},
+  {"Spy",           41, LAND_MOVING, 30,   0,  0,  3*3, A_ESPIONAGE,   2,  0, 10, 1, -1, 0,F_DIPLOMAT | F_SPY | F_IGZOC | F_NONMIL},
   {"Caravan",        5, LAND_MOVING, 50,   0,  1,  1*3, A_TRADE,       1,  0, 10, 1, U_FREIGHT, 0,F_CARAVAN | F_IGZOC | F_NONMIL},
   {"Freight",       34, LAND_MOVING, 50,   0,  1,  2*3, A_CORPORATION, 1,  0, 10, 1, -1, 0,F_CARAVAN | F_IGZOC | F_NONMIL},
   {"Explorer",      33, LAND_MOVING, 30,   0,  1,  1*3, A_SEAFARING,   1,  0, 10, 1, U_PARTISAN, 0,F_NONMIL | F_IGTER | F_IGZOC}
@@ -169,7 +169,7 @@ int diplomat_can_do_action(struct unit *pdiplomat,
 	   !player_has_embassy(&game.players[pdiplomat->owner], 
 			       &game.players[pcity->owner]))
 	   return 1;
-	if(action==SPY_POISON && pdiplomat->type==U_SPY)
+	if(action==SPY_POISON && unit_flag(pdiplomat->type, F_SPY))
 	  return 1;
 	if(action==DIPLOMAT_INVESTIGATE)
 	  return 1;
@@ -182,7 +182,7 @@ int diplomat_can_do_action(struct unit *pdiplomat,
     else {
       if(action==SPY_SABOTAGE_UNIT && unit_list_size(&ptile->units)>=1 &&
 	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
-	 pdiplomat->type==U_SPY)
+	 unit_flag(pdiplomat->type, F_SPY))
 	return 1;
       if(action==DIPLOMAT_BRIBE && unit_list_size(&ptile->units)==1 &&
 	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)

@@ -541,7 +541,7 @@ int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
   struct player *p=city_owner(pcity);
   if (!unit_type_exists(id))
     return 0;
-  if (id==U_NUCLEAR && !game.global_wonders[B_MANHATTEN])
+  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
     return 0;
@@ -555,7 +555,7 @@ int can_build_unit(struct city *pcity, enum unit_type_id id)
   struct player *p=city_owner(pcity);
   if (!unit_type_exists(id))
     return 0;
-  if (id==U_NUCLEAR && !game.global_wonders[B_MANHATTEN])
+  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
     return 0;
