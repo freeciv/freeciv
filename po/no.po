@@ -147,11 +147,11 @@ msgstr "Bruk en ikke-priviligert konto istedet.\n"
 
 #: common/shared.c:636
 msgid "exact match"
-msgstr ""
+msgstr "eksakt treff"
 
 #: common/shared.c:637
 msgid "only match"
-msgstr ""
+msgstr "eneste treff"
 
 #: common/shared.c:638
 #, fuzzy
@@ -2066,7 +2066,7 @@ msgstr ""
 
 #: server/stdinhand.c:781
 msgid "set <option-name> <value>"
-msgstr ""
+msgstr "set <opsjonsnavn> <verdi>"
 
 #: server/stdinhand.c:782
 #, fuzzy
@@ -2093,7 +2093,7 @@ msgstr ""
 #. translate <> only
 #: server/stdinhand.c:799
 msgid "metainfo <meta-line>"
-msgstr ""
+msgstr "metainfo <metalinje>"
 
 #: server/stdinhand.c:800
 #, fuzzy
@@ -2141,6 +2141,8 @@ msgid ""
 "easy\n"
 "easy <player-name>"
 msgstr ""
+"easy\n"
+"easy <spillernavn>"
 
 #: server/stdinhand.c:823
 msgid "Set one or all AI players to 'easy'."
@@ -2159,6 +2161,8 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <spillernavn>"
 
 #: server/stdinhand.c:832
 msgid "Set one or all AI players to 'normal'."
@@ -2177,10 +2181,12 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <spillernavn>"
 
 #: server/stdinhand.c:841
 msgid "Set one or all AI players to 'hard'."
-msgstr "Sett en eller alle AI spillere til 'vanskelig'."
+msgstr "Sett en eller alle AI spillere til å være vanskelig (hard)."
 
 #: server/stdinhand.c:842
 msgid ""
@@ -2198,6 +2204,10 @@ msgid ""
 "cmdlevel <level> new\n"
 "cmdlevel <level> <player-name>"
 msgstr ""
+"cmdlevel\n"
+"cmdlevel <nivå>\n"
+"cmdlevel <nivå> new\n"
+"cmdlevel <nivå> <spillernavn>"
 
 #: server/stdinhand.c:852
 msgid "Query or set command-level access."
@@ -2269,7 +2279,7 @@ msgstr "write <filnavn>"
 
 #: server/stdinhand.c:893
 msgid "Write current settings as server commands to file."
-msgstr ""
+msgstr "Skriv oppsettet som blir brukt nå til en fil som tjenerkommandoer."
 
 #. translate <> only
 #: server/stdinhand.c:897
@@ -2278,7 +2288,7 @@ msgstr "log <beskjed>"
 
 #: server/stdinhand.c:898
 msgid "Generate a log message."
-msgstr ""
+msgstr "Generer en beskjed til loggen."
 
 #: server/stdinhand.c:899
 msgid ""
@@ -2401,7 +2411,7 @@ msgstr "Spillet kan ikke lagres før det er startet."
 
 #: server/stdinhand.c:1325
 msgid "Cannot toggle a barbarian player."
-msgstr ""
+msgstr "Kan ikke endre en 'barbar'-spiller."
 
 #: server/stdinhand.c:1331
 #, c-format
@@ -2748,7 +2758,7 @@ msgstr "Enhet kommandoer"
 #. line up the synopsis lines:
 #: server/stdinhand.c:2396
 msgid "Synopsis: "
-msgstr ""
+msgstr "Betydning:"
 
 #: server/stdinhand.c:2405
 #, c-format
@@ -2762,7 +2772,7 @@ msgstr "Følgende tjenerkommandoer er tilgjengelige:"
 #: server/stdinhand.c:2494
 #, c-format
 msgid "Help argument '%s' is ambiguous."
-msgstr ""
+msgstr "Hjelpeargument '%s' er ikke entydig."
 
 #: server/stdinhand.c:2499
 #, fuzzy, c-format
@@ -2776,7 +2786,7 @@ msgstr "Forkortelser er tillatt."
 
 #: server/stdinhand.c:2534
 msgid "ai P            - toggles AI on player"
-msgstr ""
+msgstr "ai S            - slår av/på AI på spiller"
 
 #: server/stdinhand.c:2536
 msgid "cmdlevel        - see current command levels"
