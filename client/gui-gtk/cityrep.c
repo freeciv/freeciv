@@ -785,50 +785,48 @@ Handle callbacks from the "change all" dialog.
 *****************************************************************/
 void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 {
-    GList *selection;
+  char *cmd = (char *)data;
+
+  if (cmd != NULL) {
+    GList *selection_from, *selection_to;
     gint row;
     int from, to;
-    char *cmd = (char *)data;
     char buf[512];
 
-    if (cmd != NULL) {
-	if ( !( selection = GTK_CLIST( city_change_all_from_list )->selection ) ) {
-	    append_output_window(_("Game: Select a unit or improvement"
-				   " to change production from."));
-	    return;
-	}
-	else {
-	    row = (gint)selection->data;
-	    from = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_from_list),
-					       row);
-	}
-	if ( !( selection = GTK_CLIST( city_change_all_to_list )->selection ) ) {
-	    append_output_window(_("Game: Select a unit or improvement"
-				   " to change production to."));
-	    return;
-	}
-	else {
-	    row = (gint)selection->data;
-	    to = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_to_list),
-					       row);
-	}
-	if (from==to) {
-	    append_output_window(_("Game: That's the same thing!"));
-	    return;
-	}
-	my_snprintf(buf, sizeof(buf),
-		    _("Game: Changing production of every %s into %s."),
-		(from >= B_LAST) ?
+    /* What are we changing to? */
+    selection_to = GTK_CLIST(city_change_all_to_list)->selection;
+    if (!selection_to) {
+      append_output_window(_("Game: Select a unit or improvement"
+			     " to change production to."));
+      return;
+    } else {
+      row = (gint)selection_to->data;
+      to = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_to_list),
+				       row);
+    }
+
+    /* Iterate over the items we change from */
+    selection_from = GTK_CLIST(city_change_all_from_list)->selection;
+    for (; selection_from; selection_from = g_list_next(selection_from)) {
+      row = (gint)selection_from->data;
+      from = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_from_list),
+					 row);
+      if (from == to) {
+	continue;
+      }
+      my_snprintf(buf, sizeof(buf),
+		  _("Game: Changing production of every %s into %s."),
+		  (from >= B_LAST) ?
   		  get_unit_type(from-B_LAST)->name : get_improvement_name(from),
-		(to >= B_LAST) ?
+		  (to >= B_LAST) ?
 		  get_unit_type(to-B_LAST)->name : get_improvement_name(to));
 
-	append_output_window(buf);
-	
-	client_change_all(from,to);
+      append_output_window(buf);
+      client_change_all(from, to);
     }
-    gtk_widget_destroy(city_change_all_dialog_shell);
-    city_change_all_dialog_shell = NULL;
+  }
+  gtk_widget_destroy(city_change_all_dialog_shell);
+  city_change_all_dialog_shell = NULL;
 }
 
 /****************************************************************
@@ -874,7 +872,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 	city_change_all_from_list = gtk_clist_new_with_titles(1, title[0]);
 	gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_from_list));
 	gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_from_list),
-				     GTK_SELECTION_SINGLE);
+				     GTK_SELECTION_EXTENDED);
 	scrollpane = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(scrollpane),
 			  city_change_all_from_list);
@@ -940,7 +938,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 	/* make a list of everything we could build */
 	city_change_all_to_list = gtk_clist_new_with_titles(1, title[1]);
 	gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_to_list));
-	gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_from_list),
+	gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_to_list),
 				     GTK_SELECTION_SINGLE);
 	scrollpane = gtk_scrolled_window_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(scrollpane),
