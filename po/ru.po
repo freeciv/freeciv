@@ -1390,7 +1390,7 @@ msgstr "Игра: Вы поймали %s %s при попытке саботажа в %s!"
 #: server/diplomats.c:914
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "Игра: Ваш %s не смог найти ни одного об'екта для саботажа в %s."
+msgstr "Игра: Ваш %s не смог найти ни одного объекта для саботажа в %s."
 
 #: server/diplomats.c:956
 #, c-format
@@ -4389,7 +4389,7 @@ msgstr "Уровень доступа к командам установлен в '%s' для новых игроков."
 #: server/stdinhand.c:2136 server/stdinhand.c:2147 server/stdinhand.c:2154
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr "Уровень комманд для первого взявшего его игрока: '%s'"
+msgstr "Уровень команд для первого взявшего его игрока: '%s'"
 
 #: server/stdinhand.c:2189
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -4691,8 +4691,8 @@ msgstr "Извините, вы не можете использовать команды сервера."
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
-"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
-"shelp'."
+"Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте "
+"'%shelp'."
 
 #: server/stdinhand.c:3120
 #, c-format
@@ -6201,7 +6201,7 @@ msgid ""
 "will require %d bulbs to complete."
 msgstr ""
 "Для того, чтобы достичь технологию %s, нам нужно приобрести еще %d "
-"технологий. Весь проэкт потребует %d лампочек для завершения."
+"технологий. Весь проект потребует %d лампочек для завершения."
 
 #: client/helpdata.c:798
 msgid " This number may vary depending on what other players will research.\n"
