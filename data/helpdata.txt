@@ -552,9 +552,8 @@ this by 1.
 City Walls make it easier to defend a city.  They triple the defence
 strength of units within the city against ground and helicopter
 units.  They are uneffective aginst airborne and sea units as well
-as Artillery and Howitzers.  City Walls also prevent the loss of
-population which occurs when a defending unit is destroyed.
-%% Am I right here?  Needs checking.
+as Howitzers.  City Walls also prevent the loss of population which
+occurs when a defending unit is destroyed.
 ---
 # Coastal Defense
 Increases the defence strength of units within a city by a factor
@@ -970,7 +969,6 @@ Alpine Troops treat all squares as if they have roads.
 # Armor
 ---
 # Artillery
-This unit ignores the effect of City Walls.
 ---
 # Battleship
 This unit ignores the effect of City Walls.
